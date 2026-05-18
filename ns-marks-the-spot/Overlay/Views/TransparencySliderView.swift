@@ -11,9 +11,12 @@ struct TransparencySliderView: View {
                 get: { viewModel.opacity },
                 set: { viewModel.updateOpacity($0) }
             ), in: 0...1)
+            .accessibilityLabel("Overlay opacity")
+            .accessibilityValue("\(Int(viewModel.opacity * 100))%")
             Text("\(Int(viewModel.opacity * 100))%")
                 .font(.caption)
                 .monospacedDigit()
+                .accessibilityHidden(true)
         }
         .padding()
         .background(.thinMaterial)

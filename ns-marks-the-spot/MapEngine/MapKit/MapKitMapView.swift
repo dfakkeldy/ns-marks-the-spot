@@ -7,6 +7,7 @@ struct MapKitMapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
+        mapView.accessibilityLabel = "Map of Nova Scotia"
 
         let center = CLLocationCoordinate2D(latitude: 44.68, longitude: -63.74)
         let span = MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
