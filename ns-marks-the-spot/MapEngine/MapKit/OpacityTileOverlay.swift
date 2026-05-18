@@ -5,9 +5,11 @@ final class OpacityTileOverlay: MKTileOverlay {
     weak var mapLayer: (any MapLayer)?
     weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
+    private let tileFetcher: TileFetcher?
 
-    init(tileCache: TileCache? = nil) {
+    init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
         self.tileCache = tileCache
+        self.tileFetcher = tileFetcher
         super.init(urlTemplate: nil)
     }
 
@@ -20,15 +22,31 @@ final class OpacityTileOverlay: MKTileOverlay {
         }
 
         if let tileData = loadTileFromBundle(path: path) {
-            if let cache = tileCache {
-                cache.cacheTile(tileData, z: path.z, x: path.x, y: path.y, layerName: layerName)
-            }
+            tileCache?.cacheTile(tileData, z: path.z, x: path.x, y: path.y, layerName: layerName)
             result(tileData, nil)
             return
         }
 
-        let placeholder = generatePlaceholderTile(path: path)
-        result(placeholder, nil)
+        if let fetcher = tileFetcher,
+           let layer = mapLayer,
+           case .tile(let remoteURL) = layer.type,
+           remoteURL.scheme == "https" || remoteURL.scheme == "http"
+        {
+            Task {
+                do {
+                    let data = try await fetcher.fetchTile(
+                        z: path.z, x: path.x, y: path.y,
+                        from: remoteURL, layerName: layerName
+                    )
+                    result(data, nil)
+                } catch {
+                    result(generatePlaceholderTile(path: path), nil)
+                }
+            }
+            return
+        }
+
+        result(generatePlaceholderTile(path: path), nil)
     }
 
     private func loadTileFromBundle(path: MKTileOverlayPath) -> Data? {

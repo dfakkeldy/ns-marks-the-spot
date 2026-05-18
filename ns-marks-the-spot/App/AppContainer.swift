@@ -10,10 +10,11 @@ final class AppContainer {
         let cache = TileCache()
         self.tileCache = cache
 
-        let engine = MapKitEngine(tileCache: cache)
-        self.mapEngine = engine
+        let fetcher = TileFetcher(tileCache: cache)
+        self.tileFetcher = fetcher
 
-        self.tileFetcher = TileFetcher(tileCache: cache)
+        let engine = MapKitEngine(tileCache: cache, tileFetcher: fetcher)
+        self.mapEngine = engine
 
         self.poiViewModel = POIViewModel()
 
