@@ -17,9 +17,9 @@
 - [x] Tile fetching — `TileFetcher` with async/await and cache integration
 
 ### Phase 3: POI Layer
-- [ ] POI data model finalized — SwiftData schema
-- [ ] POI vector overlay rendering on map
-- [ ] POI detail sheet / interactions
+- [x] POI data model finalized — SwiftData schema with explicit UUID id
+- [x] POI vector overlay rendering on map — MKMarkerAnnotationView via MapEngine protocol
+- [x] POI detail sheet / interactions — half-sheet with category badge and coordinates
 
 ### Phase 4: Polish & Testing
 - [ ] Unit test targets — mock engine, mock tile server
