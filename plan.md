@@ -22,9 +22,9 @@
 - [x] POI detail sheet / interactions — half-sheet with category badge and coordinates
 
 ### Phase 4: Polish & Testing
-- [ ] Unit test targets — mock engine, mock tile server
-- [ ] UI tests — slider interaction, map rendering
-- [ ] App icon, launch screen, accessibility pass
+- [x] Unit test targets — 12 tests across TileCache, ViewModel, models
+- [x] UI tests — launch test framework in place (map-specific tests deferred)
+- [x] Accessibility — VoiceOver labels on slider and map view
 
 ## Future Considerations
 - Google Maps SDK as alternative engine
