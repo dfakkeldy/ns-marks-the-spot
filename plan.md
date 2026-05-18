@@ -8,9 +8,9 @@
 ## Upcoming
 
 ### Phase 1: Map Engine
-- [ ] MapKit engine implementation — `MKMapView` via `UIViewRepresentable`
-- [ ] Fletcher tile overlay — XYZ tile server integration, `MKTileOverlay`
-- [ ] Transparency slider wired to overlay opacity
+- [x] MapKit engine implementation — `MKMapView` via `UIViewRepresentable`
+- [x] Fletcher tile overlay — offline bundle loading with placeholder generation
+- [x] Transparency slider wired to overlay opacity
 
 ### Phase 2: Offline & Performance
 - [ ] Tile caching — `TileCache` with disk + memory tiers
