@@ -13,8 +13,8 @@
 - [x] Transparency slider wired to overlay opacity
 
 ### Phase 2: Offline & Performance
-- [ ] Tile caching — `TileCache` with disk + memory tiers
-- [ ] Background tile fetching — `TileFetcher` with async/await
+- [x] Tile caching — `TileCache` with disk + memory tiers
+- [x] Tile fetching — `TileFetcher` with async/await and cache integration
 
 ### Phase 3: POI Layer
 - [ ] POI data model finalized — SwiftData schema
