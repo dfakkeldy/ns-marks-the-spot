@@ -2,11 +2,14 @@ import SwiftUI
 
 struct MapContainerView: View {
     let engine: any MapEngine
-    @StateObject private var viewModel: OverlayViewModel
+    @StateObject private var overlayVM: OverlayViewModel
+    @ObservedObject private var poiVM: POIViewModel
+    @State private var selectedPOI: PointOfInterest?
 
-    init(engine: any MapEngine) {
+    init(engine: any MapEngine, poiViewModel: POIViewModel) {
         self.engine = engine
-        _viewModel = StateObject(wrappedValue: OverlayViewModel(engine: engine))
+        self.poiVM = poiViewModel
+        _overlayVM = StateObject(wrappedValue: OverlayViewModel(engine: engine))
     }
 
     var body: some View {
@@ -16,13 +19,21 @@ struct MapContainerView: View {
 
             VStack {
                 Spacer()
-                TransparencySliderView(viewModel: viewModel)
+                TransparencySliderView(viewModel: overlayVM)
             }
         }
         .onAppear {
             if let firstLayer = engine.layers.first {
-                viewModel.selectLayer(firstLayer.id)
+                overlayVM.selectLayer(firstLayer.id)
             }
+            engine.setAnnotationSelectionHandler { annotationID in
+                selectedPOI = poiVM.points.first { $0.id == annotationID }
+            }
+            poiVM.loadMockData()
+            poiVM.syncAnnotations(to: engine)
+        }
+        .sheet(item: $selectedPOI) { poi in
+            POIDetailView(poi: poi)
         }
     }
 }

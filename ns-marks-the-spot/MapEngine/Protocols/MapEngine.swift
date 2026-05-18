@@ -7,6 +7,11 @@ protocol MapEngine: AnyObject {
     func removeLayer(by id: String)
     func setOpacity(for layerId: String, to value: CGFloat)
 
+    var annotations: [MapAnnotation] { get }
+    func addAnnotation(_ annotation: MapAnnotation)
+    func removeAnnotation(by id: String)
+    func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void)
+
     /// Returns a SwiftUI view wrapping the native map implementation.
     func makeMapView() -> AnyView
 }

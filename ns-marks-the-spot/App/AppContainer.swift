@@ -4,6 +4,7 @@ final class AppContainer {
     let mapEngine: any MapEngine
     let tileCache: TileCache
     let tileFetcher: TileFetcher
+    let poiViewModel: POIViewModel
 
     init() {
         let cache = TileCache()
@@ -13,6 +14,8 @@ final class AppContainer {
         self.mapEngine = engine
 
         self.tileFetcher = TileFetcher(tileCache: cache)
+
+        self.poiViewModel = POIViewModel()
 
         let fletcherLayer = MapKitTileLayer(
             id: "fletcher",

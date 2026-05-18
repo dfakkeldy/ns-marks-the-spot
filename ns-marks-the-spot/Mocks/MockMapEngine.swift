@@ -2,6 +2,7 @@ import SwiftUI
 
 final class MockMapEngine: MapEngine {
     private(set) var layers: [any MapLayer] = []
+    private(set) var annotations: [MapAnnotation] = []
 
     func addLayer(_ layer: any MapLayer) {
         layers.append(layer)
@@ -16,11 +17,29 @@ final class MockMapEngine: MapEngine {
         layer.opacity = min(max(value, 0), 1)
     }
 
+    func addAnnotation(_ annotation: MapAnnotation) {
+        annotations.append(annotation)
+    }
+
+    func removeAnnotation(by id: String) {
+        annotations.removeAll { $0.id == id }
+    }
+
+    func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void) {}
+
     func makeMapView() -> AnyView {
         AnyView(
-            Text("Mock Map")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.gray.opacity(0.2))
+            VStack {
+                Text("Mock Map")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.gray.opacity(0.2))
+
+                if !annotations.isEmpty {
+                    Text("\(annotations.count) annotation(s)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
         )
     }
 }

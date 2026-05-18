@@ -3,12 +3,14 @@ import SwiftData
 
 @Model
 final class PointOfInterest {
+    var id: String
     var name: String
     var latitude: Double
     var longitude: Double
     var category: String
 
     init(name: String, latitude: Double, longitude: Double, category: String) {
+        self.id = UUID().uuidString
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
