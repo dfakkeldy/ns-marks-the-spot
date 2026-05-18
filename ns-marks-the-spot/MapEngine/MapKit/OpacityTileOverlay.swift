@@ -4,9 +4,25 @@ import UIKit
 final class OpacityTileOverlay: MKTileOverlay {
     weak var mapLayer: (any MapLayer)?
     weak var renderer: MKTileOverlayRenderer?
+    private let tileCache: TileCache?
+
+    init(tileCache: TileCache? = nil) {
+        self.tileCache = tileCache
+        super.init(urlTemplate: nil)
+    }
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, (any Error)?) -> Void) {
+        let layerName = mapLayer?.name ?? "unknown"
+
+        if let cache = tileCache, let cached = cache.cachedTile(z: path.z, x: path.x, y: path.y, layerName: layerName) {
+            result(cached, nil)
+            return
+        }
+
         if let tileData = loadTileFromBundle(path: path) {
+            if let cache = tileCache {
+                cache.cacheTile(tileData, z: path.z, x: path.x, y: path.y, layerName: layerName)
+            }
             result(tileData, nil)
             return
         }
@@ -31,15 +47,12 @@ final class OpacityTileOverlay: MKTileOverlay {
 
         let renderer = UIGraphicsImageRenderer(size: size, format: format)
         return renderer.pngData { ctx in
-            // Sepia-tinted background — mimics old map paper
             UIColor(red: 0.87, green: 0.80, blue: 0.66, alpha: 0.7).setFill()
             ctx.fill(CGRect(origin: .zero, size: size))
 
-            // Tile border for grid visibility
             UIColor.brown.withAlphaComponent(0.3).setStroke()
             ctx.stroke(CGRect(origin: .zero, size: size).insetBy(dx: 0.5, dy: 0.5))
 
-            // Coordinate label for debugging
             let text = "z\(path.z) x\(path.x) y\(path.y)"
             let attrs: [NSAttributedString.Key: Any] = [
                 .font: UIFont.systemFont(ofSize: 11),

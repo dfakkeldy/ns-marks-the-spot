@@ -3,6 +3,11 @@ import SwiftUI
 
 final class MapKitEngine: MapEngine {
     private(set) var layers: [any MapLayer] = []
+    private let tileCache: TileCache?
+
+    init(tileCache: TileCache? = nil) {
+        self.tileCache = tileCache
+    }
 
     weak var mapView: MKMapView? {
         didSet { syncPendingOverlays() }
@@ -42,7 +47,7 @@ final class MapKitEngine: MapEngine {
 
     private func addOverlayToMapView(_ layer: any MapLayer) {
         guard let mapView, case .tile = layer.type else { return }
-        let overlay = OpacityTileOverlay()
+        let overlay = OpacityTileOverlay(tileCache: tileCache)
         overlay.mapLayer = layer
         overlay.canReplaceMapContent = false
         mapView.addOverlay(overlay)
