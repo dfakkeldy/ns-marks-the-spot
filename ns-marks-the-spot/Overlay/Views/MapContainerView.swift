@@ -19,5 +19,10 @@ struct MapContainerView: View {
                 TransparencySliderView(viewModel: viewModel)
             }
         }
+        .onAppear {
+            if let firstLayer = engine.layers.first {
+                viewModel.selectLayer(firstLayer.id)
+            }
+        }
     }
 }

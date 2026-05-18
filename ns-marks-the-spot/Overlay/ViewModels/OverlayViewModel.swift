@@ -18,4 +18,9 @@ final class OverlayViewModel: ObservableObject {
             engine.setOpacity(for: layerId, to: newValue)
         }
     }
+
+    func selectLayer(_ id: String) {
+        selectedLayerId = id
+        opacity = engine.layers.first { $0.id == id }?.opacity ?? 0.5
+    }
 }
