@@ -6,6 +6,7 @@ protocol MapEngine: AnyObject {
     func addLayer(_ layer: any MapLayer)
     func removeLayer(by id: String)
     func setOpacity(for layerId: String, to value: CGFloat)
+    func setVisible(for layerId: String, to visible: Bool)
 
     var annotations: [MapAnnotation] { get }
     func addAnnotation(_ annotation: MapAnnotation)

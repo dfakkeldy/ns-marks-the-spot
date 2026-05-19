@@ -36,6 +36,18 @@ final class MapKitEngine: MapEngine {
         }
     }
 
+    func setVisible(for layerId: String, to visible: Bool) {
+        guard let layer = layers.first(where: { $0.id == layerId }) else { return }
+        layer.isVisible = visible
+        guard let mapView else { return }
+        for overlay in mapView.overlays {
+            if let tileOverlay = overlay as? OpacityTileOverlay,
+               tileOverlay.mapLayer?.id == layerId {
+                tileOverlay.renderer?.alpha = visible ? layer.opacity : 0
+            }
+        }
+    }
+
     func setOpacity(for layerId: String, to value: CGFloat) {
         guard let layer = layers.first(where: { $0.id == layerId }) else { return }
         layer.opacity = min(max(value, 0), 1)

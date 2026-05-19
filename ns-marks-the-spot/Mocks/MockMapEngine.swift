@@ -17,6 +17,11 @@ final class MockMapEngine: MapEngine {
         layer.opacity = min(max(value, 0), 1)
     }
 
+    func setVisible(for layerId: String, to visible: Bool) {
+        guard let layer = layers.first(where: { $0.id == layerId }) else { return }
+        layer.isVisible = visible
+    }
+
     func addAnnotation(_ annotation: MapAnnotation) {
         annotations.append(annotation)
     }

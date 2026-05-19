@@ -26,13 +26,13 @@ final class AppContainer {
         fletcherLayer.opacity = 0.5
         engine.addLayer(fletcherLayer)
 
-        let nsTopoURL = URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer")!
-        let nsTopoLayer = MapKitTileLayer(
-            id: "ns-topo-base",
-            name: "NS Topo Base",
-            type: .arcgisDynamic(nsTopoURL)
+        let nsprdURL = URL(string: "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer")!
+        let nsprdLayer = MapKitTileLayer(
+            id: "nsprd",
+            name: "NS Property Boundaries",
+            type: .arcgisDynamic(nsprdURL)
         )
-        nsTopoLayer.opacity = 0.5
-        engine.addLayer(nsTopoLayer)
+        nsprdLayer.opacity = 0.5
+        engine.addLayer(nsprdLayer)
     }
 }

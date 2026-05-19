@@ -169,3 +169,24 @@ struct OverlayViewModelTests {
         #expect(layer.opacity == 1.0)
     }
 }
+
+// MARK: - MapEngine setVisible
+
+struct SetVisibleTests {
+    @Test func setVisibleTogglesLayerVisibility() {
+        let engine = MockMapEngine()
+        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
+        engine.addLayer(layer)
+
+        engine.setVisible(for: "l1", to: false)
+        #expect(layer.isVisible == false)
+
+        engine.setVisible(for: "l1", to: true)
+        #expect(layer.isVisible == true)
+    }
+
+    @Test func setVisibleOnUnknownLayerDoesNotCrash() {
+        let engine = MockMapEngine()
+        engine.setVisible(for: "nonexistent", to: false)
+    }
+}
