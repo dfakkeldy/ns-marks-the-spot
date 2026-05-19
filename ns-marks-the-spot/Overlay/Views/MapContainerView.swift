@@ -47,6 +47,9 @@ struct MapContainerView: View {
             }
             poiVM.loadMockData()
             poiVM.syncAnnotations(to: engine)
+            Task {
+                await poiVM.fetchRemoteWaterfalls(engine: engine)
+            }
         }
         .sheet(item: $selectedPOI) { poi in
             POIDetailView(poi: poi)

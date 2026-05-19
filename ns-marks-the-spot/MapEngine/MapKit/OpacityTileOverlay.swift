@@ -48,13 +48,15 @@ final class OpacityTileOverlay: MKTileOverlay {
 
         if let fetcher = tileFetcher,
            let layer = mapLayer,
-           case .arcgisDynamic(let serverURL) = layer.type
+           case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = layer.type
         {
             Task {
                 do {
                     let data = try await fetcher.fetchArcGISDynamicTile(
                         z: path.z, x: path.x, y: path.y,
-                        from: serverURL, layerName: layerName
+                        from: serverURL, layerName: layerName,
+                        dynamicLayersJSON: dynamicLayers,
+                        layerRestrictions: layerRestrictions
                     )
                     result(data, nil)
                 } catch {

@@ -34,6 +34,23 @@ final class POIViewModel: ObservableObject {
         ]
     }
 
+    func fetchRemoteWaterfalls(engine: any MapEngine) async {
+        let fetcher = POIFetcher()
+        guard let waterfalls = try? await fetcher.fetchWaterfalls() else { return }
+        points.append(contentsOf: waterfalls)
+        for waterfall in waterfalls {
+            engine.addAnnotation(
+                MapAnnotation(
+                    id: waterfall.id,
+                    latitude: waterfall.latitude,
+                    longitude: waterfall.longitude,
+                    title: waterfall.name,
+                    subtitle: waterfall.category
+                )
+            )
+        }
+    }
+
     func syncAnnotations(to engine: any MapEngine) {
         for point in points {
             engine.addAnnotation(

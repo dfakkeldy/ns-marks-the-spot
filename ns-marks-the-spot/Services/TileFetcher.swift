@@ -17,14 +17,14 @@ final class TileFetcher {
         return data
     }
 
-    func fetchArcGISDynamicTile(z: Int, x: Int, y: Int, from serverURL: URL, layerName: String) async throws -> Data {
+    func fetchArcGISDynamicTile(z: Int, x: Int, y: Int, from serverURL: URL, layerName: String, dynamicLayersJSON: String? = nil, layerRestrictions: String? = nil) async throws -> Data {
         let bbox = tileToBBOX(z: z, x: x, y: y)
 
         var components = URLComponents(
             url: serverURL.appendingPathComponent("export"),
             resolvingAgainstBaseURL: false
         )!
-        components.queryItems = [
+        var queryItems = [
             URLQueryItem(name: "bbox", value: "\(bbox.minX),\(bbox.minY),\(bbox.maxX),\(bbox.maxY)"),
             URLQueryItem(name: "bboxSR", value: "3857"),
             URLQueryItem(name: "imageSR", value: "3857"),
@@ -33,6 +33,13 @@ final class TileFetcher {
             URLQueryItem(name: "transparent", value: "true"),
             URLQueryItem(name: "f", value: "image"),
         ]
+        if let json = dynamicLayersJSON {
+            queryItems.append(URLQueryItem(name: "dynamicLayers", value: json))
+        }
+        if let layers = layerRestrictions {
+            queryItems.append(URLQueryItem(name: "layers", value: layers))
+        }
+        components.queryItems = queryItems
 
         let (data, _) = try await URLSession.shared.data(from: components.url!)
         tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
