@@ -18,6 +18,22 @@ struct MapContainerView: View {
                 .ignoresSafeArea()
 
             VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        engine.showsUserLocation = true
+                        engine.centerOnUserLocation()
+                    } label: {
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(.blue)
+                            .frame(width: 44, height: 44)
+                            .background(.regularMaterial, in: Circle())
+                    }
+                    .padding(.trailing, 12)
+                    .padding(.top, 12)
+                    .accessibilityLabel("Current Location")
+                }
                 Spacer()
                 TransparencySliderView(viewModel: overlayVM)
             }

@@ -4,6 +4,9 @@ final class MockMapEngine: MapEngine {
     private(set) var layers: [any MapLayer] = []
     private(set) var annotations: [MapAnnotation] = []
 
+    var showsUserLocation = false
+    func centerOnUserLocation() {}
+
     func addLayer(_ layer: any MapLayer) {
         layers.append(layer)
     }

@@ -8,6 +8,9 @@ protocol MapEngine: AnyObject {
     func setOpacity(for layerId: String, to value: CGFloat)
     func setVisible(for layerId: String, to visible: Bool)
 
+    var showsUserLocation: Bool { get set }
+    func centerOnUserLocation()
+
     var annotations: [MapAnnotation] { get }
     func addAnnotation(_ annotation: MapAnnotation)
     func removeAnnotation(by id: String)

@@ -1,3 +1,4 @@
+import CoreLocation
 import MapKit
 import SwiftUI
 
@@ -16,6 +17,27 @@ final class MapKitEngine: MapEngine {
 
     weak var mapView: MKMapView? {
         didSet { syncPendingToMapView() }
+    }
+
+    private let locationManager = CLLocationManager()
+
+    var showsUserLocation = false {
+        didSet {
+            if showsUserLocation {
+                locationManager.requestWhenInUseAuthorization()
+            }
+            mapView?.showsUserLocation = showsUserLocation
+        }
+    }
+
+    func centerOnUserLocation() {
+        guard let location = mapView?.userLocation.location else { return }
+        let region = MKCoordinateRegion(
+            center: location.coordinate,
+            latitudinalMeters: 5000,
+            longitudinalMeters: 5000
+        )
+        mapView?.setRegion(region, animated: true)
     }
 
     // MARK: - Layers
