@@ -32,7 +32,7 @@ final class AppContainer {
             name: "NS Property Boundaries",
             type: .arcgisDynamic(nsprdURL,
                 dynamicLayers: """
-                [{"id":0,"source":{"type":"mapLayer","mapLayerId":0},"drawingInfo":{"renderer":{"type":"simple","symbol":{"type":"esriSFS","style":"esriSFSNull","color":[0,0,0,0],"outline":{"type":"esriSLS","style":"esriSLSSolid","color":[128,128,128,255],"width":1}}},"labelingInfo":null}]
+                [{"id":0,"source":{"type":"mapLayer","mapLayerId":0},"drawingInfo":{"renderer":{"type":"simple","symbol":{"type":"esriSFS","style":"esriSFSNull","color":[0,0,0,0],"outline":{"type":"esriSLS","style":"esriSLSSolid","color":[128,128,128,255],"width":1}}},"labelingInfo":[]}]
                 """,
                 layerRestrictions: nil)
         )
@@ -45,7 +45,7 @@ final class AppContainer {
             name: "Crown Lands",
             type: .arcgisDynamic(crownURL,
                 dynamicLayers: """
-                [{"id":0,"source":{"type":"mapLayer","mapLayerId":0},"drawingInfo":{"renderer":{"type":"simple","symbol":{"type":"esriSFS","style":"esriSFSSolid","color":[46,180,46,128],"outline":{"type":"esriSLS","style":"esriSLSSolid","color":[0,100,0,255],"width":2}}},"labelingInfo":null}]
+                [{"id":0,"source":{"type":"mapLayer","mapLayerId":0},"drawingInfo":{"renderer":{"type":"simple","symbol":{"type":"esriSFS","style":"esriSFSSolid","color":[46,180,46,128],"outline":{"type":"esriSLS","style":"esriSLSSolid","color":[0,100,0,255],"width":2}}},"labelingInfo":[]}]
                 """,
                 layerRestrictions: nil)
         )

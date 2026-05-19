@@ -31,7 +31,7 @@ struct MapContainerView: View {
                             .background(.regularMaterial, in: Circle())
                     }
                     .padding(.trailing, 12)
-                    .padding(.top, 12)
+                    .padding(.top, 60)
                     .accessibilityLabel("Current Location")
                 }
                 Spacer()
