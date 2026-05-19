@@ -42,7 +42,7 @@ struct MapKitMapView: UIViewRepresentable {
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             guard !(annotation is MKUserLocation) else { return nil }
-            guard let point = annotation as? MKPointAnnotation else { return nil }
+            guard annotation is MKPointAnnotation else { return nil }
 
             let identifier = "POIAnnotation"
             let view: MKMarkerAnnotationView

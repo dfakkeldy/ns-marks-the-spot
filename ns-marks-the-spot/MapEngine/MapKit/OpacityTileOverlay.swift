@@ -46,6 +46,24 @@ final class OpacityTileOverlay: MKTileOverlay {
             return
         }
 
+        if let fetcher = tileFetcher,
+           let layer = mapLayer,
+           case .arcgisDynamic(let serverURL) = layer.type
+        {
+            Task {
+                do {
+                    let data = try await fetcher.fetchArcGISDynamicTile(
+                        z: path.z, x: path.x, y: path.y,
+                        from: serverURL, layerName: layerName
+                    )
+                    result(data, nil)
+                } catch {
+                    result(generatePlaceholderTile(path: path), nil)
+                }
+            }
+            return
+        }
+
         result(generatePlaceholderTile(path: path), nil)
     }
 

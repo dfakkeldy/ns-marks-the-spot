@@ -94,7 +94,8 @@ final class MapKitEngine: MapEngine {
     // MARK: - Private
 
     private func addOverlayToMapView(_ layer: any MapLayer) {
-        guard let mapView, case .tile = layer.type else { return }
+        guard let mapView else { return }
+        if case .vector = layer.type { return }
         let overlay = OpacityTileOverlay(tileCache: tileCache, tileFetcher: tileFetcher)
         overlay.mapLayer = layer
         overlay.canReplaceMapContent = false

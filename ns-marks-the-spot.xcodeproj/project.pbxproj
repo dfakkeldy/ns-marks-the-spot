@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CC5603312FBB70BC00918D5A /* Tiles in Resources */ = {isa = PBXBuildFile; fileRef = CC5603302FBB70BC00918D5A /* Tiles */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CC5603132FBB70BC00918D5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		CC5603052FBB70BB00918D5A /* ns-marks-the-spot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ns-marks-the-spot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5603122FBB70BC00918D5A /* ns-marks-the-spotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ns-marks-the-spotTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC56031C2FBB70BC00918D5A /* ns-marks-the-spotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ns-marks-the-spotUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC5603302FBB70BC00918D5A /* Tiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tiles; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -78,6 +83,7 @@
 				CC5603072FBB70BB00918D5A /* ns-marks-the-spot */,
 				CC5603152FBB70BC00918D5A /* ns-marks-the-spotTests */,
 				CC56031F2FBB70BC00918D5A /* ns-marks-the-spotUITests */,
+				CC5603302FBB70BC00918D5A /* Tiles */,
 				CC5603062FBB70BB00918D5A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5603312FBB70BC00918D5A /* Tiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,7 @@ import Foundation
 
 enum MapLayerType {
     case tile(URL)
+    case arcgisDynamic(URL)
     case vector([String])
 }
 

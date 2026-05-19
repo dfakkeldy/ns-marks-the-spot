@@ -79,7 +79,7 @@ struct MapAnnotationTests {
 struct MapKitTileLayerTests {
     @Test func initialization() {
         let url = URL(fileURLWithPath: "Tiles/Fletcher")
-        let layer = MapKitTileLayer(id: "fletcher", name: "Fletcher", tileURL: url)
+        let layer = MapKitTileLayer(id: "fletcher", name: "Fletcher", type: .tile(url))
 
         #expect(layer.id == "fletcher")
         #expect(layer.name == "Fletcher")
@@ -94,13 +94,13 @@ struct MapKitTileLayerTests {
     }
 
     @Test func opacityIsMutable() {
-        let layer = MapKitTileLayer(id: "test", name: "Test", tileURL: URL(fileURLWithPath: "/"))
+        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
         layer.opacity = 0.3
         #expect(layer.opacity == 0.3)
     }
 
     @Test func visibilityToggles() {
-        let layer = MapKitTileLayer(id: "test", name: "Test", tileURL: URL(fileURLWithPath: "/"))
+        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
         layer.isVisible = false
         #expect(layer.isVisible == false)
     }
@@ -120,7 +120,7 @@ struct OverlayViewModelTests {
 
     @Test func updateOpacity() {
         let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", tileURL: URL(fileURLWithPath: "/"))
+        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
         layer.opacity = 0.5
         engine.addLayer(layer)
 
@@ -142,7 +142,7 @@ struct OverlayViewModelTests {
 
     @Test func selectLayerSyncsOpacity() {
         let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", tileURL: URL(fileURLWithPath: "/"))
+        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
         layer.opacity = 0.25
         engine.addLayer(layer)
 
@@ -155,7 +155,7 @@ struct OverlayViewModelTests {
 
     @Test func opacityClampedByEngine() {
         let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", tileURL: URL(fileURLWithPath: "/"))
+        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
         engine.addLayer(layer)
 
         let vm = OverlayViewModel(engine: engine)

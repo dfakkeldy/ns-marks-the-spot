@@ -7,9 +7,9 @@ final class MapKitTileLayer: MapLayer {
     var opacity: CGFloat = 1.0
     var isVisible: Bool = true
 
-    init(id: String, name: String, tileURL: URL) {
+    init(id: String, name: String, type: MapLayerType) {
         self.id = id
         self.name = name
-        self.type = .tile(tileURL)
+        self.type = type
     }
 }
