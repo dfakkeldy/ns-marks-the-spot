@@ -7,6 +7,15 @@ final class MockMapEngine: MapEngine {
     var showsUserLocation = false
     func centerOnUserLocation() {}
 
+    var mapHeading: Double = 0
+    var headingChangeHandler: ((Double) -> Void)?
+    func resetHeading() {
+        mapHeading = 0
+        headingChangeHandler?(0)
+    }
+
+    var baseMapType: MapBaseType = .standard
+
     func addLayer(_ layer: any MapLayer) {
         layers.append(layer)
     }

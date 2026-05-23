@@ -16,7 +16,40 @@ final class MapKitEngine: MapEngine {
     }
 
     weak var mapView: MKMapView? {
-        didSet { syncPendingToMapView() }
+        didSet {
+            syncPendingToMapView()
+            updateMapType()
+        }
+    }
+
+    var mapHeading: Double = 0
+    var headingChangeHandler: ((Double) -> Void)?
+
+    func resetHeading() {
+        guard let mapView = mapView else { return }
+        let camera = mapView.camera.copy() as! MKMapCamera
+        camera.heading = 0
+        mapView.setCamera(camera, animated: true)
+        mapHeading = 0
+        headingChangeHandler?(0)
+    }
+
+    var baseMapType: MapBaseType = .standard {
+        didSet {
+            updateMapType()
+        }
+    }
+
+    private func updateMapType() {
+        guard let mapView = mapView else { return }
+        switch baseMapType {
+        case .standard:
+            mapView.mapType = .standard
+        case .satellite:
+            mapView.mapType = .satellite
+        case .hybrid:
+            mapView.mapType = .hybrid
+        }
     }
 
     private let locationManager = CLLocationManager()
@@ -133,7 +166,14 @@ final class MapKitEngine: MapEngine {
         let overlay = OpacityTileOverlay(tileCache: tileCache, tileFetcher: tileFetcher)
         overlay.mapLayer = layer
         overlay.canReplaceMapContent = false
+        overlay.minimumZ = layer.minZoom
+        overlay.maximumZ = layer.maxZoom
         mapView.addOverlay(overlay)
+
+        // Force renderer update if it's already created
+        if let renderer = overlay.renderer {
+            renderer.alpha = layer.isVisible ? layer.opacity : 0.0
+        }
     }
 
     private func syncPendingToMapView() {

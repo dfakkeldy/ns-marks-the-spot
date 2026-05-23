@@ -1,5 +1,13 @@
 import SwiftUI
 
+enum MapBaseType: String, CaseIterable, Identifiable {
+    case standard = "Standard"
+    case satellite = "Satellite"
+    case hybrid = "Hybrid"
+
+    var id: String { self.rawValue }
+}
+
 protocol MapEngine: AnyObject {
     var layers: [any MapLayer] { get }
 
@@ -15,6 +23,12 @@ protocol MapEngine: AnyObject {
     func addAnnotation(_ annotation: MapAnnotation)
     func removeAnnotation(by id: String)
     func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void)
+
+    var mapHeading: Double { get }
+    var headingChangeHandler: ((Double) -> Void)? { get set }
+    func resetHeading()
+
+    var baseMapType: MapBaseType { get set }
 
     /// Returns a SwiftUI view wrapping the native map implementation.
     func makeMapView() -> AnyView

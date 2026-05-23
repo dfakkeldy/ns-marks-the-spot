@@ -12,4 +12,8 @@ protocol MapLayer: AnyObject, Identifiable {
     var type: MapLayerType { get }
     var opacity: CGFloat { get set }
     var isVisible: Bool { get set }
+    var minZoom: Int { get }
+    var maxZoom: Int { get }
+
+    var cacheIdentifier: String { get }
 }
