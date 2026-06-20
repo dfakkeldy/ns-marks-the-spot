@@ -1,0 +1,113 @@
+# frozen_string_literal: true
+
+# ── Fastfile for "NS Marks The Spot" ──────────────────────────────────────────
+# MIT License — open-source iOS map app with historical tile overlays.
+
+default_platform(:ios)
+
+# ── Platform ------------------------------------------------------------------
+
+platform :ios do
+
+  # ── Global options (inherited by every lane) ──────────────────────────────
+
+  before_all do |lane|
+    # Ensure cocoapods / SPM dependencies are resolved if needed.
+    # For now this project uses SPM, so no `cocoapods` call.
+    UI.message "▶ Running lane: #{lane}"
+  end
+
+  after_all do |lane|
+    UI.success "✓ Lane '#{lane}' finished successfully."
+  end
+
+  error do |lane, exception|
+    UI.error "✗ Lane '#{lane}' failed: #{exception.message}"
+  end
+
+  # ── Lanes ─────────────────────────────────────────────────────────────────
+
+  desc "Run unit tests on the primary scheme"
+  lane :test do
+    run_tests(
+      scheme: "ns-marks-the-spot",
+      devices: ["iPhone 17 Pro"],          # latest simulator
+      only_testing: ["ns-marks-the-spotTests"],
+      code_coverage: true,
+      output_types: "html,junit"
+    )
+  end
+
+  desc "Run UI tests on the primary scheme"
+  lane :ui_test do
+    run_tests(
+      scheme: "ns-marks-the-spot",
+      devices: ["iPhone 17 Pro"],
+      only_testing: ["ns-marks-the-spotUITests"],
+      output_types: "html,junit"
+    )
+  end
+
+  desc "Run all tests (unit + UI) on the primary scheme"
+  lane :test_all do
+    run_tests(
+      scheme: "ns-marks-the-spot",
+      devices: ["iPhone 17 Pro"],
+      code_coverage: true,
+      output_types: "html,junit"
+    )
+  end
+
+  desc "Build the app for the simulator — quick sanity check"
+  lane :build do
+    build_app(
+      scheme: "ns-marks-the-spot",
+      destination: "generic/platform=iOS Simulator",
+      skip_codesigning: true,
+      skip_archive: true
+    )
+  end
+
+  desc "Build and run unit tests (what CI would do)"
+  lane :ci do
+    build
+    test
+  end
+
+  # ── Placeholder lanes (uncomment and configure when ready) ────────────────
+
+  # desc "Upload a new beta build to TestFlight"
+  # lane :beta do
+  #   build_app(
+  #     scheme: "ns-marks-the-spot",
+  #     export_method: "app-store"
+  #   )
+  #   upload_to_testflight
+  # end
+
+  # desc "Push a new release build to the App Store"
+  # lane :release do
+  #   # 1. Ensure git is clean and on main
+  #   ensure_git_status_clean
+  #   ensure_git_branch(branch: "main")
+  #
+  #   # 2. Bump build number (auto-increment)
+  #   increment_build_number
+  #
+  #   # 3. Build and upload
+  #   build_app(scheme: "ns-marks-the-spot", export_method: "app-store")
+  #   upload_to_app_store
+  #
+  #   # 4. Tag the release
+  #   push_git_tags
+  # end
+
+  # desc "Capture App Store screenshots"
+  # lane :screenshots do
+  #   capture_screenshots(
+  #     scheme: "ns-marks-the-spotUITests",
+  #     languages: ["en-US"]
+  #   )
+  # end
+
+end

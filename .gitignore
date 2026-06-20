@@ -63,3 +63,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+fastlane/README.md
+
+# Ruby / Bundler
+vendor/bundle/
+.bundle/
+Gemfile.lock
