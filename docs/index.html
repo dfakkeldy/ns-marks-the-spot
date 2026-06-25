@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NS Marks The Spot | Historical Nova Scotia map overlays for iPhone</title>
+    <meta
+      name="description"
+      content="NS Marks The Spot overlays georeferenced historical Nova Scotia maps on modern maps, with transparency controls, offline tiles, and points of interest."
+    >
+    <meta name="theme-color" content="#12343b">
+    <meta property="og:title" content="NS Marks The Spot">
+    <meta property="og:description" content="Slide between modern Nova Scotia and its historical Fletcher maps.">
+    <meta property="og:image" content="assets/app-icon.svg">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="NS Marks The Spot home">
+        <img src="assets/app-icon.svg" alt="" width="42" height="42">
+        <span>NS Marks The Spot</span>
+      </a>
+      <nav class="nav-links" aria-label="Page sections">
+        <a href="#field-guide">Field guide</a>
+        <a href="#features">Features</a>
+        <a href="#open-source">Open source</a>
+      </nav>
+      <a class="nav-action" href="https://github.com/dfakkeldy/ns-marks-the-spot">GitHub</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-map" aria-hidden="true">
+          <div class="modern-map"></div>
+          <div class="historical-map"></div>
+          <div class="soundings">
+            <span style="--x: 12%; --y: 22%;">Fletcher Lake</span>
+            <span style="--x: 64%; --y: 19%;">1884</span>
+            <span style="--x: 70%; --y: 73%;">Waterfall</span>
+            <span style="--x: 24%; --y: 76%;">POI</span>
+          </div>
+          <div class="route-line"></div>
+          <div class="hero-pin hero-pin-one"></div>
+          <div class="hero-pin hero-pin-two"></div>
+          <div class="split-handle"></div>
+        </div>
+
+        <div class="hero-shade" aria-hidden="true"></div>
+
+        <div class="hero-content">
+          <p class="eyebrow">Historical maps, live in your pocket</p>
+          <h1 id="hero-title">NS Marks The Spot</h1>
+          <p class="hero-lede">
+            Slide Nova Scotia's Fletcher maps over today's landscape and see old roads,
+            lakes, and landmarks line up under your thumb.
+          </p>
+          <div class="hero-actions" aria-label="Primary calls to action">
+            <a class="button button-primary" href="https://github.com/dfakkeldy/ns-marks-the-spot">
+              Explore the code
+            </a>
+            <a class="button button-secondary" href="#field-guide">See the map story</a>
+          </div>
+        </div>
+
+        <form class="overlay-control" aria-label="Historical overlay preview">
+          <label for="overlay-range">
+            <span>Historical overlay</span>
+            <output id="overlay-output" for="overlay-range">62%</output>
+          </label>
+          <input
+            id="overlay-range"
+            type="range"
+            min="0"
+            max="100"
+            value="62"
+            aria-label="Adjust historical map overlay"
+          >
+        </form>
+      </section>
+
+      <section class="proof-strip" aria-label="App highlights">
+        <p><strong>Fletcher maps</strong> georeferenced over modern MapKit terrain.</p>
+        <p><strong>Offline tiles</strong> keep the map responsive in the field.</p>
+        <p><strong>POI layers</strong> mark waterfalls, lighthouses, and discoveries.</p>
+      </section>
+
+      <section id="field-guide" class="field-guide section">
+        <div class="section-kicker">Built for curious feet</div>
+        <div class="field-grid">
+          <div class="section-copy">
+            <h2>Every slider pull is a little time travel.</h2>
+            <p>
+              NS Marks The Spot turns archival Nova Scotia maps into a practical
+              companion for walks, research trips, and weekend detours. Fade between
+              the old survey and the current map to trace where a road bent, where a
+              shoreline shifted, or where a name survived.
+            </p>
+          </div>
+
+          <div class="phone-demo" aria-label="App interface preview">
+            <div class="phone-screen">
+              <div class="map-pane modern-pane"></div>
+              <div class="map-pane historical-pane"></div>
+              <div class="phone-toolbar">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="layer-sheet">
+                <p>Fletcher overlay</p>
+                <div class="mini-slider"><span></span></div>
+              </div>
+              <div class="poi-marker" style="--left: 68%; --top: 39%;"></div>
+              <div class="poi-marker marker-green" style="--left: 37%; --top: 64%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="features section" aria-labelledby="features-title">
+        <div class="section-heading">
+          <div class="section-kicker">Why it lands</div>
+          <h2 id="features-title">Made for maps that do not behave like ordinary screenshots.</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-mark">01</span>
+            <h3>Georeferenced history</h3>
+            <p>Historical raster tiles sit exactly where they belong over the modern map.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-mark">02</span>
+            <h3>Instant transparency</h3>
+            <p>A dedicated overlay control makes comparison feel tactile, fast, and readable.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-mark">03</span>
+            <h3>POI discoveries</h3>
+            <p>Waterfalls and other points of interest can appear as clean vector layers.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-mark">04</span>
+            <h3>Offline-first tiles</h3>
+            <p>Disk and memory caching keep panning smooth when the best places have weak signal.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="open-source" class="open-source section">
+        <div>
+          <div class="section-kicker">Open-source cartography</div>
+          <h2>Built in SwiftUI and MapKit, with room for future map engines.</h2>
+          <p>
+            The app is MIT licensed and structured around a map-engine boundary, so
+            the interface can stay steady while the renderer evolves.
+          </p>
+        </div>
+        <a class="button button-primary" href="https://github.com/dfakkeldy/ns-marks-the-spot">
+          View the repository
+        </a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>NS Marks The Spot</p>
+      <p>Historical Nova Scotia, lined up with the map in your hand.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Filters -->
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="paper-texture" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise" />
+      <feDiffuseLighting in="noise" lighting-color="#fff" surfaceScale="1.5" result="light">
+        <feDistantLight azimuth="45" elevation="60" />
+      </feDiffuseLighting>
+      <feBlend mode="multiply" in="SourceGraphic" in2="light" result="blend" />
+    </filter>
+    
+    <!-- Gradients -->
+    <radialGradient id="modernBg" cx="30%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </radialGradient>
+    
+    <radialGradient id="historicalBg" cx="70%" cy="70%" r="80%">
+      <stop offset="0%" stop-color="#FCFAF2" />
+      <stop offset="60%" stop-color="#F5ECCF" />
+      <stop offset="100%" stop-color="#E2D4B1" />
+    </radialGradient>
+    
+    <linearGradient id="xModern" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22D3EE" />
+      <stop offset="100%" stop-color="#0EA5E9" />
+    </linearGradient>
+    
+    <linearGradient id="xHistorical" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#B91C1C" />
+    </linearGradient>
+    
+    <linearGradient id="nsGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D97706" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#B45309" stop-opacity="0.3" />
+    </linearGradient>
+    
+    <linearGradient id="glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#E2E8F0" stop-opacity="0.45" />
+    </linearGradient>
+    
+    <!-- Clip Path for Historical Side -->
+    <clipPath id="historical-clip">
+      <polygon points="665.6,0 1024,0 1024,1024 358.4,1024" />
+    </clipPath>
+  </defs>
+
+  <!-- Modern Map Layer (Base) -->
+  <rect width="1024" height="1024" fill="url(#modernBg)" />
+  
+  <!-- Modern Grid -->
+  <g stroke="#38BDF8" stroke-width="1.5" opacity="0.12">
+    <!-- Horizontal lines -->
+    <line x1="0" y1="100" x2="1024" y2="100" />
+    <line x1="0" y1="200" x2="1024" y2="200" />
+    <line x1="0" y1="300" x2="1024" y2="300" />
+    <line x1="0" y1="400" x2="1024" y2="400" />
+    <line x1="0" y1="500" x2="1024" y2="500" />
+    <line x1="0" y1="600" x2="1024" y2="600" />
+    <line x1="0" y1="700" x2="1024" y2="700" />
+    <line x1="0" y1="800" x2="1024" y2="800" />
+    <line x1="0" y1="900" x2="1024" y2="900" />
+    
+    <!-- Vertical lines -->
+    <line x1="100" y1="0" x2="100" y2="1024" />
+    <line x1="200" y1="0" x2="200" y2="1024" />
+    <line x1="300" y1="0" x2="300" y2="1024" />
+    <line x1="400" y1="0" x2="400" y2="1024" />
+    <line x1="500" y1="0" x2="500" y2="1024" />
+    <line x1="600" y1="0" x2="600" y2="1024" />
+    <line x1="700" y1="0" x2="700" y2="1024" />
+    <line x1="800" y1="0" x2="800" y2="1024" />
+    <line x1="900" y1="0" x2="900" y2="1024" />
+  </g>
+
+  <!-- Modern Map Route -->
+  <path d="M 120,250 Q 220,180 320,320 T 420,580" fill="none" stroke="#0ea5e9" stroke-width="8" stroke-dasharray="16,8" opacity="0.45" />
+  
+  <!-- Modern Map Pin -->
+  <g filter="url(#drop-shadow)">
+    <!-- Pin shadow -->
+    <ellipse cx="260" cy="415" rx="14" ry="7" fill="#020617" opacity="0.4" />
+    <!-- Pin body -->
+    <path d="M 260,340 C 240,340 225,355 225,375 C 225,405 260,435 260,435 C 260,435 295,405 295,375 C 295,355 280,340 260,340 Z" fill="url(#xModern)" />
+    <!-- Pin inner dot -->
+    <circle cx="260" cy="375" r="9" fill="#FFFFFF" />
+  </g>
+
+  <!-- Modern X Part (Base Layer, visible on the left side) -->
+  <g filter="url(#drop-shadow)">
+    <line x1="360" y1="360" x2="664" y2="664" stroke="url(#xModern)" stroke-width="84" stroke-linecap="round" />
+    <line x1="664" y1="360" x2="360" y2="664" stroke="url(#xModern)" stroke-width="84" stroke-linecap="round" />
+    <!-- Inner glowing line for modern depth -->
+    <line x1="360" y1="360" x2="664" y2="664" stroke="#E0F7FA" stroke-width="18" stroke-linecap="round" opacity="0.8" />
+    <line x1="664" y1="360" x2="360" y2="664" stroke="#E0F7FA" stroke-width="18" stroke-linecap="round" opacity="0.8" />
+  </g>
+
+  <!-- Historical Map Layer (Clipped to bottom-right) -->
+  <g clip-path="url(#historical-clip)">
+    <!-- Parchment Background -->
+    <rect width="1024" height="1024" fill="url(#historicalBg)" filter="url(#paper-texture)" />
+    
+    <!-- Historical Curved Grid (Latitude/Longitude) -->
+    <g stroke="#8A6E4B" stroke-width="1.5" fill="none" opacity="0.35">
+      <path d="M 400,-100 A 1500,1500 0 0,0 850,1124" />
+      <path d="M 600,-100 A 1500,1500 0 0,0 1050,1124" />
+      <path d="M -100,450 A 1500,1500 0 0,1 1124,900" />
+      <path d="M -100,650 A 1500,1500 0 0,1 1124,1100" />
+    </g>
+    
+    <!-- Nova Scotia Silhouette (Historical map element) -->
+    <g stroke="#7C2D12" stroke-width="2" stroke-dasharray="4,3" fill="url(#nsGold)" opacity="0.75">
+      <!-- Main Peninsula -->
+      <path d="M 620,860 C 630,870 640,880 650,870 C 670,850 690,830 710,820 C 730,810 750,800 770,780 C 790,760 810,750 830,740 C 850,730 870,720 880,710 C 885,705 880,700 870,700 C 850,700 830,705 810,710 C 790,715 770,710 750,705 C 730,700 710,695 690,690 C 670,685 660,690 655,700 C 650,710 655,720 660,730 C 650,740 640,750 630,755 C 620,760 610,770 615,780 C 620,790 630,795 635,800 C 625,810 615,820 610,830 C 605,840 610,850 620,860 Z" />
+      <!-- Cape Breton Island -->
+      <path d="M 865,695 C 870,680 875,660 880,640 C 885,620 890,600 900,580 C 905,570 915,565 920,575 C 925,585 920,600 915,615 C 925,620 935,625 940,635 C 945,645 935,655 925,665 C 915,675 905,685 895,695 C 885,705 875,705 865,695 Z" />
+    </g>
+    
+    <!-- Vintage Compass Rose -->
+    <g transform="translate(820, 320)" stroke="#7C2D12" stroke-width="1.5">
+      <circle r="45" fill="none" stroke-dasharray="2,2" opacity="0.6"/>
+      <circle r="50" fill="none" opacity="0.4"/>
+      
+      <!-- Compass Points -->
+      <polygon points="0,-48 4,0 0,0" fill="#7C2D12" />
+      <polygon points="0,-48 -4,0 0,0" fill="#FCFAF2" />
+      
+      <polygon points="0,48 4,0 0,0" fill="#FCFAF2" />
+      <polygon points="0,48 -4,0 0,0" fill="#7C2D12" />
+      
+      <polygon points="48,0 0,4 0,0" fill="#7C2D12" />
+      <polygon points="48,0 0,-4 0,0" fill="#FCFAF2" />
+      
+      <polygon points="-48,0 0,4 0,0" fill="#FCFAF2" />
+      <polygon points="-48,0 0,-4 0,0" fill="#7C2D12" />
+      
+      <!-- Diagonals -->
+      <polygon points="34,-34 3,3 0,0" fill="#7C2D12" opacity="0.8"/>
+      <polygon points="34,-34 -3,-3 0,0" fill="#FCFAF2" opacity="0.8"/>
+      <polygon points="-34,34 3,3 0,0" fill="#FCFAF2" opacity="0.8"/>
+      <polygon points="-34,34 -3,-3 0,0" fill="#7C2D12" opacity="0.8"/>
+      
+      <polygon points="34,34 3,-3 0,0" fill="#7C2D12" opacity="0.8"/>
+      <polygon points="34,34 -3,3 0,0" fill="#FCFAF2" opacity="0.8"/>
+      <polygon points="-34,-34 3,-3 0,0" fill="#FCFAF2" opacity="0.8"/>
+      <polygon points="-34,-34 -3,3 0,0" fill="#7C2D12" opacity="0.8"/>
+
+      <circle r="4" fill="#7C2D12"/>
+      <text x="0" y="-58" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#7C2D12" text-anchor="middle">N</text>
+    </g>
+
+    <!-- Historical X Part (Clipped, overlays the modern X on the right side) -->
+    <g filter="url(#drop-shadow)">
+      <line x1="360" y1="360" x2="664" y2="664" stroke="url(#xHistorical)" stroke-width="84" stroke-linecap="round" />
+      <line x1="664" y1="360" x2="360" y2="664" stroke="url(#xHistorical)" stroke-width="84" stroke-linecap="round" />
+      <!-- Textured ink overlay -->
+      <line x1="365" y1="360" x2="659" y2="654" stroke="#7F1D1D" stroke-width="22" stroke-linecap="round" opacity="0.4" />
+      <line x1="659" y1="365" x2="365" y2="659" stroke="#7F1D1D" stroke-width="22" stroke-linecap="round" opacity="0.4" />
+    </g>
+  </g>
+
+  <!-- Slider Divider (Split Screen Line) -->
+  <line x1="665.6" y1="0" x2="358.4" y2="1024" stroke="#FFFFFF" stroke-width="5" filter="url(#glow)" opacity="0.85" />
+  <line x1="665.6" y1="0" x2="358.4" y2="1024" stroke="#F1F5F9" stroke-width="2.5" opacity="0.95" />
+
+  <!-- Glassmorphic Slider Handle -->
+  <g transform="translate(512, 512)" filter="url(#drop-shadow)">
+    <circle cx="0" cy="0" r="50" fill="url(#glass)" stroke="#FFFFFF" stroke-width="3" />
+    <circle cx="0" cy="0" r="45" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.5" />
+    
+    <g stroke="#0F172A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <line x1="0" y1="-22" x2="0" y2="22" opacity="0.5"/>
+      <path d="M -13,-9 L -22,0 L -13,9" />
+      <line x1="-22" y1="0" x2="-6" y2="0" />
+      <path d="M 13,-9 L 22,0 L 13,9" />
+      <line x1="22" y1="0" x2="6" y2="0" />
+    </g>
+  </g>
+</svg>
