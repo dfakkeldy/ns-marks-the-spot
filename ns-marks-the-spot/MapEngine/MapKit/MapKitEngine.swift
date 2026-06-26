@@ -163,7 +163,7 @@ final class MapKitEngine: MapEngine {
     private func addOverlayToMapView(_ layer: any MapLayer) {
         guard let mapView else { return }
         if case .vector = layer.type { return }
-        let overlay = OpacityTileOverlay(tileCache: tileCache, tileFetcher: tileFetcher)
+        let overlay = OpacityTileOverlay(layer: layer, tileCache: tileCache, tileFetcher: tileFetcher)
         overlay.mapLayer = layer
         overlay.canReplaceMapContent = false
         overlay.minimumZ = layer.minZoom

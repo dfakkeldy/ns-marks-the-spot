@@ -2,15 +2,15 @@ import CryptoKit
 import Foundation
 
 final class MapKitTileLayer: MapLayer {
-    let id: String
-    let name: String
-    let type: MapLayerType
+    nonisolated let id: String
+    nonisolated let name: String
+    nonisolated let type: MapLayerType
     var opacity: CGFloat = 1.0
     var isVisible: Bool = true
-    let minZoom: Int
-    let maxZoom: Int
+    nonisolated let minZoom: Int
+    nonisolated let maxZoom: Int
 
-    var cacheIdentifier: String {
+    nonisolated var cacheIdentifier: String {
         let configString: String
         switch type {
         case .tile(let url):
@@ -27,7 +27,7 @@ final class MapKitTileLayer: MapLayer {
         return "\(id)_\(hashString)"
     }
 
-    init(id: String, name: String, type: MapLayerType, minZoom: Int = 0, maxZoom: Int = 24) {
+    nonisolated init(id: String, name: String, type: MapLayerType, minZoom: Int = 0, maxZoom: Int = 24) {
         self.id = id
         self.name = name
         self.type = type

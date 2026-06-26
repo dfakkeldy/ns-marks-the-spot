@@ -1,4 +1,4 @@
-struct MapAnnotation: Identifiable, Sendable {
+nonisolated struct MapAnnotation: Identifiable, Sendable {
     let id: String
     let coordinate: (latitude: Double, longitude: Double)
     let title: String

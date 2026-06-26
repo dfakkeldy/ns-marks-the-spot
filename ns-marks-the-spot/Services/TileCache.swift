@@ -15,7 +15,11 @@ import Foundation
 /// any read failure is tolerated via `try?`, degrading to a benign cache miss
 /// and re-fetch. `NSCache`/`FileManager` aren't SDK-marked `Sendable`, so the
 /// guarantee is asserted via `@unchecked`.
-final class TileCache: @unchecked Sendable {
+///
+/// `nonisolated` so MapKit's off-main `loadTile` can read/write it synchronously
+/// without hopping to the main actor (the module defaults declarations to
+/// `@MainActor`, which this type must opt out of).
+nonisolated final class TileCache: @unchecked Sendable {
     private let memoryCache = NSCache<NSString, NSData>()
     private let diskQueue = DispatchQueue(label: "dev.dfakkeldy.ns-marks-the-spot.tilecache")
     private let fileManager = FileManager.default

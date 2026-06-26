@@ -1,21 +1,41 @@
 import MapKit
 import UIKit
 
-final class OpacityTileOverlay: MKTileOverlay {
-    weak var mapLayer: (any MapLayer)?
-    weak var renderer: MKTileOverlayRenderer?
+/// `MKTileOverlay` subclass that loads Fletcher/ArcGIS tiles. MapKit invokes
+/// `loadTile(at:result:)` on a background queue, so this type is `nonisolated`
+/// (matching `MKTileOverlay`'s own `nonisolated` `init`/`loadTile`). All data
+/// `loadTile` needs is captured as immutable, `Sendable` `let`s at init, so it
+/// never reaches into main-actor state. `mapLayer`/`renderer` are touched only
+/// by the renderer on the main actor and are isolated accordingly.
+///
+/// The bundle-stitching and placeholder helpers render off-screen with
+/// `UIGraphicsImageRenderer`, which Apple documents as thread-safe ("usable on
+/// any thread"); running them on MapKit's tile queue is therefore correct — not
+/// a main-actor violation. (Were these APIs main-actor-isolated in the SDK, the
+/// `nonisolated` callers below would fail to compile.)
+nonisolated final class OpacityTileOverlay: MKTileOverlay {
+    /// Live layer reference, read on the main actor for renderer alpha and id matching.
+    @MainActor weak var mapLayer: (any MapLayer)?
+    @MainActor weak var renderer: MKTileOverlayRenderer?
+
+    /// Immutable tile-loading configuration, safe to read off the main actor.
+    private let layerName: String
+    private let cacheIdentifier: String
+    private let layerType: MapLayerType
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
 
-    init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
+    init(layer: any MapLayer, tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
+        self.layerName = layer.name
+        self.cacheIdentifier = layer.cacheIdentifier
+        self.layerType = layer.type
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
         super.init(urlTemplate: nil)
     }
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, (any Error)?) -> Void) {
-        let layerName = mapLayer?.name ?? "unknown"
-        let cacheKey = mapLayer?.cacheIdentifier ?? layerName
+        let cacheKey = cacheIdentifier
 
         if let cache = tileCache, let cached = cache.cachedTile(z: path.z, x: path.x, y: path.y, layerName: cacheKey) {
             result(cached, nil)
@@ -28,46 +48,49 @@ final class OpacityTileOverlay: MKTileOverlay {
             return
         }
 
-        if let tile_fetcher = tileFetcher,
-           let layer = mapLayer,
-           case .tile(let remoteURL) = layer.type,
+        if let tileFetcher,
+           case .tile(let remoteURL) = layerType,
            remoteURL.scheme == "https" || remoteURL.scheme == "http"
         {
+            // `result` is a one-shot ObjC completion handler. We hand it to a
+            // single Task and never touch it again, so this capture is race-free
+            // — an invariant the region checker can't see through the ObjC bridge.
+            nonisolated(unsafe) let deliver = result
             Task {
                 do {
-                    let data = try await tile_fetcher.fetchTile(
+                    let data = try await tileFetcher.fetchTile(
                         z: path.z, x: path.x, y: path.y,
                         from: remoteURL, layerName: cacheKey
                     )
-                    result(data, nil)
+                    deliver(data, nil)
                 } catch {
-                    result(generatePlaceholderTile(path: path), nil)
+                    deliver(Self.generatePlaceholderTile(path: path), nil)
                 }
             }
             return
         }
 
-        if let tile_fetcher = tileFetcher,
-           let layer = mapLayer,
-           case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = layer.type
+        if let tileFetcher,
+           case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = layerType
         {
+            nonisolated(unsafe) let deliver = result
             Task {
                 do {
-                    let data = try await tile_fetcher.fetchArcGISDynamicTile(
+                    let data = try await tileFetcher.fetchArcGISDynamicTile(
                         z: path.z, x: path.x, y: path.y,
                         from: serverURL, layerName: cacheKey,
                         dynamicLayersJSON: dynamicLayers,
                         layerRestrictions: layerRestrictions
                     )
-                    result(data, nil)
+                    deliver(data, nil)
                 } catch {
-                    result(generatePlaceholderTile(path: path), nil)
+                    deliver(Self.generatePlaceholderTile(path: path), nil)
                 }
             }
             return
         }
 
-        result(generatePlaceholderTile(path: path), nil)
+        result(Self.generatePlaceholderTile(path: path), nil)
     }
 
     private func loadTileFromBundle(path: MKTileOverlayPath) -> Data? {
@@ -86,29 +109,28 @@ final class OpacityTileOverlay: MKTileOverlay {
             let scaleFactor = 1 << (path.z - 14)
             let parentX = path.x / scaleFactor
             let parentY = path.y / scaleFactor
-            
+
             if let tileData = loadRawTileFromBundle(z: 14, x: parentX, y: parentY),
                let img = UIImage(data: tileData) {
                 let size = CGSize(width: 256, height: 256)
                 let format = UIGraphicsImageRendererFormat()
                 format.scale = 1.0
                 let renderer = UIGraphicsImageRenderer(size: size, format: format)
-                
+
                 let subTileSize = 256.0 / CGFloat(scaleFactor)
                 let offsetX = CGFloat(path.x % scaleFactor) * subTileSize
                 let offsetY = CGFloat(path.y % scaleFactor) * subTileSize
-                
+
                 return renderer.pngData { ctx in
                     img.draw(in: CGRect(x: -offsetX, y: -offsetY, width: 256.0 * CGFloat(scaleFactor), height: 256.0 * CGFloat(scaleFactor)))
                 }
             }
         }
-        
+
         return nil
     }
 
     private func loadRawTileFromBundle(z: Int, x: Int, y: Int) -> Data? {
-        guard let layerName = mapLayer?.name else { return nil }
         let tilePath = "Tiles/\(layerName)/\(z)/\(x)/\(y)"
         guard let url = Bundle.main.url(forResource: tilePath, withExtension: "png") else {
             return nil
@@ -158,7 +180,7 @@ final class OpacityTileOverlay: MKTileOverlay {
         return hasAnyImage ? data : nil
     }
 
-    private func generatePlaceholderTile(path: MKTileOverlayPath) -> Data? {
+    private static func generatePlaceholderTile(path: MKTileOverlayPath) -> Data? {
         let size = CGSize(width: 256, height: 256)
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
