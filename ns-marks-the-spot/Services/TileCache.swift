@@ -1,6 +1,21 @@
 import Foundation
 
-final class TileCache {
+/// Thread-safe tile cache shared across the main actor (UI) and MapKit's
+/// off-main tile-loading queue, which may invoke it concurrently.
+///
+/// `@unchecked Sendable` is justified because the type holds no unsynchronized
+/// Swift-managed mutable state — every stored property is an immutable `let`:
+/// - `memoryCache` (`NSCache`) synchronizes its own reads and writes.
+/// - `fileManager` (`FileManager`) is thread-safe for the operations used here.
+/// - `diskQueue` serializes all disk *writes*.
+///
+/// Disk *reads* in `cachedTile` intentionally bypass `diskQueue` for latency.
+/// This is safe because writes use `.atomic` — a concurrent reader sees either
+/// the complete previous file or the complete new one, never a torn write — and
+/// any read failure is tolerated via `try?`, degrading to a benign cache miss
+/// and re-fetch. `NSCache`/`FileManager` aren't SDK-marked `Sendable`, so the
+/// guarantee is asserted via `@unchecked`.
+final class TileCache: @unchecked Sendable {
     private let memoryCache = NSCache<NSString, NSData>()
     private let diskQueue = DispatchQueue(label: "dev.dfakkeldy.ns-marks-the-spot.tilecache")
     private let fileManager = FileManager.default
