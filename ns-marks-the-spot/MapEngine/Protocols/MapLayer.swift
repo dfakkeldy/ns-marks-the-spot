@@ -1,6 +1,6 @@
 import Foundation
 
-enum MapLayerType {
+enum MapLayerType: Sendable {
     case tile(URL)
     case arcgisDynamic(URL, dynamicLayers: String?, layerRestrictions: String?)
     case vector([String])
