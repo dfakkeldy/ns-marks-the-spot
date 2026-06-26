@@ -26,6 +26,11 @@
 - [x] UI tests — launch test framework in place (map-specific tests deferred)
 - [x] Accessibility — VoiceOver labels on slider and map view
 
+### Phase 5: Swift 6 Migration
+- [x] Mark the data/value layer `Sendable` (`TileCache`, `MapAnnotation`, `MapLayerType`)
+- [x] Make MapKit's off-main tile pipeline data-race safe (`nonisolated` `OpacityTileOverlay` + `TileCache`, `@MainActor` `MapLayer` with `nonisolated` metadata)
+- [x] Adopt Swift 6 language mode — `SWIFT_VERSION = 6.0` on all targets, full suite green
+
 ## Future Considerations
 - Google Maps SDK as alternative engine
 - Additional historical map layers (non-Fletcher)
