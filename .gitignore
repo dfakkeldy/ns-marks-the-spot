@@ -69,3 +69,7 @@ fastlane/README.md
 vendor/bundle/
 .bundle/
 Gemfile.lock
+
+# Python
+__pycache__/
+*.pyc
