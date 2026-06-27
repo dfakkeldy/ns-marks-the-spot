@@ -1,9 +1,30 @@
 # frozen_string_literal: true
 
+require "json"
+
 # ── Fastfile for "NS Marks The Spot" ──────────────────────────────────────────
 # MIT License — open-source iOS map app with historical tile overlays.
 
 default_platform(:ios)
+
+def app_store_connect_api_key_from_env
+  raw_json = ENV.fetch("APP_STORE_CONNECT_API_KEY_JSON")
+  api_key = JSON.parse(raw_json)
+  key_content = api_key["key_content"] || api_key["key"]
+
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include key_id.") if api_key["key_id"].to_s.empty?
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include issuer_id.") if api_key["issuer_id"].to_s.empty?
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include key_content or key.") if key_content.to_s.empty?
+
+  app_store_connect_api_key(
+    key_id: api_key.fetch("key_id"),
+    issuer_id: api_key.fetch("issuer_id"),
+    key_content: key_content,
+    is_key_content_base64: api_key.fetch("is_key_content_base64", false),
+    duration: api_key.fetch("duration", 1200),
+    in_house: api_key.fetch("in_house", false)
+  )
+end
 
 # ── Platform ------------------------------------------------------------------
 
@@ -74,16 +95,35 @@ platform :ios do
     test
   end
 
-  # ── Placeholder lanes (uncomment and configure when ready) ────────────────
+  desc "Upload a nightly or weekly train build to TestFlight"
+  lane :beta do |options|
+    channel = (options[:channel] || "nightly").to_s
+    api_key = app_store_connect_api_key_from_env
+    bundle_id = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
 
-  # desc "Upload a new beta build to TestFlight"
-  # lane :beta do
-  #   build_app(
-  #     scheme: "ns-marks-the-spot",
-  #     export_method: "app-store"
-  #   )
-  #   upload_to_testflight
-  # end
+    setup_ci
+    match(type: "appstore", readonly: true)
+
+    latest_build = latest_testflight_build_number(
+      app_identifier: bundle_id,
+      api_key: api_key,
+      initial_build_number: 0
+    )
+    increment_build_number(build_number: latest_build.to_i + 1)
+
+    build_app(
+      scheme: "ns-marks-the-spot",
+      export_method: "app-store"
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true,
+      changelog: "Automated #{channel} train build"
+    )
+  end
+
+  # ── Placeholder lanes (uncomment and configure when ready) ────────────────
 
   # desc "Push a new release build to the App Store"
   # lane :release do
