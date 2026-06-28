@@ -11,6 +11,12 @@ struct OfflineStorageView: View {
                     LabeledContent("Saved Areas", value: formattedBytes(viewModel.savedAreaBytes))
                     LabeledContent("Failed Areas", value: "\(failedAreaCount)")
 
+                    if let storageErrorMessage = viewModel.storageErrorMessage {
+                        Text(storageErrorMessage)
+                            .font(.footnote)
+                            .foregroundStyle(.red)
+                    }
+
                     Button(role: .destructive) {
                         Task {
                             await viewModel.deleteAllCachedTiles()
@@ -92,7 +98,9 @@ struct OfflineStorageView: View {
                                 HStack {
                                     if area.failedTileCount > 0 {
                                         Button {
-                                            viewModel.retryFailedArea(area)
+                                            Task {
+                                                await viewModel.retryFailedArea(area)
+                                            }
                                         } label: {
                                             Label("Retry Failed Tiles", systemImage: "arrow.clockwise")
                                         }

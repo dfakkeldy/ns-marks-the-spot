@@ -14,10 +14,20 @@ final class AppContainer {
 
         let cache = TileCache(tileStore: store)
         self.tileCache = cache
-        self.offlineAreasViewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
 
         let fetcher = TileFetcher(tileCache: cache)
         self.tileFetcher = fetcher
+        let tileDownloadManager = TileDownloadManager(tileStore: store)
+        let fletcherTileLoader = LayerCatalog.descriptor(for: .fletcher)
+            .flatMap { descriptor in
+                descriptor.sourceURL.map { FletcherTileLoader(tileFetcher: fetcher, templateURL: $0) }
+            }
+        self.offlineAreasViewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            tileDownloadManager: tileDownloadManager,
+            tileLoader: fletcherTileLoader
+        )
 
         let engine = MapKitEngine(tileCache: cache, tileFetcher: fetcher)
         self.mapEngine = engine

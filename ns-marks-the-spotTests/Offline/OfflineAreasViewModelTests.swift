@@ -19,6 +19,35 @@ struct OfflineAreasViewModelTests {
         #expect(area.state == .estimating)
     }
 
+    @Test func refreshStorageSummaryAggregatesTileStoreAndTileCacheBytes() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+
+        try await store.store(Data([0x01, 0x02]), z: 1, x: 1, y: 1, layerID: "fletcher", savedAreaID: "area-1")
+        try await store.store(Data([0x03, 0x04, 0x05]), z: 1, x: 2, y: 2, layerID: "ns-aerial", savedAreaID: nil)
+
+        cache.cacheTile(Data([0x10, 0x11, 0x12, 0x13]), z: 2, x: 3, y: 4, layerName: "fletcher")
+        cache.cacheTile(Data([0x20, 0x21, 0x22, 0x23, 0x24]), z: 2, x: 5, y: 6, layerName: "ns-aerial")
+
+        #expect(await eventuallyCacheFileExists(root: cacheRoot, layerName: "fletcher", z: 2, x: 3, y: 4))
+        #expect(await eventuallyCacheFileExists(root: cacheRoot, layerName: "ns-aerial", z: 2, x: 5, y: 6))
+
+        await viewModel.refreshStorageSummary()
+
+        #expect(viewModel.storageSummary.totalBytes == 14)
+        #expect(viewModel.storageSummary.layerBytes["fletcher"] == 6)
+        #expect(viewModel.storageSummary.layerBytes["ns-aerial"] == 8)
+        #expect(viewModel.storageSummary.savedAreaBytes["area-1"] == 2)
+    }
+
     @Test func deleteAllCachedTilesRefreshesSummary() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
@@ -27,7 +56,7 @@ struct OfflineAreasViewModelTests {
             try? FileManager.default.removeItem(at: cacheRoot)
         }
         let store = TileStore(rootDirectory: storeRoot)
-        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
         let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
         let data = Data([0x01])
 
@@ -37,7 +66,8 @@ struct OfflineAreasViewModelTests {
         #expect(cache.cachedTile(z: 1, x: 1, y: 1, layerName: "fletcher") == data)
 
         await viewModel.refreshStorageSummary()
-        #expect(viewModel.storageSummary.totalBytes == 1)
+        #expect(viewModel.storageSummary.totalBytes == 2)
+        #expect(viewModel.storageSummary.layerBytes["fletcher"] == 2)
 
         await viewModel.deleteAllCachedTiles()
         let summary = await store.summary()
@@ -94,7 +124,7 @@ struct OfflineAreasViewModelTests {
             try? FileManager.default.removeItem(at: cacheRoot)
         }
         let store = TileStore(rootDirectory: storeRoot)
-        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
         let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
         let area = SavedOfflineArea(
             id: "area-1",
@@ -137,7 +167,7 @@ struct OfflineAreasViewModelTests {
             try? FileManager.default.removeItem(at: cacheRoot)
         }
         let store = TileStore(rootDirectory: storeRoot)
-        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
         let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
         let hashedFletcher = "fletcher_\(String(repeating: "a", count: 64))"
         let fletcherData = Data([0x21, 0x22, 0x23])
@@ -156,7 +186,8 @@ struct OfflineAreasViewModelTests {
         let fletcherSummary = viewModel.layerStorageSummaries.first { $0.id == hashedFletcher }
         #expect(fletcherSummary?.displayName == "Fletcher")
         #expect(fletcherSummary?.rawKey == hashedFletcher)
-        #expect(viewModel.storageSummary.layerBytes[hashedFletcher] == fletcherData.count)
+        #expect(viewModel.storageSummary.layerBytes[hashedFletcher] == fletcherData.count * 2)
+        #expect(viewModel.storageSummary.layerBytes["ns-aerial"] == aerialData.count * 2)
 
         await viewModel.deleteLayerCache(hashedFletcher)
         let summary = await store.summary()
@@ -164,37 +195,63 @@ struct OfflineAreasViewModelTests {
         #expect(viewModel.storageSummary.layerBytes[hashedFletcher] == nil)
         #expect(summary.layerBytes[hashedFletcher] == nil)
         #expect(summary.layerBytes["ns-aerial"] == aerialData.count)
+        #expect(viewModel.storageSummary.layerBytes["ns-aerial"] == aerialData.count * 2)
         #expect(cache.cachedTile(z: 7, x: 20, y: 21, layerName: hashedFletcher) == nil)
         #expect(cache.cachedTile(z: 7, x: 22, y: 23, layerName: "ns-aerial") == aerialData)
     }
 
-    @Test func retryFailedAreaQueuesWithoutChangingProgressCounts() {
-        let viewModel = OfflineAreasViewModel(tileStore: TileStore(), tileCache: TileCache())
-        let updatedAt = Date(timeIntervalSince1970: 100)
+    @Test func retryFailedAreaDownloadsTilesAndRefreshesCounts() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
         let area = SavedOfflineArea(
             id: "area-2",
             name: "Citadel Hill",
             bounds: sampleBounds(),
-            minZoom: 11,
-            maxZoom: 13,
-            createdAt: Date(timeIntervalSince1970: 0),
-            updatedAt: updatedAt,
-            estimatedTileCount: 40,
-            estimatedBytes: 480_000,
-            downloadedTileCount: 28,
-            failedTileCount: 3,
-            actualBytes: 4_096,
+            minZoom: 0,
+            maxZoom: 2,
+            estimatedTileCount: 0,
+            estimatedBytes: 0,
+            downloadedTileCount: 0,
+            failedTileCount: 1,
+            actualBytes: 0,
             state: .failed
         )
+        let coordinates = FletcherTilePlanner.coordinates(
+            for: area.bounds,
+            zoomRange: area.minZoom...area.maxZoom
+        )
+        let failedCoordinate = try #require(coordinates.first)
+        let loader = MockTileLoader(
+            data: Data([0x7A, 0x7B]),
+            failingCoordinates: [failedCoordinate]
+        )
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            tileDownloadManager: TileDownloadManager(tileStore: store),
+            tileLoader: loader
+        )
+        var savedArea = area
+        savedArea.estimatedTileCount = coordinates.count
+        savedArea.estimatedBytes = coordinates.count * 12_000
 
-        viewModel.saveDraft(area)
-        viewModel.retryFailedArea(area)
+        viewModel.saveDraft(savedArea)
+        await viewModel.retryFailedArea(savedArea)
 
         #expect(viewModel.savedAreas.count == 1)
-        #expect(viewModel.savedAreas[0].state == .queued)
-        #expect(viewModel.savedAreas[0].downloadedTileCount == 28)
-        #expect(viewModel.savedAreas[0].failedTileCount == 3)
-        #expect(viewModel.savedAreas[0].updatedAt >= updatedAt)
+        #expect(viewModel.savedAreas[0].state == .partial)
+        #expect(viewModel.savedAreas[0].downloadedTileCount == coordinates.count - 1)
+        #expect(viewModel.savedAreas[0].failedTileCount == 1)
+        #expect(viewModel.savedAreas[0].actualBytes == (coordinates.count - 1) * 2)
+        #expect(viewModel.savedAreas[0].updatedAt >= savedArea.updatedAt)
+        #expect(viewModel.storageSummary.savedAreaBytes[savedArea.id] == (coordinates.count - 1) * 2)
     }
 
     private func makeTemporaryRoot() -> URL {
@@ -240,5 +297,17 @@ struct OfflineAreasViewModelTests {
             maxLatitude: 44.66,
             maxLongitude: -63.56
         )
+    }
+}
+
+private struct MockTileLoader: TileDataLoading {
+    let data: Data
+    let failingCoordinates: Set<TileCoordinate>
+
+    func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
+        if failingCoordinates.contains(coordinate) {
+            throw URLError(.cannotLoadFromNetwork)
+        }
+        return data
     }
 }

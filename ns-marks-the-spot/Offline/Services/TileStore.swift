@@ -6,24 +6,44 @@ struct TileStoreSummary: Equatable {
     let savedAreaBytes: [String: Int]
 }
 
+struct TileStoreGenerationSnapshot: Sendable {
+    let globalValue: Int
+    let layerID: String
+    let layerValue: Int
+}
+
 final class TileStoreWriteGeneration: @unchecked Sendable {
     private let lock = NSLock()
-    private var value = 0
+    private nonisolated(unsafe) var globalValue = 0
+    private nonisolated(unsafe) var layerValues: [String: Int] = [:]
 
-    func current() -> Int {
+    nonisolated func snapshot(for layerID: String) -> TileStoreGenerationSnapshot {
         lock.lock()
         defer { lock.unlock() }
-        return value
+        return TileStoreGenerationSnapshot(
+            globalValue: globalValue,
+            layerID: layerID,
+            layerValue: layerValues[layerID, default: 0]
+        )
     }
 
-    func advance() {
+    nonisolated func advanceAll() {
         lock.lock()
-        value += 1
+        globalValue += 1
         lock.unlock()
     }
 
-    func matches(_ generation: Int) -> Bool {
-        current() == generation
+    nonisolated func advanceLayer(_ layerID: String) {
+        lock.lock()
+        layerValues[layerID, default: 0] += 1
+        lock.unlock()
+    }
+
+    nonisolated func matches(_ snapshot: TileStoreGenerationSnapshot) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return globalValue == snapshot.globalValue
+            && layerValues[snapshot.layerID, default: 0] == snapshot.layerValue
     }
 }
 
@@ -75,10 +95,10 @@ actor TileStore {
         y: Int,
         layerID: String,
         savedAreaID: String?,
-        ifGenerationMatches generation: Int,
+        ifGenerationMatches snapshot: TileStoreGenerationSnapshot,
         generationTracker: TileStoreWriteGeneration
     ) async throws {
-        guard generationTracker.matches(generation) else { return }
+        guard generationTracker.matches(snapshot) else { return }
         try storeTile(data, z: z, x: x, y: y, layerID: layerID, savedAreaID: savedAreaID)
     }
 

@@ -16,9 +16,12 @@ final class OfflineAreasViewModel: ObservableObject {
         layerBytes: [:],
         savedAreaBytes: [:]
     )
+    @Published private(set) var storageErrorMessage: String?
 
     private let tileStore: TileStore
     private let tileCache: TileCache
+    private let tileDownloadManager: TileDownloadManager?
+    private let tileLoader: (any TileDataLoading)?
     private let averageTileBytes = 12_000
 
     var layerStorageSummaries: [OfflineLayerStorageSummary] {
@@ -44,9 +47,16 @@ final class OfflineAreasViewModel: ObservableObject {
         storageSummary.savedAreaBytes.values.reduce(0, +)
     }
 
-    init(tileStore: TileStore, tileCache: TileCache) {
+    init(
+        tileStore: TileStore,
+        tileCache: TileCache,
+        tileDownloadManager: TileDownloadManager? = nil,
+        tileLoader: (any TileDataLoading)? = nil
+    ) {
         self.tileStore = tileStore
         self.tileCache = tileCache
+        self.tileDownloadManager = tileDownloadManager
+        self.tileLoader = tileLoader
     }
 
     func estimateDraft(
@@ -76,37 +86,72 @@ final class OfflineAreasViewModel: ObservableObject {
         upsertSavedArea(applyingStorageSummary(to: area))
     }
 
-    func retryFailedArea(_ area: SavedOfflineArea) {
+    func retryFailedArea(_ area: SavedOfflineArea) async {
+        guard area.failedTileCount > 0 else { return }
+        clearStorageError()
+
+        guard let tileDownloadManager, let tileLoader else {
+            storageErrorMessage = "Couldn't retry this offline area right now."
+            return
+        }
+
         updateSavedArea(id: area.id) { savedArea in
-            guard savedArea.failedTileCount > 0 else { return }
-            savedArea.state = .queued
+            savedArea.state = .downloading
+            savedArea.updatedAt = .now
+        }
+
+        let progress = await tileDownloadManager.download(area: area, loader: tileLoader)
+        await refreshStorageSummary()
+
+        updateSavedArea(id: area.id) { savedArea in
+            savedArea.downloadedTileCount = progress.succeeded
+            savedArea.failedTileCount = progress.failed
+            savedArea.state = Self.state(for: progress)
             savedArea.updatedAt = .now
         }
     }
 
     func refreshStorageSummary() async {
-        storageSummary = await tileStore.summary()
+        async let tileStoreSummary = tileStore.summary()
+        async let tileCacheSummary = tileCache.diskSummary()
+
+        storageSummary = await Self.mergedStorageSummary(
+            tileStore: tileStoreSummary,
+            tileCache: tileCacheSummary
+        )
         synchronizeSavedAreasWithStorageSummary()
     }
 
     func deleteLayerCache(_ layerID: String) async {
-        await tileCache.clearLayer(named: layerID)
-        try? await tileStore.deleteLayer(layerID)
+        clearStorageError()
+        do {
+            try await tileCache.clearLayer(named: layerID)
+            try await tileStore.deleteLayer(layerID)
+        } catch {
+            storageErrorMessage = "Couldn't delete the \(friendlyLayerName(for: layerID)) cache."
+        }
         await refreshStorageSummary()
     }
 
     func deleteSavedArea(_ area: SavedOfflineArea) async {
+        clearStorageError()
         do {
             try await tileStore.deleteSavedArea(area.id)
             savedAreas.removeAll { $0.id == area.id }
         } catch {
+            storageErrorMessage = "Couldn't delete \(area.name)."
         }
         await refreshStorageSummary()
     }
 
     func deleteAllCachedTiles() async {
-        await tileCache.clearAllCachedTiles()
-        try? await tileStore.deleteAll()
+        clearStorageError()
+        do {
+            try await tileCache.clearAllCachedTiles()
+            try await tileStore.deleteAll()
+        } catch {
+            storageErrorMessage = "Couldn't delete cached tiles."
+        }
         await refreshStorageSummary()
     }
 
@@ -143,6 +188,40 @@ final class OfflineAreasViewModel: ObservableObject {
         var updatedArea = area
         updatedArea.actualBytes = storageSummary.savedAreaBytes[area.id] ?? 0
         return updatedArea
+    }
+
+    private func clearStorageError() {
+        storageErrorMessage = nil
+    }
+
+    private func friendlyLayerName(for key: String) -> String {
+        Self.friendlyLayerLabel(for: key).displayName
+    }
+
+    private static func mergedStorageSummary(
+        tileStore: TileStoreSummary,
+        tileCache: TileCacheDiskSummary
+    ) -> TileStoreSummary {
+        var layerBytes = tileStore.layerBytes
+        for (layerID, bytes) in tileCache.layerBytes {
+            layerBytes[layerID, default: 0] += bytes
+        }
+
+        return TileStoreSummary(
+            totalBytes: tileStore.totalBytes + tileCache.totalBytes,
+            layerBytes: layerBytes,
+            savedAreaBytes: tileStore.savedAreaBytes
+        )
+    }
+
+    private static func state(for progress: TileDownloadProgress) -> SavedOfflineAreaState {
+        if progress.failed == 0 {
+            return .complete
+        }
+        if progress.succeeded > 0 {
+            return .partial
+        }
+        return .failed
     }
 
     private static func friendlyLayerLabel(for key: String) -> (displayName: String, rawKey: String?) {

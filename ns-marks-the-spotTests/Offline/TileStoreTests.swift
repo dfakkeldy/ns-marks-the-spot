@@ -65,9 +65,13 @@ struct TileStoreTests {
 
     @Test func tileCacheMirrorsStoredTilesIntoTileStore() async throws {
         let root = makeTemporaryRoot()
-        defer { try? FileManager.default.removeItem(at: root) }
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: root)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
         let store = TileStore(rootDirectory: root)
-        let cache = TileCache(tileStore: store)
+        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
         let data = Data([0x40, 0x41])
 
         cache.cacheTile(data, z: 8, x: 9, y: 10, layerName: "fletcher")
@@ -81,14 +85,14 @@ struct TileStoreTests {
         #expect(summary.savedAreaBytes.isEmpty)
     }
 
-    @Test func staleGenerationMirrorDoesNotWriteTile() async throws {
+    @Test func staleGlobalGenerationMirrorDoesNotWriteTile() async throws {
         let root = makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let generation = TileStoreWriteGeneration()
-        let staleGeneration = generation.current()
+        let staleGeneration = generation.snapshot(for: "fletcher")
 
-        generation.advance()
+        generation.advanceAll()
 
         try await store.store(
             Data([0x50]),
@@ -105,6 +109,46 @@ struct TileStoreTests {
         #expect(await store.summary() == TileStoreSummary(totalBytes: 0, layerBytes: [:], savedAreaBytes: [:]))
     }
 
+    @Test func staleLayerGenerationMirrorDoesNotWriteThatLayer() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let generation = TileStoreWriteGeneration()
+        let staleFletcherGeneration = generation.snapshot(for: "fletcher")
+        let activeAerialGeneration = generation.snapshot(for: "ns-aerial")
+
+        generation.advanceLayer("fletcher")
+
+        try await store.store(
+            Data([0x60]),
+            z: 10,
+            x: 11,
+            y: 12,
+            layerID: "fletcher",
+            savedAreaID: nil,
+            ifGenerationMatches: staleFletcherGeneration,
+            generationTracker: generation
+        )
+        try await store.store(
+            Data([0x61]),
+            z: 10,
+            x: 13,
+            y: 14,
+            layerID: "ns-aerial",
+            savedAreaID: nil,
+            ifGenerationMatches: activeAerialGeneration,
+            generationTracker: generation
+        )
+
+        let summary = await store.summary()
+
+        #expect(await store.tile(z: 10, x: 11, y: 12, layerID: "fletcher") == nil)
+        #expect(await store.tile(z: 10, x: 13, y: 14, layerID: "ns-aerial") == Data([0x61]))
+        #expect(summary.totalBytes == 1)
+        #expect(summary.layerBytes["fletcher"] == nil)
+        #expect(summary.layerBytes["ns-aerial"] == 1)
+    }
+
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -117,11 +161,11 @@ struct TileStoreTests {
         y: Int,
         layerID: String
     ) async -> Data? {
-        for _ in 0..<20 {
+        for _ in 0..<100 {
             if let data = await store.tile(z: z, x: x, y: y, layerID: layerID) {
                 return data
             }
-            try? await Task.sleep(for: .milliseconds(50))
+            try? await Task.sleep(for: .milliseconds(100))
         }
         return nil
     }

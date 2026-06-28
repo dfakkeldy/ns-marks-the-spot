@@ -1,5 +1,33 @@
 import Foundation
 
+struct TileCacheDiskSummary: Equatable {
+    let totalBytes: Int
+    let layerBytes: [String: Int]
+}
+
+private final class TileCacheKeyIndex: @unchecked Sendable {
+    private let lock = NSLock()
+    private var keysByLayer: [String: Set<String>] = [:]
+
+    func insert(_ key: String, for layerName: String) {
+        lock.lock()
+        keysByLayer[layerName, default: []].insert(key)
+        lock.unlock()
+    }
+
+    func removeLayer(_ layerName: String) -> [String] {
+        lock.lock()
+        defer { lock.unlock() }
+        return Array(keysByLayer.removeValue(forKey: layerName) ?? [])
+    }
+
+    func removeAll() {
+        lock.lock()
+        keysByLayer.removeAll()
+        lock.unlock()
+    }
+}
+
 /// Thread-safe tile cache shared across the main actor (UI) and MapKit's
 /// off-main tile-loading queue, which may invoke it concurrently.
 ///
@@ -10,7 +38,9 @@ import Foundation
 /// - `diskQueue` serializes all disk *writes*.
 /// - `writeGeneration` synchronizes the cache generation used to invalidate queued
 ///   disk writes, pending TileStore mirror tasks, and in-flight disk reads when
-///   all cached tiles are cleared.
+///   all cached tiles are cleared or a single layer is deleted.
+/// - `keyIndex` tracks per-layer memory keys behind a lock so layer-scoped
+///   eviction can avoid clearing unrelated hot entries.
 ///
 /// Disk *reads* in `cachedTile` intentionally bypass `diskQueue` for latency.
 /// This is safe because writes use `.atomic` — a concurrent reader sees either
@@ -25,6 +55,7 @@ final class TileCache: @unchecked Sendable {
     private let tileStore: TileStore?
     private let diskRoot: URL
     private let writeGeneration = TileStoreWriteGeneration()
+    private let keyIndex = TileCacheKeyIndex()
 
     init(tileStore: TileStore? = nil, diskRoot: URL? = nil) {
         self.tileStore = tileStore
@@ -46,18 +77,25 @@ final class TileCache: @unchecked Sendable {
         let diskURL = diskURLFor(key: key)
         guard fileManager.fileExists(atPath: diskURL.path) else { return nil }
 
-        let generation = currentGeneration()
+        let generation = currentGeneration(for: layerName)
         guard let diskData = try? Data(contentsOf: diskURL) else { return nil }
-        guard generation == currentGeneration() else { return nil }
+        let currentGeneration = currentGeneration(for: layerName)
+        guard generation.globalValue == currentGeneration.globalValue,
+              generation.layerID == currentGeneration.layerID,
+              generation.layerValue == currentGeneration.layerValue else {
+            return nil
+        }
 
+        keyIndex.insert(key, for: layerName)
         memoryCache.setObject(diskData as NSData, forKey: key as NSString)
         return diskData
     }
 
     func cacheTile(_ data: Data, z: Int, x: Int, y: Int, layerName: String) {
         let key = cacheKey(z: z, x: x, y: y, layerName: layerName)
-        let generation = currentGeneration()
+        let generation = currentGeneration(for: layerName)
 
+        keyIndex.insert(key, for: layerName)
         memoryCache.setObject(data as NSData, forKey: key as NSString)
 
         if let tileStore {
@@ -79,7 +117,12 @@ final class TileCache: @unchecked Sendable {
         let url = diskURLFor(key: key)
         diskQueue.async { [weak self] in
             guard let self else { return }
-            guard generation == self.currentGeneration() else { return }
+            let currentGeneration = self.currentGeneration(for: layerName)
+            guard generation.globalValue == currentGeneration.globalValue,
+                  generation.layerID == currentGeneration.layerID,
+                  generation.layerValue == currentGeneration.layerValue else {
+                return
+            }
             let dir = url.deletingLastPathComponent()
             try? self.fileManager.createDirectory(at: dir, withIntermediateDirectories: true)
             try? data.write(to: url, options: .atomic)
@@ -87,21 +130,65 @@ final class TileCache: @unchecked Sendable {
     }
 
     func clearDiskCache() async {
-        await clearDiskStorage(at: diskRoot)
+        try? await clearDiskStorage(at: diskRoot)
     }
 
-    func clearLayer(named layerName: String) async {
-        bumpGeneration()
-        memoryCache.removeAllObjects()
-        await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
-        memoryCache.removeAllObjects()
+    func diskSummary() async -> TileCacheDiskSummary {
+        await withCheckedContinuation { continuation in
+            diskQueue.async { [diskRoot] in
+                let fileManager = FileManager.default
+                guard fileManager.fileExists(atPath: diskRoot.path) else {
+                    continuation.resume(returning: TileCacheDiskSummary(totalBytes: 0, layerBytes: [:]))
+                    return
+                }
+
+                let rootComponentCount = diskRoot.pathComponents.count
+                guard let enumerator = fileManager.enumerator(
+                    at: diskRoot,
+                    includingPropertiesForKeys: [.fileSizeKey, .isRegularFileKey],
+                    options: [.skipsHiddenFiles]
+                ) else {
+                    continuation.resume(returning: TileCacheDiskSummary(totalBytes: 0, layerBytes: [:]))
+                    return
+                }
+
+                var totalBytes = 0
+                var layerBytes: [String: Int] = [:]
+
+                for case let fileURL as URL in enumerator {
+                    let values = try? fileURL.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+                    guard values?.isRegularFile == true else { continue }
+
+                    let bytes = values?.fileSize ?? 0
+                    totalBytes += bytes
+
+                    let components = fileURL.pathComponents
+                    guard components.count > rootComponentCount else { continue }
+                    let layerName = components[rootComponentCount]
+                    layerBytes[layerName, default: 0] += bytes
+                }
+
+                continuation.resume(
+                    returning: TileCacheDiskSummary(totalBytes: totalBytes, layerBytes: layerBytes)
+                )
+            }
+        }
     }
 
-    func clearAllCachedTiles() async {
+    func clearLayer(named layerName: String) async throws {
+        bumpGeneration(for: layerName)
+        evictMemoryCache(for: layerName)
+        try await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
+        evictMemoryCache(for: layerName)
+    }
+
+    func clearAllCachedTiles() async throws {
         bumpGeneration()
         memoryCache.removeAllObjects()
-        await clearDiskStorage(at: diskRoot)
+        keyIndex.removeAll()
+        try await clearDiskStorage(at: diskRoot)
         memoryCache.removeAllObjects()
+        keyIndex.removeAll()
     }
 
     private func cacheKey(z: Int, x: Int, y: Int, layerName: String) -> String {
@@ -112,8 +199,8 @@ final class TileCache: @unchecked Sendable {
         diskRoot.appendingPathComponent("\(key).png")
     }
 
-    private func clearDiskStorage(at url: URL) async {
-        await withCheckedContinuation { continuation in
+    private func clearDiskStorage(at url: URL) async throws {
+        try await withCheckedThrowingContinuation { continuation in
             diskQueue.async {
                 let fileManager = FileManager.default
 
@@ -122,17 +209,31 @@ final class TileCache: @unchecked Sendable {
                     return
                 }
 
-                try? fileManager.removeItem(at: url)
-                continuation.resume()
+                do {
+                    try fileManager.removeItem(at: url)
+                    continuation.resume()
+                } catch {
+                    continuation.resume(throwing: error)
+                }
             }
         }
     }
 
-    private func currentGeneration() -> Int {
-        writeGeneration.current()
+    private func evictMemoryCache(for layerName: String) {
+        for key in keyIndex.removeLayer(layerName) {
+            memoryCache.removeObject(forKey: key as NSString)
+        }
+    }
+
+    private func currentGeneration(for layerName: String) -> TileStoreGenerationSnapshot {
+        writeGeneration.snapshot(for: layerName)
     }
 
     private func bumpGeneration() {
-        writeGeneration.advance()
+        writeGeneration.advanceAll()
+    }
+
+    private func bumpGeneration(for layerName: String) {
+        writeGeneration.advanceLayer(layerName)
     }
 }
