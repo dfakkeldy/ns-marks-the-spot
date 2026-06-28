@@ -12,12 +12,12 @@ struct TileStoreGenerationSnapshot: Sendable {
     let layerValue: Int
 }
 
-final class TileStoreWriteGeneration: @unchecked Sendable {
+nonisolated final class TileStoreWriteGeneration: @unchecked Sendable {
     private let lock = NSLock()
-    private nonisolated(unsafe) var globalValue = 0
-    private nonisolated(unsafe) var layerValues: [String: Int] = [:]
+    private var globalValue = 0
+    private var layerValues: [String: Int] = [:]
 
-    nonisolated func snapshot(for layerID: String) -> TileStoreGenerationSnapshot {
+    func snapshot(for layerID: String) -> TileStoreGenerationSnapshot {
         lock.lock()
         defer { lock.unlock() }
         return TileStoreGenerationSnapshot(
@@ -27,19 +27,19 @@ final class TileStoreWriteGeneration: @unchecked Sendable {
         )
     }
 
-    nonisolated func advanceAll() {
+    func advanceAll() {
         lock.lock()
         globalValue += 1
         lock.unlock()
     }
 
-    nonisolated func advanceLayer(_ layerID: String) {
+    func advanceLayer(_ layerID: String) {
         lock.lock()
         layerValues[layerID, default: 0] += 1
         lock.unlock()
     }
 
-    nonisolated func matches(_ snapshot: TileStoreGenerationSnapshot) -> Bool {
+    func matches(_ snapshot: TileStoreGenerationSnapshot) -> Bool {
         lock.lock()
         defer { lock.unlock() }
         return globalValue == snapshot.globalValue
