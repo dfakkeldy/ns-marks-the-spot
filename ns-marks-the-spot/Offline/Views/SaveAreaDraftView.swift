@@ -1,0 +1,87 @@
+import SwiftUI
+
+struct SaveAreaDraftView: View {
+    @ObservedObject var viewModel: OfflineAreasViewModel
+
+    @State private var areaName = "Saved Area"
+    @State private var minZoom = 10
+    @State private var maxZoom = 14
+    @State private var draftArea: SavedOfflineArea?
+
+    private let defaultBounds = MapBounds(
+        minLatitude: 44.60,
+        minLongitude: -63.65,
+        maxLatitude: 44.70,
+        maxLongitude: -63.50
+    )
+
+    var body: some View {
+        Form {
+            Section("Area") {
+                TextField("Name", text: $areaName)
+                Stepper("Minimum Zoom: \(minZoom)", value: $minZoom, in: 0...maxZoom)
+                Stepper("Maximum Zoom: \(maxZoom)", value: $maxZoom, in: minZoom...18)
+
+                Button("Estimate Fletcher Tiles") {
+                    estimateDraft()
+                }
+                .disabled(trimmedAreaName.isEmpty)
+            }
+
+            Section("Estimate") {
+                if let draftArea {
+                    LabeledContent("Tiles", value: "\(draftArea.estimatedTileCount)")
+                    LabeledContent(
+                        "Size",
+                        value: ByteCountFormatter.string(
+                            fromByteCount: Int64(draftArea.estimatedBytes),
+                            countStyle: .file
+                        )
+                    )
+                } else {
+                    Text("Estimate a draft area to preview the Fletcher download size.")
+                        .foregroundStyle(.secondary)
+                }
+
+                Text("v1.0 downloads Fletcher tiles for saved areas. NS Aerial and provincial reference layers are cached when viewed.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .navigationTitle("Save Area")
+    }
+
+    private var trimmedAreaName: String {
+        areaName.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func estimateDraft() {
+        var estimatedDraft = viewModel.estimateDraft(
+            name: trimmedAreaName,
+            bounds: defaultBounds,
+            minZoom: minZoom,
+            maxZoom: maxZoom
+        )
+
+        if let existingDraft = draftArea {
+            estimatedDraft = SavedOfflineArea(
+                id: existingDraft.id,
+                name: estimatedDraft.name,
+                bounds: estimatedDraft.bounds,
+                minZoom: estimatedDraft.minZoom,
+                maxZoom: estimatedDraft.maxZoom,
+                createdAt: existingDraft.createdAt,
+                updatedAt: .now,
+                estimatedTileCount: estimatedDraft.estimatedTileCount,
+                estimatedBytes: estimatedDraft.estimatedBytes,
+                downloadedTileCount: existingDraft.downloadedTileCount,
+                failedTileCount: existingDraft.failedTileCount,
+                actualBytes: existingDraft.actualBytes,
+                state: estimatedDraft.state
+            )
+        }
+
+        draftArea = estimatedDraft
+        viewModel.saveDraft(estimatedDraft)
+    }
+}

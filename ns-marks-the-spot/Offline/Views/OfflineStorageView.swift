@@ -68,6 +68,14 @@ struct OfflineStorageView: View {
                     }
                 }
 
+                Section("Field Prep") {
+                    NavigationLink {
+                        SaveAreaDraftView(viewModel: viewModel)
+                    } label: {
+                        Label("Save Area", systemImage: "square.dashed")
+                    }
+                }
+
                 Section("Saved Areas") {
                     if viewModel.savedAreas.isEmpty {
                         Text("No saved areas")
