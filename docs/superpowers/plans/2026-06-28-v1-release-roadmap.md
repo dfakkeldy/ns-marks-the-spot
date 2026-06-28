@@ -318,7 +318,7 @@ enum LayerOfflinePolicy: Equatable {
 }
 
 enum LayerSourceKind: Equatable {
-    case localXYZ
+    case remoteXYZTemplate
     case arcGISMapService
     case arcGISDynamic
 }
@@ -354,8 +354,8 @@ enum LayerCatalog {
         LayerDescriptor(
             id: .fletcher,
             name: "Fletcher",
-            sourceKind: .localXYZ,
-            sourceURL: URL(fileURLWithPath: "Tiles/Fletcher"),
+            sourceKind: .remoteXYZTemplate,
+            sourceURL: URL(string: "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu"),
             defaultOpacity: 1.0,
             defaultVisibility: true,
             minZoom: 0,
@@ -701,9 +701,10 @@ Add this private helper inside `AppContainer`:
 private func makeLayer(from descriptor: LayerDescriptor) -> MapKitTileLayer? {
     switch descriptor.id {
     case .fletcher:
+        guard let url = descriptor.sourceURL else { return nil }
         return MapKitTileLayer(
             descriptor: descriptor,
-            type: .tile(URL(fileURLWithPath: "Tiles/Fletcher"))
+            type: .tile(url)
         )
     case .nsAerial:
         guard let url = descriptor.sourceURL else { return nil }
@@ -1564,14 +1565,14 @@ In `TileDownloadManager.swift`, add:
 ```swift
 struct FletcherTileLoader: TileDataLoading {
     let tileFetcher: TileFetcher
-    let baseURL: URL
+    let templateURL: URL
 
     func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
         try await tileFetcher.fetchTile(
             z: coordinate.z,
             x: coordinate.x,
             y: coordinate.y,
-            from: baseURL,
+            from: templateURL,
             layerName: layerID
         )
     }
