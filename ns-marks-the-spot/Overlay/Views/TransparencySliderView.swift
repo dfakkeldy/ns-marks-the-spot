@@ -138,7 +138,7 @@ struct TransparencySliderView: View {
         case "fletcher": return "map.fill"
         case "nsprd": return "square.dashed"
         case "crown-lands": return "leaf.fill"
-        case "watersheds": return "drop.triangle.fill"
+        case "flood-risk": return "drop.triangle.fill"
         case "waterfalls": return "drop.circle.fill"
         default: return "layers"
         }

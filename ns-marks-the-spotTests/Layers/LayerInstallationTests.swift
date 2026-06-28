@@ -32,4 +32,54 @@ struct LayerInstallationTests {
             Issue.record("NS Aerial should use arcgisMapService")
         }
     }
+
+    @Test func fletcherLayerUsesOldMapsOnlineXYZTemplate() {
+        guard let installedLayer = installedLayer(id: "fletcher") else {
+            Issue.record("Fletcher layer was not installed")
+            return
+        }
+
+        if case .tile(let url) = installedLayer.type {
+            #expect(url.absoluteString.contains("https://wmts.oldmapsonline.org/maps/"))
+            #expect(url.absoluteString.contains("/{z}/{x}/{y}.png"))
+        } else {
+            Issue.record("Fletcher should use a remote XYZ tile template")
+        }
+    }
+
+    @Test func arcGISDynamicLayersRetainRestrictionsAndPayloads() {
+        guard let floodRisk = installedLayer(id: "flood-risk"),
+              let propertyBoundaries = installedLayer(id: "nsprd"),
+              let waterfalls = installedLayer(id: "waterfalls") else {
+            Issue.record("Expected dynamic ArcGIS layers were not installed")
+            return
+        }
+
+        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = floodRisk.type {
+            #expect(dynamicLayers == nil)
+            #expect(layerRestrictions == "show:24,25,26")
+        } else {
+            Issue.record("Flood risk should use ArcGIS dynamic layers")
+        }
+
+        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = propertyBoundaries.type {
+            #expect(layerRestrictions == nil)
+            #expect(dynamicLayers?.contains("\"mapLayerId\":0") == true)
+            #expect(dynamicLayers?.contains("\"showLabels\":false") == true)
+        } else {
+            Issue.record("Property boundaries should use ArcGIS dynamic layers")
+        }
+
+        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = waterfalls.type {
+            #expect(layerRestrictions == nil)
+            #expect(dynamicLayers?.contains("\"mapLayerId\":1") == true)
+            #expect(dynamicLayers?.contains("FEAT_DESC = 'Falls -  On a single line river point'") == true)
+        } else {
+            Issue.record("Waterfalls should use ArcGIS dynamic layers")
+        }
+    }
+
+    private func installedLayer(id: String) -> (any MapLayer)? {
+        AppContainer().mapEngine.layers.first { $0.id == id }
+    }
 }
