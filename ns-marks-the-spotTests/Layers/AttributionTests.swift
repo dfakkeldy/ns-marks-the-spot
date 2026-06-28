@@ -16,13 +16,17 @@ struct AttributionTests {
         }
     }
 
-    @Test func provinceRestrictedLicenseDocumentIsBundled() {
+    @Test func provinceRestrictedLicenseDocumentIsBundled() throws {
         let provinceLayers = LayerCatalog.all.filter {
             $0.attribution.provider == "Province of Nova Scotia"
         }
 
         for layer in provinceLayers {
-            #expect(layer.attribution.resolvedLicenseURL != nil)
+            let licenseURL = try #require(layer.attribution.resolvedLicenseURL)
+            let licenseText = try String(contentsOf: licenseURL, encoding: .utf8)
+            #expect(licenseText.contains("Indemnification"))
+            #expect(licenseText.contains("Termination of License for Non-Compliance"))
+            #expect(licenseText.contains("This is version 1.0 of the Province of Nova Scotia Restricted Geographic Services License."))
         }
     }
 
