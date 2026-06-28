@@ -65,13 +65,18 @@ struct TransparencySliderView: View {
                                     .background(layer.isVisible ? Color.blue.opacity(0.15) : Color.primary.opacity(0.05))
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
                                 
-                                // Layer Name
-                                Text(layer.name)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.primary)
-                                    .lineLimit(2)
-                                    .minimumScaleFactor(0.9)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(layer.name)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(.primary)
+                                        .lineLimit(2)
+                                        .minimumScaleFactor(0.9)
+
+                                    Text(viewModel.offlineStatus(for: layer.id))
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
                                 
                                 Spacer()
                                 

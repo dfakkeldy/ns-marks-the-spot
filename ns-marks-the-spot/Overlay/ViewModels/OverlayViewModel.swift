@@ -24,6 +24,22 @@ final class OverlayViewModel: ObservableObject {
         objectWillChange.send()
     }
 
+    func offlineStatus(for layerId: String) -> String {
+        guard let layerID = LayerID(rawValue: layerId),
+              let descriptor = LayerCatalog.descriptor(for: layerID) else {
+            return "Online"
+        }
+
+        switch descriptor.offlinePolicy {
+        case .savedAreaDownloadable:
+            return "Downloadable"
+        case .viewedCacheOnly:
+            return "Cached when viewed"
+        case .onlineOnly:
+            return "Online"
+        }
+    }
+
     func updateOpacity(_ newValue: CGFloat) {
         opacity = newValue
         if let layerId = selectedLayerId {
