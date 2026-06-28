@@ -81,6 +81,30 @@ struct TileStoreTests {
         #expect(summary.savedAreaBytes.isEmpty)
     }
 
+    @Test func staleGenerationMirrorDoesNotWriteTile() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let generation = TileStoreWriteGeneration()
+        let staleGeneration = generation.current()
+
+        generation.advance()
+
+        try await store.store(
+            Data([0x50]),
+            z: 9,
+            x: 10,
+            y: 11,
+            layerID: "fletcher",
+            savedAreaID: nil,
+            ifGenerationMatches: staleGeneration,
+            generationTracker: generation
+        )
+
+        #expect(await store.tile(z: 9, x: 10, y: 11, layerID: "fletcher") == nil)
+        #expect(await store.summary() == TileStoreSummary(totalBytes: 0, layerBytes: [:], savedAreaBytes: [:]))
+    }
+
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)

@@ -8,7 +8,7 @@ import Foundation
 /// - `memoryCache` (`NSCache`) synchronizes its own reads and writes.
 /// - `fileManager` (`FileManager`) is thread-safe for the operations used here.
 /// - `diskQueue` serializes all disk *writes*.
-/// - `stateLock` synchronizes the cache generation used to invalidate queued
+/// - `writeGeneration` synchronizes the cache generation used to invalidate queued
 ///   disk writes, pending TileStore mirror tasks, and in-flight disk reads when
 ///   all cached tiles are cleared.
 ///
@@ -24,8 +24,7 @@ final class TileCache: @unchecked Sendable {
     private let fileManager = FileManager.default
     private let tileStore: TileStore?
     private let diskRoot: URL
-    private let stateLock = NSLock()
-    private var cacheGeneration = 0
+    private let writeGeneration = TileStoreWriteGeneration()
 
     init(tileStore: TileStore? = nil, diskRoot: URL? = nil) {
         self.tileStore = tileStore
@@ -64,14 +63,15 @@ final class TileCache: @unchecked Sendable {
         if let tileStore {
             Task { [weak self, data] in
                 guard let self else { return }
-                guard generation == self.currentGeneration() else { return }
                 try? await tileStore.store(
                     data,
                     z: z,
                     x: x,
                     y: y,
                     layerID: layerName,
-                    savedAreaID: nil
+                    savedAreaID: nil,
+                    ifGenerationMatches: generation,
+                    generationTracker: self.writeGeneration
                 )
             }
         }
@@ -112,14 +112,10 @@ final class TileCache: @unchecked Sendable {
     }
 
     private func currentGeneration() -> Int {
-        stateLock.lock()
-        defer { stateLock.unlock() }
-        return cacheGeneration
+        writeGeneration.current()
     }
 
     private func bumpGeneration() {
-        stateLock.lock()
-        cacheGeneration += 1
-        stateLock.unlock()
+        writeGeneration.advance()
     }
 }

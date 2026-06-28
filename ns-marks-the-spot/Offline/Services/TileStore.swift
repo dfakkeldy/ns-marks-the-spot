@@ -6,6 +6,27 @@ struct TileStoreSummary: Equatable {
     let savedAreaBytes: [String: Int]
 }
 
+final class TileStoreWriteGeneration: @unchecked Sendable {
+    private let lock = NSLock()
+    private var value = 0
+
+    func current() -> Int {
+        lock.lock()
+        defer { lock.unlock() }
+        return value
+    }
+
+    func advance() {
+        lock.lock()
+        value += 1
+        lock.unlock()
+    }
+
+    func matches(_ generation: Int) -> Bool {
+        current() == generation
+    }
+}
+
 actor TileStore {
     private struct TileRecord: Codable {
         let coordinate: TileCoordinate
@@ -44,6 +65,31 @@ actor TileStore {
         layerID: String,
         savedAreaID: String?
     ) async throws {
+        try storeTile(data, z: z, x: x, y: y, layerID: layerID, savedAreaID: savedAreaID)
+    }
+
+    func store(
+        _ data: Data,
+        z: Int,
+        x: Int,
+        y: Int,
+        layerID: String,
+        savedAreaID: String?,
+        ifGenerationMatches generation: Int,
+        generationTracker: TileStoreWriteGeneration
+    ) async throws {
+        guard generationTracker.matches(generation) else { return }
+        try storeTile(data, z: z, x: x, y: y, layerID: layerID, savedAreaID: savedAreaID)
+    }
+
+    private func storeTile(
+        _ data: Data,
+        z: Int,
+        x: Int,
+        y: Int,
+        layerID: String,
+        savedAreaID: String?
+    ) throws {
         let coordinate = TileCoordinate(z: z, x: x, y: y)
         let tileURL = tileURL(for: coordinate, layerID: layerID)
         let recordURL = recordURL(for: coordinate, layerID: layerID)
