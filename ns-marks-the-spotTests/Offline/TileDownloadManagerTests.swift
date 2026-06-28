@@ -52,7 +52,7 @@ struct TileDownloadManagerTests {
         ) == nil)
     }
 
-    @Test func skipsExistingTilesAndCountsThemAsSucceeded() async throws {
+    @Test func skipsExistingViewedCacheTilesAndAssociatesThemWithSavedArea() async throws {
         let root = makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
@@ -60,19 +60,21 @@ struct TileDownloadManagerTests {
         let area = halifaxArea(id: "area-3", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let existingCoordinate = try #require(coordinates.first)
+        let existingData = Data([0xBB, 0xBC])
         let loader = StubTileLoader()
 
         try await store.store(
-            Data([0xBB]),
+            existingData,
             z: existingCoordinate.z,
             x: existingCoordinate.x,
             y: existingCoordinate.y,
             layerID: "fletcher",
-            savedAreaID: "existing-area"
+            savedAreaID: nil
         )
 
         let progress = await manager.download(area: area, loader: loader)
         let requests = await loader.requestedCoordinates()
+        let summary = await store.summary()
 
         #expect(progress == TileDownloadProgress(total: coordinates.count, succeeded: coordinates.count, failed: 0))
         #expect(!requests.contains(existingCoordinate))
@@ -81,7 +83,8 @@ struct TileDownloadManagerTests {
             x: existingCoordinate.x,
             y: existingCoordinate.y,
             layerID: "fletcher"
-        ) == Data([0xBB]))
+        ) == existingData)
+        #expect(summary.savedAreaBytes[area.id] == existingData.count + coordinates.dropFirst().count)
     }
 
     private func makeTemporaryRoot() -> URL {

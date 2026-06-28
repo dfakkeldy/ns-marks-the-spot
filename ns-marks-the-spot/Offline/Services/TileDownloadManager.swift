@@ -30,13 +30,25 @@ final class TileDownloadManager {
         var progress = TileDownloadProgress(total: coordinates.count, succeeded: 0, failed: 0)
 
         for coordinate in coordinates {
-            if await tileStore.tile(
+            if let existingData = await tileStore.tile(
                 z: coordinate.z,
                 x: coordinate.x,
                 y: coordinate.y,
                 layerID: Self.fletcherLayerID
-            ) != nil {
-                progress.succeeded += 1
+            ) {
+                do {
+                    try await tileStore.store(
+                        existingData,
+                        z: coordinate.z,
+                        x: coordinate.x,
+                        y: coordinate.y,
+                        layerID: Self.fletcherLayerID,
+                        savedAreaID: area.id
+                    )
+                    progress.succeeded += 1
+                } catch {
+                    progress.failed += 1
+                }
                 continue
             }
 
