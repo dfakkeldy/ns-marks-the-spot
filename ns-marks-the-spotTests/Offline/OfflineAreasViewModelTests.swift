@@ -32,7 +32,7 @@ struct OfflineAreasViewModelTests {
             try? FileManager.default.removeItem(at: cacheRoot)
         }
         let store = TileStore(rootDirectory: storeRoot)
-        let cache = TileCache(diskRoot: cacheRoot)
+        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
         let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
         let data = Data([0x01])
 
@@ -45,9 +45,50 @@ struct OfflineAreasViewModelTests {
         #expect(viewModel.storageSummary.totalBytes == 1)
 
         await viewModel.deleteAllCachedTiles()
+        let summary = await store.summary()
+
         #expect(viewModel.storageSummary.totalBytes == 0)
+        #expect(viewModel.storageSummary.layerBytes.isEmpty)
+        #expect(summary.totalBytes == 0)
+        #expect(summary.layerBytes.isEmpty)
         #expect(cache.cachedTile(z: 1, x: 1, y: 1, layerName: "fletcher") == nil)
         #expect(!cacheFileExists(root: cacheRoot, layerName: "fletcher", z: 1, x: 1, y: 1))
+    }
+
+    @Test func immediateDeleteSkipsPendingTileStoreMirrors() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
+        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+
+        for index in 0..<50 {
+            cache.cacheTile(
+                Data([UInt8(index)]),
+                z: 4,
+                x: index,
+                y: index,
+                layerName: "fletcher"
+            )
+        }
+
+        await viewModel.deleteAllCachedTiles()
+
+        for _ in 0..<20 {
+            await Task.yield()
+        }
+        await viewModel.refreshStorageSummary()
+        let summary = await store.summary()
+
+        #expect(viewModel.storageSummary.totalBytes == 0)
+        #expect(viewModel.storageSummary.layerBytes.isEmpty)
+        #expect(summary.totalBytes == 0)
+        #expect(summary.layerBytes.isEmpty)
+        #expect(cache.cachedTile(z: 4, x: 0, y: 0, layerName: "fletcher") == nil)
     }
 
     private func makeTemporaryRoot() -> URL {

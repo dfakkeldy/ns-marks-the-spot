@@ -47,8 +47,8 @@ final class OfflineAreasViewModel: ObservableObject {
     }
 
     func deleteAllCachedTiles() async {
-        try? await tileStore.deleteAll()
         tileCache.clearAllCachedTiles()
+        try? await tileStore.deleteAll()
         await refreshStorageSummary()
     }
 }
