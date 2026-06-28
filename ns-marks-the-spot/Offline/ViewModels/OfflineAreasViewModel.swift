@@ -17,6 +17,7 @@ final class OfflineAreasViewModel: ObservableObject {
         savedAreaBytes: [:]
     )
     @Published private(set) var storageErrorMessage: String?
+    @Published private(set) var isStorageOperationInProgress = false
 
     private let tileStore: TileStore
     private let tileCache: TileCache
@@ -88,7 +89,8 @@ final class OfflineAreasViewModel: ObservableObject {
 
     func retryFailedArea(_ area: SavedOfflineArea) async {
         guard area.failedTileCount > 0 else { return }
-        clearStorageError()
+        guard beginStorageOperation() else { return }
+        defer { finishStorageOperation() }
 
         guard let tileDownloadManager, let tileLoader else {
             storageErrorMessage = "Couldn't retry this offline area right now."
@@ -123,7 +125,9 @@ final class OfflineAreasViewModel: ObservableObject {
     }
 
     func deleteLayerCache(_ layerID: String) async {
-        clearStorageError()
+        guard beginStorageOperation() else { return }
+        defer { finishStorageOperation() }
+
         do {
             try await tileCache.clearLayer(named: layerID)
             try await tileStore.deleteLayer(layerID)
@@ -134,7 +138,9 @@ final class OfflineAreasViewModel: ObservableObject {
     }
 
     func deleteSavedArea(_ area: SavedOfflineArea) async {
-        clearStorageError()
+        guard beginStorageOperation() else { return }
+        defer { finishStorageOperation() }
+
         do {
             try await tileStore.deleteSavedArea(area.id)
             savedAreas.removeAll { $0.id == area.id }
@@ -145,7 +151,9 @@ final class OfflineAreasViewModel: ObservableObject {
     }
 
     func deleteAllCachedTiles() async {
-        clearStorageError()
+        guard beginStorageOperation() else { return }
+        defer { finishStorageOperation() }
+
         do {
             try await tileCache.clearAllCachedTiles()
             try await tileStore.deleteAll()
@@ -192,6 +200,21 @@ final class OfflineAreasViewModel: ObservableObject {
 
     private func clearStorageError() {
         storageErrorMessage = nil
+    }
+
+    private func beginStorageOperation() -> Bool {
+        guard !isStorageOperationInProgress else {
+            storageErrorMessage = "Please wait for the current offline operation to finish."
+            return false
+        }
+
+        isStorageOperationInProgress = true
+        clearStorageError()
+        return true
+    }
+
+    private func finishStorageOperation() {
+        isStorageOperationInProgress = false
     }
 
     private func friendlyLayerName(for key: String) -> String {

@@ -24,6 +24,7 @@ struct OfflineStorageView: View {
                     } label: {
                         Label("Delete Cached Tiles", systemImage: "trash")
                     }
+                    .disabled(viewModel.isStorageOperationInProgress)
                 }
 
                 Section("Layer Cache") {
@@ -60,6 +61,7 @@ struct OfflineStorageView: View {
                                     Label("Delete Layer Cache", systemImage: "trash")
                                 }
                                 .buttonStyle(.borderless)
+                                .disabled(viewModel.isStorageOperationInProgress)
                             }
                             .padding(.vertical, 4)
                         }
@@ -105,6 +107,7 @@ struct OfflineStorageView: View {
                                             Label("Retry Failed Tiles", systemImage: "arrow.clockwise")
                                         }
                                         .buttonStyle(.borderless)
+                                        .disabled(viewModel.isStorageOperationInProgress)
                                     }
 
                                     Spacer()
@@ -117,6 +120,7 @@ struct OfflineStorageView: View {
                                         Label("Delete Area", systemImage: "trash")
                                     }
                                     .buttonStyle(.borderless)
+                                    .disabled(viewModel.isStorageOperationInProgress)
                                 }
                             }
                             .padding(.vertical, 4)

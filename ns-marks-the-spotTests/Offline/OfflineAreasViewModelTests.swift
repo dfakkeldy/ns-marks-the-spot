@@ -254,6 +254,63 @@ struct OfflineAreasViewModelTests {
         #expect(viewModel.storageSummary.savedAreaBytes[savedArea.id] == (coordinates.count - 1) * 2)
     }
 
+    @Test func deleteAllCachedTilesIsRejectedDuringRetry() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let loader = BlockingTileLoader(data: Data([0x55]))
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            tileDownloadManager: TileDownloadManager(tileStore: store),
+            tileLoader: loader
+        )
+        let area = SavedOfflineArea(
+            id: "area-busy",
+            name: "Busy Area",
+            bounds: MapBounds(
+                minLatitude: -85,
+                minLongitude: -180,
+                maxLatitude: 85,
+                maxLongitude: 180
+            ),
+            minZoom: 0,
+            maxZoom: 0,
+            estimatedTileCount: 1,
+            estimatedBytes: 12_000,
+            downloadedTileCount: 0,
+            failedTileCount: 1,
+            actualBytes: 0,
+            state: .failed
+        )
+
+        viewModel.saveDraft(area)
+        let retryTask = Task {
+            await viewModel.retryFailedArea(area)
+        }
+        await loader.waitForRequest()
+
+        #expect(viewModel.isStorageOperationInProgress)
+
+        await viewModel.deleteAllCachedTiles()
+
+        #expect(viewModel.storageErrorMessage == "Please wait for the current offline operation to finish.")
+        #expect(viewModel.isStorageOperationInProgress)
+
+        await loader.finish()
+        await retryTask.value
+
+        #expect(viewModel.isStorageOperationInProgress == false)
+        #expect(viewModel.savedAreas[0].state == .complete)
+        #expect(viewModel.storageSummary.savedAreaBytes[area.id] == 1)
+    }
+
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -309,5 +366,37 @@ private struct MockTileLoader: TileDataLoading {
             throw URLError(.cannotLoadFromNetwork)
         }
         return data
+    }
+}
+
+private actor BlockingTileLoader: TileDataLoading {
+    private let data: Data
+    private var requestContinuation: CheckedContinuation<Void, Never>?
+    private var dataContinuation: CheckedContinuation<Data, Never>?
+    private var didReceiveRequest = false
+
+    init(data: Data) {
+        self.data = data
+    }
+
+    func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
+        return await withCheckedContinuation { continuation in
+            dataContinuation = continuation
+            didReceiveRequest = true
+            requestContinuation?.resume()
+            requestContinuation = nil
+        }
+    }
+
+    func waitForRequest() async {
+        guard !didReceiveRequest else { return }
+        await withCheckedContinuation { continuation in
+            requestContinuation = continuation
+        }
+    }
+
+    func finish() {
+        dataContinuation?.resume(returning: data)
+        dataContinuation = nil
     }
 }

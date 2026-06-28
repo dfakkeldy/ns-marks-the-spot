@@ -36,6 +36,8 @@ private final class TileCacheKeyIndex: @unchecked Sendable {
 /// - `memoryCache` (`NSCache`) synchronizes its own reads and writes.
 /// - `fileManager` (`FileManager`) is thread-safe for the operations used here.
 /// - `diskQueue` serializes all disk *writes*.
+/// - `stateLock` makes generation checks, memory-cache mutations, and
+///   layer key tracking atomic relative to cache clears.
 /// - `writeGeneration` synchronizes the cache generation used to invalidate queued
 ///   disk writes, pending TileStore mirror tasks, and in-flight disk reads when
 ///   all cached tiles are cleared or a single layer is deleted.
@@ -54,6 +56,7 @@ final class TileCache: @unchecked Sendable {
     private let fileManager = FileManager.default
     private let tileStore: TileStore?
     private let diskRoot: URL
+    private let stateLock = NSLock()
     private let writeGeneration = TileStoreWriteGeneration()
     private let keyIndex = TileCacheKeyIndex()
 
@@ -70,15 +73,23 @@ final class TileCache: @unchecked Sendable {
     func cachedTile(z: Int, x: Int, y: Int, layerName: String) -> Data? {
         let key = cacheKey(z: z, x: x, y: y, layerName: layerName)
 
+        stateLock.lock()
         if let memoryData = memoryCache.object(forKey: key as NSString) {
+            stateLock.unlock()
             return memoryData as Data
         }
+
+        let generation = currentGeneration(for: layerName)
+        stateLock.unlock()
 
         let diskURL = diskURLFor(key: key)
         guard fileManager.fileExists(atPath: diskURL.path) else { return nil }
 
-        let generation = currentGeneration(for: layerName)
         guard let diskData = try? Data(contentsOf: diskURL) else { return nil }
+
+        stateLock.lock()
+        defer { stateLock.unlock() }
+
         let currentGeneration = currentGeneration(for: layerName)
         guard generation.globalValue == currentGeneration.globalValue,
               generation.layerID == currentGeneration.layerID,
@@ -93,10 +104,13 @@ final class TileCache: @unchecked Sendable {
 
     func cacheTile(_ data: Data, z: Int, x: Int, y: Int, layerName: String) {
         let key = cacheKey(z: z, x: x, y: y, layerName: layerName)
+
+        stateLock.lock()
         let generation = currentGeneration(for: layerName)
 
         keyIndex.insert(key, for: layerName)
         memoryCache.setObject(data as NSData, forKey: key as NSString)
+        stateLock.unlock()
 
         if let tileStore {
             Task { [weak self, data] in
@@ -176,19 +190,31 @@ final class TileCache: @unchecked Sendable {
     }
 
     func clearLayer(named layerName: String) async throws {
+        stateLock.lock()
         bumpGeneration(for: layerName)
         evictMemoryCache(for: layerName)
+        stateLock.unlock()
+
         try await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
+
+        stateLock.lock()
         evictMemoryCache(for: layerName)
+        stateLock.unlock()
     }
 
     func clearAllCachedTiles() async throws {
+        stateLock.lock()
         bumpGeneration()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()
+        stateLock.unlock()
+
         try await clearDiskStorage(at: diskRoot)
+
+        stateLock.lock()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()
+        stateLock.unlock()
     }
 
     private func cacheKey(z: Int, x: Int, y: Int, layerName: String) -> String {
