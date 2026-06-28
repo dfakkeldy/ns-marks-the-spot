@@ -5,6 +5,20 @@
 
 default_platform(:ios)
 
+APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+API_KEY_PATH = File.expand_path("api_key.json", __dir__)
+METADATA_ROOT = File.expand_path("metadata", __dir__)
+REVIEW_NOTES_PATH = File.join(METADATA_ROOT, "review_information", "notes.txt")
+DESCRIPTION_PATH = File.join(METADATA_ROOT, "en-US", "description.txt")
+
+def require_api_key!
+  UI.user_error!("Missing fastlane/api_key.json") unless File.exist?(API_KEY_PATH)
+
+  @api_key = app_store_connect_api_key(
+    key_filepath: API_KEY_PATH
+  )
+end
+
 # ── Platform ------------------------------------------------------------------
 
 platform :ios do
@@ -74,16 +88,37 @@ platform :ios do
     test
   end
 
-  # ── Placeholder lanes (uncomment and configure when ready) ────────────────
+  desc "Run local metadata validation checks"
+  lane :lint_metadata do
+    required_files = [REVIEW_NOTES_PATH, DESCRIPTION_PATH]
+    missing_files = required_files.reject { |path| File.exist?(path) }
+    UI.user_error!("Missing metadata files: #{missing_files.join(', ')}") unless missing_files.empty?
 
-  # desc "Upload a new beta build to TestFlight"
-  # lane :beta do
-  #   build_app(
-  #     scheme: "ns-marks-the-spot",
-  #     export_method: "app-store"
-  #   )
-  #   upload_to_testflight
-  # end
+    review_notes = File.read(REVIEW_NOTES_PATH).strip
+    description = File.read(DESCRIPTION_PATH).strip
+
+    UI.user_error!("Review notes cannot be empty") if review_notes.empty?
+    UI.user_error!("Description cannot be empty") if description.empty?
+    UI.user_error!("keywords.txt exceeds App Store Connect 100-byte limit") if File.exist?(File.join(METADATA_ROOT, "en-US", "keywords.txt")) && File.read(File.join(METADATA_ROOT, "en-US", "keywords.txt")).bytesize > 100
+
+    UI.success("Local metadata checks passed.")
+  end
+
+  # ── Release lanes ─────────────────────────────────────────────────────────
+
+  desc "Upload a new beta build to TestFlight"
+  lane :beta do
+    require_api_key!
+    build_app(
+      scheme: "ns-marks-the-spot",
+      export_method: "app-store"
+    )
+    upload_to_testflight(
+      api_key: @api_key,
+      app_identifier: APP_IDENTIFIER,
+      skip_waiting_for_build_processing: true
+    )
+  end
 
   # desc "Push a new release build to the App Store"
   # lane :release do

@@ -14,7 +14,8 @@ The app is built to swap map providers without rewriting UI code. Two
 protocols form the boundary:
 
 - **`MapEngine`** — defines map behavior (add/remove layers, set opacity,
-  render view). Conforming types: `MapKitEngine`, `MockMapEngine`.
+  render view, and manage saved-area rectangle selection). Conforming types:
+  `MapKitEngine`, `MockMapEngine`.
 - **`MapLayer`** — defines an overlay layer (tile URL or vector source,
   opacity, visibility). Conforming types: `MapKitTileLayer`.
 
@@ -54,10 +55,21 @@ Manual DI via `AppContainer`. No third-party framework. The container owns
 all long-lived services and injects them through initializers. Compile-time
 safety — missing dependencies are compiler errors, not runtime crashes.
 
+### Layer Catalog And Offline Storage
+v1.0 centralizes map layer definitions in `LayerCatalog`. Each layer declares
+its rendering role, source URL, attribution, cache key, zoom range, and offline
+policy. SwiftUI views consume catalog metadata through view models while MapKit
+rendering remains behind `MapEngine`.
+
+Viewed tiles are persisted through `TileStore`. Fletcher tiles can also be
+downloaded for rectangular saved areas through the `MapEngine` bounds-selection
+flow added for v1.0. NS Aerial and restricted Nova Scotia reference layers are
+viewed-cache only in v1.0.
+
 ### Folder Organization
-Feature-grouped — each feature (MapEngine, Overlay, POI) is a self-contained
-folder with its own protocols, implementations, and views. Mocks are
-centralized at the top level.
+Feature-grouped — each feature (MapEngine, Layers, Offline, Overlay, POI) is a
+self-contained folder with its own protocols, implementations, and views.
+Mocks are centralized at the top level.
 
 ## Dependencies
 - **SwiftUI** — UI framework (OS)
