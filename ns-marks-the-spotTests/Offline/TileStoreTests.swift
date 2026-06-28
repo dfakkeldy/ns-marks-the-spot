@@ -1,0 +1,104 @@
+import Foundation
+import Testing
+@testable import ns_marks_the_spot
+
+struct TileStoreTests {
+    @Test func roundTripAndSummary() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let data = Data([0x10, 0x20, 0x30])
+
+        try await store.store(data, z: 12, x: 1351, y: 1462, layerID: "fletcher", savedAreaID: "area-1")
+
+        let retrieved = await store.tile(z: 12, x: 1351, y: 1462, layerID: "fletcher")
+        let summary = await store.summary()
+
+        #expect(retrieved == data)
+        #expect(summary.totalBytes == 3)
+        #expect(summary.layerBytes["fletcher"] == 3)
+        #expect(summary.savedAreaBytes["area-1"] == 3)
+    }
+
+    @Test func deleteLayerRemovesOnlyThatLayer() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+
+        try await store.store(Data([0x01]), z: 1, x: 1, y: 1, layerID: "fletcher", savedAreaID: nil)
+        try await store.store(Data([0x02]), z: 1, x: 1, y: 1, layerID: "ns-aerial", savedAreaID: nil)
+        try await store.deleteLayer("fletcher")
+
+        #expect(await store.tile(z: 1, x: 1, y: 1, layerID: "fletcher") == nil)
+        #expect(await store.tile(z: 1, x: 1, y: 1, layerID: "ns-aerial") == Data([0x02]))
+    }
+
+    @Test func deleteSavedAreaKeepsViewedCacheTiles() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+
+        try await store.store(Data([0x01]), z: 2, x: 2, y: 2, layerID: "fletcher", savedAreaID: "area-1")
+        try await store.store(Data([0x02]), z: 2, x: 3, y: 3, layerID: "fletcher", savedAreaID: nil)
+        try await store.deleteSavedArea("area-1")
+
+        #expect(await store.tile(z: 2, x: 2, y: 2, layerID: "fletcher") == nil)
+        #expect(await store.tile(z: 2, x: 3, y: 3, layerID: "fletcher") == Data([0x02]))
+    }
+
+    @Test func deleteSavedAreaPreservesOverlappingViewedCacheTile() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let data = Data([0x03])
+
+        try await store.store(data, z: 4, x: 5, y: 6, layerID: "fletcher", savedAreaID: nil)
+        try await store.store(data, z: 4, x: 5, y: 6, layerID: "fletcher", savedAreaID: "area-1")
+        try await store.deleteSavedArea("area-1")
+
+        let summary = await store.summary()
+
+        #expect(await store.tile(z: 4, x: 5, y: 6, layerID: "fletcher") == data)
+        #expect(summary.totalBytes == 1)
+        #expect(summary.savedAreaBytes["area-1"] == nil)
+    }
+
+    @Test func tileCacheMirrorsStoredTilesIntoTileStore() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let cache = TileCache(tileStore: store)
+        let data = Data([0x40, 0x41])
+
+        cache.cacheTile(data, z: 8, x: 9, y: 10, layerName: "fletcher")
+
+        let mirrored = await eventuallyTile(in: store, z: 8, x: 9, y: 10, layerID: "fletcher")
+        let summary = await store.summary()
+
+        #expect(mirrored == data)
+        #expect(summary.totalBytes == 2)
+        #expect(summary.layerBytes["fletcher"] == 2)
+        #expect(summary.savedAreaBytes.isEmpty)
+    }
+
+    private func makeTemporaryRoot() -> URL {
+        FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+    }
+
+    private func eventuallyTile(
+        in store: TileStore,
+        z: Int,
+        x: Int,
+        y: Int,
+        layerID: String
+    ) async -> Data? {
+        for _ in 0..<20 {
+            if let data = await store.tile(z: z, x: x, y: y, layerID: layerID) {
+                return data
+            }
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        return nil
+    }
+}

@@ -19,6 +19,11 @@ final class TileCache: @unchecked Sendable {
     private let memoryCache = NSCache<NSString, NSData>()
     private let diskQueue = DispatchQueue(label: "dev.dfakkeldy.ns-marks-the-spot.tilecache")
     private let fileManager = FileManager.default
+    private let tileStore: TileStore?
+
+    init(tileStore: TileStore? = nil) {
+        self.tileStore = tileStore
+    }
 
     private var diskRoot: URL {
         let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
@@ -45,6 +50,19 @@ final class TileCache: @unchecked Sendable {
         let key = cacheKey(z: z, x: x, y: y, layerName: layerName)
 
         memoryCache.setObject(data as NSData, forKey: key as NSString)
+
+        if let tileStore {
+            Task {
+                try? await tileStore.store(
+                    data,
+                    z: z,
+                    x: x,
+                    y: y,
+                    layerID: layerName,
+                    savedAreaID: nil
+                )
+            }
+        }
 
         let url = diskURLFor(key: key)
         diskQueue.async { [weak self] in

@@ -2,12 +2,16 @@ import Foundation
 
 final class AppContainer {
     let mapEngine: any MapEngine
+    let tileStore: TileStore
     let tileCache: TileCache
     let tileFetcher: TileFetcher
     let poiViewModel: POIViewModel
 
     init() {
-        let cache = TileCache()
+        let store = TileStore()
+        self.tileStore = store
+
+        let cache = TileCache(tileStore: store)
         self.tileCache = cache
 
         let fetcher = TileFetcher(tileCache: cache)
