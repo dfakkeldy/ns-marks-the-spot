@@ -1,0 +1,9 @@
+# Matchfile - encrypted signing assets for TestFlight/App Store release trains.
+
+git_url("TODO: git@github.com:OWNER/match-certificates.git")
+storage_mode("git")
+
+type("appstore")
+app_identifier(["Dan.ns-marks-the-spot"])
+team_id("8AXNA5B37R")
+readonly(true)
