@@ -3,31 +3,42 @@
 ## Completed
 - [x] Repository setup and CLAUDE.md
 - [x] Project scaffold — Xcode project, folder structure, core protocols
-- [x] ARCHITECTURE.md
+- [x] Architecture documentation
+- [x] MapKit-backed `MapEngine` implementation via `UIViewRepresentable`
+- [x] Fletcher overlay rendering and opacity controls
+- [x] Layer catalog for Fletcher, NS Aerial, and provincial reference layers
+- [x] Viewed-tile persistence with `TileCache` and `TileStore`
+- [x] Offline storage reporting and cache deletion UI
+- [x] Saved offline area models, estimation, and Fletcher download pipeline
+- [x] Map rectangle selection wired through `MapEngine` for saved-area drafting
+- [x] Data Sources & Licenses disclosure with Province attribution
+- [x] Fastlane metadata automation and release-prep verification
+- [x] Unit and UI test targets in place for v1.0
 
-## Upcoming
+## v1.0 Milestones
 
-### Phase 1: Map Engine
-- [x] MapKit engine implementation — `MKMapView` via `UIViewRepresentable`
-- [x] Fletcher tile overlay — offline bundle loading with placeholder generation
-- [x] Transparency slider wired to overlay opacity
+### Map Experience
+- [x] Engine-agnostic map boundary preserved for future renderer swaps
+- [x] NS Aerial available as a selectable basemap-style context layer
+- [x] Layer sheet shows per-layer offline policy
 
-### Phase 2: Offline & Performance
-- [x] Tile caching — `TileCache` with disk + memory tiers
-- [x] Tile fetching — `TileFetcher` with async/await and cache integration
+### Offline
+- [x] Viewed historical tiles persist until manual deletion
+- [x] Fletcher saved areas use rectangular bounds captured from the map
+- [x] Saved-area downloads record estimate, success, and failure counts
+- [x] NS Aerial and restricted provincial layers remain viewed-cache only in v1.0
 
-### Phase 3: POI Layer
-- [x] POI data model finalized — SwiftData schema with explicit UUID id
-- [x] POI vector overlay rendering on map — MKMarkerAnnotationView via MapEngine protocol
-- [x] POI detail sheet / interactions — half-sheet with category badge and coordinates
+### Release Readiness
+- [x] App icon asset catalog uses rasterized PNG deliverables
+- [x] App Review notes document optional location access and offline limits
+- [x] Local Fastlane metadata lint passes without network credentials
 
-### Phase 4: Polish & Testing
-- [x] Unit test targets — 12 tests across TileCache, ViewModel, models
-- [x] UI tests — launch test framework in place (map-specific tests deferred)
-- [x] Accessibility — VoiceOver labels on slider and map view
+## Deferred For v1.1
+- [ ] Bulk offline downloads for NS Aerial imagery
+- [ ] Bulk offline downloads for restricted Nova Scotia reference layers where licensing permits
+- [ ] Additional historical map collections beyond Fletcher
+- [ ] User-submitted POIs and syncing improvements
 
 ## Future Considerations
 - Google Maps SDK as alternative engine
-- Additional historical map layers (non-Fletcher)
-- User-submitted POIs
 - iCloud sync for POI collections

@@ -64,6 +64,7 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 fastlane/README.md
+fastlane/api_key.json
 
 # Ruby / Bundler
 vendor/bundle/

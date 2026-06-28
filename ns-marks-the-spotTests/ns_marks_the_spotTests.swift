@@ -104,6 +104,13 @@ struct MapKitTileLayerTests {
         layer.isVisible = false
         #expect(layer.isVisible == false)
     }
+
+    @Test func adHocLayerUsesDeterministicHashedCacheIdentifier() {
+        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/tmp/tiles")))
+
+        #expect(layer.cacheIdentifier.hasPrefix("test_"))
+        #expect(layer.cacheIdentifier != "test")
+    }
 }
 
 // MARK: - OverlayViewModel
@@ -188,5 +195,47 @@ struct SetVisibleTests {
     @Test func setVisibleOnUnknownLayerDoesNotCrash() {
         let engine = MockMapEngine()
         engine.setVisible(for: "nonexistent", to: false)
+    }
+}
+
+// MARK: - Release readiness
+
+struct ReleaseReadinessTests {
+    @Test func tileDebugGridIsDisabledForReleaseReadiness() {
+        #expect(OpacityTileOverlay.debugShowTileGrid == false)
+    }
+}
+
+// MARK: - TileFetcher
+
+struct TileFetcherTests {
+    let fetcher = TileFetcher()
+
+    @Test func expandsRawXYZTemplateURL() throws {
+        let baseURL = try #require(
+            URL(string: "https://example.com/tiles/{z}/{x}/{y}.png?token=test")
+        )
+
+        let url = fetcher.tileURL(z: 12, x: 345, y: 678, from: baseURL)
+
+        #expect(url.absoluteString == "https://example.com/tiles/12/345/678.png?token=test")
+    }
+
+    @Test func expandsEncodedXYZTemplateURL() throws {
+        let baseURL = try #require(
+            URL(string: "https://example.com/tiles/%7Bz%7D/%7Bx%7D/%7By%7D.png?token=test")
+        )
+
+        let url = fetcher.tileURL(z: 9, x: 87, y: 65, from: baseURL)
+
+        #expect(url.absoluteString == "https://example.com/tiles/9/87/65.png?token=test")
+    }
+
+    @Test func fallsBackToLegacyDirectoryTilePathWhenTemplateIsAbsent() throws {
+        let baseURL = try #require(URL(string: "https://example.com/tiles"))
+
+        let url = fetcher.tileURL(z: 7, x: 11, y: 13, from: baseURL)
+
+        #expect(url.absoluteString == "https://example.com/tiles/7/11/13.jpg")
     }
 }

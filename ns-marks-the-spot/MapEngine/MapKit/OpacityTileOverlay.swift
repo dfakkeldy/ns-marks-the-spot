@@ -2,6 +2,9 @@ import MapKit
 import UIKit
 
 final class OpacityTileOverlay: MKTileOverlay {
+    /// Set to true to draw tile borders and coordinates on every tile (including real ones).
+    static let debugShowTileGrid = false
+
     weak var mapLayer: (any MapLayer)?
     weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
@@ -38,6 +41,28 @@ final class OpacityTileOverlay: MKTileOverlay {
                     let data = try await tile_fetcher.fetchTile(
                         z: path.z, x: path.x, y: path.y,
                         from: remoteURL, layerName: cacheKey
+                    )
+                    result(data, nil)
+                } catch {
+                    result(generatePlaceholderTile(path: path), nil)
+                }
+            }
+            return
+        }
+
+        if let tile_fetcher = tileFetcher,
+           let layer = mapLayer,
+           case .arcgisMapService(let serverURL, let transparent) = layer.type
+        {
+            Task {
+                do {
+                    let data = try await tile_fetcher.fetchArcGISMapServiceTile(
+                        z: path.z,
+                        x: path.x,
+                        y: path.y,
+                        from: serverURL,
+                        layerName: cacheKey,
+                        transparent: transparent
                     )
                     result(data, nil)
                 } catch {

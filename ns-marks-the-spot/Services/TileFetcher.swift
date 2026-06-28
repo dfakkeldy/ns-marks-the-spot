@@ -9,13 +9,40 @@ final class TileFetcher {
     }
 
     func fetchTile(z: Int, x: Int, y: Int, from baseURL: URL, layerName: String) async throws -> Data {
-        let url = baseURL
-            .appendingPathComponent("\(z)")
-            .appendingPathComponent("\(x)")
-            .appendingPathComponent("\(y).jpg")
+        let url = tileURL(z: z, x: x, y: y, from: baseURL)
         let (data, _) = try await URLSession.shared.data(from: url)
         tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
         return data
+    }
+
+    func tileURL(z: Int, x: Int, y: Int, from baseURL: URL) -> URL {
+        let template = baseURL.absoluteString
+        let replacements = [
+            "{z}": "\(z)",
+            "{x}": "\(x)",
+            "{y}": "\(y)",
+            "%7Bz%7D": "\(z)",
+            "%7Bx%7D": "\(x)",
+            "%7By%7D": "\(y)"
+        ]
+
+        var expanded = template
+        for (placeholder, value) in replacements {
+            expanded = expanded.replacingOccurrences(
+                of: placeholder,
+                with: value,
+                options: [.caseInsensitive]
+            )
+        }
+
+        if expanded != template, let url = URL(string: expanded) {
+            return url
+        }
+
+        return baseURL
+            .appendingPathComponent("\(z)")
+            .appendingPathComponent("\(x)")
+            .appendingPathComponent("\(y).jpg")
     }
 
     func fetchArcGISDynamicTile(z: Int, x: Int, y: Int, from serverURL: URL, layerName: String, dynamicLayersJSON: String? = nil, layerRestrictions: String? = nil) async throws -> Data {
@@ -67,6 +94,38 @@ final class TileFetcher {
 
         tileCache?.cacheTile(finalData, z: z, x: x, y: y, layerName: layerName)
         return finalData
+    }
+
+    func fetchArcGISMapServiceTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        from serverURL: URL,
+        layerName: String,
+        transparent: Bool
+    ) async throws -> Data {
+        let bbox = tileToBBOX(z: z, x: x, y: y)
+        var components = URLComponents(
+            url: serverURL.appendingPathComponent("export"),
+            resolvingAgainstBaseURL: false
+        )!
+        components.queryItems = [
+            URLQueryItem(name: "bbox", value: "\(bbox.minX),\(bbox.minY),\(bbox.maxX),\(bbox.maxY)"),
+            URLQueryItem(name: "bboxSR", value: "3857"),
+            URLQueryItem(name: "imageSR", value: "3857"),
+            URLQueryItem(name: "size", value: "256,256"),
+            URLQueryItem(name: "format", value: "png32"),
+            URLQueryItem(name: "transparent", value: transparent ? "true" : "false"),
+            URLQueryItem(name: "f", value: "image")
+        ]
+
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+        return data
     }
 
     private func resizeImage(data: Data, to size: CGSize) -> Data? {

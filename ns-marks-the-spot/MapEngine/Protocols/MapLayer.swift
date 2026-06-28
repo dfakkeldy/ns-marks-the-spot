@@ -2,6 +2,7 @@ import Foundation
 
 enum MapLayerType: Sendable {
     case tile(URL)
+    case arcgisMapService(URL, transparent: Bool)
     case arcgisDynamic(URL, dynamicLayers: String?, layerRestrictions: String?)
     case vector([String])
 }

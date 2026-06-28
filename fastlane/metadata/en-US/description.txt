@@ -1,0 +1,1 @@
+Offline support saves viewed historical tiles and lets you prepare rectangular Fletcher map areas before field use. Nova Scotia aerial imagery and restricted provincial reference layers are available online and cached when viewed where possible.

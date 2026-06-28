@@ -7,7 +7,11 @@ struct NSMarksTheSpotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MapContainerView(engine: container.mapEngine, poiViewModel: container.poiViewModel)
+            MapContainerView(
+                engine: container.mapEngine,
+                poiViewModel: container.poiViewModel,
+                offlineAreasViewModel: container.offlineAreasViewModel
+            )
         }
         .modelContainer(for: PointOfInterest.self)
     }

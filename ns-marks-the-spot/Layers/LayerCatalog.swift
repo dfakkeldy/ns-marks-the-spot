@@ -1,0 +1,119 @@
+import Foundation
+
+enum LayerCatalog {
+    private static let provinceDisclaimer = "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
+
+    static let all: [LayerDescriptor] = [
+        LayerDescriptor(
+            id: .fletcher,
+            name: "Fletcher",
+            sourceKind: .remoteXYZTemplate,
+            sourceURL: URL(string: "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu"),
+            defaultOpacity: 1.0,
+            defaultVisibility: true,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .savedAreaDownloadable,
+            cacheKey: "fletcher",
+            attribution: LayerAttribution(
+                provider: "David Rumsey Map Collection",
+                copyright: nil,
+                disclaimer: "Historical maps are provided for reference and historical interest only.",
+                licenseTitle: nil,
+                licenseURL: nil
+            ),
+            userCaveat: "Historical map; not for navigation."
+        ),
+        LayerDescriptor(
+            id: .nsAerial,
+            name: "NS Aerial",
+            sourceKind: .arcGISMapService,
+            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer"),
+            defaultOpacity: 0.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 14,
+            renderingRole: .basemapAndOverlay,
+            offlinePolicy: .viewedCacheOnly,
+            cacheKey: "ns-aerial",
+            attribution: provinceAttribution(copyright: "Service Nova Scotia"),
+            userCaveat: "Viewed-cache only in v1.0."
+        ),
+        LayerDescriptor(
+            id: .nsPropertyBoundaries,
+            name: "NS Property Boundaries",
+            sourceKind: .arcGISDynamic,
+            sourceURL: URL(string: "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer"),
+            defaultOpacity: 0.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .viewedCacheOnly,
+            cacheKey: "nsprd",
+            attribution: provinceAttribution(copyright: nil),
+            userCaveat: "Viewed-cache only in v1.0."
+        ),
+        LayerDescriptor(
+            id: .crownLands,
+            name: "Crown Lands",
+            sourceKind: .arcGISDynamic,
+            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/PLAN/PLANCrownLandsWM84V1/MapServer"),
+            defaultOpacity: 0.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .viewedCacheOnly,
+            cacheKey: "crown-lands",
+            attribution: provinceAttribution(copyright: nil),
+            userCaveat: "Viewed-cache only in v1.0."
+        ),
+        LayerDescriptor(
+            id: .floodRisk,
+            name: "Flood Risk Areas",
+            sourceKind: .arcGISDynamic,
+            sourceURL: URL(string: "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer"),
+            defaultOpacity: 0.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .viewedCacheOnly,
+            cacheKey: "flood-risk",
+            attribution: provinceAttribution(copyright: nil),
+            userCaveat: "Viewed-cache only in v1.0."
+        ),
+        LayerDescriptor(
+            id: .waterfalls,
+            name: "Waterfalls",
+            sourceKind: .arcGISDynamic,
+            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer"),
+            defaultOpacity: 0.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .viewedCacheOnly,
+            cacheKey: "waterfalls",
+            attribution: provinceAttribution(copyright: nil),
+            userCaveat: "Viewed-cache only in v1.0."
+        )
+    ]
+
+    static func descriptor(for id: LayerID) -> LayerDescriptor? {
+        all.first { $0.id == id }
+    }
+
+    private static func provinceAttribution(copyright: String?) -> LayerAttribution {
+        LayerAttribution(
+            provider: "Province of Nova Scotia",
+            copyright: copyright,
+            disclaimer: provinceDisclaimer,
+            licenseTitle: "Province of Nova Scotia Restricted Geographic Services License",
+            licenseURL: nil,
+            bundledLicenseResourceName: "ProvinceRestrictedGeographicServicesLicense.md"
+        )
+    }
+}
