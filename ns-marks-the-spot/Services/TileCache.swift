@@ -86,14 +86,21 @@ final class TileCache: @unchecked Sendable {
         }
     }
 
-    func clearDiskCache() {
-        clearDiskStorage()
+    func clearDiskCache() async {
+        await clearDiskStorage(at: diskRoot)
     }
 
-    func clearAllCachedTiles() {
+    func clearLayer(named layerName: String) async {
         bumpGeneration()
         memoryCache.removeAllObjects()
-        clearDiskStorage()
+        await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
+        memoryCache.removeAllObjects()
+    }
+
+    func clearAllCachedTiles() async {
+        bumpGeneration()
+        memoryCache.removeAllObjects()
+        await clearDiskStorage(at: diskRoot)
         memoryCache.removeAllObjects()
     }
 
@@ -105,9 +112,19 @@ final class TileCache: @unchecked Sendable {
         diskRoot.appendingPathComponent("\(key).png")
     }
 
-    private func clearDiskStorage() {
-        diskQueue.sync { [fileManager, diskRoot] in
-            try? fileManager.removeItem(at: diskRoot)
+    private func clearDiskStorage(at url: URL) async {
+        await withCheckedContinuation { continuation in
+            diskQueue.async {
+                let fileManager = FileManager.default
+
+                guard fileManager.fileExists(atPath: url.path) else {
+                    continuation.resume()
+                    return
+                }
+
+                try? fileManager.removeItem(at: url)
+                continuation.resume()
+            }
         }
     }
 
