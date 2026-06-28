@@ -14,6 +14,7 @@ struct MapContainerView: View {
     @State private var selectedSaveBounds: MapBounds?
     @State private var isSaveAreaDraftPresented = false
     @State private var isSelectingSaveArea = false
+    @State private var isInfoPresented = false
 
     init(
         engine: any MapEngine,
@@ -114,6 +115,21 @@ struct MapContainerView: View {
                         .accessibilityLabel("Offline Maps")
 
                         Button {
+                            cancelBoundsSelection()
+                            isInfoPresented = true
+                        } label: {
+                            Image(systemName: "info.circle")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Data Sources and Licenses")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
                             beginSaveAreaSelection()
                         } label: {
                             Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
@@ -177,6 +193,11 @@ struct MapContainerView: View {
                 cancelBoundsSelection()
             }
         }
+        .onChange(of: isInfoPresented) { _, isPresented in
+            if isPresented {
+                cancelBoundsSelection()
+            }
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase != .active {
                 cancelBoundsSelection()
@@ -190,6 +211,9 @@ struct MapContainerView: View {
         }
         .sheet(isPresented: $isOfflineStoragePresented) {
             OfflineStorageView(viewModel: offlineVM)
+        }
+        .sheet(isPresented: $isInfoPresented) {
+            InfoSheetView()
         }
         .sheet(
             isPresented: $isSaveAreaDraftPresented,
