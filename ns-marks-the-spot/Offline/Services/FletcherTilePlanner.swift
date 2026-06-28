@@ -6,6 +6,8 @@ struct TileEstimate: Equatable {
 }
 
 enum FletcherTilePlanner {
+    private static let maxWebMercatorLatitude = 85.05112878
+
     static func coordinates(for bounds: MapBounds, zoomRange: ClosedRange<Int>) -> [TileCoordinate] {
         let normalized = bounds.normalized
         var coordinates: Set<TileCoordinate> = []
@@ -46,7 +48,8 @@ enum FletcherTilePlanner {
     }
 
     private static func tileXY(latitude: Double, longitude: Double, zoom: Int) -> (x: Int, y: Int) {
-        let latitudeRadians = latitude * .pi / 180
+        let clampedLatitude = min(max(latitude, -maxWebMercatorLatitude), maxWebMercatorLatitude)
+        let latitudeRadians = clampedLatitude * .pi / 180
         let tilesAtZoom = pow(2.0, Double(zoom))
         let x = Int(floor((longitude + 180.0) / 360.0 * tilesAtZoom))
         let y = Int(floor((1.0 - log(tan(latitudeRadians) + 1.0 / cos(latitudeRadians)) / .pi) / 2.0 * tilesAtZoom))

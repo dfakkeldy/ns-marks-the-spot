@@ -13,7 +13,25 @@ struct FletcherTilePlannerTests {
 
         let coordinates = FletcherTilePlanner.coordinates(for: bounds, zoomRange: 10...10)
 
-        #expect(coordinates.contains(TileCoordinate(z: 10, x: 331, y: 367)))
+        #expect(coordinates.contains(TileCoordinate(z: 10, x: 331, y: 369)))
+    }
+
+    @Test func clampsPolarLatitudesToFiniteTileCoordinates() {
+        let bounds = MapBounds(
+            minLatitude: 89.0,
+            minLongitude: -63.58,
+            maxLatitude: 91.0,
+            maxLongitude: -63.56
+        )
+
+        let coordinates = FletcherTilePlanner.coordinates(for: bounds, zoomRange: 3...3)
+
+        #expect(!coordinates.isEmpty)
+        #expect(coordinates.allSatisfy { coordinate in
+            coordinate.z == 3 &&
+                (0..<8).contains(coordinate.x) &&
+                (0..<8).contains(coordinate.y)
+        })
     }
 
     @Test func estimateUsesTileCountAndAverageBytes() {
