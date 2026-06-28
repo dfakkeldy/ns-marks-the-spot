@@ -190,3 +190,11 @@ struct SetVisibleTests {
         engine.setVisible(for: "nonexistent", to: false)
     }
 }
+
+// MARK: - Release readiness
+
+struct ReleaseReadinessTests {
+    @Test func tileDebugGridIsDisabledForReleaseReadiness() {
+        #expect(OpacityTileOverlay.debugShowTileGrid == false)
+    }
+}

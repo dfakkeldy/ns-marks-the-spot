@@ -2,6 +2,9 @@ import MapKit
 import UIKit
 
 final class OpacityTileOverlay: MKTileOverlay {
+    /// Set to true to draw tile borders and coordinates on every tile (including real ones).
+    static let debugShowTileGrid = false
+
     weak var mapLayer: (any MapLayer)?
     weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
