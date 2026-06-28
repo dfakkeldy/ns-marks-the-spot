@@ -11,10 +11,10 @@ final class AppContainer {
     init() {
         let store = TileStore()
         self.tileStore = store
-        self.offlineAreasViewModel = OfflineAreasViewModel(tileStore: store)
 
         let cache = TileCache(tileStore: store)
         self.tileCache = cache
+        self.offlineAreasViewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
 
         let fetcher = TileFetcher(tileCache: cache)
         self.tileFetcher = fetcher

@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct OfflineAreasViewModelTests {
     @Test func estimateDraftSetsTileCountAndBytes() {
-        let viewModel = OfflineAreasViewModel(tileStore: TileStore())
+        let viewModel = OfflineAreasViewModel(tileStore: TileStore(), tileCache: TileCache())
         let area = viewModel.estimateDraft(
             name: "Halifax",
             bounds: MapBounds(
@@ -25,17 +25,64 @@ struct OfflineAreasViewModelTests {
     }
 
     @Test func deleteAllCachedTilesRefreshesSummary() async throws {
-        let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent(UUID().uuidString, isDirectory: true)
-        defer { try? FileManager.default.removeItem(at: root) }
-        let store = TileStore(rootDirectory: root)
-        try await store.store(Data([0x01]), z: 1, x: 1, y: 1, layerID: "fletcher", savedAreaID: nil)
-        let viewModel = OfflineAreasViewModel(tileStore: store)
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+        let data = Data([0x01])
+
+        try await store.store(data, z: 1, x: 1, y: 1, layerID: "fletcher", savedAreaID: nil)
+        cache.cacheTile(data, z: 1, x: 1, y: 1, layerName: "fletcher")
+        #expect(await eventuallyCacheFileExists(root: cacheRoot, layerName: "fletcher", z: 1, x: 1, y: 1))
+        #expect(cache.cachedTile(z: 1, x: 1, y: 1, layerName: "fletcher") == data)
 
         await viewModel.refreshStorageSummary()
         #expect(viewModel.storageSummary.totalBytes == 1)
 
         await viewModel.deleteAllCachedTiles()
         #expect(viewModel.storageSummary.totalBytes == 0)
+        #expect(cache.cachedTile(z: 1, x: 1, y: 1, layerName: "fletcher") == nil)
+        #expect(!cacheFileExists(root: cacheRoot, layerName: "fletcher", z: 1, x: 1, y: 1))
+    }
+
+    private func makeTemporaryRoot() -> URL {
+        FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+    }
+
+    private func eventuallyCacheFileExists(
+        root: URL,
+        layerName: String,
+        z: Int,
+        x: Int,
+        y: Int
+    ) async -> Bool {
+        for _ in 0..<20 {
+            if cacheFileExists(root: root, layerName: layerName, z: z, x: x, y: y) {
+                return true
+            }
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        return false
+    }
+
+    private func cacheFileExists(
+        root: URL,
+        layerName: String,
+        z: Int,
+        x: Int,
+        y: Int
+    ) -> Bool {
+        let url = root
+            .appendingPathComponent(layerName, isDirectory: true)
+            .appendingPathComponent("\(z)", isDirectory: true)
+            .appendingPathComponent("\(x)", isDirectory: true)
+            .appendingPathComponent("\(y).png")
+        return FileManager.default.fileExists(atPath: url.path)
     }
 }

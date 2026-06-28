@@ -8,6 +8,8 @@ import Foundation
 /// - `memoryCache` (`NSCache`) synchronizes its own reads and writes.
 /// - `fileManager` (`FileManager`) is thread-safe for the operations used here.
 /// - `diskQueue` serializes all disk *writes*.
+/// - `stateLock` synchronizes the cache generation used to invalidate queued
+///   disk writes and in-flight disk reads when all cached tiles are cleared.
 ///
 /// Disk *reads* in `cachedTile` intentionally bypass `diskQueue` for latency.
 /// This is safe because writes use `.atomic` — a concurrent reader sees either
@@ -20,14 +22,18 @@ final class TileCache: @unchecked Sendable {
     private let diskQueue = DispatchQueue(label: "dev.dfakkeldy.ns-marks-the-spot.tilecache")
     private let fileManager = FileManager.default
     private let tileStore: TileStore?
+    private let diskRoot: URL
+    private let stateLock = NSLock()
+    private var cacheGeneration = 0
 
-    init(tileStore: TileStore? = nil) {
+    init(tileStore: TileStore? = nil, diskRoot: URL? = nil) {
         self.tileStore = tileStore
-    }
-
-    private var diskRoot: URL {
-        let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        return caches.appendingPathComponent("Tiles", isDirectory: true)
+        if let diskRoot {
+            self.diskRoot = diskRoot
+        } else {
+            let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+            self.diskRoot = caches.appendingPathComponent("Tiles", isDirectory: true)
+        }
     }
 
     func cachedTile(z: Int, x: Int, y: Int, layerName: String) -> Data? {
@@ -40,7 +46,9 @@ final class TileCache: @unchecked Sendable {
         let diskURL = diskURLFor(key: key)
         guard fileManager.fileExists(atPath: diskURL.path) else { return nil }
 
+        let generation = currentGeneration()
         guard let diskData = try? Data(contentsOf: diskURL) else { return nil }
+        guard generation == currentGeneration() else { return nil }
 
         memoryCache.setObject(diskData as NSData, forKey: key as NSString)
         return diskData
@@ -48,6 +56,7 @@ final class TileCache: @unchecked Sendable {
 
     func cacheTile(_ data: Data, z: Int, x: Int, y: Int, layerName: String) {
         let key = cacheKey(z: z, x: x, y: y, layerName: layerName)
+        let generation = currentGeneration()
 
         memoryCache.setObject(data as NSData, forKey: key as NSString)
 
@@ -67,6 +76,7 @@ final class TileCache: @unchecked Sendable {
         let url = diskURLFor(key: key)
         diskQueue.async { [weak self] in
             guard let self else { return }
+            guard generation == self.currentGeneration() else { return }
             let dir = url.deletingLastPathComponent()
             try? self.fileManager.createDirectory(at: dir, withIntermediateDirectories: true)
             try? data.write(to: url, options: .atomic)
@@ -74,10 +84,14 @@ final class TileCache: @unchecked Sendable {
     }
 
     func clearDiskCache() {
-        diskQueue.async { [weak self] in
-            guard let self else { return }
-            try? self.fileManager.removeItem(at: self.diskRoot)
-        }
+        clearDiskStorage()
+    }
+
+    func clearAllCachedTiles() {
+        bumpGeneration()
+        memoryCache.removeAllObjects()
+        clearDiskStorage()
+        memoryCache.removeAllObjects()
     }
 
     private func cacheKey(z: Int, x: Int, y: Int, layerName: String) -> String {
@@ -86,5 +100,23 @@ final class TileCache: @unchecked Sendable {
 
     private func diskURLFor(key: String) -> URL {
         diskRoot.appendingPathComponent("\(key).png")
+    }
+
+    private func clearDiskStorage() {
+        diskQueue.sync { [fileManager, diskRoot] in
+            try? fileManager.removeItem(at: diskRoot)
+        }
+    }
+
+    private func currentGeneration() -> Int {
+        stateLock.lock()
+        defer { stateLock.unlock() }
+        return cacheGeneration
+    }
+
+    private func bumpGeneration() {
+        stateLock.lock()
+        cacheGeneration += 1
+        stateLock.unlock()
     }
 }

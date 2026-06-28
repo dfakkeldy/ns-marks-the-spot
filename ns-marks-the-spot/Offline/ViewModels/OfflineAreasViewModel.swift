@@ -11,10 +11,12 @@ final class OfflineAreasViewModel: ObservableObject {
     )
 
     private let tileStore: TileStore
+    private let tileCache: TileCache
     private let averageTileBytes = 12_000
 
-    init(tileStore: TileStore) {
+    init(tileStore: TileStore, tileCache: TileCache) {
         self.tileStore = tileStore
+        self.tileCache = tileCache
     }
 
     func estimateDraft(
@@ -46,6 +48,7 @@ final class OfflineAreasViewModel: ObservableObject {
 
     func deleteAllCachedTiles() async {
         try? await tileStore.deleteAll()
+        tileCache.clearAllCachedTiles()
         await refreshStorageSummary()
     }
 }
