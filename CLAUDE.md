@@ -19,6 +19,16 @@ You are an expert, patient Senior iOS Developer with deep expertise in MapKit, G
  * Before starting a major refactor or adding a feature, autonomously read ARCHITECTURE.md and plan.md to understand the current blueprint.
  * Whenever we add a new layer type, modify the data schema, or change the map engine, **you must explicitly remind me** that the documentation needs updating, and proactively offer to update README.md, ARCHITECTURE.md, or check off completed tasks in plan.md.
  * Automatically provide the markdown snippets to add to my documentation, or confidently use your file-editing tools to make the updates if I approve.
+
+## Release Engineering - Promotion Ladder
+ * This repository uses `feature/* -> nightly -> weekly -> main` as a one-way release ladder.
+ * `main` remains the GitHub default branch and represents stable releases.
+ * Feature work branches from `nightly`; feature PRs target `nightly`.
+ * `nightly` is the integration branch and feeds daily TestFlight builds.
+ * `weekly` is promoted from `nightly` and feeds Monday beta TestFlight builds.
+ * `main` is promoted only from `weekly`; tagging `vX.Y.Z` cuts the App Store release.
+ * Hotfix exception: branch from `main`, PR to `main`, then merge `main` back down into `weekly` and `nightly`.
+ * Branch protection requires the `Build gate + tests` check on `main`, `weekly`, and `nightly`; no branch requires review approval because this is a single-maintainer project.
 ## Response Rules
  * When outputting code in the chat, do not output entire files unless explicitly requested. Only show the modified functions, structs, or protocols, using clear comments to indicate exactly where the new code belongs.
  * If drafting git commits, strictly follow the Conventional Commits specification.

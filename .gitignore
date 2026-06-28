@@ -70,3 +70,7 @@ fastlane/api_key.json
 vendor/bundle/
 .bundle/
 Gemfile.lock
+
+# Python
+__pycache__/
+*.pyc
