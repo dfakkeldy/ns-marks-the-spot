@@ -15,6 +15,8 @@ final class MapKitTileLayer: MapLayer {
         switch type {
         case .tile(let url):
             configString = "tile|\(url.absoluteString)"
+        case .arcgisMapService(let url, let transparent):
+            configString = "arcgisMapService|\(url.absoluteString)|\(transparent)"
         case .arcgisDynamic(let url, let dynamicLayers, let layerRestrictions):
             configString = "arcgis|\(url.absoluteString)|\(dynamicLayers ?? "")|\(layerRestrictions ?? "")"
         case .vector(let paths):
@@ -33,5 +35,17 @@ final class MapKitTileLayer: MapLayer {
         self.type = type
         self.minZoom = minZoom
         self.maxZoom = maxZoom
+    }
+
+    convenience init(descriptor: LayerDescriptor, type: MapLayerType) {
+        self.init(
+            id: descriptor.id.rawValue,
+            name: descriptor.name,
+            type: type,
+            minZoom: descriptor.minZoom,
+            maxZoom: descriptor.maxZoom
+        )
+        self.opacity = descriptor.defaultOpacity
+        self.isVisible = descriptor.defaultVisibility
     }
 }

@@ -52,6 +52,28 @@ final class OpacityTileOverlay: MKTileOverlay {
 
         if let tile_fetcher = tileFetcher,
            let layer = mapLayer,
+           case .arcgisMapService(let serverURL, let transparent) = layer.type
+        {
+            Task {
+                do {
+                    let data = try await tile_fetcher.fetchArcGISMapServiceTile(
+                        z: path.z,
+                        x: path.x,
+                        y: path.y,
+                        from: serverURL,
+                        layerName: cacheKey,
+                        transparent: transparent
+                    )
+                    result(data, nil)
+                } catch {
+                    result(generatePlaceholderTile(path: path), nil)
+                }
+            }
+            return
+        }
+
+        if let tile_fetcher = tileFetcher,
+           let layer = mapLayer,
            case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = layer.type
         {
             Task {

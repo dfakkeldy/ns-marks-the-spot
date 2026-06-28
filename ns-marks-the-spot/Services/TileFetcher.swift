@@ -96,6 +96,38 @@ final class TileFetcher {
         return finalData
     }
 
+    func fetchArcGISMapServiceTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        from serverURL: URL,
+        layerName: String,
+        transparent: Bool
+    ) async throws -> Data {
+        let bbox = tileToBBOX(z: z, x: x, y: y)
+        var components = URLComponents(
+            url: serverURL.appendingPathComponent("export"),
+            resolvingAgainstBaseURL: false
+        )!
+        components.queryItems = [
+            URLQueryItem(name: "bbox", value: "\(bbox.minX),\(bbox.minY),\(bbox.maxX),\(bbox.maxY)"),
+            URLQueryItem(name: "bboxSR", value: "3857"),
+            URLQueryItem(name: "imageSR", value: "3857"),
+            URLQueryItem(name: "size", value: "256,256"),
+            URLQueryItem(name: "format", value: "png32"),
+            URLQueryItem(name: "transparent", value: transparent ? "true" : "false"),
+            URLQueryItem(name: "f", value: "image")
+        ]
+
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+        return data
+    }
+
     private func resizeImage(data: Data, to size: CGSize) -> Data? {
         guard let image = UIImage(data: data) else { return nil }
         let format = UIGraphicsImageRendererFormat()

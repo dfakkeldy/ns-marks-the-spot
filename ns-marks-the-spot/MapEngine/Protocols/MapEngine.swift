@@ -4,6 +4,7 @@ enum MapBaseType: String, CaseIterable, Identifiable {
     case standard = "Standard"
     case satellite = "Satellite"
     case hybrid = "Hybrid"
+    case nsAerial = "NS Aerial"
 
     var id: String { self.rawValue }
 }

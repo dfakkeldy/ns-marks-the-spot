@@ -49,6 +49,8 @@ final class MapKitEngine: MapEngine {
             mapView.mapType = .satellite
         case .hybrid:
             mapView.mapType = .hybrid
+        case .nsAerial:
+            mapView.mapType = .standard
         }
     }
 
