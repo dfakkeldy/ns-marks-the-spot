@@ -9,13 +9,40 @@ final class TileFetcher {
     }
 
     func fetchTile(z: Int, x: Int, y: Int, from baseURL: URL, layerName: String) async throws -> Data {
-        let url = baseURL
-            .appendingPathComponent("\(z)")
-            .appendingPathComponent("\(x)")
-            .appendingPathComponent("\(y).jpg")
+        let url = tileURL(z: z, x: x, y: y, from: baseURL)
         let (data, _) = try await URLSession.shared.data(from: url)
         tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
         return data
+    }
+
+    func tileURL(z: Int, x: Int, y: Int, from baseURL: URL) -> URL {
+        let template = baseURL.absoluteString
+        let replacements = [
+            "{z}": "\(z)",
+            "{x}": "\(x)",
+            "{y}": "\(y)",
+            "%7Bz%7D": "\(z)",
+            "%7Bx%7D": "\(x)",
+            "%7By%7D": "\(y)"
+        ]
+
+        var expanded = template
+        for (placeholder, value) in replacements {
+            expanded = expanded.replacingOccurrences(
+                of: placeholder,
+                with: value,
+                options: [.caseInsensitive]
+            )
+        }
+
+        if expanded != template, let url = URL(string: expanded) {
+            return url
+        }
+
+        return baseURL
+            .appendingPathComponent("\(z)")
+            .appendingPathComponent("\(x)")
+            .appendingPathComponent("\(y).jpg")
     }
 
     func fetchArcGISDynamicTile(z: Int, x: Int, y: Int, from serverURL: URL, layerName: String, dynamicLayersJSON: String? = nil, layerRestrictions: String? = nil) async throws -> Data {

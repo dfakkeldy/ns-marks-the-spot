@@ -21,7 +21,7 @@ final class AppContainer {
         let fletcherLayer = MapKitTileLayer(
             id: "fletcher",
             name: "Fletcher",
-            type: .tile(URL(fileURLWithPath: "Tiles/Fletcher"))
+            type: .tile(URL(string: "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu")!)
         )
         fletcherLayer.opacity = 1.0
         fletcherLayer.isVisible = true
