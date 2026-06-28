@@ -30,4 +30,25 @@ struct MapBoundsSelectionTests {
             )
         )
     }
+
+    @Test func endingSelectionClearsCallback() {
+        let engine = MockMapEngine()
+        var deliveryCount = 0
+
+        engine.beginBoundsSelection { _ in
+            deliveryCount += 1
+        }
+        engine.endBoundsSelection()
+
+        engine.simulateBoundsSelection(
+            MapBounds(
+                minLatitude: 44.0,
+                minLongitude: -64.0,
+                maxLatitude: 45.0,
+                maxLongitude: -63.0
+            )
+        )
+
+        #expect(deliveryCount == 0)
+    }
 }
