@@ -112,7 +112,8 @@ enum LayerCatalog {
             copyright: copyright,
             disclaimer: provinceDisclaimer,
             licenseTitle: "Province of Nova Scotia Restricted Geographic Services License",
-            licenseURL: nil
+            licenseURL: nil,
+            bundledLicenseResourceName: "ProvinceRestrictedGeographicServicesLicense.md"
         )
     }
 }

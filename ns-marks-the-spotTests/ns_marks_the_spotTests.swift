@@ -104,6 +104,13 @@ struct MapKitTileLayerTests {
         layer.isVisible = false
         #expect(layer.isVisible == false)
     }
+
+    @Test func adHocLayerUsesDeterministicHashedCacheIdentifier() {
+        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/tmp/tiles")))
+
+        #expect(layer.cacheIdentifier.hasPrefix("test_"))
+        #expect(layer.cacheIdentifier != "test")
+    }
 }
 
 // MARK: - OverlayViewModel

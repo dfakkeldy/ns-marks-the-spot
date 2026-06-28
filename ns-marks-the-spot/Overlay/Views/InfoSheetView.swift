@@ -74,9 +74,14 @@ private struct LayerAttributionRow: View {
             }
 
             if let licenseTitle = layer.attribution.licenseTitle {
-                Text(licenseTitle)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                if let licenseURL = layer.attribution.resolvedLicenseURL {
+                    Link(licenseTitle, destination: licenseURL)
+                        .font(.caption)
+                } else {
+                    Text(licenseTitle)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             Text(layer.attribution.disclaimer)

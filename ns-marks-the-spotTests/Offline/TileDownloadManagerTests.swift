@@ -87,6 +87,44 @@ struct TileDownloadManagerTests {
         #expect(summary.savedAreaBytes[area.id] == existingData.count + coordinates.dropFirst().count)
     }
 
+    @Test func skipsViewedFletcherTileCachedWithCatalogLayerIdentifier() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let descriptor = try #require(LayerCatalog.descriptor(for: .fletcher))
+        let templateURL = try #require(descriptor.sourceURL)
+        let catalogLayer = MapKitTileLayer(descriptor: descriptor, type: .tile(templateURL))
+        let store = TileStore(rootDirectory: root)
+        let manager = TileDownloadManager(tileStore: store)
+        let area = halifaxArea(id: "area-catalog-key", maxZoom: 11)
+        let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
+        let existingCoordinate = try #require(coordinates.first)
+        let existingData = Data([0xFE, 0xED])
+        let loader = StubTileLoader()
+
+        #expect(catalogLayer.cacheIdentifier == descriptor.cacheKey)
+
+        try await store.store(
+            existingData,
+            z: existingCoordinate.z,
+            x: existingCoordinate.x,
+            y: existingCoordinate.y,
+            layerID: catalogLayer.cacheIdentifier,
+            savedAreaID: nil
+        )
+
+        let progress = await manager.download(area: area, loader: loader)
+        let requests = await loader.requestedCoordinates()
+
+        #expect(progress == TileDownloadProgress(total: coordinates.count, succeeded: coordinates.count, failed: 0))
+        #expect(!requests.contains(existingCoordinate))
+        #expect(await store.tile(
+            z: existingCoordinate.z,
+            x: existingCoordinate.x,
+            y: existingCoordinate.y,
+            layerID: descriptor.cacheKey
+        ) == existingData)
+    }
+
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)

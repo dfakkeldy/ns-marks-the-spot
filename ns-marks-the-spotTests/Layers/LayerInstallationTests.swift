@@ -47,6 +47,15 @@ struct LayerInstallationTests {
         }
     }
 
+    @Test func catalogInstalledFletcherLayerUsesCanonicalCacheIdentifier() throws {
+        let descriptor = try #require(LayerCatalog.descriptor(for: .fletcher))
+        let url = try #require(descriptor.sourceURL)
+        let layer = MapKitTileLayer(descriptor: descriptor, type: .tile(url))
+
+        #expect(layer.cacheIdentifier == descriptor.cacheKey)
+        #expect(layer.cacheIdentifier == "fletcher")
+    }
+
     @Test func arcGISDynamicLayersRetainRestrictionsAndPayloads() {
         guard let floodRisk = installedLayer(id: "flood-risk"),
               let propertyBoundaries = installedLayer(id: "nsprd"),

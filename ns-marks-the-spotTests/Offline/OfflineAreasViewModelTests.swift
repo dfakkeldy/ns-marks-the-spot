@@ -5,7 +5,13 @@ import Testing
 @MainActor
 struct OfflineAreasViewModelTests {
     @Test func estimateDraftSetsTileCountAndBytes() {
-        let viewModel = OfflineAreasViewModel(tileStore: TileStore(), tileCache: TileCache())
+        let storeRoot = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: storeRoot) }
+        let viewModel = OfflineAreasViewModel(
+            tileStore: TileStore(rootDirectory: storeRoot),
+            tileCache: TileCache(),
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
         let area = viewModel.estimateDraft(
             name: "Halifax",
             bounds: sampleBounds(),
@@ -29,7 +35,11 @@ struct OfflineAreasViewModelTests {
 
         let store = TileStore(rootDirectory: storeRoot)
         let cache = TileCache(diskRoot: cacheRoot)
-        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
 
         try await store.store(Data([0x01, 0x02]), z: 1, x: 1, y: 1, layerID: "fletcher", savedAreaID: "area-1")
         try await store.store(Data([0x03, 0x04, 0x05]), z: 1, x: 2, y: 2, layerID: "ns-aerial", savedAreaID: nil)
@@ -57,7 +67,11 @@ struct OfflineAreasViewModelTests {
         }
         let store = TileStore(rootDirectory: storeRoot)
         let cache = TileCache(diskRoot: cacheRoot)
-        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
         let data = Data([0x01])
 
         try await store.store(data, z: 1, x: 1, y: 1, layerID: "fletcher", savedAreaID: nil)
@@ -89,7 +103,11 @@ struct OfflineAreasViewModelTests {
         }
         let store = TileStore(rootDirectory: storeRoot)
         let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
-        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
 
         for index in 0..<50 {
             cache.cacheTile(
@@ -125,7 +143,11 @@ struct OfflineAreasViewModelTests {
         }
         let store = TileStore(rootDirectory: storeRoot)
         let cache = TileCache(diskRoot: cacheRoot)
-        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
         let area = SavedOfflineArea(
             id: "area-1",
             name: "Halifax Commons",
@@ -140,7 +162,7 @@ struct OfflineAreasViewModelTests {
             state: .failed
         )
 
-        viewModel.saveDraft(area)
+        await viewModel.saveDraft(area)
         try await store.store(Data([0x01, 0x02]), z: 5, x: 10, y: 12, layerID: "fletcher", savedAreaID: area.id)
         try await store.store(Data([0x03]), z: 5, x: 11, y: 12, layerID: "fletcher", savedAreaID: nil)
 
@@ -159,6 +181,98 @@ struct OfflineAreasViewModelTests {
         #expect(await store.tile(z: 5, x: 11, y: 12, layerID: "fletcher") == Data([0x03]))
     }
 
+    @Test func saveDraftPersistsAndReloadsInNewViewModel() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let repository = makeRepository(root: storeRoot)
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let area = SavedOfflineArea(
+            id: "area-persisted",
+            name: "Reloaded Field",
+            bounds: sampleBounds(),
+            minZoom: 10,
+            maxZoom: 12,
+            estimatedTileCount: 42,
+            estimatedBytes: 504_000,
+            state: .estimating
+        )
+
+        let firstViewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: repository
+        )
+        await firstViewModel.saveDraft(area)
+
+        let reloadedViewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: repository
+        )
+        await reloadedViewModel.refreshStorageSummary()
+
+        #expect(reloadedViewModel.savedAreas.count == 1)
+        #expect(reloadedViewModel.savedAreas[0].id == area.id)
+        #expect(reloadedViewModel.savedAreas[0].name == "Reloaded Field")
+        #expect(reloadedViewModel.savedAreas[0].estimatedTileCount == 42)
+    }
+
+    @Test func downloadAreaDownloadsNewSavedAreaAndPersistsResult() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+
+        let repository = makeRepository(root: storeRoot)
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let loader = MockTileLoader(data: Data([0x44, 0x45]), failingCoordinates: [])
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: repository,
+            tileDownloadManager: TileDownloadManager(tileStore: store),
+            tileLoader: loader
+        )
+        let area = SavedOfflineArea(
+            id: "area-download",
+            name: "Download Ready",
+            bounds: sampleBounds(),
+            minZoom: 0,
+            maxZoom: 0,
+            estimatedTileCount: 1,
+            estimatedBytes: 12_000,
+            state: .estimating
+        )
+
+        await viewModel.saveDraft(area)
+        await viewModel.downloadArea(area)
+
+        #expect(viewModel.savedAreas.count == 1)
+        #expect(viewModel.savedAreas[0].state == .complete)
+        #expect(viewModel.savedAreas[0].downloadedTileCount == 1)
+        #expect(viewModel.savedAreas[0].failedTileCount == 0)
+        #expect(viewModel.storageSummary.savedAreaBytes[area.id] == 2)
+
+        let reloadedViewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: repository
+        )
+        await reloadedViewModel.refreshStorageSummary()
+
+        #expect(reloadedViewModel.savedAreas[0].state == .complete)
+        #expect(reloadedViewModel.savedAreas[0].downloadedTileCount == 1)
+        #expect(reloadedViewModel.savedAreas[0].actualBytes == 2)
+    }
+
     @Test func deleteLayerCacheRefreshesSummaryAndKeepsOtherLayersAvailable() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
@@ -168,7 +282,11 @@ struct OfflineAreasViewModelTests {
         }
         let store = TileStore(rootDirectory: storeRoot)
         let cache = TileCache(diskRoot: cacheRoot)
-        let viewModel = OfflineAreasViewModel(tileStore: store, tileCache: cache)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
         let hashedFletcher = "fletcher_\(String(repeating: "a", count: 64))"
         let fletcherData = Data([0x21, 0x22, 0x23])
         let aerialData = Data([0x31, 0x32])
@@ -235,6 +353,7 @@ struct OfflineAreasViewModelTests {
         let viewModel = OfflineAreasViewModel(
             tileStore: store,
             tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot),
             tileDownloadManager: TileDownloadManager(tileStore: store),
             tileLoader: loader
         )
@@ -242,7 +361,7 @@ struct OfflineAreasViewModelTests {
         savedArea.estimatedTileCount = coordinates.count
         savedArea.estimatedBytes = coordinates.count * 12_000
 
-        viewModel.saveDraft(savedArea)
+        await viewModel.saveDraft(savedArea)
         await viewModel.retryFailedArea(savedArea)
 
         #expect(viewModel.savedAreas.count == 1)
@@ -268,6 +387,7 @@ struct OfflineAreasViewModelTests {
         let viewModel = OfflineAreasViewModel(
             tileStore: store,
             tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot),
             tileDownloadManager: TileDownloadManager(tileStore: store),
             tileLoader: loader
         )
@@ -290,7 +410,7 @@ struct OfflineAreasViewModelTests {
             state: .failed
         )
 
-        viewModel.saveDraft(area)
+        await viewModel.saveDraft(area)
         let retryTask = Task {
             await viewModel.retryFailedArea(area)
         }
@@ -314,6 +434,14 @@ struct OfflineAreasViewModelTests {
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
+    }
+
+    private func makeRepository(root: URL) -> SavedOfflineAreaRepository {
+        SavedOfflineAreaRepository(
+            fileURL: root
+                .appendingPathComponent("saved-area-records", isDirectory: true)
+                .appendingPathComponent("saved-areas.json")
+        )
     }
 
     private func eventuallyCacheFileExists(

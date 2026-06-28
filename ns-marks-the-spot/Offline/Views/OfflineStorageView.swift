@@ -81,7 +81,7 @@ struct OfflineStorageView: View {
                             bounds: defaultSaveAreaBounds
                         )
                     } label: {
-                        Label("Save Area", systemImage: "square.dashed")
+                        Label("Save Sample Halifax Area", systemImage: "square.dashed")
                     }
                 }
 
@@ -115,7 +115,17 @@ struct OfflineStorageView: View {
                                     .foregroundStyle(.secondary)
 
                                 HStack {
-                                    if area.failedTileCount > 0 {
+                                    if shouldShowDownloadButton(for: area) {
+                                        Button {
+                                            Task {
+                                                await viewModel.downloadArea(area)
+                                            }
+                                        } label: {
+                                            Label("Download Fletcher Tiles", systemImage: "arrow.down.circle")
+                                        }
+                                        .buttonStyle(.borderless)
+                                        .disabled(viewModel.isStorageOperationInProgress)
+                                    } else if area.failedTileCount > 0 {
                                         Button {
                                             Task {
                                                 await viewModel.retryFailedArea(area)
@@ -161,6 +171,11 @@ struct OfflineStorageView: View {
             .split(separator: "-")
             .map { $0.localizedCapitalized }
             .joined(separator: " ")
+    }
+
+    private func shouldShowDownloadButton(for area: SavedOfflineArea) -> Bool {
+        guard area.state != .complete, area.state != .downloading else { return false }
+        return area.failedTileCount == 0
     }
 
     private var failedAreaCount: Int {

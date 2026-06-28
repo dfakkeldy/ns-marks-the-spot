@@ -9,8 +9,13 @@ final class MapKitTileLayer: MapLayer {
     var isVisible: Bool = true
     let minZoom: Int
     let maxZoom: Int
+    private let explicitCacheIdentifier: String?
 
     var cacheIdentifier: String {
+        if let explicitCacheIdentifier {
+            return explicitCacheIdentifier
+        }
+
         let configString: String
         switch type {
         case .tile(let url):
@@ -29,12 +34,20 @@ final class MapKitTileLayer: MapLayer {
         return "\(id)_\(hashString)"
     }
 
-    init(id: String, name: String, type: MapLayerType, minZoom: Int = 0, maxZoom: Int = 24) {
+    init(
+        id: String,
+        name: String,
+        type: MapLayerType,
+        minZoom: Int = 0,
+        maxZoom: Int = 24,
+        cacheIdentifier: String? = nil
+    ) {
         self.id = id
         self.name = name
         self.type = type
         self.minZoom = minZoom
         self.maxZoom = maxZoom
+        self.explicitCacheIdentifier = cacheIdentifier
     }
 
     convenience init(descriptor: LayerDescriptor, type: MapLayerType) {
@@ -43,7 +56,8 @@ final class MapKitTileLayer: MapLayer {
             name: descriptor.name,
             type: type,
             minZoom: descriptor.minZoom,
-            maxZoom: descriptor.maxZoom
+            maxZoom: descriptor.maxZoom,
+            cacheIdentifier: descriptor.cacheKey
         )
         self.opacity = descriptor.defaultOpacity
         self.isVisible = descriptor.defaultVisibility

@@ -34,7 +34,9 @@ struct SaveAreaDraftView: View {
                     )
 
                     Button("Save Area") {
-                        viewModel.saveDraft(draftArea)
+                        Task {
+                            await viewModel.saveDraft(draftArea)
+                        }
                     }
                     .disabled(viewModel.isStorageOperationInProgress)
                 } else {

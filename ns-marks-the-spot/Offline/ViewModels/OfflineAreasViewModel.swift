@@ -21,9 +21,11 @@ final class OfflineAreasViewModel: ObservableObject {
 
     private let tileStore: TileStore
     private let tileCache: TileCache
+    private let savedAreaRepository: SavedOfflineAreaRepository
     private let tileDownloadManager: TileDownloadManager?
     private let tileLoader: (any TileDataLoading)?
     private let averageTileBytes = 12_000
+    private var hasLoadedSavedAreas = false
 
     var layerStorageSummaries: [OfflineLayerStorageSummary] {
         storageSummary.layerBytes
@@ -51,11 +53,13 @@ final class OfflineAreasViewModel: ObservableObject {
     init(
         tileStore: TileStore,
         tileCache: TileCache,
+        savedAreaRepository: SavedOfflineAreaRepository = SavedOfflineAreaRepository(),
         tileDownloadManager: TileDownloadManager? = nil,
         tileLoader: (any TileDataLoading)? = nil
     ) {
         self.tileStore = tileStore
         self.tileCache = tileCache
+        self.savedAreaRepository = savedAreaRepository
         self.tileDownloadManager = tileDownloadManager
         self.tileLoader = tileLoader
     }
@@ -83,33 +87,73 @@ final class OfflineAreasViewModel: ObservableObject {
         )
     }
 
-    func saveDraft(_ area: SavedOfflineArea) {
+    func loadSavedAreas() async {
+        do {
+            savedAreas = try await savedAreaRepository.load()
+                .map(applyingStorageSummary)
+            hasLoadedSavedAreas = true
+        } catch {
+            storageErrorMessage = "Couldn't load saved offline areas."
+        }
+    }
+
+    func saveDraft(_ area: SavedOfflineArea) async {
+        guard beginStorageOperation() else { return }
+        defer { finishStorageOperation() }
+
         upsertSavedArea(applyingStorageSummary(to: area))
+        do {
+            try await persistSavedAreas()
+        } catch {
+            storageErrorMessage = "Couldn't save \(area.name)."
+        }
+    }
+
+    func downloadArea(_ area: SavedOfflineArea) async {
+        await download(area: area, requiresFailures: false)
     }
 
     func retryFailedArea(_ area: SavedOfflineArea) async {
-        guard area.failedTileCount > 0 else { return }
+        await download(area: area, requiresFailures: true)
+    }
+
+    private func download(area: SavedOfflineArea, requiresFailures: Bool) async {
+        if requiresFailures {
+            guard area.failedTileCount > 0 else { return }
+        }
+
         guard beginStorageOperation() else { return }
         defer { finishStorageOperation() }
 
         guard let tileDownloadManager, let tileLoader else {
-            storageErrorMessage = "Couldn't retry this offline area right now."
+            storageErrorMessage = "Couldn't download this offline area right now."
             return
         }
 
-        updateSavedArea(id: area.id) { savedArea in
-            savedArea.state = .downloading
-            savedArea.updatedAt = .now
+        do {
+            try await updateSavedArea(id: area.id) { savedArea in
+                savedArea.state = .downloading
+                savedArea.downloadedTileCount = 0
+                savedArea.failedTileCount = 0
+                savedArea.updatedAt = .now
+            }
+        } catch {
+            storageErrorMessage = "Couldn't update \(area.name)."
+            return
         }
 
         let progress = await tileDownloadManager.download(area: area, loader: tileLoader)
         await refreshStorageSummary()
 
-        updateSavedArea(id: area.id) { savedArea in
-            savedArea.downloadedTileCount = progress.succeeded
-            savedArea.failedTileCount = progress.failed
-            savedArea.state = Self.state(for: progress)
-            savedArea.updatedAt = .now
+        do {
+            try await updateSavedArea(id: area.id) { savedArea in
+                savedArea.downloadedTileCount = progress.succeeded
+                savedArea.failedTileCount = progress.failed
+                savedArea.state = Self.state(for: progress)
+                savedArea.updatedAt = .now
+            }
+        } catch {
+            storageErrorMessage = "Couldn't save download results for \(area.name)."
         }
     }
 
@@ -121,7 +165,12 @@ final class OfflineAreasViewModel: ObservableObject {
             tileStore: tileStoreSummary,
             tileCache: tileCacheSummary
         )
-        synchronizeSavedAreasWithStorageSummary()
+
+        if !hasLoadedSavedAreas {
+            await loadSavedAreas()
+        } else {
+            synchronizeSavedAreasWithStorageSummary()
+        }
     }
 
     func deleteLayerCache(_ layerID: String) async {
@@ -135,6 +184,7 @@ final class OfflineAreasViewModel: ObservableObject {
             storageErrorMessage = "Couldn't delete the \(friendlyLayerName(for: layerID)) cache."
         }
         await refreshStorageSummary()
+        await persistSavedAreasAfterStorageChange()
     }
 
     func deleteSavedArea(_ area: SavedOfflineArea) async {
@@ -144,6 +194,7 @@ final class OfflineAreasViewModel: ObservableObject {
         do {
             try await tileStore.deleteSavedArea(area.id)
             savedAreas.removeAll { $0.id == area.id }
+            try await persistSavedAreas()
         } catch {
             storageErrorMessage = "Couldn't delete \(area.name)."
         }
@@ -161,6 +212,7 @@ final class OfflineAreasViewModel: ObservableObject {
             storageErrorMessage = "Couldn't delete cached tiles."
         }
         await refreshStorageSummary()
+        await persistSavedAreasAfterStorageChange()
     }
 
     private func upsertSavedArea(_ area: SavedOfflineArea) {
@@ -170,6 +222,26 @@ final class OfflineAreasViewModel: ObservableObject {
             savedAreas.append(area)
         }
 
+        sortSavedAreas()
+    }
+
+    private func updateSavedArea(
+        id: String,
+        mutation: (inout SavedOfflineArea) -> Void
+    ) async throws {
+        guard let index = savedAreas.firstIndex(where: { $0.id == id }) else { return }
+        var savedArea = savedAreas[index]
+        mutation(&savedArea)
+        savedAreas[index] = applyingStorageSummary(to: savedArea)
+        sortSavedAreas()
+        try await persistSavedAreas()
+    }
+
+    private func synchronizeSavedAreasWithStorageSummary() {
+        savedAreas = savedAreas.map(applyingStorageSummary)
+    }
+
+    private func sortSavedAreas() {
         savedAreas.sort { lhs, rhs in
             if lhs.updatedAt == rhs.updatedAt {
                 return lhs.name.localizedStandardCompare(rhs.name) == .orderedAscending
@@ -178,18 +250,16 @@ final class OfflineAreasViewModel: ObservableObject {
         }
     }
 
-    private func updateSavedArea(
-        id: String,
-        mutation: (inout SavedOfflineArea) -> Void
-    ) {
-        guard let index = savedAreas.firstIndex(where: { $0.id == id }) else { return }
-        var savedArea = savedAreas[index]
-        mutation(&savedArea)
-        savedAreas[index] = applyingStorageSummary(to: savedArea)
+    private func persistSavedAreas() async throws {
+        try await savedAreaRepository.save(savedAreas)
     }
 
-    private func synchronizeSavedAreasWithStorageSummary() {
-        savedAreas = savedAreas.map(applyingStorageSummary)
+    private func persistSavedAreasAfterStorageChange() async {
+        do {
+            try await persistSavedAreas()
+        } catch {
+            storageErrorMessage = "Couldn't save offline area changes."
+        }
     }
 
     private func applyingStorageSummary(to area: SavedOfflineArea) -> SavedOfflineArea {
