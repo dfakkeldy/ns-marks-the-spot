@@ -85,7 +85,7 @@ struct OfflineStorageView: View {
                                     .font(.caption)
                                     .foregroundStyle(area.failedTileCount > 0 ? .orange : .secondary)
 
-                                Text("Stored \(formattedBytes(area.actualBytes)) • Estimated \(formattedBytes(area.estimatedBytes))")
+                                Text("Stored \(formattedBytes(area.actualBytes)); estimated \(formattedBytes(area.estimatedBytes))")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
 
