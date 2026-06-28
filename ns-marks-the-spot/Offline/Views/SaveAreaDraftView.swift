@@ -38,6 +38,11 @@ struct SaveAreaDraftView: View {
                             countStyle: .file
                         )
                     )
+
+                    Button("Save Area") {
+                        viewModel.saveDraft(draftArea)
+                    }
+                    .disabled(viewModel.isStorageOperationInProgress)
                 } else {
                     Text("Estimate a draft area to preview the Fletcher download size.")
                         .foregroundStyle(.secondary)
@@ -82,6 +87,5 @@ struct SaveAreaDraftView: View {
         }
 
         draftArea = estimatedDraft
-        viewModel.saveDraft(estimatedDraft)
     }
 }
