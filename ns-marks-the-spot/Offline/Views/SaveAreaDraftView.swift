@@ -54,10 +54,23 @@ struct SaveAreaDraftView: View {
             }
         }
         .navigationTitle("Save Area")
+        .onChange(of: areaName) { _, _ in
+            invalidateDraft()
+        }
+        .onChange(of: minZoom) { _, _ in
+            invalidateDraft()
+        }
+        .onChange(of: maxZoom) { _, _ in
+            invalidateDraft()
+        }
     }
 
     private var trimmedAreaName: String {
         areaName.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func invalidateDraft() {
+        draftArea = nil
     }
 
     private func estimateDraft() {

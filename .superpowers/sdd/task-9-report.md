@@ -36,3 +36,16 @@ Verification status:
   - Passed with `** TEST BUILD SUCCEEDED **`.
 - `xcodebuild test -project ns-marks-the-spot.xcodeproj -scheme ns-marks-the-spot -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:ns-marks-the-spotUITests/OfflineFlowUITests CODE_SIGNING_ALLOWED=NO`
   - Build completed, but simulator launch still failed/interrupted with `FBSOpenApplicationServiceErrorDomain Code=1` / `SBMainWorkspace` denial after about 110 seconds.
+
+## Task 9 - 2026-06-28 stale draft invalidation
+
+Fix:
+- Added modern SwiftUI `onChange` handlers for `areaName`, `minZoom`, and `maxZoom` in `SaveAreaDraftView`.
+- Clearing any of those inputs now invalidates the current preview draft so the explicit `Save Area` button cannot persist a stale estimate.
+
+Verification status:
+- `git diff --check`
+  - Passed with no whitespace or patch format issues.
+- `xcodebuild build-for-testing -project ns-marks-the-spot.xcodeproj -scheme ns-marks-the-spot -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO`
+  - Passed with `** TEST BUILD SUCCEEDED **`.
+- Build output still included the pre-existing asset catalog warnings about `AppIcon-*.svg` filenames.
