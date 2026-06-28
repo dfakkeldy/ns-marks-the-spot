@@ -9,6 +9,8 @@ struct MapContainerView: View {
     @State private var isLayersMenuExpanded = false
     @State private var isOfflineStoragePresented = false
     @State private var mapHeading: Double = 0
+    @State private var selectedSaveBounds: MapBounds?
+    @State private var isSaveAreaDraftPresented = false
 
     init(
         engine: any MapEngine,
@@ -86,6 +88,22 @@ struct MapContainerView: View {
                                 .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                         }
                         .accessibilityLabel("Offline Maps")
+
+                        Button {
+                            engine.beginBoundsSelection { bounds in
+                                selectedSaveBounds = bounds.normalized
+                                isSaveAreaDraftPresented = true
+                            }
+                        } label: {
+                            Image(systemName: "square.dashed")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Save Area")
                         
                         Button {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
@@ -130,6 +148,21 @@ struct MapContainerView: View {
         }
         .sheet(isPresented: $isOfflineStoragePresented) {
             OfflineStorageView(viewModel: offlineVM)
+        }
+        .sheet(
+            isPresented: $isSaveAreaDraftPresented,
+            onDismiss: {
+                selectedSaveBounds = nil
+            }
+        ) {
+            if let selectedSaveBounds {
+                NavigationStack {
+                    SaveAreaDraftView(
+                        viewModel: offlineVM,
+                        bounds: selectedSaveBounds
+                    )
+                }
+            }
         }
     }
 }

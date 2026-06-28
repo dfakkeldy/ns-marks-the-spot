@@ -2,18 +2,12 @@ import SwiftUI
 
 struct SaveAreaDraftView: View {
     @ObservedObject var viewModel: OfflineAreasViewModel
+    let bounds: MapBounds
 
     @State private var areaName = "Saved Area"
     @State private var minZoom = 10
     @State private var maxZoom = 14
     @State private var draftArea: SavedOfflineArea?
-
-    private let defaultBounds = MapBounds(
-        minLatitude: 44.60,
-        minLongitude: -63.65,
-        maxLatitude: 44.70,
-        maxLongitude: -63.50
-    )
 
     var body: some View {
         Form {
@@ -76,7 +70,7 @@ struct SaveAreaDraftView: View {
     private func estimateDraft() {
         var estimatedDraft = viewModel.estimateDraft(
             name: trimmedAreaName,
-            bounds: defaultBounds,
+            bounds: bounds,
             minZoom: minZoom,
             maxZoom: maxZoom
         )

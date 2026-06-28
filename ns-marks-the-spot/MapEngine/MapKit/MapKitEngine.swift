@@ -8,7 +8,13 @@ final class MapKitEngine: MapEngine {
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
     private var annotationSelectionHandler: ((String) -> Void)?
+    var boundsSelectionHandler: ((MapBounds) -> Void)?
+    var isSelectingBounds = false
+    var selectionStartCoordinate: CLLocationCoordinate2D?
+    var selectionOverlay: MKPolygon?
     private var pendingAnnotations: [MapAnnotation] = []
+    private var wasScrollEnabled = true
+    private var wasZoomEnabled = true
 
     init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
         self.tileCache = tileCache
@@ -19,6 +25,7 @@ final class MapKitEngine: MapEngine {
         didSet {
             syncPendingToMapView()
             updateMapType()
+            mapView?.showsUserLocation = showsUserLocation
         }
     }
 
@@ -150,6 +157,33 @@ final class MapKitEngine: MapEngine {
         annotationSelectionHandler = handler
     }
 
+    func beginBoundsSelection(_ handler: @escaping (MapBounds) -> Void) {
+        endBoundsSelection()
+        boundsSelectionHandler = handler
+        isSelectingBounds = true
+
+        guard let mapView else { return }
+        wasScrollEnabled = mapView.isScrollEnabled
+        wasZoomEnabled = mapView.isZoomEnabled
+        mapView.isScrollEnabled = false
+        mapView.isZoomEnabled = false
+    }
+
+    func endBoundsSelection() {
+        boundsSelectionHandler = nil
+        isSelectingBounds = false
+        selectionStartCoordinate = nil
+
+        if let selectionOverlay, let mapView {
+            mapView.removeOverlay(selectionOverlay)
+        }
+        selectionOverlay = nil
+
+        guard let mapView else { return }
+        mapView.isScrollEnabled = wasScrollEnabled
+        mapView.isZoomEnabled = wasZoomEnabled
+    }
+
     func handleAnnotationSelected(id: String) {
         annotationSelectionHandler?(id)
     }
@@ -199,5 +233,23 @@ final class MapKitEngine: MapEngine {
             mapView.addAnnotation(point)
         }
         pendingAnnotations.removeAll()
+    }
+
+    func updateSelectionOverlay(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) {
+        guard let mapView else { return }
+
+        if let selectionOverlay {
+            mapView.removeOverlay(selectionOverlay)
+        }
+
+        let coordinates = [
+            CLLocationCoordinate2D(latitude: start.latitude, longitude: start.longitude),
+            CLLocationCoordinate2D(latitude: start.latitude, longitude: end.longitude),
+            CLLocationCoordinate2D(latitude: end.latitude, longitude: end.longitude),
+            CLLocationCoordinate2D(latitude: end.latitude, longitude: start.longitude)
+        ]
+        let polygon = MKPolygon(coordinates: coordinates, count: coordinates.count)
+        selectionOverlay = polygon
+        mapView.addOverlay(polygon)
     }
 }

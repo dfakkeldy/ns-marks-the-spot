@@ -24,6 +24,8 @@ protocol MapEngine: AnyObject {
     func addAnnotation(_ annotation: MapAnnotation)
     func removeAnnotation(by id: String)
     func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void)
+    func beginBoundsSelection(_ handler: @escaping (MapBounds) -> Void)
+    func endBoundsSelection()
 
     var mapHeading: Double { get }
     var headingChangeHandler: ((Double) -> Void)? { get set }

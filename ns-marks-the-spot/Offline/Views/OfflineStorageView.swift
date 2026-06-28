@@ -2,6 +2,12 @@ import SwiftUI
 
 struct OfflineStorageView: View {
     @ObservedObject var viewModel: OfflineAreasViewModel
+    private let defaultSaveAreaBounds = MapBounds(
+        minLatitude: 44.60,
+        minLongitude: -63.65,
+        maxLatitude: 44.70,
+        maxLongitude: -63.50
+    )
 
     var body: some View {
         NavigationStack {
@@ -70,7 +76,10 @@ struct OfflineStorageView: View {
 
                 Section("Field Prep") {
                     NavigationLink {
-                        SaveAreaDraftView(viewModel: viewModel)
+                        SaveAreaDraftView(
+                            viewModel: viewModel,
+                            bounds: defaultSaveAreaBounds
+                        )
                     } label: {
                         Label("Save Area", systemImage: "square.dashed")
                     }
