@@ -41,7 +41,7 @@ struct LayerInstallationTests {
 
         if case .tile(let url) = installedLayer.type {
             #expect(url.absoluteString.contains("https://wmts.oldmapsonline.org/maps/"))
-            #expect(url.absoluteString.contains("/{z}/{x}/{y}.png"))
+            #expect(url.absoluteString.contains("%7Bz%7D/%7Bx%7D/%7By%7D.png"))
         } else {
             Issue.record("Fletcher should use a remote XYZ tile template")
         }
