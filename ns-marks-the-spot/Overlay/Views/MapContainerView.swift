@@ -4,13 +4,20 @@ struct MapContainerView: View {
     let engine: any MapEngine
     @StateObject private var overlayVM: OverlayViewModel
     @ObservedObject private var poiVM: POIViewModel
+    @ObservedObject private var offlineVM: OfflineAreasViewModel
     @State private var selectedPOI: PointOfInterest?
     @State private var isLayersMenuExpanded = false
+    @State private var isOfflineStoragePresented = false
     @State private var mapHeading: Double = 0
 
-    init(engine: any MapEngine, poiViewModel: POIViewModel) {
+    init(
+        engine: any MapEngine,
+        poiViewModel: POIViewModel,
+        offlineAreasViewModel: OfflineAreasViewModel
+    ) {
         self.engine = engine
         self.poiVM = poiViewModel
+        self.offlineVM = offlineAreasViewModel
         _overlayVM = StateObject(wrappedValue: OverlayViewModel(engine: engine))
     }
 
@@ -66,6 +73,19 @@ struct MapContainerView: View {
                                 .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                         }
                         .accessibilityLabel("Current Location")
+
+                        Button {
+                            isOfflineStoragePresented = true
+                        } label: {
+                            Image(systemName: "externaldrive")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Offline Maps")
                         
                         Button {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
@@ -107,6 +127,9 @@ struct MapContainerView: View {
         }
         .sheet(item: $selectedPOI) { poi in
             POIDetailView(poi: poi)
+        }
+        .sheet(isPresented: $isOfflineStoragePresented) {
+            OfflineStorageView(viewModel: offlineVM)
         }
     }
 }

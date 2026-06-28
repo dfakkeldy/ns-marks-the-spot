@@ -6,10 +6,12 @@ final class AppContainer {
     let tileCache: TileCache
     let tileFetcher: TileFetcher
     let poiViewModel: POIViewModel
+    let offlineAreasViewModel: OfflineAreasViewModel
 
     init() {
         let store = TileStore()
         self.tileStore = store
+        self.offlineAreasViewModel = OfflineAreasViewModel(tileStore: store)
 
         let cache = TileCache(tileStore: store)
         self.tileCache = cache
