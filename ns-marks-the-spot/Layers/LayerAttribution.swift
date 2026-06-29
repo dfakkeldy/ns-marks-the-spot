@@ -1,8 +1,8 @@
 import Foundation
 
-final class LayerResourceBundleToken {}
+nonisolated final class LayerResourceBundleToken {}
 
-struct LayerAttribution: Equatable {
+nonisolated struct LayerAttribution: Equatable, Sendable {
     let provider: String
     let copyright: String?
     let disclaimer: String

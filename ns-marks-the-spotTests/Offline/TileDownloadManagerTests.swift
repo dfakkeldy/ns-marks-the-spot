@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import ns_marks_the_spot
 
+@MainActor
 struct TileDownloadManagerTests {
     @Test func downloadsFletcherTilesIntoStore() async throws {
         let root = makeTemporaryRoot()

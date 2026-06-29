@@ -1,6 +1,6 @@
 import Foundation
 
-struct MapBounds: Equatable, Codable {
+nonisolated struct MapBounds: Equatable, Codable, Sendable {
     let minLatitude: Double
     let minLongitude: Double
     let maxLatitude: Double

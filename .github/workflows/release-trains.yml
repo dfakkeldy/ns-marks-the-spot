@@ -17,6 +17,11 @@ on:
         options:
           - nightly
           - weekly
+      dry_run:
+        description: Compile and test without uploading to TestFlight
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -35,6 +40,7 @@ jobs:
       should_run: ${{ steps.resolve.outputs.should_run }}
       channel: ${{ steps.resolve.outputs.channel }}
       branch: ${{ steps.resolve.outputs.branch }}
+      dry_run: ${{ steps.resolve.outputs.dry_run }}
     steps:
       - name: Resolve channel and branch
         id: resolve
@@ -48,6 +54,7 @@ jobs:
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "channel=$DISPATCH_CHANNEL" >> "$GITHUB_OUTPUT"
             echo "branch=$DISPATCH_CHANNEL" >> "$GITHUB_OUTPUT"
+            echo "dry_run=${{ inputs.dry_run }}" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -58,6 +65,7 @@ jobs:
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "channel=nightly" >> "$GITHUB_OUTPUT"
             echo "branch=nightly" >> "$GITHUB_OUTPUT"
+            echo "dry_run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -65,6 +73,7 @@ jobs:
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "channel=weekly" >> "$GITHUB_OUTPUT"
             echo "branch=weekly" >> "$GITHUB_OUTPUT"
+            echo "dry_run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -72,6 +81,7 @@ jobs:
           echo "should_run=false" >> "$GITHUB_OUTPUT"
           echo "channel=skip" >> "$GITHUB_OUTPUT"
           echo "branch=skip" >> "$GITHUB_OUTPUT"
+          echo "dry_run=false" >> "$GITHUB_OUTPUT"
 
   ship:
     name: Build and ship ${{ needs.resolve.outputs.channel }}
@@ -126,12 +136,41 @@ jobs:
             -derivedDataPath "$DERIVED_DATA_PATH" \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py || true
+          )"
+
+          if [ -z "$destination" ]; then
+            echo "::error::No available iPhone simulator was found, so release-train tests cannot run."
+            exit 1
+          fi
+
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+
+      - name: Run train tests
+        run: |
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotTests \
+            -only-testing:ns-marks-the-spotUITests \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_ALLOWED=NO
+
       - name: Set up Ruby
+        if: needs.resolve.outputs.dry_run != 'true'
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
       - name: Configure match SSH key
+        if: needs.resolve.outputs.dry_run != 'true'
         env:
           MATCH_GIT_SSH_KEY: ${{ secrets.MATCH_GIT_SSH_KEY }}
         run: |
@@ -145,7 +184,13 @@ jobs:
           chmod 600 ~/.ssh/match_key
           echo "GIT_SSH_COMMAND=ssh -i ~/.ssh/match_key -o StrictHostKeyChecking=accept-new" >> "$GITHUB_ENV"
 
+      - name: Stop after dry run
+        if: needs.resolve.outputs.dry_run == 'true'
+        run: |
+          echo "::notice::Dry run requested; compile and tests passed, and no TestFlight upload was attempted."
+
       - name: Upload TestFlight build when secrets are configured
+        if: needs.resolve.outputs.dry_run != 'true'
         env:
           APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
@@ -153,18 +198,18 @@ jobs:
           CHANNEL: ${{ needs.resolve.outputs.channel }}
         run: |
           if [ -z "$APP_STORE_CONNECT_API_KEY_JSON" ] || [ -z "$MATCH_PASSWORD" ]; then
-            echo "::notice::APP_STORE_CONNECT_API_KEY_JSON and MATCH_PASSWORD are required for TestFlight upload. Compile-only release train completed."
-            exit 0
+            echo "::error::APP_STORE_CONNECT_API_KEY_JSON and MATCH_PASSWORD are required for TestFlight upload. Use workflow_dispatch dry_run=true for a non-shipping validation run."
+            exit 1
           fi
 
           if grep -q "TODO" fastlane/Matchfile; then
-            echo "::notice::fastlane/Matchfile still contains TODO values. Compile-only release train completed."
-            exit 0
+            echo "::error::fastlane/Matchfile still contains TODO values, so this shipping train cannot upload to TestFlight."
+            exit 1
           fi
 
           if grep -q "git@" fastlane/Matchfile && [ -z "$MATCH_GIT_SSH_KEY" ]; then
-            echo "::notice::fastlane/Matchfile uses an SSH match repo but MATCH_GIT_SSH_KEY is not set. Compile-only release train completed."
-            exit 0
+            echo "::error::fastlane/Matchfile uses an SSH match repo but MATCH_GIT_SSH_KEY is not set."
+            exit 1
           fi
 
           bundle exec fastlane beta channel:"$CHANNEL"

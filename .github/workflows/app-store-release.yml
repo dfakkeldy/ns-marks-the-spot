@@ -1,0 +1,108 @@
+name: App Store Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PROJECT: ns-marks-the-spot.xcodeproj
+  SCHEME: ns-marks-the-spot
+  DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
+
+jobs:
+  release:
+    name: Archive and upload App Store build
+    runs-on: macos-26
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -resolvePackageDependencies
+
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py || true
+          )"
+
+          if [ -z "$destination" ]; then
+            echo "::error::No available iPhone simulator was found, so release tests cannot run."
+            exit 1
+          fi
+
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+
+      - name: Run release tests
+        run: |
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotTests \
+            -only-testing:ns-marks-the-spotUITests \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Configure match SSH key
+        env:
+          MATCH_GIT_SSH_KEY: ${{ secrets.MATCH_GIT_SSH_KEY }}
+        run: |
+          if [ -z "$MATCH_GIT_SSH_KEY" ]; then
+            echo "::error::MATCH_GIT_SSH_KEY is required for App Store signing."
+            exit 1
+          fi
+
+          mkdir -p ~/.ssh
+          printf '%s\n' "$MATCH_GIT_SSH_KEY" > ~/.ssh/match_key
+          chmod 600 ~/.ssh/match_key
+          echo "GIT_SSH_COMMAND=ssh -i ~/.ssh/match_key -o StrictHostKeyChecking=accept-new" >> "$GITHUB_ENV"
+
+      - name: Upload App Store build
+        env:
+          APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: |
+          if [ -z "$APP_STORE_CONNECT_API_KEY_JSON" ] || [ -z "$MATCH_PASSWORD" ]; then
+            echo "::error::APP_STORE_CONNECT_API_KEY_JSON and MATCH_PASSWORD are required for App Store release uploads."
+            exit 1
+          fi
+
+          if grep -q "TODO" fastlane/Matchfile; then
+            echo "::error::fastlane/Matchfile still contains TODO values, so this release cannot be signed."
+            exit 1
+          fi
+
+          bundle exec fastlane release

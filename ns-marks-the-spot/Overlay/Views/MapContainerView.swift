@@ -4,6 +4,7 @@ struct MapContainerView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     let engine: any MapEngine
+    let isUITestMode: Bool
     @StateObject private var overlayVM: OverlayViewModel
     @ObservedObject private var poiVM: POIViewModel
     @ObservedObject private var offlineVM: OfflineAreasViewModel
@@ -19,9 +20,11 @@ struct MapContainerView: View {
     init(
         engine: any MapEngine,
         poiViewModel: POIViewModel,
-        offlineAreasViewModel: OfflineAreasViewModel
+        offlineAreasViewModel: OfflineAreasViewModel,
+        isUITestMode: Bool = false
     ) {
         self.engine = engine
+        self.isUITestMode = isUITestMode
         self.poiVM = poiViewModel
         self.offlineVM = offlineAreasViewModel
         _overlayVM = StateObject(wrappedValue: OverlayViewModel(engine: engine))
@@ -177,10 +180,15 @@ struct MapContainerView: View {
             engine.setAnnotationSelectionHandler { annotationID in
                 selectedPOI = poiVM.points.first { $0.id == annotationID }
             }
-            poiVM.loadMockData()
-            poiVM.syncAnnotations(to: engine)
-            Task {
-                await poiVM.fetchRemoteWaterfalls(engine: engine)
+            if isUITestMode {
+                poiVM.points = []
+                poiVM.syncAnnotations(to: engine)
+            } else {
+                poiVM.loadMockData()
+                poiVM.syncAnnotations(to: engine)
+                Task {
+                    await poiVM.fetchRemoteWaterfalls(engine: engine)
+                }
             }
         }
         .onChange(of: selectedPOI) { _, newValue in

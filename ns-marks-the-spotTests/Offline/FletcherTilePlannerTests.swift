@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import ns_marks_the_spot
 
+@MainActor
 struct FletcherTilePlannerTests {
     @Test func computesExpectedWebMercatorTileForHalifaxAtZoomTen() {
         let bounds = MapBounds(
