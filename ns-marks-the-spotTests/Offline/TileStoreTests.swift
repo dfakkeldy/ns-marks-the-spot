@@ -64,7 +64,7 @@ struct TileStoreTests {
         #expect(summary.savedAreaBytes["area-1"] == nil)
     }
 
-    @Test func tileCacheMirrorsStoredTilesIntoTileStore() async throws {
+    @Test func tileCacheDoesNotMirrorViewedTilesIntoTileStore() async throws {
         let root = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
         defer {
@@ -77,13 +77,40 @@ struct TileStoreTests {
 
         cache.cacheTile(data, z: 8, x: 9, y: 10, layerName: "fletcher")
 
-        let mirrored = await eventuallyTile(in: store, z: 8, x: 9, y: 10, layerID: "fletcher")
         let summary = await store.summary()
 
-        #expect(mirrored == data)
-        #expect(summary.totalBytes == 2)
-        #expect(summary.layerBytes["fletcher"] == 2)
+        #expect(await store.tile(z: 8, x: 9, y: 10, layerID: "fletcher") == nil)
+        #expect(summary.totalBytes == 0)
+        #expect(summary.layerBytes.isEmpty)
         #expect(summary.savedAreaBytes.isEmpty)
+    }
+
+    @Test func storeTileCleansUpNewTileWhenRecordWriteFails() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let recordDirectory = root
+            .appendingPathComponent("records", isDirectory: true)
+            .appendingPathComponent("fletcher", isDirectory: true)
+            .appendingPathComponent("1", isDirectory: true)
+            .appendingPathComponent("2", isDirectory: true)
+            .appendingPathComponent("3.json", isDirectory: true)
+
+        try FileManager.default.createDirectory(
+            at: recordDirectory,
+            withIntermediateDirectories: true
+        )
+
+        var didThrow = false
+        do {
+            try await store.store(Data([0x70]), z: 1, x: 2, y: 3, layerID: "fletcher", savedAreaID: nil)
+        } catch {
+            didThrow = true
+        }
+
+        #expect(didThrow)
+        #expect(await store.tile(z: 1, x: 2, y: 3, layerID: "fletcher") == nil)
+        #expect(await store.summary() == TileStoreSummary(totalBytes: 0, layerBytes: [:], savedAreaBytes: [:]))
     }
 
     @Test func staleGlobalGenerationMirrorDoesNotWriteTile() async throws {
@@ -155,19 +182,4 @@ struct TileStoreTests {
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
     }
 
-    private func eventuallyTile(
-        in store: TileStore,
-        z: Int,
-        x: Int,
-        y: Int,
-        layerID: String
-    ) async -> Data? {
-        for _ in 0..<100 {
-            if let data = await store.tile(z: z, x: x, y: y, layerID: layerID) {
-                return data
-            }
-            try? await Task.sleep(for: .milliseconds(100))
-        }
-        return nil
-    }
 }

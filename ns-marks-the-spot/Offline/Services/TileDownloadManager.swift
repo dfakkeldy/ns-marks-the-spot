@@ -82,7 +82,8 @@ nonisolated struct FletcherTileLoader: TileDataLoading {
             x: coordinate.x,
             y: coordinate.y,
             from: templateURL,
-            layerName: layerID
+            layerName: layerID,
+            cacheResult: false
         )
     }
 }

@@ -30,7 +30,13 @@ struct LayerCatalogTests {
 
         #expect(descriptor?.offlinePolicy == .viewedCacheOnly)
         #expect(descriptor?.renderingRole == .basemapAndOverlay)
-        #expect(descriptor?.sourceURL?.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer")
+        #expect(descriptor?.sourceURL?.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
+    }
+
+    @Test func arcGISDynamicLayersAvoidLowZoomExports() {
+        let dynamicLayers = LayerCatalog.all.filter { $0.sourceKind == .arcGISDynamic }
+
+        #expect(dynamicLayers.allSatisfy { $0.minZoom >= 12 })
     }
 
     @Test func provinceAttributionIsIncluded() {

@@ -5,6 +5,7 @@ import Testing
 struct POIFetcherTests {
     @Test func fetchWaterfallsUsesFallsLayerAndDecodesMixedArcGISAttributes() async throws {
         WaterfallURLProtocol.reset(
+            statusCode: 200,
             responseData: Data(
                 """
                 {
@@ -46,14 +47,66 @@ struct POIFetcherTests {
         #expect(points.first?.longitude == -65.69966205546243)
         #expect(points.first?.category == "waterfall")
     }
+
+    @Test func fetchWaterfallsThrowsForArcGISErrorPayload() async throws {
+        WaterfallURLProtocol.reset(
+            statusCode: 200,
+            responseData: Data(
+                """
+                {
+                  "error": {
+                    "code": 404,
+                    "message": "Layer not found",
+                    "details": []
+                  }
+                }
+                """.utf8
+            )
+        )
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [WaterfallURLProtocol.self]
+        let urlSession = URLSession(configuration: configuration)
+        defer { WaterfallURLProtocol.reset() }
+
+        do {
+            _ = try await POIFetcher(urlSession: urlSession).fetchWaterfalls()
+            Issue.record("Expected ArcGIS error payload to throw")
+        } catch let error as POIFetcherError {
+            #expect(error == .serviceError(code: 404, message: "Layer not found"))
+        } catch {
+            Issue.record("Expected POIFetcherError, got \(error)")
+        }
+    }
+
+    @Test func fetchWaterfallsThrowsForHTTPErrorStatus() async throws {
+        WaterfallURLProtocol.reset(
+            statusCode: 500,
+            responseData: Data("server error".utf8)
+        )
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [WaterfallURLProtocol.self]
+        let urlSession = URLSession(configuration: configuration)
+        defer { WaterfallURLProtocol.reset() }
+
+        do {
+            _ = try await POIFetcher(urlSession: urlSession).fetchWaterfalls()
+            Issue.record("Expected HTTP error status to throw")
+        } catch let error as POIFetcherError {
+            #expect(error == .invalidHTTPStatus(500))
+        } catch {
+            Issue.record("Expected POIFetcherError, got \(error)")
+        }
+    }
 }
 
 private final class WaterfallURLProtocol: URLProtocol {
     static var requests: [URLRequest] = []
+    static var statusCode = 200
     static var responseData = Data()
 
-    static func reset(responseData: Data = Data()) {
+    static func reset(statusCode: Int = 200, responseData: Data = Data()) {
         requests = []
+        self.statusCode = statusCode
         self.responseData = responseData
     }
 
@@ -70,7 +123,7 @@ private final class WaterfallURLProtocol: URLProtocol {
         guard let url = request.url,
               let response = HTTPURLResponse(
                 url: url,
-                statusCode: 200,
+                statusCode: Self.statusCode,
                 httpVersion: nil,
                 headerFields: ["Content-Type": "application/json"]
               ) else {

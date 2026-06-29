@@ -56,8 +56,7 @@ final class MapKitTileLayer: MapLayer {
             name: descriptor.name,
             type: type,
             minZoom: descriptor.minZoom,
-            maxZoom: descriptor.maxZoom,
-            cacheIdentifier: descriptor.cacheKey
+            maxZoom: descriptor.maxZoom
         )
         self.opacity = descriptor.defaultOpacity
         self.isVisible = descriptor.defaultVisibility

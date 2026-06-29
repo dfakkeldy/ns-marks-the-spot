@@ -26,7 +26,7 @@ struct LayerInstallationTests {
         }
 
         if case .arcgisMapService(let url, let transparent) = layer.type {
-            #expect(url.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer")
+            #expect(url.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
             #expect(transparent == false)
         } else {
             Issue.record("NS Aerial should use arcgisMapService")
@@ -42,18 +42,19 @@ struct LayerInstallationTests {
         if case .tile(let url) = installedLayer.type {
             #expect(url.absoluteString.contains("https://wmts.oldmapsonline.org/maps/"))
             #expect(url.absoluteString.contains("%7Bz%7D/%7Bx%7D/%7By%7D.png"))
+            #expect(!url.absoluteString.contains("key="))
         } else {
             Issue.record("Fletcher should use a remote XYZ tile template")
         }
     }
 
-    @Test func catalogInstalledFletcherLayerUsesCanonicalCacheIdentifier() throws {
+    @Test func catalogInstalledFletcherLayerUsesSourceAwareCacheIdentifier() throws {
         let descriptor = try #require(LayerCatalog.descriptor(for: .fletcher))
         let url = try #require(descriptor.sourceURL)
         let layer = MapKitTileLayer(descriptor: descriptor, type: .tile(url))
 
-        #expect(layer.cacheIdentifier == descriptor.cacheKey)
-        #expect(layer.cacheIdentifier == "fletcher")
+        #expect(layer.cacheIdentifier.hasPrefix("\(descriptor.cacheKey)_"))
+        #expect(layer.cacheIdentifier != descriptor.cacheKey)
     }
 
     @Test func arcGISDynamicLayersRetainRestrictionsAndPayloads() {

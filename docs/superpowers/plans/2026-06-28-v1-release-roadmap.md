@@ -18,7 +18,7 @@
 - Preserve the MapEngine abstraction: SwiftUI views must not import MapKit directly.
 - v1.0 saved-area downloads include Fletcher tiles only.
 - NS Aerial and restricted Nova Scotia reference layers are online plus viewed-cache only in v1.0.
-- NS Aerial source URL: `https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer`.
+- NS Aerial source URL: `https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer`.
 - Province attribution text: `Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions.`
 - Apple/MapKit basemap offline availability is not a v1.0 promise.
 - Keep secrets such as `fastlane/api_key.json` out of source control.
@@ -248,7 +248,7 @@ struct LayerCatalogTests {
 
         #expect(descriptor?.offlinePolicy == .viewedCacheOnly)
         #expect(descriptor?.renderingRole == .basemapAndOverlay)
-        #expect(descriptor?.sourceURL?.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer")
+        #expect(descriptor?.sourceURL?.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
     }
 
     @Test func provinceAttributionIsIncluded() {
@@ -355,7 +355,7 @@ enum LayerCatalog {
             id: .fletcher,
             name: "Fletcher",
             sourceKind: .remoteXYZTemplate,
-            sourceURL: URL(string: "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu"),
+            sourceURL: URL(string: "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png"),
             defaultOpacity: 1.0,
             defaultVisibility: true,
             minZoom: 0,
@@ -376,7 +376,7 @@ enum LayerCatalog {
             id: .nsAerial,
             name: "NS Aerial",
             sourceKind: .arcGISMapService,
-            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer"),
+            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer"),
             defaultOpacity: 0.0,
             defaultVisibility: false,
             minZoom: 0,
@@ -543,7 +543,7 @@ struct LayerInstallationTests {
         }
 
         if case .arcgisMapService(let url, let transparent) = layer.type {
-            #expect(url.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer")
+            #expect(url.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
             #expect(transparent == false)
         } else {
             Issue.record("NS Aerial should use arcgisMapService")

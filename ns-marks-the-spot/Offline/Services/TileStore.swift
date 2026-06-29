@@ -123,6 +123,7 @@ actor TileStore {
             withIntermediateDirectories: true
         )
 
+        let hadExistingTile = fileManager.fileExists(atPath: tileURL.path)
         try data.write(to: tileURL, options: .atomic)
 
         var record = readRecord(at: recordURL) ?? TileRecord(
@@ -138,7 +139,14 @@ actor TileStore {
             record.viewedCache = true
         }
 
-        try writeRecord(record, to: recordURL)
+        do {
+            try writeRecord(record, to: recordURL)
+        } catch {
+            if !hadExistingTile {
+                try? removeIfExists(tileURL)
+            }
+            throw error
+        }
     }
 
     func summary() async -> TileStoreSummary {
