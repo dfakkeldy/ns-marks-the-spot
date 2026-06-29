@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct SaveAreaDraftView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @ObservedObject var viewModel: OfflineAreasViewModel
     let bounds: MapBounds
 
@@ -8,6 +10,7 @@ struct SaveAreaDraftView: View {
     @State private var minZoom = 10
     @State private var maxZoom = 14
     @State private var draftArea: SavedOfflineArea?
+    @State private var didSave = false
 
     var body: some View {
         Form {
@@ -33,12 +36,22 @@ struct SaveAreaDraftView: View {
                         )
                     )
 
-                    Button("Save Area") {
-                        Task {
-                            await viewModel.saveDraft(draftArea)
-                        }
+                    if isOverTileBudget(draftArea) {
+                        Text("Selected area is too large for an offline download.")
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
                     }
-                    .disabled(viewModel.isStorageOperationInProgress)
+
+                    Button {
+                        Task {
+                            if await viewModel.saveDraft(draftArea) {
+                                didSave = true
+                            }
+                        }
+                    } label: {
+                        Label(didSave ? "Saved" : "Save Area", systemImage: didSave ? "checkmark.circle" : "square.and.arrow.down")
+                    }
+                    .disabled(viewModel.isStorageOperationInProgress || didSave || isOverTileBudget(draftArea))
                 } else {
                     Text("Estimate a draft area to preview the Fletcher download size.")
                         .foregroundStyle(.secondary)
@@ -50,6 +63,13 @@ struct SaveAreaDraftView: View {
             }
         }
         .navigationTitle("Save Area")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(didSave ? "Done" : "Cancel") {
+                    dismiss()
+                }
+            }
+        }
         .onChange(of: areaName) { _, _ in
             invalidateDraft()
         }
@@ -67,6 +87,11 @@ struct SaveAreaDraftView: View {
 
     private func invalidateDraft() {
         draftArea = nil
+        didSave = false
+    }
+
+    private func isOverTileBudget(_ area: SavedOfflineArea) -> Bool {
+        area.estimatedTileCount > viewModel.maximumSavedAreaTileCount
     }
 
     private func estimateDraft() {
@@ -90,6 +115,7 @@ struct SaveAreaDraftView: View {
                 estimatedBytes: estimatedDraft.estimatedBytes,
                 downloadedTileCount: existingDraft.downloadedTileCount,
                 failedTileCount: existingDraft.failedTileCount,
+                failedTileCoordinates: existingDraft.failedTileCoordinates ?? [],
                 actualBytes: existingDraft.actualBytes,
                 state: estimatedDraft.state
             )

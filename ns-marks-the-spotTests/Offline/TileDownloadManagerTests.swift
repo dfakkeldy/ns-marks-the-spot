@@ -38,7 +38,12 @@ struct TileDownloadManagerTests {
 
         let progress = await manager.download(area: area, loader: loader)
 
-        #expect(progress == TileDownloadProgress(total: coordinates.count, succeeded: coordinates.count - 1, failed: 1))
+        #expect(progress == TileDownloadProgress(
+            total: coordinates.count,
+            succeeded: coordinates.count - 1,
+            failed: 1,
+            failedCoordinates: [failingCoordinate]
+        ))
         #expect(await store.tile(
             z: successfulCoordinate.z,
             x: successfulCoordinate.x,
@@ -51,6 +56,71 @@ struct TileDownloadManagerTests {
             y: failingCoordinate.y,
             layerID: "fletcher"
         ) == nil)
+    }
+
+    @Test func reportsIncrementalProgressAndFailedCoordinates() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let manager = TileDownloadManager(tileStore: store)
+        let area = halifaxArea(id: "area-progress", maxZoom: 11)
+        let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
+        let failingCoordinate = try #require(coordinates.first)
+        let loader = StubTileLoader(failingCoordinates: [failingCoordinate])
+        var snapshots: [TileDownloadProgress] = []
+
+        let progress = await manager.download(area: area, loader: loader) { snapshot in
+            snapshots.append(snapshot)
+        }
+
+        #expect(snapshots.count == coordinates.count)
+        #expect(progress.failedCoordinates == [failingCoordinate])
+        #expect(snapshots.last == progress)
+    }
+
+    @Test func canDownloadOnlyTargetedFailedCoordinates() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let manager = TileDownloadManager(tileStore: store)
+        let area = halifaxArea(id: "area-targeted", maxZoom: 11)
+        let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
+        let failedCoordinate = try #require(coordinates.dropFirst().first)
+        let loader = StubTileLoader()
+
+        let progress = await manager.download(
+            area: area,
+            loader: loader,
+            targetCoordinates: [failedCoordinate]
+        )
+        let requests = await loader.requestedCoordinates()
+
+        #expect(progress == TileDownloadProgress(total: 1, succeeded: 1, failed: 0))
+        #expect(requests == [failedCoordinate])
+    }
+
+    @Test func cancellationStopsBeforeRemainingCoordinates() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        let manager = TileDownloadManager(tileStore: store)
+        let area = halifaxArea(id: "area-cancel", maxZoom: 11)
+        let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
+        let loader = BlockingStubTileLoader()
+
+        let task = Task {
+            await manager.download(area: area, loader: loader)
+        }
+        await loader.waitForRequest()
+        task.cancel()
+        await loader.finish()
+
+        let progress = await task.value
+
+        #expect(progress.wasCancelled)
+        #expect(progress.succeeded == 1)
+        #expect(progress.failed == coordinates.count - 1)
+        #expect(progress.failedCoordinates == Array(coordinates.dropFirst()))
     }
 
     @Test func skipsExistingViewedCacheTilesAndAssociatesThemWithSavedArea() async throws {
@@ -175,5 +245,33 @@ private actor StubTileLoader: TileDataLoading {
 
     private func isSameCoordinate(_ lhs: TileCoordinate, _ rhs: TileCoordinate) -> Bool {
         lhs.z == rhs.z && lhs.x == rhs.x && lhs.y == rhs.y
+    }
+}
+
+private actor BlockingStubTileLoader: TileDataLoading {
+    private var requestContinuation: CheckedContinuation<Void, Never>?
+    private var dataContinuation: CheckedContinuation<Data, Never>?
+    private var didReceiveRequest = false
+
+    func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
+        didReceiveRequest = true
+        requestContinuation?.resume()
+        requestContinuation = nil
+
+        return await withCheckedContinuation { continuation in
+            dataContinuation = continuation
+        }
+    }
+
+    func waitForRequest() async {
+        guard !didReceiveRequest else { return }
+        await withCheckedContinuation { continuation in
+            requestContinuation = continuation
+        }
+    }
+
+    func finish() {
+        dataContinuation?.resume(returning: Data([0xCA]))
+        dataContinuation = nil
     }
 }
