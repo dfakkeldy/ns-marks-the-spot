@@ -7,8 +7,11 @@ final class AppContainer {
     let tileFetcher: TileFetcher
     let poiViewModel: POIViewModel
     let offlineAreasViewModel: OfflineAreasViewModel
+    let isUITestMode: Bool
 
     init() {
+        self.isUITestMode = ProcessInfo.processInfo.arguments.contains("UITestMode")
+
         let store = TileStore()
         self.tileStore = store
 

@@ -1,11 +1,11 @@
 import Foundation
 
-struct TileEstimate: Equatable {
+nonisolated struct TileEstimate: Equatable, Sendable {
     let tileCount: Int
     let estimatedBytes: Int
 }
 
-enum FletcherTilePlanner {
+nonisolated enum FletcherTilePlanner {
     private static let maxWebMercatorLatitude = 85.05112878
 
     static func coordinates(for bounds: MapBounds, zoomRange: ClosedRange<Int>) -> [TileCoordinate] {

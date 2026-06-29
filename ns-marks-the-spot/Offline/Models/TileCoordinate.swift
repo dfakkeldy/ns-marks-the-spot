@@ -1,6 +1,6 @@
 import Foundation
 
-struct TileCoordinate: Hashable, Codable {
+nonisolated struct TileCoordinate: Hashable, Codable, Sendable {
     let z: Int
     let x: Int
     let y: Int

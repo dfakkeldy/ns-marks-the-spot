@@ -76,6 +76,7 @@ struct MapAnnotationTests {
 
 // MARK: - MapKitTileLayer
 
+@MainActor
 struct MapKitTileLayerTests {
     @Test func initialization() {
         let url = URL(fileURLWithPath: "Tiles/Fletcher")
@@ -179,6 +180,7 @@ struct OverlayViewModelTests {
 
 // MARK: - MapEngine setVisible
 
+@MainActor
 struct SetVisibleTests {
     @Test func setVisibleTogglesLayerVisibility() {
         let engine = MockMapEngine()

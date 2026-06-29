@@ -10,9 +10,9 @@ This repository uses a one-way promotion ladder:
 
 - `main` remains the GitHub default branch and represents stable releases.
 - Feature work branches from `nightly`; feature PRs target `nightly`.
-- `nightly` is the integration branch and feeds daily TestFlight builds.
-- `weekly` is promoted from `nightly` and feeds Monday beta TestFlight builds.
-- `main` is promoted only from `weekly`; tagging `vX.Y.Z` cuts the App Store release.
+- `nightly` is the integration branch and feeds daily TestFlight builds once the release workflow has reached the default branch.
+- `weekly` is promoted from `nightly` and feeds Monday beta TestFlight builds once the release workflow has reached the default branch.
+- `main` is promoted only from `weekly`; tagging `vX.Y.Z` on a commit with the App Store release workflow cuts the App Store release.
 - Hotfix exception: branch from `main`, PR to `main`, then merge `main` back down into `weekly` and `nightly`.
 
 | Branch | Required Approvals | Required Check | Strict | Intended Source |
@@ -28,3 +28,5 @@ Release train uploads require these GitHub Actions secrets:
 - `APP_STORE_CONNECT_API_KEY_JSON`
 - `MATCH_PASSWORD`
 - `MATCH_GIT_SSH_KEY`
+
+GitHub scheduled workflows run only from the default branch (`main`). Until release workflow changes are promoted to `main`, use `workflow_dispatch` on the branch for dry-run validation. Shipping release trains fail when signing/App Store secrets or match configuration are missing; use `dry_run=true` only for an explicitly non-shipping compile-and-test run.

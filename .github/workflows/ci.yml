@@ -91,27 +91,29 @@ jobs:
             -derivedDataPath "$DERIVED_DATA_PATH" \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Run unit tests when simulator runtime is healthy
+      - name: Resolve test simulator
+        id: test-simulator
         run: |
-          if ! xcrun simctl list devices available | grep -q "iPhone 17 Pro"; then
-            echo "::notice::No iPhone 17 Pro simulator device was found. build-for-testing remains the required gate."
-            exit 0
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py || true
+          )"
+
+          if [ -z "$destination" ]; then
+            echo "::error::No available iPhone simulator was found, so the required test gate cannot run."
+            exit 1
           fi
 
-          set +e
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+
+      - name: Run unit and UI tests
+        run: |
           xcodebuild test-without-building \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
-            -destination "platform=iOS Simulator,name=iPhone 17 Pro,OS=latest" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
             -derivedDataPath "$DERIVED_DATA_PATH" \
             -only-testing:ns-marks-the-spotTests \
+            -only-testing:ns-marks-the-spotUITests \
+            -parallel-testing-enabled NO \
             CODE_SIGNING_ALLOWED=NO
-          status=$?
-          set -e
-
-          if [ "$status" -eq 70 ]; then
-            echo "::notice::The iOS simulator runtime could not boot. build-for-testing remains the required gate."
-            exit 0
-          fi
-
-          exit "$status"

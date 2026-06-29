@@ -190,27 +190,43 @@ final class TileCache: @unchecked Sendable {
     }
 
     func clearLayer(named layerName: String) async throws {
+        prepareLayerClear(named: layerName)
+
+        try await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
+
+        finishLayerClear(named: layerName)
+    }
+
+    func clearAllCachedTiles() async throws {
+        prepareAllClear()
+
+        try await clearDiskStorage(at: diskRoot)
+
+        finishAllClear()
+    }
+
+    private func prepareLayerClear(named layerName: String) {
         stateLock.lock()
         bumpGeneration(for: layerName)
         evictMemoryCache(for: layerName)
         stateLock.unlock()
+    }
 
-        try await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
-
+    private func finishLayerClear(named layerName: String) {
         stateLock.lock()
         evictMemoryCache(for: layerName)
         stateLock.unlock()
     }
 
-    func clearAllCachedTiles() async throws {
+    private func prepareAllClear() {
         stateLock.lock()
         bumpGeneration()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()
         stateLock.unlock()
+    }
 
-        try await clearDiskStorage(at: diskRoot)
-
+    private func finishAllClear() {
         stateLock.lock()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()

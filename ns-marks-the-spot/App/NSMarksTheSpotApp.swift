@@ -10,7 +10,8 @@ struct NSMarksTheSpotApp: App {
             MapContainerView(
                 engine: container.mapEngine,
                 poiViewModel: container.poiViewModel,
-                offlineAreasViewModel: container.offlineAreasViewModel
+                offlineAreasViewModel: container.offlineAreasViewModel,
+                isUITestMode: container.isUITestMode
             )
         }
         .modelContainer(for: PointOfInterest.self)

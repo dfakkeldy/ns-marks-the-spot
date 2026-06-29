@@ -1,12 +1,12 @@
 import Foundation
 
-struct TileStoreSummary: Equatable {
+nonisolated struct TileStoreSummary: Equatable, Sendable {
     let totalBytes: Int
     let layerBytes: [String: Int]
     let savedAreaBytes: [String: Int]
 }
 
-struct TileStoreGenerationSnapshot: Sendable {
+nonisolated struct TileStoreGenerationSnapshot: Sendable {
     let globalValue: Int
     let layerID: String
     let layerValue: Int
