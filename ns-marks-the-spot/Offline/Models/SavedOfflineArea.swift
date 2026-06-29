@@ -1,6 +1,6 @@
 import Foundation
 
-enum SavedOfflineAreaState: String, Codable, Equatable {
+nonisolated enum SavedOfflineAreaState: String, Codable, Equatable, Sendable {
     case draft
     case estimating
     case queued
@@ -11,7 +11,7 @@ enum SavedOfflineAreaState: String, Codable, Equatable {
     case deleted
 }
 
-struct SavedOfflineArea: Identifiable, Codable, Equatable {
+nonisolated struct SavedOfflineArea: Identifiable, Codable, Equatable, Sendable {
     let id: String
     var name: String
     var bounds: MapBounds

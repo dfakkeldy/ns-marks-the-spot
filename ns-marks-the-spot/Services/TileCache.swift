@@ -211,11 +211,11 @@ final class TileCache: @unchecked Sendable {
     }
 
     func clearAllCachedTiles() async throws {
-        prepareClearAll()
+        prepareAllClear()
 
         try await clearDiskStorage(at: diskRoot)
 
-        finishClearAll()
+        finishAllClear()
     }
 
     private func prepareLayerClear(named layerName: String) {
@@ -231,7 +231,7 @@ final class TileCache: @unchecked Sendable {
         stateLock.unlock()
     }
 
-    private func prepareClearAll() {
+    private func prepareAllClear() {
         stateLock.lock()
         bumpGeneration()
         memoryCache.removeAllObjects()
@@ -239,7 +239,7 @@ final class TileCache: @unchecked Sendable {
         stateLock.unlock()
     }
 
-    private func finishClearAll() {
+    private func finishAllClear() {
         stateLock.lock()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()

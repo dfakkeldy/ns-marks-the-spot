@@ -1,16 +1,16 @@
 import Foundation
 
-struct TileDownloadProgress: Equatable {
+nonisolated struct TileDownloadProgress: Equatable, Sendable {
     let total: Int
     var succeeded: Int
     var failed: Int
 }
 
-protocol TileDataLoading {
+nonisolated protocol TileDataLoading {
     func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data
 }
 
-final class TileDownloadManager {
+nonisolated final class TileDownloadManager {
     private static let fletcherLayerID = "fletcher"
 
     private let tileStore: TileStore
@@ -72,7 +72,7 @@ final class TileDownloadManager {
     }
 }
 
-struct FletcherTileLoader: TileDataLoading {
+nonisolated struct FletcherTileLoader: TileDataLoading {
     let tileFetcher: TileFetcher
     let templateURL: URL
 

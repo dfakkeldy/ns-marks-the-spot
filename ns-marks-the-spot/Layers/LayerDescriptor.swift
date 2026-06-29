@@ -1,6 +1,6 @@
 import Foundation
 
-enum LayerID: String, CaseIterable {
+nonisolated enum LayerID: String, CaseIterable, Sendable {
     case fletcher
     case nsAerial = "ns-aerial"
     case nsPropertyBoundaries = "nsprd"
@@ -9,25 +9,25 @@ enum LayerID: String, CaseIterable {
     case waterfalls
 }
 
-enum LayerRenderingRole: Equatable {
+nonisolated enum LayerRenderingRole: Equatable, Sendable {
     case basemap
     case overlay
     case basemapAndOverlay
 }
 
-enum LayerOfflinePolicy: Equatable {
+nonisolated enum LayerOfflinePolicy: Equatable, Sendable {
     case savedAreaDownloadable
     case viewedCacheOnly
     case onlineOnly
 }
 
-enum LayerSourceKind: Equatable {
+nonisolated enum LayerSourceKind: Equatable, Sendable {
     case remoteXYZTemplate
     case arcGISMapService
     case arcGISDynamic
 }
 
-struct LayerDescriptor: Identifiable, Equatable {
+nonisolated struct LayerDescriptor: Identifiable, Equatable, Sendable {
     let id: LayerID
     let name: String
     let sourceKind: LayerSourceKind

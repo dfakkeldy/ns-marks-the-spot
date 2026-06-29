@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import ns_marks_the_spot
 
+@MainActor
 struct LayerCatalogTests {
     @Test func containsExpectedV1Layers() {
         let ids = Set(LayerCatalog.all.map(\.id))
