@@ -23,6 +23,7 @@ nonisolated struct SavedOfflineArea: Identifiable, Codable, Equatable, Sendable 
     var estimatedBytes: Int
     var downloadedTileCount: Int
     var failedTileCount: Int
+    var failedTileCoordinates: [TileCoordinate]?
     var actualBytes: Int
     var state: SavedOfflineAreaState
 
@@ -38,6 +39,7 @@ nonisolated struct SavedOfflineArea: Identifiable, Codable, Equatable, Sendable 
         estimatedBytes: Int = 0,
         downloadedTileCount: Int = 0,
         failedTileCount: Int = 0,
+        failedTileCoordinates: [TileCoordinate] = [],
         actualBytes: Int = 0,
         state: SavedOfflineAreaState = .draft
     ) {
@@ -52,6 +54,7 @@ nonisolated struct SavedOfflineArea: Identifiable, Codable, Equatable, Sendable 
         self.estimatedBytes = estimatedBytes
         self.downloadedTileCount = downloadedTileCount
         self.failedTileCount = failedTileCount
+        self.failedTileCoordinates = failedTileCoordinates
         self.actualBytes = actualBytes
         self.state = state
     }

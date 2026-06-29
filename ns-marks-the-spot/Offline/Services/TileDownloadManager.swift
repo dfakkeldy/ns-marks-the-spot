@@ -4,6 +4,8 @@ nonisolated struct TileDownloadProgress: Equatable, Sendable {
     let total: Int
     var succeeded: Int
     var failed: Int
+    var failedCoordinates: [TileCoordinate] = []
+    var wasCancelled = false
 }
 
 nonisolated protocol TileDataLoading {
@@ -21,15 +23,26 @@ nonisolated final class TileDownloadManager {
 
     func download(
         area: SavedOfflineArea,
-        loader: TileDataLoading
+        loader: TileDataLoading,
+        targetCoordinates: [TileCoordinate]? = nil,
+        progressHandler: ((TileDownloadProgress) async -> Void)? = nil
     ) async -> TileDownloadProgress {
-        let coordinates = FletcherTilePlanner.coordinates(
+        let coordinates = targetCoordinates ?? FletcherTilePlanner.coordinates(
             for: area.bounds,
             zoomRange: area.minZoom...area.maxZoom
         )
         var progress = TileDownloadProgress(total: coordinates.count, succeeded: 0, failed: 0)
 
-        for coordinate in coordinates {
+        for (index, coordinate) in coordinates.enumerated() {
+            if Task.isCancelled {
+                progress.wasCancelled = true
+                let remaining = Array(coordinates[index...])
+                progress.failed += remaining.count
+                progress.failedCoordinates.append(contentsOf: remaining)
+                await progressHandler?(progress)
+                break
+            }
+
             if let existingData = await tileStore.tile(
                 z: coordinate.z,
                 x: coordinate.x,
@@ -48,7 +61,9 @@ nonisolated final class TileDownloadManager {
                     progress.succeeded += 1
                 } catch {
                     progress.failed += 1
+                    progress.failedCoordinates.append(coordinate)
                 }
+                await progressHandler?(progress)
                 continue
             }
 
@@ -65,7 +80,9 @@ nonisolated final class TileDownloadManager {
                 progress.succeeded += 1
             } catch {
                 progress.failed += 1
+                progress.failedCoordinates.append(coordinate)
             }
+            await progressHandler?(progress)
         }
 
         return progress

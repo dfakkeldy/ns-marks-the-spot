@@ -53,6 +53,24 @@ struct FletcherTilePlannerTests {
         #expect(estimate.estimatedBytes == estimate.tileCount * 12_000)
     }
 
+    @Test func estimateCountsLargeAreasWithoutMaterializingCoordinates() {
+        let bounds = MapBounds(
+            minLatitude: 43.0,
+            minLongitude: -66.5,
+            maxLatitude: 47.0,
+            maxLongitude: -59.5
+        )
+
+        let estimate = FletcherTilePlanner.estimate(
+            bounds: bounds,
+            zoomRange: 10...18,
+            averageTileBytes: 12_000
+        )
+
+        #expect(estimate.tileCount > OfflineAreasViewModel.maximumSavedAreaTileCount)
+        #expect(estimate.estimatedBytes == estimate.tileCount * 12_000)
+    }
+
     @Test func normalizesInvertedBounds() {
         let bounds = MapBounds(
             minLatitude: 45.0,

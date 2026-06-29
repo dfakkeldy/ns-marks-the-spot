@@ -1,7 +1,13 @@
 import SwiftUI
 
 struct OfflineStorageView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @ObservedObject var viewModel: OfflineAreasViewModel
+    @State private var isConfirmingDeleteAllCachedTiles = false
+    @State private var layerPendingDeletion: OfflineLayerStorageSummary?
+    @State private var areaPendingDeletion: SavedOfflineArea?
+
     private let defaultSaveAreaBounds = MapBounds(
         minLatitude: 44.60,
         minLongitude: -63.65,
@@ -24,9 +30,7 @@ struct OfflineStorageView: View {
                     }
 
                     Button(role: .destructive) {
-                        Task {
-                            await viewModel.deleteAllCachedTiles()
-                        }
+                        isConfirmingDeleteAllCachedTiles = true
                     } label: {
                         Label("Delete Cached Tiles", systemImage: "trash")
                     }
@@ -60,9 +64,7 @@ struct OfflineStorageView: View {
                                 }
 
                                 Button(role: .destructive) {
-                                    Task {
-                                        await viewModel.deleteLayerCache(layer.id)
-                                    }
+                                    layerPendingDeletion = layer
                                 } label: {
                                     Label("Delete Layer Cache", systemImage: "trash")
                                 }
@@ -117,19 +119,22 @@ struct OfflineStorageView: View {
                                 HStack {
                                     if shouldShowDownloadButton(for: area) {
                                         Button {
-                                            Task {
-                                                await viewModel.downloadArea(area)
-                                            }
+                                            viewModel.startDownloadArea(area)
                                         } label: {
                                             Label("Download Fletcher Tiles", systemImage: "arrow.down.circle")
                                         }
                                         .buttonStyle(.borderless)
                                         .disabled(viewModel.isStorageOperationInProgress)
+                                    } else if isDownloading(area) {
+                                        Button(role: .destructive) {
+                                            viewModel.cancelActiveDownload()
+                                        } label: {
+                                            Label("Cancel Download", systemImage: "xmark.circle")
+                                        }
+                                        .buttonStyle(.borderless)
                                     } else if area.failedTileCount > 0 {
                                         Button {
-                                            Task {
-                                                await viewModel.retryFailedArea(area)
-                                            }
+                                            viewModel.startRetryFailedArea(area)
                                         } label: {
                                             Label("Retry Failed Tiles", systemImage: "arrow.clockwise")
                                         }
@@ -140,9 +145,7 @@ struct OfflineStorageView: View {
                                     Spacer()
 
                                     Button(role: .destructive) {
-                                        Task {
-                                            await viewModel.deleteSavedArea(area)
-                                        }
+                                        areaPendingDeletion = area
                                     } label: {
                                         Label("Delete Area", systemImage: "trash")
                                     }
@@ -156,8 +159,62 @@ struct OfflineStorageView: View {
                 }
             }
             .navigationTitle("Offline Maps")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
             .task {
                 await viewModel.refreshStorageSummary()
+            }
+            .confirmationDialog(
+                "Delete cached tiles?",
+                isPresented: $isConfirmingDeleteAllCachedTiles,
+                titleVisibility: .visible
+            ) {
+                Button("Delete Cached Tiles", role: .destructive) {
+                    Task {
+                        await viewModel.deleteAllCachedTiles()
+                    }
+                }
+            } message: {
+                Text("This removes saved offline tiles and viewed layer cache data.")
+            }
+            .confirmationDialog(
+                "Delete layer cache?",
+                isPresented: isConfirmingLayerDeletion,
+                titleVisibility: .visible
+            ) {
+                if let layer = layerPendingDeletion {
+                    Button("Delete \(layer.displayName)", role: .destructive) {
+                        let layerID = layer.id
+                        layerPendingDeletion = nil
+                        Task {
+                            await viewModel.deleteLayerCache(layerID)
+                        }
+                    }
+                }
+            } message: {
+                Text("This removes cached tiles for the selected layer.")
+            }
+            .confirmationDialog(
+                "Delete saved area?",
+                isPresented: isConfirmingAreaDeletion,
+                titleVisibility: .visible
+            ) {
+                if let area = areaPendingDeletion {
+                    Button("Delete \(area.name)", role: .destructive) {
+                        let areaToDelete = area
+                        areaPendingDeletion = nil
+                        Task {
+                            await viewModel.deleteSavedArea(areaToDelete)
+                        }
+                    }
+                }
+            } message: {
+                Text("This removes the saved area and its offline tile membership.")
             }
         }
     }
@@ -178,7 +235,31 @@ struct OfflineStorageView: View {
         return area.failedTileCount == 0
     }
 
+    private func isDownloading(_ area: SavedOfflineArea) -> Bool {
+        viewModel.activeDownloadAreaID == area.id || area.state == .downloading
+    }
+
     private var failedAreaCount: Int {
         viewModel.savedAreas.filter { $0.failedTileCount > 0 }.count
+    }
+
+    private var isConfirmingLayerDeletion: Binding<Bool> {
+        Binding {
+            layerPendingDeletion != nil
+        } set: { isPresented in
+            if !isPresented {
+                layerPendingDeletion = nil
+            }
+        }
+    }
+
+    private var isConfirmingAreaDeletion: Binding<Bool> {
+        Binding {
+            areaPendingDeletion != nil
+        } set: { isPresented in
+            if !isPresented {
+                areaPendingDeletion = nil
+            }
+        }
     }
 }

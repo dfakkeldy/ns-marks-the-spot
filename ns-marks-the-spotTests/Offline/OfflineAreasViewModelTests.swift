@@ -25,6 +25,30 @@ struct OfflineAreasViewModelTests {
         #expect(area.state == .estimating)
     }
 
+    @Test func estimateDraftMarksOversizedAreasUnsavable() {
+        let storeRoot = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: storeRoot) }
+        let viewModel = OfflineAreasViewModel(
+            tileStore: TileStore(rootDirectory: storeRoot),
+            tileCache: TileCache(),
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
+        let area = viewModel.estimateDraft(
+            name: "Province",
+            bounds: MapBounds(
+                minLatitude: 43.0,
+                minLongitude: -66.5,
+                maxLatitude: 47.0,
+                maxLongitude: -59.5
+            ),
+            minZoom: 10,
+            maxZoom: 18
+        )
+
+        #expect(area.estimatedTileCount > viewModel.maximumSavedAreaTileCount)
+        #expect(area.state == .failed)
+    }
+
     @Test func refreshStorageSummaryAggregatesTileStoreAndTileCacheBytes() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
@@ -92,6 +116,43 @@ struct OfflineAreasViewModelTests {
         #expect(summary.layerBytes.isEmpty)
         #expect(cache.cachedTile(z: 1, x: 1, y: 1, layerName: "fletcher") == nil)
         #expect(!cacheFileExists(root: cacheRoot, layerName: "fletcher", z: 1, x: 1, y: 1))
+    }
+
+    @Test func deleteAllCachedTilesResetsCompleteSavedAreaForRedownload() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot)
+        )
+        let area = SavedOfflineArea(
+            id: "complete-area",
+            name: "Complete",
+            bounds: sampleBounds(),
+            minZoom: 10,
+            maxZoom: 10,
+            estimatedTileCount: 1,
+            estimatedBytes: 12_000,
+            downloadedTileCount: 1,
+            state: .complete
+        )
+
+        await viewModel.saveDraft(area)
+        try await store.store(Data([0x01]), z: 10, x: 331, y: 369, layerID: "fletcher", savedAreaID: area.id)
+        await viewModel.refreshStorageSummary()
+        await viewModel.deleteAllCachedTiles()
+
+        #expect(viewModel.savedAreas[0].state == .estimating)
+        #expect(viewModel.savedAreas[0].downloadedTileCount == 0)
+        #expect(viewModel.savedAreas[0].failedTileCount == 0)
+        #expect(viewModel.savedAreas[0].actualBytes == 0)
     }
 
     @Test func immediateDeleteSkipsPendingTileStoreMirrors() async throws {
@@ -222,6 +283,63 @@ struct OfflineAreasViewModelTests {
         #expect(reloadedViewModel.savedAreas[0].estimatedTileCount == 42)
     }
 
+    @Test func saveDraftDoesNotMutateInMemoryStateWhenPersistenceFails() async throws {
+        let storeRoot = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: storeRoot) }
+        let badFileURL = storeRoot
+            .appendingPathComponent("saved-area-records", isDirectory: true)
+            .appendingPathComponent("saved-areas.json", isDirectory: true)
+        try FileManager.default.createDirectory(at: badFileURL, withIntermediateDirectories: true)
+        let viewModel = OfflineAreasViewModel(
+            tileStore: TileStore(rootDirectory: storeRoot),
+            tileCache: TileCache(),
+            savedAreaRepository: SavedOfflineAreaRepository(fileURL: badFileURL)
+        )
+        let area = SavedOfflineArea(
+            id: "unsaved",
+            name: "Unsaved",
+            bounds: sampleBounds(),
+            minZoom: 10,
+            maxZoom: 10,
+            estimatedTileCount: 1,
+            estimatedBytes: 12_000,
+            state: .estimating
+        )
+
+        let didSave = await viewModel.saveDraft(area)
+
+        #expect(!didSave)
+        #expect(viewModel.savedAreas.isEmpty)
+        #expect(viewModel.storageErrorMessage == "Couldn't save Unsaved.")
+    }
+
+    @Test func staleDownloadingAreaRecoversAsFailedOnLoad() async throws {
+        let storeRoot = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: storeRoot) }
+        let repository = makeRepository(root: storeRoot)
+        let interruptedArea = SavedOfflineArea(
+            id: "interrupted",
+            name: "Interrupted",
+            bounds: sampleBounds(),
+            minZoom: 10,
+            maxZoom: 10,
+            estimatedTileCount: 4,
+            estimatedBytes: 48_000,
+            state: .downloading
+        )
+        try await repository.save([interruptedArea])
+        let viewModel = OfflineAreasViewModel(
+            tileStore: TileStore(rootDirectory: storeRoot),
+            tileCache: TileCache(),
+            savedAreaRepository: repository
+        )
+
+        await viewModel.refreshStorageSummary()
+
+        #expect(viewModel.savedAreas[0].state == .failed)
+        #expect(viewModel.savedAreas[0].failedTileCount > 0)
+    }
+
     @Test func downloadAreaDownloadsNewSavedAreaAndPersistsResult() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
@@ -346,9 +464,9 @@ struct OfflineAreasViewModelTests {
             zoomRange: area.minZoom...area.maxZoom
         )
         let failedCoordinate = try #require(coordinates.first)
-        let loader = MockTileLoader(
+        let loader = TrackingTileLoader(
             data: Data([0x7A, 0x7B]),
-            failingCoordinates: [failedCoordinate]
+            failingCoordinates: []
         )
         let viewModel = OfflineAreasViewModel(
             tileStore: store,
@@ -360,17 +478,103 @@ struct OfflineAreasViewModelTests {
         var savedArea = area
         savedArea.estimatedTileCount = coordinates.count
         savedArea.estimatedBytes = coordinates.count * 12_000
+        savedArea.downloadedTileCount = coordinates.count - 1
+        savedArea.failedTileCoordinates = [failedCoordinate]
 
         await viewModel.saveDraft(savedArea)
         await viewModel.retryFailedArea(savedArea)
+        let requests = await loader.requestedCoordinates()
 
         #expect(viewModel.savedAreas.count == 1)
-        #expect(viewModel.savedAreas[0].state == .partial)
-        #expect(viewModel.savedAreas[0].downloadedTileCount == coordinates.count - 1)
-        #expect(viewModel.savedAreas[0].failedTileCount == 1)
-        #expect(viewModel.savedAreas[0].actualBytes == (coordinates.count - 1) * 2)
+        #expect(viewModel.savedAreas[0].state == .complete)
+        #expect(viewModel.savedAreas[0].downloadedTileCount == coordinates.count)
+        #expect(viewModel.savedAreas[0].failedTileCount == 0)
+        #expect(viewModel.savedAreas[0].failedTileCoordinates?.isEmpty == true)
+        #expect(requests == [failedCoordinate])
         #expect(viewModel.savedAreas[0].updatedAt >= savedArea.updatedAt)
-        #expect(viewModel.storageSummary.savedAreaBytes[savedArea.id] == (coordinates.count - 1) * 2)
+    }
+
+    @Test func downloadAreaPublishesIncrementalProgress() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let loader = PausingAfterFirstTileLoader(data: Data([0x33]))
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot),
+            tileDownloadManager: TileDownloadManager(tileStore: store),
+            tileLoader: loader
+        )
+        let area = SavedOfflineArea(
+            id: "progress-area",
+            name: "Progress",
+            bounds: sampleBounds(),
+            minZoom: 10,
+            maxZoom: 11,
+            estimatedTileCount: FletcherTilePlanner.coordinates(for: sampleBounds(), zoomRange: 10...11).count,
+            estimatedBytes: 12_000,
+            state: .estimating
+        )
+
+        await viewModel.saveDraft(area)
+        let downloadTask = Task {
+            await viewModel.downloadArea(area)
+        }
+        await loader.waitForSecondRequest()
+
+        #expect(viewModel.isStorageOperationInProgress)
+        #expect(viewModel.savedAreas[0].downloadedTileCount >= 1)
+
+        await loader.finishSecondRequest()
+        await downloadTask.value
+    }
+
+    @Test func cancelActiveDownloadStopsAndMarksAreaRetryable() async throws {
+        let storeRoot = makeTemporaryRoot()
+        let cacheRoot = makeTemporaryRoot()
+        defer {
+            try? FileManager.default.removeItem(at: storeRoot)
+            try? FileManager.default.removeItem(at: cacheRoot)
+        }
+        let store = TileStore(rootDirectory: storeRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
+        let loader = BlockingTileLoader(data: Data([0x55]))
+        let viewModel = OfflineAreasViewModel(
+            tileStore: store,
+            tileCache: cache,
+            savedAreaRepository: makeRepository(root: storeRoot),
+            tileDownloadManager: TileDownloadManager(tileStore: store),
+            tileLoader: loader
+        )
+        let coordinates = FletcherTilePlanner.coordinates(for: sampleBounds(), zoomRange: 10...11)
+        let area = SavedOfflineArea(
+            id: "cancel-area",
+            name: "Cancel",
+            bounds: sampleBounds(),
+            minZoom: 10,
+            maxZoom: 11,
+            estimatedTileCount: coordinates.count,
+            estimatedBytes: coordinates.count * 12_000,
+            state: .estimating
+        )
+
+        await viewModel.saveDraft(area)
+        viewModel.startDownloadArea(area)
+        await loader.waitForRequest()
+
+        viewModel.cancelActiveDownload()
+        await loader.finish()
+        #expect(await eventuallyStorageOperationFinishes(viewModel))
+
+        #expect(viewModel.savedAreas[0].state == .partial)
+        #expect(viewModel.savedAreas[0].failedTileCount == coordinates.count - 1)
+        #expect(viewModel.savedAreas[0].failedTileCoordinates?.count == coordinates.count - 1)
     }
 
     @Test func deleteAllCachedTilesIsRejectedDuringRetry() async throws {
@@ -475,6 +679,16 @@ struct OfflineAreasViewModelTests {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
+    private func eventuallyStorageOperationFinishes(_ viewModel: OfflineAreasViewModel) async -> Bool {
+        for _ in 0..<50 {
+            if !viewModel.isStorageOperationInProgress {
+                return true
+            }
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        return false
+    }
+
     private func sampleBounds() -> MapBounds {
         MapBounds(
             minLatitude: 44.64,
@@ -494,6 +708,68 @@ private struct MockTileLoader: TileDataLoading {
             throw URLError(.cannotLoadFromNetwork)
         }
         return data
+    }
+}
+
+private actor TrackingTileLoader: TileDataLoading {
+    let data: Data
+    let failingCoordinates: Set<TileCoordinate>
+    private var requests: [TileCoordinate] = []
+
+    init(data: Data, failingCoordinates: Set<TileCoordinate>) {
+        self.data = data
+        self.failingCoordinates = failingCoordinates
+    }
+
+    func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
+        requests.append(coordinate)
+        if failingCoordinates.contains(coordinate) {
+            throw URLError(.cannotLoadFromNetwork)
+        }
+        return data
+    }
+
+    func requestedCoordinates() -> [TileCoordinate] {
+        requests
+    }
+}
+
+private actor PausingAfterFirstTileLoader: TileDataLoading {
+    let data: Data
+    private var requestCount = 0
+    private var secondRequestContinuation: CheckedContinuation<Void, Never>?
+    private var secondDataContinuation: CheckedContinuation<Data, Never>?
+    private var didReceiveSecondRequest = false
+
+    init(data: Data) {
+        self.data = data
+    }
+
+    func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
+        requestCount += 1
+        guard requestCount > 1 else {
+            return data
+        }
+
+        didReceiveSecondRequest = true
+        secondRequestContinuation?.resume()
+        secondRequestContinuation = nil
+
+        return await withCheckedContinuation { continuation in
+            secondDataContinuation = continuation
+        }
+    }
+
+    func waitForSecondRequest() async {
+        guard !didReceiveSecondRequest else { return }
+        await withCheckedContinuation { continuation in
+            secondRequestContinuation = continuation
+        }
+    }
+
+    func finishSecondRequest() {
+        secondDataContinuation?.resume(returning: data)
+        secondDataContinuation = nil
     }
 }
 
