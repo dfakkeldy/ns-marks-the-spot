@@ -42,10 +42,47 @@ struct POIFetcherTests {
         #expect(requestURL.path.hasSuffix("/MapServer/1/query"))
         #expect(queryItems.first(named: "where")?.value == "FEAT_DESC = 'Falls -  On a single line river point'")
         #expect(points.count == 1)
+        #expect(points.first?.id == "waterfall-1060")
         #expect(points.first?.name == "Test Falls")
         #expect(points.first?.latitude == 43.55632472760332)
         #expect(points.first?.longitude == -65.69966205546243)
         #expect(points.first?.category == "waterfall")
+    }
+
+    @Test func fetchWaterfallsFallsBackToDistinctServiceLabels() async throws {
+        WaterfallURLProtocol.reset(
+            statusCode: 200,
+            responseData: Data(
+                """
+                {
+                  "features": [
+                    {
+                      "attributes": {
+                        "OBJECTID": 1060,
+                        "FEAT_CODE": "WAFA60",
+                        "FEAT_DESC": "Falls -  On a single line river point",
+                        "ZVALUE": 16.4,
+                        "FID": null
+                      },
+                      "geometry": {
+                        "x": -65.69966205546243,
+                        "y": 43.55632472760332
+                      }
+                    }
+                  ]
+                }
+                """.utf8
+            )
+        )
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [WaterfallURLProtocol.self]
+        let urlSession = URLSession(configuration: configuration)
+        defer { WaterfallURLProtocol.reset() }
+
+        let points = try await POIFetcher(urlSession: urlSession).fetchWaterfalls()
+
+        #expect(points.first?.id == "waterfall-1060")
+        #expect(points.first?.name == "Waterfall #1060 (16.4 m)")
     }
 
     @Test func fetchWaterfallsThrowsForArcGISErrorPayload() async throws {

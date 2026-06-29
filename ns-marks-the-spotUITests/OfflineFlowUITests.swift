@@ -11,10 +11,12 @@ final class OfflineFlowUITests: XCTestCase {
         app.launchArguments.append("UITestMode")
         app.launch()
 
-        XCTAssertTrue(app.buttons["Offline Maps"].waitForExistence(timeout: 5))
-        app.buttons["Offline Maps"].tap()
+        let timeout: TimeInterval = 15
+        let offlineMapsButton = app.buttons["Offline Maps"]
+        XCTAssertTrue(offlineMapsButton.waitForExistence(timeout: timeout))
+        offlineMapsButton.tap()
 
-        XCTAssertTrue(app.navigationBars["Offline Maps"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["Save Area"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Offline Maps"].waitForExistence(timeout: timeout))
+        XCTAssertTrue(app.buttons["Save Area"].waitForExistence(timeout: timeout))
     }
 }

@@ -174,6 +174,31 @@ struct MapContainerView: View {
                 }
                 Spacer()
             }
+
+            if let waterfallFetchErrorMessage = poiVM.waterfallFetchErrorMessage {
+                VStack {
+                    Spacer()
+
+                    HStack(spacing: 12) {
+                        Label(waterfallFetchErrorMessage, systemImage: "exclamationmark.triangle")
+                            .font(.footnote)
+
+                        Button("Retry") {
+                            Task {
+                                await poiVM.fetchRemoteWaterfalls(engine: engine, force: true)
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: 8))
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 24)
+                }
+                .accessibilityElement(children: .combine)
+            }
         }
         .onAppear {
             engine.headingChangeHandler = { heading in
@@ -189,8 +214,6 @@ struct MapContainerView: View {
                 poiVM.points = []
                 poiVM.syncAnnotations(to: engine)
             } else {
-                poiVM.loadMockData()
-                poiVM.syncAnnotations(to: engine)
                 Task {
                     await poiVM.fetchRemoteWaterfalls(engine: engine)
                 }
