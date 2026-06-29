@@ -9,8 +9,14 @@ final class PointOfInterest {
     var longitude: Double
     var category: String
 
-    init(name: String, latitude: Double, longitude: Double, category: String) {
-        self.id = UUID().uuidString
+    init(
+        id: String = UUID().uuidString,
+        name: String,
+        latitude: Double,
+        longitude: Double,
+        category: String
+    ) {
+        self.id = id
         self.name = name
         self.latitude = latitude
         self.longitude = longitude

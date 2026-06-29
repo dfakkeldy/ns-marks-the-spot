@@ -127,6 +127,7 @@ final class MapKitEngine: MapEngine {
     // MARK: - Annotations
 
     func addAnnotation(_ annotation: MapAnnotation) {
+        guard !annotations.contains(where: { $0.id == annotation.id }) else { return }
         annotations.append(annotation)
         guard let mapView else {
             pendingAnnotations.append(annotation)
