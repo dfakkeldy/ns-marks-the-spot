@@ -1,5 +1,10 @@
 import Foundation
 
+enum POIFetcherError: Error, Equatable {
+    case invalidHTTPStatus(Int)
+    case serviceError(code: Int?, message: String)
+}
+
 final class POIFetcher {
     private let waterfallURL = URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_UT83/MapServer/1/query")!
     private let urlSession: URLSession
@@ -17,11 +22,23 @@ final class POIFetcher {
             URLQueryItem(name: "f", value: "json"),
         ]
 
-        let (data, _) = try await urlSession.data(from: components.url!)
-        let decoder = JSONDecoder()
-        let response = try decoder.decode(EsriQueryResponse.self, from: data)
+        let (data, response) = try await urlSession.data(from: components.url!)
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw POIFetcherError.invalidHTTPStatus(httpResponse.statusCode)
+        }
 
-        return (response.features ?? []).compactMap(mapToPOI)
+        let decoder = JSONDecoder()
+        let queryResponse = try decoder.decode(EsriQueryResponse.self, from: data)
+
+        if let error = queryResponse.error {
+            throw POIFetcherError.serviceError(
+                code: error.code,
+                message: error.message
+            )
+        }
+
+        return (queryResponse.features ?? []).compactMap(mapToPOI)
     }
 
     private func mapToPOI(_ feature: EsriFeature) -> PointOfInterest? {
@@ -41,6 +58,12 @@ final class POIFetcher {
 
 private struct EsriQueryResponse: Decodable {
     let features: [EsriFeature]?
+    let error: EsriServiceError?
+}
+
+private struct EsriServiceError: Decodable {
+    let code: Int?
+    let message: String
 }
 
 private struct EsriFeature: Decodable {

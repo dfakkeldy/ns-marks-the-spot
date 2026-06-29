@@ -5,6 +5,11 @@ struct TileCacheDiskSummary: Equatable {
     let layerBytes: [String: Int]
 }
 
+enum TileCacheStoragePolicy {
+    case memoryAndDisk
+    case memoryOnly
+}
+
 private final class TileCacheKeyIndex: @unchecked Sendable {
     private let lock = NSLock()
     private var keysByLayer: [String: Set<String>] = [:]
@@ -39,8 +44,8 @@ private final class TileCacheKeyIndex: @unchecked Sendable {
 /// - `stateLock` makes generation checks, memory-cache mutations, and
 ///   layer key tracking atomic relative to cache clears.
 /// - `writeGeneration` synchronizes the cache generation used to invalidate queued
-///   disk writes, pending TileStore mirror tasks, and in-flight disk reads when
-///   all cached tiles are cleared or a single layer is deleted.
+///   disk writes and in-flight disk reads when all cached tiles are cleared or a
+///   single layer is deleted.
 /// - `keyIndex` tracks per-layer memory keys behind a lock so layer-scoped
 ///   eviction can avoid clearing unrelated hot entries.
 ///
@@ -51,17 +56,31 @@ private final class TileCacheKeyIndex: @unchecked Sendable {
 /// and re-fetch. `NSCache`/`FileManager` aren't SDK-marked `Sendable`, so the
 /// guarantee is asserted via `@unchecked`.
 final class TileCache: @unchecked Sendable {
+    private struct DiskEntry {
+        let url: URL
+        let key: String
+        let bytes: Int
+        let lastModified: Date
+    }
+
+    private static let defaultMaxDiskBytes = 256 * 1024 * 1024
+
     private let memoryCache = NSCache<NSString, NSData>()
     private let diskQueue = DispatchQueue(label: "dev.dfakkeldy.ns-marks-the-spot.tilecache")
     private let fileManager = FileManager.default
-    private let tileStore: TileStore?
     private let diskRoot: URL
+    private let maxDiskBytes: Int?
     private let stateLock = NSLock()
     private let writeGeneration = TileStoreWriteGeneration()
     private let keyIndex = TileCacheKeyIndex()
 
-    init(tileStore: TileStore? = nil, diskRoot: URL? = nil) {
-        self.tileStore = tileStore
+    init(
+        tileStore: TileStore? = nil,
+        diskRoot: URL? = nil,
+        maxDiskBytes: Int? = TileCache.defaultMaxDiskBytes
+    ) {
+        _ = tileStore
+        self.maxDiskBytes = maxDiskBytes
         if let diskRoot {
             self.diskRoot = diskRoot
         } else {
@@ -102,7 +121,14 @@ final class TileCache: @unchecked Sendable {
         return diskData
     }
 
-    func cacheTile(_ data: Data, z: Int, x: Int, y: Int, layerName: String) {
+    func cacheTile(
+        _ data: Data,
+        z: Int,
+        x: Int,
+        y: Int,
+        layerName: String,
+        storagePolicy: TileCacheStoragePolicy = .memoryAndDisk
+    ) {
         let key = cacheKey(z: z, x: x, y: y, layerName: layerName)
 
         stateLock.lock()
@@ -112,21 +138,7 @@ final class TileCache: @unchecked Sendable {
         memoryCache.setObject(data as NSData, forKey: key as NSString)
         stateLock.unlock()
 
-        if let tileStore {
-            Task { [weak self, data] in
-                guard let self else { return }
-                try? await tileStore.store(
-                    data,
-                    z: z,
-                    x: x,
-                    y: y,
-                    layerID: layerName,
-                    savedAreaID: nil,
-                    ifGenerationMatches: generation,
-                    generationTracker: self.writeGeneration
-                )
-            }
-        }
+        guard storagePolicy == .memoryAndDisk else { return }
 
         let url = diskURLFor(key: key)
         diskQueue.async { [weak self] in
@@ -140,6 +152,7 @@ final class TileCache: @unchecked Sendable {
             let dir = url.deletingLastPathComponent()
             try? self.fileManager.createDirectory(at: dir, withIntermediateDirectories: true)
             try? data.write(to: url, options: .atomic)
+            self.enforceDiskLimit()
         }
     }
 
@@ -190,27 +203,43 @@ final class TileCache: @unchecked Sendable {
     }
 
     func clearLayer(named layerName: String) async throws {
+        prepareLayerClear(named: layerName)
+
+        try await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
+
+        finishLayerClear(named: layerName)
+    }
+
+    func clearAllCachedTiles() async throws {
+        prepareClearAll()
+
+        try await clearDiskStorage(at: diskRoot)
+
+        finishClearAll()
+    }
+
+    private func prepareLayerClear(named layerName: String) {
         stateLock.lock()
         bumpGeneration(for: layerName)
         evictMemoryCache(for: layerName)
         stateLock.unlock()
+    }
 
-        try await clearDiskStorage(at: diskRoot.appendingPathComponent(layerName, isDirectory: true))
-
+    private func finishLayerClear(named layerName: String) {
         stateLock.lock()
         evictMemoryCache(for: layerName)
         stateLock.unlock()
     }
 
-    func clearAllCachedTiles() async throws {
+    private func prepareClearAll() {
         stateLock.lock()
         bumpGeneration()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()
         stateLock.unlock()
+    }
 
-        try await clearDiskStorage(at: diskRoot)
-
+    private func finishClearAll() {
         stateLock.lock()
         memoryCache.removeAllObjects()
         keyIndex.removeAll()
@@ -243,6 +272,78 @@ final class TileCache: @unchecked Sendable {
                 }
             }
         }
+    }
+
+    private func enforceDiskLimit() {
+        guard let maxDiskBytes, maxDiskBytes > 0 else { return }
+        guard var totalBytesAndEntries = diskEntries(), totalBytesAndEntries.totalBytes > maxDiskBytes else {
+            return
+        }
+
+        for entry in totalBytesAndEntries.entries.sorted(by: { $0.lastModified < $1.lastModified }) {
+            try? fileManager.removeItem(at: entry.url)
+            stateLock.lock()
+            memoryCache.removeObject(forKey: entry.key as NSString)
+            stateLock.unlock()
+
+            totalBytesAndEntries.totalBytes -= entry.bytes
+            if totalBytesAndEntries.totalBytes <= maxDiskBytes {
+                break
+            }
+        }
+    }
+
+    private func diskEntries() -> (totalBytes: Int, entries: [DiskEntry])? {
+        guard fileManager.fileExists(atPath: diskRoot.path) else {
+            return (0, [])
+        }
+
+        guard let enumerator = fileManager.enumerator(
+            at: diskRoot,
+            includingPropertiesForKeys: [.fileSizeKey, .contentModificationDateKey, .isRegularFileKey],
+            options: [.skipsHiddenFiles]
+        ) else {
+            return nil
+        }
+
+        var totalBytes = 0
+        var entries: [DiskEntry] = []
+
+        for case let fileURL as URL in enumerator {
+            let values = try? fileURL.resourceValues(
+                forKeys: [.fileSizeKey, .contentModificationDateKey, .isRegularFileKey]
+            )
+            guard values?.isRegularFile == true,
+                  let key = cacheKey(forDiskURL: fileURL) else {
+                continue
+            }
+
+            let bytes = values?.fileSize ?? 0
+            totalBytes += bytes
+            entries.append(
+                DiskEntry(
+                    url: fileURL,
+                    key: key,
+                    bytes: bytes,
+                    lastModified: values?.contentModificationDate ?? .distantPast
+                )
+            )
+        }
+
+        return (totalBytes, entries)
+    }
+
+    private func cacheKey(forDiskURL url: URL) -> String? {
+        let rootPath = diskRoot.standardizedFileURL.path
+        let filePath = url.standardizedFileURL.path
+        guard filePath.hasPrefix(rootPath + "/"),
+              filePath.hasSuffix(".png") else {
+            return nil
+        }
+
+        let relativeStart = filePath.index(filePath.startIndex, offsetBy: rootPath.count + 1)
+        let withoutExtension = filePath[..<filePath.index(filePath.endIndex, offsetBy: -4)]
+        return String(withoutExtension[relativeStart...])
     }
 
     private func evictMemoryCache(for layerName: String) {

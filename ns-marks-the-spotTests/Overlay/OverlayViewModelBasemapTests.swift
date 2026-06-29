@@ -7,7 +7,7 @@ struct OverlayViewModelBasemapTests {
     @Test func selectingNSAerialBasemapShowsLayerAndSwitchingAwayHidesIt() throws {
         let engine = MockMapEngine()
         let nsAerialURL = try #require(
-            URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer")
+            URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
         )
         let nsAerial = MapKitTileLayer(
             id: LayerID.nsAerial.rawValue,

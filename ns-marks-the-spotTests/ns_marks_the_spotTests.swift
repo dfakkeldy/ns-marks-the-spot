@@ -5,10 +5,12 @@ import Testing
 // MARK: - TileCache
 
 struct TileCacheTests {
-    let cache = TileCache()
-
     @Test func memoryCacheRoundTrip() {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let cache = TileCache(diskRoot: root)
         let data = Data([0x01, 0x02, 0x03])
+
         cache.cacheTile(data, z: 10, x: 300, y: 400, layerName: "Fletcher")
 
         let retrieved = cache.cachedTile(z: 10, x: 300, y: 400, layerName: "Fletcher")
@@ -16,11 +18,18 @@ struct TileCacheTests {
     }
 
     @Test func nilOnCacheMiss() {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let cache = TileCache(diskRoot: root)
+
         let result = cache.cachedTile(z: 0, x: 0, y: 0, layerName: "Nonexistent")
         #expect(result == nil)
     }
 
     @Test func differentLayerNamesDontCollide() {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let cache = TileCache(diskRoot: root)
         let dataA = Data([0xAA])
         let dataB = Data([0xBB])
 
@@ -32,6 +41,9 @@ struct TileCacheTests {
     }
 
     @Test func differentCoordinatesDontCollide() {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let cache = TileCache(diskRoot: root)
         let dataA = Data([0x11])
         let dataB = Data([0x22])
 
@@ -40,6 +52,60 @@ struct TileCacheTests {
 
         #expect(cache.cachedTile(z: 5, x: 10, y: 20, layerName: "Fletcher") == dataA)
         #expect(cache.cachedTile(z: 5, x: 30, y: 40, layerName: "Fletcher") == dataB)
+    }
+
+    @Test func diskCacheEvictsOldestTilesWhenQuotaIsExceeded() async {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let cache = TileCache(diskRoot: root, maxDiskBytes: 3)
+        let oldest = Data([0x01, 0x02])
+        let newest = Data([0x03, 0x04])
+
+        cache.cacheTile(oldest, z: 1, x: 1, y: 1, layerName: "Fletcher")
+        #expect(await eventuallyCacheFileExists(root: root, layerName: "Fletcher", z: 1, x: 1, y: 1))
+
+        cache.cacheTile(newest, z: 1, x: 2, y: 2, layerName: "Fletcher")
+        #expect(await eventuallyDiskSummary(atMost: 3, cache: cache))
+
+        #expect(cache.cachedTile(z: 1, x: 1, y: 1, layerName: "Fletcher") == nil)
+        #expect(cache.cachedTile(z: 1, x: 2, y: 2, layerName: "Fletcher") == newest)
+    }
+
+    private func makeTemporaryRoot() -> URL {
+        FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+    }
+
+    private func eventuallyCacheFileExists(
+        root: URL,
+        layerName: String,
+        z: Int,
+        x: Int,
+        y: Int
+    ) async -> Bool {
+        let file = root
+            .appendingPathComponent(layerName, isDirectory: true)
+            .appendingPathComponent("\(z)", isDirectory: true)
+            .appendingPathComponent("\(x)", isDirectory: true)
+            .appendingPathComponent("\(y).png")
+
+        for _ in 0..<20 {
+            if FileManager.default.fileExists(atPath: file.path) {
+                return true
+            }
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        return false
+    }
+
+    private func eventuallyDiskSummary(atMost maxBytes: Int, cache: TileCache) async -> Bool {
+        for _ in 0..<20 {
+            if await cache.diskSummary().totalBytes <= maxBytes {
+                return true
+            }
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        return false
     }
 }
 
@@ -204,14 +270,17 @@ struct ReleaseReadinessTests {
     @Test func tileDebugGridIsDisabledForReleaseReadiness() {
         #expect(OpacityTileOverlay.debugShowTileGrid == false)
     }
+
+    @Test func bundledFletcherZoomRangeMatchesCheckedInAssets() {
+        #expect(OpacityTileOverlay.bundledNativeZoomRange == 11...15)
+    }
 }
 
 // MARK: - TileFetcher
 
 struct TileFetcherTests {
-    let fetcher = TileFetcher()
-
     @Test func expandsRawXYZTemplateURL() throws {
+        let fetcher = TileFetcher()
         let baseURL = try #require(
             URL(string: "https://example.com/tiles/{z}/{x}/{y}.png?token=test")
         )
@@ -222,6 +291,7 @@ struct TileFetcherTests {
     }
 
     @Test func expandsEncodedXYZTemplateURL() throws {
+        let fetcher = TileFetcher()
         let baseURL = try #require(
             URL(string: "https://example.com/tiles/%7Bz%7D/%7Bx%7D/%7By%7D.png?token=test")
         )
@@ -232,10 +302,144 @@ struct TileFetcherTests {
     }
 
     @Test func fallsBackToLegacyDirectoryTilePathWhenTemplateIsAbsent() throws {
+        let fetcher = TileFetcher()
         let baseURL = try #require(URL(string: "https://example.com/tiles"))
 
         let url = fetcher.tileURL(z: 7, x: 11, y: 13, from: baseURL)
 
         #expect(url.absoluteString == "https://example.com/tiles/7/11/13.jpg")
     }
+
+    @Test func rejectsHTTPErrorTileResponsesBeforeCaching() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        TileFetcherURLProtocol.reset(
+            statusCode: 404,
+            contentType: "text/html",
+            data: Data("<html>not found</html>".utf8)
+        )
+        let cache = TileCache(diskRoot: root)
+        let fetcher = TileFetcher(tileCache: cache, urlSession: makeURLSession())
+        let baseURL = try #require(URL(string: "https://example.com/tiles/{z}/{x}/{y}.png"))
+
+        await #expect(throws: TileFetcherError.invalidHTTPStatus(404)) {
+            _ = try await fetcher.fetchTile(z: 3, x: 4, y: 5, from: baseURL, layerName: "fletcher")
+        }
+
+        #expect(cache.cachedTile(z: 3, x: 4, y: 5, layerName: "fletcher") == nil)
+    }
+
+    @Test func rejectsNonImageSuccessfulTileResponsesBeforeCaching() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        TileFetcherURLProtocol.reset(
+            statusCode: 200,
+            contentType: "application/json",
+            data: Data("{\"error\":\"not an image\"}".utf8)
+        )
+        let cache = TileCache(diskRoot: root)
+        let fetcher = TileFetcher(tileCache: cache, urlSession: makeURLSession())
+        let baseURL = try #require(URL(string: "https://example.com/tiles/{z}/{x}/{y}.png"))
+
+        await #expect(throws: TileFetcherError.invalidContentType("application/json")) {
+            _ = try await fetcher.fetchTile(z: 3, x: 4, y: 5, from: baseURL, layerName: "fletcher")
+        }
+
+        #expect(cache.cachedTile(z: 3, x: 4, y: 5, layerName: "fletcher") == nil)
+    }
+
+    @Test func fetchTileCanBypassViewedCacheForSavedAreaDownloads() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let png = try #require(Data(base64Encoded: Self.onePixelPNGBase64))
+        TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: png)
+        let cache = TileCache(diskRoot: root)
+        let fetcher = TileFetcher(tileCache: cache, urlSession: makeURLSession())
+        let baseURL = try #require(URL(string: "https://example.com/tiles/{z}/{x}/{y}.png"))
+
+        let data = try await fetcher.fetchTile(
+            z: 3,
+            x: 4,
+            y: 5,
+            from: baseURL,
+            layerName: "fletcher",
+            cacheResult: false
+        )
+
+        #expect(data == png)
+        #expect(cache.cachedTile(z: 3, x: 4, y: 5, layerName: "fletcher") == nil)
+    }
+
+    @Test func dynamicArcGISTilesRejectLowZoomBeforeNetworkFetch() async throws {
+        TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: Data())
+        let fetcher = TileFetcher(urlSession: makeURLSession())
+        let serverURL = try #require(URL(string: "https://example.com/arcgis/rest/services/layer/MapServer"))
+
+        await #expect(throws: TileFetcherError.unsupportedDynamicLayerZoom(10)) {
+            _ = try await fetcher.fetchArcGISDynamicTile(
+                z: 10,
+                x: 330,
+                y: 375,
+                from: serverURL,
+                layerName: "nsprd"
+            )
+        }
+
+        #expect(TileFetcherURLProtocol.requests.isEmpty)
+    }
+
+    private static let onePixelPNGBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="
+
+    private func makeTemporaryRoot() -> URL {
+        FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+    }
+
+    private func makeURLSession() -> URLSession {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [TileFetcherURLProtocol.self]
+        return URLSession(configuration: configuration)
+    }
+}
+
+private final class TileFetcherURLProtocol: URLProtocol {
+    static var requests: [URLRequest] = []
+    static var statusCode = 200
+    static var contentType = "image/png"
+    static var responseData = Data()
+
+    static func reset(statusCode: Int, contentType: String, data: Data) {
+        requests = []
+        self.statusCode = statusCode
+        self.contentType = contentType
+        responseData = data
+    }
+
+    override class func canInit(with request: URLRequest) -> Bool {
+        true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        Self.requests.append(request)
+        guard let url = request.url,
+              let response = HTTPURLResponse(
+                url: url,
+                statusCode: Self.statusCode,
+                httpVersion: nil,
+                headerFields: ["Content-Type": Self.contentType]
+              ) else {
+            client?.urlProtocol(self, didFailWithError: URLError(.badURL))
+            return
+        }
+
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Self.responseData)
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
 }

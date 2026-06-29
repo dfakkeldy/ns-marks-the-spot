@@ -4,15 +4,17 @@ import math
 import time
 import urllib.request
 import urllib.error
+import urllib.parse
 
 # --- CONFIGURATION ---
-# The template URL from David Rumsey / OldMapsOnline (replace with your copied XYZ link)
+# The template URL from David Rumsey / OldMapsOnline (replace with your copied XYZ link).
 # Make sure it contains {z}, {x}, and {y} placeholders.
-#TILE_URL_TEMPLATE = "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/%7Bz%7D/%7Bx%7D/%7By%7D.png?key=RV2bKmpCwqI5ztsYpNUu"
+# If OldMapsOnline requires a key, set OLDMAPSONLINE_API_KEY in your shell.
 TILE_URL_TEMPLATES = [
-    "https://wmts.oldmapsonline.org/maps/80a9ee09-85ea-51f2-88fe-56aed37aea23/2021-10-09T15:20:08.466414Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu",
-    "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu"
+    "https://wmts.oldmapsonline.org/maps/80a9ee09-85ea-51f2-88fe-56aed37aea23/2021-10-09T15:20:08.466414Z/{z}/{x}/{y}.png",
+    "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png"
 ]
+OLDMAPSONLINE_API_KEY = os.environ.get("OLDMAPSONLINE_API_KEY", "").strip()
 
 # Bounding box for Nova Scotia / Cape Breton sheet 17 area (Min/Max Lon/Lat)
 BBOX = {
@@ -38,6 +40,14 @@ REQUEST_DELAY = 0.05
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 # ---------------------
+
+def with_optional_api_key(url):
+    if not OLDMAPSONLINE_API_KEY:
+        return url
+
+    separator = "&" if "?" in url else "?"
+    encoded_key = urllib.parse.quote(OLDMAPSONLINE_API_KEY, safe="")
+    return f"{url}{separator}key={encoded_key}"
 
 def deg2num(lat_deg, lon_deg, zoom):
     lat_rad = math.radians(lat_deg)
@@ -68,6 +78,7 @@ def download_tiles():
                 for y in range(y_start, y_end + 1):
                     # Format download URL
                     tile_url = TILE_URL_TEMPLATE.replace("{z}", str(zoom)).replace("{x}", str(x)).replace("{y}", str(y))
+                    tile_url = with_optional_api_key(tile_url)
 
                     # Setup target paths
                     dest_dir = os.path.join(OUTPUT_DIR, str(zoom), str(x))

@@ -2,13 +2,15 @@ import Foundation
 
 enum LayerCatalog {
     private static let provinceDisclaimer = "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
+    private static let oldMapsOnlineFletcherTemplate = "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png"
+    private static let arcGISDynamicMinimumZoom = 12
 
     static let all: [LayerDescriptor] = [
         LayerDescriptor(
             id: .fletcher,
             name: "Fletcher",
             sourceKind: .remoteXYZTemplate,
-            sourceURL: URL(string: "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png?key=RV2bKmpCwqI5ztsYpNUu"),
+            sourceURL: fletcherSourceURL,
             defaultOpacity: 1.0,
             defaultVisibility: true,
             minZoom: 0,
@@ -29,7 +31,7 @@ enum LayerCatalog {
             id: .nsAerial,
             name: "NS Aerial",
             sourceKind: .arcGISMapService,
-            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer"),
+            sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer"),
             defaultOpacity: 0.0,
             defaultVisibility: false,
             minZoom: 0,
@@ -47,7 +49,7 @@ enum LayerCatalog {
             sourceURL: URL(string: "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer"),
             defaultOpacity: 0.0,
             defaultVisibility: false,
-            minZoom: 0,
+            minZoom: arcGISDynamicMinimumZoom,
             maxZoom: 24,
             renderingRole: .overlay,
             offlinePolicy: .viewedCacheOnly,
@@ -62,7 +64,7 @@ enum LayerCatalog {
             sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/PLAN/PLANCrownLandsWM84V1/MapServer"),
             defaultOpacity: 0.0,
             defaultVisibility: false,
-            minZoom: 0,
+            minZoom: arcGISDynamicMinimumZoom,
             maxZoom: 24,
             renderingRole: .overlay,
             offlinePolicy: .viewedCacheOnly,
@@ -77,7 +79,7 @@ enum LayerCatalog {
             sourceURL: URL(string: "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer"),
             defaultOpacity: 0.0,
             defaultVisibility: false,
-            minZoom: 0,
+            minZoom: arcGISDynamicMinimumZoom,
             maxZoom: 24,
             renderingRole: .overlay,
             offlinePolicy: .viewedCacheOnly,
@@ -92,7 +94,7 @@ enum LayerCatalog {
             sourceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer"),
             defaultOpacity: 0.0,
             defaultVisibility: false,
-            minZoom: 0,
+            minZoom: arcGISDynamicMinimumZoom,
             maxZoom: 24,
             renderingRole: .overlay,
             offlinePolicy: .viewedCacheOnly,
@@ -104,6 +106,35 @@ enum LayerCatalog {
 
     static func descriptor(for id: LayerID) -> LayerDescriptor? {
         all.first { $0.id == id }
+    }
+
+    private static var fletcherSourceURL: URL? {
+        guard let key = configuredOldMapsOnlineKey else {
+            return URL(string: oldMapsOnlineFletcherTemplate)
+        }
+
+        let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
+        return URL(string: "\(oldMapsOnlineFletcherTemplate)?key=\(encodedKey)")
+    }
+
+    private static var configuredOldMapsOnlineKey: String? {
+        [
+            Bundle.main.object(forInfoDictionaryKey: "OldMapsOnlineAPIKey") as? String,
+            ProcessInfo.processInfo.environment["OLDMAPSONLINE_API_KEY"]
+        ]
+        .compactMap { $0 }
+        .compactMap(normalizedOldMapsOnlineKey)
+        .first
+    }
+
+    nonisolated private static func normalizedOldMapsOnlineKey(_ value: String) -> String? {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty,
+              !trimmed.contains("$("),
+              !trimmed.hasPrefix("<") else {
+            return nil
+        }
+        return trimmed
     }
 
     private static func provinceAttribution(copyright: String?) -> LayerAttribution {
