@@ -23,7 +23,10 @@ struct TransparencySliderView: View {
                         .font(.system(size: 20))
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Circle())
                 }
+                .buttonStyle(.plain)
                 .accessibilityLabel("Close layers menu")
             }
             
@@ -92,6 +95,8 @@ struct TransparencySliderView: View {
                                 .labelsHidden()
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                                 .fixedSize()
+                                .accessibilityLabel("\(layer.name) visibility")
+                                .accessibilityValue(layer.isVisible ? "On" : "Off")
                             }
                             
                             // Expanded Opacity Control
