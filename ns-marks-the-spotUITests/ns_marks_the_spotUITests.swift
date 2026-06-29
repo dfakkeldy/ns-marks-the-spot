@@ -34,6 +34,31 @@ final class ns_marks_the_spotUITests: XCTestCase {
     }
 
     @MainActor
+    func testLayersMenuControlsAreAccessible() throws {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launch()
+
+        XCTAssertTrue(app.buttons["Toggle Layers Menu"].waitForExistence(timeout: 5))
+        app.buttons["Toggle Layers Menu"].tap()
+
+        XCTAssertTrue(app.buttons["Close layers menu"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.switches["Fletcher visibility"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testSaveAreaSelectionOffersVisibleMapAlternative() throws {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launch()
+
+        XCTAssertTrue(app.buttons["Save Area"].waitForExistence(timeout: 5))
+        app.buttons["Save Area"].tap()
+
+        XCTAssertTrue(app.buttons["Use Visible Map"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {

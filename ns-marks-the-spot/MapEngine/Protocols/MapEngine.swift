@@ -26,6 +26,7 @@ protocol MapEngine: AnyObject {
     func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void)
     func beginBoundsSelection(_ handler: @escaping (MapBounds) -> Void)
     func endBoundsSelection()
+    func currentVisibleBounds() -> MapBounds?
 
     var mapHeading: Double { get }
     var headingChangeHandler: ((Double) -> Void)? { get set }

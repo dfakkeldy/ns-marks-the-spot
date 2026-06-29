@@ -47,6 +47,12 @@ struct MapKitMapView: UIViewRepresentable {
             engine?.headingChangeHandler?(heading)
         }
 
+        func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+            guard engine?.isWaitingToCenterOnUserLocation == true,
+                  userLocation.location != nil else { return }
+            engine?.centerOnUserLocation()
+        }
+
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             if let polygon = overlay as? MKPolygon {
                 let renderer = MKPolygonRenderer(polygon: polygon)
@@ -88,9 +94,8 @@ struct MapKitMapView: UIViewRepresentable {
         }
 
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            guard let point = view.annotation as? MKPointAnnotation,
-                  let id = point.subtitle else { return }
-            engine?.handleAnnotationSelected(id: id)
+            guard let annotation = view.annotation as? MapKitAnnotationIdentifying else { return }
+            engine?.handleAnnotationSelected(id: annotation.mapAnnotationID)
         }
 
         func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {

@@ -51,4 +51,17 @@ struct MapBoundsSelectionTests {
 
         #expect(deliveryCount == 0)
     }
+
+    @Test func mockEngineReturnsCurrentVisibleBounds() {
+        let engine = MockMapEngine()
+        let visibleBounds = MapBounds(
+            minLatitude: 44.0,
+            minLongitude: -64.0,
+            maxLatitude: 45.0,
+            maxLongitude: -63.0
+        )
+        engine.visibleBounds = visibleBounds
+
+        #expect(engine.currentVisibleBounds() == visibleBounds)
+    }
 }
