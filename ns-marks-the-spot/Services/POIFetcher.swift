@@ -32,7 +32,10 @@ final class POIFetcher {
         let queryResponse = try decoder.decode(EsriQueryResponse.self, from: data)
 
         if let error = queryResponse.error {
-            throw POIFetcherError.serviceError(code: error.code, message: error.message)
+            throw POIFetcherError.serviceError(
+                code: error.code,
+                message: error.message
+            )
         }
 
         return (queryResponse.features ?? []).compactMap(mapToPOI)

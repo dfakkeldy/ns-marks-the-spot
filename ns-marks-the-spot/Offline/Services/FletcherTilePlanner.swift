@@ -13,19 +13,10 @@ nonisolated enum FletcherTilePlanner {
         var coordinates: Set<TileCoordinate> = []
 
         for zoom in zoomRange {
-            let northWest = tileXY(
-                latitude: normalized.maxLatitude,
-                longitude: normalized.minLongitude,
-                zoom: zoom
-            )
-            let southEast = tileXY(
-                latitude: normalized.minLatitude,
-                longitude: normalized.maxLongitude,
-                zoom: zoom
-            )
+            let range = tileRange(for: normalized, zoom: zoom)
 
-            for x in northWest.x...southEast.x {
-                for y in northWest.y...southEast.y {
+            for x in range.x {
+                for y in range.y {
                     coordinates.insert(TileCoordinate(z: zoom, x: x, y: y))
                 }
             }
@@ -43,8 +34,50 @@ nonisolated enum FletcherTilePlanner {
         zoomRange: ClosedRange<Int>,
         averageTileBytes: Int
     ) -> TileEstimate {
-        let count = coordinates(for: bounds, zoomRange: zoomRange).count
-        return TileEstimate(tileCount: count, estimatedBytes: count * averageTileBytes)
+        let count = tileCount(for: bounds, zoomRange: zoomRange)
+        let (estimatedBytes, didOverflow) = count.multipliedReportingOverflow(by: averageTileBytes)
+        return TileEstimate(
+            tileCount: count,
+            estimatedBytes: didOverflow ? Int.max : estimatedBytes
+        )
+    }
+
+    static func tileCount(for bounds: MapBounds, zoomRange: ClosedRange<Int>) -> Int {
+        let normalized = bounds.normalized
+        var count = 0
+
+        for zoom in zoomRange {
+            let range = tileRange(for: normalized, zoom: zoom)
+            let (zoomCount, zoomOverflow) = range.x.count.multipliedReportingOverflow(by: range.y.count)
+            if zoomOverflow {
+                return Int.max
+            }
+            let (newCount, didOverflow) = count.addingReportingOverflow(zoomCount)
+            count = didOverflow ? Int.max : newCount
+        }
+
+        return count
+    }
+
+    private static func tileRange(
+        for bounds: MapBounds,
+        zoom: Int
+    ) -> (x: ClosedRange<Int>, y: ClosedRange<Int>) {
+        let northWest = tileXY(
+            latitude: bounds.maxLatitude,
+            longitude: bounds.minLongitude,
+            zoom: zoom
+        )
+        let southEast = tileXY(
+            latitude: bounds.minLatitude,
+            longitude: bounds.maxLongitude,
+            zoom: zoom
+        )
+
+        return (
+            min(northWest.x, southEast.x)...max(northWest.x, southEast.x),
+            min(northWest.y, southEast.y)...max(northWest.y, southEast.y)
+        )
     }
 
     private static func tileXY(latitude: Double, longitude: Double, zoom: Int) -> (x: Int, y: Int) {

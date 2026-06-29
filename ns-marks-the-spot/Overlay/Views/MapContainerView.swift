@@ -59,6 +59,11 @@ struct MapContainerView: View {
                                     .background(.regularMaterial)
                                     .clipShape(.rect(cornerRadius: 16))
 
+                                Button("Use Visible Map") {
+                                    saveVisibleMapArea()
+                                }
+                                .buttonStyle(.borderedProminent)
+
                                 Button("Cancel") {
                                     cancelBoundsSelection()
                                 }
@@ -273,9 +278,15 @@ struct MapContainerView: View {
     }
 
     private func finishBoundsSelection(with bounds: MapBounds) {
+        engine.endBoundsSelection()
         isSelectingSaveArea = false
         selectedSaveBounds = bounds.normalized
         isSaveAreaDraftPresented = true
+    }
+
+    private func saveVisibleMapArea() {
+        guard let bounds = engine.currentVisibleBounds() else { return }
+        finishBoundsSelection(with: bounds)
     }
 
     private func cancelBoundsSelection() {

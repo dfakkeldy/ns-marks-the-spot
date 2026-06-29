@@ -8,6 +8,7 @@ final class OverlayViewModel: ObservableObject {
 
     private let nsAerialLayerId = LayerID.nsAerial.rawValue
     private let nsAerialBasemapOpacity: CGFloat = 1.0
+    private let restoredOverlayOpacity: CGFloat = 0.7
 
     var layers: [any MapLayer] { engine.layers }
     var baseMapType: MapBaseType { engine.baseMapType }
@@ -61,7 +62,18 @@ final class OverlayViewModel: ObservableObject {
 
     func toggleVisibility(_ id: String) {
         guard let layer = engine.layers.first(where: { $0.id == id }) else { return }
-        engine.setVisible(for: id, to: !layer.isVisible)
+
+        if id == nsAerialLayerId {
+            toggleNSAerialVisibility(layer)
+            objectWillChange.send()
+            return
+        }
+
+        let newVisibility = !layer.isVisible
+        if newVisibility {
+            restoreVisibleOpacityIfNeeded(for: layer)
+        }
+        engine.setVisible(for: id, to: newVisibility)
         objectWillChange.send()
     }
 
@@ -78,5 +90,38 @@ final class OverlayViewModel: ObservableObject {
         } else if nsAerialLayer.isVisible {
             engine.setVisible(for: nsAerialLayerId, to: false)
         }
+    }
+
+    private func toggleNSAerialVisibility(_ layer: any MapLayer) {
+        if layer.isVisible {
+            engine.setVisible(for: nsAerialLayerId, to: false)
+            if engine.baseMapType == .nsAerial {
+                engine.baseMapType = .standard
+            }
+        } else {
+            restoreVisibleOpacityIfNeeded(for: layer)
+            engine.setVisible(for: nsAerialLayerId, to: true)
+            engine.baseMapType = .nsAerial
+        }
+    }
+
+    private func restoreVisibleOpacityIfNeeded(for layer: any MapLayer) {
+        guard layer.opacity <= 0 else { return }
+        let fallbackOpacity = visibleFallbackOpacity(for: layer.id)
+        engine.setOpacity(for: layer.id, to: fallbackOpacity)
+    }
+
+    private func visibleFallbackOpacity(for layerId: String) -> CGFloat {
+        if layerId == nsAerialLayerId {
+            return nsAerialBasemapOpacity
+        }
+
+        guard let catalogID = LayerID(rawValue: layerId),
+              let descriptor = LayerCatalog.descriptor(for: catalogID),
+              descriptor.defaultOpacity > 0 else {
+            return restoredOverlayOpacity
+        }
+
+        return descriptor.defaultOpacity
     }
 }

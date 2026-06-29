@@ -50,7 +50,7 @@ v1.0 includes:
 - Nova Scotia reference overlays, including property boundaries, Crown lands,
   flood risk areas, and waterfalls.
 - New Nova Scotia aerial imagery layer using:
-  `https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer`
+  `https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer`
 - Persistent viewed-tile cache.
 - Editable rectangular saved areas for predownloading Fletcher tiles.
 - Storage/offline management UI.
@@ -218,7 +218,7 @@ layers after legal and service-behavior review.
 
 The NS Aerial service is the Nova Scotia Orthophotomap Database service:
 
-`https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_UT83/MapServer`
+`https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer`
 
 Observed service characteristics:
 
