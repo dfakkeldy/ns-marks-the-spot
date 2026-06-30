@@ -1,9 +1,52 @@
 # frozen_string_literal: true
 
+require "json"
+
 # ── Fastfile for "NS Marks The Spot" ──────────────────────────────────────────
 # MIT License — open-source iOS map app with historical tile overlays.
 
 default_platform(:ios)
+
+APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+API_KEY_PATH = File.expand_path("api_key.json", __dir__)
+METADATA_ROOT = File.expand_path("metadata", __dir__)
+REVIEW_NOTES_PATH = File.join(METADATA_ROOT, "review_information", "notes.txt")
+EN_US_METADATA_ROOT = File.join(METADATA_ROOT, "en-US")
+DESCRIPTION_PATH = File.join(EN_US_METADATA_ROOT, "description.txt")
+KEYWORDS_PATH = File.join(EN_US_METADATA_ROOT, "keywords.txt")
+
+def app_store_connect_api_key_from_file
+  UI.user_error!("Missing fastlane/api_key.json") unless File.exist?(API_KEY_PATH)
+
+  app_store_connect_api_key(
+    key_filepath: API_KEY_PATH
+  )
+end
+
+def app_store_connect_api_key_from_env
+  raw_json = ENV.fetch("APP_STORE_CONNECT_API_KEY_JSON")
+  api_key = JSON.parse(raw_json)
+  key_content = api_key["key_content"] || api_key["key"]
+
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include key_id.") if api_key["key_id"].to_s.empty?
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include issuer_id.") if api_key["issuer_id"].to_s.empty?
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include key_content or key.") if key_content.to_s.empty?
+
+  app_store_connect_api_key(
+    key_id: api_key.fetch("key_id"),
+    issuer_id: api_key.fetch("issuer_id"),
+    key_content: key_content,
+    is_key_content_base64: api_key.fetch("is_key_content_base64", false),
+    duration: api_key.fetch("duration", 1200),
+    in_house: api_key.fetch("in_house", false)
+  )
+end
+
+def app_store_connect_api_key_for_release
+  return app_store_connect_api_key_from_env unless ENV["APP_STORE_CONNECT_API_KEY_JSON"].to_s.empty?
+
+  app_store_connect_api_key_from_file
+end
 
 # ── Platform ------------------------------------------------------------------
 
@@ -68,39 +111,99 @@ platform :ios do
     )
   end
 
-  desc "Build and run unit tests (what CI would do)"
+  desc "Build and run all tests (what CI would do)"
   lane :ci do
     build
-    test
+    test_all
+  end
+
+  desc "Run local metadata validation checks"
+  lane :lint_metadata do
+    required_files = [
+      REVIEW_NOTES_PATH,
+      File.join(EN_US_METADATA_ROOT, "name.txt"),
+      File.join(EN_US_METADATA_ROOT, "subtitle.txt"),
+      File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
+      DESCRIPTION_PATH,
+      KEYWORDS_PATH
+    ]
+    missing_files = required_files.reject { |path| File.exist?(path) }
+    UI.user_error!("Missing metadata files: #{missing_files.join(', ')}") unless missing_files.empty?
+
+    review_notes = File.read(REVIEW_NOTES_PATH).strip
+    description = File.read(DESCRIPTION_PATH).strip
+    keywords = File.read(KEYWORDS_PATH).strip
+
+    UI.user_error!("Review notes cannot be empty") if review_notes.empty?
+    UI.user_error!("Description cannot be empty") if description.empty?
+    UI.user_error!("keywords.txt cannot be empty") if keywords.empty?
+    UI.user_error!("keywords.txt exceeds App Store Connect 100-byte limit") if keywords.bytesize > 100
+
+    UI.success("Local metadata checks passed.")
+  end
+
+  # ── Release lanes ─────────────────────────────────────────────────────────
+
+  desc "Upload a nightly or weekly train build to TestFlight"
+  lane :beta do |options|
+    channel = (options[:channel] || "nightly").to_s
+    api_key = app_store_connect_api_key_for_release
+    bundle_id = APP_IDENTIFIER
+
+    setup_ci
+    match(type: "appstore", readonly: true)
+
+    latest_build = latest_testflight_build_number(
+      app_identifier: bundle_id,
+      api_key: api_key,
+      initial_build_number: 0
+    )
+    increment_build_number(build_number: latest_build.to_i + 1)
+
+    build_app(
+      scheme: "ns-marks-the-spot",
+      export_method: "app-store"
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      app_identifier: bundle_id,
+      skip_waiting_for_build_processing: false,
+      distribute_external: false,
+      notify_external_testers: false,
+      changelog: "Automated #{channel} train build"
+    )
+  end
+
+  desc "Archive and upload an App Store release build"
+  lane :release do
+    api_key = app_store_connect_api_key_for_release
+    bundle_id = APP_IDENTIFIER
+
+    setup_ci
+    match(type: "appstore", readonly: true)
+
+    latest_build = latest_testflight_build_number(
+      app_identifier: bundle_id,
+      api_key: api_key,
+      initial_build_number: 0
+    )
+    increment_build_number(build_number: latest_build.to_i + 1)
+
+    build_app(
+      scheme: "ns-marks-the-spot",
+      export_method: "app-store"
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      app_identifier: bundle_id,
+      skip_screenshots: true,
+      submit_for_review: false
+    )
   end
 
   # ── Placeholder lanes (uncomment and configure when ready) ────────────────
-
-  # desc "Upload a new beta build to TestFlight"
-  # lane :beta do
-  #   build_app(
-  #     scheme: "ns-marks-the-spot",
-  #     export_method: "app-store"
-  #   )
-  #   upload_to_testflight
-  # end
-
-  # desc "Push a new release build to the App Store"
-  # lane :release do
-  #   # 1. Ensure git is clean and on main
-  #   ensure_git_status_clean
-  #   ensure_git_branch(branch: "main")
-  #
-  #   # 2. Bump build number (auto-increment)
-  #   increment_build_number
-  #
-  #   # 3. Build and upload
-  #   build_app(scheme: "ns-marks-the-spot", export_method: "app-store")
-  #   upload_to_app_store
-  #
-  #   # 4. Tag the release
-  #   push_git_tags
-  # end
 
   # desc "Capture App Store screenshots"
   # lane :screenshots do

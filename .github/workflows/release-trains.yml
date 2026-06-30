@@ -1,0 +1,223 @@
+name: Release Trains
+
+on:
+  schedule:
+    # America/Halifax 03:00 nightly. ADT is UTC-3, AST is UTC-4.
+    - cron: "0 6 * * *"
+    - cron: "0 7 * * *"
+    # America/Halifax Monday 09:00 weekly. ADT is UTC-3, AST is UTC-4.
+    - cron: "0 12 * * 1"
+    - cron: "0 13 * * 1"
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Train channel to build
+        required: true
+        type: choice
+        options:
+          - nightly
+          - weekly
+      dry_run:
+        description: Compile and test without uploading to TestFlight
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  PROJECT: ns-marks-the-spot.xcodeproj
+  SCHEME: ns-marks-the-spot
+  DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
+  TRAIN_TIMEZONE: America/Halifax
+
+jobs:
+  resolve:
+    name: Resolve train
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.resolve.outputs.should_run }}
+      channel: ${{ steps.resolve.outputs.channel }}
+      branch: ${{ steps.resolve.outputs.branch }}
+      dry_run: ${{ steps.resolve.outputs.dry_run }}
+    steps:
+      - name: Resolve channel and branch
+        id: resolve
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_CHANNEL: ${{ inputs.channel }}
+          SCHEDULE: ${{ github.event.schedule }}
+          TRAIN_TIMEZONE: America/Halifax
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            {
+              echo "should_run=true"
+              echo "channel=$DISPATCH_CHANNEL"
+              echo "branch=$DISPATCH_CHANNEL"
+              echo "dry_run=${{ inputs.dry_run }}"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          local_hour="$(TZ="$TRAIN_TIMEZONE" date +%H)"
+          local_day="$(TZ="$TRAIN_TIMEZONE" date +%u)"
+
+          if [ "$local_hour" = "03" ]; then
+            {
+              echo "should_run=true"
+              echo "channel=nightly"
+              echo "branch=nightly"
+              echo "dry_run=false"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "$local_day" = "1" ] && [ "$local_hour" = "09" ]; then
+            {
+              echo "should_run=true"
+              echo "channel=weekly"
+              echo "branch=weekly"
+              echo "dry_run=false"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "::notice::Skipping inactive DST cron candidate $SCHEDULE for $TRAIN_TIMEZONE."
+          {
+            echo "should_run=false"
+            echo "channel=skip"
+            echo "branch=skip"
+            echo "dry_run=false"
+          } >> "$GITHUB_OUTPUT"
+
+  ship:
+    name: Build and ship ${{ needs.resolve.outputs.channel }}
+    needs: resolve
+    if: needs.resolve.outputs.should_run == 'true'
+    runs-on: macos-26
+    concurrency:
+      group: release-trains-${{ needs.resolve.outputs.channel }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Check out train branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.branch }}
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Resolve cache key inputs
+        id: cache-key
+        run: |
+          version="$(xcodebuild -version | tr '\n ' '--' | sed 's/-*$//')"
+          echo "xcode-version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Cache SwiftPM and DerivedData
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/Library/org.swift.swiftpm
+            DerivedData
+          key: ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-
+
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -resolvePackageDependencies
+
+      - name: Compile train branch
+        run: |
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py || true
+          )"
+
+          if [ -z "$destination" ]; then
+            echo "::error::No available iPhone simulator was found, so release-train tests cannot run."
+            exit 1
+          fi
+
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+
+      - name: Run train tests
+        run: |
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotTests \
+            -only-testing:ns-marks-the-spotUITests \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Set up Ruby
+        if: needs.resolve.outputs.dry_run != 'true'
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Configure match SSH key
+        if: needs.resolve.outputs.dry_run != 'true'
+        env:
+          MATCH_GIT_SSH_KEY: ${{ secrets.MATCH_GIT_SSH_KEY }}
+        run: |
+          if [ -z "$MATCH_GIT_SSH_KEY" ]; then
+            echo "::notice::MATCH_GIT_SSH_KEY is not set. SSH match repositories will be unavailable."
+            exit 0
+          fi
+
+          mkdir -p ~/.ssh
+          printf '%s\n' "$MATCH_GIT_SSH_KEY" > ~/.ssh/match_key
+          chmod 600 ~/.ssh/match_key
+          echo "GIT_SSH_COMMAND=ssh -i ~/.ssh/match_key -o StrictHostKeyChecking=accept-new" >> "$GITHUB_ENV"
+
+      - name: Stop after dry run
+        if: needs.resolve.outputs.dry_run == 'true'
+        run: |
+          echo "::notice::Dry run requested; compile and tests passed, and no TestFlight upload was attempted."
+
+      - name: Upload TestFlight build when secrets are configured
+        if: needs.resolve.outputs.dry_run != 'true'
+        env:
+          APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_SSH_KEY: ${{ secrets.MATCH_GIT_SSH_KEY }}
+          CHANNEL: ${{ needs.resolve.outputs.channel }}
+        run: |
+          if [ -z "$APP_STORE_CONNECT_API_KEY_JSON" ] || [ -z "$MATCH_PASSWORD" ]; then
+            echo "::error::APP_STORE_CONNECT_API_KEY_JSON and MATCH_PASSWORD are required for TestFlight upload. Use workflow_dispatch dry_run=true for a non-shipping validation run."
+            exit 1
+          fi
+
+          if grep -q "TODO" fastlane/Matchfile; then
+            echo "::error::fastlane/Matchfile still contains TODO values, so this shipping train cannot upload to TestFlight."
+            exit 1
+          fi
+
+          if grep -q "git@" fastlane/Matchfile && [ -z "$MATCH_GIT_SSH_KEY" ]; then
+            echo "::error::fastlane/Matchfile uses an SSH match repo but MATCH_GIT_SSH_KEY is not set."
+            exit 1
+          fi
+
+          bundle exec fastlane beta channel:"$CHANNEL"
