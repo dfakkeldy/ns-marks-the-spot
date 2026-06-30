@@ -1,0 +1,9 @@
+# Matchfile - encrypted signing assets for TestFlight/App Store release trains.
+
+git_url("git@github.com:dfakkeldy/echo-audiobooks-certificates.git")
+storage_mode("git")
+
+type("appstore")
+app_identifier(["com.danfakkeldy.nsmarksthespot"])
+team_id("8AXNA5B37R")
+readonly(true)

@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - weekly
+      - nightly
+  pull_request:
+    branches:
+      - main
+      - weekly
+      - nightly
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PROJECT: ns-marks-the-spot.xcodeproj
+  SCHEME: ns-marks-the-spot
+  DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
+
+jobs:
+  build-gate-tests:
+    name: Build gate + tests
+    runs-on: macos-26
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Resolve cache key inputs
+        id: cache-key
+        run: |
+          version="$(xcodebuild -version | tr '\n ' '--' | sed 's/-*$//')"
+          echo "xcode-version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Cache SwiftPM and DerivedData
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/Library/org.swift.swiftpm
+            DerivedData
+          key: ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-
+
+      - name: Validate promotion source
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          case "$BASE_BRANCH:$HEAD_BRANCH" in
+            main:weekly|main:hotfix/*)
+              ;;
+            weekly:nightly|weekly:main)
+              ;;
+            nightly:*)
+              ;;
+            *)
+              echo "::error::Promotion ladder violation: $HEAD_BRANCH cannot target $BASE_BRANCH."
+              echo "::error::Use feature/* -> nightly -> weekly -> main, or hotfix/* -> main then back-merge main down."
+              exit 1
+              ;;
+          esac
+
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -resolvePackageDependencies
+
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py || true
+          )"
+
+          if [ -z "$destination" ]; then
+            echo "::notice::No available iPhone simulator was found; build-for-testing passed, so skipping simulator tests on this runner."
+            echo "has_destination=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          {
+            echo "destination=$destination"
+            echo "has_destination=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run unit and UI tests
+        if: steps.test-simulator.outputs.has_destination == 'true'
+        run: |
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotTests \
+            -only-testing:ns-marks-the-spotUITests \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_ALLOWED=NO
