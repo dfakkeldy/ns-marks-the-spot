@@ -168,7 +168,9 @@ platform :ios do
     upload_to_testflight(
       api_key: api_key,
       app_identifier: bundle_id,
-      skip_waiting_for_build_processing: true,
+      skip_waiting_for_build_processing: false,
+      distribute_external: false,
+      notify_external_testers: false,
       changelog: "Automated #{channel} train build"
     )
   end
