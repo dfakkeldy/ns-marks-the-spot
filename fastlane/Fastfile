@@ -8,6 +8,9 @@ require "json"
 default_platform(:ios)
 
 APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+TEAM_ID = "8AXNA5B37R"
+PROJECT_PATH = File.expand_path("../ns-marks-the-spot.xcodeproj", __dir__)
+SCHEME = "ns-marks-the-spot"
 API_KEY_PATH = File.expand_path("api_key.json", __dir__)
 METADATA_ROOT = File.expand_path("metadata", __dir__)
 REVIEW_NOTES_PATH = File.join(METADATA_ROOT, "review_information", "notes.txt")
@@ -68,12 +71,30 @@ platform :ios do
     UI.error "✗ Lane '#{lane}' failed: #{exception.message}"
   end
 
+  private_lane :apply_app_store_signing do |options|
+    next unless is_ci
+
+    bundle_id = (options[:bundle_id] || APP_IDENTIFIER).to_s
+    mapping = lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING] || {}
+    profile = mapping[bundle_id]
+    UI.user_error!("match did not return an App Store profile for #{bundle_id}") if profile.to_s.empty?
+
+    update_code_signing_settings(
+      path: PROJECT_PATH,
+      use_automatic_signing: false,
+      targets: [SCHEME],
+      team_id: TEAM_ID,
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile
+    )
+  end
+
   # ── Lanes ─────────────────────────────────────────────────────────────────
 
   desc "Run unit tests on the primary scheme"
   lane :test do
     run_tests(
-      scheme: "ns-marks-the-spot",
+      scheme: SCHEME,
       devices: ["iPhone 17 Pro"],          # latest simulator
       only_testing: ["ns-marks-the-spotTests"],
       code_coverage: true,
@@ -84,7 +105,7 @@ platform :ios do
   desc "Run UI tests on the primary scheme"
   lane :ui_test do
     run_tests(
-      scheme: "ns-marks-the-spot",
+      scheme: SCHEME,
       devices: ["iPhone 17 Pro"],
       only_testing: ["ns-marks-the-spotUITests"],
       output_types: "html,junit"
@@ -94,7 +115,7 @@ platform :ios do
   desc "Run all tests (unit + UI) on the primary scheme"
   lane :test_all do
     run_tests(
-      scheme: "ns-marks-the-spot",
+      scheme: SCHEME,
       devices: ["iPhone 17 Pro"],
       code_coverage: true,
       output_types: "html,junit"
@@ -104,7 +125,8 @@ platform :ios do
   desc "Build the app for the simulator — quick sanity check"
   lane :build do
     build_app(
-      scheme: "ns-marks-the-spot",
+      project: PROJECT_PATH,
+      scheme: SCHEME,
       destination: "generic/platform=iOS Simulator",
       skip_codesigning: true,
       skip_archive: true
@@ -152,6 +174,7 @@ platform :ios do
 
     setup_ci
     match(type: "appstore", readonly: true)
+    apply_app_store_signing(bundle_id: bundle_id)
 
     latest_build = latest_testflight_build_number(
       app_identifier: bundle_id,
@@ -161,7 +184,8 @@ platform :ios do
     increment_build_number(build_number: latest_build.to_i + 1)
 
     build_app(
-      scheme: "ns-marks-the-spot",
+      project: PROJECT_PATH,
+      scheme: SCHEME,
       export_method: "app-store"
     )
 
@@ -182,6 +206,7 @@ platform :ios do
 
     setup_ci
     match(type: "appstore", readonly: true)
+    apply_app_store_signing(bundle_id: bundle_id)
 
     latest_build = latest_testflight_build_number(
       app_identifier: bundle_id,
@@ -191,7 +216,8 @@ platform :ios do
     increment_build_number(build_number: latest_build.to_i + 1)
 
     build_app(
-      scheme: "ns-marks-the-spot",
+      project: PROJECT_PATH,
+      scheme: SCHEME,
       export_method: "app-store"
     )
 
