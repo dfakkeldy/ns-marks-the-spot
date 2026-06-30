@@ -60,8 +60,25 @@ jobs:
             exit 0
           fi
 
-          local_hour="$(TZ="$TRAIN_TIMEZONE" date +%H)"
-          local_day="$(TZ="$TRAIN_TIMEZONE" date +%u)"
+          schedule_minute="$(printf '%s' "$SCHEDULE" | awk '{ print $1 }')"
+          schedule_hour="$(printf '%s' "$SCHEDULE" | awk '{ print $2 }')"
+          schedule_day="$(printf '%s' "$SCHEDULE" | awk '{ print $5 }')"
+          local_hour="$(
+            SCHEDULE_HOUR="$schedule_hour" SCHEDULE_MINUTE="$schedule_minute" python3 <<'PY'
+          import os
+          from datetime import datetime, timezone
+          from zoneinfo import ZoneInfo
+
+          now = datetime.now(timezone.utc)
+          scheduled = now.replace(
+              hour=int(os.environ["SCHEDULE_HOUR"]),
+              minute=int(os.environ["SCHEDULE_MINUTE"]),
+              second=0,
+              microsecond=0,
+          )
+          print(scheduled.astimezone(ZoneInfo(os.environ["TRAIN_TIMEZONE"])).strftime("%H"))
+          PY
+          )"
 
           if [ "$local_hour" = "03" ]; then
             {
@@ -73,7 +90,7 @@ jobs:
             exit 0
           fi
 
-          if [ "$local_day" = "1" ] && [ "$local_hour" = "09" ]; then
+          if [ "$schedule_day" = "1" ] && [ "$local_hour" = "09" ]; then
             {
               echo "should_run=true"
               echo "channel=weekly"
