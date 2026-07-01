@@ -57,6 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       UPDATE_BRANCH: automation/devlog-${{ github.run_id }}
     steps:
       - name: Checkout main
@@ -81,6 +82,10 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Generate PR review body
+        if: steps.diff.outputs.changed == 'true'
+        run: DEVLOG_PR_BODY="$RUNNER_TEMP/devlog-pr-body.md" make devlog-pr-body
+
       - name: Commit generated update
         if: steps.diff.outputs.changed == 'true'
         run: |
@@ -98,4 +103,4 @@ jobs:
             --base main \
             --head "$UPDATE_BRANCH" \
             --title "docs(devlog): weekly automated update" \
-            --body "Automated weekly devlog digest generated from the previous calendar week's commit history."
+            --body-file "$RUNNER_TEMP/devlog-pr-body.md"
