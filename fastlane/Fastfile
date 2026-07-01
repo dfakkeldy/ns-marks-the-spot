@@ -17,6 +17,33 @@ REVIEW_NOTES_PATH = File.join(METADATA_ROOT, "review_information", "notes.txt")
 EN_US_METADATA_ROOT = File.join(METADATA_ROOT, "en-US")
 DESCRIPTION_PATH = File.join(EN_US_METADATA_ROOT, "description.txt")
 KEYWORDS_PATH = File.join(EN_US_METADATA_ROOT, "keywords.txt")
+TESTFLIGHT_METADATA_ROOT = File.join(METADATA_ROOT, "testflight", "en-US")
+TESTFLIGHT_DESCRIPTION_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "description.txt")
+TESTFLIGHT_FEEDBACK_EMAIL_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "feedback_email.txt")
+TESTFLIGHT_WHAT_TO_TEST_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "what_to_test.txt")
+
+def required_file_contents(path)
+  UI.user_error!("Missing metadata file: #{path}") unless File.exist?(path)
+
+  contents = File.read(path).strip
+  UI.user_error!("#{path} cannot be empty") if contents.empty?
+  contents
+end
+
+def testflight_feedback_email
+  required_file_contents(TESTFLIGHT_FEEDBACK_EMAIL_PATH)
+end
+
+def testflight_description
+  required_file_contents(TESTFLIGHT_DESCRIPTION_PATH)
+end
+
+def testflight_what_to_test(channel)
+  [
+    required_file_contents(TESTFLIGHT_WHAT_TO_TEST_PATH),
+    "Build channel: #{channel}."
+  ].join("\n\n")
+end
 
 def app_store_connect_api_key_from_file
   UI.user_error!("Missing fastlane/api_key.json") unless File.exist?(API_KEY_PATH)
@@ -147,7 +174,10 @@ platform :ios do
       File.join(EN_US_METADATA_ROOT, "subtitle.txt"),
       File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
       DESCRIPTION_PATH,
-      KEYWORDS_PATH
+      KEYWORDS_PATH,
+      TESTFLIGHT_DESCRIPTION_PATH,
+      TESTFLIGHT_FEEDBACK_EMAIL_PATH,
+      TESTFLIGHT_WHAT_TO_TEST_PATH
     ]
     missing_files = required_files.reject { |path| File.exist?(path) }
     UI.user_error!("Missing metadata files: #{missing_files.join(', ')}") unless missing_files.empty?
@@ -155,11 +185,18 @@ platform :ios do
     review_notes = File.read(REVIEW_NOTES_PATH).strip
     description = File.read(DESCRIPTION_PATH).strip
     keywords = File.read(KEYWORDS_PATH).strip
+    testflight_description = File.read(TESTFLIGHT_DESCRIPTION_PATH).strip
+    testflight_feedback_email = File.read(TESTFLIGHT_FEEDBACK_EMAIL_PATH).strip
+    testflight_what_to_test = File.read(TESTFLIGHT_WHAT_TO_TEST_PATH).strip
 
     UI.user_error!("Review notes cannot be empty") if review_notes.empty?
     UI.user_error!("Description cannot be empty") if description.empty?
     UI.user_error!("keywords.txt cannot be empty") if keywords.empty?
     UI.user_error!("keywords.txt exceeds App Store Connect 100-byte limit") if keywords.bytesize > 100
+    UI.user_error!("TestFlight description cannot be empty") if testflight_description.empty?
+    UI.user_error!("TestFlight feedback email cannot be empty") if testflight_feedback_email.empty?
+    UI.user_error!("TestFlight feedback email must contain @") unless testflight_feedback_email.include?("@")
+    UI.user_error!("TestFlight what_to_test cannot be empty") if testflight_what_to_test.empty?
 
     UI.success("Local metadata checks passed.")
   end
@@ -189,13 +226,30 @@ platform :ios do
       export_method: "app-store"
     )
 
+    feedback_email = testflight_feedback_email
+    beta_description = testflight_description
+    what_to_test = testflight_what_to_test(channel)
+
     upload_to_testflight(
       api_key: api_key,
       app_identifier: bundle_id,
       skip_waiting_for_build_processing: false,
       distribute_external: false,
       notify_external_testers: false,
-      changelog: "Automated #{channel} train build"
+      localized_app_info: {
+        "en-US" => {
+          feedback_email: feedback_email,
+          description: beta_description
+        }
+      },
+      localized_build_info: {
+        "en-US" => {
+          whats_new: what_to_test
+        }
+      },
+      beta_app_feedback_email: feedback_email,
+      beta_app_description: beta_description,
+      changelog: what_to_test
     )
   end
 
