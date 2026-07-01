@@ -58,12 +58,15 @@ class DevlogDigestTests(unittest.TestCase):
             fixes=[DevlogItem("Keep position", "def5678")],
         )
 
-        output = render_markdown_update(digest, "https://github.com/example/Echo")
+        output = render_markdown_update(digest, "https://github.com/example/ns-marks-the-spot")
 
         self.assertIn(AUTO_START, output)
         self.assertIn("## Automated update - Jun 22-28, 2026", output)
         self.assertIn("### Shipped", output)
-        self.assertIn("- Add focus cards ([abc1234](https://github.com/example/Echo/commit/abc1234))", output)
+        self.assertIn(
+            "- Add focus cards ([abc1234](https://github.com/example/ns-marks-the-spot/commit/abc1234))",
+            output,
+        )
         self.assertIn("### Fixed", output)
         self.assertIn(AUTO_END, output)
 
@@ -80,7 +83,11 @@ class DevlogDigestTests(unittest.TestCase):
             ],
         )
 
-        output = render_markdown_update(digest, "https://github.com/example/Echo", max_items_per_group=2)
+        output = render_markdown_update(
+            digest,
+            "https://github.com/example/ns-marks-the-spot",
+            max_items_per_group=2,
+        )
 
         self.assertIn("- One", output)
         self.assertIn("- Two", output)
@@ -96,11 +103,11 @@ class DevlogDigestTests(unittest.TestCase):
             features=[DevlogItem("A < b", "abc1234")],
         )
 
-        output = render_html_update(digest, "https://github.com/example/Echo")
+        output = render_html_update(digest, "https://github.com/example/ns-marks-the-spot")
 
         self.assertIn("Automated · Jun 22-28, 2026 · 1 commit", output)
         self.assertIn("A &lt; b", output)
-        self.assertIn('href="https://github.com/example/Echo/commit/abc1234"', output)
+        self.assertIn('href="https://github.com/example/ns-marks-the-spot/commit/abc1234"', output)
 
 
 class ReplaceBlockTests(unittest.TestCase):

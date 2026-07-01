@@ -31,6 +31,7 @@
       <nav class="nav-links" aria-label="Page sections">
         <a href="#field-guide">Field guide</a>
         <a href="#features">Features</a>
+        <a href="#release">Release</a>
         <a href="#open-source">Open source</a>
         <a href="devlog.html">Devlog</a>
       </nav>
@@ -91,6 +92,38 @@
         <p><strong>Fletcher maps</strong> georeferenced over modern MapKit terrain.</p>
         <p><strong>Offline tiles</strong> keep the map responsive in the field.</p>
         <p><strong>POI layers</strong> mark waterfalls, lighthouses, and discoveries.</p>
+      </section>
+
+      <section id="release" class="release-status section" aria-labelledby="release-title">
+        <div class="section-heading">
+          <div class="section-kicker">Release train</div>
+          <h2 id="release-title">The v1.0 candidate is moving through TestFlight.</h2>
+          <p>
+            As of July 1, 2026, the nightly train has uploaded and distributed
+            TestFlight build 1.0 (4) to internal testers. The remaining work is
+            App Store readiness: privacy, support, screenshots, final metadata,
+            and review submission.
+          </p>
+        </div>
+
+        <div class="release-grid">
+          <a class="release-link" href="guides/devlog.md">
+            <span>Devlog source</span>
+            <strong>Generated weekly from commits</strong>
+          </a>
+          <a class="release-link" href="ROADMAP.md">
+            <span>Roadmap</span>
+            <strong>v1.0 finish line and v1.1 ideas</strong>
+          </a>
+          <a class="release-link" href="APP_STORE_NEXT_STEPS.md">
+            <span>App Store</span>
+            <strong>Next ten submission steps</strong>
+          </a>
+          <a class="release-link" href="FASTLANE.md">
+            <span>Fastlane</span>
+            <strong>Metadata and release lanes</strong>
+          </a>
+        </div>
       </section>
 
       <section id="field-guide" class="field-guide section">
@@ -165,9 +198,14 @@
             the interface can stay steady while the renderer evolves.
           </p>
         </div>
-        <a class="button button-primary" href="https://github.com/dfakkeldy/ns-marks-the-spot">
-          View the repository
-        </a>
+        <div class="open-source-actions">
+          <a class="button button-primary" href="https://github.com/dfakkeldy/ns-marks-the-spot">
+            View the repository
+          </a>
+          <a class="button button-secondary" href="BRANCH_CLEANUP.md">
+            Branch cleanup map
+          </a>
+        </div>
       </section>
     </main>
 
