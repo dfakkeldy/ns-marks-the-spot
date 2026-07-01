@@ -1,0 +1,3 @@
+NS Marks the Spot is a field-focused Nova Scotia historical map explorer.
+
+Use this beta to compare Hugh Fletcher historical map overlays with modern basemaps, adjust overlay opacity, inspect reference layers, and validate offline Fletcher tile preparation before field use.
