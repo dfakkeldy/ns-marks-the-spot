@@ -3,7 +3,7 @@ Please focus this build on the core map workflow:
 - Launch the app and confirm the initial map loads cleanly.
 - Toggle the Fletcher historical overlay and adjust opacity.
 - Compare modern, satellite, and hybrid basemaps.
-- Toggle optional Nova Scotia reference layers, including property boundaries, Crown lands, flood risk, and waterfalls.
+- Toggle optional Nova Scotia reference layers, including Crown lands, aerial imagery, provincial geographic context, and waterfalls.
 - Open Data Sources & Licenses and confirm the map-source disclaimers are understandable.
 - Prepare a small Fletcher offline area, relaunch, and confirm the saved area remains available.
 - Try the Current Location control if you are physically in Nova Scotia and are comfortable granting location access.
