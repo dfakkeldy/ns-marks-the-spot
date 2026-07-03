@@ -1,1 +1,1 @@
-old,topo,atlas,parcel,property,boundary,crown,land,waterfall,genealogy,gis,survey,fletcher,deed,gps
+old,topo,atlas,heritage,archive,waterfall,genealogy,crown,land,fletcher,offline,field,hiking

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "uri"
 
 # ── Fastfile for "NS Marks The Spot" ──────────────────────────────────────────
 # MIT License — open-source iOS map app with historical tile overlays.
@@ -13,10 +14,16 @@ PROJECT_PATH = File.expand_path("../ns-marks-the-spot.xcodeproj", __dir__)
 SCHEME = "ns-marks-the-spot"
 API_KEY_PATH = File.expand_path("api_key.json", __dir__)
 METADATA_ROOT = File.expand_path("metadata", __dir__)
+SCREENSHOTS_ROOT = File.expand_path("screenshots", __dir__)
 REVIEW_NOTES_PATH = File.join(METADATA_ROOT, "review_information", "notes.txt")
 EN_US_METADATA_ROOT = File.join(METADATA_ROOT, "en-US")
 DESCRIPTION_PATH = File.join(EN_US_METADATA_ROOT, "description.txt")
 KEYWORDS_PATH = File.join(EN_US_METADATA_ROOT, "keywords.txt")
+PRIVACY_URL_PATH = File.join(EN_US_METADATA_ROOT, "privacy_url.txt")
+SUPPORT_URL_PATH = File.join(EN_US_METADATA_ROOT, "support_url.txt")
+MARKETING_URL_PATH = File.join(EN_US_METADATA_ROOT, "marketing_url.txt")
+PRIMARY_CATEGORY_PATH = File.join(METADATA_ROOT, "primary_category.txt")
+SECONDARY_CATEGORY_PATH = File.join(METADATA_ROOT, "secondary_category.txt")
 TESTFLIGHT_METADATA_ROOT = File.join(METADATA_ROOT, "testflight", "en-US")
 TESTFLIGHT_DESCRIPTION_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "description.txt")
 TESTFLIGHT_FEEDBACK_EMAIL_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "feedback_email.txt")
@@ -28,6 +35,19 @@ def required_file_contents(path)
   contents = File.read(path).strip
   UI.user_error!("#{path} cannot be empty") if contents.empty?
   contents
+end
+
+def require_https_url!(path)
+  value = required_file_contents(path)
+  uri = URI.parse(value)
+  UI.user_error!("#{path} must be an https URL") unless uri.is_a?(URI::HTTPS) && uri.host.to_s.length.positive?
+  value
+rescue URI::InvalidURIError
+  UI.user_error!("#{path} must be a valid https URL")
+end
+
+def staged_screenshots?
+  Dir.glob(File.join(SCREENSHOTS_ROOT, "**", "*.{png,jpg,jpeg}"), File::FNM_CASEFOLD).any?
 end
 
 def testflight_feedback_email
@@ -175,6 +195,11 @@ platform :ios do
       File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
       DESCRIPTION_PATH,
       KEYWORDS_PATH,
+      PRIVACY_URL_PATH,
+      SUPPORT_URL_PATH,
+      MARKETING_URL_PATH,
+      PRIMARY_CATEGORY_PATH,
+      SECONDARY_CATEGORY_PATH,
       TESTFLIGHT_DESCRIPTION_PATH,
       TESTFLIGHT_FEEDBACK_EMAIL_PATH,
       TESTFLIGHT_WHAT_TO_TEST_PATH
@@ -185,6 +210,11 @@ platform :ios do
     review_notes = File.read(REVIEW_NOTES_PATH).strip
     description = File.read(DESCRIPTION_PATH).strip
     keywords = File.read(KEYWORDS_PATH).strip
+    privacy_url = require_https_url!(PRIVACY_URL_PATH)
+    support_url = require_https_url!(SUPPORT_URL_PATH)
+    marketing_url = require_https_url!(MARKETING_URL_PATH)
+    primary_category = File.read(PRIMARY_CATEGORY_PATH).strip
+    secondary_category = File.read(SECONDARY_CATEGORY_PATH).strip
     testflight_description = File.read(TESTFLIGHT_DESCRIPTION_PATH).strip
     testflight_feedback_email = File.read(TESTFLIGHT_FEEDBACK_EMAIL_PATH).strip
     testflight_what_to_test = File.read(TESTFLIGHT_WHAT_TO_TEST_PATH).strip
@@ -193,10 +223,26 @@ platform :ios do
     UI.user_error!("Description cannot be empty") if description.empty?
     UI.user_error!("keywords.txt cannot be empty") if keywords.empty?
     UI.user_error!("keywords.txt exceeds App Store Connect 100-byte limit") if keywords.bytesize > 100
+    UI.user_error!("primary_category.txt must be REFERENCE for launch") unless primary_category == "REFERENCE"
+    UI.user_error!("secondary_category.txt must be EDUCATION for launch") unless secondary_category == "EDUCATION"
+    UI.user_error!("privacy_url.txt cannot be empty") if privacy_url.empty?
+    UI.user_error!("support_url.txt cannot be empty") if support_url.empty?
+    UI.user_error!("marketing_url.txt cannot be empty") if marketing_url.empty?
     UI.user_error!("TestFlight description cannot be empty") if testflight_description.empty?
     UI.user_error!("TestFlight feedback email cannot be empty") if testflight_feedback_email.empty?
     UI.user_error!("TestFlight feedback email must contain @") unless testflight_feedback_email.include?("@")
     UI.user_error!("TestFlight what_to_test cannot be empty") if testflight_what_to_test.empty?
+
+    store_facing_files = [
+      REVIEW_NOTES_PATH,
+      File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
+      DESCRIPTION_PATH,
+      KEYWORDS_PATH,
+      TESTFLIGHT_DESCRIPTION_PATH,
+      TESTFLIGHT_WHAT_TO_TEST_PATH
+    ]
+    offenders = store_facing_files.select { |path| File.read(path).match?(/\bnavigation\b/i) }
+    UI.user_error!("Remove 'navigation' from store-facing metadata: #{offenders.join(', ')}") unless offenders.empty?
 
     UI.success("Local metadata checks passed.")
   end
@@ -278,7 +324,20 @@ platform :ios do
     upload_to_app_store(
       api_key: api_key,
       app_identifier: bundle_id,
-      skip_screenshots: true,
+      metadata_path: METADATA_ROOT,
+      screenshots_path: SCREENSHOTS_ROOT,
+      primary_category: required_file_contents(PRIMARY_CATEGORY_PATH),
+      secondary_category: required_file_contents(SECONDARY_CATEGORY_PATH),
+      privacy_url: {
+        "en-US" => require_https_url!(PRIVACY_URL_PATH)
+      },
+      support_url: {
+        "en-US" => require_https_url!(SUPPORT_URL_PATH)
+      },
+      marketing_url: {
+        "en-US" => require_https_url!(MARKETING_URL_PATH)
+      },
+      skip_screenshots: !staged_screenshots?,
       submit_for_review: false
     )
   end

@@ -1,6 +1,6 @@
 NS Marks the Spot does not require a login. Location access is optional and used only to show the user's current position on the map.
 
-The app displays historical Hugh Fletcher map overlays and Nova Scotia reference layers. Historical maps and provincial geographic layers are for reference only and are not navigation-grade. The app includes an in-app navigation disclaimer and a Data Sources & Licenses section.
+The app displays historical Hugh Fletcher map overlays and Nova Scotia reference layers. Historical maps and provincial geographic layers are for reference only and are not suitable for route guidance, legal property decisions, surveying, title research, emergency use, or flood-risk assessment. The app includes an in-app suitability disclaimer and a Data Sources & Licenses section.
 
 Some provincial geographic services are provided under the Province of Nova Scotia Restricted Geographic Services License. The app includes the required attribution: "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
 

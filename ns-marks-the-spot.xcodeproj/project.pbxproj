@@ -407,7 +407,7 @@
 				DEVELOPMENT_TEAM = 8AXNA5B37R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can see where you are relative to historical maps and property boundaries.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can compare where you are with historical maps and reference layers.";
 				INFOPLIST_KEY_OldMapsOnlineAPIKey = "$(OLDMAPSONLINE_API_KEY)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -441,7 +441,7 @@
 				DEVELOPMENT_TEAM = 8AXNA5B37R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can see where you are relative to historical maps and property boundaries.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can compare where you are with historical maps and reference layers.";
 				INFOPLIST_KEY_OldMapsOnlineAPIKey = "$(OLDMAPSONLINE_API_KEY)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
