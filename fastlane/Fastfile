@@ -1,9 +1,133 @@
 # frozen_string_literal: true
 
+require "json"
+require "uri"
+
 # ── Fastfile for "NS Marks The Spot" ──────────────────────────────────────────
 # MIT License — open-source iOS map app with historical tile overlays.
 
 default_platform(:ios)
+
+APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+TEAM_ID = "8AXNA5B37R"
+PROJECT_PATH = File.expand_path("../ns-marks-the-spot.xcodeproj", __dir__)
+SCHEME = "ns-marks-the-spot"
+API_KEY_PATH = File.expand_path("api_key.json", __dir__)
+METADATA_ROOT = File.expand_path("metadata", __dir__)
+SCREENSHOTS_ROOT = File.expand_path("screenshots", __dir__)
+REVIEW_INFORMATION_ROOT = File.join(METADATA_ROOT, "review_information")
+REVIEW_NOTES_PATH = File.join(REVIEW_INFORMATION_ROOT, "notes.txt")
+REVIEW_CONTACT_EMAIL_PATH = File.join(REVIEW_INFORMATION_ROOT, "email_address.txt")
+REVIEW_CONTACT_FIRST_NAME_PATH = File.join(REVIEW_INFORMATION_ROOT, "first_name.txt")
+REVIEW_CONTACT_LAST_NAME_PATH = File.join(REVIEW_INFORMATION_ROOT, "last_name.txt")
+REVIEW_CONTACT_PHONE_PATH = File.join(REVIEW_INFORMATION_ROOT, "phone_number.txt")
+EN_US_METADATA_ROOT = File.join(METADATA_ROOT, "en-US")
+DESCRIPTION_PATH = File.join(EN_US_METADATA_ROOT, "description.txt")
+KEYWORDS_PATH = File.join(EN_US_METADATA_ROOT, "keywords.txt")
+PRIVACY_URL_PATH = File.join(EN_US_METADATA_ROOT, "privacy_url.txt")
+SUPPORT_URL_PATH = File.join(EN_US_METADATA_ROOT, "support_url.txt")
+MARKETING_URL_PATH = File.join(EN_US_METADATA_ROOT, "marketing_url.txt")
+PRIMARY_CATEGORY_PATH = File.join(METADATA_ROOT, "primary_category.txt")
+SECONDARY_CATEGORY_PATH = File.join(METADATA_ROOT, "secondary_category.txt")
+TESTFLIGHT_METADATA_ROOT = File.join(METADATA_ROOT, "testflight", "en-US")
+TESTFLIGHT_DESCRIPTION_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "description.txt")
+TESTFLIGHT_FEEDBACK_EMAIL_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "feedback_email.txt")
+TESTFLIGHT_WHAT_TO_TEST_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "what_to_test.txt")
+WEEKLY_TESTFLIGHT_GROUP = ENV.fetch("TESTFLIGHT_WEEKLY_GROUP", "Weekly")
+
+def required_file_contents(path)
+  UI.user_error!("Missing metadata file: #{path}") unless File.exist?(path)
+
+  contents = File.read(path).strip
+  UI.user_error!("#{path} cannot be empty") if contents.empty?
+  contents
+end
+
+def optional_env_or_file(env_name, path)
+  value = ENV.fetch(env_name, "").strip
+  return value unless value.empty?
+  return "" unless File.exist?(path)
+
+  File.read(path).strip
+end
+
+def required_env_or_file(env_name, path, label)
+  value = optional_env_or_file(env_name, path)
+  UI.user_error!("Missing #{label}: set #{env_name} or add #{path}") if value.empty?
+  value
+end
+
+def require_https_url!(path)
+  value = required_file_contents(path)
+  uri = URI.parse(value)
+  UI.user_error!("#{path} must be an https URL") unless uri.is_a?(URI::HTTPS) && uri.host.to_s.length.positive?
+  value
+rescue URI::InvalidURIError
+  UI.user_error!("#{path} must be a valid https URL")
+end
+
+def staged_screenshots?
+  Dir.glob(File.join(SCREENSHOTS_ROOT, "**", "*.{png,jpg,jpeg}"), File::FNM_CASEFOLD).any?
+end
+
+def testflight_feedback_email
+  required_file_contents(TESTFLIGHT_FEEDBACK_EMAIL_PATH)
+end
+
+def testflight_description
+  required_file_contents(TESTFLIGHT_DESCRIPTION_PATH)
+end
+
+def testflight_what_to_test(channel)
+  [
+    required_file_contents(TESTFLIGHT_WHAT_TO_TEST_PATH),
+    "Build channel: #{channel}."
+  ].join("\n\n")
+end
+
+def beta_review_info
+  {
+    contact_email: required_env_or_file("APP_REVIEW_CONTACT_EMAIL", REVIEW_CONTACT_EMAIL_PATH, "Beta App Review contact email"),
+    contact_first_name: required_env_or_file("APP_REVIEW_CONTACT_FIRST_NAME", REVIEW_CONTACT_FIRST_NAME_PATH, "Beta App Review contact first name"),
+    contact_last_name: required_env_or_file("APP_REVIEW_CONTACT_LAST_NAME", REVIEW_CONTACT_LAST_NAME_PATH, "Beta App Review contact last name"),
+    contact_phone: required_env_or_file("APP_REVIEW_CONTACT_PHONE", REVIEW_CONTACT_PHONE_PATH, "Beta App Review contact phone"),
+    demo_account_required: false,
+    notes: required_file_contents(REVIEW_NOTES_PATH)
+  }
+end
+
+def app_store_connect_api_key_from_file
+  UI.user_error!("Missing fastlane/api_key.json") unless File.exist?(API_KEY_PATH)
+
+  app_store_connect_api_key(
+    key_filepath: API_KEY_PATH
+  )
+end
+
+def app_store_connect_api_key_from_env
+  raw_json = ENV.fetch("APP_STORE_CONNECT_API_KEY_JSON")
+  api_key = JSON.parse(raw_json)
+  key_content = api_key["key_content"] || api_key["key"]
+
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include key_id.") if api_key["key_id"].to_s.empty?
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include issuer_id.") if api_key["issuer_id"].to_s.empty?
+  UI.user_error!("APP_STORE_CONNECT_API_KEY_JSON must include key_content or key.") if key_content.to_s.empty?
+
+  app_store_connect_api_key(
+    key_id: api_key.fetch("key_id"),
+    issuer_id: api_key.fetch("issuer_id"),
+    key_content: key_content,
+    is_key_content_base64: api_key.fetch("is_key_content_base64", false),
+    duration: api_key.fetch("duration", 1200),
+    in_house: api_key.fetch("in_house", false)
+  )
+end
+
+def app_store_connect_api_key_for_release
+  return app_store_connect_api_key_from_env unless ENV["APP_STORE_CONNECT_API_KEY_JSON"].to_s.empty?
+
+  app_store_connect_api_key_from_file
+end
 
 # ── Platform ------------------------------------------------------------------
 
@@ -25,12 +149,30 @@ platform :ios do
     UI.error "✗ Lane '#{lane}' failed: #{exception.message}"
   end
 
+  private_lane :apply_app_store_signing do |options|
+    next unless is_ci
+
+    bundle_id = (options[:bundle_id] || APP_IDENTIFIER).to_s
+    mapping = lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING] || {}
+    profile = mapping[bundle_id]
+    UI.user_error!("match did not return an App Store profile for #{bundle_id}") if profile.to_s.empty?
+
+    update_code_signing_settings(
+      path: PROJECT_PATH,
+      use_automatic_signing: false,
+      targets: [SCHEME],
+      team_id: TEAM_ID,
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile
+    )
+  end
+
   # ── Lanes ─────────────────────────────────────────────────────────────────
 
   desc "Run unit tests on the primary scheme"
   lane :test do
     run_tests(
-      scheme: "ns-marks-the-spot",
+      scheme: SCHEME,
       devices: ["iPhone 17 Pro"],          # latest simulator
       only_testing: ["ns-marks-the-spotTests"],
       code_coverage: true,
@@ -41,7 +183,7 @@ platform :ios do
   desc "Run UI tests on the primary scheme"
   lane :ui_test do
     run_tests(
-      scheme: "ns-marks-the-spot",
+      scheme: SCHEME,
       devices: ["iPhone 17 Pro"],
       only_testing: ["ns-marks-the-spotUITests"],
       output_types: "html,junit"
@@ -51,7 +193,7 @@ platform :ios do
   desc "Run all tests (unit + UI) on the primary scheme"
   lane :test_all do
     run_tests(
-      scheme: "ns-marks-the-spot",
+      scheme: SCHEME,
       devices: ["iPhone 17 Pro"],
       code_coverage: true,
       output_types: "html,junit"
@@ -61,46 +203,199 @@ platform :ios do
   desc "Build the app for the simulator — quick sanity check"
   lane :build do
     build_app(
-      scheme: "ns-marks-the-spot",
+      project: PROJECT_PATH,
+      scheme: SCHEME,
       destination: "generic/platform=iOS Simulator",
       skip_codesigning: true,
       skip_archive: true
     )
   end
 
-  desc "Build and run unit tests (what CI would do)"
+  desc "Build and run all tests (what CI would do)"
   lane :ci do
     build
-    test
+    test_all
+  end
+
+  desc "Run local metadata validation checks"
+  lane :lint_metadata do
+    required_files = [
+      REVIEW_NOTES_PATH,
+      File.join(EN_US_METADATA_ROOT, "name.txt"),
+      File.join(EN_US_METADATA_ROOT, "subtitle.txt"),
+      File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
+      REVIEW_CONTACT_EMAIL_PATH,
+      REVIEW_CONTACT_FIRST_NAME_PATH,
+      REVIEW_CONTACT_LAST_NAME_PATH,
+      DESCRIPTION_PATH,
+      KEYWORDS_PATH,
+      PRIVACY_URL_PATH,
+      SUPPORT_URL_PATH,
+      MARKETING_URL_PATH,
+      PRIMARY_CATEGORY_PATH,
+      SECONDARY_CATEGORY_PATH,
+      TESTFLIGHT_DESCRIPTION_PATH,
+      TESTFLIGHT_FEEDBACK_EMAIL_PATH,
+      TESTFLIGHT_WHAT_TO_TEST_PATH
+    ]
+    missing_files = required_files.reject { |path| File.exist?(path) }
+    UI.user_error!("Missing metadata files: #{missing_files.join(', ')}") unless missing_files.empty?
+
+    review_notes = File.read(REVIEW_NOTES_PATH).strip
+    review_contact_email = File.read(REVIEW_CONTACT_EMAIL_PATH).strip
+    review_contact_first_name = File.read(REVIEW_CONTACT_FIRST_NAME_PATH).strip
+    review_contact_last_name = File.read(REVIEW_CONTACT_LAST_NAME_PATH).strip
+    review_contact_phone = required_env_or_file("APP_REVIEW_CONTACT_PHONE", REVIEW_CONTACT_PHONE_PATH, "Beta App Review contact phone")
+    description = File.read(DESCRIPTION_PATH).strip
+    keywords = File.read(KEYWORDS_PATH).strip
+    privacy_url = require_https_url!(PRIVACY_URL_PATH)
+    support_url = require_https_url!(SUPPORT_URL_PATH)
+    marketing_url = require_https_url!(MARKETING_URL_PATH)
+    primary_category = File.read(PRIMARY_CATEGORY_PATH).strip
+    secondary_category = File.read(SECONDARY_CATEGORY_PATH).strip
+    testflight_description = File.read(TESTFLIGHT_DESCRIPTION_PATH).strip
+    testflight_feedback_email = File.read(TESTFLIGHT_FEEDBACK_EMAIL_PATH).strip
+    testflight_what_to_test = File.read(TESTFLIGHT_WHAT_TO_TEST_PATH).strip
+
+    UI.user_error!("Review notes cannot be empty") if review_notes.empty?
+    UI.user_error!("Review contact email cannot be empty") if review_contact_email.empty?
+    UI.user_error!("Review contact email must contain @") unless review_contact_email.include?("@")
+    UI.user_error!("Review contact first name cannot be empty") if review_contact_first_name.empty?
+    UI.user_error!("Review contact last name cannot be empty") if review_contact_last_name.empty?
+    UI.user_error!("Review contact phone cannot be empty") if review_contact_phone.empty?
+    UI.user_error!("Description cannot be empty") if description.empty?
+    UI.user_error!("keywords.txt cannot be empty") if keywords.empty?
+    UI.user_error!("keywords.txt exceeds App Store Connect 100-byte limit") if keywords.bytesize > 100
+    UI.user_error!("primary_category.txt must be REFERENCE for launch") unless primary_category == "REFERENCE"
+    UI.user_error!("secondary_category.txt must be EDUCATION for launch") unless secondary_category == "EDUCATION"
+    UI.user_error!("privacy_url.txt cannot be empty") if privacy_url.empty?
+    UI.user_error!("support_url.txt cannot be empty") if support_url.empty?
+    UI.user_error!("marketing_url.txt cannot be empty") if marketing_url.empty?
+    UI.user_error!("TestFlight description cannot be empty") if testflight_description.empty?
+    UI.user_error!("TestFlight feedback email cannot be empty") if testflight_feedback_email.empty?
+    UI.user_error!("TestFlight feedback email must contain @") unless testflight_feedback_email.include?("@")
+    UI.user_error!("TestFlight what_to_test cannot be empty") if testflight_what_to_test.empty?
+
+    store_facing_files = [
+      REVIEW_NOTES_PATH,
+      File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
+      DESCRIPTION_PATH,
+      KEYWORDS_PATH,
+      TESTFLIGHT_DESCRIPTION_PATH,
+      TESTFLIGHT_WHAT_TO_TEST_PATH
+    ]
+    offenders = store_facing_files.select { |path| File.read(path).match?(/\bnavigation\b/i) }
+    UI.user_error!("Remove 'navigation' from store-facing metadata: #{offenders.join(', ')}") unless offenders.empty?
+
+    UI.success("Local metadata checks passed.")
+  end
+
+  # ── Release lanes ─────────────────────────────────────────────────────────
+
+  desc "Upload a nightly or weekly train build to TestFlight"
+  lane :beta do |options|
+    channel = (options[:channel] || "nightly").to_s
+    UI.user_error!("Unsupported beta channel '#{channel}'. Use nightly or weekly.") unless %w[nightly weekly].include?(channel)
+
+    api_key = app_store_connect_api_key_for_release
+    bundle_id = APP_IDENTIFIER
+
+    setup_ci
+    match(type: "appstore", readonly: true)
+    apply_app_store_signing(bundle_id: bundle_id)
+
+    latest_build = latest_testflight_build_number(
+      app_identifier: bundle_id,
+      api_key: api_key,
+      initial_build_number: 0
+    )
+    increment_build_number(build_number: latest_build.to_i + 1)
+
+    build_app(
+      project: PROJECT_PATH,
+      scheme: SCHEME,
+      export_method: "app-store"
+    )
+
+    feedback_email = testflight_feedback_email
+    beta_description = testflight_description
+    what_to_test = testflight_what_to_test(channel)
+    external_distribution = channel == "weekly"
+
+    upload_options = {
+      api_key: api_key,
+      app_identifier: bundle_id,
+      skip_waiting_for_build_processing: false,
+      distribute_external: external_distribution,
+      notify_external_testers: external_distribution,
+      localized_app_info: {
+        "en-US" => {
+          feedback_email: feedback_email,
+          description: beta_description
+        }
+      },
+      localized_build_info: {
+        "en-US" => {
+          whats_new: what_to_test
+        }
+      },
+      beta_app_feedback_email: feedback_email,
+      beta_app_description: beta_description,
+      changelog: what_to_test
+    }
+
+    if external_distribution
+      upload_options[:groups] = [WEEKLY_TESTFLIGHT_GROUP]
+      upload_options[:beta_app_review_info] = beta_review_info
+    end
+
+    upload_to_testflight(upload_options)
+  end
+
+  desc "Archive and upload an App Store release build"
+  lane :release do
+    api_key = app_store_connect_api_key_for_release
+    bundle_id = APP_IDENTIFIER
+
+    setup_ci
+    match(type: "appstore", readonly: true)
+    apply_app_store_signing(bundle_id: bundle_id)
+
+    latest_build = latest_testflight_build_number(
+      app_identifier: bundle_id,
+      api_key: api_key,
+      initial_build_number: 0
+    )
+    increment_build_number(build_number: latest_build.to_i + 1)
+
+    build_app(
+      project: PROJECT_PATH,
+      scheme: SCHEME,
+      export_method: "app-store"
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      app_identifier: bundle_id,
+      metadata_path: METADATA_ROOT,
+      screenshots_path: SCREENSHOTS_ROOT,
+      primary_category: required_file_contents(PRIMARY_CATEGORY_PATH),
+      secondary_category: required_file_contents(SECONDARY_CATEGORY_PATH),
+      privacy_url: {
+        "en-US" => require_https_url!(PRIVACY_URL_PATH)
+      },
+      support_url: {
+        "en-US" => require_https_url!(SUPPORT_URL_PATH)
+      },
+      marketing_url: {
+        "en-US" => require_https_url!(MARKETING_URL_PATH)
+      },
+      skip_screenshots: !staged_screenshots?,
+      submit_for_review: false
+    )
   end
 
   # ── Placeholder lanes (uncomment and configure when ready) ────────────────
-
-  # desc "Upload a new beta build to TestFlight"
-  # lane :beta do
-  #   build_app(
-  #     scheme: "ns-marks-the-spot",
-  #     export_method: "app-store"
-  #   )
-  #   upload_to_testflight
-  # end
-
-  # desc "Push a new release build to the App Store"
-  # lane :release do
-  #   # 1. Ensure git is clean and on main
-  #   ensure_git_status_clean
-  #   ensure_git_branch(branch: "main")
-  #
-  #   # 2. Bump build number (auto-increment)
-  #   increment_build_number
-  #
-  #   # 3. Build and upload
-  #   build_app(scheme: "ns-marks-the-spot", export_method: "app-store")
-  #   upload_to_app_store
-  #
-  #   # 4. Tag the release
-  #   push_git_tags
-  # end
 
   # desc "Capture App Store screenshots"
   # lane :screenshots do

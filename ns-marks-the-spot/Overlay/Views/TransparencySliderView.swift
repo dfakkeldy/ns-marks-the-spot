@@ -23,7 +23,10 @@ struct TransparencySliderView: View {
                         .font(.system(size: 20))
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Circle())
                 }
+                .buttonStyle(.plain)
                 .accessibilityLabel("Close layers menu")
             }
             
@@ -65,13 +68,18 @@ struct TransparencySliderView: View {
                                     .background(layer.isVisible ? Color.blue.opacity(0.15) : Color.primary.opacity(0.05))
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
                                 
-                                // Layer Name
-                                Text(layer.name)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.primary)
-                                    .lineLimit(2)
-                                    .minimumScaleFactor(0.9)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(layer.name)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(.primary)
+                                        .lineLimit(2)
+                                        .minimumScaleFactor(0.9)
+
+                                    Text(viewModel.offlineStatus(for: layer.id))
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
                                 
                                 Spacer()
                                 
@@ -87,6 +95,8 @@ struct TransparencySliderView: View {
                                 .labelsHidden()
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                                 .fixedSize()
+                                .accessibilityLabel("\(layer.name) visibility")
+                                .accessibilityValue(layer.isVisible ? "On" : "Off")
                             }
                             
                             // Expanded Opacity Control
@@ -138,7 +148,7 @@ struct TransparencySliderView: View {
         case "fletcher": return "map.fill"
         case "nsprd": return "square.dashed"
         case "crown-lands": return "leaf.fill"
-        case "watersheds": return "drop.triangle.fill"
+        case "flood-risk": return "drop.triangle.fill"
         case "waterfalls": return "drop.circle.fill"
         default: return "layers"
         }

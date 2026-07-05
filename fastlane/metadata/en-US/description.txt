@@ -1,0 +1,16 @@
+NS Marks the Spot helps you explore Nova Scotia through historical maps layered over a modern map.
+
+Turn the Fletcher historical map overlay on and off, adjust transparency, and compare old place names, shorelines, roads, and land features with today's geography. Optional Nova Scotia reference layers add context such as Crown lands, aerial imagery, provincial geographic services, and waterfall points of interest.
+
+Built for field research, local history, genealogy, land curiosity, and anyone who likes seeing how a place has changed over time.
+
+Features:
+- Georeferenced historical map overlays
+- Adjustable transparency for side-by-side comparison
+- Modern map, satellite, and hybrid basemaps
+- Optional Nova Scotia reference layers
+- Offline support for viewed tiles and prepared Fletcher map areas
+- User location support when you choose to enable it
+- iPhone and iPad support
+
+Location access is optional and used only to show your current position on the map. Historical maps and provincial reference layers are for context only; do not use them for legal, property, flood, or route-guidance decisions.

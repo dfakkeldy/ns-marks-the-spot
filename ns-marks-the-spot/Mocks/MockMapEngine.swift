@@ -3,6 +3,8 @@ import SwiftUI
 final class MockMapEngine: MapEngine {
     private(set) var layers: [any MapLayer] = []
     private(set) var annotations: [MapAnnotation] = []
+    private var boundsSelectionHandler: ((MapBounds) -> Void)?
+    var visibleBounds: MapBounds?
 
     var showsUserLocation = false
     func centerOnUserLocation() {}
@@ -43,6 +45,22 @@ final class MockMapEngine: MapEngine {
     }
 
     func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void) {}
+
+    func beginBoundsSelection(_ handler: @escaping (MapBounds) -> Void) {
+        boundsSelectionHandler = handler
+    }
+
+    func endBoundsSelection() {
+        boundsSelectionHandler = nil
+    }
+
+    func currentVisibleBounds() -> MapBounds? {
+        visibleBounds
+    }
+
+    func simulateBoundsSelection(_ bounds: MapBounds) {
+        boundsSelectionHandler?(bounds)
+    }
 
     func makeMapView() -> AnyView {
         AnyView(

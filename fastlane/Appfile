@@ -1,8 +1,8 @@
 # Appfile — shared app metadata for all lanes
 
-app_identifier "Dan.ns-marks-the-spot" # The bundle identifier of your app
+app_identifier "com.danfakkeldy.nsmarksthespot" # The bundle identifier of your app
 apple_id ""                            # Your Apple ID email (optional — only needed for App Store operations)
 team_id "8AXNA5B37R"                   # Developer Portal Team ID
 
-# For now, we use automatic code signing.
-# When you add an Apple ID above, fastlane can manage certs/profiles.
+# CI release trains use fastlane match in readonly mode for App Store signing.
+# Configure fastlane/Matchfile and GitHub secrets before enabling uploads.

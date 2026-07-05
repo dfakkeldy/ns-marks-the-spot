@@ -1,39 +1,52 @@
 import SwiftUI
 
 struct POIDetailView: View {
+    @Environment(\.dismiss) private var dismiss
+
     let poi: PointOfInterest
 
     var body: some View {
-        VStack(spacing: 16) {
-            // Drag indicator
-            RoundedRectangle(cornerRadius: 2.5)
-                .fill(Color.secondary.opacity(0.4))
-                .frame(width: 36, height: 5)
-                .padding(.top, 8)
+        NavigationStack {
+            VStack(spacing: 16) {
+                // Drag indicator
+                RoundedRectangle(cornerRadius: 2.5)
+                    .fill(Color.secondary.opacity(0.4))
+                    .frame(width: 36, height: 5)
+                    .padding(.top, 8)
 
-            // Category badge
-            Text(poi.category.capitalized)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundStyle(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 4)
-                .background(categoryColor, in: Capsule())
+                // Category badge
+                Text(poi.category.capitalized)
+                    .font(.caption)
+                    .bold()
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 4)
+                    .background(categoryColor, in: Capsule())
 
-            // Name
-            Text(poi.name)
-                .font(.title2)
-                .fontWeight(.bold)
+                // Name
+                Text(poi.name)
+                    .font(.title2)
+                    .bold()
 
-            // Coordinates
-            Text(formattedCoordinates)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .monospacedDigit()
+                // Coordinates
+                Text(formattedCoordinates)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .monospacedDigit()
 
-            Spacer()
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .navigationTitle("Point of Interest")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
         }
-        .frame(maxWidth: .infinity)
         .presentationDetents([.medium])
         .presentationDragIndicator(.hidden)
     }

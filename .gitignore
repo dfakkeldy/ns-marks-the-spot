@@ -64,8 +64,14 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 fastlane/README.md
+fastlane/api_key.json
+fastlane/metadata/review_information/phone_number.txt
 
 # Ruby / Bundler
 vendor/bundle/
 .bundle/
 Gemfile.lock
+
+# Python
+__pycache__/
+*.pyc

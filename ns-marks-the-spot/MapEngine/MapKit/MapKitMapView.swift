@@ -14,6 +14,15 @@ struct MapKitMapView: UIViewRepresentable {
         let span = MKCoordinateSpan(latitudeDelta: 5.0, longitudeDelta: 5.0)
         mapView.region = MKCoordinateRegion(center: center, span: span)
 
+        let selectionPan = UIPanGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.handleSelectionPan(_:))
+        )
+        selectionPan.name = "BoundsSelectionPan"
+        selectionPan.delegate = context.coordinator
+        selectionPan.cancelsTouchesInView = true
+        mapView.addGestureRecognizer(selectionPan)
+
         engine.mapView = mapView
         return mapView
     }
@@ -25,7 +34,7 @@ struct MapKitMapView: UIViewRepresentable {
         Coordinator(engine: engine)
     }
 
-    final class Coordinator: NSObject, MKMapViewDelegate {
+    final class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
         weak var engine: MapKitEngine?
 
         init(engine: MapKitEngine) {
@@ -38,7 +47,21 @@ struct MapKitMapView: UIViewRepresentable {
             engine?.headingChangeHandler?(heading)
         }
 
+        func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+            guard engine?.isWaitingToCenterOnUserLocation == true,
+                  userLocation.location != nil else { return }
+            engine?.centerOnUserLocation()
+        }
+
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            if let polygon = overlay as? MKPolygon {
+                let renderer = MKPolygonRenderer(polygon: polygon)
+                renderer.fillColor = UIColor.systemBlue.withAlphaComponent(0.15)
+                renderer.strokeColor = .systemBlue
+                renderer.lineWidth = 2
+                return renderer
+            }
+
             guard let tileOverlay = overlay as? OpacityTileOverlay else {
                 return MKOverlayRenderer(overlay: overlay)
             }
@@ -71,9 +94,50 @@ struct MapKitMapView: UIViewRepresentable {
         }
 
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            guard let point = view.annotation as? MKPointAnnotation,
-                  let id = point.subtitle else { return }
-            engine?.handleAnnotationSelected(id: id)
+            guard let annotation = view.annotation as? MapKitAnnotationIdentifying else { return }
+            engine?.handleAnnotationSelected(id: annotation.mapAnnotationID)
+        }
+
+        func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+            engine?.isSelectingBounds == true
+        }
+
+        func gestureRecognizer(
+            _ gestureRecognizer: UIGestureRecognizer,
+            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+        ) -> Bool {
+            false
+        }
+
+        @objc func handleSelectionPan(_ recognizer: UIPanGestureRecognizer) {
+            guard let mapView = recognizer.view as? MKMapView,
+                  let engine else { return }
+
+            let point = recognizer.location(in: mapView)
+            let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+
+            switch recognizer.state {
+            case .began:
+                engine.selectionStartCoordinate = coordinate
+                engine.updateSelectionOverlay(from: coordinate, to: coordinate)
+            case .changed:
+                guard let start = engine.selectionStartCoordinate else { return }
+                engine.updateSelectionOverlay(from: start, to: coordinate)
+            case .ended:
+                guard let start = engine.selectionStartCoordinate else { return }
+                let bounds = MapBounds(
+                    minLatitude: min(start.latitude, coordinate.latitude),
+                    minLongitude: min(start.longitude, coordinate.longitude),
+                    maxLatitude: max(start.latitude, coordinate.latitude),
+                    maxLongitude: max(start.longitude, coordinate.longitude)
+                )
+                engine.boundsSelectionHandler?(bounds.normalized)
+                engine.endBoundsSelection()
+            case .cancelled, .failed:
+                engine.endBoundsSelection()
+            default:
+                break
+            }
         }
     }
 }

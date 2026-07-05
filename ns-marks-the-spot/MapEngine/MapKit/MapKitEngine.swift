@@ -2,23 +2,33 @@ import CoreLocation
 import MapKit
 import SwiftUI
 
-final class MapKitEngine: MapEngine {
+final class MapKitEngine: NSObject, MapEngine {
     private(set) var layers: [any MapLayer] = []
     private(set) var annotations: [MapAnnotation] = []
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
     private var annotationSelectionHandler: ((String) -> Void)?
+    var boundsSelectionHandler: ((MapBounds) -> Void)?
+    var isSelectingBounds = false
+    var selectionStartCoordinate: CLLocationCoordinate2D?
+    var selectionOverlay: MKPolygon?
     private var pendingAnnotations: [MapAnnotation] = []
+    private var wasScrollEnabled = true
+    private var wasZoomEnabled = true
+    private(set) var isWaitingToCenterOnUserLocation = false
 
     init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
+        super.init()
+        locationManager.delegate = self
     }
 
     weak var mapView: MKMapView? {
         didSet {
             syncPendingToMapView()
             updateMapType()
+            mapView?.showsUserLocation = showsUserLocation
         }
     }
 
@@ -49,6 +59,8 @@ final class MapKitEngine: MapEngine {
             mapView.mapType = .satellite
         case .hybrid:
             mapView.mapType = .hybrid
+        case .nsAerial:
+            mapView.mapType = .standard
         }
     }
 
@@ -64,7 +76,15 @@ final class MapKitEngine: MapEngine {
     }
 
     func centerOnUserLocation() {
-        guard let location = mapView?.userLocation.location else { return }
+        guard let location = mapView?.userLocation.location else {
+            isWaitingToCenterOnUserLocation = true
+            return
+        }
+        center(on: location)
+    }
+
+    private func center(on location: CLLocation) {
+        isWaitingToCenterOnUserLocation = false
         let region = MKCoordinateRegion(
             center: location.coordinate,
             latitudinalMeters: 5000,
@@ -118,19 +138,13 @@ final class MapKitEngine: MapEngine {
     // MARK: - Annotations
 
     func addAnnotation(_ annotation: MapAnnotation) {
+        guard !annotations.contains(where: { $0.id == annotation.id }) else { return }
         annotations.append(annotation)
         guard let mapView else {
             pendingAnnotations.append(annotation)
             return
         }
-        let point = MKPointAnnotation()
-        point.title = annotation.title
-        point.subtitle = annotation.id
-        point.coordinate = CLLocationCoordinate2D(
-            latitude: annotation.coordinate.latitude,
-            longitude: annotation.coordinate.longitude
-        )
-        mapView.addAnnotation(point)
+        mapView.addAnnotation(MapKitPointAnnotation(annotation: annotation))
     }
 
     func removeAnnotation(by id: String) {
@@ -138,14 +152,51 @@ final class MapKitEngine: MapEngine {
         pendingAnnotations.removeAll { $0.id == id }
         guard let mapView else { return }
         for annotation in mapView.annotations {
-            if let point = annotation as? MKPointAnnotation, point.subtitle == id {
-                mapView.removeAnnotation(point)
+            if annotation.mapAnnotationID == id {
+                mapView.removeAnnotation(annotation)
             }
         }
     }
 
     func setAnnotationSelectionHandler(_ handler: @escaping (String) -> Void) {
         annotationSelectionHandler = handler
+    }
+
+    func beginBoundsSelection(_ handler: @escaping (MapBounds) -> Void) {
+        endBoundsSelection()
+        boundsSelectionHandler = handler
+        isSelectingBounds = true
+
+        guard let mapView else { return }
+        wasScrollEnabled = mapView.isScrollEnabled
+        wasZoomEnabled = mapView.isZoomEnabled
+        mapView.isScrollEnabled = false
+        mapView.isZoomEnabled = false
+    }
+
+    func endBoundsSelection() {
+        boundsSelectionHandler = nil
+        isSelectingBounds = false
+        selectionStartCoordinate = nil
+
+        if let selectionOverlay, let mapView {
+            mapView.removeOverlay(selectionOverlay)
+        }
+        selectionOverlay = nil
+
+        guard let mapView else { return }
+        mapView.isScrollEnabled = wasScrollEnabled
+        mapView.isZoomEnabled = wasZoomEnabled
+    }
+
+    func currentVisibleBounds() -> MapBounds? {
+        guard let region = mapView?.region else { return nil }
+        return MapBounds(
+            minLatitude: region.center.latitude - region.span.latitudeDelta / 2,
+            minLongitude: region.center.longitude - region.span.longitudeDelta / 2,
+            maxLatitude: region.center.latitude + region.span.latitudeDelta / 2,
+            maxLongitude: region.center.longitude + region.span.longitudeDelta / 2
+        ).normalized
     }
 
     func handleAnnotationSelected(id: String) {
@@ -187,15 +238,69 @@ final class MapKitEngine: MapEngine {
         }
 
         for annotation in pendingAnnotations {
-            let point = MKPointAnnotation()
-            point.title = annotation.title
-            point.subtitle = annotation.id
-            point.coordinate = CLLocationCoordinate2D(
-                latitude: annotation.coordinate.latitude,
-                longitude: annotation.coordinate.longitude
-            )
-            mapView.addAnnotation(point)
+            mapView.addAnnotation(MapKitPointAnnotation(annotation: annotation))
         }
         pendingAnnotations.removeAll()
+    }
+
+    func updateSelectionOverlay(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) {
+        guard let mapView else { return }
+
+        if let selectionOverlay {
+            mapView.removeOverlay(selectionOverlay)
+        }
+
+        let coordinates = [
+            CLLocationCoordinate2D(latitude: start.latitude, longitude: start.longitude),
+            CLLocationCoordinate2D(latitude: start.latitude, longitude: end.longitude),
+            CLLocationCoordinate2D(latitude: end.latitude, longitude: end.longitude),
+            CLLocationCoordinate2D(latitude: end.latitude, longitude: start.longitude)
+        ]
+        let polygon = MKPolygon(coordinates: coordinates, count: coordinates.count)
+        selectionOverlay = polygon
+        mapView.addOverlay(polygon)
+    }
+}
+
+extension MapKitEngine: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView?.showsUserLocation = showsUserLocation
+            if isWaitingToCenterOnUserLocation {
+                centerOnUserLocation()
+            }
+        case .denied, .restricted:
+            isWaitingToCenterOnUserLocation = false
+        case .notDetermined:
+            break
+        @unknown default:
+            break
+        }
+    }
+}
+
+protocol MapKitAnnotationIdentifying: MKAnnotation {
+    var mapAnnotationID: String { get }
+}
+
+final class MapKitPointAnnotation: MKPointAnnotation, MapKitAnnotationIdentifying {
+    let mapAnnotationID: String
+
+    init(annotation: MapAnnotation) {
+        self.mapAnnotationID = annotation.id
+        super.init()
+        title = annotation.title
+        subtitle = annotation.subtitle
+        coordinate = CLLocationCoordinate2D(
+            latitude: annotation.coordinate.latitude,
+            longitude: annotation.coordinate.longitude
+        )
+    }
+}
+
+private extension MKAnnotation {
+    var mapAnnotationID: String? {
+        (self as? MapKitAnnotationIdentifying)?.mapAnnotationID
     }
 }

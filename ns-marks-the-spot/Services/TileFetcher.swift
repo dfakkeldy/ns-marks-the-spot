@@ -1,30 +1,94 @@
 import Foundation
 import UIKit
 
-final class TileFetcher {
-    private let tileCache: TileCache?
+enum TileFetcherError: Error, Equatable {
+    case invalidHTTPStatus(Int)
+    case invalidContentType(String?)
+    case invalidImageData
+    case unsupportedDynamicLayerZoom(Int)
+}
 
-    init(tileCache: TileCache? = nil) {
+final class TileFetcher {
+    private static let minimumArcGISDynamicZoom = 12
+    private static let maximumArcGISDynamicExportSize = 1024
+
+    private let tileCache: TileCache?
+    private let urlSession: URLSession
+
+    init(tileCache: TileCache? = nil, urlSession: URLSession = .shared) {
         self.tileCache = tileCache
+        self.urlSession = urlSession
     }
 
-    func fetchTile(z: Int, x: Int, y: Int, from baseURL: URL, layerName: String) async throws -> Data {
-        let url = baseURL
-            .appendingPathComponent("\(z)")
-            .appendingPathComponent("\(x)")
-            .appendingPathComponent("\(y).jpg")
-        let (data, _) = try await URLSession.shared.data(from: url)
-        tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+    func fetchTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        from baseURL: URL,
+        layerName: String,
+        cacheResult: Bool = true
+    ) async throws -> Data {
+        let url = tileURL(z: z, x: x, y: y, from: baseURL)
+        let (data, response) = try await urlSession.data(from: url)
+        try validateImageResponse(data: data, response: response)
+
+        if cacheResult {
+            tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+        }
+
         return data
     }
 
-    func fetchArcGISDynamicTile(z: Int, x: Int, y: Int, from serverURL: URL, layerName: String, dynamicLayersJSON: String? = nil, layerRestrictions: String? = nil) async throws -> Data {
+    func tileURL(z: Int, x: Int, y: Int, from baseURL: URL) -> URL {
+        let template = baseURL.absoluteString
+        let replacements = [
+            "{z}": "\(z)",
+            "{x}": "\(x)",
+            "{y}": "\(y)",
+            "%7Bz%7D": "\(z)",
+            "%7Bx%7D": "\(x)",
+            "%7By%7D": "\(y)"
+        ]
+
+        var expanded = template
+        for (placeholder, value) in replacements {
+            expanded = expanded.replacingOccurrences(
+                of: placeholder,
+                with: value,
+                options: [.caseInsensitive]
+            )
+        }
+
+        if expanded != template, let url = URL(string: expanded) {
+            return url
+        }
+
+        return baseURL
+            .appendingPathComponent("\(z)")
+            .appendingPathComponent("\(x)")
+            .appendingPathComponent("\(y).jpg")
+    }
+
+    func fetchArcGISDynamicTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        from serverURL: URL,
+        layerName: String,
+        dynamicLayersJSON: String? = nil,
+        layerRestrictions: String? = nil,
+        cacheResult: Bool = true
+    ) async throws -> Data {
+        guard z >= Self.minimumArcGISDynamicZoom else {
+            throw TileFetcherError.unsupportedDynamicLayerZoom(z)
+        }
+
         let bbox = tileToBBOX(z: z, x: x, y: y)
 
-        // Calculate size to bypass server-side scale limits (e.g. minScale 36,114)
-        // Capped at 4096 because it's the server's maximum image dimensions.
+        // Keep low-zoom dynamic exports bounded; larger ArcGIS requests can be
+        // multi-megabyte images that are immediately downsampled to one tile.
         let scaleFactor = pow(2.0, Double(max(0, 14 - z)))
-        let requestedSize = min(4096, 256 * Int(scaleFactor))
+        let requestedSize = min(Self.maximumArcGISDynamicExportSize, 256 * Int(scaleFactor))
         let targetSize = 256
 
         var components = URLComponents(
@@ -52,21 +116,85 @@ final class TileFetcher {
         }
         components.queryItems = queryItems
 
-        let (data, _) = try await URLSession.shared.data(from: components.url!)
+        let (data, response) = try await urlSession.data(from: components.url!)
+        try validateImageResponse(data: data, response: response)
 
         let finalData: Data
         if requestedSize != targetSize {
             if let resized = resizeImage(data: data, to: CGSize(width: targetSize, height: targetSize)) {
                 finalData = resized
             } else {
-                finalData = data
+                throw TileFetcherError.invalidImageData
             }
         } else {
             finalData = data
         }
 
-        tileCache?.cacheTile(finalData, z: z, x: x, y: y, layerName: layerName)
+        if cacheResult {
+            tileCache?.cacheTile(finalData, z: z, x: x, y: y, layerName: layerName)
+        }
+
         return finalData
+    }
+
+    func fetchArcGISMapServiceTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        from serverURL: URL,
+        layerName: String,
+        transparent: Bool,
+        cacheResult: Bool = true
+    ) async throws -> Data {
+        let bbox = tileToBBOX(z: z, x: x, y: y)
+        var components = URLComponents(
+            url: serverURL.appendingPathComponent("export"),
+            resolvingAgainstBaseURL: false
+        )!
+        components.queryItems = [
+            URLQueryItem(name: "bbox", value: "\(bbox.minX),\(bbox.minY),\(bbox.maxX),\(bbox.maxY)"),
+            URLQueryItem(name: "bboxSR", value: "3857"),
+            URLQueryItem(name: "imageSR", value: "3857"),
+            URLQueryItem(name: "size", value: "256,256"),
+            URLQueryItem(name: "format", value: "png32"),
+            URLQueryItem(name: "transparent", value: transparent ? "true" : "false"),
+            URLQueryItem(name: "f", value: "image")
+        ]
+
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+
+        let (data, response) = try await urlSession.data(from: url)
+        try validateImageResponse(data: data, response: response)
+
+        if cacheResult {
+            tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+        }
+
+        return data
+    }
+
+    private func validateImageResponse(data: Data, response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            guard UIImage(data: data) != nil else {
+                throw TileFetcherError.invalidImageData
+            }
+            return
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw TileFetcherError.invalidHTTPStatus(httpResponse.statusCode)
+        }
+
+        let mimeType = httpResponse.mimeType?.lowercased()
+        if let mimeType, !mimeType.hasPrefix("image/") {
+            throw TileFetcherError.invalidContentType(mimeType)
+        }
+
+        guard UIImage(data: data) != nil else {
+            throw TileFetcherError.invalidImageData
+        }
     }
 
     private func resizeImage(data: Data, to size: CGSize) -> Data? {

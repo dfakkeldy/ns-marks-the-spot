@@ -1,46 +1,115 @@
 import Foundation
 
+enum POIFetcherError: Error, Equatable {
+    case invalidHTTPStatus(Int)
+    case serviceError(code: Int?, message: String)
+}
+
 final class POIFetcher {
-    private let waterfallURL = URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_UT83/MapServer/0/query")!
+    private let waterfallURL = URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_UT83/MapServer/1/query")!
+    private let urlSession: URLSession
+
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
+    }
 
     func fetchWaterfalls() async throws -> [PointOfInterest] {
         var components = URLComponents(url: waterfallURL, resolvingAgainstBaseURL: false)!
         components.queryItems = [
-            URLQueryItem(name: "where", value: "1=1"),
+            URLQueryItem(name: "where", value: "FEAT_DESC = 'Falls -  On a single line river point'"),
             URLQueryItem(name: "outFields", value: "*"),
             URLQueryItem(name: "outSR", value: "4326"),
             URLQueryItem(name: "f", value: "json"),
         ]
 
-        let (data, _) = try await URLSession.shared.data(from: components.url!)
-        let decoder = JSONDecoder()
-        let response = try decoder.decode(EsriQueryResponse.self, from: data)
+        let (data, response) = try await urlSession.data(from: components.url!)
+        if let httpResponse = response as? HTTPURLResponse,
+           !(200...299).contains(httpResponse.statusCode) {
+            throw POIFetcherError.invalidHTTPStatus(httpResponse.statusCode)
+        }
 
-        return (response.features ?? []).compactMap(mapToPOI)
+        let decoder = JSONDecoder()
+        let queryResponse = try decoder.decode(EsriQueryResponse.self, from: data)
+
+        if let error = queryResponse.error {
+            throw POIFetcherError.serviceError(
+                code: error.code,
+                message: error.message
+            )
+        }
+
+        return (queryResponse.features ?? []).compactMap(mapToPOI)
     }
 
     private func mapToPOI(_ feature: EsriFeature) -> PointOfInterest? {
         guard let geom = feature.geometry, let attrs = feature.attributes else { return nil }
-        let name = attrs["NAME"]
-            ?? attrs["NAME_DISP"]
-            ?? attrs["FEATURE_NAME"]
-            ?? "Waterfall"
+        let name = attrs.name
+            ?? attrs.nameDisplay
+            ?? attrs.featureName
+            ?? fallbackName(for: attrs)
         return PointOfInterest(
+            id: stableID(for: attrs, geometry: geom),
             name: name,
             latitude: geom.y,
             longitude: geom.x,
             category: "waterfall"
         )
     }
+
+    private func stableID(for attrs: EsriAttributes, geometry: EsriGeometry) -> String {
+        if let objectID = attrs.objectID {
+            return "waterfall-\(objectID)"
+        }
+
+        return String(format: "waterfall-%.5f-%.5f", geometry.y, geometry.x)
+    }
+
+    private func fallbackName(for attrs: EsriAttributes) -> String {
+        if let objectID = attrs.objectID, let elevation = attrs.elevation {
+            return String(format: "Waterfall #%d (%.1f m)", objectID, elevation)
+        }
+
+        if let objectID = attrs.objectID {
+            return "Waterfall #\(objectID)"
+        }
+
+        if let elevation = attrs.elevation {
+            return String(format: "Waterfall (%.1f m)", elevation)
+        }
+
+        return "Waterfall"
+    }
 }
 
 private struct EsriQueryResponse: Decodable {
     let features: [EsriFeature]?
+    let error: EsriServiceError?
+}
+
+private struct EsriServiceError: Decodable {
+    let code: Int?
+    let message: String
 }
 
 private struct EsriFeature: Decodable {
-    let attributes: [String: String]?
+    let attributes: EsriAttributes?
     let geometry: EsriGeometry?
+}
+
+private struct EsriAttributes: Decodable {
+    let objectID: Int?
+    let name: String?
+    let nameDisplay: String?
+    let featureName: String?
+    let elevation: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case objectID = "OBJECTID"
+        case name = "NAME"
+        case nameDisplay = "NAME_DISP"
+        case featureName = "FEATURE_NAME"
+        case elevation = "ZVALUE"
+    }
 }
 
 private struct EsriGeometry: Decodable {

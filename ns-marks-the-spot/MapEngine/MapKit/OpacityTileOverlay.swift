@@ -2,6 +2,10 @@ import MapKit
 import UIKit
 
 final class OpacityTileOverlay: MKTileOverlay {
+    /// Set to true to draw tile borders and coordinates on every tile (including real ones).
+    static let debugShowTileGrid = false
+    static let bundledNativeZoomRange = 11...15
+
     weak var mapLayer: (any MapLayer)?
     weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
@@ -41,7 +45,29 @@ final class OpacityTileOverlay: MKTileOverlay {
                     )
                     result(data, nil)
                 } catch {
-                    result(generatePlaceholderTile(path: path), nil)
+                    result(fallbackTile(path: path), nil)
+                }
+            }
+            return
+        }
+
+        if let tile_fetcher = tileFetcher,
+           let layer = mapLayer,
+           case .arcgisMapService(let serverURL, let transparent) = layer.type
+        {
+            Task {
+                do {
+                    let data = try await tile_fetcher.fetchArcGISMapServiceTile(
+                        z: path.z,
+                        x: path.x,
+                        y: path.y,
+                        from: serverURL,
+                        layerName: cacheKey,
+                        transparent: transparent
+                    )
+                    result(data, nil)
+                } catch {
+                    result(fallbackTile(path: path), nil)
                 }
             }
             return
@@ -61,33 +87,31 @@ final class OpacityTileOverlay: MKTileOverlay {
                     )
                     result(data, nil)
                 } catch {
-                    result(generatePlaceholderTile(path: path), nil)
+                    result(fallbackTile(path: path), nil)
                 }
             }
             return
         }
 
-        result(generatePlaceholderTile(path: path), nil)
+        result(fallbackTile(path: path), nil)
     }
 
     private func loadTileFromBundle(path: MKTileOverlayPath) -> Data? {
-        // Range 10-14 is native.
-        if path.z >= 10 && path.z <= 14 {
+        if Self.bundledNativeZoomRange.contains(path.z) {
             return loadRawTileFromBundle(z: path.z, x: path.x, y: path.y)
         }
 
-        // Below 10, stitch tiles.
-        if path.z < 10 {
+        if path.z < Self.bundledNativeZoomRange.lowerBound {
             return loadStitchedTileFromBundle(z: path.z, x: path.x, y: path.y)
         }
 
-        // Above 14, scale up tile from z=14.
-        if path.z > 14 {
-            let scaleFactor = 1 << (path.z - 14)
+        if path.z > Self.bundledNativeZoomRange.upperBound {
+            let sourceZoom = Self.bundledNativeZoomRange.upperBound
+            let scaleFactor = 1 << (path.z - sourceZoom)
             let parentX = path.x / scaleFactor
             let parentY = path.y / scaleFactor
             
-            if let tileData = loadRawTileFromBundle(z: 14, x: parentX, y: parentY),
+            if let tileData = loadRawTileFromBundle(z: sourceZoom, x: parentX, y: parentY),
                let img = UIImage(data: tileData) {
                 let size = CGSize(width: 256, height: 256)
                 let format = UIGraphicsImageRendererFormat()
@@ -117,7 +141,7 @@ final class OpacityTileOverlay: MKTileOverlay {
     }
 
     private func loadStitchedTileFromBundle(z: Int, x: Int, y: Int) -> Data? {
-        let targetZ = 10
+        let targetZ = Self.bundledNativeZoomRange.lowerBound
         guard z < targetZ else { return nil }
 
         let diff = targetZ - z
@@ -156,6 +180,23 @@ final class OpacityTileOverlay: MKTileOverlay {
         }
 
         return hasAnyImage ? data : nil
+    }
+
+    private func fallbackTile(path: MKTileOverlayPath) -> Data? {
+        if Self.debugShowTileGrid {
+            return generatePlaceholderTile(path: path)
+        }
+
+        return transparentTile()
+    }
+
+    private func transparentTile() -> Data? {
+        let size = CGSize(width: 256, height: 256)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        return renderer.pngData { _ in }
     }
 
     private func generatePlaceholderTile(path: MKTileOverlayPath) -> Data? {
