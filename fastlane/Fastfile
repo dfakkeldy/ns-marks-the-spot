@@ -15,7 +15,12 @@ SCHEME = "ns-marks-the-spot"
 API_KEY_PATH = File.expand_path("api_key.json", __dir__)
 METADATA_ROOT = File.expand_path("metadata", __dir__)
 SCREENSHOTS_ROOT = File.expand_path("screenshots", __dir__)
-REVIEW_NOTES_PATH = File.join(METADATA_ROOT, "review_information", "notes.txt")
+REVIEW_INFORMATION_ROOT = File.join(METADATA_ROOT, "review_information")
+REVIEW_NOTES_PATH = File.join(REVIEW_INFORMATION_ROOT, "notes.txt")
+REVIEW_CONTACT_EMAIL_PATH = File.join(REVIEW_INFORMATION_ROOT, "email_address.txt")
+REVIEW_CONTACT_FIRST_NAME_PATH = File.join(REVIEW_INFORMATION_ROOT, "first_name.txt")
+REVIEW_CONTACT_LAST_NAME_PATH = File.join(REVIEW_INFORMATION_ROOT, "last_name.txt")
+REVIEW_CONTACT_PHONE_PATH = File.join(REVIEW_INFORMATION_ROOT, "phone_number.txt")
 EN_US_METADATA_ROOT = File.join(METADATA_ROOT, "en-US")
 DESCRIPTION_PATH = File.join(EN_US_METADATA_ROOT, "description.txt")
 KEYWORDS_PATH = File.join(EN_US_METADATA_ROOT, "keywords.txt")
@@ -28,6 +33,7 @@ TESTFLIGHT_METADATA_ROOT = File.join(METADATA_ROOT, "testflight", "en-US")
 TESTFLIGHT_DESCRIPTION_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "description.txt")
 TESTFLIGHT_FEEDBACK_EMAIL_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "feedback_email.txt")
 TESTFLIGHT_WHAT_TO_TEST_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "what_to_test.txt")
+WEEKLY_TESTFLIGHT_GROUP = ENV.fetch("TESTFLIGHT_WEEKLY_GROUP", "Weekly")
 
 def required_file_contents(path)
   UI.user_error!("Missing metadata file: #{path}") unless File.exist?(path)
@@ -35,6 +41,20 @@ def required_file_contents(path)
   contents = File.read(path).strip
   UI.user_error!("#{path} cannot be empty") if contents.empty?
   contents
+end
+
+def optional_env_or_file(env_name, path)
+  value = ENV.fetch(env_name, "").strip
+  return value unless value.empty?
+  return "" unless File.exist?(path)
+
+  File.read(path).strip
+end
+
+def required_env_or_file(env_name, path, label)
+  value = optional_env_or_file(env_name, path)
+  UI.user_error!("Missing #{label}: set #{env_name} or add #{path}") if value.empty?
+  value
 end
 
 def require_https_url!(path)
@@ -63,6 +83,17 @@ def testflight_what_to_test(channel)
     required_file_contents(TESTFLIGHT_WHAT_TO_TEST_PATH),
     "Build channel: #{channel}."
   ].join("\n\n")
+end
+
+def beta_review_info
+  {
+    contact_email: required_env_or_file("APP_REVIEW_CONTACT_EMAIL", REVIEW_CONTACT_EMAIL_PATH, "Beta App Review contact email"),
+    contact_first_name: required_env_or_file("APP_REVIEW_CONTACT_FIRST_NAME", REVIEW_CONTACT_FIRST_NAME_PATH, "Beta App Review contact first name"),
+    contact_last_name: required_env_or_file("APP_REVIEW_CONTACT_LAST_NAME", REVIEW_CONTACT_LAST_NAME_PATH, "Beta App Review contact last name"),
+    contact_phone: required_env_or_file("APP_REVIEW_CONTACT_PHONE", REVIEW_CONTACT_PHONE_PATH, "Beta App Review contact phone"),
+    demo_account_required: false,
+    notes: required_file_contents(REVIEW_NOTES_PATH)
+  }
 end
 
 def app_store_connect_api_key_from_file
@@ -193,6 +224,9 @@ platform :ios do
       File.join(EN_US_METADATA_ROOT, "name.txt"),
       File.join(EN_US_METADATA_ROOT, "subtitle.txt"),
       File.join(EN_US_METADATA_ROOT, "promotional_text.txt"),
+      REVIEW_CONTACT_EMAIL_PATH,
+      REVIEW_CONTACT_FIRST_NAME_PATH,
+      REVIEW_CONTACT_LAST_NAME_PATH,
       DESCRIPTION_PATH,
       KEYWORDS_PATH,
       PRIVACY_URL_PATH,
@@ -208,6 +242,10 @@ platform :ios do
     UI.user_error!("Missing metadata files: #{missing_files.join(', ')}") unless missing_files.empty?
 
     review_notes = File.read(REVIEW_NOTES_PATH).strip
+    review_contact_email = File.read(REVIEW_CONTACT_EMAIL_PATH).strip
+    review_contact_first_name = File.read(REVIEW_CONTACT_FIRST_NAME_PATH).strip
+    review_contact_last_name = File.read(REVIEW_CONTACT_LAST_NAME_PATH).strip
+    review_contact_phone = required_env_or_file("APP_REVIEW_CONTACT_PHONE", REVIEW_CONTACT_PHONE_PATH, "Beta App Review contact phone")
     description = File.read(DESCRIPTION_PATH).strip
     keywords = File.read(KEYWORDS_PATH).strip
     privacy_url = require_https_url!(PRIVACY_URL_PATH)
@@ -220,6 +258,11 @@ platform :ios do
     testflight_what_to_test = File.read(TESTFLIGHT_WHAT_TO_TEST_PATH).strip
 
     UI.user_error!("Review notes cannot be empty") if review_notes.empty?
+    UI.user_error!("Review contact email cannot be empty") if review_contact_email.empty?
+    UI.user_error!("Review contact email must contain @") unless review_contact_email.include?("@")
+    UI.user_error!("Review contact first name cannot be empty") if review_contact_first_name.empty?
+    UI.user_error!("Review contact last name cannot be empty") if review_contact_last_name.empty?
+    UI.user_error!("Review contact phone cannot be empty") if review_contact_phone.empty?
     UI.user_error!("Description cannot be empty") if description.empty?
     UI.user_error!("keywords.txt cannot be empty") if keywords.empty?
     UI.user_error!("keywords.txt exceeds App Store Connect 100-byte limit") if keywords.bytesize > 100
@@ -252,6 +295,8 @@ platform :ios do
   desc "Upload a nightly or weekly train build to TestFlight"
   lane :beta do |options|
     channel = (options[:channel] || "nightly").to_s
+    UI.user_error!("Unsupported beta channel '#{channel}'. Use nightly or weekly.") unless %w[nightly weekly].include?(channel)
+
     api_key = app_store_connect_api_key_for_release
     bundle_id = APP_IDENTIFIER
 
@@ -275,13 +320,14 @@ platform :ios do
     feedback_email = testflight_feedback_email
     beta_description = testflight_description
     what_to_test = testflight_what_to_test(channel)
+    external_distribution = channel == "weekly"
 
-    upload_to_testflight(
+    upload_options = {
       api_key: api_key,
       app_identifier: bundle_id,
       skip_waiting_for_build_processing: false,
-      distribute_external: false,
-      notify_external_testers: false,
+      distribute_external: external_distribution,
+      notify_external_testers: external_distribution,
       localized_app_info: {
         "en-US" => {
           feedback_email: feedback_email,
@@ -296,7 +342,14 @@ platform :ios do
       beta_app_feedback_email: feedback_email,
       beta_app_description: beta_description,
       changelog: what_to_test
-    )
+    }
+
+    if external_distribution
+      upload_options[:groups] = [WEEKLY_TESTFLIGHT_GROUP]
+      upload_options[:beta_app_review_info] = beta_review_info
+    end
+
+    upload_to_testflight(upload_options)
   end
 
   desc "Archive and upload an App Store release build"
