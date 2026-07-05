@@ -65,6 +65,7 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 fastlane/README.md
 fastlane/api_key.json
+fastlane/metadata/review_information/phone_number.txt
 
 # Ruby / Bundler
 vendor/bundle/
