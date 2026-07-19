@@ -11,6 +11,7 @@ import {
   MapCanvas,
   type ResourceLayerStatus,
 } from "./components/MapCanvas";
+import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
   eventLifecycleStatus,
   eventsForStatus,
@@ -165,6 +166,22 @@ function listingStatusLabel(listing: TaxSaleListing): string {
     case "unsold":
       return "Historical unsold result - not available";
   }
+}
+
+function listingMatchesTaxSaleFilter(
+  listing: TaxSaleListing,
+  filter: TaxSaleFilter,
+): boolean {
+  if (filter === "redemption") {
+    return listing.redemptionCategory === "six-month";
+  }
+  if (filter === "immediate-or-none") {
+    return (
+      listing.redemptionCategory === "immediate-deed" ||
+      listing.redemptionCategory === "not-redeemable"
+    );
+  }
+  return true;
 }
 
 function historicalSaleMethodLabel(
@@ -1032,18 +1049,9 @@ export function App() {
     const listings = taxSaleEvents
       .filter(({ id }) => selectedEventIds.has(id))
       .flatMap(({ listings }) => listings)
-      .filter((listing) => {
-      if (taxSaleFilter === "redemption") {
-        return listing.redemptionCategory === "six-month";
-      }
-      if (taxSaleFilter === "immediate-or-none") {
-        return (
-          listing.redemptionCategory === "immediate-deed" ||
-          listing.redemptionCategory === "not-redeemable"
-        );
-      }
-      return true;
-    });
+      .filter((listing) =>
+        listingMatchesTaxSaleFilter(listing, taxSaleFilter),
+      );
     return new Set(listings.flatMap(({ pids }) => pids));
   }, [selectedEventIds, taxSaleFilter]);
 
@@ -1272,6 +1280,38 @@ export function App() {
     }
   };
 
+  const selectListedParcel = async (eventId: string, pid: string) => {
+    cancelAddressSearch();
+    cancelPointLookup();
+    setEventVisibility(eventId, true);
+    setAddressSearchResults([]);
+    setSearchError(null);
+    setQuery(pid);
+    selectParcel(pid);
+
+    if (parcels.features.some(({ properties }) => properties.PID === pid)) {
+      setParcelLookupMessage(`PID ${pid} selected.`);
+      return;
+    }
+
+    setParcelLookupMessage(`Loading parcel ${pid}…`);
+    try {
+      const collection = await fetchParcels([pid]);
+      if (collection.features.length === 0) {
+        setParcelLookupMessage(
+          `PID ${pid} details opened, but its map geometry is unavailable.`,
+        );
+        return;
+      }
+      setParcels((current) => mergeFeatureCollections(current, collection));
+      setParcelLookupMessage(`PID ${pid} selected.`);
+    } catch {
+      setParcelLookupMessage(
+        `PID ${pid} details opened, but the Province parcel service is unavailable.`,
+      );
+    }
+  };
+
   const selectedListingContext = selectedPid
     ? listingContextForPid(selectedPid)
     : undefined;
@@ -1465,30 +1505,45 @@ export function App() {
             </p>
             {upcomingTaxSaleEvents.map((event) => {
               const pidCount = pidsForEvents([event]).length;
+              const filteredListings = event.listings.filter((listing) =>
+                listingMatchesTaxSaleFilter(listing, taxSaleFilter),
+              );
               return (
-                <label className="layer-row event-row" key={event.id}>
-                  <input
-                    type="checkbox"
-                    aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)} - ${eventLifecycleLabel(event, currentTime)}`}
-                    checked={licenceAccepted && selectedEventIds.has(event.id)}
+                <div className="tax-sale-event" key={event.id}>
+                  <label className="layer-row event-row">
+                    <input
+                      type="checkbox"
+                      aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)} - ${eventLifecycleLabel(event, currentTime)}`}
+                      checked={licenceAccepted && selectedEventIds.has(event.id)}
+                      disabled={!licenceAccepted}
+                      onChange={(change) =>
+                        setEventVisibility(event.id, change.target.checked)
+                      }
+                    />
+                    <span className="switch" aria-hidden="true" />
+                    <span>
+                      <strong>{event.shortMunicipality}</strong>
+                      <small>{eventDateLabel(event)}</small>
+                      <small>{eventLifecycleLabel(event, currentTime)}</small>
+                      <small>
+                        {event.listings.length} notice entries · {pidCount} PIDs
+                      </small>
+                      <small>
+                        Snapshot retrieved {snapshotDateLabel(event)}
+                      </small>
+                    </span>
+                  </label>
+                  <TaxSalePropertyList
+                    eventId={event.id}
+                    municipality={event.shortMunicipality}
+                    listings={filteredListings}
+                    selectedPid={selectedPid}
                     disabled={!licenceAccepted}
-                    onChange={(change) =>
-                      setEventVisibility(event.id, change.target.checked)
-                    }
+                    onSelectPid={(eventId, pid) => {
+                      void selectListedParcel(eventId, pid);
+                    }}
                   />
-                  <span className="switch" aria-hidden="true" />
-                  <span>
-                    <strong>{event.shortMunicipality}</strong>
-                    <small>{eventDateLabel(event)}</small>
-                    <small>{eventLifecycleLabel(event, currentTime)}</small>
-                    <small>
-                      {event.listings.length} notice entries · {pidCount} PIDs
-                    </small>
-                    <small>
-                      Snapshot retrieved {snapshotDateLabel(event)}
-                    </small>
-                  </span>
-                </label>
+                </div>
               );
             })}
             <p className="parcel-message" role="status" aria-live="polite">

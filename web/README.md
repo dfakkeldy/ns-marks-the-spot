@@ -19,20 +19,25 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 1. Each municipality's official notice supplies its event date and public
    parcel fields. The catalog preserves the municipality's financial wording:
    CBRM publishes a minimum bid, while Inverness publishes total arrears.
-2. The browser asks the live NSPRD Feature Layer for polygon geometry by exact
+2. Each tax-sale event toggle has a collapsed property list. The list mirrors
+   the redemption filter and renders one action per PID, including separate
+   actions when a single lien covers multiple parcels. Selecting a row enables
+   its event layer, fits the map to that parcel, and opens the same parcel sheet
+   used by PID search and direct map selection.
+3. The browser asks the live NSPRD Feature Layer for polygon geometry by exact
    PID or by the exact coordinate of a visible-boundary map tap or chosen civic
    point. The selected parcel sheet sums NSPRD's mapped area across every
    polygon returned for that PID and converts it to acres. The municipal notice
    remains the authority for tax-sale fields.
-3. The public dataset intentionally omits assessed-owner names. The app labels
+4. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
    verified result dataset, the UI automatically changes to “Past sale date —
    verify results with the municipality.” It does not infer sold, unsold, or
    withdrawn results.
-4. Browser location stays in the browser and is drawn on the map. This app has
+5. Browser location stays in the browser and is drawn on the map. This app has
    no application server receiving the coordinates.
-5. For a selected PID, the browser reuses the exact NSPRD Polygon or
+6. For a selected PID, the browser reuses the exact NSPRD Polygon or
    MultiPolygon geometry to look up mapped physical-address points from the
    Nova Scotia Civic Address File. Municipal notice locations remain notice
    fields and are not promoted into civic addresses.
