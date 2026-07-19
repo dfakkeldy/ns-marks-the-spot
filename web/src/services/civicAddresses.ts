@@ -128,9 +128,15 @@ function normalizeSearchQuery(query: string): string {
     .replace(/\s+/gu, " ");
 }
 
-function initialledPossessiveFallback(query: string): string | null {
+function expandRoadAliases(value: string): string {
+  return value
+    .replace(/\bhwy\b/giu, "Highway")
+    .replace(/\broute(?=\s+\d+[a-z]?\b)/giu, "Highway");
+}
+
+function officialSearchFallback(query: string): string | null {
   const normalizedQuery = normalizeSearchQuery(query);
-  const fallbackQuery = normalizedQuery.replace(
+  const fallbackQuery = expandRoadAliases(normalizedQuery).replace(
     /\b([a-z]{2,4})'s\b/giu,
     (_, initials: string) =>
       `${initials.toUpperCase().split("").join(".")}.'s`,
@@ -359,7 +365,7 @@ function civicAddressForFeature(
 }
 
 function addressMatchKey(value: string): string {
-  return value
+  return expandRoadAliases(value)
     .normalize("NFKD")
     .replace(/\p{M}/gu, "")
     .toLocaleLowerCase("en-CA")
@@ -452,7 +458,7 @@ export async function searchCivicAddresses(
     return initialResults;
   }
 
-  const fallbackQuery = initialledPossessiveFallback(query);
+  const fallbackQuery = officialSearchFallback(query);
   if (!fallbackQuery) {
     return [];
   }

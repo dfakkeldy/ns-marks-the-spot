@@ -193,6 +193,37 @@ describe("Nova Scotia Civic Address File lookup", () => {
     ]);
   });
 
+  it.each(["hwy 19", "route 19"])(
+    "finds an official highway from the shorthand %s",
+    async (query) => {
+      const fetchMock = vi.fn((input: string | URL | Request) => {
+        const fullTextQuery = new URL(String(input)).searchParams.get("$q");
+
+        return Promise.resolve(
+          fullTextQuery === "Highway 19"
+            ? geoJsonResponse([
+                civicPoint("34100031", [-61.47, 45.69], {
+                  civicnum: "1307",
+                  strname: "Highway 19",
+                  strsuffix: null,
+                  comm: "Troy",
+                  mun: "Inverness County",
+                }),
+              ])
+            : geoJsonResponse([]),
+        );
+      });
+      vi.stubGlobal("fetch", fetchMock);
+
+      const results = await searchCivicAddresses(query);
+
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(results.map(({ label }) => label)).toEqual([
+        "1307 Highway 19, Troy, Inverness County",
+      ]);
+    },
+  );
+
   it("does not present civic-point placement metadata as part of the address", () => {
     expect(
       formatCivicAddress(
