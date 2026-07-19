@@ -699,10 +699,12 @@ a {
   }
 
   .parcel-inspector {
+    top: 10px;
     right: 10px;
     bottom: 10px;
     width: calc(100% - 20px);
     padding: 20px;
+    overflow-y: auto;
   }
 
   .map-region.has-inspector .leaflet-control-zoom,
