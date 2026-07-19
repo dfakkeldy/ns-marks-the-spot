@@ -96,6 +96,13 @@ coordinates to Web Mercator bounds and requests direct PNG tiles from each
 MapServer's `export` operation. This matches the native app's service model
 without sharing its offline cache policy.
 
+After licence acceptance, the default web composition leaves the opaque modern
+and aerial maps off, turns NSPRD boundaries, complete Province water features,
+and roads on, and fits the first loaded view once to the visible tax-sale
+parcel geometries. Fletcher remains the final unavailable row in the layer list
+until its web rights are clear. The one-time fit does not compete with later
+selected-parcel fitting or user navigation.
+
 NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
 dynamic renderers, Flood Risk Areas is restricted to layers 24–26, and the
 Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
@@ -120,8 +127,9 @@ Municipal notices and NSPRD have deliberately separate authority:
 
 1. A municipality source module owns notice fields such as lien, location,
    arrears, redeemable status, event details, and PIDs.
-2. `services/nsprd.ts` performs exact-PID ArcGIS Feature Layer queries for
-   geometry, the NSPRD update field, and `SHAPE.AREA`.
+2. `services/nsprd.ts` performs exact-PID and point-intersection ArcGIS Feature
+   Layer queries for geometry, the NSPRD update field, and `SHAPE.AREA`. A map
+   tap is eligible only while the visible NSPRD boundary layer is on.
 3. The UI joins notice records to returned geometry by PID. One PID may have
    multiple polygons, so selection and map fitting operate across all matching
    features.
@@ -142,6 +150,15 @@ It is intentionally separate from `parcelContext.ts`: Civic Points use the Nova
 Scotia Open Government Licence and have their own attribution, pagination, and
 failure boundary, while road and water intersections come from restricted map
 services.
+
+The same civic service owns sidebar address discovery. It sends normalized user
+text through Socrata's full-text `$q` index, returns bounded labelled Civic
+Point candidates, and does not infer a PID from address text. Selecting a
+candidate sends its exact coordinate to the NSPRD point-intersection query; the
+returned parcel geometry then enters the same selected-PID, civic-containment,
+and inspector flow as PID search or a map tap. Address search and map-point
+lookup have independent cancellation controllers so stale requests cannot
+replace newer selection state.
 
 For a selected PID, the civic service reuses every Polygon or MultiPolygon part
 already returned by NSPRD. It calculates one bounding box per part, requests

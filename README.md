@@ -9,9 +9,12 @@ catalog's Province layers—NS Aerial, Property Boundaries, Crown Lands, Flood
 Risk Areas, and Waterfalls—while keeping Fletcher disabled until web-use rights
 are clear. Its municipal catalog maps the CBRM July 21 and Inverness County
 August 11, 2026 tax-sale notices against live NSPRD parcel geometry, supports
-exact PID search and browser location, and sends offline users back to the
-native app. See [web/README.md](web/README.md) for the source receipt, privacy
-boundary, and local verification commands.
+PID and civic-address search plus tap-to-identify parcel selection, keeps
+browser location local, and sends offline users back to the native app. See
+[web/README.md](web/README.md) for the source receipt, privacy boundary, and
+local verification commands. Candidate hazard, groundwater, coastal, terrain,
+and conservation overlays are evaluated in
+[docs/property-context-data-candidates.md](docs/property-context-data-candidates.md).
 
 ## Release Engineering - Promotion Ladder
 

@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   NSPRD_LAYER_URL,
+  buildPointQueryUrl,
   buildPidQueryUrl,
+  fetchParcelAtPoint,
   fetchParcels,
   normalizePid,
 } from "./nsprd";
@@ -39,6 +41,58 @@ describe("NSPRD PID queries", () => {
     expect(() => buildPidQueryUrl(["not-a-pid"])).toThrow(
       "at least one valid PID",
     );
+  });
+
+  it("builds a point-intersection query for a tapped map coordinate", () => {
+    const url = new URL(buildPointQueryUrl(46.059488, -61.414138));
+
+    expect(`${url.origin}${url.pathname}`).toBe(`${NSPRD_LAYER_URL}/query`);
+    expect(url.searchParams.get("geometry")).toBe("-61.414138,46.059488");
+    expect(url.searchParams.get("geometryType")).toBe("esriGeometryPoint");
+    expect(url.searchParams.get("inSR")).toBe("4326");
+    expect(url.searchParams.get("spatialRel")).toBe(
+      "esriSpatialRelIntersects",
+    );
+    expect(url.searchParams.get("outFields")).toBe(
+      "PID,UPDAT_DATE,SHAPE.AREA",
+    );
+    expect(url.searchParams.get("returnGeometry")).toBe("true");
+    expect(url.searchParams.get("outSR")).toBe("4326");
+    expect(url.searchParams.get("f")).toBe("geojson");
+  });
+
+  it("rejects invalid map coordinates before querying NSPRD", () => {
+    expect(() => buildPointQueryUrl(91, -61)).toThrow("valid latitude");
+    expect(() => buildPointQueryUrl(46, -181)).toThrow("valid longitude");
+  });
+
+  it("returns the parcel containing a tapped map point", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              properties: { PID: "50251750" },
+              geometry: {
+                type: "Polygon",
+                coordinates: [],
+              },
+            },
+          ],
+        }),
+        { status: 200 },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const collection = await fetchParcelAtPoint(46.059488, -61.414138);
+
+    expect(collection.features.map(({ properties }) => properties.PID)).toEqual([
+      "50251750",
+    ]);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("batches large exact-PID catalogs and merges returned geometry", async () => {

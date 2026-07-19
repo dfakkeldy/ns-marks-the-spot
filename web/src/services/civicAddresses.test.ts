@@ -2,9 +2,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   CIVIC_ADDRESS_FIELDS,
   CIVIC_ADDRESS_PAGE_SIZE,
+  CIVIC_ADDRESS_SEARCH_LIMIT,
   buildCivicAddressQueryUrl,
+  buildCivicAddressSearchUrl,
   fetchCivicAddresses,
   formatCivicAddress,
+  searchCivicAddresses,
   type CivicAddressProperties,
 } from "./civicAddresses";
 import type { NsprdFeatureCollection } from "./nsprd";
@@ -66,6 +69,70 @@ afterEach(() => {
 });
 
 describe("Nova Scotia Civic Address File lookup", () => {
+  it("filters a leading civic number separately from full-text street terms", () => {
+    const value = buildCivicAddressSearchUrl("  11064 Highway 19   Mabou  ");
+    const url = new URL(value);
+
+    expect(url.searchParams.get("$q")).toBe("Highway 19 Mabou");
+    expect(url.searchParams.get("$where")).toBe("civicnum=11064");
+    expect(url.searchParams.get("$select")).toBe(CIVIC_ADDRESS_FIELDS.join(","));
+    expect(url.searchParams.get("$limit")).toBe(
+      String(CIVIC_ADDRESS_SEARCH_LIMIT),
+    );
+    expect(url.searchParams.get("$order")).toBe("pntid");
+    expect(value).toContain("%24q=Highway+19+Mabou");
+    expect(value).toContain("%24where=civicnum%3D11064");
+  });
+
+  it("keeps searches without a leading civic number entirely full text", () => {
+    const url = new URL(buildCivicAddressSearchUrl("Highway 19 Mabou"));
+
+    expect(url.searchParams.get("$q")).toBe("Highway 19 Mabou");
+    expect(url.searchParams.has("$where")).toBe(false);
+  });
+
+  it("returns unique formatted civic-address search results", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        geoJsonResponse([
+          civicPoint("27700002", [-61.414138, 46.059488], {
+            civicnum: "11064",
+            strname: "Highway 19",
+            strsuffix: null,
+            comm: "Southwest Mabou",
+            mun: "Inverness County",
+          }),
+          civicPoint("27700002", [-61.414138, 46.059488]),
+        ]),
+      ),
+    );
+
+    const results = await searchCivicAddresses("11064 Highway 19 Mabou");
+
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({
+      pntid: "27700002",
+      coordinates: [-61.414138, 46.059488],
+      label: "11064 Highway 19, Southwest Mabou, Inverness County",
+    });
+  });
+
+  it("does not present civic-point placement metadata as part of the address", () => {
+    expect(
+      formatCivicAddress(
+        completeProperties({
+          civicnum: "11064",
+          strname: "Highway 19",
+          strsuffix: null,
+          add_loc: "Building Centroid",
+          comm: "Southwest Mabou",
+          mun: "Inverness County",
+        }),
+      ),
+    ).toBe("11064 Highway 19, Southwest Mabou, Inverness County");
+  });
+
   it("builds an encoded bounded Socrata query in north, west, south, east order", () => {
     const value = buildCivicAddressQueryUrl(
       { north: 46.4, west: -61.2, south: 46.3, east: -61.1 },
@@ -279,7 +346,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
           county: null,
         }),
       ),
-    ).toBe("Community Hall");
+    ).toBe("");
   });
 
   it("surfaces Civic Points service failures", async () => {

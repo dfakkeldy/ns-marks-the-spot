@@ -1,6 +1,6 @@
 # NS Marks The Spot — Online
 
-Online map companion for the native map catalog, PID search, and
+Online map companion for the native map catalog, PID/civic-address search, and
 municipality-sourced property layers. The event-aware catalog currently covers
 the July 21, 2026 CBRM auction and the August 11, 2026 Inverness County auction.
 
@@ -19,9 +19,10 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
    parcel fields. The catalog preserves the municipality's financial wording:
    CBRM publishes a minimum bid, while Inverness publishes total arrears.
 2. The browser asks the live NSPRD Feature Layer for polygon geometry by exact
-   PID. The selected parcel sheet sums NSPRD's mapped area across every polygon
-   returned for that PID and converts it to acres. The municipal notice remains
-   the authority for tax-sale fields.
+   PID or by the exact coordinate of a visible-boundary map tap or chosen civic
+   point. The selected parcel sheet sums NSPRD's mapped area across every
+   polygon returned for that PID and converts it to acres. The municipal notice
+   remains the authority for tax-sale fields.
 3. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
@@ -67,6 +68,12 @@ remaining online-only:
   features. A compact legend explains the principal line classes.
 - Fletcher remains listed but disabled until web-use rights are clear.
 
+After the Province licence is accepted, the default composition keeps Modern
+Map and NS Aerial off, turns NS Property Boundaries, Water Features, and Roads,
+Trails & Culverts on, and fits the initial view once to the loaded tax-sale
+parcels. Fletcher is the final layer row because it is not yet available. The
+initial fit does not repeat after searches or ordinary navigation.
+
 All seven Province services successfully returned Web Mercator export images in
 the July 19, 2026 validation pass. The web app sends direct image requests from
 the browser and does not add an application server or offline cache.
@@ -98,6 +105,14 @@ components through Socrata's `within_box` filter, and follows ordered
 `$limit`/`$offset` pages. It then deduplicates by `pntid` and performs exact
 client-side containment across polygon parts and holes. Boundary points count
 as inside; hole interiors do not.
+
+The same service searches civic addresses through Socrata's full-text `$q`
+index and returns at most 12 mapped-point candidates. Choosing a result uses the
+point's published coordinate in an NSPRD `esriSpatialRelIntersects` query; the
+app never guesses a PID from address text. With Property Boundaries visible,
+tapping the map uses the same point query, merges the returned geometry, and
+opens the same parcel/civic/context sheet. Search and map-point requests abort
+their own stale predecessors.
 
 The parcel sheet lists every unique mapped point inside the parcel. It never
 chooses a nearest point or infers an address from a road, address range, tax-sale
@@ -197,7 +212,8 @@ date rather than leaving that date only in source data.
 ## Current boundary
 
 This slice includes the modern OpenStreetMap basemap, seven web-cleared Province
-layers, live NSPRD exact-PID search, browser location, mapped acreage, parcel
+layers, live NSPRD PID/address/map-tap parcel discovery, browser location,
+mapped acreage, parcel
 road/water context, authoritative mapped civic-address points, and the two
 upcoming municipal tax-sale events. The Fletcher layer is visible but disabled
 until web-use rights are clear. Historical tax-sale layers are fail-closed

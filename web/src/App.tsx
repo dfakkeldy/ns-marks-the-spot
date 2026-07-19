@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import appIconUrl from "../../docs/assets/app-icon.svg";
 import { MapCanvas } from "./components/MapCanvas";
 import {
@@ -27,9 +27,11 @@ import {
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
   fetchCivicAddresses,
+  searchCivicAddresses,
   type CivicAddress,
 } from "./services/civicAddresses";
 import {
+  fetchParcelAtPoint,
   fetchParcels,
   normalizePid,
   type NsprdFeatureCollection,
@@ -117,8 +119,11 @@ function mergeFeatureCollections(
   current: NsprdFeatureCollection,
   incoming: NsprdFeatureCollection,
 ): NsprdFeatureCollection {
+  const featureKey = (
+    feature: NsprdFeatureCollection["features"][number],
+  ) => `${feature.properties.PID}:${JSON.stringify(feature.geometry)}`;
   const featureKeys = new Set(
-    current.features.map((feature) => JSON.stringify(feature.geometry)),
+    current.features.map(featureKey),
   );
 
   return {
@@ -126,7 +131,7 @@ function mergeFeatureCollections(
     features: [
       ...current.features,
       ...incoming.features.filter((feature) => {
-        const key = JSON.stringify(feature.geometry);
+        const key = featureKey(feature);
         if (featureKeys.has(key)) {
           return false;
         }
@@ -265,14 +270,16 @@ function ParcelInspector({
           This PID is not listed in any municipal notice included by this map.
         </p>
       )}
-      <a
-        className="primary-action inspector-action"
-        href={event?.sourceUrl}
-        target="_blank"
-        rel="noreferrer"
-      >
-        View direct official source
-      </a>
+      {event ? (
+        <a
+          className="primary-action inspector-action"
+          href={event.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          View direct official source
+        </a>
+      ) : null}
     </aside>
   );
 }
@@ -514,7 +521,14 @@ export function App() {
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [addressSearchResults, setAddressSearchResults] = useState<
+    CivicAddress[]
+  >([]);
+  const [searchingAddresses, setSearchingAddresses] = useState(false);
   const [selectedPid, setSelectedPid] = useState<string | null>(null);
+  const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
+    null,
+  );
   const [mappedContext, setMappedContext] = useState<ParcelContextState>({
     status: "idle",
     value: EMPTY_PARCEL_CONTEXT,
@@ -523,7 +537,7 @@ export function App() {
     status: "idle",
     value: EMPTY_CIVIC_ADDRESSES,
   });
-  const [showModernMap, setShowModernMap] = useState(true);
+  const [showModernMap, setShowModernMap] = useState(false);
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
   );
@@ -532,6 +546,16 @@ export function App() {
   );
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
   const [currentTime, setCurrentTime] = useState(Date.now);
+  const addressSearchController = useRef<AbortController | null>(null);
+  const pointLookupController = useRef<AbortController | null>(null);
+
+  useEffect(
+    () => () => {
+      addressSearchController.current?.abort();
+      pointLookupController.current?.abort();
+    },
+    [],
+  );
 
   useEffect(() => {
     const timer = window.setInterval(() => setCurrentTime(Date.now()), 60_000);
@@ -546,7 +570,7 @@ export function App() {
     const controller = new AbortController();
     fetchParcels(upcomingTaxSalePids, controller.signal)
       .then((collection) => {
-        setParcels(collection);
+        setParcels((current) => mergeFeatureCollections(current, collection));
         setParcelMessage(
           `${new Set(collection.features.map(({ properties }) => properties.PID)).size} PIDs matched in NSPRD.`,
         );
@@ -686,13 +710,118 @@ export function App() {
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
   };
 
+  const cancelAddressSearch = () => {
+    addressSearchController.current?.abort();
+    addressSearchController.current = null;
+    setSearchingAddresses(false);
+  };
+
+  const cancelPointLookup = () => {
+    pointLookupController.current?.abort();
+    pointLookupController.current = null;
+    setParcelLookupMessage(null);
+  };
+
+  const identifyParcelAtPoint = async (
+    latitude: number,
+    longitude: number,
+    addressLabel?: string,
+  ) => {
+    cancelAddressSearch();
+    pointLookupController.current?.abort();
+    const controller = new AbortController();
+    pointLookupController.current = controller;
+    setAddressSearchResults([]);
+    setSearchError(null);
+    setParcelLookupMessage(
+      addressLabel
+        ? `Finding the parcel for ${addressLabel}…`
+        : "Finding the parcel at that map point…",
+    );
+
+    try {
+      const collection = await fetchParcelAtPoint(
+        latitude,
+        longitude,
+        controller.signal,
+      );
+      if (controller.signal.aborted) {
+        return;
+      }
+
+      const pid = collection.features[0]?.properties.PID;
+      if (!pid) {
+        setParcelLookupMessage("No NSPRD parcel was found at that point.");
+        return;
+      }
+
+      setParcels((current) => mergeFeatureCollections(current, collection));
+      if (!addressLabel) {
+        setQuery(pid);
+      }
+      selectParcel(pid);
+      setParcelLookupMessage(`PID ${pid} selected.`);
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+      setParcelLookupMessage(
+        "The Province parcel lookup is unavailable right now.",
+      );
+    } finally {
+      if (pointLookupController.current === controller) {
+        pointLookupController.current = null;
+      }
+    }
+  };
+
   const submitPidSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    cancelAddressSearch();
+    cancelPointLookup();
     setSearchError(null);
+    setAddressSearchResults([]);
     const pid = normalizePid(query);
 
     if (!pid) {
-      setSearchError("Enter an 8-digit Nova Scotia parcel ID.");
+      const normalizedQuery = query.trim().replace(/\s+/gu, " ");
+      if (/^[\d\s-]+$/u.test(query) || normalizedQuery.length < 3) {
+        setSearchError(
+          /^[\d\s-]+$/u.test(query)
+            ? "Enter an 8-digit Nova Scotia parcel ID."
+            : "Enter at least three characters of a civic address.",
+        );
+        return;
+      }
+
+      const controller = new AbortController();
+      addressSearchController.current = controller;
+      setSearchingAddresses(true);
+
+      try {
+        const results = await searchCivicAddresses(
+          normalizedQuery,
+          controller.signal,
+        );
+        if (controller.signal.aborted) {
+          return;
+        }
+        if (results.length === 0) {
+          setSearchError("No mapped civic address matched that search.");
+          return;
+        }
+        setAddressSearchResults(results);
+      } catch (error: unknown) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setSearchError("Civic address search is unavailable right now.");
+      } finally {
+        if (addressSearchController.current === controller) {
+          addressSearchController.current = null;
+          setSearchingAddresses(false);
+        }
+      }
       return;
     }
 
@@ -753,14 +882,21 @@ export function App() {
         <aside className="layer-rail" aria-label="Map controls">
           <h1>Explore Nova Scotia</h1>
           <form className="pid-search" onSubmit={submitPidSearch}>
-            <label htmlFor="pid-query">Search by PID</label>
+            <label htmlFor="pid-query">Search by PID or civic address</label>
             <div className="search-row">
               <input
                 id="pid-query"
+                type="search"
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="50203256"
-                inputMode="numeric"
+                onChange={(event) => {
+                  cancelAddressSearch();
+                  cancelPointLookup();
+                  setQuery(event.target.value);
+                  setAddressSearchResults([]);
+                  setSearchError(null);
+                }}
+                placeholder="PID or 11064 Highway 19, Mabou"
+                inputMode="search"
                 autoComplete="off"
                 disabled={!licenceAccepted}
               />
@@ -773,8 +909,35 @@ export function App() {
               </button>
             </div>
             <p className="field-help" role={searchError ? "alert" : undefined}>
-              {searchError ?? "Enter an 8-digit Nova Scotia parcel ID."}
+              {searchError ??
+                (searchingAddresses
+                  ? "Searching mapped civic addresses…"
+                  : "Enter an 8-digit PID or a Nova Scotia civic address.")}
             </p>
+            {addressSearchResults.length > 0 ? (
+              <ul
+                className="address-search-results"
+                aria-label="Civic address results"
+              >
+                {addressSearchResults.map((address) => (
+                  <li key={address.pntid}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuery(address.label);
+                        void identifyParcelAtPoint(
+                          address.coordinates[1],
+                          address.coordinates[0],
+                          address.label,
+                        );
+                      }}
+                    >
+                      {address.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </form>
 
           <section className="rail-section" aria-labelledby="layers-heading">
@@ -792,13 +955,6 @@ export function App() {
                 <small>OpenStreetMap</small>
               </span>
             </label>
-            <div className="layer-row unavailable">
-              <span className="switch" aria-hidden="true" />
-              <span>
-                <strong>Fletcher historical map</strong>
-                <small>{nativeLayerCatalog[0].webCaveat}</small>
-              </span>
-            </div>
             {provinceLayerCatalog.map((layer) => (
               <div className="layer-control" key={layer.id}>
                 <LayerToggle
@@ -815,6 +971,13 @@ export function App() {
                 ) : null}
               </div>
             ))}
+            <div className="layer-row unavailable">
+              <span className="switch" aria-hidden="true" />
+              <span>
+                <strong>Fletcher historical map</strong>
+                <small>{nativeLayerCatalog[0].webCaveat}</small>
+              </span>
+            </div>
           </section>
 
           <section
@@ -932,7 +1095,17 @@ export function App() {
             showModernMap={showModernMap}
             showTaxSale={licenceAccepted && selectedEventIds.size > 0}
             onSelectPid={selectParcel}
+            onIdentifyParcel={(latitude, longitude) => {
+              void identifyParcelAtPoint(latitude, longitude);
+            }}
           />
+          <p
+            className="parcel-lookup-message"
+            role="status"
+            aria-live="polite"
+          >
+            {parcelLookupMessage}
+          </p>
           {selectedPid ? (
             <ParcelInspector
               key={selectedPid}
