@@ -1,8 +1,13 @@
-import { act, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
+import {
+  OPEN_GOVERNMENT_ATTRIBUTION,
+  fetchCivicAddresses,
+  type CivicAddress,
+} from "./services/civicAddresses";
 import { fetchParcels } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 
@@ -42,6 +47,51 @@ vi.mock("./services/parcelContext", async (importOriginal) => {
   };
 });
 
+vi.mock("./services/civicAddresses", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/civicAddresses")>();
+  return {
+    ...original,
+    fetchCivicAddresses: vi.fn().mockResolvedValue([]),
+  };
+});
+
+const parcelFeature = (pid: string) => ({
+  type: "Feature" as const,
+  properties: { PID: pid, "SHAPE.AREA": 111_057.27135 },
+  geometry: {
+    type: "Polygon" as const,
+    coordinates: [
+      [
+        [-61.2, 46.4],
+        [-61.1, 46.4],
+        [-61.1, 46.3],
+        [-61.2, 46.3],
+        [-61.2, 46.4],
+      ],
+    ],
+  },
+});
+
+const civicAddress = (pntid: string, label: string): CivicAddress => ({
+  pntid,
+  coordinates: [-61.15, 46.35],
+  label,
+  properties: {
+    pntid,
+    civicnum: "12",
+    civsuffix: null,
+    unit_num: null,
+    add_loc: "Unknown",
+    strprefix: null,
+    strname: "Main",
+    strsuffix: "St",
+    strdir: null,
+    comm: "Mabou",
+    mun: "Municipality of the County of Inverness",
+    county: "Inverness County",
+  },
+});
+
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -50,6 +100,7 @@ describe("NS Marks The Spot Online", () => {
       features: [],
     });
     vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockResolvedValue([]);
   });
 
   afterEach(() => {
@@ -302,6 +353,249 @@ describe("NS Marks The Spot Online", () => {
         "Mapped road and water intersections are unavailable right now.",
       ),
     ).toBeInTheDocument();
+  });
+
+  it("shows an honest loading state and one mapped civic address with its own licence", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    let resolveAddresses!: (addresses: CivicAddress[]) => void;
+    vi.mocked(fetchCivicAddresses).mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolveAddresses = resolve;
+      }),
+    );
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      screen.getByText("Looking up mapped civic addresses…"),
+    ).toBeInTheDocument();
+    await act(async () => {
+      resolveAddresses([
+        civicAddress("100", "12 Main St, Mabou, Inverness County"),
+      ]);
+    });
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      within(inspector).getByRole("heading", { name: "Mapped civic address" }),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText("12 Main St, Mabou, Inverness County"),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByRole("link", {
+        name: "Nova Scotia Civic Address File",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g",
+    );
+    expect(within(inspector).getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(
+      within(inspector).getByRole("link", {
+        name: "Open Government Licence – Nova Scotia",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://support.novascotia.ca/services/open-data-portal-licence",
+    );
+    expect(
+      within(inspector).getByText(
+        "Mapped physical-address points are not proof of ownership, mailing address, access, occupancy, or legal parcel status.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("lists every unique mapped civic address", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+      civicAddress("100", "12 Main St, Mabou, Inverness County"),
+      civicAddress("101", "Unit 2, 12 Main St, Mabou, Inverness County"),
+    ]);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      await within(inspector).findByRole("heading", {
+        name: "Mapped civic addresses",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText("12 Main St, Mabou, Inverness County"),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText(
+        "Unit 2, 12 Main St, Mabou, Inverness County",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("states when no civic point is mapped inside the selected parcel", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText(
+        "No civic address point is mapped inside this parcel.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps road and water results visible when civic lookup fails", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({
+      roads: [{ name: "Cabot Trail", kind: "Arterial" }],
+      water: [{ name: "Mabou River", kind: "River or stream" }],
+    });
+    vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(new Error("offline"));
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(await screen.findByText("Cabot Trail")).toBeInTheDocument();
+    expect(screen.getByText("Mabou River")).toBeInTheDocument();
+    expect(
+      screen.getByText("Civic address lookup is unavailable right now."),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps civic results visible when road and water lookup fails", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+      civicAddress("100", "12 Main St, Mabou, Inverness County"),
+    ]);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText("12 Main St, Mabou, Inverness County"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Mapped road and water intersections are unavailable right now.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("aborts a stale civic lookup before showing the next selected PID", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317"), parcelFeature("50203256")],
+    });
+    let firstSignal: AbortSignal | undefined;
+    vi.mocked(fetchCivicAddresses).mockImplementation((features, signal) => {
+      const pid = features[0]?.properties.PID;
+      if (pid === "50334317") {
+        firstSignal = signal;
+        return new Promise((_, reject) => {
+          signal?.addEventListener("abort", () => {
+            reject(new DOMException("Aborted", "AbortError"));
+          });
+        });
+      }
+      return Promise.resolve([
+        civicAddress("200", "8 Second St, Whycocomagh, Inverness County"),
+      ]);
+    });
+    render(<App />);
+    await screen.findByText("2 PIDs matched in NSPRD.");
+
+    const search = screen.getByLabelText("Search by PID");
+    await user.type(search, "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await vi.waitFor(() => expect(firstSignal).toBeDefined());
+
+    await user.clear(search);
+    await user.type(search, "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText(
+        "8 Second St, Whycocomagh, Inverness County",
+      ),
+    ).toBeInTheDocument();
+    expect(firstSignal?.aborted).toBe(true);
+    expect(
+      screen.queryByText("12 Main St, Mabou, Inverness County"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens a newly selected PID at the top of a fresh parcel sheet", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317"), parcelFeature("50203256")],
+    });
+    render(<App />);
+    await screen.findByText("2 PIDs matched in NSPRD.");
+
+    const search = screen.getByLabelText("Search by PID");
+    await user.type(search, "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    const firstInspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    firstInspector.scrollTop = 220;
+    fireEvent.scroll(firstInspector);
+
+    await user.clear(search);
+    await user.type(search, "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    const secondInspector = await screen.findByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+
+    expect(secondInspector).not.toBe(firstInspector);
+    expect(secondInspector.scrollTop).toBe(0);
   });
 
   it("finds a CBRM listing and shows event-aware municipal details", async () => {

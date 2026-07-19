@@ -4,6 +4,7 @@ import type { PropsWithChildren } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getBrowserLocation } from "../services/browserLocation";
 import { MapCanvas } from "./MapCanvas";
+import { parcelStyleForFeature } from "./parcelStyle";
 
 const mapMock = vi.hoisted(() => ({
   fitBounds: vi.fn(),
@@ -98,5 +99,51 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
+  });
+});
+
+describe("MapCanvas parcel styling", () => {
+  const selectedFeature = {
+    type: "Feature" as const,
+    geometry: { type: "Polygon" as const, coordinates: [] },
+    properties: { PID: "15234636" },
+  };
+
+  it("makes the selected parcel fully opaque only at close zoom", () => {
+    const stylingContext = {
+      selectedPid: "15234636",
+      taxSalePids: new Set(["15234636"]),
+      showTaxSale: true,
+    };
+
+    expect(
+      parcelStyleForFeature(selectedFeature, {
+        ...stylingContext,
+        zoom: 14,
+      }).fillOpacity,
+    ).toBe(0.34);
+    expect(
+      parcelStyleForFeature(selectedFeature, {
+        ...stylingContext,
+        zoom: 15,
+      }).fillOpacity,
+    ).toBe(1);
+  });
+
+  it("does not make unselected tax-sale parcels opaque", () => {
+    expect(
+      parcelStyleForFeature(
+        {
+          ...selectedFeature,
+          properties: { PID: "15161631" },
+        },
+        {
+          selectedPid: "15234636",
+          taxSalePids: new Set(["15161631"]),
+          showTaxSale: true,
+          zoom: 16,
+        },
+      ).fillOpacity,
+    ).toBe(0.3);
   });
 });

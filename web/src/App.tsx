@@ -23,6 +23,13 @@ import {
   type WebLayerDescriptor,
 } from "./layers/layerCatalog";
 import {
+  CIVIC_ADDRESS_DATASET_URL,
+  OPEN_GOVERNMENT_ATTRIBUTION,
+  OPEN_GOVERNMENT_LICENCE_URL,
+  fetchCivicAddresses,
+  type CivicAddress,
+} from "./services/civicAddresses";
+import {
   fetchParcels,
   normalizePid,
   type NsprdFeatureCollection,
@@ -45,7 +52,12 @@ type ParcelContextState =
   | { status: "idle" | "loading" | "error"; value: ParcelContext }
   | { status: "ready"; value: ParcelContext };
 
+type CivicAddressState =
+  | { status: "idle" | "loading" | "error"; value: CivicAddress[] }
+  | { status: "ready"; value: CivicAddress[] };
+
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
+const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
 
 const currency = new Intl.NumberFormat("en-CA", {
   style: "currency",
@@ -130,6 +142,7 @@ function ParcelInspector({
   context,
   mappedArea,
   mappedContext,
+  civicAddresses,
   now,
   onClose,
 }: {
@@ -137,6 +150,7 @@ function ParcelInspector({
   context?: { event: TaxSaleEvent; listing: TaxSaleListing };
   mappedArea: MappedArea | null;
   mappedContext: ParcelContextState;
+  civicAddresses: CivicAddressState;
   now: number;
   onClose: () => void;
 }) {
@@ -235,6 +249,7 @@ function ParcelInspector({
           Calculated from NSPRD geometry and approximate; not a survey.
         </p>
       ) : null}
+      <CivicAddressDetails state={civicAddresses} />
       <MappedContextDetails state={mappedContext} />
       {listing ? (
         <p className="sale-warning">
@@ -259,6 +274,59 @@ function ParcelInspector({
         View direct official source
       </a>
     </aside>
+  );
+}
+
+function CivicAddressDetails({ state }: { state: CivicAddressState }) {
+  const heading =
+    state.status === "ready" && state.value.length === 1
+      ? "Mapped civic address"
+      : "Mapped civic addresses";
+
+  return (
+    <section className="civic-addresses">
+      <h3>{heading}</h3>
+      {state.status === "idle" || state.status === "loading" ? (
+        <p className="civic-address-status" role="status">
+          Looking up mapped civic addresses…
+        </p>
+      ) : state.status === "error" ? (
+        <p className="civic-address-status error" role="status">
+          Civic address lookup is unavailable right now.
+        </p>
+      ) : state.value.length === 0 ? (
+        <p className="civic-address-status">
+          No civic address point is mapped inside this parcel.
+        </p>
+      ) : (
+        <ul>
+          {state.value.map(({ pntid, label }) => (
+            <li key={pntid}>{label}</li>
+          ))}
+        </ul>
+      )}
+      <p className="civic-address-source">
+        Source: {" "}
+        <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">
+          Nova Scotia Civic Address File
+        </a>
+        .
+      </p>
+      <p className="civic-address-source">
+        <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>{" "}
+        <a
+          href={OPEN_GOVERNMENT_LICENCE_URL}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open Government Licence – Nova Scotia
+        </a>
+      </p>
+      <p className="civic-address-caveat">
+        Mapped physical-address points are not proof of ownership, mailing
+        address, access, occupancy, or legal parcel status.
+      </p>
+    </section>
   );
 }
 
@@ -451,6 +519,10 @@ export function App() {
     status: "idle",
     value: EMPTY_PARCEL_CONTEXT,
   });
+  const [civicAddresses, setCivicAddresses] = useState<CivicAddressState>({
+    status: "idle",
+    value: EMPTY_CIVIC_ADDRESSES,
+  });
   const [showModernMap, setShowModernMap] = useState(true);
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
@@ -511,6 +583,31 @@ export function App() {
           return;
         }
         setMappedContext({ status: "error", value: EMPTY_PARCEL_CONTEXT });
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, parcels, selectedPid]);
+
+  useEffect(() => {
+    if (!selectedPid || !licenceAccepted) {
+      return;
+    }
+
+    const selectedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === selectedPid,
+    );
+    if (selectedFeatures.length === 0) {
+      return;
+    }
+
+    const controller = new AbortController();
+    fetchCivicAddresses(selectedFeatures, controller.signal)
+      .then((value) => setCivicAddresses({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setCivicAddresses({ status: "error", value: EMPTY_CIVIC_ADDRESSES });
       });
 
     return () => controller.abort();
@@ -586,6 +683,7 @@ export function App() {
   const selectParcel = (pid: string) => {
     setSelectedPid(pid);
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
+    setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
   };
 
   const submitPidSearch = async (event: FormEvent<HTMLFormElement>) => {
@@ -837,16 +935,22 @@ export function App() {
           />
           {selectedPid ? (
             <ParcelInspector
+              key={selectedPid}
               pid={selectedPid}
               context={selectedListingContext}
               mappedArea={selectedMappedArea}
               mappedContext={mappedContext}
+              civicAddresses={civicAddresses}
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);
                 setMappedContext({
                   status: "idle",
                   value: EMPTY_PARCEL_CONTEXT,
+                });
+                setCivicAddresses({
+                  status: "idle",
+                  value: EMPTY_CIVIC_ADDRESSES,
                 });
               }}
             />

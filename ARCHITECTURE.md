@@ -99,10 +99,17 @@ without sharing its offline cache policy.
 NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
 dynamic renderers, Flood Risk Areas is restricted to layers 24–26, and the
 Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
-Province's falls value. Parcel, Crown-land, and flood detail layers begin at
-zoom 12; selecting one from a wider view moves the browser map to that supported
-zoom. Waterfall points remain visible at the province overview scale so users
-can discover where to zoom in.
+Province's falls value. The Province publishes NSPRD with a 1:36,114 visibility
+floor; the web export uses a low display DPI so the authoritative outlines draw
+from zoom 7 without changing tile extents or manufacturing generalized parcel
+geometry. Crown-land and flood detail layers begin at zoom 12. Waterfall points
+remain visible at the province overview scale so users can discover where to
+zoom in.
+
+Tax-sale parcel polygons are separate client-side NSPRD query results. The
+selected parcel remains translucent in the overview and becomes fully opaque at
+zoom 15 and closer; other listed parcels retain their lighter fill so the close
+selection remains unambiguous.
 
 The complete Province hydrography and transportation MapServers are available
 as separate overlays. Their official renderers retain road class, surface,
@@ -129,6 +136,32 @@ the selected PID and converts square metres to acres. It POSTs that exact parcel
 geometry to each relevant Province road and water sublayer with
 `esriSpatialRelIntersects`, deduplicates the returned names/classes, and keeps
 empty results distinct from live-service failures.
+
+`services/civicAddresses.ts` owns the authoritative PID-to-civic-address lookup.
+It is intentionally separate from `parcelContext.ts`: Civic Points use the Nova
+Scotia Open Government Licence and have their own attribution, pagination, and
+failure boundary, while road and water intersections come from restricted map
+services.
+
+For a selected PID, the civic service reuses every Polygon or MultiPolygon part
+already returned by NSPRD. It calculates one bounding box per part, requests
+only address fields through Socrata `within_box` queries, follows stable
+`$limit`/`$offset` pages ordered by `pntid`, and deduplicates by `pntid`. A final
+client-side point-in-polygon test excludes bounding-box false positives and hole
+interiors across all parts. Points exactly on exterior or interior-ring
+boundaries count consistently as inside.
+
+The service returns zero, one, or every unique mapped point inside the parcel;
+it never substitutes a nearest point, municipal notice description, road label,
+or interpolated address. Changing or closing the selected PID aborts that PID's
+request. Civic loading, empty, and failure states remain independent of the
+road/water state.
+
+The parcel sheet links the official Civic Address File, displays `Contains
+information licensed under the Open Government Licence – Nova Scotia`, and
+explains that mapped physical-address points do not prove ownership, mailing
+address, access, occupancy, or legal parcel status. This open-data attribution
+is separate from the NSPRD restricted-services licence gate.
 
 The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is intentionally disabled on the web

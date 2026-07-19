@@ -627,6 +627,59 @@ a {
   line-height: 1.4;
 }
 
+.civic-addresses {
+  margin: 16px 0;
+  padding: 14px;
+  background: var(--paper);
+  border: 1px solid rgba(231, 168, 107, 0.62);
+  border-radius: 6px;
+}
+
+.civic-addresses h3 {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+}
+
+.civic-addresses ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 19px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.civic-address-status,
+.civic-address-source,
+.civic-address-caveat {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.civic-address-status,
+.civic-address-source {
+  color: var(--muted);
+}
+
+.civic-address-status.error {
+  color: #8c2f27;
+  font-weight: 600;
+}
+
+.civic-address-source {
+  margin-top: 9px;
+}
+
+.civic-address-source + .civic-address-source {
+  margin-top: 3px;
+}
+
+.civic-address-caveat {
+  margin-top: 9px;
+  color: var(--chart-ink);
+}
+
 .mapped-context,
 .mapped-context-status {
   margin: 16px 0;
