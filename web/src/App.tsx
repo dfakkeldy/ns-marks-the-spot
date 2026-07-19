@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import appIconUrl from "../../docs/assets/app-icon.svg";
 import { MapCanvas } from "./components/MapCanvas";
 import {
-  invernessTaxSaleNotice,
-  listingForPid,
-  taxSaleListings,
-  taxSalePids,
+  eventsForStatus,
+  listingContextForPid,
+  pidsForEvents,
+  taxSaleEvents,
+  type TaxSaleEvent,
   type TaxSaleListing,
-} from "./data/invernessTaxSale";
+} from "./data/taxSaleCatalog";
 import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
@@ -26,7 +27,7 @@ import {
   type NsprdFeatureCollection,
 } from "./services/nsprd";
 
-type TaxSaleFilter = "all" | "redeemable" | "not-redeemable";
+type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
 
 const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
@@ -37,6 +38,32 @@ const currency = new Intl.NumberFormat("en-CA", {
   style: "currency",
   currency: "CAD",
 });
+
+const eventDate = new Intl.DateTimeFormat("en-CA", {
+  dateStyle: "long",
+  timeZone: "America/Halifax",
+});
+
+const upcomingTaxSaleEvents = eventsForStatus("upcoming");
+const upcomingTaxSalePids = pidsForEvents(upcomingTaxSaleEvents);
+
+function eventDateLabel(event: TaxSaleEvent): string {
+  const timestamp = event.saleStartsAt ?? event.closedAt;
+  return timestamp ? eventDate.format(new Date(timestamp)) : "Date not listed";
+}
+
+function listingStatusLabel(listing: TaxSaleListing): string {
+  switch (listing.listingStatus) {
+    case "advertised":
+      return "Advertised in notice";
+    case "withdrawn":
+      return "Withdrawn from historical event";
+    case "sold":
+      return "Historical sold result - not available";
+    case "unsold":
+      return "Historical unsold result - not available";
+  }
+}
 
 function isLicenceAccepted(): boolean {
   return (
@@ -70,13 +97,17 @@ function mergeFeatureCollections(
 
 function ParcelInspector({
   pid,
-  listing,
+  context,
   onClose,
 }: {
   pid: string;
-  listing?: TaxSaleListing;
+  context?: { event: TaxSaleEvent; listing: TaxSaleListing };
   onClose: () => void;
 }) {
+  const listing = context?.listing;
+  const event = context?.event;
+  const historical = event?.eventStatus === "historical";
+
   return (
     <aside className="parcel-inspector" aria-label={`Parcel ${pid} details`}>
       <button
@@ -87,11 +118,31 @@ function ParcelInspector({
       >
         ×
       </button>
-      <h2>{listing?.location ?? `PID ${pid}`}</h2>
+      <h2>
+        {listing?.addressOrDescription ?? listing?.location ?? `PID ${pid}`}
+      </h2>
       <p className={listing ? "notice-status" : "parcel-status"}>
-        {listing ? "Listed in official notice" : "NSPRD parcel"}
+        {listing
+          ? historical
+            ? "Historical result - not available"
+            : "Listed in official notice"
+          : "NSPRD parcel"}
       </p>
       <dl className="parcel-facts">
+        {event ? (
+          <>
+            <div>
+              <dt>Municipality</dt>
+              <dd>{event.municipality}</dd>
+            </div>
+            <div>
+              <dt>Event</dt>
+              <dd>
+                {eventDateLabel(event)} · {historical ? "Historical" : "Upcoming"}
+              </dd>
+            </div>
+          </>
+        ) : null}
         <div>
           <dt>PID</dt>
           <dd>{pid}</dd>
@@ -102,15 +153,31 @@ function ParcelInspector({
               <dt>Lien</dt>
               <dd>{listing.lien}</dd>
             </div>
+            {listing.aan ? (
+              <div>
+                <dt>AAN</dt>
+                <dd>{listing.aan}</dd>
+              </div>
+            ) : null}
             <div>
-              <dt>Total arrears</dt>
-              <dd>{currency.format(listing.totalArrearsCents / 100)}</dd>
+              <dt>Official location</dt>
+              <dd>{listing.location}</dd>
             </div>
             <div>
-              <dt>Redeemable</dt>
-              <dd className={listing.redeemable ? "yes" : "no"}>
-                {listing.redeemable ? "Yes" : "No"}
-              </dd>
+              <dt>{listing.financial.label}</dt>
+              <dd>{currency.format(listing.financial.amountCents / 100)}</dd>
+            </div>
+            <div>
+              <dt>Redemption</dt>
+              <dd>{listing.redemptionLabel}</dd>
+            </div>
+            <div>
+              <dt>Listing status</dt>
+              <dd>{listingStatusLabel(listing)}</dd>
+            </div>
+            <div>
+              <dt>Source retrieved</dt>
+              <dd>{event?.retrievedOn}</dd>
             </div>
           </>
         ) : null}
@@ -118,21 +185,22 @@ function ParcelInspector({
       {listing ? (
         <p className="sale-warning">
           <span aria-hidden="true">!</span>
-          Properties may be redeemed or withdrawn. Verify current status with
-          Inverness County and complete a title search.
+          {historical
+            ? "This is a dated historical result, not a currently available property."
+            : `Properties may be paid, removed or deferred. Verify current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`}
         </p>
       ) : (
         <p className="sale-warning neutral">
-          This PID is not listed in the Inverness County notice used by this map.
+          This PID is not listed in any municipal notice included by this map.
         </p>
       )}
       <a
         className="primary-action inspector-action"
-        href={invernessTaxSaleNotice.sourceUrl}
+        href={event?.sourceUrl}
         target="_blank"
         rel="noreferrer"
       >
-        View official notice
+        View direct official source
       </a>
     </aside>
   );
@@ -237,7 +305,9 @@ export function App() {
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
   );
-  const [showTaxSale, setShowTaxSale] = useState(true);
+  const [selectedEventIds, setSelectedEventIds] = useState(
+    () => new Set(upcomingTaxSaleEvents.map(({ id }) => id)),
+  );
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
 
   useEffect(() => {
@@ -246,7 +316,7 @@ export function App() {
     }
 
     const controller = new AbortController();
-    fetchParcels(taxSalePids, controller.signal)
+    fetchParcels(upcomingTaxSalePids, controller.signal)
       .then((collection) => {
         setParcels(collection);
         setParcelMessage(
@@ -258,7 +328,7 @@ export function App() {
           return;
         }
         setParcelMessage(
-          "The Province parcel service is temporarily unavailable. The official notice remains accessible.",
+          "The Province parcel service is temporarily unavailable. The official notices remain accessible.",
         );
       });
 
@@ -266,23 +336,63 @@ export function App() {
   }, [licenceAccepted]);
 
   const filteredTaxSalePids = useMemo(() => {
-    const listings = taxSaleListings.filter((listing) => {
-      if (taxSaleFilter === "redeemable") {
-        return listing.redeemable;
+    const listings = taxSaleEvents
+      .filter(({ id }) => selectedEventIds.has(id))
+      .flatMap(({ listings }) => listings)
+      .filter((listing) => {
+      if (taxSaleFilter === "redemption") {
+        return listing.redemptionCategory === "six-month";
       }
-      if (taxSaleFilter === "not-redeemable") {
-        return !listing.redeemable;
+      if (taxSaleFilter === "immediate-or-none") {
+        return (
+          listing.redemptionCategory === "immediate-deed" ||
+          listing.redemptionCategory === "not-redeemable"
+        );
       }
       return true;
     });
     return new Set(listings.flatMap(({ pids }) => pids));
-  }, [taxSaleFilter]);
+  }, [selectedEventIds, taxSaleFilter]);
+
+  const selectedListings = useMemo(
+    () =>
+      taxSaleEvents
+        .filter(({ id }) => selectedEventIds.has(id))
+        .flatMap(({ listings }) => listings),
+    [selectedEventIds],
+  );
+
+  const filterCounts = useMemo(
+    () => ({
+      all: selectedListings.length,
+      redemption: selectedListings.filter(
+        ({ redemptionCategory }) => redemptionCategory === "six-month",
+      ).length,
+      immediateOrNone: selectedListings.filter(
+        ({ redemptionCategory }) =>
+          redemptionCategory === "immediate-deed" ||
+          redemptionCategory === "not-redeemable",
+      ).length,
+    }),
+    [selectedListings],
+  );
 
   const acceptLicence = () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     setLicenceAccepted(true);
     setLicenceDialogOpen(false);
-    setShowTaxSale(true);
+  };
+
+  const setEventVisibility = (id: string, visible: boolean) => {
+    setSelectedEventIds((current) => {
+      const next = new Set(current);
+      if (visible) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
   };
 
   const setProvinceLayerVisibility = (
@@ -321,8 +431,8 @@ export function App() {
     }
   };
 
-  const selectedListing = selectedPid
-    ? listingForPid(selectedPid)
+  const selectedListingContext = selectedPid
+    ? listingContextForPid(selectedPid)
     : undefined;
 
   return (
@@ -397,65 +507,90 @@ export function App() {
                 onReviewLicence={() => setLicenceDialogOpen(true)}
               />
             ))}
-            <label className="layer-row">
-              <input
-                type="checkbox"
-                aria-label="Tax sale — Inverness County"
-                checked={licenceAccepted && showTaxSale}
-                disabled={!licenceAccepted}
-                onChange={(event) => setShowTaxSale(event.target.checked)}
-              />
-              <span className="switch" aria-hidden="true" />
-              <span>
-                <strong>Tax sale — Inverness County</strong>
-                <small>45 notice entries · 47 PIDs</small>
-              </span>
-            </label>
+          </section>
+
+          <section
+            className="rail-section tax-sale-events"
+            aria-labelledby="events-heading"
+          >
+            <h2 id="events-heading">Upcoming tax-sale events</h2>
+            <p className="section-intro">
+              Dated official notices. Listings can change before an auction.
+            </p>
+            {upcomingTaxSaleEvents.map((event) => {
+              const pidCount = pidsForEvents([event]).length;
+              return (
+                <label className="layer-row event-row" key={event.id}>
+                  <input
+                    type="checkbox"
+                    aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)}`}
+                    checked={licenceAccepted && selectedEventIds.has(event.id)}
+                    disabled={!licenceAccepted}
+                    onChange={(change) =>
+                      setEventVisibility(event.id, change.target.checked)
+                    }
+                  />
+                  <span className="switch" aria-hidden="true" />
+                  <span>
+                    <strong>{event.shortMunicipality}</strong>
+                    <small>{eventDateLabel(event)}</small>
+                    <small>
+                      {event.listings.length} notice entries · {pidCount} PIDs
+                    </small>
+                  </span>
+                </label>
+              );
+            })}
             <p className="parcel-message" role="status" aria-live="polite">
               {parcelMessage}
             </p>
           </section>
 
-          <section className="rail-section tax-sale-controls" aria-labelledby="filter-heading">
-            <h2 id="filter-heading">Tax sale filter</h2>
-            <div className="segmented-control" aria-label="Tax sale filter">
+          <section
+            className="rail-section tax-sale-controls"
+            aria-labelledby="filter-heading"
+          >
+            <h2 id="filter-heading">Redemption category</h2>
+            <div className="segmented-control" aria-label="Redemption category">
               <button
                 type="button"
                 className={taxSaleFilter === "all" ? "selected" : ""}
                 aria-pressed={taxSaleFilter === "all"}
                 onClick={() => setTaxSaleFilter("all")}
               >
-                All 45
+                All {filterCounts.all}
               </button>
               <button
                 type="button"
-                className={taxSaleFilter === "redeemable" ? "selected" : ""}
-                aria-pressed={taxSaleFilter === "redeemable"}
-                onClick={() => setTaxSaleFilter("redeemable")}
+                className={taxSaleFilter === "redemption" ? "selected" : ""}
+                aria-pressed={taxSaleFilter === "redemption"}
+                onClick={() => setTaxSaleFilter("redemption")}
               >
-                Redeemable 27
+                Redemption {filterCounts.redemption}
               </button>
               <button
                 type="button"
-                className={taxSaleFilter === "not-redeemable" ? "selected" : ""}
-                aria-pressed={taxSaleFilter === "not-redeemable"}
-                onClick={() => setTaxSaleFilter("not-redeemable")}
+                className={
+                  taxSaleFilter === "immediate-or-none" ? "selected" : ""
+                }
+                aria-pressed={taxSaleFilter === "immediate-or-none"}
+                onClick={() => setTaxSaleFilter("immediate-or-none")}
               >
-                Not redeemable 18
+                Immediate / none {filterCounts.immediateOrNone}
               </button>
             </div>
 
-            <div className="source-note">
-              <strong>Official notice · July 16, 2026</strong>
-              <span>Sale: August 11 at 9:30 a.m. in Port Hood</span>
-              <a
-                href={invernessTaxSaleNotice.sourceUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open municipal PDF
-              </a>
-            </div>
+            {upcomingTaxSaleEvents.map((event) => (
+              <div className="source-note" key={event.id}>
+                <strong>
+                  {event.shortMunicipality} · {eventDateLabel(event)}
+                </strong>
+                <span>{event.venue}</span>
+                <a href={event.sourceUrl} target="_blank" rel="noreferrer">
+                  Open direct official source
+                </a>
+              </div>
+            ))}
           </section>
 
           <section className="offline-card" aria-labelledby="offline-heading">
@@ -480,13 +615,13 @@ export function App() {
             taxSalePids={filteredTaxSalePids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
-            showTaxSale={licenceAccepted && showTaxSale}
+            showTaxSale={licenceAccepted && selectedEventIds.size > 0}
             onSelectPid={setSelectedPid}
           />
           {selectedPid ? (
             <ParcelInspector
               pid={selectedPid}
-              listing={selectedListing}
+              context={selectedListingContext}
               onClose={() => setSelectedPid(null)}
             />
           ) : null}

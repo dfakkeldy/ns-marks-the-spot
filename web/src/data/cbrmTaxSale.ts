@@ -1,0 +1,126 @@
+import type {
+  RedemptionCategory,
+  TaxSaleEvent,
+} from "./taxSaleTypes";
+
+type CbrmSourceListing = {
+  lien: string;
+  aan: string;
+  pids: string[];
+  addressOrDescription: string;
+  location: string;
+  minimumBidCents: number;
+  redemptionCategory: Extract<
+    RedemptionCategory,
+    "six-month" | "immediate-deed"
+  >;
+};
+
+const cbrmSourceListings: CbrmSourceListing[] = [
+  { lien: "26-05", aan: "578134", pids: ["15054588"], addressOrDescription: "75 DORCHESTER ST LAND BUILDING", location: "SYDNEY", minimumBidCents: 3_310_873, redemptionCategory: "six-month" },
+  { lien: "26-06", aan: "1351664", pids: ["15161631"], addressOrDescription: "1169 VICTORIA RD LAND", location: "SYDNEY", minimumBidCents: 3_338_032, redemptionCategory: "six-month" },
+  { lien: "26-07", aan: "1836366", pids: ["15234636"], addressOrDescription: "16/18 CENTRE ST LAND BUILDING", location: "RESERVE MINES", minimumBidCents: 1_466_125, redemptionCategory: "six-month" },
+  { lien: "26-08", aan: "4698444", pids: ["15411903"], addressOrDescription: "3 ANDERSON ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 593_146, redemptionCategory: "six-month" },
+  { lien: "26-09", aan: "2262444", pids: ["15402704"], addressOrDescription: "20 JONES ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 215_490, redemptionCategory: "six-month" },
+  { lien: "26-10", aan: "546828", pids: ["15129406"], addressOrDescription: "158 VICTORIA RD LAND BUILDING", location: "SYDNEY", minimumBidCents: 994_701, redemptionCategory: "immediate-deed" },
+  { lien: "26-11", aan: "301221", pids: ["15385149"], addressOrDescription: "173 WALLACE RD LAND BUILDING", location: "GLACE BAY", minimumBidCents: 947_784, redemptionCategory: "six-month" },
+  { lien: "26-14", aan: "3692205", pids: ["15385156"], addressOrDescription: "177 WALLACE RD LAND", location: "GLACE BAY", minimumBidCents: 376_322, redemptionCategory: "six-month" },
+  { lien: "26-12", aan: "7276117", pids: ["15638596"], addressOrDescription: "11/13 FOUNDRY ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 1_569_619, redemptionCategory: "six-month" },
+  { lien: "26-13", aan: "857793", pids: ["15426125", "15789985"], addressOrDescription: "8 WILCOX LANE /LUKE ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 627_536, redemptionCategory: "six-month" },
+  { lien: "26-21", aan: "2904233", pids: ["15498496"], addressOrDescription: "8 PATTON RD LAND BUILDING", location: "PORT CALEDONIA", minimumBidCents: 971_689, redemptionCategory: "six-month" },
+  { lien: "26-23", aan: "1870254", pids: ["15437817"], addressOrDescription: "98 CENTRE AVE LAND", location: "GLACE BAY", minimumBidCents: 1_721_181, redemptionCategory: "immediate-deed" },
+  { lien: "26-24", aan: "2935694", pids: ["15437825"], addressOrDescription: "100 CENTRE AVE LAND", location: "GLACE BAY", minimumBidCents: 2_075_472, redemptionCategory: "immediate-deed" },
+  { lien: "26-25", aan: "2817837", pids: ["15144355"], addressOrDescription: "89B KITCHENER ST LAND", location: "SYDNEY", minimumBidCents: 2_296_153, redemptionCategory: "six-month" },
+  { lien: "26-29", aan: "4230604", pids: ["15430697"], addressOrDescription: "99 DORCHESTER ST LAND", location: "GLACE BAY", minimumBidCents: 166_972, redemptionCategory: "immediate-deed" },
+  { lien: "26-30", aan: "1704621", pids: ["15430689"], addressOrDescription: "101 DORCHESTER ST LAND", location: "GLACE BAY", minimumBidCents: 1_478_611, redemptionCategory: "immediate-deed" },
+  { lien: "26-31", aan: "9449450", pids: ["15550999"], addressOrDescription: "LOUISBOURG HWY LAND", location: "MIRA RD", minimumBidCents: 667_366, redemptionCategory: "immediate-deed" },
+  { lien: "26-32", aan: "4790308", pids: ["15401623"], addressOrDescription: "19 FOUNDRY ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 745_482, redemptionCategory: "six-month" },
+  { lien: "26-33", aan: "2975939", pids: ["15401615"], addressOrDescription: "21 FOUNDRY ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 590_105, redemptionCategory: "six-month" },
+  { lien: "26-37", aan: "4688872", pids: ["15131527"], addressOrDescription: "190 MUGGAH ST LAND BUILDING", location: "SYDNEY", minimumBidCents: 318_273, redemptionCategory: "six-month" },
+  { lien: "26-38", aan: "2749033", pids: ["15278112"], addressOrDescription: "135 CENTRE AVE LAND BUILDING", location: "DONKIN", minimumBidCents: 1_023_868, redemptionCategory: "immediate-deed" },
+  { lien: "26-43", aan: "1212206", pids: ["15485543"], addressOrDescription: "HEELAN ST LAND", location: "NEW WATERFORD", minimumBidCents: 386_398, redemptionCategory: "immediate-deed" },
+  { lien: "26-44", aan: "6002293", pids: ["15555303"], addressOrDescription: "MAY ST LAND", location: "SCOTCHTOWN", minimumBidCents: 246_981, redemptionCategory: "immediate-deed" },
+  { lien: "26-45", aan: "2194279", pids: ["15431745"], addressOrDescription: "145 DORCHESTER ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 485_897, redemptionCategory: "immediate-deed" },
+  { lien: "26-46", aan: "4049756", pids: ["15487713"], addressOrDescription: "379 HEELAN ST LAND", location: "NEW WATERFORD", minimumBidCents: 1_080_880, redemptionCategory: "immediate-deed" },
+  { lien: "26-47", aan: "10656664", pids: ["15876949"], addressOrDescription: "VULCAN AVE LAND", location: "SYDNEY", minimumBidCents: 916_391, redemptionCategory: "six-month" },
+  { lien: "26-48", aan: "1308564", pids: ["15400419"], addressOrDescription: "2 HICKMAN ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 356_115, redemptionCategory: "six-month" },
+  { lien: "26-49", aan: "2766124", pids: ["15170897"], addressOrDescription: "2 BROWN ST LAND BUILDING", location: "SYDNEY MINES", minimumBidCents: 773_929, redemptionCategory: "six-month" },
+  { lien: "26-51", aan: "380199", pids: ["15443765"], addressOrDescription: "33 FIFTH ST LAND", location: "GLACE BAY", minimumBidCents: 2_112_230, redemptionCategory: "immediate-deed" },
+  { lien: "26-56", aan: "4233107", pids: ["15458540"], addressOrDescription: "18 COMMERCIAL ST LAND BUILDING", location: "LOUISBOURG", minimumBidCents: 969_767, redemptionCategory: "six-month" },
+  { lien: "26-57", aan: "2946289", pids: ["15417116"], addressOrDescription: "116 SHAFT ST LAND", location: "GLACE BAY", minimumBidCents: 1_010_242, redemptionCategory: "immediate-deed" },
+  { lien: "26-58", aan: "3174085", pids: ["15431620"], addressOrDescription: "190 MANSFIELD ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 1_429_168, redemptionCategory: "immediate-deed" },
+  { lien: "26-59", aan: "3140865", pids: ["15416969"], addressOrDescription: "39 SCHOOL ST LAND", location: "GLACE BAY", minimumBidCents: 1_009_034, redemptionCategory: "six-month" },
+  { lien: "26-60", aan: "2697505", pids: ["15244833"], addressOrDescription: "28 FIFTH AVE LAND", location: "FLORENCE", minimumBidCents: 2_646_613, redemptionCategory: "immediate-deed" },
+  { lien: "26-61", aan: "1135201", pids: ["15047269"], addressOrDescription: "NINTH ST LAND", location: "NEW WATERFORD", minimumBidCents: 640_207, redemptionCategory: "immediate-deed" },
+  { lien: "26-62", aan: "2821257", pids: ["15245079"], addressOrDescription: "29 THIRD AVE LAND", location: "FLORENCE", minimumBidCents: 2_566_345, redemptionCategory: "immediate-deed" },
+  { lien: "26-63", aan: "2996251", pids: ["15356793"], addressOrDescription: "2864 LOUISBOURG MAIN-A-DIEU RD LAND BUILDING", location: "MAIN-A-DIEU", minimumBidCents: 245_534, redemptionCategory: "six-month" },
+  { lien: "26-66", aan: "10806283", pids: ["15412836"], addressOrDescription: "SCHOOL ST LAND", location: "GLACE BAY", minimumBidCents: 194_763, redemptionCategory: "immediate-deed" },
+  { lien: "26-67", aan: "2989662", pids: ["15569841"], addressOrDescription: "MACLEOD ST LAND", location: "RIVER RYAN", minimumBidCents: 100_459, redemptionCategory: "six-month" },
+  { lien: "26-69", aan: "7298196", pids: ["15663800"], addressOrDescription: "10 CHANDELIER DR LAND", location: "FLORENCE", minimumBidCents: 501_608, redemptionCategory: "six-month" },
+  { lien: "26-71", aan: "4939719", pids: ["15439359"], addressOrDescription: "58 FIFTH ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 754_006, redemptionCategory: "immediate-deed" },
+  { lien: "26-72", aan: "3505588", pids: ["15352891"], addressOrDescription: "DEVILS HILL RD LAND", location: "CATALONE", minimumBidCents: 174_656, redemptionCategory: "immediate-deed" },
+  { lien: "26-73", aan: "3648249", pids: ["15354897"], addressOrDescription: "7090 LOUISBOURG HWY LAND BUILDING", location: "LOUISBOURG", minimumBidCents: 1_294_789, redemptionCategory: "immediate-deed" },
+  { lien: "26-74", aan: "1720821", pids: ["15180524"], addressOrDescription: "44 CRESCENT ST LAND", location: "SYDNEY MINES", minimumBidCents: 1_024_777, redemptionCategory: "six-month" },
+  { lien: "26-77", aan: "3819094", pids: ["15467897"], addressOrDescription: "510 ACADIA ST LAND BUILDING", location: "NEW WATERFORD", minimumBidCents: 323_682, redemptionCategory: "six-month" },
+  { lien: "26-79", aan: "2482177", pids: ["15429921"], addressOrDescription: "MAIN ST LAND", location: "FLORENCE", minimumBidCents: 447_320, redemptionCategory: "immediate-deed" },
+  { lien: "26-80", aan: "10646804", pids: ["15647670"], addressOrDescription: "MAIN ST LAND", location: "FLORENCE", minimumBidCents: 341_546, redemptionCategory: "immediate-deed" },
+  { lien: "26-81", aan: "10646790", pids: ["15647688"], addressOrDescription: "MAIN ST LAND", location: "FLORENCE", minimumBidCents: 182_270, redemptionCategory: "immediate-deed" },
+  { lien: "26-82", aan: "10646812", pids: ["15255375"], addressOrDescription: "MAIN ST LAND", location: "FLORENCE", minimumBidCents: 182_270, redemptionCategory: "immediate-deed" },
+  { lien: "26-83", aan: "120847", pids: ["15243421"], addressOrDescription: "69 SHORE RD LAND", location: "FLORENCE", minimumBidCents: 1_467_113, redemptionCategory: "immediate-deed" },
+  { lien: "26-84", aan: "1628712", pids: ["15443682"], addressOrDescription: "151 WEST AVE LAND BUILDING", location: "GLACE BAY", minimumBidCents: 395_706, redemptionCategory: "six-month" },
+  { lien: "26-85", aan: "1628739", pids: ["15443690"], addressOrDescription: "153 WEST AVE LAND BUILDING", location: "GLACE BAY", minimumBidCents: 482_527, redemptionCategory: "six-month" },
+  { lien: "26-87", aan: "10166004", pids: ["15567902"], addressOrDescription: "GROVE ST LAND", location: "BIRCH GROVE", minimumBidCents: 210_610, redemptionCategory: "six-month" },
+  { lien: "26-88", aan: "1267094", pids: ["15435654"], addressOrDescription: "141 HIGHLAND ST LAND", location: "GLACE BAY", minimumBidCents: 980_896, redemptionCategory: "six-month" },
+  { lien: "26-90", aan: "4661443", pids: ["15439292"], addressOrDescription: "43 FOURTH ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 1_056_217, redemptionCategory: "six-month" },
+  { lien: "26-91", aan: "804924", pids: ["15430069"], addressOrDescription: "22 GUY ST LAND BUILDING", location: "GLACE BAY", minimumBidCents: 572_477, redemptionCategory: "six-month" },
+  { lien: "26-92", aan: "2896044", pids: ["15430077"], addressOrDescription: "GUY ST LAND", location: "GLACE BAY", minimumBidCents: 110_417, redemptionCategory: "six-month" },
+  { lien: "26-93", aan: "2935414", pids: ["15233315"], addressOrDescription: "675 NEVILLE ST LAND BUILDING", location: "RESERVE MINES", minimumBidCents: 4_889_728, redemptionCategory: "six-month" },
+  { lien: "26-95", aan: "3347583", pids: ["15138159"], addressOrDescription: "823 VICTORIA RD LAND", location: "SYDNEY", minimumBidCents: 3_454_161, redemptionCategory: "immediate-deed" },
+  { lien: "26-104", aan: "9332316", pids: ["15843675"], addressOrDescription: "MACVICAR RD LAND", location: "LOCH LOMOND", minimumBidCents: 344_897, redemptionCategory: "six-month" },
+  { lien: "26-105", aan: "4187091", pids: ["15174253"], addressOrDescription: "17 CLYDE AVE LAND", location: "SYDNEY MINES", minimumBidCents: 1_959_890, redemptionCategory: "immediate-deed" },
+  { lien: "26-107", aan: "7305672", pids: ["15638067"], addressOrDescription: "MAIN ST LAND", location: "SYDNEY MINES", minimumBidCents: 150_252, redemptionCategory: "immediate-deed" },
+  { lien: "26-109", aan: "5028485", pids: ["15027097"], addressOrDescription: "72 PLEASANT ST LAND BUILDING", location: "NORTH SYDNEY", minimumBidCents: 720_346, redemptionCategory: "six-month" },
+  { lien: "26-110", aan: "1137204", pids: ["15019458"], addressOrDescription: "13 LORNE ST LAND", location: "NORTH SYDNEY", minimumBidCents: 433_142, redemptionCategory: "six-month" },
+  { lien: "26-111", aan: "9057528", pids: ["15546591"], addressOrDescription: "STATION ST LAND", location: "RESERVE MINES", minimumBidCents: 56_384, redemptionCategory: "six-month" },
+  { lien: "26-112", aan: "4007689", pids: ["15015621"], addressOrDescription: "11 COLUMBIA ST LAND", location: "NORTH SYDNEY", minimumBidCents: 113_969, redemptionCategory: "six-month" },
+  { lien: "26-113", aan: "3797368", pids: ["15135189"], addressOrDescription: "SWAN ST LAND", location: "SYDNEY", minimumBidCents: 94_401, redemptionCategory: "six-month" },
+];
+
+export const cbrmTaxSaleEvent: TaxSaleEvent = {
+  id: "cbrm-2026-07-21",
+  municipalityId: "cbrm",
+  municipality: "Cape Breton Regional Municipality",
+  shortMunicipality: "CBRM",
+  eventType: "public-auction",
+  eventStatus: "upcoming",
+  saleStartsAt: "2026-07-21T11:00:00-03:00",
+  venue: "Centre 200 main concourse",
+  landingPageUrl:
+    "https://cbrm.ns.ca/business/property-sales-management/tax-sales/",
+  sourceUrl:
+    "https://cbrm.ns.ca/wp-content/uploads/2026/06/JULY-21-2026-2nd-Ad.pdf",
+  secondarySourceUrl:
+    "https://cbrm.ns.ca/wp-content/uploads/2026/06/1.-List-of-Maps-and-Descriptions36.pdf",
+  sourceLabel: "Official CBRM property list",
+  retrievedOn: "2026-07-19",
+  listings: cbrmSourceListings.map((listing) => ({
+    eventId: "cbrm-2026-07-21",
+    recordId: `cbrm-2026-07-21-lien-${listing.lien}`,
+    lien: listing.lien,
+    aan: listing.aan,
+    pids: listing.pids,
+    addressOrDescription: listing.addressOrDescription,
+    location: listing.location,
+    financial: {
+      kind: "minimum-bid",
+      label: "Minimum bid",
+      amountCents: listing.minimumBidCents,
+    },
+    redemptionCategory: listing.redemptionCategory,
+    redemptionLabel:
+      listing.redemptionCategory === "six-month"
+        ? "Six-month redemption"
+        : "Immediate deed (municipal category)",
+    listingStatus: "advertised",
+  })),
+};

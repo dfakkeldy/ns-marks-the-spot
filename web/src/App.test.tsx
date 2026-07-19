@@ -3,9 +3,20 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
+import { fetchParcels } from "./services/nsprd";
 
 vi.mock("./components/MapCanvas", () => ({
-  MapCanvas: () => <div data-testid="map-canvas">Map canvas</div>,
+  MapCanvas: ({
+    parcels,
+    taxSalePids,
+  }: {
+    parcels: { features: unknown[] };
+    taxSalePids: Set<string>;
+  }) => (
+    <div data-testid="map-canvas">
+      Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length}
+    </div>
+  ),
 }));
 
 vi.mock("./services/nsprd", async (importOriginal) => {
@@ -22,6 +33,10 @@ vi.mock("./services/nsprd", async (importOriginal) => {
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [],
+    });
   });
 
   it("requires licence acceptance before enabling Province map layers", () => {
@@ -36,7 +51,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
-  it("reveals the complete privacy-minimized notice after acceptance", async () => {
+  it("reveals both privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -45,7 +60,14 @@ describe("NS Marks The Spot Online", () => {
     );
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByText("67 notice entries · 68 PIDs")).toBeInTheDocument();
     expect(screen.getByText("45 notice entries · 47 PIDs")).toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
+    ).toBeChecked();
+    expect(
+      screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
+    ).toBeChecked();
     expect(screen.getByLabelText("Search by PID")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
     expect(screen.getByLabelText("NS Property Boundaries")).toBeEnabled();
@@ -86,6 +108,58 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByText("Listed in official notice")).toBeInTheDocument();
     expect(screen.queryByText(/available/i)).not.toBeInTheDocument();
     expect(screen.getByText("$15,529.15")).toBeInTheDocument();
+  });
+
+  it("finds a CBRM listing and shows event-aware municipal details", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    await user.type(screen.getByLabelText("Search by PID"), "15054588");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      screen.getByRole("heading", {
+        name: "75 DORCHESTER ST LAND BUILDING",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Cape Breton Regional Municipality")).toBeInTheDocument();
+    expect(screen.getByText("July 21, 2026 · Upcoming")).toBeInTheDocument();
+    expect(screen.getByText("$33,108.73")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Immediate deed", { exact: false }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("Six-month redemption", { exact: false })).toBeInTheDocument();
+    expect(screen.queryByText(/available/i)).not.toBeInTheDocument();
+  });
+
+  it("toggles upcoming events without mixing their PID counts", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 115");
+    await user.click(
+      screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 68");
+  });
+
+  it("keeps NSPRD failures visible without manufacturing geometry", async () => {
+    const user = userEvent.setup();
+    vi.mocked(fetchParcels).mockRejectedValueOnce(new Error("offline"));
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept and view map layers" }),
+    );
+
+    expect(
+      await screen.findByText(
+        "The Province parcel service is temporarily unavailable. The official notices remain accessible.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("geometry count: 0");
   });
 
   it("rejects malformed PID searches", async () => {
