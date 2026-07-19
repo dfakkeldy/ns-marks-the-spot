@@ -111,9 +111,12 @@ client-side containment across polygon parts and holes. Boundary points count
 as inside; hole interiors do not.
 
 The same service searches civic addresses through Socrata's full-text `$q`
-index and returns at most 12 mapped-point candidates. Choosing a result uses the
-point's published coordinate in an NSPRD `esriSpatialRelIntersects` query; the
-app never guesses a PID from address text. With Property Boundaries visible,
+index and returns at most 12 mapped-point candidates. It folds harmless
+punctuation when checking relevance, rejects broad suffix matches, and retries a
+compact possessive initialism with official periods when needed (`dr's` can find
+`D.R.'s`). Choosing a result uses the point's published coordinate in an NSPRD
+`esriSpatialRelIntersects` query; the app never guesses a PID from address text.
+With Property Boundaries visible,
 tapping the map uses the same point query, merges the returned geometry, and
 opens the same parcel/civic/context sheet. Search and map-point requests abort
 their own stale predecessors.

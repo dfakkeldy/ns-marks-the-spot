@@ -92,7 +92,7 @@ export function buildCivicAddressSearchUrl(
   query: string,
   limit = CIVIC_ADDRESS_SEARCH_LIMIT,
 ): string {
-  const normalizedQuery = query.trim().replace(/\s+/gu, " ");
+  const normalizedQuery = normalizeSearchQuery(query);
   if (normalizedQuery.length < 3) {
     throw new Error("Civic address searches require at least three characters.");
   }
@@ -119,6 +119,24 @@ export function buildCivicAddressSearchUrl(
   }
 
   return `${CIVIC_ADDRESS_GEOJSON_URL}?${parameters.toString()}`;
+}
+
+function normalizeSearchQuery(query: string): string {
+  return query
+    .trim()
+    .replace(/[\u2018\u2019]/gu, "'")
+    .replace(/\s+/gu, " ");
+}
+
+function initialledPossessiveFallback(query: string): string | null {
+  const normalizedQuery = normalizeSearchQuery(query);
+  const fallbackQuery = normalizedQuery.replace(
+    /\b([a-z]{2,4})'s\b/giu,
+    (_, initials: string) =>
+      `${initials.toUpperCase().split("").join(".")}.'s`,
+  );
+
+  return fallbackQuery === normalizedQuery ? null : fallbackQuery;
 }
 
 function cleanComponent(value: AddressComponent): string | null {
@@ -340,6 +358,68 @@ function civicAddressForFeature(
   };
 }
 
+function addressMatchKey(value: string): string {
+  return value
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLocaleLowerCase("en-CA")
+    .replace(/[.\u2018\u2019']/gu, "")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+function addressMatchScore(address: CivicAddress, query: string): number {
+  const queryKey = addressMatchKey(query);
+  const queryTerms = queryKey.split(" ").filter(Boolean);
+  const labelTerms = new Set(addressMatchKey(address.label).split(" "));
+  if (
+    queryTerms.length === 0 ||
+    !queryTerms.every((term) => labelTerms.has(term))
+  ) {
+    return 0;
+  }
+
+  const roadKey = addressMatchKey(
+    formatCivicRoadName(address.properties) ?? "",
+  );
+  if (roadKey === queryKey) {
+    return 3;
+  }
+  if (roadKey.startsWith(`${queryKey} `)) {
+    return 2;
+  }
+  return 1;
+}
+
+function rankedCivicAddresses(
+  features: readonly CivicPointFeature[],
+  query: string,
+): CivicAddress[] {
+  const addresses = new Map<string, CivicAddress>();
+
+  for (const feature of features) {
+    const address = civicAddressForFeature(feature);
+    if (address && !addresses.has(address.pntid)) {
+      addresses.set(address.pntid, address);
+    }
+  }
+
+  const ranked = [...addresses.values()]
+    .map((address) => ({ address, score: addressMatchScore(address, query) }))
+    .filter(({ score }) => score > 0)
+    .sort(
+      (left, right) =>
+        right.score - left.score ||
+        left.address.label.localeCompare(right.address.label, "en-CA"),
+    );
+  const bestScore = ranked[0]?.score ?? 0;
+
+  return ranked
+    .filter(({ score }) => bestScore <= 1 || score === bestScore)
+    .slice(0, CIVIC_ADDRESS_SEARCH_LIMIT)
+    .map(({ address }) => address);
+}
+
 async function fetchCivicPointCollection(
   url: string,
   signal?: AbortSignal,
@@ -363,20 +443,25 @@ export async function searchCivicAddresses(
   query: string,
   signal?: AbortSignal,
 ): Promise<CivicAddress[]> {
-  const features = await fetchCivicPointCollection(
+  const initialFeatures = await fetchCivicPointCollection(
     buildCivicAddressSearchUrl(query),
     signal,
   );
-  const addresses = new Map<string, CivicAddress>();
-
-  for (const feature of features) {
-    const address = civicAddressForFeature(feature);
-    if (address && !addresses.has(address.pntid)) {
-      addresses.set(address.pntid, address);
-    }
+  const initialResults = rankedCivicAddresses(initialFeatures, query);
+  if (initialResults.length > 0) {
+    return initialResults;
   }
 
-  return [...addresses.values()];
+  const fallbackQuery = initialledPossessiveFallback(query);
+  if (!fallbackQuery) {
+    return [];
+  }
+
+  const fallbackFeatures = await fetchCivicPointCollection(
+    buildCivicAddressSearchUrl(fallbackQuery),
+    signal,
+  );
+  return rankedCivicAddresses(fallbackFeatures, query);
 }
 
 async function fetchCandidates(

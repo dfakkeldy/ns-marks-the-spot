@@ -142,6 +142,57 @@ describe("Nova Scotia Civic Address File lookup", () => {
     });
   });
 
+  it("finds an initialled possessive road when periods are omitted", async () => {
+    const fetchMock = vi.fn((input: string | URL | Request) => {
+      const fullTextQuery = new URL(String(input)).searchParams.get("$q");
+
+      if (fullTextQuery === "dr's") {
+        return Promise.resolve(
+          geoJsonResponse([
+            civicPoint("68501173", [-59.95, 46.2], {
+              civicnum: "16",
+              strname: "Tanya",
+              strsuffix: "Dr",
+              comm: "Glace Bay",
+            }),
+          ]),
+        );
+      }
+
+      if (fullTextQuery === "D.R.'s") {
+        return Promise.resolve(
+          geoJsonResponse([
+            civicPoint("32300086", [-61.49, 45.89], {
+              civicnum: "20",
+              strname: "D.R.'s",
+              strsuffix: "Lane",
+              comm: "Judique",
+              mun: "Inverness County",
+            }),
+            civicPoint("400166262", [-62.1, 45.6], {
+              civicnum: "67",
+              strname: "Johnny D.R. #2",
+              strsuffix: "Dr",
+              comm: "McArras Brook",
+              mun: "Pictou County",
+              county: "Pictou County",
+            }),
+          ]),
+        );
+      }
+
+      throw new Error(`Unexpected full-text query: ${fullTextQuery}`);
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const results = await searchCivicAddresses("dr's");
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(results.map(({ label }) => label)).toEqual([
+      "20 D.R.'s Lane, Judique, Inverness County",
+    ]);
+  });
+
   it("does not present civic-point placement metadata as part of the address", () => {
     expect(
       formatCivicAddress(
