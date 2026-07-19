@@ -772,6 +772,14 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       within(inspector).getByRole("link", {
+        name: "87RW9V22+22 — Directions in Google Maps",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://www.google.com/maps/dir/?api=1&destination=46.35%2C-61.15&dir_action=navigate",
+    );
+    expect(
+      within(inspector).getByRole("link", {
         name: "Nova Scotia Civic Address File",
       }),
     ).toHaveAttribute(

@@ -56,6 +56,7 @@
 - [x] Approximate NSPRD acreage, exact road/water intersections, and explicitly labelled adjacent/civic-address roads in the selected-parcel sheet
 - [x] Authoritative Civic Address File lookup with paginated bounding-box queries and exact parcel containment
 - [x] Independent civic-address loading, empty, failure, attribution, and stale-selection cancellation states
+- [x] Locally calculated Plus Codes with opt-in Google Maps directions for mapped civic points
 - [x] Parcel-first defaults: modern/aerial off, boundaries/water/roads on, and one-time tax-sale bounds fit
 - [x] Unavailable Fletcher control placed last in the web layer list
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
