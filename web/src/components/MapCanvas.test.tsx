@@ -77,6 +77,7 @@ describe("MapCanvas browser location", () => {
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
         selectedPid={null}
         provinceLayers={{
           "ns-aerial": false,
@@ -89,6 +90,7 @@ describe("MapCanvas browser location", () => {
         }}
         showModernMap
         showTaxSale={false}
+        showHistoricalTaxSales={false}
         onSelectPid={vi.fn()}
         onIdentifyParcel={vi.fn()}
       />,
@@ -126,6 +128,7 @@ describe("MapCanvas parcel discovery", () => {
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
         selectedPid={null}
         provinceLayers={{
           "ns-aerial": false,
@@ -138,6 +141,7 @@ describe("MapCanvas parcel discovery", () => {
         }}
         showModernMap={false}
         showTaxSale
+        showHistoricalTaxSales={false}
         onSelectPid={vi.fn()}
         onIdentifyParcel={onIdentifyParcel}
       />,
@@ -168,6 +172,7 @@ describe("MapCanvas parcel discovery", () => {
     const props = {
       parcels: { type: "FeatureCollection" as const, features: [parcel] },
       taxSalePids: new Set(["50251750"]),
+      historicalTaxSalePids: new Set<string>(),
       selectedPid: null,
       provinceLayers: {
         "ns-aerial": false,
@@ -180,6 +185,7 @@ describe("MapCanvas parcel discovery", () => {
       },
       showModernMap: false,
       showTaxSale: true,
+      showHistoricalTaxSales: false,
       onSelectPid: vi.fn(),
       onIdentifyParcel: vi.fn(),
     };
@@ -203,6 +209,8 @@ describe("MapCanvas parcel styling", () => {
       selectedPid: "15234636",
       taxSalePids: new Set(["15234636"]),
       showTaxSale: true,
+      historicalTaxSalePids: new Set<string>(),
+      showHistoricalTaxSales: false,
     };
 
     expect(
@@ -230,6 +238,8 @@ describe("MapCanvas parcel styling", () => {
           selectedPid: "15234636",
           taxSalePids: new Set(["15161631"]),
           showTaxSale: true,
+          historicalTaxSalePids: new Set<string>(),
+          showHistoricalTaxSales: false,
           zoom: 16,
         },
       ).fillOpacity,

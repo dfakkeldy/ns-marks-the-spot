@@ -11,6 +11,16 @@ import {
   type TaxSaleListing,
 } from "./data/taxSaleCatalog";
 import {
+  calculateFinancialComparison,
+  historicalContextsForPid,
+  historicalOutcomeLabel,
+  historicalTaxSaleEvents,
+  historicalTaxSaleRecords,
+  matchedHistoricalPids,
+  type HistoricalOutcome,
+  type HistoricalRecordContext,
+} from "./data/historicalTaxSales";
+import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
   PROVINCE_LICENSE_URL,
@@ -27,6 +37,7 @@ import {
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
   fetchCivicAddresses,
+  formatCivicRoadName,
   searchCivicAddresses,
   type CivicAddress,
 } from "./services/civicAddresses";
@@ -37,6 +48,7 @@ import {
   type NsprdFeatureCollection,
 } from "./services/nsprd";
 import {
+  ADJACENT_ROAD_DISTANCE_METRES,
   fetchParcelContext,
   mappedAreaForPid,
   type MappedArea,
@@ -44,6 +56,7 @@ import {
 } from "./services/parcelContext";
 
 type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
+type HistoricalOutcomeFilter = "all" | HistoricalOutcome;
 
 const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
@@ -73,6 +86,18 @@ const eventDate = new Intl.DateTimeFormat("en-CA", {
 
 const upcomingTaxSaleEvents = eventsForStatus("upcoming");
 const upcomingTaxSalePids = pidsForEvents(upcomingTaxSaleEvents);
+const allHistoricalTaxSalePids = matchedHistoricalPids();
+const historicalMunicipalities = Array.from(
+  new Map(
+    historicalTaxSaleEvents.map((event) => [
+      event.municipalityId,
+      event.shortMunicipality,
+    ]),
+  ),
+);
+const historicalYears = Array.from(
+  new Set(historicalTaxSaleEvents.map(({ saleDate }) => saleDate.slice(0, 4))),
+).sort((left, right) => right.localeCompare(left));
 
 function eventDateLabel(event: TaxSaleEvent): string {
   const timestamp = event.saleStartsAt ?? event.closedAt;
@@ -109,6 +134,25 @@ function listingStatusLabel(listing: TaxSaleListing): string {
   }
 }
 
+function historicalSaleMethodLabel(
+  method: HistoricalRecordContext["event"]["saleMethod"],
+): string {
+  return method === "sealed-tender" ? "Sealed tender" : "Public auction";
+}
+
+function matchMethodLabel(
+  context: HistoricalRecordContext,
+): string {
+  switch (context.record.nspMatchMethod) {
+    case "exact-official-pid":
+      return "Exact official eight-digit PID";
+    case "deterministic-reconciliation":
+      return "Deterministic authoritative-field reconciliation";
+    case "none":
+      return "Not matched";
+  }
+}
+
 function isLicenceAccepted(): boolean {
   return (
     localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === "accepted"
@@ -142,12 +186,127 @@ function mergeFeatureCollections(
   };
 }
 
+function HistoricalOutcomeDetails({
+  context,
+  selectedPid,
+}: {
+  context: HistoricalRecordContext;
+  selectedPid: string;
+}) {
+  const { event, record } = context;
+  const comparison = calculateFinancialComparison(event, record);
+  const winningBidLabel =
+    record.winningBidCents !== null
+      ? currency.format(record.winningBidCents / 100)
+      : record.outcome === "unsold"
+        ? "No winning bid - official result says no bids"
+        : "Not published in verified sources";
+
+  return (
+    <article className="historical-outcome-card">
+      <header>
+        <div>
+          <strong>{historicalOutcomeLabel(record.outcome)}</strong>
+          <span>{eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}</span>
+        </div>
+        <span className={`outcome-marker ${record.outcome}`}>
+          Historical
+        </span>
+      </header>
+      <dl className="parcel-facts historical-facts">
+        <div>
+          <dt>Municipality</dt>
+          <dd>{event.municipality}</dd>
+        </div>
+        <div>
+          <dt>Event / method</dt>
+          <dd>
+            {event.id} · {historicalSaleMethodLabel(event.saleMethod)}
+          </dd>
+        </div>
+        <div>
+          <dt>{event.listingIdentifierLabel}</dt>
+          <dd>{record.listingIdentifier}</dd>
+        </div>
+        <div>
+          <dt>PID / match</dt>
+          <dd>
+            {selectedPid} · {matchMethodLabel(context)}
+          </dd>
+        </div>
+        <div>
+          <dt>Official location</dt>
+          <dd>{record.civicDescription}</dd>
+        </div>
+        <div>
+          <dt>{event.advertisedAmountLabel}</dt>
+          <dd>{currency.format(record.advertisedAmountCents / 100)}</dd>
+        </div>
+        <div>
+          <dt>Winning bid</dt>
+          <dd>{winningBidLabel}</dd>
+        </div>
+        {comparison ? (
+          <>
+            <div>
+              <dt>Difference</dt>
+              <dd>{currency.format(comparison.differenceCents / 100)}</dd>
+            </div>
+            <div>
+              <dt>Above {event.advertisedAmountLabel.toLocaleLowerCase()}</dt>
+              <dd>{comparison.percentageAbove.toFixed(2)}%</dd>
+            </div>
+            <div>
+              <dt>Winning-bid multiple</dt>
+              <dd>{comparison.winningBidMultiple.toFixed(2)}×</dd>
+            </div>
+          </>
+        ) : null}
+        <div>
+          <dt>Redemption field</dt>
+          <dd>{record.redemptionLabel}</dd>
+        </div>
+        <div>
+          <dt>Source snapshots</dt>
+          <dd>
+            Notice {event.noticeSnapshotDate} · result {event.resultSnapshotDate}
+          </dd>
+        </div>
+        <div>
+          <dt>Retrieved</dt>
+          <dd>{event.retrievedOn}</dd>
+        </div>
+      </dl>
+      {record.pids.length > 1 ? (
+        <p className="multi-pid-warning">
+          This one listing covers {record.pids.length} PIDs ({record.pids.join(", ")}).
+          The listing-level amounts are not divided between parcels.
+        </p>
+      ) : null}
+      {record.resultNote ? <p className="historical-result-note">{record.resultNote}</p> : null}
+      <div className="historical-source-links">
+        <a href={event.noticeUrl} target="_blank" rel="noreferrer">
+          Official notice
+        </a>
+        <a href={event.resultUrl} target="_blank" rel="noreferrer">
+          Official result
+        </a>
+      </div>
+      <p className="historical-limit">
+        Dated outcome only. It is not a current offering and does not prove present
+        ownership, title, redemption, legal access, or parcel status.
+      </p>
+    </article>
+  );
+}
+
 function ParcelInspector({
   pid,
   context,
   mappedArea,
   mappedContext,
   civicAddresses,
+  historicalContexts,
   now,
   onClose,
 }: {
@@ -156,11 +315,13 @@ function ParcelInspector({
   mappedArea: MappedArea | null;
   mappedContext: ParcelContextState;
   civicAddresses: CivicAddressState;
+  historicalContexts: HistoricalRecordContext[];
   now: number;
   onClose: () => void;
 }) {
   const listing = context?.listing;
   const event = context?.event;
+  const firstHistoricalContext = historicalContexts[0];
   const lifecycleStatus = event
     ? eventLifecycleStatus(event, now)
     : undefined;
@@ -178,7 +339,10 @@ function ParcelInspector({
         ×
       </button>
       <h2>
-        {listing?.addressOrDescription ?? listing?.location ?? `PID ${pid}`}
+        {listing?.addressOrDescription ??
+          listing?.location ??
+          firstHistoricalContext?.record.civicDescription ??
+          `PID ${pid}`}
       </h2>
       <p className={listing ? "notice-status" : "parcel-status"}>
         {listing
@@ -187,7 +351,9 @@ function ParcelInspector({
             : needsResultVerification
               ? "Past sale date — verify results with the municipality."
             : "Listed in official notice"
-          : "NSPRD parcel"}
+          : historicalContexts.length > 0
+            ? `${historicalContexts.length} verified historical tax-sale ${historicalContexts.length === 1 ? "record" : "records"}`
+            : "NSPRD parcel"}
       </p>
       <dl className="parcel-facts">
         {event ? (
@@ -254,8 +420,20 @@ function ParcelInspector({
           Calculated from NSPRD geometry and approximate; not a survey.
         </p>
       ) : null}
+      {historicalContexts.length > 0 ? (
+        <section className="historical-outcomes" aria-label="Historical tax-sale outcomes">
+          <h3>Historical tax-sale outcomes</h3>
+          {historicalContexts.map((historicalContext) => (
+            <HistoricalOutcomeDetails
+              key={historicalContext.record.recordId}
+              context={historicalContext}
+              selectedPid={pid}
+            />
+          ))}
+        </section>
+      ) : null}
       <CivicAddressDetails state={civicAddresses} />
-      <MappedContextDetails state={mappedContext} />
+      <MappedContextDetails state={mappedContext} civicAddresses={civicAddresses} />
       {listing ? (
         <p className="sale-warning">
           <span aria-hidden="true">!</span>
@@ -265,11 +443,11 @@ function ParcelInspector({
               ? `The advertised sale date has passed. Verify results and current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`
             : `Properties may be paid, removed or deferred. Verify current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`}
         </p>
-      ) : (
+      ) : historicalContexts.length === 0 ? (
         <p className="sale-warning neutral">
           This PID is not listed in any municipal notice included by this map.
         </p>
-      )}
+      ) : null}
       {event ? (
         <a
           className="primary-action inspector-action"
@@ -346,17 +524,33 @@ function MappedFeatureList({
   emptyMessage: string;
   features: ParcelContext["roads"];
 }) {
+  const relationshipLabel = (
+    relationship: ParcelContext["roads"][number]["relationship"],
+  ) => {
+    switch (relationship) {
+      case "intersects":
+        return "Intersects parcel";
+      case "adjacent":
+        return `Adjacent within ${ADJACENT_ROAD_DISTANCE_METRES} m`;
+      case "civic-address":
+        return "Named by civic address";
+    }
+  };
+
   return (
     <section className="mapped-context-group">
       <h3>{title}</h3>
       {features.length > 0 ? (
         <ul>
-          {features.map(({ name, kind }) => (
-            <li key={`${name}:${kind}`}>
+          {features.map(({ name, kind, relationship }) => (
+            <li key={`${name}:${kind}:${relationship}`}>
               <strong>{name}</strong>
-              {name.toLocaleLowerCase() !== kind.toLocaleLowerCase() ? (
-                <span>{kind}</span>
-              ) : null}
+              <span>
+                {name.toLocaleLowerCase() !== kind.toLocaleLowerCase()
+                  ? `${kind} · `
+                  : ""}
+                {relationshipLabel(relationship)}
+              </span>
             </li>
           ))}
         </ul>
@@ -367,7 +561,13 @@ function MappedFeatureList({
   );
 }
 
-function MappedContextDetails({ state }: { state: ParcelContextState }) {
+function MappedContextDetails({
+  state,
+  civicAddresses,
+}: {
+  state: ParcelContextState;
+  civicAddresses: CivicAddressState;
+}) {
   if (state.status === "idle" || state.status === "loading") {
     return (
       <p className="mapped-context-status" role="status">
@@ -384,13 +584,38 @@ function MappedContextDetails({ state }: { state: ParcelContextState }) {
     );
   }
 
+  const mappedRoadNames = new Set(
+    state.value.roads.map(({ name }) => name.toLocaleLowerCase()),
+  );
+  const civicRoads =
+    civicAddresses.status === "ready"
+      ? Array.from(
+          new Set(
+            civicAddresses.value
+              .map(({ properties }) => formatCivicRoadName(properties))
+              .filter((name): name is string => name !== null),
+          ),
+        )
+          .filter((name) => !mappedRoadNames.has(name.toLocaleLowerCase()))
+          .map((name) => ({
+            name,
+            kind: "Civic Address File",
+            relationship: "civic-address" as const,
+          }))
+      : [];
+  const roads = [...state.value.roads, ...civicRoads];
+
   return (
     <div className="mapped-context">
       <MappedFeatureList
-        title="Intersecting roads & trails"
-        emptyMessage="No mapped road or trail feature intersects this parcel."
-        features={state.value.roads}
+        title="Roads at or beside parcel"
+        emptyMessage="No intersecting, adjacent, or civic-address road was found for this parcel."
+        features={roads}
       />
+      <p className="road-access-caveat">
+        Adjacency and civic addressing are useful map context, not proof of legal
+        access or road frontage.
+      </p>
       <MappedFeatureList
         title="Intersecting water features"
         emptyMessage="No mapped water feature intersects this parcel."
@@ -545,9 +770,18 @@ export function App() {
     () => new Set(upcomingTaxSaleEvents.map(({ id }) => id)),
   );
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
+  const [showHistoricalTaxSales, setShowHistoricalTaxSales] = useState(false);
+  const [historicalMunicipality, setHistoricalMunicipality] = useState("all");
+  const [historicalYear, setHistoricalYear] = useState("all");
+  const [historicalOutcome, setHistoricalOutcome] =
+    useState<HistoricalOutcomeFilter>("all");
+  const [historicalParcelMessage, setHistoricalParcelMessage] = useState<
+    string | null
+  >(null);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
+  const historicalLoadAttempted = useRef(false);
 
   useEffect(
     () => () => {
@@ -586,6 +820,58 @@ export function App() {
 
     return () => controller.abort();
   }, [licenceAccepted]);
+
+  useEffect(() => {
+    if (!licenceAccepted || !showHistoricalTaxSales) {
+      historicalLoadAttempted.current = false;
+      setHistoricalParcelMessage(null);
+      return;
+    }
+
+    if (historicalLoadAttempted.current) {
+      return;
+    }
+    historicalLoadAttempted.current = true;
+
+    const missingPids = allHistoricalTaxSalePids.filter(
+      (pid) => !parcels.features.some(({ properties }) => properties.PID === pid),
+    );
+    if (missingPids.length === 0) {
+      setHistoricalParcelMessage(
+        `${allHistoricalTaxSalePids.length} historical PIDs matched in NSPRD.`,
+      );
+      return;
+    }
+
+    const controller = new AbortController();
+    setHistoricalParcelMessage("Loading matched historical parcels…");
+    fetchParcels(missingPids, controller.signal)
+      .then((collection) => {
+        const matchedPids = new Set([
+          ...parcels.features.map(({ properties }) => properties.PID),
+          ...collection.features.map(({ properties }) => properties.PID),
+        ]);
+        const matchedCount = allHistoricalTaxSalePids.filter((pid) =>
+          matchedPids.has(pid),
+        ).length;
+        setParcels((current) => mergeFeatureCollections(current, collection));
+        setHistoricalParcelMessage(
+          matchedCount === allHistoricalTaxSalePids.length
+            ? `${matchedCount} historical PIDs matched in NSPRD.`
+            : `${matchedCount} of ${allHistoricalTaxSalePids.length} historical PIDs returned by NSPRD.`,
+        );
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setHistoricalParcelMessage(
+          "Historical records remain available, but matched parcel geometry is unavailable right now.",
+        );
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, parcels.features, showHistoricalTaxSales]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted) {
@@ -677,6 +963,29 @@ export function App() {
       ).length,
     }),
     [selectedListings],
+  );
+
+  const filteredHistoricalRecords = useMemo(
+    () =>
+      historicalTaxSaleRecords.filter((record) => {
+        const event = historicalTaxSaleEvents.find(({ id }) => id === record.eventId);
+        if (!event) {
+          return false;
+        }
+        return (
+          (historicalMunicipality === "all" ||
+            event.municipalityId === historicalMunicipality) &&
+          (historicalYear === "all" ||
+            event.saleDate.startsWith(`${historicalYear}-`)) &&
+          (historicalOutcome === "all" || record.outcome === historicalOutcome)
+        );
+      }),
+    [historicalMunicipality, historicalOutcome, historicalYear],
+  );
+
+  const filteredHistoricalPids = useMemo(
+    () => new Set(matchedHistoricalPids(filteredHistoricalRecords)),
+    [filteredHistoricalRecords],
   );
 
   const acceptLicence = () => {
@@ -847,6 +1156,14 @@ export function App() {
   const selectedListingContext = selectedPid
     ? listingContextForPid(selectedPid)
     : undefined;
+  const selectedHistoricalContexts =
+    selectedPid && showHistoricalTaxSales
+      ? historicalContextsForPid(selectedPid).filter(({ record }) =>
+          filteredHistoricalRecords.some(
+            ({ recordId }) => recordId === record.recordId,
+          ),
+        )
+      : [];
   const selectedMappedArea = selectedPid
     ? mappedAreaForPid(parcels, selectedPid)
     : null;
@@ -1070,6 +1387,89 @@ export function App() {
             ))}
           </section>
 
+          <section
+            className="rail-section historical-layer-controls"
+            aria-labelledby="historical-heading"
+          >
+            <h2 id="historical-heading">Historical tax-sale outcomes</h2>
+            <p className="section-intro">
+              Verified dated results. This layer starts off and does not show
+              currently available property.
+            </p>
+            <label className="layer-row historical-layer-row">
+              <input
+                type="checkbox"
+                aria-label="Historical tax-sale outcomes"
+                checked={licenceAccepted && showHistoricalTaxSales}
+                disabled={!licenceAccepted}
+                onChange={(event) =>
+                  setShowHistoricalTaxSales(event.target.checked)
+                }
+              />
+              <span className="switch" aria-hidden="true" />
+              <span>
+                <strong>Show historical outcomes</strong>
+                <small>48 records · 49 exact matched PIDs</small>
+                <small>Halifax · 2022 and 2025</small>
+              </span>
+            </label>
+            <div className="historical-filters" aria-label="Historical filters">
+              <label>
+                Municipality
+                <select
+                  aria-label="Historical municipality"
+                  value={historicalMunicipality}
+                  disabled={!showHistoricalTaxSales}
+                  onChange={(event) => setHistoricalMunicipality(event.target.value)}
+                >
+                  <option value="all">All municipalities</option>
+                  {historicalMunicipalities.map(([id, label]) => (
+                    <option key={id} value={id}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Sale year
+                <select
+                  aria-label="Historical sale year"
+                  value={historicalYear}
+                  disabled={!showHistoricalTaxSales}
+                  onChange={(event) => setHistoricalYear(event.target.value)}
+                >
+                  <option value="all">All years</option>
+                  {historicalYears.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Outcome
+                <select
+                  aria-label="Historical outcome"
+                  value={historicalOutcome}
+                  disabled={!showHistoricalTaxSales}
+                  onChange={(event) =>
+                    setHistoricalOutcome(event.target.value as HistoricalOutcomeFilter)
+                  }
+                >
+                  <option value="all">All outcomes</option>
+                  <option value="sold">Sold</option>
+                  <option value="unsold">Unsold - no bids</option>
+                </select>
+              </label>
+            </div>
+            <p className="historical-filter-count">
+              {filteredHistoricalRecords.length} records · {filteredHistoricalPids.size} PIDs
+            </p>
+            <p className="parcel-message" role="status" aria-live="polite">
+              {showHistoricalTaxSales ? historicalParcelMessage : null}
+            </p>
+          </section>
+
           <section className="offline-card" aria-labelledby="offline-heading">
             <img src={appIconUrl} alt="" />
             <div>
@@ -1090,10 +1490,14 @@ export function App() {
           <MapCanvas
             parcels={parcels}
             taxSalePids={filteredTaxSalePids}
+            historicalTaxSalePids={filteredHistoricalPids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
             showModernMap={showModernMap}
             showTaxSale={licenceAccepted && selectedEventIds.size > 0}
+            showHistoricalTaxSales={
+              licenceAccepted && showHistoricalTaxSales
+            }
             onSelectPid={selectParcel}
             onIdentifyParcel={(latitude, longitude) => {
               void identifyParcelAtPoint(latitude, longitude);
@@ -1111,6 +1515,7 @@ export function App() {
               key={selectedPid}
               pid={selectedPid}
               context={selectedListingContext}
+              historicalContexts={selectedHistoricalContexts}
               mappedArea={selectedMappedArea}
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}

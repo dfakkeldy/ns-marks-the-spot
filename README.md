@@ -10,7 +10,9 @@ Risk Areas, and Waterfalls—while keeping Fletcher disabled until web-use right
 are clear. Its municipal catalog maps the CBRM July 21 and Inverness County
 August 11, 2026 tax-sale notices against live NSPRD parcel geometry, supports
 PID and civic-address search plus tap-to-identify parcel selection, keeps
-browser location local, and sends offline users back to the native app. See
+browser location local, and includes a separate default-off layer of verified
+Halifax 2022/2025 tax-sale outcomes. Parcel context distinguishes intersecting,
+nearby, and civic-address road evidence without claiming legal access. See
 [web/README.md](web/README.md) for the source receipt, privacy boundary, and
 local verification commands. Candidate hazard, groundwater, coastal, terrain,
 and conservation overlays are evaluated in

@@ -33,13 +33,15 @@ body,
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
 button,
 a,
-input {
+input,
+select {
   outline-offset: 3px;
 }
 
@@ -359,6 +361,56 @@ a {
 
 .layer-control .layer-row {
   border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.historical-layer-controls {
+  --historical-ink: #5a4385;
+  --historical-pale: #f4f0fb;
+}
+
+.historical-layer-row input:checked + .switch {
+  background: var(--historical-ink);
+}
+
+.historical-filters {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  background: var(--historical-pale);
+  border: 1px solid rgba(90, 67, 133, 0.2);
+  border-radius: 6px;
+}
+
+.historical-filters label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(118px, 1.3fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--chart-ink);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.historical-filters select {
+  width: 100%;
+  padding: 7px 9px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid rgba(90, 67, 133, 0.3);
+  border-radius: 4px;
+}
+
+.historical-filters select:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.historical-filter-count {
+  margin: 9px 0 0;
+  color: var(--historical-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .road-legend {
@@ -788,6 +840,115 @@ a {
   color: var(--muted);
   font-size: 0.72rem;
   text-align: right;
+}
+
+.road-access-caveat {
+  margin: 10px 0 0;
+  color: var(--chart-ink);
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+
+.historical-outcomes {
+  margin: 16px 0;
+}
+
+.historical-outcomes > h3 {
+  margin: 0 0 9px;
+  color: #49336f;
+  font-size: 0.94rem;
+}
+
+.historical-outcome-card {
+  padding: 14px;
+  background: #f7f4fc;
+  border: 1px solid rgba(90, 67, 133, 0.35);
+  border-radius: 7px;
+  box-shadow: inset 4px 0 #7461a8;
+}
+
+.historical-outcome-card + .historical-outcome-card {
+  margin-top: 12px;
+}
+
+.historical-outcome-card > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.historical-outcome-card > header > div {
+  display: grid;
+  gap: 2px;
+}
+
+.historical-outcome-card > header strong {
+  color: #49336f;
+  font-size: 0.94rem;
+}
+
+.historical-outcome-card > header div span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.outcome-marker {
+  padding: 4px 7px;
+  color: #49336f;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: #e6def6;
+  border-radius: 999px;
+}
+
+.outcome-marker.unsold,
+.outcome-marker.withdrawn,
+.outcome-marker.cancelled,
+.outcome-marker.unknown {
+  color: #7d322b;
+  background: #f8ded9;
+}
+
+.historical-facts {
+  margin-top: 11px;
+  padding-block: 9px;
+  border-color: rgba(90, 67, 133, 0.22);
+}
+
+.historical-facts div {
+  gap: 16px;
+  font-size: 0.72rem;
+}
+
+.multi-pid-warning,
+.historical-result-note,
+.historical-limit {
+  margin: 10px 0 0;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.multi-pid-warning,
+.historical-result-note {
+  padding: 9px;
+  background: var(--paper);
+  border-radius: 4px;
+}
+
+.historical-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 11px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.historical-limit {
+  color: var(--muted);
 }
 
 .sale-warning {

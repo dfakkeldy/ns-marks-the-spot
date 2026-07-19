@@ -81,11 +81,15 @@ the browser and does not add an application server or offline cache.
 ## Parcel context
 
 The parcel sheet reports mapped acreage as an approximate NSPRD-derived value,
-not a legal survey. It also sends the selected polygon to the Province road and
-water sublayers using exact `esriSpatialRelIntersects` queries. Returned feature
-names and classes appear under “Intersecting roads & trails” and “Intersecting
-water features.” An empty result is displayed as empty; a service failure is
-reported rather than inferred from the visible map.
+not a legal survey. It sends the selected polygon to the Province road and water
+sublayers using exact `esriSpatialRelIntersects` queries, and sends a separate
+20-metre proximity query to the road sublayers. Exact road hits are labelled
+“Intersects parcel”; near hits are labelled “Adjacent within 20 m.” If an
+in-parcel Civic Point names a road not returned by either geometry query, the
+same road list adds it as “Named by civic address.” These signals provide useful
+orientation but do not prove legal access or frontage. An empty result is
+displayed as empty; a service failure is reported rather than inferred from the
+visible map.
 
 The Province publishes a [Nova Scotia Well Logs Database](https://data.novascotia.ca/Mines-and-Minerals/Nova-Scotia-Well-Logs-Database/eqej-ag64),
 but the available map-ready release is dated and its location methods have
@@ -171,23 +175,37 @@ are live service examples, not fixtures used by the ordinary unit suite.
   PID: 115 of 115 unique upcoming-event PIDs. Requests are split into bounded
   batches because the Province service returned HTTP 500 for one 115-PID query.
 
-## Historical layer fail-closed receipt
+## Historical outcome layer receipt
 
-Historical events remain absent and therefore off by default in this first
-cut. The live revised Pictou County advertisement was visually checked on July
-19, 2026 and contains 21 parcel rows, including three visibly withdrawn rows,
-not the expected 19 rows/16 remaining recorded in the research handoff. The
-catalog does not guess which two rows to exclude and commits no Pictou parcels.
-Richmond results are also held for the later historical-layer pass so this
-change remains the authorized CBRM-plus-generalized-model cut.
+The historical layer is visually distinct and off by default. Its first
+fully-supported slice pairs official Halifax notices and result tables for the
+March 8, 2022 and September 16, 2025 sales by tender:
 
-No parcel records are created for Annapolis County, Kings County, or Chester.
-Annapolis still needs visual PID extraction from embedded images, Kings exposes
-no current parcel table, and Chester states that it is not holding a 2026 sale.
+| Event | Records | Exact PIDs | Sold | Unsold | Official amount labels |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Halifax March 8, 2022 | 11 | 11 | 9 | 2 | `Opening Bid`, `Selling Price` |
+| Halifax September 16, 2025 | 37 | 38 | 37 | 0 | `Opening Bid`, `Selling Price` |
+| **Total** | **48** | **49** | **46** | **2** | |
 
-The cross-municipality research handoff is from
-[Explainer Audiobooks PR #63](https://github.com/dfakkeldy/explainer-audiobooks/pull/63).
-The live official municipal sources control wherever a research count differs.
+Every included listing was reconciled between the official notice and result,
+and every eight-digit PID matched NSPRD on July 19, 2026. The 2025 result has
+one listing covering two PIDs; its opening and selling prices remain attached
+to the one listing and are not divided between parcels. Assessed-owner and
+bidder names are absent from the normalized JSON.
+
+`src/data/historicalSourceLedger.json` pins official URLs, retrieval dates,
+available fields, review notes, and SHA-256 receipts for the reviewed PDFs.
+`src/data/historicalMatchExceptions.json` is intentionally empty because only
+exact official PIDs entered this slice; future ambiguous or unmatched rows must
+be recorded there and cannot render as parcels. The detailed human-readable
+coverage table is in
+[`docs/historical-tax-sale-source-coverage.md`](../docs/historical-tax-sale-source-coverage.md).
+
+Two CBRM result sets were researched but held fail-closed. The March 10, 2026
+result mixes published bids, blanks, and outcome highlighting that still needs
+row-by-row visual reconciliation. The July 22, 2025 result has useful outcome
+detail, but its original notice is no longer linked from the current municipal
+page. Neither event contributes a map parcel or financial comparison.
 
 NSPRD is governed by the [Province of Nova Scotia Restricted Geographic
 Services License](https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf).
@@ -214,8 +232,8 @@ date rather than leaving that date only in source data.
 This slice includes the modern OpenStreetMap basemap, seven web-cleared Province
 layers, live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
-road/water context, authoritative mapped civic-address points, and the two
-upcoming municipal tax-sale events. The Fletcher layer is visible but disabled
-until web-use rights are clear. Historical tax-sale layers are fail-closed
-pending the Pictou reconciliation. Offline maps remain the native iPhone app's
-job.
+road/water/adjacency context, authoritative mapped civic-address points, the two
+upcoming municipal tax-sale events, and a separate default-off layer of two
+verified Halifax historical result events. The Fletcher layer is visible but
+disabled until web-use rights are clear. Unsupported historical sources remain
+fail-closed. Offline maps remain the native iPhone app's job.

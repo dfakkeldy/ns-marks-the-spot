@@ -181,6 +181,21 @@ export function formatCivicAddress(
   ]).join(", ");
 }
 
+export function formatCivicRoadName(
+  properties: CivicAddressProperties,
+): string | null {
+  const roadName = [
+    cleanComponent(properties.strprefix),
+    cleanComponent(properties.strname),
+    cleanComponent(properties.strsuffix),
+    cleanComponent(properties.strdir),
+  ]
+    .filter((value): value is string => value !== null)
+    .join(" ");
+
+  return roadName || null;
+}
+
 function polygonPartsForFeatures(
   features: readonly ParcelFeature[],
 ): PolygonPart[] {

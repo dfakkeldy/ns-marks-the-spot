@@ -7,6 +7,7 @@ import {
   buildCivicAddressSearchUrl,
   fetchCivicAddresses,
   formatCivicAddress,
+  formatCivicRoadName,
   searchCivicAddresses,
   type CivicAddressProperties,
 } from "./civicAddresses";
@@ -69,6 +70,29 @@ afterEach(() => {
 });
 
 describe("Nova Scotia Civic Address File lookup", () => {
+  it("formats a road name separately for parcel-access context", () => {
+    expect(
+      formatCivicRoadName(
+        completeProperties({
+          strprefix: "West",
+          strname: "Lawrencetown",
+          strsuffix: "Road",
+          strdir: null,
+        }),
+      ),
+    ).toBe("West Lawrencetown Road");
+    expect(
+      formatCivicRoadName(
+        completeProperties({
+          strprefix: null,
+          strname: null,
+          strsuffix: null,
+          strdir: null,
+        }),
+      ),
+    ).toBeNull();
+  });
+
   it("filters a leading civic number separately from full-text street terms", () => {
     const value = buildCivicAddressSearchUrl("  11064 Highway 19   Mabou  ");
     const url = new URL(value);
