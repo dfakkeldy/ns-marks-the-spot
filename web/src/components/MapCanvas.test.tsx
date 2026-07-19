@@ -72,6 +72,8 @@ describe("MapCanvas browser location", () => {
           "crown-lands": false,
           "flood-risk": false,
           waterfalls: false,
+          "water-features": false,
+          roads: false,
         }}
         showModernMap
         showTaxSale={false}

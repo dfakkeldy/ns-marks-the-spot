@@ -323,6 +323,53 @@ a {
   opacity: 0.62;
 }
 
+.layer-control .layer-row {
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.road-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 12px;
+  margin: -2px 0 12px 54px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  list-style: none;
+}
+
+.road-legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.road-swatch {
+  display: inline-block;
+  flex: 0 0 25px;
+  height: 0;
+  border-top: 3px solid #333;
+}
+
+.road-swatch.local {
+  border-color: #cc4d4d;
+}
+
+.road-swatch.resource {
+  border-color: #e66600;
+}
+
+.road-swatch.trail,
+.road-swatch.culvert {
+  border-color: #656565;
+  border-top-style: dashed;
+}
+
+.road-swatch.culvert {
+  border-color: #111;
+  border-top-width: 4px;
+}
+
 .section-intro {
   margin: -2px 0 9px;
   color: var(--muted);
@@ -571,6 +618,68 @@ a {
 
 .parcel-facts .yes {
   color: var(--lichen);
+}
+
+.mapped-area-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.mapped-context,
+.mapped-context-status {
+  margin: 16px 0;
+  padding: 14px;
+  background: #f5f9ff;
+  border: 1px solid rgba(47, 128, 237, 0.28);
+  border-radius: 6px;
+}
+
+.mapped-context-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.mapped-context-status.error {
+  color: #8c2f27;
+  background: #fff5f3;
+  border-color: rgba(159, 47, 36, 0.28);
+}
+
+.mapped-context-group + .mapped-context-group {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(47, 128, 237, 0.18);
+}
+
+.mapped-context-group h3 {
+  margin: 0 0 7px;
+  font-size: 0.82rem;
+}
+
+.mapped-context-group ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mapped-context-group li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.75rem;
+}
+
+.mapped-context-group li span,
+.mapped-context-group p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: right;
 }
 
 .sale-warning {

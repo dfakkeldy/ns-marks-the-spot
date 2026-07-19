@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
 import { fetchParcels } from "./services/nsprd";
+import { fetchParcelContext } from "./services/parcelContext";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -33,6 +34,14 @@ vi.mock("./services/nsprd", async (importOriginal) => {
   };
 });
 
+vi.mock("./services/parcelContext", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/parcelContext")>();
+  return {
+    ...original,
+    fetchParcelContext: vi.fn().mockResolvedValue({ roads: [], water: [] }),
+  };
+});
+
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -40,6 +49,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [],
     });
+    vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
   });
 
   afterEach(() => {
@@ -81,6 +91,8 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Crown Lands")).toBeEnabled();
     expect(screen.getByLabelText("Flood Risk Areas")).toBeEnabled();
     expect(screen.getByLabelText("Waterfalls")).toBeEnabled();
+    expect(screen.getByLabelText("Water features")).toBeEnabled();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeEnabled();
     expect(screen.queryByText("Assessed owner")).not.toBeInTheDocument();
     expect(
       screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
@@ -150,6 +162,21 @@ describe("NS Marks The Spot Online", () => {
     expect(waterfalls).toBeChecked();
   });
 
+  it("shows the official road-style legend when the road layer is visible", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    await user.click(screen.getByLabelText("Roads, trails & culverts"));
+
+    const legend = screen.getByRole("list", { name: "Road type legend" });
+    expect(within(legend).getByText("Highway")).toBeInTheDocument();
+    expect(within(legend).getByText("Local road")).toBeInTheDocument();
+    expect(within(legend).getByText("Resource road")).toBeInTheDocument();
+    expect(within(legend).getByText("Trail / track")).toBeInTheDocument();
+    expect(within(legend).getByText("Culvert")).toBeInTheDocument();
+  });
+
   it("turns the modern map off independently of Province layers", async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -201,6 +228,80 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByText("Listed in official notice")).toBeInTheDocument();
     expect(screen.queryByText(/available/i)).not.toBeInTheDocument();
     expect(screen.getByText("$15,529.15")).toBeInTheDocument();
+  });
+
+  it("shows mapped acreage and exact intersecting road and water features", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { PID: "50334317", "SHAPE.AREA": 111_057.27135 },
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-61.2, 46.4],
+                [-61.1, 46.4],
+                [-61.1, 46.3],
+                [-61.2, 46.3],
+                [-61.2, 46.4],
+              ],
+            ],
+          },
+        },
+      ],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({
+      roads: [
+        { name: "Cabot Trail", kind: "Arterial" },
+        { name: "Culvert", kind: "Non-vehicle feature" },
+      ],
+      water: [{ name: "Mabou River", kind: "River or stream" }],
+    });
+    render(<App />);
+
+    await user.type(screen.getByLabelText("Search by PID"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(within(inspector).getByText("27.44 acres")).toBeInTheDocument();
+    expect(within(inspector).getByText("Cabot Trail")).toBeInTheDocument();
+    expect(within(inspector).getByText("Arterial")).toBeInTheDocument();
+    expect(within(inspector).getByText("Culvert")).toBeInTheDocument();
+    expect(within(inspector).getByText("Mabou River")).toBeInTheDocument();
+    expect(within(inspector).getByText("River or stream")).toBeInTheDocument();
+  });
+
+  it("reports intersection lookup failures without hiding parcel facts", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: { type: "Point", coordinates: [-61, 46] },
+        },
+      ],
+    });
+    vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
+    render(<App />);
+
+    await user.type(screen.getByLabelText("Search by PID"), "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(await screen.findByText("0.18 acres")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Mapped road and water intersections are unavailable right now.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("finds a CBRM listing and shows event-aware municipal details", async () => {

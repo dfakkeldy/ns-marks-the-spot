@@ -26,7 +26,9 @@ describe("NSPRD PID queries", () => {
     expect(url.searchParams.get("where")).toBe(
       "PID IN ('50203256','50000462')",
     );
-    expect(url.searchParams.get("outFields")).toBe("PID,UPDAT_DATE");
+    expect(url.searchParams.get("outFields")).toBe(
+      "PID,UPDAT_DATE,SHAPE.AREA",
+    );
     expect(url.searchParams.get("returnGeometry")).toBe("true");
     expect(url.searchParams.get("outSR")).toBe("4326");
     expect(url.searchParams.get("f")).toBe("geojson");

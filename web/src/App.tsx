@@ -27,6 +27,12 @@ import {
   normalizePid,
   type NsprdFeatureCollection,
 } from "./services/nsprd";
+import {
+  fetchParcelContext,
+  mappedAreaForPid,
+  type MappedArea,
+  type ParcelContext,
+} from "./services/parcelContext";
 
 type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
 
@@ -34,6 +40,12 @@ const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
   features: [],
 };
+
+type ParcelContextState =
+  | { status: "idle" | "loading" | "error"; value: ParcelContext }
+  | { status: "ready"; value: ParcelContext };
+
+const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
 
 const currency = new Intl.NumberFormat("en-CA", {
   style: "currency",
@@ -116,11 +128,15 @@ function mergeFeatureCollections(
 function ParcelInspector({
   pid,
   context,
+  mappedArea,
+  mappedContext,
   now,
   onClose,
 }: {
   pid: string;
   context?: { event: TaxSaleEvent; listing: TaxSaleListing };
+  mappedArea: MappedArea | null;
+  mappedContext: ParcelContextState;
   now: number;
   onClose: () => void;
 }) {
@@ -173,6 +189,12 @@ function ParcelInspector({
           <dt>PID</dt>
           <dd>{pid}</dd>
         </div>
+        {mappedArea ? (
+          <div>
+            <dt>Mapped area</dt>
+            <dd>{mappedArea.label}</dd>
+          </div>
+        ) : null}
         {listing ? (
           <>
             <div>
@@ -208,6 +230,12 @@ function ParcelInspector({
           </>
         ) : null}
       </dl>
+      {mappedArea ? (
+        <p className="mapped-area-note">
+          Calculated from NSPRD geometry and approximate; not a survey.
+        </p>
+      ) : null}
+      <MappedContextDetails state={mappedContext} />
       {listing ? (
         <p className="sale-warning">
           <span aria-hidden="true">!</span>
@@ -234,6 +262,91 @@ function ParcelInspector({
   );
 }
 
+function MappedFeatureList({
+  title,
+  emptyMessage,
+  features,
+}: {
+  title: string;
+  emptyMessage: string;
+  features: ParcelContext["roads"];
+}) {
+  return (
+    <section className="mapped-context-group">
+      <h3>{title}</h3>
+      {features.length > 0 ? (
+        <ul>
+          {features.map(({ name, kind }) => (
+            <li key={`${name}:${kind}`}>
+              <strong>{name}</strong>
+              {name.toLocaleLowerCase() !== kind.toLocaleLowerCase() ? (
+                <span>{kind}</span>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>{emptyMessage}</p>
+      )}
+    </section>
+  );
+}
+
+function MappedContextDetails({ state }: { state: ParcelContextState }) {
+  if (state.status === "idle" || state.status === "loading") {
+    return (
+      <p className="mapped-context-status" role="status">
+        Loading mapped road and water intersections…
+      </p>
+    );
+  }
+
+  if (state.status === "error") {
+    return (
+      <p className="mapped-context-status error" role="status">
+        Mapped road and water intersections are unavailable right now.
+      </p>
+    );
+  }
+
+  return (
+    <div className="mapped-context">
+      <MappedFeatureList
+        title="Intersecting roads & trails"
+        emptyMessage="No mapped road or trail feature intersects this parcel."
+        features={state.value.roads}
+      />
+      <MappedFeatureList
+        title="Intersecting water features"
+        emptyMessage="No mapped water feature intersects this parcel."
+        features={state.value.water}
+      />
+    </div>
+  );
+}
+
+function RoadLegend() {
+  return (
+    <ul className="road-legend" aria-label="Road type legend">
+      <li>
+        <span className="road-swatch highway" />Highway
+      </li>
+      <li>
+        <span className="road-swatch local" />Local road
+      </li>
+      <li>
+        <span className="road-swatch resource" />Resource road
+      </li>
+      <li>
+        <span className="road-swatch trail" />Trail / track
+      </li>
+      <li>
+        <span className="road-swatch culvert" />Culvert
+      </li>
+    </ul>
+  );
+}
+
 function LicenceDialog({
   onAccept,
   onContinueWithout,
@@ -255,8 +368,9 @@ function LicenceDialog({
         <h2 id="licence-title">Use Nova Scotia map data</h2>
         <p>
           Aerial imagery, property boundaries, Crown lands, flood-risk areas,
-          and waterfalls come from Province map services. Accept the Province’s
-          restricted geographic services licence before these layers are loaded.
+          waterfalls, water features, and transportation features come from
+          Province map services. Accept the Province’s restricted geographic
+          services licence before these layers are loaded.
         </p>
         <blockquote>{PROVINCE_ATTRIBUTION}</blockquote>
         <p className="licence-caveat">
@@ -333,6 +447,10 @@ export function App() {
   const [query, setQuery] = useState("");
   const [searchError, setSearchError] = useState<string | null>(null);
   const [selectedPid, setSelectedPid] = useState<string | null>(null);
+  const [mappedContext, setMappedContext] = useState<ParcelContextState>({
+    status: "idle",
+    value: EMPTY_PARCEL_CONTEXT,
+  });
   const [showModernMap, setShowModernMap] = useState(true);
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
@@ -372,6 +490,31 @@ export function App() {
 
     return () => controller.abort();
   }, [licenceAccepted]);
+
+  useEffect(() => {
+    if (!selectedPid || !licenceAccepted) {
+      return;
+    }
+
+    const selectedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === selectedPid,
+    );
+    if (selectedFeatures.length === 0) {
+      return;
+    }
+
+    const controller = new AbortController();
+    fetchParcelContext(selectedFeatures, controller.signal)
+      .then((value) => setMappedContext({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setMappedContext({ status: "error", value: EMPTY_PARCEL_CONTEXT });
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, parcels, selectedPid]);
 
   const filteredTaxSalePids = useMemo(() => {
     const listings = taxSaleEvents
@@ -440,6 +583,11 @@ export function App() {
     setProvinceLayers((current) => ({ ...current, [id]: visible }));
   };
 
+  const selectParcel = (pid: string) => {
+    setSelectedPid(pid);
+    setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
+  };
+
   const submitPidSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSearchError(null);
@@ -451,7 +599,7 @@ export function App() {
     }
 
     setQuery(pid);
-    setSelectedPid(pid);
+    selectParcel(pid);
 
     if (parcels.features.some(({ properties }) => properties.PID === pid)) {
       return;
@@ -472,6 +620,9 @@ export function App() {
   const selectedListingContext = selectedPid
     ? listingContextForPid(selectedPid)
     : undefined;
+  const selectedMappedArea = selectedPid
+    ? mappedAreaForPid(parcels, selectedPid)
+    : null;
 
   return (
     <div
@@ -551,16 +702,20 @@ export function App() {
               </span>
             </div>
             {provinceLayerCatalog.map((layer) => (
-              <LayerToggle
-                key={layer.id}
-                layer={layer}
-                checked={provinceLayers[layer.id]}
-                licenceAccepted={licenceAccepted}
-                onChange={(checked) =>
-                  setProvinceLayerVisibility(layer.id, checked)
-                }
-                onReviewLicence={() => setLicenceDialogOpen(true)}
-              />
+              <div className="layer-control" key={layer.id}>
+                <LayerToggle
+                  layer={layer}
+                  checked={provinceLayers[layer.id]}
+                  licenceAccepted={licenceAccepted}
+                  onChange={(checked) =>
+                    setProvinceLayerVisibility(layer.id, checked)
+                  }
+                  onReviewLicence={() => setLicenceDialogOpen(true)}
+                />
+                {layer.id === "roads" && provinceLayers.roads ? (
+                  <RoadLegend />
+                ) : null}
+              </div>
             ))}
           </section>
 
@@ -678,14 +833,22 @@ export function App() {
             provinceLayers={provinceLayers}
             showModernMap={showModernMap}
             showTaxSale={licenceAccepted && selectedEventIds.size > 0}
-            onSelectPid={setSelectedPid}
+            onSelectPid={selectParcel}
           />
           {selectedPid ? (
             <ParcelInspector
               pid={selectedPid}
               context={selectedListingContext}
+              mappedArea={selectedMappedArea}
+              mappedContext={mappedContext}
               now={currentTime}
-              onClose={() => setSelectedPid(null)}
+              onClose={() => {
+                setSelectedPid(null);
+                setMappedContext({
+                  status: "idle",
+                  value: EMPTY_PARCEL_CONTEXT,
+                });
+              }}
             />
           ) : null}
         </section>

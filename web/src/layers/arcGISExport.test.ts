@@ -18,6 +18,7 @@ describe("ArcGIS export tile adapter", () => {
           serviceUrl: "https://example.com/arcgis/rest/services/test/MapServer",
           transparent: true,
           layers: "show:24,25,26",
+          dpi: 192,
         },
         { x: 676, y: 724, z: 11 },
       ),
@@ -33,6 +34,7 @@ describe("ArcGIS export tile adapter", () => {
     expect(url.searchParams.get("transparent")).toBe("true");
     expect(url.searchParams.get("f")).toBe("image");
     expect(url.searchParams.get("layers")).toBe("show:24,25,26");
+    expect(url.searchParams.get("dpi")).toBe("192");
   });
 
   it("minifies and forwards native dynamic-layer JSON", () => {

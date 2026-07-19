@@ -19,7 +19,9 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
    parcel fields. The catalog preserves the municipality's financial wording:
    CBRM publishes a minimum bid, while Inverness publishes total arrears.
 2. The browser asks the live NSPRD Feature Layer for polygon geometry by exact
-   PID. The municipal notice remains the authority for tax-sale fields.
+   PID. The selected parcel sheet sums NSPRD's mapped area across every polygon
+   returned for that PID and converts it to acres. The municipal notice remains
+   the authority for tax-sale fields.
 3. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
@@ -47,11 +49,38 @@ remaining online-only:
 - Flood Risk Areas uses the native `show:24,25,26` watershed restriction.
 - Waterfalls uses hydrography layer 1 and the exact Province falls definition;
   enabling it fits the map to all 90 matching points before the user zooms in.
+- [Water Features](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Nova-Scotia-Topographic-DataBase-Water-Features-Li/fpca-jrmt)
+  uses the complete Province hydrography service for rivers,
+  lakes, wetlands, rapids, ditches, dams, and other mapped features. A higher
+  export resolution improves line legibility without replacing the Province's
+  symbols or colours.
+- [Roads, Trails & Culverts](https://data.novascotia.ca/Roads-Driving-and-Transport/Nova-Scotia-Topographic-DataBase-Roads-Trails-and-/gywn-246n)
+  uses the complete Province transportation service,
+  including highways, local/resource roads, unpaved roads, tracks, trails,
+  bridges, rail, ferry crossings, road polygons, and close-range culvert
+  features. A compact legend explains the principal line classes.
 - Fletcher remains listed but disabled until web-use rights are clear.
 
-All five Province services successfully returned Web Mercator export images in
+All seven Province services successfully returned Web Mercator export images in
 the July 19, 2026 validation pass. The web app sends direct image requests from
 the browser and does not add an application server or offline cache.
+
+## Parcel context
+
+The parcel sheet reports mapped acreage as an approximate NSPRD-derived value,
+not a legal survey. It also sends the selected polygon to the Province road and
+water sublayers using exact `esriSpatialRelIntersects` queries. Returned feature
+names and classes appear under “Intersecting roads & trails” and “Intersecting
+water features.” An empty result is displayed as empty; a service failure is
+reported rather than inferred from the visible map.
+
+The Province publishes a [Nova Scotia Well Logs Database](https://data.novascotia.ca/Mines-and-Minerals/Nova-Scotia-Well-Logs-Database/eqej-ag64),
+but the available map-ready release is dated and its location methods have
+different accuracy. It is not included as a layer until its use-purpose and
+precision warnings are reconciled in the product. Nova Scotia does not publish
+a comparable septic-system map: those records are requested by civic address
+through the [Environmental Registry](https://novascotia.ca/nse/dept/envregistry.asp),
+so no septic overlay is manufactured here.
 
 ## Inverness 2026 source receipt
 
@@ -128,9 +157,9 @@ date rather than leaving that date only in source data.
 
 ## Current boundary
 
-This slice includes the modern OpenStreetMap basemap, the five web-cleared
-Province layers already defined by the native catalog, live NSPRD exact-PID
-search, browser location, and the two upcoming municipal tax-sale events. The
-Fletcher layer is visible but disabled until web-use rights are clear. Historical
-tax-sale layers are fail-closed pending the Pictou reconciliation. Offline maps
-remain the native iPhone app's job.
+This slice includes the modern OpenStreetMap basemap, seven web-cleared Province
+layers, live NSPRD exact-PID search, browser location, mapped acreage and parcel
+road/water context, and the two upcoming municipal tax-sale events. The Fletcher
+layer is visible but disabled until web-use rights are clear. Historical tax-sale
+layers are fail-closed pending the Pictou reconciliation. Offline maps remain the
+native iPhone app's job.

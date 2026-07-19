@@ -46,6 +46,10 @@ export function arcGISExportUrlForTile(
   url.searchParams.set("transparent", String(options.transparent));
   url.searchParams.set("f", "image");
 
+  if (options.dpi) {
+    url.searchParams.set("dpi", String(options.dpi));
+  }
+
   if (options.layers) {
     url.searchParams.set("layers", options.layers);
   }
