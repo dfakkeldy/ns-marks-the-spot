@@ -136,14 +136,15 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     serviceUrl:
       "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer",
     nativeDefaultVisibility: false,
-    minZoom: 12,
+    minZoom: 7,
     maxZoom: 24,
     opacity: 0.82,
     licence: "province-restricted",
     webAvailability: "available",
-    webCaveat: "Zoom 12+ · not a survey",
+    webCaveat: "Zoom 7+ · not a survey",
     exportOptions: {
       transparent: true,
+      dpi: 0.75,
       dynamicLayers: PROPERTY_DYNAMIC_LAYERS,
     },
   },

@@ -48,7 +48,10 @@
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Flood Risk Areas, and Waterfalls
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
 - [x] Complete Province water and transportation overlays with legible official cartography, trails, and close-range culverts
+- [x] Statewide NSPRD boundary visibility from zoom 7 and an opaque close-zoom selected-parcel fill
 - [x] Approximate NSPRD acreage and exact road/water intersections in the selected-parcel sheet
+- [x] Authoritative Civic Address File lookup with paginated bounding-box queries and exact parcel containment
+- [x] Independent civic-address loading, empty, failure, attribution, and stale-selection cancellation states
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app

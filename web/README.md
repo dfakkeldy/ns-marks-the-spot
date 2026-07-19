@@ -30,6 +30,10 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
    withdrawn results.
 4. Browser location stays in the browser and is drawn on the map. This app has
    no application server receiving the coordinates.
+5. For a selected PID, the browser reuses the exact NSPRD Polygon or
+   MultiPolygon geometry to look up mapped physical-address points from the
+   Nova Scotia Civic Address File. Municipal notice locations remain notice
+   fields and are not promoted into civic addresses.
 
 All money is stored as integer cents. PIDs and AANs are strings. CBRM's
 "Immediate deed" value is displayed as a municipal category; it is not a claim
@@ -42,9 +46,11 @@ remaining online-only:
 
 - NS Aerial streams the Province's NSODB 10k imagery through map zoom 23,
   overzooming its last useful native scale instead of disappearing.
-- NS Property Boundaries streams statewide NSPRD outlines at zoom 12 and above;
-  PID search still uses the NSPRD Feature Layer so a selected parcel can be
-  inspected precisely.
+- NS Property Boundaries streams statewide NSPRD outlines from zoom 7. A low
+  export DPI clears the live service's 1:36,114 display floor without changing
+  tile extents; PID search still uses exact NSPRD Feature Layer geometry. A
+  selected sale parcel becomes fully opaque at zoom 15 and closer while other
+  listed parcels keep their lighter overview fill.
 - Crown Lands uses the native green dynamic renderer.
 - Flood Risk Areas uses the native `show:24,25,26` watershed restriction.
 - Waterfalls uses hydrography layer 1 and the exact Province falls definition;
@@ -81,6 +87,38 @@ precision warnings are reconciled in the product. Nova Scotia does not publish
 a comparable septic-system map: those records are requested by civic address
 through the [Environmental Registry](https://novascotia.ca/nse/dept/envregistry.asp),
 so no septic overlay is manufactured here.
+
+## Mapped civic addresses
+
+The authoritative source is the [Nova Scotia Civic Address File — Civic
+Points](https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g).
+`services/civicAddresses.ts` calculates a bounding box for each selected
+Polygon/MultiPolygon part, requests only civic-point geometry and address
+components through Socrata's `within_box` filter, and follows ordered
+`$limit`/`$offset` pages. It then deduplicates by `pntid` and performs exact
+client-side containment across polygon parts and holes. Boundary points count
+as inside; hole interiors do not.
+
+The parcel sheet lists every unique mapped point inside the parcel. It never
+chooses a nearest point or infers an address from a road, address range, tax-sale
+description, or registry data. Zero matches display “No civic address point is
+mapped inside this parcel.” A Civic Points service failure instead displays
+“Civic address lookup is unavailable right now.” Road/water and civic failures
+remain independent, and changing PIDs aborts the stale civic request.
+
+This dataset is governed by the [Open Government Licence – Nova
+Scotia](https://support.novascotia.ca/services/open-data-portal-licence), which
+requires acknowledgement. The parcel sheet therefore displays `Contains
+information licensed under the Open Government Licence – Nova Scotia` and links
+both the dataset and licence. This is a separate licence boundary from the
+restricted NSPRD/Province layer gate. Civic points are mapped physical-address
+points, not proof of ownership, mailing address, access, occupancy, or legal
+parcel status.
+
+Live verification on July 19, 2026 confirmed that the GeoJSON endpoint returns
+`Access-Control-Allow-Origin: *`. PID `15234636` returned two exact in-parcel
+points (16 and 18 Centre St, Reserve Mines); PID `15161631` returned none. These
+are live service examples, not fixtures used by the ordinary unit suite.
 
 ## Inverness 2026 source receipt
 
@@ -146,8 +184,9 @@ date rather than leaving that date only in source data.
 
 ## Source and deployment boundary
 
-- Baseline source commit: NS Marks The Spot `92f1261e50dc05c8b2b2a6c38807d11d0f17cc98`
-  was the exact single-Inverness implementation inspected before this work.
+- Baseline source commit: NS Marks The Spot
+  `aed5bc60e4514e755abb26cc74265fe0c6e54ec7` was the exact merged `nightly`
+  source inspected before the civic-address work.
 - NS Marks deployment: this repository owns the source and relative/subpath-safe
   production build. Building or merging this branch is not proof that its Pages
   deployment is live; deployment must be checked separately after promotion.
@@ -158,8 +197,9 @@ date rather than leaving that date only in source data.
 ## Current boundary
 
 This slice includes the modern OpenStreetMap basemap, seven web-cleared Province
-layers, live NSPRD exact-PID search, browser location, mapped acreage and parcel
-road/water context, and the two upcoming municipal tax-sale events. The Fletcher
-layer is visible but disabled until web-use rights are clear. Historical tax-sale
-layers are fail-closed pending the Pictou reconciliation. Offline maps remain the
-native iPhone app's job.
+layers, live NSPRD exact-PID search, browser location, mapped acreage, parcel
+road/water context, authoritative mapped civic-address points, and the two
+upcoming municipal tax-sale events. The Fletcher layer is visible but disabled
+until web-use rights are clear. Historical tax-sale layers are fail-closed
+pending the Pictou reconciliation. Offline maps remain the native iPhone app's
+job.

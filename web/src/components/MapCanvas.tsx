@@ -22,6 +22,10 @@ import {
   getBrowserLocation,
   type BrowserLocation,
 } from "../services/browserLocation";
+import {
+  OPAQUE_SELECTED_PARCEL_ZOOM,
+  parcelStyleForFeature,
+} from "./parcelStyle";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -38,7 +42,6 @@ const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
   [43.55300536047742, -66.00233221945133],
   [46.83835988450765, -60.35435480050904],
 ];
-
 const layerZIndexes: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
   "crown-lands": 220,
@@ -167,8 +170,23 @@ export function MapCanvas({
   onSelectPid,
 }: MapCanvasProps) {
   const [map, setMap] = useState<LeafletMap | null>(null);
+  const [mapZoom, setMapZoom] = useState(9);
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    const updateMapZoom = () => setMapZoom(map.getZoom());
+    updateMapZoom();
+    map.on("zoomend", updateMapZoom);
+
+    return () => {
+      map.off("zoomend", updateMapZoom);
+    };
+  }, [map]);
 
   const visibleParcels = useMemo<NsprdFeatureCollection>(() => {
     return {
@@ -183,36 +201,13 @@ export function MapCanvas({
 
   const parcelStyle = (
     feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
-  ): PathOptions => {
-    const pid = feature?.properties.PID;
-    const isSelected = pid === selectedPid;
-    const isTaxSale = pid ? taxSalePids.has(pid) && showTaxSale : false;
-
-    if (isSelected) {
-      return {
-        color: "#9f2f24",
-        fillColor: "#be4d3c",
-        fillOpacity: 0.34,
-        weight: 4,
-      };
-    }
-
-    if (isTaxSale) {
-      return {
-        color: "#be4d3c",
-        fillColor: "#e7a86b",
-        fillOpacity: 0.3,
-        weight: 2,
-      };
-    }
-
-    return {
-      color: "#0a7180",
-      fillColor: "#eef7f5",
-      fillOpacity: 0.08,
-      weight: 1.25,
-    };
-  };
+  ): PathOptions =>
+    parcelStyleForFeature(feature, {
+      selectedPid,
+      showTaxSale,
+      taxSalePids,
+      zoom: mapZoom,
+    });
 
   const requestLocation = () => {
     setLocationMessage("Finding your location…");
@@ -256,7 +251,7 @@ export function MapCanvas({
           />
         ))}
         <GeoJSON
-          key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}`}
+          key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
           data={visibleParcels}
           style={parcelStyle}
           onEachFeature={(feature, layer) => {
