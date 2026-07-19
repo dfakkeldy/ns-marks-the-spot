@@ -86,8 +86,12 @@ Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the native
 catalog's Province MapServer layers in the browser.
 
 `web/src/layers/layerCatalog.ts` is the web parity contract. It mirrors the
-native catalog order, URLs, zoom ranges, Province licence requirement, and
-rendering restrictions. `ArcGISExportTileLayer` converts Leaflet tile
+native catalog order, URLs, Province licence requirement, and rendering
+restrictions. Web-specific display ranges may extend where the live service
+supports them: the map zooms through level 23 while aerial imagery safely
+overzooms its last useful native level instead of disappearing, and
+turning on Waterfalls first fits the map to the 90-fall discovery extent.
+`ArcGISExportTileLayer` converts Leaflet tile
 coordinates to Web Mercator bounds and requests direct PNG tiles from each
 MapServer's `export` operation. This matches the native app's service model
 without sharing its offline cache policy.
@@ -95,8 +99,10 @@ without sharing its offline cache policy.
 NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
 dynamic renderers, Flood Risk Areas is restricted to layers 24–26, and the
 Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
-Province's falls value. Detail-only layers begin at zoom 12; selecting one from
-a wider view moves the browser map to that supported zoom.
+Province's falls value. Parcel, Crown-land, and flood detail layers begin at
+zoom 12; selecting one from a wider view moves the browser map to that supported
+zoom. Waterfall points remain visible at the province overview scale so users
+can discover where to zoom in.
 
 Municipal notices and NSPRD have deliberately separate authority:
 

@@ -1,6 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
-import { GeoJSON, MapContainer, TileLayer, useMap } from "react-leaflet";
+import {
+  Circle,
+  CircleMarker,
+  GeoJSON,
+  MapContainer,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   provinceLayerCatalog,
@@ -21,11 +28,16 @@ type MapCanvasProps = {
   taxSalePids: Set<string>;
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
+  showModernMap: boolean;
   showTaxSale: boolean;
   onSelectPid: (pid: string) => void;
 };
 
 const CAPE_BRETON_CENTER: [number, number] = [46.08, -60.92];
+const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
+  [43.55300536047742, -66.00233221945133],
+  [46.83835988450765, -60.35435480050904],
+];
 
 const layerZIndexes: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
@@ -59,6 +71,7 @@ function ArcGISMapLayer({
         maxZoom: layer.maxZoom,
         opacity: layer.opacity,
         zIndex: layerZIndexes[layer.id],
+        maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
         updateWhenZooming: false,
         keepBuffer: 2,
       },
@@ -77,8 +90,23 @@ function LayerZoomController({
   provinceLayers,
 }: Pick<MapCanvasProps, "provinceLayers">) {
   const map = useMap();
+  const waterfallsWereVisible = useRef(false);
 
   useEffect(() => {
+    const waterfallsAreVisible = provinceLayers.waterfalls;
+    const waterfallsBecameVisible =
+      waterfallsAreVisible && !waterfallsWereVisible.current;
+    waterfallsWereVisible.current = waterfallsAreVisible;
+
+    if (waterfallsBecameVisible) {
+      map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
+        animate: true,
+        padding: [48, 48],
+        maxZoom: 8,
+      });
+      return;
+    }
+
     const needsDetailZoom = provinceLayerCatalog.some(
       ({ id, minZoom }) => provinceLayers[id] && minZoom >= 12,
     );
@@ -132,6 +160,7 @@ export function MapCanvas({
   taxSalePids,
   selectedPid,
   provinceLayers,
+  showModernMap,
   showTaxSale,
   onSelectPid,
 }: MapCanvasProps) {
@@ -204,16 +233,19 @@ export function MapCanvas({
         center={CAPE_BRETON_CENTER}
         zoom={9}
         minZoom={7}
-        maxZoom={19}
+        maxZoom={23}
         zoomControl
         attributionControl={false}
         ref={setMap}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
-          zIndex={100}
-        />
+        {showModernMap ? (
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            maxZoom={23}
+            maxNativeZoom={19}
+            zIndex={100}
+          />
+        ) : null}
         {provinceLayerCatalog.map((layer) => (
           <ArcGISMapLayer
             key={layer.id}
@@ -232,18 +264,30 @@ export function MapCanvas({
           }}
         />
         {userLocation ? (
-          <GeoJSON
-            data={L.circle(
-              [userLocation.latitude, userLocation.longitude],
-              Math.max(userLocation.accuracy, 12),
-            ).toGeoJSON()}
-            style={{
+          <>
+            <Circle
+              center={[userLocation.latitude, userLocation.longitude]}
+              radius={Math.max(userLocation.accuracy, 12)}
+              interactive={false}
+              pathOptions={{
+                color: "#2f80ed",
+                fillColor: "#2f80ed",
+                fillOpacity: 0.18,
+                weight: 2,
+              }}
+            />
+            <CircleMarker
+              center={[userLocation.latitude, userLocation.longitude]}
+              radius={8}
+              interactive={false}
+              pathOptions={{
               color: "#ffffff",
               fillColor: "#2f80ed",
-              fillOpacity: 0.8,
+              fillOpacity: 1,
               weight: 3,
-            }}
-          />
+              }}
+            />
+          </>
         ) : null}
         <SelectionController parcels={visibleParcels} selectedPid={selectedPid} />
         <LayerZoomController provinceLayers={provinceLayers} />

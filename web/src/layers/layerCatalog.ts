@@ -120,7 +120,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
       "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer",
     nativeDefaultVisibility: false,
     minZoom: 0,
-    maxZoom: 14,
+    maxZoom: 23,
     opacity: 1,
     licence: "province-restricted",
     webAvailability: "available",
@@ -181,12 +181,12 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     serviceUrl:
       "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
     nativeDefaultVisibility: false,
-    minZoom: 12,
+    minZoom: 7,
     maxZoom: 24,
     opacity: 1,
     licence: "province-restricted",
     webAvailability: "available",
-    webCaveat: "90 mapped falls · zoom 12+",
+    webCaveat: "90 mapped falls · overview on selection",
     exportOptions: {
       transparent: true,
       dynamicLayers: WATERFALLS_DYNAMIC_LAYERS,

@@ -9,12 +9,15 @@ vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
     parcels,
     taxSalePids,
+    showModernMap,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
+    showModernMap: boolean;
   }) => (
     <div data-testid="map-canvas">
-      Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length}
+      Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
+      modern map: {showModernMap ? "on" : "off"}
     </div>
   ),
 }));
@@ -93,6 +96,44 @@ describe("NS Marks The Spot Online", () => {
 
     expect(crownLands).toBeChecked();
     expect(waterfalls).toBeChecked();
+  });
+
+  it("turns the modern map off independently of Province layers", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const modernMap = screen.getByLabelText("Modern map");
+    expect(modernMap).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "modern map: on",
+    );
+
+    await user.click(modernMap);
+
+    expect(modernMap).not.toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "modern map: off",
+    );
+  });
+
+  it("collapses and restores the header", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const collapse = screen.getByRole("button", { name: "Collapse header" });
+    expect(collapse).toHaveAttribute("aria-expanded", "true");
+
+    await user.click(collapse);
+
+    const expand = screen.getByRole("button", { name: "Expand header" });
+    expect(expand).toHaveAttribute("aria-expanded", "false");
+    expect(expand.closest(".app-shell")).toHaveClass("header-collapsed");
+
+    await user.click(expand);
+
+    expect(
+      screen.getByRole("button", { name: "Collapse header" }),
+    ).toHaveAttribute("aria-expanded", "true");
   });
 
   it("finds a tax-sale listing by PID without claiming that it is available", async () => {

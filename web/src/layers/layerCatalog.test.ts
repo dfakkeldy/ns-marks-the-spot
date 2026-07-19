@@ -74,6 +74,7 @@ describe("web native-layer parity catalog", () => {
   });
 
   it("carries the native flood and waterfall rendering restrictions", () => {
+    const aerial = nativeLayerCatalog.find(({ id }) => id === "ns-aerial");
     const floodRisk = nativeLayerCatalog.find(
       ({ id }) => id === "flood-risk",
     );
@@ -81,7 +82,12 @@ describe("web native-layer parity catalog", () => {
       ({ id }) => id === "waterfalls",
     );
 
+    expect(aerial?.maxZoom).toBe(23);
     expect(floodRisk?.exportOptions?.layers).toBe("show:24,25,26");
+    expect(waterfalls?.minZoom).toBe(7);
+    expect(waterfalls?.webCaveat).toBe(
+      "90 mapped falls · overview on selection",
+    );
     expect(waterfalls?.exportOptions?.dynamicLayers).toContain(
       "FEAT_DESC = 'Falls -  On a single line river point'",
     );

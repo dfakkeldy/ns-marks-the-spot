@@ -294,6 +294,9 @@ function LayerToggle({
 
 export function App() {
   const [licenceAccepted, setLicenceAccepted] = useState(isLicenceAccepted);
+  const [headerCollapsed, setHeaderCollapsed] = useState(
+    () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
+  );
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
     () => !isLicenceAccepted(),
   );
@@ -302,6 +305,7 @@ export function App() {
   const [query, setQuery] = useState("");
   const [searchError, setSearchError] = useState<string | null>(null);
   const [selectedPid, setSelectedPid] = useState<string | null>(null);
+  const [showModernMap, setShowModernMap] = useState(true);
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
   );
@@ -436,7 +440,9 @@ export function App() {
     : undefined;
 
   return (
-    <div className="app-shell">
+    <div
+      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}`}
+    >
       <header className="app-header">
         <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
           <img src={appIconUrl} alt="" />
@@ -449,6 +455,15 @@ export function App() {
             Get the iPhone app
           </a>
         </div>
+        <button
+          className="header-collapse"
+          type="button"
+          aria-label={headerCollapsed ? "Expand header" : "Collapse header"}
+          aria-expanded={!headerCollapsed}
+          onClick={() => setHeaderCollapsed((collapsed) => !collapsed)}
+        >
+          <span aria-hidden="true">{headerCollapsed ? "⌄" : "⌃"}</span>
+        </button>
       </header>
 
       <main className="map-layout">
@@ -482,7 +497,13 @@ export function App() {
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
             <label className="layer-row">
-              <span className="switch fixed-on" aria-hidden="true" />
+              <input
+                type="checkbox"
+                aria-label="Modern map"
+                checked={showModernMap}
+                onChange={(event) => setShowModernMap(event.target.checked)}
+              />
+              <span className="switch" aria-hidden="true" />
               <span>
                 <strong>Modern map</strong>
                 <small>OpenStreetMap</small>
@@ -615,6 +636,7 @@ export function App() {
             taxSalePids={filteredTaxSalePids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
+            showModernMap={showModernMap}
             showTaxSale={licenceAccepted && selectedEventIds.size > 0}
             onSelectPid={setSelectedPid}
           />
