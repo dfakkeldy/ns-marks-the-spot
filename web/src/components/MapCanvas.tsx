@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
 import { GeoJSON, MapContainer, TileLayer, useMap } from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
@@ -21,11 +21,16 @@ type MapCanvasProps = {
   taxSalePids: Set<string>;
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
+  showModernMap: boolean;
   showTaxSale: boolean;
   onSelectPid: (pid: string) => void;
 };
 
 const CAPE_BRETON_CENTER: [number, number] = [46.08, -60.92];
+const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
+  [43.55300536047742, -66.00233221945133],
+  [46.83835988450765, -60.35435480050904],
+];
 
 const layerZIndexes: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
@@ -77,8 +82,23 @@ function LayerZoomController({
   provinceLayers,
 }: Pick<MapCanvasProps, "provinceLayers">) {
   const map = useMap();
+  const waterfallsWereVisible = useRef(false);
 
   useEffect(() => {
+    const waterfallsAreVisible = provinceLayers.waterfalls;
+    const waterfallsBecameVisible =
+      waterfallsAreVisible && !waterfallsWereVisible.current;
+    waterfallsWereVisible.current = waterfallsAreVisible;
+
+    if (waterfallsBecameVisible) {
+      map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
+        animate: true,
+        padding: [48, 48],
+        maxZoom: 8,
+      });
+      return;
+    }
+
     const needsDetailZoom = provinceLayerCatalog.some(
       ({ id, minZoom }) => provinceLayers[id] && minZoom >= 12,
     );
@@ -132,6 +152,7 @@ export function MapCanvas({
   taxSalePids,
   selectedPid,
   provinceLayers,
+  showModernMap,
   showTaxSale,
   onSelectPid,
 }: MapCanvasProps) {
@@ -209,11 +230,13 @@ export function MapCanvas({
         attributionControl={false}
         ref={setMap}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
-          zIndex={100}
-        />
+        {showModernMap ? (
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            maxZoom={19}
+            zIndex={100}
+          />
+        ) : null}
         {provinceLayerCatalog.map((layer) => (
           <ArcGISMapLayer
             key={layer.id}

@@ -302,6 +302,7 @@ export function App() {
   const [query, setQuery] = useState("");
   const [searchError, setSearchError] = useState<string | null>(null);
   const [selectedPid, setSelectedPid] = useState<string | null>(null);
+  const [showModernMap, setShowModernMap] = useState(true);
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
   );
@@ -482,7 +483,13 @@ export function App() {
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
             <label className="layer-row">
-              <span className="switch fixed-on" aria-hidden="true" />
+              <input
+                type="checkbox"
+                aria-label="Modern map"
+                checked={showModernMap}
+                onChange={(event) => setShowModernMap(event.target.checked)}
+              />
+              <span className="switch" aria-hidden="true" />
               <span>
                 <strong>Modern map</strong>
                 <small>OpenStreetMap</small>
@@ -615,6 +622,7 @@ export function App() {
             taxSalePids={filteredTaxSalePids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
+            showModernMap={showModernMap}
             showTaxSale={licenceAccepted && selectedEventIds.size > 0}
             onSelectPid={setSelectedPid}
           />

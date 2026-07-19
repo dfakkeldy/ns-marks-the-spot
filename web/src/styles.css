@@ -122,7 +122,7 @@ a {
 
 .map-layout {
   display: grid;
-  grid-template-columns: minmax(320px, 370px) minmax(0, 1fr);
+  grid-template-columns: minmax(288px, 320px) minmax(0, 1fr);
   min-height: 0;
   overflow: hidden;
 }
@@ -161,8 +161,12 @@ a {
 
 .search-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
+}
+
+.search-row .primary-action {
+  width: 100%;
 }
 
 .search-row input {
