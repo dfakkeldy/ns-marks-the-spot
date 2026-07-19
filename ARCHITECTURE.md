@@ -77,3 +77,29 @@ Mocks are centralized at the top level.
 - **SwiftData** — POI persistence (OS)
 
 No third-party dependencies.
+
+## Online Web Companion
+
+The `web/` React + Vite app is a separate online-only delivery surface. It does
+not change the native app's offline contract or Swift `MapEngine` boundary.
+Leaflet renders OpenStreetMap tiles and GeoJSON parcel polygons in the browser.
+
+Municipal notices and NSPRD have deliberately separate authority:
+
+1. A municipality source module owns notice fields such as lien, location,
+   arrears, redeemable status, event details, and PIDs.
+2. `services/nsprd.ts` performs exact-PID ArcGIS Feature Layer queries for
+   geometry and the NSPRD update field only.
+3. The UI joins notice records to returned geometry by PID. One PID may have
+   multiple polygons, so selection and map fitting operate across all matching
+   features.
+4. Province-licensed geometry is not requested until the user accepts the
+   versioned licence gate. Required attribution and the not-a-survey caveat stay
+   visible in the map footer.
+5. Browser geolocation is handled locally and drawn directly on the map; there
+   is no application server receiving a user's coordinates.
+
+The public tax-sale dataset omits assessed-owner names and avoids describing a
+listed property as available. Fletcher is intentionally disabled on the web
+until web-use rights are clear; offline Fletcher use continues to belong to the
+native app.
