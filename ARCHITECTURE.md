@@ -158,12 +158,17 @@ services.
 
 The same civic service owns sidebar address discovery. It sends normalized user
 text through Socrata's full-text `$q` index, returns bounded labelled Civic
-Point candidates, and does not infer a PID from address text. Selecting a
-candidate sends its exact coordinate to the NSPRD point-intersection query; the
-returned parcel geometry then enters the same selected-PID, civic-containment,
-and inspector flow as PID search or a map tap. Address search and map-point
-lookup have independent cancellation controllers so stale requests cannot
-replace newer selection state.
+Point candidates, and does not infer a PID from address text. Punctuation-folded
+local relevance checks reject broad full-text false positives. When a compact
+possessive initialism omits its periods, such as `dr's` for `D.R.'s`, the service
+retries that official spelling only after the first response has no relevant
+match. The same bounded retry maps `hwy` and a numbered `route` to the Civic
+Address File's `Highway` spelling. Selecting a candidate sends its exact
+coordinate to the NSPRD point-intersection query; the returned parcel geometry
+then enters the same selected-PID, civic-containment, and inspector flow as PID
+search or a map tap. Address search and map-point lookup have independent
+cancellation controllers so stale requests cannot replace newer selection
+state.
 
 For a selected PID, the civic service reuses every Polygon or MultiPolygon part
 already returned by NSPRD. It calculates one bounding box per part, requests
