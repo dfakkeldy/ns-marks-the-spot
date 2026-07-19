@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "retrievedOn": "2026-07-19",
+  "coverage": [
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "March 8, 2022 tax sale",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/MAR8.22website.newspaper%20%233.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/Tax%20Sale%20Results%20for%20Website%20March%208_0_0.pdf"
+      ],
+      "documentSha256": [
+        "da1948056b94af75cdd261cbcbb0cdb19dd25f98c997e5e0336a54b2b73fc4f9",
+        "b76f4f6840ddc0160f289e4e17cf54f4f11939d8ff35f19dab931a069b5543b8"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "opening bid", "selling price", "redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Eleven result rows were reconciled to the notice. Nine sold and two no-bid outcomes were visually verified."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 12, 2023 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept12.23website.newspaper-draft-edit-sept-11-3.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept-12_0.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-sept-12-2023-tax-sale-for-website_0.pdf"
+      ],
+      "documentSha256": [
+        "388108c2e9463c591d6a58a04135cf3505f9fc3bc4da5460d39bc84471135aed",
+        "29b6919b5462afae4a58c9a7b55235dbb4e01495a2992e3d8247d714e8782204",
+        "c8afab0e563dd1065016e2d1fbf841cd898a2c26388c73413ace52d6b58d1c17"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Ten result rows were reconciled to the thirteen-row notice. All ten publish selling prices; the three notice-only rows have no published result and remain excluded."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "January 16, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/media/84741",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-jan16.24.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-january-16-2024-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "28f76c08fa18d6f37ca2b75faa3c7c1eda9bd4e682190ac30aef19bfd20704de",
+        "7bd54363ac92540b598f4706909789c8f6efbf587963a15a20b1356959c28e96",
+        "b879d8837b6bde9fde1d66ae8f777418cf72a33f43639df89788c1e8bb57e496"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Eight result rows, representing nine PIDs, were reconciled to the notice. All eight publish selling prices."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "May 14, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/may142024websiteuploadapril12.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-may14.24.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-may-14-2024-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "ff44e872edb97c0fd0d4c72819d2f4d5eafedda9fbd8b8577085c908c15ed2c5",
+        "b250b7d9c0bf74b81d19cc6f464442ee60aef401741bc8cc02a2b8ec83e184ad",
+        "5d48c810e95f1655be7fe49dacebf9813febd5751eda4981bf736344b7d8c1d4"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Seven result rows, representing eight PIDs, were reconciled to the notice. Five sold and two no-bid outcomes were visually verified."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 24, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept24.2024newspaper.website-draft-update-sept9.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept24.24.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-sept-24-2024-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "17fffcc047209cca4787b42bdc594b1872f1ad1be5c64ebfc50f2370c3798f6f",
+        "10ad87054f1dd6622bb93c8cf6cb0f24f05d88e9f704e0f28c6fa0497a270e88",
+        "0de2181e3911f6767027c3dc5c0258d635ff09abdec0f5f20d63e8ba0b16472e"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price or PENDING", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Nine result rows, representing ten PIDs, were reconciled to the notice. Eight publish selling prices; one remains explicitly PENDING and is included as outcome unknown without a winning bid."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "March 25, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/mar25.2025newspaper.website-updatedmar21.2025.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-mar25.25.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-mar-25-2025-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "b0a7a6295ce0021b172ecee8a6b87551e3e6c59469ad6c3c2766e9f51f1581b4",
+        "44cefb06ad8650d137fa9166210efab0650f6ea222febd08a8acf74a0c434bed",
+        "dc2bb61ee87103b1ef9ab3140c32e861abedd9669870fd87d6cc6a6ab22fd335"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Five result rows, representing seven PIDs, were reconciled to the final notice. All five publish selling prices."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 16, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept16.2025newspaper.website-sept15-2.25.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept16.25.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept-16.pdf"
+      ],
+      "documentSha256": [
+        "b653a1ad975f6e72ee66a2ddedd76c2a415a1dc1cc70ee743ce8ead9535c5ad0",
+        "f1e362a74880c0236c2e7bef1c8d254ea1555b3d981b90c26cd9e7444b56e033",
+        "298eb52e49c734b418bea2e7b73747adfc3b3848cccbaa0aeb56fb578c270768"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Thirty-seven result rows were reconciled to the final notice, including one two-PID listing. All result rows publish a selling price."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
+      "event": "March 10, 2026 tax sale",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2026/03/Sold-Properties-March-10-2026-Tax-Sale.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": ["ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid for some rows"],
+      "officialWinningBidsFound": true,
+      "notes": "The result PDF mixes published winning bids with blank cells and outcome highlighting. It needs a separate row-by-row visual reconciliation before publication."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
+      "event": "July 22, 2025 tax sale",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2025/11/CBRM-List-of-Sold-Properties-Tax-Sale-July-22-2025.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": ["b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3"],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale", "redeemed", "walked away"],
+      "officialWinningBidsFound": true,
+      "notes": "Useful outcome diversity was found, but the current public page no longer links the original notice. Held fail-closed until the notice/result pair is recovered and reconciled."
+    }
+  ]
+}

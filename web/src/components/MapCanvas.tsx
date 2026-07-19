@@ -31,10 +31,12 @@ import {
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
+  historicalTaxSalePids: Set<string>;
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
   showModernMap: boolean;
   showTaxSale: boolean;
+  showHistoricalTaxSales: boolean;
   onSelectPid: (pid: string) => void;
   onIdentifyParcel: (latitude: number, longitude: number) => void;
 };
@@ -205,6 +207,48 @@ function InitialTaxSaleBoundsController({
   return null;
 }
 
+function InitialHistoricalBoundsController({
+  parcels,
+  historicalTaxSalePids,
+  showHistoricalTaxSales,
+}: Pick<
+  MapCanvasProps,
+  "parcels" | "historicalTaxSalePids" | "showHistoricalTaxSales"
+>) {
+  const map = useMap();
+  const hasFittedHistoricalLayer = useRef(false);
+
+  useEffect(() => {
+    if (hasFittedHistoricalLayer.current || !showHistoricalTaxSales) {
+      return;
+    }
+
+    const features = parcels.features.filter(({ properties }) =>
+      historicalTaxSalePids.has(properties.PID),
+    );
+    if (features.length === 0) {
+      return;
+    }
+
+    const bounds = L.geoJSON({
+      type: "FeatureCollection",
+      features,
+    } as GeoJSON.FeatureCollection<GeoJSON.Geometry, NsprdFeatureProperties>).getBounds();
+    if (!bounds.isValid()) {
+      return;
+    }
+
+    hasFittedHistoricalLayer.current = true;
+    map.fitBounds(bounds, {
+      animate: true,
+      padding: [48, 48],
+      maxZoom: 11,
+    });
+  }, [historicalTaxSalePids, map, parcels, showHistoricalTaxSales]);
+
+  return null;
+}
+
 function ParcelIdentifyController({
   enabled,
   onIdentifyParcel,
@@ -226,10 +270,12 @@ function ParcelIdentifyController({
 export function MapCanvas({
   parcels,
   taxSalePids,
+  historicalTaxSalePids,
   selectedPid,
   provinceLayers,
   showModernMap,
   showTaxSale,
+  showHistoricalTaxSales,
   onSelectPid,
   onIdentifyParcel,
 }: MapCanvasProps) {
@@ -258,10 +304,19 @@ export function MapCanvas({
       features: parcels.features.filter(
         ({ properties }) =>
           properties.PID === selectedPid ||
-          (showTaxSale && taxSalePids.has(properties.PID)),
+          (showTaxSale && taxSalePids.has(properties.PID)) ||
+          (showHistoricalTaxSales &&
+            historicalTaxSalePids.has(properties.PID)),
       ),
     };
-  }, [parcels, selectedPid, showTaxSale, taxSalePids]);
+  }, [
+    historicalTaxSalePids,
+    parcels,
+    selectedPid,
+    showHistoricalTaxSales,
+    showTaxSale,
+    taxSalePids,
+  ]);
 
   const parcelStyle = (
     feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
@@ -270,6 +325,8 @@ export function MapCanvas({
       selectedPid,
       showTaxSale,
       taxSalePids,
+      showHistoricalTaxSales,
+      historicalTaxSalePids,
       zoom: mapZoom,
     });
 
@@ -315,7 +372,7 @@ export function MapCanvas({
           />
         ))}
         <GeoJSON
-          key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
+          key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
           data={visibleParcels}
           style={parcelStyle}
           onEachFeature={(feature, layer) => {
@@ -358,6 +415,11 @@ export function MapCanvas({
           parcels={parcels}
           taxSalePids={taxSalePids}
           showTaxSale={showTaxSale}
+        />
+        <InitialHistoricalBoundsController
+          parcels={parcels}
+          historicalTaxSalePids={historicalTaxSalePids}
+          showHistoricalTaxSales={showHistoricalTaxSales}
         />
         <LayerZoomController provinceLayers={provinceLayers} />
         <ParcelIdentifyController

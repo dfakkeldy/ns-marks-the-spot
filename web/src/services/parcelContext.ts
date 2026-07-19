@@ -5,6 +5,7 @@ const ROAD_SERVICE_URL =
   "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer";
 const WATER_SERVICE_URL =
   "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer";
+export const ADJACENT_ROAD_DISTANCE_METRES = 20;
 
 type ParcelFeature = NsprdFeatureCollection["features"][number];
 
@@ -25,6 +26,7 @@ type ArcGISQueryResponse = {
 export type MappedFeature = {
   name: string;
   kind: string;
+  relationship: "intersects" | "adjacent" | "civic-address";
 };
 
 export type ParcelContext = {
@@ -194,6 +196,7 @@ function cleanFeatureDescription(value: unknown): string | null {
 function summarizeFeature(
   attributes: ArcGISAttributes,
   fallbackKind: string,
+  relationship: MappedFeature["relationship"],
 ): MappedFeature {
   const namedFeature =
     cleanValue(attributes.STREET) ??
@@ -207,6 +210,7 @@ function summarizeFeature(
     name: namedFeature ?? description ?? fallbackKind,
     kind:
       roadClass ?? (namedFeature && description ? description : fallbackKind),
+    relationship,
   };
 }
 
@@ -225,6 +229,7 @@ function uniqueFeatures(features: MappedFeature[]): MappedFeature[] {
 async function queryLayer(
   layer: FeatureLayer,
   rings: number[][][],
+  relationship: Extract<MappedFeature["relationship"], "intersects" | "adjacent">,
   signal?: AbortSignal,
 ): Promise<MappedFeature[]> {
   const body = new URLSearchParams({
@@ -240,6 +245,10 @@ async function queryLayer(
     outFields: layer.fields,
     returnGeometry: "false",
   });
+  if (relationship === "adjacent") {
+    body.set("distance", String(ADJACENT_ROAD_DISTANCE_METRES));
+    body.set("units", "esriSRUnit_Meter");
+  }
   const response = await fetch(`${layer.serviceUrl}/${layer.id}/query`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -261,7 +270,7 @@ async function queryLayer(
   }
 
   return (payload.features ?? []).map(({ attributes }) =>
-    summarizeFeature(attributes, layer.fallbackKind),
+    summarizeFeature(attributes, layer.fallbackKind, relationship),
   );
 }
 
@@ -274,13 +283,23 @@ export async function fetchParcelContext(
     return { roads: [], water: [] };
   }
 
-  const [roadResults, waterResults] = await Promise.all([
-    Promise.all(roadLayers.map((layer) => queryLayer(layer, rings, signal))),
-    Promise.all(waterLayers.map((layer) => queryLayer(layer, rings, signal))),
+  const [intersectingRoadResults, adjacentRoadResults, waterResults] = await Promise.all([
+    Promise.all(
+      roadLayers.map((layer) => queryLayer(layer, rings, "intersects", signal)),
+    ),
+    Promise.all(
+      roadLayers.map((layer) => queryLayer(layer, rings, "adjacent", signal)),
+    ),
+    Promise.all(
+      waterLayers.map((layer) => queryLayer(layer, rings, "intersects", signal)),
+    ),
   ]);
 
   return {
-    roads: uniqueFeatures(roadResults.flat()),
+    roads: uniqueFeatures([
+      ...intersectingRoadResults.flat(),
+      ...adjacentRoadResults.flat(),
+    ]),
     water: uniqueFeatures(waterResults.flat()),
   };
 }

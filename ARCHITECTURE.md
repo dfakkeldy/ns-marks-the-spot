@@ -142,8 +142,13 @@ Municipal notices and NSPRD have deliberately separate authority:
 `services/parcelContext.ts` sums the mapped area for every polygon belonging to
 the selected PID and converts square metres to acres. It POSTs that exact parcel
 geometry to each relevant Province road and water sublayer with
-`esriSpatialRelIntersects`, deduplicates the returned names/classes, and keeps
-empty results distinct from live-service failures.
+`esriSpatialRelIntersects`, then performs a separate 20-metre road proximity
+query. Exact intersections win during deduplication; nearby roads are labelled
+as adjacent rather than intersecting. When an in-parcel civic point names a road
+that neither geometry query returned, the sheet includes that name with the
+separate relationship “Named by civic address.” These three signals are map
+context only and are never described as proof of frontage or legal access.
+Empty results remain distinct from live-service failures.
 
 `services/civicAddresses.ts` owns the authoritative PID-to-civic-address lookup.
 It is intentionally separate from `parcelContext.ts`: Civic Points use the Nova
@@ -184,6 +189,25 @@ The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is intentionally disabled on the web
 until web-use rights are clear; offline Fletcher use continues to belong to the
 native app.
+
+Historical outcomes use a second, default-off client-side catalog in
+`web/src/data/historicalTaxSales.json`. Municipal notice/result pairs are the
+authority for event, outcome, and financial fields; exact official PIDs are the
+only currently supported NSPRD match method. A normalized listing remains one
+record when it covers several parcels, so listing-level amounts are never
+allocated by the UI. Filters derive matched PID sets by municipality, year, and
+outcome without altering the upcoming-notice layer.
+
+The supported slice contains seven Halifax Regional Municipality tender events
+from March 8, 2022 through September 16, 2025: 87 owner-free listing records,
+93 exact PIDs, 82 sold outcomes, four official no-bid outcomes, and one official
+`PENDING` row represented as outcome unknown. The infocard calculates
+comparisons in integer cents only when the same CAD event publishes both an
+opening bid and a selling price. It presents direct official notice and result
+links, source dates, match basis, multi-PID warnings, and a dated-outcome
+limitation. Researched CBRM events remain outside the matched layer until their
+notice/result pairs can be reconciled fail-closed; the complete ledger and
+snapshot hashes live beside the dataset.
 
 Municipal events retain their source status, while the rendered lifecycle is
 derived from the current time. An advertised event becomes “verify results”

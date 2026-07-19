@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
@@ -16,14 +16,18 @@ vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
     parcels,
     taxSalePids,
+    historicalTaxSalePids,
     provinceLayers,
     showModernMap,
+    showHistoricalTaxSales,
     onIdentifyParcel,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
+    historicalTaxSalePids: Set<string>;
     provinceLayers: Record<string, boolean>;
     showModernMap: boolean;
+    showHistoricalTaxSales: boolean;
     onIdentifyParcel: (latitude: number, longitude: number) => void;
   }) => (
     <div data-testid="map-canvas">
@@ -31,7 +35,9 @@ vi.mock("./components/MapCanvas", () => ({
       modern map: {showModernMap ? "on" : "off"}; property boundaries:{" "}
       {provinceLayers.nsprd ? "on" : "off"}; water:{" "}
       {provinceLayers["water-features"] ? "on" : "off"}; roads:{" "}
-      {provinceLayers.roads ? "on" : "off"}
+      {provinceLayers.roads ? "on" : "off"}; historical layer:{" "}
+      {showHistoricalTaxSales ? "on" : "off"}; historical PID count:{" "}
+      {historicalTaxSalePids.size}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -172,6 +178,110 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getAllByText("Snapshot retrieved July 19, 2026"),
     ).toHaveLength(2);
+  });
+
+  it("keeps verified historical outcomes off by default and loads them on demand", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+
+    render(<App />);
+
+    const toggle = screen.getByRole("checkbox", {
+      name: "Historical tax-sale outcomes",
+    });
+    expect(toggle).not.toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "historical layer: off",
+    );
+    expect(screen.getByLabelText("Historical sale year")).toBeDisabled();
+
+    await user.click(toggle);
+
+    expect(toggle).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "historical layer: on",
+    );
+    await waitFor(() =>
+      expect(screen.getByText("93 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+    );
+
+    await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
+    expect(screen.getByText("4 records · 4 PIDs")).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
+    expect(screen.getByText("2 records · 2 PIDs")).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
+    await user.selectOptions(screen.getByLabelText("Historical outcome"), "unknown");
+    expect(screen.getByText("1 record · 1 PID")).toBeInTheDocument();
+  });
+
+  it("renders the official pending result without a fabricated winning bid", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Historical tax-sale outcomes" }),
+    );
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "40441354",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 40441354 details",
+    });
+    expect(within(inspector).getByText("Outcome unknown")).toBeInTheDocument();
+    expect(
+      within(inspector).getByText("Not published in verified sources"),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText(
+        "Official result: PENDING - Property is still being offered.",
+      ),
+    ).toBeInTheDocument();
+    expect(within(inspector).queryByText("Difference")).not.toBeInTheDocument();
+  });
+
+  it("shows owner-free historical outcome and financial context for a matched PID", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Historical tax-sale outcomes" }),
+    );
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "40538464",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 40538464 details",
+    });
+    expect(within(inspector).getByText("Unsold - no bids")).toBeInTheDocument();
+    expect(
+      within(inspector).getByText("No winning bid - official result says no bids"),
+    ).toBeInTheDocument();
+    expect(within(inspector).getByRole("link", { name: "Official notice" })).toHaveAttribute(
+      "href",
+      expect.stringContaining("halifax.ca"),
+    );
+    expect(within(inspector).getByText(/Dated outcome only/)).toBeInTheDocument();
+    expect(within(inspector).queryByText(/assessed owner/i)).not.toBeInTheDocument();
   });
 
   it("uses the parcel-first map defaults and keeps unavailable Fletcher last", () => {
@@ -496,7 +606,11 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.getByRole("heading", { name: "Highway 19, Mabou" })).toBeInTheDocument();
     expect(screen.getByText("Listed in official notice")).toBeInTheDocument();
-    expect(screen.queryByText(/available/i)).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("complementary", { name: "Parcel 50203256 details" })).queryByText(
+        /available/i,
+      ),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("$15,529.15")).toBeInTheDocument();
   });
 
@@ -526,11 +640,17 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchParcelContext).mockResolvedValueOnce({
       roads: [
-        { name: "Cabot Trail", kind: "Arterial" },
-        { name: "Culvert", kind: "Non-vehicle feature" },
+        { name: "Cabot Trail", kind: "Arterial", relationship: "intersects" },
+        { name: "Harbour Road", kind: "Local", relationship: "adjacent" },
+        { name: "Culvert", kind: "Non-vehicle feature", relationship: "intersects" },
       ],
-      water: [{ name: "Mabou River", kind: "River or stream" }],
+      water: [
+        { name: "Mabou River", kind: "River or stream", relationship: "intersects" },
+      ],
     });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+      civicAddress("address-road", "12 Main St, Mabou"),
+    ]);
     render(<App />);
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -541,10 +661,15 @@ describe("NS Marks The Spot Online", () => {
     });
     expect(within(inspector).getByText("27.44 acres")).toBeInTheDocument();
     expect(within(inspector).getByText("Cabot Trail")).toBeInTheDocument();
-    expect(within(inspector).getByText("Arterial")).toBeInTheDocument();
+    expect(within(inspector).getByText(/Arterial/)).toBeInTheDocument();
     expect(within(inspector).getByText("Culvert")).toBeInTheDocument();
+    expect(within(inspector).getByText("Harbour Road")).toBeInTheDocument();
+    expect(within(inspector).getByText(/Adjacent within 20 m/)).toBeInTheDocument();
+    expect(within(inspector).getByText("Main St")).toBeInTheDocument();
+    expect(within(inspector).getByText(/Named by civic address/)).toBeInTheDocument();
     expect(within(inspector).getByText("Mabou River")).toBeInTheDocument();
-    expect(within(inspector).getByText("River or stream")).toBeInTheDocument();
+    expect(within(inspector).getByText(/River or stream/)).toBeInTheDocument();
+    expect(within(inspector).getByText(/not proof of legal access/)).toBeInTheDocument();
   });
 
   it("reports intersection lookup failures without hiding parcel facts", async () => {
@@ -698,8 +823,12 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     vi.mocked(fetchParcelContext).mockResolvedValueOnce({
-      roads: [{ name: "Cabot Trail", kind: "Arterial" }],
-      water: [{ name: "Mabou River", kind: "River or stream" }],
+      roads: [
+        { name: "Cabot Trail", kind: "Arterial", relationship: "intersects" },
+      ],
+      water: [
+        { name: "Mabou River", kind: "River or stream", relationship: "intersects" },
+      ],
     });
     vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(new Error("offline"));
     render(<App />);
@@ -841,7 +970,11 @@ describe("NS Marks The Spot Online", () => {
       screen.queryByText("Immediate deed", { exact: false }),
     ).not.toBeInTheDocument();
     expect(screen.getByText("Six-month redemption", { exact: false })).toBeInTheDocument();
-    expect(screen.queryByText(/available/i)).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).queryByText(
+        /available/i,
+      ),
+    ).not.toBeInTheDocument();
   });
 
   it("toggles upcoming events without mixing their PID counts", async () => {

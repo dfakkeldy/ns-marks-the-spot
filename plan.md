@@ -51,7 +51,7 @@
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
 - [x] Complete Province water and transportation overlays with legible official cartography, trails, and close-range culverts
 - [x] Statewide NSPRD boundary visibility from zoom 7 and an opaque close-zoom selected-parcel fill
-- [x] Approximate NSPRD acreage and exact road/water intersections in the selected-parcel sheet
+- [x] Approximate NSPRD acreage, exact road/water intersections, and explicitly labelled adjacent/civic-address roads in the selected-parcel sheet
 - [x] Authoritative Civic Address File lookup with paginated bounding-box queries and exact parcel containment
 - [x] Independent civic-address loading, empty, failure, attribution, and stale-selection cancellation states
 - [x] Parcel-first defaults: modern/aerial off, boundaries/water/roads on, and one-time tax-sale bounds fit
@@ -59,6 +59,8 @@
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app
+- [x] Default-off, owner-free historical tax-sale outcomes for two fully reconciled Halifax events
+- [x] Historical municipality/year/outcome filters, source-linked infocards, validation, and match/source ledgers
 - [ ] Enable Fletcher on the web after web-use rights are clear
 - [ ] Add municipality importers only from current official notices
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled

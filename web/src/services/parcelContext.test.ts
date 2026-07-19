@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  ADJACENT_ROAD_DISTANCE_METRES,
   fetchParcelContext,
   mappedAreaForPid,
   type ParcelContext,
@@ -60,7 +61,7 @@ describe("parcel acreage and mapped context", () => {
 
   it("queries every relevant Province sublayer with the selected geometry", async () => {
     const responses: Record<string, { features: unknown[] }> = {
-      "road:5": {
+      "road:intersects:5": {
         features: [
           {
             attributes: {
@@ -71,7 +72,7 @@ describe("parcel acreage and mapped context", () => {
           },
         ],
       },
-      "road:8": {
+      "road:intersects:8": {
         features: [
           {
             attributes: {
@@ -82,10 +83,21 @@ describe("parcel acreage and mapped context", () => {
           },
         ],
       },
-      "road:10": {
+      "road:intersects:10": {
         features: [{ attributes: { FEAT_DESC: "CULVERT line" } }],
       },
-      "water:4": {
+      "road:adjacent:8": {
+        features: [
+          {
+            attributes: {
+              STREET: "Harbour Road",
+              ROADC_DESC: "Local",
+              FEAT_DESC: "Road",
+            },
+          },
+        ],
+      },
+      "water:intersects:4": {
         features: [
           {
             attributes: {
@@ -101,14 +113,23 @@ describe("parcel acreage and mapped context", () => {
       const body = new URLSearchParams(String(init?.body));
       const layerId = url.pathname.match(/\/(\d+)\/query$/)?.[1];
       const source = url.pathname.includes("Water_WM84") ? "water" : "road";
+      const relationship = body.has("distance") ? "adjacent" : "intersects";
 
       expect(init?.method).toBe("POST");
       expect(body.get("geometryType")).toBe("esriGeometryPolygon");
       expect(body.get("spatialRel")).toBe("esriSpatialRelIntersects");
       expect(JSON.parse(body.get("geometry") ?? "{}").rings).toHaveLength(2);
+      if (relationship === "adjacent") {
+        expect(body.get("distance")).toBe(String(ADJACENT_ROAD_DISTANCE_METRES));
+        expect(body.get("units")).toBe("esriSRUnit_Meter");
+      } else {
+        expect(body.has("distance")).toBe(false);
+      }
 
       return new Response(
-        JSON.stringify(responses[`${source}:${layerId}`] ?? { features: [] }),
+        JSON.stringify(
+          responses[`${source}:${relationship}:${layerId}`] ?? { features: [] },
+        ),
         { status: 200 },
       );
     });
@@ -116,13 +137,22 @@ describe("parcel acreage and mapped context", () => {
 
     const context: ParcelContext = await fetchParcelContext(parcels.features);
 
-    expect(fetchMock).toHaveBeenCalledTimes(14);
+    expect(fetchMock).toHaveBeenCalledTimes(22);
     expect(context.roads).toEqual([
-      { name: "Cabot Trail", kind: "Arterial" },
-      { name: "Culvert", kind: "Non-vehicle feature" },
+      { name: "Cabot Trail", kind: "Arterial", relationship: "intersects" },
+      {
+        name: "Culvert",
+        kind: "Non-vehicle feature",
+        relationship: "intersects",
+      },
+      { name: "Harbour Road", kind: "Local", relationship: "adjacent" },
     ]);
     expect(context.water).toEqual([
-      { name: "Mabou River", kind: "River or stream" },
+      {
+        name: "Mabou River",
+        kind: "River or stream",
+        relationship: "intersects",
+      },
     ]);
   });
 
