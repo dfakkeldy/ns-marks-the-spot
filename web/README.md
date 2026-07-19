@@ -68,6 +68,30 @@ remaining online-only:
   features. A compact legend explains the principal line classes.
 - Fletcher remains listed but disabled until web-use rights are clear.
 
+## Geology and resources
+
+The collapsed **Geology & Resources** group is web-only, starts with every
+switch off, and uses Province open data independently of the restricted map
+services gate:
+
+- [Mineral Occurrences Database](https://novascotia.ca/natr/meb/download/dp002.asp)
+  records known occurrences and past producers. A point is not proof of a
+  viable or recoverable deposit.
+- [NovaROC](https://novaroc.novascotia.ca/novaroc/) supplies exploration
+  licences and mineral leases (MapServer layers 1 and 7). Mineral tenure is a
+  provincial right and is not land ownership.
+- [Abandoned Mine Openings Database](https://novascotia.ca/natr/meb/download/dp010.asp)
+  supplies the degree-of-hazard point inventory. Locations and field conditions
+  can change, so it is screening context rather than a site-safety conclusion.
+
+Mineral tenure uses the Province's rendered MapServer output. The two point
+layers query only the current map envelope, cancel stale requests, and page
+ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record mine
+inventory waits until zoom 11. Each switch reports its own loading, visible
+count, zoom, or failure state, so one unavailable source does not disable the
+other map and parcel features. All three overlays were verified against their
+live sources on July 19, 2026 under the Nova Scotia Open Government Licence.
+
 After the Province licence is accepted, the default composition keeps Modern
 Map and NS Aerial off, turns NS Property Boundaries, Water Features, and Roads,
 Trails & Culverts on, and fits the initial view once to the loaded tax-sale
@@ -239,8 +263,9 @@ date rather than leaving that date only in source data.
 
 ## Current boundary
 
-This slice includes the modern OpenStreetMap basemap, seven web-cleared Province
-layers, live NSPRD PID/address/map-tap parcel discovery, browser location,
+This slice includes the modern OpenStreetMap basemap, seven web-cleared
+restricted Province layers, three default-off open geoscience/resource layers,
+live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the two
 upcoming municipal tax-sale events, and a separate default-off layer of seven

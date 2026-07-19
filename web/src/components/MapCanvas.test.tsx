@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import type { PropsWithChildren } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getBrowserLocation } from "../services/browserLocation";
+import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
 import { MapCanvas } from "./MapCanvas";
 import { parcelStyleForFeature } from "./parcelStyle";
 
@@ -10,6 +11,14 @@ const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
   getZoom: vi.fn(() => 9),
+  getBounds: vi.fn(() => ({
+    getWest: () => -62,
+    getSouth: () => 45,
+    getEast: () => -60,
+    getNorth: () => 47,
+  })),
+  on: vi.fn(),
+  off: vi.fn(),
   removeLayer: vi.fn(),
   setZoom: vi.fn(),
 }));
@@ -61,6 +70,16 @@ vi.mock("../services/browserLocation", () => ({
   getBrowserLocation: vi.fn(),
 }));
 
+vi.mock("../services/arcGISFeatureOverlay", () => ({
+  fetchArcGISFeatureOverlay: vi.fn(),
+}));
+
+const hiddenResourceLayers = {
+  "mineral-occurrences": false,
+  "mineral-tenure": false,
+  "abandoned-mines": false,
+};
+
 describe("MapCanvas browser location", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -68,6 +87,10 @@ describe("MapCanvas browser location", () => {
       latitude: 46.12,
       longitude: -60.91,
       accuracy: 24,
+    });
+    vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [],
     });
   });
 
@@ -88,6 +111,7 @@ describe("MapCanvas browser location", () => {
           "water-features": false,
           roads: false,
         }}
+        resourceLayers={hiddenResourceLayers}
         showModernMap
         showTaxSale={false}
         showHistoricalTaxSales={false}
@@ -139,6 +163,7 @@ describe("MapCanvas parcel discovery", () => {
           "water-features": true,
           roads: true,
         }}
+        resourceLayers={hiddenResourceLayers}
         showModernMap={false}
         showTaxSale
         showHistoricalTaxSales={false}
@@ -183,6 +208,7 @@ describe("MapCanvas parcel discovery", () => {
         "water-features": true,
         roads: true,
       },
+      resourceLayers: hiddenResourceLayers,
       showModernMap: false,
       showTaxSale: true,
       showHistoricalTaxSales: false,
@@ -194,6 +220,145 @@ describe("MapCanvas parcel discovery", () => {
     await waitFor(() => expect(mapMock.fitBounds).toHaveBeenCalledTimes(1));
     rerender(<MapCanvas {...props} parcels={{ ...props.parcels }} />);
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("MapCanvas resource overlays", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(9);
+    vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: 70,
+          geometry: { type: "Point", coordinates: [-61.2, 46.1] },
+          properties: { geo_id: 70, Name: "Example occurrence" },
+        },
+      ],
+    });
+  });
+
+  it("loads only the visible feature layer for the current map envelope", async () => {
+    const onResourceLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+        }}
+        resourceLayers={{
+          ...hiddenResourceLayers,
+          "mineral-occurrences": true,
+        }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onResourceLayerStatusChange={onResourceLayerStatusChange}
+      />,
+    );
+
+    await waitFor(() => expect(fetchArcGISFeatureOverlay).toHaveBeenCalledTimes(1));
+    expect(fetchArcGISFeatureOverlay).toHaveBeenCalledWith(
+      expect.objectContaining({
+        serviceUrl: expect.stringContaining("mineral_occurrence_database"),
+        bounds: { west: -62, south: 45, east: -60, north: 47 },
+      }),
+    );
+    expect(onResourceLayerStatusChange).toHaveBeenLastCalledWith(
+      "mineral-occurrences",
+      { status: "ready", count: 1 },
+    );
+  });
+
+  it("waits for the hazard layer's detail zoom before querying", async () => {
+    const onResourceLayerStatusChange = vi.fn();
+    mapMock.getZoom.mockReturnValue(9);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+        }}
+        resourceLayers={{ ...hiddenResourceLayers, "abandoned-mines": true }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onResourceLayerStatusChange={onResourceLayerStatusChange}
+      />,
+    );
+
+    expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
+    expect(onResourceLayerStatusChange).toHaveBeenCalledWith(
+      "abandoned-mines",
+      { status: "zoom", minZoom: 11 },
+    );
+  });
+
+  it("reports one feature source failure without affecting other layers", async () => {
+    const onResourceLayerStatusChange = vi.fn();
+    vi.mocked(fetchArcGISFeatureOverlay).mockRejectedValueOnce(
+      new Error("source unavailable"),
+    );
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+        }}
+        resourceLayers={{
+          ...hiddenResourceLayers,
+          "mineral-occurrences": true,
+        }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onResourceLayerStatusChange={onResourceLayerStatusChange}
+      />,
+    );
+
+    await waitFor(() =>
+      expect(onResourceLayerStatusChange).toHaveBeenCalledWith(
+        "mineral-occurrences",
+        { status: "error" },
+      ),
+    );
   });
 });
 

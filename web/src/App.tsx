@@ -1,6 +1,16 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
 import appIconUrl from "../../docs/assets/app-icon.svg";
-import { MapCanvas } from "./components/MapCanvas";
+import {
+  MapCanvas,
+  type ResourceLayerStatus,
+} from "./components/MapCanvas";
 import {
   eventLifecycleStatus,
   eventsForStatus,
@@ -27,9 +37,13 @@ import {
 } from "./licensing/provinceLicense";
 import {
   initialProvinceLayerVisibility,
+  initialResourceLayerVisibility,
   nativeLayerCatalog,
   provinceLayerCatalog,
+  resourceLayerCatalog,
   type ProvinceLayerId,
+  type ResourceLayerDescriptor,
+  type ResourceLayerId,
   type WebLayerDescriptor,
 } from "./layers/layerCatalog";
 import {
@@ -749,6 +763,52 @@ function LayerToggle({
   );
 }
 
+function ResourceLayerToggle({
+  layer,
+  checked,
+  status,
+  onChange,
+}: {
+  layer: ResourceLayerDescriptor;
+  checked: boolean;
+  status: ResourceLayerStatus;
+  onChange: (checked: boolean) => void;
+}) {
+  const statusLabel = (() => {
+    switch (status.status) {
+      case "loading":
+        return "Loading visible area…";
+      case "ready":
+        return `${status.count.toLocaleString("en-CA")} shown`;
+      case "zoom":
+        return `Zoom to ${status.minZoom}+ to load`;
+      case "error":
+        return "Source temporarily unavailable";
+      case "idle":
+        return null;
+    }
+  })();
+
+  return (
+    <label className="layer-row resource-layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>
+          {layer.webCaveat}
+          {checked && statusLabel ? ` · ${statusLabel}` : null}
+        </small>
+      </span>
+    </label>
+  );
+}
+
 export function App() {
   const [licenceAccepted, setLicenceAccepted] = useState(isLicenceAccepted);
   const [headerCollapsed, setHeaderCollapsed] = useState(
@@ -781,6 +841,16 @@ export function App() {
   const [provinceLayers, setProvinceLayers] = useState(
     initialProvinceLayerVisibility,
   );
+  const [resourceLayers, setResourceLayers] = useState(
+    initialResourceLayerVisibility,
+  );
+  const [resourceLayerStatuses, setResourceLayerStatuses] = useState<
+    Record<ResourceLayerId, ResourceLayerStatus>
+  >({
+    "mineral-occurrences": { status: "idle" },
+    "mineral-tenure": { status: "idle" },
+    "abandoned-mines": { status: "idle" },
+  });
   const [selectedEventIds, setSelectedEventIds] = useState(
     () => new Set(upcomingTaxSaleEvents.map(({ id }) => id)),
   );
@@ -1027,6 +1097,20 @@ export function App() {
   ) => {
     setProvinceLayers((current) => ({ ...current, [id]: visible }));
   };
+
+  const setResourceLayerVisibility = (
+    id: ResourceLayerId,
+    visible: boolean,
+  ) => {
+    setResourceLayers((current) => ({ ...current, [id]: visible }));
+  };
+
+  const setResourceLayerStatus = useCallback(
+    (id: ResourceLayerId, status: ResourceLayerStatus) => {
+      setResourceLayerStatuses((current) => ({ ...current, [id]: status }));
+    },
+    [],
+  );
 
   const selectParcel = (pid: string) => {
     setSelectedPid(pid);
@@ -1303,6 +1387,44 @@ export function App() {
                 ) : null}
               </div>
             ))}
+            <details className="resource-layer-group">
+              <summary>
+                <span>Geology &amp; Resources</span>
+                <small>3 optional open-data layers</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {resourceLayerCatalog.map((layer) => (
+                  <ResourceLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={resourceLayers[layer.id]}
+                    status={resourceLayerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setResourceLayerVisibility(layer.id, checked)
+                    }
+                  />
+                ))}
+                <p className="resource-source-note">
+                  Province of Nova Scotia geoscience records under the {" "}
+                  <a
+                    href={OPEN_GOVERNMENT_LICENCE_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open Government Licence
+                  </a>
+                  . Records are screening context, not legal, safety, ownership,
+                  or economic conclusions. {" "}
+                  <a
+                    href="https://novascotia.ca/natr/meb/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open data sources
+                  </a>
+                </p>
+              </div>
+            </details>
             <div className="layer-row unavailable">
               <span className="switch" aria-hidden="true" />
               <span>
@@ -1515,6 +1637,7 @@ export function App() {
             historicalTaxSalePids={filteredHistoricalPids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
+            resourceLayers={resourceLayers}
             showModernMap={showModernMap}
             showTaxSale={licenceAccepted && selectedEventIds.size > 0}
             showHistoricalTaxSales={
@@ -1524,6 +1647,7 @@ export function App() {
             onIdentifyParcel={(latitude, longitude) => {
               void identifyParcelAtPoint(latitude, longitude);
             }}
+            onResourceLayerStatusChange={setResourceLayerStatus}
           />
           <p
             className="parcel-lookup-message"
@@ -1561,6 +1685,9 @@ export function App() {
       <footer className="map-attribution">
         <span>Map data © OpenStreetMap contributors</span>
         <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
+        {Object.values(resourceLayers).some(Boolean) ? (
+          <span>Geoscience data © Province of Nova Scotia</span>
+        ) : null}
         <span>Boundaries are not a survey</span>
         <button type="button" onClick={() => setLicenceDialogOpen(true)}>
           Data &amp; licences

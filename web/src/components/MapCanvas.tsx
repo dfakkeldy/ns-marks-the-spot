@@ -12,9 +12,17 @@ import {
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   provinceLayerCatalog,
+  resourceLayerCatalog,
   type ProvinceLayerId,
+  type ResourceFeatureLayerDescriptor,
+  type ResourceLayerId,
+  type ResourceMapLayerDescriptor,
   type WebLayerDescriptor,
 } from "../layers/layerCatalog";
+import {
+  fetchArcGISFeatureOverlay,
+  type ArcGISPointFeatureCollection,
+} from "../services/arcGISFeatureOverlay";
 import type {
   NsprdFeatureCollection,
   NsprdFeatureProperties,
@@ -34,12 +42,22 @@ type MapCanvasProps = {
   historicalTaxSalePids: Set<string>;
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
+  resourceLayers: Record<ResourceLayerId, boolean>;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
   onSelectPid: (pid: string) => void;
   onIdentifyParcel: (latitude: number, longitude: number) => void;
+  onResourceLayerStatusChange?: (
+    id: ResourceLayerId,
+    status: ResourceLayerStatus,
+  ) => void;
 };
+
+export type ResourceLayerStatus =
+  | { status: "idle" | "loading" | "error" }
+  | { status: "zoom"; minZoom: number }
+  | { status: "ready"; count: number };
 
 const CAPE_BRETON_CENTER: [number, number] = [46.08, -60.92];
 const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
@@ -93,6 +111,183 @@ function ArcGISMapLayer({
   }, [layer, map, visible]);
 
   return null;
+}
+
+function ResourceArcGISMapLayer({
+  layer,
+  visible,
+}: {
+  layer: ResourceMapLayerDescriptor;
+  visible: boolean;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+
+    const tileLayer = new ArcGISExportTileLayer(
+      {
+        serviceUrl: layer.serviceUrl,
+        ...layer.exportOptions,
+      },
+      {
+        minZoom: layer.minZoom,
+        maxZoom: layer.maxZoom,
+        opacity: layer.opacity,
+        zIndex: 225,
+        updateWhenZooming: false,
+        keepBuffer: 2,
+      },
+    );
+    tileLayer.addTo(map);
+
+    return () => {
+      map.removeLayer(tileLayer);
+    };
+  }, [layer, map, visible]);
+
+  return null;
+}
+
+const EMPTY_POINT_FEATURES: ArcGISPointFeatureCollection = {
+  type: "FeatureCollection",
+  features: [],
+};
+
+function resourceFeatureLabel(
+  layerId: ResourceLayerId,
+  properties: Record<string, unknown>,
+): string {
+  const name = String(properties.Name ?? "").trim();
+  if (layerId === "mineral-occurrences") {
+    const commodity = String(
+      properties.Comm_list ?? properties.Comm_prim ?? "",
+    ).trim();
+    return [name || "Mineral occurrence", commodity].filter(Boolean).join(" · ");
+  }
+
+  const hazard = String(properties.Degree_Haz ?? "").trim();
+  return [name || "Abandoned mine opening", hazard && `Hazard: ${hazard}`]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function ArcGISFeatureLayer({
+  layer,
+  visible,
+  onStatusChange,
+}: {
+  layer: ResourceFeatureLayerDescriptor;
+  visible: boolean;
+  onStatusChange?: MapCanvasProps["onResourceLayerStatusChange"];
+}) {
+  const map = useMap();
+  const [collection, setCollection] =
+    useState<ArcGISPointFeatureCollection>(EMPTY_POINT_FEATURES);
+
+  useEffect(() => {
+    let controller: AbortController | null = null;
+    let requestNumber = 0;
+
+    const loadVisibleFeatures = () => {
+      controller?.abort();
+      controller = null;
+      requestNumber += 1;
+      const currentRequest = requestNumber;
+
+      if (!visible) {
+        setCollection(EMPTY_POINT_FEATURES);
+        onStatusChange?.(layer.id, { status: "idle" });
+        return;
+      }
+
+      if (map.getZoom() < layer.minZoom) {
+        setCollection(EMPTY_POINT_FEATURES);
+        onStatusChange?.(layer.id, {
+          status: "zoom",
+          minZoom: layer.minZoom,
+        });
+        return;
+      }
+
+      const bounds = map.getBounds();
+      controller = new AbortController();
+      onStatusChange?.(layer.id, { status: "loading" });
+      void fetchArcGISFeatureOverlay({
+        serviceUrl: layer.serviceUrl,
+        bounds: {
+          west: bounds.getWest(),
+          south: bounds.getSouth(),
+          east: bounds.getEast(),
+          north: bounds.getNorth(),
+        },
+        outFields: layer.outFields,
+        signal: controller.signal,
+      })
+        .then((nextCollection) => {
+          if (currentRequest !== requestNumber) {
+            return;
+          }
+          setCollection(nextCollection);
+          onStatusChange?.(layer.id, {
+            status: "ready",
+            count: nextCollection.features.length,
+          });
+        })
+        .catch((error: unknown) => {
+          if (
+            currentRequest !== requestNumber ||
+            (error instanceof DOMException && error.name === "AbortError")
+          ) {
+            return;
+          }
+          setCollection(EMPTY_POINT_FEATURES);
+          onStatusChange?.(layer.id, { status: "error" });
+        });
+    };
+
+    loadVisibleFeatures();
+    map.on("moveend", loadVisibleFeatures);
+    map.on("zoomend", loadVisibleFeatures);
+
+    return () => {
+      requestNumber += 1;
+      controller?.abort();
+      map.off("moveend", loadVisibleFeatures);
+      map.off("zoomend", loadVisibleFeatures);
+    };
+  }, [layer, map, onStatusChange, visible]);
+
+  if (!visible || collection.features.length === 0) {
+    return null;
+  }
+
+  return (
+    <GeoJSON
+      key={`${layer.id}:${collection.features.map(({ id }) => id).join(",")}`}
+      data={collection}
+      pointToLayer={(_feature, latlng) =>
+        L.circleMarker(latlng, {
+          radius: layer.id === "abandoned-mines" ? 6 : 5,
+          color: "#ffffff",
+          fillColor: layer.markerColor,
+          fillOpacity: layer.opacity,
+          weight: 1.5,
+        })
+      }
+      onEachFeature={(feature, featureLayer) => {
+        featureLayer.bindTooltip(
+          resourceFeatureLabel(
+            layer.id,
+            (feature.properties ?? {}) as Record<string, unknown>,
+          ),
+          { sticky: true },
+        );
+      }}
+    />
+  );
 }
 
 function LayerZoomController({
@@ -273,11 +468,13 @@ export function MapCanvas({
   historicalTaxSalePids,
   selectedPid,
   provinceLayers,
+  resourceLayers,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
   onSelectPid,
   onIdentifyParcel,
+  onResourceLayerStatusChange,
 }: MapCanvasProps) {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const [mapZoom, setMapZoom] = useState(9);
@@ -371,6 +568,18 @@ export function MapCanvas({
             visible={provinceLayers[layer.id]}
           />
         ))}
+        {resourceLayerCatalog
+          .filter(
+            (layer): layer is ResourceMapLayerDescriptor =>
+              layer.delivery === "map-export",
+          )
+          .map((layer) => (
+            <ResourceArcGISMapLayer
+              key={layer.id}
+              layer={layer}
+              visible={resourceLayers[layer.id]}
+            />
+          ))}
         <GeoJSON
           key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
           data={visibleParcels}
@@ -384,6 +593,19 @@ export function MapCanvas({
             layer.bindTooltip(`PID ${pid}`, { sticky: true });
           }}
         />
+        {resourceLayerCatalog
+          .filter(
+            (layer): layer is ResourceFeatureLayerDescriptor =>
+              layer.delivery === "feature-query",
+          )
+          .map((layer) => (
+            <ArcGISFeatureLayer
+              key={layer.id}
+              layer={layer}
+              visible={resourceLayers[layer.id]}
+              onStatusChange={onResourceLayerStatusChange}
+            />
+          ))}
         {userLocation ? (
           <>
             <Circle

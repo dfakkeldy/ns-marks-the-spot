@@ -10,6 +10,11 @@ export type NativeLayerId =
 
 export type ProvinceLayerId = Exclude<NativeLayerId, "fletcher">;
 
+export type ResourceLayerId =
+  | "mineral-occurrences"
+  | "mineral-tenure"
+  | "abandoned-mines";
+
 export type ArcGISExportOptions = {
   transparent: boolean;
   layers?: string;
@@ -30,6 +35,33 @@ export type WebLayerDescriptor = {
   webCaveat: string;
   exportOptions?: ArcGISExportOptions;
 };
+
+type ResourceLayerBase = {
+  id: ResourceLayerId;
+  name: string;
+  serviceUrl: string;
+  sourceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  licence: "province-open";
+  webCaveat: string;
+};
+
+export type ResourceMapLayerDescriptor = ResourceLayerBase & {
+  delivery: "map-export";
+  exportOptions: ArcGISExportOptions;
+};
+
+export type ResourceFeatureLayerDescriptor = ResourceLayerBase & {
+  delivery: "feature-query";
+  outFields: readonly string[];
+  markerColor: string;
+};
+
+export type ResourceLayerDescriptor =
+  | ResourceMapLayerDescriptor
+  | ResourceFeatureLayerDescriptor;
 
 const PROPERTY_DYNAMIC_LAYERS = JSON.stringify([
   {
@@ -249,4 +281,73 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
   waterfalls: false,
   "water-features": true,
   roads: true,
+};
+
+export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
+  {
+    id: "mineral-occurrences",
+    name: "Mineral occurrences",
+    serviceUrl:
+      "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0",
+    sourceUrl:
+      "https://novascotia.ca/natr/meb/download/dp002.asp",
+    minZoom: 8,
+    maxZoom: 23,
+    opacity: 0.9,
+    licence: "province-open",
+    delivery: "feature-query",
+    outFields: [
+      "geo_id",
+      "Name",
+      "Occ_type",
+      "Status",
+      "Comm_prim",
+      "Comm_list",
+    ],
+    markerColor: "#9b5de5",
+    webCaveat: "Recorded occurrences, not proof of a viable deposit",
+  },
+  {
+    id: "mineral-tenure",
+    name: "Mineral tenure",
+    serviceUrl:
+      "https://novarocmaps.novascotia.ca/arcgis/rest/services/NovaRoc/MapServer",
+    sourceUrl: "https://novaroc.novascotia.ca/novaroc/",
+    minZoom: 7,
+    maxZoom: 23,
+    opacity: 0.7,
+    licence: "province-open",
+    delivery: "map-export",
+    exportOptions: { transparent: true, layers: "show:1,7" },
+    webCaveat: "Exploration licences and mineral leases; not land ownership",
+  },
+  {
+    id: "abandoned-mines",
+    name: "Abandoned mine openings",
+    serviceUrl:
+      "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
+    sourceUrl:
+      "https://novascotia.ca/natr/meb/download/dp010.asp",
+    minZoom: 11,
+    maxZoom: 23,
+    opacity: 0.92,
+    licence: "province-open",
+    delivery: "feature-query",
+    outFields: [
+      "geo_id",
+      "ShaftID",
+      "Name",
+      "Opening_ty",
+      "Degree_Haz",
+      "Protection",
+    ],
+    markerColor: "#d1495b",
+    webCaveat: "Provincial hazard inventory; locations and conditions may change",
+  },
+] as const;
+
+export const initialResourceLayerVisibility: Record<ResourceLayerId, boolean> = {
+  "mineral-occurrences": false,
+  "mineral-tenure": false,
+  "abandoned-mines": false,
 };

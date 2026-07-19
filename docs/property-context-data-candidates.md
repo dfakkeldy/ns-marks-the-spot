@@ -145,10 +145,15 @@ municipal zoning or development-permission answer.
 
 ## Suggested first implementation slice
 
-1. Add a collapsed **Geology and hazards** layer group.
-2. Add Karst Risk and Known Karst Occurrences, both off by default.
-3. On parcel selection, query the risk polygon and occurrences within a labelled
+The July 19, 2026 web slice established the collapsed **Geology & Resources**
+group and its independent viewport-query path with mineral occurrences,
+NovaROC mineral tenure, and abandoned mine openings. These remain map-screening
+overlays; they do not yet add selected-parcel conclusions or distance summaries.
+The next property-context slice is:
+
+1. Add Karst Risk and Known Karst Occurrences to the collapsed group, both off by default.
+2. On parcel selection, query the risk polygon and occurrences within a labelled
    radius; show source year, result wording, and limitations in the parcel sheet.
-4. Add Coastal Hazards next, then the grouped private-well risk summary.
-5. Keep all hazard calls independent so one unavailable service does not hide
+3. Add Coastal Hazards next, then the grouped private-well risk summary.
+4. Keep all hazard calls independent so one unavailable service does not hide
    the parcel, civic address, road, or water results.
