@@ -82,7 +82,21 @@ No third-party dependencies.
 
 The `web/` React + Vite app is a separate online-only delivery surface. It does
 not change the native app's offline contract or Swift `MapEngine` boundary.
-Leaflet renders OpenStreetMap tiles and GeoJSON parcel polygons in the browser.
+Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the native
+catalog's Province MapServer layers in the browser.
+
+`web/src/layers/layerCatalog.ts` is the web parity contract. It mirrors the
+native catalog order, URLs, zoom ranges, Province licence requirement, and
+rendering restrictions. `ArcGISExportTileLayer` converts Leaflet tile
+coordinates to Web Mercator bounds and requests direct PNG tiles from each
+MapServer's `export` operation. This matches the native app's service model
+without sharing its offline cache policy.
+
+NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
+dynamic renderers, Flood Risk Areas is restricted to layers 24–26, and the
+Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
+Province's falls value. Detail-only layers begin at zoom 12; selecting one from
+a wider view moves the browser map to that supported zoom.
 
 Municipal notices and NSPRD have deliberately separate authority:
 
@@ -93,9 +107,9 @@ Municipal notices and NSPRD have deliberately separate authority:
 3. The UI joins notice records to returned geometry by PID. One PID may have
    multiple polygons, so selection and map fitting operate across all matching
    features.
-4. Province-licensed geometry is not requested until the user accepts the
-   versioned licence gate. Required attribution and the not-a-survey caveat stay
-   visible in the map footer.
+4. Province-licensed geometry and reference tiles are not requested until the
+   user accepts the versioned licence gate. Required attribution and the
+   not-a-survey caveat stay visible in the map footer.
 5. Browser geolocation is handled locally and drawn directly on the map; there
    is no application server receiving a user's coordinates.
 

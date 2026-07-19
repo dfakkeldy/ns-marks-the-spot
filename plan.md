@@ -45,6 +45,8 @@
 - [x] Versioned Province licence acceptance before NSPRD geometry loads
 - [x] Exact PID search against the live NSPRD Feature Layer
 - [x] Browser-local current location display
+- [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Flood Risk Areas, and Waterfalls
+- [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app

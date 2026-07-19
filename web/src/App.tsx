@@ -14,6 +14,13 @@ import {
   PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
 import {
+  initialProvinceLayerVisibility,
+  nativeLayerCatalog,
+  provinceLayerCatalog,
+  type ProvinceLayerId,
+  type WebLayerDescriptor,
+} from "./layers/layerCatalog";
+import {
   fetchParcels,
   normalizePid,
   type NsprdFeatureCollection,
@@ -149,11 +156,11 @@ function LicenceDialog({
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
-        <h2 id="licence-title">Use Nova Scotia property data</h2>
+        <h2 id="licence-title">Use Nova Scotia map data</h2>
         <p>
-          Parcel outlines come from the Nova Scotia Property Records Database.
-          Accept the Province’s restricted geographic services licence before
-          this layer is loaded.
+          Aerial imagery, property boundaries, Crown lands, flood-risk areas,
+          and waterfalls come from Province map services. Accept the Province’s
+          restricted geographic services licence before these layers are loaded.
         </p>
         <blockquote>{PROVINCE_ATTRIBUTION}</blockquote>
         <p className="licence-caveat">
@@ -164,18 +171,56 @@ function LicenceDialog({
         </a>
         <div className="dialog-actions">
           <button className="primary-action" type="button" onClick={onAccept}>
-            Accept and view parcels
+            Accept and view map layers
           </button>
           <button
             className="secondary-action"
             type="button"
             onClick={onContinueWithout}
           >
-            Continue without property layers
+            Continue without Province layers
           </button>
         </div>
       </section>
     </div>
+  );
+}
+
+function LayerToggle({
+  layer,
+  checked,
+  licenceAccepted,
+  onChange,
+  onReviewLicence,
+}: {
+  layer: WebLayerDescriptor & { id: ProvinceLayerId };
+  checked: boolean;
+  licenceAccepted: boolean;
+  onChange: (checked: boolean) => void;
+  onReviewLicence: () => void;
+}) {
+  return (
+    <label className="layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={licenceAccepted && checked}
+        disabled={!licenceAccepted}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>
+          {licenceAccepted ? layer.webCaveat : "Province licence required"}
+        </small>
+      </span>
+      {!licenceAccepted && layer.id === "nsprd" ? (
+        <button className="text-button" type="button" onClick={onReviewLicence}>
+          Review
+        </button>
+      ) : null}
+    </label>
   );
 }
 
@@ -189,7 +234,9 @@ export function App() {
   const [query, setQuery] = useState("");
   const [searchError, setSearchError] = useState<string | null>(null);
   const [selectedPid, setSelectedPid] = useState<string | null>(null);
-  const [showParcelOutlines, setShowParcelOutlines] = useState(true);
+  const [provinceLayers, setProvinceLayers] = useState(
+    initialProvinceLayerVisibility,
+  );
   const [showTaxSale, setShowTaxSale] = useState(true);
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
 
@@ -231,27 +278,18 @@ export function App() {
     return new Set(listings.flatMap(({ pids }) => pids));
   }, [taxSaleFilter]);
 
-  const visibleParcels = useMemo<NsprdFeatureCollection>(() => {
-    if (!showTaxSale || taxSaleFilter === "all") {
-      return parcels;
-    }
-
-    return {
-      ...parcels,
-      features: parcels.features.filter(
-        ({ properties }) =>
-          filteredTaxSalePids.has(properties.PID) ||
-          properties.PID === selectedPid,
-      ),
-    };
-  }, [filteredTaxSalePids, parcels, selectedPid, showTaxSale, taxSaleFilter]);
-
   const acceptLicence = () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     setLicenceAccepted(true);
     setLicenceDialogOpen(false);
-    setShowParcelOutlines(true);
     setShowTaxSale(true);
+  };
+
+  const setProvinceLayerVisibility = (
+    id: ProvinceLayerId,
+    visible: boolean,
+  ) => {
+    setProvinceLayers((current) => ({ ...current, [id]: visible }));
   };
 
   const submitPidSearch = async (event: FormEvent<HTMLFormElement>) => {
@@ -344,36 +382,25 @@ export function App() {
               <span className="switch" aria-hidden="true" />
               <span>
                 <strong>Fletcher historical map</strong>
-                <small>Web rights pending</small>
+                <small>{nativeLayerCatalog[0].webCaveat}</small>
               </span>
             </div>
-            <label className="layer-row">
-              <input
-                type="checkbox"
-                checked={licenceAccepted && showParcelOutlines}
-                disabled={!licenceAccepted}
-                onChange={(event) => setShowParcelOutlines(event.target.checked)}
+            {provinceLayerCatalog.map((layer) => (
+              <LayerToggle
+                key={layer.id}
+                layer={layer}
+                checked={provinceLayers[layer.id]}
+                licenceAccepted={licenceAccepted}
+                onChange={(checked) =>
+                  setProvinceLayerVisibility(layer.id, checked)
+                }
+                onReviewLicence={() => setLicenceDialogOpen(true)}
               />
-              <span className="switch" aria-hidden="true" />
-              <span>
-                <strong>NSPRD parcel outlines</strong>
-                <small>
-                  {licenceAccepted ? "Licence accepted" : "Licence required"}
-                </small>
-              </span>
-              {!licenceAccepted ? (
-                <button
-                  className="text-button"
-                  type="button"
-                  onClick={() => setLicenceDialogOpen(true)}
-                >
-                  Review
-                </button>
-              ) : null}
-            </label>
+            ))}
             <label className="layer-row">
               <input
                 type="checkbox"
+                aria-label="Tax sale — Inverness County"
                 checked={licenceAccepted && showTaxSale}
                 disabled={!licenceAccepted}
                 onChange={(event) => setShowTaxSale(event.target.checked)}
@@ -449,10 +476,10 @@ export function App() {
           aria-label="Map and parcel details"
         >
           <MapCanvas
-            parcels={visibleParcels}
+            parcels={parcels}
             taxSalePids={filteredTaxSalePids}
             selectedPid={selectedPid}
-            showParcelOutlines={licenceAccepted && showParcelOutlines}
+            provinceLayers={provinceLayers}
             showTaxSale={licenceAccepted && showTaxSale}
             onSelectPid={setSelectedPid}
           />
@@ -468,7 +495,7 @@ export function App() {
 
       <footer className="map-attribution">
         <span>Map data © OpenStreetMap contributors</span>
-        <span>NSPRD © Province of Nova Scotia</span>
+        <span>Map layers © Province of Nova Scotia</span>
         <span>Boundaries are not a survey</span>
         <button type="button" onClick={() => setLicenceDialogOpen(true)}>
           Data &amp; licences

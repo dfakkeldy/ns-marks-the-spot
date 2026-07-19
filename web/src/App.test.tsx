@@ -24,15 +24,15 @@ describe("NS Marks The Spot Online", () => {
     localStorage.clear();
   });
 
-  it("requires licence acceptance before enabling Province property layers", () => {
+  it("requires licence acceptance before enabling Province map layers", () => {
     render(<App />);
 
     expect(
-      screen.getByRole("dialog", { name: "Use Nova Scotia property data" }),
+      screen.getByRole("dialog", { name: "Use Nova Scotia map data" }),
     ).toBeInTheDocument();
     expect(screen.getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Accept and view parcels" }),
+      screen.getByRole("button", { name: "Accept and view map layers" }),
     ).toBeInTheDocument();
   });
 
@@ -41,13 +41,36 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     await user.click(
-      screen.getByRole("button", { name: "Accept and view parcels" }),
+      screen.getByRole("button", { name: "Accept and view map layers" }),
     );
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(screen.getByText("45 notice entries · 47 PIDs")).toBeInTheDocument();
     expect(screen.getByLabelText("Search by PID")).toBeEnabled();
+    expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeEnabled();
+    expect(screen.getByLabelText("Crown Lands")).toBeEnabled();
+    expect(screen.getByLabelText("Flood Risk Areas")).toBeEnabled();
+    expect(screen.getByLabelText("Waterfalls")).toBeEnabled();
     expect(screen.queryByText("Assessed owner")).not.toBeInTheDocument();
+  });
+
+  it("toggles native-parity Province layers independently", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    const crownLands = screen.getByLabelText("Crown Lands");
+    const waterfalls = screen.getByLabelText("Waterfalls");
+
+    expect(crownLands).not.toBeChecked();
+    expect(waterfalls).not.toBeChecked();
+
+    await user.click(crownLands);
+    await user.click(waterfalls);
+
+    expect(crownLands).toBeChecked();
+    expect(waterfalls).toBeChecked();
   });
 
   it("finds a tax-sale listing by PID without claiming that it is available", async () => {

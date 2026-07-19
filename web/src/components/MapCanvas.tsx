@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
 import { GeoJSON, MapContainer, TileLayer, useMap } from "react-leaflet";
+import { ArcGISExportTileLayer } from "../layers/arcGISExport";
+import {
+  provinceLayerCatalog,
+  type ProvinceLayerId,
+  type WebLayerDescriptor,
+} from "../layers/layerCatalog";
 import type {
   NsprdFeatureCollection,
   NsprdFeatureProperties,
@@ -14,12 +20,76 @@ type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
   selectedPid: string | null;
-  showParcelOutlines: boolean;
+  provinceLayers: Record<ProvinceLayerId, boolean>;
   showTaxSale: boolean;
   onSelectPid: (pid: string) => void;
 };
 
 const INVERNESS_COUNTY_CENTER: [number, number] = [46.18, -61.22];
+
+const layerZIndexes: Record<ProvinceLayerId, number> = {
+  "ns-aerial": 150,
+  "crown-lands": 220,
+  "flood-risk": 230,
+  nsprd: 240,
+  waterfalls: 250,
+};
+
+function ArcGISMapLayer({
+  layer,
+  visible,
+}: {
+  layer: WebLayerDescriptor & { id: ProvinceLayerId };
+  visible: boolean;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!visible || !layer.exportOptions) {
+      return;
+    }
+
+    const tileLayer = new ArcGISExportTileLayer(
+      {
+        serviceUrl: layer.serviceUrl,
+        ...layer.exportOptions,
+      },
+      {
+        minZoom: layer.minZoom,
+        maxZoom: layer.maxZoom,
+        opacity: layer.opacity,
+        zIndex: layerZIndexes[layer.id],
+        updateWhenZooming: false,
+        keepBuffer: 2,
+      },
+    );
+    tileLayer.addTo(map);
+
+    return () => {
+      map.removeLayer(tileLayer);
+    };
+  }, [layer, map, visible]);
+
+  return null;
+}
+
+function LayerZoomController({
+  provinceLayers,
+}: Pick<MapCanvasProps, "provinceLayers">) {
+  const map = useMap();
+
+  useEffect(() => {
+    const needsDetailZoom = provinceLayerCatalog.some(
+      ({ id, minZoom }) => provinceLayers[id] && minZoom >= 12,
+    );
+
+    if (needsDetailZoom && map.getZoom() < 12) {
+      map.setZoom(12, { animate: true });
+    }
+  }, [map, provinceLayers]);
+
+  return null;
+}
 
 function SelectionController({
   parcels,
@@ -61,7 +131,7 @@ export function MapCanvas({
   parcels,
   taxSalePids,
   selectedPid,
-  showParcelOutlines,
+  provinceLayers,
   showTaxSale,
   onSelectPid,
 }: MapCanvasProps) {
@@ -70,19 +140,15 @@ export function MapCanvas({
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
   const visibleParcels = useMemo<NsprdFeatureCollection>(() => {
-    if (showParcelOutlines) {
-      return parcels;
-    }
-
     return {
       ...parcels,
-      features: showTaxSale
-        ? parcels.features.filter(({ properties }) =>
-            taxSalePids.has(properties.PID),
-          )
-        : [],
+      features: parcels.features.filter(
+        ({ properties }) =>
+          properties.PID === selectedPid ||
+          (showTaxSale && taxSalePids.has(properties.PID)),
+      ),
     };
-  }, [parcels, showParcelOutlines, showTaxSale, taxSalePids]);
+  }, [parcels, selectedPid, showTaxSale, taxSalePids]);
 
   const parcelStyle = (
     feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
@@ -146,7 +212,15 @@ export function MapCanvas({
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           maxZoom={19}
+          zIndex={100}
         />
+        {provinceLayerCatalog.map((layer) => (
+          <ArcGISMapLayer
+            key={layer.id}
+            layer={layer}
+            visible={provinceLayers[layer.id]}
+          />
+        ))}
         <GeoJSON
           key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}`}
           data={visibleParcels}
@@ -172,6 +246,7 @@ export function MapCanvas({
           />
         ) : null}
         <SelectionController parcels={visibleParcels} selectedPid={selectedPid} />
+        <LayerZoomController provinceLayers={provinceLayers} />
       </MapContainer>
 
       <button
