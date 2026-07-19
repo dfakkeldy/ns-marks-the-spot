@@ -50,6 +50,8 @@
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Flood Risk Areas, and Waterfalls
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
 - [x] Complete Province water and transportation overlays with legible official cartography, trails, and close-range culverts
+- [x] Collapsed, default-off Geology & Resources group with live mineral occurrences, NovaROC tenure, and zoom-bounded abandoned mine openings
+- [x] Viewport-paged feature queries with independent loading, zoom, count, failure, source, and screening-caveat states
 - [x] Statewide NSPRD boundary visibility from zoom 7 and an opaque close-zoom selected-parcel fill
 - [x] Approximate NSPRD acreage, exact road/water intersections, and explicitly labelled adjacent/civic-address roads in the selected-parcel sheet
 - [x] Authoritative Civic Address File lookup with paginated bounding-box queries and exact parcel containment

@@ -18,6 +18,7 @@ vi.mock("./components/MapCanvas", () => ({
     taxSalePids,
     historicalTaxSalePids,
     provinceLayers,
+    resourceLayers,
     showModernMap,
     showHistoricalTaxSales,
     onIdentifyParcel,
@@ -26,6 +27,7 @@ vi.mock("./components/MapCanvas", () => ({
     taxSalePids: Set<string>;
     historicalTaxSalePids: Set<string>;
     provinceLayers: Record<string, boolean>;
+    resourceLayers: Record<string, boolean>;
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
     onIdentifyParcel: (latitude: number, longitude: number) => void;
@@ -37,7 +39,10 @@ vi.mock("./components/MapCanvas", () => ({
       {provinceLayers["water-features"] ? "on" : "off"}; roads:{" "}
       {provinceLayers.roads ? "on" : "off"}; historical layer:{" "}
       {showHistoricalTaxSales ? "on" : "off"}; historical PID count:{" "}
-      {historicalTaxSalePids.size}
+      {historicalTaxSalePids.size}; mineral occurrences:{" "}
+      {resourceLayers["mineral-occurrences"] ? "on" : "off"}; mineral tenure:{" "}
+      {resourceLayers["mineral-tenure"] ? "on" : "off"}; abandoned mines:{" "}
+      {resourceLayers["abandoned-mines"] ? "on" : "off"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -304,6 +309,35 @@ describe("NS Marks The Spot Online", () => {
       (element) => element.textContent,
     );
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
+  });
+
+  it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    const groupSummary = screen.getByText("Geology & Resources");
+    const group = groupSummary.closest("details");
+    expect(group).not.toHaveAttribute("open");
+    expect(screen.getByLabelText("Mineral occurrences")).not.toBeChecked();
+    expect(screen.getByLabelText("Mineral tenure")).not.toBeChecked();
+    expect(screen.getByLabelText("Abandoned mine openings")).not.toBeChecked();
+    expect(screen.getByLabelText("Mineral occurrences")).toBeEnabled();
+
+    await user.click(groupSummary);
+    await user.click(screen.getByLabelText("Mineral occurrences"));
+    await user.click(screen.getByLabelText("Mineral tenure"));
+
+    expect(group).toHaveAttribute("open");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "mineral occurrences: on; mineral tenure: on; abandoned mines: off",
+    );
+    expect(
+      within(group as HTMLElement).getByRole("link", { name: "Open data sources" }),
+    ).toHaveAttribute("href", expect.stringContaining("novascotia.ca"));
   });
 
   it("searches a civic address and opens its containing parcel", async () => {

@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  initialResourceLayerVisibility,
   initialProvinceLayerVisibility,
   nativeLayerCatalog,
   provinceLayerIds,
+  resourceLayerCatalog,
 } from "./layerCatalog";
 
 describe("web native-layer parity catalog", () => {
@@ -145,5 +147,58 @@ describe("web native-layer parity catalog", () => {
     expect(propertyBoundaries?.minZoom).toBe(7);
     expect(propertyBoundaries?.webCaveat).toBe("Zoom 7+ · not a survey");
     expect(propertyBoundaries?.exportOptions?.dpi).toBe(0.75);
+  });
+});
+
+describe("geology and resources catalog", () => {
+  it("offers three open-data overlays without changing native-layer parity", () => {
+    expect(
+      resourceLayerCatalog.map(({ id, name, delivery }) => ({
+        id,
+        name,
+        delivery,
+      })),
+    ).toEqual([
+      {
+        id: "mineral-occurrences",
+        name: "Mineral occurrences",
+        delivery: "feature-query",
+      },
+      {
+        id: "mineral-tenure",
+        name: "Mineral tenure",
+        delivery: "map-export",
+      },
+      {
+        id: "abandoned-mines",
+        name: "Abandoned mine openings",
+        delivery: "feature-query",
+      },
+    ]);
+
+    expect(resourceLayerCatalog.every(({ licence }) => licence === "province-open")).toBe(
+      true,
+    );
+  });
+
+  it("starts every resource overlay off and carries source-specific cautions", () => {
+    expect(initialResourceLayerVisibility).toEqual({
+      "mineral-occurrences": false,
+      "mineral-tenure": false,
+      "abandoned-mines": false,
+    });
+    expect(
+      resourceLayerCatalog
+        .find(({ id }) => id === "mineral-occurrences")
+        ?.webCaveat.toLocaleLowerCase(),
+    ).toContain("recorded occurrences");
+    expect(
+      resourceLayerCatalog.find(({ id }) => id === "mineral-tenure")
+        ?.webCaveat,
+    ).toContain("not land ownership");
+    expect(
+      resourceLayerCatalog.find(({ id }) => id === "abandoned-mines")
+        ?.webCaveat,
+    ).toContain("hazard inventory");
   });
 });

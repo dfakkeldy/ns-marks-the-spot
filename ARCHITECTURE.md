@@ -96,11 +96,23 @@ coordinates to Web Mercator bounds and requests direct PNG tiles from each
 MapServer's `export` operation. This matches the native app's service model
 without sharing its offline cache policy.
 
+The same catalog also owns a separate web-only `resourceLayerCatalog`. These
+open-data overlays do not change native-layer parity and do not depend on the
+restricted-services acceptance gate. NovaROC exploration licences and mineral
+leases use the existing MapServer export adapter. Mineral occurrences and
+abandoned mine openings use `services/arcGISFeatureOverlay.ts`, which queries
+only the visible WGS84 envelope, pages full ArcGIS responses, cancels stale
+requests after map movement, and deduplicates returned records. Occurrences
+begin at zoom 8; the denser mine-opening inventory waits until zoom 11. Each
+feature service reports loading, visible-record count, zoom, and failure state
+independently.
+
 After licence acceptance, the default web composition leaves the opaque modern
 and aerial maps off, turns NSPRD boundaries, complete Province water features,
 and roads on, and fits the first loaded view once to the visible tax-sale
 parcel geometries. Fletcher remains the final unavailable row in the layer list
-until its web rights are clear. The one-time fit does not compete with later
+until its web rights are clear. Geology & Resources is collapsed and all three
+of its overlays start off. The one-time fit does not compete with later
 selected-parcel fitting or user navigation.
 
 NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
