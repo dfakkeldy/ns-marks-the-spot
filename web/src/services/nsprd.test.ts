@@ -1,9 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   NSPRD_LAYER_URL,
   buildPidQueryUrl,
+  fetchParcels,
   normalizePid,
 } from "./nsprd";
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe("NSPRD PID queries", () => {
   it("normalizes common PID formatting without guessing missing digits", () => {
@@ -31,6 +36,37 @@ describe("NSPRD PID queries", () => {
     expect(() => buildPidQueryUrl([])).toThrow("at least one valid PID");
     expect(() => buildPidQueryUrl(["not-a-pid"])).toThrow(
       "at least one valid PID",
+    );
+  });
+
+  it("batches large exact-PID catalogs and merges returned geometry", async () => {
+    const pids = Array.from({ length: 81 }, (_, index) =>
+      String(10_000_000 + index),
+    );
+    const fetchMock = vi.fn(async (input: string | URL | Request) => {
+      const url = new URL(String(input));
+      const requestedPids = url.searchParams.get("where")?.match(/\d{8}/g) ?? [];
+
+      return new Response(
+        JSON.stringify({
+          type: "FeatureCollection",
+          features: requestedPids.map((pid) => ({
+            type: "Feature",
+            properties: { PID: pid },
+            geometry: { type: "Point", coordinates: [-60, 46] },
+          })),
+        }),
+        { status: 200 },
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const collection = await fetchParcels(pids);
+
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(collection.features).toHaveLength(81);
+    expect(collection.features.map(({ properties }) => properties.PID)).toEqual(
+      pids,
     );
   });
 });

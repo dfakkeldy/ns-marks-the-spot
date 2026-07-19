@@ -25,7 +25,7 @@ type MapCanvasProps = {
   onSelectPid: (pid: string) => void;
 };
 
-const INVERNESS_COUNTY_CENTER: [number, number] = [46.18, -61.22];
+const CAPE_BRETON_CENTER: [number, number] = [46.08, -60.92];
 
 const layerZIndexes: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
@@ -199,9 +199,9 @@ export function MapCanvas({
   };
 
   return (
-    <div className="map-canvas" aria-label="Inverness County parcel map">
+    <div className="map-canvas" aria-label="Nova Scotia municipal parcel map">
       <MapContainer
-        center={INVERNESS_COUNTY_CENTER}
+        center={CAPE_BRETON_CENTER}
         zoom={9}
         minZoom={7}
         maxZoom={19}

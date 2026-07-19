@@ -1,3 +1,5 @@
+import type { TaxSaleEvent } from "./taxSaleTypes";
+
 export type TaxSaleListing = {
   lien: number;
   location: string;
@@ -69,3 +71,37 @@ export const taxSalePids = taxSaleListings.flatMap(({ pids }) => pids);
 export function listingForPid(pid: string): TaxSaleListing | undefined {
   return taxSaleListings.find(({ pids }) => pids.includes(pid));
 }
+
+export const invernessTaxSaleEvent: TaxSaleEvent = {
+  id: "inverness-county-2026-08-11",
+  municipalityId: "inverness-county",
+  municipality: "Municipality of the County of Inverness",
+  shortMunicipality: "Inverness County",
+  eventType: "public-auction",
+  eventStatus: "upcoming",
+  saleStartsAt: invernessTaxSaleNotice.saleStartsAt,
+  venue: invernessTaxSaleNotice.venue,
+  sourceUrl: invernessTaxSaleNotice.sourceUrl,
+  sourceLabel: "Official Inverness County notice",
+  publishedOn: invernessTaxSaleNotice.publishedOn,
+  retrievedOn: invernessTaxSaleNotice.retrievedOn,
+  listings: taxSaleListings.map((listing) => ({
+    eventId: "inverness-county-2026-08-11",
+    recordId: `inverness-county-2026-08-11-lien-${listing.lien}`,
+    lien: String(listing.lien),
+    pids: listing.pids,
+    location: listing.location,
+    financial: {
+      kind: "total-arrears",
+      label: "Total arrears",
+      amountCents: listing.totalArrearsCents,
+    },
+    redemptionCategory: listing.redeemable
+      ? "six-month"
+      : "not-redeemable",
+    redemptionLabel: listing.redeemable
+      ? "Redeemable - Yes"
+      : "Redeemable - No",
+    listingStatus: "advertised",
+  })),
+};

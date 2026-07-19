@@ -280,6 +280,21 @@ a {
   opacity: 0.62;
 }
 
+.section-intro {
+  margin: -2px 0 9px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.event-row {
+  min-height: 72px;
+}
+
+.event-row small + small {
+  color: var(--muted);
+}
+
 .text-button,
 .map-attribution button {
   padding: 0;
@@ -334,6 +349,10 @@ a {
 
 .source-note span {
   color: var(--muted);
+}
+
+.source-note + .source-note {
+  margin-top: 9px;
 }
 
 .offline-card {
@@ -441,7 +460,9 @@ a {
   right: 16px;
   bottom: 18px;
   width: min(390px, calc(100% - 32px));
+  max-height: calc(100% - 36px);
   padding: 24px;
+  overflow-y: auto;
   background: rgba(255, 255, 255, 0.98);
   border: 1px solid var(--line);
   border-radius: 7px;
@@ -495,7 +516,9 @@ a {
 }
 
 .parcel-facts dd {
+  max-width: 60%;
   margin: 0;
+  overflow-wrap: anywhere;
   text-align: right;
 }
 
