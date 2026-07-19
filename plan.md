@@ -47,11 +47,14 @@
 - [x] Browser-local current location display
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Flood Risk Areas, and Waterfalls
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
+- [x] Complete Province water and transportation overlays with legible official cartography, trails, and close-range culverts
+- [x] Approximate NSPRD acreage and exact road/water intersections in the selected-parcel sheet
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app
 - [ ] Enable Fletcher on the web after web-use rights are clear
 - [ ] Add municipality importers only from current official notices
+- [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled
 
 ## Future Considerations
 - Google Maps SDK as alternative engine

@@ -6,6 +6,7 @@ const NSPRD_PID_BATCH_SIZE = 40;
 export type NsprdFeatureProperties = {
   PID: string;
   UPDAT_DATE?: number | null;
+  "SHAPE.AREA"?: number | null;
 };
 
 export type NsprdFeatureCollection = GeoJSON.FeatureCollection<
@@ -33,7 +34,7 @@ export function buildPidQueryUrl(pids: string[]): string {
 
   const parameters = new URLSearchParams({
     where: `PID IN (${normalizedPids.map((pid) => `'${pid}'`).join(",")})`,
-    outFields: "PID,UPDAT_DATE",
+    outFields: "PID,UPDAT_DATE,SHAPE.AREA",
     returnGeometry: "true",
     outSR: "4326",
     f: "geojson",

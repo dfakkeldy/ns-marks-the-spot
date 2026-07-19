@@ -45,6 +45,8 @@ const layerZIndexes: Record<ProvinceLayerId, number> = {
   "flood-risk": 230,
   nsprd: 240,
   waterfalls: 250,
+  "water-features": 210,
+  roads: 235,
 };
 
 function ArcGISMapLayer({

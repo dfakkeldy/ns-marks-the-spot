@@ -82,7 +82,7 @@ No third-party dependencies.
 
 The `web/` React + Vite app is a separate online-only delivery surface. It does
 not change the native app's offline contract or Swift `MapEngine` boundary.
-Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the native
+Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the web
 catalog's Province MapServer layers in the browser.
 
 `web/src/layers/layerCatalog.ts` is the web parity contract. It mirrors the
@@ -104,12 +104,17 @@ zoom 12; selecting one from a wider view moves the browser map to that supported
 zoom. Waterfall points remain visible at the province overview scale so users
 can discover where to zoom in.
 
+The complete Province hydrography and transportation MapServers are available
+as separate overlays. Their official renderers retain road class, surface,
+trail, bridge, rail, ferry, culvert, and water-feature distinctions; increased
+export DPI makes line work legible without duplicating Province cartography.
+
 Municipal notices and NSPRD have deliberately separate authority:
 
 1. A municipality source module owns notice fields such as lien, location,
    arrears, redeemable status, event details, and PIDs.
 2. `services/nsprd.ts` performs exact-PID ArcGIS Feature Layer queries for
-   geometry and the NSPRD update field only.
+   geometry, the NSPRD update field, and `SHAPE.AREA`.
 3. The UI joins notice records to returned geometry by PID. One PID may have
    multiple polygons, so selection and map fitting operate across all matching
    features.
@@ -118,6 +123,12 @@ Municipal notices and NSPRD have deliberately separate authority:
    the not-a-survey caveat stay visible in the map footer after the gate closes.
 5. Browser geolocation is handled locally and drawn directly on the map; there
    is no application server receiving a user's coordinates.
+
+`services/parcelContext.ts` sums the mapped area for every polygon belonging to
+the selected PID and converts square metres to acres. It POSTs that exact parcel
+geometry to each relevant Province road and water sublayer with
+`esriSpatialRelIntersects`, deduplicates the returned names/classes, and keeps
+empty results distinct from live-service failures.
 
 The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is intentionally disabled on the web

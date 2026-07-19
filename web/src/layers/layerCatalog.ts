@@ -4,7 +4,9 @@ export type NativeLayerId =
   | "nsprd"
   | "crown-lands"
   | "flood-risk"
-  | "waterfalls";
+  | "waterfalls"
+  | "water-features"
+  | "roads";
 
 export type ProvinceLayerId = Exclude<NativeLayerId, "fletcher">;
 
@@ -12,6 +14,7 @@ export type ArcGISExportOptions = {
   transparent: boolean;
   layers?: string;
   dynamicLayers?: string;
+  dpi?: number;
 };
 
 export type WebLayerDescriptor = {
@@ -192,6 +195,34 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
       dynamicLayers: WATERFALLS_DYNAMIC_LAYERS,
     },
   },
+  {
+    id: "water-features",
+    name: "Water features",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+    nativeDefaultVisibility: false,
+    minZoom: 7,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "province-restricted",
+    webAvailability: "available",
+    webCaveat: "Rivers, lakes, wetlands & more",
+    exportOptions: { transparent: true, dpi: 144 },
+  },
+  {
+    id: "roads",
+    name: "Roads, trails & culverts",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+    nativeDefaultVisibility: false,
+    minZoom: 7,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "province-restricted",
+    webAvailability: "available",
+    webCaveat: "Highways to trails · culverts close up",
+    exportOptions: { transparent: true, dpi: 192 },
+  },
 ] as const;
 
 export const provinceLayerIds: NativeLayerId[] = [
@@ -200,6 +231,8 @@ export const provinceLayerIds: NativeLayerId[] = [
   "crown-lands",
   "flood-risk",
   "waterfalls",
+  "water-features",
+  "roads",
 ];
 
 export const provinceLayerCatalog = nativeLayerCatalog.filter(
@@ -213,4 +246,6 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
   "crown-lands": false,
   "flood-risk": false,
   waterfalls: false,
+  "water-features": false,
+  roads: false,
 };

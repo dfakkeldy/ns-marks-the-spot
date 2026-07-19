@@ -46,6 +46,18 @@ describe("web native-layer parity catalog", () => {
         serviceUrl:
           "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
       },
+      {
+        id: "water-features",
+        name: "Water features",
+        serviceUrl:
+          "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+      },
+      {
+        id: "roads",
+        name: "Roads, trails & culverts",
+        serviceUrl:
+          "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+      },
     ]);
   });
 
@@ -64,6 +76,8 @@ describe("web native-layer parity catalog", () => {
       "crown-lands",
       "flood-risk",
       "waterfalls",
+      "water-features",
+      "roads",
     ]);
 
     expect(
@@ -94,5 +108,16 @@ describe("web native-layer parity catalog", () => {
     expect(waterfalls?.exportOptions?.dynamicLayers).toContain(
       '"mapLayerId":1',
     );
+  });
+
+  it("keeps the Province cartography and makes linear features legible", () => {
+    const water = nativeLayerCatalog.find(
+      ({ id }) => id === "water-features",
+    );
+    const roads = nativeLayerCatalog.find(({ id }) => id === "roads");
+
+    expect(water?.exportOptions).toMatchObject({ transparent: true, dpi: 144 });
+    expect(roads?.exportOptions).toMatchObject({ transparent: true, dpi: 192 });
+    expect(roads?.webCaveat).toContain("culverts close up");
   });
 });
