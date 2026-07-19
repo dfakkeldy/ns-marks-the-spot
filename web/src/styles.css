@@ -820,6 +820,36 @@ a {
   line-height: 1.4;
 }
 
+.civic-addresses li {
+  padding-left: 2px;
+}
+
+.plus-code-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 0 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(47, 128, 237, 0.08);
+  border: 1px solid rgba(47, 128, 237, 0.22);
+  border-radius: 4px;
+}
+
+.plus-code-link:hover,
+.plus-code-link:focus-visible {
+  background: rgba(47, 128, 237, 0.14);
+}
+
+.plus-code {
+  flex: none;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.02em;
+}
+
 .civic-address-status,
 .civic-address-source,
 .civic-address-caveat {

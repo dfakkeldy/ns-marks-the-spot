@@ -46,4 +46,12 @@ describe("mobile parcel inspector layout", () => {
     expect(styles).toMatch(/\.event-row\s*\{/);
     expect(styles).toMatch(/\.source-note\s*\+\s*\.source-note\s*\{/);
   });
+
+  it("gives Plus Code directions links a touch-friendly target", () => {
+    const linkDeclarations = styles.match(
+      /\.plus-code-link\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(linkDeclarations).toMatch(/min-height:\s*44px/);
+  });
 });

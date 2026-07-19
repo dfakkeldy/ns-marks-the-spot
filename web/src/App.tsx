@@ -62,6 +62,10 @@ import {
   type NsprdFeatureCollection,
 } from "./services/nsprd";
 import {
+  googleMapsDirectionsUrl,
+  plusCodeForCoordinates,
+} from "./services/googleMaps";
+import {
   ADJACENT_ROAD_DISTANCE_METRES,
   fetchParcelContext,
   mappedAreaForPid,
@@ -514,9 +518,25 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
         </p>
       ) : (
         <ul>
-          {state.value.map(({ pntid, label }) => (
-            <li key={pntid}>{label}</li>
-          ))}
+          {state.value.map(({ pntid, label, coordinates }) => {
+            const plusCode = plusCodeForCoordinates(coordinates);
+
+            return (
+              <li key={pntid}>
+                <span>{label}</span>
+                <a
+                  className="plus-code-link"
+                  href={googleMapsDirectionsUrl(coordinates)}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${plusCode} — Directions in Google Maps`}
+                >
+                  <span className="plus-code">{plusCode}</span>
+                  <span>Directions in Google Maps</span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       )}
       <p className="civic-address-source">

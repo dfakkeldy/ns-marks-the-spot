@@ -202,6 +202,13 @@ explains that mapped physical-address points do not prove ownership, mailing
 address, access, occupancy, or legal parcel status. This open-data attribution
 is separate from the NSPRD restricted-services licence gate.
 
+`services/googleMaps.ts` converts each authoritative civic-point coordinate to
+a full 10-character Open Location Code (Plus Code) in the browser. The parcel
+sheet presents that code as a universal Google Maps directions link whose exact
+latitude/longitude destination comes from the same civic point. No Google API
+key or geocoding request is required, and Google receives the destination only
+after the user activates the external link.
+
 The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is intentionally disabled on the web
 until web-use rights are clear; offline Fletcher use continues to belong to the

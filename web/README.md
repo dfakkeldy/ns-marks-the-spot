@@ -1,8 +1,9 @@
 # NS Marks The Spot — Online
 
-Online map companion for the native map catalog, PID/civic-address search, and
-municipality-sourced property layers. The event-aware catalog currently covers
-the July 21, 2026 CBRM auction and the August 11, 2026 Inverness County auction.
+Online map companion for the native map catalog, PID/civic-address search,
+mapped-address Plus Code directions, and municipality-sourced property layers.
+The event-aware catalog currently covers the July 21, 2026 CBRM auction and the
+August 11, 2026 Inverness County auction.
 
 ## Run locally
 
@@ -153,6 +154,15 @@ mapped inside this parcel.” A Civic Points service failure instead displays
 “Civic address lookup is unavailable right now.” Road/water and civic failures
 remain independent, and changing PIDs aborts the stale civic request.
 
+Each listed civic point also receives a full 10-character Open Location Code
+(Plus Code), calculated locally from its published coordinate by
+`services/googleMaps.ts`. Tapping the code opens a universal Google Maps
+directions URL with that exact latitude/longitude as the destination and the
+user's current location left to Google Maps. The URL needs no API key and avoids
+a second address-geocoding step. NS Marks makes no Google request while merely
+displaying the code; the destination leaves the app only when the user activates
+the external link.
+
 This dataset is governed by the [Open Government Licence – Nova
 Scotia](https://support.novascotia.ca/services/open-data-portal-licence), which
 requires acknowledgement. The parcel sheet therefore displays `Contains
@@ -268,7 +278,8 @@ restricted Province layers, three default-off open geoscience/resource layers,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the two
-upcoming municipal tax-sale events, and a separate default-off layer of seven
-verified Halifax historical result events. The Fletcher layer is visible but
-disabled until web-use rights are clear. Unsupported historical sources remain
-fail-closed. Offline maps remain the native iPhone app's job.
+upcoming municipal tax-sale events, local Plus Codes with opt-in Google Maps
+directions, and a separate default-off layer of seven verified Halifax
+historical result events. The Fletcher layer is visible but disabled until
+web-use rights are clear. Unsupported historical sources remain fail-closed.
+Offline maps remain the native iPhone app's job.
