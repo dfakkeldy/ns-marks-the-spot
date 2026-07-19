@@ -51,5 +51,6 @@ export type TaxSaleEvent = {
   sourceLabel: string;
   publishedOn?: string;
   retrievedOn: string;
+  sourceDatasetSha256?: string;
   listings: TaxSaleListing[];
 };

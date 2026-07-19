@@ -27,6 +27,7 @@ describe("the Inverness County 2026 public dataset", () => {
   it("contains only public map fields and does not republish assessed-owner names", () => {
     for (const listing of taxSaleListings) {
       expect(Object.keys(listing).sort()).toEqual([
+        "aan",
         "lien",
         "location",
         "pids",

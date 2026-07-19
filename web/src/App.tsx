@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import appIconUrl from "../../docs/assets/app-icon.svg";
 import { MapCanvas } from "./components/MapCanvas";
 import {
+  eventLifecycleStatus,
   eventsForStatus,
   listingContextForPid,
   pidsForEvents,
@@ -52,6 +53,23 @@ function eventDateLabel(event: TaxSaleEvent): string {
   return timestamp ? eventDate.format(new Date(timestamp)) : "Date not listed";
 }
 
+function snapshotDateLabel(event: TaxSaleEvent): string {
+  return eventDate.format(
+    new Date(`${event.retrievedOn}T12:00:00-03:00`),
+  );
+}
+
+function eventLifecycleLabel(event: TaxSaleEvent, now: number): string {
+  switch (eventLifecycleStatus(event, now)) {
+    case "historical":
+      return "Historical";
+    case "verify-results":
+      return "Past sale date — verify results with the municipality.";
+    case "upcoming":
+      return "Upcoming";
+  }
+}
+
 function listingStatusLabel(listing: TaxSaleListing): string {
   switch (listing.listingStatus) {
     case "advertised":
@@ -98,15 +116,21 @@ function mergeFeatureCollections(
 function ParcelInspector({
   pid,
   context,
+  now,
   onClose,
 }: {
   pid: string;
   context?: { event: TaxSaleEvent; listing: TaxSaleListing };
+  now: number;
   onClose: () => void;
 }) {
   const listing = context?.listing;
   const event = context?.event;
-  const historical = event?.eventStatus === "historical";
+  const lifecycleStatus = event
+    ? eventLifecycleStatus(event, now)
+    : undefined;
+  const historical = lifecycleStatus === "historical";
+  const needsResultVerification = lifecycleStatus === "verify-results";
 
   return (
     <aside className="parcel-inspector" aria-label={`Parcel ${pid} details`}>
@@ -125,6 +149,8 @@ function ParcelInspector({
         {listing
           ? historical
             ? "Historical result - not available"
+            : needsResultVerification
+              ? "Past sale date — verify results with the municipality."
             : "Listed in official notice"
           : "NSPRD parcel"}
       </p>
@@ -138,7 +164,7 @@ function ParcelInspector({
             <div>
               <dt>Event</dt>
               <dd>
-                {eventDateLabel(event)} · {historical ? "Historical" : "Upcoming"}
+                {eventDateLabel(event)} · {eventLifecycleLabel(event, now)}
               </dd>
             </div>
           </>
@@ -187,6 +213,8 @@ function ParcelInspector({
           <span aria-hidden="true">!</span>
           {historical
             ? "This is a dated historical result, not a currently available property."
+            : needsResultVerification
+              ? `The advertised sale date has passed. Verify results and current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`
             : `Properties may be paid, removed or deferred. Verify current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`}
         </p>
       ) : (
@@ -309,6 +337,12 @@ export function App() {
     () => new Set(upcomingTaxSaleEvents.map(({ id }) => id)),
   );
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
+  const [currentTime, setCurrentTime] = useState(Date.now);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setCurrentTime(Date.now()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (!licenceAccepted) {
@@ -513,9 +547,10 @@ export function App() {
             className="rail-section tax-sale-events"
             aria-labelledby="events-heading"
           >
-            <h2 id="events-heading">Upcoming tax-sale events</h2>
+            <h2 id="events-heading">Tax-sale notices</h2>
             <p className="section-intro">
-              Dated official notices. Listings can change before an auction.
+              Dated official notices. Past sale dates require municipal result
+              verification.
             </p>
             {upcomingTaxSaleEvents.map((event) => {
               const pidCount = pidsForEvents([event]).length;
@@ -523,7 +558,7 @@ export function App() {
                 <label className="layer-row event-row" key={event.id}>
                   <input
                     type="checkbox"
-                    aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)}`}
+                    aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)} - ${eventLifecycleLabel(event, currentTime)}`}
                     checked={licenceAccepted && selectedEventIds.has(event.id)}
                     disabled={!licenceAccepted}
                     onChange={(change) =>
@@ -534,8 +569,12 @@ export function App() {
                   <span>
                     <strong>{event.shortMunicipality}</strong>
                     <small>{eventDateLabel(event)}</small>
+                    <small>{eventLifecycleLabel(event, currentTime)}</small>
                     <small>
                       {event.listings.length} notice entries · {pidCount} PIDs
+                    </small>
+                    <small>
+                      Snapshot retrieved {snapshotDateLabel(event)}
                     </small>
                   </span>
                 </label>
@@ -586,6 +625,7 @@ export function App() {
                   {event.shortMunicipality} · {eventDateLabel(event)}
                 </strong>
                 <span>{event.venue}</span>
+                <span>{eventLifecycleLabel(event, currentTime)}</span>
                 <a href={event.sourceUrl} target="_blank" rel="noreferrer">
                   Open direct official source
                 </a>
@@ -622,6 +662,7 @@ export function App() {
             <ParcelInspector
               pid={selectedPid}
               context={selectedListingContext}
+              now={currentTime}
               onClose={() => setSelectedPid(null)}
             />
           ) : null}
@@ -630,7 +671,7 @@ export function App() {
 
       <footer className="map-attribution">
         <span>Map data © OpenStreetMap contributors</span>
-        <span>Map layers © Province of Nova Scotia</span>
+        <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
         <span>Boundaries are not a survey</span>
         <button type="button" onClick={() => setLicenceDialogOpen(true)}>
           Data &amp; licences

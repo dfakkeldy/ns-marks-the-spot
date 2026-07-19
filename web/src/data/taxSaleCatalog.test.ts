@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  eventLifecycleStatus,
   eventsForStatus,
   listingContextForPid,
   pidsForEvents,
   taxSaleEvents,
 } from "./taxSaleCatalog";
+import { INVERNESS_BOOK_DATASET_SHA256 } from "./invernessTaxSale";
+import invernessBookDatasetSource from "./invernessTaxSale.snapshot.json?raw";
 
 const event = (id: string) => {
   const match = taxSaleEvents.find((candidate) => candidate.id === id);
@@ -13,6 +16,18 @@ const event = (id: string) => {
 };
 
 describe("the multi-municipality tax-sale catalog", () => {
+  it("pins the byte-for-byte published Inverness book dataset", async () => {
+    const digest = await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(invernessBookDatasetSource),
+    );
+    const sha256 = Array.from(new Uint8Array(digest), (byte) =>
+      byte.toString(16).padStart(2, "0"),
+    ).join("");
+
+    expect(sha256).toBe(INVERNESS_BOOK_DATASET_SHA256);
+  });
+
   it("preserves the Inverness 45-listing, 47-PID receipt and anomalies", () => {
     const inverness = event("inverness-county-2026-08-11");
     const pids = inverness.listings.flatMap(({ pids }) => pids);
@@ -27,6 +42,30 @@ describe("the multi-municipality tax-sale catalog", () => {
       inverness.listings.find(({ lien }) => lien === "19")
         ?.redemptionCategory,
     ).toBe("not-redeemable");
+    expect(inverness.listings.find(({ lien }) => lien === "1")?.aan).toBe(
+      "00603988",
+    );
+    expect(INVERNESS_BOOK_DATASET_SHA256).toBe(
+      "b69a50e76fd87fc6785e4742367796a4d2ee9f013b9c0ebd002868e01d5c3be4",
+    );
+    expect(inverness.sourceDatasetSha256).toBe(
+      INVERNESS_BOOK_DATASET_SHA256,
+    );
+  });
+
+  it("relabels an advertised event after its sale date without inventing results", () => {
+    const cbrm = event("cbrm-2026-07-21");
+
+    expect(eventLifecycleStatus(cbrm, new Date("2026-07-21T13:59:59Z"))).toBe(
+      "upcoming",
+    );
+    expect(eventLifecycleStatus(cbrm, new Date("2026-07-21T14:00:00Z"))).toBe(
+      "verify-results",
+    );
+    expect(cbrm.eventStatus).toBe("upcoming");
+    expect(cbrm.listings.every(({ listingStatus }) => listingStatus === "advertised")).toBe(
+      true,
+    );
   });
 
   it("reconciles the CBRM notice to 67 listings and 68 unique PIDs", () => {

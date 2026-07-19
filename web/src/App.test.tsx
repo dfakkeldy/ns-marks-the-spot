@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
 import { fetchParcels } from "./services/nsprd";
@@ -39,13 +39,17 @@ describe("NS Marks The Spot Online", () => {
     });
   });
 
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("requires licence acceptance before enabling Province map layers", () => {
     render(<App />);
 
     expect(
       screen.getByRole("dialog", { name: "Use Nova Scotia map data" }),
     ).toBeInTheDocument();
-    expect(screen.getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getAllByText(PROVINCE_ATTRIBUTION)).toHaveLength(2);
     expect(
       screen.getByRole("button", { name: "Accept and view map layers" }),
     ).toBeInTheDocument();
@@ -75,6 +79,54 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Flood Risk Areas")).toBeEnabled();
     expect(screen.getByLabelText("Waterfalls")).toBeEnabled();
     expect(screen.queryByText("Assessed owner")).not.toBeInTheDocument();
+    expect(
+      screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Snapshot retrieved July 19, 2026"),
+    ).toHaveLength(2);
+  });
+
+  it("tells users to verify results once an advertised sale date has passed", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-07-22T12:00:00Z"));
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+
+    render(<App />);
+
+    expect(
+      screen.getByRole("checkbox", {
+        name: /CBRM.*verify results with the municipality/i,
+      }),
+    ).toBeChecked();
+    expect(
+      screen.getAllByText("Past sale date — verify results with the municipality."),
+    ).not.toHaveLength(0);
+    expect(screen.queryByText("CBRM · July 21, 2026 · Upcoming")).not.toBeInTheDocument();
+  });
+
+  it("updates an open map when the advertised sale time passes", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-07-21T13:59:30Z"));
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+
+    render(<App />);
+
+    expect(
+      screen.getByRole("checkbox", {
+        name: "CBRM tax sale - July 21, 2026 - Upcoming",
+      }),
+    ).toBeChecked();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(60_000);
+    });
+
+    expect(
+      screen.getByRole("checkbox", {
+        name: /CBRM.*verify results with the municipality/i,
+      }),
+    ).toBeChecked();
   });
 
   it("toggles native-parity Province layers independently", async () => {
@@ -124,7 +176,11 @@ describe("NS Marks The Spot Online", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getByText("Cape Breton Regional Municipality")).toBeInTheDocument();
-    expect(screen.getByText("July 21, 2026 · Upcoming")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).getByText(
+        "July 21, 2026 · Upcoming",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText("$33,108.73")).toBeInTheDocument();
     expect(
       screen.queryByText("Immediate deed", { exact: false }),

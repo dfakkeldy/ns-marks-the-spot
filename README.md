@@ -7,8 +7,8 @@ Open-source iOS map app for overlaying georeferenced historical Nova Scotia maps
 The `web/` React app is the online-only companion. It mirrors the native
 catalog's Province layers—NS Aerial, Property Boundaries, Crown Lands, Flood
 Risk Areas, and Waterfalls—while keeping Fletcher disabled until web-use rights
-are clear. Its first municipality layer maps the corrected Inverness County
-August 11, 2026 tax-sale notice against live NSPRD parcel geometry, supports
+are clear. Its municipal catalog maps the CBRM July 21 and Inverness County
+August 11, 2026 tax-sale notices against live NSPRD parcel geometry, supports
 exact PID search and browser location, and sends offline users back to the
 native app. See [web/README.md](web/README.md) for the source receipt, privacy
 boundary, and local verification commands.

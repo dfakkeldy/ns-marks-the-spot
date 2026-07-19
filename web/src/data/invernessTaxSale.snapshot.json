@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "title": "Inverness County tax-sale listings — August 11, 2026",
+  "saleDate": "2026-08-11",
+  "publishedDate": "2026-07-16",
+  "retrievedDate": "2026-07-19",
+  "source": "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11.pdf",
+  "crossCheck": "https://github.com/dfakkeldy/ns-marks-the-spot/tree/92f1261e5/web",
+  "normalization": "Location capitalization, road abbreviations, accents, punctuation, and obvious summary-table text errors were normalized after visual review; lien, AAN, amount, redemption, and PID values remain source facts.",
+  "status": "dated snapshot; confirm the live municipal list before use",
+  "ownerNamesExcluded": true,
+  "listingCount": 45,
+  "parcelIdentifierCount": 47,
+  "listings": [
+    {
+      "lien": 1,
+      "aan": "00603988",
+      "location": "Highway 19, Mabou",
+      "recoveryAmount": 15529.15,
+      "redeemable": false,
+      "pids": [
+        "50203256"
+      ]
+    },
+    {
+      "lien": 2,
+      "aan": "01274201",
+      "location": "Crandall Road",
+      "recoveryAmount": 1295.63,
+      "redeemable": true,
+      "pids": [
+        "50000462"
+      ]
+    },
+    {
+      "lien": 3,
+      "aan": "01716689",
+      "location": "No. 19 Highway, Southwest Margaree",
+      "recoveryAmount": 1432.64,
+      "redeemable": true,
+      "pids": [
+        "50057611"
+      ]
+    },
+    {
+      "lien": 4,
+      "aan": "03707245",
+      "location": "Roseburn Road, Roseburn",
+      "recoveryAmount": 1755.97,
+      "redeemable": true,
+      "pids": [
+        "50113372"
+      ]
+    },
+    {
+      "lien": 5,
+      "aan": "04329848",
+      "location": "155 Deepdale Road, Inverside",
+      "recoveryAmount": 1384.5,
+      "redeemable": true,
+      "pids": [
+        "50055201"
+      ]
+    },
+    {
+      "lien": 6,
+      "aan": "10698121",
+      "location": "376 Upper Glencoe Road, Glencoe, Parcel A",
+      "recoveryAmount": 5264.59,
+      "redeemable": true,
+      "pids": [
+        "50326669"
+      ]
+    },
+    {
+      "lien": 7,
+      "aan": "07971044",
+      "location": "155 Tranquil Shore Road, Marshes (West Bay), Lot 23",
+      "recoveryAmount": 7620.82,
+      "redeemable": true,
+      "pids": [
+        "50338219"
+      ]
+    },
+    {
+      "lien": 8,
+      "aan": "02976161",
+      "location": "Whycocomagh–Port Hood Road, Soapstone Mine",
+      "recoveryAmount": 25651.51,
+      "redeemable": true,
+      "pids": [
+        "50113968"
+      ]
+    },
+    {
+      "lien": 9,
+      "aan": "10761255",
+      "location": "Militia Point Road, Militia Point, Lot 14",
+      "recoveryAmount": 9348.38,
+      "redeemable": true,
+      "pids": [
+        "50330216"
+      ]
+    },
+    {
+      "lien": 10,
+      "aan": "02893088",
+      "location": "99 East Big Intervale Road, Northeast Margaree",
+      "recoveryAmount": 15578.72,
+      "redeemable": true,
+      "pids": [
+        "50077452"
+      ]
+    },
+    {
+      "lien": 11,
+      "aan": "04545133",
+      "location": "6509 Cabot Trail, Northeast Margaree",
+      "recoveryAmount": 9300.65,
+      "redeemable": true,
+      "pids": [
+        "50076777",
+        "50207794",
+        "50207802"
+      ]
+    },
+    {
+      "lien": 12,
+      "aan": "02692295",
+      "location": "Margaree Valley",
+      "recoveryAmount": 57875.01,
+      "redeemable": true,
+      "pids": [
+        "50081678"
+      ]
+    },
+    {
+      "lien": 13,
+      "aan": "10720788",
+      "location": "Militia Point Road, Militia Point, Lot 18",
+      "recoveryAmount": 12882.15,
+      "redeemable": true,
+      "pids": [
+        "50328608"
+      ]
+    },
+    {
+      "lien": 14,
+      "aan": "10666430",
+      "location": "Militia Point Road, Militia Point, Lot 19",
+      "recoveryAmount": 56194.07,
+      "redeemable": true,
+      "pids": [
+        "50328624"
+      ]
+    },
+    {
+      "lien": 15,
+      "aan": "10721148",
+      "location": "Militia Point Road, Militia Point, Lot 20",
+      "recoveryAmount": 11165.89,
+      "redeemable": true,
+      "pids": [
+        "50328632"
+      ]
+    },
+    {
+      "lien": 16,
+      "aan": "03356868",
+      "location": "Southside River Denys Road, Valley Mills",
+      "recoveryAmount": 1946.36,
+      "redeemable": true,
+      "pids": [
+        "50119817"
+      ]
+    },
+    {
+      "lien": 17,
+      "aan": "09958541",
+      "location": "Southside River Denys Road, Valley Mills, Lot 1",
+      "recoveryAmount": 3938.48,
+      "redeemable": true,
+      "pids": [
+        "50308311"
+      ]
+    },
+    {
+      "lien": 18,
+      "aan": "10231752",
+      "location": "Southside River Denys Road, Valley Mills, Lot 3",
+      "recoveryAmount": 4098.67,
+      "redeemable": true,
+      "pids": [
+        "50308337"
+      ]
+    },
+    {
+      "lien": 19,
+      "aan": "03780449",
+      "location": "MacGarry Road, Cap Le Moine",
+      "recoveryAmount": 1978.15,
+      "redeemable": false,
+      "pids": [
+        "50064146"
+      ]
+    },
+    {
+      "lien": 20,
+      "aan": "00506168",
+      "location": "Cabot Trail, Scotch Hill",
+      "recoveryAmount": 1438.57,
+      "redeemable": true,
+      "pids": [
+        "50065424"
+      ]
+    },
+    {
+      "lien": 21,
+      "aan": "00518824",
+      "location": "54 Davids Lane, Hays River",
+      "recoveryAmount": 2613.22,
+      "redeemable": true,
+      "pids": [
+        "50312297"
+      ]
+    },
+    {
+      "lien": 22,
+      "aan": "10258286",
+      "location": "No. 19 Highway, Craigmore",
+      "recoveryAmount": 2193.0,
+      "redeemable": false,
+      "pids": [
+        "50309970"
+      ]
+    },
+    {
+      "lien": 23,
+      "aan": "10739349",
+      "location": "Arsenaults Hill Road, Margaree",
+      "recoveryAmount": 2448.75,
+      "redeemable": false,
+      "pids": [
+        "50329291"
+      ]
+    },
+    {
+      "lien": 24,
+      "aan": "09261168",
+      "location": "No. 19 Highway, Troy, Lot 1",
+      "recoveryAmount": 2647.38,
+      "redeemable": false,
+      "pids": [
+        "50234921"
+      ]
+    },
+    {
+      "lien": 25,
+      "aan": "09837736",
+      "location": "Cabot Trail, Chéticamp",
+      "recoveryAmount": 1745.53,
+      "redeemable": false,
+      "pids": [
+        "50296359"
+      ]
+    },
+    {
+      "lien": 26,
+      "aan": "10888972",
+      "location": "MacGarry Road, Grand Étang",
+      "recoveryAmount": 3600.36,
+      "redeemable": true,
+      "pids": [
+        "50157239"
+      ]
+    },
+    {
+      "lien": 27,
+      "aan": "10824370",
+      "location": "Cabot Trail, Cap Le Moine",
+      "recoveryAmount": 1135.16,
+      "redeemable": false,
+      "pids": [
+        "50334317"
+      ]
+    },
+    {
+      "lien": 28,
+      "aan": "02574594",
+      "location": "201 Beaton Road, Little Judique",
+      "recoveryAmount": 4293.64,
+      "redeemable": true,
+      "pids": [
+        "50035039"
+      ]
+    },
+    {
+      "lien": 29,
+      "aan": "00604038",
+      "location": "3349 Highway 19, Craigmore",
+      "recoveryAmount": 27017.28,
+      "redeemable": false,
+      "pids": [
+        "50014620"
+      ]
+    },
+    {
+      "lien": 30,
+      "aan": "00152129",
+      "location": "Chéticamp Back Road",
+      "recoveryAmount": 895.62,
+      "redeemable": false,
+      "pids": [
+        "50179225"
+      ]
+    },
+    {
+      "lien": 31,
+      "aan": "05085365",
+      "location": "Mull River Road, Mull River",
+      "recoveryAmount": 5105.93,
+      "redeemable": false,
+      "pids": [
+        "50043207"
+      ]
+    },
+    {
+      "lien": 32,
+      "aan": "10601797",
+      "location": "Grand Étang Road, Grand Étang",
+      "recoveryAmount": 1459.44,
+      "redeemable": false,
+      "pids": [
+        "50211085"
+      ]
+    },
+    {
+      "lien": 33,
+      "aan": "10963591",
+      "location": "No. 395 Highway, East Lake Ainslie",
+      "recoveryAmount": 1021.21,
+      "redeemable": true,
+      "pids": [
+        "50342476"
+      ]
+    },
+    {
+      "lien": 34,
+      "aan": "10963583",
+      "location": "No. 395 Highway, East Lake Ainslie",
+      "recoveryAmount": 879.69,
+      "redeemable": true,
+      "pids": [
+        "50190503"
+      ]
+    },
+    {
+      "lien": 35,
+      "aan": "02804832",
+      "location": "Mount Young Road, Melrose Hill",
+      "recoveryAmount": 4460.82,
+      "redeemable": false,
+      "pids": [
+        "50042258"
+      ]
+    },
+    {
+      "lien": 36,
+      "aan": "02935236",
+      "location": "Portree Road, Margaree Valley",
+      "recoveryAmount": 3381.71,
+      "redeemable": false,
+      "pids": [
+        "50215995"
+      ]
+    },
+    {
+      "lien": 37,
+      "aan": "02969998",
+      "location": "Longstretch Road, Mackdale",
+      "recoveryAmount": 1930.32,
+      "redeemable": true,
+      "pids": [
+        "50003904"
+      ]
+    },
+    {
+      "lien": 38,
+      "aan": "03975592",
+      "location": "Chéticamp Back Road, Belle-Marche",
+      "recoveryAmount": 4309.14,
+      "redeemable": false,
+      "pids": [
+        "50170224"
+      ]
+    },
+    {
+      "lien": 39,
+      "aan": "03973158",
+      "location": "Cormier Road, Plateau",
+      "recoveryAmount": 3417.12,
+      "redeemable": false,
+      "pids": [
+        "50092790"
+      ]
+    },
+    {
+      "lien": 40,
+      "aan": "10689821",
+      "location": "266 Broad Cove Marsh Road, Broad Cove Chapel, Lot 6F-B",
+      "recoveryAmount": 7347.7,
+      "redeemable": true,
+      "pids": [
+        "50326339"
+      ]
+    },
+    {
+      "lien": 41,
+      "aan": "10712335",
+      "location": "Bashure Road, La Prairie",
+      "recoveryAmount": 1499.4,
+      "redeemable": true,
+      "pids": [
+        "50159409"
+      ]
+    },
+    {
+      "lien": 42,
+      "aan": "04034813",
+      "location": "Cabot Trail, Cap Le Moine",
+      "recoveryAmount": 1030.61,
+      "redeemable": false,
+      "pids": [
+        "50163336"
+      ]
+    },
+    {
+      "lien": 43,
+      "aan": "09617361",
+      "location": "Highway 19, Lot 4, Creignish",
+      "recoveryAmount": 3412.09,
+      "redeemable": false,
+      "pids": [
+        "50291475"
+      ]
+    },
+    {
+      "lien": 44,
+      "aan": "09617450",
+      "location": "Orangedale–Marble Mountain Road, Seal Cove, Lot 7",
+      "recoveryAmount": 1411.64,
+      "redeemable": true,
+      "pids": [
+        "50291558"
+      ]
+    },
+    {
+      "lien": 45,
+      "aan": "02744139",
+      "location": "Shore Road, St. Rose",
+      "recoveryAmount": 7857.18,
+      "redeemable": false,
+      "pids": [
+        "50067925"
+      ]
+    }
+  ]
+}
