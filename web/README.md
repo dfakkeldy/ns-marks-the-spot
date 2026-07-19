@@ -177,20 +177,26 @@ are live service examples, not fixtures used by the ordinary unit suite.
 
 ## Historical outcome layer receipt
 
-The historical layer is visually distinct and off by default. Its first
-fully-supported slice pairs official Halifax notices and result tables for the
-March 8, 2022 and September 16, 2025 sales by tender:
+The historical layer is visually distinct and off by default. Its supported
+slice pairs official Halifax notices and result tables for seven sales by
+tender from March 8, 2022 through September 16, 2025:
 
-| Event | Records | Exact PIDs | Sold | Unsold | Official amount labels |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Halifax March 8, 2022 | 11 | 11 | 9 | 2 | `Opening Bid`, `Selling Price` |
-| Halifax September 16, 2025 | 37 | 38 | 37 | 0 | `Opening Bid`, `Selling Price` |
-| **Total** | **48** | **49** | **46** | **2** | |
+| Event | Records | Exact PIDs | Sold | Unsold | Unknown | Official amount labels |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Halifax March 8, 2022 | 11 | 11 | 9 | 2 | 0 | `Opening Bid`, `Selling Price` |
+| Halifax September 12, 2023 | 10 | 10 | 10 | 0 | 0 | `Opening Bid`, `Selling Price` |
+| Halifax January 16, 2024 | 8 | 9 | 8 | 0 | 0 | `Opening Bid`, `Selling Price` |
+| Halifax May 14, 2024 | 7 | 8 | 5 | 2 | 0 | `Opening Bid`, `Selling Price` |
+| Halifax September 24, 2024 | 9 | 10 | 8 | 0 | 1 | `Opening Bid`, `Selling Price` or `PENDING` |
+| Halifax March 25, 2025 | 5 | 7 | 5 | 0 | 0 | `Opening Bid`, `Selling Price` |
+| Halifax September 16, 2025 | 37 | 38 | 37 | 0 | 0 | `Opening Bid`, `Selling Price` |
+| **Total** | **87** | **93** | **82** | **4** | **1** | |
 
 Every included listing was reconciled between the official notice and result,
-and every eight-digit PID matched NSPRD on July 19, 2026. The 2025 result has
-one listing covering two PIDs; its opening and selling prices remain attached
-to the one listing and are not divided between parcels. Assessed-owner and
+and every eight-digit PID matched NSPRD on July 19, 2026. Multi-PID listings
+retain opening and selling prices at listing level rather than dividing them
+between parcels. The September 24, 2024 `PENDING` row is fail-closed as outcome
+unknown and has no winning bid or financial comparison. Assessed-owner and
 bidder names are absent from the normalized JSON.
 
 `src/data/historicalSourceLedger.json` pins official URLs, retrieval dates,
@@ -233,7 +239,7 @@ This slice includes the modern OpenStreetMap basemap, seven web-cleared Province
 layers, live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the two
-upcoming municipal tax-sale events, and a separate default-off layer of two
+upcoming municipal tax-sale events, and a separate default-off layer of seven
 verified Halifax historical result events. The Fletcher layer is visible but
 disabled until web-use rights are clear. Unsupported historical sources remain
 fail-closed. Offline maps remain the native iPhone app's job.

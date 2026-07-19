@@ -14,16 +14,39 @@ import {
 } from "./historicalTaxSales";
 
 describe("historical tax-sale outcomes", () => {
-  it("preserves two supported Halifax events as 48 owner-free records", () => {
-    expect(historicalTaxSaleEvents).toHaveLength(2);
-    expect(historicalTaxSaleRecords).toHaveLength(48);
-    expect(matchedHistoricalPids()).toHaveLength(49);
+  it("preserves seven supported Halifax events as 87 owner-free records", () => {
+    expect(historicalTaxSaleEvents).toHaveLength(7);
+    expect(historicalTaxSaleRecords).toHaveLength(87);
+    expect(matchedHistoricalPids()).toHaveLength(93);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "sold"),
-    ).toHaveLength(46);
+    ).toHaveLength(82);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unsold"),
-    ).toHaveLength(2);
+    ).toHaveLength(4);
+    expect(
+      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unknown"),
+    ).toHaveLength(1);
+    expect(
+      historicalTaxSaleEvents.map(({ id }) => {
+        const records = historicalTaxSaleRecords.filter(
+          ({ eventId }) => eventId === id,
+        );
+        return {
+          id,
+          records: records.length,
+          pids: records.flatMap(({ pids }) => pids).length,
+        };
+      }),
+    ).toEqual([
+      { id: "hrm-2022-03-08", records: 11, pids: 11 },
+      { id: "hrm-2023-09-12", records: 10, pids: 10 },
+      { id: "hrm-2024-01-16", records: 8, pids: 9 },
+      { id: "hrm-2024-05-14", records: 7, pids: 8 },
+      { id: "hrm-2024-09-24", records: 9, pids: 10 },
+      { id: "hrm-2025-03-25", records: 5, pids: 7 },
+      { id: "hrm-2025-09-16", records: 37, pids: 38 },
+    ]);
 
     const publicDataset = JSON.stringify({
       events: historicalTaxSaleEvents,
@@ -47,6 +70,18 @@ describe("historical tax-sale outcomes", () => {
     });
     expect(historicalContextsForPid("40657074")[0]?.record).toBe(listing);
     expect(historicalContextsForPid("40657165")[0]?.record).toBe(listing);
+  });
+
+  it("keeps the published September 2024 pending result fail-closed", () => {
+    const pending = historicalContextsForPid("40441354")[0];
+
+    expect(pending.record).toMatchObject({
+      eventId: "hrm-2024-09-24",
+      outcome: "unknown",
+      winningBidCents: null,
+      resultNote: "Official result: PENDING - Property is still being offered.",
+    });
+    expect(calculateFinancialComparison(pending.event, pending.record)).toBeNull();
   });
 
   it("retains duplicate PIDs across different events as separate records", () => {
@@ -162,6 +197,6 @@ describe("historical tax-sale outcomes", () => {
       expect(event.noticeSha256).toMatch(/^[a-f0-9]{64}$/u);
       expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
     }
-    expect(historicalSourceLedger.coverage).toHaveLength(4);
+    expect(historicalSourceLedger.coverage).toHaveLength(9);
   });
 });

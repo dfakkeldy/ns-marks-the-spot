@@ -2,5 +2,5 @@
   "schemaVersion": 1,
   "reviewedOn": "2026-07-19",
   "exceptions": [],
-  "notes": "Only exact eight-digit official PIDs that matched NSPRD are rendered. Ambiguous, malformed, mobile-home-only, and unmatched rows remain outside the public layer and must be recorded here before any future import."
+  "notes": "Only exact eight-digit official PIDs that matched NSPRD are rendered. All 93 currently included PIDs matched the live service on July 19, 2026. Ambiguous, malformed, mobile-home-only, and unmatched rows remain outside the public layer and must be recorded here before any future import."
 }

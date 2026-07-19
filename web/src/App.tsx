@@ -98,10 +98,25 @@ const historicalMunicipalities = Array.from(
 const historicalYears = Array.from(
   new Set(historicalTaxSaleEvents.map(({ saleDate }) => saleDate.slice(0, 4))),
 ).sort((left, right) => right.localeCompare(left));
+const historicalOutcomeOrder: HistoricalOutcome[] = [
+  "sold",
+  "unsold",
+  "withdrawn",
+  "cancelled",
+  "redeemed",
+  "unknown",
+];
+const historicalOutcomes = historicalOutcomeOrder.filter((outcome) =>
+  historicalTaxSaleRecords.some((record) => record.outcome === outcome),
+);
 
 function eventDateLabel(event: TaxSaleEvent): string {
   const timestamp = event.saleStartsAt ?? event.closedAt;
   return timestamp ? eventDate.format(new Date(timestamp)) : "Date not listed";
+}
+
+function countLabel(count: number, singular: string): string {
+  return `${count} ${count === 1 ? singular : `${singular}s`}`;
 }
 
 function snapshotDateLabel(event: TaxSaleEvent): string {
@@ -1409,8 +1424,11 @@ export function App() {
               <span className="switch" aria-hidden="true" />
               <span>
                 <strong>Show historical outcomes</strong>
-                <small>48 records · 49 exact matched PIDs</small>
-                <small>Halifax · 2022 and 2025</small>
+                <small>
+                  {historicalTaxSaleRecords.length} records ·{" "}
+                  {allHistoricalTaxSalePids.length} exact matched PIDs
+                </small>
+                <small>Halifax · 2022–2025</small>
               </span>
             </label>
             <div className="historical-filters" aria-label="Historical filters">
@@ -1457,13 +1475,17 @@ export function App() {
                   }
                 >
                   <option value="all">All outcomes</option>
-                  <option value="sold">Sold</option>
-                  <option value="unsold">Unsold - no bids</option>
+                  {historicalOutcomes.map((outcome) => (
+                    <option key={outcome} value={outcome}>
+                      {historicalOutcomeLabel(outcome)}
+                    </option>
+                  ))}
                 </select>
               </label>
             </div>
             <p className="historical-filter-count">
-              {filteredHistoricalRecords.length} records · {filteredHistoricalPids.size} PIDs
+              {countLabel(filteredHistoricalRecords.length, "record")} ·{" "}
+              {countLabel(filteredHistoricalPids.size, "PID")}
             </p>
             <p className="parcel-message" role="status" aria-live="polite">
               {showHistoricalTaxSales ? historicalParcelMessage : null}

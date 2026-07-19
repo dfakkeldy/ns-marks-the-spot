@@ -198,12 +198,13 @@ record when it covers several parcels, so listing-level amounts are never
 allocated by the UI. Filters derive matched PID sets by municipality, year, and
 outcome without altering the upcoming-notice layer.
 
-The first supported slice contains Halifax Regional Municipality's March 8,
-2022 and September 16, 2025 tender results: 48 owner-free listing records, 49
-exact PIDs, 46 sold outcomes, and two official no-bid outcomes. The infocard
-calculates comparisons in integer cents only when the same CAD event publishes
-both an opening bid and a selling price. It presents direct official notice and
-result links, source dates, match basis, multi-PID warnings, and a dated-outcome
+The supported slice contains seven Halifax Regional Municipality tender events
+from March 8, 2022 through September 16, 2025: 87 owner-free listing records,
+93 exact PIDs, 82 sold outcomes, four official no-bid outcomes, and one official
+`PENDING` row represented as outcome unknown. The infocard calculates
+comparisons in integer cents only when the same CAD event publishes both an
+opening bid and a selling price. It presents direct official notice and result
+links, source dates, match basis, multi-PID warnings, and a dated-outcome
 limitation. Researched CBRM events remain outside the matched layer until their
 notice/result pairs can be reconciled fail-closed; the complete ledger and
 snapshot hashes live beside the dataset.

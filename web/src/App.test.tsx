@@ -206,13 +206,49 @@ describe("NS Marks The Spot Online", () => {
       "historical layer: on",
     );
     await waitFor(() =>
-      expect(screen.getByText("49 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+      expect(screen.getByText("93 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("2 records · 2 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("4 records · 4 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
     expect(screen.getByText("2 records · 2 PIDs")).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
+    await user.selectOptions(screen.getByLabelText("Historical outcome"), "unknown");
+    expect(screen.getByText("1 record · 1 PID")).toBeInTheDocument();
+  });
+
+  it("renders the official pending result without a fabricated winning bid", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Historical tax-sale outcomes" }),
+    );
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "40441354",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 40441354 details",
+    });
+    expect(within(inspector).getByText("Outcome unknown")).toBeInTheDocument();
+    expect(
+      within(inspector).getByText("Not published in verified sources"),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText(
+        "Official result: PENDING - Property is still being offered.",
+      ),
+    ).toBeInTheDocument();
+    expect(within(inspector).queryByText("Difference")).not.toBeInTheDocument();
   });
 
   it("shows owner-free historical outcome and financial context for a matched PID", async () => {
