@@ -614,6 +614,10 @@ a {
   border-top: 1px solid var(--line);
 }
 
+.province-attribution {
+  line-height: 1.2;
+}
+
 .map-attribution > * {
   padding: 0 16px;
   border-left: 1px solid rgba(18, 52, 59, 0.28);
@@ -702,6 +706,10 @@ a {
     grid-template-rows: 62px minmax(0, 1fr) 44px;
     height: 100svh;
     overflow: hidden;
+  }
+
+  .map-attribution {
+    padding-inline: 16px;
   }
 
   .app-header {

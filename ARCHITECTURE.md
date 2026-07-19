@@ -114,8 +114,8 @@ Municipal notices and NSPRD have deliberately separate authority:
    multiple polygons, so selection and map fitting operate across all matching
    features.
 4. Province-licensed geometry and reference tiles are not requested until the
-   user accepts the versioned licence gate. Required attribution and the
-   not-a-survey caveat stay visible in the map footer.
+   user accepts the versioned licence gate. The exact required attribution and
+   the not-a-survey caveat stay visible in the map footer after the gate closes.
 5. Browser geolocation is handled locally and drawn directly on the map; there
    is no application server receiving a user's coordinates.
 
@@ -123,3 +123,10 @@ The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is intentionally disabled on the web
 until web-use rights are clear; offline Fletcher use continues to belong to the
 native app.
+
+Municipal events retain their source status, while the rendered lifecycle is
+derived from the current time. An advertised event becomes “verify results”
+after its scheduled start; the app does not manufacture a historical outcome.
+Rendered event controls include the source retrieval date. Inverness listings
+are generated from the owner-free book JSON snapshot, whose byte-for-byte
+SHA-256 is pinned by the web test suite.

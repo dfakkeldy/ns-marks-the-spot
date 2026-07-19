@@ -22,7 +22,10 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
    PID. The municipal notice remains the authority for tax-sale fields.
 3. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
-   withdrawn before the sale.
+   withdrawn before the sale. Once an advertised start time passes without a
+   verified result dataset, the UI automatically changes to “Past sale date —
+   verify results with the municipality.” It does not infer sold, unsold, or
+   withdrawn results.
 4. Browser location stays in the browser and is drawn on the map. This app has
    no application server receiving the coordinates.
 
@@ -63,6 +66,12 @@ the browser and does not add an application server or offline cache.
 - Source normalization: extracted text renders lien 19 as `N0`; visual review of
   the rendered summary confirms `NO`, stored as `redeemable: false`.
 - The wrong 2025 notice is not an input to this layer.
+- The owner-free book dataset is checked in byte-for-byte as
+  `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
+  that JSON, including its AAN strings and integer-cent conversion. A test pins
+  the published SHA-256
+  `b69a50e76fd87fc6785e4742367796a4d2ee9f013b9c0ebd002868e01d5c3be4`
+  so either repository cannot drift silently.
 
 ## CBRM July 21, 2026 source receipt
 
@@ -101,7 +110,10 @@ The live official municipal sources control wherever a research count differs.
 NSPRD is governed by the [Province of Nova Scotia Restricted Geographic
 Services License](https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf).
 The app requires acceptance before loading parcel geometry, shows the required
-Province attribution, and states that boundaries are not a legal survey.
+Province attribution, and states that boundaries are not a legal survey. The
+exact attribution sentence remains in the rendered footer after the licence
+dialog closes. Each event control also renders its municipal snapshot retrieval
+date rather than leaving that date only in source data.
 
 ## Source and deployment boundary
 
