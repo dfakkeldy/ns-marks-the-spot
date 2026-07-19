@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { PropsWithChildren } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -7,10 +7,17 @@ import { MapCanvas } from "./MapCanvas";
 import { parcelStyleForFeature } from "./parcelStyle";
 
 const mapMock = vi.hoisted(() => ({
+  addLayer: vi.fn(),
   fitBounds: vi.fn(),
   getZoom: vi.fn(() => 9),
   removeLayer: vi.fn(),
   setZoom: vi.fn(),
+}));
+
+const mapEventHandlers = vi.hoisted(() => ({
+  click: undefined as
+    | ((event: { latlng: { lat: number; lng: number } }) => void)
+    | undefined,
 }));
 
 vi.mock("react-leaflet", () => ({
@@ -44,6 +51,10 @@ vi.mock("react-leaflet", () => ({
   MapContainer: ({ children }: PropsWithChildren) => <div>{children}</div>,
   TileLayer: () => null,
   useMap: () => mapMock,
+  useMapEvents: (handlers: typeof mapEventHandlers) => {
+    mapEventHandlers.click = handlers.click;
+    return mapMock;
+  },
 }));
 
 vi.mock("../services/browserLocation", () => ({
@@ -79,6 +90,7 @@ describe("MapCanvas browser location", () => {
         showModernMap
         showTaxSale={false}
         onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
       />,
     );
 
@@ -99,6 +111,83 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
+  });
+});
+
+describe("MapCanvas parcel discovery", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapEventHandlers.click = undefined;
+  });
+
+  it("identifies the parcel under a map tap when property boundaries are visible", () => {
+    const onIdentifyParcel = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+        }}
+        showModernMap={false}
+        showTaxSale
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    act(() => mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }));
+
+    expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
+  });
+
+  it("fits the initial view to the visible tax-sale parcel layer once", async () => {
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [parcel] },
+      taxSalePids: new Set(["50251750"]),
+      selectedPid: null,
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: true,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": true,
+        roads: true,
+      },
+      showModernMap: false,
+      showTaxSale: true,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+    };
+    const { rerender } = render(<MapCanvas {...props} />);
+
+    await waitFor(() => expect(mapMock.fitBounds).toHaveBeenCalledTimes(1));
+    rerender(<MapCanvas {...props} parcels={{ ...props.parcels }} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
   });
 });
 

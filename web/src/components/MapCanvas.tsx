@@ -7,6 +7,7 @@ import {
   MapContainer,
   TileLayer,
   useMap,
+  useMapEvents,
 } from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
@@ -35,6 +36,7 @@ type MapCanvasProps = {
   showModernMap: boolean;
   showTaxSale: boolean;
   onSelectPid: (pid: string) => void;
+  onIdentifyParcel: (latitude: number, longitude: number) => void;
 };
 
 const CAPE_BRETON_CENTER: [number, number] = [46.08, -60.92];
@@ -160,6 +162,67 @@ function SelectionController({
   return null;
 }
 
+function InitialTaxSaleBoundsController({
+  parcels,
+  taxSalePids,
+  showTaxSale,
+}: Pick<MapCanvasProps, "parcels" | "taxSalePids" | "showTaxSale">) {
+  const map = useMap();
+  const hasFittedInitialTaxSaleLayer = useRef(false);
+
+  useEffect(() => {
+    if (hasFittedInitialTaxSaleLayer.current || !showTaxSale) {
+      return;
+    }
+
+    const taxSaleFeatures = parcels.features.filter(({ properties }) =>
+      taxSalePids.has(properties.PID),
+    );
+    if (taxSaleFeatures.length === 0) {
+      return;
+    }
+
+    const taxSaleCollection: GeoJSON.FeatureCollection<
+      GeoJSON.Geometry,
+      NsprdFeatureProperties
+    > = {
+      type: "FeatureCollection",
+      features: taxSaleFeatures,
+    };
+    const bounds = L.geoJSON(taxSaleCollection).getBounds();
+    if (!bounds.isValid()) {
+      return;
+    }
+
+    hasFittedInitialTaxSaleLayer.current = true;
+    map.fitBounds(bounds, {
+      animate: false,
+      padding: [48, 48],
+      maxZoom: 13,
+    });
+  }, [map, parcels, showTaxSale, taxSalePids]);
+
+  return null;
+}
+
+function ParcelIdentifyController({
+  enabled,
+  onIdentifyParcel,
+}: {
+  enabled: boolean;
+  onIdentifyParcel: MapCanvasProps["onIdentifyParcel"];
+}) {
+  useMapEvents({
+    click: ({ latlng }) => {
+      if (enabled) {
+        onIdentifyParcel(latlng.lat, latlng.lng);
+      }
+    },
+  });
+
+  return null;
+}
+
 export function MapCanvas({
   parcels,
   taxSalePids,
@@ -168,6 +231,7 @@ export function MapCanvas({
   showModernMap,
   showTaxSale,
   onSelectPid,
+  onIdentifyParcel,
 }: MapCanvasProps) {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const [mapZoom, setMapZoom] = useState(9);
@@ -256,7 +320,10 @@ export function MapCanvas({
           style={parcelStyle}
           onEachFeature={(feature, layer) => {
             const pid = (feature.properties as NsprdFeatureProperties).PID;
-            layer.on("click", () => onSelectPid(pid));
+            layer.on("click", (event) => {
+              L.DomEvent.stopPropagation(event.originalEvent);
+              onSelectPid(pid);
+            });
             layer.bindTooltip(`PID ${pid}`, { sticky: true });
           }}
         />
@@ -287,7 +354,16 @@ export function MapCanvas({
           </>
         ) : null}
         <SelectionController parcels={visibleParcels} selectedPid={selectedPid} />
+        <InitialTaxSaleBoundsController
+          parcels={parcels}
+          taxSalePids={taxSalePids}
+          showTaxSale={showTaxSale}
+        />
         <LayerZoomController provinceLayers={provinceLayers} />
+        <ParcelIdentifyController
+          enabled={provinceLayers.nsprd}
+          onIdentifyParcel={onIdentifyParcel}
+        />
       </MapContainer>
 
       <button

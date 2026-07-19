@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { nativeLayerCatalog, provinceLayerIds } from "./layerCatalog";
+import {
+  initialProvinceLayerVisibility,
+  nativeLayerCatalog,
+  provinceLayerIds,
+} from "./layerCatalog";
 
 describe("web native-layer parity catalog", () => {
   it("mirrors the native catalog order, names, and service URLs", () => {
@@ -85,6 +89,18 @@ describe("web native-layer parity catalog", () => {
         .filter(({ id }) => provinceLayerIds.includes(id))
         .every(({ licence }) => licence === "province-restricted"),
     ).toBe(true);
+  });
+
+  it("starts with parcel boundaries, water, and roads as the context map", () => {
+    expect(initialProvinceLayerVisibility).toEqual({
+      "ns-aerial": false,
+      nsprd: true,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": true,
+      roads: true,
+    });
   });
 
   it("carries the native flood and waterfall rendering restrictions", () => {

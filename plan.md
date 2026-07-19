@@ -44,6 +44,8 @@
 - [x] React + Vite map shell with a responsive desktop/mobile layout
 - [x] Versioned Province licence acceptance before NSPRD geometry loads
 - [x] Exact PID search against the live NSPRD Feature Layer
+- [x] Civic-address search through the authoritative Civic Address File with NSPRD parcel resolution
+- [x] Tap-to-identify any visible NSPRD parcel boundary and open the shared parcel sheet
 - [x] Browser-local current location display
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Flood Risk Areas, and Waterfalls
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
@@ -52,12 +54,16 @@
 - [x] Approximate NSPRD acreage and exact road/water intersections in the selected-parcel sheet
 - [x] Authoritative Civic Address File lookup with paginated bounding-box queries and exact parcel containment
 - [x] Independent civic-address loading, empty, failure, attribution, and stale-selection cancellation states
+- [x] Parcel-first defaults: modern/aerial off, boundaries/water/roads on, and one-time tax-sale bounds fit
+- [x] Unavailable Fletcher control placed last in the web layer list
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app
 - [ ] Enable Fletcher on the web after web-use rights are clear
 - [ ] Add municipality importers only from current official notices
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled
+- [ ] Add separate Karst Risk and Known Karst Occurrences layers from DP ME 494 only with 2019 currentness, source-scale, completeness, and non-survey caveats
+- [ ] Add a selected-parcel Property context summary, starting with karst and coastal hazards; use the researched source order and caveats in `docs/property-context-data-candidates.md`
 
 ## Future Considerations
 - Google Maps SDK as alternative engine

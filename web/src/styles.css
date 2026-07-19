@@ -237,6 +237,40 @@ a {
   font-weight: 600;
 }
 
+.address-search-results {
+  display: grid;
+  gap: 1px;
+  max-height: 220px;
+  margin: 9px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid rgba(18, 52, 59, 0.24);
+  border-radius: 5px;
+}
+
+.address-search-results button {
+  width: 100%;
+  padding: 10px 11px;
+  color: var(--chart-ink);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-align: left;
+  background: var(--white);
+  border: 0;
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+  cursor: pointer;
+}
+
+.address-search-results li:first-child button {
+  border-top: 0;
+}
+
+.address-search-results button:hover,
+.address-search-results button:focus-visible {
+  background: #edf5ff;
+}
+
 .rail-section {
   padding: 20px 0;
   border-top: 1px solid var(--line);
@@ -541,6 +575,27 @@ a {
 }
 
 .location-message:empty {
+  display: none;
+}
+
+.parcel-lookup-message {
+  position: absolute;
+  z-index: 500;
+  top: 12px;
+  right: 12px;
+  max-width: min(340px, calc(100% - 84px));
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font-size: 0.74rem;
+  line-height: 1.35;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.parcel-lookup-message:empty {
   display: none;
 }
 

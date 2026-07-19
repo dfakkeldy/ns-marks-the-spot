@@ -43,6 +43,32 @@ export function buildPidQueryUrl(pids: string[]): string {
   return `${NSPRD_LAYER_URL}/query?${parameters.toString()}`;
 }
 
+export function buildPointQueryUrl(
+  latitude: number,
+  longitude: number,
+): string {
+  if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) {
+    throw new Error("NSPRD point queries require a valid latitude.");
+  }
+  if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
+    throw new Error("NSPRD point queries require a valid longitude.");
+  }
+
+  const parameters = new URLSearchParams({
+    where: "1=1",
+    geometry: `${longitude},${latitude}`,
+    geometryType: "esriGeometryPoint",
+    inSR: "4326",
+    spatialRel: "esriSpatialRelIntersects",
+    outFields: "PID,UPDAT_DATE,SHAPE.AREA",
+    returnGeometry: "true",
+    outSR: "4326",
+    f: "geojson",
+  });
+
+  return `${NSPRD_LAYER_URL}/query?${parameters.toString()}`;
+}
+
 export async function fetchParcels(
   pids: string[],
   signal?: AbortSignal,
@@ -70,11 +96,26 @@ export async function fetchParcels(
   };
 }
 
+export async function fetchParcelAtPoint(
+  latitude: number,
+  longitude: number,
+  signal?: AbortSignal,
+): Promise<NsprdFeatureCollection> {
+  return fetchParcelCollection(buildPointQueryUrl(latitude, longitude), signal);
+}
+
 async function fetchParcelBatch(
   pids: string[],
   signal?: AbortSignal,
 ): Promise<NsprdFeatureCollection> {
-  const response = await fetch(buildPidQueryUrl(pids), { signal });
+  return fetchParcelCollection(buildPidQueryUrl(pids), signal);
+}
+
+async function fetchParcelCollection(
+  url: string,
+  signal?: AbortSignal,
+): Promise<NsprdFeatureCollection> {
+  const response = await fetch(url, { signal });
 
   if (!response.ok) {
     throw new Error(`NSPRD request failed with status ${response.status}.`);
@@ -86,6 +127,10 @@ async function fetchParcelBatch(
 
   if (payload.error) {
     throw new Error(payload.error.message ?? "NSPRD returned an unknown error.");
+  }
+
+  if (payload.type !== "FeatureCollection" || !Array.isArray(payload.features)) {
+    throw new Error("NSPRD returned an unexpected GeoJSON response.");
   }
 
   return payload;

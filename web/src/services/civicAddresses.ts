@@ -26,6 +26,7 @@ export const CIVIC_ADDRESS_FIELDS = [
 ] as const;
 
 export const CIVIC_ADDRESS_PAGE_SIZE = 1_000;
+export const CIVIC_ADDRESS_SEARCH_LIMIT = 12;
 
 type AddressComponent = string | number | null | undefined;
 type ParcelFeature = NsprdFeatureCollection["features"][number];
@@ -87,6 +88,39 @@ export function buildCivicAddressQueryUrl(
   return `${CIVIC_ADDRESS_GEOJSON_URL}?${parameters.toString()}`;
 }
 
+export function buildCivicAddressSearchUrl(
+  query: string,
+  limit = CIVIC_ADDRESS_SEARCH_LIMIT,
+): string {
+  const normalizedQuery = query.trim().replace(/\s+/gu, " ");
+  if (normalizedQuery.length < 3) {
+    throw new Error("Civic address searches require at least three characters.");
+  }
+
+  const leadingCivicNumber = normalizedQuery.match(
+    /^(\d+)([a-z]?)\s+(.{2,})$/iu,
+  );
+  const fullTextQuery = leadingCivicNumber?.[3] ?? normalizedQuery;
+  const parameters = new URLSearchParams({
+    $select: CIVIC_ADDRESS_FIELDS.join(","),
+    $q: fullTextQuery,
+    $order: "pntid",
+    $limit: String(limit),
+  });
+  if (leadingCivicNumber) {
+    const civicNumber = Number(leadingCivicNumber[1]);
+    const civicSuffix = leadingCivicNumber[2]?.toUpperCase();
+    parameters.set(
+      "$where",
+      civicSuffix
+        ? `civicnum=${civicNumber} AND upper(civsuffix)='${civicSuffix}'`
+        : `civicnum=${civicNumber}`,
+    );
+  }
+
+  return `${CIVIC_ADDRESS_GEOJSON_URL}?${parameters.toString()}`;
+}
+
 function cleanComponent(value: AddressComponent): string | null {
   if (value === null || value === undefined) {
     return null;
@@ -98,17 +132,6 @@ function cleanComponent(value: AddressComponent): string | null {
     .replace(/^,+|,+$/gu, "")
     .trim();
   return cleaned && cleaned !== "-" ? cleaned : null;
-}
-
-function cleanAdditionalLocation(value: AddressComponent): string | null {
-  const cleaned = cleanComponent(value);
-  if (!cleaned) {
-    return null;
-  }
-
-  return ["unknown", "n/a", "not available"].includes(cleaned.toLowerCase())
-    ? null
-    : cleaned;
 }
 
 function uniqueSegments(values: Array<string | null>): string[] {
@@ -152,7 +175,6 @@ export function formatCivicAddress(
   return uniqueSegments([
     unitLabel,
     street || null,
-    cleanAdditionalLocation(properties.add_loc),
     cleanComponent(properties.comm),
     cleanComponent(properties.mun),
     cleanComponent(properties.county),
@@ -286,6 +308,62 @@ function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
     : null;
 }
 
+function civicAddressForFeature(
+  feature: CivicPointFeature,
+): CivicAddress | null {
+  const pntid = cleanComponent(feature.properties.pntid);
+  const coordinates = pointCoordinates(feature);
+  if (!pntid || !coordinates) {
+    return null;
+  }
+
+  return {
+    pntid,
+    coordinates,
+    label: formatCivicAddress(feature.properties) || "Mapped civic point",
+    properties: feature.properties,
+  };
+}
+
+async function fetchCivicPointCollection(
+  url: string,
+  signal?: AbortSignal,
+): Promise<CivicPointFeature[]> {
+  const response = await fetch(url, { signal });
+  if (!response.ok) {
+    throw new Error(
+      `Civic Points request failed with status ${response.status}.`,
+    );
+  }
+
+  const payload = (await response.json()) as CivicPointCollection;
+  if (payload.type !== "FeatureCollection" || !Array.isArray(payload.features)) {
+    throw new Error("Civic Points returned an unexpected GeoJSON response.");
+  }
+
+  return payload.features;
+}
+
+export async function searchCivicAddresses(
+  query: string,
+  signal?: AbortSignal,
+): Promise<CivicAddress[]> {
+  const features = await fetchCivicPointCollection(
+    buildCivicAddressSearchUrl(query),
+    signal,
+  );
+  const addresses = new Map<string, CivicAddress>();
+
+  for (const feature of features) {
+    const address = civicAddressForFeature(feature);
+    if (address && !addresses.has(address.pntid)) {
+      addresses.set(address.pntid, address);
+    }
+  }
+
+  return [...addresses.values()];
+}
+
 async function fetchCandidates(
   bounds: CivicAddressBounds,
   signal?: AbortSignal,
@@ -293,23 +371,13 @@ async function fetchCandidates(
   const candidates: CivicPointFeature[] = [];
 
   for (let offset = 0; ; offset += CIVIC_ADDRESS_PAGE_SIZE) {
-    const response = await fetch(
+    const page = await fetchCivicPointCollection(
       buildCivicAddressQueryUrl(bounds, CIVIC_ADDRESS_PAGE_SIZE, offset),
-      { signal },
+      signal,
     );
-    if (!response.ok) {
-      throw new Error(
-        `Civic Points request failed with status ${response.status}.`,
-      );
-    }
 
-    const payload = (await response.json()) as CivicPointCollection;
-    if (payload.type !== "FeatureCollection" || !Array.isArray(payload.features)) {
-      throw new Error("Civic Points returned an unexpected GeoJSON response.");
-    }
-
-    candidates.push(...payload.features);
-    if (payload.features.length < CIVIC_ADDRESS_PAGE_SIZE) {
+    candidates.push(...page);
+    if (page.length < CIVIC_ADDRESS_PAGE_SIZE) {
       break;
     }
   }
@@ -335,23 +403,18 @@ export async function fetchCivicAddresses(
   const addresses = new Map<string, CivicAddress>();
 
   for (const feature of candidates) {
-    const pntid = cleanComponent(feature.properties.pntid);
-    const coordinates = pointCoordinates(feature);
+    const address = civicAddressForFeature(feature);
     if (
-      !pntid ||
-      !coordinates ||
-      !polygonParts.some((part) => pointInPolygonPart(coordinates, part)) ||
-      addresses.has(pntid)
+      !address ||
+      !polygonParts.some((part) =>
+        pointInPolygonPart(address.coordinates, part),
+      ) ||
+      addresses.has(address.pntid)
     ) {
       continue;
     }
 
-    addresses.set(pntid, {
-      pntid,
-      coordinates,
-      label: formatCivicAddress(feature.properties) || "Mapped civic point",
-      properties: feature.properties,
-    });
+    addresses.set(address.pntid, address);
   }
 
   return [...addresses.values()];
