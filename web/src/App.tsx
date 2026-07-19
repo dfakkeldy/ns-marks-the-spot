@@ -294,6 +294,9 @@ function LayerToggle({
 
 export function App() {
   const [licenceAccepted, setLicenceAccepted] = useState(isLicenceAccepted);
+  const [headerCollapsed, setHeaderCollapsed] = useState(
+    () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
+  );
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
     () => !isLicenceAccepted(),
   );
@@ -437,7 +440,9 @@ export function App() {
     : undefined;
 
   return (
-    <div className="app-shell">
+    <div
+      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}`}
+    >
       <header className="app-header">
         <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
           <img src={appIconUrl} alt="" />
@@ -450,6 +455,15 @@ export function App() {
             Get the iPhone app
           </a>
         </div>
+        <button
+          className="header-collapse"
+          type="button"
+          aria-label={headerCollapsed ? "Expand header" : "Collapse header"}
+          aria-expanded={!headerCollapsed}
+          onClick={() => setHeaderCollapsed((collapsed) => !collapsed)}
+        >
+          <span aria-hidden="true">{headerCollapsed ? "⌄" : "⌃"}</span>
+        </button>
       </header>
 
       <main className="map-layout">

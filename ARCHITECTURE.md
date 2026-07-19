@@ -88,7 +88,8 @@ catalog's Province MapServer layers in the browser.
 `web/src/layers/layerCatalog.ts` is the web parity contract. It mirrors the
 native catalog order, URLs, Province licence requirement, and rendering
 restrictions. Web-specific display ranges may extend where the live service
-supports them: aerial imagery remains available through browser zoom 19, and
+supports them: the map zooms through level 23 while aerial imagery safely
+overzooms its last useful native level instead of disappearing, and
 turning on Waterfalls first fits the map to the 90-fall discovery extent.
 `ArcGISExportTileLayer` converts Leaflet tile
 coordinates to Web Mercator bounds and requests direct PNG tiles from each

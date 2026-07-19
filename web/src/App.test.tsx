@@ -116,6 +116,26 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("collapses and restores the header", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const collapse = screen.getByRole("button", { name: "Collapse header" });
+    expect(collapse).toHaveAttribute("aria-expanded", "true");
+
+    await user.click(collapse);
+
+    const expand = screen.getByRole("button", { name: "Expand header" });
+    expect(expand).toHaveAttribute("aria-expanded", "false");
+    expect(expand.closest(".app-shell")).toHaveClass("header-collapsed");
+
+    await user.click(expand);
+
+    expect(
+      screen.getByRole("button", { name: "Collapse header" }),
+    ).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("finds a tax-sale listing by PID without claiming that it is available", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");

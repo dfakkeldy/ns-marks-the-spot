@@ -35,8 +35,8 @@ of immediate possession, guaranteed access, clear title, or buildability.
 The web catalog mirrors the native source URLs and rendering restrictions while
 remaining online-only:
 
-- NS Aerial streams the Province's NSODB 10k imagery through the web map's
-  full zoom range.
+- NS Aerial streams the Province's NSODB 10k imagery through map zoom 23,
+  overzooming its last useful native scale instead of disappearing.
 - NS Property Boundaries streams statewide NSPRD outlines at zoom 12 and above;
   PID search still uses the NSPRD Feature Layer so a selected parcel can be
   inspected precisely.

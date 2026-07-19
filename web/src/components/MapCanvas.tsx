@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
-import { GeoJSON, MapContainer, TileLayer, useMap } from "react-leaflet";
+import {
+  Circle,
+  CircleMarker,
+  GeoJSON,
+  MapContainer,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   provinceLayerCatalog,
@@ -64,6 +71,7 @@ function ArcGISMapLayer({
         maxZoom: layer.maxZoom,
         opacity: layer.opacity,
         zIndex: layerZIndexes[layer.id],
+        maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
         updateWhenZooming: false,
         keepBuffer: 2,
       },
@@ -225,7 +233,7 @@ export function MapCanvas({
         center={CAPE_BRETON_CENTER}
         zoom={9}
         minZoom={7}
-        maxZoom={19}
+        maxZoom={23}
         zoomControl
         attributionControl={false}
         ref={setMap}
@@ -233,7 +241,8 @@ export function MapCanvas({
         {showModernMap ? (
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={19}
+            maxZoom={23}
+            maxNativeZoom={19}
             zIndex={100}
           />
         ) : null}
@@ -255,18 +264,30 @@ export function MapCanvas({
           }}
         />
         {userLocation ? (
-          <GeoJSON
-            data={L.circle(
-              [userLocation.latitude, userLocation.longitude],
-              Math.max(userLocation.accuracy, 12),
-            ).toGeoJSON()}
-            style={{
+          <>
+            <Circle
+              center={[userLocation.latitude, userLocation.longitude]}
+              radius={Math.max(userLocation.accuracy, 12)}
+              interactive={false}
+              pathOptions={{
+                color: "#2f80ed",
+                fillColor: "#2f80ed",
+                fillOpacity: 0.18,
+                weight: 2,
+              }}
+            />
+            <CircleMarker
+              center={[userLocation.latitude, userLocation.longitude]}
+              radius={8}
+              interactive={false}
+              pathOptions={{
               color: "#ffffff",
               fillColor: "#2f80ed",
-              fillOpacity: 0.8,
+              fillOpacity: 1,
               weight: 3,
-            }}
-          />
+              }}
+            />
+          </>
         ) : null}
         <SelectionController parcels={visibleParcels} selectedPid={selectedPid} />
         <LayerZoomController provinceLayers={provinceLayers} />
