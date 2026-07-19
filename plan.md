@@ -39,6 +39,20 @@
 - [ ] Additional historical map collections beyond Fletcher
 - [ ] User-submitted POIs and syncing improvements
 
+## Online Companion
+
+- [x] React + Vite map shell with a responsive desktop/mobile layout
+- [x] Versioned Province licence acceptance before NSPRD geometry loads
+- [x] Exact PID search against the live NSPRD Feature Layer
+- [x] Browser-local current location display
+- [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Flood Risk Areas, and Waterfalls
+- [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
+- [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
+- [x] Official-source link, withdrawal/redemption warning, and title-search caveat
+- [x] Offline-use handoff to the native iPhone app
+- [ ] Enable Fletcher on the web after web-use rights are clear
+- [ ] Add municipality importers only from current official notices
+
 ## Future Considerations
 - Google Maps SDK as alternative engine
 - iCloud sync for POI collections

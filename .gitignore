@@ -75,3 +75,7 @@ Gemfile.lock
 # Python
 __pycache__/
 *.pyc
+
+# Web companion
+web/node_modules/
+web/dist/
