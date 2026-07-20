@@ -11,6 +11,7 @@ import {
 } from "./services/civicAddresses";
 import { fetchParcelAtPoint, fetchParcels } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
+import { fetchParcelResourceIntersections } from "./services/parcelResources";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -21,6 +22,7 @@ vi.mock("./components/MapCanvas", () => ({
     resourceLayers,
     showModernMap,
     showHistoricalTaxSales,
+    initialPosition,
     onIdentifyParcel,
   }: {
     parcels: { features: unknown[] };
@@ -30,6 +32,7 @@ vi.mock("./components/MapCanvas", () => ({
     resourceLayers: Record<string, boolean>;
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
+    initialPosition?: { latitude: number; longitude: number; zoom: number };
     onIdentifyParcel: (latitude: number, longitude: number) => void;
   }) => (
     <div data-testid="map-canvas">
@@ -43,6 +46,7 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["mineral-occurrences"] ? "on" : "off"}; mineral tenure:{" "}
       {resourceLayers["mineral-tenure"] ? "on" : "off"}; abandoned mines:{" "}
       {resourceLayers["abandoned-mines"] ? "on" : "off"}
+      ; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -79,6 +83,18 @@ vi.mock("./services/civicAddresses", async (importOriginal) => {
     ...original,
     fetchCivicAddresses: vi.fn().mockResolvedValue([]),
     searchCivicAddresses: vi.fn().mockResolvedValue([]),
+  };
+});
+
+vi.mock("./services/parcelResources", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/parcelResources")>();
+  return {
+    ...original,
+    fetchParcelResourceIntersections: vi.fn().mockResolvedValue({
+      "mineral-occurrences": { status: "ready", intersections: [] },
+      "mineral-tenure": { status: "ready", intersections: [] },
+      "abandoned-mines": { status: "ready", intersections: [] },
+    }),
   };
 });
 
@@ -122,6 +138,7 @@ const civicAddress = (pntid: string, label: string): CivicAddress => ({
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
+    window.history.replaceState(null, "", "/");
     vi.mocked(fetchParcels).mockResolvedValue({
       type: "FeatureCollection",
       features: [],
@@ -133,6 +150,11 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
     vi.mocked(fetchCivicAddresses).mockResolvedValue([]);
     vi.mocked(searchCivicAddresses).mockResolvedValue([]);
+    vi.mocked(fetchParcelResourceIntersections).mockResolvedValue({
+      "mineral-occurrences": { status: "ready", intersections: [] },
+      "mineral-tenure": { status: "ready", intersections: [] },
+      "abandoned-mines": { status: "ready", intersections: [] },
+    });
   });
 
   afterEach(() => {
@@ -216,6 +238,85 @@ describe("NS Marks The Spot Online", () => {
     ).toHaveLength(2);
   });
 
+  it("makes current notices and historical results separate map modes", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    expect(screen.getByRole("button", { name: "Current notices" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("region", { name: "Current tax-sale notices" }))
+      .toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Historical tax-sale outcomes" }))
+      .not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Historical results" }));
+
+    expect(screen.getByRole("button", { name: "Historical results" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.queryByRole("region", { name: "Current tax-sale notices" }))
+      .not.toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Historical tax-sale outcomes" }))
+      .toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("historical layer: on");
+  });
+
+  it("restores mode, PID, layers, and position from a shared URL", async () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?mode=historical&pid=40538464&event=hrm-2022-03-08&layers=nsprd,roads&position=46.1,-60.9,12",
+    );
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+
+    render(<App />);
+
+    expect(screen.getByRole("button", { name: "Historical results" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(screen.getByLabelText("Water features")).not.toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "initial position: 46.1,-60.9,12",
+    );
+    expect(
+      await screen.findByRole("complementary", { name: "Parcel 40538464 details" }),
+    ).toBeInTheDocument();
+    expect(new URL(window.location.href).searchParams.get("event"))
+      .toContain("hrm-2022-03-08");
+  });
+
+  it("shows source metadata beside layer controls", () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    const propertyRow = screen.getByLabelText("NS Property Boundaries").closest("label");
+    expect(propertyRow).not.toBeNull();
+    expect(within(propertyRow as HTMLElement).getByText(/Source date:/)).toBeInTheDocument();
+    expect(within(propertyRow as HTMLElement).getByText(/Scale:/)).toBeInTheDocument();
+    expect(within(propertyRow as HTMLElement).getByText(/Coverage:/)).toBeInTheDocument();
+    expect(
+      within(propertyRow as HTMLElement).getByText(
+        (_, element) => element?.textContent === "Zoom: 10–24",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(propertyRow as HTMLElement).getByText(/Loading|Ready|Off|Zoom/, {
+        selector: ".layer-runtime",
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("keeps verified historical outcomes off by default and loads them on demand", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -226,18 +327,13 @@ describe("NS Marks The Spot Online", () => {
 
     render(<App />);
 
-    const toggle = screen.getByRole("checkbox", {
-      name: "Historical tax-sale outcomes",
-    });
-    expect(toggle).not.toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "historical layer: off",
     );
-    expect(screen.getByLabelText("Historical sale year")).toBeDisabled();
+    expect(screen.queryByLabelText("Historical sale year")).not.toBeInTheDocument();
 
-    await user.click(toggle);
+    await user.click(screen.getByRole("button", { name: "Historical results" }));
 
-    expect(toggle).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "historical layer: on",
     );
@@ -264,7 +360,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     await user.click(
-      screen.getByRole("checkbox", { name: "Historical tax-sale outcomes" }),
+      screen.getByRole("button", { name: "Historical results" }),
     );
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -297,7 +393,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     await user.click(
-      screen.getByRole("checkbox", { name: "Historical tax-sale outcomes" }),
+      screen.getByRole("button", { name: "Historical results" }),
     );
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -891,6 +987,46 @@ describe("NS Marks The Spot Online", () => {
         "Mapped physical-address points are not proof of ownership, mailing address, access, occupancy, or legal parcel status.",
       ),
     ).toBeInTheDocument();
+  });
+
+  it("shows explicit official-source resource intersections in the parcel sheet", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelResourceIntersections).mockResolvedValueOnce({
+      "mineral-occurrences": {
+        status: "ready",
+        intersections: [
+          {
+            id: "A01-001",
+            name: "Example occurrence",
+            detail: "Occurrence · Au, Ag",
+          },
+        ],
+      },
+      "mineral-tenure": { status: "ready", intersections: [] },
+      "abandoned-mines": { status: "error", intersections: [] },
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const resources = await screen.findByRole("region", {
+      name: "Geology and resource intersections",
+    });
+    expect(within(resources).getByText("Example occurrence")).toBeInTheDocument();
+    expect(within(resources).getByText("Occurrence · Au, Ag")).toBeInTheDocument();
+    expect(within(resources).getByText("Source unavailable; no absence is inferred."))
+      .toBeInTheDocument();
+    expect(
+      within(resources).getByText(/Empty results do not prove absence/),
+    ).toBeInTheDocument();
+    expect(within(resources).getAllByRole("link")).toHaveLength(3);
   });
 
   it("lists every unique mapped civic address", async () => {

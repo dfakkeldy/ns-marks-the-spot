@@ -33,6 +33,9 @@ export type WebLayerDescriptor = {
   licence: "province-restricted" | "rumsey-reference";
   webAvailability: "available" | "rights-pending";
   webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
   exportOptions?: ArcGISExportOptions;
 };
 
@@ -46,6 +49,9 @@ type ResourceLayerBase = {
   opacity: number;
   licence: "province-open";
   webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
 };
 
 export type ResourceMapLayerDescriptor = ResourceLayerBase & {
@@ -149,6 +155,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "rumsey-reference",
     webAvailability: "rights-pending",
     webCaveat: "Web rights pending",
+    sourceDate: "Historical source · scan published 2023",
+    scale: "Historical map sheet",
+    coverage: "Selected Nova Scotia sheets",
   },
   {
     id: "ns-aerial",
@@ -162,6 +171,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "Online imagery",
+    sourceDate: "Imagery dates vary · service checked July 20, 2026",
+    scale: "NSODB 1:10,000 imagery",
+    coverage: "Nova Scotia",
     exportOptions: { transparent: false },
   },
   {
@@ -176,6 +188,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "Zoom 10+ · not a survey",
+    sourceDate: "Live service · checked July 20, 2026",
+    scale: "Display floor 1:36,114",
+    coverage: "Nova Scotia",
     exportOptions: {
       transparent: true,
       dpi: 0.75,
@@ -194,6 +209,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "Zoom 12+",
+    sourceDate: "Live service · checked July 20, 2026",
+    scale: "Detailed view from zoom 12",
+    coverage: "Nova Scotia",
     exportOptions: {
       transparent: true,
       dynamicLayers: CROWN_LANDS_DYNAMIC_LAYERS,
@@ -211,6 +229,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "Watersheds · zoom 12+",
+    sourceDate: "Live service · checked July 20, 2026",
+    scale: "Watershed detail from zoom 12",
+    coverage: "Published flood-risk watersheds",
     exportOptions: { transparent: true, layers: "show:24,25,26" },
   },
   {
@@ -225,6 +246,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "90 mapped falls · overview on selection",
+    sourceDate: "Live service · checked July 20, 2026",
+    scale: "NSTDB 1:10,000 point inventory",
+    coverage: "Nova Scotia · 90 mapped falls",
     exportOptions: {
       transparent: true,
       dynamicLayers: WATERFALLS_DYNAMIC_LAYERS,
@@ -242,6 +266,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "Rivers, lakes, wetlands & more",
+    sourceDate: "Live service · checked July 20, 2026",
+    scale: "NSTDB 1:10,000",
+    coverage: "Nova Scotia",
     exportOptions: { transparent: true, dpi: 144 },
   },
   {
@@ -256,6 +283,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "province-restricted",
     webAvailability: "available",
     webCaveat: "Highways to trails · culverts close up",
+    sourceDate: "Live service · checked July 20, 2026",
+    scale: "NSTDB 1:10,000",
+    coverage: "Nova Scotia",
     exportOptions: { transparent: true, dpi: 192 },
   },
 ] as const;
@@ -308,6 +338,9 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
     ],
     markerColor: "#9b5de5",
     webCaveat: "Recorded occurrences, not proof of a viable deposit",
+    sourceDate: "June 2024 · version 12",
+    scale: "Point inventory · source displays to 1:500,000",
+    coverage: "Nova Scotia",
   },
   {
     id: "mineral-tenure",
@@ -322,6 +355,9 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
     delivery: "map-export",
     exportOptions: { transparent: true, layers: "show:1,7" },
     webCaveat: "Exploration licences and mineral leases; not land ownership",
+    sourceDate: "Live NovaROC · checked July 20, 2026",
+    scale: "Tenure polygons · source displays to 1:3,000,000",
+    coverage: "Nova Scotia",
   },
   {
     id: "abandoned-mines",
@@ -345,6 +381,9 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
     ],
     markerColor: "#d1495b",
     webCaveat: "Provincial hazard inventory; locations and conditions may change",
+    sourceDate: "2024 · version 9",
+    scale: "Approximate point inventory",
+    coverage: "Nova Scotia · incomplete inventory",
   },
 ] as const;
 

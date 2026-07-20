@@ -148,6 +148,16 @@ describe("web native-layer parity catalog", () => {
     expect(propertyBoundaries?.webCaveat).toBe("Zoom 10+ · not a survey");
     expect(propertyBoundaries?.exportOptions?.dpi).toBe(0.75);
   });
+
+  it("publishes source date, scale, coverage, and zoom metadata for every layer", () => {
+    for (const layer of nativeLayerCatalog) {
+      expect(layer.sourceDate).not.toHaveLength(0);
+      expect(layer.scale).not.toHaveLength(0);
+      expect(layer.coverage).not.toHaveLength(0);
+      expect(layer.minZoom).toBeTypeOf("number");
+      expect(layer.maxZoom).toBeTypeOf("number");
+    }
+  });
 });
 
 describe("geology and resources catalog", () => {
@@ -200,5 +210,24 @@ describe("geology and resources catalog", () => {
       resourceLayerCatalog.find(({ id }) => id === "abandoned-mines")
         ?.webCaveat,
     ).toContain("hazard inventory");
+  });
+
+  it("exposes dated source, scale, coverage, and zoom metadata beside resource layers", () => {
+    const mineralOccurrences = resourceLayerCatalog.find(
+      ({ id }) => id === "mineral-occurrences",
+    );
+    const abandonedMines = resourceLayerCatalog.find(
+      ({ id }) => id === "abandoned-mines",
+    );
+
+    expect(mineralOccurrences).toMatchObject({
+      sourceDate: "June 2024 · version 12",
+      scale: "Point inventory · source displays to 1:500,000",
+      coverage: "Nova Scotia",
+    });
+    expect(abandonedMines).toMatchObject({
+      sourceDate: "2024 · version 9",
+      coverage: "Nova Scotia · incomplete inventory",
+    });
   });
 });
