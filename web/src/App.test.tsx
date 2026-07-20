@@ -169,6 +169,19 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("invites map feedback through the KinNoKi Labs map address", () => {
+    render(<App />);
+
+    expect(
+      screen.getByRole("link", {
+        name: "Feedback & suggestions: map@kinnokilabs.com",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback",
+    );
+  });
+
   it("reveals both privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);

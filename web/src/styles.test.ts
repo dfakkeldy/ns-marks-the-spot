@@ -54,4 +54,12 @@ describe("mobile parcel inspector layout", () => {
 
     expect(linkDeclarations).toMatch(/min-height:\s*44px/);
   });
+
+  it("gives the persistent feedback appeal a WCAG-sized target", () => {
+    const linkDeclarations = styles.match(
+      /\.feedback-link\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(linkDeclarations).toMatch(/min-height:\s*24px/);
+  });
 });
