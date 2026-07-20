@@ -130,6 +130,12 @@ function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
   ) as Record<MapLayerId, MapLayerStatus>;
 }
 
+function disabledProvinceLayers(): Record<ProvinceLayerId, boolean> {
+  return Object.fromEntries(
+    provinceLayerCatalog.map(({ id }) => [id, false]),
+  ) as Record<ProvinceLayerId, boolean>;
+}
+
 const currency = new Intl.NumberFormat("en-CA", {
   style: "currency",
   currency: "CAD",
@@ -1071,8 +1077,8 @@ export function App() {
   const [showModernMap, setShowModernMap] = useState(
     hasSharedLayers ? initialShareState.layerIds.includes("modern") : false,
   );
-  const [provinceLayers, setProvinceLayers] = useState(
-    () => hasSharedLayers
+  const intendedInitialProvinceLayers = useRef(
+    hasSharedLayers
       ? Object.fromEntries(
           provinceLayerCatalog.map(({ id }) => [
             id,
@@ -1080,6 +1086,11 @@ export function App() {
           ]),
         ) as Record<ProvinceLayerId, boolean>
       : initialProvinceLayerVisibility,
+  ).current;
+  const [provinceLayers, setProvinceLayers] = useState(
+    () => licenceAccepted
+      ? intendedInitialProvinceLayers
+      : disabledProvinceLayers(),
   );
   const [resourceLayers, setResourceLayers] = useState(
     () => hasSharedLayers
@@ -1369,16 +1380,13 @@ export function App() {
 
   const acceptLicence = () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    setProvinceLayers(intendedInitialProvinceLayers);
     setLicenceAccepted(true);
     setLicenceDialogOpen(false);
   };
 
   const continueWithoutProvinceLayers = () => {
-    setProvinceLayers(
-      Object.fromEntries(
-        provinceLayerCatalog.map(({ id }) => [id, false]),
-      ) as Record<ProvinceLayerId, boolean>,
-    );
+    setProvinceLayers(disabledProvinceLayers());
     setShowModernMap(true);
     setLicenceDialogOpen(false);
   };

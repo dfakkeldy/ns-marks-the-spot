@@ -171,6 +171,10 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByRole("button", { name: "Accept and view map layers" }),
     ).toBeInTheDocument();
+    expect(screen.getByLabelText("NS Aerial")).not.toBeChecked();
+    expect(screen.getByLabelText("NS Property Boundaries")).not.toBeChecked();
+    expect(screen.getByLabelText("Water features")).not.toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
   });
 
   it("shows the modern map when continuing without Province layers", async () => {
@@ -258,6 +262,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeChecked();
     expect(screen.getByLabelText("Search by PID or civic address")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).toBeEnabled();
     expect(screen.getByLabelText("Crown Lands")).toBeEnabled();
     expect(screen.getByLabelText("Flood Risk Areas")).toBeEnabled();
