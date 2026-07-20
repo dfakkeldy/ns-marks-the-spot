@@ -16,7 +16,7 @@ describe("mobile parcel inspector layout", () => {
     expect(inspectorDeclarations).toMatch(/overflow-y:\s*auto/);
   });
 
-  it("keeps the inspector within the phone map viewport and scrolls long content", () => {
+  it("keeps the inspector above phone attribution and scrolls long content", () => {
     const mobileStart = styles.indexOf("@media (max-width: 560px)");
     const mobileEnd = styles.indexOf(
       "@media (prefers-reduced-motion: reduce)",
@@ -30,7 +30,7 @@ describe("mobile parcel inspector layout", () => {
     expect(mobileStart).toBeGreaterThanOrEqual(0);
     expect(mobileEnd).toBeGreaterThan(mobileStart);
     expect(inspectorDeclarations).toMatch(/top:\s*10px/);
-    expect(inspectorDeclarations).toMatch(/bottom:\s*10px/);
+    expect(inspectorDeclarations).toMatch(/bottom:\s*42px/);
     expect(inspectorDeclarations).toMatch(/overflow-y:\s*auto/);
   });
 

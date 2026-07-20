@@ -135,6 +135,12 @@ function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
   ) as Record<MapLayerId, MapLayerStatus>;
 }
 
+function disabledProvinceLayers(): Record<ProvinceLayerId, boolean> {
+  return Object.fromEntries(
+    provinceLayerCatalog.map(({ id }) => [id, false]),
+  ) as Record<ProvinceLayerId, boolean>;
+}
+
 const currency = new Intl.NumberFormat("en-CA", {
   style: "currency",
   currency: "CAD",
@@ -1096,6 +1102,7 @@ export function App() {
   const [headerCollapsed, setHeaderCollapsed] = useState(
     () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
   );
+  const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
     () => !isLicenceAccepted(),
   );
@@ -1133,8 +1140,8 @@ export function App() {
   const [showModernMap, setShowModernMap] = useState(
     hasSharedLayers ? initialShareState.layerIds.includes("modern") : false,
   );
-  const [provinceLayers, setProvinceLayers] = useState(
-    () => hasSharedLayers
+  const intendedInitialProvinceLayers = useRef(
+    hasSharedLayers
       ? Object.fromEntries(
           provinceLayerCatalog.map(({ id }) => [
             id,
@@ -1142,6 +1149,11 @@ export function App() {
           ]),
         ) as Record<ProvinceLayerId, boolean>
       : initialProvinceLayerVisibility,
+  ).current;
+  const [provinceLayers, setProvinceLayers] = useState(
+    () => licenceAccepted
+      ? intendedInitialProvinceLayers
+      : disabledProvinceLayers(),
   );
   const [resourceLayers, setResourceLayers] = useState(
     () => hasSharedLayers
@@ -1441,7 +1453,14 @@ export function App() {
 
   const acceptLicence = () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    setProvinceLayers(intendedInitialProvinceLayers);
     setLicenceAccepted(true);
+    setLicenceDialogOpen(false);
+  };
+
+  const continueWithoutProvinceLayers = () => {
+    setProvinceLayers(disabledProvinceLayers());
+    setShowModernMap(true);
     setLicenceDialogOpen(false);
   };
 
@@ -1486,6 +1505,7 @@ export function App() {
   );
 
   const selectParcel = (pid: string) => {
+    setMobileControlsOpen(false);
     setSelectedPid(pid);
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
@@ -1857,7 +1877,21 @@ export function App() {
       </header>
 
       <main className="map-layout">
-        <aside className={`layer-rail mode-${mapMode}`} aria-label="Map controls">
+        <aside
+          id="map-controls"
+          className={`layer-rail mode-${mapMode}${mobileControlsOpen ? " mobile-open" : ""}`}
+          aria-label="Map controls"
+        >
+          <div className="mobile-sheet-header">
+            <strong>Search &amp; layers</strong>
+            <button
+              type="button"
+              onClick={() => setMobileControlsOpen(false)}
+              aria-label="Close map controls"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
           <h1>Explore Nova Scotia</h1>
           <form className="pid-search" onSubmit={submitPidSearch}>
             <label htmlFor="pid-query">Search by PID or civic address</label>
@@ -2291,6 +2325,26 @@ export function App() {
           className={`map-region${selectedPid ? " has-inspector" : ""}`}
           aria-label="Map and parcel details"
         >
+          <div className="mobile-map-chrome">
+            <a
+              className="mobile-map-brand"
+              href="../"
+              aria-label="NS Marks The Spot home"
+            >
+              <span aria-hidden="true">NS</span>
+              <strong>NS Marks</strong>
+            </a>
+            <button
+              className="mobile-controls-trigger"
+              type="button"
+              aria-controls="map-controls"
+              aria-expanded={mobileControlsOpen}
+              onClick={() => setMobileControlsOpen(true)}
+            >
+              <span aria-hidden="true">⌕</span>
+              Search &amp; layers
+            </button>
+          </div>
           <MapCanvas
             parcels={parcels}
             taxSalePids={filteredTaxSalePids}
@@ -2392,7 +2446,7 @@ export function App() {
       {licenceDialogOpen ? (
         <LicenceDialog
           onAccept={acceptLicence}
-          onContinueWithout={() => setLicenceDialogOpen(false)}
+          onContinueWithout={continueWithoutProvinceLayers}
         />
       ) : null}
     </div>
