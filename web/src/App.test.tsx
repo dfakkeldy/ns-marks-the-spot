@@ -151,6 +151,24 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
+  it("credits the open-source software separately from map-data licences", () => {
+    render(<App />);
+
+    expect(
+      screen.getByRole("link", {
+        name: "© OpenStreetMap contributors",
+      }),
+    ).toHaveAttribute("href", "https://www.openstreetmap.org/copyright");
+    expect(
+      screen.getByRole("link", {
+        name: "Open source · MIT · GitHub",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/dfakkeldy/ns-marks-the-spot",
+    );
+  });
+
   it("reveals both privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);

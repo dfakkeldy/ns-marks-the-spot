@@ -1703,7 +1703,20 @@ export function App() {
       </main>
 
       <footer className="map-attribution">
-        <span>Map data © OpenStreetMap contributors</span>
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noreferrer"
+        >
+          © OpenStreetMap contributors
+        </a>
+        <a
+          href="https://github.com/dfakkeldy/ns-marks-the-spot"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open source · MIT · GitHub
+        </a>
         <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
         {Object.values(resourceLayers).some(Boolean) ? (
           <span>Geoscience data © Province of Nova Scotia</span>
