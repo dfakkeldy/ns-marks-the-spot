@@ -14,6 +14,7 @@ type FetchArcGISFeatureOverlayOptions = {
   serviceUrl: string;
   bounds: MapEnvelope;
   outFields: readonly string[];
+  distanceMetres?: number;
   signal?: AbortSignal;
 };
 
@@ -31,6 +32,7 @@ export async function fetchArcGISFeatureOverlay({
   serviceUrl,
   bounds,
   outFields,
+  distanceMetres,
   signal,
 }: FetchArcGISFeatureOverlayOptions): Promise<ArcGISPointFeatureCollection> {
   const features: ArcGISPointFeatureCollection["features"] = [];
@@ -45,6 +47,10 @@ export async function fetchArcGISFeatureOverlay({
     );
     queryUrl.searchParams.set("geometryType", "esriGeometryEnvelope");
     queryUrl.searchParams.set("spatialRel", "esriSpatialRelIntersects");
+    if (distanceMetres !== undefined) {
+      queryUrl.searchParams.set("distance", String(distanceMetres));
+      queryUrl.searchParams.set("units", "esriSRUnit_Meter");
+    }
     queryUrl.searchParams.set("inSR", "4326");
     queryUrl.searchParams.set("outSR", "4326");
     queryUrl.searchParams.set("outFields", outFields.join(","));

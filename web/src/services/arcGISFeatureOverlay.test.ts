@@ -43,6 +43,24 @@ describe("ArcGIS feature overlays", () => {
     expect(requestUrl.searchParams.get("f")).toBe("geojson");
   });
 
+  it("queries a metre distance around the visible envelope when requested", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ type: "FeatureCollection", features: [] })),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchArcGISFeatureOverlay({
+      serviceUrl: "https://example.test/FeatureServer/0",
+      bounds: { west: -62, south: 45, east: -60, north: 47 },
+      outFields: ["geo_id"],
+      distanceMetres: 1_000,
+    });
+
+    const requestUrl = new URL(fetchMock.mock.calls[0][0]);
+    expect(requestUrl.searchParams.get("distance")).toBe("1000");
+    expect(requestUrl.searchParams.get("units")).toBe("esriSRUnit_Meter");
+  });
+
   it("continues through full pages and removes duplicate records", async () => {
     const fullPage = Array.from({ length: 2_000 }, (_, index) => feature(index));
     const fetchMock = vi
