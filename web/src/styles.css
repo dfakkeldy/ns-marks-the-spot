@@ -436,6 +436,131 @@ a {
   background: var(--historical-ink);
 }
 
+.tax-sale-event {
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.tax-sale-event:first-of-type {
+  border-top: 0;
+}
+
+.tax-sale-event .event-row {
+  border-top: 0;
+}
+
+.tax-sale-property-list {
+  margin: -1px 0 12px 54px;
+  border-left: 2px solid rgba(190, 77, 60, 0.24);
+}
+
+.tax-sale-property-list summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 8px;
+  align-items: center;
+  min-height: 38px;
+  padding: 5px 0 5px 10px;
+  color: var(--survey-red);
+  cursor: pointer;
+  list-style: none;
+}
+
+.tax-sale-property-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.tax-sale-property-list summary::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--survey-red);
+  content: "+";
+  font-size: 1.15rem;
+}
+
+.tax-sale-property-list[open] summary::after {
+  content: "−";
+}
+
+.tax-sale-property-list summary > span {
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tax-sale-property-list summary small {
+  grid-column: 1;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 500;
+}
+
+.tax-sale-property-list-body {
+  padding: 2px 0 8px 10px;
+}
+
+.tax-sale-property-list-body > p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.4;
+}
+
+.tax-sale-property-list ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tax-sale-property-list button {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 8px 9px;
+  color: var(--chart-ink);
+  text-align: left;
+  background: var(--paper);
+  border: 1px solid rgba(18, 52, 59, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tax-sale-property-list button:hover,
+.tax-sale-property-list button:focus-visible {
+  background: #fff3e5;
+  border-color: rgba(190, 77, 60, 0.48);
+}
+
+.tax-sale-property-list button.selected {
+  color: #7f2e24;
+  background: #fff0ed;
+  border-color: var(--survey-red);
+  box-shadow: inset 3px 0 0 var(--survey-red);
+}
+
+.tax-sale-property-list button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.tax-sale-property-list button strong {
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.tax-sale-property-list button span {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  line-height: 1.25;
+}
+
+.tax-sale-property-list-empty {
+  padding: 8px 9px;
+  background: var(--fog);
+  border-radius: 4px;
+}
+
 .historical-filters {
   display: grid;
   gap: 9px;

@@ -666,6 +666,66 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByText("$15,529.15")).toBeInTheDocument();
   });
 
+  it("browses tax-sale properties and selects one parcel at a time", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+    render(<App />);
+
+    await user.click(
+      screen.getByText("68 parcels shown").closest("summary")!,
+    );
+    const cbrmProperties = screen.getByRole("list", {
+      name: "CBRM tax-sale properties",
+    });
+    const property = within(cbrmProperties).getByRole("button", {
+      name: "75 DORCHESTER ST LAND BUILDING, lien 26-05, PID 15054588",
+    });
+
+    await user.click(property);
+
+    expect(property).toHaveAttribute("aria-current", "true");
+    expect(
+      screen.getByRole("complementary", {
+        name: "Parcel 15054588 details",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "75 DORCHESTER ST LAND BUILDING",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Search by PID or civic address")).toHaveValue(
+      "15054588",
+    );
+  });
+
+  it("keeps the property lists aligned with the redemption filter", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: /Immediate \/ none/ }),
+    );
+
+    expect(screen.getByText("29 parcels shown")).toBeInTheDocument();
+    expect(screen.getByText("18 parcels shown")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", {
+        name: "75 DORCHESTER ST LAND BUILDING, lien 26-05, PID 15054588",
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "158 VICTORIA RD LAND BUILDING, lien 26-10, PID 15129406",
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("shows mapped acreage and exact intersecting road and water features", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
