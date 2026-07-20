@@ -444,7 +444,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     expect(screen.getByLabelText("Modern map")).not.toBeChecked();
-    expect(screen.getByLabelText("NS Aerial")).not.toBeChecked();
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
     expect(screen.getByLabelText("Water features")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();

@@ -113,8 +113,8 @@ overlays were verified against their live sources on July 20, 2026 under the
 Nova Scotia Open Government Licence.
 
 After the Province licence is accepted, the default composition keeps Modern
-Map and NS Aerial off, turns NS Property Boundaries, Water Features, and Roads,
-Trails & Culverts on, and fits the initial view once to the loaded tax-sale
+Map off and turns NS Aerial, NS Property Boundaries, Water Features, and Roads,
+Trails & Culverts on. It fits the initial view once to the loaded tax-sale
 parcels. Fletcher is the final layer row because it is not yet available. The
 initial fit does not repeat after searches or ordinary navigation.
 

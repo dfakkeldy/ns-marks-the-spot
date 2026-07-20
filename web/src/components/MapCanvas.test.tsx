@@ -1,7 +1,7 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { PropsWithChildren } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
 import { MapCanvas } from "./MapCanvas";
@@ -80,6 +80,10 @@ const hiddenResourceLayers = {
   "abandoned-mines": false,
 };
 
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 describe("MapCanvas browser location", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -137,6 +141,52 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
+  });
+
+  it("dismisses the successful location message after four seconds", async () => {
+    vi.useFakeTimers();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": true,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Use my location" }));
+      await Promise.resolve();
+    });
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(3_999));
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(1));
+    expect(
+      screen.queryByText("Your location is shown on the map."),
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("location-position")).toBeInTheDocument();
   });
 });
 
