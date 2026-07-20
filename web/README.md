@@ -112,6 +112,44 @@ native or useful scale, coverage, and supported map-zoom range. All three
 overlays were verified against their live sources on July 20, 2026 under the
 Nova Scotia Open Government Licence.
 
+## Inverness hydro terrain-potential pilot
+
+The collapsed **Hydro terrain pilot** is a web-only, default-off open-data
+screen for 23 named secondary watersheds centred in Inverness County. Turning
+it on fits the map to the pilot. Line width represents the watershed's published
+area; line colour represents its relative terrain-potential quartile within
+these 23 watersheds. Selecting a line reports the raw watershed area, mapped
+elevation drop, mapped main-flow route length, and average mapped fall in m/km.
+
+The checked-in GeoJSON is reproduced with `npm run generate:hydro-pilot` from:
+
+- [1:10,000 Nova Scotia Secondary Watersheds](https://data.novascotia.ca/Environment-and-Energy/1-10-000-Nova-Scotia-Secondary-Watersheds/ynkv-x6rx),
+  for the official watershed name and area; and
+- the [Nova Scotia Hydrographic Network](https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer),
+  using directed primary-flow features from the Spines (9) and Wet Features
+  (11) layers for route geometry and Z values.
+
+For each watershed, the generator follows the longest connected route through
+NSHN features where `LEVELPRIOR = 1` and `FLOWDIR = 1`. It calculates:
+
+`average mapped fall = elevation range / route length`
+
+`screening value = ln(1 + watershed area in km²) × average mapped fall`
+
+The logarithm tempers the influence of the largest watersheds. Low, Moderate,
+High, and Very high are quartiles of this pilot cohort, not physical thresholds.
+Display geometry is simplified to about two metres and rounded to six decimal
+places; the published area, Z-derived drop, and source plan lengths are not
+recalculated from that display geometry. The July 20, 2026 receipt contains 23
+features and identifies watershed dataset `ynkv-x6rx` and NSHN layers 9 and 11.
+
+This pilot does **not** estimate streamflow, litres per second, cubic metres per
+second, hydraulic head, or power. It does not present Strahler stream order:
+NSHN's `LEVELPRIOR` describes primary/alternate flow paths and must not be
+relabeled as stream order. It also does not establish seasonal reliability,
+mapped stream width, buildability, access, water rights, fish-habitat review,
+or regulatory approval. It is a terrain-screening scale only.
+
 After the Province licence is accepted, the default composition keeps Modern
 Map off and turns NS Aerial, NS Property Boundaries, Water Features, and Roads,
 Trails & Culverts on. It fits the initial view once to the loaded tax-sale

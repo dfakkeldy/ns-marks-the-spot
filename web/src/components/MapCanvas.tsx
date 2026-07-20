@@ -11,15 +11,22 @@ import {
 } from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
+  hydroPilotLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
   provinceLayerCatalog,
   resourceLayerCatalog,
+  type HydroPilotLayerId,
   type ProvinceLayerId,
   type ResourceFeatureLayerDescriptor,
   type ResourceLayerId,
   type ResourceMapLayerDescriptor,
   type WebLayerDescriptor,
 } from "../layers/layerCatalog";
+import {
+  loadInvernessHydroPotential,
+  type InvernessHydroPotentialCollection,
+  type InvernessHydroPotentialProperties,
+} from "../data/invernessHydroPotential";
 import {
   fetchArcGISFeatureOverlay,
   type ArcGISPointFeatureCollection,
@@ -32,6 +39,10 @@ import {
   getBrowserLocation,
   type BrowserLocation,
 } from "../services/browserLocation";
+import {
+  hydroLineStyle,
+  hydroPotentialLabel,
+} from "../services/hydroPotential";
 import {
   DEFAULT_MAP_POSITION,
   type MapPosition,
@@ -48,6 +59,7 @@ type MapCanvasProps = {
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
   resourceLayers: Record<ResourceLayerId, boolean>;
+  hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -66,7 +78,11 @@ type MapCanvasProps = {
   ) => void;
 };
 
-export type MapLayerId = "modern" | ProvinceLayerId | ResourceLayerId;
+export type MapLayerId =
+  | "modern"
+  | ProvinceLayerId
+  | ResourceLayerId
+  | HydroPilotLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
@@ -79,6 +95,13 @@ const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
   [43.55300536047742, -66.00233221945133],
   [46.83835988450765, -60.35435480050904],
 ];
+const INVERNESS_HYDRO_PILOT_BOUNDS: L.LatLngBoundsExpression = [
+  [45.75, -61.52],
+  [47.04, -60.55],
+];
+const HIDDEN_HYDRO_PILOT_LAYERS: Record<HydroPilotLayerId, boolean> = {
+  "inverness-hydro-potential": false,
+};
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
 const layerZIndexes: Record<ProvinceLayerId, number> = {
@@ -347,6 +370,91 @@ function ArcGISFeatureLayer({
   );
 }
 
+function HydroPilotLayer({
+  visible,
+  onStatusChange,
+}: {
+  visible: boolean;
+  onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+}) {
+  const [collection, setCollection] =
+    useState<InvernessHydroPotentialCollection | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!visible) {
+      onStatusChange?.("inverness-hydro-potential", { status: "idle" });
+      return;
+    }
+    if (collection) {
+      onStatusChange?.("inverness-hydro-potential", {
+        status: "ready",
+        count: collection.features.length,
+      });
+      return;
+    }
+
+    onStatusChange?.("inverness-hydro-potential", { status: "loading" });
+    void loadInvernessHydroPotential()
+      .then((nextCollection) => {
+        if (cancelled) return;
+        setCollection(nextCollection);
+        onStatusChange?.("inverness-hydro-potential", {
+          status: "ready",
+          count: nextCollection.features.length,
+        });
+      })
+      .catch(() => {
+        if (!cancelled) {
+          onStatusChange?.("inverness-hydro-potential", { status: "error" });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [collection, onStatusChange, visible]);
+
+  if (!visible || !collection) {
+    return null;
+  }
+
+  return (
+    <GeoJSON
+      data={collection}
+      style={(feature) => {
+        const properties = feature?.properties as InvernessHydroPotentialProperties;
+        return hydroLineStyle(properties);
+      }}
+      onEachFeature={(feature, featureLayer) => {
+        const properties = feature.properties as InvernessHydroPotentialProperties;
+        const potentialLabel = hydroPotentialLabel(properties.potentialClass);
+        featureLayer.on("click", (event) => {
+          L.DomEvent.stopPropagation(event.originalEvent);
+        });
+        featureLayer.bindTooltip(
+          `${properties.watershedName} · ${properties.drainageAreaKm2.toLocaleString("en-CA")} km² watershed`,
+          { sticky: true },
+        );
+        featureLayer.bindPopup(`
+          <article class="hydro-potential-popup">
+            <p class="hydro-popup-eyebrow">Inverness terrain screening pilot</p>
+            <h3>${properties.watershedName}</h3>
+            <dl>
+              <div><dt>Watershed area</dt><dd>${properties.drainageAreaKm2.toLocaleString("en-CA")} km²</dd></div>
+              <div><dt>Mapped drop</dt><dd>${properties.elevationDropMetres.toLocaleString("en-CA")} m</dd></div>
+              <div><dt>Main-flow route</dt><dd>${properties.mainFlowLengthKm.toLocaleString("en-CA")} km</dd></div>
+              <div><dt>Average mapped fall</dt><dd>${properties.averageFallMetresPerKm.toLocaleString("en-CA")} m/km</dd></div>
+              <div><dt>Relative potential</dt><dd><strong>${potentialLabel}</strong></dd></div>
+            </dl>
+            <p>Relative within these 23 watersheds. Terrain screening only—not measured flow, stream width, hydraulic head, power, access, rights, or approval.</p>
+          </article>
+        `);
+      }}
+    />
+  );
+}
+
 function MapPositionController({
   onPositionChange,
 }: Pick<MapCanvasProps, "onPositionChange">) {
@@ -395,9 +503,14 @@ function MapStatusController({
 
 function LayerZoomController({
   provinceLayers,
-}: Pick<MapCanvasProps, "provinceLayers">) {
+  hydroPilotLayers,
+}: {
+  provinceLayers: MapCanvasProps["provinceLayers"];
+  hydroPilotLayers: Record<HydroPilotLayerId, boolean>;
+}) {
   const map = useMap();
   const waterfallsWereVisible = useRef(false);
+  const hydroPilotWasVisible = useRef(false);
 
   useEffect(() => {
     const waterfallsAreVisible = provinceLayers.waterfalls;
@@ -414,6 +527,21 @@ function LayerZoomController({
       return;
     }
 
+    const hydroPilotIsVisible =
+      hydroPilotLayers["inverness-hydro-potential"];
+    const hydroPilotBecameVisible =
+      hydroPilotIsVisible && !hydroPilotWasVisible.current;
+    hydroPilotWasVisible.current = hydroPilotIsVisible;
+
+    if (hydroPilotBecameVisible) {
+      map.fitBounds(INVERNESS_HYDRO_PILOT_BOUNDS, {
+        animate: true,
+        padding: [48, 48],
+        maxZoom: 9,
+      });
+      return;
+    }
+
     const needsDetailZoom = provinceLayerCatalog.some(
       ({ id, minZoom }) => provinceLayers[id] && minZoom >= 12,
     );
@@ -421,7 +549,7 @@ function LayerZoomController({
     if (needsDetailZoom && map.getZoom() < 12) {
       map.setZoom(12, { animate: true });
     }
-  }, [map, provinceLayers]);
+  }, [hydroPilotLayers, map, provinceLayers]);
 
   return null;
 }
@@ -574,6 +702,7 @@ export function MapCanvas({
   selectedPid,
   provinceLayers,
   resourceLayers,
+  hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -731,6 +860,13 @@ export function MapCanvas({
             layer.bindTooltip(`PID ${pid}`, { sticky: true });
           }}
         />
+        {hydroPilotLayerCatalog.map((layer) => (
+          <HydroPilotLayer
+            key={layer.id}
+            visible={hydroPilotLayers[layer.id]}
+            onStatusChange={reportLayerStatus}
+          />
+        ))}
         {resourceLayerCatalog
           .filter(
             (layer): layer is ResourceFeatureLayerDescriptor =>
@@ -781,7 +917,10 @@ export function MapCanvas({
           historicalTaxSalePids={historicalTaxSalePids}
           showHistoricalTaxSales={showHistoricalTaxSales}
         />
-        <LayerZoomController provinceLayers={provinceLayers} />
+        <LayerZoomController
+          provinceLayers={provinceLayers}
+          hydroPilotLayers={hydroPilotLayers}
+        />
         <ParcelIdentifyController
           enabled={provinceLayers.nsprd}
           onIdentifyParcel={onIdentifyParcel}

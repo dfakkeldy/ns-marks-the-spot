@@ -20,6 +20,7 @@ vi.mock("./components/MapCanvas", () => ({
     historicalTaxSalePids,
     provinceLayers,
     resourceLayers,
+    hydroPilotLayers,
     showModernMap,
     showHistoricalTaxSales,
     initialPosition,
@@ -30,6 +31,7 @@ vi.mock("./components/MapCanvas", () => ({
     historicalTaxSalePids: Set<string>;
     provinceLayers: Record<string, boolean>;
     resourceLayers: Record<string, boolean>;
+    hydroPilotLayers: Record<string, boolean>;
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
@@ -46,6 +48,7 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["mineral-occurrences"] ? "on" : "off"}; mineral tenure:{" "}
       {resourceLayers["mineral-tenure"] ? "on" : "off"}; abandoned mines:{" "}
       {resourceLayers["abandoned-mines"] ? "on" : "off"}
+      ; Inverness terrain potential: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
       ; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
@@ -487,6 +490,32 @@ describe("NS Marks The Spot Online", () => {
     expect(
       within(group as HTMLElement).getByRole("link", { name: "Open data sources" }),
     ).toHaveAttribute("href", expect.stringContaining("novascotia.ca"));
+  });
+
+  it("offers the Inverness terrain pilot independently with a visible symbology key", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    const summary = screen.getByText("Hydro terrain pilot");
+    const group = summary.closest("details");
+    expect(group).not.toHaveAttribute("open");
+    expect(screen.getByLabelText("Inverness terrain potential")).not.toBeChecked();
+    expect(screen.getByLabelText("Inverness terrain potential")).toBeEnabled();
+
+    await user.click(summary);
+    await user.click(screen.getByLabelText("Inverness terrain potential"));
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Inverness terrain potential: on",
+    );
+    expect(within(group as HTMLElement).getByText("Line width = watershed area"))
+      .toBeInTheDocument();
+    expect(within(group as HTMLElement).getByText("Colour = relative terrain potential"))
+      .toBeInTheDocument();
   });
 
   it("searches a civic address and opens its containing parcel", async () => {

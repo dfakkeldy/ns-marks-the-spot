@@ -537,6 +537,134 @@ a {
   font-weight: 700;
 }
 
+.hydro-pilot-group .resource-layer-controls {
+  background: rgba(51, 151, 183, 0.07);
+  border-color: rgba(8, 118, 155, 0.24);
+}
+
+.hydro-pilot-layer-row input:checked + .switch {
+  background: #08769b;
+}
+
+.hydro-potential-legend {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(8, 118, 155, 0.18);
+  border-radius: 5px;
+}
+
+.hydro-potential-legend p {
+  margin: 0;
+  color: var(--chart-ink);
+}
+
+.hydro-potential-legend ul,
+.hydro-width-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hydro-potential-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.hydro-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 5px;
+  background: #72b7d2;
+  border-radius: 999px;
+}
+
+.hydro-swatch.moderate {
+  background: #3397b7;
+}
+
+.hydro-swatch.high {
+  background: #08769b;
+}
+
+.hydro-swatch.very-high {
+  background: #07516f;
+}
+
+.hydro-line {
+  display: inline-block;
+  width: 30px;
+  height: 0;
+  border-top: 2px solid #08769b;
+  border-radius: 999px;
+}
+
+.hydro-line.wide {
+  border-top-width: 7px;
+}
+
+.hydro-pilot-note {
+  padding-top: 2px;
+}
+
+.hydro-potential-popup {
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.hydro-potential-popup .hydro-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #08769b;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hydro-potential-popup h3 {
+  margin: 0 0 9px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.hydro-potential-popup dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.hydro-potential-popup dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.hydro-potential-popup dt,
+.hydro-potential-popup dd {
+  margin: 0;
+}
+
+.hydro-potential-popup dt {
+  color: var(--muted);
+}
+
+.hydro-potential-popup > p:last-child {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
 .historical-layer-controls {
   --historical-ink: #5a4385;
   --historical-pale: #f4f0fb;

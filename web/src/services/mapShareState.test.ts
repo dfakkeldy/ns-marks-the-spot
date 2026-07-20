@@ -10,7 +10,12 @@ describe("map share state", () => {
     mode: "current",
     pid: "15234636",
     eventIds: ["cbrm-2026-07-21"],
-    layerIds: ["nsprd", "roads", "mineral-occurrences"],
+    layerIds: [
+      "nsprd",
+      "roads",
+      "mineral-occurrences",
+      "inverness-hydro-potential",
+    ],
     position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
   };
 
@@ -20,7 +25,7 @@ describe("map share state", () => {
     expect(url.searchParams.get("pid")).toBe("15234636");
     expect(url.searchParams.get("event")).toBe("cbrm-2026-07-21");
     expect(url.searchParams.get("layers")).toBe(
-      "nsprd,roads,mineral-occurrences",
+      "nsprd,roads,mineral-occurrences,inverness-hydro-potential",
     );
     expect(url.searchParams.get("position")).toBe("46.18845,-60.02123,15");
   });

@@ -422,6 +422,54 @@ describe("MapCanvas resource overlays", () => {
   });
 });
 
+describe("MapCanvas hydro terrain pilot", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("loads the checked-in pilot only when its independent layer is visible", async () => {
+    const onLayerStatusChange = vi.fn();
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        hydroPilotLayers={{ "inverness-hydro-potential": true }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    expect(onLayerStatusChange).toHaveBeenCalledWith(
+      "inverness-hydro-potential",
+      { status: "loading" },
+    );
+    await waitFor(() =>
+      expect(onLayerStatusChange).toHaveBeenCalledWith(
+        "inverness-hydro-potential",
+        { status: "ready", count: 23 },
+      ),
+    );
+    expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
+  });
+});
+
 describe("MapCanvas parcel styling", () => {
   const selectedFeature = {
     type: "Feature" as const,
