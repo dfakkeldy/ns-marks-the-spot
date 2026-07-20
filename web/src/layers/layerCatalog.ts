@@ -306,7 +306,7 @@ export const provinceLayerCatalog = nativeLayerCatalog.filter(
 );
 
 export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = {
-  "ns-aerial": false,
+  "ns-aerial": true,
   nsprd: true,
   "crown-lands": false,
   "flood-risk": false,

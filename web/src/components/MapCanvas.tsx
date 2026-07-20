@@ -79,6 +79,8 @@ const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
   [43.55300536047742, -66.00233221945133],
   [46.83835988450765, -60.35435480050904],
 ];
+const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
+const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
 const layerZIndexes: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
   "crown-lands": 220,
@@ -597,6 +599,18 @@ export function MapCanvas({
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (locationMessage !== LOCATION_SUCCESS_MESSAGE) {
+      return;
+    }
+
+    const timeout = window.setTimeout(
+      () => setLocationMessage(null),
+      LOCATION_SUCCESS_MESSAGE_DURATION_MS,
+    );
+    return () => window.clearTimeout(timeout);
+  }, [locationMessage]);
+
+  useEffect(() => {
     if (!map) {
       return;
     }
@@ -647,7 +661,7 @@ export function MapCanvas({
     getBrowserLocation()
       .then((location) => {
         setUserLocation(location);
-        setLocationMessage("Your location is shown on the map.");
+        setLocationMessage(LOCATION_SUCCESS_MESSAGE);
         map?.flyTo([location.latitude, location.longitude], 14);
       })
       .catch(() => {

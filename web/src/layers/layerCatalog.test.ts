@@ -93,9 +93,9 @@ describe("web native-layer parity catalog", () => {
     ).toBe(true);
   });
 
-  it("starts with parcel boundaries, water, and roads as the context map", () => {
+  it("starts with aerial imagery, parcel boundaries, water, and roads as the context map", () => {
     expect(initialProvinceLayerVisibility).toEqual({
-      "ns-aerial": false,
+      "ns-aerial": true,
       nsprd: true,
       "crown-lands": false,
       "flood-risk": false,
