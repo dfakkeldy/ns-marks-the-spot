@@ -13,6 +13,7 @@ export type ResourceIntersection = {
   id: string;
   name: string;
   detail: string;
+  relationship?: "on-parcel" | "within-1km";
 };
 
 export type ResourceIntersectionResult = {
@@ -29,23 +30,41 @@ type ResourceQuery = {
   layerId: SourceResourceLayerId;
   url: string;
   outFields: string;
+  distanceMetres?: number;
+  relationship?: "on-parcel" | "within-1km";
   summarize: (attributes: ArcGISAttributes) => ResourceIntersection;
 };
+
+const MINERAL_OCCURRENCE_QUERY_URL =
+  "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query";
+
+function summarizeMineralOccurrence(
+  attributes: ArcGISAttributes,
+): ResourceIntersection {
+  const id = String(attributes.Occ_num ?? attributes.geo_id ?? "Unnumbered");
+  const name = String(attributes.Name ?? "Mineral occurrence").trim();
+  const detail = [attributes.Status, attributes.Comm_list ?? attributes.Comm_prim]
+    .map((value) => String(value ?? "").trim())
+    .filter(Boolean)
+    .join(" · ");
+  return { id, name, detail };
+}
 
 const queries: readonly ResourceQuery[] = [
   {
     layerId: "mineral-occurrences",
-    url: "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query",
+    url: MINERAL_OCCURRENCE_QUERY_URL,
     outFields: "geo_id,Occ_num,Name,Status,Comm_prim,Comm_list",
-    summarize: (attributes) => {
-      const id = String(attributes.Occ_num ?? attributes.geo_id ?? "Unnumbered");
-      const name = String(attributes.Name ?? "Mineral occurrence").trim();
-      const detail = [attributes.Status, attributes.Comm_list ?? attributes.Comm_prim]
-        .map((value) => String(value ?? "").trim())
-        .filter(Boolean)
-        .join(" · ");
-      return { id, name, detail };
-    },
+    relationship: "on-parcel",
+    summarize: summarizeMineralOccurrence,
+  },
+  {
+    layerId: "mineral-occurrences",
+    url: MINERAL_OCCURRENCE_QUERY_URL,
+    outFields: "geo_id,Occ_num,Name,Status,Comm_prim,Comm_list",
+    distanceMetres: 1_000,
+    relationship: "within-1km",
+    summarize: summarizeMineralOccurrence,
   },
   {
     layerId: "mineral-tenure",
@@ -114,6 +133,10 @@ async function runQuery(
     outFields: query.outFields,
     returnGeometry: "false",
   });
+  if (query.distanceMetres !== undefined) {
+    body.set("distance", String(query.distanceMetres));
+    body.set("units", "esriSRUnit_Meter");
+  }
   const response = await fetch(query.url, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -127,7 +150,10 @@ async function runQuery(
   if (payload.error) {
     throw new Error(payload.error.message ?? "Resource intersection query failed");
   }
-  return (payload.features ?? []).map(({ attributes }) => query.summarize(attributes));
+  return (payload.features ?? []).map(({ attributes }) => ({
+    ...query.summarize(attributes),
+    relationship: query.relationship,
+  }));
 }
 
 export async function fetchParcelResourceIntersections(
@@ -158,7 +184,11 @@ export async function fetchParcelResourceIntersections(
       return result;
     }
     if (result[query.layerId].status !== "error") {
-      result[query.layerId].intersections.push(...outcome.value);
+      for (const intersection of outcome.value) {
+        if (!result[query.layerId].intersections.some(({ id }) => id === intersection.id)) {
+          result[query.layerId].intersections.push(intersection);
+        }
+      }
     }
     return result;
   }, empty);

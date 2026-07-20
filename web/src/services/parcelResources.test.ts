@@ -24,14 +24,34 @@ describe("parcel resource intersections", () => {
       input: string | URL | Request,
       init?: RequestInit,
     ) => {
-      void init;
       const url = String(input);
       if (url.includes("mineral_occurrence_database")) {
+        const body = init?.body as URLSearchParams;
+        if (body.get("distance") === "1000") {
+          return new Response(JSON.stringify({
+            features: [
+              { attributes: {
+                geo_id: 7,
+                Occ_num: "A01-001",
+                Name: "Exact occurrence",
+                Status: "Occurrence",
+                Comm_list: "Au, Ag",
+              } },
+              { attributes: {
+                geo_id: 8,
+                Occ_num: "A01-002",
+                Name: "Nearby occurrence",
+                Status: "Placer",
+                Comm_prim: "Au",
+              } },
+            ],
+          }));
+        }
         return new Response(JSON.stringify({
           features: [{ attributes: {
             geo_id: 7,
             Occ_num: "A01-001",
-            Name: "Example occurrence",
+            Name: "Exact occurrence",
             Status: "Occurrence",
             Comm_list: "Au, Ag",
           } }],
@@ -53,9 +73,22 @@ describe("parcel resource intersections", () => {
 
     const result = await fetchParcelResourceIntersections([parcel]);
 
-    expect(result["mineral-occurrences"]).toMatchObject({
+    expect(result["mineral-occurrences"]).toEqual({
       status: "ready",
-      intersections: [{ id: "A01-001", name: "Example occurrence" }],
+      intersections: [
+        {
+          id: "A01-001",
+          name: "Exact occurrence",
+          detail: "Occurrence · Au, Ag",
+          relationship: "on-parcel",
+        },
+        {
+          id: "A01-002",
+          name: "Nearby occurrence",
+          detail: "Placer · Au",
+          relationship: "within-1km",
+        },
+      ],
     });
     expect(result["mineral-tenure"]).toMatchObject({
       status: "ready",
@@ -65,7 +98,15 @@ describe("parcel resource intersections", () => {
       status: "ready",
       intersections: [],
     });
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+
+    const mineralBodies = fetchMock.mock.calls
+      .filter(([input]) => String(input).includes("mineral_occurrence_database"))
+      .map(([, options]) => options?.body as URLSearchParams);
+    expect(mineralBodies).toHaveLength(2);
+    expect(mineralBodies[0].has("distance")).toBe(false);
+    expect(mineralBodies[1].get("distance")).toBe("1000");
+    expect(mineralBodies[1].get("units")).toBe("esriSRUnit_Meter");
 
     for (const [, options] of fetchMock.mock.calls) {
       const body = options?.body as URLSearchParams;

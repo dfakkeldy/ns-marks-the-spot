@@ -11,6 +11,7 @@ type EvidenceResult = {
   sourceUrl: string;
   status: "ready" | "error";
   results: string[];
+  emptyMessage?: string;
 };
 
 type EvidenceEvent = {
@@ -44,7 +45,7 @@ function resultLines(result: EvidenceResult): string[] {
     return [`- ${result.name}: source unavailable at export time.`];
   }
   if (result.results.length === 0) {
-    return [`- ${result.name}: no mapped intersection returned.`];
+    return [`- ${result.name}: ${result.emptyMessage ?? "No mapped intersection returned."}`];
   }
   return result.results.map((item) => `- ${result.name}: ${item}`);
 }
@@ -96,14 +97,14 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     "",
     "Mapped physical-address points are not proof of ownership, access, occupancy, mailing address, or legal parcel status.",
     "",
-    "## Geology and resource intersections",
+    "## Geology and resource context",
     "",
     ...resources,
     ...input.resourceResults.map(
       ({ name, sourceUrl }) => `- [${name} source](${sourceUrl})`,
     ),
     "",
-    "These mapped intersections are screening evidence, not a legal, safety, or economic conclusion. An empty result means no record was returned by the named mapped source; it does not prove absence.",
+    "Mapped intersections and proximity to a published record are screening evidence only. This evidence does not prove mineralization, deposit extent, grade, recoverability, value, mineral rights, access, permission to explore, or completeness of the published inventory.",
     "",
     "## General limitations",
     "",
