@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  hydroPilotLayerCatalog,
+  initialHydroPilotLayerVisibility,
   initialResourceLayerVisibility,
   initialProvinceLayerVisibility,
   nativeLayerCatalog,
@@ -229,5 +231,22 @@ describe("geology and resources catalog", () => {
       sourceDate: "2024 · version 9",
       coverage: "Nova Scotia · incomplete inventory",
     });
+  });
+});
+
+describe("hydro terrain-potential pilot catalog", () => {
+  it("publishes one optional open-data Inverness screening layer", () => {
+    expect(hydroPilotLayerCatalog).toEqual([
+      expect.objectContaining({
+        id: "inverness-hydro-potential",
+        name: "Inverness terrain potential",
+        licence: "province-open",
+        coverage: "23 named watersheds centred in Inverness County",
+      }),
+    ]);
+    expect(initialHydroPilotLayerVisibility).toEqual({
+      "inverness-hydro-potential": false,
+    });
+    expect(hydroPilotLayerCatalog[0].webCaveat).toContain("relative pilot");
   });
 });

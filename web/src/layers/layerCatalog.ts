@@ -15,6 +15,23 @@ export type ResourceLayerId =
   | "mineral-tenure"
   | "abandoned-mines";
 
+export type HydroPilotLayerId = "inverness-hydro-potential";
+
+export type HydroPilotLayerDescriptor = {
+  id: HydroPilotLayerId;
+  name: string;
+  sourceUrl: string;
+  serviceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  licence: "province-open";
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+};
+
 export type ArcGISExportOptions = {
   transparent: boolean;
   layers?: string;
@@ -391,4 +408,30 @@ export const initialResourceLayerVisibility: Record<ResourceLayerId, boolean> = 
   "mineral-occurrences": false,
   "mineral-tenure": false,
   "abandoned-mines": false,
+};
+
+export const hydroPilotLayerCatalog: readonly HydroPilotLayerDescriptor[] = [
+  {
+    id: "inverness-hydro-potential",
+    name: "Inverness terrain potential",
+    sourceUrl:
+      "https://data.novascotia.ca/Environment-and-Energy/1-10-000-Nova-Scotia-Secondary-Watersheds/ynkv-x6rx",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer",
+    minZoom: 8,
+    maxZoom: 23,
+    opacity: 0.92,
+    licence: "province-open",
+    webCaveat: "Area + mapped fall over route · relative pilot",
+    sourceDate: "Watersheds 2021 · NSHN retrieved July 20, 2026",
+    scale: "Secondary watershed + NSHN primary-flow route",
+    coverage: "23 named watersheds centred in Inverness County",
+  },
+] as const;
+
+export const initialHydroPilotLayerVisibility: Record<
+  HydroPilotLayerId,
+  boolean
+> = {
+  "inverness-hydro-potential": false,
 };

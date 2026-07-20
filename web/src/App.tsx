@@ -38,11 +38,15 @@ import {
   PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
 import {
+  hydroPilotLayerCatalog,
+  initialHydroPilotLayerVisibility,
   initialProvinceLayerVisibility,
   initialResourceLayerVisibility,
   nativeLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
+  type HydroPilotLayerDescriptor,
+  type HydroPilotLayerId,
   type ProvinceLayerId,
   type ResourceLayerDescriptor,
   type ResourceLayerId,
@@ -122,6 +126,7 @@ const allMapLayerIds: MapLayerId[] = [
   "modern",
   ...provinceLayerCatalog.map(({ id }) => id),
   ...resourceLayerCatalog.map(({ id }) => id),
+  ...hydroPilotLayerCatalog.map(({ id }) => id),
 ];
 
 function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
@@ -1022,6 +1027,64 @@ function ResourceLayerToggle({
   );
 }
 
+function HydroPilotLayerToggle({
+  layer,
+  checked,
+  status,
+  onChange,
+}: {
+  layer: HydroPilotLayerDescriptor;
+  checked: boolean;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label className="layer-row hydro-pilot-layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>{layer.webCaveat}</small>
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={checked}
+          status={status}
+        />
+      </span>
+    </label>
+  );
+}
+
+function HydroPotentialLegend() {
+  return (
+    <div className="hydro-potential-legend" aria-label="Hydro terrain symbology">
+      <p><strong>Line width = watershed area</strong></p>
+      <div className="hydro-width-key" aria-hidden="true">
+        <span className="hydro-line narrow" />
+        <span>smaller</span>
+        <span className="hydro-line wide" />
+        <span>larger</span>
+      </div>
+      <p><strong>Colour = relative terrain potential</strong></p>
+      <ul>
+        <li><span className="hydro-swatch low" />Low</li>
+        <li><span className="hydro-swatch moderate" />Moderate</li>
+        <li><span className="hydro-swatch high" />High</li>
+        <li><span className="hydro-swatch very-high" />Very high</li>
+      </ul>
+    </div>
+  );
+}
+
 export function App() {
   const initialUrl = useRef(new URL(window.location.href)).current;
   const initialShareState = useRef(
@@ -1089,6 +1152,16 @@ export function App() {
           ]),
         ) as Record<ResourceLayerId, boolean>
       : initialResourceLayerVisibility,
+  );
+  const [hydroPilotLayers, setHydroPilotLayers] = useState(
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          hydroPilotLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<HydroPilotLayerId, boolean>
+      : initialHydroPilotLayerVisibility,
   );
   const [layerStatuses, setLayerStatuses] = useState(initialLayerStatuses);
   const [selectedEventIds, setSelectedEventIds] = useState(
@@ -1398,6 +1471,13 @@ export function App() {
     setResourceLayers((current) => ({ ...current, [id]: visible }));
   };
 
+  const setHydroPilotLayerVisibility = (
+    id: HydroPilotLayerId,
+    visible: boolean,
+  ) => {
+    setHydroPilotLayers((current) => ({ ...current, [id]: visible }));
+  };
+
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       setLayerStatuses((current) => ({ ...current, [id]: status }));
@@ -1623,7 +1703,10 @@ export function App() {
     ...resourceLayerCatalog
       .filter(({ id }) => resourceLayers[id])
       .map(({ id }) => id),
-  ], [provinceLayers, resourceLayers, showModernMap]);
+    ...hydroPilotLayerCatalog
+      .filter(({ id }) => hydroPilotLayers[id])
+      .map(({ id }) => id),
+  ], [hydroPilotLayers, provinceLayers, resourceLayers, showModernMap]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -1682,6 +1765,13 @@ export function App() {
         })),
       ...resourceLayerCatalog
         .filter(({ id }) => resourceLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...hydroPilotLayerCatalog
+        .filter(({ id }) => hydroPilotLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -1895,6 +1985,48 @@ export function App() {
                 ) : null}
               </div>
             ))}
+            <details className="resource-layer-group hydro-pilot-group">
+              <summary>
+                <span>Hydro terrain pilot</span>
+                <small>1 optional Inverness screen</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {hydroPilotLayerCatalog.map((layer) => (
+                  <HydroPilotLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={hydroPilotLayers[layer.id]}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setHydroPilotLayerVisibility(layer.id, checked)
+                    }
+                  />
+                ))}
+                {hydroPilotLayers["inverness-hydro-potential"] ? (
+                  <HydroPotentialLegend />
+                ) : null}
+                <p className="resource-source-note hydro-pilot-note">
+                  Area comes from official secondary watersheds; drop and route
+                  come from directed NSHN primary-flow lines. The rank is relative
+                  within this pilot and is not flow or power. {" "}
+                  <a
+                    href={hydroPilotLayerCatalog[0].sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Watershed source
+                  </a>{" "}
+                  · {" "}
+                  <a
+                    href={hydroPilotLayerCatalog[0].serviceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    NSHN source
+                  </a>
+                </p>
+              </div>
+            </details>
             <details className="resource-layer-group">
               <summary>
                 <span>Geology &amp; Resources</span>
@@ -2166,6 +2298,7 @@ export function App() {
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
             resourceLayers={resourceLayers}
+            hydroPilotLayers={hydroPilotLayers}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0
