@@ -104,7 +104,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
       ({ name, sourceUrl }) => `- [${name} source](${sourceUrl})`,
     ),
     "",
-    "Mapped intersections and proximity to a published record are screening evidence only. This evidence does not prove mineralization, deposit extent, grade, recoverability, value, mineral rights, access, permission to explore, or completeness of the published inventory.",
+    "Mapped intersections and proximity to a published record are screening evidence only. A returned-empty result does not prove absence. This evidence does not prove mineralization, deposit extent, grade, recoverability, value, mineral rights, access, permission to explore, or completeness of the published inventory.",
     "",
     "## General limitations",
     "",

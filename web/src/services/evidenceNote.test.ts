@@ -20,7 +20,7 @@ describe("parcel evidence note", () => {
         sourceUrl: "https://example.com/minerals",
         status: "ready",
         results: ["A01-002 · Nearby occurrence · Within 1 km · Placer · Au"],
-        emptyMessage: "No published mineral occurrence was returned on or within 1 km of this parcel.",
+        emptyMessage: "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
       }],
     });
 
@@ -34,6 +34,7 @@ describe("parcel evidence note", () => {
     expect(note.markdown).toContain("not proof of ownership, access, occupancy");
     expect(note.markdown).toContain("Within 1 km");
     expect(note.markdown).toContain("proximity to a published record");
+    expect(note.markdown).toContain("A returned-empty result does not prove absence.");
     expect(note.markdown).toContain("does not prove mineralization");
   });
 
@@ -52,12 +53,12 @@ describe("parcel evidence note", () => {
         sourceUrl: "https://example.com/minerals",
         status: "ready",
         results: [],
-        emptyMessage: "No published mineral occurrence was returned on or within 1 km of this parcel.",
+        emptyMessage: "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
       }],
     });
 
     expect(note.markdown).toContain(
-      "No published mineral occurrence was returned on or within 1 km of this parcel.",
+      "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
     );
   });
 });

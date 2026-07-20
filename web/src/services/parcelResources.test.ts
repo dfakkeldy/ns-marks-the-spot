@@ -131,4 +131,82 @@ describe("parcel resource intersections", () => {
     expect(result["mineral-occurrences"].intersections).toEqual([]);
     expect(result["abandoned-mines"].status).toBe("error");
   });
+
+  it("fails closed when the exact mineral query fails but the nearby query succeeds", async () => {
+    const fetchMock = vi.fn(async (
+      input: string | URL | Request,
+      init?: RequestInit,
+    ) => {
+      const url = String(input);
+      if (!url.includes("mineral_occurrence_database")) {
+        return new Response(JSON.stringify({ features: [] }));
+      }
+
+      const body = init?.body as URLSearchParams;
+      if (!body.has("distance")) {
+        return new Response("unavailable", { status: 503 });
+      }
+      return new Response(JSON.stringify({
+        features: [{ attributes: {
+          Occ_num: "A01-002",
+          Name: "Nearby occurrence",
+          Status: "Placer",
+          Comm_prim: "Au",
+        } }],
+      }));
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await fetchParcelResourceIntersections([parcel]);
+
+    expect(result["mineral-occurrences"]).toEqual({
+      status: "error",
+      intersections: [],
+    });
+    const mineralBodies = fetchMock.mock.calls
+      .filter(([input]) => String(input).includes("mineral_occurrence_database"))
+      .map(([, options]) => options?.body as URLSearchParams);
+    expect(mineralBodies).toHaveLength(2);
+    expect(mineralBodies.some((body) => !body.has("distance"))).toBe(true);
+    expect(mineralBodies.some((body) => body.get("distance") === "1000")).toBe(true);
+  });
+
+  it("fails closed when the nearby mineral query fails but the exact query succeeds", async () => {
+    const fetchMock = vi.fn(async (
+      input: string | URL | Request,
+      init?: RequestInit,
+    ) => {
+      const url = String(input);
+      if (!url.includes("mineral_occurrence_database")) {
+        return new Response(JSON.stringify({ features: [] }));
+      }
+
+      const body = init?.body as URLSearchParams;
+      if (body.get("distance") === "1000") {
+        return new Response("unavailable", { status: 503 });
+      }
+      return new Response(JSON.stringify({
+        features: [{ attributes: {
+          Occ_num: "A01-001",
+          Name: "Exact occurrence",
+          Status: "Occurrence",
+          Comm_list: "Au, Ag",
+        } }],
+      }));
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await fetchParcelResourceIntersections([parcel]);
+
+    expect(result["mineral-occurrences"]).toEqual({
+      status: "error",
+      intersections: [],
+    });
+    const mineralBodies = fetchMock.mock.calls
+      .filter(([input]) => String(input).includes("mineral_occurrence_database"))
+      .map(([, options]) => options?.body as URLSearchParams);
+    expect(mineralBodies).toHaveLength(2);
+    expect(mineralBodies.some((body) => !body.has("distance"))).toBe(true);
+    expect(mineralBodies.some((body) => body.get("distance") === "1000")).toBe(true);
+  });
 });
