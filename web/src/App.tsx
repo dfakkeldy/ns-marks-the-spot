@@ -9,7 +9,8 @@ import {
 import appIconUrl from "../../docs/assets/app-icon.svg";
 import {
   MapCanvas,
-  type ResourceLayerStatus,
+  type MapLayerId,
+  type MapLayerStatus,
 } from "./components/MapCanvas";
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
@@ -73,6 +74,18 @@ import {
   type MappedArea,
   type ParcelContext,
 } from "./services/parcelContext";
+import { buildEvidenceNote } from "./services/evidenceNote";
+import {
+  buildMapShareUrl,
+  parseMapShareState,
+  type MapMode,
+  type MapPosition,
+  type ShareLayerId,
+} from "./services/mapShareState";
+import {
+  fetchParcelResourceIntersections,
+  type ParcelResourceIntersections,
+} from "./services/parcelResources";
 
 type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
 type HistoricalOutcomeFilter = "all" | HistoricalOutcome;
@@ -90,8 +103,29 @@ type CivicAddressState =
   | { status: "idle" | "loading" | "error"; value: CivicAddress[] }
   | { status: "ready"; value: CivicAddress[] };
 
+type ParcelResourceState =
+  | { status: "idle" | "loading"; value: ParcelResourceIntersections }
+  | { status: "ready"; value: ParcelResourceIntersections };
+
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
 const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
+const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
+  "mineral-occurrences": { status: "ready", intersections: [] },
+  "mineral-tenure": { status: "ready", intersections: [] },
+  "abandoned-mines": { status: "ready", intersections: [] },
+};
+
+const allMapLayerIds: MapLayerId[] = [
+  "modern",
+  ...provinceLayerCatalog.map(({ id }) => id),
+  ...resourceLayerCatalog.map(({ id }) => id),
+];
+
+function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
+  return Object.fromEntries(
+    allMapLayerIds.map((id) => [id, { status: "idle" }]),
+  ) as Record<MapLayerId, MapLayerStatus>;
+}
 
 const currency = new Intl.NumberFormat("en-CA", {
   style: "currency",
@@ -357,6 +391,12 @@ function ParcelInspector({
   mappedContext,
   civicAddresses,
   historicalContexts,
+  resourceIntersections,
+  mapMode,
+  shareUrl,
+  shareMessage,
+  onCopyShareUrl,
+  onExportEvidence,
   now,
   onClose,
 }: {
@@ -366,6 +406,12 @@ function ParcelInspector({
   mappedContext: ParcelContextState;
   civicAddresses: CivicAddressState;
   historicalContexts: HistoricalRecordContext[];
+  resourceIntersections: ParcelResourceState;
+  mapMode: MapMode;
+  shareUrl: string;
+  shareMessage: string | null;
+  onCopyShareUrl: () => void;
+  onExportEvidence: () => void;
   now: number;
   onClose: () => void;
 }) {
@@ -404,6 +450,9 @@ function ParcelInspector({
           : historicalContexts.length > 0
             ? `${historicalContexts.length} verified historical tax-sale ${historicalContexts.length === 1 ? "record" : "records"}`
             : "NSPRD parcel"}
+      </p>
+      <p className={`parcel-mode-marker ${mapMode}`}>
+        {mapMode === "current" ? "Current-notice mode" : "Historical-results mode"}
       </p>
       <dl className="parcel-facts">
         {event ? (
@@ -484,6 +533,7 @@ function ParcelInspector({
       ) : null}
       <CivicAddressDetails state={civicAddresses} />
       <MappedContextDetails state={mappedContext} civicAddresses={civicAddresses} />
+      <ParcelResourceDetails state={resourceIntersections} />
       {listing ? (
         <p className="sale-warning">
           <span aria-hidden="true">!</span>
@@ -508,6 +558,20 @@ function ParcelInspector({
           View direct official source
         </a>
       ) : null}
+      <div className="evidence-actions">
+        <button className="secondary-action" type="button" onClick={onCopyShareUrl}>
+          Copy share link
+        </button>
+        <button className="secondary-action" type="button" onClick={onExportEvidence}>
+          Export evidence note
+        </button>
+      </div>
+      <p className="share-status" role="status" aria-live="polite">
+        {shareMessage}
+      </p>
+      <a className="share-url-preview" href={shareUrl}>
+        Open this exact map state
+      </a>
     </aside>
   );
 }
@@ -521,6 +585,11 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
   return (
     <section className="civic-addresses">
       <h3>{heading}</h3>
+      <p className="civic-address-caveat prominent">
+        <strong>Authoritative mapped civic points only.</strong>{" "}
+        Mapped physical-address points are not proof of ownership, mailing
+        address, access, occupancy, or legal parcel status.
+      </p>
       {state.status === "idle" || state.status === "loading" ? (
         <p className="civic-address-status" role="status">
           Looking up mapped civic addresses…
@@ -572,10 +641,6 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
         >
           Open Government Licence – Nova Scotia
         </a>
-      </p>
-      <p className="civic-address-caveat">
-        Mapped physical-address points are not proof of ownership, mailing
-        address, access, occupancy, or legal parcel status.
       </p>
     </section>
   );
@@ -691,6 +756,57 @@ function MappedContextDetails({
   );
 }
 
+function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
+  if (state.status === "idle" || state.status === "loading") {
+    return (
+      <section className="parcel-resources" aria-label="Geology and resource intersections">
+        <h3>Geology &amp; resource intersections</h3>
+        <p className="mapped-context-status" role="status">
+          Checking official mapped resource sources against this parcel…
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="parcel-resources" aria-label="Geology and resource intersections">
+      <h3>Geology &amp; resource intersections</h3>
+      {resourceLayerCatalog.map((layer) => {
+        const result = state.value[layer.id];
+        return (
+          <div className="parcel-resource-group" key={layer.id}>
+            <h4>{layer.name}</h4>
+            {result.status === "error" ? (
+              <p className="mapped-context-status error">
+                Source unavailable; no absence is inferred.
+              </p>
+            ) : result.intersections.length === 0 ? (
+              <p>No mapped intersection was returned for this parcel.</p>
+            ) : (
+              <ul>
+                {result.intersections.map(({ id, name, detail }) => (
+                  <li key={`${layer.id}:${id}`}>
+                    <strong>{name}</strong>
+                    {detail ? <span>{detail}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a href={layer.sourceUrl} target="_blank" rel="noreferrer">
+              {layer.name} source
+            </a>
+          </div>
+        );
+      })}
+      <p className="resource-intersection-caveat">
+        Exact mapped-source intersection screening only. Empty results do not
+        prove absence, and results are not legal, safety, ownership, or economic
+        conclusions.
+      </p>
+    </section>
+  );
+}
+
 function RoadLegend() {
   return (
     <ul className="road-legend" aria-label="Road type legend">
@@ -762,16 +878,71 @@ function LicenceDialog({
   );
 }
 
+function layerRuntimeLabel(
+  checked: boolean,
+  status: MapLayerStatus,
+): string {
+  if (!checked) {
+    return "Off";
+  }
+  switch (status.status) {
+    case "loading":
+      return "Loading visible area…";
+    case "ready":
+      return status.count === undefined
+        ? "Ready"
+        : `Ready · ${status.count.toLocaleString("en-CA")} loaded`;
+    case "zoom":
+      return `Zoom to ${status.minZoom}+ to load`;
+    case "error":
+      return "Source temporarily unavailable";
+    case "idle":
+      return "Ready to load";
+  }
+}
+
+function LayerMetadata({
+  sourceDate,
+  scale,
+  coverage,
+  minZoom,
+  maxZoom,
+  checked,
+  status,
+}: {
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+  minZoom: number;
+  maxZoom: number;
+  checked: boolean;
+  status: MapLayerStatus;
+}) {
+  return (
+    <span className="layer-metadata">
+      <small className={`layer-runtime ${status.status}`}>
+        {layerRuntimeLabel(checked, status)}
+      </small>
+      <small>Source date: {sourceDate}</small>
+      <small>Scale: {scale}</small>
+      <small>Coverage: {coverage}</small>
+      <small>Zoom: {minZoom}–{maxZoom}</small>
+    </span>
+  );
+}
+
 function LayerToggle({
   layer,
   checked,
   licenceAccepted,
+  status,
   onChange,
   onReviewLicence,
 }: {
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   checked: boolean;
   licenceAccepted: boolean;
+  status: MapLayerStatus;
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
 }) {
@@ -790,6 +961,15 @@ function LayerToggle({
         <small>
           {licenceAccepted ? layer.webCaveat : "Province licence required"}
         </small>
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={licenceAccepted && checked}
+          status={status}
+        />
       </span>
       {!licenceAccepted && layer.id === "nsprd" ? (
         <button className="text-button" type="button" onClick={onReviewLicence}>
@@ -808,24 +988,9 @@ function ResourceLayerToggle({
 }: {
   layer: ResourceLayerDescriptor;
   checked: boolean;
-  status: ResourceLayerStatus;
+  status: MapLayerStatus;
   onChange: (checked: boolean) => void;
 }) {
-  const statusLabel = (() => {
-    switch (status.status) {
-      case "loading":
-        return "Loading visible area…";
-      case "ready":
-        return `${status.count.toLocaleString("en-CA")} shown`;
-      case "zoom":
-        return `Zoom to ${status.minZoom}+ to load`;
-      case "error":
-        return "Source temporarily unavailable";
-      case "idle":
-        return null;
-    }
-  })();
-
   return (
     <label className="layer-row resource-layer-row">
       <input
@@ -839,14 +1004,28 @@ function ResourceLayerToggle({
         <strong>{layer.name}</strong>
         <small>
           {layer.webCaveat}
-          {checked && statusLabel ? ` · ${statusLabel}` : null}
         </small>
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={checked}
+          status={status}
+        />
       </span>
     </label>
   );
 }
 
 export function App() {
+  const initialUrl = useRef(new URL(window.location.href)).current;
+  const initialShareState = useRef(
+    parseMapShareState(initialUrl.toString()),
+  ).current;
+  const hasSharedLayers = initialUrl.searchParams.has("layers");
+  const hasSharedEvents = initialUrl.searchParams.has("event");
   const [licenceAccepted, setLicenceAccepted] = useState(isLicenceAccepted);
   const [headerCollapsed, setHeaderCollapsed] = useState(
     () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
@@ -856,13 +1035,15 @@ export function App() {
   );
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialShareState.pid ?? "");
   const [searchError, setSearchError] = useState<string | null>(null);
   const [addressSearchResults, setAddressSearchResults] = useState<
     CivicAddress[]
   >([]);
   const [searchingAddresses, setSearchingAddresses] = useState(false);
-  const [selectedPid, setSelectedPid] = useState<string | null>(null);
+  const [selectedPid, setSelectedPid] = useState<string | null>(
+    initialShareState.pid,
+  );
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
     null,
   );
@@ -871,28 +1052,51 @@ export function App() {
     value: EMPTY_PARCEL_CONTEXT,
   });
   const [civicAddresses, setCivicAddresses] = useState<CivicAddressState>({
-    status: "idle",
+    status: initialShareState.pid ? "loading" : "idle",
     value: EMPTY_CIVIC_ADDRESSES,
   });
-  const [showModernMap, setShowModernMap] = useState(false);
+  const [resourceIntersections, setResourceIntersections] =
+    useState<ParcelResourceState>({
+      status: initialShareState.pid ? "loading" : "idle",
+      value: EMPTY_RESOURCE_INTERSECTIONS,
+    });
+  const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
+  const [mapPosition, setMapPosition] = useState<MapPosition>(
+    initialShareState.position,
+  );
+  const [showModernMap, setShowModernMap] = useState(
+    hasSharedLayers ? initialShareState.layerIds.includes("modern") : false,
+  );
   const [provinceLayers, setProvinceLayers] = useState(
-    initialProvinceLayerVisibility,
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          provinceLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<ProvinceLayerId, boolean>
+      : initialProvinceLayerVisibility,
   );
   const [resourceLayers, setResourceLayers] = useState(
-    initialResourceLayerVisibility,
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          resourceLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<ResourceLayerId, boolean>
+      : initialResourceLayerVisibility,
   );
-  const [resourceLayerStatuses, setResourceLayerStatuses] = useState<
-    Record<ResourceLayerId, ResourceLayerStatus>
-  >({
-    "mineral-occurrences": { status: "idle" },
-    "mineral-tenure": { status: "idle" },
-    "abandoned-mines": { status: "idle" },
-  });
+  const [layerStatuses, setLayerStatuses] = useState(initialLayerStatuses);
   const [selectedEventIds, setSelectedEventIds] = useState(
-    () => new Set(upcomingTaxSaleEvents.map(({ id }) => id)),
+    () => new Set(
+      hasSharedEvents
+        ? initialShareState.eventIds
+        : upcomingTaxSaleEvents.map(({ id }) => id),
+    ),
   );
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
-  const [showHistoricalTaxSales, setShowHistoricalTaxSales] = useState(false);
+  const showHistoricalTaxSales = mapMode === "historical";
   const [historicalMunicipality, setHistoricalMunicipality] = useState("all");
   const [historicalYear, setHistoricalYear] = useState("all");
   const [historicalOutcome, setHistoricalOutcome] =
@@ -901,6 +1105,7 @@ export function App() {
     string | null
   >(null);
   const [currentTime, setCurrentTime] = useState(Date.now);
+  const [shareMessage, setShareMessage] = useState<string | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
@@ -942,6 +1147,35 @@ export function App() {
 
     return () => controller.abort();
   }, [licenceAccepted]);
+
+  useEffect(() => {
+    if (
+      !licenceAccepted ||
+      !selectedPid ||
+      parcels.features.some(({ properties }) => properties.PID === selectedPid)
+    ) {
+      return;
+    }
+
+    const controller = new AbortController();
+    fetchParcels([selectedPid], controller.signal)
+      .then((collection) => {
+        if (collection.features.length === 0) {
+          setParcelLookupMessage(`No NSPRD parcel was found for PID ${selectedPid}.`);
+          return;
+        }
+        setParcels((current) => mergeFeatureCollections(current, collection));
+        setParcelLookupMessage(`PID ${selectedPid} selected from shared map state.`);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setParcelLookupMessage("The shared PID could not be loaded right now.");
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, parcels.features, selectedPid]);
 
   useEffect(() => {
     if (!licenceAccepted || !showHistoricalTaxSales) {
@@ -1015,6 +1249,34 @@ export function App() {
           return;
         }
         setMappedContext({ status: "error", value: EMPTY_PARCEL_CONTEXT });
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, parcels, selectedPid]);
+
+  useEffect(() => {
+    if (!selectedPid || !licenceAccepted) {
+      return;
+    }
+
+    const selectedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === selectedPid,
+    );
+    if (selectedFeatures.length === 0) {
+      return;
+    }
+
+    const controller = new AbortController();
+    setResourceIntersections({
+      status: "loading",
+      value: EMPTY_RESOURCE_INTERSECTIONS,
+    });
+    fetchParcelResourceIntersections(selectedFeatures, controller.signal)
+      .then((value) => setResourceIntersections({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
       });
 
     return () => controller.abort();
@@ -1133,9 +1395,9 @@ export function App() {
     setResourceLayers((current) => ({ ...current, [id]: visible }));
   };
 
-  const setResourceLayerStatus = useCallback(
-    (id: ResourceLayerId, status: ResourceLayerStatus) => {
-      setResourceLayerStatuses((current) => ({ ...current, [id]: status }));
+  const setLayerStatus = useCallback(
+    (id: MapLayerId, status: MapLayerStatus) => {
+      setLayerStatuses((current) => ({ ...current, [id]: status }));
     },
     [],
   );
@@ -1144,6 +1406,27 @@ export function App() {
     setSelectedPid(pid);
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
+    setResourceIntersections({
+      status: "loading",
+      value: EMPTY_RESOURCE_INTERSECTIONS,
+    });
+    setShareMessage(null);
+  };
+
+  const changeMapMode = (mode: MapMode) => {
+    if (mode === mapMode) {
+      return;
+    }
+    setMapMode(mode);
+    setSelectedPid(null);
+    setQuery("");
+    setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT });
+    setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES });
+    setResourceIntersections({
+      status: "idle",
+      value: EMPTY_RESOURCE_INTERSECTIONS,
+    });
+    setShareMessage(null);
   };
 
   const cancelAddressSearch = () => {
@@ -1312,20 +1595,146 @@ export function App() {
     }
   };
 
-  const selectedListingContext = selectedPid
+  const selectedListingContext = selectedPid && mapMode === "current"
     ? listingContextForPid(selectedPid)
     : undefined;
-  const selectedHistoricalContexts =
-    selectedPid && showHistoricalTaxSales
+  const selectedHistoricalContexts = useMemo(
+    () => selectedPid && showHistoricalTaxSales
       ? historicalContextsForPid(selectedPid).filter(({ record }) =>
           filteredHistoricalRecords.some(
             ({ recordId }) => recordId === record.recordId,
           ),
         )
-      : [];
+      : [],
+    [filteredHistoricalRecords, selectedPid, showHistoricalTaxSales],
+  );
   const selectedMappedArea = selectedPid
     ? mappedAreaForPid(parcels, selectedPid)
     : null;
+
+  const activeLayerIds = useMemo<ShareLayerId[]>(() => [
+    ...(showModernMap ? (["modern"] as const) : []),
+    ...provinceLayerCatalog
+      .filter(({ id }) => provinceLayers[id])
+      .map(({ id }) => id),
+    ...resourceLayerCatalog
+      .filter(({ id }) => resourceLayers[id])
+      .map(({ id }) => id),
+  ], [provinceLayers, resourceLayers, showModernMap]);
+  const shareUrl = useMemo(
+    () => buildMapShareUrl(window.location.href, {
+      mode: mapMode,
+      pid: selectedPid,
+      eventIds: mapMode === "current"
+        ? Array.from(selectedEventIds)
+        : Array.from(
+            new Set(selectedHistoricalContexts.map(({ event }) => event.id)),
+          ),
+      layerIds: activeLayerIds,
+      position: mapPosition,
+    }),
+    [
+      activeLayerIds,
+      mapMode,
+      mapPosition,
+      selectedEventIds,
+      selectedHistoricalContexts,
+      selectedPid,
+    ],
+  );
+
+  useEffect(() => {
+    window.history.replaceState(null, "", shareUrl);
+  }, [shareUrl]);
+
+  const copyShareUrl = () => {
+    if (navigator.clipboard?.writeText) {
+      void navigator.clipboard.writeText(shareUrl).then(
+        () => setShareMessage("Share link copied."),
+        () => setShareMessage("Copy failed; use the exact map-state link below."),
+      );
+      return;
+    }
+    setShareMessage("Use the exact map-state link below.");
+  };
+
+  const exportEvidence = () => {
+    if (!selectedPid) {
+      return;
+    }
+    const activeLayers = [
+      ...(showModernMap
+        ? [{
+            name: "Modern map",
+            sourceUrl: "https://www.openstreetmap.org/copyright",
+            sourceDate: "Live OpenStreetMap tiles",
+          }]
+        : []),
+      ...provinceLayerCatalog
+        .filter(({ id }) => provinceLayers[id])
+        .map(({ name, serviceUrl, sourceDate }) => ({
+          name,
+          sourceUrl: serviceUrl,
+          sourceDate,
+        })),
+      ...resourceLayerCatalog
+        .filter(({ id }) => resourceLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+    ];
+    const note = buildEvidenceNote({
+      generatedAt: new Date(),
+      pid: selectedPid,
+      mode: mapMode,
+      shareUrl,
+      position: mapPosition,
+      activeLayers,
+      events: selectedListingContext
+        ? [{
+            name: `${selectedListingContext.event.shortMunicipality} — ${eventDateLabel(selectedListingContext.event)}`,
+            sources: [{
+              label: "Official notice",
+              sourceUrl: selectedListingContext.event.sourceUrl,
+            }],
+          }]
+        : selectedHistoricalContexts.map(({ event }) => ({
+            name: `${event.shortMunicipality} — ${eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}`,
+            sources: [
+              { label: "Official notice", sourceUrl: event.noticeUrl },
+              { label: "Official result", sourceUrl: event.resultUrl },
+            ],
+          })),
+      civicAddresses: civicAddresses.status === "ready"
+        ? civicAddresses.value.map(({ label }) => ({
+            label,
+            sourceUrl: CIVIC_ADDRESS_DATASET_URL,
+          }))
+        : [],
+      resourceResults: resourceLayerCatalog.map((layer) => {
+        const result = resourceIntersections.value[layer.id];
+        return {
+          name: layer.name,
+          sourceUrl: layer.sourceUrl,
+          status: result.status,
+          results: result.intersections.map(({ name, detail }) =>
+            [name, detail].filter(Boolean).join(" · "),
+          ),
+        };
+      }),
+    });
+    const objectUrl = URL.createObjectURL(
+      new Blob([note.markdown], { type: "text/markdown;charset=utf-8" }),
+    );
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = note.filename;
+    link.click();
+    URL.revokeObjectURL(objectUrl);
+    setShareMessage(`Evidence note exported as ${note.filename}.`);
+  };
 
   return (
     <div
@@ -1355,7 +1764,7 @@ export function App() {
       </header>
 
       <main className="map-layout">
-        <aside className="layer-rail" aria-label="Map controls">
+        <aside className={`layer-rail mode-${mapMode}`} aria-label="Map controls">
           <h1>Explore Nova Scotia</h1>
           <form className="pid-search" onSubmit={submitPidSearch}>
             <label htmlFor="pid-query">Search by PID or civic address</label>
@@ -1416,6 +1825,32 @@ export function App() {
             ) : null}
           </form>
 
+          <section className={`map-mode-switcher ${mapMode}`} aria-label="Map record mode">
+            <div className="map-mode-buttons">
+              <button
+                type="button"
+                className={mapMode === "current" ? "selected" : ""}
+                aria-pressed={mapMode === "current"}
+                onClick={() => changeMapMode("current")}
+              >
+                Current notices
+              </button>
+              <button
+                type="button"
+                className={mapMode === "historical" ? "selected" : ""}
+                aria-pressed={mapMode === "historical"}
+                onClick={() => changeMapMode("historical")}
+              >
+                Historical results
+              </button>
+            </div>
+            <p>
+              {mapMode === "current"
+                ? "CURRENT · advertised notices that still require municipal verification"
+                : "HISTORICAL · dated verified outcomes, never current offerings"}
+            </p>
+          </section>
+
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
             <label className="layer-row">
@@ -1429,6 +1864,15 @@ export function App() {
               <span>
                 <strong>Modern map</strong>
                 <small>OpenStreetMap</small>
+                <LayerMetadata
+                  sourceDate="Live tiles · checked July 20, 2026"
+                  scale="Web map · native detail to zoom 19"
+                  coverage="Worldwide"
+                  minZoom={7}
+                  maxZoom={23}
+                  checked={showModernMap}
+                  status={layerStatuses.modern}
+                />
               </span>
             </label>
             {provinceLayerCatalog.map((layer) => (
@@ -1437,6 +1881,7 @@ export function App() {
                   layer={layer}
                   checked={provinceLayers[layer.id]}
                   licenceAccepted={licenceAccepted}
+                  status={layerStatuses[layer.id]}
                   onChange={(checked) =>
                     setProvinceLayerVisibility(layer.id, checked)
                   }
@@ -1458,7 +1903,7 @@ export function App() {
                     key={layer.id}
                     layer={layer}
                     checked={resourceLayers[layer.id]}
-                    status={resourceLayerStatuses[layer.id]}
+                    status={layerStatuses[layer.id]}
                     onChange={(checked) =>
                       setResourceLayerVisibility(layer.id, checked)
                     }
@@ -1490,13 +1935,25 @@ export function App() {
               <span>
                 <strong>Fletcher historical map</strong>
                 <small>{nativeLayerCatalog[0].webCaveat}</small>
+                <LayerMetadata
+                  sourceDate={nativeLayerCatalog[0].sourceDate}
+                  scale={nativeLayerCatalog[0].scale}
+                  coverage={nativeLayerCatalog[0].coverage}
+                  minZoom={nativeLayerCatalog[0].minZoom}
+                  maxZoom={nativeLayerCatalog[0].maxZoom}
+                  checked={false}
+                  status={{ status: "idle" }}
+                />
               </span>
             </div>
           </section>
 
+          {mapMode === "current" ? (
+            <>
           <section
             className="rail-section tax-sale-events"
-            aria-labelledby="events-heading"
+            role="region"
+            aria-label="Current tax-sale notices"
           >
             <h2 id="events-heading">Tax-sale notices</h2>
             <p className="section-intro">
@@ -1599,42 +2056,34 @@ export function App() {
             ))}
           </section>
 
+            </>
+          ) : (
+
           <section
             className="rail-section historical-layer-controls"
-            aria-labelledby="historical-heading"
+            role="region"
+            aria-label="Historical tax-sale outcomes"
           >
             <h2 id="historical-heading">Historical tax-sale outcomes</h2>
             <p className="section-intro">
-              Verified dated results. This layer starts off and does not show
-              currently available property.
+              Verified dated results. These are never presented as currently
+              available property.
             </p>
-            <label className="layer-row historical-layer-row">
-              <input
-                type="checkbox"
-                aria-label="Historical tax-sale outcomes"
-                checked={licenceAccepted && showHistoricalTaxSales}
-                disabled={!licenceAccepted}
-                onChange={(event) =>
-                  setShowHistoricalTaxSales(event.target.checked)
-                }
-              />
-              <span className="switch" aria-hidden="true" />
+            <div className="historical-mode-summary">
+              <strong>Historical results active</strong>
               <span>
-                <strong>Show historical outcomes</strong>
-                <small>
-                  {historicalTaxSaleRecords.length} records ·{" "}
-                  {allHistoricalTaxSalePids.length} exact matched PIDs
-                </small>
-                <small>Halifax · 2022–2025</small>
+                {historicalTaxSaleRecords.length} records ·{" "}
+                {allHistoricalTaxSalePids.length} exact matched PIDs
               </span>
-            </label>
+              <span>Halifax · 2022–2025</span>
+            </div>
             <div className="historical-filters" aria-label="Historical filters">
               <label>
                 Municipality
                 <select
                   aria-label="Historical municipality"
                   value={historicalMunicipality}
-                  disabled={!showHistoricalTaxSales}
+                  disabled={!licenceAccepted}
                   onChange={(event) => setHistoricalMunicipality(event.target.value)}
                 >
                   <option value="all">All municipalities</option>
@@ -1650,7 +2099,7 @@ export function App() {
                 <select
                   aria-label="Historical sale year"
                   value={historicalYear}
-                  disabled={!showHistoricalTaxSales}
+                  disabled={!licenceAccepted}
                   onChange={(event) => setHistoricalYear(event.target.value)}
                 >
                   <option value="all">All years</option>
@@ -1666,7 +2115,7 @@ export function App() {
                 <select
                   aria-label="Historical outcome"
                   value={historicalOutcome}
-                  disabled={!showHistoricalTaxSales}
+                  disabled={!licenceAccepted}
                   onChange={(event) =>
                     setHistoricalOutcome(event.target.value as HistoricalOutcomeFilter)
                   }
@@ -1685,9 +2134,10 @@ export function App() {
               {countLabel(filteredHistoricalPids.size, "PID")}
             </p>
             <p className="parcel-message" role="status" aria-live="polite">
-              {showHistoricalTaxSales ? historicalParcelMessage : null}
+              {historicalParcelMessage}
             </p>
           </section>
+          )}
 
           <section className="offline-card" aria-labelledby="offline-heading">
             <img src={appIconUrl} alt="" />
@@ -1714,7 +2164,9 @@ export function App() {
             provinceLayers={provinceLayers}
             resourceLayers={resourceLayers}
             showModernMap={showModernMap}
-            showTaxSale={licenceAccepted && selectedEventIds.size > 0}
+            showTaxSale={
+              licenceAccepted && mapMode === "current" && selectedEventIds.size > 0
+            }
             showHistoricalTaxSales={
               licenceAccepted && showHistoricalTaxSales
             }
@@ -1722,7 +2174,9 @@ export function App() {
             onIdentifyParcel={(latitude, longitude) => {
               void identifyParcelAtPoint(latitude, longitude);
             }}
-            onResourceLayerStatusChange={setResourceLayerStatus}
+            initialPosition={initialShareState.position}
+            onPositionChange={setMapPosition}
+            onLayerStatusChange={setLayerStatus}
           />
           <p
             className="parcel-lookup-message"
@@ -1740,6 +2194,12 @@ export function App() {
               mappedArea={selectedMappedArea}
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
+              resourceIntersections={resourceIntersections}
+              mapMode={mapMode}
+              shareUrl={shareUrl}
+              shareMessage={shareMessage}
+              onCopyShareUrl={copyShareUrl}
+              onExportEvidence={exportEvidence}
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);
@@ -1751,6 +2211,11 @@ export function App() {
                   status: "idle",
                   value: EMPTY_CIVIC_ADDRESSES,
                 });
+                setResourceIntersections({
+                  status: "idle",
+                  value: EMPTY_RESOURCE_INTERSECTIONS,
+                });
+                setShareMessage(null);
               }}
             />
           ) : null}

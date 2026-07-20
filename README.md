@@ -12,11 +12,16 @@ and abandoned mine openings. Fletcher stays disabled until web-use rights are
 clear. Its municipal catalog maps the CBRM July 21 and Inverness County
 August 11, 2026 tax-sale notices against live NSPRD parcel geometry, supports
 PID and civic-address search plus tap-to-identify parcel selection, keeps
-browser location local, and includes a separate default-off layer of verified
-Halifax 2022–2025 tax-sale outcomes. Parcel context distinguishes intersecting,
+browser location local, and puts verified Halifax 2022–2025 outcomes in an
+unmistakably separate historical mode. Parcel selection collapses long event
+lists, and share links preserve the PID, event, layers, and map position. The
+parcel sheet can export a timestamped, source-linked evidence note. Parcel
+context distinguishes intersecting,
 nearby, and civic-address road evidence without claiming legal access. Each
 authoritative mapped civic point also shows a locally calculated Plus Code that
-opens Google Maps directions on request. See
+opens Google Maps directions on request, while mapped geology/resource
+intersections are reported source by source with explicit empty/error states.
+See
 [web/README.md](web/README.md) for the source receipt, privacy boundary, and
 local verification commands. Candidate hazard, groundwater, coastal, terrain,
 and conservation overlays are evaluated in

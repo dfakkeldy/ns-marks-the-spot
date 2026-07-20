@@ -19,28 +19,38 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 1. Each municipality's official notice supplies its event date and public
    parcel fields. The catalog preserves the municipality's financial wording:
    CBRM publishes a minimum bid, while Inverness publishes total arrears.
-2. Each tax-sale event toggle has a collapsed property list. The list mirrors
+2. **Current notices** and **Historical results** are separate map modes with
+   their own colour, heading, controls, and parcel-sheet marker. Changing modes
+   clears the previous selection so a dated result cannot be mistaken for a
+   currently advertised property.
+3. Each current tax-sale event toggle has a collapsed property list. The list mirrors
    the redemption filter and renders one action per PID, including separate
-   actions when a single lien covers multiple parcels. Selecting a row enables
-   its event layer, fits the map to that parcel, and opens the same parcel sheet
-   used by PID search and direct map selection.
-3. The browser asks the live NSPRD Feature Layer for polygon geometry by exact
+   actions when a single lien covers multiple parcels. Selecting a row collapses
+   the long list, enables its event layer, fits the map to that parcel, and opens
+   the same parcel sheet used by PID search and direct map selection.
+4. The browser asks the live NSPRD Feature Layer for polygon geometry by exact
    PID or by the exact coordinate of a visible-boundary map tap or chosen civic
    point. The selected parcel sheet sums NSPRD's mapped area across every
    polygon returned for that PID and converts it to acres. The municipal notice
    remains the authority for tax-sale fields.
-4. The public dataset intentionally omits assessed-owner names. The app labels
+5. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
    verified result dataset, the UI automatically changes to “Past sale date —
    verify results with the municipality.” It does not infer sold, unsold, or
    withdrawn results.
-5. Browser location stays in the browser and is drawn on the map. This app has
+6. Browser location stays in the browser and is drawn on the map. This app has
    no application server receiving the coordinates.
-6. For a selected PID, the browser reuses the exact NSPRD Polygon or
+7. For a selected PID, the browser reuses the exact NSPRD Polygon or
    MultiPolygon geometry to look up mapped physical-address points from the
    Nova Scotia Civic Address File. Municipal notice locations remain notice
    fields and are not promoted into civic addresses.
+8. The address bar continuously records the selected mode, PID, event IDs,
+   visible layers, and map latitude/longitude/zoom. The parcel sheet can copy
+   that exact state as a share link or download a timestamped Markdown evidence
+   note containing the link, official source URLs, mapped intersections, and
+   limitations. The note is a reproducible screening receipt, not a title,
+   survey, access, occupancy, safety, or current-sale-status conclusion.
 
 All money is stored as integer cents. PIDs and AANs are strings. CBRM's
 "Immediate deed" value is displayed as a municipal category; it is not a claim
@@ -97,8 +107,10 @@ layers query only the current map envelope, cancel stale requests, and page
 ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record mine
 inventory waits until zoom 11. Each switch reports its own loading, visible
 count, zoom, or failure state, so one unavailable source does not disable the
-other map and parcel features. All three overlays were verified against their
-live sources on July 19, 2026 under the Nova Scotia Open Government Licence.
+other map and parcel features. Every layer row also exposes its source date,
+native or useful scale, coverage, and supported map-zoom range. All three
+overlays were verified against their live sources on July 20, 2026 under the
+Nova Scotia Open Government Licence.
 
 After the Province licence is accepted, the default composition keeps Modern
 Map and NS Aerial off, turns NS Property Boundaries, Water Features, and Roads,
@@ -122,6 +134,14 @@ same road list adds it as “Named by civic address.” These signals provide us
 orientation but do not prove legal access or frontage. An empty result is
 displayed as empty; a service failure is reported rather than inferred from the
 visible map.
+
+The same exact selected polygon is posted independently to the Province's
+Mineral Occurrences, NovaROC exploration-licence and mineral-lease, and
+Abandoned Mine Openings query layers using `esriSpatialRelIntersects`. The
+parcel sheet lists each returned intersection, displays an explicit empty result
+per source, and distinguishes source failure from an empty result. These are
+mapped-source screening results only: an empty result does not prove absence,
+and a returned record is not a legal, ownership, safety, or economic finding.
 
 The Province publishes a [Nova Scotia Well Logs Database](https://data.novascotia.ca/Mines-and-Minerals/Nova-Scotia-Well-Logs-Database/eqej-ag64),
 but the available map-ready release is dated and its location methods have

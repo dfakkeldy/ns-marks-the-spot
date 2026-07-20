@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
 import {
   Circle,
@@ -33,6 +33,10 @@ import {
   type BrowserLocation,
 } from "../services/browserLocation";
 import {
+  DEFAULT_MAP_POSITION,
+  type MapPosition,
+} from "../services/mapShareState";
+import {
   OPAQUE_SELECTED_PARCEL_ZOOM,
   parcelStyleForFeature,
 } from "./parcelStyle";
@@ -49,18 +53,28 @@ type MapCanvasProps = {
   showHistoricalTaxSales: boolean;
   onSelectPid: (pid: string) => void;
   onIdentifyParcel: (latitude: number, longitude: number) => void;
+  initialPosition?: MapPosition;
+  onPositionChange?: (position: MapPosition) => void;
+  onLayerStatusChange?: (
+    id: MapLayerId,
+    status: MapLayerStatus,
+  ) => void;
+  /** @deprecated Use onLayerStatusChange. Kept for embedding compatibility. */
   onResourceLayerStatusChange?: (
     id: ResourceLayerId,
     status: ResourceLayerStatus,
   ) => void;
 };
 
-export type ResourceLayerStatus =
+export type MapLayerId = "modern" | ProvinceLayerId | ResourceLayerId;
+
+export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
   | { status: "zoom"; minZoom: number }
-  | { status: "ready"; count: number };
+  | { status: "ready"; count?: number };
 
-const CAPE_BRETON_CENTER: [number, number] = [46.08, -60.92];
+export type ResourceLayerStatus = MapLayerStatus;
+
 const WATERFALL_DISCOVERY_BOUNDS: L.LatLngBoundsExpression = [
   [43.55300536047742, -66.00233221945133],
   [46.83835988450765, -60.35435480050904],
@@ -78,14 +92,17 @@ const layerZIndexes: Record<ProvinceLayerId, number> = {
 function ArcGISMapLayer({
   layer,
   visible,
+  onStatusChange,
 }: {
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
+  onStatusChange?: MapCanvasProps["onLayerStatusChange"];
 }) {
   const map = useMap();
 
   useEffect(() => {
     if (!visible || !layer.exportOptions) {
+      onStatusChange?.(layer.id, { status: "idle" });
       return;
     }
 
@@ -104,12 +121,29 @@ function ArcGISMapLayer({
         keepBuffer: 2,
       },
     );
+    let loadedTiles = 0;
+    const reportZoom = () => {
+      if (map.getZoom() < layer.minZoom) {
+        onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+      }
+    };
+    tileLayer.on("loading", () => onStatusChange?.(layer.id, { status: "loading" }));
+    tileLayer.on("tileload", () => {
+      loadedTiles += 1;
+    });
+    tileLayer.on("load", () =>
+      onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
+    );
+    tileLayer.on("tileerror", () => onStatusChange?.(layer.id, { status: "error" }));
+    map.on("zoomend", reportZoom);
+    reportZoom();
     tileLayer.addTo(map);
 
     return () => {
+      map.off("zoomend", reportZoom);
       map.removeLayer(tileLayer);
     };
-  }, [layer, map, visible]);
+  }, [layer, map, onStatusChange, visible]);
 
   return null;
 }
@@ -117,14 +151,17 @@ function ArcGISMapLayer({
 function ResourceArcGISMapLayer({
   layer,
   visible,
+  onStatusChange,
 }: {
   layer: ResourceMapLayerDescriptor;
   visible: boolean;
+  onStatusChange?: MapCanvasProps["onLayerStatusChange"];
 }) {
   const map = useMap();
 
   useEffect(() => {
     if (!visible) {
+      onStatusChange?.(layer.id, { status: "idle" });
       return;
     }
 
@@ -142,12 +179,29 @@ function ResourceArcGISMapLayer({
         keepBuffer: 2,
       },
     );
+    let loadedTiles = 0;
+    const reportZoom = () => {
+      if (map.getZoom() < layer.minZoom) {
+        onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+      }
+    };
+    tileLayer.on("loading", () => onStatusChange?.(layer.id, { status: "loading" }));
+    tileLayer.on("tileload", () => {
+      loadedTiles += 1;
+    });
+    tileLayer.on("load", () =>
+      onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
+    );
+    tileLayer.on("tileerror", () => onStatusChange?.(layer.id, { status: "error" }));
+    map.on("zoomend", reportZoom);
+    reportZoom();
     tileLayer.addTo(map);
 
     return () => {
+      map.off("zoomend", reportZoom);
       map.removeLayer(tileLayer);
     };
-  }, [layer, map, visible]);
+  }, [layer, map, onStatusChange, visible]);
 
   return null;
 }
@@ -182,7 +236,7 @@ function ArcGISFeatureLayer({
 }: {
   layer: ResourceFeatureLayerDescriptor;
   visible: boolean;
-  onStatusChange?: MapCanvasProps["onResourceLayerStatusChange"];
+  onStatusChange?: MapCanvasProps["onLayerStatusChange"];
 }) {
   const map = useMap();
   const [collection, setCollection] =
@@ -289,6 +343,52 @@ function ArcGISFeatureLayer({
       }}
     />
   );
+}
+
+function MapPositionController({
+  onPositionChange,
+}: Pick<MapCanvasProps, "onPositionChange">) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!onPositionChange) {
+      return;
+    }
+    const reportPosition = () => {
+      const center = map.getCenter();
+      onPositionChange?.({
+        latitude: center.lat,
+        longitude: center.lng,
+        zoom: map.getZoom(),
+      });
+    };
+    reportPosition();
+    map.on("moveend", reportPosition);
+    map.on("zoomend", reportPosition);
+    return () => {
+      map.off("moveend", reportPosition);
+      map.off("zoomend", reportPosition);
+    };
+  }, [map, onPositionChange]);
+
+  return null;
+}
+
+function MapStatusController({
+  id,
+  visible,
+  onStatusChange,
+}: {
+  id: MapLayerId;
+  visible: boolean;
+  onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+}) {
+  useEffect(() => {
+    if (!visible) {
+      onStatusChange?.(id, { status: "idle" });
+    }
+  }, [id, onStatusChange, visible]);
+  return null;
 }
 
 function LayerZoomController({
@@ -477,10 +577,22 @@ export function MapCanvas({
   showHistoricalTaxSales,
   onSelectPid,
   onIdentifyParcel,
+  initialPosition = DEFAULT_MAP_POSITION,
+  onPositionChange,
+  onLayerStatusChange,
   onResourceLayerStatusChange,
 }: MapCanvasProps) {
+  const reportLayerStatus = useCallback(
+    (id: MapLayerId, status: MapLayerStatus) => {
+      onLayerStatusChange?.(id, status);
+      if (resourceLayerCatalog.some((layer) => layer.id === id)) {
+        onResourceLayerStatusChange?.(id as ResourceLayerId, status);
+      }
+    },
+    [onLayerStatusChange, onResourceLayerStatusChange],
+  );
   const [map, setMap] = useState<LeafletMap | null>(null);
-  const [mapZoom, setMapZoom] = useState(9);
+  const [mapZoom, setMapZoom] = useState(initialPosition.zoom);
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
@@ -548,8 +660,8 @@ export function MapCanvas({
   return (
     <div className="map-canvas" aria-label="Nova Scotia municipal parcel map">
       <MapContainer
-        center={CAPE_BRETON_CENTER}
-        zoom={9}
+        center={[initialPosition.latitude, initialPosition.longitude]}
+        zoom={initialPosition.zoom}
         minZoom={7}
         maxZoom={23}
         zoomControl
@@ -562,13 +674,21 @@ export function MapCanvas({
             maxZoom={23}
             maxNativeZoom={19}
             zIndex={100}
+            eventHandlers={{
+              loading: () => reportLayerStatus?.("modern", { status: "loading" }),
+              load: () => reportLayerStatus?.("modern", { status: "ready" }),
+              tileerror: () => reportLayerStatus?.("modern", { status: "error" }),
+            }}
           />
-        ) : null}
+        ) : (
+          <MapStatusController id="modern" visible={false} onStatusChange={reportLayerStatus} />
+        )}
         {provinceLayerCatalog.map((layer) => (
           <ArcGISMapLayer
             key={layer.id}
             layer={layer}
             visible={provinceLayers[layer.id]}
+            onStatusChange={reportLayerStatus}
           />
         ))}
         {resourceLayerCatalog
@@ -581,6 +701,7 @@ export function MapCanvas({
               key={layer.id}
               layer={layer}
               visible={resourceLayers[layer.id]}
+              onStatusChange={reportLayerStatus}
             />
           ))}
         <GeoJSON
@@ -606,7 +727,7 @@ export function MapCanvas({
               key={layer.id}
               layer={layer}
               visible={resourceLayers[layer.id]}
-              onStatusChange={onResourceLayerStatusChange}
+              onStatusChange={reportLayerStatus}
             />
           ))}
         {userLocation ? (
@@ -651,6 +772,7 @@ export function MapCanvas({
           enabled={provinceLayers.nsprd}
           onIdentifyParcel={onIdentifyParcel}
         />
+        <MapPositionController onPositionChange={onPositionChange} />
       </MapContainer>
 
       <button

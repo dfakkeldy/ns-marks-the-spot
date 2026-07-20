@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { TaxSaleListing } from "../data/taxSaleCatalog";
 
 type TaxSalePropertyListProps = {
@@ -26,9 +27,20 @@ export function TaxSalePropertyList({
   onSelectPid,
 }: TaxSalePropertyListProps) {
   const count = propertyCount(listings);
+  const [openState, setOpenState] = useState({
+    open: false,
+    selectedPid,
+  });
+  const open = openState.open && openState.selectedPid === selectedPid;
 
   return (
-    <details className="tax-sale-property-list">
+    <details
+      className="tax-sale-property-list"
+      open={open}
+      onToggle={(event) =>
+        setOpenState({ open: event.currentTarget.open, selectedPid })
+      }
+    >
       <summary>
         <span>Browse properties</span>
         <small>
@@ -50,7 +62,10 @@ export function TaxSalePropertyList({
                       aria-current={selected ? "true" : undefined}
                       aria-label={`${propertyLabel(listing)}, lien ${listing.lien ?? "not listed"}, PID ${pid}`}
                       disabled={disabled}
-                      onClick={() => onSelectPid(eventId, pid)}
+                      onClick={() => {
+                        setOpenState({ open: false, selectedPid: pid });
+                        onSelectPid(eventId, pid);
+                      }}
                     >
                       <strong>{propertyLabel(listing)}</strong>
                       <span>
