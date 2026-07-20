@@ -1759,6 +1759,12 @@ export function App() {
 
       <footer className="map-attribution">
         <a
+          className="feedback-link"
+          href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
+        >
+          Feedback &amp; suggestions: map@kinnokilabs.com
+        </a>
+        <a
           href="https://www.openstreetmap.org/copyright"
           target="_blank"
           rel="noreferrer"

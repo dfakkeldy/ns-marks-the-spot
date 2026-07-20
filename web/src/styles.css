@@ -1225,6 +1225,17 @@ a {
   border-left: 0;
 }
 
+.feedback-link {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding-block: 5px;
+  color: var(--deep-water);
+  font-weight: 800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
 .dialog-backdrop {
   position: fixed;
   z-index: 2000;
@@ -1370,7 +1381,7 @@ a {
   }
 
   .map-attribution {
-    padding: 12px 16px;
+    padding: 10px 16px;
   }
 
   .parcel-inspector {
