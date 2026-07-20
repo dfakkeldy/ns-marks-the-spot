@@ -10,7 +10,7 @@ const bounds = { west: -62, south: 45, east: -60, north: 47 };
 const requestUrl = (input: string | URL | Request): URL =>
   new URL(input instanceof Request ? input.url : input);
 
-const occurrence = (id: number, longitude: number) => ({
+const occurrence = (id: number, longitude: number, commodity = "Au") => ({
   type: "Feature" as const,
   id,
   geometry: { type: "Point" as const, coordinates: [longitude, 45.8122] },
@@ -19,7 +19,7 @@ const occurrence = (id: number, longitude: number) => ({
     Occ_num: `F14-${String(id).padStart(3, "0")}`,
     Name: `Occurrence ${id}`,
     Status: "Occurrence",
-    Comm_list: "Au",
+    Comm_list: commodity,
   },
 });
 
@@ -49,7 +49,10 @@ describe("mineral proximity parcels", () => {
         ? new Response(JSON.stringify({ type: "FeatureCollection", features: [parcel("90000001")] }))
         : new Response(JSON.stringify({
             type: "FeatureCollection",
-            features: [occurrence(1, -61.4786), occurrence(2, -61.4762)],
+            features: [
+              occurrence(1, -61.4786),
+              occurrence(2, -61.4762, "Zn"),
+            ],
           })),
     );
     vi.stubGlobal("fetch", fetchMock);
@@ -62,6 +65,7 @@ describe("mineral proximity parcels", () => {
     expect(mineralUrl.searchParams.get("distance")).toBe("1000");
     expect(mineralUrl.searchParams.get("units")).toBe("esriSRUnit_Meter");
     expect(mineralUrl.searchParams.get("outFields")).toContain("Comm_list");
+    expect(mineralUrl.searchParams.get("where")).toBe("1=1");
 
     const nsprdCall = fetchMock.mock.calls[1];
     const body = nsprdCall[1]?.body as URLSearchParams;

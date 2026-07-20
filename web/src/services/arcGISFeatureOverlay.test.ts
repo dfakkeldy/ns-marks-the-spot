@@ -41,6 +41,8 @@ describe("ArcGIS feature overlays", () => {
     expect(requestUrl.searchParams.get("outSR")).toBe("4326");
     expect(requestUrl.searchParams.get("outFields")).toBe("geo_id,Name");
     expect(requestUrl.searchParams.get("f")).toBe("geojson");
+    expect(requestUrl.searchParams.get("distance")).toBeNull();
+    expect(requestUrl.searchParams.get("units")).toBeNull();
   });
 
   it("queries a metre distance around the visible envelope when requested", async () => {
