@@ -78,6 +78,7 @@ const hiddenResourceLayers = {
   "mineral-occurrences": false,
   "mineral-tenure": false,
   "abandoned-mines": false,
+  "mineral-proximity-parcels": false,
 };
 
 afterEach(() => {

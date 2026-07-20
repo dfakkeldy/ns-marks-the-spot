@@ -41,6 +41,17 @@ describe("map share state", () => {
       .toEqual(historicalState);
   });
 
+  it("round-trips the derived mineral-proximity layer", () => {
+    const proximityState: MapShareState = {
+      ...state,
+      layerIds: ["nsprd", "mineral-proximity-parcels"],
+    };
+
+    expect(
+      parseMapShareState(buildMapShareUrl("https://example.com/map/", proximityState)),
+    ).toEqual(proximityState);
+  });
+
   it("ignores unknown events and layers while clamping the map position", () => {
     const parsed = parseMapShareState(
       "https://example.com/map/?mode=current&pid=15-234-636&event=unknown&layers=roads,unknown&position=99,-200,40",

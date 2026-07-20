@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  allResourceLayerCatalog,
+  derivedResourceLayerCatalog,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialResourceLayerVisibility,
@@ -198,6 +200,7 @@ describe("geology and resources catalog", () => {
       "mineral-occurrences": false,
       "mineral-tenure": false,
       "abandoned-mines": false,
+      "mineral-proximity-parcels": false,
     });
     expect(
       resourceLayerCatalog
@@ -212,6 +215,19 @@ describe("geology and resources catalog", () => {
       resourceLayerCatalog.find(({ id }) => id === "abandoned-mines")
         ?.webCaveat,
     ).toContain("hazard inventory");
+  });
+
+  it("separates derived parcel proximity from source-backed resource overlays", () => {
+    expect(derivedResourceLayerCatalog).toEqual([
+      expect.objectContaining({
+        id: "mineral-proximity-parcels",
+        name: "Properties within 1 km of a mineral occurrence",
+        delivery: "derived-parcel-query",
+        minZoom: 12,
+        requiresProvinceLicence: true,
+      }),
+    ]);
+    expect(allResourceLayerCatalog).toHaveLength(4);
   });
 
   it("exposes dated source, scale, coverage, and zoom metadata beside resource layers", () => {

@@ -10,10 +10,14 @@ export type NativeLayerId =
 
 export type ProvinceLayerId = Exclude<NativeLayerId, "fletcher">;
 
-export type ResourceLayerId =
+export type SourceResourceLayerId =
   | "mineral-occurrences"
   | "mineral-tenure"
   | "abandoned-mines";
+
+export type DerivedResourceLayerId = "mineral-proximity-parcels";
+
+export type ResourceLayerId = SourceResourceLayerId | DerivedResourceLayerId;
 
 export type HydroPilotLayerId = "inverness-hydro-potential";
 
@@ -57,7 +61,7 @@ export type WebLayerDescriptor = {
 };
 
 type ResourceLayerBase = {
-  id: ResourceLayerId;
+  id: SourceResourceLayerId;
   name: string;
   serviceUrl: string;
   sourceUrl: string;
@@ -85,6 +89,24 @@ export type ResourceFeatureLayerDescriptor = ResourceLayerBase & {
 export type ResourceLayerDescriptor =
   | ResourceMapLayerDescriptor
   | ResourceFeatureLayerDescriptor;
+
+export type DerivedResourceLayerDescriptor = {
+  id: DerivedResourceLayerId;
+  name: string;
+  delivery: "derived-parcel-query";
+  sourceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+  requiresProvinceLicence: true;
+};
+
+export type ResourceControlDescriptor =
+  | ResourceLayerDescriptor
+  | DerivedResourceLayerDescriptor;
 
 const PROPERTY_DYNAMIC_LAYERS = JSON.stringify([
   {
@@ -404,10 +426,32 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
   },
 ] as const;
 
+export const derivedResourceLayerCatalog: readonly DerivedResourceLayerDescriptor[] = [
+  {
+    id: "mineral-proximity-parcels",
+    name: "Properties within 1 km of a mineral occurrence",
+    delivery: "derived-parcel-query",
+    sourceUrl: "https://novascotia.ca/natr/meb/download/dp002.asp",
+    minZoom: 12,
+    maxZoom: 23,
+    webCaveat: "Derived from published occurrences and NSPRD parcels; not proof of mineralization",
+    sourceDate: "Mineral occurrences June 2024 · NSPRD live",
+    scale: "Application-derived 1 km parcel proximity",
+    coverage: "Visible Nova Scotia map area",
+    requiresProvinceLicence: true,
+  },
+] as const;
+
+export const allResourceLayerCatalog: readonly ResourceControlDescriptor[] = [
+  ...resourceLayerCatalog,
+  ...derivedResourceLayerCatalog,
+];
+
 export const initialResourceLayerVisibility: Record<ResourceLayerId, boolean> = {
   "mineral-occurrences": false,
   "mineral-tenure": false,
   "abandoned-mines": false,
+  "mineral-proximity-parcels": false,
 };
 
 export const hydroPilotLayerCatalog: readonly HydroPilotLayerDescriptor[] = [

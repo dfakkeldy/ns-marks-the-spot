@@ -1,4 +1,4 @@
-import type { ResourceLayerId } from "../layers/layerCatalog";
+import type { SourceResourceLayerId } from "../layers/layerCatalog";
 import type { NsprdFeatureCollection } from "./nsprd";
 
 type ParcelFeature = NsprdFeatureCollection["features"][number];
@@ -21,12 +21,12 @@ export type ResourceIntersectionResult = {
 };
 
 export type ParcelResourceIntersections = Record<
-  ResourceLayerId,
+  SourceResourceLayerId,
   ResourceIntersectionResult
 >;
 
 type ResourceQuery = {
-  layerId: ResourceLayerId;
+  layerId: SourceResourceLayerId;
   url: string;
   outFields: string;
   summarize: (attributes: ArcGISAttributes) => ResourceIntersection;
