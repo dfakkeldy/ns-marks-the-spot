@@ -134,6 +134,8 @@ const WATERFALLS_DYNAMIC_LAYERS = JSON.stringify([
   },
 ]);
 
+export const PROPERTY_BOUNDARY_MIN_ZOOM = 10;
+
 export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
   {
     id: "fletcher",
@@ -168,12 +170,12 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     serviceUrl:
       "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer",
     nativeDefaultVisibility: false,
-    minZoom: 7,
+    minZoom: PROPERTY_BOUNDARY_MIN_ZOOM,
     maxZoom: 24,
     opacity: 0.82,
     licence: "province-restricted",
     webAvailability: "available",
-    webCaveat: "Zoom 7+ · not a survey",
+    webCaveat: "Zoom 10+ · not a survey",
     exportOptions: {
       transparent: true,
       dpi: 0.75,

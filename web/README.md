@@ -53,11 +53,13 @@ remaining online-only:
 
 - NS Aerial streams the Province's NSODB 10k imagery through map zoom 23,
   overzooming its last useful native scale instead of disappearing.
-- NS Property Boundaries streams statewide NSPRD outlines from zoom 7. A low
-  export DPI clears the live service's 1:36,114 display floor without changing
-  tile extents; PID search still uses exact NSPRD Feature Layer geometry. A
-  selected sale parcel becomes fully opaque at zoom 15 and closer while other
-  listed parcels keep their lighter overview fill.
+- NS Property Boundaries begins at regional zoom 10, avoiding slow and cluttered
+  province-wide rendering while keeping parcel lines available well before
+  street-level zoom. A low export DPI clears the live service's 1:36,114
+  display floor without changing tile extents; PID search still uses exact
+  NSPRD Feature Layer geometry. Map-tap parcel identification follows the same
+  zoom floor. A selected sale parcel becomes fully opaque at zoom 15 and closer
+  while other listed parcels keep their lighter overview fill.
 - Crown Lands uses the native green dynamic renderer.
 - Flood Risk Areas uses the native `show:24,25,26` watershed restriction.
 - Waterfalls uses hydrography layer 1 and the exact Province falls definition;

@@ -143,10 +143,11 @@ describe("MapCanvas browser location", () => {
 describe("MapCanvas parcel discovery", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(9);
     mapEventHandlers.click = undefined;
   });
 
-  it("identifies the parcel under a map tap when property boundaries are visible", () => {
+  it("identifies map-tapped parcels only once property boundaries are visible", () => {
     const onIdentifyParcel = vi.fn();
     render(
       <MapCanvas
@@ -172,7 +173,16 @@ describe("MapCanvas parcel discovery", () => {
       />,
     );
 
-    act(() => mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }));
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+
+    mapMock.getZoom.mockReturnValue(10);
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
 
     expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
   });
