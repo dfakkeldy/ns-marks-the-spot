@@ -74,6 +74,9 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 
+const BETA_SIGNUP_URL =
+  "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
+
 type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
 type HistoricalOutcomeFilter = "all" | HistoricalOutcome;
 
@@ -1338,9 +1341,9 @@ export function App() {
           <span>Online</span>
         </a>
         <div className="offline-nav">
-          <span>Need offline maps?</span>
-          <a className="header-action" href="../#top">
-            Get the iPhone app
+          <span>iPhone beta not open yet</span>
+          <a className="header-action" href={BETA_SIGNUP_URL}>
+            Sign up for the beta
           </a>
         </div>
         <button
@@ -1692,12 +1695,12 @@ export function App() {
           <section className="offline-card" aria-labelledby="offline-heading">
             <img src={appIconUrl} alt="" />
             <div>
-              <h2 id="offline-heading">Heading offline?</h2>
+              <h2 id="offline-heading">Help shape the iPhone beta</h2>
               <p>
-                Get detailed maps, GPS tracking, and saved field areas in the
-                NS Marks The Spot iPhone app.
+                The iPhone beta is not available in TestFlight yet. Join the
+                list to hear when testing opens and help shape what comes next.
               </p>
-              <a href="../#top">Get the iPhone app</a>
+              <a href={BETA_SIGNUP_URL}>Sign up for the beta</a>
             </div>
           </section>
         </aside>

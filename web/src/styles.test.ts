@@ -62,4 +62,16 @@ describe("mobile parcel inspector layout", () => {
 
     expect(linkDeclarations).toMatch(/min-height:\s*24px/);
   });
+
+  it("keeps the beta-list action visible while compacting the phone brand", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 560px)");
+    const mobileEnd = styles.indexOf(
+      "@media (prefers-reduced-motion: reduce)",
+      mobileStart,
+    );
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+
+    expect(mobileStyles).toMatch(/\.app-brand strong,/);
+    expect(mobileStyles).not.toMatch(/\.header-action\s*\{[^}]*display:\s*none/);
+  });
 });

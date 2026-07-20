@@ -1353,8 +1353,8 @@ a {
 }
 
 @media (max-width: 560px) {
-  .app-brand span,
-  .header-action {
+  .app-brand strong,
+  .app-brand span {
     display: none;
   }
 

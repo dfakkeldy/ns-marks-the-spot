@@ -182,6 +182,28 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("invites beta interest without claiming the iPhone beta is available", () => {
+    render(<App />);
+
+    const betaLinks = screen.getAllByRole("link", {
+      name: "Sign up for the beta",
+    });
+
+    expect(betaLinks).toHaveLength(2);
+    betaLinks.forEach((link) => {
+      expect(link).toHaveAttribute(
+        "href",
+        "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup",
+      );
+    });
+    expect(
+      screen.getByText(
+        "The iPhone beta is not available in TestFlight yet. Join the list to hear when testing opens and help shape what comes next.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
+  });
+
   it("reveals both privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);
