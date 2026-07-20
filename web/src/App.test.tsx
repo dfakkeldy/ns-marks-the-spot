@@ -173,6 +173,19 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows the modern map when continuing without Province layers", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: on");
+    expect(screen.getByLabelText("NS Aerial")).not.toBeChecked();
+  });
+
   it("credits the open-source software separately from map-data licences", () => {
     render(<App />);
 
@@ -776,6 +789,27 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByRole("button", { name: "Collapse header" }),
     ).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("keeps mobile map controls closed until the user opens them", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const controls = screen.getByRole("complementary", { name: "Map controls" });
+    const trigger = screen.getByRole("button", { name: "Search & layers" });
+
+    expect(controls).not.toHaveClass("mobile-open");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    await user.click(trigger);
+
+    expect(controls).toHaveClass("mobile-open");
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    await user.click(screen.getByRole("button", { name: "Close map controls" }));
+
+    expect(controls).not.toHaveClass("mobile-open");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
   it("finds a tax-sale listing by PID without claiming that it is available", async () => {
