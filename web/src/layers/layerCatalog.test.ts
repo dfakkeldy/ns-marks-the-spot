@@ -139,13 +139,13 @@ describe("web native-layer parity catalog", () => {
     expect(roads?.webCaveat).toContain("culverts close up");
   });
 
-  it("makes property boundaries available across the full supported map range", () => {
+  it("delays property boundaries until a useful regional zoom", () => {
     const propertyBoundaries = nativeLayerCatalog.find(
       ({ id }) => id === "nsprd",
     );
 
-    expect(propertyBoundaries?.minZoom).toBe(7);
-    expect(propertyBoundaries?.webCaveat).toBe("Zoom 7+ · not a survey");
+    expect(propertyBoundaries?.minZoom).toBe(10);
+    expect(propertyBoundaries?.webCaveat).toBe("Zoom 10+ · not a survey");
     expect(propertyBoundaries?.exportOptions?.dpi).toBe(0.75);
   });
 });

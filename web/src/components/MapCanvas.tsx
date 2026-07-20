@@ -11,6 +11,7 @@ import {
 } from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
+  PROPERTY_BOUNDARY_MIN_ZOOM,
   provinceLayerCatalog,
   resourceLayerCatalog,
   type ProvinceLayerId,
@@ -451,9 +452,11 @@ function ParcelIdentifyController({
   enabled: boolean;
   onIdentifyParcel: MapCanvasProps["onIdentifyParcel"];
 }) {
+  const map = useMap();
+
   useMapEvents({
     click: ({ latlng }) => {
-      if (enabled) {
+      if (enabled && map.getZoom() >= PROPERTY_BOUNDARY_MIN_ZOOM) {
         onIdentifyParcel(latlng.lat, latlng.lng);
       }
     },
