@@ -720,6 +720,32 @@ function ParcelIdentifyController({
   return null;
 }
 
+function MapSizeController() {
+  const map = useMap();
+
+  useEffect(() => {
+    const invalidateSize = () => {
+      map.invalidateSize({ animate: false });
+    };
+    const visualViewport = window.visualViewport;
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(invalidateSize);
+
+    invalidateSize();
+    resizeObserver?.observe(map.getContainer());
+    visualViewport?.addEventListener("resize", invalidateSize);
+
+    return () => {
+      resizeObserver?.disconnect();
+      visualViewport?.removeEventListener("resize", invalidateSize);
+    };
+  }, [map]);
+
+  return null;
+}
+
 export function MapCanvas({
   parcels,
   taxSalePids,
@@ -842,6 +868,7 @@ export function MapCanvas({
         attributionControl={false}
         ref={setMap}
       >
+        <MapSizeController />
         {showModernMap ? (
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
