@@ -17,6 +17,8 @@ const mapMock = vi.hoisted(() => ({
     getEast: () => -60,
     getNorth: () => 47,
   })),
+  getContainer: vi.fn(() => document.body),
+  invalidateSize: vi.fn(),
   on: vi.fn(),
   off: vi.fn(),
   removeLayer: vi.fn(),
@@ -128,6 +130,7 @@ const hiddenResourceLayers = {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
 
 describe("MapCanvas browser location", () => {
@@ -233,6 +236,61 @@ describe("MapCanvas browser location", () => {
       screen.queryByText("Your location is shown on the map."),
     ).not.toBeInTheDocument();
     expect(screen.getByTestId("location-position")).toBeInTheDocument();
+  });
+});
+
+describe("MapCanvas sizing", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("refreshes Leaflet when its mobile container settles to a new size", async () => {
+    let notifyResize: (() => void) | undefined;
+    const observe = vi.fn();
+    const disconnect = vi.fn();
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          notifyResize = () => callback([], this as unknown as ResizeObserver);
+        }
+
+        observe = observe;
+        disconnect = disconnect;
+      },
+    );
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await waitFor(() => expect(mapMock.invalidateSize).toHaveBeenCalledTimes(1));
+    expect(observe).toHaveBeenCalledWith(document.body);
+
+    act(() => notifyResize?.());
+
+    expect(mapMock.invalidateSize).toHaveBeenCalledTimes(2);
+    expect(mapMock.invalidateSize).toHaveBeenLastCalledWith({ animate: false });
   });
 });
 
