@@ -131,42 +131,53 @@ function ArcGISMapLayer({
       return;
     }
 
-    const tileLayer = new ArcGISExportTileLayer(
-      {
-        serviceUrl: layer.serviceUrl,
-        ...layer.exportOptions,
-      },
-      {
-        minZoom: layer.minZoom,
-        maxZoom: layer.maxZoom,
-        opacity: layer.opacity,
-        zIndex: layerZIndexes[layer.id],
-        maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
-        updateWhenZooming: false,
-        keepBuffer: 2,
-      },
-    );
+    const tileLayers = [layer.exportOptions, layer.exportOverlayOptions]
+      .filter((options) => options !== undefined)
+      .map(
+        (options, index) =>
+          new ArcGISExportTileLayer(
+            {
+              serviceUrl: layer.serviceUrl,
+              ...options,
+            },
+            {
+              minZoom: layer.minZoom,
+              maxZoom: layer.maxZoom,
+              opacity: layer.opacity,
+              zIndex: layerZIndexes[layer.id] + index,
+              maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
+              updateWhenZooming: false,
+              keepBuffer: 2,
+            },
+          ),
+      );
     let loadedTiles = 0;
     const reportZoom = () => {
       if (map.getZoom() < layer.minZoom) {
         onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
       }
     };
-    tileLayer.on("loading", () => onStatusChange?.(layer.id, { status: "loading" }));
-    tileLayer.on("tileload", () => {
-      loadedTiles += 1;
-    });
-    tileLayer.on("load", () =>
-      onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
-    );
-    tileLayer.on("tileerror", () => onStatusChange?.(layer.id, { status: "error" }));
     map.on("zoomend", reportZoom);
     reportZoom();
-    tileLayer.addTo(map);
+    tileLayers.forEach((tileLayer) => {
+      tileLayer.on("loading", () =>
+        onStatusChange?.(layer.id, { status: "loading" }),
+      );
+      tileLayer.on("tileload", () => {
+        loadedTiles += 1;
+      });
+      tileLayer.on("load", () =>
+        onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
+      );
+      tileLayer.on("tileerror", () =>
+        onStatusChange?.(layer.id, { status: "error" }),
+      );
+      tileLayer.addTo(map);
+    });
 
     return () => {
       map.off("zoomend", reportZoom);
-      map.removeLayer(tileLayer);
+      tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
   }, [layer, map, onStatusChange, visible]);
 

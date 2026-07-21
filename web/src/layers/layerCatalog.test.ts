@@ -138,6 +138,15 @@ describe("web native-layer parity catalog", () => {
 
     expect(water?.exportOptions).toMatchObject({ transparent: true, dpi: 144 });
     expect(roads?.exportOptions).toMatchObject({ transparent: true, dpi: 192 });
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      "FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%'",
+    );
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      '"mapLayerId":8',
+    );
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      '"color":[43,39,48,255]',
+    );
     expect(roads?.webCaveat).toContain("culverts close up");
   });
 
