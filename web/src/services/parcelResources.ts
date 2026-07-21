@@ -43,7 +43,9 @@ function summarizeMineralOccurrence(
 ): ResourceIntersection {
   const id = String(attributes.Occ_num ?? attributes.geo_id ?? "Unnumbered");
   const name = String(attributes.Name ?? "Mineral occurrence").trim();
-  const detail = [attributes.Status, attributes.Comm_list ?? attributes.Comm_prim]
+  const commodityList = String(attributes.Comm_list ?? "").trim();
+  const primaryCommodity = String(attributes.Comm_prim ?? "").trim();
+  const detail = [attributes.Status, commodityList || primaryCommodity]
     .map((value) => String(value ?? "").trim())
     .filter(Boolean)
     .join(" · ");

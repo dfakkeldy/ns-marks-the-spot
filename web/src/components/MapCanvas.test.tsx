@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useEffect, type PropsWithChildren } from "react";
+import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
@@ -60,6 +60,15 @@ vi.mock("react-leaflet", () => ({
   ),
   GeoJSON: () => <div data-testid="parcel-overlay" />,
   MapContainer: ({ children }: PropsWithChildren) => <div>{children}</div>,
+  Pane: ({
+    children,
+    name,
+    style,
+  }: PropsWithChildren<{ name: string; style?: CSSProperties }>) => (
+    <div data-testid={`pane-${name}`} style={style}>
+      {children}
+    </div>
+  ),
   TileLayer: () => null,
   useMap: () => mapMock,
   useMapEvents: (handlers: typeof mapEventHandlers) => {
@@ -498,6 +507,11 @@ describe("MapCanvas resource overlays", () => {
       derivedLayer.compareDocumentPosition(screen.getByTestId("parcel-overlay")) &
         Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(
+      Number(screen.getByTestId("pane-mineral-proximity-parcels-pane").style.zIndex),
+    ).toBeLessThan(
+      Number(screen.getByTestId("pane-established-parcel-overlays-pane").style.zIndex),
+    );
 
     await userEvent.setup().click(derivedLayer);
 

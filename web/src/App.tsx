@@ -413,6 +413,7 @@ function ParcelInspector({
   shareMessage,
   onCopyShareUrl,
   onExportEvidence,
+  evidenceReady,
   now,
   onClose,
 }: {
@@ -428,6 +429,7 @@ function ParcelInspector({
   shareMessage: string | null;
   onCopyShareUrl: () => void;
   onExportEvidence: () => void;
+  evidenceReady: boolean;
   now: number;
   onClose: () => void;
 }) {
@@ -578,7 +580,15 @@ function ParcelInspector({
         <button className="secondary-action" type="button" onClick={onCopyShareUrl}>
           Copy share link
         </button>
-        <button className="secondary-action" type="button" onClick={onExportEvidence}>
+        <button
+          className="secondary-action"
+          type="button"
+          disabled={!evidenceReady}
+          title={
+            evidenceReady ? undefined : "Waiting for geology and resource evidence"
+          }
+          onClick={onExportEvidence}
+        >
           Export evidence note
         </button>
       </div>
@@ -1026,43 +1036,55 @@ function ResourceLayerToggle({
   const enabled = !requiresProvinceLicence || licenceAccepted;
 
   return (
-    <label className="layer-row resource-layer-row">
-      <input
-        type="checkbox"
-        aria-label={layer.name}
-        checked={enabled && checked}
-        disabled={!enabled}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <span className="switch" aria-hidden="true" />
-      <span>
-        <strong>{layer.name}</strong>
-        <small>
-          {enabled
-            ? layer.webCaveat
-            : "Province licence required for derived parcel geometry"}
-        </small>
-        <LayerMetadata
-          sourceDate={layer.sourceDate}
-          scale={layer.scale}
-          coverage={layer.coverage}
-          minZoom={layer.minZoom}
-          maxZoom={layer.maxZoom}
+    <>
+      <label className="layer-row resource-layer-row">
+        <input
+          type="checkbox"
+          aria-label={layer.name}
           checked={enabled && checked}
-          status={status}
+          disabled={!enabled}
+          onChange={(event) => onChange(event.target.checked)}
         />
-      </span>
-      {!enabled ? (
-        <button
-          aria-label={`Review Province licence for ${layer.name}`}
-          className="text-button"
-          type="button"
-          onClick={onReviewLicence}
+        <span className="switch" aria-hidden="true" />
+        <span>
+          <strong>{layer.name}</strong>
+          <small>
+            {enabled
+              ? layer.webCaveat
+              : "Province licence required for derived parcel geometry"}
+          </small>
+          <LayerMetadata
+            sourceDate={layer.sourceDate}
+            scale={layer.scale}
+            coverage={layer.coverage}
+            minZoom={layer.minZoom}
+            maxZoom={layer.maxZoom}
+            checked={enabled && checked}
+            status={status}
+          />
+        </span>
+        {!enabled ? (
+          <button
+            aria-label={`Review Province licence for ${layer.name}`}
+            className="text-button"
+            type="button"
+            onClick={onReviewLicence}
+          >
+            Review
+          </button>
+        ) : null}
+      </label>
+      {layer.id === "mineral-proximity-parcels" ? (
+        <a
+          className="derived-resource-source"
+          href={layer.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
         >
-          Review
-        </button>
+          Mineral Occurrences source
+        </a>
       ) : null}
-    </label>
+    </>
   );
 }
 
@@ -1807,7 +1829,7 @@ export function App() {
   };
 
   const exportEvidence = () => {
-    if (!selectedPid) {
+    if (!selectedPid || resourceIntersections.status !== "ready") {
       return;
     }
     const activeLayers = [
@@ -2460,6 +2482,7 @@ export function App() {
               shareMessage={shareMessage}
               onCopyShareUrl={copyShareUrl}
               onExportEvidence={exportEvidence}
+              evidenceReady={resourceIntersections.status === "ready"}
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);

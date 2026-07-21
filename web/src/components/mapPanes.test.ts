@@ -1,0 +1,57 @@
+import L from "leaflet";
+import { afterEach, describe, expect, it } from "vitest";
+import {
+  ESTABLISHED_PARCEL_PANE,
+  ESTABLISHED_PARCEL_PANE_Z_INDEX,
+  MINERAL_PROXIMITY_PANE,
+  MINERAL_PROXIMITY_PANE_Z_INDEX,
+} from "./mapPanes";
+
+describe("parcel pane ordering", () => {
+  let map: L.Map | undefined;
+
+  afterEach(() => {
+    map?.remove();
+    map = undefined;
+    document.body.replaceChildren();
+  });
+
+  it("keeps a remounted proximity layer below established parcel overlays", () => {
+    const container = document.createElement("div");
+    Object.defineProperties(container, {
+      clientWidth: { configurable: true, value: 640 },
+      clientHeight: { configurable: true, value: 480 },
+    });
+    document.body.append(container);
+    map = L.map(container, { zoomControl: false }).setView([45.81, -61.47], 12);
+
+    const proximityPane = map.createPane(MINERAL_PROXIMITY_PANE);
+    proximityPane.style.zIndex = String(MINERAL_PROXIMITY_PANE_Z_INDEX);
+    const establishedPane = map.createPane(ESTABLISHED_PARCEL_PANE);
+    establishedPane.style.zIndex = String(ESTABLISHED_PARCEL_PANE_Z_INDEX);
+    const markerIcon = L.divIcon({ className: "test-parcel-marker" });
+    const selectedParcel = L.marker([45.81, -61.47], {
+      icon: markerIcon,
+      pane: ESTABLISHED_PARCEL_PANE,
+    }).addTo(map);
+    const firstProximityLayer = L.marker([45.811, -61.471], {
+      icon: markerIcon,
+      pane: MINERAL_PROXIMITY_PANE,
+    }).addTo(map);
+
+    expect(firstProximityLayer.getElement()?.parentElement).toBe(proximityPane);
+    expect(selectedParcel.getElement()?.parentElement).toBe(establishedPane);
+
+    firstProximityLayer.remove();
+    const refreshedProximityLayer = L.marker([45.812, -61.472], {
+      icon: markerIcon,
+      pane: MINERAL_PROXIMITY_PANE,
+    }).addTo(map);
+
+    expect(refreshedProximityLayer.getElement()?.parentElement).toBe(proximityPane);
+    expect(selectedParcel.getElement()?.parentElement).toBe(establishedPane);
+    expect(Number(proximityPane.style.zIndex)).toBeLessThan(
+      Number(establishedPane.style.zIndex),
+    );
+  });
+});

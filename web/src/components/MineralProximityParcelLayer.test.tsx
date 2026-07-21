@@ -26,6 +26,7 @@ const mapMock = vi.hoisted(() => ({
 const geoJsonProps = vi.hoisted(() => ({
   current: undefined as
     | {
+        pane?: string;
         onEachFeature?: (
           feature: NsprdFeatureCollection["features"][number],
           layer: { bindTooltip: ReturnType<typeof vi.fn>; on: ReturnType<typeof vi.fn> },
@@ -141,6 +142,7 @@ describe("MineralProximityParcelLayer", () => {
     );
     expect(onStatusChange).toHaveBeenCalledWith({ status: "loading" });
     expect(onStatusChange).toHaveBeenLastCalledWith({ status: "ready", count: 1 });
+    expect(geoJsonProps.current?.pane).toBe("mineral-proximity-parcels-pane");
 
     const fakeLayer = { bindTooltip: vi.fn(), on: vi.fn() };
     geoJsonProps.current?.onEachFeature?.(parcel("90000001"), fakeLayer);

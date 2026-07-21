@@ -116,6 +116,38 @@ describe("parcel resource intersections", () => {
     }
   });
 
+  it("falls back to the trimmed primary commodity when the commodity list is blank", async () => {
+    const fetchMock = vi.fn(async (
+      input: string | URL | Request,
+      init?: RequestInit,
+    ) => {
+      const url = String(input);
+      const body = init?.body as URLSearchParams | undefined;
+      if (
+        url.includes("mineral_occurrence_database") &&
+        body?.get("distance") !== "1000"
+      ) {
+        return new Response(JSON.stringify({
+          features: [{ attributes: {
+            Occ_num: "A01-003",
+            Name: "Primary-only occurrence",
+            Status: "Occurrence",
+            Comm_list: "   ",
+            Comm_prim: " Au ",
+          } }],
+        }));
+      }
+      return new Response(JSON.stringify({ features: [] }));
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await fetchParcelResourceIntersections([parcel]);
+
+    expect(result["mineral-occurrences"].intersections).toEqual([
+      expect.objectContaining({ detail: "Occurrence · Au" }),
+    ]);
+  });
+
   it("reports a failed source separately from valid empty results", async () => {
     vi.stubGlobal("fetch", vi.fn(async (input: string | URL | Request) => {
       const url = String(input);

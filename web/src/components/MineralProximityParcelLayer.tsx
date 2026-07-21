@@ -4,6 +4,7 @@ import { GeoJSON, useMap } from "react-leaflet";
 import { MINERAL_PROXIMITY_MIN_ZOOM, fetchMineralProximityParcels } from "../services/mineralProximity";
 import type { NsprdFeatureCollection } from "../services/nsprd";
 import type { MapLayerStatus } from "./MapCanvas";
+import { MINERAL_PROXIMITY_PANE } from "./mapPanes";
 
 type MineralProximityParcelLayerProps = {
   visible: boolean;
@@ -113,6 +114,7 @@ export function MineralProximityParcelLayer({
     <GeoJSON
       key={collection.features.map(({ properties }) => properties.PID).join(",")}
       data={collection}
+      pane={MINERAL_PROXIMITY_PANE}
       style={mineralProximityParcelStyle}
       onEachFeature={(feature, featureLayer) => {
         const pid = feature.properties.PID;
