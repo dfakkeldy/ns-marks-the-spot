@@ -56,7 +56,7 @@ vi.mock("react-leaflet", () => ({
       data-radius={radius}
     />
   ),
-  GeoJSON: () => null,
+  GeoJSON: () => <div data-testid="parcel-overlay" />,
   MapContainer: ({ children }: PropsWithChildren) => <div>{children}</div>,
   TileLayer: () => null,
   useMap: () => mapMock,
@@ -72,6 +72,30 @@ vi.mock("../services/browserLocation", () => ({
 
 vi.mock("../services/arcGISFeatureOverlay", () => ({
   fetchArcGISFeatureOverlay: vi.fn(),
+}));
+
+vi.mock("./MineralProximityParcelLayer", () => ({
+  MineralProximityParcelLayer: ({
+    visible,
+    onSelectPid,
+    onStatusChange,
+  }: {
+    visible: boolean;
+    onSelectPid: (pid: string) => void;
+    onStatusChange: (status: { status: "ready"; count: number }) => void;
+  }) =>
+    visible ? (
+      <button
+        type="button"
+        data-testid="mineral-proximity-layer"
+        onClick={() => {
+          onStatusChange({ status: "ready", count: 1 });
+          onSelectPid("90000001");
+        }}
+      >
+        Derived mineral proximity parcels
+      </button>
+    ) : null,
 }));
 
 const hiddenResourceLayers = {
@@ -420,6 +444,56 @@ describe("MapCanvas resource overlays", () => {
         { status: "error" },
       ),
     );
+  });
+
+  it("renders derived mineral proximity parcels through the existing PID callback", async () => {
+    const onSelectPid = vi.fn();
+    const onResourceLayerStatusChange = vi.fn();
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: null,
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid,
+      onIdentifyParcel: vi.fn(),
+      onResourceLayerStatusChange,
+    };
+    const { rerender } = render(<MapCanvas {...props} />);
+
+    expect(screen.queryByTestId("mineral-proximity-layer")).not.toBeInTheDocument();
+
+    rerender(
+      <MapCanvas
+        {...props}
+        resourceLayers={{ ...hiddenResourceLayers, "mineral-proximity-parcels": true }}
+      />,
+    );
+    const derivedLayer = screen.getByTestId("mineral-proximity-layer");
+    expect(
+      derivedLayer.compareDocumentPosition(screen.getByTestId("parcel-overlay")) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+
+    await userEvent.setup().click(derivedLayer);
+
+    expect(onResourceLayerStatusChange).toHaveBeenCalledWith(
+      "mineral-proximity-parcels",
+      { status: "ready", count: 1 },
+    );
+    expect(onSelectPid).toHaveBeenCalledWith("90000001");
   });
 });
 

@@ -13,6 +13,7 @@ import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   hydroPilotLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
+  allResourceLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   type HydroPilotLayerId,
@@ -51,6 +52,7 @@ import {
   OPAQUE_SELECTED_PARCEL_ZOOM,
   parcelStyleForFeature,
 } from "./parcelStyle";
+import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -721,7 +723,7 @@ export function MapCanvas({
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       onLayerStatusChange?.(id, status);
-      if (resourceLayerCatalog.some((layer) => layer.id === id)) {
+      if (allResourceLayerCatalog.some((layer) => layer.id === id)) {
         onResourceLayerStatusChange?.(id as ResourceLayerId, status);
       }
     },
@@ -852,6 +854,13 @@ export function MapCanvas({
               onStatusChange={reportLayerStatus}
             />
           ))}
+        <MineralProximityParcelLayer
+          visible={resourceLayers["mineral-proximity-parcels"]}
+          onSelectPid={onSelectPid}
+          onStatusChange={(status) =>
+            reportLayerStatus("mineral-proximity-parcels", status)
+          }
+        />
         <GeoJSON
           key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
           data={visibleParcels}
