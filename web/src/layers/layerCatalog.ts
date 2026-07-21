@@ -415,17 +415,17 @@ export const hydroPilotLayerCatalog: readonly HydroPilotLayerDescriptor[] = [
     id: "inverness-hydro-potential",
     name: "Inverness terrain potential",
     sourceUrl:
-      "https://data.novascotia.ca/Environment-and-Energy/1-10-000-Nova-Scotia-Secondary-Watersheds/ynkv-x6rx",
+      "https://data.novascotia.ca/Internal-Government-Services/1-10-000-Nova-Scotia-Watersheds-Map/kzer-4ht8",
     serviceUrl:
       "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer",
     minZoom: 8,
     maxZoom: 23,
     opacity: 0.92,
     licence: "province-open",
-    webCaveat: "Area + mapped fall over route · relative pilot",
+    webCaveat: "Modeled upstream area + bounded mapped drop · relative pilot",
     sourceDate: "Watersheds 2021 · NSHN retrieved July 20, 2026",
-    scale: "Secondary watershed + NSHN primary-flow route",
-    coverage: "23 named watersheds centred in Inverness County",
+    scale: "Tertiary/sub-tertiary catchments + NSHN primary-flow route",
+    coverage: "13 Inverness-centred watersheds with routed catchment coverage",
   },
 ] as const;
 

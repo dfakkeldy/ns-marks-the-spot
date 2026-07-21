@@ -8,30 +8,30 @@ import {
 describe("Inverness hydro terrain-potential calculations", () => {
   it("derives average fall and a transparent dimensionless screening value", () => {
     const metrics = calculateHydroTerrainMetrics({
-      drainageAreaKm2: 24,
-      elevationDropMetres: 180,
-      mainFlowLengthKm: 12,
+      upstreamAreaKm2: 24,
+      dropThresholdMetres: 25,
+      downstreamRouteLengthKm: 1.25,
     });
 
-    expect(metrics.averageFallMetresPerKm).toBe(15);
-    expect(metrics.screeningValue).toBeCloseTo(Math.log1p(24) * 15, 8);
+    expect(metrics.averageFallMetresPerKm).toBe(20);
+    expect(metrics.screeningValue).toBeCloseTo(Math.log1p(24) * 20, 8);
   });
 
   it("increases when either drainage area or average fall increases", () => {
     const baseline = calculateHydroTerrainMetrics({
-      drainageAreaKm2: 10,
-      elevationDropMetres: 100,
-      mainFlowLengthKm: 10,
+      upstreamAreaKm2: 10,
+      dropThresholdMetres: 10,
+      downstreamRouteLengthKm: 1,
     });
     const largerArea = calculateHydroTerrainMetrics({
-      drainageAreaKm2: 100,
-      elevationDropMetres: 100,
-      mainFlowLengthKm: 10,
+      upstreamAreaKm2: 100,
+      dropThresholdMetres: 10,
+      downstreamRouteLengthKm: 1,
     });
     const steeper = calculateHydroTerrainMetrics({
-      drainageAreaKm2: 10,
-      elevationDropMetres: 200,
-      mainFlowLengthKm: 10,
+      upstreamAreaKm2: 10,
+      dropThresholdMetres: 25,
+      downstreamRouteLengthKm: 1,
     });
 
     expect(largerArea.screeningValue).toBeGreaterThan(baseline.screeningValue);
@@ -41,9 +41,9 @@ describe("Inverness hydro terrain-potential calculations", () => {
   it("rejects zero or negative source measurements", () => {
     expect(() =>
       calculateHydroTerrainMetrics({
-        drainageAreaKm2: 10,
-        elevationDropMetres: 0,
-        mainFlowLengthKm: 4,
+        upstreamAreaKm2: 10,
+        dropThresholdMetres: 0,
+        downstreamRouteLengthKm: 4,
       }),
     ).toThrow("positive");
   });
@@ -59,20 +59,25 @@ describe("Inverness hydro terrain-potential calculations", () => {
 
   it("uses drainage area for line width and potential class for colour", () => {
     const small = hydroLineStyle({
-      drainageAreaKm2: 5,
+      upstreamAreaKm2: 5,
       potentialClass: "high",
     });
     const large = hydroLineStyle({
-      drainageAreaKm2: 500,
+      upstreamAreaKm2: 500,
       potentialClass: "high",
     });
     const differentPotential = hydroLineStyle({
-      drainageAreaKm2: 5,
+      upstreamAreaKm2: 5,
       potentialClass: "low",
+    });
+    const flatterReach = hydroLineStyle({
+      upstreamAreaKm2: 500,
+      potentialClass: "not-qualified",
     });
 
     expect(Number(large.weight)).toBeGreaterThan(Number(small.weight));
     expect(large.color).toBe(small.color);
     expect(differentPotential.color).not.toBe(small.color);
+    expect(flatterReach.color).not.toBe(large.color);
   });
 });

@@ -241,12 +241,13 @@ describe("hydro terrain-potential pilot catalog", () => {
         id: "inverness-hydro-potential",
         name: "Inverness terrain potential",
         licence: "province-open",
-        coverage: "23 named watersheds centred in Inverness County",
+        coverage: "13 Inverness-centred watersheds with routed catchment coverage",
       }),
     ]);
     expect(initialHydroPilotLayerVisibility).toEqual({
       "inverness-hydro-potential": false,
     });
-    expect(hydroPilotLayerCatalog[0].webCaveat).toContain("relative pilot");
+    expect(hydroPilotLayerCatalog[0].webCaveat).toContain("upstream area");
+    expect(hydroPilotLayerCatalog[0].scale).toContain("tertiary");
   });
 });

@@ -1073,15 +1073,16 @@ function HydroPilotLayerToggle({
 function HydroPotentialLegend() {
   return (
     <div className="hydro-potential-legend" aria-label="Hydro terrain symbology">
-      <p><strong>Line width = watershed area</strong></p>
+      <p><strong>Line width = modeled upstream area</strong></p>
       <div className="hydro-width-key" aria-hidden="true">
         <span className="hydro-line narrow" />
         <span>smaller</span>
         <span className="hydro-line wide" />
         <span>larger</span>
       </div>
-      <p><strong>Colour = relative terrain potential</strong></p>
+      <p><strong>Colour = bounded drop-distance potential</strong></p>
       <ul>
+        <li><span className="hydro-swatch not-qualified" />No 10 m drop within 10 km</li>
         <li><span className="hydro-swatch low" />Low</li>
         <li><span className="hydro-swatch moderate" />Moderate</li>
         <li><span className="hydro-swatch high" />High</li>
@@ -2040,9 +2041,10 @@ export function App() {
                   <HydroPotentialLegend />
                 ) : null}
                 <p className="resource-source-note hydro-pilot-note">
-                  Area comes from official secondary watersheds; drop and route
-                  come from directed NSHN primary-flow lines. The rank is relative
-                  within this pilot and is not flow or power. {" "}
+                  Width uses routed official tertiary/sub-tertiary catchment area;
+                  drop and route use directed NSHN primary-flow lines. Values step
+                  at catchment outlets and are not exact at every point. The rank
+                  is relative within this pilot and is not flow or power. {" "}
                   <a
                     href={hydroPilotLayerCatalog[0].sourceUrl}
                     target="_blank"

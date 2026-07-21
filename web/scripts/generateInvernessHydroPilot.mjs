@@ -4,6 +4,11 @@ import { fileURLToPath } from "node:url";
 
 const MUNICIPALITY_DATASET = "7bqh-hssn";
 const WATERSHED_DATASET = "ynkv-x6rx";
+const TERTIARY_CATCHMENT_DATASET = "6htv-yzkm";
+const SUB_TERTIARY_CATCHMENT_DATASET = "s4r5-2srh";
+const MINIMUM_CATCHMENT_COVERAGE = 0.9;
+const DROP_THRESHOLDS_METRES = [10, 25, 50];
+const MAX_DOWNSTREAM_DISTANCE_METRES = 10_000;
 const NSHN_SERVICE =
   "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer";
 const NSHN_LAYERS = [9, 11];
@@ -167,7 +172,211 @@ function lineParts(feature) {
 }
 
 function lineMidpoint(coordinates) {
-  return coordinates[Math.floor(coordinates.length / 2)].slice(0, 2);
+  const middle = (coordinates.length - 1) / 2;
+  const before = coordinates[Math.floor(middle)];
+  const after = coordinates[Math.ceil(middle)];
+  return [
+    (before[0] + after[0]) / 2,
+    (before[1] + after[1]) / 2,
+  ];
+}
+
+function coordinateDistanceMetres(left, right) {
+  const radians = Math.PI / 180;
+  const meanLatitude = ((left[1] + right[1]) / 2) * radians;
+  const x = (right[0] - left[0]) * radians * Math.cos(meanLatitude);
+  const y = (right[1] - left[1]) * radians;
+  return Math.hypot(x, y) * 6_371_008.8;
+}
+
+function coordinateSegmentLengths(coordinates, lengthMetres) {
+  const rawLengths = coordinates.slice(1).map((coordinate, index) =>
+    coordinateDistanceMetres(coordinates[index], coordinate),
+  );
+  const rawTotal = rawLengths.reduce((total, length) => total + length, 0);
+  if (rawTotal <= 0) {
+    return rawLengths.map(() => 0);
+  }
+  return rawLengths.map((length) => (length / rawTotal) * lengthMetres);
+}
+
+export function findDownstreamDropCandidates(
+  routeEdges,
+  startEdgeIndex,
+  {
+    thresholdsMetres = [10, 25, 50],
+    maxDistanceMetres = 10_000,
+  } = {},
+) {
+  const startCoordinate = routeEdges[startEdgeIndex]?.coordinates[0];
+  const startElevation = Number(startCoordinate?.[2]);
+  if (!Number.isFinite(startElevation)) {
+    return [];
+  }
+
+  const remainingThresholds = new Set(
+    thresholdsMetres.filter((threshold) => threshold > 0),
+  );
+  const candidates = [];
+  let travelledMetres = 0;
+
+  for (
+    let edgeIndex = startEdgeIndex;
+    edgeIndex < routeEdges.length && remainingThresholds.size > 0;
+    edgeIndex += 1
+  ) {
+    const edge = routeEdges[edgeIndex];
+    const segmentLengths = coordinateSegmentLengths(
+      edge.coordinates,
+      edge.lengthMetres,
+    );
+    for (
+      let coordinateIndex = 1;
+      coordinateIndex < edge.coordinates.length && remainingThresholds.size > 0;
+      coordinateIndex += 1
+    ) {
+      const previous = edge.coordinates[coordinateIndex - 1];
+      const current = edge.coordinates[coordinateIndex];
+      const segmentLength = segmentLengths[coordinateIndex - 1];
+      const previousDrop = startElevation - Number(previous[2]);
+      const currentDrop = startElevation - Number(current[2]);
+
+      for (const threshold of [...remainingThresholds]) {
+        if (
+          Number.isFinite(previousDrop) &&
+          Number.isFinite(currentDrop) &&
+          previousDrop < threshold &&
+          currentDrop >= threshold &&
+          currentDrop > previousDrop
+        ) {
+          const progress =
+            (threshold - previousDrop) / (currentDrop - previousDrop);
+          const routeDistanceMetres = travelledMetres + segmentLength * progress;
+          if (routeDistanceMetres <= maxDistanceMetres) {
+            candidates.push({
+              dropMetres: threshold,
+              routeDistanceMetres,
+              downstreamCoordinate: [
+                previous[0] + (current[0] - previous[0]) * progress,
+                previous[1] + (current[1] - previous[1]) * progress,
+              ],
+            });
+          }
+          remainingThresholds.delete(threshold);
+        }
+      }
+
+      travelledMetres += segmentLength;
+      if (travelledMetres >= maxDistanceMetres) {
+        return candidates.sort((left, right) => left.dropMetres - right.dropMetres);
+      }
+    }
+  }
+
+  return candidates.sort((left, right) => left.dropMetres - right.dropMetres);
+}
+
+function edgeSource(edge) {
+  return edge.source ?? endpointKey(edge.coordinates[0]);
+}
+
+function edgeTarget(edge) {
+  return edge.target ?? endpointKey(edge.coordinates.at(-1));
+}
+
+function catchmentRouteJoinIndex(routeEdges, allEdges, geometry) {
+  const routeIndexByNode = new Map(
+    routeEdges.map((edge, edgeIndex) => [edgeSource(edge), edgeIndex]),
+  );
+  const outgoing = Map.groupBy(allEdges, (edge) => edgeSource(edge));
+  const startingNodes = allEdges
+    .filter((edge) => pointInGeometry(lineMidpoint(edge.coordinates), geometry))
+    .map((edge) => edgeTarget(edge));
+  let latestJoinIndex = -1;
+
+  for (const startingNode of startingNodes) {
+    const queue = [startingNode];
+    const visited = new Set();
+    while (queue.length > 0) {
+      const node = queue.shift();
+      if (visited.has(node)) continue;
+      visited.add(node);
+      const routeIndex = routeIndexByNode.get(node);
+      if (routeIndex !== undefined) {
+        latestJoinIndex = Math.max(latestJoinIndex, routeIndex);
+        continue;
+      }
+      for (const edge of outgoing.get(node) ?? []) {
+        queue.push(edgeTarget(edge));
+      }
+    }
+  }
+  return latestJoinIndex;
+}
+
+export function modelRouteReaches(
+  routeEdges,
+  catchments,
+  dropOptions,
+  allEdges = routeEdges,
+) {
+  const joinContributions = new Map();
+  for (const catchment of catchments) {
+    const joinEdgeIndex = catchmentRouteJoinIndex(
+      routeEdges,
+      allEdges,
+      catchment.geometry,
+    );
+    if (joinEdgeIndex >= 0 && Number(catchment.areaKm2) > 0) {
+      joinContributions.set(
+        joinEdgeIndex,
+        (joinContributions.get(joinEdgeIndex) ?? 0) + Number(catchment.areaKm2),
+      );
+    }
+  }
+
+  let upstreamAreaKm2 = 0;
+  const reaches = [];
+  routeEdges.forEach((edge, edgeIndex) => {
+    upstreamAreaKm2 += joinContributions.get(edgeIndex) ?? 0;
+    if (upstreamAreaKm2 <= 0) {
+      return;
+    }
+    reaches.push({
+      edgeIndex,
+      edge,
+      upstreamAreaKm2,
+      dropCandidates: findDownstreamDropCandidates(
+        routeEdges,
+        edgeIndex,
+        dropOptions,
+      ),
+    });
+  });
+  return reaches;
+}
+
+export function selectBestDropCandidate(upstreamAreaKm2, candidates) {
+  if (!(upstreamAreaKm2 > 0) || candidates.length === 0) {
+    return null;
+  }
+  return candidates
+    .map((candidate) => {
+      const routeLengthKm = candidate.routeDistanceMetres / 1_000;
+      const averageFallMetresPerKm = candidate.dropMetres / routeLengthKm;
+      return {
+        ...candidate,
+        routeLengthKm,
+        averageFallMetresPerKm,
+        screeningValue:
+          Math.log1p(upstreamAreaKm2) * averageFallMetresPerKm,
+      };
+    })
+    .sort(
+      (left, right) =>
+        right.screeningValue - left.screeningValue ||
+        right.dropMetres - left.dropMetres,
+    )[0];
 }
 
 function endpointKey(coordinate) {
@@ -175,23 +384,7 @@ function endpointKey(coordinate) {
 }
 
 export function longestDirectedRoute(features, watershedGeometry) {
-  const edges = features.flatMap((feature) => {
-    const parts = lineParts(feature);
-    return parts
-      .filter(
-        (coordinates) =>
-          coordinates.length >= 2 &&
-          pointInGeometry(lineMidpoint(coordinates), watershedGeometry),
-      )
-      .map((coordinates, partIndex) => ({
-        id: `${feature.sourceLayer}:${feature.properties.OBJECTID}:${partIndex}`,
-        coordinates,
-        lengthMetres:
-          Number(feature.properties.PLANLENGTH) / Math.max(1, parts.length),
-        source: endpointKey(coordinates[0]),
-        target: endpointKey(coordinates.at(-1)),
-      }));
-  });
+  const edges = directedEdges(features, watershedGeometry);
 
   const outgoing = new Map();
   const indegree = new Map();
@@ -231,12 +424,24 @@ export function longestDirectedRoute(features, watershedGeometry) {
   );
 }
 
-function terrainMetrics(areaKm2, dropMetres, lengthKm) {
-  const averageFallMetresPerKm = dropMetres / lengthKm;
-  return {
-    averageFallMetresPerKm,
-    screeningValue: Math.log1p(areaKm2) * averageFallMetresPerKm,
-  };
+function directedEdges(features, watershedGeometry) {
+  return features.flatMap((feature) => {
+    const parts = lineParts(feature);
+    return parts
+      .filter(
+        (coordinates) =>
+          coordinates.length >= 2 &&
+          pointInGeometry(lineMidpoint(coordinates), watershedGeometry),
+      )
+      .map((coordinates, partIndex) => ({
+        id: `${feature.sourceLayer}:${feature.properties.OBJECTID}:${partIndex}`,
+        coordinates,
+        lengthMetres:
+          Number(feature.properties.PLANLENGTH) / Math.max(1, parts.length),
+        source: endpointKey(coordinates[0]),
+        target: endpointKey(coordinates.at(-1)),
+      }));
+  });
 }
 
 function potentialClass(percentile) {
@@ -303,25 +508,38 @@ function simplifyLine(coordinates, tolerance = 0.00002) {
 }
 
 async function loadWatersheds() {
-  const [municipality, watersheds] = await Promise.all([
-    fetchJson(
-      socrataUrl(MUNICIPALITY_DATASET, {
-        $where: 'fullname="Municipality of the County of Inverness"',
-        $limit: "10",
-      }),
-    ),
-    fetchJson(
-      socrataUrl(WATERSHED_DATASET, {
-        $where: "within_box(the_geom,47.1,-61.65,45.75,-60.5)",
-        $limit: "5000",
-      }),
-    ),
-  ]);
+  const [municipality, watersheds, tertiaryCatchments, subTertiaryCatchments] =
+    await Promise.all([
+      fetchJson(
+        socrataUrl(MUNICIPALITY_DATASET, {
+          $where: 'fullname="Municipality of the County of Inverness"',
+          $limit: "10",
+        }),
+      ),
+      fetchJson(
+        socrataUrl(WATERSHED_DATASET, {
+          $where: "within_box(the_geom,47.1,-61.65,45.75,-60.5)",
+          $limit: "5000",
+        }),
+      ),
+      fetchJson(
+        socrataUrl(TERTIARY_CATCHMENT_DATASET, {
+          $where: "within_box(the_geom,47.1,-61.65,45.75,-60.5)",
+          $limit: "5000",
+        }),
+      ),
+      fetchJson(
+        socrataUrl(SUB_TERTIARY_CATCHMENT_DATASET, {
+          $where: "within_box(the_geom,47.1,-61.65,45.75,-60.5)",
+          $limit: "5000",
+        }),
+      ),
+    ]);
   const municipalityGeometry = municipality.features[0]?.geometry;
   if (!municipalityGeometry) {
     throw new Error("The Inverness municipal boundary was not returned.");
   }
-  return watersheds.features
+  const selectedWatersheds = watersheds.features
     .filter(({ properties }) => {
       const name = String(properties.sec_name ?? "");
       return (
@@ -338,6 +556,52 @@ async function loadWatersheds() {
         String(right.properties.sec_code),
       ),
     );
+  const tertiaryByWatershed = Map.groupBy(
+    tertiaryCatchments.features.filter(
+      ({ properties }) => properties.sec_code !== "WATER",
+    ),
+    ({ properties }) => properties.sec_code,
+  );
+  const subTertiaryByWatershed = Map.groupBy(
+    subTertiaryCatchments.features.filter(
+      ({ properties }) => properties.sec_code !== "WATER",
+    ),
+    ({ properties }) => properties.sec_code,
+  );
+  return selectedWatersheds
+    .map((watershed) => {
+      const code = watershed.properties.sec_code;
+      const tertiary = tertiaryByWatershed.get(code) ?? [];
+      const subTertiary = subTertiaryByWatershed.get(code) ?? [];
+      const subdividedTertiaryCodes = new Set(
+        subTertiary.map(({ properties }) => properties.tert_code),
+      );
+      const catchmentPartition = [
+        ...subTertiary,
+        ...tertiary.filter(
+          ({ properties }) =>
+            !subdividedTertiaryCodes.has(properties.tert_code),
+        ),
+      ];
+      const secondaryArea = Number(watershed.properties.shape_area);
+      const partitionArea = catchmentPartition.reduce(
+        (total, catchment) => total + Number(catchment.properties.shape_area),
+        0,
+      );
+      return {
+        ...watershed,
+        catchments:
+          partitionArea / secondaryArea >= MINIMUM_CATCHMENT_COVERAGE
+            ? catchmentPartition
+            : [],
+        catchmentResolution:
+          subTertiary.length > 0 ? "tertiary/sub-tertiary" : "tertiary",
+      };
+    })
+    .filter(
+      ({ catchments: watershedCatchments }) =>
+        watershedCatchments.length >= 2,
+    );
 }
 
 async function buildFeature(watershed, index, total) {
@@ -352,62 +616,74 @@ async function buildFeature(watershed, index, total) {
   ).flat();
   const route = longestDirectedRoute(sourceFeatures, watershed.geometry);
   if (route.edges.length === 0 || route.length <= 0) {
-    return null;
+    return [];
   }
-  const elevations = route.edges.flatMap((edge) =>
-    edge.coordinates
-      .map((coordinate) => Number(coordinate[2]))
-      .filter(Number.isFinite),
-  );
-  const elevationDropMetres = Math.max(...elevations) - Math.min(...elevations);
-  const drainageAreaKm2 = Number(watershed.properties.hectares) / 100;
-  const mainFlowLengthKm = route.length / 1000;
-  if (elevationDropMetres <= 0 || drainageAreaKm2 <= 0) {
-    return null;
-  }
-  const metrics = terrainMetrics(
-    drainageAreaKm2,
-    elevationDropMetres,
-    mainFlowLengthKm,
+  const catchmentModels = watershed.catchments.map((catchment) => ({
+    areaKm2: Number(catchment.properties.shape_area) / 1_000_000,
+    geometry: catchment.geometry,
+  }));
+  const reaches = modelRouteReaches(
+    route.edges,
+    catchmentModels,
+    {
+      thresholdsMetres: DROP_THRESHOLDS_METRES,
+      maxDistanceMetres: MAX_DOWNSTREAM_DISTANCE_METRES,
+    },
+    directedEdges(sourceFeatures, watershed.geometry),
   );
 
-  return {
-    type: "Feature",
-    id: watershed.properties.sec_code,
-    properties: {
-      watershedCode: watershed.properties.sec_code,
-      watershedName: name,
-      drainageAreaKm2: round(drainageAreaKm2, 2),
-      elevationDropMetres: round(elevationDropMetres, 1),
-      mainFlowLengthKm: round(mainFlowLengthKm, 2),
-      averageFallMetresPerKm: round(metrics.averageFallMetresPerKm, 1),
-      screeningValue: round(metrics.screeningValue, 3),
-      sourceSegmentCount: route.edges.length,
-    },
-    geometry: {
-      type: "MultiLineString",
-      coordinates: route.edges.map((edge) =>
-        simplifyLine(
-          edge.coordinates.map((coordinate) => [
-            round(coordinate[0], 6),
-            round(coordinate[1], 6),
-          ]),
-        ),
-      ),
-    },
-  };
+  return reaches.map(({ edge, upstreamAreaKm2, dropCandidates }) => {
+    const best = selectBestDropCandidate(upstreamAreaKm2, dropCandidates);
+    return {
+      type: "Feature",
+      id: `${watershed.properties.sec_code}:${edge.id}`,
+      properties: {
+        watershedCode: watershed.properties.sec_code,
+        watershedName: name,
+        catchmentResolution: watershed.catchmentResolution,
+        upstreamAreaKm2: round(upstreamAreaKm2, 2),
+        dropThresholdMetres: best ? best.dropMetres : null,
+        downstreamRouteLengthKm: best ? round(best.routeLengthKm, 2) : null,
+        averageMappedFallMetresPerKm: best
+          ? round(best.averageFallMetresPerKm, 1)
+          : null,
+        screeningValue: best ? round(best.screeningValue, 3) : null,
+        downstreamEndpoint: best
+          ? best.downstreamCoordinate.map((coordinate) => round(coordinate, 6))
+          : null,
+        sourceSegmentId: edge.id,
+        pilotPercentile: null,
+        potentialClass: best ? null : "not-qualified",
+      },
+      geometry: {
+        type: "MultiLineString",
+        coordinates: [
+          simplifyLine(
+            edge.coordinates.map((coordinate) => [
+              round(coordinate[0], 6),
+              round(coordinate[1], 6),
+            ]),
+          ),
+        ],
+      },
+    };
+  });
 }
 
 export async function generatePilot() {
   const watersheds = await loadWatersheds();
   const features = [];
   for (let index = 0; index < watersheds.length; index += 1) {
-    const feature = await buildFeature(watersheds[index], index, watersheds.length);
-    if (feature) features.push(feature);
+    features.push(
+      ...(await buildFeature(watersheds[index], index, watersheds.length)),
+    );
   }
-  const ranked = [...features].sort(
-    (left, right) => left.properties.screeningValue - right.properties.screeningValue,
-  );
+  const ranked = features
+    .filter((feature) => feature.properties.screeningValue !== null)
+    .sort(
+      (left, right) =>
+        left.properties.screeningValue - right.properties.screeningValue,
+    );
   ranked.forEach((feature, index) => {
     const percentile = ranked.length === 1 ? 1 : index / (ranked.length - 1);
     feature.properties.pilotPercentile = round(percentile, 3);
@@ -416,20 +692,42 @@ export async function generatePilot() {
   features.sort((left, right) =>
     left.properties.watershedName.localeCompare(right.properties.watershedName),
   );
-  const retrievedOn = new Date().toISOString().slice(0, 10);
+  const retrievalParts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Halifax",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .formatToParts(new Date())
+      .map(({ type, value }) => [type, value]),
+  );
+  const retrievedOn = `${retrievalParts.year}-${retrievalParts.month}-${retrievalParts.day}`;
   return {
     type: "FeatureCollection",
     metadata: {
       title: "Inverness hydro terrain-potential pilot",
       retrievedOn,
       municipalityDataset: MUNICIPALITY_DATASET,
-      watershedDataset: WATERSHED_DATASET,
+      secondaryWatershedDataset: WATERSHED_DATASET,
+      catchmentDatasets: {
+        tertiary: TERTIARY_CATCHMENT_DATASET,
+        subTertiary: SUB_TERTIARY_CATCHMENT_DATASET,
+      },
+      minimumCatchmentCoverage: MINIMUM_CATCHMENT_COVERAGE,
       nshnService: NSHN_SERVICE,
       nshnLayers: NSHN_LAYERS,
+      watershedCount: new Set(
+        features.map((feature) => feature.properties.watershedCode),
+      ).size,
+      reachCount: features.length,
+      qualifyingReachCount: ranked.length,
+      dropThresholdsMetres: DROP_THRESHOLDS_METRES,
+      maxDownstreamDistanceKm: MAX_DOWNSTREAM_DISTANCE_METRES / 1_000,
       method:
-        "For each named secondary watershed centred in Inverness County, follow the longest connected route through directed NSHN primary-flow segments. Rank ln(1 + watershed area in km2) multiplied by mapped elevation drop divided by mapped route length. Classes are quartiles within this pilot only.",
+        "For named Inverness-centred secondary watersheds whose finest available official tertiary/sub-tertiary catchment partition covers at least 90 percent of the secondary watershed, follow the longest connected route through directed NSHN primary-flow segments. Add each catchment's full area only after the route reaches that mapped catchment outlet. From each downstream reach, find the nearest connected point reaching 10, 25, or 50 metres of mapped drop within 10 kilometres. Rank the best qualifying ln(1 + modeled upstream area in km2) multiplied by mapped drop divided by downstream route length. Classes are quartiles among qualifying reaches in this pilot only.",
       limitations:
-        "Terrain screening only. Not measured flow, stream width, seasonal reliability, hydraulic head, power, buildability, access, water rights, fish-habitat review, or approval.",
+        "Tertiary/sub-tertiary-catchment-resolution terrain screening only: upstream area changes in coarse steps at modeled catchment outlets and is not an exact arbitrary-point delineation. Not measured flow, channel width, seasonal reliability, hydraulic head, power, buildability, access, water rights, fish-habitat review, or approval.",
     },
     features,
   };

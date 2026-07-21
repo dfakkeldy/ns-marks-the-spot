@@ -530,9 +530,11 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "Inverness terrain potential: on",
     );
-    expect(within(group as HTMLElement).getByText("Line width = watershed area"))
+    expect(within(group as HTMLElement).getByText("Line width = modeled upstream area"))
       .toBeInTheDocument();
-    expect(within(group as HTMLElement).getByText("Colour = relative terrain potential"))
+    expect(within(group as HTMLElement).getByText("Colour = bounded drop-distance potential"))
+      .toBeInTheDocument();
+    expect(within(group as HTMLElement).getByText("No 10 m drop within 10 km"))
       .toBeInTheDocument();
   });
 
