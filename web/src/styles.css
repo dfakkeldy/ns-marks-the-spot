@@ -1410,6 +1410,11 @@ a {
   padding-left: 18px;
 }
 
+.parcel-resource-group li span {
+  display: block;
+  color: var(--muted);
+}
+
 .resource-intersection-caveat {
   margin: 9px 0 0;
   padding-top: 9px;
