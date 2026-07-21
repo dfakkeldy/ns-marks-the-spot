@@ -115,33 +115,47 @@ Nova Scotia Open Government Licence.
 ## Inverness hydro terrain-potential pilot
 
 The collapsed **Hydro terrain pilot** is a web-only, default-off open-data
-screen for 23 named secondary watersheds centred in Inverness County. Turning
-it on fits the map to the pilot. Line width represents the watershed's published
-area; line colour represents its relative terrain-potential quartile within
-these 23 watersheds. Selecting a line reports the raw watershed area, mapped
-elevation drop, mapped main-flow route length, and average mapped fall in m/km.
+point screen for 13 Inverness-centred watersheds with adequate routed catchment
+coverage. Turning it on fits the map to the pilot. Line width grows with the
+modeled upstream drainage area at each mapped reach. Line colour represents the
+best bounded drop-distance potential found downstream; a grey-blue reach means
+that no 10 m mapped drop was found within 10 km. Selecting a reach reports its
+modeled upstream area, selected drop threshold, downstream route length, and
+average mapped fall in m/km.
 
 The checked-in GeoJSON is reproduced with `npm run generate:hydro-pilot` from:
 
 - [1:10,000 Nova Scotia Secondary Watersheds](https://data.novascotia.ca/Environment-and-Energy/1-10-000-Nova-Scotia-Secondary-Watersheds/ynkv-x6rx),
-  for the official watershed name and area; and
+  for the official watershed name and outer area;
+- [Tertiary Watersheds](https://data.novascotia.ca/Environment-and-Energy/1-10-000-Nova-Scotia-Tertiary-Watersheds/6htv-yzkm)
+  and [Sub-Tertiary Watersheds](https://data.novascotia.ca/Environment-and-Energy/1-10-000-Nova-Scotia-Sub-Tertiary-Watersheds/s4r5-2srh),
+  for the finest official catchment partition that covers at least 90% of the
+  secondary watershed; and
 - the [Nova Scotia Hydrographic Network](https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer),
   using directed primary-flow features from the Spines (9) and Wet Features
   (11) layers for route geometry and Z values.
 
 For each watershed, the generator follows the longest connected route through
-NSHN features where `LEVELPRIOR = 1` and `FLOWDIR = 1`. It calculates:
+NSHN features where `LEVELPRIOR = 1` and `FLOWDIR = 1`. Every catchment outlet
+is traced through the full directed graph to its join with that route, so its
+whole area is added only to downstream reaches. At each reach the generator
+searches no more than 10 km downstream for the nearest points reaching 10, 25,
+and 50 m of mapped drop, then keeps the strongest qualifying screen:
 
-`average mapped fall = elevation range / route length`
+`average mapped fall = selected drop / downstream route length`
 
-`screening value = ln(1 + watershed area in km²) × average mapped fall`
+`screening value = ln(1 + modeled upstream area in km²) × average mapped fall`
 
 The logarithm tempers the influence of the largest watersheds. Low, Moderate,
-High, and Very high are quartiles of this pilot cohort, not physical thresholds.
+High, and Very high are quartiles among qualifying reaches, not physical
+thresholds. Reaches without a qualifying 10 m drop remain visible because their
+drainage-area width still provides useful downstream context.
 Display geometry is simplified to about two metres and rounded to six decimal
-places; the published area, Z-derived drop, and source plan lengths are not
-recalculated from that display geometry. The July 20, 2026 receipt contains 23
-features and identifies watershed dataset `ynkv-x6rx` and NSHN layers 9 and 11.
+places; catchment areas, Z-derived drops, and source plan lengths are not
+recalculated from that display geometry. The July 20, 2026 receipt contains 535
+mapped reaches across 13 watersheds, including 365 qualifying reaches, and
+identifies secondary dataset `ynkv-x6rx`, tertiary dataset `6htv-yzkm`,
+sub-tertiary dataset `s4r5-2srh`, and NSHN layers 9 and 11.
 
 This pilot does **not** estimate streamflow, litres per second, cubic metres per
 second, hydraulic head, or power. It does not present Strahler stream order:
@@ -149,6 +163,9 @@ NSHN's `LEVELPRIOR` describes primary/alternate flow paths and must not be
 relabeled as stream order. It also does not establish seasonal reliability,
 mapped stream width, buildability, access, water rights, fish-habitat review,
 or regulatory approval. It is a terrain-screening scale only.
+The upstream-area value is catchment-resolution modeling: it changes in coarse
+steps at routed tertiary/sub-tertiary outlets and is not an exact delineation
+for every arbitrary point along a line.
 
 After the Province licence is accepted, the default composition keeps Modern
 Map off and turns NS Aerial, NS Property Boundaries, Water Features, and Roads,

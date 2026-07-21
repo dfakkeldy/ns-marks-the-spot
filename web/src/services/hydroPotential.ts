@@ -1,15 +1,16 @@
 import type { PathOptions } from "leaflet";
 
 export type HydroPotentialClass =
+  | "not-qualified"
   | "low"
   | "moderate"
   | "high"
   | "very-high";
 
 export type HydroTerrainInputs = {
-  drainageAreaKm2: number;
-  elevationDropMetres: number;
-  mainFlowLengthKm: number;
+  upstreamAreaKm2: number;
+  dropThresholdMetres: number;
+  downstreamRouteLengthKm: number;
 };
 
 export type HydroTerrainMetrics = {
@@ -18,6 +19,7 @@ export type HydroTerrainMetrics = {
 };
 
 const POTENTIAL_COLOURS: Record<HydroPotentialClass, string> = {
+  "not-qualified": "#9aaeb4",
   low: "#72b7d2",
   moderate: "#3397b7",
   high: "#08769b",
@@ -25,23 +27,24 @@ const POTENTIAL_COLOURS: Record<HydroPotentialClass, string> = {
 };
 
 export function calculateHydroTerrainMetrics({
-  drainageAreaKm2,
-  elevationDropMetres,
-  mainFlowLengthKm,
+  upstreamAreaKm2,
+  dropThresholdMetres,
+  downstreamRouteLengthKm,
 }: HydroTerrainInputs): HydroTerrainMetrics {
   if (
-    drainageAreaKm2 <= 0 ||
-    elevationDropMetres <= 0 ||
-    mainFlowLengthKm <= 0
+    upstreamAreaKm2 <= 0 ||
+    dropThresholdMetres <= 0 ||
+    downstreamRouteLengthKm <= 0
   ) {
     throw new Error("Hydro terrain measurements must be positive.");
   }
 
-  const averageFallMetresPerKm = elevationDropMetres / mainFlowLengthKm;
+  const averageFallMetresPerKm =
+    dropThresholdMetres / downstreamRouteLengthKm;
 
   return {
     averageFallMetresPerKm,
-    screeningValue: Math.log1p(drainageAreaKm2) * averageFallMetresPerKm,
+    screeningValue: Math.log1p(upstreamAreaKm2) * averageFallMetresPerKm,
   };
 }
 
@@ -64,15 +67,15 @@ export function potentialClassForPercentile(
 }
 
 export function hydroLineStyle({
-  drainageAreaKm2,
+  upstreamAreaKm2,
   potentialClass,
 }: {
-  drainageAreaKm2: number;
+  upstreamAreaKm2: number;
   potentialClass: HydroPotentialClass;
 }): PathOptions {
   const weight = Math.min(
     8,
-    Math.max(2, 1.25 + Math.log2(Math.max(0, drainageAreaKm2) + 1) * 0.7),
+    Math.max(2, 1.25 + Math.log2(Math.max(0, upstreamAreaKm2) + 1) * 0.7),
   );
 
   return {
@@ -85,6 +88,9 @@ export function hydroLineStyle({
 }
 
 export function hydroPotentialLabel(value: HydroPotentialClass): string {
+  if (value === "not-qualified") {
+    return "No qualifying drop";
+  }
   return value === "very-high"
     ? "Very high"
     : `${value[0].toLocaleUpperCase()}${value.slice(1)}`;

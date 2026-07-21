@@ -389,7 +389,7 @@ function HydroPilotLayer({
     if (collection) {
       onStatusChange?.("inverness-hydro-potential", {
         status: "ready",
-        count: collection.features.length,
+        count: collection.metadata.watershedCount,
       });
       return;
     }
@@ -401,7 +401,7 @@ function HydroPilotLayer({
         setCollection(nextCollection);
         onStatusChange?.("inverness-hydro-potential", {
           status: "ready",
-          count: nextCollection.features.length,
+          count: nextCollection.metadata.watershedCount,
         });
       })
       .catch(() => {
@@ -433,21 +433,26 @@ function HydroPilotLayer({
           L.DomEvent.stopPropagation(event.originalEvent);
         });
         featureLayer.bindTooltip(
-          `${properties.watershedName} · ${properties.drainageAreaKm2.toLocaleString("en-CA")} km² watershed`,
+          `${properties.watershedName} · ${properties.upstreamAreaKm2.toLocaleString("en-CA")} km² modeled upstream`,
           { sticky: true },
         );
+        const dropRows = properties.dropThresholdMetres === null
+          ? `<div><dt>Bounded drop</dt><dd>No 10 m drop within 10 km</dd></div>`
+          : `
+              <div><dt>Selected drop</dt><dd>${properties.dropThresholdMetres.toLocaleString("en-CA")} m</dd></div>
+              <div><dt>Downstream route</dt><dd>${properties.downstreamRouteLengthKm!.toLocaleString("en-CA")} km</dd></div>
+              <div><dt>Average mapped fall</dt><dd>${properties.averageMappedFallMetresPerKm!.toLocaleString("en-CA")} m/km</dd></div>
+            `;
         featureLayer.bindPopup(`
           <article class="hydro-potential-popup">
-            <p class="hydro-popup-eyebrow">Inverness terrain screening pilot</p>
+            <p class="hydro-popup-eyebrow">Inverness point-screen pilot</p>
             <h3>${properties.watershedName}</h3>
             <dl>
-              <div><dt>Watershed area</dt><dd>${properties.drainageAreaKm2.toLocaleString("en-CA")} km²</dd></div>
-              <div><dt>Mapped drop</dt><dd>${properties.elevationDropMetres.toLocaleString("en-CA")} m</dd></div>
-              <div><dt>Main-flow route</dt><dd>${properties.mainFlowLengthKm.toLocaleString("en-CA")} km</dd></div>
-              <div><dt>Average mapped fall</dt><dd>${properties.averageFallMetresPerKm.toLocaleString("en-CA")} m/km</dd></div>
+              <div><dt>Modeled upstream area</dt><dd>${properties.upstreamAreaKm2.toLocaleString("en-CA")} km²</dd></div>
+              ${dropRows}
               <div><dt>Relative potential</dt><dd><strong>${potentialLabel}</strong></dd></div>
             </dl>
-            <p>Relative within these 23 watersheds. Terrain screening only—not measured flow, stream width, hydraulic head, power, access, rights, or approval.</p>
+            <p>Area changes at routed ${properties.catchmentResolution} catchment outlets; it is not exact at an arbitrary point. Potential is relative among qualifying reaches. Terrain screening only—not measured flow, channel width, hydraulic head, power, access, rights, or approval.</p>
           </article>
         `);
       }}

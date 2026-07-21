@@ -593,6 +593,10 @@ a {
   border-radius: 999px;
 }
 
+.hydro-swatch.not-qualified {
+  background: #9aaeb4;
+}
+
 .hydro-swatch.moderate {
   background: #3397b7;
 }

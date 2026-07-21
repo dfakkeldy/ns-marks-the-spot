@@ -463,7 +463,7 @@ describe("MapCanvas hydro terrain pilot", () => {
     await waitFor(() =>
       expect(onLayerStatusChange).toHaveBeenCalledWith(
         "inverness-hydro-potential",
-        { status: "ready", count: 23 },
+        { status: "ready", count: 13 },
       ),
     );
     expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
