@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import type { PropsWithChildren } from "react";
+import { useEffect, type PropsWithChildren } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
@@ -28,6 +28,8 @@ const mapEventHandlers = vi.hoisted(() => ({
     | ((event: { latlng: { lat: number; lng: number } }) => void)
     | undefined,
 }));
+
+const mineralLayerEffectStarts = vi.hoisted(() => vi.fn());
 
 vi.mock("react-leaflet", () => ({
   Circle: ({
@@ -82,9 +84,18 @@ vi.mock("./MineralProximityParcelLayer", () => ({
   }: {
     visible: boolean;
     onSelectPid: (pid: string) => void;
-    onStatusChange: (status: { status: "ready"; count: number }) => void;
-  }) =>
-    visible ? (
+    onStatusChange: (
+      status: { status: "loading" } | { status: "ready"; count: number },
+    ) => void;
+  }) => {
+    useEffect(() => {
+      if (visible) {
+        mineralLayerEffectStarts();
+        onStatusChange({ status: "loading" });
+      }
+    }, [onStatusChange, visible]);
+
+    return visible ? (
       <button
         type="button"
         data-testid="mineral-proximity-layer"
@@ -95,7 +106,8 @@ vi.mock("./MineralProximityParcelLayer", () => ({
       >
         Derived mineral proximity parcels
       </button>
-    ) : null,
+    ) : null;
+  },
 }));
 
 const hiddenResourceLayers = {
@@ -494,6 +506,53 @@ describe("MapCanvas resource overlays", () => {
       { status: "ready", count: 1 },
     );
     expect(onSelectPid).toHaveBeenCalledWith("90000001");
+  });
+
+  it("does not restart the derived parcel layer when stable props rerender", () => {
+    const onResourceLayerStatusChange = vi.fn();
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: null,
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+      },
+      resourceLayers: {
+        ...hiddenResourceLayers,
+        "mineral-proximity-parcels": true,
+      },
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+      onResourceLayerStatusChange,
+    };
+    const { rerender } = render(<MapCanvas {...props} />);
+    const mineralLoadingReports = () =>
+      onResourceLayerStatusChange.mock.calls.filter(
+        ([id, status]) =>
+          id === "mineral-proximity-parcels" && status.status === "loading",
+      );
+
+    expect(mineralLayerEffectStarts).toHaveBeenCalledTimes(1);
+    expect(onResourceLayerStatusChange).toHaveBeenCalledWith(
+      "mineral-proximity-parcels",
+      { status: "loading" },
+    );
+    expect(mineralLoadingReports()).toHaveLength(1);
+
+    rerender(<MapCanvas {...props} />);
+
+    expect(mineralLayerEffectStarts).toHaveBeenCalledTimes(1);
+    expect(mineralLoadingReports()).toHaveLength(1);
   });
 });
 

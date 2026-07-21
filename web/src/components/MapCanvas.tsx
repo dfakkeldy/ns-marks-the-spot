@@ -729,6 +729,12 @@ export function MapCanvas({
     },
     [onLayerStatusChange, onResourceLayerStatusChange],
   );
+  const reportMineralProximityStatus = useCallback(
+    (status: MapLayerStatus) => {
+      reportLayerStatus("mineral-proximity-parcels", status);
+    },
+    [reportLayerStatus],
+  );
   const [map, setMap] = useState<LeafletMap | null>(null);
   const [mapZoom, setMapZoom] = useState(initialPosition.zoom);
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
@@ -857,9 +863,7 @@ export function MapCanvas({
         <MineralProximityParcelLayer
           visible={resourceLayers["mineral-proximity-parcels"]}
           onSelectPid={onSelectPid}
-          onStatusChange={(status) =>
-            reportLayerStatus("mineral-proximity-parcels", status)
-          }
+          onStatusChange={reportMineralProximityStatus}
         />
         <GeoJSON
           key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
