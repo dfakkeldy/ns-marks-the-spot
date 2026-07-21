@@ -259,20 +259,20 @@ describe("geology and resources catalog", () => {
   });
 });
 
-describe("hydro terrain-potential pilot catalog", () => {
+describe("micro-hydro screening pilot catalog", () => {
   it("publishes one optional open-data Inverness screening layer", () => {
     expect(hydroPilotLayerCatalog).toEqual([
       expect.objectContaining({
         id: "inverness-hydro-potential",
-        name: "Inverness terrain potential",
+        name: "Inverness micro-hydro screen",
         licence: "province-open",
-        coverage: "13 Inverness-centred watersheds with routed catchment coverage",
+        coverage: "13 Inverness-centred watersheds with connected tributary coverage",
       }),
     ]);
     expect(initialHydroPilotLayerVisibility).toEqual({
       "inverness-hydro-potential": false,
     });
-    expect(hydroPilotLayerCatalog[0].webCaveat).toContain("upstream area");
+    expect(hydroPilotLayerCatalog[0].webCaveat).toContain("1–50 kW scale");
     expect(hydroPilotLayerCatalog[0].scale).toContain("tertiary");
   });
 });

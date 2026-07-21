@@ -7,8 +7,10 @@ const WATERSHED_DATASET = "ynkv-x6rx";
 const TERTIARY_CATCHMENT_DATASET = "6htv-yzkm";
 const SUB_TERTIARY_CATCHMENT_DATASET = "s4r5-2srh";
 const MINIMUM_CATCHMENT_COVERAGE = 0.9;
-const DROP_THRESHOLDS_METRES = [10, 25, 50];
-const MAX_DOWNSTREAM_DISTANCE_METRES = 10_000;
+const DROP_THRESHOLDS_METRES = [5, 10, 20, 30];
+const MAX_DOWNSTREAM_DISTANCE_METRES = 3_000;
+const NOMINAL_SPECIFIC_DISCHARGE_LPS_PER_KM2 = 8;
+const NOMINAL_SYSTEM_EFFICIENCY = 0.6;
 const NSHN_SERVICE =
   "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer";
 const NSHN_LAYERS = [9, 11];
@@ -379,8 +381,226 @@ export function selectBestDropCandidate(upstreamAreaKm2, candidates) {
     )[0];
 }
 
+export function microHydroClassForKw(indicativePowerKw) {
+  if (indicativePowerKw < 1) return "below-1kw";
+  if (indicativePowerKw < 5) return "kw-1-5";
+  if (indicativePowerKw < 15) return "kw-5-15";
+  if (indicativePowerKw < 30) return "kw-15-30";
+  if (indicativePowerKw <= 50) return "kw-30-50";
+  return "over-50kw";
+}
+
+export function selectMicroHydroCandidate(
+  upstreamAreaKm2,
+  candidates,
+  {
+    specificDischargeLitresPerSecondPerKm2 =
+      NOMINAL_SPECIFIC_DISCHARGE_LPS_PER_KM2,
+    efficiency = NOMINAL_SYSTEM_EFFICIENCY,
+  } = {},
+) {
+  if (!(upstreamAreaKm2 > 0) || candidates.length === 0) {
+    return null;
+  }
+  const nominalFlowLitresPerSecond =
+    upstreamAreaKm2 * specificDischargeLitresPerSecondPerKm2;
+  return candidates
+    .map((candidate) => {
+      const routeLengthKm = candidate.routeDistanceMetres / 1_000;
+      const averageFallMetresPerKm = candidate.dropMetres / routeLengthKm;
+      const indicativePowerKw =
+        9.81 *
+        (nominalFlowLitresPerSecond / 1_000) *
+        candidate.dropMetres *
+        efficiency;
+      return {
+        ...candidate,
+        routeLengthKm,
+        averageFallMetresPerKm,
+        nominalFlowLitresPerSecond,
+        indicativePowerKw,
+        opportunityClass: microHydroClassForKw(indicativePowerKw),
+        screeningValue: indicativePowerKw / routeLengthKm,
+      };
+    })
+    .sort(
+      (left, right) =>
+        right.screeningValue - left.screeningValue ||
+        right.indicativePowerKw - left.indicativePowerKw,
+    )[0];
+}
+
 function endpointKey(coordinate) {
   return `${coordinate[0].toFixed(6)},${coordinate[1].toFixed(6)}`;
+}
+
+function longestUpstreamLength(edge, incoming, visiting = new Set()) {
+  if (visiting.has(edge.id)) return 0;
+  const nextVisiting = new Set(visiting).add(edge.id);
+  const previousLength = Math.max(
+    0,
+    ...(incoming.get(edgeSource(edge)) ?? []).map((previous) =>
+      longestUpstreamLength(previous, incoming, nextVisiting),
+    ),
+  );
+  return edge.lengthMetres + previousLength;
+}
+
+function catchmentOutletEdge(allEdges, geometry) {
+  const insideEdges = allEdges.filter((edge) =>
+    pointInGeometry(lineMidpoint(edge.coordinates), geometry),
+  );
+  if (insideEdges.length === 0) return null;
+  const insideIds = new Set(insideEdges.map((edge) => edge.id));
+  const outgoing = Map.groupBy(allEdges, (edge) => edgeSource(edge));
+  const incoming = Map.groupBy(insideEdges, (edge) => edgeTarget(edge));
+  const candidates = insideEdges.filter((edge) =>
+    (outgoing.get(edgeTarget(edge)) ?? []).every(
+      (nextEdge) => !insideIds.has(nextEdge.id),
+    ),
+  );
+  return (candidates.length > 0 ? candidates : insideEdges)
+    .map((edge) => ({
+      edge,
+      upstreamLength: longestUpstreamLength(edge, incoming),
+    }))
+    .sort(
+      (left, right) =>
+        right.upstreamLength - left.upstreamLength ||
+        left.edge.id.localeCompare(right.edge.id),
+    )[0].edge;
+}
+
+function findDownstreamDropCandidatesInNetwork(
+  allEdges,
+  startEdge,
+  {
+    thresholdsMetres = DROP_THRESHOLDS_METRES,
+    maxDistanceMetres = MAX_DOWNSTREAM_DISTANCE_METRES,
+  } = {},
+) {
+  const startElevation = Number(startEdge.coordinates[0]?.[2]);
+  if (!Number.isFinite(startElevation)) return [];
+  const thresholds = [...new Set(thresholdsMetres)]
+    .filter((threshold) => threshold > 0)
+    .sort((left, right) => left - right);
+  const outgoing = Map.groupBy(allEdges, (edge) => edgeSource(edge));
+  const queue = [{ edge: startEdge, distanceBeforeMetres: 0 }];
+  const bestArrival = new Map();
+  const candidates = new Map();
+
+  while (queue.length > 0) {
+    queue.sort(
+      (left, right) =>
+        left.distanceBeforeMetres - right.distanceBeforeMetres,
+    );
+    const { edge, distanceBeforeMetres } = queue.shift();
+    if (distanceBeforeMetres >= maxDistanceMetres) continue;
+    if (
+      distanceBeforeMetres >
+      (bestArrival.get(edge.id) ?? Number.POSITIVE_INFINITY)
+    ) {
+      continue;
+    }
+    bestArrival.set(edge.id, distanceBeforeMetres);
+    const segmentLengths = coordinateSegmentLengths(
+      edge.coordinates,
+      edge.lengthMetres,
+    );
+    let distanceAlongEdge = 0;
+    for (let index = 1; index < edge.coordinates.length; index += 1) {
+      const previous = edge.coordinates[index - 1];
+      const current = edge.coordinates[index];
+      const segmentLength = segmentLengths[index - 1];
+      const previousDrop = startElevation - Number(previous[2]);
+      const currentDrop = startElevation - Number(current[2]);
+      for (const threshold of thresholds) {
+        if (
+          Number.isFinite(previousDrop) &&
+          Number.isFinite(currentDrop) &&
+          previousDrop < threshold &&
+          currentDrop >= threshold &&
+          currentDrop > previousDrop
+        ) {
+          const progress =
+            (threshold - previousDrop) / (currentDrop - previousDrop);
+          const routeDistanceMetres =
+            distanceBeforeMetres + distanceAlongEdge + segmentLength * progress;
+          const existing = candidates.get(threshold);
+          if (
+            routeDistanceMetres <= maxDistanceMetres &&
+            (!existing || routeDistanceMetres < existing.routeDistanceMetres)
+          ) {
+            candidates.set(threshold, {
+              dropMetres: threshold,
+              routeDistanceMetres,
+              downstreamCoordinate: [
+                previous[0] + (current[0] - previous[0]) * progress,
+                previous[1] + (current[1] - previous[1]) * progress,
+              ],
+            });
+          }
+        }
+      }
+      distanceAlongEdge += segmentLength;
+    }
+    const nextDistance = distanceBeforeMetres + edge.lengthMetres;
+    if (nextDistance >= maxDistanceMetres) continue;
+    for (const nextEdge of outgoing.get(edgeTarget(edge)) ?? []) {
+      if (
+        nextDistance <
+        (bestArrival.get(nextEdge.id) ?? Number.POSITIVE_INFINITY)
+      ) {
+        queue.push({ edge: nextEdge, distanceBeforeMetres: nextDistance });
+      }
+    }
+  }
+  return [...candidates.values()].sort(
+    (left, right) => left.dropMetres - right.dropMetres,
+  );
+}
+
+export function modelNetworkReaches(allEdges, catchments, dropOptions) {
+  const outgoing = Map.groupBy(allEdges, (edge) => edgeSource(edge));
+  const catchmentAreas = new Map();
+  const contributingCatchments = new Map();
+
+  catchments.forEach((catchment, catchmentIndex) => {
+    if (!(Number(catchment.areaKm2) > 0)) return;
+    const catchmentId = String(catchment.code ?? catchmentIndex);
+    const outletEdge = catchmentOutletEdge(allEdges, catchment.geometry);
+    if (!outletEdge) return;
+    catchmentAreas.set(catchmentId, Number(catchment.areaKm2));
+    const queue = [outletEdge];
+    const visited = new Set();
+    while (queue.length > 0) {
+      const edge = queue.shift();
+      if (visited.has(edge.id)) continue;
+      visited.add(edge.id);
+      const contributors = contributingCatchments.get(edge.id) ?? new Set();
+      contributors.add(catchmentId);
+      contributingCatchments.set(edge.id, contributors);
+      queue.push(...(outgoing.get(edgeTarget(edge)) ?? []));
+    }
+  });
+
+  return allEdges.flatMap((edge) => {
+    const contributors = contributingCatchments.get(edge.id);
+    if (!contributors || contributors.size === 0) return [];
+    const upstreamAreaKm2 = [...contributors].reduce(
+      (total, catchmentId) => total + catchmentAreas.get(catchmentId),
+      0,
+    );
+    return [{
+      edge,
+      upstreamAreaKm2,
+      dropCandidates: findDownstreamDropCandidatesInNetwork(
+        allEdges,
+        edge,
+        dropOptions,
+      ),
+    }];
+  });
 }
 
 export function longestDirectedRoute(features, watershedGeometry) {
@@ -442,13 +662,6 @@ function directedEdges(features, watershedGeometry) {
         target: endpointKey(coordinates.at(-1)),
       }));
   });
-}
-
-function potentialClass(percentile) {
-  if (percentile < 0.25) return "low";
-  if (percentile < 0.5) return "moderate";
-  if (percentile < 0.75) return "high";
-  return "very-high";
 }
 
 function round(value, digits) {
@@ -614,26 +827,34 @@ async function buildFeature(watershed, index, total) {
       ),
     )
   ).flat();
-  const route = longestDirectedRoute(sourceFeatures, watershed.geometry);
-  if (route.edges.length === 0 || route.length <= 0) {
+  const allEdges = directedEdges(sourceFeatures, watershed.geometry);
+  if (allEdges.length === 0) {
     return [];
   }
+  const trunkEdgeIds = new Set(
+    longestDirectedRoute(sourceFeatures, watershed.geometry).edges.map(
+      (edge) => edge.id,
+    ),
+  );
   const catchmentModels = watershed.catchments.map((catchment) => ({
+    code:
+      catchment.properties.subtert_code ??
+      catchment.properties.tert_code ??
+      catchment.properties.OBJECTID,
     areaKm2: Number(catchment.properties.shape_area) / 1_000_000,
     geometry: catchment.geometry,
   }));
-  const reaches = modelRouteReaches(
-    route.edges,
+  const reaches = modelNetworkReaches(
+    allEdges,
     catchmentModels,
     {
       thresholdsMetres: DROP_THRESHOLDS_METRES,
       maxDistanceMetres: MAX_DOWNSTREAM_DISTANCE_METRES,
     },
-    directedEdges(sourceFeatures, watershed.geometry),
   );
 
   return reaches.map(({ edge, upstreamAreaKm2, dropCandidates }) => {
-    const best = selectBestDropCandidate(upstreamAreaKm2, dropCandidates);
+    const best = selectMicroHydroCandidate(upstreamAreaKm2, dropCandidates);
     return {
       type: "Feature",
       id: `${watershed.properties.sec_code}:${edge.id}`,
@@ -641,19 +862,23 @@ async function buildFeature(watershed, index, total) {
         watershedCode: watershed.properties.sec_code,
         watershedName: name,
         catchmentResolution: watershed.catchmentResolution,
+        networkRole: trunkEdgeIds.has(edge.id) ? "trunk" : "tributary",
         upstreamAreaKm2: round(upstreamAreaKm2, 2),
         dropThresholdMetres: best ? best.dropMetres : null,
         downstreamRouteLengthKm: best ? round(best.routeLengthKm, 2) : null,
         averageMappedFallMetresPerKm: best
           ? round(best.averageFallMetresPerKm, 1)
           : null,
+        nominalFlowLitresPerSecond: best
+          ? round(best.nominalFlowLitresPerSecond, 1)
+          : null,
+        indicativePowerKw: best ? round(best.indicativePowerKw, 2) : null,
         screeningValue: best ? round(best.screeningValue, 3) : null,
         downstreamEndpoint: best
           ? best.downstreamCoordinate.map((coordinate) => round(coordinate, 6))
           : null,
         sourceSegmentId: edge.id,
-        pilotPercentile: null,
-        potentialClass: best ? null : "not-qualified",
+        potentialClass: best ? best.opportunityClass : "not-qualified",
       },
       geometry: {
         type: "MultiLineString",
@@ -678,19 +903,20 @@ export async function generatePilot() {
       ...(await buildFeature(watersheds[index], index, watersheds.length)),
     );
   }
-  const ranked = features
-    .filter((feature) => feature.properties.screeningValue !== null)
-    .sort(
-      (left, right) =>
-        left.properties.screeningValue - right.properties.screeningValue,
-    );
-  ranked.forEach((feature, index) => {
-    const percentile = ranked.length === 1 ? 1 : index / (ranked.length - 1);
-    feature.properties.pilotPercentile = round(percentile, 3);
-    feature.properties.potentialClass = potentialClass(percentile);
-  });
-  features.sort((left, right) =>
-    left.properties.watershedName.localeCompare(right.properties.watershedName),
+  const qualifying = features.filter(
+    (feature) => feature.properties.screeningValue !== null,
+  );
+  const targetBandClasses = new Set([
+    "kw-1-5",
+    "kw-5-15",
+    "kw-15-30",
+    "kw-30-50",
+  ]);
+  features.sort(
+    (left, right) =>
+      left.properties.watershedName.localeCompare(
+        right.properties.watershedName,
+      ) || String(left.id).localeCompare(String(right.id)),
   );
   const retrievalParts = Object.fromEntries(
     new Intl.DateTimeFormat("en-CA", {
@@ -706,7 +932,7 @@ export async function generatePilot() {
   return {
     type: "FeatureCollection",
     metadata: {
-      title: "Inverness hydro terrain-potential pilot",
+      title: "Inverness micro-hydro screening pilot",
       retrievedOn,
       municipalityDataset: MUNICIPALITY_DATASET,
       secondaryWatershedDataset: WATERSHED_DATASET,
@@ -721,13 +947,42 @@ export async function generatePilot() {
         features.map((feature) => feature.properties.watershedCode),
       ).size,
       reachCount: features.length,
-      qualifyingReachCount: ranked.length,
+      tributaryReachCount: features.filter(
+        (feature) => feature.properties.networkRole === "tributary",
+      ).length,
+      qualifyingReachCount: qualifying.length,
+      targetBandReachCount: features.filter((feature) =>
+        targetBandClasses.has(feature.properties.potentialClass),
+      ).length,
       dropThresholdsMetres: DROP_THRESHOLDS_METRES,
       maxDownstreamDistanceKm: MAX_DOWNSTREAM_DISTANCE_METRES / 1_000,
+      nominalSpecificDischargeLitresPerSecondPerKm2:
+        NOMINAL_SPECIFIC_DISCHARGE_LPS_PER_KM2,
+      nominalSystemEfficiency: NOMINAL_SYSTEM_EFFICIENCY,
+      nominalPowerBandKw: [1, 50],
+      hydrometricCalibration: {
+        source:
+          "https://wateroffice.ec.gc.ca/services/daily_data/csv/inline",
+        period: "2021-07-21/2026-07-20",
+        stations: [
+          {
+            id: "01FB001",
+            name: "Northeast Margaree River at Margaree Valley",
+            drainageAreaKm2: 368,
+            tenthPercentileSpecificDischargeLitresPerSecondPerKm2: 10.82,
+          },
+          {
+            id: "01FB003",
+            name: "Southwest Margaree River near Upper Margaree",
+            drainageAreaKm2: 362,
+            tenthPercentileSpecificDischargeLitresPerSecondPerKm2: 7.51,
+          },
+        ],
+      },
       method:
-        "For named Inverness-centred secondary watersheds whose finest available official tertiary/sub-tertiary catchment partition covers at least 90 percent of the secondary watershed, follow the longest connected route through directed NSHN primary-flow segments. Add each catchment's full area only after the route reaches that mapped catchment outlet. From each downstream reach, find the nearest connected point reaching 10, 25, or 50 metres of mapped drop within 10 kilometres. Rank the best qualifying ln(1 + modeled upstream area in km2) multiplied by mapped drop divided by downstream route length. Classes are quartiles among qualifying reaches in this pilot only.",
+        "For named Inverness-centred secondary watersheds whose finest available official tertiary/sub-tertiary catchment partition covers at least 90 percent of the secondary watershed, retain the connected tributary network formed by routing every catchment outlet downstream through directed NSHN primary-flow segments. Union catchment contributions at confluences so area is not double-counted after a split and rejoin. From each reach, find the nearest connected point reaching 5, 10, 20, or 30 metres of mapped drop within 3 kilometres. Use an 8 L/s/km2 regional screening scenario and 60 percent nominal efficiency to calculate a 1 to 50 kW-scale opportunity band, then prefer more indicative power over a shorter mapped route.",
       limitations:
-        "Tertiary/sub-tertiary-catchment-resolution terrain screening only: upstream area changes in coarse steps at modeled catchment outlets and is not an exact arbitrary-point delineation. Not measured flow, channel width, seasonal reliability, hydraulic head, power, buildability, access, water rights, fish-habitat review, or approval.",
+        "Tertiary/sub-tertiary-catchment-resolution screening only: upstream area changes in coarse steps at modeled catchment outlets and is not an exact arbitrary-point delineation. The 8 L/s/km2 flow and 60 percent efficiency values are fixed regional scenarios, not measured flow or net hydraulic head, and the result is not predicted production or seasonal reliability. Not a finding of buildability, access, water rights, fish-habitat review, or approval.",
     },
     features,
   };

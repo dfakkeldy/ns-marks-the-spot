@@ -125,16 +125,17 @@ July 20, 2026 under the Nova Scotia Open Government Licence. The fourth row is
 the application-derived NSPRD parcel screening layer described above; it
 remains licence-gated and off by default.
 
-## Inverness hydro terrain-potential pilot
+## Inverness micro-hydro screening pilot
 
-The collapsed **Hydro terrain pilot** is a web-only, default-off open-data
-point screen for 13 Inverness-centred watersheds with adequate routed catchment
-coverage. Turning it on fits the map to the pilot. Line width grows with the
-modeled upstream drainage area at each mapped reach. Line colour represents the
-best bounded drop-distance potential found downstream; a grey-blue reach means
-that no 10 m mapped drop was found within 10 km. Selecting a reach reports its
-modeled upstream area, selected drop threshold, downstream route length, and
-average mapped fall in m/km.
+The collapsed **Micro-hydro pilot** is a web-only, default-off open-data
+micro-hydro screen for 13 Inverness-centred watersheds with adequate routed
+catchment coverage. Turning it on fits the map to the pilot. It retains the
+connected tributary paths from modeled catchment outlets instead of publishing
+only the longest river trunk. Line width grows with modeled upstream drainage
+area. Line colour shows a nominal 1–50 kW-scale opportunity band; a grey-blue
+reach means that no 5 m mapped drop was found within 3 km. Selecting a reach
+reports its modeled upstream area, trunk/tributary role, selected drop,
+downstream route, nominal flow scenario, and indicative kW scale.
 
 The checked-in GeoJSON is reproduced with `npm run generate:hydro-pilot` from:
 
@@ -148,30 +149,43 @@ The checked-in GeoJSON is reproduced with `npm run generate:hydro-pilot` from:
   using directed primary-flow features from the Spines (9) and Wet Features
   (11) layers for route geometry and Z values.
 
-For each watershed, the generator follows the longest connected route through
-NSHN features where `LEVELPRIOR = 1` and `FLOWDIR = 1`. Every catchment outlet
-is traced through the full directed graph to its join with that route, so its
-whole area is added only to downstream reaches. At each reach the generator
-searches no more than 10 km downstream for the nearest points reaching 10, 25,
-and 50 m of mapped drop, then keeps the strongest qualifying screen:
+For each watershed, the generator keeps the connected network formed by routing
+every accepted catchment outlet downstream through NSHN features where
+`LEVELPRIOR = 1` and `FLOWDIR = 1`. Catchment identifiers are unioned at
+confluences, preventing area from being counted twice if a mapped path splits
+and rejoins. The longest connected route is retained only to label trunk versus
+tributary reaches. At each reach the generator searches no more than 3 km
+downstream for the nearest points reaching 5, 10, 20, and 30 m of mapped drop.
 
 `average mapped fall = selected drop / downstream route length`
 
-`screening value = ln(1 + modeled upstream area in km²) × average mapped fall`
+`nominal flow = modeled upstream area × 8 L/s/km²`
 
-The logarithm tempers the influence of the largest watersheds. Low, Moderate,
-High, and Very high are quartiles among qualifying reaches, not physical
-thresholds. Reaches without a qualifying 10 m drop remain visible because their
-drainage-area width still provides useful downstream context.
+`indicative kW = 9.81 × nominal flow in m³/s × mapped gross drop × 60%`
+
+`screening value = indicative kW / downstream route length in km`
+
+The 8 L/s/km² scenario is a rounded lower-flow reference from the 2021-07-21
+through 2026-07-20 daily records for federal gauges 01FB001 and 01FB003. Their
+10th-percentile specific discharges were approximately 10.82 and 7.51 L/s/km².
+The 60% nominal efficiency is within the overall-system range discussed by
+[Natural Resources Canada](https://natural-resources.canada.ca/sites/nrcan/files/canmetenergy/files/pubs/buyersguidehydroeng.pdf).
+These fixed inputs make the comparison reproducible; they do not turn it into a
+site flow or production estimate. Reaches below 1 kW scale, within four 1–50 kW
+bands, above 50 kW scale, and without a qualifying drop remain separately
+visible.
 Display geometry is simplified to about two metres and rounded to six decimal
 places; catchment areas, Z-derived drops, and source plan lengths are not
-recalculated from that display geometry. The July 20, 2026 receipt contains 535
-mapped reaches across 13 watersheds, including 365 qualifying reaches, and
-identifies secondary dataset `ynkv-x6rx`, tertiary dataset `6htv-yzkm`,
-sub-tertiary dataset `s4r5-2srh`, and NSHN layers 9 and 11.
+recalculated from that display geometry. The July 20, 2026 receipt contained 535
+mapped reaches across 13 watersheds. The July 21 tributary revision contains
+1,213 reaches, including 727 tributary reaches, 723 with a qualifying mapped
+drop, and 596 in the nominal 1–50 kW band. It identifies secondary dataset
+`ynkv-x6rx`, tertiary dataset `6htv-yzkm`, sub-tertiary dataset `s4r5-2srh`,
+NSHN layers 9 and 11, and the two federal gauge references above.
 
-This pilot does **not** estimate streamflow, litres per second, cubic metres per
-second, hydraulic head, or power. It does not present Strahler stream order:
+This pilot does **not** measure streamflow, establish usable flow, net hydraulic
+head, or predict electrical production. Its L/s and kW values are fixed regional
+screening scenarios. It does not present Strahler stream order:
 NSHN's `LEVELPRIOR` describes primary/alternate flow paths and must not be
 relabeled as stream order. It also does not establish seasonal reliability,
 mapped stream width, buildability, access, water rights, fish-habitat review,

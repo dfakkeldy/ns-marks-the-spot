@@ -606,19 +606,31 @@ a {
 }
 
 .hydro-swatch.not-qualified {
-  background: #9aaeb4;
+  background: #94a3b8;
 }
 
-.hydro-swatch.moderate {
-  background: #3397b7;
+.hydro-swatch.below-1kw {
+  background: #cbd5e1;
 }
 
-.hydro-swatch.high {
-  background: #08769b;
+.hydro-swatch.kw-1-5 {
+  background: #0d9488;
 }
 
-.hydro-swatch.very-high {
-  background: #07516f;
+.hydro-swatch.kw-5-15 {
+  background: #16a34a;
+}
+
+.hydro-swatch.kw-15-30 {
+  background: #d97706;
+}
+
+.hydro-swatch.kw-30-50 {
+  background: #dc2626;
+}
+
+.hydro-swatch.over-50kw {
+  background: #64748b;
 }
 
 .hydro-line {

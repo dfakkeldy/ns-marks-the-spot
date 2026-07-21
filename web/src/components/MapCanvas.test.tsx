@@ -663,7 +663,7 @@ describe("MapCanvas resource overlays", () => {
   });
 });
 
-describe("MapCanvas hydro terrain pilot", () => {
+describe("MapCanvas micro-hydro pilot", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

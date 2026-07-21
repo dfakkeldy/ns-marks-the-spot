@@ -2,10 +2,12 @@ import type { PathOptions } from "leaflet";
 
 export type HydroPotentialClass =
   | "not-qualified"
-  | "low"
-  | "moderate"
-  | "high"
-  | "very-high";
+  | "below-1kw"
+  | "kw-1-5"
+  | "kw-5-15"
+  | "kw-15-30"
+  | "kw-30-50"
+  | "over-50kw";
 
 export type HydroTerrainInputs = {
   upstreamAreaKm2: number;
@@ -19,11 +21,13 @@ export type HydroTerrainMetrics = {
 };
 
 const POTENTIAL_COLOURS: Record<HydroPotentialClass, string> = {
-  "not-qualified": "#9aaeb4",
-  low: "#72b7d2",
-  moderate: "#3397b7",
-  high: "#08769b",
-  "very-high": "#07516f",
+  "not-qualified": "#94a3b8",
+  "below-1kw": "#cbd5e1",
+  "kw-1-5": "#0d9488",
+  "kw-5-15": "#16a34a",
+  "kw-15-30": "#d97706",
+  "kw-30-50": "#dc2626",
+  "over-50kw": "#64748b",
 };
 
 export function calculateHydroTerrainMetrics({
@@ -48,24 +52,6 @@ export function calculateHydroTerrainMetrics({
   };
 }
 
-export function potentialClassForPercentile(
-  percentile: number,
-): HydroPotentialClass {
-  if (!Number.isFinite(percentile) || percentile < 0 || percentile > 1) {
-    throw new Error("Pilot percentile must be between 0 and 1.");
-  }
-  if (percentile < 0.25) {
-    return "low";
-  }
-  if (percentile < 0.5) {
-    return "moderate";
-  }
-  if (percentile < 0.75) {
-    return "high";
-  }
-  return "very-high";
-}
-
 export function hydroLineStyle({
   upstreamAreaKm2,
   potentialClass,
@@ -74,13 +60,13 @@ export function hydroLineStyle({
   potentialClass: HydroPotentialClass;
 }): PathOptions {
   const weight = Math.min(
-    8,
-    Math.max(2, 1.25 + Math.log2(Math.max(0, upstreamAreaKm2) + 1) * 0.7),
+    6.5,
+    Math.max(1.75, 1.1 + Math.log2(Math.max(0, upstreamAreaKm2) + 1) * 0.55),
   );
 
   return {
     color: POTENTIAL_COLOURS[potentialClass],
-    opacity: 0.92,
+    opacity: potentialClass === "over-50kw" ? 0.72 : 0.92,
     weight,
     lineCap: "round",
     lineJoin: "round",
@@ -88,10 +74,14 @@ export function hydroLineStyle({
 }
 
 export function hydroPotentialLabel(value: HydroPotentialClass): string {
-  if (value === "not-qualified") {
-    return "No qualifying drop";
-  }
-  return value === "very-high"
-    ? "Very high"
-    : `${value[0].toLocaleUpperCase()}${value.slice(1)}`;
+  const labels: Record<HydroPotentialClass, string> = {
+    "not-qualified": "No qualifying drop",
+    "below-1kw": "Below 1 kW scale",
+    "kw-1-5": "1–5 kW scale",
+    "kw-5-15": "5–15 kW scale",
+    "kw-15-30": "15–30 kW scale",
+    "kw-30-50": "30–50 kW scale",
+    "over-50kw": "Above 50 kW scale",
+  };
+  return labels[value];
 }
