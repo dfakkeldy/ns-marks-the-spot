@@ -59,6 +59,7 @@ import {
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
+  PROVINCE_LAYER_Z_INDEXES,
 } from "./mapPanes";
 
 type MapCanvasProps = {
@@ -113,16 +114,6 @@ const HIDDEN_HYDRO_PILOT_LAYERS: Record<HydroPilotLayerId, boolean> = {
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
-const layerZIndexes: Record<ProvinceLayerId, number> = {
-  "ns-aerial": 150,
-  "crown-lands": 220,
-  "flood-risk": 230,
-  nsprd: 240,
-  waterfalls: 250,
-  "water-features": 210,
-  roads: 235,
-};
-
 function ArcGISMapLayer({
   layer,
   visible,
@@ -153,7 +144,7 @@ function ArcGISMapLayer({
               minZoom: layer.minZoom,
               maxZoom: layer.maxZoom,
               opacity: layer.opacity,
-              zIndex: layerZIndexes[layer.id] + index,
+              zIndex: PROVINCE_LAYER_Z_INDEXES[layer.id] + index,
               maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
               updateWhenZooming: false,
               keepBuffer: 2,
