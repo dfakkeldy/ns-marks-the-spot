@@ -1132,7 +1132,7 @@ a {
 }
 
 .parcel-inspector h2 {
-  padding-right: 32px;
+  padding-right: 52px;
   font-size: 1.75rem;
 }
 
@@ -1140,10 +1140,10 @@ a {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   color: var(--chart-ink);
-  font-size: 1.8rem;
+  font-size: min(1.8rem, 32px);
   line-height: 1;
   background: none;
   border: 0;
@@ -1780,12 +1780,13 @@ a {
 
   .mobile-sheet-header button {
     display: grid;
-    width: 38px;
-    height: 38px;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
     place-items: center;
     padding: 0;
     color: var(--chart-ink);
-    font-size: 1.7rem;
+    font-size: min(1.7rem, 32px);
     line-height: 1;
     background: var(--fog);
     border: 1px solid var(--line);

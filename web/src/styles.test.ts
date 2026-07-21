@@ -34,6 +34,30 @@ describe("mobile parcel inspector layout", () => {
     expect(inspectorDeclarations).toMatch(/overflow-y:\s*auto/);
   });
 
+  it("keeps close controls usable when root text is enlarged", () => {
+    const inspectorClose = styles.match(
+      /\.inspector-close\s*\{([^}]*)\}/,
+    )?.[1];
+    const inspectorHeading = styles.match(
+      /\.parcel-inspector h2\s*\{([^}]*)\}/,
+    )?.[1];
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const sheetClose = mobileStyles.match(
+      /\.mobile-sheet-header button\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(inspectorClose).toMatch(/width:\s*44px/);
+    expect(inspectorClose).toMatch(/height:\s*44px/);
+    expect(inspectorClose).toMatch(/font-size:\s*min\(1\.8rem, 32px\)/);
+    expect(inspectorHeading).toMatch(/padding-right:\s*52px/);
+    expect(sheetClose).toMatch(/flex:\s*0 0 44px/);
+    expect(sheetClose).toMatch(/width:\s*44px/);
+    expect(sheetClose).toMatch(/height:\s*44px/);
+    expect(sheetClose).toMatch(/font-size:\s*min\(1\.7rem, 32px\)/);
+  });
+
   it("wraps long event metadata inside the inspector", () => {
     const factValues = styles.match(/\.parcel-facts dd\s*\{([^}]*)\}/)?.[1];
 
