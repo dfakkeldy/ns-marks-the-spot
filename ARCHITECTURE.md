@@ -137,12 +137,14 @@ approval. NSHN `LEVELPRIOR` is treated only as a primary-flow selector, not as
 Strahler stream order.
 
 After licence acceptance, the default web composition leaves the opaque modern
-and aerial maps off, turns NSPRD boundaries, complete Province water features,
+map off, turns NS Aerial, NSPRD boundaries, complete Province water features,
 and roads on, and fits the first loaded view once to the visible tax-sale
 parcel geometries. Fletcher remains the final unavailable row in the layer list
-until its web rights are clear. Geology & Resources and Hydro terrain pilot are
-collapsed, and all of their overlays start off. The one-time fit does not compete with later
-selected-parcel fitting or user navigation.
+until its web rights are clear. Geology & Resources is collapsed: its three
+open source-backed overlays and its separately licence-gated derived parcel row
+all start off. The Hydro terrain pilot is also collapsed and off by default.
+The one-time fit does not compete with later selected-parcel fitting or user
+navigation.
 
 NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
 dynamic renderers, Flood Risk Areas is restricted to layers 24–26, and the

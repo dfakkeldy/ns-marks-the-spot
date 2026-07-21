@@ -88,9 +88,9 @@ remaining online-only:
 
 ## Geology and resources
 
-The collapsed **Geology & Resources** group is web-only, starts with every
-switch off, and uses Province open data independently of the restricted map
-services gate:
+The collapsed **Geology & Resources** group is web-only and starts with every
+switch off. Its three source-backed overlays use Province open data
+independently of the restricted map-services gate:
 
 - [Mineral Occurrences Database](https://novascotia.ca/natr/meb/download/dp002.asp)
   records known occurrences and past producers. A point is not proof of a
@@ -112,15 +112,18 @@ published status, and either **On parcel** or **Within 1 km**. Proximity does no
 prove mineralization, deposit extent, grade, recoverability, value, mineral
 rights, access, exploration permission, or completeness of the inventory.
 
-Mineral tenure uses the Province's rendered MapServer output. The two point
-layers query only the current map envelope, cancel stale requests, and page
-ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record mine
-inventory waits until zoom 11. Each switch reports its own loading, visible
-count, zoom, or failure state, so one unavailable source does not disable the
-other map and parcel features. Every layer row also exposes its source date,
-native or useful scale, coverage, and supported map-zoom range. All three
-overlays were verified against their live sources on July 20, 2026 under the
-Nova Scotia Open Government Licence.
+Those three source-backed overlays remain independent of the derived row and
+each other. Mineral tenure uses the Province's rendered MapServer output. The
+two point layers query only the current map envelope, cancel stale requests,
+and page ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record
+mine inventory waits until zoom 11. Each switch reports its own loading,
+visible count, zoom, or failure state, so one unavailable source does not
+disable the other map and parcel features. Every layer row also exposes its
+source date, native or useful scale, coverage, and supported map-zoom range.
+All three source-backed overlays were verified against their live sources on
+July 20, 2026 under the Nova Scotia Open Government Licence. The fourth row is
+the application-derived NSPRD parcel screening layer described above; it
+remains licence-gated and off by default.
 
 ## Inverness hydro terrain-potential pilot
 
@@ -367,7 +370,8 @@ date rather than leaving that date only in source data.
 ## Current boundary
 
 This slice includes the modern OpenStreetMap basemap, seven web-cleared
-restricted Province layers, three default-off open geoscience/resource layers,
+restricted Province layers, three default-off open geoscience/resource source
+overlays, one default-off licence-gated derived mineral-proximity parcel row,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the two
