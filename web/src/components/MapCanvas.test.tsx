@@ -283,6 +283,41 @@ describe("MapCanvas parcel discovery", () => {
   });
 });
 
+describe("MapCanvas Province overlays", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(16);
+  });
+
+  it("adds a dedicated trail and track contrast pass above the roads layer", () => {
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: true,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    expect(mapMock.addLayer).toHaveBeenCalledTimes(2);
+  });
+});
+
 describe("MapCanvas resource overlays", () => {
   beforeEach(() => {
     vi.clearAllMocks();

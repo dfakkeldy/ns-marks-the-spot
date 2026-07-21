@@ -54,6 +54,7 @@ export type WebLayerDescriptor = {
   scale: string;
   coverage: string;
   exportOptions?: ArcGISExportOptions;
+  exportOverlayOptions?: ArcGISExportOptions;
 };
 
 type ResourceLayerBase = {
@@ -153,6 +154,46 @@ const WATERFALLS_DYNAMIC_LAYERS = JSON.stringify([
           minScale: 50_000,
         },
       ],
+    },
+  },
+]);
+
+const TRAIL_TRACK_DEFINITION =
+  "FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%'";
+
+const TRAIL_TRACK_CONTRAST_DYNAMIC_LAYERS = JSON.stringify([
+  {
+    id: 80,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: TRAIL_TRACK_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSDash",
+          color: [255, 255, 255, 200],
+          width: 1.2,
+        },
+      },
+      labelingInfo: [],
+    },
+  },
+  {
+    id: 81,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: TRAIL_TRACK_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSDash",
+          color: [43, 39, 48, 255],
+          width: 0.8,
+        },
+      },
+      labelingInfo: [],
     },
   },
 ]);
@@ -304,6 +345,11 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     scale: "NSTDB 1:10,000",
     coverage: "Nova Scotia",
     exportOptions: { transparent: true, dpi: 192 },
+    exportOverlayOptions: {
+      transparent: true,
+      dpi: 192,
+      dynamicLayers: TRAIL_TRACK_CONTRAST_DYNAMIC_LAYERS,
+    },
   },
 ] as const;
 

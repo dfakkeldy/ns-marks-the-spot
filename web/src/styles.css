@@ -898,9 +898,9 @@ a {
   border-color: #e66600;
 }
 
-.road-swatch.trail,
-.road-swatch.culvert {
-  border-color: #656565;
+.road-swatch.trail {
+  border-color: #2b2730;
+  border-top-width: 4px;
   border-top-style: dashed;
 }
 
