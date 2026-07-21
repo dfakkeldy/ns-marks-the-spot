@@ -3,13 +3,14 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
+import { buildEvidenceNote } from "./services/evidenceNote";
 import {
   OPEN_GOVERNMENT_ATTRIBUTION,
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
 } from "./services/civicAddresses";
-import { fetchParcelAtPoint, fetchParcels } from "./services/nsprd";
+import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
 
@@ -47,7 +48,8 @@ vi.mock("./components/MapCanvas", () => ({
       {historicalTaxSalePids.size}; mineral occurrences:{" "}
       {resourceLayers["mineral-occurrences"] ? "on" : "off"}; mineral tenure:{" "}
       {resourceLayers["mineral-tenure"] ? "on" : "off"}; abandoned mines:{" "}
-      {resourceLayers["abandoned-mines"] ? "on" : "off"}
+      {resourceLayers["abandoned-mines"] ? "on" : "off"}; mineral proximity parcels:{" "}
+      {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
       ; Inverness terrain potential: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
       ; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
@@ -101,6 +103,14 @@ vi.mock("./services/parcelResources", async (importOriginal) => {
   };
 });
 
+vi.mock("./services/evidenceNote", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/evidenceNote")>();
+  return {
+    ...original,
+    buildEvidenceNote: vi.fn(original.buildEvidenceNote),
+  };
+});
+
 const parcelFeature = (pid: string) => ({
   type: "Feature" as const,
   properties: { PID: pid, "SHAPE.AREA": 111_057.27135 },
@@ -138,6 +148,16 @@ const civicAddress = (pntid: string, label: string): CivicAddress => ({
   },
 });
 
+function deferred<T>() {
+  let resolve!: (value: T) => void;
+  let reject!: (reason?: unknown) => void;
+  const promise = new Promise<T>((nextResolve, nextReject) => {
+    resolve = nextResolve;
+    reject = nextReject;
+  });
+  return { promise, resolve, reject };
+}
+
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -157,6 +177,15 @@ describe("NS Marks The Spot Online", () => {
       "mineral-occurrences": { status: "ready", intersections: [] },
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
+    });
+    vi.mocked(buildEvidenceNote).mockClear();
+    Object.defineProperty(URL, "createObjectURL", {
+      configurable: true,
+      value: vi.fn(() => "blob:test-evidence"),
+    });
+    Object.defineProperty(URL, "revokeObjectURL", {
+      configurable: true,
+      value: vi.fn(),
     });
   });
 
@@ -496,6 +525,12 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Mineral tenure")).not.toBeChecked();
     expect(screen.getByLabelText("Abandoned mine openings")).not.toBeChecked();
     expect(screen.getByLabelText("Mineral occurrences")).toBeEnabled();
+    const proximityToggle = screen.getByLabelText(
+      "Properties within 1 km of a mineral occurrence",
+    );
+    expect(proximityToggle).not.toBeChecked();
+    expect(proximityToggle).toBeDisabled();
+    expect(screen.getByText("4 optional screening layers")).toBeInTheDocument();
 
     await user.click(groupSummary);
     await user.click(screen.getByLabelText("Mineral occurrences"));
@@ -503,11 +538,32 @@ describe("NS Marks The Spot Online", () => {
 
     expect(group).toHaveAttribute("open");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "mineral occurrences: on; mineral tenure: on; abandoned mines: off",
+      "mineral occurrences: on; mineral tenure: on; abandoned mines: off; mineral proximity parcels: off",
     );
+    expect(
+      within(group as HTMLElement).getByText(
+        "Province licence required for derived parcel geometry",
+      ),
+    ).toBeInTheDocument();
+    await user.click(
+      within(proximityToggle.closest("label") as HTMLElement).getByRole("button", {
+        name: "Review Province licence for Properties within 1 km of a mineral occurrence",
+      }),
+    );
+    expect(
+      screen.getByRole("dialog", { name: "Use Nova Scotia map data" }),
+    ).toBeInTheDocument();
     expect(
       within(group as HTMLElement).getByRole("link", { name: "Open data sources" }),
     ).toHaveAttribute("href", expect.stringContaining("novascotia.ca"));
+    expect(
+      within(group as HTMLElement).getByRole("link", {
+        name: "Mineral Occurrences source",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://novascotia.ca/natr/meb/download/dp002.asp",
+    );
   });
 
   it("offers the Inverness terrain pilot independently with a visible symbology key", async () => {
@@ -536,6 +592,66 @@ describe("NS Marks The Spot Online", () => {
       .toBeInTheDocument();
     expect(within(group as HTMLElement).getByText("No 10 m drop within 10 km"))
       .toBeInTheDocument();
+  });
+
+  it("enables the derived parcel control after licence acceptance but keeps it off by default", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    const proximityToggle = screen.getByLabelText(
+      "Properties within 1 km of a mineral occurrence",
+    );
+    expect(proximityToggle).toBeEnabled();
+    expect(proximityToggle).not.toBeChecked();
+
+    await user.click(proximityToggle);
+
+    expect(proximityToggle).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "mineral proximity parcels: on",
+    );
+    expect(new URL(window.location.href).searchParams.get("layers")).toContain(
+      "mineral-proximity-parcels",
+    );
+  });
+
+  it("preserves a requested shared derived layer through review and activates it only after acceptance", async () => {
+    const user = userEvent.setup();
+    window.history.replaceState(
+      null,
+      "",
+      "/?mode=current&layers=mineral-proximity-parcels&position=46.1,-60.9,12",
+    );
+
+    render(<App />);
+
+    const proximityToggle = screen.getByLabelText(
+      "Properties within 1 km of a mineral occurrence",
+    );
+    expect(proximityToggle).toBeDisabled();
+    expect(proximityToggle).not.toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "mineral proximity parcels: off",
+    );
+    expect(new URL(window.location.href).searchParams.get("layers")).toContain(
+      "mineral-proximity-parcels",
+    );
+
+    await user.click(
+      within(proximityToggle.closest("label") as HTMLElement).getByRole("button", {
+        name: "Review Province licence for Properties within 1 km of a mineral occurrence",
+      }),
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Accept and view map layers" }),
+    );
+
+    expect(proximityToggle).toBeEnabled();
+    expect(proximityToggle).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "mineral proximity parcels: on",
+    );
   });
 
   it("searches a civic address and opens its containing parcel", async () => {
@@ -1094,8 +1210,15 @@ describe("NS Marks The Spot Online", () => {
         intersections: [
           {
             id: "A01-001",
-            name: "Example occurrence",
+            name: "Exact occurrence",
             detail: "Occurrence · Au, Ag",
+            relationship: "on-parcel",
+          },
+          {
+            id: "A01-002",
+            name: "Nearby occurrence",
+            detail: "Placer · Au",
+            relationship: "within-1km",
           },
         ],
       },
@@ -1109,16 +1232,159 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
 
     const resources = await screen.findByRole("region", {
-      name: "Geology and resource intersections",
+      name: "Geology & resource context",
     });
-    expect(within(resources).getByText("Example occurrence")).toBeInTheDocument();
+    expect(within(resources).getByText("Exact occurrence")).toBeInTheDocument();
+    expect(within(resources).getByText("A01-001 · On parcel")).toBeInTheDocument();
+    expect(within(resources).getByText("A01-002 · Within 1 km")).toBeInTheDocument();
     expect(within(resources).getByText("Occurrence · Au, Ag")).toBeInTheDocument();
+    expect(within(resources).getByText("Placer · Au")).toBeInTheDocument();
     expect(within(resources).getByText("Source unavailable; no absence is inferred."))
       .toBeInTheDocument();
     expect(
-      within(resources).getByText(/Empty results do not prove absence/),
+      within(resources).getByText(/does not prove mineralization/),
     ).toBeInTheDocument();
     expect(within(resources).getAllByRole("link")).toHaveLength(3);
+  });
+
+  it("uses bounded mineral empty-result wording", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const resources = await screen.findByRole("region", {
+      name: "Geology & resource context",
+    });
+    expect(
+      within(resources).getByText(
+        "No published mineral occurrence was returned on or within 1 km of this parcel.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("exports relationship-safe mineral evidence and both derived-layer sources", async () => {
+    const user = userEvent.setup();
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined);
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelResourceIntersections).mockResolvedValueOnce({
+      "mineral-occurrences": {
+        status: "ready",
+        intersections: [{
+          id: "A01-001",
+          name: "Exact occurrence",
+          detail: "Occurrence · Au, Ag",
+          relationship: "on-parcel",
+        }],
+      },
+      "mineral-tenure": { status: "ready", intersections: [] },
+      "abandoned-mines": { status: "ready", intersections: [] },
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.click(
+      screen.getByLabelText("Properties within 1 km of a mineral occurrence"),
+    );
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await screen.findByText("A01-001 · On parcel");
+    await user.click(screen.getByRole("button", { name: "Export evidence note" }));
+
+    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
+      shareUrl: expect.stringContaining("mineral-proximity-parcels"),
+      activeLayers: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Mineral occurrences — derived proximity input",
+          sourceUrl: "https://novascotia.ca/natr/meb/download/dp002.asp",
+          sourceDate: "June 2024 · version 12",
+        }),
+        expect.objectContaining({
+          name: "NSPRD parcel geometry — derived proximity input",
+          sourceUrl: NSPRD_LAYER_URL,
+          sourceDate: "Live service · checked July 20, 2026",
+        }),
+      ]),
+      resourceResults: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Mineral occurrences",
+          results: [
+            "A01-001 · Exact occurrence · On parcel · Occurrence · Au, Ag",
+          ],
+          emptyMessage:
+            "No published mineral occurrence was returned on or within 1 km of this parcel.",
+        }),
+      ]),
+    }));
+    anchorClick.mockRestore();
+  });
+
+  it("does not export mineral empty evidence while selected-parcel resources are pending", async () => {
+    const user = userEvent.setup();
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined);
+    const resources = deferred<Awaited<ReturnType<typeof fetchParcelResourceIntersections>>>();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelResourceIntersections).mockReturnValueOnce(resources.promise);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const exportButton = await screen.findByRole("button", {
+      name: "Export evidence note",
+    });
+    expect(exportButton).toBeDisabled();
+    await user.click(exportButton);
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+
+    await act(async () => {
+      resources.resolve({
+        "mineral-occurrences": {
+          status: "ready",
+          intersections: [{
+            id: "A01-002",
+            name: "Nearby occurrence",
+            detail: "Placer · Au",
+            relationship: "within-1km",
+          }],
+        },
+        "mineral-tenure": { status: "ready", intersections: [] },
+        "abandoned-mines": { status: "ready", intersections: [] },
+      });
+      await resources.promise;
+    });
+
+    await waitFor(() => expect(exportButton).toBeEnabled());
+    await user.click(exportButton);
+    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
+      resourceResults: expect.arrayContaining([
+        expect.objectContaining({
+          name: "Mineral occurrences",
+          results: ["A01-002 · Nearby occurrence · Within 1 km · Placer · Au"],
+        }),
+      ]),
+    }));
+    anchorClick.mockRestore();
   });
 
   it("lists every unique mapped civic address", async () => {

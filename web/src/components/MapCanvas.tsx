@@ -5,6 +5,7 @@ import {
   CircleMarker,
   GeoJSON,
   MapContainer,
+  Pane,
   TileLayer,
   useMap,
   useMapEvents,
@@ -13,6 +14,7 @@ import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   hydroPilotLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
+  allResourceLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   type HydroPilotLayerId,
@@ -51,6 +53,13 @@ import {
   OPAQUE_SELECTED_PARCEL_ZOOM,
   parcelStyleForFeature,
 } from "./parcelStyle";
+import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
+import {
+  ESTABLISHED_PARCEL_PANE,
+  ESTABLISHED_PARCEL_PANE_Z_INDEX,
+  MINERAL_PROXIMITY_PANE,
+  MINERAL_PROXIMITY_PANE_Z_INDEX,
+} from "./mapPanes";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -732,11 +741,17 @@ export function MapCanvas({
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       onLayerStatusChange?.(id, status);
-      if (resourceLayerCatalog.some((layer) => layer.id === id)) {
+      if (allResourceLayerCatalog.some((layer) => layer.id === id)) {
         onResourceLayerStatusChange?.(id as ResourceLayerId, status);
       }
     },
     [onLayerStatusChange, onResourceLayerStatusChange],
+  );
+  const reportMineralProximityStatus = useCallback(
+    (status: MapLayerStatus) => {
+      reportLayerStatus("mineral-proximity-parcels", status);
+    },
+    [reportLayerStatus],
   );
   const [map, setMap] = useState<LeafletMap | null>(null);
   const [mapZoom, setMapZoom] = useState(initialPosition.zoom);
@@ -863,19 +878,35 @@ export function MapCanvas({
               onStatusChange={reportLayerStatus}
             />
           ))}
-        <GeoJSON
-          key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
-          data={visibleParcels}
-          style={parcelStyle}
-          onEachFeature={(feature, layer) => {
-            const pid = (feature.properties as NsprdFeatureProperties).PID;
-            layer.on("click", (event) => {
-              L.DomEvent.stopPropagation(event.originalEvent);
-              onSelectPid(pid);
-            });
-            layer.bindTooltip(`PID ${pid}`, { sticky: true });
-          }}
-        />
+        <Pane
+          name={MINERAL_PROXIMITY_PANE}
+          style={{ zIndex: MINERAL_PROXIMITY_PANE_Z_INDEX }}
+        >
+          <MineralProximityParcelLayer
+            visible={resourceLayers["mineral-proximity-parcels"]}
+            onSelectPid={onSelectPid}
+            onStatusChange={reportMineralProximityStatus}
+          />
+        </Pane>
+        <Pane
+          name={ESTABLISHED_PARCEL_PANE}
+          style={{ zIndex: ESTABLISHED_PARCEL_PANE_Z_INDEX }}
+        >
+          <GeoJSON
+            key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
+            data={visibleParcels}
+            pane={ESTABLISHED_PARCEL_PANE}
+            style={parcelStyle}
+            onEachFeature={(feature, layer) => {
+              const pid = (feature.properties as NsprdFeatureProperties).PID;
+              layer.on("click", (event) => {
+                L.DomEvent.stopPropagation(event.originalEvent);
+                onSelectPid(pid);
+              });
+              layer.bindTooltip(`PID ${pid}`, { sticky: true });
+            }}
+           />
+         </Pane>
         {hydroPilotLayerCatalog.map((layer) => (
           <HydroPilotLayer
             key={layer.id}

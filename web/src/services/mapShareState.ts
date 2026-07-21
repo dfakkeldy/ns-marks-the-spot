@@ -1,9 +1,9 @@
 import { taxSaleEvents } from "../data/taxSaleCatalog";
 import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
 import {
+  allResourceLayerCatalog,
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
-  resourceLayerCatalog,
   type HydroPilotLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
@@ -51,7 +51,7 @@ const validEventIds = new Set([
 const validLayerIds = new Set<ShareLayerId>([
   "modern",
   ...provinceLayerCatalog.map(({ id }) => id),
-  ...resourceLayerCatalog.map(({ id }) => id),
+  ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
 ]);
 

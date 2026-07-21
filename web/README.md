@@ -88,9 +88,9 @@ remaining online-only:
 
 ## Geology and resources
 
-The collapsed **Geology & Resources** group is web-only, starts with every
-switch off, and uses Province open data independently of the restricted map
-services gate:
+The collapsed **Geology & Resources** group is web-only and starts with every
+switch off. Its three source-backed overlays use Province open data
+independently of the restricted map-services gate:
 
 - [Mineral Occurrences Database](https://novascotia.ca/natr/meb/download/dp002.asp)
   records known occurrences and past producers. A point is not proof of a
@@ -102,15 +102,28 @@ services gate:
   supplies the degree-of-hazard point inventory. Locations and field conditions
   can change, so it is screening context rather than a site-safety conclusion.
 
-Mineral tenure uses the Province's rendered MapServer output. The two point
-layers query only the current map envelope, cancel stale requests, and page
-ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record mine
-inventory waits until zoom 11. Each switch reports its own loading, visible
-count, zoom, or failure state, so one unavailable source does not disable the
-other map and parcel features. Every layer row also exposes its source date,
-native or useful scale, coverage, and supported map-zoom range. All three
-overlays were verified against their live sources on July 20, 2026 under the
-Nova Scotia Open Government Licence.
+The optional **Properties within 1 km of a mineral occurrence** row is an
+application-derived screening layer. At zoom 12 or closer it queries published
+Mineral Occurrences points around the settled viewport, then highlights NSPRD
+parcels whose mapped geometry falls within 1,000 metres. It requires Province
+restricted-services licence acceptance because the output uses NSPRD polygons.
+Selecting a highlighted parcel lists occurrence number, name, commodity,
+published status, and either **On parcel** or **Within 1 km**. Proximity does not
+prove mineralization, deposit extent, grade, recoverability, value, mineral
+rights, access, exploration permission, or completeness of the inventory.
+
+Those three source-backed overlays remain independent of the derived row and
+each other. Mineral tenure uses the Province's rendered MapServer output. The
+two point layers query only the current map envelope, cancel stale requests,
+and page ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record
+mine inventory waits until zoom 11. Each switch reports its own loading,
+visible count, zoom, or failure state, so one unavailable source does not
+disable the other map and parcel features. Every layer row also exposes its
+source date, native or useful scale, coverage, and supported map-zoom range.
+All three source-backed overlays were verified against their live sources on
+July 20, 2026 under the Nova Scotia Open Government Licence. The fourth row is
+the application-derived NSPRD parcel screening layer described above; it
+remains licence-gated and off by default.
 
 ## Inverness hydro terrain-potential pilot
 
@@ -190,13 +203,14 @@ orientation but do not prove legal access or frontage. An empty result is
 displayed as empty; a service failure is reported rather than inferred from the
 visible map.
 
-The same exact selected polygon is posted independently to the Province's
-Mineral Occurrences, NovaROC exploration-licence and mineral-lease, and
-Abandoned Mine Openings query layers using `esriSpatialRelIntersects`. The
-parcel sheet lists each returned intersection, displays an explicit empty result
-per source, and distinguishes source failure from an empty result. These are
-mapped-source screening results only: an empty result does not prove absence,
-and a returned record is not a legal, ownership, safety, or economic finding.
+The same selected polygon is checked independently against the Province's
+Mineral Occurrences inventory for exact and 1-kilometre relationships. NovaROC
+exploration-licence and mineral-lease records and Abandoned Mine Openings still
+use exact `esriSpatialRelIntersects` queries. The parcel sheet lists each
+returned result, displays an explicit empty result per source, and distinguishes
+source failure from an empty result. These are mapped-source screening results
+only: an empty result does not prove absence, and a returned record is not a
+legal, ownership, safety, or economic finding.
 
 The Province publishes a [Nova Scotia Well Logs Database](https://data.novascotia.ca/Mines-and-Minerals/Nova-Scotia-Well-Logs-Database/eqej-ag64),
 but the available map-ready release is dated and its location methods have
@@ -356,7 +370,8 @@ date rather than leaving that date only in source data.
 ## Current boundary
 
 This slice includes the modern OpenStreetMap basemap, seven web-cleared
-restricted Province layers, three default-off open geoscience/resource layers,
+restricted Province layers, three default-off open geoscience/resource source
+overlays, one default-off licence-gated derived mineral-proximity parcel row,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the two

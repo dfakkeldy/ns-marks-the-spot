@@ -38,6 +38,7 @@ import {
   PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
 import {
+  allResourceLayerCatalog,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialProvinceLayerVisibility,
@@ -48,7 +49,7 @@ import {
   type HydroPilotLayerDescriptor,
   type HydroPilotLayerId,
   type ProvinceLayerId,
-  type ResourceLayerDescriptor,
+  type ResourceControlDescriptor,
   type ResourceLayerId,
   type WebLayerDescriptor,
 } from "./layers/layerCatalog";
@@ -65,6 +66,7 @@ import {
   fetchParcelAtPoint,
   fetchParcels,
   normalizePid,
+  NSPRD_LAYER_URL,
   type NsprdFeatureCollection,
 } from "./services/nsprd";
 import {
@@ -125,7 +127,7 @@ const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
 const allMapLayerIds: MapLayerId[] = [
   "modern",
   ...provinceLayerCatalog.map(({ id }) => id),
-  ...resourceLayerCatalog.map(({ id }) => id),
+  ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
 ];
 
@@ -411,6 +413,7 @@ function ParcelInspector({
   shareMessage,
   onCopyShareUrl,
   onExportEvidence,
+  evidenceReady,
   now,
   onClose,
 }: {
@@ -426,6 +429,7 @@ function ParcelInspector({
   shareMessage: string | null;
   onCopyShareUrl: () => void;
   onExportEvidence: () => void;
+  evidenceReady: boolean;
   now: number;
   onClose: () => void;
 }) {
@@ -576,7 +580,15 @@ function ParcelInspector({
         <button className="secondary-action" type="button" onClick={onCopyShareUrl}>
           Copy share link
         </button>
-        <button className="secondary-action" type="button" onClick={onExportEvidence}>
+        <button
+          className="secondary-action"
+          type="button"
+          disabled={!evidenceReady}
+          title={
+            evidenceReady ? undefined : "Waiting for geology and resource evidence"
+          }
+          onClick={onExportEvidence}
+        >
           Export evidence note
         </button>
       </div>
@@ -773,8 +785,8 @@ function MappedContextDetails({
 function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
   if (state.status === "idle" || state.status === "loading") {
     return (
-      <section className="parcel-resources" aria-label="Geology and resource intersections">
-        <h3>Geology &amp; resource intersections</h3>
+      <section className="parcel-resources" aria-label="Geology & resource context">
+        <h3>Geology &amp; resource context</h3>
         <p className="mapped-context-status" role="status">
           Checking official mapped resource sources against this parcel…
         </p>
@@ -783,8 +795,8 @@ function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
   }
 
   return (
-    <section className="parcel-resources" aria-label="Geology and resource intersections">
-      <h3>Geology &amp; resource intersections</h3>
+    <section className="parcel-resources" aria-label="Geology & resource context">
+      <h3>Geology &amp; resource context</h3>
       {resourceLayerCatalog.map((layer) => {
         const result = state.value[layer.id];
         return (
@@ -795,12 +807,21 @@ function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
                 Source unavailable; no absence is inferred.
               </p>
             ) : result.intersections.length === 0 ? (
-              <p>No mapped intersection was returned for this parcel.</p>
+              <p>
+                {layer.id === "mineral-occurrences"
+                  ? "No published mineral occurrence was returned on or within 1 km of this parcel."
+                  : "No mapped intersection was returned for this parcel."}
+              </p>
             ) : (
               <ul>
-                {result.intersections.map(({ id, name, detail }) => (
+                {result.intersections.map(({ id, name, detail, relationship }) => (
                   <li key={`${layer.id}:${id}`}>
                     <strong>{name}</strong>
+                    {layer.id === "mineral-occurrences" ? (
+                      <span>
+                        {id} · {relationship === "on-parcel" ? "On parcel" : "Within 1 km"}
+                      </span>
+                    ) : null}
                     {detail ? <span>{detail}</span> : null}
                   </li>
                 ))}
@@ -813,9 +834,10 @@ function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
         );
       })}
       <p className="resource-intersection-caveat">
-        Exact mapped-source intersection screening only. Empty results do not
-        prove absence, and results are not legal, safety, ownership, or economic
-        conclusions.
+        On-parcel and nearby published records are screening context only. This
+        context does not prove mineralization, deposit extent, grade,
+        recoverability, value, mineral rights, access, permission to explore, or
+        source completeness.
       </p>
     </section>
   );
@@ -997,39 +1019,72 @@ function LayerToggle({
 function ResourceLayerToggle({
   layer,
   checked,
+  licenceAccepted,
   status,
   onChange,
+  onReviewLicence,
 }: {
-  layer: ResourceLayerDescriptor;
+  layer: ResourceControlDescriptor;
   checked: boolean;
+  licenceAccepted: boolean;
   status: MapLayerStatus;
   onChange: (checked: boolean) => void;
+  onReviewLicence: () => void;
 }) {
+  const requiresProvinceLicence =
+    "requiresProvinceLicence" in layer && layer.requiresProvinceLicence;
+  const enabled = !requiresProvinceLicence || licenceAccepted;
+
   return (
-    <label className="layer-row resource-layer-row">
-      <input
-        type="checkbox"
-        aria-label={layer.name}
-        checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <span className="switch" aria-hidden="true" />
-      <span>
-        <strong>{layer.name}</strong>
-        <small>
-          {layer.webCaveat}
-        </small>
-        <LayerMetadata
-          sourceDate={layer.sourceDate}
-          scale={layer.scale}
-          coverage={layer.coverage}
-          minZoom={layer.minZoom}
-          maxZoom={layer.maxZoom}
-          checked={checked}
-          status={status}
+    <>
+      <label className="layer-row resource-layer-row">
+        <input
+          type="checkbox"
+          aria-label={layer.name}
+          checked={enabled && checked}
+          disabled={!enabled}
+          onChange={(event) => onChange(event.target.checked)}
         />
-      </span>
-    </label>
+        <span className="switch" aria-hidden="true" />
+        <span>
+          <strong>{layer.name}</strong>
+          <small>
+            {enabled
+              ? layer.webCaveat
+              : "Province licence required for derived parcel geometry"}
+          </small>
+          <LayerMetadata
+            sourceDate={layer.sourceDate}
+            scale={layer.scale}
+            coverage={layer.coverage}
+            minZoom={layer.minZoom}
+            maxZoom={layer.maxZoom}
+            checked={enabled && checked}
+            status={status}
+          />
+        </span>
+        {!enabled ? (
+          <button
+            aria-label={`Review Province licence for ${layer.name}`}
+            className="text-button"
+            type="button"
+            onClick={onReviewLicence}
+          >
+            Review
+          </button>
+        ) : null}
+      </label>
+      {layer.id === "mineral-proximity-parcels" ? (
+        <a
+          className="derived-resource-source"
+          href={layer.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Mineral Occurrences source
+        </a>
+      ) : null}
+    </>
   );
 }
 
@@ -1159,7 +1214,7 @@ export function App() {
   const [resourceLayers, setResourceLayers] = useState(
     () => hasSharedLayers
       ? Object.fromEntries(
-          resourceLayerCatalog.map(({ id }) => [
+          allResourceLayerCatalog.map(({ id }) => [
             id,
             initialShareState.layerIds.includes(id),
           ]),
@@ -1175,6 +1230,14 @@ export function App() {
           ]),
         ) as Record<HydroPilotLayerId, boolean>
       : initialHydroPilotLayerVisibility,
+  );
+  const effectiveResourceLayers = useMemo<Record<ResourceLayerId, boolean>>(
+    () => ({
+      ...resourceLayers,
+      "mineral-proximity-parcels":
+        licenceAccepted && resourceLayers["mineral-proximity-parcels"],
+    }),
+    [licenceAccepted, resourceLayers],
   );
   const [layerStatuses, setLayerStatuses] = useState(initialLayerStatuses);
   const [selectedEventIds, setSelectedEventIds] = useState(
@@ -1721,7 +1784,7 @@ export function App() {
     ...provinceLayerCatalog
       .filter(({ id }) => provinceLayers[id])
       .map(({ id }) => id),
-    ...resourceLayerCatalog
+    ...allResourceLayerCatalog
       .filter(({ id }) => resourceLayers[id])
       .map(({ id }) => id),
     ...hydroPilotLayerCatalog
@@ -1766,7 +1829,7 @@ export function App() {
   };
 
   const exportEvidence = () => {
-    if (!selectedPid) {
+    if (!selectedPid || resourceIntersections.status !== "ready") {
       return;
     }
     const activeLayers = [
@@ -1798,6 +1861,24 @@ export function App() {
           sourceUrl,
           sourceDate,
         })),
+      ...(effectiveResourceLayers["mineral-proximity-parcels"]
+        ? [
+            ...resourceLayerCatalog
+              .filter(({ id }) => id === "mineral-occurrences")
+              .map(({ sourceUrl, sourceDate }) => ({
+                name: "Mineral occurrences — derived proximity input",
+                sourceUrl,
+                sourceDate,
+              })),
+            ...provinceLayerCatalog
+              .filter(({ id }) => id === "nsprd")
+              .map(({ sourceDate }) => ({
+                name: "NSPRD parcel geometry — derived proximity input",
+                sourceUrl: NSPRD_LAYER_URL,
+                sourceDate,
+              })),
+          ]
+        : []),
     ];
     const note = buildEvidenceNote({
       generatedAt: new Date(),
@@ -1833,9 +1914,19 @@ export function App() {
           name: layer.name,
           sourceUrl: layer.sourceUrl,
           status: result.status,
-          results: result.intersections.map(({ name, detail }) =>
-            [name, detail].filter(Boolean).join(" · "),
+          results: result.intersections.map(({ id, name, detail, relationship }) =>
+            layer.id === "mineral-occurrences"
+              ? [
+                  id,
+                  name,
+                  relationship === "on-parcel" ? "On parcel" : "Within 1 km",
+                  detail,
+                ].filter(Boolean).join(" · ")
+              : [name, detail].filter(Boolean).join(" · "),
           ),
+          emptyMessage: layer.id === "mineral-occurrences"
+            ? "No published mineral occurrence was returned on or within 1 km of this parcel."
+            : undefined,
         };
       }),
     });
@@ -2066,38 +2157,37 @@ export function App() {
             <details className="resource-layer-group">
               <summary>
                 <span>Geology &amp; Resources</span>
-                <small>3 optional open-data layers</small>
+                <small>4 optional screening layers</small>
               </summary>
               <div className="resource-layer-controls">
-                {resourceLayerCatalog.map((layer) => (
+                {allResourceLayerCatalog.map((layer) => (
                   <ResourceLayerToggle
                     key={layer.id}
                     layer={layer}
                     checked={resourceLayers[layer.id]}
+                    licenceAccepted={licenceAccepted}
                     status={layerStatuses[layer.id]}
                     onChange={(checked) =>
                       setResourceLayerVisibility(layer.id, checked)
                     }
+                    onReviewLicence={() => setLicenceDialogOpen(true)}
                   />
                 ))}
                 <p className="resource-source-note">
-                  Province of Nova Scotia geoscience records under the {" "}
+                  Three Province geoscience overlays use {" "}
                   <a
-                    href={OPEN_GOVERNMENT_LICENCE_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open Government Licence
-                  </a>
-                  . Records are screening context, not legal, safety, ownership,
-                  or economic conclusions. {" "}
-                  <a
+                    aria-label="Open data sources"
                     href="https://novascotia.ca/natr/meb/"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Open data sources
+                    open data
                   </a>
+                  . The derived 1 km parcel layer combines the open Mineral
+                  Occurrences inventory with restricted NSPRD geometry and
+                  therefore requires Province licence acceptance. All results are
+                  screening context, not mineral, legal, ownership, access,
+                  safety, or economic conclusions.
                 </p>
               </div>
             </details>
@@ -2353,7 +2443,7 @@ export function App() {
             historicalTaxSalePids={filteredHistoricalPids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
-            resourceLayers={resourceLayers}
+            resourceLayers={effectiveResourceLayers}
             hydroPilotLayers={hydroPilotLayers}
             showModernMap={showModernMap}
             showTaxSale={
@@ -2392,6 +2482,7 @@ export function App() {
               shareMessage={shareMessage}
               onCopyShareUrl={copyShareUrl}
               onExportEvidence={exportEvidence}
+              evidenceReady={resourceIntersections.status === "ready"}
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);
