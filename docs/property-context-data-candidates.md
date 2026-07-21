@@ -147,8 +147,13 @@ municipal zoning or development-permission answer.
 
 The July 19, 2026 web slice established the collapsed **Geology & Resources**
 group and its independent viewport-query path with mineral occurrences,
-NovaROC mineral tenure, and abandoned mine openings. These remain map-screening
-overlays; they do not yet add selected-parcel conclusions or distance summaries.
+NovaROC mineral tenure, and abandoned mine openings.
+
+The web source now includes a separate, licence-gated derived parcel layer for
+properties within 1 kilometre of any published mineral occurrence, plus
+exact-versus-nearby selected-parcel wording. Source implementation and local or
+hosted verification do not by themselves establish merge, KinNoKi deployment,
+production behaviour, or physical-device acceptance.
 The next property-context slice is:
 
 1. Add Karst Risk and Known Karst Occurrences to the collapsed group, both off by default.

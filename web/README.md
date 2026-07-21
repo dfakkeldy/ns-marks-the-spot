@@ -102,6 +102,16 @@ services gate:
   supplies the degree-of-hazard point inventory. Locations and field conditions
   can change, so it is screening context rather than a site-safety conclusion.
 
+The optional **Properties within 1 km of a mineral occurrence** row is an
+application-derived screening layer. At zoom 12 or closer it queries published
+Mineral Occurrences points around the settled viewport, then highlights NSPRD
+parcels whose mapped geometry falls within 1,000 metres. It requires Province
+restricted-services licence acceptance because the output uses NSPRD polygons.
+Selecting a highlighted parcel lists occurrence number, name, commodity,
+published status, and either **On parcel** or **Within 1 km**. Proximity does not
+prove mineralization, deposit extent, grade, recoverability, value, mineral
+rights, access, exploration permission, or completeness of the inventory.
+
 Mineral tenure uses the Province's rendered MapServer output. The two point
 layers query only the current map envelope, cancel stale requests, and page
 ArcGIS results. Mineral occurrences begin at zoom 8; the 8,443-record mine
@@ -190,13 +200,14 @@ orientation but do not prove legal access or frontage. An empty result is
 displayed as empty; a service failure is reported rather than inferred from the
 visible map.
 
-The same exact selected polygon is posted independently to the Province's
-Mineral Occurrences, NovaROC exploration-licence and mineral-lease, and
-Abandoned Mine Openings query layers using `esriSpatialRelIntersects`. The
-parcel sheet lists each returned intersection, displays an explicit empty result
-per source, and distinguishes source failure from an empty result. These are
-mapped-source screening results only: an empty result does not prove absence,
-and a returned record is not a legal, ownership, safety, or economic finding.
+The same selected polygon is checked independently against the Province's
+Mineral Occurrences inventory for exact and 1-kilometre relationships. NovaROC
+exploration-licence and mineral-lease records and Abandoned Mine Openings still
+use exact `esriSpatialRelIntersects` queries. The parcel sheet lists each
+returned result, displays an explicit empty result per source, and distinguishes
+source failure from an empty result. These are mapped-source screening results
+only: an empty result does not prove absence, and a returned record is not a
+legal, ownership, safety, or economic finding.
 
 The Province publishes a [Nova Scotia Well Logs Database](https://data.novascotia.ca/Mines-and-Minerals/Nova-Scotia-Well-Logs-Database/eqej-ag64),
 but the available map-ready release is dated and its location methods have
