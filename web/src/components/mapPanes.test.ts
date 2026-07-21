@@ -5,6 +5,7 @@ import {
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
+  PROVINCE_LAYER_Z_INDEXES,
 } from "./mapPanes";
 
 describe("parcel pane ordering", () => {
@@ -52,6 +53,15 @@ describe("parcel pane ordering", () => {
     expect(selectedParcel.getElement()?.parentElement).toBe(establishedPane);
     expect(Number(proximityPane.style.zIndex)).toBeLessThan(
       Number(establishedPane.style.zIndex),
+    );
+  });
+
+  it("keeps property boundaries below water and road context", () => {
+    expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeLessThan(
+      PROVINCE_LAYER_Z_INDEXES["water-features"],
+    );
+    expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeLessThan(
+      PROVINCE_LAYER_Z_INDEXES.roads,
     );
   });
 });
