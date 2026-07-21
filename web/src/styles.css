@@ -514,7 +514,7 @@ a {
 
 .resource-layer-group summary small {
   grid-column: 1;
-  color: var(--lichen);
+  color: var(--muted);
   font-size: 0.7rem;
   font-weight: 500;
 }
@@ -529,6 +529,10 @@ a {
 
 .resource-layer-row input:checked + .switch {
   background: #7a4f2b;
+}
+
+.resource-layer-row > span:last-of-type > small {
+  color: var(--muted);
 }
 
 .resource-source-note {

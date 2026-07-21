@@ -1053,7 +1053,12 @@ function ResourceLayerToggle({
         />
       </span>
       {!enabled ? (
-        <button className="text-button" type="button" onClick={onReviewLicence}>
+        <button
+          aria-label={`Review Province licence for ${layer.name}`}
+          className="text-button"
+          type="button"
+          onClick={onReviewLicence}
+        >
           Review
         </button>
       ) : null}

@@ -537,7 +537,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     await user.click(
       within(proximityToggle.closest("label") as HTMLElement).getByRole("button", {
-        name: "Review",
+        name: "Review Province licence for Properties within 1 km of a mineral occurrence",
       }),
     );
     expect(
@@ -598,7 +598,8 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("preserves a requested shared derived layer while failing closed without acceptance", async () => {
+  it("preserves a requested shared derived layer through review and activates it only after acceptance", async () => {
+    const user = userEvent.setup();
     window.history.replaceState(
       null,
       "",
@@ -617,6 +618,21 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(new URL(window.location.href).searchParams.get("layers")).toContain(
       "mineral-proximity-parcels",
+    );
+
+    await user.click(
+      within(proximityToggle.closest("label") as HTMLElement).getByRole("button", {
+        name: "Review Province licence for Properties within 1 km of a mineral occurrence",
+      }),
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Accept and view map layers" }),
+    );
+
+    expect(proximityToggle).toBeEnabled();
+    expect(proximityToggle).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "mineral proximity parcels: on",
     );
   });
 
@@ -1274,10 +1290,12 @@ describe("NS Marks The Spot Online", () => {
       shareUrl: expect.stringContaining("mineral-proximity-parcels"),
       activeLayers: expect.arrayContaining([
         expect.objectContaining({
+          name: "Mineral occurrences — derived proximity input",
           sourceUrl: "https://novascotia.ca/natr/meb/download/dp002.asp",
           sourceDate: "June 2024 · version 12",
         }),
         expect.objectContaining({
+          name: "NSPRD parcel geometry — derived proximity input",
           sourceUrl: NSPRD_LAYER_URL,
           sourceDate: "Live service · checked July 20, 2026",
         }),
