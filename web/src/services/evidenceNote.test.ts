@@ -15,6 +15,29 @@ describe("parcel evidence note", () => {
         sources: [{ label: "Official notice", sourceUrl: "https://example.com/notice" }],
       }],
       civicAddresses: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }],
+      assessmentEvidence: {
+        status: "ready",
+        result: {
+          matchMethod: "notice-aan",
+          accounts: [{
+            aan: "00603988",
+            records: [
+              {
+                taxYear: 2026,
+                assessedValue: 41_000,
+                taxableAssessedValue: 39_500,
+                coordinates: [-61.391318, 46.071925],
+              },
+              {
+                taxYear: 2025,
+                assessedValue: 40_000,
+                taxableAssessedValue: 40_000,
+                coordinates: [-61.391318, 46.071925],
+              },
+            ],
+          }],
+        },
+      },
       resourceResults: [{
         name: "Mineral occurrences",
         sourceUrl: "https://example.com/minerals",
@@ -36,6 +59,13 @@ describe("parcel evidence note", () => {
     expect(note.markdown).toContain("proximity to a published record");
     expect(note.markdown).toContain("A returned-empty result does not prove absence.");
     expect(note.markdown).toContain("does not prove mineralization");
+    expect(note.markdown).toContain("## PVSC assessment accounts");
+    expect(note.markdown).toContain("AAN 00603988");
+    expect(note.markdown).toContain("2026: assessed $41,000.00; taxable assessed $39,500.00");
+    expect(note.markdown).toContain("2025: assessed $40,000.00; taxable assessed $40,000.00");
+    expect(note.markdown).toContain("matched directly from the municipal notice AAN");
+    expect(note.markdown).toContain("not a current market appraisal or sale price");
+    expect(note.markdown).toContain("Open Data & Information Government Licence");
   });
 
   it("exports source-specific bounded empty wording", () => {
@@ -48,6 +78,10 @@ describe("parcel evidence note", () => {
       activeLayers: [],
       events: [],
       civicAddresses: [],
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
       resourceResults: [{
         name: "Mineral occurrences",
         sourceUrl: "https://example.com/minerals",
@@ -60,5 +94,60 @@ describe("parcel evidence note", () => {
     expect(note.markdown).toContain(
       "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
     );
+    expect(note.markdown).toContain(
+      "No PVSC assessment account point was returned inside the mapped parcel geometry.",
+    );
+  });
+
+  it("keeps multiple spatially matched assessment accounts separate", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      mode: "historical",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: [],
+      assessmentEvidence: {
+        status: "ready",
+        result: {
+          matchMethod: "spatial",
+          accounts: [
+            {
+              aan: "00000001",
+              records: [{ taxYear: 2026, assessedValue: 100_000, taxableAssessedValue: 90_000, coordinates: [-61, 46] }],
+            },
+            {
+              aan: "00000002",
+              records: [{ taxYear: 2026, assessedValue: 200_000, taxableAssessedValue: 180_000, coordinates: [-61, 46] }],
+            },
+          ],
+        },
+      },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("AAN 00000001");
+    expect(note.markdown).toContain("AAN 00000002");
+    expect(note.markdown).toContain("kept separate and are not summed");
+    expect(note.markdown).not.toContain("$300,000");
+  });
+
+  it("records a PVSC source failure explicitly", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: [],
+      assessmentEvidence: { status: "error" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("PVSC assessment source unavailable at export time.");
   });
 });

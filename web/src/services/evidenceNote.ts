@@ -1,4 +1,11 @@
 import type { MapMode, MapPosition } from "./mapShareState";
+import {
+  PVSC_ASSESSMENT_DATASET_URL,
+  PVSC_ASSESSMENT_SOURCE_DATE,
+  PVSC_OPEN_DATA_ATTRIBUTION,
+  PVSC_OPEN_DATA_LICENCE_URL,
+  type ParcelAssessmentResult,
+} from "./pvscAssessments";
 
 type EvidenceSource = {
   name: string;
@@ -19,6 +26,10 @@ type EvidenceEvent = {
   sources: Array<{ label: string; sourceUrl: string }>;
 };
 
+type AssessmentEvidence =
+  | { status: "ready"; result: ParcelAssessmentResult }
+  | { status: "error" };
+
 export type EvidenceNoteInput = {
   generatedAt: Date;
   pid: string;
@@ -28,6 +39,7 @@ export type EvidenceNoteInput = {
   activeLayers: EvidenceSource[];
   events: EvidenceEvent[];
   civicAddresses: Array<{ label: string; sourceUrl: string }>;
+  assessmentEvidence: AssessmentEvidence;
   resourceResults: EvidenceResult[];
 };
 
@@ -50,6 +62,44 @@ function resultLines(result: EvidenceResult): string[] {
   return result.results.map((item) => `- ${result.name}: ${item}`);
 }
 
+const currency = new Intl.NumberFormat("en-CA", {
+  style: "currency",
+  currency: "CAD",
+});
+
+function assessmentLines(evidence: AssessmentEvidence): string[] {
+  if (evidence.status === "error") {
+    return ["PVSC assessment source unavailable at export time."];
+  }
+
+  const { accounts, matchMethod } = evidence.result;
+  if (accounts.length === 0) {
+    return [
+      matchMethod === "notice-aan"
+        ? "No PVSC assessment history was returned for the municipal notice AAN."
+        : "No PVSC assessment account point was returned inside the mapped parcel geometry.",
+    ];
+  }
+
+  const methodNote = matchMethod === "notice-aan"
+    ? "This account was matched directly from the municipal notice AAN."
+    : "These accounts were spatially matched using their published point coordinates and the mapped parcel geometry.";
+  const multipleNote = accounts.length > 1
+    ? ["", "Multiple assessment accounts were returned. They are kept separate and are not summed."]
+    : [];
+  const accountLines = accounts.flatMap(({ aan, records }) => [
+    "",
+    `### AAN ${aan}`,
+    "",
+    ...records.map(
+      ({ taxYear, assessedValue, taxableAssessedValue }) =>
+        `- ${taxYear}: assessed ${currency.format(assessedValue)}; taxable assessed ${currency.format(taxableAssessedValue)}`,
+    ),
+  ]);
+
+  return [methodNote, ...multipleNote, ...accountLines];
+}
+
 export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
   const generated = input.generatedAt.toISOString();
   const layers = input.activeLayers.length > 0
@@ -64,6 +114,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
       )
     : ["- No mapped civic address point returned inside the parcel."];
   const resources = input.resourceResults.flatMap(resultLines);
+  const assessments = assessmentLines(input.assessmentEvidence);
   const events = input.events.length > 0
     ? input.events.flatMap(({ name, sources }) => [
         `### ${name}`,
@@ -96,6 +147,16 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     ...civic,
     "",
     "Mapped physical-address points are not proof of ownership, access, occupancy, mailing address, or legal parcel status.",
+    "",
+    "## PVSC assessment accounts",
+    "",
+    ...assessments,
+    "",
+    `[PVSC assessed-value history open-data source](${PVSC_ASSESSMENT_DATASET_URL}) — ${PVSC_ASSESSMENT_SOURCE_DATE}`,
+    `[Open Data & Information Government Licence](${PVSC_OPEN_DATA_LICENCE_URL})`,
+    PVSC_OPEN_DATA_ATTRIBUTION,
+    "",
+    "Assessment values are dated public assessment records, not a current market appraisal or sale price. A point-in-parcel match is screening evidence and does not establish title, ownership, legal parcel-account linkage, or that every account associated with the parcel was returned.",
     "",
     "## Geology and resource context",
     "",

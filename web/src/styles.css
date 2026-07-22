@@ -1243,6 +1243,107 @@ a {
   border-radius: 6px;
 }
 
+.assessment-evidence {
+  margin: 16px 0;
+  padding: 14px;
+  background: #f5f9f5;
+  border: 1px solid rgba(46, 112, 76, 0.3);
+  border-radius: 6px;
+}
+
+.assessment-evidence > h3 {
+  margin: 0 0 8px;
+  color: #245d3d;
+  font-size: 0.9rem;
+}
+
+.assessment-status,
+.assessment-match,
+.assessment-warning,
+.assessment-caveat,
+.assessment-source {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.assessment-status.error,
+.assessment-warning {
+  color: #8c2f27;
+}
+
+.assessment-warning {
+  margin-top: 7px;
+  font-weight: 700;
+}
+
+.assessment-accounts {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.assessment-account {
+  padding-top: 9px;
+  border-top: 1px solid rgba(46, 112, 76, 0.2);
+}
+
+.assessment-account h4 {
+  margin: 0 0 5px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+}
+
+.assessment-account dl {
+  margin: 0;
+}
+
+.assessment-account dl div,
+.assessment-account li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+}
+
+.assessment-account dd {
+  margin: 0;
+  text-align: right;
+}
+
+.assessment-account details {
+  margin-top: 7px;
+}
+
+.assessment-account summary {
+  min-height: 32px;
+  color: #245d3d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.assessment-account ul {
+  display: grid;
+  gap: 2px;
+  margin: 3px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assessment-account li span {
+  color: var(--muted);
+  text-align: right;
+}
+
+.assessment-caveat,
+.assessment-source {
+  margin-top: 9px;
+}
+
 .civic-addresses h3 {
   margin: 0 0 8px;
   font-size: 0.88rem;

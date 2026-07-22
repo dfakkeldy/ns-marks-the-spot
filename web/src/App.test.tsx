@@ -15,6 +15,7 @@ import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
 import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
+import { fetchParcelAssessments } from "./services/pvscAssessments";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -133,6 +134,17 @@ vi.mock("./services/buildings", async (importOriginal) => {
   };
 });
 
+vi.mock("./services/pvscAssessments", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/pvscAssessments")>();
+  return {
+    ...original,
+    fetchParcelAssessments: vi.fn().mockResolvedValue({
+      matchMethod: "spatial",
+      accounts: [],
+    }),
+  };
+});
+
 vi.mock("./services/evidenceNote", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/evidenceNote")>();
   return {
@@ -220,6 +232,10 @@ describe("NS Marks The Spot Online", () => {
       count: 0,
       pointCount: 0,
       polygonCount: 0,
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValue({
+      matchMethod: "spatial",
+      accounts: [],
     });
     vi.mocked(buildEvidenceNote).mockClear();
     Object.defineProperty(URL, "createObjectURL", {
@@ -1081,6 +1097,95 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByText("$15,529.15")).toBeInTheDocument();
   });
 
+  it("shows notice-AAN assessment values and five-year history without calling them a PID value", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50203256")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "notice-aan",
+      accounts: [{
+        aan: "00603988",
+        records: [
+          { taxYear: 2026, assessedValue: 41_000, taxableAssessedValue: 39_500, coordinates: [-61.391318, 46.071925] },
+          { taxYear: 2025, assessedValue: 40_000, taxableAssessedValue: 40_000, coordinates: [-61.391318, 46.071925] },
+        ],
+      }],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const assessment = await screen.findByRole("region", {
+      name: "PVSC assessment account",
+    });
+    expect(fetchParcelAssessments).toHaveBeenCalledWith(
+      expect.arrayContaining([expect.objectContaining({ properties: expect.objectContaining({ PID: "50203256" }) })]),
+      "00603988",
+      expect.any(AbortSignal),
+    );
+    expect(within(assessment).getByText("$41,000.00")).toBeInTheDocument();
+    expect(within(assessment).getByText("$39,500.00")).toBeInTheDocument();
+    expect(within(assessment).getByText("Matched by official notice AAN.")).toBeInTheDocument();
+    expect(within(assessment).getByText(/2026 assessment reflects market value as of January 1, 2025/)).toBeInTheDocument();
+    expect(within(assessment).getByText(/not today’s sale price or an appraisal/i)).toBeInTheDocument();
+    expect(within(assessment).queryByText(/PID value/i)).not.toBeInTheDocument();
+    await user.click(within(assessment).getByText("Assessment history"));
+    expect(within(assessment).getByText("2025")).toBeInTheDocument();
+  });
+
+  it("keeps multiple spatially matched assessment accounts separate", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "spatial",
+      accounts: [
+        { aan: "00000001", records: [{ taxYear: 2026, assessedValue: 100_000, taxableAssessedValue: 90_000, coordinates: [-61.15, 46.35] }] },
+        { aan: "00000002", records: [{ taxYear: 2026, assessedValue: 200_000, taxableAssessedValue: 180_000, coordinates: [-61.16, 46.36] }] },
+      ],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const assessment = await screen.findByRole("region", {
+      name: "PVSC assessment accounts",
+    });
+    expect(within(assessment).getByText(/2 PVSC account points were mapped inside this parcel/)).toBeInTheDocument();
+    expect(within(assessment).getByText(/shown separately and are not summed/)).toBeInTheDocument();
+    expect(within(assessment).getByText("$100,000.00")).toBeInTheDocument();
+    expect(within(assessment).getByText("$200,000.00")).toBeInTheDocument();
+    expect(within(assessment).queryByText("$300,000.00")).not.toBeInTheDocument();
+  });
+
+  it("reports PVSC source failure without hiding the parcel", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelAssessments).mockRejectedValueOnce(new Error("offline"));
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(await screen.findByText("27.44 acres")).toBeInTheDocument();
+    expect(screen.getByText("PVSC open assessment data is unavailable. No absence is inferred.")).toBeInTheDocument();
+  });
+
   it("browses tax-sale properties and selects one parcel at a time", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -1465,6 +1570,10 @@ describe("NS Marks The Spot Online", () => {
             "No published mineral occurrence was returned on or within 1 km of this parcel.",
         }),
       ]),
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
     }));
     anchorClick.mockRestore();
   });
@@ -1520,6 +1629,57 @@ describe("NS Marks The Spot Online", () => {
           results: ["A01-002 · Nearby occurrence · Within 1 km · Placer · Au"],
         }),
       ]),
+    }));
+    anchorClick.mockRestore();
+  });
+
+  it("waits for assessment evidence before exporting the selected parcel", async () => {
+    const user = userEvent.setup();
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined);
+    const assessments = deferred<Awaited<ReturnType<typeof fetchParcelAssessments>>>();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelAssessments).mockReturnValueOnce(assessments.promise);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const exportButton = await screen.findByRole("button", {
+      name: "Export evidence note",
+    });
+    expect(exportButton).toBeDisabled();
+    expect(exportButton).toHaveAttribute("title", "Waiting for selected-parcel evidence");
+
+    await act(async () => {
+      assessments.resolve({
+        matchMethod: "spatial",
+        accounts: [{
+          aan: "00603988",
+          records: [{
+            taxYear: 2026,
+            assessedValue: 41_000,
+            taxableAssessedValue: 39_500,
+            coordinates: [-61.391318, 46.071925],
+          }],
+        }],
+      });
+      await assessments.promise;
+    });
+
+    await waitFor(() => expect(exportButton).toBeEnabled());
+    await user.click(exportButton);
+    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
+      assessmentEvidence: expect.objectContaining({
+        status: "ready",
+        result: expect.objectContaining({ matchMethod: "spatial" }),
+      }),
     }));
     anchorClick.mockRestore();
   });
