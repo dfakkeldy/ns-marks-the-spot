@@ -11,6 +11,7 @@ import {
   MapCanvas,
   type MapLayerId,
   type MapLayerStatus,
+  type ParcelFocusRequest,
 } from "./components/MapCanvas";
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
@@ -1516,6 +1517,8 @@ export function App() {
   const [selectedPid, setSelectedPid] = useState<string | null>(
     initialShareState.pid,
   );
+  const [parcelFocusRequest, setParcelFocusRequest] =
+    useState<ParcelFocusRequest | null>(null);
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
     null,
   );
@@ -2201,6 +2204,10 @@ export function App() {
     setSearchError(null);
     setQuery(pid);
     selectParcel(pid);
+    setParcelFocusRequest((current) => ({
+      pid,
+      requestId: (current?.requestId ?? 0) + 1,
+    }));
 
     if (parcels.features.some(({ properties }) => properties.PID === pid)) {
       setParcelLookupMessage(`PID ${pid} selected.`);
@@ -2992,6 +2999,7 @@ export function App() {
             onIdentifyParcel={(latitude, longitude) => {
               void identifyParcelAtPoint(latitude, longitude);
             }}
+            focusRequest={parcelFocusRequest}
             initialPosition={initialShareState.position}
             onPositionChange={setMapPosition}
             onLayerStatusChange={setLayerStatus}

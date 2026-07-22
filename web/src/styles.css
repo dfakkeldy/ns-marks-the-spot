@@ -1065,6 +1065,24 @@ a {
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
+.selected-parcel-outline {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1));
+}
+
+.selected-parcel-outline--current {
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 6px rgba(190, 77, 60, 0.95));
+}
+
+.selected-parcel-outline--historical {
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 6px rgba(116, 97, 168, 0.95));
+}
+
 .leaflet-control-zoom a {
   color: var(--chart-ink);
 }

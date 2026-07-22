@@ -29,6 +29,7 @@ vi.mock("./components/MapCanvas", () => ({
     showHistoricalTaxSales,
     initialPosition,
     onIdentifyParcel,
+    focusRequest,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -40,6 +41,7 @@ vi.mock("./components/MapCanvas", () => ({
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
     onIdentifyParcel: (latitude: number, longitude: number) => void;
+    focusRequest?: { pid: string; requestId: number } | null;
   }) => (
     <div data-testid="map-canvas">
       Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
@@ -56,6 +58,7 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
       ; Inverness micro-hydro screen: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
       ; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}
+      ; focus request: {focusRequest?.pid ?? "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -837,6 +840,9 @@ describe("NS Marks The Spot Online", () => {
     const inspector = await screen.findByRole("complementary", {
       name: "Parcel 50251750 details",
     });
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "focus request: none",
+    );
     expect(
       await within(inspector).findByText(
         "11064 Highway 19, Southwest Mabou, Inverness County",
@@ -1258,6 +1264,9 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Search by PID or civic address")).toHaveValue(
       "50203256",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "focus request: 50203256",
     );
   });
 

@@ -52,10 +52,7 @@ import {
   DEFAULT_MAP_POSITION,
   type MapPosition,
 } from "../services/mapShareState";
-import {
-  OPAQUE_SELECTED_PARCEL_ZOOM,
-  parcelStyleForFeature,
-} from "./parcelStyle";
+import { parcelStyleForFeature } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import {
   ESTABLISHED_PARCEL_PANE,
@@ -79,6 +76,7 @@ type MapCanvasProps = {
   showHistoricalTaxSales: boolean;
   onSelectPid: (pid: string) => void;
   onIdentifyParcel: (latitude: number, longitude: number) => void;
+  focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
   onPositionChange?: (position: MapPosition) => void;
   onLayerStatusChange?: (
@@ -90,6 +88,11 @@ type MapCanvasProps = {
     id: ResourceLayerId,
     status: ResourceLayerStatus,
   ) => void;
+};
+
+export type ParcelFocusRequest = {
+  pid: string;
+  requestId: number;
 };
 
 export type MapLayerId =
@@ -584,38 +587,39 @@ function LayerZoomController({
   return null;
 }
 
-function SelectionController({
+function ParcelFocusController({
   parcels,
-  selectedPid,
-}: Pick<MapCanvasProps, "parcels" | "selectedPid">) {
+  focusRequest,
+}: Pick<MapCanvasProps, "parcels" | "focusRequest">) {
   const map = useMap();
+  const handledRequestId = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!selectedPid) {
+    if (!focusRequest || handledRequestId.current === focusRequest.requestId) {
       return;
     }
 
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
+    const focusedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === focusRequest.pid,
     );
-
-    if (selectedFeatures.length === 0) {
+    if (focusedFeatures.length === 0) {
       return;
     }
 
-    const selectedCollection: GeoJSON.FeatureCollection<
+    const bounds = L.geoJSON({
+      type: "FeatureCollection",
+      features: focusedFeatures,
+    } as GeoJSON.FeatureCollection<
       GeoJSON.Geometry,
       NsprdFeatureProperties
-    > = {
-      type: "FeatureCollection",
-      features: selectedFeatures,
-    };
-    const bounds = L.geoJSON(selectedCollection).getBounds();
-
-    if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [64, 64], maxZoom: 16 });
+    >).getBounds();
+    if (!bounds.isValid()) {
+      return;
     }
-  }, [map, parcels, selectedPid]);
+
+    handledRequestId.current = focusRequest.requestId;
+    map.fitBounds(bounds, { padding: [64, 64], maxZoom: 16 });
+  }, [focusRequest, map, parcels]);
 
   return null;
 }
@@ -765,6 +769,7 @@ export function MapCanvas({
   showHistoricalTaxSales,
   onSelectPid,
   onIdentifyParcel,
+  focusRequest = null,
   initialPosition = DEFAULT_MAP_POSITION,
   onPositionChange,
   onLayerStatusChange,
@@ -786,7 +791,6 @@ export function MapCanvas({
     [reportLayerStatus],
   );
   const [map, setMap] = useState<LeafletMap | null>(null);
-  const [mapZoom, setMapZoom] = useState(initialPosition.zoom);
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
@@ -801,20 +805,6 @@ export function MapCanvas({
     );
     return () => window.clearTimeout(timeout);
   }, [locationMessage]);
-
-  useEffect(() => {
-    if (!map) {
-      return;
-    }
-
-    const updateMapZoom = () => setMapZoom(map.getZoom());
-    updateMapZoom();
-    map.on("zoomend", updateMapZoom);
-
-    return () => {
-      map.off("zoomend", updateMapZoom);
-    };
-  }, [map]);
 
   const visibleParcels = useMemo<NsprdFeatureCollection>(() => {
     return {
@@ -845,7 +835,6 @@ export function MapCanvas({
       taxSalePids,
       showHistoricalTaxSales,
       historicalTaxSalePids,
-      zoom: mapZoom,
     });
 
   const requestLocation = () => {
@@ -934,7 +923,7 @@ export function MapCanvas({
           style={{ zIndex: ESTABLISHED_PARCEL_PANE_Z_INDEX }}
         >
           <GeoJSON
-            key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}:${mapZoom >= OPAQUE_SELECTED_PARCEL_ZOOM}`}
+            key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
             data={visibleParcels}
             pane={ESTABLISHED_PARCEL_PANE}
             style={parcelStyle}
@@ -994,7 +983,6 @@ export function MapCanvas({
             />
           </>
         ) : null}
-        <SelectionController parcels={visibleParcels} selectedPid={selectedPid} />
         <InitialTaxSaleBoundsController
           parcels={parcels}
           taxSalePids={taxSalePids}
@@ -1008,6 +996,10 @@ export function MapCanvas({
         <LayerZoomController
           provinceLayers={provinceLayers}
           hydroPilotLayers={hydroPilotLayers}
+        />
+        <ParcelFocusController
+          parcels={visibleParcels}
+          focusRequest={focusRequest}
         />
         <ParcelIdentifyController
           enabled={provinceLayers.nsprd}

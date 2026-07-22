@@ -1,15 +1,12 @@
 import type { PathOptions } from "leaflet";
 import type { NsprdFeatureProperties } from "../services/nsprd";
 
-export const OPAQUE_SELECTED_PARCEL_ZOOM = 15;
-
 type ParcelStyleContext = {
   selectedPid: string | null;
   showTaxSale: boolean;
   taxSalePids: Set<string>;
   showHistoricalTaxSales: boolean;
   historicalTaxSalePids: Set<string>;
-  zoom: number;
 };
 
 export function parcelStyleForFeature(
@@ -22,7 +19,6 @@ export function parcelStyleForFeature(
     taxSalePids,
     showHistoricalTaxSales,
     historicalTaxSalePids,
-    zoom,
   }: ParcelStyleContext,
 ): PathOptions {
   const pid = feature?.properties.PID;
@@ -36,16 +32,17 @@ export function parcelStyleForFeature(
     if (isHistoricalTaxSale && !isTaxSale) {
       return {
         color: "#49336f",
-        fillColor: "#7461a8",
-        fillOpacity: zoom >= OPAQUE_SELECTED_PARCEL_ZOOM ? 1 : 0.38,
+        fillOpacity: 0,
         weight: 4,
+        className:
+          "selected-parcel-outline selected-parcel-outline--historical",
       };
     }
     return {
       color: "#9f2f24",
-      fillColor: "#be4d3c",
-      fillOpacity: zoom >= OPAQUE_SELECTED_PARCEL_ZOOM ? 1 : 0.34,
+      fillOpacity: 0,
       weight: 4,
+      className: "selected-parcel-outline selected-parcel-outline--current",
     };
   }
 
