@@ -1,4 +1,5 @@
 import historicalDataset from "./historicalTaxSales.json";
+import { cbrmTaxSaleEvent } from "./cbrmTaxSale";
 
 export type HistoricalOutcome =
   | "sold"
@@ -9,6 +10,9 @@ export type HistoricalOutcome =
   | "unknown";
 
 export type HistoricalSaleMethod = "public-auction" | "sealed-tender";
+export type HistoricalResultStatus =
+  | "verified"
+  | "awaiting-official-results";
 export type NsprdMatchStatus = "matched" | "ambiguous" | "unmatched";
 export type NsprdMatchMethod =
   | "exact-official-pid"
@@ -27,12 +31,15 @@ export type HistoricalTaxSaleEvent = {
   currency: "CAD";
   noticeUrl: string;
   termsUrl?: string;
-  resultUrl: string;
+  landingPageUrl?: string;
+  resultStatus: HistoricalResultStatus;
+  resultUrl?: string;
   retrievedOn: string;
   noticeSnapshotDate: string;
-  resultSnapshotDate: string;
+  resultSnapshotDate?: string;
+  resultCheckedOn?: string;
   noticeSha256: string;
-  resultSha256: string;
+  resultSha256?: string;
   sourceNotes: string;
 };
 
@@ -49,7 +56,7 @@ export type HistoricalTaxSaleRecord = {
   redemptionLabel: string;
   nspMatchStatus: NsprdMatchStatus;
   nspMatchMethod: NsprdMatchMethod;
-  reviewState: "visually-verified" | "needs-review";
+  reviewState: "visually-verified" | "notice-verified" | "needs-review";
 };
 
 export type HistoricalRecordContext = {
@@ -88,6 +95,10 @@ const matchMethods = new Set<NsprdMatchMethod>([
   "deterministic-reconciliation",
   "none",
 ]);
+const resultStatuses = new Set<HistoricalResultStatus>([
+  "verified",
+  "awaiting-official-results",
+]);
 
 export function validateHistoricalTaxSaleDataset(
   dataset: HistoricalDataset,
@@ -99,6 +110,26 @@ export function validateHistoricalTaxSaleDataset(
   const eventIds = new Set(dataset.events.map(({ id }) => id));
   if (eventIds.size !== dataset.events.length) {
     throw new Error("Historical tax-sale event IDs must be unique.");
+  }
+
+  for (const event of dataset.events) {
+    if (!resultStatuses.has(event.resultStatus)) {
+      throw new Error(`Historical event ${event.id} has an invalid result status.`);
+    }
+    if (
+      event.resultStatus === "verified" &&
+      (!event.resultUrl || !event.resultSnapshotDate || !event.resultSha256)
+    ) {
+      throw new Error(`Verified historical event ${event.id} requires a result receipt.`);
+    }
+    if (
+      event.resultStatus === "awaiting-official-results" &&
+      (!event.landingPageUrl || !event.resultCheckedOn)
+    ) {
+      throw new Error(
+        `Historical event ${event.id} awaiting results requires a checked landing page.`,
+      );
+    }
   }
 
   const recordIds = new Set<string>();
@@ -156,6 +187,7 @@ export function validateHistoricalTaxSaleDataset(
     }
     if (
       record.reviewState !== "visually-verified" &&
+      record.reviewState !== "notice-verified" &&
       record.reviewState !== "needs-review"
     ) {
       throw new Error(`Historical record ${record.recordId} has invalid review state.`);
@@ -166,7 +198,54 @@ export function validateHistoricalTaxSaleDataset(
 }
 
 const validatedDataset = validateHistoricalTaxSaleDataset(
-  historicalDataset as HistoricalDataset,
+  {
+    ...(historicalDataset as HistoricalDataset),
+    events: [
+      ...(historicalDataset as HistoricalDataset).events,
+      {
+        id: cbrmTaxSaleEvent.id,
+        municipalityId: cbrmTaxSaleEvent.municipalityId,
+        municipality: cbrmTaxSaleEvent.municipality,
+        shortMunicipality: cbrmTaxSaleEvent.shortMunicipality,
+        saleDate: "2026-07-21",
+        saleMethod: "public-auction",
+        listingIdentifierLabel: "Lien",
+        advertisedAmountLabel: "Minimum bid",
+        currency: "CAD",
+        noticeUrl: cbrmTaxSaleEvent.sourceUrl,
+        landingPageUrl: cbrmTaxSaleEvent.landingPageUrl,
+        resultStatus: "awaiting-official-results",
+        retrievedOn: "2026-07-21",
+        noticeSnapshotDate: "2026-07-19",
+        resultCheckedOn: "2026-07-21",
+        noticeSha256:
+          "5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566",
+        sourceNotes:
+          "The owner-free official notice was reconciled and all exact PIDs matched NSPRD. CBRM had not yet linked July 21 results when its tax-sale page was checked after the auction; no parcel outcome or winning bid is inferred.",
+      },
+    ],
+    records: [
+      ...(historicalDataset as HistoricalDataset).records,
+      ...cbrmTaxSaleEvent.listings.map((listing) => ({
+        eventId: cbrmTaxSaleEvent.id,
+        recordId: listing.recordId,
+        listingIdentifier: listing.lien ?? listing.recordId,
+        pids: listing.pids,
+        civicDescription: [listing.addressOrDescription, listing.location]
+          .filter(Boolean)
+          .join(" · "),
+        advertisedAmountCents: listing.financial.amountCents,
+        winningBidCents: null,
+        outcome: "unknown" as const,
+        resultNote:
+          "Official results are pending. CBRM says results will be posted after payment is confirmed.",
+        redemptionLabel: listing.redemptionLabel,
+        nspMatchStatus: "matched" as const,
+        nspMatchMethod: "exact-official-pid" as const,
+        reviewState: "notice-verified" as const,
+      })),
+    ],
+  },
 );
 
 export const historicalTaxSaleEvents = validatedDataset.events;

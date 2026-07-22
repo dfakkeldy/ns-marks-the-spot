@@ -63,8 +63,8 @@
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app
-- [x] Default-off, owner-free historical tax-sale outcomes for two fully reconciled Halifax events
-- [x] Historical municipality/year/outcome filters, source-linked infocards, validation, and match/source ledgers
+- [x] Default-off, owner-free historical tax-sale records with verified Halifax outcomes and outcome-pending CBRM notice archives
+- [x] Historical municipality/year/outcome filters, conditional result provenance, source-linked infocards, validation, and match/source ledgers
 - [ ] Enable Fletcher on the web after web-use rights are clear
 - [ ] Add municipality importers only from current official notices
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled

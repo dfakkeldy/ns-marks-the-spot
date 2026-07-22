@@ -295,22 +295,29 @@ function HistoricalOutcomeDetails({
 }) {
   const { event, record } = context;
   const comparison = calculateFinancialComparison(event, record);
+  const awaitingResults = event.resultStatus === "awaiting-official-results";
   const winningBidLabel =
     record.winningBidCents !== null
       ? currency.format(record.winningBidCents / 100)
       : record.outcome === "unsold"
         ? "No winning bid - official result says no bids"
-        : "Not published in verified sources";
+        : awaitingResults
+          ? "Awaiting official results"
+          : "Not published in verified sources";
 
   return (
     <article className="historical-outcome-card">
       <header>
         <div>
-          <strong>{historicalOutcomeLabel(record.outcome)}</strong>
+          <strong>
+            {awaitingResults
+              ? "Outcome pending"
+              : historicalOutcomeLabel(record.outcome)}
+          </strong>
           <span>{eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}</span>
         </div>
         <span className={`outcome-marker ${record.outcome}`}>
-          Historical
+          Historical record
         </span>
       </header>
       <dl className="parcel-facts historical-facts">
@@ -369,7 +376,9 @@ function HistoricalOutcomeDetails({
         <div>
           <dt>Source snapshots</dt>
           <dd>
-            Notice {event.noticeSnapshotDate} · result {event.resultSnapshotDate}
+            Notice {event.noticeSnapshotDate} · {event.resultSnapshotDate
+              ? `result ${event.resultSnapshotDate}`
+              : `results checked ${event.resultCheckedOn}`}
           </dd>
         </div>
         <div>
@@ -388,13 +397,20 @@ function HistoricalOutcomeDetails({
         <a href={event.noticeUrl} target="_blank" rel="noreferrer">
           Official notice
         </a>
-        <a href={event.resultUrl} target="_blank" rel="noreferrer">
-          Official result
-        </a>
+        {event.resultUrl ? (
+          <a href={event.resultUrl} target="_blank" rel="noreferrer">
+            Official result
+          </a>
+        ) : event.landingPageUrl ? (
+          <a href={event.landingPageUrl} target="_blank" rel="noreferrer">
+            Check official results
+          </a>
+        ) : null}
       </div>
       <p className="historical-limit">
-        Dated outcome only. It is not a current offering and does not prove present
-        ownership, title, redemption, legal access, or parcel status.
+        {awaitingResults
+          ? "Dated notice record only; no result is claimed. It is not a current offering and does not prove a sale, present ownership, title, redemption, legal access, or parcel status."
+          : "Dated outcome only. It is not a current offering and does not prove present ownership, title, redemption, legal access, or parcel status."}
       </p>
     </article>
   );
@@ -466,11 +482,11 @@ function ParcelInspector({
               ? "Past sale date — verify results with the municipality."
             : "Listed in official notice"
           : historicalContexts.length > 0
-            ? `${historicalContexts.length} verified historical tax-sale ${historicalContexts.length === 1 ? "record" : "records"}`
+            ? `${historicalContexts.length} historical tax-sale ${historicalContexts.length === 1 ? "record" : "records"}`
             : "NSPRD parcel"}
       </p>
       <p className={`parcel-mode-marker ${mapMode}`}>
-        {mapMode === "current" ? "Current-notice mode" : "Historical-results mode"}
+        {mapMode === "current" ? "Current-notice mode" : "Historical-records mode"}
       </p>
       <dl className="parcel-facts">
         {event ? (
@@ -538,8 +554,8 @@ function ParcelInspector({
         </p>
       ) : null}
       {historicalContexts.length > 0 ? (
-        <section className="historical-outcomes" aria-label="Historical tax-sale outcomes">
-          <h3>Historical tax-sale outcomes</h3>
+        <section className="historical-outcomes" aria-label="Historical tax-sale records">
+          <h3>Historical tax-sale records</h3>
           {historicalContexts.map((historicalContext) => (
             <HistoricalOutcomeDetails
               key={historicalContext.record.recordId}
@@ -1899,7 +1915,14 @@ export function App() {
             name: `${event.shortMunicipality} — ${eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}`,
             sources: [
               { label: "Official notice", sourceUrl: event.noticeUrl },
-              { label: "Official result", sourceUrl: event.resultUrl },
+              ...(event.resultUrl
+                ? [{ label: "Official result", sourceUrl: event.resultUrl }]
+                : event.landingPageUrl
+                  ? [{
+                      label: "Municipal results page",
+                      sourceUrl: event.landingPageUrl,
+                    }]
+                  : []),
             ],
           })),
       civicAddresses: civicAddresses.status === "ready"
@@ -2060,13 +2083,13 @@ export function App() {
                 aria-pressed={mapMode === "historical"}
                 onClick={() => changeMapMode("historical")}
               >
-                Historical results
+                Historical records
               </button>
             </div>
             <p>
               {mapMode === "current"
                 ? "CURRENT · advertised notices that still require municipal verification"
-                : "HISTORICAL · dated verified outcomes, never current offerings"}
+                : "HISTORICAL · dated notices and verified outcomes, never current offerings"}
             </p>
           </section>
 
@@ -2323,20 +2346,24 @@ export function App() {
           <section
             className="rail-section historical-layer-controls"
             role="region"
-            aria-label="Historical tax-sale outcomes"
+            aria-label="Historical tax-sale records"
           >
-            <h2 id="historical-heading">Historical tax-sale outcomes</h2>
+            <h2 id="historical-heading">Historical tax-sale records</h2>
             <p className="section-intro">
-              Verified dated results. These are never presented as currently
-              available property.
+              Dated notices and verified results. Recent events can remain outcome
+              unknown while official results are pending. These are never current
+              offerings.
             </p>
             <div className="historical-mode-summary">
-              <strong>Historical results active</strong>
+              <strong>Historical records active</strong>
               <span>
                 {historicalTaxSaleRecords.length} records ·{" "}
                 {allHistoricalTaxSalePids.length} exact matched PIDs
               </span>
-              <span>Halifax · 2022–2025</span>
+              <span>
+                {historicalMunicipalities.map(([, label]) => label).join(" · ")} ·{" "}
+                {historicalYears.at(-1)}–{historicalYears[0]}
+              </span>
             </div>
             <div className="historical-filters" aria-label="Historical filters">
               <label>

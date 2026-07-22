@@ -52,6 +52,9 @@ export function listingContextForPid(
   pid: string,
 ): { event: TaxSaleEvent; listing: TaxSaleListing } | undefined {
   for (const event of taxSaleEvents) {
+    if (event.eventStatus !== "upcoming") {
+      continue;
+    }
     const listing = event.listings.find(({ pids }) => pids.includes(pid));
     if (listing) {
       return { event, listing };
