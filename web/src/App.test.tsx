@@ -275,7 +275,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
   });
 
-  it("reveals both privacy-minimized upcoming events after acceptance", async () => {
+  it("reveals the remaining privacy-minimized upcoming event after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -284,11 +284,10 @@ describe("NS Marks The Spot Online", () => {
     );
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(screen.getByText("67 notice entries · 68 PIDs")).toBeInTheDocument();
     expect(screen.getByText("45 notice entries · 47 PIDs")).toBeInTheDocument();
     expect(
-      screen.getByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
-    ).toBeChecked();
+      screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     ).toBeChecked();
@@ -307,10 +306,10 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       screen.getAllByText("Snapshot retrieved July 19, 2026"),
-    ).toHaveLength(2);
+    ).toHaveLength(1);
   });
 
-  it("makes current notices and historical results separate map modes", async () => {
+  it("makes current notices and historical records separate map modes", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
@@ -321,18 +320,18 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(screen.getByRole("region", { name: "Current tax-sale notices" }))
       .toBeInTheDocument();
-    expect(screen.queryByRole("region", { name: "Historical tax-sale outcomes" }))
+    expect(screen.queryByRole("region", { name: "Historical tax-sale records" }))
       .not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Historical results" }));
+    await user.click(screen.getByRole("button", { name: "Historical records" }));
 
-    expect(screen.getByRole("button", { name: "Historical results" })).toHaveAttribute(
+    expect(screen.getByRole("button", { name: "Historical records" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
     expect(screen.queryByRole("region", { name: "Current tax-sale notices" }))
       .not.toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Historical tax-sale outcomes" }))
+    expect(screen.getByRole("region", { name: "Historical tax-sale records" }))
       .toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("historical layer: on");
   });
@@ -351,7 +350,7 @@ describe("NS Marks The Spot Online", () => {
 
     render(<App />);
 
-    expect(screen.getByRole("button", { name: "Historical results" })).toHaveAttribute(
+    expect(screen.getByRole("button", { name: "Historical records" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
@@ -389,7 +388,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
-  it("keeps verified historical outcomes off by default and loads them on demand", async () => {
+  it("keeps historical records off by default and loads them on demand", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
@@ -404,13 +403,13 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(screen.queryByLabelText("Historical sale year")).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Historical results" }));
+    await user.click(screen.getByRole("button", { name: "Historical records" }));
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "historical layer: on",
     );
     await waitFor(() =>
-      expect(screen.getByText("93 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+      expect(screen.getByText("161 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
@@ -432,7 +431,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     await user.click(
-      screen.getByRole("button", { name: "Historical results" }),
+      screen.getByRole("button", { name: "Historical records" }),
     );
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -465,7 +464,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     await user.click(
-      screen.getByRole("button", { name: "Historical results" }),
+      screen.getByRole("button", { name: "Historical records" }),
     );
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -843,46 +842,44 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
-  it("tells users to verify results once an advertised sale date has passed", () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-07-22T12:00:00Z"));
+  it("keeps the completed CBRM event out of current notices", async () => {
+    const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
     render(<App />);
 
     expect(
-      screen.getByRole("checkbox", {
-        name: /CBRM.*verify results with the municipality/i,
-      }),
-    ).toBeChecked();
-    expect(
-      screen.getAllByText("Past sale date — verify results with the municipality."),
-    ).not.toHaveLength(0);
-    expect(screen.queryByText("CBRM · July 21, 2026 · Upcoming")).not.toBeInTheDocument();
+      screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Historical records" }));
+    await user.selectOptions(screen.getByLabelText("Historical municipality"), "cbrm");
+
+    expect(screen.getByText("67 records · 68 PIDs")).toBeInTheDocument();
   });
 
-  it("updates an open map when the advertised sale time passes", async () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-07-21T13:59:30Z"));
+  it("labels the archived CBRM records as awaiting official results", async () => {
+    const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
     render(<App />);
 
-    expect(
-      screen.getByRole("checkbox", {
-        name: "CBRM tax sale - July 21, 2026 - Upcoming",
-      }),
-    ).toBeChecked();
+    await user.click(screen.getByRole("button", { name: "Historical records" }));
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "15054588");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
 
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(60_000);
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 15054588 details",
     });
-
-    expect(
-      screen.getByRole("checkbox", {
-        name: /CBRM.*verify results with the municipality/i,
-      }),
-    ).toBeChecked();
+    expect(within(inspector).getByText("Outcome pending")).toBeInTheDocument();
+    expect(within(inspector).getByText("Awaiting official results")).toBeInTheDocument();
+    expect(within(inspector).getByRole("link", { name: "Check official results" }))
+      .toHaveAttribute("href", "https://cbrm.ns.ca/business/property-sales-management/tax-sales/");
+    expect(within(inspector).queryByRole("link", { name: "Official result" }))
+      .not.toBeInTheDocument();
   });
 
   it("toggles native-parity Province layers independently", async () => {
@@ -1009,13 +1006,13 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     await user.click(
-      screen.getByText("68 parcels shown").closest("summary")!,
+      screen.getByText("47 parcels shown").closest("summary")!,
     );
-    const cbrmProperties = screen.getByRole("list", {
-      name: "CBRM tax-sale properties",
+    const invernessProperties = screen.getByRole("list", {
+      name: "Inverness County tax-sale properties",
     });
-    const property = within(cbrmProperties).getByRole("button", {
-      name: "75 DORCHESTER ST LAND BUILDING, lien 26-05, PID 15054588",
+    const property = within(invernessProperties).getByRole("button", {
+      name: "Highway 19, Mabou, lien 1, PID 50203256",
     });
 
     await user.click(property);
@@ -1023,16 +1020,16 @@ describe("NS Marks The Spot Online", () => {
     expect(property).toHaveAttribute("aria-current", "true");
     expect(
       screen.getByRole("complementary", {
-        name: "Parcel 15054588 details",
+        name: "Parcel 50203256 details",
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: "75 DORCHESTER ST LAND BUILDING",
+        name: "Highway 19, Mabou",
       }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Search by PID or civic address")).toHaveValue(
-      "15054588",
+      "50203256",
     );
   });
 
@@ -1045,7 +1042,6 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: /Immediate \/ none/ }),
     );
 
-    expect(screen.getByText("29 parcels shown")).toBeInTheDocument();
     expect(screen.getByText("18 parcels shown")).toBeInTheDocument();
     expect(
       screen.queryByRole("button", {
@@ -1054,7 +1050,7 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
     expect(
       screen.getByRole("button", {
-        name: "158 VICTORIA RD LAND BUILDING, lien 26-10, PID 15129406",
+        name: "MacGarry Road, Cap Le Moine, lien 19, PID 50064146",
       }),
     ).toBeInTheDocument();
   });
@@ -1589,23 +1585,24 @@ describe("NS Marks The Spot Online", () => {
     expect(secondInspector.scrollTop).toBe(0);
   });
 
-  it("finds a CBRM listing and shows event-aware municipal details", async () => {
+  it("finds an archived CBRM listing only in historical-record mode", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
+    await user.click(screen.getByRole("button", { name: "Historical records" }));
     await user.type(screen.getByLabelText("Search by PID or civic address"), "15054588");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
 
     expect(
       screen.getByRole("heading", {
-        name: "75 DORCHESTER ST LAND BUILDING",
+        name: "75 DORCHESTER ST LAND BUILDING · SYDNEY",
       }),
     ).toBeInTheDocument();
     expect(screen.getByText("Cape Breton Regional Municipality")).toBeInTheDocument();
     expect(
       within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).getByText(
-        "July 21, 2026 · Past sale date — verify results with the municipality.",
+        "cbrm-2026-07-21 · Public auction",
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("$33,108.73")).toBeInTheDocument();
@@ -1613,6 +1610,7 @@ describe("NS Marks The Spot Online", () => {
       screen.queryByText("Immediate deed", { exact: false }),
     ).not.toBeInTheDocument();
     expect(screen.getByText("Six-month redemption", { exact: false })).toBeInTheDocument();
+    expect(screen.getByText("Outcome pending")).toBeInTheDocument();
     expect(
       within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).queryByText(
         /available/i,
@@ -1625,11 +1623,11 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 115");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 47");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 68");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0");
   });
 
   it("keeps NSPRD failures visible without manufacturing geometry", async () => {

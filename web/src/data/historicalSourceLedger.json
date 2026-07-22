@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-07-19",
+  "retrievedOn": "2026-07-21",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -125,6 +125,19 @@
       "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
       "officialWinningBidsFound": true,
       "notes": "Thirty-seven result rows were reconciled to the final notice, including one two-PID listing. All result rows publish a selling price."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
+      "event": "July 21, 2026 tax sale",
+      "status": "included-awaiting-official-results",
+      "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2026/06/JULY-21-2026-2nd-Ad.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": ["5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566"],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption"],
+      "officialWinningBidsFound": false,
+      "notes": "The event date has passed, so 67 owner-free notice records covering 68 exact PIDs moved to the historical layer. The official landing page was checked after the auction on July 21 and did not yet link a result; all outcomes and winning bids remain unknown until CBRM posts confirmed results."
     },
     {
       "municipality": "Cape Breton Regional Municipality",

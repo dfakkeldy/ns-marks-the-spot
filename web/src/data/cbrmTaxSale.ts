@@ -92,7 +92,7 @@ export const cbrmTaxSaleEvent: TaxSaleEvent = {
   municipality: "Cape Breton Regional Municipality",
   shortMunicipality: "CBRM",
   eventType: "public-auction",
-  eventStatus: "upcoming",
+  eventStatus: "historical",
   saleStartsAt: "2026-07-21T11:00:00-03:00",
   venue: "Centre 200 main concourse",
   landingPageUrl:
@@ -102,7 +102,7 @@ export const cbrmTaxSaleEvent: TaxSaleEvent = {
   secondarySourceUrl:
     "https://cbrm.ns.ca/wp-content/uploads/2026/06/1.-List-of-Maps-and-Descriptions36.pdf",
   sourceLabel: "Official CBRM property list",
-  retrievedOn: "2026-07-19",
+  retrievedOn: "2026-07-21",
   listings: cbrmSourceListings.map((listing) => ({
     eventId: "cbrm-2026-07-21",
     recordId: `cbrm-2026-07-21-lien-${listing.lien}`,

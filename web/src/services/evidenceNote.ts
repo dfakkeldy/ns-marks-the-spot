@@ -79,7 +79,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     "",
     `Generated: ${generated}`,
     `PID: ${input.pid}`,
-    `Mode: ${input.mode === "current" ? "Current notices" : "Historical results"}`,
+    `Mode: ${input.mode === "current" ? "Current notices" : "Historical records"}`,
     `Map position: ${input.position.latitude.toFixed(5)}, ${input.position.longitude.toFixed(5)} at zoom ${input.position.zoom}`,
     `[Open this map state](${input.shareUrl})`,
     "",

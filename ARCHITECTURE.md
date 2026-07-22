@@ -182,6 +182,14 @@ Municipal notices and NSPRD have deliberately separate authority:
 5. Browser geolocation is handled locally and drawn directly on the map; there
    is no application server receiving a user's coordinates.
 
+Current notices and historical records also have separate lifecycle authority.
+Once an event is deliberately archived, its owner-free notice records can move
+to historical mode before parcel-level results are published. The historical
+event schema distinguishes `verified` results from
+`awaiting-official-results`; only the former can carry a result URL, result
+snapshot, result hash, winning bid, or specific outcome. Pending events link to
+the municipality's checked results page and keep every outcome unknown.
+
 `services/parcelContext.ts` sums the mapped area for every polygon belonging to
 the selected PID and converts square metres to acres. It POSTs that exact parcel
 geometry to each relevant Province road and water sublayer with

@@ -13,11 +13,11 @@ import {
   type HistoricalTaxSaleRecord,
 } from "./historicalTaxSales";
 
-describe("historical tax-sale outcomes", () => {
-  it("preserves seven supported Halifax events as 87 owner-free records", () => {
-    expect(historicalTaxSaleEvents).toHaveLength(7);
-    expect(historicalTaxSaleRecords).toHaveLength(87);
-    expect(matchedHistoricalPids()).toHaveLength(93);
+describe("historical tax-sale records", () => {
+  it("preserves verified Halifax results and the outcome-pending CBRM archive", () => {
+    expect(historicalTaxSaleEvents).toHaveLength(8);
+    expect(historicalTaxSaleRecords).toHaveLength(154);
+    expect(matchedHistoricalPids()).toHaveLength(161);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "sold"),
     ).toHaveLength(82);
@@ -26,7 +26,7 @@ describe("historical tax-sale outcomes", () => {
     ).toHaveLength(4);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unknown"),
-    ).toHaveLength(1);
+    ).toHaveLength(68);
     expect(
       historicalTaxSaleEvents.map(({ id }) => {
         const records = historicalTaxSaleRecords.filter(
@@ -46,6 +46,7 @@ describe("historical tax-sale outcomes", () => {
       { id: "hrm-2024-09-24", records: 9, pids: 10 },
       { id: "hrm-2025-03-25", records: 5, pids: 7 },
       { id: "hrm-2025-09-16", records: 37, pids: 38 },
+      { id: "cbrm-2026-07-21", records: 67, pids: 68 },
     ]);
 
     const publicDataset = JSON.stringify({
@@ -55,6 +56,27 @@ describe("historical tax-sale outcomes", () => {
     expect(publicDataset).not.toMatch(/owner name|owners|bidder name/u);
     expect(Object.keys(historicalTaxSaleRecords[0])).not.toEqual(
       expect.arrayContaining(["owner", "ownerName", "bidder", "bidderName"]),
+    );
+  });
+
+  it("keeps every CBRM parcel outcome unknown until an official result is linked", () => {
+    const cbrm = historicalTaxSaleEvents.find(
+      ({ id }) => id === "cbrm-2026-07-21",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === cbrm?.id,
+    );
+
+    expect(cbrm).toMatchObject({
+      resultStatus: "awaiting-official-results",
+      resultCheckedOn: "2026-07-21",
+    });
+    expect(cbrm?.resultUrl).toBeUndefined();
+    expect(records).toHaveLength(67);
+    expect(records.every(({ outcome }) => outcome === "unknown")).toBe(true);
+    expect(records.every(({ winningBidCents }) => winningBidCents === null)).toBe(true);
+    expect(records.every(({ reviewState }) => reviewState === "notice-verified")).toBe(
+      true,
     );
   });
 
@@ -190,13 +212,18 @@ describe("historical tax-sale outcomes", () => {
     expect(historicalOutcomeLabel("unknown")).toBe("Outcome unknown");
   });
 
-  it("pins direct official notice/result links and document hashes", () => {
+  it("pins official receipts without requiring a result before publication", () => {
     for (const event of historicalTaxSaleEvents) {
-      expect(event.noticeUrl).toMatch(/^https:\/\/(?:cdn\.)?halifax\.ca\//u);
-      expect(event.resultUrl).toMatch(/^https:\/\/(?:cdn\.)?halifax\.ca\//u);
+      expect(event.noticeUrl).toMatch(/^https:\/\//u);
       expect(event.noticeSha256).toMatch(/^[a-f0-9]{64}$/u);
-      expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
+      if (event.resultStatus === "verified") {
+        expect(event.resultUrl).toMatch(/^https:\/\/(?:cdn\.)?halifax\.ca\//u);
+        expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
+      } else {
+        expect(event.resultUrl).toBeUndefined();
+        expect(event.landingPageUrl).toMatch(/^https:\/\/cbrm\.ns\.ca\//u);
+      }
     }
-    expect(historicalSourceLedger.coverage).toHaveLength(9);
+    expect(historicalSourceLedger.coverage).toHaveLength(10);
   });
 });

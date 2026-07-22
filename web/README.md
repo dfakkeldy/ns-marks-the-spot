@@ -2,8 +2,9 @@
 
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
-The event-aware catalog currently covers the July 21, 2026 CBRM auction and the
-August 11, 2026 Inverness County auction.
+The current-notice catalog covers the August 11, 2026 Inverness County auction.
+The completed July 21, 2026 CBRM event is retained in historical-record mode
+with outcomes explicitly pending until the municipality publishes results.
 
 ## Run locally
 
@@ -19,7 +20,7 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 1. Each municipality's official notice supplies its event date and public
    parcel fields. The catalog preserves the municipality's financial wording:
    CBRM publishes a minimum bid, while Inverness publishes total arrears.
-2. **Current notices** and **Historical results** are separate map modes with
+2. **Current notices** and **Historical records** are separate map modes with
    their own colour, heading, controls, and parcel-sheet marker. Changing modes
    clears the previous selection so a dated result cannot be mistaken for a
    currently advertised property.
@@ -36,9 +37,10 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 5. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
-   verified result dataset, the UI automatically changes to “Past sale date —
-   verify results with the municipality.” It does not infer sold, unsold, or
-   withdrawn results.
+   verified result dataset, the UI changes to “Past sale date — verify results
+   with the municipality.” Once the event is deliberately archived, its dated
+   notice records can remain mapped with every outcome marked pending; sold,
+   unsold, withdrawn, and winning-bid values are never inferred.
 6. Browser location stays in the browser and is drawn on the map. This app has
    no application server receiving the coordinates.
 7. For a selected PID, the browser reuses the exact NSPRD Polygon or
@@ -312,7 +314,8 @@ are live service examples, not fixtures used by the ordinary unit suite.
 - Official landing page: [CBRM Tax Sales](https://cbrm.ns.ca/business/property-sales-management/tax-sales/)
 - Official property list: [July 21, 2026 second advertisement](https://cbrm.ns.ca/wp-content/uploads/2026/06/JULY-21-2026-2nd-Ad.pdf)
 - Official maps and descriptions: [CBRM parcel fact sheets](https://cbrm.ns.ca/wp-content/uploads/2026/06/1.-List-of-Maps-and-Descriptions36.pdf)
-- Retrieved July 19, 2026. The property-list SHA-256 was
+- Notice retrieved July 19, 2026 and the official results page re-checked after
+  the auction on July 21, 2026. The property-list SHA-256 was
   `5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566`.
 - Owner-free reconciliation: 67 lien rows and 68 unique eight-character PIDs.
   Lien `26-13` contains PIDs `15426125` and `15789985`.
@@ -320,14 +323,18 @@ are live service examples, not fixtures used by the ordinary unit suite.
   minimum bid, and the municipality's redemption category. The assessed-name
   column was discarded before the repository dataset was written.
 - Live NSPRD validation on July 19, 2026 matched every exact CBRM and Inverness
-  PID: 115 of 115 unique upcoming-event PIDs. Requests are split into bounded
+  PID: 115 of 115 unique catalog PIDs. Requests are split into bounded
   batches because the Province service returned HTTP 500 for one 115-PID query.
+- The auction date has passed, so all 67 owner-free CBRM notice records (68
+  PIDs) now render only in historical-record mode. CBRM had not linked a July
+  21 result when checked after the auction. Every outcome and winning bid stays
+  unknown, with a link back to the municipal results page.
 
-## Historical outcome layer receipt
+## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its supported
-slice pairs official Halifax notices and result tables for seven sales by
-tender from March 8, 2022 through September 16, 2025:
+The historical layer is visually distinct and off by default. It contains seven
+result-backed Halifax events plus the completed CBRM event as notice-only
+records awaiting an official result:
 
 | Event | Records | Exact PIDs | Sold | Unsold | Unknown | Official amount labels |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -338,14 +345,16 @@ tender from March 8, 2022 through September 16, 2025:
 | Halifax September 24, 2024 | 9 | 10 | 8 | 0 | 1 | `Opening Bid`, `Selling Price` or `PENDING` |
 | Halifax March 25, 2025 | 5 | 7 | 5 | 0 | 0 | `Opening Bid`, `Selling Price` |
 | Halifax September 16, 2025 | 37 | 38 | 37 | 0 | 0 | `Opening Bid`, `Selling Price` |
-| **Total** | **87** | **93** | **82** | **4** | **1** | |
+| CBRM July 21, 2026 | 67 | 68 | 0 | 0 | 67 | `Minimum bid`; results pending |
+| **Total** | **154** | **161** | **82** | **4** | **68** | |
 
-Every included listing was reconciled between the official notice and result,
-and every eight-digit PID matched NSPRD on July 19, 2026. Multi-PID listings
-retain opening and selling prices at listing level rather than dividing them
-between parcels. The September 24, 2024 `PENDING` row is fail-closed as outcome
-unknown and has no winning bid or financial comparison. Assessed-owner and
-bidder names are absent from the normalized JSON.
+Every Halifax listing was reconciled between the official notice and result.
+The CBRM records were reconciled to the official notice only; their result
+status is `awaiting-official-results`. Every eight-digit PID matched NSPRD on
+July 19, 2026. Multi-PID listings retain amounts at listing level rather than
+dividing them between parcels. The September 24, 2024 Halifax `PENDING` row and
+all 67 CBRM records are fail-closed as outcome unknown with no winning bid or
+financial comparison. Assessed-owner and bidder names are absent.
 
 `src/data/historicalSourceLedger.json` pins official URLs, retrieval dates,
 available fields, review notes, and SHA-256 receipts for the reviewed PDFs.
@@ -388,9 +397,9 @@ restricted Province layers, three default-off open geoscience/resource source
 overlays, one default-off licence-gated derived mineral-proximity parcel row,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
-road/water/adjacency context, authoritative mapped civic-address points, the two
-upcoming municipal tax-sale events, local Plus Codes with opt-in Google Maps
-directions, and a separate default-off layer of seven verified Halifax
-historical result events. The Fletcher layer is visible but disabled until
+road/water/adjacency context, authoritative mapped civic-address points, the
+upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
+Maps directions, and a separate default-off layer of seven verified Halifax
+result events plus the outcome-pending CBRM archive. The Fletcher layer is visible but disabled until
 web-use rights are clear. Unsupported historical sources remain fail-closed.
 Offline maps remain the native iPhone app's job.
