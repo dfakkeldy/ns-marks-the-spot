@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "generate:hydro-pilot": "node scripts/generateInvernessHydroPilot.mjs",
+    "refresh:inverness-tax-sale": "node scripts/refreshInvernessTaxSale.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint ."

@@ -1,4 +1,4 @@
-import type { TaxSaleEvent } from "./taxSaleTypes";
+import type { TaxSaleEvent, TaxSaleListingStatus } from "./taxSaleTypes";
 import invernessTaxSaleSnapshot from "./invernessTaxSale.snapshot.json";
 
 export type TaxSaleListing = {
@@ -8,10 +8,11 @@ export type TaxSaleListing = {
   totalArrearsCents: number;
   redeemable: boolean;
   pids: string[];
+  listingStatus: TaxSaleListingStatus;
 };
 
 export const INVERNESS_BOOK_DATASET_SHA256 =
-  "b69a50e76fd87fc6785e4742367796a4d2ee9f013b9c0ebd002868e01d5c3be4";
+  "9112514ad22d1daac4c854b57a4e374b04eef6072c66735a64db66d05ff5ed9f";
 
 export const invernessTaxSaleNotice = {
   municipality: "Municipality of the County of Inverness",
@@ -30,9 +31,13 @@ export const taxSaleListings: TaxSaleListing[] =
     totalArrearsCents: Math.round(listing.recoveryAmount * 100),
     redeemable: listing.redeemable,
     pids: listing.pids,
+    listingStatus:
+      listing.listingStatus === "withdrawn" ? "withdrawn" : "advertised",
   }));
 
-export const taxSalePids = taxSaleListings.flatMap(({ pids }) => pids);
+export const taxSalePids = taxSaleListings
+  .filter(({ listingStatus }) => listingStatus === "advertised")
+  .flatMap(({ pids }) => pids);
 
 export function listingForPid(pid: string): TaxSaleListing | undefined {
   return taxSaleListings.find(({ pids }) => pids.includes(pid));
@@ -70,6 +75,6 @@ export const invernessTaxSaleEvent: TaxSaleEvent = {
     redemptionLabel: listing.redeemable
       ? "Redeemable - Yes"
       : "Redeemable - No",
-    listingStatus: "advertised",
+    listingStatus: listing.listingStatus,
   })),
 };

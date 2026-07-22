@@ -296,9 +296,15 @@ are live service examples, not fixtures used by the ordinary unit suite.
 
 ## Inverness 2026 source receipt
 
-- Official source: [Tax Sale by Public Auction — August 11, 2026](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11.pdf)
-- PDF publication metadata checked: July 16, 2026.
-- Notice summary: 45 lien entries and 47 unique PIDs. Lien 11 covers three PIDs.
+- Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 3](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-3.pdf)
+- PDF publication metadata is July 16, 2026; the current file was modified July
+  22 and retrieved July 22, 2026. Its SHA-256 is
+  `224da900debae3d32ff96ba4e1ef124f2953fc6733bef80665c782dfffd42be5`.
+- The revision still contains 45 lien entries and 47 unique PIDs, but visibly
+  strikes through liens 5, 6, 10, 11, and 12. Those five records (seven PIDs)
+  remain in the dated evidence as `withdrawn`; only 40 advertised PIDs render
+  in the active tax-sale parcel layer. Lien 11 covers three PIDs.
 - NSPRD validation on July 19, 2026: all 47 unique PIDs matched. NSPRD returned
   53 geometry features because some PIDs have more than one polygon record.
 - Source anomaly: lien 6 appears in the summary table but its detailed property
@@ -311,8 +317,15 @@ are live service examples, not fixtures used by the ordinary unit suite.
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `b69a50e76fd87fc6785e4742367796a4d2ee9f013b9c0ebd002868e01d5c3be4`
+  `9112514ad22d1daac4c854b57a4e374b04eef6072c66735a64db66d05ff5ed9f`
   so either repository cannot drift silently.
+
+Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and
+`pdftocairo` available. The refresher resolves the current PDF from the
+municipal landing page, parses owner-free summary fields, detects visible
+strike-through marks from PDF vector geometry, preserves reviewed location
+normalization, and updates both document and JSON receipts. An omitted stored
+row or ambiguous landing-page link fails closed instead of deleting evidence.
 
 ## CBRM July 21, 2026 source receipt
 

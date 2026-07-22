@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  advertisedPidsForEvents,
   eventLifecycleStatus,
   eventsForStatus,
   listingContextForPid,
@@ -28,13 +29,19 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(sha256).toBe(INVERNESS_BOOK_DATASET_SHA256);
   });
 
-  it("preserves the Inverness 45-listing, 47-PID receipt and anomalies", () => {
+  it("preserves the Inverness 45-listing, 47-PID receipt and five withdrawals", () => {
     const inverness = event("inverness-county-2026-08-11");
     const pids = inverness.listings.flatMap(({ pids }) => pids);
 
     expect(inverness.listings).toHaveLength(45);
     expect(pids).toHaveLength(47);
     expect(new Set(pids).size).toBe(47);
+    expect(advertisedPidsForEvents([inverness])).toHaveLength(40);
+    expect(
+      inverness.listings
+        .filter(({ listingStatus }) => listingStatus === "withdrawn")
+        .map(({ lien }) => lien),
+    ).toEqual(["5", "6", "10", "11", "12"]);
     expect(
       inverness.listings.find(({ lien }) => lien === "11")?.pids,
     ).toEqual(["50076777", "50207794", "50207802"]);
@@ -46,7 +53,7 @@ describe("the multi-municipality tax-sale catalog", () => {
       "00603988",
     );
     expect(INVERNESS_BOOK_DATASET_SHA256).toBe(
-      "b69a50e76fd87fc6785e4742367796a4d2ee9f013b9c0ebd002868e01d5c3be4",
+      "9112514ad22d1daac4c854b57a4e374b04eef6072c66735a64db66d05ff5ed9f",
     );
     expect(inverness.sourceDatasetSha256).toBe(
       INVERNESS_BOOK_DATASET_SHA256,

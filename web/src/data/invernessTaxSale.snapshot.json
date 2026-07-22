@@ -3,11 +3,11 @@
   "title": "Inverness County tax-sale listings — August 11, 2026",
   "saleDate": "2026-08-11",
   "publishedDate": "2026-07-16",
-  "retrievedDate": "2026-07-19",
-  "source": "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11.pdf",
+  "retrievedDate": "2026-07-22",
+  "source": "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-3.pdf",
   "crossCheck": "https://github.com/dfakkeldy/ns-marks-the-spot/tree/92f1261e5/web",
-  "normalization": "Location capitalization, road abbreviations, accents, punctuation, and obvious summary-table text errors were normalized after visual review; lien, AAN, amount, redemption, and PID values remain source facts.",
-  "status": "dated snapshot; confirm the live municipal list before use",
+  "normalization": "Location capitalization, road abbreviations, accents, punctuation, and obvious summary-table text errors were normalized after visual review; lien, AAN, amount, redemption, PID, and visible strike-through status remain source facts.",
+  "status": "dated municipal snapshot; advertised and withdrawn states require continued municipal verification",
   "ownerNamesExcluded": true,
   "listingCount": 45,
   "parcelIdentifierCount": 47,
@@ -20,7 +20,8 @@
       "redeemable": false,
       "pids": [
         "50203256"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 2,
@@ -30,7 +31,8 @@
       "redeemable": true,
       "pids": [
         "50000462"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 3,
@@ -40,7 +42,8 @@
       "redeemable": true,
       "pids": [
         "50057611"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 4,
@@ -50,7 +53,8 @@
       "redeemable": true,
       "pids": [
         "50113372"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 5,
@@ -60,7 +64,8 @@
       "redeemable": true,
       "pids": [
         "50055201"
-      ]
+      ],
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 6,
@@ -70,7 +75,8 @@
       "redeemable": true,
       "pids": [
         "50326669"
-      ]
+      ],
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 7,
@@ -80,7 +86,8 @@
       "redeemable": true,
       "pids": [
         "50338219"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 8,
@@ -90,7 +97,8 @@
       "redeemable": true,
       "pids": [
         "50113968"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 9,
@@ -100,7 +108,8 @@
       "redeemable": true,
       "pids": [
         "50330216"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 10,
@@ -110,7 +119,8 @@
       "redeemable": true,
       "pids": [
         "50077452"
-      ]
+      ],
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 11,
@@ -122,7 +132,8 @@
         "50076777",
         "50207794",
         "50207802"
-      ]
+      ],
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 12,
@@ -132,7 +143,8 @@
       "redeemable": true,
       "pids": [
         "50081678"
-      ]
+      ],
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 13,
@@ -142,7 +154,8 @@
       "redeemable": true,
       "pids": [
         "50328608"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 14,
@@ -152,7 +165,8 @@
       "redeemable": true,
       "pids": [
         "50328624"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 15,
@@ -162,7 +176,8 @@
       "redeemable": true,
       "pids": [
         "50328632"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 16,
@@ -172,7 +187,8 @@
       "redeemable": true,
       "pids": [
         "50119817"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 17,
@@ -182,7 +198,8 @@
       "redeemable": true,
       "pids": [
         "50308311"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 18,
@@ -192,7 +209,8 @@
       "redeemable": true,
       "pids": [
         "50308337"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 19,
@@ -202,7 +220,8 @@
       "redeemable": false,
       "pids": [
         "50064146"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 20,
@@ -212,7 +231,8 @@
       "redeemable": true,
       "pids": [
         "50065424"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 21,
@@ -222,17 +242,19 @@
       "redeemable": true,
       "pids": [
         "50312297"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 22,
       "aan": "10258286",
       "location": "No. 19 Highway, Craigmore",
-      "recoveryAmount": 2193.0,
+      "recoveryAmount": 2193,
       "redeemable": false,
       "pids": [
         "50309970"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 23,
@@ -242,7 +264,8 @@
       "redeemable": false,
       "pids": [
         "50329291"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 24,
@@ -252,7 +275,8 @@
       "redeemable": false,
       "pids": [
         "50234921"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 25,
@@ -262,7 +286,8 @@
       "redeemable": false,
       "pids": [
         "50296359"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 26,
@@ -272,7 +297,8 @@
       "redeemable": true,
       "pids": [
         "50157239"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 27,
@@ -282,7 +308,8 @@
       "redeemable": false,
       "pids": [
         "50334317"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 28,
@@ -292,7 +319,8 @@
       "redeemable": true,
       "pids": [
         "50035039"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 29,
@@ -302,7 +330,8 @@
       "redeemable": false,
       "pids": [
         "50014620"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 30,
@@ -312,7 +341,8 @@
       "redeemable": false,
       "pids": [
         "50179225"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 31,
@@ -322,7 +352,8 @@
       "redeemable": false,
       "pids": [
         "50043207"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 32,
@@ -332,7 +363,8 @@
       "redeemable": false,
       "pids": [
         "50211085"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 33,
@@ -342,7 +374,8 @@
       "redeemable": true,
       "pids": [
         "50342476"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 34,
@@ -352,7 +385,8 @@
       "redeemable": true,
       "pids": [
         "50190503"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 35,
@@ -362,7 +396,8 @@
       "redeemable": false,
       "pids": [
         "50042258"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 36,
@@ -372,7 +407,8 @@
       "redeemable": false,
       "pids": [
         "50215995"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 37,
@@ -382,7 +418,8 @@
       "redeemable": true,
       "pids": [
         "50003904"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 38,
@@ -392,7 +429,8 @@
       "redeemable": false,
       "pids": [
         "50170224"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 39,
@@ -402,7 +440,8 @@
       "redeemable": false,
       "pids": [
         "50092790"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 40,
@@ -412,7 +451,8 @@
       "redeemable": true,
       "pids": [
         "50326339"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 41,
@@ -422,7 +462,8 @@
       "redeemable": true,
       "pids": [
         "50159409"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 42,
@@ -432,7 +473,8 @@
       "redeemable": false,
       "pids": [
         "50163336"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 43,
@@ -442,7 +484,8 @@
       "redeemable": false,
       "pids": [
         "50291475"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 44,
@@ -452,7 +495,8 @@
       "redeemable": true,
       "pids": [
         "50291558"
-      ]
+      ],
+      "listingStatus": "advertised"
     },
     {
       "lien": 45,
@@ -462,7 +506,10 @@
       "redeemable": false,
       "pids": [
         "50067925"
-      ]
+      ],
+      "listingStatus": "advertised"
     }
-  ]
+  ],
+  "landingPage": "https://invernesscounty.ca/services/finance-taxation/tax-sales/",
+  "sourceDocumentSha256": "224da900debae3d32ff96ba4e1ef124f2953fc6733bef80665c782dfffd42be5"
 }
