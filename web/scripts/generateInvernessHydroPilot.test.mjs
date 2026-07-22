@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   findDownstreamDropCandidates,
+  microHydroClassForKw,
+  modelNetworkReaches,
   modelRouteReaches,
   selectBestDropCandidate,
+  selectMicroHydroCandidate,
 } from "./generateInvernessHydroPilot.mjs";
 
 const rectangle = (left, bottom, right, top) => ({
@@ -35,6 +38,57 @@ const route = [
 ];
 
 describe("point-specific Inverness hydro modelling", () => {
+  it("retains tributary reaches and unions their catchment areas downstream", () => {
+    const network = [
+      {
+        id: "north-tributary",
+        coordinates: [[0, 1, 120], [1, 0, 100]],
+        lengthMetres: 1_000,
+      },
+      {
+        id: "south-tributary",
+        coordinates: [[0, -1, 115], [1, 0, 100]],
+        lengthMetres: 1_000,
+      },
+      {
+        id: "trunk",
+        coordinates: [[1, 0, 100], [2, 0, 80]],
+        lengthMetres: 1_000,
+      },
+      {
+        id: "lower",
+        coordinates: [[2, 0, 80], [3, 0, 70]],
+        lengthMetres: 1_000,
+      },
+    ];
+
+    const reaches = modelNetworkReaches(network, [
+      {
+        code: "north",
+        areaKm2: 4,
+        geometry: rectangle(-0.1, 0.4, 1.01, 1.1),
+      },
+      {
+        code: "south",
+        areaKm2: 6,
+        geometry: rectangle(-0.1, -1.1, 1.01, -0.4),
+      },
+    ], {
+      thresholdsMetres: [5, 10, 20, 30],
+      maxDistanceMetres: 3_000,
+    });
+
+    expect(reaches.map(({ edge, upstreamAreaKm2 }) => ({
+      id: edge.id,
+      upstreamAreaKm2,
+    }))).toEqual([
+      { id: "north-tributary", upstreamAreaKm2: 4 },
+      { id: "south-tributary", upstreamAreaKm2: 6 },
+      { id: "trunk", upstreamAreaKm2: 10 },
+      { id: "lower", upstreamAreaKm2: 10 },
+    ]);
+  });
+
   it("adds an official catchment only after its mapped route outlet", () => {
     const reaches = modelRouteReaches(route, [
       {
@@ -133,5 +187,31 @@ describe("point-specific Inverness hydro modelling", () => {
     expect(best.averageFallMetresPerKm).toBe(20);
     expect(best.screeningValue).toBeCloseTo(Math.log1p(24) * 20, 8);
     expect(selectBestDropCandidate(24, [])).toBeNull();
+  });
+
+  it("selects a short-run micro-hydro scenario and reports its nominal power", () => {
+    const best = selectMicroHydroCandidate(5, [
+      { dropMetres: 5, routeDistanceMetres: 1_000 },
+      { dropMetres: 10, routeDistanceMetres: 1_500 },
+      { dropMetres: 20, routeDistanceMetres: 2_500 },
+    ], {
+      specificDischargeLitresPerSecondPerKm2: 8,
+      efficiency: 0.6,
+    });
+
+    expect(best.dropMetres).toBe(20);
+    expect(best.nominalFlowLitresPerSecond).toBeCloseTo(40, 8);
+    expect(best.indicativePowerKw).toBeCloseTo(4.7088, 8);
+    expect(best.opportunityClass).toBe("kw-1-5");
+    expect(best.screeningValue).toBeCloseTo(4.7088 / 2.5, 8);
+  });
+
+  it("uses explicit 1 to 50 kW-scale opportunity bands", () => {
+    expect(microHydroClassForKw(0.99)).toBe("below-1kw");
+    expect(microHydroClassForKw(1)).toBe("kw-1-5");
+    expect(microHydroClassForKw(5)).toBe("kw-5-15");
+    expect(microHydroClassForKw(15)).toBe("kw-15-30");
+    expect(microHydroClassForKw(30)).toBe("kw-30-50");
+    expect(microHydroClassForKw(50.01)).toBe("over-50kw");
   });
 });

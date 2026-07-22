@@ -1143,7 +1143,7 @@ function HydroPilotLayerToggle({
 
 function HydroPotentialLegend() {
   return (
-    <div className="hydro-potential-legend" aria-label="Hydro terrain symbology">
+    <div className="hydro-potential-legend" aria-label="Micro-hydro symbology">
       <p><strong>Line width = modeled upstream area</strong></p>
       <div className="hydro-width-key" aria-hidden="true">
         <span className="hydro-line narrow" />
@@ -1151,13 +1151,15 @@ function HydroPotentialLegend() {
         <span className="hydro-line wide" />
         <span>larger</span>
       </div>
-      <p><strong>Colour = bounded drop-distance potential</strong></p>
+      <p><strong>Colour = nominal micro-hydro scale</strong></p>
       <ul>
-        <li><span className="hydro-swatch not-qualified" />No 10 m drop within 10 km</li>
-        <li><span className="hydro-swatch low" />Low</li>
-        <li><span className="hydro-swatch moderate" />Moderate</li>
-        <li><span className="hydro-swatch high" />High</li>
-        <li><span className="hydro-swatch very-high" />Very high</li>
+        <li><span className="hydro-swatch not-qualified" />No 5 m drop within 3 km</li>
+        <li><span className="hydro-swatch below-1kw" />Below 1 kW scale</li>
+        <li><span className="hydro-swatch kw-1-5" />1–5 kW scale</li>
+        <li><span className="hydro-swatch kw-5-15" />5–15 kW scale</li>
+        <li><span className="hydro-swatch kw-15-30" />15–30 kW scale</li>
+        <li><span className="hydro-swatch kw-30-50" />30–50 kW scale</li>
+        <li><span className="hydro-swatch over-50kw" />Above 50 kW scale</li>
       </ul>
     </div>
   );
@@ -2136,7 +2138,7 @@ export function App() {
             ))}
             <details className="resource-layer-group hydro-pilot-group">
               <summary>
-                <span>Hydro terrain pilot</span>
+                <span>Micro-hydro pilot</span>
                 <small>1 optional Inverness screen</small>
               </summary>
               <div className="resource-layer-controls">
@@ -2156,9 +2158,10 @@ export function App() {
                 ) : null}
                 <p className="resource-source-note hydro-pilot-note">
                   Width uses routed official tertiary/sub-tertiary catchment area;
-                  drop and route use directed NSHN primary-flow lines. Values step
-                  at catchment outlets and are not exact at every point. The rank
-                  is relative within this pilot and is not flow or power. {" "}
+                  colour uses a fixed 8 L/s/km² regional flow scenario, mapped gross
+                  drop, route distance, and 60% nominal efficiency. Values step at
+                  catchment outlets and are not exact at every point. The kW scale is
+                  for screening—not measured flow, net head, or predicted output. {" "}
                   <a
                     href={hydroPilotLayerCatalog[0].sourceUrl}
                     target="_blank"
@@ -2173,6 +2176,22 @@ export function App() {
                     rel="noreferrer"
                   >
                     NSHN source
+                  </a>
+                  {" · "}
+                  <a
+                    href="https://wateroffice.ec.gc.ca/services/index_e.html"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Flow calibration source
+                  </a>
+                  {" · "}
+                  <a
+                    href="https://natural-resources.canada.ca/maps-tools-publications/publications/micro-hydro-systems-buyer-s-guide"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Micro-hydro method
                   </a>
                 </p>
               </div>

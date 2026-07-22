@@ -50,7 +50,7 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["mineral-tenure"] ? "on" : "off"}; abandoned mines:{" "}
       {resourceLayers["abandoned-mines"] ? "on" : "off"}; mineral proximity parcels:{" "}
       {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
-      ; Inverness terrain potential: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
+      ; Inverness micro-hydro screen: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
       ; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
@@ -573,24 +573,40 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
 
-    const summary = screen.getByText("Hydro terrain pilot");
+    const summary = screen.getByText("Micro-hydro pilot");
     const group = summary.closest("details");
     expect(group).not.toHaveAttribute("open");
-    expect(screen.getByLabelText("Inverness terrain potential")).not.toBeChecked();
-    expect(screen.getByLabelText("Inverness terrain potential")).toBeEnabled();
+    expect(screen.getByLabelText("Inverness micro-hydro screen")).not.toBeChecked();
+    expect(screen.getByLabelText("Inverness micro-hydro screen")).toBeEnabled();
 
     await user.click(summary);
-    await user.click(screen.getByLabelText("Inverness terrain potential"));
+    await user.click(screen.getByLabelText("Inverness micro-hydro screen"));
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "Inverness terrain potential: on",
+      "Inverness micro-hydro screen: on",
     );
     expect(within(group as HTMLElement).getByText("Line width = modeled upstream area"))
       .toBeInTheDocument();
-    expect(within(group as HTMLElement).getByText("Colour = bounded drop-distance potential"))
+    expect(within(group as HTMLElement).getByText("Colour = nominal micro-hydro scale"))
       .toBeInTheDocument();
-    expect(within(group as HTMLElement).getByText("No 10 m drop within 10 km"))
+    expect(within(group as HTMLElement).getByText("1–5 kW scale"))
       .toBeInTheDocument();
+    expect(within(group as HTMLElement).getByText("30–50 kW scale"))
+      .toBeInTheDocument();
+    expect(within(group as HTMLElement).getByText("No 5 m drop within 3 km"))
+      .toBeInTheDocument();
+    expect(within(group as HTMLElement).getByRole("link", {
+      name: "Flow calibration source",
+    })).toHaveAttribute(
+      "href",
+      "https://wateroffice.ec.gc.ca/services/index_e.html",
+    );
+    expect(within(group as HTMLElement).getByRole("link", {
+      name: "Micro-hydro method",
+    })).toHaveAttribute(
+      "href",
+      "https://natural-resources.canada.ca/maps-tools-publications/publications/micro-hydro-systems-buyer-s-guide",
+    );
   });
 
   it("enables the derived parcel control after licence acceptance but keeps it off by default", async () => {

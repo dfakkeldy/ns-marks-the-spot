@@ -503,7 +503,7 @@ export const initialResourceLayerVisibility: Record<ResourceLayerId, boolean> = 
 export const hydroPilotLayerCatalog: readonly HydroPilotLayerDescriptor[] = [
   {
     id: "inverness-hydro-potential",
-    name: "Inverness terrain potential",
+    name: "Inverness micro-hydro screen",
     sourceUrl:
       "https://data.novascotia.ca/Internal-Government-Services/1-10-000-Nova-Scotia-Watersheds-Map/kzer-4ht8",
     serviceUrl:
@@ -512,10 +512,10 @@ export const hydroPilotLayerCatalog: readonly HydroPilotLayerDescriptor[] = [
     maxZoom: 23,
     opacity: 0.92,
     licence: "province-open",
-    webCaveat: "Modeled upstream area + bounded mapped drop · relative pilot",
-    sourceDate: "Watersheds 2021 · NSHN retrieved July 20, 2026",
-    scale: "Tertiary/sub-tertiary catchments + NSHN primary-flow route",
-    coverage: "13 Inverness-centred watersheds with routed catchment coverage",
+    webCaveat: "Modeled upstream area + nominal 1–50 kW scale · not predicted output",
+    sourceDate: "Watersheds 2021 · NSHN retrieved July 21, 2026",
+    scale: "Tertiary/sub-tertiary catchments + connected NSHN tributaries",
+    coverage: "13 Inverness-centred watersheds with connected tributary coverage",
   },
 ] as const;
 

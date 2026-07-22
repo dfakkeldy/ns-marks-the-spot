@@ -448,11 +448,13 @@ function HydroPilotLayer({
           { sticky: true },
         );
         const dropRows = properties.dropThresholdMetres === null
-          ? `<div><dt>Bounded drop</dt><dd>No 10 m drop within 10 km</dd></div>`
+          ? `<div><dt>Bounded drop</dt><dd>No 5 m drop within 3 km</dd></div>`
           : `
               <div><dt>Selected drop</dt><dd>${properties.dropThresholdMetres.toLocaleString("en-CA")} m</dd></div>
               <div><dt>Downstream route</dt><dd>${properties.downstreamRouteLengthKm!.toLocaleString("en-CA")} km</dd></div>
               <div><dt>Average mapped fall</dt><dd>${properties.averageMappedFallMetresPerKm!.toLocaleString("en-CA")} m/km</dd></div>
+              <div><dt>Nominal flow scenario</dt><dd>${properties.nominalFlowLitresPerSecond!.toLocaleString("en-CA")} L/s</dd></div>
+              <div><dt>Indicative scale</dt><dd>${properties.indicativePowerKw!.toLocaleString("en-CA")} kW</dd></div>
             `;
         featureLayer.bindPopup(`
           <article class="hydro-potential-popup">
@@ -460,10 +462,11 @@ function HydroPilotLayer({
             <h3>${properties.watershedName}</h3>
             <dl>
               <div><dt>Modeled upstream area</dt><dd>${properties.upstreamAreaKm2.toLocaleString("en-CA")} km²</dd></div>
+              <div><dt>Network reach</dt><dd>${properties.networkRole === "tributary" ? "Tributary" : "Main trunk"}</dd></div>
               ${dropRows}
-              <div><dt>Relative potential</dt><dd><strong>${potentialLabel}</strong></dd></div>
+              <div><dt>Opportunity band</dt><dd><strong>${potentialLabel}</strong></dd></div>
             </dl>
-            <p>Area changes at routed ${properties.catchmentResolution} catchment outlets; it is not exact at an arbitrary point. Potential is relative among qualifying reaches. Terrain screening only—not measured flow, channel width, hydraulic head, power, access, rights, or approval.</p>
+            <p>Area changes at routed ${properties.catchmentResolution} catchment outlets; it is not exact at an arbitrary point. The kW scale uses ${collection.metadata.nominalSpecificDischargeLitresPerSecondPerKm2} L/s/km², mapped gross drop, and ${Math.round(collection.metadata.nominalSystemEfficiency * 100)}% nominal efficiency. It is not measured flow, net head, seasonal output, predicted production, access, rights, or approval.</p>
           </article>
         `);
       }}
