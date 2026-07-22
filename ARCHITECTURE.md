@@ -96,6 +96,12 @@ coordinates to Web Mercator bounds and requests direct PNG tiles from each
 MapServer's `export` operation. This matches the native app's service model
 without sharing its offline cache policy.
 
+The catalog also appends a separately identified web-only Province layer for
+NSTDB buildings. It starts off, renders only from zoom 13, and sits above
+property boundaries but below the road overlay. This keeps the native parity
+list honest while reusing the same MapServer export adapter and selected-parcel
+visual authority.
+
 The same catalog also owns a separate web-only `resourceLayerCatalog`. These
 open-data overlays do not change native-layer parity and do not depend on the
 restricted-services acceptance gate. NovaROC exploration licences and mineral
@@ -201,6 +207,13 @@ that neither geometry query returned, the sheet includes that name with the
 separate relationship “Named by civic address.” These three signals are map
 context only and are never described as proof of frontage or legal access.
 Empty results remain distinct from live-service failures.
+
+`services/buildings.ts` independently reuses the exact selected NSPRD rings for
+three NSTDB intersection counts: classified building points, unclassified
+building points, and building polygons. The labelled polygon-callout layer is
+not a fourth building source and is deliberately excluded to prevent duplicate
+counts. The inspector preserves loading, returned zero, and source-error states
+instead of converting an unavailable service into zero.
 
 `services/civicAddresses.ts` owns the authoritative PID-to-civic-address lookup.
 It is intentionally separate from `parcelContext.ts`: Civic Points use the Nova

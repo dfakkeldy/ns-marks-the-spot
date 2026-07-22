@@ -163,6 +163,7 @@ describe("MapCanvas browser location", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -208,6 +209,7 @@ describe("MapCanvas browser location", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -274,6 +276,7 @@ describe("MapCanvas sizing", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -317,6 +320,7 @@ describe("MapCanvas parcel discovery", () => {
           waterfalls: false,
           "water-features": true,
           roads: true,
+          buildings: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -371,6 +375,7 @@ describe("MapCanvas parcel discovery", () => {
         waterfalls: false,
         "water-features": true,
         roads: true,
+        buildings: false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -408,6 +413,7 @@ describe("MapCanvas Province overlays", () => {
           waterfalls: false,
           "water-features": false,
           roads: true,
+          buildings: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -455,6 +461,7 @@ describe("MapCanvas resource overlays", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -500,6 +507,7 @@ describe("MapCanvas resource overlays", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={{ ...hiddenResourceLayers, "abandoned-mines": true }}
         showModernMap={false}
@@ -538,6 +546,7 @@ describe("MapCanvas resource overlays", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -576,6 +585,7 @@ describe("MapCanvas resource overlays", () => {
         waterfalls: false,
         "water-features": false,
         roads: false,
+        buildings: false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -630,6 +640,7 @@ describe("MapCanvas resource overlays", () => {
         waterfalls: false,
         "water-features": false,
         roads: false,
+        buildings: false,
       },
       resourceLayers: {
         ...hiddenResourceLayers,
@@ -685,6 +696,7 @@ describe("MapCanvas micro-hydro pilot", () => {
           waterfalls: false,
           "water-features": false,
           roads: false,
+          buildings: false,
         }}
         resourceLayers={hiddenResourceLayers}
         hydroPilotLayers={{ "inverness-hydro-potential": true }}

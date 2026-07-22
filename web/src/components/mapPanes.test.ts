@@ -63,5 +63,11 @@ describe("parcel pane ordering", () => {
     expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeLessThan(
       PROVINCE_LAYER_Z_INDEXES.roads,
     );
+    expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeLessThan(
+      PROVINCE_LAYER_Z_INDEXES.buildings,
+    );
+    expect(PROVINCE_LAYER_Z_INDEXES.buildings).toBeLessThan(
+      PROVINCE_LAYER_Z_INDEXES.roads,
+    );
   });
 });

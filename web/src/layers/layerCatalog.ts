@@ -8,7 +8,13 @@ export type NativeLayerId =
   | "water-features"
   | "roads";
 
-export type ProvinceLayerId = Exclude<NativeLayerId, "fletcher">;
+export type WebOnlyProvinceLayerId = "buildings";
+
+export type ProvinceLayerId =
+  | Exclude<NativeLayerId, "fletcher">
+  | WebOnlyProvinceLayerId;
+
+export type WebMapLayerId = NativeLayerId | WebOnlyProvinceLayerId;
 
 export type SourceResourceLayerId =
   | "mineral-occurrences"
@@ -67,7 +73,7 @@ export type ArcGISExportOptions = {
 };
 
 export type WebLayerDescriptor = {
-  id: NativeLayerId;
+  id: WebMapLayerId;
   name: string;
   serviceUrl: string;
   nativeDefaultVisibility: boolean;
@@ -398,7 +404,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
   },
 ] as const;
 
-export const provinceLayerIds: NativeLayerId[] = [
+export const provinceLayerIds: ProvinceLayerId[] = [
   "ns-aerial",
   "nsprd",
   "crown-lands",
@@ -406,12 +412,41 @@ export const provinceLayerIds: NativeLayerId[] = [
   "waterfalls",
   "water-features",
   "roads",
+  "buildings",
 ];
 
-export const provinceLayerCatalog = nativeLayerCatalog.filter(
-  (layer): layer is WebLayerDescriptor & { id: ProvinceLayerId } =>
-    layer.licence === "province-restricted",
-);
+export const webOnlyProvinceLayerCatalog: readonly (
+  WebLayerDescriptor & { id: WebOnlyProvinceLayerId }
+)[] = [
+  {
+    id: "buildings",
+    name: "Buildings",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Buildings_UT83/MapServer",
+    nativeDefaultVisibility: false,
+    minZoom: 13,
+    maxZoom: 24,
+    opacity: 0.9,
+    licence: "province-restricted",
+    webAvailability: "available",
+    webCaveat: "Mapped points & footprints · zoom 13+",
+    sourceDate: "NSTDB updated May 5, 2026 · service checked July 22, 2026",
+    scale: "NSTDB 1:10,000",
+    coverage: "Nova Scotia",
+    exportOptions: { transparent: true, dpi: 144 },
+  },
+] as const;
+
+export const provinceLayerCatalog: readonly (
+  WebLayerDescriptor & { id: ProvinceLayerId }
+)[] = [
+  ...nativeLayerCatalog.filter(
+    (layer): layer is WebLayerDescriptor & {
+      id: Exclude<NativeLayerId, "fletcher">;
+    } => layer.licence === "province-restricted",
+  ),
+  ...webOnlyProvinceLayerCatalog,
+];
 
 export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = {
   "ns-aerial": true,
@@ -421,6 +456,7 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
   waterfalls: false,
   "water-features": true,
   roads: true,
+  buildings: false,
 };
 
 const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";
