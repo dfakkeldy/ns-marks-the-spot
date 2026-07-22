@@ -39,8 +39,10 @@ import {
 } from "./licensing/provinceLicense";
 import {
   allResourceLayerCatalog,
+  floodHazardLayerCatalog,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
+  initialFloodHazardLayerVisibility,
   initialProvinceLayerVisibility,
   initialResourceLayerVisibility,
   nativeLayerCatalog,
@@ -48,6 +50,8 @@ import {
   resourceLayerCatalog,
   type HydroPilotLayerDescriptor,
   type HydroPilotLayerId,
+  type FloodHazardLayerDescriptor,
+  type FloodHazardLayerId,
   type ProvinceLayerId,
   type ResourceControlDescriptor,
   type ResourceLayerId,
@@ -81,6 +85,10 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 import { buildEvidenceNote } from "./services/evidenceNote";
+import {
+  fetchParcelFloodHazardEvidence,
+  type ParcelFloodHazardEvidence,
+} from "./services/floodHazard";
 import {
   buildMapShareUrl,
   parseMapShareState,
@@ -116,6 +124,10 @@ type ParcelResourceState =
   | { status: "idle" | "loading"; value: ParcelResourceIntersections }
   | { status: "ready"; value: ParcelResourceIntersections };
 
+type FloodHazardState =
+  | { status: "idle" | "loading" }
+  | { status: "ready"; value: ParcelFloodHazardEvidence };
+
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
 const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
 const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
@@ -129,6 +141,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...provinceLayerCatalog.map(({ id }) => id),
   ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
+  ...floodHazardLayerCatalog.map(({ id }) => id),
 ];
 
 function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
@@ -424,6 +437,7 @@ function ParcelInspector({
   civicAddresses,
   historicalContexts,
   resourceIntersections,
+  floodHazard,
   mapMode,
   shareUrl,
   shareMessage,
@@ -440,6 +454,7 @@ function ParcelInspector({
   civicAddresses: CivicAddressState;
   historicalContexts: HistoricalRecordContext[];
   resourceIntersections: ParcelResourceState;
+  floodHazard: FloodHazardState;
   mapMode: MapMode;
   shareUrl: string;
   shareMessage: string | null;
@@ -567,6 +582,7 @@ function ParcelInspector({
       ) : null}
       <CivicAddressDetails state={civicAddresses} />
       <MappedContextDetails state={mappedContext} civicAddresses={civicAddresses} />
+      <FloodHazardDetails state={floodHazard} />
       <ParcelResourceDetails state={resourceIntersections} />
       {listing ? (
         <p className="sale-warning">
@@ -615,6 +631,104 @@ function ParcelInspector({
         Open this exact map state
       </a>
     </aside>
+  );
+}
+
+const COASTAL_HAZARD_MAP_URL = "https://nsgi.novascotia.ca/chm";
+const COASTAL_HAZARD_LICENCE_URL =
+  "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
+const PUBLISHED_RIVER_FLOOD_URL =
+  "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer";
+
+function FloodHazardDetails({ state }: { state: FloodHazardState }) {
+  if (state.status !== "ready") {
+    return (
+      <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
+        <h3>Flood hazard evidence</h3>
+        <p className="mapped-context-status" role="status">
+          Checking published river and coastal hazard mapping…
+        </p>
+      </section>
+    );
+  }
+
+  const { river, coastal } = state.value;
+  return (
+    <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
+      <h3>Flood hazard evidence</h3>
+      <div className="flood-hazard-group">
+        <h4>Published river mapping</h4>
+        {river.status === "published-intersection" ? (
+          <ul>
+            {river.aep.map(({ annualExceedanceProbabilityPercent, relationship, places }) => (
+              <li key={`${annualExceedanceProbabilityPercent}:${relationship}`}>
+                {annualExceedanceProbabilityPercent}% annual-exceedance {relationship === "area" ? "flood area" : "boundary"} intersects the parcel ({places.join(", ")}).
+              </li>
+            ))}
+          </ul>
+        ) : river.status === "within-published-layer-extent" ? (
+          <p>
+            No published river flood geometry intersected. The parcel is within a
+            published layer’s geographic extent, but the service has no study-coverage
+            polygon; absence is not inferred.
+          </p>
+        ) : river.status === "outside-published-layer-extents" ? (
+          <p>
+            Outside the geographic extents of the four published river-flood study
+            layers. River flood probability is not assessed.
+          </p>
+        ) : (
+          <p className="error">Published river source unavailable; no absence is inferred.</p>
+        )}
+      </div>
+      <div className="flood-hazard-group">
+        <h4>Coastal scenarios</h4>
+        <ul>
+          {coastal.map((result) => {
+            const label = result.scenario === "current" ? "Current" : result.scenario;
+            if (result.status === "error") {
+              return <li key={result.scenario}>{label} source unavailable; no absence is inferred.</li>;
+            }
+            if (result.status === "no-intersection") {
+              return <li key={result.scenario}>No {result.scenario} map pixels intersected this parcel; this is not proof of no coastal hazard.</li>;
+            }
+            const area = result.approximateAffectedSquareMetres === null
+              ? ""
+              : ` (${Math.round(result.approximateAffectedSquareMetres).toLocaleString("en-CA")} m²)`;
+            return (
+              <li key={result.scenario}>
+                {label}: approximately {result.approximateAffectedPercent}% of mapped parcel area{area} intersects the scenario.
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <p className="flood-hazard-caveat">
+        A 1% or 5% annual-exceedance probability describes the mapped flood event,
+        not a universal probability for the whole PID. Coastal 2050 and 2100 values
+        are sea-level scenarios, not additional probabilities. Raster area is an
+        approximate screen, not a survey, elevation certificate, or insurance finding.
+      </p>
+      <p className="flood-hazard-sources">
+        Sources: <a href={PUBLISHED_RIVER_FLOOD_URL} target="_blank" rel="noreferrer">published river layers</a>{" "}
+        and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
+        Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
+      </p>
+      <div className="flood-hazard-licence-notice">
+        <p>Reproduced and distributed with the permission of the Department of Service Nova Scotia.</p>
+        <p>
+          This product has been produced by KinNoKi Labs and includes data provided
+          by the Department of Service Nova Scotia. The incorporation of that data
+          shall not be construed as constituting an endorsement by the Department
+          of Service Nova Scotia of this product.
+        </p>
+        <p>
+          Service Nova Scotia makes no representation and gives no warranty of any
+          kind respecting the data’s accuracy, usefulness, novelty, validity, scope,
+          completeness, or currency.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -1141,6 +1255,52 @@ function HydroPilotLayerToggle({
   );
 }
 
+function FloodHazardLayerToggle({
+  layer,
+  checked,
+  licenceAccepted,
+  status,
+  onChange,
+  onReviewLicence,
+}: {
+  layer: FloodHazardLayerDescriptor;
+  checked: boolean;
+  licenceAccepted: boolean;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+  onReviewLicence: () => void;
+}) {
+  const enabled = layer.licence === "province-open" || licenceAccepted;
+  return (
+    <label className="layer-row flood-hazard-layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={enabled && checked}
+        disabled={!enabled}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={enabled && checked}
+          status={status}
+        />
+      </span>
+      {!enabled ? (
+        <button className="text-button" type="button" onClick={onReviewLicence}>Review</button>
+      ) : null}
+    </label>
+  );
+}
+
 function HydroPotentialLegend() {
   return (
     <div className="hydro-potential-legend" aria-label="Micro-hydro symbology">
@@ -1207,6 +1367,9 @@ export function App() {
       status: initialShareState.pid ? "loading" : "idle",
       value: EMPTY_RESOURCE_INTERSECTIONS,
     });
+  const [floodHazard, setFloodHazard] = useState<FloodHazardState>({
+    status: initialShareState.pid ? "loading" : "idle",
+  });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
   const [mapPosition, setMapPosition] = useState<MapPosition>(
     initialShareState.position,
@@ -1248,6 +1411,16 @@ export function App() {
           ]),
         ) as Record<HydroPilotLayerId, boolean>
       : initialHydroPilotLayerVisibility,
+  );
+  const [floodHazardLayers, setFloodHazardLayers] = useState(
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          floodHazardLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<FloodHazardLayerId, boolean>
+      : initialFloodHazardLayerVisibility,
   );
   const effectiveResourceLayers = useMemo<Record<ResourceLayerId, boolean>>(
     () => ({
@@ -1425,6 +1598,38 @@ export function App() {
   }, [licenceAccepted, parcels, selectedPid]);
 
   useEffect(() => {
+    if (!selectedPid || !licenceAccepted) return;
+    const selectedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === selectedPid,
+    );
+    if (selectedFeatures.length === 0) return;
+
+    const controller = new AbortController();
+    const mappedArea = mappedAreaForPid(parcels, selectedPid);
+    fetchParcelFloodHazardEvidence(
+      selectedFeatures,
+      mappedArea?.squareMetres ?? null,
+      controller.signal,
+    ).then((value) => setFloodHazard({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setFloodHazard({
+          status: "ready",
+          value: {
+            river: { status: "error", aep: [], message: "Flood evidence request failed." },
+            coastal: ["current", "2050", "2100"].map((scenario) => ({
+              scenario: scenario as "current" | "2050" | "2100",
+              status: "error" as const,
+              stormAnnualExceedanceProbabilityPercent: 1 as const,
+              message: "Flood evidence request failed.",
+            })),
+          },
+        });
+      });
+    return () => controller.abort();
+  }, [licenceAccepted, parcels, selectedPid]);
+
+  useEffect(() => {
     if (!selectedPid || !licenceAccepted) {
       return;
     }
@@ -1579,6 +1784,13 @@ export function App() {
     setHydroPilotLayers((current) => ({ ...current, [id]: visible }));
   };
 
+  const setFloodHazardLayerVisibility = (
+    id: FloodHazardLayerId,
+    visible: boolean,
+  ) => {
+    setFloodHazardLayers((current) => ({ ...current, [id]: visible }));
+  };
+
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       setLayerStatuses((current) => ({ ...current, [id]: status }));
@@ -1590,6 +1802,7 @@ export function App() {
     setMobileControlsOpen(false);
     setSelectedPid(pid);
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
+    setFloodHazard({ status: "loading" });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
       status: "loading",
@@ -1606,6 +1819,7 @@ export function App() {
     setSelectedPid(null);
     setQuery("");
     setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT });
+    setFloodHazard({ status: "idle" });
     setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
       status: "idle",
@@ -1808,7 +2022,10 @@ export function App() {
     ...hydroPilotLayerCatalog
       .filter(({ id }) => hydroPilotLayers[id])
       .map(({ id }) => id),
-  ], [hydroPilotLayers, provinceLayers, resourceLayers, showModernMap]);
+    ...floodHazardLayerCatalog
+      .filter(({ id }) => floodHazardLayers[id])
+      .map(({ id }) => id),
+  ], [floodHazardLayers, hydroPilotLayers, provinceLayers, resourceLayers, showModernMap]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -1874,6 +2091,13 @@ export function App() {
         })),
       ...hydroPilotLayerCatalog
         .filter(({ id }) => hydroPilotLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...floodHazardLayerCatalog
+        .filter(({ id }) => floodHazardLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -2136,6 +2360,29 @@ export function App() {
                 ) : null}
               </div>
             ))}
+            <details className="resource-layer-group flood-hazard-layer-group">
+              <summary>
+                <span>Flood hazard context</span>
+                <small>4 optional published screens</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {floodHazardLayerCatalog.map((layer) => (
+                  <FloodHazardLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={floodHazardLayers[layer.id]}
+                    licenceAccepted={licenceAccepted}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) => setFloodHazardLayerVisibility(layer.id, checked)}
+                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                  />
+                ))}
+                <p className="resource-source-note">
+                  Annual-exceedance percentages describe mapped events, not a whole-PID score.
+                  Future coastal years are scenarios. Each layer is independently controlled.
+                </p>
+              </div>
+            </details>
             <details className="resource-layer-group hydro-pilot-group">
               <summary>
                 <span>Micro-hydro pilot</span>
@@ -2491,6 +2738,7 @@ export function App() {
             provinceLayers={provinceLayers}
             resourceLayers={effectiveResourceLayers}
             hydroPilotLayers={hydroPilotLayers}
+            floodHazardLayers={floodHazardLayers}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0
@@ -2523,6 +2771,7 @@ export function App() {
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
+              floodHazard={floodHazard}
               mapMode={mapMode}
               shareUrl={shareUrl}
               shareMessage={shareMessage}
@@ -2544,6 +2793,7 @@ export function App() {
                   status: "idle",
                   value: EMPTY_RESOURCE_INTERSECTIONS,
                 });
+                setFloodHazard({ status: "idle" });
                 setShareMessage(null);
               }}
             />

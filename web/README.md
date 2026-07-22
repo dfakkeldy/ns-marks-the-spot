@@ -73,7 +73,12 @@ remaining online-only:
   zoom floor. A selected sale parcel becomes fully opaque at zoom 15 and closer
   while other listed parcels keep their lighter overview fill.
 - Crown Lands uses the native green dynamic renderer.
-- Flood Risk Areas uses the native `show:24,25,26` watershed restriction.
+- Watersheds uses the native `show:24,25,26` restriction; it is watershed
+  context, not flood-risk mapping.
+- Flood hazard context is separate and default-off: published 5%/1% AEP river
+  layers for four study areas plus current, 2050, and 2100 Coastal Hazard Map
+  scenarios. Selected parcels show coverage-aware source states and approximate
+  raster exposure rather than a universal PID probability.
 - Waterfalls uses hydrography layer 1 and the exact Province falls definition;
   enabling it fits the map to all 90 matching points before the user zooms in.
 - [Water Features](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Nova-Scotia-Topographic-DataBase-Water-Features-Li/fpca-jrmt)

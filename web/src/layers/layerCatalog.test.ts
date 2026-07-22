@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   allResourceLayerCatalog,
   derivedResourceLayerCatalog,
+  floodHazardLayerCatalog,
+  initialFloodHazardLayerVisibility,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialResourceLayerVisibility,
@@ -46,7 +48,7 @@ describe("web native-layer parity catalog", () => {
       },
       {
         id: "flood-risk",
-        name: "Flood Risk Areas",
+        name: "Watersheds",
         serviceUrl:
           "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
       },
@@ -109,7 +111,7 @@ describe("web native-layer parity catalog", () => {
     });
   });
 
-  it("carries the native flood and waterfall rendering restrictions", () => {
+  it("labels the watershed renderer honestly and carries its restrictions", () => {
     const aerial = nativeLayerCatalog.find(({ id }) => id === "ns-aerial");
     const floodRisk = nativeLayerCatalog.find(
       ({ id }) => id === "flood-risk",
@@ -119,6 +121,7 @@ describe("web native-layer parity catalog", () => {
     );
 
     expect(aerial?.maxZoom).toBe(23);
+    expect(floodRisk?.webCaveat).toContain("not flood-risk mapping");
     expect(floodRisk?.exportOptions?.layers).toBe("show:24,25,26");
     expect(waterfalls?.minZoom).toBe(7);
     expect(waterfalls?.webCaveat).toBe(
@@ -130,6 +133,48 @@ describe("web native-layer parity catalog", () => {
     expect(waterfalls?.exportOptions?.dynamicLayers).toContain(
       '"mapLayerId":1',
     );
+  });
+
+  it("offers independently controlled published river and coastal hazard layers", () => {
+    expect(
+      floodHazardLayerCatalog.map(({ id, name, licence, exportOptions }) => ({
+        id,
+        name,
+        licence,
+        layers: exportOptions.layers,
+      })),
+    ).toEqual([
+      {
+        id: "published-river-flood-zones",
+        name: "Published river flood zones",
+        licence: "province-restricted",
+        layers: "show:2,3,4,5,7,8,9,10,12,13,14,16,17,18",
+      },
+      {
+        id: "coastal-flood-current",
+        name: "Coastal flooding — current",
+        licence: "province-open",
+        layers: undefined,
+      },
+      {
+        id: "coastal-flood-2050",
+        name: "Coastal flooding — 2050",
+        licence: "province-open",
+        layers: undefined,
+      },
+      {
+        id: "coastal-flood-2100",
+        name: "Coastal flooding — 2100",
+        licence: "province-open",
+        layers: undefined,
+      },
+    ]);
+    expect(initialFloodHazardLayerVisibility).toEqual({
+      "published-river-flood-zones": false,
+      "coastal-flood-current": false,
+      "coastal-flood-2050": false,
+      "coastal-flood-2100": false,
+    });
   });
 
   it("keeps the Province cartography and makes linear features legible", () => {

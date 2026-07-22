@@ -74,7 +74,7 @@ enum LayerCatalog {
         ),
         LayerDescriptor(
             id: .floodRisk,
-            name: "Flood Risk Areas",
+            name: "Watersheds",
             sourceKind: .arcGISDynamic,
             sourceURL: URL(string: "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer"),
             defaultOpacity: 0.0,
