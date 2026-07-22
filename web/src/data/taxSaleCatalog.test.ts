@@ -53,16 +53,13 @@ describe("the multi-municipality tax-sale catalog", () => {
     );
   });
 
-  it("relabels an advertised event after its sale date without inventing results", () => {
+  it("archives the CBRM event without inventing parcel outcomes", () => {
     const cbrm = event("cbrm-2026-07-21");
 
     expect(eventLifecycleStatus(cbrm, new Date("2026-07-21T13:59:59Z"))).toBe(
-      "upcoming",
+      "historical",
     );
-    expect(eventLifecycleStatus(cbrm, new Date("2026-07-21T14:00:00Z"))).toBe(
-      "verify-results",
-    );
-    expect(cbrm.eventStatus).toBe("upcoming");
+    expect(cbrm.eventStatus).toBe("historical");
     expect(cbrm.listings.every(({ listingStatus }) => listingStatus === "advertised")).toBe(
       true,
     );
@@ -115,19 +112,16 @@ describe("the multi-municipality tax-sale catalog", () => {
     const historical = eventsForStatus("historical");
 
     expect(upcoming.map(({ id }) => id)).toEqual([
-      "cbrm-2026-07-21",
       "inverness-county-2026-08-11",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(112);
-    expect(pidsForEvents(upcoming)).toHaveLength(115);
-    expect(historical).toEqual([]);
-    expect(pidsForEvents(historical)).toEqual([]);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(45);
+    expect(pidsForEvents(upcoming)).toHaveLength(47);
+    expect(historical.map(({ id }) => id)).toEqual(["cbrm-2026-07-21"]);
+    expect(pidsForEvents(historical)).toHaveLength(68);
   });
 
   it("finds exact PIDs across municipality boundaries", () => {
-    expect(listingContextForPid("15054588")?.event.municipalityId).toBe(
-      "cbrm",
-    );
+    expect(listingContextForPid("15054588")).toBeUndefined();
     expect(listingContextForPid("50203256")?.event.municipalityId).toBe(
       "inverness-county",
     );
