@@ -51,6 +51,7 @@
 - [x] Coverage-aware parcel flood-hazard evidence with separate published river and coastal scenario sources
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
 - [x] Complete Province water and transportation overlays with legible official cartography, trails, and close-range culverts
+- [x] Default-off web NSTDB buildings overlay with exact selected-PID point-and-polygon building count
 - [x] Collapsed, default-off Geology & Resources group with live mineral occurrences, NovaROC tenure, and zoom-bounded abandoned mine openings
 - [x] Default-off Inverness hydro terrain-potential pilot with official watershed area, NSHN mapped drop/route length, area-scaled streams, relative potential colour, raw-metric popups, and reproducible source receipt
 - [x] Viewport-paged feature queries with independent loading, zoom, count, failure, source, and screening-caveat states

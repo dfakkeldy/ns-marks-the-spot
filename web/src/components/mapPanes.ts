@@ -5,6 +5,7 @@ export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
   nsprd: 200,
   "water-features": 210,
   "crown-lands": 220,
+  buildings: 225,
   "flood-risk": 230,
   roads: 235,
   waterfalls: 250,

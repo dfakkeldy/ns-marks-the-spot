@@ -9,8 +9,10 @@ import {
   initialResourceLayerVisibility,
   initialProvinceLayerVisibility,
   nativeLayerCatalog,
+  provinceLayerCatalog,
   provinceLayerIds,
   resourceLayerCatalog,
+  type ProvinceLayerId,
 } from "./layerCatalog";
 
 describe("web native-layer parity catalog", () => {
@@ -90,11 +92,12 @@ describe("web native-layer parity catalog", () => {
       "waterfalls",
       "water-features",
       "roads",
+      "buildings",
     ]);
 
     expect(
       nativeLayerCatalog
-        .filter(({ id }) => provinceLayerIds.includes(id))
+        .filter(({ id }) => provinceLayerIds.includes(id as ProvinceLayerId))
         .every(({ licence }) => licence === "province-restricted"),
     ).toBe(true);
   });
@@ -108,7 +111,21 @@ describe("web native-layer parity catalog", () => {
       waterfalls: false,
       "water-features": true,
       roads: true,
+      buildings: false,
     });
+  });
+
+  it("adds the web-only NSTDB buildings overlay without changing native parity", () => {
+    expect(nativeLayerCatalog.some(({ id }) => id === "buildings")).toBe(false);
+    expect(provinceLayerCatalog.find(({ id }) => id === "buildings")).toEqual(
+      expect.objectContaining({
+        name: "Buildings",
+        serviceUrl:
+          "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Buildings_UT83/MapServer",
+        minZoom: 13,
+        exportOptions: { transparent: true, dpi: 144 },
+      }),
+    );
   });
 
   it("labels the watershed renderer honestly and carries its restrictions", () => {

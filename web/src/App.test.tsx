@@ -14,6 +14,7 @@ import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/ns
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
 import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import { fetchParcelBuildingCount } from "./services/buildings";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -44,7 +45,8 @@ vi.mock("./components/MapCanvas", () => ({
       modern map: {showModernMap ? "on" : "off"}; property boundaries:{" "}
       {provinceLayers.nsprd ? "on" : "off"}; water:{" "}
       {provinceLayers["water-features"] ? "on" : "off"}; roads:{" "}
-      {provinceLayers.roads ? "on" : "off"}; historical layer:{" "}
+      {provinceLayers.roads ? "on" : "off"}; buildings:{" "}
+      {provinceLayers.buildings ? "on" : "off"}; historical layer:{" "}
       {showHistoricalTaxSales ? "on" : "off"}; historical PID count:{" "}
       {historicalTaxSalePids.size}; mineral occurrences:{" "}
       {resourceLayers["mineral-occurrences"] ? "on" : "off"}; mineral tenure:{" "}
@@ -115,6 +117,18 @@ vi.mock("./services/floodHazard", async (importOriginal) => {
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
       ],
+    }),
+  };
+});
+
+vi.mock("./services/buildings", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/buildings")>();
+  return {
+    ...original,
+    fetchParcelBuildingCount: vi.fn().mockResolvedValue({
+      count: 0,
+      pointCount: 0,
+      polygonCount: 0,
     }),
   };
 });
@@ -202,6 +216,11 @@ describe("NS Marks The Spot Online", () => {
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
       ],
     });
+    vi.mocked(fetchParcelBuildingCount).mockResolvedValue({
+      count: 0,
+      pointCount: 0,
+      polygonCount: 0,
+    });
     vi.mocked(buildEvidenceNote).mockClear();
     Object.defineProperty(URL, "createObjectURL", {
       configurable: true,
@@ -231,6 +250,42 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("NS Property Boundaries")).not.toBeChecked();
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
+    expect(screen.getByLabelText("Buildings")).not.toBeChecked();
+  });
+
+  it("toggles the building overlay and counts mapped building features on a PID", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("15234636")],
+    });
+    vi.mocked(fetchParcelBuildingCount).mockResolvedValueOnce({
+      count: 2,
+      pointCount: 2,
+      polygonCount: 0,
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("buildings: off");
+    await user.click(screen.getByLabelText("Buildings"));
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("buildings: on");
+
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "15234636",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 15234636 details",
+    });
+    const buildingLabel = await within(inspector).findByText("Mapped buildings");
+    expect(buildingLabel.nextElementSibling).toHaveTextContent("2");
+    expect(
+      within(inspector).getByText(/point and polygon building features/i),
+    ).toBeInTheDocument();
   });
 
   it("shows the modern map when continuing without Province layers", async () => {
@@ -1201,14 +1256,16 @@ describe("NS Marks The Spot Online", () => {
     const inspector = await screen.findByRole("complementary", {
       name: "Parcel 50334317 details",
     });
+    const civicSection = within(inspector)
+      .getByRole("heading", { name: "Mapped civic address" })
+      .closest("section");
+    expect(civicSection).not.toBeNull();
+    const civic = within(civicSection as HTMLElement);
     expect(
-      within(inspector).getByRole("heading", { name: "Mapped civic address" }),
+      civic.getByText("12 Main St, Mabou, Inverness County"),
     ).toBeInTheDocument();
     expect(
-      within(inspector).getByText("12 Main St, Mabou, Inverness County"),
-    ).toBeInTheDocument();
-    expect(
-      within(inspector).getByRole("link", {
+      civic.getByRole("link", {
         name: "87RW9V22+22 — Directions in Google Maps",
       }),
     ).toHaveAttribute(
@@ -1216,16 +1273,16 @@ describe("NS Marks The Spot Online", () => {
       "https://www.google.com/maps/dir/?api=1&destination=46.35%2C-61.15&dir_action=navigate",
     );
     expect(
-      within(inspector).getByRole("link", {
+      civic.getByRole("link", {
         name: "Nova Scotia Civic Address File",
       }),
     ).toHaveAttribute(
       "href",
       "https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g",
     );
-    expect(within(inspector).getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(civic.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
     expect(
-      within(inspector).getByRole("link", {
+      civic.getByRole("link", {
         name: "Open Government Licence – Nova Scotia",
       }),
     ).toHaveAttribute(
@@ -1233,7 +1290,7 @@ describe("NS Marks The Spot Online", () => {
       "https://support.novascotia.ca/services/open-data-portal-licence",
     );
     expect(
-      within(inspector).getByText(
+      civic.getByText(
         "Mapped physical-address points are not proof of ownership, mailing address, access, occupancy, or legal parcel status.",
       ),
     ).toBeInTheDocument();

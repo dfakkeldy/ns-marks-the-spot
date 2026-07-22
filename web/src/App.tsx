@@ -100,6 +100,11 @@ import {
   fetchParcelResourceIntersections,
   type ParcelResourceIntersections,
 } from "./services/parcelResources";
+import {
+  BUILDINGS_DATASET_URL,
+  fetchParcelBuildingCount,
+  type ParcelBuildingCount,
+} from "./services/buildings";
 
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
@@ -127,6 +132,10 @@ type ParcelResourceState =
 type FloodHazardState =
   | { status: "idle" | "loading" }
   | { status: "ready"; value: ParcelFloodHazardEvidence };
+
+type BuildingCountState =
+  | { status: "idle" | "loading" | "error" }
+  | { status: "ready"; value: ParcelBuildingCount };
 
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
 const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
@@ -433,6 +442,7 @@ function ParcelInspector({
   pid,
   context,
   mappedArea,
+  buildingCount,
   mappedContext,
   civicAddresses,
   historicalContexts,
@@ -450,6 +460,7 @@ function ParcelInspector({
   pid: string;
   context?: { event: TaxSaleEvent; listing: TaxSaleListing };
   mappedArea: MappedArea | null;
+  buildingCount: BuildingCountState;
   mappedContext: ParcelContextState;
   civicAddresses: CivicAddressState;
   historicalContexts: HistoricalRecordContext[];
@@ -528,6 +539,16 @@ function ParcelInspector({
             <dd>{mappedArea.label}</dd>
           </div>
         ) : null}
+        <div>
+          <dt>Mapped buildings</dt>
+          <dd aria-live="polite">
+            {buildingCount.status === "ready"
+              ? buildingCount.value.count.toLocaleString("en-CA")
+              : buildingCount.status === "error"
+                ? "Unavailable"
+                : "Checking…"}
+          </dd>
+        </div>
         {listing ? (
           <>
             <div>
@@ -568,6 +589,20 @@ function ParcelInspector({
           Calculated from NSPRD geometry and approximate; not a survey.
         </p>
       ) : null}
+      <p className="mapped-area-note building-count-note">
+        Count of NSTDB point and polygon building features intersecting the PID.
+        Smaller buildings are mapped as points; larger buildings as polygons. An
+        empty result does not prove no building exists, and the count does not
+        establish current structures, occupancy, condition, use, or permits. Source:{" "}
+        <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
+          Nova Scotia Topographic Database — Buildings
+        </a>
+        . {OPEN_GOVERNMENT_ATTRIBUTION}{" "}
+        <a href={OPEN_GOVERNMENT_LICENCE_URL} target="_blank" rel="noreferrer">
+          Open Government Licence – Nova Scotia
+        </a>
+        .
+      </p>
       {historicalContexts.length > 0 ? (
         <section className="historical-outcomes" aria-label="Historical tax-sale records">
           <h3>Historical tax-sale records</h3>
@@ -1372,6 +1407,9 @@ export function App() {
   const [floodHazard, setFloodHazard] = useState<FloodHazardState>({
     status: initialShareState.pid ? "loading" : "idle",
   });
+  const [buildingCount, setBuildingCount] = useState<BuildingCountState>({
+    status: initialShareState.pid ? "loading" : "idle",
+  });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
   const [mapPosition, setMapPosition] = useState<MapPosition>(
     initialShareState.position,
@@ -1644,6 +1682,31 @@ export function App() {
     }
 
     const controller = new AbortController();
+    fetchParcelBuildingCount(selectedFeatures, controller.signal)
+      .then((value) => setBuildingCount({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setBuildingCount({ status: "error" });
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, parcels, selectedPid]);
+
+  useEffect(() => {
+    if (!selectedPid || !licenceAccepted) {
+      return;
+    }
+
+    const selectedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === selectedPid,
+    );
+    if (selectedFeatures.length === 0) {
+      return;
+    }
+
+    const controller = new AbortController();
     setResourceIntersections({
       status: "loading",
       value: EMPTY_RESOURCE_INTERSECTIONS,
@@ -1806,6 +1869,7 @@ export function App() {
     setMobileControlsOpen(false);
     setSelectedPid(pid);
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
+    setBuildingCount({ status: "loading" });
     setFloodHazard({ status: "loading" });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
@@ -1823,6 +1887,7 @@ export function App() {
     setSelectedPid(null);
     setQuery("");
     setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT });
+    setBuildingCount({ status: "idle" });
     setFloodHazard({ status: "idle" });
     setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
@@ -2776,6 +2841,7 @@ export function App() {
               context={selectedListingContext}
               historicalContexts={selectedHistoricalContexts}
               mappedArea={selectedMappedArea}
+              buildingCount={buildingCount}
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
@@ -2793,6 +2859,7 @@ export function App() {
                   status: "idle",
                   value: EMPTY_PARCEL_CONTEXT,
                 });
+                setBuildingCount({ status: "idle" });
                 setCivicAddresses({
                   status: "idle",
                   value: EMPTY_CIVIC_ADDRESSES,

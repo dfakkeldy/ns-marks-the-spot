@@ -91,6 +91,9 @@ remaining online-only:
   including highways, local/resource roads, unpaved roads, tracks, trails,
   bridges, rail, ferry crossings, road polygons, and close-range culvert
   features. A compact legend explains the principal line classes.
+- [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a web-only,
+  default-off NSTDB context layer from zoom 13. It preserves the Province's
+  point and polygon renderer; it does not change the native-app parity list.
 - Fletcher remains listed but disabled until web-use rights are clear.
 
 ## Geology and resources
@@ -223,6 +226,14 @@ same road list adds it as “Named by civic address.” These signals provide us
 orientation but do not prove legal access or frontage. An empty result is
 displayed as empty; a service failure is reported rather than inferred from the
 visible map.
+
+`services/buildings.ts` sends the same exact selected NSPRD geometry to the
+NSTDB classified-point, unclassified-point, and building-polygon layers. The
+parcel sheet sums those three mutually exclusive representations and excludes
+the separate polygon-callout layer. A returned zero remains a mapped-source
+empty result, while a source failure displays as unavailable. The count does
+not establish the present number, condition, occupancy, use, permits, or
+existence of structures on the ground.
 
 The same selected polygon is checked independently against the Province's
 Mineral Occurrences inventory for exact and 1-kilometre relationships. NovaROC
