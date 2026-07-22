@@ -390,6 +390,112 @@ describe("MapCanvas parcel discovery", () => {
     rerender(<MapCanvas {...props} parcels={{ ...props.parcels }} />);
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
   });
+
+  it("keeps the current map view when a PID is selected", () => {
+    render(
+      <MapCanvas
+        parcels={{
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              properties: { PID: "50251750" },
+              geometry: {
+                type: "Polygon",
+                coordinates: [
+                  [
+                    [-61.42, 46.05],
+                    [-61.41, 46.05],
+                    [-61.41, 46.06],
+                    [-61.42, 46.06],
+                    [-61.42, 46.05],
+                  ],
+                ],
+              },
+            },
+          ],
+        }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid="50251750"
+        provinceLayers={{
+          "ns-aerial": true,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    expect(mapMock.fitBounds).not.toHaveBeenCalled();
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+  });
+
+  it("zooms to a PID when an explicit parcel-list focus is requested", () => {
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [parcel] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: "50251750",
+      provinceLayers: {
+        "ns-aerial": true,
+        nsprd: true,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": true,
+        roads: true,
+        buildings: false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+      focusRequest: { pid: "50251750", requestId: 1 },
+    };
+    const { rerender } = render(<MapCanvas {...props} />);
+
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+
+    rerender(<MapCanvas {...props} parcels={{ ...props.parcels }} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+
+    rerender(
+      <MapCanvas
+        {...props}
+        focusRequest={{ pid: "50251750", requestId: 2 }}
+      />,
+    );
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
 });
 
 describe("MapCanvas Province overlays", () => {
@@ -730,7 +836,7 @@ describe("MapCanvas parcel styling", () => {
     properties: { PID: "15234636" },
   };
 
-  it("makes the selected parcel fully opaque only at close zoom", () => {
+  it("keeps the selected parcel fill transparent and adds a glowing outline", () => {
     const stylingContext = {
       selectedPid: "15234636",
       taxSalePids: new Set(["15234636"]),
@@ -739,18 +845,25 @@ describe("MapCanvas parcel styling", () => {
       showHistoricalTaxSales: false,
     };
 
-    expect(
-      parcelStyleForFeature(selectedFeature, {
-        ...stylingContext,
-        zoom: 14,
-      }).fillOpacity,
-    ).toBe(0.34);
-    expect(
-      parcelStyleForFeature(selectedFeature, {
-        ...stylingContext,
-        zoom: 15,
-      }).fillOpacity,
-    ).toBe(1);
+    const style = parcelStyleForFeature(selectedFeature, stylingContext);
+
+    expect(style.fillOpacity).toBe(0);
+    expect(style.className).toContain("selected-parcel-outline");
+    expect(style.className).toContain("selected-parcel-outline--current");
+  });
+
+  it("uses the transparent glowing outline for historical selections", () => {
+    const style = parcelStyleForFeature(selectedFeature, {
+      selectedPid: "15234636",
+      taxSalePids: new Set(),
+      showTaxSale: false,
+      historicalTaxSalePids: new Set(["15234636"]),
+      showHistoricalTaxSales: true,
+    });
+
+    expect(style.fillOpacity).toBe(0);
+    expect(style.className).toContain("selected-parcel-outline");
+    expect(style.className).toContain("selected-parcel-outline--historical");
   });
 
   it("does not make unselected tax-sale parcels opaque", () => {
@@ -766,7 +879,6 @@ describe("MapCanvas parcel styling", () => {
           showTaxSale: true,
           historicalTaxSalePids: new Set<string>(),
           showHistoricalTaxSales: false,
-          zoom: 16,
         },
       ).fillOpacity,
     ).toBe(0.3);
