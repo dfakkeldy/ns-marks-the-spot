@@ -15,6 +15,7 @@ describe("map share state", () => {
       "roads",
       "mineral-occurrences",
       "inverness-hydro-potential",
+      "coastal-flood-2050",
     ],
     position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
   };
@@ -25,7 +26,7 @@ describe("map share state", () => {
     expect(url.searchParams.get("pid")).toBe("15234636");
     expect(url.searchParams.get("event")).toBe("cbrm-2026-07-21");
     expect(url.searchParams.get("layers")).toBe(
-      "nsprd,roads,mineral-occurrences,inverness-hydro-potential",
+      "nsprd,roads,mineral-occurrences,inverness-hydro-potential,coastal-flood-2050",
     );
     expect(url.searchParams.get("position")).toBe("46.18845,-60.02123,15");
   });
@@ -50,6 +51,16 @@ describe("map share state", () => {
     expect(
       parseMapShareState(buildMapShareUrl("https://example.com/map/", proximityState)),
     ).toEqual(proximityState);
+  });
+
+  it("round-trips independently selected flood-hazard layers", () => {
+    const floodState: MapShareState = {
+      ...state,
+      layerIds: ["published-river-flood-zones", "coastal-flood-current", "coastal-flood-2100"],
+    };
+
+    expect(parseMapShareState(buildMapShareUrl("https://example.com/map/", floodState)))
+      .toEqual(floodState);
   });
 
   it("ignores unknown events and layers while clamping the map position", () => {

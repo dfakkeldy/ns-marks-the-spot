@@ -147,7 +147,8 @@ The one-time fit does not compete with later selected-parcel fitting or user
 navigation.
 
 NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
-dynamic renderers, Flood Risk Areas is restricted to layers 24–26, and the
+dynamic renderers, Watersheds is restricted to layers 24–26 (these layers are
+watershed context, not flood-risk mapping), and the
 Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
 Province's falls value. The Province publishes NSPRD with a 1:36,114 visibility
 floor; the web export uses a low display DPI so the authoritative outlines draw

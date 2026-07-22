@@ -13,6 +13,7 @@ import {
 import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
+import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -103,6 +104,21 @@ vi.mock("./services/parcelResources", async (importOriginal) => {
   };
 });
 
+vi.mock("./services/floodHazard", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/floodHazard")>();
+  return {
+    ...original,
+    fetchParcelFloodHazardEvidence: vi.fn().mockResolvedValue({
+      river: { status: "outside-published-layer-extents", aep: [] },
+      coastal: [
+        { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
+        { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
+        { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
+      ],
+    }),
+  };
+});
+
 vi.mock("./services/evidenceNote", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/evidenceNote")>();
   return {
@@ -177,6 +193,14 @@ describe("NS Marks The Spot Online", () => {
       "mineral-occurrences": { status: "ready", intersections: [] },
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
+    });
+    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValue({
+      river: { status: "outside-published-layer-extents", aep: [] },
+      coastal: [
+        { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
+        { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
+        { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
+      ],
     });
     vi.mocked(buildEvidenceNote).mockClear();
     Object.defineProperty(URL, "createObjectURL", {
@@ -296,7 +320,11 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).toBeEnabled();
     expect(screen.getByLabelText("Crown Lands")).toBeEnabled();
-    expect(screen.getByLabelText("Flood Risk Areas")).toBeEnabled();
+    expect(screen.getByLabelText("Watersheds")).toBeEnabled();
+    expect(screen.getByLabelText("Published river flood zones")).toBeEnabled();
+    expect(screen.getByLabelText("Coastal flooding — current")).toBeEnabled();
+    expect(screen.getByLabelText("Coastal flooding — 2050")).toBeEnabled();
+    expect(screen.getByLabelText("Coastal flooding — 2100")).toBeEnabled();
     expect(screen.getByLabelText("Waterfalls")).toBeEnabled();
     expect(screen.getByLabelText("Water features")).toBeEnabled();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeEnabled();
@@ -1257,6 +1285,44 @@ describe("NS Marks The Spot Online", () => {
       within(resources).getByText(/does not prove mineralization/),
     ).toBeInTheDocument();
     expect(within(resources).getAllByRole("link")).toHaveLength(3);
+  });
+
+  it("shows coverage-aware river and coastal flood evidence without a universal PID probability", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
+      river: {
+        status: "published-intersection",
+        aep: [
+          { annualExceedanceProbabilityPercent: 5, relationship: "area", places: ["Bedford / Sackville"] },
+          { annualExceedanceProbabilityPercent: 1, relationship: "boundary", places: ["Pictou"] },
+        ],
+      },
+      coastal: [
+        { scenario: "current", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 12.5, approximateAffectedSquareMetres: 13_882, sampledParcelPixels: 320 },
+        { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
+        { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "Unavailable" },
+      ],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const evidence = await screen.findByRole("region", { name: "Flood hazard evidence" });
+    expect(within(evidence).getByText(/5% annual-exceedance flood area intersects/)).toBeInTheDocument();
+    expect(within(evidence).getByText(/1% annual-exceedance boundary intersects/)).toBeInTheDocument();
+    expect(within(evidence).getByText(/12.5% of mapped parcel area/)).toBeInTheDocument();
+    expect(within(evidence).getByText(/No 2050 map pixels intersected/)).toBeInTheDocument();
+    expect(within(evidence).getByText(/2100 source unavailable; no absence is inferred/)).toBeInTheDocument();
+    expect(within(evidence).getByText(/Reproduced and distributed with the permission/)).toBeInTheDocument();
+    expect(within(evidence).getByText(/shall not be construed as constituting an endorsement/)).toBeInTheDocument();
+    expect(within(evidence).queryByText(/parcel flood probability/i)).not.toBeInTheDocument();
   });
 
   it("uses bounded mineral empty-result wording", async () => {

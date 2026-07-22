@@ -13,11 +13,14 @@ import {
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   hydroPilotLayerCatalog,
+  floodHazardLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
   allResourceLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   type HydroPilotLayerId,
+  type FloodHazardLayerDescriptor,
+  type FloodHazardLayerId,
   type ProvinceLayerId,
   type ResourceFeatureLayerDescriptor,
   type ResourceLayerId,
@@ -70,6 +73,7 @@ type MapCanvasProps = {
   provinceLayers: Record<ProvinceLayerId, boolean>;
   resourceLayers: Record<ResourceLayerId, boolean>;
   hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
+  floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -92,7 +96,8 @@ export type MapLayerId =
   | "modern"
   | ProvinceLayerId
   | ResourceLayerId
-  | HydroPilotLayerId;
+  | HydroPilotLayerId
+  | FloodHazardLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
@@ -111,6 +116,12 @@ const INVERNESS_HYDRO_PILOT_BOUNDS: L.LatLngBoundsExpression = [
 ];
 const HIDDEN_HYDRO_PILOT_LAYERS: Record<HydroPilotLayerId, boolean> = {
   "inverness-hydro-potential": false,
+};
+const HIDDEN_FLOOD_HAZARD_LAYERS: Record<FloodHazardLayerId, boolean> = {
+  "published-river-flood-zones": false,
+  "coastal-flood-current": false,
+  "coastal-flood-2050": false,
+  "coastal-flood-2100": false,
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
@@ -189,7 +200,7 @@ function ResourceArcGISMapLayer({
   visible,
   onStatusChange,
 }: {
-  layer: ResourceMapLayerDescriptor;
+  layer: ResourceMapLayerDescriptor | FloodHazardLayerDescriptor;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
 }) {
@@ -210,7 +221,7 @@ function ResourceArcGISMapLayer({
         minZoom: layer.minZoom,
         maxZoom: layer.maxZoom,
         opacity: layer.opacity,
-        zIndex: 225,
+        zIndex: "licence" in layer && layer.id.startsWith("coastal-") ? 228 : 225,
         updateWhenZooming: false,
         keepBuffer: 2,
       },
@@ -748,6 +759,7 @@ export function MapCanvas({
   provinceLayers,
   resourceLayers,
   hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
+  floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -899,6 +911,14 @@ export function MapCanvas({
               onStatusChange={reportLayerStatus}
             />
           ))}
+        {floodHazardLayerCatalog.map((layer) => (
+          <ResourceArcGISMapLayer
+            key={layer.id}
+            layer={layer}
+            visible={floodHazardLayers[layer.id]}
+            onStatusChange={reportLayerStatus}
+          />
+        ))}
         <Pane
           name={MINERAL_PROXIMITY_PANE}
           style={{ zIndex: MINERAL_PROXIMITY_PANE_Z_INDEX }}

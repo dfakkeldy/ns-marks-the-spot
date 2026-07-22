@@ -1397,6 +1397,77 @@ a {
   border-radius: 6px;
 }
 
+.flood-hazard-evidence {
+  margin: 16px 0;
+  padding: 14px;
+  background: #eef7f8;
+  border: 1px solid rgba(18, 108, 116, 0.3);
+  border-radius: 6px;
+}
+
+.flood-hazard-evidence > h3 {
+  margin: 0 0 9px;
+  color: #125d64;
+  font-size: 0.9rem;
+}
+
+.flood-hazard-group {
+  padding: 9px 0;
+  border-top: 1px solid rgba(18, 108, 116, 0.18);
+}
+
+.flood-hazard-group h4,
+.flood-hazard-group p,
+.flood-hazard-group ul,
+.flood-hazard-caveat,
+.flood-hazard-sources {
+  margin: 0;
+}
+
+.flood-hazard-group h4 {
+  margin-bottom: 5px;
+  font-size: 0.77rem;
+}
+
+.flood-hazard-group ul {
+  display: grid;
+  gap: 5px;
+  padding-left: 18px;
+}
+
+.flood-hazard-group li,
+.flood-hazard-group p,
+.flood-hazard-caveat,
+.flood-hazard-sources,
+.flood-hazard-licence-notice p {
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.flood-hazard-group .error {
+  color: #8c2f27;
+}
+
+.flood-hazard-caveat,
+.flood-hazard-sources {
+  margin-top: 8px;
+}
+
+.flood-hazard-licence-notice {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(18, 108, 116, 0.18);
+}
+
+.flood-hazard-licence-notice p {
+  margin: 0;
+}
+
+.flood-hazard-licence-notice p + p {
+  margin-top: 5px;
+}
+
 .parcel-resources > h3 {
   margin: 0 0 9px;
   color: #65401f;

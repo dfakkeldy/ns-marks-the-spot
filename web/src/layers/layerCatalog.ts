@@ -21,6 +21,29 @@ export type ResourceLayerId = SourceResourceLayerId | DerivedResourceLayerId;
 
 export type HydroPilotLayerId = "inverness-hydro-potential";
 
+export type FloodHazardLayerId =
+  | "published-river-flood-zones"
+  | "coastal-flood-current"
+  | "coastal-flood-2050"
+  | "coastal-flood-2100";
+
+export type FloodHazardLayerDescriptor = {
+  id: FloodHazardLayerId;
+  name: string;
+  serviceUrl: string;
+  sourceUrl: string;
+  licenceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  licence: "province-restricted" | "province-open";
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+  exportOptions: ArcGISExportOptions;
+};
+
 export type HydroPilotLayerDescriptor = {
   id: HydroPilotLayerId;
   name: string;
@@ -299,7 +322,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
   },
   {
     id: "flood-risk",
-    name: "Flood Risk Areas",
+    name: "Watersheds",
     serviceUrl:
       "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
     nativeDefaultVisibility: false,
@@ -308,10 +331,10 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     opacity: 0.72,
     licence: "province-restricted",
     webAvailability: "available",
-    webCaveat: "Watersheds · zoom 12+",
+    webCaveat: "Watershed context · not flood-risk mapping · zoom 12+",
     sourceDate: "Live service · checked July 20, 2026",
     scale: "Watershed detail from zoom 12",
-    coverage: "Published flood-risk watersheds",
+    coverage: "Nova Scotia primary, secondary, and tertiary watersheds",
     exportOptions: { transparent: true, layers: "show:24,25,26" },
   },
   {
@@ -398,6 +421,96 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
   waterfalls: false,
   "water-features": true,
   roads: true,
+};
+
+const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";
+const COASTAL_HAZARD_LICENCE_URL =
+  "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
+
+export const floodHazardLayerCatalog: readonly FloodHazardLayerDescriptor[] = [
+  {
+    id: "published-river-flood-zones",
+    name: "Published river flood zones",
+    serviceUrl:
+      "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
+    sourceUrl:
+      "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
+    licenceUrl:
+      "https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf",
+    minZoom: 10,
+    maxZoom: 24,
+    opacity: 0.72,
+    licence: "province-restricted",
+    webCaveat: "Published 5% and 1% AEP mapping in four study areas",
+    sourceDate: "NSGC 2006-era mapping · service checked July 22, 2026",
+    scale: "Study-area flood mapping",
+    coverage: "Antigonish, Bedford–Sackville, Pictou, and Truro",
+    exportOptions: {
+      transparent: true,
+      layers: "show:2,3,4,5,7,8,9,10,12,13,14,16,17,18",
+    },
+  },
+  {
+    id: "coastal-flood-current",
+    name: "Coastal flooding — current",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/OCN/OCN_Projected_Current_Day_Flooding_UT83/MapServer",
+    sourceUrl: COASTAL_HAZARD_SOURCE_URL,
+    licenceUrl: COASTAL_HAZARD_LICENCE_URL,
+    minZoom: 8,
+    maxZoom: 24,
+    opacity: 0.68,
+    licence: "province-open",
+    webCaveat: "Current sea level with a 1% AEP storm surge",
+    sourceDate: "Live Coastal Hazard Map · checked July 22, 2026",
+    scale: "Provincial coastal screening",
+    coverage: "Mapped Nova Scotia coast",
+    exportOptions: { transparent: true },
+  },
+  {
+    id: "coastal-flood-2050",
+    name: "Coastal flooding — 2050",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/OCN/OCN_Projected_Worst_Case_Flooding_2050_UT83/MapServer",
+    sourceUrl: COASTAL_HAZARD_SOURCE_URL,
+    licenceUrl: COASTAL_HAZARD_LICENCE_URL,
+    minZoom: 8,
+    maxZoom: 24,
+    opacity: 0.68,
+    licence: "province-open",
+    webCaveat: "2050 high sea-level scenario with a 1% AEP storm surge",
+    sourceDate: "Live Coastal Hazard Map · checked July 22, 2026",
+    scale: "Provincial coastal screening",
+    coverage: "Mapped Nova Scotia coast",
+    exportOptions: { transparent: true },
+  },
+  {
+    id: "coastal-flood-2100",
+    name: "Coastal flooding — 2100",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/OCN/OCN_Projected_Worst_Case_Flooding_2100_UT83/MapServer",
+    sourceUrl: COASTAL_HAZARD_SOURCE_URL,
+    licenceUrl: COASTAL_HAZARD_LICENCE_URL,
+    minZoom: 8,
+    maxZoom: 24,
+    opacity: 0.68,
+    licence: "province-open",
+    webCaveat: "2100 high sea-level scenario with a 1% AEP storm surge",
+    sourceDate: "Live Coastal Hazard Map · checked July 22, 2026",
+    scale: "Provincial coastal screening",
+    coverage: "Mapped Nova Scotia coast",
+    exportOptions: { transparent: true },
+  },
+] as const;
+
+export const initialFloodHazardLayerVisibility: Record<
+  FloodHazardLayerId,
+  boolean
+> = {
+  "published-river-flood-zones": false,
+  "coastal-flood-current": false,
+  "coastal-flood-2050": false,
+  "coastal-flood-2100": false,
 };
 
 export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
