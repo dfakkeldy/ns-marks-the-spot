@@ -1138,6 +1138,44 @@ describe("NS Marks The Spot Online", () => {
     expect(within(assessment).getByText("2025")).toBeInTheDocument();
   });
 
+  it("does not assign a shared notice AAN value to each PID", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50076777")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "notice-aan",
+      accounts: [{
+        aan: "04545133",
+        records: [{
+          taxYear: 2026,
+          assessedValue: 120_000,
+          taxableAssessedValue: 118_000,
+          coordinates: [-61.2, 46.4],
+        }],
+      }],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50076777");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const assessment = await screen.findByRole("region", {
+      name: "PVSC assessment account",
+    });
+    expect(fetchParcelAssessments).toHaveBeenCalledWith(
+      expect.any(Array),
+      "04545133",
+      expect.any(AbortSignal),
+    );
+    expect(within(assessment).getByText(
+      "This notice AAN covers 3 PIDs. These account values are not assigned to each PID individually.",
+    )).toBeInTheDocument();
+  });
+
   it("keeps multiple spatially matched assessment accounts separate", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
