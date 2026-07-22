@@ -23,6 +23,10 @@ nearby, and civic-address road evidence without claiming legal access. Each
 authoritative mapped civic point also shows a locally calculated Plus Code that
 opens Google Maps directions on request, while mapped geology/resource
 intersections are reported source by source with explicit empty/error states.
+The same parcel sheet shows dated PVSC assessed-value history from the licensed
+open dataset, using an official notice AAN when available or a bounded
+point-in-parcel screen otherwise; multiple accounts remain separate and the UI
+does not treat assessment as current market value.
 See
 [web/README.md](web/README.md) for the source receipt, privacy boundary, and
 local verification commands. Candidate hazard, groundwater, coastal, terrain,

@@ -105,6 +105,14 @@ import {
   fetchParcelBuildingCount,
   type ParcelBuildingCount,
 } from "./services/buildings";
+import {
+  PVSC_ASSESSMENT_DATASET_URL,
+  PVSC_ASSESSMENT_SOURCE_DATE,
+  PVSC_OPEN_DATA_ATTRIBUTION,
+  PVSC_OPEN_DATA_LICENCE_URL,
+  fetchParcelAssessments,
+  type ParcelAssessmentResult,
+} from "./services/pvscAssessments";
 
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
@@ -136,6 +144,10 @@ type FloodHazardState =
 type BuildingCountState =
   | { status: "idle" | "loading" | "error" }
   | { status: "ready"; value: ParcelBuildingCount };
+
+type AssessmentState =
+  | { status: "idle" | "loading" | "error" }
+  | { status: "ready"; value: ParcelAssessmentResult };
 
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
 const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
@@ -443,6 +455,7 @@ function ParcelInspector({
   context,
   mappedArea,
   buildingCount,
+  assessmentState,
   mappedContext,
   civicAddresses,
   historicalContexts,
@@ -461,6 +474,7 @@ function ParcelInspector({
   context?: { event: TaxSaleEvent; listing: TaxSaleListing };
   mappedArea: MappedArea | null;
   buildingCount: BuildingCountState;
+  assessmentState: AssessmentState;
   mappedContext: ParcelContextState;
   civicAddresses: CivicAddressState;
   historicalContexts: HistoricalRecordContext[];
@@ -603,6 +617,10 @@ function ParcelInspector({
         </a>
         .
       </p>
+      <AssessmentDetails
+        state={assessmentState}
+        listingPids={listing?.pids ?? []}
+      />
       {historicalContexts.length > 0 ? (
         <section className="historical-outcomes" aria-label="Historical tax-sale records">
           <h3>Historical tax-sale records</h3>
@@ -654,7 +672,7 @@ function ParcelInspector({
           type="button"
           disabled={!evidenceReady}
           title={
-            evidenceReady ? undefined : "Waiting for geology and resource evidence"
+            evidenceReady ? undefined : "Waiting for selected-parcel evidence"
           }
           onClick={onExportEvidence}
         >
@@ -668,6 +686,116 @@ function ParcelInspector({
         Open this exact map state
       </a>
     </aside>
+  );
+}
+
+function AssessmentDetails({
+  state,
+  listingPids,
+}: {
+  state: AssessmentState;
+  listingPids: string[];
+}) {
+  const result = state.status === "ready" ? state.value : null;
+  const accountCount = result?.accounts.length ?? 0;
+  const heading = accountCount === 1
+    ? "PVSC assessment account"
+    : "PVSC assessment accounts";
+
+  return (
+    <section className="assessment-evidence" aria-label={heading}>
+      <h3>{heading}</h3>
+      {state.status === "idle" || state.status === "loading" ? (
+        <p className="assessment-status" role="status">
+          Checking PVSC open assessment data…
+        </p>
+      ) : state.status === "error" ? (
+        <p className="assessment-status error" role="status">
+          PVSC open assessment data is unavailable. No absence is inferred.
+        </p>
+      ) : !result || result.accounts.length === 0 ? (
+        <p className="assessment-status">
+          {result?.matchMethod === "notice-aan"
+            ? "No record was returned for the official notice AAN in the PVSC open dataset. This does not prove no assessment account exists."
+            : "No PVSC account point from the open dataset was mapped inside this parcel. This does not prove no assessment account or assessed value exists."}
+        </p>
+      ) : (
+        <>
+          <p className="assessment-match">
+            {result.matchMethod === "notice-aan"
+              ? "Matched by official notice AAN."
+              : result.accounts.length === 1
+                ? "Matched by a PVSC account point inside the mapped parcel."
+                : `${result.accounts.length} PVSC account points were mapped inside this parcel. Values are shown separately and are not summed.`}
+          </p>
+          {result.matchMethod === "notice-aan" && listingPids.length > 1 ? (
+            <p className="assessment-warning">
+              This notice AAN covers {listingPids.length} PIDs. These account
+              values are not assigned to each PID individually.
+            </p>
+          ) : null}
+          <div className="assessment-accounts">
+            {result.accounts.map((account) => {
+              const current = account.records[0];
+              if (!current) return null;
+              return (
+                <article key={account.aan} className="assessment-account">
+                  <h4>AAN {account.aan}</h4>
+                  <dl>
+                    <div>
+                      <dt>Tax year</dt>
+                      <dd>{current.taxYear}</dd>
+                    </div>
+                    <div>
+                      <dt>Assessed value</dt>
+                      <dd>{currency.format(current.assessedValue)}</dd>
+                    </div>
+                    <div>
+                      <dt>Taxable assessment</dt>
+                      <dd>{currency.format(current.taxableAssessedValue)}</dd>
+                    </div>
+                  </dl>
+                  {account.records.length > 1 ? (
+                    <details>
+                      <summary>Assessment history</summary>
+                      <ul>
+                        {account.records.map((record) => (
+                          <li key={record.taxYear}>
+                            <strong>{record.taxYear}</strong>
+                            <span>
+                              {currency.format(record.assessedValue)} assessed ·{" "}
+                              {currency.format(record.taxableAssessedValue)} taxable
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  ) : null}
+                </article>
+              );
+            })}
+          </div>
+          {result.accounts[0]?.records[0] ? (
+            <p className="assessment-caveat">
+              The {result.accounts[0].records[0].taxYear} assessment reflects
+              market value as of January 1, {result.accounts[0].records[0].taxYear - 1}
+              {" "}and physical state as of December 1, {result.accounts[0].records[0].taxYear - 1}.
+              It is not today’s sale price or an appraisal. Taxable assessment may differ.
+            </p>
+          ) : null}
+        </>
+      )}
+      <p className="assessment-source">
+        Source: <a href={PVSC_ASSESSMENT_DATASET_URL} target="_blank" rel="noreferrer">
+          PVSC assessed and taxable assessment history
+        </a>{" "}
+        · {PVSC_ASSESSMENT_SOURCE_DATE}. {PVSC_OPEN_DATA_ATTRIBUTION}{" "}
+        <a href={PVSC_OPEN_DATA_LICENCE_URL} target="_blank" rel="noreferrer">
+          Licence
+        </a>
+        .
+      </p>
+    </section>
   );
 }
 
@@ -1410,6 +1538,9 @@ export function App() {
   const [buildingCount, setBuildingCount] = useState<BuildingCountState>({
     status: initialShareState.pid ? "loading" : "idle",
   });
+  const [assessmentState, setAssessmentState] = useState<AssessmentState>({
+    status: initialShareState.pid ? "loading" : "idle",
+  });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
   const [mapPosition, setMapPosition] = useState<MapPosition>(
     initialShareState.position,
@@ -1636,6 +1767,35 @@ export function App() {
 
     return () => controller.abort();
   }, [licenceAccepted, parcels, selectedPid]);
+
+  useEffect(() => {
+    if (!selectedPid || !licenceAccepted) {
+      return;
+    }
+
+    const selectedFeatures = parcels.features.filter(
+      ({ properties }) => properties.PID === selectedPid,
+    );
+    const noticeAan = mapMode === "current"
+      ? listingContextForPid(selectedPid)?.listing.aan
+      : undefined;
+    if (selectedFeatures.length === 0 && !noticeAan) {
+      return;
+    }
+
+    const controller = new AbortController();
+    setAssessmentState({ status: "loading" });
+    fetchParcelAssessments(selectedFeatures, noticeAan, controller.signal)
+      .then((value) => setAssessmentState({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setAssessmentState({ status: "error" });
+      });
+
+    return () => controller.abort();
+  }, [licenceAccepted, mapMode, parcels, selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted) return;
@@ -1870,6 +2030,7 @@ export function App() {
     setSelectedPid(pid);
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
     setBuildingCount({ status: "loading" });
+    setAssessmentState({ status: "loading" });
     setFloodHazard({ status: "loading" });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
@@ -1888,6 +2049,7 @@ export function App() {
     setQuery("");
     setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT });
     setBuildingCount({ status: "idle" });
+    setAssessmentState({ status: "idle" });
     setFloodHazard({ status: "idle" });
     setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
@@ -2133,7 +2295,11 @@ export function App() {
   };
 
   const exportEvidence = () => {
-    if (!selectedPid || resourceIntersections.status !== "ready") {
+    if (
+      !selectedPid ||
+      resourceIntersections.status !== "ready" ||
+      (assessmentState.status !== "ready" && assessmentState.status !== "error")
+    ) {
       return;
     }
     const activeLayers = [
@@ -2226,6 +2392,9 @@ export function App() {
             sourceUrl: CIVIC_ADDRESS_DATASET_URL,
           }))
         : [],
+      assessmentEvidence: assessmentState.status === "ready"
+        ? { status: "ready", result: assessmentState.value }
+        : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
         const result = resourceIntersections.value[layer.id];
         return {
@@ -2842,6 +3011,7 @@ export function App() {
               historicalContexts={selectedHistoricalContexts}
               mappedArea={selectedMappedArea}
               buildingCount={buildingCount}
+              assessmentState={assessmentState}
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
@@ -2851,7 +3021,10 @@ export function App() {
               shareMessage={shareMessage}
               onCopyShareUrl={copyShareUrl}
               onExportEvidence={exportEvidence}
-              evidenceReady={resourceIntersections.status === "ready"}
+              evidenceReady={
+                resourceIntersections.status === "ready" &&
+                (assessmentState.status === "ready" || assessmentState.status === "error")
+              }
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);
@@ -2860,6 +3033,7 @@ export function App() {
                   value: EMPTY_PARCEL_CONTEXT,
                 });
                 setBuildingCount({ status: "idle" });
+                setAssessmentState({ status: "idle" });
                 setCivicAddresses({
                   status: "idle",
                   value: EMPTY_CIVIC_ADDRESSES,

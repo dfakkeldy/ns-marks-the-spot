@@ -53,6 +53,12 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
    note containing the link, official source URLs, mapped intersections, and
    limitations. The note is a reproducible screening receipt, not a title,
    survey, access, occupancy, safety, or current-sale-status conclusion.
+9. The parcel sheet queries PVSC's licensed assessed-value history open dataset.
+   A current municipal notice AAN is matched directly after normalization to
+   the dataset's eight-digit key. Otherwise, the browser requests assessment
+   account points in each selected parcel bounding box and retains only points
+   inside the exact Polygon or MultiPolygon geometry. Multiple AANs stay
+   separate and are never summed.
 
 All money is stored as integer cents. PIDs and AANs are strings. CBRM's
 "Immediate deed" value is displayed as a municipal category; it is not a claim
@@ -234,6 +240,24 @@ the separate polygon-callout layer. A returned zero remains a mapped-source
 empty result, while a source failure displays as unavailable. The count does
 not establish the present number, condition, occupancy, use, permits, or
 existence of structures on the ground.
+
+`services/pvscAssessments.ts` uses the [PVSC assessed and taxable assessed value
+history dataset](https://www.thedatazone.ca/Assessment/Assessed-Value-and-Taxable-Assessed-Value-History/bt58-qu28),
+not the restricted PVSC property-search site. For a selected current notice
+with an AAN, it requests that exact normalized account and displays its dated
+history. For other PIDs, it pages bounded open-data queries and applies the same
+client-side Polygon/MultiPolygon containment rules used for civic points,
+including boundary and interior-hole handling. A spatial match associates a
+published account point with mapped parcel geometry; it does not prove a legal
+parcel-account relationship. Multiple returned accounts are displayed
+individually and are not summed. Returned-empty and source-unavailable states
+remain distinct.
+
+Assessed value and taxable assessed value are dated public assessment records,
+not a current sale price or appraisal. The parcel sheet and evidence note show
+the dataset date, required attribution, and the [Open Data & Information
+Government Licence – PVSC & Participating Municipalities](https://www.pvsc.ca/sites/default/files/shared/Open%20Data%20and%20Information%20Government%20Licence%20-%20PVSC%20and%20Participating%20Municipalities.pdf).
+No assessed-owner names are requested or displayed.
 
 The same selected polygon is checked independently against the Province's
 Mineral Occurrences inventory for exact and 1-kilometre relationships. NovaROC
