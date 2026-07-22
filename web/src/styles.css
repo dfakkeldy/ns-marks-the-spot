@@ -826,6 +826,11 @@ a {
   line-height: 1.25;
 }
 
+.tax-sale-property-list button .listing-status.withdrawn {
+  color: #7d322b;
+  font-weight: 800;
+}
+
 .tax-sale-property-list-empty {
   padding: 8px 9px;
   background: var(--fog);

@@ -51,4 +51,23 @@ describe("TaxSalePropertyList", () => {
     expect(screen.getByText("Choose a property to zoom to its parcel and open the notice details."))
       .not.toBeVisible();
   });
+
+  it("labels a withdrawn parcel without removing its notice record", async () => {
+    const user = userEvent.setup();
+    render(
+      <TaxSalePropertyList
+        eventId="inverness-county-2026-08-11"
+        municipality="Inverness County"
+        listings={[{ ...listing, listingStatus: "withdrawn" }]}
+        selectedPid={null}
+        disabled={false}
+        onSelectPid={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByText("Browse properties"));
+    expect(
+      screen.getByText("Withdrawn in current notice revision"),
+    ).toBeVisible();
+  });
 });

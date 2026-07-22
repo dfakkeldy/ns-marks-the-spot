@@ -71,6 +71,11 @@ export function TaxSalePropertyList({
                       <span>
                         {listing.lien ? `Lien ${listing.lien} · ` : null}PID {pid}
                       </span>
+                      {listing.listingStatus === "withdrawn" ? (
+                        <span className="listing-status withdrawn">
+                          Withdrawn in current notice revision
+                        </span>
+                      ) : null}
                     </button>
                   </li>
                 );

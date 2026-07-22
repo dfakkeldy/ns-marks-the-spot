@@ -14,10 +14,10 @@ import {
 } from "./components/MapCanvas";
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
+  advertisedPidsForEvents,
   eventLifecycleStatus,
   eventsForStatus,
   listingContextForPid,
-  pidsForEvents,
   taxSaleEvents,
   type TaxSaleEvent,
   type TaxSaleListing,
@@ -167,7 +167,7 @@ const eventDate = new Intl.DateTimeFormat("en-CA", {
 });
 
 const upcomingTaxSaleEvents = eventsForStatus("upcoming");
-const upcomingTaxSalePids = pidsForEvents(upcomingTaxSaleEvents);
+const upcomingTaxSalePids = advertisedPidsForEvents(upcomingTaxSaleEvents);
 const allHistoricalTaxSalePids = matchedHistoricalPids();
 const historicalMunicipalities = Array.from(
   new Map(
@@ -223,7 +223,7 @@ function listingStatusLabel(listing: TaxSaleListing): string {
     case "advertised":
       return "Advertised in notice";
     case "withdrawn":
-      return "Withdrawn from historical event";
+      return "Withdrawn in current municipal notice revision";
     case "sold":
       return "Historical sold result - not available";
     case "unsold":
@@ -589,6 +589,8 @@ function ParcelInspector({
           <span aria-hidden="true">!</span>
           {historical
             ? "This is a dated historical result, not a currently available property."
+            : listing.listingStatus === "withdrawn"
+              ? `The municipality's current notice revision strikes this listing out. Verify status directly with ${event?.shortMunicipality}; this map does not imply access, clear title, possession or buildability.`
             : needsResultVerification
               ? `The advertised sale date has passed. Verify results and current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`
             : `Properties may be paid, removed or deferred. Verify current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`}
@@ -1686,6 +1688,7 @@ export function App() {
     const listings = taxSaleEvents
       .filter(({ id }) => selectedEventIds.has(id))
       .flatMap(({ listings }) => listings)
+      .filter(({ listingStatus }) => listingStatus === "advertised")
       .filter((listing) =>
         listingMatchesTaxSaleFilter(listing, taxSaleFilter),
       );
@@ -1696,7 +1699,8 @@ export function App() {
     () =>
       taxSaleEvents
         .filter(({ id }) => selectedEventIds.has(id))
-        .flatMap(({ listings }) => listings),
+        .flatMap(({ listings }) => listings)
+        .filter(({ listingStatus }) => listingStatus === "advertised"),
     [selectedEventIds],
   );
 
@@ -2511,7 +2515,11 @@ export function App() {
               verification.
             </p>
             {upcomingTaxSaleEvents.map((event) => {
-              const pidCount = pidsForEvents([event]).length;
+              const pidCount = advertisedPidsForEvents([event]).length;
+              const advertisedCount = event.listings.filter(
+                ({ listingStatus }) => listingStatus === "advertised",
+              ).length;
+              const withdrawnCount = event.listings.length - advertisedCount;
               const filteredListings = event.listings.filter((listing) =>
                 listingMatchesTaxSaleFilter(listing, taxSaleFilter),
               );
@@ -2533,7 +2541,7 @@ export function App() {
                       <small>{eventDateLabel(event)}</small>
                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                       <small>
-                        {event.listings.length} notice entries · {pidCount} PIDs
+                        {advertisedCount} advertised · {withdrawnCount} withdrawn · {pidCount} active PIDs
                       </small>
                       <small>
                         Snapshot retrieved {snapshotDateLabel(event)}

@@ -48,6 +48,18 @@ export function pidsForEvents(events: TaxSaleEvent[]): string[] {
   );
 }
 
+export function advertisedPidsForEvents(events: TaxSaleEvent[]): string[] {
+  return Array.from(
+    new Set(
+      events.flatMap(({ listings }) =>
+        listings
+          .filter(({ listingStatus }) => listingStatus === "advertised")
+          .flatMap(({ pids }) => pids),
+      ),
+    ),
+  );
+}
+
 export function listingContextForPid(
   pid: string,
 ): { event: TaxSaleEvent; listing: TaxSaleListing } | undefined {
