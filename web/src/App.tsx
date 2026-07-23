@@ -1220,6 +1220,74 @@ function LicenceDialog({
   );
 }
 
+function AboutDialog({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="dialog-backdrop">
+      <section
+        className="licence-dialog about-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="about-title"
+      >
+        <div className="licence-mark" aria-hidden="true">
+          NS
+        </div>
+        <h2 id="about-title">About NS Marks The Spot</h2>
+        <p>
+          An open-source map for screening Nova Scotia parcels: search by PID
+          or civic address, see municipal tax-sale notices on live parcel
+          geometry, and read the mapped evidence for any property. It is the
+          online companion to a native iPhone app in development.
+        </p>
+        <h3>How it treats data</h3>
+        <ul className="about-method">
+          <li>
+            Every official notice is pinned by a SHA-256 receipt; datasets
+            cannot drift silently.
+          </li>
+          <li>
+            Unknown outcomes stay unknown. Results are never inferred, so a
+            dated record cannot masquerade as a current offering.
+          </li>
+          <li>
+            An empty result and a failed source are reported differently —
+            absence of evidence is never presented as evidence of absence.
+          </li>
+          <li>
+            Assessed-owner names are never ingested, and browser location
+            never leaves the browser.
+          </li>
+        </ul>
+        <h3>Who makes it</h3>
+        <p>
+          I have made maps for twenty years, mostly for forestry in Nova
+          Scotia. This app is where that practice meets modern web
+          engineering: every layer names its source, scale, and licence, the
+          way a printed map sheet carries its legend and survey notes.
+        </p>
+        <p className="about-links">
+          <a
+            href="https://github.com/dfakkeldy/ns-marks-the-spot"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source on GitHub
+          </a>
+          {" · "}
+          <a href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot">
+            Email the maker
+          </a>
+        </p>
+        <div className="dialog-actions">
+          <button className="primary-action" type="button" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function layerRuntimeLabel(
   checked: boolean,
   status: MapLayerStatus,
@@ -1516,6 +1584,7 @@ export function App() {
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
     () => !isLicenceAccepted(),
   );
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
   const [query, setQuery] = useState(initialShareState.pid ?? "");
@@ -2456,6 +2525,13 @@ export function App() {
           <span>Online</span>
         </a>
         <div className="offline-nav">
+          <button
+            className="text-button header-about"
+            type="button"
+            onClick={() => setAboutOpen(true)}
+          >
+            About this map
+          </button>
           <span>iPhone app in development</span>
           <a className="header-action" href={BETA_SIGNUP_URL}>
             Get launch updates
@@ -3133,6 +3209,9 @@ export function App() {
         <button type="button" onClick={() => setLicenceDialogOpen(true)}>
           Data &amp; licences
         </button>
+        <button type="button" onClick={() => setAboutOpen(true)}>
+          About this map
+        </button>
       </footer>
 
       {licenceDialogOpen ? (
@@ -3141,6 +3220,7 @@ export function App() {
           onContinueWithout={continueWithoutProvinceLayers}
         />
       ) : null}
+      {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
     </div>
   );
 }

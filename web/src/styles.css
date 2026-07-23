@@ -1920,6 +1920,28 @@ a {
   cursor: pointer;
 }
 
+.about-dialog h3 {
+  margin: 18px 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.about-dialog .about-method {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+.about-dialog .about-links {
+  margin-top: 16px;
+}
+
+.header-about {
+  color: var(--white);
+}
+
 @media (max-width: 860px) {
   .app-shell,
   .app-shell.header-collapsed {

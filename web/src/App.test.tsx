@@ -376,6 +376,37 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
   });
 
+  it("opens the About dialog from the header, explains the method, and closes", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept and view map layers" }),
+    );
+    await user.click(
+      screen.getAllByRole("button", { name: "About this map" })[0],
+    );
+
+    const dialog = await screen.findByRole("dialog", {
+      name: /about ns marks the spot/i,
+    });
+    expect(dialog).toHaveTextContent(/SHA-256/);
+    expect(dialog).toHaveTextContent(/stay unknown/i);
+    expect(dialog).toHaveTextContent(/browser location\s+never leaves/i);
+    expect(dialog).toHaveTextContent(/twenty years/i);
+    expect(
+      within(dialog).getByRole("link", { name: "Source on GitHub" }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/dfakkeldy/ns-marks-the-spot",
+    );
+
+    await user.click(within(dialog).getByRole("button", { name: "Close" }));
+    expect(
+      screen.queryByRole("dialog", { name: /about ns marks the spot/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it("reveals the remaining privacy-minimized upcoming event after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);
