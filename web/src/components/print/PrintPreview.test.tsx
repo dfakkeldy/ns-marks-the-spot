@@ -217,6 +217,58 @@ describe("PrintPreview", () => {
     expect(buildQr).toHaveBeenLastCalledWith(expect.stringContaining("position=46.22%2C-61.33%2C14"));
   });
 
+  it("retries a failed map with a fresh attempt and accepts only the retry callbacks", async () => {
+    const user = userEvent.setup();
+    render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
+    const failedAttempt = printMap.attempts.at(-1)!;
+    act(() => {
+      failedAttempt.onResolvedPosition(mapPosition);
+      failedAttempt.onReadinessChange(readiness({
+        status: "error",
+        renderedLayerIds: [],
+        failedLayerIds: ["modern"],
+        belowZoomLayerIds: [],
+      }));
+    });
+
+    const attemptCountBeforeRetry = printMap.attempts.length;
+    await user.click(screen.getByRole("button", { name: "Retry map" }));
+
+    const retryAttempt = printMap.attempts.at(-1)!;
+    expect(printMap.attempts.length).toBeGreaterThan(attemptCountBeforeRetry);
+    expect(retryAttempt).not.toBe(failedAttempt);
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+
+    act(() => {
+      failedAttempt.onResolvedPosition({ latitude: 46.1, longitude: -61.4, zoom: 13 });
+      failedAttempt.onReadinessChange(readiness({
+        status: "ready",
+        renderedLayerIds: ["modern"],
+        belowZoomLayerIds: [],
+      }));
+    });
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+
+    act(() => retryAttempt.onReadinessChange(readiness({
+      status: "ready",
+      renderedLayerIds: ["modern"],
+      belowZoomLayerIds: [],
+    })));
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+
+    act(() => retryAttempt.onResolvedPosition({
+      latitude: 46.28,
+      longitude: -61.36,
+      zoom: 14,
+    }));
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeEnabled()
+    );
+    expect(buildQr).toHaveBeenLastCalledWith(
+      expect.stringContaining("position=46.28%2C-61.36%2C14"),
+    );
+  });
+
   it("uses only explicitly rendered layers for an incomplete document and its share QR", async () => {
     const partialCapture = capture();
     partialCapture.layerIds = ["modern", "roads", "contours"];
