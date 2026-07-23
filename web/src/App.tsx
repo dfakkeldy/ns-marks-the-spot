@@ -2456,9 +2456,9 @@ export function App() {
           <span>Online</span>
         </a>
         <div className="offline-nav">
-          <span>iPhone beta not open yet</span>
+          <span>iPhone app in development</span>
           <a className="header-action" href={BETA_SIGNUP_URL}>
-            Sign up for the beta
+            Get launch updates
           </a>
         </div>
         <button
@@ -2990,12 +2990,13 @@ export function App() {
           <section className="offline-card" aria-labelledby="offline-heading">
             <img src={appIconUrl} alt="" />
             <div>
-              <h2 id="offline-heading">Help shape the iPhone beta</h2>
+              <h2 id="offline-heading">The iPhone app is coming</h2>
               <p>
-                The iPhone beta is not available in TestFlight yet. Join the
-                list to hear when testing opens and help shape what comes next.
+                NS Marks The Spot for iPhone is in development, with offline
+                Fletcher sheets as the marquee feature. Join the list to hear
+                when TestFlight opens and help shape what ships.
               </p>
-              <a href={BETA_SIGNUP_URL}>Sign up for the beta</a>
+              <a href={BETA_SIGNUP_URL}>Get launch updates</a>
             </div>
           </section>
         </aside>

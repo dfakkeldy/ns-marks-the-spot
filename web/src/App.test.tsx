@@ -357,7 +357,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     const betaLinks = screen.getAllByRole("link", {
-      name: "Sign up for the beta",
+      name: "Get launch updates",
     });
 
     expect(betaLinks).toHaveLength(2);
@@ -369,9 +369,10 @@ describe("NS Marks The Spot Online", () => {
     });
     expect(
       screen.getByText(
-        "The iPhone beta is not available in TestFlight yet. Join the list to hear when testing opens and help shape what comes next.",
+        /NS Marks The Spot for iPhone is in development/,
       ),
     ).toBeInTheDocument();
+    expect(screen.queryByText(/not open yet/)).not.toBeInTheDocument();
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
   });
 
