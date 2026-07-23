@@ -11,6 +11,7 @@ const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
   getZoom: vi.fn(() => 9),
+  getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
   getBounds: vi.fn(() => ({
     getWest: () => -62,
     getSouth: () => 45,
@@ -50,14 +51,21 @@ vi.mock("react-leaflet", () => ({
   CircleMarker: ({
     center,
     radius,
+    eventHandlers,
   }: {
     center: [number, number];
     radius: number;
+    eventHandlers?: {
+      click?: (event: { originalEvent: Event }) => void;
+    };
   }) => (
     <div
       data-testid="location-position"
       data-center={center.join(",")}
       data-radius={radius}
+      onClick={(event) =>
+        eventHandlers?.click?.({ originalEvent: event.nativeEvent })
+      }
     />
   ),
   GeoJSON: () => <div data-testid="parcel-overlay" />,
@@ -70,6 +78,9 @@ vi.mock("react-leaflet", () => ({
     <div data-testid={`pane-${name}`} style={style}>
       {children}
     </div>
+  ),
+  ScaleControl: ({ position }: { position: string }) => (
+    <div data-testid="scale-control" data-position={position} />
   ),
   TileLayer: () => null,
   useMap: () => mapMock,
@@ -502,6 +513,147 @@ describe("MapCanvas parcel discovery", () => {
       />,
     );
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("MapCanvas overview markers", () => {
+  const listedParcel = {
+    type: "Feature" as const,
+    properties: { PID: "50251750" },
+    geometry: {
+      type: "Polygon" as const,
+      coordinates: [
+        [
+          [-61.42, 46.05],
+          [-61.41, 46.05],
+          [-61.41, 46.06],
+          [-61.42, 46.06],
+          [-61.42, 46.05],
+        ],
+      ],
+    },
+  };
+  const markerProps = {
+    parcels: { type: "FeatureCollection" as const, features: [listedParcel] },
+    taxSalePids: new Set(["50251750"]),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: true,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": true,
+      roads: true,
+      buildings: false,
+      contours: false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: true,
+    showHistoricalTaxSales: false,
+    onIdentifyParcel: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("marks listed parcels at overview zooms and selects on click", async () => {
+    const user = userEvent.setup();
+    const onSelectPid = vi.fn();
+    mapMock.getZoom.mockReturnValue(9);
+
+    render(<MapCanvas {...markerProps} onSelectPid={onSelectPid} />);
+
+    const markers = screen.getAllByTestId("location-position");
+    expect(markers).toHaveLength(1);
+    const [lat, lng] = markers[0].getAttribute("data-center")!.split(",");
+    expect(Number(lat)).toBeCloseTo(46.055, 3);
+    expect(Number(lng)).toBeCloseTo(-61.415, 3);
+
+    await user.click(markers[0]);
+    expect(onSelectPid).toHaveBeenCalledWith("50251750");
+  });
+
+  it("hides markers at parcel-detail zooms where polygons are legible", () => {
+    mapMock.getZoom.mockReturnValue(13);
+
+    render(<MapCanvas {...markerProps} onSelectPid={vi.fn()} />);
+
+    expect(screen.queryAllByTestId("location-position")).toHaveLength(0);
+  });
+
+  it("hides markers when the event layer is toggled off", () => {
+    mapMock.getZoom.mockReturnValue(9);
+
+    render(
+      <MapCanvas
+        {...markerProps}
+        showTaxSale={false}
+        onSelectPid={vi.fn()}
+      />,
+    );
+
+    expect(screen.queryAllByTestId("location-position")).toHaveLength(0);
+  });
+});
+
+describe("MapCanvas cartographic furniture", () => {
+  const furnitureProps = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: true,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": true,
+      roads: true,
+      buildings: false,
+      contours: false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: true,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(9);
+    mapMock.getCenter.mockReturnValue({ lat: 46.21351, lng: -61.09131 });
+  });
+
+  it("shows a bottom-left scale bar", () => {
+    render(<MapCanvas {...furnitureProps} />);
+
+    expect(screen.getByTestId("scale-control")).toHaveAttribute(
+      "data-position",
+      "bottomleft",
+    );
+  });
+
+  it("shows a copyable centre/zoom readout", async () => {
+    const user = userEvent.setup();
+    render(<MapCanvas {...furnitureProps} />);
+
+    const readout = screen.getByRole("button", {
+      name: "Copy map centre coordinates",
+    });
+    expect(readout).toHaveTextContent("Z 9 · 46.21351, -61.09131");
+
+    await user.click(readout);
+    expect(readout).toHaveTextContent("Copied");
+    expect(await window.navigator.clipboard.readText()).toBe(
+      "46.21351, -61.09131",
+    );
   });
 });
 

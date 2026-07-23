@@ -247,6 +247,20 @@ describe("web native-layer parity catalog", () => {
     expect(propertyBoundaries?.exportOptions?.dpi).toBeUndefined();
   });
 
+  it("gates imagery and 1:10k line work to zooms where they are legible", () => {
+    const byId = Object.fromEntries(
+      nativeLayerCatalog.map((layer) => [layer.id, layer]),
+    );
+
+    expect(byId["ns-aerial"].minZoom).toBe(10);
+    expect(byId["roads"].minZoom).toBe(10);
+    expect(byId["water-features"].minZoom).toBe(10);
+    expect(byId["waterfalls"].minZoom).toBe(7);
+    expect(byId["ns-aerial"].webCaveat).toContain("zoom 10+");
+    expect(byId["roads"].webCaveat).toContain("zoom 10+");
+    expect(byId["water-features"].webCaveat).toContain("zoom 10+");
+  });
+
   it("publishes source date, scale, coverage, and zoom metadata for every layer", () => {
     for (const layer of nativeLayerCatalog) {
       expect(layer.sourceDate).not.toHaveLength(0);

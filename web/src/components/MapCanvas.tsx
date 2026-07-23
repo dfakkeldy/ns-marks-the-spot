@@ -6,6 +6,7 @@ import {
   GeoJSON,
   MapContainer,
   Pane,
+  ScaleControl,
   TileLayer,
   useMap,
   useMapEvents,
@@ -52,6 +53,10 @@ import {
   DEFAULT_MAP_POSITION,
   type MapPosition,
 } from "../services/mapShareState";
+import {
+  OVERVIEW_MARKER_MAX_ZOOM,
+  representativeParcelPoints,
+} from "../services/parcelMarkers";
 import { parcelStyleForFeature } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import {
@@ -759,6 +764,124 @@ function MapSizeController() {
   return null;
 }
 
+function PositionReadout() {
+  const map = useMap();
+  const [position, setPosition] = useState(() => ({
+    center: map.getCenter(),
+    zoom: map.getZoom(),
+  }));
+  const [copied, setCopied] = useState(false);
+  useMapEvents({
+    moveend: () =>
+      setPosition({ center: map.getCenter(), zoom: map.getZoom() }),
+    zoomend: () =>
+      setPosition({ center: map.getCenter(), zoom: map.getZoom() }),
+  });
+
+  useEffect(() => {
+    if (!copied) {
+      return;
+    }
+    const timer = window.setTimeout(() => setCopied(false), 2_000);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  const coordinates = `${position.center.lat.toFixed(5)}, ${position.center.lng.toFixed(5)}`;
+  return (
+    <button
+      type="button"
+      className="position-readout"
+      aria-label="Copy map centre coordinates"
+      onClick={() => {
+        if (navigator.clipboard?.writeText) {
+          void navigator.clipboard.writeText(coordinates).then(
+            () => setCopied(true),
+            () => setCopied(false),
+          );
+        }
+      }}
+    >
+      {copied ? "Copied" : `Z ${position.zoom} · ${coordinates}`}
+    </button>
+  );
+}
+
+function TaxSaleOverviewMarkers({
+  parcels,
+  taxSalePids,
+  historicalTaxSalePids,
+  showTaxSale,
+  showHistoricalTaxSales,
+  selectedPid,
+  onSelectPid,
+}: Pick<
+  MapCanvasProps,
+  | "parcels"
+  | "taxSalePids"
+  | "historicalTaxSalePids"
+  | "showTaxSale"
+  | "showHistoricalTaxSales"
+  | "selectedPid"
+  | "onSelectPid"
+>) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(() => map.getZoom());
+  useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
+
+  const currentPoints = useMemo(
+    () =>
+      showTaxSale ? representativeParcelPoints(parcels, taxSalePids) : [],
+    [parcels, showTaxSale, taxSalePids],
+  );
+  const historicalPoints = useMemo(
+    () =>
+      showHistoricalTaxSales
+        ? representativeParcelPoints(parcels, historicalTaxSalePids)
+        : [],
+    [historicalTaxSalePids, parcels, showHistoricalTaxSales],
+  );
+
+  if (zoom > OVERVIEW_MARKER_MAX_ZOOM) {
+    return null;
+  }
+
+  const markerStyle = (selected: boolean, color: string): PathOptions => ({
+    color: "#ffffff",
+    weight: selected ? 3 : 1.5,
+    fillColor: color,
+    fillOpacity: selected ? 1 : 0.85,
+  });
+
+  const marker = (
+    point: { pid: string; latitude: number; longitude: number },
+    keyPrefix: string,
+    color: string,
+  ) => (
+    <CircleMarker
+      key={`${keyPrefix}-${point.pid}`}
+      center={[point.latitude, point.longitude]}
+      radius={point.pid === selectedPid ? 9 : 7}
+      pane={ESTABLISHED_PARCEL_PANE}
+      pathOptions={markerStyle(point.pid === selectedPid, color)}
+      eventHandlers={{
+        click: (event) => {
+          L.DomEvent.stopPropagation(event.originalEvent);
+          onSelectPid(point.pid);
+        },
+      }}
+    />
+  );
+
+  return (
+    <>
+      {historicalPoints.map((point) =>
+        marker(point, "historical", "#5a4385"),
+      )}
+      {currentPoints.map((point) => marker(point, "current", "#be4d3c"))}
+    </>
+  );
+}
+
 export function MapCanvas({
   parcels,
   taxSalePids,
@@ -868,6 +991,8 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
+        <ScaleControl position="bottomleft" />
+        <PositionReadout />
         {showModernMap ? (
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -940,6 +1065,15 @@ export function MapCanvas({
               layer.bindTooltip(`PID ${pid}`, { sticky: true });
             }}
            />
+          <TaxSaleOverviewMarkers
+            parcels={parcels}
+            taxSalePids={taxSalePids}
+            historicalTaxSalePids={historicalTaxSalePids}
+            showTaxSale={showTaxSale}
+            showHistoricalTaxSales={showHistoricalTaxSales}
+            selectedPid={selectedPid}
+            onSelectPid={onSelectPid}
+          />
          </Pane>
         {hydroPilotLayerCatalog.map((layer) => (
           <HydroPilotLayer

@@ -15,6 +15,21 @@ npm run dev
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 
+## Share card
+
+`index.html` declares Open Graph/Twitter tags pointing at
+`web/public/social-card.png` (1200×630). The source of truth is
+`marketing/social-card.svg`; regenerate the PNG with:
+
+```sh
+rsvg-convert -w 1200 -h 630 marketing/social-card.svg -o web/public/social-card.png
+```
+
+The tags ship with a relative image URL because this repository does not
+record a canonical deploy origin. The deploying site should rewrite
+`og:image`/`twitter:image` to an absolute URL at its origin; scrapers that
+require absolute URLs ignore the relative form harmlessly.
+
 ## Data flow
 
 1. Each municipality's official notice supplies its event date and public
@@ -71,10 +86,13 @@ of immediate possession, guaranteed access, clear title, or buildability.
 ## Native layer parity
 
 The web catalog mirrors the native source URLs and rendering restrictions while
-remaining online-only:
+remaining online-only. Web-only zoom gates keep Province exports at legible
+scales — the parity list of sources and renderers is unchanged:
 
-- NS Aerial streams the Province's NSODB 10k imagery through map zoom 23,
-  overzooming its last useful native scale instead of disappearing.
+- NS Aerial streams the Province's NSODB 10k imagery from zoom 10 through map
+  zoom 23, overzooming its last useful native scale instead of disappearing.
+  Below zoom 10 the modern basemap carries the overview, so the imagery
+  service's blank out-of-coverage tiles never frame the province.
 - NS Property Boundaries begins at close parcel-detail zoom 14, following the
   live service's 1:36,114 display floor instead of forcing dense parcel lines
   into regional views. PID search still uses exact NSPRD Feature Layer geometry,
@@ -92,14 +110,16 @@ remaining online-only:
   enabling it fits the map to all 90 matching points before the user zooms in.
 - [Water Features](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Nova-Scotia-Topographic-DataBase-Water-Features-Li/fpca-jrmt)
   uses the complete Province hydrography service for rivers,
-  lakes, wetlands, rapids, ditches, dams, and other mapped features. A higher
+  lakes, wetlands, rapids, ditches, dams, and other mapped features, from
+  zoom 10 where its 1:10,000 line work is legible. A higher
   export resolution improves line legibility without replacing the Province's
   symbols or colours.
 - [Roads, Trails & Culverts](https://data.novascotia.ca/Roads-Driving-and-Transport/Nova-Scotia-Topographic-DataBase-Roads-Trails-and-/gywn-246n)
   uses the complete Province transportation service,
   including highways, local/resource roads, unpaved roads, tracks, trails,
   bridges, rail, ferry crossings, road polygons, and close-range culvert
-  features. A compact legend explains the principal line classes.
+  features, from zoom 10 so the service's route shields appear only where
+  they are legible. A compact legend explains the principal line classes.
 - [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a web-only,
   default-off NSTDB context layer from zoom 13. It preserves the Province's
   point and polygon renderer; it does not change the native-app parity list.
@@ -218,10 +238,12 @@ The upstream-area value is catchment-resolution modeling: it changes in coarse
 steps at routed tertiary/sub-tertiary outlets and is not an exact delineation
 for every arbitrary point along a line.
 
-After the Province licence is accepted, the default composition keeps Modern
-Map off and turns NS Aerial, NS Property Boundaries, Water Features, and Roads,
-Trails & Culverts on. It fits the initial view once to the loaded tax-sale
-parcels. Fletcher is the final layer row because it is not yet available. The
+After the Province licence is accepted, the default composition turns on the
+Modern Map basemap together with NS Aerial, NS Property Boundaries, Water
+Features, and Roads, Trails & Culverts. The basemap carries overview zooms;
+the zoom-gated Province layers take over from zoom 10 (boundaries from 14), so
+the first view is never framed by blank imagery tiles. It fits the initial
+view once to the loaded tax-sale parcels. Fletcher is the final layer row because it is not yet available. The
 initial fit does not repeat after searches or ordinary navigation.
 
 All eight distinct Province services used by the catalog have returned Web

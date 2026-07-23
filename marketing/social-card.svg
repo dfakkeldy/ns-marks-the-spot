@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#12343b"/>
+  <rect x="0" y="586" width="1200" height="44" fill="#0a4f5c"/>
+  <g transform="translate(1005 300) scale(0.82)">
+    <path d="M0 -150c-72 0-130 58-130 130 0 101 130 195 130 195s130-94 130-195c0-72-58-130-130-130z" fill="#e7a86b"/>
+    <circle cx="0" cy="-20" r="50" fill="#fbf6ea"/>
+  </g>
+  <text x="80" y="280" font-family="Fraunces, Georgia, serif" font-size="72" font-weight="700" fill="#fbf6ea">NS Marks The Spot</text>
+  <text x="80" y="360" font-family="Inter, Helvetica, Arial, sans-serif" font-size="38" fill="#a8c6c0">Nova Scotia parcels, tax sales &amp; map evidence</text>
+  <text x="80" y="440" font-family="IBM Plex Mono, Menlo, monospace" font-size="27" fill="#85b5ff">PID · AAN · NSPRD · source-linked receipts</text>
+</svg>

@@ -440,6 +440,23 @@ a {
   line-height: 1.3;
 }
 
+.layer-provenance {
+  display: grid;
+  gap: 2px;
+}
+
+.layer-provenance summary {
+  width: fit-content;
+  color: var(--muted);
+  font-size: 0.62rem;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.layer-provenance summary:hover {
+  color: var(--chart-ink);
+}
+
 .layer-runtime {
   width: fit-content;
   padding: 2px 5px;
@@ -1130,6 +1147,30 @@ a {
   display: none;
 }
 
+.position-readout {
+  position: absolute;
+  z-index: 500;
+  bottom: 34px;
+  left: 12px;
+  margin: 0;
+  padding: 3px 8px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: copy;
+}
+
+.leaflet-control-scale-line {
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  background: rgba(255, 255, 255, 0.76);
+  border-color: rgba(18, 52, 59, 0.55);
+}
+
 .parcel-lookup-message {
   position: absolute;
   z-index: 500;
@@ -1234,8 +1275,20 @@ a {
 .parcel-facts dd {
   max-width: 60%;
   margin: 0;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.parcel-facts dd.fact-figure {
+  font-family: "IBM Plex Mono", Menlo, monospace;
   text-align: right;
+}
+
+.section-footnote {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
 }
 
 .parcel-facts .no {
@@ -1920,6 +1973,28 @@ a {
   cursor: pointer;
 }
 
+.about-dialog h3 {
+  margin: 18px 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.about-dialog .about-method {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+.about-dialog .about-links {
+  margin-top: 16px;
+}
+
+.header-about {
+  color: var(--white);
+}
+
 @media (max-width: 860px) {
   .app-shell,
   .app-shell.header-collapsed {
@@ -2092,6 +2167,10 @@ a {
 
   .location-message {
     top: 126px;
+  }
+
+  .position-readout {
+    display: none;
   }
 
   .map-region.has-inspector .mobile-map-chrome {

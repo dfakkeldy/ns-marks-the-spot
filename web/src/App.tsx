@@ -13,6 +13,15 @@ import {
   type MapLayerStatus,
   type ParcelFocusRequest,
 } from "./components/MapCanvas";
+import {
+  FloodHazardLayerToggle,
+  HydroPilotLayerToggle,
+  HydroPotentialLegend,
+  LayerMetadata,
+  LayerToggle,
+  ResourceLayerToggle,
+  RoadLegend,
+} from "./components/LayerRows";
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
   advertisedPidsForEvents,
@@ -50,14 +59,10 @@ import {
   provinceLayerCatalog,
   resourceLayerCatalog,
   topographyLayerCatalog,
-  type HydroPilotLayerDescriptor,
   type HydroPilotLayerId,
-  type FloodHazardLayerDescriptor,
   type FloodHazardLayerId,
   type ProvinceLayerId,
-  type ResourceControlDescriptor,
   type ResourceLayerId,
-  type WebLayerDescriptor,
 } from "./layers/layerCatalog";
 import {
   CIVIC_ADDRESS_DATASET_URL,
@@ -116,6 +121,8 @@ import {
   type ParcelAssessmentResult,
 } from "./services/pvscAssessments";
 import { viewpointParcelUrl } from "./services/viewpoint";
+
+const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
 
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
@@ -370,11 +377,11 @@ function HistoricalOutcomeDetails({
         </div>
         <div>
           <dt>{event.listingIdentifierLabel}</dt>
-          <dd>{record.listingIdentifier}</dd>
+          <dd className="fact-figure">{record.listingIdentifier}</dd>
         </div>
         <div>
           <dt>PID / match</dt>
-          <dd>
+          <dd className="fact-figure">
             {selectedPid} · {matchMethodLabel(context)}
           </dd>
         </div>
@@ -384,25 +391,33 @@ function HistoricalOutcomeDetails({
         </div>
         <div>
           <dt>{event.advertisedAmountLabel}</dt>
-          <dd>{currency.format(record.advertisedAmountCents / 100)}</dd>
+          <dd className="fact-figure">
+            {currency.format(record.advertisedAmountCents / 100)}
+          </dd>
         </div>
         <div>
           <dt>Winning bid</dt>
-          <dd>{winningBidLabel}</dd>
+          <dd className="fact-figure">{winningBidLabel}</dd>
         </div>
         {comparison ? (
           <>
             <div>
               <dt>Difference</dt>
-              <dd>{currency.format(comparison.differenceCents / 100)}</dd>
+              <dd className="fact-figure">
+                {currency.format(comparison.differenceCents / 100)}
+              </dd>
             </div>
             <div>
               <dt>Above {event.advertisedAmountLabel.toLocaleLowerCase()}</dt>
-              <dd>{comparison.percentageAbove.toFixed(2)}%</dd>
+              <dd className="fact-figure">
+                {comparison.percentageAbove.toFixed(2)}%
+              </dd>
             </div>
             <div>
               <dt>Winning-bid multiple</dt>
-              <dd>{comparison.winningBidMultiple.toFixed(2)}×</dd>
+              <dd className="fact-figure">
+                {comparison.winningBidMultiple.toFixed(2)}×
+              </dd>
             </div>
           </>
         ) : null}
@@ -548,17 +563,17 @@ function ParcelInspector({
         ) : null}
         <div>
           <dt>PID</dt>
-          <dd>{pid}</dd>
+          <dd className="fact-figure">{pid}</dd>
         </div>
         {mappedArea ? (
           <div>
             <dt>Mapped area</dt>
-            <dd>{mappedArea.label}</dd>
+            <dd className="fact-figure">{mappedArea.label}</dd>
           </div>
         ) : null}
         <div>
           <dt>Mapped buildings</dt>
-          <dd aria-live="polite">
+          <dd className="fact-figure" aria-live="polite">
             {buildingCount.status === "ready"
               ? buildingCount.value.count.toLocaleString("en-CA")
               : buildingCount.status === "error"
@@ -570,12 +585,12 @@ function ParcelInspector({
           <>
             <div>
               <dt>Lien</dt>
-              <dd>{listing.lien}</dd>
+              <dd className="fact-figure">{listing.lien}</dd>
             </div>
             {listing.aan ? (
               <div>
                 <dt>AAN</dt>
-                <dd>{listing.aan}</dd>
+                <dd className="fact-figure">{listing.aan}</dd>
               </div>
             ) : null}
             <div>
@@ -584,7 +599,9 @@ function ParcelInspector({
             </div>
             <div>
               <dt>{listing.financial.label}</dt>
-              <dd>{currency.format(listing.financial.amountCents / 100)}</dd>
+              <dd className="fact-figure">
+                {currency.format(listing.financial.amountCents / 100)}
+              </dd>
             </div>
             <div>
               <dt>Redemption</dt>
@@ -596,7 +613,7 @@ function ParcelInspector({
             </div>
             <div>
               <dt>Source retrieved</dt>
-              <dd>{event?.retrievedOn}</dd>
+              <dd className="fact-figure">{event?.retrievedOn}</dd>
             </div>
           </>
         ) : null}
@@ -1149,28 +1166,6 @@ function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
   );
 }
 
-function RoadLegend() {
-  return (
-    <ul className="road-legend" aria-label="Road type legend">
-      <li>
-        <span className="road-swatch highway" />Highway
-      </li>
-      <li>
-        <span className="road-swatch local" />Local road
-      </li>
-      <li>
-        <span className="road-swatch resource" />Resource road
-      </li>
-      <li>
-        <span className="road-swatch trail" />Trail / track
-      </li>
-      <li>
-        <span className="road-swatch culvert" />Culvert
-      </li>
-    </ul>
-  );
-}
-
 function LicenceDialog({
   onAccept,
   onContinueWithout,
@@ -1220,283 +1215,70 @@ function LicenceDialog({
   );
 }
 
-function layerRuntimeLabel(
-  checked: boolean,
-  status: MapLayerStatus,
-): string {
-  if (!checked) {
-    return "Off";
-  }
-  switch (status.status) {
-    case "loading":
-      return "Loading visible area…";
-    case "ready":
-      return status.count === undefined
-        ? "Ready"
-        : `Ready · ${status.count.toLocaleString("en-CA")} loaded`;
-    case "zoom":
-      return `Zoom to ${status.minZoom}+ to load`;
-    case "error":
-      return "Source temporarily unavailable";
-    case "idle":
-      return "Ready to load";
-  }
-}
-
-function LayerMetadata({
-  sourceDate,
-  scale,
-  coverage,
-  minZoom,
-  maxZoom,
-  checked,
-  status,
-}: {
-  sourceDate: string;
-  scale: string;
-  coverage: string;
-  minZoom: number;
-  maxZoom: number;
-  checked: boolean;
-  status: MapLayerStatus;
-}) {
+function AboutDialog({ onClose }: { onClose: () => void }) {
   return (
-    <span className="layer-metadata">
-      <small className={`layer-runtime ${status.status}`}>
-        {layerRuntimeLabel(checked, status)}
-      </small>
-      <small>Source date: {sourceDate}</small>
-      <small>Scale: {scale}</small>
-      <small>Coverage: {coverage}</small>
-      <small>Zoom: {minZoom}–{maxZoom}</small>
-    </span>
-  );
-}
-
-function LayerToggle({
-  layer,
-  checked,
-  licenceAccepted,
-  status,
-  onChange,
-  onReviewLicence,
-}: {
-  layer: WebLayerDescriptor & { id: ProvinceLayerId };
-  checked: boolean;
-  licenceAccepted: boolean;
-  status: MapLayerStatus;
-  onChange: (checked: boolean) => void;
-  onReviewLicence: () => void;
-}) {
-  return (
-    <label className="layer-row">
-      <input
-        type="checkbox"
-        aria-label={layer.name}
-        checked={licenceAccepted && checked}
-        disabled={!licenceAccepted}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <span className="switch" aria-hidden="true" />
-      <span>
-        <strong>{layer.name}</strong>
-        <small>
-          {licenceAccepted ? layer.webCaveat : "Province licence required"}
-        </small>
-        <LayerMetadata
-          sourceDate={layer.sourceDate}
-          scale={layer.scale}
-          coverage={layer.coverage}
-          minZoom={layer.minZoom}
-          maxZoom={layer.maxZoom}
-          checked={licenceAccepted && checked}
-          status={status}
-        />
-      </span>
-      {!licenceAccepted && layer.id === "nsprd" ? (
-        <button className="text-button" type="button" onClick={onReviewLicence}>
-          Review
-        </button>
-      ) : null}
-    </label>
-  );
-}
-
-function ResourceLayerToggle({
-  layer,
-  checked,
-  licenceAccepted,
-  status,
-  onChange,
-  onReviewLicence,
-}: {
-  layer: ResourceControlDescriptor;
-  checked: boolean;
-  licenceAccepted: boolean;
-  status: MapLayerStatus;
-  onChange: (checked: boolean) => void;
-  onReviewLicence: () => void;
-}) {
-  const requiresProvinceLicence =
-    "requiresProvinceLicence" in layer && layer.requiresProvinceLicence;
-  const enabled = !requiresProvinceLicence || licenceAccepted;
-
-  return (
-    <>
-      <label className="layer-row resource-layer-row">
-        <input
-          type="checkbox"
-          aria-label={layer.name}
-          checked={enabled && checked}
-          disabled={!enabled}
-          onChange={(event) => onChange(event.target.checked)}
-        />
-        <span className="switch" aria-hidden="true" />
-        <span>
-          <strong>{layer.name}</strong>
-          <small>
-            {enabled
-              ? layer.webCaveat
-              : "Province licence required for derived parcel geometry"}
-          </small>
-          <LayerMetadata
-            sourceDate={layer.sourceDate}
-            scale={layer.scale}
-            coverage={layer.coverage}
-            minZoom={layer.minZoom}
-            maxZoom={layer.maxZoom}
-            checked={enabled && checked}
-            status={status}
-          />
-        </span>
-        {!enabled ? (
-          <button
-            aria-label={`Review Province licence for ${layer.name}`}
-            className="text-button"
-            type="button"
-            onClick={onReviewLicence}
+    <div className="dialog-backdrop">
+      <section
+        className="licence-dialog about-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="about-title"
+      >
+        <div className="licence-mark" aria-hidden="true">
+          NS
+        </div>
+        <h2 id="about-title">About NS Marks The Spot</h2>
+        <p>
+          An open-source map for screening Nova Scotia parcels: search by PID
+          or civic address, see municipal tax-sale notices on live parcel
+          geometry, and read the mapped evidence for any property. It is the
+          online companion to a native iPhone app in development.
+        </p>
+        <h3>How it treats data</h3>
+        <ul className="about-method">
+          <li>
+            Every official notice is pinned by a SHA-256 receipt; datasets
+            cannot drift silently.
+          </li>
+          <li>
+            Unknown outcomes stay unknown. Results are never inferred, so a
+            dated record cannot masquerade as a current offering.
+          </li>
+          <li>
+            An empty result and a failed source are reported differently —
+            absence of evidence is never presented as evidence of absence.
+          </li>
+          <li>
+            Assessed-owner names are never ingested, and browser location
+            never leaves the browser.
+          </li>
+        </ul>
+        <h3>Who makes it</h3>
+        <p>
+          I have made maps for twenty years, mostly for forestry in Nova
+          Scotia. This app is where that practice meets modern web
+          engineering: every layer names its source, scale, and licence, the
+          way a printed map sheet carries its legend and survey notes.
+        </p>
+        <p className="about-links">
+          <a
+            href="https://github.com/dfakkeldy/ns-marks-the-spot"
+            target="_blank"
+            rel="noreferrer"
           >
-            Review
+            Source on GitHub
+          </a>
+          {" · "}
+          <a href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot">
+            Email the maker
+          </a>
+        </p>
+        <div className="dialog-actions">
+          <button className="primary-action" type="button" onClick={onClose}>
+            Close
           </button>
-        ) : null}
-      </label>
-      {layer.id === "mineral-proximity-parcels" ? (
-        <a
-          className="derived-resource-source"
-          href={layer.sourceUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Mineral Occurrences source
-        </a>
-      ) : null}
-    </>
-  );
-}
-
-function HydroPilotLayerToggle({
-  layer,
-  checked,
-  status,
-  onChange,
-}: {
-  layer: HydroPilotLayerDescriptor;
-  checked: boolean;
-  status: MapLayerStatus;
-  onChange: (checked: boolean) => void;
-}) {
-  return (
-    <label className="layer-row hydro-pilot-layer-row">
-      <input
-        type="checkbox"
-        aria-label={layer.name}
-        checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <span className="switch" aria-hidden="true" />
-      <span>
-        <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
-        <LayerMetadata
-          sourceDate={layer.sourceDate}
-          scale={layer.scale}
-          coverage={layer.coverage}
-          minZoom={layer.minZoom}
-          maxZoom={layer.maxZoom}
-          checked={checked}
-          status={status}
-        />
-      </span>
-    </label>
-  );
-}
-
-function FloodHazardLayerToggle({
-  layer,
-  checked,
-  licenceAccepted,
-  status,
-  onChange,
-  onReviewLicence,
-}: {
-  layer: FloodHazardLayerDescriptor;
-  checked: boolean;
-  licenceAccepted: boolean;
-  status: MapLayerStatus;
-  onChange: (checked: boolean) => void;
-  onReviewLicence: () => void;
-}) {
-  const enabled = layer.licence === "province-open" || licenceAccepted;
-  return (
-    <label className="layer-row flood-hazard-layer-row">
-      <input
-        type="checkbox"
-        aria-label={layer.name}
-        checked={enabled && checked}
-        disabled={!enabled}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <span className="switch" aria-hidden="true" />
-      <span>
-        <strong>{layer.name}</strong>
-        <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
-        <LayerMetadata
-          sourceDate={layer.sourceDate}
-          scale={layer.scale}
-          coverage={layer.coverage}
-          minZoom={layer.minZoom}
-          maxZoom={layer.maxZoom}
-          checked={enabled && checked}
-          status={status}
-        />
-      </span>
-      {!enabled ? (
-        <button className="text-button" type="button" onClick={onReviewLicence}>Review</button>
-      ) : null}
-    </label>
-  );
-}
-
-function HydroPotentialLegend() {
-  return (
-    <div className="hydro-potential-legend" aria-label="Micro-hydro symbology">
-      <p><strong>Line width = modeled upstream area</strong></p>
-      <div className="hydro-width-key" aria-hidden="true">
-        <span className="hydro-line narrow" />
-        <span>smaller</span>
-        <span className="hydro-line wide" />
-        <span>larger</span>
-      </div>
-      <p><strong>Colour = nominal micro-hydro scale</strong></p>
-      <ul>
-        <li><span className="hydro-swatch not-qualified" />No 5 m drop within 3 km</li>
-        <li><span className="hydro-swatch below-1kw" />Below 1 kW scale</li>
-        <li><span className="hydro-swatch kw-1-5" />1–5 kW scale</li>
-        <li><span className="hydro-swatch kw-5-15" />5–15 kW scale</li>
-        <li><span className="hydro-swatch kw-15-30" />15–30 kW scale</li>
-        <li><span className="hydro-swatch kw-30-50" />30–50 kW scale</li>
-        <li><span className="hydro-swatch over-50kw" />Above 50 kW scale</li>
-      </ul>
+        </div>
+      </section>
     </div>
   );
 }
@@ -1516,6 +1298,7 @@ export function App() {
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
     () => !isLicenceAccepted(),
   );
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
   const [query, setQuery] = useState(initialShareState.pid ?? "");
@@ -1532,6 +1315,17 @@ export function App() {
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
     null,
   );
+
+  useEffect(() => {
+    if (!parcelLookupMessage || !/^PID \d+ selected/.test(parcelLookupMessage)) {
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setParcelLookupMessage(null),
+      TRANSIENT_MESSAGE_DURATION_MS,
+    );
+    return () => window.clearTimeout(timer);
+  }, [parcelLookupMessage]);
   const [mappedContext, setMappedContext] = useState<ParcelContextState>({
     status: "idle",
     value: EMPTY_PARCEL_CONTEXT,
@@ -1559,7 +1353,7 @@ export function App() {
     initialShareState.position,
   );
   const [showModernMap, setShowModernMap] = useState(
-    hasSharedLayers ? initialShareState.layerIds.includes("modern") : false,
+    hasSharedLayers ? initialShareState.layerIds.includes("modern") : true,
   );
   const intendedInitialProvinceLayers = useRef(
     hasSharedLayers
@@ -2456,9 +2250,16 @@ export function App() {
           <span>Online</span>
         </a>
         <div className="offline-nav">
-          <span>iPhone beta not open yet</span>
+          <button
+            className="text-button header-about"
+            type="button"
+            onClick={() => setAboutOpen(true)}
+          >
+            About this map
+          </button>
+          <span>iPhone app in development</span>
           <a className="header-action" href={BETA_SIGNUP_URL}>
-            Sign up for the beta
+            Get launch updates
           </a>
         </div>
         <button
@@ -2990,12 +2791,13 @@ export function App() {
           <section className="offline-card" aria-labelledby="offline-heading">
             <img src={appIconUrl} alt="" />
             <div>
-              <h2 id="offline-heading">Help shape the iPhone beta</h2>
+              <h2 id="offline-heading">The iPhone app is coming</h2>
               <p>
-                The iPhone beta is not available in TestFlight yet. Join the
-                list to hear when testing opens and help shape what comes next.
+                NS Marks The Spot for iPhone is in development, with offline
+                Fletcher sheets as the marquee feature. Join the list to hear
+                when TestFlight opens and help shape what ships.
               </p>
-              <a href={BETA_SIGNUP_URL}>Sign up for the beta</a>
+              <a href={BETA_SIGNUP_URL}>Get launch updates</a>
             </div>
           </section>
         </aside>
@@ -3132,6 +2934,9 @@ export function App() {
         <button type="button" onClick={() => setLicenceDialogOpen(true)}>
           Data &amp; licences
         </button>
+        <button type="button" onClick={() => setAboutOpen(true)}>
+          About this map
+        </button>
       </footer>
 
       {licenceDialogOpen ? (
@@ -3140,6 +2945,7 @@ export function App() {
           onContinueWithout={continueWithoutProvinceLayers}
         />
       ) : null}
+      {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
     </div>
   );
 }

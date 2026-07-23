@@ -4,6 +4,31 @@ import { describe, expect, it } from "vitest";
 
 const styles = readFileSync("./src/styles.css", "utf8");
 
+describe("parcel sheet typographic hierarchy", () => {
+  it("left-aligns prose facts and reserves right-aligned mono for figures", () => {
+    const ddDeclarations = styles.match(
+      /\.parcel-facts dd\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(ddDeclarations).toMatch(/font-family:\s*"Inter"/);
+    expect(ddDeclarations).toMatch(/text-align:\s*left/);
+
+    const figureDeclarations = styles.match(
+      /\.parcel-facts dd\.fact-figure\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(figureDeclarations).toMatch(/IBM Plex Mono/);
+    expect(figureDeclarations).toMatch(/text-align:\s*right/);
+  });
+
+  it("weights source and licence notes as footnotes without hiding them", () => {
+    const footnoteDeclarations = styles.match(
+      /\.section-footnote\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(footnoteDeclarations).toMatch(/font-size:\s*0\.72rem/);
+    expect(footnoteDeclarations).not.toMatch(/display:\s*none/);
+    expect(footnoteDeclarations).not.toMatch(/visibility:\s*hidden/);
+  });
+});
+
 describe("mobile parcel inspector layout", () => {
   it("keeps long desktop inspectors inside the map viewport", () => {
     const desktopEnd = styles.indexOf("@media (max-width: 860px)");

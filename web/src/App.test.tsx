@@ -357,7 +357,7 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     const betaLinks = screen.getAllByRole("link", {
-      name: "Sign up for the beta",
+      name: "Get launch updates",
     });
 
     expect(betaLinks).toHaveLength(2);
@@ -369,10 +369,42 @@ describe("NS Marks The Spot Online", () => {
     });
     expect(
       screen.getByText(
-        "The iPhone beta is not available in TestFlight yet. Join the list to hear when testing opens and help shape what comes next.",
+        /NS Marks The Spot for iPhone is in development/,
       ),
     ).toBeInTheDocument();
+    expect(screen.queryByText(/not open yet/)).not.toBeInTheDocument();
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
+  });
+
+  it("opens the About dialog from the header, explains the method, and closes", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Accept and view map layers" }),
+    );
+    await user.click(
+      screen.getAllByRole("button", { name: "About this map" })[0],
+    );
+
+    const dialog = await screen.findByRole("dialog", {
+      name: /about ns marks the spot/i,
+    });
+    expect(dialog).toHaveTextContent(/SHA-256/);
+    expect(dialog).toHaveTextContent(/stay unknown/i);
+    expect(dialog).toHaveTextContent(/browser location\s+never leaves/i);
+    expect(dialog).toHaveTextContent(/twenty years/i);
+    expect(
+      within(dialog).getByRole("link", { name: "Source on GitHub" }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/dfakkeldy/ns-marks-the-spot",
+    );
+
+    await user.click(within(dialog).getByRole("button", { name: "Close" }));
+    expect(
+      screen.queryByRole("dialog", { name: /about ns marks the spot/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("reveals the remaining privacy-minimized upcoming event after acceptance", async () => {
@@ -473,25 +505,36 @@ describe("NS Marks The Spot Online", () => {
       .toContain("hrm-2022-03-08");
   });
 
-  it("shows source metadata beside layer controls", () => {
+  it("keeps layer provenance one disclosure away without burying the live status", async () => {
+    const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
     const propertyRow = screen.getByLabelText("NS Property Boundaries").closest("label");
     expect(propertyRow).not.toBeNull();
-    expect(within(propertyRow as HTMLElement).getByText(/Source date:/)).toBeInTheDocument();
-    expect(within(propertyRow as HTMLElement).getByText(/Scale:/)).toBeInTheDocument();
-    expect(within(propertyRow as HTMLElement).getByText(/Coverage:/)).toBeInTheDocument();
+    const row = within(propertyRow as HTMLElement);
+
     expect(
-      within(propertyRow as HTMLElement).getByText(
-        (_, element) => element?.textContent === "Zoom: 14–24",
-      ),
+      row.getByText(/Loading|Ready|Off|Zoom/, { selector: ".layer-runtime" }),
     ).toBeInTheDocument();
+
+    const provenance = (propertyRow as HTMLElement).querySelector(
+      "details.layer-provenance",
+    );
+    expect(provenance).not.toBeNull();
+    expect(provenance).not.toHaveAttribute("open");
+    expect(row.getByText(/Source date:/)).not.toBeVisible();
+
+    await user.click(row.getByText("Source & scale"));
+
+    expect(provenance).toHaveAttribute("open");
+    expect(row.getByText(/Source date:/)).toBeVisible();
+    expect(row.getByText(/Scale:/)).toBeVisible();
+    expect(row.getByText(/Coverage:/)).toBeVisible();
     expect(
-      within(propertyRow as HTMLElement).getByText(/Loading|Ready|Off|Zoom/, {
-        selector: ".layer-runtime",
-      }),
-    ).toBeInTheDocument();
+      row.getByText((_, element) => element?.textContent === "Zoom: 14–24"),
+    ).toBeVisible();
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
   });
 
   it("keeps historical records off by default and loads them on demand", async () => {
@@ -598,13 +641,13 @@ describe("NS Marks The Spot Online", () => {
 
     render(<App />);
 
-    expect(screen.getByLabelText("Modern map")).not.toBeChecked();
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
     expect(screen.getByLabelText("Water features")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: off; property boundaries: on; water: on; roads: on",
+      "modern map: on; property boundaries: on; water: on; roads: on",
     );
 
     const layerSection = screen.getByRole("region", { name: "Map layers" });
@@ -881,6 +924,33 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("auto-dismisses the parcel-selected toast", async () => {
+    vi.useFakeTimers();
+    try {
+      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+      vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750")],
+      });
+      render(<App />);
+
+      fireEvent.click(screen.getByRole("button", { name: "Tap map parcel" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(0);
+      });
+      expect(screen.getByText("PID 50251750 selected.")).toBeInTheDocument();
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(6_000);
+      });
+      expect(
+        screen.queryByText("PID 50251750 selected."),
+      ).not.toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("keeps an identified parcel when the initial tax-sale geometry arrives later", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -1053,21 +1123,21 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("turns the modern map on independently of Province layers", async () => {
+  it("toggles the modern map independently of Province layers", async () => {
     const user = userEvent.setup();
     render(<App />);
 
     const modernMap = screen.getByLabelText("Modern map");
-    expect(modernMap).not.toBeChecked();
+    expect(modernMap).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: off",
+      "modern map: on",
     );
 
     await user.click(modernMap);
 
-    expect(modernMap).toBeChecked();
+    expect(modernMap).not.toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: on",
+      "modern map: off",
     );
   });
 
