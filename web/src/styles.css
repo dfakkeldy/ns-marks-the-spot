@@ -2285,3 +2285,275 @@ a {
 .print-map .location-message {
   display: none;
 }
+
+@page research-sheet {
+  size: letter portrait;
+  margin: 10mm;
+}
+
+@page field-sheet {
+  size: letter landscape;
+  margin: 10mm;
+}
+
+.print-preview {
+  display: grid;
+  gap: 24px;
+  padding: 24px;
+  overflow: auto;
+  background: #d7dcdd;
+}
+
+.print-page {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
+}
+
+.print-research-summary,
+.print-evidence-page {
+  page: research-sheet;
+  width: 195.9mm;
+  min-height: 259.4mm;
+}
+
+.print-field-page {
+  page: field-sheet;
+  width: 259.4mm;
+  min-height: 195.9mm;
+}
+
+.print-document {
+  color: #000;
+  background: #fff;
+  font-size: 9pt;
+  line-height: 1.35;
+}
+
+.print-document h1,
+.print-document h2,
+.print-document h3,
+.print-document p {
+  margin-top: 0;
+}
+
+.print-header,
+.print-appendix-header,
+.print-field-mode,
+.print-research-map-frame,
+.print-field-map-frame,
+.print-fact-grid,
+.print-evidence-status-grid,
+.print-active-layer-legend,
+.print-scale,
+.print-required-attribution,
+.print-general-limitations,
+.print-scale-omission,
+.print-receipt,
+.print-evidence-section {
+  margin-right: 10mm;
+  margin-left: 10mm;
+}
+
+.print-header,
+.print-appendix-header,
+.print-receipt,
+.print-scale,
+.print-evidence-status-grid li,
+.print-active-layer-legend li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8pt;
+}
+
+.print-header {
+  padding-top: 10mm;
+  border-bottom: 0.5pt solid #000;
+}
+
+.print-header h1,
+.print-appendix-header h2 {
+  margin-bottom: 3pt;
+  font-size: 16pt;
+}
+
+.print-header > p,
+.print-appendix-header > p,
+.print-kicker,
+.print-field-mode,
+.print-active-layer-legend span,
+.print-evidence-status-grid span,
+.print-required-attribution,
+.print-scale-omission,
+.print-general-limitations {
+  font-size: 8pt;
+}
+
+.print-kicker {
+  margin-bottom: 1pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-research-map-frame {
+  height: 78mm;
+  margin-top: 5mm;
+}
+
+.print-field-map-frame {
+  height: 105mm;
+  margin-top: 3mm;
+}
+
+.print-fact-grid dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4pt;
+  margin: 4mm 0;
+}
+
+.print-fact-grid div {
+  padding: 3pt;
+  border: 0.5pt solid #777;
+}
+
+.print-fact-grid dt,
+.print-fact-grid dd {
+  margin: 0;
+}
+
+.print-fact-grid dt,
+.print-evidence-status-grid strong,
+.print-active-layer-legend strong {
+  font-weight: 700;
+}
+
+.print-evidence-status-grid,
+.print-active-layer-legend {
+  margin-top: 3mm;
+}
+
+.print-evidence-status-grid h2,
+.print-active-layer-legend h2 {
+  margin-bottom: 2pt;
+  font-size: 10pt;
+}
+
+.print-evidence-status-grid ul,
+.print-active-layer-legend ul,
+.print-evidence-section ul {
+  margin: 0;
+  padding-left: 14pt;
+}
+
+.print-evidence-status-grid li,
+.print-active-layer-legend li {
+  padding: 1pt 0;
+}
+
+.print-scale {
+  justify-content: flex-start;
+  margin-top: 3mm;
+}
+
+.print-scale-bar {
+  display: inline-block;
+  max-width: 90mm;
+  height: 4pt;
+  border: 0.75pt solid #000;
+  border-top-width: 0;
+}
+
+.print-required-attribution,
+.print-general-limitations,
+.print-scale-omission {
+  margin-top: 3mm;
+  margin-bottom: 0;
+}
+
+.print-required-attribution p {
+  margin-bottom: 1pt;
+}
+
+.print-receipt {
+  align-items: center;
+  margin-top: 3mm;
+  padding-bottom: 8mm;
+  border-top: 0.5pt solid #000;
+}
+
+.print-share-url {
+  max-width: 145mm;
+  overflow-wrap: anywhere;
+  color: #000;
+  font-size: 7pt;
+}
+
+.print-qr,
+.print-qr svg {
+  display: block;
+  width: 18mm;
+  height: 18mm;
+}
+
+.print-qr-fallback {
+  min-width: 18mm;
+  font-size: 7pt;
+  text-align: center;
+}
+
+.print-appendix-header {
+  padding-top: 10mm;
+  border-bottom: 0.5pt solid #000;
+}
+
+.print-evidence-section {
+  margin-top: 5mm;
+}
+
+.print-evidence-section h3 {
+  margin-bottom: 2pt;
+  font-size: 10pt;
+}
+
+.print-evidence-section {
+  break-inside: avoid;
+}
+
+.print-pattern-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@media print {
+  body.print-preview-open .app-shell {
+    display: none !important;
+  }
+
+  .print-preview-controls,
+  .print-document--inactive {
+    display: none !important;
+  }
+
+  .print-preview {
+    position: static;
+    overflow: visible;
+    padding: 0;
+    background: #fff;
+  }
+
+  .print-page {
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+
+  .print-page:last-child {
+    break-after: auto;
+  }
+}

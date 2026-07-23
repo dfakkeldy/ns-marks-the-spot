@@ -123,3 +123,14 @@ describe("mobile parcel inspector layout", () => {
     expect(mobileStyles).not.toMatch(/\.header-action\s*\{[^}]*display:\s*none/);
   });
 });
+
+describe("print document paged media", () => {
+  it("uses named Letter pages and isolates the live app while printing", () => {
+    expect(styles).toMatch(/@page research-sheet\s*{[^}]*size:\s*letter portrait/s);
+    expect(styles).toMatch(/@page field-sheet\s*{[^}]*size:\s*letter landscape/s);
+    expect(styles).toMatch(/@media print\s*{/);
+    expect(styles).toMatch(/body\.print-preview-open\s+\.app-shell\s*{[^}]*display:\s*none/s);
+    expect(styles).toMatch(/\.print-document--inactive\s*{[^}]*display:\s*none/s);
+    expect(styles).toMatch(/font-size:\s*9pt/);
+  });
+});
