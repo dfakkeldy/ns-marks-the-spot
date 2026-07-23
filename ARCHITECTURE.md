@@ -102,6 +102,12 @@ property boundaries but below the road overlay. This keeps the native parity
 list honest while reusing the same MapServer export adapter and selected-parcel
 visual authority.
 
+The collapsed web-only Topography group uses the same adapter for the NSTDB
+Landforms contour renderer. Labelled 5 m LiDAR-derived contours start off and
+render from zoom 13 beneath NSPRD boundaries. The group describes them as
+terrain screening only; it does not derive parcel slope, grade, drainage,
+stability, access, flood exposure, or buildability.
+
 The same catalog also owns a separate web-only `resourceLayerCatalog`. These
 open-data overlays do not change native-layer parity and do not depend on the
 restricted-services acceptance gate. NovaROC exploration licences and mineral
@@ -157,11 +163,10 @@ dynamic renderers, Watersheds is restricted to layers 24–26 (these layers are
 watershed context, not flood-risk mapping), and the
 Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
 Province's falls value. The Province publishes NSPRD with a 1:36,114 visibility
-floor; the web export uses a low display DPI so the authoritative outlines draw
-from zoom 7 without changing tile extents or manufacturing generalized parcel
-geometry. Crown-land and flood detail layers begin at zoom 12. Waterfall points
-remain visible at the province overview scale so users can discover where to
-zoom in.
+floor; the web catalog respects that close-detail scale at zoom 14 rather than
+forcing authoritative outlines into regional views. Crown-land and flood detail
+layers begin at zoom 12. Waterfall points remain visible at the province
+overview scale so users can discover where to zoom in.
 
 Tax-sale parcel polygons are separate client-side NSPRD query results. The
 selected parcel remains translucent in the overview and becomes fully opaque at

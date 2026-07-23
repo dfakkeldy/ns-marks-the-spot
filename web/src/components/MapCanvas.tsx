@@ -575,12 +575,16 @@ function LayerZoomController({
       return;
     }
 
-    const needsDetailZoom = provinceLayerCatalog.some(
-      ({ id, minZoom }) => provinceLayers[id] && minZoom >= 12,
+    const targetDetailZoom = provinceLayerCatalog.reduce(
+      (target, { id, minZoom }) =>
+        id !== "nsprd" && provinceLayers[id] && minZoom >= 12
+          ? Math.max(target, minZoom)
+          : target,
+      0,
     );
 
-    if (needsDetailZoom && map.getZoom() < 12) {
-      map.setZoom(12, { animate: true });
+    if (targetDetailZoom > 0 && map.getZoom() < targetDetailZoom) {
+      map.setZoom(targetDetailZoom, { animate: true });
     }
   }, [hydroPilotLayers, map, provinceLayers]);
 

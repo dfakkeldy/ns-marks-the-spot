@@ -49,6 +49,7 @@ import {
   nativeLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
+  topographyLayerCatalog,
   type HydroPilotLayerDescriptor,
   type HydroPilotLayerId,
   type FloodHazardLayerDescriptor,
@@ -2588,23 +2589,58 @@ export function App() {
                 />
               </span>
             </label>
-            {provinceLayerCatalog.map((layer) => (
-              <div className="layer-control" key={layer.id}>
-                <LayerToggle
-                  layer={layer}
-                  checked={provinceLayers[layer.id]}
-                  licenceAccepted={licenceAccepted}
-                  status={layerStatuses[layer.id]}
-                  onChange={(checked) =>
-                    setProvinceLayerVisibility(layer.id, checked)
-                  }
-                  onReviewLicence={() => setLicenceDialogOpen(true)}
-                />
-                {layer.id === "roads" && provinceLayers.roads ? (
-                  <RoadLegend />
-                ) : null}
+            {provinceLayerCatalog
+              .filter(({ id }) => id !== "contours")
+              .map((layer) => (
+                <div className="layer-control" key={layer.id}>
+                  <LayerToggle
+                    layer={layer}
+                    checked={provinceLayers[layer.id]}
+                    licenceAccepted={licenceAccepted}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setProvinceLayerVisibility(layer.id, checked)
+                    }
+                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                  />
+                  {layer.id === "roads" && provinceLayers.roads ? (
+                    <RoadLegend />
+                  ) : null}
+                </div>
+              ))}
+            <details className="resource-layer-group topography-layer-group">
+              <summary>
+                <span>Topography</span>
+                <small>1 optional terrain layer</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {topographyLayerCatalog.map((layer) => (
+                  <LayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={provinceLayers[layer.id]}
+                    licenceAccepted={licenceAccepted}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setProvinceLayerVisibility(layer.id, checked)
+                    }
+                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                  />
+                ))}
+                <p className="resource-source-note">
+                  Contours show mapped elevation shape and depressions. They do
+                  not establish surveyed grade, drainage, stability, access,
+                  flood exposure, or buildability. {" "}
+                  <a
+                    href="https://data.novascotia.ca/d/j63u-5nkj"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Official Landforms source
+                  </a>
+                </p>
               </div>
-            ))}
+            </details>
             <details className="resource-layer-group flood-hazard-layer-group">
               <summary>
                 <span>Flood hazard context</span>

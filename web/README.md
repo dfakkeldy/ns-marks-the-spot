@@ -71,13 +71,12 @@ remaining online-only:
 
 - NS Aerial streams the Province's NSODB 10k imagery through map zoom 23,
   overzooming its last useful native scale instead of disappearing.
-- NS Property Boundaries begins at regional zoom 10, avoiding slow and cluttered
-  province-wide rendering while keeping parcel lines available well before
-  street-level zoom. A low export DPI clears the live service's 1:36,114
-  display floor without changing tile extents; PID search still uses exact
-  NSPRD Feature Layer geometry. Map-tap parcel identification follows the same
-  zoom floor. A selected sale parcel becomes fully opaque at zoom 15 and closer
-  while other listed parcels keep their lighter overview fill.
+- NS Property Boundaries begins at close parcel-detail zoom 14, following the
+  live service's 1:36,114 display floor instead of forcing dense parcel lines
+  into regional views. PID search still uses exact NSPRD Feature Layer geometry,
+  and map-tap parcel identification follows the same zoom floor. A selected sale
+  parcel becomes fully opaque at zoom 15 and closer while other listed parcels
+  keep their lighter overview fill.
 - Crown Lands uses the native green dynamic renderer.
 - Watersheds uses the native `show:24,25,26` restriction; it is watershed
   context, not flood-risk mapping.
@@ -100,6 +99,11 @@ remaining online-only:
 - [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a web-only,
   default-off NSTDB context layer from zoom 13. It preserves the Province's
   point and polygon renderer; it does not change the native-app parity list.
+- [Contours](https://data.novascotia.ca/d/j63u-5nkj) is a web-only,
+  default-off Topography layer from zoom 13. It uses the maintained NSTDB
+  Landforms renderer's labelled 5 m LiDAR-derived contour lines. The layer is
+  visual terrain screening only: it does not establish surveyed grade,
+  drainage, stability, access, flood exposure, or buildability.
 - Fletcher remains listed but disabled until web-use rights are clear.
 
 ## Geology and resources
@@ -216,8 +220,8 @@ Trails & Culverts on. It fits the initial view once to the loaded tax-sale
 parcels. Fletcher is the final layer row because it is not yet available. The
 initial fit does not repeat after searches or ordinary navigation.
 
-All seven Province services successfully returned Web Mercator export images in
-the July 19, 2026 validation pass. The web app sends direct image requests from
+All eight distinct Province services used by the catalog have returned Web
+Mercator export images in validation. The web app sends direct image requests from
 the browser and does not add an application server or offline cache.
 
 ## Parcel context
@@ -445,8 +449,8 @@ date rather than leaving that date only in source data.
 
 ## Current boundary
 
-This slice includes the modern OpenStreetMap basemap, seven web-cleared
-restricted Province layers, three default-off open geoscience/resource source
+This slice includes the modern OpenStreetMap basemap, nine web-cleared
+Province layers, three default-off open geoscience/resource source
 overlays, one default-off licence-gated derived mineral-proximity parcel row,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel

@@ -8,7 +8,9 @@ export type NativeLayerId =
   | "water-features"
   | "roads";
 
-export type WebOnlyProvinceLayerId = "buildings";
+export type TopographyLayerId = "contours";
+
+export type WebOnlyProvinceLayerId = "buildings" | TopographyLayerId;
 
 export type ProvinceLayerId =
   | Exclude<NativeLayerId, "fletcher">
@@ -249,7 +251,7 @@ const TRAIL_TRACK_CONTRAST_DYNAMIC_LAYERS = JSON.stringify([
   },
 ]);
 
-export const PROPERTY_BOUNDARY_MIN_ZOOM = 10;
+export const PROPERTY_BOUNDARY_MIN_ZOOM = 14;
 
 export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
   {
@@ -296,13 +298,12 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     opacity: 0.82,
     licence: "province-restricted",
     webAvailability: "available",
-    webCaveat: "Zoom 10+ · not a survey",
+    webCaveat: "Zoom 14+ · not a survey",
     sourceDate: "Live service · checked July 20, 2026",
     scale: "Display floor 1:36,114",
     coverage: "Nova Scotia",
     exportOptions: {
       transparent: true,
-      dpi: 0.75,
       dynamicLayers: PROPERTY_DYNAMIC_LAYERS,
     },
   },
@@ -413,10 +414,11 @@ export const provinceLayerIds: ProvinceLayerId[] = [
   "water-features",
   "roads",
   "buildings",
+  "contours",
 ];
 
-export const webOnlyProvinceLayerCatalog: readonly (
-  WebLayerDescriptor & { id: WebOnlyProvinceLayerId }
+const buildingLayerCatalog: readonly (
+  WebLayerDescriptor & { id: "buildings" }
 )[] = [
   {
     id: "buildings",
@@ -435,6 +437,39 @@ export const webOnlyProvinceLayerCatalog: readonly (
     coverage: "Nova Scotia",
     exportOptions: { transparent: true, dpi: 144 },
   },
+] as const;
+
+export const topographyLayerCatalog: readonly (
+  WebLayerDescriptor & { id: TopographyLayerId }
+)[] = [
+  {
+    id: "contours",
+    name: "Contours",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Landforms_UT83/MapServer",
+    nativeDefaultVisibility: false,
+    minZoom: 13,
+    maxZoom: 24,
+    opacity: 0.88,
+    licence: "province-restricted",
+    webAvailability: "available",
+    webCaveat: "5 m elevation lines · terrain screening only · zoom 13+",
+    sourceDate: "NSTDB updated May 5, 2026 · service checked July 22, 2026",
+    scale: "LiDAR-derived 5 m contours · labelled index lines",
+    coverage: "Nova Scotia",
+    exportOptions: {
+      transparent: true,
+      layers: "show:2,4",
+      dpi: 144,
+    },
+  },
+] as const;
+
+export const webOnlyProvinceLayerCatalog: readonly (
+  WebLayerDescriptor & { id: WebOnlyProvinceLayerId }
+)[] = [
+  ...buildingLayerCatalog,
+  ...topographyLayerCatalog,
 ] as const;
 
 export const provinceLayerCatalog: readonly (
@@ -457,6 +492,7 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
   "water-features": true,
   roads: true,
   buildings: false,
+  contours: false,
 };
 
 const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";

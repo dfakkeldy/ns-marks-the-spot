@@ -7,9 +7,10 @@ Open-source iOS map app for overlaying georeferenced historical Nova Scotia maps
 The `web/` React app is the online-only companion. It mirrors the native
 catalog's Province layers—NS Aerial, Property Boundaries, Crown Lands, Flood
 Risk Areas, Waterfalls, water features, and transportation—and adds a collapsed,
-default-off Geology & Resources group for mineral occurrences, mineral tenure,
-and abandoned mine openings, plus a separately licence-gated derived row for
-NSPRD parcels within 1 kilometre of a published mineral occurrence. Fletcher
+default-off Topography group for labelled 5 m contours, a collapsed Geology &
+Resources group for mineral occurrences, mineral tenure, and abandoned mine
+openings, plus a separately licence-gated derived row for NSPRD parcels within
+1 kilometre of a published mineral occurrence. Fletcher
 stays disabled until web-use rights are clear. Its municipal catalog maps the
 CBRM July 21 and Inverness County
 August 11, 2026 tax-sale notices against live NSPRD parcel geometry, supports
