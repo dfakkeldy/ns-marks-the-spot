@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  boundsForParcelGeometry,
+  buildPrintMapShareUrl,
+  printBoundsForTemplate,
   printCaptureReadiness,
+  printScaleForPosition,
+  printedLayerIds,
   sealPrintSnapshot,
   startPrintCapture,
   updatePrintCaptureEvidence,
@@ -214,5 +219,78 @@ describe("print capture", () => {
         coastal: [],
       },
     });
+  });
+});
+
+describe("print map derivation", () => {
+  it("fits every part of a multipart parcel", () => {
+    const bounds = boundsForParcelGeometry({
+      type: "FeatureCollection",
+      features: [{
+        type: "Feature",
+        properties: { PID: "01234567", "SHAPE.AREA": 1000 },
+        geometry: {
+          type: "MultiPolygon",
+          coordinates: [
+            [[[-61.3, 46.2], [-61.2, 46.2], [-61.2, 46.1], [-61.3, 46.1], [-61.3, 46.2]]],
+            [[[-60.9, 46.5], [-60.8, 46.5], [-60.8, 46.4], [-60.9, 46.4], [-60.9, 46.5]]],
+          ],
+        },
+      }],
+    });
+
+    expect(bounds).toEqual({
+      north: 46.5,
+      east: -60.8,
+      south: 46.1,
+      west: -61.3,
+    });
+  });
+
+  it("uses parcel bounds for research and the captured viewport for field output", () => {
+    const capture = startPrintCapture(base, pendingEvidence);
+
+    expect(printBoundsForTemplate(capture, "research")).toEqual({
+      north: 46.4,
+      east: -61.1,
+      south: 46.3,
+      west: -61.2,
+    });
+    expect(printBoundsForTemplate(capture, "field")).toEqual(capture.viewport.bounds);
+  });
+
+  it("removes aerial from printed layers unless explicitly included", () => {
+    expect(printedLayerIds(
+      ["modern", "ns-aerial", "nsprd", "roads"],
+      false,
+    )).toEqual(["modern", "nsprd", "roads"]);
+  });
+
+  it("uses a stable scale bar for a printed map position", () => {
+    const scale = printScaleForPosition(
+      { latitude: 46.35, longitude: -61.15, zoom: 15 },
+      90,
+    );
+
+    expect(scale.label).toBe("200 m");
+    expect(scale.metres).toBe(200);
+    expect(scale.pixels).toBeCloseTo(60.65, 1);
+  });
+
+  it("builds a printable share URL with optional aerial imagery", () => {
+    const snapshot = sealPrintSnapshot(
+      startPrintCapture(base, pendingEvidence),
+      "field",
+      { timedOut: false, generatedAt: "2026-07-23T13:42:15.000Z" },
+    );
+
+    expect(buildPrintMapShareUrl(
+      "https://example.com/map/",
+      snapshot,
+      { latitude: 46.35, longitude: -61.15, zoom: 15 },
+      false,
+    )).toBe(
+      "https://example.com/map/?mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
+    );
   });
 });

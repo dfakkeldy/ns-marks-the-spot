@@ -1,7 +1,12 @@
 import type { CivicAddress } from "./civicAddresses";
 import type { ParcelBuildingCount } from "./buildings";
 import type { ParcelFloodHazardEvidence } from "./floodHazard";
-import type { MapMode, MapPosition, ShareLayerId } from "./mapShareState";
+import {
+  buildMapShareUrl,
+  type MapMode,
+  type MapPosition,
+  type ShareLayerId,
+} from "./mapShareState";
 import type { NsprdFeatureCollection } from "./nsprd";
 import type { ParcelContext, MappedArea } from "./parcelContext";
 import type { ParcelResourceIntersections } from "./parcelResources";
@@ -85,6 +90,12 @@ export type PrintSnapshot = DeepReadonly<PrintCapture & {
   generatedAt: string;
 }>;
 
+export type PrintScale = {
+  label: string;
+  metres: number;
+  pixels: number;
+};
+
 const RESEARCH_KEYS = [
   "buildings",
   "assessments",
@@ -112,6 +123,95 @@ function deepFreeze<T>(
     Object.freeze(value);
   }
   return value as DeepReadonly<T>;
+}
+
+export function boundsForParcelGeometry(
+  collection: NsprdFeatureCollection,
+): PrintMapBounds {
+  const coordinates: Array<[number, number]> = [];
+  const visit = (value: unknown): void => {
+    if (
+      Array.isArray(value) &&
+      value.length >= 2 &&
+      typeof value[0] === "number" &&
+      typeof value[1] === "number"
+    ) {
+      coordinates.push([value[0], value[1]]);
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+    }
+  };
+  const visitGeometry = (geometry: GeoJSON.Geometry): void => {
+    if (geometry.type === "GeometryCollection") {
+      geometry.geometries.forEach(visitGeometry);
+      return;
+    }
+    visit(geometry.coordinates);
+  };
+
+  collection.features.forEach(({ geometry }) => visitGeometry(geometry));
+  if (coordinates.length === 0) {
+    throw new Error("Print bounds require selected parcel geometry.");
+  }
+  return {
+    north: Math.max(...coordinates.map(([, latitude]) => latitude)),
+    east: Math.max(...coordinates.map(([longitude]) => longitude)),
+    south: Math.min(...coordinates.map(([, latitude]) => latitude)),
+    west: Math.min(...coordinates.map(([longitude]) => longitude)),
+  };
+}
+
+export function printBoundsForTemplate(
+  capture: PrintCapture,
+  template: PrintTemplate,
+): PrintMapBounds {
+  return template === "research"
+    ? boundsForParcelGeometry(capture.selectedParcelGeometry)
+    : capture.viewport.bounds;
+}
+
+export function printedLayerIds(
+  layerIds: ShareLayerId[],
+  includeAerial: boolean,
+): ShareLayerId[] {
+  return layerIds.filter((id) => id !== "ns-aerial" || includeAerial);
+}
+
+export function printScaleForPosition(
+  position: MapPosition,
+  maximumPixels = 90,
+): PrintScale {
+  const metresPerPixel =
+    156_543.033_92 *
+    Math.cos((position.latitude * Math.PI) / 180) /
+    2 ** position.zoom;
+  const targetMetres = metresPerPixel * maximumPixels;
+  const magnitude = 10 ** Math.floor(Math.log10(targetMetres));
+  const normalized = targetMetres / magnitude;
+  const multiplier = normalized >= 5 ? 5 : normalized >= 2 ? 2 : 1;
+  const metres = multiplier * magnitude;
+  return {
+    label: metres >= 1_000 ? `${metres / 1_000} km` : `${metres} m`,
+    metres,
+    pixels: metres / metresPerPixel,
+  };
+}
+
+export function buildPrintMapShareUrl(
+  baseUrl: string,
+  snapshot: PrintSnapshot,
+  position: MapPosition,
+  includeAerial: boolean,
+): string {
+  return buildMapShareUrl(baseUrl, {
+    mode: snapshot.mode,
+    pid: snapshot.pid,
+    eventIds: [...snapshot.eventIds],
+    layerIds: printedLayerIds([...snapshot.layerIds], includeAerial),
+    position,
+  });
 }
 
 export function startPrintCapture(

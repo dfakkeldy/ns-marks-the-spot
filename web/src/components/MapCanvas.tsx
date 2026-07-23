@@ -57,6 +57,7 @@ import {
   OVERVIEW_MARKER_MAX_ZOOM,
   representativeParcelPoints,
 } from "../services/parcelMarkers";
+import type { PrintMapViewport } from "../services/printSnapshot";
 import { parcelStyleForFeature } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import {
@@ -84,6 +85,7 @@ type MapCanvasProps = {
   focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
   onPositionChange?: (position: MapPosition) => void;
+  onViewportChange?: (viewport: PrintMapViewport) => void;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -495,19 +497,31 @@ function HydroPilotLayer({
 
 function MapPositionController({
   onPositionChange,
-}: Pick<MapCanvasProps, "onPositionChange">) {
+  onViewportChange,
+}: Pick<MapCanvasProps, "onPositionChange" | "onViewportChange">) {
   const map = useMap();
 
   useEffect(() => {
-    if (!onPositionChange) {
+    if (!onPositionChange && !onViewportChange) {
       return;
     }
     const reportPosition = () => {
       const center = map.getCenter();
-      onPositionChange?.({
+      const bounds = map.getBounds();
+      const position = {
         latitude: center.lat,
         longitude: center.lng,
         zoom: map.getZoom(),
+      };
+      onPositionChange?.(position);
+      onViewportChange?.({
+        position,
+        bounds: {
+          north: bounds.getNorth(),
+          east: bounds.getEast(),
+          south: bounds.getSouth(),
+          west: bounds.getWest(),
+        },
       });
     };
     reportPosition();
@@ -517,7 +531,7 @@ function MapPositionController({
       map.off("moveend", reportPosition);
       map.off("zoomend", reportPosition);
     };
-  }, [map, onPositionChange]);
+  }, [map, onPositionChange, onViewportChange]);
 
   return null;
 }
@@ -899,6 +913,7 @@ export function MapCanvas({
   focusRequest = null,
   initialPosition = DEFAULT_MAP_POSITION,
   onPositionChange,
+  onViewportChange,
   onLayerStatusChange,
   onResourceLayerStatusChange,
 }: MapCanvasProps) {
@@ -1143,7 +1158,10 @@ export function MapCanvas({
           enabled={provinceLayers.nsprd}
           onIdentifyParcel={onIdentifyParcel}
         />
-        <MapPositionController onPositionChange={onPositionChange} />
+        <MapPositionController
+          onPositionChange={onPositionChange}
+          onViewportChange={onViewportChange}
+        />
       </MapContainer>
 
       <button

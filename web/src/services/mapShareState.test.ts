@@ -4,6 +4,10 @@ import {
   parseMapShareState,
   type MapShareState,
 } from "./mapShareState";
+import {
+  buildPrintMapShareUrl,
+  type PrintSnapshot,
+} from "./printSnapshot";
 
 describe("map share state", () => {
   const state: MapShareState = {
@@ -72,5 +76,28 @@ describe("map share state", () => {
     expect(parsed.eventIds).toEqual([]);
     expect(parsed.layerIds).toEqual(["roads"]);
     expect(parsed.position).toEqual({ latitude: 47.5, longitude: -66.5, zoom: 23 });
+  });
+
+  it("parses a printable URL with its resolved map state unchanged", () => {
+    const snapshot = {
+      mode: "historical",
+      pid: "01234567",
+      eventIds: ["hrm-2022-03-08"],
+      layerIds: ["modern", "ns-aerial", "nsprd", "roads"],
+    } as unknown as PrintSnapshot;
+    const position = { latitude: 46.35, longitude: -61.15, zoom: 15 };
+
+    expect(parseMapShareState(buildPrintMapShareUrl(
+      "https://example.com/map/",
+      snapshot,
+      position,
+      false,
+    ))).toEqual({
+      mode: "historical",
+      pid: "01234567",
+      eventIds: ["hrm-2022-03-08"],
+      layerIds: ["modern", "nsprd", "roads"],
+      position,
+    });
   });
 });

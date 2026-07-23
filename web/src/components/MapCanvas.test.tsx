@@ -10,6 +10,7 @@ import { parcelStyleForFeature } from "./parcelStyle";
 const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
+  getCenter: vi.fn(() => ({ lat: 46.35, lng: -61.15 })),
   getZoom: vi.fn(() => 9),
   getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
   getBounds: vi.fn(() => ({
@@ -251,6 +252,65 @@ describe("MapCanvas browser location", () => {
       screen.queryByText("Your location is shown on the map."),
     ).not.toBeInTheDocument();
     expect(screen.getByTestId("location-position")).toBeInTheDocument();
+  });
+});
+
+describe("MapCanvas viewport reporting", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("reports the centre, zoom, and bounds when the viewport changes", () => {
+    const onPositionChange = vi.fn();
+    const onViewportChange = vi.fn();
+    mapMock.getZoom.mockReturnValue(15);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onPositionChange={onPositionChange}
+        onViewportChange={onViewportChange}
+      />,
+    );
+
+    onPositionChange.mockClear();
+    onViewportChange.mockClear();
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+
+    expect(moveendHandler).toBeTypeOf("function");
+    act(() => moveendHandler?.());
+
+    expect(onPositionChange).toHaveBeenCalledWith({
+      latitude: 46.35,
+      longitude: -61.15,
+      zoom: 15,
+    });
+    expect(onViewportChange).toHaveBeenCalledWith({
+      position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
+      bounds: { north: 47, east: -60, south: 45, west: -62 },
+    });
   });
 });
 
