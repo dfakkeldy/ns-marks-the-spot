@@ -15,6 +15,21 @@ npm run dev
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 
+## Share card
+
+`index.html` declares Open Graph/Twitter tags pointing at
+`web/public/social-card.png` (1200×630). The source of truth is
+`marketing/social-card.svg`; regenerate the PNG with:
+
+```sh
+rsvg-convert -w 1200 -h 630 marketing/social-card.svg -o web/public/social-card.png
+```
+
+The tags ship with a relative image URL because this repository does not
+record a canonical deploy origin. The deploying site should rewrite
+`og:image`/`twitter:image` to an absolute URL at its origin; scrapers that
+require absolute URLs ignore the relative form harmlessly.
+
 ## Data flow
 
 1. Each municipality's official notice supplies its event date and public
