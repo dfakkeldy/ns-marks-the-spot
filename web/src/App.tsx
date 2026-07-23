@@ -1572,13 +1572,18 @@ export function App() {
 
   const printCapturePid = printCapture?.pid;
   const printCaptureToken = printCapture?.token;
-  const printCaptureEvidenceRequest = printCapture?.evidenceRequest;
+  const printCaptureEvidenceRequestPid = printCapture?.evidenceRequest.pid;
+  const printCaptureEvidenceGeneration = printCapture?.evidenceRequest.generation;
   useEffect(() => {
     if (
       !printCapturePid ||
-      !printCaptureEvidenceRequest ||
+      !printCaptureEvidenceRequestPid ||
+      printCaptureEvidenceGeneration === undefined ||
       selectedPid !== printCapturePid ||
-      !isCurrentEvidenceRequest(selectedEvidenceRequest, printCaptureEvidenceRequest)
+      !isCurrentEvidenceRequest(selectedEvidenceRequest, {
+        pid: printCaptureEvidenceRequestPid,
+        generation: printCaptureEvidenceGeneration,
+      })
     ) return;
     setPrintCapture((current) => current
       ? updatePrintCaptureEvidence(current, {
@@ -1590,7 +1595,8 @@ export function App() {
       : null);
   }, [
     currentPrintEvidence,
-    printCaptureEvidenceRequest,
+    printCaptureEvidenceGeneration,
+    printCaptureEvidenceRequestPid,
     printCapturePid,
     printCaptureToken,
     selectedEvidenceRequest,

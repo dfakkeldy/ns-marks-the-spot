@@ -2496,18 +2496,23 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcelResourceIntersections)
       .mockReturnValueOnce(olderResources.promise)
       .mockReturnValueOnce(currentResources.promise);
+    const initialResourceRequestCount = vi.mocked(fetchParcelResourceIntersections).mock.calls.length;
     render(<App />);
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
     await user.type(search, "01234567");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
-    await waitFor(() => expect(fetchParcelResourceIntersections).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(fetchParcelResourceIntersections).toHaveBeenCalledTimes(
+      initialResourceRequestCount + 1,
+    ));
     await user.click(screen.getByRole("button", { name: "Close parcel details" }));
     await user.clear(search);
     await user.type(search, "01234567");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
-    await waitFor(() => expect(fetchParcelResourceIntersections).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(fetchParcelResourceIntersections).toHaveBeenCalledTimes(
+      initialResourceRequestCount + 2,
+    ));
     await user.click(screen.getByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
     expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
@@ -2532,6 +2537,6 @@ describe("NS Marks The Spot Online", () => {
       await currentResources.promise;
     });
     expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
-    expect(within(dialog).getByText("Current completion")).toBeInTheDocument();
+    expect(within(dialog).getByText(/Current completion/)).toBeInTheDocument();
   });
 });
