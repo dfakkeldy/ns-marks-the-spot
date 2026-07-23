@@ -18,7 +18,12 @@ PID and civic-address search plus tap-to-identify parcel selection, keeps
 browser location local, and puts verified Halifax 2022–2025 outcomes in an
 unmistakably separate historical mode. Parcel selection collapses long event
 lists, and share links preserve the PID, event, layers, and map position. The
-parcel sheet can export a timestamped, source-linked evidence note. Parcel
+parcel sheet can export a timestamped, source-linked evidence note. At
+overview zooms the modern basemap carries the view, listed parcels appear as
+selectable markers, and a scale bar plus copyable centre/zoom readout stay on
+screen; zoom-gated Province imagery and line work take over at legible
+scales. An About dialog states the app's data-handling method and links the
+source repository. Parcel
 context distinguishes intersecting,
 nearby, and civic-address road evidence without claiming legal access. Each
 authoritative mapped civic point also shows a locally calculated Plus Code that
