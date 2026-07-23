@@ -117,6 +117,8 @@ import {
 } from "./services/pvscAssessments";
 import { viewpointParcelUrl } from "./services/viewpoint";
 
+const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
+
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
 
@@ -1601,6 +1603,17 @@ export function App() {
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
     null,
   );
+
+  useEffect(() => {
+    if (!parcelLookupMessage || !/^PID \d+ selected/.test(parcelLookupMessage)) {
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setParcelLookupMessage(null),
+      TRANSIENT_MESSAGE_DURATION_MS,
+    );
+    return () => window.clearTimeout(timer);
+  }, [parcelLookupMessage]);
   const [mappedContext, setMappedContext] = useState<ParcelContextState>({
     status: "idle",
     value: EMPTY_PARCEL_CONTEXT,

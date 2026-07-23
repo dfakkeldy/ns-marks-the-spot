@@ -913,6 +913,33 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("auto-dismisses the parcel-selected toast", async () => {
+    vi.useFakeTimers();
+    try {
+      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+      vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750")],
+      });
+      render(<App />);
+
+      fireEvent.click(screen.getByRole("button", { name: "Tap map parcel" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(0);
+      });
+      expect(screen.getByText("PID 50251750 selected.")).toBeInTheDocument();
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(6_000);
+      });
+      expect(
+        screen.queryByText("PID 50251750 selected."),
+      ).not.toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("keeps an identified parcel when the initial tax-sale geometry arrives later", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
