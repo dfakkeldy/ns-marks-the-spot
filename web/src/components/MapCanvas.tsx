@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
+import L, {
+  type LeafletEvent,
+  type Map as LeafletMap,
+  type PathOptions,
+} from "leaflet";
 import {
   Circle,
   CircleMarker,
@@ -135,6 +139,46 @@ const HIDDEN_FLOOD_HAZARD_LAYERS: Record<FloodHazardLayerId, boolean> = {
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+
+type PrintableViewportGuard = {
+  suppressBrowserLocation: boolean;
+  lastSuppressed: PrintMapViewport | null;
+};
+
+type PrintableViewportGuardRef = {
+  current: PrintableViewportGuard;
+};
+
+const VIEWPORT_COMPARISON_EPSILON = 1e-9;
+
+function samePrintMapViewport(
+  left: PrintMapViewport,
+  right: PrintMapViewport,
+): boolean {
+  const leftValues = [
+    left.position.latitude,
+    left.position.longitude,
+    left.position.zoom,
+    left.bounds.north,
+    left.bounds.east,
+    left.bounds.south,
+    left.bounds.west,
+  ];
+  const rightValues = [
+    right.position.latitude,
+    right.position.longitude,
+    right.position.zoom,
+    right.bounds.north,
+    right.bounds.east,
+    right.bounds.south,
+    right.bounds.west,
+  ];
+  return leftValues.every(
+    (value, index) =>
+      Math.abs(value - rightValues[index]) <= VIEWPORT_COMPARISON_EPSILON,
+  );
+}
+
 function ArcGISMapLayer({
   layer,
   visible,
@@ -498,14 +542,17 @@ function HydroPilotLayer({
 function MapPositionController({
   onPositionChange,
   onViewportChange,
-}: Pick<MapCanvasProps, "onPositionChange" | "onViewportChange">) {
+  printableViewportGuard,
+}: Pick<MapCanvasProps, "onPositionChange" | "onViewportChange"> & {
+  printableViewportGuard: PrintableViewportGuardRef;
+}) {
   const map = useMap();
 
   useEffect(() => {
     if (!onPositionChange && !onViewportChange) {
       return;
     }
-    const reportPosition = () => {
+    const reportPosition = (event?: LeafletEvent) => {
       const center = map.getCenter();
       const bounds = map.getBounds();
       const position = {
@@ -514,7 +561,7 @@ function MapPositionController({
         zoom: map.getZoom(),
       };
       onPositionChange?.(position);
-      onViewportChange?.({
+      const viewport: PrintMapViewport = {
         position,
         bounds: {
           north: bounds.getNorth(),
@@ -522,7 +569,24 @@ function MapPositionController({
           south: bounds.getSouth(),
           west: bounds.getWest(),
         },
-      });
+      };
+
+      const guard = printableViewportGuard.current;
+      if (guard.suppressBrowserLocation) {
+        guard.lastSuppressed = viewport;
+        if (event?.type === "moveend") {
+          guard.suppressBrowserLocation = false;
+        }
+        return;
+      }
+      if (
+        guard.lastSuppressed !== null &&
+        samePrintMapViewport(guard.lastSuppressed, viewport)
+      ) {
+        return;
+      }
+      guard.lastSuppressed = null;
+      onViewportChange?.(viewport);
     };
     reportPosition();
     map.on("moveend", reportPosition);
@@ -531,7 +595,7 @@ function MapPositionController({
       map.off("moveend", reportPosition);
       map.off("zoomend", reportPosition);
     };
-  }, [map, onPositionChange, onViewportChange]);
+  }, [map, onPositionChange, onViewportChange, printableViewportGuard]);
 
   return null;
 }
@@ -933,6 +997,10 @@ export function MapCanvas({
     [reportLayerStatus],
   );
   const [map, setMap] = useState<LeafletMap | null>(null);
+  const printableViewportGuard = useRef<PrintableViewportGuard>({
+    suppressBrowserLocation: false,
+    lastSuppressed: null,
+  });
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
@@ -985,7 +1053,11 @@ export function MapCanvas({
       .then((location) => {
         setUserLocation(location);
         setLocationMessage(LOCATION_SUCCESS_MESSAGE);
-        map?.flyTo([location.latitude, location.longitude], 14);
+        if (map) {
+          printableViewportGuard.current.suppressBrowserLocation = true;
+          printableViewportGuard.current.lastSuppressed = null;
+          map.flyTo([location.latitude, location.longitude], 14);
+        }
       })
       .catch(() => {
         setLocationMessage(
@@ -1161,6 +1233,7 @@ export function MapCanvas({
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
+          printableViewportGuard={printableViewportGuard}
         />
       </MapContainer>
 

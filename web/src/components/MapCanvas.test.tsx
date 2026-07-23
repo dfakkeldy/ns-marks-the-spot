@@ -10,15 +10,20 @@ import { parcelStyleForFeature } from "./parcelStyle";
 const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
-  getCenter: vi.fn(() => ({ lat: 46.35, lng: -61.15 })),
-  getZoom: vi.fn(() => 9),
+  flyTo: vi.fn(),
   getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
-  getBounds: vi.fn(() => ({
+  getBounds: vi.fn((): {
+    getWest: () => number;
+    getSouth: () => number;
+    getEast: () => number;
+    getNorth: () => number;
+  } => ({
     getWest: () => -62,
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
   })),
+  getZoom: vi.fn(() => 9),
   getContainer: vi.fn(() => document.body),
   invalidateSize: vi.fn(),
   on: vi.fn(),
@@ -70,7 +75,18 @@ vi.mock("react-leaflet", () => ({
     />
   ),
   GeoJSON: () => <div data-testid="parcel-overlay" />,
-  MapContainer: ({ children }: PropsWithChildren) => <div>{children}</div>,
+  MapContainer: ({
+    children,
+    ref,
+  }: PropsWithChildren<{
+    ref?: (map: typeof mapMock | null) => void;
+  }>) => {
+    useEffect(() => {
+      ref?.(mapMock);
+      return () => ref?.(null);
+    }, [ref]);
+    return <div>{children}</div>;
+  },
   Pane: ({
     children,
     name,
@@ -143,6 +159,14 @@ const hiddenResourceLayers = {
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
+  mapMock.getZoom.mockReturnValue(9);
+  mapMock.getBounds.mockReturnValue({
+    getWest: () => -62,
+    getSouth: () => 45,
+    getEast: () => -60,
+    getNorth: () => 47,
+  });
 });
 
 describe("MapCanvas browser location", () => {
@@ -310,6 +334,97 @@ describe("MapCanvas viewport reporting", () => {
     expect(onViewportChange).toHaveBeenCalledWith({
       position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
       bounds: { north: 47, east: -60, south: 45, west: -62 },
+    });
+  });
+
+  it("keeps location recentering out of printable viewport state", async () => {
+    const user = userEvent.setup();
+    const onPositionChange = vi.fn();
+    const onViewportChange = vi.fn();
+    mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
+    mapMock.getZoom.mockReturnValue(15);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onPositionChange={onPositionChange}
+        onViewportChange={onViewportChange}
+      />,
+    );
+
+    onPositionChange.mockClear();
+    onViewportChange.mockClear();
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await waitFor(() => {
+      expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+    });
+
+    mapMock.getCenter.mockReturnValue({ lat: 46.12, lng: -60.91 });
+    mapMock.getZoom.mockReturnValue(14);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -60.96,
+      getSouth: () => 46.07,
+      getEast: () => -60.86,
+      getNorth: () => 46.17,
+    });
+    const [, zoomendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "zoomend")
+      .pop() ?? [];
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+
+    act(() => {
+      zoomendHandler?.({ type: "zoomend" });
+      moveendHandler?.({ type: "moveend" });
+      zoomendHandler?.({ type: "zoomend" });
+    });
+
+    expect(onPositionChange).toHaveBeenLastCalledWith({
+      latitude: 46.12,
+      longitude: -60.91,
+      zoom: 14,
+    });
+    expect(onViewportChange).not.toHaveBeenCalled();
+
+    mapMock.getCenter.mockReturnValue({ lat: 46.2, lng: -61 });
+    mapMock.getZoom.mockReturnValue(15);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -61.05,
+      getSouth: () => 46.15,
+      getEast: () => -60.95,
+      getNorth: () => 46.25,
+    });
+    act(() => moveendHandler?.({ type: "moveend" }));
+
+    expect(onViewportChange).toHaveBeenLastCalledWith({
+      position: { latitude: 46.2, longitude: -61, zoom: 15 },
+      bounds: {
+        north: 46.25,
+        east: -60.95,
+        south: 46.15,
+        west: -61.05,
+      },
     });
   });
 });
