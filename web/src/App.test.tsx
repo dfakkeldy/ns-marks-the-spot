@@ -31,6 +31,7 @@ vi.mock("./components/MapCanvas", () => ({
     showHistoricalTaxSales,
     initialPosition,
     onIdentifyParcel,
+    onPositionChange,
     focusRequest,
     onViewportChange,
     onLayerStatusChange,
@@ -47,6 +48,9 @@ vi.mock("./components/MapCanvas", () => ({
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
     onIdentifyParcel: (latitude: number, longitude: number) => void;
+    onPositionChange?: (position: {
+      latitude: number; longitude: number; zoom: number;
+    }) => void;
     focusRequest?: { pid: string; requestId: number } | null;
     onViewportChange?: (viewport: {
       position: { latitude: number; longitude: number; zoom: number };
@@ -114,6 +118,25 @@ vi.mock("./components/MapCanvas", () => ({
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
+      {renderMode !== "print" ? (
+        <>
+          <button
+            type="button"
+            onClick={() => onPositionChange?.({ latitude: 44.01, longitude: -63.01, zoom: 17 })}
+          >
+            Simulate location recenter
+          </button>
+          <button
+            type="button"
+            onClick={() => onViewportChange?.({
+              position: { latitude: 45.01, longitude: -62.01, zoom: 12 },
+              bounds: { north: 45.2, east: -61.8, south: 44.8, west: -62.2 },
+            })}
+          >
+            Simulate map viewport
+          </button>
+        </>
+      ) : null}
     </div>
     );
   },
@@ -2353,6 +2376,54 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("keeps share and print viewport state isolated from a legacy location recenter", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("01234567")],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    const exactMapState = screen.getByRole("link", { name: "Open this exact map state" });
+    expect(exactMapState).toHaveAttribute("href", expect.stringContaining("position=46.25%2C-61.25%2C13"));
+
+    await user.click(screen.getByRole("button", { name: "Simulate location recenter" }));
+    expect(exactMapState).toHaveAttribute("href", expect.stringContaining("position=46.25%2C-61.25%2C13"));
+    expect(exactMapState).toHaveAttribute("href", expect.not.stringContaining("position=44.01"));
+
+    await user.click(screen.getByRole("button", { name: "Simulate map viewport" }));
+    await waitFor(() => expect(exactMapState).toHaveAttribute("href", expect.stringContaining("position=45.01%2C-62.01%2C12")));
+    await user.click(screen.getByRole("button", { name: "Print / export" }));
+    const dialog = await screen.findByRole("dialog", { name: "Print / export" });
+    expect(within(dialog).queryByText("44.01,-63.01,17")).not.toBeInTheDocument();
+  });
+
+  it("withholds print export until selected PID geometry arrives", async () => {
+    const user = userEvent.setup();
+    const parcelLookup = deferred<{ type: "FeatureCollection"; features: ReturnType<typeof parcelFeature>[] }>();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels)
+      .mockResolvedValueOnce({ type: "FeatureCollection", features: [] })
+      .mockReturnValueOnce(parcelLookup.promise);
+    render(<App />);
+    await screen.findByText("0 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await screen.findByRole("complementary", { name: "Parcel 01234567 details" });
+    expect(screen.queryByRole("button", { name: "Print / export" })).not.toBeInTheDocument();
+
+    await act(async () => {
+      parcelLookup.resolve({ type: "FeatureCollection", features: [parcelFeature("01234567")] });
+      await parcelLookup.promise;
+    });
+    expect(await screen.findByRole("button", { name: "Print / export" })).toBeInTheDocument();
+  });
+
   it("opens a privacy-safe print preview with a frozen parcel fit", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -2411,5 +2482,56 @@ describe("NS Marks The Spot Online", () => {
     expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
     await user.click(screen.getByLabelText("Water features"));
     expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
+  });
+
+  it("does not let an older same-PID evidence request settle a reopened print capture", async () => {
+    const user = userEvent.setup();
+    const olderResources = deferred<Awaited<ReturnType<typeof fetchParcelResourceIntersections>>>();
+    const currentResources = deferred<Awaited<ReturnType<typeof fetchParcelResourceIntersections>>>();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("01234567")],
+    });
+    vi.mocked(fetchParcelResourceIntersections)
+      .mockReturnValueOnce(olderResources.promise)
+      .mockReturnValueOnce(currentResources.promise);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    const search = screen.getByLabelText("Search by PID or civic address");
+    await user.type(search, "01234567");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await waitFor(() => expect(fetchParcelResourceIntersections).toHaveBeenCalledTimes(1));
+    await user.click(screen.getByRole("button", { name: "Close parcel details" }));
+    await user.clear(search);
+    await user.type(search, "01234567");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await waitFor(() => expect(fetchParcelResourceIntersections).toHaveBeenCalledTimes(2));
+    await user.click(screen.getByRole("button", { name: "Print / export" }));
+    const dialog = await screen.findByRole("dialog", { name: "Print / export" });
+    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+
+    await act(async () => {
+      olderResources.resolve({
+        "mineral-occurrences": { status: "ready", intersections: [{ id: "old", name: "Older completion", detail: "", relationship: "on-parcel" }] },
+        "mineral-tenure": { status: "ready", intersections: [] },
+        "abandoned-mines": { status: "ready", intersections: [] },
+      });
+      await olderResources.promise;
+    });
+    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).queryByText("Older completion")).not.toBeInTheDocument();
+
+    await act(async () => {
+      currentResources.resolve({
+        "mineral-occurrences": { status: "ready", intersections: [{ id: "current", name: "Current completion", detail: "", relationship: "on-parcel" }] },
+        "mineral-tenure": { status: "ready", intersections: [] },
+        "abandoned-mines": { status: "ready", intersections: [] },
+      });
+      await currentResources.promise;
+    });
+    expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
+    expect(within(dialog).getByText("Current completion")).toBeInTheDocument();
   });
 });

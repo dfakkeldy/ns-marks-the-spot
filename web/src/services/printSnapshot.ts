@@ -63,6 +63,7 @@ export type PrintCaptureBase = {
   token: string;
   capturedAt: string;
   pid: string;
+  evidenceRequest: { pid: string; generation: number };
   mode: MapMode;
   eventIds: string[];
   events: PrintEvent[];
@@ -227,9 +228,19 @@ export function startPrintCapture(
 
 export function updatePrintCaptureEvidence(
   capture: PrintCapture,
-  update: { token: string; pid: string; evidence: PrintEvidence },
+  update: {
+    token: string;
+    pid: string;
+    evidenceRequest: { pid: string; generation: number };
+    evidence: PrintEvidence;
+  },
 ): PrintCapture {
-  if (update.token !== capture.token || update.pid !== capture.pid) {
+  if (
+    update.token !== capture.token ||
+    update.pid !== capture.pid ||
+    update.evidenceRequest.pid !== capture.evidenceRequest.pid ||
+    update.evidenceRequest.generation !== capture.evidenceRequest.generation
+  ) {
     return capture;
   }
   return clone({ ...capture, evidence: update.evidence });

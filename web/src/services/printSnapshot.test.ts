@@ -17,6 +17,7 @@ const base: PrintCaptureBase = {
   token: "capture-1",
   capturedAt: "2026-07-23T13:42:00.000Z",
   pid: "01234567",
+  evidenceRequest: { pid: "01234567", generation: 7 },
   mode: "current",
   eventIds: ["inverness-2026-08-11"],
   events: [{
@@ -70,17 +71,29 @@ const pendingEvidence: PrintEvidence = {
 };
 
 describe("print capture", () => {
-  it("accepts only evidence updates for its own token and PID", () => {
+  it("accepts only evidence updates for its own token, PID, and evidence request", () => {
     const capture = startPrintCapture(base, pendingEvidence);
     const ignored = updatePrintCaptureEvidence(capture, {
       token: "capture-2",
       pid: "01234567",
+      evidenceRequest: { pid: "01234567", generation: 7 },
       evidence: {
         ...pendingEvidence,
         buildings: { status: "error", message: "wrong capture" },
       },
     });
     expect(ignored).toBe(capture);
+
+    const staleGeneration = updatePrintCaptureEvidence(capture, {
+      token: "capture-1",
+      pid: "01234567",
+      evidenceRequest: { pid: "01234567", generation: 6 },
+      evidence: {
+        ...pendingEvidence,
+        buildings: { status: "error", message: "older same-PID request" },
+      },
+    });
+    expect(staleGeneration).toBe(capture);
   });
 
   it("allows field output before research evidence settles", () => {
