@@ -73,7 +73,13 @@ export function PrintHeader({ snapshot, title }: {
   );
 }
 
-export function ActiveLayerLegend({ sources }: { sources: readonly PrintLayerSource[] }) {
+export function ActiveLayerLegend({
+  sources,
+  showSourceDates = true,
+}: {
+  sources: readonly PrintLayerSource[];
+  showSourceDates?: boolean;
+}) {
   return (
     <section className="print-active-layer-legend" aria-labelledby="print-active-layers">
       <h2 id="print-active-layers">Active map layers</h2>
@@ -84,7 +90,7 @@ export function ActiveLayerLegend({ sources }: { sources: readonly PrintLayerSou
           {sources.map((source) => (
             <li key={source.id}>
               <strong>{source.name}</strong>
-              <span>{source.sourceDate}</span>
+              {showSourceDates ? <span>{source.sourceDate}</span> : null}
             </li>
           ))}
         </ul>
@@ -103,14 +109,19 @@ export function ApproximateScale({ scale }: { scale: PrintScale }) {
   );
 }
 
-export function RequiredAttribution({
-  mapSources,
-  evidenceSources,
-}: {
-  mapSources: readonly PrintLayerSource[];
-  evidenceSources: readonly PrintEvidenceAttribution[];
-}) {
-  const candidates = [
+type AttributionSource = {
+  id: string;
+  label: string;
+  sourceUrl: string;
+  attribution: string;
+  licenceUrl: string;
+};
+
+function attributionMaterial(
+  mapSources: readonly PrintLayerSource[],
+  evidenceSources: readonly PrintEvidenceAttribution[],
+): { sources: AttributionSource[]; attributions: string[] } {
+  const candidates: AttributionSource[] = [
     ...mapSources.map((source) => ({ ...source, label: source.name })),
     ...evidenceSources,
   ];
@@ -120,10 +131,23 @@ export function RequiredAttribution({
     seenSourceIds.add(id);
     return true;
   });
-  const attributions = [...new Set(
-    sources.map(({ attribution }) => attribution).filter(Boolean),
-  )];
-  if (attributions.length === 0) return null;
+  return {
+    sources,
+    attributions: [...new Set(
+      sources.map(({ attribution }) => attribution).filter(Boolean),
+    )],
+  };
+}
+
+export function RequiredAttribution({
+  mapSources,
+  evidenceSources,
+}: {
+  mapSources: readonly PrintLayerSource[];
+  evidenceSources: readonly PrintEvidenceAttribution[];
+}) {
+  const { sources, attributions } = attributionMaterial(mapSources, evidenceSources);
+  if (sources.length === 0) return null;
 
   return (
     <section className="print-required-attribution" aria-label="Source attribution and licences">
@@ -131,6 +155,35 @@ export function RequiredAttribution({
       <ul className="print-attribution-links">
         {sources.map((source) => (
           <li key={source.id}>
+            <a href={source.sourceUrl}>{source.label} source</a>
+            <a href={source.licenceUrl}>{source.label} licence</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export function FieldRequiredAttribution({
+  mapSources,
+}: {
+  mapSources: readonly PrintLayerSource[];
+}) {
+  const { sources, attributions } = attributionMaterial(mapSources, []);
+  const seenLicenceUrls = new Set<string>();
+  const licences = sources.filter(({ licenceUrl }) => {
+    if (seenLicenceUrls.has(licenceUrl)) return false;
+    seenLicenceUrls.add(licenceUrl);
+    return true;
+  });
+  if (sources.length === 0) return null;
+
+  return (
+    <section className="print-required-attribution print-field-required-attribution" aria-label="Source attribution and licences">
+      {attributions.map((attribution) => <p key={attribution}>{attribution}</p>)}
+      <ul className="print-attribution-links">
+        {licences.map((source) => (
+          <li key={source.licenceUrl}>
             <a href={source.licenceUrl}>{source.label} licence</a>
           </li>
         ))}

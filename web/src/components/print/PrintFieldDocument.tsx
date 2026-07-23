@@ -6,13 +6,13 @@ import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import {
   ActiveLayerLegend,
   ApproximateScale,
+  FieldRequiredAttribution,
   PrintCaptureContext,
   PrintHeader,
   PrintMapFailure,
   PrintPatternDefinitions,
   PrintReceipt,
   PrintScaleOmission,
-  RequiredAttribution,
 } from "./PrintResearchDocument";
 
 export function PrintFieldDocument({
@@ -45,12 +45,12 @@ export function PrintFieldDocument({
         <PrintCaptureContext snapshot={snapshot} />
         <div className="print-field-map-frame">{map}</div>
         <div className="print-field-support">
-          <ActiveLayerLegend sources={renderedSources} />
+          <ActiveLayerLegend sources={renderedSources} showSourceDates={false} />
           <div className="print-field-details">
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
             <ApproximateScale scale={scale} />
-            <RequiredAttribution mapSources={renderedSources} evidenceSources={[]} />
+            <FieldRequiredAttribution mapSources={renderedSources} />
           </div>
         </div>
         <p className="print-general-limitations">Field reference only. Confirm access, conditions, boundaries, and permissions on site and from authoritative sources.</p>

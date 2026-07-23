@@ -5,8 +5,11 @@ import {
   OPEN_GOVERNMENT_LICENCE_URL,
 } from "../../services/civicAddresses";
 import { PVSC_OPEN_DATA_ATTRIBUTION } from "../../services/pvscAssessments";
-import { PROVINCE_ATTRIBUTION } from "../../licensing/provinceLicense";
-import type { PrintSnapshot } from "../../services/printSnapshot";
+import {
+  PROVINCE_ATTRIBUTION,
+  PROVINCE_LICENSE_URL,
+} from "../../licensing/provinceLicense";
+import type { PrintLayerSource, PrintSnapshot } from "../../services/printSnapshot";
 import { PrintFieldDocument } from "./PrintFieldDocument";
 import { PrintResearchDocument } from "./PrintResearchDocument";
 
@@ -20,6 +23,39 @@ const allLayerIds = [
   "inverness-hydro-potential", "published-river-flood-zones",
   "coastal-flood-current", "coastal-flood-2050", "coastal-flood-2100",
 ] as const;
+const openStreetMapAttribution = "© OpenStreetMap contributors";
+const openStreetMapLicenceUrl = "https://www.openstreetmap.org/copyright";
+const unrestrictedProvinceLicenceUrl =
+  "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
+
+const actualFieldCatalogSources: PrintLayerSource[] = [
+  ["modern", "Modern map", "Live OpenStreetMap tiles", openStreetMapAttribution, openStreetMapLicenceUrl],
+  ["ns-aerial", "NS Aerial", "Imagery dates vary · service checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["nsprd", "NS Property Boundaries", "Live service · checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["crown-lands", "Crown Lands", "Live service · checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["flood-risk", "Watersheds", "Live service · checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["waterfalls", "Waterfalls", "Live service · checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["water-features", "Water features", "Live service · checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["roads", "Roads, trails & culverts", "Live service · checked July 20, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["buildings", "Buildings", "NSTDB updated May 5, 2026 · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["contours", "Contours", "NSTDB updated May 5, 2026 · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["mineral-occurrences", "Mineral occurrences", "June 2024 · version 12", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["mineral-tenure", "Mineral tenure", "Live NovaROC · checked July 20, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["abandoned-mines", "Abandoned mine openings", "2024 · version 9", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["mineral-proximity-parcels", "Properties within 1 km of a mineral occurrence", "Mineral occurrences June 2024 · NSPRD live", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["inverness-hydro-potential", "Inverness micro-hydro screen", "Watersheds 2021 · NSHN retrieved July 21, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["published-river-flood-zones", "Published river flood zones", "NSGC 2006-era mapping · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
+  ["coastal-flood-current", "Coastal flooding — current", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-2050", "Coastal flooding — 2050", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-2100", "Coastal flooding — 2100", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+].map(([id, name, sourceDate, attribution, licenceUrl]) => ({
+  id: id as PrintLayerSource["id"],
+  name,
+  sourceUrl: `https://example.test/catalog/${id}`,
+  sourceDate,
+  attribution,
+  licenceUrl,
+}));
 
 function snapshot(overrides: Record<string, unknown> = {}) {
   return {
@@ -212,6 +248,49 @@ describe("print documents", () => {
     expect(document.querySelector(".print-capture-context")).toHaveTextContent("Controlled event event-8: Listed");
     expect(document.querySelector(".print-capture-context")).not.toHaveTextContent("Controlled event unselected-event: Listed");
     expect(screen.getByText(longReceipt)).toBeInTheDocument();
+  });
+
+  it("compacts the actual field layer catalogue without losing required acknowledgements or licences", () => {
+    const catalogIds = actualFieldCatalogSources.map(({ id }) => id);
+    const props = {
+      snapshot: snapshot({ layerIds: catalogIds, layerSources: actualFieldCatalogSources }),
+      map,
+      includeAerial: true,
+      scale,
+      shareUrl,
+      qr,
+      renderedLayerIds: catalogIds,
+      belowZoomLayerIds: [],
+      failedLayerIds: [],
+    };
+    const { rerender } = render(<PrintFieldDocument {...props} />);
+
+    const fieldLegend = screen.getByLabelText("Active map layers");
+    for (const source of actualFieldCatalogSources) {
+      expect(within(fieldLegend).getByText(source.name)).toBeInTheDocument();
+      expect(within(fieldLegend).queryByText(source.sourceDate)).not.toBeInTheDocument();
+    }
+    expect(screen.getAllByText(PROVINCE_ATTRIBUTION)).toHaveLength(1);
+    expect(screen.getAllByText(OPEN_GOVERNMENT_ATTRIBUTION)).toHaveLength(1);
+    expect(screen.getByText(openStreetMapAttribution)).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /licence$/i }).filter(
+      (link) => link.getAttribute("href") === PROVINCE_LICENSE_URL,
+    )).toHaveLength(1);
+    expect(screen.getAllByRole("link", { name: /licence$/i }).filter(
+      (link) => link.getAttribute("href") === OPEN_GOVERNMENT_LICENCE_URL,
+    )).toHaveLength(1);
+    expect(screen.getAllByRole("link", { name: /licence$/i }).filter(
+      (link) => link.getAttribute("href") === openStreetMapLicenceUrl,
+    )).toHaveLength(1);
+    expect(screen.queryByRole("link", { name: / source$/i })).not.toBeInTheDocument();
+
+    rerender(<PrintResearchDocument {...props} includeAppendix={false} />);
+    const researchLegend = screen.getByLabelText("Active map layers");
+    expect(within(researchLegend).getByText(actualFieldCatalogSources[0].sourceDate)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Modern map source" })).toHaveAttribute(
+      "href",
+      actualFieldCatalogSources[0].sourceUrl,
+    );
   });
 
   it("prints only selected event IDs in the captured event-ID order", () => {
