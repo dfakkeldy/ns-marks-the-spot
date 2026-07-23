@@ -2304,6 +2304,123 @@ a {
   background: #d7dcdd;
 }
 
+.print-preview-backdrop {
+  position: fixed;
+  z-index: 3000;
+  inset: 0;
+  display: grid;
+  overflow: auto;
+  background: rgb(10 20 22 / 72%);
+  animation: print-preview-fade-in 160ms ease-out;
+}
+
+.print-preview-dialog {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 100%;
+  background: #d7dcdd;
+}
+
+.print-preview-controls {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px;
+  color: #fff;
+  background: var(--deep-water);
+}
+
+.print-preview-controls h2 {
+  margin: 0 0 8px;
+}
+
+.print-preview-controls label {
+  display: grid;
+  gap: 6px;
+}
+
+.print-preview-controls select,
+.print-preview-controls button {
+  min-height: 44px;
+}
+
+.print-preview-controls input[type="checkbox"] {
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.print-preview-controls label:has(input[type="checkbox"]) {
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  min-height: 44px;
+}
+
+.print-map-error {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  color: #251100;
+  background: #ffd8aa;
+}
+
+.print-map-error p {
+  margin: 0;
+}
+
+.print-preview-stage {
+  min-width: 0;
+  padding: 24px;
+  overflow: auto;
+}
+
+.print-preview-stage > .print-document {
+  width: max-content;
+  margin: 0 auto;
+}
+
+.print-preview-placeholder {
+  margin: 0;
+}
+
+.print-incomplete-map-warning {
+  margin: 2mm 0 0;
+  color: #7a1f00;
+  font-size: 9pt;
+  font-weight: 700;
+}
+
+@keyframes print-preview-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 860px) {
+  .print-preview-dialog {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .print-preview-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .print-preview-controls h2,
+  .print-preview-controls [role="status"],
+  .print-preview-controls .print-map-error {
+    grid-column: 1 / -1;
+  }
+
+  .print-preview-stage {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .print-preview-backdrop {
+    animation: none;
+  }
+}
+
 .print-page {
   margin: 0 auto;
   padding: 0;
@@ -2708,6 +2825,25 @@ a {
     overflow: visible;
     padding: 0;
     background: #fff;
+  }
+
+  .print-preview-backdrop {
+    position: static;
+    display: block;
+    overflow: visible;
+    background: #fff;
+    animation: none;
+  }
+
+  .print-preview-dialog {
+    display: block;
+    min-height: 0;
+    background: #fff;
+  }
+
+  .print-preview-stage {
+    padding: 0;
+    overflow: visible;
   }
 
   .print-page {

@@ -134,6 +134,13 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/font-size:\s*9pt/);
   });
 
+  it("removes the screen-only preview backdrop before printing the selected document", () => {
+    const printStyles = styles.slice(styles.indexOf("@media print"));
+
+    expect(printStyles).toMatch(/\.print-preview-backdrop\s*{[^}]*position:\s*static/s);
+    expect(printStyles).toMatch(/\.print-preview-stage\s*{[^}]*overflow:\s*visible/s);
+  });
+
   it("keeps the landscape field contract bounded and printable metadata at 9pt or larger", () => {
     const printStyles = styles.slice(styles.indexOf(".print-preview"));
     const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
