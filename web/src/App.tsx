@@ -114,6 +114,7 @@ import {
   fetchParcelAssessments,
   type ParcelAssessmentResult,
 } from "./services/pvscAssessments";
+import { viewpointParcelUrl } from "./services/viewpoint";
 
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
@@ -664,6 +665,14 @@ function ParcelInspector({
           View direct official source
         </a>
       ) : null}
+      <a
+        className="secondary-action inspector-action viewpoint-action"
+        href={viewpointParcelUrl(pid)}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Open parcel in ViewPoint
+      </a>
       <div className="evidence-actions">
         <button className="secondary-action" type="button" onClick={onCopyShareUrl}>
           Copy share link
