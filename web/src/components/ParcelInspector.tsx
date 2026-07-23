@@ -239,6 +239,7 @@ export function ParcelInspector({
   shareMessage,
   onCopyShareUrl,
   onExportEvidence,
+  onPrintExport,
   evidenceReady,
   now,
   onClose,
@@ -259,6 +260,7 @@ export function ParcelInspector({
   shareMessage: string | null;
   onCopyShareUrl: () => void;
   onExportEvidence: () => void;
+  onPrintExport: () => void;
   evidenceReady: boolean;
   now: number;
   onClose: () => void;
@@ -464,6 +466,9 @@ export function ParcelInspector({
           onClick={onExportEvidence}
         >
           Export evidence note
+        </button>
+        <button className="secondary-action" type="button" onClick={onPrintExport}>
+          Print / export
         </button>
       </div>
       <p className="share-status" role="status" aria-live="polite">

@@ -225,7 +225,7 @@ export function PrintPreview({
   const retryMap = () => {
     setMapAttempt((attempt) => attempt + 1);
   };
-  const acceptMapReadiness = (token: string, readiness: PrintMapReadiness) => {
+  const acceptMapReadiness = useCallback((token: string, readiness: PrintMapReadiness) => {
     setMapState((current) => {
       if (activeMapAttemptRef.current !== token) return current;
       return {
@@ -235,8 +235,8 @@ export function PrintPreview({
         printIncomplete: current?.token === token ? current.printIncomplete : false,
       };
     });
-  };
-  const acceptResolvedPosition = (token: string, position: MapPosition) => {
+  }, []);
+  const acceptResolvedPosition = useCallback((token: string, position: MapPosition) => {
     setMapState((current) => {
       if (activeMapAttemptRef.current !== token) return current;
       return {
@@ -246,7 +246,15 @@ export function PrintPreview({
         printIncomplete: current?.token === token ? current.printIncomplete : false,
       };
     });
-  };
+  }, []);
+  const handleMapReadinessChange = useCallback(
+    (value: PrintMapReadiness) => acceptMapReadiness(attemptToken!, value),
+    [acceptMapReadiness, attemptToken],
+  );
+  const handleResolvedPosition = useCallback(
+    (value: MapPosition) => acceptResolvedPosition(attemptToken!, value),
+    [acceptResolvedPosition, attemptToken],
+  );
   const permitIncompletePrint = () => {
     if (!attemptToken) return;
     setMapState((current) => {
@@ -264,8 +272,8 @@ export function PrintPreview({
         snapshot={snapshot}
         bounds={bounds}
         includeAerial={includeAerial}
-        onReadinessChange={(value) => acceptMapReadiness(attemptToken!, value)}
-        onResolvedPosition={(value) => acceptResolvedPosition(attemptToken!, value)}
+        onReadinessChange={handleMapReadinessChange}
+        onResolvedPosition={handleResolvedPosition}
       />
       {printIncomplete ? (
         <p className="print-incomplete-map-warning">
@@ -282,7 +290,7 @@ export function PrintPreview({
         className="print-preview-dialog"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="print-preview-heading"
+        aria-label="Print / export"
         onKeyDown={handleDialogKeyDown}
       >
         <aside className="print-preview-controls" aria-label="Print preview controls">

@@ -32,6 +32,7 @@ import {
   type ParcelContextState,
   type ParcelResourceState,
 } from "./components/ParcelInspector";
+import { PrintPreview } from "./components/print/PrintPreview";
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
   advertisedPidsForEvents,
@@ -73,6 +74,8 @@ import {
 } from "./layers/layerCatalog";
 import {
   CIVIC_ADDRESS_DATASET_URL,
+  OPEN_GOVERNMENT_ATTRIBUTION,
+  OPEN_GOVERNMENT_LICENCE_URL,
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
@@ -90,26 +93,45 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 import { buildEvidenceNote } from "./services/evidenceNote";
-import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import {
+  fetchParcelFloodHazardEvidence,
+  type ParcelFloodHazardEvidence,
+} from "./services/floodHazard";
 import {
   buildMapShareUrl,
   parseMapShareState,
   type MapMode,
-  type MapPosition,
   type ShareLayerId,
 } from "./services/mapShareState";
 import {
   fetchParcelResourceIntersections,
   type ParcelResourceIntersections,
 } from "./services/parcelResources";
-import { fetchParcelBuildingCount } from "./services/buildings";
-import { fetchParcelAssessments } from "./services/pvscAssessments";
+import {
+  fetchParcelBuildingCount,
+  type ParcelBuildingCount,
+} from "./services/buildings";
+import {
+  fetchParcelAssessments,
+  type ParcelAssessmentResult,
+} from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 import {
   eventDate,
   eventDateLabel,
   eventLifecycleLabel,
+  historicalSaleMethodLabel,
 } from "./services/taxSaleFormat";
+import {
+  startPrintCapture,
+  updatePrintCaptureEvidence,
+  type PrintCapture,
+  type PrintEvidence,
+  type PrintEvent,
+  type PrintLayerSource,
+  type PrintLoadState,
+  type PrintMapViewport,
+} from "./services/printSnapshot";
 
 const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
 
@@ -236,6 +258,149 @@ function mergeFeatureCollections(
     ],
   };
 }
+
+function printState<T>(
+  state:
+    | { status: "idle" | "loading" }
+    | { status: "ready"; value: T }
+    | { status: "error" },
+): PrintLoadState<T> {
+  if (state.status === "ready") return { status: "ready", value: state.value };
+  if (state.status === "error") {
+    return { status: "error", message: "Source unavailable at export time." };
+  }
+  return { status: "pending" };
+}
+
+function printContextState(state: ParcelContextState): PrintLoadState<ParcelContext> {
+  return printState(state);
+}
+
+function printCivicAddressState(
+  state: CivicAddressState,
+): PrintLoadState<CivicAddress[]> {
+  return printState(state);
+}
+
+function printResourceState(
+  state: ParcelResourceState,
+): PrintLoadState<ParcelResourceIntersections> {
+  return printState(state);
+}
+
+function printFloodHazardState(
+  state: FloodHazardState,
+): PrintLoadState<ParcelFloodHazardEvidence> {
+  return printState(state);
+}
+
+function printBuildingState(
+  state: BuildingCountState,
+): PrintLoadState<ParcelBuildingCount> {
+  return printState(state);
+}
+
+function printAssessmentState(
+  state: AssessmentState,
+): PrintLoadState<ParcelAssessmentResult> {
+  return printState(state);
+}
+
+function printEventForCurrent(event: TaxSaleEvent, now: number): PrintEvent {
+  return {
+    id: event.id,
+    name: `${event.shortMunicipality} — ${eventDateLabel(event)}`,
+    status: eventLifecycleLabel(event, now),
+    facts: [
+      { label: "Sale method", value: event.eventType === "sealed-tender" ? "Sealed tender" : "Public auction" },
+      { label: "Notice retrieved", value: event.retrievedOn },
+    ],
+    sources: [
+      { label: event.sourceLabel, sourceUrl: event.sourceUrl },
+      ...(event.secondarySourceUrl
+        ? [{ label: "Official supporting source", sourceUrl: event.secondarySourceUrl }]
+        : []),
+    ],
+    limitation:
+      "Official notice evidence only; it does not establish current availability, title, access, condition, value, possession, or buildability.",
+  };
+}
+
+function printEventForHistorical(
+  event: (typeof historicalTaxSaleEvents)[number],
+): PrintEvent {
+  return {
+    id: event.id,
+    name: `${event.shortMunicipality} — ${eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}`,
+    status: event.resultStatus === "verified" ? "Official result verified" : "Official results pending",
+    facts: [
+      { label: "Sale method", value: historicalSaleMethodLabel(event.saleMethod) },
+      { label: "Notice retrieved", value: event.retrievedOn },
+    ],
+    sources: [
+      { label: "Official notice", sourceUrl: event.noticeUrl },
+      ...(event.resultUrl
+        ? [{ label: "Official result", sourceUrl: event.resultUrl }]
+        : event.landingPageUrl
+          ? [{ label: "Municipal results page", sourceUrl: event.landingPageUrl }]
+          : []),
+    ],
+    limitation:
+      "Dated historical evidence only; it does not establish present ownership, title, redemption, legal access, condition, value, or parcel status.",
+  };
+}
+
+function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
+  const sources = new Map<ShareLayerId, PrintLayerSource>();
+  sources.set("modern", {
+    id: "modern",
+    name: "Modern map",
+    sourceUrl: "https://www.openstreetmap.org/copyright",
+    sourceDate: "Live OpenStreetMap tiles",
+    attribution: "© OpenStreetMap contributors",
+    licenceUrl: "https://www.openstreetmap.org/copyright",
+  });
+  provinceLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.serviceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: PROVINCE_ATTRIBUTION,
+    licenceUrl: PROVINCE_LICENSE_URL,
+  }));
+  allResourceLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.id === "mineral-proximity-parcels"
+      ? PROVINCE_ATTRIBUTION
+      : OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: layer.id === "mineral-proximity-parcels"
+      ? PROVINCE_LICENSE_URL
+      : OPEN_GOVERNMENT_LICENCE_URL,
+  }));
+  hydroPilotLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
+  }));
+  floodHazardLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.licence === "province-restricted"
+      ? PROVINCE_ATTRIBUTION
+      : OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: layer.licenceUrl,
+  }));
+  return sources;
+}
+
 
 function LicenceDialog({
   onAccept,
@@ -423,9 +588,15 @@ export function App() {
     status: initialShareState.pid ? "loading" : "idle",
   });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
-  const [mapPosition, setMapPosition] = useState<MapPosition>(
-    initialShareState.position,
-  );
+  const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
+    position: initialShareState.position,
+    bounds: {
+      north: initialShareState.position.latitude,
+      east: initialShareState.position.longitude,
+      south: initialShareState.position.latitude,
+      west: initialShareState.position.longitude,
+    },
+  });
   const [showModernMap, setShowModernMap] = useState(
     hasSharedLayers ? initialShareState.layerIds.includes("modern") : true,
   );
@@ -501,6 +672,8 @@ export function App() {
   >(null);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
+  const printCaptureSequence = useRef(0);
+  const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
@@ -1163,9 +1336,10 @@ export function App() {
       : [],
     [filteredHistoricalRecords, selectedPid, showHistoricalTaxSales],
   );
-  const selectedMappedArea = selectedPid
-    ? mappedAreaForPid(parcels, selectedPid)
-    : null;
+  const selectedMappedArea = useMemo(
+    () => selectedPid ? mappedAreaForPid(parcels, selectedPid) : null,
+    [parcels, selectedPid],
+  );
 
   const activeLayerIds = useMemo<ShareLayerId[]>(() => [
     ...(showModernMap ? (["modern"] as const) : []),
@@ -1182,6 +1356,70 @@ export function App() {
       .filter(({ id }) => floodHazardLayers[id])
       .map(({ id }) => id),
   ], [floodHazardLayers, hydroPilotLayers, provinceLayers, resourceLayers, showModernMap]);
+  const printEventIds = useMemo(
+    () => mapMode === "current"
+      ? Array.from(selectedEventIds)
+      : Array.from(new Set(selectedHistoricalContexts.map(({ event }) => event.id))),
+    [mapMode, selectedEventIds, selectedHistoricalContexts],
+  );
+  const printEvents = useMemo(
+    () => mapMode === "current"
+      ? taxSaleEvents
+        .filter(({ id }) => selectedEventIds.has(id))
+        .map((event) => printEventForCurrent(event, currentTime))
+      : historicalTaxSaleEvents
+        .filter(({ id }) => printEventIds.includes(id))
+        .map(printEventForHistorical),
+    [currentTime, mapMode, printEventIds, selectedEventIds],
+  );
+  const captureLayerIds = useMemo<ShareLayerId[]>(() => [
+    ...(showModernMap ? (["modern"] as const) : []),
+    ...provinceLayerCatalog
+      .filter(({ id }) => licenceAccepted && provinceLayers[id])
+      .map(({ id }) => id),
+    ...allResourceLayerCatalog
+      .filter(({ id }) => effectiveResourceLayers[id])
+      .map(({ id }) => id),
+    ...hydroPilotLayerCatalog
+      .filter(({ id }) => hydroPilotLayers[id])
+      .map(({ id }) => id),
+    ...floodHazardLayerCatalog
+      .filter((layer) => floodHazardLayers[layer.id] && (
+        layer.licence === "province-open" || licenceAccepted
+      ))
+      .map(({ id }) => id),
+  ], [
+    effectiveResourceLayers,
+    floodHazardLayers,
+    hydroPilotLayers,
+    licenceAccepted,
+    provinceLayers,
+    showModernMap,
+  ]);
+  const currentPrintEvidence = useMemo<PrintEvidence>(() => ({
+    mappedArea: selectedMappedArea,
+    buildings: printBuildingState(buildingCount),
+    assessments: printAssessmentState(assessmentState),
+    civicAddresses: printCivicAddressState(civicAddresses),
+    mappedContext: printContextState(mappedContext),
+    floodHazard: printFloodHazardState(floodHazard),
+    resources: printResourceState(resourceIntersections),
+  }), [
+    assessmentState,
+    buildingCount,
+    civicAddresses,
+    floodHazard,
+    mappedContext,
+    resourceIntersections,
+    selectedMappedArea,
+  ]);
+  const captureLayerSources = useMemo(() => {
+    const sources = printLayerSources();
+    return captureLayerIds.flatMap((id) => {
+      const source = sources.get(id);
+      return source ? [source] : [];
+    });
+  }, [captureLayerIds]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -1192,12 +1430,12 @@ export function App() {
             new Set(selectedHistoricalContexts.map(({ event }) => event.id)),
           ),
       layerIds: activeLayerIds,
-      position: mapPosition,
+      position: mapViewport.position,
     }),
     [
       activeLayerIds,
       mapMode,
-      mapPosition,
+      mapViewport.position,
       selectedEventIds,
       selectedHistoricalContexts,
       selectedPid,
@@ -1218,6 +1456,54 @@ export function App() {
     }
     setShareMessage("Use the exact map-state link below.");
   };
+
+  const openPrintExport = () => {
+    if (!selectedPid) return;
+    const selectedParcelGeometry: NsprdFeatureCollection = {
+      type: "FeatureCollection",
+      features: parcels.features.filter(
+        ({ properties }) => properties.PID === selectedPid,
+      ),
+    };
+    if (selectedParcelGeometry.features.length === 0) return;
+
+    printCaptureSequence.current += 1;
+    setPrintCapture(startPrintCapture({
+      token: `print-${printCaptureSequence.current}`,
+      capturedAt: new Date().toISOString(),
+      pid: selectedPid,
+      mode: mapMode,
+      eventIds: printEventIds,
+      events: printEvents,
+      selectedParcelGeometry,
+      mapParcels: parcels,
+      taxSalePids: Array.from(filteredTaxSalePids),
+      historicalTaxSalePids: Array.from(filteredHistoricalPids),
+      viewport: mapViewport,
+      layerIds: captureLayerIds,
+      layerSources: captureLayerSources,
+      licenceAccepted,
+    }, currentPrintEvidence));
+  };
+
+  const printCapturePid = printCapture?.pid;
+  const printCaptureToken = printCapture?.token;
+  useEffect(() => {
+    if (!printCapturePid || selectedPid !== printCapturePid) return;
+    setPrintCapture((current) => current
+      ? updatePrintCaptureEvidence(current, {
+          token: current.token,
+          pid: current.pid,
+          evidence: currentPrintEvidence,
+        })
+      : null);
+  }, [currentPrintEvidence, printCapturePid, printCaptureToken, selectedPid]);
+
+  useEffect(() => {
+    if (printCapture && (!licenceAccepted || selectedPid !== printCapture.pid)) {
+      setPrintCapture(null);
+    }
+  }, [licenceAccepted, printCapture, selectedPid]);
 
   const exportEvidence = () => {
     if (
@@ -1290,7 +1576,7 @@ export function App() {
       pid: selectedPid,
       mode: mapMode,
       shareUrl,
-      position: mapPosition,
+      position: mapViewport.position,
       activeLayers,
       events: selectedListingContext
         ? [{
@@ -1362,6 +1648,7 @@ export function App() {
   };
 
   return (
+    <>
     <div
       className={`app-shell${headerCollapsed ? " header-collapsed" : ""}`}
     >
@@ -1970,7 +2257,11 @@ export function App() {
             }}
             focusRequest={parcelFocusRequest}
             initialPosition={initialShareState.position}
-            onPositionChange={setMapPosition}
+            onPositionChange={(position) => setMapViewport((current) => ({
+              ...current,
+              position,
+            }))}
+            onViewportChange={setMapViewport}
             onLayerStatusChange={setLayerStatus}
           />
           <p
@@ -1999,6 +2290,7 @@ export function App() {
               shareMessage={shareMessage}
               onCopyShareUrl={copyShareUrl}
               onExportEvidence={exportEvidence}
+              onPrintExport={openPrintExport}
               evidenceReady={
                 resourceIntersections.status === "ready" &&
                 (assessmentState.status === "ready" || assessmentState.status === "error") &&
@@ -2009,6 +2301,7 @@ export function App() {
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);
+                setPrintCapture(null);
                 setMappedContext({
                   status: "idle",
                   value: EMPTY_PARCEL_CONTEXT,
@@ -2074,5 +2367,13 @@ export function App() {
       ) : null}
       {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
     </div>
+    {printCapture ? (
+      <PrintPreview
+        capture={printCapture}
+        baseUrl={window.location.href}
+        onClose={() => setPrintCapture(null)}
+      />
+    ) : null}
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
@@ -31,6 +32,10 @@ vi.mock("./components/MapCanvas", () => ({
     initialPosition,
     onIdentifyParcel,
     focusRequest,
+    onViewportChange,
+    onLayerStatusChange,
+    renderMode,
+    fitBounds,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -43,7 +48,50 @@ vi.mock("./components/MapCanvas", () => ({
     initialPosition?: { latitude: number; longitude: number; zoom: number };
     onIdentifyParcel: (latitude: number, longitude: number) => void;
     focusRequest?: { pid: string; requestId: number } | null;
-  }) => (
+    onViewportChange?: (viewport: {
+      position: { latitude: number; longitude: number; zoom: number };
+      bounds: { north: number; east: number; south: number; west: number };
+    }) => void;
+    onLayerStatusChange?: (id: string, status: { status: "ready" }) => void;
+    renderMode?: "interactive" | "print";
+    fitBounds?: unknown;
+  }) => {
+    useEffect(() => {
+      if (renderMode === "print") {
+        [
+          "modern",
+          "ns-aerial",
+          "nsprd",
+          "crown-lands",
+          "flood-risk",
+          "waterfalls",
+          "water-features",
+          "roads",
+          "buildings",
+          "contours",
+          "mineral-occurrences",
+          "mineral-tenure",
+          "abandoned-mines",
+          "mineral-proximity-parcels",
+          "inverness-hydro-potential",
+          "published-river-flood-zones",
+          "coastal-flood-current",
+          "coastal-flood-2050",
+          "coastal-flood-2100",
+        ].forEach((id) => onLayerStatusChange?.(id, { status: "ready" }));
+        return;
+      }
+      onViewportChange?.({
+        position: { latitude: 46.25, longitude: -61.25, zoom: 13 },
+        bounds: { north: 46.5, east: -61, south: 46, west: -61.5 },
+      });
+    }, [
+      onLayerStatusChange,
+      onViewportChange,
+      renderMode,
+    ]);
+
+    return (
     <div data-testid="map-canvas">
       Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
       modern map: {showModernMap ? "on" : "off"}; property boundaries:{" "}
@@ -59,13 +107,16 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["abandoned-mines"] ? "on" : "off"}; mineral proximity parcels:{" "}
       {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
       ; Inverness micro-hydro screen: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
-      ; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}
+      {renderMode === "print"
+        ? `; ${fitBounds ? "Parcel fit" : "Missing parcel fit"}`
+        : <>; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}</>}
       ; focus request: {focusRequest?.pid ?? "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
     </div>
-  ),
+    );
+  },
 }));
 
 vi.mock("./services/nsprd", async (importOriginal) => {
@@ -2292,5 +2343,73 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByText("Enter an 8-digit Nova Scotia parcel ID."),
     ).toHaveAttribute("role", "alert");
+  });
+
+  it("does not expose print export before a parcel is selected", () => {
+    render(<App />);
+
+    expect(
+      screen.queryByRole("button", { name: "Print / export" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens a privacy-safe print preview with a frozen parcel fit", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("01234567")],
+    });
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await screen.findByRole("complementary", { name: "Parcel 01234567 details" });
+
+    await user.click(screen.getByRole("button", { name: "Print / export" }));
+    const dialog = await screen.findByRole("dialog", { name: "Print / export" });
+
+    expect(within(dialog).getAllByText("PID 01234567").length).toBeGreaterThan(0);
+    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("Parcel fit");
+    await waitFor(() => expect(within(dialog).getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument());
+    expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
+    expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
+
+    await user.click(within(dialog).getByRole("button", { name: "Close preview" }));
+    expect(screen.getByRole("button", { name: "Print / export" })).toBeInTheDocument();
+  });
+
+  it("keeps layers frozen while matching pending evidence settles in the open preview", async () => {
+    const user = userEvent.setup();
+    const resources = deferred<Awaited<ReturnType<typeof fetchParcelResourceIntersections>>>();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("01234567")],
+    });
+    vi.mocked(fetchParcelResourceIntersections).mockReturnValueOnce(resources.promise);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await user.click(await screen.findByRole("button", { name: "Print / export" }));
+    const dialog = await screen.findByRole("dialog", { name: "Print / export" });
+    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+
+    await act(async () => {
+      resources.resolve({
+        "mineral-occurrences": { status: "ready", intersections: [] },
+        "mineral-tenure": { status: "ready", intersections: [] },
+        "abandoned-mines": { status: "ready", intersections: [] },
+      });
+      await resources.promise;
+    });
+
+    expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
+    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
+    await user.click(screen.getByLabelText("Water features"));
+    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
   });
 });

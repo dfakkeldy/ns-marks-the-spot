@@ -297,7 +297,7 @@ describe("PrintPreview", () => {
     document.body.append(trigger);
     trigger.focus();
     const { unmount } = render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
-    const dialog = screen.getByRole("dialog", { name: "Print preview" });
+    const dialog = screen.getByRole("dialog", { name: "Print / export" });
 
     expect(document.body).toHaveClass("print-preview-open");
     fireEvent.keyDown(dialog, { key: "Escape" });
