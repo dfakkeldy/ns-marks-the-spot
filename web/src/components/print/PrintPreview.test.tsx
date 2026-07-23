@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MapPosition } from "../../services/mapShareState";
 import type { PrintMapReadiness } from "./PrintMap";
@@ -13,6 +14,8 @@ const printMap = vi.hoisted(() => ({
     onReadinessChange: (value: PrintMapReadiness) => void;
     onResolvedPosition: (value: MapPosition) => void;
   }>,
+  emitFromMount: false,
+  mountPosition: { latitude: 46.47, longitude: -61.28, zoom: 16 } as MapPosition,
 }));
 
 const buildQr = vi.hoisted(() => vi.fn());
@@ -28,6 +31,16 @@ vi.mock("./PrintMap", () => ({
     printMap.onReadinessChange = onReadinessChange;
     printMap.onResolvedPosition = onResolvedPosition;
     printMap.attempts.push({ onReadinessChange, onResolvedPosition });
+    useEffect(() => {
+      if (!printMap.emitFromMount) return;
+      printMap.emitFromMount = false;
+      onResolvedPosition(printMap.mountPosition);
+      onReadinessChange(readiness({
+        status: "ready",
+        renderedLayerIds: ["modern"],
+        belowZoomLayerIds: [],
+      }));
+    }, [onReadinessChange, onResolvedPosition]);
     return <div data-testid="print-map">Map preview</div>;
   },
 }));
@@ -118,6 +131,7 @@ describe("PrintPreview", () => {
     printMap.onReadinessChange = undefined;
     printMap.onResolvedPosition = undefined;
     printMap.attempts = [];
+    printMap.emitFromMount = false;
   });
 
   it("defaults to research with its appendix and aerial excluded", () => {
@@ -267,6 +281,14 @@ describe("PrintPreview", () => {
     await act(async () => resolveQr?.({ status: "ready", svg: "<svg />" }));
     await userEvent.setup().click(screen.getByRole("button", { name: "Print / Save PDF" }));
     expect(window.print).toHaveBeenCalledTimes(1);
+  });
+
+  it("accepts the initial position and ready state emitted from PrintMap mount effects", async () => {
+    printMap.emitFromMount = true;
+    render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
+
+    await waitFor(() => expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeEnabled());
+    expect(buildQr).toHaveBeenLastCalledWith(expect.stringContaining("position=46.47%2C-61.28%2C16"));
   });
 
   it("closes on Escape, traps Tab, restores focus, and removes its body marker", () => {

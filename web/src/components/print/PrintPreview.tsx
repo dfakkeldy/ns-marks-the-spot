@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useInsertionEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import { buildPrintQr, type PrintQrResult } from "../../services/printQr";
 import {
@@ -137,7 +137,7 @@ export function PrintPreview({
   const qr: PrintQrResult | { status: "loading" } =
     qrKey && settledQr?.key === qrKey ? settledQr.result : { status: "loading" };
 
-  useEffect(() => {
+  useInsertionEffect(() => {
     activeMapAttemptRef.current = attemptToken;
   }, [attemptToken]);
 
