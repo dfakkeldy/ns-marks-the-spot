@@ -372,11 +372,11 @@ function HistoricalOutcomeDetails({
         </div>
         <div>
           <dt>{event.listingIdentifierLabel}</dt>
-          <dd>{record.listingIdentifier}</dd>
+          <dd className="fact-figure">{record.listingIdentifier}</dd>
         </div>
         <div>
           <dt>PID / match</dt>
-          <dd>
+          <dd className="fact-figure">
             {selectedPid} · {matchMethodLabel(context)}
           </dd>
         </div>
@@ -386,25 +386,33 @@ function HistoricalOutcomeDetails({
         </div>
         <div>
           <dt>{event.advertisedAmountLabel}</dt>
-          <dd>{currency.format(record.advertisedAmountCents / 100)}</dd>
+          <dd className="fact-figure">
+            {currency.format(record.advertisedAmountCents / 100)}
+          </dd>
         </div>
         <div>
           <dt>Winning bid</dt>
-          <dd>{winningBidLabel}</dd>
+          <dd className="fact-figure">{winningBidLabel}</dd>
         </div>
         {comparison ? (
           <>
             <div>
               <dt>Difference</dt>
-              <dd>{currency.format(comparison.differenceCents / 100)}</dd>
+              <dd className="fact-figure">
+                {currency.format(comparison.differenceCents / 100)}
+              </dd>
             </div>
             <div>
               <dt>Above {event.advertisedAmountLabel.toLocaleLowerCase()}</dt>
-              <dd>{comparison.percentageAbove.toFixed(2)}%</dd>
+              <dd className="fact-figure">
+                {comparison.percentageAbove.toFixed(2)}%
+              </dd>
             </div>
             <div>
               <dt>Winning-bid multiple</dt>
-              <dd>{comparison.winningBidMultiple.toFixed(2)}×</dd>
+              <dd className="fact-figure">
+                {comparison.winningBidMultiple.toFixed(2)}×
+              </dd>
             </div>
           </>
         ) : null}
@@ -550,17 +558,17 @@ function ParcelInspector({
         ) : null}
         <div>
           <dt>PID</dt>
-          <dd>{pid}</dd>
+          <dd className="fact-figure">{pid}</dd>
         </div>
         {mappedArea ? (
           <div>
             <dt>Mapped area</dt>
-            <dd>{mappedArea.label}</dd>
+            <dd className="fact-figure">{mappedArea.label}</dd>
           </div>
         ) : null}
         <div>
           <dt>Mapped buildings</dt>
-          <dd aria-live="polite">
+          <dd className="fact-figure" aria-live="polite">
             {buildingCount.status === "ready"
               ? buildingCount.value.count.toLocaleString("en-CA")
               : buildingCount.status === "error"
@@ -572,12 +580,12 @@ function ParcelInspector({
           <>
             <div>
               <dt>Lien</dt>
-              <dd>{listing.lien}</dd>
+              <dd className="fact-figure">{listing.lien}</dd>
             </div>
             {listing.aan ? (
               <div>
                 <dt>AAN</dt>
-                <dd>{listing.aan}</dd>
+                <dd className="fact-figure">{listing.aan}</dd>
               </div>
             ) : null}
             <div>
@@ -586,7 +594,9 @@ function ParcelInspector({
             </div>
             <div>
               <dt>{listing.financial.label}</dt>
-              <dd>{currency.format(listing.financial.amountCents / 100)}</dd>
+              <dd className="fact-figure">
+                {currency.format(listing.financial.amountCents / 100)}
+              </dd>
             </div>
             <div>
               <dt>Redemption</dt>
@@ -598,7 +608,7 @@ function ParcelInspector({
             </div>
             <div>
               <dt>Source retrieved</dt>
-              <dd>{event?.retrievedOn}</dd>
+              <dd className="fact-figure">{event?.retrievedOn}</dd>
             </div>
           </>
         ) : null}

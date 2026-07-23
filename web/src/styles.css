@@ -1275,8 +1275,20 @@ a {
 .parcel-facts dd {
   max-width: 60%;
   margin: 0;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.parcel-facts dd.fact-figure {
+  font-family: "IBM Plex Mono", Menlo, monospace;
   text-align: right;
+}
+
+.section-footnote {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
 }
 
 .parcel-facts .no {
