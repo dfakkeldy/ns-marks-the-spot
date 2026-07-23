@@ -1268,6 +1268,17 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "focus request: 50203256",
     );
+    const viewpointLink = within(
+      screen.getByRole("complementary", {
+        name: "Parcel 50203256 details",
+      }),
+    ).getByRole("link", { name: "Open parcel in ViewPoint" });
+    expect(viewpointLink).toHaveAttribute(
+      "href",
+      "https://www.viewpoint.ca/show/property/50203256",
+    );
+    expect(viewpointLink).toHaveAttribute("target", "_blank");
+    expect(viewpointLink).toHaveAttribute("rel", "noreferrer");
   });
 
   it("keeps the property lists aligned with the redemption filter", async () => {

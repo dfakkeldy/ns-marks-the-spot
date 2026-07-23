@@ -1771,6 +1771,17 @@ a {
   width: 100%;
 }
 
+.viewpoint-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 9px;
+  padding: 9px 12px;
+  font-size: 0.78rem;
+  text-align: center;
+  text-decoration: none;
+}
+
 .evidence-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

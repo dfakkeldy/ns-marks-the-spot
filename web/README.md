@@ -59,6 +59,10 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
    account points in each selected parcel bounding box and retains only points
    inside the exact Polygon or MultiPolygon geometry. Multiple AANs stay
    separate and are never summed.
+10. Every selected eight-character PID has a user-initiated **Open parcel in
+    ViewPoint** link. The short PID URL redirects to ViewPoint's canonical parcel
+    page, which exists whether or not the property has a current MLS listing.
+    NS Marks does not fetch, parse, cache, or infer listing status from ViewPoint.
 
 All money is stored as integer cents. PIDs and AANs are strings. CBRM's
 "Immediate deed" value is displayed as a municipal category; it is not a claim
