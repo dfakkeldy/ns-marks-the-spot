@@ -21,13 +21,16 @@ describe("web document metadata", () => {
       /<meta\s+property="og:description"\s+content="[^"]{40,}"/,
     );
     expect(indexHtml).toMatch(
-      /<meta\s+property="og:image"\s+content="social-card.png"/,
+      /<meta\s+property="og:url"\s+content="https:\/\/kinnokilabs\.com\/apps\/nsmarksthespot\/map\/"/,
+    );
+    expect(indexHtml).toMatch(
+      /<meta\s+property="og:image"\s+content="https:\/\/kinnokilabs\.com\/apps\/nsmarksthespot\/map\/social-card\.png"/,
     );
     expect(indexHtml).toMatch(
       /<meta\s+name="twitter:card"\s+content="summary_large_image"/,
     );
     expect(indexHtml).toMatch(
-      /<meta\s+name="twitter:image"\s+content="social-card.png"/,
+      /<meta\s+name="twitter:image"\s+content="https:\/\/kinnokilabs\.com\/apps\/nsmarksthespot\/map\/social-card\.png"/,
     );
   });
 });

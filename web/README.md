@@ -25,10 +25,11 @@ Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 rsvg-convert -w 1200 -h 630 marketing/social-card.svg -o web/public/social-card.png
 ```
 
-The tags ship with a relative image URL because this repository does not
-record a canonical deploy origin. The deploying site should rewrite
-`og:image`/`twitter:image` to an absolute URL at its origin; scrapers that
-require absolute URLs ignore the relative form harmlessly.
+The canonical deployment is the KinNoKi Labs site's pinned copy at
+`https://kinnokilabs.com/apps/nsmarksthespot/map/`, so `og:url`,
+`og:image`, and `twitter:image` carry that absolute origin (X/Twitter
+ignores relative image URLs). If the canonical origin ever changes, update
+these three tags and the matching `indexHtml.test.ts` assertions together.
 
 ## Data flow
 
