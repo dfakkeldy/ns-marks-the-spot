@@ -49,7 +49,8 @@ vi.mock("./components/MapCanvas", () => ({
       {provinceLayers.nsprd ? "on" : "off"}; water:{" "}
       {provinceLayers["water-features"] ? "on" : "off"}; roads:{" "}
       {provinceLayers.roads ? "on" : "off"}; buildings:{" "}
-      {provinceLayers.buildings ? "on" : "off"}; historical layer:{" "}
+      {provinceLayers.buildings ? "on" : "off"}; contours:{" "}
+      {provinceLayers.contours ? "on" : "off"}; historical layer:{" "}
       {showHistoricalTaxSales ? "on" : "off"}; historical PID count:{" "}
       {historicalTaxSalePids.size}; mineral occurrences:{" "}
       {resourceLayers["mineral-occurrences"] ? "on" : "off"}; mineral tenure:{" "}
@@ -270,6 +271,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
     expect(screen.getByLabelText("Buildings")).not.toBeChecked();
+    expect(screen.getByLabelText("Contours")).not.toBeChecked();
   });
 
   it("toggles the building overlay and counts mapped building features on a PID", async () => {
@@ -482,7 +484,7 @@ describe("NS Marks The Spot Online", () => {
     expect(within(propertyRow as HTMLElement).getByText(/Coverage:/)).toBeInTheDocument();
     expect(
       within(propertyRow as HTMLElement).getByText(
-        (_, element) => element?.textContent === "Zoom: 10–24",
+        (_, element) => element?.textContent === "Zoom: 14–24",
       ),
     ).toBeInTheDocument();
     expect(
@@ -667,6 +669,32 @@ describe("NS Marks The Spot Online", () => {
       "href",
       "https://novascotia.ca/natr/meb/download/dp002.asp",
     );
+  });
+
+  it("keeps topography collapsed and loads contours only when requested", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    const summary = screen.getByText("Topography");
+    const group = summary.closest("details");
+    expect(group).not.toHaveAttribute("open");
+    expect(screen.getByText("1 optional terrain layer")).toBeInTheDocument();
+    expect(screen.getByLabelText("Contours")).not.toBeChecked();
+
+    await user.click(summary);
+    await user.click(screen.getByLabelText("Contours"));
+
+    expect(group).toHaveAttribute("open");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("contours: on");
+    expect(
+      within(group as HTMLElement).getByText(/terrain screening only/i),
+    ).toBeInTheDocument();
+    expect(
+      within(group as HTMLElement).getByRole("link", {
+        name: "Official Landforms source",
+      }),
+    ).toHaveAttribute("href", "https://data.novascotia.ca/d/j63u-5nkj");
   });
 
   it("offers the Inverness terrain pilot independently with a visible symbology key", async () => {

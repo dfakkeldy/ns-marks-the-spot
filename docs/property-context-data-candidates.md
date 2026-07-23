@@ -133,15 +133,17 @@ municipal zoning or development-permission answer.
 - **Acid rock drainage:** valuable where excavation or blasting is contemplated,
   but the current published risk product covers southwestern Nova Scotia rather
   than the entire province.
-- **Lidar hillshade and contours:** excellent visual evidence for steep slopes,
-  depressions, and drainage patterns, but derived terrain does not classify the
-  cause or safety of a feature.
+- **Lidar hillshade:** excellent visual evidence for steep slopes, depressions,
+  and drainage patterns, but derived terrain does not classify the cause or
+  safety of a feature. Labelled 5 m LiDAR-derived contours are now implemented
+  as a separate default-off Topography layer; hillshade remains a candidate.
 
 - [Provincial highway traffic volumes](https://data.novascotia.ca/d/8524-ec3n)
 - [Public Works structures](https://data.novascotia.ca/d/gs26-c3fm)
 - [Topographic utilities](https://data.novascotia.ca/d/yjmz-hpnc)
 - [Acid rock drainage potential](https://data.novascotia.ca/d/vman-ze64)
 - [Province elevation services](https://nsgiwa.novascotia.ca/arcgis/rest/services/ELEV)
+- [NSTDB Landforms contours](https://data.novascotia.ca/d/j63u-5nkj)
 
 ## Suggested first implementation slice
 

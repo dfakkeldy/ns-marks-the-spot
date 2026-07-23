@@ -164,6 +164,7 @@ describe("MapCanvas browser location", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -210,6 +211,7 @@ describe("MapCanvas browser location", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -277,6 +279,7 @@ describe("MapCanvas sizing", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -321,6 +324,7 @@ describe("MapCanvas parcel discovery", () => {
           "water-features": true,
           roads: true,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -337,7 +341,7 @@ describe("MapCanvas parcel discovery", () => {
 
     expect(onIdentifyParcel).not.toHaveBeenCalled();
 
-    mapMock.getZoom.mockReturnValue(10);
+    mapMock.getZoom.mockReturnValue(14);
     act(() =>
       mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
     );
@@ -376,6 +380,7 @@ describe("MapCanvas parcel discovery", () => {
         "water-features": true,
         roads: true,
         buildings: false,
+        contours: false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -427,6 +432,7 @@ describe("MapCanvas parcel discovery", () => {
           "water-features": true,
           roads: true,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -472,6 +478,7 @@ describe("MapCanvas parcel discovery", () => {
         "water-features": true,
         roads: true,
         buildings: false,
+        contours: false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -520,6 +527,7 @@ describe("MapCanvas Province overlays", () => {
           "water-features": false,
           roads: true,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -531,6 +539,70 @@ describe("MapCanvas Province overlays", () => {
     );
 
     expect(mapMock.addLayer).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not force the overview map inward when default property boundaries are checked", () => {
+    mapMock.getZoom.mockReturnValue(9);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+  });
+
+  it("moves to the contour layer's first useful zoom when it is enabled", () => {
+    mapMock.getZoom.mockReturnValue(9);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: true,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    expect(mapMock.setZoom).toHaveBeenCalledWith(13, { animate: true });
   });
 });
 
@@ -568,6 +640,7 @@ describe("MapCanvas resource overlays", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -614,6 +687,7 @@ describe("MapCanvas resource overlays", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={{ ...hiddenResourceLayers, "abandoned-mines": true }}
         showModernMap={false}
@@ -653,6 +727,7 @@ describe("MapCanvas resource overlays", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -692,6 +767,7 @@ describe("MapCanvas resource overlays", () => {
         "water-features": false,
         roads: false,
         buildings: false,
+        contours: false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -747,6 +823,7 @@ describe("MapCanvas resource overlays", () => {
         "water-features": false,
         roads: false,
         buildings: false,
+        contours: false,
       },
       resourceLayers: {
         ...hiddenResourceLayers,
@@ -803,6 +880,7 @@ describe("MapCanvas micro-hydro pilot", () => {
           "water-features": false,
           roads: false,
           buildings: false,
+          contours: false,
         }}
         resourceLayers={hiddenResourceLayers}
         hydroPilotLayers={{ "inverness-hydro-potential": true }}

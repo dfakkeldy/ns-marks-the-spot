@@ -93,6 +93,7 @@ describe("web native-layer parity catalog", () => {
       "water-features",
       "roads",
       "buildings",
+      "contours",
     ]);
 
     expect(
@@ -112,7 +113,28 @@ describe("web native-layer parity catalog", () => {
       "water-features": true,
       roads: true,
       buildings: false,
+      contours: false,
     });
+  });
+
+  it("offers labelled LiDAR-derived contours as an optional close-range layer", () => {
+    const contours = provinceLayerCatalog.find(({ id }) => id === "contours");
+
+    expect(contours).toMatchObject({
+      name: "Contours",
+      serviceUrl:
+        "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Landforms_UT83/MapServer",
+      minZoom: 13,
+      maxZoom: 24,
+      opacity: 0.88,
+      exportOptions: {
+        transparent: true,
+        layers: "show:2,4",
+        dpi: 144,
+      },
+    });
+    expect(contours?.webCaveat).toContain("terrain screening only");
+    expect(contours?.scale).toContain("5 m contours");
   });
 
   it("adds the web-only NSTDB buildings overlay without changing native parity", () => {
@@ -214,14 +236,15 @@ describe("web native-layer parity catalog", () => {
     expect(roads?.webCaveat).toContain("culverts close up");
   });
 
-  it("delays property boundaries until a useful regional zoom", () => {
+  it("delays property boundaries until close parcel-detail zoom", () => {
     const propertyBoundaries = nativeLayerCatalog.find(
       ({ id }) => id === "nsprd",
     );
 
-    expect(propertyBoundaries?.minZoom).toBe(10);
-    expect(propertyBoundaries?.webCaveat).toBe("Zoom 10+ · not a survey");
-    expect(propertyBoundaries?.exportOptions?.dpi).toBe(0.75);
+    expect(propertyBoundaries?.minZoom).toBe(14);
+    expect(propertyBoundaries?.maxZoom).toBe(24);
+    expect(propertyBoundaries?.webCaveat).toBe("Zoom 14+ · not a survey");
+    expect(propertyBoundaries?.exportOptions?.dpi).toBeUndefined();
   });
 
   it("publishes source date, scale, coverage, and zoom metadata for every layer", () => {
