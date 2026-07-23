@@ -884,6 +884,9 @@ describe("NS Marks The Spot Online", () => {
         name: "Parcel 50251750 details",
       }),
     ).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "focus request: 50251750",
+    );
   });
 
   it("opens any parcel identified by tapping the visible boundary layer", async () => {
@@ -1192,6 +1195,9 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
 
     expect(screen.getByRole("heading", { name: "Highway 19, Mabou" })).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "focus request: 50203256",
+    );
     expect(screen.getByText("Listed in official notice")).toBeInTheDocument();
     expect(
       within(screen.getByRole("complementary", { name: "Parcel 50203256 details" })).queryByText(
