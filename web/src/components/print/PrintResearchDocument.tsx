@@ -131,8 +131,7 @@ export function RequiredAttribution({
       <ul className="print-attribution-links">
         {sources.map((source) => (
           <li key={source.id}>
-            <a href={source.sourceUrl}>{source.label} source</a>
-            {source.licenceUrl ? <a href={source.licenceUrl}>{source.label} licence</a> : null}
+            <a href={source.licenceUrl}>{source.label} licence</a>
           </li>
         ))}
       </ul>
@@ -216,15 +215,21 @@ export function PrintMapFailure({
 
 export function PrintCaptureContext({ snapshot }: { snapshot: PrintSnapshot }) {
   const mode = snapshot.mode === "historical" ? "Historical map state" : "Current map state";
-  const selectedEventCount = new Set(snapshot.eventIds).size;
-  const selectedEvents = snapshot.events.slice(0, selectedEventCount);
+  const eventsById = new Map<string, PrintSnapshot["events"][number]>();
+  for (const event of snapshot.events) {
+    if (!eventsById.has(event.id)) eventsById.set(event.id, event);
+  }
+  const selectedEvents = [...new Set(snapshot.eventIds)].flatMap((id) => {
+    const event = eventsById.get(id);
+    return event ? [event] : [];
+  });
   return (
     <div className="print-capture-context">
       <span>{mode}</span>
       {selectedEvents.length > 0 ? (
         <span className="print-event-context">
           {selectedEvents.map((event) => (
-            <span key={`${event.name}-${event.status}`}>{event.name}: {event.status}</span>
+            <span key={event.id}>{event.name}: {event.status}</span>
           ))}
         </span>
       ) : null}

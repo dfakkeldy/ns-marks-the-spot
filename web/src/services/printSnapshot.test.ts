@@ -19,7 +19,14 @@ const base: PrintCaptureBase = {
   pid: "01234567",
   mode: "current",
   eventIds: ["inverness-2026-08-11"],
-  events: [],
+  events: [{
+    id: "inverness-2026-08-11",
+    name: "Inverness County tax sale",
+    status: "Listed in official notice",
+    facts: [],
+    sources: [],
+    limitation: "Verify the official notice before acting.",
+  }],
   selectedParcelGeometry: {
     type: "FeatureCollection",
     features: [{

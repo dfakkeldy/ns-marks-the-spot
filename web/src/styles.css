@@ -2317,8 +2317,9 @@ a {
   height: 259.4mm;
   padding: 8mm 10mm;
   display: grid;
-  grid-template-rows: auto auto 72mm minmax(0, 1fr) auto auto;
-  gap: 2mm;
+  /* Header, context, map, support, limitation, and receipt have fixed budgets. */
+  grid-template-rows: 17mm 12mm 68mm minmax(70mm, 1fr) 11mm 20mm;
+  gap: 1.5mm;
 }
 
 .print-evidence-page {
@@ -2333,8 +2334,9 @@ a {
   height: 195.9mm;
   padding: 8mm 10mm;
   display: grid;
-  grid-template-rows: auto auto 72mm minmax(0, 1fr) auto auto;
-  gap: 2mm;
+  /* The finite layer catalog is compacted into four support columns. */
+  grid-template-rows: 17mm 12mm 62mm minmax(42mm, 1fr) 11mm 20mm;
+  gap: 1.5mm;
 }
 
 .print-document {
@@ -2403,6 +2405,12 @@ a {
 .print-header {
   padding-top: 10mm;
   border-bottom: 0.5pt solid #000;
+}
+
+.print-field-page .print-header,
+.print-research-summary .print-header {
+  min-height: 0;
+  padding-top: 0;
 }
 
 .print-header h1,
@@ -2566,7 +2574,7 @@ a {
 }
 
 .print-field-support .print-active-layer-legend ul {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .print-evidence-status-grid li,
@@ -2595,8 +2603,16 @@ a {
   margin-bottom: 0;
 }
 
+.print-required-attribution {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1pt 4pt;
+  align-content: start;
+}
+
 .print-required-attribution p {
-  margin-bottom: 1pt;
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .print-attribution-links {
@@ -2606,16 +2622,16 @@ a {
   margin: 0;
   padding: 0;
   list-style: none;
+  grid-column: 1 / -1;
 }
 
 .print-attribution-links li {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4pt;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .print-field-support .print-attribution-links {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .print-receipt {
@@ -2623,6 +2639,13 @@ a {
   margin-top: 3mm;
   padding-bottom: 8mm;
   border-top: 0.5pt solid #000;
+}
+
+.print-field-page .print-receipt,
+.print-research-summary .print-receipt {
+  min-height: 0;
+  margin-top: 0;
+  padding-bottom: 0;
 }
 
 .print-share-url {

@@ -27,6 +27,7 @@ function snapshot(overrides: Record<string, unknown> = {}) {
     mode: "current",
     eventIds: ["inverness-2026"],
     events: [{
+      id: "inverness-2026",
       name: "Inverness County tax sale",
       status: "Listed in official notice",
       facts: [{ label: "Auction", value: "August 11, 2026" }],
@@ -180,6 +181,7 @@ describe("print documents", () => {
     }));
     const eventIds = Array.from({ length: 8 }, (_, index) => `event-${index + 1}`);
     const events = [...eventIds, "unselected-event"].map((id) => ({
+      id,
       name: `Controlled event ${id}`,
       status: "Listed",
       facts: [],
@@ -210,6 +212,44 @@ describe("print documents", () => {
     expect(document.querySelector(".print-capture-context")).toHaveTextContent("Controlled event event-8: Listed");
     expect(document.querySelector(".print-capture-context")).not.toHaveTextContent("Controlled event unselected-event: Listed");
     expect(screen.getByText(longReceipt)).toBeInTheDocument();
+  });
+
+  it("prints only selected event IDs in the captured event-ID order", () => {
+    const selectedEventIds = ["event-2", "event-1", "event-2"];
+    const events = [
+      { id: "unselected", name: "Unselected event", status: "Do not print" },
+      { id: "event-1", name: "First selected event", status: "Listed first" },
+      { id: "event-3", name: "Another unselected event", status: "Do not print" },
+      { id: "event-2", name: "Second selected event", status: "Listed second" },
+    ].map((event) => ({
+      ...event,
+      facts: [],
+      sources: [],
+      limitation: "Verify the official notice.",
+    }));
+
+    render(
+      <PrintFieldDocument
+        snapshot={snapshot({ eventIds: selectedEventIds, events, template: "field" })}
+        map={map}
+        includeAerial={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const context = document.querySelector(".print-event-context");
+    expect(context).not.toBeNull();
+    expect(Array.from(context!.querySelectorAll(":scope > span"), ({ textContent }) => textContent)).toEqual([
+      "Second selected event: Listed second",
+      "First selected event: Listed first",
+    ]);
+    expect(context).not.toHaveTextContent("Unselected event: Do not print");
+    expect(context).not.toHaveTextContent("Another unselected event: Do not print");
   });
 
   it("preserves empty, outside-coverage, and source-error evidence states in its appendix", () => {

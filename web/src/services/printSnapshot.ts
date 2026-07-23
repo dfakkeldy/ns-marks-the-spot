@@ -41,6 +41,7 @@ export type PrintLayerSource = {
 };
 
 export type PrintEvent = {
+  id: string;
   name: string;
   status: string;
   facts: Array<{ label: string; value: string }>;
