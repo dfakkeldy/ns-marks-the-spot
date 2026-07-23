@@ -207,13 +207,13 @@ export function buildPrintMapShareUrl(
   baseUrl: string,
   snapshot: PrintSnapshot,
   position: MapPosition,
-  includeAerial: boolean,
+  renderedLayerIds: readonly ShareLayerId[],
 ): string {
   return buildMapShareUrl(baseUrl, {
     mode: snapshot.mode,
     pid: snapshot.pid,
     eventIds: [...snapshot.eventIds],
-    layerIds: printedLayerIds([...snapshot.layerIds], includeAerial),
+    layerIds: [...renderedLayerIds],
     position,
   });
 }

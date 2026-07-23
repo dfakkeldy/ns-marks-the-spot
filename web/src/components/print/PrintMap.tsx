@@ -23,10 +23,20 @@ import {
 } from "../MapCanvas";
 
 export type PrintMapReadiness =
-  | { status: "loading" }
-  | { status: "ready"; belowZoomLayerIds: MapLayerId[] }
+  | {
+      status: "loading";
+      renderedLayerIds: MapLayerId[];
+      failedLayerIds: MapLayerId[];
+      belowZoomLayerIds: MapLayerId[];
+    }
+  | {
+      status: "ready";
+      renderedLayerIds: MapLayerId[];
+      belowZoomLayerIds: MapLayerId[];
+    }
   | {
       status: "error";
+      renderedLayerIds: MapLayerId[];
       failedLayerIds: MapLayerId[];
       belowZoomLayerIds: MapLayerId[];
     };
@@ -88,16 +98,27 @@ export function PrintMap({
 
   useEffect(() => {
     const values = layerIds.map((id) => statuses[id]);
+    const renderedLayerIds = layerIds.filter((id) => statuses[id]?.status === "ready");
     const failedLayerIds = layerIds.filter((id) => statuses[id]?.status === "error");
     const belowZoomLayerIds = layerIds.filter((id) => statuses[id]?.status === "zoom");
     if (failedLayerIds.length > 0) {
-      onReadinessChange({ status: "error", failedLayerIds, belowZoomLayerIds });
+      onReadinessChange({
+        status: "error",
+        renderedLayerIds,
+        failedLayerIds,
+        belowZoomLayerIds,
+      });
     } else if (values.every((value) =>
       value?.status === "ready" || value?.status === "zoom"
     )) {
-      onReadinessChange({ status: "ready", belowZoomLayerIds });
+      onReadinessChange({ status: "ready", renderedLayerIds, belowZoomLayerIds });
     } else {
-      onReadinessChange({ status: "loading" });
+      onReadinessChange({
+        status: "loading",
+        renderedLayerIds,
+        failedLayerIds,
+        belowZoomLayerIds,
+      });
     }
   }, [layerIds, onReadinessChange, statuses]);
 

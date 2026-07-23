@@ -52,7 +52,12 @@ describe("PrintMap", () => {
       />,
     );
 
-    expect(onReadinessChange).toHaveBeenLastCalledWith({ status: "loading" });
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "loading",
+      renderedLayerIds: [],
+      failedLayerIds: [],
+      belowZoomLayerIds: [],
+    });
     act(() => {
       reportLayerStatus("modern", { status: "ready" });
       reportLayerStatus("roads", { status: "error" });
@@ -62,6 +67,7 @@ describe("PrintMap", () => {
 
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "error",
+      renderedLayerIds: ["modern"],
       failedLayerIds: ["roads"],
       belowZoomLayerIds: ["contours"],
     });
@@ -123,6 +129,32 @@ describe("PrintMap", () => {
     act(() => reportLayerStatus("mineral-proximity-parcels", { status: "ready", count: 1 }));
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "ready",
+      renderedLayerIds: ["mineral-proximity-parcels"],
+      belowZoomLayerIds: [],
+    });
+  });
+
+  it("does not claim pending layers rendered when another layer has failed", () => {
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{ ...snapshot, layerIds: ["modern", "roads", "contours"] } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    act(() => {
+      reportLayerStatus("modern", { status: "ready" });
+      reportLayerStatus("roads", { status: "error" });
+    });
+
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error",
+      renderedLayerIds: ["modern"],
+      failedLayerIds: ["roads"],
       belowZoomLayerIds: [],
     });
   });

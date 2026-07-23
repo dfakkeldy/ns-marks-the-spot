@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import { buildPrintQr, type PrintQrResult } from "../../services/printQr";
 import {
@@ -18,6 +18,27 @@ import { PrintResearchDocument } from "./PrintResearchDocument";
 
 const EVIDENCE_TIMEOUT_MS = 15_000;
 
+type MapAttemptState = {
+  token: string;
+  readiness: PrintMapReadiness;
+  resolvedPosition: MapPosition | null;
+  printIncomplete: boolean;
+};
+
+type SnapshotStore = {
+  captureToken: string | null;
+  byTemplate: Partial<Record<PrintTemplate, PrintSnapshot>>;
+};
+
+function loadingMapReadiness(): PrintMapReadiness {
+  return {
+    status: "loading",
+    renderedLayerIds: [],
+    failedLayerIds: [],
+    belowZoomLayerIds: [],
+  };
+}
+
 export function PrintPreview({
   capture,
   baseUrl,
@@ -28,66 +49,114 @@ export function PrintPreview({
   onClose: () => void;
 }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const activeMapAttemptRef = useRef<string | null>(null);
   const [template, setTemplate] = useState<PrintTemplate>("research");
   const [includeAppendix, setIncludeAppendix] = useState(true);
   const [includeAerial, setIncludeAerial] = useState(false);
-  const [timedOutKey, setTimedOutKey] = useState<string | null>(null);
+  const [sealedSnapshots, setSealedSnapshots] = useState<SnapshotStore>(() => {
+    if (!printCaptureReadiness(capture, "research").ready) {
+      return { captureToken: capture.token, byTemplate: {} };
+    }
+    return {
+      captureToken: capture.token,
+      byTemplate: {
+        research: sealPrintSnapshot(capture, "research", {
+          timedOut: false,
+          generatedAt: new Date().toISOString(),
+        }),
+      },
+    };
+  });
   const [mapAttempt, setMapAttempt] = useState(0);
-  const [mapReadiness, setMapReadiness] =
-    useState<PrintMapReadiness>({ status: "loading" });
-  const [resolvedPosition, setResolvedPosition] =
-    useState<MapPosition | null>(null);
-  const [printIncomplete, setPrintIncomplete] = useState(false);
+  const [mapState, setMapState] = useState<MapAttemptState | null>(null);
   const [settledQr, setSettledQr] = useState<{
     key: string;
     result: PrintQrResult;
   } | null>(null);
 
   const captureReadiness = printCaptureReadiness(capture, template);
-  const timeoutKey = `${capture.token}:${capture.pid}:${template}`;
-  const timedOut = timedOutKey === timeoutKey && !captureReadiness.ready;
-  const snapshot = useMemo<PrintSnapshot | null>(() => {
-    if (!captureReadiness.ready && !timedOut) return null;
-    return sealPrintSnapshot(capture, template, {
-      timedOut,
-      generatedAt: new Date().toISOString(),
+  const snapshot = sealedSnapshots.captureToken === capture.token
+    ? sealedSnapshots.byTemplate[template] ?? null
+    : null;
+  const sealSnapshot = useCallback((templateToSeal: PrintTemplate, didTimeOut: boolean) => {
+    setSealedSnapshots((current) => {
+      const byTemplate = current.captureToken === capture.token
+        ? current.byTemplate
+        : {};
+      if (byTemplate[templateToSeal]) return current;
+      return {
+        captureToken: capture.token,
+        byTemplate: {
+          ...byTemplate,
+          [templateToSeal]: sealPrintSnapshot(capture, templateToSeal, {
+            timedOut: didTimeOut,
+            generatedAt: new Date().toISOString(),
+          }),
+        },
+      };
     });
-  }, [capture, captureReadiness.ready, template, timedOut]);
+  }, [capture]);
   const bounds = useMemo(
-    () => snapshot ? printBoundsForTemplate(snapshot, template) : null,
-    [snapshot, template],
+    () => snapshot ? printBoundsForTemplate(snapshot, snapshot.template) : null,
+    [snapshot],
   );
-  const printedLayers = useMemo<ShareLayerId[]>(
+  const requestedLayerIds = useMemo<ShareLayerId[]>(
     () => snapshot ? printedLayerIds([...snapshot.layerIds], includeAerial) : [],
     [includeAerial, snapshot],
   );
-  const belowZoomLayerIds = mapReadiness.status === "loading"
-    ? []
-    : mapReadiness.belowZoomLayerIds;
-  const failedLayerIds = mapReadiness.status === "error"
-    ? mapReadiness.failedLayerIds
-    : [];
-  const renderedLayerIds = printedLayers.filter(
-    (id) => !belowZoomLayerIds.includes(id) && !failedLayerIds.includes(id),
+  const mapConfigurationKey = snapshot && bounds
+    ? JSON.stringify({
+        captureToken: capture.token,
+        template: snapshot.template,
+        includeAerial,
+        bounds,
+        requestedLayerIds,
+      })
+    : null;
+  const attemptToken = mapConfigurationKey ? `${mapConfigurationKey}:${mapAttempt}` : null;
+  const activeMapState = mapState?.token === attemptToken ? mapState : null;
+  const mapReadiness = activeMapState?.readiness ?? loadingMapReadiness();
+  const resolvedPosition = activeMapState?.resolvedPosition ?? null;
+  const printIncomplete = activeMapState?.printIncomplete ?? false;
+  const renderedLayerIds = mapReadiness.renderedLayerIds.filter(
+    (id): id is ShareLayerId => requestedLayerIds.includes(id as ShareLayerId),
   );
+  const belowZoomLayerIds = mapReadiness.belowZoomLayerIds;
+  const failedLayerIds = mapReadiness.status === "ready"
+    ? []
+    : mapReadiness.failedLayerIds;
   const shareUrl = useMemo(
     () => snapshot && resolvedPosition
-      ? buildPrintMapShareUrl(baseUrl, snapshot, resolvedPosition, includeAerial)
+      ? buildPrintMapShareUrl(baseUrl, snapshot, resolvedPosition, renderedLayerIds)
       : baseUrl,
-    [baseUrl, includeAerial, resolvedPosition, snapshot],
+    [baseUrl, renderedLayerIds, resolvedPosition, snapshot],
   );
-  const qrKey = snapshot && resolvedPosition ? `${template}:${shareUrl}` : null;
+  const qrKey = attemptToken && snapshot && resolvedPosition
+    ? `${attemptToken}:${shareUrl}`
+    : null;
   const qr: PrintQrResult | { status: "loading" } =
     qrKey && settledQr?.key === qrKey ? settledQr.result : { status: "loading" };
 
   useEffect(() => {
+    activeMapAttemptRef.current = attemptToken;
+  }, [attemptToken]);
+
+  useEffect(() => {
+    if (!captureReadiness.ready || snapshot) return;
+    const timer = window.setTimeout(() => sealSnapshot(template, false), 0);
+    return () => window.clearTimeout(timer);
+  }, [captureReadiness.ready, sealSnapshot, snapshot, template]);
+
+  useEffect(() => {
     if (template !== "research" || captureReadiness.ready) return;
     const timer = window.setTimeout(
-      () => setTimedOutKey(timeoutKey),
+      () => {
+        sealSnapshot("research", true);
+      },
       EVIDENCE_TIMEOUT_MS,
     );
     return () => window.clearTimeout(timer);
-  }, [captureReadiness.ready, template, timeoutKey]);
+  }, [captureReadiness.ready, sealSnapshot, template]);
 
   useEffect(() => {
     let cancelled = false;
@@ -133,7 +202,9 @@ export function PrintPreview({
     }
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
+    if (event.shiftKey && (
+      document.activeElement === first || document.activeElement === headingRef.current
+    )) {
       event.preventDefault();
       last.focus();
     } else if (!event.shiftKey && document.activeElement === last) {
@@ -152,21 +223,49 @@ export function PrintPreview({
     window.print();
   };
   const retryMap = () => {
-    setPrintIncomplete(false);
-    setMapReadiness({ status: "loading" });
-    setResolvedPosition(null);
     setMapAttempt((attempt) => attempt + 1);
+  };
+  const acceptMapReadiness = (token: string, readiness: PrintMapReadiness) => {
+    setMapState((current) => {
+      if (activeMapAttemptRef.current !== token) return current;
+      return {
+        token,
+        readiness,
+        resolvedPosition: current?.token === token ? current.resolvedPosition : null,
+        printIncomplete: current?.token === token ? current.printIncomplete : false,
+      };
+    });
+  };
+  const acceptResolvedPosition = (token: string, position: MapPosition) => {
+    setMapState((current) => {
+      if (activeMapAttemptRef.current !== token) return current;
+      return {
+        token,
+        readiness: current?.token === token ? current.readiness : loadingMapReadiness(),
+        resolvedPosition: position,
+        printIncomplete: current?.token === token ? current.printIncomplete : false,
+      };
+    });
+  };
+  const permitIncompletePrint = () => {
+    if (!attemptToken) return;
+    setMapState((current) => {
+      if (activeMapAttemptRef.current !== attemptToken || current?.token !== attemptToken) {
+        return current;
+      }
+      return { ...current, printIncomplete: true };
+    });
   };
 
   const map = snapshot && bounds ? (
     <>
       <PrintMap
-        key={mapAttempt}
+        key={attemptToken}
         snapshot={snapshot}
         bounds={bounds}
         includeAerial={includeAerial}
-        onReadinessChange={setMapReadiness}
-        onResolvedPosition={setResolvedPosition}
+        onReadinessChange={(value) => acceptMapReadiness(attemptToken!, value)}
+        onResolvedPosition={(value) => acceptResolvedPosition(attemptToken!, value)}
       />
       {printIncomplete ? (
         <p className="print-incomplete-map-warning">
@@ -193,7 +292,13 @@ export function PrintPreview({
             <select
               aria-label="Document template"
               value={template}
-              onChange={(event) => setTemplate(event.target.value as PrintTemplate)}
+              onChange={(event) => {
+                const nextTemplate = event.target.value as PrintTemplate;
+                if (printCaptureReadiness(capture, nextTemplate).ready) {
+                  sealSnapshot(nextTemplate, false);
+                }
+                setTemplate(nextTemplate);
+              }}
             >
               <option value="research">Research summary</option>
               <option value="field">Field sheet</option>
@@ -221,7 +326,7 @@ export function PrintPreview({
             <div className="print-map-error" role="alert">
               <p>One or more map layers failed to render.</p>
               <button type="button" onClick={retryMap}>Retry map</button>
-              <button type="button" onClick={() => setPrintIncomplete(true)}>Print incomplete map</button>
+              <button type="button" onClick={permitIncompletePrint}>Print incomplete map</button>
             </div>
           ) : null}
           <button type="button" onClick={printDocument} disabled={!canPrint}>Print / Save PDF</button>

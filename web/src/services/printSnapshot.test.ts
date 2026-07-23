@@ -317,9 +317,24 @@ describe("print map derivation", () => {
       "https://example.com/map/",
       snapshot,
       { latitude: 46.35, longitude: -61.15, zoom: 15 },
-      false,
+      ["nsprd", "roads"],
     )).toBe(
       "https://example.com/map/?mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
     );
+  });
+
+  it("builds a printable share URL from only confirmed rendered layers", () => {
+    const snapshot = sealPrintSnapshot(
+      startPrintCapture(base, pendingEvidence),
+      "field",
+      { timedOut: false, generatedAt: "2026-07-23T13:42:15.000Z" },
+    );
+
+    expect(buildPrintMapShareUrl(
+      "https://example.com/map/",
+      snapshot,
+      { latitude: 46.35, longitude: -61.15, zoom: 15 },
+      ["nsprd"],
+    )).toContain("layers=nsprd&");
   });
 });

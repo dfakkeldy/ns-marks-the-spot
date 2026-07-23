@@ -91,7 +91,7 @@ describe("map share state", () => {
       "https://example.com/map/",
       snapshot,
       position,
-      false,
+      ["modern", "nsprd", "roads"],
     ))).toEqual({
       mode: "historical",
       pid: "01234567",

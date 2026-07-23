@@ -9,6 +9,10 @@ import { PrintPreview } from "./PrintPreview";
 const printMap = vi.hoisted(() => ({
   onReadinessChange: undefined as ((value: PrintMapReadiness) => void) | undefined,
   onResolvedPosition: undefined as ((value: MapPosition) => void) | undefined,
+  attempts: [] as Array<{
+    onReadinessChange: (value: PrintMapReadiness) => void;
+    onResolvedPosition: (value: MapPosition) => void;
+  }>,
 }));
 
 const buildQr = vi.hoisted(() => vi.fn());
@@ -23,6 +27,7 @@ vi.mock("./PrintMap", () => ({
   }) => {
     printMap.onReadinessChange = onReadinessChange;
     printMap.onResolvedPosition = onResolvedPosition;
+    printMap.attempts.push({ onReadinessChange, onResolvedPosition });
     return <div data-testid="print-map">Map preview</div>;
   },
 }));
@@ -85,8 +90,16 @@ function capture(pending = false): PrintCapture {
 function markMapReady() {
   act(() => {
     printMap.onResolvedPosition?.(mapPosition);
-    printMap.onReadinessChange?.({ status: "ready", belowZoomLayerIds: [] });
+    printMap.onReadinessChange?.(readiness({
+      status: "ready",
+      renderedLayerIds: ["modern"],
+      belowZoomLayerIds: [],
+    }));
   });
+}
+
+function readiness(value: Record<string, unknown>): PrintMapReadiness {
+  return value as PrintMapReadiness;
 }
 
 describe("PrintPreview", () => {
@@ -104,6 +117,7 @@ describe("PrintPreview", () => {
     buildQr.mockReset();
     printMap.onReadinessChange = undefined;
     printMap.onResolvedPosition = undefined;
+    printMap.attempts = [];
   });
 
   it("defaults to research with its appendix and aerial excluded", () => {
@@ -138,11 +152,92 @@ describe("PrintPreview", () => {
     expect(screen.queryByText("No mapped record returned")).not.toBeInTheDocument();
   });
 
+  it("keeps the first timed-out research snapshot when same-token evidence arrives late", async () => {
+    vi.useFakeTimers();
+    const { rerender } = render(
+      <PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+
+    await act(() => vi.advanceTimersByTimeAsync(15_000));
+    const lateEvidence = capture(false);
+    lateEvidence.evidence.buildings = {
+      status: "ready",
+      value: { count: 7, pointCount: 4, polygonCount: 3 },
+    };
+    rerender(<PrintPreview capture={lateEvidence} baseUrl="https://example.com/map/" onClose={onClose} />);
+
+    expect(screen.getAllByText("Source unavailable at export time.").length).toBeGreaterThan(0);
+    expect(screen.queryByText("7")).not.toBeInTheDocument();
+  });
+
+  it("starts a new map attempt when switching templates and accepts only its callbacks", async () => {
+    const user = userEvent.setup();
+    render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
+    const researchAttempt = printMap.attempts.at(-1)!;
+    markMapReady();
+    await waitFor(() => expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeEnabled());
+
+    await user.selectOptions(screen.getByLabelText("Document template"), "field");
+    const fieldAttempt = printMap.attempts.at(-1)!;
+    expect(fieldAttempt).not.toBe(researchAttempt);
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+
+    act(() => {
+      researchAttempt.onResolvedPosition({ latitude: 46.1, longitude: -61.4, zoom: 13 });
+      researchAttempt.onReadinessChange(readiness({
+        status: "ready",
+        renderedLayerIds: ["modern"],
+        belowZoomLayerIds: [],
+      }));
+    });
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+
+    act(() => fieldAttempt.onReadinessChange(readiness({
+      status: "ready",
+      renderedLayerIds: ["modern"],
+      belowZoomLayerIds: [],
+    })));
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+    act(() => fieldAttempt.onResolvedPosition({ latitude: 46.22, longitude: -61.33, zoom: 14 }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeEnabled());
+    expect(buildQr).toHaveBeenLastCalledWith(expect.stringContaining("position=46.22%2C-61.33%2C14"));
+  });
+
+  it("uses only explicitly rendered layers for an incomplete document and its share QR", async () => {
+    const partialCapture = capture();
+    partialCapture.layerIds = ["modern", "roads", "contours"];
+    partialCapture.layerSources = [
+      { id: "modern", name: "Modern map", sourceUrl: "https://example.com/modern", sourceDate: "now", attribution: "OpenStreetMap", licenceUrl: "https://example.com/modern/licence" },
+      { id: "roads", name: "Roads", sourceUrl: "https://example.com/roads", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/roads/licence" },
+      { id: "contours", name: "Contours", sourceUrl: "https://example.com/contours", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/contours/licence" },
+    ];
+    render(<PrintPreview capture={partialCapture} baseUrl="https://example.com/map/" onClose={onClose} />);
+    act(() => {
+      printMap.onResolvedPosition?.(mapPosition);
+      printMap.onReadinessChange?.(readiness({
+        status: "error",
+        renderedLayerIds: ["modern"],
+        failedLayerIds: ["roads"],
+        belowZoomLayerIds: [],
+      }));
+    });
+    await userEvent.setup().click(screen.getByRole("button", { name: "Print incomplete map" }));
+
+    expect(screen.getByText("Modern map")).toBeInTheDocument();
+    expect(screen.queryByText("Contours")).not.toBeInTheDocument();
+    await waitFor(() => expect(buildQr).toHaveBeenLastCalledWith(expect.stringContaining("layers=modern")));
+  });
+
   it("requires an explicit incomplete-map decision after a map error", async () => {
     render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
     act(() => {
       printMap.onResolvedPosition?.(mapPosition);
-      printMap.onReadinessChange?.({ status: "error", failedLayerIds: ["modern"], belowZoomLayerIds: [] });
+      printMap.onReadinessChange?.(readiness({
+        status: "error",
+        renderedLayerIds: [],
+        failedLayerIds: ["modern"],
+        belowZoomLayerIds: [],
+      }));
     });
 
     expect(screen.getByRole("button", { name: "Retry map" })).toBeEnabled();
@@ -159,7 +254,11 @@ describe("PrintPreview", () => {
     let resolveQr: ((value: { status: "ready"; svg: string }) => void) | undefined;
     buildQr.mockImplementationOnce(() => new Promise((resolve) => { resolveQr = resolve; }));
     render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
-    act(() => printMap.onReadinessChange?.({ status: "ready", belowZoomLayerIds: [] }));
+    act(() => printMap.onReadinessChange?.(readiness({
+      status: "ready",
+      renderedLayerIds: ["modern"],
+      belowZoomLayerIds: [],
+    })));
 
     expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
     act(() => printMap.onResolvedPosition?.(mapPosition));
@@ -181,6 +280,9 @@ describe("PrintPreview", () => {
     expect(document.body).toHaveClass("print-preview-open");
     fireEvent.keyDown(dialog, { key: "Escape" });
     expect(onClose).toHaveBeenCalledTimes(1);
+
+    fireEvent.keyDown(dialog, { key: "Tab", shiftKey: true });
+    expect(document.activeElement).toBe(screen.getByRole("link", { name: "https://example.com/map/" }));
 
     const last = screen.getByRole("link", { name: "https://example.com/map/" });
     last.focus();
