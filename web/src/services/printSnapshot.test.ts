@@ -93,6 +93,33 @@ describe("print capture", () => {
     expect(snapshot.evidence.civicAddresses.status).toBe("error");
   });
 
+  it("seals a snapshot whose nested graph cannot be mutated", () => {
+    const snapshot = sealPrintSnapshot(
+      startPrintCapture(base, pendingEvidence),
+      "field",
+      { timedOut: false, generatedAt: "2026-07-23T13:42:15.000Z" },
+    );
+    const mutableSnapshot = snapshot as unknown as {
+      pid: string;
+      viewport: { position: { zoom: number } };
+      layerIds: string[];
+      evidence: { civicAddresses: { status: string } };
+    };
+
+    expect(() => {
+      mutableSnapshot.pid = "76543210";
+    }).toThrow(TypeError);
+    expect(() => {
+      mutableSnapshot.viewport.position.zoom = 1;
+    }).toThrow(TypeError);
+    expect(() => {
+      mutableSnapshot.layerIds.push("modern");
+    }).toThrow(TypeError);
+    expect(() => {
+      mutableSnapshot.evidence.civicAddresses.status = "ready";
+    }).toThrow(TypeError);
+  });
+
   it("clones inputs so live state cannot mutate the capture", () => {
     const evidence: PrintEvidence = {
       ...pendingEvidence,

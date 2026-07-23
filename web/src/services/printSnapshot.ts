@@ -74,10 +74,16 @@ export type PrintCapture = PrintCaptureBase & {
   evidence: PrintEvidence;
 };
 
-export type PrintSnapshot = PrintCapture & {
+export type DeepReadonly<T> = T extends readonly (infer Item)[]
+  ? readonly DeepReadonly<Item>[]
+  : T extends object
+    ? { readonly [Key in keyof T]: DeepReadonly<T[Key]> }
+    : T;
+
+export type PrintSnapshot = DeepReadonly<PrintCapture & {
   template: PrintTemplate;
   generatedAt: string;
-};
+}>;
 
 const RESEARCH_KEYS = [
   "buildings",
@@ -92,6 +98,20 @@ type EvidenceKey = (typeof RESEARCH_KEYS)[number];
 
 function clone<T>(value: T): T {
   return structuredClone(value);
+}
+
+function deepFreeze<T>(
+  value: T,
+  frozen = new WeakSet<object>(),
+): DeepReadonly<T> {
+  if (value !== null && typeof value === "object" && !frozen.has(value)) {
+    frozen.add(value);
+    for (const nestedValue of Object.values(value)) {
+      deepFreeze(nestedValue, frozen);
+    }
+    Object.freeze(value);
+  }
+  return value as DeepReadonly<T>;
 }
 
 export function startPrintCapture(
@@ -150,10 +170,10 @@ export function sealPrintSnapshot(
   if (!options.timedOut && !printCaptureReadiness(capture, template).ready) {
     throw new Error("Print snapshot cannot seal while evidence is pending.");
   }
-  return clone({
+  return deepFreeze(clone({
     ...capture,
     evidence,
     template,
     generatedAt: options.generatedAt,
-  });
+  }));
 }
