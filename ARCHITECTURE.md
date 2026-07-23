@@ -85,6 +85,64 @@ not change the native app's offline contract or Swift `MapEngine` boundary.
 Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the web
 catalog's Province MapServer layers in the browser.
 
+### Web print/export boundary
+
+The web print flow is capture-and-seal rather than a live projection of
+`App` state. `App.tsx` owns the selected parcel, privacy-safe printable
+viewport, enabled layer IDs and source metadata, event context, and
+PID-plus-generation evidence request. Activating the inspector's
+**Print / export** action creates a tokened `PrintCapture`. Matching evidence
+may settle that capture only when its token, PID, and request generation still
+agree; stale results cannot attach to a new selection. Losing the selected PID,
+request generation, or Province licence closes the capture.
+
+`services/printSnapshot.ts` owns the capture/readiness/seal domain. Research
+waits for all evidence states or converts only still-pending states to
+“Source unavailable at export time” after the bounded timeout; field output
+does not wait for research evidence. Sealing deep-clones and deep-freezes a
+template-specific `PrintSnapshot`, so later application, map, or source changes
+cannot mutate an open document. Research bounds derive from the complete
+selected parcel geometry. Field bounds preserve the complete frozen live
+viewport. `ParcelInspector.tsx` owns only the action and capability UI;
+`PrintPreview.tsx` owns template options, snapshot sealing, attempt-scoped map
+readiness, local QR settlement, retry/incomplete-print consent, focus trapping,
+and the call to `window.print()`.
+
+`components/print/PrintMap.tsx` reuses `MapCanvas` in a display-only Leaflet
+print mode. The map fits explicit bounds, disables interaction and location UI,
+tracks readiness for the requested layers, and reports the resolved printed
+position. OpenStreetMap and ArcGIS tiles remain ordinary browser-rendered image
+layers; the application does not read them into a canvas or generate PDF/PNG
+bytes. CSS applies monochrome tile treatment and app-owned parcel
+line/weight/hatch styles. The browser's Print / Save as PDF facility is the only
+document renderer.
+
+The exact receipt is derived only after the print map resolves. It uses the
+existing map-share format with the captured PID, mode and event IDs, the
+actually rendered layer IDs, and the derived print position. Browser-location
+movement is suppressed from the printable viewport, and print mode never
+receives or renders the location marker or its raw coordinates.
+`services/printQr.ts` converts that same receipt URL to SVG locally with
+`qrcode@1.5.4`; no remote QR or screenshot service receives it. The complete
+written URL remains present when QR generation fails.
+
+Document ownership is split by output concern:
+
+- `PrintResearchDocument` owns the portrait summary and optional evidence
+  appendix;
+- `PrintFieldDocument` owns the single-page landscape field sheet;
+- `PrintEvidenceAppendix` owns source-state wording without collapsing empty,
+  coverage, error, or timeout states;
+- `printRenderedLayers.ts` limits source material to actually rendered layers;
+  and
+- `printEvidenceAttribution.ts` adds Nova Scotia open-data and PVSC evidence
+  attribution independently from restricted Province layer attribution and
+  OpenStreetMap attribution.
+
+The boundary exports a rendered personal/research view only. It does not expose
+raw geometry, tiles, owner names, private notes, uploads, browser location, or
+a public/commercial bulk-print API.
+
 `web/src/layers/layerCatalog.ts` is the web parity contract. It mirrors the
 native catalog order, URLs, Province licence requirement, and rendering
 restrictions. Web-specific display ranges may extend where the live service

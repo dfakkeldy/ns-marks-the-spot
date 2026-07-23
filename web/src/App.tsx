@@ -93,10 +93,7 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 import { buildEvidenceNote } from "./services/evidenceNote";
-import {
-  fetchParcelFloodHazardEvidence,
-  type ParcelFloodHazardEvidence,
-} from "./services/floodHazard";
+import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import {
   buildMapShareUrl,
   parseMapShareState,
