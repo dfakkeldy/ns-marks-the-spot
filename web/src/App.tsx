@@ -1330,15 +1330,28 @@ function LayerMetadata({
   checked: boolean;
   status: MapLayerStatus;
 }) {
+  const [provenanceOpen, setProvenanceOpen] = useState(false);
   return (
     <span className="layer-metadata">
       <small className={`layer-runtime ${status.status}`}>
         {layerRuntimeLabel(checked, status)}
       </small>
-      <small>Source date: {sourceDate}</small>
-      <small>Scale: {scale}</small>
-      <small>Coverage: {coverage}</small>
-      <small>Zoom: {minZoom}–{maxZoom}</small>
+      <details className="layer-provenance" open={provenanceOpen}>
+        {/* preventDefault keeps this summary click from also toggling the
+            row's wrapping <label> checkbox; state drives the open attribute */}
+        <summary
+          onClick={(event) => {
+            event.preventDefault();
+            setProvenanceOpen((open) => !open);
+          }}
+        >
+          Source &amp; scale
+        </summary>
+        <small>Source date: {sourceDate}</small>
+        <small>Scale: {scale}</small>
+        <small>Coverage: {coverage}</small>
+        <small>Zoom: {minZoom}–{maxZoom}</small>
+      </details>
     </span>
   );
 }

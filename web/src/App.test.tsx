@@ -505,25 +505,36 @@ describe("NS Marks The Spot Online", () => {
       .toContain("hrm-2022-03-08");
   });
 
-  it("shows source metadata beside layer controls", () => {
+  it("keeps layer provenance one disclosure away without burying the live status", async () => {
+    const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
     const propertyRow = screen.getByLabelText("NS Property Boundaries").closest("label");
     expect(propertyRow).not.toBeNull();
-    expect(within(propertyRow as HTMLElement).getByText(/Source date:/)).toBeInTheDocument();
-    expect(within(propertyRow as HTMLElement).getByText(/Scale:/)).toBeInTheDocument();
-    expect(within(propertyRow as HTMLElement).getByText(/Coverage:/)).toBeInTheDocument();
+    const row = within(propertyRow as HTMLElement);
+
     expect(
-      within(propertyRow as HTMLElement).getByText(
-        (_, element) => element?.textContent === "Zoom: 14–24",
-      ),
+      row.getByText(/Loading|Ready|Off|Zoom/, { selector: ".layer-runtime" }),
     ).toBeInTheDocument();
+
+    const provenance = (propertyRow as HTMLElement).querySelector(
+      "details.layer-provenance",
+    );
+    expect(provenance).not.toBeNull();
+    expect(provenance).not.toHaveAttribute("open");
+    expect(row.getByText(/Source date:/)).not.toBeVisible();
+
+    await user.click(row.getByText("Source & scale"));
+
+    expect(provenance).toHaveAttribute("open");
+    expect(row.getByText(/Source date:/)).toBeVisible();
+    expect(row.getByText(/Scale:/)).toBeVisible();
+    expect(row.getByText(/Coverage:/)).toBeVisible();
     expect(
-      within(propertyRow as HTMLElement).getByText(/Loading|Ready|Off|Zoom/, {
-        selector: ".layer-runtime",
-      }),
-    ).toBeInTheDocument();
+      row.getByText((_, element) => element?.textContent === "Zoom: 14–24"),
+    ).toBeVisible();
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
   });
 
   it("keeps historical records off by default and loads them on demand", async () => {
