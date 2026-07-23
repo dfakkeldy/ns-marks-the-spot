@@ -1628,7 +1628,7 @@ export function App() {
     initialShareState.position,
   );
   const [showModernMap, setShowModernMap] = useState(
-    hasSharedLayers ? initialShareState.layerIds.includes("modern") : false,
+    hasSharedLayers ? initialShareState.layerIds.includes("modern") : true,
   );
   const intendedInitialProvinceLayers = useRef(
     hasSharedLayers

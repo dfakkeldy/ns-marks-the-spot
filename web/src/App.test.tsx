@@ -630,13 +630,13 @@ describe("NS Marks The Spot Online", () => {
 
     render(<App />);
 
-    expect(screen.getByLabelText("Modern map")).not.toBeChecked();
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
     expect(screen.getByLabelText("Water features")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: off; property boundaries: on; water: on; roads: on",
+      "modern map: on; property boundaries: on; water: on; roads: on",
     );
 
     const layerSection = screen.getByRole("region", { name: "Map layers" });
@@ -1085,21 +1085,21 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("turns the modern map on independently of Province layers", async () => {
+  it("toggles the modern map independently of Province layers", async () => {
     const user = userEvent.setup();
     render(<App />);
 
     const modernMap = screen.getByLabelText("Modern map");
-    expect(modernMap).not.toBeChecked();
+    expect(modernMap).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: off",
+      "modern map: on",
     );
 
     await user.click(modernMap);
 
-    expect(modernMap).toBeChecked();
+    expect(modernMap).not.toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: on",
+      "modern map: off",
     );
   });
 

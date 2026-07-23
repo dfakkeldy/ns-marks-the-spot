@@ -238,10 +238,12 @@ The upstream-area value is catchment-resolution modeling: it changes in coarse
 steps at routed tertiary/sub-tertiary outlets and is not an exact delineation
 for every arbitrary point along a line.
 
-After the Province licence is accepted, the default composition keeps Modern
-Map off and turns NS Aerial, NS Property Boundaries, Water Features, and Roads,
-Trails & Culverts on. It fits the initial view once to the loaded tax-sale
-parcels. Fletcher is the final layer row because it is not yet available. The
+After the Province licence is accepted, the default composition turns on the
+Modern Map basemap together with NS Aerial, NS Property Boundaries, Water
+Features, and Roads, Trails & Culverts. The basemap carries overview zooms;
+the zoom-gated Province layers take over from zoom 10 (boundaries from 14), so
+the first view is never framed by blank imagery tiles. It fits the initial
+view once to the loaded tax-sale parcels. Fletcher is the final layer row because it is not yet available. The
 initial fit does not repeat after searches or ordinary navigation.
 
 All eight distinct Province services used by the catalog have returned Web
