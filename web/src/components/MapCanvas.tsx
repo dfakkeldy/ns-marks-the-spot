@@ -346,10 +346,12 @@ function ArcGISFeatureLayer({
   layer,
   visible,
   onStatusChange,
+  renderMode,
 }: {
   layer: ResourceFeatureLayerDescriptor;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
 }) {
   const map = useMap();
   const [collection, setCollection] =
@@ -439,13 +441,14 @@ function ArcGISFeatureLayer({
       pointToLayer={(_feature, latlng) =>
         L.circleMarker(latlng, {
           radius: layer.id === "abandoned-mines" ? 6 : 5,
-          color: "#ffffff",
-          fillColor: layer.markerColor,
-          fillOpacity: layer.opacity,
+          color: renderMode === "print" ? "#111111" : "#ffffff",
+          fillColor: renderMode === "print" ? "#e8e8e8" : layer.markerColor,
+          fillOpacity: renderMode === "print" ? 0.8 : layer.opacity,
           weight: 1.5,
         })
       }
-      onEachFeature={(feature, featureLayer) => {
+      interactive={renderMode !== "print"}
+      onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         featureLayer.bindTooltip(
           resourceFeatureLabel(
             layer.id,
@@ -461,9 +464,11 @@ function ArcGISFeatureLayer({
 function HydroPilotLayer({
   visible,
   onStatusChange,
+  renderMode,
 }: {
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
 }) {
   const [collection, setCollection] =
     useState<InvernessHydroPotentialCollection | null>(null);
@@ -512,9 +517,12 @@ function HydroPilotLayer({
       data={collection}
       style={(feature) => {
         const properties = feature?.properties as InvernessHydroPotentialProperties;
-        return hydroLineStyle(properties);
+        return renderMode === "print"
+          ? { color: "#222222", opacity: 0.9, weight: 2.5 }
+          : hydroLineStyle(properties);
       }}
-      onEachFeature={(feature, featureLayer) => {
+      interactive={renderMode !== "print"}
+      onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         const properties = feature.properties as InvernessHydroPotentialProperties;
         const potentialLabel = hydroPotentialLabel(properties.potentialClass);
         featureLayer.on("click", (event) => {
@@ -1170,6 +1178,7 @@ export function MapCanvas({
             visible={resourceLayers["mineral-proximity-parcels"]}
             onSelectPid={onSelectPid}
             onStatusChange={reportMineralProximityStatus}
+            renderMode={renderMode}
           />
         </Pane>
         <Pane
@@ -1206,6 +1215,7 @@ export function MapCanvas({
             key={layer.id}
             visible={hydroPilotLayers[layer.id]}
             onStatusChange={reportLayerStatus}
+            renderMode={renderMode}
           />
         ))}
         {resourceLayerCatalog
@@ -1219,6 +1229,7 @@ export function MapCanvas({
               layer={layer}
               visible={resourceLayers[layer.id]}
               onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
             />
           ))}
         {!isPrintMode && userLocation ? (

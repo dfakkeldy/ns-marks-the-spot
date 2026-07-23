@@ -5,17 +5,27 @@ import { MINERAL_PROXIMITY_MIN_ZOOM, fetchMineralProximityParcels } from "../ser
 import type { NsprdFeatureCollection } from "../services/nsprd";
 import type { MapLayerStatus } from "./MapCanvas";
 import { MINERAL_PROXIMITY_PANE } from "./mapPanes";
+import type { MapRenderMode } from "./parcelStyle";
 
 type MineralProximityParcelLayerProps = {
   visible: boolean;
   onSelectPid: (pid: string) => void;
   onStatusChange?: (status: MapLayerStatus) => void;
+  renderMode?: MapRenderMode;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components -- exported map style is part of this layer's public surface.
 export const mineralProximityParcelStyle: PathOptions = {
   color: "#72520f",
   fillColor: "#f1c453",
+  fillOpacity: 0.28,
+  weight: 2,
+  dashArray: "5 3",
+};
+
+const printMineralProximityParcelStyle: PathOptions = {
+  color: "#222222",
+  fillColor: "#e6e6e6",
   fillOpacity: 0.28,
   weight: 2,
   dashArray: "5 3",
@@ -30,6 +40,7 @@ export function MineralProximityParcelLayer({
   visible,
   onSelectPid,
   onStatusChange,
+  renderMode = "interactive",
 }: MineralProximityParcelLayerProps) {
   const map = useMap();
   const [collection, setCollection] =
@@ -115,8 +126,13 @@ export function MineralProximityParcelLayer({
       key={collection.features.map(({ properties }) => properties.PID).join(",")}
       data={collection}
       pane={MINERAL_PROXIMITY_PANE}
-      style={mineralProximityParcelStyle}
-      onEachFeature={(feature, featureLayer) => {
+      style={
+        renderMode === "print"
+          ? printMineralProximityParcelStyle
+          : mineralProximityParcelStyle
+      }
+      interactive={renderMode !== "print"}
+      onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         const pid = feature.properties.PID;
         featureLayer.bindTooltip(
           `PID ${pid} · within 1 km of a published mineral occurrence`,

@@ -42,6 +42,14 @@ const mapContainerProps = vi.hoisted(() => ({
   current: undefined as Record<string, unknown> | undefined,
 }));
 
+const geoJsonProps = vi.hoisted(() => ({
+  calls: [] as Array<Record<string, unknown>>,
+}));
+
+const mineralLayerProps = vi.hoisted(() => ({
+  current: undefined as Record<string, unknown> | undefined,
+}));
+
 const mineralLayerEffectStarts = vi.hoisted(() => vi.fn());
 
 vi.mock("react-leaflet", () => ({
@@ -78,7 +86,10 @@ vi.mock("react-leaflet", () => ({
       }
     />
   ),
-  GeoJSON: () => <div data-testid="parcel-overlay" />,
+  GeoJSON: (props: Record<string, unknown>) => {
+    geoJsonProps.calls.push(props);
+    return <div data-testid="parcel-overlay" />;
+  },
   MapContainer: ({
     children,
     ref,
@@ -128,6 +139,7 @@ vi.mock("./MineralProximityParcelLayer", () => ({
     visible,
     onSelectPid,
     onStatusChange,
+    ...props
   }: {
     visible: boolean;
     onSelectPid: (pid: string) => void;
@@ -135,6 +147,7 @@ vi.mock("./MineralProximityParcelLayer", () => ({
       status: { status: "loading" } | { status: "ready"; count: number },
     ) => void;
   }) => {
+    mineralLayerProps.current = { visible, onSelectPid, onStatusChange, ...props };
     useEffect(() => {
       if (visible) {
         mineralLayerEffectStarts();
@@ -176,6 +189,8 @@ afterEach(() => {
     getNorth: () => 47,
   });
   mapContainerProps.current = undefined;
+  geoJsonProps.calls.length = 0;
+  mineralLayerProps.current = undefined;
 });
 
 describe("MapCanvas browser location", () => {
@@ -1418,5 +1433,72 @@ describe("MapCanvas print mode", () => {
       [[46.3, -61.2], [46.4, -61.1]],
       { padding: [24, 24], maxZoom: 18, animate: false },
     );
+  });
+
+  it("renders feature and hydro overlays as monochrome display-only print layers", async () => {
+    mapMock.getZoom.mockReturnValue(12);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={{
+          ...hiddenResourceLayers,
+          "mineral-occurrences": true,
+          "mineral-proximity-parcels": true,
+        }}
+        hydroPilotLayers={{ "inverness-hydro-potential": true }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+      />,
+    );
+
+    await waitFor(() =>
+      expect(geoJsonProps.calls.some((props) => props.pointToLayer)).toBe(true),
+    );
+    const featureLayer = geoJsonProps.calls.find((props) => props.pointToLayer);
+    const marker = (featureLayer?.pointToLayer as (
+      feature: unknown,
+      latlng: [number, number],
+    ) => { options: Record<string, unknown> })({}, [46.1, -61.2]);
+    expect(featureLayer).toMatchObject({ interactive: false, onEachFeature: undefined });
+    expect(marker.options).toMatchObject({
+      color: "#111111",
+      fillColor: "#e8e8e8",
+    });
+    await waitFor(() =>
+      expect(geoJsonProps.calls.some((props) =>
+        Boolean((props.data as { metadata?: unknown })?.metadata),
+      )).toBe(true),
+    );
+    const hydroLayer = geoJsonProps.calls.find(
+      (props) => Boolean((props.data as { metadata?: unknown })?.metadata),
+    );
+    expect(hydroLayer).toMatchObject({ interactive: false, onEachFeature: undefined });
+    expect(
+      (hydroLayer?.style as (feature: unknown) => Record<string, unknown>)({
+        properties: { upstreamAreaKm2: 10, potentialClass: "kw-15-30" },
+      }),
+    ).toMatchObject({ color: "#222222", opacity: 0.9 });
+    expect(mineralLayerProps.current).toMatchObject({
+      visible: true,
+      renderMode: "print",
+    });
   });
 });

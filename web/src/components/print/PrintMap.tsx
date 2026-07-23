@@ -3,7 +3,7 @@ import {
   floodHazardLayerCatalog,
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
-  resourceLayerCatalog,
+  allResourceLayerCatalog,
   type FloodHazardLayerId,
   type HydroPilotLayerId,
   type ProvinceLayerId,
@@ -45,7 +45,7 @@ function provinceVisibilityFor(layerIds: readonly ShareLayerId[]) {
 }
 
 function resourceVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ResourceLayerId>(resourceLayerCatalog, layerIds);
+  return visibilityFor<ResourceLayerId>(allResourceLayerCatalog, layerIds);
 }
 
 function hydroVisibilityFor(layerIds: readonly ShareLayerId[]) {

@@ -99,4 +99,31 @@ describe("PrintMap", () => {
       mapCanvasProps.current?.onSelectPid,
     );
   });
+
+  it("renders and tracks a captured derived mineral-proximity layer", () => {
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{
+          ...snapshot,
+          layerIds: ["mineral-proximity-parcels"],
+        } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(
+      (mapCanvasProps.current?.resourceLayers as Record<string, boolean>)[
+        "mineral-proximity-parcels"
+      ],
+    ).toBe(true);
+    act(() => reportLayerStatus("mineral-proximity-parcels", { status: "ready", count: 1 }));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready",
+      belowZoomLayerIds: [],
+    });
+  });
 });
