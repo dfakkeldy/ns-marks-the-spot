@@ -6,6 +6,7 @@ import {
   GeoJSON,
   MapContainer,
   Pane,
+  ScaleControl,
   TileLayer,
   useMap,
   useMapEvents,
@@ -763,6 +764,48 @@ function MapSizeController() {
   return null;
 }
 
+function PositionReadout() {
+  const map = useMap();
+  const [position, setPosition] = useState(() => ({
+    center: map.getCenter(),
+    zoom: map.getZoom(),
+  }));
+  const [copied, setCopied] = useState(false);
+  useMapEvents({
+    moveend: () =>
+      setPosition({ center: map.getCenter(), zoom: map.getZoom() }),
+    zoomend: () =>
+      setPosition({ center: map.getCenter(), zoom: map.getZoom() }),
+  });
+
+  useEffect(() => {
+    if (!copied) {
+      return;
+    }
+    const timer = window.setTimeout(() => setCopied(false), 2_000);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  const coordinates = `${position.center.lat.toFixed(5)}, ${position.center.lng.toFixed(5)}`;
+  return (
+    <button
+      type="button"
+      className="position-readout"
+      aria-label="Copy map centre coordinates"
+      onClick={() => {
+        if (navigator.clipboard?.writeText) {
+          void navigator.clipboard.writeText(coordinates).then(
+            () => setCopied(true),
+            () => setCopied(false),
+          );
+        }
+      }}
+    >
+      {copied ? "Copied" : `Z ${position.zoom} · ${coordinates}`}
+    </button>
+  );
+}
+
 function TaxSaleOverviewMarkers({
   parcels,
   taxSalePids,
@@ -948,6 +991,8 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
+        <ScaleControl position="bottomleft" />
+        <PositionReadout />
         {showModernMap ? (
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -11,6 +11,7 @@ const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
   getZoom: vi.fn(() => 9),
+  getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
   getBounds: vi.fn(() => ({
     getWest: () => -62,
     getSouth: () => 45,
@@ -77,6 +78,9 @@ vi.mock("react-leaflet", () => ({
     <div data-testid={`pane-${name}`} style={style}>
       {children}
     </div>
+  ),
+  ScaleControl: ({ position }: { position: string }) => (
+    <div data-testid="scale-control" data-position={position} />
   ),
   TileLayer: () => null,
   useMap: () => mapMock,
@@ -593,6 +597,63 @@ describe("MapCanvas overview markers", () => {
     );
 
     expect(screen.queryAllByTestId("location-position")).toHaveLength(0);
+  });
+});
+
+describe("MapCanvas cartographic furniture", () => {
+  const furnitureProps = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: true,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": true,
+      roads: true,
+      buildings: false,
+      contours: false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: true,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(9);
+    mapMock.getCenter.mockReturnValue({ lat: 46.21351, lng: -61.09131 });
+  });
+
+  it("shows a bottom-left scale bar", () => {
+    render(<MapCanvas {...furnitureProps} />);
+
+    expect(screen.getByTestId("scale-control")).toHaveAttribute(
+      "data-position",
+      "bottomleft",
+    );
+  });
+
+  it("shows a copyable centre/zoom readout", async () => {
+    const user = userEvent.setup();
+    render(<MapCanvas {...furnitureProps} />);
+
+    const readout = screen.getByRole("button", {
+      name: "Copy map centre coordinates",
+    });
+    expect(readout).toHaveTextContent("Z 9 · 46.21351, -61.09131");
+
+    await user.click(readout);
+    expect(readout).toHaveTextContent("Copied");
+    expect(await window.navigator.clipboard.readText()).toBe(
+      "46.21351, -61.09131",
+    );
   });
 });
 
