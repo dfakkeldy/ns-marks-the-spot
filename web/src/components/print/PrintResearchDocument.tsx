@@ -1,11 +1,15 @@
 import type { ReactNode } from "react";
 import type { PrintQrResult } from "../../services/printQr";
 import {
-  printedLayerIds,
   type PrintLayerSource,
   type PrintScale,
   type PrintSnapshot,
 } from "../../services/printSnapshot";
+import type { ShareLayerId } from "../../services/mapShareState";
+import {
+  reportedEvidenceAttributions,
+  type PrintEvidenceAttribution,
+} from "../../services/printEvidenceAttribution";
 import { PrintEvidenceAppendix } from "./PrintEvidenceAppendix";
 
 export function PrintReceipt({
@@ -60,7 +64,10 @@ export function PrintHeader({ snapshot, title }: {
         <p className="print-kicker">NS Marks The Spot</p>
         <h1>{title}</h1>
       </div>
-      <p>PID {snapshot.pid}</p>
+      <div className="print-header-receipt">
+        <p>PID {snapshot.pid}</p>
+        <p>Generated: {snapshot.generatedAt}</p>
+      </div>
     </header>
   );
 }
@@ -95,24 +102,33 @@ export function ApproximateScale({ scale }: { scale: PrintScale }) {
   );
 }
 
-export function RequiredAttribution({ snapshot }: { snapshot: PrintSnapshot }) {
-  if (!snapshot.licenceAccepted) return null;
+export function RequiredAttribution({
+  mapSources,
+  evidenceSources,
+}: {
+  mapSources: readonly PrintLayerSource[];
+  evidenceSources: readonly PrintEvidenceAttribution[];
+}) {
+  const sources = [
+    ...mapSources.map((source) => ({ ...source, label: source.name })),
+    ...evidenceSources,
+  ];
   const attributions = [...new Set(
-    snapshot.layerSources.map(({ attribution }) => attribution).filter(Boolean),
+    sources.map(({ attribution }) => attribution).filter(Boolean),
   )];
-  const licenceUrls = [...new Set(
-    snapshot.layerSources.map(({ licenceUrl }) => licenceUrl).filter(Boolean),
-  )];
-  if (attributions.length === 0 && licenceUrls.length === 0) return null;
+  if (attributions.length === 0) return null;
 
   return (
     <section className="print-required-attribution" aria-label="Source attribution and licences">
       {attributions.map((attribution) => <p key={attribution}>{attribution}</p>)}
-      {licenceUrls.map((licenceUrl) => (
-        <p key={licenceUrl}>
-          <a href={licenceUrl}>Licence terms for rendered map data</a>
-        </p>
-      ))}
+      <ul className="print-attribution-links">
+        {sources.map((source) => (
+          <li key={source.id}>
+            <a href={source.sourceUrl}>{source.label} source</a>
+            {source.licenceUrl ? <a href={source.licenceUrl}>{source.label} licence</a> : null}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -174,6 +190,27 @@ export function PrintScaleOmission({
   ) : null;
 }
 
+export function PrintMapFailure({
+  sources,
+  failedLayerIds,
+}: {
+  sources: readonly PrintLayerSource[];
+  failedLayerIds: readonly string[];
+}) {
+  const names = failedLayerIds.map((id) =>
+    sources.find((source) => source.id === id)?.name ?? id,
+  );
+  return names.length > 0 ? (
+    <p className="print-map-failure">Map rendering incomplete: {names.join(", ")} source failed at export time.</p>
+  ) : null;
+}
+
+export function PrintCaptureContext({ snapshot }: { snapshot: PrintSnapshot }) {
+  const events = snapshot.events.map((event) => `${event.name}: ${event.status}`).join(" · ");
+  const mode = snapshot.mode === "historical" ? "Historical map state" : "Current map state";
+  return <p className="print-capture-context">{mode}{events ? ` · ${events}` : ""}</p>;
+}
+
 export function PrintResearchDocument({
   snapshot,
   map,
@@ -182,7 +219,9 @@ export function PrintResearchDocument({
   scale,
   shareUrl,
   qr,
+  renderedLayerIds,
   belowZoomLayerIds,
+  failedLayerIds,
 }: {
   snapshot: PrintSnapshot;
   map: ReactNode;
@@ -191,23 +230,28 @@ export function PrintResearchDocument({
   scale: PrintScale;
   shareUrl: string;
   qr: PrintQrResult;
+  renderedLayerIds: readonly ShareLayerId[];
   belowZoomLayerIds: readonly string[];
+  failedLayerIds: readonly string[];
 }) {
   const renderedSources = snapshot.layerSources.filter(({ id }) =>
-    printedLayerIds([...snapshot.layerIds], includeAerial).includes(id),
+    renderedLayerIds.includes(id) && (includeAerial || id !== "ns-aerial"),
   );
+  const evidenceSources = reportedEvidenceAttributions(snapshot);
   return (
     <article className="print-document print-research-document">
       <PrintPatternDefinitions />
       <section className="print-page print-research-summary">
         <PrintHeader snapshot={snapshot} title="Parcel research summary" />
+        <PrintCaptureContext snapshot={snapshot} />
         <div className="print-research-map-frame">{map}</div>
         <ResearchFactGrid snapshot={snapshot} />
         <EvidenceStatusGrid snapshot={snapshot} />
         <ActiveLayerLegend sources={renderedSources} />
         <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
+        <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
         <ApproximateScale scale={scale} />
-        <RequiredAttribution snapshot={snapshot} />
+        <RequiredAttribution mapSources={renderedSources} evidenceSources={evidenceSources} />
         <p className="print-general-limitations">
           <strong>Screening evidence only.</strong> Not a survey, title opinion, access conclusion, appraisal, or proof of absence.
         </p>

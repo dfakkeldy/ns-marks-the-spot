@@ -1,10 +1,13 @@
 import type { ReactNode } from "react";
 import type { PrintQrResult } from "../../services/printQr";
-import { printedLayerIds, type PrintScale, type PrintSnapshot } from "../../services/printSnapshot";
+import type { ShareLayerId } from "../../services/mapShareState";
+import { type PrintScale, type PrintSnapshot } from "../../services/printSnapshot";
 import {
   ActiveLayerLegend,
   ApproximateScale,
+  PrintCaptureContext,
   PrintHeader,
+  PrintMapFailure,
   PrintPatternDefinitions,
   PrintReceipt,
   PrintScaleOmission,
@@ -18,7 +21,9 @@ export function PrintFieldDocument({
   scale,
   shareUrl,
   qr,
+  renderedLayerIds,
   belowZoomLayerIds,
+  failedLayerIds,
 }: {
   snapshot: PrintSnapshot;
   map: ReactNode;
@@ -26,23 +31,29 @@ export function PrintFieldDocument({
   scale: PrintScale;
   shareUrl: string;
   qr: PrintQrResult;
+  renderedLayerIds: readonly ShareLayerId[];
   belowZoomLayerIds: readonly string[];
+  failedLayerIds: readonly string[];
 }) {
   const renderedSources = snapshot.layerSources.filter(({ id }) =>
-    printedLayerIds([...snapshot.layerIds], includeAerial).includes(id),
+    renderedLayerIds.includes(id) && (includeAerial || id !== "ns-aerial"),
   );
-  const events = snapshot.events.map((event) => `${event.name}: ${event.status}`).join(" · ");
   return (
     <article className="print-document print-field-document">
       <PrintPatternDefinitions />
       <section className="print-page print-field-page">
         <PrintHeader snapshot={snapshot} title="Parcel field sheet" />
-        <p className="print-field-mode">{snapshot.mode === "historical" ? "Historical map state" : "Current map state"}{events ? ` · ${events}` : ""}</p>
+        <PrintCaptureContext snapshot={snapshot} />
         <div className="print-field-map-frame">{map}</div>
-        <ActiveLayerLegend sources={renderedSources} />
-        <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
-        <ApproximateScale scale={scale} />
-        <RequiredAttribution snapshot={snapshot} />
+        <div className="print-field-support">
+          <ActiveLayerLegend sources={renderedSources} />
+          <div className="print-field-details">
+            <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
+            <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
+            <ApproximateScale scale={scale} />
+            <RequiredAttribution mapSources={renderedSources} evidenceSources={[]} />
+          </div>
+        </div>
         <p className="print-general-limitations">Field reference only. Confirm access, conditions, boundaries, and permissions on site and from authoritative sources.</p>
         <PrintReceipt shareUrl={shareUrl} qr={qr} />
       </section>

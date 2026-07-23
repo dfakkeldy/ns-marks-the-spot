@@ -1,5 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import {
+  OPEN_GOVERNMENT_ATTRIBUTION,
+  OPEN_GOVERNMENT_LICENCE_URL,
+} from "../../services/civicAddresses";
+import { PVSC_OPEN_DATA_ATTRIBUTION } from "../../services/pvscAssessments";
 import { PROVINCE_ATTRIBUTION } from "../../licensing/provinceLicense";
 import type { PrintSnapshot } from "../../services/printSnapshot";
 import { PrintFieldDocument } from "./PrintFieldDocument";
@@ -92,13 +97,20 @@ describe("print documents", () => {
         scale={scale}
         shareUrl={shareUrl}
         qr={qr}
+        renderedLayerIds={["nsprd"]}
         belowZoomLayerIds={[]}
+        failedLayerIds={[]}
       />,
     );
 
     expect(screen.getByText("PID 01234567")).toBeInTheDocument();
     expect(screen.getByText("Mapped buildings")).toBeInTheDocument();
+    expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
+    expect(screen.getByText("Current map state · Inverness County tax sale: Listed in official notice")).toBeInTheDocument();
     expect(screen.getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getByText(PVSC_OPEN_DATA_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Civic address evidence licence" })).toHaveAttribute("href", OPEN_GOVERNMENT_LICENCE_URL);
     expect(screen.getByText("Screening evidence only.")).toBeInTheDocument();
     expect(screen.queryByText(/browser location/iu)).not.toBeInTheDocument();
   });
@@ -123,7 +135,9 @@ describe("print documents", () => {
         scale={scale}
         shareUrl={shareUrl}
         qr={qr}
+        renderedLayerIds={["nsprd"]}
         belowZoomLayerIds={[]}
+        failedLayerIds={[]}
       />,
     );
 
@@ -132,7 +146,7 @@ describe("print documents", () => {
     expect(screen.getByText("Source unavailable at export time.")).toBeInTheDocument();
   });
 
-  it("keeps the field sheet to the map, active layers, scale, receipt, and concise limits", () => {
+  it("keeps the field sheet to one bounded page with only rendered layers and concise limits", () => {
     render(
       <PrintFieldDocument
         snapshot={snapshot({ template: "field" })}
@@ -141,16 +155,28 @@ describe("print documents", () => {
         scale={scale}
         shareUrl={shareUrl}
         qr={qr}
+        renderedLayerIds={["nsprd"]}
         belowZoomLayerIds={["buildings"]}
+        failedLayerIds={["roads"]}
       />,
     );
 
     expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     expect(screen.getByText("Active map layers")).toBeInTheDocument();
+    expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
+    expect(screen.getByText("Current map state · Inverness County tax sale: Listed in official notice")).toBeInTheDocument();
     expect(screen.getByText("Approximate scale")).toBeInTheDocument();
     expect(screen.getByText(shareUrl)).toBeInTheDocument();
     expect(screen.getByText("QR unavailable")).toBeInTheDocument();
     expect(screen.getByText(/Not rendered at this print scale: Buildings\./)).toBeInTheDocument();
+    expect(screen.getByText(/Map rendering incomplete: Roads, trails & culverts source failed at export time\./)).toBeInTheDocument();
+    const legend = screen.getByLabelText("Active map layers");
+    expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
+    expect(within(legend).queryByText("Buildings")).not.toBeInTheDocument();
+    expect(within(legend).queryByText("Roads, trails & culverts")).not.toBeInTheDocument();
+    expect(screen.getAllByText(PROVINCE_ATTRIBUTION)).toHaveLength(1);
+    expect(screen.getAllByRole("region", { name: /Source attribution and licences/i })).toHaveLength(1);
+    expect(document.querySelectorAll(".print-field-page")).toHaveLength(1);
     expect(screen.queryByText(/Assessment accounts/iu)).not.toBeInTheDocument();
     expect(screen.queryByText(/Evidence appendix/iu)).not.toBeInTheDocument();
   });

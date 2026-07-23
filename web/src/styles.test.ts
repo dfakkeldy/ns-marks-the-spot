@@ -133,4 +133,15 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/\.print-document--inactive\s*{[^}]*display:\s*none/s);
     expect(styles).toMatch(/font-size:\s*9pt/);
   });
+
+  it("keeps the landscape field contract bounded and printable metadata at 9pt or larger", () => {
+    const printStyles = styles.slice(styles.indexOf(".print-preview"));
+    const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
+
+    expect(fieldPage).toMatch(/height:\s*195\.9mm/);
+    expect(fieldPage).toMatch(/display:\s*grid/);
+    expect(styles).toMatch(/\.print-field-support\s*\{/);
+    expect(styles).toMatch(/grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+    expect(printStyles).not.toMatch(/font-size:\s*[0-8](?:\.\d+)?pt/);
+  });
 });
