@@ -38,6 +38,10 @@ const mapEventHandlers = vi.hoisted(() => ({
     | undefined,
 }));
 
+const mapContainerProps = vi.hoisted(() => ({
+  current: undefined as Record<string, unknown> | undefined,
+}));
+
 const mineralLayerEffectStarts = vi.hoisted(() => vi.fn());
 
 vi.mock("react-leaflet", () => ({
@@ -78,9 +82,11 @@ vi.mock("react-leaflet", () => ({
   MapContainer: ({
     children,
     ref,
+    ...props
   }: PropsWithChildren<{
     ref?: (map: typeof mapMock | null) => void;
   }>) => {
+    mapContainerProps.current = props;
     useEffect(() => {
       ref?.(mapMock);
       return () => ref?.(null);
@@ -99,7 +105,9 @@ vi.mock("react-leaflet", () => ({
   ScaleControl: ({ position }: { position: string }) => (
     <div data-testid="scale-control" data-position={position} />
   ),
-  TileLayer: () => null,
+  TileLayer: (props: { className?: string }) => (
+    <div data-testid="tile-layer" data-class-name={props.className} />
+  ),
   useMap: () => mapMock,
   useMapEvents: (handlers: typeof mapEventHandlers) => {
     mapEventHandlers.click = handlers.click;
@@ -167,6 +175,7 @@ afterEach(() => {
     getEast: () => -60,
     getNorth: () => 47,
   });
+  mapContainerProps.current = undefined;
 });
 
 describe("MapCanvas browser location", () => {
@@ -276,6 +285,41 @@ describe("MapCanvas browser location", () => {
       screen.queryByText("Your location is shown on the map."),
     ).not.toBeInTheDocument();
     expect(screen.getByTestId("location-position")).toBeInTheDocument();
+  });
+
+  it("does not carry an interactive location marker into print mode", async () => {
+    const user = userEvent.setup();
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: null,
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+        buildings: false,
+        contours: false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+    };
+    const { rerender } = render(<MapCanvas {...props} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(await screen.findByTestId("location-position")).toBeInTheDocument();
+
+    rerender(<MapCanvas {...props} renderMode="print" />);
+
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
   });
 });
 
@@ -1287,5 +1331,92 @@ describe("MapCanvas parcel styling", () => {
         },
       ).fillOpacity,
     ).toBe(0.3);
+  });
+
+  it("uses deterministic monochrome parcel styles for print maps", () => {
+    const context = {
+      selectedPid: "15234636",
+      taxSalePids: new Set<string>(),
+      showTaxSale: false,
+      historicalTaxSalePids: new Set(["15161631"]),
+      showHistoricalTaxSales: true,
+    };
+
+    expect(parcelStyleForFeature(selectedFeature, context, "print")).toMatchObject({
+      color: "#000000",
+      fillColor: "#d8d8d8",
+      fillOpacity: 0.45,
+      weight: 4,
+      className: "print-selected-parcel",
+    });
+    expect(
+      parcelStyleForFeature(
+        { ...selectedFeature, properties: { PID: "15161631" } },
+        context,
+        "print",
+      ),
+    ).toMatchObject({ color: "#333333", dashArray: "7 4" });
+  });
+});
+
+describe("MapCanvas print mode", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapEventHandlers.click = undefined;
+  });
+
+  it("disables interaction, location, and identify while fitting printable bounds", () => {
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": true,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+        fitBounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+      />,
+    );
+
+    expect(mapContainerProps.current).toMatchObject({
+      zoomControl: false,
+      dragging: false,
+      touchZoom: false,
+      doubleClickZoom: false,
+      scrollWheelZoom: false,
+      boxZoom: false,
+      keyboard: false,
+    });
+    expect(screen.queryByRole("button", { name: "Use my location" })).toBeNull();
+    expect(mapEventHandlers.click).toBeUndefined();
+    expect(screen.getByTestId("tile-layer")).toHaveAttribute(
+      "data-class-name",
+      "print-layer-modern",
+    );
+    expect(
+      mapMock.addLayer.mock.calls.some(
+        ([layer]) => layer.options.className === "print-layer-ns-aerial",
+      ),
+    ).toBe(true);
+    expect(mapMock.fitBounds).toHaveBeenCalledWith(
+      [[46.3, -61.2], [46.4, -61.1]],
+      { padding: [24, 24], maxZoom: 18, animate: false },
+    );
   });
 });

@@ -2259,3 +2259,29 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+.print-map {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #222;
+}
+
+.print-map .leaflet-tile {
+  filter: grayscale(1) contrast(1.18);
+}
+
+.print-map .print-layer-ns-aerial {
+  filter: grayscale(1) contrast(1.35) brightness(1.08);
+}
+
+.print-selected-parcel {
+  fill: url("#print-selected-parcel-hatch");
+}
+
+.print-map .leaflet-control-container,
+.print-map .location-button,
+.print-map .location-message {
+  display: none;
+}
