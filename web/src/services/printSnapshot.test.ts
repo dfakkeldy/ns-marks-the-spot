@@ -259,11 +259,33 @@ describe("print map derivation", () => {
     expect(printBoundsForTemplate(capture, "field")).toEqual(capture.viewport.bounds);
   });
 
+  it("derives bounds from a sealed snapshot without a cast", () => {
+    const snapshot = sealPrintSnapshot(
+      startPrintCapture(base, pendingEvidence),
+      "field",
+      { timedOut: false, generatedAt: "2026-07-23T13:42:15.000Z" },
+    );
+
+    expect(printBoundsForTemplate(snapshot, "research")).toEqual({
+      north: 46.4,
+      east: -61.1,
+      south: 46.3,
+      west: -61.2,
+    });
+  });
+
   it("removes aerial from printed layers unless explicitly included", () => {
     expect(printedLayerIds(
       ["modern", "ns-aerial", "nsprd", "roads"],
       false,
     )).toEqual(["modern", "nsprd", "roads"]);
+  });
+
+  it("keeps aerial in printed layers when explicitly included", () => {
+    expect(printedLayerIds(
+      ["modern", "ns-aerial", "nsprd", "roads"],
+      true,
+    )).toEqual(["modern", "ns-aerial", "nsprd", "roads"]);
   });
 
   it("uses a stable scale bar for a printed map position", () => {

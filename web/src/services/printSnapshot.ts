@@ -126,7 +126,7 @@ function deepFreeze<T>(
 }
 
 export function boundsForParcelGeometry(
-  collection: NsprdFeatureCollection,
+  collection: DeepReadonly<NsprdFeatureCollection>,
 ): PrintMapBounds {
   const coordinates: Array<[number, number]> = [];
   const visit = (value: unknown): void => {
@@ -143,7 +143,7 @@ export function boundsForParcelGeometry(
       value.forEach(visit);
     }
   };
-  const visitGeometry = (geometry: GeoJSON.Geometry): void => {
+  const visitGeometry = (geometry: DeepReadonly<GeoJSON.Geometry>): void => {
     if (geometry.type === "GeometryCollection") {
       geometry.geometries.forEach(visitGeometry);
       return;
@@ -164,12 +164,15 @@ export function boundsForParcelGeometry(
 }
 
 export function printBoundsForTemplate(
-  capture: PrintCapture,
+  capture: Pick<
+    DeepReadonly<PrintCapture>,
+    "selectedParcelGeometry" | "viewport"
+  >,
   template: PrintTemplate,
 ): PrintMapBounds {
   return template === "research"
     ? boundsForParcelGeometry(capture.selectedParcelGeometry)
-    : capture.viewport.bounds;
+    : { ...capture.viewport.bounds };
 }
 
 export function printedLayerIds(
