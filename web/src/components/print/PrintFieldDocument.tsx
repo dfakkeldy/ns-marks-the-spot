@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { PrintQrResult } from "../../services/printQr";
 import type { ShareLayerId } from "../../services/mapShareState";
 import { type PrintScale, type PrintSnapshot } from "../../services/printSnapshot";
+import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import {
   ActiveLayerLegend,
   ApproximateScale,
@@ -35,9 +36,7 @@ export function PrintFieldDocument({
   belowZoomLayerIds: readonly string[];
   failedLayerIds: readonly string[];
 }) {
-  const renderedSources = snapshot.layerSources.filter(({ id }) =>
-    renderedLayerIds.includes(id) && (includeAerial || id !== "ns-aerial"),
-  );
+  const renderedSources = renderedPrintLayerSources(snapshot, renderedLayerIds, includeAerial);
   return (
     <article className="print-document print-field-document">
       <PrintPatternDefinitions />

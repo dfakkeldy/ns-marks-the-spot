@@ -144,4 +144,16 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
     expect(printStyles).not.toMatch(/font-size:\s*[0-8](?:\.\d+)?pt/);
   });
+
+  it("fixes the research summary and field sheets to bounded Letter page grids", () => {
+    const researchPage = styles.match(/\.print-research-summary\s*\{([^}]*)\}/)?.[1];
+    const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
+
+    expect(researchPage).toMatch(/height:\s*259\.4mm/);
+    expect(researchPage).toMatch(/display:\s*grid/);
+    expect(researchPage).toMatch(/grid-template-rows:/);
+    expect(fieldPage).toMatch(/grid-template-rows:/);
+    expect(styles).toMatch(/\.print-research-support\s*\{/);
+    expect(styles).toMatch(/\.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
+  });
 });

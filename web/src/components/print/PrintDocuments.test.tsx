@@ -13,6 +13,13 @@ import { PrintResearchDocument } from "./PrintResearchDocument";
 const shareUrl = "https://example.test/map/?pid=01234567";
 const scale = { label: "200 m", metres: 200, pixels: 80 };
 const qr = { status: "error" as const };
+const allLayerIds = [
+  "modern", "ns-aerial", "nsprd", "crown-lands", "flood-risk", "waterfalls",
+  "water-features", "roads", "buildings", "contours", "mineral-occurrences",
+  "mineral-tenure", "abandoned-mines", "mineral-proximity-parcels",
+  "inverness-hydro-potential", "published-river-flood-zones",
+  "coastal-flood-current", "coastal-flood-2050", "coastal-flood-2100",
+] as const;
 
 function snapshot(overrides: Record<string, unknown> = {}) {
   return {
@@ -105,14 +112,104 @@ describe("print documents", () => {
 
     expect(screen.getByText("PID 01234567")).toBeInTheDocument();
     expect(screen.getByText("Mapped buildings")).toBeInTheDocument();
+    expect(screen.getByText("Assessment: 0 accounts captured")).toBeInTheDocument();
     expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
-    expect(screen.getByText("Current map state · Inverness County tax sale: Listed in official notice")).toBeInTheDocument();
+    expect(document.querySelector(".print-capture-context")).toHaveTextContent("Current map stateInverness County tax sale: Listed in official notice");
     expect(screen.getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument();
     expect(screen.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
     expect(screen.getByText(PVSC_OPEN_DATA_ATTRIBUTION)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Civic address evidence licence" })).toHaveAttribute("href", OPEN_GOVERNMENT_LICENCE_URL);
     expect(screen.getByText("Screening evidence only.")).toBeInTheDocument();
     expect(screen.queryByText(/browser location/iu)).not.toBeInTheDocument();
+  });
+
+  it("shows PVSC and open-data attribution only for visibly reported ready evidence", () => {
+    const unavailableEvidence = {
+      ...snapshot().evidence,
+      assessments: { status: "error", message: "offline" },
+      civicAddresses: { status: "error", message: "offline" },
+      resources: { status: "error", message: "offline" },
+    };
+    const { rerender } = render(
+      <PrintResearchDocument
+        snapshot={snapshot({ evidence: unavailableEvidence })}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getByText("Assessment: unavailable")).toBeInTheDocument();
+    expect(screen.queryByText(PVSC_OPEN_DATA_ATTRIBUTION)).not.toBeInTheDocument();
+    expect(screen.queryByText(OPEN_GOVERNMENT_ATTRIBUTION)).not.toBeInTheDocument();
+
+    rerender(
+      <PrintResearchDocument
+        snapshot={snapshot()}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getByText("Assessment: 0 accounts captured")).toBeInTheDocument();
+    expect(screen.getByText(PVSC_OPEN_DATA_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+  });
+
+  it("keeps worst-case controlled layers, events, and receipt on one compact page without duplicates", () => {
+    const allSources = allLayerIds.map((id) => ({
+      id,
+      name: `Layer ${id}`,
+      sourceUrl: `https://example.test/${id}`,
+      sourceDate: "Checked July 23, 2026",
+      attribution: `Attribution ${id}`,
+      licenceUrl: `https://example.test/${id}/licence`,
+    }));
+    const eventIds = Array.from({ length: 8 }, (_, index) => `event-${index + 1}`);
+    const events = [...eventIds, "unselected-event"].map((id) => ({
+      name: `Controlled event ${id}`,
+      status: "Listed",
+      facts: [],
+      sources: [],
+      limitation: "Verify the official notice.",
+    }));
+    const longReceipt = `https://example.test/map/?${new URLSearchParams({
+      layers: allLayerIds.join(","), event: eventIds.join(","), receipt: "x".repeat(240),
+    })}`;
+
+    render(
+      <PrintFieldDocument
+        snapshot={snapshot({ layerIds: allLayerIds, layerSources: [...allSources, allSources[0]], eventIds, events, template: "field" })}
+        map={map}
+        includeAerial
+        scale={scale}
+        shareUrl={longReceipt}
+        qr={qr}
+        renderedLayerIds={[...allLayerIds, "nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(document.querySelectorAll(".print-field-page")).toHaveLength(1);
+    expect(screen.getByText("Layer nsprd")).toBeInTheDocument();
+    expect(screen.getAllByText("Layer nsprd")).toHaveLength(1);
+    expect(document.querySelector(".print-capture-context")).toHaveTextContent("Controlled event event-8: Listed");
+    expect(document.querySelector(".print-capture-context")).not.toHaveTextContent("Controlled event unselected-event: Listed");
+    expect(screen.getByText(longReceipt)).toBeInTheDocument();
   });
 
   it("preserves empty, outside-coverage, and source-error evidence states in its appendix", () => {
@@ -164,7 +261,7 @@ describe("print documents", () => {
     expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     expect(screen.getByText("Active map layers")).toBeInTheDocument();
     expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
-    expect(screen.getByText("Current map state · Inverness County tax sale: Listed in official notice")).toBeInTheDocument();
+    expect(document.querySelector(".print-capture-context")).toHaveTextContent("Current map stateInverness County tax sale: Listed in official notice");
     expect(screen.getByText("Approximate scale")).toBeInTheDocument();
     expect(screen.getByText(shareUrl)).toBeInTheDocument();
     expect(screen.getByText("QR unavailable")).toBeInTheDocument();

@@ -2311,7 +2311,16 @@ a {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
 }
 
-.print-research-summary,
+.print-research-summary {
+  page: research-sheet;
+  width: 195.9mm;
+  height: 259.4mm;
+  padding: 8mm 10mm;
+  display: grid;
+  grid-template-rows: auto auto 72mm minmax(0, 1fr) auto auto;
+  gap: 2mm;
+}
+
 .print-evidence-page {
   page: research-sheet;
   width: 195.9mm;
@@ -2370,6 +2379,15 @@ a {
   margin: 0;
 }
 
+.print-research-summary > .print-header,
+.print-research-summary > .print-capture-context,
+.print-research-summary > .print-research-map-frame,
+.print-research-summary > .print-research-support,
+.print-research-summary > .print-general-limitations,
+.print-research-summary > .print-receipt {
+  margin: 0;
+}
+
 .print-header,
 .print-appendix-header,
 .print-receipt,
@@ -2405,6 +2423,19 @@ a {
   font-size: 9pt;
 }
 
+.print-capture-context {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2mm;
+  align-items: start;
+}
+
+.print-event-context {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1pt 4pt;
+}
+
 .print-kicker {
   margin-bottom: 1pt;
   font-weight: 700;
@@ -2426,6 +2457,41 @@ a {
   height: auto;
   min-height: 0;
   margin-top: 0;
+}
+
+.print-research-summary .print-research-map-frame {
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.print-research-support {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2mm 4mm;
+  min-height: 0;
+}
+
+.print-research-support .print-fact-grid,
+.print-research-support .print-evidence-status-grid,
+.print-research-support .print-active-layer-legend,
+.print-research-support .print-research-details,
+.print-research-support .print-required-attribution,
+.print-research-support .print-scale,
+.print-research-support .print-scale-omission,
+.print-research-support .print-map-failure {
+  margin: 0;
+}
+
+.print-research-support .print-active-layer-legend,
+.print-research-support .print-required-attribution {
+  grid-column: 1 / -1;
+}
+
+.print-research-details {
+  display: grid;
+  align-content: start;
+  gap: 2mm;
 }
 
 .print-field-support {
@@ -2491,6 +2557,18 @@ a {
   padding-left: 14pt;
 }
 
+.print-active-layer-legend ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1pt 6pt;
+  padding-left: 0;
+  list-style: none;
+}
+
+.print-field-support .print-active-layer-legend ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .print-evidence-status-grid li,
 .print-active-layer-legend li {
   padding: 1pt 0;
@@ -2522,9 +2600,9 @@ a {
 }
 
 .print-attribution-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2pt 8pt;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2pt 6pt;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2532,7 +2610,12 @@ a {
 
 .print-attribution-links li {
   display: flex;
+  flex-wrap: wrap;
   gap: 4pt;
+}
+
+.print-field-support .print-attribution-links {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .print-receipt {

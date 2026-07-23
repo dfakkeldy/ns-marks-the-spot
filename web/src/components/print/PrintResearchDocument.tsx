@@ -10,6 +10,7 @@ import {
   reportedEvidenceAttributions,
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
+import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import { PrintEvidenceAppendix } from "./PrintEvidenceAppendix";
 
 export function PrintReceipt({
@@ -109,10 +110,16 @@ export function RequiredAttribution({
   mapSources: readonly PrintLayerSource[];
   evidenceSources: readonly PrintEvidenceAttribution[];
 }) {
-  const sources = [
+  const candidates = [
     ...mapSources.map((source) => ({ ...source, label: source.name })),
     ...evidenceSources,
   ];
+  const seenSourceIds = new Set<string>();
+  const sources = candidates.filter(({ id }) => {
+    if (seenSourceIds.has(id)) return false;
+    seenSourceIds.add(id);
+    return true;
+  });
   const attributions = [...new Set(
     sources.map(({ attribution }) => attribution).filter(Boolean),
   )];
@@ -157,18 +164,20 @@ export function ResearchFactGrid({ snapshot }: { snapshot: PrintSnapshot }) {
 }
 
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
+  const assessment = snapshot.evidence.assessments;
   const entries = [
-    ["Addresses", snapshot.evidence.civicAddresses.status],
-    ["Roads and water", snapshot.evidence.mappedContext.status],
-    ["Flood evidence", snapshot.evidence.floodHazard.status],
-    ["Resources", snapshot.evidence.resources.status],
-  ] as const;
+    `Civic addresses: ${snapshot.evidence.civicAddresses.status === "ready" ? "captured" : "unavailable"}`,
+    `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : "unavailable"}`,
+    `Roads and water: ${snapshot.evidence.mappedContext.status === "ready" ? "captured" : "unavailable"}`,
+    `Flood evidence: ${snapshot.evidence.floodHazard.status === "ready" ? "captured" : "unavailable"}`,
+    `Resource evidence: ${snapshot.evidence.resources.status === "ready" ? "captured" : "unavailable"}`,
+  ];
   return (
     <section className="print-evidence-status-grid" aria-label="Evidence receipt status">
       <h2>Evidence receipt status</h2>
       <ul>
-        {entries.map(([label, status]) => (
-          <li key={label}><strong>{label}</strong><span>{status === "ready" ? "Captured" : "Unavailable"}</span></li>
+        {entries.map((entry) => (
+          <li key={entry}><span>{entry}</span></li>
         ))}
       </ul>
     </section>
@@ -206,9 +215,21 @@ export function PrintMapFailure({
 }
 
 export function PrintCaptureContext({ snapshot }: { snapshot: PrintSnapshot }) {
-  const events = snapshot.events.map((event) => `${event.name}: ${event.status}`).join(" · ");
   const mode = snapshot.mode === "historical" ? "Historical map state" : "Current map state";
-  return <p className="print-capture-context">{mode}{events ? ` · ${events}` : ""}</p>;
+  const selectedEventCount = new Set(snapshot.eventIds).size;
+  const selectedEvents = snapshot.events.slice(0, selectedEventCount);
+  return (
+    <div className="print-capture-context">
+      <span>{mode}</span>
+      {selectedEvents.length > 0 ? (
+        <span className="print-event-context">
+          {selectedEvents.map((event) => (
+            <span key={`${event.name}-${event.status}`}>{event.name}: {event.status}</span>
+          ))}
+        </span>
+      ) : null}
+    </div>
+  );
 }
 
 export function PrintResearchDocument({
@@ -234,9 +255,7 @@ export function PrintResearchDocument({
   belowZoomLayerIds: readonly string[];
   failedLayerIds: readonly string[];
 }) {
-  const renderedSources = snapshot.layerSources.filter(({ id }) =>
-    renderedLayerIds.includes(id) && (includeAerial || id !== "ns-aerial"),
-  );
+  const renderedSources = renderedPrintLayerSources(snapshot, renderedLayerIds, includeAerial);
   const evidenceSources = reportedEvidenceAttributions(snapshot);
   return (
     <article className="print-document print-research-document">
@@ -245,13 +264,17 @@ export function PrintResearchDocument({
         <PrintHeader snapshot={snapshot} title="Parcel research summary" />
         <PrintCaptureContext snapshot={snapshot} />
         <div className="print-research-map-frame">{map}</div>
-        <ResearchFactGrid snapshot={snapshot} />
-        <EvidenceStatusGrid snapshot={snapshot} />
-        <ActiveLayerLegend sources={renderedSources} />
-        <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
-        <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
-        <ApproximateScale scale={scale} />
-        <RequiredAttribution mapSources={renderedSources} evidenceSources={evidenceSources} />
+        <div className="print-research-support">
+          <ResearchFactGrid snapshot={snapshot} />
+          <EvidenceStatusGrid snapshot={snapshot} />
+          <ActiveLayerLegend sources={renderedSources} />
+          <div className="print-research-details">
+            <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
+            <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
+            <ApproximateScale scale={scale} />
+          </div>
+          <RequiredAttribution mapSources={renderedSources} evidenceSources={evidenceSources} />
+        </div>
         <p className="print-general-limitations">
           <strong>Screening evidence only.</strong> Not a survey, title opinion, access conclusion, appraisal, or proof of absence.
         </p>
