@@ -369,8 +369,10 @@ export function ParcelInspector({
       ) : null}
       <p className="mapped-area-note building-count-note">
         Count of NSTDB point and polygon building features intersecting the PID.
-        Smaller buildings are mapped as points; larger buildings as polygons. An
-        empty result does not prove no building exists, and the count does not
+        Smaller buildings are mapped as points; larger buildings as polygons.
+        The NSTDB is compiled from aerial photography whose capture date varies
+        by area, so recent construction may not appear for years. An empty
+        result does not prove no building exists, and the count does not
         establish current structures, occupancy, condition, use, or permits. Source:{" "}
         <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
           Nova Scotia Topographic Database — Buildings
