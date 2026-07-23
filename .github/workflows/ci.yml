@@ -25,8 +25,63 @@ env:
   DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
 
 jobs:
-  web-app:
+  changes:
+    name: Change classification
+    runs-on: ubuntu-latest
+    outputs:
+      native: ${{ steps.scope.outputs.native }}
+      web: ${{ steps.scope.outputs.web }}
+
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate promotion source
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          case "$BASE_BRANCH:$HEAD_BRANCH" in
+            main:weekly|main:hotfix/*)
+              ;;
+            weekly:nightly|weekly:main)
+              ;;
+            nightly:*)
+              ;;
+            *)
+              echo "::error::Promotion ladder violation: $HEAD_BRANCH cannot target $BASE_BRANCH."
+              echo "::error::Use feature/* -> nightly -> weekly -> main, or hotfix/* -> main then back-merge main down."
+              exit 1
+              ;;
+          esac
+
+      - name: Test change classifier
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+
+      - name: Classify changed paths
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            git diff --name-only -z "$BASE_SHA" "$HEAD_SHA"
+          elif [ -z "$BEFORE_SHA" ] || printf '%s' "$BEFORE_SHA" | grep -Eq '^0+$'; then
+            git diff-tree --no-commit-id --name-only -r -z "$AFTER_SHA"
+          else
+            git diff --name-only -z "$BEFORE_SHA" "$AFTER_SHA"
+          fi | python3 .github/scripts/classify_ci_changes.py --github-output "$GITHUB_OUTPUT"
+
+  web_app:
     name: Web tests + build
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
     runs-on: ubuntu-latest
 
     defaults:
@@ -56,8 +111,10 @@ jobs:
       - name: Build web app
         run: npm run build
 
-  build-gate-tests:
-    name: Build gate + tests
+  native_app:
+    name: Native build + tests
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
     runs-on: macos-26
 
     steps:
@@ -85,26 +142,6 @@ jobs:
           key: ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-
-
-      - name: Validate promotion source
-        if: github.event_name == 'pull_request'
-        env:
-          BASE_BRANCH: ${{ github.base_ref }}
-          HEAD_BRANCH: ${{ github.head_ref }}
-        run: |
-          case "$BASE_BRANCH:$HEAD_BRANCH" in
-            main:weekly|main:hotfix/*)
-              ;;
-            weekly:nightly|weekly:main)
-              ;;
-            nightly:*)
-              ;;
-            *)
-              echo "::error::Promotion ladder violation: $HEAD_BRANCH cannot target $BASE_BRANCH."
-              echo "::error::Use feature/* -> nightly -> weekly -> main, or hotfix/* -> main then back-merge main down."
-              exit 1
-              ;;
-          esac
 
       - name: Resolve Swift packages
         run: |
@@ -153,3 +190,38 @@ jobs:
             -only-testing:ns-marks-the-spotUITests \
             -parallel-testing-enabled NO \
             CODE_SIGNING_ALLOWED=NO
+
+  required_gate:
+    name: Build gate + tests
+    needs:
+      - changes
+      - native_app
+      - web_app
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Require every affected product suite
+        env:
+          CHANGE_CLASSIFICATION_RESULT: ${{ needs.changes.result }}
+          NATIVE_REQUIRED: ${{ needs.changes.outputs.native }}
+          NATIVE_RESULT: ${{ needs.native_app.result }}
+          WEB_REQUIRED: ${{ needs.changes.outputs.web }}
+          WEB_RESULT: ${{ needs.web_app.result }}
+        run: |
+          if [ "$CHANGE_CLASSIFICATION_RESULT" != "success" ]; then
+            echo "::error::Change classification failed: $CHANGE_CLASSIFICATION_RESULT"
+            exit 1
+          fi
+
+          if [ "$WEB_REQUIRED" = "true" ] && [ "$WEB_RESULT" != "success" ]; then
+            echo "::error::Required web suite did not pass: $WEB_RESULT"
+            exit 1
+          fi
+
+          if [ "$NATIVE_REQUIRED" = "true" ] && [ "$NATIVE_RESULT" != "success" ]; then
+            echo "::error::Required native suite did not pass: $NATIVE_RESULT"
+            exit 1
+          fi
+
+          echo "All affected product suites passed."

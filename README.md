@@ -55,6 +55,13 @@ This repository uses a one-way promotion ladder:
 
 All protected branches require PRs to pass `Build gate + tests`; none require review approval because this is a single-maintainer project.
 
+`Build gate + tests` is a stable aggregate check. CI classifies each diff before
+starting product suites: web-only changes run the web tests, lint, and Vite
+build without reserving a macOS runner; native changes run the Xcode build and
+tests; CI-infrastructure changes run both; documentation-only changes satisfy
+the aggregate gate after classification. Unknown paths fail safe to native CI
+until explicitly classified.
+
 Release train uploads require these GitHub Actions secrets:
 
 - `APP_STORE_CONNECT_API_KEY_JSON`
