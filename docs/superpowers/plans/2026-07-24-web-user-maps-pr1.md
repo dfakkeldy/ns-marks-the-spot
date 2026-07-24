@@ -2518,7 +2518,15 @@ git commit -m "feat(web): mount Your maps in the layer list and map canvas"
 
 (Include any test-mock extensions from Step 3 in this commit.)
 
-- [ ] **Step 8: Push and open the PR against nightly**
+- [ ] **Step 8: Adversarial review gate (maintainer requirement — do not skip)**
+
+Before pushing, run a full adversarial review of the implemented branch via the
+Codex plugin (`/codex:rescue`, model `gpt-5.6-sol` per maintainer preference)
+covering the whole `web/src/userMaps/` diff. Fix confirmed findings and re-run
+the suite. Only proceed to Step 9 once the review reports no unresolved
+correctness findings.
+
+- [ ] **Step 9: Push and open the PR against nightly**
 
 ```bash
 git push -u origin claude/web-map-custom-uploads-cde085
