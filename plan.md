@@ -72,6 +72,7 @@
 - [ ] Monochrome browser Print / Save as PDF research and field sheets (implementation complete; saved-PDF, iPhone AirPrint, and physical monochrome acceptance remain pending in `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`)
 - [ ] Enable Fletcher on the web after web-use rights are clear
 - [ ] Add municipality importers only from current official notices
+  - [x] Scheduled watcher archives and auto-ingests overwrite-prone sources (Cumberland) via `npm run watch:tax-sales` and `.github/workflows/tax-sale-watch.yml`
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled
 - [ ] Add the DNRR radon-in-indoor-air potential layer once a Web Mercator service exists or a proj4 custom CRS is approved; the published `radon_cache` MapServer returns an empty image from `export` and caches tiles only in NAD83/MTM (wkid 2961)
 - [ ] Add separate Karst Risk and Known Karst Occurrences layers from DP ME 494 only with 2019 currentness, source-scale, completeness, and non-survey caveats

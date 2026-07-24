@@ -11,6 +11,8 @@ import { INVERNESS_BOOK_DATASET_SHA256 } from "./invernessTaxSale";
 import invernessBookDatasetSource from "./invernessTaxSale.snapshot.json?raw";
 import { ANNAPOLIS_TENDER_DATASET_SHA256 } from "./annapolisTaxSale";
 import annapolisTenderDatasetSource from "./annapolisTaxSale.snapshot.json?raw";
+import { HISTORICAL_DATASET_SHA256 } from "./historicalTaxSales";
+import historicalDatasetSource from "./historicalTaxSales.json?raw";
 
 async function sha256Hex(source: string): Promise<string> {
   const digest = await crypto.subtle.digest(
@@ -38,6 +40,12 @@ describe("the multi-municipality tax-sale catalog", () => {
   it("pins the byte-for-byte published Annapolis tender dataset", async () => {
     expect(await sha256Hex(annapolisTenderDatasetSource)).toBe(
       ANNAPOLIS_TENDER_DATASET_SHA256,
+    );
+  });
+
+  it("pins the byte-for-byte historical tax-sale dataset", async () => {
+    expect(await sha256Hex(historicalDatasetSource)).toBe(
+      HISTORICAL_DATASET_SHA256,
     );
   });
 

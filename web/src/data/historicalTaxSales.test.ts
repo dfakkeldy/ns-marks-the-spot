@@ -19,53 +19,40 @@ const verifiedResultHost =
   /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|web\.archive\.org)\//u;
 
 describe("historical tax-sale records", () => {
-  it("preserves verified Halifax, Victoria County, CBRM, and Cumberland results alongside the outcome-pending CBRM event", () => {
-    expect(historicalTaxSaleEvents).toHaveLength(14);
-    expect(historicalTaxSaleRecords).toHaveLength(280);
-    expect(matchedHistoricalPids()).toHaveLength(278);
-    expect(
-      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "sold"),
-    ).toHaveLength(165);
-    expect(
-      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unsold"),
-    ).toHaveLength(7);
-    expect(
-      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "withdrawn"),
-    ).toHaveLength(7);
-    expect(
-      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "redeemed"),
-    ).toHaveLength(1);
-    expect(
-      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unknown"),
-    ).toHaveLength(100);
-    expect(
-      historicalTaxSaleEvents.map(({ id }) => {
-        const records = historicalTaxSaleRecords.filter(
-          ({ eventId }) => eventId === id,
-        );
-        return {
-          id,
-          records: records.length,
-          pids: records.flatMap(({ pids }) => pids).length,
-        };
-      }),
-    ).toEqual([
-      { id: "hrm-2022-03-08", records: 11, pids: 11 },
-      { id: "hrm-2023-09-12", records: 10, pids: 10 },
-      { id: "hrm-2024-01-16", records: 8, pids: 9 },
-      { id: "hrm-2024-05-14", records: 7, pids: 8 },
-      { id: "hrm-2024-09-24", records: 9, pids: 10 },
-      { id: "hrm-2025-03-25", records: 5, pids: 7 },
-      { id: "hrm-2025-09-16", records: 37, pids: 38 },
-      { id: "victoria-2025-08-26", records: 12, pids: 13 },
-      { id: "victoria-2025-11-25", records: 2, pids: 2 },
-      { id: "victoria-2026-03-24", records: 5, pids: 5 },
-      { id: "cbrm-2025-07-22", records: 73, pids: 75 },
-      { id: "cumberland-2025-10-21", records: 20, pids: 20 },
-      { id: "cumberland-2026-03-03", records: 14, pids: 14 },
-      { id: "cbrm-2026-07-21", records: 67, pids: 68 },
-    ]);
+  // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,
+  // which pins historicalTaxSales.json against HISTORICAL_DATASET_SHA256. That
+  // lets an automated ingest add a sale without hand-editing totals here, while
+  // still going red on an unaccompanied data edit.
+  it("keeps every event and record structurally sound as sources are added", () => {
+    expect(historicalTaxSaleEvents.length).toBeGreaterThan(0);
+    const eventIds = new Set(historicalTaxSaleEvents.map(({ id }) => id));
+    expect(eventIds.size).toBe(historicalTaxSaleEvents.length);
 
+    for (const event of historicalTaxSaleEvents) {
+      const records = historicalTaxSaleRecords.filter(
+        ({ eventId }) => eventId === event.id,
+      );
+      expect(records.length, `event ${event.id} has no records`).toBeGreaterThan(
+        0,
+      );
+      for (const record of records) {
+        expect(record.pids.length).toBeGreaterThan(0);
+        expect(new Set(record.pids).size).toBe(record.pids.length);
+      }
+    }
+
+    // Every ledger entry marked included must have a matching event.
+    const municipalities = new Set(
+      historicalTaxSaleEvents.map(({ municipality }) => municipality),
+    );
+    for (const entry of historicalSourceLedger.coverage) {
+      if (entry.status === "included") {
+        expect(municipalities).toContain(entry.municipality);
+      }
+    }
+  });
+
+  it("keeps assessed owners out of the public historical dataset", () => {
     const publicDataset = JSON.stringify({
       events: historicalTaxSaleEvents,
       records: historicalTaxSaleRecords,
@@ -353,7 +340,6 @@ describe("historical tax-sale records", () => {
         expect(event.landingPageUrl).toMatch(/^https:\/\/cbrm\.ns\.ca\//u);
       }
     }
-    expect(historicalSourceLedger.coverage).toHaveLength(16);
   });
 
   it("pins Cumberland to archive captures because its result page is overwritten", () => {

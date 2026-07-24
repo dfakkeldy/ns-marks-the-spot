@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
+import { matchedHistoricalPids } from "./data/historicalTaxSales";
 import { buildEvidenceNote } from "./services/evidenceNote";
 import {
   OPEN_GOVERNMENT_ATTRIBUTION,
@@ -724,7 +725,11 @@ describe("NS Marks The Spot Online", () => {
       "historical layer: on",
     );
     await waitFor(() =>
-      expect(screen.getByText("278 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+      expect(
+        screen.getByText(
+          `${matchedHistoricalPids().length} historical PIDs matched in NSPRD.`,
+        ),
+      ).toBeInTheDocument(),
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
