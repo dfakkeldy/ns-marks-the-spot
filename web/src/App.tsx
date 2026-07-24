@@ -600,6 +600,7 @@ export function App() {
   );
   const [aboutOpen, setAboutOpen] = useState(false);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
+  const parcelsRef = useRef(parcels);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
   const [query, setQuery] = useState(initialShareState.pid ?? "");
   const [searchError, setSearchError] = useState<string | null>(null);
@@ -866,6 +867,10 @@ export function App() {
   );
 
   useEffect(() => {
+    parcelsRef.current = parcels;
+  }, [parcels]);
+
+  useEffect(() => {
     const timer = window.setInterval(() => setCurrentTime(Date.now()), 60_000);
     return () => window.clearInterval(timer);
   }, []);
@@ -936,8 +941,12 @@ export function App() {
     }
     historicalLoadAttempted.current = true;
 
+    const existingFeatures = parcelsRef.current.features;
+    const matchedPids = new Set(
+      existingFeatures.map(({ properties }) => properties.PID),
+    );
     const missingPids = allHistoricalTaxSalePids.filter(
-      (pid) => !parcels.features.some(({ properties }) => properties.PID === pid),
+      (pid) => !matchedPids.has(pid),
     );
     if (missingPids.length === 0) {
       setHistoricalParcelMessage(
@@ -947,17 +956,31 @@ export function App() {
     }
 
     const controller = new AbortController();
-    setHistoricalParcelMessage("Loading matched historical parcels…");
-    fetchParcels(missingPids, controller.signal)
+    setHistoricalParcelMessage(
+      "Historical records loaded. Loading matched map parcels…",
+    );
+    fetchParcels(missingPids, controller.signal, (collection) => {
+      if (controller.signal.aborted) {
+        return;
+      }
+      collection.features.forEach(({ properties }) => {
+        matchedPids.add(properties.PID);
+      });
+      const matchedCount = allHistoricalTaxSalePids.filter((pid) =>
+        matchedPids.has(pid),
+      ).length;
+      setParcels((current) => mergeFeatureCollections(current, collection));
+      setHistoricalParcelMessage(
+        `${matchedCount} of ${allHistoricalTaxSalePids.length} historical PIDs shown on the map…`,
+      );
+    })
       .then((collection) => {
-        const matchedPids = new Set([
-          ...parcels.features.map(({ properties }) => properties.PID),
-          ...collection.features.map(({ properties }) => properties.PID),
-        ]);
+        collection.features.forEach(({ properties }) => {
+          matchedPids.add(properties.PID);
+        });
         const matchedCount = allHistoricalTaxSalePids.filter((pid) =>
           matchedPids.has(pid),
         ).length;
-        setParcels((current) => mergeFeatureCollections(current, collection));
         setHistoricalParcelMessage(
           matchedCount === allHistoricalTaxSalePids.length
             ? `${matchedCount} historical PIDs matched in NSPRD.`
@@ -968,13 +991,18 @@ export function App() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+        const matchedCount = allHistoricalTaxSalePids.filter((pid) =>
+          matchedPids.has(pid),
+        ).length;
         setHistoricalParcelMessage(
-          "Historical records remain available, but matched parcel geometry is unavailable right now.",
+          matchedCount > 0
+            ? `${matchedCount} of ${allHistoricalTaxSalePids.length} historical PIDs are shown. Remaining matched parcel geometry is unavailable right now.`
+            : "Historical records remain available, but matched parcel geometry is unavailable right now.",
         );
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels.features, showHistoricalTaxSales]);
+  }, [licenceAccepted, showHistoricalTaxSales]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
