@@ -51,9 +51,8 @@ class GcpArgumentTests(unittest.TestCase):
         gcp_index = command.index("-gcp")
         self.assertEqual(command[gcp_index + 1 : gcp_index + 3], ["6858.0", "9189.0"])
         self.assertEqual(command.count("-gcp"), 1)
-        self.assertIn("COMPRESS=DEFLATE", command)
-        self.assertIn("TILED=YES", command)
-        self.assertIn("BIGTIFF=IF_SAFER", command)
+        self.assertEqual(command[command.index("-of") + 1], "VRT")
+        self.assertNotIn("COMPRESS=DEFLATE", command)
 
 
 class WarpCommandTests(unittest.TestCase):

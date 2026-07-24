@@ -54,14 +54,10 @@ def build_translate_command(
     command = [
         "gdal_translate",
         "-q",
+        "-of",
+        "VRT",
         "-a_srs",
         "EPSG:3857",
-        "-co",
-        "COMPRESS=DEFLATE",
-        "-co",
-        "TILED=YES",
-        "-co",
-        "BIGTIFF=IF_SAFER",
     ]
     translated_points = points
     if window is not None:
@@ -174,7 +170,7 @@ def georeference(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     output_slug = f"{slug}-{panel.slug}" if panel else slug
-    translated = output_dir / f"{output_slug}-gcp.tif"
+    translated = output_dir / f"{output_slug}-gcp.vrt"
     subprocess.run(
         build_translate_command(
             str(source),
