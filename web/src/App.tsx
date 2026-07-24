@@ -792,6 +792,16 @@ export function App() {
     ) as Record<EnvironmentalHealthLayerId, boolean>,
     [environmentalHealthLayers, licenceAccepted],
   );
+  const effectiveFloodHazardLayers = useMemo<Record<FloodHazardLayerId, boolean>>(
+    () => Object.fromEntries(
+      floodHazardLayerCatalog.map((layer) => [
+        layer.id,
+        floodHazardLayers[layer.id] &&
+          (layer.licence === "province-open" || licenceAccepted),
+      ]),
+    ) as Record<FloodHazardLayerId, boolean>,
+    [floodHazardLayers, licenceAccepted],
+  );
   const [layerStatuses, setLayerStatuses] = useState(initialLayerStatuses);
   const [selectedEventIds, setSelectedEventIds] = useState(
     () => new Set(
@@ -1575,7 +1585,7 @@ export function App() {
       .filter(({ id }) => hydroPilotLayers[id])
       .map(({ id }) => id),
     ...floodHazardLayerCatalog
-      .filter(({ id }) => floodHazardLayers[id])
+      .filter(({ id }) => effectiveFloodHazardLayers[id])
       .map(({ id }) => id),
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
@@ -1585,7 +1595,7 @@ export function App() {
       .map(({ id }) => id),
   ], [
     effectiveEnvironmentalHealthLayers,
-    floodHazardLayers,
+    effectiveFloodHazardLayers,
     hydroPilotLayers,
     provinceLayers,
     resourceLayers,
@@ -1620,9 +1630,7 @@ export function App() {
       .filter(({ id }) => hydroPilotLayers[id])
       .map(({ id }) => id),
     ...floodHazardLayerCatalog
-      .filter((layer) => floodHazardLayers[layer.id] && (
-        layer.licence === "province-open" || licenceAccepted
-      ))
+      .filter(({ id }) => effectiveFloodHazardLayers[id])
       .map(({ id }) => id),
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
@@ -1632,8 +1640,8 @@ export function App() {
       .map(({ id }) => id),
   ], [
     effectiveEnvironmentalHealthLayers,
+    effectiveFloodHazardLayers,
     effectiveResourceLayers,
-    floodHazardLayers,
     hydroPilotLayers,
     licenceAccepted,
     provinceLayers,
@@ -1816,7 +1824,7 @@ export function App() {
           sourceDate,
         })),
       ...floodHazardLayerCatalog
-        .filter(({ id }) => floodHazardLayers[id])
+        .filter(({ id }) => effectiveFloodHazardLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -2587,7 +2595,7 @@ export function App() {
             provinceLayers={provinceLayers}
             resourceLayers={effectiveResourceLayers}
             hydroPilotLayers={hydroPilotLayers}
-            floodHazardLayers={floodHazardLayers}
+            floodHazardLayers={effectiveFloodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
             zoningLayers={zoningLayers}
             showModernMap={showModernMap}
