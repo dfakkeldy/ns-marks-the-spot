@@ -128,9 +128,24 @@ vi.mock("react-leaflet", () => ({
   ScaleControl: ({ position }: { position: string }) => (
     <div data-testid="scale-control" data-position={position} />
   ),
-  TileLayer: (props: Record<string, unknown>) => {
+  TileLayer: (props: Record<string, unknown> & {
+    eventHandlers?: {
+      loading?: () => void;
+      load?: () => void;
+      tileerror?: () => void;
+    };
+  }) => {
     tileLayerProps.calls.push(props);
-    return <div data-testid="tile-layer" data-class-name={props.className} />;
+    return (
+      <div data-testid="tile-layer" data-class-name={props.className}>
+        <button type="button" onClick={() => props.eventHandlers?.tileerror?.()}>
+          Simulate modern map error
+        </button>
+        <button type="button" onClick={() => props.eventHandlers?.load?.()}>
+          Simulate modern map load
+        </button>
+      </div>
+    );
   },
   useMap: () => mapMock,
   useMapEvents: (handlers: typeof mapEventHandlers) => {
@@ -267,6 +282,46 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Use my location" }).querySelector("svg"),
+    ).not.toBeNull();
+  });
+
+  it("offers a retry when modern-map tiles fail", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", { name: "Simulate modern map error" }),
+    );
+    expect(screen.getByText("Modern map did not load.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Retry" }));
+    expect(screen.queryByText("Modern map did not load.")).not.toBeInTheDocument();
   });
 
   it("dismisses the successful location message after four seconds", async () => {
@@ -818,6 +873,7 @@ describe("MapCanvas overview markers", () => {
 
     const markers = screen.getAllByTestId("location-position");
     expect(markers).toHaveLength(1);
+    expect(screen.queryByTestId("parcel-overlay")).not.toBeInTheDocument();
     const [lat, lng] = markers[0].getAttribute("data-center")!.split(",");
     expect(Number(lat)).toBeCloseTo(46.055, 3);
     expect(Number(lng)).toBeCloseTo(-61.415, 3);
@@ -832,6 +888,7 @@ describe("MapCanvas overview markers", () => {
     render(<MapCanvas {...markerProps} onSelectPid={vi.fn()} />);
 
     expect(screen.queryAllByTestId("location-position")).toHaveLength(0);
+    expect(screen.getByTestId("parcel-overlay")).toBeInTheDocument();
   });
 
   it("hides markers when the event layer is toggled off", () => {
@@ -1254,6 +1311,7 @@ describe("MapCanvas resource overlays", () => {
   });
 
   it("renders derived mineral proximity parcels through the existing PID callback", async () => {
+    mapMock.getZoom.mockReturnValue(13);
     const onSelectPid = vi.fn();
     const onResourceLayerStatusChange = vi.fn();
     const props = {

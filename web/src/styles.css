@@ -52,8 +52,8 @@ a {
 .app-shell {
   display: grid;
   grid-template-rows: 68px minmax(0, 1fr) 46px;
-  height: 100svh;
-  min-height: 100svh;
+  height: var(--app-viewport-height, 100dvh);
+  min-height: var(--app-viewport-height, 100dvh);
   overflow: hidden;
   background: var(--fog);
 }
@@ -1127,6 +1127,47 @@ a {
   background: var(--survey-blue);
 }
 
+.location-button-icon {
+  width: 25px;
+  height: 25px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.modern-map-error {
+  position: absolute;
+  z-index: 500;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 84px);
+  padding: 7px 8px 7px 10px;
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.modern-map-error button {
+  padding: 4px 7px;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .location-message {
   position: absolute;
   z-index: 500;
@@ -1150,7 +1191,7 @@ a {
 .position-readout {
   position: absolute;
   z-index: 500;
-  bottom: 34px;
+  bottom: 72px;
   left: 12px;
   margin: 0;
   padding: 3px 8px;
@@ -2000,7 +2041,7 @@ a {
   .app-shell.header-collapsed {
     position: relative;
     grid-template-rows: minmax(0, 1fr);
-    height: 100svh;
+    height: var(--app-viewport-height, 100dvh);
     overflow: hidden;
   }
 
@@ -2167,6 +2208,14 @@ a {
 
   .location-message {
     top: 126px;
+  }
+
+  .modern-map-error {
+    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    right: 12px;
+    left: 12px;
+    justify-content: space-between;
+    max-width: none;
   }
 
   .position-readout {

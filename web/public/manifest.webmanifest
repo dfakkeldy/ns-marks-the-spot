@@ -1,0 +1,22 @@
+{
+  "name": "NS Marks The Spot",
+  "short_name": "NS Marks",
+  "description": "A source-linked Nova Scotia parcel and tax-sale map.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef7f5",
+  "theme_color": "#12343b",
+  "icons": [
+    {
+      "src": "./app-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "./app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
