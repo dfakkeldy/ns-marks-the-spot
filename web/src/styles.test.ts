@@ -124,6 +124,16 @@ describe("mobile parcel inspector layout", () => {
   });
 });
 
+describe("map cartographic furniture", () => {
+  it("keeps the coordinate readout above the two-line scale control", () => {
+    const readoutDeclarations = styles.match(
+      /\.position-readout\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(readoutDeclarations).toMatch(/bottom:\s*72px/);
+  });
+});
+
 describe("print document paged media", () => {
   it("uses named Letter pages and isolates the live app while printing", () => {
     expect(styles).toMatch(/@page research-sheet\s*{[^}]*size:\s*letter portrait/s);

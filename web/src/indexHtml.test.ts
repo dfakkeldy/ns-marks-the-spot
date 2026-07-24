@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import indexHtml from "../index.html?raw";
+import manifestText from "../public/manifest.webmanifest?raw";
 
 describe("web document metadata", () => {
   it("declares an embedded favicon so subpath hosts do not request /favicon.ico", () => {
@@ -32,5 +33,26 @@ describe("web document metadata", () => {
     expect(indexHtml).toMatch(
       /<meta\s+name="twitter:image"\s+content="https:\/\/kinnokilabs\.com\/apps\/nsmarksthespot\/map\/social-card\.png"/,
     );
+  });
+
+  it("supports an iPhone standalone Home Screen experience", () => {
+    expect(indexHtml).toContain(
+      '<meta name="apple-mobile-web-app-capable" content="yes" />',
+    );
+    expect(indexHtml).toContain(
+      '<link rel="manifest" href="./manifest.webmanifest" />',
+    );
+    expect(indexHtml).toContain(
+      '<link rel="apple-touch-icon" href="./app-icon-180.png" />',
+    );
+
+    const manifest = JSON.parse(manifestText) as {
+      display: string;
+      start_url: string;
+      scope: string;
+    };
+    expect(manifest.display).toBe("standalone");
+    expect(manifest.start_url).toBe("./");
+    expect(manifest.scope).toBe("./");
   });
 });

@@ -509,6 +509,11 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           engineering: every layer names its source, scale, and licence, the
           way a printed map sheet carries its legend and survey notes.
         </p>
+        <h3>Use it full screen on iPhone</h3>
+        <p>
+          In Safari, tap Share, then Add to Home Screen. The installed map
+          opens without Safari&apos;s address bar or toolbar.
+        </p>
         <p className="about-links">
           <a
             href="https://github.com/dfakkeldy/ns-marks-the-spot"
@@ -637,8 +642,19 @@ export function App() {
       west: initialShareState.position.longitude,
     },
   });
+  const sharedLayersIncludeUsableBasemap =
+    initialShareState.layerIds.includes("modern") ||
+    (
+      initialShareState.layerIds.includes("ns-aerial") &&
+      initialShareState.position.zoom >=
+        (provinceLayerCatalog.find(({ id }) => id === "ns-aerial")?.minZoom ??
+          Number.POSITIVE_INFINITY)
+    );
   const [showModernMap, setShowModernMap] = useState(
-    hasSharedLayers ? initialShareState.layerIds.includes("modern") : true,
+    hasSharedLayers
+      ? initialShareState.layerIds.includes("modern") ||
+          !sharedLayersIncludeUsableBasemap
+      : true,
   );
   const intendedInitialProvinceLayers = useRef(
     hasSharedLayers
@@ -685,6 +701,27 @@ export function App() {
         ) as Record<FloodHazardLayerId, boolean>
       : initialFloodHazardLayerVisibility,
   );
+
+  useEffect(() => {
+    const visualViewport = window.visualViewport;
+    const updateViewportHeight = () => {
+      const height = visualViewport?.height ?? window.innerHeight;
+      document.documentElement.style.setProperty(
+        "--app-viewport-height",
+        `${Math.round(height)}px`,
+      );
+    };
+
+    updateViewportHeight();
+    visualViewport?.addEventListener("resize", updateViewportHeight);
+    window.addEventListener("resize", updateViewportHeight);
+
+    return () => {
+      visualViewport?.removeEventListener("resize", updateViewportHeight);
+      window.removeEventListener("resize", updateViewportHeight);
+      document.documentElement.style.removeProperty("--app-viewport-height");
+    };
+  }, []);
   const effectiveResourceLayers = useMemo<Record<ResourceLayerId, boolean>>(
     () => ({
       ...resourceLayers,

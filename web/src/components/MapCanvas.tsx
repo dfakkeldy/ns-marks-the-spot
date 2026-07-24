@@ -1092,6 +1092,69 @@ function TaxSaleOverviewMarkers({
   );
 }
 
+function ParcelGeometryOverlay({
+  collection,
+  selectedPid,
+  showTaxSale,
+  showHistoricalTaxSales,
+  style,
+  onSelectPid,
+  renderMode,
+}: {
+  collection: NsprdFeatureCollection;
+  selectedPid: string | null;
+  showTaxSale: boolean;
+  showHistoricalTaxSales: boolean;
+  style: (
+    feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
+  ) => PathOptions;
+  onSelectPid: (pid: string) => void;
+  renderMode: MapRenderMode;
+}) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(() => map.getZoom());
+  useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
+
+  if (zoom <= OVERVIEW_MARKER_MAX_ZOOM) {
+    return null;
+  }
+
+  return (
+    <GeoJSON
+      key={`${collection.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
+      data={collection}
+      pane={ESTABLISHED_PARCEL_PANE}
+      style={style}
+      interactive={renderMode !== "print"}
+      onEachFeature={
+        renderMode === "print"
+          ? undefined
+          : (feature, layer) => {
+              const pid = (feature.properties as NsprdFeatureProperties).PID;
+              layer.on("click", (event) => {
+                L.DomEvent.stopPropagation(event.originalEvent);
+                onSelectPid(pid);
+              });
+              layer.bindTooltip(`PID ${pid}`, { sticky: true });
+            }
+      }
+    />
+  );
+}
+
+function LocationControlIcon() {
+  return (
+    <svg
+      className="location-button-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4.25" />
+      <path d="M12 2.75v3M12 18.25v3M2.75 12h3M18.25 12h3" />
+    </svg>
+  );
+}
+
 export function MapCanvas({
   parcels,
   taxSalePids,
@@ -1151,6 +1214,8 @@ export function MapCanvas({
   });
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
+  const [modernMapRetry, setModernMapRetry] = useState(0);
+  const [modernMapFailed, setModernMapFailed] = useState(false);
 
   useEffect(() => {
     if (locationMessage !== LOCATION_SUCCESS_MESSAGE) {
@@ -1236,15 +1301,26 @@ export function MapCanvas({
         {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (
           <TileLayer
+            key={`modern-${modernMapRetry}`}
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             maxZoom={23}
             maxNativeZoom={19}
             zIndex={100}
             className={isPrintMode ? "print-layer-modern" : undefined}
             eventHandlers={{
-              loading: () => reportModernStatus({ status: "loading" }),
+              loading: () => {
+                if (!isPrintMode) {
+                  setModernMapFailed(false);
+                }
+                reportModernStatus({ status: "loading" });
+              },
               load: () => reportModernStatus({ status: "ready" }),
-              tileerror: () => reportModernStatus({ status: "error" }),
+              tileerror: () => {
+                if (!isPrintMode) {
+                  setModernMapFailed(true);
+                }
+                reportModernStatus({ status: "error" });
+              },
             }}
           />
         ) : (
@@ -1297,21 +1373,15 @@ export function MapCanvas({
           name={ESTABLISHED_PARCEL_PANE}
           style={{ zIndex: ESTABLISHED_PARCEL_PANE_Z_INDEX }}
         >
-          <GeoJSON
-            key={`${visibleParcels.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
-            data={visibleParcels}
-            pane={ESTABLISHED_PARCEL_PANE}
+          <ParcelGeometryOverlay
+            collection={visibleParcels}
+            selectedPid={selectedPid}
+            showTaxSale={showTaxSale}
+            showHistoricalTaxSales={showHistoricalTaxSales}
             style={parcelStyle}
-            interactive={!isPrintMode}
-            onEachFeature={isPrintMode ? undefined : (feature, layer) => {
-              const pid = (feature.properties as NsprdFeatureProperties).PID;
-              layer.on("click", (event) => {
-                L.DomEvent.stopPropagation(event.originalEvent);
-                onSelectPid(pid);
-              });
-              layer.bindTooltip(`PID ${pid}`, { sticky: true });
-            }}
-           />
+            onSelectPid={onSelectPid}
+            renderMode={renderMode}
+          />
           <TaxSaleOverviewMarkers
             parcels={parcels}
             taxSalePids={taxSalePids}
@@ -1410,8 +1480,22 @@ export function MapCanvas({
         aria-pressed={userLocation !== null}
         onClick={requestLocation}
       >
-        <span aria-hidden="true">⌖</span>
+        <LocationControlIcon />
       </button>
+      {showModernMap && modernMapFailed ? (
+        <div className="modern-map-error" role="status">
+          <span>Modern map did not load.</span>
+          <button
+            type="button"
+            onClick={() => {
+              setModernMapFailed(false);
+              setModernMapRetry((current) => current + 1);
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      ) : null}
       <p className="location-message" role="status" aria-live="polite">
         {locationMessage}
       </p>

@@ -338,6 +338,7 @@ describe("NS Marks The Spot Online", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllGlobals();
   });
 
   it("requires licence acceptance before enabling Province map layers", () => {
@@ -478,6 +479,7 @@ describe("NS Marks The Spot Online", () => {
     expect(dialog).toHaveTextContent(/stay unknown/i);
     expect(dialog).toHaveTextContent(/browser location\s+never leaves/i);
     expect(dialog).toHaveTextContent(/twenty years/i);
+    expect(dialog).toHaveTextContent(/Share, then Add to Home Screen/i);
     expect(
       within(dialog).getByRole("link", { name: "Source on GitHub" }),
     ).toHaveAttribute(
@@ -579,6 +581,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "initial position: 46.1,-60.9,12",
     );
@@ -1226,6 +1229,62 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "modern map: off",
     );
+  });
+
+  it("preserves an explicitly shared aerial-only basemap", () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?layers=ns-aerial,nsprd&position=46.1,-60.9,12",
+    );
+
+    render(<App />);
+
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
+    expect(screen.getByLabelText("Modern map")).not.toBeChecked();
+  });
+
+  it("restores Modern map when shared aerial starts below its display zoom", () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?layers=ns-aerial,nsprd&position=46.1,-60.9,9",
+    );
+
+    render(<App />);
+
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+  });
+
+  it("tracks Safari's visible viewport height", () => {
+    const resizeListeners = new Set<EventListenerOrEventListenerObject>();
+    vi.stubGlobal(
+      "visualViewport",
+      {
+        height: 640.4,
+        addEventListener: (type: string, listener: EventListenerOrEventListenerObject) => {
+          if (type === "resize") {
+            resizeListeners.add(listener);
+          }
+        },
+        removeEventListener: (type: string, listener: EventListenerOrEventListenerObject) => {
+          if (type === "resize") {
+            resizeListeners.delete(listener);
+          }
+        },
+      },
+    );
+
+    const { unmount } = render(<App />);
+    expect(document.documentElement.style.getPropertyValue("--app-viewport-height"))
+      .toBe("640px");
+
+    unmount();
+    expect(document.documentElement.style.getPropertyValue("--app-viewport-height"))
+      .toBe("");
   });
 
   it("collapses and restores the header", async () => {
