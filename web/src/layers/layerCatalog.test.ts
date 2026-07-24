@@ -268,19 +268,42 @@ describe("web native-layer parity catalog", () => {
     expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
       '"color":[43,39,48,255]',
     );
-    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
-      "FEAT_DESC LIKE 'ROAD - Local%Unpaved' OR FEAT_DESC LIKE 'ROAD - Resource Access%Unpaved'",
-    );
-    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
-      '"style":"esriSLSSolid","color":[255,255,255,200],"width":1.6',
-    );
-    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
-      '"color":[204,77,77,255]',
-    );
-    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
-      '"color":[230,102,0,255]',
-    );
     expect(roads?.webCaveat).toContain("culverts close up");
+  });
+
+  it("cases every road class and keeps the Province renderer above the casing", () => {
+    const roads = nativeLayerCatalog.find(({ id }) => id === "roads");
+    const entries = JSON.parse(
+      roads?.exportOverlayOptions?.dynamicLayers ?? "[]",
+    ) as {
+      id: number;
+      definitionExpression: string;
+      drawingInfo?: { renderer: { symbol: { color: number[]; width: number } } };
+    }[];
+
+    // ArcGIS draws the array top-down, so casings must sit at the end.
+    const roadCasing = entries.at(-2);
+    const trailCasing = entries.at(-1);
+
+    expect(roadCasing?.definitionExpression).toContain("<> 'WATER ACCESS'");
+    expect(roadCasing?.definitionExpression).toContain("AND NOT (");
+    expect(roadCasing?.drawingInfo?.renderer.symbol).toMatchObject({
+      color: [255, 255, 255, 220],
+      width: 2.6,
+    });
+
+    // Roads must read heavier than trails.
+    expect(trailCasing?.drawingInfo?.renderer.symbol.width).toBeLessThan(
+      roadCasing?.drawingInfo?.renderer.symbol.width ?? 0,
+    );
+
+    // No drawingInfo means the Province's own colour coding is preserved.
+    const provincePass = entries.find(({ id }) => id === 79);
+    expect(provincePass).toBeDefined();
+    expect(provincePass?.drawingInfo).toBeUndefined();
+    expect(entries.indexOf(provincePass!)).toBeLessThan(
+      entries.indexOf(roadCasing!),
+    );
   });
 
   it("delays property boundaries until close parcel-detail zoom", () => {
