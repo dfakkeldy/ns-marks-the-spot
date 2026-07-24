@@ -72,6 +72,7 @@ export function buildPointQueryUrl(
 export async function fetchParcels(
   pids: string[],
   signal?: AbortSignal,
+  onBatch?: (collection: NsprdFeatureCollection) => void,
 ): Promise<NsprdFeatureCollection> {
   const normalizedPids = Array.from(
     new Set(pids.map(normalizePid).filter((pid): pid is string => pid !== null)),
@@ -87,7 +88,11 @@ export async function fetchParcels(
   }
 
   const collections = await Promise.all(
-    batches.map((batch) => fetchParcelBatch(batch, signal)),
+    batches.map(async (batch) => {
+      const collection = await fetchParcelBatch(batch, signal);
+      onBatch?.(collection);
+      return collection;
+    }),
   );
 
   return {

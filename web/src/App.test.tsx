@@ -741,6 +741,34 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByText("11 records · 11 PIDs")).toBeInTheDocument();
   });
 
+  it("shows completed historical geometry before the full catalog settles", async () => {
+    const user = userEvent.setup();
+    const historicalRequest =
+      deferred<Awaited<ReturnType<typeof fetchParcels>>>();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels)
+      .mockResolvedValueOnce({ type: "FeatureCollection", features: [] })
+      .mockImplementationOnce((pids, _signal, onBatch) => {
+        onBatch?.({
+          type: "FeatureCollection",
+          features: [parcelFeature(pids[0])],
+        });
+        return historicalRequest.promise;
+      });
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "Historical records" }));
+
+    expect(
+      await screen.findByText(
+        `1 of ${matchedHistoricalPids().length} historical PIDs shown on the map…`,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "geometry count: 1",
+    );
+  });
+
   it("renders the official pending result without a fabricated winning bid", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");

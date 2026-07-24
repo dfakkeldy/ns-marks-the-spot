@@ -125,4 +125,69 @@ describe("NSPRD PID queries", () => {
       pids,
     );
   });
+
+  it("reports a completed PID batch while a slower batch is still pending", async () => {
+    const pids = Array.from({ length: 41 }, (_, index) =>
+      String(10_000_000 + index),
+    );
+    let resolveFirstBatch!: (response: Response) => void;
+    let resolveSecondBatch!: (response: Response) => void;
+    const firstBatch = new Promise<Response>((resolve) => {
+      resolveFirstBatch = resolve;
+    });
+    const secondBatch = new Promise<Response>((resolve) => {
+      resolveSecondBatch = resolve;
+    });
+    const fetchMock = vi
+      .fn()
+      .mockReturnValueOnce(firstBatch)
+      .mockReturnValueOnce(secondBatch);
+    vi.stubGlobal("fetch", fetchMock);
+    const onBatch = vi.fn();
+
+    const collectionPromise = fetchParcels(pids, undefined, onBatch);
+    resolveSecondBatch(
+      new Response(
+        JSON.stringify({
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              properties: { PID: pids[40] },
+              geometry: { type: "Point", coordinates: [-60, 46] },
+            },
+          ],
+        }),
+        { status: 200 },
+      ),
+    );
+
+    await vi.waitFor(() => expect(onBatch).toHaveBeenCalledTimes(1));
+    expect(onBatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        features: [
+          expect.objectContaining({
+            properties: expect.objectContaining({ PID: pids[40] }),
+          }),
+        ],
+      }),
+    );
+
+    resolveFirstBatch(
+      new Response(
+        JSON.stringify({
+          type: "FeatureCollection",
+          features: pids.slice(0, 40).map((pid) => ({
+            type: "Feature",
+            properties: { PID: pid },
+            geometry: { type: "Point", coordinates: [-60, 46] },
+          })),
+        }),
+        { status: 200 },
+      ),
+    );
+    await expect(collectionPromise).resolves.toEqual(
+      expect.objectContaining({ features: expect.any(Array) }),
+    );
+  });
 });
