@@ -1,50 +1,32 @@
 """Geographic panels embedded in A.F. Church county sheets.
 
 Some Church sheets are composites: the county is split into multiple map
-panels and surrounded by title art or town-plan insets. A panel owns a source
-pixel window, while GCP CSVs continue to use coordinates from the complete
-archival scan.
+panels and surrounded by title art or town-plan insets. A panel owns an
+explicit non-rectangular `cutline`, while GCP CSVs continue to use coordinates
+from the complete archival scan.
+
+Every coordinate below was measured, not estimated. `tools/church/detect_rules.py`
+block-minimum reduces the scan, thresholds the heavy engraved rules, and runs a
+probabilistic Hough transform; the resulting segments give the neat lines, the
+panel divider, and every inset box to within a few pixels. The derivation and
+the exact segment evidence are recorded in
+`docs/church-inverness-cutlines-2026-07-24.md`.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-from tools.church.gcps import GroundControlPoint
+from tools.church.cutlines import Cutline
+from tools.church.windows import SourceWindow
 
-
-@dataclass(frozen=True)
-class SourceWindow:
-    """A rectangular crop in full-sheet pixel coordinates."""
-
-    x: int
-    y: int
-    width: int
-    height: int
-
-    @property
-    def x_end(self) -> int:
-        return self.x + self.width
-
-    @property
-    def y_end(self) -> int:
-        return self.y + self.height
-
-    def contains(self, pixel_x: float, pixel_y: float) -> bool:
-        return self.x <= pixel_x < self.x_end and self.y <= pixel_y < self.y_end
-
-    def to_local_point(self, point: GroundControlPoint) -> GroundControlPoint:
-        """Shift a full-sheet GCP into this crop's local pixel coordinates."""
-        if not self.contains(point.pixel_x, point.pixel_y):
-            raise ValueError(f"GCP {point.label!r} is outside the panel source window")
-        return GroundControlPoint(
-            point.pixel_x - self.x,
-            point.pixel_y - self.y,
-            point.lon,
-            point.lat,
-            point.role,
-            point.label,
-        )
+__all__ = [
+    "ChurchPanel",
+    "GeographicBounds",
+    "SourceWindow",
+    "get_panel",
+    "panels_for_county",
+]
 
 
 @dataclass(frozen=True)
@@ -63,23 +45,101 @@ class ChurchPanel:
 
     county_slug: str
     slug: str
-    window: SourceWindow
+    cutline: Cutline
     target_bounds: GeographicBounds
     target_resolution_m: float
 
+    @property
+    def window(self) -> SourceWindow:
+        """Smallest whole-pixel crop feeding gdal_translate -srcwin.
+
+        Derived, never stored: a window that could drift out of step with its
+        cutline is the 2026-07-24 failure waiting to happen again.
+        """
+        return self.cutline.bounding_window
+
+
+# The 1884 Inverness sheet is split by a two-segment engraved divider, not the
+# single straight edge a first reading suggests. Fitted from the Hough segments:
+#
+#   upper  x(y) = 15852 - 0.175874 * (y -   732)   for   732 <= y <= 23928
+#   lower  x(y) = 11776 - 0.466540 * (y - 23924)   for 23928 <= y <= 29550
+#
+# meeting at the bend (11773, 23928). Each panel's cutline is offset 60 px to
+# its own side of that centreline so the ~30 px engraved rule itself is warped
+# into neither panel.
+_DIVIDER_NORTH_HEAD = (15784.0, 780.0)
+_DIVIDER_NORTH_BEND = (11713.0, 23928.0)
+_DIVIDER_NORTH_FOOT = (9283.0, 29140.0)
+
+_DIVIDER_SOUTH_HEAD = (15904.0, 780.0)
+_DIVIDER_SOUTH_BEND = (11833.0, 23928.0)
+_DIVIDER_SOUTH_FOOT = (9225.0, 29520.0)
+
+_INVERNESS_NORTH_CUTLINE = Cutline(
+    (
+        # East along the top neat line from the title block to the divider.
+        (8850.0, 780.0),
+        _DIVIDER_NORTH_HEAD,
+        # Down the divider, through its bend, to the panel's own bottom rule.
+        _DIVIDER_NORTH_BEND,
+        _DIVIDER_NORTH_FOOT,
+        # West along the "NORTHERN SECTION" bottom rule (detected at y~29160).
+        (1050.0, 29140.0),
+        # North up the west neat line, then step around the title cartouche,
+        # compass rose, and imprint - all of which sit over open Gulf water, so
+        # excluding them costs no map content.
+        (1050.0, 9200.0),
+        (8850.0, 9200.0),
+    )
+)
+
+_INVERNESS_SOUTH_CUTLINE = Cutline(
+    (
+        _DIVIDER_SOUTH_HEAD,
+        # Notch around the engraved building vignette, which sits offshore in
+        # Northumberland Strait.
+        (17050.0, 780.0),
+        (17050.0, 3550.0),
+        (20100.0, 3550.0),
+        (20100.0, 780.0),
+        # East neat line, stepping around the West Bay inset.
+        (33500.0, 780.0),
+        (33500.0, 9850.0),
+        (30380.0, 9850.0),
+        (30380.0, 14120.0),
+        (33500.0, 14120.0),
+        # ... and around the Port Hood inset, which reaches the bottom rule.
+        (33500.0, 28100.0),
+        (30120.0, 28100.0),
+        (30120.0, 30330.0),
+        # West along the top of the bottom inset row: Port Hastings, Margaree,
+        # then down into the Strait of Canso gap, then Mabou and Whycocomagh.
+        (25580.0, 30330.0),
+        (25580.0, 30900.0),
+        (22620.0, 30900.0),
+        (22620.0, 33750.0),
+        (16920.0, 33750.0),
+        (16920.0, 30440.0),
+        (12680.0, 30440.0),
+        (12680.0, 29520.0),
+        _DIVIDER_SOUTH_FOOT,
+        _DIVIDER_SOUTH_BEND,
+    )
+)
 
 _PANELS = {
     ("inverness", "north"): ChurchPanel(
         county_slug="inverness",
         slug="north",
-        window=SourceWindow(x=0, y=0, width=14500, height=32200),
+        cutline=_INVERNESS_NORTH_CUTLINE,
         target_bounds=GeographicBounds(west=-61.35, south=46.30, east=-60.45, north=47.10),
         target_resolution_m=5.0,
     ),
     ("inverness", "south"): ChurchPanel(
         county_slug="inverness",
         slug="south",
-        window=SourceWindow(x=12500, y=0, width=21500, height=33500),
+        cutline=_INVERNESS_SOUTH_CUTLINE,
         target_bounds=GeographicBounds(west=-61.70, south=45.55, east=-60.55, north=46.40),
         target_resolution_m=5.0,
     ),
