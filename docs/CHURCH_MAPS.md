@@ -64,7 +64,10 @@ licence, so sourcing one is tracked as separate work.
 - Rumsey's copyright page currently states **CC BY-NC-SA 3.0**. (An earlier
   brief for this work said 4.0; the live page is authoritative.) The version
   is deliberately not hardcoded in either codebase — only the credit line and
-  the URL are, mirroring how the Fletcher layer is attributed.
+  the URL are. The four Church sheets carry the full credit line ("David
+  Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries") plus
+  the licence URL. The older Fletcher entry predates this convention and
+  still uses a short provider string with no licence URL at all.
 - The original maps (1864–1885) are public domain by age. The *scans* are what
   the Creative Commons terms cover.
 - This project is non-commercial and MIT-licensed, which fits BY-NC-SA.

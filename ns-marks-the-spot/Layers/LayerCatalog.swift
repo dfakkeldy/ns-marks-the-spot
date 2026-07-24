@@ -122,7 +122,7 @@ enum LayerCatalog {
             offlinePolicy: .onlineOnly,
             cacheKey: "church-inverness",
             attribution: rumseyAttribution,
-            userCaveat: "A.F. Church county map (published 1884); historical reference, not for navigation."
+            userCaveat: "A.F. Church county map (published 1884); tiles pending, not yet displayed. Historical reference, not for navigation."
         ),
         LayerDescriptor(
             id: .churchVictoria,
@@ -137,7 +137,7 @@ enum LayerCatalog {
             offlinePolicy: .onlineOnly,
             cacheKey: "church-victoria",
             attribution: rumseyAttribution,
-            userCaveat: "A.F. Church county map (published 1884); historical reference, not for navigation."
+            userCaveat: "A.F. Church county map (published 1884); tiles pending, not yet displayed. Historical reference, not for navigation."
         ),
         LayerDescriptor(
             id: .churchRichmond,
@@ -152,7 +152,7 @@ enum LayerCatalog {
             offlinePolicy: .onlineOnly,
             cacheKey: "church-richmond",
             attribution: rumseyAttribution,
-            userCaveat: "A.F. Church county map (published 1885); historical reference, not for navigation."
+            userCaveat: "A.F. Church county map (published 1885); tiles pending, not yet displayed. Historical reference, not for navigation."
         ),
         LayerDescriptor(
             id: .churchCapeBreton,
@@ -167,7 +167,7 @@ enum LayerCatalog {
             offlinePolicy: .onlineOnly,
             cacheKey: "church-cape-breton",
             attribution: rumseyAttribution,
-            userCaveat: "A.F. Church county map (published 1884); historical reference, not for navigation."
+            userCaveat: "A.F. Church county map (published 1884); tiles pending, not yet displayed. Historical reference, not for navigation."
         )
     ]
 
