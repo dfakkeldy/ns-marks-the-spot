@@ -162,6 +162,8 @@ describe("print document paged media", () => {
       "coastal-flood-2050", "coastal-flood-2100",
       "arsenic-risk-wells", "uranium-risk-wells",
       "manganese-risk-wells", "surficial-aquifers",
+      "zoning-inverness", "zoning-victoria", "zoning-richmond",
+      "zoning-cumberland", "zoning-halifax",
     ];
     const treatments = layerIds.map((id) => {
       const escapedId = id.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");

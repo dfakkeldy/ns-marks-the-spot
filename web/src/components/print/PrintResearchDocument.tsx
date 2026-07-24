@@ -98,6 +98,11 @@ const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   "uranium-risk-wells": "uranium-risk-bands",
   "manganese-risk-wells": "manganese-risk-bands",
   "surficial-aquifers": "aquifer-extent",
+  "zoning-inverness": "zoning-inverness-fill",
+  "zoning-victoria": "zoning-victoria-fill",
+  "zoning-richmond": "zoning-richmond-fill",
+  "zoning-cumberland": "zoning-cumberland-fill",
+  "zoning-halifax": "zoning-halifax-fill",
 };
 
 export function ActiveLayerLegend({
@@ -198,7 +203,7 @@ type AttributionSource = {
   label: string;
   sourceUrl: string;
   attribution: string;
-  licenceUrl: string;
+  licenceUrl: string | null;
 };
 
 function attributionMaterial(
@@ -234,7 +239,7 @@ export function RequiredAttribution({
   if (sources.length === 0) return null;
   const firstSourceIdByLicenceUrl = new Map<string, string>();
   for (const source of sources) {
-    if (!firstSourceIdByLicenceUrl.has(source.licenceUrl)) {
+    if (source.licenceUrl && !firstSourceIdByLicenceUrl.has(source.licenceUrl)) {
       firstSourceIdByLicenceUrl.set(source.licenceUrl, source.id);
     }
   }
@@ -249,7 +254,8 @@ export function RequiredAttribution({
         {sources.map((source) => (
           <li key={source.id}>
             <a href={source.sourceUrl}>{source.label} source</a>
-            {firstSourceIdByLicenceUrl.get(source.licenceUrl) === source.id ? (
+            {source.licenceUrl &&
+            firstSourceIdByLicenceUrl.get(source.licenceUrl) === source.id ? (
               <a href={source.licenceUrl}>{source.label} licence</a>
             ) : null}
           </li>
@@ -269,7 +275,7 @@ export function FieldRequiredAttribution({
   ]);
   const seenLicenceUrls = new Set<string>();
   const licences = sources.filter(({ licenceUrl }) => {
-    if (seenLicenceUrls.has(licenceUrl)) return false;
+    if (!licenceUrl || seenLicenceUrls.has(licenceUrl)) return false;
     seenLicenceUrls.add(licenceUrl);
     return true;
   });
@@ -282,7 +288,7 @@ export function FieldRequiredAttribution({
       <ul className="print-attribution-links">
         {licences.map((source) => (
           <li key={source.licenceUrl}>
-            <a href={source.licenceUrl}>{source.label} licence</a>
+            <a href={source.licenceUrl ?? undefined}>{source.label} licence</a>
           </li>
         ))}
       </ul>

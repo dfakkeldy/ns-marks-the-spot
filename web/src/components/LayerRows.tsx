@@ -6,6 +6,7 @@ import type {
   ProvinceLayerId,
   ResourceControlDescriptor,
   WebLayerDescriptor,
+  ZoningLayerDescriptor,
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 
@@ -228,6 +229,56 @@ export function HydroPilotLayerToggle({
           checked={checked}
           status={status}
         />
+      </span>
+    </label>
+  );
+}
+
+/**
+ * Zoning comes from municipal servers, so it sits outside the Province licence
+ * gate entirely and takes no licenceAccepted prop.
+ */
+export function ZoningLayerToggle({
+  layer,
+  checked,
+  status,
+  onChange,
+}: {
+  layer: ZoningLayerDescriptor;
+  checked: boolean;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label className="layer-row zoning-layer-row">
+      <input
+        type="checkbox"
+        aria-label={`${layer.name} zoning`}
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>{layer.webCaveat}</small>
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={checked}
+          status={status}
+        />
+        <a
+          className="layer-bylaw-link"
+          href={layer.bylawUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={(event) => event.stopPropagation()}
+        >
+          {layer.bylawLabel}
+        </a>
       </span>
     </label>
   );

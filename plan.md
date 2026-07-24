@@ -76,6 +76,10 @@
 - [ ] Add the DNRR radon-in-indoor-air potential layer once a Web Mercator service exists or a proj4 custom CRS is approved; the published `radon_cache` MapServer returns an empty image from `export` and caches tiles only in NAD83/MTM (wkid 2961)
 - [ ] Add separate Karst Risk and Known Karst Occurrences layers from DP ME 494 only with 2019 currentness, source-scale, completeness, and non-survey caveats
 - [ ] Add a selected-parcel Property context summary, starting with karst and coastal hazards; use the researched source order and caveats in `docs/property-context-data-candidates.md`
+- [x] Municipal zoning group rendering Inverness, Victoria, Richmond, Cumberland, and Halifax live from municipal ArcGIS services, unofficial, by-law linked, and never extracted to project data
+- [ ] Add Victoria's Baddeck plan area only after confirming with EDPC whether it supersedes or overlaps the county layer; the two currently return polygons for the same ground
+- [ ] Add municipal zoning to the selected-parcel evidence sheet and print appendix, reusing the `parcelResources.ts` query-table pattern
+- [ ] Add MODL zoning, including its explicit "Unzoned Area" polygons, as the model for stating that no zoning applies rather than showing nothing
 
 ## Future Considerations
 - Google Maps SDK as alternative engine

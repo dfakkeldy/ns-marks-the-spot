@@ -29,10 +29,13 @@ describe("ArcGIS feature overlays", () => {
       serviceUrl: "https://example.test/FeatureServer/0",
       bounds: { west: -62, south: 45, east: -60, north: 47 },
       outFields: ["geo_id", "Name"],
+      orderByFields: "geo_id",
+      idField: "geo_id",
     });
 
     const requestUrl = new URL(fetchMock.mock.calls[0][0]);
     expect(requestUrl.pathname).toBe("/FeatureServer/0/query");
+    expect(requestUrl.searchParams.get("orderByFields")).toBe("geo_id");
     expect(requestUrl.searchParams.get("geometry")).toBe("-62,45,-60,47");
     expect(requestUrl.searchParams.get("geometryType")).toBe(
       "esriGeometryEnvelope",
@@ -55,6 +58,8 @@ describe("ArcGIS feature overlays", () => {
       serviceUrl: "https://example.test/FeatureServer/0",
       bounds: { west: -62, south: 45, east: -60, north: 47 },
       outFields: ["geo_id"],
+      orderByFields: "geo_id",
+      idField: "geo_id",
       distanceMetres: 1_000,
     });
 
@@ -88,6 +93,8 @@ describe("ArcGIS feature overlays", () => {
       serviceUrl: "https://example.test/FeatureServer/0",
       bounds: { west: -62, south: 45, east: -60, north: 47 },
       outFields: ["geo_id", "Name"],
+      orderByFields: "geo_id",
+      idField: "geo_id",
     });
 
     expect(collection.features).toHaveLength(2_001);
@@ -108,7 +115,46 @@ describe("ArcGIS feature overlays", () => {
         serviceUrl: "https://example.test/FeatureServer/0",
         bounds: { west: -62, south: 45, east: -60, north: 47 },
         outFields: ["geo_id"],
+        orderByFields: "geo_id",
+        idField: "geo_id",
       }),
     ).rejects.toThrow("ArcGIS feature query failed (503)");
+  });
+
+  it("sorts and deduplicates polygon sources by their own identity field", async () => {
+    // Municipal zoning services reject geo_id and return polygons without a
+    // GeoJSON feature id, so paging has to sort and dedupe on OBJECTID.
+    const zone = (objectId: number) => ({
+      type: "Feature" as const,
+      geometry: {
+        type: "MultiPolygon" as const,
+        coordinates: [[[[-61.2, 46.1], [-61.1, 46.1], [-61.1, 46.2], [-61.2, 46.1]]]],
+      },
+      properties: { OBJECTID: objectId, Zone: "CR" },
+    });
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          type: "FeatureCollection",
+          features: [zone(11), zone(11), zone(12)],
+        }),
+        { status: 200 },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const collection = await fetchArcGISFeatureOverlay<GeoJSON.MultiPolygon>({
+      serviceUrl: "https://example.test/FeatureServer/708",
+      bounds: { west: -62, south: 45, east: -60, north: 47 },
+      outFields: ["OBJECTID", "Zone"],
+      orderByFields: "OBJECTID",
+      idField: "OBJECTID",
+    });
+
+    expect(
+      new URL(fetchMock.mock.calls[0][0]).searchParams.get("orderByFields"),
+    ).toBe("OBJECTID");
+    expect(collection.features).toHaveLength(2);
+    expect(collection.features[0].geometry.type).toBe("MultiPolygon");
   });
 });

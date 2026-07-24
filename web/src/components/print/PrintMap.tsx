@@ -6,10 +6,12 @@ import {
   provinceLayerCatalog,
   allResourceLayerCatalog,
   type EnvironmentalHealthLayerId,
+  zoningLayerCatalog,
   type FloodHazardLayerId,
   type HydroPilotLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
+  type ZoningLayerId,
 } from "../../layers/layerCatalog";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import {
@@ -74,6 +76,10 @@ function environmentalHealthVisibilityFor(layerIds: readonly ShareLayerId[]) {
     environmentalHealthLayerCatalog,
     layerIds,
   );
+}
+
+function zoningVisibilityFor(layerIds: readonly ShareLayerId[]) {
+  return visibilityFor<ZoningLayerId>(zoningLayerCatalog, layerIds);
 }
 
 export function PrintMap({
@@ -150,6 +156,7 @@ export function PrintMap({
         hydroPilotLayers={hydroVisibilityFor(layerIds)}
         floodHazardLayers={floodVisibilityFor(layerIds)}
         environmentalHealthLayers={environmentalHealthVisibilityFor(layerIds)}
+        zoningLayers={zoningVisibilityFor(layerIds)}
         showModernMap={layerIds.includes("modern")}
         showTaxSale={snapshot.mode === "current" && snapshot.taxSalePids.length > 0}
         showHistoricalTaxSales={

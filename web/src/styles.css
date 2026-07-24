@@ -746,6 +746,52 @@ a {
   line-height: 1.4;
 }
 
+.zoning-popup {
+  min-width: 210px;
+  color: var(--chart-ink);
+}
+
+.zoning-popup .zoning-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #6a4a12;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.zoning-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.1rem;
+}
+
+.zoning-popup .zoning-popup-plan-area {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.zoning-popup .zoning-popup-bylaw {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.zoning-popup .zoning-popup-note {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.zoning-layer-row .layer-bylaw-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.66rem;
+}
+
 .historical-layer-controls {
   --historical-ink: #5a4385;
   --historical-pale: #f4f0fb;
@@ -3077,6 +3123,66 @@ a {
       #fff 1.6mm,
       #bbb 1.6mm,
       #bbb 2.1mm
+    );
+}
+
+.print-layer-symbol--zoning-inverness {
+  border: 1pt solid #333;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #f2f2f2 0,
+      #f2f2f2 0.9mm,
+      #666 0.9mm,
+      #666 1.4mm
+    );
+}
+
+.print-layer-symbol--zoning-victoria {
+  border: 1pt solid #333;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f2f2f2 0,
+      #f2f2f2 0.9mm,
+      #666 0.9mm,
+      #666 1.4mm
+    );
+}
+
+.print-layer-symbol--zoning-richmond {
+  border: 1pt dashed #333;
+  background:
+    repeating-linear-gradient(
+      30deg,
+      #ededed 0,
+      #ededed 0.8mm,
+      #777 0.8mm,
+      #777 1.3mm
+    );
+}
+
+.print-layer-symbol--zoning-cumberland {
+  border: 1pt dotted #333;
+  background:
+    repeating-linear-gradient(
+      -30deg,
+      #e8e8e8 0,
+      #e8e8e8 0.8mm,
+      #888 0.8mm,
+      #888 1.3mm
+    );
+}
+
+.print-layer-symbol--zoning-halifax {
+  border: 1.25pt solid #222;
+  background:
+    repeating-radial-gradient(
+      circle at 0 0,
+      #f0f0f0 0,
+      #f0f0f0 0.5mm,
+      #666 0.5mm,
+      #666 0.9mm
     );
 }
 

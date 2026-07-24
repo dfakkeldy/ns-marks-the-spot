@@ -31,6 +31,54 @@ export type ResourceLayerId = SourceResourceLayerId | DerivedResourceLayerId;
 
 export type HydroPilotLayerId = "inverness-hydro-potential";
 
+export type ZoningLayerId =
+  | "zoning-inverness"
+  | "zoning-victoria"
+  | "zoning-richmond"
+  | "zoning-cumberland"
+  | "zoning-halifax";
+
+/**
+ * Municipal zoning is published per municipality; Nova Scotia has no
+ * provincial zoning layer. Sources differ in schema, licence, and currency, so
+ * each descriptor carries its own field mapping, licence, and authoritative
+ * by-law link rather than assuming a shared convention.
+ */
+export type ZoningLayerDescriptor = {
+  id: ZoningLayerId;
+  /** The zoning jurisdiction, which is not always the whole county. */
+  name: string;
+  serviceUrl: string;
+  sourceUrl: string;
+  /** The authoritative land use by-law this layer is a rendering of. */
+  bylawUrl: string;
+  bylawLabel: string;
+  licence: "municipal-open" | "municipal-no-stated-licence";
+  /** Null when the publisher states no licence terms at all. */
+  licenceUrl: string | null;
+  /**
+   * "live-query-only" sources are rendered straight from the publisher's
+   * public endpoint and must never be extracted into project data.
+   */
+  redistribution: "permitted" | "live-query-only";
+  attribution: string;
+  zoneCodeField: string;
+  zoneNameField: string;
+  planAreaField: string | null;
+  idField: string;
+  orderByFields: string;
+  outFields: readonly string[];
+  fillColor: string;
+  strokeColor: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+};
+
 export type FloodHazardLayerId =
   | "published-river-flood-zones"
   | "coastal-flood-current"
@@ -900,4 +948,179 @@ export const initialHydroPilotLayerVisibility: Record<
   boolean
 > = {
   "inverness-hydro-potential": false,
+};
+
+const EDPC_SOURCE_URL = "https://edpc.ca/plan-documents-and-maps/";
+const EDPC_ATTRIBUTION =
+  "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.";
+const UNOFFICIAL_ZONING_CAVEAT = "Unofficial · not for legal use";
+
+/**
+ * The three Eastern District Planning Commission counties share one schema
+ * (Zone, ZONETYPE, PLAN_) on one ArcGIS Online organisation, so one adapter
+ * serves all three. None of these services states a licence, so their geometry
+ * is queried live and never extracted into project data.
+ */
+export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
+  {
+    id: "zoning-inverness",
+    name: "Inverness County",
+    serviceUrl:
+      "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/IN_Zoning/FeatureServer/708",
+    sourceUrl: EDPC_SOURCE_URL,
+    bylawUrl: "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
+    bylawLabel: "Plan Inverness Land Use By-law",
+    licence: "municipal-no-stated-licence",
+    licenceUrl: null,
+    redistribution: "live-query-only",
+    attribution: EDPC_ATTRIBUTION,
+    zoneCodeField: "Zone",
+    zoneNameField: "ZONETYPE",
+    planAreaField: "PLAN_",
+    idField: "OBJECTID",
+    orderByFields: "OBJECTID",
+    outFields: ["OBJECTID", "Zone", "ZONETYPE", "PLAN_"],
+    fillColor: "#2a9d8f",
+    strokeColor: "#1d6f66",
+    minZoom: 12,
+    maxZoom: 23,
+    opacity: 0.45,
+    webCaveat: `${UNOFFICIAL_ZONING_CAVEAT} · zoom 12+`,
+    sourceDate:
+      "County-wide zoning in effect September 11, 2025 · service checked July 23, 2026",
+    scale: "1,125 zone polygons",
+    coverage:
+      "Municipality of the County of Inverness · towns are separate zoning jurisdictions",
+  },
+  {
+    id: "zoning-victoria",
+    name: "Victoria County",
+    serviceUrl:
+      "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/VIZoning_Clipped/FeatureServer/707",
+    sourceUrl: EDPC_SOURCE_URL,
+    bylawUrl: "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
+    bylawLabel: "Plan Victoria Land Use By-law",
+    licence: "municipal-no-stated-licence",
+    licenceUrl: null,
+    redistribution: "live-query-only",
+    attribution: EDPC_ATTRIBUTION,
+    zoneCodeField: "Zone",
+    zoneNameField: "ZONETYPE",
+    planAreaField: "PLAN_",
+    idField: "OBJECTID",
+    orderByFields: "OBJECTID",
+    outFields: ["OBJECTID", "Zone", "ZONETYPE", "PLAN_"],
+    fillColor: "#4361ee",
+    strokeColor: "#2f45a8",
+    minZoom: 12,
+    maxZoom: 23,
+    opacity: 0.45,
+    webCaveat: `${UNOFFICIAL_ZONING_CAVEAT} · excludes Baddeck · zoom 12+`,
+    sourceDate:
+      "County-wide zoning in effect October 2, 2025 · service checked July 23, 2026",
+    scale: "901 zone polygons",
+    coverage:
+      "Municipality of the County of Victoria · the Baddeck plan area is administered separately and is not included",
+  },
+  {
+    id: "zoning-richmond",
+    name: "Richmond County",
+    serviceUrl:
+      "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/RI_Plan_Richmond/FeatureServer/376",
+    sourceUrl: EDPC_SOURCE_URL,
+    bylawUrl: "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
+    bylawLabel: "Plan Richmond Land Use By-law",
+    licence: "municipal-no-stated-licence",
+    licenceUrl: null,
+    redistribution: "live-query-only",
+    attribution: EDPC_ATTRIBUTION,
+    zoneCodeField: "Zone",
+    zoneNameField: "ZONETYPE",
+    planAreaField: "PLAN_",
+    idField: "OBJECTID",
+    orderByFields: "OBJECTID",
+    outFields: ["OBJECTID", "Zone", "ZONETYPE", "PLAN_"],
+    fillColor: "#e76f51",
+    strokeColor: "#a94b33",
+    minZoom: 12,
+    maxZoom: 23,
+    opacity: 0.45,
+    webCaveat: `${UNOFFICIAL_ZONING_CAVEAT} · zoom 12+`,
+    sourceDate:
+      "Plan Richmond adopted February 26, 2024 · service checked July 23, 2026",
+    scale: "1,284 zone polygons",
+    coverage:
+      "Municipality of the County of Richmond · towns are separate zoning jurisdictions",
+  },
+  {
+    id: "zoning-cumberland",
+    name: "Cumberland County",
+    serviceUrl:
+      "https://services6.arcgis.com/9de72LkV8htkdfB9/arcgis/rest/services/Zoning_Cumberland_2018_abbr2/FeatureServer/0",
+    sourceUrl:
+      "https://data-cumberlandns.opendata.arcgis.com/datasets/CumberlandNS::zoning-cumberland-2022",
+    bylawUrl: "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
+    bylawLabel: "Cumberland Land Use By-law",
+    licence: "municipal-no-stated-licence",
+    licenceUrl: null,
+    redistribution: "live-query-only",
+    attribution:
+      "Zoning rendered live from the Municipality of the County of Cumberland's public map service. Not an official copy of the land use by-law.",
+    zoneCodeField: "ZONE",
+    zoneNameField: "ZoneName",
+    planAreaField: null,
+    idField: "OBJECTID",
+    orderByFields: "OBJECTID",
+    outFields: ["OBJECTID", "ZONE", "ZoneName"],
+    fillColor: "#588157",
+    strokeColor: "#38553a",
+    minZoom: 13,
+    maxZoom: 23,
+    opacity: 0.45,
+    webCaveat: `${UNOFFICIAL_ZONING_CAVEAT} · 2025 geometry · zoom 13+`,
+    sourceDate:
+      "2018 by-law consolidated to April 17, 2026 · CU_Zone_2025 geometry · service checked July 23, 2026",
+    scale: "34,281 zone polygons",
+    coverage:
+      "Municipality of the County of Cumberland · Amherst, Oxford, and Parrsboro are separate zoning jurisdictions",
+  },
+  {
+    id: "zoning-halifax",
+    name: "Halifax Regional Municipality",
+    serviceUrl:
+      "https://services2.arcgis.com/11XBiaBYA9Ep0yNJ/arcgis/rest/services/ZoningBoundaries/FeatureServer/0",
+    sourceUrl: "https://data-hrm.hub.arcgis.com/",
+    bylawUrl:
+      "https://www.halifax.ca/city-hall/legislation-by-laws/land-use-by-laws",
+    bylawLabel: "Halifax land use by-law index",
+    licence: "municipal-open",
+    licenceUrl: "https://data-hrm.hub.arcgis.com/pages/open-data-licence",
+    redistribution: "permitted",
+    attribution:
+      "Contains information licenced under the Open Government Licence—Halifax.",
+    zoneCodeField: "ZONE",
+    zoneNameField: "DESCRIPTION",
+    planAreaField: null,
+    idField: "OBJECTID",
+    orderByFields: "OBJECTID",
+    outFields: ["OBJECTID", "ZONE", "DESCRIPTION", "BYLAW_ID"],
+    fillColor: "#b5179e",
+    strokeColor: "#7c1069",
+    minZoom: 13,
+    maxZoom: 23,
+    opacity: 0.45,
+    webCaveat: `${UNOFFICIAL_ZONING_CAVEAT} · 22 plan-area by-laws · zoom 13+`,
+    sourceDate: "Live service · checked July 23, 2026",
+    scale: "11,076 zone polygons",
+    coverage:
+      "Halifax Regional Municipality · zoning is set by 22 separate plan-area by-laws, so confirm which by-law governs a parcel",
+  },
+] as const;
+
+export const initialZoningLayerVisibility: Record<ZoningLayerId, boolean> = {
+  "zoning-inverness": false,
+  "zoning-victoria": false,
+  "zoning-richmond": false,
+  "zoning-cumberland": false,
+  "zoning-halifax": false,
 };

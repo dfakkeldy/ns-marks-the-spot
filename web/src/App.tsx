@@ -16,6 +16,7 @@ import {
 import {
   EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
+  ZoningLayerToggle,
   HydroPilotLayerToggle,
   HydroPotentialLegend,
   LayerMetadata,
@@ -70,11 +71,14 @@ import {
   provinceLayerCatalog,
   resourceLayerCatalog,
   topographyLayerCatalog,
+  initialZoningLayerVisibility,
+  zoningLayerCatalog,
   type HydroPilotLayerId,
   type EnvironmentalHealthLayerId,
   type FloodHazardLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
+  type ZoningLayerId,
 } from "./layers/layerCatalog";
 import {
   CIVIC_ADDRESS_DATASET_URL,
@@ -172,6 +176,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
+  ...zoningLayerCatalog.map(({ id }) => id),
 ];
 
 function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
@@ -423,6 +428,14 @@ function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
     attribution: layer.licence === "province-restricted"
       ? PROVINCE_ATTRIBUTION
       : OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: layer.licenceUrl,
+  }));
+  zoningLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: `${layer.name} zoning`,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.attribution,
     licenceUrl: layer.licenceUrl,
   }));
   return sources;
@@ -725,6 +738,16 @@ export function App() {
           ]),
         ) as Record<EnvironmentalHealthLayerId, boolean>
       : initialEnvironmentalHealthLayerVisibility,
+  );
+  const [zoningLayers, setZoningLayers] = useState(
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          zoningLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<ZoningLayerId, boolean>
+      : initialZoningLayerVisibility,
   );
 
   useEffect(() => {
@@ -1282,6 +1305,10 @@ export function App() {
     setEnvironmentalHealthLayers((current) => ({ ...current, [id]: visible }));
   };
 
+  const setZoningLayerVisibility = (id: ZoningLayerId, visible: boolean) => {
+    setZoningLayers((current) => ({ ...current, [id]: visible }));
+  };
+
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       setLayerStatuses((current) => ({ ...current, [id]: status }));
@@ -1553,6 +1580,9 @@ export function App() {
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
       .map(({ id }) => id),
+    ...zoningLayerCatalog
+      .filter(({ id }) => zoningLayers[id])
+      .map(({ id }) => id),
   ], [
     effectiveEnvironmentalHealthLayers,
     floodHazardLayers,
@@ -1560,6 +1590,7 @@ export function App() {
     provinceLayers,
     resourceLayers,
     showModernMap,
+    zoningLayers,
   ]);
   const printEventIds = useMemo(
     () => mapMode === "current"
@@ -1596,6 +1627,9 @@ export function App() {
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
       .map(({ id }) => id),
+    ...zoningLayerCatalog
+      .filter(({ id }) => zoningLayers[id])
+      .map(({ id }) => id),
   ], [
     effectiveEnvironmentalHealthLayers,
     effectiveResourceLayers,
@@ -1604,6 +1638,7 @@ export function App() {
     licenceAccepted,
     provinceLayers,
     showModernMap,
+    zoningLayers,
   ]);
   const currentPrintEvidence = useMemo<PrintEvidence>(() => ({
     mappedArea: selectedMappedArea,
@@ -1791,6 +1826,13 @@ export function App() {
         .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...zoningLayerCatalog
+        .filter(({ id }) => zoningLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name: `${name} zoning (unofficial)`,
           sourceUrl,
           sourceDate,
         })),
@@ -2149,6 +2191,39 @@ export function App() {
                   results for any property. A parcel takes the band of the rock
                   beneath it, and wells in any band can exceed a guideline.
                   Testing your well water is the only way to know what is in it.
+                </p>
+              </div>
+            </details>
+            <details className="resource-layer-group zoning-layer-group">
+              <summary>
+                <span>Municipal zoning</span>
+                <small>5 optional unofficial layers</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {zoningLayerCatalog.map((layer) => (
+                  <ZoningLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={zoningLayers[layer.id]}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setZoningLayerVisibility(layer.id, checked)
+                    }
+                  />
+                ))}
+                <p className="resource-source-note">
+                  These are unofficial renderings of municipal map services, not
+                  the municipalities&rsquo; official copies, and are not to be
+                  used for legal purposes. Always confirm a zone and its rules
+                  against the linked land use by-law and with the municipality.
+                </p>
+                <p className="resource-source-note">
+                  Nova Scotia publishes no provincial zoning layer, and most
+                  municipalities publish no zoning GIS at all. An area with no
+                  polygon is an area this map has no data for &mdash; it is not
+                  evidence that no zoning applies. Towns inside a county are
+                  separate zoning jurisdictions, so a county layer does not
+                  cover town parcels.
                 </p>
               </div>
             </details>
@@ -2514,6 +2589,7 @@ export function App() {
             hydroPilotLayers={hydroPilotLayers}
             floodHazardLayers={floodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
+            zoningLayers={zoningLayers}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0

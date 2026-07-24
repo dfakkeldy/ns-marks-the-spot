@@ -135,6 +135,33 @@ describe("PrintMap", () => {
     });
   });
 
+  it("makes a captured zoning layer visible so print readiness can resolve", () => {
+    // A captured layer the print map never makes visible reports "idle"
+    // forever, which is neither ready nor zoom, so the preview would hang.
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{ ...snapshot, layerIds: ["zoning-inverness"] } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(
+      (mapCanvasProps.current?.zoningLayers as Record<string, boolean>)[
+        "zoning-inverness"
+      ],
+    ).toBe(true);
+    act(() => reportLayerStatus("zoning-inverness", { status: "ready", count: 3 }));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready",
+      renderedLayerIds: ["zoning-inverness"],
+      belowZoomLayerIds: [],
+    });
+  });
+
   it("does not claim pending layers rendered when another layer has failed", () => {
     const onReadinessChange = vi.fn();
     render(

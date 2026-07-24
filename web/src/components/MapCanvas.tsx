@@ -34,6 +34,8 @@ import {
   type ResourceLayerId,
   type ResourceMapLayerDescriptor,
   type WebLayerDescriptor,
+  zoningLayerCatalog,
+  type ZoningLayerId,
 } from "../layers/layerCatalog";
 import {
   loadInvernessHydroPotential,
@@ -68,6 +70,7 @@ import {
 import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
 import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
+import { ZoningLayer } from "./ZoningLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
@@ -75,6 +78,8 @@ import {
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
+  ZONING_PANE,
+  ZONING_PANE_Z_INDEX,
 } from "./mapPanes";
 
 type MapCanvasProps = {
@@ -87,6 +92,7 @@ type MapCanvasProps = {
   hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
+  zoningLayers?: Record<ZoningLayerId, boolean>;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -122,7 +128,8 @@ export type MapLayerId =
   | ResourceLayerId
   | HydroPilotLayerId
   | FloodHazardLayerId
-  | EnvironmentalHealthLayerId;
+  | EnvironmentalHealthLayerId
+  | ZoningLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
@@ -156,6 +163,13 @@ const HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS: Record<
   "uranium-risk-wells": false,
   "manganese-risk-wells": false,
   "surficial-aquifers": false,
+};
+const HIDDEN_ZONING_LAYERS: Record<ZoningLayerId, boolean> = {
+  "zoning-inverness": false,
+  "zoning-victoria": false,
+  "zoning-richmond": false,
+  "zoning-cumberland": false,
+  "zoning-halifax": false,
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
@@ -474,6 +488,8 @@ function ArcGISFeatureLayer({
           north: bounds.getNorth(),
         },
         outFields: layer.outFields,
+        orderByFields: "geo_id",
+        idField: "geo_id",
         signal: controller.signal,
       })
         .then((nextCollection) => {
@@ -1195,6 +1211,7 @@ export function MapCanvas({
   hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
+  zoningLayers = HIDDEN_ZONING_LAYERS,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1398,6 +1415,17 @@ export function MapCanvas({
             renderMode={renderMode}
           />
         ))}
+        <Pane name={ZONING_PANE} style={{ zIndex: ZONING_PANE_Z_INDEX }}>
+          {zoningLayerCatalog.map((layer) => (
+            <ZoningLayer
+              key={layer.id}
+              layer={layer}
+              visible={zoningLayers[layer.id]}
+              onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
+            />
+          ))}
+        </Pane>
         <Pane
           name={MINERAL_PROXIMITY_PANE}
           style={{ zIndex: MINERAL_PROXIMITY_PANE_Z_INDEX }}
