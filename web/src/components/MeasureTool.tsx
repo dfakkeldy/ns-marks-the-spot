@@ -203,7 +203,14 @@ function MeasureCapture({
                 closesRing
                   ? {
                       click: (event) => {
-                        L.DomEvent.stopPropagation(event.originalEvent);
+                        // Leaflet's Map dispatch loop checks the Leaflet
+                        // event's own `_stopped` flag, which
+                        // `DomEvent.stopPropagation` only sets when given the
+                        // Leaflet event itself — passing `event.originalEvent`
+                        // (the raw DOM event) stops DOM bubbling but leaves
+                        // the map's own click handler free to fire, which
+                        // would restart the measurement right after finish().
+                        L.DomEvent.stopPropagation(event);
                         finish();
                       },
                     }
