@@ -27,6 +27,7 @@ vi.mock("./components/MapCanvas", () => ({
     provinceLayers,
     resourceLayers,
     hydroPilotLayers,
+    environmentalHealthLayers,
     showModernMap,
     showHistoricalTaxSales,
     initialPosition,
@@ -44,6 +45,7 @@ vi.mock("./components/MapCanvas", () => ({
     provinceLayers: Record<string, boolean>;
     resourceLayers: Record<string, boolean>;
     hydroPilotLayers: Record<string, boolean>;
+    environmentalHealthLayers?: Record<string, boolean>;
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
@@ -82,6 +84,10 @@ vi.mock("./components/MapCanvas", () => ({
           "coastal-flood-current",
           "coastal-flood-2050",
           "coastal-flood-2100",
+          "arsenic-risk-wells",
+          "uranium-risk-wells",
+          "manganese-risk-wells",
+          "surficial-aquifers",
         ].forEach((id) => onLayerStatusChange?.(id, { status: "ready" }));
         return;
       }
@@ -111,6 +117,9 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["abandoned-mines"] ? "on" : "off"}; mineral proximity parcels:{" "}
       {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
       ; Inverness micro-hydro screen: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
+      ; arsenic risk: {environmentalHealthLayers?.["arsenic-risk-wells"] ? "on" : "off"}
+      ; uranium risk: {environmentalHealthLayers?.["uranium-risk-wells"] ? "on" : "off"}
+      ; surficial aquifers: {environmentalHealthLayers?.["surficial-aquifers"] ? "on" : "off"}
       {renderMode === "print"
         ? `; ${fitBounds ? "Parcel fit" : "Missing parcel fit"}`
         : <>; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}</>}
@@ -590,6 +599,70 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(new URL(window.location.href).searchParams.get("event"))
       .toContain("hrm-2022-03-08");
+  });
+
+  it("refuses to render a restricted environmental screen shared before licence acceptance", () => {
+    window.history.replaceState(
+      null,
+      "",
+      "/?mode=current&layers=arsenic-risk-wells,uranium-risk-wells,surficial-aquifers",
+    );
+
+    render(<App />);
+
+    // The open-licensed uranium screen needs no acceptance; the two restricted
+    // services must stay off until the Province licence is accepted.
+    const canvas = screen.getByTestId("map-canvas");
+    expect(canvas).toHaveTextContent("arsenic risk: off");
+    expect(canvas).toHaveTextContent("surficial aquifers: off");
+    expect(canvas).toHaveTextContent("uranium risk: on");
+  });
+
+  it("renders shared environmental screens once the licence is accepted", () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?mode=current&layers=arsenic-risk-wells,surficial-aquifers",
+    );
+
+    render(<App />);
+
+    const canvas = screen.getByTestId("map-canvas");
+    expect(canvas).toHaveTextContent("arsenic risk: on");
+    expect(canvas).toHaveTextContent("surficial aquifers: on");
+  });
+
+  it("carries the province's testing guidance beside every well-water screen", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    render(<App />);
+
+    await user.click(screen.getByText("Environmental health screens"));
+
+    expect(
+      screen.getByText(/Testing your well is the only way to find out/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /relative risk zones mapped by bedrock unit, not test\s+results for any property/i,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/says nothing about water quality at any property/i),
+    ).toBeInTheDocument();
+
+    const arsenic = screen.getByLabelText("Arsenic risk — bedrock wells");
+    expect(arsenic).toBeEnabled();
+    expect(arsenic).not.toBeChecked();
+
+    await user.click(arsenic);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "arsenic risk: on",
+    );
+    expect(
+      screen.getByRole("list", { name: "Arsenic risk — bedrock wells risk bands" }),
+    ).toBeInTheDocument();
   });
 
   it("keeps layer provenance one disclosure away without burying the live status", async () => {

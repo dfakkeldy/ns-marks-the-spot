@@ -4,10 +4,12 @@ export const CIVIC_ADDRESS_DATASET_URL =
   "https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g";
 export const CIVIC_ADDRESS_GEOJSON_URL =
   "https://data.novascotia.ca/resource/tntn-er5g.geojson";
-export const OPEN_GOVERNMENT_LICENCE_URL =
-  "https://support.novascotia.ca/services/open-data-portal-licence";
-export const OPEN_GOVERNMENT_ATTRIBUTION =
-  "Contains information licensed under the Open Government Licence – Nova Scotia.";
+// Canonical definitions live in the licensing module; re-exported here so the
+// established `services/civicAddresses` import path keeps working.
+export {
+  OPEN_GOVERNMENT_ATTRIBUTION,
+  OPEN_GOVERNMENT_LICENCE_URL,
+} from "../licensing/provinceLicense";
 
 export const CIVIC_ADDRESS_FIELDS = [
   "the_geom",

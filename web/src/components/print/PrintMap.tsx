@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
   allResourceLayerCatalog,
+  type EnvironmentalHealthLayerId,
   type FloodHazardLayerId,
   type HydroPilotLayerId,
   type ProvinceLayerId,
@@ -65,6 +67,13 @@ function hydroVisibilityFor(layerIds: readonly ShareLayerId[]) {
 
 function floodVisibilityFor(layerIds: readonly ShareLayerId[]) {
   return visibilityFor<FloodHazardLayerId>(floodHazardLayerCatalog, layerIds);
+}
+
+function environmentalHealthVisibilityFor(layerIds: readonly ShareLayerId[]) {
+  return visibilityFor<EnvironmentalHealthLayerId>(
+    environmentalHealthLayerCatalog,
+    layerIds,
+  );
 }
 
 export function PrintMap({
@@ -140,6 +149,7 @@ export function PrintMap({
         resourceLayers={resourceVisibilityFor(layerIds)}
         hydroPilotLayers={hydroVisibilityFor(layerIds)}
         floodHazardLayers={floodVisibilityFor(layerIds)}
+        environmentalHealthLayers={environmentalHealthVisibilityFor(layerIds)}
         showModernMap={layerIds.includes("modern")}
         showTaxSale={snapshot.mode === "current" && snapshot.taxSalePids.length > 0}
         showHistoricalTaxSales={

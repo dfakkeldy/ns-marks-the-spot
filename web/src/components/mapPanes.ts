@@ -12,6 +12,14 @@ export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
   waterfalls: 250,
 };
 
+/**
+ * Environmental-health risk layers classify every bedrock unit, so they render
+ * as a wall-to-wall wash rather than a sparse overlay. They sit just above the
+ * aerial imagery and below contours so parcels, roads, and water stay readable
+ * on top of them.
+ */
+export const ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX = 165;
+
 export const MINERAL_PROXIMITY_PANE = "mineral-proximity-parcels-pane";
 export const MINERAL_PROXIMITY_PANE_Z_INDEX = 390;
 

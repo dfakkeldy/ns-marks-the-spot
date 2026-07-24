@@ -160,6 +160,8 @@ describe("print document paged media", () => {
       "mineral-proximity-parcels", "inverness-hydro-potential",
       "published-river-flood-zones", "coastal-flood-current",
       "coastal-flood-2050", "coastal-flood-2100",
+      "arsenic-risk-wells", "uranium-risk-wells",
+      "manganese-risk-wells", "surficial-aquifers",
     ];
     const treatments = layerIds.map((id) => {
       const escapedId = id.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");

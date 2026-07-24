@@ -2,9 +2,11 @@ import { taxSaleEvents } from "../data/taxSaleCatalog";
 import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
 import {
   allResourceLayerCatalog,
+  environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
+  type EnvironmentalHealthLayerId,
   type HydroPilotLayerId,
   type FloodHazardLayerId,
   type ProvinceLayerId,
@@ -18,7 +20,8 @@ export type ShareLayerId =
   | ProvinceLayerId
   | ResourceLayerId
   | HydroPilotLayerId
-  | FloodHazardLayerId;
+  | FloodHazardLayerId
+  | EnvironmentalHealthLayerId;
 
 export type MapPosition = {
   latitude: number;
@@ -57,6 +60,7 @@ const validLayerIds = new Set<ShareLayerId>([
   ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
+  ...environmentalHealthLayerCatalog.map(({ id }) => id),
 ]);
 
 function clamp(value: number, minimum: number, maximum: number): number {

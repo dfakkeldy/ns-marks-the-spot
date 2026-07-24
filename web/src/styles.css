@@ -571,6 +571,37 @@ a {
   font-weight: 700;
 }
 
+.environmental-health-guidance {
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.environmental-health-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 5px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.environmental-health-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.environmental-health-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
 .hydro-pilot-group .resource-layer-controls {
   background: rgba(51, 151, 183, 0.07);
   border-color: rgba(8, 118, 155, 0.24);
@@ -3000,6 +3031,52 @@ a {
       #ccc 1mm,
       #555 1mm,
       #555 2mm
+    );
+}
+
+.print-layer-symbol--arsenic-risk-wells {
+  border: 1pt solid #333;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #fafafa 0,
+      #fafafa 0.9mm,
+      #666 0.9mm,
+      #666 1.8mm
+    );
+}
+
+.print-layer-symbol--uranium-risk-wells {
+  border: 1.25pt dotted #333;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #f2f2f2 0,
+      #f2f2f2 1.2mm,
+      #888 1.2mm,
+      #888 2.4mm
+    );
+}
+
+.print-layer-symbol--manganese-risk-wells {
+  border: 0.75pt solid #666;
+  background:
+    linear-gradient(
+      180deg,
+      #ddd 0 50%,
+      #777 50% 100%
+    );
+}
+
+.print-layer-symbol--surficial-aquifers {
+  border: 1pt dashed #777;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #fff 0,
+      #fff 1.6mm,
+      #bbb 1.6mm,
+      #bbb 2.1mm
     );
 }
 
