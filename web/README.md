@@ -74,7 +74,10 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    the dataset's eight-digit key. Otherwise, the browser requests assessment
    account points in each selected parcel bounding box and retains only points
    inside the exact Polygon or MultiPolygon geometry. Multiple AANs stay
-   separate and are never summed.
+   separate and are never summed. Matched accounts are then looked up in PVSC's
+   residential dwelling characteristics dataset, whose assessment-driven
+   records (build year, style, living area) surface recent construction that
+   aerial-photography building layers can miss for years.
 10. Every selected eight-character PID has a user-initiated **Open parcel in
     ViewPoint** link. The short PID URL redirects to ViewPoint's canonical parcel
     page, which exists whether or not the property has a current MLS listing.
@@ -289,6 +292,18 @@ not a current sale price or appraisal. The parcel sheet and evidence note show
 the dataset date, required attribution, and the [Open Data & Information
 Government Licence – PVSC & Participating Municipalities](https://www.pvsc.ca/sites/default/files/shared/Open%20Data%20and%20Information%20Government%20Licence%20-%20PVSC%20and%20Participating%20Municipalities.pdf).
 No assessed-owner names are requested or displayed.
+
+`services/pvscDwellings.ts` uses the [PVSC residential dwelling characteristics
+dataset](https://www.thedatazone.ca/Assessment/Residential-Dwelling-Characteristics/a859-xvcs)
+to list per-dwelling records — build year, style, living area, living units,
+bathrooms, garage, and under-construction flags — for the assessment accounts
+matched above. Dwelling lookups depend on a matched account: when the
+assessment source fails, the dwelling row reports a blocked lookup rather than
+implying absence. Records are assessment records, not a building census;
+multi-unit parcels can repeat living-unit totals across records, and
+commercial or other non-residential structures are not in this dataset. The
+dwelling row complements the NSTDB mapped-building count because assessment
+records reflect permitted new construction long before aerial re-mapping does.
 
 The same selected polygon is checked independently against the Province's
 Mineral Occurrences inventory for exact and 1-kilometre relationships. NovaROC

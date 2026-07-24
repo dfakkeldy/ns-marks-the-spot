@@ -38,6 +38,32 @@ describe("parcel evidence note", () => {
           }],
         },
       },
+      dwellingEvidence: {
+        status: "ready",
+        accounts: [{
+          aan: "00603988",
+          dwellings: [
+            {
+              yearBuilt: 2018,
+              style: "Manufactured Home",
+              squareFeetLivingArea: 1056,
+              livingUnits: 1,
+              bathrooms: 2,
+              garage: false,
+              underConstruction: false,
+            },
+            {
+              yearBuilt: 1962,
+              style: "1 Storey",
+              squareFeetLivingArea: 480,
+              livingUnits: 1,
+              bathrooms: 0,
+              garage: null,
+              underConstruction: null,
+            },
+          ],
+        }],
+      },
       resourceResults: [{
         name: "Mineral occurrences",
         sourceUrl: "https://example.com/minerals",
@@ -66,6 +92,14 @@ describe("parcel evidence note", () => {
     expect(note.markdown).toContain("matched directly from the municipal notice AAN");
     expect(note.markdown).toContain("not a current market appraisal or sale price");
     expect(note.markdown).toContain("Open Data & Information Government Licence");
+    expect(note.markdown).toContain("## PVSC residential dwelling records");
+    expect(note.markdown).toContain(
+      "- built 2018 · Manufactured Home · 1,056 sq ft living area · 1 living unit · 2 bathrooms · no garage",
+    );
+    expect(note.markdown).toContain(
+      "- built 1962 · 1 Storey · 480 sq ft living area · 1 living unit · 0 bathrooms",
+    );
+    expect(note.markdown).toContain("not a building census");
   });
 
   it("exports source-specific bounded empty wording", () => {
@@ -82,6 +116,7 @@ describe("parcel evidence note", () => {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
       },
+      dwellingEvidence: { status: "ready", accounts: [] },
       resourceResults: [{
         name: "Mineral occurrences",
         sourceUrl: "https://example.com/minerals",
@@ -96,6 +131,9 @@ describe("parcel evidence note", () => {
     );
     expect(note.markdown).toContain(
       "No PVSC assessment account point was returned inside the mapped parcel geometry.",
+    );
+    expect(note.markdown).toContain(
+      "No residential dwelling record was returned for the matched assessment accounts.",
     );
   });
 
@@ -125,6 +163,7 @@ describe("parcel evidence note", () => {
           ],
         },
       },
+      dwellingEvidence: { status: "ready", accounts: [] },
       resourceResults: [],
     });
 
@@ -145,9 +184,36 @@ describe("parcel evidence note", () => {
       events: [],
       civicAddresses: [],
       assessmentEvidence: { status: "error" },
+      dwellingEvidence: { status: "blocked" },
       resourceResults: [],
     });
 
     expect(note.markdown).toContain("PVSC assessment source unavailable at export time.");
+    expect(note.markdown).toContain(
+      "Dwelling records were not looked up because no PVSC assessment account could be resolved.",
+    );
+  });
+
+  it("records a dwelling source failure explicitly", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: [],
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "error" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "PVSC residential dwelling source unavailable at export time.",
+    );
   });
 });

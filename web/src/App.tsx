@@ -27,6 +27,7 @@ import {
   type AssessmentState,
   type BuildingCountState,
   type CivicAddressState,
+  type DwellingState,
   type FloodHazardState,
   type ParcelContextState,
   type ParcelResourceState,
@@ -103,6 +104,7 @@ import {
 } from "./services/parcelResources";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
+import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 import {
   eventDate,
   eventDateLabel,
@@ -414,6 +416,9 @@ export function App() {
   const [buildingCount, setBuildingCount] = useState<BuildingCountState>({
     status: initialShareState.pid ? "loading" : "idle",
   });
+  const [dwellingState, setDwellingState] = useState<DwellingState>({
+    status: "idle",
+  });
   const [assessmentState, setAssessmentState] = useState<AssessmentState>({
     status: initialShareState.pid ? "loading" : "idle",
   });
@@ -672,6 +677,36 @@ export function App() {
 
     return () => controller.abort();
   }, [licenceAccepted, mapMode, parcels, selectedPid]);
+
+  useEffect(() => {
+    if (assessmentState.status !== "ready") {
+      setDwellingState({
+        status: assessmentState.status === "error"
+          ? "blocked"
+          : assessmentState.status,
+      });
+      return;
+    }
+
+    const aans = assessmentState.value.accounts.map(({ aan }) => aan);
+    if (aans.length === 0) {
+      setDwellingState({ status: "ready", value: [] });
+      return;
+    }
+
+    const controller = new AbortController();
+    setDwellingState({ status: "loading" });
+    fetchDwellingCharacteristics(aans, controller.signal)
+      .then((value) => setDwellingState({ status: "ready", value }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        setDwellingState({ status: "error" });
+      });
+
+    return () => controller.abort();
+  }, [assessmentState]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted) return;
@@ -1187,7 +1222,10 @@ export function App() {
     if (
       !selectedPid ||
       resourceIntersections.status !== "ready" ||
-      (assessmentState.status !== "ready" && assessmentState.status !== "error")
+      (assessmentState.status !== "ready" && assessmentState.status !== "error") ||
+      (dwellingState.status !== "ready" &&
+        dwellingState.status !== "error" &&
+        dwellingState.status !== "blocked")
     ) {
       return;
     }
@@ -1284,6 +1322,11 @@ export function App() {
       assessmentEvidence: assessmentState.status === "ready"
         ? { status: "ready", result: assessmentState.value }
         : { status: "error" },
+      dwellingEvidence: dwellingState.status === "ready"
+        ? { status: "ready", accounts: dwellingState.value }
+        : dwellingState.status === "blocked"
+          ? { status: "blocked" }
+          : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
         const result = resourceIntersections.value[layer.id];
         return {
@@ -1945,6 +1988,7 @@ export function App() {
               mappedArea={selectedMappedArea}
               buildingCount={buildingCount}
               assessmentState={assessmentState}
+              dwellingState={dwellingState}
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
@@ -1956,7 +2000,10 @@ export function App() {
               onExportEvidence={exportEvidence}
               evidenceReady={
                 resourceIntersections.status === "ready" &&
-                (assessmentState.status === "ready" || assessmentState.status === "error")
+                (assessmentState.status === "ready" || assessmentState.status === "error") &&
+                (dwellingState.status === "ready" ||
+                  dwellingState.status === "error" ||
+                  dwellingState.status === "blocked")
               }
               now={currentTime}
               onClose={() => {
@@ -1967,6 +2014,7 @@ export function App() {
                 });
                 setBuildingCount({ status: "idle" });
                 setAssessmentState({ status: "idle" });
+                setDwellingState({ status: "idle" });
                 setCivicAddresses({
                   status: "idle",
                   value: EMPTY_CIVIC_ADDRESSES,

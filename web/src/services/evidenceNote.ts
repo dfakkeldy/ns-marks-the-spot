@@ -6,6 +6,12 @@ import {
   PVSC_OPEN_DATA_LICENCE_URL,
   type ParcelAssessmentResult,
 } from "./pvscAssessments";
+import {
+  PVSC_DWELLING_DATASET_URL,
+  PVSC_DWELLING_SOURCE_DATE,
+  type PvscDwelling,
+  type PvscDwellingAccount,
+} from "./pvscDwellings";
 
 type EvidenceSource = {
   name: string;
@@ -30,6 +36,11 @@ type AssessmentEvidence =
   | { status: "ready"; result: ParcelAssessmentResult }
   | { status: "error" };
 
+type DwellingEvidence =
+  | { status: "ready"; accounts: PvscDwellingAccount[] }
+  | { status: "error" }
+  | { status: "blocked" };
+
 export type EvidenceNoteInput = {
   generatedAt: Date;
   pid: string;
@@ -40,6 +51,7 @@ export type EvidenceNoteInput = {
   events: EvidenceEvent[];
   civicAddresses: Array<{ label: string; sourceUrl: string }>;
   assessmentEvidence: AssessmentEvidence;
+  dwellingEvidence: DwellingEvidence;
   resourceResults: EvidenceResult[];
 };
 
@@ -100,6 +112,50 @@ function assessmentLines(evidence: AssessmentEvidence): string[] {
   return [methodNote, ...multipleNote, ...accountLines];
 }
 
+function dwellingFacts(dwelling: PvscDwelling): string {
+  return [
+    dwelling.yearBuilt !== null
+      ? `built ${dwelling.yearBuilt}`
+      : "build year not published",
+    dwelling.style,
+    dwelling.squareFeetLivingArea !== null
+      ? `${dwelling.squareFeetLivingArea.toLocaleString("en-CA")} sq ft living area`
+      : null,
+    dwelling.livingUnits !== null
+      ? `${dwelling.livingUnits.toLocaleString("en-CA")} living unit${dwelling.livingUnits === 1 ? "" : "s"}`
+      : null,
+    dwelling.bathrooms !== null
+      ? `${dwelling.bathrooms.toLocaleString("en-CA")} bathroom${dwelling.bathrooms === 1 ? "" : "s"}`
+      : null,
+    dwelling.garage === null ? null : dwelling.garage ? "garage" : "no garage",
+    dwelling.underConstruction ? "under construction" : null,
+  ]
+    .filter((fact): fact is string => fact !== null)
+    .join(" · ");
+}
+
+function dwellingLines(evidence: DwellingEvidence): string[] {
+  if (evidence.status === "error") {
+    return ["PVSC residential dwelling source unavailable at export time."];
+  }
+  if (evidence.status === "blocked") {
+    return [
+      "Dwelling records were not looked up because no PVSC assessment account could be resolved.",
+    ];
+  }
+  if (evidence.accounts.length === 0) {
+    return [
+      "No residential dwelling record was returned for the matched assessment accounts. This does not prove no building exists; commercial and other non-residential structures are not in this dataset.",
+    ];
+  }
+  return evidence.accounts.flatMap(({ aan, dwellings }) => [
+    "",
+    `### AAN ${aan}`,
+    "",
+    ...dwellings.map((dwelling) => `- ${dwellingFacts(dwelling)}`),
+  ]);
+}
+
 export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
   const generated = input.generatedAt.toISOString();
   const layers = input.activeLayers.length > 0
@@ -115,6 +171,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     : ["- No mapped civic address point returned inside the parcel."];
   const resources = input.resourceResults.flatMap(resultLines);
   const assessments = assessmentLines(input.assessmentEvidence);
+  const dwellings = dwellingLines(input.dwellingEvidence);
   const events = input.events.length > 0
     ? input.events.flatMap(({ name, sources }) => [
         `### ${name}`,
@@ -157,6 +214,14 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     PVSC_OPEN_DATA_ATTRIBUTION,
     "",
     "Assessment values are dated public assessment records, not a current market appraisal or sale price. A point-in-parcel match is screening evidence and does not establish title, ownership, legal parcel-account linkage, or that every account associated with the parcel was returned.",
+    "",
+    "## PVSC residential dwelling records",
+    "",
+    ...dwellings,
+    "",
+    `[PVSC residential dwelling characteristics open-data source](${PVSC_DWELLING_DATASET_URL}) — ${PVSC_DWELLING_SOURCE_DATE}`,
+    "",
+    "Assessment dwelling records are fresher than aerial mapping but are not a building census. Multi-unit parcels can repeat living-unit totals across records, and records do not establish current condition, occupancy, or permits.",
     "",
     "## Geology and resource context",
     "",
