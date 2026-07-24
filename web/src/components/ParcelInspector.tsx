@@ -352,10 +352,12 @@ export function ParcelInspector({
         </div>
         {listing ? (
           <>
-            <div>
-              <dt>Lien</dt>
-              <dd className="fact-figure">{listing.lien}</dd>
-            </div>
+            {listing.lien ? (
+              <div>
+                <dt>Lien</dt>
+                <dd className="fact-figure">{listing.lien}</dd>
+              </div>
+            ) : null}
             {listing.aan ? (
               <div>
                 <dt>AAN</dt>

@@ -9,6 +9,18 @@ import {
 } from "./taxSaleCatalog";
 import { INVERNESS_BOOK_DATASET_SHA256 } from "./invernessTaxSale";
 import invernessBookDatasetSource from "./invernessTaxSale.snapshot.json?raw";
+import { ANNAPOLIS_TENDER_DATASET_SHA256 } from "./annapolisTaxSale";
+import annapolisTenderDatasetSource from "./annapolisTaxSale.snapshot.json?raw";
+
+async function sha256Hex(source: string): Promise<string> {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(source),
+  );
+  return Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+}
 
 const event = (id: string) => {
   const match = taxSaleEvents.find((candidate) => candidate.id === id);
@@ -18,15 +30,38 @@ const event = (id: string) => {
 
 describe("the multi-municipality tax-sale catalog", () => {
   it("pins the byte-for-byte published Inverness book dataset", async () => {
-    const digest = await crypto.subtle.digest(
-      "SHA-256",
-      new TextEncoder().encode(invernessBookDatasetSource),
+    expect(await sha256Hex(invernessBookDatasetSource)).toBe(
+      INVERNESS_BOOK_DATASET_SHA256,
     );
-    const sha256 = Array.from(new Uint8Array(digest), (byte) =>
-      byte.toString(16).padStart(2, "0"),
-    ).join("");
+  });
 
-    expect(sha256).toBe(INVERNESS_BOOK_DATASET_SHA256);
+  it("pins the byte-for-byte published Annapolis tender dataset", async () => {
+    expect(await sha256Hex(annapolisTenderDatasetSource)).toBe(
+      ANNAPOLIS_TENDER_DATASET_SHA256,
+    );
+  });
+
+  it("represents the Annapolis single-parcel tender without inventing fields", () => {
+    const annapolis = event("annapolis-county-2026-08-31");
+
+    expect(annapolis.eventType).toBe("sealed-tender");
+    expect(annapolis.eventStatus).toBe("upcoming");
+    expect(annapolis.saleStartsAt).toBe("2026-08-31T13:00:00-03:00");
+    expect(annapolis.listings).toHaveLength(1);
+    expect(annapolis.listings[0].pids).toEqual(["05266937"]);
+    expect(annapolis.listings[0].aan).toBe("09153144");
+    expect(annapolis.listings[0].financial.kind).toBe("minimum-bid");
+    expect(annapolis.listings[0].financial.amountCents).toBe(100);
+    expect(annapolis.listings[0].redemptionCategory).toBe("six-month");
+    expect(annapolis.sourceDatasetSha256).toBe(
+      ANNAPOLIS_TENDER_DATASET_SHA256,
+    );
+    expect(
+      eventLifecycleStatus(annapolis, new Date("2026-08-31T15:59:59Z")),
+    ).toBe("upcoming");
+    expect(
+      eventLifecycleStatus(annapolis, new Date("2026-08-31T16:00:01Z")),
+    ).toBe("verify-results");
   });
 
   it("preserves the Inverness 45-listing, 47-PID receipt and five withdrawals", () => {
@@ -120,9 +155,10 @@ describe("the multi-municipality tax-sale catalog", () => {
 
     expect(upcoming.map(({ id }) => id)).toEqual([
       "inverness-county-2026-08-11",
+      "annapolis-county-2026-08-31",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(45);
-    expect(pidsForEvents(upcoming)).toHaveLength(47);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(46);
+    expect(pidsForEvents(upcoming)).toHaveLength(48);
     expect(historical.map(({ id }) => id)).toEqual(["cbrm-2026-07-21"]);
     expect(pidsForEvents(historical)).toHaveLength(68);
   });
@@ -132,6 +168,10 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(listingContextForPid("50203256")?.event.municipalityId).toBe(
       "inverness-county",
     );
+    expect(listingContextForPid("05266937")?.event.municipalityId).toBe(
+      "annapolis-county",
+    );
+    expect(listingContextForPid("5266937")).toBeUndefined();
     expect(listingContextForPid("1505458")).toBeUndefined();
   });
 });

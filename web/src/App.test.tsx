@@ -2390,11 +2390,15 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 40");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 41;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 1;");
+    await user.click(
+      screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0;");
   });
 
   it("keeps NSPRD failures visible without manufacturing geometry", async () => {

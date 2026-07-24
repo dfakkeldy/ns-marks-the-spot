@@ -1,3 +1,4 @@
+import { annapolisTaxSaleEvent } from "./annapolisTaxSale";
 import { cbrmTaxSaleEvent } from "./cbrmTaxSale";
 import { invernessTaxSaleEvent } from "./invernessTaxSale";
 import type {
@@ -15,6 +16,7 @@ export type TaxSaleEventLifecycleStatus =
 export const taxSaleEvents: TaxSaleEvent[] = [
   cbrmTaxSaleEvent,
   invernessTaxSaleEvent,
+  annapolisTaxSaleEvent,
 ];
 
 export function eventsForStatus(
