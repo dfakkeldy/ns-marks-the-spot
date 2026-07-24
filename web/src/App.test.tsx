@@ -733,12 +733,12 @@ describe("NS Marks The Spot Online", () => {
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("7 records · 7 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("28 records · 22 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
-    expect(screen.getByText("2 records · 2 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("10 records · 10 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unknown");
-    expect(screen.getByText("1 record · 1 PID")).toBeInTheDocument();
+    expect(screen.getByText("11 records · 11 PIDs")).toBeInTheDocument();
   });
 
   it("renders the official pending result without a fabricated winning bid", async () => {

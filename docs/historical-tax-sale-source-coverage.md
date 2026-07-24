@@ -163,6 +163,60 @@ human instead of being mapped wrong.
 until this change is promoted `nightly → weekly → main`. `workflow_dispatch` runs it
 on demand before then.
 
+## Result-backed Municipality of the District of Lunenburg events (derived PIDs)
+
+Retrieved and reviewed July 23–24, 2026. Lunenburg publishes a different source
+shape from the others: an official tender package (plus addenda) advertises each
+sale, and the winning bid for each awarded property is published in its own
+per-property "award" document rather than a consolidated result table. The
+minimum opening bid and the advertised property list come from the tender
+package; the winning bid is read from the award document. Award documents for
+2024–2026 are typed scans and 2021–2023 are handwritten; every award figure was
+transcribed by visual review of the 300-DPI page image, not by trusting OCR.
+
+Lunenburg publishes assessment account numbers but no PIDs. Each PID here was
+derived deterministically — the account's PVSC open-data coordinate
+(`bt58-qu28`) was matched against the NSPRD parcel layer — and recorded with
+match method `deterministic-reconciliation`. All 125 distinct accounts resolved
+to exactly one PID each; none were ambiguous or unmatched.
+
+The municipality's "Tax Sale Surplus History" was used only as an independent
+cross-check, never as a price source: for sold properties, `winning bid −
+opening bid` reproduces the reported surplus, exactly for most rows and within a
+few dollars for others because the surplus is struck against amounts owed at
+settlement while the opening bid is struck at advertisement. Selling prices were
+therefore never reconstructed from surplus. Where an award document and the
+surplus record point to different sale outcomes, the listing is held outcome
+unknown rather than guessed.
+
+| Sale (tender) | Listings | Sold | No bids | Withdrawn | Unknown | Award docs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| March 1, 2021 (2020-01-009) | 27 | 16 | 2 | 7 | 2 | 20 |
+| March 7, 2022 (2021-01-001) | 39 | 16 | 8 | 15 | 0 | 24 |
+| March 6, 2023 (2022-01-003) | 13 | 7 | 1 | 4 | 1 | 8 |
+| March 6, 2024 (2023-01-002) | 25 | 11 | 4 | 0 | 10 | 15 |
+| March 3, 2025 (2024-01-001) | 18 | 11 | 2 | 0 | 5 | 13 |
+| March 2, 2026 (2025-01-004) | 23 | 8 | 4 | 11 | 0 | 12 |
+| **Total** | **145** | **69** | **21** | **37** | **18** | **92** |
+
+Withdrawn counts are properties advertised in the tender package but absent from
+the final addendum (2021–2023) or explicitly marked "REMOVED FROM TAX SALE" on
+the awards page (2026); 2024 and 2025 published no addendum, so their advertised
+listings without an award document stay outcome unknown rather than being
+inferred as withdrawn or no-bid. Every per-property award document, tender
+package, addendum, and the surplus history is receipted with a SHA-256 in
+`historicalSourceLedger.json`. The 2022 tender package is no longer served by
+`modl.ca` and was recovered from the Internet Archive snapshot of the
+municipality's own file link, which is the URL carried as the event notice.
+
+Known defects in Lunenburg's own source documents, recorded but not published as
+data: the award documents for 2021 item 60, 2024 item 104, and 2026 item 65 each
+print an assessment account number that does not exist in PVSC and is a
+transposition of the notice value (which does); the notice value was used in
+every case. For 2021 item 229 the award document and the surplus record disagree
+on the final sale, and for 2021 item 31 the sale was awarded and then withdrawn
+by both marked bidders; both are held outcome unknown with no winning bid.
+
 ## Notice-only event awaiting official results
 
 | Municipality / event | Official notice | Official results page | Records / PIDs | Published result fields | Receipt |

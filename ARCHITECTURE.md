@@ -429,22 +429,36 @@ native app.
 
 Historical outcomes use a second, default-off client-side catalog in
 `web/src/data/historicalTaxSales.json`. Municipal notice/result pairs are the
-authority for event, outcome, and financial fields; exact official PIDs are the
-only currently supported NSPRD match method. A normalized listing remains one
-record when it covers several parcels, so listing-level amounts are never
-allocated by the UI. Filters derive matched PID sets by municipality, year, and
-outcome without altering the upcoming-notice layer.
+authority for event, outcome, and financial fields. Two NSPRD match methods are
+supported: `exact-official-pid`, where the municipality publishes the PID, and
+`deterministic-reconciliation`, where the municipality publishes only an
+assessment account number and the PID is derived by matching that account's PVSC
+open-data coordinate against the NSPRD parcel layer. The derived path never
+guesses: an account that fails to resolve to exactly one PID is left unmatched
+and out of the rendered layer. A normalized listing remains one record when it
+covers several parcels, so listing-level amounts are never allocated by the UI.
+Filters derive matched PID sets by municipality, year, and outcome without
+altering the upcoming-notice layer.
 
-The supported slice contains seven Halifax Regional Municipality tender events
-from March 8, 2022 through September 16, 2025: 87 owner-free listing records,
-93 exact PIDs, 82 sold outcomes, four official no-bid outcomes, and one official
-`PENDING` row represented as outcome unknown. The infocard calculates
-comparisons in integer cents only when the same CAD event publishes both an
-opening bid and a selling price. It presents direct official notice and result
-links, source dates, match basis, multi-PID warnings, and a dated-outcome
-limitation. Researched CBRM events remain outside the matched layer until their
-notice/result pairs can be reconciled fail-closed; the complete ledger and
-snapshot hashes live beside the dataset.
+The supported slice spans five municipalities and, together with the one
+outcome-pending CBRM event, carries 20 events, 425 owner-free records, and 403
+matched PIDs. Halifax Regional Municipality contributes seven tender events
+(March 8, 2022 through September 16, 2025) with 87 records and 93 exact official
+PIDs. Victoria County, Cumberland County, and the July 22, 2025 CBRM sale add
+result-backed events whose receipts are pinned to municipal or archive captures.
+Six Municipality of the District of Lunenburg tender events (March 1, 2021
+through March 2, 2026) add 145 records whose PIDs are all derived by
+deterministic reconciliation; Lunenburg publishes winning bids only in
+per-property award documents, so selling prices are read from those documents
+(never reconstructed from surplus, which drifts from the award by accrued
+interest), the municipal surplus history serves only as an independent
+cross-check, and listings whose award and surplus records disagree are held
+outcome unknown. The infocard calculates comparisons in integer cents only when
+the same CAD event publishes both an opening bid and a selling price. It presents
+direct official notice and result links, source dates, match basis, multi-PID
+warnings, and a dated-outcome limitation. Researched events that cannot yet be
+reconciled fail-closed stay outside the matched layer; the complete ledger and
+per-document SHA-256 snapshot hashes live beside the dataset.
 
 Municipal events retain their source status, while the rendered lifecycle is
 derived from the current time. An advertised event becomes “verify results”
