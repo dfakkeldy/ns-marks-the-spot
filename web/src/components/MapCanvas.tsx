@@ -195,6 +195,13 @@ const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
 
+/**
+ * A double-click arrives as click → click → dblclick, so a parcel identify
+ * must wait long enough for a dblclick to cancel it. The delay hides inside
+ * the NSPRD network lookup that follows, so single taps feel unchanged.
+ */
+export const IDENTIFY_CLICK_DELAY_MS = 250;
+
 type PrintableViewportGuard = {
   suppressBrowserLocation: boolean;
   lastSuppressed: PrintMapViewport | null;
@@ -1118,13 +1125,28 @@ function ParcelIdentifyController({
   onIdentifyParcel: MapCanvasProps["onIdentifyParcel"];
 }) {
   const map = useMap();
+  const pendingClick = useRef<number | null>(null);
+
+  const cancelPendingClick = useCallback(() => {
+    if (pendingClick.current !== null) {
+      window.clearTimeout(pendingClick.current);
+      pendingClick.current = null;
+    }
+  }, []);
+
+  useEffect(() => cancelPendingClick, [cancelPendingClick]);
 
   useMapEvents({
     click: ({ latlng }) => {
+      cancelPendingClick();
       if (enabled && map.getZoom() >= PROPERTY_BOUNDARY_MIN_ZOOM) {
-        onIdentifyParcel(latlng.lat, latlng.lng);
+        pendingClick.current = window.setTimeout(() => {
+          pendingClick.current = null;
+          onIdentifyParcel(latlng.lat, latlng.lng);
+        }, IDENTIFY_CLICK_DELAY_MS);
       }
     },
+    dblclick: cancelPendingClick,
   });
 
   return null;

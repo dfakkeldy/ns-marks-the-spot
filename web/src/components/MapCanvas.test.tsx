@@ -6,6 +6,7 @@ import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
 import {
   MapCanvas,
+  IDENTIFY_CLICK_DELAY_MS,
   type MapLayerId,
   type MapLayerStatus,
 } from "./MapCanvas";
@@ -40,6 +41,7 @@ const mapEventHandlers = vi.hoisted(() => ({
   click: undefined as
     | ((event: { latlng: { lat: number; lng: number } }) => void)
     | undefined,
+  dblclick: undefined as (() => void) | undefined,
 }));
 
 const mapContainerProps = vi.hoisted(() => ({
@@ -152,8 +154,16 @@ vi.mock("react-leaflet", () => ({
     );
   },
   useMap: () => mapMock,
-  useMapEvents: (handlers: typeof mapEventHandlers) => {
-    mapEventHandlers.click = handlers.click;
+  useMapEvents: (handlers: {
+    click?: (event: { latlng: { lat: number; lng: number } }) => void;
+    dblclick?: () => void;
+  }) => {
+    if (handlers.click) {
+      mapEventHandlers.click = handlers.click;
+    }
+    if (handlers.dblclick) {
+      mapEventHandlers.dblclick = handlers.dblclick;
+    }
     return mapMock;
   },
 }));
@@ -624,9 +634,11 @@ describe("MapCanvas parcel discovery", () => {
     vi.clearAllMocks();
     mapMock.getZoom.mockReturnValue(9);
     mapEventHandlers.click = undefined;
+    mapEventHandlers.dblclick = undefined;
   });
 
   it("identifies map-tapped parcels only once property boundaries are visible", () => {
+    vi.useFakeTimers();
     const onIdentifyParcel = vi.fn();
     render(
       <MapCanvas
@@ -657,15 +669,95 @@ describe("MapCanvas parcel discovery", () => {
     act(() =>
       mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
     );
-
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
     expect(onIdentifyParcel).not.toHaveBeenCalled();
 
     mapMock.getZoom.mockReturnValue(14);
     act(() =>
       mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
     );
-
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
     expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
+  });
+
+  it("waits out the double-click window before identifying", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.05, lng: -61.41 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS - 1));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(1));
+    expect(onIdentifyParcel).toHaveBeenCalledTimes(1);
+  });
+
+  it("never identifies a parcel from a double-click zoom", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    // Browser order for a double-click: click, click, dblclick.
+    act(() => {
+      mapEventHandlers.click?.({ latlng: { lat: 46.05, lng: -61.41 } });
+      mapEventHandlers.click?.({ latlng: { lat: 46.05, lng: -61.41 } });
+      mapEventHandlers.dblclick?.();
+    });
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS * 2));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
   });
 
   it("fits the initial view to the visible tax-sale parcel layer once", async () => {
@@ -1669,6 +1761,7 @@ describe("MapCanvas print mode", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mapEventHandlers.click = undefined;
+    mapEventHandlers.dblclick = undefined;
   });
 
   it("disables interaction, location, and identify while fitting printable bounds", () => {
