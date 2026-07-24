@@ -779,6 +779,46 @@ describe("MapCanvas parcel discovery", () => {
     expect(onIdentifyParcel).not.toHaveBeenCalled();
   });
 
+  it("cancels a pending identify when measuring is activated within the debounce window", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    // Activating measure mode within the debounce window must cancel the
+    // pending identify, not just suppress the callback while it's pending.
+    fireEvent.click(screen.getByTestId("measure-tool"));
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+  });
+
   it("fits the initial view to the visible tax-sale parcel layer once", async () => {
     const parcel = {
       type: "Feature" as const,

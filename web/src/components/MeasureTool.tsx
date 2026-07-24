@@ -52,7 +52,22 @@ export function MeasureTool({
 
   return (
     <>
-      <div className="measure-control" role="group" aria-label="Measure on the map">
+      <div
+        className="measure-control"
+        role="group"
+        aria-label="Measure on the map"
+        ref={(node) => {
+          if (node) {
+            // The control renders inside MapContainer, so without this its
+            // clicks bubble to Leaflet's own container listener (which runs
+            // before React's delegated handler) and fire a map click —
+            // tapping "Measure distance" would schedule a parcel identify
+            // at the button's position while measuring is still turning on.
+            L.DomEvent.disableClickPropagation(node);
+            L.DomEvent.disableScrollPropagation(node);
+          }
+        }}
+      >
         <button
           type="button"
           aria-label="Measure distance"
@@ -191,7 +206,11 @@ function MeasureCapture({
           <Polyline positions={preview} pathOptions={SHAPE_STYLE} interactive={false} />
         ) : null}
         {points.map((point, index) => {
-          const closesRing = mode === "area" && index === 0 && !finished;
+          // Stays interactive even once finished: the first vertex must keep
+          // absorbing clicks so the second click of a double-click on it
+          // doesn't fall through to the map, restart the measurement, and
+          // then get wiped by the trailing dblclick.
+          const closesRing = mode === "area" && index === 0;
           return (
             <CircleMarker
               key={`${index}-${point.lat}-${point.lng}`}

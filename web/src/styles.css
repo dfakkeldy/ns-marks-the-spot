@@ -1399,6 +1399,10 @@ a {
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid var(--line);
   border-radius: 4px;
+  /* Non-interactive readout text renders inside MapContainer; without this,
+     taps on it hit Leaflet's container listener before React's delegated
+     handler and fire a spurious map click instead of placing a vertex. */
+  pointer-events: none;
 }
 
 .location-button-icon {

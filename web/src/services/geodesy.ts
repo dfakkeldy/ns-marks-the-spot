@@ -39,6 +39,12 @@ export function pathDistanceMetres(points: readonly GeoPoint[]): number {
   return total;
 }
 
+/**
+ * Valid only for rings that do not cross the antimeridian (fine for Nova
+ * Scotia): the Δλ term (`next.lng - current.lng`) is a plain linear
+ * difference, not wrapped to [-180, 180], so a ring spanning ±180° longitude
+ * would compute a wildly wrong area.
+ */
 export function polygonAreaSquareMetres(ring: readonly GeoPoint[]): number {
   if (ring.length < 3) {
     return 0;

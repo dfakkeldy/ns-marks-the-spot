@@ -1144,6 +1144,15 @@ function ParcelIdentifyController({
 
   useEffect(() => cancelPendingClick, [cancelPendingClick]);
 
+  // A click schedules the identify IDENTIFY_CLICK_DELAY_MS in the future; if
+  // measuring turns on inside that window the timer must not survive it, or
+  // an identify still fires at the click's position after `enabled` is gone.
+  useEffect(() => {
+    if (!enabled) {
+      cancelPendingClick();
+    }
+  }, [enabled, cancelPendingClick]);
+
   useMapEvents({
     click: ({ latlng }) => {
       cancelPendingClick();

@@ -74,12 +74,18 @@ describe("MeasureTool controls", () => {
     expect(mapMock.doubleClickZoom.disable).not.toHaveBeenCalled();
   });
 
-  it("suspends double-click zoom only while a mode is active", async () => {
-    const user = userEvent.setup();
+  it("suspends double-click zoom only while a mode is active", () => {
     render(<Harness />);
-    await user.click(screen.getByRole("button", { name: "Measure distance" }));
+    const toggle = screen.getByRole("button", { name: "Measure distance" });
+    // fireEvent, not userEvent: the control now disables dblclick
+    // propagation (Fix 1), and userEvent's realistic click simulation
+    // treats two quick clicks on the same element as a double-click
+    // candidate, which jsdom then fails to deliver once dblclick's
+    // propagation is stopped on an ancestor — an artifact of the
+    // simulation, not of real browsers.
+    fireEvent.click(toggle);
     expect(mapMock.doubleClickZoom.disable).toHaveBeenCalledTimes(1);
-    await user.click(screen.getByRole("button", { name: "Measure distance" }));
+    fireEvent.click(toggle);
     expect(mapMock.doubleClickZoom.enable).toHaveBeenCalledTimes(1);
   });
 });
@@ -199,5 +205,26 @@ describe("area measuring", () => {
     // Finished: further clicks start a new ring rather than extending this one.
     clickAt(45.02, -60.98);
     expect(screen.getAllByTestId("measure-vertex")).toHaveLength(1);
+  });
+
+  it("keeps absorbing clicks on the first vertex after the ring is finished", async () => {
+    const user = userEvent.setup();
+    render(<Harness initialMode="area" />);
+    clickAt(45, -61);
+    clickAt(45, -60.99);
+    clickAt(45.01, -60.99);
+    const [firstVertex] = screen.getAllByTestId("measure-vertex");
+
+    await user.click(firstVertex);
+    expect(screen.getByRole("status")).toHaveTextContent(/ha · .* ac/);
+
+    // The second click of what would be a double-click on the first vertex
+    // must still be absorbed by the vertex — not fall through to the map,
+    // which would restart the measurement and then get wiped by the
+    // trailing dblclick.
+    await user.click(firstVertex);
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(3);
+    expect(screen.getByRole("status")).toHaveTextContent(/ha · .* ac/);
+    expect(firstVertex).toHaveAttribute("data-interactive", "true");
   });
 });
