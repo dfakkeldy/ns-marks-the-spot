@@ -1,6 +1,17 @@
 {
   "schemaVersion": 1,
   "reviewedOn": "2026-07-23",
-  "exceptions": [],
-  "notes": "Only exact eight-digit official PIDs that matched NSPRD are rendered. All 180 currently included PIDs matched the live service: 93 Halifax PIDs on July 19, 2026, 68 CBRM PIDs on July 21, 2026, and 19 Victoria County PIDs on July 23, 2026. Ambiguous, malformed, mobile-home-only, and unmatched rows remain outside the public layer and must be recorded here before any future import."
+  "exceptions": [
+    {
+      "eventId": "cbrm-2025-07-22",
+      "listingIdentifierLabel": "Lien",
+      "listingIdentifier": "25-178",
+      "aan": "2210363",
+      "pid": "15440050",
+      "civicDescription": "SEVENTH ST LAND · GLACE BAY",
+      "reason": "unmatched",
+      "detail": "The live NSPRD parcel service returns no feature for this exact eight-digit official PID, checked both in batch and on its own on July 23, 2026, while 83 parcels exist under the 15440 prefix. The row is excluded from the public layer and renders no parcel. CBRM published a $600.00 minimum bid and a $7,000.00 winning bid for it; those values are deliberately not carried into the public dataset."
+    }
+  ],
+  "notes": "Only exact eight-digit official PIDs that matched NSPRD are rendered. All 245 currently included PIDs matched the live service: 93 Halifax PIDs on July 19, 2026, 68 CBRM July 21, 2026 PIDs on July 21, 2026, 19 Victoria County PIDs on July 23, 2026, and 75 CBRM July 22, 2025 PIDs on July 23, 2026; ten parcels appear in both CBRM events and are counted once. Ambiguous, malformed, mobile-home-only, and unmatched rows remain outside the public layer and must be recorded here before any future import."
 }

@@ -1,14 +1,14 @@
 # Historical tax-sale source coverage
 
 Retrieved and reviewed July 19, 2026; CBRM result availability re-checked July
-21, 2026 after the auction; Victoria County sources retrieved and reviewed July
-23, 2026. Only official municipal primary sources were used. Text extraction
-supported reconciliation; PIDs and financial values in the fourteen
-result-backed Halifax notice/result PDFs and the three Victoria County result
-PDFs were also checked against rendered pages. Tender terms independently
-confirmed the sale method for six Halifax events and the August 2025 Victoria
-County event. Public data and screenshots omit assessed-owner and bidder
-names.
+21, 2026 after the auction; Victoria County sources and the CBRM July 22, 2025
+result retrieved and reviewed July 23, 2026. Only official municipal primary
+sources were used. Text extraction supported reconciliation; PIDs and financial
+values in the fourteen result-backed Halifax notice/result PDFs, the three
+Victoria County result PDFs, and every row of the CBRM July 22, 2025 result
+were also checked against rendered pages. Tender terms independently confirmed
+the sale method for six Halifax events and the August 2025 Victoria County
+event. Public data and screenshots omit assessed-owner and bidder names.
 
 ## Result-backed events
 
@@ -51,6 +51,45 @@ one PID). PID `85142388` appears in two events — `NOT SOLD` in August 2025 and
 `REMOVED` beside a printed bid in March 2026 — and both records are retained
 separately.
 
+## Result-backed CBRM event (pre-sale notice decayed)
+
+CBRM's July 22, 2025 result is a single self-contained `JULY 22, 2025 TAX SALE`
+table carrying lien, AAN, PID, address, location, minimum bid, redemption, and a
+`WINNING BID` column that prints either a dollar amount or one of `PAID AT
+SALE`, `WALKED AWAY`, and `REDEEMED`. The municipality's pre-sale notice PDFs
+were dropped when the site moved to WordPress and were never archived, so the
+notice receipt is the official CBRM tax-sales page as captured on July 14, 2025,
+eight days before the sale. That page pins the method, date, time, and venue —
+"TAX SALE WILL BE HELD ON JULY 22, 2025 @ 11:00am, CENTRE 200, 481 GEORGE ST,
+SYDNEY, MAIN CONCOURSE", with day-of-sale registration and an in-person tax-sale
+FAQ — and links maps and descriptions for liens 25-97 to 25-217, the exact lien
+range the result table covers.
+
+The table fills outcome-bearing rows in yellow. That fill was measured on the
+rendered pages row by row rather than trusted by eye: for each of the 74 row
+bands the mean red-minus-blue channel difference separates cleanly into filled
+rows (0.79 to 0.92) and plain rows (0.00 to 0.12), and the split agrees with
+whether the `WINNING BID` cell prints anything on all 74 rows, with no
+exceptions. The highlighting is therefore decoration that restates the printed
+column, and no disposition depends on it — which is what distinguishes this
+document from the March 10, 2026 result that remains held.
+
+| Municipality / event | Official notice receipt | Official result | Records / PIDs | Row disposition | SHA-256 receipts |
+| --- | --- | --- | ---: | --- | --- |
+| Cape Breton Regional Municipality — July 22, 2025 (public auction) | [Tax-sales page captured 2025-07-14](https://web.archive.org/web/20250714162415id_/http://www.cbrm.ns.ca/tax-sales.html) | [List of sold properties](https://cbrm.ns.ca/wp-content/uploads/2025/11/CBRM-List-of-Sold-Properties-Tax-Sale-July-22-2025.pdf) | 73 / 75 | 50 rows publish a winning bid and one prints `REDEEMED`; five `PAID AT SALE`, four `WALKED AWAY`, and thirteen rows with an empty bid cell stay outcome unknown; one row excluded for an unmatched PID | Notice `57a1c33af8a5056416ffc6eb6e4c80b9edea80eebe5fc3993c72304e84e266fe`; result `b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3` |
+
+The CBRM July 22, 2025 slice has 73 owner-free records and 75 exact PIDs, two of
+them two-PID listings that keep amounts at listing level. `PAID AT SALE` is not
+read as a completed sale: the official wording does not distinguish a winning
+bidder paying at the sale from the account being paid to stop it, so those rows
+stay outcome unknown with the phrase preserved. `WALKED AWAY` likewise publishes
+no bid and claims no sale, and is not recorded as unsold because a bid clearly
+existed. Lien 25-178 (AAN 2210363, PID 15440050, printed beside a $7,000.00
+winning bid) is excluded because the live NSPRD service returns no parcel for
+that PID in either a batched or a single query, and it is itemized in
+`historicalMatchExceptions.json`. Ten parcels appear in both this event and the
+July 21, 2026 CBRM notice event; each event keeps its own record.
+
 ## Notice-only event awaiting official results
 
 | Municipality / event | Official notice | Official results page | Records / PIDs | Published result fields | Receipt |
@@ -68,7 +107,6 @@ redeemed, or walked-away claim.
 | Municipality / event | Official sources | Fields found | Why held fail-closed |
 | --- | --- | --- | --- |
 | Cape Breton Regional Municipality — March 10, 2026 | [Official sold-properties result](https://cbrm.ns.ca/wp-content/uploads/2026/03/Sold-Properties-March-10-2026-Tax-Sale.pdf) and [current tax-sales page](https://cbrm.ns.ca/business/property-sales-management/tax-sales/) | Lien, AAN, PID, location, minimum bid, redemption, some winning bids | Result rows mix published bids, blank bid cells, and visual outcome highlighting. A separate row-level rendered reconciliation is required. Result SHA-256: `ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4`. |
-| Cape Breton Regional Municipality — July 22, 2025 | [Official sold-properties result](https://cbrm.ns.ca/wp-content/uploads/2025/11/CBRM-List-of-Sold-Properties-Tax-Sale-July-22-2025.pdf) and [current tax-sales page](https://cbrm.ns.ca/business/property-sales-management/tax-sales/) | Lien, AAN, PID, location, minimum bid, redemption, winning bid, paid/redeemed/walked-away states | The current public page no longer links the original sale notice, so the notice/result pair cannot yet be reconciled. Result SHA-256: `b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3`. |
 
 No third-party auction claims or inferred outcomes fill these gaps. A completed
 event's verified notice records may render with outcomes explicitly pending;
@@ -80,11 +118,24 @@ result table may stand alone only if it is self-contained — identifiers,
 amounts, statuses, and bids in one official document — and an official notice
 receipt still pins the sale method and date; rows whose status or amount is
 not published stay outcome-unknown or are excluded and itemized in the source
-ledger. Under this refined rule the CBRM July 22, 2025 result — which prints
-statuses and winning bids — becomes an ingestion candidate, but it stays held
-until its own row-level visual reconciliation is performed; the CBRM March 10,
-2026 result stays held because it relies on visual outcome highlighting rather
-than printed statuses.
+ledger. Under this refined rule the CBRM July 22, 2025 result was ingested on
+July 23, 2026: its row-level visual reconciliation showed the yellow fill merely
+restates the printed `WINNING BID` column on all 74 rows, and an archived
+official tax-sales page recovered the notice receipt that pins the auction
+method and date. The CBRM March 10, 2026 result stays held because its outcome
+highlighting has not been shown to be similarly redundant; the same rendered
+row-fill measurement must be run against it before any of its rows publish.
+
+Recovering a decayed notice is itself part of the rule rather than a courtesy
+step. For CBRM the pre-sale PDFs were dropped in a site migration and never
+archived, but the WordPress REST media and posts endpoints
+(`/wp-json/wp/v2/media?search=`, `/wp-json/wp/v2/posts?search=`) enumerated what
+the live library still holds, and a Wayback CDX sweep of the legacy
+`/images/stories/TAX SALES/` directory and `tax-sales.html` surfaced a capture
+of the official page taken eight days before the sale. A notice receipt may be
+an official municipal page snapshot rather than the advertisement PDF, as it
+already is for the Victoria County March 24, 2026 event, provided it pins the
+sale method and date.
 
 ## QA evidence
 

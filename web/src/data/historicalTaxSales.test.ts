@@ -14,13 +14,13 @@ import {
 } from "./historicalTaxSales";
 
 describe("historical tax-sale records", () => {
-  it("preserves verified Halifax, Victoria County, and outcome-pending CBRM archives", () => {
-    expect(historicalTaxSaleEvents).toHaveLength(11);
-    expect(historicalTaxSaleRecords).toHaveLength(173);
-    expect(matchedHistoricalPids()).toHaveLength(180);
+  it("preserves verified Halifax, Victoria County, and CBRM archives alongside the outcome-pending CBRM event", () => {
+    expect(historicalTaxSaleEvents).toHaveLength(12);
+    expect(historicalTaxSaleRecords).toHaveLength(246);
+    expect(matchedHistoricalPids()).toHaveLength(245);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "sold"),
-    ).toHaveLength(88);
+    ).toHaveLength(138);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unsold"),
     ).toHaveLength(7);
@@ -28,8 +28,11 @@ describe("historical tax-sale records", () => {
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "withdrawn"),
     ).toHaveLength(1);
     expect(
+      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "redeemed"),
+    ).toHaveLength(1);
+    expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unknown"),
-    ).toHaveLength(77);
+    ).toHaveLength(99);
     expect(
       historicalTaxSaleEvents.map(({ id }) => {
         const records = historicalTaxSaleRecords.filter(
@@ -52,6 +55,7 @@ describe("historical tax-sale records", () => {
       { id: "victoria-2025-08-26", records: 12, pids: 13 },
       { id: "victoria-2025-11-25", records: 2, pids: 2 },
       { id: "victoria-2026-03-24", records: 5, pids: 5 },
+      { id: "cbrm-2025-07-22", records: 73, pids: 75 },
       { id: "cbrm-2026-07-21", records: 67, pids: 68 },
     ]);
 
@@ -135,6 +139,60 @@ describe("historical tax-sale records", () => {
     ).toBeNull();
   });
 
+  it("maps CBRM July 2025 dispositions fail-closed onto the outcome vocabulary", () => {
+    const event = historicalTaxSaleEvents.find(
+      ({ id }) => id === "cbrm-2025-07-22",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === "cbrm-2025-07-22",
+    );
+
+    expect(event).toMatchObject({
+      saleMethod: "public-auction",
+      resultStatus: "verified",
+      resultSha256:
+        "b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3",
+    });
+    expect(records).toHaveLength(73);
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(50);
+
+    // PAID AT SALE and WALKED AWAY are published dispositions, but neither says
+    // whether the parcel changed hands, so neither may claim a completed sale.
+    const paidAtSale = records.filter(({ resultNote }) =>
+      resultNote?.includes("PAID AT SALE"),
+    );
+    const walkedAway = records.filter(({ resultNote }) =>
+      resultNote?.includes("WALKED AWAY"),
+    );
+    expect(paidAtSale).toHaveLength(5);
+    expect(walkedAway).toHaveLength(4);
+    expect(
+      [...paidAtSale, ...walkedAway].every(
+        ({ outcome, winningBidCents }) =>
+          outcome === "unknown" && winningBidCents === null,
+      ),
+    ).toBe(true);
+
+    const redeemed = records.filter(({ outcome }) => outcome === "redeemed");
+    expect(redeemed).toHaveLength(1);
+    expect(redeemed[0]).toMatchObject({
+      listingIdentifier: "25-143",
+      winningBidCents: null,
+      resultNote: "Official result: REDEEMED.",
+    });
+
+    const twoPid = records.find(
+      ({ recordId }) => recordId === "cbrm-2025-07-22-lien-25-177",
+    );
+    expect(twoPid).toMatchObject({
+      pids: ["15406051", "15704067"],
+      advertisedAmountCents: 60_000,
+      winningBidCents: 1_600_000,
+      outcome: "sold",
+    });
+    expect(historicalContextsForPid("15704067")[0]?.record).toBe(twoPid);
+  });
+
   it("keeps the two-PID East Dover amount at listing level", () => {
     const listing = historicalTaxSaleRecords.find(
       ({ recordId }) => recordId === "hrm-2025-09-16-aan-00924547",
@@ -205,7 +263,16 @@ describe("historical tax-sale records", () => {
         },
       ]),
     ).toEqual([]);
-    expect(historicalMatchExceptions.exceptions).toEqual([]);
+    expect(historicalMatchExceptions.exceptions).toEqual([
+      expect.objectContaining({
+        eventId: "cbrm-2025-07-22",
+        listingIdentifier: "25-178",
+        pid: "15440050",
+        reason: "unmatched",
+      }),
+    ]);
+    expect(matchedHistoricalPids()).not.toContain("15440050");
+    expect(historicalContextsForPid("15440050")).toEqual([]);
   });
 
   it("calculates integer-cent comparisons only for published winning bids", () => {
@@ -273,7 +340,7 @@ describe("historical tax-sale records", () => {
       expect(event.noticeSha256).toMatch(/^[a-f0-9]{64}$/u);
       if (event.resultStatus === "verified") {
         expect(event.resultUrl).toMatch(
-          /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com)\//u,
+          /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca)\//u,
         );
         expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
       } else {

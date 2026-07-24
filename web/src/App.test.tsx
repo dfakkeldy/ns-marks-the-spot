@@ -645,7 +645,7 @@ describe("NS Marks The Spot Online", () => {
       "historical layer: on",
     );
     await waitFor(() =>
-      expect(screen.getByText("180 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+      expect(screen.getByText("245 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
@@ -1150,7 +1150,10 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Historical records" }));
     await user.selectOptions(screen.getByLabelText("Historical municipality"), "cbrm");
 
-    expect(screen.getByText("67 records · 68 PIDs")).toBeInTheDocument();
+    // Both CBRM events: the result-backed July 22, 2025 sale (73 records, 75
+    // PIDs) and the outcome-pending July 21, 2026 sale (67 records, 68 PIDs).
+    // Ten parcels were listed in both sales and count once.
+    expect(screen.getByText("140 records · 133 PIDs")).toBeInTheDocument();
   });
 
   it("labels the archived CBRM records as awaiting official results", async () => {
