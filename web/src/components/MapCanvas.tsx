@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import L, {
   type LeafletEvent,
   type Map as LeafletMap,
@@ -73,6 +80,7 @@ import {
 import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
 import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
+import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { ZoningLayer } from "./ZoningLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
@@ -194,6 +202,13 @@ const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+
+/**
+ * A double-click arrives as click → click → dblclick, so a parcel identify
+ * must wait long enough for a dblclick to cancel it. The delay hides inside
+ * the NSPRD network lookup that follows, so single taps feel unchanged.
+ */
+export const IDENTIFY_CLICK_DELAY_MS = 250;
 
 type PrintableViewportGuard = {
   suppressBrowserLocation: boolean;
@@ -1118,13 +1133,37 @@ function ParcelIdentifyController({
   onIdentifyParcel: MapCanvasProps["onIdentifyParcel"];
 }) {
   const map = useMap();
+  const pendingClick = useRef<number | null>(null);
+
+  const cancelPendingClick = useCallback(() => {
+    if (pendingClick.current !== null) {
+      window.clearTimeout(pendingClick.current);
+      pendingClick.current = null;
+    }
+  }, []);
+
+  useEffect(() => cancelPendingClick, [cancelPendingClick]);
+
+  // A click schedules the identify IDENTIFY_CLICK_DELAY_MS in the future; if
+  // measuring turns on inside that window the timer must not survive it, or
+  // an identify still fires at the click's position after `enabled` is gone.
+  useEffect(() => {
+    if (!enabled) {
+      cancelPendingClick();
+    }
+  }, [enabled, cancelPendingClick]);
 
   useMapEvents({
     click: ({ latlng }) => {
+      cancelPendingClick();
       if (enabled && map.getZoom() >= PROPERTY_BOUNDARY_MIN_ZOOM) {
-        onIdentifyParcel(latlng.lat, latlng.lng);
+        pendingClick.current = window.setTimeout(() => {
+          pendingClick.current = null;
+          onIdentifyParcel(latlng.lat, latlng.lng);
+        }, IDENTIFY_CLICK_DELAY_MS);
       }
     },
+    dblclick: cancelPendingClick,
   });
 
   return null;
@@ -1423,6 +1462,22 @@ export function MapCanvas({
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
+  const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
+  const measuring = measureMode !== "off";
+  const measuringRef = useRef(false);
+  useLayoutEffect(() => {
+    measuringRef.current = measuring;
+  }, [measuring]);
+  // Layer click handlers are wired inside effects; a ref-guarded stable
+  // callback suspends selection without remounting those layers.
+  const guardedSelectPid = useCallback(
+    (pid: string) => {
+      if (!measuringRef.current) {
+        onSelectPid(pid);
+      }
+    },
+    [onSelectPid],
+  );
 
   useEffect(() => {
     if (locationMessage !== LOCATION_SUCCESS_MESSAGE) {
@@ -1603,7 +1658,7 @@ export function MapCanvas({
         >
           <MineralProximityParcelLayer
             visible={resourceLayers["mineral-proximity-parcels"]}
-            onSelectPid={onSelectPid}
+            onSelectPid={guardedSelectPid}
             onStatusChange={reportMineralProximityStatus}
             renderMode={renderMode}
           />
@@ -1618,7 +1673,7 @@ export function MapCanvas({
             showTaxSale={showTaxSale}
             showHistoricalTaxSales={showHistoricalTaxSales}
             style={parcelStyle}
-            onSelectPid={onSelectPid}
+            onSelectPid={guardedSelectPid}
             renderMode={renderMode}
           />
           <TaxSaleOverviewMarkers
@@ -1628,7 +1683,7 @@ export function MapCanvas({
             showTaxSale={showTaxSale}
             showHistoricalTaxSales={showHistoricalTaxSales}
             selectedPid={selectedPid}
-            onSelectPid={onSelectPid}
+            onSelectPid={guardedSelectPid}
             renderMode={renderMode}
           />
          </Pane>
@@ -1700,9 +1755,10 @@ export function MapCanvas({
             focusRequest={focusRequest}
           />
           <ParcelIdentifyController
-            enabled={provinceLayers.nsprd}
+            enabled={provinceLayers.nsprd && !measuring}
             onIdentifyParcel={onIdentifyParcel}
           />
+          <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
         </>}
         <MapPositionController
           onPositionChange={onPositionChange}

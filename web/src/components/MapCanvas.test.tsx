@@ -6,6 +6,7 @@ import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
 import {
   MapCanvas,
+  IDENTIFY_CLICK_DELAY_MS,
   type MapLayerId,
   type MapLayerStatus,
 } from "./MapCanvas";
@@ -40,6 +41,7 @@ const mapEventHandlers = vi.hoisted(() => ({
   click: undefined as
     | ((event: { latlng: { lat: number; lng: number } }) => void)
     | undefined,
+  dblclick: undefined as (() => void) | undefined,
 }));
 
 const mapContainerProps = vi.hoisted(() => ({
@@ -152,8 +154,16 @@ vi.mock("react-leaflet", () => ({
     );
   },
   useMap: () => mapMock,
-  useMapEvents: (handlers: typeof mapEventHandlers) => {
-    mapEventHandlers.click = handlers.click;
+  useMapEvents: (handlers: {
+    click?: (event: { latlng: { lat: number; lng: number } }) => void;
+    dblclick?: () => void;
+  }) => {
+    if (handlers.click) {
+      mapEventHandlers.click = handlers.click;
+    }
+    if (handlers.dblclick) {
+      mapEventHandlers.dblclick = handlers.dblclick;
+    }
     return mapMock;
   },
 }));
@@ -200,6 +210,25 @@ vi.mock("./MineralProximityParcelLayer", () => ({
       </button>
     ) : null;
   },
+}));
+
+vi.mock("./MeasureTool", () => ({
+  MeasureTool: ({
+    mode,
+    onModeChange,
+  }: {
+    mode: "off" | "distance" | "area";
+    onModeChange: (mode: "off" | "distance" | "area") => void;
+  }) => (
+    <button
+      type="button"
+      data-testid="measure-tool"
+      data-mode={mode}
+      onClick={() => onModeChange(mode === "off" ? "distance" : "off")}
+    >
+      Toggle measuring
+    </button>
+  ),
 }));
 
 const hiddenResourceLayers = {
@@ -624,9 +653,11 @@ describe("MapCanvas parcel discovery", () => {
     vi.clearAllMocks();
     mapMock.getZoom.mockReturnValue(9);
     mapEventHandlers.click = undefined;
+    mapEventHandlers.dblclick = undefined;
   });
 
   it("identifies map-tapped parcels only once property boundaries are visible", () => {
+    vi.useFakeTimers();
     const onIdentifyParcel = vi.fn();
     render(
       <MapCanvas
@@ -657,15 +688,135 @@ describe("MapCanvas parcel discovery", () => {
     act(() =>
       mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
     );
-
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
     expect(onIdentifyParcel).not.toHaveBeenCalled();
 
     mapMock.getZoom.mockReturnValue(14);
     act(() =>
       mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
     );
-
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
     expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
+  });
+
+  it("waits out the double-click window before identifying", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.05, lng: -61.41 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS - 1));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(1));
+    expect(onIdentifyParcel).toHaveBeenCalledTimes(1);
+  });
+
+  it("never identifies a parcel from a double-click zoom", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    // Browser order for a double-click: click, click, dblclick.
+    act(() => {
+      mapEventHandlers.click?.({ latlng: { lat: 46.05, lng: -61.41 } });
+      mapEventHandlers.click?.({ latlng: { lat: 46.05, lng: -61.41 } });
+      mapEventHandlers.dblclick?.();
+    });
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS * 2));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+  });
+
+  it("cancels a pending identify when measuring is activated within the debounce window", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    // Activating measure mode within the debounce window must cancel the
+    // pending identify, not just suppress the callback while it's pending.
+    fireEvent.click(screen.getByTestId("measure-tool"));
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
   });
 
   it("fits the initial view to the visible tax-sale parcel layer once", async () => {
@@ -821,6 +972,96 @@ describe("MapCanvas parcel discovery", () => {
       />,
     );
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+
+  it("suspends parcel identify and selection while measuring", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    const onSelectPid = vi.fn();
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    mapMock.getZoom.mockReturnValue(9); // overview markers render below zoom 12
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [parcel] }}
+        taxSalePids={new Set(["50251750"])}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={onSelectPid}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("measure-tool"));
+
+    mapMock.getZoom.mockReturnValue(14);
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+
+    const marker = [...circleMarkerProps.calls]
+      .reverse()
+      .find((call) => call.eventHandlers !== undefined);
+    expect(marker).toBeDefined();
+    act(() =>
+      (
+        marker?.eventHandlers as
+          | { click?: (event: { originalEvent: Event }) => void }
+          | undefined
+      )?.click?.({ originalEvent: new Event("click") }),
+    );
+    expect(onSelectPid).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByTestId("measure-tool")); // back to off
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).toHaveBeenCalledTimes(1);
+
+    const markerAfterToggleOff = [...circleMarkerProps.calls]
+      .reverse()
+      .find((call) => call.eventHandlers !== undefined);
+    expect(markerAfterToggleOff).toBeDefined();
+    act(() =>
+      (
+        markerAfterToggleOff?.eventHandlers as
+          | { click?: (event: { originalEvent: Event }) => void }
+          | undefined
+      )?.click?.({ originalEvent: new Event("click") }),
+    );
+    expect(onSelectPid).toHaveBeenCalledWith("50251750");
   });
 });
 
@@ -1669,6 +1910,7 @@ describe("MapCanvas print mode", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mapEventHandlers.click = undefined;
+    mapEventHandlers.dblclick = undefined;
   });
 
   it("disables interaction, location, and identify while fitting printable bounds", () => {
@@ -1712,6 +1954,7 @@ describe("MapCanvas print mode", () => {
     expect(screen.queryByRole("button", { name: "Use my location" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Copy map centre coordinates" })).toBeNull();
     expect(screen.queryByTestId("scale-control")).toBeNull();
+    expect(screen.queryByTestId("measure-tool")).toBeNull();
     expect(mapEventHandlers.click).toBeUndefined();
     expect(screen.getByTestId("tile-layer")).toHaveAttribute(
       "data-class-name",

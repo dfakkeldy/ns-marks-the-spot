@@ -1,6 +1,5 @@
 import type { NsprdFeatureCollection } from "./nsprd";
-
-const SQUARE_METRES_PER_ACRE = 4_046.856_422_4;
+import { SQUARE_METRES_PER_ACRE } from "./geodesy";
 const ROAD_SERVICE_URL =
   "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer";
 const WATER_SERVICE_URL =

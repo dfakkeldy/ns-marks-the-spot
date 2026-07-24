@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   ESTABLISHED_PARCEL_PANE,
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
+  MEASURE_PANE,
+  MEASURE_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
@@ -78,5 +80,8 @@ describe("parcel pane ordering", () => {
     expect(WELL_LOG_PANE_Z_INDEX).toBeLessThan(ESTABLISHED_PARCEL_PANE_Z_INDEX);
     expect(WELL_LOG_PANE).not.toBe(MINERAL_PROXIMITY_PANE);
     expect(WELL_LOG_PANE).not.toBe(ESTABLISHED_PARCEL_PANE);
+    expect(MEASURE_PANE_Z_INDEX).toBeGreaterThan(ESTABLISHED_PARCEL_PANE_Z_INDEX);
+    expect(MEASURE_PANE_Z_INDEX).toBeLessThan(500);
+    expect(MEASURE_PANE).not.toBe(ESTABLISHED_PARCEL_PANE);
   });
 });

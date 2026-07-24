@@ -91,6 +91,13 @@ not change the native app's offline contract or Swift `MapEngine` boundary.
 Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the web
 catalog's Province MapServer layers in the browser.
 
+`components/MeasureTool.tsx` renders the distance/area measure control inside
+the Leaflet map. Geometry math lives in `services/geodesy.ts` (haversine
+paths, spherical-excess areas on Leaflet's sphere). While a measurement is
+active, `MapCanvas` suspends parcel identify/selection and double-click zoom;
+a 250 ms deferred click in `ParcelIdentifyController` keeps double-tap zoom
+from selecting parcels the rest of the time.
+
 ### Web print/export boundary
 
 The web print flow is capture-and-seal rather than a live projection of
