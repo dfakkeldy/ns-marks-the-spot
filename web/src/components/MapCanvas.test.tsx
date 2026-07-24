@@ -212,6 +212,25 @@ vi.mock("./MineralProximityParcelLayer", () => ({
   },
 }));
 
+vi.mock("./MeasureTool", () => ({
+  MeasureTool: ({
+    mode,
+    onModeChange,
+  }: {
+    mode: "off" | "distance" | "area";
+    onModeChange: (mode: "off" | "distance" | "area") => void;
+  }) => (
+    <button
+      type="button"
+      data-testid="measure-tool"
+      data-mode={mode}
+      onClick={() => onModeChange(mode === "off" ? "distance" : "off")}
+    >
+      Toggle measuring
+    </button>
+  ),
+}));
+
 const hiddenResourceLayers = {
   "mineral-occurrences": false,
   "mineral-tenure": false,
@@ -913,6 +932,96 @@ describe("MapCanvas parcel discovery", () => {
       />,
     );
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+
+  it("suspends parcel identify and selection while measuring", () => {
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    const onSelectPid = vi.fn();
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    mapMock.getZoom.mockReturnValue(9); // overview markers render below zoom 12
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [parcel] }}
+        taxSalePids={new Set(["50251750"])}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={onSelectPid}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("measure-tool"));
+
+    mapMock.getZoom.mockReturnValue(14);
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+
+    const marker = [...circleMarkerProps.calls]
+      .reverse()
+      .find((call) => call.eventHandlers !== undefined);
+    expect(marker).toBeDefined();
+    act(() =>
+      (
+        marker?.eventHandlers as
+          | { click?: (event: { originalEvent: Event }) => void }
+          | undefined
+      )?.click?.({ originalEvent: new Event("click") }),
+    );
+    expect(onSelectPid).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByTestId("measure-tool")); // back to off
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).toHaveBeenCalledTimes(1);
+
+    const markerAfterToggleOff = [...circleMarkerProps.calls]
+      .reverse()
+      .find((call) => call.eventHandlers !== undefined);
+    expect(markerAfterToggleOff).toBeDefined();
+    act(() =>
+      (
+        markerAfterToggleOff?.eventHandlers as
+          | { click?: (event: { originalEvent: Event }) => void }
+          | undefined
+      )?.click?.({ originalEvent: new Event("click") }),
+    );
+    expect(onSelectPid).toHaveBeenCalledWith("50251750");
   });
 });
 
@@ -1805,6 +1914,7 @@ describe("MapCanvas print mode", () => {
     expect(screen.queryByRole("button", { name: "Use my location" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Copy map centre coordinates" })).toBeNull();
     expect(screen.queryByTestId("scale-control")).toBeNull();
+    expect(screen.queryByTestId("measure-tool")).toBeNull();
     expect(mapEventHandlers.click).toBeUndefined();
     expect(screen.getByTestId("tile-layer")).toHaveAttribute(
       "data-class-name",

@@ -1358,6 +1358,49 @@ a {
   background: var(--survey-blue);
 }
 
+.measure-control {
+  position: absolute;
+  z-index: 500;
+  top: 138px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.measure-control button {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  color: var(--survey-blue);
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.measure-control button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+}
+
+.measure-readout {
+  position: absolute;
+  z-index: 500;
+  bottom: 104px;
+  left: 12px;
+  margin: 0;
+  padding: 4px 9px;
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
 .location-button-icon {
   width: 25px;
   height: 25px;
@@ -1402,7 +1445,7 @@ a {
 .location-message {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 246px;
   left: 12px;
   max-width: 250px;
   margin: 0;
@@ -2438,7 +2481,15 @@ a {
   }
 
   .location-message {
+    top: 234px;
+  }
+
+  .measure-control {
     top: 126px;
+  }
+
+  .measure-readout {
+    bottom: 16px;
   }
 
   .modern-map-error {

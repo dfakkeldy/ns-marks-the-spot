@@ -31,7 +31,9 @@ PID and civic-address search plus tap-to-identify parcel selection, keeps
 browser location local, and puts verified Halifax 2022–2025 and Lunenburg
 District 2021–2026 outcomes in an unmistakably separate historical mode. Parcel selection collapses long event
 lists, and share links preserve the PID, event, layers, and map position. The
-parcel sheet can export a timestamped, source-linked evidence note. At
+parcel sheet can export a timestamped, source-linked evidence note. An
+on-map measure tool reads out distances (m/km) and areas (ha + acres) for
+frontage and part-lot checks. At
 overview zooms the modern basemap carries the view, listed parcels appear as
 selectable markers, and a scale bar plus copyable centre/zoom readout stay on
 screen; zoom-gated Province imagery and line work take over at legible

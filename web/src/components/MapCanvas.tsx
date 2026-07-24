@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import L, {
   type LeafletEvent,
   type Map as LeafletMap,
@@ -73,6 +80,7 @@ import {
 import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
 import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
+import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { ZoningLayer } from "./ZoningLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
@@ -1445,6 +1453,22 @@ export function MapCanvas({
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
+  const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
+  const measuring = measureMode !== "off";
+  const measuringRef = useRef(false);
+  useLayoutEffect(() => {
+    measuringRef.current = measuring;
+  }, [measuring]);
+  // Layer click handlers are wired inside effects; a ref-guarded stable
+  // callback suspends selection without remounting those layers.
+  const guardedSelectPid = useCallback(
+    (pid: string) => {
+      if (!measuringRef.current) {
+        onSelectPid(pid);
+      }
+    },
+    [onSelectPid],
+  );
 
   useEffect(() => {
     if (locationMessage !== LOCATION_SUCCESS_MESSAGE) {
@@ -1625,7 +1649,7 @@ export function MapCanvas({
         >
           <MineralProximityParcelLayer
             visible={resourceLayers["mineral-proximity-parcels"]}
-            onSelectPid={onSelectPid}
+            onSelectPid={guardedSelectPid}
             onStatusChange={reportMineralProximityStatus}
             renderMode={renderMode}
           />
@@ -1640,7 +1664,7 @@ export function MapCanvas({
             showTaxSale={showTaxSale}
             showHistoricalTaxSales={showHistoricalTaxSales}
             style={parcelStyle}
-            onSelectPid={onSelectPid}
+            onSelectPid={guardedSelectPid}
             renderMode={renderMode}
           />
           <TaxSaleOverviewMarkers
@@ -1650,7 +1674,7 @@ export function MapCanvas({
             showTaxSale={showTaxSale}
             showHistoricalTaxSales={showHistoricalTaxSales}
             selectedPid={selectedPid}
-            onSelectPid={onSelectPid}
+            onSelectPid={guardedSelectPid}
             renderMode={renderMode}
           />
          </Pane>
@@ -1722,9 +1746,10 @@ export function MapCanvas({
             focusRequest={focusRequest}
           />
           <ParcelIdentifyController
-            enabled={provinceLayers.nsprd}
+            enabled={provinceLayers.nsprd && !measuring}
             onIdentifyParcel={onIdentifyParcel}
           />
+          <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
         </>}
         <MapPositionController
           onPositionChange={onPositionChange}
