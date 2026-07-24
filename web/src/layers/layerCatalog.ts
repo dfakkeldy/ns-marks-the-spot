@@ -1,7 +1,14 @@
 import { OPEN_GOVERNMENT_LICENCE_TERMS_URL } from "../licensing/provinceLicense";
 
+export type ChurchCountyLayerId =
+  | "church-inverness"
+  | "church-victoria"
+  | "church-richmond"
+  | "church-cape-breton";
+
 export type NativeLayerId =
   | "fletcher"
+  | ChurchCountyLayerId
   | "ns-aerial"
   | "nsprd"
   | "crown-lands"
@@ -10,12 +17,17 @@ export type NativeLayerId =
   | "water-features"
   | "roads";
 
+// Historical scans from the David Rumsey collection. They are catalogued for
+// attribution and metadata, but never render on the web: they carry no
+// Province licence and no hosted tiles.
+export type RumseyReferenceLayerId = "fletcher" | ChurchCountyLayerId;
+
 export type TopographyLayerId = "contours";
 
 export type WebOnlyProvinceLayerId = "buildings" | TopographyLayerId;
 
 export type ProvinceLayerId =
-  | Exclude<NativeLayerId, "fletcher">
+  | Exclude<NativeLayerId, RumseyReferenceLayerId>
   | WebOnlyProvinceLayerId;
 
 export type WebMapLayerId = NativeLayerId | WebOnlyProvinceLayerId;
@@ -519,6 +531,70 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
       dynamicLayers: TRAIL_TRACK_CONTRAST_DYNAMIC_LAYERS,
     },
   },
+  {
+    id: "church-inverness",
+    name: "Church — Inverness County",
+    serviceUrl:
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~353591~90120835",
+    nativeDefaultVisibility: false,
+    minZoom: 0,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "rumsey-reference",
+    webAvailability: "rights-pending",
+    webCaveat: "Published 1884 · web view pending tiles",
+    sourceDate: "A.F. Church · published 1884",
+    scale: "1:63,360 township map sheet",
+    coverage: "Inverness County, Cape Breton Island",
+  },
+  {
+    id: "church-victoria",
+    name: "Church — Victoria County",
+    serviceUrl:
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374820~90141224",
+    nativeDefaultVisibility: false,
+    minZoom: 0,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "rumsey-reference",
+    webAvailability: "rights-pending",
+    webCaveat: "Published 1884 · web view pending tiles",
+    sourceDate: "A.F. Church · published 1884",
+    scale: "1:63,360 township map sheet",
+    coverage: "Victoria County, Cape Breton Island",
+  },
+  {
+    id: "church-richmond",
+    name: "Church — Richmond County",
+    serviceUrl:
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~373669~90140407",
+    nativeDefaultVisibility: false,
+    minZoom: 0,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "rumsey-reference",
+    webAvailability: "rights-pending",
+    webCaveat: "Published 1885 · web view pending tiles",
+    sourceDate: "A.F. Church · published 1885",
+    scale: "1:84,269 township map sheet",
+    coverage: "Richmond County, Cape Breton Island",
+  },
+  {
+    id: "church-cape-breton",
+    name: "Church — Cape Breton County",
+    serviceUrl:
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374821~90141223",
+    nativeDefaultVisibility: false,
+    minZoom: 0,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "rumsey-reference",
+    webAvailability: "rights-pending",
+    webCaveat: "Published 1884 · web view pending tiles",
+    sourceDate: "A.F. Church · published 1884",
+    scale: "1:63,360 township map sheet",
+    coverage: "Cape Breton County, Cape Breton Island",
+  },
 ] as const;
 
 export const provinceLayerIds: ProvinceLayerId[] = [
@@ -593,11 +669,25 @@ export const provinceLayerCatalog: readonly (
 )[] = [
   ...nativeLayerCatalog.filter(
     (layer): layer is WebLayerDescriptor & {
-      id: Exclude<NativeLayerId, "fletcher">;
+      id: Exclude<NativeLayerId, RumseyReferenceLayerId>;
     } => layer.licence === "province-restricted",
   ),
   ...webOnlyProvinceLayerCatalog,
 ];
+
+const CHURCH_COUNTY_LAYER_IDS: readonly ChurchCountyLayerId[] = [
+  "church-inverness",
+  "church-victoria",
+  "church-richmond",
+  "church-cape-breton",
+];
+
+export const churchLayerCatalog: readonly (
+  WebLayerDescriptor & { id: ChurchCountyLayerId }
+)[] = nativeLayerCatalog.filter(
+  (layer): layer is WebLayerDescriptor & { id: ChurchCountyLayerId } =>
+    (CHURCH_COUNTY_LAYER_IDS as readonly string[]).includes(layer.id),
+);
 
 export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = {
   "ns-aerial": true,

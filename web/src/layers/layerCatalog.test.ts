@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   allResourceLayerCatalog,
+  churchLayerCatalog,
   derivedResourceLayerCatalog,
   environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
@@ -81,6 +82,30 @@ describe("web native-layer parity catalog", () => {
         name: "Roads, trails & culverts",
         serviceUrl:
           "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+      },
+      {
+        id: "church-inverness",
+        name: "Church — Inverness County",
+        serviceUrl:
+          "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~353591~90120835",
+      },
+      {
+        id: "church-victoria",
+        name: "Church — Victoria County",
+        serviceUrl:
+          "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374820~90141224",
+      },
+      {
+        id: "church-richmond",
+        name: "Church — Richmond County",
+        serviceUrl:
+          "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~373669~90140407",
+      },
+      {
+        id: "church-cape-breton",
+        name: "Church — Cape Breton County",
+        serviceUrl:
+          "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374821~90141223",
       },
     ]);
   });
@@ -683,5 +708,75 @@ describe("water well log catalog", () => {
     expect(wellLogs.coverage).toContain("1940–2021");
     expect(wellLogs.minZoom).toBeTypeOf("number");
     expect(wellLogs.maxZoom).toBeTypeOf("number");
+  });
+});
+
+describe("A.F. Church county map series", () => {
+  it("catalogues the four Cape Breton Island counties with publication dates", () => {
+    expect(
+      churchLayerCatalog.map(({ id, name, sourceDate, scale, coverage }) => ({
+        id,
+        name,
+        sourceDate,
+        scale,
+        coverage,
+      })),
+    ).toEqual([
+      {
+        id: "church-inverness",
+        name: "Church — Inverness County",
+        sourceDate: "A.F. Church · published 1884",
+        scale: "1:63,360 township map sheet",
+        coverage: "Inverness County, Cape Breton Island",
+      },
+      {
+        id: "church-victoria",
+        name: "Church — Victoria County",
+        sourceDate: "A.F. Church · published 1884",
+        scale: "1:63,360 township map sheet",
+        coverage: "Victoria County, Cape Breton Island",
+      },
+      {
+        id: "church-richmond",
+        name: "Church — Richmond County",
+        sourceDate: "A.F. Church · published 1885",
+        scale: "1:84,269 township map sheet",
+        coverage: "Richmond County, Cape Breton Island",
+      },
+      {
+        id: "church-cape-breton",
+        name: "Church — Cape Breton County",
+        sourceDate: "A.F. Church · published 1884",
+        scale: "1:63,360 township map sheet",
+        coverage: "Cape Breton County, Cape Breton Island",
+      },
+    ]);
+  });
+
+  it("keeps every Church sheet off the web map until tiles exist", () => {
+    for (const layer of churchLayerCatalog) {
+      expect(layer.licence).toBe("rumsey-reference");
+      expect(layer.webAvailability).toBe("rights-pending");
+      expect(layer.webCaveat).toContain("tiles");
+      expect(layer.nativeDefaultVisibility).toBe(false);
+      expect(
+        provinceLayerCatalog.some(
+          (province): boolean => (province.id as string) === layer.id,
+        ),
+      ).toBe(false);
+    }
+  });
+
+  it("cites each sheet's David Rumsey item as its source", () => {
+    expect(churchLayerCatalog.map(({ serviceUrl }) => serviceUrl)).toEqual([
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~353591~90120835",
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374820~90141224",
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~373669~90140407",
+      "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374821~90141223",
+    ]);
+  });
+
+  it("leaves Fletcher first so the rail can read it by index", () => {
+    expect(nativeLayerCatalog[0].id).toBe("fletcher");
   });
 });
