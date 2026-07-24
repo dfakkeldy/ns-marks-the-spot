@@ -13,23 +13,28 @@ import {
   type HistoricalTaxSaleRecord,
 } from "./historicalTaxSales";
 
+// Verified receipts must come from a municipality that published them or from an
+// archive replaying that municipality, never from an arbitrary host.
+const verifiedResultHost =
+  /^https:\/\/(?:cdn\.halifax\.ca|halifax\.ca|victoriacounty\.com|web\.archive\.org)\//u;
+
 describe("historical tax-sale records", () => {
-  it("preserves verified Halifax, Victoria County, and outcome-pending CBRM archives", () => {
-    expect(historicalTaxSaleEvents).toHaveLength(11);
-    expect(historicalTaxSaleRecords).toHaveLength(173);
-    expect(matchedHistoricalPids()).toHaveLength(180);
+  it("preserves verified Halifax, Victoria County, and Cumberland results plus the outcome-pending CBRM archive", () => {
+    expect(historicalTaxSaleEvents).toHaveLength(13);
+    expect(historicalTaxSaleRecords).toHaveLength(207);
+    expect(matchedHistoricalPids()).toHaveLength(213);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "sold"),
-    ).toHaveLength(88);
+    ).toHaveLength(115);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unsold"),
     ).toHaveLength(7);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "withdrawn"),
-    ).toHaveLength(1);
+    ).toHaveLength(7);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unknown"),
-    ).toHaveLength(77);
+    ).toHaveLength(78);
     expect(
       historicalTaxSaleEvents.map(({ id }) => {
         const records = historicalTaxSaleRecords.filter(
@@ -52,6 +57,8 @@ describe("historical tax-sale records", () => {
       { id: "victoria-2025-08-26", records: 12, pids: 13 },
       { id: "victoria-2025-11-25", records: 2, pids: 2 },
       { id: "victoria-2026-03-24", records: 5, pids: 5 },
+      { id: "cumberland-2025-10-21", records: 20, pids: 20 },
+      { id: "cumberland-2026-03-03", records: 14, pids: 14 },
       { id: "cbrm-2026-07-21", records: 67, pids: 68 },
     ]);
 
@@ -272,15 +279,79 @@ describe("historical tax-sale records", () => {
       expect(event.noticeUrl).toMatch(/^https:\/\//u);
       expect(event.noticeSha256).toMatch(/^[a-f0-9]{64}$/u);
       if (event.resultStatus === "verified") {
-        expect(event.resultUrl).toMatch(
-          /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com)\//u,
-        );
+        expect(event.resultUrl).toMatch(verifiedResultHost);
         expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
       } else {
         expect(event.resultUrl).toBeUndefined();
         expect(event.landingPageUrl).toMatch(/^https:\/\/cbrm\.ns\.ca\//u);
       }
     }
-    expect(historicalSourceLedger.coverage).toHaveLength(13);
+    expect(historicalSourceLedger.coverage).toHaveLength(16);
+  });
+
+  it("pins Cumberland to archive captures because its result page is overwritten", () => {
+    const events = historicalTaxSaleEvents.filter(
+      ({ municipalityId }) => municipalityId === "cumberland",
+    );
+    expect(events.map(({ id }) => id)).toEqual([
+      "cumberland-2025-10-21",
+      "cumberland-2026-03-03",
+    ]);
+
+    for (const event of events) {
+      // Cumberland republishes one page per sale and overwrites the previous
+      // results, so an immutable archive capture is the only durable receipt and
+      // stands in for both the notice and the result.
+      expect(event.noticeUrl).toBe(event.resultUrl);
+      expect(event.noticeSha256).toBe(event.resultSha256);
+      expect(event.resultUrl).toMatch(
+        /^https:\/\/web\.archive\.org\/web\/\d{14}id_\//u,
+      );
+      expect(event.landingPageUrl).toBe(
+        "https://www.cumberlandcounty.ns.ca/tax-sales.html",
+      );
+    }
+
+    // Rows printed as ADJORNED are recorded as withdrawn and never carry a bid.
+    const adjourned = historicalTaxSaleRecords.filter(
+      ({ eventId, outcome }) =>
+        eventId === "cumberland-2026-03-03" && outcome === "withdrawn",
+    );
+    expect(adjourned).toHaveLength(6);
+    expect(
+      adjourned.every(({ winningBidCents }) => winningBidCents === null),
+    ).toBe(true);
+
+    // One parcel spans both sales: NOT COMPLETED in October 2025, sold in March 2026.
+    const carriedForward = historicalContextsForPid("25049271");
+    expect(
+      carriedForward.map(({ event, record }) => [event.id, record.outcome]),
+    ).toEqual([
+      ["cumberland-2025-10-21", "unknown"],
+      ["cumberland-2026-03-03", "sold"],
+    ]);
+    expect(carriedForward[0].record.winningBidCents).toBeNull();
+    expect(carriedForward[1].record.winningBidCents).toBe(1_600_000);
+  });
+
+  it("drops the Cumberland owner column before it reaches the public dataset", () => {
+    const cumberland = JSON.stringify(
+      historicalTaxSaleRecords.filter(({ eventId }) =>
+        eventId.startsWith("cumberland"),
+      ),
+    ).toUpperCase();
+
+    // Surnames printed in the official NAME column, none of which appear in any
+    // location description.
+    for (const surname of [
+      "BLANCHARD",
+      "CHAPMAN",
+      "MACKINNON",
+      "ARSENEAU",
+      "BERGERON",
+      "RIPLEY",
+    ]) {
+      expect(cumberland).not.toContain(surname);
+    }
   });
 });
