@@ -1,0 +1,10 @@
+# Inverness north geographic panel, full-sheet pixel coordinates.
+# Bootstrap controls captured from the Rumsey scan and matched to the official
+# Canadian Geographical Names Database. These place-label controls establish an
+# initial warp; acceptance still requires held-out physical-feature checks.
+pixel_x,pixel_y,lon,lat,role,label
+12392,3212,-60.666666667,47.0,control,Printed graticule 60d40mW 47d00mN
+9383,10024,-60.799922,46.823367,control,Pleasant Bay official place label
+4680,20109,-61.012862,46.629589,control,Cheticamp official place label
+1471,27322,-61.074805,46.397142,control,Margaree official place label
+4268,22260,-61.048383,46.547161,check,Grand Etang held-out place label

@@ -129,13 +129,23 @@ python3 -m tools.church.fetch_rumsey inverness --output build/church
 # 2. Crop each declared panel and capture controls/checks against an
 #    authoritative modern reference in QGIS.
 
-# 3. Warp and validate every panel independently.
+# 3. Warp and validate every panel independently. Pixel coordinates in both
+#    CSVs remain relative to the complete archival scan; the tool applies each
+#    registered crop and shifts them automatically.
 python3 -m tools.church.georeference inverness \
+  --panel north \
   --source build/church/inverness/inverness.tif \
-  --gcps tools/church/gcps/inverness.csv \
+  --gcps tools/church/gcps/inverness-north.csv \
   --output build/church
 
-# 4. Mosaic only accepted panel outputs, then generate XYZ tiles.
+python3 -m tools.church.georeference inverness \
+  --panel south \
+  --source build/church/inverness/inverness.tif \
+  --gcps tools/church/gcps/inverness-south.csv \
+  --output build/church
+
+# 4. Clip out the title art and town-plan insets, then mosaic only accepted
+#    panel outputs. Generate XYZ tiles from that reviewed mosaic.
 python3 -m tools.church.make_tiles inverness \
   --warped build/church/inverness/inverness-3857.tif \
   --output tiles/church-inverness \

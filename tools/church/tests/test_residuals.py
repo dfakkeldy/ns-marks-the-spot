@@ -113,13 +113,21 @@ class SummariseTests(unittest.TestCase):
     def test_check_accuracy_is_none_without_check_points(self) -> None:
         report = summarise(self._control(), [])
         self.assertIsNone(report.check_rms_m)
+        self.assertIsNone(report.check_p95_m)
         self.assertIsNone(report.check_max_m)
 
     def test_check_accuracy_uses_supplied_errors(self) -> None:
         check = [point_from_mercator(50.0, 50.0, 50.0, 50.0, CHECK_ROLE)]
         report = summarise(self._control(), check, check_errors_m=[30.0, 40.0])
         self.assertAlmostEqual(report.check_rms_m, math.sqrt(1250.0), places=9)
+        self.assertEqual(report.check_p95_m, 40.0)
         self.assertEqual(report.check_max_m, 40.0)
+
+    def test_p95_uses_nearest_rank(self) -> None:
+        check = [point_from_mercator(50.0, 50.0, 50.0, 50.0, CHECK_ROLE)]
+        report = summarise(self._control(), check, check_errors_m=list(range(1, 21)))
+
+        self.assertEqual(report.check_p95_m, 19.0)
 
     def test_as_dict_is_json_ready(self) -> None:
         report = summarise(self._control(), [])

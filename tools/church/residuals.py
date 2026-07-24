@@ -121,6 +121,7 @@ class AccuracyReport:
     control_count: int
     check_count: int
     check_rms_m: float | None = None
+    check_p95_m: float | None = None
     check_max_m: float | None = None
 
     def as_dict(self) -> dict:
@@ -130,6 +131,7 @@ class AccuracyReport:
             "control_count": self.control_count,
             "check_count": self.check_count,
             "check_rms_m": self.check_rms_m,
+            "check_p95_m": self.check_p95_m,
             "check_max_m": self.check_max_m,
         }
 
@@ -150,5 +152,10 @@ def summarise(
         control_count=len(control),
         check_count=len(check),
         check_rms_m=rms(check_errors_m) if check_errors_m else None,
+        check_p95_m=(
+            sorted(check_errors_m)[math.ceil(0.95 * len(check_errors_m)) - 1]
+            if check_errors_m
+            else None
+        ),
         check_max_m=max(check_errors_m) if check_errors_m else None,
     )

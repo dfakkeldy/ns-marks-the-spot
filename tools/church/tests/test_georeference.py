@@ -6,10 +6,12 @@ from tools.church.gcps import CHECK_ROLE, CONTROL_ROLE, GroundControlPoint
 from tools.church.georeference import (
     build_gcp_arguments,
     build_metadata,
+    build_translate_command,
     check_errors,
     parse_gdaltransform_output,
     warp_command,
 )
+from tools.church.panels import SourceWindow
 from tools.church.residuals import summarise
 
 
@@ -33,6 +35,26 @@ class GcpArgumentTests(unittest.TestCase):
         ]
         self.assertEqual(build_gcp_arguments(points).count("-gcp"), 1)
 
+    def test_translate_command_crops_and_shifts_panel_gcps(self) -> None:
+        window = SourceWindow(x=12500, y=1000, width=21000, height=32000)
+        points = [
+            GroundControlPoint(19358.0, 10189.0, -61.392397, 46.071979, CONTROL_ROLE, "Mabou"),
+            GroundControlPoint(20134.0, 12615.0, -61.348218, 46.08906, CHECK_ROLE, "check"),
+        ]
+
+        command = build_translate_command("source.jp2", "panel.tif", points, window)
+
+        self.assertEqual(
+            command[command.index("-srcwin") + 1 : command.index("-srcwin") + 5],
+            ["12500", "1000", "21000", "32000"],
+        )
+        gcp_index = command.index("-gcp")
+        self.assertEqual(command[gcp_index + 1 : gcp_index + 3], ["6858.0", "9189.0"])
+        self.assertEqual(command.count("-gcp"), 1)
+        self.assertIn("COMPRESS=DEFLATE", command)
+        self.assertIn("TILED=YES", command)
+        self.assertIn("BIGTIFF=IF_SAFER", command)
+
 
 class WarpCommandTests(unittest.TestCase):
     def test_uses_thin_plate_spline_and_web_mercator(self) -> None:
@@ -41,6 +63,7 @@ class WarpCommandTests(unittest.TestCase):
         self.assertIn("-t_srs", command)
         self.assertIn("EPSG:3857", command)
         self.assertEqual(command[0], "gdalwarp")
+        self.assertIn("BIGTIFF=IF_SAFER", command)
 
     def test_affine_mode_omits_tps(self) -> None:
         self.assertNotIn("-tps", warp_command("in.tif", "out.tif", tps=False))

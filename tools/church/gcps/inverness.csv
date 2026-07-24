@@ -1,7 +1,0 @@
-# Ground control points for the A.F. Church Inverness County sheet (published 1884).
-# Source image: Rumsey RUMSEY~8~1~353591~90120835, 34427 x 34543 px.
-# pixel_y is measured from the TOP of the image, matching GDAL's convention.
-# role=control feeds the warp; role=check is held out to measure accuracy.
-# Capture points in QGIS Georeferencer, then convert its .points export (see
-# docs/CHURCH_MAPS.md). Aim for 20+ control and 5+ check points to start.
-pixel_x,pixel_y,lon,lat,role,label

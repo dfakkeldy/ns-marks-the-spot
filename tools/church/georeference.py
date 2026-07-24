@@ -20,6 +20,7 @@ import subprocess
 from tools.church.counties import ChurchCounty, get_county
 from tools.church.gcps import CONTROL_ROLE, GroundControlPoint, load_gcps, split_roles
 from tools.church.geometry import mercator_to_ground_metres
+from tools.church.panels import ChurchPanel, SourceWindow, get_panel
 from tools.church.residuals import AccuracyReport, summarise
 
 RUMSEY_ATTRIBUTION = (
@@ -43,12 +44,54 @@ def build_gcp_arguments(points: list[GroundControlPoint]) -> list[str]:
     return arguments
 
 
+def build_translate_command(
+    source: str,
+    translated: str,
+    points: list[GroundControlPoint],
+    window: SourceWindow | None = None,
+) -> list[str]:
+    """Build the GCP-bearing crop used as input to the warp."""
+    command = [
+        "gdal_translate",
+        "-q",
+        "-a_srs",
+        "EPSG:3857",
+        "-co",
+        "COMPRESS=DEFLATE",
+        "-co",
+        "TILED=YES",
+        "-co",
+        "BIGTIFF=IF_SAFER",
+    ]
+    translated_points = points
+    if window is not None:
+        command += [
+            "-srcwin",
+            str(window.x),
+            str(window.y),
+            str(window.width),
+            str(window.height),
+        ]
+        translated_points = [window.to_local_point(point) for point in points]
+    command += [*build_gcp_arguments(translated_points), source, translated]
+    return command
+
+
 def warp_command(translated: str, output: str, tps: bool = True) -> list[str]:
     """gdalwarp invocation targeting Web Mercator."""
     command = ["gdalwarp", "-r", "bilinear", "-t_srs", "EPSG:3857"]
     if tps:
         command.append("-tps")
-    command += ["-co", "COMPRESS=DEFLATE", "-co", "TILED=YES", translated, output]
+    command += [
+        "-co",
+        "COMPRESS=DEFLATE",
+        "-co",
+        "TILED=YES",
+        "-co",
+        "BIGTIFF=IF_SAFER",
+        translated,
+        output,
+    ]
     return command
 
 
@@ -108,12 +151,21 @@ def build_metadata(
 
 
 def georeference(
-    slug: str, source: pathlib.Path, gcp_path: pathlib.Path, output_dir: pathlib.Path
+    slug: str,
+    source: pathlib.Path,
+    gcp_path: pathlib.Path,
+    output_dir: pathlib.Path,
+    panel: ChurchPanel | None = None,
 ) -> tuple[pathlib.Path, AccuracyReport]:
     """Warp `source` using the county's GCPs, returning the raster and its accuracy."""
     county = get_county(slug)
-    points = load_gcps(gcp_path)
-    control, check = split_roles(points)
+    full_sheet_points = load_gcps(gcp_path)
+    full_sheet_control, full_sheet_check = split_roles(full_sheet_points)
+    if panel is not None:
+        control = [panel.window.to_local_point(point) for point in full_sheet_control]
+        check = [panel.window.to_local_point(point) for point in full_sheet_check]
+    else:
+        control, check = full_sheet_control, full_sheet_check
     if len(control) < 3:
         raise ValueError(
             f"{gcp_path} has {len(control)} control points; need at least 3. "
@@ -121,14 +173,19 @@ def georeference(
         )
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    translated = output_dir / f"{slug}-gcp.tif"
+    output_slug = f"{slug}-{panel.slug}" if panel else slug
+    translated = output_dir / f"{output_slug}-gcp.tif"
     subprocess.run(
-        ["gdal_translate", "-q", "-a_srs", "EPSG:3857",
-         *build_gcp_arguments(control), str(source), str(translated)],
+        build_translate_command(
+            str(source),
+            str(translated),
+            full_sheet_control,
+            panel.window if panel else None,
+        ),
         check=True,
     )
 
-    warped = output_dir / f"{slug}-3857.tif"
+    warped = output_dir / f"{output_slug}-3857.tif"
     subprocess.run(warp_command(str(translated), str(warped)), check=True)
 
     errors: list[float] | None = None
@@ -148,9 +205,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("slug")
     parser.add_argument("--source", type=pathlib.Path, required=True)
     parser.add_argument("--gcps", type=pathlib.Path, required=True)
+    parser.add_argument("--panel", help="independently georeference one registered map panel")
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("build/church"))
     args = parser.parse_args(argv)
-    warped, report = georeference(args.slug, args.source, args.gcps, args.output / args.slug)
+    panel = get_panel(args.slug, args.panel) if args.panel else None
+    warped, report = georeference(
+        args.slug,
+        args.source,
+        args.gcps,
+        args.output / args.slug,
+        panel,
+    )
     print(warped)
     print(json.dumps(report.as_dict(), indent=2))
     return 0
