@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedOn": "2026-07-19",
+  "reviewedOn": "2026-07-23",
   "exceptions": [],
-  "notes": "Only exact eight-digit official PIDs that matched NSPRD are rendered. All 93 currently included PIDs matched the live service on July 19, 2026. Ambiguous, malformed, mobile-home-only, and unmatched rows remain outside the public layer and must be recorded here before any future import."
+  "notes": "Only exact eight-digit official PIDs that matched NSPRD are rendered. All 180 currently included PIDs matched the live service: 93 Halifax PIDs on July 19, 2026, 68 CBRM PIDs on July 21, 2026, and 19 Victoria County PIDs on July 23, 2026. Ambiguous, malformed, mobile-home-only, and unmatched rows remain outside the public layer and must be recorded here before any future import."
 }

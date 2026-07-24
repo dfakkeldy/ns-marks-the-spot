@@ -488,8 +488,8 @@ row or ambiguous landing-page link fails closed instead of deleting evidence.
 ## Historical record layer receipt
 
 The historical layer is visually distinct and off by default. It contains seven
-result-backed Halifax events plus the completed CBRM event as notice-only
-records awaiting an official result:
+result-backed Halifax events, three result-backed Victoria County events, and
+the completed CBRM event as notice-only records awaiting an official result:
 
 | Event | Records | Exact PIDs | Sold | Unsold | Unknown | Official amount labels |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -500,16 +500,32 @@ records awaiting an official result:
 | Halifax September 24, 2024 | 9 | 10 | 8 | 0 | 1 | `Opening Bid`, `Selling Price` or `PENDING` |
 | Halifax March 25, 2025 | 5 | 7 | 5 | 0 | 0 | `Opening Bid`, `Selling Price` |
 | Halifax September 16, 2025 | 37 | 38 | 37 | 0 | 0 | `Opening Bid`, `Selling Price` |
+| Victoria County August 26, 2025 | 12 | 13 | 2 | 1 | 9 | `Total Owing`, `Successful Bid` |
+| Victoria County November 25, 2025 | 2 | 2 | 1 | 1 | 0 | `Total Owing`, `Successful Bid` |
+| Victoria County March 24, 2026 | 5 | 5 | 3 | 1 | 0 | `Total Owing`, `Successful Bid` |
 | CBRM July 21, 2026 | 67 | 68 | 0 | 0 | 67 | `Minimum bid`; results pending |
-| **Total** | **154** | **161** | **82** | **4** | **68** | |
+| **Total** | **173** | **180** | **88** | **7** | **77** | |
+
+The Victoria County March 24, 2026 event also carries one `withdrawn` record:
+the official table prints `REMOVED` beside a $17,500.00 successful bid for PID
+`85142388`, so the contradiction is preserved without a winning-bid claim.
 
 Every Halifax listing was reconciled between the official notice and result.
 The CBRM records were reconciled to the official notice only; their result
-status is `awaiting-official-results`. Every eight-digit PID matched NSPRD on
-July 19, 2026. Multi-PID listings retain amounts at listing level rather than
-dividing them between parcels. The September 24, 2024 Halifax `PENDING` row and
-all 67 CBRM records are fail-closed as outcome unknown with no winning bid or
-financial comparison. Assessed-owner and bidder names are absent.
+status is `awaiting-official-results`. The Victoria County records come from
+self-contained official result tables (AAN, PID, location, `Total Owing`,
+status, and `Successful Bid` in one document); the county's pre-sale property
+listings have been removed from its site and have no archive capture, so the
+retained notice receipts are the official sale announcements and tender or
+auction terms that pin each sale method and date. Victoria result rows with no
+published status stay outcome-unknown, and result rows publishing no `Total
+Owing` (deferred, paid, or removed before sale) are excluded and itemized in
+the source ledger. Every eight-digit PID matched NSPRD (Halifax on July 19,
+CBRM on July 21, and Victoria County on July 23, 2026). Multi-PID listings
+retain amounts at listing level rather than dividing them between parcels. The
+September 24, 2024 Halifax `PENDING` row and all 67 CBRM records are
+fail-closed as outcome unknown with no winning bid or financial comparison.
+Assessed-owner and bidder names are absent.
 
 `src/data/historicalSourceLedger.json` pins official URLs, retrieval dates,
 available fields, review notes, and SHA-256 receipts for the reviewed PDFs.

@@ -14,19 +14,22 @@ import {
 } from "./historicalTaxSales";
 
 describe("historical tax-sale records", () => {
-  it("preserves verified Halifax results and the outcome-pending CBRM archive", () => {
-    expect(historicalTaxSaleEvents).toHaveLength(8);
-    expect(historicalTaxSaleRecords).toHaveLength(154);
-    expect(matchedHistoricalPids()).toHaveLength(161);
+  it("preserves verified Halifax, Victoria County, and outcome-pending CBRM archives", () => {
+    expect(historicalTaxSaleEvents).toHaveLength(11);
+    expect(historicalTaxSaleRecords).toHaveLength(173);
+    expect(matchedHistoricalPids()).toHaveLength(180);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "sold"),
-    ).toHaveLength(82);
+    ).toHaveLength(88);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unsold"),
-    ).toHaveLength(4);
+    ).toHaveLength(7);
+    expect(
+      historicalTaxSaleRecords.filter(({ outcome }) => outcome === "withdrawn"),
+    ).toHaveLength(1);
     expect(
       historicalTaxSaleRecords.filter(({ outcome }) => outcome === "unknown"),
-    ).toHaveLength(68);
+    ).toHaveLength(77);
     expect(
       historicalTaxSaleEvents.map(({ id }) => {
         const records = historicalTaxSaleRecords.filter(
@@ -46,6 +49,9 @@ describe("historical tax-sale records", () => {
       { id: "hrm-2024-09-24", records: 9, pids: 10 },
       { id: "hrm-2025-03-25", records: 5, pids: 7 },
       { id: "hrm-2025-09-16", records: 37, pids: 38 },
+      { id: "victoria-2025-08-26", records: 12, pids: 13 },
+      { id: "victoria-2025-11-25", records: 2, pids: 2 },
+      { id: "victoria-2026-03-24", records: 5, pids: 5 },
       { id: "cbrm-2026-07-21", records: 67, pids: 68 },
     ]);
 
@@ -78,6 +84,55 @@ describe("historical tax-sale records", () => {
     expect(records.every(({ reviewState }) => reviewState === "notice-verified")).toBe(
       true,
     );
+  });
+
+  it("keeps blank-status Victoria County rows outcome-unknown", () => {
+    const august = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === "victoria-2025-08-26",
+    );
+    const blankStatusRows = august.filter(({ outcome }) => outcome === "unknown");
+
+    expect(august).toHaveLength(12);
+    expect(blankStatusRows).toHaveLength(9);
+    expect(
+      blankStatusRows.every(({ winningBidCents }) => winningBidCents === null),
+    ).toBe(true);
+    expect(
+      blankStatusRows.every(({ resultNote }) =>
+        resultNote?.includes("no status or successful bid published"),
+      ),
+    ).toBe(true);
+
+    const twoPidListing = august.find(
+      ({ recordId }) => recordId === "victoria-2025-08-26-aan-00453706",
+    );
+    expect(twoPidListing).toMatchObject({
+      pids: ["85010866", "85074276"],
+      advertisedAmountCents: 159_971,
+      winningBidCents: 1_210_100,
+    });
+    expect(historicalContextsForPid("85074276")[0]?.record).toBe(twoPidListing);
+  });
+
+  it("keeps the contradictory March 2026 REMOVED-with-bid row fail-closed", () => {
+    const contexts = historicalContextsForPid("85142388");
+
+    expect(contexts).toHaveLength(2);
+    expect(contexts[0].record).toMatchObject({
+      eventId: "victoria-2025-08-26",
+      outcome: "unsold",
+      winningBidCents: null,
+    });
+    expect(contexts[1].record).toMatchObject({
+      eventId: "victoria-2026-03-24",
+      outcome: "withdrawn",
+      winningBidCents: null,
+      resultNote:
+        "Official result: REMOVED, printed beside a successful bid of $17,500.00. The contradiction is preserved as published and no completed sale is inferred.",
+    });
+    expect(
+      calculateFinancialComparison(contexts[1].event, contexts[1].record),
+    ).toBeNull();
   });
 
   it("keeps the two-PID East Dover amount at listing level", () => {
@@ -217,13 +272,15 @@ describe("historical tax-sale records", () => {
       expect(event.noticeUrl).toMatch(/^https:\/\//u);
       expect(event.noticeSha256).toMatch(/^[a-f0-9]{64}$/u);
       if (event.resultStatus === "verified") {
-        expect(event.resultUrl).toMatch(/^https:\/\/(?:cdn\.)?halifax\.ca\//u);
+        expect(event.resultUrl).toMatch(
+          /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com)\//u,
+        );
         expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
       } else {
         expect(event.resultUrl).toBeUndefined();
         expect(event.landingPageUrl).toMatch(/^https:\/\/cbrm\.ns\.ca\//u);
       }
     }
-    expect(historicalSourceLedger.coverage).toHaveLength(10);
+    expect(historicalSourceLedger.coverage).toHaveLength(13);
   });
 });
