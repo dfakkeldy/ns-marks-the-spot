@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type {
+  EnvironmentalHealthLayerDescriptor,
   FloodHazardLayerDescriptor,
   HydroPilotLayerDescriptor,
   ProvinceLayerId,
@@ -273,6 +274,80 @@ export function FloodHazardLayerToggle({
       </span>
       {!enabled ? (
         <button className="text-button" type="button" onClick={onReviewLicence}>Review</button>
+      ) : null}
+    </label>
+  );
+}
+
+export function EnvironmentalHealthLayerToggle({
+  layer,
+  checked,
+  licenceAccepted,
+  status,
+  onChange,
+  onReviewLicence,
+}: {
+  layer: EnvironmentalHealthLayerDescriptor;
+  checked: boolean;
+  licenceAccepted: boolean;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+  onReviewLicence: () => void;
+}) {
+  const enabled = layer.licence === "province-open" || licenceAccepted;
+  return (
+    <label className="layer-row environmental-health-layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={enabled && checked}
+        disabled={!enabled}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
+        {/* The province's own guidance rides with the layer: these rasters are
+            tile overlays with no popup, so this row is the only place a reader
+            can meet the caveat before acting on a risk band. */}
+        <small className="environmental-health-guidance">{layer.guidance}</small>
+        {enabled && layer.riskBands.length > 0 ? (
+          <ul
+            className="environmental-health-legend"
+            aria-label={`${layer.name} risk bands`}
+          >
+            {layer.riskBands.map((band) => (
+              <li key={band.label}>
+                <span
+                  className="environmental-health-swatch"
+                  style={{ backgroundColor: band.color }}
+                  aria-hidden="true"
+                />
+                {band.label}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={enabled && checked}
+          status={status}
+        />
+      </span>
+      {!enabled ? (
+        <button
+          aria-label={`Review Province licence for ${layer.name}`}
+          className="text-button"
+          type="button"
+          onClick={onReviewLicence}
+        >
+          Review
+        </button>
       ) : null}
     </label>
   );

@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   allResourceLayerCatalog,
   derivedResourceLayerCatalog,
+  environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
+  initialEnvironmentalHealthLayerVisibility,
   initialFloodHazardLayerVisibility,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
@@ -14,6 +16,10 @@ import {
   resourceLayerCatalog,
   type ProvinceLayerId,
 } from "./layerCatalog";
+import {
+  OPEN_GOVERNMENT_LICENCE_TERMS_URL,
+  PROVINCE_LICENSE_URL,
+} from "../licensing/provinceLicense";
 
 describe("web native-layer parity catalog", () => {
   it("mirrors the native catalog order, names, and service URLs", () => {
@@ -355,6 +361,148 @@ describe("geology and resources catalog", () => {
       sourceDate: "2024 · version 9",
       coverage: "Nova Scotia · incomplete inventory",
     });
+  });
+});
+
+describe("environmental health screening catalog", () => {
+  it("publishes the well-water risk screens and the aquifer context layer", () => {
+    expect(
+      environmentalHealthLayerCatalog.map(
+        ({ id, name, licence, screening }) => ({
+          id,
+          name,
+          licence,
+          screening,
+        }),
+      ),
+    ).toEqual([
+      {
+        id: "arsenic-risk-wells",
+        name: "Arsenic risk — bedrock wells",
+        licence: "province-restricted",
+        screening: "well-water-risk",
+      },
+      {
+        id: "uranium-risk-wells",
+        name: "Uranium risk — bedrock wells",
+        licence: "province-open",
+        screening: "well-water-risk",
+      },
+      {
+        id: "manganese-risk-wells",
+        name: "Manganese risk — water wells",
+        licence: "province-restricted",
+        screening: "well-water-risk",
+      },
+      {
+        id: "surficial-aquifers",
+        name: "Surficial aquifers",
+        licence: "province-restricted",
+        screening: "aquifer-context",
+      },
+    ]);
+    expect(initialEnvironmentalHealthLayerVisibility).toEqual({
+      "arsenic-risk-wells": false,
+      "uranium-risk-wells": false,
+      "manganese-risk-wells": false,
+      "surficial-aquifers": false,
+    });
+  });
+
+  it("points every layer at the verified provincial service endpoint", () => {
+    expect(
+      Object.fromEntries(
+        environmentalHealthLayerCatalog.map(({ id, serviceUrl }) => [
+          id,
+          serviceUrl,
+        ]),
+      ),
+    ).toEqual({
+      "arsenic-risk-wells":
+        "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_ArsenicRiskWaterWells_h499ns_UT83/MapServer",
+      "uranium-risk-wells":
+        "https://dawson.novascotia.ca/arcgis/rest/services/hg_uranium_risk_h529ns_UT83/MapServer",
+      "manganese-risk-wells":
+        "https://dawson.novascotia.ca/arcgis/rest/services/hg_manganese_risk_h535ns_UT83/MapServer",
+      "surficial-aquifers":
+        "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_SurficialAquifers_h490ns_UT83/MapServer",
+    });
+  });
+
+  it("licenses the open-data uranium screen apart from the restricted services", () => {
+    const uranium = environmentalHealthLayerCatalog.find(
+      ({ id }) => id === "uranium-risk-wells",
+    );
+
+    expect(uranium?.licenceUrl).toBe(OPEN_GOVERNMENT_LICENCE_TERMS_URL);
+    expect(
+      environmentalHealthLayerCatalog
+        .filter(({ licence }) => licence === "province-restricted")
+        .every(({ licenceUrl }) => licenceUrl === PROVINCE_LICENSE_URL),
+    ).toBe(true);
+  });
+
+  it("frames every risk layer as a relative zone rather than a property result", () => {
+    const riskLayers = environmentalHealthLayerCatalog.filter(
+      ({ screening }) => screening === "well-water-risk",
+    );
+
+    expect(riskLayers).toHaveLength(3);
+    for (const layer of riskLayers) {
+      expect(layer.webCaveat).toContain("not a test result for this property");
+      expect(layer.guidance.toLocaleLowerCase()).toContain("test");
+      expect(layer.riskBands.map(({ label }) => label)).toEqual([
+        "High Risk",
+        "Medium Risk",
+        "Low Risk",
+      ]);
+      // The province defines the top band by exceedance rate, not concentration.
+      expect(layer.scale).toContain("high risk is >15% of well samples");
+    }
+  });
+
+  it("keeps the aquifer context layer free of any risk claim", () => {
+    const aquifers = environmentalHealthLayerCatalog.find(
+      ({ id }) => id === "surficial-aquifers",
+    );
+
+    expect(aquifers?.riskBands).toEqual([]);
+    expect(aquifers?.webCaveat).toContain("carries no risk rating");
+    expect(aquifers?.guidance).toContain("no risk rating");
+  });
+
+  it("draws each screen with the province's own legend colours", () => {
+    const bandsFor = (id: string) =>
+      environmentalHealthLayerCatalog
+        .find((layer) => layer.id === id)
+        ?.riskBands.map(({ color }) => color);
+
+    expect(bandsFor("arsenic-risk-wells")).toEqual([
+      "#993d7a",
+      "#c363e0",
+      "#d8b5eb",
+    ]);
+    expect(bandsFor("uranium-risk-wells")).toEqual([
+      "#808000",
+      "#ffffbf",
+      "#b0b0b0",
+    ]);
+    expect(bandsFor("manganese-risk-wells")).toEqual([
+      "#828282",
+      "#b2b2b2",
+      "#e1e1e1",
+    ]);
+  });
+
+  it("requests transparent exports across the full screening zoom range", () => {
+    for (const layer of environmentalHealthLayerCatalog) {
+      expect(layer.exportOptions).toMatchObject({ transparent: true });
+      expect(layer.minZoom).toBe(7);
+      expect(layer.maxZoom).toBe(24);
+      expect(layer.opacity).toBeLessThan(0.6);
+      expect(layer.sourceDate).not.toHaveLength(0);
+      expect(layer.coverage).not.toHaveLength(0);
+    }
   });
 });
 

@@ -14,6 +14,7 @@ import {
   type ParcelFocusRequest,
 } from "./components/MapCanvas";
 import {
+  EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
   HydroPilotLayerToggle,
   HydroPotentialLegend,
@@ -57,9 +58,11 @@ import {
 } from "./licensing/provinceLicense";
 import {
   allResourceLayerCatalog,
+  environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
+  initialEnvironmentalHealthLayerVisibility,
   initialFloodHazardLayerVisibility,
   initialProvinceLayerVisibility,
   initialResourceLayerVisibility,
@@ -68,6 +71,7 @@ import {
   resourceLayerCatalog,
   topographyLayerCatalog,
   type HydroPilotLayerId,
+  type EnvironmentalHealthLayerId,
   type FloodHazardLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
@@ -167,6 +171,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
+  ...environmentalHealthLayerCatalog.map(({ id }) => id),
 ];
 
 function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
@@ -401,6 +406,16 @@ function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
     licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
   }));
   floodHazardLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.licence === "province-restricted"
+      ? PROVINCE_ATTRIBUTION
+      : OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: layer.licenceUrl,
+  }));
+  environmentalHealthLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
     name: layer.name,
     sourceUrl: layer.sourceUrl,
@@ -701,6 +716,16 @@ export function App() {
         ) as Record<FloodHazardLayerId, boolean>
       : initialFloodHazardLayerVisibility,
   );
+  const [environmentalHealthLayers, setEnvironmentalHealthLayers] = useState(
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          environmentalHealthLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<EnvironmentalHealthLayerId, boolean>
+      : initialEnvironmentalHealthLayerVisibility,
+  );
 
   useEffect(() => {
     const visualViewport = window.visualViewport;
@@ -729,6 +754,20 @@ export function App() {
         licenceAccepted && resourceLayers["mineral-proximity-parcels"],
     }),
     [licenceAccepted, resourceLayers],
+  );
+  // A share URL can name any layer id, so the restricted rasters in this group
+  // are gated here rather than only in the checkbox UI.
+  const effectiveEnvironmentalHealthLayers = useMemo<
+    Record<EnvironmentalHealthLayerId, boolean>
+  >(
+    () => Object.fromEntries(
+      environmentalHealthLayerCatalog.map((layer) => [
+        layer.id,
+        environmentalHealthLayers[layer.id] &&
+          (layer.licence === "province-open" || licenceAccepted),
+      ]),
+    ) as Record<EnvironmentalHealthLayerId, boolean>,
+    [environmentalHealthLayers, licenceAccepted],
   );
   const [layerStatuses, setLayerStatuses] = useState(initialLayerStatuses);
   const [selectedEventIds, setSelectedEventIds] = useState(
@@ -1236,6 +1275,12 @@ export function App() {
   ) => {
     setFloodHazardLayers((current) => ({ ...current, [id]: visible }));
   };
+  const setEnvironmentalHealthLayerVisibility = (
+    id: EnvironmentalHealthLayerId,
+    visible: boolean,
+  ) => {
+    setEnvironmentalHealthLayers((current) => ({ ...current, [id]: visible }));
+  };
 
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
@@ -1505,7 +1550,17 @@ export function App() {
     ...floodHazardLayerCatalog
       .filter(({ id }) => floodHazardLayers[id])
       .map(({ id }) => id),
-  ], [floodHazardLayers, hydroPilotLayers, provinceLayers, resourceLayers, showModernMap]);
+    ...environmentalHealthLayerCatalog
+      .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
+      .map(({ id }) => id),
+  ], [
+    effectiveEnvironmentalHealthLayers,
+    floodHazardLayers,
+    hydroPilotLayers,
+    provinceLayers,
+    resourceLayers,
+    showModernMap,
+  ]);
   const printEventIds = useMemo(
     () => mapMode === "current"
       ? Array.from(selectedEventIds)
@@ -1538,7 +1593,11 @@ export function App() {
         layer.licence === "province-open" || licenceAccepted
       ))
       .map(({ id }) => id),
+    ...environmentalHealthLayerCatalog
+      .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
+      .map(({ id }) => id),
   ], [
+    effectiveEnvironmentalHealthLayers,
     effectiveResourceLayers,
     floodHazardLayers,
     hydroPilotLayers,
@@ -1723,6 +1782,13 @@ export function App() {
         })),
       ...floodHazardLayerCatalog
         .filter(({ id }) => floodHazardLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...environmentalHealthLayerCatalog
+        .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -2056,6 +2122,33 @@ export function App() {
                 <p className="resource-source-note">
                   Annual-exceedance percentages describe mapped events, not a whole-PID score.
                   Future coastal years are scenarios. Each layer is independently controlled.
+                </p>
+              </div>
+            </details>
+            <details className="resource-layer-group environmental-health-layer-group">
+              <summary>
+                <span>Environmental health screens</span>
+                <small>4 optional well-water &amp; aquifer screens</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {environmentalHealthLayerCatalog.map((layer) => (
+                  <EnvironmentalHealthLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={environmentalHealthLayers[layer.id]}
+                    licenceAccepted={licenceAccepted}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setEnvironmentalHealthLayerVisibility(layer.id, checked)
+                    }
+                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                  />
+                ))}
+                <p className="resource-source-note">
+                  These are relative risk zones mapped by bedrock unit, not test
+                  results for any property. A parcel takes the band of the rock
+                  beneath it, and wells in any band can exceed a guideline.
+                  Testing your well water is the only way to know what is in it.
                 </p>
               </div>
             </details>
@@ -2420,6 +2513,7 @@ export function App() {
             resourceLayers={effectiveResourceLayers}
             hydroPilotLayers={hydroPilotLayers}
             floodHazardLayers={floodHazardLayers}
+            environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0

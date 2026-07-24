@@ -10,7 +10,11 @@ Risk Areas, Waterfalls, water features, and transportation—and adds a collapse
 default-off Topography group for labelled 5 m contours, a collapsed Geology &
 Resources group for mineral occurrences, mineral tenure, and abandoned mine
 openings, plus a separately licence-gated derived row for NSPRD parcels within
-1 kilometre of a published mineral occurrence. Fletcher
+1 kilometre of a published mineral occurrence. A collapsed Environmental health
+screens group adds the province's relative arsenic, uranium, and manganese
+well-water risk zones and surficial aquifer extent, each shown with the
+province's own legend bands and its reminder that a zone describes bedrock, not
+a test result for any property. Fletcher
 stays disabled until web-use rights are clear. Its municipal catalog maps the
 CBRM July 21, Inverness County August 11, and Annapolis County
 August 31, 2026 tax-sale notices against live NSPRD parcel geometry, supports

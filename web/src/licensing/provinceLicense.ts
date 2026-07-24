@@ -6,3 +6,17 @@ export const PROVINCE_LICENSE_URL =
 
 export const PROVINCE_LICENSE_ACCEPTANCE_KEY =
   "ns-marks-the-spot:province-license:v1";
+
+// Open Government Licence – Nova Scotia. Distinct from the restricted map
+// services licence above: it needs no acceptance gate, but the licence text
+// mandates this exact attribution statement when the Information Provider
+// specifies none. Re-exported from services/civicAddresses for existing callers.
+export const OPEN_GOVERNMENT_ATTRIBUTION =
+  "Contains information licensed under the Open Government Licence – Nova Scotia.";
+
+export const OPEN_GOVERNMENT_LICENCE_URL =
+  "https://support.novascotia.ca/services/open-data-portal-licence";
+
+/** The licence text itself, which provincial dataset pages link as their terms. */
+export const OPEN_GOVERNMENT_LICENCE_TERMS_URL =
+  "https://novascotia.ca/opendata/licence.asp";

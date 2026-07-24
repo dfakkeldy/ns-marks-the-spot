@@ -94,6 +94,10 @@ const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   "coastal-flood-current": "coastal-current",
   "coastal-flood-2050": "coastal-2050",
   "coastal-flood-2100": "coastal-2100",
+  "arsenic-risk-wells": "arsenic-risk-bands",
+  "uranium-risk-wells": "uranium-risk-bands",
+  "manganese-risk-wells": "manganese-risk-bands",
+  "surficial-aquifers": "aquifer-extent",
 };
 
 export function ActiveLayerLegend({
