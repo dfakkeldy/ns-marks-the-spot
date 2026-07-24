@@ -250,7 +250,10 @@ function ArcGISMapLayer({
     reportZoom();
     tileLayers.forEach((tileLayer, index) => {
       tileLayer.on("loading", () => {
-        if (physicalStatuses[index] !== "error") {
+        if (
+          renderMode !== "print" ||
+          physicalStatuses[index] !== "error"
+        ) {
           physicalStatuses[index] = "loading";
         }
         reportAggregate();
@@ -259,7 +262,10 @@ function ArcGISMapLayer({
         loadedTiles[index] += 1;
       });
       tileLayer.on("load", () => {
-        if (physicalStatuses[index] !== "error") {
+        if (
+          renderMode !== "print" ||
+          physicalStatuses[index] !== "error"
+        ) {
           physicalStatuses[index] = "ready";
         }
         reportAggregate();
@@ -332,14 +338,18 @@ function ResourceArcGISMapLayer({
       reportAggregate();
     };
     tileLayer.on("loading", () => {
-      if (physicalStatus !== "error") physicalStatus = "loading";
+      if (renderMode !== "print" || physicalStatus !== "error") {
+        physicalStatus = "loading";
+      }
       reportAggregate();
     });
     tileLayer.on("tileload", () => {
       loadedTiles += 1;
     });
     tileLayer.on("load", () => {
-      if (physicalStatus !== "error") physicalStatus = "ready";
+      if (renderMode !== "print" || physicalStatus !== "error") {
+        physicalStatus = "ready";
+      }
       reportAggregate();
     });
     tileLayer.on("tileerror", () => {

@@ -74,6 +74,28 @@ export function PrintHeader({ snapshot, title }: {
   );
 }
 
+const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
+  modern: "basemap-grid",
+  "ns-aerial": "aerial-tone",
+  nsprd: "parcel-boundary",
+  "crown-lands": "crown-hatch",
+  "flood-risk": "watershed-boundary",
+  waterfalls: "waterfall-point",
+  "water-features": "water-lines",
+  roads: "road-corridor",
+  buildings: "building-footprints",
+  contours: "contour-lines",
+  "mineral-occurrences": "mineral-point",
+  "mineral-tenure": "tenure-hatch",
+  "abandoned-mines": "mine-point",
+  "mineral-proximity-parcels": "proximity-boundary",
+  "inverness-hydro-potential": "hydro-classes",
+  "published-river-flood-zones": "river-flood-bands",
+  "coastal-flood-current": "coastal-current",
+  "coastal-flood-2050": "coastal-2050",
+  "coastal-flood-2100": "coastal-2100",
+};
+
 export function ActiveLayerLegend({
   sources,
   showSourceDates = true,
@@ -118,6 +140,7 @@ export function ActiveLayerLegend({
             <li key={source.id}>
               <span
                 className={`print-layer-symbol print-layer-symbol--${source.id}`}
+                data-symbol-kind={PRINT_LEGEND_SYMBOL_KINDS[source.id]}
                 aria-hidden="true"
               >
                 {source.id === "inverness-hydro-potential"
@@ -263,8 +286,19 @@ function stateText(
   if (state.status === "pending" || state.status === "error") {
     return "Source unavailable at export time.";
   }
-  if (state.value.count === 0) return "0";
-  return state.value.count.toLocaleString("en-CA");
+  if (state.value.count === 0) {
+    return "No mapped building feature returned.";
+  }
+  const points = `${state.value.pointCount.toLocaleString("en-CA")} point${
+    state.value.pointCount === 1 ? "" : "s"
+  }`;
+  const polygons =
+    `${state.value.polygonCount.toLocaleString("en-CA")} polygon${
+      state.value.polygonCount === 1 ? "" : "s"
+    }`;
+  return `${state.value.count.toLocaleString("en-CA")} mapped feature${
+    state.value.count === 1 ? "" : "s"
+  } (${points}, ${polygons}).`;
 }
 
 export function ResearchFactGrid({ snapshot }: { snapshot: PrintSnapshot }) {

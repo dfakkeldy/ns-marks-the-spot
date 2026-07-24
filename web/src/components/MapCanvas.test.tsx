@@ -942,6 +942,58 @@ describe("MapCanvas Province overlays", () => {
     expect(mapMock.addLayer).toHaveBeenCalledTimes(2);
   });
 
+  it("recovers interactive roads readiness after a later successful load", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    const roadLayers = mapMock.addLayer.mock.calls.map(
+      ([layer]) =>
+        layer as {
+          fire: (event: string) => void;
+        },
+    );
+    expect(roadLayers).toHaveLength(2);
+
+    act(() => roadLayers[0].fire("tileerror"));
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
+      status: "error",
+    });
+
+    act(() => {
+      roadLayers[0].fire("load");
+      roadLayers[1].fire("load");
+    });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
+      status: "ready",
+      count: 0,
+    });
+  });
+
   it("does not force the overview map inward when default property boundaries are checked", () => {
     mapMock.getZoom.mockReturnValue(9);
 
@@ -1021,6 +1073,56 @@ describe("MapCanvas resource overlays", () => {
           properties: { geo_id: 70, Name: "Example occurrence" },
         },
       ],
+    });
+  });
+
+  it("recovers an interactive ArcGIS resource after a later successful load", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={{
+          ...hiddenResourceLayers,
+          "mineral-tenure": true,
+        }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    const [tenureLayer] = mapMock.addLayer.mock.calls.map(
+      ([layer]) =>
+        layer as {
+          fire: (event: string) => void;
+        },
+    );
+    expect(tenureLayer).toBeDefined();
+
+    act(() => {
+      tenureLayer.fire("tileerror");
+      tenureLayer.fire("load");
+    });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("mineral-tenure", {
+      status: "ready",
+      count: 0,
     });
   });
 

@@ -2742,6 +2742,23 @@ a {
   background: #e4e4e4;
 }
 
+.print-layer-symbol--modern {
+  border: 1pt solid #444;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #fafafa 0,
+      #fafafa 1mm,
+      #aaa 1mm,
+      #aaa 1.25mm
+    );
+}
+
+.print-layer-symbol--ns-aerial {
+  border: 1pt solid #333;
+  background: linear-gradient(135deg, #fafafa 0%, #aaa 48%, #555 100%);
+}
+
 .print-layer-symbol--nsprd {
   border-width: 1.5pt;
   background:
@@ -2751,6 +2768,87 @@ a {
       #f4f4f4 2mm,
       #aaa 2mm,
       #aaa 2.5mm
+    );
+}
+
+.print-layer-symbol--crown-lands {
+  border: 1.25pt solid #222;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0,
+      transparent 1.5mm,
+      #777 1.5mm,
+      #777 1.75mm
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      #f6f6f6 0,
+      #f6f6f6 1.5mm,
+      #aaa 1.5mm,
+      #aaa 1.75mm
+    );
+}
+
+.print-layer-symbol--flood-risk {
+  border: 2pt double #333;
+  background: #f7f7f7;
+}
+
+.print-layer-symbol--waterfalls {
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 50%, #222 0 1.4mm, #fff 1.5mm 2mm, transparent 2.1mm);
+}
+
+.print-layer-symbol--water-features {
+  border: 0;
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      transparent 0,
+      transparent 1.2mm,
+      #333 1.2mm,
+      #333 1.55mm
+    );
+}
+
+.print-layer-symbol--roads {
+  border: 0;
+  background:
+    linear-gradient(
+      0deg,
+      transparent 0 35%,
+      #333 35% 46%,
+      #fff 46% 54%,
+      #333 54% 65%,
+      transparent 65% 100%
+    );
+}
+
+.print-layer-symbol--buildings {
+  border: 1pt solid #555;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #222 0,
+      #222 1.8mm,
+      #fff 1.8mm,
+      #fff 3.4mm
+    );
+}
+
+.print-layer-symbol--contours {
+  border: 0;
+  background:
+    repeating-linear-gradient(
+      -8deg,
+      transparent 0,
+      transparent 0.8mm,
+      #555 0.8mm,
+      #555 0.95mm,
+      transparent 0.95mm,
+      transparent 1.8mm
     );
 }
 
@@ -2780,17 +2878,31 @@ a {
 }
 
 .print-layer-symbol--mineral-proximity-parcels {
-  border-style: dashed;
+  border: 1.5pt dashed #222;
   background: #ededed;
 }
 
 .print-layer-symbol--mineral-occurrences {
+  border: 1pt solid #111;
   border-radius: 50%;
   background: #eee;
 }
 
+.print-layer-symbol--mineral-tenure {
+  border: 1.25pt solid #444;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #f5f5f5 0,
+      #f5f5f5 1mm,
+      #777 1mm,
+      #777 1.3mm
+    );
+}
+
 .print-layer-symbol--abandoned-mines {
-  border-style: dotted;
+  border: 2pt dotted #111;
+  border-radius: 50%;
   background: #bdbdbd;
 }
 
@@ -2800,6 +2912,53 @@ a {
   border: 0;
   background: transparent;
   gap: 0.35mm;
+}
+
+.print-layer-symbol--published-river-flood-zones {
+  border: 1.5pt dashed #222;
+  background:
+    linear-gradient(
+      90deg,
+      #f7f7f7 0 34%,
+      #aaa 34% 67%,
+      #555 67% 100%
+    );
+}
+
+.print-layer-symbol--coastal-flood-current {
+  border: 1pt solid #555;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #f8f8f8 0,
+      #f8f8f8 1.3mm,
+      #cfcfcf 1.3mm,
+      #cfcfcf 2.6mm
+    );
+}
+
+.print-layer-symbol--coastal-flood-2050 {
+  border: 1.25pt dashed #444;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #eee 0,
+      #eee 1.1mm,
+      #999 1.1mm,
+      #999 2.2mm
+    );
+}
+
+.print-layer-symbol--coastal-flood-2100 {
+  border: 1.5pt double #222;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      #ccc 0,
+      #ccc 1mm,
+      #555 1mm,
+      #555 2mm
+    );
 }
 
 .print-hydro-class-sample {

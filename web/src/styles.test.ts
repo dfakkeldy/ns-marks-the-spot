@@ -141,6 +141,28 @@ describe("print document paged media", () => {
     expect(printStyles).toMatch(/\.print-preview-stage\s*{[^}]*overflow:\s*visible/s);
   });
 
+  it("gives every rendered layer category an explicit monochrome legend treatment", () => {
+    const layerIds = [
+      "modern", "ns-aerial", "nsprd", "crown-lands", "flood-risk",
+      "waterfalls", "water-features", "roads", "buildings", "contours",
+      "mineral-occurrences", "mineral-tenure", "abandoned-mines",
+      "mineral-proximity-parcels", "inverness-hydro-potential",
+      "published-river-flood-zones", "coastal-flood-current",
+      "coastal-flood-2050", "coastal-flood-2100",
+    ];
+    const treatments = layerIds.map((id) => {
+      const escapedId = id.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+      const declarations = styles.match(
+        new RegExp(`\\.print-layer-symbol--${escapedId}\\s*\\{([^}]*)\\}`),
+      )?.[1];
+      expect(declarations, `missing explicit legend treatment for ${id}`)
+        .toBeDefined();
+      return declarations?.replace(/\s+/gu, " ").trim();
+    });
+
+    expect(new Set(treatments)).toHaveLength(layerIds.length);
+  });
+
   it("keeps the landscape field contract bounded and printable metadata at 9pt or larger", () => {
     const printStyles = styles.slice(styles.indexOf(".print-preview"));
     const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];

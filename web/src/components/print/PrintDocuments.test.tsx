@@ -160,6 +160,59 @@ describe("print documents", () => {
     expect(screen.queryByText(/browser location/iu)).not.toBeInTheDocument();
   });
 
+  it("uses bounded wording for a valid empty building result", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            buildings: {
+              status: "ready",
+              value: { count: 0, pointCount: 0, polygonCount: 0 },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const facts = screen.getByLabelText("Parcel facts");
+    expect(within(facts).getByText("No mapped building feature returned."))
+      .toBeInTheDocument();
+    expect(within(facts).queryByText("0")).not.toBeInTheDocument();
+  });
+
+  it("keeps non-empty building point and polygon counts precise", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot()}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      within(screen.getByLabelText("Parcel facts")).getByText(
+        "2 mapped features (1 point, 1 polygon).",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("keeps PVSC and open-data provenance for unavailable evidence", () => {
     const unavailableEvidence = {
       ...snapshot().evidence,
@@ -361,7 +414,10 @@ describe("print documents", () => {
       />,
     );
 
-    expect(screen.getByText("No mapped building feature returned.")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("region", { name: "Evidence appendix" }))
+        .getByText("No mapped building feature returned."),
+    ).toBeInTheDocument();
     expect(screen.getByText("Outside published river-study extents.")).toBeInTheDocument();
     expect(screen.getByText("Source unavailable at export time.")).toBeInTheDocument();
   });
@@ -526,6 +582,49 @@ describe("print documents", () => {
     expect(legend.querySelector(".print-layer-symbol--nsprd")).not.toBeNull();
     expect(legend.querySelector(".print-layer-symbol--inverness-hydro-potential")).not.toBeNull();
     expect(legend.querySelectorAll(".print-hydro-class-sample")).toHaveLength(7);
+  });
+
+  it("maps every printable layer to a semantic monochrome legend treatment", () => {
+    render(
+      <PrintFieldDocument
+        snapshot={snapshot({
+          template: "field",
+          layerIds: allLayerIds,
+          layerSources: actualFieldCatalogSources,
+        })}
+        map={map}
+        includeAerial
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={allLayerIds}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const legend = screen.getByLabelText("Active map layers");
+    const symbolKinds = allLayerIds.map((id) => {
+      const symbol = legend.querySelector(`.print-layer-symbol--${id}`);
+      expect(symbol).not.toBeNull();
+      const kind = symbol?.getAttribute("data-symbol-kind");
+      expect(kind).not.toBeNull();
+      return kind;
+    });
+
+    expect(new Set(symbolKinds)).toHaveLength(allLayerIds.length);
+    expect(
+      legend.querySelector(".print-layer-symbol--roads"),
+    ).toHaveAttribute("data-symbol-kind", "road-corridor");
+    expect(
+      legend.querySelector(".print-layer-symbol--water-features"),
+    ).toHaveAttribute("data-symbol-kind", "water-lines");
+    expect(
+      legend.querySelector(".print-layer-symbol--buildings"),
+    ).toHaveAttribute("data-symbol-kind", "building-footprints");
+    expect(
+      legend.querySelector(".print-layer-symbol--coastal-flood-2100"),
+    ).toHaveAttribute("data-symbol-kind", "coastal-2100");
   });
 
   it("keeps the field sheet to one bounded page with only rendered layers and concise limits", () => {
