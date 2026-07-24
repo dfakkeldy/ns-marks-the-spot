@@ -523,8 +523,9 @@ row or ambiguous landing-page link fails closed instead of deleting evidence.
 ## Historical record layer receipt
 
 The historical layer is visually distinct and off by default. It contains seven
-result-backed Halifax events, three result-backed Victoria County events, and
-the completed CBRM event as notice-only records awaiting an official result:
+result-backed Halifax events, three result-backed Victoria County events, one
+result-backed CBRM event, and a second CBRM event kept as notice-only records
+awaiting an official result:
 
 | Event | Records | Exact PIDs | Sold | Unsold | Unknown | Official amount labels |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -538,43 +539,62 @@ the completed CBRM event as notice-only records awaiting an official result:
 | Victoria County August 26, 2025 | 12 | 13 | 2 | 1 | 9 | `Total Owing`, `Successful Bid` |
 | Victoria County November 25, 2025 | 2 | 2 | 1 | 1 | 0 | `Total Owing`, `Successful Bid` |
 | Victoria County March 24, 2026 | 5 | 5 | 3 | 1 | 0 | `Total Owing`, `Successful Bid` |
+| CBRM July 22, 2025 | 73 | 75 | 50 | 0 | 22 | `Minimum bid`, `Winning bid` |
 | CBRM July 21, 2026 | 67 | 68 | 0 | 0 | 67 | `Minimum bid`; results pending |
-| **Total** | **173** | **180** | **88** | **7** | **77** | |
+| **Total** | **246** | **245** | **138** | **7** | **99** | |
 
-The Victoria County March 24, 2026 event also carries one `withdrawn` record:
-the official table prints `REMOVED` beside a $17,500.00 successful bid for PID
-`85142388`, so the contradiction is preserved without a winning-bid claim.
+Per-event PID counts are listing slots; the total counts each parcel once, and
+ten parcels appear in both CBRM sales. Two records fall outside the outcome
+columns above. The Victoria County March 24, 2026 event carries one `withdrawn`
+record: the official table prints `REMOVED` beside a $17,500.00 successful bid
+for PID `85142388`, so the contradiction is preserved without a winning-bid
+claim. The CBRM July 22, 2025 event carries one `redeemed` record, lien
+`25-143`, printed as `REDEEMED` with no bid.
 
 Every Halifax listing was reconciled between the official notice and result.
-The CBRM records were reconciled to the official notice only; their result
-status is `awaiting-official-results`. The Victoria County records come from
-self-contained official result tables (AAN, PID, location, `Total Owing`,
-status, and `Successful Bid` in one document); the county's pre-sale property
-listings have been removed from its site and have no archive capture, so the
-retained notice receipts are the official sale announcements and tender or
-auction terms that pin each sale method and date. Victoria result rows with no
-published status stay outcome-unknown, and result rows publishing no `Total
-Owing` (deferred, paid, or removed before sale) are excluded and itemized in
-the source ledger. Every eight-digit PID matched NSPRD (Halifax on July 19,
-CBRM on July 21, and Victoria County on July 23, 2026). Multi-PID listings
-retain amounts at listing level rather than dividing them between parcels. The
-September 24, 2024 Halifax `PENDING` row and all 67 CBRM records are
-fail-closed as outcome unknown with no winning bid or financial comparison.
-Assessed-owner and bidder names are absent.
+The July 21, 2026 CBRM records were reconciled to the official notice only;
+their result status is `awaiting-official-results`. The Victoria County and
+July 22, 2025 CBRM records come from self-contained official result tables that
+carry identifiers, amounts, statuses, and bids in one document; those
+municipalities remove their pre-sale listings after a sale, so the retained
+notice receipts are official sale announcements, tender or auction terms, or an
+archived official page that pins each sale method and date. Victoria result rows
+with no published status stay outcome-unknown, and rows publishing no `Total
+Owing` (deferred, paid, or removed before sale) are excluded and itemized in the
+source ledger.
+
+The CBRM July 22, 2025 result prints a `WINNING BID` column and fills
+outcome-bearing rows in yellow. Each rendered row's fill was measured against
+its printed disposition, and the two agree on all 74 rows, so the highlighting
+adds nothing and no outcome rests on it. `PAID AT SALE` (five rows) and `WALKED
+AWAY` (four rows) publish no bid and stay outcome-unknown with the official
+wording preserved, because neither phrase establishes whether the parcel changed
+hands; thirteen rows with an empty bid cell are treated the same way. One row is
+excluded because the live NSPRD service returns no parcel for its exact official
+PID, and it is itemized in the match-exceptions file.
+
+Every published eight-digit PID matched NSPRD (Halifax on July 19, the 2026 CBRM
+notice on July 21, and Victoria County plus the 2025 CBRM result on July 23,
+2026). Multi-PID listings retain amounts at listing level rather than dividing
+them between parcels. The September 24, 2024 Halifax `PENDING` row, all 67
+notice-only CBRM records, and every outcome-unknown 2025 CBRM row are
+fail-closed with no winning bid or financial comparison. Assessed-owner and
+bidder names are absent.
 
 `src/data/historicalSourceLedger.json` pins official URLs, retrieval dates,
 available fields, review notes, and SHA-256 receipts for the reviewed PDFs.
-`src/data/historicalMatchExceptions.json` is intentionally empty because only
-exact official PIDs entered this slice; future ambiguous or unmatched rows must
-be recorded there and cannot render as parcels. The detailed human-readable
-coverage table is in
+`src/data/historicalMatchExceptions.json` records the one row that was published
+by a municipality but cannot render as a parcel: CBRM lien `25-178` (PID
+`15440050`), for which NSPRD returns no feature. Only exact official PIDs that
+the live service returns enter the layer, and future ambiguous or unmatched rows
+must be recorded there. The detailed human-readable coverage table is in
 [`docs/historical-tax-sale-source-coverage.md`](../docs/historical-tax-sale-source-coverage.md).
 
-Two CBRM result sets were researched but held fail-closed. The March 10, 2026
-result mixes published bids, blanks, and outcome highlighting that still needs
-row-by-row visual reconciliation. The July 22, 2025 result has useful outcome
-detail, but its original notice is no longer linked from the current municipal
-page. Neither event contributes a map parcel or financial comparison.
+The CBRM March 10, 2026 result is still researched but held fail-closed: it
+mixes published bids, blanks, and outcome highlighting that has not been shown
+to be redundant with its printed columns, so it needs the same row-by-row
+rendered reconciliation the July 22, 2025 result passed. It contributes no map
+parcel or financial comparison.
 
 NSPRD is governed by the [Province of Nova Scotia Restricted Geographic
 Services License](https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf).
@@ -605,7 +625,8 @@ live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the
 upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
-Maps directions, and a separate default-off layer of seven verified Halifax
-result events plus the outcome-pending CBRM archive. The Fletcher layer is visible but disabled until
+Maps directions, and a separate default-off layer of eleven verified Halifax,
+Victoria County, and CBRM result events plus the outcome-pending CBRM archive.
+The Fletcher layer is visible but disabled until
 web-use rights are clear. Unsupported historical sources remain fail-closed.
 Offline maps remain the native iPhone app's job.

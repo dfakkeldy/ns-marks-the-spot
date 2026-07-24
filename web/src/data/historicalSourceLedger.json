@@ -199,6 +199,23 @@
     },
     {
       "municipality": "Cape Breton Regional Municipality",
+      "event": "July 22, 2025 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://web.archive.org/web/20250714162415id_/http://www.cbrm.ns.ca/tax-sales.html",
+        "https://cbrm.ns.ca/wp-content/uploads/2025/11/CBRM-List-of-Sold-Properties-Tax-Sale-July-22-2025.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": [
+        "57a1c33af8a5056416ffc6eb6e4c80b9edea80eebe5fc3993c72304e84e266fe",
+        "b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale", "redeemed", "walked away"],
+      "officialWinningBidsFound": true,
+      "notes": "The re-downloaded result PDF re-hashed to the recorded receipt, and all 74 rows were reconciled against the rendered pages rather than extracted text alone. The table fills outcome-bearing rows in yellow, but that fill is redundant with the printed WINNING BID column on every one of the 74 rows, so no disposition depends on visual emphasis; this is what separates it from the March 10, 2026 result. Seventy-three rows are included: 50 publish a winning bid, one prints REDEEMED, and 22 stay outcome-unknown (five PAID AT SALE, four WALKED AWAY, and thirteen rows printing no winning bid at all). PAID AT SALE is not read as a completed sale because the official wording does not distinguish a bidder paying at the sale from the account being paid to stop it. Lien 25-178 (AAN 2210363, PID 15440050) is excluded because the live NSPRD service returns no parcel for that PID; it is itemized in the match-exceptions file. CBRM removed its pre-sale notice PDFs when the site migrated, and the notice was never archived, so the notice receipt is the official CBRM tax-sales page captured on 2025-07-14, which pins the July 22, 2025 11:00 a.m. in-person public auction at Centre 200, Sydney and links the maps and descriptions for liens 25-97 to 25-217. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
       "event": "March 10, 2026 tax sale",
       "status": "researched-not-included",
       "officialUrls": [
@@ -208,20 +225,7 @@
       "documentSha256": ["ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"],
       "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid for some rows"],
       "officialWinningBidsFound": true,
-      "notes": "The result PDF mixes published winning bids with blank cells and outcome highlighting. It needs a separate row-by-row visual reconciliation before publication."
-    },
-    {
-      "municipality": "Cape Breton Regional Municipality",
-      "event": "July 22, 2025 tax sale",
-      "status": "researched-not-included",
-      "officialUrls": [
-        "https://cbrm.ns.ca/wp-content/uploads/2025/11/CBRM-List-of-Sold-Properties-Tax-Sale-July-22-2025.pdf",
-        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
-      ],
-      "documentSha256": ["b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3"],
-      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale", "redeemed", "walked away"],
-      "officialWinningBidsFound": true,
-      "notes": "Useful outcome diversity was found, but the current public page no longer links the original notice. Held fail-closed until the notice/result pair is recovered and reconciled."
+      "notes": "The result PDF mixes published winning bids with blank cells and outcome highlighting. It needs a separate row-by-row visual reconciliation before publication; the July 22, 2025 review shows the method, which is to measure each rendered row's fill against its printed disposition and only publish if the fill turns out to carry no independent meaning."
     },
     {
       "municipality": "Municipality of the County of Cumberland",
