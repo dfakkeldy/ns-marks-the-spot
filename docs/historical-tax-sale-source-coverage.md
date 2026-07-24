@@ -133,14 +133,35 @@ Cumberland's printed `7463308`, confirming the dropped leading zero.
 
 ### Cumberland refresh watch
 
-Cumberland states it holds tax sales in **October and March each year** and
-overwrites this single page with each new sale. A fall 2026 notice is therefore
-likely, and the next overwrite will destroy the live March 3, 2026 results. Any
-refresh tooling or scheduled sweep should capture the page to the Wayback
-Machine *before* relying on it, then ingest from the archived capture. Note that
-Save Page Now submissions can be served a bot-verification interstitial: the
-July 23, 2026 submission replays the results table but its raw archived payload
-is the interstitial, so it is cited as a link and not hashed.
+Cumberland holds tax sales in **October and March each year** and overwrites this
+single page with each new sale, so the next overwrite will destroy the live
+results. A scheduled watcher now closes that gap.
+
+`.github/workflows/tax-sale-watch.yml` runs `npm run watch:tax-sales` weekly. On
+each run the watcher fetches the live page and compares the published sale against
+`web/src/data/cumberlandTaxSale.snapshot.json`:
+
+- **No new sale** — the run exits having changed nothing.
+- **A new sale, no hashable capture yet** — the watcher submits the page to the
+  Wayback Machine and records the sale as pending in the snapshot. It cites nothing
+  hashable and retries on the next run. This is the deferred state, and it exists
+  because Save Page Now can return a bot-verification interstitial whose replay
+  renders the results table while its raw archived payload does not carry it. The
+  watcher fetches the `id_` bytes of each candidate capture and only accepts one
+  whose payload actually contains the table.
+- **A new sale with a verified capture** — the watcher ingests the event and
+  records, appends a ledger entry, updates the snapshot, and opens a pull request
+  into `nightly` for human review. Because it archives *before* it ingests,
+  evidence is preserved even when ingestion is deferred to a later run.
+
+The watcher refuses to guess. Any winning-bid cell that is neither a money amount,
+`ADJORNED`, nor `NOT COMPLETED` — and any layout change that breaks parsing — fails
+the run loudly rather than producing a record, so a novel status word reaches a
+human instead of being mapped wrong.
+
+**Scheduled workflows run only from the default branch**, so the watcher is dormant
+until this change is promoted `nightly → weekly → main`. `workflow_dispatch` runs it
+on demand before then.
 
 ## Notice-only event awaiting official results
 

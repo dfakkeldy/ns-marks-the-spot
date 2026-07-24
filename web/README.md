@@ -589,6 +589,18 @@ strike-through marks from PDF vector geometry, preserves reviewed location
 normalization, and updates both document and JSON receipts. An omitted stored
 row or ambiguous landing-page link fails closed instead of deleting evidence.
 
+`npm run watch:tax-sales` handles sources that publish results to a single page
+they overwrite each sale, where the previous sale's results are destroyed rather
+than kept at a dated URL — Cumberland today. On no change it does nothing. When a
+new sale appears it submits the page to the Wayback Machine and, if a capture's
+raw `id_` bytes carry the results table, ingests the event, records, and ledger
+entry against that capture; if no capture carries the table yet, it records the
+sale as pending and retries next run, archiving first so evidence is never lost
+while ingestion waits. Any winning-bid cell that is not a money amount,
+`ADJORNED`, or `NOT COMPLETED` fails the run rather than being guessed. The
+scheduled workflow `.github/workflows/tax-sale-watch.yml` runs it weekly and opens
+a pull request into `nightly` on any change.
+
 ## CBRM July 21, 2026 source receipt
 
 - Official landing page: [CBRM Tax Sales](https://cbrm.ns.ca/business/property-sales-management/tax-sales/)
