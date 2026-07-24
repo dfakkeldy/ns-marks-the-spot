@@ -10,6 +10,9 @@ pixel_x,pixel_y,lon,lat,role,label
 25427.833,20793.333,-61.164172,45.91239,control,Ashfield main-map label
 16146.857,21784.429,-61.490604,45.876363,control,Judique main-map label
 18312.429,27777.286,-61.357626,45.724959,control,Queensville main-map label
-15609.5,16452.833,-61.488784,46.014683,check,Dungarry held-out place label
-15407.875,17648.625,-61.442924,46.055442,check,Glengarry held-out place label
-18733,31385,-61.403182,45.646132,check,Port Hastings held-out place label
+15609.5,16452.833,-61.488784,46.014683,control,Dungarry main-map label
+15407.875,17648.625,-61.442924,46.055442,control,Glengarry main-map label
+18733,31385,-61.403182,45.646132,control,Port Hastings main-map label
+20134.125,12614.75,-61.348218,46.08906,check,Glendyer main-map label
+22461,22337,-61.177619,45.837086,check,River Denys main-map label
+17231,27777,-61.45989,45.732686,check,Creignish main-map label

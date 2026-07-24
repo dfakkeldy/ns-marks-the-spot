@@ -48,12 +48,24 @@ class SourceWindow:
 
 
 @dataclass(frozen=True)
+class GeographicBounds:
+    """A target longitude/latitude extent in west, south, east, north order."""
+
+    west: float
+    south: float
+    east: float
+    north: float
+
+
+@dataclass(frozen=True)
 class ChurchPanel:
     """One independently georeferenced geographic panel on a county sheet."""
 
     county_slug: str
     slug: str
     window: SourceWindow
+    target_bounds: GeographicBounds
+    target_resolution_m: float
 
 
 _PANELS = {
@@ -61,11 +73,15 @@ _PANELS = {
         county_slug="inverness",
         slug="north",
         window=SourceWindow(x=0, y=0, width=14500, height=32200),
+        target_bounds=GeographicBounds(west=-61.35, south=46.30, east=-60.45, north=47.10),
+        target_resolution_m=5.0,
     ),
     ("inverness", "south"): ChurchPanel(
         county_slug="inverness",
         slug="south",
         window=SourceWindow(x=12500, y=0, width=21500, height=33500),
+        target_bounds=GeographicBounds(west=-61.70, south=45.55, east=-60.55, north=46.40),
+        target_resolution_m=5.0,
     ),
 }
 

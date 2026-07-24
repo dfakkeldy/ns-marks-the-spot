@@ -11,7 +11,7 @@ from tools.church.georeference import (
     parse_gdaltransform_output,
     warp_command,
 )
-from tools.church.panels import SourceWindow
+from tools.church.panels import GeographicBounds, SourceWindow
 from tools.church.residuals import summarise
 
 
@@ -66,6 +66,24 @@ class WarpCommandTests(unittest.TestCase):
 
     def test_affine_mode_omits_tps(self) -> None:
         self.assertNotIn("-tps", warp_command("in.tif", "out.tif", tps=False))
+
+    def test_constrains_panel_to_geographic_bounds(self) -> None:
+        bounds = GeographicBounds(west=-61.7, south=45.6, east=-60.5, north=46.4)
+
+        command = warp_command(
+            "in.vrt",
+            "out.tif",
+            target_bounds=bounds,
+            target_resolution_m=5.0,
+        )
+
+        self.assertEqual(
+            command[command.index("-te") + 1 : command.index("-te") + 5],
+            ["-61.7", "45.6", "-60.5", "46.4"],
+        )
+        self.assertEqual(command[command.index("-te_srs") + 1], "EPSG:4326")
+        self.assertEqual(command[command.index("-tr") + 1 : command.index("-tr") + 3], ["5.0", "5.0"])
+        self.assertIn("-dstalpha", command)
 
 
 class TransformParsingTests(unittest.TestCase):

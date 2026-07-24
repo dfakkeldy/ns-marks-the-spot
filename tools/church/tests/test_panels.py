@@ -53,6 +53,9 @@ class PanelRegistryTests(unittest.TestCase):
             self.assertGreaterEqual(panel.window.y, 0)
             self.assertLessEqual(panel.window.x_end, 34427)
             self.assertLessEqual(panel.window.y_end, 34543)
+            self.assertLess(panel.target_bounds.west, panel.target_bounds.east)
+            self.assertLess(panel.target_bounds.south, panel.target_bounds.north)
+            self.assertGreater(panel.target_resolution_m, 0)
 
     def test_get_panel_rejects_unknown_name(self) -> None:
         with self.assertRaisesRegex(KeyError, "inverness.*bogus"):

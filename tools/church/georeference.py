@@ -20,7 +20,7 @@ import subprocess
 from tools.church.counties import ChurchCounty, get_county
 from tools.church.gcps import CONTROL_ROLE, GroundControlPoint, load_gcps, split_roles
 from tools.church.geometry import mercator_to_ground_metres
-from tools.church.panels import ChurchPanel, SourceWindow, get_panel
+from tools.church.panels import ChurchPanel, GeographicBounds, SourceWindow, get_panel
 from tools.church.residuals import AccuracyReport, summarise
 
 RUMSEY_ATTRIBUTION = (
@@ -73,11 +73,30 @@ def build_translate_command(
     return command
 
 
-def warp_command(translated: str, output: str, tps: bool = True) -> list[str]:
+def warp_command(
+    translated: str,
+    output: str,
+    tps: bool = True,
+    target_bounds: GeographicBounds | None = None,
+    target_resolution_m: float | None = None,
+) -> list[str]:
     """gdalwarp invocation targeting Web Mercator."""
     command = ["gdalwarp", "-r", "bilinear", "-t_srs", "EPSG:3857"]
     if tps:
         command.append("-tps")
+    if target_bounds is not None:
+        command += [
+            "-te_srs",
+            "EPSG:4326",
+            "-te",
+            str(target_bounds.west),
+            str(target_bounds.south),
+            str(target_bounds.east),
+            str(target_bounds.north),
+            "-dstalpha",
+        ]
+    if target_resolution_m is not None:
+        command += ["-tr", str(target_resolution_m), str(target_resolution_m)]
     command += [
         "-co",
         "COMPRESS=DEFLATE",
@@ -182,7 +201,15 @@ def georeference(
     )
 
     warped = output_dir / f"{output_slug}-3857.tif"
-    subprocess.run(warp_command(str(translated), str(warped)), check=True)
+    subprocess.run(
+        warp_command(
+            str(translated),
+            str(warped),
+            target_bounds=panel.target_bounds if panel else None,
+            target_resolution_m=panel.target_resolution_m if panel else None,
+        ),
+        check=True,
+    )
 
     errors: list[float] | None = None
     if check:

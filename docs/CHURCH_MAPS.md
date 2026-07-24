@@ -17,6 +17,12 @@ attribution, but no tiles have been produced, so:
 - the web rail shows them as disabled rows under "Church (1860s–80s)";
 - the iOS catalog carries `sourceURL: nil` and installs no layer.
 
+The first panel-aware Inverness attempt was rejected on 2026-07-24. Its
+held-out errors, raster-coverage failure, QGIS findings, and next requirements
+are recorded in
+[`church-inverness-pilot-2026-07-24.md`](church-inverness-pilot-2026-07-24.md).
+No tiles were generated from that attempt.
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |
