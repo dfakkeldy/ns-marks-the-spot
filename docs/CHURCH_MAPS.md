@@ -17,6 +17,12 @@ attribution, but no tiles have been produced, so:
 - the web rail shows them as disabled rows under "Church (1860s–80s)";
 - the iOS catalog carries `sourceURL: nil` and installs no layer.
 
+The first panel-aware Inverness attempt was rejected on 2026-07-24. Its
+held-out errors, raster-coverage failure, QGIS findings, and next requirements
+are recorded in
+[`church-inverness-pilot-2026-07-24.md`](church-inverness-pilot-2026-07-24.md).
+No tiles were generated from that attempt.
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |
@@ -72,28 +78,99 @@ licence, so sourcing one is tracked as separate work.
   the Creative Commons terms cover.
 - This project is non-commercial and MIT-licensed, which fits BY-NC-SA.
 
-## Producing tiles (deferred)
+## Why these maps need panel-aware thin-plate splines
 
-No tiles exist yet. When producing them:
+The four-corner affine recipe in `docs/FLETCHER_GEOREFERENCING.md` does **not**
+work here. Fletcher sheets are systematic grid surveys with true rectangular
+latitude/longitude bounds. Church county maps were compiled for legibility of
+resident names, and their internal geometry is correspondingly loose:
 
-1. Rumsey serves full public-domain scans without a key: a JP2/MrSID download
-   per item, plus a IIIF Level-2 endpoint
-   (`.../luna/servlet/iiif/<id>/info.json`). These are large — Inverness is
-   34,427 × 34,543 px.
-2. IIIF returns image-space tiles, not Web Mercator. Georeference to
-   EPSG:3857 and slice with GDAL, per `docs/FLETCHER_GEOREFERENCING.md`
-   (`gdal_translate` GCPs → `gdalwarp` → `gdal2tiles --xyz`). Note
-   `gdal2tiles` is not installed by default here, and the georeferencing
-   script in that document has two bugs called out in its own notes.
-3. The Fletcher scrape shortcut (`docs/tile_downloader.py`) is **not**
-   available: `wmts.oldmapsonline.org` now requires `OLDMAPSONLINE_API_KEY`,
-   which is not in this repo, CI, or the environment.
-4. Write a `metadata.json` beside any tile tree recording source URL, Rumsey
-   id, bbox, zoom range, tile size, retrieval date, and licence. The existing
-   `Tiles/Fletcher` tree has no such record, which is why its provenance
-   survives only in a script's constants.
-5. Decide storage deliberately before adding binaries. `Tiles/Fletcher` is
-   ~311 MB of plain git blobs (no LFS), and there is an open roadmap item to
-   stop bundling tiles.
-6. To light a county up, set its `serviceUrl` / `sourceURL` to the tile
-   template and flip `webAvailability` to `"available"`.
+- StFX's Eigg Mountain GIS project found the Church map's geography "is so
+  distorted that it is impossible to georeference to the modern base map in
+  ArcView."
+- GANS needed 300–500 anchor points per county to succeed.
+
+The Rumsey Inverness scan is also a wall-map composition, not one continuous
+map image. It contains separate northern and southern geographic panels plus
+town insets and decoration. Victoria likewise contains separate main map
+panels. A single whole-sheet transform would mix unrelated image coordinate
+spaces and is forbidden.
+
+Each geographic panel is therefore an independent production unit:
+
+1. define an explicit pixel cutline that excludes insets, title art, and the
+   neighbouring panel;
+2. capture distributed `control` points and independent `check` points;
+3. warp the panel with `gdalwarp -tps`;
+4. measure held-out RMS and P95 error and visually inspect labels, roads,
+   shorelines, and panel edges;
+5. accept, rework, or reject the panel before mosaicking accepted panels.
+
+## Accuracy reporting
+
+Two numbers appear in each layer's `metadata.json`, and they mean different
+things:
+
+- **`affine_rms_m`** — how badly a plain affine fits the control points. A
+  distortion index, not the delivered layer's accuracy.
+- **`check_rms_m` and `check_p95_m`** — error of the delivered TPS warp at
+  points held out of the warp entirely. These are the honest accuracy figures
+  shown to users.
+
+A thin-plate spline interpolates control points exactly, so error measured at
+those points is always approximately zero regardless of quality. Only held-out
+checks provide an independent measurement. Historical survey distortion also
+remains distinct from modern georeferencing error.
+
+## Producing Inverness
+
+Generated source rasters, warped GeoTIFFs, and tiles stay out of Git. The
+versioned inputs are panel definitions, GCP CSVs, pipeline code, validation
+reports, and provenance/checksum manifests.
+
+```bash
+# 1. Fetch the full source scan over IIIF.
+python3 -m tools.church.fetch_rumsey inverness --output build/church
+
+# 2. Crop each declared panel and capture controls/checks against an
+#    authoritative modern reference in QGIS.
+
+# 3. Warp and validate every panel independently. Pixel coordinates in both
+#    CSVs remain relative to the complete archival scan; the tool applies each
+#    registered crop and shifts them automatically.
+python3 -m tools.church.georeference inverness \
+  --panel north \
+  --source build/church/inverness/inverness.tif \
+  --gcps tools/church/gcps/inverness-north.csv \
+  --output build/church
+
+python3 -m tools.church.georeference inverness \
+  --panel south \
+  --source build/church/inverness/inverness.tif \
+  --gcps tools/church/gcps/inverness-south.csv \
+  --output build/church
+
+# 4. Clip out the title art and town-plan insets, then mosaic only accepted
+#    panel outputs. Generate XYZ tiles from that reviewed mosaic.
+python3 -m tools.church.make_tiles inverness \
+  --warped build/church/inverness/inverness-3857.tif \
+  --output tiles/church-inverness \
+  --source-url "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~353591~90120835" \
+  --retrieved 2026-07-24
+```
+
+The Fletcher scrape shortcut (`docs/tile_downloader.py`) is not used. The
+Church pyramid is independently generated from the Rumsey source scan and its
+versioned control evidence.
+
+Do not commit the tile tree. `Tiles/Fletcher` is already roughly 311 MB of plain
+Git blobs, and a packaged GitHub Release asset is not itself an XYZ tile host.
+Choose stable object storage or a packaged range-readable format such as
+PMTiles before changing `serviceUrl` / `sourceURL` or marking the layer
+available.
+
+Tests:
+
+```bash
+python3 -m unittest discover -s tools/church/tests -t . -v
+```
