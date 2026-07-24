@@ -20,7 +20,11 @@ municipal ArcGIS services—Inverness, Victoria, Richmond, Cumberland, and
 Halifax—each linked to its authoritative land use by-law; Nova Scotia publishes
 no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. Fletcher
-stays disabled until web-use rights are clear. Its municipal catalog maps the
+stays disabled until web-use rights are clear. Four A.F. Church Cape Breton
+county maps (Inverness, Victoria, Richmond, Cape Breton; 1884–85, David
+Rumsey Map Collection) are catalogued alongside it as disabled rows, with
+tiles still pending—see
+[docs/CHURCH_MAPS.md](docs/CHURCH_MAPS.md). Its municipal catalog maps the
 CBRM July 21, Inverness County August 11, and Annapolis County
 August 31, 2026 tax-sale notices against live NSPRD parcel geometry, supports
 PID and civic-address search plus tap-to-identify parcel selection, keeps

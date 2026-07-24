@@ -66,6 +66,12 @@ downloaded for rectangular saved areas through the `MapEngine` bounds-selection
 flow added for v1.0. NS Aerial and restricted Nova Scotia reference layers are
 viewed-cache only in v1.0.
 
+The A.F. Church county maps (four Cape Breton Island sheets from the David
+Rumsey collection) are catalogued in both the native and web catalogs but do
+not render: no tiles have been produced for them. On the web they follow the
+Fletcher precedent as disabled rows; on iOS they carry `sourceURL: nil` and
+install no layer. See `docs/CHURCH_MAPS.md`.
+
 ### Folder Organization
 Feature-grouped — each feature (MapEngine, Layers, Offline, Overlay, POI) is a
 self-contained folder with its own protocols, implementations, and views.
