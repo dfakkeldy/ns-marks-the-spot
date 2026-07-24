@@ -585,7 +585,7 @@ describe("print documents", () => {
   });
 
   it("maps every printable layer to a semantic monochrome legend treatment", () => {
-    render(
+    const { rerender } = render(
       <PrintFieldDocument
         snapshot={snapshot({
           template: "field",
@@ -612,7 +612,28 @@ describe("print documents", () => {
       return kind;
     });
 
-    expect(new Set(symbolKinds)).toHaveLength(allLayerIds.length);
+    const selectedSymbol = legend.querySelector(
+      ".print-layer-symbol--selected-parcel",
+    );
+    const currentSymbol = legend.querySelector(
+      ".print-layer-symbol--current-tax-sale",
+    );
+    expect(selectedSymbol).toHaveAttribute(
+      "data-symbol-kind",
+      "selected-parcel-hatch",
+    );
+    expect(currentSymbol).toHaveAttribute(
+      "data-symbol-kind",
+      "current-notice-parcel",
+    );
+    expect(new Set([
+      ...symbolKinds,
+      selectedSymbol?.getAttribute("data-symbol-kind"),
+      currentSymbol?.getAttribute("data-symbol-kind"),
+    ])).toHaveLength(allLayerIds.length + 2);
+    expect(
+      legend.querySelector(".print-layer-symbol--nsprd"),
+    ).toHaveAttribute("data-symbol-kind", "parcel-boundary");
     expect(
       legend.querySelector(".print-layer-symbol--roads"),
     ).toHaveAttribute("data-symbol-kind", "road-corridor");
@@ -625,6 +646,30 @@ describe("print documents", () => {
     expect(
       legend.querySelector(".print-layer-symbol--coastal-flood-2100"),
     ).toHaveAttribute("data-symbol-kind", "coastal-2100");
+
+    rerender(
+      <PrintFieldDocument
+        snapshot={snapshot({
+          mode: "historical",
+          template: "field",
+          layerIds: allLayerIds,
+          layerSources: actualFieldCatalogSources,
+        })}
+        map={map}
+        includeAerial
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={allLayerIds}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+    expect(
+      screen
+        .getByLabelText("Active map layers")
+        .querySelector(".print-layer-symbol--historical-tax-sale"),
+    ).toHaveAttribute("data-symbol-kind", "historical-record-parcel");
   });
 
   it("keeps the field sheet to one bounded page with only rendered layers and concise limits", () => {

@@ -143,6 +143,7 @@ describe("print document paged media", () => {
 
   it("gives every rendered layer category an explicit monochrome legend treatment", () => {
     const layerIds = [
+      "selected-parcel", "current-tax-sale", "historical-tax-sale",
       "modern", "ns-aerial", "nsprd", "crown-lands", "flood-risk",
       "waterfalls", "water-features", "roads", "buildings", "contours",
       "mineral-occurrences", "mineral-tenure", "abandoned-mines",
@@ -161,6 +162,13 @@ describe("print document paged media", () => {
     });
 
     expect(new Set(treatments)).toHaveLength(layerIds.length);
+
+    const nsprdTreatment = treatments[layerIds.indexOf("nsprd")];
+    const selectedTreatment = treatments[layerIds.indexOf("selected-parcel")];
+    expect(nsprdTreatment).toMatch(/border:\s*1pt solid #777/);
+    expect(nsprdTreatment).toMatch(/background:\s*#fff/);
+    expect(nsprdTreatment).not.toMatch(/gradient/);
+    expect(selectedTreatment).toMatch(/repeating-linear-gradient/);
   });
 
   it("keeps the landscape field contract bounded and printable metadata at 9pt or larger", () => {

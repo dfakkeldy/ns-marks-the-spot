@@ -2760,15 +2760,8 @@ a {
 }
 
 .print-layer-symbol--nsprd {
-  border-width: 1.5pt;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      #f4f4f4 0,
-      #f4f4f4 2mm,
-      #aaa 2mm,
-      #aaa 2.5mm
-    );
+  border: 1pt solid #777;
+  background: #fff;
 }
 
 .print-layer-symbol--crown-lands {

@@ -112,6 +112,7 @@ export function ActiveLayerLegend({
         <li>
           <span
             className="print-layer-symbol print-layer-symbol--selected-parcel"
+            data-symbol-kind="selected-parcel-hatch"
             aria-hidden="true"
           />
           <span><strong>Selected parcel</strong></span>
@@ -120,6 +121,11 @@ export function ActiveLayerLegend({
           <li>
             <span
               className={`print-layer-symbol print-layer-symbol--${mapMode}-tax-sale`}
+              data-symbol-kind={
+                mapMode === "historical"
+                  ? "historical-record-parcel"
+                  : "current-notice-parcel"
+              }
               aria-hidden="true"
             />
             <span>
