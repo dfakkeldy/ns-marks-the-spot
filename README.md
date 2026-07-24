@@ -24,8 +24,8 @@ stays disabled until web-use rights are clear. Its municipal catalog maps the
 CBRM July 21, Inverness County August 11, and Annapolis County
 August 31, 2026 tax-sale notices against live NSPRD parcel geometry, supports
 PID and civic-address search plus tap-to-identify parcel selection, keeps
-browser location local, and puts verified Halifax 2022–2025 outcomes in an
-unmistakably separate historical mode. Parcel selection collapses long event
+browser location local, and puts verified Halifax 2022–2025 and Lunenburg
+District 2021–2026 outcomes in an unmistakably separate historical mode. Parcel selection collapses long event
 lists, and share links preserve the PID, event, layers, and map position. The
 parcel sheet can export a timestamped, source-linked evidence note. At
 overview zooms the modern basemap carries the view, listed parcels appear as

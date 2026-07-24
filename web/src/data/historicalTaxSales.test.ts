@@ -16,7 +16,7 @@ import {
 // Verified receipts must come from a municipality that published them or from an
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
-  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|web\.archive\.org)\//u;
+  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|(?:www\.)?modl\.ca|web\.archive\.org)\//u;
 
 describe("historical tax-sale records", () => {
   // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,
@@ -406,5 +406,73 @@ describe("historical tax-sale records", () => {
     ]) {
       expect(cumberland).not.toContain(surname);
     }
+  });
+
+  it("derives Lunenburg PIDs from assessment accounts and reports the method honestly", () => {
+    const modlRecords = historicalTaxSaleRecords.filter(({ eventId }) =>
+      eventId.startsWith("modl-"),
+    );
+    const modlEvents = historicalTaxSaleEvents.filter(({ id }) =>
+      id.startsWith("modl-"),
+    );
+
+    expect(modlEvents).toHaveLength(6);
+    expect(modlRecords).toHaveLength(145);
+    // Lunenburg publishes assessment account numbers but no PIDs, so every
+    // published PID is a deterministic reconciliation, never an exact official PID.
+    expect(
+      modlRecords.every(
+        ({ nspMatchStatus, nspMatchMethod }) =>
+          nspMatchStatus === "matched" &&
+          nspMatchMethod === "deterministic-reconciliation",
+      ),
+    ).toBe(true);
+    // The listing identifier is the assessment account, not a PID.
+    expect(
+      modlRecords.every(({ listingIdentifier }) =>
+        /^\d{8}$/u.test(listingIdentifier),
+      ),
+    ).toBe(true);
+    for (const event of modlEvents) {
+      expect(event.municipalityId).toBe("modl");
+      expect(event.saleMethod).toBe("sealed-tender");
+      expect(event.advertisedAmountLabel).toBe("Minimum opening bid");
+      expect(event.noticeUrl).toMatch(
+        /^https:\/\/(?:web\.archive\.org|www\.modl\.ca)\//u,
+      );
+    }
+  });
+
+  it("publishes Lunenburg winning bids only from award documents and fails closed on conflicts", () => {
+    const byId = (recordId: string) =>
+      historicalTaxSaleRecords.find((record) => record.recordId === recordId);
+
+    // A property whose top bid was withdrawn shows the standing lower award.
+    const reawarded = byId("modl-2021-03-01-aan-02443511");
+    expect(reawarded).toMatchObject({ outcome: "sold", winningBidCents: 850_100 });
+
+    // Both marked bidders withdrew: no completed sale, so no winning bid.
+    const bothWithdrew = byId("modl-2021-03-01-aan-01604112");
+    expect(bothWithdrew).toMatchObject({
+      outcome: "unknown",
+      winningBidCents: null,
+      reviewState: "needs-review",
+    });
+
+    // Award document and surplus record disagree: fail closed rather than guess.
+    const conflicted = byId("modl-2021-03-01-aan-10107393");
+    expect(conflicted?.outcome).toBe("unknown");
+    expect(conflicted?.winningBidCents).toBeNull();
+    expect(conflicted?.resultNote).toMatch(/disagree/u);
+
+    // Withdrawn-before-sale listings never carry a winning bid.
+    const withdrawn = historicalTaxSaleRecords.filter(
+      ({ eventId, outcome }) =>
+        eventId.startsWith("modl-") && outcome === "withdrawn",
+    );
+    expect(withdrawn.length).toBeGreaterThan(0);
+    expect(withdrawn.every(({ winningBidCents }) => winningBidCents === null)).toBe(
+      true,
+    );
   });
 });
