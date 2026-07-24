@@ -58,6 +58,7 @@ const base: PrintCaptureBase = {
   layerIds: ["nsprd", "roads", "ns-aerial"],
   layerSources: [],
   licenceAccepted: true,
+  wellLogAccuracyFilter: "surveyed",
 };
 
 const pendingEvidence: PrintEvidence = {

@@ -79,6 +79,8 @@ export type ZoningLayerDescriptor = {
   coverage: string;
 };
 
+export type WellLogLayerId = "ns-well-logs";
+
 export type FloodHazardLayerId =
   | "published-river-flood-zones"
   | "coastal-flood-current"
@@ -157,6 +159,24 @@ export type HydroPilotLayerDescriptor = {
   maxZoom: number;
   opacity: number;
   licence: "province-open";
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+};
+
+export type WellLogLayerDescriptor = {
+  id: WellLogLayerId;
+  name: string;
+  sourceUrl: string;
+  serviceUrl: string;
+  /** Users manual documenting the location-accuracy field. */
+  manualUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  licence: "province-open";
+  delivery: "feature-query";
   webCaveat: string;
   sourceDate: string;
   scale: string;
@@ -1123,4 +1143,30 @@ export const initialZoningLayerVisibility: Record<ZoningLayerId, boolean> = {
   "zoning-richmond": false,
   "zoning-cumberland": false,
   "zoning-halifax": false,
+};
+
+export const wellLogLayerCatalog: readonly WellLogLayerDescriptor[] = [
+  {
+    id: "ns-well-logs",
+    name: "Water well logs",
+    sourceUrl: "https://novascotia.ca/natr/meb/download/dp430.asp",
+    serviceUrl:
+      "https://services.arcgis.com/TS1HHBYLM10d1SZH/ArcGIS/rest/services/hg_Water_Well_logs_h430ns_UT83/FeatureServer/0",
+    manualUrl:
+      "https://novascotia.ca/nse/groundwater/docs/UsersManual_NSWellLogsDatabase.pdf",
+    minZoom: 12,
+    maxZoom: 23,
+    opacity: 0.95,
+    licence: "province-open",
+    delivery: "feature-query",
+    webCaveat:
+      "Surveyed ±50 m wells only by default · coarser records are area reports, not well locations · zoom 12+",
+    sourceDate: "DP ME 430 version 5 · database extracted January 5, 2022",
+    scale: "Point inventory · location accuracy ranges from ±50 m to ±8 km",
+    coverage: "Nova Scotia · 125,517 well logs constructed 1940–2021",
+  },
+] as const;
+
+export const initialWellLogLayerVisibility: Record<WellLogLayerId, boolean> = {
+  "ns-well-logs": false,
 };

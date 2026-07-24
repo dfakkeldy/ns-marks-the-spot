@@ -7,12 +7,14 @@ import {
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
   type EnvironmentalHealthLayerId,
+  wellLogLayerCatalog,
   type HydroPilotLayerId,
   type FloodHazardLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
   type ZoningLayerId,
   zoningLayerCatalog,
+  type WellLogLayerId,
 } from "../layers/layerCatalog";
 import { normalizePid } from "./nsprd";
 
@@ -24,7 +26,8 @@ export type ShareLayerId =
   | HydroPilotLayerId
   | FloodHazardLayerId
   | EnvironmentalHealthLayerId
-  | ZoningLayerId;
+  | ZoningLayerId
+  | WellLogLayerId;
 
 export type MapPosition = {
   latitude: number;
@@ -65,6 +68,7 @@ const validLayerIds = new Set<ShareLayerId>([
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
+  ...wellLogLayerCatalog.map(({ id }) => id),
 ]);
 
 function clamp(value: number, minimum: number, maximum: number): number {

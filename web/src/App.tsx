@@ -19,6 +19,9 @@ import {
   ZoningLayerToggle,
   HydroPilotLayerToggle,
   HydroPotentialLegend,
+  WellLogAccuracyFilterControl,
+  WellLogAccuracyLegend,
+  WellLogLayerToggle,
   LayerMetadata,
   LayerToggle,
   ResourceLayerToggle,
@@ -64,6 +67,8 @@ import {
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialEnvironmentalHealthLayerVisibility,
+  wellLogLayerCatalog,
+  initialWellLogLayerVisibility,
   initialFloodHazardLayerVisibility,
   initialProvinceLayerVisibility,
   initialResourceLayerVisibility,
@@ -79,7 +84,9 @@ import {
   type ProvinceLayerId,
   type ResourceLayerId,
   type ZoningLayerId,
+  type WellLogLayerId,
 } from "./layers/layerCatalog";
+import type { WellLogAccuracyFilter } from "./services/wellLogs";
 import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
@@ -177,6 +184,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
+  ...wellLogLayerCatalog.map(({ id }) => id),
 ];
 
 function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
@@ -437,6 +445,14 @@ function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
     sourceDate: layer.sourceDate,
     attribution: layer.attribution,
     licenceUrl: layer.licenceUrl,
+  }));
+  wellLogLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
   }));
   return sources;
 }
@@ -749,6 +765,18 @@ export function App() {
         ) as Record<ZoningLayerId, boolean>
       : initialZoningLayerVisibility,
   );
+  const [wellLogLayers, setWellLogLayers] = useState(
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          wellLogLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<WellLogLayerId, boolean>
+      : initialWellLogLayerVisibility,
+  );
+  const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
+    useState<WellLogAccuracyFilter>("surveyed");
 
   useEffect(() => {
     const visualViewport = window.visualViewport;
@@ -1302,6 +1330,13 @@ export function App() {
     setHydroPilotLayers((current) => ({ ...current, [id]: visible }));
   };
 
+  const setWellLogLayerVisibility = (
+    id: WellLogLayerId,
+    visible: boolean,
+  ) => {
+    setWellLogLayers((current) => ({ ...current, [id]: visible }));
+  };
+
   const setFloodHazardLayerVisibility = (
     id: FloodHazardLayerId,
     visible: boolean,
@@ -1593,6 +1628,9 @@ export function App() {
     ...zoningLayerCatalog
       .filter(({ id }) => zoningLayers[id])
       .map(({ id }) => id),
+    ...wellLogLayerCatalog
+      .filter(({ id }) => wellLogLayers[id])
+      .map(({ id }) => id),
   ], [
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
@@ -1601,6 +1639,7 @@ export function App() {
     resourceLayers,
     showModernMap,
     zoningLayers,
+    wellLogLayers,
   ]);
   const printEventIds = useMemo(
     () => mapMode === "current"
@@ -1638,6 +1677,9 @@ export function App() {
     ...zoningLayerCatalog
       .filter(({ id }) => zoningLayers[id])
       .map(({ id }) => id),
+    ...wellLogLayerCatalog
+      .filter(({ id }) => wellLogLayers[id])
+      .map(({ id }) => id),
   ], [
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
@@ -1647,6 +1689,7 @@ export function App() {
     provinceLayers,
     showModernMap,
     zoningLayers,
+    wellLogLayers,
   ]);
   const currentPrintEvidence = useMemo<PrintEvidence>(() => ({
     mappedArea: selectedMappedArea,
@@ -1733,6 +1776,7 @@ export function App() {
       historicalTaxSalePids: Array.from(filteredHistoricalPids),
       viewport: mapViewport,
       layerIds: captureLayerIds,
+      wellLogAccuracyFilter,
       layerSources: captureLayerSources,
       licenceAccepted,
     }, currentPrintEvidence));
@@ -1818,6 +1862,13 @@ export function App() {
         })),
       ...hydroPilotLayerCatalog
         .filter(({ id }) => hydroPilotLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...wellLogLayerCatalog
+        .filter(({ id }) => wellLogLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -2235,6 +2286,60 @@ export function App() {
                 </p>
               </div>
             </details>
+            <details className="resource-layer-group well-log-group">
+              <summary>
+                <span>Groundwater</span>
+                <small>1 optional well-log overlay</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {wellLogLayerCatalog.map((layer) => (
+                  <WellLogLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={wellLogLayers[layer.id]}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setWellLogLayerVisibility(layer.id, checked)
+                    }
+                  />
+                ))}
+                {wellLogLayers["ns-well-logs"] ? (
+                  <>
+                    <WellLogAccuracyFilterControl
+                      value={wellLogAccuracyFilter}
+                      onChange={setWellLogAccuracyFilter}
+                    />
+                    <WellLogAccuracyLegend />
+                  </>
+                ) : null}
+                <p className="resource-source-note well-log-note">
+                  The Province records an estimated location accuracy for every
+                  well. Only records accurate to ±50 m — mostly wells drilled
+                  after 2004, positioned with a driller's GPS — are drawn as
+                  solid points. Older records were placed from map books, NTS
+                  sheets, or community centroids and can be off by 800 m to 8 km;
+                  they stay hidden until you ask for them, and then draw hollow
+                  to show a well was reported nearby rather than where it sits.
+                  Depths and yields are the driller's report, not a survey or a
+                  guarantee of water. {" "}
+                  <a
+                    href={wellLogLayerCatalog[0].sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    DP ME 430 source
+                  </a>
+                  {" · "}
+                  <a
+                    href={wellLogLayerCatalog[0].manualUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Accuracy definitions
+                  </a>
+                </p>
+              </div>
+            </details>
             <details className="resource-layer-group hydro-pilot-group">
               <summary>
                 <span>Micro-hydro pilot</span>
@@ -2598,6 +2703,8 @@ export function App() {
             floodHazardLayers={effectiveFloodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
             zoningLayers={zoningLayers}
+            wellLogLayers={wellLogLayers}
+            wellLogAccuracyFilter={wellLogAccuracyFilter}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0

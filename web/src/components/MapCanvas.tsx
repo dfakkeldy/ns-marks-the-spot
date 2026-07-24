@@ -24,6 +24,7 @@ import {
   allResourceLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
+  wellLogLayerCatalog,
   type HydroPilotLayerId,
   type EnvironmentalHealthLayerDescriptor,
   type EnvironmentalHealthLayerId,
@@ -36,6 +37,8 @@ import {
   type WebLayerDescriptor,
   zoningLayerCatalog,
   type ZoningLayerId,
+  type WellLogLayerDescriptor,
+  type WellLogLayerId,
 } from "../layers/layerCatalog";
 import {
   loadInvernessHydroPotential,
@@ -80,7 +83,19 @@ import {
   PROVINCE_LAYER_Z_INDEXES,
   ZONING_PANE,
   ZONING_PANE_Z_INDEX,
+  WELL_LOG_PANE,
+  WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
+import {
+  fetchWellLogs,
+  printWellLogMarkerStyle,
+  wellLogMarkerRadius,
+  wellLogMarkerStyle,
+  wellLogPopupHtml,
+  wellLogTooltipHtml,
+  type WellLogAccuracyFilter,
+  type WellLogCollection,
+} from "../services/wellLogs";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -93,6 +108,8 @@ type MapCanvasProps = {
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
   zoningLayers?: Record<ZoningLayerId, boolean>;
+  wellLogLayers?: Record<WellLogLayerId, boolean>;
+  wellLogAccuracyFilter?: WellLogAccuracyFilter;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -129,7 +146,8 @@ export type MapLayerId =
   | HydroPilotLayerId
   | FloodHazardLayerId
   | EnvironmentalHealthLayerId
-  | ZoningLayerId;
+  | ZoningLayerId
+  | WellLogLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
@@ -170,6 +188,9 @@ const HIDDEN_ZONING_LAYERS: Record<ZoningLayerId, boolean> = {
   "zoning-richmond": false,
   "zoning-cumberland": false,
   "zoning-halifax": false,
+};
+const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
+  "ns-well-logs": false,
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
@@ -561,6 +582,142 @@ function ArcGISFeatureLayer({
           { sticky: true },
         );
       }}
+    />
+  );
+}
+
+const EMPTY_WELL_LOGS: WellLogCollection = {
+  type: "FeatureCollection",
+  features: [],
+};
+
+function WellLogLayer({
+  layer,
+  visible,
+  accuracyFilter,
+  onStatusChange,
+  renderMode,
+}: {
+  layer: WellLogLayerDescriptor;
+  visible: boolean;
+  accuracyFilter: WellLogAccuracyFilter;
+  onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
+}) {
+  const map = useMap();
+  const [collection, setCollection] =
+    useState<WellLogCollection>(EMPTY_WELL_LOGS);
+
+  useEffect(() => {
+    let controller: AbortController | null = null;
+    let requestNumber = 0;
+
+    const loadVisibleWells = () => {
+      controller?.abort();
+      controller = null;
+      requestNumber += 1;
+      const currentRequest = requestNumber;
+
+      if (!visible) {
+        setCollection(EMPTY_WELL_LOGS);
+        onStatusChange?.(layer.id, { status: "idle" });
+        return;
+      }
+
+      if (map.getZoom() < layer.minZoom) {
+        setCollection(EMPTY_WELL_LOGS);
+        onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+        return;
+      }
+
+      const bounds = map.getBounds();
+      controller = new AbortController();
+      onStatusChange?.(layer.id, { status: "loading" });
+      void fetchWellLogs({
+        serviceUrl: layer.serviceUrl,
+        bounds: {
+          west: bounds.getWest(),
+          south: bounds.getSouth(),
+          east: bounds.getEast(),
+          north: bounds.getNorth(),
+        },
+        filter: accuracyFilter,
+        signal: controller.signal,
+      })
+        .then((nextCollection) => {
+          if (currentRequest !== requestNumber) {
+            return;
+          }
+          setCollection(nextCollection);
+          onStatusChange?.(layer.id, {
+            status: "ready",
+            count: nextCollection.features.length,
+          });
+        })
+        .catch((error: unknown) => {
+          if (
+            currentRequest !== requestNumber ||
+            (error instanceof DOMException && error.name === "AbortError")
+          ) {
+            return;
+          }
+          setCollection(EMPTY_WELL_LOGS);
+          onStatusChange?.(layer.id, { status: "error" });
+        });
+    };
+
+    loadVisibleWells();
+    map.on("moveend", loadVisibleWells);
+    map.on("zoomend", loadVisibleWells);
+
+    return () => {
+      requestNumber += 1;
+      controller?.abort();
+      map.off("moveend", loadVisibleWells);
+      map.off("zoomend", loadVisibleWells);
+    };
+  }, [accuracyFilter, layer, map, onStatusChange, visible]);
+
+  if (!visible || collection.features.length === 0) {
+    return null;
+  }
+
+  return (
+    <GeoJSON
+      key={`${layer.id}:${accuracyFilter}:${collection.features
+        .map(({ id }) => id)
+        .join(",")}`}
+      data={collection}
+      pane={WELL_LOG_PANE}
+      pointToLayer={(feature, latlng) => {
+        const { accuracy } = feature.properties;
+        return L.circleMarker(latlng, {
+          radius: wellLogMarkerRadius(accuracy),
+          pane: WELL_LOG_PANE,
+          className:
+            renderMode === "print"
+              ? `print-well-log-marker print-well-log-marker--${accuracy}`
+              : undefined,
+          ...(renderMode === "print"
+            ? printWellLogMarkerStyle(accuracy)
+            : wellLogMarkerStyle(accuracy)),
+        });
+      }}
+      interactive={renderMode !== "print"}
+      onEachFeature={
+        renderMode === "print"
+          ? undefined
+          : (feature, featureLayer) => {
+              const properties = feature.properties;
+              featureLayer.on("click", (event) => {
+                L.DomEvent.stopPropagation(event.originalEvent);
+              });
+              featureLayer.bindTooltip(wellLogTooltipHtml(properties), {
+                sticky: true,
+              });
+              featureLayer.bindPopup(wellLogPopupHtml(properties));
+            }
+      }
     />
   );
 }
@@ -1212,6 +1369,8 @@ export function MapCanvas({
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
   zoningLayers = HIDDEN_ZONING_LAYERS,
+  wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
+  wellLogAccuracyFilter = "surveyed",
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1421,6 +1580,18 @@ export function MapCanvas({
               key={layer.id}
               layer={layer}
               visible={zoningLayers[layer.id]}
+              onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
+            />
+          ))}
+        </Pane>
+        <Pane name={WELL_LOG_PANE} style={{ zIndex: WELL_LOG_PANE_Z_INDEX }}>
+          {wellLogLayerCatalog.map((layer) => (
+            <WellLogLayer
+              key={layer.id}
+              layer={layer}
+              visible={wellLogLayers[layer.id]}
+              accuracyFilter={wellLogAccuracyFilter}
               onStatusChange={reportLayerStatus}
               renderMode={renderMode}
             />

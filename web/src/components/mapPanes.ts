@@ -30,5 +30,13 @@ export const ZONING_PANE_Z_INDEX = 300;
 export const MINERAL_PROXIMITY_PANE = "mineral-proximity-parcels-pane";
 export const MINERAL_PROXIMITY_PANE_Z_INDEX = 390;
 
+/**
+ * Well points sit above the default overlay pane (400) so they stay readable
+ * over area overlays, and below the established-parcel pane so tax-sale
+ * selection remains the visual authority.
+ */
+export const WELL_LOG_PANE = "ns-well-logs-pane";
+export const WELL_LOG_PANE_Z_INDEX = 405;
+
 export const ESTABLISHED_PARCEL_PANE = "established-parcel-overlays-pane";
 export const ESTABLISHED_PARCEL_PANE_Z_INDEX = 420;

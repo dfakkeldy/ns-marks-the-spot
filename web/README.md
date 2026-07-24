@@ -305,6 +305,55 @@ requirements, setbacks, variances, non-conforming rights, overlay or secondary
 plan policies, or subdivision eligibility. Confirm any zone and its rules with
 the municipality before relying on it.
 
+## Water well logs
+
+The collapsed **Groundwater** group is web-only, starts off, and is independent
+of the restricted map-services gate. It renders the Province's water well log
+inventory from
+[DP ME 430 version 5](https://novascotia.ca/natr/meb/download/dp430.asp) —
+125,517 wells constructed between 1940 and 2021, extracted January 5, 2022 —
+through the DNRR ArcGIS feature service published alongside that product. The
+service is queried for the visible envelope only, from zoom 12, and returns
+WGS84 geometry so the published UTM Zone 20 NAD83 coordinates are reprojected
+by the source rather than in the browser.
+
+**Location accuracy is the layer's organising idea.** Every record carries the
+Province's own estimate, in metres, of how far the plotted point may sit from
+the real well (`GEOREF_A`), together with the coordinate's origin
+(`GEOREF_S`). [Appendix A of the Users
+Manual](https://novascotia.ca/nse/groundwater/docs/UsersManual_NSWellLogsDatabase.pdf)
+documents the bands, and the published data matches them:
+
+| Band | Estimate | Typical origin | Records |
+| --- | --- | --- | --- |
+| Surveyed | ±50 m | Driller GPS, mostly wells built after 2004 | 27,557 |
+| Map-referenced | ±800 m | NS Map Book or Atlas | 80,066 |
+| Sheet-referenced | ±1.5 km | NTS map sheet | 14,886 |
+| Community centroid | up to ±8 km | Community or gazetteer centroid | 2,995 |
+| No estimate | — | `GEOREF_A` recorded as 0 | 13 |
+
+Only the surveyed band is drawn as a confident filled point, and it is the only
+band shown by default — the **Surveyed only / Include approximate** control
+makes the distinction explicit rather than implicit. The filter is applied in
+the service query, so hidden coarse records are never transferred. When they are
+requested they draw hollow and dashed, and their popup leads with "a well was
+reported within about *N* of here. The marker is not the well location." A zero
+accuracy estimate is treated as unknown, never as a perfectly located well.
+
+Popups carry well number, completion date, depth, casing, depth to bedrock,
+static level, yield, and coordinate source. The published table's `-9999`
+no-data marker is dropped rather than rendered as a measurement; small negative
+static levels are kept, because those are real readings for flowing wells where
+water stands above ground. Depths and yields are the driller's report — not a
+survey, and not proof of a usable or potable supply.
+
+**Licensing and privacy.** DP ME 430 is published by DNRR under the Nova Scotia
+Open Government Licence. The separate NSE Access-database download of the same
+underlying database may not be redistributed and is deliberately not used here,
+and the stale 2015 Socrata copy is not used either. The published table includes
+an `ADDRESS` column that can hold a well owner's civic address; it is excluded at
+the query rather than filtered out afterwards, so it never reaches the browser.
+
 ## Inverness micro-hydro screening pilot
 
 The collapsed **Micro-hydro pilot** is a web-only, default-off open-data

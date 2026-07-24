@@ -15,19 +15,22 @@ type FetchArcGISFeatureOverlayOptions = {
   serviceUrl: string;
   bounds: MapEnvelope;
   outFields: readonly string[];
-  /**
-   * Paging is only stable when the source sorts consistently, and services
-   * disagree on which field exists. Required so a new layer cannot compile
-   * against a field its service rejects.
-   */
-  orderByFields: string;
-  idField: string;
   distanceMetres?: number;
+  /** Attribute filter applied by the service. Defaults to every record. */
+  where?: string;
+  /**
+   * Field the service pages by, and the field used to deduplicate returned
+   * records. Services outside the mineral catalog do not publish `geo_id`, and
+   * ordering by a field a service does not have fails the whole query.
+   */
+  orderByFields?: string;
+  idField?: string;
   signal?: AbortSignal;
 };
 
 const PAGE_SIZE = 2_000;
 const MAX_PAGES = 10;
+const DEFAULT_ID_FIELD = "geo_id";
 
 function featureKey<G extends GeoJSON.Geometry>(
   feature: ArcGISFeatureCollection<G>["features"][number],
@@ -43,9 +46,10 @@ export async function fetchArcGISFeatureOverlay<
   serviceUrl,
   bounds,
   outFields,
-  orderByFields,
-  idField,
   distanceMetres,
+  where = "1=1",
+  orderByFields = DEFAULT_ID_FIELD,
+  idField = DEFAULT_ID_FIELD,
   signal,
 }: FetchArcGISFeatureOverlayOptions): Promise<ArcGISFeatureCollection<G>> {
   const features: ArcGISFeatureCollection<G>["features"] = [];
@@ -53,7 +57,7 @@ export async function fetchArcGISFeatureOverlay<
 
   for (let page = 0; page < MAX_PAGES; page += 1) {
     const queryUrl = new URL(`${serviceUrl.replace(/\/$/, "")}/query`);
-    queryUrl.searchParams.set("where", "1=1");
+    queryUrl.searchParams.set("where", where);
     queryUrl.searchParams.set(
       "geometry",
       `${bounds.west},${bounds.south},${bounds.east},${bounds.north}`,
