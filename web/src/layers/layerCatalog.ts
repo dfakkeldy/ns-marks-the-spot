@@ -342,86 +342,23 @@ const WATERFALLS_DYNAMIC_LAYERS = JSON.stringify([
 const TRAIL_TRACK_DEFINITION =
   "FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%'";
 
-const UNPAVED_LOCAL_ROAD_DEFINITION = "FEAT_DESC LIKE 'ROAD - Local%Unpaved'";
+// WATER ACCESS is drawn fully transparent by the Province, so casing it would
+// invent a line the source deliberately hides.
+const CASEABLE_ROAD_DEFINITION = "FEAT_DESC <> 'WATER ACCESS'";
 
-const UNPAVED_RESOURCE_ROAD_DEFINITION =
-  "FEAT_DESC LIKE 'ROAD - Resource Access%Unpaved'";
+const CASEABLE_ROAD_ONLY_DEFINITION = `${CASEABLE_ROAD_DEFINITION} AND NOT (${TRAIL_TRACK_DEFINITION})`;
 
-const UNPAVED_ROAD_DEFINITION = `${UNPAVED_LOCAL_ROAD_DEFINITION} OR ${UNPAVED_RESOURCE_ROAD_DEFINITION}`;
-
-// The Province draws unpaved roads as thin dashed lines with no casing, so they
-// vanish over aerial imagery. Entries draw bottom-up: a solid white halo under
-// the Province's own dashed road cores (solid, so maintained roads read heavier
-// than trails), with the dashed trail/track contrast pass kept on top.
+// Every minor class the Province draws — unpaved roads, driveways, tracks,
+// service lanes, abandoned roads — is a thin dashed line with no casing, so it
+// disappears over aerial imagery. NSTDB classification is unreliable (maintained
+// public roads are routinely filed as DRIVEWAY), so rather than enumerate
+// classes we case *every* feature on the sublayer and redraw the Province's own
+// renderer over the casing, preserving its colour coding exactly.
+//
+// Order matters and is counter-intuitive: ArcGIS draws a dynamicLayers array
+// top-down, so the FIRST entry lands on top and casings must come last. Roads
+// get a wider casing than trails so a maintained road still reads heavier.
 const ROAD_TRAIL_CONTRAST_DYNAMIC_LAYERS = JSON.stringify([
-  {
-    id: 76,
-    source: { type: "mapLayer", mapLayerId: 8 },
-    definitionExpression: UNPAVED_ROAD_DEFINITION,
-    drawingInfo: {
-      renderer: {
-        type: "simple",
-        symbol: {
-          type: "esriSLS",
-          style: "esriSLSSolid",
-          color: [255, 255, 255, 200],
-          width: 1.6,
-        },
-      },
-      labelingInfo: [],
-    },
-  },
-  {
-    id: 77,
-    source: { type: "mapLayer", mapLayerId: 8 },
-    definitionExpression: UNPAVED_LOCAL_ROAD_DEFINITION,
-    drawingInfo: {
-      renderer: {
-        type: "simple",
-        symbol: {
-          type: "esriSLS",
-          style: "esriSLSDash",
-          color: [204, 77, 77, 255],
-          width: 1,
-        },
-      },
-      labelingInfo: [],
-    },
-  },
-  {
-    id: 78,
-    source: { type: "mapLayer", mapLayerId: 8 },
-    definitionExpression: UNPAVED_RESOURCE_ROAD_DEFINITION,
-    drawingInfo: {
-      renderer: {
-        type: "simple",
-        symbol: {
-          type: "esriSLS",
-          style: "esriSLSDash",
-          color: [230, 102, 0, 255],
-          width: 1,
-        },
-      },
-      labelingInfo: [],
-    },
-  },
-  {
-    id: 80,
-    source: { type: "mapLayer", mapLayerId: 8 },
-    definitionExpression: TRAIL_TRACK_DEFINITION,
-    drawingInfo: {
-      renderer: {
-        type: "simple",
-        symbol: {
-          type: "esriSLS",
-          style: "esriSLSDash",
-          color: [255, 255, 255, 200],
-          width: 1.2,
-        },
-      },
-      labelingInfo: [],
-    },
-  },
   {
     id: 81,
     source: { type: "mapLayer", mapLayerId: 8 },
@@ -434,6 +371,46 @@ const ROAD_TRAIL_CONTRAST_DYNAMIC_LAYERS = JSON.stringify([
           style: "esriSLSDash",
           color: [43, 39, 48, 255],
           width: 0.8,
+        },
+      },
+      labelingInfo: [],
+    },
+  },
+  {
+    // No drawingInfo: keeps the Province's own colour coding above the casing.
+    id: 79,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: CASEABLE_ROAD_DEFINITION,
+  },
+  {
+    id: 77,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: CASEABLE_ROAD_ONLY_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [255, 255, 255, 220],
+          width: 2.6,
+        },
+      },
+      labelingInfo: [],
+    },
+  },
+  {
+    id: 76,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: TRAIL_TRACK_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [255, 255, 255, 200],
+          width: 1.6,
         },
       },
       labelingInfo: [],
