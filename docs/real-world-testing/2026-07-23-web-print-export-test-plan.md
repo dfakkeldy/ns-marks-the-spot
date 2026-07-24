@@ -15,15 +15,15 @@ are separate proof layers. A pass in one layer does not establish another.
 
 | ID | Surface | Fixture | Expected | Result | Evidence |
 |---|---|---|---|---|---|
-| PRINT-01 | Chrome macOS | Research, appendix on | Letter portrait; no clipping | Pending | Real Chrome screen preview rendered public PID `50203256` with parcel-complete map, monochrome hatch, appendix, 9 pt content, attribution, written URL, and local QR. Native print pagination, margins, and clipping were not inspected. |
-| PRINT-02 | Safari macOS | Research, appendix off | One portrait page | Pending | Safari was not controlled in this run. |
-| PRINT-03 | Chrome macOS | Field map | One landscape page; complete bounds | Pending | Real Chrome screen preview rendered the field sheet with the frozen regional extent and named below-zoom layer omissions. Native landscape print pagination and complete-bounds output were not inspected. |
-| PRINT-04 | Safari iPhone | AirPrint preview | Correct orientation and readable controls | Pending | No iPhone/AirPrint session was available. |
-| PRINT-05 | Saved PDF | Research + field | Reopens; links clickable; QR matches URL | Pending | Available Chrome DOM control could not operate the native print destination or produce and reopen saved PDFs. |
-| PRINT-06 | Monochrome printer | Research + field | Hatch, lines, 9 pt text, attribution readable | Pending | No physical monochrome printer run was performed. |
+| PRINT-01 | Chrome macOS | Research, appendix on | Letter portrait; no clipping | Pass | Chrome native print reported 6 pages. The saved PDF is 6 portrait Letter pages (`612 × 792 pt`); all pages contain selectable text, and a six-page raster contact sheet showed no blank, clipped, or overlapping page. Page 1 retained the monochrome hatch, 9 pt content, complete attribution, limitations, written URL, and QR. |
+| PRINT-02 | Safari macOS | Research, appendix off | One portrait page | Blocked | Safari loaded the local build and public fixture, but its fresh local origin stopped at the Province restricted-services licence acknowledgement. The acknowledgement was not accepted without action-time user confirmation, so Safari native pagination remains unproved. |
+| PRINT-03 | Chrome macOS | Field map | One landscape page; complete bounds | Pass | Chrome native print reported 1 page. The saved PDF has a true landscape Letter MediaBox (`792 × 612 pt`), the frozen regional bounds, named below-zoom omissions, separated attribution/limitations/receipt rows, and no clipping. |
+| PRINT-04 | Safari iPhone | AirPrint preview | Correct orientation and readable controls | Blocked | iPhone Mirroring reported that the paired phone was not found and required the phone to be nearby, powered on, recently unlocked, with Bluetooth and Wi-Fi enabled. No AirPrint inference was made from desktop printing. |
+| PRINT-05 | Saved PDF | Research + field | Reopens; links clickable; QR matches URL | Pass | Chrome-saved research and field PDFs reopened and rasterized successfully. The research packet contains 83 URL annotations; the field sheet contains 6. Apple Vision decoded each printed QR to the same exact public-fixture map-state URL written in that document's receipt. |
+| PRINT-06 | Monochrome printer | Research + field | Hatch, lines, 9 pt text, attribution readable | Pending human inspection | The research summary page and field sheet were submitted one-sided in grayscale/Letter mode as Brother jobs `1083` and `1084`; both jobs completed and the printer returned to idle. Submission is not legibility proof: a human still needs to inspect hatch, line contrast, 9 pt text, attribution, and QR on the two physical sheets. |
 | PRINT-07 | Failed evidence source | Research | Unavailable, not empty | Pass | Mocked acceptance harness passed: `PrintPreview.test.tsx` times out pending research as “Source unavailable at export time”; `PrintDocuments.test.tsx` preserves empty, outside-coverage, and source-error wording separately. |
 | PRINT-08 | Failed map layer | Both | Warning, retry, deliberate incomplete print | Pass | Mocked acceptance harness passed: `PrintPreview.test.tsx` requires an explicit incomplete-map decision, retains the warning, limits receipt layers to those rendered, and proves Retry creates a fresh attempt that ignores stale callbacks and can settle successfully; `PrintDocuments.test.tsx` names the failed layer. |
-| PRINT-09 | Privacy | Browser location enabled before preview | No location marker or coordinates in output | Pending | Automated harness passed location-marker exclusion and printable-viewport suppression, and the real public-PID previews showed no location UI. Actual browser geolocation permission was not enabled, so this row remains pending. |
+| PRINT-09 | Privacy | Browser location enabled before preview | No location marker or coordinates in output | Blocked | Chrome's one-time permission was selected for the local origin without recording coordinates, but the page immediately reported that location permission was not granted, consistent with an external macOS Location Services block. Automated tests still pass location-marker exclusion and printable-viewport suppression; an actual enabled-location output remains unproved. |
 
 ## Fixture notes
 
@@ -50,35 +50,46 @@ Run from a clean dependency install in `web/` on 2026-07-23:
 The complete gate sequence was rerun after the import cleanup. The results above
 are from that clean rerun.
 
+### 2026-07-24 conflict-resolution and acceptance rerun
+
+| Command | Result | Receipt |
+|---|---|---|
+| `npm test` | Pass | 40 test files passed and 1 intentional live-service file skipped; 415 tests passed and 1 skipped. |
+| `npm run lint` | Pass | ESLint completed with no errors or warnings. |
+| `npm run build` | Pass | TypeScript and Vite completed. Vite retained the existing advisory for chunks over 500 kB; it was not a build failure. |
+| `git diff --check` | Pass | No whitespace errors. |
+
 ## Manual gate notes
 
-### Chrome screen preview
+### Chrome native preview and saved PDFs
 
 Chrome opened the local development build with owner-free public fixture PID
-`50203256`. The research preview with appendix enabled visibly rendered:
+`50203256`. The acceptance rerun found and fixed three renderer-level defects:
 
-- the complete selected parcel at zoom 18 with a monochrome selected-parcel
-  hatch;
-- returned-zero buildings, one captured PVSC account, empty civic evidence,
-  outside-study river wording, and returned resource evidence without
-  collapsing those meanings;
-- OpenStreetMap, restricted Province, Nova Scotia open-data, and PVSC
-  attribution and licence links; and
-- the exact written map-state URL and a locally rendered QR.
+- named `@page` rules caused a phantom extra Chrome page, so the active preview
+  now emits one unnamed portrait or landscape `@page` rule;
+- the QR receipt is now an atomic data-URL image rather than a nested inline
+  SVG; and
+- upstream evidence/source additions overflowed rigid page rows, so the
+  research source list now flows inline and both templates reserve measured
+  non-overlapping space for attribution, limitations, and receipts.
 
-Switching the same frozen capture to the field template visibly rendered the
-regional frozen extent at zoom 7, the current-notice parcels, the written
-receipt and QR, and the explicit message that property boundaries, water, and
-roads were not rendered at that print scale. The Chrome console contained no
-warnings or errors during this preview run.
+The final research packet is 6 nonblank portrait Letter pages. The final field
+sheet is 1 landscape Letter page. Raster inspection showed the selected-parcel
+hatch, map, receipt status, active-layer legend, source/licence material,
+limitations, written URL, and QR without collision or clipping. The field sheet
+retained the frozen regional extent and explicitly named property boundaries,
+water, and roads as not rendered at its print scale.
 
-These observations establish real browser screen-preview rendering only. The
-available Chrome control surface could not inspect the native print dialog,
-save a PDF, reopen it in Preview, or prove printed page count, orientation,
-margins, clipping, link behavior, or QR scanning. Safari macOS, Safari iPhone
-AirPrint, actual browser-location permission, and physical monochrome output
-were not run.
+The final saved artifacts were inspected outside the browser with `pdfinfo`,
+`pdftotext`, `pdfinfo -url`, Poppler rasterization, and Apple Vision barcode
+detection. The PDFs are temporary acceptance artifacts and are not committed.
 
-Because PRINT-01 through PRINT-06 and PRINT-09 remain pending, the corresponding
-project-plan item remains unchecked. No hosted CI, merge, deployment, or
-production availability is claimed by this ledger.
+### Remaining proof boundaries
+
+Safari macOS remains blocked at a legal acknowledgement, Safari iPhone remains
+blocked by device availability, and actual browser-location output remains
+blocked by macOS permission state. The two grayscale printer jobs completed,
+but paper legibility remains pending human inspection. No hosted CI, merge,
+deployment, production availability, AirPrint success, location success, or
+physical-paper acceptance is claimed by this ledger.

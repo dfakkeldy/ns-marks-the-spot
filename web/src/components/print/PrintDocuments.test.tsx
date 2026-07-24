@@ -17,6 +17,10 @@ import { PrintResearchDocument } from "./PrintResearchDocument";
 const shareUrl = "https://example.test/map/?pid=01234567";
 const scale = { label: "200 m", metres: 200, pixels: 80 };
 const qr = { status: "error" as const };
+const readyQr = {
+  status: "ready" as const,
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M0 0h2v2H0z"/></svg>',
+};
 const allLayerIds = [
   "modern", "ns-aerial", "nsprd", "crown-lands", "flood-risk", "waterfalls",
   "water-features", "roads", "buildings", "contours", "mineral-occurrences",
@@ -156,7 +160,7 @@ describe("print documents", () => {
         includeAppendix={false}
         scale={scale}
         shareUrl={shareUrl}
-        qr={qr}
+        qr={readyQr}
         renderedLayerIds={["nsprd"]}
         belowZoomLayerIds={[]}
         failedLayerIds={[]}
@@ -170,6 +174,13 @@ describe("print documents", () => {
       screen.getByText("Dwelling characteristics: 1 account captured"),
     ).toBeInTheDocument();
     expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
+    expect(
+      document.querySelector(".print-research-summary > .print-pattern-definitions"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: "QR code for this exact map state" }),
+    ).toHaveAttribute("src", expect.stringMatching(/^data:image\/svg\+xml/));
+    expect(document.querySelector(".print-qr svg")).not.toBeInTheDocument();
     expect(document.querySelector(".print-capture-context")).toHaveTextContent("Current map stateInverness County tax sale: Listed in official notice");
     expect(screen.getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument();
     expect(screen.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
@@ -319,6 +330,9 @@ describe("print documents", () => {
     );
 
     expect(document.querySelectorAll(".print-field-page")).toHaveLength(1);
+    expect(
+      document.querySelector(".print-field-page > .print-pattern-definitions"),
+    ).toBeInTheDocument();
     expect(screen.getByText("Layer nsprd")).toBeInTheDocument();
     expect(screen.getAllByText("Layer nsprd")).toHaveLength(1);
     expect(document.querySelector(".print-capture-context")).toHaveTextContent("Controlled event event-8: Listed");

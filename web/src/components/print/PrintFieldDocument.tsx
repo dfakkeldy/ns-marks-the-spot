@@ -40,8 +40,8 @@ export function PrintFieldDocument({
   const renderedSources = renderedPrintLayerSources(snapshot, renderedLayerIds, includeAerial);
   return (
     <article className="print-document print-field-document">
-      <PrintPatternDefinitions />
       <section className="print-page print-field-page">
+        <PrintPatternDefinitions />
         <PrintHeader snapshot={snapshot} title="Parcel field sheet" />
         <PrintCaptureContext snapshot={snapshot} />
         <div className="print-field-map-frame">

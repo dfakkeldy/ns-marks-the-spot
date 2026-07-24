@@ -25,10 +25,10 @@ export function PrintReceipt({
     <footer className="print-receipt">
       <a href={shareUrl} className="print-share-url">{shareUrl}</a>
       {qr.status === "ready" ? (
-        <span
+        <img
           className="print-qr"
-          aria-label="QR code for this exact map state"
-          dangerouslySetInnerHTML={{ __html: qr.svg }}
+          src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(qr.svg)}`}
+          alt="QR code for this exact map state"
         />
       ) : (
         <span className="print-qr-fallback">QR unavailable</span>
@@ -435,8 +435,8 @@ export function PrintResearchDocument({
   const evidenceSources = reportedEvidenceAttributions(snapshot);
   return (
     <article className="print-document print-research-document">
-      <PrintPatternDefinitions />
       <section className="print-page print-research-summary">
+        <PrintPatternDefinitions />
         <PrintHeader snapshot={snapshot} title="Parcel research summary" />
         <PrintCaptureContext snapshot={snapshot} />
         <div className="print-research-map-frame">

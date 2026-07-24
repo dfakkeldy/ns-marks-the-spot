@@ -135,9 +135,8 @@ describe("map cartographic furniture", () => {
 });
 
 describe("print document paged media", () => {
-  it("uses named Letter pages and isolates the live app while printing", () => {
-    expect(styles).toMatch(/@page research-sheet\s*{[^}]*size:\s*letter portrait/s);
-    expect(styles).toMatch(/@page field-sheet\s*{[^}]*size:\s*letter landscape/s);
+  it("leaves orientation to the active preview and isolates the live app while printing", () => {
+    expect(styles).not.toMatch(/@page\s+(?:research|field)-sheet/);
     expect(styles).toMatch(/@media print\s*{/);
     expect(styles).toMatch(/body\.print-preview-open\s+\.app-shell\s*{[^}]*display:\s*none/s);
     expect(styles).toMatch(/\.print-document--inactive\s*{[^}]*display:\s*none/s);
@@ -149,6 +148,12 @@ describe("print document paged media", () => {
 
     expect(printStyles).toMatch(/\.print-preview-backdrop\s*{[^}]*position:\s*static/s);
     expect(printStyles).toMatch(/\.print-preview-stage\s*{[^}]*overflow:\s*visible/s);
+    expect(printStyles).toMatch(
+      /\.print-page:not\(:last-child\)\s*{[^}]*break-after:\s*page/s,
+    );
+    expect(printStyles).not.toMatch(
+      /\.print-page\s*{[^}]*break-after:\s*page/s,
+    );
   });
 
   it("gives every rendered layer category an explicit monochrome legend treatment", () => {
@@ -190,7 +195,7 @@ describe("print document paged media", () => {
     const printStyles = styles.slice(styles.indexOf(".print-preview"));
     const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
 
-    expect(fieldPage).toMatch(/height:\s*195\.9mm/);
+    expect(fieldPage).toMatch(/height:\s*195\.5mm/);
     expect(fieldPage).toMatch(/display:\s*grid/);
     expect(styles).toMatch(/\.print-field-support\s*\{/);
     expect(styles).toMatch(/grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
@@ -203,12 +208,15 @@ describe("print document paged media", () => {
     const researchPage = styles.match(/\.print-research-summary\s*\{([^}]*)\}/)?.[1];
     const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
 
-    expect(researchPage).toMatch(/height:\s*259\.4mm/);
+    expect(researchPage).toMatch(/height:\s*259mm/);
     expect(researchPage).toMatch(/display:\s*grid/);
-    expect(researchPage).toMatch(/grid-template-rows:\s*17mm 12mm 68mm minmax\(70mm, 1fr\) 11mm 20mm/);
-    expect(fieldPage).toMatch(/grid-template-rows:\s*17mm 12mm 62mm minmax\(42mm, 1fr\) 11mm 20mm/);
+    expect(researchPage).toMatch(/grid-template-rows:\s*17mm 12mm 32mm minmax\(70mm, 1fr\) 11mm 20mm/);
+    expect(fieldPage).toMatch(/grid-template-rows:\s*17mm 12mm 42mm minmax\(62mm, 1fr\) 11mm 20mm/);
     expect(styles).toMatch(/\.print-research-support\s*\{/);
     expect(styles).toMatch(/\.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
     expect(styles).toMatch(/\.print-required-attribution\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
+    expect(styles).toMatch(/\.print-research-summary \.print-attribution-links\s*\{[^}]*display:\s*block/s);
+    expect(styles).toMatch(/\.print-research-summary \.print-attribution-links li\s*\{[^}]*display:\s*inline/s);
+    expect(styles).toMatch(/\.print-qr\s*\{[^}]*overflow:\s*hidden/s);
   });
 });
