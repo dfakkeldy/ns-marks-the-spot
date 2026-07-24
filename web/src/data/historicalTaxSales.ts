@@ -1,6 +1,12 @@
 import historicalDataset from "./historicalTaxSales.json";
 import { cbrmTaxSaleEvent } from "./cbrmTaxSale";
 
+// Pinned so the JSON and the app cannot drift silently. The watcher recomputes
+// this whenever it ingests a sale; regenerate with:
+//   node -e 'import("node:crypto").then(async ({createHash})=>console.log(createHash("sha256").update(await (await import("node:fs/promises")).readFile("src/data/historicalTaxSales.json")).digest("hex")))'
+export const HISTORICAL_DATASET_SHA256 =
+  "22537bb26880113b42e9563498c8f06cac5b703085b10f332f212a28c163b4a7";
+
 export type HistoricalOutcome =
   | "sold"
   | "unsold"
