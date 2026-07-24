@@ -128,3 +128,34 @@ automated gates do not satisfy the pending pagination, Safari, saved-PDF, QR,
 AirPrint, physical monochrome, or actual browser-geolocation checks. No pending
 manual row was altered, and no hosted-CI, merge, deployment, or
 production-availability claim is made.
+
+## Final legend collision fix
+
+Source finding: `.superpowers/sdd/final-rereview-findings.md` under
+“Final legend collision”
+
+Implementation commit:
+`c145bef30ba2bb0d0efd3eb6078b7d0d1898e626`
+
+The NSPRD legend sample now uses the same thin grey boundary and white
+low-fill visual hierarchy as the ordinary print context parcel in
+`parcelStyle.ts`. The selected parcel retains its heavier dominant hatch.
+Selected, current-notice, historical-record, NSPRD, and every optional
+rendered-layer category now carry distinct semantic legend coverage.
+
+The focused tests were first run in RED and failed for the intended two
+reasons: NSPRD still used the selected-like 1.5 pt hatch, and the core parcel
+states lacked semantic legend identities. After the fix:
+
+| Command | Result |
+|---|---|
+| `npm test -- src/components/print/PrintDocuments.test.tsx src/styles.test.ts` | Pass — 2 files, 31 tests |
+| `npm test` | Pass — 36 files passed, 1 intentional live-service file skipped; 322 tests passed, 1 skipped |
+| `npm run lint` | Pass — no errors or warnings |
+| `npm run build` | Pass — TypeScript and Vite production build completed |
+| `git diff --check` | Pass — no whitespace errors |
+
+Vite retained its existing advisory for chunks larger than 500 kB. This
+legend-only correction does not alter or satisfy any pending manual acceptance
+row, and no hosted-CI, merge, deployment, or production-availability claim is
+made.
