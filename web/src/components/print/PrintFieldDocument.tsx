@@ -42,7 +42,7 @@ export function PrintFieldDocument({
     <article className="print-document print-field-document">
       <section className="print-page print-field-page">
         <PrintPatternDefinitions />
-        <PrintHeader snapshot={snapshot} title="Parcel field sheet" />
+        <PrintHeader snapshot={snapshot} title="Parcel field sheet" kind="field" />
         <PrintCaptureContext snapshot={snapshot} />
         <div className="print-field-map-frame">
           {map}
@@ -55,21 +55,24 @@ export function PrintFieldDocument({
             mapMode={snapshot.mode}
           />
           <div className="print-field-details">
+            <h2>Map notes</h2>
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
             <ApproximateScale scale={scale} />
-            <FieldRequiredAttribution mapSources={renderedSources} />
           </div>
+          <FieldRequiredAttribution mapSources={renderedSources} />
         </div>
-        <p className="print-general-limitations">
-          <strong>
-            Field screening/reference material only. Not a survey or an access
-            conclusion.
-          </strong>{" "}
-          Confirm conditions, boundaries, and permissions on site and from
-          authoritative sources.
-        </p>
-        <PrintReceipt shareUrl={shareUrl} qr={qr} />
+        <footer className="print-field-footer">
+          <p className="print-general-limitations">
+            <strong>
+              Field screening/reference material only. Not a survey or an
+              access conclusion.
+            </strong>{" "}
+            Confirm conditions, boundaries, and permissions on site and from
+            authoritative sources.
+          </p>
+          <PrintReceipt shareUrl={shareUrl} qr={qr} />
+        </footer>
       </section>
     </article>
   );

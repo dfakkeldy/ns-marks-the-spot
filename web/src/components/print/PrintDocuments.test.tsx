@@ -173,7 +173,12 @@ describe("print documents", () => {
     expect(
       screen.getByText("Dwelling characteristics: 1 account captured"),
     ).toBeInTheDocument();
-    expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
+    expect(screen.getByText("RESEARCH")).toBeInTheDocument();
+    expect(screen.getByText("23 Jul 2026 · 13:42 UTC")).toBeInTheDocument();
+    expect(screen.getByText("23 Jul 2026 · 13:42 UTC").closest("time")).toHaveAttribute(
+      "datetime",
+      "2026-07-23T13:42:15.000Z",
+    );
     expect(
       document.querySelector(".print-research-summary > .print-pattern-definitions"),
     ).toBeInTheDocument();
@@ -740,7 +745,8 @@ describe("print documents", () => {
 
     expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     expect(screen.getByText("Active map layers")).toBeInTheDocument();
-    expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
+    expect(screen.getByText("FIELD SHEET")).toBeInTheDocument();
+    expect(screen.getByText("23 Jul 2026 · 13:42 UTC")).toBeInTheDocument();
     expect(document.querySelector(".print-capture-context")).toHaveTextContent("Current map stateInverness County tax sale: Listed in official notice");
     expect(screen.getByText("Approximate scale")).toBeInTheDocument();
     expect(screen.getByText(shareUrl)).toBeInTheDocument();
@@ -756,6 +762,14 @@ describe("print documents", () => {
     expect(screen.getByText(
       "Field screening/reference material only. Not a survey or an access conclusion.",
     )).toBeInTheDocument();
+    expect(
+      document.querySelector(
+        ".print-field-support > .print-field-required-attribution",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector(".print-field-footer > .print-receipt"),
+    ).toBeInTheDocument();
     expect(document.querySelectorAll(".print-field-page")).toHaveLength(1);
     expect(screen.queryByText(/Assessment accounts/iu)).not.toBeInTheDocument();
     expect(screen.queryByText(/Evidence appendix/iu)).not.toBeInTheDocument();

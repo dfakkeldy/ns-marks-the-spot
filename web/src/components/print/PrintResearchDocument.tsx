@@ -22,8 +22,11 @@ export function PrintReceipt({
   qr: PrintQrResult;
 }) {
   return (
-    <footer className="print-receipt">
-      <a href={shareUrl} className="print-share-url">{shareUrl}</a>
+    <div className="print-receipt">
+      <div className="print-receipt-copy">
+        <strong className="print-receipt-label">Exact map receipt</strong>
+        <a href={shareUrl} className="print-share-url">{shareUrl}</a>
+      </div>
       {qr.status === "ready" ? (
         <img
           className="print-qr"
@@ -33,7 +36,7 @@ export function PrintReceipt({
       ) : (
         <span className="print-qr-fallback">QR unavailable</span>
       )}
-    </footer>
+    </div>
   );
 }
 
@@ -56,19 +59,41 @@ export function PrintPatternDefinitions() {
   );
 }
 
-export function PrintHeader({ snapshot, title }: {
+const GENERATED_MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+function formattedGeneratedAt(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = GENERATED_MONTHS[date.getUTCMonth()];
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  return `${day} ${month} ${date.getUTCFullYear()} · ${hours}:${minutes} UTC`;
+}
+
+export function PrintHeader({ snapshot, title, kind }: {
   snapshot: PrintSnapshot;
   title: string;
+  kind: "research" | "field";
 }) {
   return (
     <header className="print-header">
-      <div>
+      <div className="print-document-tab">
+        <span>{kind === "field" ? "FIELD SHEET" : "RESEARCH"}</span>
+        <strong>PID {snapshot.pid}</strong>
+      </div>
+      <div className="print-title-lockup">
         <p className="print-kicker">NS Marks The Spot</p>
         <h1>{title}</h1>
       </div>
       <div className="print-header-receipt">
-        <p>PID {snapshot.pid}</p>
-        <p>Generated: {snapshot.generatedAt}</p>
+        <span>Captured</span>
+        <time dateTime={snapshot.generatedAt}>
+          {formattedGeneratedAt(snapshot.generatedAt)}
+        </time>
       </div>
     </header>
   );
@@ -247,6 +272,7 @@ export function RequiredAttribution({
 
   return (
     <section className="print-required-attribution" aria-label="Source attribution and licences">
+      <h2>Sources and licences</h2>
       {attributions.map((attribution) => <p key={attribution}>{attribution}</p>)}
       {evidenceSources.some(({ id }) => id === "nsprd-selected-geometry") ? (
         <p>NSPRD geometry is approximate and is not a legal survey.</p>
@@ -284,6 +310,7 @@ export function FieldRequiredAttribution({
 
   return (
     <section className="print-required-attribution print-field-required-attribution" aria-label="Source attribution and licences">
+      <h2>Sources and licences</h2>
       {attributions.map((attribution) => <p key={attribution}>{attribution}</p>)}
       <p>NSPRD geometry is approximate and is not a legal survey.</p>
       <ul className="print-attribution-links">
@@ -437,7 +464,11 @@ export function PrintResearchDocument({
     <article className="print-document print-research-document">
       <section className="print-page print-research-summary">
         <PrintPatternDefinitions />
-        <PrintHeader snapshot={snapshot} title="Parcel research summary" />
+        <PrintHeader
+          snapshot={snapshot}
+          title="Parcel research summary"
+          kind="research"
+        />
         <PrintCaptureContext snapshot={snapshot} />
         <div className="print-research-map-frame">
           {map}
