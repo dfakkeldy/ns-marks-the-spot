@@ -13,8 +13,37 @@ struct LayerCatalogTests {
             .nsPropertyBoundaries,
             .crownLands,
             .floodRisk,
-            .waterfalls
+            .waterfalls,
+            .churchInverness,
+            .churchVictoria,
+            .churchRichmond,
+            .churchCapeBreton
         ])
+    }
+
+    @Test func churchSheetsAreCataloguedWithoutASource() {
+        let churchIDs: [LayerID] = [
+            .churchInverness, .churchVictoria, .churchRichmond, .churchCapeBreton
+        ]
+
+        for id in churchIDs {
+            let descriptor = LayerCatalog.descriptor(for: id)
+
+            // Catalogued for attribution and metadata only; no tiles exist yet,
+            // so there is deliberately nothing to fetch.
+            #expect(descriptor?.sourceURL == nil)
+            #expect(descriptor?.offlinePolicy == .onlineOnly)
+            #expect(descriptor?.defaultVisibility == false)
+            #expect(descriptor?.renderingRole == .overlay)
+        }
+    }
+
+    @Test func churchSheetsCreditTheRumseyCollection() throws {
+        let descriptor = try #require(LayerCatalog.descriptor(for: .churchRichmond))
+
+        #expect(descriptor.attribution.provider == "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries")
+        #expect(descriptor.userCaveat?.contains("1885") == true)
+        #expect(descriptor.attribution.licenseURL?.absoluteString == "https://www.davidrumsey.com/about/copyright-and-permissions")
     }
 
     @Test func fletcherIsSavedAreaDownloadable() {

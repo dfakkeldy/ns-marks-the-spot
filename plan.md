@@ -36,7 +36,7 @@
 ## Deferred For v1.1
 - [ ] Bulk offline downloads for NS Aerial imagery
 - [ ] Bulk offline downloads for restricted Nova Scotia reference layers where licensing permits
-- [ ] Additional historical map collections beyond Fletcher
+- [ ] Additional historical map collections beyond Fletcher (A.F. Church Cape Breton sheets are catalogued; tiles still pending — see `docs/CHURCH_MAPS.md`)
 - [ ] User-submitted POIs and syncing improvements
 
 ## Online Companion

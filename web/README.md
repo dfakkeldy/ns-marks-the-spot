@@ -191,6 +191,10 @@ scales — the parity list of sources and renderers is unchanged:
   visual terrain screening only: it does not establish surveyed grade,
   drainage, stability, access, flood exposure, or buildability.
 - Fletcher remains listed but disabled until web-use rights are clear.
+- The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
+  Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
+  as disabled rows: no tiles have been produced for them yet. See
+  [docs/CHURCH_MAPS.md](../docs/CHURCH_MAPS.md).
 
 ## Geology and resources
 

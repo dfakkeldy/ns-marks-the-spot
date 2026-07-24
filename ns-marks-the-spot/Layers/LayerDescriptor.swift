@@ -7,6 +7,10 @@ nonisolated enum LayerID: String, CaseIterable, Sendable {
     case crownLands = "crown-lands"
     case floodRisk = "flood-risk"
     case waterfalls
+    case churchInverness = "church-inverness"
+    case churchVictoria = "church-victoria"
+    case churchRichmond = "church-richmond"
+    case churchCapeBreton = "church-cape-breton"
 }
 
 nonisolated enum LayerRenderingRole: Equatable, Sendable {

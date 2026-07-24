@@ -829,6 +829,35 @@ describe("NS Marks The Spot Online", () => {
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
   });
 
+  it("lists the Church county sheets as unavailable rows above Fletcher", () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+
+    render(<App />);
+
+    const layerSection = screen.getByRole("region", { name: "Map layers" });
+    const layerNames = Array.from(
+      layerSection.querySelectorAll(".layer-row strong"),
+      (element) => element.textContent,
+    );
+
+    expect(layerNames).toContain("Church — Inverness County");
+    expect(layerNames).toContain("Church — Victoria County");
+    expect(layerNames).toContain("Church — Richmond County");
+    expect(layerNames).toContain("Church — Cape Breton County");
+
+    // Fletcher stays the final row in the rail.
+    expect(layerNames.at(-1)).toBe("Fletcher historical map");
+
+    // The sheets are not togglable, because there are no tiles to show.
+    expect(
+      screen.queryByLabelText("Church — Inverness County"),
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.getByText(/Published 1885 · web view pending tiles/),
+    ).toBeInTheDocument();
+  });
+
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {
     const user = userEvent.setup();
     render(<App />);

@@ -60,8 +60,10 @@ import {
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
   PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
+import { RUMSEY_ATTRIBUTION, RUMSEY_LICENCE_URL } from "./licensing/rumseyLicense";
 import {
   allResourceLayerCatalog,
+  churchLayerCatalog,
   environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
   hydroPilotLayerCatalog,
@@ -2434,6 +2436,41 @@ export function App() {
                   therefore requires Province licence acceptance. All results are
                   screening context, not mineral, legal, ownership, access,
                   safety, or economic conclusions.
+                </p>
+              </div>
+            </details>
+            <details className="resource-layer-group church-layer-group">
+              <summary>
+                <span>Church (1860s–80s)</span>
+                <small>4 Cape Breton counties · tiles pending</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {churchLayerCatalog.map((layer) => (
+                  <div className="layer-row unavailable" key={layer.id}>
+                    <span className="switch" aria-hidden="true" />
+                    <span>
+                      <strong>{layer.name}</strong>
+                      <small>{layer.webCaveat}</small>
+                      <LayerMetadata
+                        sourceDate={layer.sourceDate}
+                        scale={layer.scale}
+                        coverage={layer.coverage}
+                        minZoom={layer.minZoom}
+                        maxZoom={layer.maxZoom}
+                        checked={false}
+                        status={{ status: "idle" }}
+                      />
+                    </span>
+                  </div>
+                ))}
+                <p className="resource-source-note">
+                  A.F. Church topographical township maps name the residents of
+                  each building, and the occupations of prominent townsfolk.
+                  Scans courtesy of the{" "}
+                  <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">
+                    David Rumsey Map Collection
+                  </a>
+                  . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
                 </p>
               </div>
             </details>

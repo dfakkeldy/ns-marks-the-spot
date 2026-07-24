@@ -99,6 +99,12 @@ final class AppContainer {
                     layerRestrictions: nil
                 )
             )
+        case .churchInverness, .churchVictoria, .churchRichmond, .churchCapeBreton:
+            // Catalogued for attribution and metadata only. No tiles have been
+            // produced for the Church series yet, so there is no renderable
+            // source to install. Give these a source URL and a tile type when
+            // the pyramids exist.
+            return nil
         }
     }
 }
