@@ -28,6 +28,7 @@ vi.mock("./components/MapCanvas", () => ({
     resourceLayers,
     hydroPilotLayers,
     environmentalHealthLayers,
+    floodHazardLayers,
     showModernMap,
     showHistoricalTaxSales,
     initialPosition,
@@ -46,6 +47,7 @@ vi.mock("./components/MapCanvas", () => ({
     resourceLayers: Record<string, boolean>;
     hydroPilotLayers: Record<string, boolean>;
     environmentalHealthLayers?: Record<string, boolean>;
+    floodHazardLayers: Record<string, boolean>;
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
@@ -120,6 +122,10 @@ vi.mock("./components/MapCanvas", () => ({
       ; arsenic risk: {environmentalHealthLayers?.["arsenic-risk-wells"] ? "on" : "off"}
       ; uranium risk: {environmentalHealthLayers?.["uranium-risk-wells"] ? "on" : "off"}
       ; surficial aquifers: {environmentalHealthLayers?.["surficial-aquifers"] ? "on" : "off"}
+      ; published river flood zones:{" "}
+      {floodHazardLayers["published-river-flood-zones"] ? "on" : "off"}
+      ; coastal flooding current:{" "}
+      {floodHazardLayers["coastal-flood-current"] ? "on" : "off"}
       {renderMode === "print"
         ? `; ${fitBounds ? "Parcel fit" : "Missing parcel fit"}`
         : <>; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}</>}
@@ -1001,6 +1007,46 @@ describe("NS Marks The Spot Online", () => {
     expect(proximityToggle).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "mineral proximity parcels: on",
+    );
+  });
+
+  it("refuses to render a restricted flood-hazard layer shared before licence acceptance", () => {
+    window.history.replaceState(
+      null,
+      "",
+      "/?mode=current&layers=published-river-flood-zones,coastal-flood-current&position=46.1,-60.9,12",
+    );
+
+    render(<App />);
+
+    const canvas = screen.getByTestId("map-canvas");
+    expect(canvas).toHaveTextContent("published river flood zones: off");
+    expect(canvas).toHaveTextContent("coastal flooding current: on");
+    expect(screen.getByLabelText("Published river flood zones")).toBeDisabled();
+    expect(
+      screen.getByLabelText("Published river flood zones"),
+    ).not.toBeChecked();
+    expect(new URL(window.location.href).searchParams.get("layers")).not.toContain(
+      "published-river-flood-zones",
+    );
+  });
+
+  it("renders shared restricted flood-hazard layers once the licence is accepted", () => {
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?mode=current&layers=published-river-flood-zones&position=46.1,-60.9,12",
+    );
+
+    render(<App />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "published river flood zones: on",
+    );
+    expect(screen.getByLabelText("Published river flood zones")).toBeChecked();
+    expect(new URL(window.location.href).searchParams.get("layers")).toContain(
+      "published-river-flood-zones",
     );
   });
 
