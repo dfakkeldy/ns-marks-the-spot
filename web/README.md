@@ -231,6 +231,80 @@ July 20, 2026 under the Nova Scotia Open Government Licence. The fourth row is
 the application-derived NSPRD parcel screening layer described above; it
 remains licence-gated and off by default.
 
+## Municipal zoning
+
+The collapsed **Municipal zoning** group renders zoning polygons live from five
+municipal ArcGIS services. Every layer is default-off, unofficial, and outside
+the Province licence gate, because these are municipal rather than provincial
+sources.
+
+Nova Scotia publishes no provincial zoning layer (verified July 23, 2026), so
+zoning is necessarily per-municipality. Three consequences are carried in the
+UI rather than left implicit:
+
+- These are **not** the municipalities' official copies and are **not to be
+  used for legal purposes**. Each layer row and popup links the authoritative
+  land use by-law.
+- **Absence of a polygon is not evidence that no zoning applies.** Most Nova
+  Scotia municipalities publish no zoning GIS at all — Pictou County, for
+  example, publishes PDF only with its plan in transition through mid-2026 — so
+  the map shows nothing there rather than something wrong.
+- **Towns inside a county are separate zoning jurisdictions.** A county layer
+  does not cover town parcels.
+
+| Layer | Service | Zone code / name fields | Zoom | Licence |
+| --- | --- | --- | --- | --- |
+| Inverness County | [`IN_Zoning/FeatureServer/708`](https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/IN_Zoning/FeatureServer/708) | `Zone` / `ZONETYPE` | 12+ | None stated |
+| Victoria County | [`VIZoning_Clipped/FeatureServer/707`](https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/VIZoning_Clipped/FeatureServer/707) | `Zone` / `ZONETYPE` | 12+ | None stated |
+| Richmond County | [`RI_Plan_Richmond/FeatureServer/376`](https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/RI_Plan_Richmond/FeatureServer/376) | `Zone` / `ZONETYPE` | 12+ | None stated |
+| Cumberland County | [`Zoning_Cumberland_2018_abbr2/FeatureServer/0`](https://services6.arcgis.com/9de72LkV8htkdfB9/arcgis/rest/services/Zoning_Cumberland_2018_abbr2/FeatureServer/0) | `ZONE` / `ZoneName` | 13+ | None stated |
+| Halifax Regional Municipality | [`ZoningBoundaries/FeatureServer/0`](https://services2.arcgis.com/11XBiaBYA9Ep0yNJ/arcgis/rest/services/ZoningBoundaries/FeatureServer/0) | `ZONE` / `DESCRIPTION` | 13+ | [Open Government Licence — Halifax](https://data-hrm.hub.arcgis.com/pages/open-data-licence) |
+
+### Zoning source receipt — July 23, 2026
+
+All five services were queried live on July 23, 2026. Every one returned an
+empty `copyrightText`, and only Halifax publishes a licence page. The four
+sources with no stated licence are marked `redistribution: "live-query-only"`
+in `web/src/layers/layerCatalog.ts`: they are rendered from the publisher's
+public endpoint and their geometry is **not** extracted or republished as
+project data. Doing so would need the publisher's permission first.
+
+- **Inverness County** — county-wide zoning in effect September 11, 2025. 1,125
+  polygons. Authority: [Plan Inverness Land Use By-law](https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf).
+- **Victoria County** — county-wide zoning in effect October 2, 2025. 901
+  polygons. Authority: [Plan Victoria Land Use By-law](https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf).
+  The Baddeck plan area is administered separately and is **not** included;
+  Baddeck's own service and the county layer both return polygons over the same
+  ground, so which one governs is unconfirmed and Baddeck is deliberately
+  omitted rather than shown ambiguously.
+- **Richmond County** — Plan Richmond adopted February 26, 2024. 1,284
+  polygons. Authority: [Plan Richmond Land Use By-law](https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf).
+  Note Richmond does not follow EDPC's `Plan_<County>-LUB.pdf` filename pattern.
+- **Cumberland County** — 34,281 polygons. The service slug says `2018` but the
+  published layer is `CU_Zone_2025`, and the current by-law is the April 4, 2018
+  Land Use By-law **consolidated to April 17, 2026** — there is no new 2026
+  by-law. Authority: [Cumberland Land Use Regulations](https://www.cumberlandcounty.ns.ca/land-use-regulations.html).
+  The county GeoHub records `license: "none"` for this dataset, so it is treated
+  as no-stated-licence despite being published on an open data portal.
+- **Halifax Regional Municipality** — 11,076 polygons under the
+  [Open Government Licence — Halifax](https://data-hrm.hub.arcgis.com/pages/open-data-licence),
+  attributed as "Contains information licenced under the Open Government
+  Licence—Halifax." Halifax zoning is set by **22 separate plan-area by-laws**
+  (each polygon carries a `BYLAW_ID`), so the layer links the
+  [land use by-law index](https://www.halifax.ca/city-hall/legislation-by-laws/land-use-by-laws)
+  rather than any single by-law.
+
+Zone naming differs by municipality: Inverness and Victoria store the code
+inside the name (`"CR Commercial Recreation"`), Cumberland appends it
+(`"Agriculture (AG)"`), and Richmond and Halifax store a bare name.
+`web/src/services/zoning.ts` normalizes all three so a popup reads
+"CR — Commercial Recreation" rather than repeating the code.
+
+These layers do **not** establish development permission, lot-specific
+requirements, setbacks, variances, non-conforming rights, overlay or secondary
+plan policies, or subdivision eligibility. Confirm any zone and its rules with
+the municipality before relying on it.
+
 ## Inverness micro-hydro screening pilot
 
 The collapsed **Micro-hydro pilot** is a web-only, default-off open-data
@@ -621,6 +695,8 @@ date rather than leaving that date only in source data.
 This slice includes the modern OpenStreetMap basemap, nine web-cleared
 Province layers, three default-off open geoscience/resource source
 overlays, one default-off licence-gated derived mineral-proximity parcel row,
+five default-off unofficial municipal zoning layers rendered live from
+municipal services and never republished as project data,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the

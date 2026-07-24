@@ -94,6 +94,8 @@ export async function fetchMineralProximityParcels(
     serviceUrl: MINERAL_OCCURRENCE_SERVICE_URL,
     bounds,
     outFields: OCCURRENCE_FIELDS,
+    orderByFields: "geo_id",
+    idField: "geo_id",
     distanceMetres: MINERAL_PROXIMITY_DISTANCE_METRES,
     signal,
   });

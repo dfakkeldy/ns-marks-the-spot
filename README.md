@@ -14,7 +14,12 @@ openings, plus a separately licence-gated derived row for NSPRD parcels within
 screens group adds the province's relative arsenic, uranium, and manganese
 well-water risk zones and surficial aquifer extent, each shown with the
 province's own legend bands and its reminder that a zone describes bedrock, not
-a test result for any property. Fletcher
+a test result for any property. A collapsed, default-off
+Municipal zoning group renders unofficial zoning polygons live from five
+municipal ArcGIS services—Inverness, Victoria, Richmond, Cumberland, and
+Halifax—each linked to its authoritative land use by-law; Nova Scotia publishes
+no provincial zoning layer, so an area with no polygon is an area with no data
+rather than an area with no zoning. Fletcher
 stays disabled until web-use rights are clear. Its municipal catalog maps the
 CBRM July 21, Inverness County August 11, and Annapolis County
 August 31, 2026 tax-sale notices against live NSPRD parcel geometry, supports

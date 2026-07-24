@@ -14,6 +14,8 @@ import {
   provinceLayerCatalog,
   provinceLayerIds,
   resourceLayerCatalog,
+  initialZoningLayerVisibility,
+  zoningLayerCatalog,
   type ProvinceLayerId,
 } from "./layerCatalog";
 import {
@@ -502,6 +504,114 @@ describe("environmental health screening catalog", () => {
       expect(layer.opacity).toBeLessThan(0.6);
       expect(layer.sourceDate).not.toHaveLength(0);
       expect(layer.coverage).not.toHaveLength(0);
+    }
+  });
+});
+
+describe("municipal zoning catalog", () => {
+  it("publishes one layer per zoning jurisdiction, all starting off", () => {
+    expect(
+      zoningLayerCatalog.map(({ id, name, minZoom }) => ({ id, name, minZoom })),
+    ).toEqual([
+      { id: "zoning-inverness", name: "Inverness County", minZoom: 12 },
+      { id: "zoning-victoria", name: "Victoria County", minZoom: 12 },
+      { id: "zoning-richmond", name: "Richmond County", minZoom: 12 },
+      { id: "zoning-cumberland", name: "Cumberland County", minZoom: 13 },
+      {
+        id: "zoning-halifax",
+        name: "Halifax Regional Municipality",
+        minZoom: 13,
+      },
+    ]);
+    expect(initialZoningLayerVisibility).toEqual({
+      "zoning-inverness": false,
+      "zoning-victoria": false,
+      "zoning-richmond": false,
+      "zoning-cumberland": false,
+      "zoning-halifax": false,
+    });
+  });
+
+  it("never republishes geometry from a source that states no licence", () => {
+    for (const layer of zoningLayerCatalog) {
+      if (layer.licence === "municipal-no-stated-licence") {
+        expect(layer.licenceUrl).toBeNull();
+        expect(layer.redistribution).toBe("live-query-only");
+      } else {
+        expect(layer.licenceUrl).not.toBeNull();
+      }
+    }
+
+    // Halifax is the only source publishing an explicit open licence.
+    expect(
+      zoningLayerCatalog
+        .filter(({ redistribution }) => redistribution === "permitted")
+        .map(({ id }) => id),
+    ).toEqual(["zoning-halifax"]);
+  });
+
+  it("shares one field mapping across the three EDPC counties", () => {
+    const edpc = zoningLayerCatalog.filter(({ serviceUrl }) =>
+      serviceUrl.includes("services5.arcgis.com/IRdatShZ61GuNjMZ"),
+    );
+
+    expect(edpc).toHaveLength(3);
+    for (const layer of edpc) {
+      expect(layer.zoneCodeField).toBe("Zone");
+      expect(layer.zoneNameField).toBe("ZONETYPE");
+      expect(layer.planAreaField).toBe("PLAN_");
+      expect(layer.bylawUrl).toMatch(/^https:\/\/edpc\.ca\/plandocs\/.+\.pdf$/);
+    }
+  });
+
+  it("orders and identifies every source by a field that source actually has", () => {
+    for (const layer of zoningLayerCatalog) {
+      // geo_id is a provincial convention; these services reject it outright.
+      expect(layer.orderByFields).not.toBe("geo_id");
+      expect(layer.outFields).toContain(layer.idField);
+      expect(layer.outFields).toContain(layer.zoneCodeField);
+      expect(layer.outFields).toContain(layer.zoneNameField);
+    }
+  });
+
+  it("states the vintage Cumberland's service name hides", () => {
+    const cumberland = zoningLayerCatalog.find(
+      ({ id }) => id === "zoning-cumberland",
+    );
+
+    // The service slug says 2018; the published layer is CU_Zone_2025.
+    expect(cumberland?.serviceUrl).toContain("Zoning_Cumberland_2018");
+    expect(cumberland?.sourceDate).toContain("CU_Zone_2025");
+    expect(cumberland?.sourceDate).toContain("consolidated to April 17, 2026");
+  });
+
+  it("points Halifax at a by-law index because its zoning spans many by-laws", () => {
+    const halifax = zoningLayerCatalog.find(({ id }) => id === "zoning-halifax");
+
+    expect(halifax?.bylawUrl).toBe(
+      "https://www.halifax.ca/city-hall/legislation-by-laws/land-use-by-laws",
+    );
+    expect(halifax?.coverage).toContain("22 separate plan-area by-laws");
+  });
+
+  it("warns that county layers do not cover separately zoned communities", () => {
+    const victoria = zoningLayerCatalog.find(({ id }) => id === "zoning-victoria");
+
+    expect(victoria?.coverage).toContain("Baddeck");
+    expect(
+      zoningLayerCatalog.every(({ webCaveat }) =>
+        webCaveat.includes("Unofficial"),
+      ),
+    ).toBe(true);
+  });
+
+  it("publishes dated source, scale, and coverage metadata for every layer", () => {
+    for (const layer of zoningLayerCatalog) {
+      expect(layer.sourceDate).not.toHaveLength(0);
+      expect(layer.scale).not.toHaveLength(0);
+      expect(layer.coverage).not.toHaveLength(0);
+      expect(layer.attribution).not.toHaveLength(0);
+      expect(layer.bylawLabel).not.toHaveLength(0);
     }
   });
 });

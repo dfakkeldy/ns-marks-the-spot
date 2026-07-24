@@ -38,7 +38,8 @@ export type PrintLayerSource = {
   sourceUrl: string;
   sourceDate: string;
   attribution: string;
-  licenceUrl: string;
+  /** Null when the publisher states no licence terms for the source. */
+  licenceUrl: string | null;
 };
 
 export type PrintEvent = {

@@ -20,6 +20,13 @@ export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
  */
 export const ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX = 165;
 
+/**
+ * Zoning is a broad thematic fill, so it sits above the Province raster layers
+ * but below the parcel-specific overlays a user is actively inspecting.
+ */
+export const ZONING_PANE = "municipal-zoning-pane";
+export const ZONING_PANE_Z_INDEX = 300;
+
 export const MINERAL_PROXIMITY_PANE = "mineral-proximity-parcels-pane";
 export const MINERAL_PROXIMITY_PANE_Z_INDEX = 390;
 
