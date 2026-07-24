@@ -645,7 +645,7 @@ describe("NS Marks The Spot Online", () => {
       "historical layer: on",
     );
     await waitFor(() =>
-      expect(screen.getByText("180 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+      expect(screen.getByText("213 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");

@@ -222,6 +222,55 @@
       "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale", "redeemed", "walked away"],
       "officialWinningBidsFound": true,
       "notes": "Useful outcome diversity was found, but the current public page no longer links the original notice. Held fail-closed until the notice/result pair is recovered and reconciled."
+    },
+    {
+      "municipality": "Municipality of the County of Cumberland",
+      "event": "October 21, 2025 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20251113031043id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260122202627id_/https://cumberlandcounty.ns.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "e7e47cbcc9ac6b227877cedc74914a8051ca2f18d47befc01c376b2b3ff61cc2",
+        "b1692feee7aa13339e7b87f4151b6eac75c19d43f1c7cc1c1fb2cac31f9931f2"
+      ],
+      "fieldsAvailable": ["Assessment", "PID", "description", "redemption expiry", "min bid", "winning bid"],
+      "officialWinningBidsFound": true,
+      "notes": "All twenty result rows were visually reviewed and included; nineteen publish a winning bid and one publishes NOT COMPLETED with no amount and stays outcome-unknown. The live municipal page is overwritten each sale and no longer carries this table, so both receipts are archive captures of that same address; the two captures were parsed independently and agree row-for-row. No pre-sale notice for this sale survives in the archive, so notice-to-result reconciliation was impossible. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Cumberland",
+      "event": "March 3, 2026 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260415155709id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260509234637id_/https://cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260724022617/https://www.cumberlandcounty.ns.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "8aad467e955cba418f800bcfcb76096099558cbfe6e9530291a190a0fe58de56",
+        "40e1e24039f26c369d07b8990a7071da841b0408337a08f93f895ffd69d2c324",
+        "b2ff90287447e9ca822af653a42af0348767cae767d45f954326b39608668d92"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "description", "redemption expiry", "min bid", "winning bid"],
+      "officialWinningBidsFound": true,
+      "notes": "All fourteen result rows were visually reviewed and included; eight publish a winning bid and six publish ADJORNED, recorded as withdrawn with no bid. Three independent copies agree row-for-row: the April 15 and May 9, 2026 archive captures and a live retrieval on July 23, 2026 whose SHA-256 is the third hash listed here. The page was also submitted to the Wayback Machine on July 23, 2026; that capture replays the results table, but its raw archived payload is a bot-verification interstitial rather than the page, so it is cited as a durable link only and is not hashed. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Cumberland",
+      "event": "January 14, 2025 and March 18, 2025 tax sales",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://web.archive.org/web/20250124093558id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20250215042907id_/https://cumberlandcounty.ns.ca/tax-sales.html"
+      ],
+      "documentSha256": [],
+      "fieldsAvailable": ["AAN", "PID", "district", "assessed owner and location", "balance due", "redeemable"],
+      "officialWinningBidsFound": false,
+      "notes": "The archive holds pre-sale notice tables for both sales, two properties for January 14, 2025 and thirty-two for March 18, 2025, but no capture of either result table exists because Cumberland overwrites its single tax-sale page and no crawl landed between those sales and the next overwrite. Notice-only rows are held out of the published dataset under the same fail-closed rule applied elsewhere. Several March 18, 2025 parcels reappear with published results in the included October 21, 2025 and March 3, 2026 events."
     }
   ]
 }
