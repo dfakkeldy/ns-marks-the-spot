@@ -1,3 +1,5 @@
+import { OPEN_GOVERNMENT_LICENCE_TERMS_URL } from "../licensing/provinceLicense";
+
 export type NativeLayerId =
   | "fletcher"
   | "ns-aerial"
@@ -45,6 +47,52 @@ export type FloodHazardLayerDescriptor = {
   maxZoom: number;
   opacity: number;
   licence: "province-restricted" | "province-open";
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+  exportOptions: ArcGISExportOptions;
+};
+
+export type EnvironmentalHealthLayerId =
+  | "arsenic-risk-wells"
+  | "uranium-risk-wells"
+  | "manganese-risk-wells"
+  | "surficial-aquifers";
+
+/**
+ * `well-water-risk` layers classify every bedrock unit into relative risk
+ * bands from sampled wells; `aquifer-context` layers map aquifer extent and
+ * carry no risk rating at all. The distinction keeps context mapping from
+ * being read as a hazard call.
+ */
+export type EnvironmentalHealthScreening = "well-water-risk" | "aquifer-context";
+
+/**
+ * A legend band mirroring the province's own renderer. Each service ships a
+ * different ramp (arsenic is purple, uranium olive-to-grey, manganese
+ * greyscale), so the colours are carried per layer rather than shared.
+ */
+export type EnvironmentalHealthRiskBand = {
+  label: string;
+  color: string;
+};
+
+export type EnvironmentalHealthLayerDescriptor = {
+  id: EnvironmentalHealthLayerId;
+  name: string;
+  serviceUrl: string;
+  sourceUrl: string;
+  licenceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  licence: "province-restricted" | "province-open";
+  screening: EnvironmentalHealthScreening;
+  /** Legend bands exactly as the province's own service publishes them. */
+  riskBands: readonly EnvironmentalHealthRiskBand[];
+  /** The province's own recommendation to the reader; shown with the layer. */
+  guidance: string;
   webCaveat: string;
   sourceDate: string;
   scale: string;
@@ -583,6 +631,149 @@ export const initialFloodHazardLayerVisibility: Record<
   "coastal-flood-current": false,
   "coastal-flood-2050": false,
   "coastal-flood-2100": false,
+};
+
+// Sampled from each service's own uniqueValue renderer so the rail legend
+// matches what the province draws on the map.
+const ARSENIC_RISK_BANDS = [
+  { label: "High Risk", color: "#993d7a" },
+  { label: "Medium Risk", color: "#c363e0" },
+  { label: "Low Risk", color: "#d8b5eb" },
+] as const;
+
+const URANIUM_RISK_BANDS = [
+  { label: "High Risk", color: "#808000" },
+  { label: "Medium Risk", color: "#ffffbf" },
+  { label: "Low Risk", color: "#b0b0b0" },
+] as const;
+
+const MANGANESE_RISK_BANDS = [
+  { label: "High Risk", color: "#828282" },
+  { label: "Medium Risk", color: "#b2b2b2" },
+  { label: "Low Risk", color: "#e1e1e1" },
+] as const;
+
+const DEPARTMENTAL_AGREEMENT_LICENCE_URL =
+  "https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf";
+
+/**
+ * Provincial screening layers for well-water and indoor-air health hazards.
+ *
+ * Every risk layer here classifies *bedrock units*, not properties: a parcel
+ * inherits the band of the rock beneath it. The province is explicit that a
+ * band is not a measurement, so `guidance` carries its testing recommendation
+ * and the UI must show it wherever the band is shown.
+ *
+ * Radon potential (fletcher `radon/radon_cache`) is deliberately absent: its
+ * `export` endpoint returns an empty 0x0 image and its only working delivery
+ * is a tile cache in NAD83/MTM (wkid 2961), which Leaflet cannot consume
+ * without a reprojection dependency. See ARCHITECTURE.md.
+ */
+export const environmentalHealthLayerCatalog: readonly EnvironmentalHealthLayerDescriptor[] =
+  [
+    {
+      id: "arsenic-risk-wells",
+      name: "Arsenic risk — bedrock wells",
+      serviceUrl:
+        "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_ArsenicRiskWaterWells_h499ns_UT83/MapServer",
+      sourceUrl:
+        "https://novascotia.ca/natr/meb/geoscience-online/arsenicriskwells_about.asp",
+      licenceUrl: DEPARTMENTAL_AGREEMENT_LICENCE_URL,
+      minZoom: 7,
+      maxZoom: 24,
+      opacity: 0.55,
+      licence: "province-restricted",
+      screening: "well-water-risk",
+      riskBands: ARSENIC_RISK_BANDS,
+      guidance:
+        "Testing your well is the only way to find out whether arsenic is a concern in your well, so it is important to test your water no matter where you live.",
+      webCaveat:
+        "Relative risk zones by bedrock unit · not a test result for this property",
+      sourceDate: "Live service · checked July 23, 2026",
+      scale:
+        "Bedrock-unit risk bands · high risk is >15% of well samples over the 10 µg/L guideline",
+      coverage: "Nova Scotia bedrock aquifers",
+      exportOptions: { transparent: true },
+    },
+    {
+      id: "uranium-risk-wells",
+      name: "Uranium risk — bedrock wells",
+      serviceUrl:
+        "https://dawson.novascotia.ca/arcgis/rest/services/hg_uranium_risk_h529ns_UT83/MapServer",
+      sourceUrl:
+        "https://data.novascotia.ca/d/w8ax-dtd5",
+      licenceUrl: OPEN_GOVERNMENT_LICENCE_TERMS_URL,
+      minZoom: 7,
+      maxZoom: 24,
+      opacity: 0.55,
+      licence: "province-open",
+      screening: "well-water-risk",
+      riskBands: URANIUM_RISK_BANDS,
+      guidance:
+        "Risk bands describe bedrock units, not individual wells. Test your well water to find out whether uranium is a concern at this property.",
+      webCaveat:
+        "Relative risk zones by bedrock unit · not a test result for this property",
+      sourceDate: "Open File Report ME 2020-001 · service checked July 23, 2026",
+      scale:
+        "Bedrock-unit risk bands · high risk is >15% of well samples over the 20 µg/L guideline",
+      coverage: "Nova Scotia bedrock aquifers",
+      exportOptions: { transparent: true },
+    },
+    {
+      id: "manganese-risk-wells",
+      name: "Manganese risk — water wells",
+      serviceUrl:
+        "https://dawson.novascotia.ca/arcgis/rest/services/hg_manganese_risk_h535ns_UT83/MapServer",
+      sourceUrl: "https://novascotia.ca/natr/meb/data/ofr/ofr_me_2021-002.pdf",
+      licenceUrl: DEPARTMENTAL_AGREEMENT_LICENCE_URL,
+      minZoom: 7,
+      maxZoom: 24,
+      opacity: 0.55,
+      licence: "province-restricted",
+      screening: "well-water-risk",
+      riskBands: MANGANESE_RISK_BANDS,
+      guidance:
+        "Risk bands describe bedrock and surficial aquifers, not individual wells. Test your well water to find out whether manganese is a concern at this property.",
+      webCaveat:
+        "Bedrock and surficial aquifer risk zones · not a test result for this property",
+      sourceDate: "Open File Report ME 2021-002 · service checked July 23, 2026",
+      scale:
+        "Aquifer risk bands · high risk is >15% of well samples over the 120 µg/L guideline",
+      coverage: "Nova Scotia bedrock and surficial aquifers",
+      exportOptions: { transparent: true },
+    },
+    {
+      id: "surficial-aquifers",
+      name: "Surficial aquifers",
+      serviceUrl:
+        "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_SurficialAquifers_h490ns_UT83/MapServer",
+      sourceUrl:
+        "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_SurficialAquifers_h490ns_UT83/MapServer",
+      licenceUrl: DEPARTMENTAL_AGREEMENT_LICENCE_URL,
+      minZoom: 7,
+      maxZoom: 24,
+      opacity: 0.5,
+      licence: "province-restricted",
+      screening: "aquifer-context",
+      riskBands: [],
+      guidance:
+        "Mapped aquifer extent only. This layer carries no risk rating and says nothing about water quality at any property.",
+      webCaveat: "Aquifer extent context · carries no risk rating",
+      sourceDate: "Live service · checked July 23, 2026",
+      scale: "Provincial surficial aquifer mapping (h490ns)",
+      coverage: "Mapped Nova Scotia surficial aquifers",
+      exportOptions: { transparent: true },
+    },
+  ] as const;
+
+export const initialEnvironmentalHealthLayerVisibility: Record<
+  EnvironmentalHealthLayerId,
+  boolean
+> = {
+  "arsenic-risk-wells": false,
+  "uranium-risk-wells": false,
+  "manganese-risk-wells": false,
+  "surficial-aquifers": false,
 };
 
 export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [

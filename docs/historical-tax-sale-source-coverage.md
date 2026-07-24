@@ -1,14 +1,25 @@
 # Historical tax-sale source coverage
 
 Retrieved and reviewed July 19, 2026; CBRM result availability re-checked July
-21, 2026 after the auction; Victoria County sources and the CBRM July 22, 2025
-result retrieved and reviewed July 23, 2026. Only official municipal primary
-sources were used. Text extraction supported reconciliation; PIDs and financial
-values in the fourteen result-backed Halifax notice/result PDFs, the three
-Victoria County result PDFs, and every row of the CBRM July 22, 2025 result
-were also checked against rendered pages. Tender terms independently confirmed
-the sale method for six Halifax events and the August 2025 Victoria County
-event. Public data and screenshots omit assessed-owner and bidder names.
+21, 2026 after the auction; Victoria County, Cumberland, and the CBRM July 22,
+2025 result sources were retrieved and reviewed July 23, 2026. Only official
+municipal primary sources were used. Text extraction supported reconciliation;
+PIDs and financial values in the fourteen result-backed Halifax notice/result
+PDFs, the three Victoria County result PDFs, every row of the CBRM July 22, 2025
+result, and both Cumberland result tables were also checked against rendered
+pages. Tender terms independently confirmed the sale method for six Halifax
+events and the August 2025 Victoria County event. Public data and screenshots
+omit assessed-owner and bidder names.
+
+Cumberland is the first source that publishes results as an HTML table on a
+single page it overwrites each sale, rather than as a dated PDF. Its receipts
+are therefore Wayback Machine captures of that page, cited with the `id_` suffix
+that replays the original archived bytes so each SHA-256 stays independently
+reproducible:
+
+```bash
+curl -sSL "https://web.archive.org/web/20260415155709id_/https://www.cumberlandcounty.ns.ca/tax-sales.html" | shasum -a 256
+```
 
 ## Result-backed events
 
@@ -90,6 +101,47 @@ that PID in either a batched or a single query, and it is itemized in
 `historicalMatchExceptions.json`. Ten parcels appear in both this event and the
 July 21, 2026 CBRM notice event; each event keeps its own record.
 
+## Result-backed Cumberland events (single overwritten page)
+
+Cumberland publishes each sale's `TAX SALE RESULTS` table as HTML on one page it
+overwrites when the next sale is posted, so only the newest sale is ever live and
+no pre-sale property listing survives. An archive capture of that address is
+therefore both the notice and the result receipt for each event. Each event was
+parsed from two independent captures — and March 2026 also from a live retrieval
+on July 23, 2026 — with all copies agreeing row-for-row.
+
+| Municipality / event | Official notice receipts | Official result | Records / PIDs | Row disposition | SHA-256 receipts |
+| --- | --- | --- | ---: | --- | --- |
+| Cumberland — October 21, 2025 (public auction) | None survives; the [archived results page](https://web.archive.org/web/20251113031043id_/https://www.cumberlandcounty.ns.ca/tax-sales.html) stands in | Same archived page | 20 / 20 | All twenty rows included: nineteen publish a `WINNING BID`; one `NOT COMPLETED` row held as outcome unknown | Capture `e7e47cbcc9ac6b227877cedc74914a8051ca2f18d47befc01c376b2b3ff61cc2`; corroborating January 22, 2026 capture `b1692feee7aa13339e7b87f4151b6eac75c19d43f1c7cc1c1fb2cac31f9931f2` |
+| Cumberland — March 3, 2026 (public auction) | None survives; the [archived results page](https://web.archive.org/web/20260415155709id_/https://www.cumberlandcounty.ns.ca/tax-sales.html) stands in | Same archived page | 14 / 14 | All fourteen rows included: eight publish a `WINNING BID`; six `ADJORNED` rows recorded as withdrawn with no bid | Capture `8aad467e955cba418f800bcfcb76096099558cbfe6e9530291a190a0fe58de56`; corroborating May 9, 2026 capture `40e1e24039f26c369d07b8990a7071da841b0408337a08f93f895ffd69d2c324`; live retrieval July 23, 2026 `b2ff90287447e9ca822af653a42af0348767cae767d45f954326b39608668d92` |
+
+Both tables publish AAN or `ASSESSMENT`, PID, description, `REDEMPTION EXPIRY`,
+`MIN BID`, and `WINNING BID`. The Cumberland slice has 34 owner-free records
+across 33 distinct PIDs: 27 sold
+outcomes, six rows printed `ADJORNED` — the municipality's own spelling of
+adjourned — recorded as withdrawn with no bid, and one `NOT COMPLETED` row held
+outcome-unknown because the source does not say whether a bid was received. PID
+`25049271` appears in both events: `NOT COMPLETED` in October 2025, then sold
+for $16,000.00 in March 2026.
+
+Cumberland's assessment numbers and location descriptions are reproduced exactly
+as printed. That leaves seven-digit assessment values without their leading zero
+and keeps descriptions in the municipality's upper case; case was not normalized
+because doing so would corrupt names such as `MCGEE` and `MCDOUGAL`. PVSC
+independently lists the March 2026 example parcel as AAN `07463308` against
+Cumberland's printed `7463308`, confirming the dropped leading zero.
+
+### Cumberland refresh watch
+
+Cumberland states it holds tax sales in **October and March each year** and
+overwrites this single page with each new sale. A fall 2026 notice is therefore
+likely, and the next overwrite will destroy the live March 3, 2026 results. Any
+refresh tooling or scheduled sweep should capture the page to the Wayback
+Machine *before* relying on it, then ingest from the archived capture. Note that
+Save Page Now submissions can be served a bot-verification interstitial: the
+July 23, 2026 submission replays the results table but its raw archived payload
+is the interstitial, so it is cited as a link and not hashed.
+
 ## Notice-only event awaiting official results
 
 | Municipality / event | Official notice | Official results page | Records / PIDs | Published result fields | Receipt |
@@ -107,6 +159,7 @@ redeemed, or walked-away claim.
 | Municipality / event | Official sources | Fields found | Why held fail-closed |
 | --- | --- | --- | --- |
 | Cape Breton Regional Municipality — March 10, 2026 | [Official sold-properties result](https://cbrm.ns.ca/wp-content/uploads/2026/03/Sold-Properties-March-10-2026-Tax-Sale.pdf) and [current tax-sales page](https://cbrm.ns.ca/business/property-sales-management/tax-sales/) | Lien, AAN, PID, location, minimum bid, redemption, some winning bids | Result rows mix published bids, blank bid cells, and visual outcome highlighting. A separate row-level rendered reconciliation is required. Result SHA-256: `ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4`. |
+| Municipality of the County of Cumberland — January 14, 2025 and March 18, 2025 | Archived pre-sale notices: [January 14 sale](https://web.archive.org/web/20250124093558id_/https://www.cumberlandcounty.ns.ca/tax-sales.html) (2 properties) and [March 18 sale](https://web.archive.org/web/20250215042907id_/https://cumberlandcounty.ns.ca/tax-sales.html) (32 properties) | AAN, PID, district, assessed owner and location, balance due, redeemable | Notice tables survive but no capture of either result table exists, because Cumberland overwrites its single tax-sale page and no crawl landed between those sales and the next overwrite. Notice-only rows stay out of the published dataset. Several March 18, 2025 parcels reappear with published results in the included October 21, 2025 and March 3, 2026 events. |
 
 No third-party auction claims or inferred outcomes fill these gaps. A completed
 event's verified notice records may render with outcomes explicitly pending;

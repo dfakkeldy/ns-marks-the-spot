@@ -18,12 +18,15 @@ import {
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   hydroPilotLayerCatalog,
+  environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
   allResourceLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   type HydroPilotLayerId,
+  type EnvironmentalHealthLayerDescriptor,
+  type EnvironmentalHealthLayerId,
   type FloodHazardLayerDescriptor,
   type FloodHazardLayerId,
   type ProvinceLayerId,
@@ -66,6 +69,7 @@ import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot
 import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import {
+  ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
@@ -82,6 +86,7 @@ type MapCanvasProps = {
   resourceLayers: Record<ResourceLayerId, boolean>;
   hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
+  environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -116,7 +121,8 @@ export type MapLayerId =
   | ProvinceLayerId
   | ResourceLayerId
   | HydroPilotLayerId
-  | FloodHazardLayerId;
+  | FloodHazardLayerId
+  | EnvironmentalHealthLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
@@ -141,6 +147,15 @@ const HIDDEN_FLOOD_HAZARD_LAYERS: Record<FloodHazardLayerId, boolean> = {
   "coastal-flood-current": false,
   "coastal-flood-2050": false,
   "coastal-flood-2100": false,
+};
+const HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS: Record<
+  EnvironmentalHealthLayerId,
+  boolean
+> = {
+  "arsenic-risk-wells": false,
+  "uranium-risk-wells": false,
+  "manganese-risk-wells": false,
+  "surficial-aquifers": false,
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
@@ -286,13 +301,28 @@ function ArcGISMapLayer({
   return null;
 }
 
+function resourceExportZIndex(
+  layer:
+    | ResourceMapLayerDescriptor
+    | FloodHazardLayerDescriptor
+    | EnvironmentalHealthLayerDescriptor,
+): number {
+  if ("screening" in layer) {
+    return ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX;
+  }
+  return "licence" in layer && layer.id.startsWith("coastal-") ? 228 : 225;
+}
+
 function ResourceArcGISMapLayer({
   layer,
   visible,
   onStatusChange,
   renderMode,
 }: {
-  layer: ResourceMapLayerDescriptor | FloodHazardLayerDescriptor;
+  layer:
+    | ResourceMapLayerDescriptor
+    | FloodHazardLayerDescriptor
+    | EnvironmentalHealthLayerDescriptor;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
   renderMode: MapRenderMode;
@@ -314,7 +344,7 @@ function ResourceArcGISMapLayer({
         minZoom: layer.minZoom,
         maxZoom: layer.maxZoom,
         opacity: layer.opacity,
-        zIndex: "licence" in layer && layer.id.startsWith("coastal-") ? 228 : 225,
+        zIndex: resourceExportZIndex(layer),
         updateWhenZooming: false,
         keepBuffer: 2,
         className:
@@ -1164,6 +1194,7 @@ export function MapCanvas({
   resourceLayers,
   hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
+  environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1349,6 +1380,15 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
+        {environmentalHealthLayerCatalog.map((layer) => (
+          <ResourceArcGISMapLayer
+            key={layer.id}
+            layer={layer}
+            visible={environmentalHealthLayers[layer.id]}
+            onStatusChange={reportLayerStatus}
+            renderMode={renderMode}
+          />
+        ))}
         {floodHazardLayerCatalog.map((layer) => (
           <ResourceArcGISMapLayer
             key={layer.id}

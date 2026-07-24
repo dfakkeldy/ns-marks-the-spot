@@ -54,6 +54,7 @@
 - [x] Default-off web NSTDB buildings overlay with exact selected-PID point-and-polygon building count
 - [x] Collapsed, default-off Topography group with labelled 5 m LiDAR-derived contours from zoom 13
 - [x] Collapsed, default-off Geology & Resources group with live mineral occurrences, NovaROC tenure, and zoom-bounded abandoned mine openings
+- [x] Collapsed, default-off Environmental health screens group with provincial arsenic, uranium, and manganese well-water risk bands, surficial aquifer context, province-sourced legend colours, testing guidance, and a pre-map licence gate on the restricted services
 - [x] Default-off Inverness hydro terrain-potential pilot with official watershed area, NSHN mapped drop/route length, area-scaled streams, relative potential colour, raw-metric popups, and reproducible source receipt
 - [x] Viewport-paged feature queries with independent loading, zoom, count, failure, source, and screening-caveat states
 - [x] Close-range NSPRD boundary visibility from zoom 14 and an opaque close-zoom selected-parcel fill
@@ -72,6 +73,7 @@
 - [ ] Enable Fletcher on the web after web-use rights are clear
 - [ ] Add municipality importers only from current official notices
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled
+- [ ] Add the DNRR radon-in-indoor-air potential layer once a Web Mercator service exists or a proj4 custom CRS is approved; the published `radon_cache` MapServer returns an empty image from `export` and caches tiles only in NAD83/MTM (wkid 2961)
 - [ ] Add separate Karst Risk and Known Karst Occurrences layers from DP ME 494 only with 2019 currentness, source-scale, completeness, and non-survey caveats
 - [ ] Add a selected-parcel Property context summary, starting with karst and coastal hazards; use the researched source order and caveats in `docs/property-context-data-candidates.md`
 
