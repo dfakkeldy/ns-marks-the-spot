@@ -2720,8 +2720,8 @@ a {
   height: 195.5mm;
   padding: 8mm 10mm;
   display: grid;
-  /* The finite layer catalog is compacted into four support columns. */
-  grid-template-rows: 17mm 12mm 42mm minmax(62mm, 1fr) 11mm 20mm;
+  /* Header, context, map plate, support rail, and field footer are bounded. */
+  grid-template-rows: 18mm 10mm 72mm minmax(52mm, 1fr) 19mm;
   gap: 1.5mm;
 }
 
@@ -2762,8 +2762,7 @@ a {
 .print-field-page > .print-capture-context,
 .print-field-page > .print-field-map-frame,
 .print-field-page > .print-field-support,
-.print-field-page > .print-general-limitations,
-.print-field-page > .print-receipt {
+.print-field-page > .print-field-footer {
   margin: 0;
 }
 
@@ -2776,7 +2775,6 @@ a {
   margin: 0;
 }
 
-.print-header,
 .print-appendix-header,
 .print-receipt,
 .print-scale,
@@ -2789,8 +2787,12 @@ a {
 }
 
 .print-header {
+  display: grid;
+  grid-template-columns: 40mm minmax(0, 1fr) 54mm;
+  gap: 4mm;
+  align-items: stretch;
   padding-top: 10mm;
-  border-bottom: 0.5pt solid #000;
+  border-bottom: 1pt solid #000;
 }
 
 .print-field-page .print-header,
@@ -2805,7 +2807,6 @@ a {
   font-size: 16pt;
 }
 
-.print-header > p,
 .print-appendix-header > p,
 .print-kicker,
 .print-capture-context,
@@ -2817,17 +2818,74 @@ a {
   font-size: 9pt;
 }
 
+.print-document-tab {
+  display: grid;
+  align-content: center;
+  gap: 1mm;
+  padding: 2mm 3mm 2mm 2mm;
+  color: #111;
+  background: #fff;
+  border: 1pt solid #111;
+  border-left: 3mm solid #111;
+}
+
+.print-document-tab span,
+.print-header-receipt span {
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-document-tab strong {
+  font-size: 11pt;
+  font-variant-numeric: tabular-nums;
+}
+
+.print-title-lockup {
+  display: grid;
+  align-content: center;
+}
+
+.print-title-lockup h1 {
+  margin: 0;
+  font-size: 18pt;
+  line-height: 1;
+}
+
+.print-header-receipt {
+  display: grid;
+  align-content: center;
+  justify-items: end;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.print-header-receipt time {
+  font-size: 9pt;
+  font-weight: 700;
+}
+
 .print-capture-context {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 2mm;
-  align-items: start;
+  grid-template-columns: 40mm minmax(0, 1fr);
+  gap: 4mm;
+  align-items: center;
+  padding-bottom: 1mm;
+  border-bottom: 0.5pt solid #aaa;
+  font-variant-numeric: tabular-nums;
+}
+
+.print-capture-context > span:first-child {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .print-event-context {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1pt 4pt;
+  gap: 1pt 8pt;
 }
 
 .print-kicker {
@@ -2875,6 +2933,25 @@ a {
   margin-top: 0;
 }
 
+.print-field-page .print-map {
+  border: 1.25pt solid #111;
+}
+
+.print-field-map-frame::after {
+  position: absolute;
+  bottom: 2.5mm;
+  left: 2.5mm;
+  z-index: 1000;
+  padding: 1mm 1.5mm;
+  color: #111;
+  content: "FROZEN MAP VIEW";
+  background: #fff;
+  border: 1pt solid #111;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
 .print-research-summary .print-research-map-frame {
   height: auto;
   min-height: 0;
@@ -2912,9 +2989,11 @@ a {
 
 .print-field-support {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4mm;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 2fr) minmax(0, 3fr);
+  gap: 3mm;
   min-height: 0;
+  padding-top: 2mm;
+  border-top: 1pt solid #111;
 }
 
 .print-field-support .print-active-layer-legend,
@@ -2929,7 +3008,15 @@ a {
 .print-field-details {
   display: grid;
   align-content: start;
-  gap: 2mm;
+  gap: 1.5mm;
+  padding-left: 3mm;
+  border-left: 0.5pt solid #999;
+}
+
+.print-field-details h2,
+.print-field-required-attribution h2 {
+  margin: 0 0 2pt;
+  font-size: 10pt;
 }
 
 .print-fact-grid dl {
@@ -3399,6 +3486,12 @@ a {
   align-content: start;
 }
 
+.print-required-attribution h2 {
+  grid-column: 1 / -1;
+  margin: 0 0 2pt;
+  font-size: 10pt;
+}
+
 .print-required-attribution p {
   margin: 0;
   overflow-wrap: anywhere;
@@ -3432,22 +3525,47 @@ a {
   content: "; ";
 }
 
-.print-field-support .print-attribution-links {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.print-field-required-attribution {
+  display: block;
+  padding-left: 3mm;
+  border-left: 0.5pt solid #999;
+}
+
+.print-field-required-attribution p + p {
+  margin-top: 1.5mm;
+}
+
+.print-field-required-attribution .print-attribution-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1mm 3mm;
+  margin-top: 2mm;
 }
 
 .print-receipt {
   align-items: center;
   margin-top: 3mm;
+  padding-top: 1.5mm;
   padding-bottom: 8mm;
   border-top: 0.5pt solid #000;
 }
 
-.print-field-page .print-receipt,
 .print-research-summary .print-receipt {
   min-height: 0;
   margin-top: 0;
   padding-bottom: 0;
+}
+
+.print-receipt-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.5mm;
+}
+
+.print-receipt-label {
+  font-size: 9pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .print-share-url {
@@ -3468,6 +3586,43 @@ a {
   min-width: 18mm;
   font-size: 9pt;
   text-align: center;
+}
+
+.print-field-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4mm;
+  align-items: stretch;
+  padding-top: 1.5mm;
+  border-top: 1pt solid #111;
+}
+
+.print-field-footer .print-general-limitations {
+  align-self: center;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.print-field-footer .print-receipt {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: 160mm;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+
+.print-field-footer .print-share-url {
+  max-width: none;
+  line-height: 1.15;
+}
+
+.print-field-footer .print-qr,
+.print-field-footer .print-qr-fallback {
+  width: 17mm;
+  height: 17mm;
+  min-width: 17mm;
 }
 
 .print-appendix-header {

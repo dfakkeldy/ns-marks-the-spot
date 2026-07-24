@@ -93,3 +93,26 @@ blocked by macOS permission state. The two grayscale printer jobs completed,
 but paper legibility remains pending human inspection. No hosted CI, merge,
 deployment, production availability, AirPrint success, location success, or
 physical-paper acceptance is claimed by this ledger.
+
+### 2026-07-24 field-sheet visual-design follow-up
+
+Dan rejected the appearance of a shared one-page field-sheet PDF as “not so
+pretty.” The artifact remained technically printable, but its weak hierarchy,
+undersized map plate, long receipt, and crowded source/limitation area made the
+page feel like browser content forced onto paper.
+
+The follow-up candidate uses a field-folio structure: an indexed PID header, a
+72 mm map plate, distinct legend/map-note/source columns, and one bounded
+warning-and-receipt footer. It keeps the complete written map-state URL, QR,
+licence wording, limitations, 9 pt minimum printable text, monochrome symbols,
+and frozen viewport. Its identity is carried by borders and type rather than
+background fills, because Chrome disables background graphics by default.
+
+Chrome native print produced one true landscape Letter page (`792 × 612 pt`).
+Poppler raster inspection found no clipping or collision, and browser
+measurements reported matching client and scroll bounds for both the field and
+research summary pages. After rebasing onto current `nightly`, the rerun passed
+44 test files with one intentional live-service file skipped (453 tests passed,
+1 skipped), lint, build, and
+`git diff --check`. The candidate still awaits Dan's visual verdict; it is not
+merged, deployed, or physically accepted by this entry.

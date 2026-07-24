@@ -198,9 +198,22 @@ describe("print document paged media", () => {
     expect(fieldPage).toMatch(/height:\s*195\.5mm/);
     expect(fieldPage).toMatch(/display:\s*grid/);
     expect(styles).toMatch(/\.print-field-support\s*\{/);
-    expect(styles).toMatch(/grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+    expect(styles).toMatch(
+      /\.print-field-support\s*\{[^}]*grid-template-columns:\s*minmax\(0, 7fr\) minmax\(0, 2fr\) minmax\(0, 3fr\)/s,
+    );
     expect(styles).toMatch(/\.print-field-support \.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
-    expect(styles).toMatch(/\.print-field-support \.print-attribution-links\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
+    expect(styles).toMatch(
+      /\.print-field-required-attribution\s*\{[^}]*display:\s*block/s,
+    );
+    expect(styles).toMatch(
+      /\.print-field-footer\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto/s,
+    );
+    expect(styles).toMatch(
+      /\.print-document-tab\s*\{[^}]*border-left:\s*3mm solid #111/s,
+    );
+    expect(styles).toMatch(
+      /\.print-field-map-frame::after\s*\{[^}]*border:\s*1pt solid #111/s,
+    );
     expect(printStyles).not.toMatch(/font-size:\s*[0-8](?:\.\d+)?pt/);
   });
 
@@ -211,7 +224,7 @@ describe("print document paged media", () => {
     expect(researchPage).toMatch(/height:\s*259mm/);
     expect(researchPage).toMatch(/display:\s*grid/);
     expect(researchPage).toMatch(/grid-template-rows:\s*17mm 12mm 32mm minmax\(70mm, 1fr\) 11mm 20mm/);
-    expect(fieldPage).toMatch(/grid-template-rows:\s*17mm 12mm 42mm minmax\(62mm, 1fr\) 11mm 20mm/);
+    expect(fieldPage).toMatch(/grid-template-rows:\s*18mm 10mm 72mm minmax\(52mm, 1fr\) 19mm/);
     expect(styles).toMatch(/\.print-research-support\s*\{/);
     expect(styles).toMatch(/\.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
     expect(styles).toMatch(/\.print-required-attribution\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
