@@ -268,6 +268,18 @@ describe("web native-layer parity catalog", () => {
     expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
       '"color":[43,39,48,255]',
     );
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      "FEAT_DESC LIKE 'ROAD - Local%Unpaved' OR FEAT_DESC LIKE 'ROAD - Resource Access%Unpaved'",
+    );
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      '"style":"esriSLSSolid","color":[255,255,255,200],"width":1.6',
+    );
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      '"color":[204,77,77,255]',
+    );
+    expect(roads?.exportOverlayOptions?.dynamicLayers).toContain(
+      '"color":[230,102,0,255]',
+    );
     expect(roads?.webCaveat).toContain("culverts close up");
   });
 

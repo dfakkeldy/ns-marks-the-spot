@@ -342,7 +342,69 @@ const WATERFALLS_DYNAMIC_LAYERS = JSON.stringify([
 const TRAIL_TRACK_DEFINITION =
   "FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%'";
 
-const TRAIL_TRACK_CONTRAST_DYNAMIC_LAYERS = JSON.stringify([
+const UNPAVED_LOCAL_ROAD_DEFINITION = "FEAT_DESC LIKE 'ROAD - Local%Unpaved'";
+
+const UNPAVED_RESOURCE_ROAD_DEFINITION =
+  "FEAT_DESC LIKE 'ROAD - Resource Access%Unpaved'";
+
+const UNPAVED_ROAD_DEFINITION = `${UNPAVED_LOCAL_ROAD_DEFINITION} OR ${UNPAVED_RESOURCE_ROAD_DEFINITION}`;
+
+// The Province draws unpaved roads as thin dashed lines with no casing, so they
+// vanish over aerial imagery. Entries draw bottom-up: a solid white halo under
+// the Province's own dashed road cores (solid, so maintained roads read heavier
+// than trails), with the dashed trail/track contrast pass kept on top.
+const ROAD_TRAIL_CONTRAST_DYNAMIC_LAYERS = JSON.stringify([
+  {
+    id: 76,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: UNPAVED_ROAD_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [255, 255, 255, 200],
+          width: 1.6,
+        },
+      },
+      labelingInfo: [],
+    },
+  },
+  {
+    id: 77,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: UNPAVED_LOCAL_ROAD_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSDash",
+          color: [204, 77, 77, 255],
+          width: 1,
+        },
+      },
+      labelingInfo: [],
+    },
+  },
+  {
+    id: 78,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: UNPAVED_RESOURCE_ROAD_DEFINITION,
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSDash",
+          color: [230, 102, 0, 255],
+          width: 1,
+        },
+      },
+      labelingInfo: [],
+    },
+  },
   {
     id: 80,
     source: { type: "mapLayer", mapLayerId: 8 },
@@ -528,7 +590,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     exportOverlayOptions: {
       transparent: true,
       dpi: 192,
-      dynamicLayers: TRAIL_TRACK_CONTRAST_DYNAMIC_LAYERS,
+      dynamicLayers: ROAD_TRAIL_CONTRAST_DYNAMIC_LAYERS,
     },
   },
   {
