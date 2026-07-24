@@ -12,8 +12,8 @@ Resources group for mineral occurrences, mineral tenure, and abandoned mine
 openings, plus a separately licence-gated derived row for NSPRD parcels within
 1 kilometre of a published mineral occurrence. Fletcher
 stays disabled until web-use rights are clear. Its municipal catalog maps the
-CBRM July 21 and Inverness County
-August 11, 2026 tax-sale notices against live NSPRD parcel geometry, supports
+CBRM July 21, Inverness County August 11, and Annapolis County
+August 31, 2026 tax-sale notices against live NSPRD parcel geometry, supports
 PID and civic-address search plus tap-to-identify parcel selection, keeps
 browser location local, and puts verified Halifax 2022–2025 outcomes in an
 unmistakably separate historical mode. Parcel selection collapses long event

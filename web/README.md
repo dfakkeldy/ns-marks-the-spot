@@ -2,7 +2,8 @@
 
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
-The current-notice catalog covers the August 11, 2026 Inverness County auction.
+The current-notice catalog covers the August 11, 2026 Inverness County auction
+and the August 31, 2026 Annapolis County tax sale by tender.
 The completed July 21, 2026 CBRM event is retained in historical-record mode
 with outcomes explicitly pending until the municipality publishes results.
 
@@ -35,7 +36,8 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
 
 1. Each municipality's official notice supplies its event date and public
    parcel fields. The catalog preserves the municipality's financial wording:
-   CBRM publishes a minimum bid, while Inverness publishes total arrears.
+   CBRM publishes a minimum bid, Inverness publishes total arrears, and
+   Annapolis publishes a $1.00 minimum bid plus HST for its sealed tender.
 2. **Current notices** and **Historical records** are separate map modes with
    their own colour, heading, controls, and parcel-sheet marker. Changing modes
    clears the previous selection so a dated result cannot be mistaken for a
@@ -484,6 +486,39 @@ row or ambiguous landing-page link fails closed instead of deleting evidence.
   PIDs) now render only in historical-record mode. CBRM had not linked a July
   21 result when checked after the auction. Every outcome and winning bid stays
   unknown, with a link back to the municipal results page.
+
+## Annapolis August 2026 source receipt
+
+- Official landing page: [Annapolis County Tax Sale](https://annapoliscounty.ca/tax-finance/tax-sale)
+- Current official source: [August 2026 Tax Sale by Tender, Tender #08-2026](https://annapoliscounty.ca/tax-finance/tax-sale/2342-june-2026-tax-sale-by-tender)
+  — the URL slug still says "june-2026" because the municipality rewrites the
+  page in place; the content is the August 31, 2026 sealed-tender sale.
+- The notice page returns HTTP 403 to plain fetchers and HTTP 200 with a
+  browser user agent, and its bytes vary per request because of a dynamic form
+  token, so the page itself cannot be hash-pinned. It was retrieved July 23,
+  2026 and archived at the
+  [Wayback Machine](https://web.archive.org/web/20260724020945/https://annapoliscounty.ca/tax-finance/tax-sale/2342-june-2026-tax-sale-by-tender).
+- The hash-pinned source documents are the two linked PDFs, both retrieved
+  July 23, 2026 and Wayback-archived:
+  [Parcel Description Report](https://annapoliscounty.ca/images/2026_TAX_SALE/9153144_copy.pdf)
+  (`b040f7e1e20fb5a0e583e99bac8e0eb24ae4a87e8131c5915029022938c773d5`) and
+  [Property Online map](https://annapoliscounty.ca/images/2026_TAX_SALE/9153144_Map.pdf)
+  (`6d01a50da1d65fa22f9ff9048353deae50330ead31ac4530297d1fb906049a78`).
+- Single listing: sealed tenders for `SHOPPING CENTRE - LOT 227`, 1043
+  Highway 1, Cornwallis Park, close 1:00 PM Monday, August 31, 2026 at 752 St
+  George Street, Annapolis Royal. Minimum bid $1.00 plus HST on the total bid;
+  redeemable for six months. Faxed and electronic tenders are refused, and
+  tender openings are closed to the public.
+- Identifier normalization: the on-page table prints AAN `9153144`; the linked
+  Property Online map PDF prints the eight-digit forms AAN `09153144` and PID
+  `05266937`, which are stored. Live NSPRD confirmed PID `05266937` on July
+  23, 2026. The assessed-owner column was discarded before the repository
+  dataset was written, consistent with the other municipal layers.
+- The owner-free tender dataset is checked in byte-for-byte as
+  `src/data/annapolisTaxSale.snapshot.json`; the web model is generated from
+  that JSON. A test pins the published SHA-256
+  `ccfe84b6452c25fce271a8a83ebd9f18fe2055d126d426efac79c415ea84d87b`
+  so either repository cannot drift silently.
 
 ## Historical record layer receipt
 
