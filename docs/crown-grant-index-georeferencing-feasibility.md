@@ -9,8 +9,8 @@ Research snapshot: **2026-07-24**. Prototype by GDAL 3.9 CLI workflow; findings 
 > 2026-07-24**. Correspondence trail: the request went to `natural.sciences@novascotia.ca`
 > (2026-07-24), who replied the same day that the sheets are owned by the **Land Strategy and
 > Planning branch** and referred the permissions question to the **Crown Land division**
-> (`crownland@novascotia.ca`); the follow-up request to Crown Land is the live thread. Until
-> written permission is confirmed:
+> (`crownland@novascotia.ca`). The follow-up request to Crown Land was **sent 2026-07-24** and
+> is the live thread; no reply yet. Until written permission is confirmed:
 > - **No public tiles.** Do not publish warped rasters or XYZ tiles to any host the web/iOS app reads.
 > - **No sheet imagery in the repo.** All scans, warped GeoTIFFs, tiles, and overlay screenshots stay in local/scratch directories only. This report (text and measurements, no imagery) is the only committed artifact.
 > - The eventual layer must display the sheet's own caution verbatim (see [§9](#9-how-the-layer-would-register-in-the-catalog)).
@@ -238,7 +238,7 @@ The iOS `LayerCatalog.swift` mirror would use `LayerAttribution(provider: "NS De
 
 ## 10. Next steps
 
-1. **Blocked on licensing.** Natural Sciences referred the request to the Crown Land division (`crownland@novascotia.ca`, 2026-07-24); await their reply. Produce no public tiles and commit no sheet imagery until then.
+1. **Blocked on licensing.** Request sent to the Crown Land division (`crownland@novascotia.ca`) on 2026-07-24; await their reply. Produce no public tiles and commit no sheet imagery until then.
 2. When cleared: build the batch scripts (download → extract → grid-detect → tie → warp → tile) and validate on sheets 085, 114, 120 first.
 3. Confirm the NSTDB 1:10,000 sheet-index → grant-index-sheet footprint mapping so absolute grid coordinates can be auto-assigned ([§6.3](#63-the-automation-gap)).
 4. Add the `crown-grant-restricted` licence discriminator and the mandatory-caution display path *before* the layer ships, so the disclaimer cannot be forgotten.
