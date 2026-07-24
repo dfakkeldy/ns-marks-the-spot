@@ -4,6 +4,13 @@ enum LayerCatalog {
     private static let provinceDisclaimer = "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
     private static let oldMapsOnlineFletcherTemplate = "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png"
     private static let arcGISDynamicMinimumZoom = 12
+    private static let rumseyAttribution = LayerAttribution(
+        provider: "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries",
+        copyright: nil,
+        disclaimer: "Historical maps are provided for reference and historical interest only.",
+        licenseTitle: nil,
+        licenseURL: URL(string: "https://www.davidrumsey.com/about/copyright-and-permissions")
+    )
 
     static let all: [LayerDescriptor] = [
         LayerDescriptor(
@@ -101,6 +108,66 @@ enum LayerCatalog {
             cacheKey: "waterfalls",
             attribution: provinceAttribution(copyright: nil),
             userCaveat: "Viewed-cache only in v1.0."
+        ),
+        LayerDescriptor(
+            id: .churchInverness,
+            name: "Church — Inverness County",
+            sourceKind: .remoteXYZTemplate,
+            sourceURL: nil,
+            defaultOpacity: 1.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .onlineOnly,
+            cacheKey: "church-inverness",
+            attribution: rumseyAttribution,
+            userCaveat: "A.F. Church county map (published 1884); historical reference, not for navigation."
+        ),
+        LayerDescriptor(
+            id: .churchVictoria,
+            name: "Church — Victoria County",
+            sourceKind: .remoteXYZTemplate,
+            sourceURL: nil,
+            defaultOpacity: 1.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .onlineOnly,
+            cacheKey: "church-victoria",
+            attribution: rumseyAttribution,
+            userCaveat: "A.F. Church county map (published 1884); historical reference, not for navigation."
+        ),
+        LayerDescriptor(
+            id: .churchRichmond,
+            name: "Church — Richmond County",
+            sourceKind: .remoteXYZTemplate,
+            sourceURL: nil,
+            defaultOpacity: 1.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .onlineOnly,
+            cacheKey: "church-richmond",
+            attribution: rumseyAttribution,
+            userCaveat: "A.F. Church county map (published 1885); historical reference, not for navigation."
+        ),
+        LayerDescriptor(
+            id: .churchCapeBreton,
+            name: "Church — Cape Breton County",
+            sourceKind: .remoteXYZTemplate,
+            sourceURL: nil,
+            defaultOpacity: 1.0,
+            defaultVisibility: false,
+            minZoom: 0,
+            maxZoom: 24,
+            renderingRole: .overlay,
+            offlinePolicy: .onlineOnly,
+            cacheKey: "church-cape-breton",
+            attribution: rumseyAttribution,
+            userCaveat: "A.F. Church county map (published 1884); historical reference, not for navigation."
         )
     ]
 
