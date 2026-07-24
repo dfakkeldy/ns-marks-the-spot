@@ -12,6 +12,7 @@ import type { ParcelContext, MappedArea } from "./parcelContext";
 import type { ParcelResourceIntersections } from "./parcelResources";
 import type { ParcelAssessmentResult } from "./pvscAssessments";
 import type { PvscDwellingAccount } from "./pvscDwellings";
+import type { WellLogAccuracyFilter } from "./wellLogs";
 
 export type PrintTemplate = "research" | "field";
 
@@ -78,6 +79,12 @@ export type PrintCaptureBase = {
   layerIds: ShareLayerId[];
   layerSources: PrintLayerSource[];
   licenceAccepted: boolean;
+  /**
+   * Carried so the printed sheet renders the same accuracy bands the user was
+   * looking at; without it the print map would silently fall back to surveyed
+   * wells while the legend still advertised the approximate ones.
+   */
+  wellLogAccuracyFilter: WellLogAccuracyFilter;
 };
 
 export type PrintCapture = PrintCaptureBase & {

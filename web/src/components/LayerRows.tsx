@@ -7,8 +7,13 @@ import type {
   ResourceControlDescriptor,
   WebLayerDescriptor,
   ZoningLayerDescriptor,
+  WellLogLayerDescriptor,
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
+import {
+  WELL_ACCURACY_BANDS,
+  type WellLogAccuracyFilter,
+} from "../services/wellLogs";
 
 function layerRuntimeLabel(
   checked: boolean,
@@ -401,6 +406,100 @@ export function EnvironmentalHealthLayerToggle({
         </button>
       ) : null}
     </label>
+  );
+}
+
+export function WellLogLayerToggle({
+  layer,
+  checked,
+  status,
+  onChange,
+}: {
+  layer: WellLogLayerDescriptor;
+  checked: boolean;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label className="layer-row well-log-layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>{layer.webCaveat}</small>
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={checked}
+          status={status}
+        />
+      </span>
+    </label>
+  );
+}
+
+/**
+ * The filter is the honest default made explicit: surveyed wells are the only
+ * band tight enough to read as a point, so showing the rest is opt-in.
+ */
+export function WellLogAccuracyFilterControl({
+  value,
+  onChange,
+}: {
+  value: WellLogAccuracyFilter;
+  onChange: (value: WellLogAccuracyFilter) => void;
+}) {
+  return (
+    <div
+      className="well-log-accuracy-filter segmented-control"
+      role="group"
+      aria-label="Well location accuracy"
+    >
+      <button
+        type="button"
+        className={value === "surveyed" ? "selected" : ""}
+        aria-pressed={value === "surveyed"}
+        onClick={() => onChange("surveyed")}
+      >
+        Surveyed only
+      </button>
+      <button
+        type="button"
+        className={value === "all" ? "selected" : ""}
+        aria-pressed={value === "all"}
+        onClick={() => onChange("all")}
+      >
+        Include approximate
+      </button>
+    </div>
+  );
+}
+
+export function WellLogAccuracyLegend() {
+  return (
+    <div className="well-log-legend" aria-label="Well location accuracy legend">
+      <p><strong>Marker = how well the location is known</strong></p>
+      <ul>
+        {WELL_ACCURACY_BANDS.map(({ accuracy, label }) => (
+          <li key={accuracy}>
+            <span className={`well-swatch ${accuracy}`} />
+            {label}
+          </li>
+        ))}
+      </ul>
+      <p className="well-log-legend-note">
+        Only surveyed wells are drawn as solid points. Hollow markers report that
+        a well exists somewhere nearby, not where it is.
+      </p>
+    </div>
   );
 }
 

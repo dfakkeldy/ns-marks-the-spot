@@ -16,6 +16,8 @@ import {
   resourceLayerCatalog,
   initialZoningLayerVisibility,
   zoningLayerCatalog,
+  wellLogLayerCatalog,
+  initialWellLogLayerVisibility,
   type ProvinceLayerId,
 } from "./layerCatalog";
 import {
@@ -631,5 +633,55 @@ describe("micro-hydro screening pilot catalog", () => {
     });
     expect(hydroPilotLayerCatalog[0].webCaveat).toContain("1–50 kW scale");
     expect(hydroPilotLayerCatalog[0].scale).toContain("tertiary");
+  });
+});
+
+describe("water well log catalog", () => {
+  const wellLogs = wellLogLayerCatalog[0];
+
+  it("publishes one optional open-data well-log overlay", () => {
+    expect(wellLogLayerCatalog.map(({ id, name, delivery }) => ({
+      id,
+      name,
+      delivery,
+    }))).toEqual([
+      {
+        id: "ns-well-logs",
+        name: "Water well logs",
+        delivery: "feature-query",
+      },
+    ]);
+    expect(initialWellLogLayerVisibility).toEqual({ "ns-well-logs": false });
+    expect(wellLogs.licence).toBe("province-open");
+  });
+
+  it("sources the DNRR open-data product, not the restricted NSE database", () => {
+    expect(wellLogs.sourceUrl).toBe(
+      "https://novascotia.ca/natr/meb/download/dp430.asp",
+    );
+    expect(wellLogs.serviceUrl).toContain("h430ns");
+    expect(wellLogs.serviceUrl.startsWith("https://")).toBe(true);
+    expect(wellLogs.manualUrl).toContain("UsersManual_NSWellLogsDatabase.pdf");
+    expect(wellLogs.serviceUrl).not.toContain("welldatabase");
+    expect(wellLogs.serviceUrl).not.toContain("eqej-ag64");
+  });
+
+  it("names the accuracy limit and the zoom gate in its caveat", () => {
+    expect(wellLogs.webCaveat).toContain("±50 m");
+    expect(wellLogs.webCaveat).toContain("not well locations");
+    expect(wellLogs.webCaveat).toContain("zoom 12+");
+    expect(wellLogs.minZoom).toBe(12);
+    expect(wellLogs.maxZoom).toBe(23);
+  });
+
+  it("records the published extract provenance and accuracy range", () => {
+    expect(wellLogs.sourceDate).toContain("version 5");
+    expect(wellLogs.sourceDate).toContain("January 5, 2022");
+    expect(wellLogs.scale).toContain("±50 m");
+    expect(wellLogs.scale).toContain("±8 km");
+    expect(wellLogs.coverage).toContain("125,517");
+    expect(wellLogs.coverage).toContain("1940–2021");
+    expect(wellLogs.minZoom).toBeTypeOf("number");
+    expect(wellLogs.maxZoom).toBeTypeOf("number");
   });
 });

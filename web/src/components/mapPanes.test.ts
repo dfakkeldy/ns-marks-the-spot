@@ -6,6 +6,8 @@ import {
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
+  WELL_LOG_PANE,
+  WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
 
 describe("parcel pane ordering", () => {
@@ -69,5 +71,12 @@ describe("parcel pane ordering", () => {
     expect(PROVINCE_LAYER_Z_INDEXES.buildings).toBeLessThan(
       PROVINCE_LAYER_Z_INDEXES.roads,
     );
+  });
+
+  it("keeps well points above proximity parcels and below the selected parcel", () => {
+    expect(MINERAL_PROXIMITY_PANE_Z_INDEX).toBeLessThan(WELL_LOG_PANE_Z_INDEX);
+    expect(WELL_LOG_PANE_Z_INDEX).toBeLessThan(ESTABLISHED_PARCEL_PANE_Z_INDEX);
+    expect(WELL_LOG_PANE).not.toBe(MINERAL_PROXIMITY_PANE);
+    expect(WELL_LOG_PANE).not.toBe(ESTABLISHED_PARCEL_PANE);
   });
 });

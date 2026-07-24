@@ -4,7 +4,11 @@ import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
-import { MapCanvas } from "./MapCanvas";
+import {
+  MapCanvas,
+  type MapLayerId,
+  type MapLayerStatus,
+} from "./MapCanvas";
 import { parcelStyleForFeature } from "./parcelStyle";
 
 const mapMock = vi.hoisted(() => ({
@@ -1465,6 +1469,118 @@ describe("MapCanvas micro-hydro pilot", () => {
       ),
     );
     expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
+  });
+});
+
+describe("MapCanvas well logs", () => {
+  const hiddenProvinceLayers = {
+    "ns-aerial": false,
+    nsprd: false,
+    "crown-lands": false,
+    "flood-risk": false,
+    waterfalls: false,
+    "water-features": false,
+    roads: false,
+    buildings: false,
+    contours: false,
+  } as const;
+
+  function renderWellLogs({
+    visible,
+    filter,
+    onLayerStatusChange,
+  }: {
+    visible: boolean;
+    filter?: "surveyed" | "all";
+    onLayerStatusChange: (id: MapLayerId, status: MapLayerStatus) => void;
+  }) {
+    return render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{ ...hiddenProvinceLayers }}
+        resourceLayers={hiddenResourceLayers}
+        wellLogLayers={{ "ns-well-logs": visible }}
+        wellLogAccuracyFilter={filter}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(13);
+    vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: 22,
+          geometry: { type: "Point", coordinates: [-63.68, 45.3] },
+          properties: { OBJECTID: 22, WELLNUM: "000025", GEOREF_A: 39.4 },
+        },
+      ],
+    });
+  });
+
+  it("does not query the well service while the layer is off", () => {
+    const onLayerStatusChange = vi.fn();
+    renderWellLogs({ visible: false, onLayerStatusChange });
+
+    expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
+    expect(onLayerStatusChange).toHaveBeenCalledWith("ns-well-logs", {
+      status: "idle",
+    });
+  });
+
+  it("waits for the parcel-detail zoom before querying wells", () => {
+    const onLayerStatusChange = vi.fn();
+    mapMock.getZoom.mockReturnValue(9);
+
+    renderWellLogs({ visible: true, onLayerStatusChange });
+
+    expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
+    expect(onLayerStatusChange).toHaveBeenCalledWith("ns-well-logs", {
+      status: "zoom",
+      minZoom: 12,
+    });
+  });
+
+  it("requests surveyed wells by default and never asks for the address column", async () => {
+    const onLayerStatusChange = vi.fn();
+    renderWellLogs({ visible: true, onLayerStatusChange });
+
+    await waitFor(() =>
+      expect(onLayerStatusChange).toHaveBeenCalledWith("ns-well-logs", {
+        status: "ready",
+        count: 1,
+      }),
+    );
+
+    const request = vi.mocked(fetchArcGISFeatureOverlay).mock.calls[0][0];
+    expect(request.serviceUrl).toContain("h430ns");
+    expect(request.where).toBe("GEOREF_A > 0 AND GEOREF_A <= 50");
+    expect(request.orderByFields).toBe("OBJECTID");
+    expect(request.outFields).not.toContain("ADDRESS");
+  });
+
+  it("widens the query only when approximate locations are requested", async () => {
+    const onLayerStatusChange = vi.fn();
+    renderWellLogs({ visible: true, filter: "all", onLayerStatusChange });
+
+    await waitFor(() =>
+      expect(fetchArcGISFeatureOverlay).toHaveBeenCalledTimes(1),
+    );
+    expect(vi.mocked(fetchArcGISFeatureOverlay).mock.calls[0][0].where).toBe(
+      "1=1",
+    );
   });
 });
 

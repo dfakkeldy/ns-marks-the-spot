@@ -158,6 +158,7 @@ describe("print document paged media", () => {
       "waterfalls", "water-features", "roads", "buildings", "contours",
       "mineral-occurrences", "mineral-tenure", "abandoned-mines",
       "mineral-proximity-parcels", "inverness-hydro-potential",
+      "ns-well-logs",
       "published-river-flood-zones", "coastal-flood-current",
       "coastal-flood-2050", "coastal-flood-2100",
       "arsenic-risk-wells", "uranium-risk-wells",

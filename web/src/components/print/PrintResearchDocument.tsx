@@ -90,6 +90,7 @@ const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   "abandoned-mines": "mine-point",
   "mineral-proximity-parcels": "proximity-boundary",
   "inverness-hydro-potential": "hydro-classes",
+  "ns-well-logs": "well-accuracy-points",
   "published-river-flood-zones": "river-flood-bands",
   "coastal-flood-current": "coastal-current",
   "coastal-flood-2050": "coastal-2050",

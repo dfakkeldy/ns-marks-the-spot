@@ -38,6 +38,33 @@ function reportLayerStatus(id: MapLayerId, status: MapLayerStatus) {
 }
 
 describe("PrintMap", () => {
+  /**
+   * Without this the printed sheet falls back to surveyed-only wells while the
+   * printed legend still advertises the approximate bands.
+   */
+  it("prints the well accuracy bands the capture was taken with", () => {
+    const wellSnapshot = {
+      ...snapshot,
+      layerIds: ["modern", "ns-well-logs"],
+      wellLogAccuracyFilter: "all",
+    } as unknown as PrintSnapshot;
+
+    render(
+      <PrintMap
+        snapshot={wellSnapshot}
+        bounds={wellSnapshot.viewport.bounds}
+        includeAerial={false}
+        onReadinessChange={vi.fn()}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(mapCanvasProps.current?.wellLogAccuracyFilter).toBe("all");
+    expect(mapCanvasProps.current?.wellLogLayers).toEqual({
+      "ns-well-logs": true,
+    });
+  });
+
   it("aggregates only printed layer readiness and reports the resolved position", () => {
     const onReadinessChange = vi.fn();
     const onResolvedPosition = vi.fn();

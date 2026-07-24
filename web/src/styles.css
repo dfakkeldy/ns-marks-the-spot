@@ -761,6 +761,106 @@ a {
   text-transform: uppercase;
 }
 
+.well-log-layer-row input:checked + .switch {
+  background: #0284c7;
+}
+
+.well-log-accuracy-filter {
+  margin-top: 8px;
+}
+
+.well-log-legend {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(2, 132, 199, 0.18);
+  border-radius: 5px;
+}
+
+.well-log-legend p {
+  margin: 0;
+  color: var(--chart-ink);
+}
+
+.well-log-legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.well-log-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.well-log-legend-note {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Solid fill is reserved for the surveyed band; every coarser band is drawn
+   hollow and dashed so the legend matches the map symbology exactly. */
+.well-swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+}
+
+.well-swatch.surveyed {
+  background: #0ea5e9;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 0 0 1px rgba(2, 132, 199, 0.55);
+}
+
+.well-swatch.map-referenced {
+  background: rgba(125, 211, 252, 0.12);
+  border: 1.25px dashed #7dd3fc;
+}
+
+.well-swatch.sheet-referenced {
+  background: rgba(186, 230, 253, 0.12);
+  border: 1.25px dashed #bae6fd;
+}
+
+.well-swatch.community {
+  background: rgba(203, 213, 225, 0.12);
+  border: 1.25px dashed #cbd5e1;
+}
+
+.well-swatch.unknown {
+  background: rgba(226, 232, 240, 0.12);
+  border: 1.25px dotted #e2e8f0;
+}
+
+.well-log-note {
+  padding-top: 2px;
+}
+
+.well-log-popup {
+  min-width: 230px;
+  color: var(--chart-ink);
+}
+
+.well-log-popup .well-log-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #0284c7;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .zoning-popup h3 {
   margin: 0 0 6px;
   font-family: "Fraunces", Georgia, serif;
@@ -790,6 +890,60 @@ a {
   display: inline-block;
   margin-top: 4px;
   font-size: 0.66rem;
+}
+
+.well-log-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+}
+
+/* The accuracy sentence leads the popup so a coarse record can never be read
+   as a precisely located well. */
+.well-log-popup .well-log-popup-accuracy {
+  margin: 0 0 9px;
+  padding: 6px 8px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  background: rgba(2, 132, 199, 0.08);
+  border-left: 3px solid #0ea5e9;
+  border-radius: 3px;
+}
+
+.well-log-popup--map-referenced .well-log-popup-accuracy,
+.well-log-popup--sheet-referenced .well-log-popup-accuracy,
+.well-log-popup--community .well-log-popup-accuracy,
+.well-log-popup--unknown .well-log-popup-accuracy {
+  background: rgba(180, 83, 9, 0.09);
+  border-left-color: #b45309;
+}
+
+.well-log-popup dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.well-log-popup dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.well-log-popup dt,
+.well-log-popup dd {
+  margin: 0;
+}
+
+.well-log-popup dt {
+  color: var(--muted);
+}
+
+.well-log-popup .well-log-popup-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
 }
 
 .historical-layer-controls {
@@ -3023,6 +3177,14 @@ a {
   border: 2pt dotted #111;
   border-radius: 50%;
   background: #bdbdbd;
+}
+
+/* A solid core inside a dashed ring: the printed key for "surveyed point,
+   plus a surrounding band of records that are only approximately placed". */
+.print-layer-symbol--ns-well-logs {
+  border: 1.25pt dashed #111;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #333 0 34%, #fff 34% 100%);
 }
 
 .print-layer-symbol--inverness-hydro-potential {
