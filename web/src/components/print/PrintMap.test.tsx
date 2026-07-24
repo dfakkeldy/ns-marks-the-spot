@@ -70,6 +70,7 @@ describe("PrintMap", () => {
       renderedLayerIds: ["modern"],
       failedLayerIds: ["roads"],
       belowZoomLayerIds: ["contours"],
+      timedOutLayerIds: [],
     });
 
     const onPositionChange = mapCanvasProps.current?.onPositionChange as
@@ -156,6 +157,33 @@ describe("PrintMap", () => {
       renderedLayerIds: ["modern"],
       failedLayerIds: ["roads"],
       belowZoomLayerIds: [],
+      timedOutLayerIds: [],
+    });
+  });
+
+  it("keeps a current-attempt error sticky when a late load callback arrives", () => {
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{ ...snapshot, layerIds: ["roads"] } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    act(() => {
+      reportLayerStatus("roads", { status: "error" });
+      reportLayerStatus("roads", { status: "ready", count: 9 });
+    });
+
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error",
+      renderedLayerIds: [],
+      failedLayerIds: ["roads"],
+      belowZoomLayerIds: [],
+      timedOutLayerIds: [],
     });
   });
 });

@@ -160,7 +160,7 @@ describe("print documents", () => {
     expect(screen.queryByText(/browser location/iu)).not.toBeInTheDocument();
   });
 
-  it("shows PVSC and open-data attribution only for visibly reported ready evidence", () => {
+  it("keeps PVSC and open-data provenance for unavailable evidence", () => {
     const unavailableEvidence = {
       ...snapshot().evidence,
       assessments: { status: "error", message: "offline" },
@@ -183,8 +183,12 @@ describe("print documents", () => {
     );
 
     expect(screen.getByText("Assessment: unavailable")).toBeInTheDocument();
-    expect(screen.queryByText(PVSC_OPEN_DATA_ATTRIBUTION)).not.toBeInTheDocument();
-    expect(screen.queryByText(OPEN_GOVERNMENT_ATTRIBUTION)).not.toBeInTheDocument();
+    expect(screen.getByText(PVSC_OPEN_DATA_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "PVSC assessment evidence source" }))
+      .toHaveAttribute("href", expect.stringContaining("bt58-qu28"));
+    expect(screen.getByRole("link", { name: "Civic address evidence source" }))
+      .toHaveAttribute("href", expect.stringContaining("tntn-er5g"));
 
     rerender(
       <PrintResearchDocument
@@ -362,6 +366,168 @@ describe("print documents", () => {
     expect(screen.getByText("Source unavailable at export time.")).toBeInTheDocument();
   });
 
+  it("keeps mandatory NSPRD and evidence attribution when no optional layer rendered", () => {
+    const unavailableEvidence = {
+      ...snapshot().evidence,
+      buildings: { status: "error", message: "offline" },
+      assessments: { status: "error", message: "offline" },
+      civicAddresses: { status: "error", message: "offline" },
+      mappedContext: { status: "error", message: "offline" },
+      floodHazard: { status: "error", message: "offline" },
+      resources: { status: "error", message: "offline" },
+    };
+
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          layerIds: [],
+          layerSources: [],
+          evidence: unavailableEvidence,
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={["nsprd"]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getAllByText(PROVINCE_ATTRIBUTION).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("link", { name: "NSPRD selected geometry licence" })[0])
+      .toHaveAttribute("href", PROVINCE_LICENSE_URL);
+    expect(screen.getAllByText(/NSPRD geometry is approximate and is not a legal survey\./u).length)
+      .toBeGreaterThan(0);
+    expect(screen.getByRole("link", { name: "Building evidence source" }))
+      .toHaveAttribute("href", expect.stringContaining("tz45-5mz7"));
+    expect(screen.getByRole("link", { name: "Road evidence source" }))
+      .toHaveAttribute("href", expect.stringContaining("Roads_UT83"));
+    expect(screen.getByRole("link", { name: "Water evidence source" }))
+      .toHaveAttribute("href", expect.stringContaining("Water_WM84"));
+    expect(screen.getByRole("link", { name: "Published river flood evidence source" }))
+      .toHaveAttribute("href", expect.stringContaining("flood_risk_areas"));
+    expect(screen.getByRole("link", { name: "Coastal flood evidence source" }))
+      .toHaveAttribute("href", "https://nsgi.novascotia.ca/chm");
+  });
+
+  it("renders captured event facts, sources, limitations, mapped-area detail, and assessment match method", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot()}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const appendix = screen.getByRole("region", { name: "Evidence appendix" });
+    expect(within(appendix).getByText("Inverness County tax sale")).toBeInTheDocument();
+    expect(within(appendix).getByText("Auction: August 11, 2026")).toBeInTheDocument();
+    expect(within(appendix).getByRole("link", { name: "Official notice" }))
+      .toHaveAttribute("href", "https://example.test/notice");
+    expect(within(appendix).getByText("Verify the official notice before acting."))
+      .toBeInTheDocument();
+    expect(within(appendix).getByText("1,000 m²")).toBeInTheDocument();
+    expect(within(appendix).getByText("0.25 acres")).toBeInTheDocument();
+    expect(within(appendix).getByText("Matched by published account points inside the mapped parcel geometry."))
+      .toBeInTheDocument();
+    expect(within(appendix).getByText("Dataset updated January 12, 2026"))
+      .toBeInTheDocument();
+    expect(within(appendix).getAllByText("Captured for print: 2026-07-23T13:42:00.000Z").length)
+      .toBeGreaterThan(0);
+  });
+
+  it.each([
+    {
+      river: { status: "outside-published-layer-extents", aep: [] },
+      riverText: "Outside published river-study extents.",
+    },
+    {
+      river: { status: "within-published-layer-extent", aep: [] },
+      riverText: "Within a published layer extent; no study coverage or parcel probability is implied.",
+    },
+    {
+      river: { status: "error", aep: [], message: "offline" },
+      riverText: "Published river source unavailable at export time; no absence is inferred.",
+    },
+  ])("renders coastal evidence independently when river state is $river.status", ({ river, riverText }) => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "ready",
+              value: {
+                river,
+                coastal: [{
+                  scenario: "2050",
+                  status: "no-intersection",
+                  stormAnnualExceedanceProbabilityPercent: 1,
+                  approximateAffectedPercent: 0,
+                  approximateAffectedSquareMetres: 0,
+                  sampledParcelPixels: 72,
+                }],
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getByText(riverText)).toBeInTheDocument();
+    expect(screen.getByText("Coastal scenarios")).toBeInTheDocument();
+    expect(screen.getByText("No 2050 map pixels intersected this parcel; this is not proof of no coastal hazard."))
+      .toBeInTheDocument();
+  });
+
+  it("prints monochrome legend samples and a north indicator", () => {
+    render(
+      <PrintFieldDocument
+        snapshot={snapshot({
+          template: "field",
+          layerIds: ["nsprd", "inverness-hydro-potential"],
+          layerSources: [
+            snapshot().layerSources[0],
+            actualFieldCatalogSources.find(({ id }) => id === "inverness-hydro-potential")!,
+          ],
+        })}
+        map={map}
+        includeAerial={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd", "inverness-hydro-potential"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getByLabelText("North")).toHaveTextContent("N");
+    const legend = screen.getByLabelText("Active map layers");
+    expect(legend.querySelector(".print-layer-symbol--nsprd")).not.toBeNull();
+    expect(legend.querySelector(".print-layer-symbol--inverness-hydro-potential")).not.toBeNull();
+    expect(legend.querySelectorAll(".print-hydro-class-sample")).toHaveLength(7);
+  });
+
   it("keeps the field sheet to one bounded page with only rendered layers and concise limits", () => {
     render(
       <PrintFieldDocument
@@ -392,6 +558,9 @@ describe("print documents", () => {
     expect(within(legend).queryByText("Roads, trails & culverts")).not.toBeInTheDocument();
     expect(screen.getAllByText(PROVINCE_ATTRIBUTION)).toHaveLength(1);
     expect(screen.getAllByRole("region", { name: /Source attribution and licences/i })).toHaveLength(1);
+    expect(screen.getByText(
+      "Field screening/reference material only. Not a survey or an access conclusion.",
+    )).toBeInTheDocument();
     expect(document.querySelectorAll(".print-field-page")).toHaveLength(1);
     expect(screen.queryByText(/Assessment accounts/iu)).not.toBeInTheDocument();
     expect(screen.queryByText(/Evidence appendix/iu)).not.toBeInTheDocument();

@@ -2443,7 +2443,10 @@ describe("NS Marks The Spot Online", () => {
 
     expect(within(dialog).getAllByText("PID 01234567").length).toBeGreaterThan(0);
     expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("Parcel fit");
-    await waitFor(() => expect(within(dialog).getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument());
+    await waitFor(() =>
+      expect(within(dialog).getAllByText(PROVINCE_ATTRIBUTION).length)
+        .toBeGreaterThan(0),
+    );
     expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
     expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
 

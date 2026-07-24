@@ -39,6 +39,7 @@ export type PrintMapReadiness =
       renderedLayerIds: MapLayerId[];
       failedLayerIds: MapLayerId[];
       belowZoomLayerIds: MapLayerId[];
+      timedOutLayerIds: MapLayerId[];
     };
 
 function visibilityFor<Id extends ShareLayerId>(
@@ -93,7 +94,12 @@ export function PrintMap({
     [snapshot.mapParcels, snapshot.selectedParcelGeometry, snapshot.template],
   );
   const updateStatus = useCallback((id: MapLayerId, status: MapLayerStatus) => {
-    setStatuses((current) => ({ ...current, [id]: status }));
+    setStatuses((current) => {
+      if (current[id]?.status === "error" && status.status !== "error") {
+        return current;
+      }
+      return { ...current, [id]: status };
+    });
   }, []);
 
   useEffect(() => {
@@ -107,6 +113,7 @@ export function PrintMap({
         renderedLayerIds,
         failedLayerIds,
         belowZoomLayerIds,
+        timedOutLayerIds: [],
       });
     } else if (values.every((value) =>
       value?.status === "ready" || value?.status === "zoom"

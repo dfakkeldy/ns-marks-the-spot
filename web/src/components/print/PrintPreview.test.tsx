@@ -140,6 +140,17 @@ describe("PrintPreview", () => {
     expect(screen.getByLabelText("Document template")).toHaveValue("research");
     expect(screen.getByLabelText("Include evidence appendix")).toBeChecked();
     expect(screen.getByLabelText("Include aerial imagery")).not.toBeChecked();
+    expect(screen.getByLabelText("Include aerial imagery")).toBeDisabled();
+  });
+
+  it("disables the appendix outside research with a clear applicability note", async () => {
+    const user = userEvent.setup();
+    render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
+
+    await user.selectOptions(screen.getByLabelText("Document template"), "field");
+
+    expect(screen.getByLabelText("Include evidence appendix")).toBeDisabled();
+    expect(screen.getByText("Available for the Research summary only.")).toBeInTheDocument();
   });
 
   it("waits for research evidence but lets a field sheet become ready", async () => {
@@ -316,6 +327,33 @@ describe("PrintPreview", () => {
     await waitFor(() => expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeEnabled());
   });
 
+  it("times out unresolved map layers within the current attempt", async () => {
+    vi.useFakeTimers();
+    const unresolvedCapture = capture();
+    unresolvedCapture.layerIds = ["modern", "roads"];
+    unresolvedCapture.layerSources = [
+      { id: "modern", name: "Modern map", sourceUrl: "https://example.com/modern", sourceDate: "now", attribution: "OpenStreetMap", licenceUrl: "https://example.com/modern/licence" },
+      { id: "roads", name: "Roads", sourceUrl: "https://example.com/roads", sourceDate: "now", attribution: "Province", licenceUrl: "https://example.com/roads/licence" },
+    ];
+    render(<PrintPreview capture={unresolvedCapture} baseUrl="https://example.com/map/" onClose={onClose} />);
+    act(() => {
+      printMap.onResolvedPosition?.(mapPosition);
+      printMap.onReadinessChange?.(readiness({
+        status: "loading",
+        renderedLayerIds: ["modern"],
+        failedLayerIds: [],
+        belowZoomLayerIds: [],
+      }));
+    });
+
+    await act(() => vi.advanceTimersByTimeAsync(15_000));
+
+    expect(screen.getByRole("alert")).toHaveTextContent("Timed out waiting for: Roads.");
+    expect(screen.getByRole("button", { name: "Retry map" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Print incomplete map" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Print / Save PDF" })).toBeDisabled();
+  });
+
   it("calls browser print only after map position and QR attempt settle", async () => {
     let resolveQr: ((value: { status: "ready"; svg: string }) => void) | undefined;
     buildQr.mockImplementationOnce(() => new Promise((resolve) => { resolveQr = resolve; }));
@@ -355,10 +393,11 @@ describe("PrintPreview", () => {
     fireEvent.keyDown(dialog, { key: "Escape" });
     expect(onClose).toHaveBeenCalledTimes(1);
 
+    const focusableLinks = dialog.querySelectorAll<HTMLAnchorElement>("a[href]");
+    const last = focusableLinks[focusableLinks.length - 1];
     fireEvent.keyDown(dialog, { key: "Tab", shiftKey: true });
-    expect(document.activeElement).toBe(screen.getByRole("link", { name: "https://example.com/map/" }));
+    expect(document.activeElement).toBe(last);
 
-    const last = screen.getByRole("link", { name: "https://example.com/map/" });
     last.focus();
     fireEvent.keyDown(dialog, { key: "Tab" });
     expect(document.activeElement).toBe(screen.getByLabelText("Document template"));

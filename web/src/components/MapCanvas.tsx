@@ -52,6 +52,7 @@ import {
 import {
   hydroLineStyle,
   hydroPotentialLabel,
+  type HydroPotentialClass,
 } from "../services/hydroPotential";
 import {
   DEFAULT_MAP_POSITION,
@@ -224,27 +225,49 @@ function ArcGISMapLayer({
             },
           ),
       );
-    let loadedTiles = 0;
-    const reportZoom = () => {
-      if (map.getZoom() < layer.minZoom) {
+    const physicalStatuses: Array<"loading" | "ready" | "error"> =
+      tileLayers.map(() => "loading");
+    const loadedTiles = tileLayers.map(() => 0);
+    const isBelowZoom = () => map.getZoom() < layer.minZoom;
+    const reportAggregate = () => {
+      if (isBelowZoom()) {
         onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+      } else if (physicalStatuses.some((status) => status === "error")) {
+        onStatusChange?.(layer.id, { status: "error" });
+      } else if (physicalStatuses.every((status) => status === "ready")) {
+        onStatusChange?.(layer.id, {
+          status: "ready",
+          count: loadedTiles.reduce((sum, count) => sum + count, 0),
+        });
+      } else {
+        onStatusChange?.(layer.id, { status: "loading" });
       }
+    };
+    const reportZoom = () => {
+      reportAggregate();
     };
     map.on("zoomend", reportZoom);
     reportZoom();
-    tileLayers.forEach((tileLayer) => {
-      tileLayer.on("loading", () =>
-        onStatusChange?.(layer.id, { status: "loading" }),
-      );
-      tileLayer.on("tileload", () => {
-        loadedTiles += 1;
+    tileLayers.forEach((tileLayer, index) => {
+      tileLayer.on("loading", () => {
+        if (physicalStatuses[index] !== "error") {
+          physicalStatuses[index] = "loading";
+        }
+        reportAggregate();
       });
-      tileLayer.on("load", () =>
-        onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
-      );
-      tileLayer.on("tileerror", () =>
-        onStatusChange?.(layer.id, { status: "error" }),
-      );
+      tileLayer.on("tileload", () => {
+        loadedTiles[index] += 1;
+      });
+      tileLayer.on("load", () => {
+        if (physicalStatuses[index] !== "error") {
+          physicalStatuses[index] = "ready";
+        }
+        reportAggregate();
+      });
+      tileLayer.on("tileerror", () => {
+        physicalStatuses[index] = "error";
+        reportAggregate();
+      });
       tileLayer.addTo(map);
     });
 
@@ -293,19 +316,36 @@ function ResourceArcGISMapLayer({
       },
     );
     let loadedTiles = 0;
-    const reportZoom = () => {
+    let physicalStatus: "loading" | "ready" | "error" = "loading";
+    const reportAggregate = () => {
       if (map.getZoom() < layer.minZoom) {
         onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+      } else if (physicalStatus === "error") {
+        onStatusChange?.(layer.id, { status: "error" });
+      } else if (physicalStatus === "ready") {
+        onStatusChange?.(layer.id, { status: "ready", count: loadedTiles });
+      } else {
+        onStatusChange?.(layer.id, { status: "loading" });
       }
     };
-    tileLayer.on("loading", () => onStatusChange?.(layer.id, { status: "loading" }));
+    const reportZoom = () => {
+      reportAggregate();
+    };
+    tileLayer.on("loading", () => {
+      if (physicalStatus !== "error") physicalStatus = "loading";
+      reportAggregate();
+    });
     tileLayer.on("tileload", () => {
       loadedTiles += 1;
     });
-    tileLayer.on("load", () =>
-      onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
-    );
-    tileLayer.on("tileerror", () => onStatusChange?.(layer.id, { status: "error" }));
+    tileLayer.on("load", () => {
+      if (physicalStatus !== "error") physicalStatus = "ready";
+      reportAggregate();
+    });
+    tileLayer.on("tileerror", () => {
+      physicalStatus = "error";
+      reportAggregate();
+    });
     map.on("zoomend", reportZoom);
     reportZoom();
     tileLayer.addTo(map);
@@ -445,6 +485,14 @@ function ArcGISFeatureLayer({
           fillColor: renderMode === "print" ? "#e8e8e8" : layer.markerColor,
           fillOpacity: renderMode === "print" ? 0.8 : layer.opacity,
           weight: 1.5,
+          className:
+            renderMode === "print"
+              ? `print-resource-marker-${layer.id}`
+              : undefined,
+          dashArray:
+            renderMode === "print" && layer.id === "abandoned-mines"
+              ? "2 2"
+              : undefined,
         })
       }
       interactive={renderMode !== "print"}
@@ -518,7 +566,7 @@ function HydroPilotLayer({
       style={(feature) => {
         const properties = feature?.properties as InvernessHydroPotentialProperties;
         return renderMode === "print"
-          ? { color: "#222222", opacity: 0.9, weight: 2.5 }
+          ? printHydroLineStyle(properties.potentialClass)
           : hydroLineStyle(properties);
       }}
       interactive={renderMode !== "print"}
@@ -557,6 +605,26 @@ function HydroPilotLayer({
       }}
     />
   );
+}
+
+function printHydroLineStyle(potentialClass: HydroPotentialClass): PathOptions {
+  const styles: Record<HydroPotentialClass, Pick<PathOptions, "dashArray" | "weight">> = {
+    "not-qualified": { dashArray: "1 4", weight: 1.5 },
+    "below-1kw": { dashArray: "3 4", weight: 1.75 },
+    "kw-1-5": { dashArray: "6 3", weight: 2 },
+    "kw-5-15": { dashArray: "10 3", weight: 2.25 },
+    "kw-15-30": { dashArray: "10 2 2 2", weight: 2.5 },
+    "kw-30-50": { dashArray: "14 2", weight: 2.75 },
+    "over-50kw": { dashArray: undefined, weight: 3.25 },
+  };
+  return {
+    color: "#222222",
+    opacity: 0.9,
+    lineCap: "round",
+    lineJoin: "round",
+    className: `print-hydro-${potentialClass}`,
+    ...styles[potentialClass],
+  };
 }
 
 function MapPositionController({
@@ -925,6 +993,7 @@ function TaxSaleOverviewMarkers({
   showHistoricalTaxSales,
   selectedPid,
   onSelectPid,
+  renderMode = "interactive",
 }: Pick<
   MapCanvasProps,
   | "parcels"
@@ -934,6 +1003,7 @@ function TaxSaleOverviewMarkers({
   | "showHistoricalTaxSales"
   | "selectedPid"
   | "onSelectPid"
+  | "renderMode"
 >) {
   const map = useMap();
   const [zoom, setZoom] = useState(() => map.getZoom());
@@ -956,16 +1026,30 @@ function TaxSaleOverviewMarkers({
     return null;
   }
 
-  const markerStyle = (selected: boolean, color: string): PathOptions => ({
-    color: "#ffffff",
-    weight: selected ? 3 : 1.5,
-    fillColor: color,
-    fillOpacity: selected ? 1 : 0.85,
-  });
+  const markerStyle = (
+    selected: boolean,
+    color: string,
+    keyPrefix: "current" | "historical",
+  ): PathOptions =>
+    renderMode === "print"
+      ? {
+          color: "#111111",
+          weight: selected ? 3 : 1.75,
+          fillColor: keyPrefix === "current" ? "#f3f3f3" : "#777777",
+          fillOpacity: 1,
+          dashArray: keyPrefix === "historical" ? "3 2" : undefined,
+          className: `print-${keyPrefix}-tax-sale-marker`,
+        }
+      : {
+          color: "#ffffff",
+          weight: selected ? 3 : 1.5,
+          fillColor: color,
+          fillOpacity: selected ? 1 : 0.85,
+        };
 
   const marker = (
     point: { pid: string; latitude: number; longitude: number },
-    keyPrefix: string,
+    keyPrefix: "current" | "historical",
     color: string,
   ) => (
     <CircleMarker
@@ -973,13 +1057,18 @@ function TaxSaleOverviewMarkers({
       center={[point.latitude, point.longitude]}
       radius={point.pid === selectedPid ? 9 : 7}
       pane={ESTABLISHED_PARCEL_PANE}
-      pathOptions={markerStyle(point.pid === selectedPid, color)}
-      eventHandlers={{
-        click: (event) => {
-          L.DomEvent.stopPropagation(event.originalEvent);
-          onSelectPid(point.pid);
-        },
-      }}
+      pathOptions={markerStyle(point.pid === selectedPid, color, keyPrefix)}
+      interactive={renderMode !== "print"}
+      eventHandlers={
+        renderMode === "print"
+          ? undefined
+          : {
+              click: (event) => {
+                L.DomEvent.stopPropagation(event.originalEvent);
+                onSelectPid(point.pid);
+              },
+            }
+      }
     />
   );
 
@@ -1017,6 +1106,7 @@ export function MapCanvas({
   fitBounds,
 }: MapCanvasProps) {
   const isPrintMode = renderMode === "print";
+  const modernPrintError = useRef(false);
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       onLayerStatusChange?.(id, status);
@@ -1031,6 +1121,18 @@ export function MapCanvas({
       reportLayerStatus("mineral-proximity-parcels", status);
     },
     [reportLayerStatus],
+  );
+  const reportModernStatus = useCallback(
+    (status: MapLayerStatus) => {
+      if (isPrintMode && modernPrintError.current && status.status !== "error") {
+        return;
+      }
+      if (isPrintMode && status.status === "error") {
+        modernPrintError.current = true;
+      }
+      reportLayerStatus("modern", status);
+    },
+    [isPrintMode, reportLayerStatus],
   );
   const [map, setMap] = useState<LeafletMap | null>(null);
   const printableViewportGuard = useRef<PrintableViewportGuard>({
@@ -1120,8 +1222,8 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
-        <ScaleControl position="bottomleft" />
-        <PositionReadout />
+        {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
+        {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -1130,9 +1232,9 @@ export function MapCanvas({
             zIndex={100}
             className={isPrintMode ? "print-layer-modern" : undefined}
             eventHandlers={{
-              loading: () => reportLayerStatus?.("modern", { status: "loading" }),
-              load: () => reportLayerStatus?.("modern", { status: "ready" }),
-              tileerror: () => reportLayerStatus?.("modern", { status: "error" }),
+              loading: () => reportModernStatus({ status: "loading" }),
+              load: () => reportModernStatus({ status: "ready" }),
+              tileerror: () => reportModernStatus({ status: "error" }),
             }}
           />
         ) : (
@@ -1208,6 +1310,7 @@ export function MapCanvas({
             showHistoricalTaxSales={showHistoricalTaxSales}
             selectedPid={selectedPid}
             onSelectPid={onSelectPid}
+            renderMode={renderMode}
           />
          </Pane>
         {hydroPilotLayerCatalog.map((layer) => (

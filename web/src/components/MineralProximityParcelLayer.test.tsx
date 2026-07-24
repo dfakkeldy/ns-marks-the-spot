@@ -174,6 +174,8 @@ describe("MineralProximityParcelLayer", () => {
         fillColor: "#e6e6e6",
         fillOpacity: 0.28,
         weight: 2,
+        dashArray: "2 3 8 3",
+        className: "print-mineral-proximity-parcel",
       },
     });
     expect(geoJsonProps.current?.onEachFeature).toBeUndefined();

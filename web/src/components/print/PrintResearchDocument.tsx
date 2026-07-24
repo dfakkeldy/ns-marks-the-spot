@@ -8,6 +8,7 @@ import {
 import type { ShareLayerId } from "../../services/mapShareState";
 import {
   reportedEvidenceAttributions,
+  requiredSelectedGeometryAttribution,
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
 import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
@@ -76,26 +77,76 @@ export function PrintHeader({ snapshot, title }: {
 export function ActiveLayerLegend({
   sources,
   showSourceDates = true,
+  mapMode,
 }: {
   sources: readonly PrintLayerSource[];
   showSourceDates?: boolean;
+  mapMode?: PrintSnapshot["mode"];
 }) {
   return (
     <section className="print-active-layer-legend" aria-labelledby="print-active-layers">
       <h2 id="print-active-layers">Active map layers</h2>
+      <ul className="print-map-symbol-key" aria-label="Map symbols">
+        <li>
+          <span
+            className="print-layer-symbol print-layer-symbol--selected-parcel"
+            aria-hidden="true"
+          />
+          <span><strong>Selected parcel</strong></span>
+        </li>
+        {mapMode ? (
+          <li>
+            <span
+              className={`print-layer-symbol print-layer-symbol--${mapMode}-tax-sale`}
+              aria-hidden="true"
+            />
+            <span>
+              <strong>
+                {mapMode === "historical"
+                  ? "Historical tax-sale parcel"
+                  : "Current tax-sale parcel"}
+              </strong>
+            </span>
+          </li>
+        ) : null}
+      </ul>
       {sources.length === 0 ? (
         <p>No optional map layers were rendered.</p>
       ) : (
         <ul>
           {sources.map((source) => (
             <li key={source.id}>
-              <strong>{source.name}</strong>
-              {showSourceDates ? <span>{source.sourceDate}</span> : null}
+              <span
+                className={`print-layer-symbol print-layer-symbol--${source.id}`}
+                aria-hidden="true"
+              >
+                {source.id === "inverness-hydro-potential"
+                  ? Array.from({ length: 7 }, (_, index) => (
+                      <span
+                        key={index}
+                        className={`print-hydro-class-sample print-hydro-class-sample--${index + 1}`}
+                      />
+                    ))
+                  : null}
+              </span>
+              <span>
+                <strong>{source.name}</strong>
+                {showSourceDates ? <span>{source.sourceDate}</span> : null}
+              </span>
             </li>
           ))}
         </ul>
       )}
     </section>
+  );
+}
+
+export function NorthIndicator() {
+  return (
+    <div className="print-north-indicator" aria-label="North">
+      <span aria-hidden="true">↑</span>
+      <strong>N</strong>
+    </div>
   );
 }
 
@@ -148,15 +199,26 @@ export function RequiredAttribution({
 }) {
   const { sources, attributions } = attributionMaterial(mapSources, evidenceSources);
   if (sources.length === 0) return null;
+  const firstSourceIdByLicenceUrl = new Map<string, string>();
+  for (const source of sources) {
+    if (!firstSourceIdByLicenceUrl.has(source.licenceUrl)) {
+      firstSourceIdByLicenceUrl.set(source.licenceUrl, source.id);
+    }
+  }
 
   return (
     <section className="print-required-attribution" aria-label="Source attribution and licences">
       {attributions.map((attribution) => <p key={attribution}>{attribution}</p>)}
+      {evidenceSources.some(({ id }) => id === "nsprd-selected-geometry") ? (
+        <p>NSPRD geometry is approximate and is not a legal survey.</p>
+      ) : null}
       <ul className="print-attribution-links">
         {sources.map((source) => (
           <li key={source.id}>
             <a href={source.sourceUrl}>{source.label} source</a>
-            <a href={source.licenceUrl}>{source.label} licence</a>
+            {firstSourceIdByLicenceUrl.get(source.licenceUrl) === source.id ? (
+              <a href={source.licenceUrl}>{source.label} licence</a>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -169,7 +231,9 @@ export function FieldRequiredAttribution({
 }: {
   mapSources: readonly PrintLayerSource[];
 }) {
-  const { sources, attributions } = attributionMaterial(mapSources, []);
+  const { sources, attributions } = attributionMaterial(mapSources, [
+    requiredSelectedGeometryAttribution(),
+  ]);
   const seenLicenceUrls = new Set<string>();
   const licences = sources.filter(({ licenceUrl }) => {
     if (seenLicenceUrls.has(licenceUrl)) return false;
@@ -181,6 +245,7 @@ export function FieldRequiredAttribution({
   return (
     <section className="print-required-attribution print-field-required-attribution" aria-label="Source attribution and licences">
       {attributions.map((attribution) => <p key={attribution}>{attribution}</p>)}
+      <p>NSPRD geometry is approximate and is not a legal survey.</p>
       <ul className="print-attribution-links">
         {licences.map((source) => (
           <li key={source.licenceUrl}>
@@ -321,11 +386,14 @@ export function PrintResearchDocument({
       <section className="print-page print-research-summary">
         <PrintHeader snapshot={snapshot} title="Parcel research summary" />
         <PrintCaptureContext snapshot={snapshot} />
-        <div className="print-research-map-frame">{map}</div>
+        <div className="print-research-map-frame">
+          {map}
+          <NorthIndicator />
+        </div>
         <div className="print-research-support">
           <ResearchFactGrid snapshot={snapshot} />
           <EvidenceStatusGrid snapshot={snapshot} />
-          <ActiveLayerLegend sources={renderedSources} />
+          <ActiveLayerLegend sources={renderedSources} mapMode={snapshot.mode} />
           <div className="print-research-details">
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />

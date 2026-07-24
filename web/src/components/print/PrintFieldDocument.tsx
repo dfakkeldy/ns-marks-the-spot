@@ -10,6 +10,7 @@ import {
   PrintCaptureContext,
   PrintHeader,
   PrintMapFailure,
+  NorthIndicator,
   PrintPatternDefinitions,
   PrintReceipt,
   PrintScaleOmission,
@@ -43,9 +44,16 @@ export function PrintFieldDocument({
       <section className="print-page print-field-page">
         <PrintHeader snapshot={snapshot} title="Parcel field sheet" />
         <PrintCaptureContext snapshot={snapshot} />
-        <div className="print-field-map-frame">{map}</div>
+        <div className="print-field-map-frame">
+          {map}
+          <NorthIndicator />
+        </div>
         <div className="print-field-support">
-          <ActiveLayerLegend sources={renderedSources} showSourceDates={false} />
+          <ActiveLayerLegend
+            sources={renderedSources}
+            showSourceDates={false}
+            mapMode={snapshot.mode}
+          />
           <div className="print-field-details">
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
@@ -53,7 +61,14 @@ export function PrintFieldDocument({
             <FieldRequiredAttribution mapSources={renderedSources} />
           </div>
         </div>
-        <p className="print-general-limitations">Field reference only. Confirm access, conditions, boundaries, and permissions on site and from authoritative sources.</p>
+        <p className="print-general-limitations">
+          <strong>
+            Field screening/reference material only. Not a survey or an access
+            conclusion.
+          </strong>{" "}
+          Confirm conditions, boundaries, and permissions on site and from
+          authoritative sources.
+        </p>
         <PrintReceipt shareUrl={shareUrl} qr={qr} />
       </section>
     </article>

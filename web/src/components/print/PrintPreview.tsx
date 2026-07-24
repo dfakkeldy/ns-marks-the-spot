@@ -17,6 +17,7 @@ import { PrintMap, type PrintMapReadiness } from "./PrintMap";
 import { PrintResearchDocument } from "./PrintResearchDocument";
 
 const EVIDENCE_TIMEOUT_MS = 15_000;
+const MAP_TIMEOUT_MS = 15_000;
 
 type MapAttemptState = {
   token: string;
@@ -30,7 +31,10 @@ type SnapshotStore = {
   byTemplate: Partial<Record<PrintTemplate, PrintSnapshot>>;
 };
 
-function loadingMapReadiness(): PrintMapReadiness {
+function loadingMapReadiness(): Extract<
+  PrintMapReadiness,
+  { status: "loading" }
+> {
   return {
     status: "loading",
     renderedLayerIds: [],
@@ -124,13 +128,21 @@ export function PrintPreview({
   const belowZoomLayerIds = mapReadiness.belowZoomLayerIds;
   const failedLayerIds = mapReadiness.status === "ready"
     ? []
-    : mapReadiness.failedLayerIds;
-  const shareUrl = useMemo(
-    () => snapshot && resolvedPosition
-      ? buildPrintMapShareUrl(baseUrl, snapshot, resolvedPosition, renderedLayerIds)
-      : baseUrl,
-    [baseUrl, renderedLayerIds, resolvedPosition, snapshot],
-  );
+    : [
+        ...mapReadiness.failedLayerIds,
+        ...(mapReadiness.status === "error"
+          ? mapReadiness.timedOutLayerIds ?? []
+          : []),
+      ];
+  const shareUrl =
+    snapshot && resolvedPosition
+      ? buildPrintMapShareUrl(
+          baseUrl,
+          snapshot,
+          resolvedPosition,
+          renderedLayerIds,
+        )
+      : baseUrl;
   const qrKey = attemptToken && snapshot && resolvedPosition
     ? `${attemptToken}:${shareUrl}`
     : null;
@@ -157,6 +169,47 @@ export function PrintPreview({
     );
     return () => window.clearTimeout(timer);
   }, [captureReadiness.ready, sealSnapshot, template]);
+
+  useEffect(() => {
+    if (!attemptToken || !snapshot) return;
+    const timer = window.setTimeout(() => {
+      setMapState((current) => {
+        if (
+          activeMapAttemptRef.current !== attemptToken ||
+          (current !== null && current.token !== attemptToken) ||
+          (current !== null && current.readiness.status !== "loading")
+        ) {
+          return current;
+        }
+        const currentReadiness =
+          current?.readiness.status === "loading"
+            ? current.readiness
+            : loadingMapReadiness();
+        const resolvedIds = new Set([
+          ...currentReadiness.renderedLayerIds,
+          ...currentReadiness.failedLayerIds,
+          ...currentReadiness.belowZoomLayerIds,
+        ]);
+        const timedOutLayerIds = requestedLayerIds.filter(
+          (id) => !resolvedIds.has(id),
+        );
+        if (timedOutLayerIds.length === 0) return current;
+        return {
+          token: attemptToken,
+          resolvedPosition: current?.resolvedPosition ?? null,
+          printIncomplete: current?.printIncomplete ?? false,
+          readiness: {
+            status: "error",
+            renderedLayerIds: currentReadiness.renderedLayerIds,
+            failedLayerIds: currentReadiness.failedLayerIds,
+            belowZoomLayerIds: currentReadiness.belowZoomLayerIds,
+            timedOutLayerIds,
+          },
+        };
+      });
+    }, MAP_TIMEOUT_MS);
+    return () => window.clearTimeout(timer);
+  }, [attemptToken, requestedLayerIds, snapshot]);
 
   useEffect(() => {
     let cancelled = false;
@@ -228,6 +281,13 @@ export function PrintPreview({
   const acceptMapReadiness = useCallback((token: string, readiness: PrintMapReadiness) => {
     setMapState((current) => {
       if (activeMapAttemptRef.current !== token) return current;
+      if (
+        current?.token === token &&
+        current.readiness.status === "error" &&
+        (current.readiness.timedOutLayerIds?.length ?? 0) > 0
+      ) {
+        return current;
+      }
       return {
         token,
         readiness,
@@ -264,6 +324,16 @@ export function PrintPreview({
       return { ...current, printIncomplete: true };
     });
   };
+  const timedOutLayerNames =
+    mapReadiness.status === "error"
+      ? (mapReadiness.timedOutLayerIds ?? []).map(
+          (id) =>
+            snapshot?.layerSources.find((source) => source.id === id)?.name ??
+            id,
+        )
+      : [];
+  const appendixAvailable = template === "research";
+  const aerialAvailable = capture.layerIds.includes("ns-aerial");
 
   const map = snapshot && bounds ? (
     <>
@@ -316,23 +386,35 @@ export function PrintPreview({
             <input
               type="checkbox"
               checked={includeAppendix}
+              disabled={!appendixAvailable}
               onChange={(event) => setIncludeAppendix(event.target.checked)}
             />
             Include evidence appendix
           </label>
+          {!appendixAvailable ? (
+            <p>Available for the Research summary only.</p>
+          ) : null}
           <label>
             <input
               type="checkbox"
               checked={includeAerial}
+              disabled={!aerialAvailable}
               onChange={(event) => setIncludeAerial(event.target.checked)}
             />
             Include aerial imagery
           </label>
+          {!aerialAvailable ? (
+            <p>Aerial imagery was not captured in this map state.</p>
+          ) : null}
           {!snapshot ? <p role="status">Waiting for research evidence to settle.</p> : null}
           {mapReadiness.status === "loading" && snapshot ? <p role="status">Preparing map preview.</p> : null}
           {mapReadiness.status === "error" ? (
             <div className="print-map-error" role="alert">
-              <p>One or more map layers failed to render.</p>
+              <p>
+                {timedOutLayerNames.length > 0
+                  ? `Timed out waiting for: ${timedOutLayerNames.join(", ")}.`
+                  : "One or more map layers failed to render."}
+              </p>
               <button type="button" onClick={retryMap}>Retry map</button>
               <button type="button" onClick={permitIncompletePrint}>Print incomplete map</button>
             </div>

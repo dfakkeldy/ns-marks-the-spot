@@ -2569,13 +2569,35 @@ a {
 }
 
 .print-research-map-frame {
+  position: relative;
   height: 78mm;
   margin-top: 5mm;
 }
 
 .print-field-map-frame {
+  position: relative;
   height: 105mm;
   margin-top: 3mm;
+}
+
+.print-north-indicator {
+  position: absolute;
+  top: 3mm;
+  right: 3mm;
+  z-index: 1000;
+  display: grid;
+  width: 10mm;
+  min-height: 14mm;
+  place-items: center;
+  padding: 1mm;
+  border: 0.75pt solid #111;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 10pt;
+  line-height: 1;
+}
+
+.print-north-indicator > span {
+  font-size: 18pt;
 }
 
 .print-field-page .print-field-map-frame {
@@ -2690,13 +2712,128 @@ a {
   list-style: none;
 }
 
+.print-active-layer-legend .print-map-symbol-key {
+  margin-bottom: 1mm;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .print-field-support .print-active-layer-legend ul {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .print-evidence-status-grid li,
 .print-active-layer-legend li {
+  justify-content: flex-start;
+  align-items: center;
   padding: 1pt 0;
+}
+
+.print-active-layer-legend li > span:last-child {
+  display: grid;
+  min-width: 0;
+}
+
+.print-layer-symbol {
+  display: inline-block;
+  flex: 0 0 9mm;
+  width: 9mm;
+  height: 4mm;
+  border: 1pt solid #111;
+  background: #e4e4e4;
+}
+
+.print-layer-symbol--nsprd {
+  border-width: 1.5pt;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f4f4f4 0,
+      #f4f4f4 2mm,
+      #aaa 2mm,
+      #aaa 2.5mm
+    );
+}
+
+.print-layer-symbol--selected-parcel {
+  border-width: 1.5pt;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f4f4f4 0,
+      #f4f4f4 2mm,
+      #999 2mm,
+      #999 2.6mm
+    );
+}
+
+.print-layer-symbol--current-tax-sale {
+  border-width: 1.5pt;
+  border-radius: 50%;
+  background: #f3f3f3;
+}
+
+.print-layer-symbol--historical-tax-sale {
+  border-width: 1.5pt;
+  border-style: dashed;
+  border-radius: 50%;
+  background: #777;
+}
+
+.print-layer-symbol--mineral-proximity-parcels {
+  border-style: dashed;
+  background: #ededed;
+}
+
+.print-layer-symbol--mineral-occurrences {
+  border-radius: 50%;
+  background: #eee;
+}
+
+.print-layer-symbol--abandoned-mines {
+  border-style: dotted;
+  background: #bdbdbd;
+}
+
+.print-layer-symbol--inverness-hydro-potential {
+  display: grid;
+  height: auto;
+  border: 0;
+  background: transparent;
+  gap: 0.35mm;
+}
+
+.print-hydro-class-sample {
+  display: block;
+  height: 0;
+  border-top: 0.75pt solid #222;
+}
+
+.print-hydro-class-sample--1 {
+  border-top-style: dotted;
+}
+
+.print-hydro-class-sample--2,
+.print-hydro-class-sample--3 {
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--4 {
+  border-top-width: 1pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--5 {
+  border-top-width: 1.25pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--6 {
+  border-top-width: 1.5pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--7 {
+  border-top-width: 1.75pt;
 }
 
 .print-scale {
@@ -2801,6 +2938,19 @@ a {
 
 .print-evidence-section {
   break-inside: avoid;
+}
+
+.print-evidence-provenance {
+  margin-top: 2mm;
+  padding: 2mm;
+  border-left: 1.5pt solid #777;
+  background: #f4f4f4;
+  font-size: 9pt;
+}
+
+.print-evidence-provenance p {
+  margin-bottom: 1pt;
+  overflow-wrap: anywhere;
 }
 
 .print-pattern-definitions {
