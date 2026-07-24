@@ -947,11 +947,19 @@ export function App() {
     setParcelLookupMessage(null);
   };
 
+  const requestParcelFocus = (pid: string) => {
+    setParcelFocusRequest((current) => ({
+      pid,
+      requestId: (current?.requestId ?? 0) + 1,
+    }));
+  };
+
   const identifyParcelAtPoint = async (
     latitude: number,
     longitude: number,
-    addressLabel?: string,
+    options?: { addressLabel?: string; focusOnSelect?: boolean },
   ) => {
+    const { addressLabel, focusOnSelect = false } = options ?? {};
     cancelAddressSearch();
     pointLookupController.current?.abort();
     const controller = new AbortController();
@@ -985,6 +993,9 @@ export function App() {
         setQuery(pid);
       }
       selectParcel(pid);
+      if (focusOnSelect) {
+        requestParcelFocus(pid);
+      }
       setParcelLookupMessage(`PID ${pid} selected.`);
     } catch (error: unknown) {
       if (error instanceof DOMException && error.name === "AbortError") {
@@ -1052,6 +1063,7 @@ export function App() {
 
     setQuery(pid);
     selectParcel(pid);
+    requestParcelFocus(pid);
 
     if (parcels.features.some(({ properties }) => properties.PID === pid)) {
       return;
@@ -1077,10 +1089,7 @@ export function App() {
     setSearchError(null);
     setQuery(pid);
     selectParcel(pid);
-    setParcelFocusRequest((current) => ({
-      pid,
-      requestId: (current?.requestId ?? 0) + 1,
-    }));
+    requestParcelFocus(pid);
 
     if (parcels.features.some(({ properties }) => properties.PID === pid)) {
       setParcelLookupMessage(`PID ${pid} selected.`);
@@ -1406,7 +1415,7 @@ export function App() {
                         void identifyParcelAtPoint(
                           address.coordinates[1],
                           address.coordinates[0],
-                          address.label,
+                          { addressLabel: address.label, focusOnSelect: true },
                         );
                       }}
                     >
