@@ -40,6 +40,12 @@ import {
   type ParcelAssessmentResult,
 } from "../services/pvscAssessments";
 import {
+  PVSC_DWELLING_DATASET_URL,
+  PVSC_DWELLING_SOURCE_DATE,
+  type PvscDwelling,
+  type PvscDwellingAccount,
+} from "../services/pvscDwellings";
+import {
   currency,
   eventDate,
   eventDateLabel,
@@ -73,6 +79,10 @@ export type BuildingCountState =
 export type AssessmentState =
   | { status: "idle" | "loading" | "error" }
   | { status: "ready"; value: ParcelAssessmentResult };
+
+export type DwellingState =
+  | { status: "idle" | "loading" | "error" | "blocked" }
+  | { status: "ready"; value: PvscDwellingAccount[] };
 
 function HistoricalOutcomeDetails({
   context,
@@ -218,6 +228,7 @@ export function ParcelInspector({
   mappedArea,
   buildingCount,
   assessmentState,
+  dwellingState,
   mappedContext,
   civicAddresses,
   historicalContexts,
@@ -237,6 +248,7 @@ export function ParcelInspector({
   mappedArea: MappedArea | null;
   buildingCount: BuildingCountState;
   assessmentState: AssessmentState;
+  dwellingState: DwellingState;
   mappedContext: ParcelContextState;
   civicAddresses: CivicAddressState;
   historicalContexts: HistoricalRecordContext[];
@@ -387,6 +399,7 @@ export function ParcelInspector({
         state={assessmentState}
         listingPids={listing?.pids ?? []}
       />
+      <DwellingDetails state={dwellingState} />
       {historicalContexts.length > 0 ? (
         <section className="historical-outcomes" aria-label="Historical tax-sale records">
           <h3>Historical tax-sale records</h3>
@@ -460,6 +473,93 @@ export function ParcelInspector({
         Open this exact map state
       </a>
     </aside>
+  );
+}
+
+function dwellingFactsLabel(dwelling: PvscDwelling): string {
+  return [
+    dwelling.style,
+    dwelling.squareFeetLivingArea !== null
+      ? `${dwelling.squareFeetLivingArea.toLocaleString("en-CA")} sq ft living area`
+      : null,
+    dwelling.livingUnits !== null
+      ? `${dwelling.livingUnits.toLocaleString("en-CA")} living unit${dwelling.livingUnits === 1 ? "" : "s"}`
+      : null,
+    dwelling.bathrooms !== null
+      ? `${dwelling.bathrooms.toLocaleString("en-CA")} bathroom${dwelling.bathrooms === 1 ? "" : "s"}`
+      : null,
+    dwelling.garage === null ? null : dwelling.garage ? "Garage" : "No garage",
+    dwelling.underConstruction ? "Under construction" : null,
+  ]
+    .filter((fact): fact is string => fact !== null)
+    .join(" · ");
+}
+
+function DwellingDetails({ state }: { state: DwellingState }) {
+  const accounts = state.status === "ready" ? state.value : [];
+
+  return (
+    <section className="assessment-evidence dwelling-evidence" aria-label="PVSC dwellings">
+      <h3>PVSC dwellings</h3>
+      {state.status === "idle" || state.status === "loading" ? (
+        <p className="assessment-status" role="status">
+          Checking PVSC residential dwelling data…
+        </p>
+      ) : state.status === "blocked" ? (
+        <p className="assessment-status" role="status">
+          Dwelling records were not looked up because the PVSC assessment
+          account lookup was unavailable.
+        </p>
+      ) : state.status === "error" ? (
+        <p className="assessment-status error" role="status">
+          PVSC dwelling data is unavailable. No absence is inferred.
+        </p>
+      ) : accounts.length === 0 ? (
+        <p className="assessment-status">
+          No residential dwelling record was returned for this parcel&apos;s
+          matched accounts. This does not prove no building exists — commercial
+          and other non-residential structures are not in this dataset.
+        </p>
+      ) : (
+        <>
+          <div className="assessment-accounts">
+            {accounts.map((account) => (
+              <article key={account.aan} className="assessment-account">
+                {accounts.length > 1 ? <h4>AAN {account.aan}</h4> : null}
+                <ul>
+                  {account.dwellings.map((dwelling, index) => (
+                    <li key={index}>
+                      <strong>
+                        {dwelling.yearBuilt !== null
+                          ? `Built ${dwelling.yearBuilt}`
+                          : "Build year not published"}
+                      </strong>
+                      <span>{dwellingFactsLabel(dwelling)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <p className="assessment-caveat">
+            Assessment dwelling records are fresher than aerial mapping but are
+            not a building census. Multi-unit parcels can repeat living-unit
+            totals across records, and records do not establish current
+            condition, occupancy, or permits.
+          </p>
+        </>
+      )}
+      <p className="assessment-source">
+        Source: <a href={PVSC_DWELLING_DATASET_URL} target="_blank" rel="noreferrer">
+          PVSC residential dwelling characteristics
+        </a>{" "}
+        · {PVSC_DWELLING_SOURCE_DATE}. {PVSC_OPEN_DATA_ATTRIBUTION}{" "}
+        <a href={PVSC_OPEN_DATA_LICENCE_URL} target="_blank" rel="noreferrer">
+          Licence
+        </a>
+        .
+      </p>
+    </section>
   );
 }
 

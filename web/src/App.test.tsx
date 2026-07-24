@@ -16,6 +16,7 @@ import { fetchParcelResourceIntersections } from "./services/parcelResources";
 import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
+import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -149,6 +150,14 @@ vi.mock("./services/pvscAssessments", async (importOriginal) => {
   };
 });
 
+vi.mock("./services/pvscDwellings", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./services/pvscDwellings")>();
+  return {
+    ...original,
+    fetchDwellingCharacteristics: vi.fn().mockResolvedValue([]),
+  };
+});
+
 vi.mock("./services/evidenceNote", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/evidenceNote")>();
   return {
@@ -241,6 +250,7 @@ describe("NS Marks The Spot Online", () => {
       matchMethod: "spatial",
       accounts: [],
     });
+    vi.mocked(fetchDwellingCharacteristics).mockResolvedValue([]);
     vi.mocked(buildEvidenceNote).mockClear();
     Object.defineProperty(URL, "createObjectURL", {
       configurable: true,
@@ -1286,6 +1296,173 @@ describe("NS Marks The Spot Online", () => {
     )).toBeInTheDocument();
   });
 
+  it("shows PVSC dwelling records for the matched account", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50319672")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "spatial",
+      accounts: [{
+        aan: "04165829",
+        records: [{
+          taxYear: 2026,
+          assessedValue: 150_000,
+          taxableAssessedValue: 120_000,
+          coordinates: [-61.470289, 45.812675],
+        }],
+      }],
+    });
+    vi.mocked(fetchDwellingCharacteristics).mockResolvedValueOnce([
+      {
+        aan: "04165829",
+        dwellings: [
+          {
+            yearBuilt: 2018,
+            style: "Manufactured Home",
+            squareFeetLivingArea: 1056,
+            livingUnits: 1,
+            bathrooms: 2,
+            garage: false,
+            underConstruction: false,
+          },
+          {
+            yearBuilt: 1962,
+            style: "1 Storey",
+            squareFeetLivingArea: 480,
+            livingUnits: 1,
+            bathrooms: 0,
+            garage: null,
+            underConstruction: null,
+          },
+        ],
+      },
+    ]);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "50319672",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50319672 details",
+    });
+    const dwellingSection = await within(inspector).findByRole("region", {
+      name: "PVSC dwellings",
+    });
+    expect(fetchDwellingCharacteristics).toHaveBeenCalledWith(
+      ["04165829"],
+      expect.any(AbortSignal),
+    );
+    expect(
+      await within(dwellingSection).findByText("Built 2018"),
+    ).toBeInTheDocument();
+    expect(
+      within(dwellingSection).getByText(
+        "Manufactured Home · 1,056 sq ft living area · 1 living unit · 2 bathrooms · No garage",
+      ),
+    ).toBeInTheDocument();
+    expect(within(dwellingSection).getByText("Built 1962")).toBeInTheDocument();
+    expect(
+      within(dwellingSection).getByText(
+        "1 Storey · 480 sq ft living area · 1 living unit · 0 bathrooms",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("reports dwelling source failure without hiding assessed values", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50319672")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "spatial",
+      accounts: [{
+        aan: "04165829",
+        records: [{
+          taxYear: 2026,
+          assessedValue: 150_000,
+          taxableAssessedValue: 120_000,
+          coordinates: [-61.470289, 45.812675],
+        }],
+      }],
+    });
+    vi.mocked(fetchDwellingCharacteristics).mockRejectedValueOnce(
+      new Error("dwelling source down"),
+    );
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "50319672",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50319672 details",
+    });
+    const dwellingSection = await within(inspector).findByRole("region", {
+      name: "PVSC dwellings",
+    });
+    expect(
+      await within(dwellingSection).findByText(
+        "PVSC dwelling data is unavailable. No absence is inferred.",
+      ),
+    ).toBeInTheDocument();
+    expect(within(inspector).getByText("AAN 04165829")).toBeInTheDocument();
+    expect(within(inspector).getByText("$150,000.00")).toBeInTheDocument();
+  });
+
+  it("bounds the claim when no dwelling record exists for the matched account", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50319672")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "spatial",
+      accounts: [{
+        aan: "04165829",
+        records: [{
+          taxYear: 2026,
+          assessedValue: 150_000,
+          taxableAssessedValue: 120_000,
+          coordinates: [-61.470289, 45.812675],
+        }],
+      }],
+    });
+    vi.mocked(fetchDwellingCharacteristics).mockResolvedValueOnce([]);
+    render(<App />);
+    await screen.findByText("1 PIDs matched in NSPRD.");
+
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "50319672",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50319672 details",
+    });
+    const dwellingSection = await within(inspector).findByRole("region", {
+      name: "PVSC dwellings",
+    });
+    expect(
+      await within(dwellingSection).findByText(
+        "No residential dwelling record was returned for this parcel's matched accounts. This does not prove no building exists — commercial and other non-residential structures are not in this dataset.",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("keeps multiple spatially matched assessment accounts separate", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -1801,12 +1978,14 @@ describe("NS Marks The Spot Online", () => {
       .spyOn(HTMLAnchorElement.prototype, "click")
       .mockImplementation(() => undefined);
     const assessments = deferred<Awaited<ReturnType<typeof fetchParcelAssessments>>>();
+    const dwellings = deferred<Awaited<ReturnType<typeof fetchDwellingCharacteristics>>>();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
     vi.mocked(fetchParcelAssessments).mockReturnValueOnce(assessments.promise);
+    vi.mocked(fetchDwellingCharacteristics).mockReturnValueOnce(dwellings.promise);
     render(<App />);
     await screen.findByText("1 PIDs matched in NSPRD.");
 
@@ -1835,6 +2014,13 @@ describe("NS Marks The Spot Online", () => {
       await assessments.promise;
     });
 
+    expect(exportButton).toBeDisabled();
+
+    await act(async () => {
+      dwellings.resolve([]);
+      await dwellings.promise;
+    });
+
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
     expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
@@ -1842,6 +2028,7 @@ describe("NS Marks The Spot Online", () => {
         status: "ready",
         result: expect.objectContaining({ matchMethod: "spatial" }),
       }),
+      dwellingEvidence: expect.objectContaining({ status: "ready" }),
     }));
     anchorClick.mockRestore();
   });
