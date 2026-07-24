@@ -85,3 +85,46 @@ The following remain pending in
 - actual browser-geolocation permission and privacy acceptance.
 
 No hosted-CI, merge, deployment, or production-availability claim is made.
+
+## Final re-review fix pass
+
+Source findings: `.superpowers/sdd/final-rereview-findings.md`
+
+Implementation commit:
+`c301cd76413c1fa0322d188e47d1ab7a316ea826`
+
+| Re-review item | Implemented outcome | Focused evidence |
+|---|---|---|
+| Important — restore interactive ArcGIS recovery | Interactive province and resource tile layers now recover from an earlier tile error after a later successful load. Print-mode physical sublayer errors remain sticky and aggregated, so one failed print sublayer cannot be overwritten by a late load. | `MapCanvas.test.tsx` covers recovery for the two-sublayer Roads layer and the single-sublayer Mineral Tenure resource; the existing print-mode Roads regression continues to cover sticky aggregation. |
+| Important — use actual monochrome legend samples | Every printable rendered-layer category now has an explicit, distinct monochrome treatment tied to a semantic `data-symbol-kind`. Samples represent basemap grid/tone, parcel and study boundaries, points, lines/corridors, building footprints, hatches, hydro classes, river bands, and the three coastal scenarios. Current/historical tax-sale, selected parcel, mineral-proximity, and hydro treatments remain preserved. | `PrintDocuments.test.tsx` requires a unique semantic kind for every printable layer and checks representative layer meanings. `styles.test.ts` requires an explicit, distinct CSS treatment for every layer ID. |
+| Important — bound empty building evidence | A valid zero result now says “No mapped building feature returned.” A nonzero result retains exact total, point, and polygon counts with correct singular/plural wording. Pending and error states remain unavailable rather than empty. | `PrintDocuments.test.tsx` covers exact zero and nonzero wording. |
+| Minor — refresh the automated ledger | The automated ledger now records the final 322-pass receipt, explicitly marks the 303-test receipt as pre-fix, and retains the reviewed 316-test intermediate receipt. | `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`; no pending manual row was changed. |
+
+### Re-review TDD receipt
+
+The first focused RED run reported five expected failures with 60 passing
+tests. A dedicated RED run then confirmed the single-sublayer interactive
+resource recovery regression. After the production changes, the complete
+focused set passed:
+
+```text
+Test files: 3 passed
+Tests: 66 passed
+```
+
+### Re-review final automated gates
+
+Run from `web/` on the exact implementation committed above:
+
+| Command | Result |
+|---|---|
+| `npm test` | Pass — 36 files passed, 1 intentional live-service file skipped; 322 tests passed, 1 skipped |
+| `npm run lint` | Pass — no errors or warnings |
+| `npm run build` | Pass — TypeScript and Vite production build completed |
+| `git diff --check` | Pass — no whitespace errors |
+
+Vite retained its existing advisory for chunks larger than 500 kB. The
+automated gates do not satisfy the pending pagination, Safari, saved-PDF, QR,
+AirPrint, physical monochrome, or actual browser-geolocation checks. No pending
+manual row was altered, and no hosted-CI, merge, deployment, or
+production-availability claim is made.
