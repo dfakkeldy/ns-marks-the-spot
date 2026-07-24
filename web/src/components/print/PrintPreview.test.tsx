@@ -139,6 +139,9 @@ describe("PrintPreview", () => {
     render(<PrintPreview capture={capture()} baseUrl="https://example.com/map/" onClose={onClose} />);
 
     expect(screen.getByLabelText("Document template")).toHaveValue("research");
+    expect(document.querySelector("[data-print-page-style]")).toHaveTextContent(
+      "@page { size: letter portrait; margin: 10mm; }",
+    );
     expect(screen.getByLabelText("Include evidence appendix")).toBeChecked();
     expect(screen.getByLabelText("Include aerial imagery")).not.toBeChecked();
     expect(screen.getByLabelText("Include aerial imagery")).toBeDisabled();
@@ -150,6 +153,9 @@ describe("PrintPreview", () => {
 
     await user.selectOptions(screen.getByLabelText("Document template"), "field");
 
+    expect(document.querySelector("[data-print-page-style]")).toHaveTextContent(
+      "@page { size: letter landscape; margin: 10mm; }",
+    );
     expect(screen.getByLabelText("Include evidence appendix")).toBeDisabled();
     expect(screen.getByText("Available for the Research summary only.")).toBeInTheDocument();
   });

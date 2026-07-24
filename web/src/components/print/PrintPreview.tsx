@@ -356,6 +356,9 @@ export function PrintPreview({
 
   return (
     <div className="print-preview-backdrop">
+      <style data-print-page-style>
+        {`@page { size: letter ${template === "field" ? "landscape" : "portrait"}; margin: 10mm; }`}
+      </style>
       <div
         className="print-preview-dialog"
         role="dialog"

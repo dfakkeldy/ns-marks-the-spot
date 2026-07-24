@@ -2566,16 +2566,6 @@ a {
   display: none;
 }
 
-@page research-sheet {
-  size: letter portrait;
-  margin: 10mm;
-}
-
-@page field-sheet {
-  size: letter landscape;
-  margin: 10mm;
-}
-
 .print-preview {
   display: grid;
   gap: 24px;
@@ -2709,30 +2699,29 @@ a {
 }
 
 .print-research-summary {
-  page: research-sheet;
-  width: 195.9mm;
-  height: 259.4mm;
+  /* Leave sub-millimetre slack for CSS-mm to PDF-point rounding. */
+  width: 195.5mm;
+  height: 259mm;
   padding: 8mm 10mm;
   display: grid;
   /* Header, context, map, support, limitation, and receipt have fixed budgets. */
-  grid-template-rows: 17mm 12mm 68mm minmax(70mm, 1fr) 11mm 20mm;
+  grid-template-rows: 17mm 12mm 32mm minmax(70mm, 1fr) 11mm 20mm;
   gap: 1.5mm;
 }
 
 .print-evidence-page {
-  page: research-sheet;
   width: 195.9mm;
   min-height: 259.4mm;
 }
 
 .print-field-page {
-  page: field-sheet;
-  width: 259.4mm;
-  height: 195.9mm;
+  /* Exact theoretical dimensions can otherwise create an overflow page. */
+  width: 259mm;
+  height: 195.5mm;
   padding: 8mm 10mm;
   display: grid;
   /* The finite layer catalog is compacted into four support columns. */
-  grid-template-rows: 17mm 12mm 62mm minmax(42mm, 1fr) 11mm 20mm;
+  grid-template-rows: 17mm 12mm 42mm minmax(62mm, 1fr) 11mm 20mm;
   gap: 1.5mm;
 }
 
@@ -2895,7 +2884,7 @@ a {
 .print-research-support {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2mm 4mm;
+  gap: 1mm 4mm;
   min-height: 0;
 }
 
@@ -3430,6 +3419,19 @@ a {
   overflow-wrap: anywhere;
 }
 
+.print-research-summary .print-attribution-links {
+  display: block;
+  line-height: 1.15;
+}
+
+.print-research-summary .print-attribution-links li {
+  display: inline;
+}
+
+.print-research-summary .print-attribution-links li:not(:last-child)::after {
+  content: "; ";
+}
+
 .print-field-support .print-attribution-links {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -3455,11 +3457,11 @@ a {
   font-size: 9pt;
 }
 
-.print-qr,
-.print-qr svg {
+.print-qr {
   display: block;
   width: 18mm;
   height: 18mm;
+  overflow: hidden;
 }
 
 .print-qr-fallback {
@@ -3545,10 +3547,9 @@ a {
   .print-page {
     margin: 0;
     box-shadow: none;
-    break-after: page;
   }
 
-  .print-page:last-child {
-    break-after: auto;
+  .print-page:not(:last-child) {
+    break-after: page;
   }
 }
