@@ -56,33 +56,42 @@ import {
 } from "../services/taxSaleFormat";
 import { viewpointParcelUrl } from "../services/viewpoint";
 
+export type SelectedEvidenceRequest = { pid: string; generation: number };
+
 export type ParcelContextState =
-  | { status: "idle" | "loading" | "error"; value: ParcelContext }
-  | { status: "ready"; value: ParcelContext };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error"; value: ParcelContext }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelContext };
 
 export type CivicAddressState =
-  | { status: "idle" | "loading" | "error"; value: CivicAddress[] }
-  | { status: "ready"; value: CivicAddress[] };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error"; value: CivicAddress[] }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: CivicAddress[] };
 
 export type ParcelResourceState =
-  | { status: "idle" | "loading"; value: ParcelResourceIntersections }
-  | { status: "ready"; value: ParcelResourceIntersections };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading"; value: ParcelResourceIntersections }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelResourceIntersections };
 
 export type FloodHazardState =
-  | { status: "idle" | "loading" }
-  | { status: "ready"; value: ParcelFloodHazardEvidence };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelFloodHazardEvidence };
 
 export type BuildingCountState =
-  | { status: "idle" | "loading" | "error" }
-  | { status: "ready"; value: ParcelBuildingCount };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelBuildingCount };
 
 export type AssessmentState =
-  | { status: "idle" | "loading" | "error" }
-  | { status: "ready"; value: ParcelAssessmentResult };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelAssessmentResult };
 
 export type DwellingState =
-  | { status: "idle" | "loading" | "error" | "blocked" }
-  | { status: "ready"; value: PvscDwellingAccount[] };
+  | {
+      request: SelectedEvidenceRequest | null;
+      status: "idle" | "loading" | "error" | "blocked";
+    }
+  | {
+      request: SelectedEvidenceRequest;
+      status: "ready";
+      value: PvscDwellingAccount[];
+    };
 
 function HistoricalOutcomeDetails({
   context,
@@ -239,6 +248,8 @@ export function ParcelInspector({
   shareMessage,
   onCopyShareUrl,
   onExportEvidence,
+  onPrintExport,
+  canPrintExport,
   evidenceReady,
   now,
   onClose,
@@ -259,6 +270,8 @@ export function ParcelInspector({
   shareMessage: string | null;
   onCopyShareUrl: () => void;
   onExportEvidence: () => void;
+  onPrintExport: () => void;
+  canPrintExport: boolean;
   evidenceReady: boolean;
   now: number;
   onClose: () => void;
@@ -465,6 +478,11 @@ export function ParcelInspector({
         >
           Export evidence note
         </button>
+        {canPrintExport ? (
+          <button className="secondary-action" type="button" onClick={onPrintExport}>
+            Print / export
+          </button>
+        ) : null}
       </div>
       <p className="share-status" role="status" aria-live="polite">
         {shareMessage}

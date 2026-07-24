@@ -87,6 +87,62 @@ All money is stored as integer cents. PIDs and AANs are strings. CBRM's
 "Immediate deed" value is displayed as a municipal category; it is not a claim
 of immediate possession, guaranteed access, clear title, or buildability.
 
+## Print and Save as PDF
+
+The selected parcel sheet exposes **Print / export** only after an exact PID has
+resolved to parcel geometry and the Province restricted-services licence is
+accepted. It opens an accessible browser preview with two monochrome US Letter
+templates:
+
+- **Research summary** is portrait. Its map fits the complete selected parcel,
+  its first page summarizes the PID, mapped facts, evidence status, active
+  layers, limitations, sources, and receipt, and an optional appendix prints
+  the captured evidence without converting unavailable data into a zero.
+- **Field sheet** is one landscape page. It preserves the complete geographic
+  bounds frozen from the live map when the preview opened, rather than
+  refitting only the selected parcel.
+
+This is a hybrid extent rule: research output is parcel-complete, while field
+output is viewport-complete. Each preview uses a sealed snapshot of the
+selected PID, mode, event IDs, parcel geometry, enabled layers, map extent, and
+matching evidence request. Later map movement, PID changes, or stale evidence
+responses cannot silently rewrite an open preview.
+
+Print maps are grayscale with line, weight, and hatch distinctions that do not
+depend on colour. Aerial imagery is excluded by default and can be deliberately
+included. Layers unavailable at the fitted print zoom are named as not rendered;
+a failed layer blocks ordinary printing until it is retried or the user
+deliberately chooses an incomplete print, which keeps a warning in the output.
+Research evidence preserves separate returned, empty, outside-coverage,
+below-zoom, unavailable, and timeout meanings. In particular, an unavailable
+source is never presented as an empty result or proof of absence.
+
+The **Print / Save PDF** action invokes the browser's print dialog. There is no
+direct PDF/PNG generator, canvas capture, raw geometry download, tile archive,
+or bulk data export. OpenStreetMap and ArcGIS images stay browser-rendered in a
+display-only, non-interactive Leaflet map. The output includes a locally
+generated QR code plus the complete written map-state URL; the written URL is
+the required fallback if QR generation fails. It identifies the printed PID,
+mode, events, actually rendered layers, and derived print position.
+
+Attribution follows the material actually rendered or reported:
+
+- Province restricted-service layers retain the required Province attribution,
+  licence link, and not-a-survey boundary;
+- Nova Scotia open-data layers and Civic Address evidence retain the Open
+  Government Licence attribution;
+- PVSC assessment and dwelling evidence retain the PVSC open-data attribution
+  and licence;
+  and
+- the modern map retains © OpenStreetMap contributors and its copyright link.
+
+The capture excludes owner names, private notes, uploads, and raw source data.
+Browser geolocation remains local to the interactive map: its marker, accuracy
+circle, and raw coordinates are not rendered or copied into print state.
+Location-triggered map movement is suppressed from the printable viewport.
+The receipt's latitude, longitude, and zoom describe the derived printed map
+position, not a browser-location reading.
+
 ## Native layer parity
 
 The web catalog mirrors the native source URLs and rendering restrictions while

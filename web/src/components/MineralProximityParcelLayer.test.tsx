@@ -156,6 +156,31 @@ describe("MineralProximityParcelLayer", () => {
     expect(onSelectPid).toHaveBeenCalledWith("90000001");
   });
 
+  it("uses a monochrome, display-only geometry in print mode", async () => {
+    mapMock.getZoom.mockReturnValue(12);
+    render(
+      <MineralProximityParcelLayer
+        visible
+        renderMode="print"
+        onSelectPid={vi.fn()}
+      />,
+    );
+
+    await waitFor(() => expect(geoJsonProps.current).toBeDefined());
+    expect(geoJsonProps.current).toMatchObject({
+      interactive: false,
+      style: {
+        color: "#222222",
+        fillColor: "#e6e6e6",
+        fillOpacity: 0.28,
+        weight: 2,
+        dashArray: "2 3 8 3",
+        className: "print-mineral-proximity-parcel",
+      },
+    });
+    expect(geoJsonProps.current?.onEachFeature).toBeUndefined();
+  });
+
   it("reports ready for an empty result", async () => {
     const onStatusChange = vi.fn();
     mapMock.getZoom.mockReturnValue(12);

@@ -2259,3 +2259,902 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+.print-map {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #222;
+}
+
+.print-map .leaflet-tile {
+  filter: grayscale(1) contrast(1.18);
+}
+
+.print-map .print-layer-ns-aerial {
+  filter: grayscale(1) contrast(1.35) brightness(1.08);
+}
+
+.print-selected-parcel {
+  fill: url("#print-selected-parcel-hatch");
+}
+
+.print-map .leaflet-control-container,
+.print-map .location-button,
+.print-map .location-message {
+  display: none;
+}
+
+@page research-sheet {
+  size: letter portrait;
+  margin: 10mm;
+}
+
+@page field-sheet {
+  size: letter landscape;
+  margin: 10mm;
+}
+
+.print-preview {
+  display: grid;
+  gap: 24px;
+  padding: 24px;
+  overflow: auto;
+  background: #d7dcdd;
+}
+
+.print-preview-backdrop {
+  position: fixed;
+  z-index: 3000;
+  inset: 0;
+  display: grid;
+  overflow: auto;
+  background: rgb(10 20 22 / 72%);
+  animation: print-preview-fade-in 160ms ease-out;
+}
+
+.print-preview-dialog {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 100%;
+  background: #d7dcdd;
+}
+
+.print-preview-controls {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px;
+  color: #fff;
+  background: var(--deep-water);
+}
+
+.print-preview-controls h2 {
+  margin: 0 0 8px;
+}
+
+.print-preview-controls label {
+  display: grid;
+  gap: 6px;
+}
+
+.print-preview-controls select,
+.print-preview-controls button {
+  min-height: 44px;
+}
+
+.print-preview-controls input[type="checkbox"] {
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.print-preview-controls label:has(input[type="checkbox"]) {
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  min-height: 44px;
+}
+
+.print-map-error {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  color: #251100;
+  background: #ffd8aa;
+}
+
+.print-map-error p {
+  margin: 0;
+}
+
+.print-preview-stage {
+  min-width: 0;
+  padding: 24px;
+  overflow: auto;
+}
+
+.print-preview-stage > .print-document {
+  width: max-content;
+  margin: 0 auto;
+}
+
+.print-preview-placeholder {
+  margin: 0;
+}
+
+.print-incomplete-map-warning {
+  margin: 2mm 0 0;
+  color: #7a1f00;
+  font-size: 9pt;
+  font-weight: 700;
+}
+
+@keyframes print-preview-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 860px) {
+  .print-preview-dialog {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .print-preview-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .print-preview-controls h2,
+  .print-preview-controls [role="status"],
+  .print-preview-controls .print-map-error {
+    grid-column: 1 / -1;
+  }
+
+  .print-preview-stage {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .print-preview-backdrop {
+    animation: none;
+  }
+}
+
+.print-page {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
+}
+
+.print-research-summary {
+  page: research-sheet;
+  width: 195.9mm;
+  height: 259.4mm;
+  padding: 8mm 10mm;
+  display: grid;
+  /* Header, context, map, support, limitation, and receipt have fixed budgets. */
+  grid-template-rows: 17mm 12mm 68mm minmax(70mm, 1fr) 11mm 20mm;
+  gap: 1.5mm;
+}
+
+.print-evidence-page {
+  page: research-sheet;
+  width: 195.9mm;
+  min-height: 259.4mm;
+}
+
+.print-field-page {
+  page: field-sheet;
+  width: 259.4mm;
+  height: 195.9mm;
+  padding: 8mm 10mm;
+  display: grid;
+  /* The finite layer catalog is compacted into four support columns. */
+  grid-template-rows: 17mm 12mm 62mm minmax(42mm, 1fr) 11mm 20mm;
+  gap: 1.5mm;
+}
+
+.print-document {
+  color: #000;
+  background: #fff;
+  font-size: 9pt;
+  line-height: 1.35;
+}
+
+.print-document h1,
+.print-document h2,
+.print-document h3,
+.print-document p {
+  margin-top: 0;
+}
+
+.print-header,
+.print-appendix-header,
+.print-capture-context,
+.print-research-map-frame,
+.print-field-map-frame,
+.print-fact-grid,
+.print-evidence-status-grid,
+.print-active-layer-legend,
+.print-scale,
+.print-required-attribution,
+.print-general-limitations,
+.print-scale-omission,
+.print-map-failure,
+.print-receipt,
+.print-evidence-section {
+  margin-right: 10mm;
+  margin-left: 10mm;
+}
+
+.print-field-page > .print-header,
+.print-field-page > .print-capture-context,
+.print-field-page > .print-field-map-frame,
+.print-field-page > .print-field-support,
+.print-field-page > .print-general-limitations,
+.print-field-page > .print-receipt {
+  margin: 0;
+}
+
+.print-research-summary > .print-header,
+.print-research-summary > .print-capture-context,
+.print-research-summary > .print-research-map-frame,
+.print-research-summary > .print-research-support,
+.print-research-summary > .print-general-limitations,
+.print-research-summary > .print-receipt {
+  margin: 0;
+}
+
+.print-header,
+.print-appendix-header,
+.print-receipt,
+.print-scale,
+.print-evidence-status-grid li,
+.print-active-layer-legend li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8pt;
+}
+
+.print-header {
+  padding-top: 10mm;
+  border-bottom: 0.5pt solid #000;
+}
+
+.print-field-page .print-header,
+.print-research-summary .print-header {
+  min-height: 0;
+  padding-top: 0;
+}
+
+.print-header h1,
+.print-appendix-header h2 {
+  margin-bottom: 3pt;
+  font-size: 16pt;
+}
+
+.print-header > p,
+.print-appendix-header > p,
+.print-kicker,
+.print-capture-context,
+.print-active-layer-legend span,
+.print-evidence-status-grid span,
+.print-required-attribution,
+.print-scale-omission,
+.print-general-limitations {
+  font-size: 9pt;
+}
+
+.print-capture-context {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2mm;
+  align-items: start;
+}
+
+.print-event-context {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1pt 4pt;
+}
+
+.print-kicker {
+  margin-bottom: 1pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-research-map-frame {
+  position: relative;
+  height: 78mm;
+  margin-top: 5mm;
+}
+
+.print-field-map-frame {
+  position: relative;
+  height: 105mm;
+  margin-top: 3mm;
+}
+
+.print-north-indicator {
+  position: absolute;
+  top: 3mm;
+  right: 3mm;
+  z-index: 1000;
+  display: grid;
+  width: 10mm;
+  min-height: 14mm;
+  place-items: center;
+  padding: 1mm;
+  border: 0.75pt solid #111;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 10pt;
+  line-height: 1;
+}
+
+.print-north-indicator > span {
+  font-size: 18pt;
+}
+
+.print-field-page .print-field-map-frame {
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.print-research-summary .print-research-map-frame {
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.print-research-support {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2mm 4mm;
+  min-height: 0;
+}
+
+.print-research-support .print-fact-grid,
+.print-research-support .print-evidence-status-grid,
+.print-research-support .print-active-layer-legend,
+.print-research-support .print-research-details,
+.print-research-support .print-required-attribution,
+.print-research-support .print-scale,
+.print-research-support .print-scale-omission,
+.print-research-support .print-map-failure {
+  margin: 0;
+}
+
+.print-research-support .print-active-layer-legend,
+.print-research-support .print-required-attribution {
+  grid-column: 1 / -1;
+}
+
+.print-research-details {
+  display: grid;
+  align-content: start;
+  gap: 2mm;
+}
+
+.print-field-support {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4mm;
+  min-height: 0;
+}
+
+.print-field-support .print-active-layer-legend,
+.print-field-support .print-field-details,
+.print-field-support .print-scale,
+.print-field-support .print-required-attribution,
+.print-field-support .print-scale-omission,
+.print-field-support .print-map-failure {
+  margin: 0;
+}
+
+.print-field-details {
+  display: grid;
+  align-content: start;
+  gap: 2mm;
+}
+
+.print-fact-grid dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4pt;
+  margin: 4mm 0;
+}
+
+.print-fact-grid div {
+  padding: 3pt;
+  border: 0.5pt solid #777;
+}
+
+.print-fact-grid dt,
+.print-fact-grid dd {
+  margin: 0;
+}
+
+.print-fact-grid dt,
+.print-evidence-status-grid strong,
+.print-active-layer-legend strong {
+  font-weight: 700;
+}
+
+.print-evidence-status-grid,
+.print-active-layer-legend {
+  margin-top: 3mm;
+}
+
+.print-evidence-status-grid h2,
+.print-active-layer-legend h2 {
+  margin-bottom: 2pt;
+  font-size: 10pt;
+}
+
+.print-evidence-status-grid ul,
+.print-active-layer-legend ul,
+.print-evidence-section ul {
+  margin: 0;
+  padding-left: 14pt;
+}
+
+.print-active-layer-legend ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1pt 6pt;
+  padding-left: 0;
+  list-style: none;
+}
+
+.print-active-layer-legend .print-map-symbol-key {
+  margin-bottom: 1mm;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.print-field-support .print-active-layer-legend ul {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.print-evidence-status-grid li,
+.print-active-layer-legend li {
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1pt 0;
+}
+
+.print-active-layer-legend li > span:last-child {
+  display: grid;
+  min-width: 0;
+}
+
+.print-layer-symbol {
+  display: inline-block;
+  flex: 0 0 9mm;
+  width: 9mm;
+  height: 4mm;
+  border: 1pt solid #111;
+  background: #e4e4e4;
+}
+
+.print-layer-symbol--modern {
+  border: 1pt solid #444;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #fafafa 0,
+      #fafafa 1mm,
+      #aaa 1mm,
+      #aaa 1.25mm
+    );
+}
+
+.print-layer-symbol--ns-aerial {
+  border: 1pt solid #333;
+  background: linear-gradient(135deg, #fafafa 0%, #aaa 48%, #555 100%);
+}
+
+.print-layer-symbol--nsprd {
+  border: 1pt solid #777;
+  background: #fff;
+}
+
+.print-layer-symbol--crown-lands {
+  border: 1.25pt solid #222;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0,
+      transparent 1.5mm,
+      #777 1.5mm,
+      #777 1.75mm
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      #f6f6f6 0,
+      #f6f6f6 1.5mm,
+      #aaa 1.5mm,
+      #aaa 1.75mm
+    );
+}
+
+.print-layer-symbol--flood-risk {
+  border: 2pt double #333;
+  background: #f7f7f7;
+}
+
+.print-layer-symbol--waterfalls {
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 50%, #222 0 1.4mm, #fff 1.5mm 2mm, transparent 2.1mm);
+}
+
+.print-layer-symbol--water-features {
+  border: 0;
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      transparent 0,
+      transparent 1.2mm,
+      #333 1.2mm,
+      #333 1.55mm
+    );
+}
+
+.print-layer-symbol--roads {
+  border: 0;
+  background:
+    linear-gradient(
+      0deg,
+      transparent 0 35%,
+      #333 35% 46%,
+      #fff 46% 54%,
+      #333 54% 65%,
+      transparent 65% 100%
+    );
+}
+
+.print-layer-symbol--buildings {
+  border: 1pt solid #555;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #222 0,
+      #222 1.8mm,
+      #fff 1.8mm,
+      #fff 3.4mm
+    );
+}
+
+.print-layer-symbol--contours {
+  border: 0;
+  background:
+    repeating-linear-gradient(
+      -8deg,
+      transparent 0,
+      transparent 0.8mm,
+      #555 0.8mm,
+      #555 0.95mm,
+      transparent 0.95mm,
+      transparent 1.8mm
+    );
+}
+
+.print-layer-symbol--selected-parcel {
+  border-width: 1.5pt;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f4f4f4 0,
+      #f4f4f4 2mm,
+      #999 2mm,
+      #999 2.6mm
+    );
+}
+
+.print-layer-symbol--current-tax-sale {
+  border-width: 1.5pt;
+  border-radius: 50%;
+  background: #f3f3f3;
+}
+
+.print-layer-symbol--historical-tax-sale {
+  border-width: 1.5pt;
+  border-style: dashed;
+  border-radius: 50%;
+  background: #777;
+}
+
+.print-layer-symbol--mineral-proximity-parcels {
+  border: 1.5pt dashed #222;
+  background: #ededed;
+}
+
+.print-layer-symbol--mineral-occurrences {
+  border: 1pt solid #111;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.print-layer-symbol--mineral-tenure {
+  border: 1.25pt solid #444;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #f5f5f5 0,
+      #f5f5f5 1mm,
+      #777 1mm,
+      #777 1.3mm
+    );
+}
+
+.print-layer-symbol--abandoned-mines {
+  border: 2pt dotted #111;
+  border-radius: 50%;
+  background: #bdbdbd;
+}
+
+.print-layer-symbol--inverness-hydro-potential {
+  display: grid;
+  height: auto;
+  border: 0;
+  background: transparent;
+  gap: 0.35mm;
+}
+
+.print-layer-symbol--published-river-flood-zones {
+  border: 1.5pt dashed #222;
+  background:
+    linear-gradient(
+      90deg,
+      #f7f7f7 0 34%,
+      #aaa 34% 67%,
+      #555 67% 100%
+    );
+}
+
+.print-layer-symbol--coastal-flood-current {
+  border: 1pt solid #555;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #f8f8f8 0,
+      #f8f8f8 1.3mm,
+      #cfcfcf 1.3mm,
+      #cfcfcf 2.6mm
+    );
+}
+
+.print-layer-symbol--coastal-flood-2050 {
+  border: 1.25pt dashed #444;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #eee 0,
+      #eee 1.1mm,
+      #999 1.1mm,
+      #999 2.2mm
+    );
+}
+
+.print-layer-symbol--coastal-flood-2100 {
+  border: 1.5pt double #222;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      #ccc 0,
+      #ccc 1mm,
+      #555 1mm,
+      #555 2mm
+    );
+}
+
+.print-hydro-class-sample {
+  display: block;
+  height: 0;
+  border-top: 0.75pt solid #222;
+}
+
+.print-hydro-class-sample--1 {
+  border-top-style: dotted;
+}
+
+.print-hydro-class-sample--2,
+.print-hydro-class-sample--3 {
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--4 {
+  border-top-width: 1pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--5 {
+  border-top-width: 1.25pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--6 {
+  border-top-width: 1.5pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--7 {
+  border-top-width: 1.75pt;
+}
+
+.print-scale {
+  justify-content: flex-start;
+  margin-top: 3mm;
+}
+
+.print-scale-bar {
+  display: inline-block;
+  max-width: 90mm;
+  height: 4pt;
+  border: 0.75pt solid #000;
+  border-top-width: 0;
+}
+
+.print-required-attribution,
+.print-general-limitations,
+.print-scale-omission,
+.print-map-failure {
+  margin-top: 3mm;
+  margin-bottom: 0;
+}
+
+.print-required-attribution {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1pt 4pt;
+  align-content: start;
+}
+
+.print-required-attribution p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.print-attribution-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2pt 6pt;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-column: 1 / -1;
+}
+
+.print-attribution-links li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.print-field-support .print-attribution-links {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.print-receipt {
+  align-items: center;
+  margin-top: 3mm;
+  padding-bottom: 8mm;
+  border-top: 0.5pt solid #000;
+}
+
+.print-field-page .print-receipt,
+.print-research-summary .print-receipt {
+  min-height: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+.print-share-url {
+  max-width: 145mm;
+  overflow-wrap: anywhere;
+  color: #000;
+  font-size: 9pt;
+}
+
+.print-qr,
+.print-qr svg {
+  display: block;
+  width: 18mm;
+  height: 18mm;
+}
+
+.print-qr-fallback {
+  min-width: 18mm;
+  font-size: 9pt;
+  text-align: center;
+}
+
+.print-appendix-header {
+  padding-top: 10mm;
+  border-bottom: 0.5pt solid #000;
+}
+
+.print-evidence-section {
+  margin-top: 5mm;
+}
+
+.print-evidence-section h3 {
+  margin-bottom: 2pt;
+  font-size: 10pt;
+}
+
+.print-evidence-section {
+  break-inside: avoid;
+}
+
+.print-evidence-provenance {
+  margin-top: 2mm;
+  padding: 2mm;
+  border-left: 1.5pt solid #777;
+  background: #f4f4f4;
+  font-size: 9pt;
+}
+
+.print-evidence-provenance p {
+  margin-bottom: 1pt;
+  overflow-wrap: anywhere;
+}
+
+.print-pattern-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@media print {
+  body.print-preview-open .app-shell {
+    display: none !important;
+  }
+
+  .print-preview-controls,
+  .print-document--inactive {
+    display: none !important;
+  }
+
+  .print-preview {
+    position: static;
+    overflow: visible;
+    padding: 0;
+    background: #fff;
+  }
+
+  .print-preview-backdrop {
+    position: static;
+    display: block;
+    overflow: visible;
+    background: #fff;
+    animation: none;
+  }
+
+  .print-preview-dialog {
+    display: block;
+    min-height: 0;
+    background: #fff;
+  }
+
+  .print-preview-stage {
+    padding: 0;
+    overflow: visible;
+  }
+
+  .print-page {
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+
+  .print-page:last-child {
+    break-after: auto;
+  }
+}

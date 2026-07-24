@@ -32,6 +32,7 @@ import {
   type ParcelContextState,
   type ParcelResourceState,
 } from "./components/ParcelInspector";
+import { PrintPreview } from "./components/print/PrintPreview";
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
   advertisedPidsForEvents,
@@ -73,6 +74,8 @@ import {
 } from "./layers/layerCatalog";
 import {
   CIVIC_ADDRESS_DATASET_URL,
+  OPEN_GOVERNMENT_ATTRIBUTION,
+  OPEN_GOVERNMENT_LICENCE_URL,
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
@@ -95,21 +98,38 @@ import {
   buildMapShareUrl,
   parseMapShareState,
   type MapMode,
-  type MapPosition,
   type ShareLayerId,
 } from "./services/mapShareState";
 import {
   fetchParcelResourceIntersections,
   type ParcelResourceIntersections,
 } from "./services/parcelResources";
-import { fetchParcelBuildingCount } from "./services/buildings";
-import { fetchParcelAssessments } from "./services/pvscAssessments";
-import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
+import {
+  fetchParcelBuildingCount,
+} from "./services/buildings";
+import {
+  fetchParcelAssessments,
+} from "./services/pvscAssessments";
+import {
+  fetchDwellingCharacteristics,
+  type PvscDwellingAccount,
+} from "./services/pvscDwellings";
 import {
   eventDate,
   eventDateLabel,
   eventLifecycleLabel,
+  historicalSaleMethodLabel,
 } from "./services/taxSaleFormat";
+import {
+  startPrintCapture,
+  updatePrintCaptureEvidence,
+  type PrintCapture,
+  type PrintEvidence,
+  type PrintEvent,
+  type PrintLayerSource,
+  type PrintLoadState,
+  type PrintMapViewport,
+} from "./services/printSnapshot";
 
 const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
 
@@ -123,6 +143,15 @@ const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
   features: [],
 };
+
+type SelectedEvidenceRequest = { pid: string; generation: number };
+
+function isCurrentEvidenceRequest(
+  current: SelectedEvidenceRequest | null,
+  expected: SelectedEvidenceRequest,
+) {
+  return current?.pid === expected.pid && current.generation === expected.generation;
+}
 
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
 const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
@@ -236,6 +265,155 @@ function mergeFeatureCollections(
     ],
   };
 }
+
+function printState<T>(
+  state:
+    | { status: "idle" | "loading" }
+    | { status: "ready"; value: T }
+    | { status: "error" },
+): PrintLoadState<T> {
+  if (state.status === "ready") return { status: "ready", value: state.value };
+  if (state.status === "error") {
+    return { status: "error", message: "Source unavailable at export time." };
+  }
+  return { status: "pending" };
+}
+
+function printStateForRequest<T>(
+  state: { request: SelectedEvidenceRequest | null } & (
+    | { status: "idle" | "loading" }
+    | { status: "ready"; value: T }
+    | { status: "error" }
+  ),
+  request: SelectedEvidenceRequest | null,
+): PrintLoadState<T> {
+  return request && isCurrentEvidenceRequest(state.request, request)
+    ? printState(state)
+    : { status: "pending" };
+}
+
+function printDwellingStateForRequest(
+  state: DwellingState,
+  request: SelectedEvidenceRequest | null,
+): PrintLoadState<PvscDwellingAccount[]> {
+  if (!request || !isCurrentEvidenceRequest(state.request, request)) {
+    return { status: "pending" };
+  }
+  if (state.status === "ready") {
+    return { status: "ready", value: state.value };
+  }
+  if (state.status === "blocked") {
+    return {
+      status: "error",
+      message:
+        "Dwelling lookup was not run because assessment account evidence was unavailable.",
+    };
+  }
+  if (state.status === "error") {
+    return {
+      status: "error",
+      message: "PVSC dwelling source unavailable at export time.",
+    };
+  }
+  return { status: "pending" };
+}
+
+function printEventForCurrent(event: TaxSaleEvent, now: number): PrintEvent {
+  return {
+    id: event.id,
+    name: `${event.shortMunicipality} — ${eventDateLabel(event)}`,
+    status: eventLifecycleLabel(event, now),
+    facts: [
+      { label: "Sale method", value: event.eventType === "sealed-tender" ? "Sealed tender" : "Public auction" },
+      { label: "Notice retrieved", value: event.retrievedOn },
+    ],
+    sources: [
+      { label: event.sourceLabel, sourceUrl: event.sourceUrl },
+      ...(event.secondarySourceUrl
+        ? [{ label: "Official supporting source", sourceUrl: event.secondarySourceUrl }]
+        : []),
+    ],
+    limitation:
+      "Official notice evidence only; it does not establish current availability, title, access, condition, value, possession, or buildability.",
+  };
+}
+
+function printEventForHistorical(
+  event: (typeof historicalTaxSaleEvents)[number],
+): PrintEvent {
+  return {
+    id: event.id,
+    name: `${event.shortMunicipality} — ${eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}`,
+    status: event.resultStatus === "verified" ? "Official result verified" : "Official results pending",
+    facts: [
+      { label: "Sale method", value: historicalSaleMethodLabel(event.saleMethod) },
+      { label: "Notice retrieved", value: event.retrievedOn },
+    ],
+    sources: [
+      { label: "Official notice", sourceUrl: event.noticeUrl },
+      ...(event.resultUrl
+        ? [{ label: "Official result", sourceUrl: event.resultUrl }]
+        : event.landingPageUrl
+          ? [{ label: "Municipal results page", sourceUrl: event.landingPageUrl }]
+          : []),
+    ],
+    limitation:
+      "Dated historical evidence only; it does not establish present ownership, title, redemption, legal access, condition, value, or parcel status.",
+  };
+}
+
+function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
+  const sources = new Map<ShareLayerId, PrintLayerSource>();
+  sources.set("modern", {
+    id: "modern",
+    name: "Modern map",
+    sourceUrl: "https://www.openstreetmap.org/copyright",
+    sourceDate: "Live OpenStreetMap tiles",
+    attribution: "© OpenStreetMap contributors",
+    licenceUrl: "https://www.openstreetmap.org/copyright",
+  });
+  provinceLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.serviceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: PROVINCE_ATTRIBUTION,
+    licenceUrl: PROVINCE_LICENSE_URL,
+  }));
+  allResourceLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.id === "mineral-proximity-parcels"
+      ? PROVINCE_ATTRIBUTION
+      : OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: layer.id === "mineral-proximity-parcels"
+      ? PROVINCE_LICENSE_URL
+      : OPEN_GOVERNMENT_LICENCE_URL,
+  }));
+  hydroPilotLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
+  }));
+  floodHazardLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.licence === "province-restricted"
+      ? PROVINCE_ATTRIBUTION
+      : OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: layer.licenceUrl,
+  }));
+  return sources;
+}
+
+
 
 function LicenceDialog({
   onAccept,
@@ -381,6 +559,12 @@ export function App() {
   const [selectedPid, setSelectedPid] = useState<string | null>(
     initialShareState.pid,
   );
+  const selectionGeneration = useRef(initialShareState.pid ? 1 : 0);
+  const [selectedEvidenceRequest, setSelectedEvidenceRequest] = useState<
+    SelectedEvidenceRequest | null
+  >(() => initialShareState.pid
+    ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+    : null);
   const [parcelFocusRequest, setParcelFocusRequest] =
     useState<ParcelFocusRequest | null>(null);
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
@@ -400,32 +584,59 @@ export function App() {
   const [mappedContext, setMappedContext] = useState<ParcelContextState>({
     status: "idle",
     value: EMPTY_PARCEL_CONTEXT,
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
   });
   const [civicAddresses, setCivicAddresses] = useState<CivicAddressState>({
     status: initialShareState.pid ? "loading" : "idle",
     value: EMPTY_CIVIC_ADDRESSES,
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
   });
   const [resourceIntersections, setResourceIntersections] =
     useState<ParcelResourceState>({
       status: initialShareState.pid ? "loading" : "idle",
       value: EMPTY_RESOURCE_INTERSECTIONS,
+      request: initialShareState.pid
+        ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+        : null,
     });
   const [floodHazard, setFloodHazard] = useState<FloodHazardState>({
     status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
   });
   const [buildingCount, setBuildingCount] = useState<BuildingCountState>({
     status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
   });
   const [dwellingState, setDwellingState] = useState<DwellingState>({
-    status: "idle",
+    status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
   });
   const [assessmentState, setAssessmentState] = useState<AssessmentState>({
     status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
   });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
-  const [mapPosition, setMapPosition] = useState<MapPosition>(
-    initialShareState.position,
-  );
+  const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
+    position: initialShareState.position,
+    bounds: {
+      north: initialShareState.position.latitude,
+      east: initialShareState.position.longitude,
+      south: initialShareState.position.latitude,
+      west: initialShareState.position.longitude,
+    },
+  });
   const [showModernMap, setShowModernMap] = useState(
     hasSharedLayers ? initialShareState.layerIds.includes("modern") : true,
   );
@@ -501,6 +712,8 @@ export function App() {
   >(null);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
+  const printCaptureSequence = useRef(0);
+  const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
@@ -625,9 +838,10 @@ export function App() {
   }, [licenceAccepted, parcels.features, showHistoricalTaxSales]);
 
   useEffect(() => {
-    if (!selectedPid || !licenceAccepted) {
+    if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
       return;
     }
+    const request = selectedEvidenceRequest;
 
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
@@ -638,21 +852,30 @@ export function App() {
 
     const controller = new AbortController();
     fetchParcelContext(selectedFeatures, controller.signal)
-      .then((value) => setMappedContext({ status: "ready", value }))
+      .then((value) => setMappedContext((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
-        setMappedContext({ status: "error", value: EMPTY_PARCEL_CONTEXT });
+        setMappedContext((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", value: EMPTY_PARCEL_CONTEXT, request }
+            : current,
+        );
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedPid]);
+  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
-    if (!selectedPid || !licenceAccepted) {
+    if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
       return;
     }
+    const request = selectedEvidenceRequest;
 
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
@@ -665,18 +888,26 @@ export function App() {
     }
 
     const controller = new AbortController();
-    setAssessmentState({ status: "loading" });
+    setAssessmentState({ status: "loading", request });
     fetchParcelAssessments(selectedFeatures, noticeAan, controller.signal)
-      .then((value) => setAssessmentState({ status: "ready", value }))
+      .then((value) => setAssessmentState((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
-        setAssessmentState({ status: "error" });
+        setAssessmentState((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", request }
+            : current,
+        );
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, mapMode, parcels, selectedPid]);
+  }, [licenceAccepted, mapMode, parcels, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
     if (assessmentState.status !== "ready") {
@@ -684,32 +915,43 @@ export function App() {
         status: assessmentState.status === "error"
           ? "blocked"
           : assessmentState.status,
+        request: assessmentState.request,
       });
       return;
     }
 
+    const request = assessmentState.request;
     const aans = assessmentState.value.accounts.map(({ aan }) => aan);
     if (aans.length === 0) {
-      setDwellingState({ status: "ready", value: [] });
+      setDwellingState({ status: "ready", value: [], request });
       return;
     }
 
     const controller = new AbortController();
-    setDwellingState({ status: "loading" });
+    setDwellingState({ status: "loading", request });
     fetchDwellingCharacteristics(aans, controller.signal)
-      .then((value) => setDwellingState({ status: "ready", value }))
+      .then((value) => setDwellingState((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
-        setDwellingState({ status: "error" });
+        setDwellingState((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", request }
+            : current,
+        );
       });
 
     return () => controller.abort();
   }, [assessmentState]);
 
   useEffect(() => {
-    if (!selectedPid || !licenceAccepted) return;
+    if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) return;
+    const request = selectedEvidenceRequest;
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
     );
@@ -721,12 +963,16 @@ export function App() {
       selectedFeatures,
       mappedArea?.squareMetres ?? null,
       controller.signal,
-    ).then((value) => setFloodHazard({ status: "ready", value }))
+    ).then((value) => setFloodHazard((current) =>
+      isCurrentEvidenceRequest(current.request, request)
+        ? { status: "ready", value, request }
+        : current,
+    ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
-        setFloodHazard({
-          status: "ready",
-          value: {
+        setFloodHazard((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "ready", request, value: {
             river: { status: "error", aep: [], message: "Flood evidence request failed." },
             coastal: ["current", "2050", "2100"].map((scenario) => ({
               scenario: scenario as "current" | "2050" | "2100",
@@ -734,16 +980,18 @@ export function App() {
               stormAnnualExceedanceProbabilityPercent: 1 as const,
               message: "Flood evidence request failed.",
             })),
-          },
-        });
+            } }
+            : current,
+        );
       });
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedPid]);
+  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
-    if (!selectedPid || !licenceAccepted) {
+    if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
       return;
     }
+    const request = selectedEvidenceRequest;
 
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
@@ -754,21 +1002,30 @@ export function App() {
 
     const controller = new AbortController();
     fetchParcelBuildingCount(selectedFeatures, controller.signal)
-      .then((value) => setBuildingCount({ status: "ready", value }))
+      .then((value) => setBuildingCount((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
-        setBuildingCount({ status: "error" });
+        setBuildingCount((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", request }
+            : current,
+        );
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedPid]);
+  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
-    if (!selectedPid || !licenceAccepted) {
+    if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
       return;
     }
+    const request = selectedEvidenceRequest;
 
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
@@ -781,9 +1038,14 @@ export function App() {
     setResourceIntersections({
       status: "loading",
       value: EMPTY_RESOURCE_INTERSECTIONS,
+      request,
     });
     fetchParcelResourceIntersections(selectedFeatures, controller.signal)
-      .then((value) => setResourceIntersections({ status: "ready", value }))
+      .then((value) => setResourceIntersections((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
@@ -791,12 +1053,13 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedPid]);
+  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
-    if (!selectedPid || !licenceAccepted) {
+    if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
       return;
     }
+    const request = selectedEvidenceRequest;
 
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
@@ -807,16 +1070,24 @@ export function App() {
 
     const controller = new AbortController();
     fetchCivicAddresses(selectedFeatures, controller.signal)
-      .then((value) => setCivicAddresses({ status: "ready", value }))
+      .then((value) => setCivicAddresses((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
-        setCivicAddresses({ status: "error", value: EMPTY_CIVIC_ADDRESSES });
+        setCivicAddresses((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", value: EMPTY_CIVIC_ADDRESSES, request }
+            : current,
+        );
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedPid]);
+  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
 
   const filteredTaxSalePids = useMemo(() => {
     const listings = taxSaleEvents
@@ -938,16 +1209,20 @@ export function App() {
 
   const selectParcel = (pid: string) => {
     setMobileControlsOpen(false);
+    const request = { pid, generation: selectionGeneration.current + 1 };
+    selectionGeneration.current = request.generation;
     setSelectedPid(pid);
-    setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
-    setBuildingCount({ status: "loading" });
-    setAssessmentState({ status: "loading" });
-    setDwellingState({ status: "loading" });
-    setFloodHazard({ status: "loading" });
-    setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
+    setSelectedEvidenceRequest(request);
+    setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT, request });
+    setBuildingCount({ status: "loading", request });
+    setAssessmentState({ status: "loading", request });
+    setDwellingState({ status: "loading", request });
+    setFloodHazard({ status: "loading", request });
+    setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES, request });
     setResourceIntersections({
       status: "loading",
       value: EMPTY_RESOURCE_INTERSECTIONS,
+      request,
     });
     setShareMessage(null);
   };
@@ -958,15 +1233,17 @@ export function App() {
     }
     setMapMode(mode);
     setSelectedPid(null);
+    setSelectedEvidenceRequest(null);
     setQuery("");
-    setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT });
-    setBuildingCount({ status: "idle" });
-    setAssessmentState({ status: "idle" });
-    setFloodHazard({ status: "idle" });
-    setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES });
+    setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT, request: null });
+    setBuildingCount({ status: "idle", request: null });
+    setAssessmentState({ status: "idle", request: null });
+    setFloodHazard({ status: "idle", request: null });
+    setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES, request: null });
     setResourceIntersections({
       status: "idle",
       value: EMPTY_RESOURCE_INTERSECTIONS,
+      request: null,
     });
     setShareMessage(null);
   };
@@ -1163,9 +1440,19 @@ export function App() {
       : [],
     [filteredHistoricalRecords, selectedPid, showHistoricalTaxSales],
   );
-  const selectedMappedArea = selectedPid
-    ? mappedAreaForPid(parcels, selectedPid)
-    : null;
+  const selectedMappedArea = useMemo(
+    () => selectedPid ? mappedAreaForPid(parcels, selectedPid) : null,
+    [parcels, selectedPid],
+  );
+  const selectedParcelGeometry = useMemo<NsprdFeatureCollection>(() => ({
+    type: "FeatureCollection",
+    features: selectedPid
+      ? parcels.features.filter(({ properties }) => properties.PID === selectedPid)
+      : [],
+  }), [parcels, selectedPid]);
+  const canPrintExport = Boolean(
+    selectedPid && selectedParcelGeometry.features.length > 0 && selectedEvidenceRequest,
+  );
 
   const activeLayerIds = useMemo<ShareLayerId[]>(() => [
     ...(showModernMap ? (["modern"] as const) : []),
@@ -1182,6 +1469,76 @@ export function App() {
       .filter(({ id }) => floodHazardLayers[id])
       .map(({ id }) => id),
   ], [floodHazardLayers, hydroPilotLayers, provinceLayers, resourceLayers, showModernMap]);
+  const printEventIds = useMemo(
+    () => mapMode === "current"
+      ? Array.from(selectedEventIds)
+      : Array.from(new Set(selectedHistoricalContexts.map(({ event }) => event.id))),
+    [mapMode, selectedEventIds, selectedHistoricalContexts],
+  );
+  const printEvents = useMemo(
+    () => mapMode === "current"
+      ? taxSaleEvents
+        .filter(({ id }) => selectedEventIds.has(id))
+        .map((event) => printEventForCurrent(event, currentTime))
+      : historicalTaxSaleEvents
+        .filter(({ id }) => printEventIds.includes(id))
+        .map(printEventForHistorical),
+    [currentTime, mapMode, printEventIds, selectedEventIds],
+  );
+  const captureLayerIds = useMemo<ShareLayerId[]>(() => [
+    ...(showModernMap ? (["modern"] as const) : []),
+    ...provinceLayerCatalog
+      .filter(({ id }) => licenceAccepted && provinceLayers[id])
+      .map(({ id }) => id),
+    ...allResourceLayerCatalog
+      .filter(({ id }) => effectiveResourceLayers[id])
+      .map(({ id }) => id),
+    ...hydroPilotLayerCatalog
+      .filter(({ id }) => hydroPilotLayers[id])
+      .map(({ id }) => id),
+    ...floodHazardLayerCatalog
+      .filter((layer) => floodHazardLayers[layer.id] && (
+        layer.licence === "province-open" || licenceAccepted
+      ))
+      .map(({ id }) => id),
+  ], [
+    effectiveResourceLayers,
+    floodHazardLayers,
+    hydroPilotLayers,
+    licenceAccepted,
+    provinceLayers,
+    showModernMap,
+  ]);
+  const currentPrintEvidence = useMemo<PrintEvidence>(() => ({
+    mappedArea: selectedMappedArea,
+    buildings: printStateForRequest(buildingCount, selectedEvidenceRequest),
+    assessments: printStateForRequest(assessmentState, selectedEvidenceRequest),
+    dwellings: printDwellingStateForRequest(
+      dwellingState,
+      selectedEvidenceRequest,
+    ),
+    civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
+    mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),
+    floodHazard: printStateForRequest(floodHazard, selectedEvidenceRequest),
+    resources: printStateForRequest(resourceIntersections, selectedEvidenceRequest),
+  }), [
+    assessmentState,
+    buildingCount,
+    civicAddresses,
+    dwellingState,
+    floodHazard,
+    mappedContext,
+    resourceIntersections,
+    selectedEvidenceRequest,
+    selectedMappedArea,
+  ]);
+  const captureLayerSources = useMemo(() => {
+    const sources = printLayerSources();
+    return captureLayerIds.flatMap((id) => {
+      const source = sources.get(id);
+      return source ? [source] : [];
+    });
+  }, [captureLayerIds]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -1192,12 +1549,12 @@ export function App() {
             new Set(selectedHistoricalContexts.map(({ event }) => event.id)),
           ),
       layerIds: activeLayerIds,
-      position: mapPosition,
+      position: mapViewport.position,
     }),
     [
       activeLayerIds,
       mapMode,
-      mapPosition,
+      mapViewport.position,
       selectedEventIds,
       selectedHistoricalContexts,
       selectedPid,
@@ -1218,6 +1575,74 @@ export function App() {
     }
     setShareMessage("Use the exact map-state link below.");
   };
+
+  const openPrintExport = () => {
+    if (!selectedPid || !selectedEvidenceRequest || !canPrintExport) return;
+
+    printCaptureSequence.current += 1;
+    setPrintCapture(startPrintCapture({
+      token: `print-${printCaptureSequence.current}`,
+      capturedAt: new Date().toISOString(),
+      pid: selectedPid,
+      evidenceRequest: selectedEvidenceRequest,
+      mode: mapMode,
+      eventIds: printEventIds,
+      events: printEvents,
+      selectedParcelGeometry,
+      mapParcels: parcels,
+      taxSalePids: Array.from(filteredTaxSalePids),
+      historicalTaxSalePids: Array.from(filteredHistoricalPids),
+      viewport: mapViewport,
+      layerIds: captureLayerIds,
+      layerSources: captureLayerSources,
+      licenceAccepted,
+    }, currentPrintEvidence));
+  };
+
+  const printCapturePid = printCapture?.pid;
+  const printCaptureToken = printCapture?.token;
+  const printCaptureEvidenceRequestPid = printCapture?.evidenceRequest.pid;
+  const printCaptureEvidenceGeneration = printCapture?.evidenceRequest.generation;
+  useEffect(() => {
+    if (
+      !printCapturePid ||
+      !printCaptureEvidenceRequestPid ||
+      printCaptureEvidenceGeneration === undefined ||
+      selectedPid !== printCapturePid ||
+      !isCurrentEvidenceRequest(selectedEvidenceRequest, {
+        pid: printCaptureEvidenceRequestPid,
+        generation: printCaptureEvidenceGeneration,
+      })
+    ) return;
+    setPrintCapture((current) => current
+      ? updatePrintCaptureEvidence(current, {
+          token: current.token,
+          pid: current.pid,
+          evidenceRequest: current.evidenceRequest,
+          evidence: currentPrintEvidence,
+        })
+      : null);
+  }, [
+    currentPrintEvidence,
+    printCaptureEvidenceGeneration,
+    printCaptureEvidenceRequestPid,
+    printCapturePid,
+    printCaptureToken,
+    selectedEvidenceRequest,
+    selectedPid,
+  ]);
+
+  useEffect(() => {
+    if (
+      printCapture && (
+        !licenceAccepted ||
+        selectedPid !== printCapture.pid ||
+        !isCurrentEvidenceRequest(selectedEvidenceRequest, printCapture.evidenceRequest)
+      )
+    ) {
+      setPrintCapture(null);
+    }
+  }, [licenceAccepted, printCapture, selectedEvidenceRequest, selectedPid]);
 
   const exportEvidence = () => {
     if (
@@ -1290,7 +1715,7 @@ export function App() {
       pid: selectedPid,
       mode: mapMode,
       shareUrl,
-      position: mapPosition,
+      position: mapViewport.position,
       activeLayers,
       events: selectedListingContext
         ? [{
@@ -1362,6 +1787,7 @@ export function App() {
   };
 
   return (
+    <>
     <div
       className={`app-shell${headerCollapsed ? " header-collapsed" : ""}`}
     >
@@ -1970,7 +2396,7 @@ export function App() {
             }}
             focusRequest={parcelFocusRequest}
             initialPosition={initialShareState.position}
-            onPositionChange={setMapPosition}
+            onViewportChange={setMapViewport}
             onLayerStatusChange={setLayerStatus}
           />
           <p
@@ -1999,6 +2425,8 @@ export function App() {
               shareMessage={shareMessage}
               onCopyShareUrl={copyShareUrl}
               onExportEvidence={exportEvidence}
+              onPrintExport={openPrintExport}
+              canPrintExport={canPrintExport}
               evidenceReady={
                 resourceIntersections.status === "ready" &&
                 (assessmentState.status === "ready" || assessmentState.status === "error") &&
@@ -2009,22 +2437,27 @@ export function App() {
               now={currentTime}
               onClose={() => {
                 setSelectedPid(null);
+                setSelectedEvidenceRequest(null);
+                setPrintCapture(null);
                 setMappedContext({
                   status: "idle",
                   value: EMPTY_PARCEL_CONTEXT,
+                  request: null,
                 });
-                setBuildingCount({ status: "idle" });
-                setAssessmentState({ status: "idle" });
-                setDwellingState({ status: "idle" });
+                setBuildingCount({ status: "idle", request: null });
+                setAssessmentState({ status: "idle", request: null });
+                setDwellingState({ status: "idle", request: null });
                 setCivicAddresses({
                   status: "idle",
                   value: EMPTY_CIVIC_ADDRESSES,
+                  request: null,
                 });
                 setResourceIntersections({
                   status: "idle",
                   value: EMPTY_RESOURCE_INTERSECTIONS,
+                  request: null,
                 });
-                setFloodHazard({ status: "idle" });
+                setFloodHazard({ status: "idle", request: null });
                 setShareMessage(null);
               }}
             />
@@ -2074,5 +2507,13 @@ export function App() {
       ) : null}
       {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
     </div>
+    {printCapture ? (
+      <PrintPreview
+        capture={printCapture}
+        baseUrl={window.location.href}
+        onClose={() => setPrintCapture(null)}
+      />
+    ) : null}
+    </>
   );
 }

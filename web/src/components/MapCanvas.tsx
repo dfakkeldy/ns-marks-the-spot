@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import L, { type Map as LeafletMap, type PathOptions } from "leaflet";
+import L, {
+  type LeafletEvent,
+  type Map as LeafletMap,
+  type PathOptions,
+} from "leaflet";
 import {
   Circle,
   CircleMarker,
@@ -48,6 +52,7 @@ import {
 import {
   hydroLineStyle,
   hydroPotentialLabel,
+  type HydroPotentialClass,
 } from "../services/hydroPotential";
 import {
   DEFAULT_MAP_POSITION,
@@ -57,7 +62,8 @@ import {
   OVERVIEW_MARKER_MAX_ZOOM,
   representativeParcelPoints,
 } from "../services/parcelMarkers";
-import { parcelStyleForFeature } from "./parcelStyle";
+import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
+import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import {
   ESTABLISHED_PARCEL_PANE,
@@ -84,6 +90,7 @@ type MapCanvasProps = {
   focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
   onPositionChange?: (position: MapPosition) => void;
+  onViewportChange?: (viewport: PrintMapViewport) => void;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -93,7 +100,11 @@ type MapCanvasProps = {
     id: ResourceLayerId,
     status: ResourceLayerStatus,
   ) => void;
+  renderMode?: MapRenderMode;
+  fitBounds?: PrintMapBounds;
 };
+
+export type { MapRenderMode } from "./parcelStyle";
 
 export type ParcelFocusRequest = {
   pid: string;
@@ -133,14 +144,56 @@ const HIDDEN_FLOOD_HAZARD_LAYERS: Record<FloodHazardLayerId, boolean> = {
 };
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+
+type PrintableViewportGuard = {
+  suppressBrowserLocation: boolean;
+  lastSuppressed: PrintMapViewport | null;
+};
+
+type PrintableViewportGuardRef = {
+  current: PrintableViewportGuard;
+};
+
+const VIEWPORT_COMPARISON_EPSILON = 1e-9;
+
+function samePrintMapViewport(
+  left: PrintMapViewport,
+  right: PrintMapViewport,
+): boolean {
+  const leftValues = [
+    left.position.latitude,
+    left.position.longitude,
+    left.position.zoom,
+    left.bounds.north,
+    left.bounds.east,
+    left.bounds.south,
+    left.bounds.west,
+  ];
+  const rightValues = [
+    right.position.latitude,
+    right.position.longitude,
+    right.position.zoom,
+    right.bounds.north,
+    right.bounds.east,
+    right.bounds.south,
+    right.bounds.west,
+  ];
+  return leftValues.every(
+    (value, index) =>
+      Math.abs(value - rightValues[index]) <= VIEWPORT_COMPARISON_EPSILON,
+  );
+}
+
 function ArcGISMapLayer({
   layer,
   visible,
   onStatusChange,
+  renderMode,
 }: {
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
 }) {
   const map = useMap();
 
@@ -167,30 +220,60 @@ function ArcGISMapLayer({
               maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
               updateWhenZooming: false,
               keepBuffer: 2,
+              className:
+                renderMode === "print" ? `print-layer-${layer.id}` : undefined,
             },
           ),
       );
-    let loadedTiles = 0;
-    const reportZoom = () => {
-      if (map.getZoom() < layer.minZoom) {
+    const physicalStatuses: Array<"loading" | "ready" | "error"> =
+      tileLayers.map(() => "loading");
+    const loadedTiles = tileLayers.map(() => 0);
+    const isBelowZoom = () => map.getZoom() < layer.minZoom;
+    const reportAggregate = () => {
+      if (isBelowZoom()) {
         onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+      } else if (physicalStatuses.some((status) => status === "error")) {
+        onStatusChange?.(layer.id, { status: "error" });
+      } else if (physicalStatuses.every((status) => status === "ready")) {
+        onStatusChange?.(layer.id, {
+          status: "ready",
+          count: loadedTiles.reduce((sum, count) => sum + count, 0),
+        });
+      } else {
+        onStatusChange?.(layer.id, { status: "loading" });
       }
+    };
+    const reportZoom = () => {
+      reportAggregate();
     };
     map.on("zoomend", reportZoom);
     reportZoom();
-    tileLayers.forEach((tileLayer) => {
-      tileLayer.on("loading", () =>
-        onStatusChange?.(layer.id, { status: "loading" }),
-      );
-      tileLayer.on("tileload", () => {
-        loadedTiles += 1;
+    tileLayers.forEach((tileLayer, index) => {
+      tileLayer.on("loading", () => {
+        if (
+          renderMode !== "print" ||
+          physicalStatuses[index] !== "error"
+        ) {
+          physicalStatuses[index] = "loading";
+        }
+        reportAggregate();
       });
-      tileLayer.on("load", () =>
-        onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
-      );
-      tileLayer.on("tileerror", () =>
-        onStatusChange?.(layer.id, { status: "error" }),
-      );
+      tileLayer.on("tileload", () => {
+        loadedTiles[index] += 1;
+      });
+      tileLayer.on("load", () => {
+        if (
+          renderMode !== "print" ||
+          physicalStatuses[index] !== "error"
+        ) {
+          physicalStatuses[index] = "ready";
+        }
+        reportAggregate();
+      });
+      tileLayer.on("tileerror", () => {
+        physicalStatuses[index] = "error";
+        reportAggregate();
+      });
       tileLayer.addTo(map);
     });
 
@@ -198,7 +281,7 @@ function ArcGISMapLayer({
       map.off("zoomend", reportZoom);
       tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
-  }, [layer, map, onStatusChange, visible]);
+  }, [layer, map, onStatusChange, renderMode, visible]);
 
   return null;
 }
@@ -207,10 +290,12 @@ function ResourceArcGISMapLayer({
   layer,
   visible,
   onStatusChange,
+  renderMode,
 }: {
   layer: ResourceMapLayerDescriptor | FloodHazardLayerDescriptor;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
 }) {
   const map = useMap();
 
@@ -232,22 +317,45 @@ function ResourceArcGISMapLayer({
         zIndex: "licence" in layer && layer.id.startsWith("coastal-") ? 228 : 225,
         updateWhenZooming: false,
         keepBuffer: 2,
+        className:
+          renderMode === "print" ? `print-layer-${layer.id}` : undefined,
       },
     );
     let loadedTiles = 0;
-    const reportZoom = () => {
+    let physicalStatus: "loading" | "ready" | "error" = "loading";
+    const reportAggregate = () => {
       if (map.getZoom() < layer.minZoom) {
         onStatusChange?.(layer.id, { status: "zoom", minZoom: layer.minZoom });
+      } else if (physicalStatus === "error") {
+        onStatusChange?.(layer.id, { status: "error" });
+      } else if (physicalStatus === "ready") {
+        onStatusChange?.(layer.id, { status: "ready", count: loadedTiles });
+      } else {
+        onStatusChange?.(layer.id, { status: "loading" });
       }
     };
-    tileLayer.on("loading", () => onStatusChange?.(layer.id, { status: "loading" }));
+    const reportZoom = () => {
+      reportAggregate();
+    };
+    tileLayer.on("loading", () => {
+      if (renderMode !== "print" || physicalStatus !== "error") {
+        physicalStatus = "loading";
+      }
+      reportAggregate();
+    });
     tileLayer.on("tileload", () => {
       loadedTiles += 1;
     });
-    tileLayer.on("load", () =>
-      onStatusChange?.(layer.id, { status: "ready", count: loadedTiles }),
-    );
-    tileLayer.on("tileerror", () => onStatusChange?.(layer.id, { status: "error" }));
+    tileLayer.on("load", () => {
+      if (renderMode !== "print" || physicalStatus !== "error") {
+        physicalStatus = "ready";
+      }
+      reportAggregate();
+    });
+    tileLayer.on("tileerror", () => {
+      physicalStatus = "error";
+      reportAggregate();
+    });
     map.on("zoomend", reportZoom);
     reportZoom();
     tileLayer.addTo(map);
@@ -256,7 +364,7 @@ function ResourceArcGISMapLayer({
       map.off("zoomend", reportZoom);
       map.removeLayer(tileLayer);
     };
-  }, [layer, map, onStatusChange, visible]);
+  }, [layer, map, onStatusChange, renderMode, visible]);
 
   return null;
 }
@@ -288,10 +396,12 @@ function ArcGISFeatureLayer({
   layer,
   visible,
   onStatusChange,
+  renderMode,
 }: {
   layer: ResourceFeatureLayerDescriptor;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
 }) {
   const map = useMap();
   const [collection, setCollection] =
@@ -381,13 +491,22 @@ function ArcGISFeatureLayer({
       pointToLayer={(_feature, latlng) =>
         L.circleMarker(latlng, {
           radius: layer.id === "abandoned-mines" ? 6 : 5,
-          color: "#ffffff",
-          fillColor: layer.markerColor,
-          fillOpacity: layer.opacity,
+          color: renderMode === "print" ? "#111111" : "#ffffff",
+          fillColor: renderMode === "print" ? "#e8e8e8" : layer.markerColor,
+          fillOpacity: renderMode === "print" ? 0.8 : layer.opacity,
           weight: 1.5,
+          className:
+            renderMode === "print"
+              ? `print-resource-marker-${layer.id}`
+              : undefined,
+          dashArray:
+            renderMode === "print" && layer.id === "abandoned-mines"
+              ? "2 2"
+              : undefined,
         })
       }
-      onEachFeature={(feature, featureLayer) => {
+      interactive={renderMode !== "print"}
+      onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         featureLayer.bindTooltip(
           resourceFeatureLabel(
             layer.id,
@@ -403,9 +522,11 @@ function ArcGISFeatureLayer({
 function HydroPilotLayer({
   visible,
   onStatusChange,
+  renderMode,
 }: {
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
+  renderMode: MapRenderMode;
 }) {
   const [collection, setCollection] =
     useState<InvernessHydroPotentialCollection | null>(null);
@@ -454,9 +575,12 @@ function HydroPilotLayer({
       data={collection}
       style={(feature) => {
         const properties = feature?.properties as InvernessHydroPotentialProperties;
-        return hydroLineStyle(properties);
+        return renderMode === "print"
+          ? printHydroLineStyle(properties.potentialClass)
+          : hydroLineStyle(properties);
       }}
-      onEachFeature={(feature, featureLayer) => {
+      interactive={renderMode !== "print"}
+      onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         const properties = feature.properties as InvernessHydroPotentialProperties;
         const potentialLabel = hydroPotentialLabel(properties.potentialClass);
         featureLayer.on("click", (event) => {
@@ -493,22 +617,74 @@ function HydroPilotLayer({
   );
 }
 
+function printHydroLineStyle(potentialClass: HydroPotentialClass): PathOptions {
+  const styles: Record<HydroPotentialClass, Pick<PathOptions, "dashArray" | "weight">> = {
+    "not-qualified": { dashArray: "1 4", weight: 1.5 },
+    "below-1kw": { dashArray: "3 4", weight: 1.75 },
+    "kw-1-5": { dashArray: "6 3", weight: 2 },
+    "kw-5-15": { dashArray: "10 3", weight: 2.25 },
+    "kw-15-30": { dashArray: "10 2 2 2", weight: 2.5 },
+    "kw-30-50": { dashArray: "14 2", weight: 2.75 },
+    "over-50kw": { dashArray: undefined, weight: 3.25 },
+  };
+  return {
+    color: "#222222",
+    opacity: 0.9,
+    lineCap: "round",
+    lineJoin: "round",
+    className: `print-hydro-${potentialClass}`,
+    ...styles[potentialClass],
+  };
+}
+
 function MapPositionController({
   onPositionChange,
-}: Pick<MapCanvasProps, "onPositionChange">) {
+  onViewportChange,
+  printableViewportGuard,
+}: Pick<MapCanvasProps, "onPositionChange" | "onViewportChange"> & {
+  printableViewportGuard: PrintableViewportGuardRef;
+}) {
   const map = useMap();
 
   useEffect(() => {
-    if (!onPositionChange) {
+    if (!onPositionChange && !onViewportChange) {
       return;
     }
-    const reportPosition = () => {
+    const reportPosition = (event?: LeafletEvent) => {
       const center = map.getCenter();
-      onPositionChange?.({
+      const bounds = map.getBounds();
+      const position = {
         latitude: center.lat,
         longitude: center.lng,
         zoom: map.getZoom(),
-      });
+      };
+      onPositionChange?.(position);
+      const viewport: PrintMapViewport = {
+        position,
+        bounds: {
+          north: bounds.getNorth(),
+          east: bounds.getEast(),
+          south: bounds.getSouth(),
+          west: bounds.getWest(),
+        },
+      };
+
+      const guard = printableViewportGuard.current;
+      if (guard.suppressBrowserLocation) {
+        guard.lastSuppressed = viewport;
+        if (event?.type === "moveend") {
+          guard.suppressBrowserLocation = false;
+        }
+        return;
+      }
+      if (
+        guard.lastSuppressed !== null &&
+        samePrintMapViewport(guard.lastSuppressed, viewport)
+      ) {
+        return;
+      }
+      guard.lastSuppressed = null;
+      onViewportChange?.(viewport);
     };
     reportPosition();
     map.on("moveend", reportPosition);
@@ -517,8 +693,21 @@ function MapPositionController({
       map.off("moveend", reportPosition);
       map.off("zoomend", reportPosition);
     };
-  }, [map, onPositionChange]);
+  }, [map, onPositionChange, onViewportChange, printableViewportGuard]);
 
+  return null;
+}
+
+function PrintBoundsController({ bounds }: { bounds?: PrintMapBounds }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!bounds) return;
+    map.fitBounds(
+      [[bounds.south, bounds.west], [bounds.north, bounds.east]],
+      { padding: [24, 24], maxZoom: 18, animate: false },
+    );
+  }, [bounds, map]);
   return null;
 }
 
@@ -814,6 +1003,7 @@ function TaxSaleOverviewMarkers({
   showHistoricalTaxSales,
   selectedPid,
   onSelectPid,
+  renderMode = "interactive",
 }: Pick<
   MapCanvasProps,
   | "parcels"
@@ -823,6 +1013,7 @@ function TaxSaleOverviewMarkers({
   | "showHistoricalTaxSales"
   | "selectedPid"
   | "onSelectPid"
+  | "renderMode"
 >) {
   const map = useMap();
   const [zoom, setZoom] = useState(() => map.getZoom());
@@ -845,16 +1036,30 @@ function TaxSaleOverviewMarkers({
     return null;
   }
 
-  const markerStyle = (selected: boolean, color: string): PathOptions => ({
-    color: "#ffffff",
-    weight: selected ? 3 : 1.5,
-    fillColor: color,
-    fillOpacity: selected ? 1 : 0.85,
-  });
+  const markerStyle = (
+    selected: boolean,
+    color: string,
+    keyPrefix: "current" | "historical",
+  ): PathOptions =>
+    renderMode === "print"
+      ? {
+          color: "#111111",
+          weight: selected ? 3 : 1.75,
+          fillColor: keyPrefix === "current" ? "#f3f3f3" : "#777777",
+          fillOpacity: 1,
+          dashArray: keyPrefix === "historical" ? "3 2" : undefined,
+          className: `print-${keyPrefix}-tax-sale-marker`,
+        }
+      : {
+          color: "#ffffff",
+          weight: selected ? 3 : 1.5,
+          fillColor: color,
+          fillOpacity: selected ? 1 : 0.85,
+        };
 
   const marker = (
     point: { pid: string; latitude: number; longitude: number },
-    keyPrefix: string,
+    keyPrefix: "current" | "historical",
     color: string,
   ) => (
     <CircleMarker
@@ -862,13 +1067,18 @@ function TaxSaleOverviewMarkers({
       center={[point.latitude, point.longitude]}
       radius={point.pid === selectedPid ? 9 : 7}
       pane={ESTABLISHED_PARCEL_PANE}
-      pathOptions={markerStyle(point.pid === selectedPid, color)}
-      eventHandlers={{
-        click: (event) => {
-          L.DomEvent.stopPropagation(event.originalEvent);
-          onSelectPid(point.pid);
-        },
-      }}
+      pathOptions={markerStyle(point.pid === selectedPid, color, keyPrefix)}
+      interactive={renderMode !== "print"}
+      eventHandlers={
+        renderMode === "print"
+          ? undefined
+          : {
+              click: (event) => {
+                L.DomEvent.stopPropagation(event.originalEvent);
+                onSelectPid(point.pid);
+              },
+            }
+      }
     />
   );
 
@@ -899,9 +1109,14 @@ export function MapCanvas({
   focusRequest = null,
   initialPosition = DEFAULT_MAP_POSITION,
   onPositionChange,
+  onViewportChange,
   onLayerStatusChange,
   onResourceLayerStatusChange,
+  renderMode = "interactive",
+  fitBounds,
 }: MapCanvasProps) {
+  const isPrintMode = renderMode === "print";
+  const modernPrintError = useRef(false);
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
       onLayerStatusChange?.(id, status);
@@ -917,7 +1132,23 @@ export function MapCanvas({
     },
     [reportLayerStatus],
   );
+  const reportModernStatus = useCallback(
+    (status: MapLayerStatus) => {
+      if (isPrintMode && modernPrintError.current && status.status !== "error") {
+        return;
+      }
+      if (isPrintMode && status.status === "error") {
+        modernPrintError.current = true;
+      }
+      reportLayerStatus("modern", status);
+    },
+    [isPrintMode, reportLayerStatus],
+  );
   const [map, setMap] = useState<LeafletMap | null>(null);
+  const printableViewportGuard = useRef<PrintableViewportGuard>({
+    suppressBrowserLocation: false,
+    lastSuppressed: null,
+  });
   const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
@@ -962,7 +1193,7 @@ export function MapCanvas({
       taxSalePids,
       showHistoricalTaxSales,
       historicalTaxSalePids,
-    });
+    }, renderMode);
 
   const requestLocation = () => {
     setLocationMessage("Finding your location…");
@@ -970,7 +1201,11 @@ export function MapCanvas({
       .then((location) => {
         setUserLocation(location);
         setLocationMessage(LOCATION_SUCCESS_MESSAGE);
-        map?.flyTo([location.latitude, location.longitude], 14);
+        if (map) {
+          printableViewportGuard.current.suppressBrowserLocation = true;
+          printableViewportGuard.current.lastSuppressed = null;
+          map.flyTo([location.latitude, location.longitude], 14);
+        }
       })
       .catch(() => {
         setLocationMessage(
@@ -986,23 +1221,30 @@ export function MapCanvas({
         zoom={initialPosition.zoom}
         minZoom={7}
         maxZoom={23}
-        zoomControl
+        zoomControl={!isPrintMode}
+        dragging={!isPrintMode}
+        touchZoom={!isPrintMode}
+        doubleClickZoom={!isPrintMode}
+        scrollWheelZoom={!isPrintMode}
+        boxZoom={!isPrintMode}
+        keyboard={!isPrintMode}
         attributionControl={false}
         ref={setMap}
       >
         <MapSizeController />
-        <ScaleControl position="bottomleft" />
-        <PositionReadout />
+        {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
+        {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             maxZoom={23}
             maxNativeZoom={19}
             zIndex={100}
+            className={isPrintMode ? "print-layer-modern" : undefined}
             eventHandlers={{
-              loading: () => reportLayerStatus?.("modern", { status: "loading" }),
-              load: () => reportLayerStatus?.("modern", { status: "ready" }),
-              tileerror: () => reportLayerStatus?.("modern", { status: "error" }),
+              loading: () => reportModernStatus({ status: "loading" }),
+              load: () => reportModernStatus({ status: "ready" }),
+              tileerror: () => reportModernStatus({ status: "error" }),
             }}
           />
         ) : (
@@ -1014,6 +1256,7 @@ export function MapCanvas({
             layer={layer}
             visible={provinceLayers[layer.id]}
             onStatusChange={reportLayerStatus}
+            renderMode={renderMode}
           />
         ))}
         {resourceLayerCatalog
@@ -1024,9 +1267,10 @@ export function MapCanvas({
           .map((layer) => (
             <ResourceArcGISMapLayer
               key={layer.id}
-              layer={layer}
-              visible={resourceLayers[layer.id]}
-              onStatusChange={reportLayerStatus}
+            layer={layer}
+            visible={resourceLayers[layer.id]}
+            onStatusChange={reportLayerStatus}
+            renderMode={renderMode}
             />
           ))}
         {floodHazardLayerCatalog.map((layer) => (
@@ -1035,6 +1279,7 @@ export function MapCanvas({
             layer={layer}
             visible={floodHazardLayers[layer.id]}
             onStatusChange={reportLayerStatus}
+            renderMode={renderMode}
           />
         ))}
         <Pane
@@ -1045,6 +1290,7 @@ export function MapCanvas({
             visible={resourceLayers["mineral-proximity-parcels"]}
             onSelectPid={onSelectPid}
             onStatusChange={reportMineralProximityStatus}
+            renderMode={renderMode}
           />
         </Pane>
         <Pane
@@ -1056,7 +1302,8 @@ export function MapCanvas({
             data={visibleParcels}
             pane={ESTABLISHED_PARCEL_PANE}
             style={parcelStyle}
-            onEachFeature={(feature, layer) => {
+            interactive={!isPrintMode}
+            onEachFeature={isPrintMode ? undefined : (feature, layer) => {
               const pid = (feature.properties as NsprdFeatureProperties).PID;
               layer.on("click", (event) => {
                 L.DomEvent.stopPropagation(event.originalEvent);
@@ -1073,6 +1320,7 @@ export function MapCanvas({
             showHistoricalTaxSales={showHistoricalTaxSales}
             selectedPid={selectedPid}
             onSelectPid={onSelectPid}
+            renderMode={renderMode}
           />
          </Pane>
         {hydroPilotLayerCatalog.map((layer) => (
@@ -1080,6 +1328,7 @@ export function MapCanvas({
             key={layer.id}
             visible={hydroPilotLayers[layer.id]}
             onStatusChange={reportLayerStatus}
+            renderMode={renderMode}
           />
         ))}
         {resourceLayerCatalog
@@ -1093,9 +1342,10 @@ export function MapCanvas({
               layer={layer}
               visible={resourceLayers[layer.id]}
               onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
             />
           ))}
-        {userLocation ? (
+        {!isPrintMode && userLocation ? (
           <>
             <Circle
               center={[userLocation.latitude, userLocation.longitude]}
@@ -1121,31 +1371,38 @@ export function MapCanvas({
             />
           </>
         ) : null}
-        <InitialTaxSaleBoundsController
-          parcels={parcels}
-          taxSalePids={taxSalePids}
-          showTaxSale={showTaxSale}
+        {isPrintMode ? <PrintBoundsController bounds={fitBounds} /> : <>
+          <InitialTaxSaleBoundsController
+            parcels={parcels}
+            taxSalePids={taxSalePids}
+            showTaxSale={showTaxSale}
+          />
+          <InitialHistoricalBoundsController
+            parcels={parcels}
+            historicalTaxSalePids={historicalTaxSalePids}
+            showHistoricalTaxSales={showHistoricalTaxSales}
+          />
+          <LayerZoomController
+            provinceLayers={provinceLayers}
+            hydroPilotLayers={hydroPilotLayers}
+          />
+          <ParcelFocusController
+            parcels={visibleParcels}
+            focusRequest={focusRequest}
+          />
+          <ParcelIdentifyController
+            enabled={provinceLayers.nsprd}
+            onIdentifyParcel={onIdentifyParcel}
+          />
+        </>}
+        <MapPositionController
+          onPositionChange={onPositionChange}
+          onViewportChange={onViewportChange}
+          printableViewportGuard={printableViewportGuard}
         />
-        <InitialHistoricalBoundsController
-          parcels={parcels}
-          historicalTaxSalePids={historicalTaxSalePids}
-          showHistoricalTaxSales={showHistoricalTaxSales}
-        />
-        <LayerZoomController
-          provinceLayers={provinceLayers}
-          hydroPilotLayers={hydroPilotLayers}
-        />
-        <ParcelFocusController
-          parcels={visibleParcels}
-          focusRequest={focusRequest}
-        />
-        <ParcelIdentifyController
-          enabled={provinceLayers.nsprd}
-          onIdentifyParcel={onIdentifyParcel}
-        />
-        <MapPositionController onPositionChange={onPositionChange} />
       </MapContainer>
 
+      {!isPrintMode ? <>
       <button
         className="location-button"
         type="button"
@@ -1158,6 +1415,7 @@ export function MapCanvas({
       <p className="location-message" role="status" aria-live="polite">
         {locationMessage}
       </p>
+      </> : null}
     </div>
   );
 }

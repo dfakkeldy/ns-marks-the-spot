@@ -1,7 +1,9 @@
 import type { PathOptions } from "leaflet";
 import type { NsprdFeatureProperties } from "../services/nsprd";
 
-type ParcelStyleContext = {
+export type MapRenderMode = "interactive" | "print";
+
+export type ParcelStyleContext = {
   selectedPid: string | null;
   showTaxSale: boolean;
   taxSalePids: Set<string>;
@@ -10,6 +12,58 @@ type ParcelStyleContext = {
 };
 
 export function parcelStyleForFeature(
+  feature:
+    | GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>
+    | undefined,
+  context: ParcelStyleContext,
+  renderMode: MapRenderMode = "interactive",
+): PathOptions {
+  if (renderMode === "print") {
+    const pid = feature?.properties.PID;
+    if (pid === context.selectedPid) {
+      return {
+        color: "#000000",
+        fillColor: "#d8d8d8",
+        fillOpacity: 0.45,
+        weight: 4,
+        className: "print-selected-parcel",
+      };
+    }
+    if (pid && context.taxSalePids.has(pid) && context.showTaxSale) {
+      return {
+        color: "#111111",
+        fillColor: "#eeeeee",
+        fillOpacity: 0.32,
+        weight: 2.5,
+        className: "print-current-tax-sale-parcel",
+      };
+    }
+    if (
+      pid &&
+      context.historicalTaxSalePids.has(pid) &&
+      context.showHistoricalTaxSales
+    ) {
+      return {
+        color: "#333333",
+        fillColor: "#f4f4f4",
+        fillOpacity: 0.3,
+        weight: 2.25,
+        dashArray: "7 4",
+        className: "print-historical-tax-sale-parcel",
+      };
+    }
+    return {
+      color: "#777777",
+      fillColor: "#ffffff",
+      fillOpacity: 0.04,
+      weight: 1,
+      className: "print-context-parcel",
+    };
+  }
+  return interactiveParcelStyleForFeature(feature, context);
+}
+
+function interactiveParcelStyleForFeature(
   feature:
     | GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>
     | undefined,

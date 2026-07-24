@@ -10,14 +10,20 @@ import { parcelStyleForFeature } from "./parcelStyle";
 const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
-  getZoom: vi.fn(() => 9),
+  flyTo: vi.fn(),
   getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
-  getBounds: vi.fn(() => ({
+  getBounds: vi.fn((): {
+    getWest: () => number;
+    getSouth: () => number;
+    getEast: () => number;
+    getNorth: () => number;
+  } => ({
     getWest: () => -62,
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
   })),
+  getZoom: vi.fn(() => 9),
   getContainer: vi.fn(() => document.body),
   invalidateSize: vi.fn(),
   on: vi.fn(),
@@ -30,6 +36,26 @@ const mapEventHandlers = vi.hoisted(() => ({
   click: undefined as
     | ((event: { latlng: { lat: number; lng: number } }) => void)
     | undefined,
+}));
+
+const mapContainerProps = vi.hoisted(() => ({
+  current: undefined as Record<string, unknown> | undefined,
+}));
+
+const geoJsonProps = vi.hoisted(() => ({
+  calls: [] as Array<Record<string, unknown>>,
+}));
+
+const circleMarkerProps = vi.hoisted(() => ({
+  calls: [] as Array<Record<string, unknown>>,
+}));
+
+const tileLayerProps = vi.hoisted(() => ({
+  calls: [] as Array<Record<string, unknown>>,
+}));
+
+const mineralLayerProps = vi.hoisted(() => ({
+  current: undefined as Record<string, unknown> | undefined,
 }));
 
 const mineralLayerEffectStarts = vi.hoisted(() => vi.fn());
@@ -52,24 +78,44 @@ vi.mock("react-leaflet", () => ({
     center,
     radius,
     eventHandlers,
+    ...props
   }: {
     center: [number, number];
     radius: number;
     eventHandlers?: {
       click?: (event: { originalEvent: Event }) => void;
     };
-  }) => (
-    <div
-      data-testid="location-position"
-      data-center={center.join(",")}
-      data-radius={radius}
-      onClick={(event) =>
-        eventHandlers?.click?.({ originalEvent: event.nativeEvent })
-      }
-    />
-  ),
-  GeoJSON: () => <div data-testid="parcel-overlay" />,
-  MapContainer: ({ children }: PropsWithChildren) => <div>{children}</div>,
+  } & Record<string, unknown>) => {
+    circleMarkerProps.calls.push({ center, radius, eventHandlers, ...props });
+    return (
+      <div
+        data-testid="location-position"
+        data-center={center.join(",")}
+        data-radius={radius}
+        onClick={(event) =>
+          eventHandlers?.click?.({ originalEvent: event.nativeEvent })
+        }
+      />
+    );
+  },
+  GeoJSON: (props: Record<string, unknown>) => {
+    geoJsonProps.calls.push(props);
+    return <div data-testid="parcel-overlay" />;
+  },
+  MapContainer: ({
+    children,
+    ref,
+    ...props
+  }: PropsWithChildren<{
+    ref?: (map: typeof mapMock | null) => void;
+  }>) => {
+    mapContainerProps.current = props;
+    useEffect(() => {
+      ref?.(mapMock);
+      return () => ref?.(null);
+    }, [ref]);
+    return <div>{children}</div>;
+  },
   Pane: ({
     children,
     name,
@@ -82,7 +128,10 @@ vi.mock("react-leaflet", () => ({
   ScaleControl: ({ position }: { position: string }) => (
     <div data-testid="scale-control" data-position={position} />
   ),
-  TileLayer: () => null,
+  TileLayer: (props: Record<string, unknown>) => {
+    tileLayerProps.calls.push(props);
+    return <div data-testid="tile-layer" data-class-name={props.className} />;
+  },
   useMap: () => mapMock,
   useMapEvents: (handlers: typeof mapEventHandlers) => {
     mapEventHandlers.click = handlers.click;
@@ -103,6 +152,7 @@ vi.mock("./MineralProximityParcelLayer", () => ({
     visible,
     onSelectPid,
     onStatusChange,
+    ...props
   }: {
     visible: boolean;
     onSelectPid: (pid: string) => void;
@@ -110,6 +160,7 @@ vi.mock("./MineralProximityParcelLayer", () => ({
       status: { status: "loading" } | { status: "ready"; count: number },
     ) => void;
   }) => {
+    mineralLayerProps.current = { visible, onSelectPid, onStatusChange, ...props };
     useEffect(() => {
       if (visible) {
         mineralLayerEffectStarts();
@@ -142,6 +193,19 @@ const hiddenResourceLayers = {
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
+  mapMock.getZoom.mockReturnValue(9);
+  mapMock.getBounds.mockReturnValue({
+    getWest: () => -62,
+    getSouth: () => 45,
+    getEast: () => -60,
+    getNorth: () => 47,
+  });
+  mapContainerProps.current = undefined;
+  geoJsonProps.calls.length = 0;
+  circleMarkerProps.calls.length = 0;
+  tileLayerProps.calls.length = 0;
+  mineralLayerProps.current = undefined;
 });
 
 describe("MapCanvas browser location", () => {
@@ -251,6 +315,191 @@ describe("MapCanvas browser location", () => {
       screen.queryByText("Your location is shown on the map."),
     ).not.toBeInTheDocument();
     expect(screen.getByTestId("location-position")).toBeInTheDocument();
+  });
+
+  it("does not carry an interactive location marker into print mode", async () => {
+    const user = userEvent.setup();
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: null,
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+        buildings: false,
+        contours: false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+    };
+    const { rerender } = render(<MapCanvas {...props} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(await screen.findByTestId("location-position")).toBeInTheDocument();
+
+    rerender(<MapCanvas {...props} renderMode="print" />);
+
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
+  });
+});
+
+describe("MapCanvas viewport reporting", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("reports the centre, zoom, and bounds when the viewport changes", () => {
+    const onPositionChange = vi.fn();
+    const onViewportChange = vi.fn();
+    mapMock.getZoom.mockReturnValue(15);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onPositionChange={onPositionChange}
+        onViewportChange={onViewportChange}
+      />,
+    );
+
+    onPositionChange.mockClear();
+    onViewportChange.mockClear();
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+
+    expect(moveendHandler).toBeTypeOf("function");
+    act(() => moveendHandler?.());
+
+    expect(onPositionChange).toHaveBeenCalledWith({
+      latitude: 46.35,
+      longitude: -61.15,
+      zoom: 15,
+    });
+    expect(onViewportChange).toHaveBeenCalledWith({
+      position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
+      bounds: { north: 47, east: -60, south: 45, west: -62 },
+    });
+  });
+
+  it("keeps location recentering out of printable viewport state", async () => {
+    const user = userEvent.setup();
+    const onPositionChange = vi.fn();
+    const onViewportChange = vi.fn();
+    mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
+    mapMock.getZoom.mockReturnValue(15);
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onPositionChange={onPositionChange}
+        onViewportChange={onViewportChange}
+      />,
+    );
+
+    onPositionChange.mockClear();
+    onViewportChange.mockClear();
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await waitFor(() => {
+      expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+    });
+
+    mapMock.getCenter.mockReturnValue({ lat: 46.12, lng: -60.91 });
+    mapMock.getZoom.mockReturnValue(14);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -60.96,
+      getSouth: () => 46.07,
+      getEast: () => -60.86,
+      getNorth: () => 46.17,
+    });
+    const [, zoomendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "zoomend")
+      .pop() ?? [];
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+
+    act(() => {
+      zoomendHandler?.({ type: "zoomend" });
+      moveendHandler?.({ type: "moveend" });
+      zoomendHandler?.({ type: "zoomend" });
+    });
+
+    expect(onPositionChange).toHaveBeenLastCalledWith({
+      latitude: 46.12,
+      longitude: -60.91,
+      zoom: 14,
+    });
+    expect(onViewportChange).not.toHaveBeenCalled();
+
+    mapMock.getCenter.mockReturnValue({ lat: 46.2, lng: -61 });
+    mapMock.getZoom.mockReturnValue(15);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -61.05,
+      getSouth: () => 46.15,
+      getEast: () => -60.95,
+      getNorth: () => 46.25,
+    });
+    act(() => moveendHandler?.({ type: "moveend" }));
+
+    expect(onViewportChange).toHaveBeenLastCalledWith({
+      position: { latitude: 46.2, longitude: -61, zoom: 15 },
+      bounds: {
+        north: 46.25,
+        east: -60.95,
+        south: 46.15,
+        west: -61.05,
+      },
+    });
   });
 });
 
@@ -693,6 +942,58 @@ describe("MapCanvas Province overlays", () => {
     expect(mapMock.addLayer).toHaveBeenCalledTimes(2);
   });
 
+  it("recovers interactive roads readiness after a later successful load", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    const roadLayers = mapMock.addLayer.mock.calls.map(
+      ([layer]) =>
+        layer as {
+          fire: (event: string) => void;
+        },
+    );
+    expect(roadLayers).toHaveLength(2);
+
+    act(() => roadLayers[0].fire("tileerror"));
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
+      status: "error",
+    });
+
+    act(() => {
+      roadLayers[0].fire("load");
+      roadLayers[1].fire("load");
+    });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
+      status: "ready",
+      count: 0,
+    });
+  });
+
   it("does not force the overview map inward when default property boundaries are checked", () => {
     mapMock.getZoom.mockReturnValue(9);
 
@@ -772,6 +1073,56 @@ describe("MapCanvas resource overlays", () => {
           properties: { geo_id: 70, Name: "Example occurrence" },
         },
       ],
+    });
+  });
+
+  it("recovers an interactive ArcGIS resource after a later successful load", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={{
+          ...hiddenResourceLayers,
+          "mineral-tenure": true,
+        }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    const [tenureLayer] = mapMock.addLayer.mock.calls.map(
+      ([layer]) =>
+        layer as {
+          fire: (event: string) => void;
+        },
+    );
+    expect(tenureLayer).toBeDefined();
+
+    act(() => {
+      tenureLayer.fire("tileerror");
+      tenureLayer.fire("load");
+    });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("mineral-tenure", {
+      status: "ready",
+      count: 0,
     });
   });
 
@@ -1112,5 +1463,347 @@ describe("MapCanvas parcel styling", () => {
         },
       ).fillOpacity,
     ).toBe(0.3);
+  });
+
+  it("uses deterministic monochrome parcel styles for print maps", () => {
+    const context = {
+      selectedPid: "15234636",
+      taxSalePids: new Set<string>(),
+      showTaxSale: false,
+      historicalTaxSalePids: new Set(["15161631"]),
+      showHistoricalTaxSales: true,
+    };
+
+    expect(parcelStyleForFeature(selectedFeature, context, "print")).toMatchObject({
+      color: "#000000",
+      fillColor: "#d8d8d8",
+      fillOpacity: 0.45,
+      weight: 4,
+      className: "print-selected-parcel",
+    });
+    expect(
+      parcelStyleForFeature(
+        { ...selectedFeature, properties: { PID: "15161631" } },
+        context,
+        "print",
+      ),
+    ).toMatchObject({ color: "#333333", dashArray: "7 4" });
+  });
+});
+
+describe("MapCanvas print mode", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapEventHandlers.click = undefined;
+  });
+
+  it("disables interaction, location, and identify while fitting printable bounds", () => {
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": true,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+        fitBounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+      />,
+    );
+
+    expect(mapContainerProps.current).toMatchObject({
+      zoomControl: false,
+      dragging: false,
+      touchZoom: false,
+      doubleClickZoom: false,
+      scrollWheelZoom: false,
+      boxZoom: false,
+      keyboard: false,
+    });
+    expect(screen.queryByRole("button", { name: "Use my location" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Copy map centre coordinates" })).toBeNull();
+    expect(screen.queryByTestId("scale-control")).toBeNull();
+    expect(mapEventHandlers.click).toBeUndefined();
+    expect(screen.getByTestId("tile-layer")).toHaveAttribute(
+      "data-class-name",
+      "print-layer-modern",
+    );
+    expect(
+      mapMock.addLayer.mock.calls.some(
+        ([layer]) => layer.options.className === "print-layer-ns-aerial",
+      ),
+    ).toBe(true);
+    expect(mapMock.fitBounds).toHaveBeenCalledWith(
+      [[46.3, -61.2], [46.4, -61.1]],
+      { padding: [24, 24], maxZoom: 18, animate: false },
+    );
+  });
+
+  it("renders feature and hydro overlays as monochrome display-only print layers", async () => {
+    mapMock.getZoom.mockReturnValue(12);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={{
+          ...hiddenResourceLayers,
+          "mineral-occurrences": true,
+          "mineral-proximity-parcels": true,
+        }}
+        hydroPilotLayers={{ "inverness-hydro-potential": true }}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+      />,
+    );
+
+    await waitFor(() =>
+      expect(geoJsonProps.calls.some((props) => props.pointToLayer)).toBe(true),
+    );
+    const featureLayer = geoJsonProps.calls.find((props) => props.pointToLayer);
+    const marker = (featureLayer?.pointToLayer as (
+      feature: unknown,
+      latlng: [number, number],
+    ) => { options: Record<string, unknown> })({}, [46.1, -61.2]);
+    expect(featureLayer).toMatchObject({ interactive: false, onEachFeature: undefined });
+    expect(marker.options).toMatchObject({
+      color: "#111111",
+      fillColor: "#e8e8e8",
+    });
+    await waitFor(() =>
+      expect(geoJsonProps.calls.some((props) =>
+        Boolean((props.data as { metadata?: unknown })?.metadata),
+      )).toBe(true),
+    );
+    const hydroLayer = geoJsonProps.calls.find(
+      (props) => Boolean((props.data as { metadata?: unknown })?.metadata),
+    );
+    expect(hydroLayer).toMatchObject({ interactive: false, onEachFeature: undefined });
+    const printHydroStyle = hydroLayer?.style as (
+      feature: unknown,
+    ) => Record<string, unknown>;
+    const lowHydroStyle = printHydroStyle({
+      properties: {
+        upstreamAreaKm2: 10,
+        potentialClass: "below-1kw",
+        networkRole: "tributary",
+      },
+    });
+    const highHydroStyle = printHydroStyle({
+      properties: {
+        upstreamAreaKm2: 10,
+        potentialClass: "kw-30-50",
+        networkRole: "trunk",
+      },
+    });
+    expect(lowHydroStyle).toMatchObject({ color: "#222222", opacity: 0.9 });
+    expect(highHydroStyle).toMatchObject({ color: "#222222", opacity: 0.9 });
+    expect(lowHydroStyle).not.toEqual(highHydroStyle);
+    expect(lowHydroStyle.dashArray).not.toBe(highHydroStyle.dashArray);
+    expect(mineralLayerProps.current).toMatchObject({
+      visible: true,
+      renderMode: "print",
+    });
+  });
+
+  it("keeps print overview markers non-interactive and distinct without colour", () => {
+    mapMock.getZoom.mockReturnValue(9);
+    const parcels = {
+      type: "FeatureCollection" as const,
+      features: [
+        {
+          type: "Feature" as const,
+          properties: { PID: "10000001" },
+          geometry: {
+            type: "Polygon" as const,
+            coordinates: [[[-61.2, 46.3], [-61.1, 46.3], [-61.1, 46.4], [-61.2, 46.3]]],
+          },
+        },
+        {
+          type: "Feature" as const,
+          properties: { PID: "20000002" },
+          geometry: {
+            type: "Polygon" as const,
+            coordinates: [[[-61, 46.2], [-60.9, 46.2], [-60.9, 46.3], [-61, 46.2]]],
+          },
+        },
+      ],
+    };
+
+    render(
+      <MapCanvas
+        parcels={parcels}
+        taxSalePids={new Set(["10000001"])}
+        historicalTaxSalePids={new Set(["20000002"])}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+      />,
+    );
+
+    const overviewMarkers = [
+      "print-current-tax-sale-marker",
+      "print-historical-tax-sale-marker",
+    ].map((className) =>
+      [...circleMarkerProps.calls].reverse().find(
+        ({ pathOptions }) =>
+          (pathOptions as { className?: string })?.className === className,
+      ),
+    );
+    expect(overviewMarkers).toHaveLength(2);
+    for (const marker of overviewMarkers) {
+      expect(marker?.interactive).toBe(false);
+      expect(marker?.eventHandlers).toBeUndefined();
+    }
+    const markerStyles = overviewMarkers.map((marker) => marker?.pathOptions);
+    expect(markerStyles[0]).not.toEqual(markerStyles[1]);
+    expect(markerStyles).toEqual(expect.arrayContaining([
+      expect.objectContaining({ className: "print-current-tax-sale-marker" }),
+      expect.objectContaining({ className: "print-historical-tax-sale-marker" }),
+    ]));
+  });
+
+  it("keeps modern tile errors sticky within a print attempt", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+        renderMode="print"
+      />,
+    );
+
+    const eventHandlers = tileLayerProps.calls.at(-1)?.eventHandlers as
+      | Record<string, () => void>
+      | undefined;
+    act(() => {
+      eventHandlers?.tileerror();
+      eventHandlers?.load();
+    });
+
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("modern", {
+      status: "error",
+    });
+  });
+
+  it("requires every physical roads tile sublayer and keeps any error sticky", () => {
+    mapMock.getZoom.mockReturnValue(15);
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+        renderMode="print"
+      />,
+    );
+
+    const roadLayers = mapMock.addLayer.mock.calls
+      .map(([layer]) => layer as {
+        options: { className?: string };
+        fire: (event: string) => void;
+      })
+      .filter(({ options }) => options.className === "print-layer-roads");
+    expect(roadLayers).toHaveLength(2);
+
+    act(() => roadLayers[0].fire("load"));
+    expect(onLayerStatusChange).not.toHaveBeenCalledWith(
+      "roads",
+      expect.objectContaining({ status: "ready" }),
+    );
+
+    act(() => {
+      roadLayers[1].fire("tileerror");
+      roadLayers[1].fire("load");
+    });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
+      status: "error",
+    });
   });
 });

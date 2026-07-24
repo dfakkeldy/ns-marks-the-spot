@@ -1,4 +1,3 @@
-// @ts-expect-error Vitest runs in Node; the browser bundle intentionally omits Node types.
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
@@ -122,5 +121,79 @@ describe("mobile parcel inspector layout", () => {
 
     expect(mobileStyles).toMatch(/\.app-brand strong,/);
     expect(mobileStyles).not.toMatch(/\.header-action\s*\{[^}]*display:\s*none/);
+  });
+});
+
+describe("print document paged media", () => {
+  it("uses named Letter pages and isolates the live app while printing", () => {
+    expect(styles).toMatch(/@page research-sheet\s*{[^}]*size:\s*letter portrait/s);
+    expect(styles).toMatch(/@page field-sheet\s*{[^}]*size:\s*letter landscape/s);
+    expect(styles).toMatch(/@media print\s*{/);
+    expect(styles).toMatch(/body\.print-preview-open\s+\.app-shell\s*{[^}]*display:\s*none/s);
+    expect(styles).toMatch(/\.print-document--inactive\s*{[^}]*display:\s*none/s);
+    expect(styles).toMatch(/font-size:\s*9pt/);
+  });
+
+  it("removes the screen-only preview backdrop before printing the selected document", () => {
+    const printStyles = styles.slice(styles.indexOf("@media print"));
+
+    expect(printStyles).toMatch(/\.print-preview-backdrop\s*{[^}]*position:\s*static/s);
+    expect(printStyles).toMatch(/\.print-preview-stage\s*{[^}]*overflow:\s*visible/s);
+  });
+
+  it("gives every rendered layer category an explicit monochrome legend treatment", () => {
+    const layerIds = [
+      "selected-parcel", "current-tax-sale", "historical-tax-sale",
+      "modern", "ns-aerial", "nsprd", "crown-lands", "flood-risk",
+      "waterfalls", "water-features", "roads", "buildings", "contours",
+      "mineral-occurrences", "mineral-tenure", "abandoned-mines",
+      "mineral-proximity-parcels", "inverness-hydro-potential",
+      "published-river-flood-zones", "coastal-flood-current",
+      "coastal-flood-2050", "coastal-flood-2100",
+    ];
+    const treatments = layerIds.map((id) => {
+      const escapedId = id.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+      const declarations = styles.match(
+        new RegExp(`\\.print-layer-symbol--${escapedId}\\s*\\{([^}]*)\\}`),
+      )?.[1];
+      expect(declarations, `missing explicit legend treatment for ${id}`)
+        .toBeDefined();
+      return declarations?.replace(/\s+/gu, " ").trim();
+    });
+
+    expect(new Set(treatments)).toHaveLength(layerIds.length);
+
+    const nsprdTreatment = treatments[layerIds.indexOf("nsprd")];
+    const selectedTreatment = treatments[layerIds.indexOf("selected-parcel")];
+    expect(nsprdTreatment).toMatch(/border:\s*1pt solid #777/);
+    expect(nsprdTreatment).toMatch(/background:\s*#fff/);
+    expect(nsprdTreatment).not.toMatch(/gradient/);
+    expect(selectedTreatment).toMatch(/repeating-linear-gradient/);
+  });
+
+  it("keeps the landscape field contract bounded and printable metadata at 9pt or larger", () => {
+    const printStyles = styles.slice(styles.indexOf(".print-preview"));
+    const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
+
+    expect(fieldPage).toMatch(/height:\s*195\.9mm/);
+    expect(fieldPage).toMatch(/display:\s*grid/);
+    expect(styles).toMatch(/\.print-field-support\s*\{/);
+    expect(styles).toMatch(/grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+    expect(styles).toMatch(/\.print-field-support \.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
+    expect(styles).toMatch(/\.print-field-support \.print-attribution-links\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
+    expect(printStyles).not.toMatch(/font-size:\s*[0-8](?:\.\d+)?pt/);
+  });
+
+  it("fixes the research summary and field sheets to bounded Letter page grids", () => {
+    const researchPage = styles.match(/\.print-research-summary\s*\{([^}]*)\}/)?.[1];
+    const fieldPage = styles.match(/\.print-field-page\s*\{([^}]*)\}/)?.[1];
+
+    expect(researchPage).toMatch(/height:\s*259\.4mm/);
+    expect(researchPage).toMatch(/display:\s*grid/);
+    expect(researchPage).toMatch(/grid-template-rows:\s*17mm 12mm 68mm minmax\(70mm, 1fr\) 11mm 20mm/);
+    expect(fieldPage).toMatch(/grid-template-rows:\s*17mm 12mm 62mm minmax\(42mm, 1fr\) 11mm 20mm/);
+    expect(styles).toMatch(/\.print-research-support\s*\{/);
+    expect(styles).toMatch(/\.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
+    expect(styles).toMatch(/\.print-required-attribution\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
   });
 });
