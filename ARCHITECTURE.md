@@ -133,6 +133,9 @@ Document ownership is split by output concern:
 - `PrintFieldDocument` owns the single-page landscape field sheet;
 - `PrintEvidenceAppendix` owns source-state wording without collapsing empty,
   coverage, error, or timeout states;
+- `printSnapshot.ts` seals assessment and dependent PVSC dwelling evidence
+  under the same selected-PID generation token so a late account response
+  cannot cross parcel selections;
 - `printRenderedLayers.ts` limits source material to actually rendered layers;
   and
 - `printEvidenceAttribution.ts` adds Nova Scotia open-data and PVSC evidence

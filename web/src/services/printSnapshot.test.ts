@@ -64,6 +64,7 @@ const pendingEvidence: PrintEvidence = {
   mappedArea: null,
   buildings: { status: "pending" },
   assessments: { status: "pending" },
+  dwellings: { status: "pending" },
   civicAddresses: { status: "pending" },
   mappedContext: { status: "pending" },
   floodHazard: { status: "pending" },
@@ -103,6 +104,9 @@ describe("print capture", () => {
       pending: [],
     });
     expect(printCaptureReadiness(capture, "research").ready).toBe(false);
+    expect(printCaptureReadiness(capture, "research").pending).toContain(
+      "dwellings",
+    );
   });
 
   it("converts timed-out research slots to explicit errors", () => {
@@ -116,6 +120,10 @@ describe("print capture", () => {
       message: "Source unavailable at export time.",
     });
     expect(snapshot.evidence.civicAddresses.status).toBe("error");
+    expect(snapshot.evidence.dwellings).toEqual({
+      status: "error",
+      message: "Source unavailable at export time.",
+    });
   });
 
   it("seals a snapshot whose nested graph cannot be mutated", () => {
@@ -163,6 +171,21 @@ describe("print capture", () => {
       ...pendingEvidence,
       buildings: { status: "ready", value: { count: 3, pointCount: 2, polygonCount: 1 } },
       assessments: { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
+      dwellings: {
+        status: "ready",
+        value: [{
+          aan: "00603988",
+          dwellings: [{
+            yearBuilt: 2018,
+            style: "Two Storey",
+            squareFeetLivingArea: 1600,
+            livingUnits: 1,
+            bathrooms: 2,
+            garage: true,
+            underConstruction: false,
+          }],
+        }],
+      },
       civicAddresses: { status: "ready", value: [] },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {
@@ -192,6 +215,21 @@ describe("print capture", () => {
       value: { count: 3, pointCount: 2, polygonCount: 1 },
     });
     expect(snapshot.evidence.civicAddresses).toEqual({ status: "ready", value: [] });
+    expect(snapshot.evidence.dwellings).toEqual({
+      status: "ready",
+      value: [{
+        aan: "00603988",
+        dwellings: [{
+          yearBuilt: 2018,
+          style: "Two Storey",
+          squareFeetLivingArea: 1600,
+          livingUnits: 1,
+          bathrooms: 2,
+          garage: true,
+          underConstruction: false,
+        }],
+      }],
+    });
     expect(snapshot.evidence.floodHazard).toEqual({
       status: "ready",
       value: {
@@ -206,6 +244,11 @@ describe("print capture", () => {
       ...pendingEvidence,
       buildings: { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
       assessments: { status: "error", message: "Assessment source unavailable." },
+      dwellings: {
+        status: "error",
+        message:
+          "Dwelling lookup was not run because assessment account evidence was unavailable.",
+      },
       civicAddresses: { status: "ready", value: [] },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {

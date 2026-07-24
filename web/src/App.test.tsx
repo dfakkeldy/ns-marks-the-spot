@@ -2447,6 +2447,11 @@ describe("NS Marks The Spot Online", () => {
       expect(within(dialog).getAllByText(PROVINCE_ATTRIBUTION).length)
         .toBeGreaterThan(0),
     );
+    expect(
+      await within(dialog).findByText(
+        "Dwelling characteristics: 0 accounts captured",
+      ),
+    ).toBeInTheDocument();
     expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
     expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
 

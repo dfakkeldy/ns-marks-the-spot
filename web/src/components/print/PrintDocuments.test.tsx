@@ -5,6 +5,7 @@ import {
   OPEN_GOVERNMENT_LICENCE_URL,
 } from "../../services/civicAddresses";
 import { PVSC_OPEN_DATA_ATTRIBUTION } from "../../services/pvscAssessments";
+import { PVSC_DWELLING_DATASET_URL } from "../../services/pvscDwellings";
 import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_URL,
@@ -109,6 +110,21 @@ function snapshot(overrides: Record<string, unknown> = {}) {
       mappedArea: { squareMetres: 1000, acres: 0.25, label: "0.25 acres" },
       buildings: { status: "ready", value: { count: 2, pointCount: 1, polygonCount: 1 } },
       assessments: { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
+      dwellings: {
+        status: "ready",
+        value: [{
+          aan: "00603988",
+          dwellings: [{
+            yearBuilt: 2018,
+            style: "Two Storey",
+            squareFeetLivingArea: 1600,
+            livingUnits: 1,
+            bathrooms: 2,
+            garage: true,
+            underConstruction: false,
+          }],
+        }],
+      },
       civicAddresses: { status: "ready", value: [] },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {
@@ -150,6 +166,9 @@ describe("print documents", () => {
     expect(screen.getByText("PID 01234567")).toBeInTheDocument();
     expect(screen.getByText("Mapped buildings")).toBeInTheDocument();
     expect(screen.getByText("Assessment: 0 accounts captured")).toBeInTheDocument();
+    expect(
+      screen.getByText("Dwelling characteristics: 1 account captured"),
+    ).toBeInTheDocument();
     expect(screen.getByText("Generated: 2026-07-23T13:42:15.000Z")).toBeInTheDocument();
     expect(document.querySelector(".print-capture-context")).toHaveTextContent("Current map stateInverness County tax sale: Listed in official notice");
     expect(screen.getByText(PROVINCE_ATTRIBUTION)).toBeInTheDocument();
@@ -496,8 +515,26 @@ describe("print documents", () => {
     expect(within(appendix).getByText("0.25 acres")).toBeInTheDocument();
     expect(within(appendix).getByText("Matched by published account points inside the mapped parcel geometry."))
       .toBeInTheDocument();
-    expect(within(appendix).getByText("Dataset updated January 12, 2026"))
-      .toBeInTheDocument();
+    expect(
+      within(appendix).getByRole("heading", {
+        name: "PVSC dwelling characteristics",
+      }),
+    ).toBeInTheDocument();
+    expect(within(appendix).getByText("AAN 00603988")).toBeInTheDocument();
+    expect(within(appendix).getByText("Built 2018")).toBeInTheDocument();
+    expect(
+      within(appendix).getByText(
+        "Two Storey · 1,600 sq ft living area · 1 living unit · 2 bathrooms · Garage",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(appendix).getByRole("link", {
+        name: "PVSC dwelling evidence",
+      }),
+    ).toHaveAttribute("href", PVSC_DWELLING_DATASET_URL);
+    expect(
+      within(appendix).getAllByText("Dataset updated January 12, 2026"),
+    ).toHaveLength(2);
     expect(within(appendix).getAllByText("Captured for print: 2026-07-23T13:42:00.000Z").length)
       .toBeGreaterThan(0);
   });

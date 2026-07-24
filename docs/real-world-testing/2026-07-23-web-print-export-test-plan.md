@@ -42,7 +42,7 @@ Run from a clean dependency install in `web/` on 2026-07-23:
 | Command | Result | Receipt |
 |---|---|---|
 | `npm ci` | Pass | 285 packages installed; 286 audited; 0 vulnerabilities. |
-| `npm test` | Pass | 36 test files passed, 1 intentional live-service file skipped; 322 tests passed, 1 skipped. This supersedes the pre-fix 303-test receipt and includes the reviewed final-fix head's 316-test receipt. |
+| `npm test` | Pass | After rebasing onto the PVSC dwelling-evidence change, 37 test files passed and 1 intentional live-service file skipped; 333 tests passed, 1 skipped. The merged print contract now includes race-safe dwelling evidence in research readiness, timeout handling, summary status, appendix output, and PVSC attribution. |
 | `npm run lint` | Pass | ESLint completed with no errors or warnings after three stale, unused type imports from the upstream `ParcelInspector` extraction were removed from `App.tsx`. |
 | `npm run build` | Pass | TypeScript and Vite production build completed. Vite retained its existing advisory for chunks over 500 kB; it was not a build failure. |
 | `git diff --check` | Pass | No whitespace errors. |

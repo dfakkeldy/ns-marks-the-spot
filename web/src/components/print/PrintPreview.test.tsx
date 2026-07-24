@@ -85,6 +85,7 @@ function capture(pending = false): PrintCapture {
       mappedArea: null,
       buildings: pending ? { status: "pending" } : { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
       assessments: pending ? { status: "pending" } : { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
+      dwellings: pending ? { status: "pending" } : { status: "ready", value: [] },
       civicAddresses: state,
       mappedContext: pending ? { status: "pending" } : { status: "ready", value: { roads: [], water: [] } },
       floodHazard: pending ? { status: "pending" } : { status: "ready", value: { river: { status: "within-published-layer-extent", aep: [] }, coastal: [] } },

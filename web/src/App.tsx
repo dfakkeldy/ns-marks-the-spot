@@ -106,13 +106,14 @@ import {
 } from "./services/parcelResources";
 import {
   fetchParcelBuildingCount,
-  type ParcelBuildingCount,
 } from "./services/buildings";
 import {
   fetchParcelAssessments,
-  type ParcelAssessmentResult,
 } from "./services/pvscAssessments";
-import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
+import {
+  fetchDwellingCharacteristics,
+  type PvscDwellingAccount,
+} from "./services/pvscDwellings";
 import {
   eventDate,
   eventDateLabel,
@@ -289,6 +290,32 @@ function printStateForRequest<T>(
   return request && isCurrentEvidenceRequest(state.request, request)
     ? printState(state)
     : { status: "pending" };
+}
+
+function printDwellingStateForRequest(
+  state: DwellingState,
+  request: SelectedEvidenceRequest | null,
+): PrintLoadState<PvscDwellingAccount[]> {
+  if (!request || !isCurrentEvidenceRequest(state.request, request)) {
+    return { status: "pending" };
+  }
+  if (state.status === "ready") {
+    return { status: "ready", value: state.value };
+  }
+  if (state.status === "blocked") {
+    return {
+      status: "error",
+      message:
+        "Dwelling lookup was not run because assessment account evidence was unavailable.",
+    };
+  }
+  if (state.status === "error") {
+    return {
+      status: "error",
+      message: "PVSC dwelling source unavailable at export time.",
+    };
+  }
+  return { status: "pending" };
 }
 
 function printEventForCurrent(event: TaxSaleEvent, now: number): PrintEvent {
@@ -1486,6 +1513,10 @@ export function App() {
     mappedArea: selectedMappedArea,
     buildings: printStateForRequest(buildingCount, selectedEvidenceRequest),
     assessments: printStateForRequest(assessmentState, selectedEvidenceRequest),
+    dwellings: printDwellingStateForRequest(
+      dwellingState,
+      selectedEvidenceRequest,
+    ),
     civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
     mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),
     floodHazard: printStateForRequest(floodHazard, selectedEvidenceRequest),
@@ -1494,6 +1525,7 @@ export function App() {
     assessmentState,
     buildingCount,
     civicAddresses,
+    dwellingState,
     floodHazard,
     mappedContext,
     resourceIntersections,

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { PrintSnapshot } from "../../services/printSnapshot";
+import type { PvscDwelling } from "../../services/pvscDwellings";
 import {
   printEvidenceAttribution,
   type PrintEvidenceAttribution,
@@ -191,6 +192,79 @@ function Assessments({ snapshot }: { snapshot: PrintSnapshot }) {
     <EvidenceSection
       heading="Assessment accounts"
       source={printEvidenceAttribution("pvsc-assessments")}
+      snapshot={snapshot}
+    >
+      {result}
+    </EvidenceSection>
+  );
+}
+
+function dwellingFacts(dwelling: PvscDwelling): string {
+  return [
+    dwelling.style,
+    dwelling.squareFeetLivingArea !== null
+      ? `${dwelling.squareFeetLivingArea.toLocaleString("en-CA")} sq ft living area`
+      : null,
+    dwelling.livingUnits !== null
+      ? `${dwelling.livingUnits.toLocaleString("en-CA")} living unit${dwelling.livingUnits === 1 ? "" : "s"}`
+      : null,
+    dwelling.bathrooms !== null
+      ? `${dwelling.bathrooms.toLocaleString("en-CA")} bathroom${dwelling.bathrooms === 1 ? "" : "s"}`
+      : null,
+    dwelling.garage === null ? null : dwelling.garage ? "Garage" : "No garage",
+    dwelling.underConstruction ? "Under construction" : null,
+  ]
+    .filter((fact): fact is string => fact !== null)
+    .join(" · ");
+}
+
+function Dwellings({ snapshot }: { snapshot: PrintSnapshot }) {
+  const state = snapshot.evidence.dwellings;
+  let result: ReactNode;
+  if (state.status !== "ready") {
+    result = (
+      <p>
+        {state.status === "error"
+          ? state.message
+          : "Source unavailable at export time."}
+      </p>
+    );
+  } else if (state.value.length === 0) {
+    result = (
+      <p>
+        No residential dwelling record was returned for the matched accounts.
+        This does not prove no building exists; commercial and other
+        non-residential structures are not in this dataset.
+      </p>
+    );
+  } else {
+    result = (
+      <ul>
+        {state.value.map((account) => (
+          <li key={account.aan}>
+            <strong>AAN {account.aan}</strong>
+            <ul>
+              {account.dwellings.map((dwelling, index) => (
+                <li key={index}>
+                  <strong>
+                    {dwelling.yearBuilt !== null
+                      ? `Built ${dwelling.yearBuilt}`
+                      : "Build year not published"}
+                  </strong>
+                  <span>{dwellingFacts(dwelling)}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return (
+    <EvidenceSection
+      heading="PVSC dwelling characteristics"
+      source={printEvidenceAttribution("pvsc-dwellings")}
       snapshot={snapshot}
     >
       {result}
@@ -501,6 +575,7 @@ export function PrintEvidenceAppendix({
       <MappedArea snapshot={snapshot} />
       <Buildings snapshot={snapshot} />
       <Assessments snapshot={snapshot} />
+      <Dwellings snapshot={snapshot} />
       <Addresses snapshot={snapshot} />
       <Context snapshot={snapshot} />
       <FloodHazard snapshot={snapshot} />

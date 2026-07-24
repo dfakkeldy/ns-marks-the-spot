@@ -131,7 +131,8 @@ Attribution follows the material actually rendered or reported:
   licence link, and not-a-survey boundary;
 - Nova Scotia open-data layers and Civic Address evidence retain the Open
   Government Licence attribution;
-- PVSC assessment evidence retains the PVSC open-data attribution and licence;
+- PVSC assessment and dwelling evidence retain the PVSC open-data attribution
+  and licence;
   and
 - the modern map retains © OpenStreetMap contributors and its copyright link.
 

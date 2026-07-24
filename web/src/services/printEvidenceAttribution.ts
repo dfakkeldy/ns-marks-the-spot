@@ -21,6 +21,10 @@ import {
   PVSC_OPEN_DATA_ATTRIBUTION,
   PVSC_OPEN_DATA_LICENCE_URL,
 } from "./pvscAssessments";
+import {
+  PVSC_DWELLING_DATASET_URL,
+  PVSC_DWELLING_SOURCE_DATE,
+} from "./pvscDwellings";
 
 export type PrintEvidenceSourceId =
   | "nsprd-selected-geometry"
@@ -31,6 +35,7 @@ export type PrintEvidenceSourceId =
   | "coastal-flood-evidence"
   | "civic-addresses"
   | "pvsc-assessments"
+  | "pvsc-dwellings"
   | "mineral-occurrence-evidence"
   | "mineral-tenure-evidence"
   | "abandoned-mine-evidence";
@@ -157,6 +162,18 @@ const EVIDENCE_SOURCES: Record<
     authority: "PVSC supplies dated assessed and taxable assessed value history.",
     limitation: "Assessment records are not a current market appraisal, sale price, title record, or complete parcel-account linkage.",
   },
+  "pvsc-dwellings": {
+    id: "pvsc-dwellings",
+    label: "PVSC dwelling evidence",
+    sourceUrl: PVSC_DWELLING_DATASET_URL,
+    sourceDate: PVSC_DWELLING_SOURCE_DATE,
+    attribution: PVSC_OPEN_DATA_ATTRIBUTION,
+    licenceUrl: PVSC_OPEN_DATA_LICENCE_URL,
+    authority:
+      "PVSC supplies residential dwelling characteristics for matched assessment accounts.",
+    limitation:
+      "Dwelling records are assessment evidence, not a building census; empty results do not prove no structure exists, and commercial or other non-residential structures are excluded.",
+  },
   "mineral-occurrence-evidence": {
     id: "mineral-occurrence-evidence",
     label: "Mineral occurrence evidence",
@@ -212,6 +229,7 @@ export function reportedEvidenceAttributions(
     EVIDENCE_SOURCES["coastal-flood-evidence"],
     EVIDENCE_SOURCES["civic-addresses"],
     EVIDENCE_SOURCES["pvsc-assessments"],
+    EVIDENCE_SOURCES["pvsc-dwellings"],
     EVIDENCE_SOURCES["mineral-occurrence-evidence"],
     EVIDENCE_SOURCES["mineral-tenure-evidence"],
     EVIDENCE_SOURCES["abandoned-mine-evidence"],

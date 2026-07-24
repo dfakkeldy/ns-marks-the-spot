@@ -11,6 +11,7 @@ import type { NsprdFeatureCollection } from "./nsprd";
 import type { ParcelContext, MappedArea } from "./parcelContext";
 import type { ParcelResourceIntersections } from "./parcelResources";
 import type { ParcelAssessmentResult } from "./pvscAssessments";
+import type { PvscDwellingAccount } from "./pvscDwellings";
 
 export type PrintTemplate = "research" | "field";
 
@@ -53,6 +54,7 @@ export type PrintEvidence = {
   mappedArea: MappedArea | null;
   buildings: PrintLoadState<ParcelBuildingCount>;
   assessments: PrintLoadState<ParcelAssessmentResult>;
+  dwellings: PrintLoadState<PvscDwellingAccount[]>;
   civicAddresses: PrintLoadState<CivicAddress[]>;
   mappedContext: PrintLoadState<ParcelContext>;
   floodHazard: PrintLoadState<ParcelFloodHazardEvidence>;
@@ -101,6 +103,7 @@ export type PrintScale = {
 const RESEARCH_KEYS = [
   "buildings",
   "assessments",
+  "dwellings",
   "civicAddresses",
   "mappedContext",
   "floodHazard",
@@ -276,6 +279,7 @@ export function sealPrintSnapshot(
         ...clonedEvidence,
         buildings: unavailableIfPending(clonedEvidence.buildings),
         assessments: unavailableIfPending(clonedEvidence.assessments),
+        dwellings: unavailableIfPending(clonedEvidence.dwellings),
         civicAddresses: unavailableIfPending(clonedEvidence.civicAddresses),
         mappedContext: unavailableIfPending(clonedEvidence.mappedContext),
         floodHazard: unavailableIfPending(clonedEvidence.floodHazard),

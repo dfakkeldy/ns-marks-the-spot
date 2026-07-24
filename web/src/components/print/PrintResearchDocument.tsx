@@ -322,9 +322,11 @@ export function ResearchFactGrid({ snapshot }: { snapshot: PrintSnapshot }) {
 
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const assessment = snapshot.evidence.assessments;
+  const dwellings = snapshot.evidence.dwellings;
   const entries = [
     `Civic addresses: ${snapshot.evidence.civicAddresses.status === "ready" ? "captured" : "unavailable"}`,
     `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : "unavailable"}`,
+    `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : "unavailable"}`,
     `Roads and water: ${snapshot.evidence.mappedContext.status === "ready" ? "captured" : "unavailable"}`,
     `Flood evidence: ${snapshot.evidence.floodHazard.status === "ready" ? "captured" : "unavailable"}`,
     `Resource evidence: ${snapshot.evidence.resources.status === "ready" ? "captured" : "unavailable"}`,
