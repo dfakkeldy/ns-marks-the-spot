@@ -40,3 +40,10 @@ export const WELL_LOG_PANE_Z_INDEX = 405;
 
 export const ESTABLISHED_PARCEL_PANE = "established-parcel-overlays-pane";
 export const ESTABLISHED_PARCEL_PANE_Z_INDEX = 420;
+
+/**
+ * Active measurements are the user's current focus, so they render above
+ * every parcel overlay. Kept below 500 where the map's HTML controls sit.
+ */
+export const MEASURE_PANE = "measure-pane";
+export const MEASURE_PANE_Z_INDEX = 430;
