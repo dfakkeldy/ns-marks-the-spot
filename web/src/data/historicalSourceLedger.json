@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-07-21",
+  "retrievedOn": "2026-07-23",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -125,6 +125,64 @@
       "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
       "officialWinningBidsFound": true,
       "notes": "Thirty-seven result rows were reconciled to the final notice, including one two-PID listing. All result rows publish a selling price."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "August 26, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/tax-sale-by-tender-deadline-to-submit-a-bid-is-noon-on-tuesday-august-26-2025/",
+        "https://victoriacounty.com/wp-content/uploads/2025/07/Tax-Sale-Notice-1-Website-Post.jpeg",
+        "https://victoriacounty.com/wp-content/uploads/2025/07/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-aug-26-2025.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2025/09/Tax-Sale-Results-August-26-2025.pdf"
+      ],
+      "documentSha256": [
+        "cc201189d850b05a419b876c32cb23f75ff3487034d0b1e433246cf0bbd94dcd",
+        "69b3db9491611816fd09a4ddbda0c9f43300feb2fb972d6acd158f8bcbcdce52",
+        "2d85a27e119a597dd5f61e18bd0df8a3c33c5046c2c1dd45a98deedc7a796cb1"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "Total Owing", "HST", "status", "redeem", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "All twelve result rows were visually reviewed and included, one carrying two PIDs. Two SOLD/PAID rows publish successful bids and one row is NOT SOLD; the remaining nine rows publish a Total Owing but no status or successful bid and stay outcome-unknown, three of them unnumbered in the official table. The pre-sale property listing is no longer published and has no Wayback capture, so notice-to-result reconciliation is impossible; the announcement notice and tender terms pin the tender method and the August 26, 2025 noon deadline. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "November 25, 2025 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/upcoming-tax-sale-by-public-auction-2/",
+        "https://victoriacounty.com/wp-content/uploads/2025/10/Tax-Sale-Notice-2-Website-Post.jpeg",
+        "https://victoriacounty.com/wp-content/uploads/2025/12/Tax-Sale-Results-for-November-25-2025.pdf"
+      ],
+      "documentSha256": [
+        "cb54268759745bb68475e0f1e3233558b879dbfda66c3df55cf8eb010fbd06aa",
+        "592396e7d8c39320407b1f512aeddd1bbb25c8c59a1774ac45aa523a589f56db"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "Total Owing", "HST", "status", "redeemable", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "Six result rows were visually reviewed; two are included. AAN 0617717 (printed with seven digits and retained verbatim) sold for $16,000.00 and one row is NOT SOLD. One DEFERRED row and three PAID rows publish no Total Owing, redemption state, or successful bid and are excluded because the public schema requires a positive advertised amount: AAN 10835534 (PID 85030674, deferred), AAN 07972415 (PID 85061869), AAN 09055460 (PID 85050979), and AAN 09330739 (PID 85130839). The official announcement pins the public-auction method at 11:00 a.m. at the Inverary Resort's MacAulay Conference Centre, Baddeck. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "March 24, 2026 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/upcoming-tax-sale-by-public-auction-3/",
+        "https://victoriacounty.com/wp-content/uploads/2026/02/Tax-Sale-Housekeeping-Rules.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2026/02/Tax-Sale-Registration-Form.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2026/03/Tax-Sale-Results-March-24-2026.pdf"
+      ],
+      "documentSha256": [
+        "a1220caa96989654dd34c468e5f10e59a97fe232ae3bf1efdc73fa7fbb2d1f7f",
+        "3a603c74648e04f11cb525c9d0040156f1c42c0822dd5bc1f276e2686ccc5897",
+        "78a4bc0e6bf5d0348fef186d25bb57569b25a3122859d217c46b64ec5b5f9f89"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "Total Owing", "HST", "status", "redeemable", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "Fifteen result rows were visually reviewed; five are included. Three SOLD rows publish successful bids, one row is NOT SOLD, and AAN 09541209 (PID 85142388) prints REMOVED beside a successful bid of $17,500.00 and is kept fail-closed as withdrawn with no winning bid. Ten REMOVED rows publish no Total Owing and are excluded, including AAN 08820759 whose PID cell prints a malformed seven-digit value (8510331/85103364). The announcement page that pins the auction method and venue was hashed as an HTML snapshot on 2026-07-23 because the linked property-listing page has since been cleared and says no notices exist."
     },
     {
       "municipality": "Cape Breton Regional Municipality",

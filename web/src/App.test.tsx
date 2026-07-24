@@ -645,11 +645,11 @@ describe("NS Marks The Spot Online", () => {
       "historical layer: on",
     );
     await waitFor(() =>
-      expect(screen.getByText("161 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
+      expect(screen.getByText("180 historical PIDs matched in NSPRD.")).toBeInTheDocument(),
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("4 records · 4 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("7 records · 7 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
     expect(screen.getByText("2 records · 2 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
