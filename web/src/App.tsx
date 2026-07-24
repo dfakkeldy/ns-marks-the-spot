@@ -942,6 +942,7 @@ export function App() {
     setMappedContext({ status: "loading", value: EMPTY_PARCEL_CONTEXT });
     setBuildingCount({ status: "loading" });
     setAssessmentState({ status: "loading" });
+    setDwellingState({ status: "loading" });
     setFloodHazard({ status: "loading" });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES });
     setResourceIntersections({
