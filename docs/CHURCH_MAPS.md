@@ -67,7 +67,19 @@ both panels** — about one second of time, unremarkable for an 1884 compilation
 
 That constant cannot be removed using the held-out points without making the
 measurement circular, so the next step is to measure it on a *different* Cape
-Breton sheet. Still no tiles. See
+Breton sheet.
+
+It also **corrected attempt 4 on why the north panel cannot be measured**. That
+attempt blamed the modern coastline for being too generalised to resolve the
+coves Church drew. Measured directly, the reference carries **1,969 vertices at
+3.6 m median spacing** across the stretch in question — it is not generalised at
+all. What defeats the search is the *rule*: the coast trends 0.689 m east per
+metre north, and an extremal rule on a trending coast returns whichever latitude
+bound the box cut, exactly as `emit_candidates._refuse_if_truncated` already
+warns. Detrending surfaces the coves immediately. North needs a trend-immune
+candidate rule, not a new dataset. CanVec 50K was fetched and tested as the
+suspected fix and is **coarser** here (533 vertices against 2,139); it is not
+adopted and no licence claim is made for it. Still no tiles. See
 [`church-inverness-attempt-5-2026-07-25.md`](church-inverness-attempt-5-2026-07-25.md).
 
 ## Wired counties

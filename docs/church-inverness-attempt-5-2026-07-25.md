@@ -15,9 +15,13 @@ The measurement is unchanged from attempt 4, and that is this attempt's first
 result rather than an absence of one: the numbers were re-derived by an
 independent method and they survived. The tolerance was not adjusted.
 
-What is new is the *diagnosis*. The south panel's error is now known to be
-**one uniform translation plus ordinary scatter**, and the scatter alone is
-inside tolerance. The blocker is no longer "why is the error large" but
+Two things are new. The *diagnosis* of the south error, below; and a
+**correction to why north cannot be measured** — attempt 4 blamed the modern
+coastline for being too coarse, and that is wrong. See section 5. The verdict is
+unaffected, but the next step changes completely.
+
+Taking the south error first: it is now known to be **one uniform translation
+plus ordinary scatter**, and the scatter alone is inside tolerance. The blocker is no longer "why is the error large" but
 "where does a 404 m shift come from, and can it be justified independently of
 the points used to measure it".
 
@@ -118,9 +122,9 @@ of time. For an 1884 county compilation tied to local astronomical stations
 rather than telegraphic longitude, a one-second-of-time error is unremarkable.
 
 The latitude components do **not** agree (249 m south, 644 m north), but the
-north figure rests on two points, one of which is an extremal vertex on the
-generalised coast this very report rejects as a reference. It is not evidence of
-anything yet.
+north figure rests on two points, one of which is an extremal vertex on a
+trending coast — the construction section 5 shows an extremal rule cannot
+describe. It is not evidence of anything yet.
 
 One thing this evidence cannot do is separate "19th-century datum" from "error
 in Church's compilation". Both produce a constant shift. Distinguishing them
@@ -175,22 +179,85 @@ shown to be the wrong features by eye, independently of their residual — you
 cannot measure registration with a point that is not the feature — and anything
 derived under it is an optimistic bound.
 
-## 5. North: the reference blocker is unchanged
+## 5. North is NOT blocked on the reference — that was a wrong inference
 
-`nsgiwa.novascotia.ca` still does not respond from the compute host (curl exit
-without a status). `nsgi.novascotia.ca`, `data.novascotia.ca` and
-`services1.arcgis.com` all return 200. No adequate 1:10,000-class hydrography
-was obtained, so **no new reference dataset was committed, and no licence claim
-is made.**
+**This corrects attempt 4, and it corrects the first draft of this document.**
+Both said the north panel was blocked because the modern coastline was too
+coarse. It is not. The blocker is the candidate *rule*, and the data needed has
+been on disk the whole time.
 
-The QA sheet confirms attempt 4's account of what the four north island
-candidates actually are. Their tiles show the word **"Barren"** twice, a
-dash-dot county boundary, hachured highland and small pond outlines. Church drew
-no islands there, and the detector correctly found none.
+Attempt 4's observation was: sampled at 0.002° from 46.76 N to 46.90 N the
+reference shore "has no local extremum in either direction", therefore Fishing
+Cove, Pigeon Cove, White Capes, Shag Roost and Pollett Cove "are simply absent
+from it". The observation is reproducible. The conclusion does not follow.
 
-The north panel is therefore rejected again **for want of evidence, on the
-reference rather than on the warp** — the same finding as attempt 4, now with
-the drawn side of the comparison automated and still returning nothing.
+Measured on that exact stretch, with the extract's tile seam removed (56
+vertices repeating the longitude −60.999997, which `walls.py` already knows how
+to detect):
+
+```
+real coastline vertices          1,969
+median vertex spacing              3.6 m
+coastal trend               0.689 m east per metre north
+residual spread about it         836 m
+```
+
+A line carrying a vertex every 3.6 m is not generalised, and a 220 m sampling
+step cannot be what hides a cove in it. What actually defeats the search is the
+**trend**: on a coast running steadily north-east, the westernmost vertex inside
+a box is always whichever latitude bound the box cut. That is precisely the
+condition `emit_candidates._refuse_if_truncated` already refuses, in a message
+that says *"the coastline here simply runs westward without turning"*. The guard
+was reporting that an extremal rule is the wrong instrument for this coast.
+Attempt 4 read it as the features being missing.
+
+Detrend the coast and they appear at once:
+
+| Cove (detrended residual) | indentation from the coastal trend |
+|---|---:|
+| 46.7814 N | −158 m |
+| 46.7890 N | −260 m |
+| 46.7963 N | −349 m |
+
+**The catch, and it is a real one.** Those three sit about 800 m apart, against a
+north-panel error of roughly 700–900 m. A check feature spaced more closely than
+the error being measured is a weak check: it can be paired with its neighbour
+and nothing in the data would say so — the same failure that matched the compact
+Clarke Id. to the candidate for the long Cameron Id. So these particular coves
+are not the answer. A trend-immune rule applied across the **whole** panel
+(46.30–47.10 N, against the 46.76–46.90 N stretch profiled here), preferring
+kilometre-scale headlands whose prominence comfortably exceeds the error — Cape
+Rouge, Presqu'île, Cape St Lawrence, Money Point — is.
+
+### What was tried and rejected on the way
+
+`nsgiwa.novascotia.ca` still does not respond from the compute host;
+`nsgi.novascotia.ca`, `data.novascotia.ca` and `services1.arcgis.com` return
+200. CanVec 50K Nova Scotia hydrography *was* fetched and tested
+(`canvec_50K_NS_Hydro_shp.zip`, 61,779,513 bytes, SHA-256
+`bca5b7ed…8b57d6`) on the theory that a national layer would resolve what the
+provincial extract smoothed. It does not: **533 vertices against NSTDB's 2,139**
+on the same stretch — coarser, not finer, and tiled on a 0.25° grid of its own.
+Its one genuine advantage is an explicit `definit_en='Ocean'` classification,
+which separates sea from lake without guessing.
+
+It is **not adopted, not committed, and no licence claim is made for it** — the
+archive carries no licence file that was located, and nothing was verified,
+because it was rejected on technical grounds before licensing became relevant.
+
+Lakes were also tried as a check-feature class and rejected on the evidence: the
+QA sheet shows several "lakes" are marine embayments in the extract's exterior
+rings (Cheticamp harbour, Pleasant Bay, Margaree Harbour), and the genuine
+highland lakes sit on terrain Church labelled **"Barren"** — thirteen inside the
+cutline, none drawn at a size matching the reference.
+
+The QA sheet does confirm attempt 4 on the north *islands*: their tiles show
+"Barren" twice, a dash-dot county boundary, hachured highland and small pond
+outlines. Church drew no islands there.
+
+The north panel is therefore still rejected **for want of a usable held-out
+set** — but on a rule that has not yet been written, not on data that cannot be
+obtained. That is a materially better position than attempt 4 recorded.
 
 ## 6. Smallest credible next step
 
@@ -206,8 +273,17 @@ the drawn side of the comparison automated and still returning nothing.
    This is the whole ballgame, and it is not circular: the correction would be
    determined on a different sheet from the one it is tested on.
 
-2. **North still needs a finer coastline.** Unchanged, and blocked on reaching a
-   source. Licensing remains a separate gate.
+2. **Write a trend-immune candidate rule for the north coast.** No new data is
+   needed; see section 5. The existing extremal rules cannot describe a feature
+   on a coast that trends, and every north candidate to date has died on that.
+   A residual-from-local-chord rule (the Douglas–Peucker criterion, which is
+   scale-free and immune to trend) names a headland or a cove head the same way
+   on both representations, which is what a check rule has to do.
+
+   Apply it across the whole panel, not one stretch, and **prefer prominence
+   over count**: a feature whose amplitude is smaller than the error being
+   measured cannot be identified reliably, so kilometre-scale headlands are
+   worth more than a dozen 200 m coves.
 
 3. Re-measure both panels against the same tolerance.
 
