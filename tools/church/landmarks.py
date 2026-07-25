@@ -26,7 +26,7 @@ without a GIS host.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 __all__ = [
     "BoundingBox",
@@ -152,6 +152,10 @@ class Island:
     area_sq_deg: float
     span_lon: float
     span_lat: float
+    ring: tuple = field(default=(), compare=False, repr=False)
+    """The closed outline itself, kept so a caller can measure the island's
+    aspect and orientation with the same shoelace machinery as its centroid.
+    Area and centroid alone cannot tell one island from a similar neighbour."""
 
 
 def islands_within(features: list[dict], box: BoundingBox) -> list[Island]:
@@ -175,6 +179,7 @@ def islands_within(features: list[dict], box: BoundingBox) -> list[Island]:
                     area_sq_deg=area,
                     span_lon=max(longitudes) - min(longitudes),
                     span_lat=max(latitudes) - min(latitudes),
+                    ring=tuple(ring),
                 )
             )
     found.sort(key=lambda island: -island.area_sq_deg)

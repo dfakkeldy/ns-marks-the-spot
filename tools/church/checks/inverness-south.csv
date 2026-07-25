@@ -30,6 +30,17 @@
 #   island-45-826n-61-015w    no closed island outline at the prediction; the
 #                             nearby shape reads as mainland shore.
 #   island-46-390n-60-975w    Church drew a hachured hill here, not an island.
+#
+# CORROBORATED, attempt 5 (2026-07-25). These pixel columns are still the ones
+# read by eye. `tools/church/drawn.py` now derives a drawn centroid by rule -
+# threshold the ink, trace the closed outline, shoelace it - and on the islands
+# it could identify without ambiguity it reproduces the same eastward offset the
+# rows below carry. The two methods differ by 53 m on Floda and 325 m on
+# Margaree, so the +/-40 px claimed above is understated; the systematic shift
+# is not an artifact of reading. The detector accepts too few points (2 south,
+# 0 north) to replace this file, so it is committed as evidence in
+# reports/church/drawn-{north,south}.json instead. See
+# docs/church-inverness-attempt-5-2026-07-25.md.
 pixel_x,pixel_y,lon,lat,role,label
 22588,2277,-61.261823,46.359252,check,island-46-359n-61-262w
 26573,18766,-61.116114,45.956188,check,island-45-956n-61-116w

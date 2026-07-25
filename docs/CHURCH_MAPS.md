@@ -50,6 +50,26 @@ reference extract's tile seams being counted as shoreline — the coastline in
 that band is the best-registered on the panel. Still no tiles. See
 [`church-inverness-attempt-4-2026-07-24.md`](church-inverness-attempt-4-2026-07-24.md).
 
+A fifth attempt on 2026-07-25 **rejected both panels again**, on the same
+numbers, and that is its first result: the check points were re-derived
+programmatically — threshold the ink, trace the closed outline, shoelace the
+centroid, the same rule already applied to the modern island — and the offset
+survived. It is a property of the sheet, not of whoever read the contact sheets.
+
+The south error then resolved into **one uniform translation plus ordinary
+scatter**: all eleven residuals share both signs, the mean is 404 m north-east,
+and the scatter about it is 213 m RMS — inside tolerance. Of the three candidate
+causes, rule-centre bias is ruled out by measuring the rules (7–16 px, so at most
+43 m, against 404 m observed) and a mis-set anchor by arithmetic (404 m is 2.2 %
+of a lattice step). What survives is that the 1884 graticule does not sit where
+WGS84 says it does, dominated by a ~15″ longitude component that **reproduces on
+both panels** — about one second of time, unremarkable for an 1884 compilation.
+
+That constant cannot be removed using the held-out points without making the
+measurement circular, so the next step is to measure it on a *different* Cape
+Breton sheet. Still no tiles. See
+[`church-inverness-attempt-5-2026-07-25.md`](church-inverness-attempt-5-2026-07-25.md).
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |

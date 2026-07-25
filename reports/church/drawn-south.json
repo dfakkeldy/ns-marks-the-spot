@@ -1,0 +1,328 @@
+[
+ {
+  "label": "whycocomagh-bay-west-end",
+  "accepted": false,
+  "reason": "rule 'west' names a vertex, not an area; only 'island' candidates have a centroid to compare"
+ },
+ {
+  "label": "island-46-359n-61-262w",
+  "lon": -61.26182289362935,
+  "lat": 46.35925220753133,
+  "modern_area_px": 104940.80712859081,
+  "modern_elongation": 1.4445992541628772,
+  "modern_orientation_deg": 76.8819414556635,
+  "predicted_sheet_x": 22293.309433733,
+  "predicted_sheet_y": 2292.1496642042903,
+  "tile_origin": [
+   21593,
+   1592
+  ],
+  "shapes_found": 15,
+  "considered": 1,
+  "reason": "selected on enclosed area",
+  "accepted": true,
+  "inside_cutline": true,
+  "pixel_x": 22476.051956103172,
+  "pixel_y": 2319.159409145371,
+  "drawn_area_px": 111838.0,
+  "area_ratio": 1.0657246028511826,
+  "drawn_elongation": 3.617497362978735,
+  "drawn_orientation_deg": 57.042017320825266,
+  "fill_ratio": 3.6946812025107367,
+  "runner_up_area_ratio": null,
+  "offset_from_prediction_px": 184.7277883914473
+ },
+ {
+  "label": "island-45-757n-61-084w",
+  "lon": -61.0839023737305,
+  "lat": 45.7573043058559,
+  "modern_area_px": 100895.25157790791,
+  "modern_elongation": 2.1191964234660516,
+  "modern_orientation_deg": 68.79244654226063,
+  "predicted_sheet_x": 27367.5930744637,
+  "predicted_sheet_y": 26986.3433717013,
+  "tile_origin": [
+   26668,
+   26286
+  ],
+  "shapes_found": 21,
+  "considered": 1,
+  "reason": "resolved to the same drawn outline as island-45-750n-61-095w; two modern islands cannot both be one drawing, and nothing here says which pairing is the real one",
+  "accepted": false,
+  "inside_cutline": true,
+  "pixel_x": 27160.987908478175,
+  "pixel_y": 27226.657314536154,
+  "drawn_area_px": 96858.5,
+  "area_ratio": 0.959990668393439,
+  "drawn_elongation": 2.320825294996173,
+  "drawn_orientation_deg": 82.70359907705028,
+  "fill_ratio": 3.189492228661749,
+  "runner_up_area_ratio": null,
+  "offset_from_prediction_px": 316.91715910114425
+ },
+ {
+  "label": "island-45-956n-61-116w",
+  "lon": -61.11611370292335,
+  "lat": 45.95618767484191,
+  "modern_area_px": 92159.249018438,
+  "modern_elongation": 1.1669041289279232,
+  "modern_orientation_deg": 150.88855920500748,
+  "predicted_sheet_x": 26453.3852918735,
+  "predicted_sheet_y": 18936.497055494,
+  "tile_origin": [
+   25753,
+   18236
+  ],
+  "shapes_found": 38,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (16 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-750n-61-095w",
+  "lon": -61.09489880879577,
+  "lat": 45.750128611853484,
+  "modern_area_px": 66858.38505484966,
+  "modern_elongation": 1.9839583048780787,
+  "modern_orientation_deg": 115.02300636761959,
+  "predicted_sheet_x": 27055.8803409845,
+  "predicted_sheet_y": 27279.6684461511,
+  "tile_origin": [
+   26356,
+   26580
+  ],
+  "shapes_found": 27,
+  "considered": 1,
+  "reason": "resolved to the same drawn outline as island-45-757n-61-084w; two modern islands cannot both be one drawing, and nothing here says which pairing is the real one",
+  "accepted": false,
+  "inside_cutline": true,
+  "pixel_x": 27160.987908478175,
+  "pixel_y": 27226.657314536154,
+  "drawn_area_px": 96858.5,
+  "area_ratio": 1.4487113309802306,
+  "drawn_elongation": 2.3208252949961725,
+  "drawn_orientation_deg": 82.7035990770501,
+  "fill_ratio": 3.189492228661749,
+  "runner_up_area_ratio": null,
+  "offset_from_prediction_px": 117.71907585236526
+ },
+ {
+  "label": "island-45-790n-61-057w",
+  "lon": -61.05736326992868,
+  "lat": 45.78966646699438,
+  "modern_area_px": 60385.62449872592,
+  "modern_elongation": Infinity,
+  "modern_orientation_deg": 0.0,
+  "predicted_sheet_x": 28117.8576979143,
+  "predicted_sheet_y": 25669.75849709,
+  "tile_origin": [
+   27418,
+   24970
+  ],
+  "shapes_found": 20,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (10 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-875n-61-085w",
+  "lon": -61.08522084330953,
+  "lat": 45.87506784768504,
+  "modern_area_px": 48970.89597877663,
+  "modern_elongation": 1.9124459873280804,
+  "modern_orientation_deg": 127.3752393653308,
+  "predicted_sheet_x": 27326.7785592361,
+  "predicted_sheet_y": 22217.6972804346,
+  "tile_origin": [
+   26627,
+   21518
+  ],
+  "shapes_found": 42,
+  "considered": 1,
+  "reason": "no shape of the right size: 1 nearby, closest area ratio 2.00, band 0.6-1.7",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-814n-61-013w",
+  "lon": -61.01347495882959,
+  "lat": 45.81397346264822,
+  "modern_area_px": 48754.48476899532,
+  "modern_elongation": Infinity,
+  "modern_orientation_deg": 0.0,
+  "predicted_sheet_x": 29356.5054166493,
+  "predicted_sheet_y": 24680.2564731109,
+  "tile_origin": [
+   28657,
+   23980
+  ],
+  "shapes_found": 20,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (6 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-911n-60-948w",
+  "lon": -60.94752466221765,
+  "lat": 45.910637853702,
+  "modern_area_px": 40201.47173123566,
+  "modern_elongation": 3.589919533510531,
+  "modern_orientation_deg": 135.5743844047447,
+  "predicted_sheet_x": 31209.6537745101,
+  "predicted_sheet_y": 20765.3050546986,
+  "tile_origin": [
+   30510,
+   20065
+  ],
+  "shapes_found": 26,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (6 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-912n-60-965w",
+  "lon": -60.96505076402884,
+  "lat": 45.91217183543293,
+  "modern_area_px": 29996.767972304104,
+  "modern_elongation": 3.9228478280429475,
+  "modern_orientation_deg": 134.06122697544419,
+  "predicted_sheet_x": 30715.0867455789,
+  "predicted_sheet_y": 20705.973987793,
+  "tile_origin": [
+   30015,
+   20006
+  ],
+  "shapes_found": 30,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (9 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-797n-61-049w",
+  "lon": -61.04899783401692,
+  "lat": 45.79657496584807,
+  "modern_area_px": 23572.849548611528,
+  "modern_elongation": Infinity,
+  "modern_orientation_deg": 0.0,
+  "predicted_sheet_x": 28354.0420670581,
+  "predicted_sheet_y": 25388.8015862491,
+  "tile_origin": [
+   27654,
+   24689
+  ],
+  "shapes_found": 30,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (12 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-826n-61-015w",
+  "lon": -61.01535439943786,
+  "lat": 45.8261432278519,
+  "modern_area_px": 20510.065099868472,
+  "modern_elongation": Infinity,
+  "modern_orientation_deg": 0.0,
+  "predicted_sheet_x": 29302.2702877585,
+  "predicted_sheet_y": 24188.1866658427,
+  "tile_origin": [
+   28602,
+   23488
+  ],
+  "shapes_found": 19,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (8 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-46-390n-60-975w",
+  "lon": -60.974617509581556,
+  "lat": 46.38956414313461,
+  "modern_area_px": 19707.03595538502,
+  "modern_elongation": 4.398431318968021,
+  "modern_orientation_deg": 133.60942861952844,
+  "predicted_sheet_x": 30414.4765512369,
+  "predicted_sheet_y": 1012.94498861547,
+  "tile_origin": [
+   29714,
+   313
+  ],
+  "shapes_found": 57,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (12 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-762n-61-068w",
+  "lon": -61.067626231678176,
+  "lat": 45.76193318928247,
+  "modern_area_px": 17594.666536886765,
+  "modern_elongation": 2.3424590914868597,
+  "modern_orientation_deg": 136.72955079955446,
+  "predicted_sheet_x": 27828.6861384796,
+  "predicted_sheet_y": 26795.8184756,
+  "tile_origin": [
+   27129,
+   26096
+  ],
+  "shapes_found": 24,
+  "considered": 1,
+  "reason": "selected on enclosed area",
+  "accepted": true,
+  "inside_cutline": true,
+  "pixel_x": 27925.192067751923,
+  "pixel_y": 26759.516008098213,
+  "drawn_area_px": 28319.0,
+  "area_ratio": 1.6095218366673756,
+  "drawn_elongation": 1.2368852727989592,
+  "drawn_orientation_deg": 1.0780443872765084,
+  "fill_ratio": 2.6404662004662005,
+  "runner_up_area_ratio": null,
+  "offset_from_prediction_px": 103.10801875427889
+ },
+ {
+  "label": "island-45-948n-61-096w",
+  "lon": -61.09641370722196,
+  "lat": 45.94786934415296,
+  "modern_area_px": 14980.889886815834,
+  "modern_elongation": 8.535582741272096,
+  "modern_orientation_deg": 132.78427472701208,
+  "predicted_sheet_x": 27009.4883060752,
+  "predicted_sheet_y": 19273.2708596334,
+  "tile_origin": [
+   26309,
+   18573
+  ],
+  "shapes_found": 33,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (13 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-45-801n-61-038w",
+  "lon": -61.038349060487725,
+  "lat": 45.80120468592586,
+  "modern_area_px": 13674.134144670823,
+  "modern_elongation": Infinity,
+  "modern_orientation_deg": 0.0,
+  "predicted_sheet_x": 28654.7702481348,
+  "predicted_sheet_y": 25199.9992872164,
+  "tile_origin": [
+   27955,
+   24500
+  ],
+  "shapes_found": 27,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (9 such)",
+  "accepted": false,
+  "inside_cutline": true
+ }
+]

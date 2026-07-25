@@ -24,6 +24,7 @@ from tools.church.windows import SourceWindow
 __all__ = [
     "ChurchPanel",
     "DetectionSettings",
+    "DrawnCheckSettings",
     "GeographicBounds",
     "GraticuleSettings",
     "SourceWindow",
@@ -50,6 +51,28 @@ class DetectionSettings:
     angles_deg: tuple[float, float] | None
     """Pinned family angles, measured from a printed label. None means fall back
     to the orientation histogram, which dense coastal hachure can win."""
+
+
+@dataclass(frozen=True)
+class DrawnCheckSettings:
+    """How to read a drawn island's centroid off one panel's engraving.
+
+    Versioned for the same reason `DetectionSettings` is, and with more at stake:
+    these numbers decide the held-out measurement itself. `search_radius_px` in
+    particular is the one knob that could be tuned until a panel passed, so it is
+    committed where a reviewer can see it against the errors it admits.
+
+    It must stay comfortably LARGER than the biggest error under test - it exists
+    to exclude a different island two coves away, not to pull an answer toward
+    the prediction. At 2.718 m per source pixel the 500 px below is 1,359 m,
+    against a worst attempt-4 residual of 798 m.
+    """
+
+    darkness: int
+    tile_px: int
+    dilate_px: int
+    min_ink_px: int
+    search_radius_px: float
 
 
 @dataclass(frozen=True)
@@ -98,6 +121,7 @@ class ChurchPanel:
     target_bounds: GeographicBounds
     target_resolution_m: float
     detection: DetectionSettings | None = None
+    drawn_checks: "DrawnCheckSettings | None" = None
     graticule: GraticuleSettings | None = None
     """None until a panel's printed graticule has actually been read off the scan.
 
@@ -270,6 +294,27 @@ _INVERNESS_SOUTH_DETECTION = DetectionSettings(
     angles_deg=(90.1, 0.1),
 )
 
+# Shared by both panels: it is one engraving, inked once, scanned once, so there
+# is no reason for the two halves to want different numbers.
+#
+# `darkness` is 190, NOT the 140 the graticule detector uses, and the difference
+# is the point. 140 is tuned for the heavy engraved graticule rules; an island
+# outline is a hairline drawn several shades lighter, and at 140 the Margaree
+# Island tile comes back 1.4 % ink with the island absent from it entirely.
+#
+# `dilate_px` was measured, not chosen. On Margaree Island the largest enclosed
+# shape goes 0.10, 0.16, 1.06 of the modern area at radius 2, 3, 4: the outline
+# is broken by 3-4 px gaps and snaps shut between 3 and 4. Radius 6 only adds
+# perimeter (1.11) while merging more islands into the mainland, so 4 is the
+# smallest radius that actually closes the engraving.
+_INVERNESS_DRAWN_CHECKS = DrawnCheckSettings(
+    darkness=190,
+    tile_px=1400,
+    dilate_px=4,
+    min_ink_px=200,
+    search_radius_px=500.0,
+)
+
 _PANELS = {
     ("inverness", "north"): ChurchPanel(
         county_slug="inverness",
@@ -278,6 +323,7 @@ _PANELS = {
         target_bounds=GeographicBounds(west=-61.35, south=46.30, east=-60.45, north=47.10),
         target_resolution_m=5.0,
         detection=_INVERNESS_NORTH_DETECTION,
+        drawn_checks=_INVERNESS_DRAWN_CHECKS,
         graticule=_INVERNESS_NORTH_GRATICULE,
     ),
     ("inverness", "south"): ChurchPanel(
@@ -287,6 +333,7 @@ _PANELS = {
         target_bounds=GeographicBounds(west=-61.70, south=45.55, east=-60.55, north=46.40),
         target_resolution_m=5.0,
         detection=_INVERNESS_SOUTH_DETECTION,
+        drawn_checks=_INVERNESS_DRAWN_CHECKS,
         graticule=_INVERNESS_SOUTH_GRATICULE,
     ),
 }
