@@ -18,6 +18,8 @@
 - **Residuals are reported in GROUND metres, not Mercator metres.** A raw Mercator residual over-reports by 1/cos(latitude) — measured at exactly 1.4396× at 46°N.
 - **Record identity is load-bearing.** `UserMapLayers`' layer-construction effect keys on the `record` object reference; churning it re-decodes the bitmap. `useUserMaps.test.ts` and `UserMapLayers.test.tsx` pin this. Keep them passing. The map under edit must never enter `records` as a churning object.
 - **Lint is strict** (`eslint-plugin-react-hooks` 7 flat recommended): `react-hooks/set-state-in-effect` and ref-writes-during-render are ERRORS. When a ref must be current before an in-flight promise resolves, use `useLayoutEffect`, not `useEffect` — a passive effect is scheduled asynchronously and reintroduces the race. `UserMapLayers.tsx` has a worked example with a comment explaining exactly this.
+- **No side effects inside a `setState` updater.** `main.tsx:8` wraps `<App/>` in `StrictMode` and React 19 double-invokes updaters there (verified: 2 invocations per dispatch). An updater that also snapshots undo history, mints an id, or calls another setter runs that twice in the browser while every bare `renderHook` test stays green. Updaters compute the next value and nothing else; branch on a ref *outside* the updater instead. Task 7 is written this way and has a StrictMode-wrapped test.
+- **Exports from a `.tsx` file must be components or constants.** `react-refresh/only-export-components` is an ERROR here (`allowConstantExport: true`, so `export const X = 1` is fine and `export function helper()` is not). Shared pure helpers live in `.ts` modules — which also lets their tests drop React entirely.
 - **Privacy copy, verbatim:** `Files stay on this device — nothing is uploaded.`
 - **Preview cap** stays `PREVIEW_MAX_DIMENSION = 4096`.
 - **Conventional Commits; commit after every task.** Branch `claude/web-georeferencer-user-maps-76f482` (based on `origin/nightly`); final PR targets `nightly` — **never** `main`.
@@ -37,10 +39,19 @@ load-bearing assumptions for PR 2.
 | `canvas` + jsdom yields a real `CanvasRenderingContext2D` | Verified: `save`/`beginPath`/`clip`/`setTransform`/`drawImage`/`restore` all produce correct pixels including clip boundaries. |
 | `createImageBitmap` does **not** exist in jsdom | Verified — the suite stubs it (`UserMapLayers.test.tsx`). Any new decode path needs an injectable seam. |
 | Canvas `drawImage` upscaling blends toward transparency at source edges | Verified. Pixel assertions must sample at **source-texel centres**, not arbitrary interior points, or alpha reads 191/205 instead of 255. |
-| Least-squares residual does **not** reliably identify a bad GCP | Verified: with one gross outlier at index 3, the largest fit residual was at index **0**. Leave-one-out residual correctly picked index 3. See Task 5. |
+| Least-squares residual does **not** reliably identify a bad GCP | ~~Verified~~ — **downgraded 2026-07-25. This was one fixture, generalised too far.** A 1104-trial sweep (outlier index × magnitude × direction) has leave-one-out winning 147 and losing 150 against the plain fit residual: a wash. At n = 4 — exactly `MIN_GCPS_FOR_RESIDUALS`, where the old design started accusing a row — every hat-matrix leverage is 0.75, so `e`, `e/(1−h)` and `e/√(1−h)` rank *identically*; measured 24% correct against a 25% chance baseline. `leaveOneOutMetres` was deleted in `11780341f`. The list now highlights the largest fit residual and accuses nobody below `MIN_GCPS_FOR_SUSPECT = 5`, where the same sweep reaches 60% against a 20% baseline. |
 | A *conditional* `setState` during render (React's "adjust state when a prop changes") is **lint-clean** under this repo's `eslint-plugin-react-hooks` 7 | Verified: `npx eslint` on a probe using exactly the Task 7 shape exits 0. The banned pattern is `set-state-in-effect`, not this. Do not "fix" the re-seed into a `useEffect`. |
+| React 19 **double-invokes state updater functions under `StrictMode`** | Verified by probe: `renderHook(hook, { wrapper: StrictMode })`, one dispatch, updater body ran **2** times (final state still correct). `main.tsx:8` wraps `<App/>` in `StrictMode`, so an updater that does anything besides compute the next value runs its side effect twice in the browser — while a bare `renderHook` test stays green. Task 7 is built around this. |
+| React **defers a `setState` updater** whenever the owning fiber already has queued work | Verified: assigning to an outer variable inside an updater and reading it on the next line yields `null`. `App` always has queued work, so this is not a corner case. Build the next value *outside* the updater and hand the finished object in (Task 5's `saveGcps`). |
 | `<fieldset disabled>` propagates to descendant inputs, and Testing Library's `toBeDisabled()` sees it | Verified by probe. Task 10's locked reference layers need no per-input `disabled`. |
-| `UserMapStore.open()` + `saveUserMap(record, raster, preview)` round-trips under the global `fake-indexeddb` | Verified by probe, including `getPreviewBlob(...).text()`. Blobs survive because the store converts them to bytes first — this is why App-level tests can seed a real record instead of mocking `useUserMaps`. |
+| `UserMapStore.open(factory?)` + `saveUserMap(record, raster, preview)` round-trips under the global `fake-indexeddb` | Verified by probe, including `getPreviewBlob(...).text()`. Blobs survive because the store converts them to bytes first — this is why App-level tests can seed a real record instead of mocking `useUserMaps`. |
+| `userEvent.clear()` **throws** on `<input type="range">` | Verified by probe: `` clear()` is only supported on editable elements. `` Use `fireEvent.change(slider, { target: { value: "40" } })`, which fires exactly one `change`. |
+| `react-refresh/only-export-components` is an **error** in this repo | Verified: `eslint-plugin-react-refresh`'s `configs.vite` sets `["error", { allowConstantExport: true }]`, and `eslint.config.js` extends it. A probe `.tsx` exporting one plain function alongside a component exits 1. Constants are allowed; **functions and hooks are not**. Put shared helpers in a `.ts` module, or use the existing disable-comment precedent (`components/MineralProximityParcelLayer.tsx:17`). |
+| Leaflet's built-in pane z-indexes | Verified from `leaflet/dist/leaflet.css`: tile 200, overlay 400, shadow 500, **marker 600**, tooltip 650, **popup 700**. 700 is the *popup* pane, not the marker pane — see Task 11. |
+| `useMapEvents(handlers)` re-subscribes whenever the handlers **object identity** changes | Verified from `react-leaflet/lib/hooks.js`: its effect deps are `[map, handlers]`, so an inline object literal calls `map.off()`/`map.on()` on every render — once per pointer move during a drag. `useMapEvent(type, handler)` has deps `[map, type, handler]`, so a `useCallback`'d handler subscribes once. |
+| `geotiff@2.1.3`'s `writeArrayBuffer` **auto-injects a whole-globe WGS84 georeference** | Verified, and documented at length in `geoTiffSource.test.ts`: unless `GeographicTypeGeoKey` or `ProjectedCSTypeGeoKey` is an own property of the metadata, it adds `GeographicTypeGeoKey 4326` + a `ModelTiepoint`. `plainTiff({})` therefore round-trips as a *georeferenced* file. The un-georeferenced fixture is `plainTiff({ ProjectedCSTypeGeoKey: 0 })`. |
+| `initialProvinceLayerVisibility.nsprd` defaults to **`true`** | Verified at `layers/layerCatalog.ts`. So does `ns-aerial`. Task 12's App test must click to turn a reference layer **off**, not on. |
+| `npx tsc --noEmit` from `web/` type-checks **nothing** | Verified: `web/tsconfig.json` is a solution file — `"files": []` plus two `references`. Run **`npx tsc -b`**, which is what Task 4 already uses and what actually reports errors (confirmed against a live arity error: `tsc --noEmit` exited 0, `tsc -b` printed both `TS2554`s). `tsc -b` **does** signal failure properly — measured exit code 2, and 2 again on repeated incremental runs with the error still present, 0 once clean — so chaining it with `&&` is safe. (An earlier revision of this row claimed it exits 0 while printing errors; that reading came from a `\| head` pipeline, where `$?` is the exit code of `head`, not of `tsc`.) |
 
 ---
 
@@ -54,10 +65,18 @@ Committed as `5a199f76b`. Do **not** redo it; verify and move on.
 - Fixed a real defect the new tests exposed: adjacent clipped triangles each covered ~50% of their shared boundary pixels, compositing to ~75% alpha — a faint diagonal hairline across every mesh cell. `mesh.ts` now inflates each clip path by `CLIP_OVERDRAW_DEVICE_PX = 2`; the affine is still derived from the **original** corners so image placement is unchanged.
 - Added `WarpedRasterLayer.setLatLngMesh(mesh)`, which swaps warp geometry and rebuilds the source lattice without touching `image`.
 
+**Then amended by `11780341f`:** the layer projected through
+`map.latLngToContainerPoint`, which is `project()._round()` inside Leaflet
+(`leaflet-src.js:4117`) and snapped every mesh vertex to a whole CSS pixel —
+up to 166 m of ground error at zoom 8, a >1 px break along the cell diagonal
+because the four corners round independently, and 1-px stepped jitter during a
+drag. It now takes the unrounded `map.project()` route and subtracts the pane
+offset itself. One test was added for it.
+
 - [ ] **Step 1: Verify the landed state**
 
 Run: `cd web && npm ci && npx vitest run src/userMaps/render/WarpedRasterLayer.test.ts`
-Expected: PASS (8 tests).
+Expected: PASS (9 tests).
 
 - [ ] **Step 2: Confirm the seam test is a real guard, then restore**
 
@@ -169,26 +188,58 @@ git commit -m "test(web): cover import errors and the multi-tiepoint GeoTIFF bra
 ```
 
 ---
-### Task 3: Transform maths — **ALREADY LANDED**
+### Task 3: Transform maths — **ALREADY LANDED** (and since amended)
 
-Committed as `6c1ffd217`. Do **not** redo it; verify and move on.
+Committed as `6c1ffd217`, then substantially corrected by `11780341f` after the
+adversarial review. **The signatures below are the ones in the tree now** — an
+earlier draft of this plan described the pre-`11780341f` API, and every
+downstream task has been updated to match. Do **not** redo the task; verify and
+move on.
 
-**What it added** (four pure modules under `web/src/userMaps/transform/`, no Leaflet import, 43 tests green):
+**What is there** (four pure modules under `web/src/userMaps/transform/`, no Leaflet import, 47 tests green):
 
-- `webMercator.ts` — `toMercator`, `fromMercator`, `groundMetresBetween`, `EARTH_RADIUS_METRES`, `MAX_MERCATOR_LATITUDE`. Verified against `L.Projection.SphericalMercator` to ~3e-9 m, and clamps at the Mercator latitude limit so a pole never yields `Infinity` and NaN the whole mesh.
-- `affine.ts` — `type AffineParams = readonly [number, number, number, number, number, number]` (`X = p0*x + p1*y + p2`, `Y = p3*x + p4*y + p5`, pixels in, Mercator metres out), `solveAffine(pairs)`, `solveAffineFromGcps(gcps)`, `applyAffine(params, x, y)`, `MIN_GCPS_FOR_AFFINE = 3`. Solved on centred coordinates: raw pixels (~1e4) against Mercator metres (~7e6) lose precision to cancellation. Returns `null` for collinear/coincident layouts instead of dividing by a singular determinant.
-- `residuals.ts` — `residualMetresFor(params, gcps)`, `rmsMetres(residuals)`, `leaveOneOutMetres(gcps)`, `residualReport(gcps, params)`, `MIN_GCPS_FOR_RESIDUALS = 4`, `type ResidualReport = { metresPerGcp: number[]; rmsMetres: number; mostInconsistentIndex: number }`. `residualReport` returns `null` below 4 GCPs.
+- `webMercator.ts` — `toMercator`, `fromMercator`, `groundMetresBetween`, `EARTH_RADIUS_METRES`, `MAX_MERCATOR_LATITUDE`. Verified against `L.Projection.SphericalMercator` to ~3e-9 m, and clamps at the Mercator latitude limit so a pole never yields `Infinity` and NaN the whole mesh. One radius (6378137) is used for both the projection and the ground haversine, and the header comment says so.
+- `affine.ts` — `type AffineParams = readonly [number, number, number, number, number, number]` (`X = p0*x + p1*y + p2`, `Y = p3*x + p4*y + p5`, pixels in, Mercator metres out), **`solveAffine(pairs)`**, **`solveAffineFromGcps(gcps)`** — *both take no size argument*, `applyAffine(params, x, y)`, `MIN_GCPS_FOR_AFFINE = 3`, **`MIN_CONDITION_RATIO = 5e-3`**, **`MIN_ANISOTROPY_RATIO = 1/50`**. Solved on centred coordinates: raw pixels (~1e4) against Mercator metres (~7e6) lose precision to cancellation.
+- `residuals.ts` — `residualMetresFor(params, gcps)`, `rmsMetres(residuals)`, `residualReport(gcps, params)`, `MIN_GCPS_FOR_RESIDUALS = 4`, **`MIN_GCPS_FOR_SUSPECT = 5`**, `type ResidualReport = { metresPerGcp: number[]; rmsMetres: number; mostInconsistentIndex: number | null }`. `residualReport` returns `null` below 4 GCPs. **`leaveOneOutMetres` no longer exists** — do not import it, do not reintroduce it.
 - `gcpMesh.ts` — `buildGcpLatLngMesh(params, pixelSize, gridSize = AFFINE_GRID_SIZE)`, `AFFINE_GRID_SIZE = 1`. Row = pixel Y, col = pixel X, matching `buildLatLngMesh` in `projection.ts` so `WarpedRasterLayer` consumes either.
 
-**Two decisions worth knowing before you build on it:**
+**Four decisions worth knowing before you build on it:**
 
-1. **Residuals are ground metres.** A Mercator magnitude over-reports by 1/cos(latitude) — 1.4396x at 46N. `residuals.test.ts` guards this explicitly.
-2. **The highlighted row is chosen by leave-one-out, not by largest residual.** Measured on the test fixture: one gross outlier at index 3 produces its *largest fit residual at index 0*. Least squares smears a bad point across its neighbours, so ranking by fit residual accuses an innocent one. The list therefore *displays* conventional fit residuals (comparable with QGIS/Allmaps) but *highlights* by `mostInconsistentIndex`.
+1. **Residuals are ground metres.** A Mercator magnitude over-reports by 1/cos(latitude) — 1.4396x at 46N. `residuals.test.ts` guards this explicitly. Note this makes the figure *not* directly comparable to QGIS's, which reports in the target CRS's own units.
+2. **The highlighted row is the largest fit residual, and there is no highlight below five points.** The original design used a leave-one-out refit, on the reasoning that least squares smears a gross error across every point. The premise holds; the conclusion does not, because the outlier corrupts every refit that still contains it. A 1104-trial sweep put leave-one-out at 147 wins to 150 losses — a wash — for an extra affine solve per point on every pointer move. At four points it is arithmetically hopeless, and for a reason that needs no symmetry assumption: four points fitting three parameters leave a **one-dimensional residual space**, so every residual vector is a multiple of one direction fixed by the pixel layout. Displacing a different point rescales that vector but cannot rotate it, so the largest residual names the same index whoever is actually wrong — verified across a rectangle, a scalene quad and a lopsided quad, all three giving an identical *normalised* residual pattern under all four displacements. (An earlier revision argued this from all four leverages being exactly 0.75. That is true only of the symmetric fixture — a scalene quad gives `[0.871, 0.954, 0.918, 0.258]` — so it proved the claim for one rectangle.) `MIN_GCPS_FOR_SUSPECT = 5` is where the sweep reaches 60% against a 20% baseline. **`mostInconsistentIndex` is therefore `number | null`, and every consumer must handle `null`.**
+3. **`solveAffine` takes no pixel extent**, and must not be given one. The acceptance gate is the point cloud's narrowest RMS extent over its *own widest* — `sqrt(lambdaMin/lambdaMax)`, the reciprocal condition number, `MIN_CONDITION_RATIO`. Normalising against the image instead folded a *coverage* question into what claims to be a *rank* question, and the two disagree: a 1000x100 px control corridor on a 24000x18000 scan is full rank with 10:1 anisotropy, yet scored 1.7e-3 against the image and was refused as "too close to a straight line" — false about that layout. The older determinant-over-diagonal test was worse still: it reduced to `1 − r²` for the Pearson correlation of the centred pixels and went blind whenever the points lay near a coordinate axis, i.e. exactly along a scan's neatline.
+4. **`solveAffine` returns `null` for more than collinearity now.** Three cases: a source cloud too thin (`MIN_CONDITION_RATIO`); a non-finite coefficient, checked **per coefficient rather than on their sum** — `1e200 + -1e200 + -1e200 + 1e200` is a finite `0`, so a summed guard admitted an exactly singular matrix; and a solved linear part squashing one axis more than 50:1 (`MIN_ANISOTROPY_RATIO`) — three map clicks down a meridian are exactly collinear in Mercator while the *source* points look textbook, producing a zero-area drape whose residuals all read zero. Both threshold comparisons are written **negated** (`!(ratio > MIN)`) so a `NaN` falls into the rejection; written the obvious way round, `NaN < MIN` is `false` and the transform sails through. This is why the session's failure status is called `degenerate` rather than `collinear` (Task 7).
+
+**Known gap, deliberately not covered — clustered control points.** Three
+points inside 200 px of a 4096 px scan have a perfectly healthy condition
+ratio of 5.8e-1 and are accepted: their *shape* is fine, the fit is just being
+extrapolated ~20x beyond them, so a 1 px click slip moves the far corner about
+a kilometre. This is a *coverage* problem, and the gate is deliberately not a
+coverage test — trying to make one threshold do both jobs is precisely what
+produced the corridor bug in decision 3. The right answer is a warning on the
+reported accuracy, not a refusal to solve. It is **not implemented in PR 2**;
+the spec records it as a known gap and `affine.ts`'s own header comment says
+the gate is about rank, not extrapolation. Do not read a passing condition
+gate as coverage. See the follow-up note at the end of Task 9.
+
+**The acceptance-gate rework has LANDED.** It was uncommitted and in flight
+while this plan was being revised; it is now in the tree and green
+(`tsc -b` 0, `eslint` 0, 616 tests). The notes above already reflect it:
+`MIN_CONDITION_RATIO = 5e-3` replaces `MIN_CONDITION_RATIO`, and **both
+`solveAffine` and `solveAffineFromGcps` lost their size parameter.** Any task
+below still showing `solveAffineFromGcps(gcps)` is stale by one
+argument — call `solveAffineFromGcps(gcps)`. `pixelSize` is still needed for
+`buildGcpLatLngMesh`, so do not remove it from the surrounding scope.
 
 - [ ] **Step 1: Verify the landed state**
 
-Run: `cd web && npx vitest run src/userMaps/transform/ && npx eslint src/userMaps/transform/`
-Expected: PASS (43 tests), lint silent.
+Run: `cd web && npx vitest run src/userMaps/transform/ && npx tsc -b && npx eslint src/userMaps/transform/`
+Expected: PASS (47 tests), no type errors printed, lint silent. If the count
+is 43 you are on `6c1ffd217` without `11780341f` — stop and rebase, because
+every downstream task calls the post-`11780341f` signatures. If `tsc -b`
+prints `TS2554` in `affine.test.ts` or `residuals.test.ts`, the in-flight
+gate rework above is half-applied in your worktree; resolve that before
+starting Task 4.
 
 ---
 
@@ -467,7 +518,12 @@ export type ParsedGeoTiff = {
 };
 ```
 
-Then replace the throwing block. Find:
+Then replace the throwing block **and the corner-projection loop below it in
+one go**. The file already declares `const georef` at line 183 and
+dereferences it at line 197, so a replacement that stops at
+`validateCrs(crs);` produces `TS2451: Cannot redeclare block-scoped variable
+'georef'` plus an unguarded null deref on exactly the plain-TIFF path this
+task enables. Find this whole run (lines 171–198 as of `11780341f`):
 
 ```ts
   const pixelIsPoint = geoKeys.GTRasterTypeGeoKey === 2;
@@ -481,6 +537,23 @@ Then replace the throwing block. Find:
     );
   }
   validateCrs(crs); // throws unsupported-crs with the CRS in the message
+
+  const georef: EmbeddedGeoref = { kind: "embedded", crs, geotransform };
+  // A CRS can pass validateCrs yet still be paired with a geotransform whose
+  // tiepoint doesn't actually fall inside that CRS's domain (e.g. an
+  // out-of-zone UTM tiepoint) — proj4 doesn't throw for that, it silently
+  // returns non-finite coordinates (see pixelToLatLng). Project the four
+  // raster corners now, at import time, so that failure aborts the import
+  // instead of surfacing as triangles stretched across the globe at render
+  // time.
+  for (const [cx, cy] of [
+    [0, 0],
+    [width, 0],
+    [0, height],
+    [width, height],
+  ] as const) {
+    pixelToLatLng(georef, cx, cy); // throws invalid-georeferencing on failure
+  }
 ```
 
 Replace with:
@@ -499,20 +572,27 @@ Replace with:
     // on Earth the raster belongs. Georeferencing it by hand remains an
     // option, but silently doing that would hide a fixable export mistake.
     validateCrs(georef.crs);
+    // A CRS can pass validateCrs yet still be paired with a geotransform
+    // whose tiepoint doesn't actually fall inside that CRS's domain (e.g. an
+    // out-of-zone UTM tiepoint) — proj4 doesn't throw for that, it silently
+    // returns non-finite coordinates (see pixelToLatLng). Project the four
+    // raster corners now, at import time, so that failure aborts the import
+    // instead of surfacing as triangles stretched across the globe at render
+    // time. Nothing to check on the null branch: there is no transform yet.
+    for (const [cx, cy] of [
+      [0, 0],
+      [width, 0],
+      [0, height],
+      [width, height],
+    ] as const) {
+      pixelToLatLng(georef, cx, cy); // throws invalid-georeferencing on failure
+    }
   }
 ```
 
-And change the return statement's `georef` field. Find:
-
-```ts
-    georef: { kind: "embedded", crs, geotransform },
-```
-
-Replace with:
-
-```ts
-    georef,
-```
+The return statement already reads `georef,` (it was hoisted into a variable
+by `11780341f`), so it needs no change — confirm that before moving on rather
+than assuming it.
 
 - [ ] **Step 6: Update the two tests that asserted the old rejection**
 
@@ -523,7 +603,12 @@ In `web/src/userMaps/parsers/geoTiffSource.test.ts`, replace the test named
   it("returns a null georef for TIFFs without georeferencing", async () => {
     // PR 2 changed this from a hard failure: a plain TIFF scan is now a
     // georeferencer job, and geotiff.js is the only thing that can decode it.
-    const buffer = await plainTiff({});
+    // ProjectedCSTypeGeoKey: 0 is load-bearing, and is why the old test used
+    // it too: geotiff@2.1.3's writer auto-injects a whole-globe WGS84
+    // georeference unless one of the CRS geokeys is an own property, so
+    // plainTiff({}) round-trips as a GEOREFERENCED file and this assertion
+    // would fail. Keep the argument exactly as the replaced test had it.
+    const buffer = await plainTiff({ ProjectedCSTypeGeoKey: 0 });
     const parsed = await parseGeoTiff(buffer, { makePreview: fakePreview() });
     expect(parsed.georef).toBeNull();
     expect(parsed.preview.type).toBe("image/png");
@@ -599,20 +684,56 @@ git commit -m "feat(web): decode plain scans and treat missing georeferencing as
 
 - [ ] **Step 1: Add the failing tests** to `web/src/userMaps/useUserMaps.test.ts`
 
-Read the existing file first — it already establishes the `openStore`/`parse` closure-injection seams and the record-identity assertions. Add a `parseImage` seam alongside them, then append:
+Read the existing file first. **It has no `store` variable** — an earlier draft
+of this plan invented one. What it has is a module-level `let factory:
+IDBFactory` (freshly constructed per test) and an `options(overrides)` helper
+that supplies `openStore: () => UserMapStore.open(factory)` and `parse:
+testParse()`. Every new test goes through that helper; none of them may
+construct its own options object, or it loses the isolated database.
+
+Extend the file's existing helpers — add `parseImage` to `options()` so no
+test can accidentally reach the real `createImageBitmap` (which jsdom does not
+have), and add the two magic-byte file helpers:
+
+```ts
+/**
+ * jsdom has no createImageBitmap, so parseImage is injected everywhere the
+ * same way `parse` already is. Every PNG/JPEG test MUST go through
+ * `options()` — a bare `useUserMaps({...})` would take the real decode path
+ * and reject on a missing global.
+ */
+function testParseImage() {
+  return async () => ({
+    pixelSize: { width: 1200, height: 800 },
+    preview: new Blob(["p"], { type: "image/png" }),
+    previewSize: { width: 1200, height: 800 },
+  });
+}
+
+function pngFile(name: string): File {
+  // Real PNG magic bytes: sniffFileType reads them, so a placeholder blob
+  // would take the "unrecognized" branch and never reach parseImage.
+  const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  return new File([magic], name, { type: "image/png" });
+}
+
+function tiffFile(name: string): File {
+  const magic = new Uint8Array([0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00]);
+  return new File([magic], name, { type: "image/tiff" });
+}
+```
+
+…and add `parseImage: testParseImage(),` to the object `options()` returns,
+beside `parse: testParse()`.
+
+Add `import type { Gcp, GcpGeoref } from "./types";` to the file's imports —
+the assertions below name both.
+
+Then append:
 
 ```ts
   it("imports a PNG as an ungeoreferenced draft", async () => {
-    const { result } = renderHook(() =>
-      useUserMaps({
-        openStore: () => store,
-        parseImage: async () => ({
-          pixelSize: { width: 1200, height: 800 },
-          preview: new Blob(["preview"], { type: "image/png" }),
-          previewSize: { width: 1200, height: 800 },
-        }),
-      }),
-    );
+    const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
       await result.current.importFiles([pngFile("church-1888.png")]);
     });
@@ -627,17 +748,41 @@ Read the existing file first — it already establishes the `openStore`/`parse` 
     });
   });
 
+  it("opens the georeferencer for a freshly imported scan", async () => {
+    // Spec: an imported scan opens the panel. Without this the outcome's
+    // needsGeoreferencing flag is produced and never consumed, and the user
+    // has to find the new row and click Georeference themselves.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("church-1888.png")]);
+    });
+    expect(result.current.georeferencingId).toBe(result.current.records[0].id);
+    expect(result.current.editingMap?.record.id).toBe(
+      result.current.records[0].id,
+    );
+  });
+
+  it("does not open the georeferencer for a map that arrives already placed", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    expect(result.current.georeferencingId).toBeNull();
+  });
+
   it("routes an ungeoreferenced TIFF to the georeferencer rather than failing", async () => {
     const { result } = renderHook(() =>
-      useUserMaps({
-        openStore: () => store,
-        parse: async () => ({
-          pixelSize: { width: 8, height: 6 },
-          georef: null,
-          preview: new Blob(["preview"], { type: "image/png" }),
-          previewSize: { width: 8, height: 6 },
+      useUserMaps(
+        options({
+          parse: async () => ({
+            pixelSize: { width: 8, height: 6 },
+            georef: null,
+            preview: new Blob(["preview"], { type: "image/png" }),
+            previewSize: { width: 8, height: 6 },
+          }),
         }),
-      }),
+      ),
     );
     await act(async () => {
       await result.current.importFiles([tiffFile("scan.tif")]);
@@ -652,7 +797,7 @@ Read the existing file first — it already establishes the `openStore`/`parse` 
     // on every pointer move. If the same map were ALSO in visibleMaps it
     // would be drawn twice and the saved-map layer would rebuild on every
     // drag frame.
-    const { result } = renderHook(() => useUserMaps({ openStore: () => store }));
+    const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
       await result.current.importFiles([pngFile("scan.png")]);
     });
@@ -670,17 +815,39 @@ Read the existing file first — it already establishes the `openStore`/`parse` 
     expect(result.current.editingMap).toBeNull();
   });
 
-  it("persists saved GCPs and leaves every other record's identity untouched", async () => {
-    const { result } = renderHook(() => useUserMaps({ openStore: () => store }));
+  it("keeps editingMap referentially stable across an unrelated re-render", async () => {
+    // App memoizes the georeference binding on `editingMap`. A fresh literal
+    // every render busts that memo, hands MapCanvas a new `draft` object on
+    // every unrelated state change, and defeats the whole hot path Task 6
+    // exists to protect.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan.png")]);
+    });
+    const before = result.current.editingMap;
+    expect(before).not.toBeNull();
+    // An unrelated import failure: new outcomes, importing/importingLabel
+    // toggling, no change to the map under edit.
+    await act(async () => {
+      await result.current.importFiles([
+        new File([new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])], "plan.pdf"),
+      ]);
+    });
+    expect(result.current.editingMap).toBe(before);
+  });
+
+  it("persists saved GCPs to IndexedDB and leaves every other record's identity untouched", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
       await result.current.importFiles([pngFile("a.png"), pngFile("b.png")]);
     });
     const [first, second] = result.current.records;
     const secondBefore = second;
+    const saved: Gcp[] = [
+      { id: "g0", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
+    ];
     await act(async () => {
-      await result.current.saveGcps(first.id, [
-        { id: "g0", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
-      ]);
+      await result.current.saveGcps(first.id, saved);
     });
     const updated = result.current.records.find((r) => r.id === first.id);
     expect(updated?.georef).toMatchObject({ kind: "gcp", method: "affine" });
@@ -690,23 +857,48 @@ Read the existing file first — it already establishes the `openStore`/`parse` 
     expect(result.current.records.find((r) => r.id === second.id)).toBe(
       secondBefore,
     );
+
+    // The half that had zero coverage, and was broken: a round trip through
+    // the actual database. The first implementation assigned the new record
+    // inside a setRecords updater and read it back on the next line, so the
+    // write silently never happened whenever React deferred the updater —
+    // which App always makes it do. In-memory `records` looked perfect.
+    const reopened = await UserMapStore.open(factory);
+    const persisted = await reopened.listUserMaps();
+    const persistedGeoref = persisted.find((r) => r.id === first.id)
+      ?.georef as GcpGeoref;
+    expect(persistedGeoref.gcps).toEqual(saved);
+    // …and the raster the metadata-only write must NOT have touched.
+    expect(await (await reopened.getPreviewBlob(first.id))?.text()).toBe("p");
   });
-```
 
-Add these helpers near the top of the test file:
-
-```ts
-function pngFile(name: string): File {
-  // Real PNG magic bytes: sniffFileType reads them, so a placeholder blob
-  // would take the "unrecognized" branch and never reach parseImage.
-  const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-  return new File([magic], name, { type: "image/png" });
-}
-
-function tiffFile(name: string): File {
-  const magic = new Uint8Array([0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00]);
-  return new File([magic], name, { type: "image/tiff" });
-}
+  it("keeps points for the session when the metadata write fails", async () => {
+    const failingStore = {
+      listUserMaps: async () => [],
+      saveUserMap: async () => {},
+      putUserMapRecord: async () => {
+        throw new Error("quota");
+      },
+      getPreviewBlob: async () => null,
+      deleteUserMap: async () => {},
+      close: () => {},
+    } as unknown as UserMapStore;
+    const { result } = renderHook(() =>
+      useUserMaps(options({ openStore: async () => failingStore })),
+    );
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png")]);
+    });
+    await act(async () => {
+      await result.current.saveGcps(result.current.records[0].id, [
+        { id: "g0", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
+      ]);
+    });
+    expect(
+      (result.current.records[0].georef as GcpGeoref).gcps,
+    ).toHaveLength(1);
+    expect(result.current.storageError).toContain("close the tab");
+  });
 ```
 
 - [ ] **Step 2: Run to verify they fail**
@@ -716,9 +908,18 @@ Expected: FAIL — `parseImage` option unknown, `needsGeoreferencing` undefined.
 
 - [ ] **Step 3: Implement the hook changes** — `web/src/userMaps/useUserMaps.ts`
 
-Add imports:
+Add imports (note `useLayoutEffect` and `useMemo` join the existing React
+import):
 
 ```ts
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { parseImage, type ParsedImage } from "./parsers/imageSource";
 import { MIN_GCPS_FOR_AFFINE } from "./transform/affine";
 import type { Gcp, GcpGeoref, UserMapRecord, UserMapSource } from "./types";
@@ -733,6 +934,20 @@ Add to the options object and refs:
 ```ts
   const parseImageRef = useRef(options.parseImage ?? parseImage);
   const [georeferencingId, setGeoreferencingId] = useState<string | null>(null);
+```
+
+And a mirror of `records`, which `saveGcps` reads:
+
+```ts
+  // `saveGcps` has to build the updated record BEFORE handing it to
+  // setRecords (see below), so it needs the current list without capturing it
+  // in a closure — capturing it would either go stale or churn saveGcps's
+  // identity on every import. Layout, not passive: saveGcps is called from a
+  // debounce timer that can fire in the same frame as a record change.
+  const recordsRef = useRef(records);
+  useLayoutEffect(() => {
+    recordsRef.current = records;
+  }, [records]);
 ```
 
 Add the module-level helper (above the hook):
@@ -822,6 +1037,22 @@ In the success push, add the flag:
             });
 ```
 
+And consume that flag, in the `finally` block, immediately after
+`setOutcomes(batch);`:
+
+```ts
+        // Spec: an imported scan opens the panel. Only the FIRST draft of a
+        // batch — the panel edits one map at a time, and the rest keep their
+        // "Needs georeferencing" rows in the layer list. Without this the
+        // flag above is produced and never consumed.
+        for (const outcome of batch) {
+          if (outcome.ok && outcome.needsGeoreferencing) {
+            setGeoreferencingId(outcome.id);
+            break;
+          }
+        }
+```
+
 Add the session and persistence callbacks (after `setOpacity`):
 
 ```ts
@@ -835,25 +1066,29 @@ Add the session and persistence callbacks (after `setOpacity`):
 
   const saveGcps = useCallback(
     async (id: string, gcps: Gcp[]) => {
-      let saved: UserMapRecord | null = null;
-      setRecords((prev) =>
-        prev.map((existing) => {
-          if (existing.id !== id) {
-            // Same object reference back: UserMapLayers keys its
-            // layer-construction effect on record identity, so rebuilding
-            // untouched records here would re-decode their bitmaps.
-            return existing;
-          }
-          saved = {
-            ...existing,
-            georef: { kind: "gcp", gcps, method: "affine" },
-          };
-          return saved;
-        }),
-      );
-      if (!saved) {
+      // Built OUTSIDE the updater, deliberately. An earlier version assigned
+      // `saved` inside the setRecords updater and read it on the next line;
+      // React defers an updater whenever the owning fiber already has queued
+      // work — which `App` always does — so `saved` was still null and the
+      // IndexedDB write never ran. Measured: "captured after save (with a
+      // prior queued update): null". The in-memory list still looked right,
+      // which is why the original test caught nothing.
+      const existing = recordsRef.current.find((record) => record.id === id);
+      if (!existing) {
         return;
       }
+      const saved: UserMapRecord = {
+        ...existing,
+        georef: { kind: "gcp", gcps, method: "affine" },
+      };
+      // The updater is now pure: it maps one entry to an already-built
+      // object and returns every other entry BY REFERENCE, because
+      // UserMapLayers keys its layer-construction effect on record identity
+      // and rebuilding untouched records would re-decode their bitmaps.
+      // Being pure also makes it safe under StrictMode's double invocation.
+      setRecords((prev) =>
+        prev.map((record) => (record.id === id ? saved : record)),
+      );
       try {
         await (await store()).putUserMapRecord(saved);
       } catch {
@@ -887,17 +1122,53 @@ Update the derived values and the return object:
     }));
 
   const editingRecord = records.find((r) => r.id === georeferencingId) ?? null;
-  const editingMap: VisibleUserMap | null =
-    editingRecord && previewUrls[editingRecord.id]
-      ? {
-          record: editingRecord,
-          previewUrl: previewUrls[editingRecord.id],
-          opacity: uiState[editingRecord.id]?.opacity ?? DEFAULT_OPACITY,
-        }
-      : null;
+  const editingPreviewUrl = editingRecord ? previewUrls[editingRecord.id] : undefined;
+  const editingOpacity = editingRecord
+    ? (uiState[editingRecord.id]?.opacity ?? DEFAULT_OPACITY)
+    : DEFAULT_OPACITY;
+  // Memoized, unlike visibleMaps. App keys its georeference-binding memo on
+  // this object, so a fresh literal per render would hand MapCanvas a new
+  // `draft` on every unrelated state change and defeat the hot path Task 6
+  // exists to protect. The three inputs are a stable record reference, a blob
+  // URL string, and a number, so the memo actually holds.
+  const editingMap: VisibleUserMap | null = useMemo(
+    () =>
+      editingRecord && editingPreviewUrl
+        ? {
+            record: editingRecord,
+            previewUrl: editingPreviewUrl,
+            opacity: editingOpacity,
+          }
+        : null,
+    [editingRecord, editingPreviewUrl, editingOpacity],
+  );
 ```
 
-Add `georeferencingId`, `editingMap`, `beginGeoreference`, `endGeoreference`, `saveGcps`, and `needsGeoreferencing` to the returned object and to the `UserMapsApi` type.
+Add `georeferencingId`, `editingMap`, `beginGeoreference`, `endGeoreference`, `saveGcps`, and `needsGeoreferencing` to the returned object and to the `UserMapsApi` type:
+
+```ts
+  georeferencingId: string | null;
+  editingMap: VisibleUserMap | null;
+  beginGeoreference: (id: string) => void;
+  endGeoreference: () => void;
+  saveGcps: (id: string, gcps: Gcp[]) => Promise<void>;
+  needsGeoreferencing: (record: UserMapRecord) => boolean;
+```
+
+…and widen `ImportOutcome`'s `ok` variant:
+
+```ts
+export type ImportOutcome =
+  | {
+      fileName: string;
+      ok: true;
+      id: string;
+      note?: string;
+      /** Set when the import produced an empty GCP draft; App opens the panel. */
+      needsGeoreferencing?: boolean;
+    }
+  | { fileName: string; ok: false; message: string };
+```
 
 - [ ] **Step 4: Add `putUserMapRecord` to the store** — `web/src/userMaps/store/userMapStore.ts`
 
@@ -952,22 +1223,179 @@ git commit -m "feat(web): import plain scans as georeferencing drafts"
 ### Task 6: `UserMapLayers` renders GCP maps and the live draft
 
 **Files:**
+- Create: `web/src/userMaps/recordMesh.ts`
+- Test: `web/src/userMaps/recordMesh.test.ts`
 - Modify: `web/src/userMaps/components/UserMapLayers.tsx`
 - Modify: `web/src/userMaps/components/UserMapLayers.test.tsx`
 
 **Interfaces:**
-- Consumes: `buildGcpLatLngMesh` (`../transform/gcpMesh`), `solveAffineFromGcps` (`../transform/affine`), `buildLatLngMesh` (`../transform/projection`), `setLatLngMesh` on `WarpedRasterLayer` (landed in Task 1).
+- Consumes: `buildGcpLatLngMesh` (`./transform/gcpMesh`), `solveAffineFromGcps` (`./transform/affine`), `buildLatLngMesh` (`./transform/projection`), `setLatLngMesh` on `WarpedRasterLayer` (landed in Task 1).
 - Produces:
-  - `meshForRecord(record: UserMapRecord): LatLngPoint[][] | null` — exported for tests.
+  - `meshForRecord(record: UserMapRecord): LatLngPoint[][] | null`, from **`recordMesh.ts`**, not from the component.
   - `type DraftUserMap = VisibleUserMap & { mesh: LatLngPoint[][] | null }`
   - `<UserMapLayers maps={…} draft={…} />` — `draft?: DraftUserMap | null`.
 
-- [ ] **Step 1: Add the failing tests** to `web/src/userMaps/components/UserMapLayers.test.tsx`
+**Why `meshForRecord` gets its own `.ts` module.** Exporting a plain function
+from a `.tsx` file is a `react-refresh/only-export-components` **error** in
+this repo (verified — see the facts table), and `npx eslint src` is clean
+today, so putting it in `UserMapLayers.tsx` would introduce a new lint failure
+that Task 12's gate catches four tasks later. Splitting it out is also the
+cheaper test: `recordMesh.test.ts` needs no React, no jsdom canvas, and no
+react-leaflet mock.
 
-Keep every existing test — they pin the record-identity contract. Extend the
-`WarpedRasterLayer` class mock with a `setLatLngMesh` spy:
+- [ ] **Step 1: Write the failing mesh test** — `web/src/userMaps/recordMesh.test.ts`:
 
 ```ts
+import { describe, expect, it } from "vitest";
+import { meshForRecord } from "./recordMesh";
+import type { UserMapRecord } from "./types";
+
+const GCP_RECORD: UserMapRecord = {
+  id: "g",
+  name: "Church scan",
+  source: "image",
+  createdAt: "2026-07-25T00:00:00.000Z",
+  pixelSize: { width: 1200, height: 800 },
+  georef: {
+    kind: "gcp",
+    method: "affine",
+    gcps: [
+      { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+      { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+      { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+    ],
+  },
+};
+
+const EMBEDDED_RECORD: UserMapRecord = {
+  id: "e",
+  name: "Fixture map",
+  source: "geotiff",
+  createdAt: "2026-07-24T00:00:00.000Z",
+  pixelSize: { width: 8, height: 6 },
+  georef: {
+    kind: "embedded",
+    crs: "EPSG:26920",
+    geotransform: [500000, 10, 0, 5000000, 0, -10],
+  },
+};
+
+describe("meshForRecord", () => {
+  it("builds a solved mesh for a GCP record", () => {
+    const mesh = meshForRecord(GCP_RECORD);
+    expect(mesh).not.toBeNull();
+    // AFFINE_GRID_SIZE is 1, so a GCP mesh is a single cell.
+    expect(mesh).toHaveLength(2);
+    expect(mesh![0][0].lat).toBeCloseTo(46.1, 4);
+  });
+
+  it("returns null below the three-point minimum", () => {
+    expect(
+      meshForRecord({
+        ...GCP_RECORD,
+        georef: { kind: "gcp", method: "affine", gcps: [] },
+      }),
+    ).toBeNull();
+  });
+
+  it("returns null for points too close to a straight line on the SCAN", () => {
+    expect(
+      meshForRecord({
+        ...GCP_RECORD,
+        georef: {
+          kind: "gcp",
+          method: "affine",
+          gcps: [
+            { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
+            { id: "b", pixel: { x: 10, y: 10 }, map: { lat: 46.1, lng: -61.1 } },
+            { id: "c", pixel: { x: 20, y: 20 }, map: { lat: 46.2, lng: -61.2 } },
+          ],
+        },
+      }),
+    ).toBeNull();
+  });
+
+  it("returns null for points on one meridian, where only the SOLVE is degenerate", () => {
+    // The case that motivated MIN_ANISOTROPY_RATIO: the scan points are a
+    // textbook triangle, but three map clicks down a meridian are exactly
+    // collinear in Mercator, so the linear part is singular, the drape has
+    // zero area, and every residual reads a perfect 0 m.
+    expect(
+      meshForRecord({
+        ...GCP_RECORD,
+        georef: {
+          kind: "gcp",
+          method: "affine",
+          gcps: [
+            { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.0, lng: -61.0 } },
+            { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+            { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.2, lng: -61.0 } },
+          ],
+        },
+      }),
+    ).toBeNull();
+  });
+
+  it("still builds an 8x8 mesh for embedded georeferencing", () => {
+    // Embedded rasters go pixel -> UTM -> WGS84 -> Mercator, and UTM curves,
+    // so they keep the dense lattice. Only the GCP path is exact at 1x1.
+    expect(meshForRecord(EMBEDDED_RECORD)).toHaveLength(9);
+  });
+});
+```
+
+- [ ] **Step 2: Implement** — `web/src/userMaps/recordMesh.ts`:
+
+```ts
+import { solveAffineFromGcps } from "./transform/affine";
+import { buildGcpLatLngMesh } from "./transform/gcpMesh";
+import { buildLatLngMesh, type LatLngPoint } from "./transform/projection";
+import type { UserMapRecord } from "./types";
+
+/**
+ * Geographic lattice for a saved record, or null when the record cannot be
+ * placed yet: fewer than three points, a point cloud too thin to determine a
+ * transform, or a solved transform the acceptance gates in `affine.ts`
+ * refuse (non-finite, or squashed past MIN_ANISOTROPY_RATIO). Callers treat
+ * null as "draw nothing", never as "draw at the origin".
+ *
+ * Its own module rather than part of UserMapLayers.tsx: exporting a function
+ * from a .tsx file is a react-refresh/only-export-components error here.
+ */
+export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
+  if (record.georef.kind === "embedded") {
+    return buildLatLngMesh(record.georef, record.pixelSize);
+  }
+  // pixelSize is the ORIGINAL raster's size, which is the space GCP pixels
+  // live in — and is what solveAffine's spread gate normalises against, so
+  // passing the preview size here would silently change what gets accepted.
+  const params = solveAffineFromGcps(record.georef.gcps, record.pixelSize);
+  return params ? buildGcpLatLngMesh(params, record.pixelSize) : null;
+}
+```
+
+- [ ] **Step 3: Run the mesh test**
+
+Run: `cd web && npx vitest run src/userMaps/recordMesh.test.ts`
+Expected: PASS (5 tests).
+
+- [ ] **Step 4: Add the failing layer tests** to `web/src/userMaps/components/UserMapLayers.test.tsx`
+
+Keep every existing test — they pin the record-identity contract. Extend both
+the hoisted `layerInstances` type **and** the `WarpedRasterLayer` class mock
+with `setLatLngMesh`; the type is easy to miss and `tsc -b` only fails
+about it several tasks later:
+
+```ts
+const layerInstances = vi.hoisted(
+  () =>
+    [] as Array<{
+      options: unknown;
+      setOpacity: ReturnType<typeof vi.fn>;
+      setLatLngMesh: ReturnType<typeof vi.fn>;
+    }>,
+);
+
 vi.mock("../render/WarpedRasterLayer", () => ({
   WarpedRasterLayer: class {
     options: unknown;
@@ -990,7 +1418,7 @@ vi.mock("../render/WarpedRasterLayer", () => ({
 
 Then append:
 
-```ts
+```tsx
 const GCP_RECORD: UserMapRecord = {
   id: "g",
   name: "Church scan",
@@ -1007,45 +1435,6 @@ const GCP_RECORD: UserMapRecord = {
     ],
   },
 };
-
-describe("meshForRecord", () => {
-  it("builds a solved mesh for a GCP record", () => {
-    const mesh = meshForRecord(GCP_RECORD);
-    expect(mesh).not.toBeNull();
-    // AFFINE_GRID_SIZE is 1, so a GCP mesh is a single cell.
-    expect(mesh).toHaveLength(2);
-    expect((mesh as LatLngPoint[][])[0][0].lat).toBeCloseTo(46.1, 4);
-  });
-
-  it("returns null for a GCP record that cannot be solved", () => {
-    expect(
-      meshForRecord({
-        ...GCP_RECORD,
-        georef: { kind: "gcp", method: "affine", gcps: [] },
-      }),
-    ).toBeNull();
-    expect(
-      meshForRecord({
-        ...GCP_RECORD,
-        georef: {
-          kind: "gcp",
-          method: "affine",
-          gcps: [
-            { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
-            { id: "b", pixel: { x: 10, y: 10 }, map: { lat: 46.1, lng: -61.1 } },
-            { id: "c", pixel: { x: 20, y: 20 }, map: { lat: 46.2, lng: -61.2 } },
-          ],
-        },
-      }),
-    ).toBeNull();
-  });
-
-  it("still builds an 8x8 mesh for embedded georeferencing", () => {
-    // Embedded rasters go pixel -> UTM -> WGS84 -> Mercator, and UTM curves,
-    // so they keep the dense lattice. Only the GCP path is exact at 1x1.
-    expect(meshForRecord(record)).toHaveLength(9);
-  });
-});
 
 describe("UserMapLayers draft overlay", () => {
   it("updates the draft mesh without rebuilding the layer or re-decoding", async () => {
@@ -1087,43 +1476,79 @@ describe("UserMapLayers draft overlay", () => {
   });
 
   it("draws nothing while the draft has too few points to solve", async () => {
+    // Anchor the wait on something that DOES happen. An earlier draft of this
+    // test waited for `createPane`, which the null-mesh branch never reaches:
+    // `ensurePane` lives inside the bitmap `.then()`, past the `hasMesh` early
+    // return, so the assertion could only ever time out. Rendering a saved map
+    // alongside the draft gives a real event to wait for, and makes the
+    // "exactly one layer" assertion meaningful rather than vacuous.
     stubBitmapLoading();
     render(
       <UserMapLayers
-        maps={[]}
+        maps={[{ record, previewUrl: "blob:saved", opacity: 0.7 }]}
         draft={{
           record: GCP_RECORD,
           previewUrl: "blob:draft",
-          opacity: 0.7,
+          opacity: 0.3,
           mesh: null,
         }}
       />,
     );
-    await waitFor(() => expect(stubMapApi.createPane).toHaveBeenCalled());
-    expect(stubMapApi.addLayer).not.toHaveBeenCalled();
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    expect(layerInstances).toHaveLength(1);
+    // The one layer built is the saved map's, not the draft's.
+    expect((layerInstances[0].options as { opacity: number }).opacity).toBe(0.7);
+  });
+
+  it("does not re-push geometry when a saved map re-renders unchanged", async () => {
+    // `useUserMaps` rebuilds its VisibleUserMap wrappers every render, so the
+    // wrapper object is always new while `record` stays referentially stable.
+    // Deriving the mesh in the render body returns a fresh array each time,
+    // and the geometry layout effect is keyed on it — measured 3 setLatLngMesh
+    // calls after 3 identical re-renders. During a drag that is every saved
+    // layer rebuilding its lattice and repainting on every pointer move.
+    stubBitmapLoading();
+    const { rerender } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    const pushesAfterMount = layerInstances[0].setLatLngMesh.mock.calls.length;
+    // Fresh wrapper object each time, same `record` reference — exactly what
+    // useUserMaps hands down on an unrelated state change.
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    expect(layerInstances[0].setLatLngMesh.mock.calls.length).toBe(
+      pushesAfterMount,
+    );
   });
 });
 ```
 
-Add the imports the new tests need (`meshForRecord`, `LatLngPoint`).
+`UserMapRecord` is already imported by the file; nothing else is needed.
 
-- [ ] **Step 2: Run to verify they fail**
+- [ ] **Step 5: Run to verify they fail**
 
 Run: `cd web && npx vitest run src/userMaps/components/UserMapLayers.test.tsx`
-Expected: FAIL — `meshForRecord` is not exported; `draft` prop unknown.
+Expected: FAIL — `draft` prop unknown.
 
-- [ ] **Step 3: Implement** — replace the body of `web/src/userMaps/components/UserMapLayers.tsx`:
+- [ ] **Step 6: Implement** — replace the body of `web/src/userMaps/components/UserMapLayers.tsx`:
 
 ```tsx
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useMap } from "react-leaflet";
 import {
   USER_MAPS_PANE,
   USER_MAPS_PANE_Z_INDEX,
 } from "../../components/mapPanes";
-import { solveAffineFromGcps } from "../transform/affine";
-import { buildGcpLatLngMesh } from "../transform/gcpMesh";
-import { buildLatLngMesh, type LatLngPoint } from "../transform/projection";
+import { meshForRecord } from "../recordMesh";
+import type { LatLngPoint } from "../transform/projection";
 import { WarpedRasterLayer } from "../render/WarpedRasterLayer";
 import type { UserMapRecord } from "../types";
 
@@ -1136,18 +1561,6 @@ export type VisibleUserMap = {
 /** The map being georeferenced. Its mesh is owned by the session, not derived
  * from the record, because it changes on every pointer move during a drag. */
 export type DraftUserMap = VisibleUserMap & { mesh: LatLngPoint[][] | null };
-
-/**
- * Geographic lattice for a saved record, or null when it cannot be placed
- * yet (a draft with fewer than three points, or points that are collinear).
- */
-export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
-  if (record.georef.kind === "embedded") {
-    return buildLatLngMesh(record.georef, record.pixelSize);
-  }
-  const params = solveAffineFromGcps(record.georef.gcps);
-  return params ? buildGcpLatLngMesh(params, record.pixelSize) : null;
-}
 
 /** Idempotent: Leaflet keeps panes for the map's lifetime. */
 function ensurePane(map: ReturnType<typeof useMap>): void {
@@ -1249,6 +1662,27 @@ function WarpedRasterOverlay({
   return null;
 }
 
+/**
+ * A saved map derives its mesh from its record — and MUST memoize it on the
+ * record's object identity. `useUserMaps` rebuilds its VisibleUserMap
+ * wrappers on every render, so calling meshForRecord in the parent's render
+ * body would hand this overlay a brand-new array each time and re-trigger the
+ * geometry layout effect below. During a georeferencing drag that is every
+ * saved layer rebuilding its lattice and repainting on every pointer move.
+ * The memo can only live in a component, not in a `.map()` callback, which is
+ * the entire reason this wrapper exists.
+ */
+function SavedMapOverlay({ map }: { map: VisibleUserMap }) {
+  const mesh = useMemo(() => meshForRecord(map.record), [map.record]);
+  return (
+    <WarpedRasterOverlay
+      previewUrl={map.previewUrl}
+      opacity={map.opacity}
+      mesh={mesh}
+    />
+  );
+}
+
 /** Sole mount point MapCanvas needs. */
 export function UserMapLayers({
   maps,
@@ -1260,14 +1694,12 @@ export function UserMapLayers({
   return (
     <>
       {maps.map((map) => (
-        <WarpedRasterOverlay
-          key={map.record.id}
-          previewUrl={map.previewUrl}
-          opacity={map.opacity}
-          mesh={meshForRecord(map.record)}
-        />
+        <SavedMapOverlay key={map.record.id} map={map} />
       ))}
       {draft ? (
+        // The draft's mesh comes from the session, not from the record: it
+        // changes on every pointer move, and the record is only updated on
+        // the debounced write-through.
         <WarpedRasterOverlay
           key={`draft-${draft.record.id}`}
           previewUrl={draft.previewUrl}
@@ -1281,20 +1713,21 @@ export function UserMapLayers({
 ```
 
 **Note for the reviewer:** this drops the old `record`-identity dependency in
-favour of `previewUrl`, which is strictly more stable — `previewUrl` is a blob
-URL created once per map and only revoked on removal. The existing identity
-tests still pass because they never change `previewUrl`. The `meshForRecord`
-call in the render body is pure and cheap (one 3x3 solve, four projections).
+the layer-construction effect in favour of `previewUrl`, which is strictly
+more stable — `previewUrl` is a blob URL created once per map and only revoked
+on removal. The existing identity tests still pass because they never change
+`previewUrl`. Record identity still matters, just one level up: it is the
+`SavedMapOverlay` memo key.
 
-- [ ] **Step 4: Run to verify they pass**
+- [ ] **Step 7: Run to verify they pass**
 
-Run: `cd web && npx vitest run src/userMaps/components/UserMapLayers.test.tsx`
+Run: `cd web && npx vitest run src/userMaps/recordMesh.test.ts src/userMaps/components/UserMapLayers.test.tsx`
 Expected: PASS — every pre-existing test plus the new ones.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add web/src/userMaps/components/UserMapLayers.tsx web/src/userMaps/components/UserMapLayers.test.tsx
+git add web/src/userMaps/recordMesh.ts web/src/userMaps/recordMesh.test.ts web/src/userMaps/components/UserMapLayers.tsx web/src/userMaps/components/UserMapLayers.test.tsx
 git commit -m "feat(web): render GCP-georeferenced maps and the live georeferencing draft"
 ```
 
@@ -1307,13 +1740,23 @@ git commit -m "feat(web): render GCP-georeferenced maps and the live georeferenc
 - Test: `web/src/userMaps/useGeoreferenceSession.test.ts`
 
 **Interfaces:**
-- Consumes: `Gcp` (`./types`); `solveAffineFromGcps`, `MIN_GCPS_FOR_AFFINE`, `AffineParams` (`./transform/affine`); `buildGcpLatLngMesh` (`./transform/gcpMesh`); `residualReport`, `ResidualReport`, `MIN_GCPS_FOR_RESIDUALS` (`./transform/residuals`); `PixelSize`, `LatLngPoint` (`./transform/projection`).
+- Consumes: `Gcp` (`./types`); `solveAffineFromGcps`, `MIN_GCPS_FOR_AFFINE`, `AffineParams` (`./transform/affine`); `buildGcpLatLngMesh` (`./transform/gcpMesh`); `residualReport`, `ResidualReport` (`./transform/residuals`); `PixelSize`, `LatLngPoint` (`./transform/projection`).
 - Produces:
   - `type PendingPoint = { side: "scan"; pixel: { x: number; y: number } } | { side: "map"; map: LatLngPoint } | null`
-  - `type GeoreferenceStatus = { kind: "awaiting-map" } | { kind: "awaiting-scan" } | { kind: "need-more"; remaining: number } | { kind: "collinear" } | { kind: "exact-fit" } | { kind: "solved"; rmsMetres: number; count: number }`
+  - `type GeoreferenceStatus = { kind: "awaiting-map" } | { kind: "awaiting-scan" } | { kind: "need-more"; remaining: number } | { kind: "degenerate" } | { kind: "exact-fit" } | { kind: "solved"; rmsMetres: number; count: number }`
   - `type GeoreferenceSession = { gcps; pending; params; mesh; report; status; canUndo; pickScanPoint(x, y); pickMapPoint(lat, lng); cancelPending(); beginDragGcp(id); moveGcpOnScan(id, x, y); moveGcpOnMap(id, lat, lng); deleteGcp(id); undo(); flush() }`
   - `useGeoreferenceSession(options: { mapId: string | null; initialGcps: Gcp[]; pixelSize: PixelSize; onPersist: (mapId: string, gcps: Gcp[]) => void; persistDelayMs?: number }): GeoreferenceSession`
   - `UNDO_HISTORY_LIMIT = 50`, `PERSIST_DELAY_MS = 400`
+
+**Why the failure status is `degenerate`, not `collinear`.** After
+`11780341f`, `solveAffineFromGcps` returns `null` in three distinct
+situations, only one of which is a straight line on the scan: a source cloud
+narrower than `MIN_CONDITION_RATIO`; a non-finite destination; and a solved
+linear part squashed past `MIN_ANISOTROPY_RATIO`, which is what three map
+clicks down a meridian produce even from a textbook triangle on the scan.
+Calling the status `collinear` and telling the user "these points are almost
+in a straight line" would be wrong advice in two of the three, so both the
+name and the copy changed. The copy lives in Task 10's `statusMessage`.
 
 **Why `mapId` is an argument and why `onPersist` takes it back.** The hook is
 mounted unconditionally in `App` (hooks cannot be conditional) and stays
@@ -1330,9 +1773,25 @@ render-time form is the officially supported alternative. Verified against
 this repo's actual config (`npx eslint` on a probe file using exactly this
 shape): exit 0, no warnings. Do not "fix" it into a `useEffect`.
 
+**The shape everything else follows from: no side effects inside a `setState`
+updater.** `main.tsx:8` wraps `<App/>` in `StrictMode`, and React 19
+double-invokes updaters there (verified: 2 invocations per dispatch). An
+earlier version of this hook did its history snapshot, its id mint and its
+`setGcps` call from *inside* `setPending`'s updater — so in the browser one
+completed pair produced **two coincident GCPs** and every action needed two
+Undo presses, while every test here (bare `renderHook`, no StrictMode) stayed
+green. Because the duplicates were coincident, the affine still solved and it
+looked nearly right.
+
+So: state that a handler needs to *read* is mirrored into a ref, every mutator
+branches on the ref outside any updater, and every write goes through one
+`commit(next)`. Updaters compute a value and nothing else. There is a
+StrictMode-wrapped test below that fails against the old shape.
+
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/useGeoreferenceSession.test.ts`:
 
 ```ts
+import { StrictMode } from "react";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -1442,21 +1901,65 @@ describe("status", () => {
     expect(result.current.report).not.toBeNull();
   });
 
-  it("reports collinear points rather than drawing a NaN drape", () => {
+  it("reports a degenerate SCAN layout rather than drawing a NaN drape", () => {
     const { result } = setup([
       { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.0, lng: -61.0 } },
       { id: "b", pixel: { x: 100, y: 100 }, map: { lat: 46.1, lng: -61.1 } },
       { id: "c", pixel: { x: 200, y: 200 }, map: { lat: 46.2, lng: -61.2 } },
     ]);
-    expect(result.current.status).toEqual({ kind: "collinear" });
+    expect(result.current.status).toEqual({ kind: "degenerate" });
     expect(result.current.mesh).toBeNull();
     expect(result.current.params).toBeNull();
+  });
+
+  it("reports a degenerate SOLVE when the map clicks share a meridian", () => {
+    // The case source-side checking cannot see: the scan points are a proper
+    // triangle, but three map clicks down one meridian are exactly collinear
+    // in Mercator, so the linear part is singular, the drape has zero area,
+    // and every residual reads a perfect 0 m. MIN_ANISOTROPY_RATIO catches
+    // it — which is why this status is not called "collinear".
+    const { result } = setup([
+      { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.0, lng: -61.0 } },
+      { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+      { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.2, lng: -61.0 } },
+    ]);
+    expect(result.current.status).toEqual({ kind: "degenerate" });
+    expect(result.current.mesh).toBeNull();
   });
 
   it("lets a pending point take precedence over the count", () => {
     const { result } = setup(SOLVABLE);
     act(() => result.current.pickScanPoint(50, 50));
     expect(result.current.status).toEqual({ kind: "awaiting-map" });
+  });
+});
+
+describe("StrictMode", () => {
+  it("creates exactly one control point per completed pair", () => {
+    // `main.tsx` wraps <App/> in StrictMode and React 19 double-invokes state
+    // updaters there. The first version of this hook snapshotted history,
+    // minted an id and called setGcps from inside setPending's updater, so a
+    // single pair produced TWO coincident GCPs and every action needed two
+    // Undo presses — in the browser only. Every other test in this file uses
+    // a bare renderHook and passed throughout. This one is the guard.
+    const onPersist = vi.fn();
+    const { result } = renderHook(
+      () =>
+        useGeoreferenceSession({
+          mapId: "map-a",
+          initialGcps: [],
+          pixelSize: PIXEL_SIZE,
+          onPersist,
+        }),
+      { wrapper: StrictMode },
+    );
+    act(() => result.current.pickScanPoint(100, 200));
+    act(() => result.current.pickMapPoint(46.05, -61.1));
+    expect(result.current.gcps).toHaveLength(1);
+    // One undo, not two: the history got exactly one snapshot.
+    act(() => result.current.undo());
+    expect(result.current.gcps).toHaveLength(0);
+    expect(result.current.canUndo).toBe(false);
   });
 });
 
@@ -1566,6 +2069,28 @@ describe("persistence", () => {
     expect(onPersist).toHaveBeenCalledTimes(1);
     expect(onPersist.mock.calls[0][0]).toBe("map-a");
   });
+
+  it("keeps BOTH maps' edits when the session switches mid-debounce", () => {
+    // The test above only covers a *late* flush, not an *interrupted* one.
+    // With a single dirty slot and a single timer, the first edit on map B
+    // overwrites map A's pending write and the timer restarts: measured
+    // `persist calls: [["map-b", 1]]` — map A's deletion silently gone. One
+    // dirty entry per map id is what fixes it.
+    const { result, rerender, onPersist } = setup(SOLVABLE);
+    act(() => result.current.deleteGcp("a"));
+    rerender({ mapId: "map-b", initialGcps: [] });
+    act(() => result.current.pickScanPoint(10, 20));
+    act(() => result.current.pickMapPoint(46.0, -61.0));
+    act(() => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS);
+    });
+    expect(onPersist).toHaveBeenCalledTimes(2);
+    const byMap = new Map(
+      onPersist.mock.calls.map(([id, gcps]) => [id as string, gcps as Gcp[]]),
+    );
+    expect(byMap.get("map-a")).toHaveLength(2); // "a" removed from three
+    expect(byMap.get("map-b")).toHaveLength(1);
+  });
 });
 
 describe("switching maps", () => {
@@ -1607,7 +2132,14 @@ Expected: FAIL — cannot resolve `./useGeoreferenceSession`.
 - [ ] **Step 3: Implement** — `web/src/userMaps/useGeoreferenceSession.ts`:
 
 ```ts
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   MIN_GCPS_FOR_AFFINE,
   solveAffineFromGcps,
@@ -1630,7 +2162,10 @@ export type GeoreferenceStatus =
   | { kind: "awaiting-map" }
   | { kind: "awaiting-scan" }
   | { kind: "need-more"; remaining: number }
-  | { kind: "collinear" }
+  /** The solve was refused: thin point cloud, non-finite result, or a
+   * transform that squashes one axis past MIN_ANISOTROPY_RATIO. Not
+   * "collinear" — two of those three are not straight lines on the scan. */
+  | { kind: "degenerate" }
   | { kind: "exact-fit" }
   | { kind: "solved"; rmsMetres: number; count: number };
 
@@ -1670,42 +2205,88 @@ export function useGeoreferenceSession(options: {
 }): GeoreferenceSession {
   const { mapId, pixelSize } = options;
   const persistDelay = options.persistDelayMs ?? PERSIST_DELAY_MS;
-  const [gcps, setGcps] = useState<Gcp[]>(options.initialGcps);
-  const [pending, setPending] = useState<PendingPoint>(null);
-  const [history, setHistory] = useState<Gcp[][]>([]);
+  const [gcps, setGcpsState] = useState<Gcp[]>(options.initialGcps);
+  const [pending, setPendingState] = useState<PendingPoint>(null);
+  const [historyDepth, setHistoryDepth] = useState(0);
   const [seededFor, setSeededFor] = useState<string | null>(mapId);
 
   // React's documented "adjust state when a prop changes": a CONDITIONAL
   // setState during render. Not an effect — `set-state-in-effect` is an error
   // here, and an effect would also render one frame of the previous map's
   // points over the new map. Verified lint-clean against this repo's config.
+  // Only STATE is reset here; the ref mirrors below cannot be written during
+  // render (also a lint error) and are reconciled in layout effects instead.
   if (mapId !== seededFor) {
     setSeededFor(mapId);
-    setGcps(options.initialGcps);
-    setPending(null);
-    setHistory([]);
+    setGcpsState(options.initialGcps);
+    setPendingState(null);
+    setHistoryDepth(0);
   }
+
+  // --- Ref mirrors --------------------------------------------------------
+  //
+  // Every mutator reads the current points and the pending half-point from
+  // these, never from a setState updater. That is what keeps updaters pure,
+  // which is what makes StrictMode's double invocation harmless. They are
+  // written eagerly by the writers below (so two mutations in one tick see
+  // each other) and reconciled from state in a layout effect (so the
+  // render-time re-seed above lands before any handler can run — layout
+  // effects flush during commit, before the browser yields to events).
+  const gcpsRef = useRef(gcps);
+  const pendingRef = useRef<PendingPoint>(null);
+  const historyRef = useRef<Gcp[][]>([]);
+
+  useLayoutEffect(() => {
+    gcpsRef.current = gcps;
+    pendingRef.current = pending;
+  }, [gcps, pending]);
+
+  useLayoutEffect(() => {
+    // Undo history belongs to one map. Its DEPTH is reset in the re-seed
+    // branch above; its contents are cleared here, for the same
+    // no-ref-writes-during-render reason.
+    historyRef.current = [];
+  }, [seededFor]);
 
   const onPersistRef = useRef(options.onPersist);
   const timerRef = useRef<number | null>(null);
-  const dirtyRef = useRef<{ mapId: string; gcps: Gcp[] } | null>(null);
+  // One dirty entry PER MAP, not one slot. A single slot only survives a
+  // *late* flush, not an *interrupted* one: the first edit on map B
+  // overwrites map A's pending payload and restarts the shared timer, so A's
+  // write is simply lost (measured: `persist calls: [["map-b", 1]]`). Keyed
+  // by id, every map touched inside the window still gets exactly one write.
+  const dirtyRef = useRef(new Map<string, Gcp[]>());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Layout, not passive, per the Global Constraint on refs read by
+    // in-flight work: the debounce timer can fire in the same frame as a
+    // re-render, and a passive effect is scheduled asynchronously.
     onPersistRef.current = options.onPersist;
   }, [options.onPersist]);
+
+  const writeDirty = useCallback(() => {
+    const dirty = dirtyRef.current;
+    if (dirty.size === 0) {
+      return;
+    }
+    // Snapshot and clear BEFORE calling out: onPersist re-enters React state
+    // (App's saveGcps), and anything it schedules must not be dropped here.
+    const entries = [...dirty.entries()];
+    dirty.clear();
+    for (const [id, next] of entries) {
+      // The id travels with the payload, so a write that lands after the
+      // session has moved on still goes to the right record.
+      onPersistRef.current(id, next);
+    }
+  }, []);
 
   const flush = useCallback(() => {
     if (timerRef.current !== null) {
       window.clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-    if (dirtyRef.current) {
-      // The id travels with the payload, so a flush that lands after the
-      // session has moved on still writes to the right record.
-      onPersistRef.current(dirtyRef.current.mapId, dirtyRef.current.gcps);
-      dirtyRef.current = null;
-    }
-  }, []);
+    writeDirty();
+  }, [writeDirty]);
 
   /**
    * IndexedDB writes are debounced because a marker drag changes state on
@@ -1718,84 +2299,81 @@ export function useGeoreferenceSession(options: {
       if (mapId === null) {
         return;
       }
-      dirtyRef.current = { mapId, gcps: next };
+      dirtyRef.current.set(mapId, next);
       if (timerRef.current !== null) {
         window.clearTimeout(timerRef.current);
       }
       timerRef.current = window.setTimeout(() => {
         timerRef.current = null;
-        if (dirtyRef.current) {
-          onPersistRef.current(dirtyRef.current.mapId, dirtyRef.current.gcps);
-          dirtyRef.current = null;
-        }
+        writeDirty();
       }, persistDelay);
     },
-    [mapId, persistDelay],
+    [mapId, persistDelay, writeDirty],
   );
 
   useEffect(() => flush, [flush]);
 
+  /** The single write path: mirror, render, schedule. */
   const commit = useCallback(
     (next: Gcp[]) => {
-      setGcps(next);
+      gcpsRef.current = next;
+      setGcpsState(next);
       schedulePersist(next);
     },
     [schedulePersist],
   );
 
+  const setPending = useCallback((next: PendingPoint) => {
+    pendingRef.current = next;
+    setPendingState(next);
+  }, []);
+
   /** Snapshot BEFORE a change, so undo restores the prior state. */
   const snapshot = useCallback(() => {
-    setGcps((current) => {
-      setHistory((past) => [...past, current].slice(-UNDO_HISTORY_LIMIT));
-      return current;
-    });
+    historyRef.current = [...historyRef.current, gcpsRef.current].slice(
+      -UNDO_HISTORY_LIMIT,
+    );
+    setHistoryDepth(historyRef.current.length);
   }, []);
 
   const pickScanPoint = useCallback(
     (x: number, y: number) => {
-      setPending((current) => {
-        if (current?.side === "map") {
-          snapshot();
-          const completed = current.map;
-          setGcps((existing) => {
-            const next = [
-              ...existing,
-              { id: nextGcpId(), pixel: { x, y }, map: completed },
-            ];
-            schedulePersist(next);
-            return next;
-          });
-          return null;
-        }
-        return { side: "scan", pixel: { x, y } };
-      });
+      // Read the pending half-point from the ref and branch OUT HERE. Doing
+      // this inside setPending's updater is what produced two coincident
+      // GCPs per pair under StrictMode.
+      const current = pendingRef.current;
+      if (current?.side === "map") {
+        snapshot();
+        commit([
+          ...gcpsRef.current,
+          { id: nextGcpId(), pixel: { x, y }, map: current.map },
+        ]);
+        setPending(null);
+        return;
+      }
+      setPending({ side: "scan", pixel: { x, y } });
     },
-    [schedulePersist, snapshot],
+    [commit, setPending, snapshot],
   );
 
   const pickMapPoint = useCallback(
     (lat: number, lng: number) => {
-      setPending((current) => {
-        if (current?.side === "scan") {
-          snapshot();
-          const pixel = current.pixel;
-          setGcps((existing) => {
-            const next = [
-              ...existing,
-              { id: nextGcpId(), pixel, map: { lat, lng } },
-            ];
-            schedulePersist(next);
-            return next;
-          });
-          return null;
-        }
-        return { side: "map", map: { lat, lng } };
-      });
+      const current = pendingRef.current;
+      if (current?.side === "scan") {
+        snapshot();
+        commit([
+          ...gcpsRef.current,
+          { id: nextGcpId(), pixel: current.pixel, map: { lat, lng } },
+        ]);
+        setPending(null);
+        return;
+      }
+      setPending({ side: "map", map: { lat, lng } });
     },
-    [schedulePersist, snapshot],
+    [commit, setPending, snapshot],
   );
 
-  const cancelPending = useCallback(() => setPending(null), []);
+  const cancelPending = useCallback(() => setPending(null), [setPending]);
 
   /**
    * Called on drag START only. Snapshotting per pointer move would make undo
@@ -1806,56 +2384,53 @@ export function useGeoreferenceSession(options: {
 
   const moveGcpOnScan = useCallback(
     (id: string, x: number, y: number) => {
-      setGcps((existing) => {
-        const next = existing.map((gcp) =>
+      commit(
+        gcpsRef.current.map((gcp) =>
           gcp.id === id ? { ...gcp, pixel: { x, y } } : gcp,
-        );
-        schedulePersist(next);
-        return next;
-      });
+        ),
+      );
     },
-    [schedulePersist],
+    [commit],
   );
 
   const moveGcpOnMap = useCallback(
     (id: string, lat: number, lng: number) => {
-      setGcps((existing) => {
-        const next = existing.map((gcp) =>
+      commit(
+        gcpsRef.current.map((gcp) =>
           gcp.id === id ? { ...gcp, map: { lat, lng } } : gcp,
-        );
-        schedulePersist(next);
-        return next;
-      });
+        ),
+      );
     },
-    [schedulePersist],
+    [commit],
   );
 
   const deleteGcp = useCallback(
     (id: string) => {
       snapshot();
-      setGcps((existing) => {
-        const next = existing.filter((gcp) => gcp.id !== id);
-        schedulePersist(next);
-        return next;
-      });
+      commit(gcpsRef.current.filter((gcp) => gcp.id !== id));
     },
-    [schedulePersist, snapshot],
+    [commit, snapshot],
   );
 
   const undo = useCallback(() => {
-    setHistory((past) => {
-      if (past.length === 0) {
-        return past;
-      }
-      const restored = past[past.length - 1];
-      setGcps(restored);
-      schedulePersist(restored);
-      return past.slice(0, -1);
-    });
+    const past = historyRef.current;
+    if (past.length === 0) {
+      return;
+    }
+    historyRef.current = past.slice(0, -1);
+    setHistoryDepth(historyRef.current.length);
+    commit(past[past.length - 1]);
     setPending(null);
-  }, [schedulePersist]);
+  }, [commit, setPending]);
 
-  const params = useMemo(() => solveAffineFromGcps(gcps), [gcps]);
+  // pixelSize is the ORIGINAL raster's size and is load-bearing, not
+  // decoration: solveAffine normalises its acceptance gate against the image
+  // diagonal (Task 3), so passing preview dimensions here would silently
+  // change which layouts are accepted.
+  const params = useMemo(
+    () => solveAffineFromGcps(gcps),
+    [gcps, pixelSize],
+  );
   const mesh = useMemo(
     () => (params ? buildGcpLatLngMesh(params, pixelSize) : null),
     [params, pixelSize],
@@ -1878,7 +2453,9 @@ export function useGeoreferenceSession(options: {
       return { kind: "need-more", remaining: MIN_GCPS_FOR_AFFINE - gcps.length };
     }
     if (!params) {
-      return { kind: "collinear" };
+      // Three different refusals arrive here, only one of which is a straight
+      // line on the scan — see the type's comment and Task 3.
+      return { kind: "degenerate" };
     }
     if (!report) {
       // Enough points to solve, too few for residuals to mean anything: an
@@ -1899,7 +2476,7 @@ export function useGeoreferenceSession(options: {
     mesh,
     report,
     status,
-    canUndo: history.length > 0,
+    canUndo: historyDepth > 0,
     pickScanPoint,
     pickMapPoint,
     cancelPending,
@@ -1913,15 +2490,18 @@ export function useGeoreferenceSession(options: {
 }
 ```
 
+**Identity note, which Task 8 and Task 11 depend on.** Every mutator's
+`useCallback` deps are other callbacks, never `gcps` — that is the other
+reason the ref mirrors exist. If `moveGcpOnMap` changed identity on every
+point move, `useMapEvent`'s effect would tear down and re-register its Leaflet
+handler on every pointer move of a drag. The only thing that churns these is
+`mapId` changing, i.e. switching maps.
+
 - [ ] **Step 4: Run to verify it passes**
 
 Run: `cd web && npx vitest run src/userMaps/useGeoreferenceSession.test.ts`
-Expected: PASS (20 tests).
-
-If `react-hooks/set-state-in-effect` or `exhaustive-deps` complains about the
-`snapshot` helper calling `setHistory` inside a `setGcps` updater, restructure
-`snapshot` to take the current list as an argument from each caller instead of
-reading it through an updater. Do **not** silence the rule.
+Expected: PASS (25 tests). Count them rather than trusting that number — an
+earlier draft of this plan claimed 20 for a 22-test file.
 
 - [ ] **Step 5: Lint and commit**
 
@@ -1935,15 +2515,31 @@ git commit -m "feat(web): add the georeferencing session state machine with undo
 ### Task 8: `ScanPane` — the scan side, on `CRS.Simple`
 
 **Files:**
+- Create: `web/src/userMaps/components/scanGeometry.ts`
+- Test: `web/src/userMaps/components/scanGeometry.test.ts`
+- Create: `web/src/userMaps/components/gcpIcon.ts`
+- Test: `web/src/userMaps/components/gcpIcon.test.ts`
 - Create: `web/src/userMaps/components/ScanPane.tsx`
-- Test: `web/src/userMaps/components/ScanPane.test.tsx`
 
 **Interfaces:**
-- Produces:
+- Produces, from `scanGeometry.ts`:
   - `pixelFromLatLng(latLng: { lat: number; lng: number }): { x: number; y: number }`
   - `latLngFromPixel(pixel: { x: number; y: number }): [number, number]`
   - `scanBounds(pixelSize: PixelSize): [[number, number], [number, number]]`
-  - `<ScanPane previewUrl pixelSize gcps pending onPickPoint onDragStartGcp onMoveGcp selectedGcpId />`
+- Produces, from `gcpIcon.ts`:
+  - `numberedIcon(label: string, state?: { pending?: boolean; selected?: boolean }): L.DivIcon`
+- Produces, from `ScanPane.tsx`:
+  - `type ScanFocusRequest = { pixel: { x: number; y: number }; requestId: number }`
+  - `<ScanPane previewUrl pixelSize gcps pending focus onPickPoint onDragStartGcp onMoveGcp selectedGcpId />`
+
+**Why three files instead of one.** `react-refresh/only-export-components` is
+an **error** here, so a `.tsx` file may export components and constants but
+not functions. The two pure helper modules also earn their keep on their own:
+`scanGeometry.test.ts` needs no React at all, and `numberedIcon` has two
+consumers (this pane and Task 11's map layer), so giving it a home now avoids
+Task 11 having to reach back into `ScanPane.tsx` for it — a forward edit that
+an earlier draft of this plan left out of every Files list and every `git
+add`, so the branch compiled locally and not once pushed.
 
 **The coordinate rule — read this before writing any of it.** Under
 `L.CRS.Simple` the transformation is `(1, 0, -1, 0)`, so image pixel `(x, y)`
@@ -1963,11 +2559,11 @@ dimensions.** GCPs live in original pixel space; making the map's coordinate
 space match means a click needs no rescaling and a preview-resolution change
 never moves a point.
 
-- [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/ScanPane.test.tsx`:
+- [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/scanGeometry.test.ts`:
 
-```tsx
+```ts
 import { describe, expect, it } from "vitest";
-import { latLngFromPixel, pixelFromLatLng, scanBounds } from "./ScanPane";
+import { latLngFromPixel, pixelFromLatLng, scanBounds } from "./scanGeometry";
 
 describe("scan coordinate helpers", () => {
   it("maps image pixels onto CRS.Simple's y-flipped space", () => {
@@ -2009,17 +2605,13 @@ describe("scan coordinate helpers", () => {
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `cd web && npx vitest run src/userMaps/components/ScanPane.test.tsx`
-Expected: FAIL — cannot resolve `./ScanPane`.
+Run: `cd web && npx vitest run src/userMaps/components/scanGeometry.test.ts`
+Expected: FAIL — cannot resolve `./scanGeometry`.
 
-- [ ] **Step 3: Implement** — `web/src/userMaps/components/ScanPane.tsx`:
+- [ ] **Step 3: Implement the geometry** — `web/src/userMaps/components/scanGeometry.ts`:
 
-```tsx
-import L from "leaflet";
-import { ImageOverlay, MapContainer, Marker, useMapEvents } from "react-leaflet";
+```ts
 import type { PixelSize } from "../transform/projection";
-import type { PendingPoint } from "../useGeoreferenceSession";
-import type { Gcp } from "../types";
 
 /**
  * L.CRS.Simple applies Transformation(1, 0, -1, 0), so image pixel (x, y) is
@@ -2050,27 +2642,135 @@ export function scanBounds(
     [0, pixelSize.width],
   ];
 }
+```
 
-function numberedIcon(label: string, pendingHalf: boolean): L.DivIcon {
+- [ ] **Step 4: Write the icon test** — `web/src/userMaps/components/gcpIcon.test.ts`:
+
+```ts
+import { describe, expect, it } from "vitest";
+import { numberedIcon } from "./gcpIcon";
+
+describe("numberedIcon", () => {
+  it("distinguishes a half-placed point from a completed one", () => {
+    // Spec: markers are hollow while pending and solid once paired. The two
+    // states must not share a class, or "click the other side" has no visual
+    // acknowledgement at all.
+    expect(numberedIcon("1").options.className).toBe("gcp-marker");
+    expect(numberedIcon("1", { pending: true }).options.className).toContain(
+      "gcp-marker--pending",
+    );
+  });
+
+  it("marks the selected point separately from the pending one", () => {
+    // These were conflated once: the list's hovered row was passed as the
+    // `pendingHalf` argument, so hovering a finished row drew its marker in
+    // the "still waiting for its other half" style.
+    const icon = numberedIcon("2", { selected: true });
+    expect(icon.options.className).toContain("gcp-marker--selected");
+    expect(icon.options.className).not.toContain("gcp-marker--pending");
+  });
+
+  it("carries the point number as its label", () => {
+    expect(numberedIcon("3").options.html).toContain("3");
+  });
+});
+```
+
+- [ ] **Step 5: Implement the icon** — `web/src/userMaps/components/gcpIcon.ts`:
+
+```ts
+import L from "leaflet";
+
+/**
+ * One numbered marker style, shared by the scan pane and the live map so a
+ * point looks the same on both sides — which is how the user matches a list
+ * row to a marker (Task 11 deliberately threads no selection state to the
+ * map; the number is the correspondence).
+ *
+ * `pending` and `selected` are separate flags on purpose. An earlier draft
+ * had a single `pendingHalf` boolean and passed `selectedGcpId` into it, so
+ * hovering a completed row rendered its marker in the pending style.
+ */
+export function numberedIcon(
+  label: string,
+  state: { pending?: boolean; selected?: boolean } = {},
+): L.DivIcon {
+  const classNames = ["gcp-marker"];
+  if (state.pending) {
+    classNames.push("gcp-marker--pending");
+  }
+  if (state.selected) {
+    classNames.push("gcp-marker--selected");
+  }
   return L.divIcon({
-    className: `gcp-marker${pendingHalf ? " gcp-marker--pending" : ""}`,
+    className: classNames.join(" "),
     html: `<span>${label}</span>`,
     iconSize: [24, 24],
     iconAnchor: [12, 12],
   });
 }
+```
+
+- [ ] **Step 6: Implement the pane** — `web/src/userMaps/components/ScanPane.tsx`:
+
+```tsx
+import { useCallback, useEffect } from "react";
+import L from "leaflet";
+import {
+  ImageOverlay,
+  MapContainer,
+  Marker,
+  useMap,
+  useMapEvent,
+} from "react-leaflet";
+import type { PixelSize } from "../transform/projection";
+import type { PendingPoint } from "../useGeoreferenceSession";
+import type { Gcp } from "../types";
+import { numberedIcon } from "./gcpIcon";
+import { latLngFromPixel, pixelFromLatLng, scanBounds } from "./scanGeometry";
+
+/**
+ * A request to recentre the scan on one point. Carries a monotonic
+ * `requestId` so asking for the SAME point twice still moves the map — the
+ * effect below keys on the object, and a plain pixel would be `===` equal the
+ * second time and do nothing.
+ */
+export type ScanFocusRequest = {
+  pixel: { x: number; y: number };
+  requestId: number;
+};
 
 function ScanClickCatcher({
   onPickPoint,
 }: {
   onPickPoint: (x: number, y: number) => void;
 }) {
-  useMapEvents({
-    click: ({ latlng }) => {
-      const { x, y } = pixelFromLatLng(latlng);
+  const handleClick = useCallback(
+    (event: L.LeafletMouseEvent) => {
+      const { x, y } = pixelFromLatLng(event.latlng);
       onPickPoint(x, y);
     },
-  });
+    [onPickPoint],
+  );
+  // useMapEvent, NOT useMapEvents: react-leaflet keys useMapEvents' effect on
+  // the handlers OBJECT (deps `[map, handlers]`), so an inline literal calls
+  // map.off()/map.on() on every render — once per pointer move during a drag.
+  // A useCallback'd handler with useMapEvent subscribes once.
+  useMapEvent("click", handleClick);
+  return null;
+}
+
+/** Recentres the scan when the GCP list asks to zoom to a point. */
+function ScanFocusController({ focus }: { focus: ScanFocusRequest | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!focus) {
+      return;
+    }
+    // Zoom in only if the user is further out than 1 (roughly "pixels are
+    // visible"); never zoom them back OUT of a closer inspection.
+    map.setView(latLngFromPixel(focus.pixel), Math.max(map.getZoom(), 1));
+  }, [focus, map]);
   return null;
 }
 
@@ -2085,6 +2785,7 @@ export function ScanPane({
   pixelSize,
   gcps,
   pending,
+  focus,
   onPickPoint,
   onDragStartGcp,
   onMoveGcp,
@@ -2094,6 +2795,7 @@ export function ScanPane({
   pixelSize: PixelSize;
   gcps: Gcp[];
   pending: PendingPoint;
+  focus: ScanFocusRequest | null;
   onPickPoint: (x: number, y: number) => void;
   onDragStartGcp: (id: string) => void;
   onMoveGcp: (id: string, x: number, y: number) => void;
@@ -2116,15 +2818,15 @@ export function ScanPane({
       >
         <ImageOverlay url={previewUrl} bounds={bounds} />
         <ScanClickCatcher onPickPoint={onPickPoint} />
+        <ScanFocusController focus={focus} />
         {gcps.map((gcp, index) => (
           <Marker
             key={gcp.id}
             position={latLngFromPixel(gcp.pixel)}
             draggable
-            icon={numberedIcon(
-              String(index + 1),
-              gcp.id === selectedGcpId,
-            )}
+            icon={numberedIcon(String(index + 1), {
+              selected: gcp.id === selectedGcpId,
+            })}
             eventHandlers={{
               dragstart: () => onDragStartGcp(gcp.id),
               drag: (event) => {
@@ -2139,7 +2841,7 @@ export function ScanPane({
         {pending?.side === "scan" ? (
           <Marker
             position={latLngFromPixel(pending.pixel)}
-            icon={numberedIcon(String(gcps.length + 1), true)}
+            icon={numberedIcon(String(gcps.length + 1), { pending: true })}
             interactive={false}
           />
         ) : null}
@@ -2149,17 +2851,17 @@ export function ScanPane({
 }
 ```
 
-- [ ] **Step 4: Run to verify it passes**
+- [ ] **Step 7: Run to verify it passes**
 
-Run: `cd web && npx vitest run src/userMaps/components/ScanPane.test.tsx`
-Expected: PASS (4 tests). The helpers are pure, so this file needs no
-react-leaflet mock; the component itself is covered through
-`GeoreferencePanel.test.tsx` in Task 10.
+Run: `cd web && npx vitest run src/userMaps/components/scanGeometry.test.ts src/userMaps/components/gcpIcon.test.ts && npx eslint src/userMaps/components`
+Expected: PASS (4 + 3 tests), lint silent. Both helper modules are pure, so
+neither test needs a react-leaflet mock; `ScanPane` itself is covered through
+`GeoreferencePanel.test.tsx` in Task 10 and live verification in Task 13.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add web/src/userMaps/components/ScanPane.tsx web/src/userMaps/components/ScanPane.test.tsx
+git add web/src/userMaps/components/ScanPane.tsx web/src/userMaps/components/scanGeometry.ts web/src/userMaps/components/scanGeometry.test.ts web/src/userMaps/components/gcpIcon.ts web/src/userMaps/components/gcpIcon.test.ts
 git commit -m "feat(web): add the georeferencer scan pane on CRS.Simple"
 ```
 
@@ -2172,7 +2874,14 @@ git commit -m "feat(web): add the georeferencer scan pane on CRS.Simple"
 - Test: `web/src/userMaps/components/GcpList.test.tsx`
 
 **Interfaces:**
-- Produces: `<GcpList gcps report onDelete onSelect selectedGcpId />`, and `formatResidual(metres: number): string`.
+- Produces: `<GcpList gcps report onDelete onSelect onZoomTo selectedGcpId />`. `formatResidual` stays module-private — nothing else needs it, and exporting a function from a `.tsx` file is a lint error here.
+
+**`mostInconsistentIndex` is `number | null`.** `residualReport` returns
+residuals from four points but accuses nobody below five (`MIN_GCPS_FOR_SUSPECT`),
+because at four points every hat-matrix leverage is exactly 0.75 and every
+candidate statistic produces the identical ranking — measured 24% correct
+against a 25% baseline. So the four-point table shows real metres with **no
+row highlighted**, and that state has its own test below.
 
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/GcpList.test.tsx`:
 
@@ -2188,72 +2897,84 @@ const GCPS: Gcp[] = [
   { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
   { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
   { id: "d", pixel: { x: 1200, y: 800 }, map: { lat: 46.0, lng: -61.0 } },
+  { id: "e", pixel: { x: 600, y: 400 }, map: { lat: 46.05, lng: -61.1 } },
 ];
+
+function renderList(props: Partial<Parameters<typeof GcpList>[0]> = {}) {
+  const onDelete = vi.fn();
+  const onSelect = vi.fn();
+  const onZoomTo = vi.fn();
+  render(
+    <GcpList
+      gcps={GCPS.slice(0, 4)}
+      report={null}
+      onDelete={onDelete}
+      onSelect={onSelect}
+      onZoomTo={onZoomTo}
+      selectedGcpId={null}
+      {...props}
+    />,
+  );
+  return { onDelete, onSelect, onZoomTo };
+}
 
 describe("GcpList", () => {
   it("shows an em dash rather than a misleading 0 m at three points", () => {
-    render(
-      <GcpList
-        gcps={GCPS.slice(0, 3)}
-        report={null}
-        onDelete={vi.fn()}
-        onSelect={vi.fn()}
-        selectedGcpId={null}
-      />,
-    );
+    renderList({ gcps: GCPS.slice(0, 3) });
     expect(screen.getAllByText("—")).toHaveLength(3);
     expect(screen.queryByText("0 m")).toBeNull();
   });
 
-  it("renders residuals in metres and marks the most inconsistent point", () => {
-    render(
-      <GcpList
-        gcps={GCPS}
-        report={{
-          metresPerGcp: [12.4, 8.1, 40.9, 15.2],
-          rmsMetres: 22.3,
-          mostInconsistentIndex: 3,
-        }}
-        onDelete={vi.fn()}
-        onSelect={vi.fn()}
-        selectedGcpId={null}
-      />,
-    );
+  it("renders residuals in metres but accuses nobody at four points", () => {
+    // residualReport hands back mostInconsistentIndex: null below five
+    // points. The numbers are real and worth showing; the accusation is not
+    // — at four points every leverage is 0.75, so raw, leave-one-out and
+    // studentized residuals rank identically and all three are at chance.
+    renderList({
+      report: {
+        metresPerGcp: [12.4, 8.1, 40.9, 15.2],
+        rmsMetres: 22.3,
+        mostInconsistentIndex: null,
+      },
+    });
     expect(screen.getByText("12 m")).toBeInTheDocument();
     expect(screen.getByText("41 m")).toBeInTheDocument();
-    // Highlighted by leave-one-out (index 3), NOT by the largest displayed
-    // residual (index 2) — least squares smears a bad point across its
-    // neighbours, so the biggest number is often an innocent one.
     const rows = screen.getAllByRole("row").slice(1);
-    expect(rows[3]).toHaveClass("gcp-row--suspect");
-    expect(rows[2]).not.toHaveClass("gcp-row--suspect");
+    for (const row of rows) {
+      expect(row).not.toHaveClass("gcp-row--suspect");
+    }
+  });
+
+  it("marks the worst-fitting point from the fifth point on", () => {
+    renderList({
+      gcps: GCPS,
+      report: {
+        metresPerGcp: [12.4, 8.1, 40.9, 15.2, 9.7],
+        rmsMetres: 22.3,
+        mostInconsistentIndex: 2,
+      },
+    });
+    const rows = screen.getAllByRole("row").slice(1);
+    expect(rows[2]).toHaveClass("gcp-row--suspect");
+    expect(rows[3]).not.toHaveClass("gcp-row--suspect");
   });
 
   it("deletes a point by its number", async () => {
-    const onDelete = vi.fn();
-    render(
-      <GcpList
-        gcps={GCPS}
-        report={null}
-        onDelete={onDelete}
-        onSelect={vi.fn()}
-        selectedGcpId={null}
-      />,
-    );
+    const { onDelete } = renderList();
     await userEvent.click(screen.getByRole("button", { name: "Delete point 2" }));
     expect(onDelete).toHaveBeenCalledWith("b");
   });
 
+  it("navigates to a point by its number", async () => {
+    // The list is the stated debugging tool: seeing a 400 m residual is only
+    // half of it if you cannot get to the point that caused it.
+    const { onZoomTo } = renderList();
+    await userEvent.click(screen.getByRole("button", { name: "Zoom to point 3" }));
+    expect(onZoomTo).toHaveBeenCalledWith("c");
+  });
+
   it("says nothing at all when there are no points", () => {
-    render(
-      <GcpList
-        gcps={[]}
-        report={null}
-        onDelete={vi.fn()}
-        onSelect={vi.fn()}
-        selectedGcpId={null}
-      />,
-    );
+    renderList({ gcps: [] });
     expect(screen.queryByRole("table")).toBeNull();
   });
 });
@@ -2274,8 +2995,11 @@ import type { Gcp } from "../types";
  * Sub-metre precision would be false confidence: a hand-clicked point on a
  * 19th-century scan is not accurate to a centimetre, and trailing decimals
  * invite the user to chase noise.
+ *
+ * Module-private: nothing else needs it, and exporting a plain function from
+ * a .tsx file is a react-refresh/only-export-components error here.
  */
-export function formatResidual(metres: number): string {
+function formatResidual(metres: number): string {
   return `${Math.round(metres)} m`;
 }
 
@@ -2284,12 +3008,14 @@ export function GcpList({
   report,
   onDelete,
   onSelect,
+  onZoomTo,
   selectedGcpId,
 }: {
   gcps: Gcp[];
   report: ResidualReport | null;
   onDelete: (id: string) => void;
   onSelect: (id: string) => void;
+  onZoomTo: (id: string) => void;
   selectedGcpId: string | null;
 }) {
   if (gcps.length === 0) {
@@ -2304,14 +3030,23 @@ export function GcpList({
           <th scope="col">Map</th>
           <th scope="col">Off by</th>
           <th scope="col">
+            {/* Defined in styles.css (Task 12). Without that rule a literal
+                "Actions" heading shows up in the table. */}
             <span className="visually-hidden">Actions</span>
           </th>
         </tr>
       </thead>
       <tbody>
         {gcps.map((gcp, index) => {
+          // mostInconsistentIndex is `number | null` — null below five
+          // points, where no statistic beats chance. A strict === against a
+          // number index handles both null and a missing report, so this
+          // needs no extra guard, but it does need to stay strict.
           const suspect = report?.mostInconsistentIndex === index;
+          // "gcp-row" is not decorative: styles.css targets `.gcp-row td` for
+          // cell padding, and it was missing from the DOM in an earlier draft.
           const rowClass = [
+            "gcp-row",
             suspect ? "gcp-row--suspect" : "",
             gcp.id === selectedGcpId ? "gcp-row--selected" : "",
           ]
@@ -2331,6 +3066,7 @@ export function GcpList({
                 {gcp.map.lat.toFixed(4)}, {gcp.map.lng.toFixed(4)}
               </td>
               <td
+                className="gcp-residual"
                 title={
                   suspect
                     ? "Disagrees most with the other points"
@@ -2340,6 +3076,14 @@ export function GcpList({
                 {report ? formatResidual(report.metresPerGcp[index]) : "—"}
               </td>
               <td>
+                <button
+                  type="button"
+                  className="gcp-zoom"
+                  aria-label={`Zoom to point ${index + 1}`}
+                  onClick={() => onZoomTo(gcp.id)}
+                >
+                  Zoom to
+                </button>
                 <button
                   type="button"
                   className="gcp-delete"
@@ -2361,8 +3105,23 @@ export function GcpList({
 - [ ] **Step 4: Run to verify it passes**
 
 Run: `cd web && npx vitest run src/userMaps/components/GcpList.test.tsx`
-Expected: PASS (4 tests). If `.visually-hidden` is not already in
-`styles.css`, add it in Task 12 — the test does not depend on it.
+Expected: PASS (6 tests). `.visually-hidden` does **not** exist in
+`styles.css` today — Task 12 adds it, along with a style test. The unit tests
+here do not depend on it, but the rendered page does: without it the header
+cell reads a literal "Actions".
+
+**Follow-up, deliberately not in PR 2: warn on clustered control points.**
+This table is where the warning belongs when it is built. Three points inside
+200 px of a 4096 px scan pass every acceptance gate — their shape is fine —
+but the fit is extrapolated roughly 20x beyond their hull, so a 1 px click
+slip moves the far corner about a kilometre, and at three points there is no
+residual report to hint at it either. The spread gate in `affine.ts`
+deliberately does **not** reject this, because no single threshold separates a
+huddle from an honestly elongated map (a river-corridor strip scores lower
+than the huddle does). The fix is a caveat on the reported accuracy — e.g.
+comparing the GCP hull's diagonal to the image diagonal and saying so when the
+ratio is small — not a refusal to solve. Do not read the passing gate as
+coverage; the spec records this as a known gap.
 
 - [ ] **Step 5: Commit**
 
@@ -2375,15 +3134,34 @@ git commit -m "feat(web): add the GCP residual list"
 ### Task 10: `GeoreferencePanel` — the shell
 
 **Files:**
+- Create: `web/src/userMaps/components/georeferenceStatus.ts`
 - Create: `web/src/userMaps/components/GeoreferencePanel.tsx`
 - Test: `web/src/userMaps/components/GeoreferencePanel.test.tsx`
 
 **Interfaces:**
-- Consumes: `ScanPane` (Task 8), `GcpList` (Task 9), `GeoreferenceSession` and `GeoreferenceStatus` (Task 7).
+- Consumes: `ScanPane` and `ScanFocusRequest` (Task 8), `GcpList` (Task 9), `GeoreferenceSession` and `GeoreferenceStatus` (Task 7).
 - Produces:
-  - `statusMessage(status: GeoreferenceStatus): string` — exported so the copy is testable without rendering Leaflet.
-  - `<GeoreferencePanel record previewUrl opacity session onOpacityChange onClose onDelete referenceLayers referenceLayersLocked onToggleReferenceLayer />`
+  - `statusMessage(status: GeoreferenceStatus): string`, from **`georeferenceStatus.ts`** — a `.ts` module both because the copy is worth testing without rendering Leaflet and because a function export from a `.tsx` file is a lint error here.
+  - `<GeoreferencePanel record previewUrl opacity session onOpacityChange onClose onDelete onFocusGcpOnMap referenceLayers referenceLayersLocked onToggleReferenceLayer />`
   - `type ReferenceLayerState = { aerial: boolean; parcels: boolean }`
+
+**The panel renders its own overlay wrapper, and the class names are a
+contract with Task 12's stylesheet.** `.georeference-overlay` (fixed, `inset:
+0`), `.georeference-panel` carrying `data-tab`, `.georeference-scan` (from
+`ScanPane`), `.georeference-side`, `.georeference-tabs` — as a *direct child
+of the panel*, not nested in the header, because the narrow breakpoint places
+it in its own grid row. An earlier draft rendered none of these: the CSS
+targeted `.georeference-overlay`, `.georeference-side` and `[data-tab]` while
+the DOM had `georeference-panel--scan`, so the panel landed in normal document
+flow at the end of the page, both breakpoints were dead, and the `Scan | Map`
+toggle did nothing. Every style test still passed, because they regex the
+stylesheet rather than the rendered DOM. There is a rendered-DOM test below
+for exactly this class of bug, and it is not optional.
+
+**Deletion is confirmed here and nowhere else.** `App`'s `onDelete` handler
+must call `removeMap` straight out, with no second `window.confirm` — two
+confirms for one button is a bug the user experiences as the dialog "not
+working".
 
 **`referenceLayersLocked` is a licence gate, not decoration.** Both reference
 layers (`ns-aerial`, `nsprd`) are `province-restricted` in
@@ -2397,18 +3175,21 @@ it takes one boolean and renders the checkboxes disabled with a short reason.
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/GeoreferencePanel.test.tsx`:
 
 ```tsx
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 // ScanPane mounts a real MapContainer, which needs a sized DOM node jsdom
 // does not provide. The panel's own behaviour is what this file tests, so the
 // scan side is stubbed; its coordinate maths has direct tests in Task 8.
+// Note the stub still renders `.georeference-scan`, because the layout test
+// below asserts the panel's real grid children.
 vi.mock("./ScanPane", () => ({
-  ScanPane: () => <div data-testid="scan-pane" />,
+  ScanPane: () => <div className="georeference-scan" data-testid="scan-pane" />,
 }));
 
-import { GeoreferencePanel, statusMessage } from "./GeoreferencePanel";
+import { GeoreferencePanel } from "./GeoreferencePanel";
+import { statusMessage } from "./georeferenceStatus";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
 import type { UserMapRecord } from "../types";
 
@@ -2448,7 +3229,8 @@ function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typ
   const onDelete = vi.fn();
   const onOpacityChange = vi.fn();
   const onToggleReferenceLayer = vi.fn();
-  render(
+  const onFocusGcpOnMap = vi.fn();
+  const utils = render(
     <GeoreferencePanel
       record={RECORD}
       previewUrl="blob:scan"
@@ -2457,13 +3239,21 @@ function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typ
       onOpacityChange={onOpacityChange}
       onClose={onClose}
       onDelete={onDelete}
+      onFocusGcpOnMap={onFocusGcpOnMap}
       referenceLayers={{ aerial: false, parcels: true }}
       referenceLayersLocked={false}
       onToggleReferenceLayer={onToggleReferenceLayer}
       {...props}
     />,
   );
-  return { onClose, onDelete, onOpacityChange, onToggleReferenceLayer };
+  return {
+    ...utils,
+    onClose,
+    onDelete,
+    onOpacityChange,
+    onToggleReferenceLayer,
+    onFocusGcpOnMap,
+  };
 }
 
 describe("statusMessage", () => {
@@ -2482,9 +3272,16 @@ describe("statusMessage", () => {
     );
   });
 
-  it("explains a collinear layout in terms of what to do about it", () => {
-    expect(statusMessage({ kind: "collinear" })).toBe(
-      "These points are almost in a straight line — move one off the line to solve.",
+  it("explains a refused solve without claiming it is always a straight scan line", () => {
+    // The status covers three refusals, only one of which is "the points on
+    // the SCAN are nearly collinear": a non-finite result and a 50:1 axis
+    // squash also land here, and the squash is what three map clicks down a
+    // meridian produce from a perfectly good scan triangle. Copy that said
+    // "move one off the line" would be wrong advice in two cases out of
+    // three, so it names both sides.
+    expect(statusMessage({ kind: "degenerate" })).toBe(
+      "These points can't pin the map down — check that neither the scan " +
+        "points nor the map points sit on a straight line.",
     );
   });
 
@@ -2505,6 +3302,35 @@ describe("statusMessage", () => {
 });
 
 describe("GeoreferencePanel", () => {
+  it("renders a full-viewport overlay whose class names match the stylesheet", () => {
+    // Asserts the RENDERED DOM, not the CSS text. Task 12's style tests regex
+    // styles.css, so they pass whether or not anything ever renders these
+    // class names — which is how an earlier draft shipped a stylesheet
+    // targeting .georeference-overlay, .georeference-side and [data-tab]
+    // against a DOM that had none of them. The panel landed in normal
+    // document flow at the end of the page, and every style test was green.
+    const { container } = renderPanel(fakeSession());
+    const overlay = container.querySelector(".georeference-overlay");
+    expect(overlay).not.toBeNull();
+    const panel = overlay?.querySelector(".georeference-panel");
+    expect(panel).not.toBeNull();
+    expect(panel).toHaveAttribute("data-tab", "scan");
+    // The narrow breakpoint puts the tabs in their own grid ROW, so they have
+    // to be a direct child of the panel, not nested inside the header.
+    expect(panel?.querySelector(":scope > .georeference-tabs")).not.toBeNull();
+    expect(panel?.querySelector(":scope > .georeference-scan")).not.toBeNull();
+    expect(panel?.querySelector(":scope > .georeference-side")).not.toBeNull();
+  });
+
+  it("switches which pane the narrow layout shows", async () => {
+    const { container } = renderPanel(fakeSession());
+    await userEvent.click(screen.getByRole("tab", { name: "Map" }));
+    expect(container.querySelector(".georeference-panel")).toHaveAttribute(
+      "data-tab",
+      "map",
+    );
+  });
+
   it("announces status politely for screen readers", () => {
     renderPanel(fakeSession());
     const status = screen.getByRole("status");
@@ -2580,22 +3406,44 @@ describe("GeoreferencePanel", () => {
     ).toBeInTheDocument();
   });
 
-  it("drives the drape opacity", async () => {
+  it("drives the drape opacity", () => {
     const { onOpacityChange } = renderPanel(fakeSession());
     const slider = screen.getByRole("slider", { name: "Map opacity" });
     expect(slider).toHaveValue("70");
-    await userEvent.clear(slider);
-    expect(onOpacityChange).toHaveBeenCalled();
+    // NOT userEvent.clear(): verified to throw "clear() is only supported on
+    // editable elements" against an input[type=range]. fireEvent.change is
+    // how a slider is moved in jsdom, and fires exactly one change event.
+    fireEvent.change(slider, { target: { value: "40" } });
+    expect(onOpacityChange).toHaveBeenCalledWith(0.4);
   });
 
-  it("confirms before deleting the map", async () => {
+  it("asks App to move the live map when a row asks to zoom to its point", async () => {
+    // The scan side is stubbed in this file, so only the App-facing half is
+    // observable here; the scan half is a setView inside ScanPane and is
+    // covered by the live check in Task 13.
+    const session = fakeSession({
+      gcps: [{ id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } }],
+    });
+    const { onFocusGcpOnMap } = renderPanel(session);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Zoom to point 1" }),
+    );
+    expect(onFocusGcpOnMap).toHaveBeenCalledWith(
+      expect.objectContaining({ id: "a" }),
+    );
+  });
+
+  it("confirms before deleting the map, and is the only place that asks", async () => {
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(false);
     const { onDelete } = renderPanel(fakeSession());
     await userEvent.click(screen.getByRole("button", { name: "Delete map" }));
     expect(onDelete).not.toHaveBeenCalled();
     confirmSpy.mockReturnValue(true);
     await userEvent.click(screen.getByRole("button", { name: "Delete map" }));
-    expect(onDelete).toHaveBeenCalled();
+    expect(onDelete).toHaveBeenCalledTimes(1);
+    // One prompt per click. App's handler must not wrap this in a second
+    // window.confirm — the user reads a dialog that reappears as broken.
+    expect(confirmSpy).toHaveBeenCalledTimes(2);
     confirmSpy.mockRestore();
   });
 });
@@ -2606,17 +3454,10 @@ describe("GeoreferencePanel", () => {
 Run: `cd web && npx vitest run src/userMaps/components/GeoreferencePanel.test.tsx`
 Expected: FAIL — cannot resolve `./GeoreferencePanel`.
 
-- [ ] **Step 3: Implement** — `web/src/userMaps/components/GeoreferencePanel.tsx`:
+- [ ] **Step 3: Implement the copy** — `web/src/userMaps/components/georeferenceStatus.ts`:
 
-```tsx
-import { useEffect, useState } from "react";
-import type { GeoreferenceSession, GeoreferenceStatus } from "../useGeoreferenceSession";
-import type { UserMapRecord } from "../types";
-import { GcpList } from "./GcpList";
-import { ScanPane } from "./ScanPane";
-
-export type ReferenceLayerId = "aerial" | "parcels";
-export type ReferenceLayerState = Record<ReferenceLayerId, boolean>;
+```ts
+import type { GeoreferenceStatus } from "../useGeoreferenceSession";
 
 export function statusMessage(status: GeoreferenceStatus): string {
   switch (status.kind) {
@@ -2630,8 +3471,15 @@ export function statusMessage(status: GeoreferenceStatus): string {
         : `Place ${status.remaining} more point${
             status.remaining === 1 ? "" : "s"
           } to see the map drape.`;
-    case "collinear":
-      return "These points are almost in a straight line — move one off the line to solve.";
+    case "degenerate":
+      // Names BOTH sides on purpose. Three different refusals arrive here and
+      // only one of them is a straight line on the scan: a non-finite result,
+      // and a solved transform squashing one axis past 50:1 — which is what
+      // three map clicks down a meridian produce from an ideal scan triangle.
+      return (
+        "These points can't pin the map down — check that neither the scan " +
+        "points nor the map points sit on a straight line."
+      );
     case "exact-fit":
       // Three points fit an affine exactly by construction, so every residual
       // is 0. Printing "0 m" would read as perfect accuracy.
@@ -2640,6 +3488,20 @@ export function statusMessage(status: GeoreferenceStatus): string {
       return `RMS ${Math.round(status.rmsMetres)} m across ${status.count} points`;
   }
 }
+```
+
+- [ ] **Step 4: Implement the panel** — `web/src/userMaps/components/GeoreferencePanel.tsx`:
+
+```tsx
+import { useEffect, useRef, useState } from "react";
+import type { GeoreferenceSession } from "../useGeoreferenceSession";
+import type { Gcp, UserMapRecord } from "../types";
+import { GcpList } from "./GcpList";
+import { statusMessage } from "./georeferenceStatus";
+import { ScanPane, type ScanFocusRequest } from "./ScanPane";
+
+export type ReferenceLayerId = "aerial" | "parcels";
+export type ReferenceLayerState = Record<ReferenceLayerId, boolean>;
 
 export function GeoreferencePanel({
   record,
@@ -2649,6 +3511,7 @@ export function GeoreferencePanel({
   onOpacityChange,
   onClose,
   onDelete,
+  onFocusGcpOnMap,
   referenceLayers,
   referenceLayersLocked = false,
   onToggleReferenceLayer,
@@ -2659,13 +3522,18 @@ export function GeoreferencePanel({
   session: GeoreferenceSession;
   onOpacityChange: (opacity: number) => void;
   onClose: () => void;
+  /** Deletes the map. Already confirmed here — do NOT confirm again. */
   onDelete: () => void;
+  /** The panel moves its own scan pane; only App can move the live map. */
+  onFocusGcpOnMap: (gcp: Gcp) => void;
   referenceLayers: ReferenceLayerState;
   referenceLayersLocked?: boolean;
   onToggleReferenceLayer: (id: ReferenceLayerId, enabled: boolean) => void;
 }) {
   const [tab, setTab] = useState<"scan" | "map">("scan");
   const [selectedGcpId, setSelectedGcpId] = useState<string | null>(null);
+  const [scanFocus, setScanFocus] = useState<ScanFocusRequest | null>(null);
+  const focusRequestId = useRef(0);
   const { cancelPending, flush, undo } = session;
   const hasPending = session.pending !== null;
   const canUndo = session.canUndo;
@@ -2701,13 +3569,41 @@ export function GeoreferencePanel({
     onClose();
   }
 
+  function zoomToGcp(id: string) {
+    const gcp = session.gcps.find((candidate) => candidate.id === id);
+    if (!gcp) {
+      return;
+    }
+    // Both panes move. The scan is this component's own child, so it takes a
+    // focus request directly; the live map is inside MapContainer and only
+    // reachable through App's binding, so that half goes up as a callback.
+    // The request carries a monotonic id so asking for the SAME point twice
+    // still moves the map — an equal object would be a no-op to the effect.
+    focusRequestId.current += 1;
+    setScanFocus({ pixel: gcp.pixel, requestId: focusRequestId.current });
+    onFocusGcpOnMap(gcp);
+  }
+
   return (
-    <section
-      className={`georeference-panel georeference-panel--${tab}`}
-      aria-label={`Georeferencing ${record.name}`}
-    >
-      <header className="georeference-header">
-        <h2>{record.name}</h2>
+    // The overlay is the fixed, full-viewport layer; the panel is the card
+    // inside it. Both class names, and `data-tab`, are what styles.css
+    // targets — see the rendered-DOM test.
+    <div className="georeference-overlay">
+      <section
+        className="georeference-panel"
+        data-tab={tab}
+        aria-label={`Georeferencing ${record.name}`}
+      >
+        <header className="georeference-header">
+          <h2>{record.name}</h2>
+          <p role="status" aria-live="polite" className="georeference-status">
+            {statusMessage(session.status)}
+          </p>
+        </header>
+
+        {/* A DIRECT child of the panel, not of the header: the narrow
+            breakpoint gives the tabs their own grid row. Hidden by CSS on
+            wide screens, where both panes are visible at once. */}
         <div className="georeference-tabs" role="tablist">
           <button
             type="button"
@@ -2726,116 +3622,128 @@ export function GeoreferencePanel({
             Map
           </button>
         </div>
-        <p role="status" aria-live="polite" className="georeference-status">
-          {statusMessage(session.status)}
-        </p>
-      </header>
 
-      <ScanPane
-        previewUrl={previewUrl}
-        pixelSize={record.pixelSize}
-        gcps={session.gcps}
-        pending={session.pending}
-        onPickPoint={session.pickScanPoint}
-        onDragStartGcp={session.beginDragGcp}
-        onMoveGcp={session.moveGcpOnScan}
-        selectedGcpId={selectedGcpId}
-      />
-
-      <div className="georeference-points">
-        <GcpList
+        <ScanPane
+          previewUrl={previewUrl}
+          pixelSize={record.pixelSize}
           gcps={session.gcps}
-          report={session.report}
-          onDelete={session.deleteGcp}
-          onSelect={setSelectedGcpId}
+          pending={session.pending}
+          focus={scanFocus}
+          onPickPoint={session.pickScanPoint}
+          onDragStartGcp={session.beginDragGcp}
+          onMoveGcp={session.moveGcpOnScan}
           selectedGcpId={selectedGcpId}
         />
-      </div>
 
-      <footer className="georeference-footer">
-        <label className="georeference-opacity">
-          <span>Map opacity</span>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            step={5}
-            aria-label="Map opacity"
-            value={Math.round(opacity * 100)}
-            onChange={(event) =>
-              onOpacityChange(Number(event.target.value) / 100)
-            }
-          />
-        </label>
-
-        <fieldset className="georeference-references" disabled={referenceLayersLocked}>
-          <legend>Reference layers</legend>
-          <label>
-            <input
-              type="checkbox"
-              checked={referenceLayers.aerial}
-              onChange={(event) =>
-                onToggleReferenceLayer("aerial", event.target.checked)
-              }
+        <div className="georeference-side">
+          <div className="georeference-points">
+            <GcpList
+              gcps={session.gcps}
+              report={session.report}
+              onDelete={session.deleteGcp}
+              onSelect={setSelectedGcpId}
+              onZoomTo={zoomToGcp}
+              selectedGcpId={selectedGcpId}
             />
-            Aerial imagery
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={referenceLayers.parcels}
-              onChange={(event) =>
-                onToggleReferenceLayer("parcels", event.target.checked)
-              }
-            />
-            Property boundaries
-          </label>
-          {referenceLayersLocked ? (
-            <small className="georeference-references-locked">
-              Accept the provincial data licence in the layer list to use these.
-            </small>
-          ) : null}
-        </fieldset>
+          </div>
 
-        <div className="georeference-actions">
-          <button type="button" onClick={undo} disabled={!canUndo}>
-            Undo
-          </button>
-          <button type="button" className="georeference-done" onClick={close}>
-            Done
-          </button>
-          <button
-            type="button"
-            className="georeference-delete"
-            onClick={() => {
-              if (
-                window.confirm(
-                  `Remove "${record.name}" from this device? The original ` +
-                    "file on your computer is not affected.",
-                )
-              ) {
-                onDelete();
-              }
-            }}
-          >
-            Delete map
-          </button>
+          <footer className="georeference-footer">
+            <label className="georeference-opacity">
+              <span>Map opacity</span>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                aria-label="Map opacity"
+                value={Math.round(opacity * 100)}
+                onChange={(event) =>
+                  onOpacityChange(Number(event.target.value) / 100)
+                }
+              />
+            </label>
+
+            <fieldset
+              className="georeference-references"
+              disabled={referenceLayersLocked}
+            >
+              <legend>Reference layers</legend>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={referenceLayers.aerial}
+                  onChange={(event) =>
+                    onToggleReferenceLayer("aerial", event.target.checked)
+                  }
+                />
+                Aerial imagery
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={referenceLayers.parcels}
+                  onChange={(event) =>
+                    onToggleReferenceLayer("parcels", event.target.checked)
+                  }
+                />
+                Property boundaries
+              </label>
+              {referenceLayersLocked ? (
+                <small className="georeference-references-locked">
+                  Accept the provincial data licence in the layer list to use
+                  these.
+                </small>
+              ) : null}
+            </fieldset>
+
+            <div className="georeference-actions">
+              <button type="button" onClick={undo} disabled={!canUndo}>
+                Undo
+              </button>
+              <button
+                type="button"
+                className="georeference-done"
+                onClick={close}
+              >
+                Done
+              </button>
+              <button
+                type="button"
+                className="georeference-delete"
+                onClick={() => {
+                  // The ONLY confirm for this action. App's onDelete removes
+                  // the map directly; a second prompt there reads as a broken
+                  // dialog.
+                  if (
+                    window.confirm(
+                      `Remove "${record.name}" from this device? The original ` +
+                        "file on your computer is not affected.",
+                    )
+                  ) {
+                    onDelete();
+                  }
+                }}
+              >
+                Delete map
+              </button>
+            </div>
+          </footer>
         </div>
-      </footer>
-    </section>
+      </section>
+    </div>
   );
 }
 ```
 
-- [ ] **Step 4: Run to verify it passes**
+- [ ] **Step 5: Run to verify it passes**
 
-Run: `cd web && npx vitest run src/userMaps/components/GeoreferencePanel.test.tsx`
-Expected: PASS (16 tests).
+Run: `cd web && npx vitest run src/userMaps/components/GeoreferencePanel.test.tsx && npx eslint src/userMaps/components`
+Expected: PASS (19 tests), lint silent.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add web/src/userMaps/components/GeoreferencePanel.tsx web/src/userMaps/components/GeoreferencePanel.test.tsx
+git add web/src/userMaps/components/GeoreferencePanel.tsx web/src/userMaps/components/GeoreferencePanel.test.tsx web/src/userMaps/components/georeferenceStatus.ts
 git commit -m "feat(web): add the georeferencer panel shell"
 ```
 
@@ -2852,55 +3760,112 @@ git commit -m "feat(web): add the georeferencer panel shell"
 
 **Interfaces:**
 - Produces:
-  - `type GeoreferenceBinding = { gcps: Gcp[]; pending: PendingPoint; draft: DraftUserMap | null; onPickMapPoint: (lat: number, lng: number) => void; onDragStartGcp: (id: string) => void; onMoveGcpOnMap: (id: string, lat: number, lng: number) => void }`
+  - `type MapFocusRequest = { lat: number; lng: number; requestId: number }`
+  - `type GeoreferenceBinding = { gcps: Gcp[]; pending: PendingPoint; draft: DraftUserMap | null; focus: MapFocusRequest | null; onPickMapPoint: (lat: number, lng: number) => void; onDragStartGcp: (id: string) => void; onMoveGcpOnMap: (id: string, lat: number, lng: number) => void }`
+  - `<GeoreferenceMapLayer binding={…} />`
+  - `mapPanes.ts`: `GEOREFERENCE_PANE = "georeference-pane"`, `GEOREFERENCE_PANE_Z_INDEX = 660`
+- `MapCanvas` gains one optional prop: `georeference?: GeoreferenceBinding | null`.
+- Consumes `numberedIcon` from `components/gcpIcon.ts` (created in Task 8, so nothing here edits `ScanPane.tsx`).
 
 **No selection state crosses to the map.** `GcpList`'s selected row is panel
 state and stays there. The map markers already carry their point's number
 (`numberedIcon`), which is how the user finds the row's point on the map — so
 threading a selected id through `App` would buy a highlight nobody asked for
-at the cost of a third owner for one piece of state.
-  - `<GeoreferenceMapLayer binding={…} />`
-  - `mapPanes.ts`: `GEOREFERENCE_PANE = "georeference-pane"`, `GEOREFERENCE_PANE_Z_INDEX = 700`
-- `MapCanvas` gains one optional prop: `georeference?: GeoreferenceBinding | null`.
+at the cost of a third owner for one piece of state. The *focus* request is
+different and does cross: only App can move the live map, and the panel's
+zoom-to control has to reach it.
 
-**Pane placement:** GCP markers must sit above every data overlay (waterfalls
-are the current top at 250) — a control point hidden under a parcel line is
-unclickable. 700 is Leaflet's own marker-pane z-index, which is the right
-neighbourhood.
+**Pane placement, corrected.** GCP markers must sit above every data overlay —
+a control point hidden under a parcel line is unclickable — and the app's own
+data panes top out at 430 (`MEASURE_PANE_Z_INDEX`), with `PROVINCE_LAYER_Z_INDEXES`
+topping out at 250 (waterfalls). They also need to clear Leaflet's *built-in*
+panes, and this is where an earlier draft got its reasoning wrong: 700 is
+Leaflet's **popup** pane, not its marker pane. Verified from
+`leaflet/dist/leaflet.css` — tile 200, overlay 400, shadow 500, **marker 600**,
+tooltip 650, **popup 700**. So 660 is the value: above every data pane, above
+Leaflet's marker and tooltip panes so a GCP marker is never buried under an
+app marker, and *below* the popup pane, so a parcel-identify popup still reads
+on top rather than sharing a stacking level with the control points. (Task 11
+also suppresses parcel identify during a session, so the popup case is
+belt-and-braces — but equal z-indexes resolve by DOM order, which is not
+something to leave to chance.)
 
-- [ ] **Step 1: Add the pane constants** to `web/src/components/mapPanes.ts`, following the existing shape, and extend `mapPanes.test.ts`:
+- [ ] **Step 1: Add the pane constants** to `web/src/components/mapPanes.ts`, following the existing shape and comment style:
+
+```ts
+/**
+ * Georeferencing control points sit above every data overlay — the app's own
+ * panes top out at MEASURE_PANE_Z_INDEX (430) — and above Leaflet's built-in
+ * marker (600) and tooltip (650) panes, because a control point buried under
+ * a parcel marker cannot be clicked or dragged. Deliberately BELOW Leaflet's
+ * popup pane (700): a parcel-identify popup should still read on top, and
+ * matching 700 exactly would leave the order to DOM insertion.
+ */
+export const GEOREFERENCE_PANE = "georeference-pane";
+export const GEOREFERENCE_PANE_Z_INDEX = 660;
+```
+
+…and extend `web/src/components/mapPanes.test.ts`. **There is no
+`PANE_Z_INDEXES` export** — an earlier draft invented it. The real map is
+`PROVINCE_LAYER_Z_INDEXES`, and it covers only the province raster layers, so
+asserting against it alone is much weaker than the comment claims. Name the
+standalone pane constants explicitly:
 
 ```ts
   it("keeps georeferencing markers above every data overlay", () => {
-    // A control point under a parcel line cannot be clicked or dragged.
-    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(
-      Math.max(...Object.values(PANE_Z_INDEXES)),
+    // A control point under a parcel line, a measurement, or a selected
+    // parcel outline cannot be clicked or dragged.
+    const dataPaneMax = Math.max(
+      ...Object.values(PROVINCE_LAYER_Z_INDEXES),
+      ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
+      ZONING_PANE_Z_INDEX,
+      MINERAL_PROXIMITY_PANE_Z_INDEX,
+      WELL_LOG_PANE_Z_INDEX,
+      ESTABLISHED_PARCEL_PANE_Z_INDEX,
+      MEASURE_PANE_Z_INDEX,
+      USER_MAPS_PANE_Z_INDEX,
     );
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(dataPaneMax);
+  });
+
+  it("keeps georeferencing markers clear of Leaflet's own panes", () => {
+    // Verified from leaflet/dist/leaflet.css: marker 600, tooltip 650,
+    // popup 700. Above the first two, below the last.
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(650);
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeLessThan(700);
+    expect(GEOREFERENCE_PANE).not.toBe(USER_MAPS_PANE);
   });
 ```
 
-Adjust the assertion to whatever the file already exports for the z-index map.
+Add `GEOREFERENCE_PANE`, `GEOREFERENCE_PANE_Z_INDEX`, `USER_MAPS_PANE` and
+`ZONING_PANE_Z_INDEX` to the test file's import list (the others are already
+imported).
 
 - [ ] **Step 2: Write the failing layer test** — `web/src/userMaps/components/GeoreferenceMapLayer.test.tsx`:
 
 Follow the mocking convention in `UserMapLayers.test.tsx` exactly: `vi.hoisted`
 stubs for `useMap`, and `vi.mock("react-leaflet", …)` also supplying `Marker`
-and `useMapEvents`.
+and **`useMapEvent`** (singular — see the implementation note below).
 
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 const handlers = vi.hoisted(() => ({ click: null as ((e: unknown) => void) | null }));
+const stubMap = vi.hoisted(() => ({
+  getPane: vi.fn(() => undefined as HTMLElement | undefined),
+  createPane: vi.fn(() => document.createElement("div")),
+  setView: vi.fn(),
+  getZoom: vi.fn(() => 12),
+}));
 
 vi.mock("react-leaflet", () => ({
-  useMap: () => ({
-    getPane: vi.fn(() => document.createElement("div")),
-    createPane: vi.fn(() => document.createElement("div")),
-  }),
-  useMapEvents: (map: { click: (e: unknown) => void }) => {
-    handlers.click = map.click;
-    return null;
+  useMap: () => stubMap,
+  useMapEvent: (type: string, handler: (e: unknown) => void) => {
+    if (type === "click") {
+      handlers.click = handler;
+    }
+    return stubMap;
   },
   Marker: ({ position }: { position: [number, number] }) => (
     <div data-testid="gcp-marker" data-position={position.join(",")} />
@@ -2916,6 +3881,7 @@ const BINDING = {
   ],
   pending: null,
   draft: null,
+  focus: null,
   onPickMapPoint: vi.fn(),
   onDragStartGcp: vi.fn(),
   onMoveGcpOnMap: vi.fn(),
@@ -2950,17 +3916,74 @@ describe("GeoreferenceMapLayer", () => {
     );
     expect(screen.getAllByTestId("gcp-marker")).toHaveLength(1);
   });
+
+  it("recentres on a focus request, and only zooms in", () => {
+    stubMap.setView.mockClear();
+    const { rerender } = render(<GeoreferenceMapLayer binding={BINDING} />);
+    expect(stubMap.setView).not.toHaveBeenCalled();
+    rerender(
+      <GeoreferenceMapLayer
+        binding={{
+          ...BINDING,
+          focus: { lat: 46.1, lng: -61.2, requestId: 1 },
+        }}
+      />,
+    );
+    // Never zooms the user back OUT of a closer inspection: current zoom 12.
+    expect(stubMap.setView).toHaveBeenCalledWith([46.1, -61.2], 15);
+  });
 });
 ```
 
 - [ ] **Step 3: Implement** — `web/src/userMaps/components/GeoreferenceMapLayer.tsx`
 
-Mirror `ScanPane`'s marker code (same `numberedIcon` helper — export it from
-`ScanPane.tsx` and import it here rather than duplicating), create the
-georeference pane on mount the way `UserMapLayers` creates the user-maps pane,
-render a `<Marker draggable>` per GCP wired to `onDragStartGcp` / `onMoveGcpOnMap`,
-render the pending marker when `pending?.side === "map"`, and mount a
-`useMapEvents({ click })` catcher calling `onPickMapPoint(latlng.lat, latlng.lng)`.
+Import `numberedIcon` from `./gcpIcon` (Task 8 put it there precisely so this
+file does not have to reach into `ScanPane.tsx` — an earlier draft told the
+executor to add an export to `ScanPane.tsx` from here, and then listed that
+file in no task's Files block and no `git add`, so the branch compiled locally
+and failed on the pushed commit). Declare `MapFocusRequest` and
+`GeoreferenceBinding` here — both `export type`, which the react-refresh rule
+allows, unlike a function. Create the georeference pane on mount the way
+`UserMapLayers` creates the user-maps pane, using `GEOREFERENCE_PANE` /
+`GEOREFERENCE_PANE_Z_INDEX`; render a `<Marker draggable>` per GCP wired to
+`onDragStartGcp` / `onMoveGcpOnMap`; render the pending marker when
+`pending?.side === "map"`; and mount the click catcher and the focus
+controller:
+
+```tsx
+function MapClickCatcher({
+  onPickMapPoint,
+}: {
+  onPickMapPoint: (lat: number, lng: number) => void;
+}) {
+  const handleClick = useCallback(
+    (event: L.LeafletMouseEvent) => {
+      onPickMapPoint(event.latlng.lat, event.latlng.lng);
+    },
+    [onPickMapPoint],
+  );
+  // useMapEvent, NOT useMapEvents: useMapEvents' effect deps are
+  // `[map, handlers]`, so an inline handlers object re-runs map.off()/on()
+  // on every render — once per pointer move during a GCP drag.
+  useMapEvent("click", handleClick);
+  return null;
+}
+
+/** Recentres the live map when the GCP list asks to zoom to a point. */
+function MapFocusController({ focus }: { focus: MapFocusRequest | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!focus) {
+      return;
+    }
+    // requestId makes a repeat request a new object, so asking twice for the
+    // same point still moves the map. Zoom in only; never pull the user back
+    // out of a closer look.
+    map.setView([focus.lat, focus.lng], Math.max(map.getZoom(), 15));
+  }, [focus, map]);
+  return null;
+}
+```
 
 - [ ] **Step 4: Wire `MapCanvas`**
 
@@ -3004,8 +4027,9 @@ Add the import next to the existing `UserMapLayers` import.
 
 - [ ] **Step 5: Run the affected suites**
 
-Run: `cd web && npx vitest run src/userMaps/components/ src/components/MapCanvas.test.tsx src/components/mapPanes.test.ts`
-Expected: PASS.
+Run: `cd web && npx vitest run src/userMaps/components/ src/components/MapCanvas.test.tsx src/components/mapPanes.test.ts && npx eslint src`
+Expected: PASS, lint silent. If `react-refresh/only-export-components` fires,
+a helper landed in a `.tsx` file — move it, do not disable the rule.
 
 - [ ] **Step 6: Commit**
 
@@ -3041,11 +4065,12 @@ always and idles when `mapId` is `null` — which is exactly why Task 7 gave it
 
 - [ ] **Step 1: Write the failing `UserMapRows` tests**
 
-Read `web/src/userMaps/components/UserMapRows.test.tsx` first and reuse its
-existing `api` factory rather than writing a new one; extend that factory with
-the Task 5 additions (`beginGeoreference: vi.fn()`, `needsGeoreferencing: () =>
-false`, `georeferencingId: null`, `endGeoreference: vi.fn()`, `saveGcps:
-vi.fn()`, `editingMap: null`). Then append:
+Read `web/src/userMaps/components/UserMapRows.test.tsx` first. **The factory is
+called `api(overrides)`, not `makeApi`** — an earlier draft of this plan
+invented the second name. Extend that existing factory with the Task 5
+additions (`beginGeoreference: vi.fn()`, `needsGeoreferencing: () => false`,
+`georeferencingId: null`, `endGeoreference: vi.fn()`, `saveGcps: vi.fn(async
+() => {})`, `editingMap: null`). Then append:
 
 ```tsx
 const NEEDS_WORK: UserMapRecord = {
@@ -3057,11 +4082,17 @@ const NEEDS_WORK: UserMapRecord = {
   georef: { kind: "gcp", method: "affine", gcps: [] },
 };
 
+const PLACED_GCPS: Gcp[] = [
+  { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+  { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+  { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+];
+
 describe("georeferencing affordance", () => {
   it("says a scan cannot be drawn yet, and why", () => {
     render(
       <UserMapRows
-        api={makeApi({ records: [NEEDS_WORK], needsGeoreferencing: () => true })}
+        api={api({ records: [NEEDS_WORK], needsGeoreferencing: () => true })}
       />,
     );
     expect(screen.getByText("Needs georeferencing")).toBeInTheDocument();
@@ -3069,13 +4100,18 @@ describe("georeferencing affordance", () => {
     expect(
       screen.getByRole("checkbox", { name: NEEDS_WORK.name }),
     ).toBeDisabled();
+    // …and neither is an opacity slider for a map with no placement. The
+    // spec puts the Georeference button exactly where that slider sits.
+    expect(
+      screen.queryByLabelText(`${NEEDS_WORK.name} opacity`),
+    ).toBeNull();
   });
 
   it("opens the georeferencer for the map that was clicked", async () => {
     const beginGeoreference = vi.fn();
     render(
       <UserMapRows
-        api={makeApi({
+        api={api({
           records: [NEEDS_WORK],
           needsGeoreferencing: () => true,
           beginGeoreference,
@@ -3089,46 +4125,58 @@ describe("georeferencing affordance", () => {
   });
 
   it("offers a placed map its points back rather than a fresh start", () => {
+    // Copy matches the spec: "Adjust points", not "Edit points".
     render(
       <UserMapRows
-        api={makeApi({
+        api={api({
           records: [
             { ...NEEDS_WORK, georef: { kind: "gcp", method: "affine", gcps: PLACED_GCPS } },
           ],
+          uiState: { scan: { enabled: true, opacity: 0.7 } },
           needsGeoreferencing: () => false,
         })}
       />,
     );
     expect(screen.queryByText("Needs georeferencing")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Edit points for Church of Inverness 1888" }),
+      screen.getByRole("button", { name: "Adjust points for Church of Inverness 1888" }),
+    ).toBeInTheDocument();
+    // A placed map draws, so it keeps its slider.
+    expect(
+      screen.getByLabelText("Church of Inverness 1888 opacity"),
     ).toBeInTheDocument();
   });
 
   it("offers no point editing for a map that carries its own georeferencing", () => {
     // An embedded GeoTIFF has a geotransform, not control points. There is
-    // nothing for the GCP editor to edit.
+    // nothing for the GCP editor to edit. The field is `geotransform`
+    // (lower-case, a 6-tuple) — read types.ts / projection.ts, and note the
+    // fixture at the top of this very file already has one to copy.
     render(
       <UserMapRows
-        api={makeApi({
+        api={api({
           records: [
             {
               ...NEEDS_WORK,
               source: "geotiff",
-              georef: { kind: "embedded", crs: "EPSG:2961", geoTransform: EMBEDDED_TRANSFORM },
+              georef: {
+                kind: "embedded",
+                crs: "EPSG:26920",
+                geotransform: [500000, 10, 0, 5000000, 0, -10],
+              },
             },
           ],
         })}
       />,
     );
-    expect(screen.queryByRole("button", { name: /Georeference|Edit points/ })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: /Georeference|Adjust points/ }),
+    ).toBeNull();
   });
 });
 ```
 
-Define `PLACED_GCPS` as any three non-collinear points and `EMBEDDED_TRANSFORM`
-to match whatever shape `EmbeddedGeoref` already uses in `types.ts` — read it,
-do not invent it.
+Add `import type { Gcp } from "../types";` to the test file.
 
 - [ ] **Step 2: Run to verify it fails**
 
@@ -3175,8 +4223,33 @@ Replace the `<small>` size line with one that carries the status:
                   </small>
 ```
 
+Replace the opacity `<label>` so the two are alternatives rather than both
+showing. The spec puts the Georeference button **where the opacity slider
+sits**, and a live slider on a row whose checkbox is simultaneously disabled
+drives an opacity nothing can display:
+
+```tsx
+              {needsWork ? null : (
+                <label className="user-map-opacity">
+                  <small>Opacity</small>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={5}
+                    aria-label={`${record.name} opacity`}
+                    value={Math.round(ui.opacity * 100)}
+                    onChange={(event) =>
+                      api.setOpacity(record.id, Number(event.target.value) / 100)
+                    }
+                  />
+                </label>
+              )}
+```
+
 And add the button as a sibling of Remove, inside the same row `<div>` (never
-inside the `<label>` — the file's own header comment explains why):
+inside the `<label>` — the file's own header comment explains why). Copy is
+from the spec: **"Adjust points"**, not "Edit points":
 
 ```tsx
               {isGcp ? (
@@ -3186,11 +4259,11 @@ inside the `<label>` — the file's own header comment explains why):
                   aria-label={
                     needsWork
                       ? `Georeference ${record.name}`
-                      : `Edit points for ${record.name}`
+                      : `Adjust points for ${record.name}`
                   }
                   onClick={() => api.beginGeoreference(record.id)}
                 >
-                  {needsWork ? "Georeference" : "Edit points"}
+                  {needsWork ? "Georeference" : "Adjust points"}
                 </button>
               ) : null}
 ```
@@ -3235,6 +4308,22 @@ describe("georeferencer", () => {
     georef: { kind: "gcp", method: "affine", gcps: [] },
   };
 
+  /** Same scan, already placed: three non-collinear points that solve. */
+  const PLACED: UserMapRecord = {
+    ...SCAN,
+    id: "placed-1",
+    name: "Placed scan",
+    georef: {
+      kind: "gcp",
+      method: "affine",
+      gcps: [
+        { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+        { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+        { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+      ],
+    },
+  };
+
   async function seedScan(record: UserMapRecord = SCAN) {
     const store = await UserMapStore.open();
     await store.saveUserMap(
@@ -3257,20 +4346,62 @@ describe("georeferencer", () => {
   });
 
   it("hands the map under edit to the panel and the map at once", async () => {
+    // Seed a SECOND, already-placed and enabled map. Without it the
+    // "saved user map layers: 0" assertion is vacuous — it reads 0 whether
+    // or not the exclusion filter exists, because a fresh draft has no GCPs
+    // and would never be in visibleMaps anyway.
     await seedScan();
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({
+        "scan-1": { enabled: true, opacity: 0.7 },
+        "placed-1": { enabled: true, opacity: 0.7 },
+      }),
+    );
     render(<App />);
+    await waitFor(() =>
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+        "saved user map layers: 1",
+      ),
+    );
     await userEvent.click(
-      await screen.findByRole("button", { name: /^Georeference / }),
+      await screen.findByRole("button", { name: "Georeference Church of Inverness 1888" }),
     );
     expect(screen.getByTestId("scan-pane")).toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "georeferencing: scan-1",
     );
-    // The map under edit is drawn by the georeferencer's own draft, so the
-    // saved-map layer must not also draw it — that would be two canvases
-    // fighting, and the saved layer would rebuild on every pointer move.
+    // Still 1, not 2: the map under edit is drawn by the georeferencer's own
+    // draft, so the saved-map layer must not also draw it — that would be two
+    // canvases fighting, and the saved layer would rebuild on every pointer
+    // move. Opening a DIFFERENT map must not disturb the placed one.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "saved user map layers: 1",
+    );
+  });
+
+  it("takes the map under edit out of the saved layers", async () => {
+    // The other half of the same contract, with the placed map itself opened.
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await waitFor(() =>
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+        "saved user map layers: 1",
+      ),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Adjust points for Placed scan" }),
+    );
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "saved user map layers: 0",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeferencing: placed-1",
     );
   });
 
@@ -3305,26 +4436,64 @@ describe("georeferencer", () => {
   it("drives the real province layers once the licence is accepted", async () => {
     // The other half of the gate: proves the footer toggle is wired to the
     // app's actual layer state and not to a copy that goes nowhere.
+    // `initialProvinceLayerVisibility.nsprd` is TRUE (verified in
+    // layerCatalog.ts), so the click here turns property boundaries OFF —
+    // an earlier draft asserted this backwards and would have passed only by
+    // accident if the default ever flipped.
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     await seedScan();
     render(<App />);
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
-    await userEvent.click(
-      screen.getByRole("checkbox", { name: "Property boundaries" }),
-    );
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "property boundaries: on",
     );
+    const parcels = screen.getByRole("checkbox", { name: "Property boundaries" });
+    expect(parcels).toBeChecked();
+    await userEvent.click(parcels);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "property boundaries: off",
+    );
+  });
+
+  it("opens the panel straight from an import, without a second click", async () => {
+    // Spec: an imported scan opens the panel. `useUserMaps` consumes the
+    // outcome flag (Task 5); this is the App-level proof that the flag
+    // actually reaches the UI rather than being produced and dropped.
+    render(<App />);
+    const input = await screen.findByLabelText("Add a map file");
+    const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    await userEvent.upload(
+      input,
+      new File([magic], "church-1888.png", { type: "image/png" }),
+    );
+    expect(await screen.findByTestId("scan-pane")).toBeInTheDocument();
   });
 });
 ```
 
 Import `UserMapStore` from `./userMaps/store/userMapStore` and `UserMapRecord`
-from `./userMaps/types` at the top of the file. The last test assumes `nsprd`
-starts off; check the default in `initialProvinceLayerVisibility` and flip the
-expectation (click to turn it *off*) if it starts on.
+from `./userMaps/types` at the top of the file.
+
+The import test needs the real decode path stubbed, because jsdom has no
+`createImageBitmap`. `useUserMaps` takes no options at App's call site, so
+stub the module instead, beside the `ScanPane` mock:
+
+```tsx
+vi.mock("./userMaps/parsers/imageSource", () => ({
+  parseImage: async () => ({
+    pixelSize: { width: 1200, height: 800 },
+    preview: new Blob(["preview"], { type: "image/png" }),
+    previewSize: { width: 1200, height: 800 },
+  }),
+}));
+```
+
+If mocking that module turns out to break `useUserMaps`'s own import of
+`PREVIEW_MAX_DIMENSION` or similar, drop this one test and note it in the PR
+description rather than weakening the others — the hook-level test in Task 5
+already covers the flag; this one only covers the wiring.
 
 - [ ] **Step 5: Implement the `App` wiring** — `web/src/App.tsx`
 
@@ -3334,7 +4503,10 @@ Add imports beside the existing user-map imports (line ~150):
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
-import type { GeoreferenceBinding } from "./userMaps/components/GeoreferenceMapLayer";
+import type {
+  GeoreferenceBinding,
+  MapFocusRequest,
+} from "./userMaps/components/GeoreferenceMapLayer";
 import type { Gcp } from "./userMaps/types";
 ```
 
@@ -3377,9 +4549,27 @@ Immediately after `const userMapsApi = useUserMaps();` (line ~785):
     moveGcpOnMap,
   } = georeferenceSession;
 
+  // The panel can move its own scan pane, but only App can move the live map,
+  // so the GCP list's zoom-to control comes up here and goes back down through
+  // the binding. The monotonic id makes a repeat request a new object, so
+  // asking twice for the same point still recentres.
+  const [georeferenceFocus, setGeoreferenceFocus] =
+    useState<MapFocusRequest | null>(null);
+  const georeferenceFocusId = useRef(0);
+  const focusGcpOnMap = useCallback((gcp: Gcp) => {
+    georeferenceFocusId.current += 1;
+    setGeoreferenceFocus({
+      lat: gcp.map.lat,
+      lng: gcp.map.lng,
+      requestId: georeferenceFocusId.current,
+    });
+  }, []);
+
   // A new `draft` object on every mesh change is the intended hot path:
   // UserMapLayers keys its layer build on `previewUrl` and pushes geometry
   // through `setLatLngMesh`, so this never re-decodes the bitmap (Task 6).
+  // The memo is only worth having because `editingMap` is itself memoized in
+  // useUserMaps (Task 5) — a fresh literal there would bust this every render.
   const georeferenceBinding = useMemo<GeoreferenceBinding | null>(
     () =>
       editingMap
@@ -3387,6 +4577,7 @@ Immediately after `const userMapsApi = useUserMaps();` (line ~785):
             gcps: georeferenceGcps,
             pending: georeferencePending,
             draft: { ...editingMap, mesh: georeferenceMesh },
+            focus: georeferenceFocus,
             onPickMapPoint: pickMapPoint,
             onDragStartGcp: beginDragGcp,
             onMoveGcpOnMap: moveGcpOnMap,
@@ -3397,6 +4588,7 @@ Immediately after `const userMapsApi = useUserMaps();` (line ~785):
       georeferenceGcps,
       georeferencePending,
       georeferenceMesh,
+      georeferenceFocus,
       pickMapPoint,
       beginDragGcp,
       moveGcpOnMap,
@@ -3427,16 +4619,13 @@ overlays live:
         }
         onClose={userMapsApi.endGeoreference}
         onDelete={() => {
-          if (
-            window.confirm(
-              `Remove "${editingMap.record.name}" from this device? The ` +
-                "original file on your computer is not affected.",
-            )
-          ) {
-            userMapsApi.endGeoreference();
-            void userMapsApi.removeMap(editingMap.record.id);
-          }
+          // NO window.confirm here. The panel's Delete map button already
+          // asks, and wrapping it again produced two prompts for one click —
+          // which reads to the user as a dialog that does not work.
+          userMapsApi.endGeoreference();
+          void userMapsApi.removeMap(editingMap.record.id);
         }}
+        onFocusGcpOnMap={focusGcpOnMap}
         referenceLayers={{
           aerial: provinceLayers["ns-aerial"],
           parcels: provinceLayers.nsprd,
@@ -3458,11 +4647,19 @@ record is gone.
 
 - [ ] **Step 6: Write the failing style tests** — add to `web/src/styles.test.ts`
 
+**These tests regex the stylesheet, and that is their limit.** They cannot see
+whether anything renders the class names they check — an earlier draft of this
+plan shipped a stylesheet targeting `.georeference-overlay`,
+`.georeference-side` and `[data-tab]` against a DOM containing none of them,
+and every one of these passed. The rendered-DOM assertion in Task 10 is the
+other half; neither one substitutes for the other.
+
 ```ts
 describe("georeferencer overlay", () => {
   it("sits above the map furniture but below the app's dialogs", () => {
     const overlay = styles.match(/\.georeference-overlay\s*\{([^}]*)\}/)?.[1];
     expect(overlay).toMatch(/position:\s*fixed/);
+    expect(overlay).toMatch(/inset:\s*0/);
     const overlayZ = Number(overlay?.match(/z-index:\s*(\d+)/)?.[1]);
     const dialogZ = Number(
       styles
@@ -3478,6 +4675,9 @@ describe("georeferencer overlay", () => {
     const narrow = styles.slice(narrowStart);
     const panel = narrow.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
     expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+    // …and the tab toggle only exists at this breakpoint.
+    expect(narrow).toMatch(/\.georeference-tabs\s*\{[^}]*display:\s*flex/);
+    expect(narrow).toMatch(/\.georeference-panel\[data-tab="map"\]/);
   });
 
   it("marks the suspect control point by more than colour", () => {
@@ -3486,13 +4686,53 @@ describe("georeferencer overlay", () => {
     expect(suspect).toBeDefined();
     expect(suspect).toMatch(/border-inline-start|font-weight/);
   });
+
+  it("styles the numbered GCP markers, and distinguishes a pending one", () => {
+    // Without these the spec's hollow-then-solid numbered markers render as
+    // unstyled bare text on both panes — the markers ARE the interaction.
+    expect(styles).toMatch(/\.gcp-marker\s*\{/);
+    const pending = styles.match(/\.gcp-marker--pending\s*\{([^}]*)\}/)?.[1];
+    expect(pending).toBeDefined();
+    // Hollow vs solid, not just a different hue.
+    expect(pending).toMatch(/background|border-style/);
+    expect(styles).toMatch(/\.gcp-marker--selected\s*\{/);
+  });
+
+  it("defines the visually-hidden helper the GCP list header uses", () => {
+    // GcpList renders <span className="visually-hidden">Actions</span>. With
+    // no rule for it, a literal "Actions" heading appears in the table.
+    const hidden = styles.match(/\.visually-hidden\s*\{([^}]*)\}/)?.[1];
+    expect(hidden).toBeDefined();
+    // Clipped, not display:none — display:none removes it from the
+    // accessibility tree, which defeats the point of the label.
+    expect(hidden).toMatch(/clip-path|clip:/);
+    expect(hidden).not.toMatch(/display:\s*none/);
+  });
 });
 ```
 
 - [ ] **Step 7: Implement the styles** — append to `web/src/styles.css`, in the
       same "Your maps" section, keeping the file's existing formatting
 
+Every selector below has a matching element in Task 9's and Task 10's markup —
+check that as you go, because a rule with no element is invisible to every
+test in this repo.
+
 ```css
+/* Screen-reader-only text. Clipped rather than display:none, which would
+   remove it from the accessibility tree and defeat the point. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .user-map-needs-georeference {
   color: #a2600f;
   font-weight: 700;
@@ -3550,6 +4790,12 @@ describe("georeferencer overlay", () => {
   background: rgb(10 20 22 / 6%);
 }
 
+/* The MapContainer inside ScanPane; Leaflet needs an explicitly sized box. */
+.georeference-scan-map {
+  width: 100%;
+  height: 100%;
+}
+
 .georeference-side {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
@@ -3557,9 +4803,21 @@ describe("georeferencer overlay", () => {
   padding: 12px;
   gap: 10px;
   border-left: 1px solid rgb(10 20 22 / 12%);
+}
+
+/* The list scrolls, the footer does not — losing Done off the bottom of a
+   long point list would be the worst possible thing to lose. */
+.georeference-points {
+  min-height: 0;
   overflow-y: auto;
 }
 
+.georeference-footer {
+  display: grid;
+  gap: 10px;
+}
+
+/* Wide screens show both panes at once, so the toggle has nothing to do. */
 .georeference-tabs {
   display: none;
 }
@@ -3588,6 +4846,51 @@ describe("georeferencer overlay", () => {
 .gcp-row--suspect {
   border-inline-start: 3px solid #a2600f;
   font-weight: 700;
+}
+
+.gcp-row--selected {
+  background: rgb(47 128 237 / 10%);
+}
+
+.gcp-zoom,
+.gcp-delete {
+  padding: 0 6px 0 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Numbered control-point markers, shared by the scan pane and the live map
+   (components/gcpIcon.ts). Solid once a pair is complete. */
+.gcp-marker {
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--survey-blue);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(10 20 22 / 45%);
+}
+
+/* Hollow while the point is waiting for its match on the other side. The
+   difference is fill and border style, not hue — a colour-only distinction
+   would not survive WCAG 1.4.1 or a monochrome scan underneath. */
+.gcp-marker--pending {
+  color: var(--survey-blue);
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--survey-blue);
+}
+
+/* The row currently under the pointer in the GCP list. */
+.gcp-marker--selected {
+  outline: 2px solid #a2600f;
+  outline-offset: 1px;
 }
 
 .georeference-references {
@@ -3637,24 +4940,38 @@ And inside the existing narrow breakpoint at the END of the file (the second
     padding: 0 14px 8px;
   }
 
-  /* One pane at a time; the tab buttons pick which. */
+  /* One pane at a time; the tab buttons pick which. Note the polarity: on
+     the "map" tab it is the SCAN that hides, so the app's own map behind the
+     translucent overlay is what the user works against. */
   .georeference-panel[data-tab="map"] .georeference-scan,
   .georeference-panel[data-tab="scan"] .georeference-side {
     display: none;
   }
 ```
 
-The `data-tab` attribute comes from Task 10's `tab` state — confirm the panel
-sets it on the same element that carries `.georeference-panel`, and add it if
-Task 10's implementation put it elsewhere.
+`data-tab` is set by Task 10 on the same element that carries
+`.georeference-panel`, and `.georeference-tabs` is a **direct child** of that
+element so it can occupy the middle grid row here. Task 10's rendered-DOM test
+pins both; if you find yourself adding the attribute somewhere else to make
+this work, the panel markup drifted — fix the markup, not the selector.
 
 - [ ] **Step 8: Run the full suite and lint**
 
-Run: `cd web && npm test -- --run && npx tsc --noEmit && npx eslint src`
-Expected: PASS, no type errors, no lint errors. Every pre-existing test must
-still pass — if any `App.test.tsx` test broke, the wiring changed behaviour it
-was pinning; fix the wiring, not the test, unless the test was asserting the
-old "GeoTIFF only" copy.
+Run: `cd web && npm test -- --run && npx tsc -b && npx eslint src`
+
+**`tsc -b`, not `tsc --noEmit`.** `web/tsconfig.json` is a solution file with
+`"files": []`, so `tsc --noEmit` at the root checks nothing at all and exits 0
+over genuinely broken code (verified against a deliberate `TS2322`). `tsc -b`
+compiles the referenced projects and exits **2** on error — including on
+repeated incremental runs while the error is still present — so the `&&` chain
+above is a real gate. Beware measuring this through a pipe: `npx tsc -b | head`
+reports `head`'s exit code, which is what made an earlier revision of this plan
+claim `tsc -b` exits 0 on failure.
+
+Expected: full suite green, no type errors printed, no lint errors. Every
+pre-existing test must still pass — if any `App.test.tsx` test broke, the
+wiring changed behaviour it was pinning; fix the wiring, not the test, unless
+the test was asserting the old "GeoTIFF only" copy.
 
 - [ ] **Step 9: Commit**
 
@@ -3704,12 +5021,18 @@ longitude is ~0.69 of a degree of latitude on the ground, so a degree-space fit
 would shear every map east-west. Pixel coordinates are always in the ORIGINAL
 raster's pixel space, never the downsampled preview's, so changing the preview
 cap never invalidates saved points. Accuracy is reported as per-point ground
-metres, and the point flagged as suspect is chosen by leave-one-out refit
-rather than by largest fit residual — least squares smears a single gross
-error across every point, so the largest residual routinely lands on an
-innocent one. GCP markers get their own pane (`georeference-pane`, z-700,
-above every data overlay) so a control point is never buried under a parcel
-line.
+metres (not Mercator metres, which over-report by 1/cos φ — 1.44x here, so the
+figure is deliberately *not* the one QGIS shows for an EPSG:3857 target), and
+the worst-fitting row is flagged only from five points up: at four points every
+hat-matrix leverage is 0.75, so raw, leave-one-out and studentized residuals
+rank identically and a 1104-trial sweep put all three at chance. A solve is
+refused outright when the control points are too thin to determine a transform,
+when any coordinate comes out non-finite, or when the solved transform squashes
+one axis more than 50:1 — the last being what three map clicks down a meridian
+produce, complete with zero-area drape and a perfect 0 m residual. GCP markers
+get their own pane (`georeference-pane`, z-660: above every data overlay and
+above Leaflet's marker and tooltip panes, below its popup pane at 700) so a
+control point is never buried under a parcel line.
 ```
 
 - [ ] **Step 3: `plan.md`** — tick the PR-2 line:
@@ -3744,15 +5067,27 @@ that let PR 1 ship a seam bug. Run the dev server and check, in order:
 5. Drag a point on the map. The drape follows **during** the drag, not on
    release, and there is no flicker (a flicker means the bitmap is being
    re-decoded — Task 6's identity contract has broken).
-6. Place a 4th point deliberately wrong. Its row is flagged and the RMS jumps.
+6. Place a 4th point deliberately wrong. Real metres appear in the Off-by
+   column and **no row is highlighted yet** — that is correct, not a bug.
+   Place a 5th; the wrong point's row is now flagged and the RMS jumps.
    Delete it; the flag and the RMS recover.
-7. Undo (button and Cmd/Ctrl+Z) walks back point-by-point.
-8. Toggle the two reference layers from the panel footer; both appear under
-   the drape.
-9. Close the panel, reload the page, reopen the georeferencer. The points are
-   still there — this is the debounced IndexedDB write-through, and its
-   flush-on-close is the part most likely to be subtly wrong.
-10. Narrow the window below 860 px. The panes stack and the tab toggle appears.
+7. Click **Zoom to** on a row. Both the scan pane and the live map recentre on
+   that point, and neither zooms back out if you were already closer in.
+8. Undo (button and Cmd/Ctrl+Z) walks back point-by-point. Crucially: **one
+   press per action.** Two presses per action means a state updater is doing
+   side-effect work and StrictMode is running it twice (Task 7).
+9. Toggle the two reference layers from the panel footer; both appear under
+   the drape. Close the panel and confirm the layer rail agrees — these are
+   the rail's own toggles, not a copy.
+10. Click **Delete map**. Exactly **one** confirmation dialog appears.
+11. Close the panel, reload the page, reopen the georeferencer. The points are
+    still there — this is the debounced IndexedDB write-through, and its
+    flush-on-close is the part most likely to be subtly wrong. Then open map
+    A, edit it, and within half a second open map B and edit that: reload and
+    check **both** kept their edits.
+12. Narrow the window below 860 px. The panel is a full-viewport overlay (not
+    a block at the bottom of a scrolled page), the panes stack, and the tab
+    toggle appears and actually switches panes.
 
 Capture a screenshot of step 4 or 5 for the PR description.
 
@@ -3779,8 +5114,25 @@ georeferencer); a shipped seam bug in `mesh.ts` is fixed; and
       and confirm every locked decision has a task that implements it and a
       test that pins it. The decisions most likely to be quietly dropped are:
       solving in metres, original-pixel-space coordinates, the "add a 4th
-      point" copy, leave-one-out suspect selection, and undo snapshotting on
-      drag START rather than per pointer move.
+      point" copy, **no highlighted row at four points**, the GCP list's
+      zoom-to control, the **"Adjust points"** button label, and undo
+      snapshotting on drag START rather than per pointer move.
+- [ ] **Rendered DOM, not just stylesheet text.** `styles.test.ts` regexes
+      `styles.css` and cannot tell whether any element carries the class names
+      it checks. For every new rule, confirm a component actually renders the
+      selector — `.georeference-overlay`, `.georeference-side`,
+      `.georeference-points`, `[data-tab]`, `.gcp-row`, `.gcp-residual`,
+      `.gcp-marker`, `.visually-hidden`. This exact gap shipped a stylesheet
+      whose two breakpoints and pane toggle were entirely dead, with every
+      style test green.
+- [ ] **StrictMode.** Nothing in `useGeoreferenceSession` or `useUserMaps`
+      does work inside a `setState` updater. `main.tsx` wraps the app in
+      `StrictMode`, updaters run twice there, and a bare `renderHook` test
+      will not notice.
+- [ ] **Lint gate.** `npx eslint src` is clean. In particular no `.tsx` file
+      exports a function: `react-refresh/only-export-components` is an error
+      here, and four of this plan's new modules exist specifically to keep
+      helpers out of component files.
 - [ ] **Placeholder scan.** Grep the finished branch for `TODO`, `FIXME`,
       `any`, and `@ts-expect-error`. PR 1 shipped none; PR 2 should not start.
 - [ ] **Type consistency across tasks.** `Gcp`, `PixelSize`, `LatLngPoint`,

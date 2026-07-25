@@ -228,13 +228,30 @@ contains it. A 1104-trial sweep (outlier index × magnitude × direction) had
 leave-one-out winning 147 times and losing 150 against the plain fit residual
 — a wash — for an extra affine solve per point on every pointer move.
 
-At four points it is worse than a wash, it is arithmetically impossible: four
-points fitting three parameters leave one residual degree of freedom per axis,
-and at four corners every hat-matrix leverage is exactly 0.75, so `1 − h` is
-constant and leave-one-out (`e/(1−h)`), studentized (`e/√(1−h)`) and the raw
-residual all produce the **identical** ranking. Measured 24% correct against a
-25% chance baseline. So: plain fit residual, and no accusation below five
-points, where the same sweep reaches 60% against a 20% baseline.
+At four points it is worse than a wash, it is arithmetically impossible. Four
+points fitting three parameters leave a **one-dimensional residual space**:
+the residual-maker `I − H` has rank `n − p = 1`, so every residual vector that
+can occur is a multiple of a single direction — and that direction comes from
+the pixel layout alone, not from the data. Both axes share it, because both
+share the design. Displacing a different control point rescales that vector; it
+cannot rotate it.
+
+So the largest residual at four points identifies *where the user clicked*, not
+*which click was wrong*, and it names the same row whoever is actually at
+fault. Verified across a rectangle, a scalene quad and a lopsided quad: all
+three produce an identical normalised residual pattern under all four possible
+displacements. That kills raw residual, leave-one-out (`e/(1−h)`) and
+studentized (`e/√(1−h)`) in one stroke, since all three rank by magnitude along
+that one fixed direction. Measured 24% correct against a 25% chance baseline.
+So: plain fit residual, and no accusation below five points, where a second
+residual dimension appears, the direction can finally respond to the data, and
+the same sweep reaches 60% against a 20% baseline.
+
+*(Amended 2026-07-25. This originally argued from all four leverages being
+exactly 0.75. That holds only for a symmetric layout — a scalene quad gives
+`[0.871, 0.954, 0.918, 0.258]` — so it proved the conclusion for one rectangle
+rather than in general. The rank argument above needs no symmetry. The
+conclusion did not change; the reason it is true did.)*
 
 **Designed failure states.** The solve is refused, with no drape and a status
 explaining what to do, in three cases: control points too close to a straight
@@ -248,12 +265,19 @@ highlight exists to surface — the list is the debugging tool, so every row is
 deletable.
 
 **Known gap: clustered control points.** Three points inside 200 px of a
-4096 px scan are well-conditioned in shape and solve cleanly, but the fit is
-extrapolated ~20× beyond them, so a 1 px click slip moves the far corner by a
-kilometre. No single spread threshold rejects this without also rejecting
-honestly elongated maps — a river-corridor strip scores lower than the huddle
-does. This needs a warning on the reported accuracy rather than a refusal to
-solve, and is not implemented in PR 2.
+4096 px scan are well-conditioned in shape — condition ratio 5.8e-1, healthier
+than most real layouts — and solve cleanly, but the fit is extrapolated ~20×
+beyond them, so a 1 px click slip moves the far corner by a kilometre. This is
+a *coverage* problem, and the acceptance gate is deliberately a *rank* test
+only. Trying to make one threshold serve both is not a simplification but a
+bug: an earlier revision normalised against the image diagonal to catch
+exactly this, and the result was that a 1000×100 px control corridor on a
+24000×18000 scan — full rank, 10:1 anisotropy, entirely reasonable — was
+refused with the message "too close to a straight line", which was simply
+false about that layout. Coverage needs a warning on the reported accuracy
+rather than a refusal to solve, and is not implemented in PR 2.
+
+*(Amended 2026-07-25 after adversarial review found the corridor case.)*
 
 **Footer.** Opacity slider (drives the live drape, saved as the map's
 opacity), a **Reference layers** row, *Undo*, *Done*, *Delete map*. No
