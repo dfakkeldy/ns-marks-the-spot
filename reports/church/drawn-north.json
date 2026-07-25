@@ -1,0 +1,88 @@
+[
+ {
+  "label": "cheticamp-island-west-tip",
+  "accepted": false,
+  "reason": "rule 'west' names a vertex, not an area; only 'island' candidates have a centroid to compare"
+ },
+ {
+  "label": "cape-breton-north-tip",
+  "accepted": false,
+  "reason": "rule 'north' names a vertex, not an area; only 'island' candidates have a centroid to compare"
+ },
+ {
+  "label": "island-46-723n-60-702w",
+  "lon": -60.702177120193014,
+  "lat": 46.72280141800804,
+  "modern_area_px": 51915.31024745595,
+  "modern_elongation": 1.2492914577073655,
+  "modern_orientation_deg": 4.148284674637644,
+  "predicted_sheet_x": 12206.301821325,
+  "predicted_sheet_y": 14662.4275477892,
+  "tile_origin": [
+   11506,
+   13962
+  ],
+  "shapes_found": 33,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (17 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-46-390n-60-975w",
+  "lon": -60.974617509581556,
+  "lat": 46.38956414313461,
+  "modern_area_px": 19707.03595538502,
+  "modern_elongation": 4.398431318968021,
+  "modern_orientation_deg": 133.60942861952844,
+  "predicted_sheet_x": 5537.21117290159,
+  "predicted_sheet_y": 28790.3055661189,
+  "tile_origin": [
+   4837,
+   28090
+  ],
+  "shapes_found": 55,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (37 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-46-707n-60-694w",
+  "lon": -60.69382590727573,
+  "lat": 46.70739421489671,
+  "modern_area_px": 18562.76253505312,
+  "modern_elongation": 4.032395342543383,
+  "modern_orientation_deg": 133.4479198094624,
+  "predicted_sheet_x": 12488.4830555519,
+  "predicted_sheet_y": 15284.9606377917,
+  "tile_origin": [
+   11788,
+   14585
+  ],
+  "shapes_found": 55,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (14 such)",
+  "accepted": false,
+  "inside_cutline": true
+ },
+ {
+  "label": "island-46-570n-60-902w",
+  "lon": -60.902377684650595,
+  "lat": 46.5699776313831,
+  "modern_area_px": 17468.820044345237,
+  "modern_elongation": Infinity,
+  "modern_orientation_deg": 0.0,
+  "predicted_sheet_x": 7101.98166511492,
+  "predicted_sheet_y": 21274.2019083386,
+  "tile_origin": [
+   6402,
+   20574
+  ],
+  "shapes_found": 35,
+  "considered": 0,
+  "reason": "every nearby shape is more ink than enclosure (fill < 2.0): lettering, hachure or a scan edge, not an island (20 such)",
+  "accepted": false,
+  "inside_cutline": true
+ }
+]

@@ -23,6 +23,17 @@
 # Same rules as the south file: lon/lat come from the candidate file by
 # objective rule, only the pixel columns were read by eye, and the checksheet
 # crosshair was never adopted as an answer.
+#
+# CORROBORATED, attempt 5 (2026-07-25). These pixel columns are still the ones
+# read by eye. `tools/church/drawn.py` now derives a drawn centroid by rule -
+# threshold the ink, trace the closed outline, shoelace it - and on the islands
+# it could identify without ambiguity it reproduces the same eastward offset the
+# rows below carry. The two methods differ by 53 m on Floda and 325 m on
+# Margaree, so the +/-40 px claimed above is understated; the systematic shift
+# is not an artifact of reading. The detector accepts too few points (2 south,
+# 0 north) to replace this file, so it is committed as evidence in
+# reports/church/drawn-{north,south}.json instead. See
+# docs/church-inverness-attempt-5-2026-07-25.md.
 pixel_x,pixel_y,lon,lat,role,label
 2814,20066,-61.059002,46.603489,check,cheticamp-island-west-tip
 14286,993,-60.598363,47.041977,check,cape-breton-north-tip
