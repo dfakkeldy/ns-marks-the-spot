@@ -24,6 +24,8 @@ type MapContainerCall = {
   minZoom?: number;
   maxZoom?: number;
   zoomSnap?: number;
+  className?: string;
+  attributionControl?: boolean;
 };
 
 const markerCalls = vi.hoisted(() => [] as MarkerCall[]);
@@ -137,6 +139,14 @@ describe("ScanPane", () => {
     expect(mapContainerCalls).toHaveLength(1);
     const props = mapContainerCalls[0];
     expect(props.crs).toBe(L.CRS.Simple);
+    // MapContainer sets its initial view via `center`+`zoom` OR `fitBounds`
+    // (react-leaflet's MapContainer.js) — ScanPane passes neither `center`
+    // nor `zoom`, so `bounds` isn't just decorative here: drop it and the
+    // real component throws "Set map center and zoom first" on mount.
+    expect(props.bounds).toEqual([
+      [-800, 0],
+      [0, 1200],
+    ]);
     expect(props.maxBounds).toEqual([
       [-800, 0],
       [0, 1200],
@@ -144,6 +154,10 @@ describe("ScanPane", () => {
     expect(props.minZoom).toBe(-4);
     expect(props.maxZoom).toBe(4);
     expect(props.zoomSnap).toBe(0.25);
+    expect(props.className).toBe("georeference-scan-map");
+    expect(props.attributionControl).toBe(false);
+    // The scan image itself — the entire point of the pane.
+    expect(imageOverlayCalls[0].url).toBe("blob:scan");
   });
 
   it("turns a click into ORIGINAL image pixels", () => {
@@ -172,6 +186,13 @@ describe("ScanPane", () => {
     markerCalls.forEach((call, index) => {
       expect(call.draggable).toBe(true);
       expect(call.icon.options.html).toContain(String(index + 1));
+      // Exact, not just "not pending": with no `selectedGcpId`, a placed
+      // point's icon must be plain "gcp-marker" — adding `pending: true`
+      // here (the hollow "still waiting for its other half" style) is
+      // exactly the conflation gcpIcon.ts's doc comment says the pending/
+      // selected split exists to prevent, and it must not survive a
+      // completed, non-selected control point.
+      expect(call.icon.options.className).toBe("gcp-marker");
     });
     expect(markerCalls[0].position).toEqual([-415, 637]);
     expect(markerCalls[1].position).toEqual([-100, 200]);
@@ -286,5 +307,15 @@ describe("ScanPane", () => {
     stubMap.getZoom.mockReturnValue(3);
     renderPane({ focus: { pixel: { x: 100, y: 50 }, requestId: 1 } });
     expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 3);
+  });
+
+  it("zooms IN to the floor when the user is further out than it", () => {
+    // The companion case to the test above: with no floor at all
+    // (`map.getZoom()` alone, no `Math.max`), a user parked at minZoom={-4}
+    // who clicks a GCP-list row would get recentred at -4 — never zooming in
+    // — which defeats the entire documented purpose of ScanFocusController.
+    stubMap.getZoom.mockReturnValue(-4);
+    renderPane({ focus: { pixel: { x: 100, y: 50 }, requestId: 1 } });
+    expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 1);
   });
 });
