@@ -12,6 +12,11 @@ import {
 } from "./MapCanvas";
 import { parcelStyleForFeature } from "./parcelStyle";
 
+// Backs the useMap() stub's getPane/createPane below so UserMapLayers'
+// ensurePane (which MapCanvas now mounts unconditionally) has somewhere to
+// store panes it creates, same as the real Leaflet map would.
+const paneElements = vi.hoisted(() => new Map<string, HTMLElement>());
+
 const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
@@ -35,6 +40,12 @@ const mapMock = vi.hoisted(() => ({
   off: vi.fn(),
   removeLayer: vi.fn(),
   setZoom: vi.fn(),
+  getPane: vi.fn((name: string) => paneElements.get(name)),
+  createPane: vi.fn((name: string) => {
+    const el = document.createElement("div");
+    paneElements.set(name, el);
+    return el;
+  }),
 }));
 
 const mapEventHandlers = vi.hoisted(() => ({

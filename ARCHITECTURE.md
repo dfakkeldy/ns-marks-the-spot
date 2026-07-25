@@ -479,3 +479,18 @@ after its scheduled start; the app does not manufacture a historical outcome.
 Rendered event controls include the source retrieval date. Inverness listings
 are generated from the owner-free book JSON snapshot, whose byte-for-byte
 SHA-256 is pinned by the web test suite.
+
+### User-loaded maps (`web/src/userMaps/`)
+
+A self-contained feature folder: `parsers/` (magic-byte sniffing; geotiff.js
+2.1.3 — pinned, the 3.x read API differs — decoding in a web worker with
+OffscreenCanvas and a main-thread fallback, overview-aware, capped at 4096 px),
+`transform/` (proj4 registry for NS CRSs plus WKT-citation best-effort,
+pixel→WGS84, mesh building), `render/` (`WarpedRasterLayer`: a
+device-pixel-ratio-aware canvas layer drawing through a projected triangle
+mesh in `user-maps-pane`, z-160 — above aerial imagery, below all data
+overlays), `store/` (IndexedDB; metadata and blobs in separate object stores;
+save failures degrade to session-only maps), and `components/` (layer-list
+rows + react-leaflet bridge). `App.tsx`/`MapCanvas.tsx` hold mounting points
+only. Everything is client-side; nothing is uploaded. The PR-2 georeferencer
+builds on the same mesh renderer with GCP-derived (affine/TPS) meshes.
