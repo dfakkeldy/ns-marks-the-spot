@@ -2,6 +2,14 @@ import type { LatLngPoint } from "./projection";
 
 export type MercatorPoint = { x: number; y: number };
 
+/**
+ * The Web Mercator sphere's radius, used for BOTH the projection and the
+ * ground-distance haversine below. The great-circle convention would be the
+ * mean radius 6371008.8, which would make every reported residual 0.112%
+ * smaller — 4.5 cm on a 40 m figure. Using one radius throughout keeps
+ * projected metres and ground metres on the same sphere, which is worth more
+ * than that difference.
+ */
 export const EARTH_RADIUS_METRES = 6378137;
 
 /**
@@ -33,11 +41,18 @@ export function toMercator(point: LatLngPoint): MercatorPoint {
   };
 }
 
+/**
+ * Clamped symmetrically to `toMercator`. A large-scale affine can project a
+ * mesh corner past the Mercator domain; unclamped, Leaflet silently clamps it
+ * for us at draw time, which breaks the mesh's affinity in a way no test
+ * catches. Better to be the one who clamps.
+ */
 export function fromMercator(point: MercatorPoint): LatLngPoint {
+  const lat =
+    (2 * Math.atan(Math.exp(point.y / EARTH_RADIUS_METRES)) - Math.PI / 2) *
+    RADIANS_TO_DEGREES;
   return {
-    lat:
-      (2 * Math.atan(Math.exp(point.y / EARTH_RADIUS_METRES)) - Math.PI / 2) *
-      RADIANS_TO_DEGREES,
+    lat: Math.max(-MAX_MERCATOR_LATITUDE, Math.min(MAX_MERCATOR_LATITUDE, lat)),
     lng: (point.x / EARTH_RADIUS_METRES) * RADIANS_TO_DEGREES,
   };
 }

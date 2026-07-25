@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { Gcp } from "../types";
 import { applyAffine, solveAffineFromGcps, type AffineParams } from "./affine";
 import {
-  leaveOneOutMetres,
+  MIN_GCPS_FOR_SUSPECT,
   residualMetresFor,
   residualReport,
   rmsMetres,
@@ -10,6 +10,8 @@ import {
 import { EARTH_RADIUS_METRES, fromMercator } from "./webMercator";
 
 const TRUTH: AffineParams = [3.5, -1.25, -6790000, 0.75, 4.5, 5780000];
+
+const SIZE = { width: 4096, height: 3072 };
 
 const PIXELS = [
   { x: 0, y: 0 },
@@ -35,6 +37,10 @@ function nudgeEast(gcp: Gcp, groundMetres: number): Gcp {
       Math.cos((gcp.map.lat * Math.PI) / 180) *
       (Math.PI / 180));
   return { ...gcp, map: { lat: gcp.map.lat, lng: gcp.map.lng + degrees } };
+}
+
+function fit(gcps: Gcp[]): AffineParams {
+  return solveAffineFromGcps(gcps, SIZE) as AffineParams;
 }
 
 describe("residualMetresFor", () => {
@@ -67,56 +73,56 @@ describe("rmsMetres", () => {
   });
 });
 
-describe("leaveOneOutMetres", () => {
-  it("is null below four points", () => {
-    expect(leaveOneOutMetres(exactGcps(PIXELS.slice(0, 3)))).toBeNull();
-  });
-
-  it("is zero for points that all agree", () => {
-    for (const metres of leaveOneOutMetres(exactGcps()) ?? []) {
-      expect(metres).toBeCloseTo(0, 6);
-    }
-  });
-});
-
 describe("residualReport", () => {
   it("is null below four points, because three fit exactly by construction", () => {
     const gcps = exactGcps(PIXELS.slice(0, 3));
-    const params = solveAffineFromGcps(gcps) as AffineParams;
-    expect(residualReport(gcps, params)).toBeNull();
+    expect(residualReport(gcps, fit(gcps))).toBeNull();
   });
 
-  it("finds the mis-clicked point that the largest fit residual misses", () => {
-    // Regression guard for a real property of least squares: a single gross
-    // outlier is smeared across every point, so ranking by fit residual
-    // routinely accuses an innocent one. Measured on this exact fixture, the
-    // largest fit residual is index 0 while the bad point is index 3.
-    const gcps = exactGcps();
+  it("reports an RMS at four points but accuses nobody", () => {
+    // With four points fitting three parameters there is one residual degree
+    // of freedom per axis, and every hat-matrix leverage is exactly 0.75 — so
+    // 1-h is constant and EVERY candidate statistic (raw residual,
+    // leave-one-out = e/(1-h), studentized = e/sqrt(1-h)) gives the identical
+    // ranking. A 1104-trial sweep put all of them at chance: 24% correct
+    // against a 25% baseline. Highlighting a row here would be a coin toss
+    // presented as a diagnosis.
+    const gcps = exactGcps(PIXELS.slice(0, 4));
     gcps[3] = nudgeEast(gcps[3], 600);
-    const params = solveAffineFromGcps(gcps) as AffineParams;
-    const report = residualReport(gcps, params);
+    const report = residualReport(gcps, fit(gcps));
     expect(report).not.toBeNull();
+    expect(report?.rmsMetres).toBeGreaterThan(1);
+    expect(report?.mostInconsistentIndex).toBeNull();
+  });
 
+  it("names the worst-fitting point from five", () => {
+    expect(MIN_GCPS_FOR_SUSPECT).toBe(5);
+    const gcps = exactGcps();
+    gcps[4] = nudgeEast(gcps[4], 600);
+    const report = residualReport(gcps, fit(gcps));
     const { metresPerGcp, mostInconsistentIndex } = report as NonNullable<
       typeof report
     >;
-    const largestFitResidual = metresPerGcp.indexOf(Math.max(...metresPerGcp));
-    expect(mostInconsistentIndex).toBe(3);
-    expect(largestFitResidual).not.toBe(3);
+    expect(mostInconsistentIndex).not.toBeNull();
+    expect(mostInconsistentIndex).toBe(
+      metresPerGcp.indexOf(Math.max(...metresPerGcp)),
+    );
   });
 
   it("reports a non-zero RMS once a point disagrees", () => {
     const gcps = exactGcps();
     gcps[3] = nudgeEast(gcps[3], 600);
-    const params = solveAffineFromGcps(gcps) as AffineParams;
-    const report = residualReport(gcps, params);
-    expect((report as NonNullable<typeof report>).rmsMetres).toBeGreaterThan(1);
+    expect(
+      (residualReport(gcps, fit(gcps)) as NonNullable<ReturnType<typeof residualReport>>)
+        .rmsMetres,
+    ).toBeGreaterThan(1);
   });
 
   it("keeps RMS at zero when every point agrees", () => {
     const gcps = exactGcps();
-    const params = solveAffineFromGcps(gcps) as AffineParams;
-    const report = residualReport(gcps, params);
-    expect((report as NonNullable<typeof report>).rmsMetres).toBeCloseTo(0, 6);
+    expect(
+      (residualReport(gcps, fit(gcps)) as NonNullable<ReturnType<typeof residualReport>>)
+        .rmsMetres,
+    ).toBeCloseTo(0, 6);
   });
 });

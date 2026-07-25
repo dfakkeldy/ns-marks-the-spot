@@ -1,5 +1,5 @@
 import type { Gcp } from "../types";
-import { applyAffine, solveAffineFromGcps, type AffineParams } from "./affine";
+import { applyAffine, type AffineParams } from "./affine";
 import { fromMercator, groundMetresBetween } from "./webMercator";
 
 /**
@@ -9,16 +9,31 @@ import { fromMercator, groundMetresBetween } from "./webMercator";
  */
 export const MIN_GCPS_FOR_RESIDUALS = 4;
 
+/**
+ * Below this we report the RMS but accuse nobody.
+ *
+ * With four points fitting three parameters there is one residual degree of
+ * freedom per axis, and the direction that residual points is fixed by the
+ * design rather than by which point is wrong. Concretely: at four corners
+ * every hat-matrix leverage is exactly 0.75, so `1 - h` is constant and EVERY
+ * candidate statistic — raw residual, leave-one-out (which is `e/(1-h)`),
+ * studentized (`e/sqrt(1-h)`) — produces the identical ranking. A 1104-trial
+ * sweep put all of them at chance: 24% correct against a 25% baseline.
+ *
+ * At five points the same sweep scores 60% against a 20% baseline. That is
+ * where the highlight starts earning its place, so that is where it starts.
+ */
+export const MIN_GCPS_FOR_SUSPECT = 5;
+
 export type ResidualReport = {
   /** Per-GCP fit residual in GROUND metres, same order as the input. */
   metresPerGcp: number[];
   rmsMetres: number;
   /**
-   * Index of the point that disagrees most with the others, by leave-one-out.
-   * NOT the largest fit residual: least squares smears a gross error across
-   * every point, so the biggest residual is routinely on an innocent one.
+   * Index of the worst-fitting point, or null when there are too few points
+   * for that to mean anything (see MIN_GCPS_FOR_SUSPECT).
    */
-  mostInconsistentIndex: number;
+  mostInconsistentIndex: number | null;
 };
 
 /**
@@ -27,7 +42,9 @@ export type ResidualReport = {
  *
  * Ground, not Mercator: Mercator inflates by 1/cos(latitude), which is 1.44x
  * at Nova Scotia latitudes, so a Mercator-magnitude residual would overstate
- * every accuracy figure by nearly half.
+ * every accuracy figure by nearly half. Note this makes the figure NOT
+ * directly comparable to QGIS's, which reports residuals in the target CRS's
+ * own units — Mercator metres for EPSG:3857, i.e. ~1.44x larger here.
  */
 export function residualMetresFor(
   params: AffineParams,
@@ -48,40 +65,15 @@ export function rmsMetres(residuals: number[]): number {
 }
 
 /**
- * Leave-one-out error: refit without each point, then measure how far the
- * remaining points' transform misses it. This is what actually finds a
- * mis-clicked GCP — a point that disagrees with the consensus scores high
- * even when least squares has hidden its fit residual among its neighbours.
+ * The numbers the GCP list renders.
  *
- * Needs n >= 4 so that dropping one still leaves the three an affine needs.
- * Returns null when a refit is impossible (too few points, or dropping one
- * leaves the rest collinear).
- */
-export function leaveOneOutMetres(gcps: Gcp[]): number[] | null {
-  if (gcps.length < MIN_GCPS_FOR_RESIDUALS) {
-    return null;
-  }
-  const scores: number[] = [];
-  for (let index = 0; index < gcps.length; index += 1) {
-    const rest = gcps.filter((_, other) => other !== index);
-    const params = solveAffineFromGcps(rest);
-    if (!params) {
-      return null;
-    }
-    const held = gcps[index];
-    const predicted = fromMercator(
-      applyAffine(params, held.pixel.x, held.pixel.y),
-    );
-    scores.push(groundMetresBetween(predicted, held.map));
-  }
-  return scores;
-}
-
-/**
- * The numbers the GCP list renders. Displayed residuals are conventional fit
- * residuals — the figure QGIS and Allmaps show, so they are comparable — but
- * the highlighted row is chosen by leave-one-out, because that is the one
- * that reliably points at the bad point.
+ * An earlier design picked the highlighted row by leave-one-out refit, on the
+ * theory that least squares smears a gross error across every point and so
+ * the largest fit residual accuses an innocent one. The first half is true;
+ * the conclusion is not, because the outlier also corrupts each refit that
+ * still contains it. Measured over 1104 trials, leave-one-out won 147 times
+ * and lost 150 — a wash — while costing an extra affine solve per point on
+ * every pointer move of a drag. It was dropped for the plain fit residual.
  */
 export function residualReport(
   gcps: Gcp[],
@@ -91,12 +83,15 @@ export function residualReport(
     return null;
   }
   const metresPerGcp = residualMetresFor(params, gcps);
-  const leaveOneOut = leaveOneOutMetres(gcps) ?? metresPerGcp;
-  let mostInconsistentIndex = 0;
-  for (let index = 1; index < leaveOneOut.length; index += 1) {
-    if (leaveOneOut[index] > leaveOneOut[mostInconsistentIndex]) {
-      mostInconsistentIndex = index;
+  let mostInconsistentIndex: number | null = null;
+  if (gcps.length >= MIN_GCPS_FOR_SUSPECT) {
+    let worst = 0;
+    for (let index = 1; index < metresPerGcp.length; index += 1) {
+      if (metresPerGcp[index] > metresPerGcp[worst]) {
+        worst = index;
+      }
     }
+    mostInconsistentIndex = worst;
   }
   return {
     metresPerGcp,

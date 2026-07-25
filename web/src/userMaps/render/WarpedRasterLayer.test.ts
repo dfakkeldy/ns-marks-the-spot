@@ -7,13 +7,28 @@ import { WarpedRasterLayer } from "./WarpedRasterLayer";
  * exact coordinates: lng -63.1..-63 becomes x 200..400, lat 46..45.9 becomes
  * y 200..400.
  */
+/**
+ * Projects lng -63.1..-63 to x 200..400 and lat 46..45.9 to y 200..400.
+ *
+ * Deliberately exposes `project` + `getPixelOrigin` rather than
+ * `latLngToContainerPoint`: the real Leaflet rounds inside that helper
+ * (`this.project(latlng)._round()`), which quantises every mesh vertex to a
+ * whole CSS pixel and breaks the affine the layer relies on. The layer takes
+ * the unrounded route, so the stub has to offer it.
+ */
 function stubMap(paneEl: HTMLElement) {
+  const ORIGIN = new L.Point(1000, 1000);
   return {
     getPane: vi.fn(() => paneEl),
     getSize: vi.fn(() => new L.Point(800, 600)),
-    latLngToContainerPoint: vi.fn(
+    getZoom: vi.fn(() => 13),
+    getPixelOrigin: vi.fn(() => ORIGIN),
+    project: vi.fn(
       (ll: { lat: number; lng: number }) =>
-        new L.Point((ll.lng + 63.1) * 2000 + 200, (46 - ll.lat) * 2000 + 200),
+        new L.Point(
+          (ll.lng + 63.1) * 2000 + 200 + ORIGIN.x,
+          (46 - ll.lat) * 2000 + 200 + ORIGIN.y,
+        ),
     ),
     containerPointToLayerPoint: vi.fn(() => new L.Point(0, 0)),
     on: vi.fn(),
@@ -141,6 +156,34 @@ describe("WarpedRasterLayer", () => {
   it("leaves pixels outside the mesh untouched", () => {
     makeLayer().onAdd(stubMap(pane));
     expect(pixelAt(paneCanvas(pane), 50, 50)).toEqual([0, 0, 0, 0]);
+  });
+
+  it("projects sub-pixel positions instead of snapping them to whole pixels", () => {
+    // Regression guard. The layer used to call latLngToContainerPoint, which
+    // is `this.project(latlng)._round()` inside Leaflet. That rounding turned
+    // a mathematically exact affine into a stepped one: measured up to 166 m
+    // of ground error at zoom 8, a >1 px break along the cell diagonal
+    // because each corner rounds independently, and 1-px jitter while a
+    // control point is dragged. A quarter-pixel shift must move the drape a
+    // quarter pixel — not zero, and not a whole one.
+    const map = stubMap(pane);
+    const layer = makeLayer();
+    layer.onAdd(map);
+    expect(map.getPixelOrigin).toHaveBeenCalled();
+
+    const project = map.project as unknown as ReturnType<typeof vi.fn>;
+    const firstCorner = project.mock.results[0].value as L.Point;
+    const callsBefore = project.mock.results.length;
+
+    // 0.000125 degrees of lng = 0.25 destination px under the stub's 2000x.
+    layer.setLatLngMesh(
+      UNIT_MESH.map((row) =>
+        row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.000125 })),
+      ),
+    );
+
+    const shiftedCorner = project.mock.results[callsBefore].value as L.Point;
+    expect(shiftedCorner.x - firstCorner.x).toBeCloseTo(0.25, 6);
   });
 
   it("draws no seam where the two clipped triangles meet", () => {

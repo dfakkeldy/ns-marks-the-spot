@@ -101,10 +101,24 @@ export class WarpedRasterLayer extends L.Layer {
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Deliberately NOT latLngToContainerPoint: it routes through
+    // latLngToLayerPoint, which does `this.project(latlng)._round()` and snaps
+    // every vertex to a whole CSS pixel (leaflet-src.js:4117). That rounding
+    // is why a mathematically exact affine stops being one on screen —
+    // measured up to 166 m of ground error at zoom 8, a >1 px content break
+    // across the cell diagonal because the four corners round independently,
+    // and 1-px stepped jitter while a control point is dragged. map.project()
+    // does not round, and subtracting the pixel origin and the pane offset
+    // reproduces containerPoint exactly, minus the quantisation.
+    const origin = map.getPixelOrigin();
+    const paneShift = map.containerPointToLayerPoint(new L.Point(0, 0));
     const dstMesh = this.rasterOptions.latLngMesh.map((row) =>
       row.map((ll) => {
-        const p = map.latLngToContainerPoint(new L.LatLng(ll.lat, ll.lng));
-        return { x: p.x * dpr, y: p.y * dpr };
+        const p = map.project(new L.LatLng(ll.lat, ll.lng), map.getZoom());
+        return {
+          x: (p.x - origin.x - paneShift.x) * dpr,
+          y: (p.y - origin.y - paneShift.y) * dpr,
+        };
       }),
     );
     drawWarpedImage(ctx, this.rasterOptions.image, this.srcMesh, dstMesh);
