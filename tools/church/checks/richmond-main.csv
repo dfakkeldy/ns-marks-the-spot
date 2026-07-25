@@ -1,0 +1,21 @@
+# Held-out CHECK points for the Richmond main measurement band.
+#
+# These points never enter the Richmond TPS. Modern and historical coordinates
+# use the same physical rule: shoelace centroid of one island outline. The
+# modern side comes from the matching candidate rule over NSTDB WACO40; the
+# historical side is the outer boundary of the paper region Church enclosed.
+#
+# Selection uses area only inside a 500 px search neighbourhood. Multiple
+# size-matching regions are refused. The 0.50-1.50 area band was tightened after
+# visual QA rejected a 0.45 incomplete fragment and a 0.49 road/label enclosure,
+# before any residual was calculated. Resulting errors are therefore an
+# optimistic off-sample bound, not production acceptance for Richmond.
+pixel_x,pixel_y,lon,lat,role,label
+17836.4,12602.3,-60.768206,45.714922,check,island-45-715n-60-768w
+17985.1,12826.2,-60.762354,45.709103,check,island-45-709n-60-762w
+7424.2,19043.8,-61.152658,45.554743,check,island-45-555n-61-153w
+25470.0,16397.3,-60.490473,45.621141,check,island-45-621n-60-490w
+25494.1,15462.0,-60.491694,45.642693,check,island-45-643n-60-492w
+10996.6,16634.8,-61.021600,45.614213,check,island-45-614n-61-022w
+12717.6,16780.8,-60.957687,45.610068,check,island-45-610n-60-958w
+21123.3,17975.8,-60.652040,45.576320,check,island-45-576n-60-652w

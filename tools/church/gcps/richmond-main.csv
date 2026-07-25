@@ -1,0 +1,30 @@
+# richmond main panel graticule control mesh, full-sheet pixel coordinates.
+#
+# GENERATED - do not hand-edit. Regenerate with:
+#   python3 -m tools.church.emit_gcps richmond main --out tools/church/gcps/richmond-main.csv
+#
+# Intersections of the printed graticule, detected by
+# tools/church/detect_graticule.py into tools/church/detections/richmond-main.json,
+# fitted as a regular lattice and anchored on labels read off the scan:
+#   engraved 60d50'W at x~15960, 45d40'N at y~14672, and 45d30'N at y~21292 on RUMSEY~8~1~373669~90140407
+# Step 10 arcminutes; meridian index 0 = -61.333333,
+# parallel index 0 = 45.666667.
+#
+# These are CONTROL only. Every check point is an independent physical feature
+# in a separate file - a graticule intersection must never be used to measure
+# the accuracy of a warp fitted on graticule intersections.
+pixel_x,pixel_y,lon,lat,role,label
+2463.5,14673.2,-61.333333,45.666667,control,graticule 61d20mW 45d40mN
+2516.0,21273.4,-61.333333,45.500000,control,graticule 61d20mW 45d30mN
+6978.9,14675.4,-61.166667,45.666667,control,graticule 61d10mW 45d40mN
+7070.4,21287.7,-61.166667,45.500000,control,graticule 61d10mW 45d30mN
+11457.3,14677.5,-61.000000,45.666667,control,graticule 61d00mW 45d40mN
+11490.3,21301.5,-61.000000,45.500000,control,graticule 61d00mW 45d30mN
+15954.1,14679.6,-60.833333,45.666667,control,graticule 60d50mW 45d40mN
+15970.1,21315.5,-60.833333,45.500000,control,graticule 60d50mW 45d30mN
+20506.8,14681.7,-60.666667,45.666667,control,graticule 60d40mW 45d40mN
+20533.1,21329.7,-60.666667,45.500000,control,graticule 60d40mW 45d30mN
+25042.1,14683.9,-60.500000,45.666667,control,graticule 60d30mW 45d40mN
+25089.5,21344.0,-60.500000,45.500000,control,graticule 60d30mW 45d30mN
+29588.8,14686.0,-60.333333,45.666667,control,graticule 60d20mW 45d40mN
+29635.8,21358.2,-60.333333,45.500000,control,graticule 60d20mW 45d30mN

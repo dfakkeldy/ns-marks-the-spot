@@ -15,7 +15,7 @@ the exact segment evidence are recorded in
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from tools.church.cutlines import Cutline
 from tools.church.graticule import GraticuleAnchor
@@ -74,6 +74,13 @@ class DrawnCheckSettings:
     dilate_px: int
     min_ink_px: int
     search_radius_px: float
+    reader: str = "ink-outline"
+    """Which two-sided island rule reads the engraving.
+
+    `ink-outline` traces a connected shoreline stroke. `enclosed-paper` traces
+    the paper region sealed inside that stroke, which survives names and hachure
+    drawn within Richmond's islands.
+    """
 
 
 @dataclass(frozen=True)
@@ -165,6 +172,32 @@ class GraticuleSettings:
     to exclude them would throw away three of the four real parallels.
     """
     anchor_evidence: str
+    longitude_correction_arcseconds: float = 0.0
+    """External, independently measured longitude correction.
+
+    This is deliberately separate from `anchor`: the anchor records what Church
+    engraved, while this records a correction learned off-sample. Folding the
+    two together would erase the distinction between source evidence and a
+    measured calibration.
+    """
+    correction_evidence: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.longitude_correction_arcseconds and not self.correction_evidence:
+            raise ValueError(
+                "a longitude correction needs independent correction evidence"
+            )
+
+    @property
+    def control_anchor(self) -> GraticuleAnchor:
+        """Anchor used for GCP emission after any external calibration."""
+        return replace(
+            self.anchor,
+            meridian_lon=(
+                self.anchor.meridian_lon
+                + self.longitude_correction_arcseconds / 3600.0
+            ),
+        )
 
 
 @dataclass(frozen=True)
@@ -348,6 +381,12 @@ _INVERNESS_SOUTH_GRATICULE = GraticuleSettings(
         "46d00'N on its rule at y~17146 and 45d50'N at y~23880, all read off "
         "RUMSEY~8~1~353591~90120835"
     ),
+    longitude_correction_arcseconds=-17.0,
+    correction_evidence=(
+        "rounded from the -16.990 arcsecond mean longitude residual of eight "
+        "frozen held-out island centroids on the independently georeferenced "
+        "1885 Richmond Church sheet"
+    ),
 )
 
 # Angles measured off the read labels, not from the orientation histogram: the
@@ -382,6 +421,15 @@ _INVERNESS_DRAWN_CHECKS = DrawnCheckSettings(
     search_radius_px=500.0,
 )
 
+_RICHMOND_DRAWN_CHECKS = DrawnCheckSettings(
+    darkness=190,
+    tile_px=1400,
+    dilate_px=4,
+    min_ink_px=1000,
+    search_radius_px=500.0,
+    reader="enclosed-paper",
+)
+
 # The headland detector shares `darkness` with the island detector for the same
 # reason the island detector shares it across panels: it is one engraving, inked
 # once. `dilate_px` is smaller, though, and that is not an oversight. The island
@@ -398,6 +446,50 @@ _INVERNESS_HEADLAND_CHECKS = HeadlandCheckSettings(
     graticule_mask_px=8,
     min_tile_px=600,
     search_radius_px=700.0,
+)
+
+# Richmond's main geography occupies one continuous field, but the archival
+# sheet also carries a separate 1886 Nova Scotia reference map, six town-plan
+# insets, and the title block. The band below is bounded by measured ruled
+# lines: its top sits below the last northern inset (y~8,252), and its bottom
+# stays above the Arichat inset rule (y~22,360). It retains the 45d40' and
+# 45d30' parallels and all seven meridians from 61d20'W through 60d20'W.
+_RICHMOND_MAIN_CUTLINE = Cutline(
+    (
+        (1000.0, 8500.0),
+        (32400.0, 8500.0),
+        (32400.0, 21900.0),
+        (1000.0, 21900.0),
+    )
+)
+
+# Read directly from RUMSEY~8~1~373669~90140407:
+# - 60d50'W is engraved beside the meridian at x~15,960;
+# - 45d40'N and 45d30'N are engraved on the right margin at y~14,672 and
+#   y~21,292.
+# The neighbouring rules are spaced about 4,512 px east-west and 6,620 px
+# north-south, independently confirming a ten-minute lattice.
+_RICHMOND_MAIN_GRATICULE = GraticuleSettings(
+    anchor=GraticuleAnchor(
+        meridian_index=0,
+        meridian_lon=-(61.0 + 20.0 / 60.0),
+        parallel_index=0,
+        parallel_lat=45.0 + 40.0 / 60.0,
+        step_minutes=10.0,
+    ),
+    tolerance_px=120.0,
+    min_extent_px=(5000.0, 10000.0),
+    anchor_evidence=(
+        "engraved 60d50'W at x~15960, 45d40'N at y~14672, and 45d30'N at "
+        "y~21292 on RUMSEY~8~1~373669~90140407"
+    ),
+)
+
+_RICHMOND_MAIN_DETECTION = DetectionSettings(
+    factor=4,
+    darkness=140,
+    min_length_px=500,
+    angles_deg=(90.0, 0.0),
 )
 
 _PANELS = {
@@ -422,6 +514,21 @@ _PANELS = {
         drawn_checks=_INVERNESS_DRAWN_CHECKS,
         headland_checks=_INVERNESS_HEADLAND_CHECKS,
         graticule=_INVERNESS_SOUTH_GRATICULE,
+    ),
+    ("richmond", "main"): ChurchPanel(
+        county_slug="richmond",
+        slug="main",
+        cutline=_RICHMOND_MAIN_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-61.40,
+            south=45.45,
+            east=-60.25,
+            north=45.75,
+        ),
+        target_resolution_m=5.0,
+        detection=_RICHMOND_MAIN_DETECTION,
+        drawn_checks=_RICHMOND_DRAWN_CHECKS,
+        graticule=_RICHMOND_MAIN_GRATICULE,
     ),
 }
 

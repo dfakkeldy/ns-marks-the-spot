@@ -9,20 +9,22 @@
 #   engraved labels 61d10'W at ~(25055,850), 61d00'W at ~(29678,850), 46d00'N on its rule at y~17146 and 45d50'N at y~23880, all read off RUMSEY~8~1~353591~90120835
 # Step 10 arcminutes; meridian index 0 = -61.333333,
 # parallel index 0 = 46.166667.
+# Applied longitude correction -17.000 arcseconds, independently fixed from:
+#   rounded from the -16.990 arcsecond mean longitude residual of eight frozen held-out island centroids on the independently georeferenced 1885 Richmond Church sheet
 #
 # These are CONTROL only. Every check point is an independent physical feature
 # in a separate file - a graticule intersection must never be used to measure
 # the accuracy of a warp fitted on graticule intersections.
 pixel_x,pixel_y,lon,lat,role,label
-20275.3,10274.5,-61.333333,46.166667,control,graticule 61d20mW 46d10mN
-20264.9,17162.0,-61.333333,46.000000,control,graticule 61d20mW 46d00mN
-20254.7,23927.3,-61.333333,45.833333,control,graticule 61d20mW 45d50mN
-20244.4,30737.5,-61.333333,45.666667,control,graticule 61d20mW 45d40mN
-25031.6,10264.3,-61.166667,46.166667,control,graticule 61d10mW 46d10mN
-25025.5,17153.2,-61.166667,46.000000,control,graticule 61d10mW 46d00mN
-25019.6,23911.5,-61.166667,45.833333,control,graticule 61d10mW 45d50mN
-25013.6,30693.7,-61.166667,45.666667,control,graticule 61d10mW 45d40mN
-29707.6,10254.4,-61.000000,46.166667,control,graticule 61d00mW 46d10mN
-29721.6,17144.6,-61.000000,46.000000,control,graticule 61d00mW 46d00mN
-29735.2,23895.8,-61.000000,45.833333,control,graticule 61d00mW 45d50mN
-29748.9,30650.1,-61.000000,45.666667,control,graticule 61d00mW 45d40mN
+20275.3,10274.5,-61.338056,46.166667,control,graticule 61d20mW 46d10mN
+20264.9,17162.0,-61.338056,46.000000,control,graticule 61d20mW 46d00mN
+20254.7,23927.3,-61.338056,45.833333,control,graticule 61d20mW 45d50mN
+20244.4,30737.5,-61.338056,45.666667,control,graticule 61d20mW 45d40mN
+25031.6,10264.3,-61.171389,46.166667,control,graticule 61d10mW 46d10mN
+25025.5,17153.2,-61.171389,46.000000,control,graticule 61d10mW 46d00mN
+25019.6,23911.5,-61.171389,45.833333,control,graticule 61d10mW 45d50mN
+25013.6,30693.7,-61.171389,45.666667,control,graticule 61d10mW 45d40mN
+29707.6,10254.4,-61.004722,46.166667,control,graticule 61d00mW 46d10mN
+29721.6,17144.6,-61.004722,46.000000,control,graticule 61d00mW 46d00mN
+29735.2,23895.8,-61.004722,45.833333,control,graticule 61d00mW 45d50mN
+29748.9,30650.1,-61.004722,45.666667,control,graticule 61d00mW 45d40mN

@@ -14,6 +14,17 @@ def vertical(x: float, extent: float = 1000.0, support: int = 1) -> FittedLine:
     return FittedLine(cx=x, cy=0.0, dx=0.0, dy=1.0, extent_px=extent, support=support)
 
 
+def nearly_horizontal(y: float) -> FittedLine:
+    return FittedLine(
+        cx=0.0,
+        cy=y,
+        dx=0.999998,
+        dy=0.002,
+        extent_px=1000.0,
+        support=1,
+    )
+
+
 class PerpendicularOffsetsTests(unittest.TestCase):
     def test_offsets_are_spacings_from_the_family_centroid(self):
         lines = [vertical(0.0), vertical(100.0), vertical(200.0)]
@@ -40,6 +51,13 @@ class PerpendicularOffsetsTests(unittest.TestCase):
         for family in ([leaning_left], [leaning_right]):
             _, _, _, normal = perpendicular_offsets(family)
             self.assertGreater(normal[0], 0.0)
+
+    def test_nearly_horizontal_offsets_increase_down_the_sheet(self):
+        offsets, _, _, normal = perpendicular_offsets(
+            [nearly_horizontal(100.0), nearly_horizontal(200.0)]
+        )
+        self.assertGreater(normal[1], 0.0)
+        self.assertLess(offsets[0], offsets[1])
 
     def test_a_flipped_direction_does_not_tilt_the_family(self):
         # One line stored with the opposite sign - which a line fit may return

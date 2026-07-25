@@ -99,6 +99,25 @@ northern Inverness is a fjorded shore of repeated similar coves, and at 1:63,360
 it does not carry identifiable check features. **Both panels remain REJECTED**;
 the tolerance was never adjusted and the prominence band was never widened.
 
+A sixth attempt on 2026-07-25 resolved the south blocker without consuming the
+Inverness checks. The independent 1885 Richmond sheet was georeferenced on 14
+graticule controls and measured at eight frozen island centroids. Its mean
+longitude residual is −367 m / −16.99″, only 49 m from Inverness south's
+previously diagnosed −318 m / ~−14.8″. A rounded −17″ correction, recorded
+separately from Inverness's engraved anchor, gives the unchanged eleven south
+checks **333.3 m RMS, 468.3 m P95, and 468.3 m max** against fixed bounds of
+400/900/1,500 m. **South now passes.**
+
+North did not. An official NSHN river-mouth probe found seven modern mouths with
+at least 10 km of upstream primary flow, but visual QA found only one clearly
+drawn junction and at most two more plausible ones; roads, lot lines, hachure,
+and coastline compete with the rest. Roads have no stable 1884-to-modern
+junction rule, and lakes were already absent. No detector was built for an
+insufficient supply. North is therefore recorded **unmeasurable / REJECTED**,
+and the combined Inverness layer remains unavailable. No tiles, catalog change,
+hosting decision, or source URL. See
+[`church-inverness-attempt-6-2026-07-25.md`](church-inverness-attempt-6-2026-07-25.md).
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |
