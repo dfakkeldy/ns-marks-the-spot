@@ -28,14 +28,19 @@ class ReportTests(unittest.TestCase):
                     "gate": "FAIL",
                     "reason": "no reviewable lattice",
                 },
+                "19": {
+                    "stage": "observed",
+                    "rumsey_id": "rumsey-19",
+                },
             }
         }
 
-        rendered = render_results(manifest, sheet_numbers=[17, 18])
+        rendered = render_results(manifest, sheet_numbers=[17, 18, 19])
 
         self.assertIn("| 17 |", rendered)
         self.assertIn("9.4", rendered)
         self.assertIn("no reviewable lattice", rendered)
+        self.assertIn("observed without a held-out result", rendered)
         self.assertIn("## What next", rendered)
 
 

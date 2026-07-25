@@ -34,6 +34,10 @@ def render_results(
         reason = str(fields.get("reason") or "")
         if gate == "PASS" and not reason:
             reason = "held-out thresholds satisfied"
+        elif gate != "PASS" and not reason:
+            reason = (
+                f"{fields.get('stage', 'missing')} without a held-out result"
+            )
         reason = reason.replace("|", "\\|")
         rows.append(
             "| "
