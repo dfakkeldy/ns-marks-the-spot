@@ -26,6 +26,16 @@ LIST_NUMBER = "3997.026"
 SOURCE_WIDTH = 10782
 SOURCE_HEIGHT = 7655
 SOURCE_SHA256 = "735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8"
+TRANSPORTATION_SERVICE_URL = (
+    "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/"
+    "BASE_NSTDB_10k_Roads_UT83/MapServer"
+)
+WATER_SERVICE_URL = (
+    "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/"
+    "BASE_NSTDB_10k_Water_WM84/MapServer"
+)
+TRANSPORTATION_LAYER_IDS = frozenset({"5", "6", "7", "8"})
+WATER_LAYER_IDS = frozenset({"1", "4", "8"})
 
 TRANSPORT_TYPES = frozenset({
     "road-road-intersection",
@@ -94,6 +104,7 @@ class RejectedCandidate:
     reason: str
     pixel: tuple[float, float] | None = None
     description: str | None = None
+    proposed_identity: str | None = None
 
 
 @dataclass(frozen=True)
@@ -337,7 +348,7 @@ def _assert_expected_receipt(receipt: SourceReceipt) -> None:
         )
 
 
-def _modern_source(value: object, label: str) -> Mapping[str, object]:
+def _modern_source(value: object, label: str, role: str) -> Mapping[str, object]:
     fields = _mapping(value, label)
     required = (
         "service_url",
@@ -360,9 +371,21 @@ def _modern_source(value: object, label: str) -> Mapping[str, object]:
     )
     if normalized != "EPSG:4326":
         raise ValueError(f"{label}.normalized_spatial_reference must be EPSG:4326")
+    service_url = _string(fields["service_url"], f"{label}.service_url")
+    layer_id = _string(fields["layer_id"], f"{label}.layer_id")
+    expected_service, permitted_layers, source_name = (
+        (TRANSPORTATION_SERVICE_URL, TRANSPORTATION_LAYER_IDS, "NSTDB Transportation")
+        if role == "controls"
+        else (WATER_SERVICE_URL, WATER_LAYER_IDS, "NSTDB Water")
+    )
+    if service_url != expected_service or layer_id not in permitted_layers:
+        raise ValueError(
+            f"{role} modern_source requires the official {source_name} service "
+            "and a permitted relevant layer"
+        )
     return MappingProxyType({
-        "service_url": _string(fields["service_url"], f"{label}.service_url"),
-        "layer_id": _string(fields["layer_id"], f"{label}.layer_id"),
+        "service_url": service_url,
+        "layer_id": layer_id,
         "object_ids": tuple(sorted({str(item) for item in object_ids})),
         "source_spatial_reference": _string(
             fields["source_spatial_reference"], f"{label}.source_spatial_reference"
@@ -418,7 +441,9 @@ def _accepted_point(value: object, role: str, index: int) -> AcceptedPoint:
         ),
         uncertainty=_string(fields["uncertainty"], f"{role}[{index}].uncertainty"),
         acceptance=acceptance,
-        modern_source=_modern_source(fields["modern_source"], f"{role}[{index}].modern_source"),
+        modern_source=_modern_source(
+            fields["modern_source"], f"{role}[{index}].modern_source", role
+        ),
         complex_id=None,
         area_id=None,
         zone=None,
@@ -470,6 +495,14 @@ def _rejected_candidate(value: object, index: int) -> RejectedCandidate:
             if "description" in fields
             else None
         ),
+        proposed_identity=(
+            _string(
+                fields["proposed_identity"],
+                f"rejected_candidates[{index}].proposed_identity",
+            )
+            if "proposed_identity" in fields
+            else None
+        ),
     )
 
 
@@ -502,6 +535,16 @@ def _validate_frame_containment(
     for candidate in rejected:
         if candidate.pixel is not None and not _inside_or_on_boundary(candidate.pixel, frame):
             raise ValueError(f"rejected candidate {candidate.id} lies outside usable_frame")
+
+
+def _validate_rejected_evidence(candidates: Sequence[RejectedCandidate]) -> None:
+    for candidate in candidates:
+        if candidate.pixel is None:
+            raise ValueError("rejected candidate requires a measured pixel")
+        if not (candidate.proposed_identity or candidate.description):
+            raise ValueError(
+                "rejected candidate requires a proposed identity or description"
+            )
 
 
 def _validate_frozen_distribution(
@@ -580,6 +623,8 @@ def parse_observation(text: str) -> PhysicalObservation:
         for index, value in enumerate(_list(payload.get("rejected_candidates", []), "rejected_candidates"))
     )
     _require_unique((*controls, *final_checks))
+    if status == "frozen" or controls or final_checks or rejected:
+        _validate_rejected_evidence(rejected)
 
     measured_pixels = bool(controls or final_checks or any(item.pixel is not None for item in rejected))
     frame_value = payload.get("usable_frame")

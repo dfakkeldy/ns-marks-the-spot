@@ -20,6 +20,8 @@ from tools.fletcher.tests.physical_fixtures import (
     LIST_NUMBER,
     RUMSEY_ID,
     SOURCE_SHA256,
+    TRANSPORTATION_SERVICE_URL,
+    WATER_SERVICE_URL,
     duplicate_control_field,
     valid_observation,
 )
@@ -140,6 +142,49 @@ class PhysicalObservationTests(unittest.TestCase):
         payload = valid_observation()
         payload["source_receipt"]["rumsey_id"] = "wrong"
         with self.assertRaisesRegex(ValueError, "source-drift"):
+            parse_observation(json.dumps(payload))
+
+    def test_rejects_prohibited_or_wrong_role_coordinate_sources(self) -> None:
+        prohibited_sources = (
+            "https://wmts.oldmapsonline.org/maps/legacy/1/2/3.png",
+            "https://www.oldmapsonline.org/map/georeferencer/legacy",
+            "https://georeferencer.com/legacy-control-points",
+            "https://example.invalid/legacy-fletcher-pyramid/MapServer",
+            "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer",
+            "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/NS_Aerial/MapServer",
+        )
+        for service_url in prohibited_sources:
+            with self.subTest(service_url=service_url):
+                payload = valid_observation()
+                payload["controls"][0]["modern_source"]["service_url"] = service_url
+                with self.assertRaisesRegex(ValueError, "NSTDB Transportation"):
+                    parse_observation(json.dumps(payload))
+
+        payload = valid_observation()
+        payload["controls"][0]["modern_source"].update({
+            "service_url": WATER_SERVICE_URL,
+            "layer_id": "1",
+        })
+        with self.assertRaisesRegex(ValueError, "NSTDB Transportation"):
+            parse_observation(json.dumps(payload))
+
+        payload = valid_observation()
+        payload["final_checks"][0]["modern_source"].update({
+            "service_url": TRANSPORTATION_SERVICE_URL,
+            "layer_id": "7",
+        })
+        with self.assertRaisesRegex(ValueError, "NSTDB Water"):
+            parse_observation(json.dumps(payload))
+
+    def test_rejected_candidates_need_measured_traceable_evidence(self) -> None:
+        payload = valid_observation()
+        payload["rejected_candidates"][0].pop("pixel")
+        with self.assertRaisesRegex(ValueError, "measured pixel"):
+            parse_observation(json.dumps(payload))
+
+        payload = valid_observation()
+        payload["rejected_candidates"][0].pop("description")
+        with self.assertRaisesRegex(ValueError, "identity or description"):
             parse_observation(json.dumps(payload))
 
 

@@ -19,14 +19,22 @@ CHECK_PIXELS = (
 RUMSEY_ID = "RUMSEY~8~1~2649~290017"
 LIST_NUMBER = "3997.026"
 SOURCE_SHA256 = "735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8"
+TRANSPORTATION_SERVICE_URL = (
+    "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/"
+    "BASE_NSTDB_10k_Roads_UT83/MapServer"
+)
+WATER_SERVICE_URL = (
+    "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/"
+    "BASE_NSTDB_10k_Water_WM84/MapServer"
+)
 
 
-def _modern_source(index: int) -> dict:
+def _modern_source(index: int, service_url: str, layer_id: int, spatial_reference: str) -> dict:
     return {
-        "service_url": "https://data.novascotia.ca/arcgis/rest/services/Base/MapServer",
-        "layer_id": "7",
+        "service_url": service_url,
+        "layer_id": str(layer_id),
         "object_ids": [index],
-        "source_spatial_reference": "EPSG:26920",
+        "source_spatial_reference": spatial_reference,
         "normalized_spatial_reference": "EPSG:4326",
         "retrieved_at": "2026-07-25T12:00:00Z",
         "local_extract_path": f"private/extracts/sheet-24-{index}.geojson",
@@ -35,6 +43,7 @@ def _modern_source(index: int) -> dict:
 
 
 def _point(index: int, pixel: tuple[float, float], feature_type: str) -> dict:
+    layer_id = (7, 6, 8)[index % 3]
     return {
         "id": f"control-{index}",
         "feature_type": feature_type,
@@ -45,12 +54,15 @@ def _point(index: int, pixel: tuple[float, float], feature_type: str) -> dict:
         "identity_rationale": f"topology confirms control {index}",
         "uncertainty": "low",
         "acceptance": "accepted-pre-fit",
-        "modern_source": _modern_source(index),
+        "modern_source": _modern_source(
+            index, TRANSPORTATION_SERVICE_URL, layer_id, "EPSG:2038"
+        ),
         "complex_id": f"junction-complex-{index}",
     }
 
 
 def _check(index: int, pixel: tuple[float, float], feature_type: str) -> dict:
+    layer_id = (1, 4, 8)[index % 3]
     return {
         "id": f"check-{index}",
         "feature_type": feature_type,
@@ -61,7 +73,9 @@ def _check(index: int, pixel: tuple[float, float], feature_type: str) -> dict:
         "identity_rationale": f"physical feature confirms check {index}",
         "uncertainty": "low",
         "acceptance": "accepted-pre-fit",
-        "modern_source": _modern_source(100 + index),
+        "modern_source": _modern_source(
+            100 + index, WATER_SERVICE_URL, layer_id, "EPSG:3857"
+        ),
         "area_id": ("coast-a", "coast-b", "interior-a")[index % 3],
         "zone": "coastal" if index < 3 else "interior",
         "derivation": "observed-coordinate",
