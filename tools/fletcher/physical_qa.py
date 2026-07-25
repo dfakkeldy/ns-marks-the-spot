@@ -908,7 +908,7 @@ def _residual_svg(
     path: pathlib.Path,
     *,
     expected_count_key: str,
-    expected_count: int,
+    expected_ids: Sequence[str],
 ) -> None:
     recorded_count = payload.get(expected_count_key)
     residuals = payload.get("residuals")
@@ -918,11 +918,6 @@ def _residual_svg(
         or recorded_count <= 0
     ):
         raise ValueError(f"residual evidence requires a positive {expected_count_key}")
-    if recorded_count != expected_count:
-        raise ValueError(
-            f"residual evidence recorded {recorded_count} points; "
-            f"expected {expected_count} frozen points"
-        )
     if not isinstance(residuals, list) or len(residuals) != recorded_count:
         raise ValueError(
             f"residual evidence requires exactly {recorded_count} residual records"
@@ -952,6 +947,43 @@ def _residual_svg(
                 )
             endpoints.append((float(coordinate[0]), float(coordinate[1])))
         normalized.append((identifier, endpoints[0], endpoints[1]))
+
+    frozen_ids = tuple(expected_ids)
+    if not frozen_ids or any(
+        not isinstance(identifier, str) or not identifier.strip()
+        for identifier in frozen_ids
+    ):
+        raise ValueError("frozen observation requires non-empty residual IDs")
+
+    def duplicates(identifiers: Sequence[str]) -> list[str]:
+        seen: set[str] = set()
+        repeated: set[str] = set()
+        for identifier in identifiers:
+            if identifier in seen:
+                repeated.add(identifier)
+            seen.add(identifier)
+        return sorted(repeated)
+
+    frozen_duplicates = duplicates(frozen_ids)
+    if frozen_duplicates:
+        raise ValueError(
+            "frozen observation has duplicate residual IDs: "
+            + ", ".join(frozen_duplicates)
+        )
+    rendered_ids = tuple(identifier for identifier, _, _ in normalized)
+    rendered_duplicates = duplicates(rendered_ids)
+    if rendered_duplicates:
+        raise ValueError(
+            "residual evidence has duplicate IDs: " + ", ".join(rendered_duplicates)
+        )
+    missing = sorted(set(frozen_ids) - set(rendered_ids))
+    unexpected = sorted(set(rendered_ids) - set(frozen_ids))
+    if missing or unexpected:
+        raise ValueError(
+            "residual IDs do not match frozen observation; "
+            f"missing: {', '.join(missing) or 'none'}; "
+            f"unexpected: {', '.join(unexpected) or 'none'}"
+        )
 
     all_points = [
         point for _, expected, actual in normalized for point in (expected, actual)
@@ -1230,14 +1262,14 @@ def render_qa(
         "Transport leave-one-out residuals",
         transport_svg,
         expected_count_key="point_count",
-        expected_count=len(observation.controls),
+        expected_ids=tuple(point.id for point in observation.controls),
     )
     _residual_svg(
         natural,
         "Natural final-check residuals",
         natural_svg,
         expected_count_key="check_count",
-        expected_count=len(observation.final_checks),
+        expected_ids=tuple(point.id for point in observation.final_checks),
     )
 
     preview = _rgba_from_dataset(raster, alpha_mask)

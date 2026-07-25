@@ -325,7 +325,7 @@ class RenderCommandTests(unittest.TestCase):
                             "Transport",
                             output,
                             expected_count_key="point_count",
-                            expected_count=1,
+                            expected_ids=("control-1",),
                         )
 
     def test_residual_svg_rejects_self_reported_count_below_frozen_count(
@@ -342,14 +342,92 @@ class RenderCommandTests(unittest.TestCase):
             ],
         }
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaisesRegex(ValueError, "expected 10"):
+            with self.assertRaisesRegex(ValueError, "missing"):
                 _residual_svg(
                     payload,
                     "Transport",
                     pathlib.Path(directory) / "residuals.svg",
                     expected_count_key="point_count",
-                    expected_count=10,
+                    expected_ids=tuple(
+                        f"control-{index}" for index in range(1, 11)
+                    ),
                 )
+
+    def test_residual_svg_rejects_duplicate_frozen_id(self) -> None:
+        payload = {
+            "point_count": 2,
+            "residuals": [
+                {"id": "a", "expected": [0.0, 0.0], "actual": [1.0, 1.0]},
+                {"id": "a", "expected": [2.0, 2.0], "actual": [3.0, 3.0]},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "duplicate.*a"):
+                _residual_svg(
+                    payload,
+                    "Transport",
+                    pathlib.Path(directory) / "residuals.svg",
+                    expected_count_key="point_count",
+                    expected_ids=("a", "b"),
+                )
+
+    def test_residual_svg_rejects_missing_frozen_id(self) -> None:
+        payload = {
+            "point_count": 2,
+            "residuals": [
+                {"id": "a", "expected": [0.0, 0.0], "actual": [1.0, 1.0]},
+                {"id": "b", "expected": [2.0, 2.0], "actual": [3.0, 3.0]},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "missing.*c"):
+                _residual_svg(
+                    payload,
+                    "Transport",
+                    pathlib.Path(directory) / "residuals.svg",
+                    expected_count_key="point_count",
+                    expected_ids=("a", "b", "c"),
+                )
+
+    def test_residual_svg_rejects_substituted_or_extra_id(self) -> None:
+        payload = {
+            "point_count": 2,
+            "residuals": [
+                {"id": "a", "expected": [0.0, 0.0], "actual": [1.0, 1.0]},
+                {"id": "c", "expected": [2.0, 2.0], "actual": [3.0, 3.0]},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "missing.*b.*unexpected.*c"):
+                _residual_svg(
+                    payload,
+                    "Transport",
+                    pathlib.Path(directory) / "residuals.svg",
+                    expected_count_key="point_count",
+                    expected_ids=("a", "b"),
+                )
+
+    def test_residual_svg_accepts_exact_frozen_id_set_in_any_order(self) -> None:
+        payload = {
+            "point_count": 2,
+            "residuals": [
+                {"id": "b", "expected": [0.0, 0.0], "actual": [1.0, 1.0]},
+                {"id": "a", "expected": [2.0, 2.0], "actual": [3.0, 3.0]},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "residuals.svg"
+            _residual_svg(
+                payload,
+                "Transport",
+                output,
+                expected_count_key="point_count",
+                expected_ids=("a", "b"),
+            )
+            svg = output.read_text(encoding="utf-8")
+
+        self.assertIn(">a</text>", svg)
+        self.assertIn(">b</text>", svg)
 
     def test_residual_svg_uses_one_common_scale_for_both_endpoints(self) -> None:
         payload = {
@@ -374,7 +452,7 @@ class RenderCommandTests(unittest.TestCase):
                 "Transport",
                 output,
                 expected_count_key="point_count",
-                expected_count=2,
+                expected_ids=("a", "b"),
             )
             svg = output.read_text(encoding="utf-8")
 
