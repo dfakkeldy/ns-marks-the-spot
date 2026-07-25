@@ -5,8 +5,8 @@ Run date: 2026-07-25
 ## Outcome
 
 The inventory identified 24 separate `Atlas Map` sheets and excluded the two
-catalog composites from georeferencing. The batch produced 10
-held-out PASS result(s) and 10 tiled sheet(s). Every sheet has an
+catalog composites from georeferencing. The batch produced 11
+held-out PASS result(s) and 11 tiled sheet(s). Every sheet has an
 explicit disposition below; a failed or missing lattice is not reported as
 georeferenced.
 
@@ -21,6 +21,10 @@ maximum 16.3 m on
 The fixed gate was RMS <= 400 m, P95 <= 900 m and maximum <= 1,500 m.
 Candidate transforms were compared by held-out RMS; held-out points were never
 included in their candidate's fit.
+For series comparability, the same held-out set was used both to compare
+candidate transform families and to report the selected transform. This is a
+methodological limitation: the reported held-out metrics are not from a second,
+untouched model-selection test set.
 
 | Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Gate | PNG tiles | Reason |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: | --- |
@@ -46,7 +50,7 @@ included in their candidate's fit.
 | 20 | tiled | tps | 10 | 5 | 49.3 | 60.7 | 60.7 | PASS | 8015 | held-out thresholds satisfied |
 | 21 | tiled | tps | 6 | 2 | 33.8 | 45.8 | 45.8 | PASS | 8098 | held-out thresholds satisfied |
 | 22 | tiled | affine | 7 | 3 | 13.4 | 15.3 | 15.3 | PASS | 8016 | held-out thresholds satisfied |
-| 23 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
+| 23 | tiled | tps | 6 | 2 | 51.0 | 69.2 | 69.2 | PASS | 7834 | held-out thresholds satisfied; visual QA accepted |
 | 24 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
 
 ## Method and provenance
@@ -59,10 +63,13 @@ included in their candidate's fit.
 - The compute run used `/var/home/dan/nsmarks-fletcher-20260725` on Bazzite in
   the `nsmarks-gis` distrobox. Its atomic `manifest.json` retains per-sheet
   source checksums, stages, metrics, QA paths and tile counts.
-- Long regular rules were detected from each full-resolution scan, then
+- Long regular rules were first sought in each full-resolution scan, then
   reviewed in labelled anchor crops and per-intersection contact sheets.
-  Folds, map neatlines and lithology hatching were rejected when they did not
-  form a coordinate-labelled graticule.
+  Where that fixed-axis detector was inadequate, independently readable
+  engraved labels and individually measured intersections retained scan
+  slant. Folds, map neatlines, borders, lithology hatching, boundaries, text
+  strokes and decorative rules were rejected when they were not labelled
+  graticule rules.
 - Reviewed observations were split into disjoint control and check
   intersections before affine, second-order polynomial and TPS candidates were
   evaluated. A sheet that could not support at least six controls plus held-out
@@ -77,12 +84,24 @@ feasibility.
 
 ## Rights and publication boundary
 
-The live Rumsey permissions page allows attributed reproduction for personal
-use or publication and links CC BY-NC-SA 3.0, while leaving users responsible
-for other restrictions. This run therefore preserves the product's existing
-`rights-pending` gate. It does not turn that catalog/permissions finding into
-clearance for tile hosting, web enablement, native bundling or repository
-distribution.
+On 2026-07-25, Cartography Associates replied to the request titled
+“Permission to georeference Hugh Fletcher maps for a free Nova Scotia web map”:
+“Hello, your use is permitted without charge. See link below for details on use
+and how to download images.” The reply linked the
+[David Rumsey copyright and permissions page](https://www.davidrumsey.com/about/copyright-and-permissions).
+
+This is written permission for the direct-Rumsey georeferencing use described
+for the free Nova Scotia web map. That use retains the credit “David Rumsey Map
+Collection, David Rumsey Map Center, Stanford University Libraries,” the linked
+[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) terms,
+non-commercial use, attribution, identification of this project's
+georeferencing and other changes, and ShareAlike treatment where applicable.
+The repository's MIT licence covers software, not the map imagery.
+
+The reply does not clear OldMapsOnline-derived tiles, warps or control points;
+unrelated paid uses; standalone facsimile sales; materially different future
+distribution; or native offline bundling unless that use is separately
+supported by the original request and written response.
 
 No tile host was configured. No service URL, web layer or iOS layer was
 changed.
@@ -94,8 +113,9 @@ changed.
    infer coordinates from the successful sheets or from the old warp.
 2. Review the retained warped-preview images and a representative sample of
    XYZ tiles for every PASS sheet before any publication decision.
-3. Resolve written hosting and product-distribution rights separately. Keep
-   the layer disabled until that gate is explicitly cleared.
+3. Apply the scoped direct-Rumsey permission and linked terms only to the free
+   Nova Scotia web-map use described in the request; keep every excluded use
+   separately gated.
 4. If a later run improves a failed sheet, retain the old failure reason and
    source checksum in the manifest/report history rather than replacing it
    with an unqualified success claim.

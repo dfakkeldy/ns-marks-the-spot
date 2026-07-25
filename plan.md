@@ -71,7 +71,9 @@
 - [x] Municipality of the District of Lunenburg 2021–2026 outcomes reconciled from tender packages and per-property award documents, with PIDs derived by assessment-account/PVSC/NSPRD reconciliation
 - [x] Historical municipality/year/outcome filters, conditional result provenance, source-linked infocards, validation, and match/source ledgers
 - [ ] Monochrome browser Print / Save as PDF research and field sheets (implementation complete; saved-PDF, iPhone AirPrint, and physical monochrome acceptance remain pending in `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`)
-- [ ] Enable Fletcher on the web after web-use rights are clear
+- [ ] Separately review, host, and enable the permitted direct-Rumsey Fletcher
+      replacements; scoped non-commercial georeferencing permission is recorded,
+      but no hosting or layer enablement was performed
 - [ ] Add municipality importers only from current official notices
   - [x] Scheduled watcher archives and auto-ingests overwrite-prone sources (Cumberland) via `npm run watch:tax-sales` and `.github/workflows/tax-sale-watch.yml`
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled

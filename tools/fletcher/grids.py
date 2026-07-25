@@ -7,9 +7,17 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class CoordinateLine:
-    pixel: float
+    pixel: float | None
     coordinate: float
     label: str
+
+
+@dataclass(frozen=True)
+class MeasuredIntersection:
+    meridian_index: int
+    parallel_index: int
+    pixel_x: float
+    pixel_y: float
 
 
 @dataclass(frozen=True)
@@ -17,6 +25,8 @@ class ReviewedGrid:
     meridians: tuple[CoordinateLine, ...]
     parallels: tuple[CoordinateLine, ...]
     qa_note: str
+    intersections: tuple[MeasuredIntersection, ...] = ()
+    checks: tuple[tuple[int, int], ...] = ()
 
 
 def _meridians(
@@ -112,6 +122,40 @@ REVIEWED_GRIDS = {
         _parallels((1732, 4336), 45, 40),
         "All ten detected intersections were visibly printed graticule rules.",
     ),
+    23: ReviewedGrid(
+        (
+            CoordinateLine(None, -61 - 10 / 60, "61d10mW"),
+            CoordinateLine(None, -61 - 5 / 60, "61d05mW"),
+            CoordinateLine(None, -61, "61d00mW"),
+            CoordinateLine(None, -60 - 55 / 60, "60d55mW"),
+        ),
+        (
+            CoordinateLine(None, 45 + 30 / 60, "45d30mN"),
+            CoordinateLine(None, 45 + 25 / 60, "45d25mN"),
+        ),
+        (
+            "Four engraved meridian labels and two engraved parallel labels "
+            "were independently readable. Individual intersection pixels "
+            "retain the scan's slant instead of flattening it. Detector "
+            "candidates near x=6173 and x=8011 were true meridians; candidates "
+            "near x=1371/1476 and x=9650/9760 were borders or neatlines, and "
+            "x=5336 was a linen fold. Horizontal candidates near y=1001/1115 "
+            "and y=6589/6718 were borders or neatlines. Linen folds near the "
+            "true rules, lithology hatching, shoreline or survey boundaries, "
+            "text strokes and decorative rules were excluded."
+        ),
+        (
+            MeasuredIntersection(0, 0, 2_539.0, 3_505.0),
+            MeasuredIntersection(1, 0, 4_359.0, 3_529.0),
+            MeasuredIntersection(2, 0, 6_178.0, 3_545.0),
+            MeasuredIntersection(3, 0, 8_008.0, 3_557.0),
+            MeasuredIntersection(0, 1, 2_492.0, 6_127.0),
+            MeasuredIntersection(1, 1, 4_322.0, 6_155.0),
+            MeasuredIntersection(2, 1, 6_143.0, 6_176.0),
+            MeasuredIntersection(3, 1, 7_987.0, 6_197.0),
+        ),
+        ((0, 0), (3, 1)),
+    ),
 }
 
 
@@ -128,7 +172,6 @@ REJECTED_GRIDS = {
     13: "QA found map boundaries and a fold, not independent parallels",
     15: "QA found map boundaries and a fold, not independent parallels",
     16: "QA rejected a regular sequence formed by a fold and lithology hatching",
-    23: "automatic graticule detection found no reviewable regular sequence",
     24: "automatic graticule detection found no reviewable regular sequence",
 }
 

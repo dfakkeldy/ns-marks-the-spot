@@ -190,7 +190,9 @@ scales — the parity list of sources and renderers is unchanged:
   Landforms renderer's labelled 5 m LiDAR-derived contour lines. The layer is
   visual terrain screening only: it does not establish surveyed grade,
   drainage, stability, access, flood exposure, or buildability.
-- Fletcher remains listed but disabled until web-use rights are clear.
+- Fletcher remains listed but disabled. Scoped written permission covers the
+  direct-Rumsey georeferencing use described for the free Nova Scotia web map,
+  but replacement hosting and layer enablement are separate, unfinished work.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
   as disabled rows: no tiles have been produced for them yet. See
@@ -768,6 +770,7 @@ road/water/adjacency context, authoritative mapped civic-address points, the
 upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
 Maps directions, and a separate default-off layer of eleven verified Halifax,
 Victoria County, and CBRM result events plus the outcome-pending CBRM archive.
-The Fletcher layer is visible but disabled until
-web-use rights are clear. Unsupported historical sources remain fail-closed.
-Offline maps remain the native iPhone app's job.
+The Fletcher layer is visible but disabled until the permitted direct-Rumsey
+replacement assets are separately reviewed, hosted, and enabled. The permission
+does not by itself clear native offline bundling. Unsupported historical
+sources remain fail-closed; this web workflow does not change the native app.

@@ -315,8 +315,10 @@ Strahler stream order.
 After licence acceptance, the default web composition leaves the opaque modern
 map off, turns NS Aerial, NSPRD boundaries, complete Province water features,
 and roads on, and fits the first loaded view once to the visible tax-sale
-parcel geometries. Fletcher remains the final unavailable row in the layer list
-until its web rights are clear. Geology & Resources is collapsed: its three
+parcel geometries. Fletcher remains the final unavailable row in the layer list:
+the direct-Rumsey free-web-map georeferencing use has scoped written permission,
+but replacement hosting and product enablement have not been implemented or
+reviewed. Geology & Resources is collapsed: its three
 open source-backed overlays and its separately licence-gated derived parcel row
 all start off. The Hydro terrain pilot is also collapsed and off by default.
 Municipal zoning is collapsed and all five of its layers start off; it is not
@@ -437,8 +439,9 @@ after the user activates the external link.
 
 The public tax-sale dataset omits assessed-owner names and avoids describing a
 listed property as available. Fletcher is intentionally disabled on the web
-until web-use rights are clear; offline Fletcher use continues to belong to the
-native app.
+until the permitted direct-Rumsey replacement assets are separately reviewed,
+hosted, and enabled. The scoped permission does not by itself clear native
+offline bundling, and this workflow does not change the existing native layer.
 
 Historical outcomes use a second, default-off client-side catalog in
 `web/src/data/historicalTaxSales.json`. Municipal notice/result pairs are the
