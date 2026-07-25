@@ -1889,7 +1889,10 @@ describe("status", () => {
     const { result } = setup(SOLVABLE);
     expect(result.current.status).toEqual({ kind: "exact-fit" });
     expect(result.current.report).toBeNull();
-    expect(result.current.mesh).not.toBeNull();
+    // Not `.not.toBeNull()`: that passes on `undefined` too, so it would go
+    // green against a hook that never returned a mesh at all. Assert the
+    // shape — AFFINE_GRID_SIZE is 1, so a solved mesh is a single cell.
+    expect(result.current.mesh).toHaveLength(2);
   });
 
   it("reports RMS from the fourth point on", () => {
@@ -1898,7 +1901,10 @@ describe("status", () => {
       { id: "d", pixel: { x: 1200, y: 800 }, map: { lat: 46.0, lng: -61.0 } },
     ]);
     expect(result.current.status.kind).toBe("solved");
-    expect(result.current.report).not.toBeNull();
+    // The test is named for the RMS, so assert the RMS. `.not.toBeNull()`
+    // passes on `undefined`, and on a report whose numbers are all missing.
+    expect(result.current.report?.rmsMetres).toBeGreaterThanOrEqual(0);
+    expect(result.current.report?.metresPerGcp).toHaveLength(4);
   });
 
   it("reports a degenerate SCAN layout rather than drawing a NaN drape", () => {
