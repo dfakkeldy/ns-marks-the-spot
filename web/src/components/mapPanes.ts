@@ -56,3 +56,14 @@ export const MEASURE_PANE_Z_INDEX = 430;
  */
 export const USER_MAPS_PANE = "user-maps-pane";
 export const USER_MAPS_PANE_Z_INDEX = 160;
+
+/**
+ * Georeferencing control points sit above every data overlay — the app's own
+ * panes top out at MEASURE_PANE_Z_INDEX (430) — and above Leaflet's built-in
+ * marker (600) and tooltip (650) panes, because a control point buried under
+ * a parcel marker cannot be clicked or dragged. Deliberately BELOW Leaflet's
+ * popup pane (700): a parcel-identify popup should still read on top, and
+ * matching 700 exactly would leave the order to DOM insertion.
+ */
+export const GEOREFERENCE_PANE = "georeference-pane";
+export const GEOREFERENCE_PANE_Z_INDEX = 660;

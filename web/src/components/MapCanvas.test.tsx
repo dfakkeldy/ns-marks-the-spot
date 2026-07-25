@@ -11,6 +11,7 @@ import {
   type MapLayerStatus,
 } from "./MapCanvas";
 import { parcelStyleForFeature } from "./parcelStyle";
+import type { GeoreferenceBinding } from "../userMaps/components/GeoreferenceMapLayer";
 
 // Backs the useMap() stub's getPane/createPane below so UserMapLayers'
 // ensurePane (which MapCanvas now mounts unconditionally) has somewhere to
@@ -239,6 +240,32 @@ vi.mock("./MeasureTool", () => ({
     >
       Toggle measuring
     </button>
+  ),
+}));
+
+vi.mock("../userMaps/components/UserMapLayers", () => ({
+  UserMapLayers: ({
+    maps,
+    draft,
+  }: {
+    maps: Array<{ record: { id: string } }>;
+    draft?: { record: { id: string } } | null;
+  }) => (
+    <div
+      data-testid="user-map-layers"
+      data-count={maps.length}
+      data-draft={draft?.record.id ?? "none"}
+    />
+  ),
+}));
+
+vi.mock("../userMaps/components/GeoreferenceMapLayer", () => ({
+  GeoreferenceMapLayer: ({
+    binding,
+  }: {
+    binding: { gcps: Array<{ id: string }> };
+  }) => (
+    <div data-testid="georeference-map-layer" data-gcps={binding.gcps.length} />
   ),
 }));
 
@@ -2233,5 +2260,75 @@ describe("MapCanvas print mode", () => {
     expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
       status: "error",
     });
+  });
+});
+
+describe("georeference binding", () => {
+  const props = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: false,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": false,
+      roads: false,
+      buildings: false,
+      contours: false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  const BINDING = {
+    gcps: [{ id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } }],
+    pending: null,
+    draft: {
+      record: { id: "scan-1" },
+      previewUrl: "blob:scan",
+      opacity: 0.7,
+      mesh: null,
+    },
+    focus: null,
+    onPickMapPoint: vi.fn(),
+    onDragStartGcp: vi.fn(),
+    onMoveGcpOnMap: vi.fn(),
+  } as unknown as GeoreferenceBinding;
+
+  it("mounts nothing georeferencing-related when no session is open", () => {
+    render(<MapCanvas {...props} />);
+    expect(screen.queryByTestId("georeference-map-layer")).toBeNull();
+    expect(screen.getByTestId("user-map-layers")).toHaveAttribute(
+      "data-draft",
+      "none",
+    );
+    expect(document.querySelector(".map-canvas--georeferencing")).toBeNull();
+  });
+
+  it("mounts the marker layer and hands the draft to the raster layer", () => {
+    render(<MapCanvas {...props} georeference={BINDING} />);
+    expect(screen.getByTestId("georeference-map-layer")).toHaveAttribute(
+      "data-gcps",
+      "1",
+    );
+    // The live drape. Without this the map under edit simply never draws —
+    // and the App-level test that reads "georeferencing: scan-1" out of a
+    // mocked MapCanvas would not notice.
+    expect(screen.getByTestId("user-map-layers")).toHaveAttribute(
+      "data-draft",
+      "scan-1",
+    );
+    // Spec: a crosshair cursor on the map pane while georeferencing.
+    expect(
+      document.querySelector(".map-canvas--georeferencing"),
+    ).not.toBeNull();
   });
 });

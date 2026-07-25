@@ -108,6 +108,10 @@ import {
   UserMapLayers,
   type VisibleUserMap,
 } from "../userMaps/components/UserMapLayers";
+import {
+  GeoreferenceMapLayer,
+  type GeoreferenceBinding,
+} from "../userMaps/components/GeoreferenceMapLayer";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -123,6 +127,7 @@ type MapCanvasProps = {
   wellLogLayers?: Record<WellLogLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
   userMaps?: VisibleUserMap[];
+  georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -1420,6 +1425,7 @@ export function MapCanvas({
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
   wellLogAccuracyFilter = "surveyed",
   userMaps = EMPTY_USER_MAPS,
+  georeference = null,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1552,7 +1558,10 @@ export function MapCanvas({
   };
 
   return (
-    <div className="map-canvas" aria-label="Nova Scotia municipal parcel map">
+    <div
+      className={`map-canvas${georeference ? " map-canvas--georeferencing" : ""}`}
+      aria-label="Nova Scotia municipal parcel map"
+    >
       <MapContainer
         center={[initialPosition.latitude, initialPosition.longitude]}
         zoom={initialPosition.zoom}
@@ -1569,7 +1578,8 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
-        <UserMapLayers maps={userMaps} />
+        <UserMapLayers maps={userMaps} draft={georeference?.draft ?? null} />
+        {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (
@@ -1766,7 +1776,10 @@ export function MapCanvas({
             focusRequest={focusRequest}
           />
           <ParcelIdentifyController
-            enabled={provinceLayers.nsprd && !measuring}
+            // A click during georeferencing places a control point; letting
+            // it also open the parcel inspector would fight the user for the
+            // same gesture. Same reasoning as the measure tool above.
+            enabled={provinceLayers.nsprd && !measuring && !georeference}
             onIdentifyParcel={onIdentifyParcel}
           />
           <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />

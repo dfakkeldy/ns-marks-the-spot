@@ -4,6 +4,7 @@ import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
+  GEOREFERENCE_PANE_Z_INDEX,
   MEASURE_PANE,
   MEASURE_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
@@ -12,6 +13,7 @@ import {
   USER_MAPS_PANE_Z_INDEX,
   WELL_LOG_PANE,
   WELL_LOG_PANE_Z_INDEX,
+  ZONING_PANE_Z_INDEX,
 } from "./mapPanes";
 
 describe("parcel pane ordering", () => {
@@ -95,5 +97,33 @@ describe("parcel pane ordering", () => {
       ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
     );
     expect(USER_MAPS_PANE_Z_INDEX).toBeLessThan(PROVINCE_LAYER_Z_INDEXES.nsprd);
+  });
+
+  it("keeps georeferencing markers above every data overlay", () => {
+    // A control point under a parcel line, a measurement, or a selected
+    // parcel outline cannot be clicked or dragged.
+    const dataPaneMax = Math.max(
+      ...Object.values(PROVINCE_LAYER_Z_INDEXES),
+      ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
+      ZONING_PANE_Z_INDEX,
+      MINERAL_PROXIMITY_PANE_Z_INDEX,
+      WELL_LOG_PANE_Z_INDEX,
+      ESTABLISHED_PARCEL_PANE_Z_INDEX,
+      MEASURE_PANE_Z_INDEX,
+      USER_MAPS_PANE_Z_INDEX,
+    );
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(dataPaneMax);
+  });
+
+  it("keeps georeferencing markers clear of Leaflet's own panes", () => {
+    // Verified from leaflet/dist/leaflet.css: marker 600, tooltip 650,
+    // popup 700. Above the first two, below the last.
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(650);
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeLessThan(700);
+    // NOT `expect(GEOREFERENCE_PANE).not.toBe(USER_MAPS_PANE)` — two
+    // different string literals can never be equal, so that assertion can
+    // never fail. What actually matters is the ORDER: the control points must
+    // outrank the drape they are placed on.
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(USER_MAPS_PANE_Z_INDEX);
   });
 });
