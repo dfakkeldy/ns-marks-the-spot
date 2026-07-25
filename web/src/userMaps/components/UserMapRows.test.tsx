@@ -229,6 +229,51 @@ describe("georeferencing affordance", () => {
     ).toBeDisabled();
   });
 
+  it("refuses to draw three points that do not solve, not just too few", () => {
+    // The test that separates PLACEABILITY from a pure count. These three
+    // points sit on the scan's top neatline — affine.ts calls that "the
+    // layout users actually produce" — so the point cloud's condition ratio
+    // is 0 and solveAffineFromGcps refuses them. meshForRecord returns null
+    // for exactly this record (recordMesh.test.ts proves it in its own file),
+    // so a count-only `gcps.length < MIN_GCPS_FOR_AFFINE` predicate hands it
+    // an ENABLED checkbox, an opacity slider and no badge — then nothing is
+    // ever drawn. Both of the other fixtures in this describe have 0 or 2
+    // points, so neither can catch that.
+    render(
+      <UserMapRows
+        api={api({
+          records: [
+            {
+              ...NEEDS_WORK,
+              georef: {
+                kind: "gcp",
+                method: "affine",
+                gcps: [
+                  { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+                  { id: "b", pixel: { x: 600, y: 0 }, map: { lat: 46.1, lng: -61.1 } },
+                  { id: "c", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+                ],
+              },
+            },
+          ],
+          uiState: { scan: { enabled: true, opacity: 0.7 } },
+        })}
+      />,
+    );
+    expect(screen.getByText("Needs georeferencing")).toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: NEEDS_WORK.name }),
+    ).toBeDisabled();
+    expect(
+      screen.queryByLabelText(`${NEEDS_WORK.name} opacity`),
+    ).toBeNull();
+    // The button offers a fresh start, not "Adjust points": these points are
+    // saved, but they place nothing.
+    expect(
+      screen.getByRole("button", { name: `Georeference ${NEEDS_WORK.name}` }),
+    ).toBeInTheDocument();
+  });
+
   it("offers a placed map its points back rather than a fresh start", () => {
     // Copy matches the spec: "Adjust points", not "Edit points".
     render(

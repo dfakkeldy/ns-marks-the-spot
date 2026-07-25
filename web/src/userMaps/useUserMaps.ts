@@ -12,7 +12,7 @@ import type { ParsedGeoTiff } from "./parsers/geoTiffSource";
 import { parseImage, type ParsedImage } from "./parsers/imageSource";
 import { sniffFileType } from "./parsers/sniff";
 import { UserMapStore } from "./store/userMapStore";
-import { MIN_GCPS_FOR_AFFINE } from "./transform/affine";
+import { solveAffineFromGcps } from "./transform/affine";
 import type { Gcp, GcpGeoref, UserMapRecord, UserMapSource } from "./types";
 import type { VisibleUserMap } from "./components/UserMapLayers";
 
@@ -32,14 +32,29 @@ const UNRECOGNIZED_MESSAGE =
 const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
 
 /**
- * A GCP map with fewer than three points has no solvable transform, so it
- * cannot be drawn anywhere yet. The layer row shows a Georeference button
- * instead of an opacity slider for exactly this set.
+ * True when a GCP map cannot be PLACED — i.e. `solveAffineFromGcps` refuses
+ * its points, so `meshForRecord` returns null and nothing can be drawn. The
+ * layer row shows a Georeference button instead of an opacity slider for
+ * exactly this set, and `visibleMaps` excludes it.
+ *
+ * Deliberately the solve, not `gcps.length < MIN_GCPS_FOR_AFFINE`. The count
+ * is only ONE of the solver's refusals: it also rejects a collapsed centroid,
+ * a point cloud thinner than MIN_CONDITION_RATIO (points clicked along a
+ * scan's top neatline — the layout users actually produce), a non-finite
+ * coefficient, and a transform squashed past MIN_ANISOTROPY_RATIO (three map
+ * clicks down a meridian). A count-only predicate calls those records placed:
+ * enabled checkbox, opacity slider, no "Needs georeferencing" badge, admitted
+ * to `visibleMaps` — and then UserMapLayers finds no mesh and draws nothing,
+ * with no message anywhere. A checkbox that turns on a layer which then draws
+ * nothing is a lie.
+ *
+ * Cheap: this runs over 3–6 points, and the sub-three case still short-circuits
+ * inside `solveAffine`'s own count check.
  */
 export function needsGeoreferencing(record: UserMapRecord): boolean {
   return (
     record.georef.kind === "gcp" &&
-    record.georef.gcps.length < MIN_GCPS_FOR_AFFINE
+    solveAffineFromGcps(record.georef.gcps) === null
   );
 }
 
