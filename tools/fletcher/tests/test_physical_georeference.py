@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 import inspect
 import pathlib
 import tempfile
@@ -15,6 +16,7 @@ from tools.fletcher.physical_georeference import (
     evaluate_candidates,
     loocv_folds,
 )
+from tools.fletcher.physical_qa import StructuralMetrics, StructuralVerdict
 
 
 def make_controls() -> list[GroundControlPoint]:
@@ -29,6 +31,26 @@ def make_controls() -> list[GroundControlPoint]:
         )
         for index in range(10)
     ]
+
+
+def passing_structure() -> StructuralVerdict:
+    return StructuralVerdict(
+        passed=True,
+        reason="PASS",
+        sample_grid=(21, 21),
+        metrics=StructuralMetrics(
+            sample_count=441,
+            cell_count=400,
+            determinant_min=1.0,
+            determinant_max=1.0,
+            anisotropy_max=1.0,
+            area_scale_min=1.0,
+            area_scale_median=1.0,
+            area_scale_max=1.0,
+            mesh_components=1,
+            overlapping_cell_pairs=0,
+        ),
+    )
 
 
 class LeaveOneOutTests(unittest.TestCase):
@@ -55,9 +77,19 @@ class LeaveOneOutTests(unittest.TestCase):
         with mock.patch(
             "tools.fletcher.physical_georeference.evaluate_candidate",
             side_effect=[
-                CandidateResult("affine", AccuracyMetrics(10, 50.0, 80.0, 90.0), None),
+                CandidateResult(
+                    "affine",
+                    AccuracyMetrics(10, 50.0, 80.0, 90.0),
+                    None,
+                    passing_structure(),
+                ),
                 ValueError("rank deficient"),
-                CandidateResult("tps", AccuracyMetrics(10, 40.0, 70.0, 85.0), None),
+                CandidateResult(
+                    "tps",
+                    AccuracyMetrics(10, 40.0, 70.0, 85.0),
+                    None,
+                    passing_structure(),
+                ),
             ],
         ):
             result = evaluate_candidates(source, controls, output_dir)
@@ -70,12 +102,94 @@ class LeaveOneOutTests(unittest.TestCase):
 
     def test_tie_break_is_rms_p95_max_then_complexity(self) -> None:
         tied = [
-            CandidateResult("tps", AccuracyMetrics(10, 20.0, 30.0, 40.0), None),
-            CandidateResult("polynomial2", AccuracyMetrics(10, 20.0, 30.0, 40.0), None),
-            CandidateResult("affine", AccuracyMetrics(10, 20.0, 30.0, 40.0), None),
+            CandidateResult(
+                "tps", AccuracyMetrics(10, 20.0, 30.0, 40.0), None, passing_structure()
+            ),
+            CandidateResult(
+                "polynomial2",
+                AccuracyMetrics(10, 20.0, 30.0, 40.0),
+                None,
+                passing_structure(),
+            ),
+            CandidateResult(
+                "affine",
+                AccuracyMetrics(10, 20.0, 30.0, 40.0),
+                None,
+                passing_structure(),
+            ),
         ]
 
         self.assertEqual(choose_candidate(tied).method, "affine")
+
+    def test_structural_failure_is_retained_and_excluded_from_ranking(self) -> None:
+        unsafe = StructuralVerdict(
+            passed=False,
+            reason="non-positive determinant at 12 mesh samples",
+            sample_grid=(21, 21),
+            metrics=dataclasses.replace(
+                passing_structure().metrics,
+                determinant_min=-1.0,
+            ),
+        )
+        candidates = [
+            CandidateResult("affine", AccuracyMetrics(10, 1.0, 1.0, 1.0), None, unsafe),
+            CandidateResult(
+                "polynomial2",
+                AccuracyMetrics(10, 20.0, 30.0, 40.0),
+                None,
+                passing_structure(),
+            ),
+        ]
+
+        selected = choose_candidate(candidates)
+
+        self.assertEqual(selected.method, "polynomial2")
+        self.assertIn("determinant", candidates[0].structure.reason)
+
+    def test_candidate_refits_all_controls_before_structural_evaluation(self) -> None:
+        controls = make_controls()
+        runner = mock.Mock(return_value=mock.Mock(stdout="0 0 0\n"))
+        frame = (
+            (0.0, 0.0),
+            (100.0, 0.0),
+            (100.0, 200.0),
+            (0.0, 200.0),
+        )
+
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            mock.patch(
+                "tools.fletcher.physical_georeference.check_errors",
+                return_value=[0.0],
+            ),
+            mock.patch(
+                "tools.fletcher.physical_georeference.evaluate_structure",
+                return_value=passing_structure(),
+            ) as evaluate,
+        ):
+            result = evaluate_candidate(
+                "affine",
+                pathlib.Path("scan.tif"),
+                controls,
+                pathlib.Path(directory),
+                runner,
+                frame_polygon=frame,
+            )
+
+        self.assertIsNone(result.failure)
+        self.assertEqual(result.structure, passing_structure())
+        structural_translates = [
+            call.args[0]
+            for call in runner.call_args_list
+            if call.args[0][0] == "gdal_translate" and "structural" in call.args[0][-1]
+        ]
+        self.assertEqual(len(structural_translates), 1)
+        self.assertEqual(structural_translates[0].count("-gcp"), len(controls))
+        self.assertEqual(evaluate.call_args.args[1], frame)
+        self.assertEqual(
+            evaluate.call_args.args[2],
+            [(point.pixel_x, point.pixel_y) for point in controls],
+        )
 
     def test_fold_fits_exclude_the_held_control(self) -> None:
         controls = make_controls()
@@ -86,6 +200,8 @@ class LeaveOneOutTests(unittest.TestCase):
         def run(command: list[str], **kwargs: object) -> mock.Mock:
             if command[0] == "gdaltransform":
                 pixel_x, pixel_y = map(float, str(kwargs["input"]).split())
+                if any("structural" in str(value) for value in command):
+                    return mock.Mock(stdout=f"{pixel_x * 2} {pixel_y * 2} 0\\n")
                 world_x, world_y = coordinates[(pixel_x, pixel_y)]
                 return mock.Mock(stdout=f"{world_x} {world_y} 0\\n")
             return mock.Mock(stdout="")
@@ -94,14 +210,19 @@ class LeaveOneOutTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as directory:
             candidate = evaluate_candidate(
-                "affine", pathlib.Path("scan.tif"), controls, pathlib.Path(directory), runner
+                "affine",
+                pathlib.Path("scan.tif"),
+                controls,
+                pathlib.Path(directory),
+                runner,
             )
 
         self.assertIsNone(candidate.failure)
         self.assertEqual(candidate.metrics, AccuracyMetrics(10, 0.0, 0.0, 0.0))
         translate_commands = [
-            call.args[0] for call in runner.call_args_list
-            if call.args[0][0] == "gdal_translate"
+            call.args[0]
+            for call in runner.call_args_list
+            if call.args[0][0] == "gdal_translate" and "fold-" in call.args[0][-1]
         ]
         self.assertEqual(len(translate_commands), 10)
         for held, command in zip(controls, translate_commands, strict=True):
@@ -122,6 +243,8 @@ class LeaveOneOutTests(unittest.TestCase):
         def run(command: list[str], **kwargs: object) -> mock.Mock:
             if command[0] == "gdaltransform":
                 pixel_x, pixel_y = map(float, str(kwargs["input"]).split())
+                if any("structural" in str(value) for value in command):
+                    return mock.Mock(stdout=f"{pixel_x * 2} {pixel_y * 2} 0\\n")
                 world_x, world_y = coordinates[(pixel_x, pixel_y)]
                 return mock.Mock(stdout=f"{world_x} {world_y} 0\\n")
             return mock.Mock(stdout="")
@@ -144,10 +267,16 @@ class LeaveOneOutTests(unittest.TestCase):
                     )
                     self.assertIsNone(candidate.failure)
                     transforms = [
-                        call.args[0] for call in runner.call_args_list
+                        call.args[0]
+                        for call in runner.call_args_list
                         if call.args[0][0] == "gdaltransform"
                     ]
-                    self.assertTrue(all(all(value in command for value in flag) for command in transforms))
+                    self.assertTrue(
+                        all(
+                            all(value in command for value in flag)
+                            for command in transforms
+                        )
+                    )
                     runner.reset_mock()
 
     def test_non_control_rows_are_refused_before_fitting(self) -> None:
