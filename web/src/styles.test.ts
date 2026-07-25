@@ -141,6 +141,20 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/body\.print-preview-open\s+\.app-shell\s*{[^}]*display:\s*none/s);
     expect(styles).toMatch(/\.print-document--inactive\s*{[^}]*display:\s*none/s);
     expect(styles).toMatch(/font-size:\s*9pt/);
+    // The georeference overlay is NOT inside `.app-shell` — App.tsx renders it
+    // as a sibling of `<PrintPreview>` — so the `.app-shell` rule above never
+    // matches it and it prints at `position: fixed; z-index: 1800` over page 1
+    // of the field sheet.
+    //
+    // Taken as the FIRST `.georeference-overlay` rule at or after `@media
+    // print`, and asserted on that rule's BODY. Delete the print rule and this
+    // match falls through to the screen rule further down the file — which
+    // sets position/inset/pointer-events and no `display` at all — so the
+    // assertion fails rather than being satisfied by the wrong rule.
+    const printOverlay = styles
+      .slice(styles.indexOf("@media print"))
+      .match(/\.georeference-overlay\s*\{([^}]*)\}/);
+    expect(printOverlay?.[1]).toMatch(/display:\s*none/);
   });
 
   it("removes the screen-only preview backdrop before printing the selected document", () => {
@@ -236,7 +250,12 @@ describe("print document paged media", () => {
 
 describe("georeferencer overlay", () => {
   it("sits above the map furniture but below the app's dialogs", () => {
-    const overlay = styles.match(/\.georeference-overlay\s*\{([^}]*)\}/)?.[1];
+    // `^` + /m pins this to the TOP-LEVEL rule. The bare pattern took the
+    // first `.georeference-overlay` anywhere in the file, which is now the
+    // two-space-indented `display: none` override inside @media print — so
+    // both of these tests silently started asserting against the print rule
+    // instead, and the `not.toMatch(/background/)` guard below went vacuous.
+    const overlay = styles.match(/^\.georeference-overlay\s*\{([^}]*)\}/m)?.[1];
     expect(overlay).toMatch(/position:\s*fixed/);
     expect(overlay).toMatch(/inset:\s*0/);
     const overlayZ = Number(overlay?.match(/z-index:\s*(\d+)/)?.[1]);
@@ -259,7 +278,8 @@ describe("georeferencer overlay", () => {
     // jsdom does no layout, so a rendered-DOM test cannot see occlusion:
     // these three declarations are what make the difference, so they are what
     // gets asserted. Task 10's DOM test pins the matching structure.
-    const overlay = styles.match(/\.georeference-overlay\s*\{([^}]*)\}/)?.[1];
+    // Top-level rule only — see the anchoring note in the test above.
+    const overlay = styles.match(/^\.georeference-overlay\s*\{([^}]*)\}/m)?.[1];
     expect(overlay).toMatch(/pointer-events:\s*none/);
     expect(overlay).not.toMatch(/background/);
     const panel = styles.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
@@ -285,8 +305,8 @@ describe("georeferencer overlay", () => {
   });
 
   it("stacks the split view on phones instead of squeezing both panes", () => {
-    // Anchored to the LAST @media (max-width: 860px) block, which Step 8
-    // appends at the very END of the file. Two traps live here, both measured:
+    // Anchored to the LAST @media block, which Step 8 appends at the very END
+    // of the file. Three traps live here, all measured:
     //
     // 1. `/grid-template-columns:\s*minmax\(0,\s*1fr\)/` unanchored also
     //    matches the WIDE rule `minmax(0, 1fr) minmax(320px, 380px)` — so
@@ -296,8 +316,14 @@ describe("georeferencer overlay", () => {
     //    860px block at styles.css:2722 while the "Your maps" section it also
     //    named starts at 3767 — so `lastIndexOf` spanned the base rules and
     //    matched the wide rule anyway. The narrow rules go last, full stop.
-    const narrowStart = styles.lastIndexOf("@media (max-width: 860px)");
+    // 3. Anchoring on the literal "860px" is what let the georeferencer's
+    //    breakpoint drift below the spec's 900 px in the first place, so the
+    //    query is asserted here as its own claim. 861–899 px used to get the
+    //    wide rule with a mandatory 320 px side column, i.e. a ~76 px scan
+    //    track and no tabs. The two 860px blocks belong to unrelated chrome.
+    const narrowStart = styles.lastIndexOf("@media (max-width:");
     const narrow = styles.slice(narrowStart);
+    expect(narrow).toMatch(/^@media \(max-width: 899\.98px\)/);
     expect(narrow).toContain(".georeference-panel");
     const panel = narrow.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
     expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);
@@ -315,7 +341,7 @@ describe("georeferencer overlay", () => {
     // only `.georeference-scan`, leaving the opaque panel over the very map
     // the tab exists to expose — and its own comment claimed the opposite of
     // what the CSS did.
-    const narrow = styles.slice(styles.lastIndexOf("@media (max-width: 860px)"));
+    const narrow = styles.slice(styles.lastIndexOf("@media (max-width:"));
     expect(narrow).toMatch(
       /\.georeference-panel\[data-tab="map"\]\s*\{[^}]*display:\s*none/,
     );

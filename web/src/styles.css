@@ -3723,6 +3723,20 @@ a {
     display: none !important;
   }
 
+  /* The rule above cannot reach the georeferencer: App.tsx renders
+     `<GeoreferencePanel>` OUTSIDE `.app-shell`, as a sibling of
+     `<PrintPreview>`, so `body.print-preview-open .app-shell` never matches
+     it and the overlay carries its `position: fixed; z-index: 1800` onto
+     page 1 of the field sheet. Reachable in one pass: `.parcel-inspector` is
+     at `right: 16px`, inside the 55% the panel leaves free, and clickable
+     through the overlay's `pointer-events: none` — so select a parcel, open
+     the georeferencer, print. Unscoped rather than keyed on
+     `body.print-preview-open`, because a bare Cmd+P during a session must not
+     stamp the panel either; it is chrome, never document. */
+  .georeference-overlay {
+    display: none !important;
+  }
+
   .print-preview-controls,
   .print-document--inactive {
     display: none !important;
@@ -4156,7 +4170,17 @@ a {
   font-weight: 700;
 }
 
-@media (max-width: 860px) {
+/* Everything BELOW the spec's 900 px wide breakpoint, not below 860 px. This
+   block used to stop at 860, which left 861–899 px with neither documented
+   layout: the wide rule above kept the panel at 45vw (396 px at 880) while its
+   `minmax(320px, 380px)` side column is mandatory, so the scan track — the
+   thing the user has to click accurately — collapsed to ~76 px, and the tab
+   toggle that exists to rescue exactly that case is `display: none` outside
+   this block. `.98` rather than a flat 899 because a zoomed or HiDPI viewport
+   reports fractional CSS pixels, and 899.5 px would otherwise fall back into
+   the same trap. The two 860 px blocks earlier in this file belong to
+   unrelated app chrome and are deliberately left alone. */
+@media (max-width: 899.98px) {
   /* Full-bleed here: no room to keep the map beside the panel, so the tab
      toggle switches between them instead. Both `width` and `max-width` must
      be released — the base rule pins the panel to a 45vw column. */
