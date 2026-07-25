@@ -6,7 +6,8 @@
 renderer cadence stated precisely, alpha/nodata scoped out of PR 1.
 Amended again 2026-07-25 with the PR-2 georeferencer design (see
 "PR 2 — In-browser georeferencer" below), approved by the maintainer the
-same day.
+same day. **PR 2 shipped 2026-07-25** — the section below describes the
+implemented georeferencer, not a proposal.
 **Author:** Claude (with Dan Fakkeldy)
 
 ## Goal

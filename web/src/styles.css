@@ -4110,6 +4110,28 @@ a {
   outline-offset: 1px;
 }
 
+/* Same 2-column grid as its precedent, `.user-map-opacity` (UserMapRows):
+   a muted label beside a full-width range input. That one indents 54px to
+   align under a checkbox row it has no equivalent of here, so that offset is
+   dropped rather than copied blind. */
+.georeference-opacity {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+}
+
+.georeference-opacity small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.georeference-opacity input[type="range"] {
+  width: 100%;
+  accent-color: var(--survey-blue);
+}
+
 .georeference-references {
   display: grid;
   gap: 4px;

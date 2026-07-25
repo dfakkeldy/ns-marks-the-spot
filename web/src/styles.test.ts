@@ -356,4 +356,22 @@ describe("georeferencer overlay", () => {
     expect(hidden).toMatch(/clip-path|clip:/);
     expect(hidden).not.toMatch(/display:\s*none/);
   });
+
+  it("styles the panel's own opacity control like its UserMapRows precedent", () => {
+    // GeoreferencePanel renders `<label className="georeference-opacity">`
+    // with no matching rule before this: the "Map opacity" label and its
+    // range input fell back to unstyled inline flow. `.user-map-opacity`
+    // (UserMapRows) is the direct precedent — a 2-column grid pairing a
+    // muted label with a full-width range input.
+    const opacity = styles.match(/\.georeference-opacity\s*\{([^}]*)\}/)?.[1];
+    expect(opacity).toBeDefined();
+    expect(opacity).toMatch(/display:\s*grid/);
+    expect(opacity).toMatch(/grid-template-columns:\s*\S+\s+\S+/);
+    const label = styles.match(/\.georeference-opacity small\s*\{([^}]*)\}/)?.[1];
+    expect(label).toMatch(/color:\s*var\(--muted\)/);
+    const range = styles.match(
+      /\.georeference-opacity input\[type="range"\]\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(range).toMatch(/width:\s*100%/);
+  });
 });

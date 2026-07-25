@@ -205,7 +205,7 @@ export function GeoreferencePanel({
 
           <footer className="georeference-footer">
             <label className="georeference-opacity">
-              <span>Map opacity</span>
+              <small>Map opacity</small>
               <input
                 type="range"
                 min={0}
@@ -246,8 +246,8 @@ export function GeoreferencePanel({
               </label>
               {referenceLayersLocked ? (
                 <small className="georeference-references-locked">
-                  Accept the provincial data licence in the layer list to use
-                  these.
+                  Close this panel and accept the provincial data licence to
+                  use these.
                 </small>
               ) : null}
             </fieldset>

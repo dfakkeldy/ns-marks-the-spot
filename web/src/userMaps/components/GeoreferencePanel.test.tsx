@@ -356,7 +356,7 @@ describe("GeoreferencePanel", () => {
     expect(onToggleReferenceLayer).not.toHaveBeenCalled();
     expect(
       screen.getByText(
-        "Accept the provincial data licence in the layer list to use these.",
+        "Close this panel and accept the provincial data licence to use these.",
       ),
     ).toBeInTheDocument();
   });
