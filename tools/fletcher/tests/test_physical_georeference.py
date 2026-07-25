@@ -1,22 +1,43 @@
 from __future__ import annotations
 
 import dataclasses
+import copy
 import inspect
+import json
 import pathlib
 import tempfile
 import unittest
 from unittest import mock
 
-from tools.church.gcps import GroundControlPoint
+from tools.church.gcps import GroundControlPoint, parse_gcp_csv
 from tools.fletcher.physical_georeference import (
     AccuracyMetrics,
     CandidateResult,
+    CandidateSet,
+    build_selected_warp_command,
+    build_parser,
     choose_candidate,
     evaluate_candidate,
     evaluate_candidates,
+    evaluate_final_gates,
+    finalize_result,
+    main,
+    prefit_failure_result,
+    project_usable_frame,
+    score_final_checks,
+    select_transform,
     loocv_folds,
+    tile_if_pass,
 )
-from tools.fletcher.physical_qa import StructuralMetrics, StructuralVerdict
+from tools.fletcher.emit_physical_gcps import emit
+from tools.fletcher.physical_observation import parse_observation
+from tools.fletcher.physical_qa import (
+    REQUIRED_ARTIFACTS,
+    VISUAL_CHECKS,
+    StructuralMetrics,
+    StructuralVerdict,
+)
+from tools.fletcher.tests.physical_fixtures import valid_observation
 
 
 FRAME = (
@@ -59,6 +80,489 @@ def passing_structure() -> StructuralVerdict:
             overlapping_cell_pairs=0,
         ),
     )
+
+
+def visual_review_payload(observation_sha256: str, gate: str = "PASS") -> dict:
+    artifacts: dict[str, object] = {}
+    for key in REQUIRED_ARTIFACTS:
+        count = (
+            10
+            if key == "transport_control_crops"
+            else 6
+            if key == "natural_check_crops"
+            else 1
+        )
+        artifacts[key] = [
+            {
+                "path": f"{key}/{index}.png",
+                "sha256": f"{index + 1:064x}",
+            }
+            for index in range(count)
+        ]
+    checks = {
+        check: (
+            "NOT_APPLICABLE" if check == "shared_boundary_if_applicable" else "PASS"
+        )
+        for check in VISUAL_CHECKS
+    }
+    if gate == "FAIL":
+        checks["upright"] = "FAIL"
+    inventory = {
+        "schema_version": 1,
+        "observation_sha256": observation_sha256,
+        "artifacts": artifacts,
+    }
+    return {
+        "schema_version": 1,
+        "gate": gate,
+        "observation_sha256": observation_sha256,
+        "checks": checks,
+        "artifact_inventory": inventory,
+        "artifacts": copy.deepcopy(artifacts),
+        "optional_artifact_uses": {},
+    }
+
+
+class StagedCommandTests(unittest.TestCase):
+    def test_select_parser_has_no_check_argument(self) -> None:
+        parser = build_parser()
+        select = parser.parse_args([
+            "select", "--source", "scan.tif", "--controls", "controls.csv",
+            "--observation", "observation.json", "--output", "selection",
+        ])
+        self.assertFalse(hasattr(select, "checks"))
+
+    def test_score_uses_the_frozen_refit_and_cannot_select_a_family(self) -> None:
+        signature = inspect.signature(score_final_checks)
+        self.assertNotIn("method", signature.parameters)
+        self.assertNotIn("controls_path", signature.parameters)
+
+    def test_both_numerical_gates_are_required(self) -> None:
+        transport_pass = AccuracyMetrics(10, 100.0, 200.0, 300.0)
+        transport_fail = AccuracyMetrics(10, 401.0, 500.0, 700.0)
+        natural_pass = AccuracyMetrics(6, 120.0, 220.0, 320.0)
+        natural_fail = AccuracyMetrics(6, 450.0, 600.0, 800.0)
+        self.assertEqual(
+            evaluate_final_gates(transport_pass, natural_fail).disposition,
+            "FAIL",
+        )
+        self.assertEqual(
+            evaluate_final_gates(transport_fail, natural_pass).disposition,
+            "FAIL",
+        )
+
+    def test_tiling_refuses_non_pass_and_wrong_zoom_range(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            failed = root / "failed.json"
+            passed = root / "passed.json"
+            failed.write_text('{"disposition":"natural-check-fail"}\n')
+            passed.write_text(
+                '{"disposition":"PASS","visual_qa":{"gate":"PASS"}}\n'
+            )
+            with self.assertRaisesRegex(ValueError, "final PASS"):
+                tile_if_pass(failed, root / "raster.tif", root / "tiles")
+            with self.assertRaisesRegex(ValueError, "8 through 16"):
+                tile_if_pass(
+                    passed, root / "raster.tif", root / "tiles", 9, 16
+                )
+
+    def test_prefit_failure_refuses_a_fittable_observation(self) -> None:
+        frozen = parse_observation(json.dumps(valid_observation()))
+        with self.assertRaisesRegex(ValueError, "status.*rejected"):
+            prefit_failure_result(frozen)
+
+    def test_select_loads_only_the_generated_control_csv(self) -> None:
+        observation = parse_observation(json.dumps(valid_observation()))
+        emitted = emit(observation)
+        failures = CandidateSet(
+            tuple(
+                CandidateResult(method, None, "fit failed")
+                for method in ("affine", "polynomial2", "tps")
+            ),
+            {
+                "affine": "fit failed",
+                "polynomial2": "fit failed",
+                "tps": "fit failed",
+            },
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            source = root / "scan.tif"
+            source.write_bytes(b"source")
+            observation_path = root / "observation.json"
+            observation_path.write_text(json.dumps(valid_observation()))
+            controls = root / "controls.csv"
+            controls.write_text(emitted.controls)
+            output = root / "selection"
+            from tools.church.gcps import load_gcps as real_load_gcps
+
+            with (
+                mock.patch(
+                    "tools.fletcher.physical_georeference.load_gcps",
+                    wraps=real_load_gcps,
+                ) as load,
+                mock.patch(
+                    "tools.fletcher.physical_georeference.verify_source"
+                ),
+                mock.patch(
+                    "tools.fletcher.physical_georeference.evaluate_candidates",
+                    return_value=failures,
+                ),
+            ):
+                result = select_transform(
+                    source, controls, observation_path, output
+                )
+
+            self.assertEqual(result.disposition, "candidate-failure")
+            load.assert_called_once_with(controls)
+            self.assertNotIn("check", controls.name)
+
+    def test_select_rejects_a_control_csv_not_generated_by_observation(self) -> None:
+        observation = parse_observation(json.dumps(valid_observation()))
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            source = root / "scan.tif"
+            source.write_bytes(b"source")
+            observation_path = root / "observation.json"
+            observation_path.write_text(json.dumps(valid_observation()))
+            controls = root / "controls.csv"
+            controls.write_text(
+                emit(observation).controls.replace("control-0", "substituted")
+            )
+            with (
+                mock.patch(
+                    "tools.fletcher.physical_georeference.verify_source"
+                ),
+                mock.patch(
+                    "tools.fletcher.physical_georeference.evaluate_candidates"
+                ) as evaluate,
+            ):
+                with self.assertRaisesRegex(ValueError, "generated"):
+                    select_transform(
+                        source, controls, observation_path, root / "selection"
+                    )
+            evaluate.assert_not_called()
+
+    def test_selected_transport_miss_does_not_fall_back_to_another_family(
+        self,
+    ) -> None:
+        observation = parse_observation(json.dumps(valid_observation()))
+        candidates = CandidateSet(
+            (
+                CandidateResult(
+                    "affine",
+                    AccuracyMetrics(10, 100.0, 200.0, 1600.0),
+                    None,
+                    passing_structure(),
+                ),
+                CandidateResult(
+                    "polynomial2",
+                    AccuracyMetrics(10, 200.0, 300.0, 400.0),
+                    None,
+                    passing_structure(),
+                ),
+                CandidateResult(
+                    "tps",
+                    AccuracyMetrics(10, 250.0, 350.0, 450.0),
+                    None,
+                    passing_structure(),
+                ),
+            ),
+            {},
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            source = root / "scan.tif"
+            source.write_bytes(b"source")
+            observation_path = root / "observation.json"
+            observation_path.write_text(json.dumps(valid_observation()))
+            controls = root / "controls.csv"
+            controls.write_text(emit(observation).controls)
+            with (
+                mock.patch(
+                    "tools.fletcher.physical_georeference.verify_source"
+                ),
+                mock.patch(
+                    "tools.fletcher.physical_georeference.evaluate_candidates",
+                    return_value=candidates,
+                ),
+                mock.patch(
+                    "tools.fletcher.physical_georeference.subprocess.run"
+                ) as run,
+            ):
+                result = select_transform(
+                    source, controls, observation_path, root / "selection"
+                )
+
+        self.assertEqual(result.disposition, "transport-cross-validation-fail")
+        self.assertEqual(result.selected.method, "affine")
+        run.assert_not_called()
+
+    def test_selected_warp_crops_to_projected_frozen_usable_frame(self) -> None:
+        runner = mock.Mock(
+            return_value=mock.Mock(
+                stdout=(
+                    "1000 2000 0\n1100 2000 0\n1100 2200 0\n"
+                    "1000 2200 0\n"
+                )
+            )
+        )
+        projected = project_usable_frame(
+            FRAME,
+            "affine",
+            pathlib.Path("selected-gcps.vrt"),
+            runner,
+            maximum_spacing_px=1000.0,
+        )
+        command = build_selected_warp_command(
+            "affine",
+            pathlib.Path("selected-gcps.vrt"),
+            pathlib.Path("selected-3857.tif"),
+            pathlib.Path("projected-cutline.geojson"),
+        )
+
+        self.assertEqual(
+            projected,
+            [(1000.0, 2000.0), (1100.0, 2000.0),
+             (1100.0, 2200.0), (1000.0, 2200.0)],
+        )
+        self.assertEqual(
+            runner.call_args.kwargs["input"],
+            "0.0 0.0\n100.0 0.0\n100.0 200.0\n0.0 200.0",
+        )
+        self.assertIn("-cutline", command)
+        self.assertIn("-crop_to_cutline", command)
+        self.assertIn("-dstalpha", command)
+
+    def test_score_reads_only_selection_and_check_csv(self) -> None:
+        observation = parse_observation(json.dumps(valid_observation()))
+        checks_text = emit(observation).checks
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            selected_vrt = root / "selected-gcps.vrt"
+            selected_vrt.write_text("frozen VRT")
+            selection = root / "selection.json"
+            from tools.fletcher.fetch import sha256
+            selection.write_text(json.dumps({
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "observation_sha256": "a" * 64,
+                "disposition": "selection-pass",
+                "selected_method": "affine",
+                "selected_vrt_path": str(selected_vrt),
+                "selected_vrt_sha256": sha256(selected_vrt),
+                "transport_gate": "PASS",
+                "structural_gate": "PASS",
+            }))
+            checks = root / "checks.csv"
+            checks.write_text(checks_text)
+            output = root / "natural-checks.json"
+            expected_lines = [
+                f"{point.mercator[0]} {point.mercator[1]} 0"
+                for point in parse_gcp_csv(checks_text)
+            ]
+            original_read_text = pathlib.Path.read_text
+
+            with (
+                mock.patch(
+                    "pathlib.Path.read_text",
+                    autospec=True,
+                    side_effect=original_read_text,
+                ) as read_text,
+                mock.patch(
+                    "tools.fletcher.physical_georeference.subprocess.run",
+                    return_value=mock.Mock(stdout="\n".join(expected_lines) + "\n"),
+                ),
+            ):
+                result = score_final_checks(selection, checks, output)
+
+            self.assertEqual(result.metrics, AccuracyMetrics(6, 0.0, 0.0, 0.0))
+            self.assertEqual(
+                {call.args[0] for call in read_text.call_args_list},
+                {selection, checks},
+            )
+
+    def test_prefit_failure_preserves_rejection_and_marks_every_stage_not_run(
+        self,
+    ) -> None:
+        payload = valid_observation()
+        payload["status"] = "rejected"
+        payload["terminal_state"] = "insufficient-distribution"
+        payload["terminal_reason"] = "accepted points do not span the frozen frame"
+        observation = parse_observation(json.dumps(payload))
+
+        result = prefit_failure_result(observation)
+
+        self.assertEqual(result["disposition"], "insufficient-distribution")
+        self.assertEqual(result["source_receipt"], payload["source_receipt"])
+        self.assertEqual(result["accepted_control_count"], 10)
+        self.assertEqual(result["accepted_check_count"], 6)
+        self.assertEqual(result["rejected_candidate_count"], 1)
+        for stage in (
+            "candidate_stage",
+            "transport_stage",
+            "structural_stage",
+            "natural_stage",
+            "visual_stage",
+            "raster_stage",
+            "tile_stage",
+        ):
+            self.assertEqual(result[stage], "not-run")
+        self.assertNotIn("tile_path", result)
+
+    def test_prefit_failure_cli_hashes_observation_without_gcp_or_gdal_work(
+        self,
+    ) -> None:
+        payload = valid_observation()
+        payload["status"] = "rejected"
+        payload["terminal_state"] = "insufficient-identity"
+        payload["terminal_reason"] = "not enough unambiguous transport identities"
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            observation = root / "observation.json"
+            observation.write_text(json.dumps(payload))
+            output = root / "result.json"
+            from tools.fletcher.fetch import sha256
+
+            with (
+                mock.patch(
+                    "tools.fletcher.physical_georeference.load_gcps"
+                ) as load,
+                mock.patch(
+                    "tools.fletcher.physical_georeference.subprocess.run"
+                ) as run,
+                mock.patch("builtins.print"),
+            ):
+                self.assertEqual(main([
+                    "prefit-failure",
+                    "--observation", str(observation),
+                    "--output", str(output),
+                ]), 0)
+
+            result = json.loads(output.read_text())
+            self.assertEqual(result["observation_sha256"], sha256(observation))
+            load.assert_not_called()
+            run.assert_not_called()
+
+    def test_finalize_preserves_terminal_selection_and_downstream_not_run(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            selection = pathlib.Path(directory) / "selection.json"
+            selection.write_text(json.dumps({
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "observation_sha256": "a" * 64,
+                "source_receipt": valid_observation()["source_receipt"],
+                "candidate_stage": "failed",
+                "transport_gate": "not-run",
+                "structural_gate": "FAIL",
+                "raster_stage": "not-run",
+                "disposition": "structural-fail",
+                "reason": "no candidate passed structure",
+            }))
+
+            result = finalize_result(selection, None, None)
+
+        self.assertEqual(result["disposition"], "structural-fail")
+        self.assertEqual(result["natural_stage"], "not-run")
+        self.assertEqual(result["visual_stage"], "not-run")
+        self.assertEqual(result["tile_stage"], "not-run")
+        self.assertNotIn("tile_path", result)
+
+    def test_finalize_requires_hash_bound_natural_and_visual_pass(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            raster = root / "selected-3857.tif"
+            raster.write_bytes(b"raster")
+            selection = root / "selection.json"
+            from tools.fletcher.fetch import sha256
+            selection.write_text(json.dumps({
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "observation_sha256": "a" * 64,
+                "source_receipt": valid_observation()["source_receipt"],
+                "candidate_stage": "passed",
+                "selected_method": "affine",
+                "selected_candidate": {
+                    "point_count": 10,
+                    "rms_m": 100.0,
+                    "p95_m": 200.0,
+                    "max_m": 300.0,
+                    "residuals": [],
+                },
+                "transport_gate": "PASS",
+                "structural_gate": "PASS",
+                "raster_stage": "generated",
+                "selected_raster_path": str(raster),
+                "selected_raster_sha256": sha256(raster),
+                "disposition": "selection-pass",
+                "reason": "selected",
+            }))
+            natural = root / "natural.json"
+            natural.write_text(json.dumps({
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "observation_sha256": "a" * 64,
+                "selection_sha256": sha256(selection),
+                "selected_method": "affine",
+                "check_count": 6,
+                "rms_m": 100.0,
+                "p95_m": 200.0,
+                "max_m": 300.0,
+                "gate": "PASS",
+                "disposition": "natural-check-pass",
+                "reason": "passed",
+            }))
+            review = root / "review.json"
+            review.write_text(json.dumps(visual_review_payload("a" * 64)))
+
+            result = finalize_result(selection, natural, review)
+
+        self.assertEqual(result["disposition"], "PASS")
+        self.assertEqual(result["visual_qa"]["gate"], "PASS")
+        self.assertEqual(result["tile_stage"], "not-generated")
+        self.assertEqual(result["tile_png_count"], 0)
+
+    def test_tile_counts_only_pngs_and_atomically_updates_pass_result(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            raster = root / "selected-3857.tif"
+            raster.write_bytes(b"raster")
+            from tools.fletcher.fetch import sha256
+            result_path = root / "result.json"
+            result_path.write_text(json.dumps({
+                "disposition": "PASS",
+                "visual_qa": {"gate": "PASS"},
+                "selected_raster_path": str(raster),
+                "selected_raster_sha256": sha256(raster),
+                "tile_stage": "not-generated",
+                "tile_png_count": 0,
+            }))
+            tiles = root / "tiles"
+
+            def run(command: list[str], **_: object) -> mock.Mock:
+                (tiles / "8" / "0").mkdir(parents=True)
+                (tiles / "8" / "0" / "0.png").write_bytes(b"png")
+                (tiles / "8" / "0" / "metadata.json").write_text("{}")
+                return mock.Mock()
+
+            with mock.patch(
+                "tools.fletcher.physical_georeference.subprocess.run",
+                side_effect=run,
+            ) as runner:
+                result = tile_if_pass(result_path, raster, tiles)
+
+            self.assertEqual(result["tile_stage"], "tiled")
+            self.assertEqual(result["tile_png_count"], 1)
+            command = runner.call_args.args[0]
+            self.assertIn("--xyz", command)
+            self.assertIn("--resume", command)
+            self.assertIn("--zoom=8-16", command)
+            self.assertEqual(
+                json.loads(result_path.read_text())["tile_png_count"], 1
+            )
 
 
 class LeaveOneOutTests(unittest.TestCase):
