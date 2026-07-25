@@ -68,6 +68,9 @@ jobs:
       - name: Church map pipeline tests
         run: python3 -m unittest discover -s tools/church/tests -t .
 
+      - name: Fletcher map pipeline tests
+        run: python3 -m unittest discover -s tools/fletcher/tests -t .
+
       # The control CSVs are GENERATED from the committed detection artifacts.
       # Detection itself needs the 180 MB archival scan and OpenCV, but this
       # step does not, so CI can prove the checked-in control points still match
@@ -77,6 +80,14 @@ jobs:
           for panel in north south; do
             python3 -m tools.church.emit_gcps inverness "$panel" \
             --out "tools/church/gcps/inverness-$panel.csv" --check
+          done
+
+      - name: Fletcher control points match their reviewed observations
+        run: |
+          for observation in tools/fletcher/observations/sheet-*.json; do
+            sheet="$(basename "$observation" .json)"
+            python3 -m tools.fletcher.emit_gcps "$observation" \
+              --out "tools/fletcher/gcps/$sheet.csv" --check
           done
 
       - name: Classify changed paths

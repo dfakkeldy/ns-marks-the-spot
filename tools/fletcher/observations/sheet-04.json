@@ -1,0 +1,52 @@
+{
+  "sheet": "sheet-04",
+  "rumsey_id": "RUMSEY~8~1~2629~280043",
+  "source_sha256": "35f9a3cb29a34e18dffa182fb4f7de52f7eb73ebd819824bf10de8cb7d2203bc",
+  "retrieved": "2026-07-25",
+  "method": "Long regular rules were detected from the full-resolution scan; every retained intersection and its engraved coordinate labels were then visually reviewed. Folds, hatching and neatlines were excluded before roles were assigned.",
+  "qa_review": "Four interior meridians and two interior parallels visibly cross; the right neatline was excluded.",
+  "meridians": [
+    {
+      "pixel_x": 2307,
+      "lon": -60.416666666666664,
+      "label": "60d25mW"
+    },
+    {
+      "pixel_x": 4117,
+      "lon": -60.333333333333336,
+      "label": "60d20mW"
+    },
+    {
+      "pixel_x": 5914,
+      "lon": -60.25,
+      "label": "60d15mW"
+    },
+    {
+      "pixel_x": 7732,
+      "lon": -60.166666666666664,
+      "label": "60d10mW"
+    }
+  ],
+  "parallels": [
+    {
+      "pixel_y": 2328,
+      "lat": 46.75,
+      "label": "46d45mN"
+    },
+    {
+      "pixel_y": 4947,
+      "lat": 46.666666666666664,
+      "label": "46d40mN"
+    }
+  ],
+  "check_intersections": [
+    [
+      1,
+      0
+    ],
+    [
+      3,
+      0
+    ]
+  ]
+}
