@@ -19,11 +19,27 @@ class PerpendicularOffsetsTests(unittest.TestCase):
         lines = [vertical(0.0), vertical(100.0), vertical(200.0)]
         offsets, reference, _, _ = perpendicular_offsets(lines)
         self.assertEqual(reference, (100.0, 0.0))
-        self.assertEqual([round(o, 6) for o in offsets], [100.0, 0.0, -100.0])
+        # Offsets rise with pixel x, so index 0 always lands on the westernmost
+        # rule no matter which way the family happens to be tilted.
+        self.assertEqual([round(o, 6) for o in offsets], [-100.0, 0.0, 100.0])
 
     def test_normal_is_perpendicular_to_the_family_direction(self):
-        offsets, _, direction, normal = perpendicular_offsets([vertical(0.0), vertical(50.0)])
+        _, _, direction, normal = perpendicular_offsets([vertical(0.0), vertical(50.0)])
         self.assertAlmostEqual(direction[0] * normal[0] + direction[1] * normal[1], 0.0)
+
+    def test_normal_points_along_increasing_x_whichever_way_the_family_leans(self):
+        # The bug this guards reversed every longitude on the south panel: the
+        # north meridians lean to 84.5 degrees and the south to 90.1, and the
+        # direction canonicalisation flips at exactly 90.
+        leaning_left = FittedLine(
+            cx=0.0, cy=0.0, dx=-0.002, dy=0.999998, extent_px=1000.0, support=1
+        )
+        leaning_right = FittedLine(
+            cx=0.0, cy=0.0, dx=0.002, dy=0.999998, extent_px=1000.0, support=1
+        )
+        for family in ([leaning_left], [leaning_right]):
+            _, _, _, normal = perpendicular_offsets(family)
+            self.assertGreater(normal[0], 0.0)
 
     def test_a_flipped_direction_does_not_tilt_the_family(self):
         # One line stored with the opposite sign - which a line fit may return
@@ -150,11 +166,10 @@ class FitFamilyTests(unittest.TestCase):
         ]
         family = fit_family(lines, tolerance=50.0, min_extent=0.0)
         assert family is not None
-        # Offsets run along the family normal, which for this orientation points
-        # against +x, so indices count in from the far line. The gap is what
-        # matters, and it is reported rather than filled with a phantom rule.
-        self.assertEqual(family.indices, (0, 2, 3))
-        self.assertEqual(family.missing_indices, (1,))
+        # Lines at x = 0, 1000, 3000: index counts from the westernmost, and the
+        # empty position is reported rather than filled with a phantom rule.
+        self.assertEqual(family.indices, (0, 1, 3))
+        self.assertEqual(family.missing_indices, (2,))
 
     def test_returns_none_when_no_candidate_pitch_survives(self):
         lines = [vertical(x, extent=5000.0) for x in (0.0, 100.0)]

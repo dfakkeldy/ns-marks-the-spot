@@ -45,8 +45,11 @@ class LatticeIndex:
 class GraticuleAnchor:
     """Ties lattice indices to real coordinates via one identified intersection.
 
-    Indices increase the way the lattice was ordered when detected: meridians
-    westward (longitude decreasing), parallels southward (latitude decreasing).
+    Indices run the way the sheet does, because `lattice.perpendicular_offsets`
+    orients each family's normal along increasing pixel x or y: meridian index
+    increases EASTWARD (longitude increasing) and parallel index increases
+    SOUTHWARD (latitude decreasing, since pixel y grows downward).
+
     Negative indices are legal and useful - the 47d00'N label that anchors the
     Inverness north panel sits two steps north of parallel index 0.
     """
@@ -66,8 +69,12 @@ class GraticuleAnchor:
         return self.step_minutes / _MINUTES_PER_DEGREE
 
     def coordinate(self, index: LatticeIndex) -> tuple[float, float]:
-        """Longitude/latitude of a lattice intersection."""
-        lon = self.meridian_lon - (index.meridian - self.meridian_index) * self.step_degrees
+        """Longitude/latitude of a lattice intersection.
+
+        Longitude rises with meridian index and latitude falls with parallel
+        index, matching the sheet: x runs east, y runs south.
+        """
+        lon = self.meridian_lon + (index.meridian - self.meridian_index) * self.step_degrees
         lat = self.parallel_lat - (index.parallel - self.parallel_index) * self.step_degrees
         return lon, lat
 

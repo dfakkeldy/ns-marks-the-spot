@@ -5,23 +5,18 @@ import unittest
 
 from tools.church.detection import build_mesh, load_detection, parse_detection
 from tools.church.gcps import CONTROL_ROLE, load_gcps
-from tools.church.graticule import GraticuleAnchor
+from tools.church.panels import get_panel
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 DETECTIONS = REPO_ROOT / "tools" / "church" / "detections"
 GCPS = REPO_ROOT / "tools" / "church" / "gcps"
 
-# Read off the scan, not inferred: 60d40'W x 47d00'N at ~(12388, 3188), and
-# 60d50'W at ~(9526, 28276). See docs/church-inverness-attempt-2-2026-07-24.md.
-INVERNESS_NORTH_ANCHOR = GraticuleAnchor(
-    meridian_index=0,
-    meridian_lon=-(60.0 + 40.0 / 60.0),
-    parallel_index=0,
-    parallel_lat=46.0 + 50.0 / 60.0,
-    step_minutes=5.0,
-)
-INVERNESS_TOLERANCE_PX = 120.0
-INVERNESS_MIN_EXTENT_PX = 3500.0
+# Deliberately NOT redeclared here. The anchor and thresholds are measurements
+# committed on the panel; a test that restated them would pass while the
+# shipped pipeline used something else.
+NORTH = get_panel("inverness", "north")
+SOUTH = get_panel("inverness", "south")
+ANY_ANCHOR = NORTH.graticule.anchor
 
 
 def line(**overrides) -> dict:
@@ -81,7 +76,7 @@ class BuildMeshTests(unittest.TestCase):
                 family_b=[line(cx=0.0, cy=y, dx=1.0, dy=0.0) for y in (0.0, 800.0, 1600.0)],
             )
         )
-        build = build_mesh(detection, INVERNESS_NORTH_ANCHOR, tolerance=50.0)
+        build = build_mesh(detection, ANY_ANCHOR, tolerance=50.0)
         self.assertEqual(len(build.mesh.intersections), 6)
 
     def test_reports_which_family_failed_to_fit(self):
@@ -94,7 +89,7 @@ class BuildMeshTests(unittest.TestCase):
             )
         )
         with self.assertRaises(ValueError) as caught:
-            build_mesh(detection, INVERNESS_NORTH_ANCHOR, tolerance=50.0)
+            build_mesh(detection, ANY_ANCHOR, tolerance=50.0)
         self.assertIn("family A", str(caught.exception))
 
 
@@ -111,9 +106,9 @@ class InvernessNorthReproductionTests(unittest.TestCase):
         cls.detection = load_detection(DETECTIONS / "inverness-north.json")
         cls.build = build_mesh(
             cls.detection,
-            INVERNESS_NORTH_ANCHOR,
-            tolerance=INVERNESS_TOLERANCE_PX,
-            min_extent=INVERNESS_MIN_EXTENT_PX,
+            NORTH.graticule.anchor,
+            tolerance=NORTH.graticule.tolerance_px,
+            min_extent=NORTH.graticule.min_extent_px,
         )
         cls.committed = load_gcps(GCPS / "inverness-north.csv")
 
@@ -160,6 +155,93 @@ class InvernessNorthReproductionTests(unittest.TestCase):
         # land on the ~2.71 m/px recorded in the docs.
         metres_per_pixel = 9260.0 / self.build.family_b.spacing_px
         self.assertAlmostEqual(metres_per_pixel, 2.71, delta=0.05)
+
+
+class InvernessSouthReproductionTests(unittest.TestCase):
+    """The south panel carries a 10-arcminute lattice, not the north's 5."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.detection = load_detection(DETECTIONS / "inverness-south.json")
+        cls.build = build_mesh(
+            cls.detection,
+            SOUTH.graticule.anchor,
+            tolerance=SOUTH.graticule.tolerance_px,
+            min_extent=SOUTH.graticule.min_extent_px,
+        )
+        cls.committed = load_gcps(GCPS / "inverness-south.csv")
+
+    def test_finds_three_meridians_and_four_parallels(self):
+        self.assertEqual(self.build.family_a.indices, (0, 1, 2))
+        self.assertEqual(self.build.family_b.indices, (0, 1, 2, 3))
+        self.assertEqual(len(self.build.mesh.intersections), 12)
+        self.assertEqual(len(self.committed), 12)
+
+    def test_reproduces_the_committed_control_points(self):
+        rebuilt = {
+            (round(p.lon, 6), round(p.lat, 6)): (p.pixel_x, p.pixel_y)
+            for p in self.build.mesh.control_points()
+        }
+        for point in self.committed:
+            key = (round(point.lon, 6), round(point.lat, 6))
+            self.assertIn(key, rebuilt, f"{point.label} is not in the rebuilt mesh")
+            got_x, got_y = rebuilt[key]
+            self.assertLess(math.hypot(got_x - point.pixel_x, got_y - point.pixel_y), 1.0)
+
+    def test_the_read_longitude_labels_land_on_their_rules(self):
+        """"61 10'" was read at x~25055 and "61 00'" at x~29678, both at y~850."""
+        by_lon = {}
+        for point in self.committed:
+            by_lon.setdefault(round(point.lon, 4), []).append(point.pixel_x)
+        # Compare near the top of the panel, where the labels are printed.
+        self.assertAlmostEqual(min(by_lon[-61.1667]), 25055, delta=60)
+        self.assertAlmostEqual(min(by_lon[-61.0]), 29678, delta=60)
+
+    def test_the_read_latitude_labels_land_on_their_rules(self):
+        """"46 00" sits on its rule at y~17146 and "45 50" at y~23880."""
+        by_lat = {}
+        for point in self.committed:
+            by_lat.setdefault(round(point.lat, 4), []).append(point.pixel_y)
+        self.assertAlmostEqual(max(by_lat[46.0]), 17146, delta=60)
+        self.assertAlmostEqual(max(by_lat[45.8333]), 23880, delta=60)
+
+    def test_both_panels_imply_the_same_engraving_scale(self):
+        """Independent confirmation that one step is 5' and the other 10'.
+
+        The two panels were detected separately, anchored on different labels,
+        and fitted at different pitches. Reduced to metres per source pixel they
+        must agree, and they do to better than half a percent.
+        """
+        north = build_mesh(
+            load_detection(DETECTIONS / "inverness-north.json"),
+            NORTH.graticule.anchor,
+            tolerance=NORTH.graticule.tolerance_px,
+            min_extent=NORTH.graticule.min_extent_px,
+        )
+        metres_per_arcminute = 1852.0
+        north_scale = (
+            5.0 * metres_per_arcminute / north.family_b.spacing_px
+        )
+        south_scale = (
+            10.0 * metres_per_arcminute / self.build.family_b.spacing_px
+        )
+        self.assertAlmostEqual(north_scale, 2.71, delta=0.05)
+        self.assertAlmostEqual(south_scale, 2.71, delta=0.05)
+        self.assertAlmostEqual(north_scale, south_scale, delta=0.02)
+
+    def test_meridian_index_zero_is_the_westernmost_rule(self):
+        """Guards the sign flip that made the south longitudes run backwards.
+
+        Index direction must come from the sheet, not from an arbitrary
+        canonicalisation that flips at exactly 90 degrees - the north meridians
+        stand at 84.5 and the south at 90.1.
+        """
+        for build in (self.build,):
+            positions = {
+                placed.index: placed.line.cx for placed in build.family_a.lines
+            }
+            ordered = [positions[i] for i in sorted(positions)]
+            self.assertEqual(ordered, sorted(ordered))
 
 
 if __name__ == "__main__":

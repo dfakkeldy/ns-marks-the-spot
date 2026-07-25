@@ -4,12 +4,17 @@ from tools.church.graticule import GraticuleAnchor, GraticuleMesh, LatticeIndex
 
 
 class GraticuleAnchorTests(unittest.TestCase):
-    """The Inverness north panel, anchored on two printed labels read off the scan."""
+    """The Inverness north panel, anchored on two printed labels read off the scan.
+
+    Meridian index 0 is the WESTERNMOST rule, 61d00'W, because
+    `lattice.perpendicular_offsets` orients every family along increasing pixel
+    x. The panel's easternmost meridian, 60d40'W, is index 4.
+    """
 
     def setUp(self) -> None:
         self.anchor = GraticuleAnchor(
             meridian_index=0,
-            meridian_lon=-60.0 - 40.0 / 60.0,
+            meridian_lon=-61.0,
             parallel_index=0,
             parallel_lat=46.0 + 50.0 / 60.0,
             step_minutes=5.0,
@@ -18,10 +23,11 @@ class GraticuleAnchorTests(unittest.TestCase):
     def test_anchor_index_returns_the_anchor_coordinate(self) -> None:
         lon, lat = self.anchor.coordinate(LatticeIndex(0, 0))
 
-        self.assertAlmostEqual(lon, -60.666667, places=5)
+        self.assertAlmostEqual(lon, -61.0, places=5)
         self.assertAlmostEqual(lat, 46.833333, places=5)
 
-    def test_meridian_indices_advance_westward(self) -> None:
+    def test_meridian_indices_advance_eastward(self) -> None:
+        """Index runs the way the sheet does: x east, y south."""
         lon, _ = self.anchor.coordinate(LatticeIndex(2, 0))
 
         self.assertAlmostEqual(lon, -60.833333, places=5)
@@ -37,6 +43,12 @@ class GraticuleAnchorTests(unittest.TestCase):
 
         self.assertAlmostEqual(lon, -(60.0 + 50.0 / 60.0), places=6)
 
+    def test_the_other_verified_label_lands_on_index_four(self) -> None:
+        """60d40'W, the label paired with 47d00'N, is the easternmost meridian."""
+        lon, _ = self.anchor.coordinate(LatticeIndex(4, 0))
+
+        self.assertAlmostEqual(lon, -(60.0 + 40.0 / 60.0), places=6)
+
     def test_47_degrees_north_is_two_steps_north_of_the_anchor_parallel(self) -> None:
         _, lat = self.anchor.coordinate(LatticeIndex(0, -2))
 
@@ -49,14 +61,16 @@ class GraticuleAnchorTests(unittest.TestCase):
 
 class GraticuleMeshTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.anchor = GraticuleAnchor(0, -60.0 - 40.0 / 60.0, 0, 46.0 + 50.0 / 60.0, 5.0)
+        self.anchor = GraticuleAnchor(0, -61.0, 0, 46.0 + 50.0 / 60.0, 5.0)
 
     def test_builds_one_control_point_per_intersection(self) -> None:
         mesh = GraticuleMesh(
             self.anchor,
             {
-                LatticeIndex(0, 0): (12882.0, 10042.0),
-                LatticeIndex(1, 0): (10537.0, 10213.0),
+                # Real north-panel positions: index 0 is the westernmost rule,
+                # so its pixel x is the smaller of the two.
+                LatticeIndex(0, 0): (3684.5, 10713.2),
+                LatticeIndex(1, 0): (5992.3, 10544.8),
             },
         )
 

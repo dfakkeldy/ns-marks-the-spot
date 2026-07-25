@@ -100,16 +100,26 @@ def build_mesh(
     detection: Detection,
     anchor: GraticuleAnchor,
     tolerance: float,
-    min_extent: float = 0.0,
+    min_extent: float | tuple[float, float] = 0.0,
 ) -> MeshBuild:
     """Fit both families to lattices and cross them into a control mesh.
 
     Every pair of lines is crossed, so a family of 5 meridians and one of 6
     parallels yields 30 controls spread over the whole panel rather than the
     handful a human would place by hand.
+
+    `min_extent` may be given per family. The two families rarely face the same
+    competition: on the Inverness south panel the roads follow the coast north
+    to south, so they impersonate meridians and not parallels. Filtering both
+    families at the meridians' threshold would discard real parallels, and at
+    the parallels' threshold the meridian family fits a nonsense 967 px pitch
+    through a bundle of roads.
     """
-    family_a = fit_family(list(detection.family_a), tolerance, min_extent)
-    family_b = fit_family(list(detection.family_b), tolerance, min_extent)
+    extent_a, extent_b = (
+        min_extent if isinstance(min_extent, tuple) else (min_extent, min_extent)
+    )
+    family_a = fit_family(list(detection.family_a), tolerance, extent_a)
+    family_b = fit_family(list(detection.family_b), tolerance, extent_b)
     if family_a is None or family_b is None:
         missing = [
             name

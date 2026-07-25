@@ -74,8 +74,10 @@ jobs:
       # the linework they claim to come from - and catch a hand-edited CSV.
       - name: Church control points match their detections
         run: |
-          python3 -m tools.church.emit_gcps inverness north \
-            --out tools/church/gcps/inverness-north.csv --check
+          for panel in north south; do
+            python3 -m tools.church.emit_gcps inverness "$panel" \
+            --out "tools/church/gcps/inverness-$panel.csv" --check
+          done
 
       - name: Classify changed paths
         id: scope

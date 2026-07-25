@@ -66,7 +66,15 @@ class GraticuleSettings:
 
     anchor: GraticuleAnchor
     tolerance_px: float
-    min_extent_px: float
+    min_extent_px: tuple[float, float]
+    """Shortest line admitted to each family, (meridians, parallels).
+
+    Per family because the two rarely face the same competition. On the south
+    panel the roads run north to south along the coast, so they impersonate
+    meridians and not parallels; admitting lines of 3,500 px there fits a
+    nonsense 967 px pitch through a bundle of roads, while the 15,000 px needed
+    to exclude them would throw away three of the four real parallels.
+    """
     anchor_evidence: str
 
 
@@ -187,13 +195,13 @@ _INVERNESS_SOUTH_CUTLINE = Cutline(
 _INVERNESS_NORTH_GRATICULE = GraticuleSettings(
     anchor=GraticuleAnchor(
         meridian_index=0,
-        meridian_lon=-(60.0 + 40.0 / 60.0),
+        meridian_lon=-61.0,
         parallel_index=0,
         parallel_lat=46.0 + 50.0 / 60.0,
         step_minutes=5.0,
     ),
     tolerance_px=120.0,
-    min_extent_px=3500.0,
+    min_extent_px=(3500.0, 3500.0),
     anchor_evidence=(
         "engraved labels 60d40'W x 47d00'N at ~(12388,3188) and 60d50'W at "
         "~(9526,28276) on RUMSEY~8~1~353591~90120835"
@@ -205,6 +213,51 @@ _INVERNESS_NORTH_DETECTION = DetectionSettings(
     darkness=140,
     min_length_px=500,
     angles_deg=(84.5, 174.5),
+)
+
+# The south panel carries a 10-arcminute lattice, NOT the north panel's 5. Four
+# printed labels were read directly off the scan, two per family:
+#
+#   "61 10'" at ~(25055, 850), the rule passing between the "61" and the "10'"
+#   "61 00'" at ~(29678, 850), likewise
+#   "46 00"  at ~(33320, 17074), sitting on its rule at y ~ 17146
+#   "45 50"  at ~(33320, 23835), sitting on its rule at y ~ 23880
+#
+# The fitted meridian pitch of 4,714.9 px and parallel pitch of 6,814.4 px agree
+# with the label separations (4,623 px and 6,734 px) to within 2 %, and the
+# fitted rules land within 30 px of the two longitude labels and within 22 px of
+# the two latitude labels.
+#
+# Cross-check against the north panel, which settles the step independently:
+# north parallels are 3,413.7 px per 5' = 682.7 px per arcminute; south are
+# 6,814.4 px per 10' = 681.4 px per arcminute. At 1,852 m per arcminute both
+# imply 2.718 m per source pixel - the same engraving, two different steps.
+_INVERNESS_SOUTH_GRATICULE = GraticuleSettings(
+    anchor=GraticuleAnchor(
+        meridian_index=0,
+        meridian_lon=-(61.0 + 20.0 / 60.0),
+        parallel_index=0,
+        parallel_lat=46.0 + 10.0 / 60.0,
+        step_minutes=10.0,
+    ),
+    tolerance_px=120.0,
+    min_extent_px=(15000.0, 5000.0),
+    anchor_evidence=(
+        "engraved labels 61d10'W at ~(25055,850), 61d00'W at ~(29678,850), "
+        "46d00'N on its rule at y~17146 and 45d50'N at y~23880, all read off "
+        "RUMSEY~8~1~353591~90120835"
+    ),
+)
+
+# Angles measured off the read labels, not from the orientation histogram: the
+# 61d00' meridian stands at ~90 degrees and the 46d00' parallel rule at ~0.17.
+# Auto-detection on this panel picks 88.5 / 119.5 and finds no parallels at all,
+# because the dense coastal hachure outvotes them.
+_INVERNESS_SOUTH_DETECTION = DetectionSettings(
+    factor=4,
+    darkness=140,
+    min_length_px=500,
+    angles_deg=(90.1, 0.1),
 )
 
 _PANELS = {
@@ -223,6 +276,8 @@ _PANELS = {
         cutline=_INVERNESS_SOUTH_CUTLINE,
         target_bounds=GeographicBounds(west=-61.70, south=45.55, east=-60.55, north=46.40),
         target_resolution_m=5.0,
+        detection=_INVERNESS_SOUTH_DETECTION,
+        graticule=_INVERNESS_SOUTH_GRATICULE,
     ),
 }
 

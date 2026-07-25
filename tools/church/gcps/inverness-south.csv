@@ -1,18 +1,28 @@
-# Inverness south geographic panel, full-sheet pixel coordinates.
-# Official CGNDB populated-place coordinates paired with visually confirmed
-# main-map labels. Insets and directional phrases are deliberately excluded.
+# inverness south panel graticule control mesh, full-sheet pixel coordinates.
+#
+# GENERATED - do not hand-edit. Regenerate with:
+#   python3 -m tools.church.emit_gcps inverness south --out tools/church/gcps/inverness-south.csv
+#
+# Intersections of the printed graticule, detected by
+# tools/church/detect_graticule.py into tools/church/detections/inverness-south.json,
+# fitted as a regular lattice and anchored on labels read off the scan:
+#   engraved labels 61d10'W at ~(25055,850), 61d00'W at ~(29678,850), 46d00'N on its rule at y~17146 and 45d50'N at y~23880, all read off RUMSEY~8~1~353591~90120835
+# Step 10 arcminutes; meridian index 0 = -61.333333,
+# parallel index 0 = 46.166667.
+#
+# These are CONTROL only. Every check point is an independent physical feature
+# in a separate file - a graticule intersection must never be used to measure
+# the accuracy of a warp fitted on graticule intersections.
 pixel_x,pixel_y,lon,lat,role,label
-22100,5950,-61.234619,46.270719,control,Broad Cove main-map label
-21500,9000,-61.287271,46.183341,control,Strathlorne main-map label
-26663.571,17952.714,-61.119122,45.973824,control,Whycocomagh main-map label
-23492.625,18128.375,-61.217077,45.989158,control,Kewstoke main-map label
-20553.5,18410.167,-61.326861,45.949041,control,Glencoe main-map label
-25427.833,20793.333,-61.164172,45.91239,control,Ashfield main-map label
-16146.857,21784.429,-61.490604,45.876363,control,Judique main-map label
-18312.429,27777.286,-61.357626,45.724959,control,Queensville main-map label
-15609.5,16452.833,-61.488784,46.014683,control,Dungarry main-map label
-15407.875,17648.625,-61.442924,46.055442,control,Glengarry main-map label
-18733,31385,-61.403182,45.646132,control,Port Hastings main-map label
-20134.125,12614.75,-61.348218,46.08906,check,Glendyer main-map label
-22461,22337,-61.177619,45.837086,check,River Denys main-map label
-17231,27777,-61.45989,45.732686,check,Creignish main-map label
+20275.3,10274.5,-61.333333,46.166667,control,graticule 61d20mW 46d10mN
+20264.9,17162.0,-61.333333,46.000000,control,graticule 61d20mW 46d00mN
+20254.7,23927.3,-61.333333,45.833333,control,graticule 61d20mW 45d50mN
+20244.4,30737.5,-61.333333,45.666667,control,graticule 61d20mW 45d40mN
+25031.6,10264.3,-61.166667,46.166667,control,graticule 61d10mW 46d10mN
+25025.5,17153.2,-61.166667,46.000000,control,graticule 61d10mW 46d00mN
+25019.6,23911.5,-61.166667,45.833333,control,graticule 61d10mW 45d50mN
+25013.6,30693.7,-61.166667,45.666667,control,graticule 61d10mW 45d40mN
+29707.6,10254.4,-61.000000,46.166667,control,graticule 61d00mW 46d10mN
+29721.6,17144.6,-61.000000,46.000000,control,graticule 61d00mW 46d00mN
+29735.2,23895.8,-61.000000,45.833333,control,graticule 61d00mW 45d50mN
+29748.9,30650.1,-61.000000,45.666667,control,graticule 61d00mW 45d40mN

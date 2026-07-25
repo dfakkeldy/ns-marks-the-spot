@@ -140,9 +140,13 @@ class GraticuleSettingsTests(unittest.TestCase):
         self.assertAlmostEqual(
             panel.graticule.anchor.parallel_lat, 46.0 + 50.0 / 60.0, places=12
         )
-        self.assertAlmostEqual(
-            panel.graticule.anchor.meridian_lon, -(60.0 + 40.0 / 60.0), places=12
+        # Meridian index 0 is the westernmost rule, 61d00'W. The label actually
+        # read, 60d40'W, is index 4 - four exact 5-arcminute steps east.
+        self.assertAlmostEqual(panel.graticule.anchor.meridian_lon, -61.0, places=12)
+        four_steps_east = (
+            panel.graticule.anchor.meridian_lon + 4 * panel.graticule.anchor.step_degrees
         )
+        self.assertAlmostEqual(four_steps_east, -(60.0 + 40.0 / 60.0), places=12)
 
     def test_anchor_evidence_is_recorded(self):
         panel = get_panel("inverness", "north")
