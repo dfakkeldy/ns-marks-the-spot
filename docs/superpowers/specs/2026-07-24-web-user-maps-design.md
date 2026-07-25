@@ -130,7 +130,8 @@ embedded georef? render immediately : open georeferencer.
 stacked with a tab toggle on narrow screens. Click scan, click map → one GCP.
 At 3 GCPs the affine solve runs live and the warped scan appears under the
 transparency slider; every subsequent point drag re-solves in real time.
-`GcpList` shows per-point residuals in metres with the worst highlighted.
+`GcpList` shows per-point residuals in metres, with the worst highlighted from
+five points onward (see *Why nothing is highlighted at 4 points*).
 With exactly 3 points residuals are zero by construction, so the UI says
 "add a 4th point to check accuracy" instead of a misleading 0 m. At 4+ points
 a TPS toggle appears (phase 3). Save → layer row appears.
@@ -215,13 +216,44 @@ under a status header that changes with the point count:
 |---|---|---|
 | 0–2 | "Place 3 points to see the map drape." | — |
 | exactly 3 | "Exact fit — add a 4th point to check accuracy." | `—`, never `0 m` |
-| 4+ | "RMS 42 m across 5 points" | ground metres, worst row highlighted |
+| 4 | "RMS 38 m across 4 points" | ground metres, **no row highlighted** |
+| 5+ | "RMS 42 m across 5 points" | ground metres, worst row highlighted |
 
-**Designed failure states.** Three near-collinear points make the solve
-singular; the status becomes *"These points are almost in a straight line —
-move one off the line to solve."* and no drape appears. A wildly wrong point
-is what the worst-residual highlight exists to surface — the list is the
-debugging tool, so every row is deletable.
+**Why nothing is highlighted at 4 points (amended 2026-07-25).** This
+originally specified leave-one-out refitting to pick the suspect row, on the
+reasoning that least squares smears a gross error across every point so the
+largest fit residual accuses an innocent one. The first half is true; the
+conclusion is not, because the outlier also corrupts every refit that still
+contains it. A 1104-trial sweep (outlier index × magnitude × direction) had
+leave-one-out winning 147 times and losing 150 against the plain fit residual
+— a wash — for an extra affine solve per point on every pointer move.
+
+At four points it is worse than a wash, it is arithmetically impossible: four
+points fitting three parameters leave one residual degree of freedom per axis,
+and at four corners every hat-matrix leverage is exactly 0.75, so `1 − h` is
+constant and leave-one-out (`e/(1−h)`), studentized (`e/√(1−h)`) and the raw
+residual all produce the **identical** ranking. Measured 24% correct against a
+25% chance baseline. So: plain fit residual, and no accusation below five
+points, where the same sweep reaches 60% against a 20% baseline.
+
+**Designed failure states.** The solve is refused, with no drape and a status
+explaining what to do, in three cases: control points too close to a straight
+line to determine a transform; a solved transform that squashes one axis more
+than 50:1 (three map clicks down a meridian are exactly collinear in Mercator
+even when the scan points are ideal, and produce a zero-area drape whose
+residuals all read zero — a perfect fit over nothing); and any non-finite
+coordinate, which would otherwise reach Leaflet as `{lat: NaN}` and throw from
+inside a `moveend` handler. A wildly wrong point is what the worst-residual
+highlight exists to surface — the list is the debugging tool, so every row is
+deletable.
+
+**Known gap: clustered control points.** Three points inside 200 px of a
+4096 px scan are well-conditioned in shape and solve cleanly, but the fit is
+extrapolated ~20× beyond them, so a 1 px click slip moves the far corner by a
+kilometre. No single spread threshold rejects this without also rejecting
+honestly elongated maps — a river-corridor strip scores lower than the huddle
+does. This needs a warning on the reported accuracy rather than a refusal to
+solve, and is not implemented in PR 2.
 
 **Footer.** Opacity slider (drives the live drape, saved as the map's
 opacity), a **Reference layers** row, *Undo*, *Done*, *Delete map*. No
@@ -234,6 +266,14 @@ without the two best control references, so the footer carries checkboxes for
 straight to the same `provinceLayers` state the rail uses. Two booleans in,
 two callbacks out — no duplicate layer state, and toggles made here persist
 after the session closes, because they *are* the rail's toggles.
+
+Both layers are `province-restricted`, and everywhere else in the app
+`LayerToggle` refuses to enable a restricted layer until the provincial
+licence has been accepted. The panel takes a third input, a single "locked"
+boolean, and renders the checkboxes disabled with a short reason — otherwise
+the georeferencer would be a way around the gate the rest of the UI enforces.
+The panel itself knows nothing about licensing; `App` already owns that
+policy.
 
 **Undo.** The session keeps a bounded history (50 entries) of `gcps`
 snapshots — they are small arrays of small objects, so snapshotting is
@@ -293,7 +333,18 @@ number wrong by nearly half.
 **Mesh density — and why it differs from the embedded case.** Screen space is
 Web Mercator scaled and translated, so a pixel→Mercator affine composes to an
 exactly affine pixel→screen map: a `gridSize = 1` mesh (two triangles) is
-*pixel-exact* for GCP-affine, with no curvature to absorb. This does not
+*pixel-exact* for GCP-affine, with no curvature to absorb.
+
+> **Amended 2026-07-25.** True of the maths, and *false of Leaflet's API*.
+> `latLngToContainerPoint` routes through `latLngToLayerPoint`, which is
+> `this.project(latlng)._round()` — every mesh vertex snapped to a whole CSS
+> pixel. Measured: up to 166 m of ground error at zoom 8, a >1 px content
+> break along the cell diagonal because the four corners round independently
+> (the seam `CLIP_OVERDRAW_DEVICE_PX` was added to hide), and 1-px stepped
+> jitter while a control point is dragged. The renderer therefore uses
+> `map.project()` and subtracts the pixel origin and pane offset itself.
+
+This does not
 contradict the 8×8 grid **Rendering** specifies for embedded georeferencing:
 that path runs pixel→UTM→WGS84→Mercator, and UTM→Mercator genuinely curves,
 so the lattice is earning its keep there. A GCP solve targets Mercator
