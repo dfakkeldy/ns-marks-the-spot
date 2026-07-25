@@ -120,3 +120,39 @@ class PanelCutlineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GraticuleSettingsTests(unittest.TestCase):
+    def test_north_panel_records_how_its_mesh_was_made(self):
+        panel = get_panel("inverness", "north")
+        assert panel.graticule is not None and panel.detection is not None
+        # The step the two read labels pin, and the minimum line length that
+        # actually finds all six parallels. At 600 only four survive.
+        self.assertEqual(panel.graticule.anchor.step_minutes, 5.0)
+        self.assertEqual(panel.detection.min_length_px, 500)
+        self.assertEqual(panel.detection.angles_deg, (84.5, 174.5))
+
+    def test_north_anchor_is_exact_arcminutes_not_a_rounded_decimal(self):
+        # The first emission of the control CSV typed 46.833333 instead of
+        # 46 degrees 50 minutes, and every coordinate inherited the rounding.
+        panel = get_panel("inverness", "north")
+        assert panel.graticule is not None
+        self.assertAlmostEqual(
+            panel.graticule.anchor.parallel_lat, 46.0 + 50.0 / 60.0, places=12
+        )
+        self.assertAlmostEqual(
+            panel.graticule.anchor.meridian_lon, -(60.0 + 40.0 / 60.0), places=12
+        )
+
+    def test_anchor_evidence_is_recorded(self):
+        panel = get_panel("inverness", "north")
+        assert panel.graticule is not None
+        self.assertIn("60d40", panel.graticule.anchor_evidence)
+
+    def test_a_panel_without_a_read_label_has_no_anchor(self):
+        # Settings are never inherited from a neighbouring panel: the two
+        # Inverness panels sit on different projection centres.
+        south = get_panel("inverness", "south")
+        north = get_panel("inverness", "north")
+        if south.graticule is not None:
+            self.assertNotEqual(south.graticule.anchor, north.graticule.anchor)

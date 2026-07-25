@@ -1,38 +1,46 @@
-# Inverness north panel graticule control mesh, full-sheet pixel coordinates.
-# Intersections of the printed 5-arcminute graticule, detected by
-# tools/church/detect_graticule.py and fitted as a regular lattice.
-# Anchored on two labels read directly off the scan: 60d40mW x 47d00mN at
-# ~(12388,3188), and 60d50mW at ~(9526,28276). Meridian index 0 = 60d40mW;
-# parallel index 0 = 46d50mN; step 5 arcminutes.
-# These are CONTROL only. Every check point is an independent physical feature.
+# inverness north panel graticule control mesh, full-sheet pixel coordinates.
+#
+# GENERATED - do not hand-edit. Regenerate with:
+#   python3 -m tools.church.emit_gcps inverness north --out tools/church/gcps/inverness-north.csv
+#
+# Intersections of the printed graticule, detected by
+# tools/church/detect_graticule.py into tools/church/detections/inverness-north.json,
+# fitted as a regular lattice and anchored on labels read off the scan:
+#   engraved labels 60d40'W x 47d00'N at ~(12388,3188) and 60d50'W at ~(9526,28276) on RUMSEY~8~1~353591~90120835
+# Step 5 arcminutes; meridian index 0 = -60.666667,
+# parallel index 0 = 46.833333.
+#
+# These are CONTROL only. Every check point is an independent physical feature
+# in a separate file - a graticule intersection must never be used to measure
+# the accuracy of a warp fitted on graticule intersections.
 pixel_x,pixel_y,lon,lat,role,label
 12881.6,10042.2,-60.666667,46.833333,control,graticule 60d40mW 46d50mN
 13128.1,13461.3,-60.666667,46.750000,control,graticule 60d40mW 46d45mN
-13376.5,16906.9,-60.666667,46.666666,control,graticule 60d40mW 46d40mN
+13376.5,16906.9,-60.666667,46.666667,control,graticule 60d40mW 46d40mN
 13617.8,20252.7,-60.666667,46.583333,control,graticule 60d40mW 46d35mN
 13865.5,23688.7,-60.666667,46.500000,control,graticule 60d40mW 46d30mN
-14110.1,27080.9,-60.666667,46.416666,control,graticule 60d40mW 46d25mN
+14110.1,27080.9,-60.666667,46.416667,control,graticule 60d40mW 46d25mN
 10536.9,10213.2,-60.750000,46.833333,control,graticule 60d45mW 46d50mN
 10792.0,13632.3,-60.750000,46.750000,control,graticule 60d45mW 46d45mN
-11048.2,17066.0,-60.750000,46.666666,control,graticule 60d45mW 46d40mN
+11048.2,17066.0,-60.750000,46.666667,control,graticule 60d45mW 46d40mN
 11298.5,20420.7,-60.750000,46.583333,control,graticule 60d45mW 46d35mN
 11554.7,23853.4,-60.750000,46.500000,control,graticule 60d45mW 46d30mN
-11807.6,27243.5,-60.750000,46.416666,control,graticule 60d45mW 46d25mN
-8349.2,10372.8,-60.833334,46.833333,control,graticule 60d50mW 46d50mN
-8573.4,13794.7,-60.833334,46.750000,control,graticule 60d50mW 46d45mN
-8797.8,17219.7,-60.833334,46.666666,control,graticule 60d50mW 46d40mN
-9018.3,20585.8,-60.833334,46.583333,control,graticule 60d50mW 46d35mN
-9243.2,24018.2,-60.833334,46.500000,control,graticule 60d50mW 46d30mN
-9465.4,27408.9,-60.833334,46.416666,control,graticule 60d50mW 46d25mN
+11807.6,27243.5,-60.750000,46.416667,control,graticule 60d45mW 46d25mN
+8349.2,10372.8,-60.833333,46.833333,control,graticule 60d50mW 46d50mN
+8573.4,13794.7,-60.833333,46.750000,control,graticule 60d50mW 46d45mN
+8797.8,17219.7,-60.833333,46.666667,control,graticule 60d50mW 46d40mN
+9018.3,20585.8,-60.833333,46.583333,control,graticule 60d50mW 46d35mN
+9243.2,24018.2,-60.833333,46.500000,control,graticule 60d50mW 46d30mN
+9465.4,27408.9,-60.833333,46.416667,control,graticule 60d50mW 46d25mN
 5992.3,10544.8,-60.916667,46.833333,control,graticule 60d55mW 46d50mN
 6216.2,13967.3,-60.916667,46.750000,control,graticule 60d55mW 46d45mN
-6439.4,17380.8,-60.916667,46.666666,control,graticule 60d55mW 46d40mN
+6439.4,17380.8,-60.916667,46.666667,control,graticule 60d55mW 46d40mN
 6660.2,20756.6,-60.916667,46.583333,control,graticule 60d55mW 46d35mN
 6884.5,24186.4,-60.916667,46.500000,control,graticule 60d55mW 46d30mN
-7106.2,27575.6,-60.916667,46.416666,control,graticule 60d55mW 46d25mN
+7106.2,27575.6,-60.916667,46.416667,control,graticule 60d55mW 46d25mN
 3684.5,10713.2,-61.000000,46.833333,control,graticule 61d00mW 46d50mN
 3898.2,14137.0,-61.000000,46.750000,control,graticule 61d00mW 46d45mN
-4110.7,17539.9,-61.000000,46.666666,control,graticule 61d00mW 46d40mN
+4110.7,17539.9,-61.000000,46.666667,control,graticule 61d00mW 46d40mN
 4322.1,20926.0,-61.000000,46.583333,control,graticule 61d00mW 46d35mN
 4536.1,24353.8,-61.000000,46.500000,control,graticule 61d00mW 46d30mN
-4747.6,27742.1,-61.000000,46.416666,control,graticule 61d00mW 46d25mN
+4747.6,27742.1,-61.000000,46.416667,control,graticule 61d00mW 46d25mN
