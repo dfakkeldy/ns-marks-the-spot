@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import dataclasses
 import copy
+import hashlib
 import inspect
 import json
 import pathlib
@@ -82,7 +83,14 @@ def passing_structure() -> StructuralVerdict:
     )
 
 
-def visual_review_payload(observation_sha256: str, gate: str = "PASS") -> dict:
+def visual_review_payload(
+    observation_sha256: str,
+    artifact_root: pathlib.Path,
+    selection_sha256: str,
+    natural_checks_sha256: str,
+    selected_raster_sha256: str,
+    gate: str = "PASS",
+) -> dict:
     artifacts: dict[str, object] = {}
     for key in REQUIRED_ARTIFACTS:
         count = (
@@ -92,13 +100,18 @@ def visual_review_payload(observation_sha256: str, gate: str = "PASS") -> dict:
             if key == "natural_check_crops"
             else 1
         )
-        artifacts[key] = [
-            {
-                "path": f"{key}/{index}.png",
-                "sha256": f"{index + 1:064x}",
-            }
-            for index in range(count)
-        ]
+        files = []
+        for index in range(count):
+            relative = f"{key}/{index}.png"
+            path = artifact_root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            content = relative.encode()
+            path.write_bytes(content)
+            files.append({
+                "path": relative,
+                "sha256": hashlib.sha256(content).hexdigest(),
+            })
+        artifacts[key] = files
     checks = {
         check: (
             "NOT_APPLICABLE" if check == "shared_boundary_if_applicable" else "PASS"
@@ -110,12 +123,24 @@ def visual_review_payload(observation_sha256: str, gate: str = "PASS") -> dict:
     inventory = {
         "schema_version": 1,
         "observation_sha256": observation_sha256,
+        "selection_sha256": selection_sha256,
+        "natural_checks_sha256": natural_checks_sha256,
+        "selected_raster_sha256": selected_raster_sha256,
+        "artifact_root": str(artifact_root),
         "artifacts": artifacts,
     }
+    inventory_path = artifact_root / "artifact-inventory.json"
+    inventory_path.write_text(json.dumps(inventory, indent=2, sort_keys=True) + "\n")
+    inventory_sha256 = hashlib.sha256(inventory_path.read_bytes()).hexdigest()
     return {
         "schema_version": 1,
         "gate": gate,
         "observation_sha256": observation_sha256,
+        "selection_sha256": selection_sha256,
+        "natural_checks_sha256": natural_checks_sha256,
+        "selected_raster_sha256": selected_raster_sha256,
+        "artifact_inventory_path": str(inventory_path),
+        "artifact_inventory_sha256": inventory_sha256,
         "checks": checks,
         "artifact_inventory": inventory,
         "artifacts": copy.deepcopy(artifacts),
@@ -352,6 +377,13 @@ class StagedCommandTests(unittest.TestCase):
                 "selected_method": "affine",
                 "selected_vrt_path": str(selected_vrt),
                 "selected_vrt_sha256": sha256(selected_vrt),
+                "expected_checks_sha256": hashlib.sha256(
+                    checks_text.encode()
+                ).hexdigest(),
+                "expected_check_count": 6,
+                "expected_check_ids": [
+                    point.label for point in parse_gcp_csv(checks_text)
+                ],
                 "transport_gate": "PASS",
                 "structural_gate": "PASS",
             }))
@@ -363,6 +395,7 @@ class StagedCommandTests(unittest.TestCase):
                 for point in parse_gcp_csv(checks_text)
             ]
             original_read_text = pathlib.Path.read_text
+            original_read_bytes = pathlib.Path.read_bytes
 
             with (
                 mock.patch(
@@ -370,6 +403,11 @@ class StagedCommandTests(unittest.TestCase):
                     autospec=True,
                     side_effect=original_read_text,
                 ) as read_text,
+                mock.patch(
+                    "pathlib.Path.read_bytes",
+                    autospec=True,
+                    side_effect=original_read_bytes,
+                ) as read_bytes,
                 mock.patch(
                     "tools.fletcher.physical_georeference.subprocess.run",
                     return_value=mock.Mock(stdout="\n".join(expected_lines) + "\n"),
@@ -379,9 +417,88 @@ class StagedCommandTests(unittest.TestCase):
 
             self.assertEqual(result.metrics, AccuracyMetrics(6, 0.0, 0.0, 0.0))
             self.assertEqual(
-                {call.args[0] for call in read_text.call_args_list},
-                {selection, checks},
+                json.loads(output.read_text())["check_ids"],
+                [point.label for point in parse_gcp_csv(checks_text)],
             )
+            self.assertEqual(
+                {call.args[0] for call in read_text.call_args_list},
+                {selection},
+            )
+            self.assertIn(checks, {call.args[0] for call in read_bytes.call_args_list})
+
+    def test_score_rejects_dropped_substituted_relabelled_or_moved_checks(
+        self,
+    ) -> None:
+        observation = parse_observation(json.dumps(valid_observation()))
+        checks_text = emit(observation).checks
+        points = parse_gcp_csv(checks_text)
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            selected_vrt = root / "selected-gcps.vrt"
+            selected_vrt.write_text("frozen VRT")
+            selection = root / "selection.json"
+            from tools.fletcher.fetch import sha256
+            selection.write_text(json.dumps({
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "observation_sha256": "a" * 64,
+                "disposition": "selection-pass",
+                "selected_method": "affine",
+                "selected_vrt_path": str(selected_vrt),
+                "selected_vrt_sha256": sha256(selected_vrt),
+                "expected_checks_sha256": hashlib.sha256(
+                    checks_text.encode()
+                ).hexdigest(),
+                "expected_check_count": 6,
+                "expected_check_ids": [point.label for point in points],
+                "transport_gate": "PASS",
+                "structural_gate": "PASS",
+            }))
+            data_lines = checks_text.splitlines()
+            mutations = {
+                "dropped": "\n".join(data_lines[:-1]) + "\n",
+                "substituted": checks_text.replace("check-0", "other-check", 1),
+                "relabelled": checks_text.replace("check-0", "check-renamed", 1),
+                "moved": checks_text.replace("150.0,250.0", "151.0,250.0", 1),
+            }
+            for name, mutation in mutations.items():
+                with self.subTest(name=name):
+                    checks = root / f"{name}.csv"
+                    checks.write_text(mutation)
+                    with (
+                        self.assertRaisesRegex(ValueError, "frozen.*check"),
+                        mock.patch(
+                            "tools.fletcher.physical_georeference.subprocess.run"
+                        ) as run,
+                    ):
+                        score_final_checks(
+                            selection, checks, root / f"{name}.json"
+                        )
+                    run.assert_not_called()
+
+    def test_score_refuses_to_overwrite_or_retry_an_existing_result(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            selection = root / "selection.json"
+            checks = root / "checks.csv"
+            output = root / "natural-checks.json"
+            selection.write_text("{}")
+            checks.write_text("unread")
+            output.write_text('{"disposition":"natural-check-fail"}\n')
+            original = output.read_bytes()
+
+            with (
+                self.assertRaisesRegex(ValueError, "already exists"),
+                mock.patch("pathlib.Path.read_text") as read_text,
+                mock.patch(
+                    "tools.fletcher.physical_georeference.subprocess.run"
+                ) as run,
+            ):
+                score_final_checks(selection, checks, output)
+
+            self.assertEqual(output.read_bytes(), original)
+            read_text.assert_not_called()
+            run.assert_not_called()
 
     def test_prefit_failure_preserves_rejection_and_marks_every_stage_not_run(
         self,
@@ -476,6 +593,14 @@ class StagedCommandTests(unittest.TestCase):
             root = pathlib.Path(directory)
             raster = root / "selected-3857.tif"
             raster.write_bytes(b"raster")
+            checks = root / "checks.csv"
+            checks_text = emit(
+                parse_observation(json.dumps(valid_observation()))
+            ).checks
+            checks.write_text(checks_text)
+            check_ids = [
+                point.label for point in parse_gcp_csv(checks_text)
+            ]
             selection = root / "selection.json"
             from tools.fletcher.fetch import sha256
             selection.write_text(json.dumps({
@@ -490,11 +615,20 @@ class StagedCommandTests(unittest.TestCase):
                     "rms_m": 100.0,
                     "p95_m": 200.0,
                     "max_m": 300.0,
-                    "residuals": [],
+                    "residuals": [
+                        {"id": f"control-{index}"}
+                        for index in range(10)
+                    ],
                 },
                 "transport_gate": "PASS",
+                "transport_stage": "passed",
                 "structural_gate": "PASS",
+                "structural_stage": "passed",
+                "structural": dataclasses.asdict(passing_structure()),
                 "raster_stage": "generated",
+                "expected_checks_sha256": sha256(checks),
+                "expected_check_count": 6,
+                "expected_check_ids": check_ids,
                 "selected_raster_path": str(raster),
                 "selected_raster_sha256": sha256(raster),
                 "disposition": "selection-pass",
@@ -508,6 +642,18 @@ class StagedCommandTests(unittest.TestCase):
                 "selection_sha256": sha256(selection),
                 "selected_method": "affine",
                 "check_count": 6,
+                "check_ids": check_ids,
+                "checks_path": str(checks),
+                "checks_sha256": sha256(checks),
+                "residuals": [
+                    {
+                        "id": identifier,
+                        "expected": [0.0, 0.0],
+                        "actual": [0.0, 0.0],
+                        "error_m": 0.0,
+                    }
+                    for identifier in check_ids
+                ],
                 "rms_m": 100.0,
                 "p95_m": 200.0,
                 "max_m": 300.0,
@@ -516,14 +662,99 @@ class StagedCommandTests(unittest.TestCase):
                 "reason": "passed",
             }))
             review = root / "review.json"
-            review.write_text(json.dumps(visual_review_payload("a" * 64)))
+            review.write_text(json.dumps(visual_review_payload(
+                "a" * 64,
+                root / "qa",
+                sha256(selection),
+                sha256(natural),
+                sha256(raster),
+            )))
 
             result = finalize_result(selection, natural, review)
 
-        self.assertEqual(result["disposition"], "PASS")
-        self.assertEqual(result["visual_qa"]["gate"], "PASS")
-        self.assertEqual(result["tile_stage"], "not-generated")
-        self.assertEqual(result["tile_png_count"], 0)
+            self.assertEqual(result["disposition"], "PASS")
+            self.assertEqual(result["visual_qa"]["gate"], "PASS")
+            self.assertEqual(result["tile_stage"], "not-generated")
+            self.assertEqual(result["tile_png_count"], 0)
+
+            natural_payload = json.loads(natural.read_text())
+            cases = (
+                ("schema_version", 2, "schema_version"),
+                ("method_version", "other", "method_version"),
+                ("check_ids", check_ids[:-1], "check IDs"),
+                ("checks_sha256", "f" * 64, "check-file"),
+            )
+            for field, value, message in cases:
+                with self.subTest(field=field):
+                    changed = copy.deepcopy(natural_payload)
+                    changed[field] = value
+                    natural.write_text(json.dumps(changed))
+                    with self.assertRaisesRegex(ValueError, message):
+                        finalize_result(selection, natural, review)
+            natural.write_text(json.dumps(natural_payload))
+
+            artifact = root / "qa/candidate_contact_sheet/0.png"
+            original = artifact.read_bytes()
+            artifact.write_bytes(b"drifted")
+            with self.assertRaisesRegex(ValueError, "SHA-256"):
+                finalize_result(selection, natural, review)
+            artifact.unlink()
+            with self.assertRaisesRegex(ValueError, "missing"):
+                finalize_result(selection, natural, review)
+            artifact.parent.mkdir(parents=True, exist_ok=True)
+            artifact.write_bytes(original)
+
+            inventory_path = root / "qa/artifact-inventory.json"
+            inventory_bytes = inventory_path.read_bytes()
+            inventory_path.write_bytes(b"drifted inventory")
+            with self.assertRaisesRegex(ValueError, "artifact inventory SHA-256"):
+                finalize_result(selection, natural, review)
+            inventory_path.unlink()
+            with self.assertRaisesRegex(ValueError, "artifact inventory.*missing"):
+                finalize_result(selection, natural, review)
+            inventory_path.write_bytes(inventory_bytes)
+
+            stale = json.loads(review.read_text())
+            stale["selection_sha256"] = "e" * 64
+            stale["artifact_inventory"]["selection_sha256"] = "e" * 64
+            stale_inventory = root / "qa/stale-artifact-inventory.json"
+            stale_inventory.write_text(json.dumps(
+                stale["artifact_inventory"], indent=2, sort_keys=True
+            ) + "\n")
+            stale["artifact_inventory_path"] = str(stale_inventory)
+            stale["artifact_inventory_sha256"] = hashlib.sha256(
+                stale_inventory.read_bytes()
+            ).hexdigest()
+            review.write_text(json.dumps(stale))
+            with self.assertRaisesRegex(ValueError, "selection"):
+                finalize_result(selection, natural, review)
+
+    def test_finalize_selection_pass_requires_complete_structural_evidence(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            selection = pathlib.Path(directory) / "selection.json"
+            selection.write_text(json.dumps({
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "observation_sha256": "a" * 64,
+                "selected_method": "affine",
+                "selected_candidate": {
+                    "point_count": 10,
+                    "rms_m": 100.0,
+                    "p95_m": 200.0,
+                    "max_m": 300.0,
+                },
+                "transport_gate": "PASS",
+                "transport_stage": "passed",
+                "structural_gate": "PASS",
+                "structural_stage": "passed",
+                "structural": None,
+                "disposition": "selection-pass",
+            }))
+
+            with self.assertRaisesRegex(ValueError, "structural evidence"):
+                finalize_result(selection, None, None)
 
     def test_tile_counts_only_pngs_and_atomically_updates_pass_result(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

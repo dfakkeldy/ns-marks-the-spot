@@ -16,6 +16,7 @@ import math
 import os
 import pathlib
 import subprocess
+import tempfile
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass
 
@@ -23,8 +24,8 @@ from tools.church.cutline_warp import cutline_geojson
 from tools.church.gcps import (
     CONTROL_ROLE,
     GroundControlPoint,
-    load_check_points,
     load_gcps,
+    parse_check_csv,
 )
 from tools.church.georeference import check_errors, parse_gdaltransform_output
 from tools.church.residuals import summarise
@@ -48,6 +49,7 @@ from tools.fletcher.physical_qa import (
     StructuralVerdict,
     evaluate_structure,
     validate_visual_review,
+    verify_artifact_inventory_files,
 )
 
 
@@ -169,6 +171,33 @@ def _write_json_atomic(path: pathlib.Path, payload: dict[str, object]) -> None:
         encoding="utf-8",
     )
     os.replace(temporary, path)
+
+
+def _write_json_once(path: pathlib.Path, payload: dict[str, object]) -> None:
+    """Atomically publish a JSON receipt without ever replacing an existing one."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    encoded = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    temporary: pathlib.Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            handle.write(encoded)
+            temporary = pathlib.Path(handle.name)
+        try:
+            os.link(temporary, path)
+        except FileExistsError:
+            raise ValueError(
+                f"natural-check result already exists and cannot be overwritten: {path}"
+            ) from None
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def _metric_payload(metrics: AccuracyMetrics | None) -> dict[str, object] | None:
@@ -487,8 +516,8 @@ def select_transform(
             reason=str(error),
         )
 
-    generated = emit(observation).controls
-    if controls_path.read_text(encoding="utf-8") != generated:
+    generated = emit(observation)
+    if controls_path.read_text(encoding="utf-8") != generated.controls:
         raise ValueError("controls CSV is not the generated frozen observation output")
     controls = load_gcps(controls_path)
     _require_control_only(controls)
@@ -602,6 +631,14 @@ def select_transform(
         "observation_sha256": observation_hash,
         "controls_path": str(controls_path),
         "controls_sha256": sha256(controls_path),
+        "expected_checks_sha256": hashlib.sha256(
+            generated.checks.encode("utf-8")
+        ).hexdigest(),
+        "expected_check_count": len(observation.final_checks),
+        "expected_check_ids": [
+            point.id
+            for point in sorted(observation.final_checks, key=lambda item: item.id)
+        ],
         "control_count": len(controls),
         "accepted_control_count": len(observation.controls),
         "accepted_check_count": len(observation.final_checks),
@@ -651,7 +688,15 @@ def score_final_checks(
     output_path: pathlib.Path,
 ) -> FinalCheckResult:
     """Score untouched checks against a frozen selected all-control transform."""
+    if output_path.exists():
+        raise ValueError(
+            f"natural-check result already exists and cannot be overwritten: {output_path}"
+        )
     selection = _json_object(selection_path, "selection")
+    if selection.get("schema_version") != 1:
+        raise ValueError("selection schema_version must be 1")
+    if selection.get("method_version") != METHOD_VERSION:
+        raise ValueError(f"selection method_version must be {METHOD_VERSION}")
     if (
         selection.get("disposition") != "selection-pass"
         or selection.get("transport_gate") != "PASS"
@@ -668,7 +713,35 @@ def score_final_checks(
     if sha256(selected_vrt) != selection.get("selected_vrt_sha256"):
         raise ValueError("selected all-control VRT SHA-256 does not match selection")
 
-    checks = load_check_points(checks_path)
+    checks_bytes = checks_path.read_bytes()
+    checks_hash = hashlib.sha256(checks_bytes).hexdigest()
+    expected_hash = selection.get("expected_checks_sha256")
+    expected_count = selection.get("expected_check_count")
+    expected_ids = selection.get("expected_check_ids")
+    if (
+        not isinstance(expected_hash, str)
+        or len(expected_hash) != 64
+        or checks_hash != expected_hash
+        or isinstance(expected_count, bool)
+        or not isinstance(expected_count, int)
+        or not isinstance(expected_ids, list)
+        or any(not isinstance(identifier, str) for identifier in expected_ids)
+        or len(expected_ids) != expected_count
+        or len(set(expected_ids)) != len(expected_ids)
+    ):
+        raise ValueError(
+            "supplied checks do not match the frozen observation check commitment"
+        )
+    try:
+        checks_text = checks_bytes.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise ValueError("frozen check CSV must be UTF-8") from error
+    checks = parse_check_csv(checks_text)
+    check_ids = [point.label for point in checks]
+    if len(checks) != expected_count or check_ids != expected_ids:
+        raise ValueError(
+            "supplied checks do not match the frozen observation check IDs/count"
+        )
     stdin = "\n".join(f"{point.pixel_x} {point.pixel_y}" for point in checks)
     completed = subprocess.run(
         build_transform_command(str(method), str(selected_vrt)),
@@ -710,8 +783,9 @@ def score_final_checks(
         "selection_sha256": sha256(selection_path),
         "selected_method": method,
         "check_count": len(checks),
+        "check_ids": check_ids,
         "checks_path": str(checks_path),
-        "checks_sha256": sha256(checks_path),
+        "checks_sha256": checks_hash,
         "residuals": [residual.as_dict() for residual in residuals],
         "rms_m": metrics.rms_m,
         "p95_m": metrics.p95_m,
@@ -724,7 +798,7 @@ def score_final_checks(
             else "untouched natural features miss 6/400/900/1500 gate"
         ),
     }
-    _write_json_atomic(output_path, payload)
+    _write_json_once(output_path, payload)
     return FinalCheckResult(method, metrics, disposition, output_path)
 
 
@@ -740,10 +814,6 @@ def prefit_failure_result(observation: PhysicalObservation) -> dict:
         "sheet_id": observation.sheet_id,
         "source_receipt": dataclasses.asdict(observation.source_receipt),
         "observation_sha256": None,
-        "detector_path": (
-            "/var/home/dan/nsmarks-fletcher-20260725/qa/"
-            "sheet-24-modern-v1/lattice-auto.json"
-        ),
         "accepted_control_count": len(observation.controls),
         "accepted_check_count": len(observation.final_checks),
         "rejected_candidate_count": len(observation.rejected_candidates),
@@ -769,13 +839,6 @@ def prefit_failure_result(observation: PhysicalObservation) -> dict:
     }
 
 
-def _canonical_json_sha256(value: object) -> str:
-    encoded = json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
-    ).encode("utf-8")
-    return hashlib.sha256(encoded).hexdigest()
-
-
 def _validate_selected_raster(result: dict[str, object]) -> pathlib.Path:
     value = result.get("selected_raster_path")
     if not isinstance(value, str) or not value:
@@ -785,6 +848,95 @@ def _validate_selected_raster(result: dict[str, object]) -> pathlib.Path:
     if not isinstance(recorded_hash, str) or sha256(raster) != recorded_hash:
         raise ValueError("selected raster SHA-256 does not match")
     return raster
+
+
+def _validate_selection_pass_evidence(selection: dict[str, object]) -> None:
+    if (
+        selection.get("transport_gate") != "PASS"
+        or selection.get("transport_stage") != "passed"
+    ):
+        raise ValueError("selection-pass requires transport stage PASS")
+    if (
+        selection.get("structural_gate") != "PASS"
+        or selection.get("structural_stage") != "passed"
+    ):
+        raise ValueError("selection-pass requires structural stage PASS")
+    structural = selection.get("structural")
+    if (
+        not isinstance(structural, dict)
+        or structural.get("passed") is not True
+        or structural.get("reason") != "PASS"
+    ):
+        raise ValueError("selection-pass requires complete structural evidence")
+    sample_grid = structural.get("sample_grid")
+    metrics = structural.get("metrics")
+    if sample_grid not in ([21, 21], (21, 21)) or not isinstance(metrics, dict):
+        raise ValueError("selection-pass requires complete structural evidence")
+    integer_fields = (
+        "sample_count",
+        "cell_count",
+        "mesh_components",
+        "overlapping_cell_pairs",
+    )
+    numeric_fields = (
+        "determinant_min",
+        "determinant_max",
+        "anisotropy_max",
+        "area_scale_min",
+        "area_scale_median",
+        "area_scale_max",
+    )
+    if any(
+        isinstance(metrics.get(field), bool)
+        or not isinstance(metrics.get(field), int)
+        for field in integer_fields
+    ) or any(
+        isinstance(metrics.get(field), bool)
+        or not isinstance(metrics.get(field), (int, float))
+        or not math.isfinite(float(metrics[field]))
+        for field in numeric_fields
+    ):
+        raise ValueError("selection-pass requires complete structural evidence")
+    if (
+        metrics["sample_count"] <= 0
+        or metrics["cell_count"] <= 0
+        or metrics["determinant_min"] <= 0
+        or metrics["anisotropy_max"] > 4.0
+        or metrics["area_scale_min"] <= 0
+        or metrics["area_scale_median"] <= 0
+        or metrics["area_scale_max"] <= 0
+        or metrics["mesh_components"] != 1
+        or metrics["overlapping_cell_pairs"] != 0
+        or metrics["determinant_max"] < metrics["determinant_min"]
+        or not (
+            metrics["area_scale_min"]
+            <= metrics["area_scale_median"]
+            <= metrics["area_scale_max"]
+        )
+    ):
+        raise ValueError("selection-pass structural evidence is internally unsafe")
+    if selection.get("selected_method") not in METHODS:
+        raise ValueError("selection-pass requires a supported selected method")
+    transport = _accuracy_metrics_from_mapping(
+        selection.get("selected_candidate"),
+        count_key="point_count",
+        label="transport",
+    )
+    selected_candidate = selection["selected_candidate"]
+    assert isinstance(selected_candidate, dict)
+    residuals = selected_candidate.get("residuals")
+    if (
+        not _accuracy_passes(transport, 10)
+        or not isinstance(residuals, list)
+        or len(residuals) != transport.point_count
+        or any(
+            not isinstance(residual, dict)
+            or not isinstance(residual.get("id"), str)
+            for residual in residuals
+        )
+        or len({residual["id"] for residual in residuals}) != len(residuals)
+    ):
+        raise ValueError("selection-pass transport evidence is incomplete")
 
 
 def finalize_result(
@@ -833,6 +985,7 @@ def finalize_result(
         return result
     if disposition != "selection-pass":
         raise ValueError(f"unsupported selection disposition {disposition!r}")
+    _validate_selection_pass_evidence(selection)
     if final_check_path is None:
         raise ValueError("selection PASS requires natural-check evidence")
     transport = _accuracy_metrics_from_mapping(
@@ -844,12 +997,73 @@ def finalize_result(
         raise ValueError("selection PASS has transport metrics outside fixed gate")
 
     natural = _json_object(final_check_path, "natural checks")
+    if natural.get("schema_version") != 1:
+        raise ValueError("natural checks schema_version must be 1")
+    if natural.get("method_version") != METHOD_VERSION:
+        raise ValueError(f"natural checks method_version must be {METHOD_VERSION}")
     if natural.get("selection_sha256") != result["selection_sha256"]:
         raise ValueError("natural checks selection SHA-256 does not match")
     if natural.get("observation_sha256") != observation_hash:
         raise ValueError("natural checks observation SHA-256 does not match")
     if natural.get("selected_method") != selection.get("selected_method"):
         raise ValueError("natural checks selected method does not match")
+    expected_check_hash = selection.get("expected_checks_sha256")
+    expected_check_count = selection.get("expected_check_count")
+    expected_check_ids = selection.get("expected_check_ids")
+    if (
+        not isinstance(expected_check_hash, str)
+        or len(expected_check_hash) != 64
+        or isinstance(expected_check_count, bool)
+        or not isinstance(expected_check_count, int)
+        or expected_check_count < 6
+        or not isinstance(expected_check_ids, list)
+        or any(not isinstance(identifier, str) for identifier in expected_check_ids)
+        or len(expected_check_ids) != expected_check_count
+        or len(set(expected_check_ids)) != len(expected_check_ids)
+    ):
+        raise ValueError("selection check commitment is incomplete")
+    if (
+        natural.get("check_count") != expected_check_count
+        or natural.get("check_ids") != expected_check_ids
+    ):
+        raise ValueError("natural check IDs/count do not match selection commitment")
+    if natural.get("checks_sha256") != expected_check_hash:
+        raise ValueError("natural check-file SHA-256 does not match selection commitment")
+    checks_path_value = natural.get("checks_path")
+    if not isinstance(checks_path_value, str) or not checks_path_value:
+        raise ValueError("natural checks receipt has no check-file path")
+    recorded_checks_path = pathlib.Path(checks_path_value)
+    if not recorded_checks_path.is_file():
+        raise ValueError("natural checks receipt check-file is missing")
+    if sha256(recorded_checks_path) != expected_check_hash:
+        raise ValueError("natural check-file actual SHA-256 does not match")
+    residuals = natural.get("residuals")
+    if (
+        not isinstance(residuals, list)
+        or len(residuals) != expected_check_count
+        or [residual.get("id") for residual in residuals if isinstance(residual, dict)]
+        != expected_check_ids
+        or any(
+            not isinstance(residual, dict)
+            or any(
+                not isinstance(residual.get(endpoint), list)
+                or len(residual[endpoint]) != 2
+                or any(
+                    isinstance(coordinate, bool)
+                    or not isinstance(coordinate, (int, float))
+                    or not math.isfinite(float(coordinate))
+                    for coordinate in residual[endpoint]
+                )
+                for endpoint in ("expected", "actual")
+            )
+            or isinstance(residual.get("error_m"), bool)
+            or not isinstance(residual.get("error_m"), (int, float))
+            or not math.isfinite(float(residual["error_m"]))
+            or float(residual["error_m"]) < 0
+            for residual in residuals
+        )
+    ):
+        raise ValueError("natural residual IDs/count do not match frozen checks")
     natural_gate = natural.get("gate")
     if natural_gate not in {"PASS", "FAIL"}:
         raise ValueError("natural checks gate must be PASS or FAIL")
@@ -893,14 +1107,38 @@ def finalize_result(
         raise ValueError("both numerical gates PASS requires visual review")
 
     visual_text = visual_review_path.read_text(encoding="utf-8")
-    visual = validate_visual_review(visual_text, observation_hash)
+    natural_checks_hash = sha256(final_check_path)
+    selected_raster = _validate_selected_raster(result)
+    selected_raster_hash = sha256(selected_raster)
+    visual = validate_visual_review(
+        visual_text,
+        observation_hash,
+        expected_selection_sha256=str(result["selection_sha256"]),
+        expected_natural_checks_sha256=natural_checks_hash,
+        expected_selected_raster_sha256=selected_raster_hash,
+    )
     visual_payload = json.loads(visual_text)
     assert isinstance(visual_payload, dict)
-    _validate_selected_raster(result)
+    inventory_path = visual.artifact_inventory_path
+    expected_inventory_path = (
+        visual.artifact_inventory.artifact_root / "artifact-inventory.json"
+    ).resolve(strict=False)
+    if inventory_path.resolve(strict=False) != expected_inventory_path:
+        raise ValueError(
+            "visual review artifact inventory path does not match artifact root"
+        )
+    if not inventory_path.is_file():
+        raise ValueError("visual review artifact inventory is missing")
+    if sha256(inventory_path) != visual.artifact_inventory_sha256:
+        raise ValueError("visual review artifact inventory SHA-256 does not match")
+    inventory_payload = _json_object(inventory_path, "artifact inventory")
+    if inventory_payload != visual_payload.get("artifact_inventory"):
+        raise ValueError(
+            "visual review embedded artifact inventory does not match inventory file"
+        )
+    verify_artifact_inventory_files(visual.artifact_inventory)
     result.update({
-        "artifact_inventory_sha256": _canonical_json_sha256(
-            visual_payload["artifact_inventory"]
-        ),
+        "artifact_inventory_sha256": visual.artifact_inventory_sha256,
         "visual_review_path": str(visual_review_path),
         "visual_review_sha256": sha256(visual_review_path),
         "visual_stage": "passed" if visual.gate == "PASS" else "failed",

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import dataclasses
 import copy
+import hashlib
 import json
 import math
 import pathlib
@@ -26,15 +27,25 @@ from tools.fletcher.physical_qa import (
     evaluate_structure,
     validate_artifact_inventory,
     validate_visual_review,
+    verify_artifact_inventory_files,
 )
 from tools.fletcher.physical_observation import RejectedCandidate
 from tools.fletcher.tests.physical_fixtures import CONTROL_PIXELS
 
 
 OBSERVATION_SHA256 = "a" * 64
+SELECTION_SHA256 = "b" * 64
+NATURAL_CHECKS_SHA256 = "c" * 64
+SELECTED_RASTER_SHA256 = "d" * 64
 
 
-def artifact_payload() -> dict[str, object]:
+def canonical_sha256(value: object) -> str:
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def artifact_payload(artifact_root: str = "/tmp/sheet-24-qa") -> dict[str, object]:
     artifacts: dict[str, object] = {}
     for key in REQUIRED_ARTIFACTS:
         count = (
@@ -54,6 +65,10 @@ def artifact_payload() -> dict[str, object]:
     return {
         "schema_version": 1,
         "observation_sha256": OBSERVATION_SHA256,
+        "selection_sha256": SELECTION_SHA256,
+        "natural_checks_sha256": NATURAL_CHECKS_SHA256,
+        "selected_raster_sha256": SELECTED_RASTER_SHA256,
+        "artifact_root": artifact_root,
         "artifacts": artifacts,
     }
 
@@ -64,6 +79,11 @@ def review_payload() -> dict[str, object]:
         "schema_version": 1,
         "gate": "PASS",
         "observation_sha256": OBSERVATION_SHA256,
+        "selection_sha256": SELECTION_SHA256,
+        "natural_checks_sha256": NATURAL_CHECKS_SHA256,
+        "selected_raster_sha256": SELECTED_RASTER_SHA256,
+        "artifact_inventory_path": "/tmp/sheet-24-qa/artifact-inventory.json",
+        "artifact_inventory_sha256": canonical_sha256(inventory),
         "checks": {
             check: (
                 "NOT_APPLICABLE" if check == "shared_boundary_if_applicable" else "PASS"
@@ -230,6 +250,9 @@ class ArtifactAndReviewTests(unittest.TestCase):
         optional = [{"path": "optional/nsprd.png", "sha256": "e" * 64}]
         payload["artifact_inventory"]["artifacts"]["nsprd_overlay"] = optional  # type: ignore[index]
         payload["artifacts"]["nsprd_overlay"] = optional  # type: ignore[index]
+        payload["artifact_inventory_sha256"] = canonical_sha256(
+            payload["artifact_inventory"]
+        )
 
         with self.assertRaisesRegex(ValueError, "described"):
             validate_visual_review(json.dumps(payload), OBSERVATION_SHA256)
@@ -238,10 +261,47 @@ class ArtifactAndReviewTests(unittest.TestCase):
         review = validate_visual_review(
             json.dumps(review_payload()),
             OBSERVATION_SHA256,
+            expected_selection_sha256=SELECTION_SHA256,
+            expected_natural_checks_sha256=NATURAL_CHECKS_SHA256,
+            expected_selected_raster_sha256=SELECTED_RASTER_SHA256,
         )
 
         self.assertEqual(review.gate, "PASS")
         self.assertEqual(review.observation_sha256, OBSERVATION_SHA256)
+
+    def test_review_reuse_from_another_selection_is_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "selection"):
+            validate_visual_review(
+                json.dumps(review_payload()),
+                OBSERVATION_SHA256,
+                expected_selection_sha256="e" * 64,
+                expected_natural_checks_sha256=NATURAL_CHECKS_SHA256,
+                expected_selected_raster_sha256=SELECTED_RASTER_SHA256,
+            )
+
+    def test_inventory_verification_rejects_missing_or_drifted_artifact_bytes(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            payload = artifact_payload(str(root))
+            for files in payload["artifacts"].values():  # type: ignore[union-attr]
+                for file in files:
+                    path = root / file["path"]
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes(file["path"].encode())
+                    file["sha256"] = hashlib.sha256(file["path"].encode()).hexdigest()
+            inventory = validate_artifact_inventory(payload)
+            verify_artifact_inventory_files(inventory)
+
+            first = next(iter(inventory.artifacts.values()))[0]
+            (root / first.path).write_bytes(b"drifted")
+            with self.assertRaisesRegex(ValueError, "SHA-256"):
+                verify_artifact_inventory_files(inventory)
+
+            (root / first.path).unlink()
+            with self.assertRaisesRegex(ValueError, "missing"):
+                verify_artifact_inventory_files(inventory)
 
 
 class RenderCommandTests(unittest.TestCase):

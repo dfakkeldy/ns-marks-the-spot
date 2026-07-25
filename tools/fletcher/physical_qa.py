@@ -94,6 +94,10 @@ class ArtifactInventory:
     """The observation-bound collection of required QA evidence."""
 
     observation_sha256: str
+    selection_sha256: str
+    natural_checks_sha256: str
+    selected_raster_sha256: str
+    artifact_root: pathlib.Path
     artifacts: Mapping[str, tuple[ArtifactFile, ...]]
 
 
@@ -103,6 +107,11 @@ class VisualReview:
 
     gate: str
     observation_sha256: str
+    selection_sha256: str
+    natural_checks_sha256: str
+    selected_raster_sha256: str
+    artifact_inventory_path: pathlib.Path
+    artifact_inventory_sha256: str
     checks: Mapping[str, str]
     artifact_inventory: ArtifactInventory
     optional_artifact_uses: Mapping[str, str]
@@ -517,6 +526,9 @@ def _artifact_files(value: object, label: str) -> tuple[ArtifactFile, ...]:
         path = item.get("path")
         if not isinstance(path, str) or not path.strip():
             raise ValueError(f"{label}[{index}].path is required")
+        relative = pathlib.PurePosixPath(path)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ValueError(f"{label}[{index}].path must stay inside artifact_root")
         files.append(
             ArtifactFile(
                 path=path,
@@ -537,6 +549,23 @@ def validate_artifact_inventory(value: object) -> ArtifactInventory:
     observation_sha256 = _require_sha256(
         value.get("observation_sha256"), "artifact inventory observation_sha256"
     )
+    selection_sha256 = _require_sha256(
+        value.get("selection_sha256"), "artifact inventory selection_sha256"
+    )
+    natural_checks_sha256 = _require_sha256(
+        value.get("natural_checks_sha256"),
+        "artifact inventory natural_checks_sha256",
+    )
+    selected_raster_sha256 = _require_sha256(
+        value.get("selected_raster_sha256"),
+        "artifact inventory selected_raster_sha256",
+    )
+    artifact_root_value = value.get("artifact_root")
+    if not isinstance(artifact_root_value, str) or not artifact_root_value.strip():
+        raise ValueError("artifact inventory artifact_root is required")
+    artifact_root = pathlib.Path(artifact_root_value)
+    if not artifact_root.is_absolute():
+        raise ValueError("artifact inventory artifact_root must be absolute")
     raw_artifacts = value.get("artifacts")
     if not isinstance(raw_artifacts, dict):
         raise ValueError("artifact inventory artifacts must be an object")
@@ -568,8 +597,30 @@ def validate_artifact_inventory(value: object) -> ArtifactInventory:
             raise ValueError(f"{key} requires at least one artifact path")
     return ArtifactInventory(
         observation_sha256,
+        selection_sha256,
+        natural_checks_sha256,
+        selected_raster_sha256,
+        artifact_root,
         MappingProxyType(dict(sorted(normalized.items()))),
     )
+
+
+def verify_artifact_inventory_files(inventory: ArtifactInventory) -> None:
+    """Verify every inventoried artifact exists beneath its root with exact bytes."""
+    root = inventory.artifact_root.resolve(strict=False)
+    for files in inventory.artifacts.values():
+        for artifact in files:
+            path = (root / artifact.path).resolve(strict=False)
+            if root not in path.parents:
+                raise ValueError(
+                    f"artifact path escapes artifact_root: {artifact.path}"
+                )
+            if not path.is_file():
+                raise ValueError(f"required artifact is missing: {artifact.path}")
+            if _file_sha256(path) != artifact.sha256:
+                raise ValueError(
+                    f"artifact SHA-256 does not match: {artifact.path}"
+                )
 
 
 def _artifact_mapping(
@@ -585,7 +636,14 @@ def _artifact_mapping(
     )
 
 
-def validate_visual_review(text: str, expected_observation_sha256: str) -> VisualReview:
+def validate_visual_review(
+    text: str,
+    expected_observation_sha256: str,
+    *,
+    expected_selection_sha256: str | None = None,
+    expected_natural_checks_sha256: str | None = None,
+    expected_selected_raster_sha256: str | None = None,
+) -> VisualReview:
     """Validate a hash-bound human review and its embedded artifact inventory."""
     try:
         value = json.loads(text)
@@ -603,6 +661,40 @@ def validate_visual_review(text: str, expected_observation_sha256: str) -> Visua
     )
     if observation_hash != expected_hash:
         raise ValueError("visual review observation SHA-256 does not match")
+    selection_hash = _require_sha256(
+        value.get("selection_sha256"), "visual review selection_sha256"
+    )
+    natural_hash = _require_sha256(
+        value.get("natural_checks_sha256"),
+        "visual review natural_checks_sha256",
+    )
+    raster_hash = _require_sha256(
+        value.get("selected_raster_sha256"),
+        "visual review selected_raster_sha256",
+    )
+    inventory_hash = _require_sha256(
+        value.get("artifact_inventory_sha256"),
+        "visual review artifact_inventory_sha256",
+    )
+    inventory_path_value = value.get("artifact_inventory_path")
+    if (
+        not isinstance(inventory_path_value, str)
+        or not inventory_path_value.strip()
+        or not pathlib.Path(inventory_path_value).is_absolute()
+    ):
+        raise ValueError(
+            "visual review artifact_inventory_path must be an absolute path"
+        )
+    inventory_path = pathlib.Path(inventory_path_value)
+    for actual, expected, label in (
+        (selection_hash, expected_selection_sha256, "selection"),
+        (natural_hash, expected_natural_checks_sha256, "natural checks"),
+        (raster_hash, expected_selected_raster_sha256, "selected raster"),
+    ):
+        if expected is not None and actual != _require_sha256(
+            expected, f"expected {label} SHA-256"
+        ):
+            raise ValueError(f"visual review {label} SHA-256 does not match")
 
     gate = value.get("gate")
     if gate not in {"PASS", "FAIL"}:
@@ -646,6 +738,16 @@ def validate_visual_review(text: str, expected_observation_sha256: str) -> Visua
     inventory = validate_artifact_inventory(value.get("artifact_inventory"))
     if inventory.observation_sha256 != observation_hash:
         raise ValueError("artifact inventory observation SHA-256 does not match review")
+    if inventory.selection_sha256 != selection_hash:
+        raise ValueError("artifact inventory selection SHA-256 does not match review")
+    if inventory.natural_checks_sha256 != natural_hash:
+        raise ValueError(
+            "artifact inventory natural checks SHA-256 does not match review"
+        )
+    if inventory.selected_raster_sha256 != raster_hash:
+        raise ValueError(
+            "artifact inventory selected raster SHA-256 does not match review"
+        )
     review_artifacts = _artifact_mapping(value.get("artifacts"), "review artifacts")
     if dict(review_artifacts) != dict(inventory.artifacts):
         raise ValueError("review artifact paths/hashes do not match artifact inventory")
@@ -671,6 +773,11 @@ def validate_visual_review(text: str, expected_observation_sha256: str) -> Visua
     return VisualReview(
         gate=gate,
         observation_sha256=observation_hash,
+        selection_sha256=selection_hash,
+        natural_checks_sha256=natural_hash,
+        selected_raster_sha256=raster_hash,
+        artifact_inventory_path=inventory_path,
+        artifact_inventory_sha256=inventory_hash,
         checks=MappingProxyType(checks),
         artifact_inventory=inventory,
         optional_artifact_uses=MappingProxyType(optional_uses),
@@ -1204,10 +1311,14 @@ def render_qa(
     observation = load_observation(observation_path)
     selection = _json_object(selection_path, "selection")
     natural = _json_object(natural_checks_path, "natural checks")
+    selection_sha256 = _file_sha256(selection_path)
+    natural_checks_sha256 = _file_sha256(natural_checks_path)
     for label, payload in (("selection", selection), ("natural checks", natural)):
         recorded_hash = payload.get("observation_sha256")
         if recorded_hash != observation_sha256:
             raise ValueError(f"{label} observation SHA-256 does not match")
+    if natural.get("selection_sha256") != selection_sha256:
+        raise ValueError("natural checks selection SHA-256 does not match")
 
     output.mkdir(parents=True, exist_ok=True)
     source_dataset = gdal.Open(str(source), gdal.GA_ReadOnly)
@@ -1219,6 +1330,9 @@ def render_qa(
         lambda _: (source_dataset.RasterXSize, source_dataset.RasterYSize),
     )
     raster_path = _selected_raster(selection, selection_path)
+    selected_raster_sha256 = _file_sha256(raster_path)
+    if selection.get("selected_raster_sha256") != selected_raster_sha256:
+        raise ValueError("selected raster SHA-256 does not match selection")
     raster = gdal.Open(str(raster_path), gdal.GA_ReadOnly)
     if raster is None:
         raise ValueError(f"GDAL could not open selected raster {raster_path}")
@@ -1319,6 +1433,10 @@ def render_qa(
     inventory_payload = {
         "schema_version": 1,
         "observation_sha256": observation_sha256,
+        "selection_sha256": selection_sha256,
+        "natural_checks_sha256": natural_checks_sha256,
+        "selected_raster_sha256": selected_raster_sha256,
+        "artifact_root": str(output.resolve()),
         "artifacts": {
             key: _inventory_entry(paths, output)
             for key, paths in artifact_paths.items()
