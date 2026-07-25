@@ -1,0 +1,82 @@
+export type XY = { x: number; y: number };
+
+/**
+ * Exact affine transform mapping source triangle → destination triangle,
+ * returned in canvas setTransform(a, b, c, d, e, f) order:
+ *   x' = a·x + c·y + e;  y' = b·x + d·y + f
+ */
+export function affineFromTriangles(
+  s0: XY, s1: XY, s2: XY,
+  d0: XY, d1: XY, d2: XY,
+): [number, number, number, number, number, number] {
+  const u1 = s1.x - s0.x;
+  const v1 = s1.y - s0.y;
+  const u2 = s2.x - s0.x;
+  const v2 = s2.y - s0.y;
+  const det = u1 * v2 - u2 * v1;
+  const a = ((d1.x - d0.x) * v2 - (d2.x - d0.x) * v1) / det;
+  const c = ((d2.x - d0.x) * u1 - (d1.x - d0.x) * u2) / det;
+  const b = ((d1.y - d0.y) * v2 - (d2.y - d0.y) * v1) / det;
+  const d = ((d2.y - d0.y) * u1 - (d1.y - d0.y) * u2) / det;
+  const e = d0.x - a * s0.x - c * s0.y;
+  const f = d0.y - b * s0.x - d * s0.y;
+  return [a, b, c, d, e, f];
+}
+
+/** Pixel-space lattice in the same row/col order as buildLatLngMesh. */
+export function buildSrcMesh(width: number, height: number, gridSize = 8): XY[][] {
+  const mesh: XY[][] = [];
+  for (let row = 0; row <= gridSize; row += 1) {
+    const line: XY[] = [];
+    for (let col = 0; col <= gridSize; col += 1) {
+      line.push({ x: (width * col) / gridSize, y: (height * row) / gridSize });
+    }
+    mesh.push(line);
+  }
+  return mesh;
+}
+
+function drawTriangle(
+  ctx: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  s0: XY, s1: XY, s2: XY,
+  d0: XY, d1: XY, d2: XY,
+): void {
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(d0.x, d0.y);
+  ctx.lineTo(d1.x, d1.y);
+  ctx.lineTo(d2.x, d2.y);
+  ctx.closePath();
+  ctx.clip();
+  ctx.setTransform(...affineFromTriangles(s0, s1, s2, d0, d1, d2));
+  ctx.drawImage(image, 0, 0);
+  ctx.restore();
+}
+
+/**
+ * Draws `image` through the mesh: each cell splits into two triangles, each
+ * drawn with an exact affine transform under a clip path. Grid density (not
+ * this function) controls how closely the warp tracks projection curvature.
+ */
+export function drawWarpedImage(
+  ctx: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  srcMesh: XY[][],
+  dstMesh: XY[][],
+): void {
+  for (let row = 0; row < srcMesh.length - 1; row += 1) {
+    for (let col = 0; col < srcMesh[row].length - 1; col += 1) {
+      const s00 = srcMesh[row][col];
+      const s10 = srcMesh[row][col + 1];
+      const s01 = srcMesh[row + 1][col];
+      const s11 = srcMesh[row + 1][col + 1];
+      const d00 = dstMesh[row][col];
+      const d10 = dstMesh[row][col + 1];
+      const d01 = dstMesh[row + 1][col];
+      const d11 = dstMesh[row + 1][col + 1];
+      drawTriangle(ctx, image, s00, s10, s01, d00, d10, d01);
+      drawTriangle(ctx, image, s10, s11, s01, d10, d11, d01);
+    }
+  }
+}
