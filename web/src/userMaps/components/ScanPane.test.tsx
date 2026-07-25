@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
+import L from "leaflet";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Gcp } from "../types";
 
@@ -7,7 +8,6 @@ type MarkerCall = {
   position: [number, number];
   draggable?: boolean;
   interactive?: boolean;
-  pane?: string;
   icon: { options: { className?: string; html?: string } };
   eventHandlers?: {
     dragstart?: () => void;
@@ -17,19 +17,40 @@ type MarkerCall = {
   };
 };
 
+type MapContainerCall = {
+  crs?: unknown;
+  bounds?: unknown;
+  maxBounds?: unknown;
+  minZoom?: number;
+  maxZoom?: number;
+  zoomSnap?: number;
+};
+
 const markerCalls = vi.hoisted(() => [] as MarkerCall[]);
+const mapContainerCalls = vi.hoisted(() => [] as MapContainerCall[]);
+const imageOverlayCalls = vi.hoisted(
+  () => [] as { url: string; bounds: unknown }[],
+);
 const scanHandlers = vi.hoisted(() => ({
   click: null as ((event: { latlng: { lat: number; lng: number } }) => void) | null,
 }));
 const stubMap = vi.hoisted(() => ({ setView: vi.fn(), getZoom: vi.fn(() => 0) }));
 
 vi.mock("react-leaflet", () => ({
-  MapContainer: ({ children }: PropsWithChildren) => (
-    <div data-testid="scan-map">{children}</div>
-  ),
-  ImageOverlay: ({ url }: { url: string }) => (
-    <div data-testid="scan-image" data-url={url} />
-  ),
+  // Records every prop but `children`: an earlier mock took only `children`,
+  // so deleting crs={L.CRS.Simple}, maxBounds, minZoom, maxZoom, or zoomSnap
+  // from ScanPane left the whole suite green — the CRS itself went untested.
+  MapContainer: ({
+    children,
+    ...props
+  }: PropsWithChildren<MapContainerCall>) => {
+    mapContainerCalls.push(props);
+    return <div data-testid="scan-map">{children}</div>;
+  },
+  ImageOverlay: ({ url, bounds }: { url: string; bounds: unknown }) => {
+    imageOverlayCalls.push({ url, bounds });
+    return <div data-testid="scan-image" data-url={url} />;
+  },
   Marker: (props: MarkerCall) => {
     markerCalls.push(props);
     return (
@@ -58,8 +79,14 @@ vi.mock("react-leaflet", () => ({
 import { ScanPane } from "./ScanPane";
 
 const PIXEL_SIZE = { width: 1200, height: 800 };
+// Three points, not one: several defects below only diverge from correct
+// behaviour once there is more than one GCP to mis-order or mis-match (see
+// "makes every placed point draggable and numbered" and "marks the selected
+// GCP's icon" below).
 const GCPS: Gcp[] = [
   { id: "a", pixel: { x: 637, y: 415 }, map: { lat: 46.1, lng: -61.2 } },
+  { id: "b", pixel: { x: 200, y: 100 }, map: { lat: 46.2, lng: -61.3 } },
+  { id: "c", pixel: { x: 900, y: 700 }, map: { lat: 46.3, lng: -61.4 } },
 ];
 
 function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
@@ -86,7 +113,11 @@ function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
 describe("ScanPane", () => {
   beforeEach(() => {
     markerCalls.length = 0;
+    mapContainerCalls.length = 0;
+    imageOverlayCalls.length = 0;
     scanHandlers.click = null;
+    stubMap.setView.mockClear();
+    stubMap.getZoom.mockReset().mockReturnValue(0);
   });
 
   it("renders under the root class the stylesheet targets", () => {
@@ -96,6 +127,23 @@ describe("ScanPane", () => {
     // Task 10's panel test asserts a class its own ScanPane mock invents.
     const { container } = renderPane();
     expect(container.querySelector(".georeference-scan")).not.toBeNull();
+  });
+
+  it("configures the Leaflet map on CRS.Simple with the scan's own bounds and zoom limits", () => {
+    // A latitude of -800 (scanBounds' north/south extent) is meaningless on
+    // the default EPSG3857 CRS — CRS.Simple is what makes raw pixel
+    // coordinates work as lat/lng at all.
+    renderPane();
+    expect(mapContainerCalls).toHaveLength(1);
+    const props = mapContainerCalls[0];
+    expect(props.crs).toBe(L.CRS.Simple);
+    expect(props.maxBounds).toEqual([
+      [-800, 0],
+      [0, 1200],
+    ]);
+    expect(props.minZoom).toBe(-4);
+    expect(props.maxZoom).toBe(4);
+    expect(props.zoomSnap).toBe(0.25);
   });
 
   it("turns a click into ORIGINAL image pixels", () => {
@@ -115,13 +163,36 @@ describe("ScanPane", () => {
     expect(onPickPoint).toHaveBeenLastCalledWith(1200, 800);
   });
 
-  it("makes every placed point draggable and numbered", () => {
+  it("makes every placed point draggable and numbered in list order", () => {
+    // A single-GCP fixture can't tell `String(index + 1)` apart from
+    // `String(gcps.length - index)` — both give "1" for a one-point list.
+    // Three points expose the reversal: the mutant numbers them 3, 2, 1.
     renderPane();
-    expect(markerCalls).toHaveLength(1);
-    expect(markerCalls[0].draggable).toBe(true);
+    expect(markerCalls).toHaveLength(3);
+    markerCalls.forEach((call, index) => {
+      expect(call.draggable).toBe(true);
+      expect(call.icon.options.html).toContain(String(index + 1));
+    });
     expect(markerCalls[0].position).toEqual([-415, 637]);
-    expect(markerCalls[0].icon.options.className).toBe("gcp-marker");
-    expect(markerCalls[0].icon.options.html).toContain("1");
+    expect(markerCalls[1].position).toEqual([-100, 200]);
+    expect(markerCalls[2].position).toEqual([-700, 900]);
+  });
+
+  it("marks the selected GCP's icon by matching its id, not its position label", () => {
+    // selectedGcpId is a Gcp id ("b"), never a 1-based label. Comparing the
+    // label instead (`String(index + 1) === selectedGcpId`) would silently
+    // never match here, since none of the fixture's ids collide with "1",
+    // "2", or "3".
+    renderPane({ selectedGcpId: "b" });
+    expect(markerCalls[0].icon.options.className).not.toContain(
+      "gcp-marker--selected",
+    );
+    expect(markerCalls[1].icon.options.className).toContain(
+      "gcp-marker--selected",
+    );
+    expect(markerCalls[2].icon.options.className).not.toContain(
+      "gcp-marker--selected",
+    );
   });
 
   it("snapshots undo on dragstart, not only on drag", () => {
@@ -149,12 +220,20 @@ describe("ScanPane", () => {
     expect(onMoveGcp).toHaveBeenCalledWith("a", 1200, 0);
   });
 
-  it("keeps a marker's icon and handlers stable across re-renders", () => {
-    // react-leaflet calls marker.setIcon() when `icon` changes identity and
-    // re-runs off()/on() when `eventHandlers` does — its deps are
-    // `[element, eventHandlers]`. Fresh literals do both on every render,
-    // i.e. once per pointer move of a drag.
+  it("keeps each marker's icon, handlers, and position — and the shared image bounds — stable across re-renders", () => {
+    // react-leaflet calls marker.setIcon() when `icon` changes identity,
+    // re-runs off()/on() when `eventHandlers` does, and calls
+    // marker.setLatLng() when `position` does — its deps are
+    // `[element, eventHandlers]` and a `!==` check on position respectively.
+    // ImageOverlay compares `bounds` by reference the same way. Fresh
+    // literals on any of these fire once per pointer move of a drag; worse,
+    // an unmemoised `position` means dragging point "c" would call
+    // setLatLng() on "a" and "b" too, since moveGcpOnScan returns the SAME
+    // object for non-matching ids and only a stable reference lets React
+    // (and react-leaflet) tell "unchanged" apart from "recomputed but equal".
     const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane();
+    expect(markerCalls).toHaveLength(3);
+    const before = [...markerCalls];
     rerender(
       <ScanPane
         previewUrl="blob:scan"
@@ -168,12 +247,18 @@ describe("ScanPane", () => {
         selectedGcpId={null}
       />,
     );
-    expect(markerCalls).toHaveLength(2);
-    expect(markerCalls[1].icon).toBe(markerCalls[0].icon);
-    expect(markerCalls[1].eventHandlers).toBe(markerCalls[0].eventHandlers);
+    expect(markerCalls).toHaveLength(6);
+    const after = markerCalls.slice(3);
+    before.forEach((call, index) => {
+      expect(after[index].icon).toBe(call.icon);
+      expect(after[index].eventHandlers).toBe(call.eventHandlers);
+      expect(after[index].position).toBe(call.position);
+    });
+    expect(imageOverlayCalls).toHaveLength(2);
+    expect(imageOverlayCalls[1].bounds).toBe(imageOverlayCalls[0].bounds);
   });
 
-  it("draws the pending half-point hollow and out of the way", () => {
+  it("draws the pending half-point hollow, out of the way, and at the flipped pixel", () => {
     renderPane({
       gcps: [],
       pending: { side: "scan", pixel: { x: 10, y: 20 } },
@@ -185,5 +270,21 @@ describe("ScanPane", () => {
     // Non-interactive: a pending marker under the cursor must not swallow the
     // click that is trying to move it.
     expect(markerCalls[0].interactive).toBe(false);
+    // Exact, flipped value — a mutant dropping the y-flip entirely
+    // ([pending.pixel.y, pending.pixel.x] = [20, 10]) would pass a looser
+    // check.
+    expect(markerCalls[0].position).toEqual([-20, 10]);
+    // The pending label is ONE PAST the placed points (gcps.length + 1 = 1,
+    // since gcps here is []), not gcps.length itself (which would be "0").
+    expect(markerCalls[0].icon.options.html).toBe("<span>1</span>");
+  });
+
+  it("recentres the scan on a focus request without zooming below the user's current level", () => {
+    // getZoom is fixed ABOVE the floor of 1: only then can Math.max(getZoom(),
+    // 1) be told apart from a flipped Math.min(getZoom(), 1) or a hardcoded
+    // 1 — all three agree whenever getZoom() <= 1.
+    stubMap.getZoom.mockReturnValue(3);
+    renderPane({ focus: { pixel: { x: 100, y: 50 }, requestId: 1 } });
+    expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 3);
   });
 });

@@ -51,6 +51,16 @@ describe("scan coordinate helpers", () => {
     expect(Object.is(pixel.y, -0)).toBe(false);
   });
 
+  it("normalises a -0 longitude on its own, independent of the paired -0 latitude", () => {
+    // `{ lat: 0, lng: 0 }` above feeds `x` a plain +0, so it can't tell
+    // whether `x: latLng.lng || 0` is doing anything — `latLng.lng` alone
+    // would give the same +0 back. Only an actual -0 input exercises the
+    // guard on x, exactly the way pixelFromLatLng({lat: 0, lng: -0}) is
+    // called out in the comment above clampToRaster.
+    const pixel = pixelFromLatLng({ lat: 5, lng: -0 });
+    expect(Object.is(pixel.x, -0)).toBe(false);
+  });
+
   it("clamps a point outside the raster back onto it", () => {
     // maxBounds constrains the VIEW, not the coordinate: viscosity defaults
     // to 0 and minZoom={-4} leaves letterboxed map outside the image, so a
