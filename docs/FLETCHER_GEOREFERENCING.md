@@ -114,6 +114,7 @@ but every scored correspondence is a discrete point.
 The reviewed input is `tools/fletcher/physical_observations/sheet-24.json`.
 It freezes source receipt, accepted and rejected identities, historical pixels,
 modern-source receipts, rationale, uncertainty, and pre-fit acceptance.
+Freeze this observation before any transform or residual is calculated.
 Rejections record a fixed reason, including ambiguous identity, apparent
 realignment, generalized drawing, clipped feature, insufficient topology,
 source error, or duplicate.
@@ -142,6 +143,9 @@ result="$run/result.json"
 
 python3 -m tools.fletcher.physical_observation verify-source \
   --manifest "$compute/manifest.json" --sheet 24 --source "$source"
+python3 -m tools.fletcher.emit_physical_gcps "$observation" \
+  --controls "$controls" --checks "$checks"
+# Byte-verify the generated files against the frozen observation.
 python3 -m tools.fletcher.emit_physical_gcps "$observation" \
   --controls "$controls" --checks "$checks" --check
 python3 -m tools.fletcher.physical_georeference select \
