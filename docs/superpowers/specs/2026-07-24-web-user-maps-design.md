@@ -3,7 +3,10 @@
 **Date:** 2026-07-24
 **Status:** Approved 2026-07-24; amended same day after adversarial review
 (Codex gpt-5.6-sol): pane slot pinned to z-160, mesh density corrected,
-renderer cadence stated precisely, alpha/nodata scoped out of PR 1
+renderer cadence stated precisely, alpha/nodata scoped out of PR 1.
+Amended again 2026-07-25 with the PR-2 georeferencer design (see
+"PR 2 — In-browser georeferencer" below), approved by the maintainer the
+same day.
 **Author:** Claude (with Dan Fakkeldy)
 
 ## Goal
@@ -134,8 +137,8 @@ a TPS toggle appears (phase 3). Save → layer row appears.
 
 **Rendering:** `WarpedRasterLayer` projects its mesh into map space on each
 *completed* view change (`moveend`/`zoomend`/`viewreset`/`resize`) — an 8×8
-grid for embedded/affine (dense enough to absorb UTM→WebMercator curvature at
-county scale), denser for TPS — and draws the preview bitmap through
+grid for embedded georeferencing (dense enough to absorb UTM→WebMercator
+curvature at county scale), denser for TPS — and draws the preview bitmap through
 per-triangle clipped `drawImage` at device-pixel-ratio resolution. During a
 drag the pane carries the canvas; during zoom *animations* the raster jumps
 rather than scaling smoothly — an accepted v1 trade-off, revisited only if it
@@ -152,6 +155,192 @@ degrade to plain-scan georeferencing + a UI hint that
 `gdal_translate in.pdf out.tif` converts offline. PR 4 starts with a
 **1-day spike** against real files (USGS topo GeoPDFs are the canonical
 corpus) before parser details are committed to.
+
+## PR 2 — In-browser georeferencer (amendment 2026-07-25)
+
+The phasing table's PR 2 row, designed in full. Decisions below were locked
+with the maintainer on 2026-07-25 and supersede nothing above; they fill in
+the "Georeferencer" paragraph of **Data flow**.
+
+### Locked decisions
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| **Live-map pane** | Reuse the app's own map; the scan opens as a panel over the layer rail | Georeferencing an 1880s NS map is tractable mainly against aerial imagery, parcel lines, and roads — layers the user already has on. Also avoids a second Leaflet instance, keeps the drape WYSIWYG in the real pane at the real z-order, and holds `App.tsx` to a mounting point. |
+| **GCP pairing** | Free order with a pending half-point | A strict superset of scan→map alternation: you can work from whichever side you spotted the landmark on. Costs one extra state branch. |
+| **Unfinished work** | Drafts persist | Import writes `{kind:"gcp", gcps: []}` immediately and the panel edits in place. Closing never loses points, and "re-georeference an existing map" is the same code path as "create". |
+| **Canvas in tests** | `canvas` devDependency | Verified: jsdom 29.1.1 auto-detects it and returns a real `CanvasRenderingContext2D`; prebuilt binary, no compiler. Closes PR 1's renderer test gap with no API redesign. Limitation: cairo, not Skia — it proves geometry and draw order, not pixel-identical browser output. |
+
+PR 2 adds **no runtime dependency**: the `geotiff` / `proj4` / `pdf.js` lock
+in **Scope decisions** stands, and `canvas` is dev-only, following the
+precedent set when PR 1 added `fake-indexeddb` for the same reason (a test
+environment gap, not a shipped capability). Nothing in `web/dist` changes
+size.
+
+### Interaction
+
+**Entry.** PNG/JPEG imports now succeed, as do TIFFs with no georeferencing.
+Each saves a record with `georef: { kind: "gcp", gcps: [], method: "affine" }`
+and opens the panel. Its layer row reads *"Needs georeferencing"* with a
+**Georeference** button where the opacity slider normally sits; finished GCP
+maps get **Adjust points**, reopening the same panel.
+
+**Layout.** Wide (≥900 px): the panel takes the left ~45% of the viewport and
+hides the layer rail; the app map keeps the right ~55%. The scan needs room
+for accurate clicking, so it gets close to half the screen rather than a
+rail-width column. Narrow: full-screen panel with a `Scan | Map` segmented
+toggle, where choosing *Map* hides the panel entirely and leaves a floating
+bar carrying the prompt and a *Back to scan* button.
+
+**Scan pane.** A second Leaflet map on `CRS.Simple` with the preview as an
+`ImageOverlay` and `maxBounds` locked to the image, giving pan, pinch-zoom,
+draggable numbered markers, and coordinate conversion from a dependency
+already bundled.
+
+**Map pane.** The app's own map with parcel-identify suppressed (the existing
+`MeasureTool` precedent), a crosshair cursor, numbered draggable GCP markers
+in their own pane above every overlay, and the live drape in the `user-maps`
+pane at z-160.
+
+**Placing a point.** Clicking either side drops a hollow numbered marker and
+sets the prompt (*"Now click the same spot on the map. (Esc to cancel)"*).
+Clicking the same side again moves it; clicking the other side completes the
+GCP, which turns solid and gains a list row. Escape cancels a pending point,
+or closes the panel when none is pending.
+
+**GCP list.** Columns `# | scan px | lat/lng | residual | zoom-to, delete`,
+under a status header that changes with the point count:
+
+| Points | Header | Residual column |
+|---|---|---|
+| 0–2 | "Place 3 points to see the map drape." | — |
+| exactly 3 | "Exact fit — add a 4th point to check accuracy." | `—`, never `0 m` |
+| 4+ | "RMS 42 m across 5 points" | ground metres, worst row highlighted |
+
+**Designed failure states.** Three near-collinear points make the solve
+singular; the status becomes *"These points are almost in a straight line —
+move one off the line to solve."* and no drape appears. A wildly wrong point
+is what the worst-residual highlight exists to surface — the list is the
+debugging tool, so every row is deletable.
+
+**Footer.** Opacity slider (drives the live drape, saved as the map's
+opacity), *Done*, *Delete map*. No Cancel: drafts persist, so there is
+nothing to discard.
+
+**Accessibility.** The prompt line is `aria-live="polite"`, Escape
+cancels-then-closes, and deletion lives in the list rather than requiring
+marker-precision pointing.
+
+### Module layout (additions)
+
+```
+web/src/userMaps/
+  transform/
+    webMercator.ts    forward/inverse spherical Mercator (pure, no Leaflet)
+    affine.ts         6-parameter least-squares solve, apply, singularity test
+    residuals.ts      per-GCP ground-metre residuals + RMS
+    gcpMesh.ts        buildGcpLatLngMesh(gcps, pixelSize, gridSize)
+  parsers/
+    imageSource.ts    PNG/JPEG decode → preview blob + original pixel size
+  useGeoreferenceSession.ts   session state machine + write-through
+  components/
+    GeoreferencePanel.tsx     shell, status line, footer
+    ScanPane.tsx              CRS.Simple map + markers
+    GcpList.tsx               residual table
+    GeoreferenceMapLayer.tsx  markers + click capture on the main map
+```
+
+Modified: `WarpedRasterLayer` gains `setLatLngMesh()`; `UserMapLayers` learns
+`kind:"gcp"` plus a draft path; `useUserMaps` accepts image sources and
+exposes the session; `MapCanvas` mounts `<GeoreferenceMapLayer>` and passes
+`!georeferencing` to the identify controller; `App.tsx` renders the panel and
+hides the rail while a session is active.
+
+### Transform math
+
+**Solve.** GCPs are stored WGS84 and converted to Web Mercator metres before
+solving (the existing spec rule), then least-squares for
+`X = a·x + b·y + c`, `Y = d·x + e·y + f` via 3×3 normal equations solved
+twice. The solve is rejected when `|det|` falls below a scale-relative
+epsilon — the collinear case, surfaced as the straight-line warning rather
+than a NaN drape.
+
+**Residuals are reported in ground metres, not Mercator metres.** Predicted
+Mercator → inverse-project → WGS84 → haversine against the observed point.
+Measured: a raw Mercator residual over-reports by exactly 1/cos(latitude),
+which is 1.44× at 46°N, so reporting it directly would make every accuracy
+number wrong by nearly half.
+
+**Mesh density — and why it differs from the embedded case.** Screen space is
+Web Mercator scaled and translated, so a pixel→Mercator affine composes to an
+exactly affine pixel→screen map: a `gridSize = 1` mesh (two triangles) is
+*pixel-exact* for GCP-affine, with no curvature to absorb. This does not
+contradict the 8×8 grid **Rendering** specifies for embedded georeferencing:
+that path runs pixel→UTM→WGS84→Mercator, and UTM→Mercator genuinely curves,
+so the lattice is earning its keep there. A GCP solve targets Mercator
+directly and skips the curving step entirely. `gridSize = 1` is also the
+performance answer — a live drag redraws 2 clipped `drawImage` calls rather
+than the 128 an 8×8 grid would cost. PR 3's TPS raises the grid again,
+because a spline warp is not affine anywhere.
+
+**Live re-solve without churning record identity.** The map under edit is
+excluded from `visibleMaps` and passed to `UserMapLayers` as a separate
+`draft` prop. Inside, one effect keyed on `previewUrl` builds the layer and
+decodes the bitmap once; a second keyed on `mesh` calls `setLatLngMesh`.
+Drags never re-decode, and the PR-1 record-identity tests are untouched
+because a draft never enters `records`.
+
+### Library facts verified before planning
+
+Recorded because PR 1's plan was confidently wrong about library behaviour
+several times; each of these was checked against the real API.
+
+- `L.CRS.Simple.project()` and `map.project()` are **different functions**.
+  The CRS method returns raw LonLat (`{x: lng, y: lat}`) and **ignores its
+  zoom argument**; the Map method applies `Transformation(1, 0, -1, 0)`.
+  Using the CRS method for the scan pane would mirror every GCP's pixel row.
+  Image pixel `(x, y)` ↔ `map.unproject(L.point(x, y), 0)`.
+- Hand-rolled spherical Mercator matches `L.Projection.SphericalMercator` to
+  ~3 nm, so `transform/` stays Leaflet-free at no fidelity cost.
+- `canvas` 3.2.3 + jsdom 29.1.1 yields a real `CanvasRenderingContext2D` in
+  which `save`/`beginPath`/`clip`/`setTransform`/`drawImage`/`restore`
+  produce correct pixels, clip boundaries included.
+- `createImageBitmap` does not exist in jsdom, so `imageSource.ts` takes an
+  injectable decode seam, matching the `makePreview` convention in
+  `geoTiffSource.ts`.
+
+### Testing
+
+- **The renderer gap closes first, before anything builds on it.** With
+  `canvas` installed, `WarpedRasterLayer`'s test stops early-returning:
+  `getImageData` proves a known fixture lands at known device pixels, that
+  `setLatLngMesh` redraws without re-reading the image, and that DPR scaling
+  reaches the drawn output. `mesh.test.ts` gains real clip-boundary pixel
+  assertions.
+- `affine.test.ts` — invent a transform, generate exact GCPs, recover
+  parameters to machine precision; collinear rejection; noisy points against
+  a hand-computed least-squares answer.
+- `residuals.test.ts` — hand-computed metres, with an explicit guard that the
+  result is *not* the 1.44×-inflated Mercator figure, and `null` at n = 3.
+- `useGeoreferenceSession.test.ts` — the pending-pair state machine in both
+  orders, Escape, delete, write-through.
+- `UserMapLayers.test.tsx` — extended: `kind:"gcp"` renders, the PR-1
+  record-identity assertions stay green, and a draft mesh change decodes the
+  bitmap exactly once.
+- Deferred from PR 1 and swept here: a test for the untested multi-tiepoint
+  geotransform branch, and the missing `errors.test.ts`.
+
+### Error handling
+
+Reuses `UserMapImportError` unchanged. Images introduce no new codes — a
+corrupt PNG is `corrupt-file`, an oversize one hits the existing size gates.
+The georeferencer's own failure states (too few points, collinear points) are
+UI states, not thrown errors.
+
+### Out of scope for PR 2
+
+TPS (PR 3), Allmaps export (PR 3), GeoPDF (PR 4), re-georeferencing a raster
+that already has embedded georeferencing, and renaming maps.
 
 ## Error handling & guardrails
 
@@ -199,6 +388,11 @@ Each is a `feature/*` branch → PR into `nightly` per the promotion ladder.
 New layer type + new persistence store, so PR 1 updates `README.md` (web
 feature list), `ARCHITECTURE.md` (web section: userMaps module, IndexedDB),
 and `plan.md` (new checklist items).
+
+PR 2 updates the same three: `README.md` gains the georeferencer in the web
+feature list, `ARCHITECTURE.md` gains the `transform/` solve chain and the
+draft-overlay path through `UserMapLayers`, and `plan.md` ticks the PR-2
+checklist items.
 
 ## Out of scope
 
