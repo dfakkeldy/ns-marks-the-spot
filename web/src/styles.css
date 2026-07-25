@@ -3763,3 +3763,94 @@ a {
     break-after: page;
   }
 }
+
+/* Your maps (user-loaded rasters) */
+.user-map-group .resource-layer-controls {
+  background: rgba(47, 128, 237, 0.05);
+  border-color: rgba(47, 128, 237, 0.22);
+}
+
+.user-map-import {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px dashed rgba(47, 128, 237, 0.4);
+  border-radius: 6px;
+}
+
+.user-map-import input[type="file"] {
+  width: 100%;
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+}
+
+.user-map-hint,
+.user-map-privacy {
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.user-map-error {
+  display: block;
+  color: #a33228;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.user-map-status {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.user-map-outcomes {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.user-map-outcome-ok {
+  color: #24551d;
+}
+
+.user-map-row {
+  padding-bottom: 8px;
+}
+
+.user-map-opacity {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 0 54px;
+  cursor: default;
+}
+
+.user-map-opacity small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.user-map-opacity input[type="range"] {
+  width: 100%;
+  accent-color: var(--survey-blue);
+}
+
+.user-map-remove {
+  margin: 6px 0 0 54px;
+  padding: 0;
+  color: #a33228;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
