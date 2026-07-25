@@ -288,6 +288,7 @@ describe("UserMapLayers draft overlay", () => {
     );
     await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
     const pushesAfterMount = layerInstances[0].setLatLngMesh.mock.calls.length;
+    expect(pushesAfterMount).toBe(0);
     // Fresh wrapper object each time, same `record` reference — exactly what
     // useUserMaps hands down on an unrelated state change.
     rerender(

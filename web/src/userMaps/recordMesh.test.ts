@@ -38,7 +38,13 @@ describe("meshForRecord", () => {
     expect(mesh).not.toBeNull();
     // AFFINE_GRID_SIZE is 1, so a GCP mesh is a single cell.
     expect(mesh).toHaveLength(2);
+    // The (0,0) corner is evaluated at x=0 and y=0, so it returns just the
+    // translation term and is invariant to pixelSize. Test the corners actually
+    // evaluated at the image extent: mesh[0][1] at x=width and mesh[1][0] at
+    // y=height. Passing the wrong pixelSize would visibly misplace these.
     expect(mesh![0][0].lat).toBeCloseTo(46.1, 4);
+    expect(mesh![0][1].lng).toBeCloseTo(-61.0, 4);
+    expect(mesh![1][0].lat).toBeCloseTo(46.0, 4);
   });
 
   it("returns null below the three-point minimum", () => {
