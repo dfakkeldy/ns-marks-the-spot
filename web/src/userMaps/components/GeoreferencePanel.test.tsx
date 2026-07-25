@@ -483,6 +483,14 @@ describe("GeoreferencePanel", () => {
     fireEvent.mouseEnter(rows[0]);
     expect(rows[0]).toHaveClass("gcp-row--selected");
     expect(rows[1]).not.toHaveClass("gcp-row--selected");
+    // …and gives it back. GcpList clearing on leave is only half the fix: the
+    // panel owns `selectedGcpId`, so if its setter could not take null the
+    // highlight would still stick. Without this the class is one-way, and
+    // `.gcp-row--selected` / `.gcp-marker--selected` — which styles.css calls
+    // "the row currently under the pointer" — stay lit for the rest of the
+    // session, pointing at wherever the mouse last happened to exit.
+    fireEvent.mouseLeave(rows[0]);
+    expect(rows[0]).not.toHaveClass("gcp-row--selected");
   });
 
   it("passes the real handlers and values straight through to ScanPane", () => {

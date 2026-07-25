@@ -214,4 +214,18 @@ describe("GcpList", () => {
     await userEvent.hover(rows[0]);
     expect(onSelect).toHaveBeenCalledWith("a");
   });
+
+  it("gives the selection back when the pointer leaves the row", async () => {
+    // onMouseEnter with no onMouseLeave is a ONE-WAY highlight: styles.css
+    // calls `.gcp-row--selected` / `.gcp-marker--selected` "the row currently
+    // under the pointer", and without this the row and its scan marker stay
+    // lit permanently after the pointer moves away. The hover test above is
+    // green either way — it never unhovers.
+    const { onSelect } = renderList();
+    const rows = screen.getAllByRole("row").slice(1);
+    await userEvent.hover(rows[0]);
+    expect(onSelect).toHaveBeenLastCalledWith("a");
+    await userEvent.unhover(rows[0]);
+    expect(onSelect).toHaveBeenLastCalledWith(null);
+  });
 });

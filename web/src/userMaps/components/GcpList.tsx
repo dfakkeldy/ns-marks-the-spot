@@ -24,7 +24,12 @@ export function GcpList({
   gcps: Gcp[];
   report: ResidualReport | null;
   onDelete: (id: string) => void;
-  onSelect: (id: string) => void;
+  /**
+   * Takes `null` as well as an id, because the selection this drives is a
+   * HOVER: it has to be given back when the pointer leaves. Without that the
+   * highlight is one-way and sticks forever — see the `onMouseLeave` below.
+   */
+  onSelect: (id: string | null) => void;
   onZoomTo: (id: string) => void;
   selectedGcpId: string | null;
 }) {
@@ -67,6 +72,14 @@ export function GcpList({
               key={gcp.id}
               className={rowClass}
               onMouseEnter={() => onSelect(gcp.id)}
+              // styles.css describes `.gcp-row--selected` /
+              // `.gcp-marker--selected` as "the row currently under the
+              // pointer" — twice. Enter without leave made that false the
+              // moment the pointer moved away: the row AND its scan marker
+              // stayed lit permanently, so after a few passes over the list
+              // the highlight pointed at wherever the mouse happened to exit
+              // rather than at anything the user was looking at.
+              onMouseLeave={() => onSelect(null)}
             >
               <td>{index + 1}</td>
               <td>

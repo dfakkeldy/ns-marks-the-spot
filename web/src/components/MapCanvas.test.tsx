@@ -2335,6 +2335,38 @@ describe("georeference binding", () => {
     ).not.toBeNull();
   });
 
+  it("takes the measure tool away while a georeferencing session is open", () => {
+    // The guard ParcelIdentifyController got and MeasureTool did not — even
+    // though the identify guard's own comment cites the measure tool as its
+    // precedent. MeasureCapture subscribes to map `click` and to window
+    // `keydown` (MeasureTool.tsx), so with measuring live every click during a
+    // session appends a measurement vertex AS WELL AS placing a control-point
+    // half, and one Escape both clears the measurement and closes the panel.
+    // `.measure-control` is at `left: 12px`, behind the 45vw panel, so the
+    // user cannot switch it off without closing the georeferencer first.
+    //
+    // The tool has to be ACTIVE before the session opens: asserting against an
+    // "off" MeasureTool proves nothing, since an off one mounts no capture
+    // either way (MeasureTool.test.tsx, "captures nothing while off").
+    const { rerender } = render(<MapCanvas {...props} />);
+    fireEvent.click(screen.getByTestId("measure-tool"));
+    expect(screen.getByTestId("measure-tool")).toHaveAttribute(
+      "data-mode",
+      "distance",
+    );
+
+    rerender(<MapCanvas {...props} georeference={BINDING} />);
+    expect(screen.queryByTestId("measure-tool")).toBeNull();
+
+    // Closing the session brings it back, still on the mode the user chose —
+    // suppression lasts for the session, it is not a silent reset.
+    rerender(<MapCanvas {...props} />);
+    expect(screen.getByTestId("measure-tool")).toHaveAttribute(
+      "data-mode",
+      "distance",
+    );
+  });
+
   it("suspends parcel identify while a georeferencing session is open", () => {
     // The two tests above leave `provinceLayers.nsprd: false`, which ALSO
     // disables ParcelIdentifyController on its own — so neither can tell

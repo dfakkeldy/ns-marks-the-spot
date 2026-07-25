@@ -1782,7 +1782,22 @@ export function MapCanvas({
             enabled={provinceLayers.nsprd && !measuring && !georeference}
             onIdentifyParcel={onIdentifyParcel}
           />
-          <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
+          {/* Unmounted for the duration of a session, not merely forced to
+              mode "off". MeasureCapture subscribes to map `click` and to
+              window `keydown` for Escape, so leaving it mounted means every
+              click during a session appends a measurement vertex AND places a
+              control-point half, and one Escape both clears the measurement
+              and closes the panel. Unmounting rather than passing "off" also
+              takes the `.measure-control` buttons away: at `left: 12px` they
+              sit BEHIND the 45vw panel on a wide screen — so the user cannot
+              switch measuring off without closing the georeferencer first —
+              and they are fully exposed on the narrow Map tab, where the panel
+              is display:none, so a still-rendered-but-inert control would read
+              as a dead button. `measureMode` itself is left alone, so the
+              user's tool choice survives the session. */}
+          {georeference ? null : (
+            <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
+          )}
         </>}
         <MapPositionController
           onPositionChange={onPositionChange}
