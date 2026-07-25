@@ -17,6 +17,22 @@ from tools.fletcher.grids import (
 from tools.fletcher.manifest import Manifest
 
 
+def select_dispositions(
+    sheet_numbers: list[int] | None,
+) -> tuple[list[tuple[int, ReviewedGrid]], list[tuple[int, str]]]:
+    ordered = list(range(1, 25)) if sheet_numbers is None else sheet_numbers
+    reviewed: list[tuple[int, ReviewedGrid]] = []
+    rejected: list[tuple[int, str]] = []
+    for number in ordered:
+        if number in REVIEWED_GRIDS:
+            reviewed.append((number, REVIEWED_GRIDS[number]))
+        elif number in REJECTED_GRIDS:
+            rejected.append((number, REJECTED_GRIDS[number]))
+        else:
+            raise ValueError(f"sheet {number} has no review disposition")
+    return reviewed, rejected
+
+
 def build_observation(
     number: int,
     grid: ReviewedGrid,
@@ -24,44 +40,79 @@ def build_observation(
     rumsey_id: str,
     source_sha256: str,
 ) -> dict:
-    return {
-        "sheet": f"sheet-{number:02d}",
-        "rumsey_id": rumsey_id,
-        "source_sha256": source_sha256,
-        "retrieved": datetime.date.today().isoformat(),
-        "method": (
+    if grid.intersections:
+        method = (
+            "The full-resolution scan's engraved coordinate labels were read "
+            "directly. Each retained graticule crossing was then measured "
+            "individually because the scan is slanted and the automatic "
+            "regular-lattice detector was inadequate. Folds, hatching, "
+            "boundaries, text strokes and neatlines were excluded before "
+            "roles were assigned."
+        )
+    else:
+        method = (
             "Long regular rules were detected from the full-resolution scan; "
             "every retained intersection and its engraved coordinate labels "
             "were then visually reviewed. Folds, hatching and neatlines were "
             "excluded before roles were assigned."
-        ),
+        )
+    observation = {
+        "sheet": f"sheet-{number:02d}",
+        "rumsey_id": rumsey_id,
+        "source_sha256": source_sha256,
+        "retrieved": datetime.date.today().isoformat(),
+        "method": method,
         "qa_review": grid.qa_note,
         "meridians": [
-            {
-                "pixel_x": line.pixel,
-                "lon": line.coordinate,
-                "label": line.label,
-            }
+            (
+                {"lon": line.coordinate, "label": line.label}
+                if line.pixel is None
+                else {
+                    "pixel_x": line.pixel,
+                    "lon": line.coordinate,
+                    "label": line.label,
+                }
+            )
             for line in grid.meridians
         ],
         "parallels": [
-            {
-                "pixel_y": line.pixel,
-                "lat": line.coordinate,
-                "label": line.label,
-            }
+            (
+                {"lat": line.coordinate, "label": line.label}
+                if line.pixel is None
+                else {
+                    "pixel_y": line.pixel,
+                    "lat": line.coordinate,
+                    "label": line.label,
+                }
+            )
             for line in grid.parallels
         ],
-        "check_intersections": check_intersections(
-            len(grid.meridians),
-            len(grid.parallels),
+        "check_intersections": (
+            [list(pair) for pair in grid.checks]
+            if grid.checks
+            else check_intersections(
+                len(grid.meridians),
+                len(grid.parallels),
+            )
         ),
     }
+    if grid.intersections:
+        observation["intersections"] = [
+            {
+                "meridian_index": point.meridian_index,
+                "parallel_index": point.parallel_index,
+                "pixel_x": point.pixel_x,
+                "pixel_y": point.pixel_y,
+            }
+            for point in grid.intersections
+        ]
+    return observation
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", type=pathlib.Path, required=True)
+    parser.add_argument("--sheet", type=int, action="append")
     args = parser.parse_args(argv)
 
     root = args.root.resolve()
@@ -71,7 +122,8 @@ def main(argv: list[str] | None = None) -> int:
     observations.mkdir(parents=True, exist_ok=True)
     gcps.mkdir(parents=True, exist_ok=True)
 
-    for number, grid in REVIEWED_GRIDS.items():
+    reviewed, rejected = select_dispositions(args.sheet)
+    for number, grid in reviewed:
         sheet_id = str(number)
         fields = manifest.sheets[sheet_id]
         observation = build_observation(
@@ -101,7 +153,7 @@ def main(argv: list[str] | None = None) -> int:
         print(observation_path)
         print(gcp_path)
 
-    for number, reason in REJECTED_GRIDS.items():
+    for number, reason in rejected:
         if manifest.sheets.get(str(number), {}).get("stage") != "tiled":
             manifest.update(
                 str(number),

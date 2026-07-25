@@ -13,6 +13,7 @@ def emit(observation_text: str) -> str:
     meridians = observation["meridians"]
     parallels = observation["parallels"]
     checks = {tuple(pair) for pair in observation["check_intersections"]}
+    measured = observation.get("intersections")
     for meridian_index, parallel_index in checks:
         if not (
             0 <= meridian_index < len(meridians)
@@ -29,21 +30,54 @@ def emit(observation_text: str) -> str:
         "# Control and check intersections are disjoint by construction.",
         "pixel_x,pixel_y,lon,lat,role,label",
     ]
-    for meridian_index, meridian in enumerate(meridians):
-        for parallel_index, parallel in enumerate(parallels):
-            role = (
-                "check"
-                if (meridian_index, parallel_index) in checks
-                else "control"
+    if measured is None:
+        intersections = [
+            {
+                "meridian_index": meridian_index,
+                "parallel_index": parallel_index,
+                "pixel_x": meridian["pixel_x"],
+                "pixel_y": parallel["pixel_y"],
+            }
+            for meridian_index, meridian in enumerate(meridians)
+            for parallel_index, parallel in enumerate(parallels)
+        ]
+    else:
+        intersections = measured
+        measured_indexes: set[tuple[int, int]] = set()
+        for intersection in intersections:
+            index = (
+                int(intersection["meridian_index"]),
+                int(intersection["parallel_index"]),
             )
-            label = f"{meridian['label']} {parallel['label']}"
-            lines.append(
-                f"{float(meridian['pixel_x']):.1f},"
-                f"{float(parallel['pixel_y']):.1f},"
-                f"{float(meridian['lon']):.6f},"
-                f"{float(parallel['lat']):.6f},"
-                f"{role},{label}"
+            if index in measured_indexes:
+                raise ValueError(
+                    f"duplicate measured intersection {index}"
+                )
+            measured_indexes.add(index)
+        missing_checks = checks - measured_indexes
+        if missing_checks:
+            raise ValueError(
+                f"check intersections lack measured pixels: "
+                f"{sorted(missing_checks)}"
             )
+    for intersection in intersections:
+        meridian_index = int(intersection["meridian_index"])
+        parallel_index = int(intersection["parallel_index"])
+        meridian = meridians[meridian_index]
+        parallel = parallels[parallel_index]
+        role = (
+            "check"
+            if (meridian_index, parallel_index) in checks
+            else "control"
+        )
+        label = f"{meridian['label']} {parallel['label']}"
+        lines.append(
+            f"{float(intersection['pixel_x']):.1f},"
+            f"{float(intersection['pixel_y']):.1f},"
+            f"{float(meridian['lon']):.6f},"
+            f"{float(parallel['lat']):.6f},"
+            f"{role},{label}"
+        )
     return "\n".join(lines) + "\n"
 
 

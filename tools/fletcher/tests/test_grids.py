@@ -10,6 +10,28 @@ from tools.fletcher.grids import (
 
 
 class ReviewedGridTests(unittest.TestCase):
+    def test_sheet_23_uses_reviewed_individual_intersection_pixels(self) -> None:
+        self.assertIn(23, REVIEWED_GRIDS)
+        self.assertNotIn(23, REJECTED_GRIDS)
+
+        grid = REVIEWED_GRIDS[23]
+        self.assertEqual(len(grid.meridians), 4)
+        self.assertEqual(len(grid.parallels), 2)
+        self.assertEqual(len(grid.intersections), 8)
+        self.assertEqual(
+            set(grid.checks),
+            {(0, 0), (3, 1)},
+        )
+        first_meridian_pixels = [
+            (point.pixel_x, point.pixel_y)
+            for point in grid.intersections
+            if point.meridian_index == 0
+        ]
+        self.assertEqual(
+            first_meridian_pixels,
+            [(2_539.0, 3_505.0), (2_492.0, 6_127.0)],
+        )
+
     def test_every_single_sheet_has_exactly_one_review_disposition(self) -> None:
         reviewed = set(REVIEWED_GRIDS)
         rejected = set(REJECTED_GRIDS)
