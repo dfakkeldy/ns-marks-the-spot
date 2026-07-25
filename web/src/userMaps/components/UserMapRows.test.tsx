@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import type { UserMapsApi } from "../useUserMaps";
+import { needsGeoreferencing, type UserMapsApi } from "../useUserMaps";
 import type { UserMapRecord } from "../types";
 import { UserMapRows } from "./UserMapRows";
 
@@ -31,6 +31,14 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
     removeMap: vi.fn(async () => {}),
     setEnabled: vi.fn(),
     setOpacity: vi.fn(),
+    georeferencingId: null,
+    editingMap: null,
+    beginGeoreference: vi.fn(),
+    endGeoreference: vi.fn(),
+    saveGcps: vi.fn(async () => {}),
+    // The real predicate, not a stub: a row's draft/placed appearance is
+    // decided by actual GCP counts, so a fake here would let a wrong one pass.
+    needsGeoreferencing,
     ...overrides,
   };
 }
