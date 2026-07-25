@@ -68,6 +68,21 @@ an end means the box clipped the feature instead of selecting it - the same
 defect `_refuse_if_truncated` catches for the extremal rules.
 """
 
+MIN_CHORD_SHARE = 0.1
+"""Least the chord may measure as a fraction of the path's own traced length.
+
+A stretch of coast goes somewhere: however sinuous, the line joining its ends is
+a real fraction of the distance walked along it. A path that comes back to where
+it started does not, and it is not coast - on the engraving it is the paper fill
+detouring out along a road or a graticule rule and back, whose two ends sit a few
+pixels apart. Every point on such a path is enormously far from its own
+near-zero chord, so without this guard a fold-back reports the most prominent
+"headland" in the tile.
+
+0.1 admits a sinuosity of ten, far past anything a shoreline reaches over the
+few kilometres a candidate box spans.
+"""
+
 RUNNER_UP_SEPARATION_M = 1000.0
 """How far from the winner a rival deviation must lie to count as a second feature.
 
@@ -231,6 +246,18 @@ def path_extreme(
             f"only {len(path)} vertices on the path; too short to carry a chord"
         )
 
+    chord_m = _metres_apart(path[0], path[-1], plane)
+    walked_m = sum(
+        _metres_apart(a, b, plane) for a, b in zip(path, path[1:])
+    )
+    if walked_m <= 0.0 or chord_m < MIN_CHORD_SHARE * walked_m:
+        raise ValueError(
+            f"the path returns to where it started: {walked_m:.0f} m walked for a "
+            f"{chord_m:.0f} m chord. That is a fold-back, not a stretch of coast, "
+            f"and every point on it would read as enormously prominent against its "
+            f"own near-zero chord"
+        )
+
     deviations = [perpendicular_in_plane(v, path[0], path[-1], plane) for v in path]
     interior = range(ENDPOINT_MARGIN, len(path) - ENDPOINT_MARGIN)
     best = max(interior, key=lambda i: abs(deviations[i]))
@@ -291,6 +318,14 @@ def chord_extreme(
         )
 
     run = runs[0]
+    if run[0] == run[-1]:
+        raise ValueError(
+            f"the box contains a whole closed shoreline of {len(run)} vertices, which "
+            f"has no chord: its two ends are the same point. An island entirely inside "
+            f"the box is measured by the {'island'!r} rule, which has a centroid to "
+            f"compare; widen the box past this shore or use that rule instead"
+        )
+
     plane = geographic_plane((run[0][1] + run[-1][1]) / 2.0)
     return path_extreme(run, min_prominence_m, plane)
 

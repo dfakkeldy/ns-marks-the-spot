@@ -167,6 +167,20 @@ class ChordExtremeTests(unittest.TestCase):
             self.assertAlmostEqual(abs(feature.prominence_m), 800.0, delta=25.0,
                                    msg=f"slope {slope}")
 
+    def test_a_whole_closed_shoreline_inside_the_box_is_refused_clearly(self):
+        # GeoJSON rings repeat their first vertex at the end, so a small island
+        # entirely inside the box arrives as a path whose two ends are the same
+        # point. That is a zero-length chord, and without this guard the caller
+        # sees an internal message about degenerate chords instead of being told
+        # its box swallowed a whole island.
+        island = [
+            (-60.95, 46.04), (-60.94, 46.05), (-60.95, 46.06), (-60.96, 46.05),
+            (-60.95, 46.04),
+        ]
+        with self.assertRaises(ValueError) as raised:
+            chord_extreme(island, BOX, min_prominence_m=10.0)
+        self.assertIn("closed shoreline", str(raised.exception))
+
     def test_reports_the_runner_up_so_ambiguity_is_visible(self):
         coast = self.straight_trending_coast()
         coast[25] = (coast[25][0] - 0.012, coast[25][1])
@@ -270,14 +284,37 @@ class PathExtremeTests(unittest.TestCase):
             path_extreme(path, min_prominence_m=100.0, plane=self.PIXELS)
         self.assertIn("end", str(raised.exception).lower())
 
+    def test_a_fold_back_is_refused(self):
+        # The paper fill detouring out along a road and back: its two ends sit a
+        # few pixels apart, so its chord is near zero and every point on it reads
+        # as the most prominent headland in the tile.
+        out = [(100.0 + 3.0 * i, 200.0) for i in range(30)]
+        back = [(x, 204.0) for x, _ in reversed(out)]
+        with self.assertRaises(ValueError) as raised:
+            path_extreme(out + back, min_prominence_m=10.0, plane=self.PIXELS)
+        self.assertIn("fold-back", str(raised.exception))
+
+    def test_a_sinuous_but_progressing_coast_is_kept(self):
+        # The guard must not reject a genuinely wiggly shore. This one zigzags
+        # hard yet still travels, which is what a coastline does.
+        import math
+
+        path = [(3.0 * i, 30.0 * math.sin(i)) for i in range(60)]
+        path[30] = (path[30][0], path[30][1] + 120.0)
+        feature = path_extreme(path, min_prominence_m=10.0, plane=self.PIXELS)
+        self.assertIsNotNone(feature)
+
     def test_an_anisotropic_plane_scales_each_axis_separately(self):
         # The geographic plane is anisotropic, so the shared core has to be. A
         # 100-unit push along x under a 10 m/unit x-scale is 1,000 m.
+        # The path has to travel far enough that its chord is a real fraction of
+        # the distance walked, or the fold-back guard rejects it - correctly, as
+        # a single spike a hundred times its own baseline is not a coast.
         plane = Plane(x_metres=10.0, y_metres=1.0)
-        path = [(0.0, float(i)) for i in range(21)]
-        path[10] = (100.0, path[10][1])
+        path = [(0.0, float(i)) for i in range(201)]
+        path[100] = (10.0, path[100][1])
         feature = path_extreme(path, min_prominence_m=1.0, plane=plane)
-        self.assertAlmostEqual(abs(feature.prominence_m), 1000.0, delta=1.0)
+        self.assertAlmostEqual(abs(feature.prominence_m), 100.0, delta=1.0)
 
 
 if __name__ == "__main__":

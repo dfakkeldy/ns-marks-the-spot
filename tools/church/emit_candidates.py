@@ -70,6 +70,23 @@ north panel the rule finds 155 features inside the cutline, of which 17 clear
 larger, better-separated features beat more, smaller ones.
 """
 
+HEADLAND_MAX_RIVAL_SHARE = 0.75
+"""How prominent a second feature on the same stretch may be, against the winner.
+
+Isolation in PROMINENCE, not in distance, and the north panel is why it exists.
+Nine candidates there cleared the 800 m floor and stood over 1.5 km from their
+nearest neighbour - and every one of them turned out to have a rival on its own
+stretch of coast at 85-99 % of its own prominence: 2,885 against 2,870, 2,795
+against 2,739, 891 against 876. Two features of equal prominence in one window
+cannot be told apart by prominence, so pairing a drawn tip with either is a coin
+toss dressed as a measurement. Three of those candidates duly resolved to the
+same engraved hook at Cheticamp Point.
+
+This is the same failure the distance test was meant to catch, in the property
+that actually does the choosing. A candidate that fails here is not a defect in
+the box - it is a stretch of coast that has nothing uniquely identifiable on it.
+"""
+
 
 @dataclass(frozen=True)
 class CandidateRow:
@@ -198,7 +215,18 @@ def resolve_headland_feature(row: CandidateRow, features: list[dict]) -> ChordFe
             f"carry a prominent feature [{listed}], and nothing here says which one "
             f"Church drew; tighten the box onto a single stretch of coast"
         )
-    return answers[0]
+    found = answers[0]
+    if found.runner_up_m is not None:
+        share = abs(found.runner_up_m) / abs(found.prominence_m)
+        if share > HEADLAND_MAX_RIVAL_SHARE:
+            raise ValueError(
+                f"{row.label}: the same stretch carries a second feature at "
+                f"{abs(found.runner_up_m):.0f} m against this one's "
+                f"{abs(found.prominence_m):.0f} m ({share:.0%}), so prominence cannot "
+                f"tell them apart and nothing else here can either. Pick a stretch "
+                f"with one clearly dominant feature."
+            )
+    return found
 
 
 # For each rule, the box bound it sorts against and the coordinate it compares.

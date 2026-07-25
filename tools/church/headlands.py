@@ -60,6 +60,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import math
+
 from tools.church.chords import Plane, cyclic_runs, path_extreme
 from tools.church.drawn import InkMask, trace_outer_boundary
 
@@ -70,11 +72,82 @@ __all__ = [
     "HeadlandCandidate",
     "HeadlandSelection",
     "coast_path",
+    "graticule_segments",
     "headlands_in",
     "merge_opposing_faces",
     "paper_regions",
+    "segment_pixels",
     "select_headland",
 ]
+
+_GRATICULE_EXTENSION = 20000.0
+"""How far past the control mesh a graticule line is assumed to keep running, in
+source pixels (~54 km). The Inverness sheet is ~29,000 px tall, so this reaches
+its edges from anywhere on it."""
+
+
+def graticule_segments(points) -> list[tuple[tuple[float, float], tuple[float, float]]]:
+    """The engraved graticule as line segments in full-sheet pixels.
+
+    Built from the committed control mesh rather than detected again. Those
+    points ARE the graticule intersections - they are what the warp is fitted on -
+    so joining consecutive points that share a longitude gives a meridian and
+    consecutive points sharing a latitude gives a parallel. Nothing new has to be
+    found, and the lines cannot drift out of step with the transform being tested
+    because they come from the same file it does.
+    """
+    segments = []
+    # Each family is sorted along ITSELF: a meridian by latitude, a parallel by
+    # longitude. Sorting a meridian by pixel_x instead would order it by the
+    # coordinate that barely varies along it and zig-zag the segments.
+    for family_of, along in (
+        (lambda p: p.lon, lambda p: p.lat),
+        (lambda p: p.lat, lambda p: p.lon),
+    ):
+        families: dict[float, list] = {}
+        for point in points:
+            families.setdefault(round(family_of(point), 6), []).append(point)
+        for family in families.values():
+            if len(family) < 2:
+                continue
+            ordered = sorted(family, key=along)
+            first, last = ordered[0], ordered[-1]
+            dx = last.pixel_x - first.pixel_x
+            dy = last.pixel_y - first.pixel_y
+            span = math.hypot(dx, dy)
+            if span < 1e-6:
+                continue
+            # Extended well past the mesh, because the ENGRAVING is. The control
+            # mesh stops at the westernmost intersection Church labelled, around
+            # -61.0, while his parallels carry on ruled across the open Gulf -
+            # which is precisely the water these tiles sit in. Segments that
+            # stopped at the mesh would leave the lines uncut exactly where they
+            # do the damage.
+            reach = _GRATICULE_EXTENSION
+            segments.append(
+                (
+                    (first.pixel_x - dx / span * reach, first.pixel_y - dy / span * reach),
+                    (last.pixel_x + dx / span * reach, last.pixel_y + dy / span * reach),
+                )
+            )
+    return segments
+
+
+RIVAL_STRETCH_SHARE = 0.25
+"""How long a second shoreline run must be, against the longest, to be a rival.
+
+The first north run demanded EXACTLY one non-border run and refused all nine
+genuine coastal tiles because of it. The tiles show why: Church's sea carries the
+engraved graticule, roads running down to the water and the odd inset rule, and
+every one of those that touches the tile edge makes the paper fill detour around
+it. Those detours are non-border runs, and they are five or ten pixels long.
+
+The guard's intent was to refuse a tile holding two separate STRETCHES OF COAST,
+which no single chord can describe. A detour around a road is not one. So the
+longest run is taken and a second is only a rival if it is comparable - which
+keeps the refusal that matters and drops the one that was only ever an artifact
+of how the boundary is walked.
+"""
 
 MERGE_TOLERANCE_PX = 24.0
 """How far apart the two faces of one engraved stroke may sit.
@@ -150,23 +223,59 @@ def paper_regions(mask: InkMask, min_area: int) -> list[set]:
     return found
 
 
-def coast_path(region: set, mask: InkMask) -> list[tuple[int, int]]:
-    """The shoreline face of one paper region: its boundary, cut at the tile edge.
+def segment_pixels(
+    segments: list[tuple[tuple[float, float], tuple[float, float]]],
+    radius: int,
+    width: int,
+    height: int,
+) -> set:
+    """Every tile pixel within `radius` of one of these line segments.
+
+    Used to hand `coast_path` the engraved graticule. Church rules his parallels
+    and meridians straight across the sea, and the paper fill has no choice but
+    to follow them: on the first north run six of nine tiles chose a "headland"
+    sitting on a graticule line at the tile edge, because an excursion out along
+    a ruled line and back dwarfs any real cove.
+    """
+    marked: set = set()
+    for (x0, y0), (x1, y1) in segments:
+        steps = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
+        for step in range(steps + 1):
+            t = step / steps if steps else 0.0
+            cx = int(round(x0 + (x1 - x0) * t))
+            cy = int(round(y0 + (y1 - y0) * t))
+            for dx in range(-radius, radius + 1):
+                for dy in range(-radius, radius + 1):
+                    px, py = cx + dx, cy + dy
+                    if 0 <= px < width and 0 <= py < height:
+                        marked.add((px, py))
+    return marked
+
+
+def coast_path(
+    region: set, mask: InkMask, excluded: set | frozenset = frozenset()
+) -> list[tuple[int, int]]:
+    """The shoreline face of one paper region: its boundary, cut where it is not coast.
 
     A region's traced boundary is closed - it follows the shoreline and then
     returns along the tile border - and a closed ring has no chord, because its
     two ends are the same vertex. Cutting at the border leaves the part that is
     actually coast.
 
-    Exactly one such stretch is required. More than one means the tile holds
-    separate pieces of shore, which no single chord describes; that is the same
-    refusal `chord_extreme` makes on the modern side, for the same reason.
+    `excluded` is cut in exactly the same way, and carries the engraved
+    graticule. Cutting rather than erasing is deliberate: rubbing a ruled line
+    out of the ink would also rub out the shoreline everywhere the two cross, and
+    the paper fill would pour through the gap. Cutting damages nothing - it only
+    says that the stretch where the boundary runs along a ruled line is not a
+    stretch of coast, which is exactly what the tile edge already says.
+
+    The longest surviving stretch is the shoreline; see `RIVAL_STRETCH_SHARE`.
     """
     ring = trace_outer_boundary(region)
     if len(ring) < 3:
         raise ValueError(f"region of {len(region)} px has no traceable boundary")
 
-    edge = [mask.on_border(x, y) for x, y in ring]
+    edge = [mask.on_border(x, y) or (x, y) in excluded for x, y in ring]
     if not any(edge):
         raise ValueError(
             "the region never reaches the tile border, so its boundary is closed "
@@ -174,17 +283,19 @@ def coast_path(region: set, mask: InkMask) -> list[tuple[int, int]]:
             "inside of a letter, not a shore"
         )
 
-    runs = cyclic_runs(ring, [not on_edge for on_edge in edge])
+    runs = sorted(
+        cyclic_runs(ring, [not on_edge for on_edge in edge]), key=len, reverse=True
+    )
     if not runs:
         raise ValueError(
             "the region's whole boundary lies on the tile edge, so nothing in it "
             "is drawn coast"
         )
-    if len(runs) > 1:
+    if len(runs) > 1 and len(runs[1]) > RIVAL_STRETCH_SHARE * len(runs[0]):
         raise ValueError(
-            f"the region reaches the tile border in {len(runs)} places, so the tile "
-            f"holds {len(runs)} separate stretches of coast and no single chord "
-            f"describes them; tighten the tile onto one"
+            f"the tile holds two comparable stretches of coast ({len(runs[0])} and "
+            f"{len(runs[1])} vertices) and no single chord describes both; tighten "
+            f"the tile onto one"
         )
     return runs[0]
 
@@ -220,6 +331,7 @@ def headlands_in(
     min_area: int,
     min_prominence_m: float,
     plane: Plane,
+    excluded: set | frozenset = frozenset(),
 ) -> list[HeadlandCandidate]:
     """Every prominent drawn headland in a tile, one per usable paper region.
 
@@ -231,7 +343,7 @@ def headlands_in(
     found: list[HeadlandCandidate] = []
     for region in paper_regions(mask, min_area):
         try:
-            path = coast_path(region, mask)
+            path = coast_path(region, mask, excluded)
             feature = path_extreme(path, min_prominence_m, plane)
         except ValueError:
             continue

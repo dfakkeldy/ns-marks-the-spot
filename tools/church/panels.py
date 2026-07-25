@@ -96,14 +96,44 @@ class HeadlandCheckSettings:
     factor: int
     darkness: int
     tile_px: int
-    """Tile side in SOURCE pixels. Big enough to carry the chord, not just the
-    tip: a headland needs several kilometres of coast either side of it before
-    the line joining the ends means anything. 3,000 source px is 8.2 km."""
+    """CAP on the tile side, in SOURCE pixels. A cost limit, not a measurement
+    choice: the working tile is derived per candidate from that candidate's own
+    box, because prominence is deviation from a CHORD and a chord is only defined
+    by the stretch it spans. Measure the drawn tip over 8 km of coast and the
+    modern one over 2 km and the ratio compares a headland against two different
+    baselines - it would look like disagreement where there is none.
+
+    3,000 source px is 8.2 km, and no north candidate box reaches it."""
     dilate_px: int
-    min_region_px: int
-    """Least paper region worth measuring, in REDUCED pixels. Below this are the
-    cells a map is full of - fields, lots, the insides of letters - which are not
-    shores."""
+    min_region_share: float
+    """Least share of the tile a paper region must cover to be worth measuring.
+
+    A SHARE and not a pixel count, because the tile is sized per candidate from
+    its own box. The first north run expressed this as 40,000 reduced pixels,
+    which was reasonable for the 1,500 px tile it was written against and absurd
+    for the 328 px tiles that arrived - it demanded a region covering 37 % of the
+    tile, and threw away a clean shoreline read of 28,329 px without considering
+    it.
+
+    Measured populations on the north tiles: sea and land fills come back at
+    11-80 % of the tile, while the cells a map is full of - fields, lots, the
+    insides of letters - sit at 0.2-2.9 %. The cut goes between them.
+    """
+    graticule_mask_px: int
+    """How far from an engraved graticule line the boundary stops being coast.
+
+    Church rules his parallels and meridians straight across the sea, so the
+    paper fill follows them: on the first north run six of nine tiles chose a
+    tip sitting on a ruled line at the tile edge. The swathe is CUT from the
+    path, not erased from the ink - erasing would break the shoreline wherever
+    the two cross and let the fill pour through - so this only needs to cover the
+    rule's own width plus the dilation, not to be conservative.
+
+    8 reduced pixels is 43 m, against rules measured at 7-16 source pixels.
+    """
+    min_tile_px: int
+    """Floor on the working tile, in SOURCE pixels. A window too small to carry a
+    chord cannot measure anything, whatever its candidate box says."""
     search_radius_px: float
     """In SOURCE pixels, and deliberately larger than the largest error under
     test. It exists to exclude the next cove along, not to pull an answer toward
@@ -364,7 +394,9 @@ _INVERNESS_HEADLAND_CHECKS = HeadlandCheckSettings(
     darkness=190,
     tile_px=3000,
     dilate_px=2,
-    min_region_px=40000,
+    min_region_share=0.05,
+    graticule_mask_px=8,
+    min_tile_px=600,
     search_radius_px=700.0,
 )
 

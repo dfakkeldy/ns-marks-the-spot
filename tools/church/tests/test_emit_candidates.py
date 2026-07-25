@@ -159,6 +159,35 @@ class HeadlandRuleTests(unittest.TestCase):
             resolve_candidate(self.row(wide), both)
         self.assertIn("2 separate shorelines", str(caught.exception))
 
+    def test_a_stretch_with_two_equal_features_is_refused(self) -> None:
+        # The north panel's whole result. A second tip of nearly the same
+        # prominence on the same stretch means prominence cannot say which one
+        # the engraving drew, and pairing with either is a coin toss.
+        # Dense enough that both tips sit clear of the endpoint margin; a sparse
+        # coast puts them among the vertices that may not win, and the stretch
+        # reads as flat instead.
+        shore = []
+        for step in range(16):
+            lat = round(46.30 - 0.02 * step, 6)
+            if lat == 46.20:
+                shore.append([-61.020, lat])    # first tip
+            elif lat == 46.10:
+                shore.append([-61.019, lat])    # second tip, 95 % as prominent
+            else:
+                shore.append([-61.0, lat])
+        twin = {
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [[-61.5, 46.0], [-61.5, 46.32]] + shore + [[-61.5, 46.0]]
+                ],
+            }
+        }
+        both = BoundingBox(west=-61.05, south=46.04, east=-60.99, north=46.26)
+        with self.assertRaises(ValueError) as caught:
+            resolve_candidate(self.row(both), [twin])
+        self.assertIn("tell them apart", str(caught.exception))
+
     def test_an_empty_box_is_refused(self) -> None:
         empty = BoundingBox(west=-50.0, south=40.0, east=-49.0, north=41.0)
         with self.assertRaises(ValueError):

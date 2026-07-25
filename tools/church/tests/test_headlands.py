@@ -2,12 +2,14 @@ import unittest
 
 from tools.church.chords import Plane
 from tools.church.drawn import InkMask
+from tools.church.gcps import GroundControlPoint
 from tools.church.headlands import (
     MERGE_TOLERANCE_PX,
     PROMINENCE_RATIO_MAX,
     PROMINENCE_RATIO_MIN,
     HeadlandCandidate,
     coast_path,
+    graticule_segments,
     headlands_in,
     merge_opposing_faces,
     paper_regions,
@@ -325,6 +327,60 @@ class SelectHeadlandTests(unittest.TestCase):
             select_headland(
                 [], expected_prominence_m=0.0, prediction=(0.0, 0.0), radius_px=1.0
             )
+
+
+class GraticuleSegmentsTests(unittest.TestCase):
+    """The engraved graticule, rebuilt from the control mesh it was fitted on."""
+
+    def mesh(self):
+        # Two meridians x three parallels, drawn slightly rotated so that a
+        # meridian's pixel_x varies along it - which is what really happens on
+        # the sheet, and what broke the first version of this.
+        points = []
+        for i, lon in enumerate((-61.0, -60.9)):
+            for j, lat in enumerate((46.5, 46.6, 46.7)):
+                points.append(
+                    GroundControlPoint(
+                        pixel_x=1000.0 + 500.0 * i + 20.0 * j,
+                        pixel_y=5000.0 - 400.0 * j,
+                        lon=lon,
+                        lat=lat,
+                        role="control",
+                        label=f"g{i}{j}",
+                    )
+                )
+        return points
+
+    def test_builds_one_line_per_meridian_and_parallel(self):
+        self.assertEqual(len(graticule_segments(self.mesh())), 5)
+
+    def test_a_meridian_is_ordered_along_itself_not_by_pixel_x(self):
+        # Sorting a meridian by pixel_x orders it by the coordinate that barely
+        # varies along it, and the segment zig-zags instead of running up the
+        # line. The tell is direction: this meridian must run mostly vertically.
+        meridian = graticule_segments(self.mesh())[0]
+        (x0, y0), (x1, y1) = meridian
+        self.assertGreater(abs(y1 - y0), abs(x1 - x0))
+
+    def test_lines_extend_far_past_the_mesh(self):
+        # Church rules his parallels across the open Gulf, well west of the last
+        # intersection he labelled - which is exactly the water the north tiles
+        # sit in. A segment stopping at the mesh would leave them uncut there.
+        mesh = self.mesh()
+        span = max(p.pixel_y for p in mesh) - min(p.pixel_y for p in mesh)
+        (x0, y0), (x1, y1) = graticule_segments(mesh)[0]
+        self.assertGreater(abs(y1 - y0), 10.0 * span)
+
+    def test_a_family_of_one_point_is_skipped(self):
+        # One intersection does not determine a line's direction, and guessing
+        # one would cut a swathe through the tile at an invented angle.
+        lonely = [
+            GroundControlPoint(
+                pixel_x=1.0, pixel_y=2.0, lon=-61.0, lat=46.5,
+                role="control", label="alone",
+            )
+        ]
+        self.assertEqual(graticule_segments(lonely), [])
 
 
 if __name__ == "__main__":
