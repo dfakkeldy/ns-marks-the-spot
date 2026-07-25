@@ -2,10 +2,71 @@ from __future__ import annotations
 
 import unittest
 
-from tools.fletcher.report import render_results
+from tools.fletcher.physical_georeference import TERMINAL_STATES
+from tools.fletcher.report import render_modern_pilots, render_results
 
 
 class ReportTests(unittest.TestCase):
+    def test_report_keeps_graticule_failure_and_modern_pass_separate(self) -> None:
+        manifest = {
+            "sheets": {
+                "24": {
+                    "stage": "failed",
+                    "gate": "FAIL",
+                    "reason": (
+                        "automatic graticule detection found no reviewable "
+                        "regular sequence"
+                    ),
+                    "modern_feature_v1": {
+                        "method_version": "modern-feature-v1",
+                        "disposition": "PASS",
+                        "selected_method": "affine",
+                        "transport": {
+                            "count": 10,
+                            "rms_m": 100.0,
+                            "p95_m": 150.0,
+                            "max_m": 200.0,
+                        },
+                        "natural": {
+                            "count": 6,
+                            "rms_m": 120.0,
+                            "p95_m": 180.0,
+                            "max_m": 250.0,
+                        },
+                        "structural": {"gate": "PASS"},
+                        "visual_qa": {"gate": "PASS"},
+                        "tile_png_count": 100,
+                        "reason": "all gates passed",
+                    },
+                },
+            },
+        }
+
+        rendered = render_results(manifest, sheet_numbers=[24])
+
+        self.assertIn("| 24 | failed |", rendered)
+        self.assertIn("automatic graticule detection", rendered)
+        self.assertIn("## Modern-feature pilots", rendered)
+        self.assertIn("| 24 | modern-feature-v1 | PASS |", rendered)
+        self.assertIn("natural checks", rendered)
+
+    def test_report_preserves_every_terminal_failure_state(self) -> None:
+        for state in sorted(TERMINAL_STATES - {"PASS"}):
+            with self.subTest(state=state):
+                manifest = {
+                    "sheets": {
+                        "24": {
+                            "modern_feature_v1": {
+                                "method_version": "modern-feature-v1",
+                                "disposition": state,
+                                "reason": state,
+                            }
+                        }
+                    }
+                }
+
+                self.assertIn(state, render_modern_pilots(manifest))
+
     def test_report_preserves_scoped_permission_and_method_limit(self) -> None:
         rendered = render_results({"sheets": {}}, sheet_numbers=[])
         normalized = " ".join(rendered.split())

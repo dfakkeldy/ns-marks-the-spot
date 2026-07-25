@@ -13,6 +13,82 @@ def _metric(value: object) -> str:
     return f"{float(value):.1f}"
 
 
+def _modern_metrics(
+    fields: dict,
+    fixture_key: str,
+    result_key: str,
+) -> dict:
+    """Read modern metrics without consulting graticule result fields."""
+    metrics = fields.get(fixture_key)
+    if not isinstance(metrics, dict):
+        metrics = fields.get(result_key)
+    return metrics if isinstance(metrics, dict) else {}
+
+
+def _modern_gate(fields: dict, nested_key: str, flat_key: str) -> str:
+    """Read one modern gate in either finalized or fixture form."""
+    nested = fields.get(nested_key)
+    if isinstance(nested, dict) and nested.get("gate") is not None:
+        return str(nested["gate"])
+    return str(fields.get(flat_key, "—"))
+
+
+def render_modern_pilots(manifest: dict) -> str:
+    """Render only versioned modern-feature pilot results from the manifest."""
+    rows: list[str] = []
+    sheets = manifest.get("sheets", {})
+    if not isinstance(sheets, dict):
+        return ""
+    for sheet_id, sheet_fields in sorted(sheets.items(), key=lambda item: int(item[0])):
+        if not isinstance(sheet_fields, dict):
+            continue
+        fields = sheet_fields.get("modern_feature_v1")
+        if not isinstance(fields, dict):
+            continue
+        transport = _modern_metrics(fields, "transport", "selected_candidate")
+        natural = _modern_metrics(fields, "natural", "natural_metrics")
+        reason = str(fields.get("reason", "")).replace("|", "\\|")
+        rows.append(
+            "| "
+            + " | ".join(
+                [
+                    sheet_id,
+                    str(fields.get("method_version", "—")),
+                    str(fields.get("disposition", "—")),
+                    str(fields.get("selected_method", "—")),
+                    str(transport.get("count", transport.get("point_count", "—"))),
+                    "/".join(
+                        _metric(transport.get(metric))
+                        for metric in ("rms_m", "p95_m", "max_m")
+                    ),
+                    str(natural.get("count", natural.get("point_count", "—"))),
+                    "/".join(
+                        _metric(natural.get(metric))
+                        for metric in ("rms_m", "p95_m", "max_m")
+                    ),
+                    _modern_gate(fields, "structural", "structural_gate"),
+                    _modern_gate(fields, "visual_qa", "visual_stage"),
+                    str(fields.get("tile_png_count", "—")),
+                    reason,
+                ]
+            )
+            + " |"
+        )
+    if not rows:
+        return ""
+    return f"""
+## Modern-feature pilots
+
+These versioned pilots are independent of the engraved-grid result above.
+Transport leave-one-out metrics select the transform family; natural checks are
+the primary published accuracy estimate.
+
+| Sheet | Method version | Disposition | Selected transform | Transport n | Transport RMS/P95/max m | Natural n | Natural RMS/P95/max m | Structural gate | Visual QA | PNG tiles | Reason |
+| ---: | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | ---: | --- |
+{chr(10).join(rows)}
+"""
+
+
 def render_results(
     manifest: dict,
     *,
@@ -91,6 +167,7 @@ untouched model-selection test set.
 | Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Gate | PNG tiles | Reason |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: | --- |
 {chr(10).join(rows)}
+{render_modern_pilots(manifest)}
 
 ## Method and provenance
 
