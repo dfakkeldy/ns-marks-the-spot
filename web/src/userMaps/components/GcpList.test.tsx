@@ -145,12 +145,18 @@ describe("GcpList", () => {
     // from the SAME `index + 1` expression as the visible cell: a mutant
     // that breaks one but not the other (e.g. the visible cell regresses to
     // 0-based while the aria-labels stay 1-based) had nothing to catch it.
+    //
+    // Anchored regexes, not bare strings: `toHaveTextContent("1")` is a
+    // SUBSTRING match, so mutating `{index + 1}` to `{(index + 1) * 11}`
+    // renders 11/22/33/44 and every one of these four assertions still
+    // passes — while the row↔marker correspondence the comment above is
+    // about is broken. `/^1$/` is what makes the number exact.
     renderList();
     const rows = screen.getAllByRole("row").slice(1);
-    expect(within(rows[0]).getAllByRole("cell")[0]).toHaveTextContent("1");
-    expect(within(rows[1]).getAllByRole("cell")[0]).toHaveTextContent("2");
-    expect(within(rows[2]).getAllByRole("cell")[0]).toHaveTextContent("3");
-    expect(within(rows[3]).getAllByRole("cell")[0]).toHaveTextContent("4");
+    expect(within(rows[0]).getAllByRole("cell")[0]).toHaveTextContent(/^1$/);
+    expect(within(rows[1]).getAllByRole("cell")[0]).toHaveTextContent(/^2$/);
+    expect(within(rows[2]).getAllByRole("cell")[0]).toHaveTextContent(/^3$/);
+    expect(within(rows[3]).getAllByRole("cell")[0]).toHaveTextContent(/^4$/);
   });
 
   it("keeps the Actions column heading visually hidden", () => {

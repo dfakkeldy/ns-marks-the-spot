@@ -506,7 +506,9 @@ describe("GeoreferencePanel", () => {
     scanPaneCalls.length = 0;
     const gcp = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
     const session = fakeSession({ gcps: [gcp] });
-    renderPanel(session, { previewUrl: "blob:scan-preview" });
+    const { container } = renderPanel(session, {
+      previewUrl: "blob:scan-preview",
+    });
     const props = scanPaneCalls[scanPaneCalls.length - 1];
     expect(props.onMoveGcp).toBe(session.moveGcpOnScan);
     expect(props.onPickPoint).toBe(session.pickScanPoint);
@@ -514,7 +516,16 @@ describe("GeoreferencePanel", () => {
     expect(props.gcps).toBe(session.gcps);
     expect(props.previewUrl).toBe("blob:scan-preview");
     expect(props.pixelSize).toEqual(RECORD.pixelSize);
+    // Nothing hovered yet, so nothing selected…
     expect(props.selectedGcpId).toBeNull();
+    // …but `toBeNull()` on its own is satisfied by a HARDCODED
+    // `selectedGcpId={null}` at the ScanPane call site. Under that mutation
+    // hovering a GcpList row still highlights the table row — the round-trip
+    // test above only reads GcpList's own class — while the scan marker never
+    // highlights at all, so the two halves of one selection silently
+    // disagree. Hovering first is what pins the LIVE value.
+    fireEvent.mouseEnter(container.querySelectorAll(".gcp-row")[0]);
+    expect(scanPaneCalls[scanPaneCalls.length - 1].selectedGcpId).toBe("a");
   });
 
   it("confirms before deleting the map, and is the only place that asks", async () => {
