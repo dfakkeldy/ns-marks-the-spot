@@ -1,7 +1,7 @@
 # Fletcher Sheet 24 Modern-Feature Georeferencing Design
 
 **Date:** 2026-07-25  
-**Status:** Approved in conversation; awaiting review of this written specification  
+**Status:** Approved 2026-07-25; implementation plan committed
 **Scope:** One-sheet pilot on Hugh Fletcher Sheet 24
 
 ## Purpose
