@@ -224,8 +224,26 @@ is what the worst-residual highlight exists to surface — the list is the
 debugging tool, so every row is deletable.
 
 **Footer.** Opacity slider (drives the live drape, saved as the map's
-opacity), *Done*, *Delete map*. No Cancel: drafts persist, so there is
-nothing to discard.
+opacity), a **Reference layers** row, *Undo*, *Done*, *Delete map*. No
+Cancel: drafts persist, so there is nothing to discard — *Undo* covers the
+case Cancel would have.
+
+**Reference layers.** Hiding the layer rail would otherwise strand the user
+without the two best control references, so the footer carries checkboxes for
+**Aerial imagery** (`ns-aerial`) and **Property boundaries** (`nsprd`), wired
+straight to the same `provinceLayers` state the rail uses. Two booleans in,
+two callbacks out — no duplicate layer state, and toggles made here persist
+after the session closes, because they *are* the rail's toggles.
+
+**Undo.** The session keeps a bounded history (50 entries) of `gcps`
+snapshots — they are small arrays of small objects, so snapshotting is
+cheaper than reconstructing inverse operations. *Undo* is a footer button and
+`Cmd/Ctrl+Z`. The one subtlety that makes or breaks it: a marker drag emits
+state on every pointer move, so the snapshot is taken on **drag start**, not
+per move. Otherwise a single drag buries the history under fifty
+indistinguishable frames and undo becomes useless. Adding, moving, and
+deleting a GCP are each one undo step; there is no redo (YAGNI — say so if
+that proves wrong in use).
 
 **Accessibility.** The prompt line is `aria-live="polite"`, Escape
 cancels-then-closes, and deletion lives in the list rather than requiring
@@ -242,7 +260,7 @@ web/src/userMaps/
     gcpMesh.ts        buildGcpLatLngMesh(gcps, pixelSize, gridSize)
   parsers/
     imageSource.ts    PNG/JPEG decode → preview blob + original pixel size
-  useGeoreferenceSession.ts   session state machine + write-through
+  useGeoreferenceSession.ts   session state machine + undo history + write-through
   components/
     GeoreferencePanel.tsx     shell, status line, footer
     ScanPane.tsx              CRS.Simple map + markers
@@ -253,8 +271,9 @@ web/src/userMaps/
 Modified: `WarpedRasterLayer` gains `setLatLngMesh()`; `UserMapLayers` learns
 `kind:"gcp"` plus a draft path; `useUserMaps` accepts image sources and
 exposes the session; `MapCanvas` mounts `<GeoreferenceMapLayer>` and passes
-`!georeferencing` to the identify controller; `App.tsx` renders the panel and
-hides the rail while a session is active.
+`!georeferencing` to the identify controller; `App.tsx` renders the panel,
+hides the rail while a session is active, and passes the two reference-layer
+booleans plus their setters down to the panel.
 
 ### Transform math
 
@@ -323,7 +342,9 @@ several times; each of these was checked against the real API.
 - `residuals.test.ts` — hand-computed metres, with an explicit guard that the
   result is *not* the 1.44×-inflated Mercator figure, and `null` at n = 3.
 - `useGeoreferenceSession.test.ts` — the pending-pair state machine in both
-  orders, Escape, delete, write-through.
+  orders, Escape, delete, write-through, and undo: that a simulated drag
+  (drag-start then several moves) collapses to exactly one undo step, and
+  that history is capped at 50.
 - `UserMapLayers.test.tsx` — extended: `kind:"gcp"` renders, the PR-1
   record-identity assertions stay green, and a draft mesh change decodes the
   bitmap exactly once.
@@ -340,7 +361,8 @@ UI states, not thrown errors.
 ### Out of scope for PR 2
 
 TPS (PR 3), Allmaps export (PR 3), GeoPDF (PR 4), re-georeferencing a raster
-that already has embedded georeferencing, and renaming maps.
+that already has embedded georeferencing, renaming maps, and redo (undo only
+— revisit if the one-way history proves annoying in real use).
 
 ## Error handling & guardrails
 
