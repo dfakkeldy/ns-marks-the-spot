@@ -1,5 +1,25 @@
 # PR-2 georeferencer — adversarial review findings (2026-07-25)
 
+> **SUPERSEDED — historical record only. Do not implement from this file.**
+>
+> These findings drove the plan revision; the shipped code then went past them,
+> and several statements here are now false or contrary to shipped intent. The
+> authorities are the spec
+> (`docs/superpowers/specs/2026-07-24-web-user-maps-design.md`, "Transform
+> math") and `web/src/userMaps/transform/affine.ts`, which carries the
+> measurements.
+>
+> Most important: **L1 and L4 below prescribe normalising the acceptance gate
+> against the image diagonal, and that is a measured bug.** It folds a
+> *coverage* question into what claims to be a *rank* question, and the two
+> disagree — a 1000×100 px control corridor on a 24000×18000 scan is full rank
+> with only 10:1 anisotropy, yet scores 1.7e-3 against the image and would be
+> refused as "too close to a straight line", which is simply false about that
+> layout. The shipped gate normalises against the point cloud's own long axis
+> instead (`MIN_CONDITION_RATIO`), and coverage is recorded as a known gap
+> against the reported accuracy rather than as a refusal to solve. L4's huddled
+> points are that known gap, deliberately, not a defect.
+
 Three independent reviewers went at
 `docs/superpowers/plans/2026-07-25-web-user-maps-pr2.md` and the two commits it
 declares already landed. Lenses: library/React correctness, the georeferencing

@@ -52,11 +52,12 @@ point-in-parcel screen otherwise; multiple accounts remain separate and the UI
 does not treat assessment as current market value.
 
 - **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
-  drape them over Nova Scotia with an opacity slider. Plain JPEG and PNG scans
-  can be georeferenced in the browser: click a landmark on the scan, then the
-  same landmark on the map, and from three points on the scan drapes live.
-  Files never leave your device: parsing, warping, georeferencing, and storage
-  are all in-browser.
+  drape them over Nova Scotia with an opacity slider. Anything without usable
+  georeferencing of its own — a plain JPEG or PNG scan, or a TIFF that carries
+  no geotransform — opens in the in-browser georeferencer instead: click a
+  landmark on the scan, then the same landmark on the map, and from three
+  points the scan drapes live. Files never leave your device: parsing,
+  warping, georeferencing, and storage are all in-browser.
 
 See
 [web/README.md](web/README.md) for the source receipt, privacy boundary, and

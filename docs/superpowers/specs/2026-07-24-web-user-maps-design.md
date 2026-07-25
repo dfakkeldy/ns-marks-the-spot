@@ -6,8 +6,10 @@
 renderer cadence stated precisely, alpha/nodata scoped out of PR 1.
 Amended again 2026-07-25 with the PR-2 georeferencer design (see
 "PR 2 — In-browser georeferencer" below), approved by the maintainer the
-same day. **PR 2 shipped 2026-07-25** — the section below describes the
-implemented georeferencer, not a proposal.
+same day. **PR 2 is implemented and pending its pull request** (2026-07-25, on
+`claude/web-georeferencer-user-maps-76f482`) — the section below describes the
+georeferencer as built rather than as proposed, but nothing is merged, tagged
+or deployed yet.
 **Author:** Claude (with Dan Fakkeldy)
 
 ## Goal
@@ -215,7 +217,8 @@ under a status header that changes with the point count:
 
 | Points | Header | Residual column |
 |---|---|---|
-| 0–2 | "Place 3 points to see the map drape." | — |
+| 0 | "Place 3 points to see the map drape." | — |
+| 1–2 | "Place 2 more points to see the map drape." / "Place 1 more point…" | — |
 | exactly 3 | "Exact fit — add a 4th point to check accuracy." | `—`, never `0 m` |
 | 4 | "RMS 38 m across 4 points" | ground metres, **no row highlighted** |
 | 5+ | "RMS 42 m across 5 points" | ground metres, worst row highlighted |
@@ -322,7 +325,7 @@ web/src/userMaps/
     webMercator.ts    forward/inverse spherical Mercator (pure, no Leaflet)
     affine.ts         6-parameter least-squares solve, apply, singularity test
     residuals.ts      per-GCP ground-metre residuals + RMS
-    gcpMesh.ts        buildGcpLatLngMesh(gcps, pixelSize, gridSize)
+    gcpMesh.ts        buildGcpLatLngMesh(params, pixelSize, gridSize)
   parsers/
     imageSource.ts    PNG/JPEG decode → preview blob + original pixel size
   useGeoreferenceSession.ts   session state machine + undo history + write-through
@@ -334,20 +337,49 @@ web/src/userMaps/
 ```
 
 Modified: `WarpedRasterLayer` gains `setLatLngMesh()`; `UserMapLayers` learns
-`kind:"gcp"` plus a draft path; `useUserMaps` accepts image sources and
-exposes the session; `MapCanvas` mounts `<GeoreferenceMapLayer>` and passes
-`!georeferencing` to the identify controller; `App.tsx` renders the panel,
-hides the rail while a session is active, and passes the two reference-layer
+`kind:"gcp"` plus a draft path; `useUserMaps` accepts image sources and owns
+which map is under edit (`georeferencingId`/`editingMap`), while `App.tsx`
+owns the session itself — it calls `useGeoreferenceSession` and passes the
+result down, so the two hooks stay independent; `MapCanvas` mounts
+`<GeoreferenceMapLayer>` and passes `!georeferencing` to the identify
+controller and no `<MeasureTool>` at all; `App.tsx` renders the panel, hides
+the rail while a session is active, and passes the two reference-layer
 booleans plus their setters down to the panel.
 
 ### Transform math
 
 **Solve.** GCPs are stored WGS84 and converted to Web Mercator metres before
 solving (the existing spec rule), then least-squares for
-`X = a·x + b·y + c`, `Y = d·x + e·y + f` via 3×3 normal equations solved
-twice. The solve is rejected when `|det|` falls below a scale-relative
-epsilon — the collinear case, surfaced as the straight-line warning rather
-than a NaN drape.
+`X = a·x + b·y + c`, `Y = d·x + e·y + f` on **centred** coordinates: one 2×2
+solve for the linear part, with the translation recovered exactly from the two
+centroids. Centring is not cosmetic — raw image pixels (~2e4) against Mercator
+metres (~7e6) put twelve orders of magnitude into a single uncentred normal
+matrix and lose most of the precision to cancellation.
+
+Four independent conditions refuse the solve, all surfaced as the one
+`degenerate` status rather than a NaN drape: a collapsed centroid (every point
+on the same spot); a point cloud thinner than `MIN_CONDITION_RATIO = 5e-3`,
+measured as `sqrt(λmin/λmax)` of the centred 2×2 scatter matrix — the
+reciprocal condition number of the design, and the rank test proper; any
+non-finite coefficient, which a non-finite *destination* produces while
+passing every source-side check; and a solved transform squashing one axis
+past `MIN_ANISOTROPY_RATIO` (50:1), which is what three map clicks down a
+meridian yield from an ideal scan triangle. "Designed failure states" above
+names the three a user can act on; the collapsed centroid is the fourth, and
+is the degenerate limit of the first.
+
+> **Amended 2026-07-25.** This originally specified 3×3 normal equations
+> solved twice, rejected when `|det|` fell below a scale-relative epsilon —
+> "the collinear case". All three clauses were wrong, and the determinant test
+> in particular must not come back: measured, `|det|` against the product of
+> the normal matrix's diagonal reduces algebraically to `1 − r²` for the
+> Pearson correlation of the centred pixels, which is scale-invariant but is
+> not a conditioning measure, and goes blind whenever the points lie near a
+> coordinate axis. An exactly singular horizontal layout reported a perfectly
+> healthy `1 − r² = 0.25`, while the identical degeneracy rotated 45° was
+> correctly rejected — and points clicked along a scan's top neatline are the
+> layout users actually produce. `affine.ts:16-58` carries the full
+> measurement table.
 
 **Residuals are reported in ground metres, not Mercator metres.** Predicted
 Mercator → inverse-project → WGS84 → haversine against the observed point.
@@ -382,8 +414,17 @@ because a spline warp is not affine anywhere.
 excluded from `visibleMaps` and passed to `UserMapLayers` as a separate
 `draft` prop. Inside, one effect keyed on `previewUrl` builds the layer and
 decodes the bitmap once; a second keyed on `mesh` calls `setLatLngMesh`.
-Drags never re-decode, and the PR-1 record-identity tests are untouched
-because a draft never enters `records`.
+Drags never re-decode, and the PR-1 record-identity tests are untouched.
+
+*(Amended 2026-07-25. The reason first given here — "because a draft never
+enters `records`" — is false, even though the conclusion is true. Each
+debounced write DOES substitute a new object for the edited record inside
+`records`; `saveGcps` builds it outside the `setRecords` updater and the
+updater returns every OTHER entry by reference, deliberately, which is what
+keeps it pure under StrictMode and leaves unedited records' bitmaps alone. No
+re-decode results because the map under edit is EXCLUDED from `visibleMaps`
+and reaches `UserMapLayers` only as `draft`, whose renderer keys on
+`previewUrl` and `hasMesh` rather than on the record object.)*
 
 ### Library facts verified before planning
 
