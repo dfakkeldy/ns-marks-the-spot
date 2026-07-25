@@ -106,6 +106,16 @@ class ChurchPanel:
     meridians and parallels meet the sheet at different angles.
     """
 
+    def draws(self, sheet_x: float, sheet_y: float) -> bool:
+        """True when this panel's cutline encloses a full-sheet pixel.
+
+        A held-out check feature can only be read where the panel actually put
+        ink. Several attempt-3 north candidates predicted onto the title
+        cartouche or an inset, and came back as blank tiles that read as "the
+        feature is not drawn" when the truth was "this is not the map".
+        """
+        return self.cutline.contains(sheet_x, sheet_y)
+
     @property
     def window(self) -> SourceWindow:
         """Smallest whole-pixel crop feeding gdal_translate -srcwin.

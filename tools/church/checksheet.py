@@ -105,11 +105,16 @@ def main(argv: list[str] | None = None) -> int:
 
     side = args.tile // args.scale
     tiles: list[np.ndarray] = []
-    predictions: list[tuple[str, float, float]] = []
+    predictions: list[tuple[str, float, float, bool]] = []
     for row, (local_x, local_y) in zip(candidates, local):
         sheet_x = local_x + window.x
         sheet_y = local_y + window.y
-        predictions.append((row["label"], sheet_x, sheet_y))
+        # Coverage is decided by the cutline, not by squinting at the tile. The
+        # prediction comes from the transform under test, so this is circular in
+        # principle - but only at the scale of the transform's own error, about
+        # a kilometre, against panel edges tens of kilometres away.
+        inside = panel.draws(sheet_x, sheet_y)
+        predictions.append((row["label"], sheet_x, sheet_y, inside))
 
         # Clamp to the sheet. A feature near the margin would otherwise ask for
         # a negative offset and come back as a blank tile, which reads as "not
@@ -138,8 +143,10 @@ def main(argv: list[str] | None = None) -> int:
         cv2.line(tile, (mark_x, mark_y + 8), (mark_x, mark_y + 26), CROSSHAIR_COLOUR, 2)
         cv2.circle(tile, (mark_x, mark_y), 60, CROSSHAIR_COLOUR, 1)
         cv2.rectangle(tile, (0, 0), (side - 1, side - 1), (0, 0, 0), 2)
-        cv2.putText(tile, row["label"][:34], (8, 22),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.55, LABEL_COLOUR, 2)
+        caption = row["label"][:34] + ("" if inside else "  [OUTSIDE PANEL]")
+        cv2.putText(tile, caption, (8, 22),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.55,
+                    LABEL_COLOUR if inside else CROSSHAIR_COLOUR, 2)
         cv2.putText(
             tile,
             f"org {origin_x},{origin_y} 1px={args.scale}" + (" CLAMPED" if clamped else ""),
@@ -161,12 +168,18 @@ def main(argv: list[str] | None = None) -> int:
 
     index = args.out.with_suffix(".csv")
     with index.open("w", encoding="utf-8") as handle:
-        handle.write("label,predicted_sheet_x,predicted_sheet_y,tile_px,scale\n")
-        for label, x, y in predictions:
-            handle.write(f"{label},{x:.1f},{y:.1f},{args.tile},{args.scale}\n")
+        handle.write("label,predicted_sheet_x,predicted_sheet_y,inside_panel,tile_px,scale\n")
+        for label, x, y, inside in predictions:
+            handle.write(
+                f"{label},{x:.1f},{y:.1f},{str(inside).lower()},{args.tile},{args.scale}\n"
+            )
 
     print(f"wrote {args.out} ({sheet.shape[1]}x{sheet.shape[0]}), {len(tiles)} tiles")
     print(f"predictions -> {index}")
+    outside = [label for label, _, _, inside in predictions if not inside]
+    if outside:
+        print(f"{len(outside)} candidate(s) predict OUTSIDE the panel cutline: {', '.join(outside)}")
+        print("Those tiles show blank paper or an inset. Fix the box or drop the candidate.")
     print("Crosshairs are WHERE TO LOOK, not answers. Record the feature.")
     return 0
 

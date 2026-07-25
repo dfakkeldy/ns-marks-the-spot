@@ -119,3 +119,45 @@ def split_roles(
     control = [p for p in points if p.role == CONTROL_ROLE]
     check = [p for p in points if p.role == CHECK_ROLE]
     return control, check
+
+
+def parse_check_csv(text: str) -> list[GroundControlPoint]:
+    """Parse a held-out check file, refusing any row that could enter the fit.
+
+    Check points cannot be appended to the control CSV: that file is generated,
+    and `emit_gcps --check` asserts in CI that it still matches the detected
+    linework byte-for-byte. So the two live apart and are concatenated at load.
+
+    Concatenation is what makes the refusal necessary rather than pedantic. A
+    row marked `control` in this file would be indistinguishable from a real
+    control point by the time it reached gdalwarp, and would quietly pull a
+    held-out feature into the transform it is supposed to be testing. Filtering
+    such a row out would hide a corrupted file; refusing it does not.
+    """
+    points = parse_gcp_csv(text)
+    intruders = [point for point in points if point.role != CHECK_ROLE]
+    if intruders:
+        listed = ", ".join(f"{p.label!r} ({p.role})" for p in intruders)
+        raise ValueError(
+            f"a check file may only contain {CHECK_ROLE!r} rows, but found: {listed}. "
+            f"Control points belong in the generated GCP CSV."
+        )
+    return points
+
+
+def load_check_points(path: pathlib.Path) -> list[GroundControlPoint]:
+    """Read and parse a held-out check CSV file."""
+    return parse_check_csv(path.read_text(encoding="utf-8"))
+
+
+def combine_control_and_checks(
+    gcp_points: list[GroundControlPoint],
+    check_points: list[GroundControlPoint] | None,
+) -> tuple[list[GroundControlPoint], list[GroundControlPoint]]:
+    """Split the GCP file by role, then append a separate check file's points.
+
+    A single file carrying both roles still works, so nothing that predates the
+    split has to change.
+    """
+    control, check = split_roles(gcp_points)
+    return control, check + list(check_points or [])
