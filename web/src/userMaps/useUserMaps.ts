@@ -368,10 +368,12 @@ export function useUserMaps(
         delete next[id];
         return next;
       });
+      // Clear georeferencing before persisting, since persistUiState's
+      // localStorage.setItem can throw and would skip this cleanup.
+      setGeoreferencingId((prev) => (prev === id ? null : prev));
       const nextUi = { ...loadUiState() };
       delete nextUi[id];
       persistUiState(nextUi);
-      setGeoreferencingId((prev) => (prev === id ? null : prev));
     },
     [persistUiState, store],
   );
