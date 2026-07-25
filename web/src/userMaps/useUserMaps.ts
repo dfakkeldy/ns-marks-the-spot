@@ -215,6 +215,16 @@ export function useUserMaps(
             // parse may transfer the buffer to a worker — this is the last
             // use of `buffer` on this thread.
             const parsed = await parseRef.current(buffer);
+            // TODO(Task 5): Replace this guard with routing to the georeferencer.
+            // Once implemented, null georef becomes an empty GCP georef and
+            // the user is prompted to georeference the scan.
+            if (!parsed.georef) {
+              throw new UserMapImportError(
+                "no-georeferencing",
+                "No georeferencing found in this file. The georeferencer (next update) " +
+                  "will handle plain scans.",
+              );
+            }
             const record: UserMapRecord = {
               id: generateId(),
               name: stripExtension(file.name),
