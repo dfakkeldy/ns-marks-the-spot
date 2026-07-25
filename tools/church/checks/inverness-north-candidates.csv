@@ -1,0 +1,21 @@
+# Candidate held-out check features for the Inverness north panel.
+# Modern coordinates derived by an objective rule from NSTDB water
+# geometry (nstdb-major-water.geojson), never from a place-name
+# gazetteer. The rule and its box are recorded so the choice can be
+# re-run and challenged. Pixel positions are NOT here - they are read
+# off the scan by eye, see tools/church/checksheet.py.
+label,lon,lat,rule,box_west,box_south,box_east,box_north
+cheticamp-island-west-tip,-61.059002,46.603489,west,-61.1,46.6,-60.99,46.7
+cheticamp-island-south-tip,-61.020188,46.600017,south,-61.06,46.6,-60.99,46.66
+grand-etang-west-point,-61.076593,46.520038,west,-61.08,46.52,-60.99,46.58
+margaree-harbour-west-point,-61.145184,46.420009,west,-61.2,46.42,-61.08,46.5
+margaree-island,-61.261823,46.359252,island,-61.29,46.34,-61.23,46.39
+cape-rouge-west-tip,-61.099997,46.750010,west,-61.1,46.7,-60.98,46.8
+pleasant-bay-west-tip,-60.876335,46.800017,west,-60.92,46.8,-60.76,46.87
+cape-st-lawrence-north-tip,-60.600034,47.040080,north,-60.95,47.0,-60.6,47.08
+cape-north-north-tip,-60.598363,47.041977,north,-60.6,47.0,-60.45,47.06
+inverness-beach-west-point,-61.329979,46.226026,west,-61.33,46.2,-61.22,46.3
+chimney-corner-west-point,-61.268657,46.354845,west,-61.3,46.3,-61.2,46.38
+aspy-bay-north-point,-60.450050,46.961397,north,-60.6,46.9,-60.45,47.0
+meat-cove-north-point,-60.617406,47.029988,north,-60.62,46.95,-60.52,47.03
+northeast-margaree-south,-61.039789,46.319233,south,-61.1,46.3,-60.95,46.4
