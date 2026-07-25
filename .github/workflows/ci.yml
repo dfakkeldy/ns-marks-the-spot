@@ -68,6 +68,9 @@ jobs:
       - name: Church map pipeline tests
         run: python3 -m unittest discover -s tools/church/tests -t .
 
+      - name: Fletcher map pipeline tests
+        run: python3 -m unittest discover -s tools/fletcher/tests -t .
+
       # The control CSVs are GENERATED from the committed detection artifacts.
       # Detection itself needs the 180 MB archival scan and OpenCV, but this
       # step does not, so CI can prove the checked-in control points still match
