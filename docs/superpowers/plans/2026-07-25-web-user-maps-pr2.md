@@ -2526,12 +2526,14 @@ git commit -m "feat(web): add the georeferencing session state machine with undo
 - Create: `web/src/userMaps/components/gcpIcon.ts`
 - Test: `web/src/userMaps/components/gcpIcon.test.ts`
 - Create: `web/src/userMaps/components/ScanPane.tsx`
+- Test: `web/src/userMaps/components/ScanPane.test.tsx`
 
 **Interfaces:**
 - Produces, from `scanGeometry.ts`:
   - `pixelFromLatLng(latLng: { lat: number; lng: number }): { x: number; y: number }`
   - `latLngFromPixel(pixel: { x: number; y: number }): [number, number]`
   - `scanBounds(pixelSize: PixelSize): [[number, number], [number, number]]`
+  - `clampToRaster(pixel: { x: number; y: number }, pixelSize: PixelSize): { x: number; y: number }`
 - Produces, from `gcpIcon.ts`:
   - `numberedIcon(label: string, state?: { pending?: boolean; selected?: boolean }): L.DivIcon`
 - Produces, from `ScanPane.tsx`:
@@ -2565,11 +2567,25 @@ dimensions.** GCPs live in original pixel space; making the map's coordinate
 space match means a click needs no rescaling and a preview-resolution change
 never moves a point.
 
+**`maxBounds` does not keep clicks on the raster — clamp them.** `maxBounds`
+constrains the *view*, and Leaflet's installed `maxBoundsViscosity` default is
+`0.0`, which explicitly permits dragging outside at normal speed. Independently:
+with `minZoom={-4}` there is letterboxed map area outside the image overlay in
+virtually any viewport, so clicking off the scan is trivially easy. Nothing
+downstream rejects a negative or over-width pixel — the affine solver takes it
+as ordinary input and it persists to IndexedDB. So both the click path and the
+drag path run their pixel through `clampToRaster` before it leaves this file.
+
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/scanGeometry.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
-import { latLngFromPixel, pixelFromLatLng, scanBounds } from "./scanGeometry";
+import {
+  clampToRaster,
+  latLngFromPixel,
+  pixelFromLatLng,
+  scanBounds,
+} from "./scanGeometry";
 
 describe("scan coordinate helpers", () => {
   it("maps image pixels onto CRS.Simple's y-flipped space", () => {
@@ -2605,6 +2621,22 @@ describe("scan coordinate helpers", () => {
     const [lat, lng] = latLngFromPixel({ x: 0, y: 0 });
     expect(Object.is(lat, -0)).toBe(false);
     expect(Object.is(lng, -0)).toBe(false);
+  });
+
+  it("clamps a point outside the raster back onto it", () => {
+    // maxBounds constrains the VIEW, not the coordinate: viscosity defaults
+    // to 0 and minZoom={-4} leaves letterboxed map outside the image, so a
+    // click off the scan is easy and nothing downstream refuses it.
+    const size = { width: 1200, height: 800 };
+    expect(clampToRaster({ x: -40, y: -12 }, size)).toEqual({ x: 0, y: 0 });
+    expect(clampToRaster({ x: 1400, y: 950 }, size)).toEqual({
+      x: 1200,
+      y: 800,
+    });
+    expect(clampToRaster({ x: 637, y: 415 }, size)).toEqual({
+      x: 637,
+      y: 415,
+    });
   });
 });
 ```
@@ -2647,6 +2679,26 @@ export function scanBounds(
     [-pixelSize.height, 0],
     [0, pixelSize.width],
   ];
+}
+
+/**
+ * Keeps a picked or dragged point on the raster. `maxBounds` cannot do this:
+ * it constrains the VIEW, its viscosity defaults to 0, and minZoom={-4}
+ * leaves letterboxed map outside the image in almost any viewport. An
+ * off-image pixel is not rejected anywhere downstream — the affine solver
+ * consumes a negative x as ordinary input and it persists.
+ *
+ * Math.max(-0, 0) is +0 by spec, so this also cannot reintroduce the -0 that
+ * latLngFromPixel goes out of its way to avoid.
+ */
+export function clampToRaster(
+  pixel: { x: number; y: number },
+  pixelSize: PixelSize,
+): { x: number; y: number } {
+  return {
+    x: Math.min(Math.max(pixel.x, 0), pixelSize.width),
+    y: Math.min(Math.max(pixel.y, 0), pixelSize.height),
+  };
 }
 ```
 
@@ -2717,10 +2769,219 @@ export function numberedIcon(
 }
 ```
 
-- [ ] **Step 6: Implement the pane** — `web/src/userMaps/components/ScanPane.tsx`:
+- [ ] **Step 6: Write the failing pane test** — `web/src/userMaps/components/ScanPane.test.tsx`:
+
+**This file is not optional, and it is not covered elsewhere.** An earlier
+revision of this plan asserted that `ScanPane` was "covered through
+`GeoreferencePanel.test.tsx` in Task 10" — but Task 10 does
+`vi.mock("./ScanPane", …)` and Task 12 stubs it again, so the component owning
+the click→pixel path was executed by no test at all. An implementation
+returning the wrong root class, omitting `ScanClickCatcher`, omitting every
+marker, dropping `draggable`, dropping `dragstart` (which silently escapes
+undo), or returning `null` outright passed the whole suite, plus `tsc -b` and
+`eslint`.
+
+The mock records the props that carry the behaviour — `draggable`, `icon`,
+`pane`, and the `eventHandlers` *keys* — because a `<Marker>` that renders at
+the right position while carrying none of them is exactly the survivor this
+file exists to kill.
 
 ```tsx
-import { useCallback, useEffect } from "react";
+import { render } from "@testing-library/react";
+import type { PropsWithChildren } from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { Gcp } from "../types";
+
+type MarkerCall = {
+  position: [number, number];
+  draggable?: boolean;
+  interactive?: boolean;
+  pane?: string;
+  icon: { options: { className?: string; html?: string } };
+  eventHandlers?: {
+    dragstart?: () => void;
+    drag?: (event: {
+      target: { getLatLng: () => { lat: number; lng: number } };
+    }) => void;
+  };
+};
+
+const markerCalls = vi.hoisted(() => [] as MarkerCall[]);
+const scanHandlers = vi.hoisted(() => ({
+  click: null as ((event: { latlng: { lat: number; lng: number } }) => void) | null,
+}));
+const stubMap = vi.hoisted(() => ({ setView: vi.fn(), getZoom: vi.fn(() => 0) }));
+
+vi.mock("react-leaflet", () => ({
+  MapContainer: ({ children }: PropsWithChildren) => (
+    <div data-testid="scan-map">{children}</div>
+  ),
+  ImageOverlay: ({ url }: { url: string }) => (
+    <div data-testid="scan-image" data-url={url} />
+  ),
+  Marker: (props: MarkerCall) => {
+    markerCalls.push(props);
+    return (
+      <div
+        data-testid="scan-marker"
+        data-position={props.position.join(",")}
+        data-draggable={String(props.draggable ?? false)}
+        data-interactive={String(props.interactive ?? true)}
+        data-icon-class={props.icon.options.className ?? ""}
+        data-handlers={Object.keys(props.eventHandlers ?? {}).sort().join(",")}
+      />
+    );
+  },
+  useMap: () => stubMap,
+  useMapEvent: (
+    type: string,
+    handler: (event: { latlng: { lat: number; lng: number } }) => void,
+  ) => {
+    if (type === "click") {
+      scanHandlers.click = handler;
+    }
+    return stubMap;
+  },
+}));
+
+import { ScanPane } from "./ScanPane";
+
+const PIXEL_SIZE = { width: 1200, height: 800 };
+const GCPS: Gcp[] = [
+  { id: "a", pixel: { x: 637, y: 415 }, map: { lat: 46.1, lng: -61.2 } },
+];
+
+function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
+  const onPickPoint = vi.fn();
+  const onDragStartGcp = vi.fn();
+  const onMoveGcp = vi.fn();
+  const utils = render(
+    <ScanPane
+      previewUrl="blob:scan"
+      pixelSize={PIXEL_SIZE}
+      gcps={GCPS}
+      pending={null}
+      focus={null}
+      onPickPoint={onPickPoint}
+      onDragStartGcp={onDragStartGcp}
+      onMoveGcp={onMoveGcp}
+      selectedGcpId={null}
+      {...props}
+    />,
+  );
+  return { ...utils, onPickPoint, onDragStartGcp, onMoveGcp };
+}
+
+describe("ScanPane", () => {
+  beforeEach(() => {
+    markerCalls.length = 0;
+    scanHandlers.click = null;
+  });
+
+  it("renders under the root class the stylesheet targets", () => {
+    // styles.css builds the panel's grid around `.georeference-scan` and the
+    // narrow breakpoint keys off it. Renaming it would kill those rules
+    // silently — the style tests regex the CSS and cannot see the DOM, and
+    // Task 10's panel test asserts a class its own ScanPane mock invents.
+    const { container } = renderPane();
+    expect(container.querySelector(".georeference-scan")).not.toBeNull();
+  });
+
+  it("turns a click into ORIGINAL image pixels", () => {
+    // CRS.Simple: pixel (x, y) is latLng(-y, x).
+    const { onPickPoint } = renderPane();
+    scanHandlers.click?.({ latlng: { lat: -415, lng: 637 } });
+    expect(onPickPoint).toHaveBeenCalledWith(637, 415);
+  });
+
+  it("clamps a click made off the raster", () => {
+    // maxBounds constrains the view, not the coordinate; letterboxed map is
+    // clickable at minZoom={-4}. An unclamped -40 persists to IndexedDB.
+    const { onPickPoint } = renderPane();
+    scanHandlers.click?.({ latlng: { lat: 12, lng: -40 } });
+    expect(onPickPoint).toHaveBeenCalledWith(0, 0);
+    scanHandlers.click?.({ latlng: { lat: -950, lng: 1400 } });
+    expect(onPickPoint).toHaveBeenLastCalledWith(1200, 800);
+  });
+
+  it("makes every placed point draggable and numbered", () => {
+    renderPane();
+    expect(markerCalls).toHaveLength(1);
+    expect(markerCalls[0].draggable).toBe(true);
+    expect(markerCalls[0].position).toEqual([-415, 637]);
+    expect(markerCalls[0].icon.options.className).toBe("gcp-marker");
+    expect(markerCalls[0].icon.options.html).toContain("1");
+  });
+
+  it("snapshots undo on dragstart, not only on drag", () => {
+    // useGeoreferenceSession's beginDragGcp is the ONLY scan-side entry into
+    // undo history. Wire `drag` and forget `dragstart` and every test still
+    // passes, while one Ctrl+Z leaps back past the whole drag.
+    const { onDragStartGcp, onMoveGcp } = renderPane();
+    expect(Object.keys(markerCalls[0].eventHandlers ?? {}).sort()).toEqual([
+      "drag",
+      "dragstart",
+    ]);
+    markerCalls[0].eventHandlers?.dragstart?.();
+    expect(onDragStartGcp).toHaveBeenCalledWith("a");
+    markerCalls[0].eventHandlers?.drag?.({
+      target: { getLatLng: () => ({ lat: -300, lng: 500 }) },
+    });
+    expect(onMoveGcp).toHaveBeenCalledWith("a", 500, 300);
+  });
+
+  it("clamps a drag that leaves the raster", () => {
+    const { onMoveGcp } = renderPane();
+    markerCalls[0].eventHandlers?.drag?.({
+      target: { getLatLng: () => ({ lat: 30, lng: 1500 }) },
+    });
+    expect(onMoveGcp).toHaveBeenCalledWith("a", 1200, 0);
+  });
+
+  it("keeps a marker's icon and handlers stable across re-renders", () => {
+    // react-leaflet calls marker.setIcon() when `icon` changes identity and
+    // re-runs off()/on() when `eventHandlers` does — its deps are
+    // `[element, eventHandlers]`. Fresh literals do both on every render,
+    // i.e. once per pointer move of a drag.
+    const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane();
+    rerender(
+      <ScanPane
+        previewUrl="blob:scan"
+        pixelSize={PIXEL_SIZE}
+        gcps={GCPS}
+        pending={null}
+        focus={null}
+        onPickPoint={onPickPoint}
+        onDragStartGcp={onDragStartGcp}
+        onMoveGcp={onMoveGcp}
+        selectedGcpId={null}
+      />,
+    );
+    expect(markerCalls).toHaveLength(2);
+    expect(markerCalls[1].icon).toBe(markerCalls[0].icon);
+    expect(markerCalls[1].eventHandlers).toBe(markerCalls[0].eventHandlers);
+  });
+
+  it("draws the pending half-point hollow and out of the way", () => {
+    renderPane({
+      gcps: [],
+      pending: { side: "scan", pixel: { x: 10, y: 20 } },
+    });
+    expect(markerCalls).toHaveLength(1);
+    expect(markerCalls[0].icon.options.className).toContain(
+      "gcp-marker--pending",
+    );
+    // Non-interactive: a pending marker under the cursor must not swallow the
+    // click that is trying to move it.
+    expect(markerCalls[0].interactive).toBe(false);
+  });
+});
+```
+
+- [ ] **Step 7: Implement the pane** — `web/src/userMaps/components/ScanPane.tsx`:
+
+```tsx
+import { useCallback, useEffect, useMemo } from "react";
 import L from "leaflet";
 import {
   ImageOverlay,
@@ -2733,7 +2994,12 @@ import type { PixelSize } from "../transform/projection";
 import type { PendingPoint } from "../useGeoreferenceSession";
 import type { Gcp } from "../types";
 import { numberedIcon } from "./gcpIcon";
-import { latLngFromPixel, pixelFromLatLng, scanBounds } from "./scanGeometry";
+import {
+  clampToRaster,
+  latLngFromPixel,
+  pixelFromLatLng,
+  scanBounds,
+} from "./scanGeometry";
 
 /**
  * A request to recentre the scan on one point. Carries a monotonic
@@ -2747,16 +3013,20 @@ export type ScanFocusRequest = {
 };
 
 function ScanClickCatcher({
+  pixelSize,
   onPickPoint,
 }: {
+  pixelSize: PixelSize;
   onPickPoint: (x: number, y: number) => void;
 }) {
   const handleClick = useCallback(
     (event: L.LeafletMouseEvent) => {
-      const { x, y } = pixelFromLatLng(event.latlng);
+      // Clamped, not trusted: maxBounds constrains the view, not the click,
+      // and minZoom={-4} leaves letterboxed map outside the image.
+      const { x, y } = clampToRaster(pixelFromLatLng(event.latlng), pixelSize);
       onPickPoint(x, y);
     },
-    [onPickPoint],
+    [onPickPoint, pixelSize],
   );
   // useMapEvent, NOT useMapEvents: react-leaflet keys useMapEvents' effect on
   // the handlers OBJECT (deps `[map, handlers]`), so an inline literal calls
@@ -2778,6 +3048,59 @@ function ScanFocusController({ focus }: { focus: ScanFocusRequest | null }) {
     map.setView(latLngFromPixel(focus.pixel), Math.max(map.getZoom(), 1));
   }, [focus, map]);
   return null;
+}
+
+/**
+ * One draggable control point, as its own component so the icon and the
+ * handler object can be memoised PER POINT. Inline `icon={numberedIcon(…)}`
+ * mints a fresh `L.DivIcon` every render, and react-leaflet answers that with
+ * `marker.setIcon()`; an inline `eventHandlers` object literal re-runs
+ * `off()`/`on()` for the same reason (its effect deps are
+ * `[element, eventHandlers]`). Both fire once per pointer move of a drag.
+ */
+function ScanGcpMarker({
+  gcp,
+  label,
+  selected,
+  pixelSize,
+  onDragStartGcp,
+  onMoveGcp,
+}: {
+  gcp: Gcp;
+  label: string;
+  selected: boolean;
+  pixelSize: PixelSize;
+  onDragStartGcp: (id: string) => void;
+  onMoveGcp: (id: string, x: number, y: number) => void;
+}) {
+  const icon = useMemo(
+    () => numberedIcon(label, { selected }),
+    [label, selected],
+  );
+  const position = useMemo(() => latLngFromPixel(gcp.pixel), [gcp.pixel]);
+  const eventHandlers = useMemo(
+    () => ({
+      // dragstart is the ONLY scan-side entry into undo history. Without it
+      // one Ctrl+Z walks back past the entire drag.
+      dragstart: () => onDragStartGcp(gcp.id),
+      drag: (event: L.LeafletEvent) => {
+        const { x, y } = clampToRaster(
+          pixelFromLatLng((event.target as L.Marker).getLatLng()),
+          pixelSize,
+        );
+        onMoveGcp(gcp.id, x, y);
+      },
+    }),
+    [gcp.id, onDragStartGcp, onMoveGcp, pixelSize],
+  );
+  return (
+    <Marker
+      position={position}
+      draggable
+      icon={icon}
+      eventHandlers={eventHandlers}
+    />
+  );
 }
 
 /**
@@ -2807,7 +3130,17 @@ export function ScanPane({
   onMoveGcp: (id: string, x: number, y: number) => void;
   selectedGcpId: string | null;
 }) {
-  const bounds = scanBounds(pixelSize);
+  // Memoised because `ImageOverlay` compares `bounds` by REFERENCE: a fresh
+  // array every render calls setBounds()/_reset() on every pointer move of a
+  // drag. `pixelSize` is a stable reference off the record.
+  const bounds = useMemo(() => scanBounds(pixelSize), [pixelSize]);
+  // Same reason as the per-marker memo: a fresh DivIcon means setIcon() on
+  // every render. Computed unconditionally — hooks cannot be conditional —
+  // and only mounted while a scan-side half-point is waiting.
+  const pendingIcon = useMemo(
+    () => numberedIcon(String(gcps.length + 1), { pending: true }),
+    [gcps.length],
+  );
   return (
     <div className="georeference-scan" data-testid="georeference-scan">
       <MapContainer
@@ -2823,31 +3156,23 @@ export function ScanPane({
         className="georeference-scan-map"
       >
         <ImageOverlay url={previewUrl} bounds={bounds} />
-        <ScanClickCatcher onPickPoint={onPickPoint} />
+        <ScanClickCatcher pixelSize={pixelSize} onPickPoint={onPickPoint} />
         <ScanFocusController focus={focus} />
         {gcps.map((gcp, index) => (
-          <Marker
+          <ScanGcpMarker
             key={gcp.id}
-            position={latLngFromPixel(gcp.pixel)}
-            draggable
-            icon={numberedIcon(String(index + 1), {
-              selected: gcp.id === selectedGcpId,
-            })}
-            eventHandlers={{
-              dragstart: () => onDragStartGcp(gcp.id),
-              drag: (event) => {
-                const { x, y } = pixelFromLatLng(
-                  (event.target as L.Marker).getLatLng(),
-                );
-                onMoveGcp(gcp.id, x, y);
-              },
-            }}
+            gcp={gcp}
+            label={String(index + 1)}
+            selected={gcp.id === selectedGcpId}
+            pixelSize={pixelSize}
+            onDragStartGcp={onDragStartGcp}
+            onMoveGcp={onMoveGcp}
           />
         ))}
         {pending?.side === "scan" ? (
           <Marker
             position={latLngFromPixel(pending.pixel)}
-            icon={numberedIcon(String(gcps.length + 1), { pending: true })}
+            icon={pendingIcon}
             interactive={false}
           />
         ) : null}
@@ -2857,17 +3182,22 @@ export function ScanPane({
 }
 ```
 
-- [ ] **Step 7: Run to verify it passes**
+- [ ] **Step 8: Run to verify it passes**
 
-Run: `cd web && npx vitest run src/userMaps/components/scanGeometry.test.ts src/userMaps/components/gcpIcon.test.ts && npx eslint src/userMaps/components`
-Expected: PASS (4 + 3 tests), lint silent. Both helper modules are pure, so
-neither test needs a react-leaflet mock; `ScanPane` itself is covered through
-`GeoreferencePanel.test.tsx` in Task 10 and live verification in Task 13.
+Run: `cd web && npx vitest run src/userMaps/components/scanGeometry.test.ts src/userMaps/components/gcpIcon.test.ts src/userMaps/components/ScanPane.test.tsx && npx tsc -b && npx eslint src/userMaps/components`
+Expected: PASS (5 + 3 + 8 tests), no type errors, lint silent. The two helper
+modules are pure, so their tests need no react-leaflet mock; `ScanPane` has
+its own mocked-Leaflet test above, because nothing else in this plan executes
+it — Task 10 and Task 12 both stub the module.
 
-- [ ] **Step 8: Commit**
+**`tsc -b`, not `tsc --noEmit`.** `web/tsconfig.json` is a solution file with
+`"files": []`, so the root `--noEmit` form checks nothing at all; `-b` compiles
+the referenced projects and exits 2 on error. Never measure it through a pipe.
+
+- [ ] **Step 9: Commit**
 
 ```bash
-git add web/src/userMaps/components/ScanPane.tsx web/src/userMaps/components/scanGeometry.ts web/src/userMaps/components/scanGeometry.test.ts web/src/userMaps/components/gcpIcon.ts web/src/userMaps/components/gcpIcon.test.ts
+git add web/src/userMaps/components/ScanPane.tsx web/src/userMaps/components/ScanPane.test.tsx web/src/userMaps/components/scanGeometry.ts web/src/userMaps/components/scanGeometry.test.ts web/src/userMaps/components/gcpIcon.ts web/src/userMaps/components/gcpIcon.test.ts
 git commit -m "feat(web): add the georeferencer scan pane on CRS.Simple"
 ```
 
@@ -2884,10 +3214,16 @@ git commit -m "feat(web): add the georeferencer scan pane on CRS.Simple"
 
 **`mostInconsistentIndex` is `number | null`.** `residualReport` returns
 residuals from four points but accuses nobody below five (`MIN_GCPS_FOR_SUSPECT`),
-because at four points every hat-matrix leverage is exactly 0.75 and every
-candidate statistic produces the identical ranking — measured 24% correct
-against a 25% baseline. So the four-point table shows real metres with **no
-row highlighted**, and that state has its own test below.
+because four points fitting three parameters leave a **one-dimensional**
+residual space (`I − H` has rank 1 at n = 4): every residual vector is a
+multiple of one direction fixed by the pixel layout, so raw, leave-one-out and
+studentized residuals all rank identically and name the same row whoever is
+actually wrong — measured 24% correct against a 25% baseline. (Do **not**
+restate this as a claim about all four leverages being equal: that holds only
+for a symmetric layout, and `residuals.ts:34–37` plus the verified-facts row at
+the top of this plan both record the retraction and the measured
+counter-example.) So the four-point table shows
+real metres with **no row highlighted**, and that state has its own test below.
 
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/GcpList.test.tsx`:
 
@@ -2934,8 +3270,9 @@ describe("GcpList", () => {
   it("renders residuals in metres but accuses nobody at four points", () => {
     // residualReport hands back mostInconsistentIndex: null below five
     // points. The numbers are real and worth showing; the accusation is not
-    // — at four points every leverage is 0.75, so raw, leave-one-out and
-    // studentized residuals rank identically and all three are at chance.
+    // — at four points the residual space is one-dimensional (I − H has rank
+    // 1), so raw, leave-one-out and studentized residuals rank identically
+    // and all three are at chance.
     renderList({
       report: {
         metresPerGcp: [12.4, 8.1, 40.9, 15.2],
@@ -2982,6 +3319,20 @@ describe("GcpList", () => {
   it("says nothing at all when there are no points", () => {
     renderList({ gcps: [] });
     expect(screen.queryByRole("table")).toBeNull();
+  });
+
+  it("reports the hovered row and marks the selected one", async () => {
+    // Neither `onSelect` nor `selectedGcpId` was asserted anywhere. Delete
+    // both props and every other test in this file and in
+    // GeoreferencePanel.test.tsx still passes — while `.gcp-row--selected`,
+    // `.gcp-marker--selected`, ScanPane's `selectedGcpId` prop and
+    // numberedIcon's `selected` branch all go dead at once.
+    const { onSelect } = renderList({ selectedGcpId: "c" });
+    const rows = screen.getAllByRole("row").slice(1);
+    expect(rows[2]).toHaveClass("gcp-row--selected");
+    expect(rows[0]).not.toHaveClass("gcp-row--selected");
+    await userEvent.hover(rows[0]);
+    expect(onSelect).toHaveBeenCalledWith("a");
   });
 });
 ```
@@ -3110,8 +3461,10 @@ export function GcpList({
 
 - [ ] **Step 4: Run to verify it passes**
 
-Run: `cd web && npx vitest run src/userMaps/components/GcpList.test.tsx`
-Expected: PASS (6 tests). `.visually-hidden` does **not** exist in
+Run: `cd web && npx vitest run src/userMaps/components/GcpList.test.tsx && npx tsc -b`
+Expected: PASS (7 tests), no type errors. (`tsc -b` is the only form that
+type-checks anything here — see the verified-facts table.)
+`.visually-hidden` does **not** exist in
 `styles.css` today — Task 12 adds it, along with a style test. The unit tests
 here do not depend on it, but the rendered page does: without it the header
 cell reads a literal "Actions".
@@ -3151,18 +3504,40 @@ git commit -m "feat(web): add the GCP residual list"
   - `<GeoreferencePanel record previewUrl opacity session onOpacityChange onClose onDelete onFocusGcpOnMap referenceLayers referenceLayersLocked onToggleReferenceLayer />`
   - `type ReferenceLayerState = { aerial: boolean; parcels: boolean }`
 
+**The overlay is a frame, not a modal.** The user's very next action is a
+click on the app's own map, which is *behind* this component. So
+`.georeference-overlay` is `position: fixed; inset: 0` with **no scrim and
+`pointer-events: none`**, and only its interactive children take
+`pointer-events: auto`. The panel itself is a left-anchored ~45vw column, per
+`docs/superpowers/specs/2026-07-24-web-user-maps-design.md:189–194`: panel left
+~45%, the app map keeps the right ~55%. An earlier draft made the overlay an
+opaque full-bleed card over a dark scrim, which meant `MapClickCatcher` never
+saw a click and **no control point could ever be completed** — while the status
+line instructed the user to "click the same spot on the map". Task 12 carries
+the CSS; this task must render markup that CSS can actually work with.
+
 **The panel renders its own overlay wrapper, and the class names are a
 contract with Task 12's stylesheet.** `.georeference-overlay` (fixed, `inset:
 0`), `.georeference-panel` carrying `data-tab`, `.georeference-scan` (from
 `ScanPane`), `.georeference-side`, `.georeference-tabs` — as a *direct child
 of the panel*, not nested in the header, because the narrow breakpoint places
-it in its own grid row. An earlier draft rendered none of these: the CSS
+it in its own grid row — and `.georeference-map-bar`, a **sibling of the
+panel** (see below). An earlier draft rendered none of these: the CSS
 targeted `.georeference-overlay`, `.georeference-side` and `[data-tab]` while
 the DOM had `georeference-panel--scan`, so the panel landed in normal document
 flow at the end of the page, both breakpoints were dead, and the `Scan | Map`
 toggle did nothing. Every style test still passed, because they regex the
 stylesheet rather than the rendered DOM. There is a rendered-DOM test below
 for exactly this class of bug, and it is not optional.
+
+**The floating bar is the narrow Map tab's entire UI.** Spec: on a narrow
+viewport, choosing *Map* "hides the panel entirely and leaves a floating bar
+carrying the prompt and a *Back to scan* button". So the bar is a sibling of
+`.georeference-panel` inside the overlay — not a child, because Task 12 sets
+`display: none` on the panel at that breakpoint, and a child would go with it.
+It is rendered unconditionally and revealed by CSS alone: the panel already
+carries `data-tab`, the bar carries the same attribute, and no JS needs to know
+the viewport width.
 
 **Deletion is confirmed here and nowhere else.** `App`'s `onDelete` handler
 must call `removeMap` straight out, with no second `window.confirm` — two
@@ -3187,9 +3562,14 @@ import { describe, expect, it, vi } from "vitest";
 
 // ScanPane mounts a real MapContainer, which needs a sized DOM node jsdom
 // does not provide. The panel's own behaviour is what this file tests, so the
-// scan side is stubbed; its coordinate maths has direct tests in Task 8.
-// Note the stub still renders `.georeference-scan`, because the layout test
-// below asserts the panel's real grid children.
+// scan side is stubbed; its coordinate maths, its click/drag wiring AND its
+// root class have direct tests in Task 8's ScanPane.test.tsx.
+//
+// The stub renders `.georeference-scan` so the layout test below can assert
+// the panel's grid children. That is only honest because ScanPane.test.tsx
+// pins the same class on the REAL component — without it this assertion would
+// be checking a class invented three lines up, and renaming the real one
+// would kill three CSS rules with the whole suite green.
 vi.mock("./ScanPane", () => ({
   ScanPane: () => <div className="georeference-scan" data-testid="scan-pane" />,
 }));
@@ -3226,6 +3606,10 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
     deleteGcp: vi.fn(),
     undo: vi.fn(),
     flush: vi.fn(),
+    // Task 12 adds this to GeoreferenceSession (a delete has to cancel its
+    // pending write, not flush it). The factory returns the full type, so a
+    // missing field is a `tsc -b` error, not a silent gap.
+    discardPendingWrite: vi.fn(),
     ...overrides,
   };
 }
@@ -3328,19 +3712,60 @@ describe("GeoreferencePanel", () => {
     expect(panel?.querySelector(":scope > .georeference-side")).not.toBeNull();
   });
 
-  it("switches which pane the narrow layout shows", async () => {
+  it("leaves the app's own map reachable behind it", () => {
+    // The critical one. The next thing the user must do is click the map
+    // BEHIND this component. An earlier draft rendered an opaque full-bleed
+    // card over a scrim, so MapClickCatcher never received a click and no
+    // control point could ever be completed. jsdom does no layout, so this
+    // asserts the two structural facts that make the CSS possible: the
+    // overlay is not a scrim-and-card pair, and the narrow Map tab's floating
+    // bar is a SIBLING of the panel (Task 12 hides the panel outright there,
+    // and a child would be hidden with it). The declarations themselves are
+    // pinned by styles.test.ts in Task 12; neither half substitutes for the
+    // other.
+    const { container } = renderPanel(fakeSession());
+    const overlay = container.querySelector(".georeference-overlay");
+    const bar = overlay?.querySelector(":scope > .georeference-map-bar");
+    expect(bar).not.toBeNull();
+    expect(bar).toHaveAttribute("data-tab", "scan");
+    expect(
+      container.querySelector(".georeference-panel .georeference-map-bar"),
+    ).toBeNull();
+  });
+
+  it("switches which pane the narrow layout shows, and offers the way back", async () => {
     const { container } = renderPanel(fakeSession());
     await userEvent.click(screen.getByRole("tab", { name: "Map" }));
     expect(container.querySelector(".georeference-panel")).toHaveAttribute(
       "data-tab",
       "map",
     );
+    // The panel is display:none at this breakpoint, so the bar is the only
+    // thing carrying the prompt — and the only way back to the scan.
+    expect(container.querySelector(".georeference-map-bar")).toHaveAttribute(
+      "data-tab",
+      "map",
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Back to scan" }),
+    );
+    expect(container.querySelector(".georeference-panel")).toHaveAttribute(
+      "data-tab",
+      "scan",
+    );
   });
 
   it("announces status politely for screen readers", () => {
     renderPanel(fakeSession());
-    const status = screen.getByRole("status");
-    expect(status).toHaveTextContent("Place 3 points to see the map drape.");
+    // TWO live regions on purpose: the panel header, and the floating bar
+    // that is the only visible prompt on the narrow Map tab, where CSS hides
+    // the panel outright. Both must carry the same text — a bar showing a
+    // stale prompt is worse than no bar.
+    const statuses = screen.getAllByRole("status");
+    expect(statuses).toHaveLength(2);
+    for (const status of statuses) {
+      expect(status).toHaveTextContent("Place 3 points to see the map drape.");
+    }
   });
 
   it("names the map being georeferenced", () => {
@@ -3361,9 +3786,16 @@ describe("GeoreferencePanel", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("closes on Escape when nothing is pending", async () => {
-    const { onClose } = renderPanel(fakeSession());
+  it("flushes pending writes before closing on Escape", async () => {
+    // Both halves, in one test, because asserting only `onClose` lets an
+    // implementation drop `flush()` from this branch and stay green: writes
+    // are debounced 400 ms, so an edit made inside that window and closed
+    // with Escape is simply lost on reload. Done had this assertion; Escape
+    // did not, and Escape is the faster habit.
+    const session = fakeSession();
+    const { onClose } = renderPanel(session);
     await userEvent.keyboard("{Escape}");
+    expect(session.flush).toHaveBeenCalled();
     expect(onClose).toHaveBeenCalled();
   });
 
@@ -3590,10 +4022,15 @@ export function GeoreferencePanel({
     onFocusGcpOnMap(gcp);
   }
 
+  const status = statusMessage(session.status);
+
   return (
-    // The overlay is the fixed, full-viewport layer; the panel is the card
-    // inside it. Both class names, and `data-tab`, are what styles.css
-    // targets — see the rendered-DOM test.
+    // The overlay is a fixed, full-viewport FRAME, not a modal: it carries
+    // `pointer-events: none` and no scrim, so the app's own map behind it
+    // stays visible and clickable — which is the whole interaction. The panel
+    // is a left-anchored ~45vw column inside it, and takes back
+    // `pointer-events: auto`. Both class names, `data-tab`, and the floating
+    // bar below are what styles.css targets — see the rendered-DOM tests.
     <div className="georeference-overlay">
       <section
         className="georeference-panel"
@@ -3603,7 +4040,7 @@ export function GeoreferencePanel({
         <header className="georeference-header">
           <h2>{record.name}</h2>
           <p role="status" aria-live="polite" className="georeference-status">
-            {statusMessage(session.status)}
+            {status}
           </p>
         </header>
 
@@ -3736,6 +4173,29 @@ export function GeoreferencePanel({
           </footer>
         </div>
       </section>
+
+      {/* A SIBLING of the panel, not a child. On a narrow viewport the Map
+          tab sets `display: none` on the panel — that is the point of the tab,
+          per the spec — so anything nested inside it would vanish too. This
+          bar is what is left: the live prompt, and the way back. CSS shows it
+          only at that breakpoint and only on that tab, so no JS here needs to
+          know the viewport width. */}
+      <div className="georeference-map-bar" data-tab={tab}>
+        <p
+          role="status"
+          aria-live="polite"
+          className="georeference-map-bar-status"
+        >
+          {status}
+        </p>
+        <button
+          type="button"
+          className="georeference-map-bar-back"
+          onClick={() => setTab("scan")}
+        >
+          Back to scan
+        </button>
+      </div>
     </div>
   );
 }
@@ -3743,8 +4203,10 @@ export function GeoreferencePanel({
 
 - [ ] **Step 5: Run to verify it passes**
 
-Run: `cd web && npx vitest run src/userMaps/components/GeoreferencePanel.test.tsx && npx eslint src/userMaps/components`
-Expected: PASS (19 tests), lint silent.
+Run: `cd web && npx vitest run src/userMaps/components/GeoreferencePanel.test.tsx && npx tsc -b && npx eslint src/userMaps/components`
+Expected: PASS (20 tests — 5 `statusMessage`, 15 panel), no type errors, lint
+silent. (`tsc -b` is the only form that type-checks anything here — see the
+verified-facts table.)
 
 - [ ] **Step 6: Commit**
 
@@ -3761,6 +4223,7 @@ git commit -m "feat(web): add the georeferencer panel shell"
 - Create: `web/src/userMaps/components/GeoreferenceMapLayer.tsx`
 - Test: `web/src/userMaps/components/GeoreferenceMapLayer.test.tsx`
 - Modify: `web/src/components/MapCanvas.tsx`
+- Test: `web/src/components/MapCanvas.test.tsx` (probe mocks + binding assertions)
 - Modify: `web/src/components/mapPanes.ts` (one constant pair)
 - Test: `web/src/components/mapPanes.test.ts` (extend ordering assertions)
 
@@ -3839,13 +4302,19 @@ standalone pane constants explicitly:
     // popup 700. Above the first two, below the last.
     expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(650);
     expect(GEOREFERENCE_PANE_Z_INDEX).toBeLessThan(700);
-    expect(GEOREFERENCE_PANE).not.toBe(USER_MAPS_PANE);
+    // NOT `expect(GEOREFERENCE_PANE).not.toBe(USER_MAPS_PANE)` — two
+    // different string literals can never be equal, so that assertion can
+    // never fail. What actually matters is the ORDER: the control points must
+    // outrank the drape they are placed on.
+    expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(USER_MAPS_PANE_Z_INDEX);
   });
 ```
 
-Add `GEOREFERENCE_PANE`, `GEOREFERENCE_PANE_Z_INDEX`, `USER_MAPS_PANE` and
-`ZONING_PANE_Z_INDEX` to the test file's import list (the others are already
-imported).
+Add `GEOREFERENCE_PANE_Z_INDEX` and `ZONING_PANE_Z_INDEX` to the test file's
+import list — read it first: `USER_MAPS_PANE_Z_INDEX` and the rest are already
+there. `GEOREFERENCE_PANE` (the name, not the index) is asserted by the layer
+test below, which proves `createPane` is called with that exact string; a
+constants file cannot check that on its own.
 
 - [ ] **Step 2: Write the failing layer test** — `web/src/userMaps/components/GeoreferenceMapLayer.test.tsx`:
 
@@ -3853,16 +4322,44 @@ Follow the mocking convention in `UserMapLayers.test.tsx` exactly: `vi.hoisted`
 stubs for `useMap`, and `vi.mock("react-leaflet", …)` also supplying `Marker`
 and **`useMapEvent`** (singular — see the implementation note below).
 
+**The `Marker` stub must record `draggable`, `pane` and the handler keys, not
+just `position`.** A stub that destructures `position` alone passes every test
+in this file against a `<Marker>` carrying none of the rest: markers that
+cannot be dragged, markers in Leaflet's default marker pane at 600 (below the
+tooltip pane at 650, voiding this task's entire pane rationale — which Task 13
+then writes into `ARCHITECTURE.md` as shipped fact), and — subtlest — a marker
+wired to `drag` but not `dragstart`. That last one loses nothing visible:
+`useGeoreferenceSession`'s `beginDragGcp` is the ONLY map-side entry into undo
+history, so one Ctrl+Z leaps back past the whole drag.
+
 ```tsx
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { GEOREFERENCE_PANE, GEOREFERENCE_PANE_Z_INDEX } from "../../components/mapPanes";
 
+type MarkerCall = {
+  position: [number, number];
+  draggable?: boolean;
+  pane?: string;
+  icon: { options: { className?: string; html?: string } };
+  eventHandlers?: {
+    dragstart?: () => void;
+    drag?: (event: {
+      target: { getLatLng: () => { lat: number; lng: number } };
+    }) => void;
+  };
+};
+
+const markerCalls = vi.hoisted(() => [] as MarkerCall[]);
 const handlers = vi.hoisted(() => ({ click: null as ((e: unknown) => void) | null }));
 const stubMap = vi.hoisted(() => ({
   getPane: vi.fn(() => undefined as HTMLElement | undefined),
   createPane: vi.fn(() => document.createElement("div")),
   setView: vi.fn(),
-  getZoom: vi.fn(() => 12),
+  // ABOVE the 15 floor on purpose. At 12 — below it — `Math.max(getZoom(), 15)`
+  // and a hardcoded `15` are indistinguishable, so the "only zooms in" test
+  // would pass against an implementation that always yanks the user to 15.
+  getZoom: vi.fn(() => 17),
 }));
 
 vi.mock("react-leaflet", () => ({
@@ -3873,9 +4370,18 @@ vi.mock("react-leaflet", () => ({
     }
     return stubMap;
   },
-  Marker: ({ position }: { position: [number, number] }) => (
-    <div data-testid="gcp-marker" data-position={position.join(",")} />
-  ),
+  Marker: (props: MarkerCall) => {
+    markerCalls.push(props);
+    return (
+      <div
+        data-testid="gcp-marker"
+        data-position={props.position.join(",")}
+        data-draggable={String(props.draggable ?? false)}
+        data-pane={props.pane ?? ""}
+        data-handlers={Object.keys(props.eventHandlers ?? {}).sort().join(",")}
+      />
+    );
+  },
 }));
 
 import { GeoreferenceMapLayer } from "./GeoreferenceMapLayer";
@@ -3894,11 +4400,55 @@ const BINDING = {
 };
 
 describe("GeoreferenceMapLayer", () => {
+  beforeEach(() => {
+    markerCalls.length = 0;
+    stubMap.createPane.mockClear();
+    stubMap.setView.mockClear();
+  });
+
   it("renders one marker per GCP at its stored WGS84 position", () => {
     render(<GeoreferenceMapLayer binding={BINDING} />);
     const markers = screen.getAllByTestId("gcp-marker");
     expect(markers).toHaveLength(2);
     expect(markers[0]).toHaveAttribute("data-position", "46.1,-61.2");
+  });
+
+  it("puts the control points in their own pane, above every overlay", () => {
+    // `mapPanes.test.ts` asserts the constants relate correctly; only this
+    // proves the layer USES them. Without both, markers land in Leaflet's
+    // default marker pane at 600 — under the tooltip pane — and the pane
+    // rationale Task 13 documents is fiction.
+    render(<GeoreferenceMapLayer binding={BINDING} />);
+    expect(stubMap.createPane).toHaveBeenCalledWith(GEOREFERENCE_PANE);
+    for (const marker of screen.getAllByTestId("gcp-marker")) {
+      expect(marker).toHaveAttribute("data-pane", GEOREFERENCE_PANE);
+    }
+    // The pane element's z-index is set from the constant, not a literal.
+    const pane = stubMap.createPane.mock.results[0]?.value as HTMLElement;
+    expect(pane.style.zIndex).toBe(String(GEOREFERENCE_PANE_Z_INDEX));
+  });
+
+  it("snapshots undo on dragstart, then follows the drag", () => {
+    // dragstart is the only map-side entry into undo history. Wire `drag`
+    // alone and every assertion except this one still passes.
+    const onDragStartGcp = vi.fn();
+    const onMoveGcpOnMap = vi.fn();
+    render(
+      <GeoreferenceMapLayer
+        binding={{ ...BINDING, onDragStartGcp, onMoveGcpOnMap }}
+      />,
+    );
+    expect(markerCalls[0].draggable).toBe(true);
+    expect(Object.keys(markerCalls[0].eventHandlers ?? {}).sort()).toEqual([
+      "drag",
+      "dragstart",
+    ]);
+    markerCalls[0].eventHandlers?.dragstart?.();
+    expect(onDragStartGcp).toHaveBeenCalledWith("a");
+    markerCalls[0].eventHandlers?.drag?.({
+      target: { getLatLng: () => ({ lat: 45.9, lng: -61.4 }) },
+    });
+    expect(onMoveGcpOnMap).toHaveBeenCalledWith("a", 45.9, -61.4);
   });
 
   it("turns a map click into a picked point", () => {
@@ -3924,7 +4474,6 @@ describe("GeoreferenceMapLayer", () => {
   });
 
   it("recentres on a focus request, and only zooms in", () => {
-    stubMap.setView.mockClear();
     const { rerender } = render(<GeoreferenceMapLayer binding={BINDING} />);
     expect(stubMap.setView).not.toHaveBeenCalled();
     rerender(
@@ -3935,8 +4484,11 @@ describe("GeoreferenceMapLayer", () => {
         }}
       />,
     );
-    // Never zooms the user back OUT of a closer inspection: current zoom 12.
-    expect(stubMap.setView).toHaveBeenCalledWith([46.1, -61.2], 15);
+    // The fixture sits at zoom 17, ABOVE the 15 floor, so this distinguishes
+    // `Math.max(getZoom(), 15)` from a hardcoded 15 — at a fixture zoom of 12
+    // the two are identical and the test's own name is unearned. Never zoom
+    // the user back OUT of a closer inspection.
+    expect(stubMap.setView).toHaveBeenCalledWith([46.1, -61.2], 17);
   });
 });
 ```
@@ -3950,11 +4502,65 @@ file in no task's Files block and no `git add`, so the branch compiled locally
 and failed on the pushed commit). Declare `MapFocusRequest` and
 `GeoreferenceBinding` here — both `export type`, which the react-refresh rule
 allows, unlike a function. Create the georeference pane on mount the way
-`UserMapLayers` creates the user-maps pane, using `GEOREFERENCE_PANE` /
-`GEOREFERENCE_PANE_Z_INDEX`; render a `<Marker draggable>` per GCP wired to
-`onDragStartGcp` / `onMoveGcpOnMap`; render the pending marker when
-`pending?.side === "map"`; and mount the click catcher and the focus
-controller:
+`UserMapLayers` creates the user-maps pane (`ensurePane`, idempotent, setting
+`pane.style.zIndex = String(GEOREFERENCE_PANE_Z_INDEX)`); render one marker per
+GCP wired to `onDragStartGcp` / `onMoveGcpOnMap`; render the pending marker
+when `pending?.side === "map"`; and mount the click catcher and the focus
+controller.
+
+**Every marker takes `pane={GEOREFERENCE_PANE}`.** Omitting it is the failure
+this task's 14 lines of pane reasoning exist to prevent: the marker silently
+lands in Leaflet's default marker pane at 600, under the tooltip pane at 650,
+and Task 13 documents a stacking order the app does not have.
+
+**Give each marker its own component, exactly as `ScanGcpMarker` does in Task
+8**, for the same reason: an inline `icon={numberedIcon(…)}` mints a new
+`L.DivIcon` every render (react-leaflet answers with `marker.setIcon()`) and an
+inline `eventHandlers` object literal re-runs `off()`/`on()` (its effect deps
+are `[element, eventHandlers]`) — both once per pointer move of a drag, on the
+hottest path in the feature:
+
+```tsx
+function GeoreferenceGcpMarker({
+  gcp,
+  label,
+  onDragStartGcp,
+  onMoveGcpOnMap,
+}: {
+  gcp: Gcp;
+  label: string;
+  onDragStartGcp: (id: string) => void;
+  onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
+}) {
+  const icon = useMemo(() => numberedIcon(label), [label]);
+  const position = useMemo<[number, number]>(
+    () => [gcp.map.lat, gcp.map.lng],
+    [gcp.map.lat, gcp.map.lng],
+  );
+  const eventHandlers = useMemo(
+    () => ({
+      // The ONLY map-side entry into undo history.
+      dragstart: () => onDragStartGcp(gcp.id),
+      drag: (event: L.LeafletEvent) => {
+        const { lat, lng } = (event.target as L.Marker).getLatLng();
+        onMoveGcpOnMap(gcp.id, lat, lng);
+      },
+    }),
+    [gcp.id, onDragStartGcp, onMoveGcpOnMap],
+  );
+  return (
+    <Marker
+      position={position}
+      draggable
+      pane={GEOREFERENCE_PANE}
+      icon={icon}
+      eventHandlers={eventHandlers}
+    />
+  );
+}
+```
+
+The click catcher and the focus controller:
 
 ```tsx
 function MapClickCatcher({
@@ -3999,6 +4605,30 @@ Add the prop to `MapCanvasProps`:
   georeference?: GeoreferenceBinding | null;
 ```
 
+**And add it to the component's explicit destructuring** — `MapCanvas.tsx`
+destructures every prop by name (read the parameter list, it runs from
+`parcels` to `fitBounds`), so a prop added to the type alone is invisible
+inside the body and `tsc -b` says nothing, because an unread optional prop is
+perfectly legal:
+
+```tsx
+  georeference = null,
+```
+
+Give the map a crosshair while a session is open (spec:201–204: "a crosshair
+cursor" on the map pane). The root element is
+`<div className="map-canvas" aria-label="Nova Scotia municipal parcel map">` —
+make its class conditional:
+
+```tsx
+    <div
+      className={`map-canvas${georeference ? " map-canvas--georeferencing" : ""}`}
+      aria-label="Nova Scotia municipal parcel map"
+    >
+```
+
+Task 12 adds the matching `cursor: crosshair` rule.
+
 Suppress parcel identify while georeferencing — find the existing line:
 
 ```tsx
@@ -4031,16 +4661,144 @@ replace with:
 
 Add the import next to the existing `UserMapLayers` import.
 
-- [ ] **Step 5: Run the affected suites**
+- [ ] **Step 5: Prove `MapCanvas` actually consumes the binding** — add to
+      `web/src/components/MapCanvas.test.tsx`
 
-Run: `cd web && npx vitest run src/userMaps/components/ src/components/MapCanvas.test.tsx src/components/mapPanes.test.ts && npx eslint src`
-Expected: PASS, lint silent. If `react-refresh/only-export-components` fires,
-a helper landed in a `.tsx` file — move it, do not disable the rule.
+Nothing so far can tell the difference between the wiring above and a
+`MapCanvas` that accepts `georeference`, destructures it, and leaves
+`<UserMapLayers maps={userMaps} />` exactly as it was. The layer tests in this
+task mount `GeoreferenceMapLayer` directly; Task 12's App tests read
+`georeferencing: scan-1` out of a **mocked** `MapCanvas`; and `tsc -b` is
+content with an optional prop nobody reads. Two probe mocks close it.
 
-- [ ] **Step 6: Commit**
+Add them beside the file's existing `vi.mock` calls. `UserMapLayers` is
+currently real here — the `paneElements` comment at the top of the file
+explains why the map stub has `createPane`/`getPane` — but no test asserts
+anything about the user-maps pane, so a probe is safe:
+
+```tsx
+vi.mock("../userMaps/components/UserMapLayers", () => ({
+  UserMapLayers: ({
+    maps,
+    draft,
+  }: {
+    maps: Array<{ record: { id: string } }>;
+    draft?: { record: { id: string } } | null;
+  }) => (
+    <div
+      data-testid="user-map-layers"
+      data-count={maps.length}
+      data-draft={draft?.record.id ?? "none"}
+    />
+  ),
+}));
+
+vi.mock("../userMaps/components/GeoreferenceMapLayer", () => ({
+  GeoreferenceMapLayer: ({
+    binding,
+  }: {
+    binding: { gcps: Array<{ id: string }> };
+  }) => (
+    <div data-testid="georeference-map-layer" data-gcps={binding.gcps.length} />
+  ),
+}));
+```
+
+Then the tests. **There is no shared render helper in this file** — each suite
+builds a local `const props = { … }` and spreads it (the mineral-proximity
+suite near line ~1573 is the closest model, and `hiddenResourceLayers` is
+already defined at the top of the file). Copy that fixture rather than
+inventing a helper:
+
+```tsx
+describe("georeference binding", () => {
+  const props = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: false,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": false,
+      roads: false,
+      buildings: false,
+      contours: false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  const BINDING = {
+    gcps: [{ id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } }],
+    pending: null,
+    draft: {
+      record: { id: "scan-1" },
+      previewUrl: "blob:scan",
+      opacity: 0.7,
+      mesh: null,
+    },
+    focus: null,
+    onPickMapPoint: vi.fn(),
+    onDragStartGcp: vi.fn(),
+    onMoveGcpOnMap: vi.fn(),
+  } as unknown as GeoreferenceBinding;
+
+  it("mounts nothing georeferencing-related when no session is open", () => {
+    render(<MapCanvas {...props} />);
+    expect(screen.queryByTestId("georeference-map-layer")).toBeNull();
+    expect(screen.getByTestId("user-map-layers")).toHaveAttribute(
+      "data-draft",
+      "none",
+    );
+    expect(document.querySelector(".map-canvas--georeferencing")).toBeNull();
+  });
+
+  it("mounts the marker layer and hands the draft to the raster layer", () => {
+    render(<MapCanvas {...props} georeference={BINDING} />);
+    expect(screen.getByTestId("georeference-map-layer")).toHaveAttribute(
+      "data-gcps",
+      "1",
+    );
+    // The live drape. Without this the map under edit simply never draws —
+    // and the App-level test that reads "georeferencing: scan-1" out of a
+    // mocked MapCanvas would not notice.
+    expect(screen.getByTestId("user-map-layers")).toHaveAttribute(
+      "data-draft",
+      "scan-1",
+    );
+    // Spec: a crosshair cursor on the map pane while georeferencing.
+    expect(
+      document.querySelector(".map-canvas--georeferencing"),
+    ).not.toBeNull();
+  });
+});
+```
+
+Import `GeoreferenceBinding` as a type from
+`../userMaps/components/GeoreferenceMapLayer`. The `as unknown as` cast is
+deliberate and confined to the fixture: the probe mock only reads two fields,
+and spelling out a full `DraftUserMap` here would pin the test to a shape it
+does not exercise.
+
+- [ ] **Step 6: Run the affected suites**
+
+Run: `cd web && npx vitest run src/userMaps/components/ src/components/MapCanvas.test.tsx src/components/mapPanes.test.ts && npx tsc -b && npx eslint src`
+Expected: PASS, no type errors, lint silent. If
+`react-refresh/only-export-components` fires, a helper landed in a `.tsx`
+file — move it, do not disable the rule.
+
+- [ ] **Step 7: Commit**
 
 ```bash
-git add web/src/userMaps/components/GeoreferenceMapLayer.tsx web/src/userMaps/components/GeoreferenceMapLayer.test.tsx web/src/components/MapCanvas.tsx web/src/components/mapPanes.ts web/src/components/mapPanes.test.ts
+git add web/src/userMaps/components/GeoreferenceMapLayer.tsx web/src/userMaps/components/GeoreferenceMapLayer.test.tsx web/src/components/MapCanvas.tsx web/src/components/MapCanvas.test.tsx web/src/components/mapPanes.ts web/src/components/mapPanes.test.ts
 git commit -m "feat(web): place and drag GCPs on the live map"
 ```
 
@@ -4051,6 +4809,8 @@ git commit -m "feat(web): place and drag GCPs on the live map"
 **Files:**
 - Modify: `web/src/userMaps/components/UserMapRows.tsx`
 - Modify: `web/src/userMaps/components/UserMapRows.test.tsx`
+- Modify: `web/src/userMaps/useGeoreferenceSession.ts` (one `discardPendingWrite` method)
+- Modify: `web/src/userMaps/useGeoreferenceSession.test.ts`
 - Modify: `web/src/App.tsx`
 - Modify: `web/src/App.test.tsx`
 - Modify: `web/src/styles.css`
@@ -4073,10 +4833,20 @@ always and idles when `mapId` is `null` — which is exactly why Task 7 gave it
 
 Read `web/src/userMaps/components/UserMapRows.test.tsx` first. **The factory is
 called `api(overrides)`, not `makeApi`** — an earlier draft of this plan
-invented the second name. Extend that existing factory with the Task 5
-additions (`beginGeoreference: vi.fn()`, `needsGeoreferencing: () => false`,
-`georeferencingId: null`, `endGeoreference: vi.fn()`, `saveGcps: vi.fn(async
-() => {})`, `editingMap: null`). Then append:
+invented the second name — and **it already carries every Task 5 field**,
+including the real `needsGeoreferencing`. Add nothing to it.
+
+**Do not replace `needsGeoreferencing` with a stub.** The factory imports the
+real predicate and says why, in a comment at `UserMapRows.test.tsx:38–41`:
+*"The real predicate, not a stub … a fake here would let a wrong one pass."*
+An earlier draft of this plan added `needsGeoreferencing: () => false` to the
+factory anyway, under which an implementation testing `gcps.length === 0`
+(correct is `< 3`) passes every test below, while a half-placed 1–2 point draft
+renders an enabled visibility checkbox for a map `visibleMaps` refuses to draw.
+The same reasoning rules out per-test `needsGeoreferencing: () => true`
+overrides, which is why the tests below have none: each fixture's own GCP
+count decides its row, and the half-placed fixture is there precisely to
+separate `< MIN_GCPS_FOR_AFFINE` from `=== 0`. Then append:
 
 ```tsx
 const NEEDS_WORK: UserMapRecord = {
@@ -4096,11 +4866,7 @@ const PLACED_GCPS: Gcp[] = [
 
 describe("georeferencing affordance", () => {
   it("says a scan cannot be drawn yet, and why", () => {
-    render(
-      <UserMapRows
-        api={api({ records: [NEEDS_WORK], needsGeoreferencing: () => true })}
-      />,
-    );
+    render(<UserMapRows api={api({ records: [NEEDS_WORK] })} />);
     expect(screen.getByText("Needs georeferencing")).toBeInTheDocument();
     // A checkbox that turns on a layer which then draws nothing is a lie.
     expect(
@@ -4117,17 +4883,41 @@ describe("georeferencing affordance", () => {
     const beginGeoreference = vi.fn();
     render(
       <UserMapRows
-        api={api({
-          records: [NEEDS_WORK],
-          needsGeoreferencing: () => true,
-          beginGeoreference,
-        })}
+        api={api({ records: [NEEDS_WORK], beginGeoreference })}
       />,
     );
     await userEvent.click(
       screen.getByRole("button", { name: "Georeference Church of Inverness 1888" }),
     );
     expect(beginGeoreference).toHaveBeenCalledWith("scan");
+  });
+
+  it("still refuses to draw a half-placed draft", () => {
+    // The test that separates the real predicate (< MIN_GCPS_FOR_AFFINE) from
+    // a plausible `gcps.length === 0`. Two points solve nothing, so the row
+    // must stay in the needs-work state — otherwise its checkbox turns on a
+    // layer that `visibleMaps` refuses to include and nothing is drawn.
+    render(
+      <UserMapRows
+        api={api({
+          records: [
+            {
+              ...NEEDS_WORK,
+              georef: {
+                kind: "gcp",
+                method: "affine",
+                gcps: PLACED_GCPS.slice(0, 2),
+              },
+            },
+          ],
+          uiState: { scan: { enabled: true, opacity: 0.7 } },
+        })}
+      />,
+    );
+    expect(screen.getByText("Needs georeferencing")).toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: NEEDS_WORK.name }),
+    ).toBeDisabled();
   });
 
   it("offers a placed map its points back rather than a fresh start", () => {
@@ -4139,7 +4929,6 @@ describe("georeferencing affordance", () => {
             { ...NEEDS_WORK, georef: { kind: "gcp", method: "affine", gcps: PLACED_GCPS } },
           ],
           uiState: { scan: { enabled: true, opacity: 0.7 } },
-          needsGeoreferencing: () => false,
         })}
       />,
     );
@@ -4290,7 +5079,15 @@ append two fields to the returned text, next to `focus request`:
 ```tsx
       ; georeferencing: {georeference?.draft?.record.id ?? "none"}
       ; saved user map layers: {userMaps?.length ?? 0}
+      ; georeference focus:{" "}
+      {georeference?.focus
+        ? `${georeference.focus.lat},${georeference.focus.lng}`
+        : "none"}
 ```
+
+The focus line is not decoration: it is the only way to see, from outside,
+that App clears its focus state when a session ends (see the two-map test
+below).
 
 `ScanPane` mounts a real `MapContainer`, which needs a sized node jsdom does
 not give it, so stub it beside the other `vi.mock` calls at the top:
@@ -4326,6 +5123,22 @@ describe("georeferencer", () => {
         { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
         { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
         { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+      ],
+    },
+  };
+
+  /** A second placed map, somewhere else entirely — for the focus-leak test. */
+  const PLACED_B: UserMapRecord = {
+    ...PLACED,
+    id: "placed-2",
+    name: "Second placed scan",
+    georef: {
+      kind: "gcp",
+      method: "affine",
+      gcps: [
+        { id: "p", pixel: { x: 0, y: 0 }, map: { lat: 44.6, lng: -63.6 } },
+        { id: "q", pixel: { x: 1200, y: 0 }, map: { lat: 44.6, lng: -63.4 } },
+        { id: "r", pixel: { x: 0, y: 800 }, map: { lat: 44.5, lng: -63.6 } },
       ],
     },
   };
@@ -4378,6 +5191,11 @@ describe("georeferencer", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "georeferencing: scan-1",
     );
+    // Spec: the georeferencer hides the layer rail so the panel can take the
+    // left ~45% and the app map keep the right ~55%. styles.test.ts pins the
+    // RULE; this pins the class actually being on the element, because a rule
+    // with nothing to match is invisible to every test in this repo.
+    expect(document.querySelector(".app-shell.georeferencing")).not.toBeNull();
     // Still 1, not 2: the map under edit is drawn by the georeferencer's own
     // draft, so the saved-map layer must not also draw it — that would be two
     // canvases fighting, and the saved layer would rebuild on every pointer
@@ -4421,6 +5239,36 @@ describe("georeferencer", () => {
     expect(screen.queryByTestId("scan-pane")).toBeNull();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "georeferencing: none",
+    );
+    expect(document.querySelector(".app-shell.georeferencing")).toBeNull();
+  });
+
+  it("does not carry one map's zoom-to focus into the next session", async () => {
+    // Zoom to on map A, close A, open map B. `georeferenceFocus` is App
+    // state, not session state, so nothing resets it on its own: leave it set
+    // and GeoreferenceMapLayer mounts for B with A's focus still non-null and
+    // immediately recentres B's session on a point belonging to another map.
+    // The bug needs two maps to show, which is why no existing test sees it.
+    await seedScan(PLACED);
+    await seedScan(PLACED_B);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Zoom to point 1" }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeference focus: 46.1,-61.2",
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Adjust points for Second placed scan",
+      }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeference focus: none",
     );
   });
 
@@ -4501,7 +5349,83 @@ If mocking that module turns out to break `useUserMaps`'s own import of
 description rather than weakening the others — the hook-level test in Task 5
 already covers the flag; this one only covers the wiring.
 
-- [ ] **Step 5: Implement the `App` wiring** — `web/src/App.tsx`
+- [ ] **Step 5: Let a delete cancel its own pending write** —
+      `web/src/userMaps/useGeoreferenceSession.ts` and its test
+
+Task 7 landed the debounced write-through with `flush` as its only escape
+hatch, and `flush` **writes**. A delete needs the opposite: drop the queued
+payload without performing it.
+
+Verified mechanism, not a hunch: `useUserMaps.removeMap` does `await (await
+store()).deleteUserMap(id)` **before** `setRecords(prev => prev.filter(…))`,
+and `saveGcps` resolves its record from `recordsRef.current`. So a 400 ms timer
+that fires inside that await finds the record still present, builds a `saved`
+object and calls `putUserMapRecord` — landing a metadata row behind the
+deletion, for a map whose raster and preview blobs are gone.
+
+Add next to `flush`:
+
+```ts
+  /**
+   * Drops the queued write for one map WITHOUT performing it — the delete
+   * counterpart to `flush`. Keyed, not a blanket clear: `dirtyRef` holds one
+   * entry per map precisely so an interrupted session does not lose another
+   * map's write, and deleting map A must not cancel map B's.
+   */
+  const discardPendingWrite = useCallback((id: string) => {
+    dirtyRef.current.delete(id);
+    if (dirtyRef.current.size === 0 && timerRef.current !== null) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+```
+
+Add `discardPendingWrite: (mapId: string) => void;` to the
+`GeoreferenceSession` type and return it beside `flush`. **Task 10's
+`fakeSession` factory must gain it too**, or `tsc -b` fails on the test file.
+
+Then append to `web/src/userMaps/useGeoreferenceSession.test.ts`, following the
+file's existing `setup()` helper and its global `vi.useFakeTimers()`:
+
+```ts
+  it("drops a queued write when its map is deleted", () => {
+    const { result, onPersist } = setup(SOLVABLE);
+    act(() => {
+      result.current.moveGcpOnScan("a", 10, 20);
+    });
+    act(() => {
+      result.current.discardPendingWrite("map-a");
+    });
+    act(() => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS * 2);
+    });
+    expect(onPersist).not.toHaveBeenCalled();
+  });
+
+  it("keeps another map's queued write when one map is discarded", () => {
+    // dirtyRef is keyed per map on purpose (Task 7). A blanket clear() would
+    // pass the test above and silently lose the OTHER map's edits — exactly
+    // the bug the per-map keying was introduced to fix.
+    const { result, rerender, onPersist } = setup(SOLVABLE);
+    act(() => {
+      result.current.moveGcpOnScan("a", 10, 20);
+    });
+    rerender({ mapId: "map-b", initialGcps: SOLVABLE });
+    act(() => {
+      result.current.moveGcpOnScan("a", 30, 40);
+    });
+    act(() => {
+      result.current.discardPendingWrite("map-b");
+    });
+    act(() => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS * 2);
+    });
+    expect(onPersist.mock.calls.map(([id]) => id)).toEqual(["map-a"]);
+  });
+```
+
+- [ ] **Step 6: Implement the `App` wiring** — `web/src/App.tsx`
 
 Add imports beside the existing user-map imports (line ~150):
 
@@ -4571,6 +5495,17 @@ Immediately after `const userMapsApi = useUserMaps();` (line ~785):
     });
   }, []);
 
+  // Focus belongs to ONE session. `userMapsApi.endGeoreference` only clears
+  // the map id, so closing without clearing this leaves the next map's layer
+  // mounting with the previous map's focus and recentring on a point that is
+  // not its own. Every close path goes through here — the panel's onClose and
+  // its Delete both.
+  const { endGeoreference } = userMapsApi;
+  const endGeoreferencing = useCallback(() => {
+    setGeoreferenceFocus(null);
+    endGeoreference();
+  }, [endGeoreference]);
+
   // A new `draft` object on every mesh change is the intended hot path:
   // UserMapLayers keys its layer build on `previewUrl` and pushes geometry
   // through `setLatLngMesh`, so this never re-decodes the bitmap (Task 6).
@@ -4609,6 +5544,19 @@ Pass the binding to the map — find `userMaps={userMapsApi.visibleMaps}` (line
             georeference={georeferenceBinding}
 ```
 
+Mark the shell so the stylesheet can hide the layer rail (spec:189 — the panel
+takes the left ~45% and the app map keeps the right ~55%; leaving a 288–320 px
+rail up would push the live map under the panel). Find the root element and
+extend the template literal it already uses:
+
+```tsx
+    <div
+      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}${
+        editingMap ? " georeferencing" : ""
+      }`}
+    >
+```
+
 Render the panel as a sibling of `PrintPreview`, at the very end of the
 returned fragment — outside the app `<div>`, where the other full-viewport
 overlays live:
@@ -4623,13 +5571,22 @@ overlays live:
         onOpacityChange={(opacity) =>
           userMapsApi.setOpacity(editingMap.record.id, opacity)
         }
-        onClose={userMapsApi.endGeoreference}
+        onClose={endGeoreferencing}
         onDelete={() => {
           // NO window.confirm here. The panel's Delete map button already
           // asks, and wrapping it again produced two prompts for one click —
           // which reads to the user as a dialog that does not work.
-          userMapsApi.endGeoreference();
-          void userMapsApi.removeMap(editingMap.record.id);
+          //
+          // The discard is not optional. Writes are debounced 400 ms, and
+          // `removeMap` AWAITS the IndexedDB delete before dropping the
+          // record from state — so a timer that fires inside that await still
+          // finds the record in `recordsRef` and queues a metadata `put`
+          // behind the deletion, resurrecting a record whose raster and
+          // preview blobs are gone. Cancel first, then delete.
+          const id = editingMap.record.id;
+          georeferenceSession.discardPendingWrite(id);
+          endGeoreferencing();
+          void userMapsApi.removeMap(id);
         }}
         onFocusGcpOnMap={focusGcpOnMap}
         referenceLayers={{
@@ -4647,11 +5604,13 @@ overlays live:
     ) : null}
 ```
 
-`endGeoreference` runs before `removeMap` so the panel unmounts against a
-record that still exists; the reverse order renders one frame of a panel whose
-record is gone.
+The delete order is load-bearing in both directions: `discardPendingWrite`
+first (so no timer can resurrect the record mid-delete), then
+`endGeoreferencing` (so the panel unmounts against a record that still exists —
+the reverse renders one frame of a panel whose record is gone), then
+`removeMap`.
 
-- [ ] **Step 6: Write the failing style tests** — add to `web/src/styles.test.ts`
+- [ ] **Step 7: Write the failing style tests** — add to `web/src/styles.test.ts`
 
 **These tests regex the stylesheet, and that is their limit.** They cannot see
 whether anything renders the class names they check — an earlier draft of this
@@ -4676,14 +5635,78 @@ describe("georeferencer overlay", () => {
     expect(overlayZ).toBeLessThan(dialogZ);
   });
 
+  it("leaves the app's own map visible and clickable", () => {
+    // THE regression test for this feature. An earlier draft made the overlay
+    // a full-bleed opaque card over a 72%-black scrim, so the app's map — the
+    // thing the user must click to complete every control point — was both
+    // dimmed and pointer-blocked. No GCP could ever be finished, while the
+    // status line said "Now click the same spot on the map."
+    //
+    // jsdom does no layout, so a rendered-DOM test cannot see occlusion:
+    // these three declarations are what make the difference, so they are what
+    // gets asserted. Task 10's DOM test pins the matching structure.
+    const overlay = styles.match(/\.georeference-overlay\s*\{([^}]*)\}/)?.[1];
+    expect(overlay).toMatch(/pointer-events:\s*none/);
+    expect(overlay).not.toMatch(/background/);
+    const panel = styles.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(panel).toMatch(/pointer-events:\s*auto/);
+    // Spec: panel left ~45%, app map keeps the right ~55%.
+    expect(panel).toMatch(/width:\s*45vw/);
+  });
+
+  it("hides the layer rail and crosshairs the map during a session", () => {
+    // Both are spec (189 and 201–204) and both are pure CSS, so nothing else
+    // in the suite would notice their absence.
+    expect(styles).toMatch(
+      /\.app-shell\.georeferencing\s+\.layer-rail\s*\{[^}]*display:\s*none/,
+    );
+    expect(styles).toMatch(
+      /\.map-canvas--georeferencing\s+\.leaflet-container\s*\{[^}]*cursor:\s*crosshair/,
+    );
+  });
+
   it("stacks the split view on phones instead of squeezing both panes", () => {
+    // Anchored to the LAST @media (max-width: 860px) block, which Step 8
+    // appends at the very END of the file. Two traps live here, both measured:
+    //
+    // 1. `/grid-template-columns:\s*minmax\(0,\s*1fr\)/` unanchored also
+    //    matches the WIDE rule `minmax(0, 1fr) minmax(320px, 380px)` — so
+    //    deleting the narrow override entirely left this test green. The
+    //    trailing `;` is what pins it to a SINGLE column.
+    // 2. An earlier draft told the executor to append into the pre-existing
+    //    860px block at styles.css:2722 while the "Your maps" section it also
+    //    named starts at 3767 — so `lastIndexOf` spanned the base rules and
+    //    matched the wide rule anyway. The narrow rules go last, full stop.
     const narrowStart = styles.lastIndexOf("@media (max-width: 860px)");
     const narrow = styles.slice(narrowStart);
+    expect(narrow).toContain(".georeference-panel");
     const panel = narrow.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
-    expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+    expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);
+    // Full-bleed here, not the wide 45vw column — and `max-width` has to be
+    // released explicitly or the base rule keeps clamping it.
+    expect(panel).toMatch(/width:\s*auto\s*;/);
+    expect(panel).toMatch(/max-width:\s*none\s*;/);
     // …and the tab toggle only exists at this breakpoint.
     expect(narrow).toMatch(/\.georeference-tabs\s*\{[^}]*display:\s*flex/);
-    expect(narrow).toMatch(/\.georeference-panel\[data-tab="map"\]/);
+  });
+
+  it("hides the PANEL on the narrow Map tab, not just the scan", () => {
+    // Spec: choosing Map "hides the panel entirely and leaves a floating bar
+    // carrying the prompt and a Back to scan button". An earlier draft hid
+    // only `.georeference-scan`, leaving the opaque panel over the very map
+    // the tab exists to expose — and its own comment claimed the opposite of
+    // what the CSS did.
+    const narrow = styles.slice(styles.lastIndexOf("@media (max-width: 860px)"));
+    expect(narrow).toMatch(
+      /\.georeference-panel\[data-tab="map"\]\s*\{[^}]*display:\s*none/,
+    );
+    expect(narrow).toMatch(
+      /\.georeference-map-bar\[data-tab="map"\]\s*\{[^}]*display:\s*flex/,
+    );
+    // The bar is hidden everywhere else, including wide screens.
+    const bar = styles.match(/\.georeference-map-bar\s*\{([^}]*)\}/)?.[1];
+    expect(bar).toMatch(/display:\s*none/);
+    expect(bar).toMatch(/pointer-events:\s*auto/);
   });
 
   it("marks the suspect control point by more than colour", () => {
@@ -4717,7 +5740,7 @@ describe("georeferencer overlay", () => {
 });
 ```
 
-- [ ] **Step 7: Implement the styles** — append to `web/src/styles.css`, in the
+- [ ] **Step 8: Implement the styles** — append to `web/src/styles.css`, in the
       same "Your maps" section, keeping the file's existing formatting
 
 Every selector below has a matching element in Task 9's and Task 10's markup —
@@ -4756,24 +5779,96 @@ test in this repo.
   text-decoration: underline;
 }
 
-/* Georeferencer (PR 2) */
+/* Georeferencer (PR 2).
+
+   The overlay is a NON-BLOCKING FRAME, not a modal. The whole interaction is
+   "click the scan, then click the same spot on the app's own map" — and that
+   map is behind this element. So: no scrim (it would dim the very target the
+   user is aiming at) and `pointer-events: none`, with `auto` handed back only
+   to the panel and the floating bar. An earlier draft was a full-bleed opaque
+   card over a 72%-black scrim: MapClickCatcher never saw a click, and no
+   control point could be completed at all. */
 .georeference-overlay {
   position: fixed;
   z-index: 1800;
   inset: 0;
-  display: grid;
-  background: rgb(10 20 22 / 72%);
+  pointer-events: none;
 }
 
+/* Spec: the panel takes the left ~45% of the viewport and the app map keeps
+   the right ~55%. The scan needs room for accurate clicking, so it gets close
+   to half the screen rather than a rail-width column. `width` and `max-width`
+   are both set because the narrow breakpoint releases both — a lone
+   `max-width` would keep clamping the full-bleed phone layout. */
 .georeference-panel {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: 45vw;
+  max-width: 45vw;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
   grid-template-rows: auto minmax(0, 1fr);
   gap: 0;
-  margin: 16px;
   overflow: hidden;
+  pointer-events: auto;
   background: var(--paper);
   border-radius: 8px;
+  box-shadow: 0 6px 24px rgb(10 20 22 / 28%);
+}
+
+/* The layer rail is hidden for the duration (spec): at 288–320px it would
+   push the live map out from under the right-hand 55% the panel leaves free.
+   The panel's own footer carries the two reference-layer toggles the rail
+   would otherwise strand. */
+.app-shell.georeferencing .layer-rail {
+  display: none;
+}
+
+.app-shell.georeferencing .map-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Spec: a crosshair cursor on the map pane while georeferencing. Set on the
+   MapCanvas root (Task 11) so it survives every child layer. */
+.map-canvas--georeferencing .leaflet-container {
+  cursor: crosshair;
+}
+
+/* The narrow Map tab's entire UI: the panel is display:none there, so this is
+   the only thing left carrying the prompt and the way back. Hidden at every
+   other size and tab — on a wide screen the panel and the map are both
+   visible and there is nothing to go back from. */
+.georeference-map-bar {
+  display: none;
+  position: absolute;
+  inset: auto 8px 8px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  pointer-events: auto;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(10 20 22 / 28%);
+}
+
+.georeference-map-bar-status {
+  flex: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.georeference-map-bar-back {
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .georeference-header {
@@ -4924,17 +6019,36 @@ test in this repo.
 }
 ```
 
-And inside the existing narrow breakpoint at the END of the file (the second
-`@media (max-width: 860px)` block — the style test reads the last one):
+Then open a **new** `@media (max-width: 860px)` block at the very END of the
+file, after everything above.
+
+**Not the existing block.** An earlier draft said to append "inside the second
+`@media (max-width: 860px)` block — the style test reads the last one", which
+is wrong twice over: the last such block starts at `styles.css:2722` of ~3865
+lines, while the "Your maps" section it also names starts at 3767. So
+`styles.slice(lastIndexOf(…))` spanned the base rules too, and the narrow
+assertions matched the WIDE `.georeference-panel` rule. Putting these last is
+what makes the anchored assertions in Step 7 mean anything.
 
 ```css
+@media (max-width: 860px) {
+  /* Full-bleed here: no room to keep the map beside the panel, so the tab
+     toggle switches between them instead. Both `width` and `max-width` must
+     be released — the base rule pins the panel to a 45vw column. */
   .georeference-panel {
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
-    margin: 8px;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
   }
 
   .georeference-side {
+    max-height: 45vh;
+    overflow-y: auto;
     border-left: 0;
     border-top: 1px solid rgb(10 20 22 / 12%);
   }
@@ -4946,22 +6060,34 @@ And inside the existing narrow breakpoint at the END of the file (the second
     padding: 0 14px 8px;
   }
 
-  /* One pane at a time; the tab buttons pick which. Note the polarity: on
-     the "map" tab it is the SCAN that hides, so the app's own map behind the
-     translucent overlay is what the user works against. */
-  .georeference-panel[data-tab="map"] .georeference-scan,
-  .georeference-panel[data-tab="scan"] .georeference-side {
+  /* The Map tab hides the PANEL, not merely the scan inside it. Giving the
+     user the app's own map is the entire point of that tab, and a full-screen
+     card in front of it is the bug this replaced — the earlier rule hid
+     `.georeference-scan` alone and left an opaque panel over the map, with a
+     comment claiming it did the opposite.
+
+     The scan tab keeps everything: scan on top, list and footer (with Done)
+     stacked beneath it, because with the panel gone on the Map tab this is
+     the only place they can live. */
+  .georeference-panel[data-tab="map"] {
     display: none;
   }
+
+  .georeference-map-bar[data-tab="map"] {
+    display: flex;
+  }
+}
 ```
 
 `data-tab` is set by Task 10 on the same element that carries
-`.georeference-panel`, and `.georeference-tabs` is a **direct child** of that
-element so it can occupy the middle grid row here. Task 10's rendered-DOM test
-pins both; if you find yourself adding the attribute somewhere else to make
-this work, the panel markup drifted — fix the markup, not the selector.
+`.georeference-panel`, and on the floating bar — which is a **sibling** of the
+panel, not a child, precisely so `display: none` on the panel does not take it
+down too. `.georeference-tabs` is a **direct child** of the panel so it can
+occupy the second grid row here. Task 10's rendered-DOM tests pin all three; if
+you find yourself moving the attribute elsewhere to make this work, the panel
+markup drifted — fix the markup, not the selector.
 
-- [ ] **Step 8: Run the full suite and lint**
+- [ ] **Step 9: Run the full suite and lint**
 
 Run: `cd web && npm test -- --run && npx tsc -b && npx eslint src`
 
@@ -4979,10 +6105,10 @@ pre-existing test must still pass — if any `App.test.tsx` test broke, the
 wiring changed behaviour it was pinning; fix the wiring, not the test, unless
 the test was asserting the old "GeoTIFF only" copy.
 
-- [ ] **Step 9: Commit**
+- [ ] **Step 10: Commit**
 
 ```bash
-git add web/src/App.tsx web/src/App.test.tsx web/src/userMaps/components/UserMapRows.tsx web/src/userMaps/components/UserMapRows.test.tsx web/src/styles.css web/src/styles.test.ts
+git add web/src/App.tsx web/src/App.test.tsx web/src/userMaps/components/UserMapRows.tsx web/src/userMaps/components/UserMapRows.test.tsx web/src/userMaps/useGeoreferenceSession.ts web/src/userMaps/useGeoreferenceSession.test.ts web/src/styles.css web/src/styles.test.ts
 git commit -m "feat(web): open the georeferencer from the layer list"
 ```
 
@@ -5029,9 +6155,10 @@ raster's pixel space, never the downsampled preview's, so changing the preview
 cap never invalidates saved points. Accuracy is reported as per-point ground
 metres (not Mercator metres, which over-report by 1/cos φ — 1.44x here, so the
 figure is deliberately *not* the one QGIS shows for an EPSG:3857 target), and
-the worst-fitting row is flagged only from five points up: at four points every
-hat-matrix leverage is 0.75, so raw, leave-one-out and studentized residuals
-rank identically and a 1104-trial sweep put all three at chance. A solve is
+the worst-fitting row is flagged only from five points up: four points fitting
+three parameters leave a one-dimensional residual space (`I − H` has rank 1),
+so raw, leave-one-out and studentized residuals rank identically and a
+1104-trial sweep put all three at chance. A solve is
 refused outright when the control points are too thin to determine a transform,
 when any coordinate comes out non-finite, or when the solved transform squashes
 one axis more than 50:1 — the last being what three map clicks down a meridian
@@ -5065,9 +6192,14 @@ that let PR 1 ship a seam bug. Run the dev server and check, in order:
 
 1. Import a plain JPEG scan. The row says "Needs georeferencing", its checkbox
    is disabled, and a "Georeference" button is offered.
-2. Open the georeferencer. The scan pane shows the whole image, pannable and
-   zoomable independently of the map.
-3. Place two points. The status line asks for the third; nothing drapes yet.
+2. Open the georeferencer. **The app's own map is still visible and still
+   clickable to the right of the panel** — no dimming scrim, no full-width
+   card, layer rail hidden, crosshair cursor over the map. If a click on the
+   map does nothing, stop: the overlay is intercepting pointer events and no
+   control point can ever be completed. The scan pane shows the whole image,
+   pannable and zoomable independently of the map.
+3. Place two points, one click per side. The status line asks for the third;
+   nothing drapes yet.
 4. Place the third. **The scan drapes immediately**, and the status says
    "Exact fit — add a 4th point to check accuracy." No "0 m" anywhere.
 5. Drag a point on the map. The drape follows **during** the drag, not on
@@ -5085,15 +6217,26 @@ that let PR 1 ship a seam bug. Run the dev server and check, in order:
 9. Toggle the two reference layers from the panel footer; both appear under
    the drape. Close the panel and confirm the layer rail agrees — these are
    the rail's own toggles, not a copy.
-10. Click **Delete map**. Exactly **one** confirmation dialog appears.
-11. Close the panel, reload the page, reopen the georeferencer. The points are
+10. Press Escape with nothing half-placed, straight after a drag. Reload: the
+    edit survived. (Escape closes through the same flush as Done — dropping it
+    there loses anything inside the 400 ms debounce window.)
+11. Drag a point, then within half a second click **Delete map**. Exactly
+    **one** confirmation dialog appears. Reload: the map is gone and does
+    **not** reappear as a nameless row — a write that outlives the delete
+    resurrects the metadata without its raster or preview.
+12. Close the panel, reload the page, reopen the georeferencer. The points are
     still there — this is the debounced IndexedDB write-through, and its
     flush-on-close is the part most likely to be subtly wrong. Then open map
     A, edit it, and within half a second open map B and edit that: reload and
     check **both** kept their edits.
-12. Narrow the window below 860 px. The panel is a full-viewport overlay (not
-    a block at the bottom of a scrolled page), the panes stack, and the tab
-    toggle appears and actually switches panes.
+13. Use **Zoom to** on map A, close it, then open map B. B's map must NOT jump
+    to A's control point.
+14. Narrow the window below 860 px. On the Scan tab the panel is a full-screen
+    overlay (not a block at the bottom of a scrolled page) with the scan, the
+    point list and Done all reachable. Choose **Map**: the panel disappears
+    entirely, the app's map fills the screen, and a floating bar shows the live
+    prompt plus **Back to scan**, which returns. Placing a point from the Map
+    tab works.
 
 Capture a screenshot of step 4 or 5 for the PR description.
 
@@ -5101,9 +6244,22 @@ Capture a screenshot of step 4 or 5 for the PR description.
 
 ```bash
 git fetch origin && git rebase origin/nightly
+cd web && npx vitest run && npx tsc -b && npx eslint src && cd ..
 git push -u origin claude/web-georeferencer-user-maps-76f482
 gh pr create --base nightly --title "feat(web): in-browser georeferencer for user maps (PR 2 of 4)" --body-file -
 ```
+
+**The gate runs again AFTER the rebase, not only at Task 12's Step 9.** A rebase
+that merges cleanly can still be semantically broken — `nightly` may have moved
+`MapCanvas`, `styles.css` or `useUserMaps` under this branch — and the plan's
+final commanded state would otherwise be "push and open a PR" with the last
+verification predating the merge. Then check the hosted result for the PR head:
+
+```bash
+gh pr checks --watch
+```
+
+Red CI here is this task's problem, not the next PR's.
 
 The body should lead with the risks and behavioural changes, per the repo's
 response rules: JPEG/PNG are now accepted; `parseGeoTiff` no longer throws on
@@ -5121,16 +6277,36 @@ georeferencer); a shipped seam bug in `mesh.ts` is fixed; and
       test that pins it. The decisions most likely to be quietly dropped are:
       solving in metres, original-pixel-space coordinates, the "add a 4th
       point" copy, **no highlighted row at four points**, the GCP list's
-      zoom-to control, the **"Adjust points"** button label, and undo
-      snapshotting on drag START rather than per pointer move.
+      zoom-to control, the **"Adjust points"** button label, undo
+      snapshotting on drag START rather than per pointer move, and the layout
+      contract at spec:189–194 — **panel left ~45%, the app's own map live and
+      clickable on the right ~55%, hidden layer rail, crosshair cursor, and a
+      narrow Map tab that hides the PANEL and leaves a floating bar.**
+- [ ] **The live map is reachable.** The single most expensive way to be wrong
+      in this PR is an overlay that covers the pane the user has to click:
+      every control point needs one click on each side, so an occluding or
+      pointer-eating overlay makes the whole feature inoperable while every
+      unit test stays green (jsdom does no layout). `.georeference-overlay`
+      must carry `pointer-events: none` and no background; the panel and the
+      floating bar take `pointer-events: auto`; the narrow Map tab hides
+      `.georeference-panel` itself. Confirm it in the browser, not just in the
+      regexes.
 - [ ] **Rendered DOM, not just stylesheet text.** `styles.test.ts` regexes
       `styles.css` and cannot tell whether any element carries the class names
       it checks. For every new rule, confirm a component actually renders the
       selector — `.georeference-overlay`, `.georeference-side`,
-      `.georeference-points`, `[data-tab]`, `.gcp-row`, `.gcp-residual`,
-      `.gcp-marker`, `.visually-hidden`. This exact gap shipped a stylesheet
-      whose two breakpoints and pane toggle were entirely dead, with every
-      style test green.
+      `.georeference-points`, `.georeference-map-bar`, `[data-tab]`,
+      `.gcp-row`, `.gcp-residual`, `.gcp-marker`, `.visually-hidden`,
+      `.app-shell.georeferencing`, `.map-canvas--georeferencing`. This exact
+      gap shipped a stylesheet whose two breakpoints and pane toggle were
+      entirely dead, with every style test green.
+- [ ] **No component is covered only by its own stub.** Every new component
+      must be executed by at least one test that does not mock it:
+      `ScanPane.test.tsx` for the scan side, `MapCanvas.test.tsx` for the
+      georeference binding, `GeoreferenceMapLayer.test.tsx` for the marker
+      layer. A `vi.mock` in a sibling suite is not coverage — an earlier
+      revision claimed `ScanPane` was "covered through
+      `GeoreferencePanel.test.tsx`", which mocks it.
 - [ ] **StrictMode.** Nothing in `useGeoreferenceSession` or `useUserMaps`
       does work inside a `setState` updater. `main.tsx` wraps the app in
       `StrictMode`, updaters run twice there, and a bare `renderHook` test
