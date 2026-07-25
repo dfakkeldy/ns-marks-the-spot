@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 import {
   USER_MAPS_PANE,
@@ -61,6 +61,11 @@ function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
         layerRef.current = layer;
       })
       .catch((error: unknown) => {
+        if (cancelled) {
+          // Unmount raced a rejecting fetch/decode; this is an expected
+          // cancellation, not a real failure, so don't log noise.
+          return;
+        }
         // A missing/revoked blob URL is recoverable (map re-enable reloads
         // it); surface for diagnosis without crashing the tree.
         console.error("user map preview failed to load", error);
@@ -73,11 +78,17 @@ function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
     };
   }, [leafletMap, record, previewUrl]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Refs must not be written during render (react-hooks/refs), so the
     // "latest opacity" ref the async load below reads is kept current here,
     // in the same effect that also pushes the value into an already-built
-    // layer.
+    // layer. This MUST be a layout effect, not a passive one: passive
+    // effects are scheduled asynchronously, so a pending createImageBitmap
+    // promise could resolve and read opacityRef.current before a passive
+    // effect ran, reintroducing the stale-opacity race the ref exists to
+    // prevent. Layout effects flush synchronously during the commit phase,
+    // before any yield to the event loop, which restores the ordering
+    // guarantee.
     opacityRef.current = opacity;
     layerRef.current?.setOpacity(opacity);
   }, [opacity]);

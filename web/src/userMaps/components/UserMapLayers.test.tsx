@@ -131,6 +131,50 @@ describe("UserMapLayers", () => {
     expect(built.opacity).toBe(0.2);
   });
 
+  it("closes a late-arriving bitmap and never adds a layer when unmounted mid-load", async () => {
+    // Deliberate race: unmount happens BEFORE createImageBitmap resolves.
+    // The cancelled flag captured by the effect's closure must still be
+    // true when the promise settles, so the .then() branch closes the
+    // bitmap instead of building/adding a layer.
+    let resolveBitmap!: (b: unknown) => void;
+    const createImageBitmapMock = vi.fn(
+      () => new Promise((resolve) => { resolveBitmap = resolve; }),
+    );
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal("createImageBitmap", createImageBitmapMock);
+    const { unmount } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(createImageBitmapMock).toHaveBeenCalled());
+    unmount();
+    const lateBitmap = { width: 8, height: 6, close: vi.fn() };
+    resolveBitmap(lateBitmap);
+    await waitFor(() => expect(lateBitmap.close).toHaveBeenCalled());
+    expect(stubMapApi.addLayer).not.toHaveBeenCalled();
+  });
+
+  it("updates opacity on the existing layer instead of rebuilding it", async () => {
+    // A broken implementation that puts `opacity` in the layer-construction
+    // effect's dependency array would tear down and recreate the layer on
+    // every opacity change instead of calling setOpacity on the existing
+    // one. Assert both halves: setOpacity gets the new value, AND only one
+    // layer instance/addLayer call ever happens.
+    stubBitmapLoading();
+    const { rerender } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    expect(layerInstances).toHaveLength(1);
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.3 }]} />,
+    );
+    await waitFor(() =>
+      expect(layerInstances[0].setOpacity).toHaveBeenCalledWith(0.3),
+    );
+    expect(layerInstances).toHaveLength(1);
+    expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1);
+  });
+
   it("survives a failed bitmap load without an unhandled rejection", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("gone"); }));
     vi.stubGlobal("createImageBitmap", vi.fn());
