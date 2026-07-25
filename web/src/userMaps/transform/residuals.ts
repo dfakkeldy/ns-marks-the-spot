@@ -6,8 +6,11 @@ import { fromMercator, groundMetresBetween } from "./webMercator";
  * Below this an affine fit passes exactly through every point by
  * construction, so residuals are all zero and mean nothing. The UI says "add
  * a 4th point to check accuracy" rather than showing a misleading 0 m.
+ *
+ * Module-private: the one caller is `residualReport` below, and nothing
+ * outside this file makes the decision this threshold governs.
  */
-export const MIN_GCPS_FOR_RESIDUALS = 4;
+const MIN_GCPS_FOR_RESIDUALS = 4;
 
 /**
  * Below this we report the RMS but accuse nobody.

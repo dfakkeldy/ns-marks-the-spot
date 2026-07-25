@@ -6,7 +6,9 @@ import { statusMessage } from "./georeferenceStatus";
 import { ScanPane, type ScanFocusRequest } from "./ScanPane";
 
 export type ReferenceLayerId = "aerial" | "parcels";
-export type ReferenceLayerState = Record<ReferenceLayerId, boolean>;
+/** Module-private: only this file's own prop type refers to it. App.tsx
+ * imports `ReferenceLayerId` and builds the record inline. */
+type ReferenceLayerState = Record<ReferenceLayerId, boolean>;
 
 /** `<input>` types that accept free text, where native browser undo applies.
  * Deliberately excludes checkbox/radio/range/color/etc — those have no text
