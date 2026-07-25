@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import datetime
 import json
 import os
@@ -30,6 +31,14 @@ class Manifest:
         current["updated_at"] = datetime.datetime.now(
             datetime.timezone.utc
         ).isoformat()
+        self.sheets[sheet_id] = current
+        self._write()
+
+    def update_namespace(self, sheet_id: str, namespace: str, value: dict) -> None:
+        if sheet_id not in self.sheets:
+            raise KeyError(f"sheet {sheet_id} is absent from the manifest")
+        current = dict(self.sheets[sheet_id])
+        current[namespace] = copy.deepcopy(value)
         self.sheets[sheet_id] = current
         self._write()
 

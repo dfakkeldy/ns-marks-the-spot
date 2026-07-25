@@ -25,6 +25,7 @@ from tools.fletcher.physical_georeference import (
     main,
     prefit_failure_result,
     project_usable_frame,
+    record_result,
     score_final_checks,
     select_transform,
     loocv_folds,
@@ -149,6 +150,105 @@ def visual_review_payload(
 
 
 class StagedCommandTests(unittest.TestCase):
+    def test_record_parser_requires_scoped_result_paths(self) -> None:
+        parser = build_parser()
+        record = parser.parse_args([
+            "record", "--manifest", "manifest.json", "--sheet", "24",
+            "--result", "result.json", "--committed-result", "committed.json",
+        ])
+        self.assertEqual(record.sheet, "24")
+        self.assertEqual(record.committed_result, pathlib.Path("committed.json"))
+
+    def test_record_commits_only_sheet_24_modern_result(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            manifest_path = root / "manifest.json"
+            before = {
+                "version": 1,
+                "sheets": {
+                    "23": {"stage": "tiled", "gate": "PASS", "tile_png_count": 7834},
+                    "24": {
+                        "stage": "failed",
+                        "gate": "FAIL",
+                        "reason": "automatic graticule detection found no reviewable regular sequence",
+                    },
+                },
+            }
+            manifest_path.write_text(json.dumps(before) + "\n")
+            result = {
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "sheet_id": "24",
+                "disposition": "PASS",
+                "reason": "all gates passed",
+                "tile_stage": "tiled",
+                "tile_path": "/tiles/sheet-24-modern-v1",
+                "tile_png_count": 1,
+            }
+            result_path = root / "result.json"
+            committed = root / "sheet-24-modern-v1.json"
+            result_path.write_text(json.dumps(result) + "\n")
+
+            record_result(manifest_path, "24", result_path, committed)
+
+            recorded = json.loads(manifest_path.read_text())
+            self.assertEqual(recorded["sheets"]["23"], before["sheets"]["23"])
+            self.assertEqual(
+                {
+                    key: value
+                    for key, value in recorded["sheets"]["24"].items()
+                    if key != "modern_feature_v1"
+                },
+                before["sheets"]["24"],
+            )
+            self.assertEqual(recorded["sheets"]["24"]["modern_feature_v1"], result)
+            self.assertEqual(
+                committed.read_text(),
+                json.dumps(result, indent=2, sort_keys=True) + "\n",
+            )
+
+    def test_record_rejects_unscoped_or_nonterminal_results(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            manifest_path = root / "manifest.json"
+            manifest_path.write_text('{"version":1,"sheets":{"24":{}}}\n')
+            result_path = root / "result.json"
+            committed = root / "committed.json"
+            result = {
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "sheet_id": "24",
+                "disposition": "selection-pass",
+                "tile_stage": "not-generated",
+                "tile_png_count": 0,
+            }
+            result_path.write_text(json.dumps(result))
+
+            with self.assertRaisesRegex(ValueError, "terminal"):
+                record_result(manifest_path, "24", result_path, committed)
+            with self.assertRaisesRegex(ValueError, "Sheet 24"):
+                record_result(manifest_path, "23", result_path, committed)
+
+    def test_record_rejects_fail_deliverable_claims(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            manifest_path = root / "manifest.json"
+            manifest_path.write_text('{"version":1,"sheets":{"24":{}}}\n')
+            result_path = root / "result.json"
+            committed = root / "committed.json"
+            result = {
+                "schema_version": 1,
+                "method_version": "modern-feature-v1",
+                "sheet_id": "24",
+                "disposition": "natural-check-fail",
+                "tile_stage": "not-run",
+                "tile_png_count": 1,
+                "tile_path": "/tiles/sheet-24-modern-v1",
+            }
+            result_path.write_text(json.dumps(result))
+
+            with self.assertRaisesRegex(ValueError, "FAIL"):
+                record_result(manifest_path, "24", result_path, committed)
     def test_select_parser_has_no_check_argument(self) -> None:
         parser = build_parser()
         select = parser.parse_args([

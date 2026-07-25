@@ -31,6 +31,7 @@ from tools.church.georeference import check_errors, parse_gdaltransform_output
 from tools.church.residuals import summarise
 from tools.fletcher.emit_physical_gcps import emit
 from tools.fletcher.fetch import sha256
+from tools.fletcher.manifest import Manifest
 from tools.fletcher.georeference import (
     build_tile_command,
     build_transform_command,
@@ -1200,6 +1201,50 @@ def tile_if_pass(
     return result
 
 
+def _validate_recordable_result(result: dict[str, object], sheet_id: str) -> None:
+    if sheet_id != "24":
+        raise ValueError("result recording is restricted to Sheet 24")
+    if result.get("schema_version") != 1:
+        raise ValueError("result schema_version must be 1")
+    if result.get("method_version") != METHOD_VERSION:
+        raise ValueError(f"result method_version must be {METHOD_VERSION}")
+    if result.get("sheet_id") != sheet_id:
+        raise ValueError("result sheet_id does not match the requested sheet")
+    disposition = result.get("disposition")
+    if disposition not in TERMINAL_STATES:
+        raise ValueError("result disposition must be terminal")
+    tile_stage = result.get("tile_stage")
+    tile_count = result.get("tile_png_count")
+    if not isinstance(tile_stage, str):
+        raise ValueError("result tile_stage is required")
+    if isinstance(tile_count, bool) or not isinstance(tile_count, int) or tile_count < 0:
+        raise ValueError("result tile_png_count must be a non-negative integer")
+    if disposition == "PASS":
+        if tile_stage != "tiled" or tile_count <= 0:
+            raise ValueError("PASS result requires tiled output with positive PNG count")
+        if not isinstance(result.get("tile_path"), str) or not result["tile_path"]:
+            raise ValueError("PASS result requires a tile path")
+        return
+    if "tile_path" in result or tile_count != 0:
+        raise ValueError("FAIL result must not claim deliverable tiles")
+
+
+def record_result(
+    manifest_path: pathlib.Path,
+    sheet_id: str,
+    result_path: pathlib.Path,
+    committed_result_path: pathlib.Path,
+) -> None:
+    """Atomically attach one terminal modern-feature result to Sheet 24."""
+    result = _json_object(result_path, "result")
+    _validate_recordable_result(result, sheet_id)
+    manifest = Manifest(manifest_path)
+    manifest.update_namespace(sheet_id, "modern_feature_v1", result)
+    committed = Manifest(manifest_path).sheets[sheet_id]["modern_feature_v1"]
+    assert isinstance(committed, dict)
+    _write_json_atomic(committed_result_path, committed)
+
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the staged physical-georeference command line."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -1228,6 +1273,12 @@ def build_parser() -> argparse.ArgumentParser:
     tile.add_argument("--tiles", type=pathlib.Path, required=True)
     tile.add_argument("--zoom-min", type=int, default=8)
     tile.add_argument("--zoom-max", type=int, default=16)
+
+    record = subparsers.add_parser("record")
+    record.add_argument("--manifest", type=pathlib.Path, required=True)
+    record.add_argument("--sheet", required=True)
+    record.add_argument("--result", type=pathlib.Path, required=True)
+    record.add_argument("--committed-result", type=pathlib.Path, required=True)
 
     prefit = subparsers.add_parser("prefit-failure")
     prefit.add_argument("--observation", type=pathlib.Path, required=True)
@@ -1530,6 +1581,14 @@ def main(argv: list[str] | None = None) -> int:
             args.zoom_max,
         )
         print(args.result)
+    elif args.command == "record":
+        record_result(
+            args.manifest,
+            args.sheet,
+            args.result,
+            args.committed_result,
+        )
+        print(args.committed_result)
     elif args.command == "prefit-failure":
         observation = load_observation(args.observation)
         payload = prefit_failure_result(observation)
