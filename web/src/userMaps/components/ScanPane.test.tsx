@@ -36,6 +36,13 @@ const imageOverlayCalls = vi.hoisted(
 const scanHandlers = vi.hoisted(() => ({
   click: null as ((event: { latlng: { lat: number; lng: number } }) => void) | null,
 }));
+// Every handler passed to useMapEvent("click", ...), in call order — lets the
+// re-render test below tell "same memoised handler" apart from "fresh
+// function every render" the same way it already does for marker icon,
+// eventHandlers, and position.
+const clickHandlerCalls = vi.hoisted(
+  () => [] as Array<(event: { latlng: { lat: number; lng: number } }) => void>,
+);
 const stubMap = vi.hoisted(() => ({ setView: vi.fn(), getZoom: vi.fn(() => 0) }));
 
 vi.mock("react-leaflet", () => ({
@@ -73,6 +80,7 @@ vi.mock("react-leaflet", () => ({
   ) => {
     if (type === "click") {
       scanHandlers.click = handler;
+      clickHandlerCalls.push(handler);
     }
     return stubMap;
   },
@@ -117,6 +125,7 @@ describe("ScanPane", () => {
     markerCalls.length = 0;
     mapContainerCalls.length = 0;
     imageOverlayCalls.length = 0;
+    clickHandlerCalls.length = 0;
     scanHandlers.click = null;
     stubMap.setView.mockClear();
     stubMap.getZoom.mockReset().mockReturnValue(0);
@@ -241,20 +250,24 @@ describe("ScanPane", () => {
     expect(onMoveGcp).toHaveBeenCalledWith("a", 1200, 0);
   });
 
-  it("keeps each marker's icon, handlers, and position — and the shared image bounds — stable across re-renders", () => {
+  it("keeps each marker's icon, handlers, and position — the shared image bounds — and the click handler — stable across re-renders", () => {
     // react-leaflet calls marker.setIcon() when `icon` changes identity,
     // re-runs off()/on() when `eventHandlers` does, and calls
     // marker.setLatLng() when `position` does — its deps are
     // `[element, eventHandlers]` and a `!==` check on position respectively.
-    // ImageOverlay compares `bounds` by reference the same way. Fresh
-    // literals on any of these fire once per pointer move of a drag; worse,
-    // an unmemoised `position` means dragging point "c" would call
-    // setLatLng() on "a" and "b" too, since moveGcpOnScan returns the SAME
-    // object for non-matching ids and only a stable reference lets React
-    // (and react-leaflet) tell "unchanged" apart from "recomputed but equal".
+    // ImageOverlay compares `bounds` by reference the same way. useMapEvent
+    // (hooks.js) keys ITS effect on `[map, type, handler]`, so an unmemoised
+    // click handler re-runs map.off()/map.on() on every render exactly like
+    // the others. Fresh literals on any of these fire once per pointer move
+    // of a drag; worse, an unmemoised `position` means dragging point "c"
+    // would call setLatLng() on "a" and "b" too, since moveGcpOnScan returns
+    // the SAME object for non-matching ids and only a stable reference lets
+    // React (and react-leaflet) tell "unchanged" apart from "recomputed but
+    // equal".
     const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane();
     expect(markerCalls).toHaveLength(3);
     const before = [...markerCalls];
+    const clickHandlerBefore = clickHandlerCalls[0];
     rerender(
       <ScanPane
         previewUrl="blob:scan"
@@ -277,6 +290,8 @@ describe("ScanPane", () => {
     });
     expect(imageOverlayCalls).toHaveLength(2);
     expect(imageOverlayCalls[1].bounds).toBe(imageOverlayCalls[0].bounds);
+    expect(clickHandlerCalls).toHaveLength(2);
+    expect(clickHandlerCalls[1]).toBe(clickHandlerBefore);
   });
 
   it("draws the pending half-point hollow, out of the way, and at the flipped pixel", () => {
@@ -317,5 +332,49 @@ describe("ScanPane", () => {
     stubMap.getZoom.mockReturnValue(-4);
     renderPane({ focus: { pixel: { x: 100, y: 50 }, requestId: 1 } });
     expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 1);
+  });
+
+  it("re-fires the recentre effect for every distinct focus request, even repeating the same pixel", () => {
+    // Real usage never passes a non-null `focus` at mount: it starts null and
+    // only becomes non-null once the user clicks a GCP-list row, and Task
+    // 10's producer mints a fresh requestId on every click — even clicking
+    // the SAME row twice in a row, per ScanFocusRequest's own doc comment
+    // ("asking for the SAME point twice still moves the map"). An effect
+    // dependency array that drops `focus` entirely stops recentring after
+    // the very first click; one that keys on `focus.pixel` instead of the
+    // whole `focus` object stops recentring on a repeat click to the same
+    // point specifically — both are real regressions this test tells apart.
+    const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane({
+      focus: null,
+    });
+    expect(stubMap.setView).not.toHaveBeenCalled();
+
+    const rerenderWithFocus = (
+      focus: { pixel: { x: number; y: number }; requestId: number } | null,
+    ) =>
+      rerender(
+        <ScanPane
+          previewUrl="blob:scan"
+          pixelSize={PIXEL_SIZE}
+          gcps={GCPS}
+          pending={null}
+          focus={focus}
+          onPickPoint={onPickPoint}
+          onDragStartGcp={onDragStartGcp}
+          onMoveGcp={onMoveGcp}
+          selectedGcpId={null}
+        />,
+      );
+
+    // The SAME pixel object, reused for both focus requests below — only a
+    // dependency on the whole `focus` object (not just `focus.pixel`) can
+    // tell these two requests apart.
+    const samePixel = { x: 100, y: 50 };
+
+    rerenderWithFocus({ pixel: samePixel, requestId: 1 });
+    expect(stubMap.setView).toHaveBeenCalledTimes(1);
+
+    rerenderWithFocus({ pixel: samePixel, requestId: 2 });
+    expect(stubMap.setView).toHaveBeenCalledTimes(2);
   });
 });
