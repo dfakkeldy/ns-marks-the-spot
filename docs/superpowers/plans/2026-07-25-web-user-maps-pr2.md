@@ -225,10 +225,10 @@ gate as coverage. See the follow-up note at the end of Task 9.
 **The acceptance-gate rework has LANDED.** It was uncommitted and in flight
 while this plan was being revised; it is now in the tree and green
 (`tsc -b` 0, `eslint` 0, 616 tests). The notes above already reflect it:
-`MIN_CONDITION_RATIO = 5e-3` replaces `MIN_CONDITION_RATIO`, and **both
+`MIN_CONDITION_RATIO = 5e-3` replaces the old `MIN_SPREAD_RATIO`, and **both
 `solveAffine` and `solveAffineFromGcps` lost their size parameter.** Any task
-below still showing `solveAffineFromGcps(gcps)` is stale by one
-argument — call `solveAffineFromGcps(gcps)`. `pixelSize` is still needed for
+below still passing a second argument to `solveAffineFromGcps` is stale — it
+takes only `gcps` now. `pixelSize` is still needed for
 `buildGcpLatLngMesh`, so do not remove it from the surrounding scope.
 
 - [ ] **Step 1: Verify the landed state**
@@ -1369,7 +1369,7 @@ export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
   // pixelSize is the ORIGINAL raster's size, which is the space GCP pixels
   // live in — and is what solveAffine's spread gate normalises against, so
   // passing the preview size here would silently change what gets accepted.
-  const params = solveAffineFromGcps(record.georef.gcps, record.pixelSize);
+  const params = solveAffineFromGcps(record.georef.gcps);
   return params ? buildGcpLatLngMesh(params, record.pixelSize) : null;
 }
 ```
