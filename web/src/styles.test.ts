@@ -264,8 +264,13 @@ describe("georeferencer overlay", () => {
     expect(overlay).not.toMatch(/background/);
     const panel = styles.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
     expect(panel).toMatch(/pointer-events:\s*auto/);
-    // Spec: panel left ~45%, app map keeps the right ~55%.
-    expect(panel).toMatch(/width:\s*45vw/);
+    // Spec: panel left ~45%, app map keeps the right ~55%. Anchored with a
+    // negative lookbehind, not the bare `/width:\s*45vw/`: the panel rule
+    // also declares `max-width: 45vw`, and the unanchored form matches
+    // inside "max-width" too — so changing ONLY `width` (leaving `max-width`
+    // untouched) left this assertion green. `\b` does not fix it either: the
+    // `-`/`w` junction in "max-width" is itself a word boundary.
+    expect(panel).toMatch(/(?<![-\w])width:\s*45vw/);
   });
 
   it("hides the layer rail and crosshairs the map during a session", () => {

@@ -20,6 +20,7 @@ import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 import { UserMapStore } from "./userMaps/store/userMapStore";
+import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
 import type { Gcp, UserMapRecord } from "./userMaps/types";
 
 vi.mock("./components/MapCanvas", () => ({
@@ -3227,5 +3228,53 @@ describe("georeferencer", () => {
     // in `pixel` instead and leave `map` at its original lat/lng.
     expect(moved?.map).toEqual({ lat: 40, lng: -70 });
     expect(moved?.pixel).toEqual({ x: 0, y: 0 });
+  });
+
+  it("cancels a queued write before deleting a map, so no metadata row survives", async () => {
+    // The most consequential ordering in this task, per App's own onDelete
+    // comment: discardPendingWrite must run BEFORE removeMap. Writes are
+    // debounced 400ms (Task 7), and removeMap AWAITS the IndexedDB delete
+    // before dropping the record from React state — so a timer firing
+    // inside that await still finds the record in `recordsRef` and would
+    // queue a `putUserMapRecord`, resurrecting a metadata row for a map
+    // whose raster and preview blobs are already gone.
+    //
+    // useGeoreferenceSession.test.ts proves discardPendingWrite itself
+    // works; nothing there touches App or removeMap, so nothing proves App
+    // actually calls it — or calls it in the right order. This does, by
+    // checking the real store afterward rather than a mock.
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+
+    // Switched to fake timers only now, after the async IndexedDB load and
+    // button click above have already resolved on real timers — findByRole's
+    // own polling depends on real timers to make progress.
+    vi.useFakeTimers();
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
+    try {
+      // Queue a debounced write by moving a marker on the live map.
+      fireEvent.click(
+        screen.getByRole("button", { name: "Simulate marker drag" }),
+      );
+      // Delete before the 400ms debounce timer fires.
+      fireEvent.click(screen.getByRole("button", { name: "Delete map" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(PERSIST_DELAY_MS * 2);
+      });
+    } finally {
+      confirmSpy.mockRestore();
+      vi.useRealTimers();
+    }
+
+    const store = await UserMapStore.open();
+    const records = await store.listUserMaps();
+    expect(records.find((record) => record.id === "placed-1")).toBeUndefined();
   });
 });
