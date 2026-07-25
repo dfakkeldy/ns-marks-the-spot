@@ -53,6 +53,17 @@ untouched model-selection test set.
 | 23 | tiled | tps | 6 | 2 | 51.0 | 69.2 | 69.2 | PASS | 7834 | held-out thresholds satisfied; visual QA accepted |
 | 24 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
 
+## Modern-feature pilots
+
+These versioned pilots are independent of the engraved-grid result above.
+Transport leave-one-out metrics select the transform family; natural checks are
+the primary published accuracy estimate.
+
+| Sheet | Method version | Disposition | Selected transform | Transport n | Transport RMS/P95/max m | Natural n | Natural RMS/P95/max m | Structural gate | Visual QA | PNG tiles | Reason |
+| ---: | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | ---: | --- |
+| 24 | modern-feature-v1 | source-drift | — | — | —/—/— | — | —/—/— | — | not-run | 0 | source-drift: invalid Sheet 24 manifest receipt: manifest.sheets.24.list_number must be a non-empty string |
+
+
 ## Method and provenance
 
 - Inventory and source/rights evidence:
