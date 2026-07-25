@@ -18,10 +18,23 @@ import pathlib
 import subprocess
 
 from tools.church.counties import ChurchCounty, get_county
+from tools.church.cutline_warp import (
+    cutline_geojson,
+    densify,
+    warp_command_with_cutline,
+)
 from tools.church.gcps import CONTROL_ROLE, GroundControlPoint, load_gcps, split_roles
 from tools.church.geometry import mercator_to_ground_metres
 from tools.church.panels import ChurchPanel, GeographicBounds, SourceWindow, get_panel
 from tools.church.residuals import AccuracyReport, summarise
+
+CUTLINE_SAMPLE_PX = 250.0
+"""Densification step for the cutline, in source pixels.
+
+A thin-plate spline bends straight edges. At roughly 2.7 m per source pixel on
+the Inverness sheet this samples the ring about every 700 m, which is far finer
+than the warp's own curvature over any single cutline edge.
+"""
 
 RUMSEY_ATTRIBUTION = (
     "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries"
@@ -165,12 +178,35 @@ def build_metadata(
     }
 
 
+def project_cutline(panel: ChurchPanel, translated: pathlib.Path) -> list[tuple[float, float]]:
+    """Push the panel's cutline through the same TPS that warps its pixels.
+
+    Transforming only the polygon corners would cut straight chords across a
+    curved warp and shave real map content off the panel edge, so the ring is
+    densified first.
+    """
+    local = panel.cutline.to_local(panel.window)
+    ring = densify(local, CUTLINE_SAMPLE_PX)
+    stdin = "\n".join(f"{x} {y}" for x, y in ring)
+    completed = subprocess.run(
+        ["gdaltransform", "-tps", str(translated)],
+        input=stdin, capture_output=True, text=True, check=True,
+    )
+    projected = parse_gdaltransform_output(completed.stdout)
+    if len(projected) != len(ring):
+        raise ValueError(
+            f"cutline transform returned {len(projected)} of {len(ring)} vertices"
+        )
+    return projected
+
+
 def georeference(
     slug: str,
     source: pathlib.Path,
     gcp_path: pathlib.Path,
     output_dir: pathlib.Path,
     panel: ChurchPanel | None = None,
+    apply_cutline: bool = True,
 ) -> tuple[pathlib.Path, AccuracyReport]:
     """Warp `source` using the county's GCPs, returning the raster and its accuracy."""
     county = get_county(slug)
@@ -201,15 +237,30 @@ def georeference(
     )
 
     warped = output_dir / f"{output_slug}-3857.tif"
-    subprocess.run(
-        warp_command(
+    cutline_path: pathlib.Path | None = None
+    if panel is not None and apply_cutline:
+        cutline_path = output_dir / f"{output_slug}-cutline-3857.geojson"
+        cutline_path.write_text(
+            cutline_geojson(project_cutline(panel, translated), epsg=3857),
+            encoding="utf-8",
+        )
+
+    if cutline_path is not None:
+        command = warp_command_with_cutline(
+            str(translated),
+            str(warped),
+            str(cutline_path),
+            target_bounds=panel.target_bounds,
+            target_resolution_m=panel.target_resolution_m,
+        )
+    else:
+        command = warp_command(
             str(translated),
             str(warped),
             target_bounds=panel.target_bounds if panel else None,
             target_resolution_m=panel.target_resolution_m if panel else None,
-        ),
-        check=True,
-    )
+        )
+    subprocess.run(command, check=True)
 
     errors: list[float] | None = None
     if check:
@@ -230,6 +281,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--gcps", type=pathlib.Path, required=True)
     parser.add_argument("--panel", help="independently georeference one registered map panel")
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("build/church"))
+    parser.add_argument(
+        "--no-cutline",
+        action="store_true",
+        help="warp the whole bounding box unmasked, for honest visual QA",
+    )
     args = parser.parse_args(argv)
     panel = get_panel(args.slug, args.panel) if args.panel else None
     warped, report = georeference(
@@ -238,6 +294,7 @@ def main(argv: list[str] | None = None) -> int:
         args.gcps,
         args.output / args.slug,
         panel,
+        apply_cutline=not args.no_cutline,
     )
     print(warped)
     print(json.dumps(report.as_dict(), indent=2))

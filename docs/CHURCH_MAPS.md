@@ -23,6 +23,17 @@ are recorded in
 [`church-inverness-pilot-2026-07-24.md`](church-inverness-pilot-2026-07-24.md).
 No tiles were generated from that attempt.
 
+A second attempt on 2026-07-24 replaced the overlapping rectangular windows
+with measured non-rectangular cutlines and replaced the place-label controls
+with the sheet's printed 5-arcminute graticule. It is a large measured advance
+— north-panel affine RMS fell from 2,151.6 m to 98.5 m, alpha coverage rose
+from 43 pixels to a third of the target extent, and the north coastline now
+registers to a median of about 100 m against NSTDB water — but it is **not an
+acceptance**: no held-out physical check set was captured, and the south panel
+was not attempted. Still no tiles. See
+[`church-inverness-attempt-2-2026-07-24.md`](church-inverness-attempt-2-2026-07-24.md)
+and [`church-inverness-cutlines-2026-07-24.md`](church-inverness-cutlines-2026-07-24.md).
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |
@@ -105,6 +116,32 @@ Each geographic panel is therefore an independent production unit:
 4. measure held-out RMS and P95 error and visually inspect labels, roads,
    shorelines, and panel edges;
 5. accept, rework, or reject the panel before mosaicking accepted panels.
+
+The cutline must be a **polygon, not a rectangle**. On the Inverness sheet a
+single engraved divider runs diagonally (and bends), so any axis-aligned box
+around one panel swallows a wedge of the other. `tools/church/cutlines.py`
+carries the polygon primitives and `tools/church/panels.py` the measured
+vertices; `tools/church/detect_rules.py` derives them from the scan's heavy
+engraved rules rather than by eye.
+
+## Controls: prefer the printed graticule
+
+Place-label centres are weak evidence and should only ever bootstrap. On the
+Inverness sheet the drawn "CHETICAMP" label sits about 3.7 km from the CGNDB
+coordinate for the village — error that goes straight into the warp, because a
+thin-plate spline interpolates its controls exactly.
+
+The sheets carry a **printed lat/lon graticule** (5 arcminutes on the Inverness
+north panel). Its intersections are exact by construction, regularly spaced,
+and spread across the panel. `tools/church/detect_graticule.py` finds the
+lines, `tools/church/fit_lattice.py` fits them as a regular lattice, and
+`tools/church/graticule.py` turns lattice indices into coordinates once an
+anchor has been read off a printed degree/minute label.
+
+Fitting the graticule recovers the cartographer's *projection frame*. It does
+not certify the topography drawn inside it — only independent physical
+features can do that, which is why every graticule point is `control` and
+every check point is a shoreline, river mouth, or junction.
 
 ## Accuracy reporting
 

@@ -62,5 +62,61 @@ class PanelRegistryTests(unittest.TestCase):
             get_panel("inverness", "bogus")
 
 
+class PanelCutlineTests(unittest.TestCase):
+    """Guards against every geometric defect that sank the 2026-07-24 pilot."""
+
+    def test_window_is_derived_from_the_cutline(self) -> None:
+        for panel in panels_for_county("inverness"):
+            self.assertEqual(panel.window, panel.cutline.bounding_window)
+
+    def test_the_two_panels_never_claim_the_same_pixel(self) -> None:
+        north = get_panel("inverness", "north")
+        south = get_panel("inverness", "south")
+
+        self.assertFalse(north.cutline.overlaps(south.cutline))
+
+    def test_rectangular_windows_would_overlap_but_cutlines_do_not(self) -> None:
+        """The bounding boxes still overlap - which is exactly why cutlines exist."""
+        north = get_panel("inverness", "north").window
+        south = get_panel("inverness", "south").window
+
+        self.assertLess(south.x, north.x_end)
+        self.assertLess(north.y, south.y_end)
+
+    def test_each_cutline_excludes_real_material_from_its_bounding_box(self) -> None:
+        for panel in panels_for_county("inverness"):
+            window = panel.window
+            box_area = float(window.width * window.height)
+            with self.subTest(panel=panel.slug):
+                self.assertLess(panel.cutline.area, 0.9 * box_area)
+
+    def test_cutlines_stay_inside_the_archival_scan(self) -> None:
+        for panel in panels_for_county("inverness"):
+            for x, y in panel.cutline.vertices:
+                with self.subTest(panel=panel.slug, vertex=(x, y)):
+                    self.assertGreaterEqual(x, 0)
+                    self.assertGreaterEqual(y, 0)
+                    self.assertLessEqual(x, 34427)
+                    self.assertLessEqual(y, 34543)
+
+    def test_no_cutline_contains_a_town_plan_inset_or_the_title_block(self) -> None:
+        """Sample points inside each decoration that must never be warped."""
+        decorations = {
+            "title block": (4800, 4600),
+            "engraved vignette": (18600, 2500),
+            "West Bay inset": (32000, 12000),
+            "Port Hood inset": (32000, 31000),
+            "Port Hawkesbury inset": (4000, 31500),
+            "Whycocomagh inset": (10000, 31500),
+            "Mabou inset": (14800, 32000),
+            "Margaree inset": (24000, 32400),
+            "Port Hastings inset": (27800, 32000),
+        }
+        for panel in panels_for_county("inverness"):
+            for name, (x, y) in decorations.items():
+                with self.subTest(panel=panel.slug, decoration=name):
+                    self.assertFalse(panel.cutline.contains(x, y))
+
+
 if __name__ == "__main__":
     unittest.main()

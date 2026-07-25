@@ -61,6 +61,13 @@ jobs:
       - name: Test change classifier
         run: python3 -m unittest discover -s .github/scripts/tests -v
 
+      # Pure-stdlib and fast. These guard the Church panel cutlines and
+      # graticule maths, including the assertion that two panels can never
+      # claim the same source pixel - the defect behind the rejected
+      # 2026-07-24 georeferencing pilot.
+      - name: Church map pipeline tests
+        run: python3 -m unittest discover -s tools/church/tests -t .
+
       - name: Classify changed paths
         id: scope
         env:
