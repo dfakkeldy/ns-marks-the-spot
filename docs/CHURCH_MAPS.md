@@ -82,6 +82,23 @@ suspected fix and is **coarser** here (533 vertices against 2,139); it is not
 adopted and no licence claim is made for it. Still no tiles. See
 [`church-inverness-attempt-5-2026-07-25.md`](church-inverness-attempt-5-2026-07-25.md).
 
+The trend-immune rule was then built on both sides — `chords.py` for the modern
+vector data and `headlands.py` for the engraving, which finds the drawn shoreline
+by filling the PAPER rather than tracing the ink, and selects on **prominence**
+exactly as the island detector selects on enclosed area. It traces these
+shorelines correctly, and it still yields **no north check points**, for a reason
+that is now measured rather than guessed: every one of the nine surviving north
+candidates has a rival feature on its own stretch of coast at **85–99 % of its
+own prominence**, so prominence cannot say which one Church drew. Three of them
+duly resolved to the same engraved hook at Chéticamp Point. That degeneracy is
+now enforced as `HEADLAND_MAX_RIVAL_SHARE`, which refuses all nine on the modern
+side before any drawn point is read.
+
+So the north panel is not blocked on the reference, and not on the detector —
+northern Inverness is a fjorded shore of repeated similar coves, and at 1:63,360
+it does not carry identifiable check features. **Both panels remain REJECTED**;
+the tolerance was never adjusted and the prominence band was never widened.
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |

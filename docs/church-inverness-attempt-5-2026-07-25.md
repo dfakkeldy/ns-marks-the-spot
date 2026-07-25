@@ -287,8 +287,155 @@ obtained. That is a materially better position than attempt 4 recorded.
 
 3. Re-measure both panels against the same tolerance.
 
+### Step 2 is done, and the north candidate supply is now measured
+
+`tools/church/chords.py` implements the rule: deviation from the chord joining
+the ends of the coastal stretch inside the box, which is the Douglas-Peucker
+criterion. Subtracting the chord *is* detrending, so the rule is immune to the
+trend by construction — its tests hold an 800 m headland at 800 ± 25 m across a
+40× range of coastal slope, where an extremal rule's answer slides to whichever
+end of the box the trend runs toward.
+
+Applied across every reference ring touching the north panel, with tile seams
+dropped, it finds **301 distinct coastal features, 155 of them inside the north
+cutline**. Filtering as the prominence argument demands:
+
+| prominence | inside cutline | also >1.5 km from the next | also >3 km |
+|---|---:|---:|---:|
+| ≥ 400 m | 81 | 11 | 5 |
+| ≥ 600 m | 50 | 23 | 9 |
+| ≥ 800 m | 17 | **8** | 5 |
+| ≥ 900 m | 6 | 3 | 3 |
+
+**Eight features clear 800 m of prominence and stand more than 1.5 km from their
+nearest rival**, against the two points the panel has today. The isolation
+column is the one that matters: prominence only just exceeds the 700–900 m error,
+so it is separation, not size, that stops a feature being confused with its
+neighbour.
+
+The supply problem is therefore solved. What is not yet built is the **drawn**
+side: `drawn.py` finds closed outlines, and a headland is a point on an open
+curve, so reading one off the engraving needs the coastline traced as a path and
+the same chord rule applied to it. That is the next piece of work, and until it
+exists the north panel still has no measurement.
+
 Only if both panels then clear the gate does mosaicking become appropriate, and
 hosting remains a separate decision after that.
+
+## 7. The drawn side of a headland, and what the north coast turned out to contain
+
+Step 3 of the plan was the drawn-side detector: `drawn.py` reads an island by
+tracing its closed outline and taking the shoelace centroid, but a headland is a
+point on an open curve and has no centroid, so the north panel had no drawn side
+at all. That detector now exists (`tools/church/headlands.py`), and running it
+produced a clear answer — just not the one that was wanted.
+
+**The north panel still has no measurement, and the verdict is unchanged: both
+panels REJECTED.** No tolerance was adjusted, no tiles were built, no catalog or
+hosting change was made.
+
+### How the drawn shoreline is found
+
+Tracing the ink fails on this map: at the dilation needed to close a dashed
+hairline, the coast stroke merges with hachure, lot lines and lettering, and its
+outline wanders into all of them. So the PAPER is filled instead, and the
+shoreline appears as the boundary between two fills — clean on the seaward side
+whatever the land carries.
+
+Which fill is the sea never has to be decided. Every large region is measured and
+PROMINENCE chooses, exactly as enclosed area chooses in `drawn.py`: a property of
+the drawn shape alone, carrying no positional information, so the prediction
+cannot pull an answer toward the transform under test. Paper is filled
+4-connected against ink's 8-connected trace, because a single-pixel diagonal
+hairline is watertight to one and porous to the other.
+
+Both faces of the stroke are read and merged. They are traversed in opposite
+directions, so one bulge yields two deviations of opposite sign; requiring that
+opposition is free corroboration, and their midpoint cancels the stroke's own
+thickness.
+
+**It works.** The QA sheets show green paths following Chéticamp Island, Enragée
+Point, White Capes, Red Head and Margaree Harbor correctly. Three separate
+artifacts had to be removed first, each caught by looking at the sheet rather
+than by any number:
+
+| Artifact | What it did | Fix |
+|---|---|---|
+| Lake and river shores | 4 of 7 first-pass tiles carried no drawn coast: two inland lettering, one a dashed lot line, one the engraved 46°40′ meridian and its label | Restrict to NSTDB `WACO40` "Coast Water Area" over 100 km²; the layer classifies this itself |
+| Engraved graticule | Church rules parallels across the open Gulf; the paper fill follows them, and 6 of 9 tiles chose a "headland" on a ruled line at the tile edge | Cut the path where it runs along the graticule, rebuilt from the committed control mesh and extended past it. Cut, not erased — erasing breaks the shoreline where the two cross |
+| Fold-backs | A detour out along a road and back has a near-zero chord, so every point on it reads as enormously prominent | Refuse a path whose chord is under a tenth of its own traced length |
+
+### What the coast actually contains
+
+With those removed, the supply was measured properly — by sliding the *committed*
+window along the *actual* marine shoreline and asking the *committed* rule at
+every position, so discovery and measurement finally share a baseline. (Douglas–
+Peucker proposes tips against chords up to 20 km long; the box then re-measures
+against its own. Fishing Cove is the clean example: 827 m against 7.5 km, under
+800 m against 4.4 km.)
+
+| window | ≥600 m floor | ≥800 m | ≥1000 m |
+|---|---:|---:|---:|
+| 3.1 km | 7 | 4 | 3 |
+| 4.4 km | 8 | 6 | 2 |
+| 6.0 km | 12 | 7 | 5 |
+| 8.0 km | 15 | **11** | 10 |
+
+Counts are features inside the north cutline, isolated by 1.5 km, seams stripped.
+Eleven candidates at the committed 800 m floor looked like enough.
+
+**They are not usable, and the reason is the finding.** Every one of the nine
+that survived to a committed box has a rival on its own stretch of coast at
+85–99 % of its own prominence:
+
+| candidate | prominence | rival | share |
+|---|---:|---:|---:|
+| 46.6035 N 61.0590 W | 2885 m | 2870 m | 99 % |
+| 46.6181 N 61.0526 W | 2795 m | 2739 m | 98 % |
+| 46.6500 N 61.0278 W | 2531 m | 2483 m | 98 % |
+| 47.0325 N 60.6149 W | 1730 m | 1638 m | 95 % |
+| 46.5238 N 61.0765 W | 1282 m | 1092 m | 85 % |
+| 46.5976 N 61.0317 W | 1108 m | 1052 m | 95 % |
+| 46.8044 N 60.8745 W | 1089 m | 1031 m | 95 % |
+| 46.4407 N 61.1285 W | 1007 m | 912 m | 91 % |
+| 46.7892 N 60.8898 W | 891 m | 876 m | 98 % |
+
+Two features of equal prominence in one window cannot be told apart *by
+prominence*, so pairing a drawn tip with either is a coin toss dressed as a
+measurement. That is not a hypothesis: three of these candidates resolved to the
+same engraved hook at Chéticamp Point, and the duplicate guard refused them —
+the attempt-4 "four candidates, one vertex" failure repeating in a new form.
+
+This is now enforced in the committed rule as `HEADLAND_MAX_RIVAL_SHARE`, which
+refuses a candidate whose runner-up exceeds 75 % of the winner. It is isolation
+in the property that actually does the choosing, rather than in distance. Under
+it, **all nine north candidates are refused on the modern side, before any drawn
+point is read.**
+
+### What this means, stated carefully
+
+The north panel's coast, at the scale Church drew it, does not supply
+identifiable check features. Not because the reference is too coarse — that
+claim was made in attempt 4 and corrected in section 5 — and not because the
+detector fails, since it traces these shorelines correctly. The features
+themselves are degenerate in the discriminating property: northern Inverness is a
+fjorded shore of repeated similar coves, and NSTDB's Chéticamp barrier-and-lagoon
+system is a shape Church did not draw at all.
+
+Two honest routes remain, and both are larger than a detector:
+
+1. **A different feature class.** Prominence discriminates poorly here. River
+   mouths, lake outlines or the drawn road network might discriminate better, but
+   each needs its own two-sided rule and its own anti-circularity argument.
+2. **Accept that north is unmeasurable and say so in the product.** The south
+   panel at least has 11 check points and a diagnosed 404 m NE translation. A
+   panel that cannot be validated should not be published as if it had been.
+
+The prominence band was NOT widened to admit anything. `PROMINENCE_RATIO_MIN`
+and `MAX` are still the 0.5–2.0 prior set before the first north run, and the two
+candidates that reached the drawn side read 2.15× and 2.92×. Widening the band
+until they fit is exactly the tuning this pipeline exists to refuse.
+
 
 ## What is versioned from this attempt
 
@@ -296,11 +443,19 @@ hosting remains a separate decision after that.
   shape descriptors, selection policy, duplicate refusal. Pure stdlib.
 - `tools/church/drawn_checks.py` — the raster driver and QA contact sheet.
   Cannot run in CI; needs the scan and the reference.
-- `tools/church/panels.py` — `DrawnCheckSettings`, versioned per panel, with the
-  measurement behind each number in the comment beside it.
+- `tools/church/panels.py` — `DrawnCheckSettings` and `HeadlandCheckSettings`,
+  versioned per panel, with the measurement behind each number beside it.
+- `tools/church/headlands.py` — paper fill, shoreline extraction, two-faced
+  merge, prominence selection, graticule segments. Pure stdlib.
+- `tools/church/headland_checks.py` — the headland raster driver and QA sheet.
+  Cannot run in CI; needs the scan and the reference.
+- `tools/church/chords.py` — `Plane` and `path_extreme`, the chord rule on an
+  open path in any metric plane, shared by the modern and drawn sides.
+- `tools/church/checks/inverness-north-headland-candidates.csv` — the nine north
+  candidates and the rival prominence that refuses each one.
 - `reports/church/drawn-{north,south}.json` — per-candidate audit: what was
   found, what was chosen, and why each refusal happened.
-- 325 tests, `python3 -m unittest discover -s tools/church/tests -t .`
+- 391 tests, `python3 -m unittest discover -s tools/church/tests -t .`
 
 ## Reproducibility
 

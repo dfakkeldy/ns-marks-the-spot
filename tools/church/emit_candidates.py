@@ -30,9 +30,11 @@ import json
 import pathlib
 from dataclasses import dataclass
 
+from tools.church.chords import ChordFeature, chord_extreme
 from tools.church.landmarks import (
     EXTREME_RULES,
     BoundingBox,
+    all_rings,
     extreme_vertex,
     islands_within,
     vertices_of,
@@ -40,14 +42,50 @@ from tools.church.landmarks import (
 
 __all__ = [
     "CandidateRow",
+    "HEADLAND_MIN_PROMINENCE_M",
+    "HEADLAND_RULE",
     "ISLAND_RULE",
     "format_candidates",
+    "resolve_headland_feature",
     "parse_candidate_csv",
     "resolve_candidate",
 ]
 
 ISLAND_RULE = "island"
+HEADLAND_RULE = "headland"
 COLUMNS = ("label", "lon", "lat", "rule", "box_west", "box_south", "box_east", "box_north")
+
+HEADLAND_MIN_PROMINENCE_M = 800.0
+"""Least chord deviation a headland must have to serve as a check point.
+
+Not a taste setting. The north panel's error is being tested against a 400 m RMS
+and a 1,500 m maximum, and a feature less prominent than the error being measured
+cannot be told from its neighbour - pair a 300 m cove with the one 800 m along
+the shore and nothing in the data would object. That is precisely the failure
+that matched the compact Clarke Id. to the candidate for the long Cameron Id.
+
+800 m was chosen from the supply, before any drawn point was read: across the
+north panel the rule finds 155 features inside the cutline, of which 17 clear
+800 m and 8 of those also stand more than 1.5 km from their nearest rival. Fewer,
+larger, better-separated features beat more, smaller ones.
+"""
+
+HEADLAND_MAX_RIVAL_SHARE = 0.75
+"""How prominent a second feature on the same stretch may be, against the winner.
+
+Isolation in PROMINENCE, not in distance, and the north panel is why it exists.
+Nine candidates there cleared the 800 m floor and stood over 1.5 km from their
+nearest neighbour - and every one of them turned out to have a rival on its own
+stretch of coast at 85-99 % of its own prominence: 2,885 against 2,870, 2,795
+against 2,739, 891 against 876. Two features of equal prominence in one window
+cannot be told apart by prominence, so pairing a drawn tip with either is a coin
+toss dressed as a measurement. Three of those candidates duly resolved to the
+same engraved hook at Cheticamp Point.
+
+This is the same failure the distance test was meant to catch, in the property
+that actually does the choosing. A candidate that fails here is not a defect in
+the box - it is a stretch of coast that has nothing uniquely identifiable on it.
+"""
 
 
 @dataclass(frozen=True)
@@ -84,10 +122,10 @@ def parse_candidate_csv(text: str) -> list[CandidateRow]:
         rule = (row.get("rule") or "").strip()
         if not label:
             raise ValueError("candidate rows must be labelled")
-        if rule != ISLAND_RULE and rule not in EXTREME_RULES:
+        if rule not in (ISLAND_RULE, HEADLAND_RULE) and rule not in EXTREME_RULES:
             raise ValueError(
-                f"{label}: unknown rule {rule!r}; expected {ISLAND_RULE!r} "
-                f"or one of {sorted(EXTREME_RULES)}"
+                f"{label}: unknown rule {rule!r}; expected {ISLAND_RULE!r}, "
+                f"{HEADLAND_RULE!r} or one of {sorted(EXTREME_RULES)}"
             )
         rows.append(
             CandidateRow(
@@ -118,6 +156,10 @@ def resolve_candidate(row: CandidateRow, features: list[dict]) -> tuple[float, f
         biggest = islands[0]
         return biggest.lon, biggest.lat
 
+    if row.rule == HEADLAND_RULE:
+        found = resolve_headland_feature(row, features)
+        return found.lon, found.lat
+
     vertices: list[tuple[float, float]] = []
     for feature in features:
         vertices += vertices_of(feature.get("geometry") or {})
@@ -127,6 +169,64 @@ def resolve_candidate(row: CandidateRow, features: list[dict]) -> tuple[float, f
         raise ValueError(f"{row.label}: {error}") from None
     _refuse_if_truncated(row, lon, lat)
     return lon, lat
+
+
+def resolve_headland_feature(row: CandidateRow, features: list[dict]) -> ChordFeature:
+    """The most prominent point on the one stretch of coast inside the box.
+
+    Returns the whole feature, not just its coordinate, because its PROMINENCE is
+    what the drawn side is selected on. `headland_checks` needs to know how far
+    this tip stands off its own chord in order to recognise the same tip on the
+    engraving without using its position to do so.
+
+    Every ring in the layer is offered to the rule, and exactly one may answer.
+    A ring is a continuous stretch of shore, so two answering rings means the box
+    spans two shorelines - a mainland cove and an island's cape, say - and no
+    single chord describes both. `chord_extreme` already refuses two stretches
+    WITHIN a ring; this is the same refusal across rings.
+
+    The extremal rules need `_refuse_if_truncated` on top of their answer because
+    they can name the box edge. This rule cannot: it measures deviation from the
+    chord joining the stretch's own ends, and its own endpoint guard already
+    rejects a winner sitting against them.
+    """
+    answers: list[ChordFeature] = []
+    refusals: list[str] = []
+    for feature in features:
+        for ring in all_rings(feature.get("geometry") or {}):
+            try:
+                answers.append(chord_extreme(ring, row.box, HEADLAND_MIN_PROMINENCE_M))
+            except ValueError as error:
+                refusals.append(str(error))
+
+    if not answers:
+        detail = f"; last refusal: {refusals[-1]}" if refusals else ""
+        raise ValueError(
+            f"{row.label}: no coastal stretch inside {row.box} carries a feature of "
+            f"{HEADLAND_MIN_PROMINENCE_M:.0f} m prominence{detail}"
+        )
+    if len(answers) > 1:
+        listed = ", ".join(
+            f"({found.lon:.4f}, {found.lat:.4f}) at {found.prominence_m:.0f} m"
+            for found in answers
+        )
+        raise ValueError(
+            f"{row.label}: {len(answers)} separate shorelines inside {row.box} each "
+            f"carry a prominent feature [{listed}], and nothing here says which one "
+            f"Church drew; tighten the box onto a single stretch of coast"
+        )
+    found = answers[0]
+    if found.runner_up_m is not None:
+        share = abs(found.runner_up_m) / abs(found.prominence_m)
+        if share > HEADLAND_MAX_RIVAL_SHARE:
+            raise ValueError(
+                f"{row.label}: the same stretch carries a second feature at "
+                f"{abs(found.runner_up_m):.0f} m against this one's "
+                f"{abs(found.prominence_m):.0f} m ({share:.0%}), so prominence cannot "
+                f"tell them apart and nothing else here can either. Pick a stretch "
+                f"with one clearly dominant feature."
+            )
+    return found
 
 
 # For each rule, the box bound it sorts against and the coordinate it compares.
