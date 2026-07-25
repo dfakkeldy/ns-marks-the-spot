@@ -1,0 +1,23 @@
+# Candidate held-out check features for the Inverness south panel.
+# Modern coordinates derived by an objective rule from NSTDB water
+# geometry (nstdb-major-water.geojson), never from a place-name
+# gazetteer. The rule and its box are recorded so the choice can be
+# re-run and challenged. Pixel positions are NOT here - they are read
+# off the scan by eye, see tools/church/checksheet.py.
+label,lon,lat,rule,box_west,box_south,box_east,box_north
+port-hood-island-west-tip,-61.601916,45.974141,west,-61.62,45.94,-61.53,46.02
+port-hood-island,-61.596939,45.979195,island,-61.62,45.94,-61.55,46.02
+henry-island-west-tip,-61.570706,45.999997,west,-61.58,45.95,-61.5,46.0
+mabou-harbour-west-point,-61.449988,46.085374,west,-61.45,46.05,-61.34,46.14
+margaree-island-south,-61.261823,46.359252,island,-61.29,46.34,-61.23,46.39
+judique-west-point,-61.519939,45.920342,west,-61.52,45.84,-61.42,45.93
+creignish-west-point,-61.496339,45.839965,west,-61.52,45.72,-61.42,45.84
+port-hastings-narrows,-61.439999,45.684064,west,-61.44,45.63,-61.36,45.7
+whycocomagh-bay-west-end,-61.133928,45.967933,west,-61.24,45.96,-61.12,46.06
+west-bay-south-point,-61.047042,45.720087,south,-61.1,45.72,-60.96,45.84
+denys-basin-west,-61.140931,45.939963,west,-61.2,45.82,-61.08,45.94
+sight-point-west,-61.419996,46.189362,west,-61.42,46.14,-61.3,46.24
+mcintyre-lake-south,-60.937450,45.620003,south,-61.0,45.62,-60.86,45.74
+river-denys-south,-61.095399,45.700004,south,-61.16,45.7,-61.02,45.82
+lake-ainslie-south-end,-61.111207,46.060019,south,-61.2,46.06,-61.06,46.16
+lake-ainslie-north-end,-61.142942,46.279993,north,-61.18,46.16,-61.06,46.28

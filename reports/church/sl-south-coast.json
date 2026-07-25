@@ -1,0 +1,40 @@
+{
+ "label": "south-coast",
+ "warped": "../work/w-clipped/inverness/inverness-south-3857.tif",
+ "reference": "../../nsmarks-church-inverness-20260724/reference/nstdb-major-water.geojson",
+ "where": "FEAT_DESC = 'Coast Water Area polygon'",
+ "clip": null,
+ "metres_per_sample_px": 20.0,
+ "samples": 40026,
+ "median_m": 139.9993896484375,
+ "mean_m": 203.20293821650205,
+ "rms_m": 295.24727446896907,
+ "p90_m": 503.31787109375,
+ "p95_m": 647.87353515625,
+ "p99_m": 943.6279296875,
+ "max_m": 1491.81396484375,
+ "within_250m_pct": 69.70719032628791,
+ "within_500m_pct": 89.95153150452207,
+ "bands": [
+  {
+   "band": 0,
+   "samples": 3836,
+   "rms_m": 489.45526279740284
+  },
+  {
+   "band": 1,
+   "samples": 6742,
+   "rms_m": 330.53540926509976
+  },
+  {
+   "band": 2,
+   "samples": 21173,
+   "rms_m": 239.35325325356533
+  },
+  {
+   "band": 3,
+   "samples": 8275,
+   "rms_m": 273.842248941378
+  }
+ ]
+}

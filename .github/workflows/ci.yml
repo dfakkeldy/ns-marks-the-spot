@@ -68,6 +68,17 @@ jobs:
       - name: Church map pipeline tests
         run: python3 -m unittest discover -s tools/church/tests -t .
 
+      # The control CSVs are GENERATED from the committed detection artifacts.
+      # Detection itself needs the 180 MB archival scan and OpenCV, but this
+      # step does not, so CI can prove the checked-in control points still match
+      # the linework they claim to come from - and catch a hand-edited CSV.
+      - name: Church control points match their detections
+        run: |
+          for panel in north south; do
+            python3 -m tools.church.emit_gcps inverness "$panel" \
+            --out "tools/church/gcps/inverness-$panel.csv" --check
+          done
+
       - name: Classify changed paths
         id: scope
         env:
