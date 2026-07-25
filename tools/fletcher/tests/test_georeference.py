@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import pathlib
 import sys
+import tempfile
 import unittest
+from unittest import mock
 
 from tools.church.gcps import GroundControlPoint
 from tools.fletcher.georeference import (
@@ -10,7 +12,9 @@ from tools.fletcher.georeference import (
     build_transform_command,
     build_translate_command,
     build_warp_command,
+    georeference,
 )
+from tools.fletcher.pipeline import CandidateAccuracy
 
 
 class GeoreferenceCommandTests(unittest.TestCase):
@@ -72,6 +76,45 @@ class GeoreferenceCommandTests(unittest.TestCase):
             [sys.executable, "-m", "osgeo_utils.gdal2tiles"],
         )
         self.assertIn("--resume", command)
+
+    def test_only_the_residual_winner_is_rendered_as_a_warp(self) -> None:
+        csv = """pixel_x,pixel_y,lon,lat,role,label
+0,0,-61,46,control,a
+1,0,-60.9,46,control,b
+2,0,-60.8,46,control,c
+0,1,-61,45.9,control,d
+1,1,-60.9,45.9,control,e
+2,1,-60.8,45.9,control,f
+0,2,-61,45.8,check,g
+2,2,-60.8,45.8,check,h
+"""
+        candidates = [
+            CandidateAccuracy("tps", 6, 2, 10.0, 12.0, 12.0),
+            CandidateAccuracy("affine", 6, 2, 20.0, 22.0, 22.0),
+            CandidateAccuracy("polynomial2", 6, 2, 30.0, 32.0, 32.0),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            points = root / "points.csv"
+            points.write_text(csv, encoding="utf-8")
+            with (
+                mock.patch(
+                    "tools.fletcher.georeference.score_candidate",
+                    side_effect=candidates,
+                ),
+                mock.patch(
+                    "tools.fletcher.georeference.subprocess.run",
+                ) as run,
+            ):
+                georeference(root / "source.tif", points, root / "out")
+
+        warp_commands = [
+            call.args[0]
+            for call in run.call_args_list
+            if call.args[0][0] == "gdalwarp"
+        ]
+        self.assertEqual(len(warp_commands), 1)
+        self.assertIn("-tps", warp_commands[0])
 
 
 if __name__ == "__main__":

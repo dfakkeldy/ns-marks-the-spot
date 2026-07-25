@@ -106,6 +106,7 @@ def main(argv: list[str] | None = None) -> int:
         manifest,
         process=process,
         free_bytes=lambda: shutil.disk_usage(root).free,
+        enforce_fetch_disk_gate=False,
     )
     return 0
 

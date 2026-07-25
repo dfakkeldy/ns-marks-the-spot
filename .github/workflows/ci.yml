@@ -82,6 +82,14 @@ jobs:
             --out "tools/church/gcps/inverness-$panel.csv" --check
           done
 
+      - name: Fletcher control points match their reviewed observations
+        run: |
+          for observation in tools/fletcher/observations/sheet-*.json; do
+            sheet="$(basename "$observation" .json)"
+            python3 -m tools.fletcher.emit_gcps "$observation" \
+              --out "tools/fletcher/gcps/$sheet.csv" --check
+          done
+
       - name: Classify changed paths
         id: scope
         env:

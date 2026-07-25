@@ -148,27 +148,25 @@ def georeference(
     )
 
     candidates: list[CandidateAccuracy] = []
-    rasters: dict[str, pathlib.Path] = {}
     failures: dict[str, str] = {}
     for method in METHOD_FLAGS:
         try:
             candidate = score_candidate(method, translated, control, check)
-            raster = output_dir / f"{method}-3857.tif"
-            subprocess.run(
-                build_warp_command(
-                    method,
-                    str(translated),
-                    str(raster),
-                    target_resolution_m=target_resolution_m,
-                ),
-                check=True,
-            )
             candidates.append(candidate)
-            rasters[method] = raster
         except (OSError, subprocess.CalledProcessError, ValueError) as error:
             failures[method] = str(error)
 
     winner = choose_best_candidate(candidates)
+    raster = output_dir / f"{winner.method}-3857.tif"
+    subprocess.run(
+        build_warp_command(
+            winner.method,
+            str(translated),
+            str(raster),
+            target_resolution_m=target_resolution_m,
+        ),
+        check=True,
+    )
     verdict = AccuracyGate().evaluate(
         control_count=winner.control_count,
         check_count=winner.check_count,
@@ -192,7 +190,7 @@ def georeference(
         json.dumps(metadata, indent=2) + "\n",
         encoding="utf-8",
     )
-    return rasters[winner.method], metadata
+    return raster, metadata
 
 
 def build_tile_command(

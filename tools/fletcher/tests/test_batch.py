@@ -47,6 +47,20 @@ class BatchTests(unittest.TestCase):
                 free_bytes=lambda: 100 * 1024**3,
             )
 
+    def test_downloaded_work_can_finish_after_fetch_disk_gate_closes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            manifest = Manifest(pathlib.Path(directory) / "manifest.json")
+
+            run_batch(
+                [BatchItem("18", "rumsey-18")],
+                manifest,
+                process=lambda _: {"stage": "tiled"},
+                free_bytes=lambda: 39 * 1024**3,
+                enforce_fetch_disk_gate=False,
+            )
+
+            self.assertEqual(manifest.sheets["18"]["stage"], "tiled")
+
 
 if __name__ == "__main__":
     unittest.main()

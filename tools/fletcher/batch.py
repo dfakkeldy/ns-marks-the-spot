@@ -26,12 +26,13 @@ def run_batch(
     *,
     process: Callable[[BatchItem], dict],
     free_bytes: Callable[[], int],
+    enforce_fetch_disk_gate: bool = True,
 ) -> None:
     for item in items:
         if manifest.sheets.get(item.sheet_id, {}).get("stage") == "tiled":
             _log(f"sheet {item.sheet_id}: skip completed")
             continue
-        if not may_fetch_new_scan(free_bytes()):
+        if enforce_fetch_disk_gate and not may_fetch_new_scan(free_bytes()):
             _log(f"sheet {item.sheet_id}: stop before new fetch; disk gate")
             manifest.update(
                 item.sheet_id,
