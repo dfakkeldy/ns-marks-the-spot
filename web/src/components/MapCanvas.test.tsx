@@ -13,9 +13,12 @@ import {
 import { parcelStyleForFeature } from "./parcelStyle";
 import type { GeoreferenceBinding } from "../userMaps/components/GeoreferenceMapLayer";
 
-// Backs the useMap() stub's getPane/createPane below so UserMapLayers'
-// ensurePane (which MapCanvas now mounts unconditionally) has somewhere to
-// store panes it creates, same as the real Leaflet map would.
+// Backs the useMap() stub's getPane/createPane below. Originally this stored
+// panes for the REAL UserMapLayers' ensurePane; both UserMapLayers and
+// GeoreferenceMapLayer are now mocked wholesale in this file (see below), so
+// neither exercises it any more. Left in place as a real Map/Set rather than
+// bare vi.fn()s in case a future pane-creating layer is exercised directly
+// against this useMap() stub instead of through its own mocked component.
 const paneElements = vi.hoisted(() => new Map<string, HTMLElement>());
 
 const mapMock = vi.hoisted(() => ({
@@ -2330,5 +2333,50 @@ describe("georeference binding", () => {
     expect(
       document.querySelector(".map-canvas--georeferencing"),
     ).not.toBeNull();
+  });
+
+  it("suspends parcel identify while a georeferencing session is open", () => {
+    // The two tests above leave `provinceLayers.nsprd: false`, which ALSO
+    // disables ParcelIdentifyController on its own — so neither can tell
+    // "suppressed because georeferencing" apart from "suppressed because
+    // nsprd is off". Only a fixture with nsprd TRUE exercises the guard:
+    // deleting `&& !georeference` from `ParcelIdentifyController`'s
+    // `enabled` at MapCanvas.tsx still passes every one of the 46
+    // pre-existing MapCanvas tests, because every one of them leaves nsprd
+    // false too.
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14); // >= PROPERTY_BOUNDARY_MIN_ZOOM
+    const { rerender } = render(
+      <MapCanvas
+        {...props}
+        provinceLayers={{ ...props.provinceLayers, nsprd: true }}
+        onIdentifyParcel={onIdentifyParcel}
+        georeference={BINDING}
+      />,
+    );
+
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    // A click during georeferencing places a control point; letting it also
+    // open the parcel inspector would fight the user for the same gesture,
+    // and the popup renders at z-700, over the control points.
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+
+    // Closing the session restores ordinary identify-on-click behaviour.
+    rerender(
+      <MapCanvas
+        {...props}
+        provinceLayers={{ ...props.provinceLayers, nsprd: true }}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
   });
 });

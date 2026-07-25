@@ -137,9 +137,19 @@ export function GeoreferenceMapLayer({
   binding: GeoreferenceBinding;
 }) {
   const map = useMap();
-  useEffect(() => {
-    ensurePane(map);
-  }, [map]);
+  // Called directly in the render body, NOT inside a useEffect. React runs
+  // CHILD passive effects before the PARENT's, so an effect here would lose
+  // the race whenever this component mounts with GCPs already present (the
+  // "Adjust points" reachability path on an already-georeferenced map): each
+  // marker's own mount effect calls `map.addLayer` synchronously, which
+  // reaches Leaflet's `_initIcon` -> `this.getPane().appendChild(...)` before
+  // this component's effect ever ran, and `getPane` returns undefined for a
+  // pane that doesn't exist yet. Calling it here instead runs before ANY
+  // effect in this commit (child or parent), so the pane always exists by
+  // the time a marker's effect looks for it. `ensurePane` is `getPane`-
+  // guarded, so repeated calls — including React StrictMode's double-render
+  // — are idempotent no-ops, never a second pane.
+  ensurePane(map);
 
   const pendingIcon = useMemo(
     () => numberedIcon(String(binding.gcps.length + 1), { pending: true }),
