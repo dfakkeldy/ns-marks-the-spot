@@ -32,6 +32,7 @@ __all__ = [
     "BoundingBox",
     "EXTREME_RULES",
     "Island",
+    "all_rings",
     "extreme_vertex",
     "interior_rings",
     "islands_within",
@@ -116,6 +117,34 @@ def interior_rings(geometry: dict) -> list[list[tuple[float, float]]]:
         [(float(x), float(y)) for x, y in ring]
         for polygon in polygons
         for ring in polygon[1:]
+    ]
+
+
+def all_rings(geometry: dict) -> list[list[tuple[float, float]]]:
+    """Every linear ring in a polygon geometry, exterior and interior alike.
+
+    `vertices_of` flattens a geometry into one bag of points, which is right for
+    an extremal rule - "the northernmost vertex" does not care which ring it came
+    from. The chord rule does care: it measures deviation ALONG a stretch of
+    coast, so its input has to be one continuous ring and not two shorelines
+    interleaved.
+
+    Exterior and interior are returned together and undistinguished. In a water
+    layer an interior ring is an island's shore, which is coastline just as much
+    as the mainland's is.
+    """
+    kind = geometry.get("type")
+    if kind == "Polygon":
+        polygons = [geometry.get("coordinates") or []]
+    elif kind == "MultiPolygon":
+        polygons = geometry.get("coordinates") or []
+    else:
+        return []
+    return [
+        [(float(x), float(y)) for x, y in ring]
+        for polygon in polygons
+        for ring in polygon
+        if len(ring) >= 3
     ]
 
 

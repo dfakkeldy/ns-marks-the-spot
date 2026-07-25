@@ -2,11 +2,43 @@ import unittest
 
 from tools.church.landmarks import BoundingBox
 from tools.church.emit_candidates import (
+    HEADLAND_MIN_PROMINENCE_M,
     CandidateRow,
     format_candidates,
     parse_candidate_csv,
     resolve_candidate,
 )
+
+
+def coast_feature(lon: float, tip_offset: float = -0.02) -> dict:
+    """A water polygon whose eastern edge is a coast carrying one headland.
+
+    The tip stands 0.02 degrees of longitude off the chord, which at 46 N is
+    about 1,540 m - comfortably over the 800 m prominence floor.
+    """
+    return {
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [lon - 0.5, 46.0],
+                    [lon - 0.5, 46.2],
+                    [lon, 46.2],
+                    [lon, 46.16],
+                    [lon, 46.12],
+                    [lon + tip_offset, 46.10],
+                    [lon, 46.08],
+                    [lon, 46.04],
+                    [lon, 46.0],
+                    [lon - 0.5, 46.0],
+                ]
+            ],
+        }
+    }
+
+
+COAST = [coast_feature(-61.0)]
+HEADLAND_BOX = BoundingBox(west=-61.05, south=46.02, east=-60.99, north=46.18)
 
 # A square "water" polygon with one square island punched out of it as an
 # interior ring, which is how NSTDB represents islands in a water layer.
@@ -81,6 +113,63 @@ class ResolveTests(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             resolve_candidate(row, WATER["features"])
+
+
+class HeadlandRuleTests(unittest.TestCase):
+    """The rule that gives the north panel a candidate supply at all.
+
+    The extremal rules name one physical point on the whole of Cape Breton no
+    matter how many boxes ask for it, because the north coast simply trends.
+    This one names a point wherever the coast genuinely turns.
+    """
+
+    def row(self, box: BoundingBox) -> CandidateRow:
+        return CandidateRow(label="a-headland", rule="headland", box=box)
+
+    def test_returns_the_most_prominent_point_on_the_stretch(self) -> None:
+        lon, lat = resolve_candidate(self.row(HEADLAND_BOX), COAST)
+        self.assertAlmostEqual(lon, -61.02, places=6)
+        self.assertAlmostEqual(lat, 46.10, places=6)
+
+    def test_a_stretch_with_nothing_prominent_is_refused(self) -> None:
+        # The straight run south of the headland. An extremal rule would happily
+        # return whichever end the box cut; this one has to say there is nothing
+        # here to identify.
+        straight = BoundingBox(west=-61.05, south=45.99, east=-60.99, north=46.09)
+        with self.assertRaises(ValueError) as caught:
+            resolve_candidate(self.row(straight), COAST)
+        self.assertIn("prominence", str(caught.exception))
+
+    def test_a_feature_below_the_floor_is_refused(self) -> None:
+        # 0.005 degrees of longitude at 46 N is about 386 m, under the 800 m
+        # floor: a feature smaller than the error under test cannot be told from
+        # its neighbour, so it must not enter a held-out set.
+        small = [coast_feature(-61.0, tip_offset=-0.005)]
+        with self.assertRaises(ValueError) as caught:
+            resolve_candidate(self.row(HEADLAND_BOX), small)
+        self.assertIn(f"{HEADLAND_MIN_PROMINENCE_M:.0f} m", str(caught.exception))
+
+    def test_two_shorelines_in_one_box_are_refused(self) -> None:
+        # A mainland cove and an island's cape in the same box are two stretches
+        # of coast. Nothing in the data says which one Church drew, and picking
+        # the nearer would be the prediction choosing.
+        both = [coast_feature(-61.0), coast_feature(-60.97)]
+        wide = BoundingBox(west=-61.05, south=46.02, east=-60.96, north=46.18)
+        with self.assertRaises(ValueError) as caught:
+            resolve_candidate(self.row(wide), both)
+        self.assertIn("2 separate shorelines", str(caught.exception))
+
+    def test_an_empty_box_is_refused(self) -> None:
+        empty = BoundingBox(west=-50.0, south=40.0, east=-49.0, north=41.0)
+        with self.assertRaises(ValueError):
+            resolve_candidate(self.row(empty), COAST)
+
+    def test_the_rule_survives_a_csv_round_trip(self) -> None:
+        row = self.row(HEADLAND_BOX)
+        text = format_candidates([(row, resolve_candidate(row, COAST))], "# header")
+        parsed = parse_candidate_csv(text)
+        self.assertEqual(parsed[0].rule, "headland")
+        self.assertEqual(parsed[0].box, HEADLAND_BOX)
 
 
 class TruncationTests(unittest.TestCase):

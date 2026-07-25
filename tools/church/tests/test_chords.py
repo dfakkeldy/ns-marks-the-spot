@@ -2,7 +2,11 @@ import unittest
 
 from tools.church.chords import (
     ChordFeature,
+    Plane,
     chord_extreme,
+    cyclic_runs,
+    geographic_plane,
+    path_extreme,
     perpendicular_metres,
     runs_in_box,
 )
@@ -171,6 +175,109 @@ class ChordExtremeTests(unittest.TestCase):
         feature = chord_extreme(coast, box, min_prominence_m=200.0)
         self.assertIsNotNone(feature.runner_up_m)
         self.assertGreater(abs(feature.runner_up_m), 500.0)
+
+
+class CyclicRunsTests(unittest.TestCase):
+    """The wraparound logic, shared by the box clip and the tile-edge split."""
+
+    def test_a_run_crossing_the_seam_is_one_run(self):
+        runs = cyclic_runs(["a", "b", "c", "d"], [True, False, False, True])
+        self.assertEqual(runs, [["d", "a"]])
+
+    def test_two_separated_runs_stay_separate(self):
+        runs = cyclic_runs(["a", "b", "c", "d"], [True, False, True, False])
+        self.assertEqual(sorted(runs), [["a"], ["c"]])
+
+    def test_all_kept_is_one_run_in_the_original_order(self):
+        # No gap means no seam to rotate to, so the caller's order must survive.
+        self.assertEqual(cyclic_runs([1, 2, 3], [True] * 3), [[1, 2, 3]])
+
+    def test_none_kept_is_no_runs(self):
+        self.assertEqual(cyclic_runs([1, 2, 3], [False] * 3), [])
+
+    def test_a_mismatched_mask_is_refused(self):
+        with self.assertRaises(ValueError):
+            cyclic_runs([1, 2, 3], [True, False])
+
+
+class PlaneTests(unittest.TestCase):
+    def test_the_geographic_plane_compresses_longitude(self):
+        plane = geographic_plane(46.05)
+        self.assertAlmostEqual(plane.y_metres, 110574.0, places=3)
+        self.assertAlmostEqual(plane.x_metres, 77330.0, delta=100.0)
+
+    def test_a_degenerate_plane_is_refused(self):
+        # A zero scale would silently collapse one axis and report every feature
+        # as lying exactly on its chord.
+        with self.assertRaises(ValueError):
+            Plane(x_metres=0.0, y_metres=1.0)
+
+
+class PathExtremeTests(unittest.TestCase):
+    """The same rule on an open path in an arbitrary metric plane.
+
+    This is what lets the engraving be measured: the drawn coast arrives as
+    pixels, not degrees, and must be judged by the rule the modern coast is
+    judged by rather than by a second rule that happens to agree.
+    """
+
+    PIXELS = Plane(x_metres=2.718, y_metres=2.718)
+
+    def straight_path(self, count=51):
+        """A path trending diagonally down the page, in pixel coordinates."""
+        return [(100.0 + 3.0 * i, 200.0 + 3.0 * i) for i in range(count)]
+
+    def test_measures_a_pixel_bump_in_ground_metres(self):
+        # 100 px pushed perpendicular to a 45-degree trend is 100 px of
+        # deviation, which at 2.718 m/px is 271.8 m of ground.
+        path = self.straight_path()
+        offset = 100.0 / 2.0**0.5
+        path[25] = (path[25][0] - offset, path[25][1] + offset)
+        feature = path_extreme(path, min_prominence_m=100.0, plane=self.PIXELS)
+        self.assertAlmostEqual(abs(feature.prominence_m), 271.8, delta=2.0)
+
+    def test_reports_the_winning_vertex_in_the_callers_own_coordinates(self):
+        # Pixels in, pixels out. Converting to degrees inside the rule would put
+        # the transform under test into the measurement of its own error.
+        path = self.straight_path()
+        offset = 100.0 / 2.0**0.5
+        path[25] = (path[25][0] - offset, path[25][1] + offset)
+        feature = path_extreme(path, min_prominence_m=100.0, plane=self.PIXELS)
+        self.assertAlmostEqual(feature.x, path[25][0], places=6)
+        self.assertAlmostEqual(feature.y, path[25][1], places=6)
+
+    def test_a_flat_path_is_refused(self):
+        with self.assertRaises(ValueError) as raised:
+            path_extreme(self.straight_path(), min_prominence_m=100.0, plane=self.PIXELS)
+        self.assertIn("prominence", str(raised.exception))
+
+    def test_a_path_too_short_to_carry_a_chord_is_refused(self):
+        with self.assertRaises(ValueError) as raised:
+            path_extreme(self.straight_path(3), min_prominence_m=1.0, plane=self.PIXELS)
+        self.assertIn("too short", str(raised.exception))
+
+    def test_a_winner_against_the_end_is_refused(self):
+        # A perfectly good interior feature is NOT enough to accept the path: a
+        # bigger one straddling the end means the crop cut through a headland,
+        # and its apex - wherever the rule then lands - moves with the crop.
+        # Both ends stay put so the chord is the original line and each push is
+        # exactly the deviation it produces.
+        path = self.straight_path()
+        push = 1.0 / 2.0**0.5
+        path[1] = (path[1][0] - 200.0 * push, path[1][1] + 200.0 * push)
+        path[25] = (path[25][0] - 50.0 * push, path[25][1] + 50.0 * push)
+        with self.assertRaises(ValueError) as raised:
+            path_extreme(path, min_prominence_m=100.0, plane=self.PIXELS)
+        self.assertIn("end", str(raised.exception).lower())
+
+    def test_an_anisotropic_plane_scales_each_axis_separately(self):
+        # The geographic plane is anisotropic, so the shared core has to be. A
+        # 100-unit push along x under a 10 m/unit x-scale is 1,000 m.
+        plane = Plane(x_metres=10.0, y_metres=1.0)
+        path = [(0.0, float(i)) for i in range(21)]
+        path[10] = (100.0, path[10][1])
+        feature = path_extreme(path, min_prominence_m=1.0, plane=plane)
+        self.assertAlmostEqual(abs(feature.prominence_m), 1000.0, delta=1.0)
 
 
 if __name__ == "__main__":

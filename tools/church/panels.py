@@ -27,6 +27,7 @@ __all__ = [
     "DrawnCheckSettings",
     "GeographicBounds",
     "GraticuleSettings",
+    "HeadlandCheckSettings",
     "SourceWindow",
     "get_panel",
     "panels_for_county",
@@ -76,6 +77,41 @@ class DrawnCheckSettings:
 
 
 @dataclass(frozen=True)
+class HeadlandCheckSettings:
+    """How to read a drawn headland's tip off one panel's engraving.
+
+    Versioned for the same reason `DrawnCheckSettings` is, and the same warning
+    applies: these numbers decide a held-out measurement, so they are committed
+    where a reviewer can see them against the errors they admit.
+
+    `factor` is the one setting here that is about cost rather than judgement.
+    Finding the shoreline means flood-filling the PAPER, which is dense, so a
+    tile costs its own area - unlike the island detector, which walks only ink.
+    Reducing by 2 quarters that at 5.44 m per pixel, still seventy times finer
+    than the 400 m the panel is being judged against. `block_min_reduce` takes
+    the darkest pixel of each block, so a hairline coast survives the reduction
+    rather than being averaged into the paper.
+    """
+
+    factor: int
+    darkness: int
+    tile_px: int
+    """Tile side in SOURCE pixels. Big enough to carry the chord, not just the
+    tip: a headland needs several kilometres of coast either side of it before
+    the line joining the ends means anything. 3,000 source px is 8.2 km."""
+    dilate_px: int
+    min_region_px: int
+    """Least paper region worth measuring, in REDUCED pixels. Below this are the
+    cells a map is full of - fields, lots, the insides of letters - which are not
+    shores."""
+    search_radius_px: float
+    """In SOURCE pixels, and deliberately larger than the largest error under
+    test. It exists to exclude the next cove along, not to pull an answer toward
+    the prediction; at 2.718 m per source pixel the 700 px below is 1,903 m,
+    against a tolerance maximum of 1,500 m."""
+
+
+@dataclass(frozen=True)
 class GraticuleSettings:
     """How to turn a panel's detected linework into named control points.
 
@@ -122,6 +158,7 @@ class ChurchPanel:
     target_resolution_m: float
     detection: DetectionSettings | None = None
     drawn_checks: "DrawnCheckSettings | None" = None
+    headland_checks: "HeadlandCheckSettings | None" = None
     graticule: GraticuleSettings | None = None
     """None until a panel's printed graticule has actually been read off the scan.
 
@@ -315,6 +352,22 @@ _INVERNESS_DRAWN_CHECKS = DrawnCheckSettings(
     search_radius_px=500.0,
 )
 
+# The headland detector shares `darkness` with the island detector for the same
+# reason the island detector shares it across panels: it is one engraving, inked
+# once. `dilate_px` is smaller, though, and that is not an oversight. The island
+# detector needs 4 because it must CLOSE a dashed outline before any area exists
+# to measure; a coast is measured as an open path and never has to close, so the
+# only job left is bridging the gaps that would let a paper fill leak from the
+# sea into a field. 2 does that at half the smearing of the shoreline itself.
+_INVERNESS_HEADLAND_CHECKS = HeadlandCheckSettings(
+    factor=2,
+    darkness=190,
+    tile_px=3000,
+    dilate_px=2,
+    min_region_px=40000,
+    search_radius_px=700.0,
+)
+
 _PANELS = {
     ("inverness", "north"): ChurchPanel(
         county_slug="inverness",
@@ -324,6 +377,7 @@ _PANELS = {
         target_resolution_m=5.0,
         detection=_INVERNESS_NORTH_DETECTION,
         drawn_checks=_INVERNESS_DRAWN_CHECKS,
+        headland_checks=_INVERNESS_HEADLAND_CHECKS,
         graticule=_INVERNESS_NORTH_GRATICULE,
     ),
     ("inverness", "south"): ChurchPanel(
@@ -334,6 +388,7 @@ _PANELS = {
         target_resolution_m=5.0,
         detection=_INVERNESS_SOUTH_DETECTION,
         drawn_checks=_INVERNESS_DRAWN_CHECKS,
+        headland_checks=_INVERNESS_HEADLAND_CHECKS,
         graticule=_INVERNESS_SOUTH_GRATICULE,
     ),
 }

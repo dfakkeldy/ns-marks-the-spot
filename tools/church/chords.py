@@ -47,7 +47,11 @@ from tools.church.landmarks import BoundingBox
 
 __all__ = [
     "ChordFeature",
+    "Plane",
     "chord_extreme",
+    "cyclic_runs",
+    "geographic_plane",
+    "path_extreme",
     "perpendicular_metres",
     "runs_in_box",
 ]
@@ -64,19 +68,53 @@ an end means the box clipped the feature instead of selecting it - the same
 defect `_refuse_if_truncated` catches for the extremal rules.
 """
 
+RUNNER_UP_SEPARATION_M = 1000.0
+"""How far from the winner a rival deviation must lie to count as a second feature.
 
-def _metric(point: tuple[float, float], latitude_deg: float) -> tuple[float, float]:
-    """Degrees to local metres, collapsing longitude's compression."""
-    return (
-        point[0] * _METRES_PER_DEGREE_LONGITUDE_EQUATOR * math.cos(math.radians(latitude_deg)),
-        point[1] * _METRES_PER_DEGREE_LATITUDE,
+A broad headland carries many vertices near its tip and they are not separate
+features. Expressed in ground metres so the same number means the same distance
+whether the caller works in degrees or in scan pixels.
+"""
+
+
+@dataclass(frozen=True)
+class Plane:
+    """Ground metres per unit of x and of y, for one stretch of coast.
+
+    The rule has to run over two very different coordinate systems: the modern
+    vector data in degrees, where a degree of longitude is two thirds of a degree
+    of latitude at Inverness, and the engraving in scan pixels, which are square.
+    Carrying the scale explicitly is what lets both be measured by one function
+    instead of two that have to be kept in agreement by hand.
+    """
+
+    x_metres: float
+    y_metres: float
+
+    def __post_init__(self) -> None:
+        if self.x_metres == 0.0 or self.y_metres == 0.0:
+            raise ValueError(
+                f"degenerate plane ({self.x_metres}, {self.y_metres}): a zero scale "
+                f"collapses an axis and reports every feature as lying on its chord"
+            )
+
+    def metric(self, point: tuple[float, float]) -> tuple[float, float]:
+        return (point[0] * self.x_metres, point[1] * self.y_metres)
+
+
+def geographic_plane(latitude_deg: float) -> Plane:
+    """The local metric plane at a latitude, collapsing longitude's compression."""
+    return Plane(
+        x_metres=_METRES_PER_DEGREE_LONGITUDE_EQUATOR * math.cos(math.radians(latitude_deg)),
+        y_metres=_METRES_PER_DEGREE_LATITUDE,
     )
 
 
-def perpendicular_metres(
+def perpendicular_in_plane(
     point: tuple[float, float],
     start: tuple[float, float],
     end: tuple[float, float],
+    plane: Plane,
 ) -> float:
     """Signed perpendicular distance from `point` to the chord, in ground metres.
 
@@ -84,10 +122,9 @@ def perpendicular_metres(
     cove head of equal size are not the same feature, and a caller comparing two
     representations needs to know it picked the same side on both.
     """
-    reference_lat = (start[1] + end[1]) / 2.0
-    px, py = _metric(point, reference_lat)
-    ax, ay = _metric(start, reference_lat)
-    bx, by = _metric(end, reference_lat)
+    px, py = plane.metric(point)
+    ax, ay = plane.metric(start)
+    bx, by = plane.metric(end)
     dx, dy = bx - ax, by - ay
     length = math.hypot(dx, dy)
     if length < 1e-9:
@@ -96,27 +133,39 @@ def perpendicular_metres(
     return ((px - ax) * dy - (py - ay) * dx) / length
 
 
-def runs_in_box(ring: list[tuple[float, float]], box: BoundingBox) -> list[list]:
-    """Contiguous stretches of `ring` lying inside `box`.
+def perpendicular_metres(
+    point: tuple[float, float],
+    start: tuple[float, float],
+    end: tuple[float, float],
+) -> float:
+    """`perpendicular_in_plane` for degrees, at the chord's own mean latitude."""
+    return perpendicular_in_plane(
+        point, start, end, geographic_plane((start[1] + end[1]) / 2.0)
+    )
 
-    A closed ring has no natural first vertex, so a stretch crossing index 0 is
-    one run and not two. More than one run means the box holds two separate
-    pieces of coast, which no single chord can describe.
+
+def cyclic_runs(values: list, keep: list[bool]) -> list[list]:
+    """Contiguous stretches of `values` where `keep` is true, treating it as closed.
+
+    A traced ring has no natural first element, so a stretch crossing index 0 is
+    one run and not two. Both callers depend on that: clipping a coastline ring
+    to a box, and cutting a traced region boundary at the tile edge.
     """
-    inside = [box.contains(*vertex) for vertex in ring]
-    if not any(inside):
+    if len(values) != len(keep):
+        raise ValueError(f"mask of {len(keep)} does not match {len(values)} values")
+    if not any(keep):
         return []
-    if all(inside):
-        return [list(ring)]
+    if all(keep):
+        return [list(values)]
 
-    # Rotate so the ring starts just after a gap; any run then stays contiguous.
-    start = next(i for i in range(len(ring)) if inside[i] and not inside[i - 1])
-    order = list(range(start, len(ring))) + list(range(start))
+    # Rotate so the sequence starts just after a gap; runs then stay contiguous.
+    start = next(i for i in range(len(values)) if keep[i] and not keep[i - 1])
+    order = list(range(start, len(values))) + list(range(start))
     runs: list[list] = []
     current: list = []
     for index in order:
-        if inside[index]:
-            current.append(ring[index])
+        if keep[index]:
+            current.append(values[index])
         elif current:
             runs.append(current)
             current = []
@@ -125,46 +174,65 @@ def runs_in_box(ring: list[tuple[float, float]], box: BoundingBox) -> list[list]
     return runs
 
 
+def runs_in_box(ring: list[tuple[float, float]], box: BoundingBox) -> list[list]:
+    """Contiguous stretches of `ring` lying inside `box`.
+
+    More than one run means the box holds two separate pieces of coast, which no
+    single chord can describe.
+    """
+    return cyclic_runs(list(ring), [box.contains(*vertex) for vertex in ring])
+
+
 @dataclass(frozen=True)
 class ChordFeature:
-    """The point on a coastal stretch furthest from its own chord."""
+    """The point on a coastal stretch furthest from its own chord.
 
-    lon: float
-    lat: float
+    Held in whatever coordinates the caller supplied - degrees for the modern
+    vector data, scan pixels for the engraving. `lon`/`lat` alias `x`/`y` for
+    geographic callers; there is no conversion, and none belongs here. Putting
+    the transform under test inside the measurement of its own error is the
+    circularity this whole pipeline is built to avoid.
+    """
+
+    x: float
+    y: float
     prominence_m: float
     """Signed: positive and negative are opposite sides of the chord."""
     runner_up_m: float | None = None
     """Best deviation elsewhere on the run, for judging whether it is unique."""
     run_length: int = 0
 
+    @property
+    def lon(self) -> float:
+        return self.x
 
-def chord_extreme(
-    ring: list[tuple[float, float]],
-    box: BoundingBox,
+    @property
+    def lat(self) -> float:
+        return self.y
+
+
+def path_extreme(
+    path: list[tuple[float, float]],
     min_prominence_m: float,
+    plane: Plane,
 ) -> ChordFeature:
-    """The most prominent headland or cove head on the coast inside `box`.
+    """The point on an OPEN path furthest from the chord joining its two ends.
 
     Raises rather than returning a weak answer. Every refusal here is a candidate
     that would otherwise have entered a held-out set undefended.
+
+    The path must be open. A closed ring's two ends are the same vertex, so its
+    chord has no length and no point has a defined deviation from it - callers
+    clip a ring to a box (`chord_extreme`) or cut it at the tile edge
+    (`headlands.coast_path`) before arriving here.
     """
-    runs = runs_in_box(ring, box)
-    if not runs:
-        raise ValueError(f"no coastline vertices inside {box}")
-    if len(runs) > 1:
+    if len(path) < 2 * ENDPOINT_MARGIN + 1:
         raise ValueError(
-            f"the box holds {len(runs)} separate stretches of coast, and no single "
-            f"chord describes them; tighten the box onto one"
+            f"only {len(path)} vertices on the path; too short to carry a chord"
         )
 
-    run = runs[0]
-    if len(run) < 2 * ENDPOINT_MARGIN + 1:
-        raise ValueError(
-            f"only {len(run)} vertices inside the box; too short to carry a chord"
-        )
-
-    deviations = [perpendicular_metres(v, run[0], run[-1]) for v in run]
-    interior = range(ENDPOINT_MARGIN, len(run) - ENDPOINT_MARGIN)
+    deviations = [perpendicular_in_plane(v, path[0], path[-1], plane) for v in path]
+    interior = range(ENDPOINT_MARGIN, len(path) - ENDPOINT_MARGIN)
     best = max(interior, key=lambda i: abs(deviations[i]))
 
     if abs(deviations[best]) < min_prominence_m:
@@ -176,7 +244,7 @@ def chord_extreme(
         )
 
     # A winner adjacent to an endpoint means the run was cut through a feature.
-    edge = max(abs(deviations[i]) for i in range(len(run)) if i not in interior)
+    edge = max(abs(deviations[i]) for i in range(len(path)) if i not in interior)
     if edge >= abs(deviations[best]):
         raise ValueError(
             f"the largest deviation sits at the end of the run ({edge:.0f} m against "
@@ -189,18 +257,47 @@ def chord_extreme(
     apart = [
         i
         for i in interior
-        if abs(deviations[i]) > 0 and _degrees_apart(run[i], run[best]) > 0.01
+        if abs(deviations[i]) > 0
+        and _metres_apart(path[i], path[best], plane) > RUNNER_UP_SEPARATION_M
     ]
     runner_up = max((deviations[i] for i in apart), key=abs, default=None)
 
     return ChordFeature(
-        lon=run[best][0],
-        lat=run[best][1],
+        x=path[best][0],
+        y=path[best][1],
         prominence_m=deviations[best],
         runner_up_m=runner_up,
-        run_length=len(run),
+        run_length=len(path),
     )
 
 
-def _degrees_apart(a: tuple[float, float], b: tuple[float, float]) -> float:
-    return math.hypot(a[0] - b[0], a[1] - b[1])
+def chord_extreme(
+    ring: list[tuple[float, float]],
+    box: BoundingBox,
+    min_prominence_m: float,
+) -> ChordFeature:
+    """The most prominent headland or cove head on the modern coast inside `box`.
+
+    The geographic entry point: clip the ring to the box, then apply the shared
+    rule in the local metric plane.
+    """
+    runs = runs_in_box(ring, box)
+    if not runs:
+        raise ValueError(f"no coastline vertices inside {box}")
+    if len(runs) > 1:
+        raise ValueError(
+            f"the box holds {len(runs)} separate stretches of coast, and no single "
+            f"chord describes them; tighten the box onto one"
+        )
+
+    run = runs[0]
+    plane = geographic_plane((run[0][1] + run[-1][1]) / 2.0)
+    return path_extreme(run, min_prominence_m, plane)
+
+
+def _metres_apart(
+    a: tuple[float, float], b: tuple[float, float], plane: Plane
+) -> float:
+    ax, ay = plane.metric(a)
+    bx, by = plane.metric(b)
+    return math.hypot(ax - bx, ay - by)
