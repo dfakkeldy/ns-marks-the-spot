@@ -287,6 +287,38 @@ obtained. That is a materially better position than attempt 4 recorded.
 
 3. Re-measure both panels against the same tolerance.
 
+### Step 2 is done, and the north candidate supply is now measured
+
+`tools/church/chords.py` implements the rule: deviation from the chord joining
+the ends of the coastal stretch inside the box, which is the Douglas-Peucker
+criterion. Subtracting the chord *is* detrending, so the rule is immune to the
+trend by construction — its tests hold an 800 m headland at 800 ± 25 m across a
+40× range of coastal slope, where an extremal rule's answer slides to whichever
+end of the box the trend runs toward.
+
+Applied across every reference ring touching the north panel, with tile seams
+dropped, it finds **301 distinct coastal features, 155 of them inside the north
+cutline**. Filtering as the prominence argument demands:
+
+| prominence | inside cutline | also >1.5 km from the next | also >3 km |
+|---|---:|---:|---:|
+| ≥ 400 m | 81 | 11 | 5 |
+| ≥ 600 m | 50 | 23 | 9 |
+| ≥ 800 m | 17 | **8** | 5 |
+| ≥ 900 m | 6 | 3 | 3 |
+
+**Eight features clear 800 m of prominence and stand more than 1.5 km from their
+nearest rival**, against the two points the panel has today. The isolation
+column is the one that matters: prominence only just exceeds the 700–900 m error,
+so it is separation, not size, that stops a feature being confused with its
+neighbour.
+
+The supply problem is therefore solved. What is not yet built is the **drawn**
+side: `drawn.py` finds closed outlines, and a headland is a point on an open
+curve, so reading one off the engraving needs the coastline traced as a path and
+the same chord rule applied to it. That is the next piece of work, and until it
+exists the north panel still has no measurement.
+
 Only if both panels then clear the gate does mosaicking become appropriate, and
 hosting remains a separate decision after that.
 
