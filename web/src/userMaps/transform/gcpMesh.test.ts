@@ -1,0 +1,51 @@
+import { describe, expect, it } from "vitest";
+import { applyAffine, type AffineParams } from "./affine";
+import { AFFINE_GRID_SIZE, buildGcpLatLngMesh } from "./gcpMesh";
+import { fromMercator } from "./webMercator";
+
+const TRUTH: AffineParams = [3.5, -1.25, -6790000, 0.75, 4.5, 5780000];
+const PIXEL_SIZE = { width: 4096, height: 3072 };
+
+describe("buildGcpLatLngMesh", () => {
+  it("defaults to a single cell, because affine needs no lattice", () => {
+    expect(AFFINE_GRID_SIZE).toBe(1);
+    const mesh = buildGcpLatLngMesh(TRUTH, PIXEL_SIZE);
+    expect(mesh).toHaveLength(2);
+    expect(mesh[0]).toHaveLength(2);
+  });
+
+  it("places corners exactly where the transform predicts", () => {
+    const mesh = buildGcpLatLngMesh(TRUTH, PIXEL_SIZE);
+    const corner = (x: number, y: number) =>
+      fromMercator(applyAffine(TRUTH, x, y));
+    // row = pixel Y, col = pixel X, matching buildLatLngMesh in projection.ts.
+    expect(mesh[0][0]).toEqual(corner(0, 0));
+    expect(mesh[0][1]).toEqual(corner(4096, 0));
+    expect(mesh[1][0]).toEqual(corner(0, 3072));
+    expect(mesh[1][1]).toEqual(corner(4096, 3072));
+  });
+
+  it("returns a (grid+1) x (grid+1) lattice for a denser grid", () => {
+    const mesh = buildGcpLatLngMesh(TRUTH, PIXEL_SIZE, 8);
+    expect(mesh).toHaveLength(9);
+    expect(mesh[0]).toHaveLength(9);
+    expect(mesh[4][2]).toEqual(fromMercator(applyAffine(TRUTH, 1024, 1536)));
+  });
+
+  it("gains nothing from a denser grid, which is why the default is 1", () => {
+    // Every interior node of the dense mesh already lies on the straight line
+    // between the coarse mesh's corners in Mercator space. If this ever fails,
+    // the transform stopped being affine and AFFINE_GRID_SIZE must change.
+    const dense = buildGcpLatLngMesh(TRUTH, PIXEL_SIZE, 8);
+    const midpoint = fromMercator(applyAffine(TRUTH, 2048, 1536));
+    expect(dense[4][4].lat).toBeCloseTo(midpoint.lat, 12);
+    expect(dense[4][4].lng).toBeCloseTo(midpoint.lng, 12);
+  });
+
+  it("handles a rotated transform without swapping axes", () => {
+    const rotated: AffineParams = [0, 4, -6790000, -4, 0, 5780000];
+    const mesh = buildGcpLatLngMesh(rotated, { width: 100, height: 50 });
+    expect(mesh[0][1]).toEqual(fromMercator(applyAffine(rotated, 100, 0)));
+    expect(mesh[1][0]).toEqual(fromMercator(applyAffine(rotated, 0, 50)));
+  });
+});
