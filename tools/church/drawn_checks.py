@@ -51,6 +51,7 @@ from tools.church.emit_candidates import ISLAND_RULE, parse_candidate_csv
 from tools.church.geometry import lonlat_to_mercator
 from tools.church.landmarks import islands_within
 from tools.church.panels import get_panel
+from tools.church.paper_islands import paper_islands_in, select_paper_island
 from tools.church.rasters import block_min_reduce
 
 RING_COLOUR = (0, 160, 0)
@@ -134,13 +135,27 @@ def measure(
         )
 
         mask = dilated(ink_mask(tile, settings.darkness), settings.dilate_px)
-        shapes = shapes_in(mask, settings.min_ink_px)
-        chosen = select_shape(
-            shapes,
-            expected_area_px=expected_area,
-            prediction=(sheet_x - origin_x, sheet_y - origin_y),
-            radius_px=settings.search_radius_px,
-        )
+        if settings.reader == "ink-outline":
+            shapes = shapes_in(mask, settings.min_ink_px)
+            chosen = select_shape(
+                shapes,
+                expected_area_px=expected_area,
+                prediction=(sheet_x - origin_x, sheet_y - origin_y),
+                radius_px=settings.search_radius_px,
+            )
+        elif settings.reader == "enclosed-paper":
+            shapes = paper_islands_in(mask, settings.min_ink_px)
+            chosen = select_paper_island(
+                shapes,
+                expected_area_px=expected_area,
+                prediction=(sheet_x - origin_x, sheet_y - origin_y),
+                radius_px=settings.search_radius_px,
+            )
+        else:
+            raise ValueError(
+                f"{county}/{panel_slug} has unknown drawn-check reader "
+                f"{settings.reader!r}"
+            )
 
         record = {
             "label": row.label,
@@ -157,6 +172,7 @@ def measure(
             "reason": chosen.reason,
             "accepted": chosen.shape is not None,
             "inside_cutline": panel.draws(sheet_x, sheet_y),
+            "reader": settings.reader,
         }
         if chosen.shape is not None:
             record["pixel_x"] = chosen.shape.centroid_x + origin_x
@@ -165,7 +181,8 @@ def measure(
             record["area_ratio"] = chosen.area_ratio
             record["drawn_elongation"] = chosen.shape.elongation
             record["drawn_orientation_deg"] = chosen.shape.orientation_deg
-            record["fill_ratio"] = chosen.shape.fill_ratio
+            if settings.reader == "ink-outline":
+                record["fill_ratio"] = chosen.shape.fill_ratio
             record["runner_up_area_ratio"] = chosen.runner_up_area_ratio
             record["offset_from_prediction_px"] = chosen.distance_px
             record["_ring"] = chosen.shape.ring

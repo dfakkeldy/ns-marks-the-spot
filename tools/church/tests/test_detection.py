@@ -16,6 +16,7 @@ GCPS = REPO_ROOT / "tools" / "church" / "gcps"
 # shipped pipeline used something else.
 NORTH = get_panel("inverness", "north")
 SOUTH = get_panel("inverness", "south")
+RICHMOND = get_panel("richmond", "main")
 ANY_ANCHOR = NORTH.graticule.anchor
 
 
@@ -165,7 +166,7 @@ class InvernessSouthReproductionTests(unittest.TestCase):
         cls.detection = load_detection(DETECTIONS / "inverness-south.json")
         cls.build = build_mesh(
             cls.detection,
-            SOUTH.graticule.anchor,
+            SOUTH.graticule.control_anchor,
             tolerance=SOUTH.graticule.tolerance_px,
             min_extent=SOUTH.graticule.min_extent_px,
         )
@@ -193,9 +194,13 @@ class InvernessSouthReproductionTests(unittest.TestCase):
         by_lon = {}
         for point in self.committed:
             by_lon.setdefault(round(point.lon, 4), []).append(point.pixel_x)
-        # Compare near the top of the panel, where the labels are printed.
-        self.assertAlmostEqual(min(by_lon[-61.1667]), 25055, delta=60)
-        self.assertAlmostEqual(min(by_lon[-61.0]), 29678, delta=60)
+        # Compare near the top of the panel, where the labels are printed. The
+        # external Richmond calibration shifts every emitted longitude by the
+        # same 17 arcseconds, but it cannot move the engraved rules: index 1 is
+        # still the one labelled 61d10' and index 2 the one labelled 61d00'.
+        west_to_east = sorted(by_lon)
+        self.assertAlmostEqual(min(by_lon[west_to_east[1]]), 25055, delta=60)
+        self.assertAlmostEqual(min(by_lon[west_to_east[2]]), 29678, delta=60)
 
     def test_the_read_latitude_labels_land_on_their_rules(self):
         """"46 00" sits on its rule at y~17146 and "45 50" at y~23880."""
@@ -242,6 +247,32 @@ class InvernessSouthReproductionTests(unittest.TestCase):
             }
             ordered = [positions[i] for i in sorted(positions)]
             self.assertEqual(ordered, sorted(ordered))
+
+
+class RichmondMainDetectionTests(unittest.TestCase):
+    """The off-sample sheet must derive controls without hand-selected rules."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.build = build_mesh(
+            load_detection(DETECTIONS / "richmond-main.json"),
+            RICHMOND.graticule.anchor,
+            tolerance=RICHMOND.graticule.tolerance_px,
+            min_extent=RICHMOND.graticule.min_extent_px,
+        )
+
+    def test_finds_all_seven_meridians_and_both_parallels(self):
+        self.assertEqual(self.build.family_a.indices, (0, 1, 2, 3, 4, 5, 6))
+        self.assertEqual(self.build.family_b.indices, (0, 1))
+        self.assertEqual(len(self.build.mesh.intersections), 14)
+
+    def test_no_lattice_position_is_missing(self):
+        self.assertEqual(self.build.family_a.missing_indices, ())
+        self.assertEqual(self.build.family_b.missing_indices, ())
+
+    def test_lattice_fit_residuals_stay_small(self):
+        self.assertLess(self.build.family_a.rms_px, 40.0)
+        self.assertLess(self.build.family_b.rms_px, 30.0)
 
 
 if __name__ == "__main__":

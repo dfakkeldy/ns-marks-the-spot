@@ -89,10 +89,11 @@ def perpendicular_offsets(
     whose sign is arbitrary, and a single flipped vector would otherwise tilt
     the family's mean direction and shear every offset along with it.
 
-    The NORMAL is then oriented to point along increasing sheet x, or along
-    increasing y where it is vertical. That fixes which end of the family gets
-    lattice index 0 - westernmost for meridians, northernmost for parallels -
-    no matter how the family happens to be tilted.
+    The NORMAL is then oriented by its dominant axis: along increasing sheet x
+    for a near-horizontal normal (meridians), or increasing y for a near-
+    vertical normal (parallels). That fixes which end of the family gets lattice
+    index 0 - westernmost for meridians, northernmost for parallels - no matter
+    how the family happens to be tilted.
 
     Without this the index direction is decided by the direction
     canonicalisation, which flips at exactly 90 degrees. The Inverness north
@@ -120,7 +121,8 @@ def perpendicular_offsets(
         raise ValueError("family directions cancel; these lines are not one family")
     direction = (sum_dx / norm, sum_dy / norm)
     normal = (-direction[1], direction[0])
-    if normal[0] < 0.0 or (normal[0] == 0.0 and normal[1] < 0.0):
+    dominant = normal[0] if abs(normal[0]) >= abs(normal[1]) else normal[1]
+    if dominant < 0.0:
         normal = (-normal[0], -normal[1])
 
     offsets = [

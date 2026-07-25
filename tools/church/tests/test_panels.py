@@ -61,6 +61,20 @@ class PanelRegistryTests(unittest.TestCase):
         with self.assertRaisesRegex(KeyError, "inverness.*bogus"):
             get_panel("inverness", "bogus")
 
+    def test_richmond_registers_one_inset_free_measurement_panel(self) -> None:
+        panels = panels_for_county("richmond")
+
+        self.assertEqual([panel.slug for panel in panels], ["main"])
+        panel = panels[0]
+        self.assertEqual(
+            panel.window,
+            SourceWindow(x=1000, y=8500, width=31400, height=13400),
+        )
+        self.assertTrue(panel.draws(18000, 16000))
+        self.assertFalse(panel.draws(6000, 6000), "1886 reference map")
+        self.assertFalse(panel.draws(27000, 4000), "title block")
+        self.assertFalse(panel.draws(25000, 25000), "Arichat inset")
+
 
 class PanelCutlineTests(unittest.TestCase):
     """Guards against every geometric defect that sank the 2026-07-24 pilot."""
@@ -160,6 +174,51 @@ class GraticuleSettingsTests(unittest.TestCase):
         north = get_panel("inverness", "north")
         if south.graticule is not None:
             self.assertNotEqual(south.graticule.anchor, north.graticule.anchor)
+
+    def test_south_keeps_engraved_anchor_separate_from_off_sample_correction(self):
+        panel = get_panel("inverness", "south")
+        assert panel.graticule is not None
+
+        self.assertAlmostEqual(
+            panel.graticule.anchor.meridian_lon,
+            -(61.0 + 20.0 / 60.0),
+            places=12,
+        )
+        self.assertEqual(panel.graticule.longitude_correction_arcseconds, -17.0)
+        self.assertAlmostEqual(
+            panel.graticule.control_anchor.meridian_lon,
+            panel.graticule.anchor.meridian_lon - 17.0 / 3600.0,
+            places=12,
+        )
+        self.assertIn("Richmond", panel.graticule.correction_evidence)
+
+    def test_richmond_anchor_comes_from_engraved_ten_minute_labels(self):
+        panel = get_panel("richmond", "main")
+        assert panel.graticule is not None and panel.detection is not None
+
+        self.assertEqual(panel.graticule.anchor.step_minutes, 10.0)
+        self.assertAlmostEqual(
+            panel.graticule.anchor.meridian_lon,
+            -(61.0 + 20.0 / 60.0),
+            places=12,
+        )
+        self.assertAlmostEqual(
+            panel.graticule.anchor.parallel_lat,
+            45.0 + 40.0 / 60.0,
+            places=12,
+        )
+        self.assertEqual(panel.detection.angles_deg, (90.0, 0.0))
+        self.assertIn("60d50", panel.graticule.anchor_evidence)
+
+    def test_richmond_uses_the_enclosed_paper_island_reader(self):
+        richmond = get_panel("richmond", "main")
+        inverness = get_panel("inverness", "south")
+
+        self.assertIsNotNone(richmond.drawn_checks)
+        self.assertEqual(richmond.drawn_checks.reader, "enclosed-paper")
+        self.assertEqual(inverness.drawn_checks.reader, "ink-outline")
+        self.assertEqual(richmond.drawn_checks.darkness, inverness.drawn_checks.darkness)
+        self.assertEqual(richmond.drawn_checks.dilate_px, inverness.drawn_checks.dilate_px)
 
 
 class PanelCoverageTests(unittest.TestCase):

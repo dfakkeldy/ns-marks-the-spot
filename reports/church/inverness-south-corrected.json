@@ -1,0 +1,92 @@
+{
+  "convention": "dE,dN = modern coordinate minus TPS coordinate of drawn check; negative dE means the transform places the drawing east of truth",
+  "longitude_correction_arcseconds": -17.0,
+  "correction_evidence": "rounded from the -16.990 arcsecond mean longitude residual of eight frozen held-out island centroids on the independently georeferenced 1885 Richmond Church sheet",
+  "count": 11,
+  "points": [
+    {
+      "label": "island-46-359n-61-262w",
+      "dE_m": -434.70345449171504,
+      "dN_m": -38.077522598064675,
+      "distance_m": 436.3679537663561
+    },
+    {
+      "label": "island-45-956n-61-116w",
+      "dE_m": 37.98800183713141,
+      "dN_m": -466.737693771426,
+      "distance_m": 468.2810727230467
+    },
+    {
+      "label": "island-45-948n-61-096w",
+      "dE_m": 147.4112572608912,
+      "dN_m": -439.42255721849506,
+      "distance_m": 463.4892259369987
+    },
+    {
+      "label": "island-45-875n-61-085w",
+      "dE_m": 93.56457930665614,
+      "dN_m": -276.7303613569578,
+      "distance_m": 292.1198784704389
+    },
+    {
+      "label": "island-45-814n-61-013w",
+      "dE_m": 175.2288273160559,
+      "dN_m": -110.04325734605328,
+      "distance_m": 206.91703750510698
+    },
+    {
+      "label": "island-45-801n-61-038w",
+      "dE_m": -43.635292964516786,
+      "dN_m": -179.6754749521163,
+      "distance_m": 184.89812084325732
+    },
+    {
+      "label": "island-45-797n-61-049w",
+      "dE_m": 50.59570216878205,
+      "dN_m": -193.20954788559223,
+      "distance_m": 199.72444635574047
+    },
+    {
+      "label": "island-45-790n-61-057w",
+      "dE_m": -15.667581645287525,
+      "dN_m": -275.131045394603,
+      "distance_m": 275.5767864943251
+    },
+    {
+      "label": "island-45-762n-61-068w",
+      "dE_m": 107.98214813190039,
+      "dN_m": -151.73616656215214,
+      "distance_m": 186.2364318766789
+    },
+    {
+      "label": "island-45-757n-61-084w",
+      "dE_m": 231.18131591654236,
+      "dN_m": -329.2331685427468,
+      "distance_m": 402.29253050187356
+    },
+    {
+      "label": "island-45-750n-61-095w",
+      "dE_m": 177.37573681594253,
+      "dN_m": -302.0633380053149,
+      "distance_m": 350.2918956783209
+    }
+  ],
+  "mean_dE_m": 47.93829451385297,
+  "mean_dN_m": -251.09637578486564,
+  "mean_magnitude_m": 255.6315121677908,
+  "sd_dE_m": 172.57340627083786,
+  "sd_dN_m": 126.3123761112245,
+  "rms_m": 333.2924645472418,
+  "p95_m": 468.2810727230467,
+  "max_m": 468.2810727230467,
+  "thresholds_m": {
+    "rms": 400.0,
+    "p95": 900.0,
+    "max": 1500.0
+  },
+  "passes": {
+    "rms": true,
+    "p95": true,
+    "max": true
+  }
+}

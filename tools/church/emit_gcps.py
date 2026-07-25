@@ -39,7 +39,7 @@ HEADER_TEMPLATE = """\
 #   {evidence}
 # Step {step:g} arcminutes; meridian index {meridian_index} = {meridian_lon:.6f},
 # parallel index {parallel_index} = {parallel_lat:.6f}.
-#
+{correction_note}#
 # These are CONTROL only. Every check point is an independent physical feature
 # in a separate file - a graticule intersection must never be used to measure
 # the accuracy of a warp fitted on graticule intersections.
@@ -58,10 +58,17 @@ def emit(panel: ChurchPanel, detection_path: pathlib.Path, out_path: pathlib.Pat
     detection = load_detection(detection_path)
     build = build_mesh(
         detection,
-        settings.anchor,
+        settings.control_anchor,
         tolerance=settings.tolerance_px,
         min_extent=settings.min_extent_px,
     )
+    correction_note = ""
+    if settings.longitude_correction_arcseconds:
+        correction_note = (
+            f"# Applied longitude correction "
+            f"{settings.longitude_correction_arcseconds:+.3f} arcseconds, "
+            f"independently fixed from:\n#   {settings.correction_evidence}\n"
+        )
 
     lines = [
         HEADER_TEMPLATE.format(
@@ -75,6 +82,7 @@ def emit(panel: ChurchPanel, detection_path: pathlib.Path, out_path: pathlib.Pat
             meridian_lon=settings.anchor.meridian_lon,
             parallel_index=settings.anchor.parallel_index,
             parallel_lat=settings.anchor.parallel_lat,
+            correction_note=correction_note,
         ).rstrip("\n"),
         "pixel_x,pixel_y,lon,lat,role,label",
     ]
