@@ -148,7 +148,15 @@ import {
   type PrintMapViewport,
 } from "./services/printSnapshot";
 import { useUserMaps } from "./userMaps/useUserMaps";
+import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapRows } from "./userMaps/components/UserMapRows";
+import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
+import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
+import type {
+  GeoreferenceBinding,
+  MapFocusRequest,
+} from "./userMaps/components/GeoreferenceMapLayer";
+import type { Gcp } from "./userMaps/types";
 
 const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
 
@@ -162,6 +170,14 @@ const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
   features: [],
 };
+
+/**
+ * Stable identities for the idle session. Fresh literals here would give the
+ * session a new `initialGcps`/`pixelSize` every render, and the mesh memo
+ * downstream would rebuild on each one.
+ */
+const NO_GCPS: Gcp[] = [];
+const IDLE_PIXEL_SIZE = { width: 1, height: 1 };
 
 type SelectedEvidenceRequest = { pid: string; generation: number };
 
@@ -783,6 +799,92 @@ export function App() {
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
   const userMapsApi = useUserMaps();
+
+  const editingMap = userMapsApi.editingMap;
+  const editingGeoref = editingMap?.record.georef;
+  const georeferenceSession = useGeoreferenceSession({
+    mapId: editingMap?.record.id ?? null,
+    initialGcps:
+      editingGeoref?.kind === "gcp" ? editingGeoref.gcps : NO_GCPS,
+    pixelSize: editingMap?.record.pixelSize ?? IDLE_PIXEL_SIZE,
+    // Recreated every render on purpose: the hook keeps it in a ref, so its
+    // identity is free, and pinning it with useCallback would only add a
+    // dependency list to get wrong.
+    // `onPersist` is typed `=> void` but `saveGcps` returns `Promise<void>`,
+    // so this floats the promise — a deliberate choice, not an oversight.
+    // `saveGcps` wraps its IndexedDB write in try/catch and never rejects
+    // (a failure sets `storageError` instead), so there is no rejection here
+    // to lose; `void` just tells the linter and the next reader the same.
+    onPersist: (id, gcps) => {
+      void userMapsApi.saveGcps(id, gcps);
+    },
+  });
+
+  const {
+    gcps: georeferenceGcps,
+    pending: georeferencePending,
+    mesh: georeferenceMesh,
+    pickMapPoint,
+    beginDragGcp,
+    moveGcpOnMap,
+  } = georeferenceSession;
+
+  // The panel can move its own scan pane, but only App can move the live map,
+  // so the GCP list's zoom-to control comes up here and goes back down through
+  // the binding. The monotonic id makes a repeat request a new object, so
+  // asking twice for the same point still recentres.
+  const [georeferenceFocus, setGeoreferenceFocus] =
+    useState<MapFocusRequest | null>(null);
+  const georeferenceFocusId = useRef(0);
+  const focusGcpOnMap = useCallback((gcp: Gcp) => {
+    georeferenceFocusId.current += 1;
+    setGeoreferenceFocus({
+      lat: gcp.map.lat,
+      lng: gcp.map.lng,
+      requestId: georeferenceFocusId.current,
+    });
+  }, []);
+
+  // Focus belongs to ONE session. `userMapsApi.endGeoreference` only clears
+  // the map id, so closing without clearing this leaves the next map's layer
+  // mounting with the previous map's focus and recentring on a point that is
+  // not its own. Every close path goes through here — the panel's onClose and
+  // its Delete both.
+  const { endGeoreference } = userMapsApi;
+  const endGeoreferencing = useCallback(() => {
+    setGeoreferenceFocus(null);
+    endGeoreference();
+  }, [endGeoreference]);
+
+  // A new `draft` object on every mesh change is the intended hot path:
+  // UserMapLayers keys its layer build on `previewUrl` and pushes geometry
+  // through `setLatLngMesh`, so this never re-decodes the bitmap (Task 6).
+  // The memo is only worth having because `editingMap` is itself memoized in
+  // useUserMaps (Task 5) — a fresh literal there would bust this every render.
+  const georeferenceBinding = useMemo<GeoreferenceBinding | null>(
+    () =>
+      editingMap
+        ? {
+            gcps: georeferenceGcps,
+            pending: georeferencePending,
+            draft: { ...editingMap, mesh: georeferenceMesh },
+            focus: georeferenceFocus,
+            onPickMapPoint: pickMapPoint,
+            onDragStartGcp: beginDragGcp,
+            onMoveGcpOnMap: moveGcpOnMap,
+          }
+        : null,
+    [
+      editingMap,
+      georeferenceGcps,
+      georeferencePending,
+      georeferenceMesh,
+      georeferenceFocus,
+      pickMapPoint,
+      beginDragGcp,
+      moveGcpOnMap,
+    ],
+  );
 
   useEffect(() => {
     const visualViewport = window.visualViewport;
@@ -2026,7 +2128,9 @@ export function App() {
   return (
     <>
     <div
-      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}`}
+      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}${
+        editingMap ? " georeferencing" : ""
+      }`}
     >
       <header className="app-header">
         <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
@@ -2775,6 +2879,7 @@ export function App() {
             wellLogLayers={wellLogLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
             userMaps={userMapsApi.visibleMaps}
+            georeference={georeferenceBinding}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0
@@ -2904,6 +3009,51 @@ export function App() {
         capture={printCapture}
         baseUrl={window.location.href}
         onClose={() => setPrintCapture(null)}
+      />
+    ) : null}
+    {editingMap ? (
+      <GeoreferencePanel
+        // Keyed on the record id so a switch between two maps under edit
+        // unmounts and remounts the panel instead of reusing it: the panel
+        // holds `tab`, `selectedGcpId`, and `scanFocus` in local state, none
+        // of which belongs to the next map.
+        key={editingMap.record.id}
+        record={editingMap.record}
+        previewUrl={editingMap.previewUrl}
+        opacity={editingMap.opacity}
+        session={georeferenceSession}
+        onOpacityChange={(opacity) =>
+          userMapsApi.setOpacity(editingMap.record.id, opacity)
+        }
+        onClose={endGeoreferencing}
+        onDelete={() => {
+          // NO window.confirm here. The panel's Delete map button already
+          // asks, and wrapping it again produced two prompts for one click —
+          // which reads to the user as a dialog that does not work.
+          //
+          // The discard is not optional. Writes are debounced 400 ms, and
+          // `removeMap` AWAITS the IndexedDB delete before dropping the
+          // record from state — so a timer that fires inside that await still
+          // finds the record in `recordsRef` and queues a metadata `put`
+          // behind the deletion, resurrecting a record whose raster and
+          // preview blobs are gone. Cancel first, then delete.
+          const id = editingMap.record.id;
+          georeferenceSession.discardPendingWrite(id);
+          endGeoreferencing();
+          void userMapsApi.removeMap(id);
+        }}
+        onFocusGcpOnMap={focusGcpOnMap}
+        referenceLayers={{
+          aerial: provinceLayers["ns-aerial"],
+          parcels: provinceLayers.nsprd,
+        }}
+        referenceLayersLocked={!licenceAccepted}
+        onToggleReferenceLayer={(id: ReferenceLayerId, enabled) =>
+          setProvinceLayerVisibility(
+            id === "aerial" ? "ns-aerial" : "nsprd",
+            enabled,
+          )
+        }
       />
     ) : null}
     </>

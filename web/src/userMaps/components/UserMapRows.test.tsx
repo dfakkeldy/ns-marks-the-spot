@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { needsGeoreferencing, type UserMapsApi } from "../useUserMaps";
-import type { UserMapRecord } from "../types";
+import type { Gcp, UserMapRecord } from "../types";
 import { UserMapRows } from "./UserMapRows";
 
 const record: UserMapRecord = {
@@ -155,5 +155,126 @@ describe("UserMapRows", () => {
     );
     expect(screen.getByText(/plan\.pdf/)).toBeInTheDocument();
     expect(screen.getByText(/Coming with the georeferencer\./)).toBeInTheDocument();
+  });
+});
+
+const NEEDS_WORK: UserMapRecord = {
+  id: "scan",
+  name: "Church of Inverness 1888",
+  source: "image",
+  createdAt: "2026-07-25T00:00:00.000Z",
+  pixelSize: { width: 1200, height: 800 },
+  georef: { kind: "gcp", method: "affine", gcps: [] },
+};
+
+const PLACED_GCPS: Gcp[] = [
+  { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+  { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+  { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+];
+
+describe("georeferencing affordance", () => {
+  it("says a scan cannot be drawn yet, and why", () => {
+    render(<UserMapRows api={api({ records: [NEEDS_WORK] })} />);
+    expect(screen.getByText("Needs georeferencing")).toBeInTheDocument();
+    // A checkbox that turns on a layer which then draws nothing is a lie.
+    expect(
+      screen.getByRole("checkbox", { name: NEEDS_WORK.name }),
+    ).toBeDisabled();
+    // …and neither is an opacity slider for a map with no placement. The
+    // spec puts the Georeference button exactly where that slider sits.
+    expect(
+      screen.queryByLabelText(`${NEEDS_WORK.name} opacity`),
+    ).toBeNull();
+  });
+
+  it("opens the georeferencer for the map that was clicked", async () => {
+    const beginGeoreference = vi.fn();
+    render(
+      <UserMapRows
+        api={api({ records: [NEEDS_WORK], beginGeoreference })}
+      />,
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Georeference Church of Inverness 1888" }),
+    );
+    expect(beginGeoreference).toHaveBeenCalledWith("scan");
+  });
+
+  it("still refuses to draw a half-placed draft", () => {
+    // The test that separates the real predicate (< MIN_GCPS_FOR_AFFINE) from
+    // a plausible `gcps.length === 0`. Two points solve nothing, so the row
+    // must stay in the needs-work state — otherwise its checkbox turns on a
+    // layer that `visibleMaps` refuses to include and nothing is drawn.
+    render(
+      <UserMapRows
+        api={api({
+          records: [
+            {
+              ...NEEDS_WORK,
+              georef: {
+                kind: "gcp",
+                method: "affine",
+                gcps: PLACED_GCPS.slice(0, 2),
+              },
+            },
+          ],
+          uiState: { scan: { enabled: true, opacity: 0.7 } },
+        })}
+      />,
+    );
+    expect(screen.getByText("Needs georeferencing")).toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: NEEDS_WORK.name }),
+    ).toBeDisabled();
+  });
+
+  it("offers a placed map its points back rather than a fresh start", () => {
+    // Copy matches the spec: "Adjust points", not "Edit points".
+    render(
+      <UserMapRows
+        api={api({
+          records: [
+            { ...NEEDS_WORK, georef: { kind: "gcp", method: "affine", gcps: PLACED_GCPS } },
+          ],
+          uiState: { scan: { enabled: true, opacity: 0.7 } },
+        })}
+      />,
+    );
+    expect(screen.queryByText("Needs georeferencing")).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Adjust points for Church of Inverness 1888" }),
+    ).toBeInTheDocument();
+    // A placed map draws, so it keeps its slider.
+    expect(
+      screen.getByLabelText("Church of Inverness 1888 opacity"),
+    ).toBeInTheDocument();
+  });
+
+  it("offers no point editing for a map that carries its own georeferencing", () => {
+    // An embedded GeoTIFF has a geotransform, not control points. There is
+    // nothing for the GCP editor to edit. The field is `geotransform`
+    // (lower-case, a 6-tuple) — read types.ts / projection.ts, and note the
+    // fixture at the top of this very file already has one to copy.
+    render(
+      <UserMapRows
+        api={api({
+          records: [
+            {
+              ...NEEDS_WORK,
+              source: "geotiff",
+              georef: {
+                kind: "embedded",
+                crs: "EPSG:26920",
+                geotransform: [500000, 10, 0, 5000000, 0, -10],
+              },
+            },
+          ],
+        })}
+      />,
+    );
+    expect(
+      screen.queryByRole("button", { name: /Georeference|Adjust points/ }),
+    ).toBeNull();
   });
 });

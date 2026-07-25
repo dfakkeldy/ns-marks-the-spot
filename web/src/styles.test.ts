@@ -233,3 +233,122 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/\.print-qr\s*\{[^}]*overflow:\s*hidden/s);
   });
 });
+
+describe("georeferencer overlay", () => {
+  it("sits above the map furniture but below the app's dialogs", () => {
+    const overlay = styles.match(/\.georeference-overlay\s*\{([^}]*)\}/)?.[1];
+    expect(overlay).toMatch(/position:\s*fixed/);
+    expect(overlay).toMatch(/inset:\s*0/);
+    const overlayZ = Number(overlay?.match(/z-index:\s*(\d+)/)?.[1]);
+    const dialogZ = Number(
+      styles
+        .match(/\.dialog-backdrop\s*\{([^}]*)\}/)?.[1]
+        ?.match(/z-index:\s*(\d+)/)?.[1],
+    );
+    expect(overlayZ).toBeGreaterThan(1200);
+    expect(overlayZ).toBeLessThan(dialogZ);
+  });
+
+  it("leaves the app's own map visible and clickable", () => {
+    // THE regression test for this feature. An earlier draft made the overlay
+    // a full-bleed opaque card over a 72%-black scrim, so the app's map — the
+    // thing the user must click to complete every control point — was both
+    // dimmed and pointer-blocked. No GCP could ever be finished, while the
+    // status line said "Now click the same spot on the map."
+    //
+    // jsdom does no layout, so a rendered-DOM test cannot see occlusion:
+    // these three declarations are what make the difference, so they are what
+    // gets asserted. Task 10's DOM test pins the matching structure.
+    const overlay = styles.match(/\.georeference-overlay\s*\{([^}]*)\}/)?.[1];
+    expect(overlay).toMatch(/pointer-events:\s*none/);
+    expect(overlay).not.toMatch(/background/);
+    const panel = styles.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(panel).toMatch(/pointer-events:\s*auto/);
+    // Spec: panel left ~45%, app map keeps the right ~55%.
+    expect(panel).toMatch(/width:\s*45vw/);
+  });
+
+  it("hides the layer rail and crosshairs the map during a session", () => {
+    // Both are spec (189 and 201–204) and both are pure CSS, so nothing else
+    // in the suite would notice their absence.
+    expect(styles).toMatch(
+      /\.app-shell\.georeferencing\s+\.layer-rail\s*\{[^}]*display:\s*none/,
+    );
+    expect(styles).toMatch(
+      /\.map-canvas--georeferencing\s+\.leaflet-container\s*\{[^}]*cursor:\s*crosshair/,
+    );
+  });
+
+  it("stacks the split view on phones instead of squeezing both panes", () => {
+    // Anchored to the LAST @media (max-width: 860px) block, which Step 8
+    // appends at the very END of the file. Two traps live here, both measured:
+    //
+    // 1. `/grid-template-columns:\s*minmax\(0,\s*1fr\)/` unanchored also
+    //    matches the WIDE rule `minmax(0, 1fr) minmax(320px, 380px)` — so
+    //    deleting the narrow override entirely left this test green. The
+    //    trailing `;` is what pins it to a SINGLE column.
+    // 2. An earlier draft told the executor to append into the pre-existing
+    //    860px block at styles.css:2722 while the "Your maps" section it also
+    //    named starts at 3767 — so `lastIndexOf` spanned the base rules and
+    //    matched the wide rule anyway. The narrow rules go last, full stop.
+    const narrowStart = styles.lastIndexOf("@media (max-width: 860px)");
+    const narrow = styles.slice(narrowStart);
+    expect(narrow).toContain(".georeference-panel");
+    const panel = narrow.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);
+    // Full-bleed here, not the wide 45vw column — and `max-width` has to be
+    // released explicitly or the base rule keeps clamping it.
+    expect(panel).toMatch(/width:\s*auto\s*;/);
+    expect(panel).toMatch(/max-width:\s*none\s*;/);
+    // …and the tab toggle only exists at this breakpoint.
+    expect(narrow).toMatch(/\.georeference-tabs\s*\{[^}]*display:\s*flex/);
+  });
+
+  it("hides the PANEL on the narrow Map tab, not just the scan", () => {
+    // Spec: choosing Map "hides the panel entirely and leaves a floating bar
+    // carrying the prompt and a Back to scan button". An earlier draft hid
+    // only `.georeference-scan`, leaving the opaque panel over the very map
+    // the tab exists to expose — and its own comment claimed the opposite of
+    // what the CSS did.
+    const narrow = styles.slice(styles.lastIndexOf("@media (max-width: 860px)"));
+    expect(narrow).toMatch(
+      /\.georeference-panel\[data-tab="map"\]\s*\{[^}]*display:\s*none/,
+    );
+    expect(narrow).toMatch(
+      /\.georeference-map-bar\[data-tab="map"\]\s*\{[^}]*display:\s*flex/,
+    );
+    // The bar is hidden everywhere else, including wide screens.
+    const bar = styles.match(/\.georeference-map-bar\s*\{([^}]*)\}/)?.[1];
+    expect(bar).toMatch(/display:\s*none/);
+    expect(bar).toMatch(/pointer-events:\s*auto/);
+  });
+
+  it("marks the suspect control point by more than colour", () => {
+    // WCAG 1.4.1: colour alone cannot be the only carrier of meaning.
+    const suspect = styles.match(/\.gcp-row--suspect\s*\{([^}]*)\}/)?.[1];
+    expect(suspect).toBeDefined();
+    expect(suspect).toMatch(/border-inline-start|font-weight/);
+  });
+
+  it("styles the numbered GCP markers, and distinguishes a pending one", () => {
+    // Without these the spec's hollow-then-solid numbered markers render as
+    // unstyled bare text on both panes — the markers ARE the interaction.
+    expect(styles).toMatch(/\.gcp-marker\s*\{/);
+    const pending = styles.match(/\.gcp-marker--pending\s*\{([^}]*)\}/)?.[1];
+    expect(pending).toBeDefined();
+    // Hollow vs solid, not just a different hue.
+    expect(pending).toMatch(/background|border-style/);
+    expect(styles).toMatch(/\.gcp-marker--selected\s*\{/);
+  });
+
+  it("defines the visually-hidden helper the GCP list header uses", () => {
+    // GcpList renders <span className="visually-hidden">Actions</span>. With
+    // no rule for it, a literal "Actions" heading appears in the table.
+    const hidden = styles.match(/\.visually-hidden\s*\{([^}]*)\}/)?.[1];
+    expect(hidden).toBeDefined();
+    // Clipped, not display:none — display:none removes it from the
+    // accessibility tree, which defeats the point of the label.
+    expect(hidden).toMatch(/clip-path|clip:/);
+    expect(hidden).not.toMatch(/display:\s*none/);
+  });
+});
