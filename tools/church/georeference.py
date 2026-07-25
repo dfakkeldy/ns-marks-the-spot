@@ -23,7 +23,13 @@ from tools.church.cutline_warp import (
     densify,
     warp_command_with_cutline,
 )
-from tools.church.gcps import CONTROL_ROLE, GroundControlPoint, load_gcps, split_roles
+from tools.church.gcps import (
+    CONTROL_ROLE,
+    GroundControlPoint,
+    combine_control_and_checks,
+    load_check_points,
+    load_gcps,
+)
 from tools.church.geometry import mercator_to_ground_metres
 from tools.church.panels import ChurchPanel, GeographicBounds, SourceWindow, get_panel
 from tools.church.residuals import AccuracyReport, summarise
@@ -207,11 +213,21 @@ def georeference(
     output_dir: pathlib.Path,
     panel: ChurchPanel | None = None,
     apply_cutline: bool = True,
+    check_path: pathlib.Path | None = None,
 ) -> tuple[pathlib.Path, AccuracyReport]:
-    """Warp `source` using the county's GCPs, returning the raster and its accuracy."""
+    """Warp `source` using the county's GCPs, returning the raster and its accuracy.
+
+    Control and check points come from separate files. `gcp_path` is generated
+    from the detected graticule and asserted byte-for-byte in CI, so held-out
+    features cannot be appended to it; `check_path` carries them instead and is
+    refused if it contains anything but `role=check`.
+    """
     county = get_county(slug)
     full_sheet_points = load_gcps(gcp_path)
-    full_sheet_control, full_sheet_check = split_roles(full_sheet_points)
+    checks = load_check_points(check_path) if check_path is not None else None
+    full_sheet_control, full_sheet_check = combine_control_and_checks(
+        full_sheet_points, checks
+    )
     if panel is not None:
         control = [panel.window.to_local_point(point) for point in full_sheet_control]
         check = [panel.window.to_local_point(point) for point in full_sheet_check]
@@ -279,6 +295,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("slug")
     parser.add_argument("--source", type=pathlib.Path, required=True)
     parser.add_argument("--gcps", type=pathlib.Path, required=True)
+    parser.add_argument(
+        "--checks",
+        type=pathlib.Path,
+        help="held-out check points, kept out of the generated GCP CSV so that "
+        "`emit_gcps --check` can keep asserting it byte-for-byte in CI",
+    )
     parser.add_argument("--panel", help="independently georeference one registered map panel")
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("build/church"))
     parser.add_argument(
@@ -295,6 +317,7 @@ def main(argv: list[str] | None = None) -> int:
         args.output / args.slug,
         panel,
         apply_cutline=not args.no_cutline,
+        check_path=args.checks,
     )
     print(warped)
     print(json.dumps(report.as_dict(), indent=2))

@@ -1,0 +1,44 @@
+# Held-out CHECK points for the Inverness south panel.
+#
+# These never enter the fit. They live here rather than in
+# tools/church/gcps/inverness-south.csv because that file is generated from the
+# detected graticule and `emit_gcps --check` asserts it byte-for-byte in CI.
+# `georeference --checks` loads this file separately and concatenates it;
+# `parse_check_csv` refuses any row that is not role=check, so nothing here can
+# reach gdalwarp.
+#
+# lon/lat are NOT typed by hand. Each comes from the matching row of
+# checks/inverness-south-candidates.csv, where it is derived by an objective
+# rule over NSTDB water geometry and re-checkable with `emit_candidates
+# --check`. Only pixel_x/pixel_y are read by eye, off the archival scan, using
+# the contact sheets from tools/church/checksheet.py at 1 source pixel per
+# image pixel. The crosshair in those sheets is the prediction under test and
+# was never adopted as an answer.
+#
+# Reading uncertainty is about +/-40 source pixels (~110 m at 2.718 m/px),
+# estimated from re-reading island centroids across overlapping tiles. That is
+# well inside the 400 m RMS tolerance but is not nothing, and it adds in
+# quadrature to every figure derived from this file.
+#
+# Five of the sixteen candidates yielded NO point and are deliberately absent:
+#   whycocomagh-bay-west-end  the tile shows hachured hillside; the "west end
+#                             of the bay" is not an identifiable drawn feature.
+#   island-45-911n-60-948w    ambiguous between the drawn "Round Id." and
+#   island-45-912n-60-965w    "Cranberry Id."; their drawn north-south order
+#                             contradicts the modern order, so any pairing
+#                             would be a guess.
+#   island-45-826n-61-015w    no closed island outline at the prediction; the
+#                             nearby shape reads as mainland shore.
+#   island-46-390n-60-975w    Church drew a hachured hill here, not an island.
+pixel_x,pixel_y,lon,lat,role,label
+22588,2277,-61.261823,46.359252,check,island-46-359n-61-262w
+26573,18766,-61.116114,45.956188,check,island-45-956n-61-116w
+27089,19113,-61.096414,45.947869,check,island-45-948n-61-096w
+27426,22117,-61.085221,45.875068,check,island-45-875n-61-085w
+29426,24640,-61.013475,45.813973,check,island-45-814n-61-013w
+28804,25134,-61.038349,45.801205,check,island-45-801n-61-038w
+28469,25318,-61.048998,45.796575,check,island-45-797n-61-049w
+28257,25569,-61.057363,45.789666,check,island-45-790n-61-057w
+27923,26740,-61.067626,45.761933,check,island-45-762n-61-068w
+27417,26866,-61.083902,45.757304,check,island-45-757n-61-084w
+27125,27169,-61.094899,45.750129,check,island-45-750n-61-095w

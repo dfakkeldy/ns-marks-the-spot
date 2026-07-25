@@ -1,10 +1,13 @@
 import math
+import pathlib
 import unittest
+from unittest import mock
 
 from tools.church.counties import get_county
 from tools.church.gcps import CHECK_ROLE, CONTROL_ROLE, GroundControlPoint
 from tools.church.georeference import (
     build_gcp_arguments,
+    main,
     build_metadata,
     build_translate_command,
     check_errors,
@@ -170,3 +173,42 @@ class MetadataTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CheckFileWiringTests(unittest.TestCase):
+    """`--checks` must reach the measurement path, or check_count stays 0.
+
+    Attempt 3 shipped every part of the check-point machinery except a way for
+    the points to arrive, and reported check_count 0 on both panels.
+    """
+
+    def test_cli_passes_the_check_file_through(self) -> None:
+        seen: dict = {}
+
+        def fake(slug, source, gcp_path, output_dir, panel=None,
+                 apply_cutline=True, check_path=None):
+            seen.update(slug=slug, gcp_path=gcp_path, check_path=check_path)
+            return pathlib.Path("out.tif"), summarise([], [], None)
+
+        with mock.patch("tools.church.georeference.georeference", fake):
+            main([
+                "inverness",
+                "--source", "sheet.tif",
+                "--gcps", "gcps/inverness-north.csv",
+                "--checks", "checks/inverness-north.csv",
+            ])
+
+        self.assertEqual(seen["check_path"], pathlib.Path("checks/inverness-north.csv"))
+
+    def test_check_file_is_optional(self) -> None:
+        seen: dict = {}
+
+        def fake(slug, source, gcp_path, output_dir, panel=None,
+                 apply_cutline=True, check_path=None):
+            seen.update(check_path=check_path)
+            return pathlib.Path("out.tif"), summarise([], [], None)
+
+        with mock.patch("tools.church.georeference.georeference", fake):
+            main(["inverness", "--source", "sheet.tif", "--gcps", "g.csv"])
+
+        self.assertIsNone(seen["check_path"])

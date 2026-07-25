@@ -84,3 +84,7 @@ web/dist/
 # Release assets instead. See docs/CHURCH_MAPS.md.
 build/church/
 tiles/church-*/
+
+# Distance-field previews written beside each shoreline report. The report JSON
+# beside them is versioned; the picture is regenerable from it and the warp.
+reports/church/*-heat.png

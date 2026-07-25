@@ -160,3 +160,33 @@ class GraticuleSettingsTests(unittest.TestCase):
         north = get_panel("inverness", "north")
         if south.graticule is not None:
             self.assertNotEqual(south.graticule.anchor, north.graticule.anchor)
+
+
+class PanelCoverageTests(unittest.TestCase):
+    """Whether a panel draws a given sheet pixel decides whether a candidate
+    check feature can be read there at all. Several attempt-3 north candidates
+    predicted onto blank paper or a town-plan inset; that is a computable fact
+    about the cutline, not something to discover by eye on a contact sheet."""
+
+    def test_a_pixel_in_the_northern_strip_belongs_to_north_alone(self) -> None:
+        north = get_panel("inverness", "north")
+        south = get_panel("inverness", "south")
+        self.assertTrue(north.draws(6000.0, 20000.0))
+        self.assertFalse(south.draws(6000.0, 20000.0))
+
+    def test_a_pixel_in_the_southern_body_belongs_to_south_alone(self) -> None:
+        north = get_panel("inverness", "north")
+        south = get_panel("inverness", "south")
+        self.assertTrue(south.draws(26000.0, 20000.0))
+        self.assertFalse(north.draws(26000.0, 20000.0))
+
+    def test_neither_panel_draws_an_excluded_inset(self) -> None:
+        # The West Bay inset notch, cut out of the south panel's east edge.
+        north = get_panel("inverness", "north")
+        south = get_panel("inverness", "south")
+        self.assertFalse(south.draws(32000.0, 12000.0))
+        self.assertFalse(north.draws(32000.0, 12000.0))
+
+    def test_neither_panel_draws_the_title_cartouche(self) -> None:
+        north = get_panel("inverness", "north")
+        self.assertFalse(north.draws(4000.0, 3000.0))

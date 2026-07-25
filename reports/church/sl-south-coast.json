@@ -1,40 +1,42 @@
 {
  "label": "south-coast",
- "warped": "../work/w-clipped/inverness/inverness-south-3857.tif",
- "reference": "../../nsmarks-church-inverness-20260724/reference/nstdb-major-water.geojson",
- "where": "FEAT_DESC = 'Coast Water Area polygon'",
+ "warped": "/home/dan/nsmarks-church-inverness-20260724b/work/measure/inverness/inverness-south-3857.tif",
+ "reference": "/home/dan/nsmarks-church-inverness-20260724/reference/nstdb-major-water.geojson",
+ "where": "FEAT_DESC='Coast Water Area polygon'",
  "clip": null,
  "metres_per_sample_px": 20.0,
- "samples": 40026,
- "median_m": 139.9993896484375,
- "mean_m": 203.20293821650205,
- "rms_m": 295.24727446896907,
- "p90_m": 503.31787109375,
- "p95_m": 647.87353515625,
- "p99_m": 943.6279296875,
- "max_m": 1491.81396484375,
- "within_250m_pct": 69.70719032628791,
- "within_500m_pct": 89.95153150452207,
+ "extract_seam_samples_dropped": 1146,
+ "kept_extract_seams": false,
+ "samples": 38880,
+ "median_m": 127.9376220703125,
+ "mean_m": 193.88360132602017,
+ "rms_m": 278.6904946959868,
+ "p90_m": 479.874267578125,
+ "p95_m": 623.3172607421875,
+ "p99_m": 863.6403625488281,
+ "max_m": 1207.005615234375,
+ "within_250m_pct": 70.99537037037037,
+ "within_500m_pct": 91.00308641975309,
  "bands": [
   {
    "band": 0,
-   "samples": 3836,
-   "rms_m": 489.45526279740284
+   "samples": 3009,
+   "rms_m": 395.8526066963022
   },
   {
    "band": 1,
-   "samples": 6742,
-   "rms_m": 330.53540926509976
+   "samples": 6701,
+   "rms_m": 330.9837411638823
   },
   {
    "band": 2,
-   "samples": 21173,
-   "rms_m": 239.35325325356533
+   "samples": 21014,
+   "rms_m": 239.44160293494744
   },
   {
    "band": 3,
-   "samples": 8275,
-   "rms_m": 273.842248941378
+   "samples": 8156,
+   "rms_m": 273.33746126231637
   }
  ]
 }

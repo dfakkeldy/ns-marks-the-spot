@@ -4,6 +4,8 @@ from tools.church.gcps import (
     CHECK_ROLE,
     CONTROL_ROLE,
     GroundControlPoint,
+    combine_control_and_checks,
+    parse_check_csv,
     parse_gcp_csv,
     split_roles,
 )
@@ -103,3 +105,48 @@ class SplitTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+CHECK_CSV = """pixel_x,pixel_y,lon,lat,role,label
+14200,9100,-61.06,46.60,check,cheticamp-island-west-tip
+15300,11800,-61.08,46.52,check,grand-etang-west-point
+"""
+
+
+class CheckFileTests(unittest.TestCase):
+    """A check file is loaded separately from the generated control CSV.
+
+    `emit_gcps --check` asserts in CI that the control CSV still matches the
+    detected linework byte-for-byte, so a check row cannot be appended to it.
+    The two files are loaded apart and concatenated, and the check file is
+    refused if it carries anything that could enter the fit.
+    """
+
+    def test_loads_held_out_points(self) -> None:
+        points = parse_check_csv(CHECK_CSV)
+        self.assertEqual(len(points), 2)
+        self.assertEqual(points[0].label, "cheticamp-island-west-tip")
+        self.assertTrue(all(point.role == CHECK_ROLE for point in points))
+
+    def test_refuses_a_control_row_hiding_in_the_check_file(self) -> None:
+        text = CHECK_CSV.replace("check,grand-etang", "control,grand-etang")
+        with self.assertRaises(ValueError) as caught:
+            parse_check_csv(text)
+        message = str(caught.exception)
+        self.assertIn("grand-etang-west-point", message)
+        self.assertIn("control", message)
+
+    def test_combining_keeps_control_and_check_apart(self) -> None:
+        control, check = combine_control_and_checks(
+            parse_gcp_csv(VALID_CSV), parse_check_csv(CHECK_CSV)
+        )
+        self.assertEqual([p.label for p in control], ["Port Hood wharf", "Mabou bridge"])
+        self.assertEqual(
+            [p.label for p in check],
+            ["Inverness station", "cheticamp-island-west-tip", "grand-etang-west-point"],
+        )
+
+    def test_combining_without_a_check_file_still_splits_roles(self) -> None:
+        control, check = combine_control_and_checks(parse_gcp_csv(VALID_CSV), None)
+        self.assertEqual(len(control), 2)
+        self.assertEqual([p.label for p in check], ["Inverness station"])

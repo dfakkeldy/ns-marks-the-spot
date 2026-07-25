@@ -34,6 +34,22 @@ was not attempted. Still no tiles. See
 [`church-inverness-attempt-2-2026-07-24.md`](church-inverness-attempt-2-2026-07-24.md)
 and [`church-inverness-cutlines-2026-07-24.md`](church-inverness-cutlines-2026-07-24.md).
 
+A third attempt on 2026-07-24 recovered eight analysis scripts that had been
+cited but never committed, georeferenced the south panel on its own
+10-arcminute lattice, and built the check-point machinery. Still not an
+acceptance — `check_count` remained 0 on both panels. See
+[`church-inverness-attempt-3-2026-07-24.md`](church-inverness-attempt-3-2026-07-24.md).
+
+A fourth attempt on 2026-07-24 captured held-out check points and **rejected
+both panels**. The south panel measures 457.8 m RMS over 11 held-out islands
+against an agreed 400 m bound; the north panel yielded only 2 usable points and
+so cannot be judged at all. Two corrections came out of it: most of attempt 3's
+candidate definitions were not physical features but artifacts of where their
+boxes were drawn, and the north panel's long-investigated "error tail" was the
+reference extract's tile seams being counted as shoreline — the coastline in
+that band is the best-registered on the panel. Still no tiles. See
+[`church-inverness-attempt-4-2026-07-24.md`](church-inverness-attempt-4-2026-07-24.md).
+
 ## Wired counties
 
 | County | Layer id | Published | Scale | Rumsey item |

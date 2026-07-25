@@ -36,10 +36,49 @@ import numpy as np
 from osgeo import gdal
 
 from tools.church.distances import summarise_distances
+from tools.church.geometry import lonlat_to_mercator
+from tools.church.landmarks import vertices_of
 from tools.church.overlay import rasterize_reference
 from tools.church.rasters import read_reduced_rgba, reduced_extent
+from tools.church.walls import ExtractWalls, detect_extract_walls
 
 gdal.UseExceptions()
+
+
+def reference_vertices(path: str) -> list[tuple[float, float]]:
+    """Every vertex in a GeoJSON reference, for seam detection."""
+    data = json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
+    found: list[tuple[float, float]] = []
+    for feature in data.get("features", []):
+        found += vertices_of(feature.get("geometry") or {})
+    return found
+
+
+def seam_mask(
+    walls: ExtractWalls, extent: tuple[float, float, float, float], size: tuple[int, int]
+) -> np.ndarray:
+    """Raster mask of the columns and rows a clip seam runs along.
+
+    Blunt on purpose: a seam is axis-aligned in geographic coordinates, so it
+    lands on one column or row of this grid, and masking three pixels of it
+    covers the burnt line's half-pixel straddle. Real shoreline crossing that
+    exact longitude loses a few samples out of thousands, whereas leaving the
+    seam in contributes its entire length at open-sea range.
+    """
+    width, height = size
+    xmin, ymin, xmax, ymax = extent
+    mask = np.zeros((height, width), bool)
+    for lon in walls.longitudes:
+        column = int(round((lonlat_to_mercator(lon, 0.0)[0] - xmin) / ((xmax - xmin) / width)))
+        low, high = max(0, column - 1), min(width, column + 2)
+        if low < high:
+            mask[:, low:high] = True
+    for lat in walls.latitudes:
+        row = int(round((ymax - lonlat_to_mercator(0.0, lat)[1]) / ((ymax - ymin) / height)))
+        low, high = max(0, row - 1), min(height, row + 2)
+        if low < high:
+            mask[low:high, :] = True
+    return mask
 
 EDGE_EXCLUSION_PX = 25
 """Stay this far inside the alpha boundary when sampling. A panel edge is a
@@ -59,6 +98,13 @@ def main(argv: list[str] | None = None) -> int:
         "--clip",
         default=None,
         help="polygon layer limiting where samples are taken, e.g. the county Church mapped",
+    )
+    parser.add_argument(
+        "--keep-extract-seams",
+        action="store_true",
+        help="count the straight seams where the reference extract was tiled as if "
+        "they were shoreline. They are not, and they run through open sea where "
+        "nothing was drawn; this exists only to reproduce pre-2026-07-25 numbers",
     )
     parser.add_argument("--label", default=None, help="name recorded in the report")
     parser.add_argument("--out", type=pathlib.Path, required=True)
@@ -95,6 +141,14 @@ def main(argv: list[str] | None = None) -> int:
     if clip is not None:
         sample &= clip > 0
 
+    seam_count = 0
+    if not args.keep_extract_seams:
+        walls = detect_extract_walls(reference_vertices(args.reference))
+        if walls.any:
+            on_seam = seam_mask(walls, extent, (width, height))
+            seam_count = int((sample & on_seam).sum())
+            sample &= ~on_seam
+
     rows = np.where(sample)[0]
     values = distance[sample]
     if values.size == 0:
@@ -112,6 +166,8 @@ def main(argv: list[str] | None = None) -> int:
         "where": args.where,
         "clip": args.clip,
         "metres_per_sample_px": metres_per_sample,
+        "extract_seam_samples_dropped": seam_count,
+        "kept_extract_seams": bool(args.keep_extract_seams),
         **summary.as_dict(),
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
