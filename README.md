@@ -48,6 +48,11 @@ The same parcel sheet shows dated PVSC assessed-value history from the licensed
 open dataset, using an official notice AAN when available or a bounded
 point-in-parcel screen otherwise; multiple accounts remain separate and the UI
 does not treat assessment as current market value.
+
+- **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
+  drape them over Nova Scotia with an opacity slider. Files never leave your
+  device: parsing, warping, and storage are all in-browser.
+
 See
 [web/README.md](web/README.md) for the source receipt, privacy boundary, and
 local verification commands. Candidate hazard, groundwater, coastal, terrain,

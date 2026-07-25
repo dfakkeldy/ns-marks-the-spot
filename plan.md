@@ -82,6 +82,11 @@
 - [ ] Add Victoria's Baddeck plan area only after confirming with EDPC whether it supersedes or overlaps the county layer; the two currently return polygons for the same ground
 - [ ] Add municipal zoning to the selected-parcel evidence sheet and print appendix, reusing the `parcelResources.ts` query-table pattern
 - [ ] Add MODL zoning, including its explicit "Unzoned Area" polygons, as the model for stating that no zoning applies rather than showing nothing
+- [x] "Your maps": user-loaded GeoTIFFs rendered client-side with opacity control (spec `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`, PR 1 of 4)
+- [ ] In-browser georeferencer for plain scans (PR 2)
+- [ ] TPS warping + Allmaps annotation export (PR 3)
+- [ ] GeoPDF import (PR 4)
+- [ ] Evaluate geotiff.js 3.x migration (pinned to 2.1.3 in PR 1; read API changed)
 
 ## Future Considerations
 - Google Maps SDK as alternative engine

@@ -47,3 +47,12 @@ export const ESTABLISHED_PARCEL_PANE_Z_INDEX = 420;
  */
 export const MEASURE_PANE = "measure-pane";
 export const MEASURE_PANE_Z_INDEX = 430;
+
+/**
+ * User-loaded rasters sit directly above the aerial imagery (150) and below
+ * every data overlay (environmental health 165, contours 180, parcels 200,
+ * roads 235, waterfalls 250) so parcel lines and roads stay readable on top
+ * of a draped scan. The scan is context, not the subject of inspection.
+ */
+export const USER_MAPS_PANE = "user-maps-pane";
+export const USER_MAPS_PANE_Z_INDEX = 160;

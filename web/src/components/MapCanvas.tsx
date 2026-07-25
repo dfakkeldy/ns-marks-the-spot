@@ -104,6 +104,10 @@ import {
   type WellLogAccuracyFilter,
   type WellLogCollection,
 } from "../services/wellLogs";
+import {
+  UserMapLayers,
+  type VisibleUserMap,
+} from "../userMaps/components/UserMapLayers";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -118,6 +122,7 @@ type MapCanvasProps = {
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
+  userMaps?: VisibleUserMap[];
   showModernMap: boolean;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
@@ -200,6 +205,10 @@ const HIDDEN_ZONING_LAYERS: Record<ZoningLayerId, boolean> = {
 const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
   "ns-well-logs": false,
 };
+// Stable reference: a fresh `[]` default would be a new array identity every
+// render, churning the UserMapLayers bridge (and its layer-construction
+// effects) on every unrelated MapCanvas re-render.
+const EMPTY_USER_MAPS: VisibleUserMap[] = [];
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
 
@@ -1410,6 +1419,7 @@ export function MapCanvas({
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
   wellLogAccuracyFilter = "surveyed",
+  userMaps = EMPTY_USER_MAPS,
   showModernMap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1559,6 +1569,7 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
+        <UserMapLayers maps={userMaps} />
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (

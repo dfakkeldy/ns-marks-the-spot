@@ -1,6 +1,7 @@
 import L from "leaflet";
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
   MEASURE_PANE,
@@ -8,6 +9,7 @@ import {
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
+  USER_MAPS_PANE_Z_INDEX,
   WELL_LOG_PANE,
   WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
@@ -83,5 +85,15 @@ describe("parcel pane ordering", () => {
     expect(MEASURE_PANE_Z_INDEX).toBeGreaterThan(ESTABLISHED_PARCEL_PANE_Z_INDEX);
     expect(MEASURE_PANE_Z_INDEX).toBeLessThan(500);
     expect(MEASURE_PANE).not.toBe(ESTABLISHED_PARCEL_PANE);
+  });
+
+  it("stacks user maps above aerial imagery and below data overlays", () => {
+    expect(USER_MAPS_PANE_Z_INDEX).toBeGreaterThan(
+      PROVINCE_LAYER_Z_INDEXES["ns-aerial"],
+    );
+    expect(USER_MAPS_PANE_Z_INDEX).toBeLessThan(
+      ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
+    );
+    expect(USER_MAPS_PANE_Z_INDEX).toBeLessThan(PROVINCE_LAYER_Z_INDEXES.nsprd);
   });
 });

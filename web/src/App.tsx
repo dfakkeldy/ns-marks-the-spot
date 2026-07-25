@@ -147,6 +147,8 @@ import {
   type PrintLoadState,
   type PrintMapViewport,
 } from "./services/printSnapshot";
+import { useUserMaps } from "./userMaps/useUserMaps";
+import { UserMapRows } from "./userMaps/components/UserMapRows";
 
 const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
 
@@ -780,6 +782,7 @@ export function App() {
   );
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
+  const userMapsApi = useUserMaps();
 
   useEffect(() => {
     const visualViewport = window.visualViewport;
@@ -2181,6 +2184,7 @@ export function App() {
                 />
               </span>
             </label>
+            <UserMapRows api={userMapsApi} />
             {provinceLayerCatalog
               .filter(({ id }) => id !== "contours")
               .map((layer) => (
@@ -2770,6 +2774,7 @@ export function App() {
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
+            userMaps={userMapsApi.visibleMaps}
             showModernMap={showModernMap}
             showTaxSale={
               licenceAccepted && mapMode === "current" && selectedEventIds.size > 0
