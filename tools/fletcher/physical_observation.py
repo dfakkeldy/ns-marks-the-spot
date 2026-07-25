@@ -776,8 +776,8 @@ def main(argv: list[str] | None = None) -> int:
             }, sort_keys=True))
         else:
             observation = load_observation(args.observation)
-            if args.require_rejected and not observation.rejected_candidates:
-                raise ValueError("observation requires at least one rejected candidate")
+            if args.require_rejected and observation.status != "rejected":
+                raise ValueError("observation status must be rejected")
             print(json.dumps({
                 "sheet": observation.sheet_id,
                 "status": observation.status,

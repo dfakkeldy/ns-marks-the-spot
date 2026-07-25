@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import pathlib
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -94,6 +96,60 @@ class PhysicalObservationTests(unittest.TestCase):
         })
         payload.pop("usable_frame")
         self.assertIsNone(parse_observation(json.dumps(payload)).usable_frame)
+
+    def test_require_rejected_accepts_source_drift_without_inspected_candidates(self) -> None:
+        payload = valid_observation()
+        payload.update({
+            "status": "rejected",
+            "terminal_state": "source-drift",
+            "terminal_reason": "the manifest receipt is incomplete",
+            "controls": [],
+            "final_checks": [],
+            "rejected_candidates": [],
+        })
+        payload.pop("usable_frame")
+        with tempfile.TemporaryDirectory() as directory:
+            observation = pathlib.Path(directory) / "sheet-24.json"
+            observation.write_text(json.dumps(payload), encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "tools.fletcher.physical_observation",
+                    "validate",
+                    str(observation),
+                    "--require-rejected",
+                ],
+                capture_output=True,
+                check=False,
+                text=True,
+            )
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        result = json.loads(completed.stdout)
+        self.assertEqual(result["status"], "rejected")
+        self.assertEqual(result["rejected_candidates"], 0)
+
+    def test_require_rejected_rejects_frozen_status_even_with_rejected_candidates(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            observation = pathlib.Path(directory) / "sheet-24.json"
+            observation.write_text(json.dumps(valid_observation()), encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "tools.fletcher.physical_observation",
+                    "validate",
+                    str(observation),
+                    "--require-rejected",
+                ],
+                capture_output=True,
+                check=False,
+                text=True,
+            )
+
+        self.assertEqual(completed.returncode, 2)
+        self.assertIn("observation status must be rejected", completed.stderr)
 
     def test_polygon_centroid_uses_the_fixed_shoelace_rule(self) -> None:
         self.assertEqual(

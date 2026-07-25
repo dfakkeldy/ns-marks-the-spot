@@ -90,6 +90,20 @@ jobs:
               --out "tools/fletcher/gcps/$sheet.csv" --check
           done
 
+      - name: Fletcher physical controls and checks match the reviewed observation
+        run: |
+          if test -f tools/fletcher/physical_gcps/sheet-24-controls.csv; then
+            python3 -m tools.fletcher.emit_physical_gcps \
+              tools/fletcher/physical_observations/sheet-24.json \
+              --controls tools/fletcher/physical_gcps/sheet-24-controls.csv \
+              --checks tools/fletcher/physical_gcps/sheet-24-checks.csv \
+              --check
+          else
+            python3 -m tools.fletcher.physical_observation validate \
+              tools/fletcher/physical_observations/sheet-24.json \
+              --require-rejected
+          fi
+
       - name: Classify changed paths
         id: scope
         env:
