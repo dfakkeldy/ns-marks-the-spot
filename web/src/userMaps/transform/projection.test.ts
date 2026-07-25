@@ -28,6 +28,11 @@ describe("validateCrs", () => {
     ).not.toThrow();
   });
 
+  it("accepts case-variant forms of a supported EPSG code", () => {
+    expect(() => validateCrs("epsg:26920")).not.toThrow();
+    expect(() => validateCrs("Epsg:26920")).not.toThrow();
+  });
+
   it("rejects unknown CRSs with the code in the message", () => {
     try {
       validateCrs("EPSG:32633");
@@ -65,6 +70,14 @@ describe("pixelToLatLng", () => {
     const [easting, northing] = proj4("EPSG:4326", "EPSG:26920", [lng, lat]);
     expect(easting).toBeCloseTo(500000 + 45 * 10, 3);
     expect(northing).toBeCloseTo(5000000 - 120 * 10, 3);
+  });
+
+  it("produces the same coordinates for a lowercase/mixed-case CRS as the uppercase form", () => {
+    const lowercase: EmbeddedGeoref = { ...UTM20_GEOREF, crs: "epsg:26920" };
+    const mixedCase: EmbeddedGeoref = { ...UTM20_GEOREF, crs: "Epsg:26920" };
+    const expected = pixelToLatLng(UTM20_GEOREF, 120, 45);
+    expect(pixelToLatLng(lowercase, 120, 45)).toEqual(expected);
+    expect(pixelToLatLng(mixedCase, 120, 45)).toEqual(expected);
   });
 
   it("passes WGS84 rasters through untouched", () => {

@@ -84,6 +84,13 @@ function converterFor(crs: string): proj4.Converter {
   ensureProjectionsRegistered();
 
   const epsgMatch = EPSG_PATTERN.exec(trimmed);
+  // The lookup key proj4 actually receives: for EPSG-form strings this is
+  // the canonical uppercase form (proj4's definition registry is
+  // case-sensitive, unlike our /i allowlist match), so "epsg:26920" and
+  // "EPSG:26920" resolve identically. Raw proj4 definitions are passed
+  // through verbatim, since they're case-sensitive in their own right
+  // (e.g. "+proj=utm" must stay lowercase).
+  let lookupKey = trimmed;
   if (epsgMatch) {
     // EPSG-form strings are checked against the locked allowlist rather than
     // proj4's own knowledge, since proj4 recognizes many EPSG codes (e.g.
@@ -91,13 +98,14 @@ function converterFor(crs: string): proj4.Converter {
     if (!isSupportedEpsgCode(Number(epsgMatch[1]))) {
       throw unsupportedCrsError(trimmed);
     }
+    lookupKey = `EPSG:${epsgMatch[1]}`;
   } else if (!isParseableDefinition(trimmed)) {
     throw unsupportedCrsError(trimmed);
   }
 
   let converter: proj4.Converter;
   try {
-    converter = proj4(trimmed, "EPSG:4326");
+    converter = proj4(lookupKey, "EPSG:4326");
   } catch {
     throw unsupportedCrsError(trimmed);
   }
