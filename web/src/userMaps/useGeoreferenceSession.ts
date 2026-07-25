@@ -52,6 +52,7 @@ export type GeoreferenceSession = {
   deleteGcp: (id: string) => void;
   undo: () => void;
   flush: () => void;
+  discardPendingWrite: (mapId: string) => void;
 };
 
 /**
@@ -184,6 +185,20 @@ export function useGeoreferenceSession(options: {
     }
     writeDirty();
   }, [writeDirty]);
+
+  /**
+   * Drops the queued write for one map WITHOUT performing it — the delete
+   * counterpart to `flush`. Keyed, not a blanket clear: `dirtyRef` holds one
+   * entry per map precisely so an interrupted session does not lose another
+   * map's write, and deleting map A must not cancel map B's.
+   */
+  const discardPendingWrite = useCallback((id: string) => {
+    dirtyRef.current.delete(id);
+    if (dirtyRef.current.size === 0 && timerRef.current !== null) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
 
   /**
    * IndexedDB writes are debounced because a marker drag changes state on
@@ -388,5 +403,6 @@ export function useGeoreferenceSession(options: {
     deleteGcp,
     undo,
     flush,
+    discardPendingWrite,
   };
 }

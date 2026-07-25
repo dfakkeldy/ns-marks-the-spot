@@ -336,6 +336,43 @@ describe("persistence", () => {
   });
 });
 
+describe("discardPendingWrite", () => {
+  it("drops a queued write when its map is deleted", () => {
+    const { result, onPersist } = setup(SOLVABLE);
+    act(() => {
+      result.current.moveGcpOnScan("a", 10, 20);
+    });
+    act(() => {
+      result.current.discardPendingWrite("map-a");
+    });
+    act(() => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS * 2);
+    });
+    expect(onPersist).not.toHaveBeenCalled();
+  });
+
+  it("keeps another map's queued write when one map is discarded", () => {
+    // dirtyRef is keyed per map on purpose (Task 7). A blanket clear() would
+    // pass the test above and silently lose the OTHER map's edits — exactly
+    // the bug the per-map keying was introduced to fix.
+    const { result, rerender, onPersist } = setup(SOLVABLE);
+    act(() => {
+      result.current.moveGcpOnScan("a", 10, 20);
+    });
+    rerender({ mapId: "map-b", initialGcps: SOLVABLE });
+    act(() => {
+      result.current.moveGcpOnScan("a", 30, 40);
+    });
+    act(() => {
+      result.current.discardPendingWrite("map-b");
+    });
+    act(() => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS * 2);
+    });
+    expect(onPersist.mock.calls.map(([id]) => id)).toEqual(["map-a"]);
+  });
+});
+
 describe("switching maps", () => {
   it("re-seeds from the new map instead of carrying the old one's points", () => {
     const { result, rerender } = setup(SOLVABLE);
