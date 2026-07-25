@@ -54,12 +54,29 @@ export type GeoreferenceSession = {
   flush: () => void;
 };
 
-let gcpCounter = 0;
-
-/** Ids only need to be unique within one session's list. */
-function nextGcpId(): string {
-  gcpCounter += 1;
-  return `gcp-${gcpCounter}`;
+/**
+ * Ids only need to be unique within one map's GCP list, not globally and
+ * not across page loads. But `Gcp.id` IS persisted verbatim into IndexedDB
+ * (see `useUserMaps.saveGcps`), so a fresh page load must not restart
+ * numbering at 1 while a map's saved points already occupy `gcp-1..gcp-N`
+ * — that would mint a duplicate id, and two GCPs sharing an id then move
+ * and delete together. The counter is re-seeded from the highest existing
+ * `gcp-<n>` id whenever a map is (re)loaded (see the layout effect below).
+ * Ids that don't match `gcp-<number>` are ignored rather than parsed into
+ * NaN.
+ */
+function highestGcpNumber(gcps: Gcp[]): number {
+  let max = 0;
+  for (const gcp of gcps) {
+    const match = /^gcp-(\d+)$/.exec(gcp.id);
+    if (match) {
+      const n = Number(match[1]);
+      if (n > max) {
+        max = n;
+      }
+    }
+  }
+  return max;
 }
 
 export function useGeoreferenceSession(options: {
@@ -101,6 +118,11 @@ export function useGeoreferenceSession(options: {
   const gcpsRef = useRef(gcps);
   const pendingRef = useRef<PendingPoint>(null);
   const historyRef = useRef<Gcp[][]>([]);
+  // The next `gcp-<n>` number to mint. Lives in a ref, not state: minting
+  // happens inside pickScanPoint/pickMapPoint (event handlers), and those
+  // mutators read from refs rather than state for the same reason the rest
+  // of this file does — see the comment on the ref mirrors below.
+  const nextGcpNumberRef = useRef(1);
 
   useLayoutEffect(() => {
     gcpsRef.current = gcps;
@@ -108,10 +130,19 @@ export function useGeoreferenceSession(options: {
   }, [gcps, pending]);
 
   useLayoutEffect(() => {
-    // Undo history belongs to one map. Its DEPTH is reset in the re-seed
-    // branch above; its contents are cleared here, for the same
-    // no-ref-writes-during-render reason.
+    // Undo history AND the id counter both belong to one map, so both are
+    // reset here (not in the render-time re-seed above), for the same
+    // no-ref-writes-during-render reason: history's DEPTH is state and is
+    // reset up there, but its contents are a ref, cleared here.
+    //
+    // The counter reads gcpsRef.current rather than options.initialGcps so
+    // this effect's deps can stay `[seededFor]` — it must fire only on an
+    // actual map switch, not on every edit, and gcpsRef.current already
+    // holds the freshly-reseeded list by the time this runs: the mirror
+    // effect above runs first in the same commit (effects run in
+    // declaration order) and just wrote it there.
     historyRef.current = [];
+    nextGcpNumberRef.current = highestGcpNumber(gcpsRef.current) + 1;
   }, [seededFor]);
 
   const onPersistRef = useRef(options.onPersist);
@@ -202,6 +233,13 @@ export function useGeoreferenceSession(options: {
     setHistoryDepth(historyRef.current.length);
   }, []);
 
+  /** Reads-then-increments the ref seeded above. Never called during render. */
+  const mintGcpId = useCallback(() => {
+    const id = `gcp-${nextGcpNumberRef.current}`;
+    nextGcpNumberRef.current += 1;
+    return id;
+  }, []);
+
   const pickScanPoint = useCallback(
     (x: number, y: number) => {
       // Read the pending half-point from the ref and branch OUT HERE. Doing
@@ -212,14 +250,14 @@ export function useGeoreferenceSession(options: {
         snapshot();
         commit([
           ...gcpsRef.current,
-          { id: nextGcpId(), pixel: { x, y }, map: current.map },
+          { id: mintGcpId(), pixel: { x, y }, map: current.map },
         ]);
         setPending(null);
         return;
       }
       setPending({ side: "scan", pixel: { x, y } });
     },
-    [commit, setPending, snapshot],
+    [commit, mintGcpId, setPending, snapshot],
   );
 
   const pickMapPoint = useCallback(
@@ -229,14 +267,14 @@ export function useGeoreferenceSession(options: {
         snapshot();
         commit([
           ...gcpsRef.current,
-          { id: nextGcpId(), pixel: current.pixel, map: { lat, lng } },
+          { id: mintGcpId(), pixel: current.pixel, map: { lat, lng } },
         ]);
         setPending(null);
         return;
       }
       setPending({ side: "map", map: { lat, lng } });
     },
-    [commit, setPending, snapshot],
+    [commit, mintGcpId, setPending, snapshot],
   );
 
   const cancelPending = useCallback(() => setPending(null), [setPending]);

@@ -249,7 +249,13 @@ describe("undo", () => {
       act(() => result.current.undo());
       undos += 1;
     }
-    expect(undos).toBeLessThanOrEqual(UNDO_HISTORY_LIMIT);
+    // Not `toBeLessThanOrEqual`: that also passes against a cap of 1, or of
+    // 0 — it proves history is bounded, not that it holds UNDO_HISTORY_LIMIT
+    // entries. Each loop iteration pushes TWO snapshots (deleteGcp snapshots
+    // unconditionally, even once "a" no longer exists to delete; beginDragGcp
+    // snapshots too), so UNDO_HISTORY_LIMIT + 10 iterations push well past
+    // the cap and the trailing window holds exactly UNDO_HISTORY_LIMIT.
+    expect(undos).toBe(UNDO_HISTORY_LIMIT);
   });
 });
 
@@ -376,5 +382,30 @@ describe("switching maps", () => {
     expect(result.current.gcps).toEqual([]);
     rerender({ mapId: "map-a", initialGcps: SOLVABLE });
     expect(result.current.gcps).toHaveLength(3);
+  });
+});
+
+describe("gcp id minting", () => {
+  it("does not reuse an id already present in a freshly seeded session", () => {
+    // Regression test: `Gcp.id` is persisted verbatim into IndexedDB (see
+    // useUserMaps.saveGcps), but the counter that minted it used to be a
+    // page-load-scoped module variable. A browser reload restarted it at 1
+    // while a map's saved points already held ids gcp-1..gcp-3, so the next
+    // point minted a DUPLICATE id — after which deleteGcp/moveGcpOnScan/
+    // moveGcpOnMap, which all match by id, acted on both points at once.
+    const existing: Gcp[] = [
+      { id: "gcp-1", pixel: { x: 0, y: 0 }, map: { lat: 46.0, lng: -61.0 } },
+      { id: "gcp-2", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+      { id: "gcp-3", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+    ];
+    const { result } = setup(existing);
+    act(() => result.current.pickScanPoint(500, 500));
+    act(() => result.current.pickMapPoint(46.05, -61.1));
+    expect(result.current.gcps).toHaveLength(4);
+
+    // Assert uniqueness across the whole list rather than one specific
+    // string, so this survives a change in the numbering scheme.
+    const ids = result.current.gcps.map((gcp) => gcp.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
