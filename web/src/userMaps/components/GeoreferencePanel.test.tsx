@@ -13,21 +13,23 @@ import { describe, expect, it, vi } from "vitest";
 // be checking a class invented three lines up, and renaming the real one
 // would kill three CSS rules with the whole suite green.
 //
-// It also records the `focus` prop it was called with on every render.
-// ScanPane.test.tsx proves the REAL component re-runs its focus effect for
-// every distinct `focus` OBJECT; it cannot prove this panel actually mints a
-// fresh object per "Zoom to" click rather than reusing one — that half lives
-// here, in `zoomToGcp`'s `focusRequestId` counter, and only this stub can see
-// it. See "mints a fresh scan-focus request..." below.
-const scanPaneFocusCalls: Array<{
-  pixel: { x: number; y: number };
-  requestId: number;
-} | null> = [];
+// It also records every FULL props object it was called with, on every
+// render. Two independent things depend on that:
+//  - `focus`: ScanPane.test.tsx proves the REAL component re-runs its focus
+//    effect for every distinct `focus` OBJECT; it cannot prove this panel
+//    actually mints a fresh object per "Zoom to" click rather than reusing
+//    one — that half lives here, in `zoomToGcp`'s `focusRequestId` counter.
+//    See "mints a fresh scan-focus request..." below.
+//  - the other eight props: `onMoveGcp`/`moveGcpOnMap`, `onPickPoint`/
+//    `pickMapPoint`, and `onDragStartGcp` in particular share signatures
+//    with a wrong-but-plausible neighbour, so a swap between them is
+//    `tsc -b`-clean and green against every OTHER test in this file, because
+//    a stub that discards its props can't see which function it was handed.
+//    See "passes the real handlers..." below.
+const scanPaneCalls: Array<Record<string, unknown>> = [];
 vi.mock("./ScanPane", () => ({
-  ScanPane: (props: {
-    focus: { pixel: { x: number; y: number }; requestId: number } | null;
-  }) => {
-    scanPaneFocusCalls.push(props.focus);
+  ScanPane: (props: Record<string, unknown>) => {
+    scanPaneCalls.push(props);
     return <div className="georeference-scan" data-testid="scan-pane" />;
   },
 }));
@@ -259,9 +261,15 @@ describe("GeoreferencePanel", () => {
 
   it("flushes pending writes before closing", async () => {
     const session = fakeSession();
-    renderPanel(session);
+    const { onClose } = renderPanel(session);
     await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(session.flush).toHaveBeenCalled();
+    // `close()` (the Done path) is a code path entirely separate from
+    // Escape's own inline `flush(); onClose();` — asserting only `flush`
+    // here lets an implementation drop `onClose()` from `close()` and stay
+    // green, leaving the panel stuck open with the app's map occluded
+    // behind it even though the write went through.
+    expect(onClose).toHaveBeenCalled();
   });
 
   it("undoes with the keyboard shortcut", async () => {
@@ -271,9 +279,60 @@ describe("GeoreferencePanel", () => {
     expect(session.undo).toHaveBeenCalled();
   });
 
+  it("undoes when the Undo button is clicked", async () => {
+    // The Ctrl+Z test above exercises the keyboard path only; the button's
+    // own onClick is a separate piece of markup with nothing else in this
+    // file asserting on it.
+    const session = fakeSession({ canUndo: true });
+    renderPanel(session);
+    await userEvent.click(screen.getByRole("button", { name: "Undo" }));
+    expect(session.undo).toHaveBeenCalled();
+  });
+
   it("disables Undo when there is nothing to undo", () => {
     renderPanel(fakeSession());
     expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+  });
+
+  it("does not swallow Ctrl/Cmd+Z typed into an app input outside the panel", () => {
+    // The overlay is deliberately non-modal — `pointer-events: none`, no
+    // scrim — so the app's OWN inputs (e.g. a PID search box) stay focusable
+    // while this panel is open. A global keydown listener that
+    // preventDefault()s every Ctrl/Cmd+Z regardless of origin silently
+    // breaks native text-undo in a completely different control the user
+    // never asked this panel to touch.
+    const externalInput = document.createElement("input");
+    externalInput.type = "text";
+    document.body.appendChild(externalInput);
+    const session = fakeSession({ canUndo: true });
+    renderPanel(session);
+    const notPrevented = fireEvent.keyDown(externalInput, {
+      key: "z",
+      ctrlKey: true,
+    });
+    expect(session.undo).not.toHaveBeenCalled();
+    // fireEvent's return value is false iff some handler called
+    // preventDefault() — false here would mean this panel just ate the
+    // browser's native undo in a field it doesn't own.
+    expect(notPrevented).toBe(true);
+    document.body.removeChild(externalInput);
+  });
+
+  it("still undoes via Ctrl/Cmd+Z from an editable element INSIDE the panel", () => {
+    // The scope in the test above must not become "ignore Ctrl/Cmd+Z from
+    // any editable element anywhere" — an editable control that later lands
+    // inside the panel itself still needs the shortcut to work.
+    const session = fakeSession({ canUndo: true });
+    const { container } = renderPanel(session);
+    const panel = container.querySelector(".georeference-panel");
+    if (!panel) {
+      throw new Error("panel not found");
+    }
+    const insideInput = document.createElement("input");
+    insideInput.type = "text";
+    panel.appendChild(insideInput);
+    fireEvent.keyDown(insideInput, { key: "z", ctrlKey: true });
+    expect(session.undo).toHaveBeenCalled();
   });
 
   it("offers the reference layers the hidden rail would otherwise strand", async () => {
@@ -339,7 +398,7 @@ describe("GeoreferencePanel", () => {
     // row would silently fail to move the scan a second time, and nothing
     // else in this file would catch it, because the stub above normally
     // discards its props.
-    scanPaneFocusCalls.length = 0;
+    scanPaneCalls.length = 0;
     const session = fakeSession({
       gcps: [{ id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } }],
     });
@@ -350,21 +409,104 @@ describe("GeoreferencePanel", () => {
     await userEvent.click(zoomButton);
     await userEvent.click(zoomButton);
 
-    const focusValues = scanPaneFocusCalls.filter(
-      (focus): focus is { pixel: { x: number; y: number }; requestId: number } =>
-        focus !== null,
-    );
+    const focusValues = scanPaneCalls
+      .map(
+        (call) =>
+          call.focus as { pixel: { x: number; y: number }; requestId: number } | null,
+      )
+      .filter(
+        (focus): focus is { pixel: { x: number; y: number }; requestId: number } =>
+          focus !== null,
+      );
     expect(focusValues.length).toBeGreaterThanOrEqual(2);
     // Same point both times...
     for (const focus of focusValues) {
       expect(focus.pixel).toEqual({ x: 10, y: 20 });
     }
-    // ...but the request right after the second click must differ from the
-    // request right after the first — a fresh id, not a reused one.
+    // ...but at least two DISTINCT ids were minted across all renders. Not a
+    // last-two comparison: GcpList's row `onMouseEnter -> onSelect` can push
+    // extra re-renders (this component re-renders on hover too), so a
+    // trailing render carrying the same, unchanged focus object would make
+    // the last two entries equal even against a CORRECT implementation. A
+    // set-based count is invariant to how many extra renders land in between.
     const requestIds = focusValues.map((focus) => focus.requestId);
-    expect(requestIds[requestIds.length - 1]).not.toBe(
-      requestIds[requestIds.length - 2],
+    expect(new Set(requestIds).size).toBeGreaterThanOrEqual(2);
+  });
+
+  it("wires the real GcpList's Delete button straight to deleteGcp", async () => {
+    // GcpList is NOT stubbed in this file (only ScanPane is), so its
+    // aria-label="Delete point 1" button is fully reachable here and nothing
+    // else in this file clicks it. `deleteGcp` is meant to be passed straight
+    // through with no extra `snapshot()` call — deleteGcp already snapshots
+    // internally (useGeoreferenceSession.ts), and a second snapshot here
+    // would insert a phantom step into the undo stack. This assertion is
+    // also the guard against a future edit adding one.
+    const gcp = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
+    const session = fakeSession({ gcps: [gcp] });
+    renderPanel(session);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Delete point 1" }),
     );
+    expect(session.deleteGcp).toHaveBeenCalledWith("a");
+  });
+
+  it("passes the real residual report to GcpList instead of hardcoding null", () => {
+    // report={null} passes every other test in this file green: the "Off by"
+    // column just reads "—" forever, permanently, and nothing here would
+    // notice.
+    const gcp = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
+    const session = fakeSession({
+      gcps: [gcp],
+      report: {
+        rmsMetres: 12.3,
+        metresPerGcp: [42.4],
+        mostInconsistentIndex: null,
+      },
+    });
+    const { container } = renderPanel(session);
+    expect(container.querySelector(".gcp-residual")).toHaveTextContent(
+      "42 m",
+    );
+  });
+
+  it("wires GcpList's hover-to-select round trip", () => {
+    // onSelect={() => {}} and selectedGcpId={null} both pass every other
+    // test in this file green: nothing else here hovers a row, so the
+    // selection round trip between the panel's own `selectedGcpId` state
+    // and the class GcpList renders back is otherwise unobserved.
+    const gcpA = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
+    const gcpB = { id: "b", pixel: { x: 30, y: 40 }, map: { lat: 47, lng: -62 } };
+    const session = fakeSession({ gcps: [gcpA, gcpB] });
+    const { container } = renderPanel(session);
+    const rows = container.querySelectorAll(".gcp-row");
+    expect(rows[0]).not.toHaveClass("gcp-row--selected");
+    fireEvent.mouseEnter(rows[0]);
+    expect(rows[0]).toHaveClass("gcp-row--selected");
+    expect(rows[1]).not.toHaveClass("gcp-row--selected");
+  });
+
+  it("passes the real handlers and values straight through to ScanPane", () => {
+    // Each of these props has a wrong-but-plausible neighbour with an
+    // IDENTICAL signature, so a swap compiles clean and is invisible to
+    // every other test in this file (the stub above normally discards its
+    // props): onMoveGcp <-> moveGcpOnMap would rewrite a scan-side pixel
+    // drag as a lat/lng write (silent data corruption); onPickPoint <->
+    // pickMapPoint would record every scan click as a map click;
+    // onDragStartGcp dropped entirely reopens the exact StrictMode
+    // regression documented on ScanPane's own dragstart handler, where one
+    // Ctrl+Z walks back past an entire drag instead of one step.
+    scanPaneCalls.length = 0;
+    const gcp = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
+    const session = fakeSession({ gcps: [gcp] });
+    renderPanel(session, { previewUrl: "blob:scan-preview" });
+    const props = scanPaneCalls[scanPaneCalls.length - 1];
+    expect(props.onMoveGcp).toBe(session.moveGcpOnScan);
+    expect(props.onPickPoint).toBe(session.pickScanPoint);
+    expect(props.onDragStartGcp).toBe(session.beginDragGcp);
+    expect(props.gcps).toBe(session.gcps);
+    expect(props.previewUrl).toBe("blob:scan-preview");
+    expect(props.pixelSize).toEqual(RECORD.pixelSize);
+    expect(props.selectedGcpId).toBeNull();
   });
 
   it("confirms before deleting the map, and is the only place that asks", async () => {

@@ -8,6 +8,38 @@ import { ScanPane, type ScanFocusRequest } from "./ScanPane";
 export type ReferenceLayerId = "aerial" | "parcels";
 export type ReferenceLayerState = Record<ReferenceLayerId, boolean>;
 
+/** `<input>` types that accept free text, where native browser undo applies.
+ * Deliberately excludes checkbox/radio/range/color/etc — those have no text
+ * buffer for Ctrl/Cmd+Z to act on, so there is nothing to protect there. */
+const TEXT_INPUT_TYPES = new Set([
+  "text",
+  "search",
+  "email",
+  "url",
+  "tel",
+  "password",
+  "number",
+]);
+
+/** Not exported: a plain function export alongside a component is a
+ * react-refresh/only-export-components error here (see GcpList's
+ * formatResidual for the same pattern). */
+function isTextEntryElement(target: EventTarget | null): target is HTMLElement {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+  if (target.isContentEditable) {
+    return true;
+  }
+  if (target.tagName === "TEXTAREA") {
+    return true;
+  }
+  return (
+    target.tagName === "INPUT" &&
+    TEXT_INPUT_TYPES.has((target as HTMLInputElement).type)
+  );
+}
+
 export function GeoreferencePanel({
   record,
   previewUrl,
@@ -39,6 +71,7 @@ export function GeoreferencePanel({
   const [selectedGcpId, setSelectedGcpId] = useState<string | null>(null);
   const [scanFocus, setScanFocus] = useState<ScanFocusRequest | null>(null);
   const focusRequestId = useRef(0);
+  const panelRef = useRef<HTMLElement>(null);
   const { cancelPending, flush, undo } = session;
   const hasPending = session.pending !== null;
   const canUndo = session.canUndo;
@@ -57,6 +90,18 @@ export function GeoreferencePanel({
         return;
       }
       if (event.key.toLowerCase() === "z" && (event.metaKey || event.ctrlKey)) {
+        // The overlay is deliberately non-modal (pointer-events: none, no
+        // scrim), so the app's OWN inputs — e.g. a PID search box — stay
+        // focusable while this panel is open. Only swallow the shortcut when
+        // it did NOT originate from one of those: an editable element that
+        // is not a descendant of the panel itself. Escape above is left
+        // unscoped on purpose — closing this panel from anywhere is intended.
+        if (
+          isTextEntryElement(event.target) &&
+          !panelRef.current?.contains(event.target)
+        ) {
+          return;
+        }
         event.preventDefault();
         if (canUndo) {
           undo();
@@ -100,6 +145,7 @@ export function GeoreferencePanel({
     // bar below are what styles.css targets — see the rendered-DOM tests.
     <div className="georeference-overlay">
       <section
+        ref={panelRef}
         className="georeference-panel"
         data-tab={tab}
         aria-label={`Georeferencing ${record.name}`}
