@@ -180,6 +180,24 @@ describe("parseGeoTiff", () => {
     ).rejects.toMatchObject({ code: "no-georeferencing" });
   });
 
+  it("rejects multiple tiepoints without a transformation matrix", async () => {
+    // Two tiepoints (12 doubles) and no ModelTransformation describes an
+    // irregularly warped raster, not an affine one. Reading only the first
+    // tiepoint would silently mis-place the map, so the parser refuses.
+    const buffer = await plainTiff({
+      ModelPixelScale: [10, 10, 0],
+      ModelTiepoint: [
+        0, 0, 0, 500000, 5000000, 0,
+        8, 6, 0, 500080, 4999940, 0,
+      ],
+      ProjectedCSTypeGeoKey: 26920,
+      GTModelTypeGeoKey: 1,
+    });
+    await expect(
+      parseGeoTiff(buffer, { makePreview: fakePreview() }),
+    ).rejects.toMatchObject({ code: "no-georeferencing" });
+  });
+
   it("rejects garbage bytes as corrupt-file", async () => {
     const garbage = new Uint8Array([0x49, 0x49, 0x2a, 0x00, 0xff, 0xff]).buffer;
     await expect(
