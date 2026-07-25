@@ -164,26 +164,34 @@ describe("WarpedRasterLayer", () => {
     // a mathematically exact affine into a stepped one: measured up to 166 m
     // of ground error at zoom 8, a >1 px break along the cell diagonal
     // because each corner rounds independently, and 1-px jitter while a
-    // control point is dragged. A quarter-pixel shift must move the drape a
-    // quarter pixel — not zero, and not a whole one.
+    // control point is dragged.
+    //
+    // Asserts the RENDERED RESULT, not the projection call. An earlier version
+    // of this test read `map.project`'s mocked return values and checked they
+    // differed by 0.25 — but that 0.25 came entirely from the stub's own
+    // `lng * 2000` definition, so it would have passed just as happily if the
+    // layer had rounded, ignored, or misapplied the point it got back.
     const map = stubMap(pane);
     const layer = makeLayer();
     layer.onAdd(map);
-    expect(map.getPixelOrigin).toHaveBeenCalled();
-
-    const project = map.project as unknown as ReturnType<typeof vi.fn>;
-    const firstCorner = project.mock.results[0].value as L.Point;
-    const callsBefore = project.mock.results.length;
+    const canvas = paneCanvas(pane);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("canvas has no 2D context");
+    }
+    const before = Array.from(ctx.getImageData(180, 180, 240, 240).data);
 
     // 0.000125 degrees of lng = 0.25 destination px under the stub's 2000x.
+    // Under the old rounding this shift vanished and the two frames were
+    // byte-identical.
     layer.setLatLngMesh(
       UNIT_MESH.map((row) =>
         row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.000125 })),
       ),
     );
+    const after = Array.from(ctx.getImageData(180, 180, 240, 240).data);
 
-    const shiftedCorner = project.mock.results[callsBefore].value as L.Point;
-    expect(shiftedCorner.x - firstCorner.x).toBeCloseTo(0.25, 6);
+    expect(after).not.toEqual(before);
   });
 
   it("draws no seam where the two clipped triangles meet", () => {

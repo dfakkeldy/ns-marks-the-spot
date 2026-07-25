@@ -12,16 +12,29 @@ export const MIN_GCPS_FOR_RESIDUALS = 4;
 /**
  * Below this we report the RMS but accuse nobody.
  *
- * With four points fitting three parameters there is one residual degree of
- * freedom per axis, and the direction that residual points is fixed by the
- * design rather than by which point is wrong. Concretely: at four corners
- * every hat-matrix leverage is exactly 0.75, so `1 - h` is constant and EVERY
- * candidate statistic — raw residual, leave-one-out (which is `e/(1-h)`),
- * studentized (`e/sqrt(1-h)`) — produces the identical ranking. A 1104-trial
- * sweep put all of them at chance: 24% correct against a 25% baseline.
+ * Four points fitting three parameters leave a ONE-DIMENSIONAL residual space:
+ * the residual-maker `I - H` has rank `n - p = 1`, so every attainable
+ * residual vector is a scalar multiple of a single direction, and that
+ * direction comes from the design matrix — the pixel coordinates — alone.
+ * Both axes share it, since both share the design. Displacing a different
+ * control point rescales that vector; it cannot rotate it.
  *
- * At five points the same sweep scores 60% against a 20% baseline. That is
+ * So at four points the largest residual identifies where the user clicked,
+ * not which click was wrong, and it is the SAME index whichever point is
+ * actually bad. That kills raw residual, leave-one-out (`e/(1-h)`) and
+ * studentized (`e/sqrt(1-h)`) together, since all three rank by magnitude
+ * along that one fixed direction. A 1104-trial sweep agreed: 24% correct
+ * against a 25% baseline. Highlighting a row here would be a coin toss
+ * presented as a diagnosis.
+ *
+ * At five points there are two residual dimensions, the direction can respond
+ * to the data, and the same sweep scores 60% against a 20% baseline. That is
  * where the highlight starts earning its place, so that is where it starts.
+ *
+ * (Earlier revisions argued this from all four leverages being exactly 0.75.
+ * That holds only for a symmetric layout — a scalene quad gives
+ * [0.871, 0.954, 0.918, 0.258] — so it proved the conclusion for one
+ * rectangle. The rank argument above needs no symmetry.)
  */
 export const MIN_GCPS_FOR_SUSPECT = 5;
 
