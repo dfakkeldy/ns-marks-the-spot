@@ -38,22 +38,30 @@ Catalog query:
 | `RUMSEY~8~1~2648~290016` | 3997.025 | Province of Nova Scotia (Island of Cape Breton). Sheet no. 23. | Cape Breton Island | 1884 | 1884 | 10,741 × 7,635 | no |
 | `RUMSEY~8~1~2649~290017` | 3997.026 | Province of Nova Scotia (Island of Cape Breton). Sheet no. 24. | Cape Breton Island | 1884 | 1884 | 10,782 × 7,655 | no |
 
-## Source and rights record
+## Source and scoped rights record
 
 - Catalog author: Hugh Fletcher and Geological Survey of Canada.
 - Publisher: Geological and Natural History Survey of Canada, Ottawa.
 - Scale: 1:63,360.
 - Rumsey's catalog describes the publication as 24 separate full-colour sheets
   backed on linen, issued with Fletcher's reports from 1879–1884.
-- The live Rumsey permissions page permits reproduction/transmission without
-  charge for personal use or publication, requires the credit
-  “David Rumsey Map Collection, David Rumsey Map Center, Stanford University
-  Libraries,” and links to CC BY-NC-SA 3.0. That licence requires attribution,
-  non-commercial use and ShareAlike for adaptations.
-- The same page says users remain responsible for satisfying copyright and
-  other rights restrictions. This project therefore keeps its existing
-  `rights-pending` product gate. These catalog and licence findings do **not**
-  resolve web hosting, native bundling, or repository distribution rights.
+- On 2026-07-25, Cartography Associates replied to the request with the subject
+  “Permission to georeference Hugh Fletcher maps for a free Nova Scotia web
+  map”: “Hello, your use is permitted without charge. See link below for
+  details on use and how to download images.” The reply linked the Rumsey
+  permissions page below. No screenshot, addresses, headers or personal
+  metadata are retained here.
+- This is written permission for the direct-Rumsey georeferencing use described
+  for the free Nova Scotia web map. That use retains the credit “David Rumsey
+  Map Collection, David Rumsey Map Center, Stanford University Libraries,” the
+  linked CC BY-NC-SA 3.0 terms, non-commercial use, attribution,
+  identification of this project's georeferencing and other changes, and
+  ShareAlike treatment where applicable.
+- The repository's MIT licence covers software, not the map imagery.
+- The reply does not clear OldMapsOnline-derived tiles, warps or control
+  points; unrelated paid uses; standalone facsimile sales; materially
+  different future distribution; or native offline bundling unless that use
+  is separately supported by the original request and written response.
 - Rumsey permissions:
   <https://www.davidrumsey.com/about/copyright-and-permissions>
 - Linked licence:
