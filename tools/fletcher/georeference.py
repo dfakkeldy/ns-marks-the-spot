@@ -6,6 +6,7 @@ import argparse
 import json
 import pathlib
 import subprocess
+import sys
 
 from tools.church.gcps import (
     CONTROL_ROLE,
@@ -201,8 +202,11 @@ def build_tile_command(
     zoom_max: int,
 ) -> list[str]:
     return [
-        "gdal2tiles.py",
+        sys.executable,
+        "-m",
+        "osgeo_utils.gdal2tiles",
         "--xyz",
+        "--resume",
         f"--zoom={zoom_min}-{zoom_max}",
         "--resampling=bilinear",
         str(source),

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import pathlib
+import sys
 import unittest
 
 from tools.church.gcps import GroundControlPoint
 from tools.fletcher.georeference import (
+    build_tile_command,
     build_transform_command,
     build_translate_command,
     build_warp_command,
@@ -55,6 +58,20 @@ class GeoreferenceCommandTests(unittest.TestCase):
     def test_unknown_transform_is_rejected_instead_of_silently_defaulting(self) -> None:
         with self.assertRaisesRegex(ValueError, "unknown transform"):
             build_warp_command("rubber-sheet", "gcps.vrt", "out.tif")
+
+    def test_tiles_use_the_gdal_python_module_when_no_wrapper_is_installed(self) -> None:
+        command = build_tile_command(
+            pathlib.Path("source.tif"),
+            pathlib.Path("tiles"),
+            8,
+            16,
+        )
+
+        self.assertEqual(
+            command[:3],
+            [sys.executable, "-m", "osgeo_utils.gdal2tiles"],
+        )
+        self.assertIn("--resume", command)
 
 
 if __name__ == "__main__":
