@@ -2,27 +2,35 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Revision 2 (2026-07-24):** rewritten after a full adversarial review by
+> Codex `gpt-5.6-sol` (15 findings, 4 blockers). Key changes: geotiff pinned
+> to 2.1.3 (the 3.x rewrite changed `getFileDirectory()`), decode moved into a
+> web worker with a main-thread fallback, pane moved to z-160, quota failures
+> keep the map in memory, 16-bit scaling, PixelIsPoint, overview selection,
+> WKT-citation best-effort, lint-fatal patterns removed, and the test suite
+> reworked so every "Expected: PASS" is true for the planned diff.
+
 **Goal:** A user opens a GeoTIFF from their device and it renders warped onto the web map as a toggleable, opacity-adjustable "Your maps" layer that survives reloads — fully client-side.
 
-**Architecture:** New self-contained `web/src/userMaps/` feature folder (parsers / transform / render / store / components). `App.tsx` and `MapCanvas.tsx` gain only mounting points. Rendering is a single custom canvas Leaflet layer (`WarpedRasterLayer`) that draws the decoded raster through a projected mesh; persistence is IndexedDB. Spec: `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`.
+**Architecture:** New self-contained `web/src/userMaps/` feature folder (parsers / transform / render / store / components). `App.tsx` and `MapCanvas.tsx` gain only mounting points. Rendering is a single custom canvas Leaflet layer (`WarpedRasterLayer`) drawing through a projected mesh; decode runs in a web worker (OffscreenCanvas) with a main-thread fallback; persistence is IndexedDB. Spec: `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`.
 
-**Tech Stack:** React 19, Leaflet 1.9 + react-leaflet 5, Vite 8, TypeScript 5.9, Vitest 4 (jsdom), geotiff.js, proj4.
+**Tech Stack:** React 19, Leaflet 1.9 + react-leaflet 5, Vite 8, TypeScript 5.9, Vitest 4 (jsdom), geotiff.js **2.1.3 (exact pin)**, proj4.
 
 ## Global Constraints
 
-- Runtime dependencies added in this PR: `geotiff`, `proj4` — **nothing else** (pdf.js is PR 4).
-- Dev dependencies added: `@types/proj4`, `fake-indexeddb`. **`fake-indexeddb` was not in the approved dep list** (it is dev-only, for IndexedDB tests) — surface it to the maintainer at execution start before installing.
-- `App.tsx` / `MapCanvas.tsx` receive mounting points only: one hook call + one JSX element in App; one prop + one JSX element in MapCanvas.
-- Preview raster cap: `PREVIEW_MAX_DIMENSION = 4096` px (iOS Safari canvas safety).
-- Pane: name `user-maps-pane`, z-index `260` (above waterfalls 250, below zoning 300).
+- Runtime dependencies: `geotiff@2.1.3` (**exact pin** — 3.x changed the read API; migrating is a tracked follow-up, not a drive-by) and `proj4` — nothing else. **No `@types/proj4`** (proj4 ships its own `dist/index.d.ts`).
+- Dev dependency: `fake-indexeddb` (dev-only, for IndexedDB in jsdom). Not in the originally approved dep list — surface to the maintainer at execution start.
+- `App.tsx` / `MapCanvas.tsx` receive mounting points only.
+- Preview raster cap: `PREVIEW_MAX_DIMENSION = 4096` px. Memory honesty: decoding still materializes source tiles transiently at full resolution inside the worker; the cap bounds the *retained* output, and WebKit budgets canvas memory in aggregate — noted, accepted for PR 1.
+- Pane: `user-maps-pane`, z-index **160** (above aerial 150, below environmental health 165 and every data overlay — parcels/roads/waterfalls stay readable on top).
 - Privacy copy, verbatim: `Files stay on this device — nothing is uploaded.`
-- Hard file-size refusal above 500 MB; files over 150 MB import with the note `Large file — displayed at reduced resolution.`
-- PDF / PNG / JPEG are *recognized* by the sniffer but rejected in PR 1 with: `This file type arrives with the georeferencer in the next update. GeoTIFF works today.`
-- GeoTIFFs without georeferencing metadata are rejected with: `No georeferencing found in this file. The georeferencer (next update) will handle plain scans.`
-- Supported CRSs (locked in spec): EPSG 26920, 2961, 2962, 4617, 4326, 3857. Anything else: `Unsupported coordinate system (EPSG:XXXX). Reproject to UTM zone 20N (EPSG:26920) or WGS84 and re-import.`
-- Conventional Commits (`feat(web):`, `test(web):`, `docs(web):`, `chore(web):`). Commit after every task.
-- Work on the current branch `claude/web-map-custom-uploads-cde085` (already based on `origin/nightly`, spec committed). Final PR targets `nightly` — never `main`.
-- All commands below run from the repo root. Tests: `cd web && npx vitest run <path>`.
+- Hard refusal above 500 MB; files over 150 MB show `Large file — displayed at reduced resolution.` and a size-aware "Reading large map…" status *during* the parse.
+- PDF/PNG/JPEG recognized but rejected in PR 1 with: `This file type arrives with the georeferencer in the next update. GeoTIFF works today.`
+- No georeferencing: `No georeferencing found in this file. The georeferencer (next update) will handle plain scans.`
+- CRSs: EPSG 26920, 2961, 2962, 4617, 4326, 3857, plus best-effort proj4 parse of the citation string when the CRS key is user-defined (32767). Otherwise: `Unsupported coordinate system (<crs>). Reproject to UTM zone 20N (EPSG:26920) or WGS84 and re-import.`
+- ESLint gotchas this repo enforces (react-hooks 7 flat recommended + js recommended): no synchronous `setState` in effects (`react-hooks/set-state-in-effect`), no unreachable code. The planned code below is written to pass both — do not reintroduce those patterns.
+- Conventional Commits; commit after every task. Branch `claude/web-map-custom-uploads-cde085` (based on `origin/nightly`); final PR targets `nightly` — never `main`.
+- Commands run from repo root; tests via `cd web && npx vitest run <path>`.
 
 ---
 
@@ -35,18 +43,17 @@
 - Test: `web/src/userMaps/parsers/sniff.test.ts`
 
 **Interfaces:**
-- Consumes: nothing.
-- Produces: `sniffFileType(bytes: Uint8Array): SniffedType` where `type SniffedType = "geotiff" | "pdf" | "png" | "jpeg" | "unknown"`; `class UserMapImportError extends Error { code: UserMapImportErrorCode; userMessage: string }` with `type UserMapImportErrorCode = "unsupported-type" | "corrupt-file" | "unsupported-crs" | "no-georeferencing" | "too-large" | "quota"`.
+- Produces: `sniffFileType(bytes: Uint8Array): SniffedType` with `type SniffedType = "geotiff" | "pdf" | "png" | "jpeg" | "unknown"`; `class UserMapImportError extends Error { code: UserMapImportErrorCode; userMessage: string }` with `type UserMapImportErrorCode = "unsupported-type" | "corrupt-file" | "unsupported-crs" | "no-georeferencing" | "too-large" | "quota" | "storage-failed"`.
 
-- [ ] **Step 1: Flag `fake-indexeddb` to the maintainer** (it is outside the approved dependency list; dev-only). If the human is unavailable, proceed — it never ships in the bundle — and note it in the PR description.
+- [ ] **Step 1: Flag `fake-indexeddb` to the maintainer** (dev-only test dependency outside the approved list). If unavailable, proceed and note it in the PR description.
 
 - [ ] **Step 2: Install dependencies**
 
 ```bash
-cd web && npm install geotiff proj4 && npm install -D @types/proj4 fake-indexeddb
+cd web && npm install --save-exact geotiff@2.1.3 && npm install proj4 && npm install -D fake-indexeddb
 ```
 
-Expected: `package.json` gains the four entries; `npm install` exits 0.
+Expected: `package.json` shows `"geotiff": "2.1.3"` (no caret), `proj4` with caret, `fake-indexeddb` in devDependencies. Exit 0.
 
 - [ ] **Step 3: Write the error type** — `web/src/userMaps/errors.ts`:
 
@@ -57,7 +64,8 @@ export type UserMapImportErrorCode =
   | "unsupported-crs"
   | "no-georeferencing"
   | "too-large"
-  | "quota";
+  | "quota"
+  | "storage-failed";
 
 /**
  * Import failures are expected user events, not bugs, so every one carries a
@@ -174,20 +182,20 @@ git commit -m "feat(web): add user-map file sniffing and import error types"
 
 ---
 
-### Task 2: Projection module (proj4 registry, pixel→LatLng, mesh builder)
+### Task 2: Projection module (proj4 registry, CRS validation, pixel→LatLng, mesh builder)
 
 **Files:**
 - Create: `web/src/userMaps/transform/projection.ts`
 - Test: `web/src/userMaps/transform/projection.test.ts`
 
 **Interfaces:**
-- Consumes: `UserMapImportError` from Task 1.
+- Consumes: `UserMapImportError` (Task 1).
 - Produces:
-  - `type EmbeddedGeoref = { kind: "embedded"; crs: string; geotransform: [number, number, number, number, number, number] }` (GDAL order: originX, xRes, xRot, originY, yRot, yRes).
-  - `type PixelSize = { width: number; height: number }`
-  - `type LatLngPoint = { lat: number; lng: number }`
-  - `pixelToLatLng(georef: EmbeddedGeoref, x: number, y: number): LatLngPoint` — throws `UserMapImportError("unsupported-crs", …)` for unknown CRS.
-  - `buildLatLngMesh(georef: EmbeddedGeoref, pixelSize: PixelSize, gridSize?: number): LatLngPoint[][]` — `(gridSize+1)²` rows×cols, default `gridSize = 8`.
+  - `type EmbeddedGeoref = { kind: "embedded"; crs: string; geotransform: [number, number, number, number, number, number] }` (GDAL order). `crs` is either `"EPSG:xxxx"` or a raw proj4-parseable definition/WKT string (citation fallback).
+  - `type PixelSize = { width: number; height: number }`, `type LatLngPoint = { lat: number; lng: number }`
+  - `validateCrs(crs: string): void` — throws `UserMapImportError("unsupported-crs", …)`.
+  - `pixelToLatLng(georef: EmbeddedGeoref, x: number, y: number): LatLngPoint`
+  - `buildLatLngMesh(georef: EmbeddedGeoref, pixelSize: PixelSize, gridSize?: number): LatLngPoint[][]` — default `gridSize = 8`.
   - `SUPPORTED_EPSG_CODES: readonly number[]`
 
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/transform/projection.test.ts`:
@@ -199,6 +207,7 @@ import { UserMapImportError } from "../errors";
 import {
   buildLatLngMesh,
   pixelToLatLng,
+  validateCrs,
   type EmbeddedGeoref,
 } from "./projection";
 
@@ -209,10 +218,34 @@ const UTM20_GEOREF: EmbeddedGeoref = {
   geotransform: [500000, 10, 0, 5000000, 0, -10],
 };
 
+describe("validateCrs", () => {
+  it("accepts every locked EPSG code", () => {
+    for (const code of [26920, 2961, 2962, 4617, 4326, 3857]) {
+      expect(() => validateCrs(`EPSG:${code}`)).not.toThrow();
+    }
+  });
+
+  it("accepts a raw proj4 definition string (WKT-citation fallback)", () => {
+    expect(() =>
+      validateCrs("+proj=utm +zone=20 +datum=NAD83 +units=m +no_defs"),
+    ).not.toThrow();
+  });
+
+  it("rejects unknown CRSs with the code in the message", () => {
+    try {
+      validateCrs("EPSG:32633");
+      expect.unreachable("should have thrown");
+    } catch (error) {
+      expect(error).toBeInstanceOf(UserMapImportError);
+      expect((error as UserMapImportError).code).toBe("unsupported-crs");
+      expect((error as UserMapImportError).userMessage).toContain("EPSG:32633");
+    }
+  });
+});
+
 describe("pixelToLatLng", () => {
   it("maps the origin pixel of a UTM 20N raster onto the central meridian", () => {
     const { lat, lng } = pixelToLatLng(UTM20_GEOREF, 0, 0);
-    // Easting 500 000 is the central meridian of zone 20 by definition.
     expect(lng).toBeCloseTo(-63, 6);
     expect(lat).toBeGreaterThan(45);
     expect(lat).toBeLessThan(45.3);
@@ -231,11 +264,10 @@ describe("pixelToLatLng", () => {
       crs: "EPSG:26920",
       geotransform: [500000, 0, 10, 5000000, -10, 0],
     };
-    const [expectedEasting, expectedNorthing] = [500000 + 45 * 10, 5000000 - 120 * 10];
     const { lat, lng } = pixelToLatLng(rotated, 120, 45);
     const [easting, northing] = proj4("EPSG:4326", "EPSG:26920", [lng, lat]);
-    expect(easting).toBeCloseTo(expectedEasting, 3);
-    expect(northing).toBeCloseTo(expectedNorthing, 3);
+    expect(easting).toBeCloseTo(500000 + 45 * 10, 3);
+    expect(northing).toBeCloseTo(5000000 - 120 * 10, 3);
   });
 
   it("passes WGS84 rasters through untouched", () => {
@@ -248,29 +280,13 @@ describe("pixelToLatLng", () => {
     expect(lng).toBeCloseTo(-63.4, 9);
     expect(lat).toBeCloseTo(45.8, 9);
   });
-
-  it("rejects unknown CRSs with a user-facing message", () => {
-    const bad: EmbeddedGeoref = { ...UTM20_GEOREF, crs: "EPSG:32633" };
-    expect(() => pixelToLatLng(bad, 0, 0)).toThrowError(UserMapImportError);
-    try {
-      pixelToLatLng(bad, 0, 0);
-    } catch (error) {
-      expect((error as UserMapImportError).code).toBe("unsupported-crs");
-      expect((error as UserMapImportError).userMessage).toContain("EPSG:32633");
-    }
-  });
 });
 
 describe("buildLatLngMesh", () => {
   it("returns a (grid+1) x (grid+1) lattice covering the full raster", () => {
-    const mesh = buildLatLngMesh(
-      UTM20_GEOREF,
-      { width: 800, height: 400 },
-      8,
-    );
+    const mesh = buildLatLngMesh(UTM20_GEOREF, { width: 800, height: 400 }, 8);
     expect(mesh).toHaveLength(9);
     expect(mesh[0]).toHaveLength(9);
-    // Corner checks: mesh[row][col]; row 0 = pixel y 0, col 0 = pixel x 0.
     expect(mesh[0][0]).toEqual(pixelToLatLng(UTM20_GEOREF, 0, 0));
     expect(mesh[8][8]).toEqual(pixelToLatLng(UTM20_GEOREF, 800, 400));
     expect(mesh[4][2]).toEqual(pixelToLatLng(UTM20_GEOREF, 200, 200));
@@ -291,6 +307,7 @@ import { UserMapImportError } from "../errors";
 
 export type EmbeddedGeoref = {
   kind: "embedded";
+  /** "EPSG:xxxx" or a raw proj4-parseable definition (citation fallback). */
   crs: string;
   /** GDAL order: [originX, xRes, xRot, originY, yRot, yRes]. */
   geotransform: [number, number, number, number, number, number];
@@ -340,6 +357,11 @@ function converterFor(crs: string): proj4.Converter {
   }
 }
 
+/** Import-time gate so a bad CRS fails the import, not the first render. */
+export function validateCrs(crs: string): void {
+  converterFor(crs);
+}
+
 export function pixelToLatLng(
   georef: EmbeddedGeoref,
   x: number,
@@ -380,7 +402,7 @@ export function buildLatLngMesh(
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `cd web && npx vitest run src/userMaps/transform/projection.test.ts`
-Expected: PASS (6 tests).
+Expected: PASS (8 tests).
 
 - [ ] **Step 5: Commit**
 
@@ -398,8 +420,7 @@ git commit -m "feat(web): add user-map projection module with NS CRS registry"
 - Create: `web/src/test/fixtures/utm20-8x6.tif` (generated, committed)
 
 **Interfaces:**
-- Consumes: nothing (standalone node script using the `geotiff` package).
-- Produces: an 8×6 px RGB GeoTIFF, EPSG:26920, origin (500000, 5000000), 10 m pixels, red-to-blue gradient. Tests in Task 4 read it via `node:fs`.
+- Produces: an 8×6 px RGB GeoTIFF, EPSG:26920, origin (500000, 5000000), 10 m pixels, red/blue gradient. Written with the pinned geotiff 2.1.3 writer.
 
 - [ ] **Step 1: Write the generator** — `web/scripts/generateGeoTiffFixture.mjs`:
 
@@ -455,12 +476,12 @@ console.log(`wrote ${out}`);
 - [ ] **Step 2: Generate the fixture**
 
 Run: `cd web && node scripts/generateGeoTiffFixture.mjs`
-Expected: `wrote …/web/src/test/fixtures/utm20-8x6.tif`; file is roughly 1 KB.
+Expected: `wrote …/web/src/test/fixtures/utm20-8x6.tif`; roughly 1 KB.
 
-- [ ] **Step 3: Verify the fixture parses** (throwaway check, not committed as a test)
+- [ ] **Step 3: Verify the fixture parses under the pinned version**
 
-Run: `cd web && node -e "import('geotiff').then(async g => { const fs = await import('node:fs'); const b = fs.readFileSync('src/test/fixtures/utm20-8x6.tif'); const t = await g.fromArrayBuffer(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); const i = await t.getImage(); console.log(i.getWidth(), i.getHeight(), i.getGeoKeys().ProjectedCSTypeGeoKey); })"`
-Expected output: `8 6 26920`. If `writeArrayBuffer` did not encode the geokeys (older geotiff versions), stop and report — do not hand-edit the binary.
+Run: `cd web && node -e "import('geotiff').then(async g => { const fs = await import('node:fs'); const b = fs.readFileSync('src/test/fixtures/utm20-8x6.tif'); const t = await g.fromArrayBuffer(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); const i = await t.getImage(); console.log(i.getWidth(), i.getHeight(), i.getGeoKeys().ProjectedCSTypeGeoKey, JSON.stringify(i.getFileDirectory().ModelPixelScale)); })"`
+Expected output: `8 6 26920 [10,10,0]` — the last value also proves `getFileDirectory()` returns a plain tag bag on 2.1.3 (the reason for the pin). If this fails, stop and report; do not upgrade geotiff to "fix" it.
 
 - [ ] **Step 4: Commit**
 
@@ -471,24 +492,21 @@ git commit -m "test(web): add deterministic GeoTIFF fixture and generator"
 
 ---
 
-### Task 4: GeoTIFF parser
+### Task 4: GeoTIFF parser + worker
 
 **Files:**
 - Create: `web/src/userMaps/types.ts`
 - Create: `web/src/userMaps/parsers/geoTiffSource.ts`
+- Create: `web/src/userMaps/parsers/geoTiffWorker.ts`
+- Create: `web/src/userMaps/parsers/parseInWorker.ts`
 - Test: `web/src/userMaps/parsers/geoTiffSource.test.ts`
 
 **Interfaces:**
-- Consumes: `UserMapImportError` (Task 1); `EmbeddedGeoref`, `PixelSize`, `SUPPORTED_EPSG_CODES` (Task 2).
+- Consumes: `UserMapImportError` (Task 1); `EmbeddedGeoref`, `PixelSize`, `SUPPORTED_EPSG_CODES`, `validateCrs` (Task 2).
 - Produces:
-  - `web/src/userMaps/types.ts`:
-    - `type Gcp = { id: string; pixel: { x: number; y: number }; map: { lat: number; lng: number } }`
-    - `type GcpGeoref = { kind: "gcp"; gcps: Gcp[]; method: "affine" | "tps" }` (schema stability for PR 2+; nothing produces it in PR 1)
-    - `type UserMapGeoref = EmbeddedGeoref | GcpGeoref`
-    - `type UserMapSource = "geotiff" | "geopdf" | "image"`
-    - `type UserMapRecord = { id: string; name: string; source: UserMapSource; createdAt: string; pixelSize: PixelSize; georef: UserMapGeoref }`
-  - `parseGeoTiff(buffer: ArrayBuffer, options?: { makePreview?: MakePreview }): Promise<ParsedGeoTiff>` where `type ParsedGeoTiff = { pixelSize: PixelSize; georef: EmbeddedGeoref; preview: Blob; previewSize: PixelSize }` and `type MakePreview = (rgb: Uint8Array, width: number, height: number) => Promise<Blob>`.
-  - `PREVIEW_MAX_DIMENSION = 4096`
+  - `types.ts`: `Gcp`, `GcpGeoref`, `UserMapGeoref`, `UserMapSource`, `UserMapRecord` (schema-stable for PR 2+).
+  - `geoTiffSource.ts`: `parseGeoTiff(buffer: ArrayBuffer, options?: { makePreview?: MakePreview }): Promise<ParsedGeoTiff>` with `type ParsedGeoTiff = { pixelSize: PixelSize; georef: EmbeddedGeoref; preview: Blob; previewSize: PixelSize }`, `type MakePreview = (rgb: Uint8Array, width: number, height: number) => Promise<Blob>`, `chooseImageIndex(sizes: PixelSize[], target: number): number` (pure, exported for tests), `PREVIEW_MAX_DIMENSION = 4096`.
+  - `parseInWorker.ts`: `parseGeoTiffAuto(buffer: ArrayBuffer): Promise<ParsedGeoTiff>` — worker when `Worker`+`OffscreenCanvas` exist, else main-thread fallback.
 
 - [ ] **Step 1: Write the shared types** — `web/src/userMaps/types.ts`:
 
@@ -528,7 +546,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { UserMapImportError } from "../errors";
-import { parseGeoTiff } from "./geoTiffSource";
+import { chooseImageIndex, parseGeoTiff } from "./geoTiffSource";
 
 function fixtureBuffer(): ArrayBuffer {
   const raw = readFileSync(
@@ -546,10 +564,48 @@ const fakePreview = () =>
     return new Blob(["fake-preview"], { type: "image/png" });
   });
 
+async function plainTiff(metadata: Record<string, unknown>): Promise<ArrayBuffer> {
+  const { writeArrayBuffer } = await import("geotiff");
+  return writeArrayBuffer(new Uint8Array([1, 2, 3]), {
+    width: 1,
+    height: 1,
+    SamplesPerPixel: 3,
+    BitsPerSample: [8, 8, 8],
+    PhotometricInterpretation: 2,
+    ...metadata,
+  }) as ArrayBuffer;
+}
+
+describe("chooseImageIndex", () => {
+  it("picks the smallest overview still covering the target", () => {
+    const sizes = [
+      { width: 20000, height: 15000 },
+      { width: 10000, height: 7500 },
+      { width: 5000, height: 3750 },
+      { width: 2500, height: 1875 },
+    ];
+    // Target 4096: 5000x3750 is the smallest whose max dimension >= 4096.
+    expect(chooseImageIndex(sizes, 4096)).toBe(2);
+  });
+
+  it("falls back to the smallest image when none covers the target", () => {
+    const sizes = [
+      { width: 3000, height: 2000 },
+      { width: 1500, height: 1000 },
+    ];
+    expect(chooseImageIndex(sizes, 4096)).toBe(0);
+  });
+
+  it("uses the sole image when there are no overviews", () => {
+    expect(chooseImageIndex([{ width: 8, height: 6 }], 4096)).toBe(0);
+  });
+});
+
 describe("parseGeoTiff", () => {
   it("extracts pixel size, CRS, and geotransform from the fixture", async () => {
-    const makePreview = fakePreview();
-    const parsed = await parseGeoTiff(fixtureBuffer(), { makePreview });
+    const parsed = await parseGeoTiff(fixtureBuffer(), {
+      makePreview: fakePreview(),
+    });
     expect(parsed.pixelSize).toEqual({ width: 8, height: 6 });
     expect(parsed.georef).toEqual({
       kind: "embedded",
@@ -566,27 +622,42 @@ describe("parseGeoTiff", () => {
     expect(width).toBe(8);
     expect(height).toBe(6);
     expect(rgb).toHaveLength(8 * 6 * 3);
-    // Fixture gradient: top-left pixel is pure black-red corner (r=0),
-    // top-right has r=255, bottom-left has b=255.
-    expect(rgb[0]).toBe(0);
-    expect(rgb[(8 - 1) * 3]).toBe(255);
+    expect(rgb[0]).toBe(0); // top-left red
+    expect(rgb[(8 - 1) * 3]).toBe(255); // top-right red
     expect(parsed.previewSize).toEqual({ width: 8, height: 6 });
     expect(parsed.preview.type).toBe("image/png");
   });
 
+  it("applies the half-pixel shift for PixelIsPoint rasters", async () => {
+    const buffer = await plainTiff({
+      ModelPixelScale: [10, 10, 0],
+      ModelTiepoint: [0, 0, 0, 500000, 5000000, 0],
+      ProjectedCSTypeGeoKey: 26920,
+      GTModelTypeGeoKey: 1,
+      GTRasterTypeGeoKey: 2, // PixelIsPoint
+    });
+    const parsed = await parseGeoTiff(buffer, { makePreview: fakePreview() });
+    // Tiepoint marks the CENTRE of pixel (0,0), so the area origin shifts
+    // back half a pixel: x - 5, y + 5 (north-up negative y resolution).
+    expect(parsed.georef.geotransform[0]).toBeCloseTo(499995, 6);
+    expect(parsed.georef.geotransform[3]).toBeCloseTo(5000005, 6);
+  });
+
   it("rejects TIFFs without georeferencing as no-georeferencing", async () => {
-    // A structurally valid single-pixel TIFF with no geo tags, generated in
-    // memory via geotiff's writer.
-    const { writeArrayBuffer } = await import("geotiff");
-    const plain = writeArrayBuffer(new Uint8Array([1, 2, 3]), {
-      width: 1,
-      height: 1,
-      SamplesPerPixel: 3,
-      BitsPerSample: [8, 8, 8],
-      PhotometricInterpretation: 2,
-    }) as ArrayBuffer;
+    const buffer = await plainTiff({});
     await expect(
-      parseGeoTiff(plain, { makePreview: fakePreview() }),
+      parseGeoTiff(buffer, { makePreview: fakePreview() }),
+    ).rejects.toMatchObject({ code: "no-georeferencing" });
+  });
+
+  it("rejects a truncated ModelTransformation as no-georeferencing", async () => {
+    const buffer = await plainTiff({
+      ModelTransformation: [1, 0, 0, 0, 0, 1, 0, 0], // 8 of 16 doubles
+      ProjectedCSTypeGeoKey: 26920,
+      GTModelTypeGeoKey: 1,
+    });
+    await expect(
+      parseGeoTiff(buffer, { makePreview: fakePreview() }),
     ).rejects.toMatchObject({ code: "no-georeferencing" });
   });
 
@@ -598,26 +669,40 @@ describe("parseGeoTiff", () => {
   });
 
   it("surfaces unsupported CRS with the EPSG code in the message", async () => {
-    const { writeArrayBuffer } = await import("geotiff");
-    const utm33 = writeArrayBuffer(new Uint8Array([1, 2, 3]), {
-      width: 1,
-      height: 1,
-      SamplesPerPixel: 3,
-      BitsPerSample: [8, 8, 8],
-      PhotometricInterpretation: 2,
+    const buffer = await plainTiff({
       ModelPixelScale: [10, 10, 0],
       ModelTiepoint: [0, 0, 0, 500000, 5000000, 0],
       ProjectedCSTypeGeoKey: 32633,
       GTModelTypeGeoKey: 1,
-    }) as ArrayBuffer;
+    });
     try {
-      await parseGeoTiff(utm33, { makePreview: fakePreview() });
+      await parseGeoTiff(buffer, { makePreview: fakePreview() });
       expect.unreachable("should have thrown");
     } catch (error) {
       expect(error).toBeInstanceOf(UserMapImportError);
       expect((error as UserMapImportError).code).toBe("unsupported-crs");
       expect((error as UserMapImportError).userMessage).toContain("32633");
     }
+  });
+
+  it("scales 16-bit samples into the 8-bit preview instead of truncating", async () => {
+    const { writeArrayBuffer } = await import("geotiff");
+    // One pixel, RGB, 16-bit: mid-grey 0x8000 must become ~0x80, not 0x00.
+    const buffer = writeArrayBuffer(new Uint16Array([0x8000, 0x8000, 0x8000]), {
+      width: 1,
+      height: 1,
+      SamplesPerPixel: 3,
+      BitsPerSample: [16, 16, 16],
+      PhotometricInterpretation: 2,
+      ModelPixelScale: [10, 10, 0],
+      ModelTiepoint: [0, 0, 0, 500000, 5000000, 0],
+      ProjectedCSTypeGeoKey: 26920,
+      GTModelTypeGeoKey: 1,
+    }) as ArrayBuffer;
+    const makePreview = fakePreview();
+    await parseGeoTiff(buffer, { makePreview });
+    const [rgb] = makePreview.mock.calls[0];
+    expect(rgb[0]).toBe(0x80);
   });
 });
 ```
@@ -627,13 +712,13 @@ describe("parseGeoTiff", () => {
 Run: `cd web && npx vitest run src/userMaps/parsers/geoTiffSource.test.ts`
 Expected: FAIL — cannot resolve `./geoTiffSource`.
 
-- [ ] **Step 4: Implement** — `web/src/userMaps/parsers/geoTiffSource.ts`:
+- [ ] **Step 4: Implement the parser** — `web/src/userMaps/parsers/geoTiffSource.ts`:
 
 ```ts
 import { fromArrayBuffer } from "geotiff";
 import { UserMapImportError } from "../errors";
 import {
-  SUPPORTED_EPSG_CODES,
+  validateCrs,
   type EmbeddedGeoref,
   type PixelSize,
 } from "../transform/projection";
@@ -654,15 +739,190 @@ export type ParsedGeoTiff = {
 };
 
 /**
- * Default preview maker: RGB → RGBA → canvas → PNG blob. Kept as a thin,
- * injectable seam because jsdom has no canvas; tests inject a fake, and the
- * browser uses this implementation.
+ * Smallest image (base or overview) whose longest edge still covers the
+ * preview target, so huge rasters decode from an overview instead of the
+ * base image. Falls back to index 0 (the base) when nothing covers it —
+ * upscaling an overview would fabricate detail.
  */
-async function canvasPreview(
-  rgb: Uint8Array,
-  width: number,
-  height: number,
-): Promise<Blob> {
+export function chooseImageIndex(sizes: PixelSize[], target: number): number {
+  let best = 0;
+  let bestMax = Number.POSITIVE_INFINITY;
+  for (let i = 0; i < sizes.length; i += 1) {
+    const max = Math.max(sizes[i].width, sizes[i].height);
+    if (max >= target && max < bestMax) {
+      best = i;
+      bestMax = max;
+    }
+  }
+  return best;
+}
+
+type GeoTiffDirectory = {
+  ModelPixelScale?: number[];
+  ModelTiepoint?: number[];
+  ModelTransformation?: number[];
+};
+
+type GeoKeyBag = {
+  ProjectedCSTypeGeoKey?: number;
+  GeographicTypeGeoKey?: number;
+  GTRasterTypeGeoKey?: number;
+  GTCitationGeoKey?: string;
+  PCSCitationGeoKey?: string;
+};
+
+function geotransformFrom(
+  directory: GeoTiffDirectory,
+  pixelIsPoint: boolean,
+): EmbeddedGeoref["geotransform"] | null {
+  const { ModelPixelScale: scale, ModelTiepoint: tie, ModelTransformation: m } =
+    directory;
+  if (m) {
+    if (m.length < 16) {
+      // The tag is defined as a full 4x4 matrix; anything shorter is broken.
+      return null;
+    }
+    // Row-major 4x4 affine: x' = m0·x + m1·y + m3; y' = m4·x + m5·y + m7.
+    return [m[3], m[0], m[1], m[7], m[4], m[5]];
+  }
+  if (scale && scale.length >= 2 && tie && tie.length >= 6) {
+    if (tie.length > 6) {
+      // Multiple tiepoints without a transformation matrix = irregular
+      // georeferencing we do not support; treat as ungeoreferenced.
+      return null;
+    }
+    let originX = tie[3] - tie[0] * scale[0];
+    let originY = tie[4] + tie[1] * scale[1];
+    if (pixelIsPoint) {
+      // PixelIsPoint ties the CENTRE of the pixel; area semantics shift the
+      // origin back half a pixel (north-up: y resolution is negative).
+      originX -= scale[0] / 2;
+      originY += scale[1] / 2;
+    }
+    return [originX, scale[0], 0, originY, 0, -scale[1]];
+  }
+  return null;
+}
+
+function crsFrom(geoKeys: GeoKeyBag): string | null {
+  const epsg = geoKeys.ProjectedCSTypeGeoKey ?? geoKeys.GeographicTypeGeoKey;
+  if (epsg && epsg !== 32767) {
+    return `EPSG:${epsg}`;
+  }
+  // User-defined CRS: best-effort — some producers put a proj4/WKT string in
+  // the citation keys, which proj4 can parse directly. validateCrs decides.
+  const citation = geoKeys.PCSCitationGeoKey ?? geoKeys.GTCitationGeoKey;
+  return citation ?? null;
+}
+
+/** 16-bit samples scale down (>>8); anything else clamps into 8-bit. */
+function toUint8Rgb(raw: ArrayLike<number>): Uint8Array {
+  if (raw instanceof Uint8Array) {
+    return raw;
+  }
+  const out = new Uint8Array(raw.length);
+  const shift = raw instanceof Uint16Array;
+  for (let i = 0; i < raw.length; i += 1) {
+    const v = shift ? raw[i] >> 8 : raw[i];
+    out[i] = v < 0 ? 0 : v > 255 ? 255 : v;
+  }
+  return out;
+}
+
+export async function parseGeoTiff(
+  buffer: ArrayBuffer,
+  options: { makePreview?: MakePreview } = {},
+): Promise<ParsedGeoTiff> {
+  const makePreview = options.makePreview ?? domCanvasPreview;
+
+  let width: number;
+  let height: number;
+  let geoKeys: GeoKeyBag;
+  let directory: GeoTiffDirectory;
+  let imageSizes: PixelSize[];
+  let getImage: (index: number) => Promise<{
+    readRGB: (opts: {
+      interleave: true;
+      width: number;
+      height: number;
+    }) => Promise<ArrayLike<number>>;
+  }>;
+  try {
+    const tiff = await fromArrayBuffer(buffer);
+    const count = await tiff.getImageCount();
+    const images = [];
+    for (let i = 0; i < count; i += 1) {
+      images.push(await tiff.getImage(i));
+    }
+    const base = images[0];
+    width = base.getWidth();
+    height = base.getHeight();
+    geoKeys = (base.getGeoKeys() ?? {}) as GeoKeyBag;
+    directory = base.getFileDirectory() as GeoTiffDirectory;
+    imageSizes = images.map((img) => ({
+      width: img.getWidth(),
+      height: img.getHeight(),
+    }));
+    getImage = async (index) => images[index];
+  } catch (error) {
+    if (error instanceof UserMapImportError) {
+      throw error;
+    }
+    throw new UserMapImportError(
+      "corrupt-file",
+      "This file could not be read as a GeoTIFF. It may be truncated or corrupt.",
+    );
+  }
+
+  const pixelIsPoint = geoKeys.GTRasterTypeGeoKey === 2;
+  const geotransform = geotransformFrom(directory, pixelIsPoint);
+  const crs = crsFrom(geoKeys);
+  if (!geotransform || !crs) {
+    throw new UserMapImportError(
+      "no-georeferencing",
+      "No georeferencing found in this file. The georeferencer (next update) " +
+        "will handle plain scans.",
+    );
+  }
+  validateCrs(crs); // throws unsupported-crs with the CRS in the message
+
+  const downScale = Math.min(1, PREVIEW_MAX_DIMENSION / Math.max(width, height));
+  const previewSize: PixelSize = {
+    width: Math.max(1, Math.round(width * downScale)),
+    height: Math.max(1, Math.round(height * downScale)),
+  };
+
+  let rgb: Uint8Array;
+  try {
+    // Decode from the smallest sufficient overview. Note: geotiff still
+    // materializes that image's source tiles transiently during the read;
+    // the cap bounds the RETAINED output, not the decode peak.
+    const source = await getImage(chooseImageIndex(imageSizes, PREVIEW_MAX_DIMENSION));
+    const raw = await source.readRGB({
+      interleave: true,
+      width: previewSize.width,
+      height: previewSize.height,
+    });
+    rgb = toUint8Rgb(raw);
+  } catch {
+    throw new UserMapImportError(
+      "corrupt-file",
+      "The image data in this GeoTIFF could not be decoded.",
+    );
+  }
+
+  const preview = await makePreview(rgb, previewSize.width, previewSize.height);
+
+  return {
+    pixelSize: { width, height },
+    georef: { kind: "embedded", crs, geotransform },
+    preview,
+    previewSize,
+  };
+}
+
+/** RGB → RGBA bytes; shared by both preview implementations. */
+export function rgbToRgba(rgb: Uint8Array, width: number, height: number): Uint8ClampedArray {
   const rgba = new Uint8ClampedArray(width * height * 4);
   for (let i = 0, j = 0; i < rgb.length; i += 3, j += 4) {
     rgba[j] = rgb[i];
@@ -670,6 +930,15 @@ async function canvasPreview(
     rgba[j + 2] = rgb[i + 2];
     rgba[j + 3] = 255;
   }
+  return rgba;
+}
+
+/** Main-thread fallback preview maker (DOM canvas). Workers use OffscreenCanvas. */
+async function domCanvasPreview(
+  rgb: Uint8Array,
+  width: number,
+  height: number,
+): Promise<Blob> {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -680,7 +949,7 @@ async function canvasPreview(
       "This browser could not prepare the map preview.",
     );
   }
-  ctx.putImageData(new ImageData(rgba, width, height), 0, 0);
+  ctx.putImageData(new ImageData(rgbToRgba(rgb, width, height), width, height), 0, 0);
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (blob) {
@@ -696,126 +965,112 @@ async function canvasPreview(
     }, "image/png");
   });
 }
+```
 
-type GeoTiffDirectory = {
-  ModelPixelScale?: number[];
-  ModelTiepoint?: number[];
-  ModelTransformation?: number[];
-};
+- [ ] **Step 5: Run parser test to verify it passes**
 
-function geotransformFrom(
-  directory: GeoTiffDirectory,
-): EmbeddedGeoref["geotransform"] | null {
-  const { ModelPixelScale: scale, ModelTiepoint: tie, ModelTransformation: m } =
-    directory;
-  if (m && m.length >= 8) {
-    // Row-major 4x4 affine: x' = m0·x + m1·y + m3; y' = m4·x + m5·y + m7.
-    return [m[3], m[0], m[1], m[7], m[4], m[5]];
+Run: `cd web && npx vitest run src/userMaps/parsers/geoTiffSource.test.ts`
+Expected: PASS (11 tests). If geotiff 2.1.3's `readRGB` rejects the `width`/`height` resample options, switch that call to `source.readRasters({ interleave: true, width, height })` and re-run — for RGB content they are equivalent.
+
+- [ ] **Step 6: Implement the worker + auto wrapper.**
+
+`web/src/userMaps/parsers/geoTiffWorker.ts`:
+
+```ts
+/// <reference lib="webworker" />
+import { UserMapImportError } from "../errors";
+import { parseGeoTiff, rgbToRgba, type ParsedGeoTiff } from "./geoTiffSource";
+
+export type WorkerReply =
+  | { ok: true; parsed: ParsedGeoTiff }
+  | { ok: false; code: UserMapImportError["code"]; userMessage: string };
+
+/** OffscreenCanvas preview maker — the worker-side counterpart of the DOM path. */
+async function offscreenPreview(
+  rgb: Uint8Array,
+  width: number,
+  height: number,
+): Promise<Blob> {
+  const canvas = new OffscreenCanvas(width, height);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new UserMapImportError(
+      "corrupt-file",
+      "This browser could not prepare the map preview.",
+    );
   }
-  if (scale && scale.length >= 2 && tie && tie.length >= 6) {
-    // Tiepoint maps raster (tie0, tie1) to model (tie3, tie4); the common
-    // case ties raster origin (0,0). North-up: y resolution is negative.
-    const originX = tie[3] - tie[0] * scale[0];
-    const originY = tie[4] + tie[1] * scale[1];
-    return [originX, scale[0], 0, originY, 0, -scale[1]];
-  }
-  return null;
+  ctx.putImageData(new ImageData(rgbToRgba(rgb, width, height), width, height), 0, 0);
+  return canvas.convertToBlob({ type: "image/png" });
 }
 
-export async function parseGeoTiff(
-  buffer: ArrayBuffer,
-  options: { makePreview?: MakePreview } = {},
-): Promise<ParsedGeoTiff> {
-  const makePreview = options.makePreview ?? canvasPreview;
-
-  let width: number;
-  let height: number;
-  let geoKeys: { ProjectedCSTypeGeoKey?: number; GeographicTypeGeoKey?: number };
-  let directory: GeoTiffDirectory;
-  let readRGB: (opts: {
-    interleave: true;
-    width: number;
-    height: number;
-  }) => Promise<ArrayLike<number>>;
+self.onmessage = async (event: MessageEvent<ArrayBuffer>) => {
   try {
-    const tiff = await fromArrayBuffer(buffer);
-    const image = await tiff.getImage();
-    width = image.getWidth();
-    height = image.getHeight();
-    geoKeys = image.getGeoKeys() ?? {};
-    directory = image.getFileDirectory() as GeoTiffDirectory;
-    readRGB = image.readRGB.bind(image);
+    const parsed = await parseGeoTiff(event.data, { makePreview: offscreenPreview });
+    self.postMessage({ ok: true, parsed } satisfies WorkerReply);
   } catch (error) {
-    if (error instanceof UserMapImportError) {
-      throw error;
-    }
-    throw new UserMapImportError(
-      "corrupt-file",
-      "This file could not be read as a GeoTIFF. It may be truncated or corrupt.",
-    );
+    const reply: WorkerReply =
+      error instanceof UserMapImportError
+        ? { ok: false, code: error.code, userMessage: error.userMessage }
+        : {
+            ok: false,
+            code: "corrupt-file",
+            userMessage: "Something went wrong reading this file.",
+          };
+    self.postMessage(reply);
   }
+};
+```
 
-  const geotransform = geotransformFrom(directory);
-  const epsg = geoKeys.ProjectedCSTypeGeoKey ?? geoKeys.GeographicTypeGeoKey;
-  if (!geotransform || !epsg) {
-    throw new UserMapImportError(
-      "no-georeferencing",
-      "No georeferencing found in this file. The georeferencer (next update) " +
-        "will handle plain scans.",
-    );
+`web/src/userMaps/parsers/parseInWorker.ts`:
+
+```ts
+import { UserMapImportError } from "../errors";
+import { parseGeoTiff, type ParsedGeoTiff } from "./geoTiffSource";
+import type { WorkerReply } from "./geoTiffWorker";
+
+/**
+ * Decode off the main thread when the browser can (spec requirement: the UI
+ * never blocks on a parse). jsdom and pre-16.4 Safari lack Worker-side
+ * OffscreenCanvas 2D, so those fall back to the main-thread DOM-canvas path.
+ */
+export function parseGeoTiffAuto(buffer: ArrayBuffer): Promise<ParsedGeoTiff> {
+  if (typeof Worker === "undefined" || typeof OffscreenCanvas === "undefined") {
+    return parseGeoTiff(buffer);
   }
-  if (!SUPPORTED_EPSG_CODES.includes(epsg as never)) {
-    throw new UserMapImportError(
-      "unsupported-crs",
-      `Unsupported coordinate system (EPSG:${epsg}). Reproject to UTM zone ` +
-        "20N (EPSG:26920) or WGS84 and re-import.",
-    );
-  }
-
-  // Decode at capped resolution: geotiff resamples during the read, so a
-  // huge raster never materializes at full size in memory.
-  const downScale = Math.min(1, PREVIEW_MAX_DIMENSION / Math.max(width, height));
-  const previewSize: PixelSize = {
-    width: Math.max(1, Math.round(width * downScale)),
-    height: Math.max(1, Math.round(height * downScale)),
-  };
-
-  let rgb: Uint8Array;
-  try {
-    const raw = await readRGB({
-      interleave: true,
-      width: previewSize.width,
-      height: previewSize.height,
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(new URL("./geoTiffWorker.ts", import.meta.url), {
+      type: "module",
     });
-    rgb = raw instanceof Uint8Array ? raw : Uint8Array.from(raw);
-  } catch {
-    throw new UserMapImportError(
-      "corrupt-file",
-      "The image data in this GeoTIFF could not be decoded.",
-    );
-  }
-
-  const preview = await makePreview(rgb, previewSize.width, previewSize.height);
-
-  return {
-    pixelSize: { width, height },
-    georef: { kind: "embedded", crs: `EPSG:${epsg}`, geotransform },
-    preview,
-    previewSize,
-  };
+    worker.onmessage = (event: MessageEvent<WorkerReply>) => {
+      worker.terminate();
+      if (event.data.ok) {
+        resolve(event.data.parsed);
+      } else {
+        reject(new UserMapImportError(event.data.code, event.data.userMessage));
+      }
+    };
+    worker.onerror = () => {
+      worker.terminate();
+      reject(
+        new UserMapImportError(
+          "corrupt-file",
+          "Something went wrong reading this file.",
+        ),
+      );
+    };
+    // Transfer, don't copy: the buffer is not reused by the caller.
+    worker.postMessage(buffer, [buffer]);
+  });
 }
 ```
 
-- [ ] **Step 5: Run test to verify it passes**
+No dedicated test for these two files: both are thin wiring around `parseGeoTiff` (which is fully tested), the worker cannot run under jsdom, and the fallback branch of `parseGeoTiffAuto` is exercised by every hook test (jsdom has no `Worker`). The browser path is covered by Task 10's manual verification.
 
-Run: `cd web && npx vitest run src/userMaps/parsers/geoTiffSource.test.ts`
-Expected: PASS (5 tests). If `readRGB` rejects the `width`/`height` resample options in the installed geotiff version, replace that call with `image.readRasters({ interleave: true, width, height })` and re-run — the fixture is plain RGB, so the two are equivalent for it.
-
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add web/src/userMaps/types.ts web/src/userMaps/parsers/geoTiffSource.ts web/src/userMaps/parsers/geoTiffSource.test.ts
-git commit -m "feat(web): parse user GeoTIFFs with capped-resolution previews"
+git add web/src/userMaps/types.ts web/src/userMaps/parsers
+git commit -m "feat(web): parse user GeoTIFFs in a worker with capped previews"
 ```
 
 ---
@@ -828,7 +1083,7 @@ git commit -m "feat(web): parse user GeoTIFFs with capped-resolution previews"
 
 **Interfaces:**
 - Consumes: `UserMapRecord` (Task 4), `UserMapImportError` (Task 1).
-- Produces: `class UserMapStore` with `static open(factory?: IDBFactory): Promise<UserMapStore>`, `saveUserMap(record: UserMapRecord, raster: Blob, preview: Blob): Promise<void>`, `listUserMaps(): Promise<UserMapRecord[]>` (sorted by `createdAt` ascending), `getPreviewBlob(id: string): Promise<Blob | null>`, `getRasterBlob(id: string): Promise<Blob | null>`, `renameUserMap(id: string, name: string): Promise<void>`, `deleteUserMap(id: string): Promise<void>`, `close(): void`.
+- Produces: `class UserMapStore` with `static open(factory?: IDBFactory): Promise<UserMapStore>`, `saveUserMap(record, raster: Blob, preview: Blob): Promise<void>` (throws `UserMapImportError` code `"quota"` on `QuotaExceededError`, `"storage-failed"` otherwise), `listUserMaps(): Promise<UserMapRecord[]>` (createdAt ascending), `getPreviewBlob(id): Promise<Blob | null>`, `getRasterBlob(id): Promise<Blob | null>`, `renameUserMap(id, name): Promise<void>`, `deleteUserMap(id): Promise<void>`, `close(): void`.
 
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/store/userMapStore.test.ts`:
 
@@ -870,10 +1125,8 @@ describe("UserMapStore", () => {
     expect(listed).toHaveLength(1);
     expect(listed[0].name).toBe("Map a");
 
-    const previewBack = await store.getPreviewBlob("a");
-    expect(await previewBack?.text()).toBe("preview-bytes");
-    const rasterBack = await store.getRasterBlob("a");
-    expect(await rasterBack?.text()).toBe("raster-bytes");
+    expect(await (await store.getPreviewBlob("a"))?.text()).toBe("preview-bytes");
+    expect(await (await store.getRasterBlob("a"))?.text()).toBe("raster-bytes");
   });
 
   it("lists maps oldest-first by createdAt", async () => {
@@ -886,8 +1139,7 @@ describe("UserMapStore", () => {
   it("renames a map", async () => {
     await store.saveUserMap(record("a", "2026-07-24T00:00:00.000Z"), new Blob(), new Blob());
     await store.renameUserMap("a", "Church survey 1888");
-    const listed = await store.listUserMaps();
-    expect(listed[0].name).toBe("Church survey 1888");
+    expect((await store.listUserMaps())[0].name).toBe("Church survey 1888");
   });
 
   it("deletes a map and its blobs", async () => {
@@ -935,6 +1187,10 @@ function transactionDone(tx: IDBTransaction): Promise<void> {
   });
 }
 
+function isQuotaError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === "QuotaExceededError";
+}
+
 /**
  * Two stores: `maps` holds small metadata records (listed on every load),
  * `blobs` holds the heavy binaries keyed `${id}:raster` / `${id}:preview` so
@@ -955,8 +1211,15 @@ export class UserMapStore {
           db.createObjectStore(BLOBS);
         }
       };
-      openRequest.onsuccess = () => resolve(new UserMapStore(openRequest.result));
+      openRequest.onsuccess = () => {
+        const db = openRequest.result;
+        // If another tab upgrades the schema, release our handle.
+        db.onversionchange = () => db.close();
+        resolve(new UserMapStore(db));
+      };
       openRequest.onerror = () => reject(openRequest.error);
+      openRequest.onblocked = () =>
+        reject(new Error("user-map database blocked by another tab"));
     });
   }
 
@@ -972,11 +1235,16 @@ export class UserMapStore {
     try {
       await transactionDone(tx);
     } catch (error) {
+      if (isQuotaError(error)) {
+        throw new UserMapImportError(
+          "quota",
+          "Storage is full — this map stays available until you close the tab.",
+        );
+      }
       throw new UserMapImportError(
-        "quota",
-        "Couldn't save this map — it will stay available until you close the tab.",
+        "storage-failed",
+        "Couldn't save this map — it stays available until you close the tab.",
       );
-      void error;
     }
   }
 
@@ -1057,9 +1325,9 @@ git commit -m "feat(web): persist user maps in IndexedDB"
 **Interfaces:**
 - Consumes: `LatLngPoint` (Task 2).
 - Produces:
-  - `mesh.ts`: `type XY = { x: number; y: number }`; `affineFromTriangles(s0: XY, s1: XY, s2: XY, d0: XY, d1: XY, d2: XY): [number, number, number, number, number, number]` (canvas `setTransform(a, b, c, d, e, f)` order); `buildSrcMesh(width: number, height: number, gridSize?: number): XY[][]`; `drawWarpedImage(ctx: CanvasRenderingContext2D, image: CanvasImageSource, srcMesh: XY[][], dstMesh: XY[][]): void`.
-  - `WarpedRasterLayer.ts`: `class WarpedRasterLayer extends L.Layer` with `constructor(options: WarpedRasterLayerOptions)` where `type WarpedRasterLayerOptions = { paneName: string; opacity: number; image: CanvasImageSource; imageSize: { width: number; height: number }; latLngMesh: LatLngPoint[][] }`; methods `setOpacity(opacity: number): void`, plus Leaflet's `onAdd`/`onRemove`.
-  - `mapPanes.ts`: `USER_MAPS_PANE = "user-maps-pane"`, `USER_MAPS_PANE_Z_INDEX = 260`.
+  - `mesh.ts`: `type XY = { x: number; y: number }`; `affineFromTriangles(s0, s1, s2, d0, d1, d2): [number, number, number, number, number, number]` (canvas `setTransform` order); `buildSrcMesh(width, height, gridSize?): XY[][]`; `drawWarpedImage(ctx, image, srcMesh, dstMesh): void`.
+  - `WarpedRasterLayer.ts`: `class WarpedRasterLayer extends L.Layer` with `constructor(options: WarpedRasterLayerOptions)`, `setOpacity(opacity: number): void`, `onAdd`/`onRemove`. `type WarpedRasterLayerOptions = { paneName: string; opacity: number; image: CanvasImageSource; imageSize: PixelSize-shaped; latLngMesh: LatLngPoint[][] }`.
+  - `mapPanes.ts`: `USER_MAPS_PANE = "user-maps-pane"`, `USER_MAPS_PANE_Z_INDEX = 160`.
 
 - [ ] **Step 1: Write the failing mesh test** — `web/src/userMaps/render/mesh.test.ts`:
 
@@ -1105,7 +1373,7 @@ describe("drawWarpedImage", () => {
       setTransform: vi.fn(), drawImage: vi.fn(),
     } as unknown as CanvasRenderingContext2D;
     const src = buildSrcMesh(10, 10, 2); // 2x2 cells = 8 triangles
-    const dst = buildSrcMesh(100, 100, 2); // identity-shaped destination
+    const dst = buildSrcMesh(100, 100, 2);
     drawWarpedImage(ctx, {} as CanvasImageSource, src, dst);
     expect(ctx.drawImage).toHaveBeenCalledTimes(8);
     expect(ctx.clip).toHaveBeenCalledTimes(8);
@@ -1210,30 +1478,32 @@ export function drawWarpedImage(
 Run: `cd web && npx vitest run src/userMaps/render/mesh.test.ts`
 Expected: PASS (4 tests).
 
-- [ ] **Step 5: Append pane constants** to `web/src/components/mapPanes.ts` (after the `MEASURE_PANE` block at the end of the file):
+- [ ] **Step 5: Append pane constants** to `web/src/components/mapPanes.ts` (after the `MEASURE_PANE` block):
 
 ```ts
 /**
- * User-loaded rasters sit above every Province raster (waterfalls, 250) so a
- * draped historical scan is what the user sees, and below zoning (300) and
- * all vector overlays so parcels and inspection tools stay interactive on top.
+ * User-loaded rasters sit directly above the aerial imagery (150) and below
+ * every data overlay (environmental health 165, contours 180, parcels 200,
+ * roads 235, waterfalls 250) so parcel lines and roads stay readable on top
+ * of a draped scan. The scan is context, not the subject of inspection.
  */
 export const USER_MAPS_PANE = "user-maps-pane";
-export const USER_MAPS_PANE_Z_INDEX = 260;
+export const USER_MAPS_PANE_Z_INDEX = 160;
 ```
 
-Add to `web/src/components/mapPanes.test.ts` (new test appended inside the existing describe block, or a new describe if the file is organized per-constant):
+Add to `web/src/components/mapPanes.test.ts` (match the file's existing import style):
 
 ```ts
-it("stacks user maps above Province rasters and below zoning", () => {
+it("stacks user maps above aerial imagery and below data overlays", () => {
   expect(USER_MAPS_PANE_Z_INDEX).toBeGreaterThan(
-    PROVINCE_LAYER_Z_INDEXES.waterfalls,
+    PROVINCE_LAYER_Z_INDEXES["ns-aerial"],
   );
-  expect(USER_MAPS_PANE_Z_INDEX).toBeLessThan(ZONING_PANE_Z_INDEX);
+  expect(USER_MAPS_PANE_Z_INDEX).toBeLessThan(
+    ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
+  );
+  expect(USER_MAPS_PANE_Z_INDEX).toBeLessThan(PROVINCE_LAYER_Z_INDEXES.nsprd);
 });
 ```
-
-(Import `USER_MAPS_PANE_Z_INDEX` alongside the file's existing imports; check the file's current import list and match its style.)
 
 - [ ] **Step 6: Write the failing layer test** — `web/src/userMaps/render/WarpedRasterLayer.test.ts`:
 
@@ -1276,11 +1546,19 @@ describe("WarpedRasterLayer", () => {
   });
 
   it("adds a canvas to its pane with the configured opacity", () => {
-    const map = stubMap(pane);
-    makeLayer().onAdd(map);
+    makeLayer().onAdd(stubMap(pane));
     const canvas = pane.querySelector("canvas");
     expect(canvas).not.toBeNull();
     expect(canvas?.style.opacity).toBe("0.7");
+  });
+
+  it("sizes the canvas backing store by devicePixelRatio", () => {
+    vi.stubGlobal("devicePixelRatio", 2);
+    makeLayer().onAdd(stubMap(pane));
+    const canvas = pane.querySelector("canvas");
+    expect(canvas?.width).toBe(1600);
+    expect(canvas?.style.width).toBe("800px");
+    vi.unstubAllGlobals();
   });
 
   it("subscribes to map view changes and unsubscribes on remove", () => {
@@ -1302,9 +1580,8 @@ describe("WarpedRasterLayer", () => {
   });
 
   it("updates opacity in place", () => {
-    const map = stubMap(pane);
     const layer = makeLayer();
-    layer.onAdd(map);
+    layer.onAdd(stubMap(pane));
     layer.setOpacity(0.25);
     expect(pane.querySelector("canvas")?.style.opacity).toBe("0.25");
   });
@@ -1333,10 +1610,10 @@ export type WarpedRasterLayerOptions = {
 
 /**
  * Canvas overlay that draws a raster through a projected mesh. The canvas is
- * viewport-sized and repositioned after each view change (the Leaflet.heat
- * pattern): during a drag the pane carries the canvas, and on moveend we snap
- * it back to the viewport and redraw. Zoom animations therefore jump rather
- * than scale — an accepted v1 trade-off, noted in the spec.
+ * viewport-sized and repositioned after each completed view change (the
+ * Leaflet.heat pattern): during a drag the pane carries the canvas, and on
+ * moveend it snaps back to the viewport and redraws. Zoom animations jump
+ * rather than scale — the spec's accepted v1 trade-off.
  */
 export class WarpedRasterLayer extends L.Layer {
   private readonly rasterOptions: WarpedRasterLayerOptions;
@@ -1391,19 +1668,25 @@ export class WarpedRasterLayer extends L.Layer {
       return;
     }
     const size = map.getSize();
-    canvas.width = size.x;
-    canvas.height = size.y;
+    const dpr = globalThis.devicePixelRatio || 1;
+    // Backing store at device resolution, CSS box at layout resolution, and
+    // destination points scaled by dpr — keeps previews sharp on Retina.
+    canvas.width = Math.round(size.x * dpr);
+    canvas.height = Math.round(size.y * dpr);
+    canvas.style.width = `${size.x}px`;
+    canvas.style.height = `${size.y}px`;
     L.DomUtil.setPosition(canvas, map.containerPointToLayerPoint(new L.Point(0, 0)));
     // jsdom (tests) has no 2D context; drawing is a no-op there by design.
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       return;
     }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const dstMesh = this.rasterOptions.latLngMesh.map((row) =>
       row.map((ll) => {
         const p = map.latLngToContainerPoint(new L.LatLng(ll.lat, ll.lng));
-        return { x: p.x, y: p.y };
+        return { x: p.x * dpr, y: p.y * dpr };
       }),
     );
     drawWarpedImage(ctx, this.rasterOptions.image, this.srcMesh, dstMesh);
@@ -1411,7 +1694,7 @@ export class WarpedRasterLayer extends L.Layer {
 }
 ```
 
-- [ ] **Step 9: Run all new tests plus mapPanes**
+- [ ] **Step 9: Run all Task-6 tests**
 
 Run: `cd web && npx vitest run src/userMaps/render src/components/mapPanes.test.ts`
 Expected: PASS.
@@ -1425,15 +1708,15 @@ git commit -m "feat(web): render user rasters through a warped canvas mesh layer
 
 ---
 
-### Task 7: React bridge — UserMapLayers + WarpedRasterOverlay
+### Task 7: React bridge — UserMapLayers
 
 **Files:**
 - Create: `web/src/userMaps/components/UserMapLayers.tsx`
 - Test: `web/src/userMaps/components/UserMapLayers.test.tsx`
 
 **Interfaces:**
-- Consumes: `WarpedRasterLayer` (Task 6), `buildLatLngMesh` + `EmbeddedGeoref` (Task 2), `UserMapRecord` (Task 4), `USER_MAPS_PANE` constants (Task 6), react-leaflet's `useMap`.
-- Produces: `type VisibleUserMap = { record: UserMapRecord; previewUrl: string; opacity: number }`; `function UserMapLayers({ maps }: { maps: VisibleUserMap[] }): ReactNode`. **PR-1 constraint honored here:** only `kind: "embedded"` georefs render; `kind: "gcp"` records are skipped (none can exist yet).
+- Consumes: `WarpedRasterLayer` (Task 6), `buildLatLngMesh` (Task 2), `UserMapRecord` (Task 4), pane constants (Task 6), react-leaflet `useMap`.
+- Produces: `type VisibleUserMap = { record: UserMapRecord; previewUrl: string; opacity: number }`; `function UserMapLayers({ maps }: { maps: VisibleUserMap[] })`. Only `kind: "embedded"` georefs render in PR 1. **No `useState` in effects** (lint constraint): pane creation happens idempotently inside each overlay's effect; there is no readiness state.
 
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/UserMapLayers.test.tsx`:
 
@@ -1442,9 +1725,14 @@ import { render, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { UserMapRecord } from "../types";
 
+const paneEl = vi.hoisted(() => ({ current: null as HTMLElement | null }));
+
 const stubMapApi = vi.hoisted(() => ({
-  createPane: vi.fn(() => document.createElement("div")),
-  getPane: vi.fn(() => undefined as HTMLElement | undefined),
+  createPane: vi.fn(() => {
+    paneEl.current = document.createElement("div");
+    return paneEl.current;
+  }),
+  getPane: vi.fn(() => paneEl.current ?? undefined),
   addLayer: vi.fn(),
   removeLayer: vi.fn(),
 }));
@@ -1491,54 +1779,76 @@ const record: UserMapRecord = {
 };
 
 function stubBitmapLoading() {
+  const bitmap = { width: 8, height: 6, close: vi.fn() };
   vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
-  vi.stubGlobal("createImageBitmap", vi.fn(async () => ({ width: 8, height: 6 })));
+  vi.stubGlobal("createImageBitmap", vi.fn(async () => bitmap));
+  return bitmap;
 }
 
 afterEach(() => {
   vi.unstubAllGlobals();
   layerInstances.length = 0;
+  paneEl.current = null;
   stubMapApi.createPane.mockClear();
   stubMapApi.addLayer.mockClear();
   stubMapApi.removeLayer.mockClear();
 });
 
 describe("UserMapLayers", () => {
-  it("creates the user-maps pane once", () => {
+  it("creates the user-maps pane once per map set", async () => {
     stubBitmapLoading();
-    render(<UserMapLayers maps={[]} />);
+    render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
     expect(stubMapApi.createPane).toHaveBeenCalledWith("user-maps-pane");
   });
 
-  it("adds a warped layer per visible map and removes it on unmount", async () => {
-    stubBitmapLoading();
+  it("adds a warped layer per visible map, closes its bitmap on unmount", async () => {
+    const bitmap = stubBitmapLoading();
     const { unmount } = render(
-      <UserMapLayers
-        maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]}
-      />,
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
     );
     await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
     unmount();
     expect(stubMapApi.removeLayer).toHaveBeenCalledTimes(1);
+    expect(bitmap.close).toHaveBeenCalled();
   });
 
-  it("updates opacity without rebuilding the layer", async () => {
-    stubBitmapLoading();
+  it("applies the LATEST opacity even when it changes during bitmap load", async () => {
+    // Deliberate race: opacity changes before createImageBitmap resolves.
+    let resolveBitmap!: (b: unknown) => void;
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal(
+      "createImageBitmap",
+      vi.fn(() => new Promise((resolve) => { resolveBitmap = resolve; })),
+    );
     const { rerender } = render(
-      <UserMapLayers
-        maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]}
-      />,
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
     );
-    await waitFor(() => expect(layerInstances).toHaveLength(1));
     rerender(
-      <UserMapLayers
-        maps={[{ record, previewUrl: "blob:fake", opacity: 0.3 }]}
-      />,
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.2 }]} />,
     );
-    await waitFor(() =>
-      expect(layerInstances[0].setOpacity).toHaveBeenCalledWith(0.3),
+    resolveBitmap({ width: 8, height: 6, close: vi.fn() });
+    await waitFor(() => expect(layerInstances).toHaveLength(1));
+    const built = layerInstances[0].options as { opacity: number };
+    // Either constructed with 0.2 or corrected via setOpacity(0.2) — assert the outcome.
+    const corrected = layerInstances[0].setOpacity.mock.calls.some(
+      (c) => c[0] === 0.2,
     );
-    expect(layerInstances).toHaveLength(1);
+    expect(built.opacity === 0.2 || corrected).toBe(true);
+  });
+
+  it("survives a failed bitmap load without an unhandled rejection", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("gone"); }));
+    vi.stubGlobal("createImageBitmap", vi.fn());
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:dead", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(errorSpy).toHaveBeenCalled());
+    expect(stubMapApi.addLayer).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 });
 ```
@@ -1551,7 +1861,7 @@ Expected: FAIL — cannot resolve `./UserMapLayers`.
 - [ ] **Step 3: Implement** — `web/src/userMaps/components/UserMapLayers.tsx`:
 
 ```tsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 import {
   USER_MAPS_PANE,
@@ -1567,6 +1877,14 @@ export type VisibleUserMap = {
   opacity: number;
 };
 
+/** Idempotent: Leaflet keeps panes for the map's lifetime. */
+function ensurePane(map: ReturnType<typeof useMap>): void {
+  if (!map.getPane(USER_MAPS_PANE)) {
+    const pane = map.createPane(USER_MAPS_PANE);
+    pane.style.zIndex = String(USER_MAPS_PANE_Z_INDEX);
+  }
+}
+
 async function loadBitmap(url: string): Promise<ImageBitmap> {
   const response = await fetch(url);
   return createImageBitmap(await response.blob());
@@ -1575,7 +1893,9 @@ async function loadBitmap(url: string): Promise<ImageBitmap> {
 function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
   const leafletMap = useMap();
   const layerRef = useRef<WarpedRasterLayer | null>(null);
-  const { record, previewUrl, opacity } = map;
+  const opacityRef = useRef(map.opacity);
+  opacityRef.current = map.opacity;
+  const { record, previewUrl } = map;
 
   useEffect(() => {
     if (!leafletMap || record.georef.kind !== "embedded") {
@@ -1583,56 +1903,49 @@ function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
     }
     const georef = record.georef;
     let cancelled = false;
-    void (async () => {
-      const bitmap = await loadBitmap(previewUrl);
-      if (cancelled) {
-        return;
-      }
-      const layer = new WarpedRasterLayer({
-        paneName: USER_MAPS_PANE,
-        opacity,
-        image: bitmap,
-        imageSize: { width: bitmap.width, height: bitmap.height },
-        latLngMesh: buildLatLngMesh(georef, record.pixelSize),
+    let bitmap: ImageBitmap | null = null;
+    void loadBitmap(previewUrl)
+      .then((loaded) => {
+        if (cancelled) {
+          loaded.close();
+          return;
+        }
+        bitmap = loaded;
+        ensurePane(leafletMap);
+        const layer = new WarpedRasterLayer({
+          paneName: USER_MAPS_PANE,
+          // Read through the ref so an opacity change during the async load
+          // is not lost to a stale closure.
+          opacity: opacityRef.current,
+          image: loaded,
+          imageSize: { width: loaded.width, height: loaded.height },
+          latLngMesh: buildLatLngMesh(georef, record.pixelSize),
+        });
+        layer.addTo(leafletMap);
+        layerRef.current = layer;
+      })
+      .catch((error: unknown) => {
+        // A missing/revoked blob URL is recoverable (map re-enable reloads
+        // it); surface for diagnosis without crashing the tree.
+        console.error("user map preview failed to load", error);
       });
-      layer.addTo(leafletMap);
-      layerRef.current = layer;
-    })();
     return () => {
       cancelled = true;
       layerRef.current?.remove();
       layerRef.current = null;
+      bitmap?.close();
     };
-    // opacity is intentionally absent: it updates in place below.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leafletMap, record, previewUrl]);
 
   useEffect(() => {
-    layerRef.current?.setOpacity(opacity);
-  }, [opacity]);
+    layerRef.current?.setOpacity(map.opacity);
+  }, [map.opacity]);
 
   return null;
 }
 
-/** Sole mount point MapCanvas needs: creates the pane, renders the overlays. */
+/** Sole mount point MapCanvas needs. */
 export function UserMapLayers({ maps }: { maps: VisibleUserMap[] }) {
-  const leafletMap = useMap();
-  const [paneReady, setPaneReady] = useState(false);
-
-  useEffect(() => {
-    if (!leafletMap) {
-      return;
-    }
-    if (!leafletMap.getPane(USER_MAPS_PANE)) {
-      const pane = leafletMap.createPane(USER_MAPS_PANE);
-      pane.style.zIndex = String(USER_MAPS_PANE_Z_INDEX);
-    }
-    setPaneReady(true);
-  }, [leafletMap]);
-
-  if (!paneReady) {
-    return null;
-  }
   return (
     <>
       {maps.map((map) => (
@@ -1646,7 +1959,7 @@ export function UserMapLayers({ maps }: { maps: VisibleUserMap[] }) {
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `cd web && npx vitest run src/userMaps/components/UserMapLayers.test.tsx`
-Expected: PASS (3 tests). Note the test's stub map has `getPane` returning `undefined`, so `createPane` is exercised; the real map takes the same path on first mount.
+Expected: PASS (4 tests).
 
 - [ ] **Step 5: Commit**
 
@@ -1664,7 +1977,7 @@ git commit -m "feat(web): mount warped user-map layers via react-leaflet bridge"
 - Test: `web/src/userMaps/useUserMaps.test.ts`
 
 **Interfaces:**
-- Consumes: `UserMapStore` (Task 5), `sniffFileType` (Task 1), `parseGeoTiff` (Task 4), `UserMapImportError` (Task 1), `VisibleUserMap` (Task 7).
+- Consumes: `UserMapStore` (Task 5), `sniffFileType` (Task 1), `parseGeoTiffAuto` (Task 4), `UserMapImportError` (Task 1), `VisibleUserMap` (Task 7).
 - Produces:
 
 ```ts
@@ -1677,7 +1990,9 @@ type UserMapsApi = {
   uiState: Record<string, { enabled: boolean; opacity: number }>;
   visibleMaps: VisibleUserMap[];
   importing: boolean;
-  outcomes: ImportOutcome[];          // most recent import batch, newest first
+  importingLabel: string | null;   // e.g. "Reading large map…"
+  storageError: string | null;     // set when the saved-maps DB cannot open
+  outcomes: ImportOutcome[];
   importFiles: (files: ArrayLike<File>) => Promise<void>;
   removeMap: (id: string) => Promise<void>;
   renameMap: (id: string, name: string) => Promise<void>;
@@ -1685,24 +2000,25 @@ type UserMapsApi = {
   setOpacity: (id: string, opacity: number) => void;
 };
 
-function useUserMaps(options?: { openStore?: () => Promise<UserMapStore> }): UserMapsApi;
+function useUserMaps(options?: {
+  openStore?: () => Promise<UserMapStore>;
+  parse?: (buffer: ArrayBuffer) => Promise<ParsedGeoTiff>;
+}): UserMapsApi;
 ```
 
-Constants: `DEFAULT_OPACITY = 0.7`, `HARD_LIMIT_BYTES = 500 * 1024 * 1024`, `LARGE_FILE_BYTES = 150 * 1024 * 1024`, localStorage key `user-map-ui-state-v1`.
+Constants: `DEFAULT_OPACITY = 0.7`, `HARD_LIMIT_BYTES = 500 * 1024 * 1024`, `LARGE_FILE_BYTES = 150 * 1024 * 1024`, localStorage key `user-map-ui-state-v1`. Behavior contracts: quota/storage save failures **keep the imported map in memory** for the session (spec promise); records loaded from the store **merge by id** with any imported during the load; object URLs are revoked on unmount and on remove.
 
-- [ ] **Step 1: Write the failing hook test** — `web/src/userMaps/useUserMaps.ts` is exercised through `renderHook`. Create `web/src/userMaps/useUserMaps.test.ts`:
+- [ ] **Step 1: Write the failing hook test** — `web/src/userMaps/useUserMaps.test.ts`:
 
 ```ts
-import "fake-indexeddb/auto";
 import { IDBFactory } from "fake-indexeddb";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { UserMapStore } from "./store/userMapStore";
-import { useUserMaps } from "./useUserMaps";
-
-// Tiny real GeoTIFF fixture keeps the hook test end-to-end through the parser.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { UserMapImportError } from "./errors";
+import { UserMapStore } from "./store/userMapStore";
+import { useUserMaps } from "./useUserMaps";
 
 function fixtureFile(name = "survey.tif"): File {
   const raw = readFileSync(
@@ -1711,17 +2027,31 @@ function fixtureFile(name = "survey.tif"): File {
   return new File([raw], name);
 }
 
+/** jsdom has no canvas, so every test injects a parse with a fake preview. */
+function testParse() {
+  return async (buffer: ArrayBuffer) => {
+    const { parseGeoTiff } = await import("./parsers/geoTiffSource");
+    return parseGeoTiff(buffer, {
+      makePreview: async () => new Blob(["p"], { type: "image/png" }),
+    });
+  };
+}
+
 let factory: IDBFactory;
 
-function options() {
-  return { openStore: () => UserMapStore.open(factory) };
+function options(overrides: Record<string, unknown> = {}) {
+  return {
+    openStore: () => UserMapStore.open(factory),
+    parse: testParse(),
+    ...overrides,
+  };
 }
 
 beforeEach(() => {
   factory = new IDBFactory();
   vi.stubGlobal("URL", {
     ...URL,
-    createObjectURL: vi.fn(() => "blob:fake"),
+    createObjectURL: vi.fn(() => `blob:fake-${Math.random()}`),
     revokeObjectURL: vi.fn(),
   });
 });
@@ -1756,8 +2086,10 @@ describe("useUserMaps", () => {
     await waitFor(() => expect(second.result.current.records).toHaveLength(1));
   });
 
-  it("reports a friendly outcome for unsupported types", async () => {
+  it("reports the georeferencer message for PDFs, even tiny ones", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
+    // 5 bytes on purpose: regression guard for the Uint8Array(buffer, 0, 16)
+    // RangeError the review caught.
     const pdf = new File([new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])], "plan.pdf");
     await act(async () => {
       await result.current.importFiles([pdf]);
@@ -1779,6 +2111,52 @@ describe("useUserMaps", () => {
     expect(result.current.outcomes[0]).toMatchObject({ ok: false });
   });
 
+  it("keeps the map available in memory when saving fails (spec promise)", async () => {
+    const failingStore = {
+      listUserMaps: async () => [],
+      saveUserMap: async () => {
+        throw new UserMapImportError(
+          "quota",
+          "Storage is full — this map stays available until you close the tab.",
+        );
+      },
+      getPreviewBlob: async () => null,
+      deleteUserMap: async () => {},
+      renameUserMap: async () => {},
+      close: () => {},
+    } as unknown as UserMapStore;
+    const { result } = renderHook(() =>
+      useUserMaps(options({ openStore: async () => failingStore })),
+    );
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.outcomes[0]).toMatchObject({ ok: true });
+    expect((result.current.outcomes[0] as { note?: string }).note).toContain(
+      "close the tab",
+    );
+  });
+
+  it("surfaces a storage error when the database cannot open", async () => {
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          openStore: async () => {
+            throw new Error("blocked");
+          },
+        }),
+      ),
+    );
+    await waitFor(() => expect(result.current.storageError).not.toBeNull());
+    // Importing still works — maps just live in memory for this session.
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+  });
+
   it("toggles visibility and persists opacity to localStorage", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
@@ -1797,7 +2175,7 @@ describe("useUserMaps", () => {
     expect(stored[id]).toEqual({ enabled: false, opacity: 0.4 });
   });
 
-  it("removes a map everywhere", async () => {
+  it("removes a map everywhere and revokes its preview URL", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
       await result.current.importFiles([fixtureFile()]);
@@ -1808,7 +2186,17 @@ describe("useUserMaps", () => {
       await result.current.removeMap(id);
     });
     expect(result.current.records).toHaveLength(0);
-    expect(result.current.visibleMaps).toHaveLength(0);
+    expect(URL.revokeObjectURL).toHaveBeenCalled();
+  });
+
+  it("revokes all preview URLs on unmount", async () => {
+    const { result, unmount } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    unmount();
+    expect(URL.revokeObjectURL).toHaveBeenCalled();
   });
 });
 ```
@@ -1823,7 +2211,8 @@ Expected: FAIL — cannot resolve `./useUserMaps`.
 ```ts
 import { useCallback, useEffect, useRef, useState } from "react";
 import { UserMapImportError } from "./errors";
-import { parseGeoTiff } from "./parsers/geoTiffSource";
+import { parseGeoTiffAuto } from "./parsers/parseInWorker";
+import type { ParsedGeoTiff } from "./parsers/geoTiffSource";
 import { sniffFileType } from "./parsers/sniff";
 import { UserMapStore } from "./store/userMapStore";
 import type { UserMapRecord } from "./types";
@@ -1849,6 +2238,8 @@ export type UserMapsApi = {
   uiState: UserMapUiState;
   visibleMaps: VisibleUserMap[];
   importing: boolean;
+  importingLabel: string | null;
+  storageError: string | null;
   outcomes: ImportOutcome[];
   importFiles: (files: ArrayLike<File>) => Promise<void>;
   removeMap: (id: string) => Promise<void>;
@@ -1872,25 +2263,32 @@ function stripExtension(fileName: string): string {
 
 /**
  * Owns all user-map state so App.tsx stays a mounting point. The store opens
- * lazily on first use; openStore is injectable for tests (per the project's
- * closure-injection convention — no protocols until a second impl exists).
+ * lazily; openStore and parse are injectable seams for tests (closure
+ * injection per project convention — no protocols until a second impl
+ * exists). Storage failures degrade to session-only maps rather than losing
+ * the import.
  */
 export function useUserMaps(
-  options: { openStore?: () => Promise<UserMapStore> } = {},
+  options: {
+    openStore?: () => Promise<UserMapStore>;
+    parse?: (buffer: ArrayBuffer) => Promise<ParsedGeoTiff>;
+  } = {},
 ): UserMapsApi {
-  const openStore = options.openStore ?? (() => UserMapStore.open());
+  const openStoreRef = useRef(options.openStore ?? (() => UserMapStore.open()));
+  const parseRef = useRef(options.parse ?? parseGeoTiffAuto);
   const storeRef = useRef<Promise<UserMapStore> | null>(null);
+  const previewUrlsRef = useRef<Record<string, string>>({});
   const [records, setRecords] = useState<UserMapRecord[]>([]);
   const [uiState, setUiState] = useState<UserMapUiState>(loadUiState);
   const [previewUrls, setPreviewUrls] = useState<Record<string, string>>({});
   const [importing, setImporting] = useState(false);
+  const [importingLabel, setImportingLabel] = useState<string | null>(null);
+  const [storageError, setStorageError] = useState<string | null>(null);
   const [outcomes, setOutcomes] = useState<ImportOutcome[]>([]);
 
-  const store = useCallback(() => {
-    storeRef.current ??= openStore();
+  const store = useCallback((): Promise<UserMapStore> => {
+    storeRef.current ??= openStoreRef.current();
     return storeRef.current;
-    // openStore is stable per mount in practice (App passes nothing).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const persistUiState = useCallback((next: UserMapUiState) => {
@@ -1898,31 +2296,57 @@ export function useUserMaps(
     localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
   }, []);
 
-  const refreshPreviewUrl = useCallback(
-    async (id: string) => {
-      const blob = await (await store()).getPreviewBlob(id);
-      if (blob) {
-        setPreviewUrls((prev) => ({ ...prev, [id]: URL.createObjectURL(blob) }));
-      }
-    },
-    [store],
-  );
+  const registerPreviewUrl = useCallback((id: string, blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    previewUrlsRef.current[id] = url;
+    setPreviewUrls((prev) => ({ ...prev, [id]: url }));
+  }, []);
 
-  // Initial load of persisted maps.
+  // Initial load of persisted maps; merge by id so a fast import that lands
+  // before this list resolves is never overwritten.
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      const loaded = await (await store()).listUserMaps();
-      if (cancelled) {
-        return;
+      try {
+        const opened = await store();
+        const loaded = await opened.listUserMaps();
+        if (cancelled) {
+          return;
+        }
+        setRecords((prev) => {
+          const known = new Set(prev.map((r) => r.id));
+          const merged = [...loaded.filter((r) => !known.has(r.id)), ...prev];
+          return merged.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+        });
+        for (const record of loaded) {
+          const blob = await opened.getPreviewBlob(record.id);
+          if (!cancelled && blob) {
+            registerPreviewUrl(record.id, blob);
+          }
+        }
+      } catch {
+        if (!cancelled) {
+          setStorageError(
+            "Saved maps are unavailable in this browser session. Imports " +
+              "still work, but only until you close the tab.",
+          );
+        }
       }
-      setRecords(loaded);
-      await Promise.all(loaded.map((r) => refreshPreviewUrl(r.id)));
     })();
     return () => {
       cancelled = true;
     };
-  }, [store, refreshPreviewUrl]);
+  }, [registerPreviewUrl, store]);
+
+  // Revoke every preview URL when the owning component unmounts.
+  useEffect(() => {
+    const urls = previewUrlsRef.current;
+    return () => {
+      for (const url of Object.values(urls)) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, []);
 
   const importFiles = useCallback(
     async (files: ArrayLike<File>) => {
@@ -1930,6 +2354,11 @@ export function useUserMaps(
       const batch: ImportOutcome[] = [];
       try {
         for (const file of Array.from(files)) {
+          setImportingLabel(
+            file.size > LARGE_FILE_BYTES
+              ? `Reading large map "${file.name}" — this can take a minute…`
+              : `Reading "${file.name}"…`,
+          );
           try {
             if (file.size > HARD_LIMIT_BYTES) {
               throw new UserMapImportError(
@@ -1939,7 +2368,9 @@ export function useUserMaps(
               );
             }
             const buffer = await file.arrayBuffer();
-            const type = sniffFileType(new Uint8Array(buffer, 0, 16));
+            const type = sniffFileType(
+              new Uint8Array(buffer, 0, Math.min(16, buffer.byteLength)),
+            );
             if (type === "pdf" || type === "png" || type === "jpeg") {
               throw new UserMapImportError("unsupported-type", COMING_SOON_MESSAGE);
             }
@@ -1950,7 +2381,9 @@ export function useUserMaps(
                   "plain scans arrive with the georeferencer.",
               );
             }
-            const parsed = await parseGeoTiff(buffer);
+            // parse may transfer the buffer to a worker — pass a copy of the
+            // File-backed buffer, which we no longer need afterwards.
+            const parsed = await parseRef.current(buffer);
             const record: UserMapRecord = {
               id: crypto.randomUUID(),
               name: stripExtension(file.name),
@@ -1959,22 +2392,28 @@ export function useUserMaps(
               pixelSize: parsed.pixelSize,
               georef: parsed.georef,
             };
-            await (await store()).saveUserMap(record, file, parsed.preview);
+            let note =
+              file.size > LARGE_FILE_BYTES
+                ? "Large file — displayed at reduced resolution."
+                : undefined;
+            try {
+              await (await store()).saveUserMap(record, file, parsed.preview);
+            } catch (saveError) {
+              // Spec promise: a save failure never discards the import; the
+              // map lives in memory for this session.
+              note =
+                saveError instanceof UserMapImportError
+                  ? saveError.userMessage
+                  : "Couldn't save this map — it stays available until you " +
+                    "close the tab.";
+            }
             setRecords((prev) => [...prev, record]);
+            registerPreviewUrl(record.id, parsed.preview);
             persistUiState({
               ...loadUiState(),
               [record.id]: { enabled: true, opacity: DEFAULT_OPACITY },
             });
-            await refreshPreviewUrl(record.id);
-            batch.unshift({
-              fileName: file.name,
-              ok: true,
-              id: record.id,
-              note:
-                file.size > LARGE_FILE_BYTES
-                  ? "Large file — displayed at reduced resolution."
-                  : undefined,
-            });
+            batch.unshift({ fileName: file.name, ok: true, id: record.id, note });
           } catch (error) {
             const message =
               error instanceof UserMapImportError
@@ -1986,32 +2425,44 @@ export function useUserMaps(
       } finally {
         setOutcomes(batch);
         setImporting(false);
+        setImportingLabel(null);
       }
     },
-    [persistUiState, refreshPreviewUrl, store],
+    [persistUiState, registerPreviewUrl, store],
   );
 
   const removeMap = useCallback(
     async (id: string) => {
-      await (await store()).deleteUserMap(id);
+      try {
+        await (await store()).deleteUserMap(id);
+      } catch {
+        // Deleting an unsaved (in-memory) map from a broken store is fine.
+      }
       setRecords((prev) => prev.filter((r) => r.id !== id));
+      const url = previewUrlsRef.current[id];
+      if (url) {
+        URL.revokeObjectURL(url);
+        delete previewUrlsRef.current[id];
+      }
       setPreviewUrls((prev) => {
-        const { [id]: removed, ...rest } = prev;
-        if (removed) {
-          URL.revokeObjectURL(removed);
-        }
-        return rest;
+        const next = { ...prev };
+        delete next[id];
+        return next;
       });
-      const next = { ...loadUiState() };
-      delete next[id];
-      persistUiState(next);
+      const nextUi = { ...loadUiState() };
+      delete nextUi[id];
+      persistUiState(nextUi);
     },
     [persistUiState, store],
   );
 
   const renameMap = useCallback(
     async (id: string, name: string) => {
-      await (await store()).renameUserMap(id, name);
+      try {
+        await (await store()).renameUserMap(id, name);
+      } catch {
+        // In-memory-only map; rename still applies below.
+      }
       setRecords((prev) => prev.map((r) => (r.id === id ? { ...r, name } : r)));
     },
     [store],
@@ -2052,6 +2503,8 @@ export function useUserMaps(
     uiState,
     visibleMaps,
     importing,
+    importingLabel,
+    storageError,
     outcomes,
     importFiles,
     removeMap,
@@ -2065,7 +2518,7 @@ export function useUserMaps(
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `cd web && npx vitest run src/userMaps/useUserMaps.test.ts`
-Expected: PASS (6 tests).
+Expected: PASS (9 tests).
 
 - [ ] **Step 5: Commit**
 
@@ -2086,7 +2539,7 @@ git commit -m "feat(web): add useUserMaps state hook with import pipeline"
 
 **Interfaces:**
 - Consumes: `UserMapsApi`, `ImportOutcome` (Task 8), `UserMapRecord` (Task 4).
-- Produces: `function UserMapRows({ api }: { api: UserMapsApi }): ReactNode` — the single element App mounts. `ImportDialog` (an inline import area — named per spec; PR 2 evolves it into the georeferencer entry point) renders the file input, drop handling, progress, outcome list, and the privacy line.
+- Produces: `function UserMapRows({ api }: { api: UserMapsApi })` — the single element App mounts. `ImportDialog` (inline import area per spec naming; PR 2 evolves it) renders the file input, **drag-and-drop target**, progress label, outcome list, storage banner, and the privacy line. The per-map slider is labelled **Opacity** (its value raises opacity; calling it "Transparency" would invert the meaning).
 
 - [ ] **Step 1: Write the failing test** — `web/src/userMaps/components/UserMapRows.test.tsx`:
 
@@ -2117,6 +2570,8 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
     uiState: {},
     visibleMaps: [],
     importing: false,
+    importingLabel: null,
+    storageError: null,
     outcomes: [],
     importFiles: vi.fn(async () => {}),
     removeMap: vi.fn(async () => {}),
@@ -2139,20 +2594,36 @@ describe("UserMapRows", () => {
     const testApi = api();
     render(<UserMapRows api={testApi} />);
     const input = screen.getByLabelText("Add a map file");
-    const file = new File(["x"], "survey.tif");
-    await userEvent.upload(input, file);
+    await userEvent.upload(input, new File(["x"], "survey.tif"));
     expect(testApi.importFiles).toHaveBeenCalledTimes(1);
   });
 
-  it("renders a toggle and opacity slider per map", () => {
+  it("imports files dropped onto the import area", () => {
+    const testApi = api();
+    render(<UserMapRows api={testApi} />);
+    const dropZone = screen.getByTestId("user-map-drop-zone");
+    const file = new File(["x"], "survey.tif");
+    fireEvent.drop(dropZone, { dataTransfer: { files: [file] } });
+    expect(testApi.importFiles).toHaveBeenCalledWith([file]);
+  });
+
+  it("shows the storage banner when persistence is unavailable", () => {
+    render(
+      <UserMapRows
+        api={api({ storageError: "Saved maps are unavailable in this browser session." })}
+      />,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("unavailable");
+  });
+
+  it("renders a toggle and an Opacity slider per map", () => {
     const testApi = api({
       records: [record],
       uiState: { a: { enabled: true, opacity: 0.7 } },
     });
     render(<UserMapRows api={testApi} />);
 
-    const toggle = screen.getByRole("checkbox", { name: "Church survey" });
-    fireEvent.click(toggle);
+    fireEvent.click(screen.getByRole("checkbox", { name: "Church survey" }));
     expect(testApi.setEnabled).toHaveBeenCalledWith("a", false);
 
     const slider = screen.getByLabelText("Church survey opacity");
@@ -2173,12 +2644,15 @@ describe("UserMapRows", () => {
   });
 
   it("lists import failures with their messages", () => {
-    const testApi = api({
-      outcomes: [
-        { fileName: "plan.pdf", ok: false, message: "Coming with the georeferencer." },
-      ],
-    });
-    render(<UserMapRows api={testApi} />);
+    render(
+      <UserMapRows
+        api={api({
+          outcomes: [
+            { fileName: "plan.pdf", ok: false, message: "Coming with the georeferencer." },
+          ],
+        })}
+      />,
+    );
     expect(screen.getByText(/plan\.pdf/)).toBeInTheDocument();
     expect(screen.getByText(/Coming with the georeferencer\./)).toBeInTheDocument();
   });
@@ -2193,7 +2667,7 @@ Expected: FAIL — cannot resolve `./UserMapRows`.
 - [ ] **Step 3: Implement ImportDialog** — `web/src/userMaps/components/ImportDialog.tsx`:
 
 ```tsx
-import { useRef } from "react";
+import type { DragEvent } from "react";
 import type { ImportOutcome } from "../useUserMaps";
 
 /**
@@ -2203,25 +2677,39 @@ import type { ImportOutcome } from "../useUserMaps";
  */
 export function ImportDialog({
   importing,
+  importingLabel,
+  storageError,
   outcomes,
   onImportFiles,
 }: {
   importing: boolean;
+  importingLabel: string | null;
+  storageError: string | null;
   outcomes: ImportOutcome[];
   onImportFiles: (files: ArrayLike<File>) => void;
 }) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  function handleDrop(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    if (event.dataTransfer.files.length > 0) {
+      onImportFiles(Array.from(event.dataTransfer.files));
+    }
+  }
+
   return (
-    <div className="user-map-import">
+    <div
+      className="user-map-import"
+      data-testid="user-map-drop-zone"
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={handleDrop}
+    >
       <input
-        ref={inputRef}
         type="file"
         accept=".tif,.tiff,.pdf,.png,.jpg,.jpeg"
         multiple
         aria-label="Add a map file"
         onChange={(event) => {
           if (event.target.files?.length) {
-            onImportFiles(event.target.files);
+            onImportFiles(Array.from(event.target.files));
             event.target.value = "";
           }
         }}
@@ -2229,12 +2717,19 @@ export function ImportDialog({
       <small className="user-map-privacy">
         Files stay on this device — nothing is uploaded.
       </small>
-      {importing ? <small role="status">Reading map…</small> : null}
+      {storageError ? (
+        <small role="alert" className="user-map-error">
+          {storageError}
+        </small>
+      ) : null}
+      {importing && importingLabel ? (
+        <small role="status">{importingLabel}</small>
+      ) : null}
       {outcomes.length > 0 ? (
         <ul className="user-map-outcomes">
-          {outcomes.map((outcome) => (
+          {outcomes.map((outcome, index) => (
             <li
-              key={outcome.fileName}
+              key={`${index}-${outcome.fileName}`}
               className={outcome.ok ? "user-map-ok" : "user-map-error"}
             >
               {outcome.ok
@@ -2271,6 +2766,8 @@ export function UserMapRows({ api }: { api: UserMapsApi }) {
       <div className="resource-layer-controls">
         <ImportDialog
           importing={api.importing}
+          importingLabel={api.importingLabel}
+          storageError={api.storageError}
           outcomes={api.outcomes}
           onImportFiles={(files) => void api.importFiles(files)}
         />
@@ -2300,7 +2797,7 @@ export function UserMapRows({ api }: { api: UserMapsApi }) {
                 </span>
               </label>
               <label className="user-map-opacity">
-                <small>Transparency</small>
+                <small>Opacity</small>
                 <input
                   type="range"
                   min={0}
@@ -2339,7 +2836,7 @@ export function UserMapRows({ api }: { api: UserMapsApi }) {
 }
 ```
 
-- [ ] **Step 5: Append styles** to `web/src/styles.css` (end of file; match the file's existing custom-property usage when executing — these class names are referenced above):
+- [ ] **Step 5: Append styles** to `web/src/styles.css` (end of file; match existing custom-property usage when executing):
 
 ```css
 /* Your maps (user-loaded rasters) */
@@ -2376,7 +2873,7 @@ export function UserMapRows({ api }: { api: UserMapsApi }) {
 - [ ] **Step 6: Run test to verify it passes**
 
 Run: `cd web && npx vitest run src/userMaps/components/UserMapRows.test.tsx`
-Expected: PASS (5 tests).
+Expected: PASS (7 tests).
 
 - [ ] **Step 7: Commit**
 
@@ -2387,27 +2884,48 @@ git commit -m "feat(web): add Your maps layer-list section with import and opaci
 
 ---
 
-### Task 10: Mount in App + MapCanvas, docs, full verification, PR
+### Task 10: Mount in App + MapCanvas, test-harness updates, docs, verification, review gate, PR
 
 **Files:**
-- Modify: `web/src/App.tsx` (two lines: hook call + `<UserMapRows>`; one prop on `<MapCanvas>`)
-- Modify: `web/src/components/MapCanvas.tsx` (one prop + one child)
+- Modify: `web/src/test/setup.ts` (fake-indexeddb for App-level tests)
+- Modify: `web/src/components/MapCanvas.test.tsx` (extend the react-leaflet mock)
+- Modify: `web/src/App.tsx`, `web/src/components/MapCanvas.tsx` (mounting points)
 - Modify: `README.md`, `ARCHITECTURE.md`, `plan.md`
-- Test: existing suites must stay green; manual browser verification.
 
-**Interfaces:**
-- Consumes: `useUserMaps` (Task 8), `UserMapRows` (Task 9), `UserMapLayers` + `VisibleUserMap` (Task 7).
-- Produces: the shipped feature.
+- [ ] **Step 1: Test-harness prerequisites (do these BEFORE mounting, or the suite breaks).**
 
-- [ ] **Step 1: Mount in MapCanvas** — three edits to `web/src/components/MapCanvas.tsx`:
+(a) `web/src/test/setup.ts` — add as the FIRST import, with the comment:
 
-In `MapCanvasProps` (after `wellLogAccuracyFilter?: WellLogAccuracyFilter;` around line 120):
+```ts
+// App-level tests mount the real useUserMaps hook, which opens IndexedDB;
+// jsdom has none, so the whole suite gets an in-memory implementation.
+import "fake-indexeddb/auto";
+```
+
+(b) `web/src/components/MapCanvas.test.tsx` — the react-leaflet `vi.mock` factory's map stub (returned by its `useMap`) must also satisfy `UserMapLayers`. Locate the existing mock (top of file, around lines 15–140) and merge these members into the object its `useMap` returns (create `useMap` in the mock if absent), reusing one shared stub object:
+
+```ts
+getPane: (name: string) => paneElements.get(name),
+createPane: (name: string) => {
+  const el = document.createElement("div");
+  paneElements.set(name, el);
+  return el;
+},
+addLayer: () => {},
+removeLayer: () => {},
+```
+
+with `const paneElements = vi.hoisted(() => new Map<string, HTMLElement>());` alongside the mock's other hoisted state. Follow the file's existing style for hoisted stubs.
+
+- [ ] **Step 2: Mount in MapCanvas** — `web/src/components/MapCanvas.tsx`:
+
+In `MapCanvasProps` (after `wellLogAccuracyFilter?: WellLogAccuracyFilter;`, ~line 120):
 
 ```ts
   userMaps?: VisibleUserMap[];
 ```
 
-With the other type imports near the top:
+With the other imports:
 
 ```ts
 import {
@@ -2416,25 +2934,25 @@ import {
 } from "../userMaps/components/UserMapLayers";
 ```
 
-In the destructured parameters (after `wellLogAccuracyFilter = "surveyed",`):
-
-```ts
-  userMaps = EMPTY_USER_MAPS,
-```
-
-with this module-level constant near the other `HIDDEN_*` constants (a stable reference so a missing prop never re-renders the layer bridge):
+Module-level constant near the `HIDDEN_*` constants (stable reference — a fresh `[]` default would re-render the bridge every MapCanvas render):
 
 ```ts
 const EMPTY_USER_MAPS: VisibleUserMap[] = [];
 ```
 
-Inside `<MapContainer>`, directly after `<MapSizeController />` (line ~1561):
+Destructured parameters (after `wellLogAccuracyFilter = "surveyed",`):
+
+```ts
+  userMaps = EMPTY_USER_MAPS,
+```
+
+Inside `<MapContainer>`, directly after `<MapSizeController />` (~line 1561):
 
 ```tsx
         <UserMapLayers maps={userMaps} />
 ```
 
-- [ ] **Step 2: Mount in App** — three edits to `web/src/App.tsx`:
+- [ ] **Step 3: Mount in App** — `web/src/App.tsx`:
 
 Imports:
 
@@ -2443,109 +2961,113 @@ import { useUserMaps } from "./userMaps/useUserMaps";
 import { UserMapRows } from "./userMaps/components/UserMapRows";
 ```
 
-In the App component body, alongside the other layer-state hooks (near the `floodHazardLayers` state around line 741):
+In the App component body, alongside the other layer-state hooks (near `floodHazardLayers`, ~line 741):
 
 ```ts
   const userMapsApi = useUserMaps();
 ```
 
-In the layer list, directly after the Modern map row's closing `</label>` (line ~2183):
+In the layer list, directly after the Modern map row's closing `</label>` (~line 2183):
 
 ```tsx
             <UserMapRows api={userMapsApi} />
 ```
 
-And on the `<MapCanvas` element (line ~2760), with the other layer props:
+On the `<MapCanvas` element (~line 2760):
 
 ```tsx
             userMaps={userMapsApi.visibleMaps}
 ```
 
-- [ ] **Step 3: Run the full web suite**
+- [ ] **Step 4: Run the full web suite**
 
 Run: `cd web && npx vitest run`
-Expected: PASS. If `MapCanvas.test.tsx` or `App.test.tsx` fail on the new elements, the likely causes are: (a) the react-leaflet mock's `useMap` returning something without `getPane`/`createPane` — extend that mock with `getPane: () => undefined, createPane: () => document.createElement("div"), addLayer: () => {}, removeLayer: () => {}`; (b) App tests using `getAllByRole("checkbox")` counts — update counts for the new section. Do not weaken assertions; extend them to cover the new UI.
+Expected: PASS. Step 1 removed the two known breakages (IndexedDB, `useMap` pane methods). If `App.test.tsx` assertions count checkboxes or rows, update the counts for the new section — extend assertions, never weaken them.
 
-- [ ] **Step 4: Lint and build**
+- [ ] **Step 5: Lint and build**
 
 Run: `cd web && npm run lint && npm run build`
-Expected: both exit 0. Fix any errors (typical: unused imports, exhaustive-deps on the two intentionally-suppressed effects — the suppressions carry comments already).
+Expected: both exit 0. The planned code avoids the two lint tripwires (`set-state-in-effect`, `no-unreachable`); anything else that surfaces, fix properly.
 
-- [ ] **Step 5: Manual browser verification** (dev server + Browser pane, per repo verification norms): start the web dev server, generate a throwaway GeoTIFF (`cd web && node scripts/generateGeoTiffFixture.mjs` output works), import it via the "Your maps" section, and confirm: it renders as a small warped square near 45.1°N 63°W (zoom there via search or double-click), the opacity slider changes it live, the toggle hides it, and it survives a reload. Screenshot for the PR.
+- [ ] **Step 6: Manual browser verification** (dev server + Browser pane): import `web/src/test/fixtures/utm20-8x6.tif` via "Your maps", confirm it renders as a small warped square near 45.1°N 63°W, the opacity slider live-updates, parcels/roads render **on top** of it (pane 160), drag-drop import works, and it survives a reload. On a throttled/large file, confirm the "Reading large map…" status appears and the page stays responsive (worker path). Screenshot for the PR.
 
-- [ ] **Step 6: Update docs**
+- [ ] **Step 7: Update docs**
 
-`README.md` — under `## Online companion`, add to the feature list:
+`README.md` — under `## Online companion`, add:
 
 ```markdown
 - **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
-  drape them over Nova Scotia with a transparency slider. Files never leave
-  your device: parsing, warping, and storage are all in-browser.
+  drape them over Nova Scotia with an opacity slider. Files never leave your
+  device: parsing, warping, and storage are all in-browser.
 ```
 
-`ARCHITECTURE.md` — under `## Online Web Companion` (line ~87), append:
+`ARCHITECTURE.md` — under `## Online Web Companion`, append:
 
 ```markdown
 ### User-loaded maps (`web/src/userMaps/`)
 
-A self-contained feature folder: `parsers/` (magic-byte sniffing + geotiff.js
-decode at capped resolution), `transform/` (proj4 registry for NS CRSs,
-pixel→WGS84, mesh building), `render/` (`WarpedRasterLayer`, a canvas layer
-drawing rasters through a projected triangle mesh in the `user-maps-pane` at
-z-index 260), `store/` (IndexedDB: metadata and blobs in separate object
-stores), and `components/` (layer-list rows + react-leaflet bridge).
-`App.tsx`/`MapCanvas.tsx` hold mounting points only. Everything is
-client-side; nothing is uploaded. The PR-2 georeferencer builds on the same
-mesh renderer with GCP-derived (affine/TPS) meshes instead of embedded
-geotransforms.
+A self-contained feature folder: `parsers/` (magic-byte sniffing; geotiff.js
+2.1.3 — pinned, the 3.x read API differs — decoding in a web worker with
+OffscreenCanvas and a main-thread fallback, overview-aware, capped at 4096 px),
+`transform/` (proj4 registry for NS CRSs plus WKT-citation best-effort,
+pixel→WGS84, mesh building), `render/` (`WarpedRasterLayer`: a
+device-pixel-ratio-aware canvas layer drawing through a projected triangle
+mesh in `user-maps-pane`, z-160 — above aerial imagery, below all data
+overlays), `store/` (IndexedDB; metadata and blobs in separate object stores;
+save failures degrade to session-only maps), and `components/` (layer-list
+rows + react-leaflet bridge). `App.tsx`/`MapCanvas.tsx` hold mounting points
+only. Everything is client-side; nothing is uploaded. The PR-2 georeferencer
+builds on the same mesh renderer with GCP-derived (affine/TPS) meshes.
 ```
 
-`plan.md` — under `## Online Companion` (line ~42), add:
+`plan.md` — under `## Online Companion`, add:
 
 ```markdown
 - [x] "Your maps": user-loaded GeoTIFFs rendered client-side with opacity control (spec `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`, PR 1 of 4)
 - [ ] In-browser georeferencer for plain scans (PR 2)
 - [ ] TPS warping + Allmaps annotation export (PR 3)
 - [ ] GeoPDF import (PR 4)
+- [ ] Evaluate geotiff.js 3.x migration (pinned to 2.1.3 in PR 1; read API changed)
 ```
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add web/src/App.tsx web/src/components/MapCanvas.tsx README.md ARCHITECTURE.md plan.md
+git add web/src/test/setup.ts web/src/components/MapCanvas.test.tsx web/src/App.tsx web/src/components/MapCanvas.tsx README.md ARCHITECTURE.md plan.md
 git commit -m "feat(web): mount Your maps in the layer list and map canvas"
 ```
 
-(Include any test-mock extensions from Step 3 in this commit.)
+- [ ] **Step 9: Adversarial review gate (maintainer requirement — do not skip)**
 
-- [ ] **Step 8: Adversarial review gate (maintainer requirement — do not skip)**
+Run a full adversarial review of the implemented branch via the Codex plugin
+(`/codex:rescue`, model `gpt-5.6-sol` per maintainer preference) covering the
+whole `web/src/userMaps/` diff. Fix confirmed findings and re-run the suite.
+Only proceed once the review reports no unresolved correctness findings.
 
-Before pushing, run a full adversarial review of the implemented branch via the
-Codex plugin (`/codex:rescue`, model `gpt-5.6-sol` per maintainer preference)
-covering the whole `web/src/userMaps/` diff. Fix confirmed findings and re-run
-the suite. Only proceed to Step 9 once the review reports no unresolved
-correctness findings.
-
-- [ ] **Step 9: Push and open the PR against nightly**
+- [ ] **Step 10: Push and open the PR against nightly**
 
 ```bash
 git push -u origin claude/web-map-custom-uploads-cde085
 gh pr create --base nightly --title "feat(web): user-loaded GeoTIFF layers (Your maps, PR 1 of 4)" --body "$(cat <<'EOF'
 ## Summary
 - New `web/src/userMaps/` feature: open a GeoTIFF from your device, see it
-  warped onto the map with a transparency slider, persisted in IndexedDB.
+  warped onto the map with an opacity slider, persisted in IndexedDB.
 - Fully client-side (privacy + licensing posture: nothing is uploaded).
-- Spec: docs/superpowers/specs/2026-07-24-web-user-maps-design.md (PR 1 of 4;
-  georeferencer, TPS/Allmaps, and GeoPDF follow).
-- New runtime deps: geotiff, proj4 (approved). Dev deps: @types/proj4,
-  fake-indexeddb (flagged in-plan).
+- Decode runs in a web worker (OffscreenCanvas) with main-thread fallback.
+- geotiff pinned to 2.1.3 (3.x read-API rewrite tracked as a follow-up);
+  proj4 (bundled types). Dev dep: fake-indexeddb.
+- Spec: docs/superpowers/specs/2026-07-24-web-user-maps-design.md (PR 1 of 4).
+- Plan revised after adversarial review (gpt-5.6-sol, 15 findings) before
+  implementation; a second review gated this push.
 
 ## Test plan
-- [ ] `cd web && npx vitest run` green (new: sniff, projection, parser, store,
-      mesh, layer, bridge, hook, rows)
+- [ ] `cd web && npx vitest run` green (sniff, projection, parser incl.
+      16-bit/PixelIsPoint/overviews, store, mesh, layer incl. DPR, bridge
+      incl. opacity race + load failure, hook incl. quota degrade, rows)
 - [ ] `npm run lint && npm run build` green
-- [ ] Manual: fixture GeoTIFF imports, renders warped near 45.1°N 63°W,
-      opacity live-updates, survives reload (screenshot attached)
+- [ ] Manual: fixture GeoTIFF imports (picker + drag-drop), renders warped
+      near 45.1°N 63°W under parcels/roads, opacity live-updates, survives
+      reload (screenshot attached)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
@@ -2556,8 +3078,9 @@ Expected: PR URL printed; `Build gate + tests` check runs. Watch it to green.
 
 ---
 
-## Plan Self-Review (completed at write time)
+## Plan Self-Review (rev 2, completed at write time)
 
-- **Spec coverage (PR-1 slice):** sniffing ✔ (T1), CRS registry + reprojection ✔ (T2), capped-resolution decode ✔ (T4), IndexedDB persistence ✔ (T5), mesh warp render in pane 260 ✔ (T6–T7), import UX + privacy copy + outcomes + size caps ✔ (T8–T9), mounting-points-only integration ✔ (T10), docs ✔ (T10). Deferred per spec: workers for decode (geotiff resampled-read keeps memory bounded; a dedicated worker moves to PR 2 polish if import stutters on large files — noted deviation), soft-warn copy shown as an outcome note rather than a pre-parse warning.
+- **Adversarial findings coverage:** geotiff pinned (F1) ✔ T1/T3; worker decode + honest memory language (F2) ✔ T4; hook tests use injected parse, PDF sniff slice guarded, setup.ts gets fake-indexeddb, MapCanvas mock extended proactively (F3) ✔ T8/T10; `void error` gone, no `setState`-in-effect anywhere (F4) ✔ T5/T7; pane z-160 (F5) ✔ T6; quota keeps map in memory + storage/quota distinguished (F6) ✔ T5/T8; WKT-citation best-effort (F7) ✔ T2/T4; 16-bit scaling tested, alpha/nodata explicitly out of scope in the spec (F8) ✔ T4; bitmap close, URL revocation, load-failure catch, opacity race tested (F9) ✔ T7/T8; spec cadence language fixed + DPR rendering (F10) ✔ spec/T6; overview selection (F11) ✔ T4; PixelIsPoint, 16-double transformation validation, multi-tiepoint rejection (F12) ✔ T4; drag-drop, Opacity label, pre-parse size-aware status, indexed outcome keys (F13) ✔ T8/T9; store-open failure state, merge-by-id load, onversionchange/onblocked (F14) ✔ T5/T8; spec status/mesh/test-convention wording amended (F15) ✔ spec.
 - **Placeholder scan:** none — every code step is complete.
-- **Type consistency:** `VisibleUserMap` defined in T7, consumed in T8/T10; `UserMapsApi` defined in T8, consumed in T9/T10; `EmbeddedGeoref` geotransform order is GDAL-style everywhere (T2 test asserts it); mesh row/col order matched between `buildLatLngMesh` (T2) and `buildSrcMesh` (T6) by mirrored tests.
+- **Type consistency:** `VisibleUserMap` (T7) consumed in T8/T10; `UserMapsApi` (T8) consumed in T9/T10; `ParsedGeoTiff`/`MakePreview`/`chooseImageIndex`/`rgbToRgba` (T4) consumed in T4 worker + T8; geotransform stays GDAL-ordered everywhere; mesh row/col order mirrored between `buildLatLngMesh` (T2) and `buildSrcMesh` (T6) by tests.
+- **Known accepted limits (documented in spec):** alpha/nodata ignored in PR 1; zoom-animation jump; decode peak memory inside the worker; overview fallback upscales nothing.

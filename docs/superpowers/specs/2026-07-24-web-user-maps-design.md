@@ -1,7 +1,9 @@
 # Web "Your Maps" — User-Loaded GeoTIFF/GeoPDF + In-Browser Georeferencer — Design
 
 **Date:** 2026-07-24
-**Status:** Design (awaiting spec review)
+**Status:** Approved 2026-07-24; amended same day after adversarial review
+(Codex gpt-5.6-sol): pane slot pinned to z-160, mesh density corrected,
+renderer cadence stated precisely, alpha/nodata scoped out of PR 1
 **Author:** Claude (with Dan Fakkeldy)
 
 ## Goal
@@ -63,14 +65,18 @@ web/src/userMaps/
     GcpList.tsx         GCP table with residuals, delete, zoom-to
 ```
 
-Every module gets a sibling `.test.ts(x)`, matching repo convention.
+Every module containing logic gets a sibling `.test.ts(x)`, matching repo
+convention; thin wiring files (the worker wrapper, presentational fragments)
+are covered through the tests of the modules that drive them.
 `transform/` and `parsers/` are pure (no DOM/Leaflet imports beyond types), so
 they test headlessly in Vitest.
 
 Integration points (the only edits outside `userMaps/`):
 
-- `mapPanes.ts`: add a `user-maps` pane above base rasters, below vector
-  overlays.
+- `mapPanes.ts`: add a `user-maps` pane at **z-index 160** — directly above
+  the aerial imagery pane (150) and below every data overlay (environmental
+  health at 165, contours 180, parcels 200, roads 235, waterfalls 250) so
+  parcel lines and roads stay readable on top of a draped scan.
 - Layer list: mount `<UserMapRows>` as its own section.
 - `MapCanvas.tsx`: mount `<UserMapLayers>` (renders one `WarpedRasterLayer`
   per enabled user map).
@@ -127,9 +133,13 @@ With exactly 3 points residuals are zero by construction, so the UI says
 a TPS toggle appears (phase 3). Save → layer row appears.
 
 **Rendering:** `WarpedRasterLayer` projects its mesh into map space on each
-move/zoom — 2 triangles for embedded/affine, ~32×32 grid for TPS — and draws
-the preview bitmap through per-triangle clipped `drawImage`. Honors pane
-order and the standard opacity slider.
+*completed* view change (`moveend`/`zoomend`/`viewreset`/`resize`) — an 8×8
+grid for embedded/affine (dense enough to absorb UTM→WebMercator curvature at
+county scale), denser for TPS — and draws the preview bitmap through
+per-triangle clipped `drawImage` at device-pixel-ratio resolution. During a
+drag the pane carries the canvas; during zoom *animations* the raster jumps
+rather than scaling smoothly — an accepted v1 trade-off, revisited only if it
+grates in practice. Honors pane order and the per-map opacity slider.
 
 ### GeoPDF extraction (the risky module, isolated)
 
@@ -200,3 +210,10 @@ and `plan.md` (new checklist items).
   the `WarpedRasterLayer` interface if panning perf demands it).
 - iOS app parity (web-only feature; the iOS overlay engine is a separate
   design if ever wanted).
+- Alpha bands, transparency masks, and nodata rendering (PR 1 renders every
+  pixel opaque; 16-bit samples are scaled correctly, but alpha/nodata support
+  is PR-2+ scope with its own tests).
+- Full WKT CRS parsing. PR 1 accepts the six locked EPSG codes plus a
+  best-effort `proj4` parse of the GeoTIFF citation string when the CRS key
+  is user-defined (32767); exotic WKT beyond what proj4 accepts is rejected
+  with the reproject message.
