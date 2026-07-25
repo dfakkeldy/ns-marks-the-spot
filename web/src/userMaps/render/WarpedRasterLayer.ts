@@ -19,18 +19,17 @@ export type WarpedRasterLayerOptions = {
  */
 export class WarpedRasterLayer extends L.Layer {
   private readonly rasterOptions: WarpedRasterLayerOptions;
-  private readonly srcMesh: XY[][];
+  private srcMesh: XY[][];
   private canvas: HTMLCanvasElement | null = null;
   private map: L.Map | null = null;
 
   constructor(options: WarpedRasterLayerOptions) {
     super();
     this.rasterOptions = options;
-    const rows = options.latLngMesh.length - 1;
     this.srcMesh = buildSrcMesh(
       options.imageSize.width,
       options.imageSize.height,
-      rows,
+      options.latLngMesh.length - 1,
     );
   }
 
@@ -55,6 +54,23 @@ export class WarpedRasterLayer extends L.Layer {
     this.canvas = null;
     this.map = null;
     return this;
+  }
+
+  /**
+   * Swaps the warp geometry and redraws, without touching `image`. The
+   * georeferencer re-solves on every pointer move during a GCP drag, so the
+   * hot path must never re-decode the bitmap. The source lattice is rebuilt
+   * too: a caller may legitimately change grid density (affine drapes use a
+   * 1x1 grid, a thin-plate spline needs a dense one).
+   */
+  setLatLngMesh(latLngMesh: LatLngPoint[][]): void {
+    this.rasterOptions.latLngMesh = latLngMesh;
+    this.srcMesh = buildSrcMesh(
+      this.rasterOptions.imageSize.width,
+      this.rasterOptions.imageSize.height,
+      latLngMesh.length - 1,
+    );
+    this.redraw();
   }
 
   setOpacity(opacity: number): void {
