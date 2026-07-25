@@ -45,13 +45,20 @@ class Manifest:
     def _write(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         temporary = self.path.with_suffix(self.path.suffix + ".tmp")
-        temporary.write_text(
-            json.dumps(
-                {"version": self.version, "sheets": self.sheets},
-                indent=2,
-                sort_keys=True,
+        try:
+            temporary.write_text(
+                json.dumps(
+                    {"version": self.version, "sheets": self.sheets},
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
             )
-            + "\n",
-            encoding="utf-8",
-        )
-        os.replace(temporary, self.path)
+            os.replace(temporary, self.path)
+        except BaseException:
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+            raise

@@ -77,6 +77,7 @@ class ManifestTests(unittest.TestCase):
                     )
 
             self.assertEqual(path.read_bytes(), before)
+            self.assertFalse(path.with_suffix(".json.tmp").exists())
 
 
 if __name__ == "__main__":
