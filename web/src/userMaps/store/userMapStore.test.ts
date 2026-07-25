@@ -46,12 +46,6 @@ describe("UserMapStore", () => {
     expect(listed.map((r) => r.id)).toEqual(["a", "b"]);
   });
 
-  it("renames a map", async () => {
-    await store.saveUserMap(record("a", "2026-07-24T00:00:00.000Z"), new Blob(), new Blob());
-    await store.renameUserMap("a", "Church survey 1888");
-    expect((await store.listUserMaps())[0].name).toBe("Church survey 1888");
-  });
-
   it("deletes a map and its blobs", async () => {
     await store.saveUserMap(record("a", "2026-07-24T00:00:00.000Z"), new Blob(), new Blob());
     await store.deleteUserMap("a");

@@ -80,6 +80,27 @@ describe("pixelToLatLng", () => {
     expect(pixelToLatLng(mixedCase, 120, 45)).toEqual(expected);
   });
 
+  it("rejects a geotransform that projects outside the coordinate system's valid area", () => {
+    // 50,000,000 mE is nowhere near a real UTM easting for zone 20N; proj4
+    // doesn't throw for this, it returns non-finite coordinates (Infinity,
+    // in practice) — the exact failure mode described in the fix.
+    const outOfZone: EmbeddedGeoref = {
+      kind: "embedded",
+      crs: "EPSG:26920",
+      geotransform: [50_000_000, 10, 0, 5_000_000, 0, -10],
+    };
+    try {
+      pixelToLatLng(outOfZone, 0, 0);
+      expect.unreachable("should have thrown");
+    } catch (error) {
+      expect(error).toBeInstanceOf(UserMapImportError);
+      expect((error as UserMapImportError).code).toBe("invalid-georeferencing");
+      expect((error as UserMapImportError).userMessage).toContain(
+        "coordinate system",
+      );
+    }
+  });
+
   it("passes WGS84 rasters through untouched", () => {
     const geographic: EmbeddedGeoref = {
       kind: "embedded",

@@ -127,6 +127,19 @@ export function pixelToLatLng(
   const projX = ox + x * xRes + y * xRot;
   const projY = oy + x * yRot + y * yRes;
   const [lng, lat] = converterFor(georef.crs).forward([projX, projY]);
+  // proj4 doesn't throw for a finite-but-out-of-domain input (e.g. a
+  // tiepoint that lands nowhere near the declared UTM zone) — it returns
+  // null/Infinity/NaN instead. Left unchecked, `new L.LatLng(...)` silently
+  // coerces that to (0, 0), so the map draws triangles stretched across the
+  // globe instead of failing. Catch it here so a bad CRS/tiepoint pairing is
+  // an import-time error, not a render-time surprise.
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    throw new UserMapImportError(
+      "invalid-georeferencing",
+      "This file's georeferencing produced coordinates outside the " +
+        "coordinate system's valid area. Check the file's CRS and re-export it.",
+    );
+  }
   return { lat, lng };
 }
 

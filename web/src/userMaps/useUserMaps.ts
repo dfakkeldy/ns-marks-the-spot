@@ -32,7 +32,6 @@ export type UserMapsApi = {
   outcomes: ImportOutcome[];
   importFiles: (files: ArrayLike<File>) => Promise<void>;
   removeMap: (id: string) => Promise<void>;
-  renameMap: (id: string, name: string) => Promise<void>;
   setEnabled: (id: string, enabled: boolean) => void;
   setOpacity: (id: string, opacity: number) => void;
 };
@@ -51,6 +50,26 @@ function stripExtension(fileName: string): string {
 }
 
 /**
+ * `crypto.randomUUID()` only exists in a secure context (HTTPS or
+ * localhost). It's undefined on a plain `http://192.168.x.x:5173` dev
+ * server — exactly how this app gets tested on a phone over the LAN — so
+ * calling it unconditionally makes every import fail there, after a full
+ * parse, with a generic error. `crypto.getRandomValues` has no such
+ * restriction, so it's the fallback; ids only need to be unique within this
+ * device's store, so RFC 4122 shape doesn't matter.
+ */
+function generateId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+}
+
+/**
  * Owns all user-map state so App.tsx stays a mounting point. The store opens
  * lazily; openStore and parse are injectable seams for tests (closure
  * injection per project convention — no protocols until a second impl
@@ -58,17 +77,16 @@ function stripExtension(fileName: string): string {
  * the import.
  *
  * Record identity: `records` is only ever replaced wholesale via setRecords,
- * and each of the four call sites (initial merge, import, remove, rename)
- * reuses the existing object reference for every entry it isn't actually
- * changing — only a rename allocates a new object for the record it renames.
- * That is what keeps `visibleMaps[i].record` referentially stable across
- * renders triggered by unrelated state (another map's opacity, a new
- * outcome, importing/importingLabel toggling): those renders never call
- * setRecords at all, so the `records` array — and every object inside it —
- * is the exact same reference as the previous render. UserMapLayers' layer-
- * construction effect depends on that reference to avoid tearing down and
- * rebuilding the Leaflet layer (and re-decoding the bitmap) on every
- * unrelated re-render.
+ * and each of the three call sites (initial merge, import, remove) reuses
+ * the existing object reference for every entry it isn't actually adding or
+ * removing — nothing currently mutates an existing record in place. That is
+ * what keeps `visibleMaps[i].record` referentially stable across renders
+ * triggered by unrelated state (another map's opacity, a new outcome,
+ * importing/importingLabel toggling): those renders never call setRecords at
+ * all, so the `records` array — and every object inside it — is the exact
+ * same reference as the previous render. UserMapLayers' layer-construction
+ * effect depends on that reference to avoid tearing down and rebuilding the
+ * Leaflet layer (and re-decoding the bitmap) on every unrelated re-render.
  */
 export function useUserMaps(
   options: {
@@ -198,17 +216,28 @@ export function useUserMaps(
             // use of `buffer` on this thread.
             const parsed = await parseRef.current(buffer);
             const record: UserMapRecord = {
-              id: crypto.randomUUID(),
+              id: generateId(),
               name: stripExtension(file.name),
               source: "geotiff",
               createdAt: new Date().toISOString(),
               pixelSize: parsed.pixelSize,
               georef: parsed.georef,
             };
-            let note =
-              file.size > LARGE_FILE_BYTES
-                ? "Large file — displayed at reduced resolution."
-                : undefined;
+            // Keyed on PIXELS, not bytes: a highly compressed large file
+            // can decode at full resolution (no note earned), while a
+            // less-compressed file well under LARGE_FILE_BYTES can still
+            // get downsampled if its pixel dimensions exceed
+            // PREVIEW_MAX_DIMENSION. previewSize is only ever smaller than
+            // pixelSize when parseGeoTiff actually downsampled it.
+            const wasDownsampled =
+              parsed.previewSize.width < parsed.pixelSize.width ||
+              parsed.previewSize.height < parsed.pixelSize.height;
+            let note: string | undefined;
+            if (wasDownsampled) {
+              note = "Large file — displayed at reduced resolution.";
+            } else if (file.size > LARGE_FILE_BYTES) {
+              note = "Large file.";
+            }
             try {
               await (await store()).saveUserMap(record, file, parsed.preview);
             } catch (saveError) {
@@ -270,18 +299,6 @@ export function useUserMaps(
     [persistUiState, store],
   );
 
-  const renameMap = useCallback(
-    async (id: string, name: string) => {
-      try {
-        await (await store()).renameUserMap(id, name);
-      } catch {
-        // In-memory-only map, or a broken store; rename still applies below.
-      }
-      setRecords((prev) => prev.map((r) => (r.id === id ? { ...r, name } : r)));
-    },
-    [store],
-  );
-
   const setEnabled = useCallback(
     (id: string, enabled: boolean) => {
       const current = loadUiState();
@@ -324,7 +341,6 @@ export function useUserMaps(
     outcomes,
     importFiles,
     removeMap,
-    renameMap,
     setEnabled,
     setOpacity,
   };

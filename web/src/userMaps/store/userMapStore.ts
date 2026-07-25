@@ -165,18 +165,6 @@ export class UserMapStore {
     return this.getBlob(`${id}:raster`);
   }
 
-  async renameUserMap(id: string, name: string): Promise<void> {
-    const tx = this.db.transaction(MAPS, "readwrite");
-    const store = tx.objectStore(MAPS);
-    const existing = await request(
-      store.get(id) as IDBRequest<UserMapRecord | undefined>,
-    );
-    if (existing) {
-      store.put({ ...existing, name });
-    }
-    await transactionDone(tx);
-  }
-
   async deleteUserMap(id: string): Promise<void> {
     const tx = this.db.transaction([MAPS, BLOBS], "readwrite");
     tx.objectStore(MAPS).delete(id);

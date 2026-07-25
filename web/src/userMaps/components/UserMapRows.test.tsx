@@ -29,7 +29,6 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
     outcomes: [],
     importFiles: vi.fn(async () => {}),
     removeMap: vi.fn(async () => {}),
-    renameMap: vi.fn(async () => {}),
     setEnabled: vi.fn(),
     setOpacity: vi.fn(),
     ...overrides,
@@ -59,6 +58,33 @@ describe("UserMapRows", () => {
     const file = new File(["x"], "survey.tif");
     fireEvent.drop(dropZone, { dataTransfer: { files: [file] } });
     expect(testApi.importFiles).toHaveBeenCalledWith([file]);
+  });
+
+  // --- Overlapping imports ---------------------------------------------------
+  //
+  // Dropping/selecting a second file while the first is still parsing used to
+  // start a second concurrent importFiles run: the first import's `finally`
+  // would clear the progress indicator mid-flight, and the second batch's
+  // outcomes would overwrite the first's, so the user never saw confirmation
+  // their first map imported. The fix disables the file input and ignores
+  // drops while `importing` is true, so a second run can never start.
+
+  it("disables the file input while an import is already in progress", () => {
+    render(
+      <UserMapRows
+        api={api({ importing: true, importingLabel: 'Reading "survey.tif"…' })}
+      />,
+    );
+    expect(screen.getByLabelText("Add a map file")).toBeDisabled();
+  });
+
+  it("ignores a file dropped while an import is already in progress", () => {
+    const testApi = api({ importing: true, importingLabel: 'Reading "survey.tif"…' });
+    render(<UserMapRows api={testApi} />);
+    const dropZone = screen.getByTestId("user-map-drop-zone");
+    const file = new File(["x"], "second.tif");
+    fireEvent.drop(dropZone, { dataTransfer: { files: [file] } });
+    expect(testApi.importFiles).not.toHaveBeenCalled();
   });
 
   it("shows the storage banner when persistence is unavailable", () => {
@@ -94,6 +120,18 @@ describe("UserMapRows", () => {
     render(<UserMapRows api={testApi} />);
     fireEvent.click(screen.getByRole("button", { name: "Remove Church survey" }));
     expect(testApi.removeMap).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
+  });
+
+  it("removes the map once the user confirms", () => {
+    const testApi = api({
+      records: [record],
+      uiState: { a: { enabled: true, opacity: 0.7 } },
+    });
+    vi.stubGlobal("confirm", vi.fn(() => true));
+    render(<UserMapRows api={testApi} />);
+    fireEvent.click(screen.getByRole("button", { name: "Remove Church survey" }));
+    expect(testApi.removeMap).toHaveBeenCalledWith("a");
     vi.unstubAllGlobals();
   });
 

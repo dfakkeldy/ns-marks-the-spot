@@ -3786,6 +3786,15 @@ a {
   font-size: 0.72rem;
 }
 
+.user-map-import--busy {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.user-map-import--busy input[type="file"] {
+  cursor: progress;
+}
+
 .user-map-hint,
 .user-map-privacy {
   color: var(--muted);

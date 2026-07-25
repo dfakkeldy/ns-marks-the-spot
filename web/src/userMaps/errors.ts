@@ -3,6 +3,7 @@ export type UserMapImportErrorCode =
   | "corrupt-file"
   | "unsupported-crs"
   | "no-georeferencing"
+  | "invalid-georeferencing"
   | "too-large"
   | "quota"
   | "storage-failed";

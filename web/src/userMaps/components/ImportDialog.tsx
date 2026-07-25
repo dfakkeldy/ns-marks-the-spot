@@ -22,6 +22,14 @@ export function ImportDialog({
 }) {
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
+    // A second drop while the first import is still parsing would start an
+    // overlapping run: the first import's `finally` would clear the
+    // progress indicator mid-flight, and the second batch's outcomes would
+    // overwrite the first's, so the user never sees its success line.
+    // Ignoring drops while busy keeps imports strictly one-at-a-time.
+    if (importing) {
+      return;
+    }
     if (event.dataTransfer.files.length > 0) {
       onImportFiles(Array.from(event.dataTransfer.files));
     }
@@ -29,8 +37,9 @@ export function ImportDialog({
 
   return (
     <div
-      className="user-map-import"
+      className={`user-map-import${importing ? " user-map-import--busy" : ""}`}
       data-testid="user-map-drop-zone"
+      aria-busy={importing}
       onDragOver={(event) => event.preventDefault()}
       onDrop={handleDrop}
     >
@@ -39,6 +48,7 @@ export function ImportDialog({
         accept=".tif,.tiff,.pdf,.png,.jpg,.jpeg"
         multiple
         aria-label="Add a map file"
+        disabled={importing}
         onChange={(event) => {
           if (event.target.files?.length) {
             onImportFiles(Array.from(event.target.files));

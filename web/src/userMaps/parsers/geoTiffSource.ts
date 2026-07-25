@@ -2,12 +2,25 @@ import { fromArrayBuffer } from "geotiff";
 import type { GeoTIFFImage, TypedArrayWithDimensions } from "geotiff";
 import { UserMapImportError } from "../errors";
 import {
+  pixelToLatLng,
   validateCrs,
   type EmbeddedGeoref,
   type PixelSize,
 } from "../transform/projection";
 
 export const PREVIEW_MAX_DIMENSION = 4096;
+
+/**
+ * Above this many pixels, a failed decode of the CHOSEN source image (base
+ * or the smallest covering overview) is treated as "valid raster, too big
+ * to decode here" rather than "corrupt file". PREVIEW_MAX_DIMENSION only
+ * caps the RETAINED preview — geotiff still has to materialize the chosen
+ * image's full pixel grid to build it, so a raster with no internal
+ * overview small enough to cover the target can exhaust the browser's heap
+ * on perfectly good data. Set generously above any real preview target so
+ * genuinely small/corrupt inputs still get the "corrupt-file" message.
+ */
+const DECODE_TOO_LARGE_PIXEL_THRESHOLD = 50_000_000;
 
 export type MakePreview = (
   rgb: Uint8Array,
@@ -167,18 +180,36 @@ export async function parseGeoTiff(
   }
   validateCrs(crs); // throws unsupported-crs with the CRS in the message
 
+  const georef: EmbeddedGeoref = { kind: "embedded", crs, geotransform };
+  // A CRS can pass validateCrs yet still be paired with a geotransform whose
+  // tiepoint doesn't actually fall inside that CRS's domain (e.g. an
+  // out-of-zone UTM tiepoint) — proj4 doesn't throw for that, it silently
+  // returns non-finite coordinates (see pixelToLatLng). Project the four
+  // raster corners now, at import time, so that failure aborts the import
+  // instead of surfacing as triangles stretched across the globe at render
+  // time.
+  for (const [cx, cy] of [
+    [0, 0],
+    [width, 0],
+    [0, height],
+    [width, height],
+  ] as const) {
+    pixelToLatLng(georef, cx, cy); // throws invalid-georeferencing on failure
+  }
+
   const downScale = Math.min(1, PREVIEW_MAX_DIMENSION / Math.max(width, height));
   const previewSize: PixelSize = {
     width: Math.max(1, Math.round(width * downScale)),
     height: Math.max(1, Math.round(height * downScale)),
   };
 
+  const chosenIndex = chooseImageIndex(imageSizes, PREVIEW_MAX_DIMENSION);
   let rgb: Uint8Array;
   try {
     // Decode from the smallest sufficient overview. Note: geotiff still
     // materializes that image's source tiles transiently during the read;
     // the cap bounds the RETAINED output, not the decode peak.
-    const source = await getImage(chooseImageIndex(imageSizes, PREVIEW_MAX_DIMENSION));
+    const source = await getImage(chosenIndex);
     // geotiff's readRGB return type is a union that also covers the
     // non-interleaved (TypedArray[]) shape, because the type doesn't
     // discriminate on the `interleave` option's literal value. We always
@@ -190,7 +221,27 @@ export async function parseGeoTiff(
       height: previewSize.height,
     })) as TypedArrayWithDimensions;
     rgb = toUint8Rgb(raw);
-  } catch {
+  } catch (error) {
+    if (error instanceof UserMapImportError) {
+      throw error;
+    }
+    // The cap above bounds the RETAINED preview, not the decode peak: with
+    // no overview small enough to cover PREVIEW_MAX_DIMENSION, geotiff still
+    // has to materialize the CHOSEN image's full pixel grid before it can
+    // down-scale. A valid multi-hundred-megabyte raster with no internal
+    // overviews can exhaust the browser's heap right here — well under the
+    // 500 MB file-size limit — so telling the user their file is "corrupt"
+    // would be a lie. Tell them the truth instead.
+    const chosenSize = imageSizes[chosenIndex];
+    if (chosenSize.width * chosenSize.height > DECODE_TOO_LARGE_PIXEL_THRESHOLD) {
+      throw new UserMapImportError(
+        "too-large",
+        "This image is too large to decode in the browser, even though the " +
+          "file itself is under 500 MB. Add internal overviews (for example " +
+          "with gdaladdo) or export a smaller or lower-resolution area, then " +
+          "re-import.",
+      );
+    }
     throw new UserMapImportError(
       "corrupt-file",
       "The image data in this GeoTIFF could not be decoded.",
@@ -201,7 +252,7 @@ export async function parseGeoTiff(
 
   return {
     pixelSize: { width, height },
-    georef: { kind: "embedded", crs, geotransform },
+    georef,
     preview,
     previewSize,
   };

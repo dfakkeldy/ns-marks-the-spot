@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it, vi } from "vitest";
+import { GeoTIFFImage } from "geotiff";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { UserMapImportError } from "../errors";
 import { chooseImageIndex, parseGeoTiff } from "./geoTiffSource";
 
@@ -106,6 +107,10 @@ describe("chooseImageIndex", () => {
 });
 
 describe("parseGeoTiff", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("extracts pixel size, CRS, and geotransform from the fixture", async () => {
     const parsed = await parseGeoTiff(fixtureBuffer(), {
       makePreview: fakePreview(),
@@ -221,5 +226,80 @@ describe("parseGeoTiff", () => {
     await parseGeoTiff(buffer, { makePreview });
     const [rgb] = makePreview.mock.calls[0];
     expect(rgb[0]).toBe(0x80);
+  });
+
+  // --- Decode-failure classification (large-but-valid vs. actually corrupt) -
+  //
+  // PREVIEW_MAX_DIMENSION caps the RETAINED preview, not what geotiff has to
+  // materialize while decoding. A valid raster with no internal overview
+  // small enough to cover the target can throw mid-decode from sheer size;
+  // that must not be reported as "corrupt". These three tests pin: (1) a
+  // decode-time UserMapImportError passes through unchanged, (2) a huge
+  // chosen image reports "too-large" with an honest, actionable message, and
+  // (3) a small image failing for an unrelated reason still reports
+  // "corrupt-file" — proving the two outcomes are actually distinguished by
+  // size, not just always "too-large" or always "corrupt-file".
+
+  it("passes a UserMapImportError thrown while decoding straight through unchanged", async () => {
+    const decodeError = new UserMapImportError("quota", "custom decode-time message");
+    vi.spyOn(GeoTIFFImage.prototype, "readRGB").mockRejectedValueOnce(decodeError);
+    await expect(
+      parseGeoTiff(fixtureBuffer(), { makePreview: fakePreview() }),
+    ).rejects.toBe(decodeError);
+  });
+
+  it("reports too-large when the chosen image is huge and decoding fails", async () => {
+    // The fixture itself is a tiny 8x6 file; stub the reported dimensions
+    // to simulate a multi-hundred-megapixel raster with no overview small
+    // enough to cover PREVIEW_MAX_DIMENSION, so chooseImageIndex has to
+    // fall back to this huge "base" image.
+    vi.spyOn(GeoTIFFImage.prototype, "getWidth").mockReturnValue(20000);
+    vi.spyOn(GeoTIFFImage.prototype, "getHeight").mockReturnValue(15000);
+    vi.spyOn(GeoTIFFImage.prototype, "readRGB").mockRejectedValueOnce(
+      new RangeError("Invalid typed array length"),
+    );
+    try {
+      await parseGeoTiff(fixtureBuffer(), { makePreview: fakePreview() });
+      expect.unreachable("should have thrown");
+    } catch (error) {
+      expect(error).toBeInstanceOf(UserMapImportError);
+      expect((error as UserMapImportError).code).toBe("too-large");
+      const message = (error as UserMapImportError).userMessage;
+      expect(message).not.toContain("corrupt");
+      expect(message.toLowerCase()).toContain("too large");
+      expect(message).toContain("500 MB");
+    }
+  });
+
+  it("still reports corrupt-file when a small image fails to decode", async () => {
+    // Same failure, but the fixture's real (tiny) dimensions apply — proves
+    // the "too-large" branch above is keyed on pixel count, not merely on
+    // "readRGB threw".
+    vi.spyOn(GeoTIFFImage.prototype, "readRGB").mockRejectedValueOnce(
+      new Error("Offset is outside the bounds of the DataView"),
+    );
+    await expect(
+      parseGeoTiff(fixtureBuffer(), { makePreview: fakePreview() }),
+    ).rejects.toMatchObject({
+      code: "corrupt-file",
+      userMessage: "The image data in this GeoTIFF could not be decoded.",
+    });
+  });
+
+  it("rejects a CRS/tiepoint pairing that projects outside the coordinate system's domain", async () => {
+    // EPSG:26920 (UTM zone 20N) is on the supported allowlist, so
+    // validateCrs passes — but this tiepoint (50,000,000 mE) is nowhere
+    // near a real UTM easting for that zone. proj4 doesn't throw for that;
+    // it returns non-finite coordinates. parseGeoTiff must catch this at
+    // import time, not let it through as if it were valid.
+    const buffer = await plainTiff({
+      ModelPixelScale: [10, 10, 0],
+      ModelTiepoint: [0, 0, 0, 50_000_000, 5_000_000, 0],
+      ProjectedCSTypeGeoKey: 26920,
+      GTModelTypeGeoKey: 1,
+    });
+    await expect(
+      parseGeoTiff(buffer, { makePreview: fakePreview() }),
+    ).rejects.toMatchObject({ code: "invalid-georeferencing" });
   });
 });

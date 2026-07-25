@@ -109,7 +109,6 @@ describe("useUserMaps", () => {
       },
       getPreviewBlob: async () => null,
       deleteUserMap: async () => {},
-      renameUserMap: async () => {},
       close: () => {},
     } as unknown as UserMapStore;
     const { result } = renderHook(() =>
@@ -192,10 +191,10 @@ describe("useUserMaps", () => {
   // OBJECT REFERENCE inside each VisibleUserMap entry. If useUserMaps handed
   // out a freshly-constructed record object on every render, that effect
   // would tear down and rebuild the Leaflet layer (re-decoding the bitmap)
-  // on every unrelated state change — a visible flicker. These two tests
-  // pin both halves of the contract: identity survives renders caused by
-  // OTHER state, and identity intentionally changes when a record's own data
-  // changes (rename).
+  // on every unrelated state change — a visible flicker. This test pins that
+  // half of the contract: identity survives renders caused by OTHER state.
+  // (There is currently no path that mutates an existing record in place, so
+  // a record's object identity never changes for its own lifetime.)
 
   it("keeps a stable record object identity across an unrelated re-render", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
@@ -221,20 +220,68 @@ describe("useUserMaps", () => {
     expect(result.current.visibleMaps[0].record).toBe(recordBefore);
   });
 
-  it("gives a record a new object identity only when its own data changes (rename)", async () => {
+  // --- "Large file" note truthfulness ---------------------------------------
+  //
+  // The note used to be keyed on file BYTES (> LARGE_FILE_BYTES) while
+  // downsampling is keyed on PIXELS (> PREVIEW_MAX_DIMENSION in either
+  // dimension), so a highly-compressed large file that decodes at full
+  // resolution got a false "reduced resolution" claim. It must be keyed on
+  // whether parseGeoTiff actually returned a smaller previewSize than
+  // pixelSize.
+
+  it("does not claim reduced resolution when the preview was not actually downsampled", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    // The real fixture is tiny (8x6) and never gets downsampled by
+    // parseGeoTiff; forcing a large byte size in isolation proves the note
+    // is no longer keyed on bytes alone.
+    const file = fixtureFile();
+    Object.defineProperty(file, "size", { value: 180 * 1024 * 1024 });
+    await act(async () => {
+      await result.current.importFiles([file]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const outcome = result.current.outcomes[0] as { ok: true; note?: string };
+    expect(outcome.note).toBe("Large file.");
+  });
+
+  it("claims reduced resolution only when previewSize is genuinely smaller than pixelSize", async () => {
+    const downsampledParse = async (buffer: ArrayBuffer) => {
+      const { parseGeoTiff } = await import("./parsers/geoTiffSource");
+      const parsed = await parseGeoTiff(buffer, {
+        makePreview: async () => new Blob(["p"], { type: "image/png" }),
+      });
+      return {
+        ...parsed,
+        pixelSize: { width: 5000, height: 5000 },
+        previewSize: { width: 4096, height: 4096 },
+      };
+    };
+    const { result } = renderHook(() =>
+      useUserMaps(options({ parse: downsampledParse })),
+    );
+    // Deliberately a small file in bytes: proves the note is keyed on the
+    // parsed pixel/preview sizes, not on file.size.
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const outcome = result.current.outcomes[0] as { ok: true; note?: string };
+    expect(outcome.note).toBe("Large file — displayed at reduced resolution.");
+  });
+
+  // --- crypto.randomUUID unavailable (plain-http LAN dev server) -----------
+
+  it("still imports successfully when crypto.randomUUID is unavailable", async () => {
+    const realCrypto = globalThis.crypto;
+    vi.stubGlobal("crypto", {
+      getRandomValues: realCrypto.getRandomValues.bind(realCrypto),
+    });
     const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
       await result.current.importFiles([fixtureFile()]);
     });
     await waitFor(() => expect(result.current.records).toHaveLength(1));
-    const id = result.current.records[0].id;
-    const before = result.current.records[0];
-
-    await act(async () => {
-      await result.current.renameMap(id, "Renamed survey");
-    });
-
-    expect(result.current.records[0]).not.toBe(before);
-    expect(result.current.records[0].name).toBe("Renamed survey");
+    expect(result.current.outcomes[0]).toMatchObject({ ok: true });
+    expect(result.current.records[0].id).toBeTruthy();
   });
 });
