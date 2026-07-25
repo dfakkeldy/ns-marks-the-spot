@@ -46,6 +46,8 @@ class CandidateResult:
     metrics: AccuracyMetrics | None
     failure: str | None
     structure: StructuralVerdict | None = None
+    loocv_failure: str | None = None
+    structural_failure: str | None = None
 
 
 @dataclass(frozen=True)
@@ -124,15 +126,36 @@ def evaluate_candidate(
     A failed GDAL invocation, invalid output, or invalid point set is retained
     as a candidate failure so later families still run.
     """
+    if method not in METHOD_FLAGS:
+        return CandidateResult(
+            method,
+            None,
+            f"unknown transform {method!r}",
+            None,
+        )
     try:
-        if method not in METHOD_FLAGS:
-            raise ValueError(f"unknown transform {method!r}")
         _require_control_only(controls)
-        if not controls:
-            raise ValueError(
-                "at least one control is required for leave-one-out scoring"
-            )
+    except ValueError as error:
+        return CandidateResult(method, None, str(error), None)
+    if not controls:
+        return CandidateResult(
+            method,
+            None,
+            "at least one control is required for leave-one-out scoring",
+            None,
+        )
+    if frame_polygon is None:
+        return CandidateResult(
+            method,
+            None,
+            "exact usable frame is required for structural evaluation",
+            None,
+        )
+    structure_frame = tuple((float(x), float(y)) for x, y in frame_polygon)
 
+    metrics: AccuracyMetrics | None = None
+    loocv_failure: str | None = None
+    try:
         errors: list[float] = []
         for held, training in loocv_folds(controls):
             translated = output_dir / method / f"fold-{held.label}" / "gcps.vrt"
@@ -161,41 +184,43 @@ def evaluate_candidate(
         metrics = AccuracyMetrics(
             len(errors), report.check_rms_m, report.check_p95_m, report.check_max_m
         )
+    except (OSError, subprocess.CalledProcessError, ValueError) as error:
+        loocv_failure = str(error)
+
+    structure: StructuralVerdict | None = None
+    structural_failure: str | None = None
+    try:
         structural_vrt = output_dir / method / "structural" / "gcps.vrt"
         structural_vrt.parent.mkdir(parents=True, exist_ok=True)
         transform_runner(
             build_translate_command(str(source), str(structural_vrt), list(controls)),
             check=True,
         )
-        structure_frame = (
-            tuple((float(x), float(y)) for x, y in frame_polygon)
-            if frame_polygon is not None
-            else _control_frame(controls)
-        )
         structure = evaluate_structure(
             _structural_transform(method, structural_vrt, transform_runner),
             structure_frame,
             [(point.pixel_x, point.pixel_y) for point in controls],
         )
-        return CandidateResult(method, metrics, None, structure)
+        if not structure.passed:
+            structural_failure = structure.reason
     except (OSError, subprocess.CalledProcessError, ValueError) as error:
-        return CandidateResult(method, None, str(error), None)
+        structural_failure = str(error)
 
-
-def _control_frame(
-    controls: Sequence[GroundControlPoint],
-) -> tuple[tuple[float, float], ...]:
-    minimum_x = min(point.pixel_x for point in controls)
-    maximum_x = max(point.pixel_x for point in controls)
-    minimum_y = min(point.pixel_y for point in controls)
-    maximum_y = max(point.pixel_y for point in controls)
-    if minimum_x == maximum_x or minimum_y == maximum_y:
-        raise ValueError("controls do not span a two-dimensional structural frame")
-    return (
-        (minimum_x, minimum_y),
-        (maximum_x, minimum_y),
-        (maximum_x, maximum_y),
-        (minimum_x, maximum_y),
+    failures = tuple(
+        failure
+        for failure in (
+            f"leave-one-out: {loocv_failure}" if loocv_failure else None,
+            f"structural: {structural_failure}" if structural_failure else None,
+        )
+        if failure is not None
+    )
+    return CandidateResult(
+        method,
+        metrics,
+        "; ".join(failures) if failures else None,
+        structure,
+        loocv_failure,
+        structural_failure,
     )
 
 
@@ -241,7 +266,12 @@ def _structural_transform(
             text=True,
             check=True,
         )
-        return parse_gdaltransform_output(completed.stdout)[0]
+        transformed = parse_gdaltransform_output(completed.stdout)
+        if len(transformed) != 1:
+            raise ValueError(
+                f"{method} structural transform returned {len(transformed)} points"
+            )
+        return transformed[0]
 
     return project_with_runner
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import math
 import pathlib
@@ -29,6 +30,9 @@ REQUIRED_ARTIFACTS = (
     "tile_sample_z16",
 )
 OPTIONAL_ARTIFACTS = ("nsprd_overlay", "aerial_overlay")
+DELIVERABLE_TILE_ROOT = pathlib.Path(
+    "/var/home/dan/nsmarks-fletcher-20260725/tiles/sheet-24-modern-v1"
+)
 VISUAL_CHECKS = (
     "upright",
     "not_mirrored",
@@ -698,7 +702,73 @@ def _selected_raster(
     return selection_path.parent / "selected-3857.tif"
 
 
-def _rgba_from_dataset(dataset: object, maximum: int = 1600) -> object:
+def _full_resolution_alpha(
+    dataset: object,
+    *,
+    alpha_interpretation: object,
+    component_counter: Callable[[object], int] = coverage_components,
+) -> tuple[object, int]:
+    """Read and evaluate the exact, unresampled GDAL alpha band."""
+    alpha_band = next(
+        (
+            dataset.GetRasterBand(index)
+            for index in range(1, int(dataset.RasterCount) + 1)
+            if dataset.GetRasterBand(index).GetColorInterpretation()
+            == alpha_interpretation
+        ),
+        None,
+    )
+    if alpha_band is None:
+        raise ValueError("selected raster requires a real GDAL alpha band")
+    raw = alpha_band.ReadAsArray()
+    if raw is None:
+        raise ValueError("GDAL could not read the full-resolution alpha band")
+    if hasattr(raw, "ndim"):
+        if raw.ndim != 2:
+            raise ValueError("full-resolution alpha band must be two-dimensional")
+        mask = raw > 0
+    else:
+        try:
+            mask = tuple(tuple(float(value) > 0.0 for value in row) for row in raw)
+        except (TypeError, ValueError):
+            raise ValueError(
+                "full-resolution alpha band must be a two-dimensional array"
+            ) from None
+    components = component_counter(mask)
+    return mask, components
+
+
+def _runtime_alpha_components(mask: object) -> int:
+    import cv2  # type: ignore[import-not-found]
+    import numpy  # type: ignore[import-not-found]
+
+    image = numpy.asarray(mask, dtype=numpy.uint8)
+    if image.ndim != 2 or not image.size:
+        return 0
+    count, _ = cv2.connectedComponents(image, connectivity=4)
+    return int(count) - 1
+
+
+def _alpha_diagnostic(mask: Sequence[Sequence[bool]], maximum: int = 1600) -> object:
+    import cv2  # type: ignore[import-not-found]
+    import numpy  # type: ignore[import-not-found]
+
+    image = numpy.asarray(mask, dtype=numpy.uint8) * 255
+    scale = min(1.0, maximum / max(image.shape))
+    if scale < 1.0:
+        image = cv2.resize(
+            image,
+            (round(image.shape[1] * scale), round(image.shape[0] * scale)),
+            interpolation=cv2.INTER_NEAREST,
+        )
+    return image
+
+
+def _rgba_from_dataset(
+    dataset: object,
+    alpha_mask: Sequence[Sequence[bool]],
+    maximum: int = 1600,
+) -> object:
     # Runtime-only dependencies remain lazy so the unit suite stays stdlib-only.
     import cv2  # type: ignore[import-not-found]
     import numpy  # type: ignore[import-not-found]
@@ -708,17 +778,15 @@ def _rgba_from_dataset(dataset: object, maximum: int = 1600) -> object:
         raise ValueError("GDAL could not read raster pixels")
     if array.ndim == 2:
         rgb = numpy.repeat(array[:, :, None], 3, axis=2)
-        alpha = numpy.full(array.shape, 255, dtype=numpy.uint8)
     else:
         bands = numpy.moveaxis(array, 0, 2)
-        if bands.shape[2] >= 4:
-            rgb, alpha = bands[:, :, :3], bands[:, :, 3]
-        elif bands.shape[2] == 3:
-            rgb = bands
-            alpha = numpy.full(rgb.shape[:2], 255, dtype=numpy.uint8)
+        if bands.shape[2] >= 3:
+            rgb = bands[:, :, :3]
         else:
             rgb = numpy.repeat(bands[:, :, :1], 3, axis=2)
-            alpha = numpy.full(rgb.shape[:2], 255, dtype=numpy.uint8)
+    alpha = numpy.asarray(alpha_mask, dtype=numpy.uint8) * 255
+    if alpha.shape != rgb.shape[:2]:
+        raise ValueError("full-resolution alpha dimensions do not match raster pixels")
     rgba = numpy.dstack((rgb, alpha)).astype(numpy.uint8)
     scale = min(1.0, maximum / max(rgba.shape[:2]))
     if scale < 1.0:
@@ -760,7 +828,10 @@ def _point_fields(point: object, role: str) -> tuple[str, float, float, str]:
 
 
 def _crop_and_label(
-    dataset: object, point: object, role: str, path: pathlib.Path
+    dataset: object,
+    point: object,
+    role: str,
+    path: pathlib.Path | None,
 ) -> object:
     import cv2  # type: ignore[import-not-found]
     import numpy  # type: ignore[import-not-found]
@@ -803,7 +874,8 @@ def _crop_and_label(
         1,
         cv2.LINE_AA,
     )
-    _write_png(path, labelled)
+    if path is not None:
+        _write_png(path, labelled)
     return labelled
 
 
@@ -831,41 +903,95 @@ def _contact_sheet(images: Sequence[object], path: pathlib.Path) -> None:
 
 
 def _residual_svg(
-    payload: Mapping[str, object], title: str, path: pathlib.Path
+    payload: Mapping[str, object],
+    title: str,
+    path: pathlib.Path,
+    *,
+    expected_count_key: str,
+    expected_count: int,
 ) -> None:
-    residuals = payload.get("residuals", [])
-    if not isinstance(residuals, list):
-        residuals = []
+    recorded_count = payload.get(expected_count_key)
+    residuals = payload.get("residuals")
+    if (
+        isinstance(recorded_count, bool)
+        or not isinstance(recorded_count, int)
+        or recorded_count <= 0
+    ):
+        raise ValueError(f"residual evidence requires a positive {expected_count_key}")
+    if recorded_count != expected_count:
+        raise ValueError(
+            f"residual evidence recorded {recorded_count} points; "
+            f"expected {expected_count} frozen points"
+        )
+    if not isinstance(residuals, list) or len(residuals) != recorded_count:
+        raise ValueError(
+            f"residual evidence requires exactly {recorded_count} residual records"
+        )
+    normalized: list[tuple[str, Point, Point]] = []
+    for index, residual in enumerate(residuals):
+        if not isinstance(residual, dict):
+            raise ValueError(f"residual[{index}] must be an object")
+        identifier = residual.get("id")
+        if not isinstance(identifier, str) or not identifier.strip():
+            raise ValueError(f"residual[{index}].id is required")
+        endpoints: list[Point] = []
+        for field in ("expected", "actual"):
+            coordinate = residual.get(field)
+            if (
+                not isinstance(coordinate, list)
+                or len(coordinate) != 2
+                or any(
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    for value in coordinate
+                )
+            ):
+                raise ValueError(
+                    f"residual[{index}].{field} must contain two finite numbers"
+                )
+            endpoints.append((float(coordinate[0]), float(coordinate[1])))
+        normalized.append((identifier, endpoints[0], endpoints[1]))
+
+    all_points = [
+        point for _, expected, actual in normalized for point in (expected, actual)
+    ]
+    minimum_x = min(point[0] for point in all_points)
+    maximum_x = max(point[0] for point in all_points)
+    minimum_y = min(point[1] for point in all_points)
+    maximum_y = max(point[1] for point in all_points)
+    width = maximum_x - minimum_x
+    height = maximum_y - minimum_y
+    scale = min(
+        1080.0 / width if width > 0 else math.inf,
+        680.0 / height if height > 0 else math.inf,
+    )
+    if not math.isfinite(scale):
+        scale = 1.0
+
+    def project(point: Point) -> Point:
+        return (
+            60.0 + (point[0] - minimum_x) * scale,
+            80.0 + (point[1] - minimum_y) * scale,
+        )
+
     lines = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">',
         '<rect width="1200" height="800" fill="white"/>',
-        f'<text x="30" y="45" font-family="sans-serif" font-size="28">{title}</text>',
+        f'<text x="30" y="45" font-family="sans-serif" font-size="28">'
+        f"{html.escape(title)}</text>",
     ]
-    for index, residual in enumerate(residuals):
-        if not isinstance(residual, dict):
-            continue
-        start = residual.get("expected") or residual.get("source") or [0, 0]
-        end = residual.get("actual") or residual.get("transformed") or start
-        if not (
-            isinstance(start, list)
-            and isinstance(end, list)
-            and len(start) >= 2
-            and len(end) >= 2
-        ):
-            continue
-        x1 = 60 + float(start[0]) % 1080
-        y1 = 80 + float(start[1]) % 680
-        x2 = 60 + float(end[0]) % 1080
-        y2 = 80 + float(end[1]) % 680
+    for identifier, expected, actual in normalized:
+        x1, y1 = project(expected)
+        x2, y2 = project(actual)
         lines.append(
             f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" '
             'stroke="#b91c1c" stroke-width="2"/>'
         )
         lines.append(f'<circle cx="{x1:.2f}" cy="{y1:.2f}" r="3" fill="#1d4ed8"/>')
-        label = str(residual.get("id", index))
         lines.append(
             f'<text x="{x2 + 4:.2f}" y="{y2 - 4:.2f}" font-family="sans-serif" '
-            f'font-size="12">{label}</text>'
+            f'font-size="12">{html.escape(identifier)}</text>'
         )
     lines.append("</svg>")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -981,6 +1107,50 @@ def _inventory_entry(
     ]
 
 
+def _validate_output_path(
+    output: pathlib.Path,
+    deliverable_root: pathlib.Path = DELIVERABLE_TILE_ROOT,
+) -> pathlib.Path:
+    resolved_output = output.resolve(strict=False)
+    resolved_deliverable = deliverable_root.resolve(strict=False)
+    if (
+        resolved_output == resolved_deliverable
+        or resolved_deliverable in resolved_output.parents
+    ):
+        raise ValueError(
+            "render output must not resolve inside the deliverable tile directory"
+        )
+    return resolved_output
+
+
+def _assert_all_persisted_artifacts_inventoried(
+    output: pathlib.Path,
+    artifact_paths: Mapping[str, Sequence[pathlib.Path]],
+) -> None:
+    indexed = {
+        path.resolve(strict=False)
+        for paths in artifact_paths.values()
+        for path in paths
+    }
+    persisted = {
+        path.resolve(strict=False)
+        for path in output.rglob("*")
+        if path.is_file() and path.name != "artifact-inventory.json"
+    }
+    omitted = sorted(persisted - indexed)
+    if omitted:
+        root = output.resolve()
+        listed = ", ".join(
+            (
+                path.relative_to(root).as_posix()
+                if path.is_relative_to(root)
+                else str(path)
+            )
+            for path in omitted
+        )
+        raise ValueError(f"persisted QA artifact is absent from inventory: {listed}")
+
+
 def render_qa(
     source: pathlib.Path,
     observation_path: pathlib.Path,
@@ -990,9 +1160,10 @@ def render_qa(
     output: pathlib.Path,
 ) -> pathlib.Path:
     """Render and hash the complete QA-only evidence package."""
+    _validate_output_path(output)
+
     from osgeo import gdal  # type: ignore[import-not-found]
     import cv2  # type: ignore[import-not-found]
-    import numpy  # type: ignore[import-not-found]
 
     from tools.fletcher.physical_observation import load_observation, verify_source
 
@@ -1006,11 +1177,6 @@ def render_qa(
         if recorded_hash != observation_sha256:
             raise ValueError(f"{label} observation SHA-256 does not match")
 
-    forbidden = pathlib.Path("tiles") / "sheet-24-modern-v1"
-    if forbidden.as_posix() in output.as_posix():
-        raise ValueError(
-            "render output must be the QA directory, not deliverable tiles"
-        )
     output.mkdir(parents=True, exist_ok=True)
     source_dataset = gdal.Open(str(source), gdal.GA_ReadOnly)
     if source_dataset is None:
@@ -1024,6 +1190,16 @@ def render_qa(
     raster = gdal.Open(str(raster_path), gdal.GA_ReadOnly)
     if raster is None:
         raise ValueError(f"GDAL could not open selected raster {raster_path}")
+    alpha_mask, alpha_components = _full_resolution_alpha(
+        raster,
+        alpha_interpretation=gdal.GCI_AlphaBand,
+        component_counter=_runtime_alpha_components,
+    )
+    if alpha_components != 1:
+        raise ValueError(
+            f"selected raster full-resolution alpha coverage has "
+            f"{alpha_components} components"
+        )
 
     crop_root = output / "crops"
     transport_paths: list[pathlib.Path] = []
@@ -1040,9 +1216,8 @@ def render_qa(
     for candidate in observation.rejected_candidates:
         if candidate.pixel is None:
             continue
-        path = crop_root / "rejected" / f"{candidate.id}.png"
         contact_images.append(
-            _crop_and_label(source_dataset, candidate, "rejected", path)
+            _crop_and_label(source_dataset, candidate, "rejected", None)
         )
     contact_path = output / "candidate-contact-sheet.png"
     _contact_sheet(contact_images, contact_path)
@@ -1054,19 +1229,22 @@ def render_qa(
         residual_payload if isinstance(residual_payload, dict) else selection,
         "Transport leave-one-out residuals",
         transport_svg,
+        expected_count_key="point_count",
+        expected_count=len(observation.controls),
     )
-    _residual_svg(natural, "Natural final-check residuals", natural_svg)
+    _residual_svg(
+        natural,
+        "Natural final-check residuals",
+        natural_svg,
+        expected_count_key="check_count",
+        expected_count=len(observation.final_checks),
+    )
 
-    preview = _rgba_from_dataset(raster)
+    preview = _rgba_from_dataset(raster, alpha_mask)
     preview_path = output / "warped-preview.png"
     _write_png(preview_path, cv2.cvtColor(preview, cv2.COLOR_RGBA2BGRA))
-    alpha = preview[:, :, 3]
-    components = coverage_components((alpha > 0).tolist())
-    if components != 1:
-        raise ValueError(f"selected raster alpha coverage has {components} components")
-    alpha_image = numpy.where(alpha > 0, 255, 0).astype(numpy.uint8)
     alpha_path = output / "alpha-coverage.png"
-    _write_png(alpha_path, alpha_image)
+    _write_png(alpha_path, _alpha_diagnostic(alpha_mask))
 
     transport_overlay = output / "transportation-overlay.png"
     hydrography_overlay = output / "hydrography-overlay.png"
@@ -1105,6 +1283,7 @@ def render_qa(
         "tile_sample_z12": [tile_paths[12]],
         "tile_sample_z16": [tile_paths[16]],
     }
+    _assert_all_persisted_artifacts_inventoried(output, artifact_paths)
     inventory_payload = {
         "schema_version": 1,
         "observation_sha256": observation_sha256,

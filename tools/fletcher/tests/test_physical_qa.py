@@ -5,16 +5,22 @@ import copy
 import json
 import math
 import pathlib
+import tempfile
 import unittest
 
 from tools.fletcher.physical_qa import (
+    DELIVERABLE_TILE_ROOT,
     REQUIRED_ARTIFACTS,
     VISUAL_CHECKS,
     ArtifactInventory,
     StructuralMetrics,
     StructuralVerdict,
     VisualReview,
+    _assert_all_persisted_artifacts_inventoried,
+    _full_resolution_alpha,
     _point_fields,
+    _residual_svg,
+    _validate_output_path,
     build_parser,
     coverage_components,
     evaluate_structure,
@@ -239,6 +245,177 @@ class ArtifactAndReviewTests(unittest.TestCase):
 
 
 class RenderCommandTests(unittest.TestCase):
+    class FakeBand:
+        def __init__(self, interpretation: int, values: list[list[int]]) -> None:
+            self.interpretation = interpretation
+            self.values = values
+
+        def GetColorInterpretation(self) -> int:
+            return self.interpretation
+
+        def ReadAsArray(self) -> list[list[int]]:
+            return self.values
+
+    class FakeDataset:
+        def __init__(self, bands: list["RenderCommandTests.FakeBand"]) -> None:
+            self.bands = bands
+            self.RasterCount = len(bands)
+
+        def GetRasterBand(self, index: int) -> "RenderCommandTests.FakeBand":
+            return self.bands[index - 1]
+
+    def test_full_resolution_alpha_requires_a_real_alpha_band(self) -> None:
+        dataset = self.FakeDataset([self.FakeBand(1, [[10, 20]])])
+
+        with self.assertRaisesRegex(ValueError, "alpha band"):
+            _full_resolution_alpha(dataset, alpha_interpretation=6)
+
+    def test_full_resolution_alpha_preserves_gap_lost_by_preview_downsampling(
+        self,
+    ) -> None:
+        dataset = self.FakeDataset([self.FakeBand(6, [[255, 255, 0, 255, 255]])])
+
+        mask, components = _full_resolution_alpha(
+            dataset,
+            alpha_interpretation=6,
+        )
+
+        self.assertEqual(mask, ((True, True, False, True, True),))
+        self.assertEqual(components, 2)
+
+    def test_full_resolution_alpha_passes_exact_mask_to_runtime_counter(self) -> None:
+        dataset = self.FakeDataset([self.FakeBand(6, [[255, 0, 255]])])
+        observed: list[object] = []
+
+        def counter(mask: object) -> int:
+            observed.append(mask)
+            return 2
+
+        mask, components = _full_resolution_alpha(
+            dataset,
+            alpha_interpretation=6,
+            component_counter=counter,
+        )
+
+        self.assertEqual(observed, [mask])
+        self.assertEqual(components, 2)
+
+    def test_residual_svg_fails_closed_on_missing_or_malformed_evidence(self) -> None:
+        cases = (
+            {},
+            {"point_count": 0, "residuals": []},
+            {
+                "point_count": 1,
+                "residuals": [
+                    {
+                        "id": "control-1",
+                        "expected": [0.0],
+                        "actual": [1.0, 1.0],
+                    }
+                ],
+            },
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "residuals.svg"
+            for payload in cases:
+                with self.subTest(payload=payload):
+                    with self.assertRaisesRegex(ValueError, "residual"):
+                        _residual_svg(
+                            payload,
+                            "Transport",
+                            output,
+                            expected_count_key="point_count",
+                            expected_count=1,
+                        )
+
+    def test_residual_svg_rejects_self_reported_count_below_frozen_count(
+        self,
+    ) -> None:
+        payload = {
+            "point_count": 1,
+            "residuals": [
+                {
+                    "id": "control-1",
+                    "expected": [0.0, 0.0],
+                    "actual": [1.0, 1.0],
+                }
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "expected 10"):
+                _residual_svg(
+                    payload,
+                    "Transport",
+                    pathlib.Path(directory) / "residuals.svg",
+                    expected_count_key="point_count",
+                    expected_count=10,
+                )
+
+    def test_residual_svg_uses_one_common_scale_for_both_endpoints(self) -> None:
+        payload = {
+            "point_count": 2,
+            "residuals": [
+                {
+                    "id": "a",
+                    "expected": [1000.0, 2000.0],
+                    "actual": [1100.0, 2200.0],
+                },
+                {
+                    "id": "b",
+                    "expected": [2000.0, 4000.0],
+                    "actual": [2200.0, 4400.0],
+                },
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "residuals.svg"
+            _residual_svg(
+                payload,
+                "Transport",
+                output,
+                expected_count_key="point_count",
+                expected_count=2,
+            )
+            svg = output.read_text(encoding="utf-8")
+
+        self.assertIn('x1="60.00"', svg)
+        self.assertIn('x2="88.33"', svg)
+        self.assertNotIn("% 1080", svg)
+
+    def test_output_guard_rejects_traversal_into_deliverable_tiles(self) -> None:
+        disguised = (
+            DELIVERABLE_TILE_ROOT.parent / "qa" / ".." / DELIVERABLE_TILE_ROOT.name
+        )
+
+        with self.assertRaisesRegex(ValueError, "deliverable"):
+            _validate_output_path(disguised, DELIVERABLE_TILE_ROOT)
+
+    def test_output_guard_rejects_symlink_into_deliverable_tiles(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            deliverable = root / "tiles" / "sheet-24-modern-v1"
+            deliverable.mkdir(parents=True)
+            link = root / "qa-link"
+            link.symlink_to(deliverable, target_is_directory=True)
+
+            with self.assertRaisesRegex(ValueError, "deliverable"):
+                _validate_output_path(link / "nested", deliverable)
+
+    def test_every_persisted_qa_artifact_must_be_inventoried(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            included = root / "contact.png"
+            omitted = root / "crops" / "rejected.png"
+            included.write_bytes(b"contact")
+            omitted.parent.mkdir(parents=True)
+            omitted.write_bytes(b"rejected")
+
+            with self.assertRaisesRegex(ValueError, "rejected.png"):
+                _assert_all_persisted_artifacts_inventoried(
+                    root,
+                    {"candidate_contact_sheet": [included]},
+                )
+
     def test_rejected_frozen_candidate_label_retains_reason(self) -> None:
         candidate = RejectedCandidate(
             id="rejected-crossing",

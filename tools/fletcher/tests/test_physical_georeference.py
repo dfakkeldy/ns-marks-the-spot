@@ -19,6 +19,14 @@ from tools.fletcher.physical_georeference import (
 from tools.fletcher.physical_qa import StructuralMetrics, StructuralVerdict
 
 
+FRAME = (
+    (0.0, 0.0),
+    (100.0, 0.0),
+    (100.0, 200.0),
+    (0.0, 200.0),
+)
+
+
 def make_controls() -> list[GroundControlPoint]:
     return [
         GroundControlPoint(
@@ -92,7 +100,12 @@ class LeaveOneOutTests(unittest.TestCase):
                 ),
             ],
         ):
-            result = evaluate_candidates(source, controls, output_dir)
+            result = evaluate_candidates(
+                source,
+                controls,
+                output_dir,
+                frame_polygon=FRAME,
+            )
 
         self.assertEqual(result.failures["polynomial2"], "rank deficient")
         self.assertEqual(
@@ -149,13 +162,6 @@ class LeaveOneOutTests(unittest.TestCase):
     def test_candidate_refits_all_controls_before_structural_evaluation(self) -> None:
         controls = make_controls()
         runner = mock.Mock(return_value=mock.Mock(stdout="0 0 0\n"))
-        frame = (
-            (0.0, 0.0),
-            (100.0, 0.0),
-            (100.0, 200.0),
-            (0.0, 200.0),
-        )
-
         with (
             tempfile.TemporaryDirectory() as directory,
             mock.patch(
@@ -173,7 +179,7 @@ class LeaveOneOutTests(unittest.TestCase):
                 controls,
                 pathlib.Path(directory),
                 runner,
-                frame_polygon=frame,
+                frame_polygon=FRAME,
             )
 
         self.assertIsNone(result.failure)
@@ -185,7 +191,7 @@ class LeaveOneOutTests(unittest.TestCase):
         ]
         self.assertEqual(len(structural_translates), 1)
         self.assertEqual(structural_translates[0].count("-gcp"), len(controls))
-        self.assertEqual(evaluate.call_args.args[1], frame)
+        self.assertEqual(evaluate.call_args.args[1], FRAME)
         self.assertEqual(
             evaluate.call_args.args[2],
             [(point.pixel_x, point.pixel_y) for point in controls],
@@ -215,6 +221,7 @@ class LeaveOneOutTests(unittest.TestCase):
                 controls,
                 pathlib.Path(directory),
                 runner,
+                frame_polygon=FRAME,
             )
 
         self.assertIsNone(candidate.failure)
@@ -264,6 +271,7 @@ class LeaveOneOutTests(unittest.TestCase):
                         controls,
                         pathlib.Path(directory),
                         runner,
+                        frame_polygon=FRAME,
                     )
                     self.assertIsNone(candidate.failure)
                     transforms = [
@@ -285,11 +293,83 @@ class LeaveOneOutTests(unittest.TestCase):
         runner = mock.Mock()
 
         candidate = evaluate_candidate(
-            "affine", pathlib.Path("scan.tif"), controls, pathlib.Path("out"), runner
+            "affine",
+            pathlib.Path("scan.tif"),
+            controls,
+            pathlib.Path("out"),
+            runner,
+            frame_polygon=FRAME,
         )
 
         self.assertIn("control", candidate.failure or "")
         runner.assert_not_called()
+
+    def test_exact_usable_frame_is_required_without_bbox_fallback(self) -> None:
+        candidate = evaluate_candidate(
+            "affine",
+            pathlib.Path("scan.tif"),
+            make_controls(),
+            pathlib.Path("out"),
+            mock.Mock(),
+        )
+
+        self.assertIn("usable frame", candidate.failure or "")
+
+    def test_loocv_failure_does_not_skip_all_control_structural_refit(self) -> None:
+        controls = make_controls()
+
+        def run(command: list[str], **kwargs: object) -> mock.Mock:
+            if any("fold-" in str(value) for value in command):
+                raise ValueError("LOOCV transform failed")
+            return mock.Mock(stdout="")
+
+        runner = mock.Mock(side_effect=run)
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            mock.patch(
+                "tools.fletcher.physical_georeference.evaluate_structure",
+                return_value=passing_structure(),
+            ) as evaluate,
+        ):
+            candidate = evaluate_candidate(
+                "affine",
+                pathlib.Path("scan.tif"),
+                controls,
+                pathlib.Path(directory),
+                runner,
+                frame_polygon=FRAME,
+            )
+
+        self.assertIsNone(candidate.metrics)
+        self.assertIn("LOOCV transform failed", candidate.loocv_failure or "")
+        self.assertIsNone(candidate.structural_failure)
+        self.assertEqual(candidate.structure, passing_structure())
+        evaluate.assert_called_once()
+
+    def test_both_loocv_and_structural_failures_are_retained(self) -> None:
+        controls = make_controls()
+
+        def run(command: list[str], **kwargs: object) -> mock.Mock:
+            if any("fold-" in str(value) for value in command):
+                raise ValueError("LOOCV failed")
+            if any("structural" in str(value) for value in command):
+                raise ValueError("structural refit failed")
+            return mock.Mock(stdout="")
+
+        with tempfile.TemporaryDirectory() as directory:
+            candidate = evaluate_candidate(
+                "affine",
+                pathlib.Path("scan.tif"),
+                controls,
+                pathlib.Path(directory),
+                mock.Mock(side_effect=run),
+                frame_polygon=FRAME,
+            )
+
+        self.assertIn("LOOCV failed", candidate.loocv_failure or "")
+        self.assertIn("structural refit failed", candidate.structural_failure or "")
+        self.assertIn("LOOCV failed", candidate.failure or "")
+        self.assertIn("structural refit failed", candidate.failure or "")
 
 
 if __name__ == "__main__":
