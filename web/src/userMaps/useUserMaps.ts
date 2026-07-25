@@ -371,6 +371,7 @@ export function useUserMaps(
       const nextUi = { ...loadUiState() };
       delete nextUi[id];
       persistUiState(nextUi);
+      setGeoreferencingId((prev) => (prev === id ? null : prev));
     },
     [persistUiState, store],
   );

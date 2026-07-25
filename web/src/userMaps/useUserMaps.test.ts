@@ -424,6 +424,49 @@ describe("useUserMaps", () => {
     expect(result.current.editingMap).toBe(before);
   });
 
+  it("clears georeferencingId when the map under edit is removed", async () => {
+    // removeMap owns the georeferencingId state, so it must invalidate any
+    // open session when the subject map is deleted. Otherwise an empty
+    // georeferencer would render over a deleted map holding a revoked blob URL.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan.png")]);
+    });
+    const id = result.current.records[0].id;
+    await act(async () => {
+      result.current.beginGeoreference(id);
+    });
+    expect(result.current.georeferencingId).toBe(id);
+
+    // Removing the map under edit must clear the session.
+    await act(async () => {
+      await result.current.removeMap(id);
+    });
+    expect(result.current.georeferencingId).toBeNull();
+  });
+
+  it("preserves georeferencingId when removing a different map", async () => {
+    // Deleting map B must not close a session open on map A. Only the map
+    // matching the deleted id should close its session.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan-a.png"), pngFile("scan-b.png")]);
+    });
+    const [idA, idB] = result.current.records.map((r) => r.id);
+    await act(async () => {
+      result.current.beginGeoreference(idA);
+    });
+    expect(result.current.georeferencingId).toBe(idA);
+
+    // Removing map B (the one NOT under edit) must not touch the session.
+    await act(async () => {
+      await result.current.removeMap(idB);
+    });
+    expect(result.current.georeferencingId).toBe(idA);
+    expect(result.current.records).toHaveLength(1);
+    expect(result.current.records[0].id).toBe(idA);
+  });
+
   it("persists saved GCPs to IndexedDB and leaves every other record's identity untouched", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {
