@@ -42,13 +42,34 @@ const MIN_GCPS_FOR_RESIDUALS = 4;
  */
 export const MIN_GCPS_FOR_SUSPECT = 5;
 
+/**
+ * Shared by TWO producers whose numbers mean different things. Read the field
+ * docs with the producer in mind:
+ *
+ * - `residualReport` (affine) — fit residuals, ranked by the largest of them.
+ * - `tpsResidualReport` — leave-one-out PREDICTION errors, ranked by the
+ *   separate affine fit residual. See that function's own doc.
+ */
 export type ResidualReport = {
-  /** Per-GCP fit residual in GROUND metres, same order as the input. */
+  /**
+   * Per-GCP error in GROUND metres, same order as the input. From
+   * `residualReport` this is the affine FIT residual. From `tpsResidualReport`
+   * it is a leave-one-out prediction error, which is a conservative UPPER
+   * BOUND on true warp error — measured to overstate it by 1.8x (n=12) to 3.7x
+   * (n=4), and never to be optimistic. UI copy must frame the TPS figure as a
+   * bound ("No worse than ...") rather than as the error.
+   */
   metresPerGcp: number[];
   rmsMetres: number;
   /**
-   * Index of the worst-fitting point, or null when there are too few points
-   * for that to mean anything (see MIN_GCPS_FOR_SUSPECT).
+   * Index of the least consistent point, or null below that producer's own
+   * floor — `MIN_GCPS_FOR_SUSPECT` for `residualReport`,
+   * `MIN_GCPS_FOR_TPS_SUSPECT` for `tpsResidualReport`.
+   *
+   * Only on the affine path is this the worst-FITTING point, i.e. the largest
+   * entry in `metresPerGcp`. `tpsResidualReport` ranks by the affine fit
+   * residual while displaying leave-one-out magnitudes, so there it is
+   * deliberately NOT the largest number in the column.
    */
   mostInconsistentIndex: number | null;
 };

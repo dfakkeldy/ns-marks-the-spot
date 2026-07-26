@@ -147,15 +147,23 @@ export class UserMapStore {
    * time the user finishes a drag, and re-storing tens of megabytes each time
    * would stall the main thread and burn through the origin's quota.
    *
-   * Guarded rather than a blind `put`, because `put` is an upsert and this
-   * method's one caller (`saveGcps`) fires from a 400 ms debounce timer. Open
-   * the same map in two tabs, drag a point in tab A, delete the map in tab B,
-   * and tab A's timer then recreates the metadata row for a map whose blobs
-   * tab B already removed. That orphan is permanent: `listUserMaps()` returns
-   * it on every subsequent load, while `getPreviewBlob`/`getRasterBlob` return
-   * null forever, so the layer row can never be enabled or rendered.
-   * `discardPendingWrite` cannot prevent it — it clears the *deleting* tab's
-   * hook-local timer, and the writing tab is a different JavaScript realm.
+   * Guarded rather than a blind `put`, because `put` is an upsert and both
+   * callers (`saveGcps`, from a 400 ms debounce timer, and `setGeorefMethod`)
+   * fire after the user has already moved on. Open the same map in two tabs,
+   * drag a point in tab A, delete the map in tab B, and tab A's timer then
+   * recreates the metadata row for a map whose blobs tab B already removed.
+   * That orphan survives every reload — `listUserMaps()` returns it while
+   * `getPreviewBlob`/`getRasterBlob` return null forever — so it can never be
+   * RENDERED: `visibleMaps` filters on a preview URL it will never have.
+   *
+   * It is NOT, however, permanent, and it is NOT inert. `UserMapRows` renders
+   * a `Remove` button for every record, so the user can delete it. And that
+   * component disables the layer checkbox only when `needsGeoreferencing`
+   * refuses the points — which the points being actively dragged normally pass
+   * — so the row toggles ON, reports itself enabled, and silently draws
+   * nothing. `discardPendingWrite` cannot prevent any of it: it clears the
+   * *deleting* tab's hook-local timer, and the writing tab is a different
+   * JavaScript realm.
    *
    * The get and the put share ONE readwrite transaction. Two IndexedDB
    * connections serialize their readwrite transactions per object store, so a

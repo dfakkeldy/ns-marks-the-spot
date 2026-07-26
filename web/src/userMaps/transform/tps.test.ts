@@ -63,7 +63,7 @@ describe("solveTps", () => {
   });
 
   it("refuses a non-finite destination rather than returning unusable params", () => {
-    // affine.ts:158 guards this explicitly; TPS must too. A healthy source
+    // affine.ts:114-121 guards this explicitly; TPS must too. A healthy source
     // triangle with one NaN destination otherwise solves to garbage.
     const poisoned = [...BENT.slice(0, 3)];
     poisoned[1] = { ...poisoned[1], map: { lat: Number.NaN, lng: poisoned[1].map.lng } };

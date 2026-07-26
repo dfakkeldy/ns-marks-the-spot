@@ -474,13 +474,26 @@ export function GeoreferencePanel({
           The role is NOT conditional on the breakpoint. CSS owns that
           breakpoint (`max-width: 1199.98px`), and re-deriving it here with
           matchMedia would duplicate a number that can drift, in a component
-          whose whole design is "no JS knows the viewport width". Above the
-          breakpoint the tablist is `display: none`, so both panels are
-          momentarily orphaned — harmless, because the failure mode of an
-          orphan tabpanel is content you cannot reach, and up there BOTH panes
-          are on screen at once with nothing hidden. Neither panel takes
-          `hidden` for the same reason: visibility is the stylesheet's job,
-          and hiding the unselected one would blank the wide layout. */}
+          whose whole design is "no JS knows the viewport width". The price is
+          an orphaned tabpanel at BOTH ends of the breakpoint, in opposite
+          shapes. Both are harmless, but for different reasons:
+
+          WIDE — `.georeference-tabs` is `display: none` (its base rule), so no
+          `role="tab"` is in the tree. Exactly ONE panel is orphaned, not both:
+          this bar's own base rule is `display: none` too, and only the narrow
+          Map tab turns it on, so the map panel is not in the wide tree at all.
+          The orphan is the scan panel, and up there both panes are on screen
+          at once with nothing hidden.
+
+          NARROW + MAP TAB — the opposite shape. `.georeference-tabs` is a
+          CHILD of `.georeference-panel`, so `[data-tab="map"] {display:none}`
+          takes the tablist down together with the panel, leaving this element
+          as a `role="tabpanel"` named "Map" with ZERO tabs in the tree. Still
+          not unreachable content: the status line reads out, and "Back to
+          scan" below restores the panel and its tablist together.
+
+          Neither panel takes `hidden`: visibility is the stylesheet's job, and
+          hiding the unselected one would blank the wide layout. */}
       <div
         className="georeference-map-bar"
         data-tab={tab}

@@ -164,9 +164,14 @@ export function solveTps(gcps: Gcp[]): TpsSolveResult {
   const pixels = gcps.map((gcp) => gcp.pixel);
   // Negated so NaN falls through to the rejection rather than past it. The
   // delegated `solveAffine` call below applies this same gate to these same
-  // points, so deleting this line changes nothing but the cost of refusing;
-  // it is here to reject a hopeless layout before paying for a Mercator pass
-  // and an affine solve.
+  // points, so this line changes no ACCEPT/REJECT verdict; it is here to
+  // reject a hopeless layout before paying for a Mercator pass and an affine
+  // solve.
+  //
+  // It does, however, set reason PRECEDENCE, so deleting it is not free. It
+  // sits above the destination-finiteness loop, so for a doubly-degenerate
+  // layout — road-thin pixels AND one NaN destination — the line present
+  // reports `ill-conditioned` and the line deleted reports `non-finite`.
   if (!(conditionRatio(pixels) > MIN_CONDITION_RATIO)) {
     return { ok: false, reason: "ill-conditioned" };
   }
@@ -261,7 +266,7 @@ export function solveTps(gcps: Gcp[]): TpsSolveResult {
   // A backstop rather than a gate. Every destination was checked finite above
   // and the system was solvable, so reaching this needs a pathology none of
   // the earlier checks name. Tested per coefficient rather than on a sum, for
-  // the reason affine.ts:158 records: `1e200 + -1e200 + -1e200 + 1e200` is 0,
+  // the reason affine.ts:111-121 records: `1e200 + -1e200 + -1e200 + 1e200` is 0,
   // so a summed guard waves an exactly singular system through.
   for (let i = 0; i < size; i += 1) {
     if (!Number.isFinite(rhsX[i]) || !Number.isFinite(rhsY[i])) {

@@ -36,13 +36,15 @@ export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
     // back. See MIN_GCPS_FOR_BENDING_TPS.
     //
     // This does NOT make the fallback path draw something `needsGeoreferencing`
-    // calls undrawable. At n = 3 the two solvers agree exactly: `solveTps`'s
-    // extra refusals are coincidence (which collapses a 3-point cloud onto a
-    // line, so `solveAffine`'s conditioning gate refuses it too) and a singular
-    // interpolation system (which at n = 3 reduces to the affine system the
-    // destination gate already ran). Were that ever to drift, it drifts safe:
-    // the predicate would badge the record, `visibleMaps` would exclude it, and
-    // nothing would be drawn — never a mesh the predicate called impossible.
+    // calls undrawable, and the guarantee is not count-specific. `solveTps`
+    // gates its destinations with a `solveAffine` call over the same pixels and
+    // the same `toMercator`'d destinations that `solveAffineFromGcps` builds —
+    // so `solveTps(g).ok` implies `solveAffineFromGcps(g) !== null` at EVERY n,
+    // by delegation rather than by two thresholds that happen to agree. That
+    // delegation is the thing a future editor might "simplify" away; keep it.
+    // Were it ever broken, it breaks safe: the predicate would badge the
+    // record, `visibleMaps` would exclude it, and nothing would be drawn —
+    // never a mesh the predicate called impossible.
     record.georef.gcps.length >= MIN_GCPS_FOR_BENDING_TPS
   ) {
     // Same ORIGINAL-pixel argument as the affine branch below, and the same

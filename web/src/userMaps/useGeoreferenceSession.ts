@@ -285,8 +285,15 @@ export function useGeoreferenceSession(options: {
     // effect above runs first in the same commit (effects run in
     // declaration order) and just wrote it there.
     historyRef.current = [];
-    // Belongs to the map that just closed, like the history it guards: a
-    // stale flag would make the new map's first edit push a spurious step.
+    // Belongs to the map that just closed, like the history it guards.
+    // DEFENSIVE, not load-bearing: deleting this line leaves the whole suite
+    // green, because every edit kind reachable as a new map's FIRST edit
+    // snapshots — and snapshotting clears the flag — before it consumes it.
+    // The residue would only bite on a move that arrives WITHOUT a preceding
+    // drag-start, which no path in `ScanPane` or `GeoreferenceMapLayer`
+    // currently produces. Kept because a new mover need only forget the
+    // drag-start to make it reachable, and the symptom (map B's first edit
+    // silently not undoable) is invisible until a user hits Ctrl+Z.
     undoConsumedSnapshotRef.current = false;
     nextGcpNumberRef.current = highestGcpNumber(gcpsRef.current) + 1;
   }, [seededFor]);
