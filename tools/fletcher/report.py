@@ -136,15 +136,21 @@ def render_results(
         )
 
     pilot = sheets.get("17", {})
-    return f"""# Hugh Fletcher independent georeferencing results
+    return f"""# Hugh Fletcher engraved-grid registration diagnostics
 
 Run date: 2026-07-25
 
 ## Outcome
 
+`PASS` in this report is a lattice-fit diagnostic, not product geographic
+acceptance. It measures sparse checks against the historical sheet's own
+engraved coordinate frame. It must not be used to claim that roads, shorelines,
+rivers, neighbouring-sheet seams or modern map features align within the
+reported residual.
+
 The inventory identified 24 separate `Atlas Map` sheets and excluded the two
 catalog composites from georeferencing. The batch produced {pass_count}
-held-out PASS result(s) and {tiled_count} tiled sheet(s). Every sheet has an
+held-out lattice PASS result(s) and {tiled_count} tiled sheet(s). Every sheet has an
 explicit disposition below; a failed or missing lattice is not reported as
 georeferenced.
 
@@ -164,7 +170,7 @@ candidate transform families and to report the selected transform. This is a
 methodological limitation: the reported held-out metrics are not from a second,
 untouched model-selection test set.
 
-| Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Gate | PNG tiles | Reason |
+| Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Lattice gate | PNG tiles | Reason |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: | --- |
 {chr(10).join(rows)}
 {render_modern_pilots(manifest)}
@@ -194,7 +200,8 @@ untouched model-selection test set.
   GeoTIFFs and QA images remain compute artifacts and are not committed.
 
 These metrics measure registration to the map's own engraved geographic
-coordinate frame. They do not establish historical feature accuracy, current
+coordinate frame. They do not establish historical or modern feature
+alignment, neighbouring-sheet seam quality, human map acceptance, current
 parcel alignment, title, access, value, permissions, flood or service
 feasibility.
 
@@ -227,8 +234,9 @@ changed.
 1. For failed sheets, make targeted full-resolution manual observations or use
    independently sourced physical-feature controls and disjoint checks. Do not
    infer coordinates from the successful sheets or from the old warp.
-2. Review the retained warped-preview images and a representative sample of
-   XYZ tiles for every PASS sheet before any publication decision.
+2. Numerically validate untouched real-world features, edge distortion and
+   neighbouring-sheet seams, then obtain human overlay acceptance at useful
+   zooms before any publication decision. A lattice PASS is not sufficient.
 3. Apply the scoped direct-Rumsey permission and linked terms only to the free
    Nova Scotia web-map use described in the request; keep every excluded use
    separately gated.

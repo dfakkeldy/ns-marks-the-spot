@@ -1,13 +1,23 @@
-# Hugh Fletcher independent georeferencing results
+# Hugh Fletcher engraved-grid registration diagnostics
 
 Run date: 2026-07-25
 Final 13-sheet completion: 2026-07-26
 
 ## Outcome
 
+> **Product alignment rejected 2026-07-26.** A live comparison measured a
+> visible feature displacement of approximately 636 m. The current warps
+> require a feature-led do-over and must not be uploaded or republished.
+
+`PASS` in this report is a lattice-fit diagnostic, not product geographic
+acceptance. It measures sparse checks against the historical sheet's own
+engraved coordinate frame. It must not be used to claim that roads, shorelines,
+rivers, neighbouring-sheet seams or modern map features align within the
+reported residual.
+
 The inventory identified 24 separate `Atlas Map` sheets and excluded the two
 catalog composites from georeferencing. The batch produced 24
-held-out PASS result(s) and 24 tiled sheet(s). Every sheet has an
+held-out lattice PASS result(s) and 24 tiled sheet(s). Every sheet has an
 explicit disposition below; a failed or missing lattice is not reported as
 georeferenced.
 
@@ -27,7 +37,7 @@ candidate transform families and to report the selected transform. This is a
 methodological limitation: the reported held-out metrics are not from a second,
 untouched model-selection test set.
 
-| Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Gate | PNG tiles | Reason |
+| Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Lattice gate | PNG tiles | Reason |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: | --- |
 | 01 | tiled | affine | 6 | 2 | 43.8 | 59.3 | 59.3 | PASS | 4447 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 | 02 | tiled | affine | 6 | 2 | 11.4 | 15.1 | 15.1 | PASS | 4339 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
@@ -93,7 +103,8 @@ table.
   GeoTIFFs and QA images remain compute artifacts and are not committed.
 
 These metrics measure registration to the map's own engraved geographic
-coordinate frame. They do not establish historical feature accuracy, current
+coordinate frame. They do not establish historical or modern feature
+alignment, neighbouring-sheet seam quality, human map acceptance, current
 parcel alignment, title, access, value, permissions, flood or service
 feasibility.
 
@@ -123,15 +134,19 @@ changed.
 
 ## What next
 
-1. Treat the complete 24-sheet aligned and tiled source set as an input to a
-   separate layer-integration decision; this run did not configure hosting,
-   enable a web or native layer, bundle native tiles or deploy anything.
-2. Preserve each sheet's retained observations, checksums, warped-preview
-   images, official-source overlays and representative XYZ tile QA when
-   reviewing any later integration or publication change.
-3. Apply the scoped direct-Rumsey permission and linked terms only to the free
+1. Do not resume the full upload or republish the current warps.
+2. Start a separately approved, feature-led pilot on one representative sheet.
+   Use dense, spatially distributed controls and untouched validation features
+   across shorelines, rivers, lakes, roads and other stable features.
+3. Numerically validate edge distortion and neighbouring-sheet seams, then
+   obtain human overlay acceptance at useful zooms before tiling or uploading
+   the remaining sheets. A lattice PASS is not sufficient.
+4. Preserve each sheet's retained observations, checksums, warped-preview
+   images, official-source overlays and representative XYZ tile QA as
+   diagnostic history rather than accepted geography.
+5. Apply the scoped direct-Rumsey permission and linked terms only to the free
    Nova Scotia web-map use described in the request; keep every excluded use
    separately gated.
-4. If a later run improves an alignment, retain the superseded result, source
+6. If a later run improves an alignment, retain the superseded result, source
    checksum and reason in the manifest/report history rather than replacing it
    with an unqualified success claim.

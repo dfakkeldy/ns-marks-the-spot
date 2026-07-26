@@ -90,6 +90,15 @@ class ReportTests(unittest.TestCase):
             "the selected transform",
             normalized,
         )
+        self.assertIn(
+            "`PASS` in this report is a lattice-fit diagnostic, not product "
+            "geographic acceptance",
+            normalized,
+        )
+        self.assertIn(
+            "do not establish historical or modern feature alignment",
+            normalized,
+        )
 
     def test_report_keeps_pass_and_failure_evidence_distinct(self) -> None:
         manifest = {
