@@ -875,6 +875,7 @@ export function App() {
     mesh: georeferenceMesh,
     pickMapPoint,
     beginDragGcp,
+    endDragGcp,
     moveGcpOnMap,
   } = georeferenceSession;
 
@@ -920,6 +921,7 @@ export function App() {
             focus: georeferenceFocus,
             onPickMapPoint: pickMapPoint,
             onDragStartGcp: beginDragGcp,
+            onDragEndGcp: endDragGcp,
             onMoveGcpOnMap: moveGcpOnMap,
           }
         : null,
@@ -931,6 +933,7 @@ export function App() {
       georeferenceFocus,
       pickMapPoint,
       beginDragGcp,
+      endDragGcp,
       moveGcpOnMap,
     ],
   );

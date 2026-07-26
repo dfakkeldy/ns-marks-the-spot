@@ -11,6 +11,7 @@ type MarkerCall = {
   icon: { options: { className?: string; html?: string } };
   eventHandlers?: {
     dragstart?: () => void;
+    dragend?: () => void;
     drag?: (event: {
       target: { getLatLng: () => { lat: number; lng: number } };
     }) => void;
@@ -102,6 +103,7 @@ const GCPS: Gcp[] = [
 function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
   const onPickPoint = vi.fn();
   const onDragStartGcp = vi.fn();
+  const onDragEndGcp = vi.fn();
   const onMoveGcp = vi.fn();
   const utils = render(
     <ScanPane
@@ -112,12 +114,13 @@ function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
       focus={null}
       onPickPoint={onPickPoint}
       onDragStartGcp={onDragStartGcp}
+      onDragEndGcp={onDragEndGcp}
       onMoveGcp={onMoveGcp}
       selectedGcpId={null}
       {...props}
     />,
   );
-  return { ...utils, onPickPoint, onDragStartGcp, onMoveGcp };
+  return { ...utils, onPickPoint, onDragStartGcp, onDragEndGcp, onMoveGcp };
 }
 
 describe("ScanPane", () => {
@@ -267,9 +270,16 @@ describe("ScanPane", () => {
     // useGeoreferenceSession's beginDragGcp is the ONLY scan-side entry into
     // undo history. Wire `drag` and forget `dragstart` and every test still
     // passes, while one Ctrl+Z leaps back past the whole drag.
+    //
+    // `dragend` is asserted for PRESENCE here and exercised for real in
+    // `ScanPane.realMount.test.tsx`: firing the mocked handler by hand cannot
+    // tell `dragend: () => onDragEndGcp(id)` apart from
+    // `dragend: () => onDragStartGcp(id)` any better than `tsc` can, because
+    // the test would be choosing which key to call.
     const { onDragStartGcp, onMoveGcp } = renderPane();
     expect(Object.keys(markerCalls[0].eventHandlers ?? {}).sort()).toEqual([
       "drag",
+      "dragend",
       "dragstart",
     ]);
     markerCalls[0].eventHandlers?.dragstart?.();
@@ -302,7 +312,8 @@ describe("ScanPane", () => {
     // the SAME object for non-matching ids and only a stable reference lets
     // React (and react-leaflet) tell "unchanged" apart from "recomputed but
     // equal".
-    const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane();
+    const { rerender, onPickPoint, onDragStartGcp, onDragEndGcp, onMoveGcp } =
+      renderPane();
     expect(markerCalls).toHaveLength(3);
     const before = [...markerCalls];
     const clickHandlerBefore = clickHandlerCalls[0];
@@ -315,6 +326,7 @@ describe("ScanPane", () => {
         focus={null}
         onPickPoint={onPickPoint}
         onDragStartGcp={onDragStartGcp}
+        onDragEndGcp={onDragEndGcp}
         onMoveGcp={onMoveGcp}
         selectedGcpId={null}
       />,
@@ -382,9 +394,10 @@ describe("ScanPane", () => {
     // the very first click; one that keys on `focus.pixel` instead of the
     // whole `focus` object stops recentring on a repeat click to the same
     // point specifically — both are real regressions this test tells apart.
-    const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane({
-      focus: null,
-    });
+    const { rerender, onPickPoint, onDragStartGcp, onDragEndGcp, onMoveGcp } =
+      renderPane({
+        focus: null,
+      });
     expect(stubMap.setView).not.toHaveBeenCalled();
 
     const rerenderWithFocus = (
@@ -399,6 +412,7 @@ describe("ScanPane", () => {
           focus={focus}
           onPickPoint={onPickPoint}
           onDragStartGcp={onDragStartGcp}
+          onDragEndGcp={onDragEndGcp}
           onMoveGcp={onMoveGcp}
           selectedGcpId={null}
         />,

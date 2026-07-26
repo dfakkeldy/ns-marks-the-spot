@@ -8,7 +8,11 @@ import {
 } from "./useGeoreferenceSession";
 import { BENT } from "./testFixtures";
 import { applyAffine, solveAffineFromGcps } from "./transform/affine";
-import { AFFINE_GRID_SIZE, TPS_GRID_SIZE } from "./transform/gcpMesh";
+import {
+  AFFINE_GRID_SIZE,
+  TPS_DRAG_GRID_SIZE,
+  TPS_GRID_SIZE,
+} from "./transform/gcpMesh";
 import { fromMercator, groundMetresBetween } from "./transform/webMercator";
 import type { Gcp, GeoreferenceMethod } from "./types";
 
@@ -254,6 +258,77 @@ describe("solve method", () => {
     const { result } = setup(COINCIDENT, { method: "tps" });
     expect(result.current.status).toEqual({ kind: "coincident-points" });
     expect(result.current.mesh).toBeNull();
+  });
+});
+
+describe("two-tier mesh density during a drag", () => {
+  it("coarsens the TPS lattice while a point is being dragged and restores the fine tier once the pointer settles", () => {
+    // A settled TPS redraw is 2 * 64^2 = 8192 clipped `drawImage` calls, each
+    // one redrawing the WHOLE source image under a clip (verified at
+    // `render/mesh.ts:67-69`). A drag emits state on every pointer move, so
+    // the drag tier is 2 * 16^2 = 512 instead.
+    const { result } = setup(BENT, { method: "tps" });
+    const settled = result.current.mesh!.length - 1;
+    expect(settled).toBe(TPS_GRID_SIZE);
+
+    act(() => result.current.beginDragGcp("b0"));
+    const dragging = result.current.mesh!.length - 1;
+    expect(dragging).toBe(TPS_DRAG_GRID_SIZE);
+
+    // The DIRECTION, not only the two identities. Both assertions above name
+    // the constant they compare against, so swapping the two constants'
+    // VALUES in `gcpMesh.ts` leaves them green; only this one fails on that
+    // mutation as well as on a swap of the two uses in the hook.
+    expect(dragging).toBeLessThan(settled);
+
+    // Restored on the real `dragend`, never on a timer: a drag that ends
+    // without a final pointer move would otherwise leave the drape coarse
+    // for the rest of the session.
+    act(() => result.current.endDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
+  it("leaves the AFFINE path at its single pixel-exact cell for the whole drag", () => {
+    // The two-tier switch is TPS-only on purpose. A pixel->Mercator affine
+    // composes with Leaflet's own affine screen transform, so ONE cell is
+    // already exact; dropping the affine drape to a 16x16 lattice during a
+    // drag would cost 512 draws instead of 2 and buy nothing at all.
+    const { result } = setup(BENT, { method: "affine" });
+    expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
+    act(() => result.current.beginDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
+    act(() => result.current.endDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
+  });
+
+  it("pushes exactly ONE undo step for a drag, end included", () => {
+    // `endDragGcp` and `beginDragGcp` share a signature, so wiring `dragend`
+    // to the wrong one typechecks and lints clean. This is the half of that
+    // mistake a mesh assertion cannot see: a second snapshot on release makes
+    // one drag cost two Ctrl+Z presses.
+    const { result } = setup(SOLVABLE);
+    expect(result.current.canUndo).toBe(false);
+
+    act(() => result.current.beginDragGcp("a"));
+    act(() => result.current.moveGcpOnScan("a", 40, 60));
+    act(() => result.current.endDragGcp("a"));
+    expect(result.current.gcps[0].pixel).toEqual({ x: 40, y: 60 });
+
+    act(() => result.current.undo());
+    expect(result.current.gcps[0].pixel).toEqual({ x: 0, y: 0 });
+    expect(result.current.canUndo).toBe(false);
+  });
+
+  it("forgets a drag left open by a map switch, rather than draping the next map coarse forever", () => {
+    // Drag-active is per-SESSION state, so it belongs to the map that owned
+    // the drag. Closing the panel mid-drag (the panel unmounts, so no
+    // `dragend` ever arrives) must not hand the next map a permanently
+    // coarse drape.
+    const { result, rerender } = setup(BENT, { method: "tps" });
+    act(() => result.current.beginDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+    rerender({ mapId: "map-b", initialGcps: BENT, method: "tps" });
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
   });
 });
 

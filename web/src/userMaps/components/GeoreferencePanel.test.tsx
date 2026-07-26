@@ -79,6 +79,7 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
     pickMapPoint: vi.fn(),
     cancelPending: vi.fn(),
     beginDragGcp: vi.fn(),
+    endDragGcp: vi.fn(),
     moveGcpOnScan: vi.fn(),
     moveGcpOnMap: vi.fn(),
     deleteGcp: vi.fn(),
@@ -582,7 +583,12 @@ describe("GeoreferencePanel", () => {
     // pickMapPoint would record every scan click as a map click;
     // onDragStartGcp dropped entirely reopens the exact StrictMode
     // regression documented on ScanPane's own dragstart handler, where one
-    // Ctrl+Z walks back past an entire drag instead of one step.
+    // Ctrl+Z walks back past an entire drag instead of one step; and
+    // onDragEndGcp <-> beginDragGcp (identical signatures again) leaves the
+    // TPS drape stuck on the coarse drag lattice AND pushes a second undo
+    // snapshot on release. This panel is the ONLY place the scan pane's end
+    // handler is chosen, so nothing downstream — not even the real-mount
+    // drag test, which supplies its own spies — can catch that one.
     scanPaneCalls.length = 0;
     const gcp = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
     const session = fakeSession({ gcps: [gcp] });
@@ -593,6 +599,7 @@ describe("GeoreferencePanel", () => {
     expect(props.onMoveGcp).toBe(session.moveGcpOnScan);
     expect(props.onPickPoint).toBe(session.pickScanPoint);
     expect(props.onDragStartGcp).toBe(session.beginDragGcp);
+    expect(props.onDragEndGcp).toBe(session.endDragGcp);
     expect(props.gcps).toBe(session.gcps);
     expect(props.previewUrl).toBe("blob:scan-preview");
     expect(props.pixelSize).toEqual(RECORD.pixelSize);

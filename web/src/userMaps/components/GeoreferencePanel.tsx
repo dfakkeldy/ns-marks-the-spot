@@ -215,6 +215,7 @@ export function GeoreferencePanel({
           focus={scanFocus}
           onPickPoint={session.pickScanPoint}
           onDragStartGcp={session.beginDragGcp}
+          onDragEndGcp={session.endDragGcp}
           onMoveGcp={session.moveGcpOnScan}
           selectedGcpId={selectedGcpId}
         />

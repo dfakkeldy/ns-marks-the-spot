@@ -83,6 +83,7 @@ vi.mock("./components/MapCanvas", () => ({
       focus?: { lat: number; lng: number } | null;
       onPickMapPoint: (lat: number, lng: number) => void;
       onDragStartGcp: (id: string) => void;
+      onDragEndGcp: (id: string) => void;
       onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
     } | null;
     userMaps?: unknown[];
@@ -211,6 +212,14 @@ vi.mock("./components/MapCanvas", () => ({
             }
           >
             Simulate marker dragstart
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              georeference.onDragEndGcp(georeference.gcps[0]?.id ?? "")
+            }
+          >
+            Simulate marker dragend
           </button>
           <button
             type="button"
@@ -3253,6 +3262,45 @@ describe("georeferencer", () => {
     // ...and does NOT remove the point. Wired to deleteGcp instead, this
     // count would drop to 2 (deleteGcp also snapshots first, so the Undo
     // assertion above would still pass — only the count catches that swap).
+    const gcps = JSON.parse(
+      screen.getByTestId("georeference-gcps").textContent ?? "[]",
+    ) as unknown[];
+    expect(gcps).toHaveLength(3);
+  });
+
+  it("ends a drag without opening a second undo step", async () => {
+    // `onDragEndGcp` and `onDragStartGcp` are both `(id: string) => void`, so
+    // `onDragEndGcp: beginDragGcp` in App's binding memo passes `tsc -b` and
+    // `eslint`, and every component-level test still passes — the panes only
+    // ever see the props App hands them. What breaks is here: the release
+    // snapshots a SECOND time, so a completed drag costs two Ctrl+Z presses
+    // and the drape never leaves the coarse drag lattice.
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    const undoButton = screen.getByRole("button", { name: "Undo" });
+    expect(undoButton).toBeDisabled();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate marker dragstart" }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate marker dragend" }),
+    );
+    expect(undoButton).toBeEnabled();
+
+    // ONE step for the whole drag: a single Undo empties the history. Wired
+    // to `beginDragGcp` instead, the depth would be 2 here and the button
+    // would still be enabled after this click.
+    await userEvent.click(undoButton);
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    // And the release must not have deleted or moved anything.
     const gcps = JSON.parse(
       screen.getByTestId("georeference-gcps").textContent ?? "[]",
     ) as unknown[];

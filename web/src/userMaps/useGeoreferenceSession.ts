@@ -11,7 +11,12 @@ import {
   solveAffineFromGcps,
   type AffineParams,
 } from "./transform/affine";
-import { buildGcpLatLngMesh, buildTpsLatLngMesh } from "./transform/gcpMesh";
+import {
+  buildGcpLatLngMesh,
+  buildTpsLatLngMesh,
+  TPS_DRAG_GRID_SIZE,
+  TPS_GRID_SIZE,
+} from "./transform/gcpMesh";
 import type { LatLngPoint, PixelSize } from "./transform/projection";
 import { residualReport, type ResidualReport } from "./transform/residuals";
 import { solveTps } from "./transform/tps";
@@ -57,6 +62,13 @@ export type GeoreferenceSession = {
   pickMapPoint: (lat: number, lng: number) => void;
   cancelPending: () => void;
   beginDragGcp: (id: string) => void;
+  /**
+   * The other half of `beginDragGcp`. Must be driven by Leaflet's real
+   * `dragend` on BOTH panes — never by a timer or by "no move for N ms",
+   * because a drag released without a final pointer move would then leave
+   * the TPS drape on the coarse tier for the rest of the session.
+   */
+  endDragGcp: (id: string) => void;
   moveGcpOnScan: (id: string, x: number, y: number) => void;
   moveGcpOnMap: (id: string, lat: number, lng: number) => void;
   deleteGcp: (id: string) => void;
@@ -111,6 +123,19 @@ export function useGeoreferenceSession(options: {
   const [pending, setPendingState] = useState<PendingPoint>(null);
   const [historyDepth, setHistoryDepth] = useState(0);
   const [seededFor, setSeededFor] = useState<string | null>(mapId);
+  /**
+   * "A control point is being dragged right now." Per SESSION, not per point:
+   * Leaflet allows exactly one drag at a time (`Draggable._dragging` is a
+   * static), so a set of ids could never hold more than one entry, and a
+   * second `beginDragGcp` arriving before an `endDragGcp` should simply leave
+   * the session dragging.
+   *
+   * Plain state rather than a ref mirror because nothing reads it outside
+   * render — the mesh memo below is its only consumer, and `setDragging`
+   * takes a VALUE, never an updater, so StrictMode's double invocation has
+   * nothing to double.
+   */
+  const [dragging, setDragging] = useState(false);
 
   // React's documented "adjust state when a prop changes": a CONDITIONAL
   // setState during render. Not an effect — `set-state-in-effect` is an error
@@ -123,6 +148,10 @@ export function useGeoreferenceSession(options: {
     setGcpsState(options.initialGcps);
     setPendingState(null);
     setHistoryDepth(0);
+    // A drag belongs to the map that owned it. Closing the panel mid-drag
+    // unmounts the marker, so no `dragend` ever arrives — and a flag left set
+    // would drape the NEXT map at the coarse tier indefinitely.
+    setDragging(false);
   }
 
   // --- Ref mirrors --------------------------------------------------------
@@ -347,8 +376,28 @@ export function useGeoreferenceSession(options: {
    * Called on drag START only. Snapshotting per pointer move would make undo
    * useless: one drag would fill the entire history with frames that differ
    * by a pixel.
+   *
+   * The `id` parameter is DELIBERATELY ignored, as it is in `endDragGcp`: the
+   * signature exists so both handlers drop straight onto a marker's
+   * `(id: string) => void` slot, but drag-active is per-session state (see
+   * `dragging` above) and undo snapshots the whole list, so neither needs to
+   * know which point moved.
    */
-  const beginDragGcp = useCallback(() => snapshot(), [snapshot]);
+  const beginDragGcp = useCallback(() => {
+    setDragging(true);
+    snapshot();
+  }, [snapshot]);
+
+  /**
+   * Called on drag END only, from Leaflet's real `dragend`.
+   *
+   * It must NOT snapshot: `beginDragGcp` already opened the step, and a
+   * second one here would make a single drag cost two Ctrl+Z presses.
+   * Ignores its `id` for the reason given on `beginDragGcp`.
+   */
+  const endDragGcp = useCallback(() => {
+    setDragging(false);
+  }, []);
 
   const moveGcpOnScan = useCallback(
     (id: string, x: number, y: number) => {
@@ -419,12 +468,27 @@ export function useGeoreferenceSession(options: {
   // Leaflet's own affine screen transform, so ONE cell is pixel-exact and
   // AFFINE_GRID_SIZE stays 1. A spline bends between its control points, so a
   // real lattice is required rather than merely denser.
+  //
+  // And the TPS lattice — only the TPS lattice — is TWO-TIER. Each mesh cell
+  // costs two clipped `drawImage` calls that each redraw the ENTIRE source
+  // image, so a settled `TPS_GRID_SIZE` redraw is 8 192 of them; a drag emits
+  // state on every pointer move, which `TPS_DRAG_GRID_SIZE` brings down to
+  // 512 while still clearing half a CSS pixel at the zoom a user occupies
+  // while dragging. The affine path deliberately does NOT switch tiers: one
+  // cell is already exact, so a coarse "drag tier" there would cost 512 draws
+  // in place of 2 and buy precisely nothing.
   const mesh = useMemo(() => {
     if (method === "tps") {
-      return tps?.ok ? buildTpsLatLngMesh(tps.params, pixelSize) : null;
+      return tps?.ok
+        ? buildTpsLatLngMesh(
+            tps.params,
+            pixelSize,
+            dragging ? TPS_DRAG_GRID_SIZE : TPS_GRID_SIZE,
+          )
+        : null;
     }
     return params ? buildGcpLatLngMesh(params, pixelSize) : null;
-  }, [method, params, pixelSize, tps]);
+  }, [dragging, method, params, pixelSize, tps]);
   // Deliberately the AFFINE fit's residuals even under a TPS warp. A spline
   // passes through its control points exactly, so its own fit residual is ~0
   // at every point and carries no signal at all; measured, the affine residual
@@ -496,6 +560,7 @@ export function useGeoreferenceSession(options: {
     pickMapPoint,
     cancelPending,
     beginDragGcp,
+    endDragGcp,
     moveGcpOnScan,
     moveGcpOnMap,
     deleteGcp,

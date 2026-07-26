@@ -170,7 +170,7 @@ function nextFrame(): Promise<void> {
 type ScanProps = Parameters<typeof ScanPane>[0];
 
 /**
- * The three spies are built in their own object and spread back out AFTER the
+ * The four spies are built in their own object and spread back out AFTER the
  * overrides, so their `Mock<...>` types survive: folding them through a
  * `Partial<ScanProps>` would widen them to the bare prop signatures and cost
  * `.mock.calls`.
@@ -179,6 +179,7 @@ function mountScan(overrides: Partial<ScanProps> = {}) {
   const spies = {
     onPickPoint: vi.fn<(x: number, y: number) => void>(),
     onDragStartGcp: vi.fn<(id: string) => void>(),
+    onDragEndGcp: vi.fn<(id: string) => void>(),
     onMoveGcp: vi.fn<(id: string, x: number, y: number) => void>(),
   };
   const props: ScanProps = {
@@ -455,5 +456,42 @@ describe("ScanPane mounted against a real Leaflet map", () => {
     // Always finish: `Draggable._dragging` is a static, so a drag left open
     // would block every later drag in the process.
     icon.dispatchEvent(mouse("mouseup", start.x + 40, start.y + 80));
+  });
+
+  it("delivers a REAL Leaflet dragend to onDragEndGcp, and never to onDragStartGcp", async () => {
+    // The scan half of the two-tier mesh wiring. `onDragStartGcp` and
+    // `onDragEndGcp` are both `(id: string) => void`, so
+    // `dragend: () => onDragStartGcp(gcp.id)` passes `tsc -b` and `eslint`,
+    // and every mocked test that only fires the handlers it finds on the
+    // marker still passes — while a real release leaves the drape stuck on
+    // the coarse tier and pushes a second undo snapshot. Nothing short of
+    // driving Leaflet's own Draggable to a real mouseup distinguishes them,
+    // which is why this assertion lives here rather than in
+    // `ScanPane.test.tsx`.
+    const { container, map, onDragStartGcp, onDragEndGcp } = mountScan();
+    const start = containerPointOf({ x: 900, y: 700 });
+    const found = markersAt(container, map, start);
+    expect(found).toHaveLength(1);
+    const icon = found[0];
+    expect(icon.textContent).toBe("2");
+
+    icon.dispatchEvent(mouse("mousedown", start.x, start.y));
+    icon.dispatchEvent(mouse("mousemove", start.x + 10, start.y + 10));
+    await nextFrame();
+    // Leaflet fires `dragstart` on the first move past its click tolerance,
+    // and `dragend` only from `Draggable.finishDrag` on release — so at this
+    // point exactly one of the two has fired. A `dragend` seen here would
+    // mean the mesh coarsens and un-coarsens mid-drag.
+    expect(onDragStartGcp.mock.calls).toEqual([["south-cove"]]);
+    expect(onDragEndGcp).not.toHaveBeenCalled();
+
+    icon.dispatchEvent(mouse("mouseup", start.x + 10, start.y + 10));
+    // The release reaches the END handler, carrying the dragged point's own
+    // id and not a neighbour's...
+    expect(onDragEndGcp.mock.calls).toEqual([["south-cove"]]);
+    // ...and does NOT reach the START handler. This is the count that fails
+    // under the transposition described above; the `.toEqual` on
+    // `onDragEndGcp` alone would still pass if BOTH were wired to it.
+    expect(onDragStartGcp).toHaveBeenCalledTimes(1);
   });
 });

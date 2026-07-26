@@ -81,6 +81,7 @@ function ScanGcpMarker({
   selected,
   pixelSize,
   onDragStartGcp,
+  onDragEndGcp,
   onMoveGcp,
 }: {
   gcp: Gcp;
@@ -88,6 +89,7 @@ function ScanGcpMarker({
   selected: boolean;
   pixelSize: PixelSize;
   onDragStartGcp: (id: string) => void;
+  onDragEndGcp: (id: string) => void;
   onMoveGcp: (id: string, x: number, y: number) => void;
 }) {
   const icon = useMemo(
@@ -100,6 +102,12 @@ function ScanGcpMarker({
       // dragstart is the ONLY scan-side entry into undo history. Without it
       // one Ctrl+Z walks back past the entire drag.
       dragstart: () => onDragStartGcp(gcp.id),
+      // Leaflet's REAL dragend, not a debounce: a drag released without a
+      // final pointer move would otherwise never restore the fine mesh.
+      // Note the two handlers share a signature, so swapping them here
+      // typechecks and lints clean — `ScanPane.realMount.test.tsx` drives a
+      // genuine Draggable to a real mouseup to pin which is which.
+      dragend: () => onDragEndGcp(gcp.id),
       drag: (event: L.LeafletEvent) => {
         const { x, y } = clampToRaster(
           pixelFromLatLng((event.target as L.Marker).getLatLng()),
@@ -108,7 +116,7 @@ function ScanGcpMarker({
         onMoveGcp(gcp.id, x, y);
       },
     }),
-    [gcp.id, onDragStartGcp, onMoveGcp, pixelSize],
+    [gcp.id, onDragEndGcp, onDragStartGcp, onMoveGcp, pixelSize],
   );
   return (
     <Marker
@@ -134,6 +142,7 @@ export function ScanPane({
   focus,
   onPickPoint,
   onDragStartGcp,
+  onDragEndGcp,
   onMoveGcp,
   selectedGcpId,
   tabPanel,
@@ -145,6 +154,10 @@ export function ScanPane({
   focus: ScanFocusRequest | null;
   onPickPoint: (x: number, y: number) => void;
   onDragStartGcp: (id: string) => void;
+  /** Required, not optional: a pane that silently forgot to end a drag would
+   * leave the TPS drape coarse forever, and `tsc -b` is the only thing that
+   * can make every call site say which handler it means. */
+  onDragEndGcp: (id: string) => void;
   onMoveGcp: (id: string, x: number, y: number) => void;
   selectedGcpId: string | null;
   /**
@@ -204,6 +217,7 @@ export function ScanPane({
             selected={gcp.id === selectedGcpId}
             pixelSize={pixelSize}
             onDragStartGcp={onDragStartGcp}
+            onDragEndGcp={onDragEndGcp}
             onMoveGcp={onMoveGcp}
           />
         ))}
