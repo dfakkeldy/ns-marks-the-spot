@@ -57,7 +57,10 @@ untouched model-selection test set.
 
 These versioned pilots are independent of the engraved-grid result above.
 Transport leave-one-out metrics select the transform family; natural checks are
-the primary published accuracy estimate.
+the primary published accuracy estimate. The Sheet 24 source-drift row is
+retained as historical evidence from the earlier pilot and is superseded for
+alignment purposes by Sheet 24's independent affine PASS in the main results
+table.
 
 | Sheet | Method version | Disposition | Selected transform | Transport n | Transport RMS/P95/max m | Natural n | Natural RMS/P95/max m | Structural gate | Visual QA | PNG tiles | Reason |
 | ---: | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | ---: | --- |
@@ -119,14 +122,15 @@ changed.
 
 ## What next
 
-1. For failed sheets, make targeted full-resolution manual observations or use
-   independently sourced physical-feature controls and disjoint checks. Do not
-   infer coordinates from the successful sheets or from the old warp.
-2. Review the retained warped-preview images and a representative sample of
-   XYZ tiles for every PASS sheet before any publication decision.
+1. Treat the complete 24-sheet aligned and tiled source set as an input to a
+   separate layer-integration decision; this run did not configure hosting,
+   enable a web or native layer, bundle native tiles or deploy anything.
+2. Preserve each sheet's retained observations, checksums, warped-preview
+   images, official-source overlays and representative XYZ tile QA when
+   reviewing any later integration or publication change.
 3. Apply the scoped direct-Rumsey permission and linked terms only to the free
    Nova Scotia web-map use described in the request; keep every excluded use
    separately gated.
-4. If a later run improves a failed sheet, retain the old failure reason and
-   source checksum in the manifest/report history rather than replacing it
+4. If a later run improves an alignment, retain the superseded result, source
+   checksum and reason in the manifest/report history rather than replacing it
    with an unqualified success claim.
