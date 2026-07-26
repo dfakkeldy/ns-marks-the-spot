@@ -302,13 +302,22 @@ export function tpsResidualReport(gcps: Gcp[]): TpsResidualResult {
   // destination gate IS a `solveAffine` call), so a refusal here means there is
   // no spline on screen to report an accuracy for.
   //
-  // Reported as `refit-refused` rather than earning a fourth reason, and that
-  // is measured rather than assumed: over 20 000 randomly oriented near-
-  // collinear clouds at n = 4..12, every one of the 5 239 trials where the
-  // full-set affine refused ALSO had at least one leave-one-out refit refuse —
-  // zero counterexamples. Removing a point from a cloud too thin to fit cannot
-  // thicken it. So this branch only ever pre-empts a refusal the loop below
-  // would reach anyway; it is an optimisation, not a distinct outcome.
+  // Reported as `refit-refused` rather than earning a fourth reason, and the
+  // justification is structural, not statistical: the session's status memo
+  // evaluates the IDENTICAL `solveAffineFromGcps(gcps)` first and returns
+  // `degenerate`, so no caller can ever surface this branch's copy. Sampling
+  // agrees — over 40 000 clouds across four geometry families at n = 4..8,
+  // all 29 777 trials where the full-set affine refused also had a refit
+  // refuse, zero counterexamples — but the proof is what makes it safe.
+  //
+  // Do NOT restate this as "removing a point from a cloud too thin to fit
+  // cannot thicken it". That rule is FALSE: pixels
+  // (0,0) (0,1) (1,0) (100000,0.5) score 6.6e-6 as a set and ~0.5 once the far
+  // point is dropped, an ~80 000x thickening, and 10 059 of those 40 000
+  // trials had some subset at least 5x thicker than its parent. The
+  // implication survives only because the OTHER subsets still contain the far
+  // point and stay thin — which is a much weaker thing to lean on than the
+  // unreachability above.
   const affine = solveAffineFromGcps(gcps);
   if (affine === null) {
     return { ok: false, reason: "refit-refused" };
