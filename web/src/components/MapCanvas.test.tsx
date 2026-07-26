@@ -13,6 +13,15 @@ import {
 import { parcelStyleForFeature } from "./parcelStyle";
 import type { GeoreferenceBinding } from "../userMaps/components/GeoreferenceMapLayer";
 
+// waitFor's 1000 ms default is a CPU-contention budget, not a correctness one —
+// nothing here asserts how *fast* a layer settles, only that it does. Under a
+// loaded machine the whole-suite run starves this file enough to blow it; the
+// hydro pilot is the first to go because loadInvernessHydroPotential() dynamic-
+// imports a 920 KB JSON, so Vite has to transform a real module rather than
+// settle a mocked fetch on a microtask. Applied to every waitFor in the file so
+// no single call site is left encoding an accidental performance assertion.
+const ASYNC_LAYER_TIMEOUT_MS = 5_000;
+
 // Backs the useMap() stub's getPane/createPane below. Originally this stored
 // panes for the REAL UserMapLayers' ensurePane; both UserMapLayers and
 // GeoreferenceMapLayer are now mocked wholesale in this file (see below), so
@@ -578,9 +587,12 @@ describe("MapCanvas viewport reporting", () => {
     onPositionChange.mockClear();
     onViewportChange.mockClear();
     await user.click(screen.getByRole("button", { name: "Use my location" }));
-    await waitFor(() => {
-      expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
-    });
+    await waitFor(
+      () => {
+        expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+      },
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
+    );
 
     mapMock.getCenter.mockReturnValue({ lat: 46.12, lng: -60.91 });
     mapMock.getZoom.mockReturnValue(14);
@@ -679,7 +691,9 @@ describe("MapCanvas sizing", () => {
       />,
     );
 
-    await waitFor(() => expect(mapMock.invalidateSize).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mapMock.invalidateSize).toHaveBeenCalledTimes(1), {
+      timeout: ASYNC_LAYER_TIMEOUT_MS,
+    });
     expect(observe).toHaveBeenCalledWith(document.body);
 
     act(() => notifyResize?.());
@@ -902,7 +916,9 @@ describe("MapCanvas parcel discovery", () => {
     };
     const { rerender } = render(<MapCanvas {...props} />);
 
-    await waitFor(() => expect(mapMock.fitBounds).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mapMock.fitBounds).toHaveBeenCalledTimes(1), {
+      timeout: ASYNC_LAYER_TIMEOUT_MS,
+    });
     rerender(<MapCanvas {...props} parcels={{ ...props.parcels }} />);
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
   });
@@ -1549,7 +1565,10 @@ describe("MapCanvas resource overlays", () => {
       />,
     );
 
-    await waitFor(() => expect(fetchArcGISFeatureOverlay).toHaveBeenCalledTimes(1));
+    await waitFor(
+      () => expect(fetchArcGISFeatureOverlay).toHaveBeenCalledTimes(1),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
+    );
     expect(fetchArcGISFeatureOverlay).toHaveBeenCalledWith(
       expect.objectContaining({
         serviceUrl: expect.stringContaining("mineral_occurrence_database"),
@@ -1636,11 +1655,13 @@ describe("MapCanvas resource overlays", () => {
       />,
     );
 
-    await waitFor(() =>
-      expect(onResourceLayerStatusChange).toHaveBeenCalledWith(
-        "mineral-occurrences",
-        { status: "error" },
-      ),
+    await waitFor(
+      () =>
+        expect(onResourceLayerStatusChange).toHaveBeenCalledWith(
+          "mineral-occurrences",
+          { status: "error" },
+        ),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
   });
 
@@ -1792,11 +1813,13 @@ describe("MapCanvas micro-hydro pilot", () => {
       "inverness-hydro-potential",
       { status: "loading" },
     );
-    await waitFor(() =>
-      expect(onLayerStatusChange).toHaveBeenCalledWith(
-        "inverness-hydro-potential",
-        { status: "ready", count: 13 },
-      ),
+    await waitFor(
+      () =>
+        expect(onLayerStatusChange).toHaveBeenCalledWith(
+          "inverness-hydro-potential",
+          { status: "ready", count: 13 },
+        ),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
     expect(fetchArcGISFeatureOverlay).not.toHaveBeenCalled();
   });
@@ -1887,11 +1910,13 @@ describe("MapCanvas well logs", () => {
     const onLayerStatusChange = vi.fn();
     renderWellLogs({ visible: true, onLayerStatusChange });
 
-    await waitFor(() =>
-      expect(onLayerStatusChange).toHaveBeenCalledWith("ns-well-logs", {
-        status: "ready",
-        count: 1,
-      }),
+    await waitFor(
+      () =>
+        expect(onLayerStatusChange).toHaveBeenCalledWith("ns-well-logs", {
+          status: "ready",
+          count: 1,
+        }),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
 
     const request = vi.mocked(fetchArcGISFeatureOverlay).mock.calls[0][0];
@@ -1905,8 +1930,9 @@ describe("MapCanvas well logs", () => {
     const onLayerStatusChange = vi.fn();
     renderWellLogs({ visible: true, filter: "all", onLayerStatusChange });
 
-    await waitFor(() =>
-      expect(fetchArcGISFeatureOverlay).toHaveBeenCalledTimes(1),
+    await waitFor(
+      () => expect(fetchArcGISFeatureOverlay).toHaveBeenCalledTimes(1),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
     expect(vi.mocked(fetchArcGISFeatureOverlay).mock.calls[0][0].where).toBe(
       "1=1",
@@ -2094,8 +2120,10 @@ describe("MapCanvas print mode", () => {
       />,
     );
 
-    await waitFor(() =>
-      expect(geoJsonProps.calls.some((props) => props.pointToLayer)).toBe(true),
+    await waitFor(
+      () =>
+        expect(geoJsonProps.calls.some((props) => props.pointToLayer)).toBe(true),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
     const featureLayer = geoJsonProps.calls.find((props) => props.pointToLayer);
     const marker = (featureLayer?.pointToLayer as (
@@ -2107,10 +2135,12 @@ describe("MapCanvas print mode", () => {
       color: "#111111",
       fillColor: "#e8e8e8",
     });
-    await waitFor(() =>
-      expect(geoJsonProps.calls.some((props) =>
-        Boolean((props.data as { metadata?: unknown })?.metadata),
-      )).toBe(true),
+    await waitFor(
+      () =>
+        expect(geoJsonProps.calls.some((props) =>
+          Boolean((props.data as { metadata?: unknown })?.metadata),
+        )).toBe(true),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
     const hydroLayer = geoJsonProps.calls.find(
       (props) => Boolean((props.data as { metadata?: unknown })?.metadata),
