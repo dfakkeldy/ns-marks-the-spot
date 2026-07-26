@@ -33,7 +33,9 @@ class ClassifyCIChangesTests(unittest.TestCase):
         self.assertTrue(result.native)
 
     def test_documentation_only_change_skips_product_suites(self) -> None:
-        result = MODULE.classify_paths(["README.md", "docs/guides/devlog.md"])
+        result = MODULE.classify_paths(
+            ["AGENTS.md", "CLAUDE.md", "README.md", "docs/guides/devlog.md"]
+        )
 
         self.assertFalse(result.web)
         self.assertFalse(result.native)
