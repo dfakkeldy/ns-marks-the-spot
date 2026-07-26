@@ -26,8 +26,11 @@ export const MIN_GCPS_FOR_TPS = 3;
  *
  *  - **The UI gate.** Below this count the warp toggle is absent (spec), since
  *    a control whose two positions produce identical output is not a choice.
- *    The Allmaps export control gates on this too — an earlier plan draft had
- *    the two one point apart, which is what this shared constant prevents.
+ *    The Allmaps export control does NOT share this gate, despite an earlier
+ *    plan draft aligning the two — see `GeoreferencePanel.tsx`'s `showExport`.
+ *    Export has no "does it bend" question to answer; it gates on
+ *    `MIN_GCPS_FOR_TPS` instead, because that is the fewest points at which
+ *    this app's own solver produces a real, exportable drape at all.
  *  - **The mesh fallback.** Below this count BOTH mesh builders draw the affine
  *    lattice for a `tps` record. The output is pixel-identical by the
  *    measurement above, and the cost is not: `TPS_GRID_SIZE` is 64, so a

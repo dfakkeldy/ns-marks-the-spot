@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 // ScanPane mounts a real MapContainer, which needs a sized DOM node jsdom
 // does not provide. The panel's own behaviour is what this file tests, so the
@@ -55,9 +55,10 @@ vi.mock("./ScanPane", () => ({
 import { GeoreferencePanel } from "./GeoreferencePanel";
 import { statusMessage } from "./georeferenceStatus";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
-import { BENT } from "../testFixtures";
+import { georeferenceAnnotation } from "../allmaps/annotation";
+import { BENT, gcpRecord } from "../testFixtures";
 import { MIN_GCPS_FOR_TPS } from "../transform/tps";
-import type { GeoreferenceMethod, UserMapRecord } from "../types";
+import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 
 const RECORD: UserMapRecord = {
   id: "m",
@@ -802,5 +803,124 @@ describe("GeoreferencePanel warp toggle", () => {
     });
     await userEvent.click(screen.getByRole("checkbox", { name: TPS_LABEL }));
     expect(tps.onMethodChange).toHaveBeenCalledWith("affine");
+  });
+});
+
+describe("GeoreferencePanel export control", () => {
+  const EXPORT_LABEL = "Export georeference";
+
+  /**
+   * Deliberately `MIN_GCPS_FOR_TPS` (3), NOT the warp toggle's
+   * `MIN_GCPS_FOR_BENDING_TPS` (4). The plan draft that shipped to this task
+   * aligned the two gates on the theory that the earlier one-point gap was an
+   * inconsistency to fix; it wasn't. The toggle's 4 exists because a spline
+   * needs a FOURTH point to bend at all (tps.ts) — below it, TPS and affine
+   * produce an identical drape, so the toggle would be a choice with no
+   * consequence. Export has no such constraint: the IIIF spec's own floor for
+   * a warping transformation is 3 GCPs, and this app's own solver already
+   * draws a real (affine) drape at exactly 3 — `MIN_GCPS_FOR_AFFINE ===
+   * MIN_GCPS_FOR_TPS` (affine.ts, tps.ts). Gating export at 4 would withhold
+   * a valid export for every 3-point map the app already renders.
+   */
+  const GATE = MIN_GCPS_FOR_TPS;
+
+  function exportButton(): HTMLElement | null {
+    return screen.queryByRole("button", { name: EXPORT_LABEL });
+  }
+
+  function recordWithGcps(
+    gcps: Gcp[],
+    method: GeoreferenceMethod = "affine",
+  ): UserMapRecord {
+    return gcpRecord({ georef: { kind: "gcp", method, gcps } });
+  }
+
+  it("keeps the control out of the DOM below the export gate", () => {
+    renderPanel(fakeSession(), { record: recordWithGcps([]) });
+    expect(exportButton()).toBeNull();
+    // One below the gate, which is where an off-by-one lands.
+    renderPanel(fakeSession(), {
+      record: recordWithGcps(BENT.slice(0, GATE - 1)),
+    });
+    expect(exportButton()).toBeNull();
+  });
+
+  it("offers the control from the gate upwards — MIN_GCPS_FOR_TPS, not MIN_GCPS_FOR_BENDING_TPS", () => {
+    renderPanel(fakeSession(), { record: recordWithGcps(BENT.slice(0, GATE)) });
+    const button = exportButton();
+    expect(button).toBeInTheDocument();
+    expect(button).toBeEnabled();
+  });
+
+  it("is absent for an embedded-georeference record, which has no GCPs to export", () => {
+    // georeferenceAnnotation(record) returns null for this kind (Task 9). A
+    // button that appeared anyway and downloaded `null` would be worse than
+    // no button — this pins the control absent rather than merely inert.
+    const embedded: UserMapRecord = {
+      ...gcpRecord(),
+      georef: {
+        kind: "embedded",
+        crs: "EPSG:26920",
+        geotransform: [500000, 1, 0, 5100000, 0, -1],
+      },
+    };
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: embedded,
+    });
+    expect(exportButton()).toBeNull();
+  });
+
+  it("downloads the exact serialized annotation, named after the record, and revokes the URL it created", async () => {
+    // A per-call dynamic URL (not a fixed literal) so "revoke was called with
+    // the created URL" cannot pass by a hardcoded coincidence — see
+    // useUserMaps.test.ts for the same convention.
+    const createObjectURL = vi.fn<(blob: Blob) => string>(
+      () => `blob:georef-export-${Math.random()}`,
+    );
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal("URL", { ...URL, createObjectURL, revokeObjectURL });
+
+    // A real `function`, not an arrow, so `this` inside the mock is the
+    // clicked anchor — the only way to recover the filename it was given,
+    // since `link.click()` triggers navigation jsdom does not implement.
+    // Captured through a mutable object rather than a bare closed-over `let`
+    // — `tsc -b` otherwise narrows the outer variable to `never` at the read
+    // site below, past the point where the mock has actually run.
+    const captured: { link: HTMLAnchorElement | null } = { link: null };
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        captured.link = this;
+      });
+
+    const record = gcpRecord({
+      name: "Church of Inverness 1888",
+      georef: { kind: "gcp", method: "tps", gcps: BENT },
+    });
+    renderPanel(fakeSession(), { record });
+
+    await userEvent.click(screen.getByRole("button", { name: EXPORT_LABEL }));
+
+    // Assertion 1: the serialized payload equals georeferenceAnnotation(record).
+    expect(createObjectURL).toHaveBeenCalledTimes(1);
+    const blob = createObjectURL.mock.calls[0][0] as Blob;
+    const payload = JSON.parse(await blob.text());
+    expect(payload).toEqual(georeferenceAnnotation(record));
+
+    // Assertion 2: the filename is `<record.name>.georef.json`.
+    expect(captured.link?.download).toBe(
+      "Church of Inverness 1888.georef.json",
+    );
+
+    // Assertion 3: revokeObjectURL is called with the URL createObjectURL
+    // handed back for THIS call.
+    const createdUrl = createObjectURL.mock.results[0].value as string;
+    expect(revokeObjectURL).toHaveBeenCalledWith(createdUrl);
+
+    anchorClick.mockRestore();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 });

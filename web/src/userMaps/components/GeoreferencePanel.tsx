@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
-import { MIN_GCPS_FOR_BENDING_TPS } from "../transform/tps";
+import { georeferenceAnnotation } from "../allmaps/annotation";
+import { MIN_GCPS_FOR_BENDING_TPS, MIN_GCPS_FOR_TPS } from "../transform/tps";
 import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 import { GcpList } from "./GcpList";
 import { statusMessage } from "./georeferenceStatus";
@@ -215,6 +216,53 @@ export function GeoreferencePanel({
     record.georef.kind === "gcp" &&
     session.gcps.length >= MIN_GCPS_FOR_BENDING_TPS;
 
+  /**
+   * `MIN_GCPS_FOR_TPS` (3), deliberately NOT `MIN_GCPS_FOR_BENDING_TPS` (4) —
+   * despite `tps.ts`'s own comment (now stale, corrected alongside this)
+   * having said the two controls share a gate. The toggle's 4 exists because
+   * a spline needs a FOURTH point to bend at all; below it TPS and affine are
+   * the same drape, so the toggle would be a choice with no consequence.
+   * Export has no such constraint — a 3-point affine is a complete, valid
+   * Georeference Annotation (the IIIF spec's own floor for any warping
+   * transformation is 3 GCPs), and 3 is exactly `MIN_GCPS_FOR_AFFINE`: the
+   * point count at which this app's OWN solver first produces a drawn drape
+   * (`exact-fit`, in `useGeoreferenceSession.ts`). Gating export at 4 would
+   * withhold a valid export for every 3-point map already on screen.
+   *
+   * Reads `record.georef.gcps.length`, not `session.gcps.length` (unlike the
+   * toggle above): the downloaded payload is built from `record` below, not
+   * from the live session, so gating on the same source the export reads
+   * guarantees the control is never visible over a stale or short payload —
+   * at the cost of the button lagging the debounced write by up to 400ms
+   * when a point is freshly placed, which is the safer side to be wrong on.
+   */
+  const showExport =
+    record.georef.kind === "gcp" &&
+    record.georef.gcps.length >= MIN_GCPS_FOR_TPS;
+
+  function exportGeoreference() {
+    // Reachable only when showExport is true, which already established
+    // record.georef.kind === "gcp" — georeferenceAnnotation returns null for
+    // the OTHER kind only, so this null branch is unreachable in practice.
+    // The guard keeps that a fact this function proves rather than assumes.
+    const annotation = georeferenceAnnotation(record);
+    if (!annotation) {
+      return;
+    }
+    // Same create-anchor-click-revoke sequence App.tsx uses for the evidence
+    // note export — one convention for "download a file" in this codebase.
+    const objectUrl = URL.createObjectURL(
+      new Blob([JSON.stringify(annotation, null, 2)], {
+        type: "application/json",
+      }),
+    );
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = `${record.name}.georef.json`;
+    link.click();
+    URL.revokeObjectURL(objectUrl);
+  }
+
   return (
     // The overlay is a fixed, full-viewport FRAME, not a modal: it carries
     // `pointer-events: none` and no scrim, so the app's own map behind it
@@ -370,6 +418,11 @@ export function GeoreferencePanel({
               <button type="button" onClick={undo} disabled={!canUndo}>
                 Undo
               </button>
+              {showExport ? (
+                <button type="button" onClick={exportGeoreference}>
+                  Export georeference
+                </button>
+              ) : null}
               <button
                 type="button"
                 className="georeference-done"
