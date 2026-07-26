@@ -166,7 +166,7 @@ const MIN_GCPS_FOR_TPS_RESIDUALS = MIN_GCPS_FOR_TPS + 1;
  * renders `—` for a null report and needs no change, but
  * `useGeoreferenceSession.ts:539-542` maps ANY falsy report to
  * `{ kind: "exact-fit" }`, whose copy is "Exact fit — add a 4th point to check
- * accuracy." (georeferenceStatus.ts:37). That sentence is correct for the
+ * accuracy." (georeferenceStatus.ts:35). That sentence is correct for the
  * reason it was written — too FEW points — and flatly wrong for this refusal:
  * a user with 51 control points would be told their fit is exact and to add a
  * fourth. The cap needs its own status kind, which is a taxonomy change and so
