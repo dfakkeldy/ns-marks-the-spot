@@ -58,8 +58,18 @@ does not treat assessment as current market value.
   georeferencing of its own — a plain JPEG or PNG scan, or a TIFF that carries
   no geotransform — opens in the in-browser georeferencer instead: click a
   landmark on the scan, then the same landmark on the map, and from three
-  points the scan drapes live. Files never leave your device: parsing,
-  warping, georeferencing, and storage are all in-browser.
+  points the scan drapes live. A scan whose distortion is not uniform — a
+  hand-drawn county map rather than a survey grid sheet — can be switched from
+  a straight-line fit to a curved thin-plate-spline warp, which bends the drape
+  to pass through every control point. The reported accuracy under that warp is
+  a deliberately conservative upper bound, not a best guess: it is measured to
+  overstate the true warp error by roughly 1.8x at twelve points and 3.7x at
+  four, and never to read better than the truth, so the copy says "no worse
+  than". The drape re-warps live while you drag, on a coarse mesh during the
+  drag and a fine one once the point settles. Finished control points export as
+  a IIIF Georeference (Allmaps) annotation, so the georeferencing you did here
+  can be taken to other tools. Files never leave your device: parsing, warping,
+  georeferencing, and storage are all in-browser.
 
 See
 [web/README.md](web/README.md) for the source receipt, privacy boundary, and

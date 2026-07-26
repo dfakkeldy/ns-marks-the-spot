@@ -493,7 +493,10 @@ A self-contained feature folder: `parsers/` (magic-byte sniffing; geotiff.js
 2.1.3 — pinned, the 3.x read API differs — decoding in a web worker with
 OffscreenCanvas and a main-thread fallback, overview-aware, capped at 4096 px),
 `transform/` (proj4 registry for NS CRSs plus WKT-citation best-effort,
-pixel→WGS84, mesh building), `render/` (`WarpedRasterLayer`: a
+pixel→WGS84, mesh building, and the two solvers — `affine.ts` and `tps.ts` —
+over the shared point-cloud conditioning gate in `conditioning.ts`),
+`allmaps/` (`annotation.ts`: a pure IIIF Georeference Annotation serializer,
+no new dependency), `render/` (`WarpedRasterLayer`: a
 device-pixel-ratio-aware canvas layer drawing through a projected triangle
 mesh in `user-maps-pane`, z-160 — above aerial imagery, below all data
 overlays), `store/` (IndexedDB; metadata and blobs in separate object stores;
@@ -522,3 +525,41 @@ produce, complete with zero-area drape and a perfect 0 m residual. GCP markers
 get their own pane (`georeference-pane`, z-660: above every data overlay and
 above Leaflet's marker and tooltip panes, below its popup pane at 700) so a
 control point is never buried under a parcel line.
+
+PR 3 adds a second solver beside the affine one. `transform/tps.ts` is a
+hand-rolled thin-plate spline, pure and Leaflet-free, solving in the same Web
+Mercator metres; `UserMapRecord.georef.method` (`"affine" | "tps"`) already
+existed, so nothing migrates. Agreement between the solvers is one-directional
+and true **by construction**, not by matched constants: `solveTps`'s
+destination gate *is* a `solveAffine` call over the same inputs, so everything
+affine refuses TPS refuses, while TPS additionally refuses coincident control
+points and a singular interpolation matrix. An earlier revision matched two
+hand-tuned thresholds on two different quantities instead and drifted — a
+100:1-squashed drape was refused by one and accepted by the other. The
+source-side gate is the shared `conditionRatio` in `transform/conditioning.ts`,
+which rejects on a *ratio* rather than exact singularity, so thin clouds (five
+points along a road) are refused rather than solved into a drape a 1 px nudge
+moves 12 km.
+
+The spline reaches the screen through the same `WarpedRasterLayer` mesh at a
+**two-tier** density: `TPS_DRAG_GRID_SIZE = 16` while a control point is being
+dragged, `TPS_GRID_SIZE = 64` once the pointer settles (affine stays at 1 — a
+single cell represents it exactly). Both numbers are measured, and error is
+**not** monotone in grid size, so no test may assert that denser is always
+better. Accuracy under a spline needs a different statistic: an interpolating
+spline passes through its control points exactly, so the fit residual is ~0 by
+construction and carries no signal. `tpsResidualReport` reports **leave-one-out
+prediction error** instead, capped at 50 points to stay inside half a frame.
+That figure is a conservative upper bound — measured to overstate true warp
+error by 1.8x (n=12) to 3.7x (n=4) and never to be optimistic — so the UI reads
+"No worse than N m" rather than "RMS N m". The highlighted suspect row is
+ranked separately, by the **affine** fit residual even under a spline, because
+leave-one-out loses that job decisively (62.9% vs 46.8% at n=8, z = −18.3): an
+outlier left in a refit is absorbed into the spline's shape and corrupts its
+neighbours' scores. So the flagged row is often not the largest number in the
+column, which is what its copy ("Disagrees most with the other points") already
+claims. Finally, `allmaps/annotation.ts` serializes the control points as a
+IIIF Georeference Annotation — plain JSON, no `@allmaps/*` dependency, with
+`transformation` on the body FeatureCollection rather than the annotation root,
+and a `urn:uuid:` target because the extension has no provision for a local
+file with no IIIF service.
