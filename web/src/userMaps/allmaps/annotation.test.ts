@@ -39,9 +39,20 @@ describe("georeferenceAnnotation", () => {
     });
     const annotation = expectAnnotation(record);
 
-    // @context must be an array — an Annotation with a bare string context
-    // is a different (and here, wrong) JSON-LD shape.
-    expect(Array.isArray(annotation["@context"])).toBe(true);
+    // @context must be exactly these two IRIs, in this order: the IIIF
+    // Presentation 3 context (for the base Annotation vocabulary) plus the
+    // Georeference extension's own context (for `resourceCoords` and
+    // `transformation`). A bare `Array.isArray` check is satisfied by any
+    // two-element array, including a corrupted or misordered one, so it
+    // proves nothing about a JSON-LD consumer's ability to actually resolve
+    // this document — pin the values. Order is significant to a JSON-LD
+    // processor (later contexts can override terms from earlier ones), so
+    // `toEqual` — which is order-sensitive for arrays — is the right
+    // assertion, not `toContain`/`arrayContaining`.
+    expect(annotation["@context"]).toEqual([
+      "http://iiif.io/api/presentation/3/context.json",
+      "http://iiif.io/api/extension/georef/1/context.json",
+    ]);
     expect(annotation.type).toBe("Annotation");
     expect(annotation.motivation).toBe("georeferencing");
 

@@ -170,3 +170,118 @@ on branch `claude/web-your-maps-pr3-75b34a`.
   Constraints / verified-facts table gave every structural detail needed.
   Worth flagging to the maintainer in case the intended verbatim tests exist
   somewhere else and differ from what I wrote.
+
+## Fix round — `@context` hole (post-review)
+
+Quality review came back **spec ✅, quality not approved pending one fix**.
+The four structural facts and the two mutations the reviewer independently
+reproduced all matched. The one gap: `annotation.test.ts:44` (original
+numbering) asserted only `Array.isArray(annotation["@context"])`, which any
+two-element array satisfies — including a corrupted or reordered one. The
+shipped `GEOREF_ANNOTATION_CONTEXT` values were correct; the test just didn't
+pin them, so Task 10 would be wiring a user-facing download to a file with no
+runtime validation and a hole in its safety net.
+
+**Reproduced the reviewer's mutation first**, before touching the test, to
+confirm the hole was real. Backups taken from the CURRENT (pre-fix) state at
+`/tmp/annotation.ts.fix-backup` and `/tmp/annotation.test.ts.fix-backup`.
+
+Replaced `GEOREF_ANNOTATION_CONTEXT` (`annotation.ts:59-62`) inline with:
+
+```js
+const GEOREF_ANNOTATION_CONTEXT = [
+  "http://example.com/totally-wrong-context.json",
+  "http://example.com/another-wrong-one.json",
+];
+```
+
+Ran against the **original** (`Array.isArray`-only) test — confirmed all 3
+tests still passed, matching the reviewer's report exactly (evidence this was
+a real hole, not already caught by some other assertion). Restored by path,
+`diff -q` confirmed clean.
+
+**Fix:** replaced the `Array.isArray` check in `annotation.test.ts` with an
+exact `toEqual` against both IRIs in order:
+
+```ts
+expect(annotation["@context"]).toEqual([
+  "http://iiif.io/api/presentation/3/context.json",
+  "http://iiif.io/api/extension/georef/1/context.json",
+]);
+```
+
+**On ordering** (the reviewer asked this be settled explicitly, not left
+implicit): order **is** significant to a JSON-LD processor — a later context
+in the array can redefine a term an earlier one declared, so `[A, B]` and
+`[B, A]` are not guaranteed to produce the same expanded document, even
+though both are valid arrays of the same two IRIs. `toEqual` on an array is
+order-sensitive, so this assertion already pins the order; I did not reach
+for `expect.arrayContaining`, which would have silently reintroduced the same
+hole in different clothing (any permutation would still pass).
+
+**Ran the exact corruption mutation again, this time against the fixed
+test** — command and full output:
+
+```
+$ npx vitest run src/userMaps/allmaps/annotation.test.ts
+
+ ❯ src/userMaps/allmaps/annotation.test.ts (3 tests | 1 failed) 6ms
+     × serializes a TPS record: thinPlateSpline with no options, one Feature per GCP, resourceCoords/coordinates in opposite orders 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/userMaps/allmaps/annotation.test.ts > georeferenceAnnotation > serializes a TPS record: thinPlateSpline with no options, one Feature per GCP, resourceCoords/coordinates in opposite orders
+AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]
+
+- Expected
++ Received
+
+  [
+-   "http://iiif.io/api/presentation/3/context.json",
+-   "http://iiif.io/api/extension/georef/1/context.json",
++   "http://example.com/totally-wrong-context.json",
++   "http://example.com/another-wrong-one.json",
+  ]
+
+ ❯ src/userMaps/allmaps/annotation.test.ts:52:36
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+```
+
+FAILED as required. Restored `annotation.ts` by path from
+`/tmp/annotation.ts.fix-backup`, `diff -q` → clean.
+
+**Confirmed the other two mutations from the original round still bite**
+against the strengthened test file (re-applied inline, re-run, re-restored
+by path with `diff -q` after each):
+
+- Move `transformation` to the annotation root — still FAILS, both the TPS
+  test (`expected { type: 'thinPlateSpline' } to be undefined`) and the
+  affine test (`expected undefined to deeply equal { type: 'polynomial', … }`).
+- Emit `"tps"` instead of `"thinPlateSpline"` — still FAILS
+  (`expected { type: 'tps' } to deeply equal { type: 'thinPlateSpline' }`).
+
+**Final gate, verbatim:**
+
+```
+$ npx vitest run
+ Test Files  76 passed | 1 skipped (77)
+      Tests  872 passed | 1 skipped (873)
+   Duration  26.02s
+EXIT=0
+
+$ npx tsc -b
+(no output)
+EXIT=0
+
+$ npx eslint src
+(no output)
+EXIT=0
+```
+
+Final diff is exactly the `annotation.test.ts` assertion change above;
+`annotation.ts` is byte-identical to the already-committed version
+(confirmed via `git diff` showing no hunk for that file). Committed
+separately as `test(web): pin the exact IIIF @context IRIs in the annotation
+serializer test`.
