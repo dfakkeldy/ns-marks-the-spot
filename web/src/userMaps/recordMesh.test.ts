@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { meshForRecord } from "./recordMesh";
+import { BENT, gcpRecord } from "./testFixtures";
+import { AFFINE_GRID_SIZE, TPS_GRID_SIZE } from "./transform/gcpMesh";
 import type { UserMapRecord } from "./types";
 
 const GCP_RECORD: UserMapRecord = {
@@ -92,6 +94,19 @@ describe("meshForRecord", () => {
         },
       }),
     ).toBeNull();
+  });
+
+  it("draws a SAVED tps record through the spline too", () => {
+    // recordMesh.ts is what UserMapLayers actually calls (UserMapLayers.tsx:133).
+    // Without this, the panel shows TPS and the saved layer snaps back to affine
+    // the moment the user clicks Done — with every other test still green.
+    const record = gcpRecord({ georef: { kind: "gcp", gcps: BENT, method: "tps" } });
+    const mesh = meshForRecord(record)!;
+    expect(mesh.length - 1).toBe(TPS_GRID_SIZE);
+    const affineMesh = meshForRecord(gcpRecord({
+      georef: { kind: "gcp", gcps: BENT, method: "affine" },
+    }))!;
+    expect(affineMesh.length - 1).toBe(AFFINE_GRID_SIZE);
   });
 
   it("still builds an 8x8 mesh for embedded georeferencing", () => {

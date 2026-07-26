@@ -13,6 +13,7 @@ import { parseImage, type ParsedImage } from "./parsers/imageSource";
 import { sniffFileType } from "./parsers/sniff";
 import { UserMapStore } from "./store/userMapStore";
 import { solveAffineFromGcps } from "./transform/affine";
+import { solveTps } from "./transform/tps";
 import type { Gcp, GcpGeoref, UserMapRecord, UserMapSource } from "./types";
 import type { VisibleUserMap } from "./components/UserMapLayers";
 
@@ -32,10 +33,20 @@ const UNRECOGNIZED_MESSAGE =
 const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
 
 /**
- * True when a GCP map cannot be PLACED — i.e. `solveAffineFromGcps` refuses
+ * True when a GCP map cannot be PLACED — i.e. the record's OWN solver refuses
  * its points, so `meshForRecord` returns null and nothing can be drawn. The
  * layer row shows a Georeference button instead of an opacity slider for
  * exactly this set, and `visibleMaps` excludes it.
+ *
+ * It must ask the same solver `meshForRecord` will, which is why the method is
+ * branched on here. The two solvers do not refuse the same things, and the
+ * relationship is one-directional: `solveTps` refuses a strict SUPERSET,
+ * because its destination gate is literally a `solveAffine` call while it
+ * additionally rejects coincident control points and a singular interpolation
+ * matrix. So an affine-only predicate never wrongly badges a TPS record — it
+ * wrongly CLEARS one: a scan with two points double-clicked onto the same
+ * pixel solves fine as least squares, gets an enabled checkbox and a slider,
+ * enters `visibleMaps`, and then draws nothing at all.
  *
  * Deliberately the solve, not `gcps.length < MIN_GCPS_FOR_AFFINE`. The count
  * is only ONE of the solver's refusals: it also rejects a collapsed centroid,
@@ -52,10 +63,13 @@ const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
  * inside `solveAffine`'s own count check.
  */
 export function needsGeoreferencing(record: UserMapRecord): boolean {
-  return (
-    record.georef.kind === "gcp" &&
-    solveAffineFromGcps(record.georef.gcps) === null
-  );
+  if (record.georef.kind !== "gcp") {
+    return false;
+  }
+  if (record.georef.method === "tps") {
+    return !solveTps(record.georef.gcps).ok;
+  }
+  return solveAffineFromGcps(record.georef.gcps) === null;
 }
 
 export type ImportOutcome =

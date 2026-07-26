@@ -11,10 +11,11 @@ import {
   solveAffineFromGcps,
   type AffineParams,
 } from "./transform/affine";
-import { buildGcpLatLngMesh } from "./transform/gcpMesh";
+import { buildGcpLatLngMesh, buildTpsLatLngMesh } from "./transform/gcpMesh";
 import type { LatLngPoint, PixelSize } from "./transform/projection";
 import { residualReport, type ResidualReport } from "./transform/residuals";
-import type { Gcp } from "./types";
+import { solveTps } from "./transform/tps";
+import type { Gcp, GeoreferenceMethod } from "./types";
 
 export const UNDO_HISTORY_LIMIT = 50;
 export const PERSIST_DELAY_MS = 400;
@@ -86,8 +87,16 @@ export function useGeoreferenceSession(options: {
   pixelSize: PixelSize;
   onPersist: (mapId: string, gcps: Gcp[]) => void;
   persistDelayMs?: number;
+  /**
+   * Which solver draws the live drape. Defaults to "affine" so existing
+   * callers are unaffected — and because it is the right default: a spline
+   * costs an O(n^3) factorisation per edit and a 64x64 lattice per redraw to
+   * buy nothing at all on a scan that is not actually bent.
+   */
+  method?: GeoreferenceMethod;
 }): GeoreferenceSession {
   const { mapId, pixelSize } = options;
+  const method = options.method ?? "affine";
   const persistDelay = options.persistDelayMs ?? PERSIST_DELAY_MS;
   const [gcps, setGcpsState] = useState<Gcp[]>(options.initialGcps);
   const [pending, setPendingState] = useState<PendingPoint>(null);
@@ -386,10 +395,33 @@ export function useGeoreferenceSession(options: {
   // still load-bearing one step later — the mesh is the drape over the
   // ORIGINAL raster, so preview dimensions here would drape the wrong extent.
   const params = useMemo(() => solveAffineFromGcps(gcps), [gcps]);
-  const mesh = useMemo(
-    () => (params ? buildGcpLatLngMesh(params, pixelSize) : null),
-    [params, pixelSize],
+  /**
+   * Solved only when TPS is the chosen method — it is an O(n^3) factorisation
+   * (measured: 10.3 ms at n = 300) and this memo re-runs on every pointer move
+   * of a drag. `null` therefore means "not asked", never "refused"; refusal is
+   * the `{ ok: false }` arm, which is why every branch below tests `method`
+   * rather than testing this for null.
+   */
+  const tps = useMemo(
+    () => (method === "tps" ? solveTps(gcps) : null),
+    [gcps, method],
   );
+  // The gridSize difference is not a tuning knob: an affine warp composes with
+  // Leaflet's own affine screen transform, so ONE cell is pixel-exact and
+  // AFFINE_GRID_SIZE stays 1. A spline bends between its control points, so a
+  // real lattice is required rather than merely denser.
+  const mesh = useMemo(() => {
+    if (method === "tps") {
+      return tps?.ok ? buildTpsLatLngMesh(tps.params, pixelSize) : null;
+    }
+    return params ? buildGcpLatLngMesh(params, pixelSize) : null;
+  }, [method, params, pixelSize, tps]);
+  // Deliberately the AFFINE fit's residuals even under a TPS warp. A spline
+  // passes through its control points exactly, so its own fit residual is ~0
+  // at every point and carries no signal at all; measured, the affine residual
+  // also identifies a displaced point better than TPS leave-one-out at every
+  // n >= 5 (62.9% vs 46.8% at n = 8). The honest TPS accuracy figure is a
+  // separate, later piece of work.
   const report = useMemo(
     () => (params ? residualReport(gcps, params) : null),
     [gcps, params],
@@ -407,9 +439,16 @@ export function useGeoreferenceSession(options: {
     if (gcps.length < MIN_GCPS_FOR_AFFINE) {
       return { kind: "need-more", remaining: MIN_GCPS_FOR_AFFINE - gcps.length };
     }
-    if (!params) {
+    if (!params || (method === "tps" && !tps?.ok)) {
       // Three different refusals arrive here, only one of which is a straight
       // line on the scan — see the type's comment and Task 3.
+      //
+      // The second clause is not redundant, and the implication runs one way
+      // only: `solveTps` refuses a strict SUPERSET of what `solveAffine` does
+      // (its destination gate IS a `solveAffine` call), so an affine-only test
+      // would report "solved" for a spline that refused — two coincident
+      // control points, say, which least squares simply averages away — and
+      // the panel would show a solved status over a drape that draws nothing.
       return { kind: "degenerate" };
     }
     if (!report) {
@@ -422,7 +461,7 @@ export function useGeoreferenceSession(options: {
       rmsMetres: report.rmsMetres,
       count: gcps.length,
     };
-  }, [gcps.length, params, pending, report]);
+  }, [gcps.length, method, params, pending, report, tps]);
 
   return {
     gcps,

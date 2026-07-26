@@ -6,7 +6,11 @@ import {
   UNDO_HISTORY_LIMIT,
   useGeoreferenceSession,
 } from "./useGeoreferenceSession";
-import type { Gcp } from "./types";
+import { BENT } from "./testFixtures";
+import { applyAffine, solveAffineFromGcps } from "./transform/affine";
+import { AFFINE_GRID_SIZE, TPS_GRID_SIZE } from "./transform/gcpMesh";
+import { fromMercator, groundMetresBetween } from "./transform/webMercator";
+import type { Gcp, GeoreferenceMethod } from "./types";
 
 const PIXEL_SIZE = { width: 1200, height: 800 };
 
@@ -24,11 +28,20 @@ const SOLVABLE: Gcp[] = [
  * `tsc -b` reports and `tsc --noEmit` does not (the solution tsconfig has
  * `"files": []`, so `--noEmit` compiles nothing and exits 0 regardless).
  */
-type SessionProps = { mapId: string | null; initialGcps: Gcp[] };
+type SessionProps = {
+  mapId: string | null;
+  initialGcps: Gcp[];
+  /** Optional so every existing `rerender({ mapId, initialGcps })` still
+   * typechecks — the hook defaults it to "affine" for the same reason. */
+  method?: GeoreferenceMethod;
+};
 
-function setup(initialGcps: Gcp[] = []) {
+function setup(
+  initialGcps: Gcp[] = [],
+  extra: { method?: GeoreferenceMethod } = {},
+) {
   const onPersist = vi.fn();
-  const initialProps: SessionProps = { mapId: "map-a", initialGcps };
+  const initialProps: SessionProps = { mapId: "map-a", initialGcps, ...extra };
   const hook = renderHook(
     (props: SessionProps) =>
       useGeoreferenceSession({ ...props, pixelSize: PIXEL_SIZE, onPersist }),
@@ -154,6 +167,52 @@ describe("status", () => {
     const { result } = setup(SOLVABLE);
     act(() => result.current.pickScanPoint(50, 50));
     expect(result.current.status).toEqual({ kind: "awaiting-map" });
+  });
+});
+
+describe("solve method", () => {
+  it("solves with TPS and lattices at TPS_GRID_SIZE when method is tps", () => {
+    const { result } = setup(BENT, { method: "tps" });
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
+  it("leaves the affine path at gridSize 1", () => {
+    const { result } = setup(BENT, { method: "affine" });
+    expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
+  });
+
+  it("actually uses the SPLINE, not an affine fit lattice-d at 64", () => {
+    // Compare the two solvers AT THE SAME PIXEL. An earlier draft compared the
+    // mesh midpoint against affine evaluated at (1000, 900) while the harness
+    // raster is 1200x800 — so the midpoint is (600, 400) and the assertion
+    // compared two DIFFERENT points. It passed whether or not TPS was used.
+    const { result } = setup(BENT, { method: "tps" });
+    const mesh = result.current.mesh!;
+    const mid = mesh.length >> 1;                                  // row index
+    const pixelX = (PIXEL_SIZE.width * mid) / (mesh.length - 1);
+    const pixelY = (PIXEL_SIZE.height * mid) / (mesh.length - 1);
+    const affineAt = fromMercator(applyAffine(solveAffineFromGcps(BENT)!, pixelX, pixelY));
+    expect(groundMetresBetween(mesh[mid][mid], affineAt)).toBeGreaterThan(100);
+  });
+
+  it("reports degenerate when the SPLINE refuses points an affine accepts", () => {
+    // `solveTps` refuses a strict superset of what `solveAffine` does, so the
+    // status cannot key on the affine solve alone: these two points share a
+    // scan pixel (a double-click), which least squares averages away and an
+    // interpolating spline cannot. Keying on `params` only, the panel would
+    // report a solved fit with an RMS figure over a drape that draws nothing.
+    const doubleClicked: Gcp[] = [
+      ...BENT,
+      { id: "dup", pixel: { x: 320, y: 240 }, map: { lat: 46.407181, lng: -61.530755 } },
+    ];
+    expect(solveAffineFromGcps(doubleClicked)).not.toBeNull();
+    const { result } = setup(doubleClicked, { method: "tps" });
+    expect(result.current.status).toEqual({ kind: "degenerate" });
+    expect(result.current.mesh).toBeNull();
+    // The same points under the affine method are perfectly placeable, which
+    // is what makes this a statement about the METHOD and not about the points.
+    const affine = setup(doubleClicked, { method: "affine" });
+    expect(affine.result.current.status.kind).toBe("solved");
   });
 });
 

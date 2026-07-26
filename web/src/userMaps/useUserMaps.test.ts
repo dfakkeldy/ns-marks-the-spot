@@ -5,8 +5,11 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { UserMapImportError } from "./errors";
 import { UserMapStore } from "./store/userMapStore";
+import { meshForRecord } from "./recordMesh";
+import { BENT, gcpRecord } from "./testFixtures";
+import { solveAffineFromGcps } from "./transform/affine";
 import type { Gcp, GcpGeoref } from "./types";
-import { useUserMaps } from "./useUserMaps";
+import { needsGeoreferencing, useUserMaps } from "./useUserMaps";
 
 function fixtureFile(name = "survey.tif"): File {
   const raw = readFileSync(
@@ -74,6 +77,46 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   localStorage.clear();
+});
+
+describe("needsGeoreferencing", () => {
+  it("does not badge a tps-solvable record as needing georeferencing", () => {
+    // needsGeoreferencing (useUserMaps.ts:57) gates admission to visibleMaps.
+    // Affine refuses a transform squashed past MIN_ANISOTROPY_RATIO; TPS has no
+    // such concept, so an affine-only check would exclude a record whose spline
+    // is fine and the user could never switch it on.
+    const record = gcpRecord({ georef: { kind: "gcp", gcps: BENT, method: "tps" } });
+    expect(needsGeoreferencing(record)).toBe(false);
+  });
+
+  it("badges a tps record the SPLINE refuses, though an affine would solve it", () => {
+    // Added beyond the brief's list, and it is the test that actually pins the
+    // wiring. Measured: the test above passes against an affine-only
+    // predicate, because `solveTps` refuses a strict SUPERSET of what
+    // `solveAffine` does — its destination gate IS a `solveAffine` call
+    // (tps.ts:162) — so no record exists that affine refuses and TPS accepts.
+    // The real divergence runs the other way, and this is it: a double-click
+    // puts two control points on the same scan pixel, which makes two rows of
+    // the interpolation matrix identical. An affine least-squares fit just
+    // averages the duplicate away and solves; the spline refuses. Left
+    // affine-only, the row gets an enabled checkbox and a slider, enters
+    // `visibleMaps`, and then `meshForRecord` returns null and nothing is
+    // drawn — the exact lie this predicate's doc comment exists to prevent.
+    const doubleClicked: Gcp[] = [
+      ...BENT,
+      { id: "dup", pixel: { x: 320, y: 240 }, map: { lat: 46.407181, lng: -61.530755 } },
+    ];
+    // Pins that the fixture discriminates rather than being degenerate for
+    // both solvers: an affine genuinely accepts these points.
+    expect(solveAffineFromGcps(doubleClicked)).not.toBeNull();
+    const record = gcpRecord({
+      georef: { kind: "gcp", gcps: doubleClicked, method: "tps" },
+    });
+    expect(needsGeoreferencing(record)).toBe(true);
+    // The predicate exists to mean "meshForRecord will draw nothing", so the
+    // two must agree about this record.
+    expect(meshForRecord(record)).toBeNull();
+  });
 });
 
 describe("useUserMaps", () => {
