@@ -1,5 +1,6 @@
 import type { Gcp } from "../types";
-import { applyAffine, type AffineParams } from "./affine";
+import { applyAffine, solveAffineFromGcps, type AffineParams } from "./affine";
+import { applyTps, MIN_GCPS_FOR_TPS, solveTps } from "./tps";
 import { fromMercator, groundMetresBetween } from "./webMercator";
 
 /**
@@ -109,6 +110,183 @@ export function residualReport(
     }
     mostInconsistentIndex = worst;
   }
+  return {
+    metresPerGcp,
+    rmsMetres: rmsMetres(metresPerGcp),
+    mostInconsistentIndex,
+  };
+}
+
+/**
+ * Below this there is nothing to leave out. One point held back from n leaves
+ * `n - 1` for the refit, so the smallest workable set is one larger than
+ * `MIN_GCPS_FOR_TPS` — derived from the solver's own floor rather than written
+ * down again, so the two cannot drift apart.
+ *
+ * Module-private for the same reason `MIN_GCPS_FOR_RESIDUALS` is: the one
+ * caller is `tpsResidualReport` below.
+ */
+const MIN_GCPS_FOR_TPS_RESIDUALS = MIN_GCPS_FOR_TPS + 1;
+
+/**
+ * Above this the report is refused entirely — `null`, never a partial array.
+ *
+ * Leave-one-out is n solves and a single TPS solve is O(n^3), so cost climbs
+ * towards n^4 once per-call overhead stops dominating. Measured in this repo
+ * (node 22 under vitest, warm, median of 5 runs, irregular layouts):
+ * n = 30 -> 1.5 ms, 40 -> 3.0, 50 -> 6.3, 60 -> 11.7, 80 -> 31.5, 100 -> 68.7,
+ * and ~4 s at n = 300. This function runs from a `useMemo` that re-evaluates
+ * on every pointer move of a drag, sharing that frame with a mesh rebuild, so
+ * 50 is the largest count whose refit stays inside half a 16 ms frame; 60
+ * would spend most of a frame on the accuracy column alone.
+ *
+ * REFUSING THE WHOLE REPORT IS THE ONLY HONEST CAP, because the two
+ * cheaper-sounding ones are not actually available:
+ *
+ *  - "Skip leave-one-out above the cap and report the RMS only" would print
+ *    0 m. The RMS here is computed FROM the leave-one-out array, and the fit
+ *    residual it would otherwise come from is identically ~0 for a spline that
+ *    interpolates its control points. That is the same misleading zero
+ *    `MIN_GCPS_FOR_RESIDUALS` exists to refuse at three affine points.
+ *  - "Keep the number, drop the suspect highlight" saves nothing: the
+ *    highlight is the CHEAP half — a single affine solve — and leave-one-out
+ *    is the expensive half.
+ *
+ * Deferring the refit to pointer-up was the other real candidate, and was
+ * rejected on layering rather than on cost: this module is pure and free of
+ * Leaflet and React, drag state lives in the hook, and a `dragging` argument
+ * would pull UI state into `transform/`. Nothing stops a caller from memoising
+ * on settled GCPs instead; that choice belongs at the call site.
+ *
+ * The array is full or absent because `GcpList` indexes `metresPerGcp` for
+ * every row (GcpList.tsx:111) — a short one renders `NaN m` past its end.
+ */
+export const MAX_GCPS_FOR_TPS_RESIDUALS = 50;
+
+/**
+ * Below this we report the leave-one-out figures but accuse nobody.
+ *
+ * It lands on the same value as `MIN_GCPS_FOR_SUSPECT` and was derived
+ * independently: that constant's argument is about the rank of a least-squares
+ * residual space, which says nothing about an interpolating spline. This one
+ * is measured, on Poisson-disk irregular layouts and never a lattice. n = 4 is
+ * a dead wash — 24.98% correct against a 25.00% chance baseline over 32 000
+ * pooled trials, CI [24.50, 25.45], and flat across every displacement band
+ * including 2-4 km, so no amount of gross error rescues it. n = 5 is the first
+ * count that clears chance, 32.4% against 20.0%, and AT n = 5 THE SIGNAL COMES
+ * ENTIRELY FROM ERRORS OF ROUGHLY 125 m AND UP: a subtler mis-click is still a
+ * coin toss there.
+ *
+ * Those percentages are leave-one-out's. The suspect is ranked by the affine
+ * residual, which scores higher again — see `tpsResidualReport` — so this is a
+ * floor on the weaker of the two signals and therefore conservative.
+ */
+export const MIN_GCPS_FOR_TPS_SUSPECT = 5;
+
+/**
+ * Refits the spline n times, each time WITHOUT one control point, and measures
+ * in ground metres how far the resulting surface misses the point it never
+ * saw.
+ *
+ * A function of this name lived in this file before and was DELETED in
+ * `11780341f`. The comment above `residualReport` still records why, that
+ * reasoning is correct, and it does not apply here — the measurement SPLITS
+ * the two jobs it conflated. PR 2 compared leave-one-out against the plain fit
+ * residual FOR AN AFFINE FIT, where both signals exist: over 1104 trials
+ * leave-one-out won 147 times and lost 150, a wash, so it lost on cost. A
+ * thin-plate spline passes through its control points exactly — that is its
+ * defining property — so `residualMetresFor` against a full-set TPS solve is
+ * ~0 at every point at every count. Here leave-one-out is not competing with a
+ * cheaper signal; it is competing with no signal at all, and the alternative
+ * is showing "RMS 0 m" for every TPS map.
+ *
+ * What it yields is a CONSERVATIVE UPPER BOUND, not a point estimate. Measured
+ * against 60 held-out check points, 1200 trials per n: the median ratio of
+ * leave-one-out to true warp error is 3.71 at n = 4, 2.20 at n = 8 and 1.77 at
+ * n = 12, with a 10th percentile of at least 1.09 everywhere — it overstates by
+ * 1.8x-3.7x and is never optimistic. Spearman correlation with true error runs
+ * 0.63 (n = 4) to 0.79 (n = 8), which is what makes it worth showing at all.
+ * UI copy must therefore read as a bound ("no worse than"), not as the error;
+ * that wording is a later task's.
+ *
+ * Returns null rather than a short array when any refit refuses — dropping a
+ * point can leave the rest too thin to solve — because the caller indexes this
+ * array per row.
+ */
+function leaveOneOutMetres(gcps: Gcp[]): number[] | null {
+  const metres: number[] = [];
+  for (let held = 0; held < gcps.length; held += 1) {
+    const solved = solveTps(gcps.filter((_, index) => index !== held));
+    if (!solved.ok) {
+      return null;
+    }
+    const { pixel, map } = gcps[held];
+    const predicted = fromMercator(applyTps(solved.params, pixel.x, pixel.y));
+    metres.push(groundMetresBetween(predicted, map));
+  }
+  return metres;
+}
+
+/**
+ * The numbers the GCP list renders under a TPS warp. Same `ResidualReport`
+ * shape as the affine path returns, so `GcpList` needs no change.
+ *
+ * The two halves come from DIFFERENT fits, and that is the whole point:
+ *
+ *  - `metresPerGcp` and `rmsMetres` are leave-one-out, per the helper above —
+ *    the only non-zero signal an interpolating spline has.
+ *  - `mostInconsistentIndex` is the plain AFFINE fit residual, even though a
+ *    spline is what is on screen. Measured on this project's own data, paired
+ *    on identical trials: at n = 8 the affine residual finds the displaced
+ *    point 62.9% of the time against leave-one-out's 46.8%, with 943
+ *    affine-only wins to 299 leave-one-out-only, z = -18.3; it holds in all
+ *    three truth conditions (at n = 12, affine-only truth: 91.7% vs 69.9%).
+ *    The mechanism is the interpolation property again: an outlier left in a
+ *    refit is absorbed into the spline's SHAPE, bending the surface around
+ *    itself, which corrupts its NEIGHBOURS' scores far more than least-squares
+ *    smearing does — so leave-one-out tends to accuse an innocent neighbour.
+ *    `OUTLIER_FIXTURE` is that disagreement made reproducible. Affine is also
+ *    the cheaper of the two: one solve per pointer move instead of n.
+ *
+ * So the highlighted row is often NOT the largest number in the column. That
+ * is what the row's shipped copy already claims — "Disagrees most with the
+ * other points" is a consistency claim, not a largest-error one. Do not "fix"
+ * the mismatch by re-ranking to match the displayed magnitudes.
+ */
+export function tpsResidualReport(gcps: Gcp[]): ResidualReport | null {
+  if (
+    gcps.length < MIN_GCPS_FOR_TPS_RESIDUALS ||
+    gcps.length > MAX_GCPS_FOR_TPS_RESIDUALS
+  ) {
+    return null;
+  }
+
+  // Ahead of the n refits, because it is one cheap solve and it can rule the
+  // whole report out: `solveTps` refuses everything `solveAffine` refuses (its
+  // destination gate IS a `solveAffine` call), so a null here means there is no
+  // spline on screen to report an accuracy for.
+  const affine = solveAffineFromGcps(gcps);
+  if (affine === null) {
+    return null;
+  }
+
+  const metresPerGcp = leaveOneOutMetres(gcps);
+  if (metresPerGcp === null) {
+    return null;
+  }
+
+  let mostInconsistentIndex: number | null = null;
+  if (gcps.length >= MIN_GCPS_FOR_TPS_SUSPECT) {
+    const fitResiduals = residualMetresFor(affine, gcps);
+    let worst = 0;
+    for (let index = 1; index < fitResiduals.length; index += 1) {
+      if (fitResiduals[index] > fitResiduals[worst]) {
+        worst = index;
+      }
+    }
+    mostInconsistentIndex = worst;
+  }
+
   return {
     metresPerGcp,
     rmsMetres: rmsMetres(metresPerGcp),
