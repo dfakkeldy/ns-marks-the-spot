@@ -452,9 +452,19 @@ export function useUserMaps(
       if (!existing) {
         return;
       }
+      // Preserve the EXISTING record's method rather than a literal. This
+      // fires from the debounced write on every drag, and the session itself
+      // doesn't own the method (that's a later task's UI toggle) — so a
+      // literal here would silently flip a tps record back to affine on the
+      // next pointer move after switching. Guarded, not assumed: `existing`
+      // could in principle be an EmbeddedGeoref record (kind !== "gcp"),
+      // which has no `method` to preserve, so that case falls back to the
+      // same "affine" default EMPTY_GCP_GEOREF uses.
+      const method =
+        existing.georef.kind === "gcp" ? existing.georef.method : "affine";
       const saved: UserMapRecord = {
         ...existing,
-        georef: { kind: "gcp", gcps, method: "affine" },
+        georef: { kind: "gcp", gcps, method },
       };
       // The updater is now pure: it maps one entry to an already-built
       // object and returns every other entry BY REFERENCE, because

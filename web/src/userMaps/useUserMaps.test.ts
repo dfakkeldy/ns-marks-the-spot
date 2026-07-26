@@ -546,6 +546,72 @@ describe("useUserMaps", () => {
     expect(await (await reopened.getPreviewBlob(first.id))?.text()).toBe("p");
   });
 
+  it("preserves a seeded tps record's method through saveGcps, on the PERSISTED record", async () => {
+    // Nothing in the app can currently CREATE a tps record — EMPTY_GCP_GEOREF
+    // is affine, imports write affine, and no caller passes a method — so this
+    // seeds one directly the way a later UI toggle task will. saveUserMap is
+    // the only way to create a row; putUserMapRecord (saveGcps's own write) is
+    // a guarded UPDATE that refuses to create one (see its doc comment).
+    const seeded = gcpRecord({ id: "tps-map" });
+    expect(seeded.georef).toMatchObject({ method: "tps" });
+    const seedStore = await UserMapStore.open(factory);
+    await seedStore.saveUserMap(seeded, new Blob(["raster"]), new Blob(["p"]));
+
+    const { result } = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+
+    const nextGcps: Gcp[] = [
+      { id: "g0", pixel: { x: 5, y: 5 }, map: { lat: 46, lng: -61 } },
+    ];
+    await act(async () => {
+      await result.current.saveGcps("tps-map", nextGcps);
+    });
+
+    const updated = result.current.records.find((r) => r.id === "tps-map");
+    expect((updated?.georef as GcpGeoref).method).toBe("tps");
+
+    // The PERSISTED record, not just the in-memory one: `saved` is built
+    // outside setRecords and the exact same object is handed to
+    // putUserMapRecord, so a fix that only patched the in-memory copy (or
+    // read the wrong field) would pass the assertion above and fail this one.
+    const reopened = await UserMapStore.open(factory);
+    const persisted = (await reopened.listUserMaps()).find(
+      (r) => r.id === "tps-map",
+    );
+    expect((persisted?.georef as GcpGeoref).method).toBe("tps");
+  });
+
+  it("still persists method: affine for an affine record through saveGcps", async () => {
+    // The other half of the guard required alongside the tps test above: a
+    // "fix" that just swaps the literal "affine" for a literal "tps" passes
+    // that test and fails this one.
+    const seeded = gcpRecord({
+      id: "affine-map",
+      georef: { kind: "gcp", gcps: BENT, method: "affine" },
+    });
+    const seedStore = await UserMapStore.open(factory);
+    await seedStore.saveUserMap(seeded, new Blob(["raster"]), new Blob(["p"]));
+
+    const { result } = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+
+    const nextGcps: Gcp[] = [
+      { id: "g0", pixel: { x: 5, y: 5 }, map: { lat: 46, lng: -61 } },
+    ];
+    await act(async () => {
+      await result.current.saveGcps("affine-map", nextGcps);
+    });
+
+    const updated = result.current.records.find((r) => r.id === "affine-map");
+    expect((updated?.georef as GcpGeoref).method).toBe("affine");
+
+    const reopened = await UserMapStore.open(factory);
+    const persisted = (await reopened.listUserMaps()).find(
+      (r) => r.id === "affine-map",
+    );
+    expect((persisted?.georef as GcpGeoref).method).toBe("affine");
+  });
+
   it("keeps points for the session when the metadata write fails", async () => {
     const failingStore = {
       listUserMaps: async () => [],
