@@ -61,6 +61,13 @@ def plan_regions(
     return regions
 
 
+def region_vrt_bounds(
+    x: int, y: int, width: int, height: int
+) -> tuple[int, int, int, int]:
+    """Return pixel-space bounds for one clipped IIIF region."""
+    return x, -y, x + width, -(y + height)
+
+
 def _fetch(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(request, timeout=120) as response:
@@ -101,12 +108,24 @@ def download_county(slug: str, destination: pathlib.Path, tile_size: int = 2048)
             print(f"  {index}/{len(regions)}", file=sys.stderr)
 
     # Give each part its pixel-space position so gdalbuildvrt can mosaic them.
-    for part_path in part_paths:
-        x, y = (int(value) for value in part_path.stem.split("_"))
+    for part_path, (x, y, region_width, region_height) in zip(
+        part_paths, regions, strict=True
+    ):
+        left, top, right, bottom = region_vrt_bounds(
+            x, y, region_width, region_height
+        )
         subprocess.run(
-            ["gdal_translate", "-q", "-a_ullr", str(x), str(-y),
-             str(x + tile_size), str(-(y + tile_size)), str(part_path),
-             str(part_path.with_suffix(".vrt"))],
+            [
+                "gdal_translate",
+                "-q",
+                "-a_ullr",
+                str(left),
+                str(top),
+                str(right),
+                str(bottom),
+                str(part_path),
+                str(part_path.with_suffix(".vrt")),
+            ],
             check=True,
         )
 
