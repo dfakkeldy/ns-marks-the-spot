@@ -585,6 +585,46 @@ _VICTORIA_DRAWN_CHECKS = DrawnCheckSettings(
     search_radius_px=500.0,
 )
 
+# Cape Breton is one geographic field wrapped around five independent frames:
+# the upper-left regional locator, the title/cartouche, Little Glace Bay and
+# Cow Bay harbour plans, and the bottom row of town plans. The diagonal
+# northwest edge follows the locator-map rule; the two side notches follow the
+# harbour-plan rules. Coordinates were measured on the exact 36,223x35,027
+# archival source frame.
+_CAPE_BRETON_MAIN_CUTLINE = Cutline(
+    (
+        (18400.0, 4100.0),
+        (27000.0, 4100.0),
+        (27000.0, 9000.0),
+        (35700.0, 9000.0),
+        (35700.0, 10800.0),
+        (31800.0, 10800.0),
+        (31800.0, 16300.0),
+        (35700.0, 16300.0),
+        (35700.0, 27800.0),
+        (900.0, 27800.0),
+        (900.0, 17300.0),
+        (5200.0, 17300.0),
+        (5200.0, 10800.0),
+    )
+)
+
+# Cape Breton's large numbered mesh is a township/section framework, not a
+# labelled geographic graticule. The frozen, unexecuted recovery would use the
+# same objective two-sided island-centroid rule as the other physical checks.
+#
+# A 1,000 px search radius is ~2.7 km at the engraved scale. It is deliberately
+# larger than the 1,500 m maximum acceptance error: it excludes another bay or
+# archipelago, but cannot drag an accepted outline toward the current model.
+_CAPE_BRETON_DRAWN_CHECKS = DrawnCheckSettings(
+    darkness=190,
+    tile_px=2400,
+    dilate_px=4,
+    min_ink_px=1000,
+    search_radius_px=1000.0,
+    reader="enclosed-paper",
+)
+
 _PANELS = {
     ("inverness", "north"): ChurchPanel(
         county_slug="inverness",
@@ -652,6 +692,19 @@ _PANELS = {
         detection=_VICTORIA_DETECTION,
         drawn_checks=_VICTORIA_DRAWN_CHECKS,
         graticule=_VICTORIA_MAIN_GRATICULE,
+    ),
+    ("cape-breton", "main"): ChurchPanel(
+        county_slug="cape-breton",
+        slug="main",
+        cutline=_CAPE_BRETON_MAIN_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-60.95,
+            south=45.80,
+            east=-59.55,
+            north=46.65,
+        ),
+        target_resolution_m=5.0,
+        drawn_checks=_CAPE_BRETON_DRAWN_CHECKS,
     ),
 }
 
