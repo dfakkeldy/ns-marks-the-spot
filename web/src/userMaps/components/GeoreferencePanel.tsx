@@ -209,9 +209,15 @@ export function GeoreferencePanel({
   // an identical drape (measured 1.317e-9 m apart), so the control would be a
   // choice with no consequence. Below it is ABSENT rather than
   // disabled-and-present, per the spec — a disabled control advertises
-  // something the user cannot have and explains nothing about why. Task 10's
-  // Allmaps export control gates on this same constant; an earlier plan draft
-  // had the two one point apart.
+  // something the user cannot have and explains nothing about why.
+  //
+  // The Allmaps export control does NOT share this gate — see `showExport`
+  // below, which uses MIN_GCPS_FOR_TPS (3). The two answer different
+  // questions: this one asks "does the choice change anything", export asks
+  // "is there a complete georeference to hand out", and a 3-point affine is a
+  // valid annotation the app is already drawing a drape for. Aligning them was
+  // tried and reverted; raising `showExport` to this constant hides the export
+  // button for every 3-point map, which its own test catches.
   const showWarpToggle =
     record.georef.kind === "gcp" &&
     session.gcps.length >= MIN_GCPS_FOR_BENDING_TPS;
