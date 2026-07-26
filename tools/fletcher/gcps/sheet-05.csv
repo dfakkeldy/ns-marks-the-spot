@@ -1,0 +1,12 @@
+# sheet-05 Fletcher graticule points.
+# GENERATED - edit the observation JSON and re-emit; do not hand-edit.
+# Control and check intersections are disjoint by construction.
+pixel_x,pixel_y,lon,lat,role,label
+3402.0,2395.0,-60.750000,46.750000,check,60d45mW 46d45mN
+5206.0,2393.0,-60.666667,46.750000,control,60d40mW 46d45mN
+7004.0,2391.0,-60.583333,46.750000,control,60d35mW 46d45mN
+8812.0,2386.0,-60.500000,46.750000,control,60d30mW 46d45mN
+3407.0,5003.0,-60.750000,46.666667,control,60d45mW 46d40mN
+5209.0,5001.0,-60.666667,46.666667,control,60d40mW 46d40mN
+7012.0,4998.0,-60.583333,46.666667,control,60d35mW 46d40mN
+8816.0,4995.0,-60.500000,46.666667,check,60d30mW 46d40mN
