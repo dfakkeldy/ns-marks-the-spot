@@ -92,6 +92,41 @@ export function gcpRecord(overrides: Partial<UserMapRecord> = {}): UserMapRecord
 }
 
 /**
+ * A deterministic, well-conditioned irregular control set of any size, for the
+ * leave-one-out cost cap — which is now asserted on BOTH sides of the seam, in
+ * `residuals.test.ts` against the function and in `useGeoreferenceSession.test.ts`
+ * against the status the null report produces. It lives here rather than in
+ * either suite so the two cannot drift into testing different point clouds.
+ *
+ * A golden-angle spiral, so no two points share a row, a column or a spacing.
+ * A lattice would be nearly affine by construction — measured on all three real
+ * A.F. Church graticule sets — which would make every leave-one-out figure
+ * meaninglessly small.
+ *
+ * Measured at the two sizes the cap tests use: `solveTps` accepts AND
+ * `solveAffineFromGcps` succeeds at 50 and at 51 points alike. That is what
+ * makes a status assertion at 51 a statement about the cap rather than about a
+ * refused solve — otherwise it would short-circuit on `degenerate` and pass for
+ * the wrong reason.
+ */
+export function irregularGcps(count: number): Gcp[] {
+  return Array.from({ length: count }, (_, index) => {
+    const radius = Math.sqrt((index + 0.5) / count);
+    const angle = index * 2.399963229728653;
+    const x = 2000 + 1800 * radius * Math.cos(angle);
+    const y = 1500 + 1300 * radius * Math.sin(angle);
+    return {
+      id: `i${index}`,
+      pixel: { x, y },
+      map: {
+        lat: 46.2 + y / 30000 + Math.sin(x / 900) * 0.002,
+        lng: -61.6 + x / 20000 + Math.cos(y / 700) * 0.002,
+      },
+    };
+  });
+}
+
+/**
  * Index of the largest value, or -1 for an empty list. Ties go to the first
  * index, matching `residualReport`'s strict-greater-than scan — so a caller
  * comparing this against that function's `mostInconsistentIndex` is comparing

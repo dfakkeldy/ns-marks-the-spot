@@ -165,6 +165,21 @@ describe("statusMessage", () => {
     );
   });
 
+  it("says the accuracy check is off rather than asking for a 4th point, past the cap", () => {
+    // Task 7b. `tpsResidualReport` returns null for two unrelated reasons, and
+    // only one of them is "too few points": above MAX_GCPS_FOR_TPS_RESIDUALS
+    // (50) leave-one-out would cost n O(n^3) solves on every pointer move.
+    // Folded into `exact-fit`, a user with 51 control points was told their fit
+    // was exact and to add a fourth. The remedy differs — there is none, and
+    // nothing is broken — so it earns its own kind.
+    expect(statusMessage({ kind: "too-many-points" })).toBe(
+      "Too many points to check accuracy — the map still draws.",
+    );
+    expect(statusMessage({ kind: "too-many-points" })).not.toBe(
+      statusMessage({ kind: "exact-fit" }),
+    );
+  });
+
   it("reports RMS with the point count", () => {
     expect(statusMessage({ kind: "solved", rmsMetres: 42.4, count: 5 })).toBe(
       "RMS 42 m across 5 points",

@@ -33,6 +33,14 @@ export function statusMessage(status: GeoreferenceStatus): string {
       // Three points fit an affine exactly by construction, so every residual
       // is 0. Printing "0 m" would read as perfect accuracy.
       return "Exact fit — add a 4th point to check accuracy.";
+    case "too-many-points":
+      // Copy is the maintainer's call (Task 7b), proposed for review. Two
+      // things it must do: NOT read as "add a 4th point", which is what this
+      // state used to say at 51 control points, and NOT read as a failure —
+      // past MAX_GCPS_FOR_TPS_RESIDUALS only the accuracy CHECK is off, and
+      // the drape is exactly as good as it was at 50. Hence the second clause;
+      // there is no action for the user to take.
+      return "Too many points to check accuracy — the map still draws.";
     case "solved":
       return `RMS ${Math.round(status.rmsMetres)} m across ${status.count} points`;
   }

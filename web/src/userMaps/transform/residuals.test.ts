@@ -13,6 +13,7 @@ import {
 import {
   argmax,
   BENT,
+  irregularGcps,
   nudgeGcpEast,
   OUTLIER_FIXTURE,
 } from "../testFixtures";
@@ -171,29 +172,6 @@ describe("residualReport", () => {
     ).toBeCloseTo(0, 6);
   });
 });
-
-/**
- * A deterministic, well-conditioned irregular control set of any size, for the
- * cost-cap boundary only. A golden-angle spiral so no two points share a row,
- * a column or a spacing — a lattice would be nearly affine by construction and
- * would make every leave-one-out figure meaninglessly small.
- */
-function irregularGcps(count: number): Gcp[] {
-  return Array.from({ length: count }, (_, index) => {
-    const radius = Math.sqrt((index + 0.5) / count);
-    const angle = index * 2.399963229728653;
-    const x = 2000 + 1800 * radius * Math.cos(angle);
-    const y = 1500 + 1300 * radius * Math.sin(angle);
-    return {
-      id: `i${index}`,
-      pixel: { x, y },
-      map: {
-        lat: 46.2 + y / 30000 + Math.sin(x / 900) * 0.002,
-        lng: -61.6 + x / 20000 + Math.cos(y / 700) * 0.002,
-      },
-    };
-  });
-}
 
 describe("tpsResidualReport", () => {
   it("reports one NON-ZERO error per point, unlike the TPS fit residual", () => {

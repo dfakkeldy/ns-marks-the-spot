@@ -6,13 +6,20 @@ import {
   UNDO_HISTORY_LIMIT,
   useGeoreferenceSession,
 } from "./useGeoreferenceSession";
-import { BENT } from "./testFixtures";
+import { statusMessage } from "./components/georeferenceStatus";
+import { BENT, irregularGcps } from "./testFixtures";
 import { applyAffine, solveAffineFromGcps } from "./transform/affine";
 import {
   AFFINE_GRID_SIZE,
   TPS_DRAG_GRID_SIZE,
   TPS_GRID_SIZE,
 } from "./transform/gcpMesh";
+import {
+  MAX_GCPS_FOR_TPS_RESIDUALS,
+  residualReport,
+  tpsResidualReport,
+} from "./transform/residuals";
+import { solveTps } from "./transform/tps";
 import { fromMercator, groundMetresBetween } from "./transform/webMercator";
 import type { Gcp, GeoreferenceMethod } from "./types";
 
@@ -258,6 +265,140 @@ describe("solve method", () => {
     const { result } = setup(COINCIDENT, { method: "tps" });
     expect(result.current.status).toEqual({ kind: "coincident-points" });
     expect(result.current.mesh).toBeNull();
+  });
+});
+
+describe("method-aware accuracy report", () => {
+  /**
+   * Measured on BENT, which is genuinely bent (an affine leaves 109-391 m of
+   * ground residual at its own control points):
+   *
+   *   affine fit residual  163.31 390.82 181.93 163.29 108.79 143.46 274.68 348.44
+   *   TPS leave-one-out    196.00 592.52 257.80 123.42 123.91 108.01 373.70 411.91
+   *
+   * The two arrays disagree by 15.1 m at the closest point and 201.7 m at the
+   * worst, and their RMS figures by 75.7 m. That gap is what makes the
+   * assertions below discriminating: an assertion that lands on one array
+   * cannot also be satisfied by the other, so pointing the TPS branch back at
+   * `residualReport` fails rather than passing by coincidence.
+   *
+   * NOT usable as a discriminator: `mostInconsistentIndex`, which is 1 under
+   * BOTH — by design, since `tpsResidualReport` ranks the suspect by the affine
+   * residual on purpose. `OUTLIER_FIXTURE` exists for that half and is asserted
+   * in `residuals.test.ts`.
+   */
+  const AFFINE_RMS = 241.982;
+  const LOO_RMS = 317.712;
+
+  it("takes a TPS session's numbers from leave-one-out, not from the affine fit", () => {
+    const loo = tpsResidualReport(BENT)!;
+    const affine = residualReport(BENT, solveAffineFromGcps(BENT)!)!;
+
+    // State the discrimination as data before relying on it. Without this, a
+    // future fixture whose two fits happened to agree would leave the
+    // assertions below green against either wiring.
+    for (let index = 0; index < BENT.length; index += 1) {
+      expect(
+        Math.abs(loo.metresPerGcp[index] - affine.metresPerGcp[index]),
+      ).toBeGreaterThan(15);
+    }
+    expect(affine.rmsMetres).toBeCloseTo(AFFINE_RMS, 2);
+    expect(loo.rmsMetres).toBeCloseTo(LOO_RMS, 2);
+
+    const { result } = setup(BENT, { method: "tps" });
+    expect(result.current.report!.metresPerGcp).toEqual(loo.metresPerGcp);
+    expect(result.current.report!.rmsMetres).toBeCloseTo(LOO_RMS, 2);
+    expect(result.current.report!.rmsMetres).not.toBeCloseTo(AFFINE_RMS, 2);
+    // The panel's headline number comes off the same report, so pin it here
+    // too: "RMS 242 m across 8 points" over a spline drape is the affine
+    // figure wearing the spline's clothes.
+    expect(result.current.status).toEqual({
+      kind: "solved",
+      rmsMetres: loo.rmsMetres,
+      count: BENT.length,
+    });
+  });
+
+  it("leaves an AFFINE session on the affine fit residual, unchanged", () => {
+    const affine = residualReport(BENT, solveAffineFromGcps(BENT)!)!;
+    const { result } = setup(BENT, { method: "affine" });
+    expect(result.current.report!.metresPerGcp).toEqual(affine.metresPerGcp);
+    expect(result.current.report!.rmsMetres).toBeCloseTo(AFFINE_RMS, 2);
+    // The other half of the same claim: an unconditional switch to
+    // leave-one-out would pass every assertion above except this one.
+    expect(result.current.report!.rmsMetres).not.toBeCloseTo(LOO_RMS, 2);
+  });
+
+  it("tells a 51-point TPS session the truth instead of asking for a 4th point", () => {
+    // The bug `MAX_GCPS_FOR_TPS_RESIDUALS`'s own handoff note warns about.
+    // `tpsResidualReport` returns null for two unrelated reasons — too few
+    // points to leave one out, and too many for n O(n^3) solves per pointer
+    // move — and the status memo mapped ANY falsy report to `exact-fit`, whose
+    // copy is "Exact fit — add a 4th point to check accuracy."
+    const over = irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS + 1);
+
+    // Premise, asserted rather than assumed: at 51 points BOTH solvers still
+    // accept, so the status below is reached through the residual branch. If
+    // either refused, the memo would short-circuit on `degenerate` and this
+    // test would go green without the cap existing at all.
+    expect(solveTps(over).ok).toBe(true);
+    expect(solveAffineFromGcps(over)).not.toBeNull();
+
+    const { result } = setup(over, { method: "tps" });
+    expect(result.current.report).toBeNull();
+    expect(result.current.status).toEqual({ kind: "too-many-points" });
+    expect(result.current.status.kind).not.toBe("exact-fit");
+    expect(statusMessage(result.current.status)).not.toBe(
+      "Exact fit — add a 4th point to check accuracy.",
+    );
+  });
+
+  it("still reports a real RMS AT the cap, so the boundary is bracketed from both sides", () => {
+    // 50 is inside the cap and 51 is outside it. Asserting only the refusal
+    // above would pass against a cap of 1 — or against a TPS path that never
+    // produced a report at all.
+    const atCap = irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS);
+    const { result } = setup(atCap, { method: "tps" });
+    expect(result.current.report!.metresPerGcp).toHaveLength(
+      MAX_GCPS_FOR_TPS_RESIDUALS,
+    );
+    expect(result.current.status.kind).toBe("solved");
+  });
+
+  it("keeps the TPS number live through a drag rather than deferring or blanking it", () => {
+    // DECIDED, not inherited (Task 7b). The report memo re-runs on every
+    // pointer move, and leave-one-out is n O(n^3) solves — but the cap above
+    // is what bounds that, and it was chosen for exactly this frame: measured
+    // warm in this repo, the whole report costs 3.0 ms at n = 40 and 6.2-7.2 ms
+    // at n = 50, and above 50 it returns null after an O(1) length test. So the
+    // worst drag frame spends under half of 16 ms on the accuracy column, next
+    // to a mesh already coarsened to TPS_DRAG_GRID_SIZE.
+    //
+    // Deferring to `dragend` would buy back at most those milliseconds and
+    // would cost a lie: the panel would show "RMS 318 m" — the figure for the
+    // point's OLD position — while the user watches the drape move under a
+    // point they have already dragged 800 m. Blanking it instead swaps the
+    // number for "—" and drops the status to `exact-fit`, which is worse.
+    const { result } = setup(BENT, { method: "tps" });
+    expect(result.current.report!.rmsMetres).toBeCloseTo(LOO_RMS, 2);
+
+    act(() => result.current.beginDragGcp("b4"));
+    act(() => result.current.moveGcpOnMap("b4", 46.344717, -61.484514));
+
+    // Mid-drag, pointer still down: the number has already followed the point.
+    expect(result.current.report!.metresPerGcp).toHaveLength(BENT.length);
+    expect(result.current.report!.rmsMetres).toBeCloseTo(573.05, 1);
+    expect(result.current.report!.rmsMetres).not.toBeCloseTo(LOO_RMS, 2);
+    expect(result.current.status.kind).toBe("solved");
+    // Still the LEAVE-ONE-OUT number and not the affine one: the moved set's
+    // affine RMS is 370.53, so a drag-time fallback to the cheaper signal
+    // would land here rather than at 573.05.
+    expect(result.current.report!.rmsMetres).not.toBeCloseTo(370.53, 1);
+
+    // And releasing changes nothing, because nothing was being withheld.
+    const midDrag = result.current.report!.rmsMetres;
+    act(() => result.current.endDragGcp("b4"));
+    expect(result.current.report!.rmsMetres).toBeCloseTo(midDrag, 9);
   });
 });
 

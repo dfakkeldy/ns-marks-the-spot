@@ -18,7 +18,12 @@ import {
   TPS_GRID_SIZE,
 } from "./transform/gcpMesh";
 import type { LatLngPoint, PixelSize } from "./transform/projection";
-import { residualReport, type ResidualReport } from "./transform/residuals";
+import {
+  MAX_GCPS_FOR_TPS_RESIDUALS,
+  residualReport,
+  tpsResidualReport,
+  type ResidualReport,
+} from "./transform/residuals";
 import { solveTps } from "./transform/tps";
 import type { Gcp, GeoreferenceMethod } from "./types";
 
@@ -48,6 +53,19 @@ export type GeoreferenceStatus =
    * `params` solved fine. See `solveTps`'s "coincident-points" reason. */
   | { kind: "coincident-points" }
   | { kind: "exact-fit" }
+  /**
+   * TPS-only: past `MAX_GCPS_FOR_TPS_RESIDUALS` the accuracy figure is refused
+   * outright, because leave-one-out is n solves of an O(n^3) system and this
+   * memo re-runs on every pointer move of a drag.
+   *
+   * Its own kind rather than a second use of `exact-fit`, on the taxonomy rule
+   * the rest of this union follows — a state earns a kind when its REMEDY
+   * differs, not merely its cause. `exact-fit` means "too few points, add
+   * one"; this means "too many, and there is nothing to fix — the drape is
+   * unaffected". Folded together, a user with 51 control points was told their
+   * fit was exact and to add a fourth.
+   */
+  | { kind: "too-many-points" }
   | { kind: "solved"; rmsMetres: number; count: number };
 
 export type GeoreferenceSession = {
@@ -489,16 +507,42 @@ export function useGeoreferenceSession(options: {
     }
     return params ? buildGcpLatLngMesh(params, pixelSize) : null;
   }, [dragging, method, params, pixelSize, tps]);
-  // Deliberately the AFFINE fit's residuals even under a TPS warp. A spline
-  // passes through its control points exactly, so its own fit residual is ~0
-  // at every point and carries no signal at all; measured, the affine residual
-  // also identifies a displaced point better than TPS leave-one-out at every
-  // n >= 5 (62.9% vs 46.8% at n = 8). The honest TPS accuracy figure is a
-  // separate, later piece of work.
-  const report = useMemo(
-    () => (params ? residualReport(gcps, params) : null),
-    [gcps, params],
-  );
+  /**
+   * Method-aware, because the two fits have completely different residual
+   * signals and only one of them is ever non-zero.
+   *
+   * `tpsResidualReport` takes the POINTS, not `tps.params`, and that asymmetry
+   * with `residualReport` is the whole substance of this branch: it re-solves
+   * the spline n times, each time WITHOUT one control point, and measures how
+   * far the surface misses the point it never saw. A spline interpolates its
+   * control points exactly, so a full-set fit residual — the number the affine
+   * path reports — reads ~0 m at every point at every count, and showing it
+   * under a TPS drape would print "RMS 0 m" for a visibly bent map.
+   *
+   * The two halves of what that function returns still come from different
+   * fits: the COLUMN is leave-one-out, and `mostInconsistentIndex` is the plain
+   * affine fit residual, which is measured to find a displaced point better
+   * (62.9% vs 46.8% at n = 8) and costs one solve rather than n. That split
+   * lives inside `tpsResidualReport`; nothing here needs to know about it.
+   *
+   * NOT suppressed or deferred while a control point is dragged, unlike the
+   * mesh above, and that is a decision rather than an omission. This memo does
+   * re-run on every pointer move — but `MAX_GCPS_FOR_TPS_RESIDUALS` was chosen
+   * for exactly this frame, so the cost is bounded by construction: measured
+   * warm in this repo the whole report is 3.0 ms at n = 40 and 6.2-7.2 ms at
+   * n = 50, and past 50 it returns null after an O(1) length test, so the
+   * 4-second n = 300 case cannot arise. Under half a 16 ms frame, next to a
+   * mesh already coarsened to TPS_DRAG_GRID_SIZE. Deferring to `dragend` would
+   * buy those milliseconds back and pay for them in honesty: the panel would
+   * keep displaying the accuracy of the point's OLD position while the user
+   * watches the drape follow its new one.
+   */
+  const report = useMemo(() => {
+    if (method === "tps") {
+      return tpsResidualReport(gcps);
+    }
+    return params ? residualReport(gcps, params) : null;
+  }, [gcps, method, params]);
 
   const status = useMemo<GeoreferenceStatus>(() => {
     // A pending half-point is the most urgent thing to tell the user about,
@@ -537,8 +581,25 @@ export function useGeoreferenceSession(options: {
       return { kind: "degenerate" };
     }
     if (!report) {
+      if (method === "tps" && gcps.length > MAX_GCPS_FOR_TPS_RESIDUALS) {
+        // A null report has TWO causes under TPS and they are opposites. This
+        // one is the cost cap: n leave-one-out solves of an O(n^3) system, on
+        // every pointer move. Nothing is wrong with the points and the drape
+        // is unaffected, so the copy must not send the user looking for a fix.
+        return { kind: "too-many-points" };
+      }
       // Enough points to solve, too few for residuals to mean anything: an
-      // affine passes exactly through three points by construction.
+      // affine passes exactly through three points by construction, and a
+      // spline through three IS that affine.
+      //
+      // A third, rarer path also lands here under TPS: `tpsResidualReport`
+      // refuses when any one refit refuses, which a 4-point set can do when
+      // dropping the off-line point leaves three collinear ones (reproduced:
+      // pixels (100,100) (400,400) (900,900) plus (900,120) — the full solve
+      // is healthy, the refit is `ill-conditioned`). The copy is wrong there,
+      // but its remedy differs from BOTH of the above ("spread these out",
+      // while the map still draws), so giving it a kind is a further taxonomy
+      // change and is left for the maintainer rather than guessed at here.
       return { kind: "exact-fit" };
     }
     return {
