@@ -47,7 +47,17 @@ class UrlTests(unittest.TestCase):
 
     def test_region_url_is_iiif_shaped(self) -> None:
         url = region_url(INVERNESS_ID, 0, 0, 2048, 2048, 2048)
-        self.assertEqual(url, f"{IIIF_BASE}/{INVERNESS_ID}/0,0,2048,2048/2048,/0/default.jpg")
+        self.assertEqual(
+            url,
+            f"{IIIF_BASE}/{INVERNESS_ID}/0,0,2048,2048/2048,2048/0/default.jpg",
+        )
+
+    def test_region_url_preserves_a_short_edge_row(self) -> None:
+        url = region_url(INVERNESS_ID, 0, 34816, 2048, 211, 2048)
+        self.assertEqual(
+            url,
+            f"{IIIF_BASE}/{INVERNESS_ID}/0,34816,2048,211/2048,211/0/default.jpg",
+        )
 
 
 class ManifestTests(unittest.TestCase):

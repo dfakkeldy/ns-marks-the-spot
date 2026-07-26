@@ -36,7 +36,11 @@ def region_url(
     rumsey_id: str, x: int, y: int, width: int, height: int, size_width: int
 ) -> str:
     """URL of one IIIF image region at a requested output width."""
-    return f"{IIIF_BASE}/{rumsey_id}/{x},{y},{width},{height}/{size_width},/0/default.jpg"
+    size_height = round(height * size_width / width)
+    return (
+        f"{IIIF_BASE}/{rumsey_id}/{x},{y},{width},{height}/"
+        f"{size_width},{size_height}/0/default.jpg"
+    )
 
 
 def canvas_size(manifest: dict) -> tuple[int, int]:
