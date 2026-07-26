@@ -26,11 +26,29 @@ import { describe, expect, it, vi } from "vitest";
 //    `tsc -b`-clean and green against every OTHER test in this file, because
 //    a stub that discards its props can't see which function it was handed.
 //    See "passes the real handlers..." below.
+//
+// For the same reason it echoes `tabPanel` back as id/role/aria-labelledby:
+// the scan pane is the Scan tab's PANEL, and the tab round trip below cannot
+// be checked against a stub that swallows it. Same honesty condition as the
+// class — ScanPane.test.tsx pins that the REAL component applies those three
+// attributes from the same prop, so this echo reflects the component rather
+// than inventing a shape for it.
 const scanPaneCalls: Array<Record<string, unknown>> = [];
 vi.mock("./ScanPane", () => ({
   ScanPane: (props: Record<string, unknown>) => {
     scanPaneCalls.push(props);
-    return <div className="georeference-scan" data-testid="scan-pane" />;
+    const tabPanel = props.tabPanel as
+      | { id: string; labelledBy: string }
+      | undefined;
+    return (
+      <div
+        className="georeference-scan"
+        data-testid="scan-pane"
+        id={tabPanel?.id}
+        role={tabPanel ? "tabpanel" : undefined}
+        aria-labelledby={tabPanel?.labelledBy}
+      />
+    );
   },
 }));
 
@@ -213,6 +231,57 @@ describe("GeoreferencePanel", () => {
       "data-tab",
       "scan",
     );
+  });
+
+  it("points each tab at a real panel that names that tab back", () => {
+    // `role="tablist"` + two `role="tab"` + `aria-selected` shipped with
+    // neither `aria-controls` nor any `role="tabpanel"`: the buttons
+    // announced as tabs and controlled nothing, so on the narrow layout —
+    // the only place the tablist is visible at all — a screen-reader user was
+    // told there were two panes and given nothing linking either tab to what
+    // it reveals.
+    //
+    // Asserted as a ROUND TRIP (tab -> aria-controls -> element -> its
+    // aria-labelledby -> back to that same tab's id) because both ids are
+    // just strings: `tsc -b` is equally happy with Scan pointing at the map
+    // bar and Map pointing at the scan. A one-way "has an aria-controls"
+    // check cannot tell a correct pair from a transposed one, and neither
+    // can a check that the attribute merely resolves to SOME element.
+    const { container } = renderPanel(fakeSession());
+    expect(screen.getAllByRole("tab")).toHaveLength(2);
+    const cases = [
+      // The panels live in two different places on purpose: the scan panel is
+      // a grid child of `.georeference-panel` (rendered by ScanPane), the map
+      // panel is the floating bar, a SIBLING of the panel. aria-controls is
+      // what associates them; DOM adjacency is impossible here.
+      { name: "Scan", panelClass: "georeference-scan" },
+      { name: "Map", panelClass: "georeference-map-bar" },
+    ];
+    for (const { name, panelClass } of cases) {
+      const tab = screen.getByRole("tab", { name });
+      const tabId = tab.getAttribute("id");
+      // Exact-ish, not `not.toBeNull()`: `getAttribute` returns null for a
+      // missing attribute, and an EMPTY id would still be a non-null string
+      // that no aria-labelledby could ever usefully point at.
+      expect(tabId).toEqual(expect.stringMatching(/\S/));
+      const controls = tab.getAttribute("aria-controls");
+      expect(controls).toEqual(expect.stringMatching(/\S/));
+      const panel = container.querySelector(`#${controls}`);
+      // The attribute existing is not the claim — the claim is that it names
+      // an element that is actually here. querySelector on a stale or
+      // misspelled id returns null, which an attribute-only assertion misses.
+      expect(panel).toBeInstanceOf(HTMLElement);
+      expect(panel).toHaveClass(panelClass);
+      expect(panel).toHaveAttribute("role", "tabpanel");
+      // The half that catches the transposition.
+      expect(panel).toHaveAttribute("aria-labelledby", tabId);
+      // Deliberately NOT `hidden`. Above the two-pane breakpoint the tablist
+      // is display:none and BOTH panes are on screen at once; only the
+      // stylesheet knows that, so a JS-side "hide the unselected panel" —
+      // the textbook next step of this pattern — would blank half the wide
+      // layout. Visibility stays the stylesheet's job, via `data-tab`.
+      expect(panel).not.toHaveAttribute("hidden");
+    }
   });
 
   it("announces status politely for screen readers", () => {

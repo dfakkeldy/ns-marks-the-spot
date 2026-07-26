@@ -140,6 +140,44 @@ describe("ScanPane", () => {
     expect(container.querySelector(".georeference-scan")).not.toBeNull();
   });
 
+  it("wears the tab-panel identity its caller hands down, on the root the stylesheet grids", () => {
+    // GeoreferencePanel is the caller, and GeoreferencePanel.test.tsx mocks
+    // THIS component — its mock echoes these three attributes so the tab
+    // round trip is assertable over there. That echo is only honest because
+    // of this test: without it ScanPane could ignore `tabPanel` outright, the
+    // panel's Scan tab would carry an `aria-controls` naming an id no element
+    // in the document has, and the whole suite would stay green.
+    //
+    // The role goes on `.georeference-scan` ITSELF, which is why the prop is
+    // passed down at all: that div is a direct grid child of
+    // `.georeference-panel` (styles.css sets explicit grid-template-columns
+    // and -rows on it), so a wrapper div introduced just to hold the role
+    // would insert an extra grid item and shift the layout.
+    //
+    // The two fixture strings differ so a transposed `id={labelledBy}` fails
+    // here rather than passing on a pair of identical values.
+    const { container } = renderPane({
+      tabPanel: { id: "scan-panel-fixture", labelledBy: "scan-tab-fixture" },
+    });
+    const scan = container.querySelector(".georeference-scan");
+    expect(scan).toHaveAttribute("id", "scan-panel-fixture");
+    expect(scan).toHaveAttribute("role", "tabpanel");
+    expect(scan).toHaveAttribute("aria-labelledby", "scan-tab-fixture");
+  });
+
+  it("claims no tab-panel role when no tab reveals it", () => {
+    // The prop is optional and the role must not be unconditional: a
+    // `role="tabpanel"` with no `role="tab"` anywhere in the document is a
+    // claim about a pattern that is not there. Every other test in this file
+    // mounts the pane exactly this way, so without this assertion an
+    // unconditional role would go unnoticed here too.
+    const { container } = renderPane();
+    const scan = container.querySelector(".georeference-scan");
+    expect(scan).not.toHaveAttribute("role");
+    expect(scan).not.toHaveAttribute("id");
+    expect(scan).not.toHaveAttribute("aria-labelledby");
+  });
+
   it("configures the Leaflet map on CRS.Simple with the scan's own bounds and zoom limits", () => {
     // A latitude of -800 (scanBounds' north/south extent) is meaningless on
     // the default EPSG3857 CRS — CRS.Simple is what makes raw pixel

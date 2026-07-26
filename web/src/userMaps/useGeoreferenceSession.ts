@@ -119,6 +119,20 @@ export function useGeoreferenceSession(options: {
   const gcpsRef = useRef(gcps);
   const pendingRef = useRef<PendingPoint>(null);
   const historyRef = useRef<Gcp[][]>([]);
+  /**
+   * "The last thing that happened was an undo." Set by `undo`, cleared by
+   * `snapshot`.
+   *
+   * A drag snapshots exactly ONCE, on drag start, so that one drag collapses
+   * into one undo step. Ctrl+Z with the pointer still down consumes that lone
+   * snapshot while Leaflet's drag is still live, and every `drag` event after
+   * it commits a new position with nothing underneath it — the user ends up
+   * parked on a position they never confirmed and Undo is greyed out. This
+   * flag makes the FIRST move after an undo re-open a step, so the restored
+   * state stays reachable; clearing it in `snapshot` is what keeps the REST
+   * of that drag (and any later drag) collapsed into a single step.
+   */
+  const undoConsumedSnapshotRef = useRef(false);
   // The next `gcp-<n>` number to mint. Lives in a ref, not state: minting
   // happens inside pickScanPoint/pickMapPoint (event handlers), and those
   // mutators read from refs rather than state for the same reason the rest
@@ -143,6 +157,9 @@ export function useGeoreferenceSession(options: {
     // effect above runs first in the same commit (effects run in
     // declaration order) and just wrote it there.
     historyRef.current = [];
+    // Belongs to the map that just closed, like the history it guards: a
+    // stale flag would make the new map's first edit push a spurious step.
+    undoConsumedSnapshotRef.current = false;
     nextGcpNumberRef.current = highestGcpNumber(gcpsRef.current) + 1;
   }, [seededFor]);
 
@@ -242,11 +259,25 @@ export function useGeoreferenceSession(options: {
 
   /** Snapshot BEFORE a change, so undo restores the prior state. */
   const snapshot = useCallback(() => {
+    // Any new step supersedes the "an undo just happened" flag, whoever
+    // pushed it — drag start, a delete, or a completed pair.
+    undoConsumedSnapshotRef.current = false;
     historyRef.current = [...historyRef.current, gcpsRef.current].slice(
       -UNDO_HISTORY_LIMIT,
     );
     setHistoryDepth(historyRef.current.length);
   }, []);
+
+  /**
+   * Called by both move handlers before they commit. The branch lives OUT
+   * HERE rather than inside a setState updater, for the same reason as
+   * everything else in this file: StrictMode double-invokes updaters.
+   */
+  const reopenStepIfUndoInterrupted = useCallback(() => {
+    if (undoConsumedSnapshotRef.current) {
+      snapshot();
+    }
+  }, [snapshot]);
 
   /** Reads-then-increments the ref seeded above. Never called during render. */
   const mintGcpId = useCallback(() => {
@@ -303,24 +334,26 @@ export function useGeoreferenceSession(options: {
 
   const moveGcpOnScan = useCallback(
     (id: string, x: number, y: number) => {
+      reopenStepIfUndoInterrupted();
       commit(
         gcpsRef.current.map((gcp) =>
           gcp.id === id ? { ...gcp, pixel: { x, y } } : gcp,
         ),
       );
     },
-    [commit],
+    [commit, reopenStepIfUndoInterrupted],
   );
 
   const moveGcpOnMap = useCallback(
     (id: string, lat: number, lng: number) => {
+      reopenStepIfUndoInterrupted();
       commit(
         gcpsRef.current.map((gcp) =>
           gcp.id === id ? { ...gcp, map: { lat, lng } } : gcp,
         ),
       );
     },
-    [commit],
+    [commit, reopenStepIfUndoInterrupted],
   );
 
   const deleteGcp = useCallback(
@@ -340,6 +373,11 @@ export function useGeoreferenceSession(options: {
     setHistoryDepth(historyRef.current.length);
     commit(past[past.length - 1]);
     setPending(null);
+    // Set LAST, and never inside `commit`: a drag that outlives this undo
+    // must be able to re-open a step (see the ref's comment). `commit` does
+    // not snapshot today, but ordering it after makes that independent of
+    // whether it ever does.
+    undoConsumedSnapshotRef.current = true;
   }, [commit, setPending]);
 
   // `solveAffineFromGcps` takes the points and nothing else: its acceptance

@@ -184,6 +184,36 @@ describe("StrictMode", () => {
     expect(result.current.gcps).toHaveLength(0);
     expect(result.current.canUndo).toBe(false);
   });
+
+  it("re-opens exactly ONE undo step when Ctrl+Z lands mid-drag", () => {
+    // The two `undo` tests below prove the step is re-opened at all. This
+    // proves it is re-opened ONCE. React 19 double-invokes state updaters
+    // under StrictMode, so a fix that read the "an undo just happened" flag
+    // from inside an updater would push two identical history entries and
+    // cost two Ctrl+Z presses to escape — the same shape as the bug above,
+    // and invisible to a bare renderHook.
+    const onPersist = vi.fn();
+    const { result } = renderHook(
+      () =>
+        useGeoreferenceSession({
+          mapId: "map-a",
+          initialGcps: SOLVABLE,
+          pixelSize: PIXEL_SIZE,
+          onPersist,
+        }),
+      { wrapper: StrictMode },
+    );
+    act(() => result.current.beginDragGcp("a"));
+    act(() => result.current.moveGcpOnMap("a", 46.11, -61.21));
+    act(() => result.current.undo());
+    act(() => result.current.moveGcpOnMap("a", 46.14, -61.24));
+
+    expect(result.current.canUndo).toBe(true);
+    act(() => result.current.undo());
+    expect(result.current.gcps[0].map).toEqual({ lat: 46.1, lng: -61.2 });
+    // One step, not two.
+    expect(result.current.canUndo).toBe(false);
+  });
 });
 
 describe("undo", () => {
@@ -219,6 +249,74 @@ describe("undo", () => {
     act(() => result.current.moveGcpOnMap("a", 46.12, -61.22));
     act(() => result.current.moveGcpOnMap("a", 46.13, -61.23));
     expect(result.current.gcps[0].map).toEqual({ lat: 46.13, lng: -61.23 });
+    act(() => result.current.undo());
+    expect(result.current.gcps[0].map).toEqual({ lat: 46.1, lng: -61.2 });
+    expect(result.current.canUndo).toBe(false);
+  });
+
+  it("does not strand the point when Ctrl+Z lands MID-drag", () => {
+    // A drag snapshots exactly once, on drag start (the test above). Press
+    // Ctrl+Z with the pointer still DOWN and that lone snapshot is consumed
+    // while Leaflet's drag is still live: the `drag` events that keep
+    // arriving then commit further positions with nothing underneath them.
+    // The user is parked on a position they never confirmed, with Undo
+    // greyed out — no way back. Recorded as "inferred"; this reproduces it.
+    const { result } = setup(SOLVABLE);
+    act(() => result.current.beginDragGcp("a"));
+    act(() => result.current.moveGcpOnMap("a", 46.11, -61.21));
+
+    // Ctrl+Z, pointer still down.
+    act(() => result.current.undo());
+    expect(result.current.gcps[0].map).toEqual({ lat: 46.1, lng: -61.2 });
+
+    // Leaflet never saw the pointer go up, so the drag keeps firing.
+    act(() => result.current.moveGcpOnMap("a", 46.14, -61.24));
+    expect(result.current.gcps[0].map).toEqual({ lat: 46.14, lng: -61.24 });
+
+    // The observable requirement: a second Ctrl+Z must still get the user
+    // out of a position they never confirmed.
+    expect(result.current.canUndo).toBe(true);
+    act(() => result.current.undo());
+    expect(result.current.gcps[0].map).toEqual({ lat: 46.1, lng: -61.2 });
+  });
+
+  it("does not strand the point when Ctrl+Z lands mid-SCAN-drag", () => {
+    // The scan-side mirror. Kept separate because moveGcpOnScan and
+    // moveGcpOnMap are independent call sites: stubbing one out has already
+    // been shown (see the scan-drag test below) to leave the whole suite
+    // green, so a fix applied to only one of them would go unnoticed.
+    const { result } = setup(SOLVABLE);
+    act(() => result.current.beginDragGcp("b"));
+    act(() => result.current.moveGcpOnScan("b", 900, 120));
+
+    act(() => result.current.undo());
+    expect(result.current.gcps[1].pixel).toEqual({ x: 1200, y: 0 });
+
+    act(() => result.current.moveGcpOnScan("b", 640, 480));
+    expect(result.current.gcps[1].pixel).toEqual({ x: 640, y: 480 });
+
+    expect(result.current.canUndo).toBe(true);
+    act(() => result.current.undo());
+    expect(result.current.gcps[1].pixel).toEqual({ x: 1200, y: 0 });
+  });
+
+  it("still collapses a drag that STARTS after an undo", () => {
+    // Guards the fix above from over-correcting. Whatever marks "an undo
+    // just happened" must be cleared by the next snapshot, or the first
+    // move of the NEXT drag pushes a second history entry and one ordinary
+    // drag suddenly costs two Undo presses — the exact regression the
+    // collapse test exists to prevent, reintroduced by the back door.
+    const { result } = setup(SOLVABLE);
+    act(() => result.current.deleteGcp("c"));
+    act(() => result.current.undo());
+    expect(result.current.gcps).toHaveLength(3);
+    expect(result.current.canUndo).toBe(false);
+
+    act(() => result.current.beginDragGcp("a"));
+    act(() => result.current.moveGcpOnMap("a", 46.11, -61.21));
+    act(() => result.current.moveGcpOnMap("a", 46.12, -61.22));
+    expect(result.current.gcps[0].map).toEqual({ lat: 46.12, lng: -61.22 });
+
     act(() => result.current.undo());
     expect(result.current.gcps[0].map).toEqual({ lat: 46.1, lng: -61.2 });
     expect(result.current.canUndo).toBe(false);

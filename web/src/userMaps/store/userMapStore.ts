@@ -142,14 +142,53 @@ export class UserMapStore {
   }
 
   /**
-   * Metadata-only write. Saving GCPs must not rewrite the raster and preview
-   * blobs — during a georeferencing session this runs every time the user
-   * finishes a drag, and re-storing tens of megabytes each time would stall
-   * the main thread and burn through the origin's quota.
+   * Metadata-only UPDATE — never a create. Saving GCPs must not rewrite the
+   * raster and preview blobs: during a georeferencing session this runs every
+   * time the user finishes a drag, and re-storing tens of megabytes each time
+   * would stall the main thread and burn through the origin's quota.
+   *
+   * Guarded rather than a blind `put`, because `put` is an upsert and this
+   * method's one caller (`saveGcps`) fires from a 400 ms debounce timer. Open
+   * the same map in two tabs, drag a point in tab A, delete the map in tab B,
+   * and tab A's timer then recreates the metadata row for a map whose blobs
+   * tab B already removed. That orphan is permanent: `listUserMaps()` returns
+   * it on every subsequent load, while `getPreviewBlob`/`getRasterBlob` return
+   * null forever, so the layer row can never be enabled or rendered.
+   * `discardPendingWrite` cannot prevent it — it clears the *deleting* tab's
+   * hook-local timer, and the writing tab is a different JavaScript realm.
+   *
+   * The get and the put share ONE readwrite transaction. Two IndexedDB
+   * connections serialize their readwrite transactions per object store, so a
+   * get-then-put inside a single transaction is atomic against the other tab's
+   * delete; the same check split across two transactions would merely narrow
+   * the race window rather than close it.
+   *
+   * The put is issued from inside the get request's `onsuccess` handler, not
+   * after `await request(...)`. A transaction auto-commits once it goes a tick
+   * without a new request (the same hazard documented on `saveUserMap`), so
+   * the awaited form bets on the continuation microtask beating the
+   * auto-commit. Measured against fake-indexeddb 6.2.5: the awaited form does
+   * happen to work there, and the same probe's control — a `setTimeout(0)`
+   * before the put — throws `TransactionInactiveError`, proving the check can
+   * detect inactivity. But one engine agreeing is not evidence that Safari or
+   * Firefox schedule it the same way. Queuing the second request from the
+   * first request's success handler needs no such assumption: the transaction
+   * is unambiguously still active while its own request's handler runs.
    */
   async putUserMapRecord(record: UserMapRecord): Promise<void> {
     const tx = this.db.transaction(MAPS, "readwrite");
-    tx.objectStore(MAPS).put(record);
+    const maps = tx.objectStore(MAPS);
+    const existing = maps.get(record.id) as IDBRequest<UserMapRecord | undefined>;
+    existing.onsuccess = () => {
+      // Absent row = another tab deleted this map. Skipping leaves the
+      // transaction with nothing more to do, so it commits as a no-op.
+      if (existing.result !== undefined) {
+        maps.put(record);
+      }
+    };
+    // No `onerror` here on purpose: an unhandled request error aborts the
+    // transaction, and transactionDone surfaces the real DOMException from
+    // the abort event — which is what keeps saveGcps' catch meaningful.
     await transactionDone(tx);
   }
 

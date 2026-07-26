@@ -136,6 +136,7 @@ export function ScanPane({
   onDragStartGcp,
   onMoveGcp,
   selectedGcpId,
+  tabPanel,
 }: {
   previewUrl: string;
   pixelSize: PixelSize;
@@ -146,6 +147,20 @@ export function ScanPane({
   onDragStartGcp: (id: string) => void;
   onMoveGcp: (id: string, x: number, y: number) => void;
   selectedGcpId: string | null;
+  /**
+   * Identity for the `role="tab"` button that reveals this pane, when a
+   * caller renders one. Handed DOWN rather than applied by that caller,
+   * because `.georeference-scan` is a direct grid child of
+   * `.georeference-panel` (styles.css sets explicit
+   * `grid-template-columns`/`rows`) and a wrapper div to hold the role would
+   * insert an extra grid item.
+   *
+   * One optional OBJECT, not two optional strings, so `tsc` enforces that the
+   * id and its label arrive together. Optional because the pane is not
+   * inherently a tab panel: the tabs exist only below the two-pane
+   * breakpoint, and the pane's own tests mount it with no tablist at all.
+   */
+  tabPanel?: { id: string; labelledBy: string };
 }) {
   // Memoised because `ImageOverlay` compares `bounds` by REFERENCE: a fresh
   // array every render calls setBounds()/_reset() on every pointer move of a
@@ -159,7 +174,13 @@ export function ScanPane({
     [gcps.length],
   );
   return (
-    <div className="georeference-scan" data-testid="georeference-scan">
+    <div
+      className="georeference-scan"
+      data-testid="georeference-scan"
+      id={tabPanel?.id}
+      role={tabPanel ? "tabpanel" : undefined}
+      aria-labelledby={tabPanel?.labelledBy}
+    >
       <MapContainer
         crs={L.CRS.Simple}
         bounds={bounds}

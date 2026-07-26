@@ -89,6 +89,19 @@ describe("GcpList", () => {
     expect(within(rows[3]).getByText("15 m")).toBeInTheDocument();
     // "gcp-residual" is Task 12's other styling hook on this cell.
     expect(within(rows[0]).getByText("12 m")).toHaveClass("gcp-residual");
+    // Accuses nobody in TEXT either. The row class and the hidden label are
+    // two carriers of ONE verdict, and this is the only place either is
+    // asserted ABSENT while a report exists — `mostInconsistentIndex` is null
+    // here BY DESIGN, but the residuals are not, and index 2 is the argmax
+    // (40.9). So a label guard that drifted off the verdict onto the largest
+    // residual passes every ≥5-point fixture in this file and lands here:
+    // a screen-reader user hears "Disagrees most with the other points" on
+    // row 3 while no row carries the border and no sighted user is being
+    // accused of anything. Border and accessibility tree disagreeing is the
+    // exact regression the label exists to prevent.
+    expect(
+      screen.queryByText("Disagrees most with the other points"),
+    ).toBeNull();
   });
 
   it("marks the worst-fitting point from the fifth point on", () => {
@@ -135,6 +148,57 @@ describe("GcpList", () => {
     const rowsAfter = screen.getAllByRole("row").slice(1);
     expect(rowsAfter[0]).toHaveClass("gcp-row--suspect");
     expect(rowsAfter[2]).not.toHaveClass("gcp-row--suspect");
+    // The hidden label has to MOVE with the verdict too, not merely exist
+    // somewhere. This rerender was already built to defuse exactly this
+    // hazard for the row class — it holds `gcps.length` and every residual
+    // fixed and changes only the verdict — but it never checked the label,
+    // so the label alone was still pinned to a fixture where index 2 is
+    // three things at once (the verdict, the argmax residual 40.9, and a
+    // constant). Under either drift the label stays on row 3 while the
+    // border has moved to row 1. `getByText` is singular, so a label that
+    // marked BOTH rows fails here as well.
+    const label = screen.getByText("Disagrees most with the other points");
+    expect(rowsAfter[0]).toContainElement(label);
+  });
+
+  it("says in TEXT which point is the suspect, not only in a border", () => {
+    // Everything that carried the accusation before this was unreachable
+    // without a pointer and working eyes: `.gcp-row--suspect` is
+    // `border-inline-start` + `font-weight` (styles.css) and nothing else,
+    // and the only words anywhere were a `title` on a plain <td> — not
+    // focusable, and not reliably announced. The suspect row is the one row
+    // the user is being asked to go re-place, so "which one" has to survive
+    // in the accessibility tree.
+    renderList({
+      gcps: GCPS,
+      report: {
+        metresPerGcp: [12.4, 8.1, 40.9, 15.2, 9.7],
+        rmsMetres: 22.3,
+        mostInconsistentIndex: 2,
+      },
+    });
+    const rows = screen.getAllByRole("row").slice(1);
+    const label = screen.getByText("Disagrees most with the other points");
+    // Clipped, NOT display:none — styles.css says so in its own comment,
+    // because display:none would take it straight back out of the tree this
+    // test exists to put it into.
+    expect(label).toHaveClass("visually-hidden");
+    // In the accused ROW. A banner rendered once above the table would
+    // satisfy a document-scoped getByText while still never saying which
+    // point it meant.
+    expect(rows[2]).toContainElement(label);
+    // ...and in the accused row's RESIDUAL CELL, so it is announced next to
+    // the number it explains rather than stranded in the row-number column.
+    expect(within(rows[2]).getByText("41 m")).toContainElement(label);
+    // Exactly one. Marking every row (e.g. dropping the `suspect` guard)
+    // accuses nobody while satisfying any single-element lookup.
+    expect(
+      screen.getAllByText("Disagrees most with the other points"),
+    ).toHaveLength(1);
+    // The residual is STILL its own exact cell text — the hidden span is a
+    // sibling of the number, not a wrapper around it, so the "41 m" a
+    // sighted user reads has not quietly become "41 m Disagrees most…".
+    expect(within(rows[2]).getByText("41 m")).toHaveClass("gcp-residual");
   });
 
   it("gives each row its own 1-based, visible row number", () => {

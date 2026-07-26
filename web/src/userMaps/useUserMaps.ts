@@ -451,6 +451,15 @@ export function useUserMaps(
         prev.map((record) => (record.id === id ? saved : record)),
       );
       try {
+        // Writing to a record another tab has deleted is a silent no-op, not
+        // a throw — deliberately. `storageError` means "this browser can't
+        // save your work"; a map the user themselves deleted in another tab
+        // isn't a storage fault, and surfacing it here would tell them their
+        // points were lost when the points' map is what's gone. Residual gap,
+        // NOT fixed here because closing it needs new user-facing copy (the
+        // maintainer's call) or a cross-tab invalidation channel: this tab
+        // keeps `saved` in `records`, so it goes on showing a map that no
+        // longer exists in storage until the page reloads.
         await (await store()).putUserMapRecord(saved);
       } catch {
         // Same contract as import: a storage failure keeps the map usable

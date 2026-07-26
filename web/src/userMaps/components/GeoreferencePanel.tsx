@@ -23,6 +23,27 @@ const TEXT_INPUT_TYPES = new Set([
   "number",
 ]);
 
+/**
+ * The tab↔panel wiring, as literals rather than `useId()`, because App renders
+ * this component through ONE conditional slot keyed on the record id (App.tsx)
+ * — at most one panel is mounted at a time, so there is nothing for a
+ * generated suffix to disambiguate, and a greppable id is worth more here.
+ *
+ * The two panels are deliberately in different places in the tree: the scan
+ * panel is `.georeference-scan`, a direct grid child of `.georeference-panel`
+ * that ScanPane renders (so its id/role are passed DOWN — wrapping it in a new
+ * div would insert a grid item and break the layout), and the map panel is the
+ * floating bar, a SIBLING of the panel. `aria-controls` is what associates a
+ * tab with its panel; DOM adjacency is not required and is impossible here.
+ */
+const SCAN_TAB_ID = "georeference-tab-scan";
+const SCAN_PANEL_ID = "georeference-tabpanel-scan";
+const MAP_TAB_ID = "georeference-tab-map";
+const MAP_PANEL_ID = "georeference-tabpanel-map";
+
+/** Stable so ScanPane is not handed a fresh object on every render. */
+const SCAN_TAB_PANEL = { id: SCAN_PANEL_ID, labelledBy: SCAN_TAB_ID };
+
 /** Not exported: a plain function export alongside a component is a
  * react-refresh/only-export-components error here (see GcpList's
  * formatResidual for the same pattern). */
@@ -166,7 +187,9 @@ export function GeoreferencePanel({
           <button
             type="button"
             role="tab"
+            id={SCAN_TAB_ID}
             aria-selected={tab === "scan"}
+            aria-controls={SCAN_PANEL_ID}
             onClick={() => setTab("scan")}
           >
             Scan
@@ -174,7 +197,9 @@ export function GeoreferencePanel({
           <button
             type="button"
             role="tab"
+            id={MAP_TAB_ID}
             aria-selected={tab === "map"}
+            aria-controls={MAP_PANEL_ID}
             onClick={() => setTab("map")}
           >
             Map
@@ -182,6 +207,7 @@ export function GeoreferencePanel({
         </div>
 
         <ScanPane
+          tabPanel={SCAN_TAB_PANEL}
           previewUrl={previewUrl}
           pixelSize={record.pixelSize}
           gcps={session.gcps}
@@ -294,8 +320,29 @@ export function GeoreferencePanel({
           per the spec — so anything nested inside it would vanish too. This
           bar is what is left: the live prompt, and the way back. CSS shows it
           only at that breakpoint and only on that tab, so no JS here needs to
-          know the viewport width. */}
-      <div className="georeference-map-bar" data-tab={tab}>
+          know the viewport width.
+
+          It is also the Map tab's PANEL. The tab's real content — the app's
+          own live map — is outside this component entirely and cannot carry
+          the role, so the role goes on the one thing the tab does render.
+
+          The role is NOT conditional on the breakpoint. CSS owns that
+          breakpoint (`max-width: 1199.98px`), and re-deriving it here with
+          matchMedia would duplicate a number that can drift, in a component
+          whose whole design is "no JS knows the viewport width". Above the
+          breakpoint the tablist is `display: none`, so both panels are
+          momentarily orphaned — harmless, because the failure mode of an
+          orphan tabpanel is content you cannot reach, and up there BOTH panes
+          are on screen at once with nothing hidden. Neither panel takes
+          `hidden` for the same reason: visibility is the stylesheet's job,
+          and hiding the unselected one would blank the wide layout. */}
+      <div
+        className="georeference-map-bar"
+        data-tab={tab}
+        id={MAP_PANEL_ID}
+        role="tabpanel"
+        aria-labelledby={MAP_TAB_ID}
+      >
         <p
           role="status"
           aria-live="polite"
