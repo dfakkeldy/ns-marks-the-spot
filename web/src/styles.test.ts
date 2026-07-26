@@ -293,6 +293,38 @@ describe("georeferencer overlay", () => {
     expect(panel).toMatch(/(?<![-\w])width:\s*45vw/);
   });
 
+  it("only splits into two panes where the scan track is usable", () => {
+    // The scan track is `45vw - 380px`, because the panel is `width: 45vw` and
+    // its side column is `minmax(320px, 380px)`. Measured live, resolved
+    // gridTemplateColumns: 900px viewport -> "25px 380px"; 1024px -> 81px;
+    // 1280px -> 196px. So the two-pane rule must NOT be unconditional — at the
+    // spec's former 900px threshold it gives the user a 25px sliver to place
+    // control points in, and at 1024px the rail-width column that the base
+    // rule's own comment explicitly rejects.
+    const wideStart = styles.indexOf("@media (min-width: 1200px)");
+    expect(wideStart).toBeGreaterThan(-1);
+    const widePanel = styles
+      .slice(wideStart)
+      .match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(widePanel).toMatch(
+      /grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(320px,\s*380px\)/,
+    );
+
+    // …and it must live there and ONLY there. Moving this one declaration back
+    // onto the base rule brings the whole cramped 900–1199px range straight
+    // back with every other test in this file still green — the narrow block
+    // would keep overriding it below 1200px, so nothing else would notice.
+    // `^`/m pins the base rule, which is the top-level one at column 0.
+    const basePanel = styles.match(/^\.georeference-panel\s*\{([^}]*)\}/m)?.[1];
+    expect(basePanel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);
+    expect(basePanel).not.toMatch(/minmax\(320px/);
+    expect(styles.match(/minmax\(320px,\s*380px\)/g)).toHaveLength(1);
+
+    // The two bounds are complements: no viewport may fall between them, and
+    // none may match both. A flat 1199 would strand a zoomed 1199.5px client.
+    expect(styles).toContain("@media (max-width: 1199.98px)");
+  });
+
   it("hides the layer rail and crosshairs the map during a session", () => {
     // Both are spec (189 and 201–204) and both are pure CSS, so nothing else
     // in the suite would notice their absence.
@@ -304,7 +336,9 @@ describe("georeferencer overlay", () => {
     );
   });
 
-  it("stacks the split view on phones instead of squeezing both panes", () => {
+  // Not just phones: this layout now covers everything below 1200px, which
+  // includes tablets and small laptops. See the min-width test above.
+  it("stacks the split view instead of squeezing both panes", () => {
     // Anchored to the LAST @media block, which Step 8 appends at the very END
     // of the file. Three traps live here, all measured:
     //
@@ -317,13 +351,15 @@ describe("georeferencer overlay", () => {
     //    named starts at 3767 — so `lastIndexOf` spanned the base rules and
     //    matched the wide rule anyway. The narrow rules go last, full stop.
     // 3. Anchoring on the literal "860px" is what let the georeferencer's
-    //    breakpoint drift below the spec's 900 px in the first place, so the
-    //    query is asserted here as its own claim. 861–899 px used to get the
-    //    wide rule with a mandatory 320 px side column, i.e. a ~76 px scan
-    //    track and no tabs. The two 860px blocks belong to unrelated chrome.
+    //    breakpoint drift under the spec in the first place, so the query is
+    //    asserted here as its own claim. It has now been wrong twice — 860px,
+    //    then 899.98px — because the cramped range does not start at a
+    //    viewport width of its own, it starts wherever the two-pane rule
+    //    engages. See the min-width test below for the measurements. The two
+    //    860px blocks belong to unrelated chrome and are not this one.
     const narrowStart = styles.lastIndexOf("@media (max-width:");
     const narrow = styles.slice(narrowStart);
-    expect(narrow).toMatch(/^@media \(max-width: 899\.98px\)/);
+    expect(narrow).toMatch(/^@media \(max-width: 1199\.98px\)/);
     expect(narrow).toContain(".georeference-panel");
     const panel = narrow.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
     expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);

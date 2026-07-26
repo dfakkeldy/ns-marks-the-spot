@@ -189,12 +189,27 @@ and opens the panel. Its layer row reads *"Needs georeferencing"* with a
 **Georeference** button where the opacity slider normally sits; finished GCP
 maps get **Adjust points**, reopening the same panel.
 
-**Layout.** Wide (≥900 px): the panel takes the left ~45% of the viewport and
+**Layout.** Wide (≥1200 px): the panel takes the left ~45% of the viewport and
 hides the layer rail; the app map keeps the right ~55%. The scan needs room
 for accurate clicking, so it gets close to half the screen rather than a
 rail-width column. Narrow: full-screen panel with a `Scan | Map` segmented
 toggle, where choosing *Map* hides the panel entirely and leaves a floating
 bar carrying the prompt and a *Back to scan* button.
+
+> **Amended 2026-07-26 — threshold raised from ≥900 px to ≥1200 px, measured
+> in a browser rather than reasoned about.** The panel is `width: 45vw` and its
+> residual column is `minmax(320px, 380px)`, so the scan track is
+> `45vw − 380px` — which means the two-pane layout is cramped wherever it
+> engages, not below some viewport width of its own. Resolved
+> `gridTemplateColumns` at 900×800 was literally `"25px 380px"`: at the
+> threshold this paragraph itself used to state, a user placed control points
+> through a 25 px sliver. 1024 px gave 81 px — precisely the "rail-width
+> column" the sentence above rejects. The measured series is 900→25 px,
+> 1024→81 px, 1280→196 px, 1440→268 px, 1920→484 px, so ≥1200 px is where the
+> split first earns its keep (~160 px, growing). Below it the full-screen
+> tabbed layout applies instead, and the scan gets the entire viewport — always
+> better than a sliver. This is a deliberate divergence from the originally
+> locked ≥900 px, recorded here rather than left as silent drift.
 
 **Scan pane.** A second Leaflet map on `CRS.Simple` with the preview as an
 `ImageOverlay` and `maxBounds` locked to the image, giving pan, pinch-zoom,

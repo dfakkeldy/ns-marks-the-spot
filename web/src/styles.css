@@ -3929,7 +3929,10 @@ a {
    the right ~55%. The scan needs room for accurate clicking, so it gets close
    to half the screen rather than a rail-width column. `width` and `max-width`
    are both set because the narrow breakpoint releases both — a lone
-   `max-width` would keep clamping the full-bleed phone layout. */
+   `max-width` would keep clamping the full-bleed phone layout.
+
+   Single column by DEFAULT. The two-pane split lives in the min-width block
+   below and nowhere else — see the measurements there. */
 .georeference-panel {
   position: absolute;
   top: 8px;
@@ -3938,7 +3941,7 @@ a {
   width: 45vw;
   max-width: 45vw;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   gap: 0;
   overflow: hidden;
@@ -3946,6 +3949,30 @@ a {
   background: var(--paper);
   border-radius: 8px;
   box-shadow: 0 6px 24px rgb(10 20 22 / 28%);
+}
+
+/* The two-pane split, and the only place the 320-380px side column is
+   declared. Scoped to >=1200px rather than left on the base rule, because the
+   scan track is `45vw - 380px` and that is unusable well above the old 900px
+   bound. Measured live in a browser, `gridTemplateColumns` as resolved:
+
+       viewport   panel    scan track
+       900px      405px    25px      <- the spec's own former "wide" threshold
+       1024px     461px    81px      <- a rail-width column, precisely what
+       1280px     576px    196px        the base rule's comment rejects
+       1440px     648px    268px
+       1920px     864px    484px
+
+   At 900x800 the computed value was literally "25px 380px": a user placing
+   control points through a 25px sliver. Below 1200px the full-bleed tabbed
+   Scan|Map layout takes over instead and the scan gets the whole viewport,
+   which is strictly better than any sliver. 1200px is where the split first
+   pays for itself at ~160px and grows from there. Paired exactly with the
+   `max-width: 1199.98px` block at the end of this file — no gap, no overlap. */
+@media (min-width: 1200px) {
+  .georeference-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  }
 }
 
 /* The layer rail is hidden for the duration (spec): at 288–320px it would
@@ -4170,17 +4197,19 @@ a {
   font-weight: 700;
 }
 
-/* Everything BELOW the spec's 900 px wide breakpoint, not below 860 px. This
-   block used to stop at 860, which left 861–899 px with neither documented
-   layout: the wide rule above kept the panel at 45vw (396 px at 880) while its
-   `minmax(320px, 380px)` side column is mandatory, so the scan track — the
-   thing the user has to click accurately — collapsed to ~76 px, and the tab
-   toggle that exists to rescue exactly that case is `display: none` outside
-   this block. `.98` rather than a flat 899 because a zoomed or HiDPI viewport
-   reports fractional CSS pixels, and 899.5 px would otherwise fall back into
-   the same trap. The two 860 px blocks earlier in this file belong to
-   unrelated app chrome and are deliberately left alone. */
-@media (max-width: 899.98px) {
+/* Everything BELOW the two-pane breakpoint. This block stopped at 860px, then
+   at 899.98px, and both were too low: the cramped range does not begin at some
+   viewport width of its own, it begins wherever the two-pane rule engages,
+   because the scan track is always `45vw - 380px`. At 900px that is 25px and
+   at 1024px it is 81px — the rail-width column the base rule's own comment
+   rejects. So this bound is now the complement of the `min-width: 1200px`
+   block above, where the full measurement table lives.
+
+   `.98` rather than a flat 1199 because a zoomed or HiDPI viewport reports
+   fractional CSS pixels, and 1199.5px would otherwise fall into the gap. The
+   two 860px blocks earlier in this file belong to unrelated app chrome and are
+   deliberately left alone. */
+@media (max-width: 1199.98px) {
   /* Full-bleed here: no room to keep the map beside the panel, so the tab
      toggle switches between them instead. Both `width` and `max-width` must
      be released — the base rule pins the panel to a 45vw column. */
