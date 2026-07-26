@@ -58,6 +58,12 @@ export const USER_MAPS_PANE = "user-maps-pane";
 export const USER_MAPS_PANE_Z_INDEX = 160;
 
 /**
+ * The historical raster is context: it sits above the modern/aerial basemap
+ * and below user maps and every evidence/data overlay.
+ */
+export const FLETCHER_LAYER_Z_INDEX = 155;
+
+/**
  * Georeferencing control points sit above every data overlay — the app's own
  * panes top out at MEASURE_PANE_Z_INDEX (430) — and above Leaflet's built-in
  * marker (600) and tooltip (650) panes, because a control point buried under

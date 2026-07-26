@@ -17,10 +17,10 @@ export type NativeLayerId =
   | "water-features"
   | "roads";
 
-// Historical scans from the David Rumsey collection. They are catalogued for
-// attribution and metadata, but never render on the web: they carry no
-// Province licence and no hosted tiles.
+// Church scans remain catalogued but unavailable. Fletcher has an independent
+// direct-Rumsey web delivery path and is therefore excluded separately.
 export type RumseyReferenceLayerId = "fletcher" | ChurchCountyLayerId;
+export type FletcherLayerId = "fletcher";
 
 export type TopographyLayerId = "contours";
 
@@ -211,7 +211,7 @@ export type WebLayerDescriptor = {
   maxZoom: number;
   opacity: number;
   licence: "province-restricted" | "rumsey-reference";
-  webAvailability: "available" | "rights-pending";
+  webAvailability: "available" | "rights-pending" | "hosting-pending";
   webCaveat: string;
   sourceDate: string;
   scale: string;
@@ -424,18 +424,17 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
   {
     id: "fletcher",
     name: "Fletcher",
-    serviceUrl:
-      "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png",
+    serviceUrl: "",
     nativeDefaultVisibility: true,
-    minZoom: 0,
-    maxZoom: 24,
-    opacity: 1,
+    minZoom: 8,
+    maxZoom: 16,
+    opacity: 0.72,
     licence: "rumsey-reference",
-    webAvailability: "rights-pending",
-    webCaveat: "Web rights pending",
-    sourceDate: "Historical source · scan published 2023",
-    scale: "Historical map sheet",
-    coverage: "Selected Nova Scotia sheets",
+    webAvailability: "available",
+    webCaveat: "24 direct-Rumsey sheets · zoom 8–16",
+    sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
+    scale: "Independently georeferenced historical sheets",
+    coverage: "Cape Breton Island · 24 individual sheets",
   },
   {
     id: "ns-aerial",
@@ -727,6 +726,9 @@ export const churchLayerCatalog: readonly (
   (layer): layer is WebLayerDescriptor & { id: ChurchCountyLayerId } =>
     (CHURCH_COUNTY_LAYER_IDS as readonly string[]).includes(layer.id),
 );
+
+export const fletcherLayerCatalog = nativeLayerCatalog[0] as
+  WebLayerDescriptor & { id: FletcherLayerId };
 
 export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = {
   "ns-aerial": true,

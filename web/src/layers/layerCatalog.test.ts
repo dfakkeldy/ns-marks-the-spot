@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   allResourceLayerCatalog,
   churchLayerCatalog,
+  fletcherLayerCatalog,
   derivedResourceLayerCatalog,
   environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
@@ -38,8 +39,7 @@ describe("web native-layer parity catalog", () => {
       {
         id: "fletcher",
         name: "Fletcher",
-        serviceUrl:
-          "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png",
+        serviceUrl: "",
       },
       {
         id: "ns-aerial",
@@ -110,12 +110,17 @@ describe("web native-layer parity catalog", () => {
     ]);
   });
 
-  it("keeps Fletcher unavailable on the web while retaining native metadata", () => {
-    const fletcher = nativeLayerCatalog[0];
-
-    expect(fletcher.nativeDefaultVisibility).toBe(true);
-    expect(fletcher.webAvailability).toBe("rights-pending");
-    expect(fletcher.webCaveat).toBe("Web rights pending");
+  it("uses the direct-source Fletcher delivery contract", () => {
+    expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
+    expect(fletcherLayerCatalog.webAvailability).toBe("available");
+    expect(fletcherLayerCatalog.webCaveat).toBe(
+      "24 direct-Rumsey sheets · zoom 8–16",
+    );
+    expect(fletcherLayerCatalog.minZoom).toBe(8);
+    expect(fletcherLayerCatalog.maxZoom).toBe(16);
+    expect(
+      JSON.stringify(nativeLayerCatalog).toLowerCase(),
+    ).not.toContain("oldmapsonline");
   });
 
   it("requires the Province licence for every Province-hosted layer", () => {

@@ -15,6 +15,7 @@ describe("map share state", () => {
     pid: "15234636",
     eventIds: ["cbrm-2026-07-21"],
     layerIds: [
+      "fletcher",
       "nsprd",
       "roads",
       "mineral-occurrences",
@@ -31,7 +32,7 @@ describe("map share state", () => {
     expect(url.searchParams.get("pid")).toBe("15234636");
     expect(url.searchParams.get("event")).toBe("cbrm-2026-07-21");
     expect(url.searchParams.get("layers")).toBe(
-      "nsprd,roads,mineral-occurrences,inverness-hydro-potential,coastal-flood-2050,ns-well-logs",
+      "fletcher,nsprd,roads,mineral-occurrences,inverness-hydro-potential,coastal-flood-2050,ns-well-logs",
     );
     expect(url.searchParams.get("position")).toBe("46.18845,-60.02123,15");
   });

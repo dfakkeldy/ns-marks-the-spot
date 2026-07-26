@@ -10,6 +10,10 @@ import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_URL,
 } from "../../licensing/provinceLicense";
+import {
+  RUMSEY_ATTRIBUTION,
+  RUMSEY_LICENCE_URL,
+} from "../../licensing/rumseyLicense";
 import type { PrintLayerSource, PrintSnapshot } from "../../services/printSnapshot";
 import { PrintFieldDocument } from "./PrintFieldDocument";
 import { PrintResearchDocument } from "./PrintResearchDocument";
@@ -151,6 +155,46 @@ function snapshot(overrides: Record<string, unknown> = {}) {
 const map = <div aria-label="Printable map">Captured map</div>;
 
 describe("print documents", () => {
+  it("prints Fletcher imagery attribution and licence as a separate map source", () => {
+    const fletcherSource: PrintLayerSource = {
+      id: "fletcher",
+      name: "Fletcher",
+      sourceUrl:
+        "https://tiles.example.test/fletcher-direct-rumsey-20260726.1/source.json",
+      sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
+      attribution: RUMSEY_ATTRIBUTION,
+      licenceUrl: RUMSEY_LICENCE_URL,
+    };
+
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          layerIds: ["fletcher"],
+          layerSources: [fletcherSource],
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["fletcher"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getByText(RUMSEY_ATTRIBUTION)).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Fletcher licence" }),
+    ).toHaveAttribute("href", RUMSEY_LICENCE_URL);
+    expect(
+      screen
+        .getByLabelText("Active map layers")
+        .querySelector('[data-symbol-kind="historical-raster"]'),
+    ).toBeInTheDocument();
+  });
+
   it("renders a research summary with sealed evidence, licence material, and no browser location", () => {
     render(
       <PrintResearchDocument

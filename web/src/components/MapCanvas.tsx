@@ -37,6 +37,7 @@ import {
   type EnvironmentalHealthLayerId,
   type FloodHazardLayerDescriptor,
   type FloodHazardLayerId,
+  type FletcherLayerId,
   type ProvinceLayerId,
   type ResourceFeatureLayerDescriptor,
   type ResourceLayerId,
@@ -81,6 +82,7 @@ import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot
 import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
+import { FletcherTileLayer } from "./FletcherTileLayer";
 import { ZoningLayer } from "./ZoningLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
@@ -126,6 +128,10 @@ type MapCanvasProps = {
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
+  fletcherVisible?: boolean;
+  fletcherOpacity?: number;
+  fletcherTileBaseUrl?: string | null;
+  fletcherRetryToken?: number;
   userMaps?: VisibleUserMap[];
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
@@ -159,6 +165,7 @@ export type ParcelFocusRequest = {
 
 export type MapLayerId =
   | "modern"
+  | FletcherLayerId
   | ProvinceLayerId
   | ResourceLayerId
   | HydroPilotLayerId
@@ -1424,6 +1431,10 @@ export function MapCanvas({
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
   wellLogAccuracyFilter = "surveyed",
+  fletcherVisible = false,
+  fletcherOpacity = 0.72,
+  fletcherTileBaseUrl = null,
+  fletcherRetryToken = 0,
   userMaps = EMPTY_USER_MAPS,
   georeference = null,
   showModernMap,
@@ -1468,6 +1479,12 @@ export function MapCanvas({
       reportLayerStatus("modern", status);
     },
     [isPrintMode, reportLayerStatus],
+  );
+  const reportFletcherStatus = useCallback(
+    (status: MapLayerStatus) => {
+      reportLayerStatus("fletcher", status);
+    },
+    [reportLayerStatus],
   );
   const [map, setMap] = useState<LeafletMap | null>(null);
   const printableViewportGuard = useRef<PrintableViewportGuard>({
@@ -1609,6 +1626,14 @@ export function MapCanvas({
         ) : (
           <MapStatusController id="modern" visible={false} onStatusChange={reportLayerStatus} />
         )}
+        <FletcherTileLayer
+          visible={fletcherVisible}
+          opacity={fletcherOpacity}
+          tileBaseUrl={fletcherTileBaseUrl}
+          retryToken={fletcherRetryToken}
+          renderMode={renderMode}
+          onStatusChange={reportFletcherStatus}
+        />
         {provinceLayerCatalog.map((layer) => (
           <ArcGISMapLayer
             key={layer.id}

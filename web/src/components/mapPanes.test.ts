@@ -4,6 +4,7 @@ import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
+  FLETCHER_LAYER_Z_INDEX,
   GEOREFERENCE_PANE_Z_INDEX,
   MEASURE_PANE,
   MEASURE_PANE_Z_INDEX,
@@ -90,6 +91,10 @@ describe("parcel pane ordering", () => {
   });
 
   it("stacks user maps above aerial imagery and below data overlays", () => {
+    expect(FLETCHER_LAYER_Z_INDEX).toBeGreaterThan(
+      PROVINCE_LAYER_Z_INDEXES["ns-aerial"],
+    );
+    expect(FLETCHER_LAYER_Z_INDEX).toBeLessThan(USER_MAPS_PANE_Z_INDEX);
     expect(USER_MAPS_PANE_Z_INDEX).toBeGreaterThan(
       PROVINCE_LAYER_Z_INDEXES["ns-aerial"],
     );

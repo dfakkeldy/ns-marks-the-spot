@@ -22,6 +22,7 @@ import {
   WellLogAccuracyFilterControl,
   WellLogAccuracyLegend,
   WellLogLayerToggle,
+  FletcherLayerControl,
   LayerMetadata,
   LayerToggle,
   ResourceLayerToggle,
@@ -60,12 +61,18 @@ import {
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
   PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
-import { RUMSEY_ATTRIBUTION, RUMSEY_LICENCE_URL } from "./licensing/rumseyLicense";
+import {
+  RUMSEY_ATTRIBUTION,
+  RUMSEY_COLLECTION_TERMS_URL,
+  RUMSEY_LICENCE_NAME,
+  RUMSEY_LICENCE_URL,
+} from "./licensing/rumseyLicense";
 import {
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
+  fletcherLayerCatalog,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialEnvironmentalHealthLayerVisibility,
@@ -74,7 +81,6 @@ import {
   initialFloodHazardLayerVisibility,
   initialProvinceLayerVisibility,
   initialResourceLayerVisibility,
-  nativeLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   topographyLayerCatalog,
@@ -88,6 +94,10 @@ import {
   type ZoningLayerId,
   type WellLogLayerId,
 } from "./layers/layerCatalog";
+import {
+  fletcherSourceReceiptUrl,
+  normalizeFletcherTileBaseUrl,
+} from "./layers/fletcherLayer";
 import type { WellLogAccuracyFilter } from "./services/wellLogs";
 import {
   CIVIC_ADDRESS_DATASET_URL,
@@ -198,6 +208,7 @@ const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
 
 const allMapLayerIds: MapLayerId[] = [
   "modern",
+  "fletcher",
   ...provinceLayerCatalog.map(({ id }) => id),
   ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
@@ -400,7 +411,9 @@ function printEventForHistorical(
   };
 }
 
-function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
+function printLayerSources(
+  fletcherTileBaseUrl: string | null,
+): Map<ShareLayerId, PrintLayerSource> {
   const sources = new Map<ShareLayerId, PrintLayerSource>();
   sources.set("modern", {
     id: "modern",
@@ -409,6 +422,16 @@ function printLayerSources(): Map<ShareLayerId, PrintLayerSource> {
     sourceDate: "Live OpenStreetMap tiles",
     attribution: "© OpenStreetMap contributors",
     licenceUrl: "https://www.openstreetmap.org/copyright",
+  });
+  sources.set("fletcher", {
+    id: "fletcher",
+    name: fletcherLayerCatalog.name,
+    sourceUrl:
+      fletcherSourceReceiptUrl(fletcherTileBaseUrl) ??
+      RUMSEY_COLLECTION_TERMS_URL,
+    sourceDate: fletcherLayerCatalog.sourceDate,
+    attribution: RUMSEY_ATTRIBUTION,
+    licenceUrl: RUMSEY_LICENCE_URL,
   });
   provinceLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
@@ -608,6 +631,22 @@ export function App() {
   ).current;
   const hasSharedLayers = initialUrl.searchParams.has("layers");
   const hasSharedEvents = initialUrl.searchParams.has("event");
+  const fletcherTileConfiguration = useMemo(() => {
+    try {
+      return {
+        baseUrl: normalizeFletcherTileBaseUrl(),
+        error: null as string | null,
+      };
+    } catch (error) {
+      return {
+        baseUrl: null,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Fletcher tile hosting configuration is invalid.",
+      };
+    }
+  }, []);
   const [licenceAccepted, setLicenceAccepted] = useState(isLicenceAccepted);
   const [headerCollapsed, setHeaderCollapsed] = useState(
     () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
@@ -721,6 +760,15 @@ export function App() {
           !sharedLayersIncludeUsableBasemap
       : true,
   );
+  const [fletcherVisible, setFletcherVisible] = useState(
+    () =>
+      Boolean(fletcherTileConfiguration.baseUrl) &&
+      initialShareState.layerIds.includes("fletcher"),
+  );
+  const [fletcherOpacity, setFletcherOpacity] = useState(
+    fletcherLayerCatalog.opacity,
+  );
+  const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
   const intendedInitialProvinceLayers = useRef(
     hasSharedLayers
       ? Object.fromEntries(
@@ -1745,6 +1793,7 @@ export function App() {
 
   const activeLayerIds = useMemo<ShareLayerId[]>(() => [
     ...(showModernMap ? (["modern"] as const) : []),
+    ...(fletcherVisible ? (["fletcher"] as const) : []),
     ...provinceLayerCatalog
       .filter(({ id }) => provinceLayers[id])
       .map(({ id }) => id),
@@ -1769,6 +1818,7 @@ export function App() {
   ], [
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
+    fletcherVisible,
     hydroPilotLayers,
     provinceLayers,
     resourceLayers,
@@ -1794,6 +1844,7 @@ export function App() {
   );
   const captureLayerIds = useMemo<ShareLayerId[]>(() => [
     ...(showModernMap ? (["modern"] as const) : []),
+    ...(fletcherVisible ? (["fletcher"] as const) : []),
     ...provinceLayerCatalog
       .filter(({ id }) => licenceAccepted && provinceLayers[id])
       .map(({ id }) => id),
@@ -1819,6 +1870,7 @@ export function App() {
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
     effectiveResourceLayers,
+    fletcherVisible,
     hydroPilotLayers,
     licenceAccepted,
     provinceLayers,
@@ -1850,12 +1902,12 @@ export function App() {
     selectedMappedArea,
   ]);
   const captureLayerSources = useMemo(() => {
-    const sources = printLayerSources();
+    const sources = printLayerSources(fletcherTileConfiguration.baseUrl);
     return captureLayerIds.flatMap((id) => {
       const source = sources.get(id);
       return source ? [source] : [];
     });
-  }, [captureLayerIds]);
+  }, [captureLayerIds, fletcherTileConfiguration.baseUrl]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -1979,6 +2031,15 @@ export function App() {
             name: "Modern map",
             sourceUrl: "https://www.openstreetmap.org/copyright",
             sourceDate: "Live OpenStreetMap tiles",
+          }]
+        : []),
+      ...(fletcherVisible
+        ? [{
+            name: fletcherLayerCatalog.name,
+            sourceUrl:
+              fletcherSourceReceiptUrl(fletcherTileConfiguration.baseUrl) ??
+              RUMSEY_COLLECTION_TERMS_URL,
+            sourceDate: fletcherLayerCatalog.sourceDate,
           }]
         : []),
       ...provinceLayerCatalog
@@ -2603,29 +2664,44 @@ export function App() {
                   A.F. Church topographical township maps name the residents of
                   each building, and the occupations of prominent townsfolk.
                   Scans courtesy of the{" "}
-                  <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">
+                  <a
+                    href={RUMSEY_COLLECTION_TERMS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     David Rumsey Map Collection
                   </a>
                   . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
                 </p>
               </div>
             </details>
-            <div className="layer-row unavailable">
-              <span className="switch" aria-hidden="true" />
-              <span>
-                <strong>Fletcher historical map</strong>
-                <small>{nativeLayerCatalog[0].webCaveat}</small>
-                <LayerMetadata
-                  sourceDate={nativeLayerCatalog[0].sourceDate}
-                  scale={nativeLayerCatalog[0].scale}
-                  coverage={nativeLayerCatalog[0].coverage}
-                  minZoom={nativeLayerCatalog[0].minZoom}
-                  maxZoom={nativeLayerCatalog[0].maxZoom}
-                  checked={false}
-                  status={{ status: "idle" }}
-                />
-              </span>
-            </div>
+            <FletcherLayerControl
+              layer={fletcherLayerCatalog}
+              checked={fletcherVisible}
+              enabled={Boolean(fletcherTileConfiguration.baseUrl)}
+              opacity={fletcherOpacity}
+              status={
+                fletcherTileConfiguration.error
+                  ? { status: "error" }
+                  : layerStatuses.fletcher
+              }
+              onChange={setFletcherVisible}
+              onOpacityChange={setFletcherOpacity}
+              onRetry={() => setFletcherRetryToken((token) => token + 1)}
+            />
+            <p className="resource-source-note fletcher-source-note">
+              {RUMSEY_ATTRIBUTION}. Licensed{" "}
+              <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">
+                {RUMSEY_LICENCE_NAME}
+              </a>
+              : noncommercial use only; project georeferencing, clipping, and
+              tiling changes are identified as derivatives and remain within
+              the licence’s ShareAlike boundary. The MIT software licence does
+              not cover the imagery. This historical layer is context only: it
+              is not a survey and does not establish current parcels, title,
+              legal access, roads, shoreline, flood conditions, value,
+              permissions, or services.
+            </p>
           </section>
 
           {mapMode === "current" ? (
@@ -2878,6 +2954,10 @@ export function App() {
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
+            fletcherVisible={fletcherVisible}
+            fletcherOpacity={fletcherOpacity}
+            fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
+            fletcherRetryToken={fletcherRetryToken}
             userMaps={userMapsApi.visibleMaps}
             georeference={georeferenceBinding}
             showModernMap={showModernMap}

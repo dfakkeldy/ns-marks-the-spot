@@ -1,5 +1,5 @@
 import { act, render } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { MapLayerId, MapLayerStatus } from "../MapCanvas";
 import { PrintMap } from "./PrintMap";
 import type { PrintSnapshot } from "../../services/printSnapshot";
@@ -38,6 +38,10 @@ function reportLayerStatus(id: MapLayerId, status: MapLayerStatus) {
 }
 
 describe("PrintMap", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   /**
    * Without this the printed sheet falls back to surveyed-only wells while the
    * printed legend still advertises the approximate bands.
@@ -63,6 +67,32 @@ describe("PrintMap", () => {
     expect(mapCanvasProps.current?.wellLogLayers).toEqual({
       "ns-well-logs": true,
     });
+  });
+
+  it("restores a hosted Fletcher layer in the print map", () => {
+    vi.stubEnv(
+      "VITE_FLETCHER_TILE_BASE_URL",
+      "https://tiles.example.test/ns-marks",
+    );
+    const fletcherSnapshot = {
+      ...snapshot,
+      layerIds: ["modern", "fletcher"],
+    } as unknown as PrintSnapshot;
+
+    render(
+      <PrintMap
+        snapshot={fletcherSnapshot}
+        bounds={fletcherSnapshot.viewport.bounds}
+        includeAerial={false}
+        onReadinessChange={vi.fn()}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(mapCanvasProps.current?.fletcherVisible).toBe(true);
+    expect(mapCanvasProps.current?.fletcherTileBaseUrl).toBe(
+      "https://tiles.example.test/ns-marks",
+    );
   });
 
   it("aggregates only printed layer readiness and reports the resolved position", () => {
