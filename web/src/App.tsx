@@ -631,6 +631,7 @@ export function App() {
   ).current;
   const hasSharedLayers = initialUrl.searchParams.has("layers");
   const hasSharedEvents = initialUrl.searchParams.has("event");
+  const hasSharedPosition = initialUrl.searchParams.has("position");
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -2973,6 +2974,7 @@ export function App() {
             }}
             focusRequest={parcelFocusRequest}
             initialPosition={initialShareState.position}
+            preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onLayerStatusChange={setLayerStatus}
           />

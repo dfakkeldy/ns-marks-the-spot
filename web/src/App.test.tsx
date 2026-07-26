@@ -39,6 +39,7 @@ vi.mock("./components/MapCanvas", () => ({
     showModernMap,
     showHistoricalTaxSales,
     initialPosition,
+    preserveInitialPosition,
     onIdentifyParcel,
     onPositionChange,
     focusRequest,
@@ -63,6 +64,7 @@ vi.mock("./components/MapCanvas", () => ({
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
+    preserveInitialPosition?: boolean;
     onIdentifyParcel: (latitude: number, longitude: number) => void;
     onPositionChange?: (position: {
       latitude: number; longitude: number; zoom: number;
@@ -152,7 +154,7 @@ vi.mock("./components/MapCanvas", () => ({
       {floodHazardLayers["coastal-flood-current"] ? "on" : "off"}
       {renderMode === "print"
         ? `; ${fitBounds ? "Parcel fit" : "Missing parcel fit"}`
-        : <>; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}</>}
+        : <>; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}; preserve initial position: {preserveInitialPosition ? "yes" : "no"}</>}
       ; focus request: {focusRequest?.pid ?? "none"}
       ; georeferencing: {georeference?.draft?.record.id ?? "none"}
       ; saved user map layers: {userMaps?.length ?? 0}
@@ -684,6 +686,9 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "initial position: 46.1,-60.9,12",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "preserve initial position: yes",
     );
     expect(
       await screen.findByRole("complementary", { name: "Parcel 40538464 details" }),

@@ -141,6 +141,7 @@ type MapCanvasProps = {
   onIdentifyParcel: (latitude: number, longitude: number) => void;
   focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
+  preserveInitialPosition?: boolean;
   onPositionChange?: (position: MapPosition) => void;
   onViewportChange?: (viewport: PrintMapViewport) => void;
   onLayerStatusChange?: (
@@ -1065,12 +1066,20 @@ function InitialTaxSaleBoundsController({
   parcels,
   taxSalePids,
   showTaxSale,
-}: Pick<MapCanvasProps, "parcels" | "taxSalePids" | "showTaxSale">) {
+  preserveInitialPosition,
+}: Pick<
+  MapCanvasProps,
+  "parcels" | "taxSalePids" | "showTaxSale" | "preserveInitialPosition"
+>) {
   const map = useMap();
   const hasFittedInitialTaxSaleLayer = useRef(false);
 
   useEffect(() => {
-    if (hasFittedInitialTaxSaleLayer.current || !showTaxSale) {
+    if (
+      preserveInitialPosition ||
+      hasFittedInitialTaxSaleLayer.current ||
+      !showTaxSale
+    ) {
       return;
     }
 
@@ -1099,7 +1108,7 @@ function InitialTaxSaleBoundsController({
       padding: [48, 48],
       maxZoom: 13,
     });
-  }, [map, parcels, showTaxSale, taxSalePids]);
+  }, [map, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
 
   return null;
 }
@@ -1108,15 +1117,23 @@ function InitialHistoricalBoundsController({
   parcels,
   historicalTaxSalePids,
   showHistoricalTaxSales,
+  preserveInitialPosition,
 }: Pick<
   MapCanvasProps,
-  "parcels" | "historicalTaxSalePids" | "showHistoricalTaxSales"
+  | "parcels"
+  | "historicalTaxSalePids"
+  | "showHistoricalTaxSales"
+  | "preserveInitialPosition"
 >) {
   const map = useMap();
   const hasFittedHistoricalLayer = useRef(false);
 
   useEffect(() => {
-    if (hasFittedHistoricalLayer.current || !showHistoricalTaxSales) {
+    if (
+      preserveInitialPosition ||
+      hasFittedHistoricalLayer.current ||
+      !showHistoricalTaxSales
+    ) {
       return;
     }
 
@@ -1141,7 +1158,13 @@ function InitialHistoricalBoundsController({
       padding: [48, 48],
       maxZoom: 11,
     });
-  }, [historicalTaxSalePids, map, parcels, showHistoricalTaxSales]);
+  }, [
+    historicalTaxSalePids,
+    map,
+    parcels,
+    preserveInitialPosition,
+    showHistoricalTaxSales,
+  ]);
 
   return null;
 }
@@ -1444,6 +1467,7 @@ export function MapCanvas({
   onIdentifyParcel,
   focusRequest = null,
   initialPosition = DEFAULT_MAP_POSITION,
+  preserveInitialPosition = false,
   onPositionChange,
   onViewportChange,
   onLayerStatusChange,
@@ -1786,11 +1810,13 @@ export function MapCanvas({
             parcels={parcels}
             taxSalePids={taxSalePids}
             showTaxSale={showTaxSale}
+            preserveInitialPosition={preserveInitialPosition}
           />
           <InitialHistoricalBoundsController
             parcels={parcels}
             historicalTaxSalePids={historicalTaxSalePids}
             showHistoricalTaxSales={showHistoricalTaxSales}
+            preserveInitialPosition={preserveInitialPosition}
           />
           <LayerZoomController
             provinceLayers={provinceLayers}
