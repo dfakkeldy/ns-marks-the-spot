@@ -1,6 +1,7 @@
 # Hugh Fletcher independent georeferencing results
 
 Run date: 2026-07-25
+Final 13-sheet completion: 2026-07-26
 
 ## Outcome
 
