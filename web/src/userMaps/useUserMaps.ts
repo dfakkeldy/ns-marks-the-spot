@@ -14,7 +14,13 @@ import { sniffFileType } from "./parsers/sniff";
 import { UserMapStore } from "./store/userMapStore";
 import { solveAffineFromGcps } from "./transform/affine";
 import { solveTps } from "./transform/tps";
-import type { Gcp, GcpGeoref, UserMapRecord, UserMapSource } from "./types";
+import type {
+  Gcp,
+  GcpGeoref,
+  GeoreferenceMethod,
+  UserMapRecord,
+  UserMapSource,
+} from "./types";
 import type { VisibleUserMap } from "./components/UserMapLayers";
 
 export const DEFAULT_OPACITY = 0.7;
@@ -102,6 +108,15 @@ export type UserMapsApi = {
   beginGeoreference: (id: string) => void;
   endGeoreference: () => void;
   saveGcps: (id: string, gcps: Gcp[]) => Promise<void>;
+  /**
+   * The other half of `saveGcps`: that one saves POINTS and preserves whatever
+   * method the record already had, this one saves the METHOD and preserves the
+   * points. Two setters rather than one, because the two are written by
+   * completely different clocks — points arrive from a 400 ms debounce on every
+   * pointer move of a drag, the method from a single deliberate click — and a
+   * combined setter would make the drag path re-send a method it never changed.
+   */
+  setGeorefMethod: (id: string, method: GeoreferenceMethod) => Promise<void>;
   needsGeoreferencing: (record: UserMapRecord) => boolean;
 };
 
@@ -497,6 +512,54 @@ export function useUserMaps(
     [store],
   );
 
+  const setGeorefMethod = useCallback(
+    async (id: string, method: GeoreferenceMethod) => {
+      // Same shape as `saveGcps`, and for the same measured reason: the record
+      // is built OUT HERE and handed to the updater already finished. React
+      // defers an updater whenever the owning fiber has queued work — which
+      // `App` always does — so anything computed inside one is not available
+      // on the next line, and the IndexedDB write below would silently never
+      // run while the in-memory list looked perfect.
+      const existing = recordsRef.current.find((record) => record.id === id);
+      // A GeoTIFF that carries its own georeferencing has no GCPs and no
+      // method to choose between; the panel never offers the toggle for one
+      // (its gate is a GCP count), and writing a `method` onto that georef
+      // would corrupt the stored shape rather than extend it.
+      if (!existing || existing.georef.kind !== "gcp") {
+        return;
+      }
+      if (existing.georef.method === method) {
+        // Record identity is load-bearing — UserMapLayers keys its
+        // layer-construction effect on the record OBJECT, and rebuilding one
+        // re-decodes its bitmap. A no-op click must therefore stay a no-op all
+        // the way down, not mint an equal-but-fresh record.
+        return;
+      }
+      const saved: UserMapRecord = {
+        ...existing,
+        // Spread, not a rebuilt literal: the points are the record's other
+        // half and belong to `saveGcps`. Reconstructing `georef` here is how a
+        // method switch would quietly drop them.
+        georef: { ...existing.georef, method },
+      };
+      setRecords((prev) =>
+        prev.map((record) => (record.id === id ? saved : record)),
+      );
+      try {
+        await (await store()).putUserMapRecord(saved);
+      } catch {
+        // Same contract as `saveGcps` and as import: a storage failure keeps
+        // the user's choice working for this session rather than snapping the
+        // control they just moved back to where it was.
+        setStorageError(
+          "Couldn't save this warp setting — it stays available until you " +
+            "close the tab.",
+        );
+      }
+    },
+    [store],
+  );
+
   const visibleMaps: VisibleUserMap[] = records
     .filter(
       (r) =>
@@ -552,6 +615,7 @@ export function useUserMaps(
     beginGeoreference,
     endGeoreference,
     saveGcps,
+    setGeorefMethod,
     needsGeoreferencing,
   };
 }

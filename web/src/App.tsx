@@ -856,6 +856,11 @@ export function App() {
     initialGcps:
       editingGeoref?.kind === "gcp" ? editingGeoref.gcps : NO_GCPS,
     pixelSize: editingMap?.record.pixelSize ?? IDLE_PIXEL_SIZE,
+    // The record picks the solver, and it is the SAME expression the panel's
+    // warp toggle reads for its checked state. Two derivations of "which warp
+    // is on" — one for the drape, one for the control — could disagree, and
+    // the user would have no way to tell which of the two was lying.
+    method: editingGeoref?.kind === "gcp" ? editingGeoref.method : undefined,
     // Recreated every render on purpose: the hook keeps it in a ref, so its
     // identity is free, and pinning it with useCallback would only add a
     // dependency list to get wrong.
@@ -3128,6 +3133,12 @@ export function App() {
           void userMapsApi.removeMap(id);
         }}
         onFocusGcpOnMap={focusGcpOnMap}
+        onMethodChange={(method) => {
+          // Floated like saveGcps above, and for the same reason:
+          // setGeorefMethod never rejects — a storage failure sets
+          // `storageError` and keeps the choice for the session.
+          void userMapsApi.setGeorefMethod(editingMap.record.id, method);
+        }}
         referenceLayers={{
           aerial: provinceLayers["ns-aerial"],
           parcels: provinceLayers.nsprd,

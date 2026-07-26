@@ -55,7 +55,9 @@ vi.mock("./ScanPane", () => ({
 import { GeoreferencePanel } from "./GeoreferencePanel";
 import { statusMessage } from "./georeferenceStatus";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
-import type { UserMapRecord } from "../types";
+import { BENT } from "../testFixtures";
+import { MIN_GCPS_FOR_TPS } from "../transform/tps";
+import type { GeoreferenceMethod, UserMapRecord } from "../types";
 
 const RECORD: UserMapRecord = {
   id: "m",
@@ -93,12 +95,18 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
   };
 }
 
+/** A record whose GCP georeference uses `method`, for the warp toggle tests. */
+function recordWithMethod(method: GeoreferenceMethod): UserMapRecord {
+  return { ...RECORD, georef: { kind: "gcp", method, gcps: [] } };
+}
+
 function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typeof GeoreferencePanel>[0]> = {}) {
   const onClose = vi.fn();
   const onDelete = vi.fn();
   const onOpacityChange = vi.fn();
   const onToggleReferenceLayer = vi.fn();
   const onFocusGcpOnMap = vi.fn();
+  const onMethodChange = vi.fn();
   const utils = render(
     <GeoreferencePanel
       record={RECORD}
@@ -109,6 +117,7 @@ function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typ
       onClose={onClose}
       onDelete={onDelete}
       onFocusGcpOnMap={onFocusGcpOnMap}
+      onMethodChange={onMethodChange}
       referenceLayers={{ aerial: false, parcels: true }}
       referenceLayersLocked={false}
       onToggleReferenceLayer={onToggleReferenceLayer}
@@ -122,6 +131,7 @@ function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typ
     onOpacityChange,
     onToggleReferenceLayer,
     onFocusGcpOnMap,
+    onMethodChange,
   };
 }
 
@@ -670,5 +680,93 @@ describe("GeoreferencePanel", () => {
     // window.confirm — the user reads a dialog that reappears as broken.
     expect(confirmSpy).toHaveBeenCalledTimes(2);
     confirmSpy.mockRestore();
+  });
+});
+
+describe("GeoreferencePanel warp toggle", () => {
+  const TPS_LABEL = "Curved warp (TPS)";
+
+  /** The first count at which a spline differs from the affine through the
+   * same points, written the way the component writes it. A literal 4 here
+   * would go on passing if the component's gate drifted to a different
+   * constant with the same current value. */
+  const GATE = MIN_GCPS_FOR_TPS + 1;
+
+  function warpToggle(): HTMLElement | null {
+    return screen.queryByRole("checkbox", { name: TPS_LABEL });
+  }
+
+  it("keeps the toggle out of the DOM below the gate, rather than disabling it", () => {
+    // Spec: "At 4+ points a TPS toggle appears." Below that it is ABSENT.
+    // A disabled-but-present control is a different promise — it advertises a
+    // warp the user cannot reach and gives no reason — and it is what an
+    // earlier draft of this panel would have shipped.
+    renderPanel(fakeSession({ gcps: [] }));
+    expect(warpToggle()).toBeNull();
+    // One below the gate, which is where an off-by-one lands.
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE - 1) }));
+    expect(warpToggle()).toBeNull();
+  });
+
+  it("offers the toggle from the gate upwards", () => {
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }));
+    const toggle = warpToggle();
+    expect(toggle).toBeInTheDocument();
+    // Present AND usable: the absent/disabled distinction above cuts both
+    // ways, so a toggle that appeared inert would fail the same spec line.
+    expect(toggle).toBeEnabled();
+  });
+
+  it("says in text what the curved warp does and does not overstate it", () => {
+    // Copy is the maintainer's call, proposed for review. It must NOT claim an
+    // accuracy improvement: the leave-one-out figure this panel displays is
+    // measured to OVERSTATE true warp error by 1.8x-3.7x, so any claim about
+    // error belongs in the accuracy line as an upper bound, not here.
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }));
+    expect(
+      screen.getByText(
+        "Passes exactly through every point. Better for hand-drawn maps " +
+          "that don't sit flat.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("takes its checked state from the record's own method, both ways", () => {
+    // The toggle's visual state and the state a screen reader announces are
+    // the SAME property of a native checkbox — there is no second, hidden
+    // carrier that could drift out of step with the tick, which is why this
+    // control needs no `.visually-hidden` label the way GcpList's suspect row
+    // does. What CAN drift is the checkbox and the record: a `checked` pinned
+    // to local state, or to a literal, would show "off" over a tps drape. So
+    // both members of the union are rendered and asserted.
+    const { unmount } = renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("affine"),
+    });
+    expect(warpToggle()).not.toBeChecked();
+    unmount();
+
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("tps"),
+    });
+    expect(warpToggle()).toBeChecked();
+  });
+
+  it("asks for the OTHER method, not for a fixed one", async () => {
+    // Both arms, because both "tps" and "affine" are valid members of
+    // GeoreferenceMethod: a handler wired to a constant — or to the value it
+    // already has — type-checks cleanly and would leave the toggle inert (or,
+    // inverted, switching the wrong way) with every other test here green.
+    const affine = renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("affine"),
+    });
+    await userEvent.click(screen.getByRole("checkbox", { name: TPS_LABEL }));
+    expect(affine.onMethodChange).toHaveBeenCalledWith("tps");
+    affine.unmount();
+
+    const tps = renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("tps"),
+    });
+    await userEvent.click(screen.getByRole("checkbox", { name: TPS_LABEL }));
+    expect(tps.onMethodChange).toHaveBeenCalledWith("affine");
   });
 });

@@ -612,6 +612,98 @@ describe("useUserMaps", () => {
     expect((persisted?.georef as GcpGeoref).method).toBe("affine");
   });
 
+  it("survives a remount: a method switched to tps comes back from IndexedDB", async () => {
+    // THE test for this setter. `setGeorefMethod` could flip session state and
+    // nothing else — the panel would look right for the rest of the session,
+    // an assertion against `result.current.records` would pass, and the choice
+    // would be gone the next time the map was opened. So the hook is unmounted
+    // and a FRESH one is mounted against the same database: `records` starts
+    // empty there and can only be repopulated by the initial load reading the
+    // row back.
+    const seeded = gcpRecord({
+      id: "switch-map",
+      georef: { kind: "gcp", gcps: BENT, method: "affine" },
+    });
+    const seedStore = await UserMapStore.open(factory);
+    await seedStore.saveUserMap(seeded, new Blob(["raster"]), new Blob(["p"]));
+
+    const first = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(first.result.current.records).toHaveLength(1));
+    await act(async () => {
+      await first.result.current.setGeorefMethod("switch-map", "tps");
+    });
+    expect(
+      (first.result.current.records[0].georef as GcpGeoref).method,
+    ).toBe("tps");
+    first.unmount();
+
+    const reopened = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(reopened.result.current.records).toHaveLength(1));
+    const restored = reopened.result.current.records[0].georef as GcpGeoref;
+    expect(restored.method).toBe("tps");
+    // The points are the record's other half and must survive the same write:
+    // a setter that replaced `georef` wholesale rather than amending it would
+    // hand the user back a tps map with nothing to warp.
+    expect(restored.gcps).toEqual(BENT);
+  });
+
+  it("switches a method back to affine and leaves every other record's identity untouched", async () => {
+    // The opposite direction, so a setter hardcoded to "tps" fails here rather
+    // than riding on the test above — and the identity guard UserMapLayers
+    // depends on, which is the reason `saveGcps` builds its record outside the
+    // updater and returns every other entry by reference.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png"), pngFile("b.png")]);
+    });
+    const [target, other] = result.current.records;
+    const otherBefore = other;
+    await act(async () => {
+      await result.current.setGeorefMethod(target.id, "tps");
+    });
+    await act(async () => {
+      await result.current.setGeorefMethod(target.id, "affine");
+    });
+    expect(
+      (result.current.records.find((r) => r.id === target.id)
+        ?.georef as GcpGeoref).method,
+    ).toBe("affine");
+    expect(result.current.records.find((r) => r.id === other.id)).toBe(
+      otherBefore,
+    );
+    const store = await UserMapStore.open(factory);
+    const persisted = (await store.listUserMaps()).find(
+      (r) => r.id === target.id,
+    );
+    expect((persisted?.georef as GcpGeoref).method).toBe("affine");
+  });
+
+  it("keeps the chosen method for the session when its metadata write fails", async () => {
+    const failingStore = {
+      listUserMaps: async () => [],
+      saveUserMap: async () => {},
+      putUserMapRecord: async () => {
+        throw new Error("quota");
+      },
+      getPreviewBlob: async () => null,
+      deleteUserMap: async () => {},
+      close: () => {},
+    } as unknown as UserMapStore;
+    const { result } = renderHook(() =>
+      useUserMaps(options({ openStore: async () => failingStore })),
+    );
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png")]);
+    });
+    await act(async () => {
+      await result.current.setGeorefMethod(result.current.records[0].id, "tps");
+    });
+    // Same contract as saveGcps: a storage failure keeps the choice usable for
+    // this session rather than silently reverting the control the user moved.
+    expect((result.current.records[0].georef as GcpGeoref).method).toBe("tps");
+    expect(result.current.storageError).toContain("close the tab");
+  });
+
   it("keeps points for the session when the metadata write fails", async () => {
     const failingStore = {
       listUserMaps: async () => [],

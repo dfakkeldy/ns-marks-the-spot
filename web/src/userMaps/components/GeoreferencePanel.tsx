@@ -1,11 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
-import type { Gcp, UserMapRecord } from "../types";
+import { MIN_GCPS_FOR_TPS } from "../transform/tps";
+import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 import { GcpList } from "./GcpList";
 import { statusMessage } from "./georeferenceStatus";
 import { ScanPane, type ScanFocusRequest } from "./ScanPane";
 
 export type ReferenceLayerId = "aerial" | "parcels";
+
+/**
+ * The control-point count from which the curved-warp toggle appears. Below it
+ * the toggle is ABSENT rather than disabled-and-present, per the spec: a
+ * disabled control advertises something the user cannot have and explains
+ * nothing about why.
+ *
+ * Derived from the solver's own floor rather than written as `4`, and exported
+ * so the Allmaps export control can gate on the SAME expression — an earlier
+ * plan draft had the two one point apart, which is the failure this constant
+ * exists to make impossible.
+ *
+ * `MIN_GCPS_FOR_TPS` is where a spline can be SOLVED; one more is where it
+ * starts to differ from the affine through the same points. With exactly three
+ * a thin-plate spline is that affine (the bending term has nothing to bend
+ * around), so a toggle there would be a control with no observable effect.
+ */
+export const MIN_GCPS_FOR_TPS_TOGGLE = MIN_GCPS_FOR_TPS + 1;
+
+/**
+ * Copy is the maintainer's call, proposed for review.
+ *
+ * Deliberately says nothing about accuracy. The panel's own accuracy figure
+ * under a TPS is leave-one-out, which is measured to OVERSTATE true warp error
+ * by 1.8x (n=12) to 3.7x (n=4) and is never optimistic — a conservative upper
+ * bound, not the error — so any claim in that register belongs on that line,
+ * worded as a bound, and not here.
+ */
+const TPS_LABEL = "Curved warp (TPS)";
+const TPS_HELPER =
+  "Passes exactly through every point. Better for hand-drawn maps that " +
+  "don't sit flat.";
 /** Module-private: only this file's own prop type refers to it. App.tsx
  * imports `ReferenceLayerId` and builds the record inline. */
 type ReferenceLayerState = Record<ReferenceLayerId, boolean>;
@@ -72,6 +105,7 @@ export function GeoreferencePanel({
   onClose,
   onDelete,
   onFocusGcpOnMap,
+  onMethodChange,
   referenceLayers,
   referenceLayersLocked = false,
   onToggleReferenceLayer,
@@ -86,6 +120,13 @@ export function GeoreferencePanel({
   onDelete: () => void;
   /** The panel moves its own scan pane; only App can move the live map. */
   onFocusGcpOnMap: (gcp: Gcp) => void;
+  /**
+   * Persists the chosen solver on the RECORD. Required, not optional: this
+   * panel is the only place the method can be chosen, and an optional prop
+   * would let App mount a toggle whose clicks go nowhere without `tsc -b`
+   * noticing.
+   */
+  onMethodChange: (method: GeoreferenceMethod) => void;
   referenceLayers: ReferenceLayerState;
   referenceLayersLocked?: boolean;
   onToggleReferenceLayer: (id: ReferenceLayerId, enabled: boolean) => void;
@@ -158,6 +199,30 @@ export function GeoreferencePanel({
   }
 
   const status = statusMessage(session.status);
+  /**
+   * The RECORD is the single source of truth for which solver is in play, and
+   * that is the whole reason there is no `useState` here. App reads the same
+   * `record.georef.method` to pick the session's solver, so the tick the user
+   * sees and the warp they are looking at cannot disagree: a local mirror
+   * could tick "on" while the drape stayed an affine, and nothing on screen
+   * would say which one was lying.
+   *
+   * A record carrying its own embedded georeferencing has no GCPs and no
+   * method to choose; it falls back to the same "affine" default
+   * `EMPTY_GCP_GEOREF` and `saveGcps` use, and the gate below hides the
+   * control for it outright.
+   *
+   * The `kind` test is repeated rather than hoisted into a boolean: TypeScript
+   * narrows a discriminated union through an aliased condition only for a
+   * discriminant on the const itself, not through a nested property path like
+   * `record.georef.kind`, so a hoisted flag leaves `record.georef.method` a
+   * TS2339 error.
+   */
+  const method: GeoreferenceMethod =
+    record.georef.kind === "gcp" ? record.georef.method : "affine";
+  const showWarpToggle =
+    record.georef.kind === "gcp" &&
+    session.gcps.length >= MIN_GCPS_FOR_TPS_TOGGLE;
 
   return (
     // The overlay is a fixed, full-viewport FRAME, not a modal: it carries
@@ -247,6 +312,35 @@ export function GeoreferencePanel({
                 }
               />
             </label>
+
+            {/* A native checkbox, not a `role="switch"` or a radio pair, for
+                two reasons. The state a sighted user reads off the tick and
+                the state a screen reader announces are the SAME property of
+                the same element, so — unlike GcpList's suspect row, whose
+                border-and-bold needed a `.visually-hidden` twin — there is no
+                second carrier here that could drift out of step with the
+                first. And the panel already spells "an option you turn on"
+                exactly this way, in the reference-layers fieldset below.
+
+                `event.target.checked` rather than `method === "affine"`: the
+                value sent comes from the very DOM state `checked` above set,
+                so the control cannot ask for the method it is already on. */}
+            {showWarpToggle ? (
+              <fieldset className="georeference-method">
+                <legend>Warp</legend>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={method === "tps"}
+                    onChange={(event) =>
+                      onMethodChange(event.target.checked ? "tps" : "affine")
+                    }
+                  />
+                  {TPS_LABEL}
+                </label>
+                <small>{TPS_HELPER}</small>
+              </fieldset>
+            ) : null}
 
             <fieldset
               className="georeference-references"

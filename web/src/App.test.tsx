@@ -2969,6 +2969,54 @@ describe("georeferencer", () => {
     },
   };
 
+  /**
+   * A tps record with FOUR points, two of them double-clicked onto the same
+   * scan pixel. Deliberately a set the two solvers disagree about: an affine
+   * least-squares fit averages the duplicate away and solves, while `solveTps`
+   * refuses it as `coincident-points`. So the panel's status line is a direct
+   * readout of WHICH solver App handed the session — "Two points are on the
+   * same spot" can only appear when the record's `method` actually reached
+   * `useGeoreferenceSession`, and an App that forgot to pass it shows a solved
+   * RMS instead. Four points also puts it at the warp toggle's gate.
+   *
+   * Deliberately REUSES `SCAN`'s id and name. The suite shares one
+   * fake-indexeddb across tests and every test re-seeds what it needs, so a
+   * fixture with a new id would leak forward as an extra row — and this one
+   * needs georeferencing, which would give the three later tests that query
+   * `/^Georeference /` two matching buttons instead of one. Seeding over
+   * `scan-1` keeps that count at one whichever version of the row is current.
+   */
+  const TPS_COINCIDENT: UserMapRecord = {
+    ...SCAN,
+    georef: {
+      kind: "gcp",
+      method: "tps",
+      gcps: [
+        { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+        { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+        { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+        { id: "d", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+      ],
+    },
+  };
+
+  /** Placed with FOUR well-spread points — one past the warp toggle's gate. */
+  const PLACED_FOUR: UserMapRecord = {
+    ...PLACED,
+    id: "placed-4",
+    name: "Four-point scan",
+    georef: {
+      kind: "gcp",
+      method: "affine",
+      gcps: [
+        { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+        { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+        { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+        { id: "d", pixel: { x: 1200, y: 800 }, map: { lat: 46.0, lng: -61.0 } },
+      ],
+    },
+  };
+
   /** A second placed map, somewhere else entirely — for the focus-leak test. */
   const PLACED_B: UserMapRecord = {
     ...PLACED,
@@ -3045,6 +3093,57 @@ describe("georeferencer", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "saved user map layers: 1",
     );
+  });
+
+  it("solves the live session with the record's own method, and shows it on the toggle", async () => {
+    // The wiring the toggle is worthless without. Everything Tasks 1-7b built
+    // is reached through ONE expression — the `method` App hands
+    // `useGeoreferenceSession` — and nothing else in this suite would notice
+    // its absence: the toggle would still persist, the panel would still show
+    // it checked, and the drape would go on being an affine.
+    await seedScan(TPS_COINCIDENT);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", {
+        name: "Georeference Church of Inverness 1888",
+      }),
+    );
+    // Reads the record, not local state: a checkbox seeded to `false` would
+    // tell a user who chose the curved warp last session that they hadn't.
+    expect(
+      screen.getByRole("checkbox", { name: "Curved warp (TPS)" }),
+    ).toBeChecked();
+    // …and the SPLINE is what refused these points. An affine solves them.
+    expect(
+      screen.getAllByText("Two points are on the same spot — move or delete one."
+      ).length,
+    ).toBeGreaterThan(0);
+  });
+
+  it("persists a warp switch made in the panel, all the way to IndexedDB", async () => {
+    // Three points would be below the gate, so this fixture carries four.
+    await seedScan(PLACED_FOUR);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Four-point scan" }),
+    );
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Curved warp (TPS)",
+    });
+    expect(toggle).not.toBeChecked();
+    await userEvent.click(toggle);
+    // The checkbox follows the RECORD, so it can only tick once App's setter
+    // has round-tripped through `records`.
+    await waitFor(() => expect(toggle).toBeChecked());
+
+    // The database, not the component: this is the half a session-local
+    // toggle would fake perfectly.
+    await waitFor(async () => {
+      const persisted = (await (await UserMapStore.open()).listUserMaps()).find(
+        (r) => r.id === PLACED_FOUR.id,
+      );
+      expect((persisted?.georef as { method: string }).method).toBe("tps");
+    });
   });
 
   it("takes the map under edit out of the saved layers", async () => {
