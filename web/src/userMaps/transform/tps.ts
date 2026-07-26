@@ -13,6 +13,31 @@ import { toMercator, type MercatorPoint } from "./webMercator";
 export const MIN_GCPS_FOR_TPS = 3;
 
 /**
+ * The fewest control points at which a spline actually BENDS — one more than
+ * it needs to solve.
+ *
+ * At exactly `MIN_GCPS_FOR_TPS` the side conditions force every bending weight
+ * to zero, so the surface is the affine through those three points, not merely
+ * close to it. Measured on the drapes themselves: worst separation between the
+ * TPS and affine lattices at n = 3 is **1.317e-9 m**, about 1.4 ULP of a
+ * Mercator coordinate.
+ *
+ * Two callers, and they are the same claim seen from opposite ends:
+ *
+ *  - **The UI gate.** Below this count the warp toggle is absent (spec), since
+ *    a control whose two positions produce identical output is not a choice.
+ *    The Allmaps export control gates on this too — an earlier plan draft had
+ *    the two one point apart, which is what this shared constant prevents.
+ *  - **The mesh fallback.** Below this count BOTH mesh builders draw the affine
+ *    lattice for a `tps` record. The output is pixel-identical by the
+ *    measurement above, and the cost is not: `TPS_GRID_SIZE` is 64, so a
+ *    3-point `tps` record otherwise pays 2 * 64^2 = 8192 clipped full-image
+ *    `drawImage` calls per redraw, on every pan and zoom, in place of 2 — and
+ *    with the toggle hidden, the user has no way to turn it off.
+ */
+export const MIN_GCPS_FOR_BENDING_TPS = MIN_GCPS_FOR_TPS + 1;
+
+/**
  * Two control points closer than this in SCAN pixels are treated as the same
  * point. The kernel `U(r) = r^2 log r` is 0 at r = 0, so a duplicated point
  * makes two rows of the interpolation matrix identical and the system exactly

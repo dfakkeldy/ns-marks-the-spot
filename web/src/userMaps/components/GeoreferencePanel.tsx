@@ -1,30 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
-import { MIN_GCPS_FOR_TPS } from "../transform/tps";
+import { MIN_GCPS_FOR_BENDING_TPS } from "../transform/tps";
 import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 import { GcpList } from "./GcpList";
 import { statusMessage } from "./georeferenceStatus";
 import { ScanPane, type ScanFocusRequest } from "./ScanPane";
 
 export type ReferenceLayerId = "aerial" | "parcels";
-
-/**
- * The control-point count from which the curved-warp toggle appears. Below it
- * the toggle is ABSENT rather than disabled-and-present, per the spec: a
- * disabled control advertises something the user cannot have and explains
- * nothing about why.
- *
- * Derived from the solver's own floor rather than written as `4`, and exported
- * so the Allmaps export control can gate on the SAME expression — an earlier
- * plan draft had the two one point apart, which is the failure this constant
- * exists to make impossible.
- *
- * `MIN_GCPS_FOR_TPS` is where a spline can be SOLVED; one more is where it
- * starts to differ from the affine through the same points. With exactly three
- * a thin-plate spline is that affine (the bending term has nothing to bend
- * around), so a toggle there would be a control with no observable effect.
- */
-export const MIN_GCPS_FOR_TPS_TOGGLE = MIN_GCPS_FOR_TPS + 1;
 
 /**
  * Copy is the maintainer's call, proposed for review.
@@ -220,9 +202,18 @@ export function GeoreferencePanel({
    */
   const method: GeoreferenceMethod =
     record.georef.kind === "gcp" ? record.georef.method : "affine";
+  //
+  // The gate is `MIN_GCPS_FOR_BENDING_TPS`, shared with the two mesh builders
+  // rather than spelled out here: below it the toggle's two positions produce
+  // an identical drape (measured 1.317e-9 m apart), so the control would be a
+  // choice with no consequence. Below it is ABSENT rather than
+  // disabled-and-present, per the spec — a disabled control advertises
+  // something the user cannot have and explains nothing about why. Task 10's
+  // Allmaps export control gates on this same constant; an earlier plan draft
+  // had the two one point apart.
   const showWarpToggle =
     record.georef.kind === "gcp" &&
-    session.gcps.length >= MIN_GCPS_FOR_TPS_TOGGLE;
+    session.gcps.length >= MIN_GCPS_FOR_BENDING_TPS;
 
   return (
     // The overlay is a fixed, full-viewport FRAME, not a modal: it carries

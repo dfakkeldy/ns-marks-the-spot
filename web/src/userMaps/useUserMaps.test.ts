@@ -701,6 +701,12 @@ describe("useUserMaps", () => {
     // Same contract as saveGcps: a storage failure keeps the choice usable for
     // this session rather than silently reverting the control the user moved.
     expect((result.current.records[0].georef as GcpGeoref).method).toBe("tps");
+    // Asserted on the phrase that names THIS failure, not on the tail every
+    // storage message in this module shares: three different messages end in
+    // "close the tab", so `toContain("close the tab")` is satisfied by
+    // saveGcps' "Couldn't save these points — …" — which would tell a user who
+    // flipped the warp toggle that their POINTS failed to save.
+    expect(result.current.storageError).toContain("warp setting");
     expect(result.current.storageError).toContain("close the tab");
   });
 

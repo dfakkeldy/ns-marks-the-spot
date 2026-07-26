@@ -214,6 +214,24 @@ describe("solve method", () => {
     expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
   });
 
+  it("drops a 3-point tps session back to the AFFINE lattice", () => {
+    // The session's own copy of the floor `meshForRecord` applies (Task 3 made
+    // these two separate sites, and a fallback in only one of them would let
+    // the panel go coarse while every saved layer kept paying). At three
+    // points the spline's bending weights are exactly zero, so the drapes are
+    // identical — measured 1.317e-9 m apart — while 64x64 costs 8192 clipped
+    // full-image draws per redraw against the affine's 2.
+    const three = setup(BENT.slice(0, 3), { method: "tps" });
+    expect(three.result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
+    // Same drape, not merely the same shape: a fallback that changed where the
+    // map lands would be a silent georeferencing change, not a cost saving.
+    const asAffine = setup(BENT.slice(0, 3), { method: "affine" });
+    expect(three.result.current.mesh).toEqual(asAffine.result.current.mesh);
+    // A floor, not a disabling: one more point is back on the spline.
+    const four = setup(BENT.slice(0, 4), { method: "tps" });
+    expect(four.result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
   it("actually uses the SPLINE, not an affine fit lattice-d at 64", () => {
     // Compare the two solvers AT THE SAME PIXEL. An earlier draft compared the
     // mesh midpoint against affine evaluated at (1000, 900) while the harness
@@ -325,7 +343,16 @@ describe("method-aware accuracy report", () => {
       kind: "solved",
       rmsMetres: loo.rmsMetres,
       count: BENT.length,
+      // The status carries WHICH fit produced that number, because the two
+      // paths need different sentences: leave-one-out overstates true warp
+      // error by 1.77x-3.71x and is never optimistic, so it is an upper bound
+      // and must not be labelled "RMS". Re-deriving `method` at the render site
+      // is what would let the label and the number come from different fits.
+      method: "tps",
     });
+    expect(statusMessage(result.current.status)).toBe(
+      `No worse than ${Math.round(loo.rmsMetres)} m across ${BENT.length} points`,
+    );
   });
 
   it("leaves an AFFINE session on the affine fit residual, unchanged", () => {
@@ -336,6 +363,12 @@ describe("method-aware accuracy report", () => {
     // The other half of the same claim: an unconditional switch to
     // leave-one-out would pass every assertion above except this one.
     expect(result.current.report!.rmsMetres).not.toBeCloseTo(LOO_RMS, 2);
+    // …and the affine sentence is unchanged. `rmsMetres` here IS a fit
+    // residual, so "no worse than" would be the wrong word on this path — the
+    // bound framing belongs only where the number is leave-one-out.
+    expect(statusMessage(result.current.status)).toBe(
+      `RMS ${Math.round(AFFINE_RMS)} m across ${BENT.length} points`,
+    );
   });
 
   it("tells a 51-point TPS session the truth instead of asking for a 4th point", () => {

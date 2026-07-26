@@ -55,6 +55,27 @@ export function statusMessage(status: GeoreferenceStatus): string {
         "line. Spread them out; the map still draws."
       );
     case "solved":
-      return `RMS ${Math.round(status.rmsMetres)} m across ${status.count} points`;
+      // Copy is the maintainer's call, proposed and accepted in Task 8's
+      // review. Two sentences because the number is two different quantities.
+      //
+      // Affine: `rmsMetres` is the plain fit residual at the control points —
+      // an estimate of how well the transform reproduces the points it was fit
+      // to, and "RMS" is its name.
+      //
+      // TPS: a spline passes through its control points exactly, so there is no
+      // fit residual; the figure is leave-one-out, measured to overstate true
+      // warp error by 1.77x (n = 12) to 3.71x (n = 4) with a 10th percentile of
+      // at least 1.09 — it is never optimistic. That makes it a conservative
+      // UPPER BOUND, and "no worse than" is the only honest framing: measured
+      // case, 4 points with ~65 m of true warp error printed "RMS 240 m", which
+      // a user reads as a georeference to throw away.
+      //
+      // `status.method` rather than a second argument, so the sentence and the
+      // number can only ever come from the same fit.
+      return status.method === "tps"
+        ? `No worse than ${Math.round(status.rmsMetres)} m across ${
+            status.count
+          } points`
+        : `RMS ${Math.round(status.rmsMetres)} m across ${status.count} points`;
   }
 }

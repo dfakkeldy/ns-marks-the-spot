@@ -218,10 +218,41 @@ describe("statusMessage", () => {
     expect(new Set(messages).size, JSON.stringify(messages)).toBe(5);
   });
 
-  it("reports RMS with the point count", () => {
-    expect(statusMessage({ kind: "solved", rmsMetres: 42.4, count: 5 })).toBe(
-      "RMS 42 m across 5 points",
-    );
+  it("reports RMS with the point count on the AFFINE path", () => {
+    expect(
+      statusMessage({
+        kind: "solved",
+        rmsMetres: 42.4,
+        count: 5,
+        method: "affine",
+      }),
+    ).toBe("RMS 42 m across 5 points");
+  });
+
+  it("frames the TPS figure as an upper bound, because that is what it is", () => {
+    // A spline passes through its control points exactly, so there is no fit
+    // residual to call RMS; the number is leave-one-out, measured to overstate
+    // true warp error by 1.77x (n = 12) to 3.71x (n = 4) and never to
+    // understate it. Measured case: 4 points with ~65 m of true warp error
+    // printed "RMS 240 m", which a user reads as a georeference to discard.
+    expect(
+      statusMessage({
+        kind: "solved",
+        rmsMetres: 240.3,
+        count: 4,
+        method: "tps",
+      }),
+    ).toBe("No worse than 240 m across 4 points");
+    // The word that made the old sentence wrong must be gone, not merely
+    // prefixed: "RMS no worse than …" would pass a substring check.
+    expect(
+      statusMessage({
+        kind: "solved",
+        rmsMetres: 240.3,
+        count: 4,
+        method: "tps",
+      }),
+    ).not.toContain("RMS");
   });
 
   it("prompts for the other half of a pending pair", () => {
@@ -687,9 +718,12 @@ describe("GeoreferencePanel warp toggle", () => {
   const TPS_LABEL = "Curved warp (TPS)";
 
   /** The first count at which a spline differs from the affine through the
-   * same points, written the way the component writes it. A literal 4 here
-   * would go on passing if the component's gate drifted to a different
-   * constant with the same current value. */
+   * same points. Written as `MIN_GCPS_FOR_TPS + 1` rather than imported as
+   * `MIN_GCPS_FOR_BENDING_TPS`, deliberately: the component gates on the
+   * latter, so re-deriving it here keeps this an independent statement of what
+   * the gate should be instead of an identity that holds however the constant
+   * drifts. A literal 4 would be independent too, but would stop tracking the
+   * solver's floor. */
   const GATE = MIN_GCPS_FOR_TPS + 1;
 
   function warpToggle(): HTMLElement | null {

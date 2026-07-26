@@ -1,7 +1,7 @@
 import { solveAffineFromGcps } from "./transform/affine";
 import { buildGcpLatLngMesh, buildTpsLatLngMesh } from "./transform/gcpMesh";
 import { buildLatLngMesh, type LatLngPoint } from "./transform/projection";
-import { solveTps } from "./transform/tps";
+import { MIN_GCPS_FOR_BENDING_TPS, solveTps } from "./transform/tps";
 import type { UserMapRecord } from "./types";
 
 /**
@@ -26,7 +26,25 @@ export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
   if (record.georef.kind === "embedded") {
     return buildLatLngMesh(record.georef, record.pixelSize);
   }
-  if (record.georef.method === "tps") {
+  if (
+    record.georef.method === "tps" &&
+    // Below this the spline IS the affine through the same points — measured
+    // at 1.317e-9 m worst separation — so the dense lattice buys nothing and
+    // costs 8192 clipped full-image draws per redraw in place of 2. A record
+    // reaches that state by having a point deleted after the warp was chosen,
+    // at which point the toggle is below its gate and the user cannot switch
+    // back. See MIN_GCPS_FOR_BENDING_TPS.
+    //
+    // This does NOT make the fallback path draw something `needsGeoreferencing`
+    // calls undrawable. At n = 3 the two solvers agree exactly: `solveTps`'s
+    // extra refusals are coincidence (which collapses a 3-point cloud onto a
+    // line, so `solveAffine`'s conditioning gate refuses it too) and a singular
+    // interpolation system (which at n = 3 reduces to the affine system the
+    // destination gate already ran). Were that ever to drift, it drifts safe:
+    // the predicate would badge the record, `visibleMaps` would exclude it, and
+    // nothing would be drawn — never a mesh the predicate called impossible.
+    record.georef.gcps.length >= MIN_GCPS_FOR_BENDING_TPS
+  ) {
     // Same ORIGINAL-pixel argument as the affine branch below, and the same
     // reason the lattice is dense: a spline is not affine anywhere, so unlike
     // AFFINE_GRID_SIZE = 1 a single cell cannot represent it.

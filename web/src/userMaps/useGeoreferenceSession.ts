@@ -24,7 +24,7 @@ import {
   type ResidualReport,
   type TpsResidualRefusal,
 } from "./transform/residuals";
-import { solveTps } from "./transform/tps";
+import { MIN_GCPS_FOR_BENDING_TPS, solveTps } from "./transform/tps";
 import type { Gcp, GeoreferenceMethod } from "./types";
 
 export const UNDO_HISTORY_LIMIT = 50;
@@ -78,7 +78,28 @@ export type GeoreferenceStatus =
    * contradicted by what they are looking at.
    */
   | { kind: "refit-refused" }
-  | { kind: "solved"; rmsMetres: number; count: number };
+  /**
+   * `method` is part of the STATE, not re-derived by whoever renders it,
+   * because the number means two different things on the two paths and only
+   * the producer knows which. Under an affine `rmsMetres` is the fit residual;
+   * under a TPS it is leave-one-out, which is measured to overstate true warp
+   * error by 1.77x (n=12) to 3.71x (n=4) and to be never optimistic — a
+   * conservative UPPER BOUND. Printing it as "RMS" was wrong twice over: it
+   * names a fit residual a spline does not have, and it frames a bound as an
+   * estimate. Measured case: 4 control points with a true warp error near 65 m
+   * displayed "RMS 240 m", which reads as an unusable georeference.
+   *
+   * Carried here rather than passed alongside to `statusMessage(status, method)`
+   * for the reason the rest of this feature follows: two derivations of the
+   * same fact can disagree, and a caller holding the wrong one would label the
+   * bound as a residual with nothing to catch it.
+   */
+  | {
+      kind: "solved";
+      rmsMetres: number;
+      count: number;
+      method: GeoreferenceMethod;
+    };
 
 export type GeoreferenceSession = {
   gcps: Gcp[];
@@ -537,8 +558,16 @@ export function useGeoreferenceSession(options: {
   // while dragging. The affine path deliberately does NOT switch tiers: one
   // cell is already exact, so a coarse "drag tier" there would cost 512 draws
   // in place of 2 and buy precisely nothing.
+  //
+  // And below MIN_GCPS_FOR_BENDING_TPS a `tps` session takes the AFFINE
+  // lattice, because at three points the spline's bending weights are exactly
+  // zero and the two drapes agree to 1.317e-9 m — so the only thing 64x64 buys
+  // there is 8 192 draws in place of 2. The same fallback lives in
+  // `meshForRecord`; Task 3 established these as two separate sites, and a
+  // session-only version would coarsen the panel while every saved layer went
+  // on paying.
   const mesh = useMemo(() => {
-    if (method === "tps") {
+    if (method === "tps" && gcps.length >= MIN_GCPS_FOR_BENDING_TPS) {
       return tps?.ok
         ? buildTpsLatLngMesh(
             tps.params,
@@ -548,7 +577,7 @@ export function useGeoreferenceSession(options: {
         : null;
     }
     return params ? buildGcpLatLngMesh(params, pixelSize) : null;
-  }, [dragging, method, params, pixelSize, tps]);
+  }, [dragging, gcps.length, method, params, pixelSize, tps]);
   /**
    * Method-aware, because the two fits have completely different residual
    * signals and only one of them is ever non-zero.
@@ -650,6 +679,9 @@ export function useGeoreferenceSession(options: {
       kind: "solved",
       rmsMetres: report.rmsMetres,
       count: gcps.length,
+      // Straight from the same `method` that chose `report` five lines up, so
+      // the label and the number cannot come from different fits.
+      method,
     };
   }, [gcps.length, method, params, pending, report, tps, tpsReport]);
 
