@@ -21,6 +21,7 @@ DOC_ONLY_PREFIXES = ("docs/", "marketing/")
 DOC_ONLY_FILES = frozenset(
     {
         ".gitignore",
+        "AGENTS.md",
         "CLAUDE.md",
         "LICENSE",
         "README.md",
