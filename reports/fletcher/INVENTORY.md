@@ -80,3 +80,27 @@ Catalog query:
 - No downloadable control-point set, warp, or independent licence statement
   was recovered. The old pyramids remain useful only as untrusted visual
   cross-checks; they are not inputs to the accuracy score.
+
+## Sheet 24 modern-feature pilot
+
+- Method `modern-feature-v1` stopped before fitting with disposition
+  `source-drift`: `manifest.sheets.24.list_number` was not a non-empty string
+  in `/var/home/dan/nsmarks-fletcher-20260725/manifest.json`.
+- The immutable observation is
+  `tools/fletcher/physical_observations/sheet-24.json`, SHA-256
+  `6e44be00b36188612fe0c2d3ad0dae7a88839c3ebbca6ce0032952505b849b28`.
+  The terminal committed result is
+  `tools/fletcher/physical_results/sheet-24-modern-v1.json`; its compute
+  counterpart is
+  `/var/home/dan/nsmarks-fletcher-20260725/georef/sheet-24-modern-v1/result.json`.
+- The expected direct-Rumsey receipt is record
+  `RUMSEY~8~1~2649~290017`, list number `3997.026`, source SHA-256
+  `735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8`,
+  and dimensions 10,782 × 7,655 pixels.
+- Source verification stopped at manifest validation on
+  `2026-07-25T21:34:25Z`. The raster bytes were not re-hashed and its dimensions
+  were not re-read. No official modern-service queries ran, so there are no
+  modern transport or natural-feature source dates or hashes to report.
+- Controls, checks and rejected candidates are all zero. Candidate selection,
+  transport, structural, natural, visual, raster and deliverable-tile stages
+  are all `not-run`; no review file or deliverable tile path was produced.

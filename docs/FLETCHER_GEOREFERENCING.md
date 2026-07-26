@@ -1,18 +1,28 @@
 # Hugh Fletcher direct-Rumsey georeferencing
 
-This document describes the replacement workflow for Hugh Fletcher map sheets.
-It uses the individual high-resolution scans served by the David Rumsey Map
-Collection and evaluates each sheet independently. It does not use the legacy
-OldMapsOnline-derived tile pyramid, OldMapsOnline control points or warps, or
-either Fletcher composite as a georeferencing input.
+This runbook keeps two independently reported result families.
+
+- **Engraved-grid** uses the map's own labelled graticule and retains the
+  existing graticule table and its meanings.
+- **`modern-feature-v1`** is a separately versioned Sheet 24 pilot for a sheet
+  whose engraved grid cannot support the first workflow.
+
+Sheet 24's engraved-grid receipt remains unchanged:
+
+```text
+FAIL: automatic graticule detection found no reviewable regular sequence
+```
+
+The modern-feature workflow neither overwrites nor reinterprets that failure.
+A modern PASS is a distinct alignment result, not an automatic-graticule PASS.
 
 ## Evidence and rights boundary
 
-For each sheet, record the individual Rumsey identifier, list number, title,
-publication year, expected pixel dimensions, source path, and SHA-256 in the
-compute manifest. Verify the cached file against those fields before processing
-it. A mismatch is source drift and must stop the run; do not silently replace
-the baseline.
+Use only individual high-resolution scans served by the David Rumsey Map
+Collection. Record the Rumsey identifier, list number, title, publication year,
+expected dimensions, source path, and SHA-256 in the compute manifest. Verify
+the cached source against the receipt before processing; a mismatch is
+`source-drift` and stops the run rather than silently changing the baseline.
 
 On 2026-07-25, Cartography Associates replied to the request titled
 “Permission to georeference Hugh Fletcher maps for a free Nova Scotia web map”:
@@ -23,183 +33,199 @@ On 2026-07-25, Cartography Associates replied to the request titled
 The reply linked the David Rumsey Map Collection
 [Copyright and Permissions](https://www.davidrumsey.com/about/copyright-and-permissions)
 page. This is written permission for the direct-Rumsey georeferencing use
-described for the free Nova Scotia web map. The resulting use must retain:
+described for the free Nova Scotia web map. The use retains:
 
 - “David Rumsey Map Collection, David Rumsey Map Center, Stanford University
   Libraries”;
-- the linked CC BY-NC-SA 3.0 terms;
-- non-commercial use, attribution, identification of georeferencing and other
-  changes, and ShareAlike treatment where applicable.
+- linked [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
+  terms;
+- non-commercial use, attribution, identification of this project's
+  georeferencing and other changes, and ShareAlike treatment where applicable.
 
-The repository MIT licence covers software, not the map imagery. The permission
-does not clear OldMapsOnline-derived tiles, warps, or control points; unrelated
-paid uses; standalone facsimile sales; materially different future
-distribution; or native offline bundling unless that use is separately
-supported by the original request and written response.
+The repository MIT licence covers software, not map imagery. This permission
+does not clear OldMapsOnline-derived tiles, warps, control points, endpoints,
+keys, metadata, inferred bounds, or the legacy Fletcher pyramid; unrelated paid
+uses; standalone facsimile sales; materially different future distribution; or
+native offline bundling unless separately supported by the original request and
+written response. Never use OldMapsOnline to fill a direct-Rumsey gap.
 
-## Compute environment
+## Immutable compute boundary
 
-Large source and generated artifacts live outside the repository:
+Large inputs and generated artifacts live outside Git at
+`/var/home/dan/nsmarks-fletcher-20260725`. On Bazzite, run GDAL, OpenCV, and
+other GIS tools only inside the existing `nsmarks-gis` distrobox. The Bazzite
+host is immutable: do not layer GIS packages onto it with `rpm-ostree`.
 
-```text
-/var/home/dan/nsmarks-fletcher-20260725
-```
+The root contains the atomic `manifest.json` ledger, direct scans in `work/`,
+transforms/rasters in `georef/`, review evidence in `qa/`, tiles in `tiles/`,
+and logs in `logs/`. Commit only small observations, generated GCP CSVs,
+checksums, tooling, tests, reports, and result ledgers. Do not commit scans,
+GeoTIFFs, QA images, tiles, raw NSPRD geometry, or other restricted artifacts.
 
-On Bazzite, run GDAL, OpenCV, and other GIS tools inside the existing
-`nsmarks-gis` distrobox. Do not layer GIS packages onto the immutable host with
-`rpm-ostree`.
+## Engraved-grid workflow
 
-The compute root keeps:
-
-- `manifest.json` as the atomic per-sheet run ledger;
-- `work/` for direct Rumsey scans and prepared inputs;
-- `georef/` for transforms, VRTs, and GeoTIFFs;
-- `qa/` for contact sheets, label crops, previews, and diagnostics;
-- `tiles/` for generated XYZ PNG tiles;
-- `logs/` for command output.
-
-These large artifacts are not committed. Small reviewed observations, generated
-GCP CSVs, tests, report tooling, checksums, and reports are committed.
-
-## 1. Verify or fetch one direct source
-
-Compare the cached scan’s Rumsey identifier, dimensions, and SHA-256 with
-`manifest.json`. Fetch only when the direct scan is genuinely absent:
+Run the existing detector and retain its output or failure log:
 
 ```bash
-python3 -m tools.fletcher.fetch \
-  '<RUMSEY_ID>' \
-  sheet-XX \
-  --output /var/home/dan/nsmarks-fletcher-20260725/work
-```
-
-The downloader is courteous and resumable. Preserve its request delays, cache,
-retry behavior, and recorded SHA-256. Do not fall back to OldMapsOnline,
-neighbouring sheets, or the composites.
-
-## 2. Retain automatic detection evidence
-
-Run the existing detector first and keep its raw output or failure log:
-
-```bash
-python3 -m tools.fletcher.detect_lattice \
-  <direct-rumsey-source> \
+python3 -m tools.fletcher.detect_lattice <direct-rumsey-source> \
   --out /var/home/dan/nsmarks-fletcher-20260725/qa/sheet-XX/lattice-auto.json
 ```
 
-Automatic candidates are evidence to review, not coordinates to accept
-blindly. Inspect the full-resolution scan and distinguish engraved graticule
-rules from folds, linen seams, neatlines, borders, lithological hatching,
-survey or county boundaries, text strokes, and decorative rules.
+Candidates are evidence to review, not coordinates to accept blindly. Use
+independently readable engraved labels and intersections; reject folds, seams,
+neatlines, borders, hatching, boundaries, text strokes, and decorative rules
+when they are not labelled graticule rules. Keep slanted, curved, or damaged
+rules as individually measured intersections rather than flattening them into a
+fixed-axis model.
 
-If the sheet does not contain enough independently readable labelled
-coordinates, record a precise failure and stop. Modern towns, guessed
-shorelines, a neighbouring sheet, an old warp, and a composite are not
-substitutes for the sheet’s own coordinate evidence.
+Freeze disjoint controls and checks before residuals are viewed. The existing
+graticule gate requires at least six controls, two checks, RMS <= 400 m,
+P95 <= 900 m, and maximum <= 1,500 m. It compares affine, polynomial2, and TPS
+using the same held-out set that it reports for the selected transform. This is
+a retained methodological limitation: that metric is not a second untouched
+model-selection estimate.
 
-## 3. Record a frozen reviewed observation
+## Sheet 24 modern-feature-v1
 
-The observation must use coordinate values read from the sheet’s own engraved
-labels and include:
+This pilot is only direct Rumsey Sheet 24 (`RUMSEY~8~1~2649~290017`, list
+`3997.026`, 10,782 x 7,655 pixels, SHA-256
+`735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8`). It
+does not use a composite, old warp, or another sheet.
 
-- at least six control intersections;
-- at least two held-out check intersections;
-- control and check sets disjoint by construction;
-- points distributed across the usable mapped area;
-- check assignments and pixel measurements frozen before residuals are viewed;
-- a QA note identifying accepted rules and rejected lookalikes.
+Transport controls are discrete road-road intersections, road-rail crossings,
+or independently identifiable rail-rail junctions, sourced from the Province's
+NSTDB Transportation 1:10,000 service with its spatial-reference and retrieval
+receipt. Natural final checks are discrete NSTDB Water 1:10,000 river
+confluences, lake outlets, fixed-rule island centroids, distinctive headlands,
+or topological coastline junctions; continuous shoreline fitting is excluded.
 
-For a truly axis-aligned grid, the format can store one pixel value per meridian
-and parallel. When rules are slanted, curved, damaged, or otherwise unsuitable
-for fixed axes, store individually measured intersection pixels. Do not flatten
-such a sheet into the simplified model.
+NSPRD may corroborate a narrow transport corridor or abandoned alignment but
+never supplies a control coordinate or legal proof of a road, railway,
+right-of-way, access, title, or surveyed boundary. NS Aerial may corroborate
+present layout but is never a coordinate source. Neither proves historical
+permanence or a legal/service conclusion.
 
-Reviewed observations live at:
+No exact feature, derived point, or coordinate may occur in both families.
+Linear transport, property, river, or coastline traces may support identity,
+but every scored correspondence is a discrete point.
+
+### Frozen files and commands
+
+The reviewed input is `tools/fletcher/physical_observations/sheet-24.json`.
+It freezes source receipt, accepted and rejected identities, historical pixels,
+modern-source receipts, rationale, uncertainty, and pre-fit acceptance.
+Freeze this observation before any transform or residual is calculated.
+Rejections record a fixed reason, including ambiguous identity, apparent
+realignment, generalized drawing, clipped feature, insufficient topology,
+source error, or duplicate.
+
+Generate, never hand-edit, separate role-pure files:
 
 ```text
-tools/fletcher/observations/sheet-XX.json
+tools/fletcher/physical_gcps/sheet-24-controls.csv
+tools/fletcher/physical_gcps/sheet-24-checks.csv
 ```
 
-Generate the GCP CSV; do not hand-edit it:
+The first has only `control` rows; the second has only `check` rows. This is a
+file-and-command boundary, not a reviewer convention: selection takes only the
+controls file, while scoring takes a completed selection and only the checks
+file.
 
 ```bash
-python3 -m tools.fletcher.emit_gcps \
-  tools/fletcher/observations/sheet-XX.json \
-  --out tools/fletcher/gcps/sheet-XX.csv
+compute=/var/home/dan/nsmarks-fletcher-20260725
+source="$compute/work/sheet-24/source.tif"
+observation=tools/fletcher/physical_observations/sheet-24.json
+controls=tools/fletcher/physical_gcps/sheet-24-controls.csv
+checks=tools/fletcher/physical_gcps/sheet-24-checks.csv
+run="$compute/georef/sheet-24-modern-v1"
+qa="$compute/qa/sheet-24-modern-v1"
+result="$run/result.json"
 
-python3 -m tools.fletcher.emit_gcps \
-  tools/fletcher/observations/sheet-XX.json \
-  --out tools/fletcher/gcps/sheet-XX.csv \
-  --check
+python3 -m tools.fletcher.physical_observation verify-source \
+  --manifest "$compute/manifest.json" --sheet 24 --source "$source"
+python3 -m tools.fletcher.emit_physical_gcps "$observation" \
+  --controls "$controls" --checks "$checks"
+# Byte-verify the generated files against the frozen observation.
+python3 -m tools.fletcher.emit_physical_gcps "$observation" \
+  --controls "$controls" --checks "$checks" --check
+python3 -m tools.fletcher.physical_georeference select \
+  --source "$source" --controls "$controls" --observation "$observation" --output "$run"
+python3 -m tools.fletcher.physical_georeference score \
+  --selection "$run/selection.json" --checks "$checks" --output "$run/natural-checks.json"
+python3 -m tools.fletcher.physical_qa render \
+  --source "$source" --observation "$observation" --selection "$run/selection.json" \
+  --natural-checks "$run/natural-checks.json" \
+  --reference "$compute/reference/sheet-24-modern-v1" --output "$qa"
+python3 -m tools.fletcher.physical_georeference finalize \
+  --selection "$run/selection.json" --natural-checks "$run/natural-checks.json" \
+  --visual-review "$qa/visual-review.json" --output "$result"
+python3 -m tools.fletcher.physical_georeference tile \
+  --result "$result" --raster "$run/selected-3857.tif" \
+  --tiles "$compute/tiles/sheet-24-modern-v1" --zoom-min 8 --zoom-max 16
+python3 -m tools.fletcher.physical_georeference record \
+  --manifest "$compute/manifest.json" --sheet 24 --result "$result" \
+  --committed-result tools/fletcher/results/sheet-24-modern-feature-v1.json
 ```
 
-## 4. Compare transforms with the fixed held-out gate
-
-Run the existing one-sheet georeference command. It compares affine,
-second-order polynomial, and thin-plate-spline candidates without changing the
-established thresholds:
+`finalize` accepts no downstream evidence for an early terminal failure. Run
+`tile` only after final PASS; it requires visual PASS and writes only zoom 8--16
+PNGs. `record` atomically writes the terminal result under Sheet 24's
+`modern_feature_v1` namespace. Regenerate the report after recording:
 
 ```bash
-python3 -m tools.fletcher.georeference \
-  --source <direct-rumsey-source> \
-  --points tools/fletcher/gcps/sheet-XX.csv \
-  --output /var/home/dan/nsmarks-fletcher-20260725/georef/sheet-XX
+python3 -m tools.fletcher.report "$compute/manifest.json" --out reports/fletcher/RESULTS.md
 ```
 
-Acceptance requires all of:
+### Gates and published accuracy
 
-- RMS at most 400 metres;
-- P95 at most 900 metres;
-- maximum error at most 1,500 metres;
-- at least six controls;
-- at least two held-out checks.
+Before selection, freeze at least 10 transport controls: one in every
+usable-frame quadrant, spanning at least 70% of usable width and height, and
+not concentrated in one junction complex. Freeze at least six natural checks
+in three separated areas, across two natural-feature classes, including
+interior/coastal evidence when the scan supports both, without duplicate
+derivation from one modern geometry.
 
-Candidate failures remain in the manifest. Do not weaken a threshold, discard
-an inconvenient check, or move a point after seeing its residual.
+Compare affine, polynomial2, and TPS by transport leave-one-out cross-validation
+and rank by lowest RMS, P95, maximum, then lower complexity. Refit the winner
+with all controls. Transport LOOCV selects the transform family and remains
+visible selection evidence; untouched natural checks are the primary published
+accuracy estimate. Both require their minimum counts, RMS <= 400 m,
+P95 <= 900 m, and maximum <= 1,500 m. Never substitute a control residual for
+a natural check.
 
-For series comparability, the current pipeline uses the same held-out set to
-compare transform families and to report the selected transform. This means the
-reported selected-model error is not an untouched final validation estimate.
-Changing that methodology requires a separately scoped series-wide redesign;
-do not silently rescore prior sheets during a one-sheet run.
+Every candidate is structurally sampled on a 21 x 21 mesh inside the usable
+frame/control hull. Reject a non-positive determinant, non-finite Jacobian,
+anisotropy above 4:1, area scale below 0.25x or above 4x its sampled median, or
+duplicated/disconnected coverage. Visual QA is hash-bound to source,
+observation, selection, natural checks, and raster; it reviews contact sheets,
+crops, residual vectors, preview, modern overlays, alpha/cutline, zoom 8/12/16
+tiles, and a real shared-boundary seam where one exists. Reject folding,
+mirroring, duplicated geography, unreasonable stretch, alpha holes, border
+leakage, wrong signs, identity mismatch, systematic natural mismatch, or a
+visibly wrong real seam.
 
-## 5. Warp, inspect, and tile only a passing sheet
+Never remove, move, relabel, reclassify, or otherwise adjust an accepted point
+after seeing residuals. A defect makes v1 FAIL. Correct it only with a newly
+versioned observation and a complete rerun; never silently rewrite v1.
 
-Only a numerical PASS can proceed to Web Mercator XYZ PNG tiles, and only at
-zooms 8 through 16. Before accepting the sheet, inspect:
+Terminal states remain explicit: `source-drift`, `modern-source-error`,
+`insufficient-identity`, `insufficient-distribution`, `candidate-failure`,
+`transport-cross-validation-fail`, `structural-fail`, `natural-check-fail`,
+`visual-qa-fail`, or `PASS`. An empty modern source response is not proof that
+a historical feature did not exist, and ambiguity is not a negative match.
 
-- the graticule contact sheet and full-resolution longitude/latitude label
-  crops;
-- a downsampled warped preview;
-- alpha and cutline coverage;
-- representative low-, middle-, and high-zoom tiles;
-- a neighbouring boundary only when the sheets actually share one, and only
-  as a post-PASS visual seam check.
+## Result and publication boundary
 
-Reject folding, mirroring, duplicated geography, unreasonable stretching,
-transparent slivers, border leakage, wrong coordinate signs, or an obviously
-mismatched seam. A passing registration measures agreement with Fletcher’s
-engraved coordinate frame. It does not establish modern parcel, road, shoreline,
-title, access, flood, value, service, or historical-survey accuracy.
+The report keeps the engraved-grid table unchanged, then appends a separate
+`Modern-feature pilots` table sourced only from `modern_feature_v1`. It reports
+the selected method, transport selection evidence, natural published estimate,
+structural/visual gates, tile count, disposition, and reason without merging
+those facts into graticule semantics.
 
-Update only the target sheet in `manifest.json`, atomically, then regenerate:
-
-```bash
-python3 -m tools.fletcher.report \
-  /var/home/dan/nsmarks-fletcher-20260725/manifest.json \
-  --out reports/fletcher/RESULTS.md
-```
-
-## Sheet 23 receipt
-
-Sheet 23 used direct Rumsey source `RUMSEY~8~1~2648~290016`, list number
-`3997.025`, at 10,741 × 7,635 pixels with SHA-256
-`407c48993dd29f8483700050cd4d2b61bca737629223abea7bdf676246244d31`.
-Eight individually measured intersections supplied six controls and two frozen
-checks. Thin-plate spline was selected with held-out RMS 50.96 m, P95 69.17 m,
-and maximum 69.17 m. The visual QA passed and the zoom 8–16 pyramid contains
-7,834 PNG tiles.
-
-Sheet 22 and Sheet 23 do not share a labelled coordinate-frame boundary, so no
-seam acceptance claim is made. No other sheet, product layer, host, source URL,
-native bundle, or deployment was changed by the Sheet 23 run.
+A passing registration does not establish current parcel, road, shoreline,
+title, access, value, permission, flood, power, service, or historical-survey
+accuracy. The pilot ends when Sheet 24 has a reproducible PASS or FAIL.
+Partial publication, hosting, catalog/product integration, browser/device
+acceptance, native bundling, and deployment are separate decisions requiring
+their own evidence and release work. A later partial layer leaves transparent
+gaps rather than falling back to OldMapsOnline.

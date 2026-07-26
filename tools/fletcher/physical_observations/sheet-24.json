@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "method_version": "modern-feature-v1",
+  "sheet_id": "24",
+  "source_receipt": {
+    "rumsey_id": "RUMSEY~8~1~2649~290017",
+    "list_number": "3997.026",
+    "width": 10782,
+    "height": 7655,
+    "sha256": "735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8"
+  },
+  "status": "rejected",
+  "terminal_state": "source-drift",
+  "terminal_reason": "source-drift: invalid Sheet 24 manifest receipt: manifest.sheets.24.list_number must be a non-empty string",
+  "source_verification": {
+    "verified_at": "2026-07-25T21:34:25Z",
+    "command": "python3 -m tools.fletcher.physical_observation verify-source --manifest /var/home/dan/nsmarks-fletcher-20260725/manifest.json --sheet 24 --source /var/home/dan/nsmarks-fletcher-20260725/work/sheet-24/sheet-24.tif",
+    "checkout_path": "/var/home/dan/nsmarks-fletcher-20260725/repo-sheet-24-modern-v3",
+    "checkout_commit": "5150a4563c0e1cc88ce954eb684fcfa04b8e563f",
+    "manifest_path": "/var/home/dan/nsmarks-fletcher-20260725/manifest.json",
+    "manifest_sha256": "bd74659daec74580eaf0881402a19aaac1d7f84760a4a7ba3bf44f2df3973b7a",
+    "manifest_sheet_entry": {
+      "gate": "FAIL",
+      "reason": "automatic graticule detection found no reviewable regular sequence",
+      "rumsey_id": "RUMSEY~8~1~2649~290017",
+      "source_path": "/var/home/dan/nsmarks-fletcher-20260725/work/sheet-24/sheet-24.tif",
+      "source_sha256": "735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8",
+      "stage": "failed",
+      "updated_at": "2026-07-25T08:06:44.833479+00:00"
+    },
+    "result": "source-drift",
+    "error": "source-drift: invalid Sheet 24 manifest receipt: manifest.sheets.24.list_number must be a non-empty string",
+    "raster_dimensions_read": false,
+    "raster_bytes_hashed": false,
+    "note": "Verification stopped on the incomplete existing manifest receipt before GDAL opened or hashed the raster; the cached source was not replaced or fetched."
+  },
+  "environment_receipt": {
+    "host": "bazzite",
+    "container": "nsmarks-gis",
+    "gdal": "3.12.4",
+    "opencv": "4.13.0",
+    "qgis": "3.44.12"
+  },
+  "prefit_evidence_boundary": {
+    "original_graticule_gate": "FAIL",
+    "original_graticule_reason": "automatic graticule detection found no reviewable regular sequence",
+    "automatic_detector": "not-run-after-terminal-source-drift",
+    "historical_candidate_marking": "not-run-after-terminal-source-drift",
+    "official_modern_service_queries": "not-run-after-terminal-source-drift",
+    "official_object_extracts": [],
+    "transform_fit": "not-run",
+    "residual_inspection": "not-run",
+    "prohibited_coordinate_sources_used": []
+  },
+  "artifact_roots": {
+    "compute_root": "/var/home/dan/nsmarks-fletcher-20260725",
+    "clean_checkout": "/var/home/dan/nsmarks-fletcher-20260725/repo-sheet-24-modern-v3",
+    "qa_root": "not-created-after-terminal-source-drift",
+    "reference_root": "not-created-after-terminal-source-drift"
+  },
+  "controls": [],
+  "final_checks": [],
+  "rejected_candidates": []
+}

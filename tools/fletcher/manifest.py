@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import datetime
 import json
 import os
@@ -33,16 +34,31 @@ class Manifest:
         self.sheets[sheet_id] = current
         self._write()
 
+    def update_namespace(self, sheet_id: str, namespace: str, value: dict) -> None:
+        if sheet_id not in self.sheets:
+            raise KeyError(f"sheet {sheet_id} is absent from the manifest")
+        current = dict(self.sheets[sheet_id])
+        current[namespace] = copy.deepcopy(value)
+        self.sheets[sheet_id] = current
+        self._write()
+
     def _write(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         temporary = self.path.with_suffix(self.path.suffix + ".tmp")
-        temporary.write_text(
-            json.dumps(
-                {"version": self.version, "sheets": self.sheets},
-                indent=2,
-                sort_keys=True,
+        try:
+            temporary.write_text(
+                json.dumps(
+                    {"version": self.version, "sheets": self.sheets},
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
             )
-            + "\n",
-            encoding="utf-8",
-        )
-        os.replace(temporary, self.path)
+            os.replace(temporary, self.path)
+        except BaseException:
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+            raise
