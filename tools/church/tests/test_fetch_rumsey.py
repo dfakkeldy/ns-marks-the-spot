@@ -1,5 +1,6 @@
 import unittest
 
+from tools.church import fetch_rumsey
 from tools.church.fetch_rumsey import (
     IIIF_BASE,
     canvas_size,
@@ -46,7 +47,17 @@ class UrlTests(unittest.TestCase):
 
     def test_region_url_is_iiif_shaped(self) -> None:
         url = region_url(INVERNESS_ID, 0, 0, 2048, 2048, 2048)
-        self.assertEqual(url, f"{IIIF_BASE}/{INVERNESS_ID}/0,0,2048,2048/2048,/0/default.jpg")
+        self.assertEqual(
+            url,
+            f"{IIIF_BASE}/{INVERNESS_ID}/0,0,2048,2048/2048,2048/0/default.jpg",
+        )
+
+    def test_region_url_preserves_a_short_edge_row(self) -> None:
+        url = region_url(INVERNESS_ID, 0, 34816, 2048, 211, 2048)
+        self.assertEqual(
+            url,
+            f"{IIIF_BASE}/{INVERNESS_ID}/0,34816,2048,211/2048,211/0/default.jpg",
+        )
 
 
 class ManifestTests(unittest.TestCase):
@@ -83,6 +94,15 @@ class PlanRegionsTests(unittest.TestCase):
     def test_rejects_non_positive_tile_size(self) -> None:
         with self.assertRaises(ValueError):
             plan_regions(100, 100, tile_size=0)
+
+
+class RegionVrtBoundsTests(unittest.TestCase):
+    def test_edge_region_uses_its_clipped_dimensions(self) -> None:
+        bounds = getattr(fetch_rumsey, "region_vrt_bounds", None)
+        self.assertIsNotNone(bounds)
+        if bounds is None:
+            return
+        self.assertEqual(bounds(34816, 28672, 919, 1757), (34816, -28672, 35735, -30429))
 
 
 if __name__ == "__main__":

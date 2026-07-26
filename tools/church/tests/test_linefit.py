@@ -39,17 +39,23 @@ class AngularDistanceTests(unittest.TestCase):
 
 
 class CanonicalDirectionTests(unittest.TestCase):
-    def test_flips_the_left_half_plane(self):
-        self.assertEqual(canonical_direction(-1.0, 2.0), (1.0, -2.0))
+    def test_orients_horizontal_family_by_x(self):
+        self.assertEqual(canonical_direction(-2.0, 1.0), (2.0, -1.0))
 
-    def test_keeps_the_right_half_plane(self):
-        self.assertEqual(canonical_direction(1.0, -2.0), (1.0, -2.0))
+    def test_orients_vertical_family_by_y(self):
+        self.assertEqual(canonical_direction(1.0, -2.0), (-1.0, 2.0))
+
+    def test_near_vertical_vectors_with_arbitrary_signs_agree(self):
+        upward = canonical_direction(0.001, 0.9999995)
+        downward = canonical_direction(0.001, -0.9999995)
+        self.assertGreater(upward[1], 0.0)
+        self.assertGreater(downward[1], 0.0)
 
     def test_breaks_the_vertical_tie_by_sign_of_dy(self):
         self.assertEqual(canonical_direction(0.0, -1.0), (0.0, 1.0))
 
     def test_is_idempotent(self):
-        for vector in ((-1.0, 2.0), (1.0, -2.0), (0.0, -1.0), (0.0, 1.0)):
+        for vector in ((-2.0, 1.0), (1.0, -2.0), (0.0, -1.0), (0.0, 1.0)):
             once = canonical_direction(*vector)
             self.assertEqual(canonical_direction(*once), once)
 

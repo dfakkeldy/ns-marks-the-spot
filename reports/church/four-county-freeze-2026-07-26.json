@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-07-26",
+  "decision": "rejected",
+  "promotion_eligible": false,
+  "tiles_generated": false,
+  "catalog_activated": false,
+  "deployed": false,
+  "acceptance_gates_metres": {
+    "held_out_rms_max": 400.0,
+    "held_out_p95_max": 900.0,
+    "held_out_error_max": 1500.0,
+    "minimum_held_out_checks": 6
+  },
+  "source_boundary": {
+    "historical_imagery": "Direct David Rumsey Map Collection images only",
+    "modern_reference": "Official Nova Scotia NSTDB major-water geometry",
+    "oldmapsonline_data_used": false,
+    "oldmapsonline_data_retained": false
+  },
+  "compute_workspace": {
+    "host": "dan@bazzite",
+    "container": "nsmarks-gis",
+    "root": "/var/home/dan/nsmarks-church-20260726",
+    "state": "preserved",
+    "running_processes_at_freeze": 0
+  },
+  "sources": {
+    "inverness": {
+      "width": 34427,
+      "height": 34543,
+      "direct_jp2_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+      "working_tiff_sha256": "64354868fb4a1d3bc7a8e71378e06ea15b5e691241fd1a0595e6c4b8c9bdd932"
+    },
+    "richmond": {
+      "width": 35735,
+      "height": 30429,
+      "exact_tiff_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7"
+    },
+    "victoria": {
+      "width": 33711,
+      "height": 31468,
+      "exact_tiff_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621"
+    },
+    "cape_breton": {
+      "width": 36223,
+      "height": 35027,
+      "exact_tiff_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+      "direct_jp2_sha256": "e28546b7b670f33e8c08947ea6d30d21dd47e4fb36214d2b6ae1b02c523baac7",
+      "embedded_crs": false,
+      "embedded_gcps": false
+    },
+    "nstdb_major_water": {
+      "sha256": "02bbd4c7a583e3f9156ca93ed9dc9617659d4d53b72b81bb74971c75c561740f"
+    }
+  },
+  "county_results": {
+    "inverness": {
+      "decision": "rejected",
+      "reason": "The south panel passed, but the north panel could not supply six independent identifiable held-out physical checks.",
+      "panels": {
+        "south": {
+          "decision": "accepted",
+          "control_count": 12,
+          "held_out_check_count": 11,
+          "held_out_rms_metres": 333.2924645472418,
+          "held_out_p95_metres": 468.28107272304663,
+          "held_out_max_metres": 468.28107272304663
+        },
+        "north": {
+          "decision": "unmeasurable",
+          "control_count": 30,
+          "held_out_check_count": 0,
+          "shoreline_sequence_diagnostic": {
+            "independent_acceptance_evidence": false,
+            "sample_count": 8718,
+            "rms_metres": 231.116,
+            "p95_metres": 531.55,
+            "max_metres": 1020.0
+          }
+        }
+      }
+    },
+    "richmond": {
+      "decision": "rejected",
+      "control_count": 14,
+      "fixed_candidate_count": 24,
+      "held_out_check_count": 11,
+      "models": {
+        "affine": {
+          "rms_metres": 744.3323981439812,
+          "p95_metres": 1214.1629838052547,
+          "max_metres": 1214.1629838052547
+        },
+        "polynomial_2": {
+          "rms_metres": 397563.6317031497,
+          "p95_metres": 670760.8333732246,
+          "max_metres": 670760.8333732246
+        },
+        "thin_plate_spline": {
+          "rms_metres": 752.1536677538078,
+          "p95_metres": 1234.6410664173986,
+          "max_metres": 1234.6410664173986
+        }
+      },
+      "selected_model": null,
+      "reason": "Every viable model failed the fixed held-out RMS and P95 gates; the polynomial model was unstable."
+    },
+    "victoria": {
+      "decision": "rejected",
+      "reason": "Neither geographic panel supplied the minimum six accepted held-out physical checks.",
+      "panels": {
+        "northwest": {
+          "control_count": 9,
+          "fixed_candidate_count": 24,
+          "candidates_inside_panel": 12,
+          "held_out_check_count": 2
+        },
+        "main": {
+          "control_count": 12,
+          "fixed_candidate_count": 24,
+          "candidates_inside_panel": 14,
+          "held_out_check_count": 0
+        }
+      }
+    },
+    "cape_breton": {
+      "decision": "stopped_before_transform",
+      "registered_geographic_panels": 1,
+      "graticule_status": "unsupported_no_geographic_anchor",
+      "control_count": 0,
+      "held_out_check_count": 0,
+      "transform_run": false,
+      "reason": "The numbered orthogonal mesh is a township/section framework, not a labelled latitude/longitude graticule. Work stopped before the planned physical-feature fallback was measured."
+    }
+  },
+  "resume_boundary": {
+    "automatic_resume_allowed": false,
+    "requires_explicit_user_direction": true,
+    "required_first_checks": [
+      "Recheck the live branch and exact source hashes.",
+      "Reconfirm the direct-source licence boundary.",
+      "Keep the existing numerical gates fixed.",
+      "Do not generate tiles unless every geographic panel passes."
+    ]
+  }
+}

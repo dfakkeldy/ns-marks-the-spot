@@ -93,7 +93,7 @@ def main(argv: list[str] | None = None) -> int:
         help="pin the first family's angle in degrees, from a printed label",
     )
     parser.add_argument("--angle-b", type=float, default=None)
-    parser.add_argument("--angle-tol", type=float, default=6.0)
+    parser.add_argument("--angle-tol", type=float, default=None)
     parser.add_argument("--out", type=pathlib.Path, required=True)
     args = parser.parse_args(argv)
 
@@ -103,6 +103,11 @@ def main(argv: list[str] | None = None) -> int:
     darkness = _choose(args.darkness, registered.darkness if registered else None, 140)
     min_length = _choose(
         args.min_length, registered.min_length_px if registered else None, 500
+    )
+    angle_tolerance = (
+        args.angle_tol
+        if args.angle_tol is not None
+        else registered.angle_tolerance_deg if registered else 6.0
     )
 
     ink = panel_ink(args.source, panel, factor, darkness)
@@ -121,7 +126,12 @@ def main(argv: list[str] | None = None) -> int:
         secondary = args.angle_b
     is_pinned = pinned is not None or args.angle_a is not None
 
-    family_a, family_b = split_families(segments, primary, secondary, args.angle_tol)
+    family_a, family_b = split_families(
+        segments,
+        primary,
+        secondary,
+        angle_tolerance,
+    )
     result = {
         "panel": args.panel,
         "county": args.county,
@@ -131,6 +141,7 @@ def main(argv: list[str] | None = None) -> int:
         "origin": [panel.window.x, panel.window.y],
         "primary_angle_deg": primary,
         "secondary_angle_deg": secondary,
+        "angle_tolerance_deg": angle_tolerance,
         "family_a": [
             _as_dict(line)
             for line in merge_collinear(family_a, MERGE_ANGLE_TOL_DEG, MERGE_OFFSET_TOL_PX)

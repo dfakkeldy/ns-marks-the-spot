@@ -22,6 +22,20 @@ import math
 from tools.church.cutlines import Cutline
 
 Vertex = tuple[float, float]
+TRANSFORMS = ("affine", "polynomial2", "tps")
+
+
+def transform_arguments(transform: str) -> list[str]:
+    """Return the mutually exclusive GDAL transformer flags for one method."""
+    if transform == "affine":
+        return ["-order", "1"]
+    if transform == "polynomial2":
+        return ["-order", "2"]
+    if transform == "tps":
+        return ["-tps"]
+    raise ValueError(
+        f"unsupported transform {transform!r}; expected one of {', '.join(TRANSFORMS)}"
+    )
 
 
 def densify(cutline: Cutline, max_spacing: float) -> list[Vertex]:
@@ -74,6 +88,7 @@ def warp_command_with_cutline(
     cutline_path: str,
     target_bounds=None,
     target_resolution_m: float | None = None,
+    transform: str = "tps",
 ) -> list[str]:
     """gdalwarp targeting Web Mercator, masked to the panel cutline.
 
@@ -81,7 +96,14 @@ def warp_command_with_cutline(
     the panel's declared target bounds so successive runs stay comparable and
     the mosaic step has a predictable grid.
     """
-    command = ["gdalwarp", "-r", "bilinear", "-t_srs", "EPSG:3857", "-tps"]
+    command = [
+        "gdalwarp",
+        "-r",
+        "bilinear",
+        "-t_srs",
+        "EPSG:3857",
+        *transform_arguments(transform),
+    ]
     command += ["-cutline", cutline_path]
     if target_bounds is not None:
         command += [

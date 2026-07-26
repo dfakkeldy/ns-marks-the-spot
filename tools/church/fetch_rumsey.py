@@ -36,7 +36,11 @@ def region_url(
     rumsey_id: str, x: int, y: int, width: int, height: int, size_width: int
 ) -> str:
     """URL of one IIIF image region at a requested output width."""
-    return f"{IIIF_BASE}/{rumsey_id}/{x},{y},{width},{height}/{size_width},/0/default.jpg"
+    size_height = round(height * size_width / width)
+    return (
+        f"{IIIF_BASE}/{rumsey_id}/{x},{y},{width},{height}/"
+        f"{size_width},{size_height}/0/default.jpg"
+    )
 
 
 def canvas_size(manifest: dict) -> tuple[int, int]:
@@ -59,6 +63,13 @@ def plan_regions(
         for x in range(0, width, tile_size):
             regions.append((x, y, min(tile_size, width - x), min(tile_size, height - y)))
     return regions
+
+
+def region_vrt_bounds(
+    x: int, y: int, width: int, height: int
+) -> tuple[int, int, int, int]:
+    """Return pixel-space bounds for one clipped IIIF region."""
+    return x, -y, x + width, -(y + height)
 
 
 def _fetch(url: str) -> bytes:
@@ -101,12 +112,24 @@ def download_county(slug: str, destination: pathlib.Path, tile_size: int = 2048)
             print(f"  {index}/{len(regions)}", file=sys.stderr)
 
     # Give each part its pixel-space position so gdalbuildvrt can mosaic them.
-    for part_path in part_paths:
-        x, y = (int(value) for value in part_path.stem.split("_"))
+    for part_path, (x, y, region_width, region_height) in zip(
+        part_paths, regions, strict=True
+    ):
+        left, top, right, bottom = region_vrt_bounds(
+            x, y, region_width, region_height
+        )
         subprocess.run(
-            ["gdal_translate", "-q", "-a_ullr", str(x), str(-y),
-             str(x + tile_size), str(-(y + tile_size)), str(part_path),
-             str(part_path.with_suffix(".vrt"))],
+            [
+                "gdal_translate",
+                "-q",
+                "-a_ullr",
+                str(left),
+                str(top),
+                str(right),
+                str(bottom),
+                str(part_path),
+                str(part_path.with_suffix(".vrt")),
+            ],
             check=True,
         )
 

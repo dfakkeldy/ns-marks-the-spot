@@ -50,6 +50,7 @@ class DetectionSettings:
     darkness: int
     min_length_px: int
     angles_deg: tuple[float, float] | None
+    angle_tolerance_deg: float = 6.0
     """Pinned family angles, measured from a printed label. None means fall back
     to the orientation histogram, which dense coastal hachure can win."""
 
@@ -451,24 +452,30 @@ _INVERNESS_HEADLAND_CHECKS = HeadlandCheckSettings(
 # Richmond's main geography occupies one continuous field, but the archival
 # sheet also carries a separate 1886 Nova Scotia reference map, six town-plan
 # insets, and the title block. The band below is bounded by measured ruled
-# lines: its top sits below the last northern inset (y~8,252), and its bottom
-# stays above the Arichat inset rule (y~22,360). It retains the 45d40' and
-# 45d30' parallels and all seven meridians from 61d20'W through 60d20'W.
+# lines: its top sits below the last northern inset, and its bottom stays above
+# the Arichat inset rule. It retains the 45d40' and 45d30' parallels and all
+# seven meridians from 61d20'W through 60d20'W.
+#
+# The first Richmond working TIFF was accidentally resampled to 34,509x30,385.
+# These full-scan coordinates are the old measured bounds projected through
+# that TIFF's recorded pixel transform (1.06825051384355 x,
+# 1.01104154809334 y) into the corrected 35,735x30,429 source frame.
 _RICHMOND_MAIN_CUTLINE = Cutline(
     (
-        (1000.0, 8500.0),
-        (32400.0, 8500.0),
-        (32400.0, 21900.0),
-        (1000.0, 21900.0),
+        (1068.25051384355, 8593.853158793398),
+        (34611.316648531014, 8593.853158793398),
+        (34611.316648531014, 22141.809903244164),
+        (1068.25051384355, 22141.809903244164),
     )
 )
 
 # Read directly from RUMSEY~8~1~373669~90140407:
-# - 60d50'W is engraved beside the meridian at x~15,960;
-# - 45d40'N and 45d30'N are engraved on the right margin at y~14,672 and
-#   y~21,292.
+# - 60d50'W is engraved beside the meridian at corrected-source x~17,049;
+# - 45d40'N and 45d30'N are engraved on the right margin at corrected-source
+#   y~14,834 and y~21,527.
 # The neighbouring rules are spaced about 4,512 px east-west and 6,620 px
-# north-south, independently confirming a ten-minute lattice.
+# north-south in the earlier resampled frame, independently confirming a
+# ten-minute lattice.
 _RICHMOND_MAIN_GRATICULE = GraticuleSettings(
     anchor=GraticuleAnchor(
         meridian_index=0,
@@ -478,10 +485,13 @@ _RICHMOND_MAIN_GRATICULE = GraticuleSettings(
         step_minutes=10.0,
     ),
     tolerance_px=120.0,
-    min_extent_px=(5000.0, 10000.0),
+    # The corrected 1:1 source frame leaves the western 61d20' meridian with
+    # 3,748 px of clean detected support. A 5,000 px floor drops that labelled
+    # rule and shifts every longitude index east by one step.
+    min_extent_px=(3500.0, 10000.0),
     anchor_evidence=(
-        "engraved 60d50'W at x~15960, 45d40'N at y~14672, and 45d30'N at "
-        "y~21292 on RUMSEY~8~1~373669~90140407"
+        "engraved 60d50'W at corrected-source x~17049, 45d40'N at y~14834, "
+        "and 45d30'N at y~21527 on RUMSEY~8~1~373669~90140407"
     ),
 )
 
@@ -490,6 +500,129 @@ _RICHMOND_MAIN_DETECTION = DetectionSettings(
     darkness=140,
     min_length_px=500,
     angles_deg=(90.0, 0.0),
+)
+
+# Victoria is engraved as two geographic fields separated by the title block.
+# The northwest field has a harbour-plan inset over its upper-left map area;
+# the large field has the Baddeck town plan over its lower-right corner.
+_VICTORIA_NORTHWEST_CUTLINE = Cutline(
+    (
+        (900.0, 1200.0),
+        (12000.0, 1200.0),
+        (12000.0, 20000.0),
+        (900.0, 20000.0),
+        (900.0, 11800.0),
+        (3800.0, 11800.0),
+        (3800.0, 4800.0),
+        (900.0, 4800.0),
+    )
+)
+
+_VICTORIA_MAIN_CUTLINE = Cutline(
+    (
+        (18500.0, 1200.0),
+        (33200.0, 1200.0),
+        (33200.0, 21300.0),
+        (25200.0, 21300.0),
+        (25200.0, 30000.0),
+        (13800.0, 30000.0),
+    )
+)
+
+# Labels read directly from RUMSEY~8~1~374820~90141224. The northwest field
+# prints 60d40', 60d30', 60d20' along its horizontal rules and 47d00',
+# 46d50', 46d40' on the right margin. The main field prints 60d40' and 60d30'
+# at the top and 46d30', 46d20', 46d10' beside successive parallel rules.
+_VICTORIA_NORTHWEST_GRATICULE = GraticuleSettings(
+    anchor=GraticuleAnchor(
+        meridian_index=0,
+        meridian_lon=-(60.0 + 40.0 / 60.0),
+        parallel_index=0,
+        parallel_lat=47.0,
+        step_minutes=10.0,
+    ),
+    tolerance_px=140.0,
+    # The New Haven inset and coastline interrupt the latter two labelled
+    # parallels, leaving only 2,312 and 2,004 px of clean straight support.
+    # Their 6,928/6,974 px gaps establish the ten-minute sequence; the nearby
+    # y~3,328 impostor is off that lattice and is rejected by regular spacing.
+    min_extent_px=(2000.0, 1800.0),
+    anchor_evidence=(
+        "engraved 60d40'W, 60d30'W, 60d20'W and 47d00'N, 46d50'N, "
+        "46d40'N labels on RUMSEY~8~1~374820~90141224"
+    ),
+)
+
+_VICTORIA_MAIN_GRATICULE = GraticuleSettings(
+    anchor=GraticuleAnchor(
+        meridian_index=0,
+        meridian_lon=-(60.0 + 40.0 / 60.0),
+        parallel_index=0,
+        parallel_lat=46.0 + 30.0 / 60.0,
+        step_minutes=10.0,
+    ),
+    tolerance_px=160.0,
+    min_extent_px=(7000.0, 6000.0),
+    anchor_evidence=(
+        "engraved 60d40'W and 60d30'W at the top and 46d30'N, 46d20'N, "
+        "46d10'N beside the ruled parallels on RUMSEY~8~1~374820~90141224"
+    ),
+)
+
+_VICTORIA_DETECTION = DetectionSettings(
+    factor=4,
+    darkness=140,
+    min_length_px=500,
+    angles_deg=(90.0, 0.0),
+    angle_tolerance_deg=2.0,
+)
+
+_VICTORIA_DRAWN_CHECKS = DrawnCheckSettings(
+    darkness=190,
+    tile_px=1400,
+    dilate_px=4,
+    min_ink_px=200,
+    search_radius_px=500.0,
+)
+
+# Cape Breton is one geographic field wrapped around five independent frames:
+# the upper-left regional locator, the title/cartouche, Little Glace Bay and
+# Cow Bay harbour plans, and the bottom row of town plans. The diagonal
+# northwest edge follows the locator-map rule; the two side notches follow the
+# harbour-plan rules. Coordinates were measured on the exact 36,223x35,027
+# archival source frame.
+_CAPE_BRETON_MAIN_CUTLINE = Cutline(
+    (
+        (18400.0, 4100.0),
+        (27000.0, 4100.0),
+        (27000.0, 9000.0),
+        (35700.0, 9000.0),
+        (35700.0, 10800.0),
+        (31800.0, 10800.0),
+        (31800.0, 16300.0),
+        (35700.0, 16300.0),
+        (35700.0, 27800.0),
+        (900.0, 27800.0),
+        (900.0, 17300.0),
+        (5200.0, 17300.0),
+        (5200.0, 10800.0),
+    )
+)
+
+# Cape Breton's large numbered mesh is a township/section framework, not a
+# labelled geographic graticule. The frozen, unexecuted recovery would use the
+# same objective two-sided island-centroid rule as the other physical checks.
+#
+# A 1,000 px search radius is ~2.7 km at the engraved scale. It is deliberately
+# larger than the 1,500 m maximum acceptance error: it excludes another bay or
+# archipelago, but cannot drag an accepted outline toward the current model.
+_CAPE_BRETON_DRAWN_CHECKS = DrawnCheckSettings(
+    darkness=190,
+    tile_px=2400,
+    dilate_px=4,
+    min_ink_px=1000,
+    search_radius_px=1000.0,
+    reader="enclosed-paper",
 )
 
 _PANELS = {
@@ -529,6 +662,49 @@ _PANELS = {
         detection=_RICHMOND_MAIN_DETECTION,
         drawn_checks=_RICHMOND_DRAWN_CHECKS,
         graticule=_RICHMOND_MAIN_GRATICULE,
+    ),
+    ("victoria", "northwest"): ChurchPanel(
+        county_slug="victoria",
+        slug="northwest",
+        cutline=_VICTORIA_NORTHWEST_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-60.75,
+            south=46.45,
+            east=-60.10,
+            north=47.10,
+        ),
+        target_resolution_m=5.0,
+        detection=_VICTORIA_DETECTION,
+        drawn_checks=_VICTORIA_DRAWN_CHECKS,
+        graticule=_VICTORIA_NORTHWEST_GRATICULE,
+    ),
+    ("victoria", "main"): ChurchPanel(
+        county_slug="victoria",
+        slug="main",
+        cutline=_VICTORIA_MAIN_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-60.85,
+            south=45.90,
+            east=-59.70,
+            north=46.85,
+        ),
+        target_resolution_m=5.0,
+        detection=_VICTORIA_DETECTION,
+        drawn_checks=_VICTORIA_DRAWN_CHECKS,
+        graticule=_VICTORIA_MAIN_GRATICULE,
+    ),
+    ("cape-breton", "main"): ChurchPanel(
+        county_slug="cape-breton",
+        slug="main",
+        cutline=_CAPE_BRETON_MAIN_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-60.95,
+            south=45.80,
+            east=-59.55,
+            north=46.65,
+        ),
+        target_resolution_m=5.0,
+        drawn_checks=_CAPE_BRETON_DRAWN_CHECKS,
     ),
 }
 

@@ -61,16 +61,17 @@ def angular_distance(a: float, b: float) -> float:
 
 
 def canonical_direction(dx: float, dy: float) -> tuple[float, float]:
-    """Flip a direction vector into a single half-plane.
+    """Orient an axis by the sign of its dominant component.
 
     A line fit returns an axis, and the sign of that axis is arbitrary - an
     eigen or singular-value decomposition may hand back either end. Averaging
-    raw fitted directions therefore lets one arbitrarily-flipped line drag the
-    family mean; on the Inverness north panel exactly one line in each family
-    came back flipped, pulling the family direction by about 0.14 degrees.
-    Normalising first removes that entirely.
+    raw fitted directions therefore lets arbitrarily-flipped lines cancel.
+    Orienting by x alone is also unstable around 90 degrees: Victoria's
+    meridians included tiny positive dx values with both dy signs. Use x for a
+    horizontal axis and y for a vertical one, where the sign is well-defined.
     """
-    if dx < 0.0 or (dx == 0.0 and dy < 0.0):
+    dominant = dx if abs(dx) >= abs(dy) else dy
+    if dominant < 0.0:
         return -dx, -dy
     return dx, dy
 

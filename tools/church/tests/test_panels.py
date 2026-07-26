@@ -68,12 +68,47 @@ class PanelRegistryTests(unittest.TestCase):
         panel = panels[0]
         self.assertEqual(
             panel.window,
-            SourceWindow(x=1000, y=8500, width=31400, height=13400),
+            SourceWindow(x=1068, y=8593, width=33544, height=13549),
         )
         self.assertTrue(panel.draws(18000, 16000))
         self.assertFalse(panel.draws(6000, 6000), "1886 reference map")
         self.assertFalse(panel.draws(27000, 4000), "title block")
         self.assertFalse(panel.draws(25000, 25000), "Arichat inset")
+
+    def test_victoria_registers_two_inset_free_geographic_panels(self) -> None:
+        northwest, main = panels_for_county("victoria")
+
+        self.assertEqual([northwest.slug, main.slug], ["northwest", "main"])
+        self.assertEqual(
+            northwest.window,
+            SourceWindow(x=900, y=1200, width=11100, height=18800),
+        )
+        self.assertEqual(
+            main.window,
+            SourceWindow(x=13800, y=1200, width=19400, height=28800),
+        )
+        self.assertTrue(northwest.draws(7000, 9000))
+        self.assertFalse(northwest.draws(2000, 7000), "New Haven inset")
+        self.assertFalse(main.draws(8000, 6000), "title block")
+        self.assertTrue(main.draws(24000, 16000))
+        self.assertFalse(main.draws(29000, 26000), "Baddeck inset")
+
+    def test_cape_breton_registers_one_inset_free_geographic_panel(self) -> None:
+        panels = panels_for_county("cape-breton")
+
+        self.assertEqual([panel.slug for panel in panels], ["main"])
+        panel = panels[0]
+        self.assertTrue(panel.draws(20000, 16000))
+        self.assertFalse(panel.draws(7000, 6000), "regional reference map")
+        self.assertFalse(panel.draws(30000, 5000), "title block")
+        self.assertFalse(panel.draws(3000, 14000), "Little Glace Bay inset")
+        self.assertFalse(panel.draws(33800, 14000), "Cow Bay inset")
+        self.assertFalse(panel.draws(18000, 32000), "town plans")
+        for x, y in panel.cutline.vertices:
+            self.assertGreaterEqual(x, 0)
+            self.assertGreaterEqual(y, 0)
+            self.assertLessEqual(x, 36223)
+            self.assertLessEqual(y, 35027)
 
 
 class PanelCutlineTests(unittest.TestCase):
@@ -219,6 +254,47 @@ class GraticuleSettingsTests(unittest.TestCase):
         self.assertEqual(inverness.drawn_checks.reader, "ink-outline")
         self.assertEqual(richmond.drawn_checks.darkness, inverness.drawn_checks.darkness)
         self.assertEqual(richmond.drawn_checks.dilate_px, inverness.drawn_checks.dilate_px)
+
+    def test_victoria_anchors_both_ten_minute_lattices_from_printed_labels(self):
+        northwest = get_panel("victoria", "northwest")
+        main = get_panel("victoria", "main")
+        assert northwest.graticule is not None and main.graticule is not None
+
+        self.assertEqual(northwest.graticule.anchor.step_minutes, 10.0)
+        self.assertAlmostEqual(
+            northwest.graticule.anchor.meridian_lon,
+            -(60.0 + 40.0 / 60.0),
+            places=12,
+        )
+        self.assertAlmostEqual(
+            northwest.graticule.anchor.parallel_lat,
+            47.0,
+            places=12,
+        )
+        self.assertEqual(main.graticule.anchor.step_minutes, 10.0)
+        self.assertAlmostEqual(
+            main.graticule.anchor.parallel_lat,
+            46.0 + 30.0 / 60.0,
+            places=12,
+        )
+        self.assertIn("60d40", northwest.graticule.anchor_evidence)
+        self.assertIn("46d30", main.graticule.anchor_evidence)
+        assert northwest.detection is not None and main.detection is not None
+        self.assertEqual(northwest.detection.angle_tolerance_deg, 2.0)
+        self.assertEqual(main.detection.angle_tolerance_deg, 2.0)
+
+    def test_cape_breton_records_physical_feature_fallback_before_measurement(self):
+        panel = get_panel("cape-breton", "main")
+
+        self.assertIsNone(
+            panel.graticule,
+            "the numbered township mesh has no printed geographic anchor",
+        )
+        self.assertIsNotNone(panel.drawn_checks)
+        self.assertEqual(panel.drawn_checks.reader, "enclosed-paper")
+        self.assertEqual(panel.drawn_checks.darkness, 190)
+        self.assertEqual(panel.drawn_checks.dilate_px, 4)
+        self.assertEqual(panel.drawn_checks.search_radius_px, 1000.0)
 
 
 class PanelCoverageTests(unittest.TestCase):
