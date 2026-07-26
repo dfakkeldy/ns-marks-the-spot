@@ -1,13 +1,14 @@
 import type { Gcp } from "../types";
+import { solveAffine } from "./affine";
 import { conditionRatio, MIN_CONDITION_RATIO } from "./conditioning";
 import { toMercator, type MercatorPoint } from "./webMercator";
 
 /**
  * A thin-plate spline needs the same three points an affine does — with three
- * it IS an affine, because the bending term has nothing to bend around — and
- * the shared `MIN_GCPS_FOR_AFFINE` value is deliberate: the two solvers accept
- * the same clicks, so switching a map's method never changes whether it can be
- * draped at all, only how.
+ * it IS an affine, because the bending term has nothing to bend around — so
+ * this matches `MIN_GCPS_FOR_AFFINE`. See `solveTps` for the exact sense in
+ * which the two solvers agree about which clicks are usable; it is a
+ * one-directional guarantee, not symmetry.
  */
 export const MIN_GCPS_FOR_TPS = 3;
 
@@ -90,9 +91,31 @@ function kernel(squaredRadius: number): number {
  * an oblique collinear cloud gives a pivot of ~1e-16, `Math.abs(1e-16) > 0` is
  * true, and it solves — producing a drape a 1 px nudge moves 12.2 km.
  *
- * Refusals are ordered so every reason is reachable: count, then coincidence,
- * then source conditioning, then the solve, then finiteness, then a collapsed
- * destination. That is the same order `solveAffine` checks in.
+ * THE AGREEMENT WITH `solveAffine` IS ONE-DIRECTIONAL, and only the guaranteed
+ * direction may be relied on:
+ *
+ *   Everything `solveAffine` refuses, `solveTps` refuses.
+ *
+ * That holds by construction rather than by coincidence, because the
+ * destination check below IS a `solveAffine` call. Matching thresholds instead
+ * does not work, and an earlier revision of this file proved it: affine guards
+ * its destination with `MIN_ANISOTROPY_RATIO` on the SOLVED TRANSFORM's
+ * singular values, while this function guarded its own with
+ * `MIN_CONDITION_RATIO` on the destination POINT CLOUD's shape — different
+ * quantities under unrelated thresholds. Measured, the whole band between them
+ * diverged: a georeference squashed 100:1, i.e. a near-zero-area drape, was
+ * refused by affine and ACCEPTED here, because the cloud threshold is 4x looser
+ * on that axis.
+ *
+ * The converse does NOT hold and cannot. An interpolating spline additionally
+ * refuses coincident control points, which make two rows of its matrix
+ * identical, and a singular interpolation matrix — neither of which constrains
+ * a least-squares fit, which simply averages duplicates away. So `solveTps`
+ * refuses a strict superset. Nothing may claim symmetry.
+ *
+ * Refusals are ordered so every reason is reachable and so the cheap ones run
+ * first: count, coincidence, source conditioning, destination finiteness, the
+ * delegated affine check, the solve, then a finiteness backstop.
  */
 export function solveTps(gcps: Gcp[]): TpsSolveResult {
   const count = gcps.length;
@@ -111,8 +134,35 @@ export function solveTps(gcps: Gcp[]): TpsSolveResult {
   }
 
   const pixels = gcps.map((gcp) => gcp.pixel);
-  // Negated so NaN falls through to the rejection rather than past it.
+  // Negated so NaN falls through to the rejection rather than past it. The
+  // delegated `solveAffine` call below applies this same gate to these same
+  // points, so deleting this line changes nothing but the cost of refusing;
+  // it is here to reject a hopeless layout before paying for a Mercator pass
+  // and an affine solve.
   if (!(conditionRatio(pixels) > MIN_CONDITION_RATIO)) {
+    return { ok: false, reason: "ill-conditioned" };
+  }
+
+  const destinations = gcps.map((gcp) => toMercator(gcp.map));
+
+  // Before the delegation, because `solveAffine` folds a non-finite
+  // destination into the same `null` it uses for a degenerate one, and this
+  // function has a distinct reason for it that callers surface differently.
+  for (const destination of destinations) {
+    if (!Number.isFinite(destination.x) || !Number.isFinite(destination.y)) {
+      return { ok: false, reason: "non-finite" };
+    }
+  }
+
+  // THE destination gate, and deliberately not a second `conditionRatio` call.
+  // Asking `solveAffine` the question makes "everything affine refuses, this
+  // refuses" true by construction; two hand-matched thresholds measuring two
+  // different quantities cannot be, and were not — see this function's doc
+  // comment for the 100:1 drape that slipped between them.
+  const affine = solveAffine(
+    gcps.map((gcp, index) => ({ src: gcp.pixel, dst: destinations[index] })),
+  );
+  if (affine === null) {
     return { ok: false, reason: "ill-conditioned" };
   }
 
@@ -141,7 +191,6 @@ export function solveTps(gcps: Gcp[]): TpsSolveResult {
     sourceY[i] = (pixels[i].y - centreY) / scale;
   }
 
-  const destinations = gcps.map((gcp) => toMercator(gcp.map));
   let destinationCentreX = 0;
   let destinationCentreY = 0;
   for (const destination of destinations) {
@@ -181,26 +230,15 @@ export function solveTps(gcps: Gcp[]): TpsSolveResult {
     return { ok: false, reason: "ill-conditioned" };
   }
 
-  // Tested per coefficient rather than on a sum, for the reason affine.ts:158
-  // records: `1e200 + -1e200 + -1e200 + 1e200` is 0, so a summed guard waves
-  // an exactly singular system through. A NaN destination reaches here as a
-  // NaN weight vector, having passed every source-side check above.
+  // A backstop rather than a gate. Every destination was checked finite above
+  // and the system was solvable, so reaching this needs a pathology none of
+  // the earlier checks name. Tested per coefficient rather than on a sum, for
+  // the reason affine.ts:158 records: `1e200 + -1e200 + -1e200 + 1e200` is 0,
+  // so a summed guard waves an exactly singular system through.
   for (let i = 0; i < size; i += 1) {
     if (!Number.isFinite(rhsX[i]) || !Number.isFinite(rhsY[i])) {
       return { ok: false, reason: "non-finite" };
     }
-  }
-
-  // Three clicks straight down a meridian are exactly collinear in Mercator
-  // while the SCAN points look textbook, so no source-side check sees them:
-  // the drape collapses to zero area and every residual reads a perfect 0 m.
-  // `solveAffine` refuses the same layout via MIN_ANISOTROPY_RATIO on its
-  // linear part; a spline has no single linear part to measure, so the same
-  // question is asked of the destination CLOUD instead — which is the closest
-  // of the four reasons and, for a rank-deficient destination, an honest use
-  // of the word: the interpolation problem is degenerate, not merely inexact.
-  if (!(conditionRatio(destinations) > MIN_CONDITION_RATIO)) {
-    return { ok: false, reason: "ill-conditioned" };
   }
 
   return {

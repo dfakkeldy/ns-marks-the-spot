@@ -48,12 +48,17 @@ export const MIN_CONDITION_RATIO = 5e-3;
  * its widest RMS extent, in [0, 1]. Zero for an exactly collinear cloud, one
  * for a perfectly isotropic one.
  *
- * It takes bare POINTS rather than `Gcp`s or solver pairs because both callers
- * need it on a different shape of input — `solveAffine` has
- * `{src, dst}` pairs and passes `pairs.map(p => p.src)`, `solveTps` has
- * `Gcp`s and passes `gcps.map(g => g.pixel)` — and because `solveTps` runs it
- * a second time over its DESTINATIONS, which are Mercator metres and not
- * pixels at all. A `Gcp[]` signature could serve none of those three.
+ * It takes bare POINTS rather than `Gcp`s or solver pairs because its two
+ * callers hold different shapes: `solveAffine` has `{src, dst}` pairs and
+ * passes `pairs.map(p => p.src)`, while `solveTps` has `Gcp`s and passes
+ * `gcps.map(g => g.pixel)`. A `Gcp[]` signature could serve neither the first
+ * caller nor a future one holding raw coordinates.
+ *
+ * This is the SOURCE-side gate for both solvers. It is not the destination-side
+ * one: `solveTps` delegates that to `solveAffine` outright, because the
+ * destination question is about the solved transform's singular values rather
+ * than about a point cloud's shape, and two thresholds over two different
+ * quantities cannot be kept in agreement by hand — measured, they were not.
  *
  * Both solvers must gate on the same number. Measured, a TPS with no
  * conditioning gate accepts a 5-point road layout that `solveAffine` refuses
