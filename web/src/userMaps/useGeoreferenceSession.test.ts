@@ -7,7 +7,12 @@ import {
   useGeoreferenceSession,
 } from "./useGeoreferenceSession";
 import { statusMessage } from "./components/georeferenceStatus";
-import { BENT, irregularGcps } from "./testFixtures";
+import {
+  BENT,
+  collinearExceptOne,
+  expectTpsReport,
+  irregularGcps,
+} from "./testFixtures";
 import { applyAffine, solveAffineFromGcps } from "./transform/affine";
 import {
   AFFINE_GRID_SIZE,
@@ -291,16 +296,20 @@ describe("method-aware accuracy report", () => {
   const LOO_RMS = 317.712;
 
   it("takes a TPS session's numbers from leave-one-out, not from the affine fit", () => {
-    const loo = tpsResidualReport(BENT)!;
+    const loo = expectTpsReport(tpsResidualReport(BENT));
     const affine = residualReport(BENT, solveAffineFromGcps(BENT)!)!;
 
     // State the discrimination as data before relying on it. Without this, a
     // future fixture whose two fits happened to agree would leave the
     // assertions below green against either wiring.
     for (let index = 0; index < BENT.length; index += 1) {
+      // A metre, not the measured 15.1195 m minimum. The guard's job is to
+      // catch a fixture where the two fits COINCIDE; pinning it just under the
+      // measured value gives it a 0.8% margin while the assertions it guards
+      // have margins of ~15 000x, so it would fire first on innocuous drift.
       expect(
         Math.abs(loo.metresPerGcp[index] - affine.metresPerGcp[index]),
-      ).toBeGreaterThan(15);
+      ).toBeGreaterThan(1);
     }
     expect(affine.rmsMetres).toBeCloseTo(AFFINE_RMS, 2);
     expect(loo.rmsMetres).toBeCloseTo(LOO_RMS, 2);
@@ -330,11 +339,11 @@ describe("method-aware accuracy report", () => {
   });
 
   it("tells a 51-point TPS session the truth instead of asking for a 4th point", () => {
-    // The bug `MAX_GCPS_FOR_TPS_RESIDUALS`'s own handoff note warns about.
-    // `tpsResidualReport` returns null for two unrelated reasons — too few
-    // points to leave one out, and too many for n O(n^3) solves per pointer
-    // move — and the status memo mapped ANY falsy report to `exact-fit`, whose
-    // copy is "Exact fit — add a 4th point to check accuracy."
+    // The bug `MAX_GCPS_FOR_TPS_RESIDUALS`'s own handoff note warns about, and
+    // the first of the THREE reasons `tpsResidualReport` can refuse for to be
+    // told apart: back when a missing report meant only "too few points to
+    // leave one out", the status memo mapped every refusal to `exact-fit`,
+    // whose copy is "Exact fit — add a 4th point to check accuracy."
     const over = irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS + 1);
 
     // Premise, asserted rather than assumed: at 51 points BOTH solvers still
@@ -347,7 +356,10 @@ describe("method-aware accuracy report", () => {
     const { result } = setup(over, { method: "tps" });
     expect(result.current.report).toBeNull();
     expect(result.current.status).toEqual({ kind: "too-many-points" });
-    expect(result.current.status.kind).not.toBe("exact-fit");
+    // No `.not.toBe("exact-fit")` alongside: the toEqual above already implies
+    // it, so no input could fail one and pass the other. The statusMessage
+    // check below is different — it CAN fail independently, by routing to a
+    // new kind whose copy was copy-pasted from `exact-fit`.
     expect(statusMessage(result.current.status)).not.toBe(
       "Exact fit — add a 4th point to check accuracy.",
     );
@@ -363,6 +375,54 @@ describe("method-aware accuracy report", () => {
       MAX_GCPS_FOR_TPS_RESIDUALS,
     );
     expect(result.current.status.kind).toBe("solved");
+  });
+
+  it("names a refused refit at EVERY point count, not just the four the first note described", () => {
+    // The third reason `tpsResidualReport` can refuse for, and the one that
+    // does not follow from a count: the full set solves and the drape draws,
+    // but hold any one point back and the rest are collinear. Folded into
+    // `exact-fit` — as it was when only the cost cap had been split out — a
+    // user with TWELVE control points is told to add a fourth.
+    //
+    // Swept rather than asserted at n = 4, deliberately. The first version of
+    // this finding called it a 4-point curiosity; it is not, and a single
+    // count would have understated it in exactly the same way.
+    for (const count of [4, 5, 6, 8, 12, 20]) {
+      const gcps = collinearExceptOne(count);
+
+      // Premise: this is NOT `degenerate`. Both solvers accept the full set,
+      // so the map is on screen and only the accuracy figure is missing.
+      expect(solveTps(gcps).ok, `full TPS solve at n=${count}`).toBe(true);
+      expect(solveAffineFromGcps(gcps), `full affine at n=${count}`).not.toBeNull();
+
+      const { result } = setup(gcps, { method: "tps" });
+      // The drape really does draw — the lattice is built, at the settled
+      // tier. This is what makes "the map still draws" in the copy a true
+      // statement rather than a hopeful one.
+      expect(result.current.mesh!.length - 1, `mesh at n=${count}`).toBe(
+        TPS_GRID_SIZE,
+      );
+      expect(result.current.report, `report at n=${count}`).toBeNull();
+      expect(result.current.status, `status at n=${count}`).toEqual({
+        kind: "refit-refused",
+      });
+      expect(statusMessage(result.current.status)).not.toBe(
+        "Exact fit — add a 4th point to check accuracy.",
+      );
+    }
+  });
+
+  it("keeps the three TPS refusals on three different messages", () => {
+    // The taxonomy in one place. Each of these is reached by its own input,
+    // and the point is that no two produce the same sentence: collapsing any
+    // pair is the bug this file has now caught twice.
+    const messages = [
+      setup(BENT.slice(0, 3), { method: "tps" }), // too few to leave one out
+      setup(irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS + 1), { method: "tps" }),
+      setup(collinearExceptOne(8), { method: "tps" }),
+    ].map(({ result }) => statusMessage(result.current.status));
+
+    expect(new Set(messages).size, JSON.stringify(messages)).toBe(3);
   });
 
   it("keeps the TPS number live through a drag rather than deferring or blanking it", () => {

@@ -19,10 +19,10 @@ import {
 } from "./transform/gcpMesh";
 import type { LatLngPoint, PixelSize } from "./transform/projection";
 import {
-  MAX_GCPS_FOR_TPS_RESIDUALS,
   residualReport,
   tpsResidualReport,
   type ResidualReport,
+  type TpsResidualRefusal,
 } from "./transform/residuals";
 import { solveTps } from "./transform/tps";
 import type { Gcp, GeoreferenceMethod } from "./types";
@@ -66,6 +66,18 @@ export type GeoreferenceStatus =
    * fit was exact and to add a fourth.
    */
   | { kind: "too-many-points" }
+  /**
+   * TPS-only: the full set solves and the drape draws, but holding any one
+   * point back leaves the rest too thin for `solveTps`, so there is no
+   * leave-one-out figure to show. A third remedy again — spread the points
+   * out, which is neither "add one" nor "there is nothing to do".
+   *
+   * Distinct from `degenerate`, and the distinction is the whole point: there
+   * the map cannot be pinned down at all, here it is already on screen. Copy
+   * that told this user their points "can't pin the map down" would be
+   * contradicted by what they are looking at.
+   */
+  | { kind: "refit-refused" }
   | { kind: "solved"; rmsMetres: number; count: number };
 
 export type GeoreferenceSession = {
@@ -94,6 +106,36 @@ export type GeoreferenceSession = {
   flush: () => void;
   discardPendingWrite: (mapId: string) => void;
 };
+
+/**
+ * The one place a refused TPS accuracy figure becomes a panel status.
+ *
+ * A standalone function whose ENTIRE body is a `switch` with no `default`, and
+ * that shape is load-bearing: it is what makes TypeScript raise TS2366
+ * ("function lacks ending return statement") the moment `TpsResidualRefusal`
+ * grows a fourth member. Inlined into the status memo the same switch would
+ * simply fall through to the code after it, and a new reason would silently
+ * inherit whatever copy came next — which is exactly how this bug was found
+ * three separate times, one reason at a time.
+ *
+ * Deliberately NOT collapsed into a lookup object either: an index signature
+ * or a `Record<TpsResidualRefusal, GeoreferenceStatus>` would give the same
+ * exhaustiveness for a missing key but not for a missing RETURN, and would
+ * lose the room for the per-reason reasoning above each arm.
+ */
+function tpsRefusalStatus(reason: TpsResidualRefusal): GeoreferenceStatus {
+  switch (reason) {
+    case "too-few-points":
+      // The same claim `exact-fit` makes on the affine path, and true for the
+      // same reason: with three points a spline IS the affine through them, so
+      // it passes through all of them and there is nothing to hold back.
+      return { kind: "exact-fit" };
+    case "too-many-points":
+      return { kind: "too-many-points" };
+    case "refit-refused":
+      return { kind: "refit-refused" };
+  }
+}
 
 /**
  * Ids only need to be unique within one map's GCP list, not globally and
@@ -537,12 +579,22 @@ export function useGeoreferenceSession(options: {
    * keep displaying the accuracy of the point's OLD position while the user
    * watches the drape follow its new one.
    */
-  const report = useMemo(() => {
+  const tpsReport = useMemo(
+    () => (method === "tps" ? tpsResidualReport(gcps) : null),
+    [gcps, method],
+  );
+  /**
+   * The unwrapped half, which is all `GcpList` and this hook's public surface
+   * ever needed: `ResidualReport | null`, unchanged. The REASON a TPS report is
+   * missing stays behind in `tpsReport` for the status memo, because that is
+   * the only consumer that can act on it.
+   */
+  const report = useMemo<ResidualReport | null>(() => {
     if (method === "tps") {
-      return tpsResidualReport(gcps);
+      return tpsReport?.ok ? tpsReport.report : null;
     }
     return params ? residualReport(gcps, params) : null;
-  }, [gcps, method, params]);
+  }, [gcps, method, params, tpsReport]);
 
   const status = useMemo<GeoreferenceStatus>(() => {
     // A pending half-point is the most urgent thing to tell the user about,
@@ -580,26 +632,18 @@ export function useGeoreferenceSession(options: {
       // draws nothing.
       return { kind: "degenerate" };
     }
+    if (tpsReport && !tpsReport.ok) {
+      // Every TPS refusal, told apart by the reason the solver handed back
+      // rather than by a predicate re-derived out here. Re-deriving is not
+      // actually available: `refit-refused` is only knowable by running the n
+      // leave-one-out solves, which is the exact cost the cap exists to bound.
+      return tpsRefusalStatus(tpsReport.reason);
+    }
     if (!report) {
-      if (method === "tps" && gcps.length > MAX_GCPS_FOR_TPS_RESIDUALS) {
-        // A null report has TWO causes under TPS and they are opposites. This
-        // one is the cost cap: n leave-one-out solves of an O(n^3) system, on
-        // every pointer move. Nothing is wrong with the points and the drape
-        // is unaffected, so the copy must not send the user looking for a fix.
-        return { kind: "too-many-points" };
-      }
-      // Enough points to solve, too few for residuals to mean anything: an
-      // affine passes exactly through three points by construction, and a
-      // spline through three IS that affine.
-      //
-      // A third, rarer path also lands here under TPS: `tpsResidualReport`
-      // refuses when any one refit refuses, which a 4-point set can do when
-      // dropping the off-line point leaves three collinear ones (reproduced:
-      // pixels (100,100) (400,400) (900,900) plus (900,120) — the full solve
-      // is healthy, the refit is `ill-conditioned`). The copy is wrong there,
-      // but its remedy differs from BOTH of the above ("spread these out",
-      // while the map still draws), so giving it a kind is a further taxonomy
-      // change and is left for the maintainer rather than guessed at here.
+      // Affine path only — the TPS path returned above whether or not it has
+      // numbers. Enough points to solve, too few for residuals to mean
+      // anything: an affine passes exactly through three points by
+      // construction.
       return { kind: "exact-fit" };
     }
     return {
@@ -607,7 +651,7 @@ export function useGeoreferenceSession(options: {
       rmsMetres: report.rmsMetres,
       count: gcps.length,
     };
-  }, [gcps.length, method, params, pending, report, tps]);
+  }, [gcps.length, method, params, pending, report, tps, tpsReport]);
 
   return {
     gcps,

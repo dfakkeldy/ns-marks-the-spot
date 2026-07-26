@@ -129,7 +129,8 @@ export function residualReport(
 const MIN_GCPS_FOR_TPS_RESIDUALS = MIN_GCPS_FOR_TPS + 1;
 
 /**
- * Above this the report is refused entirely — `null`, never a partial array.
+ * Above this the report is refused entirely — a `too-many-points` refusal,
+ * never a partial array.
  *
  * Leave-one-out is n solves and a single TPS solve is O(n^3), so cost climbs
  * towards n^4 once per-call overhead stops dominating. Measured in this repo
@@ -155,22 +156,16 @@ const MIN_GCPS_FOR_TPS_RESIDUALS = MIN_GCPS_FOR_TPS + 1;
  * Deferring the refit to pointer-up was the other real candidate, and was
  * rejected on layering rather than on cost: this module is pure and free of
  * Leaflet and React, drag state lives in the hook, and a `dragging` argument
- * would pull UI state into `transform/`. Nothing stops a caller from memoising
- * on settled GCPs instead; that choice belongs at the call site.
+ * would pull UI state into `transform/`. The call site made that choice in the
+ * other direction and kept the figure live — see the `report` memo's comment
+ * in `useGeoreferenceSession.ts` for the measured reasoning.
  *
  * The array is full or absent because `GcpList` indexes `metresPerGcp` for
  * every row (GcpList.tsx:111) — a short one renders `NaN m` past its end.
  *
- * ⚠ HANDOFF: RETURNING `null` HERE IS **NOT** FREE AT THE PANEL, and whoever
- * swaps `residualReport` for this function must fix that first. `GcpList`
- * renders `—` for a null report and needs no change, but
- * `useGeoreferenceSession.ts:539-542` maps ANY falsy report to
- * `{ kind: "exact-fit" }`, whose copy is "Exact fit — add a 4th point to check
- * accuracy." (georeferenceStatus.ts:35). That sentence is correct for the
- * reason it was written — too FEW points — and flatly wrong for this refusal:
- * a user with 51 control points would be told their fit is exact and to add a
- * fourth. The cap needs its own status kind, which is a taxonomy change and so
- * deliberately not made here.
+ * Refusing here is NOT free at the panel — a refusal is a different sentence
+ * from "add a 4th point", and telling them apart is why this function returns
+ * a REASON rather than `null`. See `TpsResidualResult`.
  */
 export const MAX_GCPS_FOR_TPS_RESIDUALS = 50;
 
@@ -239,8 +234,38 @@ function leaveOneOutMetres(gcps: Gcp[]): number[] | null {
 }
 
 /**
- * The numbers the GCP list renders under a TPS warp. Same `ResidualReport`
- * shape as the affine path returns, so `GcpList` needs no change.
+ * Why a TPS accuracy figure was refused. The three are NOT interchangeable at
+ * the panel — they take different copy and imply different remedies — and
+ * collapsing them is a bug this module has now shipped twice:
+ *
+ *  - `too-few-points`: fewer than `MIN_GCPS_FOR_TPS_RESIDUALS`, so there is
+ *    nothing to leave out. Remedy: add a point.
+ *  - `too-many-points`: past `MAX_GCPS_FOR_TPS_RESIDUALS`, where n refits of an
+ *    O(n^3) system would blow the drag frame. Remedy: none — the drape is
+ *    unaffected and nothing is wrong with the points.
+ *  - `refit-refused`: the full set solves, but holding one point back leaves
+ *    the rest too thin for `solveTps`. Remedy: spread the points out. Measured
+ *    reachable at n = 4, 5, 6, 8, 12 and 20 with (n-1) points on a line — see
+ *    `collinearExceptOne` in `testFixtures.ts`.
+ *
+ * A REASON rather than `null` because the caller cannot re-derive this. The
+ * count-based two are an O(1) length test, but detecting the third from
+ * outside would mean running the n leave-one-out solves again — doubling the
+ * exact cost `MAX_GCPS_FOR_TPS_RESIDUALS` exists to bound.
+ */
+export type TpsResidualRefusal =
+  | "too-few-points"
+  | "too-many-points"
+  | "refit-refused";
+
+export type TpsResidualResult =
+  | { ok: true; report: ResidualReport }
+  | { ok: false; reason: TpsResidualRefusal };
+
+/**
+ * The numbers the GCP list renders under a TPS warp. The success arm carries
+ * the same `ResidualReport` shape the affine path returns, so `GcpList` needs
+ * no change once the caller unwraps it.
  *
  * The two halves come from DIFFERENT fits, and that is the whole point:
  *
@@ -264,26 +289,34 @@ function leaveOneOutMetres(gcps: Gcp[]): number[] | null {
  * other points" is a consistency claim, not a largest-error one. Do not "fix"
  * the mismatch by re-ranking to match the displayed magnitudes.
  */
-export function tpsResidualReport(gcps: Gcp[]): ResidualReport | null {
-  if (
-    gcps.length < MIN_GCPS_FOR_TPS_RESIDUALS ||
-    gcps.length > MAX_GCPS_FOR_TPS_RESIDUALS
-  ) {
-    return null;
+export function tpsResidualReport(gcps: Gcp[]): TpsResidualResult {
+  if (gcps.length < MIN_GCPS_FOR_TPS_RESIDUALS) {
+    return { ok: false, reason: "too-few-points" };
+  }
+  if (gcps.length > MAX_GCPS_FOR_TPS_RESIDUALS) {
+    return { ok: false, reason: "too-many-points" };
   }
 
   // Ahead of the n refits, because it is one cheap solve and it can rule the
   // whole report out: `solveTps` refuses everything `solveAffine` refuses (its
-  // destination gate IS a `solveAffine` call), so a null here means there is no
-  // spline on screen to report an accuracy for.
+  // destination gate IS a `solveAffine` call), so a refusal here means there is
+  // no spline on screen to report an accuracy for.
+  //
+  // Reported as `refit-refused` rather than earning a fourth reason, and that
+  // is measured rather than assumed: over 20 000 randomly oriented near-
+  // collinear clouds at n = 4..12, every one of the 5 239 trials where the
+  // full-set affine refused ALSO had at least one leave-one-out refit refuse —
+  // zero counterexamples. Removing a point from a cloud too thin to fit cannot
+  // thicken it. So this branch only ever pre-empts a refusal the loop below
+  // would reach anyway; it is an optimisation, not a distinct outcome.
   const affine = solveAffineFromGcps(gcps);
   if (affine === null) {
-    return null;
+    return { ok: false, reason: "refit-refused" };
   }
 
   const metresPerGcp = leaveOneOutMetres(gcps);
   if (metresPerGcp === null) {
-    return null;
+    return { ok: false, reason: "refit-refused" };
   }
 
   let mostInconsistentIndex: number | null = null;
@@ -299,8 +332,11 @@ export function tpsResidualReport(gcps: Gcp[]): ResidualReport | null {
   }
 
   return {
-    metresPerGcp,
-    rmsMetres: rmsMetres(metresPerGcp),
-    mostInconsistentIndex,
+    ok: true,
+    report: {
+      metresPerGcp,
+      rmsMetres: rmsMetres(metresPerGcp),
+      mostInconsistentIndex,
+    },
   };
 }

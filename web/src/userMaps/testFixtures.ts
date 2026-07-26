@@ -1,4 +1,8 @@
 import type { Gcp, UserMapRecord } from "./types";
+import type {
+  ResidualReport,
+  TpsResidualResult,
+} from "./transform/residuals";
 import { EARTH_RADIUS_METRES } from "./transform/webMercator";
 
 /**
@@ -124,6 +128,70 @@ export function irregularGcps(count: number): Gcp[] {
       },
     };
   });
+}
+
+/**
+ * Unwraps a `TpsResidualResult` in a test that expects numbers, throwing with
+ * the refusal REASON when there are none.
+ *
+ * Shared so both suites report the same way, and a function rather than a bare
+ * `!` because the two fail very differently: `result!.report.rmsMetres` on a
+ * refusal dies with "Cannot read properties of undefined", several lines from
+ * the fixture that caused it and naming nothing useful. This says which of the
+ * three refusals fired.
+ */
+export function expectTpsReport(result: TpsResidualResult): ResidualReport {
+  if (!result.ok) {
+    throw new Error(`expected a TPS residual report, got: ${result.reason}`);
+  }
+  return result.report;
+}
+
+/**
+ * `count` control points of which `count - 1` sit on an exact 45-degree line
+ * and one sits well off it — the layout that makes a leave-one-out refit refuse
+ * while the full solve is perfectly healthy.
+ *
+ * Drop the off-line point and the remaining `count - 1` are collinear, so
+ * `solveTps` refuses that ONE subset; drop any other and the off-line point is
+ * still there to hold the cloud open, so every other subset solves. The full
+ * set therefore draws a drape while `tpsResidualReport` can produce no numbers
+ * for it — which is a different sentence from "add a 4th point", and the reason
+ * `TpsResidualRefusal` exists.
+ *
+ * Measured across `count` = 4, 5, 6, 8, 12 and 20: `solveTps` and
+ * `solveAffineFromGcps` accept the full set at every one (pixel-cloud
+ * `conditionRatio` 0.60 / 0.52 / 0.45 at 4 / 8 / 12, far above
+ * `MIN_CONDITION_RATIO`), and in every case exactly one subset refuses, with
+ * reason `ill-conditioned`. Parameterised by count on purpose: the original
+ * note about this path described it as a 4-point curiosity, and it is not.
+ *
+ * Exactly 45 degrees so the line's x and y deviations are bit-identical and its
+ * `conditionRatio` is exactly 0 — see `conditioning.ts`, which documents that
+ * an OBLIQUE degenerate line instead lands at ~1e-16 and slips past a
+ * pivot-only guard. Nothing here depends on that distinction, but a fixture
+ * that sat at 1e-16 would be one solver change away from silently solving.
+ *
+ * `map` positions come from one affine of the pixel, so the destination cloud
+ * is exactly as thin as the source and neither side is doing the refusing by
+ * itself.
+ */
+export function collinearExceptOne(count: number): Gcp[] {
+  const onLine = count - 1;
+  const toMap = (x: number, y: number) => ({
+    lat: 46.4 - y * 0.0001,
+    lng: -61.5 + x * 0.00012,
+  });
+  const gcps: Gcp[] = Array.from({ length: onLine }, (_, index) => {
+    const along = 100 + (800 * index) / (onLine - 1);
+    return {
+      id: `c${index}`,
+      pixel: { x: along, y: along },
+      map: toMap(along, along),
+    };
+  });
+  gcps.push({ id: "off", pixel: { x: 900, y: 120 }, map: toMap(900, 120) });
+  return gcps;
 }
 
 /**

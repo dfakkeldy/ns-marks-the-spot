@@ -10,9 +10,12 @@ import {
   rmsMetres,
   tpsResidualReport,
 } from "./residuals";
+import { solveTps } from "./tps";
 import {
   argmax,
   BENT,
+  collinearExceptOne,
+  expectTpsReport,
   irregularGcps,
   nudgeGcpEast,
   OUTLIER_FIXTURE,
@@ -175,12 +178,11 @@ describe("residualReport", () => {
 
 describe("tpsResidualReport", () => {
   it("reports one NON-ZERO error per point, unlike the TPS fit residual", () => {
-    const report = tpsResidualReport(BENT);
-    expect(report).not.toBeNull();
+    const report = expectTpsReport(tpsResidualReport(BENT));
     // Length pinned: an empty array would satisfy a bare for-loop, and GcpList
     // indexes metresPerGcp for every row (GcpList.tsx:111) — it would render NaN.
-    expect(report!.metresPerGcp).toHaveLength(BENT.length);
-    for (const metres of report!.metresPerGcp) {
+    expect(report.metresPerGcp).toHaveLength(BENT.length);
+    for (const metres of report.metresPerGcp) {
       // A METRE, not zero. `> 0` is the obvious assertion and it is very nearly
       // vacuous: mutation-tested, swapping the leave-one-out refit for a
       // full-set solve — the exact regression this test exists to catch — left
@@ -219,7 +221,7 @@ describe("tpsResidualReport", () => {
     //    the refits that still contain it, so its five neighbours pick up
     //    4.6-126.1 m of their own. Index the point that was actually moved.
     const displaced = nudgeGcpEast(exactGcps(), 4, 100); // ONE point, 100 ground m
-    const worst = tpsResidualReport(displaced)!.metresPerGcp[4];
+    const worst = expectTpsReport(tpsResidualReport(displaced)).metresPerGcp[4];
     expect(worst).toBeCloseTo(100, 3);
     expect(worst).not.toBeCloseTo(143.96, 1); // the Mercator figure
   });
@@ -233,7 +235,9 @@ describe("tpsResidualReport", () => {
     // a visibly bent 8-point TPS map. That is verbatim the symptom this task was
     // written to remove, shipping green. `metresPerGcp` being thoroughly pinned
     // does not pin anything derived from it.
-    const { metresPerGcp, rmsMetres: reported } = tpsResidualReport(BENT)!;
+    const { metresPerGcp, rmsMetres: reported } = expectTpsReport(
+      tpsResidualReport(BENT),
+    );
 
     // 1. The measured magnitude. This is what bites: it kills a zeroed scalar,
     //    a scalar left in Mercator metres (317.71 x 1.4396 = 457.4), and a
@@ -260,14 +264,19 @@ describe("tpsResidualReport", () => {
   it("brackets the point-count floor from BOTH sides", () => {
     // A single assertion at 3 points cannot distinguish the guard from its
     // absence: with `< MIN_GCPS_FOR_TPS` the loop still runs, the inner solve on
-    // 2 points refuses, and the function returns null anyway.
-    expect(tpsResidualReport(BENT.slice(0, 3))).toBeNull();
-    // `.not.toBeNull()` would accept `undefined`; assert the shape instead.
-    expect(tpsResidualReport(BENT.slice(0, 4))!.metresPerGcp).toHaveLength(4);
+    // 2 points refuses, and the function refuses anyway — but for the WRONG
+    // reason, which is why the reason is asserted and not merely the refusal.
+    expect(tpsResidualReport(BENT.slice(0, 3))).toEqual({
+      ok: false,
+      reason: "too-few-points",
+    });
+    expect(
+      expectTpsReport(tpsResidualReport(BENT.slice(0, 4))).metresPerGcp,
+    ).toHaveLength(4);
   });
 
   it("ranks the suspect by the AFFINE fit residual, not by the LOO magnitude", () => {
-    const report = tpsResidualReport(OUTLIER_FIXTURE)!;
+    const report = expectTpsReport(tpsResidualReport(OUTLIER_FIXTURE));
     const affineRanked = argmax(
       residualMetresFor(solveAffineFromGcps(OUTLIER_FIXTURE)!, OUTLIER_FIXTURE),
     );
@@ -277,9 +286,11 @@ describe("tpsResidualReport", () => {
 
   it("accuses nobody below five points, on the independently measured floor", () => {
     expect(MIN_GCPS_FOR_TPS_SUSPECT).toBe(5);
-    expect(tpsResidualReport(BENT.slice(0, 4))!.mostInconsistentIndex).toBeNull();
     expect(
-      tpsResidualReport(BENT.slice(0, 5))!.mostInconsistentIndex,
+      expectTpsReport(tpsResidualReport(BENT.slice(0, 4))).mostInconsistentIndex,
+    ).toBeNull();
+    expect(
+      expectTpsReport(tpsResidualReport(BENT.slice(0, 5))).mostInconsistentIndex,
     ).not.toBeNull();
   });
 
@@ -288,10 +299,49 @@ describe("tpsResidualReport", () => {
     // fall back to: a TPS interpolates exactly, so "RMS only" would be 0 m.
     // A short or empty metresPerGcp would render NaN in every row past its end.
     expect(MAX_GCPS_FOR_TPS_RESIDUALS).toBe(50);
-    const atCap = tpsResidualReport(irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS));
-    expect(atCap!.metresPerGcp).toHaveLength(MAX_GCPS_FOR_TPS_RESIDUALS);
+    const atCap = expectTpsReport(
+      tpsResidualReport(irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS)),
+    );
+    expect(atCap.metresPerGcp).toHaveLength(MAX_GCPS_FOR_TPS_RESIDUALS);
     expect(
       tpsResidualReport(irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS + 1)),
-    ).toBeNull();
+    ).toEqual({ ok: false, reason: "too-many-points" });
+  });
+
+  it("distinguishes a refused REFIT from a refused count, at every point count", () => {
+    // The third reason, and the only one a caller cannot re-derive from
+    // `gcps.length`: the full set solves, so there IS a spline on screen, but
+    // holding one point back leaves the rest collinear.
+    //
+    // Swept over counts because the first write-up of this path called it a
+    // 4-point curiosity. It is not — the layout is (n-1) points on a line plus
+    // one off it, which a user can produce at any size by tracing a road or a
+    // neatline and adding a single anchor elsewhere.
+    for (const count of [4, 5, 6, 8, 12, 20]) {
+      const gcps = collinearExceptOne(count);
+      // The premise, asserted: this is NOT the `degenerate` case. Both solvers
+      // accept the full set — so a test seeing `refit-refused` is seeing the
+      // refits refuse, not the fixture failing to solve at all.
+      expect(solveTps(gcps).ok, `full solve at n=${count}`).toBe(true);
+      expect(solveAffineFromGcps(gcps), `full affine at n=${count}`).not.toBeNull();
+      expect(tpsResidualReport(gcps), `n=${count}`).toEqual({
+        ok: false,
+        reason: "refit-refused",
+      });
+    }
+  });
+
+  it("returns all three refusals, never the same one twice", () => {
+    // Guards the taxonomy itself rather than any single arm: collapsing two
+    // reasons into one is precisely the defect the reason type replaced, and
+    // every per-reason test above would still pass if two of them returned the
+    // same string.
+    const reasons = [
+      tpsResidualReport(BENT.slice(0, 3)),
+      tpsResidualReport(irregularGcps(MAX_GCPS_FOR_TPS_RESIDUALS + 1)),
+      tpsResidualReport(collinearExceptOne(8)),
+    ].map((result) => (result.ok ? "ok" : result.reason));
+
+    expect(new Set(reasons).size, JSON.stringify(reasons)).toBe(3);
   });
 });

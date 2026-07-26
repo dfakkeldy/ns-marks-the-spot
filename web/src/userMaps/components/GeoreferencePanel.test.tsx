@@ -180,6 +180,34 @@ describe("statusMessage", () => {
     );
   });
 
+  it("names the remedy, and says the map draws, when a leave-one-out refit refuses", () => {
+    // Task 7b round 2, the third TPS refusal. Distinct from BOTH neighbours:
+    // unlike `too-many-points` there IS something to do about it, and unlike
+    // `degenerate` the map is already on screen — the full set solves, only
+    // the (n-1) subsets do not. Copy proposed for maintainer review.
+    expect(statusMessage({ kind: "refit-refused" })).toBe(
+      "Can't check accuracy — these points sit too close to a straight " +
+        "line. Spread them out; the map still draws.",
+    );
+  });
+
+  it("gives all five non-solved statuses five different sentences", () => {
+    // The taxonomy guard. Every per-kind test above would still pass if two
+    // kinds returned the SAME string, which is the failure this table has
+    // actually produced twice — `exact-fit`'s copy standing in for a refusal
+    // that had nothing to do with a fourth point.
+    const messages = (
+      [
+        { kind: "exact-fit" },
+        { kind: "too-many-points" },
+        { kind: "refit-refused" },
+        { kind: "degenerate" },
+        { kind: "coincident-points" },
+      ] as const
+    ).map(statusMessage);
+    expect(new Set(messages).size, JSON.stringify(messages)).toBe(5);
+  });
+
   it("reports RMS with the point count", () => {
     expect(statusMessage({ kind: "solved", rmsMetres: 42.4, count: 5 })).toBe(
       "RMS 42 m across 5 points",

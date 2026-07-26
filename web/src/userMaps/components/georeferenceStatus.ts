@@ -41,6 +41,19 @@ export function statusMessage(status: GeoreferenceStatus): string {
       // the drape is exactly as good as it was at 50. Hence the second clause;
       // there is no action for the user to take.
       return "Too many points to check accuracy — the map still draws.";
+    case "refit-refused":
+      // Copy is the maintainer's call (Task 7b round 2), proposed for review.
+      // Three jobs: name the problem, name the remedy (spread them out — this
+      // one IS actionable, unlike `too-many-points`), and say the map still
+      // draws, because it does and `degenerate`'s "can't pin the map down"
+      // would be contradicted by what the user is looking at. Deliberately
+      // does not say WHICH side is thin: the refusing subset can be
+      // ill-conditioned on the scan or on the map, exactly as `degenerate`
+      // names both.
+      return (
+        "Can't check accuracy — these points sit too close to a straight " +
+        "line. Spread them out; the map still draws."
+      );
     case "solved":
       return `RMS ${Math.round(status.rmsMetres)} m across ${status.count} points`;
   }
