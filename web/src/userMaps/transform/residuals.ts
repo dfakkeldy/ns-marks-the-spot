@@ -160,6 +160,17 @@ const MIN_GCPS_FOR_TPS_RESIDUALS = MIN_GCPS_FOR_TPS + 1;
  *
  * The array is full or absent because `GcpList` indexes `metresPerGcp` for
  * every row (GcpList.tsx:111) — a short one renders `NaN m` past its end.
+ *
+ * ⚠ HANDOFF: RETURNING `null` HERE IS **NOT** FREE AT THE PANEL, and whoever
+ * swaps `residualReport` for this function must fix that first. `GcpList`
+ * renders `—` for a null report and needs no change, but
+ * `useGeoreferenceSession.ts:539-542` maps ANY falsy report to
+ * `{ kind: "exact-fit" }`, whose copy is "Exact fit — add a 4th point to check
+ * accuracy." (georeferenceStatus.ts:37). That sentence is correct for the
+ * reason it was written — too FEW points — and flatly wrong for this refusal:
+ * a user with 51 control points would be told their fit is exact and to add a
+ * fourth. The cap needs its own status kind, which is a taxonomy change and so
+ * deliberately not made here.
  */
 export const MAX_GCPS_FOR_TPS_RESIDUALS = 50;
 

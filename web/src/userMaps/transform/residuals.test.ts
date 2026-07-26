@@ -246,6 +246,39 @@ describe("tpsResidualReport", () => {
     expect(worst).not.toBeCloseTo(143.96, 1); // the Mercator figure
   });
 
+  it("pins the RMS scalar, which the per-point assertions do not touch", () => {
+    // The defect this whole function exists to remove hides in the SCALAR, not
+    // in the array. Mutation-tested: hard-coding `rmsMetres: 0` in the returned
+    // object left all 16 tests green, and the panel — which renders
+    // `RMS ${round(status.rmsMetres)} m across ${count} points`
+    // (georeferenceStatus.ts:37) — would then say "RMS 0 m across 8 points" for
+    // a visibly bent 8-point TPS map. That is verbatim the symptom this task was
+    // written to remove, shipping green. `metresPerGcp` being thoroughly pinned
+    // does not pin anything derived from it.
+    const { metresPerGcp, rmsMetres: reported } = tpsResidualReport(BENT)!;
+
+    // 1. The measured magnitude. This is what bites: it kills a zeroed scalar,
+    //    a scalar left in Mercator metres (317.71 x 1.4396 = 457.4), and a
+    //    scalar computed from a different fit than the column it heads.
+    expect(reported).toBeCloseTo(317.712, 2);
+
+    // 2. The scalar re-derived from the array it was returned WITH, inline
+    //    rather than by calling `rmsMetres` — calling the same helper the
+    //    implementation calls would be a tautology that passes however wrong
+    //    both are. This is what stops the two drifting apart on a future
+    //    fixture, where the constant above would have to be re-measured anyway.
+    const rederived = Math.sqrt(
+      metresPerGcp.reduce((sum, m) => sum + m * m, 0) / metresPerGcp.length,
+    );
+    expect(reported).toBeCloseTo(rederived, 9);
+
+    // 3. Root-mean-square, not mean — asserted as a relation rather than as a
+    //    second magic number, so it holds for any fixture. RMS strictly exceeds
+    //    the mean for any non-constant non-negative set (here 317.71 vs 273.41).
+    const mean = metresPerGcp.reduce((sum, m) => sum + m, 0) / metresPerGcp.length;
+    expect(reported).toBeGreaterThan(mean);
+  });
+
   it("brackets the point-count floor from BOTH sides", () => {
     // A single assertion at 3 points cannot distinguish the guard from its
     // absence: with `< MIN_GCPS_FOR_TPS` the loop still runs, the inner solve on
