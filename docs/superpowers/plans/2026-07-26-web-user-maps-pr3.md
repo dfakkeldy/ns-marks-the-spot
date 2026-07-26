@@ -94,250 +94,285 @@ This is consistent with the copy already shipping. The row's text carrier reads 
 
 ---
 
+## ⚠ The affine solver is hardcoded in THREE places, not one
+
+Found by the second review pass and by verifying it. The session is the
+*obvious* consumer; it is not the only one, and the other two are what make the
+feature actually work end to end.
+
+| Site | What it decides | Consequence if left affine |
+|---|---|---|
+| `useGeoreferenceSession.ts:388-392` | the **live** drape while the panel is open | The panel shows TPS; nothing else does. |
+| `recordMesh.ts:27` (`meshForRecord`) | the drape for every **saved** map — called from `UserMapLayers.tsx:133` | Edit a bent record as TPS, click Done, enable it: **the drape snaps back to affine.** Every task test stays green. |
+| `useUserMaps.ts:57` (`needsGeoreferencing`) | whether a record is admitted to `visibleMaps` **at all** | A record whose points give a squashed affine but a fine spline is excluded from the layer list and badged "Needs georeferencing", so the user can never turn it on. |
+
+**This is the non-functional-but-green category.** A plan that changed only the
+session would ship a TPS toggle that works inside the panel and nowhere else.
+Task 3 owns all three.
+
+---
+
 ## File structure
 
 | File | Responsibility |
 |---|---|
-| `web/src/userMaps/transform/conditioning.ts` | **Create.** `conditionRatio(gcps)` extracted from `affine.ts` so both solvers share ONE gate. Two independent copies of a numerical threshold is how they drift. |
-| `web/src/userMaps/transform/tps.ts` | **Create.** Pure TPS solve + apply in Web Mercator metres, returning a discriminated result that carries the refusal *reason*. |
+| `web/src/userMaps/transform/conditioning.ts` | **Create.** `conditionRatio` extracted from `affine.ts` so both solvers share ONE gate. Two copies of a numerical threshold is how they drift. |
+| `web/src/userMaps/transform/tps.ts` | **Create.** Pure TPS solve + apply, returning a discriminated result carrying the refusal *reason*. |
 | `web/src/userMaps/transform/gcpMesh.ts` | **Modify.** `buildTpsLatLngMesh` + the two measured grid constants. |
 | `web/src/userMaps/transform/residuals.ts` | **Modify.** `tpsResidualReport` — LOO magnitudes, affine-ranked suspect. |
-| `web/src/userMaps/useGeoreferenceSession.ts` | **Modify.** A `method` option, a method-aware solve, the new refusal state, drag-aware mesh density. |
-| `web/src/userMaps/useUserMaps.ts` | **Modify.** `saveGcps` stops hardcoding `method: "affine"`. |
+| `web/src/userMaps/useGeoreferenceSession.ts` | **Modify.** `method` option, method-aware solve, new refusal state, drag-aware density. |
+| `web/src/userMaps/recordMesh.ts` | **Modify.** Method-aware `meshForRecord`. **Was missing from the first draft.** |
+| `web/src/userMaps/useUserMaps.ts` | **Modify.** Method-aware `needsGeoreferencing`; `saveGcps` preserves `method`; a method setter. |
 | `web/src/userMaps/components/GeoreferencePanel.tsx` | **Modify.** TPS toggle, export control. |
-| `web/src/userMaps/allmaps/annotation.ts` | **Create.** Pure serializer. A `.ts` file, so plain function exports are legal. |
-| `web/src/userMaps/testFixtures.ts` | **Create.** `BENT` and `gcpRecord` shared across transform tests — Task 1 owns it. |
+| `web/src/userMaps/allmaps/annotation.ts` | **Create.** Pure serializer; a `.ts` file, so plain function exports are legal. |
+| `web/src/userMaps/testFixtures.ts` | **Create.** `BENT`, `OUTLIER_FIXTURE`, `gcpRecord`, `argmax`, `nudgeGcpEast` — Task 1 owns it. |
 | `README.md`, `ARCHITECTURE.md`, `plan.md` | **Modify.** Final task. |
 
 ---
 
 ## Task list
 
-Eleven tasks. **This graph was corrected after review**: the original assigned "method-aware solve" to no task while two tasks depended on it, and gave `solveTps` a `TpsParams | null` signature that could not carry the refusal reason a later task needed.
+Eleven tasks. **Corrected twice**: once for an unassigned session dependency and an
+unrepresentable refusal reason, once for two affine-hardcoded render paths the
+first draft never touched.
 
 | # | Task | Produces |
 |---|---|---|
-| 1 | Shared `conditionRatio` + TPS solver with typed refusals + shared fixtures | `conditionRatio`, `solveTps`, `applyTps`, `TpsSolveResult`, `BENT`, `gcpRecord` |
+| 1 | Shared `conditionRatio` + TPS solver with typed refusals + shared fixtures | `conditionRatio`, `solveTps`, `applyTps`, `TpsSolveResult`, fixtures |
 | 2 | `buildTpsLatLngMesh` + measured grid constants | `TPS_GRID_SIZE`, `TPS_DRAG_GRID_SIZE`, `buildTpsLatLngMesh` |
-| 3 | **Method-aware session** (NEW — was missing) | `method` option; method-aware `params`/`mesh` |
+| 3 | **Method-aware solve in ALL THREE sites** | `method` option; method-aware `meshForRecord`, `needsGeoreferencing` |
 | 4 | The `coincident-points` refusal state | new `GeoreferenceStatus` member |
-| 5 | Two-tier mesh density during a drag | `endDragGcp` + wiring |
+| 5 | Two-tier mesh density during a drag | `endDragGcp` + wiring on **both** panes |
 | 6 | TPS residuals: LOO magnitudes, affine-ranked suspect | `tpsResidualReport`, `MIN_GCPS_FOR_TPS_SUSPECT` |
 | 7 | `saveGcps` preserves `method` | — |
-| 8 | The TPS toggle | — |
+| 8 | The TPS toggle + method persistence | `setGeorefMethod` on `UserMapsApi` |
 | 9 | Allmaps annotation serializer | `georeferenceAnnotation` |
 | 10 | Export control | — |
 | 11 | Batched Minor fixes + docs | — |
 
-**Dependencies:** 1 → 2, 4, 6. 2 → 3. 3 → 5, 8. 1 → 9. 9 → 10. 7 independent. All → 11.
-
-**Task 3 must land before Tasks 4 and 5.** Both assert on a session that solves with TPS; today `useGeoreferenceSession` has no `method` option and hardcodes `solveAffineFromGcps` (`:388-392`) with options `{ mapId, initialGcps, pixelSize, onPersist, persistDelayMs? }` (`:83-89`).
+**Dependencies:** 1 → 2, 4, 6. 2 → 3. 3 → 5, 8. 1 → 9. 9 → 10. 7 → 8. All → 11.
 
 ---
 
 ### Task 1: shared conditioning gate, TPS solver with typed refusals, shared fixtures
 
-**Files:**
-- Create: `web/src/userMaps/transform/conditioning.ts` + `.test.ts`
-- Create: `web/src/userMaps/transform/tps.ts` + `.test.ts`
-- Create: `web/src/userMaps/testFixtures.ts`
-- Modify: `web/src/userMaps/transform/affine.ts` (use the extracted helper; behaviour must not change)
+**Files:** create `transform/conditioning.ts` + test, `transform/tps.ts` + test, `testFixtures.ts`; modify `transform/affine.ts`.
 
-**Interfaces — Produces:**
+**Produces:**
 ```ts
-// conditioning.ts
-export function conditionRatio(gcps: Gcp[]): number;   // sqrt(lambda_min/lambda_max) of the centred pixel scatter
+// conditioning.ts — takes PIXEL POINTS, not Gcps and not pairs.
+// affine.ts's gate lives inside solveAffine(pairs: {src; dst}[]) (affine.ts:92,136),
+// so a Gcp[] signature could not be called from there. Points are the common
+// denominator: affine passes pairs.map(p => p.src), tps passes gcps.map(g => g.pixel).
+export function conditionRatio(points: ReadonlyArray<{ x: number; y: number }>): number;
 
 // tps.ts
 export const MIN_GCPS_FOR_TPS = 3;
 export const MIN_TPS_SEPARATION = 1e-6;
-export type TpsParams = { /* opaque to callers; see implementation */ };
-export type TpsRefusal =
-  | "too-few-points"
-  | "coincident-points"
-  | "ill-conditioned"
-  | "non-finite";
-export type TpsSolveResult =
-  | { ok: true; params: TpsParams }
-  | { ok: false; reason: TpsRefusal };
+export type TpsParams = { /* opaque */ };
+export type TpsRefusal = "too-few-points" | "coincident-points" | "ill-conditioned" | "non-finite";
+export type TpsSolveResult = { ok: true; params: TpsParams } | { ok: false; reason: TpsRefusal };
 export function solveTps(gcps: Gcp[]): TpsSolveResult;
 export function applyTps(params: TpsParams, x: number, y: number): MercatorPoint;
 
-// testFixtures.ts
-export const BENT: Gcp[];                       // irregular, NOT a lattice
-export function gcpRecord(overrides?: Partial<...>): UserMapRecord;
+// testFixtures.ts — every fixture the later tasks reference. NOTHING is left
+// to an implementer to invent, and none of these names collides with an
+// existing module-private helper (residuals.test.ts:30 already has a
+// `nudgeEast` taking ONE Gcp — hence the different name here).
+export const BENT: Gcp[];                    // irregular, NOT a lattice
+export const OUTLIER_FIXTURE: Gcp[];         // affine-rank and LOO-rank disagree
+export function gcpRecord(overrides?: Partial<UserMapRecord>): UserMapRecord;
+export function argmax(values: number[]): number;
+export function nudgeGcpEast(gcps: Gcp[], index: number, metres: number): Gcp[];
 ```
 
-**Why a result union, not `TpsParams | null`.** Task 4 must tell the user *"Two points are on the same spot"* as distinct from *"These points can't pin the map down"*. A `null` collapses all four refusals, and re-detecting coincidence in the session would put a second threshold beside the solver's own — measured to diverge: `solveTps` rejects at scaled distance < 1e-6, i.e. ~0.0007 raw px on a 2 000 px cloud, so any plausible session-side pixel threshold disagrees in both directions.
+`nudgeGcpEast` moves **one** point by a known ground distance and returns a new
+array. Translating the whole array moves every point together, so the LOO error
+would not be an externally known 100 m — that is the trap the signature avoids.
 
-**Why extract `conditionRatio`.** `solveAffine` refuses on a *ratio* (`MIN_CONDITION_RATIO = 5e-3`), so it rejects thin clouds, not just singular ones. TPS needs the same test or the two paths disagree about the same points — measured: 5 points along a road with ±2 px scatter give `condRatio = 2.166e-3`, refused by affine and accepted by an unconditioned TPS, where a 1-px nudge moves a drape corner **12.2 km**. Extract rather than duplicate.
+- [ ] **Step 1: Extract `conditionRatio` behind a characterisation test**
 
-- [ ] **Step 1: Extract `conditionRatio` with a characterisation test FIRST**
-
-Before moving anything, pin the current behaviour so the extraction cannot change it:
+Pin current behaviour first, so the extraction cannot change it:
 
 ```ts
-// conditioning.test.ts — these values are MEASURED against the current affine.ts
-it("scores a healthy scattered cloud well above the refusal threshold", () => {
-  expect(conditionRatio(BENT)).toBeGreaterThan(0.3);
+it("scores a healthy scattered cloud above the refusal threshold", () => {
+  expect(conditionRatio(BENT.map((g) => g.pixel))).toBeGreaterThan(0.3);
 });
 
-it("scores a road with 2px of scatter BELOW the affine refusal threshold", () => {
-  // The measured case: affine refuses this at 2.166e-3, and an unconditioned
-  // TPS accepts it. Both solvers must agree.
-  const road = mk([[100,100],[400,251],[700,399],[1100,602],[1500,798]]);
+it("scores a road with 2px scatter BELOW the threshold", () => {
+  // Measured: affine refuses this at 2.166e-3 while an unconditioned TPS
+  // accepts it, and a 1px nudge then moves a drape corner 12.2 km.
+  const road = [[100,100],[400,251],[700,399],[1100,602],[1500,798]].map(([x,y]) => ({x,y}));
   expect(conditionRatio(road)).toBeCloseTo(2.166e-3, 5);
   expect(conditionRatio(road)).toBeLessThan(MIN_CONDITION_RATIO);
 });
 
 it("scores an exactly collinear cloud at zero, at THREE orientations", () => {
-  // One angle is not enough: at 45 degrees xs[i] and ys[i] are bit-identical
-  // and the arithmetic cancels exactly, which hides a gate that only works
-  // there. Measured — the oblique case is the one that escapes.
-  expect(conditionRatio(mk([[100,100],[400,400],[900,900]]))).toBe(0);   // 45 deg
-  expect(conditionRatio(mk([[100,100],[400,250],[900,500]]))).toBe(0);   // oblique
-  expect(conditionRatio(mk([[100,300],[500,300],[1200,300]]))).toBe(0);  // horizontal
+  // One angle is not enough. At 45 degrees xs[i] and ys[i] are bit-identical,
+  // the arithmetic cancels exactly, and a pivot-only check refuses by luck.
+  // The OBLIQUE case is the one that escapes it. Measured.
+  const line = (pts) => conditionRatio(pts.map(([x,y]) => ({x,y})));
+  expect(line([[100,100],[400,400],[900,900]])).toBe(0);   // 45 deg
+  expect(line([[100,100],[400,250],[900,500]])).toBe(0);   // oblique
+  expect(line([[100,300],[500,300],[1200,300]])).toBe(0);  // horizontal
 });
 ```
 
-Run the **whole existing** `affine.test.ts` before and after the extraction and confirm identical results. If any affine test changes, the extraction changed behaviour — revert and report.
+Run the **whole existing `affine.test.ts`** before and after. Identical results, or the extraction changed behaviour — revert and report.
 
-- [ ] **Step 2: Write the failing TPS interpolation test**
+- [ ] **Step 2: Failing TPS interpolation test**
 
 ```ts
 it("passes EXACTLY through every control point — the defining property", () => {
   const result = solveTps(BENT);
-  expect(result.ok).toBe(true);
+  expect(result).toEqual({ ok: true, params: expect.anything() });
   if (!result.ok) return;
   for (const gcp of BENT) {
     const got = applyTps(result.params, gcp.pixel.x, gcp.pixel.y);
     const want = toMercator(gcp.map);
-    // 1e-6 m is far below anything perceivable and far above the ~1e-11 m the
-    // implementation achieves in centred space, so this is a real gate.
     expect(Math.hypot(got.x - want.x, got.y - want.y)).toBeLessThan(1e-6);
   }
 });
 ```
 
-`BENT` lives in `testFixtures.ts` and must be **irregular**. A regular lattice is nearly affine by construction — measured on this project's real Church graticule sets, where TPS scored no better than affine at held-out check points — so a lattice fixture cannot distinguish a working spline from a working affine.
+`BENT` must be **irregular**: a lattice is nearly affine by construction — measured on the real Church graticule sets, where TPS scored no better than affine at held-out check points — so it cannot distinguish a working spline from a working affine.
 
-- [ ] **Step 3: Run, verify it fails on the import, not on an assertion**
+- [ ] **Step 3: Run — expect `Failed to resolve import "./tps"`.** Any other failure means the test is wrong; stop and report.
 
-Run: `cd web && npx vitest run src/userMaps/transform/tps.test.ts`
-Expected: FAIL — `Failed to resolve import "./tps"`. Any other failure means the test is wrong; stop and report.
+- [ ] **Step 4: Implement.** Kernel `U(r) = r²·log r`, `U(0)=0`, affine tail, `(n+3)×(n+3)` system, Gaussian elimination with partial pivoting over a `Float64Array`, x and y solved separately.
 
-- [ ] **Step 4: Implement `tps.ts`**
+Conditioning is required in both senses. **Numerically:** centre sources on their centroid, scale to unit RMS, subtract the destination centroid — measured, this is what keeps the interpolation residual at 5.11e-11 m in centred space, and without it an n=500 system at Mercator magnitudes is not reliably solvable. **As a refusal:** reject `conditionRatio(gcps.map(g => g.pixel)) < MIN_CONDITION_RATIO` with `reason: "ill-conditioned"`. **Do not rely on the pivot check** — measured, an oblique collinear cloud gives a pivot of ~1e-16 and `Math.abs(1e-16) > 0` is true.
 
-Standard 2D thin-plate spline: kernel `U(r) = r²·log r` with `U(0) = 0`, plus an affine tail, as an `(n+3)×(n+3)` system with the three side conditions, x and y solved separately by Gaussian elimination with partial pivoting over a `Float64Array`.
+Gate order so every reason is reachable: count → coincidence → conditioning → solve → non-finite.
 
-**Conditioning is mandatory, in both senses:**
-1. **Numerically** — centre source coordinates on their centroid and scale to unit RMS, and subtract the destination centroid, before assembling. Measured: without it an n=500 system at Mercator magnitudes (~6.77e6 m) is not reliably solvable; with it the interpolation residual is 5.11e-11 m in centred space.
-2. **As a refusal** — reject `conditionRatio(gcps) < MIN_CONDITION_RATIO` with `reason: "ill-conditioned"`, using the shared helper. **Do not rely on the pivot check for this**: measured, an oblique collinear cloud produces a pivot of ~1e-16, and `Math.abs(1e-16) > 0` is true, so it solves.
-
-Order the gates so each reason is reachable: count → coincidence → conditioning → solve → non-finite.
-
-- [ ] **Step 5: Add the refusal tests — every reason, and collinearity at three orientations**
+- [ ] **Step 5: Test EVERY refusal reason, including the two the first draft omitted**
 
 ```ts
 it("names each refusal reason distinctly", () => {
   expect(solveTps(BENT.slice(0, 2))).toEqual({ ok: false, reason: "too-few-points" });
 
-  const duplicated = [...BENT.slice(0, 3), {
+  expect(solveTps([...BENT.slice(0, 3), {
     id: "dup", pixel: { ...BENT[0].pixel }, map: { lat: 45.5, lng: -62.0 },
-  }];
-  expect(solveTps(duplicated)).toEqual({ ok: false, reason: "coincident-points" });
+  }])).toEqual({ ok: false, reason: "coincident-points" });
 
-  // THREE orientations. The 45-degree case refuses even without a conditioning
-  // gate, because the arithmetic cancels bit-exactly; the oblique case is the
-  // one that escapes a pivot-only check. Measured.
-  for (const line of [
-    mk([[100,100],[400,400],[900,900]]),
-    mk([[100,100],[400,250],[900,500]]),
-    mk([[100,300],[500,300],[1200,300]]),
+  const line = (pts) => solveTps(pts.map(([x,y],i) => ({
+    id: `l${i}`, pixel: {x,y}, map: { lat: 46 + y/20000, lng: -61 + x/20000 },
+  })));
+  for (const pts of [
+    [[100,100],[400,400],[900,900]],
+    [[100,100],[400,250],[900,500]],
+    [[100,300],[500,300],[1200,300]],
   ]) {
-    expect(solveTps(line)).toEqual({ ok: false, reason: "ill-conditioned" });
+    expect(line(pts)).toEqual({ ok: false, reason: "ill-conditioned" });
   }
+  expect(line([[100,100],[400,251],[700,399],[1100,602],[1500,798]]))
+    .toEqual({ ok: false, reason: "ill-conditioned" });
+});
 
-  // The measured road case: affine refuses it, so TPS must too.
-  const road = mk([[100,100],[400,251],[700,399],[1100,602],[1500,798]]);
-  expect(solveTps(road)).toEqual({ ok: false, reason: "ill-conditioned" });
+it("refuses a non-finite destination rather than returning unusable params", () => {
+  // affine.ts:158 guards this explicitly; TPS must too. A healthy source
+  // triangle with one NaN destination otherwise solves to garbage.
+  const poisoned = [...BENT.slice(0, 3)];
+  poisoned[1] = { ...poisoned[1], map: { lat: Number.NaN, lng: poisoned[1].map.lng } };
+  expect(solveTps(poisoned)).toEqual({ ok: false, reason: "non-finite" });
+});
+
+it("refuses a collapsed DESTINATION even when the scan points are healthy", () => {
+  // Three well-spread scan points mapped down one meridian. The source cloud
+  // is fine, so the conditioning gate passes; without a destination check this
+  // solves to a zero-area drape. affine.ts refuses it via MIN_ANISOTROPY_RATIO.
+  const meridian: Gcp[] = [
+    { id: "a", pixel: { x: 100, y: 100 }, map: { lat: 46.0, lng: -61.0 } },
+    { id: "b", pixel: { x: 900, y: 150 }, map: { lat: 46.2, lng: -61.0 } },
+    { id: "c", pixel: { x: 400, y: 800 }, map: { lat: 46.4, lng: -61.0 } },
+  ];
+  const result = solveTps(meridian);
+  expect(result.ok).toBe(false);
 });
 ```
 
-`toEqual` on the whole result object, not `toBeNull()` — it pins the reason as well as the refusal.
+`toEqual` on the whole result, never `toBeNull()` — it pins the reason as well as the refusal.
 
-- [ ] **Step 6: MUTATION — prove each assertion bites**
+- [ ] **Step 6: MUTATION.** Restore **by path** from a backup taken from the CURRENT state after each; inline the mutation (the scratchpad is shared and has already been clobbered mid-run).
 
-Restore **by path** from a backup taken from the CURRENT state after each. Inline the mutation; do not shell out to a shared script (the scratchpad is shared between agents and one has already been clobbered mid-run).
-
-1. Drop the kernel loop from `applyTps`, keeping only the affine tail → the interpolation test must FAIL.
-2. Swap `rhsX`/`rhsY` in `solveTps` → interpolation must FAIL. **`tsc -b` will still exit 0** — both are `Float64Array`.
-3. Swap `px`/`py` in `applyTps` → must FAIL.
-4. **Remove the `conditionRatio` gate** → the oblique-collinear and road cases must FAIL. This is the mutation that matters most; it is the defect a pivot-only check hides.
-5. Report `"ill-conditioned"` where `"coincident-points"` is correct → the reason assertion must FAIL.
+1. Drop the kernel loop from `applyTps` → interpolation FAILS.
+2. Swap `rhsX`/`rhsY` → interpolation FAILS. **`tsc -b` still exits 0** (both `Float64Array`).
+3. Swap `px`/`py` in `applyTps` → FAILS.
+4. **Remove the `conditionRatio` gate** → oblique-collinear and road cases FAIL. The most important one: it is the defect a pivot-only check hides.
+5. Report `"ill-conditioned"` where `"coincident-points"` is correct → reason assertion FAILS.
+6. Drop the non-finite check → the NaN test FAILS.
 
 Paste every failure message.
 
-- [ ] **Step 7: Gate and commit**
+- [ ] **Step 7: Gate and commit.** `npx vitest run`, `npx tsc -b`, `npx eslint src`, each with `$?` captured from a redirected file — never through a pipe.
 
-```bash
-cd web && npx vitest run > /tmp/v.txt 2>&1; echo "VITEST=$?"; npx tsc -b > /tmp/t.txt 2>&1; echo "TSC=$?"; npx eslint src > /tmp/e.txt 2>&1; echo "ESLINT=$?"
-```
-All three must be `=0`. Then:
-```bash
-git add web/src/userMaps/transform/conditioning.ts web/src/userMaps/transform/conditioning.test.ts web/src/userMaps/transform/tps.ts web/src/userMaps/transform/tps.test.ts web/src/userMaps/transform/affine.ts web/src/userMaps/testFixtures.ts
-git commit -m "feat(web): thin-plate-spline solver sharing the affine conditioning gate"
-```
-
-**Note on the conditioning test that was cut.** An earlier draft asserted that the same layout at 10× the pixel coordinates still interpolates exactly, claiming it proved the conditioning step is real. Measured: with conditioning removed entirely the error is **exactly 0.000e+0** at 1× and 10× alike, because at n=5 an unconditioned system has ample double-precision headroom. The conditioning payoff is at **n=500**. If you want that covered, test it at a point count where it can fail — not at five.
+**Cut deliberately:** an earlier draft asserted the same layout at 10× pixels still interpolates, claiming it proved conditioning is real. Measured: with conditioning removed the error is **exactly 0.000e+0** at both scales, because n=5 has ample headroom. The payoff is at n=500. Test it there or not at all.
 
 ---
 
 ### Task 2: `buildTpsLatLngMesh` and the measured grid constants
 
-**Files:** Modify `web/src/userMaps/transform/gcpMesh.ts` + `.test.ts`.
-
+**Files:** modify `transform/gcpMesh.ts` + test.
 **Produces:** `TPS_GRID_SIZE = 64`, `TPS_DRAG_GRID_SIZE = 16`, `buildTpsLatLngMesh(params, pixelSize, gridSize?)`.
 
-Mirror `buildGcpLatLngMesh` (`gcpMesh.ts:26-42`) exactly — same row/col order (row = pixel Y, col = pixel X). Both constants carry their measurement in a comment, including that **`64` is provisional pending a browser profile with `32` as the documented fallback**, and that **error is NOT monotone in gridSize** (measured: 12 beats 16, 24 beats 32), so no assertion may claim denser is always better.
+Mirror `buildGcpLatLngMesh` (`gcpMesh.ts:26-42`): row = pixel Y, col = pixel X. Both constants carry their measurement, including that **64 is provisional** pending a browser profile (fallback 32) and that **error is not monotone in gridSize** (measured: 12 beats 16, 24 beats 32) so no assertion may claim denser is always better.
 
-- [ ] **Step 1: Write the failing tests — and assert a NON-ZERO index**
+- [ ] **Step 1: Write all three tests IN FULL.** No placeholders.
 
 ```ts
-it("returns a lattice of gridSize+1 by gridSize+1 vertices", () => { /* 5x5 at gridSize 4 */ });
+const solved = () => { const r = solveTps(BENT); if (!r.ok) throw new Error("fixture must solve"); return r.params; };
 
-it("spans the raster's real extent — asserted at a non-zero index", () => {
-  // mesh[0][0] is (0,0) for ANY pixelSize and for a transposed applyTps(y,x),
-  // so it cannot catch a swapped extent. The affine sibling test guards this
-  // with mesh[0][1] on a non-square raster; mirror that, do not drop it.
-  const result = solveTps(BENT);
-  if (!result.ok) throw new Error("fixture must solve");
-  const mesh = buildTpsLatLngMesh(result.params, { width: 2000, height: 500 }, 2);
-  const atFullWidth = fromMercator(applyTps(result.params, 2000, 0));
-  expect(mesh[0][2].lat).toBeCloseTo(atFullWidth.lat, 9);
-  expect(mesh[0][2].lng).toBeCloseTo(atFullWidth.lng, 9);
+it("returns a lattice of gridSize+1 by gridSize+1 vertices", () => {
+  const mesh = buildTpsLatLngMesh(solved(), { width: 2000, height: 1700 }, 4);
+  expect(mesh).toHaveLength(5);
+  for (const row of mesh) {
+    expect(row).toHaveLength(5);          // EVERY row, not just mesh[0]
+  }
 });
 
-it("orders the lattice row = pixel Y, col = pixel X", () => { /* non-square raster */ });
+it("spans the raster's real extent — asserted at a NON-ZERO index", () => {
+  // mesh[0][0] is (0,0) for ANY pixelSize and for a transposed applyTps(y,x),
+  // so it cannot catch a swapped extent. The affine sibling guards this with
+  // mesh[0][1] on a non-square raster; do not drop that guard while mirroring.
+  const params = solved();
+  const mesh = buildTpsLatLngMesh(params, { width: 2000, height: 500 }, 2);
+  const atFullWidth = fromMercator(applyTps(params, 2000, 0));
+  const atFullHeight = fromMercator(applyTps(params, 0, 500));
+  expect(mesh[0][2].lat).toBeCloseTo(atFullWidth.lat, 9);
+  expect(mesh[0][2].lng).toBeCloseTo(atFullWidth.lng, 9);
+  expect(mesh[2][0].lat).toBeCloseTo(atFullHeight.lat, 9);
+  expect(mesh[2][0].lng).toBeCloseTo(atFullHeight.lng, 9);
+});
+
+it("orders the lattice row = pixel Y, col = pixel X", () => {
+  const params = solved();
+  const mesh = buildTpsLatLngMesh(params, { width: 2000, height: 500 }, 2);
+  expect(Math.abs(mesh[0][1].lng - mesh[0][0].lng))
+    .toBeGreaterThan(Math.abs(mesh[0][1].lat - mesh[0][0].lat));
+  expect(Math.abs(mesh[1][0].lat - mesh[0][0].lat))
+    .toBeGreaterThan(Math.abs(mesh[1][0].lng - mesh[0][0].lng));
+});
 ```
 
-- [ ] **Steps 2–5:** run and verify failure; implement; verify; mutate — transpose `pixelSize.width`/`height` in the loop (the non-zero-index test must FAIL), transpose `applyTps(x,y)` (ordering test must FAIL), change `<=` to `<` (lattice-size test must FAIL); gate; commit.
+Asserting **every** row's length matters: returning only the top row while preserving `mesh[0][2]` would otherwise leave the extent assertion green with no vertical cells rendered.
+
+- [ ] **Steps 2–5:** run and verify failure; implement; verify; mutate — transpose `pixelSize.width`/`height` (the non-zero-index test FAILS), transpose `applyTps(x,y)` (ordering FAILS), `<=` → `<` (lattice-size FAILS), return only the first row (lattice-size FAILS); gate; commit.
 
 ---
 
-### Task 3: method-aware session — **NEW, and Tasks 4, 5, 8 depend on it**
+### Task 3: method-aware solve in ALL THREE sites — **the task that makes the feature real**
 
-**Files:** Modify `web/src/userMaps/useGeoreferenceSession.ts` + `.test.ts`.
+**Files:** modify `useGeoreferenceSession.ts`, `recordMesh.ts`, `useUserMaps.ts` + their tests.
 
 **Consumes:** `solveTps`, `applyTps`, `TpsSolveResult` (Task 1); `buildTpsLatLngMesh`, `TPS_GRID_SIZE` (Task 2); existing `solveAffineFromGcps`, `buildGcpLatLngMesh`, `AFFINE_GRID_SIZE`.
 
-**Produces:** a `method: "affine" | "tps"` option on `useGeoreferenceSession`, defaulting to `"affine"`; `params`/`mesh` derived through the matching solver.
+**Produces:** a `method` option on `useGeoreferenceSession` defaulting to `"affine"`; method-aware `meshForRecord`; method-aware `needsGeoreferencing`.
 
-**Read `useGeoreferenceSession.test.ts` first.** The harness is `setup(initialGcps)` with `SessionProps = { mapId, initialGcps }` — **there is no `renderSession`**. Extend the existing harness rather than inventing one.
+**Read `useGeoreferenceSession.test.ts` first.** The harness is `setup(initialGcps)` with `SessionProps = { mapId, initialGcps }` and **`PIXEL_SIZE = { width: 1200, height: 800 }` at line 11** — there is no `renderSession`. Extend the existing harness.
 
-The affine path must be untouched: `AFFINE_GRID_SIZE = 1` is pixel-exact for an affine warp and raising it would cost draws for nothing.
+The affine path must not change: `AFFINE_GRID_SIZE = 1` is pixel-exact for an affine warp.
 
-- [ ] **Step 1: Write the failing tests**
+- [ ] **Step 1: Write the failing tests — and get the fixture pixel RIGHT**
 
 ```ts
 it("solves with TPS and lattices at TPS_GRID_SIZE when method is tps", () => {
@@ -350,169 +385,183 @@ it("leaves the affine path at gridSize 1", () => {
   expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
 });
 
-it("actually uses the SPLINE, not an affine fit, when method is tps", () => {
-  // The two solvers produce measurably different meshes on a bent fixture
-  // (~1 km at interior points, measured). Without this, a session that
-  // silently kept solving affine while lattice-ing at 64 would pass the
-  // gridSize assertions above.
-  const tps = setup(BENT, { method: "tps" }).result.current.mesh!;
-  const affineParams = solveAffineFromGcps(BENT)!;
-  const affineAt = fromMercator(applyAffine(affineParams, 1000, 900));
-  const mid = tps[Math.floor(tps.length / 2)][Math.floor(tps.length / 2)];
-  expect(groundMetresBetween(mid, affineAt)).toBeGreaterThan(100);
+it("actually uses the SPLINE, not an affine fit lattice-d at 64", () => {
+  // Compare the two solvers AT THE SAME PIXEL. An earlier draft compared the
+  // mesh midpoint against affine evaluated at (1000, 900) while the harness
+  // raster is 1200x800 — so the midpoint is (600, 400) and the assertion
+  // compared two DIFFERENT points. It passed whether or not TPS was used.
+  const { result } = setup(BENT, { method: "tps" });
+  const mesh = result.current.mesh!;
+  const mid = mesh.length >> 1;                                  // row index
+  const pixelX = (PIXEL_SIZE.width * mid) / (mesh.length - 1);
+  const pixelY = (PIXEL_SIZE.height * mid) / (mesh.length - 1);
+  const affineAt = fromMercator(applyAffine(solveAffineFromGcps(BENT)!, pixelX, pixelY));
+  expect(groundMetresBetween(mesh[mid][mid], affineAt)).toBeGreaterThan(100);
+});
+
+it("draws a SAVED tps record through the spline too", () => {
+  // recordMesh.ts is what UserMapLayers actually calls (UserMapLayers.tsx:133).
+  // Without this, the panel shows TPS and the saved layer snaps back to affine
+  // the moment the user clicks Done — with every other test still green.
+  const record = gcpRecord({ georef: { kind: "gcp", gcps: BENT, method: "tps" } });
+  const mesh = meshForRecord(record)!;
+  expect(mesh.length - 1).toBe(TPS_GRID_SIZE);
+  const affineMesh = meshForRecord(gcpRecord({
+    georef: { kind: "gcp", gcps: BENT, method: "affine" },
+  }))!;
+  expect(affineMesh.length - 1).toBe(AFFINE_GRID_SIZE);
+});
+
+it("does not badge a tps-solvable record as needing georeferencing", () => {
+  // needsGeoreferencing (useUserMaps.ts:57) gates admission to visibleMaps.
+  // Affine refuses a transform squashed past MIN_ANISOTROPY_RATIO; TPS has no
+  // such concept, so an affine-only check would exclude a record whose spline
+  // is fine and the user could never switch it on.
+  const record = gcpRecord({ georef: { kind: "gcp", gcps: BENT, method: "tps" } });
+  expect(needsGeoreferencing(record)).toBe(false);
 });
 ```
 
-The third test is the one that stops this task from being satisfiable by wiring the grid size alone.
+The third test is what stops this task being satisfiable by wiring the grid size alone; the fourth and fifth are what stop it being satisfiable inside the panel only.
 
-- [ ] **Steps 2–5:** run and verify failure; implement (branch on `method` **outside** any setState updater — StrictMode double-invokes them, and `App` always has queued work so React defers them); verify; mutate — make `method: "tps"` still call `solveAffineFromGcps` while lattice-ing at 64 (the third test must FAIL); gate; commit.
+- [ ] **Steps 2–5:** run and verify failure; implement (branch on `method` **outside** every setState updater — StrictMode double-invokes them and `App` always has queued work, so React defers them); verify; mutate — make `method: "tps"` still call `solveAffineFromGcps` while lattice-ing at 64 (third test FAILS); leave `meshForRecord` affine-only (fourth FAILS); leave `needsGeoreferencing` affine-only (fifth FAILS); gate; commit.
 
 ---
 
 ### Task 4: the `coincident-points` refusal state
 
-**Files:** Modify `useGeoreferenceSession.ts` (the `GeoreferenceStatus` union and `status` memo), `components/georeferenceStatus.ts`; tests in both plus `GeoreferencePanel.test.tsx`.
+**Files:** `useGeoreferenceSession.ts`, `components/georeferenceStatus.ts` + tests.
+**Consumes:** `TpsRefusal` (Task 1), the `method` option (Task 3).
 
-**Consumes:** `TpsSolveResult`, `TpsRefusal` (Task 1); the `method` option (Task 3).
+Four affine refusals collapse into one `degenerate`, whose message deliberately avoids claiming "collinear". TPS adds one the user can act on *specifically* — two points on the same spot, remedy "move or delete one". **Do not split the other three**; they share the remedy "spread your points out".
 
-Today four affine refusals collapse into one `degenerate`, and its message deliberately avoids claiming "collinear". TPS adds one refusal the user can act on *specifically* — two points on the same spot, remedy "move or delete one". That one gets its own state. **Do not split the other three**; they share the remedy "spread your points out", so a finer taxonomy would be one the user cannot act on differently.
+Copy proposed for review: `Two points are on the same spot — move or delete one.`
 
-Copy proposed for review, not invented silently: `Two points are on the same spot — move or delete one.`
+- [ ] **Step 1:** The baseline failure is **not** `degenerate`. Measured on a 4-point fixture with two coincident points, the affine `condRatio` is **0.7750**, far above `5e-3`, so the affine solve succeeds and 4 ≥ `MIN_GCPS_FOR_RESIDUALS` — the status is `{ kind: "solved", … }`. Expect that; a step predicting the wrong failure cannot detect its own failure.
 
-- [ ] **Step 1: Write the failing test — and note the CORRECT baseline**
-
-The baseline failure is **not** `degenerate`. Measured on a 4-point fixture with two coincident points: the affine `condRatio` is **0.7750**, far above `5e-3`, so `solveAffineFromGcps` succeeds and 4 points ≥ `MIN_GCPS_FOR_RESIDUALS`, giving `{ kind: "solved", … }`. Expect that, not `degenerate` — a step that predicts the wrong failure cannot detect its own failure.
-
-- [ ] **Steps 2–5:** implement; verify; mutate — map `"coincident-points"` to `degenerate` (the new test must FAIL); confirm `statusMessage`'s `switch` has no `default`, so `tsc -b` flags the unhandled member; gate; commit.
+- [ ] **Steps 2–5:** implement; verify; mutate — map `"coincident-points"` to `degenerate` (new test FAILS); confirm `statusMessage`'s `switch` has no `default` so `tsc -b` flags the unhandled member; gate; commit.
 
 ---
 
 ### Task 5: two-tier mesh density during a drag
 
-**Files:** Modify `useGeoreferenceSession.ts`, `components/ScanPane.tsx`, `components/GeoreferenceMapLayer.tsx`, `components/GeoreferencePanel.tsx`, `App.tsx`; tests including `ScanPane.realMount.test.tsx`.
-
+**Files:** `useGeoreferenceSession.ts`, `components/ScanPane.tsx`, `components/GeoreferenceMapLayer.tsx`, `components/GeoreferencePanel.tsx`, `App.tsx` + tests including `ScanPane.realMount.test.tsx`.
 **Produces:** `endDragGcp: (id: string) => void`.
 
-The session has `beginDragGcp` but **no** drag-end signal, and Leaflet's `dragend` is bound nowhere. Bind the real event — do **not** infer drag-end from a timer or from "no move for N ms", which would leave the mesh permanently coarse after a drag that ends without a final move.
+Bind Leaflet's real `dragend`. Do **not** infer drag-end from a timer or from "no move for N ms" — a drag ending without a final move would leave the mesh permanently coarse.
 
-**⚠ The transposition hazard, named because it is silent.** `onDragEndGcp` and `onDragStartGcp` are both `(id: string) => void`. Wiring `onDragEndGcp={session.beginDragGcp}` passes `tsc -b` and `eslint`, and session-level tests that call `result.current.endDragGcp("a")` **directly** would still pass — while in the real app every drag leaves the drape permanently at `TPS_DRAG_GRID_SIZE` *and* pushes a second undo snapshot, breaking the one-drag-one-undo property the spec locks.
+**⚠ Two wiring hazards, both silent.**
+1. `onDragEndGcp` and `onDragStartGcp` are both `(id: string) => void`, so `onDragEndGcp={session.beginDragGcp}` passes `tsc -b` and `eslint` — and session tests calling `result.current.endDragGcp("a")` **directly** still pass, while every real drag leaves the drape coarse *and* pushes a second undo snapshot.
+2. **There are TWO panes.** `ScanPane.tsx:98-111` and `GeoreferenceMapLayer.tsx:71-80` have separate handler objects and separate `App.tsx:864` bindings. Wiring one and not the other means releasing a marker on *that* pane misbehaves while all scan-side tests pass.
 
-- [ ] **Required:** at least one assertion must exercise the **wiring**, not the session API. `ScanPane.realMount.test.tsx` already drives a genuine Leaflet drag (real `mousedown`/`mousemove` with `which: 1`, dispatched on the marker icon) and is the only place this seam is observable. Extend it to assert a real `dragend` reaches `onDragEndGcp` and **not** `onDragStartGcp`.
+- [ ] **Required:** wiring assertions for **both** panes, exercising the real event rather than the session API. `ScanPane.realMount.test.tsx` already drives a genuine Leaflet drag; `GeoreferenceMapLayer.realMount.test.tsx` is the map-side equivalent. Assert `dragend` reaches `onDragEndGcp` and **not** `onDragStartGcp`, on each.
 
-- [ ] **Steps:** failing test → implement → verify → mutate (no-op `endDragGcp`; swap the two grid constants; **transpose `onDragEndGcp` to `beginDragGcp` at the wiring site** — report whether anything catches it) → gate → commit.
+- [ ] **Steps:** failing tests → implement → verify → mutate (no-op `endDragGcp`; swap the two grid constants; **transpose `onDragEndGcp` to `beginDragGcp` at each wiring site in turn** — report whether anything catches each) → gate → commit.
 
 ---
 
 ### Task 6: TPS residuals — LOO magnitudes, affine-ranked suspect
 
-**Read the reconciliation block above first.** This re-introduces an approach deleted in `11780341f`, for one job only, and deliberately does **not** use it for the other.
+**Read the reconciliation block above first.** This re-introduces an approach deleted in `11780341f`, for one job only, and deliberately not for the other.
 
-**Files:** Modify `web/src/userMaps/transform/residuals.ts` + `.test.ts`.
+**Files:** `transform/residuals.ts` + test.
+**Consumes:** `solveTps`, `applyTps`, `MIN_GCPS_FOR_TPS`, and `BENT` / `OUTLIER_FIXTURE` / `argmax` / `nudgeGcpEast` (Task 1); existing `solveAffineFromGcps`, `residualMetresFor`, `rmsMetres`, `groundMetresBetween`.
+**Produces:** `MIN_GCPS_FOR_TPS_SUSPECT = 5` (measured), `tpsResidualReport(gcps): ResidualReport | null` returning the **same `ResidualReport` shape**, so `GcpList` needs no change.
 
-**Consumes:** `solveTps`, `applyTps`, `MIN_GCPS_FOR_TPS` (Task 1); existing `solveAffineFromGcps`, `residualMetresFor`, `rmsMetres`, `groundMetresBetween`.
+- `metresPerGcp` / `rmsMetres` → **leave-one-out**, ground metres. The only non-zero signal; overstates true error 1.8×–3.7× and is never optimistic, so it is a conservative upper bound.
+- `mostInconsistentIndex` → the **affine fit residual**. Measured decisively better (62.9% vs 46.8% at n=8, z = −18.3) and cheaper.
 
-**Produces:** `MIN_GCPS_FOR_TPS_SUSPECT = 5` (measured — see the facts table), `tpsResidualReport(gcps): ResidualReport | null` returning the **same `ResidualReport` shape** so `GcpList` needs no change.
-
-**The two signals, and why they differ:**
-- `metresPerGcp` / `rmsMetres` → **leave-one-out**, in ground metres. The only non-zero signal available. Overstates true error by 1.8×–3.7× and is never optimistic, so it is a conservative upper bound.
-- `mostInconsistentIndex` → the **affine fit residual** over the same points. Measured decisively better at finding the outlier (62.9% vs 46.8% at n=8, z = −18.3) and cheaper.
-
-- [ ] **Step 1: Write the failing tests — with an EXTERNALLY KNOWN displacement**
+- [ ] **Step 1: Failing tests — with an EXTERNALLY KNOWN displacement and no `undefined` escape**
 
 ```ts
-it("reports NON-ZERO per-point error, unlike the TPS fit residual", () => {
+it("reports one NON-ZERO error per point, unlike the TPS fit residual", () => {
   const report = tpsResidualReport(BENT);
   expect(report).not.toBeNull();
+  // Length pinned: an empty array would satisfy a bare for-loop, and GcpList
+  // indexes metresPerGcp for every row (GcpList.tsx:111) — it would render NaN.
+  expect(report!.metresPerGcp).toHaveLength(BENT.length);
   for (const metres of report!.metresPerGcp) {
     expect(metres).toBeGreaterThan(0);
   }
 });
 
 it("reports GROUND metres, not the 1.4396x-inflated Mercator figure", () => {
-  // The expected value comes from a displacement WE choose, never from the
-  // measured result. An earlier draft asserted `rms < rms * 1.4396 * 0.75`,
-  // which reduces to `rms < rms * 1.0797` and is true for any positive value —
-  // it would have passed against raw Mercator metres. Mirror the affine guard
-  // at residuals.test.ts:51-60 instead.
-  const displaced = nudgeEast(BENT, 100);           // exactly 100 ground metres
-  const report = tpsResidualReport(displaced)!;
-  const worst = Math.max(...report.metresPerGcp);
+  // The expected value comes from a displacement WE choose. An earlier draft
+  // asserted `rms < rms * 1.4396 * 0.75`, i.e. `rms < rms * 1.0797` — true for
+  // any positive value, so it passed against raw Mercator metres.
+  const displaced = nudgeGcpEast(BENT, 2, 100);       // ONE point, 100 ground m
+  const worst = Math.max(...tpsResidualReport(displaced)!.metresPerGcp);
   expect(worst).toBeCloseTo(100, 0);
-  expect(worst).not.toBeCloseTo(143.96, 1);         // the Mercator figure
+  expect(worst).not.toBeCloseTo(143.96, 1);           // the Mercator figure
 });
 
-it("brackets the point-count floor", () => {
-  // BOTH sides. A single assertion at 3 points cannot distinguish the guard
-  // from its absence: with `< MIN_GCPS_FOR_TPS` the loop still runs, the inner
-  // solveTps on 2 points refuses, and the function returns null anyway.
+it("brackets the point-count floor from BOTH sides", () => {
+  // A single assertion at 3 points cannot distinguish the guard from its
+  // absence: with `< MIN_GCPS_FOR_TPS` the loop still runs, the inner solve on
+  // 2 points refuses, and the function returns null anyway.
   expect(tpsResidualReport(BENT.slice(0, 3))).toBeNull();
-  expect(tpsResidualReport(BENT.slice(0, 4))).not.toBeNull();
+  // `.not.toBeNull()` would accept `undefined`; assert the shape instead.
+  expect(tpsResidualReport(BENT.slice(0, 4))!.metresPerGcp).toHaveLength(4);
 });
 
 it("ranks the suspect by the AFFINE fit residual, not by the LOO magnitude", () => {
-  // Measured: a spline absorbs an outlier into its own shape, corrupting its
-  // neighbours' LOO scores. Construct a fixture where the two signals disagree
-  // and pin which one wins.
   const report = tpsResidualReport(OUTLIER_FIXTURE)!;
-  const affineRanked = argmax(residualMetresFor(solveAffineFromGcps(OUTLIER_FIXTURE)!, OUTLIER_FIXTURE));
+  const affineRanked = argmax(
+    residualMetresFor(solveAffineFromGcps(OUTLIER_FIXTURE)!, OUTLIER_FIXTURE),
+  );
   expect(report.mostInconsistentIndex).toBe(affineRanked);
   expect(report.mostInconsistentIndex).not.toBe(argmax(report.metresPerGcp));
 });
 ```
 
-The last test needs a fixture where the two rankings genuinely disagree. **Find one by measurement**, not by assumption — if you cannot construct one, say so and report it rather than weakening the assertion.
+`OUTLIER_FIXTURE` must be one where the two rankings genuinely disagree. **Find it by measurement** (Task 1 owns it); if no such fixture exists, report that rather than weakening the assertion.
 
-- [ ] **Step 2: Decide and implement the cost cap, and state your choice**
+- [ ] **Step 2: Decide the cost cap and state your choice.** Measured: LOO is *n* solves, each O(n³) — 0.021 ms at n=30, 0.462 at n=100, **10.34 at n=300**, **56.15 at n=500**, so LOO at n=300 is ~3.1 s while `residualReport` runs from a `useMemo` on every pointer move. Skip LOO above a threshold and report RMS only, compute on pointer-up only, or refuse the suspect above a cap. **Test the boundary from both sides, and never return an empty `metresPerGcp` — return `null` or a full array.**
 
-Measured: LOO is *n* solves and a single solve is O(n³) — 0.021 ms at n=30, 0.462 at n=100, **10.34 at n=300**, **56.15 at n=500**. So LOO at n=300 is ~3.1 s, far past interactive, and `residualReport` is called from a `useMemo` on every pointer move.
-
-Pick one and justify it: skip LOO above a threshold and report RMS only; compute LOO on pointer-up only; or refuse the suspect highlight above a cap. **Test the boundary from both sides.**
-
-- [ ] **Steps 3–5:** verify; mutate — replace the LOO body with `applyTps` against a **full-set** solve (the non-zero test must FAIL; note the earlier draft's mutation used `residualMetresFor`, which takes `AffineParams` and would not typecheck); return raw Mercator magnitudes (the ground-metres test must FAIL); rank by LOO instead of affine (the ranking test must FAIL); gate; commit.
+- [ ] **Steps 3–5:** verify; mutate — replace the LOO body with `applyTps` against a **full-set** solve (non-zero test FAILS; note `residualMetresFor` takes `AffineParams` and would not typecheck here); return raw Mercator magnitudes (ground-metres FAILS); rank by LOO (ranking FAILS); return `undefined` at 4 points (boundary FAILS); gate; commit.
 
 ---
 
 ### Task 7: `saveGcps` preserves `method`
 
-**Files:** Modify `useUserMaps.ts` (`saveGcps`, ~line 443) + `useUserMaps.test.ts`.
+**Files:** `useUserMaps.ts` (~line 443) + test.
 
-`saveGcps` builds `method: "affine"` as a **literal** and runs from the debounced write on every drag, so a TPS map silently reverts on the next pointer move — invisible to `tsc -b` (a valid union member) and to every existing test (none asserts the persisted `method`).
+`saveGcps` builds `method: "affine"` as a **literal** and runs from the debounced write on every drag, so a TPS map silently reverts on the next pointer move — invisible to `tsc -b` and to every existing test.
 
-Preserve the existing record's method rather than adding a parameter; `saveGcps(id, gcps)` is called from the debounce and the session does not own the method. Guard `existing.georef.kind !== "gcp"`. Keep the "built OUTSIDE the updater" comment and behaviour — that is load-bearing.
+Preserve the existing record's method; guard `existing.georef.kind !== "gcp"`. Keep the "built OUTSIDE the updater" comment and behaviour — load-bearing.
 
-- [ ] **Steps:** failing test asserting the **persisted record**, not the call → implement → verify → mutate (restore the literal; then hardcode `"tps"` instead and confirm an affine map still saves as affine — a fix that flips the constant passes the new test and breaks everything else) → gate → commit.
+- [ ] **Steps:** failing test asserting the **persisted record** → implement → verify → mutate (restore the literal; then hardcode `"tps"` and confirm an affine map still saves as affine — a fix that flips the constant passes the new test and breaks everything else) → gate → commit.
 
 ---
 
-### Task 8: the TPS toggle
+### Task 8: the TPS toggle **and method persistence**
 
-**Files:** `GeoreferencePanel.tsx`, `useGeoreferenceSession.ts`, `useUserMaps.ts` + tests.
+**Files:** `GeoreferencePanel.tsx`, `useUserMaps.ts` + tests.
+**Consumes:** Task 3's `method` option, Task 7's preserving `saveGcps`.
+**Produces:** `setGeorefMethod(id, method)` on `UserMapsApi`.
 
-Spec: *"At 4+ points a TPS toggle appears."* Below that it is **absent**, not disabled-and-present. The gate is therefore `MIN_GCPS_FOR_TPS + 1`, and **Task 10 must use the same expression** — an earlier draft had the export button at `MIN_GCPS_FOR_TPS` (3), one point out of step with the toggle.
+`UserMapsApi` currently exposes only `saveGcps` (`useUserMaps.ts:74`), which saves **points**. A toggle that only flips session-local state would pass an opposite-value mutation test and still lose the choice on reopen — so the setter is part of this task, not an afterthought.
 
-Follow FU4's accessibility pattern: state conveyed visually needs a text carrier; `.visually-hidden` already exists.
+Spec: *"At 4+ points a TPS toggle appears."* Below that it is **absent**, not disabled. The gate is `MIN_GCPS_FOR_TPS + 1`, and **Task 10 must use the same expression**.
 
-Copy proposed for review: label `Curved warp (TPS)`; helper text `Passes exactly through every point. Better for hand-drawn maps that don't sit flat.` Accuracy copy must present the LOO figure as an **upper bound**, since it is measured to overstate by 1.8×–3.7×.
+Follow FU4's accessibility pattern: visually-conveyed state needs a text carrier; `.visually-hidden` exists. Accuracy copy must present the LOO figure as an **upper bound** — it is measured to overstate by 1.8×–3.7×.
 
-- [ ] **Mutation that must be run:** point the toggle's `onChange` at the opposite method value. Both are valid union members, so `tsc -b` exits 0. Report whether the test catches it.
+Copy proposed for review: `Curved warp (TPS)` / `Passes exactly through every point. Better for hand-drawn maps that don't sit flat.`
+
+- [ ] **Required test:** toggle to TPS, unmount, remount from the persisted record, and assert the method survived. Then mutate: point `onChange` at the opposite value (both are valid union members, `tsc -b` exits 0) — report whether anything catches it.
 
 ---
 
 ### Task 9: Allmaps annotation serializer
 
-**Files:** Create `web/src/userMaps/allmaps/annotation.ts` + `.test.ts`.
+**Files:** create `allmaps/annotation.ts` + test.
+**Produces:** `georeferenceAnnotation(record: UserMapRecord): object | null` — `null` when `georef.kind !== "gcp"`.
 
-**Produces:** `georeferenceAnnotation(record: UserMapRecord): object | null` — `null` when `record.georef.kind !== "gcp"`.
+All verified: `transformation` on the **body FeatureCollection**, not the root; TPS is `"thinPlateSpline"` with **no** `options` (affine is `{"type":"polynomial","options":{"order":1}}`); `resourceCoords` is `[x, y]` while `coordinates` is `[lon, lat]` — **opposite orders**, both number pairs, so a transposition survives `tsc -b`; `target` is `urn:uuid:<record.id>`, `type: "Canvas"`, with the **ORIGINAL** `record.pixelSize`.
 
-Four things a hand-written serializer must get right, all verified:
-1. `transformation` goes on the **body FeatureCollection**, not the annotation root.
-2. TPS is `"thinPlateSpline"` with **no** `options`; affine is `{"type":"polynomial","options":{"order":1}}`.
-3. `properties.resourceCoords` is `[x, y]`; `geometry.coordinates` is `[lon, lat]`. **Opposite orders**, both number pairs, so a transposition survives `tsc -b`.
-4. `target` is `urn:uuid:<record.id>`, `type: "Canvas"`, with the **ORIGINAL** `record.pixelSize`.
+Fixtures must make transposition unpassable: lng negative and lat positive, pixel `x ≠ y`, `width ≠ height`.
 
-Fixtures must make transposition impossible to pass: lng negative and lat positive, pixel `x ≠ y`, and `width ≠ height`.
-
-- [ ] **Mutations:** swap `[lon, lat]` → must FAIL; move `transformation` to the root → must FAIL; emit `"tps"` instead of `"thinPlateSpline"` → must FAIL; use preview dimensions → must FAIL.
+- [ ] **Mutations:** swap `[lon, lat]`; move `transformation` to the root; emit `"tps"` instead of `"thinPlateSpline"`; use preview dimensions. Each must FAIL.
 
 ---
 
@@ -520,31 +569,36 @@ Fixtures must make transposition impossible to pass: lng negative and lat positi
 
 **Files:** `GeoreferencePanel.tsx` + tests.
 
-Download as `<record.name>.georef.json` via an object URL, and **revoke it** — follow `useUserMaps`' existing revoke convention. Visible on the **same** gate as the toggle (`MIN_GCPS_FOR_TPS + 1`).
+Download as `<record.name>.georef.json` via an object URL. Visible on the **same** gate as the toggle (`MIN_GCPS_FOR_TPS + 1`).
 
-Assert the **effect**: the serialized payload handed to the blob equals `georeferenceAnnotation(record)`, not merely that a handler fired.
+- [ ] **Four assertions required**, not one — payload equality alone leaves three ways to ship a broken export:
+  1. the serialized payload equals `georeferenceAnnotation(record)`;
+  2. the **filename** is `<record.name>.georef.json`;
+  3. `URL.revokeObjectURL` is called with the URL that was created (spy on both; `useUserMaps` has the existing revoke convention) — otherwise every export leaks;
+  4. the control is **absent** below the gate and present at it.
 
 ---
 
 ### Task 11: batched Minor fixes and documentation
 
-Fix the Minor findings recorded in `.superpowers/sdd/pr3-progress.md`. **M5 is must-fix, not polish:** `userMapStore.ts:150-158` claims an orphan record is "permanent" and that "the layer row can never be enabled" — both factually wrong (`UserMapRows` renders a `Remove` button for every record, and a `kind:"embedded"` orphan's checkbox toggles fine and simply draws nothing). It reads as a stronger safety guarantee than the code provides. Also correct `GeoreferencePanel.tsx:329-345`, inaccurate as written.
+Fix the Minor findings in `.superpowers/sdd/pr3-progress.md`. **M5 is must-fix:** `userMapStore.ts:150-158` claims an orphan is "permanent" and "the layer row can never be enabled" — both factually wrong (`UserMapRows` renders a `Remove` button for every record; a `kind:"embedded"` orphan's checkbox toggles fine and simply draws nothing). Also correct `GeoreferencePanel.tsx:329-345`.
 
-**Documentation** — required by the project's `CLAUDE.md`, not optional: `README.md` (web feature list gains TPS + Allmaps export), `ARCHITECTURE.md` (`userMaps` gains `transform/tps.ts`, `transform/conditioning.ts`, `allmaps/`), `plan.md` (tick PR 3 items).
+- [ ] **Verification required.** Comment corrections have no code gate, so nothing would notice if they were skipped. Grep for the removed phrasings and assert they are gone:
+
+```bash
+grep -c "orphan is permanent\|can never be enabled" web/src/userMaps/store/userMapStore.ts   # must be 0
+```
+
+**Documentation** (required by the project's `CLAUDE.md`): `README.md` gains TPS + Allmaps export; `ARCHITECTURE.md` gains `transform/tps.ts`, `transform/conditioning.ts`, `allmaps/`; `plan.md` ticks the PR 3 items.
 
 ---
 
 ## Revision record
 
-**Revised 2026-07-26 after an adversarial plan review, before any code was written.** The review returned 4 Critical, 4 Important and 5 Minor; the most consequential was reproduced independently before acting on it. What changed:
+**Revised twice before any code was written, from two independent adversarial passes.**
 
-- **A missing conditioning gate (Critical).** `solveTps` had no equivalent of `solveAffine`'s `MIN_CONDITION_RATIO`, so five points along a road — refused by affine at `condRatio 2.166e-3` — produced a confident drape where a 1-px nudge moved a corner 12.2 km. `conditionRatio` is now extracted and shared. The original collinear fixture *hid* this: at 45° the arithmetic cancels bit-exactly, so it refused; rotated oblique the same degenerate line solves. Now tested at three orientations.
-- **A tautological assertion (Critical).** `expect(rms).toBeLessThan(rms * 1.4396 * 0.75)` reduces to `rms < rms * 1.0797` — true for any positive value, and it would have passed against raw Mercator metres while the plan claimed a mutation would catch it. Replaced with an externally-known displacement, mirroring the affine guard.
-- **An unassigned dependency (Critical).** Two tasks assumed a method-aware session that no task built. Task 3 is new; the graph is renumbered.
-- **An unrepresentable refusal reason (Critical).** `TpsParams | null` could not carry *why* a solve failed, but a later task had to distinguish coincident points. `solveTps` now returns a discriminated union.
-- **Four Important fixes:** a null-boundary assertion that could not fail (now bracketed from both sides); a stated expected-failure that was simply wrong (`solved`, not `degenerate` — `condRatio 0.7750`); a mesh assertion at `mesh[0][0]`, which is `(0,0)` for any `pixelSize` (now at a non-zero index, restoring a guard the affine sibling has); and the `onDragEndGcp`/`onDragStartGcp` transposition, now requiring a real-mount wiring assertion.
-- **Minors:** undefined fixtures and a non-existent test harness named (`setup`, not `renderSession`); an off-by-one between the toggle and export gates; a mutation that would not typecheck; and a conditioning-test rationale that measurement disproved.
+**Pass 1 (Claude)** — 4 Critical, 4 Important, 5 Minor. The most consequential was reproduced independently: `solveTps` had no equivalent of `solveAffine`'s `MIN_CONDITION_RATIO`, so five points along a road — refused by affine at `condRatio 2.166e-3` — produced a confident drape where a 1-px nudge moved a corner **12.2 km**. The original collinear fixture *hid* it: at 45° the arithmetic cancels bit-exactly and it refuses; rotated oblique the same degenerate line solves. Also: a tautological ground-metres assertion (`rms < rms × 1.0797`); two tasks depending on a method-aware session no task built; and `TpsParams | null` unable to carry the refusal reason a later task needed.
 
-**Also revised from measurement, not from review:** the suspect highlight ranks by the **affine fit residual** rather than TPS leave-one-out — measured 62.9% vs 46.8% at n=8 (z = −18.3), and cheaper. LOO keeps the magnitude job, shipped as a conservative upper bound.
+**Pass 2 (Codex, gpt-5.6-sol)** — 2 Critical, 7 Important, 2 Minor, **almost entirely non-overlapping with pass 1**. The decisive finding: **`recordMesh.ts` was absent from the plan entirely**, and it is what `UserMapLayers.tsx:133` calls for every saved map — so the panel would show TPS and the saved layer would snap back to affine the moment the user clicked Done, with every proposed test green. Verifying it surfaced a third hardcoded site, `needsGeoreferencing` (`useUserMaps.ts:57`), which gates admission to `visibleMaps` at all. Also: a TPS-vs-affine assertion comparing two *different* pixels (the harness raster is 1200×800, so the midpoint is (600,400), not the (1000,900) the draft used) and passing regardless; a `conditionRatio(gcps)` signature uncallable from `solveAffine(pairs)`; two Task 2 tests left as **empty bodies**; scan-side-only drag wiring; undefined fixtures colliding with an existing module-private `nudgeEast`; `.not.toBeNull()` admitting `undefined` and an empty `metresPerGcp` that would render `NaN`; a toggle with no persistence interface; an export test blind to URL leaks; and a must-fix comment correction with no verification.
 
-**Second review pass not obtained.** A Codex pass was dispatched and ran ~58 minutes without producing findings; it read the plan and supporting files, then stalled without emitting a structured report. Nothing was inferred from its partial trace. The findings above are from a single independent pass plus direct reproduction.
+**Also revised from measurement, not review:** the suspect highlight ranks by the **affine fit residual** — 62.9% vs 46.8% at n=8, z = −18.3, and cheaper. A spline interpolates exactly, so an outlier is absorbed into its shape and corrupts its neighbours' LOO scores. LOO keeps the magnitude job as a conservative upper bound. `MIN_GCPS_FOR_TPS_SUSPECT = 5`, derived independently — n=4 is a wash at 32,000 pooled trials (24.98% against a 25.00% baseline).
