@@ -139,6 +139,34 @@ With exactly 3 points residuals are zero by construction, so the UI says
 "add a 4th point to check accuracy" instead of a misleading 0 m. At 4+ points
 a TPS toggle appears (phase 3). Save → layer row appears.
 
+> **Amended 2026-07-26 — TPS breaks this residual UI, and the fix is
+> leave-one-out.** A thin-plate spline passes through its control points
+> *exactly*; that is its defining property, and this spec already requires a
+> test for it (see **Testing**). So `residualReport` over TPS control points
+> returns **~0 m for every point, at any point count** — reintroducing exactly
+> the misleading zero this paragraph refuses to show at three affine points,
+> and reducing `mostInconsistentIndex` to noise since every residual is equal.
+>
+> This project has already solved this once. `tools/church/gcps.py` splits
+> control from held-out check points precisely because *"residuals measured at
+> control points are always ~0 and say nothing about accuracy. Only held-out
+> check points give an honest number."*
+>
+> **Decision: leave-one-out cross-validation**, not a user-facing
+> control/check split. Drop point *i*, re-solve TPS on the remaining *n−1*,
+> measure the error at *i* in ground metres. Same honesty with no new UI, and
+> it restores real meaning to "disagrees most with the other points". Cost is
+> *n* solves; measured plain-JS solve time is 0.021 ms at n=30 and 0.462 ms at
+> n=100, so LOO is ~1 ms at the point counts a user hand-clicks — but the
+> solve is **O(n³)** (10.3 ms at n=300, 56 ms at n=500), so LOO needs a cap or
+> an async path before it can be run on a dense Church-style anchor set.
+>
+> Related and separate: because the session recomputes `params` in a `useMemo`
+> keyed on `gcps`, **every pointer move of a drag re-solves from scratch
+> today**. That is free below ~100 points and fits no frame budget at the
+> 300–500 anchors Church maps need, so PR 3 must decouple the solve from the
+> drag rather than assume the affine path's economics carry over.
+
 **Rendering:** `WarpedRasterLayer` projects its mesh into map space on each
 *completed* view change (`moveend`/`zoomend`/`viewreset`/`resize`) — an 8×8
 grid for embedded georeferencing (dense enough to absorb UTM→WebMercator
@@ -425,6 +453,75 @@ performance answer — a live drag redraws 2 clipped `drawImage` calls rather
 than the 128 an 8×8 grid would cost. PR 3's TPS raises the grid again,
 because a spline warp is not affine anywhere.
 
+> **Amended 2026-07-26 — TPS grid size, measured.** "Raises the grid again"
+> is now a number, measured against all three real Church control sets in
+> `tools/church/gcps/` rather than chosen. Method: solve TPS in Web Mercator
+> metres, build the lattice, sample **strictly interior** points (never
+> vertices, where error is zero by construction), compare against
+> piecewise-affine interpolation over the containing triangle, convert to
+> ground metres via the same haversine `residuals.ts` uses.
+>
+> Three renderer facts had to be established first, and two of them would have
+> been guessed wrong. **`gridSize` is cells per axis**, so cost is
+> `2 · gridSize²`. **The triangulation diagonal is the anti-diagonal
+> (top-right ↔ bottom-left)** — `mesh.ts:94-95`, where `s10` is top-right and
+> `s01` bottom-left, inverting the usual reading; measuring with the other
+> diagonal shifts max error by up to **15%**. And each triangle calls
+> `ctx.drawImage(image, 0, 0)` on the **entire** source image under a clip
+> (`mesh.ts:67-69`), so `2·gridSize²` is not "N cheap quads".
+>
+> | gridSize | draws | inv-north | inv-south | richmond |
+> |---:|---:|---:|---:|---:|
+> | 8 (the embedded budget) | 128 | 94.7 m | 26.2 m | 65.9 m |
+> | 16 | 512 | 44.3 | 10.9 | 15.9 |
+> | **64** | **8 192** | **6.0** | **1.1** | **2.0** |
+> | 128 | 32 768 | 1.9 | 0.29 | 0.55 |
+>
+> **Decision: two-tier. `gridSize = 64` for settled redraws, `12–16` during a
+> live drag.** At the whole-sheet zoom a user actually occupies while dragging
+> (~z10), 12–16 already clears half a CSS pixel, and it costs only 1.1–1.7×
+> the `gridSize = 8` that ships today — the render cost law is **sublinear**,
+> `T ∝ triangles^0.29–0.40`, because total painted area is fixed however
+> finely the mesh is cut. `WarpedRasterLayer.setLatLngMesh` already rebuilds
+> `srcMesh` from `latLngMesh.length - 1` on every call, so switching density
+> mid-session needs no new plumbing.
+>
+> **Three properties that constrain how any test may reason about this.**
+> (1) The three sheets disagree by 3–6× at any gridSize, because required cell
+> size scales with control-point spacing. (2) **Error is not monotone in
+> gridSize** — 12 beats 16, and 24 beats 32 — because lattice vertices landing
+> near control points locally cancel error; no assertion may claim "denser is
+> always better". (3) RMS converges O(h²) as theory predicts, but **max
+> converges only ≈h^1.7**, because the TPS kernel `r²·log r` has a
+> logarithmically unbounded Hessian at each control point; the argmax was
+> located at every gridSize and sits 0.02–0.33 cell diagonals from the nearest
+> control point, converging onto one as the lattice refines.
+>
+> **The quality ceiling, and what PR 3 may therefore promise.**
+> `gridSize = 256` costs **19.65 ms of pure JavaScript** per redraw before a
+> pixel is touched — out regardless of rasterizer. And 256 is exactly what the
+> worst sheet needs for half-a-CSS-pixel at native zoom. Worse, the measured
+> numbers are a **lower bound**: on these graticule-fitted control sets TPS is
+> not measurably better than affine at held-out check points (803 vs 802 m
+> RMS), because a fitted lattice is nearly affine by construction. Real Church
+> anchors — the genealogy society used 300–500 per county — carry
+> shorter-wavelength structure and need a *denser* mesh than measured.
+>
+> So: **sub-pixel accuracy at native zoom is not achievable through mesh
+> refinement.** PR 3 targets *visually seamless at working zooms (≤ z13–14)*
+> and states plainly that error becomes visible at extreme zoom. Promising
+> more would be promising what the renderer cannot deliver.
+>
+> **Not measured, and left open:** the browser rasterization term. Two
+> methodologies failed for identified reasons (the harness browser tab reports
+> `visibilityState: "hidden"` and fires no rAF callbacks; a `getImageData`
+> sync demotes an accelerated canvas to software). node-canvas puts
+> `gridSize = 8` — which already ships — at 90 ms/redraw, i.e. 11 fps; were
+> that true in a browser the existing feature would be visibly broken, so
+> cairo overstates by a large but uncalibrated factor. `gridSize = 64` for
+> settled redraws carries a documented fallback to `32` pending a real browser
+> profile; the `12–16` drag tier is safe either way.
+
 **Live re-solve without churning record identity.** The map under edit is
 excluded from `visibleMaps` and passed to `UserMapLayers` as a separate
 `draft` prop. Inside, one effect keyed on `previewUrl` builds the layer and
@@ -532,7 +629,43 @@ unresolvable CRS, oversize file, quota failure.
 |---|---|---|
 | 1 | `sniff` + GeoTIFF parser + store + `WarpedRasterLayer` + layer rows + docs updates | Embedded-georef GeoTIFFs render end-to-end |
 | 2 | Georeferencer UI + affine + residuals + plain-image sources | The portfolio demo |
-| 3 | TPS mesh + Allmaps annotation export/import | Curved scans sit flat; interop |
+| 3 | TPS mesh + Allmaps annotation **export** | Curved scans sit flat; interop |
+
+> **Amended 2026-07-26 — PR 3 scope and decisions.** Four decisions taken
+> before planning, each recorded with what settled it.
+>
+> **Allmaps export needs no dependency.** A Georeference Annotation is plain
+> JSON. `@allmaps/annotation` exists but is built around IIIF URIs and would
+> breach the hard no-new-runtime-dependency constraint for ~30 lines of object
+> construction. Verified structure a hand-written serializer must get right:
+> `transformation` lives on the **body FeatureCollection**, not the annotation
+> root; the TPS type is spelled **`thinPlateSpline`** and takes no `options`;
+> `properties.resourceCoords` is `[x, y]` while GeoJSON `coordinates` is
+> `[lon, lat]` — an inversion that survives `tsc -b` because both are number
+> pairs, so its fixture must use values that differ in sign.
+>
+> **`target` for a local file: a URN placeholder.** The extension requires
+> `target` to be a IIIF Canvas or Image Service URI and has **no provision**
+> for an image lacking one. Our maps are local files in IndexedDB with no URL.
+> Export emits `target.id = urn:uuid:<record.id>`, `type: "Canvas"`, with the
+> **ORIGINAL** `pixelSize` (never preview dimensions — the same rule that
+> governs `Gcp.pixel`). The annotation is well-formed and carries the entire
+> valuable payload; Allmaps' own viewer cannot fetch the image, and a user who
+> has published the scan can retarget by editing one field.
+>
+> **Import is deferred to its own PR.** Import means attaching GCPs to an
+> image the user supplies separately, which raises its own UX questions —
+> which map does an annotation attach to, what happens on a dimension
+> mismatch, what if no map is open — that deserve design rather than being
+> squeezed alongside TPS.
+>
+> **`method` is per-map and needs no migration.** `georef` already carries
+> `method: "affine" | "tps"`, and every existing record literally says
+> `"affine"`. No `DB_VERSION` bump. **The trap:** `saveGcps` *hardcodes*
+> `method: "affine"` (`useUserMaps.ts:443`) and runs on every debounced write,
+> so a map switched to TPS would silently revert to affine on the next drag —
+> invisible to `tsc -b` (the literal is a valid union member) and to every
+> existing test, since none asserts the persisted `method`.
 | 4 | GeoPDF parser (spike first) | Full format coverage |
 
 Each is a `feature/*` branch → PR into `nightly` per the promotion ladder.
