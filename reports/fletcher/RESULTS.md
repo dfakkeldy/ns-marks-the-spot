@@ -1,12 +1,13 @@
 # Hugh Fletcher independent georeferencing results
 
 Run date: 2026-07-25
+Final 13-sheet completion: 2026-07-26
 
 ## Outcome
 
 The inventory identified 24 separate `Atlas Map` sheets and excluded the two
-catalog composites from georeferencing. The batch produced 11
-held-out PASS result(s) and 11 tiled sheet(s). Every sheet has an
+catalog composites from georeferencing. The batch produced 24
+held-out PASS result(s) and 24 tiled sheet(s). Every sheet has an
 explicit disposition below; a failed or missing lattice is not reported as
 georeferenced.
 
@@ -28,22 +29,22 @@ untouched model-selection test set.
 
 | Sheet | Stage | Method | Controls | Checks | RMS m | P95 m | Max m | Gate | PNG tiles | Reason |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: | --- |
-| 01 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
-| 02 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
-| 03 | failed | — | — | — | — | — | — | FAIL | — | QA found a fold and one labelled boundary, not two independent parallels |
+| 01 | tiled | affine | 6 | 2 | 43.8 | 59.3 | 59.3 | PASS | 4447 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 02 | tiled | affine | 6 | 2 | 11.4 | 15.1 | 15.1 | PASS | 4339 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 03 | tiled | affine | 6 | 2 | 12.0 | 12.5 | 12.5 | PASS | 4415 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 | 04 | tiled | tps | 6 | 2 | 22.4 | 23.2 | 23.2 | PASS | 7886 | held-out thresholds satisfied |
-| 05 | failed | — | — | — | — | — | — | FAIL | — | QA found a fold and one labelled boundary, not two independent parallels |
-| 06 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
+| 05 | tiled | affine | 6 | 2 | 4.0 | 4.3 | 4.3 | PASS | 4274 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 06 | tiled | affine | 6 | 2 | 24.7 | 34.2 | 34.2 | PASS | 4468 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 | 07 | tiled | tps | 6 | 2 | 9.8 | 9.8 | 9.8 | PASS | 8224 | held-out thresholds satisfied |
-| 08 | failed | — | — | — | — | — | — | FAIL | — | QA found a fold and one labelled boundary, not two independent parallels |
-| 09 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
-| 10 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
-| 11 | failed | — | — | — | — | — | — | FAIL | — | QA found one false horizontal and one boundary, not two parallels |
+| 08 | tiled | affine | 8 | 2 | 14.9 | 17.0 | 17.0 | PASS | 4312 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 09 | tiled | affine | 6 | 2 | 56.4 | 68.0 | 68.0 | PASS | 4216 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 10 | tiled | affine | 8 | 2 | 20.9 | 25.5 | 25.5 | PASS | 4293 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 11 | tiled | affine | 6 | 2 | 60.8 | 65.1 | 65.1 | PASS | 4370 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 | 12 | tiled | tps | 7 | 3 | 77.0 | 118.3 | 118.3 | PASS | 8222 | held-out thresholds satisfied |
-| 13 | failed | — | — | — | — | — | — | FAIL | — | QA found map boundaries and a fold, not independent parallels |
+| 13 | tiled | affine | 6 | 2 | 26.6 | 29.7 | 29.7 | PASS | 4303 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 | 14 | tiled | tps | 7 | 3 | 21.2 | 34.9 | 34.9 | PASS | 8082 | held-out thresholds satisfied |
-| 15 | failed | — | — | — | — | — | — | FAIL | — | QA found map boundaries and a fold, not independent parallels |
-| 16 | failed | — | — | — | — | — | — | FAIL | — | QA rejected a regular sequence formed by a fold and lithology hatching |
+| 15 | tiled | affine | 6 | 2 | 10.3 | 11.1 | 11.1 | PASS | 4180 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
+| 16 | tiled | affine | 8 | 2 | 155.0 | 216.0 | 216.0 | PASS | 4343 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 | 17 | tiled | tps | 6 | 4 | 9.4 | 16.3 | 16.3 | PASS | 8080 | held-out thresholds satisfied |
 | 18 | tiled | tps | 8 | 4 | 99.0 | 99.1 | 99.1 | PASS | 7777 | held-out thresholds satisfied |
 | 19 | tiled | tps | 10 | 5 | 11.5 | 15.2 | 15.2 | PASS | 7786 | held-out thresholds satisfied |
@@ -51,13 +52,16 @@ untouched model-selection test set.
 | 21 | tiled | tps | 6 | 2 | 33.8 | 45.8 | 45.8 | PASS | 8098 | held-out thresholds satisfied |
 | 22 | tiled | affine | 7 | 3 | 13.4 | 15.3 | 15.3 | PASS | 8016 | held-out thresholds satisfied |
 | 23 | tiled | tps | 6 | 2 | 51.0 | 69.2 | 69.2 | PASS | 7834 | held-out thresholds satisfied; visual QA accepted |
-| 24 | failed | — | — | — | — | — | — | FAIL | — | automatic graticule detection found no reviewable regular sequence |
+| 24 | tiled | affine | 8 | 2 | 41.2 | 49.5 | 49.5 | PASS | 4193 | held-out thresholds satisfied; official NSTDB transport, hydrography and shoreline visual QA accepted |
 
 ## Modern-feature pilots
 
 These versioned pilots are independent of the engraved-grid result above.
 Transport leave-one-out metrics select the transform family; natural checks are
-the primary published accuracy estimate.
+the primary published accuracy estimate. The Sheet 24 source-drift row is
+retained as historical evidence from the earlier pilot and is superseded for
+alignment purposes by Sheet 24's independent affine PASS in the main results
+table.
 
 | Sheet | Method version | Disposition | Selected transform | Transport n | Transport RMS/P95/max m | Natural n | Natural RMS/P95/max m | Structural gate | Visual QA | PNG tiles | Reason |
 | ---: | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | ---: | --- |
@@ -119,14 +123,15 @@ changed.
 
 ## What next
 
-1. For failed sheets, make targeted full-resolution manual observations or use
-   independently sourced physical-feature controls and disjoint checks. Do not
-   infer coordinates from the successful sheets or from the old warp.
-2. Review the retained warped-preview images and a representative sample of
-   XYZ tiles for every PASS sheet before any publication decision.
+1. Treat the complete 24-sheet aligned and tiled source set as an input to a
+   separate layer-integration decision; this run did not configure hosting,
+   enable a web or native layer, bundle native tiles or deploy anything.
+2. Preserve each sheet's retained observations, checksums, warped-preview
+   images, official-source overlays and representative XYZ tile QA when
+   reviewing any later integration or publication change.
 3. Apply the scoped direct-Rumsey permission and linked terms only to the free
    Nova Scotia web-map use described in the request; keep every excluded use
    separately gated.
-4. If a later run improves a failed sheet, retain the old failure reason and
-   source checksum in the manifest/report history rather than replacing it
+4. If a later run improves an alignment, retain the superseded result, source
+   checksum and reason in the manifest/report history rather than replacing it
    with an unqualified success claim.
