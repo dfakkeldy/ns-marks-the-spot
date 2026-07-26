@@ -50,6 +50,7 @@ class DetectionSettings:
     darkness: int
     min_length_px: int
     angles_deg: tuple[float, float] | None
+    angle_tolerance_deg: float = 6.0
     """Pinned family angles, measured from a printed label. None means fall back
     to the orientation histogram, which dense coastal hachure can win."""
 
@@ -501,6 +502,89 @@ _RICHMOND_MAIN_DETECTION = DetectionSettings(
     angles_deg=(90.0, 0.0),
 )
 
+# Victoria is engraved as two geographic fields separated by the title block.
+# The northwest field has a harbour-plan inset over its upper-left map area;
+# the large field has the Baddeck town plan over its lower-right corner.
+_VICTORIA_NORTHWEST_CUTLINE = Cutline(
+    (
+        (900.0, 1200.0),
+        (12000.0, 1200.0),
+        (12000.0, 20000.0),
+        (900.0, 20000.0),
+        (900.0, 11800.0),
+        (3800.0, 11800.0),
+        (3800.0, 4800.0),
+        (900.0, 4800.0),
+    )
+)
+
+_VICTORIA_MAIN_CUTLINE = Cutline(
+    (
+        (18500.0, 1200.0),
+        (33200.0, 1200.0),
+        (33200.0, 21300.0),
+        (25200.0, 21300.0),
+        (25200.0, 30000.0),
+        (13800.0, 30000.0),
+    )
+)
+
+# Labels read directly from RUMSEY~8~1~374820~90141224. The northwest field
+# prints 60d40', 60d30', 60d20' along its horizontal rules and 47d00',
+# 46d50', 46d40' on the right margin. The main field prints 60d40' and 60d30'
+# at the top and 46d30', 46d20', 46d10' beside successive parallel rules.
+_VICTORIA_NORTHWEST_GRATICULE = GraticuleSettings(
+    anchor=GraticuleAnchor(
+        meridian_index=0,
+        meridian_lon=-(60.0 + 40.0 / 60.0),
+        parallel_index=0,
+        parallel_lat=47.0,
+        step_minutes=10.0,
+    ),
+    tolerance_px=140.0,
+    # The New Haven inset and coastline interrupt the latter two labelled
+    # parallels, leaving only 2,312 and 2,004 px of clean straight support.
+    # Their 6,928/6,974 px gaps establish the ten-minute sequence; the nearby
+    # y~3,328 impostor is off that lattice and is rejected by regular spacing.
+    min_extent_px=(2000.0, 1800.0),
+    anchor_evidence=(
+        "engraved 60d40'W, 60d30'W, 60d20'W and 47d00'N, 46d50'N, "
+        "46d40'N labels on RUMSEY~8~1~374820~90141224"
+    ),
+)
+
+_VICTORIA_MAIN_GRATICULE = GraticuleSettings(
+    anchor=GraticuleAnchor(
+        meridian_index=0,
+        meridian_lon=-(60.0 + 40.0 / 60.0),
+        parallel_index=0,
+        parallel_lat=46.0 + 30.0 / 60.0,
+        step_minutes=10.0,
+    ),
+    tolerance_px=160.0,
+    min_extent_px=(7000.0, 6000.0),
+    anchor_evidence=(
+        "engraved 60d40'W and 60d30'W at the top and 46d30'N, 46d20'N, "
+        "46d10'N beside the ruled parallels on RUMSEY~8~1~374820~90141224"
+    ),
+)
+
+_VICTORIA_DETECTION = DetectionSettings(
+    factor=4,
+    darkness=140,
+    min_length_px=500,
+    angles_deg=(90.0, 0.0),
+    angle_tolerance_deg=2.0,
+)
+
+_VICTORIA_DRAWN_CHECKS = DrawnCheckSettings(
+    darkness=190,
+    tile_px=1400,
+    dilate_px=4,
+    min_ink_px=200,
+    search_radius_px=500.0,
+)
+
 _PANELS = {
     ("inverness", "north"): ChurchPanel(
         county_slug="inverness",
@@ -538,6 +622,36 @@ _PANELS = {
         detection=_RICHMOND_MAIN_DETECTION,
         drawn_checks=_RICHMOND_DRAWN_CHECKS,
         graticule=_RICHMOND_MAIN_GRATICULE,
+    ),
+    ("victoria", "northwest"): ChurchPanel(
+        county_slug="victoria",
+        slug="northwest",
+        cutline=_VICTORIA_NORTHWEST_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-60.75,
+            south=46.45,
+            east=-60.10,
+            north=47.10,
+        ),
+        target_resolution_m=5.0,
+        detection=_VICTORIA_DETECTION,
+        drawn_checks=_VICTORIA_DRAWN_CHECKS,
+        graticule=_VICTORIA_NORTHWEST_GRATICULE,
+    ),
+    ("victoria", "main"): ChurchPanel(
+        county_slug="victoria",
+        slug="main",
+        cutline=_VICTORIA_MAIN_CUTLINE,
+        target_bounds=GeographicBounds(
+            west=-60.85,
+            south=45.90,
+            east=-59.70,
+            north=46.85,
+        ),
+        target_resolution_m=5.0,
+        detection=_VICTORIA_DETECTION,
+        drawn_checks=_VICTORIA_DRAWN_CHECKS,
+        graticule=_VICTORIA_MAIN_GRATICULE,
     ),
 }
 
