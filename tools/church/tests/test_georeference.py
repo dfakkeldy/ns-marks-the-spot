@@ -67,8 +67,19 @@ class WarpCommandTests(unittest.TestCase):
         self.assertEqual(command[0], "gdalwarp")
         self.assertIn("BIGTIFF=IF_SAFER", command)
 
-    def test_affine_mode_omits_tps(self) -> None:
-        self.assertNotIn("-tps", warp_command("in.tif", "out.tif", tps=False))
+    def test_affine_mode_uses_first_order_polynomial(self) -> None:
+        command = warp_command("in.tif", "out.tif", transform="affine")
+        self.assertNotIn("-tps", command)
+        self.assertEqual(command[command.index("-order") + 1], "1")
+
+    def test_polynomial2_mode_uses_second_order_polynomial(self) -> None:
+        command = warp_command("in.tif", "out.tif", transform="polynomial2")
+        self.assertNotIn("-tps", command)
+        self.assertEqual(command[command.index("-order") + 1], "2")
+
+    def test_rejects_unknown_transform(self) -> None:
+        with self.assertRaisesRegex(ValueError, "unsupported transform"):
+            warp_command("in.tif", "out.tif", transform="rubber-sheet")
 
     def test_constrains_panel_to_geographic_bounds(self) -> None:
         bounds = GeographicBounds(west=-61.7, south=45.6, east=-60.5, north=46.4)
@@ -186,8 +197,13 @@ class CheckFileWiringTests(unittest.TestCase):
         seen: dict = {}
 
         def fake(slug, source, gcp_path, output_dir, panel=None,
-                 apply_cutline=True, check_path=None):
-            seen.update(slug=slug, gcp_path=gcp_path, check_path=check_path)
+                 apply_cutline=True, check_path=None, transform="tps"):
+            seen.update(
+                slug=slug,
+                gcp_path=gcp_path,
+                check_path=check_path,
+                transform=transform,
+            )
             return pathlib.Path("out.tif"), summarise([], [], None)
 
         with mock.patch("tools.church.georeference.georeference", fake):
@@ -196,15 +212,17 @@ class CheckFileWiringTests(unittest.TestCase):
                 "--source", "sheet.tif",
                 "--gcps", "gcps/inverness-north.csv",
                 "--checks", "checks/inverness-north.csv",
+                "--transform", "polynomial2",
             ])
 
         self.assertEqual(seen["check_path"], pathlib.Path("checks/inverness-north.csv"))
+        self.assertEqual(seen["transform"], "polynomial2")
 
     def test_check_file_is_optional(self) -> None:
         seen: dict = {}
 
         def fake(slug, source, gcp_path, output_dir, panel=None,
-                 apply_cutline=True, check_path=None):
+                 apply_cutline=True, check_path=None, transform="tps"):
             seen.update(check_path=check_path)
             return pathlib.Path("out.tif"), summarise([], [], None)
 

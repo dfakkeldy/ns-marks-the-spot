@@ -68,7 +68,7 @@ class PanelRegistryTests(unittest.TestCase):
         panel = panels[0]
         self.assertEqual(
             panel.window,
-            SourceWindow(x=1000, y=8500, width=31400, height=13400),
+            SourceWindow(x=1068, y=8593, width=33544, height=13549),
         )
         self.assertTrue(panel.draws(18000, 16000))
         self.assertFalse(panel.draws(6000, 6000), "1886 reference map")

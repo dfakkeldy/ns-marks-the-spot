@@ -1,8 +1,10 @@
 """Warp a Church county sheet to EPSG:3857 and measure how well it landed.
 
-Thin-plate spline, not affine. Church county maps were compiled for legibility
-of resident names rather than surveyed on a grid, so their internal geometry
-does not admit a global affine fit. See docs/CHURCH_MAPS.md.
+The CLI supports affine, second-order polynomial, and thin-plate-spline
+transformers so a county can be judged using the simplest model that passes its
+held-out checks. Church county maps were compiled for legibility of resident
+names rather than surveyed on a grid, so the correct choice must be measured
+rather than assumed. See docs/CHURCH_MAPS.md.
 
 Accuracy comes from `role=check` points that never touch the warp. TPS
 interpolates its control points exactly, so measuring error there would always
@@ -19,8 +21,10 @@ import subprocess
 
 from tools.church.counties import ChurchCounty, get_county
 from tools.church.cutline_warp import (
+    TRANSFORMS,
     cutline_geojson,
     densify,
+    transform_arguments,
     warp_command_with_cutline,
 )
 from tools.church.gcps import (
@@ -95,14 +99,19 @@ def build_translate_command(
 def warp_command(
     translated: str,
     output: str,
-    tps: bool = True,
+    transform: str = "tps",
     target_bounds: GeographicBounds | None = None,
     target_resolution_m: float | None = None,
 ) -> list[str]:
     """gdalwarp invocation targeting Web Mercator."""
-    command = ["gdalwarp", "-r", "bilinear", "-t_srs", "EPSG:3857"]
-    if tps:
-        command.append("-tps")
+    command = [
+        "gdalwarp",
+        "-r",
+        "bilinear",
+        "-t_srs",
+        "EPSG:3857",
+        *transform_arguments(transform),
+    ]
     if target_bounds is not None:
         command += [
             "-te_srs",
@@ -184,8 +193,12 @@ def build_metadata(
     }
 
 
-def project_cutline(panel: ChurchPanel, translated: pathlib.Path) -> list[tuple[float, float]]:
-    """Push the panel's cutline through the same TPS that warps its pixels.
+def project_cutline(
+    panel: ChurchPanel,
+    translated: pathlib.Path,
+    transform: str = "tps",
+) -> list[tuple[float, float]]:
+    """Push the panel's cutline through the same transform that warps its pixels.
 
     Transforming only the polygon corners would cut straight chords across a
     curved warp and shave real map content off the panel edge, so the ring is
@@ -195,7 +208,7 @@ def project_cutline(panel: ChurchPanel, translated: pathlib.Path) -> list[tuple[
     ring = densify(local, CUTLINE_SAMPLE_PX)
     stdin = "\n".join(f"{x} {y}" for x, y in ring)
     completed = subprocess.run(
-        ["gdaltransform", "-tps", str(translated)],
+        ["gdaltransform", *transform_arguments(transform), str(translated)],
         input=stdin, capture_output=True, text=True, check=True,
     )
     projected = parse_gdaltransform_output(completed.stdout)
@@ -214,6 +227,7 @@ def georeference(
     panel: ChurchPanel | None = None,
     apply_cutline: bool = True,
     check_path: pathlib.Path | None = None,
+    transform: str = "tps",
 ) -> tuple[pathlib.Path, AccuracyReport]:
     """Warp `source` using the county's GCPs, returning the raster and its accuracy.
 
@@ -257,7 +271,10 @@ def georeference(
     if panel is not None and apply_cutline:
         cutline_path = output_dir / f"{output_slug}-cutline-3857.geojson"
         cutline_path.write_text(
-            cutline_geojson(project_cutline(panel, translated), epsg=3857),
+            cutline_geojson(
+                project_cutline(panel, translated, transform=transform),
+                epsg=3857,
+            ),
             encoding="utf-8",
         )
 
@@ -268,11 +285,13 @@ def georeference(
             str(cutline_path),
             target_bounds=panel.target_bounds,
             target_resolution_m=panel.target_resolution_m,
+            transform=transform,
         )
     else:
         command = warp_command(
             str(translated),
             str(warped),
+            transform=transform,
             target_bounds=panel.target_bounds if panel else None,
             target_resolution_m=panel.target_resolution_m if panel else None,
         )
@@ -282,7 +301,7 @@ def georeference(
     if check:
         stdin = "\n".join(f"{p.pixel_x} {p.pixel_y}" for p in check)
         completed = subprocess.run(
-            ["gdaltransform", "-tps", str(translated)],
+            ["gdaltransform", *transform_arguments(transform), str(translated)],
             input=stdin, capture_output=True, text=True, check=True,
         )
         errors = check_errors(check, parse_gdaltransform_output(completed.stdout))
@@ -302,6 +321,12 @@ def main(argv: list[str] | None = None) -> int:
         "`emit_gcps --check` can keep asserting it byte-for-byte in CI",
     )
     parser.add_argument("--panel", help="independently georeference one registered map panel")
+    parser.add_argument(
+        "--transform",
+        choices=TRANSFORMS,
+        default="tps",
+        help="GDAL transform model; compare methods with the same held-out checks",
+    )
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("build/church"))
     parser.add_argument(
         "--no-cutline",
@@ -318,6 +343,7 @@ def main(argv: list[str] | None = None) -> int:
         panel,
         apply_cutline=not args.no_cutline,
         check_path=args.checks,
+        transform=args.transform,
     )
     print(warped)
     print(json.dumps(report.as_dict(), indent=2))

@@ -451,24 +451,30 @@ _INVERNESS_HEADLAND_CHECKS = HeadlandCheckSettings(
 # Richmond's main geography occupies one continuous field, but the archival
 # sheet also carries a separate 1886 Nova Scotia reference map, six town-plan
 # insets, and the title block. The band below is bounded by measured ruled
-# lines: its top sits below the last northern inset (y~8,252), and its bottom
-# stays above the Arichat inset rule (y~22,360). It retains the 45d40' and
-# 45d30' parallels and all seven meridians from 61d20'W through 60d20'W.
+# lines: its top sits below the last northern inset, and its bottom stays above
+# the Arichat inset rule. It retains the 45d40' and 45d30' parallels and all
+# seven meridians from 61d20'W through 60d20'W.
+#
+# The first Richmond working TIFF was accidentally resampled to 34,509x30,385.
+# These full-scan coordinates are the old measured bounds projected through
+# that TIFF's recorded pixel transform (1.06825051384355 x,
+# 1.01104154809334 y) into the corrected 35,735x30,429 source frame.
 _RICHMOND_MAIN_CUTLINE = Cutline(
     (
-        (1000.0, 8500.0),
-        (32400.0, 8500.0),
-        (32400.0, 21900.0),
-        (1000.0, 21900.0),
+        (1068.25051384355, 8593.853158793398),
+        (34611.316648531014, 8593.853158793398),
+        (34611.316648531014, 22141.809903244164),
+        (1068.25051384355, 22141.809903244164),
     )
 )
 
 # Read directly from RUMSEY~8~1~373669~90140407:
-# - 60d50'W is engraved beside the meridian at x~15,960;
-# - 45d40'N and 45d30'N are engraved on the right margin at y~14,672 and
-#   y~21,292.
+# - 60d50'W is engraved beside the meridian at corrected-source x~17,049;
+# - 45d40'N and 45d30'N are engraved on the right margin at corrected-source
+#   y~14,834 and y~21,527.
 # The neighbouring rules are spaced about 4,512 px east-west and 6,620 px
-# north-south, independently confirming a ten-minute lattice.
+# north-south in the earlier resampled frame, independently confirming a
+# ten-minute lattice.
 _RICHMOND_MAIN_GRATICULE = GraticuleSettings(
     anchor=GraticuleAnchor(
         meridian_index=0,
@@ -478,10 +484,13 @@ _RICHMOND_MAIN_GRATICULE = GraticuleSettings(
         step_minutes=10.0,
     ),
     tolerance_px=120.0,
-    min_extent_px=(5000.0, 10000.0),
+    # The corrected 1:1 source frame leaves the western 61d20' meridian with
+    # 3,748 px of clean detected support. A 5,000 px floor drops that labelled
+    # rule and shifts every longitude index east by one step.
+    min_extent_px=(3500.0, 10000.0),
     anchor_evidence=(
-        "engraved 60d50'W at x~15960, 45d40'N at y~14672, and 45d30'N at "
-        "y~21292 on RUMSEY~8~1~373669~90140407"
+        "engraved 60d50'W at corrected-source x~17049, 45d40'N at y~14834, "
+        "and 45d30'N at y~21527 on RUMSEY~8~1~373669~90140407"
     ),
 )
 

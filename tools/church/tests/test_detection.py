@@ -274,6 +274,15 @@ class RichmondMainDetectionTests(unittest.TestCase):
         self.assertLess(self.build.family_a.rms_px, 40.0)
         self.assertLess(self.build.family_b.rms_px, 30.0)
 
+    def test_engraved_60d50_label_lands_on_the_corrected_source_rule(self):
+        points = [
+            point
+            for point in self.build.mesh.control_points()
+            if round(point.lon, 6) == round(-(60.0 + 50.0 / 60.0), 6)
+        ]
+        self.assertEqual(len(points), 2)
+        self.assertAlmostEqual(min(point.pixel_x for point in points), 17049, delta=60)
+
 
 if __name__ == "__main__":
     unittest.main()

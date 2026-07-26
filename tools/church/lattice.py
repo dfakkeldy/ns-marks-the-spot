@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from itertools import combinations
 
 from tools.church.linefit import FittedLine, canonical_direction
 
@@ -237,7 +238,13 @@ def fit_family(
 
     offsets, reference, direction, normal = perpendicular_offsets(long_enough)
     merged_lines, merged_offsets = merge_duplicates(long_enough, offsets, tolerance)
-    fit = fit_spacing(merged_offsets, tolerance)
+    selected_indices, fit = _fit_with_outlier_rejection(merged_offsets, tolerance)
+    if fit is None:
+        return None
+
+    selected_lines = [merged_lines[index] for index in selected_indices]
+    selected_offsets, reference, direction, normal = perpendicular_offsets(selected_lines)
+    fit = fit_spacing(selected_offsets, tolerance)
     if fit is None:
         return None
 
@@ -249,6 +256,43 @@ def fit_family(
         normal=normal,
         lines=tuple(
             PlacedLine(line=line, offset=offset, index=index)
-            for line, offset, index in zip(merged_lines, merged_offsets, fit.indices)
+            for line, offset, index in zip(selected_lines, selected_offsets, fit.indices)
         ),
     )
+
+
+def _fit_with_outlier_rejection(
+    offsets: list[float], tolerance: float, max_dropped: int = 2
+) -> tuple[tuple[int, ...], LatticeFit | None]:
+    """Choose the densest regular lattice after dropping at most two intruders.
+
+    A straight road can survive the angular and extent filters between genuine
+    graticule rules. Fitting every line then prefers a tiny pitch with many
+    invented missing rules. A real graticule instead uses most detections at
+    consecutive lattice positions, so score a candidate by admitted lines minus
+    holes, then by admitted line count.
+    """
+    count = len(offsets)
+    best_indices: tuple[int, ...] = ()
+    best_fit: LatticeFit | None = None
+    best_score: tuple[int, int, float, float] | None = None
+
+    for dropped in range(0, min(max_dropped, count - 2) + 1):
+        for selected in combinations(range(count), count - dropped):
+            candidate = fit_spacing([offsets[index] for index in selected], tolerance)
+            if candidate is None:
+                continue
+            span = max(candidate.indices) - min(candidate.indices) + 1
+            missing = span - len(candidate.indices)
+            score = (
+                len(candidate.indices) - missing,
+                len(candidate.indices),
+                candidate.spacing,
+                -candidate.rms,
+            )
+            if best_score is None or score > best_score:
+                best_indices = selected
+                best_fit = candidate
+                best_score = score
+
+    return best_indices, best_fit

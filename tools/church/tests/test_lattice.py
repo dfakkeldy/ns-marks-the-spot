@@ -176,6 +176,19 @@ class FitFamilyTests(unittest.TestCase):
         lines = [vertical(0.0, extent=5000.0), vertical(2000.0, extent=100.0)]
         self.assertIsNone(fit_family(lines, tolerance=120.0, min_extent=3500.0))
 
+    def test_drops_one_intruder_between_regular_rules(self):
+        lines = [
+            vertical(x, extent=5000.0)
+            for x in (0.0, 1500.0, 4800.0, 9600.0, 14400.0, 19200.0, 24000.0)
+        ]
+
+        family = fit_family(lines, tolerance=120.0)
+
+        assert family is not None
+        self.assertEqual(family.indices, (0, 1, 2, 3, 4, 5))
+        self.assertAlmostEqual(family.spacing_px, 4800.0, delta=1.0)
+        self.assertNotIn(1500.0, [placed.line.cx for placed in family.lines])
+
     def test_reports_missing_lattice_positions(self):
         lines = [
             vertical(0.0, extent=5000.0),
