@@ -22,6 +22,23 @@ const SOLVABLE: Gcp[] = [
 ];
 
 /**
+ * `SOLVABLE` plus a fourth point that shares point "a"'s scan pixel exactly —
+ * the double-click case — with a distinct map location, so it is not also a
+ * duplicate on the destination side.
+ *
+ * Measured: this 4-point pixel cloud's `conditionRatio` is **0.583**, far
+ * above `MIN_CONDITION_RATIO` (5e-3), so `solveAffineFromGcps` succeeds on
+ * it. At 4 points (>= `MIN_GCPS_FOR_RESIDUALS`), that means the AFFINE path
+ * alone reports `{ kind: "solved", ... }` for this fixture — coincidence
+ * only breaks the TPS solve, so a test against this fixture must select
+ * `method: "tps"` or it will silently exercise nothing.
+ */
+const COINCIDENT: Gcp[] = [
+  ...SOLVABLE,
+  { id: "dup", pixel: { x: 0, y: 0 }, map: { lat: 46.05, lng: -61.15 } },
+];
+
+/**
  * Named, and the `initialProps` object annotated with it, so `renderHook`
  * infers `Props` as this and not as the literal's `{ mapId: string }` —
  * otherwise `rerender({ mapId: null, ... })` below fails to typecheck, which
@@ -195,24 +212,48 @@ describe("solve method", () => {
     expect(groundMetresBetween(mesh[mid][mid], affineAt)).toBeGreaterThan(100);
   });
 
-  it("reports degenerate when the SPLINE refuses points an affine accepts", () => {
+  it("reports coincident-points, not degenerate, when the SPLINE refuses points an affine accepts", () => {
     // `solveTps` refuses a strict superset of what `solveAffine` does, so the
     // status cannot key on the affine solve alone: these two points share a
     // scan pixel (a double-click), which least squares averages away and an
     // interpolating spline cannot. Keying on `params` only, the panel would
     // report a solved fit with an RMS figure over a drape that draws nothing.
+    //
+    // This refusal gets its own status (Task 4) rather than folding into
+    // `degenerate`: unlike a thin cloud or a squashed axis, nothing here is
+    // remotely collinear (BENT's own conditionRatio is 0.777), and the
+    // remedy is different and concrete — delete the duplicate — not "spread
+    // your points out".
     const doubleClicked: Gcp[] = [
       ...BENT,
       { id: "dup", pixel: { x: 320, y: 240 }, map: { lat: 46.407181, lng: -61.530755 } },
     ];
     expect(solveAffineFromGcps(doubleClicked)).not.toBeNull();
     const { result } = setup(doubleClicked, { method: "tps" });
-    expect(result.current.status).toEqual({ kind: "degenerate" });
+    expect(result.current.status).toEqual({ kind: "coincident-points" });
     expect(result.current.mesh).toBeNull();
     // The same points under the affine method are perfectly placeable, which
     // is what makes this a statement about the METHOD and not about the points.
     const affine = setup(doubleClicked, { method: "affine" });
     expect(affine.result.current.status.kind).toBe("solved");
+  });
+
+  it("reports coincident-points on a minimal 4-point fixture, where the baseline trap is that affine alone would call it solved", () => {
+    // `COINCIDENT` is `SOLVABLE` (3 points) plus a 4th sharing point "a"'s
+    // scan pixel. Measured: that pixel cloud's conditionRatio is 0.583 — far
+    // above MIN_CONDITION_RATIO — and 4 points meets MIN_GCPS_FOR_RESIDUALS,
+    // so `solveAffineFromGcps` succeeds AND produces a residual report on
+    // this exact fixture. A test that omits `method: "tps"` here would
+    // observe `{ kind: "solved", ... }` before AND after any fix to the
+    // coincident-points handling below — it would never touch `solveTps` at
+    // all, so it could not detect its own failure.
+    expect(solveAffineFromGcps(COINCIDENT)).not.toBeNull();
+    const affineOnly = setup(COINCIDENT, { method: "affine" });
+    expect(affineOnly.result.current.status.kind).toBe("solved");
+
+    const { result } = setup(COINCIDENT, { method: "tps" });
+    expect(result.current.status).toEqual({ kind: "coincident-points" });
+    expect(result.current.mesh).toBeNull();
   });
 });
 

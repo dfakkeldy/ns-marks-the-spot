@@ -29,10 +29,19 @@ export type GeoreferenceStatus =
   | { kind: "awaiting-map" }
   | { kind: "awaiting-scan" }
   | { kind: "need-more"; remaining: number }
-  /** The solve was refused: thin point cloud, non-finite result, or a
-   * transform that squashes one axis past MIN_ANISOTROPY_RATIO. Not
-   * "collinear" — two of those three are not straight lines on the scan. */
+  /** The solve was refused for a reason shared by both solvers: a thin point
+   * cloud, a non-finite result, or a transform that squashes one axis past
+   * MIN_ANISOTROPY_RATIO. Not "collinear" — none of those three is a straight
+   * line on the scan. Two coincident TPS control points is a DIFFERENT
+   * refusal, with a different and concrete remedy ("delete the duplicate"
+   * rather than "spread your points out"), so it gets its own status below
+   * instead of folding in here. */
   | { kind: "degenerate" }
+  /** TPS-only: two control points land on the same scan pixel — typically a
+   * double-click — which makes the interpolation matrix exactly singular.
+   * An affine simply averages duplicates away, so this can arrive even when
+   * `params` solved fine. See `solveTps`'s "coincident-points" reason. */
+  | { kind: "coincident-points" }
   | { kind: "exact-fit" }
   | { kind: "solved"; rmsMetres: number; count: number };
 
@@ -439,16 +448,28 @@ export function useGeoreferenceSession(options: {
     if (gcps.length < MIN_GCPS_FOR_AFFINE) {
       return { kind: "need-more", remaining: MIN_GCPS_FOR_AFFINE - gcps.length };
     }
+    if (tps && !tps.ok && tps.reason === "coincident-points") {
+      // Pulled out ahead of the shared `degenerate` bucket below (Task 4):
+      // unlike a thin cloud or a squashed axis, two coincident scan points
+      // are not remotely collinear, and the remedy is different and
+      // concrete — delete the duplicate — so this gets its own status
+      // rather than a message that tells the user to "spread points out".
+      return { kind: "coincident-points" };
+    }
     if (!params || (method === "tps" && !tps?.ok)) {
-      // Three different refusals arrive here, only one of which is a straight
-      // line on the scan — see the type's comment and Task 3.
+      // Every refusal shared by BOTH solvers arrives here — see the type's
+      // comment. Coincident TPS control points are handled separately, just
+      // above, because that one refusal has a different, concrete remedy.
       //
       // The second clause is not redundant, and the implication runs one way
       // only: `solveTps` refuses a strict SUPERSET of what `solveAffine` does
-      // (its destination gate IS a `solveAffine` call), so an affine-only test
-      // would report "solved" for a spline that refused — two coincident
-      // control points, say, which least squares simply averages away — and
-      // the panel would show a solved status over a drape that draws nothing.
+      // (its destination gate IS a `solveAffine` call, and its source gate is
+      // the same `conditionRatio` check). Beyond coincidence, `solveTps` also
+      // solves its OWN (n+3)x(n+3) interpolation system, which can turn out
+      // singular even when the affine system and both conditioning gates are
+      // healthy — an affine-only test would report "solved" for a spline that
+      // refused, and the panel would show a solved status over a drape that
+      // draws nothing.
       return { kind: "degenerate" };
     }
     if (!report) {

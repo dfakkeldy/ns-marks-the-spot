@@ -141,15 +141,26 @@ describe("statusMessage", () => {
   });
 
   it("explains a refused solve without claiming it is always a straight scan line", () => {
-    // The status covers three refusals, only one of which is "the points on
-    // the SCAN are nearly collinear": a non-finite result and a 50:1 axis
-    // squash also land here, and the squash is what three map clicks down a
-    // meridian produce from a perfectly good scan triangle. Copy that said
-    // "move one off the line" would be wrong advice in two cases out of
-    // three, so it names both sides.
+    // The status covers every refusal shared by both solvers, most but not
+    // all of which are "the points on the SCAN are nearly collinear": a
+    // non-finite result and a 50:1 axis squash also land here, and the squash
+    // is what three map clicks down a meridian produce from a perfectly good
+    // scan triangle. Copy that said "move one off the line" would be wrong
+    // advice for those, so it names both sides. Two coincident TPS control
+    // points is the one refusal that DOESN'T land here — see the next test.
     expect(statusMessage({ kind: "degenerate" })).toBe(
       "These points can't pin the map down — check that neither the scan " +
         "points nor the map points sit on a straight line.",
+    );
+  });
+
+  it("tells the user to move or delete a duplicate rather than the generic degenerate message", () => {
+    // Task 4: coincident TPS control points get a specific, actionable
+    // message instead of `degenerate`'s — unlike a thin cloud or a squashed
+    // axis, nothing about two points on the same scan pixel is "a straight
+    // line", and the fix is concrete rather than "spread your points out".
+    expect(statusMessage({ kind: "coincident-points" })).toBe(
+      "Two points are on the same spot — move or delete one.",
     );
   });
 
