@@ -13,7 +13,14 @@ import { parseImage, type ParsedImage } from "./parsers/imageSource";
 import { sniffFileType } from "./parsers/sniff";
 import { UserMapStore } from "./store/userMapStore";
 import { solveAffineFromGcps } from "./transform/affine";
-import type { Gcp, GcpGeoref, UserMapRecord, UserMapSource } from "./types";
+import { solveTps } from "./transform/tps";
+import type {
+  Gcp,
+  GcpGeoref,
+  GeoreferenceMethod,
+  UserMapRecord,
+  UserMapSource,
+} from "./types";
 import type { VisibleUserMap } from "./components/UserMapLayers";
 
 export const DEFAULT_OPACITY = 0.7;
@@ -32,10 +39,20 @@ const UNRECOGNIZED_MESSAGE =
 const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
 
 /**
- * True when a GCP map cannot be PLACED — i.e. `solveAffineFromGcps` refuses
+ * True when a GCP map cannot be PLACED — i.e. the record's OWN solver refuses
  * its points, so `meshForRecord` returns null and nothing can be drawn. The
  * layer row shows a Georeference button instead of an opacity slider for
  * exactly this set, and `visibleMaps` excludes it.
+ *
+ * It must ask the same solver `meshForRecord` will, which is why the method is
+ * branched on here. The two solvers do not refuse the same things, and the
+ * relationship is one-directional: `solveTps` refuses a strict SUPERSET,
+ * because its destination gate is literally a `solveAffine` call while it
+ * additionally rejects coincident control points and a singular interpolation
+ * matrix. So an affine-only predicate never wrongly badges a TPS record — it
+ * wrongly CLEARS one: a scan with two points double-clicked onto the same
+ * pixel solves fine as least squares, gets an enabled checkbox and a slider,
+ * enters `visibleMaps`, and then draws nothing at all.
  *
  * Deliberately the solve, not `gcps.length < MIN_GCPS_FOR_AFFINE`. The count
  * is only ONE of the solver's refusals: it also rejects a collapsed centroid,
@@ -52,10 +69,13 @@ const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
  * inside `solveAffine`'s own count check.
  */
 export function needsGeoreferencing(record: UserMapRecord): boolean {
-  return (
-    record.georef.kind === "gcp" &&
-    solveAffineFromGcps(record.georef.gcps) === null
-  );
+  if (record.georef.kind !== "gcp") {
+    return false;
+  }
+  if (record.georef.method === "tps") {
+    return !solveTps(record.georef.gcps).ok;
+  }
+  return solveAffineFromGcps(record.georef.gcps) === null;
 }
 
 export type ImportOutcome =
@@ -88,6 +108,15 @@ export type UserMapsApi = {
   beginGeoreference: (id: string) => void;
   endGeoreference: () => void;
   saveGcps: (id: string, gcps: Gcp[]) => Promise<void>;
+  /**
+   * The other half of `saveGcps`: that one saves POINTS and preserves whatever
+   * method the record already had, this one saves the METHOD and preserves the
+   * points. Two setters rather than one, because the two are written by
+   * completely different clocks — points arrive from a 400 ms debounce on every
+   * pointer move of a drag, the method from a single deliberate click — and a
+   * combined setter would make the drag path re-send a method it never changed.
+   */
+  setGeorefMethod: (id: string, method: GeoreferenceMethod) => Promise<void>;
   needsGeoreferencing: (record: UserMapRecord) => boolean;
 };
 
@@ -438,9 +467,19 @@ export function useUserMaps(
       if (!existing) {
         return;
       }
+      // Preserve the EXISTING record's method rather than a literal. This
+      // fires from the debounced write on every drag, and the session itself
+      // doesn't own the method (that's a later task's UI toggle) — so a
+      // literal here would silently flip a tps record back to affine on the
+      // next pointer move after switching. Guarded, not assumed: `existing`
+      // could in principle be an EmbeddedGeoref record (kind !== "gcp"),
+      // which has no `method` to preserve, so that case falls back to the
+      // same "affine" default EMPTY_GCP_GEOREF uses.
+      const method =
+        existing.georef.kind === "gcp" ? existing.georef.method : "affine";
       const saved: UserMapRecord = {
         ...existing,
-        georef: { kind: "gcp", gcps, method: "affine" },
+        georef: { kind: "gcp", gcps, method },
       };
       // The updater is now pure: it maps one entry to an already-built
       // object and returns every other entry BY REFERENCE, because
@@ -451,6 +490,15 @@ export function useUserMaps(
         prev.map((record) => (record.id === id ? saved : record)),
       );
       try {
+        // Writing to a record another tab has deleted is a silent no-op, not
+        // a throw — deliberately. `storageError` means "this browser can't
+        // save your work"; a map the user themselves deleted in another tab
+        // isn't a storage fault, and surfacing it here would tell them their
+        // points were lost when the points' map is what's gone. Residual gap,
+        // NOT fixed here because closing it needs new user-facing copy (the
+        // maintainer's call) or a cross-tab invalidation channel: this tab
+        // keeps `saved` in `records`, so it goes on showing a map that no
+        // longer exists in storage until the page reloads.
         await (await store()).putUserMapRecord(saved);
       } catch {
         // Same contract as import: a storage failure keeps the map usable
@@ -458,6 +506,54 @@ export function useUserMaps(
         setStorageError(
           "Couldn't save these points — they stay available until you close " +
             "the tab.",
+        );
+      }
+    },
+    [store],
+  );
+
+  const setGeorefMethod = useCallback(
+    async (id: string, method: GeoreferenceMethod) => {
+      // Same shape as `saveGcps`, and for the same measured reason: the record
+      // is built OUT HERE and handed to the updater already finished. React
+      // defers an updater whenever the owning fiber has queued work — which
+      // `App` always does — so anything computed inside one is not available
+      // on the next line, and the IndexedDB write below would silently never
+      // run while the in-memory list looked perfect.
+      const existing = recordsRef.current.find((record) => record.id === id);
+      // A GeoTIFF that carries its own georeferencing has no GCPs and no
+      // method to choose between; the panel never offers the toggle for one
+      // (its gate is a GCP count), and writing a `method` onto that georef
+      // would corrupt the stored shape rather than extend it.
+      if (!existing || existing.georef.kind !== "gcp") {
+        return;
+      }
+      if (existing.georef.method === method) {
+        // Record identity is load-bearing — UserMapLayers keys its
+        // layer-construction effect on the record OBJECT, and rebuilding one
+        // re-decodes its bitmap. A no-op click must therefore stay a no-op all
+        // the way down, not mint an equal-but-fresh record.
+        return;
+      }
+      const saved: UserMapRecord = {
+        ...existing,
+        // Spread, not a rebuilt literal: the points are the record's other
+        // half and belong to `saveGcps`. Reconstructing `georef` here is how a
+        // method switch would quietly drop them.
+        georef: { ...existing.georef, method },
+      };
+      setRecords((prev) =>
+        prev.map((record) => (record.id === id ? saved : record)),
+      );
+      try {
+        await (await store()).putUserMapRecord(saved);
+      } catch {
+        // Same contract as `saveGcps` and as import: a storage failure keeps
+        // the user's choice working for this session rather than snapping the
+        // control they just moved back to where it was.
+        setStorageError(
+          "Couldn't save this warp setting — it stays available until you " +
+            "close the tab.",
         );
       }
     },
@@ -519,6 +615,7 @@ export function useUserMaps(
     beginGeoreference,
     endGeoreference,
     saveGcps,
+    setGeorefMethod,
     needsGeoreferencing,
   };
 }

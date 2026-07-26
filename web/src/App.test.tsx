@@ -83,6 +83,7 @@ vi.mock("./components/MapCanvas", () => ({
       focus?: { lat: number; lng: number } | null;
       onPickMapPoint: (lat: number, lng: number) => void;
       onDragStartGcp: (id: string) => void;
+      onDragEndGcp: (id: string) => void;
       onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
     } | null;
     userMaps?: unknown[];
@@ -211,6 +212,14 @@ vi.mock("./components/MapCanvas", () => ({
             }
           >
             Simulate marker dragstart
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              georeference.onDragEndGcp(georeference.gcps[0]?.id ?? "")
+            }
+          >
+            Simulate marker dragend
           </button>
           <button
             type="button"
@@ -2960,6 +2969,54 @@ describe("georeferencer", () => {
     },
   };
 
+  /**
+   * A tps record with FOUR points, two of them double-clicked onto the same
+   * scan pixel. Deliberately a set the two solvers disagree about: an affine
+   * least-squares fit averages the duplicate away and solves, while `solveTps`
+   * refuses it as `coincident-points`. So the panel's status line is a direct
+   * readout of WHICH solver App handed the session — "Two points are on the
+   * same spot" can only appear when the record's `method` actually reached
+   * `useGeoreferenceSession`, and an App that forgot to pass it shows a solved
+   * RMS instead. Four points also puts it at the warp toggle's gate.
+   *
+   * Deliberately REUSES `SCAN`'s id and name. The suite shares one
+   * fake-indexeddb across tests and every test re-seeds what it needs, so a
+   * fixture with a new id would leak forward as an extra row — and this one
+   * needs georeferencing, which would give the three later tests that query
+   * `/^Georeference /` two matching buttons instead of one. Seeding over
+   * `scan-1` keeps that count at one whichever version of the row is current.
+   */
+  const TPS_COINCIDENT: UserMapRecord = {
+    ...SCAN,
+    georef: {
+      kind: "gcp",
+      method: "tps",
+      gcps: [
+        { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+        { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+        { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+        { id: "d", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+      ],
+    },
+  };
+
+  /** Placed with FOUR well-spread points — one past the warp toggle's gate. */
+  const PLACED_FOUR: UserMapRecord = {
+    ...PLACED,
+    id: "placed-4",
+    name: "Four-point scan",
+    georef: {
+      kind: "gcp",
+      method: "affine",
+      gcps: [
+        { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+        { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+        { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+        { id: "d", pixel: { x: 1200, y: 800 }, map: { lat: 46.0, lng: -61.0 } },
+      ],
+    },
+  };
+
   /** A second placed map, somewhere else entirely — for the focus-leak test. */
   const PLACED_B: UserMapRecord = {
     ...PLACED,
@@ -3036,6 +3093,57 @@ describe("georeferencer", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "saved user map layers: 1",
     );
+  });
+
+  it("solves the live session with the record's own method, and shows it on the toggle", async () => {
+    // The wiring the toggle is worthless without. Everything Tasks 1-7b built
+    // is reached through ONE expression — the `method` App hands
+    // `useGeoreferenceSession` — and nothing else in this suite would notice
+    // its absence: the toggle would still persist, the panel would still show
+    // it checked, and the drape would go on being an affine.
+    await seedScan(TPS_COINCIDENT);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", {
+        name: "Georeference Church of Inverness 1888",
+      }),
+    );
+    // Reads the record, not local state: a checkbox seeded to `false` would
+    // tell a user who chose the curved warp last session that they hadn't.
+    expect(
+      screen.getByRole("checkbox", { name: "Curved warp (TPS)" }),
+    ).toBeChecked();
+    // …and the SPLINE is what refused these points. An affine solves them.
+    expect(
+      screen.getAllByText("Two points are on the same spot — move or delete one."
+      ).length,
+    ).toBeGreaterThan(0);
+  });
+
+  it("persists a warp switch made in the panel, all the way to IndexedDB", async () => {
+    // Three points would be below the gate, so this fixture carries four.
+    await seedScan(PLACED_FOUR);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Four-point scan" }),
+    );
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Curved warp (TPS)",
+    });
+    expect(toggle).not.toBeChecked();
+    await userEvent.click(toggle);
+    // The checkbox follows the RECORD, so it can only tick once App's setter
+    // has round-tripped through `records`.
+    await waitFor(() => expect(toggle).toBeChecked());
+
+    // The database, not the component: this is the half a session-local
+    // toggle would fake perfectly.
+    await waitFor(async () => {
+      const persisted = (await (await UserMapStore.open()).listUserMaps()).find(
+        (r) => r.id === PLACED_FOUR.id,
+      );
+      expect((persisted?.georef as { method: string }).method).toBe("tps");
+    });
   });
 
   it("takes the map under edit out of the saved layers", async () => {
@@ -3253,6 +3361,45 @@ describe("georeferencer", () => {
     // ...and does NOT remove the point. Wired to deleteGcp instead, this
     // count would drop to 2 (deleteGcp also snapshots first, so the Undo
     // assertion above would still pass — only the count catches that swap).
+    const gcps = JSON.parse(
+      screen.getByTestId("georeference-gcps").textContent ?? "[]",
+    ) as unknown[];
+    expect(gcps).toHaveLength(3);
+  });
+
+  it("ends a drag without opening a second undo step", async () => {
+    // `onDragEndGcp` and `onDragStartGcp` are both `(id: string) => void`, so
+    // `onDragEndGcp: beginDragGcp` in App's binding memo passes `tsc -b` and
+    // `eslint`, and every component-level test still passes — the panes only
+    // ever see the props App hands them. What breaks is here: the release
+    // snapshots a SECOND time, so a completed drag costs two Ctrl+Z presses
+    // and the drape never leaves the coarse drag lattice.
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    const undoButton = screen.getByRole("button", { name: "Undo" });
+    expect(undoButton).toBeDisabled();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate marker dragstart" }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate marker dragend" }),
+    );
+    expect(undoButton).toBeEnabled();
+
+    // ONE step for the whole drag: a single Undo empties the history. Wired
+    // to `beginDragGcp` instead, the depth would be 2 here and the button
+    // would still be enabled after this click.
+    await userEvent.click(undoButton);
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    // And the release must not have deleted or moved anything.
     const gcps = JSON.parse(
       screen.getByTestId("georeference-gcps").textContent ?? "[]",
     ) as unknown[];

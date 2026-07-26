@@ -1,4 +1,5 @@
 import type { Gcp } from "../types";
+import { conditionRatio, MIN_CONDITION_RATIO } from "./conditioning";
 import { toMercator, type MercatorPoint } from "./webMercator";
 
 /** X = p0*x + p1*y + p2 ; Y = p3*x + p4*y + p5. Pixels in, Mercator out. */
@@ -12,51 +13,6 @@ export type AffineParams = readonly [
 ];
 
 export const MIN_GCPS_FOR_AFFINE = 3;
-
-/**
- * How thin a control-point layout may get before we refuse to solve from it,
- * as the ratio between the point cloud's narrowest and widest RMS extent —
- * i.e. `sqrt(lambdaMin / lambdaMax)` of the centred 2x2 scatter matrix, which
- * is the reciprocal condition number of the design.
- *
- * The obvious test — determinant against the product of the normal matrix's
- * diagonal — is NOT this, and does not work. That ratio reduces algebraically
- * to `1 - r^2` for the Pearson correlation of the centred pixels, which is
- * scale-invariant but not a conditioning measure: it goes blind whenever the
- * points lie near a coordinate axis. Measured, an exactly singular horizontal
- * layout reported a perfectly healthy `1 - r^2 = 0.25`, while the identical
- * degeneracy rotated to 45 degrees was correctly rejected. Points clicked
- * along a scan's top neatline are the layout users actually produce.
- *
- * Normalising against the point cloud's own long axis — rather than against
- * the image — is the second correction, and it matters. Dividing by the image
- * diagonal silently folded a COVERAGE question into what claims to be a RANK
- * question, and the two disagree: a 1000x100 px control corridor on a
- * 24000x18000 scan is full rank with only 10:1 anisotropy, yet scored 1.7e-3
- * against the image and was refused with "too close to a straight line" — a
- * statement that was simply false about that layout.
- *
- * Measured separation, which is what set the value:
- *
- *     near-collinear 45deg     8.4e-9   reject
- *     points along a neatline  1.4e-3   reject
- *     -------------------------------- 5e-3
- *     elongated map, worst     2.9e-2   accept
- *     1000x100 corridor        1.0e-1   accept
- *     healthy triangle         5.3e-1   accept
- *
- * The margins are 3.5x below and 5.8x above, against 4.3x/5.1x for the old
- * image-normalised form — and, unlike it, the ordering now tracks actual
- * conditioning instead of inverting it.
- *
- * This gate is about RANK — whether the points determine a transform at all.
- * It is deliberately NOT a check on over-extrapolation: three points huddled
- * in 200 px of a 4096 px scan score 5.8e-1 and pass, because their SHAPE is
- * fine even though the fit is stretched 20x beyond them. That is a real risk,
- * but it is a different one, and it belongs on the reported accuracy rather
- * than on the solve. Conflating them is what produced the corridor bug above.
- */
-export const MIN_CONDITION_RATIO = 5e-3;
 
 /**
  * Smallest ratio between the solved transform's two scale axes. Three map
@@ -97,6 +53,13 @@ export function solveAffine(
     return null;
   }
 
+  // Shared with solveTps, so the two solvers cannot disagree about whether the
+  // same clicks are usable. Negated so NaN falls through to the rejection
+  // rather than past it.
+  if (!(conditionRatio(pairs.map((pair) => pair.src)) > MIN_CONDITION_RATIO)) {
+    return null;
+  }
+
   let centroidX = 0;
   let centroidY = 0;
   let centroidDstX = 0;
@@ -131,22 +94,6 @@ export function solveAffine(
     sumYdX += y * dx;
     sumXdY += x * dy;
     sumYdY += y * dy;
-  }
-
-  // Eigenvalues of the centred 2x2 scatter matrix — the point cloud's widest
-  // and narrowest RMS extents. Rotation-invariant by construction, unlike the
-  // diagonal terms, which is where the correlation test went wrong.
-  const trace = sumXX + sumYY;
-  const eigenGap = Math.hypot(sumXX - sumYY, 2 * sumXY);
-  const largestEigenvalue = (trace + eigenGap) / 2;
-  const smallestEigenvalue = Math.max((trace - eigenGap) / 2, 0);
-  if (largestEigenvalue <= 0) {
-    return null; // every point sits on the centroid
-  }
-  const conditionRatio = Math.sqrt(smallestEigenvalue / largestEigenvalue);
-  // Negated so NaN falls through to the rejection rather than past it.
-  if (!(conditionRatio > MIN_CONDITION_RATIO)) {
-    return null;
   }
 
   const determinant = sumXX * sumYY - sumXY * sumXY;

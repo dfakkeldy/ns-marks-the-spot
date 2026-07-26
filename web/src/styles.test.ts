@@ -436,4 +436,25 @@ describe("georeferencer overlay", () => {
     )?.[1];
     expect(range).toMatch(/width:\s*100%/);
   });
+
+  it("gives the warp fieldset the same frame as the reference-layers one", () => {
+    // The precedent directly above: `.georeference-opacity` shipped with no
+    // rule and fell back to unstyled inline flow, which is why that test
+    // exists. `.georeference-method` is a <fieldset> sitting in the same
+    // footer grid as `.georeference-references`, so with no rule it falls back
+    // to the UA's `2px groove` border and reads as a different KIND of control
+    // beside its 1px-solid sibling. Asserted against that sibling rather than
+    // against literal values, so the two can only drift together.
+    const method = styles.match(/\.georeference-method\s*\{([^}]*)\}/)?.[1];
+    const references = styles.match(/\.georeference-references\s*\{([^}]*)\}/)?.[1];
+    expect(method).toBeDefined();
+    expect(method).toMatch(/display:\s*grid/);
+    // The UA default is a groove; an explicit border is the whole point.
+    expect(method).toMatch(/border:\s*1px\s+solid/);
+    expect(references).toMatch(/border:\s*1px\s+solid/);
+    expect(method).toMatch(/border-radius:/);
+    // The helper sentence is secondary text, like the locked-layers note.
+    const helper = styles.match(/\.georeference-method small\s*\{([^}]*)\}/)?.[1];
+    expect(helper).toMatch(/color:\s*var\(--muted\)/);
+  });
 });

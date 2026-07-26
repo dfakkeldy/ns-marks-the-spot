@@ -36,6 +36,7 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
     beginGeoreference: vi.fn(),
     endGeoreference: vi.fn(),
     saveGcps: vi.fn(async () => {}),
+    setGeorefMethod: vi.fn(async () => {}),
     // The real predicate, not a stub: a row's draft/placed appearance is
     // decided by actual GCP counts, so a fake here would let a wrong one pass.
     needsGeoreferencing,

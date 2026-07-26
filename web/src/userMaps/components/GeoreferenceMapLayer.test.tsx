@@ -9,6 +9,7 @@ type MarkerCall = {
   icon: { options: { className?: string; html?: string } };
   eventHandlers?: {
     dragstart?: () => void;
+    dragend?: () => void;
     drag?: (event: {
       target: { getLatLng: () => { lat: number; lng: number } };
     }) => void;
@@ -70,6 +71,7 @@ const BINDING = {
   focus: null,
   onPickMapPoint: vi.fn(),
   onDragStartGcp: vi.fn(),
+  onDragEndGcp: vi.fn(),
   onMoveGcpOnMap: vi.fn(),
 };
 
@@ -113,8 +115,14 @@ describe("GeoreferenceMapLayer", () => {
       />,
     );
     expect(markerCalls[0].draggable).toBe(true);
+    // `dragend` is asserted for PRESENCE only here; which session handler it
+    // actually reaches is exercised against a real Leaflet drag in
+    // `GeoreferenceMapLayer.realMount.test.tsx`. Calling the mocked handler
+    // by key here could not tell a transposition apart, because the test
+    // would be the one choosing the key.
     expect(Object.keys(markerCalls[0].eventHandlers ?? {}).sort()).toEqual([
       "drag",
+      "dragend",
       "dragstart",
     ]);
     markerCalls[0].eventHandlers?.dragstart?.();
@@ -170,8 +178,8 @@ describe("GeoreferenceMapLayer", () => {
     expect(markers[1]).toHaveAttribute("data-label", "2");
     // Draggable, with the undo-history entry point wired — a completed GCP,
     // not a decoration.
-    expect(markers[0]).toHaveAttribute("data-handlers", "drag,dragstart");
-    expect(markers[1]).toHaveAttribute("data-handlers", "drag,dragstart");
+    expect(markers[0]).toHaveAttribute("data-handlers", "drag,dragend,dragstart");
+    expect(markers[1]).toHaveAttribute("data-handlers", "drag,dragend,dragstart");
 
     const pending = markers[2];
     expect(pending).toHaveAttribute("data-icon-class", "gcp-marker gcp-marker--pending");

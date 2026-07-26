@@ -11,6 +11,7 @@ type MarkerCall = {
   icon: { options: { className?: string; html?: string } };
   eventHandlers?: {
     dragstart?: () => void;
+    dragend?: () => void;
     drag?: (event: {
       target: { getLatLng: () => { lat: number; lng: number } };
     }) => void;
@@ -102,6 +103,7 @@ const GCPS: Gcp[] = [
 function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
   const onPickPoint = vi.fn();
   const onDragStartGcp = vi.fn();
+  const onDragEndGcp = vi.fn();
   const onMoveGcp = vi.fn();
   const utils = render(
     <ScanPane
@@ -112,12 +114,13 @@ function renderPane(props: Partial<Parameters<typeof ScanPane>[0]> = {}) {
       focus={null}
       onPickPoint={onPickPoint}
       onDragStartGcp={onDragStartGcp}
+      onDragEndGcp={onDragEndGcp}
       onMoveGcp={onMoveGcp}
       selectedGcpId={null}
       {...props}
     />,
   );
-  return { ...utils, onPickPoint, onDragStartGcp, onMoveGcp };
+  return { ...utils, onPickPoint, onDragStartGcp, onDragEndGcp, onMoveGcp };
 }
 
 describe("ScanPane", () => {
@@ -138,6 +141,44 @@ describe("ScanPane", () => {
     // Task 10's panel test asserts a class its own ScanPane mock invents.
     const { container } = renderPane();
     expect(container.querySelector(".georeference-scan")).not.toBeNull();
+  });
+
+  it("wears the tab-panel identity its caller hands down, on the root the stylesheet grids", () => {
+    // GeoreferencePanel is the caller, and GeoreferencePanel.test.tsx mocks
+    // THIS component — its mock echoes these three attributes so the tab
+    // round trip is assertable over there. That echo is only honest because
+    // of this test: without it ScanPane could ignore `tabPanel` outright, the
+    // panel's Scan tab would carry an `aria-controls` naming an id no element
+    // in the document has, and the whole suite would stay green.
+    //
+    // The role goes on `.georeference-scan` ITSELF, which is why the prop is
+    // passed down at all: that div is a direct grid child of
+    // `.georeference-panel` (styles.css sets explicit grid-template-columns
+    // and -rows on it), so a wrapper div introduced just to hold the role
+    // would insert an extra grid item and shift the layout.
+    //
+    // The two fixture strings differ so a transposed `id={labelledBy}` fails
+    // here rather than passing on a pair of identical values.
+    const { container } = renderPane({
+      tabPanel: { id: "scan-panel-fixture", labelledBy: "scan-tab-fixture" },
+    });
+    const scan = container.querySelector(".georeference-scan");
+    expect(scan).toHaveAttribute("id", "scan-panel-fixture");
+    expect(scan).toHaveAttribute("role", "tabpanel");
+    expect(scan).toHaveAttribute("aria-labelledby", "scan-tab-fixture");
+  });
+
+  it("claims no tab-panel role when no tab reveals it", () => {
+    // The prop is optional and the role must not be unconditional: a
+    // `role="tabpanel"` with no `role="tab"` anywhere in the document is a
+    // claim about a pattern that is not there. Every other test in this file
+    // mounts the pane exactly this way, so without this assertion an
+    // unconditional role would go unnoticed here too.
+    const { container } = renderPane();
+    const scan = container.querySelector(".georeference-scan");
+    expect(scan).not.toHaveAttribute("role");
+    expect(scan).not.toHaveAttribute("id");
+    expect(scan).not.toHaveAttribute("aria-labelledby");
   });
 
   it("configures the Leaflet map on CRS.Simple with the scan's own bounds and zoom limits", () => {
@@ -229,9 +270,16 @@ describe("ScanPane", () => {
     // useGeoreferenceSession's beginDragGcp is the ONLY scan-side entry into
     // undo history. Wire `drag` and forget `dragstart` and every test still
     // passes, while one Ctrl+Z leaps back past the whole drag.
+    //
+    // `dragend` is asserted for PRESENCE here and exercised for real in
+    // `ScanPane.realMount.test.tsx`: firing the mocked handler by hand cannot
+    // tell `dragend: () => onDragEndGcp(id)` apart from
+    // `dragend: () => onDragStartGcp(id)` any better than `tsc` can, because
+    // the test would be choosing which key to call.
     const { onDragStartGcp, onMoveGcp } = renderPane();
     expect(Object.keys(markerCalls[0].eventHandlers ?? {}).sort()).toEqual([
       "drag",
+      "dragend",
       "dragstart",
     ]);
     markerCalls[0].eventHandlers?.dragstart?.();
@@ -264,7 +312,8 @@ describe("ScanPane", () => {
     // the SAME object for non-matching ids and only a stable reference lets
     // React (and react-leaflet) tell "unchanged" apart from "recomputed but
     // equal".
-    const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane();
+    const { rerender, onPickPoint, onDragStartGcp, onDragEndGcp, onMoveGcp } =
+      renderPane();
     expect(markerCalls).toHaveLength(3);
     const before = [...markerCalls];
     const clickHandlerBefore = clickHandlerCalls[0];
@@ -277,6 +326,7 @@ describe("ScanPane", () => {
         focus={null}
         onPickPoint={onPickPoint}
         onDragStartGcp={onDragStartGcp}
+        onDragEndGcp={onDragEndGcp}
         onMoveGcp={onMoveGcp}
         selectedGcpId={null}
       />,
@@ -344,9 +394,10 @@ describe("ScanPane", () => {
     // the very first click; one that keys on `focus.pixel` instead of the
     // whole `focus` object stops recentring on a repeat click to the same
     // point specifically — both are real regressions this test tells apart.
-    const { rerender, onPickPoint, onDragStartGcp, onMoveGcp } = renderPane({
-      focus: null,
-    });
+    const { rerender, onPickPoint, onDragStartGcp, onDragEndGcp, onMoveGcp } =
+      renderPane({
+        focus: null,
+      });
     expect(stubMap.setView).not.toHaveBeenCalled();
 
     const rerenderWithFocus = (
@@ -361,6 +412,7 @@ describe("ScanPane", () => {
           focus={focus}
           onPickPoint={onPickPoint}
           onDragStartGcp={onDragStartGcp}
+          onDragEndGcp={onDragEndGcp}
           onMoveGcp={onMoveGcp}
           selectedGcpId={null}
         />,

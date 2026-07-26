@@ -8,8 +8,17 @@ export type Gcp = {
   map: { lat: number; lng: number };
 };
 
+/**
+ * Which solver turns a record's GCPs into a drape. Named rather than written
+ * inline because the choice has to travel to THREE places that each decide
+ * something different: the live session's mesh, `meshForRecord` (every saved
+ * layer), and `needsGeoreferencing` (whether the record is drawable at all).
+ * The stored union is unchanged, so there is no migration.
+ */
+export type GeoreferenceMethod = "affine" | "tps";
+
 /** Produced by the PR-2 georeferencer; defined now so the store schema is stable. */
-export type GcpGeoref = { kind: "gcp"; gcps: Gcp[]; method: "affine" | "tps" };
+export type GcpGeoref = { kind: "gcp"; gcps: Gcp[]; method: GeoreferenceMethod };
 
 export type UserMapGeoref = EmbeddedGeoref | GcpGeoref;
 

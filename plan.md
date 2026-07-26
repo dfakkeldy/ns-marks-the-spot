@@ -88,7 +88,7 @@
 - [ ] Add MODL zoning, including its explicit "Unzoned Area" polygons, as the model for stating that no zoning applies rather than showing nothing
 - [x] "Your maps": user-loaded GeoTIFFs rendered client-side with opacity control (spec `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`, PR 1 of 4)
 - [x] In-browser georeferencer for plain scans (PR 2)
-- [ ] TPS warping + Allmaps annotation export (PR 3)
+- [x] TPS warping + Allmaps annotation export (PR 3)
 - [ ] GeoPDF import (PR 4)
 - [ ] Evaluate geotiff.js 3.x migration (pinned to 2.1.3 in PR 1; read API changed)
 

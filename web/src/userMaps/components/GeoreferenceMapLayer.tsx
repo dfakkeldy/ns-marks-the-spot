@@ -32,6 +32,11 @@ export type GeoreferenceBinding = {
   focus: MapFocusRequest | null;
   onPickMapPoint: (lat: number, lng: number) => void;
   onDragStartGcp: (id: string) => void;
+  /** Required, not optional. This pane and `ScanPane` are wired SEPARATELY
+   * (App builds this binding; GeoreferencePanel wires the scan side), so
+   * `tsc -b` refusing an incomplete binding is what stops one pane getting
+   * the two-tier mesh while the other silently keeps the coarse drape. */
+  onDragEndGcp: (id: string) => void;
   onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
 };
 
@@ -56,11 +61,13 @@ function GeoreferenceGcpMarker({
   gcp,
   label,
   onDragStartGcp,
+  onDragEndGcp,
   onMoveGcpOnMap,
 }: {
   gcp: Gcp;
   label: string;
   onDragStartGcp: (id: string) => void;
+  onDragEndGcp: (id: string) => void;
   onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
 }) {
   const icon = useMemo(() => numberedIcon(label), [label]);
@@ -72,12 +79,18 @@ function GeoreferenceGcpMarker({
     () => ({
       // The ONLY map-side entry into undo history.
       dragstart: () => onDragStartGcp(gcp.id),
+      // Leaflet's REAL dragend, not a debounce: a drag released without a
+      // final pointer move would otherwise never restore the fine mesh. The
+      // two handlers share a signature, so swapping them here typechecks and
+      // lints clean — `GeoreferenceMapLayer.realMount.test.tsx` drives a
+      // genuine Draggable to a real mouseup to pin which is which.
+      dragend: () => onDragEndGcp(gcp.id),
       drag: (event: L.LeafletEvent) => {
         const { lat, lng } = (event.target as L.Marker).getLatLng();
         onMoveGcpOnMap(gcp.id, lat, lng);
       },
     }),
-    [gcp.id, onDragStartGcp, onMoveGcpOnMap],
+    [gcp.id, onDragEndGcp, onDragStartGcp, onMoveGcpOnMap],
   );
   return (
     <Marker
@@ -166,6 +179,7 @@ export function GeoreferenceMapLayer({
           gcp={gcp}
           label={String(index + 1)}
           onDragStartGcp={binding.onDragStartGcp}
+          onDragEndGcp={binding.onDragEndGcp}
           onMoveGcpOnMap={binding.onMoveGcpOnMap}
         />
       ))}

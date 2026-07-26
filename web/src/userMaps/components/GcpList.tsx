@@ -13,6 +13,13 @@ function formatResidual(metres: number): string {
   return `${Math.round(metres)} m`;
 }
 
+/**
+ * One string, used twice on the same cell: as the mouse tooltip AND as real
+ * text in the accessibility tree. Hoisted so the two can never drift — copy is
+ * the maintainer's; this is the wording that already shipped in the `title`.
+ */
+const SUSPECT_LABEL = "Disagrees most with the other points";
+
 export function GcpList({
   gcps,
   report,
@@ -90,13 +97,29 @@ export function GcpList({
               </td>
               <td
                 className="gcp-residual"
-                title={
-                  suspect
-                    ? "Disagrees most with the other points"
-                    : undefined
-                }
+                // Kept, not replaced: the tooltip is the only thing that
+                // explains the border-and-bold to a SIGHTED mouse user, who
+                // gets nothing from the clipped span below. The span is the
+                // fix for everyone else — `.gcp-row--suspect` is
+                // `border-inline-start` + `font-weight` and nothing more, and
+                // a `title` on a plain `<td>` is neither keyboard-reachable
+                // nor reliably announced. Both carry the SAME string, so if a
+                // screen reader does surface the title it repeats this phrase
+                // rather than competing with a second wording.
+                title={suspect ? SUSPECT_LABEL : undefined}
               >
                 {report ? formatResidual(report.metresPerGcp[index]) : "—"}
+                {suspect ? (
+                  // Inside the cell, not wrapping it: `getNodeText` counts
+                  // only DIRECT text children, so the residual is still
+                  // findable as its own exact string, and a screen reader
+                  // reads the cell as "41 m Disagrees most with the other
+                  // points".
+                  <span className="visually-hidden">
+                    {" "}
+                    {SUSPECT_LABEL}
+                  </span>
+                ) : null}
               </td>
               <td>
                 <button

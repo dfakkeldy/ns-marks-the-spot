@@ -4231,6 +4231,24 @@ a {
   color: var(--muted);
 }
 
+/* The warp toggle, styled exactly like the reference-layers fieldset above it
+   rather than given a look of its own: they are siblings in the same footer
+   grid, and a bare <fieldset> falls back to the UA's 2px groove border, which
+   reads as a different KIND of control sitting next to it. */
+.georeference-method {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(10 20 22 / 12%);
+  border-radius: 6px;
+  font-size: 0.74rem;
+}
+
+.georeference-method small {
+  color: var(--muted);
+}
+
 .georeference-actions {
   display: flex;
   gap: 8px;
