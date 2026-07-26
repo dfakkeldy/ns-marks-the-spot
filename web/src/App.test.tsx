@@ -19,6 +19,9 @@ import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
+import { UserMapStore } from "./userMaps/store/userMapStore";
+import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
+import type { Gcp, UserMapRecord } from "./userMaps/types";
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -40,6 +43,8 @@ vi.mock("./components/MapCanvas", () => ({
     onLayerStatusChange,
     renderMode,
     fitBounds,
+    georeference,
+    userMaps,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -64,6 +69,15 @@ vi.mock("./components/MapCanvas", () => ({
     onLayerStatusChange?: (id: string, status: { status: "ready" }) => void;
     renderMode?: "interactive" | "print";
     fitBounds?: unknown;
+    georeference?: {
+      gcps: { id: string; pixel: { x: number; y: number }; map: { lat: number; lng: number } }[];
+      draft?: { record: { id: string } };
+      focus?: { lat: number; lng: number } | null;
+      onPickMapPoint: (lat: number, lng: number) => void;
+      onDragStartGcp: (id: string) => void;
+      onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
+    } | null;
+    userMaps?: unknown[];
   }) => {
     useEffect(() => {
       if (renderMode === "print") {
@@ -131,6 +145,12 @@ vi.mock("./components/MapCanvas", () => ({
         ? `; ${fitBounds ? "Parcel fit" : "Missing parcel fit"}`
         : <>; initial position: {initialPosition?.latitude ?? "missing"},{initialPosition?.longitude ?? "missing"},{initialPosition?.zoom ?? "missing"}</>}
       ; focus request: {focusRequest?.pid ?? "none"}
+      ; georeferencing: {georeference?.draft?.record.id ?? "none"}
+      ; saved user map layers: {userMaps?.length ?? 0}
+      ; georeference focus:{" "}
+      {georeference?.focus
+        ? `${georeference.focus.lat},${georeference.focus.lng}`
+        : "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -153,9 +173,63 @@ vi.mock("./components/MapCanvas", () => ({
           </button>
         </>
       ) : null}
+      {georeference ? (
+        <>
+          {/* These three exist so an App-level test can assert on the
+              REAL, OBSERVABLE effect of calling the georeference binding's
+              handlers — not merely that some function reference was passed.
+              Task 12's brief calls out that onPickMapPoint/onDragStartGcp/
+              onMoveGcpOnMap each has a same-signature sibling on the session
+              (pickScanPoint/deleteGcp/moveGcpOnScan) that would satisfy
+              every other test in this branch while behaving very
+              differently — only exercising the handler and checking its
+              result catches a swap. */}
+          <pre data-testid="georeference-gcps">
+            {JSON.stringify(georeference.gcps)}
+          </pre>
+          <button
+            type="button"
+            onClick={() => georeference.onPickMapPoint(46.05, -61.1)}
+          >
+            Simulate map click
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              georeference.onDragStartGcp(georeference.gcps[0]?.id ?? "")
+            }
+          >
+            Simulate marker dragstart
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              georeference.onMoveGcpOnMap(
+                georeference.gcps[0]?.id ?? "",
+                40,
+                -70,
+              )
+            }
+          >
+            Simulate marker drag
+          </button>
+        </>
+      ) : null}
     </div>
     );
   },
+}));
+
+vi.mock("./userMaps/components/ScanPane", () => ({
+  ScanPane: () => <div data-testid="scan-pane" />,
+}));
+
+vi.mock("./userMaps/parsers/imageSource", () => ({
+  parseImage: async () => ({
+    pixelSize: { width: 1200, height: 800 },
+    preview: new Blob(["preview"], { type: "image/png" }),
+    previewSize: { width: 1200, height: 800 },
+  }),
 }));
 
 vi.mock("./services/nsprd", async (importOriginal) => {
@@ -2793,5 +2867,414 @@ describe("NS Marks The Spot Online", () => {
     });
     expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
     expect(within(dialog).getByText(/Current completion/)).toBeInTheDocument();
+  });
+});
+
+describe("georeferencer", () => {
+  // App syncs `window.history` to its own share-state URL on every render
+  // (see the `shareUrl` effect), so any earlier test that mounted <App/>
+  // leaves query params (mode/event/layers/position) behind — a sibling
+  // describe does not inherit the outer suite's own reset-to-"/" beforeEach.
+  // Left unset, a stray `?layers=modern` from a previous test makes
+  // `hasSharedLayers` true here and drives provinceLayers off the shared
+  // layer list instead of the real catalog defaults.
+  beforeEach(() => {
+    window.history.replaceState(null, "", "/");
+  });
+
+  const SCAN: UserMapRecord = {
+    id: "scan-1",
+    name: "Church of Inverness 1888",
+    source: "image",
+    createdAt: "2026-07-25T00:00:00.000Z",
+    pixelSize: { width: 1200, height: 800 },
+    georef: { kind: "gcp", method: "affine", gcps: [] },
+  };
+
+  /** Same scan, already placed: three non-collinear points that solve. */
+  const PLACED: UserMapRecord = {
+    ...SCAN,
+    id: "placed-1",
+    name: "Placed scan",
+    georef: {
+      kind: "gcp",
+      method: "affine",
+      gcps: [
+        { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+        { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+        { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+      ],
+    },
+  };
+
+  /** A second placed map, somewhere else entirely — for the focus-leak test. */
+  const PLACED_B: UserMapRecord = {
+    ...PLACED,
+    id: "placed-2",
+    name: "Second placed scan",
+    georef: {
+      kind: "gcp",
+      method: "affine",
+      gcps: [
+        { id: "p", pixel: { x: 0, y: 0 }, map: { lat: 44.6, lng: -63.6 } },
+        { id: "q", pixel: { x: 1200, y: 0 }, map: { lat: 44.6, lng: -63.4 } },
+        { id: "r", pixel: { x: 0, y: 800 }, map: { lat: 44.5, lng: -63.6 } },
+      ],
+    },
+  };
+
+  async function seedScan(record: UserMapRecord = SCAN) {
+    const store = await UserMapStore.open();
+    await store.saveUserMap(
+      record,
+      new Blob(["raster"], { type: "image/jpeg" }),
+      new Blob(["preview"], { type: "image/png" }),
+    );
+  }
+
+  it("stays closed until a map is opened for georeferencing", async () => {
+    await seedScan();
+    render(<App />);
+    expect(
+      await screen.findByRole("button", { name: /^Georeference / }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("scan-pane")).toBeNull();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeferencing: none",
+    );
+  });
+
+  it("hands the map under edit to the panel and the map at once", async () => {
+    // Seed a SECOND, already-placed and enabled map. Without it the
+    // "saved user map layers: 0" assertion is vacuous — it reads 0 whether
+    // or not the exclusion filter exists, because a fresh draft has no GCPs
+    // and would never be in visibleMaps anyway.
+    await seedScan();
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({
+        "scan-1": { enabled: true, opacity: 0.7 },
+        "placed-1": { enabled: true, opacity: 0.7 },
+      }),
+    );
+    render(<App />);
+    await waitFor(() =>
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+        "saved user map layers: 1",
+      ),
+    );
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Georeference Church of Inverness 1888" }),
+    );
+    expect(screen.getByTestId("scan-pane")).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeferencing: scan-1",
+    );
+    // Spec: the georeferencer hides the layer rail so the panel can take the
+    // left ~45% and the app map keep the right ~55%. styles.test.ts pins the
+    // RULE; this pins the class actually being on the element, because a rule
+    // with nothing to match is invisible to every test in this repo.
+    expect(document.querySelector(".app-shell.georeferencing")).not.toBeNull();
+    // Still 1, not 2: the map under edit is drawn by the georeferencer's own
+    // draft, so the saved-map layer must not also draw it — that would be two
+    // canvases fighting, and the saved layer would rebuild on every pointer
+    // move. Opening a DIFFERENT map must not disturb the placed one.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "saved user map layers: 1",
+    );
+  });
+
+  it("takes the map under edit out of the saved layers", async () => {
+    // The other half of the same contract, with the placed map itself opened.
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await waitFor(() =>
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+        "saved user map layers: 1",
+      ),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "saved user map layers: 0",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeferencing: placed-1",
+    );
+  });
+
+  it("closes back to the map without leaving the draft behind", async () => {
+    await seedScan();
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: /^Georeference / }),
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(screen.queryByTestId("scan-pane")).toBeNull();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeferencing: none",
+    );
+    expect(document.querySelector(".app-shell.georeferencing")).toBeNull();
+  });
+
+  it("does not carry one map's zoom-to focus into the next session", async () => {
+    // Zoom to on map A, close A, open map B. `georeferenceFocus` is App
+    // state, not session state, so nothing resets it on its own: leave it set
+    // and GeoreferenceMapLayer mounts for B with A's focus still non-null and
+    // immediately recentres B's session on a point belonging to another map.
+    // The bug needs two maps to show, which is why no existing test sees it.
+    await seedScan(PLACED);
+    await seedScan(PLACED_B);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Zoom to point 1" }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeference focus: 46.1,-61.2",
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Adjust points for Second placed scan",
+      }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeference focus: none",
+    );
+  });
+
+  it("does not carry one map's narrow-layout tab into the next session", async () => {
+    // GeoreferencePanel keeps `tab` (and selectedGcpId, scanFocus) in its own
+    // local state. Switch map A to its "Map" tab, then open map B WITHOUT
+    // closing A first (the layer rail is only CSS-hidden during a session,
+    // spec-visible only — jsdom applies no stylesheet, so its "Adjust
+    // points" buttons stay reachable here exactly as they would be reachable
+    // in a real browser before that CSS rule existed). Both editingMap
+    // records render through the SAME conditional slot in App, so without a
+    // `key` distinguishing them, React reuses the one GeoreferencePanel
+    // instance instead of remounting it, and B opens already on the "Map"
+    // tab — a leftover from a session about an entirely different scan.
+    await seedScan(PLACED);
+    await seedScan(PLACED_B);
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    await userEvent.click(screen.getByRole("tab", { name: "Map" }));
+    expect(document.querySelector(".georeference-panel")).toHaveAttribute(
+      "data-tab",
+      "map",
+    );
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Adjust points for Second placed scan",
+      }),
+    );
+    expect(document.querySelector(".georeference-panel")).toHaveAttribute(
+      "data-tab",
+      "scan",
+    );
+  });
+
+  it("will not switch on restricted reference layers without the licence", async () => {
+    // `afterEach` in setup.ts clears localStorage and this suite never
+    // accepts by default — the file's other tests opt in explicitly with
+    // localStorage.setItem("ns-marks-the-spot:province-license:v1",
+    // "accepted"), so rendering plain gives the un-accepted state.
+    await seedScan();
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: /^Georeference / }),
+    );
+    expect(
+      screen.getByRole("checkbox", { name: "Aerial imagery" }),
+    ).toBeDisabled();
+  });
+
+  it("drives the real province layers once the licence is accepted", async () => {
+    // The other half of the gate: proves the footer toggle is wired to the
+    // app's actual layer state and not to a copy that goes nowhere.
+    // `initialProvinceLayerVisibility.nsprd` is TRUE (verified in
+    // layerCatalog.ts), so the click here turns property boundaries OFF —
+    // an earlier draft asserted this backwards and would have passed only by
+    // accident if the default ever flipped.
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    await seedScan();
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: /^Georeference / }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "property boundaries: on",
+    );
+    const parcels = screen.getByRole("checkbox", { name: "Property boundaries" });
+    expect(parcels).toBeChecked();
+    await userEvent.click(parcels);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "property boundaries: off",
+    );
+  });
+
+  it("opens the panel straight from an import, without a second click", async () => {
+    // Spec: an imported scan opens the panel. `useUserMaps` consumes the
+    // outcome flag (Task 5); this is the App-level proof that the flag
+    // actually reaches the UI rather than being produced and dropped.
+    render(<App />);
+    const input = await screen.findByLabelText("Add a map file");
+    const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    await userEvent.upload(
+      input,
+      new File([magic], "church-1888.png", { type: "image/png" }),
+    );
+    expect(await screen.findByTestId("scan-pane")).toBeInTheDocument();
+  });
+
+  // --- Binding wiring: assert the EFFECT of each handler, not that a prop
+  // reference was passed --------------------------------------------------
+  //
+  // Every one of GeoreferenceBinding's three map-side handlers has a
+  // same-signature sibling on the session (onPickMapPoint/pickScanPoint,
+  // onDragStartGcp/deleteGcp, onMoveGcpOnMap/moveGcpOnScan). A swap satisfies
+  // every existing test on this branch, including Task 10's own
+  // GeoreferencePanel/GeoreferenceMapLayer tests, because those mock the
+  // session with `vi.fn()` and never inspect what actually changed. These
+  // three tests call the handlers exposed on the mocked MapCanvas's
+  // `georeference` prop and check the resulting, user-visible state.
+
+  it("treats a live map click as the MAP side of a pending pair, not the scan side", async () => {
+    await seedScan();
+    render(<App />);
+    // The exact name, not the generic /^Georeference /: the previous test in
+    // this file imports a scan with a random UUID that IndexedDB does not
+    // reset between tests, so the loose pattern can match two rows here.
+    await userEvent.click(
+      await screen.findByRole("button", {
+        name: "Georeference Church of Inverness 1888",
+      }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate map click" }),
+    );
+    // A map-first click awaits the SCAN half next. Wired to pickScanPoint
+    // instead, the same call would await the MAP half instead — the opposite
+    // status text. Scoped to the georeference status elements specifically
+    // (not screen.getAllByRole("status")): App itself renders several other
+    // unrelated role="status" elements (parcel messages, the import banner)
+    // that are blank by default and would otherwise dilute the assertion.
+    const statuses = document.querySelectorAll(
+      ".georeference-status, .georeference-map-bar-status",
+    );
+    expect(statuses.length).toBeGreaterThan(0);
+    for (const status of statuses) {
+      expect(status).toHaveTextContent(
+        "Now click the same spot on the scan. (Esc to cancel)",
+      );
+    }
+  });
+
+  it("starts a drag by snapshotting for undo, not deleting the point", async () => {
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate marker dragstart" }),
+    );
+    // Raises undo depth...
+    expect(screen.getByRole("button", { name: "Undo" })).toBeEnabled();
+    // ...and does NOT remove the point. Wired to deleteGcp instead, this
+    // count would drop to 2 (deleteGcp also snapshots first, so the Undo
+    // assertion above would still pass — only the count catches that swap).
+    const gcps = JSON.parse(
+      screen.getByTestId("georeference-gcps").textContent ?? "[]",
+    ) as unknown[];
+    expect(gcps).toHaveLength(3);
+  });
+
+  it("dragging a marker on the live map moves its MAP coordinate, leaving the pixel untouched", async () => {
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Simulate marker drag" }),
+    );
+    const gcps = JSON.parse(
+      screen.getByTestId("georeference-gcps").textContent ?? "[]",
+    ) as Gcp[];
+    const moved = gcps.find((gcp) => gcp.id === "a");
+    // onMoveGcpOnMap(id, 40, -70) must land in `map`. Wired to moveGcpOnScan
+    // instead — the exact bug that shipped once in Task 10 — it would land
+    // in `pixel` instead and leave `map` at its original lat/lng.
+    expect(moved?.map).toEqual({ lat: 40, lng: -70 });
+    expect(moved?.pixel).toEqual({ x: 0, y: 0 });
+  });
+
+  it("cancels a queued write before deleting a map, so no metadata row survives", async () => {
+    // The most consequential ordering in this task, per App's own onDelete
+    // comment: discardPendingWrite must run BEFORE removeMap. Writes are
+    // debounced 400ms (Task 7), and removeMap AWAITS the IndexedDB delete
+    // before dropping the record from React state — so a timer firing
+    // inside that await still finds the record in `recordsRef` and would
+    // queue a `putUserMapRecord`, resurrecting a metadata row for a map
+    // whose raster and preview blobs are already gone.
+    //
+    // useGeoreferenceSession.test.ts proves discardPendingWrite itself
+    // works; nothing there touches App or removeMap, so nothing proves App
+    // actually calls it — or calls it in the right order. This does, by
+    // checking the real store afterward rather than a mock.
+    await seedScan(PLACED);
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
+    );
+    render(<App />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
+    );
+
+    // Switched to fake timers only now, after the async IndexedDB load and
+    // button click above have already resolved on real timers — findByRole's
+    // own polling depends on real timers to make progress.
+    vi.useFakeTimers();
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
+    try {
+      // Queue a debounced write by moving a marker on the live map.
+      fireEvent.click(
+        screen.getByRole("button", { name: "Simulate marker drag" }),
+      );
+      // Delete before the 400ms debounce timer fires.
+      fireEvent.click(screen.getByRole("button", { name: "Delete map" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(PERSIST_DELAY_MS * 2);
+      });
+    } finally {
+      confirmSpy.mockRestore();
+      vi.useRealTimers();
+    }
+
+    const store = await UserMapStore.open();
+    const records = await store.listUserMaps();
+    expect(records.find((record) => record.id === "placed-1")).toBeUndefined();
   });
 });

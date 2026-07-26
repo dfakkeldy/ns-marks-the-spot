@@ -19,18 +19,17 @@ export type WarpedRasterLayerOptions = {
  */
 export class WarpedRasterLayer extends L.Layer {
   private readonly rasterOptions: WarpedRasterLayerOptions;
-  private readonly srcMesh: XY[][];
+  private srcMesh: XY[][];
   private canvas: HTMLCanvasElement | null = null;
   private map: L.Map | null = null;
 
   constructor(options: WarpedRasterLayerOptions) {
     super();
     this.rasterOptions = options;
-    const rows = options.latLngMesh.length - 1;
     this.srcMesh = buildSrcMesh(
       options.imageSize.width,
       options.imageSize.height,
-      rows,
+      options.latLngMesh.length - 1,
     );
   }
 
@@ -55,6 +54,23 @@ export class WarpedRasterLayer extends L.Layer {
     this.canvas = null;
     this.map = null;
     return this;
+  }
+
+  /**
+   * Swaps the warp geometry and redraws, without touching `image`. The
+   * georeferencer re-solves on every pointer move during a GCP drag, so the
+   * hot path must never re-decode the bitmap. The source lattice is rebuilt
+   * too: a caller may legitimately change grid density (affine drapes use a
+   * 1x1 grid, a thin-plate spline needs a dense one).
+   */
+  setLatLngMesh(latLngMesh: LatLngPoint[][]): void {
+    this.rasterOptions.latLngMesh = latLngMesh;
+    this.srcMesh = buildSrcMesh(
+      this.rasterOptions.imageSize.width,
+      this.rasterOptions.imageSize.height,
+      latLngMesh.length - 1,
+    );
+    this.redraw();
   }
 
   setOpacity(opacity: number): void {
@@ -85,10 +101,24 @@ export class WarpedRasterLayer extends L.Layer {
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Deliberately NOT latLngToContainerPoint: it routes through
+    // latLngToLayerPoint, which does `this.project(latlng)._round()` and snaps
+    // every vertex to a whole CSS pixel (leaflet-src.js:4117). That rounding
+    // is why a mathematically exact affine stops being one on screen —
+    // measured up to 166 m of ground error at zoom 8, a >1 px content break
+    // across the cell diagonal because the four corners round independently,
+    // and 1-px stepped jitter while a control point is dragged. map.project()
+    // does not round, and subtracting the pixel origin and the pane offset
+    // reproduces containerPoint exactly, minus the quantisation.
+    const origin = map.getPixelOrigin();
+    const paneShift = map.containerPointToLayerPoint(new L.Point(0, 0));
     const dstMesh = this.rasterOptions.latLngMesh.map((row) =>
       row.map((ll) => {
-        const p = map.latLngToContainerPoint(new L.LatLng(ll.lat, ll.lng));
-        return { x: p.x * dpr, y: p.y * dpr };
+        const p = map.project(new L.LatLng(ll.lat, ll.lng), map.getZoom());
+        return {
+          x: (p.x - origin.x - paneShift.x) * dpr,
+          y: (p.y - origin.y - paneShift.y) * dpr,
+        };
       }),
     );
     drawWarpedImage(ctx, this.rasterOptions.image, this.srcMesh, dstMesh);

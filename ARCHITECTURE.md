@@ -495,5 +495,26 @@ mesh in `user-maps-pane`, z-160 — above aerial imagery, below all data
 overlays), `store/` (IndexedDB; metadata and blobs in separate object stores;
 save failures degrade to session-only maps), and `components/` (layer-list
 rows + react-leaflet bridge). `App.tsx`/`MapCanvas.tsx` hold mounting points
-only. Everything is client-side; nothing is uploaded. The PR-2 georeferencer
-builds on the same mesh renderer with GCP-derived (affine/TPS) meshes.
+only. Everything is client-side; nothing is uploaded.
+The PR-2 georeferencer (`useGeoreferenceSession.ts`, `components/Georeference*`)
+solves a least-squares affine from ground control points and drapes through the
+same mesh renderer. Control points are stored as WGS84 for portability but
+solved in Web Mercator **metres** — at Nova Scotia's latitude a degree of
+longitude is ~0.69 of a degree of latitude on the ground, so a degree-space fit
+would shear every map east-west. Pixel coordinates are always in the ORIGINAL
+raster's pixel space, never the downsampled preview's, so changing the preview
+cap never invalidates saved points. Accuracy is reported as per-point ground
+metres (not Mercator metres, which over-report by 1/cos φ — 1.44x here, so the
+figure is deliberately *not* the one QGIS shows for an EPSG:3857 target), and
+the worst-fitting row is flagged only from five points up: four points fitting
+three parameters leave a one-dimensional residual space (`I − H` has rank 1),
+so raw, leave-one-out and studentized residuals rank identically — a
+1104-trial sweep scored 24% correct against a 25% chance baseline at four
+points, rising to 60% against a 20% baseline at five. A solve is refused
+outright when the control points are too thin to determine a transform, when
+any coordinate comes out non-finite, or when the solved transform squashes one
+axis more than 50:1 — the last being what three map clicks down a meridian
+produce, complete with zero-area drape and a perfect 0 m residual. GCP markers
+get their own pane (`georeference-pane`, z-660: above every data overlay and
+above Leaflet's marker and tooltip panes, below its popup pane at 700) so a
+control point is never buried under a parcel line.

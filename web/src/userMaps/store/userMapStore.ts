@@ -141,6 +141,18 @@ export class UserMapStore {
     }
   }
 
+  /**
+   * Metadata-only write. Saving GCPs must not rewrite the raster and preview
+   * blobs — during a georeferencing session this runs every time the user
+   * finishes a drag, and re-storing tens of megabytes each time would stall
+   * the main thread and burn through the origin's quota.
+   */
+  async putUserMapRecord(record: UserMapRecord): Promise<void> {
+    const tx = this.db.transaction(MAPS, "readwrite");
+    tx.objectStore(MAPS).put(record);
+    await transactionDone(tx);
+  }
+
   async listUserMaps(): Promise<UserMapRecord[]> {
     const tx = this.db.transaction(MAPS, "readonly");
     const all = await request(

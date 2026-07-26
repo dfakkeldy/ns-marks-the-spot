@@ -1,10 +1,11 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useMap } from "react-leaflet";
 import {
   USER_MAPS_PANE,
   USER_MAPS_PANE_Z_INDEX,
 } from "../../components/mapPanes";
-import { buildLatLngMesh } from "../transform/projection";
+import { meshForRecord } from "../recordMesh";
+import type { LatLngPoint } from "../transform/projection";
 import { WarpedRasterLayer } from "../render/WarpedRasterLayer";
 import type { UserMapRecord } from "../types";
 
@@ -13,6 +14,10 @@ export type VisibleUserMap = {
   previewUrl: string;
   opacity: number;
 };
+
+/** The map being georeferenced. Its mesh is owned by the session, not derived
+ * from the record, because it changes on every pointer move during a drag. */
+export type DraftUserMap = VisibleUserMap & { mesh: LatLngPoint[][] | null };
 
 /** Idempotent: Leaflet keeps panes for the map's lifetime. */
 function ensurePane(map: ReturnType<typeof useMap>): void {
@@ -27,17 +32,30 @@ async function loadBitmap(url: string): Promise<ImageBitmap> {
   return createImageBitmap(await response.blob());
 }
 
-function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
+/**
+ * One Leaflet layer per raster. `mesh` is passed separately from `record`
+ * rather than derived inside the build effect, so the draft can re-warp
+ * without the effect's dependencies changing.
+ */
+function WarpedRasterOverlay({
+  previewUrl,
+  opacity,
+  mesh,
+}: {
+  previewUrl: string;
+  opacity: number;
+  mesh: LatLngPoint[][] | null;
+}) {
   const leafletMap = useMap();
   const layerRef = useRef<WarpedRasterLayer | null>(null);
-  const opacityRef = useRef(map.opacity);
-  const { record, previewUrl, opacity } = map;
+  const opacityRef = useRef(opacity);
+  const meshRef = useRef(mesh);
+  const hasMesh = mesh !== null;
 
   useEffect(() => {
-    if (!leafletMap || record.georef.kind !== "embedded") {
+    if (!leafletMap || !hasMesh) {
       return;
     }
-    const georef = record.georef;
     let cancelled = false;
     let bitmap: ImageBitmap | null = null;
     void loadBitmap(previewUrl)
@@ -46,28 +64,30 @@ function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
           loaded.close();
           return;
         }
+        const currentMesh = meshRef.current;
+        if (!currentMesh) {
+          loaded.close();
+          return;
+        }
         bitmap = loaded;
         ensurePane(leafletMap);
         const layer = new WarpedRasterLayer({
           paneName: USER_MAPS_PANE,
-          // Read through the ref so an opacity change during the async load
-          // is not lost to a stale closure.
+          // Read both through refs: opacity or mesh may have changed while
+          // the bitmap was decoding, and a stale closure would build the
+          // layer with whatever was current when the effect first ran.
           opacity: opacityRef.current,
           image: loaded,
           imageSize: { width: loaded.width, height: loaded.height },
-          latLngMesh: buildLatLngMesh(georef, record.pixelSize),
+          latLngMesh: currentMesh,
         });
         layer.addTo(leafletMap);
         layerRef.current = layer;
       })
       .catch((error: unknown) => {
         if (cancelled) {
-          // Unmount raced a rejecting fetch/decode; this is an expected
-          // cancellation, not a real failure, so don't log noise.
           return;
         }
-        // A missing/revoked blob URL is recoverable (map re-enable reloads
-        // it); surface for diagnosis without crashing the tree.
         console.error("user map preview failed to load", error);
       });
     return () => {
@@ -76,33 +96,74 @@ function WarpedRasterOverlay({ map }: { map: VisibleUserMap }) {
       layerRef.current = null;
       bitmap?.close();
     };
-  }, [leafletMap, record, previewUrl]);
+    // Deliberately NOT depending on `mesh`: a georeferencing drag changes it
+    // dozens of times a second, and rebuilding here would re-decode the
+    // bitmap every frame. Geometry updates go through the layout effect
+    // below instead.
+  }, [leafletMap, previewUrl, hasMesh]);
 
   useLayoutEffect(() => {
-    // Refs must not be written during render (react-hooks/refs), so the
-    // "latest opacity" ref the async load below reads is kept current here,
-    // in the same effect that also pushes the value into an already-built
-    // layer. This MUST be a layout effect, not a passive one: passive
-    // effects are scheduled asynchronously, so a pending createImageBitmap
-    // promise could resolve and read opacityRef.current before a passive
-    // effect ran, reintroducing the stale-opacity race the ref exists to
-    // prevent. Layout effects flush synchronously during the commit phase,
-    // before any yield to the event loop, which restores the ordering
-    // guarantee.
+    // Layout, not passive: passive effects are scheduled asynchronously, so a
+    // pending createImageBitmap could resolve and read a stale ref first.
+    // Layout effects flush during commit, before any yield to the event loop.
+    // (PR 1 hit exactly this bug with opacity; the same ordering applies to
+    // the mesh, which changes far more often.)
     opacityRef.current = opacity;
+    meshRef.current = mesh;
     layerRef.current?.setOpacity(opacity);
-  }, [opacity]);
+    if (mesh) {
+      layerRef.current?.setLatLngMesh(mesh);
+    }
+  }, [opacity, mesh]);
 
   return null;
 }
 
+/**
+ * A saved map derives its mesh from its record — and MUST memoize it on the
+ * record's object identity. `useUserMaps` rebuilds its VisibleUserMap
+ * wrappers on every render, so calling meshForRecord in the parent's render
+ * body would hand this overlay a brand-new array each time and re-trigger the
+ * geometry layout effect below. During a georeferencing drag that is every
+ * saved layer rebuilding its lattice and repainting on every pointer move.
+ * The memo can only live in a component, not in a `.map()` callback, which is
+ * the entire reason this wrapper exists.
+ */
+function SavedMapOverlay({ map }: { map: VisibleUserMap }) {
+  const mesh = useMemo(() => meshForRecord(map.record), [map.record]);
+  return (
+    <WarpedRasterOverlay
+      previewUrl={map.previewUrl}
+      opacity={map.opacity}
+      mesh={mesh}
+    />
+  );
+}
+
 /** Sole mount point MapCanvas needs. */
-export function UserMapLayers({ maps }: { maps: VisibleUserMap[] }) {
+export function UserMapLayers({
+  maps,
+  draft = null,
+}: {
+  maps: VisibleUserMap[];
+  draft?: DraftUserMap | null;
+}) {
   return (
     <>
       {maps.map((map) => (
-        <WarpedRasterOverlay key={map.record.id} map={map} />
+        <SavedMapOverlay key={map.record.id} map={map} />
       ))}
+      {draft ? (
+        // The draft's mesh comes from the session, not from the record: it
+        // changes on every pointer move, and the record is only updated on
+        // the debounced write-through.
+        <WarpedRasterOverlay
+          key={`draft-${draft.record.id}`}
+          previewUrl={draft.previewUrl}
+          opacity={draft.opacity}
+          mesh={draft.mesh}
+        />
+      ) : null}
     </>
   );
 }

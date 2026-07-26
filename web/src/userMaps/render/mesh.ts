@@ -1,5 +1,7 @@
 export type XY = { x: number; y: number };
 
+export const CLIP_OVERDRAW_DEVICE_PX = 2;
+
 /**
  * Exact affine transform mapping source triangle → destination triangle,
  * returned in canvas setTransform(a, b, c, d, e, f) order:
@@ -42,11 +44,25 @@ function drawTriangle(
   s0: XY, s1: XY, s2: XY,
   d0: XY, d1: XY, d2: XY,
 ): void {
+  const cx = (d0.x + d1.x + d2.x) / 3;
+  const cy = (d0.y + d1.y + d2.y) / 3;
+  const grow = (d: XY): XY => {
+    const dx = d.x - cx;
+    const dy = d.y - cy;
+    const len = Math.hypot(dx, dy) || 1;
+    return {
+      x: d.x + (dx / len) * CLIP_OVERDRAW_DEVICE_PX,
+      y: d.y + (dy / len) * CLIP_OVERDRAW_DEVICE_PX,
+    };
+  };
+  const c0 = grow(d0);
+  const c1 = grow(d1);
+  const c2 = grow(d2);
   ctx.save();
   ctx.beginPath();
-  ctx.moveTo(d0.x, d0.y);
-  ctx.lineTo(d1.x, d1.y);
-  ctx.lineTo(d2.x, d2.y);
+  ctx.moveTo(c0.x, c0.y);
+  ctx.lineTo(c1.x, c1.y);
+  ctx.lineTo(c2.x, c2.y);
   ctx.closePath();
   ctx.clip();
   ctx.setTransform(...affineFromTriangles(s0, s1, s2, d0, d1, d2));

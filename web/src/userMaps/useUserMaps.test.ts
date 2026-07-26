@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { UserMapImportError } from "./errors";
 import { UserMapStore } from "./store/userMapStore";
+import type { Gcp, GcpGeoref } from "./types";
 import { useUserMaps } from "./useUserMaps";
 
 function fixtureFile(name = "survey.tif"): File {
@@ -24,12 +25,39 @@ function testParse() {
   };
 }
 
+/**
+ * jsdom has no createImageBitmap, so parseImage is injected everywhere the
+ * same way `parse` already is. Every PNG/JPEG test MUST go through
+ * `options()` — a bare `useUserMaps({...})` would take the real decode path
+ * and reject on a missing global.
+ */
+function testParseImage() {
+  return async () => ({
+    pixelSize: { width: 1200, height: 800 },
+    preview: new Blob(["p"], { type: "image/png" }),
+    previewSize: { width: 1200, height: 800 },
+  });
+}
+
+function pngFile(name: string): File {
+  // Real PNG magic bytes: sniffFileType reads them, so a placeholder blob
+  // would take the "unrecognized" branch and never reach parseImage.
+  const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  return new File([magic], name, { type: "image/png" });
+}
+
+function tiffFile(name: string): File {
+  const magic = new Uint8Array([0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00]);
+  return new File([magic], name, { type: "image/tiff" });
+}
+
 let factory: IDBFactory;
 
 function options(overrides: Record<string, unknown> = {}) {
   return {
     openStore: () => UserMapStore.open(factory),
     parse: testParse(),
+    parseImage: testParseImage(),
     ...overrides,
   };
 }
@@ -73,7 +101,7 @@ describe("useUserMaps", () => {
     await waitFor(() => expect(second.result.current.records).toHaveLength(1));
   });
 
-  it("reports the georeferencer message for PDFs, even tiny ones", async () => {
+  it("reports the conversion hint for PDFs, even tiny ones", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
     // 5 bytes on purpose: regression guard for the Uint8Array(buffer, 0, 16)
     // RangeError the review caught.
@@ -82,8 +110,11 @@ describe("useUserMaps", () => {
       await result.current.importFiles([pdf]);
     });
     expect(result.current.outcomes[0]).toMatchObject({ ok: false });
+    // PDFs are the only type still turned away, and the georeferencer now
+    // exists, so the old "arrives with the georeferencer" copy would be a
+    // lie: the message has to tell the user how to get the file in today.
     expect((result.current.outcomes[0] as { message: string }).message).toContain(
-      "georeferencer",
+      "gdal_translate",
     );
     expect(result.current.records).toHaveLength(0);
   });
@@ -283,5 +314,218 @@ describe("useUserMaps", () => {
     await waitFor(() => expect(result.current.records).toHaveLength(1));
     expect(result.current.outcomes[0]).toMatchObject({ ok: true });
     expect(result.current.records[0].id).toBeTruthy();
+  });
+
+  // --- Plain scans, drafts, and the georeferencing session -------------------
+
+  it("imports a PNG as an ungeoreferenced draft", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("church-1888.png")]);
+    });
+    expect(result.current.records).toHaveLength(1);
+    const [record] = result.current.records;
+    expect(record.source).toBe("image");
+    expect(record.georef).toEqual({ kind: "gcp", gcps: [], method: "affine" });
+    expect(result.current.needsGeoreferencing(record)).toBe(true);
+    expect(result.current.outcomes[0]).toMatchObject({
+      ok: true,
+      needsGeoreferencing: true,
+    });
+  });
+
+  it("opens the georeferencer for a freshly imported scan", async () => {
+    // Spec: an imported scan opens the panel. Without this the outcome's
+    // needsGeoreferencing flag is produced and never consumed, and the user
+    // has to find the new row and click Georeference themselves.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("church-1888.png")]);
+    });
+    expect(result.current.georeferencingId).toBe(result.current.records[0].id);
+    expect(result.current.editingMap?.record.id).toBe(
+      result.current.records[0].id,
+    );
+  });
+
+  it("does not open the georeferencer for a map that arrives already placed", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    expect(result.current.georeferencingId).toBeNull();
+  });
+
+  it("routes an ungeoreferenced TIFF to the georeferencer rather than failing", async () => {
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parse: async () => ({
+            pixelSize: { width: 8, height: 6 },
+            georef: null,
+            preview: new Blob(["preview"], { type: "image/png" }),
+            previewSize: { width: 8, height: 6 },
+          }),
+        }),
+      ),
+    );
+    await act(async () => {
+      await result.current.importFiles([tiffFile("scan.tif")]);
+    });
+    const [record] = result.current.records;
+    expect(record.source).toBe("geotiff");
+    expect(record.georef).toEqual({ kind: "gcp", gcps: [], method: "affine" });
+  });
+
+  it("hides the map under edit from visibleMaps and exposes it as editingMap", async () => {
+    // The georeferencer drapes the draft itself, through a mesh that changes
+    // on every pointer move. If the same map were ALSO in visibleMaps it
+    // would be drawn twice and the saved-map layer would rebuild on every
+    // drag frame.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan.png")]);
+    });
+    const id = result.current.records[0].id;
+    await act(async () => {
+      result.current.setEnabled(id, true);
+      result.current.beginGeoreference(id);
+    });
+    expect(result.current.georeferencingId).toBe(id);
+    expect(result.current.visibleMaps.map((m) => m.record.id)).not.toContain(id);
+    expect(result.current.editingMap?.record.id).toBe(id);
+    await act(async () => {
+      result.current.endGeoreference();
+    });
+    expect(result.current.editingMap).toBeNull();
+  });
+
+  it("keeps editingMap referentially stable across an unrelated re-render", async () => {
+    // App memoizes the georeference binding on `editingMap`. A fresh literal
+    // every render busts that memo, hands MapCanvas a new `draft` object on
+    // every unrelated state change, and defeats the whole hot path Task 6
+    // exists to protect.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan.png")]);
+    });
+    const before = result.current.editingMap;
+    // Not just "not null": `undefined` would satisfy that and make the
+    // identity assertion below pass vacuously before editingMap exists.
+    expect(before?.record.id).toBe(result.current.records[0].id);
+    // An unrelated import failure: new outcomes, importing/importingLabel
+    // toggling, no change to the map under edit.
+    await act(async () => {
+      await result.current.importFiles([
+        new File([new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])], "plan.pdf"),
+      ]);
+    });
+    expect(result.current.editingMap).toBe(before);
+  });
+
+  it("clears georeferencingId when the map under edit is removed", async () => {
+    // removeMap owns the georeferencingId state, so it must invalidate any
+    // open session when the subject map is deleted. Otherwise an empty
+    // georeferencer would render over a deleted map holding a revoked blob URL.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan.png")]);
+    });
+    const id = result.current.records[0].id;
+    await act(async () => {
+      result.current.beginGeoreference(id);
+    });
+    expect(result.current.georeferencingId).toBe(id);
+
+    // Removing the map under edit must clear the session.
+    await act(async () => {
+      await result.current.removeMap(id);
+    });
+    expect(result.current.georeferencingId).toBeNull();
+  });
+
+  it("preserves georeferencingId when removing a different map", async () => {
+    // Deleting map B must not close a session open on map A. Only the map
+    // matching the deleted id should close its session.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("scan-a.png"), pngFile("scan-b.png")]);
+    });
+    const [idA, idB] = result.current.records.map((r) => r.id);
+    await act(async () => {
+      result.current.beginGeoreference(idA);
+    });
+    expect(result.current.georeferencingId).toBe(idA);
+
+    // Removing map B (the one NOT under edit) must not touch the session.
+    await act(async () => {
+      await result.current.removeMap(idB);
+    });
+    expect(result.current.georeferencingId).toBe(idA);
+    expect(result.current.records).toHaveLength(1);
+    expect(result.current.records[0].id).toBe(idA);
+  });
+
+  it("persists saved GCPs to IndexedDB and leaves every other record's identity untouched", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png"), pngFile("b.png")]);
+    });
+    const [first, second] = result.current.records;
+    const secondBefore = second;
+    const saved: Gcp[] = [
+      { id: "g0", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
+    ];
+    await act(async () => {
+      await result.current.saveGcps(first.id, saved);
+    });
+    const updated = result.current.records.find((r) => r.id === first.id);
+    expect(updated?.georef).toMatchObject({ kind: "gcp", method: "affine" });
+    expect((updated?.georef as GcpGeoref).gcps).toHaveLength(1);
+    // The untouched record must be the SAME object, or UserMapLayers tears
+    // down and rebuilds its Leaflet layer for nothing.
+    expect(result.current.records.find((r) => r.id === second.id)).toBe(
+      secondBefore,
+    );
+
+    // The half that had zero coverage, and was broken: a round trip through
+    // the actual database. The first implementation assigned the new record
+    // inside a setRecords updater and read it back on the next line, so the
+    // write silently never happened whenever React deferred the updater —
+    // which App always makes it do. In-memory `records` looked perfect.
+    const reopened = await UserMapStore.open(factory);
+    const persisted = await reopened.listUserMaps();
+    const persistedGeoref = persisted.find((r) => r.id === first.id)
+      ?.georef as GcpGeoref;
+    expect(persistedGeoref.gcps).toEqual(saved);
+    // …and the raster the metadata-only write must NOT have touched.
+    expect(await (await reopened.getPreviewBlob(first.id))?.text()).toBe("p");
+  });
+
+  it("keeps points for the session when the metadata write fails", async () => {
+    const failingStore = {
+      listUserMaps: async () => [],
+      saveUserMap: async () => {},
+      putUserMapRecord: async () => {
+        throw new Error("quota");
+      },
+      getPreviewBlob: async () => null,
+      deleteUserMap: async () => {},
+      close: () => {},
+    } as unknown as UserMapStore;
+    const { result } = renderHook(() =>
+      useUserMaps(options({ openStore: async () => failingStore })),
+    );
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png")]);
+    });
+    await act(async () => {
+      await result.current.saveGcps(result.current.records[0].id, [
+        { id: "g0", pixel: { x: 0, y: 0 }, map: { lat: 46, lng: -61 } },
+      ]);
+    });
+    expect((result.current.records[0].georef as GcpGeoref).gcps).toHaveLength(1);
+    expect(result.current.storageError).toContain("close the tab");
   });
 });

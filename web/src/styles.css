@@ -3723,6 +3723,20 @@ a {
     display: none !important;
   }
 
+  /* The rule above cannot reach the georeferencer: App.tsx renders
+     `<GeoreferencePanel>` OUTSIDE `.app-shell`, as a sibling of
+     `<PrintPreview>`, so `body.print-preview-open .app-shell` never matches
+     it and the overlay carries its `position: fixed; z-index: 1800` onto
+     page 1 of the field sheet. Reachable in one pass: `.parcel-inspector` is
+     at `right: 16px`, inside the 55% the panel leaves free, and clickable
+     through the overlay's `pointer-events: none` — so select a parcel, open
+     the georeferencer, print. Unscoped rather than keyed on
+     `body.print-preview-open`, because a bare Cmd+P during a session must not
+     stamp the panel either; it is chrome, never document. */
+  .georeference-overlay {
+    display: none !important;
+  }
+
   .print-preview-controls,
   .print-document--inactive {
     display: none !important;
@@ -3862,4 +3876,382 @@ a {
   border: 0;
   cursor: pointer;
   text-decoration: underline;
+}
+
+/* Screen-reader-only text. Clipped rather than display:none, which would
+   remove it from the accessibility tree and defeat the point. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.user-map-needs-georeference {
+  color: #a2600f;
+  font-weight: 700;
+}
+
+.user-map-georeference {
+  margin: 6px 10px 0 54px;
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Georeferencer (PR 2).
+
+   The overlay is a NON-BLOCKING FRAME, not a modal. The whole interaction is
+   "click the scan, then click the same spot on the app's own map" — and that
+   map is behind this element. So: no scrim (it would dim the very target the
+   user is aiming at) and `pointer-events: none`, with `auto` handed back only
+   to the panel and the floating bar. An earlier draft was a full-bleed opaque
+   card over a 72%-black scrim: MapClickCatcher never saw a click, and no
+   control point could be completed at all. */
+.georeference-overlay {
+  position: fixed;
+  z-index: 1800;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Spec: the panel takes the left ~45% of the viewport and the app map keeps
+   the right ~55%. The scan needs room for accurate clicking, so it gets close
+   to half the screen rather than a rail-width column. `width` and `max-width`
+   are both set because the narrow breakpoint releases both — a lone
+   `max-width` would keep clamping the full-bleed phone layout.
+
+   Single column by DEFAULT. The two-pane split lives in the min-width block
+   below and nowhere else — see the measurements there. */
+.georeference-panel {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: 45vw;
+  max-width: 45vw;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0;
+  overflow: hidden;
+  pointer-events: auto;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgb(10 20 22 / 28%);
+}
+
+/* The two-pane split, and the only place the 320-380px side column is
+   declared. Scoped to >=1200px rather than left on the base rule, because the
+   scan track is `45vw - 380px` and that is unusable well above the old 900px
+   bound. Measured live in a browser, `gridTemplateColumns` as resolved:
+
+       viewport   panel    scan track
+       900px      405px    25px      <- the spec's own former "wide" threshold
+       1024px     461px    81px      <- a rail-width column, precisely what
+       1280px     576px    196px        the base rule's comment rejects
+       1440px     648px    268px
+       1920px     864px    484px
+
+   At 900x800 the computed value was literally "25px 380px": a user placing
+   control points through a 25px sliver. Below 1200px the full-bleed tabbed
+   Scan|Map layout takes over instead and the scan gets the whole viewport,
+   which is strictly better than any sliver. 1200px is where the split first
+   pays for itself at ~160px and grows from there. Paired exactly with the
+   `max-width: 1199.98px` block at the end of this file — no gap, no overlap. */
+@media (min-width: 1200px) {
+  .georeference-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  }
+}
+
+/* The layer rail is hidden for the duration (spec): at 288–320px it would
+   push the live map out from under the right-hand 55% the panel leaves free.
+   The panel's own footer carries the two reference-layer toggles the rail
+   would otherwise strand. */
+.app-shell.georeferencing .layer-rail {
+  display: none;
+}
+
+.app-shell.georeferencing .map-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Spec: a crosshair cursor on the map pane while georeferencing. Set on the
+   MapCanvas root (Task 11) so it survives every child layer. */
+.map-canvas--georeferencing .leaflet-container {
+  cursor: crosshair;
+}
+
+/* The narrow Map tab's entire UI: the panel is display:none there, so this is
+   the only thing left carrying the prompt and the way back. Hidden at every
+   other size and tab — on a wide screen the panel and the map are both
+   visible and there is nothing to go back from. */
+.georeference-map-bar {
+  display: none;
+  position: absolute;
+  inset: auto 8px 8px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  pointer-events: auto;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(10 20 22 / 28%);
+}
+
+.georeference-map-bar-status {
+  flex: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.georeference-map-bar-back {
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.georeference-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgb(10 20 22 / 12%);
+}
+
+.georeference-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.georeference-scan {
+  position: relative;
+  min-height: 0;
+  background: rgb(10 20 22 / 6%);
+}
+
+/* The MapContainer inside ScanPane; Leaflet needs an explicitly sized box. */
+.georeference-scan-map {
+  width: 100%;
+  height: 100%;
+}
+
+.georeference-side {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  padding: 12px;
+  gap: 10px;
+  border-left: 1px solid rgb(10 20 22 / 12%);
+}
+
+/* The list scrolls, the footer does not — losing Done off the bottom of a
+   long point list would be the worst possible thing to lose. */
+.georeference-points {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.georeference-footer {
+  display: grid;
+  gap: 10px;
+}
+
+/* Wide screens show both panes at once, so the toggle has nothing to do. */
+.georeference-tabs {
+  display: none;
+}
+
+.gcp-list {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+}
+
+.gcp-list th {
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+}
+
+.gcp-row td {
+  padding: 3px 0;
+}
+
+.gcp-residual {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  text-align: right;
+}
+
+.gcp-row--suspect {
+  border-inline-start: 3px solid #a2600f;
+  font-weight: 700;
+}
+
+.gcp-row--selected {
+  background: rgb(47 128 237 / 10%);
+}
+
+.gcp-zoom,
+.gcp-delete {
+  padding: 0 6px 0 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Numbered control-point markers, shared by the scan pane and the live map
+   (components/gcpIcon.ts). Solid once a pair is complete. */
+.gcp-marker {
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--survey-blue);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(10 20 22 / 45%);
+}
+
+/* Hollow while the point is waiting for its match on the other side. The
+   difference is fill and border style, not hue — a colour-only distinction
+   would not survive WCAG 1.4.1 or a monochrome scan underneath. */
+.gcp-marker--pending {
+  color: var(--survey-blue);
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--survey-blue);
+}
+
+/* The row currently under the pointer in the GCP list. */
+.gcp-marker--selected {
+  outline: 2px solid #a2600f;
+  outline-offset: 1px;
+}
+
+/* Same 2-column grid as its precedent, `.user-map-opacity` (UserMapRows):
+   a muted label beside a full-width range input. That one indents 54px to
+   align under a checkbox row it has no equivalent of here, so that offset is
+   dropped rather than copied blind. */
+.georeference-opacity {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+}
+
+.georeference-opacity small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.georeference-opacity input[type="range"] {
+  width: 100%;
+  accent-color: var(--survey-blue);
+}
+
+.georeference-references {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(10 20 22 / 12%);
+  border-radius: 6px;
+  font-size: 0.74rem;
+}
+
+.georeference-references-locked {
+  color: var(--muted);
+}
+
+.georeference-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.georeference-done {
+  font-weight: 700;
+}
+
+/* Everything BELOW the two-pane breakpoint. This block stopped at 860px, then
+   at 899.98px, and both were too low: the cramped range does not begin at some
+   viewport width of its own, it begins wherever the two-pane rule engages,
+   because the scan track is always `45vw - 380px`. At 900px that is 25px and
+   at 1024px it is 81px — the rail-width column the base rule's own comment
+   rejects. So this bound is now the complement of the `min-width: 1200px`
+   block above, where the full measurement table lives.
+
+   `.98` rather than a flat 1199 because a zoomed or HiDPI viewport reports
+   fractional CSS pixels, and 1199.5px would otherwise fall into the gap. The
+   two 860px blocks earlier in this file belong to unrelated app chrome and are
+   deliberately left alone. */
+@media (max-width: 1199.98px) {
+  /* Full-bleed here: no room to keep the map beside the panel, so the tab
+     toggle switches between them instead. Both `width` and `max-width` must
+     be released — the base rule pins the panel to a 45vw column. */
+  .georeference-panel {
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+
+  .georeference-side {
+    max-height: 45vh;
+    overflow-y: auto;
+    border-left: 0;
+    border-top: 1px solid rgb(10 20 22 / 12%);
+  }
+
+  .georeference-tabs {
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 6px;
+    padding: 0 14px 8px;
+  }
+
+  /* The Map tab hides the PANEL, not merely the scan inside it. Giving the
+     user the app's own map is the entire point of that tab, and a full-screen
+     card in front of it is the bug this replaced — the earlier rule hid
+     `.georeference-scan` alone and left an opaque panel over the map, with a
+     comment claiming it did the opposite.
+
+     The scan tab keeps everything: scan on top, list and footer (with Done)
+     stacked beneath it, because with the panel gone on the Map tab this is
+     the only place they can live. */
+  .georeference-panel[data-tab="map"] {
+    display: none;
+  }
+
+  .georeference-map-bar[data-tab="map"] {
+    display: flex;
+  }
 }

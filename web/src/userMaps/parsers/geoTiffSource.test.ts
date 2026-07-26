@@ -146,38 +146,51 @@ describe("parseGeoTiff", () => {
       GTRasterTypeGeoKey: 2, // PixelIsPoint
     });
     const parsed = await parseGeoTiff(buffer, { makePreview: fakePreview() });
+    if (!parsed.georef) {
+      expect.unreachable("fixture is georeferenced");
+    }
     // Tiepoint marks the CENTRE of pixel (0,0), so the area origin shifts
     // back half a pixel: x - 5, y + 5 (north-up negative y resolution).
     expect(parsed.georef.geotransform[0]).toBeCloseTo(499995, 6);
     expect(parsed.georef.geotransform[3]).toBeCloseTo(5000005, 6);
   });
 
-  it("rejects TIFFs without georeferencing as no-georeferencing", async () => {
-    // geotiff@2.1.3's writeArrayBuffer auto-injects a whole-globe WGS84
-    // georeference (GeographicTypeGeoKey 4326 + ModelTiepoint) whenever
-    // neither GeographicTypeGeoKey nor ProjectedCSTypeGeoKey is an own
-    // property of the metadata (see the `if (!metadata.hasOwnProperty(...))`
-    // block in geotiffwriter.js) — so plainTiff({}) alone round-trips as a
-    // *georeferenced* file, not an ungeoreferenced one. Passing
-    // ProjectedCSTypeGeoKey: 0 (present, but not a real EPSG code) satisfies
-    // that hasOwnProperty check and suppresses the auto-injection, so
-    // ModelTiepoint stays unset and crsFrom()'s epsg check is falsy — the
-    // file the parser is actually supposed to reject.
+  it("returns a null georef for TIFFs without georeferencing", async () => {
+    // PR 2 changed this from a hard failure: a plain TIFF scan is now a
+    // georeferencer job, and geotiff.js is the only thing that can decode it.
+    // ProjectedCSTypeGeoKey: 0 is load-bearing, and is why the old test used
+    // it too: geotiff@2.1.3's writer auto-injects a whole-globe WGS84
+    // georeference unless one of the CRS geokeys is an own property, so
+    // plainTiff({}) round-trips as a GEOREFERENCED file and this assertion
+    // would fail. Keep the argument exactly as the replaced test had it.
     const buffer = await plainTiff({ ProjectedCSTypeGeoKey: 0 });
-    await expect(
-      parseGeoTiff(buffer, { makePreview: fakePreview() }),
-    ).rejects.toMatchObject({ code: "no-georeferencing" });
+    const parsed = await parseGeoTiff(buffer, { makePreview: fakePreview() });
+    expect(parsed.georef).toBeNull();
+    expect(parsed.preview.type).toBe("image/png");
   });
 
-  it("rejects a truncated ModelTransformation as no-georeferencing", async () => {
+  it("returns a null georef for a truncated ModelTransformation", async () => {
     const buffer = await plainTiff({
       ModelTransformation: [1, 0, 0, 0, 0, 1, 0, 0], // 8 of 16 doubles
       ProjectedCSTypeGeoKey: 26920,
       GTModelTypeGeoKey: 1,
     });
-    await expect(
-      parseGeoTiff(buffer, { makePreview: fakePreview() }),
-    ).rejects.toMatchObject({ code: "no-georeferencing" });
+    const parsed = await parseGeoTiff(buffer, { makePreview: fakePreview() });
+    expect(parsed.georef).toBeNull();
+  });
+
+  it("returns a null georef for multiple tiepoints without a matrix", async () => {
+    const buffer = await plainTiff({
+      ModelPixelScale: [10, 10, 0],
+      ModelTiepoint: [
+        0, 0, 0, 500000, 5000000, 0,
+        8, 6, 0, 500080, 4999940, 0,
+      ],
+      ProjectedCSTypeGeoKey: 26920,
+      GTModelTypeGeoKey: 1,
+    });
+    const parsed = await parseGeoTiff(buffer, { makePreview: fakePreview() });
+    expect(parsed.georef).toBeNull();
   });
 
   it("rejects garbage bytes as corrupt-file", async () => {

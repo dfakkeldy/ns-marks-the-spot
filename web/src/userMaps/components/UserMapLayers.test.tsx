@@ -19,13 +19,19 @@ vi.mock("react-leaflet", () => ({
 }));
 
 const layerInstances = vi.hoisted(
-  () => [] as Array<{ options: unknown; setOpacity: ReturnType<typeof vi.fn> }>,
+  () =>
+    [] as Array<{
+      options: unknown;
+      setOpacity: ReturnType<typeof vi.fn>;
+      setLatLngMesh: ReturnType<typeof vi.fn>;
+    }>,
 );
 
 vi.mock("../render/WarpedRasterLayer", () => ({
   WarpedRasterLayer: class {
     options: unknown;
     setOpacity = vi.fn();
+    setLatLngMesh = vi.fn();
     constructor(options: unknown) {
       this.options = options;
       layerInstances.push(this as never);
@@ -185,5 +191,117 @@ describe("UserMapLayers", () => {
     await waitFor(() => expect(errorSpy).toHaveBeenCalled());
     expect(stubMapApi.addLayer).not.toHaveBeenCalled();
     errorSpy.mockRestore();
+  });
+});
+
+const GCP_RECORD: UserMapRecord = {
+  id: "g",
+  name: "Church scan",
+  source: "image",
+  createdAt: "2026-07-25T00:00:00.000Z",
+  pixelSize: { width: 1200, height: 800 },
+  georef: {
+    kind: "gcp",
+    method: "affine",
+    gcps: [
+      { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+      { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61.0 } },
+      { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46.0, lng: -61.2 } },
+    ],
+  },
+};
+
+describe("UserMapLayers draft overlay", () => {
+  it("updates the draft mesh without rebuilding the layer or re-decoding", async () => {
+    // The whole point of the draft path: a GCP drag re-solves on every
+    // pointer move, and rebuilding the layer would re-run createImageBitmap
+    // on a multi-megapixel preview each frame.
+    const createImageBitmapMock = vi.fn(async () => ({
+      width: 1200,
+      height: 800,
+      close: vi.fn(),
+    }));
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal("createImageBitmap", createImageBitmapMock);
+
+    const meshA = [
+      [{ lat: 46.1, lng: -61.2 }, { lat: 46.1, lng: -61.0 }],
+      [{ lat: 46.0, lng: -61.2 }, { lat: 46.0, lng: -61.0 }],
+    ];
+    const meshB = [
+      [{ lat: 46.2, lng: -61.2 }, { lat: 46.2, lng: -61.0 }],
+      [{ lat: 46.1, lng: -61.2 }, { lat: 46.1, lng: -61.0 }],
+    ];
+    const draft = {
+      record: GCP_RECORD,
+      previewUrl: "blob:draft",
+      opacity: 0.7,
+      mesh: meshA,
+    };
+    const { rerender } = render(<UserMapLayers maps={[]} draft={draft} />);
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+
+    rerender(<UserMapLayers maps={[]} draft={{ ...draft, mesh: meshB }} />);
+    await waitFor(() =>
+      expect(layerInstances[0].setLatLngMesh).toHaveBeenCalledWith(meshB),
+    );
+    expect(layerInstances).toHaveLength(1);
+    expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1);
+    expect(createImageBitmapMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("draws nothing while the draft has too few points to solve", async () => {
+    // Anchor the wait on something that DOES happen. An earlier draft of this
+    // test waited for `createPane`, which the null-mesh branch never reaches:
+    // `ensurePane` lives inside the bitmap `.then()`, past the `hasMesh` early
+    // return, so the assertion could only ever time out. Rendering a saved map
+    // alongside the draft gives a real event to wait for, and makes the
+    // "exactly one layer" assertion meaningful rather than vacuous.
+    stubBitmapLoading();
+    render(
+      <UserMapLayers
+        maps={[{ record, previewUrl: "blob:saved", opacity: 0.7 }]}
+        draft={{
+          record: GCP_RECORD,
+          previewUrl: "blob:draft",
+          opacity: 0.3,
+          mesh: null,
+        }}
+      />,
+    );
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    expect(layerInstances).toHaveLength(1);
+    // The one layer built is the saved map's, not the draft's.
+    expect((layerInstances[0].options as { opacity: number }).opacity).toBe(0.7);
+  });
+
+  it("does not re-push geometry when a saved map re-renders unchanged", async () => {
+    // `useUserMaps` rebuilds its VisibleUserMap wrappers every render, so the
+    // wrapper object is always new while `record` stays referentially stable.
+    // Deriving the mesh in the render body returns a fresh array each time,
+    // and the geometry layout effect is keyed on it — measured 3 setLatLngMesh
+    // calls after 3 identical re-renders. During a drag that is every saved
+    // layer rebuilding its lattice and repainting on every pointer move.
+    stubBitmapLoading();
+    const { rerender } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    const pushesAfterMount = layerInstances[0].setLatLngMesh.mock.calls.length;
+    expect(pushesAfterMount).toBe(0);
+    // Fresh wrapper object each time, same `record` reference — exactly what
+    // useUserMaps hands down on an unrelated state change.
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    expect(layerInstances[0].setLatLngMesh.mock.calls.length).toBe(
+      pushesAfterMount,
+    );
   });
 });

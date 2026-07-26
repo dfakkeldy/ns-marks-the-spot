@@ -1,10 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { UserMapImportError } from "./errors";
 import { parseGeoTiffAuto } from "./parsers/parseInWorker";
 import type { ParsedGeoTiff } from "./parsers/geoTiffSource";
+import { parseImage, type ParsedImage } from "./parsers/imageSource";
 import { sniffFileType } from "./parsers/sniff";
 import { UserMapStore } from "./store/userMapStore";
-import type { UserMapRecord } from "./types";
+import { solveAffineFromGcps } from "./transform/affine";
+import type { Gcp, GcpGeoref, UserMapRecord, UserMapSource } from "./types";
 import type { VisibleUserMap } from "./components/UserMapLayers";
 
 export const DEFAULT_OPACITY = 0.7;
@@ -12,12 +21,52 @@ export const HARD_LIMIT_BYTES = 500 * 1024 * 1024;
 export const LARGE_FILE_BYTES = 150 * 1024 * 1024;
 const UI_STATE_KEY = "user-map-ui-state-v1";
 
-const COMING_SOON_MESSAGE =
-  "This file type arrives with the georeferencer in the next update. " +
-  "GeoTIFF works today.";
+const PDF_MESSAGE =
+  "PDF maps arrive in a later update. Convert with " +
+  "`gdal_translate in.pdf out.tif`, or export the page as a PNG and " +
+  "georeference that.";
+
+const UNRECOGNIZED_MESSAGE =
+  "Not a recognized map file. GeoTIFF, PNG, and JPEG all work.";
+
+const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
+
+/**
+ * True when a GCP map cannot be PLACED — i.e. `solveAffineFromGcps` refuses
+ * its points, so `meshForRecord` returns null and nothing can be drawn. The
+ * layer row shows a Georeference button instead of an opacity slider for
+ * exactly this set, and `visibleMaps` excludes it.
+ *
+ * Deliberately the solve, not `gcps.length < MIN_GCPS_FOR_AFFINE`. The count
+ * is only ONE of the solver's refusals: it also rejects a collapsed centroid,
+ * a point cloud thinner than MIN_CONDITION_RATIO (points clicked along a
+ * scan's top neatline — the layout users actually produce), a non-finite
+ * coefficient, and a transform squashed past MIN_ANISOTROPY_RATIO (three map
+ * clicks down a meridian). A count-only predicate calls those records placed:
+ * enabled checkbox, opacity slider, no "Needs georeferencing" badge, admitted
+ * to `visibleMaps` — and then UserMapLayers finds no mesh and draws nothing,
+ * with no message anywhere. A checkbox that turns on a layer which then draws
+ * nothing is a lie.
+ *
+ * Cheap: this runs over 3–6 points, and the sub-three case still short-circuits
+ * inside `solveAffine`'s own count check.
+ */
+export function needsGeoreferencing(record: UserMapRecord): boolean {
+  return (
+    record.georef.kind === "gcp" &&
+    solveAffineFromGcps(record.georef.gcps) === null
+  );
+}
 
 export type ImportOutcome =
-  | { fileName: string; ok: true; id: string; note?: string }
+  | {
+      fileName: string;
+      ok: true;
+      id: string;
+      note?: string;
+      /** Set when the import produced an empty GCP draft; App opens the panel. */
+      needsGeoreferencing?: boolean;
+    }
   | { fileName: string; ok: false; message: string };
 
 export type UserMapUiState = Record<string, { enabled: boolean; opacity: number }>;
@@ -34,6 +83,12 @@ export type UserMapsApi = {
   removeMap: (id: string) => Promise<void>;
   setEnabled: (id: string, enabled: boolean) => void;
   setOpacity: (id: string, opacity: number) => void;
+  georeferencingId: string | null;
+  editingMap: VisibleUserMap | null;
+  beginGeoreference: (id: string) => void;
+  endGeoreference: () => void;
+  saveGcps: (id: string, gcps: Gcp[]) => Promise<void>;
+  needsGeoreferencing: (record: UserMapRecord) => boolean;
 };
 
 function loadUiState(): UserMapUiState {
@@ -92,10 +147,12 @@ export function useUserMaps(
   options: {
     openStore?: () => Promise<UserMapStore>;
     parse?: (buffer: ArrayBuffer) => Promise<ParsedGeoTiff>;
+    parseImage?: (blob: Blob) => Promise<ParsedImage>;
   } = {},
 ): UserMapsApi {
   const openStoreRef = useRef(options.openStore ?? (() => UserMapStore.open()));
   const parseRef = useRef(options.parse ?? parseGeoTiffAuto);
+  const parseImageRef = useRef(options.parseImage ?? parseImage);
   const storeRef = useRef<Promise<UserMapStore> | null>(null);
   const previewUrlsRef = useRef<Record<string, string>>({});
   const [records, setRecords] = useState<UserMapRecord[]>([]);
@@ -105,6 +162,17 @@ export function useUserMaps(
   const [importingLabel, setImportingLabel] = useState<string | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
   const [outcomes, setOutcomes] = useState<ImportOutcome[]>([]);
+  const [georeferencingId, setGeoreferencingId] = useState<string | null>(null);
+
+  // `saveGcps` has to build the updated record BEFORE handing it to
+  // setRecords (see below), so it needs the current list without capturing it
+  // in a closure — capturing it would either go stale or churn saveGcps's
+  // identity on every import. Layout, not passive: saveGcps is called from a
+  // debounce timer that can fire in the same frame as a record change.
+  const recordsRef = useRef(records);
+  useLayoutEffect(() => {
+    recordsRef.current = records;
+  }, [records]);
 
   const store = useCallback((): Promise<UserMapStore> => {
     storeRef.current ??= openStoreRef.current();
@@ -202,26 +270,33 @@ export function useUserMaps(
             const type = sniffFileType(
               new Uint8Array(buffer, 0, Math.min(16, buffer.byteLength)),
             );
-            if (type === "pdf" || type === "png" || type === "jpeg") {
-              throw new UserMapImportError("unsupported-type", COMING_SOON_MESSAGE);
+            if (type === "pdf") {
+              throw new UserMapImportError("unsupported-type", PDF_MESSAGE);
             }
-            if (type !== "geotiff") {
+            if (type !== "geotiff" && type !== "png" && type !== "jpeg") {
               throw new UserMapImportError(
                 "unsupported-type",
-                "Not a recognized map file. GeoTIFF works today; PDF and " +
-                  "plain scans arrive with the georeferencer.",
+                UNRECOGNIZED_MESSAGE,
               );
             }
-            // parse may transfer the buffer to a worker — this is the last
-            // use of `buffer` on this thread.
-            const parsed = await parseRef.current(buffer);
+            const isImage = type === "png" || type === "jpeg";
+            // parseGeoTiff may transfer `buffer` to a worker, so this is the
+            // last use of it on this thread. parseImage reads the File
+            // directly, which is why the two branches take different inputs.
+            const parsed = isImage
+              ? await parseImageRef.current(file)
+              : await parseRef.current(buffer);
+            const source: UserMapSource = isImage ? "image" : "geotiff";
+            const embedded = isImage ? null : (parsed as ParsedGeoTiff).georef;
             const record: UserMapRecord = {
               id: generateId(),
               name: stripExtension(file.name),
-              source: "geotiff",
+              source,
               createdAt: new Date().toISOString(),
               pixelSize: parsed.pixelSize,
-              georef: parsed.georef,
+              // No embedded georeferencing means this is a scan: it starts
+              // life as an empty GCP record and opens in the georeferencer.
+              georef: embedded ?? EMPTY_GCP_GEOREF,
             };
             // Keyed on PIXELS, not bytes: a highly compressed large file
             // can decode at full resolution (no note earned), while a
@@ -255,7 +330,13 @@ export function useUserMaps(
               ...loadUiState(),
               [record.id]: { enabled: true, opacity: DEFAULT_OPACITY },
             });
-            batch.push({ fileName: file.name, ok: true, id: record.id, note });
+            batch.push({
+              fileName: file.name,
+              ok: true,
+              id: record.id,
+              note,
+              needsGeoreferencing: needsGeoreferencing(record),
+            });
           } catch (error) {
             const message =
               error instanceof UserMapImportError
@@ -266,6 +347,16 @@ export function useUserMaps(
         }
       } finally {
         setOutcomes(batch);
+        // Spec: an imported scan opens the panel. Only the FIRST draft of a
+        // batch — the panel edits one map at a time, and the rest keep their
+        // "Needs georeferencing" rows in the layer list. Without this the
+        // flag above is produced and never consumed.
+        for (const outcome of batch) {
+          if (outcome.ok && outcome.needsGeoreferencing) {
+            setGeoreferencingId(outcome.id);
+            break;
+          }
+        }
         setImporting(false);
         setImportingLabel(null);
       }
@@ -292,6 +383,9 @@ export function useUserMaps(
         delete next[id];
         return next;
       });
+      // Clear georeferencing before persisting, since persistUiState's
+      // localStorage.setItem can throw and would skip this cleanup.
+      setGeoreferencingId((prev) => (prev === id ? null : prev));
       const nextUi = { ...loadUiState() };
       delete nextUi[id];
       persistUiState(nextUi);
@@ -323,13 +417,90 @@ export function useUserMaps(
     [persistUiState],
   );
 
+  const beginGeoreference = useCallback((id: string) => {
+    setGeoreferencingId(id);
+  }, []);
+
+  const endGeoreference = useCallback(() => {
+    setGeoreferencingId(null);
+  }, []);
+
+  const saveGcps = useCallback(
+    async (id: string, gcps: Gcp[]) => {
+      // Built OUTSIDE the updater, deliberately. An earlier version assigned
+      // `saved` inside the setRecords updater and read it on the next line;
+      // React defers an updater whenever the owning fiber already has queued
+      // work — which `App` always does — so `saved` was still null and the
+      // IndexedDB write never ran. Measured: "captured after save (with a
+      // prior queued update): null". The in-memory list still looked right,
+      // which is why the original test caught nothing.
+      const existing = recordsRef.current.find((record) => record.id === id);
+      if (!existing) {
+        return;
+      }
+      const saved: UserMapRecord = {
+        ...existing,
+        georef: { kind: "gcp", gcps, method: "affine" },
+      };
+      // The updater is now pure: it maps one entry to an already-built
+      // object and returns every other entry BY REFERENCE, because
+      // UserMapLayers keys its layer-construction effect on record identity
+      // and rebuilding untouched records would re-decode their bitmaps.
+      // Being pure also makes it safe under StrictMode's double invocation.
+      setRecords((prev) =>
+        prev.map((record) => (record.id === id ? saved : record)),
+      );
+      try {
+        await (await store()).putUserMapRecord(saved);
+      } catch {
+        // Same contract as import: a storage failure keeps the map usable
+        // for this session rather than discarding the user's points.
+        setStorageError(
+          "Couldn't save these points — they stay available until you close " +
+            "the tab.",
+        );
+      }
+    },
+    [store],
+  );
+
   const visibleMaps: VisibleUserMap[] = records
-    .filter((r) => (uiState[r.id]?.enabled ?? false) && previewUrls[r.id])
+    .filter(
+      (r) =>
+        r.id !== georeferencingId &&
+        (uiState[r.id]?.enabled ?? false) &&
+        previewUrls[r.id] &&
+        !needsGeoreferencing(r),
+    )
     .map((r) => ({
       record: r,
       previewUrl: previewUrls[r.id],
       opacity: uiState[r.id]?.opacity ?? DEFAULT_OPACITY,
     }));
+
+  const editingRecord = records.find((r) => r.id === georeferencingId) ?? null;
+  const editingPreviewUrl = editingRecord
+    ? previewUrls[editingRecord.id]
+    : undefined;
+  const editingOpacity = editingRecord
+    ? (uiState[editingRecord.id]?.opacity ?? DEFAULT_OPACITY)
+    : DEFAULT_OPACITY;
+  // Memoized, unlike visibleMaps. App keys its georeference-binding memo on
+  // this object, so a fresh literal per render would hand MapCanvas a new
+  // `draft` on every unrelated state change and defeat the hot path Task 6
+  // exists to protect. The three inputs are a stable record reference, a blob
+  // URL string, and a number, so the memo actually holds.
+  const editingMap: VisibleUserMap | null = useMemo(
+    () =>
+      editingRecord && editingPreviewUrl
+        ? {
+            record: editingRecord,
+            previewUrl: editingPreviewUrl,
+            opacity: editingOpacity,
+          }
+        : null,
+    [editingRecord, editingPreviewUrl, editingOpacity],
+  );
 
   return {
     records,
@@ -343,5 +514,11 @@ export function useUserMaps(
     removeMap,
     setEnabled,
     setOpacity,
+    georeferencingId,
+    editingMap,
+    beginGeoreference,
+    endGeoreference,
+    saveGcps,
+    needsGeoreferencing,
   };
 }

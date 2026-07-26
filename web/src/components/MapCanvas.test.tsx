@@ -11,10 +11,14 @@ import {
   type MapLayerStatus,
 } from "./MapCanvas";
 import { parcelStyleForFeature } from "./parcelStyle";
+import type { GeoreferenceBinding } from "../userMaps/components/GeoreferenceMapLayer";
 
-// Backs the useMap() stub's getPane/createPane below so UserMapLayers'
-// ensurePane (which MapCanvas now mounts unconditionally) has somewhere to
-// store panes it creates, same as the real Leaflet map would.
+// Backs the useMap() stub's getPane/createPane below. Originally this stored
+// panes for the REAL UserMapLayers' ensurePane; both UserMapLayers and
+// GeoreferenceMapLayer are now mocked wholesale in this file (see below), so
+// neither exercises it any more. Left in place as a real Map/Set rather than
+// bare vi.fn()s in case a future pane-creating layer is exercised directly
+// against this useMap() stub instead of through its own mocked component.
 const paneElements = vi.hoisted(() => new Map<string, HTMLElement>());
 
 const mapMock = vi.hoisted(() => ({
@@ -239,6 +243,32 @@ vi.mock("./MeasureTool", () => ({
     >
       Toggle measuring
     </button>
+  ),
+}));
+
+vi.mock("../userMaps/components/UserMapLayers", () => ({
+  UserMapLayers: ({
+    maps,
+    draft,
+  }: {
+    maps: Array<{ record: { id: string } }>;
+    draft?: { record: { id: string } } | null;
+  }) => (
+    <div
+      data-testid="user-map-layers"
+      data-count={maps.length}
+      data-draft={draft?.record.id ?? "none"}
+    />
+  ),
+}));
+
+vi.mock("../userMaps/components/GeoreferenceMapLayer", () => ({
+  GeoreferenceMapLayer: ({
+    binding,
+  }: {
+    binding: { gcps: Array<{ id: string }> };
+  }) => (
+    <div data-testid="georeference-map-layer" data-gcps={binding.gcps.length} />
   ),
 }));
 
@@ -2233,5 +2263,152 @@ describe("MapCanvas print mode", () => {
     expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
       status: "error",
     });
+  });
+});
+
+describe("georeference binding", () => {
+  const props = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: false,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": false,
+      roads: false,
+      buildings: false,
+      contours: false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  const BINDING = {
+    gcps: [{ id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } }],
+    pending: null,
+    draft: {
+      record: { id: "scan-1" },
+      previewUrl: "blob:scan",
+      opacity: 0.7,
+      mesh: null,
+    },
+    focus: null,
+    onPickMapPoint: vi.fn(),
+    onDragStartGcp: vi.fn(),
+    onMoveGcpOnMap: vi.fn(),
+  } as unknown as GeoreferenceBinding;
+
+  it("mounts nothing georeferencing-related when no session is open", () => {
+    render(<MapCanvas {...props} />);
+    expect(screen.queryByTestId("georeference-map-layer")).toBeNull();
+    expect(screen.getByTestId("user-map-layers")).toHaveAttribute(
+      "data-draft",
+      "none",
+    );
+    expect(document.querySelector(".map-canvas--georeferencing")).toBeNull();
+  });
+
+  it("mounts the marker layer and hands the draft to the raster layer", () => {
+    render(<MapCanvas {...props} georeference={BINDING} />);
+    expect(screen.getByTestId("georeference-map-layer")).toHaveAttribute(
+      "data-gcps",
+      "1",
+    );
+    // The live drape. Without this the map under edit simply never draws —
+    // and the App-level test that reads "georeferencing: scan-1" out of a
+    // mocked MapCanvas would not notice.
+    expect(screen.getByTestId("user-map-layers")).toHaveAttribute(
+      "data-draft",
+      "scan-1",
+    );
+    // Spec: a crosshair cursor on the map pane while georeferencing.
+    expect(
+      document.querySelector(".map-canvas--georeferencing"),
+    ).not.toBeNull();
+  });
+
+  it("takes the measure tool away while a georeferencing session is open", () => {
+    // The guard ParcelIdentifyController got and MeasureTool did not — even
+    // though the identify guard's own comment cites the measure tool as its
+    // precedent. MeasureCapture subscribes to map `click` and to window
+    // `keydown` (MeasureTool.tsx), so with measuring live every click during a
+    // session appends a measurement vertex AS WELL AS placing a control-point
+    // half, and one Escape both clears the measurement and closes the panel.
+    // `.measure-control` is at `left: 12px`, behind the 45vw panel, so the
+    // user cannot switch it off without closing the georeferencer first.
+    //
+    // The tool has to be ACTIVE before the session opens: asserting against an
+    // "off" MeasureTool proves nothing, since an off one mounts no capture
+    // either way (MeasureTool.test.tsx, "captures nothing while off").
+    const { rerender } = render(<MapCanvas {...props} />);
+    fireEvent.click(screen.getByTestId("measure-tool"));
+    expect(screen.getByTestId("measure-tool")).toHaveAttribute(
+      "data-mode",
+      "distance",
+    );
+
+    rerender(<MapCanvas {...props} georeference={BINDING} />);
+    expect(screen.queryByTestId("measure-tool")).toBeNull();
+
+    // Closing the session brings it back, still on the mode the user chose —
+    // suppression lasts for the session, it is not a silent reset.
+    rerender(<MapCanvas {...props} />);
+    expect(screen.getByTestId("measure-tool")).toHaveAttribute(
+      "data-mode",
+      "distance",
+    );
+  });
+
+  it("suspends parcel identify while a georeferencing session is open", () => {
+    // The two tests above leave `provinceLayers.nsprd: false`, which ALSO
+    // disables ParcelIdentifyController on its own — so neither can tell
+    // "suppressed because georeferencing" apart from "suppressed because
+    // nsprd is off". Only a fixture with nsprd TRUE exercises the guard:
+    // deleting `&& !georeference` from `ParcelIdentifyController`'s
+    // `enabled` at MapCanvas.tsx still passes every one of the 46
+    // pre-existing MapCanvas tests, because every one of them leaves nsprd
+    // false too.
+    vi.useFakeTimers();
+    const onIdentifyParcel = vi.fn();
+    mapMock.getZoom.mockReturnValue(14); // >= PROPERTY_BOUNDARY_MIN_ZOOM
+    const { rerender } = render(
+      <MapCanvas
+        {...props}
+        provinceLayers={{ ...props.provinceLayers, nsprd: true }}
+        onIdentifyParcel={onIdentifyParcel}
+        georeference={BINDING}
+      />,
+    );
+
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    // A click during georeferencing places a control point; letting it also
+    // open the parcel inspector would fight the user for the same gesture,
+    // and the popup renders at z-700, over the control points.
+    expect(onIdentifyParcel).not.toHaveBeenCalled();
+
+    // Closing the session restores ordinary identify-on-click behaviour.
+    rerender(
+      <MapCanvas
+        {...props}
+        provinceLayers={{ ...props.provinceLayers, nsprd: true }}
+        onIdentifyParcel={onIdentifyParcel}
+      />,
+    );
+    act(() =>
+      mapEventHandlers.click?.({ latlng: { lat: 46.059488, lng: -61.414138 } }),
+    );
+    act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
+    expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
   });
 });

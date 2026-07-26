@@ -58,6 +58,23 @@ describe("UserMapStore", () => {
     expect(await store.getPreviewBlob("missing")).toBeNull();
   });
 
+  it("updates a record without touching its blobs", async () => {
+    const raster = new Blob(["raster-bytes"]);
+    const preview = new Blob(["preview-bytes"], { type: "image/png" });
+    await store.saveUserMap(record("a", "2026-07-25T00:00:00.000Z"), raster, preview);
+    await store.putUserMapRecord({
+      ...record("a", "2026-07-25T00:00:00.000Z"),
+      georef: {
+        kind: "gcp",
+        method: "affine",
+        gcps: [{ id: "g0", pixel: { x: 1, y: 2 }, map: { lat: 46, lng: -61 } }],
+      },
+    });
+    const [listed] = await store.listUserMaps();
+    expect(listed.georef).toMatchObject({ kind: "gcp" });
+    expect(await (await store.getRasterBlob("a"))?.text()).toBe("raster-bytes");
+  });
+
   // Regression coverage for two behaviors that don't match the naive reading
   // of the IndexedDB API (see comments in userMapStore.ts for the evidence):
   // fake-indexeddb never simulates real storage exhaustion, so the "quota"

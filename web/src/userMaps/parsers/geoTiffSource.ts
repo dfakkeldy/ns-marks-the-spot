@@ -30,7 +30,9 @@ export type MakePreview = (
 
 export type ParsedGeoTiff = {
   pixelSize: PixelSize;
-  georef: EmbeddedGeoref;
+  /** null when the file carries no usable georeferencing — the caller then
+   * routes it to the georeferencer as a plain scan. */
+  georef: EmbeddedGeoref | null;
   preview: Blob;
   previewSize: PixelSize;
 };
@@ -171,30 +173,31 @@ export async function parseGeoTiff(
   const pixelIsPoint = geoKeys.GTRasterTypeGeoKey === 2;
   const geotransform = geotransformFrom(directory, pixelIsPoint);
   const crs = crsFrom(geoKeys);
-  if (!geotransform || !crs) {
-    throw new UserMapImportError(
-      "no-georeferencing",
-      "No georeferencing found in this file. The georeferencer (next update) " +
-        "will handle plain scans.",
-    );
-  }
-  validateCrs(crs); // throws unsupported-crs with the CRS in the message
-
-  const georef: EmbeddedGeoref = { kind: "embedded", crs, geotransform };
-  // A CRS can pass validateCrs yet still be paired with a geotransform whose
-  // tiepoint doesn't actually fall inside that CRS's domain (e.g. an
-  // out-of-zone UTM tiepoint) — proj4 doesn't throw for that, it silently
-  // returns non-finite coordinates (see pixelToLatLng). Project the four
-  // raster corners now, at import time, so that failure aborts the import
-  // instead of surfacing as triangles stretched across the globe at render
-  // time.
-  for (const [cx, cy] of [
-    [0, 0],
-    [width, 0],
-    [0, height],
-    [width, height],
-  ] as const) {
-    pixelToLatLng(georef, cx, cy); // throws invalid-georeferencing on failure
+  // A TIFF with no geo tags is not an error any more: it is a scan, and only
+  // geotiff.js can decode its pixels, so the preview below still gets built
+  // and the caller sends the map to the georeferencer.
+  const georef: EmbeddedGeoref | null =
+    geotransform && crs ? { kind: "embedded", crs, geotransform } : null;
+  if (georef) {
+    // An unreadable CRS is still a hard failure: we would be guessing where
+    // on Earth the raster belongs. Georeferencing it by hand remains an
+    // option, but silently doing that would hide a fixable export mistake.
+    validateCrs(georef.crs);
+    // A CRS can pass validateCrs yet still be paired with a geotransform
+    // whose tiepoint doesn't actually fall inside that CRS's domain (e.g. an
+    // out-of-zone UTM tiepoint) — proj4 doesn't throw for that, it silently
+    // returns non-finite coordinates (see pixelToLatLng). Project the four
+    // raster corners now, at import time, so that failure aborts the import
+    // instead of surfacing as triangles stretched across the globe at render
+    // time. Nothing to check on the null branch: there is no transform yet.
+    for (const [cx, cy] of [
+      [0, 0],
+      [width, 0],
+      [0, height],
+      [width, height],
+    ] as const) {
+      pixelToLatLng(georef, cx, cy); // throws invalid-georeferencing on failure
+    }
   }
 
   const downScale = Math.min(1, PREVIEW_MAX_DIMENSION / Math.max(width, height));

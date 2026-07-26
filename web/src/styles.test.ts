@@ -141,6 +141,20 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/body\.print-preview-open\s+\.app-shell\s*{[^}]*display:\s*none/s);
     expect(styles).toMatch(/\.print-document--inactive\s*{[^}]*display:\s*none/s);
     expect(styles).toMatch(/font-size:\s*9pt/);
+    // The georeference overlay is NOT inside `.app-shell` — App.tsx renders it
+    // as a sibling of `<PrintPreview>` — so the `.app-shell` rule above never
+    // matches it and it prints at `position: fixed; z-index: 1800` over page 1
+    // of the field sheet.
+    //
+    // Taken as the FIRST `.georeference-overlay` rule at or after `@media
+    // print`, and asserted on that rule's BODY. Delete the print rule and this
+    // match falls through to the screen rule further down the file — which
+    // sets position/inset/pointer-events and no `display` at all — so the
+    // assertion fails rather than being satisfied by the wrong rule.
+    const printOverlay = styles
+      .slice(styles.indexOf("@media print"))
+      .match(/\.georeference-overlay\s*\{([^}]*)\}/);
+    expect(printOverlay?.[1]).toMatch(/display:\s*none/);
   });
 
   it("removes the screen-only preview backdrop before printing the selected document", () => {
@@ -231,5 +245,195 @@ describe("print document paged media", () => {
     expect(styles).toMatch(/\.print-research-summary \.print-attribution-links\s*\{[^}]*display:\s*block/s);
     expect(styles).toMatch(/\.print-research-summary \.print-attribution-links li\s*\{[^}]*display:\s*inline/s);
     expect(styles).toMatch(/\.print-qr\s*\{[^}]*overflow:\s*hidden/s);
+  });
+});
+
+describe("georeferencer overlay", () => {
+  it("sits above the map furniture but below the app's dialogs", () => {
+    // `^` + /m pins this to the TOP-LEVEL rule. The bare pattern took the
+    // first `.georeference-overlay` anywhere in the file, which is now the
+    // two-space-indented `display: none` override inside @media print — so
+    // both of these tests silently started asserting against the print rule
+    // instead, and the `not.toMatch(/background/)` guard below went vacuous.
+    const overlay = styles.match(/^\.georeference-overlay\s*\{([^}]*)\}/m)?.[1];
+    expect(overlay).toMatch(/position:\s*fixed/);
+    expect(overlay).toMatch(/inset:\s*0/);
+    const overlayZ = Number(overlay?.match(/z-index:\s*(\d+)/)?.[1]);
+    const dialogZ = Number(
+      styles
+        .match(/\.dialog-backdrop\s*\{([^}]*)\}/)?.[1]
+        ?.match(/z-index:\s*(\d+)/)?.[1],
+    );
+    expect(overlayZ).toBeGreaterThan(1200);
+    expect(overlayZ).toBeLessThan(dialogZ);
+  });
+
+  it("leaves the app's own map visible and clickable", () => {
+    // THE regression test for this feature. An earlier draft made the overlay
+    // a full-bleed opaque card over a 72%-black scrim, so the app's map — the
+    // thing the user must click to complete every control point — was both
+    // dimmed and pointer-blocked. No GCP could ever be finished, while the
+    // status line said "Now click the same spot on the map."
+    //
+    // jsdom does no layout, so a rendered-DOM test cannot see occlusion:
+    // these three declarations are what make the difference, so they are what
+    // gets asserted. Task 10's DOM test pins the matching structure.
+    // Top-level rule only — see the anchoring note in the test above.
+    const overlay = styles.match(/^\.georeference-overlay\s*\{([^}]*)\}/m)?.[1];
+    expect(overlay).toMatch(/pointer-events:\s*none/);
+    expect(overlay).not.toMatch(/background/);
+    const panel = styles.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(panel).toMatch(/pointer-events:\s*auto/);
+    // Spec: panel left ~45%, app map keeps the right ~55%. Anchored with a
+    // negative lookbehind, not the bare `/width:\s*45vw/`: the panel rule
+    // also declares `max-width: 45vw`, and the unanchored form matches
+    // inside "max-width" too — so changing ONLY `width` (leaving `max-width`
+    // untouched) left this assertion green. `\b` does not fix it either: the
+    // `-`/`w` junction in "max-width" is itself a word boundary.
+    expect(panel).toMatch(/(?<![-\w])width:\s*45vw/);
+  });
+
+  it("only splits into two panes where the scan track is usable", () => {
+    // The scan track is `45vw - 380px`, because the panel is `width: 45vw` and
+    // its side column is `minmax(320px, 380px)`. Measured live, resolved
+    // gridTemplateColumns: 900px viewport -> "25px 380px"; 1024px -> 81px;
+    // 1280px -> 196px. So the two-pane rule must NOT be unconditional — at the
+    // spec's former 900px threshold it gives the user a 25px sliver to place
+    // control points in, and at 1024px the rail-width column that the base
+    // rule's own comment explicitly rejects.
+    const wideStart = styles.indexOf("@media (min-width: 1200px)");
+    expect(wideStart).toBeGreaterThan(-1);
+    const widePanel = styles
+      .slice(wideStart)
+      .match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(widePanel).toMatch(
+      /grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(320px,\s*380px\)/,
+    );
+
+    // …and it must live there and ONLY there. Moving this one declaration back
+    // onto the base rule brings the whole cramped 900–1199px range straight
+    // back with every other test in this file still green — the narrow block
+    // would keep overriding it below 1200px, so nothing else would notice.
+    // `^`/m pins the base rule, which is the top-level one at column 0.
+    const basePanel = styles.match(/^\.georeference-panel\s*\{([^}]*)\}/m)?.[1];
+    expect(basePanel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);
+    expect(basePanel).not.toMatch(/minmax\(320px/);
+    expect(styles.match(/minmax\(320px,\s*380px\)/g)).toHaveLength(1);
+
+    // The two bounds are complements: no viewport may fall between them, and
+    // none may match both. A flat 1199 would strand a zoomed 1199.5px client.
+    expect(styles).toContain("@media (max-width: 1199.98px)");
+  });
+
+  it("hides the layer rail and crosshairs the map during a session", () => {
+    // Both are spec (189 and 201–204) and both are pure CSS, so nothing else
+    // in the suite would notice their absence.
+    expect(styles).toMatch(
+      /\.app-shell\.georeferencing\s+\.layer-rail\s*\{[^}]*display:\s*none/,
+    );
+    expect(styles).toMatch(
+      /\.map-canvas--georeferencing\s+\.leaflet-container\s*\{[^}]*cursor:\s*crosshair/,
+    );
+  });
+
+  // Not just phones: this layout now covers everything below 1200px, which
+  // includes tablets and small laptops. See the min-width test above.
+  it("stacks the split view instead of squeezing both panes", () => {
+    // Anchored to the LAST @media block, which Step 8 appends at the very END
+    // of the file. Three traps live here, all measured:
+    //
+    // 1. `/grid-template-columns:\s*minmax\(0,\s*1fr\)/` unanchored also
+    //    matches the WIDE rule `minmax(0, 1fr) minmax(320px, 380px)` — so
+    //    deleting the narrow override entirely left this test green. The
+    //    trailing `;` is what pins it to a SINGLE column.
+    // 2. An earlier draft told the executor to append into the pre-existing
+    //    860px block at styles.css:2722 while the "Your maps" section it also
+    //    named starts at 3767 — so `lastIndexOf` spanned the base rules and
+    //    matched the wide rule anyway. The narrow rules go last, full stop.
+    // 3. Anchoring on the literal "860px" is what let the georeferencer's
+    //    breakpoint drift under the spec in the first place, so the query is
+    //    asserted here as its own claim. It has now been wrong twice — 860px,
+    //    then 899.98px — because the cramped range does not start at a
+    //    viewport width of its own, it starts wherever the two-pane rule
+    //    engages. See the min-width test below for the measurements. The two
+    //    860px blocks belong to unrelated chrome and are not this one.
+    const narrowStart = styles.lastIndexOf("@media (max-width:");
+    const narrow = styles.slice(narrowStart);
+    expect(narrow).toMatch(/^@media \(max-width: 1199\.98px\)/);
+    expect(narrow).toContain(".georeference-panel");
+    const panel = narrow.match(/\.georeference-panel\s*\{([^}]*)\}/)?.[1];
+    expect(panel).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;/);
+    // Full-bleed here, not the wide 45vw column — and `max-width` has to be
+    // released explicitly or the base rule keeps clamping it.
+    expect(panel).toMatch(/width:\s*auto\s*;/);
+    expect(panel).toMatch(/max-width:\s*none\s*;/);
+    // …and the tab toggle only exists at this breakpoint.
+    expect(narrow).toMatch(/\.georeference-tabs\s*\{[^}]*display:\s*flex/);
+  });
+
+  it("hides the PANEL on the narrow Map tab, not just the scan", () => {
+    // Spec: choosing Map "hides the panel entirely and leaves a floating bar
+    // carrying the prompt and a Back to scan button". An earlier draft hid
+    // only `.georeference-scan`, leaving the opaque panel over the very map
+    // the tab exists to expose — and its own comment claimed the opposite of
+    // what the CSS did.
+    const narrow = styles.slice(styles.lastIndexOf("@media (max-width:"));
+    expect(narrow).toMatch(
+      /\.georeference-panel\[data-tab="map"\]\s*\{[^}]*display:\s*none/,
+    );
+    expect(narrow).toMatch(
+      /\.georeference-map-bar\[data-tab="map"\]\s*\{[^}]*display:\s*flex/,
+    );
+    // The bar is hidden everywhere else, including wide screens.
+    const bar = styles.match(/\.georeference-map-bar\s*\{([^}]*)\}/)?.[1];
+    expect(bar).toMatch(/display:\s*none/);
+    expect(bar).toMatch(/pointer-events:\s*auto/);
+  });
+
+  it("marks the suspect control point by more than colour", () => {
+    // WCAG 1.4.1: colour alone cannot be the only carrier of meaning.
+    const suspect = styles.match(/\.gcp-row--suspect\s*\{([^}]*)\}/)?.[1];
+    expect(suspect).toBeDefined();
+    expect(suspect).toMatch(/border-inline-start|font-weight/);
+  });
+
+  it("styles the numbered GCP markers, and distinguishes a pending one", () => {
+    // Without these the spec's hollow-then-solid numbered markers render as
+    // unstyled bare text on both panes — the markers ARE the interaction.
+    expect(styles).toMatch(/\.gcp-marker\s*\{/);
+    const pending = styles.match(/\.gcp-marker--pending\s*\{([^}]*)\}/)?.[1];
+    expect(pending).toBeDefined();
+    // Hollow vs solid, not just a different hue.
+    expect(pending).toMatch(/background|border-style/);
+    expect(styles).toMatch(/\.gcp-marker--selected\s*\{/);
+  });
+
+  it("defines the visually-hidden helper the GCP list header uses", () => {
+    // GcpList renders <span className="visually-hidden">Actions</span>. With
+    // no rule for it, a literal "Actions" heading appears in the table.
+    const hidden = styles.match(/\.visually-hidden\s*\{([^}]*)\}/)?.[1];
+    expect(hidden).toBeDefined();
+    // Clipped, not display:none — display:none removes it from the
+    // accessibility tree, which defeats the point of the label.
+    expect(hidden).toMatch(/clip-path|clip:/);
+    expect(hidden).not.toMatch(/display:\s*none/);
+  });
+
+  it("styles the panel's own opacity control like its UserMapRows precedent", () => {
+    // GeoreferencePanel renders `<label className="georeference-opacity">`
+    // with no matching rule before this: the "Map opacity" label and its
+    // range input fell back to unstyled inline flow. `.user-map-opacity`
+    // (UserMapRows) is the direct precedent — a 2-column grid pairing a
+    // muted label with a full-width range input.
+    const opacity = styles.match(/\.georeference-opacity\s*\{([^}]*)\}/)?.[1];
+    expect(opacity).toBeDefined();
+    expect(opacity).toMatch(/display:\s*grid/);
+    expect(opacity).toMatch(/grid-template-columns:\s*\S+\s+\S+/);
+    const label = styles.match(/\.georeference-opacity small\s*\{([^}]*)\}/)?.[1];
+    expect(label).toMatch(/color:\s*var\(--muted\)/);
+    const range = styles.match(
+      /\.georeference-opacity input\[type="range"\]\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(range).toMatch(/width:\s*100%/);
   });
 });
