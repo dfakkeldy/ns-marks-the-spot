@@ -8,6 +8,7 @@ import type {
   WebLayerDescriptor,
   ZoningLayerDescriptor,
   WellLogLayerDescriptor,
+  FletcherLayerId,
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 import {
@@ -127,6 +128,76 @@ export function LayerToggle({
         </button>
       ) : null}
     </label>
+  );
+}
+
+export function FletcherLayerControl({
+  layer,
+  checked,
+  enabled,
+  opacity,
+  status,
+  onChange,
+  onOpacityChange,
+  onRetry,
+}: {
+  layer: WebLayerDescriptor & { id: FletcherLayerId };
+  checked: boolean;
+  enabled: boolean;
+  opacity: number;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+  onOpacityChange: (opacity: number) => void;
+  onRetry: () => void;
+}) {
+  const controlLabel = "Fletcher historical map";
+  return (
+    <div className="fletcher-layer-control">
+      <label className="layer-row">
+        <input
+          type="checkbox"
+          aria-label={controlLabel}
+          checked={enabled && checked}
+          disabled={!enabled}
+          onChange={(event) => onChange(event.target.checked)}
+        />
+        <span className="switch" aria-hidden="true" />
+        <span>
+          <strong>{controlLabel}</strong>
+          <small>
+            {enabled ? layer.webCaveat : "Tile hosting not configured"}
+          </small>
+          <LayerMetadata
+            sourceDate={layer.sourceDate}
+            scale={layer.scale}
+            coverage={layer.coverage}
+            minZoom={layer.minZoom}
+            maxZoom={layer.maxZoom}
+            checked={enabled && checked}
+            status={status}
+          />
+        </span>
+      </label>
+      {enabled && checked ? (
+        <label className="fletcher-opacity" htmlFor="fletcher-opacity">
+          <small>Opacity {Math.round(opacity * 100)}%</small>
+          <input
+            id="fletcher-opacity"
+            type="range"
+            min="0.15"
+            max="1"
+            step="0.05"
+            value={opacity}
+            onChange={(event) => onOpacityChange(Number(event.target.value))}
+          />
+        </label>
+      ) : null}
+      {enabled && checked && status.status === "error" ? (
+        <button className="text-button fletcher-retry" type="button" onClick={onRetry}>
+          Retry tiles
+        </button>
+      ) : null}
+    </div>
   );
 }
 

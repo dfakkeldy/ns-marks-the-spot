@@ -571,6 +571,37 @@ a {
   font-weight: 700;
 }
 
+.fletcher-layer-control {
+  border-top: 1px solid rgba(122, 79, 43, 0.16);
+}
+
+.fletcher-opacity {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 10px 54px;
+  cursor: default;
+}
+
+.fletcher-opacity small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.fletcher-opacity input[type="range"] {
+  width: 100%;
+  accent-color: #7a4f2b;
+}
+
+.fletcher-retry {
+  margin: 0 0 10px 54px;
+}
+
+.fletcher-source-note {
+  padding: 0 12px 12px;
+}
+
 .environmental-health-guidance {
   color: var(--muted);
   font-style: italic;
@@ -3162,6 +3193,19 @@ a {
       #fafafa 1mm,
       #aaa 1mm,
       #aaa 1.25mm
+    );
+}
+
+.print-layer-symbol--fletcher {
+  border-color: #76552f;
+  background:
+    linear-gradient(rgba(245, 231, 188, 0.72), rgba(245, 231, 188, 0.72)),
+    repeating-linear-gradient(
+      22deg,
+      #76552f 0,
+      #76552f 1px,
+      transparent 1px,
+      transparent 5px
     );
 }
 

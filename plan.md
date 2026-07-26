@@ -63,7 +63,8 @@
 - [x] Independent civic-address loading, empty, failure, attribution, and stale-selection cancellation states
 - [x] Locally calculated Plus Codes with opt-in Google Maps directions for mapped civic points
 - [x] Parcel-first defaults: modern/aerial off, boundaries/water/roads on, and one-time tax-sale bounds fit
-- [x] Unavailable Fletcher control placed last in the web layer list
+- [x] Host-neutral direct-Rumsey Fletcher control placed last in the web layer
+      list, with opacity, share, print/evidence, attribution, and failure state
 - [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
 - [x] Official-source link, withdrawal/redemption warning, and title-search caveat
 - [x] Offline-use handoff to the native iPhone app
@@ -71,9 +72,10 @@
 - [x] Municipality of the District of Lunenburg 2021–2026 outcomes reconciled from tender packages and per-property award documents, with PIDs derived by assessment-account/PVSC/NSPRD reconciliation
 - [x] Historical municipality/year/outcome filters, conditional result provenance, source-linked infocards, validation, and match/source ledgers
 - [ ] Monochrome browser Print / Save as PDF research and field sheets (implementation complete; saved-PDF, iPhone AirPrint, and physical monochrome acceptance remain pending in `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`)
-- [ ] Separately review, host, and enable the permitted direct-Rumsey Fletcher
-      replacements; scoped non-commercial georeferencing permission is recorded,
-      but no hosting or layer enablement was performed
+- [ ] Upload and production-verify the prepared direct-Rumsey Fletcher revision
+      on an authorized HTTPS object host; the bounded per-sheet package and
+      fail-closed web integration are complete, but credentials/cost authority
+      and custom-domain delivery remain outstanding
 - [ ] Add municipality importers only from current official notices
   - [x] Scheduled watcher archives and auto-ingests overwrite-prone sources (Cumberland) via `npm run watch:tax-sales` and `.github/workflows/tax-sale-watch.yml`
 - [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled

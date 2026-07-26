@@ -190,9 +190,13 @@ scales — the parity list of sources and renderers is unchanged:
   Landforms renderer's labelled 5 m LiDAR-derived contour lines. The layer is
   visual terrain screening only: it does not establish surveyed grade,
   drainage, stability, access, flood exposure, or buildability.
-- Fletcher remains listed but disabled. Scoped written permission covers the
-  direct-Rumsey georeferencing use described for the free Nova Scotia web map,
-  but replacement hosting and layer enablement are separate, unfinished work.
+- Fletcher has a real default-off control for the 24 independently accepted
+  direct-Rumsey sheets. The browser renders bounded per-sheet XYZ trees from
+  the immutable `fletcher-direct-rumsey-20260726.1` revision and supports
+  opacity, share links, print/evidence attribution, and retryable error state.
+  It fails closed with “Tile hosting not configured” unless
+  `VITE_FLETCHER_TILE_BASE_URL` names an authorized HTTPS object host. No
+  OldMapsOnline endpoint is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
   as disabled rows: no tiles have been produced for them yet. See
@@ -434,7 +438,8 @@ Modern Map basemap together with NS Aerial, NS Property Boundaries, Water
 Features, and Roads, Trails & Culverts. The basemap carries overview zooms;
 the zoom-gated Province layers take over from zoom 10 (boundaries from 14), so
 the first view is never framed by blank imagery tiles. It fits the initial
-view once to the loaded tax-sale parcels. Fletcher is the final layer row because it is not yet available. The
+view once to the loaded tax-sale parcels. Fletcher is the final layer row; it
+is usable only when the build has an authorized tile-host base URL. The
 initial fit does not repeat after searches or ordinary navigation.
 
 All eight distinct Province services used by the catalog have returned Web
@@ -770,7 +775,12 @@ road/water/adjacency context, authoritative mapped civic-address points, the
 upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
 Maps directions, and a separate default-off layer of eleven verified Halifax,
 Victoria County, and CBRM result events plus the outcome-pending CBRM archive.
-The Fletcher layer is visible but disabled until the permitted direct-Rumsey
-replacement assets are separately reviewed, hosted, and enabled. The permission
-does not by itself clear native offline bundling. Unsupported historical
+The Fletcher web integration and immutable, bounded per-sheet package are
+implemented, but the layer remains disabled in builds without
+`VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
+separate so overlapping XYZ keys are never resolved by last-write-wins copying.
+The public revision includes a source receipt; private object and duplicate-key
+receipts stay with the deployable package. Hosting, upload verification, and
+custom-domain acceptance remain separate gates. The permission does not by
+itself clear native offline bundling. Unsupported historical
 sources remain fail-closed; this web workflow does not change the native app.

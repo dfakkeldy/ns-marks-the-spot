@@ -101,6 +101,7 @@ export function PrintHeader({ snapshot, title, kind }: {
 
 const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   modern: "basemap-grid",
+  fletcher: "historical-raster",
   "ns-aerial": "aerial-tone",
   nsprd: "parcel-boundary",
   "crown-lands": "crown-hatch",

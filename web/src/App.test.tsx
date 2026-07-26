@@ -33,6 +33,9 @@ vi.mock("./components/MapCanvas", () => ({
     hydroPilotLayers,
     environmentalHealthLayers,
     floodHazardLayers,
+    fletcherVisible,
+    fletcherOpacity,
+    fletcherTileBaseUrl,
     showModernMap,
     showHistoricalTaxSales,
     initialPosition,
@@ -54,6 +57,9 @@ vi.mock("./components/MapCanvas", () => ({
     hydroPilotLayers: Record<string, boolean>;
     environmentalHealthLayers?: Record<string, boolean>;
     floodHazardLayers: Record<string, boolean>;
+    fletcherVisible?: boolean;
+    fletcherOpacity?: number;
+    fletcherTileBaseUrl?: string | null;
     showModernMap: boolean;
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
@@ -121,7 +127,10 @@ vi.mock("./components/MapCanvas", () => ({
     return (
     <div data-testid="map-canvas">
       Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
-      modern map: {showModernMap ? "on" : "off"}; property boundaries:{" "}
+      modern map: {showModernMap ? "on" : "off"}; Fletcher:{" "}
+      {fletcherVisible ? "on" : "off"} at{" "}
+      {Math.round((fletcherOpacity ?? 0) * 100)}% from{" "}
+      {fletcherTileBaseUrl ?? "no host"}; property boundaries:{" "}
       {provinceLayers.nsprd ? "on" : "off"}; water:{" "}
       {provinceLayers["water-features"] ? "on" : "off"}; roads:{" "}
       {provinceLayers.roads ? "on" : "off"}; buildings:{" "}
@@ -429,6 +438,7 @@ describe("NS Marks The Spot Online", () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   it("requires licence acceptance before enabling Province map layers", () => {
@@ -909,7 +919,7 @@ describe("NS Marks The Spot Online", () => {
     expect(within(inspector).queryByText(/assessed owner/i)).not.toBeInTheDocument();
   });
 
-  it("uses the parcel-first map defaults and keeps unavailable Fletcher last", () => {
+  it("uses the parcel-first map defaults and keeps Fletcher last", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
     render(<App />);
@@ -920,7 +930,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Water features")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: on; property boundaries: on; water: on; roads: on",
+      "modern map: on; Fletcher: off at 72% from no host; property boundaries: on; water: on; roads: on",
     );
 
     const layerSection = screen.getByRole("region", { name: "Map layers" });
@@ -947,8 +957,10 @@ describe("NS Marks The Spot Online", () => {
     expect(layerNames).toContain("Church — Richmond County");
     expect(layerNames).toContain("Church — Cape Breton County");
 
-    // Fletcher stays the final row in the rail.
+    // Fletcher stays the final row in the rail and fails closed without a host.
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
+    expect(screen.getByLabelText("Fletcher historical map")).toBeDisabled();
+    expect(screen.getByText("Tile hosting not configured")).toBeInTheDocument();
 
     // The sheets are not togglable, because there are no tiles to show.
     expect(
@@ -958,6 +970,42 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByText(/Published 1885 · web view pending tiles/),
     ).toBeInTheDocument();
+  });
+
+  it("enables direct Fletcher tiles, opacity, attribution, and share state when hosted", async () => {
+    vi.stubEnv(
+      "VITE_FLETCHER_TILE_BASE_URL",
+      "https://tiles.example.test/ns-marks",
+    );
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    const toggle = screen.getByLabelText("Fletcher historical map");
+    expect(toggle).toBeEnabled();
+    expect(toggle).not.toBeChecked();
+    await user.click(toggle);
+
+    expect(toggle).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Fletcher: on at 72% from https://tiles.example.test/ns-marks",
+    );
+    expect(window.location.search).toContain("fletcher");
+    expect(
+      screen.getByRole("link", { name: "CC BY-NC-SA 3.0" }),
+    ).toHaveAttribute(
+      "href",
+      "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    );
+    expect(screen.getByText(/not a survey and does not establish/)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByRole("slider", { name: /Opacity/ }), {
+      target: { value: "0.5" },
+    });
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Fletcher: on at 50%",
+    );
   });
 
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {

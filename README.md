@@ -19,10 +19,12 @@ Municipal zoning group renders unofficial zoning polygons live from five
 municipal ArcGIS services—Inverness, Victoria, Richmond, Cumberland, and
 Halifax—each linked to its authoritative land use by-law; Nova Scotia publishes
 no provincial zoning layer, so an area with no polygon is an area with no data
-rather than an area with no zoning. Fletcher remains disabled in the product,
-but the direct-Rumsey georeferencing use described for the free Nova Scotia web
-map now has scoped written permission; hosting and layer enablement were not
-part of that permission-recording task. Four A.F. Church Cape Breton
+rather than an area with no zoning. Fletcher now has a host-neutral,
+default-off web control for the 24 independently accepted direct-Rumsey sheets,
+with bounded per-sheet requests, opacity, share, print, evidence, attribution,
+and failure handling. It remains fail-closed until
+`VITE_FLETCHER_TILE_BASE_URL` names an authorized immutable HTTPS object host;
+that integration state is not a production-deployment claim. Four A.F. Church Cape Breton
 county maps (Inverness, Victoria, Richmond, Cape Breton; 1884–85, David
 Rumsey Map Collection) are catalogued alongside it as disabled rows, with
 tiles still pending—see

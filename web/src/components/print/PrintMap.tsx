@@ -21,6 +21,7 @@ import {
   type PrintMapBounds,
   type PrintSnapshot,
 } from "../../services/printSnapshot";
+import { normalizeFletcherTileBaseUrl } from "../../layers/fletcherLayer";
 import type { NsprdFeatureCollection } from "../../services/nsprd";
 import {
   MapCanvas,
@@ -101,6 +102,13 @@ export function PrintMap({
   onReadinessChange: (value: PrintMapReadiness) => void;
   onResolvedPosition: (value: MapPosition) => void;
 }) {
+  const fletcherTileBaseUrl = useMemo(() => {
+    try {
+      return normalizeFletcherTileBaseUrl();
+    } catch {
+      return null;
+    }
+  }, []);
   const layerIds = useMemo(
     () => printedLayerIds([...snapshot.layerIds], includeAerial),
     [includeAerial, snapshot.layerIds],
@@ -165,6 +173,11 @@ export function PrintMap({
         zoningLayers={zoningVisibilityFor(layerIds)}
         wellLogLayers={wellLogVisibilityFor(layerIds)}
         wellLogAccuracyFilter={snapshot.wellLogAccuracyFilter}
+        fletcherVisible={
+          Boolean(fletcherTileBaseUrl) && layerIds.includes("fletcher")
+        }
+        fletcherOpacity={0.72}
+        fletcherTileBaseUrl={fletcherTileBaseUrl}
         showModernMap={layerIds.includes("modern")}
         showTaxSale={snapshot.mode === "current" && snapshot.taxSalePids.length > 0}
         showHistoricalTaxSales={

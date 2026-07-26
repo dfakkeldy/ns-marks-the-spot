@@ -4,12 +4,14 @@ import {
   allResourceLayerCatalog,
   environmentalHealthLayerCatalog,
   floodHazardLayerCatalog,
+  fletcherLayerCatalog,
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
   type EnvironmentalHealthLayerId,
   wellLogLayerCatalog,
   type HydroPilotLayerId,
   type FloodHazardLayerId,
+  type FletcherLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
   type ZoningLayerId,
@@ -21,6 +23,7 @@ import { normalizePid } from "./nsprd";
 export type MapMode = "current" | "historical";
 export type ShareLayerId =
   | "modern"
+  | FletcherLayerId
   | ProvinceLayerId
   | ResourceLayerId
   | HydroPilotLayerId
@@ -62,6 +65,7 @@ const validEventIds = new Set([
 ]);
 const validLayerIds = new Set<ShareLayerId>([
   "modern",
+  fletcherLayerCatalog.id,
   ...provinceLayerCatalog.map(({ id }) => id),
   ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
