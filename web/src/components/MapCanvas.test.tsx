@@ -907,6 +907,54 @@ describe("MapCanvas parcel discovery", () => {
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
   });
 
+  it("preserves an explicit shared position when tax-sale geometry loads", () => {
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [parcel] }}
+        taxSalePids={new Set(["50251750"])}
+        historicalTaxSalePids={new Set(["50251750"])}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": true,
+          roads: true,
+          buildings: false,
+          contours: false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        preserveInitialPosition
+      />,
+    );
+
+    expect(mapMock.fitBounds).not.toHaveBeenCalled();
+  });
+
   it("keeps the current map view when a PID is selected", () => {
     render(
       <MapCanvas
