@@ -570,13 +570,13 @@ are live service examples, not fixtures used by the ordinary unit suite.
 ## Inverness 2026 source receipt
 
 - Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
-- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 3](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-3.pdf)
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 4](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-4.pdf)
 - PDF publication metadata is July 16, 2026; the current file was modified July
-  22 and retrieved July 22, 2026. Its SHA-256 is
-  `224da900debae3d32ff96ba4e1ef124f2953fc6733bef80665c782dfffd42be5`.
+  27 and retrieved July 27, 2026. Its SHA-256 is
+  `4ceb039af25ecb10f2e04e4d29028d8b4567a28314da772b26a18095ba585e9f`.
 - The revision still contains 45 lien entries and 47 unique PIDs, but visibly
-  strikes through liens 5, 6, 10, 11, and 12. Those five records (seven PIDs)
-  remain in the dated evidence as `withdrawn`; only 40 advertised PIDs render
+  strikes through liens 5, 6, 10, 11, 12, and 37. Those six records (eight PIDs)
+  remain in the dated evidence as `withdrawn`; only 39 advertised PIDs render
   in the active tax-sale parcel layer. Lien 11 covers three PIDs.
 - NSPRD validation on July 19, 2026: all 47 unique PIDs matched. NSPRD returned
   53 geometry features because some PIDs have more than one polygon record.
@@ -590,7 +590,7 @@ are live service examples, not fixtures used by the ordinary unit suite.
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `9112514ad22d1daac4c854b57a4e374b04eef6072c66735a64db66d05ff5ed9f`
+  `58cdf7158158b72619e1d08cb70a5eb5b2ebf0e49e7f7627ee9a2b3f7fabdb55`
   so either repository cannot drift silently.
 
 Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and
@@ -609,8 +609,9 @@ entry against that capture; if no capture carries the table yet, it records the
 sale as pending and retries next run, archiving first so evidence is never lost
 while ingestion waits. Any winning-bid cell that is not a money amount,
 `ADJORNED`, or `NOT COMPLETED` fails the run rather than being guessed. The
-scheduled workflow `.github/workflows/tax-sale-watch.yml` runs it weekly and opens
-a pull request into `nightly` on any change.
+manual workflow `.github/workflows/tax-sale-watch.yml` remains available as a
+diagnostic. The Codex tax-sale automation owns the recurring refresh,
+verification, publication, and exact-pin deployment path.
 
 ## CBRM July 21, 2026 source receipt
 
@@ -623,15 +624,29 @@ a pull request into `nightly` on any change.
 - Owner-free reconciliation: 67 lien rows and 68 unique eight-character PIDs.
   Lien `26-13` contains PIDs `15426125` and `15789985`.
 - Public fields retained: lien, AAN, PID list, address/description, location,
-  minimum bid, and the municipality's redemption category. The assessed-name
-  column was discarded before the repository dataset was written.
+  minimum bid, the municipality's redemption category, outcome, and printed
+  winning bid. The assessed-name column was discarded before the repository
+  dataset was written.
 - Live NSPRD validation on July 19, 2026 matched every exact CBRM and Inverness
   PID: 115 of 115 unique catalog PIDs. Requests are split into bounded
   batches because the Province service returned HTTP 500 for one 115-PID query.
 - The auction date has passed, so all 67 owner-free CBRM notice records (68
-  PIDs) now render only in historical-record mode. CBRM had not linked a July
-  21 result when checked after the auction. Every outcome and winning bid stays
-  unknown, with a link back to the municipal results page.
+  PIDs) render only in historical-record mode. The official
+  [July 21 result PDF](https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf)
+  was retrieved July 27, 2026 with SHA-256
+  `ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d`.
+  Its 54 identifier-bearing rows reconcile to the notice: 21 print numeric
+  winning bids, one prints `PAID AT SALE`, and 32 publish no bid or
+  disposition. Thirteen notice rows do not appear in the result. Only the 21
+  numeric rows are classified sold; the other 46 records stay outcome unknown.
+  Yellow table fill is ignored because it also highlights the `PAID AT SALE`
+  row. The owner-free result snapshot is pinned byte-for-byte at
+  `dc57447252e40e8834fcee39d6ad69b20d24aba6b57b32f02ac52f610b934d64`.
+
+Run `npm run refresh:cbrm-tax-sale-results` with Poppler's `pdftotext`
+available. The refresher resolves the newest dated result from CBRM's landing
+page, reconciles every parsed row to the owner-free notice fields, and fails
+closed on an unrecognized winning-bid value or identifier mismatch.
 
 ## Annapolis August 2026 source receipt
 
@@ -669,9 +684,8 @@ a pull request into `nightly` on any change.
 ## Historical record layer receipt
 
 The historical layer is visually distinct and off by default. It contains seven
-result-backed Halifax events, three result-backed Victoria County events, one
-result-backed CBRM event, and a second CBRM event kept as notice-only records
-awaiting an official result:
+result-backed Halifax events, three result-backed Victoria County events, and
+two result-backed CBRM events:
 
 | Event | Records | Exact PIDs | Sold | Unsold | Unknown | Official amount labels |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -686,8 +700,8 @@ awaiting an official result:
 | Victoria County November 25, 2025 | 2 | 2 | 1 | 1 | 0 | `Total Owing`, `Successful Bid` |
 | Victoria County March 24, 2026 | 5 | 5 | 3 | 1 | 0 | `Total Owing`, `Successful Bid` |
 | CBRM July 22, 2025 | 73 | 75 | 50 | 0 | 22 | `Minimum bid`, `Winning bid` |
-| CBRM July 21, 2026 | 67 | 68 | 0 | 0 | 67 | `Minimum bid`; results pending |
-| **Total** | **246** | **245** | **138** | **7** | **99** | |
+| CBRM July 21, 2026 | 67 | 68 | 21 | 0 | 46 | `Minimum bid`, `Winning bid` |
+| **Total** | **246** | **245** | **159** | **7** | **78** | |
 
 Per-event PID counts are listing slots; the total counts each parcel once, and
 ten parcels appear in both CBRM sales. Two records fall outside the outcome
@@ -698,8 +712,8 @@ claim. The CBRM July 22, 2025 event carries one `redeemed` record, lien
 `25-143`, printed as `REDEEMED` with no bid.
 
 Every Halifax listing was reconciled between the official notice and result.
-The July 21, 2026 CBRM records were reconciled to the official notice only;
-their result status is `awaiting-official-results`. The Victoria County and
+The July 21, 2026 CBRM result rows were reconciled to the official notice by
+lien, AAN, PID, minimum bid, and redemption category. The Victoria County and
 July 22, 2025 CBRM records come from self-contained official result tables that
 carry identifiers, amounts, statuses, and bids in one document; those
 municipalities remove their pre-sale listings after a sale, so the retained
@@ -773,8 +787,8 @@ live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the
 upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
-Maps directions, and a separate default-off layer of eleven verified Halifax,
-Victoria County, and CBRM result events plus the outcome-pending CBRM archive.
+Maps directions, and a separate default-off layer of twelve verified Halifax,
+Victoria County, and CBRM result events.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept

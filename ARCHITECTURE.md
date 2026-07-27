@@ -460,11 +460,11 @@ covers several parcels, so listing-level amounts are never allocated by the UI.
 Filters derive matched PID sets by municipality, year, and outcome without
 altering the upcoming-notice layer.
 
-The supported slice spans five municipalities and, together with the one
-outcome-pending CBRM event, carries 20 events, 425 owner-free records, and 403
-matched PIDs. Halifax Regional Municipality contributes seven tender events
+The supported slice spans five municipalities and carries 20 events, 425
+owner-free records, and 403 matched PIDs. Halifax Regional Municipality
+contributes seven tender events
 (March 8, 2022 through September 16, 2025) with 87 records and 93 exact official
-PIDs. Victoria County, Cumberland County, and the July 22, 2025 CBRM sale add
+PIDs. Victoria County, Cumberland County, and the two CBRM sales add
 result-backed events whose receipts are pinned to municipal or archive captures.
 Six Municipality of the District of Lunenburg tender events (March 1, 2021
 through March 2, 2026) add 145 records whose PIDs are all derived by

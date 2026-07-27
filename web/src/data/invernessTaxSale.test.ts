@@ -6,15 +6,15 @@ import {
 } from "./invernessTaxSale";
 
 describe("the Inverness County 2026 public dataset", () => {
-  it("preserves all 45 notice entries while exposing only 40 advertised PIDs", () => {
+  it("preserves all 45 notice entries while exposing only 39 advertised PIDs", () => {
     expect(taxSaleListings).toHaveLength(45);
-    expect(taxSalePids).toHaveLength(40);
-    expect(new Set(taxSalePids).size).toBe(40);
+    expect(taxSalePids).toHaveLength(39);
+    expect(new Set(taxSalePids).size).toBe(39);
     expect(
       taxSaleListings
         .filter(({ listingStatus }) => listingStatus === "withdrawn")
         .map(({ lien }) => lien),
-    ).toEqual([5, 6, 10, 11, 12]);
+    ).toEqual([5, 6, 10, 11, 12, 37]);
   });
 
   it("preserves the three-parcel lien 11", () => {
@@ -45,7 +45,7 @@ describe("the Inverness County 2026 public dataset", () => {
 
   it("records the corrected official source and sale details", () => {
     expect(invernessTaxSaleNotice.sourceUrl).toBe(
-      "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-3.pdf",
+      "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-4.pdf",
     );
     expect(invernessTaxSaleNotice.publishedOn).toBe("2026-07-16");
     expect(invernessTaxSaleNotice.saleStartsAt).toBe("2026-08-11T09:30:00-03:00");

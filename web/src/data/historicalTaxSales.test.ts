@@ -63,7 +63,7 @@ describe("historical tax-sale records", () => {
     );
   });
 
-  it("keeps every CBRM parcel outcome unknown until an official result is linked", () => {
+  it("uses only printed CBRM winning bids and keeps every other result unknown", () => {
     const cbrm = historicalTaxSaleEvents.find(
       ({ id }) => id === "cbrm-2026-07-21",
     );
@@ -72,16 +72,33 @@ describe("historical tax-sale records", () => {
     );
 
     expect(cbrm).toMatchObject({
-      resultStatus: "awaiting-official-results",
-      resultCheckedOn: "2026-07-21",
+      resultStatus: "verified",
+      resultUrl:
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
+      resultSnapshotDate: "2026-07-27",
+      resultSha256:
+        "ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d",
     });
-    expect(cbrm?.resultUrl).toBeUndefined();
     expect(records).toHaveLength(67);
-    expect(records.every(({ outcome }) => outcome === "unknown")).toBe(true);
-    expect(records.every(({ winningBidCents }) => winningBidCents === null)).toBe(true);
-    expect(records.every(({ reviewState }) => reviewState === "notice-verified")).toBe(
-      true,
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(21);
+    expect(records.filter(({ outcome }) => outcome === "unknown")).toHaveLength(
+      46,
     );
+    expect(
+      records.filter(({ resultNote }) =>
+        resultNote?.includes('reads "PAID AT SALE"'),
+      ),
+    ).toHaveLength(1);
+    expect(
+      records.filter(({ resultNote }) =>
+        resultNote?.includes("publishes no winning bid or disposition"),
+      ),
+    ).toHaveLength(32);
+    expect(
+      records.filter(({ resultNote }) =>
+        resultNote?.includes("does not carry this notice row"),
+      ),
+    ).toHaveLength(13);
   });
 
   it("keeps blank-status Victoria County rows outcome-unknown", () => {

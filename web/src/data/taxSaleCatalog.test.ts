@@ -11,8 +11,12 @@ import { INVERNESS_BOOK_DATASET_SHA256 } from "./invernessTaxSale";
 import invernessBookDatasetSource from "./invernessTaxSale.snapshot.json?raw";
 import { ANNAPOLIS_TENDER_DATASET_SHA256 } from "./annapolisTaxSale";
 import annapolisTenderDatasetSource from "./annapolisTaxSale.snapshot.json?raw";
-import { HISTORICAL_DATASET_SHA256 } from "./historicalTaxSales";
+import {
+  CBRM_RESULT_DATASET_SHA256,
+  HISTORICAL_DATASET_SHA256,
+} from "./historicalTaxSales";
 import historicalDatasetSource from "./historicalTaxSales.json?raw";
+import cbrmResultDatasetSource from "./cbrmTaxSaleResults.snapshot.json?raw";
 
 async function sha256Hex(source: string): Promise<string> {
   const digest = await crypto.subtle.digest(
@@ -49,6 +53,12 @@ describe("the multi-municipality tax-sale catalog", () => {
     );
   });
 
+  it("pins the owner-free CBRM result dataset", async () => {
+    expect(await sha256Hex(cbrmResultDatasetSource)).toBe(
+      CBRM_RESULT_DATASET_SHA256,
+    );
+  });
+
   it("represents the Annapolis single-parcel tender without inventing fields", () => {
     const annapolis = event("annapolis-county-2026-08-31");
 
@@ -72,19 +82,19 @@ describe("the multi-municipality tax-sale catalog", () => {
     ).toBe("verify-results");
   });
 
-  it("preserves the Inverness 45-listing, 47-PID receipt and five withdrawals", () => {
+  it("preserves the Inverness 45-listing, 47-PID receipt and six withdrawals", () => {
     const inverness = event("inverness-county-2026-08-11");
     const pids = inverness.listings.flatMap(({ pids }) => pids);
 
     expect(inverness.listings).toHaveLength(45);
     expect(pids).toHaveLength(47);
     expect(new Set(pids).size).toBe(47);
-    expect(advertisedPidsForEvents([inverness])).toHaveLength(40);
+    expect(advertisedPidsForEvents([inverness])).toHaveLength(39);
     expect(
       inverness.listings
         .filter(({ listingStatus }) => listingStatus === "withdrawn")
         .map(({ lien }) => lien),
-    ).toEqual(["5", "6", "10", "11", "12"]);
+    ).toEqual(["5", "6", "10", "11", "12", "37"]);
     expect(
       inverness.listings.find(({ lien }) => lien === "11")?.pids,
     ).toEqual(["50076777", "50207794", "50207802"]);
@@ -96,7 +106,7 @@ describe("the multi-municipality tax-sale catalog", () => {
       "00603988",
     );
     expect(INVERNESS_BOOK_DATASET_SHA256).toBe(
-      "9112514ad22d1daac4c854b57a4e374b04eef6072c66735a64db66d05ff5ed9f",
+      "58cdf7158158b72619e1d08cb70a5eb5b2ebf0e49e7f7627ee9a2b3f7fabdb55",
     );
     expect(inverness.sourceDatasetSha256).toBe(
       INVERNESS_BOOK_DATASET_SHA256,
