@@ -65,15 +65,17 @@ def render_feature_table(results: list[dict]) -> str:
     """Markdown table of feature-led v2 receipts, one row per result.
 
     Rows are sorted by sheet id. Metrics (RMS/P95/Max/Regions) come from a
-    `PASS` receipt's `score` dict, rounded to 1 decimal; any non-`PASS`
-    disposition renders `—` for every metric column regardless of
-    whether a `score` happens to be present, since only an accepted result
-    is reported as a measured alignment.
+    receipt's `score` dict, rounded to 1 decimal, whenever `score` is
+    present - `disposition` and the metric columns are independent: a
+    rejected (`FAIL`/`blocked`) result that was still scored keeps its
+    measured history in the table rather than losing it, since scoring a
+    result and accepting it are separate decisions. Metrics render `—`
+    only when `score` is `None` (missing), regardless of disposition.
     """
     rows: list[str] = []
     for result in sorted(results, key=_sort_key):
         disposition = str(result.get("disposition", _MISSING))
-        score = result.get("score") if disposition == PASS else None
+        score = result.get("score")
         overall = score.get("overall") if isinstance(score, dict) else None
         regions = score.get("regions") if isinstance(score, dict) else None
         reason = str(result.get("reason", "")).replace("|", "\\|")

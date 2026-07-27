@@ -36,6 +36,7 @@ def _pass_receipt() -> dict:
 
 
 def _fail_receipt() -> dict:
+    """A rejected result recorded before scoring ran - no measured history."""
     return {
         "sheet_id": "5",
         "method_version": "feature-led-v2",
@@ -43,6 +44,43 @@ def _fail_receipt() -> dict:
         "reason": "insufficient accepted controls",
         "observation_sha256": "b" * 64,
         "control_count": 4,
+        "check_count": 0,
+        "score": None,
+        "recorded_at": "2026-07-26",
+    }
+
+
+def _fail_receipt_with_score() -> dict:
+    """A rejected result that WAS scored - the gate failed, but the measured
+    history must still be reported, not hidden behind the FAIL disposition."""
+    return {
+        "sheet_id": "12",
+        "method_version": "feature-led-v2",
+        "disposition": "FAIL",
+        "reason": "held-out RMS exceeded gate",
+        "observation_sha256": "c" * 64,
+        "control_count": 10,
+        "check_count": 6,
+        "score": {
+            "scored_at": "2026-07-26",
+            "control_count": 10,
+            "overall": {"count": 6, "rms_m": 30.12, "p95_m": 45.67, "max_m": 60.06},
+            "regions": {"x": {}, "y": {}},
+            "per_check": {},
+        },
+        "recorded_at": "2026-07-26",
+    }
+
+
+def _blocked_receipt() -> dict:
+    """A blocked result: never scored, so metrics stay missing."""
+    return {
+        "sheet_id": "3",
+        "method_version": "feature-led-v2",
+        "disposition": "blocked",
+        "reason": "final checks not yet frozen",
+        "observation_sha256": "d" * 64,
+        "control_count": 2,
         "check_count": 0,
         "score": None,
         "recorded_at": "2026-07-26",
@@ -70,6 +108,34 @@ class RenderFeatureTableTests(unittest.TestCase):
         )
         # Sorted numerically by sheet id: sheet 5 before sheet 19.
         self.assertLess(table.index("| 5 |"), table.index("| 19 |"))
+
+    def test_fail_row_with_a_score_shows_its_measured_metrics(self) -> None:
+        table = render_feature_table([_fail_receipt_with_score()])
+
+        self.assertIn(
+            "| 12 | FAIL | 10 | 6 | 30.1 | 45.7 | 60.1 | 2 | "
+            "held-out RMS exceeded gate |",
+            table,
+        )
+
+    def test_blocked_row_with_null_score_shows_missing_metrics(self) -> None:
+        table = render_feature_table([_blocked_receipt()])
+
+        self.assertIn(
+            "| 3 | blocked | 2 | 0 | — | — | — | — | "
+            "final checks not yet frozen |",
+            table,
+        )
+
+    def test_disposition_and_metrics_are_independent_columns(self) -> None:
+        """A PASS row is unchanged by this fix: its own score still renders."""
+        table = render_feature_table([_pass_receipt()])
+
+        self.assertIn(
+            "| 19 | PASS | 12 | 8 | 9.4 | 16.2 | 20.1 | 3 | "
+            "held-out thresholds satisfied |",
+            table,
+        )
 
 
 class UpdateResultsMdTests(unittest.TestCase):
