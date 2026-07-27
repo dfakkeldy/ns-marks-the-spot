@@ -4,6 +4,7 @@ import {
   buildSrcMesh,
   CLIP_OVERDRAW_DEVICE_PX,
   drawWarpedImage,
+  drawWarpedTriangles,
   type XY,
 } from "./mesh";
 
@@ -46,6 +47,57 @@ const MAX_BACKING_DIM_DEVICE_PX = 4096;
  * on-canvas.
  */
 const DRAPE_MARGIN_DEVICE_PX = CLIP_OVERDRAW_DEVICE_PX + 1;
+
+/**
+ * Target wall-clock cost of one chunk of the deferred mesh walk, per
+ * animation frame.
+ *
+ * ~8 ms rather than ~16 ms: a rAF callback shares its ~16.7 ms frame (at
+ * 60 Hz) with Leaflet's own handlers and the browser's style, paint, and
+ * composite work, so a 16 ms chunk would guarantee dropped frames for the
+ * whole refinement while 8 ms leaves roughly half the frame free and merely
+ * doubles the (invisible — each chunk lands on already-correct composite
+ * content) number of refinement frames. On a 120 Hz display an 8 ms chunk
+ * still costs at most one skipped frame per chunk.
+ *
+ * It is a target, not a measured spend: see refineWarp for why a chunk
+ * cannot time itself.
+ */
+const WARP_CHUNK_BUDGET_MS = 8;
+
+/**
+ * Frame delta treated as "this frame was not the bottleneck". A chunk that
+ * lands inside a vsync-limited frame reports the vsync interval no matter
+ * how little work it did, so growth has to be judged against a frame budget
+ * rather than against the chunk target: 20 ms is one 60 Hz frame plus a
+ * little slack, so ordinary on-time frames read as headroom and only real
+ * overruns shrink the chunk.
+ */
+const WARP_FRAME_TARGET_MS = 20;
+
+/**
+ * Triangles in the first chunk of a sequence, before any frame delta has
+ * been observed. Deliberately small: the per-triangle cost spans more than
+ * two orders of magnitude (measured on an M1 Pro, 2560x2560 destination:
+ * ~0.007 ms/triangle from a 3072x2304 source, ~0.3 ms from a 7200x5400 one,
+ * where the source no longer fits the GPU image cache), so the seed has to
+ * be survivable in the worst regime and the controller ramps up within a
+ * few frames in the best.
+ */
+const WARP_CHUNK_SEED_TRIANGLES = 24;
+
+/**
+ * Per-frame growth factor while frames stay inside the target — additive
+ * increase, multiplicative decrease, because the cost curve is not smooth.
+ * Measured on an M1 Pro at gridSize 32 with a 7200x5400 source, chunks of
+ * 24/96/384 triangles cost 5/3/1 ms and the next step to 1536 cost 199 ms:
+ * beyond some working-set size the source stops fitting the GPU image cache
+ * and per-triangle cost jumps ~100x. Multiplying the chunk by 4 on every
+ * good frame walked straight off that cliff once per refinement; growing by
+ * a quarter bounds an overshoot to roughly a quarter of the last good
+ * frame's cost.
+ */
+const WARP_CHUNK_GROWTH = 1.25;
 
 function intersectRect(a: WorldRect | null, b: WorldRect | null): WorldRect | null {
   if (!a || !b) {
@@ -166,16 +218,24 @@ function computeBackingRect(
  * zoom changes, or a pan exhausts the padding.
  *
  * Measured 2026-07-26 (Chrome 148 / ANGLE Metal on an Apple M1 Pro, dpr 2,
- * 1280x800 viewport, this layer on a real Leaflet map, raster completion
- * forced via tiny-canvas readback): pan-end within the slack is 0.0 ms
- * median / 1.4 ms worst over 70 pans at gridSize 32 and 64, with zero mesh
- * walks — replacing the 210 ms-per-pan-end redraw this cache was built to
- * eliminate — and the post-zoom scaled composite is 6–9 ms at either grid.
- * The walks that remain are zoom-dependent (what matters is how many
- * triangles land on the backing and how many pixels each covers): at
- * gridSize 32, 126 ms when the backing is viewport-capped and 795 ms at the
- * zoom where the drape just fills it. The grid-size decision built on these
- * numbers lives on TPS_GRID_SIZE in gcpMesh.ts.
+ * 1280x800 viewport, this layer on a real Leaflet map, 7200x5400 source,
+ * raster completion forced via tiny-canvas readback): pan-end within the
+ * slack is 0.0 ms median / 1.4 ms worst over 70 pans at gridSize 32 and 64,
+ * with zero mesh walks — replacing the 210 ms-per-pan-end redraw this cache
+ * was built to eliminate.
+ *
+ * The walks that remain are zoom-dependent — what matters is how many
+ * triangles land on the backing and how many pixels each covers — and two
+ * mechanisms below cut them. Triangles whose grown bbox misses the backing
+ * are culled, which is most of them whenever the drape overhangs the
+ * canvas: the deep-zoom viewport-capped walk fell from 126 ms to 13–54 ms
+ * at gridSize 32 (466 to 27–36 ms at 64). And every walk the layer can
+ * defer is deferred behind a composite and then chunked across frames, so
+ * the only walks that still block are the first display of a sheet
+ * (925 ms at 32) and a mesh swap (57 ms) — the drag tier, uncached by
+ * design. The grid-size decision built on these numbers, and the
+ * source-size cliff that dominates all of them, live on TPS_GRID_SIZE in
+ * gcpMesh.ts.
  */
 export class WarpedRasterLayer extends L.Layer {
   private readonly rasterOptions: WarpedRasterLayerOptions;
@@ -286,19 +346,24 @@ export class WarpedRasterLayer extends L.Layer {
     const dpr = globalThis.devicePixelRatio || 1;
     const zoom = map.getZoom();
     if (this.cachedZoom !== null && this.cachedDpr === dpr) {
-      if (this.cachedZoom === zoom) {
-        if (containsRect(this.backingRect, intersectRect(this.viewRect(map), this.drapeRect))) {
-          // The cached warp still covers everything visible. Re-anchoring is
-          // the only work left, and only viewreset actually moves the pixel
-          // origin.
-          this.positionCanvas();
-          return;
-        }
-      } else if (this.backingRect) {
+      if (
+        this.cachedZoom === zoom &&
+        containsRect(this.backingRect, intersectRect(this.viewRect(map), this.drapeRect))
+      ) {
+        // The cached warp still covers everything visible. Re-anchoring is
+        // the only work left, and only viewreset actually moves the pixel
+        // origin.
+        this.positionCanvas();
+        return;
+      }
+      if (this.backingRect) {
         // Web Mercator world pixels scale by exactly 2^dz, so the cached
         // warp scaled in one drawImage is geometrically correct at the new
-        // zoom — merely resampled. Show that immediately and run the real
-        // mesh walk only after it has painted.
+        // zoom — merely resampled. The same drawImage with scale 2^0 = 1
+        // covers a pan that exhausted the padding: the old backing is still
+        // exact where it overlaps the recentred one. Either way, show the
+        // composite immediately and refine it with the chunked mesh walk
+        // only after it has painted — the gesture never blocks on a walk.
         this.compositeScaled(zoom, dpr);
         this.scheduleWarp();
         return;
@@ -308,9 +373,10 @@ export class WarpedRasterLayer extends L.Layer {
   }
 
   /**
-   * Repaint the cached warp scaled from cachedZoom to newZoom, re-anchored
-   * on a backing rect computed for the new view. The canvas must be
-   * snapshotted first because resizing it clears it.
+   * Repaint the cached warp scaled from cachedZoom to newZoom (scale 1 when
+   * they are equal — the padding-exhausted-pan blit), re-anchored on a
+   * backing rect computed for the new view. The canvas must be snapshotted
+   * first because resizing it clears it.
    */
   private compositeScaled(newZoom: number, dpr: number): void {
     const { canvas, map, backingRect, drapeRect } = this;
@@ -385,14 +451,15 @@ export class WarpedRasterLayer extends L.Layer {
    * pending frame paints, so the scaled composite would never reach the
    * screen; the second rAF is the first callback guaranteed to run after it.
    * Re-scheduling (another zoom) or a synchronous warp (a mesh swap) cancels
-   * whichever stage is live, so back-to-back zooms coalesce into one walk.
+   * whichever stage is live — including a chunk mid-sequence — so
+   * back-to-back zooms coalesce into one walk.
    */
   private scheduleWarp(): void {
     this.cancelScheduledWarp();
     this.pendingWarpRaf = requestAnimationFrame(() => {
-      this.pendingWarpRaf = requestAnimationFrame(() => {
+      this.pendingWarpRaf = requestAnimationFrame((timestamp) => {
         this.pendingWarpRaf = null;
-        this.warpNow();
+        this.refineWarp(timestamp);
       });
     });
   }
@@ -404,24 +471,24 @@ export class WarpedRasterLayer extends L.Layer {
     }
   }
 
-  /** Full mesh walk into a freshly computed backing rect. */
-  private warpNow(padFactor = BACKING_PAD_FACTOR): void {
-    this.cancelScheduledWarp();
-    const { canvas, map } = this;
-    if (!canvas || !map) {
-      return;
-    }
-    const dpr = globalThis.devicePixelRatio || 1;
-    const zoom = map.getZoom();
-    // Deliberately NOT latLngToContainerPoint: it routes through
-    // latLngToLayerPoint, which does `this.project(latlng)._round()` and snaps
-    // every vertex to a whole CSS pixel (leaflet-src.js:4117). That rounding
-    // is why a mathematically exact affine stops being one on screen —
-    // measured up to 166 m of ground error at zoom 8, a >1 px content break
-    // across the cell diagonal because the four corners round independently,
-    // and 1-px stepped jitter while a control point is dragged. map.project()
-    // does not round, and world pixels relative to the backing origin
-    // reproduce containerPoint exactly, minus the quantisation.
+  /**
+   * Projects the mesh at `zoom` and derives the margin-padded drape bbox.
+   *
+   * Deliberately NOT latLngToContainerPoint: it routes through
+   * latLngToLayerPoint, which does `this.project(latlng)._round()` and snaps
+   * every vertex to a whole CSS pixel (leaflet-src.js:4117). That rounding
+   * is why a mathematically exact affine stops being one on screen —
+   * measured up to 166 m of ground error at zoom 8, a >1 px content break
+   * across the cell diagonal because the four corners round independently,
+   * and 1-px stepped jitter while a control point is dragged. map.project()
+   * does not round, and world pixels relative to the backing origin
+   * reproduce containerPoint exactly, minus the quantisation.
+   */
+  private projectMesh(
+    map: L.Map,
+    zoom: number,
+    dpr: number,
+  ): { dstWorld: XY[][]; drape: WorldRect } {
     const dstWorld = this.rasterOptions.latLngMesh.map((row) =>
       row.map((ll) => {
         const p = map.project(new L.LatLng(ll.lat, ll.lng), zoom);
@@ -441,10 +508,119 @@ export class WarpedRasterLayer extends L.Layer {
       }
     }
     const margin = DRAPE_MARGIN_DEVICE_PX / dpr;
-    const drape: WorldRect = {
-      min: { x: minX - margin, y: minY - margin },
-      max: { x: maxX + margin, y: maxY + margin },
+    return {
+      dstWorld,
+      drape: {
+        min: { x: minX - margin, y: minY - margin },
+        max: { x: maxX + margin, y: maxY + margin },
+      },
     };
+  }
+
+  /**
+   * Deferred mesh walk, spread across animation frames. The composite that
+   * preceded it already sized and positioned the canvas and filled it with
+   * geometrically correct (merely resampled) content, so each chunk draws
+   * its triangles straight over its own clip region — no clearRect, and the
+   * canvas is never resized here (resizing clears it, which would drop the
+   * composite and every finished chunk). pendingWarpRaf carries the whole
+   * chain, so a mesh swap's warpNow, another zoom's composite, or onRemove
+   * cancels an in-flight sequence exactly the way it cancels the initial
+   * double-rAF deferral.
+   *
+   * Chunk size is measured in triangles and adapted between frames, because
+   * a chunk cannot time itself: clipped drawImage returns once the command
+   * is queued and the raster lands afterwards, so a walk reporting 8 ms of
+   * elapsed JS time was measured costing 750 ms of completed GPU work
+   * (M1 Pro, gridSize 32, 7200x5400 source). The rAF timestamp of the NEXT
+   * frame does include that cost, so the controller divides the observed
+   * delta by the triangles that produced it and re-solves the count for
+   * WARP_CHUNK_BUDGET_MS. Frames at or under WARP_FRAME_TARGET_MS are
+   * treated as having headroom (a vsync-limited frame reports ~16.7 ms
+   * whatever it did), and growth is capped so one fast frame cannot produce
+   * a multi-second one.
+   *
+   * Known cosmetic residue: the composite's backing came from the SCALED old
+   * drape, whose baked-in margin scaled along with it, so after a zoom-in up
+   * to ~2^dz · CLIP_OVERDRAW_DEVICE_PX device px of the old rim can sit
+   * outside the exact drape where no triangle repaints it (and after a
+   * zoom-out the backing can end ~1 px short of the exact margin, cropping
+   * that edge's antialiasing). Both are bounded by the scaled margin, sit at
+   * the sheet's paper border, and are replaced by the next full warp.
+   */
+  private refineWarp(startTimestamp: number): void {
+    const { canvas, map, backingRect } = this;
+    if (!canvas || !map) {
+      return;
+    }
+    if (!backingRect || this.cachedZoom === null) {
+      // Nothing composited to refine (the drape sat outside the padded
+      // viewport). warpNow recomputes state exactly and is trivially cheap
+      // in precisely this case.
+      this.warpNow();
+      return;
+    }
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      return;
+    }
+    const dpr = this.cachedDpr;
+    const { dstWorld, drape } = this.projectMesh(map, this.cachedZoom, dpr);
+    // The composite tracked only a scaled placeholder of the drape; store
+    // the exactly recomputed bbox so later containment checks stay honest.
+    // The backing rect is NOT recomputed — the canvas is already sized and
+    // anchored to it, and it must not be resized mid-refinement.
+    this.drapeRect = drape;
+    const dstMesh = dstWorld.map((row) =>
+      row.map((p) => ({
+        x: (p.x - backingRect.min.x) * dpr,
+        y: (p.y - backingRect.min.y) * dpr,
+      })),
+    );
+    const total = (this.srcMesh.length - 1) * (this.srcMesh[0].length - 1) * 2;
+    let next = 0;
+    let chunk = WARP_CHUNK_SEED_TRIANGLES;
+    let lastTimestamp: number | null = null;
+    const drawChunk = (timestamp: number) => {
+      if (lastTimestamp !== null) {
+        const delta = timestamp - lastTimestamp;
+        if (delta > WARP_FRAME_TARGET_MS) {
+          // Overran: the previous chunk's completed cost is visible in the
+          // delta, so re-solve the count against the per-triangle rate.
+          chunk = Math.max(1, Math.round((chunk * WARP_CHUNK_BUDGET_MS) / delta));
+        } else {
+          chunk = Math.min(total, Math.max(chunk + 1, Math.round(chunk * WARP_CHUNK_GROWTH)));
+        }
+      }
+      lastTimestamp = timestamp;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      next = drawWarpedTriangles(
+        ctx,
+        this.rasterOptions.image,
+        this.srcMesh,
+        dstMesh,
+        next,
+        chunk,
+      );
+      if (next < total) {
+        this.pendingWarpRaf = requestAnimationFrame(drawChunk);
+      } else {
+        this.pendingWarpRaf = null;
+      }
+    };
+    drawChunk(startTimestamp);
+  }
+
+  /** Full mesh walk into a freshly computed backing rect. */
+  private warpNow(padFactor = BACKING_PAD_FACTOR): void {
+    this.cancelScheduledWarp();
+    const { canvas, map } = this;
+    if (!canvas || !map) {
+      return;
+    }
+    const dpr = globalThis.devicePixelRatio || 1;
+    const zoom = map.getZoom();
+    const { dstWorld, drape } = this.projectMesh(map, zoom, dpr);
     const backing = computeBackingRect(this.viewRect(map), drape, dpr, padFactor);
     this.cachedZoom = zoom;
     this.cachedDpr = dpr;
