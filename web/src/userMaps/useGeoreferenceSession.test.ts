@@ -219,7 +219,7 @@ describe("solve method", () => {
     // these two separate sites, and a fallback in only one of them would let
     // the panel go coarse while every saved layer kept paying). At three
     // points the spline's bending weights are exactly zero, so the drapes are
-    // identical — measured 1.317e-9 m apart — while 64x64 costs 8192 clipped
+    // identical — measured 1.317e-9 m apart — while 32x32 costs 2048 clipped
     // full-image draws per redraw against the affine's 2.
     const three = setup(BENT.slice(0, 3), { method: "tps" });
     expect(three.result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
@@ -497,7 +497,7 @@ describe("method-aware accuracy report", () => {
 
 describe("two-tier mesh density during a drag", () => {
   it("coarsens the TPS lattice while a point is being dragged and restores the fine tier once the pointer settles", () => {
-    // A settled TPS redraw is 2 * 64^2 = 8192 clipped `drawImage` calls, each
+    // A settled TPS redraw is 2 * 32^2 = 2048 clipped `drawImage` calls, each
     // one redrawing the WHOLE source image under a clip (verified at
     // `render/mesh.ts:67-69`). A drag emits state on every pointer move, so
     // the drag tier is 2 * 16^2 = 512 instead.
@@ -562,6 +562,93 @@ describe("two-tier mesh density during a drag", () => {
     act(() => result.current.beginDragGcp("b0"));
     expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
     rerender({ mapId: "map-b", initialGcps: BENT, method: "tps" });
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
+  it("cancels the drag when undo removes the dragged point, rather than pinning the coarse tier until the next drag", () => {
+    // Minor F1. Ctrl+Z twice with the pointer still down: the first undo
+    // consumes the drag's own snapshot, the second pops PAST the dragged
+    // point's creation. The point is gone, React unmounts its marker, and
+    // Leaflet's `dragend` — the only thing that clears `dragging` inside a
+    // session — never fires. The drape then sits on the ~44 m drag lattice
+    // instead of the ~18 m settled one until the next drag happens to reset
+    // it. A drag whose subject no longer exists cannot end any other way,
+    // so undo itself must cancel it.
+    const { result } = setup(BENT, { method: "tps" });
+    act(() => result.current.pickScanPoint(1500, 1500));
+    act(() => result.current.pickMapPoint(46.33, -61.45));
+    const created = result.current.gcps.at(-1)!.id;
+
+    act(() => result.current.beginDragGcp(created));
+    act(() => result.current.moveGcpOnScan(created, 1520, 1480));
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+
+    // First Ctrl+Z: back to where the drag started. The point is still
+    // there and still held, so the drag tier correctly persists.
+    act(() => result.current.undo());
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+
+    // Second Ctrl+Z: the creation step. The dragged point ceases to exist.
+    act(() => result.current.undo());
+    expect(result.current.gcps.some((gcp) => gcp.id === created)).toBe(false);
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+
+    // The machine is intact: a later drag still coarsens and settles.
+    act(() => result.current.beginDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+    act(() => result.current.endDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
+  it("keeps the coarse tier through a mid-drag undo that leaves the dragged point alive", () => {
+    // The guard on the OBVIOUS fix for the test above. Clearing `dragging`
+    // unconditionally inside undo() restores the fine mesh in the common
+    // single-Ctrl+Z-mid-drag case — with the pointer still down and `drag`
+    // events still streaming, which is the exact per-pointer-move redraw
+    // TPS_DRAG_GRID_SIZE exists to keep inside a frame. As long as the
+    // dragged point survives the undo, the drag is still live and the tier
+    // must hold.
+    const { result } = setup(BENT, { method: "tps" });
+    act(() => result.current.beginDragGcp("b0"));
+    act(() => result.current.moveGcpOnScan("b0", 300, 260));
+
+    act(() => result.current.undo());
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+
+    // Leaflet never saw the pointer go up; the drag keeps firing and every
+    // move must still land on the cheap lattice.
+    act(() => result.current.moveGcpOnScan("b0", 340, 280));
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+
+    act(() => result.current.endDragGcp("b0"));
+    expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
+  it("cancels at the depth where the creation is undone, even through a step the drag re-opened", () => {
+    // The interaction with the mid-drag-undo machinery (the PR 2 fix): a
+    // move after Ctrl+Z re-opens an undo step, so the creation can sit TWO
+    // pops down from the top of history. Cancellation must key on "does the
+    // dragged point still exist", not on how many undos have happened.
+    const { result } = setup(BENT, { method: "tps" });
+    act(() => result.current.pickScanPoint(1500, 1500));
+    act(() => result.current.pickMapPoint(46.33, -61.45));
+    const created = result.current.gcps.at(-1)!.id;
+
+    act(() => result.current.beginDragGcp(created));
+    act(() => result.current.moveGcpOnScan(created, 1520, 1480));
+    act(() => result.current.undo());
+    // Pointer still down: this move re-opens a step above the creation.
+    act(() => result.current.moveGcpOnScan(created, 1560, 1440));
+
+    // Pops the re-opened step. The point survives, so the drag is still
+    // live and the tier must hold.
+    act(() => result.current.undo());
+    expect(result.current.gcps.some((gcp) => gcp.id === created)).toBe(true);
+    expect(result.current.mesh!.length - 1).toBe(TPS_DRAG_GRID_SIZE);
+
+    // Pops the creation. Now the subject is gone and the drag must cancel.
+    act(() => result.current.undo());
+    expect(result.current.gcps.some((gcp) => gcp.id === created)).toBe(false);
     expect(result.current.mesh!.length - 1).toBe(TPS_GRID_SIZE);
   });
 });
