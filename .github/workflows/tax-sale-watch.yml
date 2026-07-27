@@ -1,10 +1,6 @@
 name: Tax-sale source watch
 
 on:
-  schedule:
-    # Tuesdays 08:00 UTC. Nothing here is time-of-day sensitive, so this needs
-    # none of the Halifax-local DST resolution the release trains require.
-    - cron: "0 8 * * 2"
   workflow_dispatch:
 
 permissions:

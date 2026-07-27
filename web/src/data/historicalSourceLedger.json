@@ -187,15 +187,19 @@
     {
       "municipality": "Cape Breton Regional Municipality",
       "event": "July 21, 2026 tax sale",
-      "status": "included-awaiting-official-results",
+      "status": "included",
       "officialUrls": [
         "https://cbrm.ns.ca/wp-content/uploads/2026/06/JULY-21-2026-2nd-Ad.pdf",
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
         "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
       ],
-      "documentSha256": ["5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566"],
-      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption"],
-      "officialWinningBidsFound": false,
-      "notes": "The event date has passed, so 67 owner-free notice records covering 68 exact PIDs moved to the historical layer. The official landing page was checked after the auction on July 21 and did not yet link a result; all outcomes and winning bids remain unknown until CBRM posts confirmed results."
+      "documentSha256": [
+        "5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566",
+        "ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale"],
+      "officialWinningBidsFound": true,
+      "notes": "The owner-free notice carries 67 records covering 68 exact PIDs. CBRM's official result PDF carries 54 identifier-bearing rows: 21 print numeric winning bids and are included as sold, one prints PAID AT SALE and 32 print no winning bid or disposition, so those 33 remain outcome unknown. Thirteen notice rows do not appear in the result PDF and also remain unknown. The assessed-name column was discarded before the repository dataset was written. No outcome depends on yellow table highlighting: numeric winning bids are printed for every included sold row, while the PAID AT SALE row is also highlighted and remains unknown."
     },
     {
       "municipality": "Cape Breton Regional Municipality",

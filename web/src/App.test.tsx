@@ -614,7 +614,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
-      screen.getByText("40 advertised · 5 withdrawn · 40 active PIDs"),
+      screen.getByText("39 advertised · 6 withdrawn · 39 active PIDs"),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
@@ -640,7 +640,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText("Snapshot retrieved July 22, 2026"),
+      screen.getAllByText("Snapshot retrieved July 27, 2026"),
     ).toHaveLength(1);
   });
 
@@ -1468,12 +1468,12 @@ describe("NS Marks The Spot Online", () => {
     await user.selectOptions(screen.getByLabelText("Historical municipality"), "cbrm");
 
     // Both CBRM events: the result-backed July 22, 2025 sale (73 records, 75
-    // PIDs) and the outcome-pending July 21, 2026 sale (67 records, 68 PIDs).
+    // PIDs) and the result-backed July 21, 2026 sale (67 records, 68 PIDs).
     // Ten parcels were listed in both sales and count once.
     expect(screen.getByText("140 records · 133 PIDs")).toBeInTheDocument();
   });
 
-  it("labels the archived CBRM records as awaiting official results", async () => {
+  it("keeps a blank CBRM result row unknown while linking the official result", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
@@ -1489,11 +1489,16 @@ describe("NS Marks The Spot Online", () => {
     const inspector = await screen.findByRole("complementary", {
       name: "Parcel 15054588 details",
     });
-    expect(within(inspector).getByText("Outcome pending")).toBeInTheDocument();
-    expect(within(inspector).getByText("Awaiting official results")).toBeInTheDocument();
-    expect(within(inspector).getByRole("link", { name: "Check official results" }))
-      .toHaveAttribute("href", "https://cbrm.ns.ca/business/property-sales-management/tax-sales/");
-    expect(within(inspector).queryByRole("link", { name: "Official result" }))
+    expect(within(inspector).getByText("Outcome unknown")).toBeInTheDocument();
+    expect(
+      within(inspector).getByText("Not published in verified sources"),
+    ).toBeInTheDocument();
+    expect(within(inspector).getByRole("link", { name: "Official result" }))
+      .toHaveAttribute(
+        "href",
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
+      );
+    expect(within(inspector).queryByRole("link", { name: "Check official results" }))
       .not.toBeInTheDocument();
   });
 
@@ -2697,7 +2702,11 @@ describe("NS Marks The Spot Online", () => {
       screen.queryByText("Immediate deed", { exact: false }),
     ).not.toBeInTheDocument();
     expect(screen.getByText("Six-month redemption", { exact: false })).toBeInTheDocument();
-    expect(screen.getByText("Outcome pending")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).getByText(
+        "Outcome unknown",
+      ),
+    ).toBeInTheDocument();
     expect(
       within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).queryByText(
         /available/i,
@@ -2710,7 +2719,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 41;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 40;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
