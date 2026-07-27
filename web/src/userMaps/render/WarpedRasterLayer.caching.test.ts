@@ -1,19 +1,20 @@
 import L from "leaflet";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { drawWarpedImage } from "./mesh";
+import { drawWarpedImage, drawWarpedTriangles } from "./mesh";
 import { WarpedRasterLayer } from "./WarpedRasterLayer";
 
 // These tests count warp executions, not pixels, so they mock the mesh module
-// at the drawWarpedImage seam (the pixel-truth tests live in
-// WarpedRasterLayer.test.ts against the real renderer). They are in their own
-// file because vi.mock is hoisted per-module and would blind that file's
-// getImageData assertions.
+// at the drawWarpedImage / drawWarpedTriangles seam (the pixel-truth tests
+// live in WarpedRasterLayer.test.ts against the real renderer). They are in
+// their own file because vi.mock is hoisted per-module and would blind that
+// file's getImageData assertions.
 vi.mock("./mesh", async (importOriginal) => {
   const actual = await importOriginal<typeof import("./mesh")>();
-  return { ...actual, drawWarpedImage: vi.fn() };
+  return { ...actual, drawWarpedImage: vi.fn(), drawWarpedTriangles: vi.fn() };
 });
 
 const warpCalls = () => vi.mocked(drawWarpedImage).mock.calls.length;
+const chunkCalls = () => vi.mocked(drawWarpedTriangles).mock.calls.length;
 
 /**
  * A pannable, zoomable stand-in for L.Map that keeps the projection contract
@@ -94,9 +95,11 @@ function makeLayer(latLngMesh = UNIT_MESH) {
 
 /**
  * Deterministic requestAnimationFrame: the layer defers its post-zoom re-warp
- * behind a double rAF so the cheap scaled composite paints first. flush()
- * drains the queue including callbacks scheduled by callbacks, which is
- * exactly the double-rAF chain.
+ * behind a double rAF so the cheap scaled composite paints first, then walks
+ * the mesh in budgeted chunks — one drawWarpedTriangles call per frame.
+ * flush() drains the queue including callbacks scheduled by callbacks (the
+ * double-rAF chain and every follow-up chunk); step() fires exactly one
+ * queued frame, which is what chunk-boundary tests need.
  */
 function stubRaf() {
   const queue = new Map<number, FrameRequestCallback>();
@@ -110,14 +113,24 @@ function stubRaf() {
   vi.stubGlobal("cancelAnimationFrame", (id: number) => {
     queue.delete(id);
   });
+  const fireNext = () => {
+    const next = queue.entries().next().value as
+      | [number, FrameRequestCallback]
+      | undefined;
+    if (!next) {
+      return false;
+    }
+    queue.delete(next[0]);
+    next[1](performance.now());
+    return true;
+  };
   return {
     flush() {
-      while (queue.size > 0) {
-        const [id, cb] = queue.entries().next().value as [number, FrameRequestCallback];
-        queue.delete(id);
-        cb(performance.now());
+      while (fireNext()) {
+        // drained by the loop condition
       }
     },
+    step: fireNext,
   };
 }
 
@@ -127,6 +140,12 @@ describe("WarpedRasterLayer warp caching", () => {
   beforeEach(() => {
     pane = document.createElement("div");
     vi.mocked(drawWarpedImage).mockClear();
+    // The chunk walker's contract is "returns the index to resume from;
+    // >= total means done". Infinity reads as done for any grid, so a
+    // sequence ends after one chunk unless a test scripts partial progress
+    // with mockReturnValueOnce(n).
+    vi.mocked(drawWarpedTriangles).mockReset();
+    vi.mocked(drawWarpedTriangles).mockReturnValue(Infinity);
   });
 
   afterEach(() => {
@@ -146,7 +165,7 @@ describe("WarpedRasterLayer warp caching", () => {
     expect(warpCalls()).toBe(1);
   });
 
-  it("composites the stale cache on zoom and defers the single re-warp", () => {
+  it("composites the stale cache on zoom and defers the chunked re-warp", () => {
     const raf = stubRaf();
     const map = pannableMap(pane);
     makeLayer().onAdd(map);
@@ -156,10 +175,14 @@ describe("WarpedRasterLayer warp caching", () => {
 
     // The zoomend frame itself must not walk the mesh: the previous warp is
     // scaled by exactly 2^dz in one drawImage, and the true re-warp waits
-    // behind a double rAF so that composite reaches the screen first.
+    // behind a double rAF so that composite reaches the screen first. When it
+    // lands it runs as the budgeted chunk walker, never as a blocking
+    // full-mesh warp.
     expect(warpCalls()).toBe(1);
+    expect(chunkCalls()).toBe(0);
     raf.flush();
-    expect(warpCalls()).toBe(2);
+    expect(warpCalls()).toBe(1);
+    expect(chunkCalls()).toBe(1);
   });
 
   it("coalesces back-to-back zooms into one deferred re-warp", () => {
@@ -174,7 +197,26 @@ describe("WarpedRasterLayer warp caching", () => {
     // walk — zooming through several levels back-to-back pays for one warp.
     expect(warpCalls()).toBe(1);
     raf.flush();
-    expect(warpCalls()).toBe(2);
+    expect(warpCalls()).toBe(1);
+    expect(chunkCalls()).toBe(1);
+  });
+
+  it("walks the deferred warp in chunks that resume where they stopped", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    makeLayer().onAdd(map);
+    // First chunk reports triangle 1 of 2 drawn (budget spent); the second
+    // finishes. The layer must schedule exactly one follow-up frame and
+    // thread the resume index through.
+    vi.mocked(drawWarpedTriangles).mockReturnValueOnce(1);
+
+    map.simulateZoom(1);
+    raf.flush();
+
+    expect(chunkCalls()).toBe(2);
+    expect(vi.mocked(drawWarpedTriangles).mock.calls[0][4]).toBe(0);
+    expect(vi.mocked(drawWarpedTriangles).mock.calls[1][4]).toBe(1);
+    expect(warpCalls()).toBe(1);
   });
 
   it("lets a mesh swap cancel a pending post-zoom re-warp", () => {
@@ -193,9 +235,54 @@ describe("WarpedRasterLayer warp caching", () => {
     expect(warpCalls()).toBe(2);
     raf.flush();
     expect(warpCalls()).toBe(2);
+    expect(chunkCalls()).toBe(0);
   });
 
-  it("re-warps once when a pan exhausts the padding, then pans free again", () => {
+  it("cancels the rest of a chunk sequence when a mesh swap lands mid-walk", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    const layer = makeLayer();
+    layer.onAdd(map);
+    // Every chunk reports "more to do" — the sequence would run forever.
+    vi.mocked(drawWarpedTriangles).mockReturnValue(1);
+
+    map.simulateZoom(1);
+    raf.step(); // first stage of the double rAF
+    raf.step(); // second stage: the first chunk runs and schedules the next
+    expect(chunkCalls()).toBe(1);
+
+    layer.setLatLngMesh(
+      UNIT_MESH.map((row) => row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.001 }))),
+    );
+    expect(warpCalls()).toBe(2);
+
+    // The scheduled follow-up chunk must be dead: draining every remaining
+    // frame may not run the stale walker again.
+    raf.flush();
+    expect(chunkCalls()).toBe(1);
+  });
+
+  it("keeps an in-flight chunk sequence alive across a contained pan", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    makeLayer().onAdd(map);
+    vi.mocked(drawWarpedTriangles).mockReturnValueOnce(1);
+
+    map.simulateZoom(1);
+    raf.step();
+    raf.step(); // first chunk runs, second is queued
+    expect(chunkCalls()).toBe(1);
+
+    // A pan inside the backing's slack only re-anchors the canvas; it must
+    // not cancel (or duplicate) the refinement still in flight.
+    map.simulatePan(10, 0);
+    raf.flush();
+    expect(chunkCalls()).toBe(2);
+    expect(warpCalls()).toBe(1);
+  });
+
+  it("composites at the same zoom when a pan exhausts the padding, then chunks", () => {
+    const raf = stubRaf();
     // Wide drape: world x 1200..15200, far beyond the padded viewport, so the
     // backing canvas is viewport-capped and a long pan can exhaust it.
     const wideMesh = [
@@ -213,12 +300,22 @@ describe("WarpedRasterLayer warp caching", () => {
     expect(warpCalls()).toBe(1);
 
     // Padding is half a viewport (400 px) each side; 900 px overshoots it.
+    // The still-valid part of the old backing is blitted at its new offset
+    // (getZoomScale(z, z) is 1, so the zoom composite covers this for free)
+    // and the walk lands afterwards in budgeted chunks — the pan gesture
+    // itself never blocks on a full-mesh warp.
     map.simulatePan(900, 0);
-    expect(warpCalls()).toBe(2);
+    expect(warpCalls()).toBe(1);
+    expect(chunkCalls()).toBe(0);
+    raf.flush();
+    expect(warpCalls()).toBe(1);
+    expect(chunkCalls()).toBe(1);
 
     // The fresh backing rect is centred on the new view: slack restored.
     map.simulatePan(50, 0);
-    expect(warpCalls()).toBe(2);
+    raf.flush();
+    expect(warpCalls()).toBe(1);
+    expect(chunkCalls()).toBe(1);
   });
 
   it("keeps the cache when the drape pans fully off-screen and back", () => {
@@ -235,6 +332,7 @@ describe("WarpedRasterLayer warp caching", () => {
   });
 
   it("warps mesh swaps into an unpadded backing so drag frames stay viewport-sized", () => {
+    const raf = stubRaf();
     // Wide drape (world x 1200.., y 1200.. far beyond the view) so backing
     // extents are visible in the canvas size. Near edges are exact numbers;
     // far edges are clipped by the view long before float dust matters.
@@ -272,10 +370,15 @@ describe("WarpedRasterLayer warp caching", () => {
     ]);
     expect([canvas.width, canvas.height]).toEqual([603, 403]);
 
-    // The first view change after the swap restores a padded cache.
+    // The first view change after the swap restores a padded cache — by
+    // compositing the unpadded backing into it and chunking the walk, not by
+    // blocking the pan on a synchronous full-mesh warp.
     map.simulatePan(50, 0);
-    expect(warpCalls()).toBe(3);
+    expect(warpCalls()).toBe(2);
     expect(canvas.width).toBeGreaterThan(1000);
+    raf.flush();
+    expect(warpCalls()).toBe(2);
+    expect(chunkCalls()).toBe(1);
   });
 
   it("re-warps on every mesh swap (the drag tier stays uncached)", () => {

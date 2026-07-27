@@ -4,6 +4,7 @@ import {
   buildSrcMesh,
   CLIP_OVERDRAW_DEVICE_PX,
   drawWarpedImage,
+  drawWarpedTriangles,
   type XY,
 } from "./mesh";
 
@@ -46,6 +47,18 @@ const MAX_BACKING_DIM_DEVICE_PX = 4096;
  * on-canvas.
  */
 const DRAPE_MARGIN_DEVICE_PX = CLIP_OVERDRAW_DEVICE_PX + 1;
+
+/**
+ * Wall-clock budget for one chunk of the deferred mesh walk, per animation
+ * frame. ~8 ms rather than ~16 ms: a rAF callback shares its ~16.7 ms frame
+ * (at 60 Hz) with Leaflet's own handlers and the browser's style, paint, and
+ * composite work, so a 16 ms chunk would guarantee dropped frames for the
+ * whole refinement while 8 ms leaves roughly half the frame free and merely
+ * doubles the (invisible — each chunk lands on already-correct composite
+ * content) number of refinement frames. On a 120 Hz display an 8 ms chunk
+ * still costs at most one skipped frame per chunk.
+ */
+const WARP_CHUNK_BUDGET_MS = 8;
 
 function intersectRect(a: WorldRect | null, b: WorldRect | null): WorldRect | null {
   if (!a || !b) {
@@ -286,19 +299,24 @@ export class WarpedRasterLayer extends L.Layer {
     const dpr = globalThis.devicePixelRatio || 1;
     const zoom = map.getZoom();
     if (this.cachedZoom !== null && this.cachedDpr === dpr) {
-      if (this.cachedZoom === zoom) {
-        if (containsRect(this.backingRect, intersectRect(this.viewRect(map), this.drapeRect))) {
-          // The cached warp still covers everything visible. Re-anchoring is
-          // the only work left, and only viewreset actually moves the pixel
-          // origin.
-          this.positionCanvas();
-          return;
-        }
-      } else if (this.backingRect) {
+      if (
+        this.cachedZoom === zoom &&
+        containsRect(this.backingRect, intersectRect(this.viewRect(map), this.drapeRect))
+      ) {
+        // The cached warp still covers everything visible. Re-anchoring is
+        // the only work left, and only viewreset actually moves the pixel
+        // origin.
+        this.positionCanvas();
+        return;
+      }
+      if (this.backingRect) {
         // Web Mercator world pixels scale by exactly 2^dz, so the cached
         // warp scaled in one drawImage is geometrically correct at the new
-        // zoom — merely resampled. Show that immediately and run the real
-        // mesh walk only after it has painted.
+        // zoom — merely resampled. The same drawImage with scale 2^0 = 1
+        // covers a pan that exhausted the padding: the old backing is still
+        // exact where it overlaps the recentred one. Either way, show the
+        // composite immediately and refine it with the chunked mesh walk
+        // only after it has painted — the gesture never blocks on a walk.
         this.compositeScaled(zoom, dpr);
         this.scheduleWarp();
         return;
@@ -308,9 +326,10 @@ export class WarpedRasterLayer extends L.Layer {
   }
 
   /**
-   * Repaint the cached warp scaled from cachedZoom to newZoom, re-anchored
-   * on a backing rect computed for the new view. The canvas must be
-   * snapshotted first because resizing it clears it.
+   * Repaint the cached warp scaled from cachedZoom to newZoom (scale 1 when
+   * they are equal — the padding-exhausted-pan blit), re-anchored on a
+   * backing rect computed for the new view. The canvas must be snapshotted
+   * first because resizing it clears it.
    */
   private compositeScaled(newZoom: number, dpr: number): void {
     const { canvas, map, backingRect, drapeRect } = this;
@@ -385,14 +404,15 @@ export class WarpedRasterLayer extends L.Layer {
    * pending frame paints, so the scaled composite would never reach the
    * screen; the second rAF is the first callback guaranteed to run after it.
    * Re-scheduling (another zoom) or a synchronous warp (a mesh swap) cancels
-   * whichever stage is live, so back-to-back zooms coalesce into one walk.
+   * whichever stage is live — including a chunk mid-sequence — so
+   * back-to-back zooms coalesce into one walk.
    */
   private scheduleWarp(): void {
     this.cancelScheduledWarp();
     this.pendingWarpRaf = requestAnimationFrame(() => {
       this.pendingWarpRaf = requestAnimationFrame(() => {
         this.pendingWarpRaf = null;
-        this.warpNow();
+        this.refineWarp();
       });
     });
   }
@@ -404,24 +424,24 @@ export class WarpedRasterLayer extends L.Layer {
     }
   }
 
-  /** Full mesh walk into a freshly computed backing rect. */
-  private warpNow(padFactor = BACKING_PAD_FACTOR): void {
-    this.cancelScheduledWarp();
-    const { canvas, map } = this;
-    if (!canvas || !map) {
-      return;
-    }
-    const dpr = globalThis.devicePixelRatio || 1;
-    const zoom = map.getZoom();
-    // Deliberately NOT latLngToContainerPoint: it routes through
-    // latLngToLayerPoint, which does `this.project(latlng)._round()` and snaps
-    // every vertex to a whole CSS pixel (leaflet-src.js:4117). That rounding
-    // is why a mathematically exact affine stops being one on screen —
-    // measured up to 166 m of ground error at zoom 8, a >1 px content break
-    // across the cell diagonal because the four corners round independently,
-    // and 1-px stepped jitter while a control point is dragged. map.project()
-    // does not round, and world pixels relative to the backing origin
-    // reproduce containerPoint exactly, minus the quantisation.
+  /**
+   * Projects the mesh at `zoom` and derives the margin-padded drape bbox.
+   *
+   * Deliberately NOT latLngToContainerPoint: it routes through
+   * latLngToLayerPoint, which does `this.project(latlng)._round()` and snaps
+   * every vertex to a whole CSS pixel (leaflet-src.js:4117). That rounding
+   * is why a mathematically exact affine stops being one on screen —
+   * measured up to 166 m of ground error at zoom 8, a >1 px content break
+   * across the cell diagonal because the four corners round independently,
+   * and 1-px stepped jitter while a control point is dragged. map.project()
+   * does not round, and world pixels relative to the backing origin
+   * reproduce containerPoint exactly, minus the quantisation.
+   */
+  private projectMesh(
+    map: L.Map,
+    zoom: number,
+    dpr: number,
+  ): { dstWorld: XY[][]; drape: WorldRect } {
     const dstWorld = this.rasterOptions.latLngMesh.map((row) =>
       row.map((ll) => {
         const p = map.project(new L.LatLng(ll.lat, ll.lng), zoom);
@@ -441,10 +461,94 @@ export class WarpedRasterLayer extends L.Layer {
       }
     }
     const margin = DRAPE_MARGIN_DEVICE_PX / dpr;
-    const drape: WorldRect = {
-      min: { x: minX - margin, y: minY - margin },
-      max: { x: maxX + margin, y: maxY + margin },
+    return {
+      dstWorld,
+      drape: {
+        min: { x: minX - margin, y: minY - margin },
+        max: { x: maxX + margin, y: maxY + margin },
+      },
     };
+  }
+
+  /**
+   * Deferred mesh walk, spread across animation frames. The composite that
+   * preceded it already sized and positioned the canvas and filled it with
+   * geometrically correct (merely resampled) content, so each chunk draws
+   * WARP_CHUNK_BUDGET_MS worth of triangles straight over its own clip
+   * region — no clearRect, and the canvas is never resized here (resizing
+   * clears it, which would drop the composite and every finished chunk).
+   * pendingWarpRaf carries the whole chain, so a mesh swap's warpNow,
+   * another zoom's composite, or onRemove cancels an in-flight sequence
+   * exactly the way it cancels the initial double-rAF deferral.
+   *
+   * Known cosmetic residue: the composite's backing came from the SCALED old
+   * drape, whose baked-in margin scaled along with it, so after a zoom-in up
+   * to ~2^dz · CLIP_OVERDRAW_DEVICE_PX device px of the old rim can sit
+   * outside the exact drape where no triangle repaints it (and after a
+   * zoom-out the backing can end ~1 px short of the exact margin, cropping
+   * that edge's antialiasing). Both are bounded by the scaled margin, sit at
+   * the sheet's paper border, and are replaced by the next full warp.
+   */
+  private refineWarp(): void {
+    const { canvas, map, backingRect } = this;
+    if (!canvas || !map) {
+      return;
+    }
+    if (!backingRect || this.cachedZoom === null) {
+      // Nothing composited to refine (the drape sat outside the padded
+      // viewport). warpNow recomputes state exactly and is trivially cheap
+      // in precisely this case.
+      this.warpNow();
+      return;
+    }
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      return;
+    }
+    const dpr = this.cachedDpr;
+    const { dstWorld, drape } = this.projectMesh(map, this.cachedZoom, dpr);
+    // The composite tracked only a scaled placeholder of the drape; store
+    // the exactly recomputed bbox so later containment checks stay honest.
+    // The backing rect is NOT recomputed — the canvas is already sized and
+    // anchored to it, and it must not be resized mid-refinement.
+    this.drapeRect = drape;
+    const dstMesh = dstWorld.map((row) =>
+      row.map((p) => ({
+        x: (p.x - backingRect.min.x) * dpr,
+        y: (p.y - backingRect.min.y) * dpr,
+      })),
+    );
+    const total = (this.srcMesh.length - 1) * (this.srcMesh[0].length - 1) * 2;
+    let next = 0;
+    const drawChunk = () => {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      next = drawWarpedTriangles(
+        ctx,
+        this.rasterOptions.image,
+        this.srcMesh,
+        dstMesh,
+        next,
+        WARP_CHUNK_BUDGET_MS,
+      );
+      if (next < total) {
+        this.pendingWarpRaf = requestAnimationFrame(drawChunk);
+      } else {
+        this.pendingWarpRaf = null;
+      }
+    };
+    drawChunk();
+  }
+
+  /** Full mesh walk into a freshly computed backing rect. */
+  private warpNow(padFactor = BACKING_PAD_FACTOR): void {
+    this.cancelScheduledWarp();
+    const { canvas, map } = this;
+    if (!canvas || !map) {
+      return;
+    }
+    const dpr = globalThis.devicePixelRatio || 1;
+    const zoom = map.getZoom();
+    const { dstWorld, drape } = this.projectMesh(map, zoom, dpr);
     const backing = computeBackingRect(this.viewRect(map), drape, dpr, padFactor);
     this.cachedZoom = zoom;
     this.cachedDpr = dpr;

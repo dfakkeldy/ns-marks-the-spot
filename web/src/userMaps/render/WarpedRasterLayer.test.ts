@@ -249,6 +249,120 @@ describe("WarpedRasterLayer", () => {
     expect(alphas.every((alpha) => alpha === 255)).toBe(true);
   });
 
+  it("blits the surviving backing on a padding-exhausting pan and refines the rest", () => {
+    // Deterministic rAF queue: nothing runs until flushed, so the state
+    // between the same-zoom composite and the chunked refinement is
+    // observable. (jsdom's own rAF fires on a timer and could otherwise run
+    // a half-configured refinement between tests.)
+    const rafQueue = new Map<number, FrameRequestCallback>();
+    let nextRafId = 1;
+    vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+      const id = nextRafId;
+      nextRafId += 1;
+      rafQueue.set(id, cb);
+      return id;
+    });
+    vi.stubGlobal("cancelAnimationFrame", (id: number) => {
+      rafQueue.delete(id);
+    });
+    const flushRaf = () => {
+      while (rafQueue.size > 0) {
+        const [id, cb] = rafQueue.entries().next().value as [number, FrameRequestCallback];
+        rafQueue.delete(id);
+        cb(performance.now());
+      }
+    };
+
+    // stubMap with a pannable view origin: project() stays absolute (world
+    // px do not move with the view) while containerPointToLayerPoint absorbs
+    // the pan, exactly like the real map between pixel-origin resets.
+    const ORIGIN = new L.Point(1000, 1000);
+    let viewOrigin = new L.Point(1000, 1000);
+    const handlers: Array<() => void> = [];
+    const map = {
+      getPane: () => pane,
+      getSize: () => new L.Point(800, 600),
+      getZoom: () => 13,
+      getPixelOrigin: () => ORIGIN,
+      getZoomScale: (to: number, from: number) => 2 ** (to - from),
+      project: (ll: { lat: number; lng: number }) =>
+        new L.Point(
+          (ll.lng + 63.125) * 1600 + 200 + ORIGIN.x,
+          (46 - ll.lat) * 1600 + 200 + ORIGIN.y,
+        ),
+      containerPointToLayerPoint: () => viewOrigin.subtract(ORIGIN),
+      on: (_types: string, handler: () => void, ctx: unknown) => {
+        handlers.push(handler.bind(ctx));
+      },
+      off: () => {
+        handlers.length = 0;
+      },
+    } as unknown as L.Map;
+
+    // 4 degrees of lng at 1600 px/degree: drape world x 1200..7600, far wider
+    // than the padded viewport, so the backing is view-capped and a long pan
+    // exhausts it. All spans are exact binary fractions.
+    const wideMesh = [
+      [
+        { lat: 46, lng: -63.125 },
+        { lat: 46, lng: -59.125 },
+      ],
+      [
+        { lat: 45.875, lng: -63.125 },
+        { lat: 45.875, lng: -59.125 },
+      ],
+    ];
+    // 8x2 source, left half red, right half green: 800 world px per texel,
+    // so red-red bilinear spans keep sample points at full alpha well inside
+    // the view-capped backing (a 2x2 source would put the WHOLE backing
+    // inside the renderer's half-texel edge-fade band and every sample would
+    // read semi-transparent).
+    const stripImage = document.createElement("canvas");
+    stripImage.width = 8;
+    stripImage.height = 2;
+    const stripCtx = stripImage.getContext("2d");
+    if (!stripCtx) {
+      throw new Error("fixture needs a 2D context (is the canvas package installed?)");
+    }
+    stripCtx.fillStyle = "#ff0000";
+    stripCtx.fillRect(0, 0, 4, 2);
+    stripCtx.fillStyle = "#00ff00";
+    stripCtx.fillRect(4, 0, 4, 2);
+    new WarpedRasterLayer({
+      paneName: "user-maps-pane",
+      opacity: 0.7,
+      image: stripImage,
+      imageSize: { width: 8, height: 2 },
+      latLngMesh: wideMesh,
+    }).onAdd(map);
+    const canvas = paneCanvas(pane);
+    const worldPixel = (wx: number, wy: number) => {
+      const backingMin = L.DomUtil.getPosition(canvas).add(ORIGIN);
+      return pixelAt(canvas, wx - backingMin.x, wy - backingMin.y);
+    };
+    // Backing: padded view x 600..2200 clipped to the drape (1197..7603) —
+    // 1003 px wide. World (2000, 1250) sits between red texel centres
+    // (x 1600 and 2400) in the red half: pure red.
+    expect(canvas.width).toBe(1003);
+    expect(worldPixel(2000, 1250)).toEqual([255, 0, 0, 255]);
+
+    // Pan 900 px east: padding (400 px) exhausted. The new backing is padded
+    // view 1500..3100; the old one covered up to 2200, so world 2000 is
+    // content the blit must carry over and world 2600 is frontier the blit
+    // cannot know.
+    viewOrigin = viewOrigin.add(new L.Point(900, 0));
+    handlers.forEach((handler) => handler());
+    expect(canvas.width).toBe(1600);
+    expect(worldPixel(2000, 1250)).toEqual([255, 0, 0, 255]);
+    expect(worldPixel(2600, 1250)).toEqual([0, 0, 0, 0]);
+
+    // The deferred chunked walk fills the frontier without disturbing the
+    // blitted region.
+    flushRaf();
+    expect(worldPixel(2600, 1250)).toEqual([255, 0, 0, 255]);
+    expect(worldPixel(2000, 1250)).toEqual([255, 0, 0, 255]);
+  });
+
   it("redraws through a new mesh without re-reading the image", () => {
     const layer = makeLayer();
     layer.onAdd(stubMap(pane));

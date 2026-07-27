@@ -90,6 +90,57 @@ function drawTriangle(
 }
 
 /**
+ * Draws a contiguous run of mesh triangles, starting at `startTriangle`,
+ * until the walk finishes or `budgetMs` of wall-clock time is spent
+ * (checked with performance.now after every triangle; at least one triangle
+ * is always drawn so a blown budget still makes progress). Returns the index
+ * to resume from — equal to the triangle count when the walk is complete.
+ *
+ * Triangles are indexed cell-major in the same order drawWarpedImage always
+ * used — cell (row, col) owns triangles 2·(row·cols + col) and its
+ * successor — so a walk split across calls paints the shared-edge overdraw
+ * in the identical order and converges to the same pixels as a one-shot
+ * walk.
+ */
+export function drawWarpedTriangles(
+  ctx: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  srcMesh: XY[][],
+  dstMesh: XY[][],
+  startTriangle: number,
+  budgetMs: number,
+): number {
+  const rows = srcMesh.length - 1;
+  const cols = srcMesh[0].length - 1;
+  const total = rows * cols * 2;
+  const start = performance.now();
+  let index = startTriangle;
+  while (index < total) {
+    const cell = index >> 1;
+    const row = (cell / cols) | 0;
+    const col = cell % cols;
+    const s00 = srcMesh[row][col];
+    const s10 = srcMesh[row][col + 1];
+    const s01 = srcMesh[row + 1][col];
+    const d00 = dstMesh[row][col];
+    const d10 = dstMesh[row][col + 1];
+    const d01 = dstMesh[row + 1][col];
+    if ((index & 1) === 0) {
+      drawTriangle(ctx, image, s00, s10, s01, d00, d10, d01);
+    } else {
+      const s11 = srcMesh[row + 1][col + 1];
+      const d11 = dstMesh[row + 1][col + 1];
+      drawTriangle(ctx, image, s10, s11, s01, d10, d11, d01);
+    }
+    index += 1;
+    if (performance.now() - start >= budgetMs) {
+      break;
+    }
+  }
+  return index;
+}
+
+/**
  * Draws `image` through the mesh: each cell splits into two triangles, each
  * drawn with an exact affine transform under a clip path. Grid density (not
  * this function) controls how closely the warp tracks projection curvature.
@@ -100,18 +151,5 @@ export function drawWarpedImage(
   srcMesh: XY[][],
   dstMesh: XY[][],
 ): void {
-  for (let row = 0; row < srcMesh.length - 1; row += 1) {
-    for (let col = 0; col < srcMesh[row].length - 1; col += 1) {
-      const s00 = srcMesh[row][col];
-      const s10 = srcMesh[row][col + 1];
-      const s01 = srcMesh[row + 1][col];
-      const s11 = srcMesh[row + 1][col + 1];
-      const d00 = dstMesh[row][col];
-      const d10 = dstMesh[row][col + 1];
-      const d01 = dstMesh[row + 1][col];
-      const d11 = dstMesh[row + 1][col + 1];
-      drawTriangle(ctx, image, s00, s10, s01, d00, d10, d01);
-      drawTriangle(ctx, image, s10, s11, s01, d10, d11, d01);
-    }
-  }
+  drawWarpedTriangles(ctx, image, srcMesh, dstMesh, 0, Infinity);
 }

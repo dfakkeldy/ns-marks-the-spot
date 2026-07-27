@@ -1,5 +1,10 @@
-import { describe, expect, it, vi } from "vitest";
-import { affineFromTriangles, buildSrcMesh, drawWarpedImage } from "./mesh";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  affineFromTriangles,
+  buildSrcMesh,
+  drawWarpedImage,
+  drawWarpedTriangles,
+} from "./mesh";
 
 describe("affineFromTriangles", () => {
   it("recovers a pure scale+translate mapping", () => {
@@ -97,5 +102,71 @@ describe("drawWarpedImage", () => {
     const dst = buildSrcMesh(40, 40, 4);
     drawWarpedImage(ctx, {} as CanvasImageSource, src, dst);
     expect(ctx.drawImage).toHaveBeenCalledTimes(8);
+  });
+});
+
+describe("drawWarpedTriangles", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  /** Advances the mocked clock by `stepMs` on every performance.now call. */
+  function tickingClock(stepMs: number) {
+    let now = 0;
+    vi.spyOn(performance, "now").mockImplementation(() => {
+      const value = now;
+      now += stepMs;
+      return value;
+    });
+  }
+
+  it("stops when the frame budget is spent and reports where to resume", () => {
+    // The walker reads the clock once at entry and once after each triangle;
+    // 5 ms per read against an 8 ms budget: after triangle 0 the elapsed time
+    // is 5 ms (continue), after triangle 1 it is 10 ms (stop).
+    tickingClock(5);
+    const ctx = stubCtx(100, 100);
+    const src = buildSrcMesh(10, 10, 2); // 8 triangles total
+    const dst = buildSrcMesh(100, 100, 2);
+    const next = drawWarpedTriangles(ctx, {} as CanvasImageSource, src, dst, 0, 8);
+    expect(next).toBe(2);
+    expect(ctx.drawImage).toHaveBeenCalledTimes(2);
+  });
+
+  it("draws at least one triangle even when the budget is already spent", () => {
+    tickingClock(100);
+    const ctx = stubCtx(100, 100);
+    const src = buildSrcMesh(10, 10, 2);
+    const dst = buildSrcMesh(100, 100, 2);
+    const next = drawWarpedTriangles(ctx, {} as CanvasImageSource, src, dst, 3, 8);
+    expect(next).toBe(4);
+    expect(ctx.drawImage).toHaveBeenCalledTimes(1);
+  });
+
+  it("resumes mid-walk and returns the total once the tail is done", () => {
+    const ctx = stubCtx(100, 100);
+    const src = buildSrcMesh(10, 10, 2);
+    const dst = buildSrcMesh(100, 100, 2);
+    const next = drawWarpedTriangles(ctx, {} as CanvasImageSource, src, dst, 6, Infinity);
+    expect(next).toBe(8);
+    expect(ctx.drawImage).toHaveBeenCalledTimes(2);
+  });
+
+  it("chunked calls reproduce the full walk exactly across the boundary", () => {
+    // Chunk continuity: splitting the walk must not skip, duplicate, or
+    // reorder a triangle, or the shared-edge overdraw ordering (and thus the
+    // final pixels) would differ from the one-shot walk.
+    const src = buildSrcMesh(10, 10, 2);
+    const dst = buildSrcMesh(100, 100, 2);
+    const whole = stubCtx(100, 100);
+    drawWarpedImage(whole, {} as CanvasImageSource, src, dst);
+    const chunked = stubCtx(100, 100);
+    let next = 0;
+    while (next < 8) {
+      next = drawWarpedTriangles(chunked, {} as CanvasImageSource, src, dst, next, 0);
+    }
+    expect(vi.mocked(chunked.setTransform).mock.calls).toEqual(
+      vi.mocked(whole.setTransform).mock.calls,
+    );
   });
 });
