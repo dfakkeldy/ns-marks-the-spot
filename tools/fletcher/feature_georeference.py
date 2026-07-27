@@ -116,8 +116,18 @@ def loo_rows(
     sorted by descending error. `flagged` requires error over 100 m *and*
     over 3x the median error, so a single wide-spread sheet does not flag
     every point and a single loose point does not hide among the rest.
+
+    Raises if fewer than `MINIMUM_CONTROLS` controls have been accepted -
+    below that, both the folds themselves and the median used to flag them
+    stop being meaningful (and the median lookup below would divide an empty
+    list).
     """
     controls = accepted_controls(obs)
+    if len(controls) < MINIMUM_CONTROLS:
+        raise ValueError(
+            f"leave-one-out scoring requires at least {MINIMUM_CONTROLS} "
+            f"accepted controls, got {len(controls)}"
+        )
     rows = []
     for index, held in enumerate(controls):
         others = controls[:index] + controls[index + 1 :]

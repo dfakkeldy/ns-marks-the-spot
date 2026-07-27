@@ -165,6 +165,49 @@ class LooRowsTests(unittest.TestCase):
         errors = [row["error_m"] for row in rows]
         self.assertEqual(errors, sorted(errors, reverse=True))
 
+    def test_loo_rows_raises_below_minimum_controls(self) -> None:
+        obs = _obs_with_controls(_grid_controls(11))
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = pathlib.Path(tmp) / "loo"
+            with self.assertRaisesRegex(ValueError, "12"):
+                loo_rows("source.tif", obs, out_dir, runner=_raising_runner)
+
+    def test_loo_rows_does_not_flag_error_within_three_times_median(self) -> None:
+        # One point at 250 m (over the 100 m absolute bar, but at most 3x a
+        # median that this fixture holds at >= ~83.3 m) must stay unflagged -
+        # proving the flag rule is a real AND, not just the absolute bar.
+        controls = _grid_controls(13)
+        obs = _obs_with_controls(controls)
+        gcps = accepted_controls(obs)
+        boundary_label = "c07"
+        points_by_label = {}
+        for index, point in enumerate(gcps):
+            if point.label == boundary_label:
+                error = 250.0
+            else:
+                error = 90.0 + (index % 5)
+            mercator_x, mercator_y = point.mercator
+            points_by_label[point.label] = {
+                "x": mercator_x,
+                "y": mercator_y,
+                "lat": point.lat,
+                "error_m": error,
+            }
+        runner = FakeLooRunner(points_by_label)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            rows = loo_rows("source.tif", obs, pathlib.Path(tmp), runner=runner)
+
+        by_id = {row["id"]: row for row in rows}
+        boundary_row = by_id[boundary_label]
+        self.assertAlmostEqual(boundary_row["error_m"], 250.0, places=3)
+        self.assertGreater(boundary_row["error_m"], 100.0)
+
+        errors = sorted(row["error_m"] for row in rows)
+        median = errors[len(errors) // 2]
+        self.assertLessEqual(boundary_row["error_m"], 3.0 * median)
+        self.assertFalse(boundary_row["flagged"])
+
     def test_held_out_point_excluded_from_its_own_fold(self) -> None:
         controls = _grid_controls(13)
         obs = _obs_with_controls(controls)
