@@ -1,161 +1,144 @@
-# Final review fix report
+# Phase A final-review fix report
 
-Date: 2026-07-23
+Date: 2026-07-26
 
-Review base: `de71886dc3c8d470d06b751568df5b2c43c4b4b4`
-
-Reviewed head: `93e5823163a9f83a06d9d4fb7354f596cfda8aec`
+Branch: `claude/fletcher-maps-georeferencing-a3f272`
 
 Implementation commit:
-`fa7140f9dd423a47a56de0c2844cdfd105014d7d`
+`be288e65e22572abe976c429231aee928a684244` -
+`fix(fletcher): close final-review gaps in feature-led v2 tooling`
 
-Source findings: `.superpowers/sdd/final-review-findings.md`
+Parent (pre-fix) commit:
+`1af38106367b2663e1b6e609176dd5fd8ea854ca` -
+`test(fletcher): cover marker mismatch and receipt aggregation`
+
+Source findings: four Important + one Minor from a whole-branch review of
+Phase A of the feature-led v2 georeferencing tooling.
 
 ## Status
 
-All Critical, Important, and Minor findings in the final whole-branch review
-are implemented with focused regression coverage.
-
-No branch was pushed and no pull request was opened.
+All four Important findings and the one Minor finding are implemented, each
+with focused regression coverage written and shown RED before the fix, then
+GREEN after. Both full-suite discovers (`tools/fletcher`, `tools/church`) are
+green with no new failures. No branch was pushed and no pull request was
+opened (not requested).
 
 ## Fix receipt
 
-| Finding | Implemented outcome | Focused evidence |
-|---|---|---|
-| Mandatory restricted-source attribution | Required NSPRD selected-geometry attribution is independent from rendered layer IDs and carries the Province acknowledgement, restricted licence, source link/date, and not-a-survey limitation. Research evidence dependencies now retain buildings, roads, water, published river, coastal, civic, PVSC, and resource sources even when a source is unavailable. Field output also retains mandatory selected-geometry acknowledgement and licence material. | `PrintDocuments.test.tsx` covers empty rendered IDs, below-scale NSPRD, failed evidence, and source/licence links. |
-| Lossless appendix provenance | The appendix now preserves selected event order, status, facts, official links, event limitations, mapped area in square metres and acres, building point/polygon counts, assessment match method and records, civic record IDs, road/water relationships, flood results, resource results, source/retrieval dates, capture timestamp, named authority, source-specific limitation, acknowledgement, source URL, and licence URL. Failure states keep named provenance and do not become empty results. | `PrintDocuments.test.tsx` covers event facts/sources/limits, mapped area, spatial matching, dated PVSC provenance, failure provenance, and exact capture time. |
-| Independent river and coastal evidence | Published-river and coastal subsections render independently for outside-extent, within-extent/no-hit, intersection, and error states. Coastal no-intersection and intersection output retain scenario metrics without turning a no-hit into proof of no hazard. | Parameterized mixed-state cases in `PrintDocuments.test.tsx`. |
-| Sticky, aggregated tile readiness | Physical ArcGIS tile sublayers are tracked independently. A logical layer becomes ready only after every physical sublayer succeeds, and any current-attempt error remains sticky. `PrintMap` also rejects a late ready callback after an error. | `MapCanvas.test.tsx` covers both roads passes and error-followed-by-load; `PrintMap.test.tsx` covers logical sticky error. |
-| Bounded map attempts | Each print-map attempt has a 15-second timeout. Unresolved layer IDs are named in the alert, remain sticky for that attempt, and expose Retry plus deliberate incomplete-print consent. A retry creates a fresh attempt while stale callbacks remain excluded. | `PrintPreview.test.tsx` covers unresolved Roads timeout, retry, incomplete consent, and stale-attempt isolation. |
-| Display-only, semantically monochrome cartography | Print maps omit Leaflet scale and coordinate-copy controls, block identify/location and feature/overview-marker handlers, use explicit grayscale/pattern/dash distinctions for parcel, current/historical overview, resource, mineral-proximity, and seven hydro classes, and include matching legend samples plus a north indicator. | `MapCanvas.test.tsx`, `MineralProximityParcelLayer.test.tsx`, and `PrintDocuments.test.tsx`. |
-| Field legal boundary | The field sheet now states: “Field screening/reference material only. Not a survey or an access conclusion.” | `PrintDocuments.test.tsx`. |
-| Template-specific controls | Appendix inclusion is disabled in Field with an applicability note. Aerial inclusion is disabled when aerial imagery was absent from the frozen capture. | `PrintPreview.test.tsx`. |
+| Finding | File(s) | Fix | Test evidence |
+|---|---|---|---|
+| 1. `feature_qa` had no CLI | `tools/fletcher/feature_qa.py` | Added an argparse CLI with `crops`/`overlays` subcommands and `main(argv=None) -> int`, following the sibling pattern in `feature_georeference.py`/`feature_report.py`. `crops` reads a points JSON, computes a clamped `crop_window` per entry from caller-supplied `--width`/`--height` (never invokes `gdalinfo`), shifts each polyline into crop-local coordinates, and calls `render_scan_crop`. `overlays` reads a centers JSON, builds a `(mx-h, my+h, mx+h, my-h)` projwin per entry, and calls `render_overlay`. Unknown/missing subcommand raises via argparse (`SystemExit`, nonzero code) instead of the previous silent exit-0 no-op. | `tools/fletcher/tests/test_feature_qa.py::CliTests` (5 new tests): unknown subcommand exits nonzero, missing subcommand exits nonzero, `crops` (via `mock.patch` on the module-level `render_scan_crop`) receives the exact clamped window and crop-local-shifted polylines, `overlays` (via `mock.patch` on `render_overlay`) receives the exact projwin and forwarded polylines, and `--size` defaults to 1400. |
+| 2. `fit()`'s warp lacked `-dstalpha` | `tools/fletcher/feature_georeference.py` | Added `_ensure_dstalpha(command)`, which splices `-dstalpha` in immediately before the warp's `[source, output]` tail unless already present (idempotent). `fit()` now calls `_ensure_dstalpha(warp_command(...))` before recording/running it, so `fit.json` records the exact augmented command and every fit warp gets a real alpha band instead of tiling empty corners as opaque black. | `test_feature_georeference.py::FitTests::test_fit_invokes_translate_then_warp_and_writes_receipt` extended to assert `-dstalpha` is present and sits immediately before the `controls.vrt` source path in the recorded warp command. |
+| 3. Privacy guard gaps in `feature_observation` | `tools/fletcher/feature_observation.py` | (a) `_scan_private`'s dict branch now also matches each string **key** against `_PRIVATE_VALUE` (previously only value strings and a fixed forbidden-key-name set were checked, so `{"regions": {"pid-50319672-...": ...}}` passed). (b) Regex changed from `r"pid[-_]?\d{5,}"` to `r"(?<![a-z])pid[-_ ]?\d{5,}"` with `re.IGNORECASE`: adds space as a separator and case-insensitivity (catches `"PID-50319672"`, `"pid 50319672"`), and adds a negative lookbehind so a preceding letter (e.g. the "ra" in "ra**pid**") blocks the match, keeping `"rapid 50319 descent"` a false-positive-free pass. A comment documents the lookbehind's purpose. | `test_feature_observation.py::ValidateTests` (4 new tests): region-label key with pid-digits rejected, uppercase `"PID-50319672"` value rejected, space-separated `"pid 50319672"` value rejected, `"rapid 50319 descent"` accepted (no raise). |
+| 4. Receipts/RESULTS.md bypass the privacy scan | `tools/fletcher/feature_observation.py`, `tools/fletcher/feature_report.py` | Exported a public `assert_no_private_markers(node) -> None` wrapper around `_scan_private` in `feature_observation.py`; `validate_observation` now calls it instead of calling `_scan_private` directly. `feature_report.build_receipt` imports `assert_no_private_markers` and runs it over the fully assembled receipt dict (including the free-text `--reason`) before returning it, so a receipt naming a parcel is rejected before it is ever written to disk or folded into `RESULTS.md`. | `test_feature_observation.py::AssertNoPrivateMarkersTests` (2 new tests) exercise the wrapper directly. `test_feature_report.py::BuildReceiptPrivacyTests` (2 new tests): a receipt with reason `"near pid 50319672"` raises `ValueError` (message contains "private"); a clean reason passes through unchanged. |
+| Minor: `score()`'s VRT name collided with `fit()`'s | `tools/fletcher/feature_georeference.py` | `score()` wrote `out_path.parent / "controls.vrt"`, identical to the filename `fit()` writes into `out_dir` - pointing `score` at the same directory as a `fit` run would silently overwrite that fit's provenance VRT. Renamed to `out_path.parent / "score-controls.vrt"`, with a comment explaining why. | `test_feature_georeference.py::ScoreTests::test_score_groups_per_region_metrics` extended to assert the translate command's target path is `score-controls.vrt`. |
 
-## TDD receipt
+## RED then GREEN evidence
 
-The focused regression wave was added before the corresponding production
-fixes and run in RED:
+For each finding, the new/extended test was written first and confirmed to
+fail for the right reason, then the implementation was added and the same
+test confirmed green.
 
-```text
-Test files: 5
-Expected failing tests: 18
-Areas: attribution/provenance, independent flood output, sticky/aggregated
-readiness, map timeout, display-only monochrome symbols, field warning, and
-template-specific controls
+- **Finding 3** (privacy guard) - RED:
+  ```
+  ImportError: cannot import name 'assert_no_private_markers' from
+  'tools.fletcher.feature_observation'
+  ```
+  GREEN: `tools.fletcher.tests.test_feature_observation` - 15/15 tests OK
+  (was 10 before this task).
+
+- **Finding 4** (receipt scan) - RED:
+  ```
+  test_reason_with_private_marker_raises ... FAIL
+  AssertionError: ValueError not raised
+  ```
+  GREEN: `tools.fletcher.tests.test_feature_report` - 14/14 tests OK
+  (was 12 before this task).
+
+- **Finding 2** (`-dstalpha`) - RED:
+  ```
+  AssertionError: '-dstalpha' not found in ['gdalwarp', '-r', 'bilinear',
+  '-t_srs', 'EPSG:3857', '-tps', '-co', 'COMPRESS=DEFLATE', '-co',
+  'TILED=YES', '-co', 'BIGTIFF=IF_SAFER', '.../controls.vrt',
+  '.../warped-3857.tif']
+  ```
+  GREEN: `tools.fletcher.tests.test_feature_georeference.FitTests` - 2/2 OK;
+  full module 15/15 OK.
+
+- **Finding 1** (CLI) - RED:
+  ```
+  ImportError: cannot import name 'main' from 'tools.fletcher.feature_qa'
+  ```
+  GREEN: `tools.fletcher.tests.test_feature_qa.CliTests` - 5/5 OK; full
+  module 22/22 OK (was 17 before this task).
+
+- **Minor** (VRT rename) - covered by the existing
+  `ScoreTests::test_score_groups_per_region_metrics`, extended with one new
+  assertion; passes GREEN alongside the rest of `ScoreTests` (4/4 OK).
+
+## Full-suite verification (post-fix)
+
+```
+$ python3 -m unittest discover -s tools/fletcher/tests -t .
+...
+Ran 219 tests in 0.920s
+
+OK
 ```
 
-After implementation, the same focused command passed:
+```
+$ python3 -m unittest discover -s tools/church/tests -t .
+...
+Ran 425 tests in 0.072s
 
-```text
-Test files: 5 passed
-Tests: 72 passed
+OK
 ```
 
-## Final automated gates
+Baseline (immediately before this task's changes, same worktree, same
+commit `1af38106`): `tools/fletcher` 206 tests OK, `tools/church` 425 tests
+OK. This task added exactly 13 new fletcher tests (6 in
+`test_feature_observation.py`, 2 in `test_feature_report.py`, 5 in
+`test_feature_qa.py`, plus 0 new test methods but 2 extended assertions in
+`test_feature_georeference.py`) and 219 - 206 = 13, confirming no test was
+silently dropped or duplicated. `tools/church` is untouched (425 -> 425,
+unchanged).
 
-Run from `web/` after a clean dependency install:
+Both runs are pristine except for pre-existing `print()` output from
+`feature_report.main`'s `record` command and `tools.church`'s comparison
+tool under test (identical output before and after this task's changes -
+not a regression).
 
-| Command | Result |
-|---|---|
-| `npm ci` | Pass — 285 packages installed, 286 audited, 0 vulnerabilities |
-| `npm test` | Pass — 36 files passed, 1 intentional live-service file skipped; 316 tests passed, 1 skipped |
-| `npm run lint` | Pass — no errors or warnings |
-| `npm run build` | Pass — TypeScript and Vite production build completed |
-| `git diff --check` | Pass — no whitespace errors |
+Module-import check (cv2/numpy simulated absent, matching CI): confirmed
+`tools.fletcher.feature_qa` still imports and its CLI still runs `--help`
+successfully with a fake `sys.meta_path` blocker raising `ImportError` for
+`cv2`/`numpy` - lazy imports inside `render_scan_crop`/`render_overlay` are
+untouched by the new CLI code, which never imports either package.
 
-Vite continues to emit its existing advisory for chunks larger than 500 kB.
-It is an advisory, not a build failure, and this fix wave did not convert it
-into a new acceptance claim.
+## Files touched
 
-## Proof boundary and remaining manual gates
+- `tools/fletcher/feature_qa.py` - new CLI (`run_crops`, `run_overlays`,
+  `_build_parser`, `main`, `_load_json_list`, `_shift_polylines_to_crop`).
+- `tools/fletcher/feature_georeference.py` - `_ensure_dstalpha`, `fit()`
+  and `score()` updates.
+- `tools/fletcher/feature_observation.py` - regex fix, key-scan fix,
+  `assert_no_private_markers` export.
+- `tools/fletcher/feature_report.py` - `build_receipt` privacy scan.
+- `tools/fletcher/tests/test_feature_qa.py`,
+  `tools/fletcher/tests/test_feature_georeference.py`,
+  `tools/fletcher/tests/test_feature_observation.py`,
+  `tools/fletcher/tests/test_feature_report.py` - new/extended tests.
 
-The automated results establish code behavior and buildability only. They do
-not establish native print pagination, margins, clipping, saved-PDF behavior,
-Safari rendering, iPhone AirPrint behavior, QR scanning, physical monochrome
-legibility, or actual browser-geolocation acceptance.
+## Concerns / follow-ups
 
-The following remain pending in
-`docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`:
-
-- Chrome and Safari native print pagination and clipping;
-- Safari macOS output;
-- Safari iPhone AirPrint preview;
-- saved and reopened PDF links plus QR scanning;
-- physical monochrome output and 9 pt readability; and
-- actual browser-geolocation permission and privacy acceptance.
-
-No hosted-CI, merge, deployment, or production-availability claim is made.
-
-## Final re-review fix pass
-
-Source findings: `.superpowers/sdd/final-rereview-findings.md`
-
-Implementation commit:
-`c301cd76413c1fa0322d188e47d1ab7a316ea826`
-
-| Re-review item | Implemented outcome | Focused evidence |
-|---|---|---|
-| Important — restore interactive ArcGIS recovery | Interactive province and resource tile layers now recover from an earlier tile error after a later successful load. Print-mode physical sublayer errors remain sticky and aggregated, so one failed print sublayer cannot be overwritten by a late load. | `MapCanvas.test.tsx` covers recovery for the two-sublayer Roads layer and the single-sublayer Mineral Tenure resource; the existing print-mode Roads regression continues to cover sticky aggregation. |
-| Important — use actual monochrome legend samples | Every printable rendered-layer category now has an explicit, distinct monochrome treatment tied to a semantic `data-symbol-kind`. Samples represent basemap grid/tone, parcel and study boundaries, points, lines/corridors, building footprints, hatches, hydro classes, river bands, and the three coastal scenarios. Current/historical tax-sale, selected parcel, mineral-proximity, and hydro treatments remain preserved. | `PrintDocuments.test.tsx` requires a unique semantic kind for every printable layer and checks representative layer meanings. `styles.test.ts` requires an explicit, distinct CSS treatment for every layer ID. |
-| Important — bound empty building evidence | A valid zero result now says “No mapped building feature returned.” A nonzero result retains exact total, point, and polygon counts with correct singular/plural wording. Pending and error states remain unavailable rather than empty. | `PrintDocuments.test.tsx` covers exact zero and nonzero wording. |
-| Minor — refresh the automated ledger | The automated ledger now records the final 322-pass receipt, explicitly marks the 303-test receipt as pre-fix, and retains the reviewed 316-test intermediate receipt. | `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`; no pending manual row was changed. |
-
-### Re-review TDD receipt
-
-The first focused RED run reported five expected failures with 60 passing
-tests. A dedicated RED run then confirmed the single-sublayer interactive
-resource recovery regression. After the production changes, the complete
-focused set passed:
-
-```text
-Test files: 3 passed
-Tests: 66 passed
-```
-
-### Re-review final automated gates
-
-Run from `web/` on the exact implementation committed above:
-
-| Command | Result |
-|---|---|
-| `npm test` | Pass — 36 files passed, 1 intentional live-service file skipped; 322 tests passed, 1 skipped |
-| `npm run lint` | Pass — no errors or warnings |
-| `npm run build` | Pass — TypeScript and Vite production build completed |
-| `git diff --check` | Pass — no whitespace errors |
-
-Vite retained its existing advisory for chunks larger than 500 kB. The
-automated gates do not satisfy the pending pagination, Safari, saved-PDF, QR,
-AirPrint, physical monochrome, or actual browser-geolocation checks. No pending
-manual row was altered, and no hosted-CI, merge, deployment, or
-production-availability claim is made.
-
-## Final legend collision fix
-
-Source finding: `.superpowers/sdd/final-rereview-findings.md` under
-“Final legend collision”
-
-Implementation commit:
-`c145bef30ba2bb0d0efd3eb6078b7d0d1898e626`
-
-The NSPRD legend sample now uses the same thin grey boundary and white
-low-fill visual hierarchy as the ordinary print context parcel in
-`parcelStyle.ts`. The selected parcel retains its heavier dominant hatch.
-Selected, current-notice, historical-record, NSPRD, and every optional
-rendered-layer category now carry distinct semantic legend coverage.
-
-The focused tests were first run in RED and failed for the intended two
-reasons: NSPRD still used the selected-like 1.5 pt hatch, and the core parcel
-states lacked semantic legend identities. After the fix:
-
-| Command | Result |
-|---|---|
-| `npm test -- src/components/print/PrintDocuments.test.tsx src/styles.test.ts` | Pass — 2 files, 31 tests |
-| `npm test` | Pass — 36 files passed, 1 intentional live-service file skipped; 322 tests passed, 1 skipped |
-| `npm run lint` | Pass — no errors or warnings |
-| `npm run build` | Pass — TypeScript and Vite production build completed |
-| `git diff --check` | Pass — no whitespace errors |
-
-Vite retained its existing advisory for chunks larger than 500 kB. This
-legend-only correction does not alter or satisfy any pending manual acceptance
-row, and no hosted-CI, merge, deployment, or production-availability claim is
-made.
+- None blocking. `render_scan_crop`/`render_overlay` themselves (the actual
+  GDAL/cv2 rendering) remain untested in CI by design (per the existing
+  module docstring) and are only exercised on the remote GIS host in Phase
+  B - the new CLI tests instead lock down the pure argument-shaping logic
+  (window clamping, polyline coordinate shifts, projwin construction) via
+  `unittest.mock.patch` on the module-level render functions, which is what
+  the finding asked for.
+- The CLI's `--width`/`--height` for `crops` must be supplied by the Phase B
+  caller (e.g. from the observation's `source_receipt`); the CLI
+  deliberately never shells out to `gdalinfo` to discover them, per the
+  finding's instruction to keep the module GDAL-free except through the
+  injectable runner.
