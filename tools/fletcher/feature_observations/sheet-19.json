@@ -1,5 +1,5 @@
 {
-  "checks_frozen_at": null,
+  "checks_frozen_at": "2026-07-27",
   "controls": [
     {
       "evidence_crop": {
@@ -1560,7 +1560,248 @@
       "uncertainty": "Historical water-line width and confluence generalization."
     }
   ],
-  "final_checks": [],
+  "final_checks": [
+    {
+      "id": "cand-0497",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 4020.0,
+        "y": 5158.0
+      },
+      "lonlat": {
+        "lon": -61.4830416,
+        "lat": 45.7930483
+      },
+      "region": "qa-region-1",
+      "identity": "Long Point coastal road side junction; the drawn branch and approach bearings match the modern Driveway and Track node | modern feature names: Driveway|Track",
+      "uncertainty": "Historical road-centre ink and branch rounding in the single 1400 px final-check crop (~8-15 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-candidates/cand-0497.jpg",
+        "sha256": "2a0abd4a47f8ac54cda95429998c9f87587be06f28106f0276b2022d65483cf5"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: distinct coastal road branch is visible; historical ink centre measured independently of the projection marker",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-0691",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 4048.0,
+        "y": 5389.0
+      },
+      "lonlat": {
+        "lon": -61.4830836,
+        "lat": 45.7887918
+      },
+      "region": "qa-region-1",
+      "identity": "Long Point coastal stream mouth and inland arm; drawn mouth position and approach match | modern feature names: obj-10158|obj-10159|obj-209688",
+      "uncertainty": "Coastline generalization and stream-line width in the single 1400 px final-check crop (~10-18 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); object ids recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-replacements/cand-0691.jpg",
+        "sha256": "dbb1cfeb900db424450c44ef3c3e1bc1a3c8ef7a0bda0288433b4bfe74eaac0e"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: the coastal stream mouth is legible and its historical ink centre was measured independently",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-0899",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 4097.0,
+        "y": 1653.5
+      },
+      "lonlat": {
+        "lon": -61.4805357,
+        "lat": 45.906377
+      },
+      "region": "qa-region-2",
+      "identity": "Northwest Judique water junction near the forge and saw mill; drawn channel topology matches | modern feature names: obj-195829|obj-62022|obj-62023",
+      "uncertainty": "Engraved channel width and mill-area linework in the single 1400 px final-check crop (~8-15 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); object ids recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-candidates/cand-0899.jpg",
+        "sha256": "021c7d1e6dbcafc1f3ed835535b12f15b7f16adb5023c225ee11f6435edb4ae2"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: the same water-junction topology is visible at the historical ink centre",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-0016",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 8072.0,
+        "y": 4848.0
+      },
+      "lonlat": {
+        "lon": -61.2879976,
+        "lat": 45.8043715
+      },
+      "region": "qa-region-3",
+      "identity": "MacCuish Road and Maple Brook Road junction; the drawn approaches and crossing angle match | modern feature names: MacCuish Rd|Maple Brook Rd",
+      "uncertainty": "Historical road-centre ink and nearby drainage in the single 1400 px final-check crop (~8-15 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-candidates/cand-0016.jpg",
+        "sha256": "0caca7e33f8c8c48d1fb850b5171e377b802720e825ba88ab0004c2a5bdac8cd"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: named-road junction arms are distinct; historical ink centre measured independently",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-0315",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 7589.0,
+        "y": 4522.0
+      },
+      "lonlat": {
+        "lon": -61.3154568,
+        "lat": 45.8147481
+      },
+      "region": "qa-region-3",
+      "identity": "Maple Brook Road and Old Trunk 5 junction by the mills; drawn road arms match the modern node | modern feature names: Maple Brook Rd|Old Trunk 5",
+      "uncertainty": "Road-centre ink, mill linework, and junction rounding in the single 1400 px final-check crop (~8-15 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-replacements/cand-0315.jpg",
+        "sha256": "5aaece8116773c0307756ab46c7afe36d1cbdd9b475409cf2e79f84a6a2bf901"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: the mill-area named-road junction is legible and independently centred",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-1554",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 7942.0,
+        "y": 4795.0
+      },
+      "lonlat": {
+        "lon": -61.296215,
+        "lat": 45.8062121
+      },
+      "region": "qa-region-3",
+      "identity": "River Inhabitants valley tributary junction; drawn and modern three-arm topology match | modern feature names: obj-197430|obj-276071|obj-276074",
+      "uncertainty": "Engraved water-line width and nearby report text in the single 1400 px final-check crop (~10-18 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); object ids recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-candidates/cand-1554.jpg",
+        "sha256": "7c08a3f8493f72be35c24a8b1b25a9ea55bfd348cd8f2a2ad157ac10c6e5168c"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: matching tributary topology is present; historical junction centre measured independently",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-0026",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 4240.0,
+        "y": 1992.0
+      },
+      "lonlat": {
+        "lon": -61.4675721,
+        "lat": 45.8959275
+      },
+      "region": "qa-region-2",
+      "identity": "Hillsdale Road and dryweather branch east of Judique; drawn branch angle matches | modern feature names: Dryweather|Hillsdale Rd",
+      "uncertainty": "Historical road-centre ink and branch rounding in the single 1400 px final-check crop (~8-15 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-replacements/cand-0026.jpg",
+        "sha256": "a102fee9cf3467708f7b778dabd78e1482f6795388a0d5e7243db56083cc44d7"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: road branch and approach bearings are visible; ink centre measured independently",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-2020",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 9257.0,
+        "y": 2080.0
+      },
+      "lonlat": {
+        "lon": -61.2385824,
+        "lat": 45.8926196
+      },
+      "region": "qa-region-4",
+      "identity": "Northeast River Denys tributary junction; the drawn branch topology matches the modern junction | modern feature names: obj-253731|obj-254538|obj-286862",
+      "uncertainty": "Engraved channel width and edge-area linework in the single 1400 px final-check crop (~10-18 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); object ids recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/final-check-replacements/cand-2020.jpg",
+        "sha256": "9853061692b48d65e98468e4fbb6446be5648590a454c58b41f2fb905d181c1c"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "single final-check review: matching northeast tributary topology is visible; junction centre measured independently",
+        "date": "2026-07-27"
+      }
+    }
+  ],
   "method_version": "feature-led-v2",
   "regions": {
     "qa-region-1": "western coastal acceptance neighbourhood",
@@ -1736,6 +1977,34 @@
     {
       "id": "cand-1888",
       "reason": "round-2b review: modern stream follows the drawn brook locally, but no matching tributary junction is visible"
+    },
+    {
+      "id": "cand-0281",
+      "reason": "final-check selection: inverse TPS solver returned an off-raster crop, so historical identity was not reviewable; excluded before freeze and never scored"
+    },
+    {
+      "id": "cand-1333",
+      "reason": "single final-check review: coastal water overlay is visible, but no unique drawn junction topology can be isolated"
+    },
+    {
+      "id": "cand-0121",
+      "reason": "single final-check review: modern Maple Brook and Mason road node lacks a unique matching historical branch"
+    },
+    {
+      "id": "cand-0490",
+      "reason": "single final-check review: rail, road, and drainage linework makes the modern Driveway and Track node ambiguous"
+    },
+    {
+      "id": "cand-2100",
+      "reason": "single final-check review: modern northeast water junction lacks a uniquely legible historical tributary"
+    },
+    {
+      "id": "cand-0064",
+      "reason": "single final-check review: projected candidate lies outside the usable inner map frame"
+    },
+    {
+      "id": "cand-0376",
+      "reason": "single final-check review: border-adjacent Big Marsh and Glencoe road junction is not distinct enough from frame and rail linework"
     }
   ],
   "schema_version": 2,
