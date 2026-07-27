@@ -7,6 +7,7 @@ from tools.fletcher.feature_observation import (
     ACCEPTED,
     NEEDS_RE_REVIEW,
     accepted_controls,
+    assert_no_private_markers,
     frozen_checks,
     validate_observation,
 )
@@ -62,11 +63,47 @@ class ValidateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "private"):
             validate_observation(obs)
 
+    def test_private_key_with_pid_digits_rejected(self) -> None:
+        obs = minimal_obs()
+        obs["regions"]["pid-50319672-coastal-north"] = "west"
+        with self.assertRaisesRegex(ValueError, "private"):
+            validate_observation(obs)
+
+    def test_private_value_uppercase_variant_rejected(self) -> None:
+        obs = minimal_obs()
+        obs["controls"][0]["identity"] = "PID-50319672 corner"
+        with self.assertRaisesRegex(ValueError, "private"):
+            validate_observation(obs)
+
+    def test_private_value_space_separated_variant_rejected(self) -> None:
+        obs = minimal_obs()
+        obs["controls"][0]["identity"] = "pid 50319672 corner"
+        with self.assertRaisesRegex(ValueError, "private"):
+            validate_observation(obs)
+
+    def test_word_like_rapid_is_not_a_false_positive(self) -> None:
+        obs = minimal_obs()
+        obs["controls"][0]["identity"] = "rapid 50319 descent"
+        validate_observation(obs)  # must not raise
+
     def test_check_requires_known_region(self) -> None:
         obs = minimal_obs()
         obs["final_checks"][0]["region"] = "qa-region-9"
         with self.assertRaisesRegex(ValueError, "region"):
             validate_observation(obs)
+
+
+class AssertNoPrivateMarkersTests(unittest.TestCase):
+    """`assert_no_private_markers` is the public wrapper other modules
+    (e.g. `feature_report.build_receipt`) use to run the same scan without
+    reaching into `_scan_private` directly."""
+
+    def test_clean_structure_passes(self) -> None:
+        assert_no_private_markers({"reason": "insufficient accepted controls"})
+
+    def test_private_value_raises(self) -> None:
+        with self.assertRaisesRegex(ValueError, "private"):
+            assert_no_private_markers({"reason": "near pid 50319672"})
 
 
 class RoleTests(unittest.TestCase):

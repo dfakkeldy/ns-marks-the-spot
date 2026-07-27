@@ -28,10 +28,15 @@ produces is written to a `tempfile.TemporaryDirectory` and never persisted.
 
 from __future__ import annotations
 
+import argparse
+import json
 import pathlib
 import tempfile
 
 from tools.fletcher.feature_georeference import Runner, _run
+
+DEFAULT_CROP_SIZE = 1400
+DEFAULT_OVERLAY_HALF_WIDTH_M = 1500.0
 
 Point = tuple[float, float]
 
@@ -184,6 +189,29 @@ def render_scan_crop(
             raise OSError(f"OpenCV could not write {out_jpg}")
 
 
+def _load_json_list(path: pathlib.Path) -> list[dict]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, list):
+        raise ValueError(f"{path} must contain a JSON list")
+    return payload
+
+
+def _shift_polylines_to_crop(
+    polylines: list[dict], origin_x: int, origin_y: int
+) -> list[dict]:
+    """Shift each polyline's raster-absolute pixel points into crop-local
+    coordinates, by subtracting the crop window's origin."""
+    return [
+        {
+            "kind": polyline["kind"],
+            "points": [
+                [x - origin_x, y - origin_y] for x, y in polyline.get("points", [])
+            ],
+        }
+        for polyline in polylines
+    ]
+
+
 def render_overlay(
     warped: str,
     projwin: tuple[float, float, float, float],
@@ -240,3 +268,116 @@ def render_overlay(
         out_jpg.parent.mkdir(parents=True, exist_ok=True)
         if not cv2.imwrite(str(out_jpg), image):
             raise OSError(f"OpenCV could not write {out_jpg}")
+
+
+def run_crops(
+    source: str,
+    points: list[dict],
+    size: int,
+    width: int,
+    height: int,
+    out_dir: pathlib.Path,
+    runner: Runner = _run,
+) -> None:
+    """Render one evidence crop per `points` entry into `out_dir/<id>.jpg`.
+
+    Each entry is `{"id", "pixel": {"x", "y"}, "polylines_px": [...]}`, with
+    `polylines_px` points in raster-absolute pixel coordinates. `crop_window`
+    computes a `size` x `size` window clamped inside a `width` x `height`
+    raster (never shrunk, only shifted); each polyline is then shifted into
+    that window's local coordinates before `render_scan_crop` draws it. Never
+    calls `gdalinfo` - `width`/`height` are supplied by the caller, so this
+    function (and this whole module's CLI) stays GDAL-free except through
+    `runner`.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for entry in points:
+        identifier = str(entry["id"])
+        center = (float(entry["pixel"]["x"]), float(entry["pixel"]["y"]))
+        window = crop_window(center, size, width, height)
+        origin_x, origin_y, _, _ = window
+        polylines_px = _shift_polylines_to_crop(
+            entry.get("polylines_px", []), origin_x, origin_y
+        )
+        render_scan_crop(
+            source, window, polylines_px, out_dir / f"{identifier}.jpg", runner=runner
+        )
+
+
+def run_overlays(
+    warped: str,
+    centers: list[dict],
+    half_width_m: float,
+    out_dir: pathlib.Path,
+    runner: Runner = _run,
+) -> None:
+    """Render one overlay crop per `centers` entry into `out_dir/<id>.jpg`.
+
+    Each entry is `{"id", "merc": {"x", "y"}, "polylines_merc": [...]}`, all
+    in EPSG:3857. The `projwin` passed to `render_overlay` is a `half_width_m`
+    square centered on `merc`, in `gdal_translate -projwin`'s
+    `(ulx, uly, lrx, lry)` order (northing decreases downward).
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for entry in centers:
+        identifier = str(entry["id"])
+        merc_x = float(entry["merc"]["x"])
+        merc_y = float(entry["merc"]["y"])
+        projwin = (
+            merc_x - half_width_m,
+            merc_y + half_width_m,
+            merc_x + half_width_m,
+            merc_y - half_width_m,
+        )
+        polylines_merc = [
+            {
+                "kind": polyline["kind"],
+                "points": [[float(x), float(y)] for x, y in polyline.get("points", [])],
+            }
+            for polyline in entry.get("polylines_merc", [])
+        ]
+        render_overlay(
+            warped,
+            projwin,
+            polylines_merc,
+            out_dir / f"{identifier}.jpg",
+            runner=runner,
+        )
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    crops = subparsers.add_parser("crops", help="render pixel-space evidence crops")
+    crops.add_argument("--source", required=True)
+    crops.add_argument("--points", type=pathlib.Path, required=True)
+    crops.add_argument("--size", type=int, default=DEFAULT_CROP_SIZE)
+    crops.add_argument("--width", type=int, required=True)
+    crops.add_argument("--height", type=int, required=True)
+    crops.add_argument("--out-dir", type=pathlib.Path, required=True)
+
+    overlays = subparsers.add_parser("overlays", help="render Web-Mercator overlay crops")
+    overlays.add_argument("--warped", required=True)
+    overlays.add_argument("--centers", type=pathlib.Path, required=True)
+    overlays.add_argument(
+        "--half-width-m", type=float, default=DEFAULT_OVERLAY_HALF_WIDTH_M
+    )
+    overlays.add_argument("--out-dir", type=pathlib.Path, required=True)
+
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _build_parser().parse_args(argv)
+    if args.command == "crops":
+        points = _load_json_list(args.points)
+        run_crops(args.source, points, args.size, args.width, args.height, args.out_dir)
+    elif args.command == "overlays":
+        centers = _load_json_list(args.centers)
+        run_overlays(args.warped, centers, args.half_width_m, args.out_dir)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

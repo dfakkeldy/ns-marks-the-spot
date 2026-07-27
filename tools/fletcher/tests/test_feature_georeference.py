@@ -112,6 +112,15 @@ class FitTests(unittest.TestCase):
             self.assertEqual(warp_cmd[0], "gdalwarp")
             self.assertIn("-tps", warp_cmd)
 
+            # Every production warp needs -dstalpha, or the rotated sheet's
+            # empty corners tile as opaque black instead of transparent;
+            # `warp_command` only adds it itself when target_bounds is set,
+            # which `fit` never passes, so `fit` must add it directly,
+            # immediately before the source (controls.vrt) path.
+            vrt_path = str(out_dir / "controls.vrt")
+            self.assertIn("-dstalpha", warp_cmd)
+            self.assertEqual(warp_cmd[warp_cmd.index(vrt_path) - 1], "-dstalpha")
+
             self.assertEqual(warped, out_dir / "warped-3857.tif")
             self.assertTrue((out_dir / "controls.vrt").parent.is_dir())
 
@@ -453,6 +462,14 @@ class ScoreTests(unittest.TestCase):
             self.assertEqual(translate_command.count("-gcp"), 12)
             self.assertEqual(gdaltransform_command[0], "gdaltransform")
             self.assertEqual(len(stdin.strip().splitlines()), 8)
+
+            # `score`'s VRT is named distinctly from `fit`'s own
+            # "controls.vrt" so a score run pointed at the same directory as
+            # a fit run cannot silently overwrite that fit's provenance VRT.
+            self.assertEqual(
+                translate_command[-1],
+                str(out_path.parent / "score-controls.vrt"),
+            )
 
             self.assertEqual(result["scored_at"], "2026-07-28")
             self.assertEqual(result["control_count"], 12)

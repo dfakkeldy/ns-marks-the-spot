@@ -9,6 +9,7 @@ from tools.fletcher.feature_observation import ACCEPTED, SCHEMA_VERSION, METHOD_
 from tools.fletcher.feature_report import (
     MARK_END,
     MARK_START,
+    build_receipt,
     main,
     render_feature_table,
     update_results_md,
@@ -85,6 +86,37 @@ def _blocked_receipt() -> dict:
         "score": None,
         "recorded_at": "2026-07-26",
     }
+
+
+class BuildReceiptPrivacyTests(unittest.TestCase):
+    """`build_receipt` must scan the assembled receipt (including the free-text
+    `reason` an operator types) for private markers before returning it - a
+    receipt is a committed artifact, same as an observation."""
+
+    def _obs(self) -> dict:
+        return {"sheet_id": "19", "method_version": "feature-led-v2"}
+
+    def test_reason_with_private_marker_raises(self) -> None:
+        with self.assertRaisesRegex(ValueError, "private"):
+            build_receipt(
+                self._obs(),
+                None,
+                "FAIL",
+                "near pid 50319672",
+                "a" * 64,
+                "2026-07-26",
+            )
+
+    def test_clean_reason_passes(self) -> None:
+        receipt = build_receipt(
+            self._obs(),
+            None,
+            "FAIL",
+            "insufficient accepted controls",
+            "a" * 64,
+            "2026-07-26",
+        )
+        self.assertEqual(receipt["reason"], "insufficient accepted controls")
 
 
 class RenderFeatureTableTests(unittest.TestCase):

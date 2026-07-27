@@ -21,7 +21,12 @@ import json
 import pathlib
 
 from tools.fletcher.fetch import sha256
-from tools.fletcher.feature_observation import ACCEPTED, METHOD_VERSION, load_observation
+from tools.fletcher.feature_observation import (
+    ACCEPTED,
+    METHOD_VERSION,
+    assert_no_private_markers,
+    load_observation,
+)
 
 MARK_START = "<!-- feature-led-v2:start -->"
 MARK_END = "<!-- feature-led-v2:end -->"
@@ -165,6 +170,12 @@ def build_receipt(
     fit/scoring stage already computed those precisely); when `score` is
     `None` (a non-`PASS` disposition recorded before scoring completed) they
     fall back to counting accepted points directly on the observation.
+
+    A receipt is a committed artifact - just like an observation - and its
+    free-text `reason` is operator-typed, so the assembled dict is run
+    through `assert_no_private_markers` before it is returned; a receipt
+    naming a specific parcel would leak the same private marker an
+    observation is already forbidden from carrying.
     """
     if disposition not in DISPOSITIONS:
         raise ValueError(f"disposition must be one of {DISPOSITIONS}, got {disposition!r}")
@@ -176,7 +187,7 @@ def build_receipt(
         control_count = _accepted_control_count(obs)
         check_count = _accepted_check_count(obs)
 
-    return {
+    receipt = {
         "sheet_id": obs["sheet_id"],
         "method_version": obs.get("method_version", METHOD_VERSION),
         "disposition": disposition,
@@ -187,6 +198,8 @@ def build_receipt(
         "score": score,
         "recorded_at": recorded_at,
     }
+    assert_no_private_markers(receipt)
+    return receipt
 
 
 def _load_receipts(results_dir: pathlib.Path) -> list[dict]:

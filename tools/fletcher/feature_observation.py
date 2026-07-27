@@ -18,7 +18,11 @@ NEEDS_RE_REVIEW = "needs-re-review"
 REJECTED = "rejected"
 _STATUSES = frozenset({ACCEPTED, NEEDS_RE_REVIEW, REJECTED})
 _FORBIDDEN_KEYS = frozenset({"pid", "property_selector", "near_property"})
-_PRIVATE_VALUE = re.compile(r"pid[-_]?\d{5,}")
+# `(?<![a-z])` (case-insensitive, so it also excludes A-Z) stops "pid" from
+# matching mid-word inside an unrelated word like "ra**pid** 50319 descent" -
+# without it, the pattern below would treat "rapid" followed by any run of
+# 5+ digits as a private marker.
+_PRIVATE_VALUE = re.compile(r"(?<![a-z])pid[-_ ]?\d{5,}", re.IGNORECASE)
 _REGION = re.compile(r"^qa-region-\d+$")
 _POINT_LISTS = ("controls", "diagnostics", "final_checks")
 
@@ -36,7 +40,7 @@ def validate_observation(obs: dict) -> None:
     for field in ("rumsey_id", "width", "height", "sha256"):
         if not receipt.get(field):
             raise ValueError(f"source_receipt.{field} is required")
-    _scan_private(obs, "$")
+    assert_no_private_markers(obs)
     seen: set[str] = set()
     for list_name in _POINT_LISTS:
         for point in obs.get(list_name, ()):
@@ -69,12 +73,26 @@ def _scan_private(node: object, path: str) -> None:
         for key, value in node.items():
             if key in _FORBIDDEN_KEYS:
                 raise ValueError(f"private marker key {key!r} at {path}")
+            if isinstance(key, str) and _PRIVATE_VALUE.search(key):
+                raise ValueError(f"private marker key {key!r} at {path}")
             _scan_private(value, f"{path}.{key}")
     elif isinstance(node, list):
         for index, value in enumerate(node):
             _scan_private(value, f"{path}[{index}]")
     elif isinstance(node, str) and _PRIVATE_VALUE.search(node):
         raise ValueError(f"private marker value at {path}")
+
+
+def assert_no_private_markers(node: object) -> None:
+    """Public entry point for the private-marker scan `_scan_private` runs.
+
+    `validate_observation` uses this to gate an observation, and
+    `feature_report.build_receipt` uses it to gate a committed receipt
+    (including free-text fields like `reason`) before it is written -
+    neither call site needs to know about `_scan_private`'s path-tracking
+    implementation.
+    """
+    _scan_private(node, "$")
 
 
 def _point_gcp(point: dict, role: str) -> GroundControlPoint:

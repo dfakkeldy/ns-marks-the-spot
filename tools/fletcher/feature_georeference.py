@@ -78,6 +78,20 @@ def _run(command: list[str], stdin: str | None = None) -> str:
     return completed.stdout
 
 
+def _ensure_dstalpha(command: list[str]) -> list[str]:
+    """Insert `-dstalpha` immediately before the source path, unless present.
+
+    `warp_command` only adds `-dstalpha` itself when `target_bounds` is set;
+    every production warp in this repo needs it regardless, since a rotated
+    sheet's empty corners must come out transparent, not tile as opaque
+    black. The last two entries of a `warp_command` result are always
+    `[source, output]`, so the flag is spliced in immediately before them.
+    """
+    if "-dstalpha" in command:
+        return command
+    return command[:-2] + ["-dstalpha"] + command[-2:]
+
+
 def fit(
     source: str,
     obs: dict,
@@ -103,7 +117,7 @@ def fit(
     warped = out_dir / "warped-3857.tif"
 
     translate_command = build_translate_command(source, str(vrt), controls)
-    warp_cmd = warp_command(str(vrt), str(warped))
+    warp_cmd = _ensure_dstalpha(warp_command(str(vrt), str(warped)))
     runner(translate_command, None)
     runner(warp_cmd, None)
 
@@ -271,7 +285,10 @@ def score(
     region_by_id = {point["id"]: point["region"] for point in obs.get("final_checks", [])}
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    vrt = out_path.parent / "controls.vrt"
+    # Named distinctly from `fit`'s own `controls.vrt` so a `score` call
+    # pointed at the same directory as a `fit` call cannot silently overwrite
+    # that fit's provenance VRT.
+    vrt = out_path.parent / "score-controls.vrt"
     runner(build_translate_command(source, str(vrt), controls), None)
 
     stdin = "\n".join(f"{point.pixel_x} {point.pixel_y}" for point in checks) + "\n"
