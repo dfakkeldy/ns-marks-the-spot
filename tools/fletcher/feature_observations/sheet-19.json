@@ -67,8 +67,8 @@
         "y": 1255.0
       },
       "review": {
-        "date": "2026-07-26",
-        "note": "imported from sheet19-feature-pilot-v1 pre-fit acceptance",
+        "date": "2026-07-27",
+        "note": "round-2 flagged LOO identity re-review retained: the named junction and road-arm bearings are visible at the marker; high LOO reflects sparse northern-edge support, not a mismatched feature",
         "status": "accepted"
       },
       "uncertainty": "Historical road-centre ink width."
@@ -570,8 +570,8 @@
       "region": "qa-region-1",
       "review": {
         "status": "accepted",
-        "note": "re-reviewed with overlay: drawn inlet stream mouth at recorded pixel; modern watercourse 209689 mouth nearest (~630 m under affine); the whole coastal strip (road, streams, shore) shifts coherently seaward, indicating real local warp not mis-identity. Pin-verify at precision stage.",
-        "date": "2026-07-26"
+        "note": "round-2 flagged LOO identity re-review retained: the drawn inlet-side stream mouth remains present at the recorded pixel; the high fold error reflects sparse coastal support, not a swapped mouth",
+        "date": "2026-07-27"
       },
       "uncertainty": "Tidal shoreline generalization and historical line width."
     },
@@ -924,8 +924,8 @@
       },
       "review": {
         "status": "accepted",
-        "note": "pin zoom: drawn road fork with matching arms confirmed",
-        "date": "2026-07-26"
+        "note": "round-2 flagged LOO identity re-review retained: the Mackay Point and John Gillis fork has the same distinct arms and bearings",
+        "date": "2026-07-27"
       }
     },
     {
