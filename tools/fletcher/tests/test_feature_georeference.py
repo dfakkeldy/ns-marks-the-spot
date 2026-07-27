@@ -8,7 +8,7 @@ import unittest
 
 from tools.church.geometry import lonlat_to_mercator
 from tools.fletcher.feature_georeference import _metrics, fit, freeze, loo_rows, score
-from tools.fletcher.feature_observation import ACCEPTED, accepted_controls
+from tools.fletcher.feature_observation import ACCEPTED, NEEDS_RE_REVIEW, accepted_controls
 
 
 def _grid_controls(count: int) -> list[dict]:
@@ -293,6 +293,21 @@ class FreezeTests(unittest.TestCase):
             persisted = json.loads(path.read_text(encoding="utf-8"))
             self.assertIsNone(persisted["checks_frozen_at"])
 
+    def test_freeze_rejects_unaccepted_final_check(self) -> None:
+        checks = [_final_check_point(f"n{i:02d}", f"qa-region-{i % 3 + 1}") for i in range(8)]
+        checks[3]["review"]["status"] = NEEDS_RE_REVIEW
+        regions = {"qa-region-1": "a", "qa-region-2": "b", "qa-region-3": "c"}
+        obs = _freeze_obs(checks, regions)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "obs.json"
+            original_text = json.dumps(obs)
+            path.write_text(original_text, encoding="utf-8")
+
+            with self.assertRaises(ValueError):
+                freeze(path, "2026-07-27")
+
+            self.assertEqual(path.read_text(encoding="utf-8"), original_text)
+
     def test_freeze_stamps_and_persists(self) -> None:
         checks = [_final_check_point(f"n{i:02d}", f"qa-region-{i % 3 + 1}") for i in range(8)]
         regions = {"qa-region-1": "a", "qa-region-2": "b", "qa-region-3": "c"}
@@ -370,6 +385,18 @@ class ScoreTests(unittest.TestCase):
                 score("source.tif", obs, out_path, "2026-07-28", runner=_raising_runner)
 
             self.assertEqual(out_path.read_text(encoding="utf-8"), "existing")
+
+    def test_score_raises_below_minimum_controls(self) -> None:
+        obs = {
+            "checks_frozen_at": "2026-07-27",
+            "final_checks": [],
+            "controls": _grid_controls(11),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = pathlib.Path(tmp) / "score.json"
+            with self.assertRaisesRegex(ValueError, "at least 12"):
+                score("source.tif", obs, out_path, "2026-07-28", runner=_raising_runner)
+            self.assertFalse(out_path.exists())
 
     def test_score_groups_per_region_metrics(self) -> None:
         controls = _grid_controls(12)
