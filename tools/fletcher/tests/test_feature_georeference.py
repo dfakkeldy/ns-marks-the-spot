@@ -6,7 +6,8 @@ import pathlib
 import tempfile
 import unittest
 
-from tools.fletcher.feature_georeference import fit, loo_rows
+from tools.church.geometry import lonlat_to_mercator
+from tools.fletcher.feature_georeference import _metrics, fit, freeze, loo_rows, score
 from tools.fletcher.feature_observation import ACCEPTED, accepted_controls
 
 
@@ -228,6 +229,233 @@ class LooRowsTests(unittest.TestCase):
             self.assertEqual(len(pairs), 12)
             held = by_label[label]
             self.assertNotIn((held.pixel_x, held.pixel_y), pairs)
+
+
+def _final_check_point(identifier: str, region: str, status: str = ACCEPTED) -> dict:
+    """A minimally valid final-check point - same dummy pixel/lonlat is fine,
+    since `validate_observation` only requires ids to be unique, not
+    coordinates."""
+    return {
+        "id": identifier,
+        "pixel": {"x": 100.0, "y": 100.0},
+        "lonlat": {"lon": -61.4, "lat": 45.8},
+        "review": {"status": status, "note": "", "date": "2026-07-26"},
+        "region": region,
+    }
+
+
+def _freeze_obs(final_checks: list[dict], regions: dict[str, str]) -> dict:
+    """A full observation valid enough for `load_observation` to accept it."""
+    return {
+        "schema_version": 2,
+        "method_version": "feature-led-v2",
+        "sheet_id": "19",
+        "source_receipt": {"rumsey_id": "R", "width": 10, "height": 10, "sha256": "abc"},
+        "usable_frame": [[0, 0], [10, 0], [10, 10], [0, 10]],
+        "regions": regions,
+        "controls": [],
+        "diagnostics": [],
+        "final_checks": final_checks,
+        "rejected": [],
+        "checks_frozen_at": None,
+    }
+
+
+class FreezeTests(unittest.TestCase):
+    def test_freeze_rejects_seven_checks(self) -> None:
+        checks = [_final_check_point(f"n{i:02d}", f"qa-region-{i % 3 + 1}") for i in range(7)]
+        regions = {"qa-region-1": "a", "qa-region-2": "b", "qa-region-3": "c"}
+        obs = _freeze_obs(checks, regions)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "obs.json"
+            path.write_text(json.dumps(obs), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "8"):
+                freeze(path, "2026-07-27")
+
+            persisted = json.loads(path.read_text(encoding="utf-8"))
+            self.assertIsNone(persisted["checks_frozen_at"])
+
+    def test_freeze_rejects_two_regions(self) -> None:
+        checks = [
+            _final_check_point(f"n{i:02d}", "qa-region-1" if i < 4 else "qa-region-2")
+            for i in range(8)
+        ]
+        regions = {"qa-region-1": "a", "qa-region-2": "b"}
+        obs = _freeze_obs(checks, regions)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "obs.json"
+            path.write_text(json.dumps(obs), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "region"):
+                freeze(path, "2026-07-27")
+
+            persisted = json.loads(path.read_text(encoding="utf-8"))
+            self.assertIsNone(persisted["checks_frozen_at"])
+
+    def test_freeze_stamps_and_persists(self) -> None:
+        checks = [_final_check_point(f"n{i:02d}", f"qa-region-{i % 3 + 1}") for i in range(8)]
+        regions = {"qa-region-1": "a", "qa-region-2": "b", "qa-region-3": "c"}
+        obs = _freeze_obs(checks, regions)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "obs.json"
+            path.write_text(json.dumps(obs), encoding="utf-8")
+
+            updated = freeze(path, "2026-07-27")
+
+            self.assertEqual(updated["checks_frozen_at"], "2026-07-27")
+            persisted_text = path.read_text(encoding="utf-8")
+            self.assertTrue(persisted_text.endswith("\n"))
+            self.assertIn('\n  "schema_version"', persisted_text)  # 2-space indent
+            persisted = json.loads(persisted_text)
+            self.assertEqual(persisted, updated)
+
+    def test_freeze_refuses_double_freeze(self) -> None:
+        checks = [_final_check_point(f"n{i:02d}", f"qa-region-{i % 3 + 1}") for i in range(8)]
+        regions = {"qa-region-1": "a", "qa-region-2": "b", "qa-region-3": "c"}
+        obs = _freeze_obs(checks, regions)
+        obs["checks_frozen_at"] = "2026-01-01"
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "obs.json"
+            original_text = json.dumps(obs)
+            path.write_text(original_text, encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "already frozen"):
+                freeze(path, "2026-07-27")
+
+            self.assertEqual(path.read_text(encoding="utf-8"), original_text)
+
+
+class ScoreRunner:
+    """Fake Runner for `score`: one gdaltransform call, all pixels on stdin.
+
+    Keyed by pixel rather than by a per-fold vrt filename (unlike
+    `FakeLooRunner`) because `score` must issue a single `gdaltransform` call
+    carrying every held-out check pixel at once, not one call per point.
+    """
+
+    def __init__(self, expected_by_pixel: dict[tuple[float, float], dict[str, float]]) -> None:
+        self.calls: list[tuple[list[str], str | None]] = []
+        self._expected = expected_by_pixel
+
+    def __call__(self, command: list[str], stdin: str | None) -> str:
+        self.calls.append((command, stdin))
+        if command and command[0] == "gdaltransform":
+            lines = []
+            for line in stdin.strip().splitlines():
+                x_str, y_str = line.split()
+                info = self._expected[(float(x_str), float(y_str))]
+                offset = info["error_m"] / math.cos(math.radians(info["lat"]))
+                lines.append(f"{info['x'] + offset} {info['y']} 0")
+            return "\n".join(lines) + "\n"
+        return ""
+
+
+class ScoreTests(unittest.TestCase):
+    def test_score_refuses_unfrozen_obs(self) -> None:
+        obs = {"checks_frozen_at": None, "final_checks": []}
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = pathlib.Path(tmp) / "score.json"
+            with self.assertRaisesRegex(ValueError, "frozen"):
+                score("source.tif", obs, out_path, "2026-07-28", runner=_raising_runner)
+            self.assertFalse(out_path.exists())
+
+    def test_score_refuses_existing_out_path(self) -> None:
+        obs = {"checks_frozen_at": "2026-07-27", "final_checks": []}
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = pathlib.Path(tmp) / "score.json"
+            out_path.write_text("existing", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "already scored"):
+                score("source.tif", obs, out_path, "2026-07-28", runner=_raising_runner)
+
+            self.assertEqual(out_path.read_text(encoding="utf-8"), "existing")
+
+    def test_score_groups_per_region_metrics(self) -> None:
+        controls = _grid_controls(12)
+        region_errors = {
+            "qa-region-1": [10.0, 20.0, 30.0],
+            "qa-region-2": [5.0, 15.0],
+            "qa-region-3": [8.0, 12.0, 100.0],
+        }
+        final_checks = []
+        expected_by_pixel = {}
+        index = 0
+        for region, errors in region_errors.items():
+            for error in errors:
+                identifier = f"n{index:02d}"
+                pixel_x = 1000.0 + index * 40.0
+                pixel_y = 2000.0 + index * 25.0
+                lon = -61.30 + index * 0.001
+                lat = 45.75
+                final_checks.append(
+                    {
+                        "id": identifier,
+                        "pixel": {"x": pixel_x, "y": pixel_y},
+                        "lonlat": {"lon": lon, "lat": lat},
+                        "review": {"status": ACCEPTED},
+                        "region": region,
+                    }
+                )
+                mercator_x, mercator_y = lonlat_to_mercator(lon, lat)
+                expected_by_pixel[(pixel_x, pixel_y)] = {
+                    "x": mercator_x,
+                    "y": mercator_y,
+                    "lat": lat,
+                    "error_m": error,
+                }
+                index += 1
+
+        obs = {
+            "checks_frozen_at": "2026-07-27",
+            "controls": controls,
+            "final_checks": final_checks,
+        }
+        runner = ScoreRunner(expected_by_pixel)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = pathlib.Path(tmp) / "score" / "score.json"
+            result = score("source.tif", obs, out_path, "2026-07-28", runner=runner)
+
+            # Exactly one controls-only translate, then one gdaltransform call
+            # carrying every check pixel - never one gdaltransform per point.
+            self.assertEqual(len(runner.calls), 2)
+            translate_command, _ = runner.calls[0]
+            gdaltransform_command, stdin = runner.calls[1]
+            self.assertEqual(translate_command[0], "gdal_translate")
+            self.assertEqual(translate_command.count("-gcp"), 12)
+            self.assertEqual(gdaltransform_command[0], "gdaltransform")
+            self.assertEqual(len(stdin.strip().splitlines()), 8)
+
+            self.assertEqual(result["scored_at"], "2026-07-28")
+            self.assertEqual(result["control_count"], 12)
+
+            # Each recovered error should match its canned target (up to the
+            # mercator round trip's floating-point precision).
+            flat_expected = {
+                f"n{i:02d}": error
+                for i, error in enumerate(
+                    error for errors in region_errors.values() for error in errors
+                )
+            }
+            self.assertEqual(set(result["per_check"]), set(flat_expected))
+            for identifier, expected_error in flat_expected.items():
+                self.assertAlmostEqual(result["per_check"][identifier], expected_error, places=3)
+
+            # Grouping/aggregation correctness: overall and per-region metrics
+            # must be exactly `_metrics` applied to the *actual* per-check
+            # errors, bucketed by region - proving the plumbing groups
+            # correctly, independent of mercator round-trip precision.
+            self.assertEqual(result["overall"], _metrics(list(result["per_check"].values())))
+            self.assertEqual(set(result["regions"]), set(region_errors))
+            region1_ids = [f"n{i:02d}" for i in range(3)]
+            self.assertEqual(
+                result["regions"]["qa-region-1"],
+                _metrics([result["per_check"][i] for i in region1_ids]),
+            )
+
+            persisted = json.loads(out_path.read_text(encoding="utf-8"))
+            self.assertEqual(persisted, result)
 
 
 if __name__ == "__main__":

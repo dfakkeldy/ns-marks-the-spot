@@ -14,10 +14,17 @@ per-point accuracy figure available - a TPS warp interpolates its own control
 points exactly, so residuals measured *with* a point in its own fit are
 always ~0 (see `tools/church/gcps.py`).
 
+`freeze` and `score` are the honesty core of the workflow. A sheet's final
+checks are frozen exactly once (`freeze`, raising if a stamp already exists)
+and scored exactly once against a controls-only fit (`score`, raising if the
+output already exists). Neither function lets a later run quietly redo either
+step, so the accuracy figure that ends up in a result record cannot have been
+produced by an operator who kept re-picking checks or re-fitting until the
+number looked good.
+
 GDAL is never invoked directly in tests: every subprocess call goes through
 the injectable `Runner`, so CI (which has no GDAL) stays green. `_run` is the
-real implementation, used by the CLI below and by the `freeze`/`score` stages
-that later tasks add to this module.
+real implementation, used by the CLI below.
 """
 
 from __future__ import annotations
@@ -32,13 +39,26 @@ from collections.abc import Callable
 from tools.church.geometry import mercator_to_ground_metres
 from tools.church.georeference import (
     build_translate_command,
+    check_errors,
     parse_gdaltransform_output,
     warp_command,
 )
-from tools.fletcher.feature_observation import accepted_controls, load_observation
+from tools.fletcher.feature_observation import (
+    ACCEPTED,
+    accepted_controls,
+    frozen_checks,
+    load_observation,
+)
 
 MINIMUM_CONTROLS = 12
 """Below this, a TPS fit and its leave-one-out diagnostics aren't meaningful."""
+
+MINIMUM_FINAL_CHECKS = 8
+"""Below this, held-out coverage of the sheet is too thin to freeze and score."""
+
+MINIMUM_CHECK_REGIONS = 3
+"""Final checks must span at least this many QA regions, so one good (or bad)
+corner of the sheet cannot pass as sheet-wide accuracy."""
 
 FLAG_ABSOLUTE_M = 100.0
 FLAG_RELATIVE_MEDIAN = 3.0
@@ -146,6 +166,134 @@ def loo_rows(
     return sorted(rows, key=lambda row: -row["error_m"])
 
 
+def freeze(obs_path: pathlib.Path, frozen_at: str) -> dict:
+    """Freeze an observation's final checks, once and irreversibly.
+
+    Requires every `final_checks` entry to already be `accepted`, at least
+    `MINIMUM_FINAL_CHECKS` of them, spanning at least `MINIMUM_CHECK_REGIONS`
+    distinct regions, and ids disjoint from `controls`/`diagnostics`. That
+    last condition is already guaranteed by
+    `feature_observation.validate_observation` (which `load_observation`
+    below runs and which rejects any duplicate id across all three lists);
+    it is re-asserted here anyway so this guard does not silently depend on
+    that invariant continuing to hold elsewhere.
+
+    Raises if `checks_frozen_at` is already set - a check set is frozen
+    exactly once, and this is the only function that writes that stamp.
+
+    On success, writes `checks_frozen_at = frozen_at` back to `obs_path`
+    (whole file, one write) and returns the updated observation dict.
+    """
+    obs = load_observation(obs_path)
+
+    stamp = obs.get("checks_frozen_at")
+    if isinstance(stamp, str) and stamp:
+        raise ValueError(f"final checks already frozen at {stamp!r}")
+
+    final_checks = obs.get("final_checks", [])
+    not_accepted = [point["id"] for point in final_checks if point["review"]["status"] != ACCEPTED]
+    if not_accepted:
+        raise ValueError(f"final checks not yet accepted: {', '.join(not_accepted)}")
+
+    if len(final_checks) < MINIMUM_FINAL_CHECKS:
+        raise ValueError(
+            f"freeze requires at least {MINIMUM_FINAL_CHECKS} final checks, "
+            f"got {len(final_checks)}"
+        )
+
+    regions = {point["region"] for point in final_checks}
+    if len(regions) < MINIMUM_CHECK_REGIONS:
+        raise ValueError(
+            f"freeze requires at least {MINIMUM_CHECK_REGIONS} distinct regions "
+            f"among final checks, got {len(regions)}"
+        )
+
+    check_ids = {point["id"] for point in final_checks}
+    other_ids = {point["id"] for point in obs.get("controls", [])} | {
+        point["id"] for point in obs.get("diagnostics", [])
+    }
+    overlap = check_ids & other_ids
+    if overlap:
+        raise ValueError(f"final check ids overlap controls/diagnostics: {sorted(overlap)}")
+
+    obs["checks_frozen_at"] = frozen_at
+    obs_path.write_text(json.dumps(obs, indent=2) + "\n", encoding="utf-8")
+    return obs
+
+
+def _metrics(errors: list[float]) -> dict:
+    ordered = sorted(errors)
+    p95_index = max(0, math.ceil(0.95 * len(ordered)) - 1)
+    return {
+        "count": len(ordered),
+        "rms_m": math.sqrt(sum(error * error for error in ordered) / len(ordered)),
+        "p95_m": ordered[p95_index],
+        "max_m": ordered[-1],
+    }
+
+
+def score(
+    source: str,
+    obs: dict,
+    out_path: pathlib.Path,
+    scored_at: str,
+    runner: Runner = _run,
+) -> dict:
+    """Score frozen final checks against a controls-only TPS fit, once.
+
+    Refuses if `out_path` already exists (`already scored`) - a scored
+    result is never silently overwritten by a later run against a changed
+    fit. Requires the observation's final checks to be frozen
+    (`feature_observation.frozen_checks` raises otherwise) and at least
+    `MINIMUM_CONTROLS` accepted controls.
+
+    The controls-only fit is built exactly once, and every held-out check
+    pixel is projected through it in a single `gdaltransform` call - the
+    checks never touch the fit that is being scored against them.
+
+    Returns and writes
+    `{"scored_at", "control_count", "overall", "regions", "per_check"}`,
+    where `"overall"` and each `"regions"` entry are `_metrics(...)` shaped
+    (`count`/`rms_m`/`p95_m`/`max_m`) and `"per_check"` maps each final
+    check's id to its ground-metre error.
+    """
+    if out_path.exists():
+        raise ValueError(f"already scored: {out_path}")
+
+    checks = frozen_checks(obs)
+    controls = accepted_controls(obs)
+    if len(controls) < MINIMUM_CONTROLS:
+        raise ValueError(
+            f"score requires at least {MINIMUM_CONTROLS} accepted controls, "
+            f"got {len(controls)}"
+        )
+
+    region_by_id = {point["id"]: point["region"] for point in obs.get("final_checks", [])}
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    vrt = out_path.parent / "controls.vrt"
+    runner(build_translate_command(source, str(vrt), controls), None)
+
+    stdin = "\n".join(f"{point.pixel_x} {point.pixel_y}" for point in checks) + "\n"
+    stdout = runner(["gdaltransform", "-tps", str(vrt)], stdin)
+    transformed = parse_gdaltransform_output(stdout)
+    errors = check_errors(checks, transformed)
+
+    per_region: dict[str, list[float]] = {}
+    for point, error in zip(checks, errors):
+        per_region.setdefault(region_by_id[point.label], []).append(error)
+
+    result = {
+        "scored_at": scored_at,
+        "control_count": len(controls),
+        "overall": _metrics(errors),
+        "regions": {label: _metrics(values) for label, values in sorted(per_region.items())},
+        "per_check": {point.label: error for point, error in zip(checks, errors)},
+    }
+    out_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    return result
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -154,11 +302,23 @@ def _build_parser() -> argparse.ArgumentParser:
         sub.add_argument("--source", required=True)
         sub.add_argument("--observation", type=pathlib.Path, required=True)
         sub.add_argument("--out", type=pathlib.Path, required=True)
+    freeze_sub = subparsers.add_parser("freeze")
+    freeze_sub.add_argument("--observation", type=pathlib.Path, required=True)
+    freeze_sub.add_argument("--frozen-at", required=True)
+    score_sub = subparsers.add_parser("score")
+    score_sub.add_argument("--source", required=True)
+    score_sub.add_argument("--observation", type=pathlib.Path, required=True)
+    score_sub.add_argument("--out", type=pathlib.Path, required=True)
+    score_sub.add_argument("--scored-at", required=True)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
+    if args.command == "freeze":
+        updated = freeze(args.observation, args.frozen_at)
+        print(json.dumps(updated, indent=2))
+        return 0
     obs = load_observation(args.observation)
     if args.command == "fit":
         warped = fit(args.source, obs, args.out)
@@ -166,6 +326,9 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "loo":
         rows = loo_rows(args.source, obs, args.out)
         print(json.dumps(rows, indent=2))
+    elif args.command == "score":
+        result = score(args.source, obs, args.out, args.scored_at)
+        print(json.dumps(result, indent=2))
     return 0
 
 
