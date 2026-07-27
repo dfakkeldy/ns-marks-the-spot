@@ -695,6 +695,673 @@
         "date": "2026-07-26"
       },
       "uncertainty": "Historical water-line width and confluence generalization."
+    },
+    {
+      "id": "cand-0001",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 3690.6,
+        "y": 2555.6
+      },
+      "lonlat": {
+        "lon": -61.4919819,
+        "lat": 45.877153
+      },
+      "identity": "Judique village crossroad; drawn main-road junction matches modern within ~50 px; old settlement road | modern feature names:  |Keltic Dr",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0001.jpg",
+        "sha256": "d7541a79e99aacbff640399f1e14bd81b475c8a8bde6cbfb53a04387ce88226c"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn main-road side junction by R.C. Church; coastal ~80 px modern offset noted",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0004",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 5122.7,
+        "y": 5423.6
+      },
+      "lonlat": {
+        "lon": -61.4277909,
+        "lat": 45.787223
+      },
+      "identity": "General Line Rd area interior junction; drawn fork matches modern shape | modern feature names:  |MacIntyre Mountain Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0004.jpg",
+        "sha256": "1784b996ee17755d1a58de2ab6931acbc9f0c1a0eb65fd7314e644a3f9b45b8c"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn 4-way exactly under modern junction",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0005",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 9419.8,
+        "y": 5266.5
+      },
+      "lonlat": {
+        "lon": -61.2314657,
+        "lat": 45.7913763
+      },
+      "identity": "Big Brook north junction near eastern frame; 3-way fork topology matches | modern feature names:  |MacCuish Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0005.jpg",
+        "sha256": "fd04ea9a52124d2c98713e721ad88d7831add9b5a8e0d15e742d507dcfbb3324"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn fork matches modern arms",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0010",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 7455.7,
+        "y": 1515.5
+      },
+      "lonlat": {
+        "lon": -61.3229272,
+        "lat": 45.9099403
+      },
+      "identity": "North-edge road junction near Don McEachern; drawn road tracks modern within ~60 px, fork topology matches | modern feature names: Dryweather|MacLeod Settlement Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0010.jpg",
+        "sha256": "b240cb9b89d5d425bb5cda6d74b79eb4f89e78e65745cbe302d7fd2a65d0ddde"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn 3-way with W arm to McEachern",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0011",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 4810.2,
+        "y": 5641.3
+      },
+      "lonlat": {
+        "lon": -61.4417396,
+        "lat": 45.7797446
+      },
+      "identity": "General Line Rd junction; drawn road closely tracked by modern red | modern feature names:  |General Line Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0011.jpg",
+        "sha256": "b7748a2221c22a7ddb68340a5b987cfa484196ed3ae9f45bf1bc6993058f329c"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: General Line Rd fork with E branch",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0017",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 7708.0,
+        "y": 4534.5
+      },
+      "lonlat": {
+        "lon": -61.3095248,
+        "lat": 45.8148558
+      },
+      "identity": "Glendale east side-road fork; matches drawn fork orientation | modern feature names: Maple Brook Rd|Mason Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0017.jpg",
+        "sha256": "4c3d0be695ceb3d91fbb138f4e7be004060c96d9c56a91adec174277d1db73ea"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: Glendale east fork, arms match; near drawn rail crossing",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0030",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 6723.9,
+        "y": 3003.5
+      },
+      "lonlat": {
+        "lon": -61.3556071,
+        "lat": 45.8633231
+      },
+      "identity": "River Denys Road x N-S road; drawn junction essentially at X, old named road | modern feature names:  |River Denys Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0030.jpg",
+        "sha256": "8d437d07bcd0063103bfa44f08413d1e3137e0d0a701decdf2e2cb6b5664440b"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: River Denys Rd x N-S road, overlay within ~10 px",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0033",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 3417.2,
+        "y": 1515.1
+      },
+      "lonlat": {
+        "lon": -61.5055767,
+        "lat": 45.9100678
+      },
+      "identity": "Mackay Pt/John Gillis coastal road fork; modern-drawn offset larger (~80-130 px) but matching fork present; scrutinize at pin | modern feature names: Hideaway Dr|Shore Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0033.jpg",
+        "sha256": "d02109d4523d42cc757d1798ad90a1e77b45e601663d3f50e69c7bafbf693bbd"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn road fork with matching arms confirmed",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0054",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 3478.0,
+        "y": 3198.7
+      },
+      "lonlat": {
+        "lon": -61.5021722,
+        "lat": 45.8576819
+      },
+      "identity": "Campbell Point coastal stream/cove; coast tracks well; pin scrutiny | modern feature names:  |Baxters Cove Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0054.jpg",
+        "sha256": "bfc14c3f78fd1de370bbe53b50f5d0bc0fa9f0a71800c1a7e57beca91edfdadb"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: unique drawn lagoon+outlet notch; modern lagoon ring on top",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0059",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 7341.3,
+        "y": 2808.1
+      },
+      "lonlat": {
+        "lon": -61.3277063,
+        "lat": 45.869169
+      },
+      "identity": "River Denys Road village, Old Road junction; drawn junction at X | modern feature names:  |River Denys Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0059.jpg",
+        "sha256": "32e39a3ce57d0c1db66b2f0368c824b3abe927cbbe5edc93b384b41ed5f3f1e4"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: Old Road three-arm junction",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0063",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 7393.9,
+        "y": 4355.7
+      },
+      "lonlat": {
+        "lon": -61.3243573,
+        "lat": 45.8202516
+      },
+      "identity": "North of Glendale road fork; moderate clean tracking | modern feature names: Cameron Mountain Rd|MacInnis Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0063.jpg",
+        "sha256": "9f1255cc09541a39937d075179294f29e54f11d3af6fe5320d953686e5c2c92d"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: fork north of Glendale confirmed",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0106",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 6136.2,
+        "y": 6233.5
+      },
+      "lonlat": {
+        "lon": -61.3842926,
+        "lat": 45.7622536
+      },
+      "identity": "Don McIsaac trail fork near south margin; faint drawn trail; mandatory pin scrutiny | modern feature names:  |Dryweather",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0106.jpg",
+        "sha256": "55d363dd60c33dc736e9c4173b0c931fd08427d831b285f324fffcde41b9f8f1"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn trail fork clear, modern fork on top",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0141",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 4913.5,
+        "y": 2729.2
+      },
+      "lonlat": {
+        "lon": -61.4381278,
+        "lat": 45.8718283
+      },
+      "identity": "River Denys Rd (west) x north road; X lands on drawn junction | modern feature names:  |Dryweather",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0141.jpg",
+        "sha256": "8a5e45d57de2e353e48731d54f057e447e6ed793527a0a6cd0a77e6057e031c0"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: faint drawn crossroad at Rory Chisholm confirmed",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0169",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 8267.8,
+        "y": 2189.6
+      },
+      "lonlat": {
+        "lon": -61.2859628,
+        "lat": 45.8886785
+      },
+      "identity": "Diogenes Brook branch junction at Colin Chisholm's Mill; falls/mill topology matches | modern feature names: Dryweather|IN0560-OLD MILL, RD",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0169.jpg",
+        "sha256": "bdb946f2a538ab055a189df0199bf38fe12da5a116c7ecbcaea41729ed1d38d0"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: falls-branch junction W of mill; drawn-modern offset ~60 px E consistent",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0173",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 5477.7,
+        "y": 5495.2
+      },
+      "lonlat": {
+        "lon": -61.4118594,
+        "lat": 45.784423
+      },
+      "identity": "McDougall School S-branch junction; drawn branch ~70 px NE of X; pin scrutiny | modern feature names:  |MacIntyre Mountain Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0173.jpg",
+        "sha256": "2bd70164bd1220f772cc60891e18189cb184fdb0fe754296ef838cc267a7d54b"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: S-branch junction SW of McDougall School; diagonal main road + S branch topology matches",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0179",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 8136.0,
+        "y": 2795.8
+      },
+      "lonlat": {
+        "lon": -61.2919732,
+        "lat": 45.8694286
+      },
+      "identity": "Gold Mine road branch E of River Denys Rd village; drawn branch at X | modern feature names:  |River Denys Rd",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0179.jpg",
+        "sha256": "c3cfecbc6ed2b3e1b1ba4b3a2e7ff277c24ea02a6ca45e572ce708c43f951cb1"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: Gold Mine road N+S branches faint but present",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-0303",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 5947.0,
+        "y": 2503.0
+      },
+      "lonlat": {
+        "lon": -61.3856371,
+        "lat": 45.8780147
+      },
+      "identity": "SW Mabou River drawn fork essentially under X | modern feature names:  |Track",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-0303.jpg",
+        "sha256": "f1060f6bb9450dac400494e057d3d75a68287cfd25997ef8ec8cf80e83ece7cd"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: true drawn+modern fork sits NW of coarse estimate, agreeing within ~15 px",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-1041",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 5877.1,
+        "y": 4365.9
+      },
+      "lonlat": {
+        "lon": -61.3944055,
+        "lat": 45.8212003
+      },
+      "identity": "Rough Brook tributary at road; pin scrutiny | modern feature names: obj-211312|obj-63278|obj-63279",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-1041.jpg",
+        "sha256": "2c1536f47cbf5c3b01fe7ee02d6e2dc44f2a30446c326e66fddca31e13e51129"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: faint but present drawn tributary fork, blue fork on top",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-1179",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 6393.3,
+        "y": 4048.4
+      },
+      "lonlat": {
+        "lon": -61.3697402,
+        "lat": 45.829804
+      },
+      "identity": "pond outlet, McPherson Brook area; only pond in vicinity, outlet needs zoom; pin scrutiny | modern feature names: obj-134230|obj-134231|obj-224048",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-1179.jpg",
+        "sha256": "e4decc30b4aa94e1e857fb3fd558c1f2ab34c96724a41dd47e627f18f999eb25"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: unique drawn pond with outlet; modern stream through it; pond outline offset ~100 px noted as uncertainty",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-1214",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 7463.7,
+        "y": 4597.8
+      },
+      "lonlat": {
+        "lon": -61.3207345,
+        "lat": 45.8113096
+      },
+      "identity": "Glendale Brook x River Inhabitants at Glendale village (n09 replacement); drawn junction ~60 px from modern; neighbourhood tracks well | modern feature names: obj-161054|obj-168294|obj-276070",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-1214.jpg",
+        "sha256": "901f852d9ce4fc3bec6d12336d5a8ab16aee1ba7b11a28c31b1e0f3c883bbebb"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn Glendale Brook x River Inhabitants junction at Mill label; corrected 40 px south",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-1643",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 6809.3,
+        "y": 1983.1
+      },
+      "lonlat": {
+        "lon": -61.3474726,
+        "lat": 45.8953537
+      },
+      "identity": "SW Mabou upper tributary junction; drawn and modern track well | modern feature names: obj-198017|obj-198019|obj-198021",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-1643.jpg",
+        "sha256": "0226610526241b9114e1a07cceb5367fa023e0a4974fbd72283abfe83a525b5f"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: drawn junction ~100 px W of blue (real warp); drawn E tributary discernible",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-1872",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 8622.8,
+        "y": 2236.7
+      },
+      "lonlat": {
+        "lon": -61.2698365,
+        "lat": 45.8881693
+      },
+      "identity": "Diogenes Brook fork at Colin Chisholm's Mill; drop if crowding cand-0169 after pin | modern feature names: obj-199812|obj-262646|obj-262647",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-1872.jpg",
+        "sha256": "3c981d0acbb894febf6f6c68679b120b9067860ae84ac47faaafb70640340bc1"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: fork under Chisholm's label resolves; distinct from cand-0169",
+        "date": "2026-07-26"
+      }
+    },
+    {
+      "id": "cand-2018",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 6370.4,
+        "y": 3695.2
+      },
+      "lonlat": {
+        "lon": -61.3723246,
+        "lat": 45.8423771
+      },
+      "identity": "Graham River bend tributary junction near Dennistown | modern feature names: obj-224092|obj-286325",
+      "uncertainty": "Ink junction read from 500 px pin crop (~5-10 px); engraved road/stream line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/pin/cand-2018.jpg",
+        "sha256": "9b378f002bf4704370df0ff8a306e0d0d7b1acfe78a07c3a38d8f52ebb8f1bc4"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "pin zoom: Graham River bend tributary junction as estimated",
+        "date": "2026-07-26"
+      }
     }
   ],
   "diagnostics": [
@@ -797,6 +1464,50 @@
     {
       "id": "legacy-grid-controls",
       "reason": "Older grid-derived controls and warps are diagnostic only and are not inputs to this pilot."
+    },
+    {
+      "id": "cand-0037",
+      "reason": "pin zoom: claimed fork on Inhabitants Road not confidently visible under banding"
+    },
+    {
+      "id": "cand-0040",
+      "reason": "pin zoom: modern E-W arm has no drawn counterpart"
+    },
+    {
+      "id": "cand-0079",
+      "reason": "pin zoom: modern N arm absent from drawing; junction is a drawn road bend"
+    },
+    {
+      "id": "cand-0107",
+      "reason": "pin zoom: drawn road passes straight through; modern junction arm absent from 1884"
+    },
+    {
+      "id": "cand-0127",
+      "reason": "pin zoom: SW shore strip offset too large to bind a specific junction"
+    },
+    {
+      "id": "cand-0161",
+      "reason": "pin zoom: modern point is a street name-change split, no crisp drawn junction (miner trap: same-road name changes)"
+    },
+    {
+      "id": "cand-0184",
+      "reason": "pin zoom: crosshatch obscures; no clear drawn fork"
+    },
+    {
+      "id": "cand-0188",
+      "reason": "pin zoom: rail/road/brook junction complex, identity ambiguous"
+    },
+    {
+      "id": "cand-1037",
+      "reason": "pin zoom: drawn brook fades into strike marks before junction"
+    },
+    {
+      "id": "cand-1239",
+      "reason": "pin zoom: no drawn stream at X; earlier faint lines were the letter C and paper texture"
+    },
+    {
+      "id": "cand-1355",
+      "reason": "pin zoom: white banding obscures drainage; no confident drawn fork"
     }
   ],
   "schema_version": 2,
