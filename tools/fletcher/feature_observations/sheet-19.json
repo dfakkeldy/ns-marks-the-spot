@@ -1362,6 +1362,122 @@
         "note": "pin zoom: Graham River bend tributary junction as estimated",
         "date": "2026-07-26"
       }
+    },
+    {
+      "id": "cand-0413",
+      "feature_type": "road-water-crossing",
+      "pixel": {
+        "x": 9145.4,
+        "y": 3146.1
+      },
+      "lonlat": {
+        "lon": -61.2453556,
+        "lat": 45.8592356
+      },
+      "identity": "Southside River Denys Road crossing at drawn tributary; modern road and water crossing matches the 1884 ink | modern feature names: |Southside River Denys Rd",
+      "uncertainty": "Road and water-line widths in the 1400 px iteration crop (~8-15 px).",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "Road candidate mined from bbox extracts; crossing identity confirmed against the water overlay and historical ink."
+      },
+      "evidence_crop": {
+        "path": "qa/v2/round2-candidates/cand-0413.jpg",
+        "sha256": "a3edf2c847a1127b7c2340c638634e21ab300ab047a3c78e3533910b499781c1"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "round-2 review: drawn road/tributary crossing is directly under the modern crossing; retained as an eastern stability anchor",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-1344",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 4512.8,
+        "y": 4503.9
+      },
+      "lonlat": {
+        "lon": -61.4586784,
+        "lat": 45.8156717
+      },
+      "identity": "Long Point interior tributary junction; matching three-arm water topology | modern feature names: obj-195588|obj-253995|obj-253996",
+      "uncertainty": "Junction centre read from the 1400 px iteration crop (~10-15 px); engraved water-line width and overlay occlusion.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); object ids recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/round2-candidates/cand-1344.jpg",
+        "sha256": "e9e78b6b6e8ae56458c725731ae086e5c1aa60221d185f38cbb07ba962e66df2"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "round-2 review: matching water-junction topology is ~8 px west and ~12 px north of the round-1 projection",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-1394",
+      "feature_type": "water-junction",
+      "pixel": {
+        "x": 8885.4,
+        "y": 3155.8
+      },
+      "lonlat": {
+        "lon": -61.257349,
+        "lat": 45.8589371
+      },
+      "identity": "River Denys eastern tributary junction; drawn and modern three-arm topology coincide | modern feature names: obj-195752|obj-198371|obj-198372",
+      "uncertainty": "Junction centre read from the 1400 px iteration crop (~8-15 px); engraved water-line width.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); object ids recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/round2b-candidates/cand-1394.jpg",
+        "sha256": "ec7fa81229184b41ac3c4352ef1d35752377da8e607213985408158b7520c48d"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "round-2 review: the modern water junction lies on the matching drawn junction; retained as an eastern stability anchor",
+        "date": "2026-07-27"
+      }
+    },
+    {
+      "id": "cand-0286",
+      "feature_type": "road-road-intersection",
+      "pixel": {
+        "x": 4635.5,
+        "y": 4561.7
+      },
+      "lonlat": {
+        "lon": -61.4533216,
+        "lat": 45.814509
+      },
+      "identity": "General Line Road and track junction near Long Point; matching drawn side-road topology | modern feature names: General Line Rd|Track",
+      "uncertainty": "Road junction read from the 1400 px iteration crop (~8-15 px); engraved road-line width and nearby drainage.",
+      "modern_source": {
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+        "layers": [],
+        "retrieved_at": "2026-07-26",
+        "note": "mined from bbox extracts (reference/receipts.json); feature names recorded in identity"
+      },
+      "evidence_crop": {
+        "path": "qa/v2/round2b-candidates/cand-0286.jpg",
+        "sha256": "ffece625977e057136fe1b79e62cd00beb53fd23008ff3b357c4c67bcce5dbf2"
+      },
+      "review": {
+        "status": "accepted",
+        "note": "round-2 review: modern junction coincides with the drawn General Line Road side-road junction; retained as a western stability anchor",
+        "date": "2026-07-27"
+      }
     }
   ],
   "diagnostics": [
@@ -1508,6 +1624,118 @@
     {
       "id": "cand-1355",
       "reason": "pin zoom: white banding obscures drainage; no confident drawn fork"
+    },
+    {
+      "id": "cand-1646",
+      "reason": "round-2 review: modern water confluence is visible, but the historical ink does not show the same junction topology"
+    },
+    {
+      "id": "cand-0211",
+      "reason": "round-2 review: dense road and drainage linework leaves the modern Track node without a unique drawn counterpart"
+    },
+    {
+      "id": "cand-0612",
+      "reason": "round-2 review: modern and drawn River Denys Road align, but the candidate is a segment node rather than a distinct historical junction"
+    },
+    {
+      "id": "cand-1118",
+      "reason": "round-2 review: candidate falls among report text and faint drainage; no defensible drawn junction"
+    },
+    {
+      "id": "cand-1501",
+      "reason": "round-2 review: modern water junction is clear, but multiple nearby historical lines make its exact counterpart ambiguous"
+    },
+    {
+      "id": "cand-0615",
+      "reason": "round-2 review: road and drainage complex is too dense to isolate the Chisholm-MacLean and General Line junction"
+    },
+    {
+      "id": "cand-2097",
+      "reason": "round-2 review: candidate is obscured by red report text and no matching historical water junction is legible"
+    },
+    {
+      "id": "cand-0351",
+      "reason": "round-2 review: dense mine, road, rail, and drainage linework makes the modern road junction identity ambiguous"
+    },
+    {
+      "id": "cand-0598",
+      "reason": "round-2 review: modern and drawn road traces align locally, but no distinct historical junction exists at the candidate"
+    },
+    {
+      "id": "cand-1683",
+      "reason": "round-2 review: water overlays cross dense label and mill linework; matching junction topology is not unambiguous"
+    },
+    {
+      "id": "cand-1922",
+      "reason": "round-2 review: red report text obscures the candidate and no exact historical junction can be read"
+    },
+    {
+      "id": "cand-0305",
+      "reason": "round-2 review: modern and drawn General Line Road align, but the candidate is not a distinct historical junction"
+    },
+    {
+      "id": "cand-0312",
+      "reason": "round-2 review: modern and drawn MacIntyre Mountain Road align, but the candidate is a segment node without unique topology"
+    },
+    {
+      "id": "cand-1889",
+      "reason": "round-2 review: modern stream passes the candidate, but no matching drawn junction is legible"
+    },
+    {
+      "id": "cand-1644",
+      "reason": "round-2b review: modern junction lies near a historical channel, but overlay occlusion prevents a unique three-arm match"
+    },
+    {
+      "id": "cand-1997",
+      "reason": "round-2b review: modern water junction and drawn main channel are visibly separated, but the tributary identity is not unique enough to correct"
+    },
+    {
+      "id": "cand-0331",
+      "reason": "round-2b review: candidate falls over report text with no matching historical Track and Trail junction"
+    },
+    {
+      "id": "cand-0613",
+      "reason": "round-2b review: River Denys Road traces align, but the modern dryweather arm lacks a unique drawn counterpart"
+    },
+    {
+      "id": "cand-1751",
+      "reason": "round-2b review: candidate water junction lacks a legible matching historical tributary"
+    },
+    {
+      "id": "cand-2137",
+      "reason": "round-2b review: dense Long Point drainage and road linework prevents a unique historical junction match"
+    },
+    {
+      "id": "cand-1985",
+      "reason": "round-2b review: report text and dense Glendale linework obscure the candidate water junction"
+    },
+    {
+      "id": "cand-0549",
+      "reason": "round-2b review: mine, road, rail, and drainage linework makes the three-road junction identity ambiguous"
+    },
+    {
+      "id": "cand-1682",
+      "reason": "round-2b review: mill label and overlapping water traces prevent a unique historical confluence match"
+    },
+    {
+      "id": "cand-1561",
+      "reason": "round-2b review: modern water junction lies near a drawn stream, but the tributary arm is not confidently legible"
+    },
+    {
+      "id": "cand-1930",
+      "reason": "round-2b review: report text obscures the modern water junction and no unique drawn counterpart is visible"
+    },
+    {
+      "id": "cand-0825",
+      "reason": "round-2b review: modern drainage meets the candidate, but the historical stream junction is not confidently drawn"
+    },
+    {
+      "id": "cand-0250",
+      "reason": "round-2b review: candidate is a modern Track node with no distinct historical road junction"
+    },
+    {
+      "id": "cand-1888",
+      "reason": "round-2b review: modern stream follows the drawn brook locally, but no matching tributary junction is visible"
     }
   ],
   "schema_version": 2,
