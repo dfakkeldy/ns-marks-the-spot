@@ -400,7 +400,7 @@
         "note": "imported from sheet19-feature-pilot-v1 pre-fit acceptance",
         "status": "accepted"
       },
-      "uncertainty": "Historical rail hachures and road-centre line width."
+      "uncertainty": "Historical rail hachures and road-centre line width. Rail on this 1884 sheet is engraved as a proposed alignment elsewhere (PROPOSED RAILWAY TO WHYCOCOMAGH); retained because the engraved line tracks the modern railway within ~80 m through this crossing sequence."
     },
     {
       "evidence_crop": {
@@ -441,10 +441,8 @@
         "note": "imported from sheet19-feature-pilot-v1 pre-fit acceptance",
         "status": "accepted"
       },
-      "uncertainty": "Historical rail hachures and road-centre line width."
-    }
-  ],
-  "diagnostics": [
+      "uncertainty": "Historical rail hachures and road-centre line width. Rail on this 1884 sheet is engraved as a proposed alignment elsewhere (PROPOSED RAILWAY TO WHYCOCOMAGH); retained because the engraved line tracks the modern railway within ~80 m through this crossing sequence."
+    },
     {
       "evidence_crop": {
         "path": "checks/n02__center-3783-5248__origin-3083-4548.jpg",
@@ -483,9 +481,9 @@
       },
       "region": "qa-region-1",
       "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
+        "status": "accepted",
+        "note": "re-reviewed with NSTDB overlay via affine prior: drawn stream mouth at recorded pixel; modern watercourse 195521 mouth is nearest coastal mouth (~370 m under affine); coastal road and adjacent streams shift coherently the same direction, supporting same identity under local coastal warp. Pin-verify at precision stage.",
+        "date": "2026-07-26"
       },
       "uncertainty": "Tidal shoreline generalization and historical line width."
     },
@@ -527,9 +525,9 @@
       },
       "region": "qa-region-1",
       "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
+        "status": "accepted",
+        "note": "re-reviewed with overlay: drawn Long Point stream mouth matches nearest modern mouth (~430 m under affine); neighbourhood features shift coherently; same-identity under local warp. Pin-verify at precision stage.",
+        "date": "2026-07-26"
       },
       "uncertainty": "Tidal shoreline generalization and historical line width."
     },
@@ -571,9 +569,9 @@
       },
       "region": "qa-region-1",
       "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
+        "status": "accepted",
+        "note": "re-reviewed with overlay: drawn inlet stream mouth at recorded pixel; modern watercourse 209689 mouth nearest (~630 m under affine); the whole coastal strip (road, streams, shore) shifts coherently seaward, indicating real local warp not mis-identity. Pin-verify at precision stage.",
+        "date": "2026-07-26"
       },
       "uncertainty": "Tidal shoreline generalization and historical line width."
     },
@@ -614,89 +612,11 @@
       },
       "region": "qa-region-2",
       "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
+        "status": "accepted",
+        "note": "re-reviewed with overlay: named Judique Intervale Brook; modern channel passes essentially through the recorded pixel (~230 m delta); identity confirmed.",
+        "date": "2026-07-26"
       },
       "uncertainty": "Tidal shoreline generalization and historical line width."
-    },
-    {
-      "evidence_crop": {
-        "path": "checks/n08__center-7635-6128__origin-6935-5428.jpg",
-        "sha256": "f0ed3494dc35ae5d34fb531a876e284c74a5b9ae9561114cae3d7705e83a3551"
-      },
-      "feature_type": "river-confluence",
-      "id": "n08",
-      "identity": "Same named confluence and tributary orientation. | MacLeods Brook joins the River Inhabitants.",
-      "lonlat": {
-        "lat": 45.76397197225458,
-        "lon": -61.31018942947485
-      },
-      "modern_source": {
-        "layers": [
-          {
-            "layer_id": "4",
-            "object_ids": [
-              161194,
-              161195,
-              269663
-            ]
-          }
-        ],
-        "retrieved_at": "2026-07-26",
-        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer"
-      },
-      "origin": "burned-check-v1",
-      "pixel": {
-        "x": 8021.0,
-        "y": 6456.0
-      },
-      "region": "qa-region-3",
-      "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
-      },
-      "uncertainty": "Historical water-line width and confluence generalization."
-    },
-    {
-      "evidence_crop": {
-        "path": "checks/n09__center-7405-4639__origin-6705-3939.jpg",
-        "sha256": "51645763f3e0bb3a537dfa504d2fce018025bdac11672a56e814f2b68efc842e"
-      },
-      "feature_type": "river-confluence",
-      "id": "n09",
-      "identity": "Same named confluence and tributary orientation. | Glendale Brook joins the River Inhabitants.",
-      "lonlat": {
-        "lat": 45.811328240692056,
-        "lon": -61.32065670986413
-      },
-      "modern_source": {
-        "layers": [
-          {
-            "layer_id": "4",
-            "object_ids": [
-              262424,
-              276069,
-              276070
-            ]
-          }
-        ],
-        "retrieved_at": "2026-07-26",
-        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer"
-      },
-      "origin": "burned-check-v1",
-      "pixel": {
-        "x": 7110.0,
-        "y": 4426.0
-      },
-      "region": "qa-region-3",
-      "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
-      },
-      "uncertainty": "Historical water-line width and confluence generalization."
     },
     {
       "evidence_crop": {
@@ -731,9 +651,9 @@
       },
       "region": "qa-region-4",
       "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
+        "status": "accepted",
+        "note": "re-reviewed with overlay: named Alder/MacPhail junction; drawn confluence matches modern within ~160 m; identity confirmed.",
+        "date": "2026-07-26"
       },
       "uncertainty": "Historical water-line width and confluence generalization."
     },
@@ -770,9 +690,89 @@
       },
       "region": "qa-region-3",
       "review": {
-        "date": "2026-07-26",
-        "note": "held-out residual was seen in the 2026-07-26 affine pilot",
-        "status": "needs-re-review"
+        "status": "accepted",
+        "note": "re-reviewed with overlay: drawn south-bank tributary junction on River Inhabitants matches modern Maple Brook confluence within ~420 m with locally consistent river tracking; identity confirmed.",
+        "date": "2026-07-26"
+      },
+      "uncertainty": "Historical water-line width and confluence generalization."
+    }
+  ],
+  "diagnostics": [
+    {
+      "evidence_crop": {
+        "path": "checks/n08__center-7635-6128__origin-6935-5428.jpg",
+        "sha256": "f0ed3494dc35ae5d34fb531a876e284c74a5b9ae9561114cae3d7705e83a3551"
+      },
+      "feature_type": "river-confluence",
+      "id": "n08",
+      "identity": "Same named confluence and tributary orientation. | MacLeods Brook joins the River Inhabitants.",
+      "lonlat": {
+        "lat": 45.76397197225458,
+        "lon": -61.31018942947485
+      },
+      "modern_source": {
+        "layers": [
+          {
+            "layer_id": "4",
+            "object_ids": [
+              161194,
+              161195,
+              269663
+            ]
+          }
+        ],
+        "retrieved_at": "2026-07-26",
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer"
+      },
+      "origin": "burned-check-v1",
+      "pixel": {
+        "x": 8021.0,
+        "y": 6456.0
+      },
+      "region": "qa-region-3",
+      "review": {
+        "status": "rejected",
+        "note": "re-reviewed with overlay: drawn river tracks modern channel within ~150 px locally, refuting a 1.5 km map displacement; the recorded pixel is a different (downstream) drawn junction than the modern MacLeods Brook confluence, which projects ~450 px northwest. Identity wrong; do not reuse this correspondence.",
+        "date": "2026-07-26"
+      },
+      "uncertainty": "Historical water-line width and confluence generalization."
+    },
+    {
+      "evidence_crop": {
+        "path": "checks/n09__center-7405-4639__origin-6705-3939.jpg",
+        "sha256": "51645763f3e0bb3a537dfa504d2fce018025bdac11672a56e814f2b68efc842e"
+      },
+      "feature_type": "river-confluence",
+      "id": "n09",
+      "identity": "Same named confluence and tributary orientation. | Glendale Brook joins the River Inhabitants.",
+      "lonlat": {
+        "lat": 45.811328240692056,
+        "lon": -61.32065670986413
+      },
+      "modern_source": {
+        "layers": [
+          {
+            "layer_id": "4",
+            "object_ids": [
+              262424,
+              276069,
+              276070
+            ]
+          }
+        ],
+        "retrieved_at": "2026-07-26",
+        "service_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer"
+      },
+      "origin": "burned-check-v1",
+      "pixel": {
+        "x": 7110.0,
+        "y": 4426.0
+      },
+      "region": "qa-region-3",
+      "review": {
+        "status": "rejected",
+        "note": "re-reviewed with overlay: recorded pixel sits on an upstream brook-brook junction near D.McInnes; modern Glendale Brook meets River Inhabitants at Glendale village, ~430 px southeast, where a matching drawn junction exists. Identity wrong; the village junction is a candidate for a fresh control after precision pinning.",
+        "date": "2026-07-26"
       },
       "uncertainty": "Historical water-line width and confluence generalization."
     }
