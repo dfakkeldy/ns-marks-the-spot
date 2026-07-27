@@ -44,6 +44,25 @@ function drawTriangle(
   s0: XY, s1: XY, s2: XY,
   d0: XY, d1: XY, d2: XY,
 ): void {
+  // Cull triangles that cannot touch the backing canvas. The clip path grows
+  // each vertex up to CLIP_OVERDRAW_DEVICE_PX outward from the centroid, so
+  // the bbox must grow by the same amount before the miss test — a triangle
+  // whose raw bbox ends 1 px off-canvas still paints its overdraw ring.
+  // Nearly all of a viewport-capped walk's cost is per-triangle overhead for
+  // triangles that land entirely off-canvas; this skips them before any
+  // canvas state is touched.
+  const grownMinX = Math.min(d0.x, d1.x, d2.x) - CLIP_OVERDRAW_DEVICE_PX;
+  const grownMaxX = Math.max(d0.x, d1.x, d2.x) + CLIP_OVERDRAW_DEVICE_PX;
+  const grownMinY = Math.min(d0.y, d1.y, d2.y) - CLIP_OVERDRAW_DEVICE_PX;
+  const grownMaxY = Math.max(d0.y, d1.y, d2.y) + CLIP_OVERDRAW_DEVICE_PX;
+  if (
+    grownMaxX <= 0 ||
+    grownMaxY <= 0 ||
+    grownMinX >= ctx.canvas.width ||
+    grownMinY >= ctx.canvas.height
+  ) {
+    return;
+  }
   const cx = (d0.x + d1.x + d2.x) / 3;
   const cy = (d0.y + d1.y + d2.y) / 3;
   const grow = (d: XY): XY => {
