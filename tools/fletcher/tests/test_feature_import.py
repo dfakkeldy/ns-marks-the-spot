@@ -62,6 +62,11 @@ class ConvertTests(unittest.TestCase):
             fixture["final_checks"][0]["area_id"] = "unknown-area"
             convert_v1(fixture, REGION_MAP, REGIONS)
 
+    def test_region_map_target_must_be_declared(self) -> None:
+        orphaned_region_map = {"pid-50319672-coastal-north": "qa-region-999"}
+        with self.assertRaisesRegex(ValueError, "qa-region-999"):
+            convert_v1(v1_fixture(), orphaned_region_map, REGIONS)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -16,7 +16,9 @@ import pathlib
 
 from tools.fletcher.feature_observation import (
     ACCEPTED,
+    METHOD_VERSION,
     NEEDS_RE_REVIEW,
+    SCHEMA_VERSION,
     validate_observation,
 )
 
@@ -49,13 +51,18 @@ def _convert_control(point: dict) -> dict:
     return _convert_point(point, ACCEPTED, IMPORT_NOTE)
 
 
-def _convert_diagnostic(point: dict, region_map: dict[str, str]) -> dict:
+def _convert_diagnostic(point: dict, region_map: dict[str, str], regions: dict[str, str]) -> dict:
     converted = _convert_point(point, NEEDS_RE_REVIEW, DIAGNOSTIC_NOTE)
     area_id = point.get("area_id")
     if area_id not in region_map:
         raise ValueError(f"no region_map entry for area_id {area_id!r}")
+    region = region_map[area_id]
+    if region not in regions:
+        raise ValueError(
+            f"area_id {area_id!r} maps to undeclared region {region!r}"
+        )
     converted["origin"] = DIAGNOSTIC_ORIGIN
-    converted["region"] = region_map[area_id]
+    converted["region"] = region
     return converted
 
 
@@ -71,15 +78,16 @@ def convert_v1(v1: dict, region_map: dict[str, str], regions: dict[str, str]) ->
     could leak the pilot parcel's identity.
     """
     v2 = {
-        "schema_version": 2,
-        "method_version": "feature-led-v2",
+        "schema_version": SCHEMA_VERSION,
+        "method_version": METHOD_VERSION,
         "sheet_id": v1["sheet_id"],
         "source_receipt": dict(v1["source_receipt"]),
         "usable_frame": _convert_frame(v1["usable_frame"]),
         "regions": dict(regions),
         "controls": [_convert_control(point) for point in v1.get("controls", ())],
         "diagnostics": [
-            _convert_diagnostic(point, region_map) for point in v1.get("final_checks", ())
+            _convert_diagnostic(point, region_map, regions)
+            for point in v1.get("final_checks", ())
         ],
         "final_checks": [],
         "rejected": [
