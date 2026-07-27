@@ -219,7 +219,7 @@ describe("solve method", () => {
     // these two separate sites, and a fallback in only one of them would let
     // the panel go coarse while every saved layer kept paying). At three
     // points the spline's bending weights are exactly zero, so the drapes are
-    // identical — measured 1.317e-9 m apart — while 64x64 costs 8192 clipped
+    // identical — measured 1.317e-9 m apart — while 32x32 costs 2048 clipped
     // full-image draws per redraw against the affine's 2.
     const three = setup(BENT.slice(0, 3), { method: "tps" });
     expect(three.result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
@@ -497,7 +497,7 @@ describe("method-aware accuracy report", () => {
 
 describe("two-tier mesh density during a drag", () => {
   it("coarsens the TPS lattice while a point is being dragged and restores the fine tier once the pointer settles", () => {
-    // A settled TPS redraw is 2 * 64^2 = 8192 clipped `drawImage` calls, each
+    // A settled TPS redraw is 2 * 32^2 = 2048 clipped `drawImage` calls, each
     // one redrawing the WHOLE source image under a clip (verified at
     // `render/mesh.ts:67-69`). A drag emits state on every pointer move, so
     // the drag tier is 2 * 16^2 = 512 instead.
@@ -571,7 +571,7 @@ describe("two-tier mesh density during a drag", () => {
     // point's creation. The point is gone, React unmounts its marker, and
     // Leaflet's `dragend` — the only thing that clears `dragging` inside a
     // session — never fires. The drape then sits on the ~44 m drag lattice
-    // instead of the ~6 m settled one until the next drag happens to reset
+    // instead of the ~18 m settled one until the next drag happens to reset
     // it. A drag whose subject no longer exists cannot end any other way,
     // so undo itself must cancel it.
     const { result } = setup(BENT, { method: "tps" });

@@ -30,7 +30,7 @@ export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
     record.georef.method === "tps" &&
     // Below this the spline IS the affine through the same points — measured
     // at 1.317e-9 m worst separation — so the dense lattice buys nothing and
-    // costs 8192 clipped full-image draws per redraw in place of 2. A record
+    // costs 2048 clipped full-image draws per redraw in place of 2. A record
     // reaches that state by having a point deleted after the warp was chosen,
     // at which point the toggle is below its gate and the user cannot switch
     // back. See MIN_GCPS_FOR_BENDING_TPS.

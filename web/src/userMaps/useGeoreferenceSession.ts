@@ -192,7 +192,7 @@ export function useGeoreferenceSession(options: {
   /**
    * Which solver draws the live drape. Defaults to "affine" so existing
    * callers are unaffected — and because it is the right default: a spline
-   * costs an O(n^3) factorisation per edit and a 64x64 lattice per redraw to
+   * costs an O(n^3) factorisation per edit and a 32x32 lattice per redraw to
    * buy nothing at all on a scan that is not actually bent.
    */
   method?: GeoreferenceMethod;
@@ -599,7 +599,7 @@ export function useGeoreferenceSession(options: {
   //
   // And the TPS lattice — only the TPS lattice — is TWO-TIER. Each mesh cell
   // costs two clipped `drawImage` calls that each redraw the ENTIRE source
-  // image, so a settled `TPS_GRID_SIZE` redraw is 8 192 of them; a drag emits
+  // image, so a settled `TPS_GRID_SIZE` redraw is 2 048 of them; a drag emits
   // state on every pointer move, which `TPS_DRAG_GRID_SIZE` brings down to
   // 512 while still clearing half a CSS pixel at the zoom a user occupies
   // while dragging. The affine path deliberately does NOT switch tiers: one
@@ -608,8 +608,8 @@ export function useGeoreferenceSession(options: {
   //
   // And below MIN_GCPS_FOR_BENDING_TPS a `tps` session takes the AFFINE
   // lattice, because at three points the spline's bending weights are exactly
-  // zero and the two drapes agree to 1.317e-9 m — so the only thing 64x64 buys
-  // there is 8 192 draws in place of 2. The same fallback lives in
+  // zero and the two drapes agree to 1.317e-9 m — so the only thing 32x32 buys
+  // there is 2 048 draws in place of 2. The same fallback lives in
   // `meshForRecord`; Task 3 established these as two separate sites, and a
   // session-only version would coarsen the panel while every saved layer went
   // on paying.

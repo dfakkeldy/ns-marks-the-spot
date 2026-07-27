@@ -33,8 +33,8 @@ export const MIN_GCPS_FOR_TPS = 3;
  *    this app's own solver produces a real, exportable drape at all.
  *  - **The mesh fallback.** Below this count BOTH mesh builders draw the affine
  *    lattice for a `tps` record. The output is pixel-identical by the
- *    measurement above, and the cost is not: `TPS_GRID_SIZE` is 64, so a
- *    3-point `tps` record otherwise pays 2 * 64^2 = 8192 clipped full-image
+ *    measurement above, and the cost is not: `TPS_GRID_SIZE` is 32, so a
+ *    3-point `tps` record otherwise pays 2 * 32^2 = 2048 clipped full-image
  *    `drawImage` calls per redraw, on every pan and zoom, in place of 2 — and
  *    with the toggle hidden, the user has no way to turn it off.
  */

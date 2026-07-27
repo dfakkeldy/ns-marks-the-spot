@@ -64,28 +64,46 @@ export const TPS_DRAG_GRID_SIZE = 16;
 /**
  * Settled-state tier for a TPS mesh once the pointer stops moving.
  *
- * Measured mesh error at gridSize 64 is 6.0/1.1/2.0 ground m (max, three
- * real Church control sets) — a large accuracy jump over the drag tier's
- * 44.3/10.9/15.9 m, worth paying for once a redraw is no longer happening on
- * every pointer move. Render cost is sublinear in triangle count
- * (`T ∝ triangles^0.29–0.40` on node-canvas), so the jump from 16 to 64 costs
- * much less than the 16x increase in cell count suggests. gridSize 256 is
- * ruled out regardless of rasterizer: 19.65 ms of pure JavaScript per redraw
- * before a pixel is touched, measured independently of any canvas backend.
+ * 32, set by the real-browser measurement that rejected the provisional 64
+ * (2026-07-26, Chrome 148 / ANGLE Metal on an Apple M1 Pro — GPU raster
+ * confirmed via WEBGL_debug_renderer_info, not SwiftShader). Method: the
+ * shipping `drawWarpedImage` copied verbatim into a bench page; source a
+ * synthetic 7200x5400 ImageBitmap (Church-sheet dimensions; cost is content-
+ * independent), destination the 2560x1600 backing store `WarpedRasterLayer`
+ * allocates for a 1280x800 viewport at dpr 2; one-shot redraw timed to TRUE
+ * raster completion. `createImageBitmap(canvas)` resolves before raster
+ * finishes (2.3 ms vs the real 54 ms at gridSize 16), so completion was
+ * forced by reading the 8x8 snapshot back through a second tiny canvas —
+ * which, unlike `getImageData` on the big canvas, never demotes the canvas
+ * under test to software. Median redraw:
  *
- * **PROVISIONAL.** Browser rasterization cost is UNMEASURED — two
- * measurement methodologies failed for identified reasons (a hidden tab
- * reports 0 rAF callbacks; `getImageData` sync demotes an accelerated canvas
- * to software), and node-canvas's own number for the already-shipping
- * gridSize 8 (90 ms/redraw, 11 fps) would mean the existing feature is
- * visibly broken if taken at face value, so it overstates by an uncalibrated
- * factor. Once a real browser profile exists, 64 should be revisited; if it
- * proves too slow, **the documented fallback is 32** (17.70–17.78 m — still
- * NOT strictly better than 24, per the note above, but the next tier down
- * from 64 that materially costs less to rasterize). The 12–16 drag tier is
- * safe either way and does not depend on this profiling.
+ *     gridSize        8     16     32     64     128
+ *     triangles     128    512   2048   8192   32768
+ *     redraw ms    15.7     54    210    829    3423
+ *
+ * LINEAR at ~0.10 ms per clipped drawImage — the node-canvas "sublinear,
+ * T ∝ triangles^0.29–0.40" claim this replaces does not survive contact
+ * with a real browser (node-canvas also rated the shipping gridSize 8 at
+ * 90 ms vs the true 15.7 ms, which is why it could never adjudicate 64).
+ * The cost is per-triangle overhead, INDEPENDENT of source dimensions
+ * (gridSize 32 measures 213 ms with the source shrunk to 3600x2700), so the
+ * table holds for any sheet. Cross-checked on an OffscreenCanvas
+ * destination: 225/923 ms at 32/64, within 10%, ruling out hidden-tab
+ * raster deprioritisation in the measurement harness.
+ *
+ * The settled redraw is a post-gesture one-shot (`moveend`/`zoomend`/mesh
+ * swap). The bar, fixed before measuring: ~100 ms before a response stops
+ * feeling immediate, with 4x headroom for mid-range hardware under this
+ * M1 Pro — so ~25 ms measured. 64 misses it 33x over (0.83 s per pan end on
+ * a FAST machine) to buy 6.0/1.1/2.0 m of mesh error (max, three real
+ * Church control sets) against 32's 17.70–17.78 m — which, per the
+ * non-monotonicity note above, is itself not strictly better than 24; 32 is
+ * the documented fallback, not a local accuracy optimum. Even 32's 210 ms
+ * is noticeable; a materially finer settled tier needs a cheaper renderer
+ * (e.g. warp once into an offscreen and re-composite), not a bigger number
+ * here. 128 (3.4 s) is in the table only to close the question.
  */
-export const TPS_GRID_SIZE = 64;
+export const TPS_GRID_SIZE = 32;
 
 /**
  * Lattice of geographic positions over the raster for a TPS warp, in the

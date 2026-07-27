@@ -114,8 +114,8 @@ describe("meshForRecord", () => {
     // chosen: the toggle's gate is a count, so at three points the control is
     // gone and the user cannot switch back. The drapes are identical there —
     // the spline's bending weights are exactly zero at n = 3, measured at
-    // 1.317e-9 m worst separation — but the COST is not: TPS_GRID_SIZE is 64,
-    // so the spline path pays 2 * 64^2 = 8192 clipped full-image draws per
+    // 1.317e-9 m worst separation — but the COST is not: TPS_GRID_SIZE is 32,
+    // so the spline path pays 2 * 32^2 = 2048 clipped full-image draws per
     // redraw against the affine's 2, on every pan and zoom, forever.
     const threePoint = meshForRecord({
       ...GCP_RECORD,
