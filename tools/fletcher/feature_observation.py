@@ -97,7 +97,8 @@ def accepted_controls(obs: dict) -> list[GroundControlPoint]:
 
 
 def frozen_checks(obs: dict) -> list[GroundControlPoint]:
-    if not obs.get("checks_frozen_at"):
+    stamp = obs.get("checks_frozen_at")
+    if not isinstance(stamp, str) or not stamp:
         raise ValueError("final checks are not frozen")
     return [
         _point_gcp(point, CHECK_ROLE)

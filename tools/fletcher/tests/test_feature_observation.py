@@ -87,6 +87,22 @@ class RoleTests(unittest.TestCase):
         obs["checks_frozen_at"] = "2026-07-27"
         self.assertEqual([p.label for p in frozen_checks(obs)], ["n01"])
 
+    def test_frozen_checks_requires_string_stamp(self) -> None:
+        obs = minimal_obs()
+        obs["checks_frozen_at"] = 12345
+        with self.assertRaisesRegex(ValueError, "frozen"):
+            frozen_checks(obs)
+
+    def test_frozen_checks_excludes_unreviewed(self) -> None:
+        obs = minimal_obs()
+        obs["checks_frozen_at"] = "2026-07-27"
+        extra = copy.deepcopy(obs["final_checks"][0])
+        extra.update({"id": "n02"})
+        extra["review"] = {"status": NEEDS_RE_REVIEW, "note": "", "date": ""}
+        obs["final_checks"].append(extra)
+        points = frozen_checks(obs)
+        self.assertEqual([p.label for p in points], ["n01"])
+
 
 if __name__ == "__main__":
     unittest.main()
