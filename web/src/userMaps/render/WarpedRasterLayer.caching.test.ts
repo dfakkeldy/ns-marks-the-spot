@@ -80,6 +80,18 @@ const UNIT_MESH = [
   ],
 ];
 
+/**
+ * Denser lattice over the same span as UNIT_MESH: 8x8 cells = 128 triangles,
+ * enough that the chunk-sizing controller is not clamped by the mesh being
+ * smaller than one chunk.
+ */
+const DENSE_MESH = Array.from({ length: 9 }, (_, row) =>
+  Array.from({ length: 9 }, (_, col) => ({
+    lat: 46 - (0.1 * row) / 8,
+    lng: -63.1 + (0.1 * col) / 8,
+  })),
+);
+
 function makeLayer(latLngMesh = UNIT_MESH) {
   const image = document.createElement("canvas");
   image.width = 2;
@@ -113,7 +125,13 @@ function stubRaf() {
   vi.stubGlobal("cancelAnimationFrame", (id: number) => {
     queue.delete(id);
   });
-  const fireNext = () => {
+  // Frame timestamps are scripted, not read from the clock: the layer sizes
+  // its chunks from the delta between them, so a test that wants to model a
+  // slow frame has to be able to say so. The scripted clock starts at
+  // performance.now() because real rAF timestamps share that time origin,
+  // and the layer's first chunk is seeded from it.
+  let clock = performance.now();
+  const fireNext = (advanceMs = 16) => {
     const next = queue.entries().next().value as
       | [number, FrameRequestCallback]
       | undefined;
@@ -121,7 +139,8 @@ function stubRaf() {
       return false;
     }
     queue.delete(next[0]);
-    next[1](performance.now());
+    clock += advanceMs;
+    next[1](clock);
     return true;
   };
   return {
@@ -133,6 +152,10 @@ function stubRaf() {
     step: fireNext,
   };
 }
+
+/** Chunk sizes (the maxTriangles argument) in call order. */
+const chunkSizes = () =>
+  vi.mocked(drawWarpedTriangles).mock.calls.map((call) => call[5]);
 
 describe("WarpedRasterLayer warp caching", () => {
   let pane: HTMLElement;
@@ -236,6 +259,54 @@ describe("WarpedRasterLayer warp caching", () => {
     raf.flush();
     expect(warpCalls()).toBe(2);
     expect(chunkCalls()).toBe(0);
+  });
+
+  it("shrinks the next chunk after a frame that overran, and grows after a fast one", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    makeLayer(DENSE_MESH).onAdd(map);
+    // Never finishes: every chunk reports one triangle drawn, so the
+    // sequence keeps running and the sizing controller stays observable.
+    vi.mocked(drawWarpedTriangles).mockReturnValue(1);
+
+    map.simulateZoom(1);
+    raf.step(); // first deferral stage
+    raf.step(); // second stage: chunk 1, at the seed size
+    const seed = chunkSizes()[0];
+    expect(seed).toBeGreaterThan(0);
+
+    // A frame that took 200 ms — far past any sane budget — must cut the
+    // next chunk hard. The JS clock inside the walk cannot see this cost
+    // (GPU raster lands after drawImage returns), which is exactly why the
+    // signal is the frame delta.
+    raf.step(200);
+    const afterSlow = chunkSizes()[1];
+    expect(afterSlow).toBeLessThan(seed);
+
+    // A frame comfortably inside the budget grows the chunk again.
+    raf.step(1);
+    expect(chunkSizes()[2]).toBeGreaterThan(afterSlow);
+  });
+
+  it("keeps chunk sizes positive when a frame delta is degenerate", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    makeLayer(DENSE_MESH).onAdd(map);
+    vi.mocked(drawWarpedTriangles).mockReturnValue(1);
+
+    map.simulateZoom(1);
+    raf.step();
+    raf.step();
+    // Zero and negative deltas are real: a coalesced rAF batch can hand two
+    // callbacks the same timestamp, and a clock adjustment can move it
+    // backwards. Neither may produce a zero, negative, or non-finite chunk.
+    raf.step(0);
+    raf.step(-5);
+    raf.step(0);
+    for (const size of chunkSizes()) {
+      expect(Number.isFinite(size)).toBe(true);
+      expect(size).toBeGreaterThanOrEqual(1);
+    }
   });
 
   it("cancels the rest of a chunk sequence when a mesh swap lands mid-walk", () => {

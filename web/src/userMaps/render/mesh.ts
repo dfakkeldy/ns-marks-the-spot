@@ -90,17 +90,25 @@ function drawTriangle(
 }
 
 /**
- * Draws a contiguous run of mesh triangles, starting at `startTriangle`,
- * until the walk finishes or `budgetMs` of wall-clock time is spent
- * (checked with performance.now after every triangle; at least one triangle
- * is always drawn so a blown budget still makes progress). Returns the index
- * to resume from — equal to the triangle count when the walk is complete.
+ * Draws a contiguous run of at most `maxTriangles` mesh triangles, starting
+ * at `startTriangle`. Returns the index to resume from — equal to the
+ * triangle count when the walk is complete. At least one triangle is always
+ * consumed so a chunk sequence cannot stall.
+ *
+ * The chunk is sized in TRIANGLES, not milliseconds, because a JS clock
+ * cannot see this work: clipped drawImage returns as soon as the command is
+ * queued, and the raster it triggers lands later (measured on an M1 Pro: a
+ * walk reporting 8 ms of elapsed JS time cost 750 ms of completed GPU work).
+ * The caller converts its frame budget into a count from observed frame
+ * deltas — see WarpedRasterLayer.refineWarp.
  *
  * Triangles are indexed cell-major in the same order drawWarpedImage always
  * used — cell (row, col) owns triangles 2·(row·cols + col) and its
  * successor — so a walk split across calls paints the shared-edge overdraw
  * in the identical order and converges to the same pixels as a one-shot
- * walk.
+ * walk. Culled triangles count against the chunk too: skipping them is
+ * cheap, but scanning for a quota of DRAWN triangles would let one chunk
+ * traverse an unbounded off-canvas remainder.
  */
 export function drawWarpedTriangles(
   ctx: CanvasRenderingContext2D,
@@ -108,14 +116,14 @@ export function drawWarpedTriangles(
   srcMesh: XY[][],
   dstMesh: XY[][],
   startTriangle: number,
-  budgetMs: number,
+  maxTriangles: number,
 ): number {
   const rows = srcMesh.length - 1;
   const cols = srcMesh[0].length - 1;
   const total = rows * cols * 2;
-  const start = performance.now();
+  const stop = Math.min(total, startTriangle + Math.max(1, maxTriangles));
   let index = startTriangle;
-  while (index < total) {
+  while (index < stop) {
     const cell = index >> 1;
     const row = (cell / cols) | 0;
     const col = cell % cols;
@@ -133,9 +141,6 @@ export function drawWarpedTriangles(
       drawTriangle(ctx, image, s10, s11, s01, d10, d11, d01);
     }
     index += 1;
-    if (performance.now() - start >= budgetMs) {
-      break;
-    }
   }
   return index;
 }
@@ -151,5 +156,6 @@ export function drawWarpedImage(
   srcMesh: XY[][],
   dstMesh: XY[][],
 ): void {
-  drawWarpedTriangles(ctx, image, srcMesh, dstMesh, 0, Infinity);
+  const total = (srcMesh.length - 1) * (srcMesh[0].length - 1) * 2;
+  drawWarpedTriangles(ctx, image, srcMesh, dstMesh, 0, total);
 }

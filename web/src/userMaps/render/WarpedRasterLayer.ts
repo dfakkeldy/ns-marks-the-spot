@@ -49,16 +49,55 @@ const MAX_BACKING_DIM_DEVICE_PX = 4096;
 const DRAPE_MARGIN_DEVICE_PX = CLIP_OVERDRAW_DEVICE_PX + 1;
 
 /**
- * Wall-clock budget for one chunk of the deferred mesh walk, per animation
- * frame. ~8 ms rather than ~16 ms: a rAF callback shares its ~16.7 ms frame
- * (at 60 Hz) with Leaflet's own handlers and the browser's style, paint, and
+ * Target wall-clock cost of one chunk of the deferred mesh walk, per
+ * animation frame.
+ *
+ * ~8 ms rather than ~16 ms: a rAF callback shares its ~16.7 ms frame (at
+ * 60 Hz) with Leaflet's own handlers and the browser's style, paint, and
  * composite work, so a 16 ms chunk would guarantee dropped frames for the
  * whole refinement while 8 ms leaves roughly half the frame free and merely
  * doubles the (invisible — each chunk lands on already-correct composite
  * content) number of refinement frames. On a 120 Hz display an 8 ms chunk
  * still costs at most one skipped frame per chunk.
+ *
+ * It is a target, not a measured spend: see refineWarp for why a chunk
+ * cannot time itself.
  */
 const WARP_CHUNK_BUDGET_MS = 8;
+
+/**
+ * Frame delta treated as "this frame was not the bottleneck". A chunk that
+ * lands inside a vsync-limited frame reports the vsync interval no matter
+ * how little work it did, so growth has to be judged against a frame budget
+ * rather than against the chunk target: 20 ms is one 60 Hz frame plus a
+ * little slack, so ordinary on-time frames read as headroom and only real
+ * overruns shrink the chunk.
+ */
+const WARP_FRAME_TARGET_MS = 20;
+
+/**
+ * Triangles in the first chunk of a sequence, before any frame delta has
+ * been observed. Deliberately small: the per-triangle cost spans more than
+ * two orders of magnitude (measured on an M1 Pro, 2560x2560 destination:
+ * ~0.007 ms/triangle from a 3072x2304 source, ~0.3 ms from a 7200x5400 one,
+ * where the source no longer fits the GPU image cache), so the seed has to
+ * be survivable in the worst regime and the controller ramps up within a
+ * few frames in the best.
+ */
+const WARP_CHUNK_SEED_TRIANGLES = 24;
+
+/**
+ * Per-frame growth factor while frames stay inside the target — additive
+ * increase, multiplicative decrease, because the cost curve is not smooth.
+ * Measured on an M1 Pro at gridSize 32 with a 7200x5400 source, chunks of
+ * 24/96/384 triangles cost 5/3/1 ms and the next step to 1536 cost 199 ms:
+ * beyond some working-set size the source stops fitting the GPU image cache
+ * and per-triangle cost jumps ~100x. Multiplying the chunk by 4 on every
+ * good frame walked straight off that cliff once per refinement; growing by
+ * a quarter bounds an overshoot to roughly a quarter of the last good
+ * frame's cost.
+ */
+const WARP_CHUNK_GROWTH = 1.25;
 
 function intersectRect(a: WorldRect | null, b: WorldRect | null): WorldRect | null {
   if (!a || !b) {
@@ -179,16 +218,24 @@ function computeBackingRect(
  * zoom changes, or a pan exhausts the padding.
  *
  * Measured 2026-07-26 (Chrome 148 / ANGLE Metal on an Apple M1 Pro, dpr 2,
- * 1280x800 viewport, this layer on a real Leaflet map, raster completion
- * forced via tiny-canvas readback): pan-end within the slack is 0.0 ms
- * median / 1.4 ms worst over 70 pans at gridSize 32 and 64, with zero mesh
- * walks — replacing the 210 ms-per-pan-end redraw this cache was built to
- * eliminate — and the post-zoom scaled composite is 6–9 ms at either grid.
- * The walks that remain are zoom-dependent (what matters is how many
- * triangles land on the backing and how many pixels each covers): at
- * gridSize 32, 126 ms when the backing is viewport-capped and 795 ms at the
- * zoom where the drape just fills it. The grid-size decision built on these
- * numbers lives on TPS_GRID_SIZE in gcpMesh.ts.
+ * 1280x800 viewport, this layer on a real Leaflet map, 7200x5400 source,
+ * raster completion forced via tiny-canvas readback): pan-end within the
+ * slack is 0.0 ms median / 1.4 ms worst over 70 pans at gridSize 32 and 64,
+ * with zero mesh walks — replacing the 210 ms-per-pan-end redraw this cache
+ * was built to eliminate.
+ *
+ * The walks that remain are zoom-dependent — what matters is how many
+ * triangles land on the backing and how many pixels each covers — and two
+ * mechanisms below cut them. Triangles whose grown bbox misses the backing
+ * are culled, which is most of them whenever the drape overhangs the
+ * canvas: the deep-zoom viewport-capped walk fell from 126 ms to 13–54 ms
+ * at gridSize 32 (466 to 27–36 ms at 64). And every walk the layer can
+ * defer is deferred behind a composite and then chunked across frames, so
+ * the only walks that still block are the first display of a sheet
+ * (925 ms at 32) and a mesh swap (57 ms) — the drag tier, uncached by
+ * design. The grid-size decision built on these numbers, and the
+ * source-size cliff that dominates all of them, live on TPS_GRID_SIZE in
+ * gcpMesh.ts.
  */
 export class WarpedRasterLayer extends L.Layer {
   private readonly rasterOptions: WarpedRasterLayerOptions;
@@ -410,9 +457,9 @@ export class WarpedRasterLayer extends L.Layer {
   private scheduleWarp(): void {
     this.cancelScheduledWarp();
     this.pendingWarpRaf = requestAnimationFrame(() => {
-      this.pendingWarpRaf = requestAnimationFrame(() => {
+      this.pendingWarpRaf = requestAnimationFrame((timestamp) => {
         this.pendingWarpRaf = null;
-        this.refineWarp();
+        this.refineWarp(timestamp);
       });
     });
   }
@@ -474,12 +521,24 @@ export class WarpedRasterLayer extends L.Layer {
    * Deferred mesh walk, spread across animation frames. The composite that
    * preceded it already sized and positioned the canvas and filled it with
    * geometrically correct (merely resampled) content, so each chunk draws
-   * WARP_CHUNK_BUDGET_MS worth of triangles straight over its own clip
-   * region — no clearRect, and the canvas is never resized here (resizing
-   * clears it, which would drop the composite and every finished chunk).
-   * pendingWarpRaf carries the whole chain, so a mesh swap's warpNow,
-   * another zoom's composite, or onRemove cancels an in-flight sequence
-   * exactly the way it cancels the initial double-rAF deferral.
+   * its triangles straight over its own clip region — no clearRect, and the
+   * canvas is never resized here (resizing clears it, which would drop the
+   * composite and every finished chunk). pendingWarpRaf carries the whole
+   * chain, so a mesh swap's warpNow, another zoom's composite, or onRemove
+   * cancels an in-flight sequence exactly the way it cancels the initial
+   * double-rAF deferral.
+   *
+   * Chunk size is measured in triangles and adapted between frames, because
+   * a chunk cannot time itself: clipped drawImage returns once the command
+   * is queued and the raster lands afterwards, so a walk reporting 8 ms of
+   * elapsed JS time was measured costing 750 ms of completed GPU work
+   * (M1 Pro, gridSize 32, 7200x5400 source). The rAF timestamp of the NEXT
+   * frame does include that cost, so the controller divides the observed
+   * delta by the triangles that produced it and re-solves the count for
+   * WARP_CHUNK_BUDGET_MS. Frames at or under WARP_FRAME_TARGET_MS are
+   * treated as having headroom (a vsync-limited frame reports ~16.7 ms
+   * whatever it did), and growth is capped so one fast frame cannot produce
+   * a multi-second one.
    *
    * Known cosmetic residue: the composite's backing came from the SCALED old
    * drape, whose baked-in margin scaled along with it, so after a zoom-in up
@@ -489,7 +548,7 @@ export class WarpedRasterLayer extends L.Layer {
    * that edge's antialiasing). Both are bounded by the scaled margin, sit at
    * the sheet's paper border, and are replaced by the next full warp.
    */
-  private refineWarp(): void {
+  private refineWarp(startTimestamp: number): void {
     const { canvas, map, backingRect } = this;
     if (!canvas || !map) {
       return;
@@ -520,7 +579,20 @@ export class WarpedRasterLayer extends L.Layer {
     );
     const total = (this.srcMesh.length - 1) * (this.srcMesh[0].length - 1) * 2;
     let next = 0;
-    const drawChunk = () => {
+    let chunk = WARP_CHUNK_SEED_TRIANGLES;
+    let lastTimestamp: number | null = null;
+    const drawChunk = (timestamp: number) => {
+      if (lastTimestamp !== null) {
+        const delta = timestamp - lastTimestamp;
+        if (delta > WARP_FRAME_TARGET_MS) {
+          // Overran: the previous chunk's completed cost is visible in the
+          // delta, so re-solve the count against the per-triangle rate.
+          chunk = Math.max(1, Math.round((chunk * WARP_CHUNK_BUDGET_MS) / delta));
+        } else {
+          chunk = Math.min(total, Math.max(chunk + 1, Math.round(chunk * WARP_CHUNK_GROWTH)));
+        }
+      }
+      lastTimestamp = timestamp;
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       next = drawWarpedTriangles(
         ctx,
@@ -528,7 +600,7 @@ export class WarpedRasterLayer extends L.Layer {
         this.srcMesh,
         dstMesh,
         next,
-        WARP_CHUNK_BUDGET_MS,
+        chunk,
       );
       if (next < total) {
         this.pendingWarpRaf = requestAnimationFrame(drawChunk);
@@ -536,7 +608,7 @@ export class WarpedRasterLayer extends L.Layer {
         this.pendingWarpRaf = null;
       }
     };
-    drawChunk();
+    drawChunk(startTimestamp);
   }
 
   /** Full mesh walk into a freshly computed backing rect. */
