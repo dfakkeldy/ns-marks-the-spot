@@ -261,6 +261,20 @@ export function useGeoreferenceSession(options: {
    * of that drag (and any later drag) collapsed into a single step.
    */
   const undoConsumedSnapshotRef = useRef(false);
+  /**
+   * Which control point the live drag holds; `null` whenever `dragging` is
+   * false. `dragging` alone was enough until undo could delete the dragged
+   * point out from under the drag: Ctrl+Z past the point's creation unmounts
+   * its marker, so the `dragend` that clears `dragging` never fires and the
+   * session sat on the coarse drag lattice until the next drag. `undo` needs
+   * the id to tell that case (cancel: nothing can ever end this drag) from
+   * the ordinary mid-drag undo (hold the tier: the point survived, the
+   * pointer is still down, and `drag` events are still streaming).
+   *
+   * A ref, not state: it is written from event handlers and read only inside
+   * `undo`, never during render — `dragging` remains the render-facing fact.
+   */
+  const draggedGcpIdRef = useRef<string | null>(null);
   // The next `gcp-<n>` number to mint. Lives in a ref, not state: minting
   // happens inside pickScanPoint/pickMapPoint (event handlers), and those
   // mutators read from refs rather than state for the same reason the rest
@@ -295,6 +309,11 @@ export function useGeoreferenceSession(options: {
     // drag-start to make it reachable, and the symptom (map B's first edit
     // silently not undoable) is invisible until a user hits Ctrl+Z.
     undoConsumedSnapshotRef.current = false;
+    // Defensive for the same reason as the flag above: the render-time
+    // re-seed already set `dragging` false, and the next `beginDragGcp`
+    // overwrites this before anything reads it. Residue would only matter to
+    // an undo on the new map, which would harmlessly re-clear `dragging`.
+    draggedGcpIdRef.current = null;
     nextGcpNumberRef.current = highestGcpNumber(gcpsRef.current) + 1;
   }, [seededFor]);
 
@@ -465,25 +484,32 @@ export function useGeoreferenceSession(options: {
    * useless: one drag would fill the entire history with frames that differ
    * by a pixel.
    *
-   * The `id` parameter is DELIBERATELY ignored, as it is in `endDragGcp`: the
-   * signature exists so both handlers drop straight onto a marker's
-   * `(id: string) => void` slot, but drag-active is per-session state (see
-   * `dragging` above) and undo snapshots the whole list, so neither needs to
-   * know which point moved.
+   * The `id` is recorded, not acted on: drag-active stays per-session state
+   * (see `dragging` above) and undo snapshots the whole list, so nothing
+   * here branches on which point moved. But `undo` must know WHICH point the
+   * drag holds to cancel a drag whose subject it just deleted — see
+   * `draggedGcpIdRef`. Leaflet allows one drag at a time, so a second begin
+   * before an end can only re-record the same drag's id.
    */
-  const beginDragGcp = useCallback(() => {
-    setDragging(true);
-    snapshot();
-  }, [snapshot]);
+  const beginDragGcp = useCallback(
+    (id: string) => {
+      draggedGcpIdRef.current = id;
+      setDragging(true);
+      snapshot();
+    },
+    [snapshot],
+  );
 
   /**
    * Called on drag END only, from Leaflet's real `dragend`.
    *
    * It must NOT snapshot: `beginDragGcp` already opened the step, and a
    * second one here would make a single drag cost two Ctrl+Z presses.
-   * Ignores its `id` for the reason given on `beginDragGcp`.
+   * Ignores its `id`: only one drag can be live (see `beginDragGcp`), so
+   * whatever id arrives here, the drag that is ending is the recorded one.
    */
   const endDragGcp = useCallback(() => {
+    draggedGcpIdRef.current = null;
     setDragging(false);
   }, []);
 
@@ -524,10 +550,24 @@ export function useGeoreferenceSession(options: {
     if (past.length === 0) {
       return;
     }
+    const restored = past[past.length - 1];
     historyRef.current = past.slice(0, -1);
     setHistoryDepth(historyRef.current.length);
-    commit(past[past.length - 1]);
+    commit(restored);
     setPending(null);
+    const draggedId = draggedGcpIdRef.current;
+    if (draggedId !== null && !restored.some((gcp) => gcp.id === draggedId)) {
+      // This undo deleted the point the live drag holds — Ctrl+Z past its
+      // creation with the pointer still down. Its marker unmounts, so the
+      // `dragend` that would clear `dragging` can never arrive; the drape
+      // would sit on the coarse TPS_DRAG_GRID_SIZE lattice until the next
+      // drag. Cancel the drag here, and ONLY here: an undo the dragged
+      // point survives keeps the tier, because the pointer is still down
+      // and `drag` events are still streaming — restoring the fine mesh
+      // mid-drag is the per-pointer-move cost that tier exists to avoid.
+      draggedGcpIdRef.current = null;
+      setDragging(false);
+    }
     // Set LAST, and never inside `commit`: a drag that outlives this undo
     // must be able to re-open a step (see the ref's comment). `commit` does
     // not snapshot today, but ordering it after makes that independent of
