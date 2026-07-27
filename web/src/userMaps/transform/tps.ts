@@ -35,8 +35,9 @@ export const MIN_GCPS_FOR_TPS = 3;
  *    lattice for a `tps` record. The output is pixel-identical by the
  *    measurement above, and the cost is not: `TPS_GRID_SIZE` is 32, so a
  *    3-point `tps` record otherwise pays 2 * 32^2 = 2048 clipped full-image
- *    `drawImage` calls per redraw, on every pan and zoom, in place of 2 — and
- *    with the toggle hidden, the user has no way to turn it off.
+ *    `drawImage` calls per mesh walk — once per zoom settle, padding-
+ *    exhausting pan, or edit under the warp cache — in place of 2, and with
+ *    the toggle hidden, the user has no way to turn it off.
  */
 export const MIN_GCPS_FOR_BENDING_TPS = MIN_GCPS_FOR_TPS + 1;
 

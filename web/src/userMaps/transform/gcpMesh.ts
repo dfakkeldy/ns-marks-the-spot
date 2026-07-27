@@ -64,44 +64,49 @@ export const TPS_DRAG_GRID_SIZE = 16;
 /**
  * Settled-state tier for a TPS mesh once the pointer stops moving.
  *
- * 32, set by the real-browser measurement that rejected the provisional 64
- * (2026-07-26, Chrome 148 / ANGLE Metal on an Apple M1 Pro — GPU raster
- * confirmed via WEBGL_debug_renderer_info, not SwiftShader). Method: the
- * shipping `drawWarpedImage` copied verbatim into a bench page; source a
- * synthetic 7200x5400 ImageBitmap (Church-sheet dimensions; cost is content-
- * independent), destination the 2560x1600 backing store `WarpedRasterLayer`
- * allocates for a 1280x800 viewport at dpr 2; one-shot redraw timed to TRUE
- * raster completion. `createImageBitmap(canvas)` resolves before raster
- * finishes (2.3 ms vs the real 54 ms at gridSize 16), so completion was
- * forced by reading the 8x8 snapshot back through a second tiny canvas —
- * which, unlike `getImageData` on the big canvas, never demotes the canvas
- * under test to software. Median redraw:
+ * 32, re-affirmed under the warp cache (2026-07-26, Chrome 148 / ANGLE Metal
+ * on an Apple M1 Pro — GPU raster confirmed via WEBGL_debug_renderer_info —
+ * dpr 2, 1280x800 viewport; the REAL WarpedRasterLayer on a real Leaflet
+ * map this time, not a copied function; synthetic 7200x5400 ImageBitmap,
+ * raster completion forced via the tiny-canvas readback described below).
  *
- *     gridSize        8     16     32     64     128
- *     triangles     128    512   2048   8192   32768
- *     redraw ms    15.7     54    210    829    3423
+ * The cache changed what a bigger grid costs. Pan-end is a containment
+ * check (0.0 ms median / 1.4 ms worst over 70 pans, zero mesh walks at 32
+ * AND 64) and a zoom step composites the stale cache in 6–9 ms at either
+ * grid, so no per-gesture cost distinguishes 32 from 64 any more. What
+ * remains is the mesh walk itself — once per zoom settle, padding-
+ * exhausting pan, or edit settle — and it is ZOOM-DEPENDENT, because the
+ * padded backing canvas changes how many triangles land on it and how many
+ * pixels each covers:
  *
- * LINEAR at ~0.10 ms per clipped drawImage — the node-canvas "sublinear,
- * T ∝ triangles^0.29–0.40" claim this replaces does not survive contact
- * with a real browser (node-canvas also rated the shipping gridSize 8 at
- * 90 ms vs the true 15.7 ms, which is why it could never adjudicate 64).
- * The cost is per-triangle overhead, INDEPENDENT of source dimensions
- * (gridSize 32 measures 213 ms with the source shrunk to 3600x2700), so the
- * table holds for any sheet. Cross-checked on an OffscreenCanvas
- * destination: 225/923 ms at 32/64, within 10%, ruling out hidden-tab
- * raster deprioritisation in the measurement harness.
+ *     mesh walk, ms                       gridSize 32   gridSize 64
+ *     backing viewport-capped (deep zoom)     126           466
+ *     drape just fills backing (peak)         795          3061
+ *     edit settle (unpadded backing)          104           375
+ *     5 zoom steps coalesced, at 32:          65.5 total
  *
- * The settled redraw is a post-gesture one-shot (`moveend`/`zoomend`/mesh
- * swap). The bar, fixed before measuring: ~100 ms before a response stops
- * feeling immediate, with 4x headroom for mid-range hardware under this
- * M1 Pro — so ~25 ms measured. 64 misses it 33x over (0.83 s per pan end on
- * a FAST machine) to buy 6.0/1.1/2.0 m of mesh error (max, three real
- * Church control sets) against 32's 17.70–17.78 m — which, per the
- * non-monotonicity note above, is itself not strictly better than 24; 32 is
- * the documented fallback, not a local accuracy optimum. Even 32's 210 ms
- * is noticeable; a materially finer settled tier needs a cheaper renderer
- * (e.g. warp once into an offscreen and re-composite), not a bigger number
- * here. 128 (3.4 s) is in the table only to close the question.
+ * The peak zoom — the sheet just filling the padded viewport — is exactly
+ * the zoom a sheet is worked at. The walk no longer blocks the gesture (it
+ * lands after the composite paints), but it still freezes the main thread
+ * when it lands: 64 would stop the map for ~3 s after every zoom settle
+ * there to buy 6.0/1.1/2.0 m of mesh error (max, three real Church control
+ * sets) against 32's 17.70–17.78 m — which, per the non-monotonicity note
+ * above, is itself not strictly better than 24; 32 is the documented
+ * fallback, not a local accuracy optimum. Even 32's 795 ms peak is the
+ * current ceiling; a materially finer settled tier still needs a cheaper
+ * mesh walk (cull triangles to the backing, chunk the walk across frames,
+ * or move it off-thread), not a bigger number here.
+ *
+ * Pre-cache history (same rig, `drawWarpedImage` copied into a bench page,
+ * 2560x1600 viewport-sized destination, paid on EVERY pan and zoom):
+ * 8/16/32/64/128 -> 15.7/54/210/829/3423 ms, LINEAR in triangles — the
+ * node-canvas "sublinear" claim did not survive a real browser, and
+ * `createImageBitmap(canvas)` resolves before raster completes (2.3 ms vs
+ * the real 54 ms), which is why completion is forced by drawing an 8x8
+ * snapshot onto a second tiny canvas and reading THAT back. Those numbers
+ * set the ~100 ms-feels-immediate bar (~25 ms with 4x mid-range headroom)
+ * that rejected the provisional 64 and motivated the cache; the
+ * zoom-dependent table above supersedes them as the decision table.
  */
 export const TPS_GRID_SIZE = 32;
 

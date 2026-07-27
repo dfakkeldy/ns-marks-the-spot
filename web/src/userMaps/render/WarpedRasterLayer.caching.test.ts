@@ -1,0 +1,295 @@
+import L from "leaflet";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { drawWarpedImage } from "./mesh";
+import { WarpedRasterLayer } from "./WarpedRasterLayer";
+
+// These tests count warp executions, not pixels, so they mock the mesh module
+// at the drawWarpedImage seam (the pixel-truth tests live in
+// WarpedRasterLayer.test.ts against the real renderer). They are in their own
+// file because vi.mock is hoisted per-module and would blind that file's
+// getImageData assertions.
+vi.mock("./mesh", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./mesh")>();
+  return { ...actual, drawWarpedImage: vi.fn() };
+});
+
+const warpCalls = () => vi.mocked(drawWarpedImage).mock.calls.length;
+
+/**
+ * A pannable, zoomable stand-in for L.Map that keeps the projection contract
+ * the layer relies on: `project(ll, zoom)` returns absolute world pixels that
+ * scale by exactly 2^Δzoom, `getPixelOrigin()` is fixed between zooms while
+ * `containerPointToLayerPoint(0, 0)` absorbs pans — which is why a pan must
+ * never invalidate the warp. simulatePan/simulateZoom mutate that state and
+ * fire the events the layer subscribes to, like the real map would.
+ */
+function pannableMap(paneEl: HTMLElement, viewOriginStart = new L.Point(1000, 1000)) {
+  const SIZE = new L.Point(800, 600);
+  const BASE_ZOOM = 13;
+  let zoom = BASE_ZOOM;
+  let viewOrigin = viewOriginStart; // world px of container (0, 0) at `zoom`
+  let pixelOrigin = viewOrigin.round();
+  const handlers: Array<() => void> = [];
+  const fire = () => handlers.forEach((handler) => handler());
+  const map = {
+    getPane: () => paneEl,
+    getSize: () => SIZE,
+    getZoom: () => zoom,
+    getPixelOrigin: () => pixelOrigin,
+    getZoomScale: (to: number, from: number) => 2 ** (to - from),
+    project: (ll: { lat: number; lng: number }) => {
+      const scale = 2 ** (zoom - BASE_ZOOM);
+      return new L.Point(
+        ((ll.lng + 63.1) * 2000 + 1200) * scale,
+        ((46 - ll.lat) * 2000 + 1200) * scale,
+      );
+    },
+    containerPointToLayerPoint: () => viewOrigin.subtract(pixelOrigin),
+    on: (_types: string, handler: () => void, ctx: unknown) => {
+      handlers.push(handler.bind(ctx));
+    },
+    off: () => {
+      handlers.length = 0;
+    },
+    simulatePan(dx: number, dy: number) {
+      viewOrigin = viewOrigin.add(new L.Point(dx, dy));
+      fire(); // moveend
+    },
+    simulateZoom(dz: number) {
+      const scale = 2 ** dz;
+      const centre = viewOrigin.add(SIZE.divideBy(2));
+      viewOrigin = centre.multiplyBy(scale).subtract(SIZE.divideBy(2));
+      zoom += dz;
+      pixelOrigin = viewOrigin.round();
+      fire(); // zoomend (and the viewreset Leaflet fires with it)
+    },
+  };
+  return map as typeof map & L.Map;
+}
+
+/** 2x2 drape spanning world px 1200..1400 on both axes at the base zoom. */
+const UNIT_MESH = [
+  [
+    { lat: 46, lng: -63.1 },
+    { lat: 46, lng: -63 },
+  ],
+  [
+    { lat: 45.9, lng: -63.1 },
+    { lat: 45.9, lng: -63 },
+  ],
+];
+
+function makeLayer(latLngMesh = UNIT_MESH) {
+  const image = document.createElement("canvas");
+  image.width = 2;
+  image.height = 2;
+  return new WarpedRasterLayer({
+    paneName: "user-maps-pane",
+    opacity: 0.7,
+    image,
+    imageSize: { width: 2, height: 2 },
+    latLngMesh,
+  });
+}
+
+/**
+ * Deterministic requestAnimationFrame: the layer defers its post-zoom re-warp
+ * behind a double rAF so the cheap scaled composite paints first. flush()
+ * drains the queue including callbacks scheduled by callbacks, which is
+ * exactly the double-rAF chain.
+ */
+function stubRaf() {
+  const queue = new Map<number, FrameRequestCallback>();
+  let nextId = 1;
+  vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+    const id = nextId;
+    nextId += 1;
+    queue.set(id, cb);
+    return id;
+  });
+  vi.stubGlobal("cancelAnimationFrame", (id: number) => {
+    queue.delete(id);
+  });
+  return {
+    flush() {
+      while (queue.size > 0) {
+        const [id, cb] = queue.entries().next().value as [number, FrameRequestCallback];
+        queue.delete(id);
+        cb(performance.now());
+      }
+    },
+  };
+}
+
+describe("WarpedRasterLayer warp caching", () => {
+  let pane: HTMLElement;
+
+  beforeEach(() => {
+    pane = document.createElement("div");
+    vi.mocked(drawWarpedImage).mockClear();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("does not re-warp when a pan ends at the same zoom", () => {
+    const map = pannableMap(pane);
+    makeLayer().onAdd(map);
+    expect(warpCalls()).toBe(1); // the onAdd warp
+
+    map.simulatePan(50, 30);
+    map.simulatePan(-120, 80);
+
+    // A pan translates the already-warped raster; the pane carries the canvas
+    // and pixelOrigin is untouched, so there is nothing to redraw at all.
+    expect(warpCalls()).toBe(1);
+  });
+
+  it("composites the stale cache on zoom and defers the single re-warp", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    makeLayer().onAdd(map);
+    expect(warpCalls()).toBe(1);
+
+    map.simulateZoom(1);
+
+    // The zoomend frame itself must not walk the mesh: the previous warp is
+    // scaled by exactly 2^dz in one drawImage, and the true re-warp waits
+    // behind a double rAF so that composite reaches the screen first.
+    expect(warpCalls()).toBe(1);
+    raf.flush();
+    expect(warpCalls()).toBe(2);
+  });
+
+  it("coalesces back-to-back zooms into one deferred re-warp", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    makeLayer().onAdd(map);
+
+    map.simulateZoom(1);
+    map.simulateZoom(1);
+
+    // Each zoomend re-composites, but the second cancels the first's pending
+    // walk — zooming through several levels back-to-back pays for one warp.
+    expect(warpCalls()).toBe(1);
+    raf.flush();
+    expect(warpCalls()).toBe(2);
+  });
+
+  it("lets a mesh swap cancel a pending post-zoom re-warp", () => {
+    const raf = stubRaf();
+    const map = pannableMap(pane);
+    const layer = makeLayer();
+    layer.onAdd(map);
+
+    map.simulateZoom(1);
+    // A GCP drag re-solves and swaps the mesh before the deferred warp runs.
+    // The swap warps synchronously (the drag tier is uncached by design) and
+    // must supersede the stale scheduled walk, not stack a second one on it.
+    layer.setLatLngMesh(
+      UNIT_MESH.map((row) => row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.001 }))),
+    );
+    expect(warpCalls()).toBe(2);
+    raf.flush();
+    expect(warpCalls()).toBe(2);
+  });
+
+  it("re-warps once when a pan exhausts the padding, then pans free again", () => {
+    // Wide drape: world x 1200..15200, far beyond the padded viewport, so the
+    // backing canvas is viewport-capped and a long pan can exhaust it.
+    const wideMesh = [
+      [
+        { lat: 46, lng: -63.1 },
+        { lat: 46, lng: -56.1 },
+      ],
+      [
+        { lat: 39, lng: -63.1 },
+        { lat: 39, lng: -56.1 },
+      ],
+    ];
+    const map = pannableMap(pane);
+    makeLayer(wideMesh).onAdd(map);
+    expect(warpCalls()).toBe(1);
+
+    // Padding is half a viewport (400 px) each side; 900 px overshoots it.
+    map.simulatePan(900, 0);
+    expect(warpCalls()).toBe(2);
+
+    // The fresh backing rect is centred on the new view: slack restored.
+    map.simulatePan(50, 0);
+    expect(warpCalls()).toBe(2);
+  });
+
+  it("keeps the cache when the drape pans fully off-screen and back", () => {
+    const map = pannableMap(pane);
+    makeLayer().onAdd(map);
+
+    map.simulatePan(5000, 0);
+    map.simulatePan(-5000, 0);
+
+    // The canvas is world-anchored and still holds the drape's pixels; a
+    // small drape's backing rect contains its whole bbox, so no pan at this
+    // zoom can ever invalidate it — even one that leaves it off-screen.
+    expect(warpCalls()).toBe(1);
+  });
+
+  it("warps mesh swaps into an unpadded backing so drag frames stay viewport-sized", () => {
+    // Wide drape (world x 1200.., y 1200.. far beyond the view) so backing
+    // extents are visible in the canvas size. Near edges are exact numbers;
+    // far edges are clipped by the view long before float dust matters.
+    const wideMesh = [
+      [
+        { lat: 46, lng: -63.1 },
+        { lat: 46, lng: -56.1 },
+      ],
+      [
+        { lat: 39, lng: -63.1 },
+        { lat: 39, lng: -56.1 },
+      ],
+    ];
+    const map = pannableMap(pane);
+    const layer = makeLayer(wideMesh);
+    layer.onAdd(map);
+    const canvas = pane.querySelector("canvas") as HTMLCanvasElement;
+    // View-driven warp: padded viewport (x 600..2200, y 700..1900) clipped to
+    // the drape-with-margin (1197..): 1003 x 703.
+    expect([canvas.width, canvas.height]).toEqual([1003, 703]);
+
+    // A mesh swap is the GCP-drag hot path: the cache is invalid again on the
+    // next pointer move, so padding buys nothing and only multiplies the
+    // pixels every drag frame has to paint. It must warp the bare view
+    // (x 1000..1800, y 1000..1600) clipped to the drape: 603 x 403.
+    layer.setLatLngMesh([
+      [
+        { lat: 46, lng: -63.1 },
+        { lat: 46, lng: -56.1 },
+      ],
+      [
+        { lat: 39.5, lng: -63.1 },
+        { lat: 39.5, lng: -56.1 },
+      ],
+    ]);
+    expect([canvas.width, canvas.height]).toEqual([603, 403]);
+
+    // The first view change after the swap restores a padded cache.
+    map.simulatePan(50, 0);
+    expect(warpCalls()).toBe(3);
+    expect(canvas.width).toBeGreaterThan(1000);
+  });
+
+  it("re-warps on every mesh swap (the drag tier stays uncached)", () => {
+    const map = pannableMap(pane);
+    const layer = makeLayer();
+    layer.onAdd(map);
+
+    layer.setLatLngMesh(
+      UNIT_MESH.map((row) => row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.001 }))),
+    );
+    layer.setLatLngMesh(
+      UNIT_MESH.map((row) => row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.002 }))),
+    );
+
+    expect(warpCalls()).toBe(3);
+  });
+});

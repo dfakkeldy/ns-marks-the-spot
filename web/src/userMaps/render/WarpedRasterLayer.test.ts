@@ -1,14 +1,14 @@
 import L from "leaflet";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WarpedRasterLayer } from "./WarpedRasterLayer";
 
 /**
- * Projects lat/lng onto a tidy on-canvas box so pixel assertions can name
- * exact coordinates: lng -63.1..-63 becomes x 200..400, lat 46..45.9 becomes
- * y 200..400.
- */
-/**
- * Projects lng -63.1..-63 to x 200..400 and lat 46..45.9 to y 200..400.
+ * Projects lng -63.125..-63 to container x 200..400 and lat 46..45.875 to
+ * container y 200..400. The degree offsets (0.125) and the 1600 px/degree
+ * scale are exact binary fractions, so the drape's world bbox lands on
+ * exactly 1200..1400 — the layer clamps its canvas to that bbox with
+ * ceil/floor snapping, and float dust in the fixture would otherwise leak a
+ * spurious extra device pixel into the size assertions.
  *
  * Deliberately exposes `project` + `getPixelOrigin` rather than
  * `latLngToContainerPoint`: the real Leaflet rounds inside that helper
@@ -26,8 +26,8 @@ function stubMap(paneEl: HTMLElement) {
     project: vi.fn(
       (ll: { lat: number; lng: number }) =>
         new L.Point(
-          (ll.lng + 63.1) * 2000 + 200 + ORIGIN.x,
-          (46 - ll.lat) * 2000 + 200 + ORIGIN.y,
+          (ll.lng + 63.125) * 1600 + 200 + ORIGIN.x,
+          (46 - ll.lat) * 1600 + 200 + ORIGIN.y,
         ),
     ),
     containerPointToLayerPoint: vi.fn(() => new L.Point(0, 0)),
@@ -58,12 +58,12 @@ function quadrantImage(): HTMLCanvasElement {
 
 const UNIT_MESH = [
   [
-    { lat: 46, lng: -63.1 },
+    { lat: 46, lng: -63.125 },
     { lat: 46, lng: -63 },
   ],
   [
-    { lat: 45.9, lng: -63.1 },
-    { lat: 45.9, lng: -63 },
+    { lat: 45.875, lng: -63.125 },
+    { lat: 45.875, lng: -63 },
   ],
 ];
 
@@ -85,6 +85,18 @@ function pixelAt(canvas: HTMLCanvasElement, x: number, y: number): number[] {
   return Array.from(ctx.getImageData(x, y, 1, 1).data);
 }
 
+/**
+ * Reads a pixel addressed in CONTAINER space (the stub projects lng/lat onto
+ * container px 200..400). The canvas does not cover the viewport — it is
+ * anchored on the drape's bbox — so container coordinates subtract the
+ * canvas's layer anchor first. paneShift is (0,0) in the stub, so container
+ * and layer space coincide.
+ */
+function containerPixel(canvas: HTMLCanvasElement, x: number, y: number): number[] {
+  const pos = L.DomUtil.getPosition(canvas);
+  return pixelAt(canvas, x - pos.x, y - pos.y);
+}
+
 function paneCanvas(pane: HTMLElement): HTMLCanvasElement {
   const canvas = pane.querySelector("canvas");
   if (!canvas) {
@@ -100,6 +112,12 @@ describe("WarpedRasterLayer", () => {
     pane = document.createElement("div");
   });
 
+  afterEach(() => {
+    // In afterEach, not inline: a failing assertion inside a test that stubs
+    // devicePixelRatio would otherwise leak the stub into every later test.
+    vi.unstubAllGlobals();
+  });
+
   it("adds a canvas to its pane with the configured opacity", () => {
     makeLayer().onAdd(stubMap(pane));
     expect(paneCanvas(pane).style.opacity).toBe("0.7");
@@ -109,9 +127,11 @@ describe("WarpedRasterLayer", () => {
     vi.stubGlobal("devicePixelRatio", 2);
     makeLayer().onAdd(stubMap(pane));
     const canvas = paneCanvas(pane);
-    expect(canvas.width).toBe(1600);
-    expect(canvas.style.width).toBe("800px");
-    vi.unstubAllGlobals();
+    // The canvas clamps to the drape bbox (container 200..400 both axes) plus
+    // the 3-device-px overdraw margin, which is 1.5 CSS px at dpr 2: 203 CSS
+    // px of world -> 406 device px of backing store.
+    expect(canvas.width).toBe(406);
+    expect(canvas.style.width).toBe("203px");
   });
 
   it("subscribes to map view changes and unsubscribes on remove", () => {
@@ -145,17 +165,26 @@ describe("WarpedRasterLayer", () => {
   it("draws each source quadrant at its projected destination", () => {
     makeLayer().onAdd(stubMap(pane));
     const canvas = paneCanvas(pane);
-    // Destination box is x 200..400, y 200..400 for a 2x2 source, so one
-    // source texel spans 100 device px and texel centres land at 250 / 350.
-    expect(pixelAt(canvas, 250, 250)).toEqual([255, 0, 0, 255]);
-    expect(pixelAt(canvas, 350, 250)).toEqual([0, 255, 0, 255]);
-    expect(pixelAt(canvas, 250, 350)).toEqual([0, 0, 255, 255]);
-    expect(pixelAt(canvas, 350, 350)).toEqual([255, 255, 255, 255]);
+    // Destination box is container x 200..400, y 200..400 for a 2x2 source,
+    // so one source texel spans 100 device px and texel centres land at
+    // container 250 / 350.
+    expect(containerPixel(canvas, 250, 250)).toEqual([255, 0, 0, 255]);
+    expect(containerPixel(canvas, 350, 250)).toEqual([0, 255, 0, 255]);
+    expect(containerPixel(canvas, 250, 350)).toEqual([0, 0, 255, 255]);
+    expect(containerPixel(canvas, 350, 350)).toEqual([255, 255, 255, 255]);
   });
 
-  it("leaves pixels outside the mesh untouched", () => {
+  it("clamps the canvas to the drape bbox and keeps the margin ring clear", () => {
     makeLayer().onAdd(stubMap(pane));
-    expect(pixelAt(paneCanvas(pane), 50, 50)).toEqual([0, 0, 0, 0]);
+    const canvas = paneCanvas(pane);
+    // The drape bbox is container 200..400 plus the 3-px overdraw margin, so
+    // the canvas anchors at (197, 197) and is 206 px square: pixels beyond
+    // the drape physically do not exist. The outermost margin pixel must stay
+    // clear — clip overdraw reaches only 2 of the 3 margin px.
+    expect(L.DomUtil.getPosition(canvas)).toEqual(new L.Point(197, 197));
+    expect(canvas.width).toBe(206);
+    expect(canvas.height).toBe(206);
+    expect(pixelAt(canvas, 0, 0)).toEqual([0, 0, 0, 0]);
   });
 
   it("projects sub-pixel positions instead of snapping them to whole pixels", () => {
@@ -179,17 +208,23 @@ describe("WarpedRasterLayer", () => {
     if (!ctx) {
       throw new Error("canvas has no 2D context");
     }
-    const before = Array.from(ctx.getImageData(180, 180, 240, 240).data);
+    // Read the whole 206-px backing region. The backing origin floors to the
+    // device grid, so a 0.25-px eastward mesh shift keeps the anchor at 197
+    // while the drawn content moves — exactly the sub-pixel honesty this
+    // test guards. (Were the origin to follow the bbox exactly, a rigid
+    // shift would ride along invisibly and this test would go blind.)
+    const before = Array.from(ctx.getImageData(0, 0, 206, 206).data);
 
-    // 0.000125 degrees of lng = 0.25 destination px under the stub's 2000x.
-    // Under the old rounding this shift vanished and the two frames were
-    // byte-identical.
+    // 0.00015625 degrees of lng = 0.25 destination px under the stub's
+    // 1600x. Under the old rounding this shift vanished and the two frames
+    // were byte-identical.
     layer.setLatLngMesh(
       UNIT_MESH.map((row) =>
-        row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.000125 })),
+        row.map((ll) => ({ lat: ll.lat, lng: ll.lng + 0.00015625 })),
       ),
     );
-    const after = Array.from(ctx.getImageData(180, 180, 240, 240).data);
+    expect(L.DomUtil.getPosition(paneCanvas(pane)).x).toBe(197);
+    const after = Array.from(ctx.getImageData(0, 0, 206, 206).data);
 
     expect(after).not.toEqual(before);
   });
@@ -204,11 +239,12 @@ describe("WarpedRasterLayer", () => {
     if (!ctx) {
       throw new Error("canvas has no 2D context");
     }
-    // The shared diagonal runs from (400, 200) to (200, 400), i.e. x + y =
-    // 600, crossing this scanline at x = 300. Sample across the interior,
-    // avoiding the outer 50 px where bilinear smoothing ramps toward the
-    // image edge.
-    const row = ctx.getImageData(260, 300, 80, 1).data;
+    // The shared diagonal runs from container (400, 200) to (200, 400), i.e.
+    // x + y = 600, crossing this scanline at x = 300. Sample across the
+    // interior, avoiding the outer 50 px where bilinear smoothing ramps
+    // toward the image edge. The canvas anchors at (197, 197), so container
+    // (260, 300) is canvas (63, 103).
+    const row = ctx.getImageData(63, 103, 80, 1).data;
     const alphas = Array.from({ length: 80 }, (_, i) => row[i * 4 + 3]);
     expect(alphas.every((alpha) => alpha === 255)).toBe(true);
   });
@@ -217,20 +253,21 @@ describe("WarpedRasterLayer", () => {
     const layer = makeLayer();
     layer.onAdd(stubMap(pane));
     const canvas = paneCanvas(pane);
-    expect(pixelAt(canvas, 250, 250)).toEqual([255, 0, 0, 255]);
-    // Shift the whole drape one cell east: lng -63.0..-62.9 maps to x
-    // 400..600, so the red texel centre moves from 250 to 450.
+    expect(containerPixel(canvas, 250, 250)).toEqual([255, 0, 0, 255]);
+    // Shift the whole drape one cell east: lng -63..-62.875 maps to container
+    // x 400..600. The canvas re-anchors onto the new bbox (197 -> 397) and
+    // the red texel centre lands at container 450.
     layer.setLatLngMesh([
       [
         { lat: 46, lng: -63 },
-        { lat: 46, lng: -62.9 },
+        { lat: 46, lng: -62.875 },
       ],
       [
-        { lat: 45.9, lng: -63 },
-        { lat: 45.9, lng: -62.9 },
+        { lat: 45.875, lng: -63 },
+        { lat: 45.875, lng: -62.875 },
       ],
     ]);
-    expect(pixelAt(canvas, 250, 250)).toEqual([0, 0, 0, 0]);
-    expect(pixelAt(canvas, 450, 250)).toEqual([255, 0, 0, 255]);
+    expect(L.DomUtil.getPosition(canvas).x).toBe(397);
+    expect(containerPixel(canvas, 450, 250)).toEqual([255, 0, 0, 255]);
   });
 });
