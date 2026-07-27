@@ -182,6 +182,18 @@ class UpdateResultsMdTests(unittest.TestCase):
 
         self.assertEqual(once, twice)
 
+    def test_raises_on_unmatched_start_marker_only(self) -> None:
+        text = f"# Fletcher results\n\n{MARK_START}\nOnly a start marker.\n"
+
+        with self.assertRaises(ValueError):
+            update_results_md(text, "| Sheet |\n| ---: |\n| 19 |")
+
+    def test_raises_on_unmatched_end_marker_only(self) -> None:
+        text = f"# Fletcher results\n\nOnly an end marker.\n{MARK_END}\n"
+
+        with self.assertRaises(ValueError):
+            update_results_md(text, "| Sheet |\n| ---: |\n| 19 |")
+
 
 def _obs_fixture() -> dict:
     def _point(identifier: str, region: str | None = None) -> dict:
@@ -270,6 +282,83 @@ class MainRecordTests(unittest.TestCase):
             results_md = results_md_path.read_text(encoding="utf-8")
             self.assertTrue(results_md.startswith("# Fletcher results\n\nEngraved-grid content.\n"))
             self.assertIn("| 19 | PASS | 2 | 1 | 5.0 | 6.0 | 7.0 | 1 |", results_md)
+
+    def test_record_aggregates_across_pre_existing_receipts_sorted_by_sheet(self) -> None:
+        """A `record` run must rebuild the marker section from every receipt
+        on disk, not just the one it just wrote - a pre-existing sheet-17
+        receipt must still show up alongside the newly recorded sheet-19 row,
+        in sheet-id order."""
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = pathlib.Path(tmp)
+            results_dir = tmp_path / "results"
+            results_dir.mkdir()
+
+            existing_receipt = {
+                "sheet_id": "17",
+                "method_version": "feature-led-v2",
+                "disposition": "FAIL",
+                "reason": "held-out RMS exceeded gate",
+                "observation_sha256": "e" * 64,
+                "control_count": 9,
+                "check_count": 5,
+                "score": None,
+                "recorded_at": "2026-07-20",
+            }
+            (results_dir / "sheet-17-feature-v2.json").write_text(
+                json.dumps(existing_receipt), encoding="utf-8"
+            )
+
+            obs_path = tmp_path / "sheet-19.json"
+            obs_path.write_text(json.dumps(_obs_fixture()), encoding="utf-8")
+
+            score_path = tmp_path / "sheet-19-score.json"
+            score = {
+                "scored_at": "2026-07-26",
+                "control_count": 2,
+                "overall": {"count": 1, "rms_m": 5.0, "p95_m": 6.0, "max_m": 7.0},
+                "regions": {"qa-region-1": {"count": 1, "rms_m": 5.0, "p95_m": 6.0, "max_m": 7.0}},
+                "per_check": {"n01": 5.0},
+            }
+            score_path.write_text(json.dumps(score), encoding="utf-8")
+
+            results_md_path = tmp_path / "RESULTS.md"
+            results_md_path.write_text(
+                "# Fletcher results\n\nEngraved-grid content.\n", encoding="utf-8"
+            )
+
+            rc = main(
+                [
+                    "record",
+                    "--observation",
+                    str(obs_path),
+                    "--score",
+                    str(score_path),
+                    "--disposition",
+                    "PASS",
+                    "--reason",
+                    "held-out thresholds satisfied",
+                    "--recorded-at",
+                    "2026-07-26",
+                    "--out",
+                    str(results_dir / "sheet-19-feature-v2.json"),
+                    "--results-md",
+                    str(results_md_path),
+                ]
+            )
+
+            self.assertEqual(rc, 0)
+            results_md = results_md_path.read_text(encoding="utf-8")
+            self.assertIn(
+                "| 17 | FAIL | 9 | 5 | — | — | — | — | held-out RMS exceeded gate |",
+                results_md,
+            )
+            self.assertIn(
+                "| 19 | PASS | 2 | 1 | 5.0 | 6.0 | 7.0 | 1 | "
+                "held-out thresholds satisfied |",
+                results_md,
+            )
+            # Sorted by sheet id: 17 before 19.
+            self.assertLess(results_md.index("| 17 |"), results_md.index("| 19 |"))
 
     def test_record_rejects_invalid_disposition(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
