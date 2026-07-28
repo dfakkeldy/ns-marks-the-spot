@@ -124,6 +124,16 @@ describe("mobile parcel inspector layout", () => {
   });
 });
 
+describe("GeoPDF frame chooser layout", () => {
+  it("wraps long imported filenames instead of widening a 320px chooser", () => {
+    const headingDeclarations = styles.match(
+      /\.geopdf-frame-chooser h2\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(headingDeclarations).toMatch(/overflow-wrap:\s*anywhere/);
+  });
+});
+
 describe("map cartographic furniture", () => {
   it("keeps the coordinate readout above the two-line scale control", () => {
     const readoutDeclarations = styles.match(
