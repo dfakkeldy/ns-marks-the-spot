@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { PDFDocument, PDFHexString, PDFName } from "pdf-lib";
 import { describe, expect, it } from "vitest";
 import {
   applyPdfViewport,
@@ -26,7 +27,141 @@ function viewport(
   };
 }
 
+async function measureWithExtendedLocalPoints(): Promise<Uint8Array> {
+  const document = await PDFDocument.create();
+  const page = document.addPage([1728, 2088]);
+  const measure = document.context.obj({
+    Type: "Measure",
+    Subtype: "GEO",
+    Bounds: [0, 0, 0, 1, 1, 1, 1, 0],
+    LPTS: [
+      0.00032, 1.01537,
+      -0.02238, 0.00035,
+      0.99968, -0.01537,
+      1.02238, 0.99965,
+    ],
+    GPTS: [
+      42.85448, -70.65044,
+      43.01304, -70.65468,
+      43.01551, -70.47446,
+      42.85693, -70.47068,
+    ],
+    GCS: {
+      Type: "GEOGCS",
+      EPSG: 4326,
+    },
+  });
+  const registration = document.context.obj({
+    Type: "Viewport",
+    BBox: [10.79975, 2088, 1708.16044, 38.69368],
+    Name: PDFHexString.fromText("Map Layers"),
+    Measure: measure,
+  });
+  page.node.set(PDFName.of("VP"), document.context.obj([registration]));
+  return document.save({ useObjectStreams: false });
+}
+
+async function terraGo23Registrations(
+  neatlineOverride?: number[],
+): Promise<Uint8Array> {
+  const document = await PDFDocument.create();
+  const page = document.addPage([100, 100]);
+  const nestedNad83 = document.context.obj({
+    Description: PDFHexString.fromText("North_American_Datum_1983"),
+    Ellipsoid: {
+      Description: PDFHexString.fromText("GRS 1980"),
+      InvFlattening: PDFHexString.fromText("298.257222101"),
+      SemiMajorAxis: PDFHexString.fromText("6378137"),
+    },
+    ToWGS84: {
+      Description: PDFHexString.fromText("Custom To WGS84 Parameters"),
+      dx: PDFHexString.fromText("0.9738"),
+      dy: PDFHexString.fromText("-1.9453"),
+      dz: PDFHexString.fromText("-0.5486"),
+    },
+  });
+  const neatline = neatlineOverride ?? [
+    0, 0,
+    100, 0.0000000001,
+    99.9999999999, 100,
+    0.0000000001, 99.9999999999,
+    0, 0,
+  ];
+  const registration = (
+    description: string,
+    ctm: number[],
+    projection: object,
+  ) =>
+    document.context.obj({
+      Type: PDFName.of("LGIDict"),
+      Version: PDFHexString.fromText("2.3"),
+      Description: PDFHexString.fromText(description),
+      CTM: ctm,
+      Neatline: neatline,
+      Projection: document.context.obj({
+        Type: PDFName.of("Projection"),
+        ...projection,
+      }),
+    });
+
+  page.node.set(
+    PDFName.of("LGIDict"),
+    document.context.obj([
+      registration(
+        "Quadrangle Location",
+        [1_000, 0, 0, 1_000, 0, 0],
+        {
+          ProjectionType: PDFHexString.fromText("MC"),
+          Datum: PDFHexString.fromText("WGE"),
+          Units: PDFHexString.fromText("m"),
+          CentralMeridian: PDFHexString.fromText("0"),
+          OriginLatitude: PDFHexString.fromText("0"),
+          FalseEasting: PDFHexString.fromText("0"),
+          FalseNorthing: PDFHexString.fromText("0"),
+          ScaleFactor: PDFHexString.fromText("0"),
+        },
+      ),
+      registration(
+        "Map Layers",
+        [10, 0, 0, 10, 500_000, 5_000_000],
+        {
+          ProjectionType: PDFHexString.fromText("UT"),
+          Datum: nestedNad83,
+          Hemisphere: PDFHexString.fromText("N"),
+          Zone: 19,
+          Units: PDFHexString.fromText("m"),
+        },
+      ),
+      registration(
+        "Adjoining Quadrangles Diagram",
+        [0.001, 0, 0, 0.001, -126, 37],
+        {
+          ProjectionType: PDFHexString.fromText("GEOGRAPHIC"),
+          Datum: nestedNad83,
+          Units: PDFHexString.fromText("deg"),
+        },
+      ),
+    ]),
+  );
+  return document.save({ useObjectStreams: false });
+}
+
 describe("extractGeoPdfMetadata", () => {
+  it("keeps a valid rotated Measure frame whose local points extend beyond the unit square", async () => {
+    const result = await extractGeoPdfMetadata(
+      await measureWithExtendedLocalPoints(),
+      viewport(1728, 2088),
+    );
+
+    expect(result.rejected).toEqual([]);
+    expect(result.candidates).toHaveLength(1);
+    expect(result.candidates[0]).toMatchObject({
+      flavor: "measure",
+      embeddedLabel: "Map Layers",
+    });
+    expect(result.candidates[0].gcps).toHaveLength(4);
+  });
+
   it("returns every valid Measure viewport in stable document order", async () => {
     const result = await extractGeoPdfMetadata(
       fixture("adobe_style_geospatial.pdf"),
@@ -98,6 +233,57 @@ describe("extractGeoPdfMetadata", () => {
       pixel: { x: 0, y: 0 },
       map: { lat: 49, lng: 2 },
     });
+  });
+
+  it("extracts the evidenced TerraGo 2.3 Mercator, NAD83 UTM, and geographic frames", async () => {
+    const result = await extractGeoPdfMetadata(
+      await terraGo23Registrations(),
+      viewport(100, 100),
+    );
+
+    expect(result.rejected).toEqual([]);
+    expect(result.pageStructure).toMatchObject({
+      family: "lgidict",
+      registrationCount: 3,
+      completeLabels: [
+        "Quadrangle Location",
+        "Map Layers",
+        "Adjoining Quadrangles Diagram",
+      ],
+    });
+    expect(result.candidates.map(({ embeddedLabel }) => embeddedLabel)).toEqual([
+      "Quadrangle Location",
+      "Map Layers",
+      "Adjoining Quadrangles Diagram",
+    ]);
+    expect(result.candidates[0].gcps[0].map).toMatchObject({
+      lat: 0,
+      lng: 0,
+    });
+    expect(result.candidates[1].gcps[0].map.lat).toBeCloseTo(45.153, 2);
+    expect(result.candidates[1].gcps[0].map.lng).toBeCloseTo(-69, 2);
+    expect(result.candidates[2].gcps[0].map.lat).toBeCloseTo(37, 3);
+    expect(result.candidates[2].gcps[0].map.lng).toBeCloseTo(-126, 3);
+  });
+
+  it("does not reduce a skewed TerraGo neatline to its bounding box", async () => {
+    const result = await extractGeoPdfMetadata(
+      await terraGo23Registrations([
+        0, 0,
+        100, 10,
+        100, 100,
+        0, 100,
+        0, 0,
+      ]),
+      viewport(100, 100),
+    );
+
+    expect(result.candidates).toEqual([]);
+    expect(result.rejected).toEqual([
+      { flavor: "lgidict", reason: "unsupported" },
+      { flavor: "lgidict", reason: "unsupported" },
+      { flavor: "lgidict", reason: "unsupported" },
+    ]);
   });
 
   it("returns absence only when page 1 has no geospatial dictionary", async () => {

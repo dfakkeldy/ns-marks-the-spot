@@ -284,14 +284,6 @@ function measureCandidate(
   for (let offset = 0; offset < local.length; offset += 2) {
     const localX = local[offset];
     const localY = local[offset + 1];
-    if (
-      localX < 0 ||
-      localX > 1 ||
-      localY < 0 ||
-      localY > 1
-    ) {
-      throw new Error("Measure local point is outside bounds");
-    }
     const pixel = applyPdfViewport(
       viewport.transform,
       left + (right - left) * localX,
@@ -336,6 +328,40 @@ function applyCtm(
   return { x: a * x + c * y + e, y: b * x + d * y + f };
 }
 
+function terraGoNad83Definition(datum: PDFObject | undefined): string | null {
+  if (!(datum instanceof PDFDict)) {
+    return null;
+  }
+  const ellipsoid = lookup(datum, "Ellipsoid");
+  const toWgs84 = lookup(datum, "ToWGS84");
+  if (
+    textValue(lookup(datum, "Description")) !==
+      "North_American_Datum_1983" ||
+    !(ellipsoid instanceof PDFDict) ||
+    textValue(lookup(ellipsoid, "Description")) !== "GRS 1980" ||
+    !(toWgs84 instanceof PDFDict) ||
+    textValue(lookup(toWgs84, "Description")) !==
+      "Custom To WGS84 Parameters"
+  ) {
+    return null;
+  }
+  const semiMajor = scalar(lookup(ellipsoid, "SemiMajorAxis"));
+  const inverseFlattening = scalar(lookup(ellipsoid, "InvFlattening"));
+  const dx = scalar(lookup(toWgs84, "dx"));
+  const dy = scalar(lookup(toWgs84, "dy"));
+  const dz = scalar(lookup(toWgs84, "dz"));
+  if (
+    semiMajor !== 6_378_137 ||
+    inverseFlattening !== 298.257222101 ||
+    dx === null ||
+    dy === null ||
+    dz === null
+  ) {
+    return null;
+  }
+  return `+a=${semiMajor} +rf=${inverseFlattening} +towgs84=${dx},${dy},${dz},0,0,0,0`;
+}
+
 function projectionDefinition(projection: PDFDict): string {
   if (nameValue(lookup(projection, "Type")) !== "Projection") {
     throw new UnsupportedRegistrationError("unsupported projection dictionary");
@@ -348,9 +374,13 @@ function projectionDefinition(projection: PDFDict): string {
   const projectionType =
     textValue(lookup(projection, "ProjectionType")) ??
     nameValue(lookup(projection, "ProjectionType"));
+  const datumObject = lookup(projection, "Datum");
   const datum =
-    textValue(lookup(projection, "Datum")) ??
-    nameValue(lookup(projection, "Datum"));
+    textValue(datumObject) ??
+    nameValue(datumObject);
+  const units =
+    textValue(lookup(projection, "Units")) ??
+    nameValue(lookup(projection, "Units"));
   if (projectionType === "GEOGRAPHIC" && datum === "WGE") {
     return "EPSG:4326";
   }
@@ -363,9 +393,63 @@ function projectionDefinition(projection: PDFDict): string {
       return "EPSG:26920";
     }
   }
+  if (
+    projectionType === "MC" &&
+    datum === "WGE" &&
+    units === "m" &&
+    scalar(lookup(projection, "CentralMeridian")) === 0 &&
+    scalar(lookup(projection, "OriginLatitude")) === 0 &&
+    scalar(lookup(projection, "FalseEasting")) === 0 &&
+    scalar(lookup(projection, "FalseNorthing")) === 0 &&
+    scalar(lookup(projection, "ScaleFactor")) === 0
+  ) {
+    return "EPSG:3857";
+  }
+  const terraGoNad83 = terraGoNad83Definition(datumObject);
+  if (terraGoNad83) {
+    if (projectionType === "UT" && units === "m") {
+      const zone = scalar(lookup(projection, "Zone"));
+      const hemisphere =
+        textValue(lookup(projection, "Hemisphere")) ??
+        nameValue(lookup(projection, "Hemisphere"));
+      if ((zone === 10 || zone === 19) && hemisphere === "N") {
+        const definition =
+          `+proj=utm +zone=${zone} ${terraGoNad83} +units=m +no_defs`;
+        validateCrs(definition);
+        return definition;
+      }
+    }
+    if (projectionType === "GEOGRAPHIC" && units === "deg") {
+      const definition = `+proj=longlat ${terraGoNad83} +no_defs`;
+      validateCrs(definition);
+      return definition;
+    }
+  }
   throw new UserMapImportError(
     "unsupported-crs",
     "This PDF registration uses an unsupported coordinate system.",
+  );
+}
+
+const NEATLINE_AXIS_TOLERANCE = 1e-7;
+
+function axisClusters(values: number[]): number[] {
+  const clusters: number[] = [];
+  for (const value of [...values].sort((left, right) => left - right)) {
+    if (
+      clusters.length === 0 ||
+      Math.abs(value - clusters[clusters.length - 1]) >
+        NEATLINE_AXIS_TOLERANCE
+    ) {
+      clusters.push(value);
+    }
+  }
+  return clusters;
+}
+
+function axisClusterIndex(clusters: number[], value: number): number {
+  return clusters.findIndex(
+    (cluster) => Math.abs(value - cluster) <= NEATLINE_AXIS_TOLERANCE,
   );
 }
 
@@ -380,20 +464,25 @@ function neatlineCorners(dictionary: PDFDict): Array<{ x: number; y: number }> {
   );
   if (
     points.length === 5 &&
-    points[0].x === points[4].x &&
-    points[0].y === points[4].y
+    Math.abs(points[0].x - points[4].x) <= NEATLINE_AXIS_TOLERANCE &&
+    Math.abs(points[0].y - points[4].y) <= NEATLINE_AXIS_TOLERANCE
   ) {
     points.pop();
   }
   if (points.length !== 4) {
     throw new UnsupportedRegistrationError("unsupported non-rectangular neatline");
   }
-  const xs = [...new Set(points.map(({ x }) => x))];
-  const ys = [...new Set(points.map(({ y }) => y))];
+  const xs = axisClusters(points.map(({ x }) => x));
+  const ys = axisClusters(points.map(({ y }) => y));
   if (
     xs.length !== 2 ||
     ys.length !== 2 ||
-    new Set(points.map(({ x, y }) => `${x}\u001f${y}`)).size !== 4
+    new Set(
+      points.map(
+        ({ x, y }) =>
+          `${axisClusterIndex(xs, x)}\u001f${axisClusterIndex(ys, y)}`,
+      ),
+    ).size !== 4
   ) {
     throw new UnsupportedRegistrationError("unsupported non-rectangular neatline");
   }
@@ -405,9 +494,10 @@ function lgiCandidate(
   identity: string,
   viewport: PdfViewportGeometry,
 ): PdfRegistrationCandidate {
+  const version = textValue(lookup(dictionary, "Version"));
   if (
     nameValue(lookup(dictionary, "Type")) !== "LGIDict" ||
-    textValue(lookup(dictionary, "Version")) !== "2.1"
+    (version !== "2.1" && version !== "2.3")
   ) {
     throw new UnsupportedRegistrationError("unsupported LGIDict structure");
   }
