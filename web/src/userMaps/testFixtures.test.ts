@@ -1,6 +1,29 @@
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { argmax, BENT, nudgeGcpEast } from "./testFixtures";
 import { groundMetresBetween } from "./transform/webMercator";
+
+type GeoPdfFixtureReceipt = {
+  byteSize?: number;
+  expected?: string;
+  file: string;
+  sha256: string;
+};
+
+type GeoPdfFixtureManifest = {
+  fixtures: GeoPdfFixtureReceipt[];
+  schemaVersion: number;
+};
+
+const geoPdfFixtureDirectory = join(
+  process.cwd(),
+  "src",
+  "test",
+  "fixtures",
+  "geopdf",
+);
 
 describe("nudgeGcpEast", () => {
   it("moves the named point by the requested GROUND metres and nothing else", () => {
@@ -35,5 +58,39 @@ describe("argmax", () => {
     expect(argmax([9, 1, 9])).toBe(0);
     expect(argmax([2])).toBe(0);
     expect(argmax([])).toBe(-1);
+  });
+});
+
+describe("GeoPDF fixture manifest", () => {
+  it("pins every tracked PDF to its reviewed bytes", async () => {
+    const manifest = JSON.parse(
+      await readFile(join(geoPdfFixtureDirectory, "manifest.json"), "utf8"),
+    ) as GeoPdfFixtureManifest;
+
+    expect(manifest.schemaVersion).toBe(1);
+    for (const fixture of manifest.fixtures) {
+      const bytes = await readFile(join(geoPdfFixtureDirectory, fixture.file));
+      expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+        fixture.sha256,
+      );
+      if (fixture.byteSize !== undefined) {
+        expect(bytes.byteLength).toBe(fixture.byteSize);
+      }
+    }
+  });
+
+  it("freezes a final result for both registration families", async () => {
+    const manifest = JSON.parse(
+      await readFile(join(geoPdfFixtureDirectory, "manifest.json"), "utf8"),
+    ) as GeoPdfFixtureManifest;
+    const fixtureByFile = new Map(
+      manifest.fixtures.map((fixture) => [fixture.file, fixture]),
+    );
+
+    for (const file of ["test_iso32000.pdf", "test_ogc_bp.pdf"]) {
+      expect(fixtureByFile.get(file)?.expected).toMatch(
+        /^(automatic|manual-unsupported)$/,
+      );
+    }
   });
 });

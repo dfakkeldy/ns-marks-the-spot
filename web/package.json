@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "generate:geopdf-fixtures": "node scripts/generateGeoPdfFixtures.mjs",
     "generate:hydro-pilot": "node scripts/generateInvernessHydroPilot.mjs",
+    "probe:geopdf": "node scripts/probeGeoPdf.mjs",
     "refresh:cbrm-tax-sale-results": "node scripts/refreshCbrmTaxSaleResults.mjs",
     "refresh:inverness-tax-sale": "node scripts/refreshInvernessTaxSale.mjs",
     "refresh:tax-sales": "npm run refresh:inverness-tax-sale && npm run refresh:cbrm-tax-sale-results && npm run watch:tax-sales",
@@ -18,6 +20,8 @@
   "dependencies": {
     "geotiff": "2.1.3",
     "leaflet": "1.9.4",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "6.1.200",
     "proj4": "^2.20.9",
     "qrcode": "1.5.4",
     "react": "19.2.7",

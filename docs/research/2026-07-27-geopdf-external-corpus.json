@@ -1,0 +1,92 @@
+[
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/ME/ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "9e0e5c17276b6ff0793c29ffc190b0b43e559fd197f0e17c79560adda54a4357",
+    "byteSize": 5831077,
+    "producer": "Esri ArcSOC 10.8.1.14362",
+    "publicationDate": "2024-08-05",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26919 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [365387.2006508168, 4.063591562546713, -0.0752713172660723, 4763593.290266804, -0.07537936525192, -4.0635060669511445],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official U.S. Geological Survey product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "1e64eabdb4df545a651a7721ed808c6199e89df27c7659424ead22a3c9f74732",
+    "byteSize": 12127762,
+    "producer": "Esri ArcSOC 10.8.1.14362",
+    "publicationDate": "2021-12-02",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26910 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [531261.9872700123, 4.064029360304099, 0.0190114005235746, 4179600.2706769146, 0.0190999814246997, -4.064054753114054],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official U.S. Geological Survey product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
+    "byteSize": 3241291,
+    "producer": "ESRI ArcSOC 10.0.2.3200",
+    "publicationDate": "2015-06-10",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26919 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [355545.6906120561, 4.063181388613904, -0.0814477205524531, 4763861.039375914, -0.0814477205524531, -4.063181388613904],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official pre-June-2017 U.S. Geological Survey TerraGo-era product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "756f06c2c1a826c151bb2a753fe8a8e9efac28557865c37262cd773160961266",
+    "byteSize": 9052006,
+    "producer": "ESRI ArcSOC 10.0.2.3200",
+    "publicationDate": "2012-05-15",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26910 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [531669.65205526, 4.063956473115279, 0.018891234011795, 4165792.8459826387, 0.018891234011795, -4.063956473115279],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official pre-June-2017 U.S. Geological Survey TerraGo-era product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Hampton_20240808_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "a4b29c41289e5d4dab3ec33f2d0019441c2525aba0c61b498a15da3434bc546b",
+    "byteSize": 35264037,
+    "producer": "Esri ArcSOC 10.8.1.14362",
+    "publicationDate": "2024-08-08",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26919 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [345015.662882536, 4.063027501054173, -0.0876534133298467, 4764023.514742415, -0.0873807510562066, -4.063187261041905],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official U.S. Geological Survey multi-frame control selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  }
+]
