@@ -1,14 +1,16 @@
 {
   "schemaVersion": 1,
-  "headSha": "c9ceb4d78d580722505147214ca398165c94f05f",
+  "headSha": "bcc3f8e49bbedfbebc22ce60e86d406fc3d1a280",
   "decision": "blocked",
   "recordedAt": "2026-07-28",
-  "branch": "feature/web-geopdf-import",
+  "branch": "nightly",
   "artifact": {
     "topology": "metadata-worker-main-canvas-pdfjs",
-    "buildCommand": "npm ci && npm run check:pdf-assets && npm test && npm run lint && npm run build",
-    "previewCommand": "npx vite preview --host 127.0.0.1 --port 4174 --strictPort",
-    "previewUrl": "http://127.0.0.1:4174/"
+    "chromeCompatibilitySha": "bbc6bf5b21569195b44e020a873fd7530208dd29",
+    "currentIntegratedSha": "bcc3f8e49bbedfbebc22ce60e86d406fc3d1a280",
+    "buildCommand": "npm ci && npm test && npm run lint && npm run build",
+    "previewCommand": "npx vite preview --host 127.0.0.1 --port 4178 --strictPort",
+    "previewUrl": "http://127.0.0.1:4178/"
   },
   "environment": {
     "os": "macOS 27.0 (26A5388g)",
@@ -23,15 +25,15 @@
     "chrome": "150.0.7871.187",
     "firefox": "146.0.1",
     "desktopSafari": "27.0",
-    "mobileSafari": "not run; paired phone unavailable to the device tool",
+    "mobileSafari": "not run; devicectl reported the paired iPhone unavailable and iPhone Mirroring timed out",
     "devicePixelRatio": "not exposed by the acceptance control surface",
-    "responsiveViewport": "320x640 supporting run only"
+    "responsiveViewport": "320x640 exact current-artifact run"
   },
   "topologies": [
     {
       "id": "metadata-worker-main-canvas-pdfjs",
       "result": "partial-pass",
-      "evidence": "The exact artifact completed deterministic Measure, deterministic LGIDict, two-page, plain-PDF, real Measure, and real legacy LGIDict imports in Chrome."
+      "evidence": "The full Chrome compatibility matrix passed on exact bbc6bf5b; the exact current bcc3f8e49 responsive case and complete Firefox and Safari rendered matrices passed."
     },
     {
       "id": "pdfjs-feature-worker",
@@ -43,58 +45,70 @@
     {
       "name": "Chrome",
       "version": "150.0.7871.187",
-      "artifact": "exact",
+      "artifact": "full compatibility matrix exact at bbc6bf5b; responsive regression exact at current bcc3f8e49",
       "result": "blocked",
       "completed": [
-        "deterministic sole Measure placement",
-        "deterministic sole LGIDict placement",
+        "all five verified real-USGS files imported",
+        "every Measure and LGIDict main-map and inset frame selected explicitly",
+        "every initial multi-registration chooser had no checked radio",
+        "four embedded GCPs in every Adjust Points panel",
+        "all five selection and provenance records persisted after reload",
+        "35 MB raster stress import and three-frame selection",
+        "deterministic sole Measure and LGIDict placement",
         "page 1 of 2 reporting",
         "plain-PDF manual fallback",
-        "real Measure three-frame chooser with no preselection",
-        "real legacy LGIDict three-frame chooser with no preselection",
-        "main-map and inset placement from embedded GCPs",
-        "four embedded GCPs in Adjust Points",
-        "Measure and LGIDict selection persistence after reload",
-        "clean PDF, worker, and asset console"
+        "320x640 long-filename wrapping and operable chooser on current integrated SHA",
+        "no warning or error console entries",
+        "no imported filename, file URL, or temporary path in rendered src or href values",
+        "Montara, San Francisco, and Hampton candidate IDs recorded"
       ],
       "blocked": [
-        "exact-artifact Montara, San Francisco, and Hampton reruns after the extension stopped delivering file-chooser events",
+        "full Chrome matrix was not rerun after the CSS-only bcc3f8e49 integration",
         "long-task and retained-memory measurements",
-        "three import-remove cleanup cycles",
+        "three normal and stress import-remove cleanup cycles",
         "network request-body inspection",
-        "required screenshots and candidate-ID receipt"
+        "durable selected-extent and clipping screenshots",
+        "candidate IDs for the other two USGS files"
       ]
     },
     {
       "name": "Firefox",
       "version": "146.0.1",
-      "artifact": "pre-commit supporting run",
+      "artifact": "exact current bcc3f8e49",
       "result": "partial-pass",
       "completed": [
-        "deterministic sole Measure placement",
-        "real legacy three-frame chooser with no preselection",
-        "legacy Map Layers placement from embedded LGIDict coordinates"
+        "complete five-file real-USGS rendered matrix",
+        "every main-map and inset selection from four embedded GCPs",
+        "initial choosers with no preselection",
+        "selection and provenance persistence after reload",
+        "deterministic sole Measure and LGIDict placement",
+        "plain-PDF manual fallback",
+        "page 1 of 2 reporting"
       ],
       "blocked": [
-        "remaining rendered interaction matrix",
-        "console and network inspection",
-        "exact committed artifact rerun"
+        "console inspection",
+        "network request-body inspection",
+        "retained-resource and cleanup tracing"
       ]
     },
     {
       "name": "desktop Safari",
       "version": "27.0",
-      "artifact": "pre-commit supporting run",
+      "artifact": "exact current bcc3f8e49",
       "result": "partial-pass",
       "completed": [
-        "deterministic sole Measure placement",
-        "real legacy three-frame chooser with no preselection",
-        "legacy Map Layers placement from embedded LGIDict coordinates"
+        "complete five-file real-USGS rendered matrix",
+        "every main-map and inset selection from four embedded GCPs",
+        "initial choosers with no preselection",
+        "selection and provenance persistence after reload",
+        "deterministic sole Measure and LGIDict placement",
+        "plain-PDF manual fallback",
+        "page 1 of 2 reporting"
       ],
       "blocked": [
-        "remaining rendered interaction matrix",
-        "console and network inspection",
-        "exact committed artifact rerun"
+        "console inspection",
+        "network request-body inspection",
+        "retained-resource and cleanup tracing"
       ]
     },
     {
@@ -104,7 +118,8 @@
       "result": "blocked",
       "completed": [],
       "blocked": [
-        "paired phone was unavailable and no accepted physical-device control path was present"
+        "devicectl reported the paired iPhone 12 Pro unavailable",
+        "iPhone Mirroring timed out connecting"
       ]
     }
   ],
@@ -114,100 +129,105 @@
       "role": "deterministic Measure",
       "byteSize": 1878,
       "sha256": "43e07add666de062d2dfb91eca17fc807d32eea7e9a1e5fc90b35d8441a82148",
-      "exactChromeResult": "pass"
+      "chromeResult": "pass at bbc6bf5b",
+      "firefoxResult": "pass at bcc3f8e49",
+      "safariResult": "pass at bcc3f8e49"
     },
     {
       "name": "ns-utm20-lgidict.pdf",
       "role": "deterministic LGIDict",
       "byteSize": 1896,
       "sha256": "92196cd8210c63aeb14977a6213045a90e97a630dd008bbc6e1136d94ecc101a",
-      "exactChromeResult": "pass"
+      "chromeResult": "pass at bbc6bf5b",
+      "firefoxResult": "pass at bcc3f8e49",
+      "safariResult": "pass at bcc3f8e49"
     },
     {
       "name": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
       "role": "real current Measure and unapproved multi-frame signature",
       "byteSize": 5831077,
       "sha256": "9e0e5c17276b6ff0793c29ffc190b0b43e559fd197f0e17c79560adda54a4357",
-      "exactChromeResult": "pass"
+      "chromeResult": "all frames pass at bbc6bf5b",
+      "firefoxResult": "all frames pass at bcc3f8e49",
+      "safariResult": "all frames pass at bcc3f8e49"
     },
     {
       "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
       "role": "real legacy LGIDict",
       "byteSize": 3241291,
       "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
-      "exactChromeResult": "pass"
+      "chromeResult": "all frames pass at bbc6bf5b",
+      "firefoxResult": "all frames pass at bcc3f8e49",
+      "safariResult": "all frames pass at bcc3f8e49"
     },
     {
       "name": "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
       "role": "10-20 MB real Measure",
       "byteSize": 12127762,
       "sha256": "1e64eabdb4df545a651a7721ed808c6199e89df27c7659424ead22a3c9f74732",
-      "exactChromeResult": "blocked by file-chooser control",
-      "supportingRunResult": "chooser and embedded Map Layers placement passed"
+      "chromeResult": "all frames pass at bbc6bf5b",
+      "firefoxResult": "all frames pass at bcc3f8e49",
+      "safariResult": "all frames pass at bcc3f8e49"
     },
     {
       "name": "NH_Hampton_20240808_TM_geo.pdf",
-      "role": "35 MB stress Measure",
+      "role": "35 MB stress Measure and 320x640 responsive control",
       "byteSize": 35264037,
       "sha256": "a4b29c41289e5d4dab3ec33f2d0019441c2525aba0c61b498a15da3434bc546b",
-      "exactChromeResult": "blocked by file-chooser control",
-      "supportingRunResult": "80-second import, chooser, embedded main map, and 320x640 inset placement passed"
+      "chromeResult": "all frames pass at bbc6bf5b; corrected responsive case passes at bcc3f8e49",
+      "firefoxResult": "all frames pass at bcc3f8e49",
+      "safariResult": "all frames pass at bcc3f8e49"
     },
     {
       "name": "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf",
       "role": "real four-frame legacy LGIDict",
       "byteSize": 9052006,
       "sha256": "756f06c2c1a826c151bb2a753fe8a8e9efac28557865c37262cd773160961266",
-      "exactChromeResult": "blocked by file-chooser control",
-      "supportingRunResult": "four-frame chooser and embedded geographic inset passed"
+      "chromeResult": "all frames pass at bbc6bf5b",
+      "firefoxResult": "all frames pass at bcc3f8e49",
+      "safariResult": "all frames pass at bcc3f8e49"
     },
     {
       "name": "byte_and_rgbsmall_2pages.pdf",
       "role": "page-count control",
       "byteSize": 8992,
       "sha256": "e483d8eec5820e0a828d41d804978e4090d46c806615fa961de0ec205777abb9",
-      "exactChromeResult": "pass"
+      "chromeResult": "pass at bbc6bf5b",
+      "firefoxResult": "pass at bcc3f8e49",
+      "safariResult": "pass at bcc3f8e49"
     },
     {
       "name": "plain.pdf",
       "role": "plain-PDF fallback",
       "byteSize": 1030,
       "sha256": "65b2f799cca6153964eab02498be32e1dc1362f1ed886e8803b9e9a8735880c4",
-      "exactChromeResult": "pass"
+      "chromeResult": "pass at bbc6bf5b",
+      "firefoxResult": "pass at bcc3f8e49",
+      "safariResult": "pass at bcc3f8e49"
     }
   ],
   "performance": [
     {
-      "check": "exact Chrome deterministic fixtures",
-      "result": "pass",
-      "evidence": "Each completed within the 15-18 second observation windows."
-    },
-    {
-      "check": "exact Chrome real Measure",
-      "result": "pass",
-      "evidence": "Chooser was present before the first 20-second poll."
-    },
-    {
-      "check": "exact Chrome real legacy LGIDict",
-      "result": "pass",
-      "evidence": "Chooser completed between the 20-second and 40-second polls."
+      "check": "Chrome 35 MB stress import",
+      "result": "pass-observed",
+      "evidence": "The chooser completed within the browser observation windows at bbc6bf5b and for the corrected 320x640 bcc3f8e49 case; no precise duration is claimed."
     },
     {
       "check": "main-thread long tasks and input responsiveness",
       "result": "blocked",
-      "evidence": "The control surface exposed neither a long-task trace nor an accepted performance recording."
+      "evidence": "The control surfaces exposed neither a long-task trace nor an accepted performance recording."
     },
     {
-      "check": "exact Chrome stress import",
+      "check": "retained memory",
       "result": "blocked",
-      "evidence": "The extension file chooser stopped delivering events before the stress file could be selected."
+      "evidence": "No accepted retained-memory trace was available."
     }
   ],
   "cleanup": [
     {
       "check": "reload persistence",
       "result": "pass",
-      "evidence": "Selected Measure and LGIDict inset provenance persisted on the exact artifact."
+      "evidence": "All five real-file selection and provenance records persisted in Chrome at bbc6bf5b and in Firefox and Safari at bcc3f8e49."
     },
     {
       "check": "three normal import-remove cycles",
@@ -222,24 +242,24 @@
     {
       "check": "worker, document, object URL, canvas, and memory release",
       "result": "blocked",
-      "evidence": "No retained-memory trace was available, and the removal confirmation control timed out."
+      "evidence": "No retained-resource trace was available, and the Chrome removal confirmation control timed out."
     }
   ],
   "networkPrivacy": [
     {
       "check": "rendered imported-file URLs",
       "result": "pass-supporting",
-      "evidence": "No imported filename, local file URL, or temporary corpus path appeared in rendered src or href attributes."
+      "evidence": "The exact current Chrome run inspected 42 rendered src and href values; none contained an imported filename, file URL, or temporary corpus path."
     },
     {
       "check": "PDF request or upload body",
       "result": "blocked",
-      "evidence": "Resource timing and request-body inspection were unavailable on the Chrome control surface."
+      "evidence": "No accepted browser control surface exposed a request-body ledger."
     },
     {
       "check": "console",
-      "result": "pass",
-      "evidence": "Exact-artifact Chrome console contained no error or warning entries after the completed cases."
+      "result": "partial-pass",
+      "evidence": "Chrome returned no warning or error log entries after the current exact case; Firefox and Safari console inspection was unavailable."
     }
   ],
   "automaticRule": {
@@ -247,10 +267,9 @@
     "reason": "The five recorded USGS files are discovery inputs. All three exact producer signatures still have zero untouched passing holdouts; two holdouts per signature, six additional independent files total, are required."
   },
   "blockers": [
-    "Complete the exact-artifact Chrome normal-size, four-frame, and stress reruns.",
-    "Run the full Firefox and desktop Safari matrices on the exact artifact.",
+    "Rerun the full Chrome matrix on current bcc3f8e49 rather than relying on exact bbc6bf5b plus the current responsive rerun.",
     "Run physical mobile Safari on an available real device.",
-    "Capture required performance, long-task, memory, cleanup, network, screenshot, clipping, and candidate-ID evidence.",
+    "Capture required performance, long-task, memory, cleanup, request-body, durable screenshot, clipping, and remaining candidate-ID evidence.",
     "Acquire six independent holdout files before approving any producer-specific automatic main-map rule."
   ]
 }
