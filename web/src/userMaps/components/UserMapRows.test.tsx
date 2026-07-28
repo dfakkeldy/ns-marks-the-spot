@@ -1,7 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { needsGeoreferencing, type UserMapsApi } from "../useUserMaps";
+import {
+  needsFrameSelection,
+  needsGeoreferencing,
+  type UserMapsApi,
+} from "../useUserMaps";
 import type { Gcp, UserMapRecord } from "../types";
 import { UserMapRows } from "./UserMapRows";
 
@@ -33,13 +37,19 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
     setOpacity: vi.fn(),
     georeferencingId: null,
     editingMap: null,
+    frameChoosingId: null,
+    frameChoosingMap: null,
     beginGeoreference: vi.fn(),
     endGeoreference: vi.fn(),
+    beginFrameSelection: vi.fn(),
+    endFrameSelection: vi.fn(),
+    selectPdfFrame: vi.fn(async () => {}),
     saveGcps: vi.fn(async () => {}),
     setGeorefMethod: vi.fn(async () => {}),
     // The real predicate, not a stub: a row's draft/placed appearance is
     // decided by actual GCP counts, so a fake here would let a wrong one pass.
     needsGeoreferencing,
+    needsFrameSelection,
     ...overrides,
   };
 }
