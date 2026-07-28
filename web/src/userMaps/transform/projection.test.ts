@@ -4,6 +4,7 @@ import { UserMapImportError } from "../errors";
 import {
   buildLatLngMesh,
   pixelToLatLng,
+  projectToLatLng,
   validateCrs,
   type EmbeddedGeoref,
 } from "./projection";
@@ -110,6 +111,14 @@ describe("pixelToLatLng", () => {
     const { lat, lng } = pixelToLatLng(geographic, 100, 200);
     expect(lng).toBeCloseTo(-63.4, 9);
     expect(lat).toBeCloseTo(45.8, 9);
+  });
+});
+
+describe("projectToLatLng", () => {
+  it("projects a supported CRS point to WGS84", () => {
+    const point = projectToLatLng("EPSG:26920", 500_000, 5_000_000);
+    expect(point.lat).toBeCloseTo(45.153477, 5);
+    expect(point.lng).toBeCloseTo(-63, 5);
   });
 });
 

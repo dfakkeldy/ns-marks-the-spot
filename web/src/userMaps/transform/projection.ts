@@ -126,7 +126,15 @@ export function pixelToLatLng(
   const [ox, xRes, xRot, oy, yRot, yRes] = georef.geotransform;
   const projX = ox + x * xRes + y * xRot;
   const projY = oy + x * yRot + y * yRes;
-  const [lng, lat] = converterFor(georef.crs).forward([projX, projY]);
+  return projectToLatLng(georef.crs, projX, projY);
+}
+
+export function projectToLatLng(
+  crs: string,
+  x: number,
+  y: number,
+): LatLngPoint {
+  const [lng, lat] = converterFor(crs).forward([x, y]);
   // proj4 doesn't throw for a finite-but-out-of-domain input (e.g. a
   // tiepoint that lands nowhere near the declared UTM zone) — it returns
   // null/Infinity/NaN instead. Left unchecked, `new L.LatLng(...)` silently

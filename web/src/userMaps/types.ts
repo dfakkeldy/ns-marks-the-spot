@@ -24,6 +24,75 @@ export type UserMapGeoref = EmbeddedGeoref | GcpGeoref;
 
 export type UserMapSource = "geotiff" | "geopdf" | "image";
 
+export type PixelRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type PdfRegistrationFlavor = "measure" | "lgidict";
+
+export type PdfRegistrationCandidate = {
+  id: string;
+  flavor: PdfRegistrationFlavor;
+  embeddedLabel: string | null;
+  sourceRect: PixelRect;
+  gcps: Gcp[];
+};
+
+export type PdfManualReason =
+  | "absent"
+  | "unsupported"
+  | "unsupported-crs"
+  | "invalid"
+  | "unreadable";
+
+export type ParsedPdfRegistration =
+  | {
+      status: "automatic";
+      selection:
+        | { kind: "sole" }
+        | { kind: "producer-rule"; ruleId: string };
+      selected: PdfRegistrationCandidate;
+      candidates: PdfRegistrationCandidate[];
+    }
+  | {
+      status: "selection-required";
+      candidates: PdfRegistrationCandidate[];
+    }
+  | {
+      status: "manual";
+      reason: PdfManualReason;
+    };
+
+export type PdfImportMetadata = {
+  pageNumber: 1;
+  pageCount: number;
+  registration:
+    | {
+        status: "embedded";
+        flavor: PdfRegistrationFlavor;
+        selection:
+          | { kind: "sole" }
+          | { kind: "producer-rule"; ruleId: string }
+          | { kind: "user" };
+        selectedFrameId: string;
+        selectedLabel: string | null;
+        candidates: PdfRegistrationCandidate[];
+        adjusted: boolean;
+      }
+    | {
+        status: "selection-required";
+        candidates: PdfRegistrationCandidate[];
+      }
+    | {
+        status: "manual";
+        reason: PdfManualReason;
+        adjusted: boolean;
+      };
+};
+
 export type UserMapRecord = {
   id: string;
   name: string;
@@ -32,4 +101,6 @@ export type UserMapRecord = {
   /** Original raster dimensions — GCP space, not preview space. */
   pixelSize: PixelSize;
   georef: UserMapGeoref;
+  sourceRect?: PixelRect;
+  pdf?: PdfImportMetadata;
 };
