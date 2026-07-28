@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-27; revised 2026-07-28
 **Status:** Approved by the maintainer on 2026-07-28
-**Target:** `feature/web-geopdf-import` → `nightly`  
+**Target:** `feature/web-geopdf-import` → `nightly`
 **Surface:** Web map only
 
 ## Goal
