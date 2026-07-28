@@ -23,7 +23,10 @@ import type {
   UserMapRecord,
   UserMapSource,
 } from "./types";
-import type { VisibleUserMap } from "./components/UserMapLayers";
+import type {
+  UserMapFitRequest,
+  VisibleUserMap,
+} from "./components/UserMapLayers";
 
 export const DEFAULT_OPACITY = 0.7;
 export const HARD_LIMIT_BYTES = 500 * 1024 * 1024;
@@ -103,6 +106,7 @@ export type UserMapsApi = {
   records: UserMapRecord[];
   uiState: UserMapUiState;
   visibleMaps: VisibleUserMap[];
+  fitRequest: UserMapFitRequest | null;
   importing: boolean;
   importingLabel: string | null;
   storageError: string | null;
@@ -266,6 +270,13 @@ export function useUserMaps(
   const [outcomes, setOutcomes] = useState<ImportOutcome[]>([]);
   const [georeferencingId, setGeoreferencingId] = useState<string | null>(null);
   const [frameChoosingId, setFrameChoosingId] = useState<string | null>(null);
+  const [fitRequest, setFitRequest] = useState<UserMapFitRequest | null>(null);
+  const fitRevisionRef = useRef(0);
+
+  const requestFit = useCallback((mapId: string) => {
+    fitRevisionRef.current += 1;
+    setFitRequest({ mapId, revision: fitRevisionRef.current });
+  }, []);
 
   // `saveGcps` has to build the updated record BEFORE handing it to
   // setRecords (see below), so it needs the current list without capturing it
@@ -499,6 +510,12 @@ export function useUserMaps(
               ...loadUiState(),
               [record.id]: { enabled: true, opacity: DEFAULT_OPACITY },
             });
+            if (
+              record.source === "geopdf" &&
+              record.pdf?.registration.status === "embedded"
+            ) {
+              requestFit(record.id);
+            }
             batch.push({
               fileName: file.name,
               ok: true,
@@ -536,7 +553,7 @@ export function useUserMaps(
         setImportingLabel(null);
       }
     },
-    [persistUiState, registerPreviewUrl, store],
+    [persistUiState, registerPreviewUrl, requestFit, store],
   );
 
   const removeMap = useCallback(
@@ -562,6 +579,9 @@ export function useUserMaps(
       // localStorage.setItem can throw and would skip this cleanup.
       setGeoreferencingId((prev) => (prev === id ? null : prev));
       setFrameChoosingId((prev) => (prev === id ? null : prev));
+      setFitRequest((current) =>
+        current?.mapId === id ? null : current,
+      );
       const nextUi = { ...loadUiState() };
       delete nextUi[id];
       persistUiState(nextUi);
@@ -665,6 +685,7 @@ export function useUserMaps(
         prev.map((record) => (record.id === id ? saved : record)),
       );
       setFrameChoosingId((current) => (current === id ? null : current));
+      requestFit(id);
       try {
         await (await store()).putUserMapRecord(saved);
       } catch {
@@ -674,7 +695,7 @@ export function useUserMaps(
         );
       }
     },
-    [store],
+    [requestFit, store],
   );
 
   const saveGcps = useCallback(
@@ -865,6 +886,7 @@ export function useUserMaps(
     records,
     uiState,
     visibleMaps,
+    fitRequest,
     importing,
     importingLabel,
     storageError,

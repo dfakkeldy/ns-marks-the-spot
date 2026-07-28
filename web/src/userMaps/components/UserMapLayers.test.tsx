@@ -11,6 +11,7 @@ const stubMapApi = vi.hoisted(() => ({
   }),
   getPane: vi.fn(() => paneEl.current ?? undefined),
   addLayer: vi.fn(),
+  fitBounds: vi.fn(),
   removeLayer: vi.fn(),
 }));
 
@@ -47,6 +48,7 @@ vi.mock("../render/WarpedRasterLayer", () => ({
 }));
 
 import { UserMapLayers } from "./UserMapLayers";
+import { meshForRecord } from "../recordMesh";
 
 const record: UserMapRecord = {
   id: "a",
@@ -84,6 +86,7 @@ afterEach(() => {
   paneEl.current = null;
   stubMapApi.createPane.mockClear();
   stubMapApi.addLayer.mockClear();
+  stubMapApi.fitBounds.mockClear();
   stubMapApi.removeLayer.mockClear();
 });
 
@@ -341,6 +344,84 @@ describe("UserMapLayers draft overlay", () => {
         second.sourceRect,
       ),
     );
+    expect(layerInstances).toHaveLength(1);
+    expect(createImageBitmapMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("fits each confirmed frame revision once without rebuilding the raster", async () => {
+    const createImageBitmapMock = vi.fn(async () => ({
+      width: 1200,
+      height: 800,
+      close: vi.fn(),
+    }));
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal("createImageBitmap", createImageBitmapMock);
+    const first = {
+      ...GCP_RECORD,
+      sourceRect: { x: 10, y: 20, width: 500, height: 400 },
+    };
+    const firstMap = { record: first, previewUrl: "blob:pdf", opacity: 0.7 };
+    const { rerender } = render(
+      <UserMapLayers
+        maps={[firstMap]}
+        fitRequest={{ mapId: first.id, revision: 1 }}
+      />,
+    );
+    await waitFor(() => expect(stubMapApi.fitBounds).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+
+    const firstBounds = stubMapApi.fitBounds.mock.calls[0][0] as {
+      getSouth: () => number;
+      getWest: () => number;
+      getNorth: () => number;
+      getEast: () => number;
+    };
+    const firstVertices = meshForRecord(first)?.flat() ?? [];
+    expect([
+      firstBounds.getSouth(),
+      firstBounds.getWest(),
+      firstBounds.getNorth(),
+      firstBounds.getEast(),
+    ]).toEqual([
+      Math.min(...firstVertices.map(({ lat }) => lat)),
+      Math.min(...firstVertices.map(({ lng }) => lng)),
+      Math.max(...firstVertices.map(({ lat }) => lat)),
+      Math.max(...firstVertices.map(({ lng }) => lng)),
+    ]);
+    expect(stubMapApi.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      { padding: [48, 48], maxZoom: 16 },
+    );
+
+    rerender(
+      <UserMapLayers
+        maps={[firstMap]}
+        fitRequest={{ mapId: first.id, revision: 1 }}
+      />,
+    );
+    expect(stubMapApi.fitBounds).toHaveBeenCalledTimes(1);
+
+    if (first.georef.kind !== "gcp") {
+      throw new Error("test fixture must use GCP georeferencing");
+    }
+    const second = {
+      ...first,
+      sourceRect: { x: 100, y: 80, width: 300, height: 200 },
+      georef: {
+        ...first.georef,
+        gcps: first.georef.gcps.map((gcp) => ({
+          ...gcp,
+          map: { lat: gcp.map.lat + 0.5, lng: gcp.map.lng + 0.25 },
+        })),
+      },
+    };
+    rerender(
+      <UserMapLayers
+        maps={[{ ...firstMap, record: second }]}
+        fitRequest={{ mapId: first.id, revision: 2 }}
+      />,
+    );
+    await waitFor(() => expect(stubMapApi.fitBounds).toHaveBeenCalledTimes(2));
     expect(layerInstances).toHaveLength(1);
     expect(createImageBitmapMock).toHaveBeenCalledTimes(1);
   });

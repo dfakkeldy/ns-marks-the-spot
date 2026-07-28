@@ -161,6 +161,7 @@ import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapRows } from "./userMaps/components/UserMapRows";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
+import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
 import type {
   GeoreferenceBinding,
@@ -856,6 +857,7 @@ export function App() {
     initialGcps:
       editingGeoref?.kind === "gcp" ? editingGeoref.gcps : NO_GCPS,
     pixelSize: editingMap?.record.pixelSize ?? IDLE_PIXEL_SIZE,
+    sourceRect: editingMap?.record.sourceRect,
     // The record picks the solver, and it is the SAME expression the panel's
     // warp toggle reads for its checked state. Two derivations of "which warp
     // is on" — one for the drape, one for the control — could disagree, and
@@ -2968,6 +2970,7 @@ export function App() {
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
             userMaps={userMapsApi.visibleMaps}
+            userMapFitRequest={userMapsApi.fitRequest}
             georeference={georeferenceBinding}
             showModernMap={showModernMap}
             showTaxSale={
@@ -3099,6 +3102,19 @@ export function App() {
         capture={printCapture}
         baseUrl={window.location.href}
         onClose={() => setPrintCapture(null)}
+      />
+    ) : null}
+    {userMapsApi.frameChoosingMap ? (
+      <GeoPdfFrameChooser
+        map={userMapsApi.frameChoosingMap}
+        onCancel={userMapsApi.endFrameSelection}
+        onUseFrame={(candidateId, options) =>
+          userMapsApi.selectPdfFrame(
+            userMapsApi.frameChoosingMap!.record.id,
+            candidateId,
+            options,
+          )
+        }
       />
     ) : null}
     {editingMap ? (

@@ -225,6 +225,10 @@ describe("useUserMaps", () => {
       },
     });
     expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.fitRequest).toEqual({
+      mapId: record.id,
+      revision: 1,
+    });
     expect((result.current.outcomes[0] as { note?: string }).note).toContain(
       "later pages were not imported",
     );
@@ -254,6 +258,7 @@ describe("useUserMaps", () => {
     expect(result.current.frameChoosingId).toBe(record.id);
     expect(result.current.georeferencingId).toBeNull();
     expect(result.current.visibleMaps).toHaveLength(0);
+    expect(result.current.fitRequest).toBeNull();
 
     await act(async () => {
       await result.current.selectPdfFrame(record.id, "inset");
@@ -271,6 +276,10 @@ describe("useUserMaps", () => {
     });
     expect(result.current.georeferencingId).toBeNull();
     expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.fitRequest).toEqual({
+      mapId: record.id,
+      revision: 1,
+    });
   });
 
   it("requires confirmation before replacing adjusted embedded points", async () => {

@@ -21,7 +21,17 @@ import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 import { UserMapStore } from "./userMaps/store/userMapStore";
 import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
-import type { Gcp, UserMapRecord } from "./userMaps/types";
+import type {
+  Gcp,
+  PdfRegistrationCandidate,
+  UserMapRecord,
+} from "./userMaps/types";
+
+const parseGeoPdfAutoMock = vi.hoisted(() => vi.fn());
+
+vi.mock("./userMaps/parsers/parseGeoPdfAuto", () => ({
+  parseGeoPdfAuto: parseGeoPdfAutoMock,
+}));
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -49,6 +59,7 @@ vi.mock("./components/MapCanvas", () => ({
     fitBounds,
     georeference,
     userMaps,
+    userMapFitRequest,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -87,6 +98,7 @@ vi.mock("./components/MapCanvas", () => ({
       onMoveGcpOnMap: (id: string, lat: number, lng: number) => void;
     } | null;
     userMaps?: unknown[];
+    userMapFitRequest?: { mapId: string; revision: number } | null;
   }) => {
     useEffect(() => {
       if (renderMode === "print") {
@@ -159,6 +171,8 @@ vi.mock("./components/MapCanvas", () => ({
       ; focus request: {focusRequest?.pid ?? "none"}
       ; georeferencing: {georeference?.draft?.record.id ?? "none"}
       ; saved user map layers: {userMaps?.length ?? 0}
+      ; user map fit: {userMapFitRequest?.mapId ?? "none"}@
+      {userMapFitRequest?.revision ?? 0}
       ; georeference focus:{" "}
       {georeference?.focus
         ? `${georeference.focus.lat},${georeference.focus.lng}`
@@ -3306,6 +3320,131 @@ describe("georeferencer", () => {
       new File([magic], "church-1888.png", { type: "image/png" }),
     );
     expect(await screen.findByTestId("scan-pane")).toBeInTheDocument();
+  });
+
+  const PDF_MAIN: PdfRegistrationCandidate = {
+    id: "main",
+    flavor: "measure",
+    embeddedLabel: "Map Layers",
+    sourceRect: { x: 160, y: 120, width: 3600, height: 2700 },
+    gcps: [
+      { id: "main-a", pixel: { x: 160, y: 120 }, map: { lat: 46.2, lng: -61.3 } },
+      { id: "main-b", pixel: { x: 3760, y: 120 }, map: { lat: 46.2, lng: -61.0 } },
+      { id: "main-c", pixel: { x: 160, y: 2820 }, map: { lat: 45.9, lng: -61.3 } },
+    ],
+  };
+  const PDF_INSET: PdfRegistrationCandidate = {
+    id: "inset",
+    flavor: "measure",
+    embeddedLabel: "Quadrangle Location",
+    sourceRect: { x: 3300, y: 180, width: 520, height: 420 },
+    gcps: [
+      { id: "inset-a", pixel: { x: 3300, y: 180 }, map: { lat: 49, lng: -125 } },
+      { id: "inset-b", pixel: { x: 3820, y: 180 }, map: { lat: 49, lng: -65 } },
+      { id: "inset-c", pixel: { x: 3300, y: 600 }, map: { lat: 25, lng: -125 } },
+    ],
+  };
+
+  function arrangeMultiFramePdf() {
+    parseGeoPdfAutoMock.mockResolvedValue({
+      pixelSize: { width: 4096, height: 3072 },
+      previewSize: { width: 4096, height: 3072 },
+      preview: new Blob(["page-one"], { type: "image/png" }),
+      pageCount: 2,
+      registration: {
+        status: "selection-required",
+        candidates: [PDF_MAIN, PDF_INSET],
+      },
+    });
+  }
+
+  async function uploadPdf(name: string) {
+    const input = await screen.findByLabelText("Add a map file");
+    await userEvent.upload(
+      input,
+      new File(
+        [new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])],
+        `${name}.pdf`,
+        { type: "application/pdf" },
+      ),
+    );
+  }
+
+  it("chooses an embedded main frame without opening georeferencing", async () => {
+    arrangeMultiFramePdf();
+    render(<App />);
+    await uploadPdf("USGS chooser main");
+
+    const chooser = await screen.findByRole("dialog", {
+      name: "Choose a frame for USGS chooser main",
+    });
+    expect(screen.queryByTestId("scan-pane")).toBeNull();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "georeferencing: none",
+    );
+
+    await userEvent.click(
+      within(chooser).getByRole("radio", { name: "Map Layers" }),
+    );
+    await userEvent.click(
+      within(chooser).getByRole("button", { name: "Use this frame" }),
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", {
+          name: "Choose a frame for USGS chooser main",
+        }),
+      ).toBeNull(),
+    );
+    expect(
+      screen.getByRole("checkbox", { name: "USGS chooser main" }),
+    ).toBeChecked();
+    expect(
+      screen.getByRole("button", { name: "Change frame" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Adjust points for USGS chooser main",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      /user map fit: .+@1/,
+    );
+  });
+
+  it("persists the chosen inset rectangle and its own embedded GCPs", async () => {
+    arrangeMultiFramePdf();
+    render(<App />);
+    await uploadPdf("USGS chooser inset");
+
+    const chooser = await screen.findByRole("dialog", {
+      name: "Choose a frame for USGS chooser inset",
+    });
+    await userEvent.click(
+      within(chooser).getByRole("radio", { name: "Quadrangle Location" }),
+    );
+    await userEvent.click(
+      within(chooser).getByRole("button", { name: "Use this frame" }),
+    );
+
+    await waitFor(async () => {
+      const store = await UserMapStore.open();
+      const selected = (await store.listUserMaps()).find(
+        ({ name }) => name === "USGS chooser inset",
+      );
+      expect(selected).toMatchObject({
+        sourceRect: PDF_INSET.sourceRect,
+        georef: { kind: "gcp", gcps: PDF_INSET.gcps },
+        pdf: {
+          registration: {
+            status: "embedded",
+            selectedFrameId: "inset",
+            selection: { kind: "user" },
+          },
+        },
+      });
+    });
   });
 
   // --- Binding wiring: assert the EFFECT of each handler, not that a prop

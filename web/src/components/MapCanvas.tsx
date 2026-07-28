@@ -108,6 +108,7 @@ import {
 } from "../services/wellLogs";
 import {
   UserMapLayers,
+  type UserMapFitRequest,
   type VisibleUserMap,
 } from "../userMaps/components/UserMapLayers";
 import {
@@ -133,6 +134,7 @@ type MapCanvasProps = {
   fletcherTileBaseUrl?: string | null;
   fletcherRetryToken?: number;
   userMaps?: VisibleUserMap[];
+  userMapFitRequest?: UserMapFitRequest | null;
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
   showTaxSale: boolean;
@@ -1459,6 +1461,7 @@ export function MapCanvas({
   fletcherTileBaseUrl = null,
   fletcherRetryToken = 0,
   userMaps = EMPTY_USER_MAPS,
+  userMapFitRequest = null,
   georeference = null,
   showModernMap,
   showTaxSale,
@@ -1619,7 +1622,11 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
-        <UserMapLayers maps={userMaps} draft={georeference?.draft ?? null} />
+        <UserMapLayers
+          maps={userMaps}
+          draft={georeference?.draft ?? null}
+          fitRequest={userMapFitRequest}
+        />
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <PositionReadout /> : null}

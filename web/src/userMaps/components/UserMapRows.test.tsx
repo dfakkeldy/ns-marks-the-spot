@@ -27,6 +27,7 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
     records: [],
     uiState: {},
     visibleMaps: [],
+    fitRequest: null,
     importing: false,
     importingLabel: null,
     storageError: null,

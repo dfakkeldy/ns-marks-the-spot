@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { latLngBounds } from "leaflet";
 import { useMap } from "react-leaflet";
 import {
   USER_MAPS_PANE,
@@ -13,6 +14,11 @@ export type VisibleUserMap = {
   record: UserMapRecord;
   previewUrl: string;
   opacity: number;
+};
+
+export type UserMapFitRequest = {
+  mapId: string;
+  revision: number;
 };
 
 /** The map being georeferenced. Its mesh is owned by the session, not derived
@@ -146,16 +152,60 @@ function SavedMapOverlay({ map }: { map: VisibleUserMap }) {
   );
 }
 
+function UserMapFitController({
+  maps,
+  request,
+}: {
+  maps: VisibleUserMap[];
+  request: UserMapFitRequest | null;
+}) {
+  const leafletMap = useMap();
+  const consumedRevision = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!request || consumedRevision.current === request.revision) {
+      return;
+    }
+    const record = maps.find(({ record }) => record.id === request.mapId)?.record;
+    if (!record) {
+      return;
+    }
+    const mesh = meshForRecord(record);
+    if (!mesh) {
+      return;
+    }
+    const finiteVertices = mesh
+      .flat()
+      .filter(({ lat, lng }) => Number.isFinite(lat) && Number.isFinite(lng));
+    if (finiteVertices.length === 0) {
+      return;
+    }
+    const bounds = latLngBounds(
+      finiteVertices.map(({ lat, lng }) => [lat, lng]),
+    );
+    if (!bounds.isValid()) {
+      return;
+    }
+    leafletMap.fitBounds(bounds, { padding: [48, 48], maxZoom: 16 });
+    consumedRevision.current = request.revision;
+  }, [leafletMap, maps, request]);
+
+  return null;
+}
+
 /** Sole mount point MapCanvas needs. */
 export function UserMapLayers({
   maps,
   draft = null,
+  fitRequest = null,
 }: {
   maps: VisibleUserMap[];
   draft?: DraftUserMap | null;
+  fitRequest?: UserMapFitRequest | null;
 }) {
   return (
     <>
+      <UserMapFitController maps={maps} request={fitRequest} />
       {maps.map((map) => (
         <SavedMapOverlay key={map.record.id} map={map} />
       ))}
