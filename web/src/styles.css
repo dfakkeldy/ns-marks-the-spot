@@ -3985,6 +3985,7 @@ a {
 .geopdf-frame-chooser h2 {
   margin: 0 0 6px;
   font-size: 1.2rem;
+  overflow-wrap: anywhere;
 }
 
 .geopdf-frame-chooser > p {
