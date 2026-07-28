@@ -9,6 +9,7 @@
     "generate:geopdf-fixtures": "node scripts/generateGeoPdfFixtures.mjs",
     "generate:hydro-pilot": "node scripts/generateInvernessHydroPilot.mjs",
     "probe:geopdf": "node scripts/probeGeoPdf.mjs",
+    "probe:geopdf-frames": "node scripts/probeGeoPdfFrames.mjs",
     "refresh:cbrm-tax-sale-results": "node scripts/refreshCbrmTaxSaleResults.mjs",
     "refresh:inverness-tax-sale": "node scripts/refreshInvernessTaxSale.mjs",
     "refresh:tax-sales": "npm run refresh:inverness-tax-sale && npm run refresh:cbrm-tax-sale-results && npm run watch:tax-sales",
