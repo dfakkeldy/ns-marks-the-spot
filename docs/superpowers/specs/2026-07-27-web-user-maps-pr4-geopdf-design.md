@@ -1,8 +1,7 @@
 # Web "Your Maps" PR 4 — GeoPDF Import Design
 
 **Date:** 2026-07-27; revised 2026-07-28
-**Status:** Revised design direction approved by the maintainer on 2026-07-28;
-written specification awaiting maintainer review
+**Status:** Approved by the maintainer on 2026-07-28
 **Target:** `feature/web-geopdf-import` → `nightly`  
 **Surface:** Web map only
 

@@ -1,5 +1,12 @@
 # Web "Your Maps" PR 4 GeoPDF Import Implementation Plan
 
+> **Superseded on 2026-07-28:** Do not execute this plan. Its ambiguity
+> contract incorrectly routes ordinary multi-frame USGS GeoPDFs to manual
+> georeferencing. Use
+> [`2026-07-28-web-user-maps-pr4-geopdf.md`](2026-07-28-web-user-maps-pr4-geopdf.md)
+> instead. This file remains as the historical plan that governed the
+> compatibility spike.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Import page 1 of a browser-local PDF as a fixed 4,096-pixel user map, automatically place only evidence-proven `/Measure` or `/LGIDict` registrations, and route every other readable page to the existing manual georeferencer.
