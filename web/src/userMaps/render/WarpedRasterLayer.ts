@@ -1,5 +1,6 @@
 import L from "leaflet";
 import type { LatLngPoint, PixelSize } from "../transform/projection";
+import type { PixelRect } from "../types";
 import {
   buildSrcMesh,
   CLIP_OVERDRAW_DEVICE_PX,
@@ -14,6 +15,7 @@ export type WarpedRasterLayerOptions = {
   image: CanvasImageSource;
   imageSize: PixelSize;
   latLngMesh: LatLngPoint[][];
+  sourceRect?: PixelRect;
 };
 
 /** Axis-aligned rectangle in Leaflet world pixels at one specific zoom. */
@@ -257,6 +259,7 @@ export class WarpedRasterLayer extends L.Layer {
       options.imageSize.width,
       options.imageSize.height,
       options.latLngMesh.length - 1,
+      options.sourceRect,
     );
   }
 
@@ -292,12 +295,18 @@ export class WarpedRasterLayer extends L.Layer {
    * too: a caller may legitimately change grid density (affine drapes use a
    * 1x1 grid, a thin-plate spline needs a dense one).
    */
-  setLatLngMesh(latLngMesh: LatLngPoint[][]): void {
+  setGeometry(
+    latLngMesh: LatLngPoint[][],
+    sourceRect?: PixelRect,
+  ): void {
+    this.cancelScheduledWarp();
     this.rasterOptions.latLngMesh = latLngMesh;
+    this.rasterOptions.sourceRect = sourceRect;
     this.srcMesh = buildSrcMesh(
       this.rasterOptions.imageSize.width,
       this.rasterOptions.imageSize.height,
       latLngMesh.length - 1,
+      sourceRect,
     );
     this.cachedZoom = null;
     // Unpadded: during a GCP drag the mesh changes again on the next pointer
@@ -307,6 +316,11 @@ export class WarpedRasterLayer extends L.Layer {
     // viewport): 214 ms per frame padded, 34 ms unpadded. The first pan or
     // zoom after the mesh settles rebuilds the padded cache.
     this.warpNow(0);
+  }
+
+  /** Compatibility for callers that update only the destination mesh. */
+  setLatLngMesh(latLngMesh: LatLngPoint[][]): void {
+    this.setGeometry(latLngMesh, this.rasterOptions.sourceRect);
   }
 
   setOpacity(opacity: number): void {

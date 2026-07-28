@@ -1,3 +1,5 @@
+import { resolveSourceRect } from "../sourceRect";
+import type { PixelRect } from "../types";
 import { applyAffine, type AffineParams } from "./affine";
 import type { LatLngPoint, PixelSize } from "./projection";
 import { applyTps, type TpsParams } from "./tps";
@@ -28,13 +30,15 @@ export function buildGcpLatLngMesh(
   params: AffineParams,
   pixelSize: PixelSize,
   gridSize: number = AFFINE_GRID_SIZE,
+  sourceRect?: PixelRect,
 ): LatLngPoint[][] {
+  const rect = resolveSourceRect(pixelSize, sourceRect);
   const mesh: LatLngPoint[][] = [];
   for (let row = 0; row <= gridSize; row += 1) {
     const line: LatLngPoint[] = [];
-    const y = (pixelSize.height * row) / gridSize;
+    const y = rect.y + (rect.height * row) / gridSize;
     for (let col = 0; col <= gridSize; col += 1) {
-      const x = (pixelSize.width * col) / gridSize;
+      const x = rect.x + (rect.width * col) / gridSize;
       line.push(fromMercator(applyAffine(params, x, y)));
     }
     mesh.push(line);
@@ -141,13 +145,15 @@ export function buildTpsLatLngMesh(
   params: TpsParams,
   pixelSize: PixelSize,
   gridSize: number = TPS_GRID_SIZE,
+  sourceRect?: PixelRect,
 ): LatLngPoint[][] {
+  const rect = resolveSourceRect(pixelSize, sourceRect);
   const mesh: LatLngPoint[][] = [];
   for (let row = 0; row <= gridSize; row += 1) {
     const line: LatLngPoint[] = [];
-    const y = (pixelSize.height * row) / gridSize;
+    const y = rect.y + (rect.height * row) / gridSize;
     for (let col = 0; col <= gridSize; col += 1) {
-      const x = (pixelSize.width * col) / gridSize;
+      const x = rect.x + (rect.width * col) / gridSize;
       line.push(fromMercator(applyTps(params, x, y)));
     }
     mesh.push(line);

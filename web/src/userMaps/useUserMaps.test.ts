@@ -8,8 +8,18 @@ import { UserMapStore } from "./store/userMapStore";
 import { meshForRecord } from "./recordMesh";
 import { BENT, gcpRecord } from "./testFixtures";
 import { solveAffineFromGcps } from "./transform/affine";
-import type { Gcp, GcpGeoref } from "./types";
-import { needsGeoreferencing, useUserMaps } from "./useUserMaps";
+import type { ParsedGeoPdf } from "./parsers/geoPdfSource";
+import type {
+  Gcp,
+  GcpGeoref,
+  ParsedPdfRegistration,
+  PdfRegistrationCandidate,
+} from "./types";
+import {
+  needsFrameSelection,
+  needsGeoreferencing,
+  useUserMaps,
+} from "./useUserMaps";
 
 function fixtureFile(name = "survey.tif"): File {
   const raw = readFileSync(
@@ -52,6 +62,43 @@ function pngFile(name: string): File {
 function tiffFile(name: string): File {
   const magic = new Uint8Array([0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00]);
   return new File([magic], name, { type: "image/tiff" });
+}
+
+function pdfFile(name = "map.pdf"): File {
+  return new File(
+    [new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])],
+    name,
+    { type: "application/pdf" },
+  );
+}
+
+function pdfCandidate(
+  id: string,
+  label: string,
+): PdfRegistrationCandidate {
+  return {
+    id,
+    flavor: "measure",
+    embeddedLabel: label,
+    sourceRect: { x: 100, y: 80, width: 3600, height: 2700 },
+    gcps: [
+      { id: `${id}-1`, pixel: { x: 100, y: 80 }, map: { lat: 46, lng: -63 } },
+      { id: `${id}-2`, pixel: { x: 3700, y: 80 }, map: { lat: 46, lng: -62 } },
+      { id: `${id}-3`, pixel: { x: 100, y: 2780 }, map: { lat: 45, lng: -63 } },
+    ],
+  };
+}
+
+function testParsePdf(
+  registration: ParsedPdfRegistration,
+): () => Promise<ParsedGeoPdf> {
+  return async () => ({
+    pixelSize: { width: 4096, height: 3072 },
+    previewSize: { width: 4096, height: 3072 },
+    preview: new Blob(["preview"], { type: "image/png" }),
+    pageCount: 2,
+    registration,
+  });
 }
 
 let factory: IDBFactory;
@@ -144,23 +191,208 @@ describe("useUserMaps", () => {
     await waitFor(() => expect(second.result.current.records).toHaveLength(1));
   });
 
-  it("reports the conversion hint for PDFs, even tiny ones", async () => {
-    const { result } = renderHook(() => useUserMaps(options()));
-    // 5 bytes on purpose: regression guard for the Uint8Array(buffer, 0, 16)
-    // RangeError the review caught.
-    const pdf = new File([new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])], "plan.pdf");
-    await act(async () => {
-      await result.current.importFiles([pdf]);
-    });
-    expect(result.current.outcomes[0]).toMatchObject({ ok: false });
-    // PDFs are the only type still turned away, and the georeferencer now
-    // exists, so the old "arrives with the georeferencer" copy would be a
-    // lie: the message has to tell the user how to get the file in today.
-    expect((result.current.outcomes[0] as { message: string }).message).toContain(
-      "gdal_translate",
+  it("imports a sole GeoPDF frame from embedded coordinates", async () => {
+    const selected = pdfCandidate("main", "Map frame");
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parsePdf: testParsePdf({
+            status: "automatic",
+            selection: { kind: "sole" },
+            selected,
+            candidates: [selected],
+          }),
+        }),
+      ),
     );
-    expect(result.current.records).toHaveLength(0);
+    await act(async () => {
+      await result.current.importFiles([pdfFile("plan.pdf")]);
+    });
+    const record = result.current.records[0];
+    expect(record).toMatchObject({
+      source: "geopdf",
+      sourceRect: selected.sourceRect,
+      georef: { kind: "gcp", method: "affine", gcps: selected.gcps },
+      pdf: {
+        pageNumber: 1,
+        pageCount: 2,
+        registration: {
+          status: "embedded",
+          selection: { kind: "sole" },
+          selectedFrameId: "main",
+          adjusted: false,
+        },
+      },
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.fitRequest).toEqual({
+      mapId: record.id,
+      revision: 1,
+    });
+    expect((result.current.outcomes[0] as { note?: string }).note).toContain(
+      "later pages were not imported",
+    );
   });
+
+  it("keeps multi-frame GeoPDFs out of manual georeferencing until a frame is chosen", async () => {
+    const candidates = [
+      pdfCandidate("main", "Map Layers"),
+      pdfCandidate("inset", "Quadrangle Location"),
+    ];
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parsePdf: testParsePdf({
+            status: "selection-required",
+            candidates,
+          }),
+        }),
+      ),
+    );
+    await act(async () => {
+      await result.current.importFiles([pdfFile()]);
+    });
+    const record = result.current.records[0];
+    expect(needsFrameSelection(record)).toBe(true);
+    expect(needsGeoreferencing(record)).toBe(false);
+    expect(result.current.frameChoosingId).toBe(record.id);
+    expect(result.current.georeferencingId).toBeNull();
+    expect(result.current.visibleMaps).toHaveLength(0);
+    expect(result.current.fitRequest).toBeNull();
+
+    await act(async () => {
+      await result.current.selectPdfFrame(record.id, "inset");
+    });
+    expect(result.current.records[0]).toMatchObject({
+      sourceRect: candidates[1].sourceRect,
+      pdf: {
+        registration: {
+          status: "embedded",
+          selection: { kind: "user" },
+          selectedFrameId: "inset",
+          adjusted: false,
+        },
+      },
+    });
+    expect(result.current.georeferencingId).toBeNull();
+    expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.fitRequest).toEqual({
+      mapId: record.id,
+      revision: 1,
+    });
+  });
+
+  it("requires confirmation before replacing adjusted embedded points", async () => {
+    const candidates = [
+      pdfCandidate("main", "Map Layers"),
+      pdfCandidate("inset", "Quadrangle Location"),
+    ];
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parsePdf: testParsePdf({
+            status: "automatic",
+            selection: {
+              kind: "producer-rule",
+              ruleId: "usgs-ustopo-map-layers-v1",
+            },
+            selected: candidates[0],
+            candidates,
+          }),
+        }),
+      ),
+    );
+    await act(async () => {
+      await result.current.importFiles([pdfFile()]);
+    });
+    const id = result.current.records[0].id;
+    const adjusted = candidates[0].gcps.map((gcp, index) =>
+      index === 0
+        ? { ...gcp, pixel: { ...gcp.pixel, x: gcp.pixel.x + 1 } }
+        : gcp,
+    );
+    await act(async () => {
+      await result.current.saveGcps(id, adjusted);
+    });
+    expect(result.current.records[0].pdf?.registration).toMatchObject({
+      status: "embedded",
+      adjusted: true,
+    });
+    await expect(
+      result.current.selectPdfFrame(id, "inset"),
+    ).rejects.toThrow("confirmation");
+    expect(
+      result.current.records[0].pdf?.registration.status === "embedded"
+        ? result.current.records[0].pdf.registration.selectedFrameId
+        : null,
+    ).toBe("main");
+
+    await act(async () => {
+      await result.current.selectPdfFrame(id, "inset", {
+        replaceAdjustedPoints: true,
+      });
+    });
+    expect(result.current.records[0].pdf?.registration).toMatchObject({
+      status: "embedded",
+      selectedFrameId: "inset",
+      adjusted: false,
+    });
+  });
+
+  it("reloads GeoPDF frame provenance and source rectangle", async () => {
+    const selected = pdfCandidate("main", "Map Layers");
+    const hookOptions = options({
+      parsePdf: testParsePdf({
+        status: "automatic",
+        selection: { kind: "sole" },
+        selected,
+        candidates: [selected],
+      }),
+    });
+    const first = renderHook(() => useUserMaps(hookOptions));
+    await act(async () => {
+      await first.result.current.importFiles([pdfFile()]);
+    });
+    first.unmount();
+    const second = renderHook(() => useUserMaps(hookOptions));
+    await waitFor(() => expect(second.result.current.records).toHaveLength(1));
+    expect(second.result.current.records[0]).toMatchObject({
+      sourceRect: selected.sourceRect,
+      pdf: {
+        pageCount: 2,
+        registration: {
+          status: "embedded",
+          selectedFrameId: "main",
+          selection: { kind: "sole" },
+          adjusted: false,
+        },
+      },
+    });
+  });
+
+  it.each(["absent", "unsupported", "unsupported-crs", "invalid", "unreadable"] as const)(
+    "routes manual/%s PDF fallback to control points",
+    async (reason) => {
+      const { result } = renderHook(() =>
+        useUserMaps(
+          options({
+            parsePdf: testParsePdf({ status: "manual", reason }),
+          }),
+        ),
+      );
+      await act(async () => {
+        await result.current.importFiles([pdfFile()]);
+      });
+      expect(result.current.records[0].pdf?.registration).toMatchObject({
+        status: "manual",
+        reason,
+        adjusted: false,
+      });
+      expect(result.current.georeferencingId).toBe(
+        result.current.records[0].id,
+      );
+    },
+  );
 
   it("refuses files over the hard limit without reading them", async () => {
     const { result } = renderHook(() => useUserMaps(options()));

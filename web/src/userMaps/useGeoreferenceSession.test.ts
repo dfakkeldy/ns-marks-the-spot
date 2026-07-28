@@ -26,7 +26,7 @@ import {
 } from "./transform/residuals";
 import { solveTps } from "./transform/tps";
 import { fromMercator, groundMetresBetween } from "./transform/webMercator";
-import type { Gcp, GeoreferenceMethod } from "./types";
+import type { Gcp, GeoreferenceMethod, PixelRect } from "./types";
 
 const PIXEL_SIZE = { width: 1200, height: 800 };
 
@@ -67,11 +67,12 @@ type SessionProps = {
   /** Optional so every existing `rerender({ mapId, initialGcps })` still
    * typechecks — the hook defaults it to "affine" for the same reason. */
   method?: GeoreferenceMethod;
+  sourceRect?: PixelRect;
 };
 
 function setup(
   initialGcps: Gcp[] = [],
-  extra: { method?: GeoreferenceMethod } = {},
+  extra: { method?: GeoreferenceMethod; sourceRect?: PixelRect } = {},
 ) {
   const onPersist = vi.fn();
   const initialProps: SessionProps = { mapId: "map-a", initialGcps, ...extra };
@@ -212,6 +213,15 @@ describe("solve method", () => {
   it("leaves the affine path at gridSize 1", () => {
     const { result } = setup(BENT, { method: "affine" });
     expect(result.current.mesh!.length - 1).toBe(AFFINE_GRID_SIZE);
+  });
+
+  it("evaluates the live affine mesh over the selected source rectangle", () => {
+    const sourceRect = { x: 100, y: 50, width: 900, height: 600 };
+    const { result } = setup(SOLVABLE, { sourceRect });
+    const params = solveAffineFromGcps(SOLVABLE)!;
+    expect(result.current.mesh![0][0]).toEqual(
+      fromMercator(applyAffine(params, sourceRect.x, sourceRect.y)),
+    );
   });
 
   it("drops a 3-point tps session back to the AFFINE lattice", () => {

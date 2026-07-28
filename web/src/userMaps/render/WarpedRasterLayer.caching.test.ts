@@ -466,4 +466,37 @@ describe("WarpedRasterLayer warp caching", () => {
 
     expect(warpCalls()).toBe(3);
   });
+
+  it("updates source and destination geometry as one operation", () => {
+    const map = pannableMap(pane);
+    const image = document.createElement("canvas");
+    image.width = 100;
+    image.height = 80;
+    const layer = new WarpedRasterLayer({
+      paneName: "user-maps-pane",
+      opacity: 0.7,
+      image,
+      imageSize: { width: 100, height: 80 },
+      latLngMesh: UNIT_MESH,
+      sourceRect: { x: 10, y: 5, width: 70, height: 60 },
+    });
+    layer.onAdd(map);
+    expect(vi.mocked(drawWarpedImage).mock.calls[0][2][0][0]).toEqual({
+      x: 10,
+      y: 5,
+    });
+
+    const nextMesh = UNIT_MESH.map((row) =>
+      row.map((point) => ({ ...point, lng: point.lng + 0.001 })),
+    );
+    layer.setGeometry(
+      nextMesh,
+      { x: 20, y: 15, width: 50, height: 40 },
+    );
+    const lastCall = vi.mocked(drawWarpedImage).mock.calls.at(-1)!;
+    expect(lastCall[2][0][0]).toEqual({ x: 20, y: 15 });
+    expect(lastCall[3]).not.toEqual(
+      vi.mocked(drawWarpedImage).mock.calls[0][3],
+    );
+  });
 });

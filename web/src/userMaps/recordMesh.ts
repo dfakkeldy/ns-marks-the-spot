@@ -24,7 +24,7 @@ import type { UserMapRecord } from "./types";
  */
 export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
   if (record.georef.kind === "embedded") {
-    return buildLatLngMesh(record.georef, record.pixelSize);
+    return buildLatLngMesh(record.georef, record.pixelSize, 8, record.sourceRect);
   }
   if (
     record.georef.method === "tps" &&
@@ -52,7 +52,12 @@ export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
     // AFFINE_GRID_SIZE = 1 a single cell cannot represent it.
     const spline = solveTps(record.georef.gcps);
     return spline.ok
-      ? buildTpsLatLngMesh(spline.params, record.pixelSize)
+      ? buildTpsLatLngMesh(
+          spline.params,
+          record.pixelSize,
+          undefined,
+          record.sourceRect,
+        )
       : null;
   }
   // pixelSize is the ORIGINAL raster's size, which is the space GCP pixels
@@ -63,5 +68,12 @@ export function meshForRecord(record: UserMapRecord): LatLngPoint[][] | null {
   // passing the preview size here would silently misplace every corner on
   // any scan larger than PREVIEW_MAX_DIMENSION.
   const params = solveAffineFromGcps(record.georef.gcps);
-  return params ? buildGcpLatLngMesh(params, record.pixelSize) : null;
+  return params
+    ? buildGcpLatLngMesh(
+        params,
+        record.pixelSize,
+        undefined,
+        record.sourceRect,
+      )
+    : null;
 }

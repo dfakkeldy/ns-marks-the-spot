@@ -54,6 +54,17 @@ describe("buildGcpLatLngMesh", () => {
     expect(mesh[0][1]).toEqual(fromMercator(applyAffine(rotated, 100, 0)));
     expect(mesh[1][0]).toEqual(fromMercator(applyAffine(rotated, 0, 50)));
   });
+
+  it("evaluates an affine over only the selected rectangle", () => {
+    const mesh = buildGcpLatLngMesh(
+      TRUTH,
+      PIXEL_SIZE,
+      1,
+      { x: 100, y: 50, width: 3000, height: 2000 },
+    );
+    expect(mesh[0][0]).toEqual(fromMercator(applyAffine(TRUTH, 100, 50)));
+    expect(mesh[1][1]).toEqual(fromMercator(applyAffine(TRUTH, 3100, 2050)));
+  });
 });
 
 describe("buildTpsLatLngMesh", () => {
@@ -88,5 +99,17 @@ describe("buildTpsLatLngMesh", () => {
       .toBeGreaterThan(Math.abs(mesh[0][1].lat - mesh[0][0].lat));
     expect(Math.abs(mesh[1][0].lat - mesh[0][0].lat))
       .toBeGreaterThan(Math.abs(mesh[1][0].lng - mesh[0][0].lng));
+  });
+
+  it("evaluates a spline over only the selected rectangle", () => {
+    const params = solved();
+    const mesh = buildTpsLatLngMesh(
+      params,
+      { width: 2000, height: 500 },
+      1,
+      { x: 100, y: 50, width: 1200, height: 300 },
+    );
+    expect(mesh[0][0]).toEqual(fromMercator(applyTps(params, 100, 50)));
+    expect(mesh[1][1]).toEqual(fromMercator(applyTps(params, 1300, 350)));
   });
 });

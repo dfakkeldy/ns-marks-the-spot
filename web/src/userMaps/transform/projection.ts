@@ -1,5 +1,7 @@
 import proj4 from "proj4";
 import { UserMapImportError } from "../errors";
+import { resolveSourceRect } from "../sourceRect";
+import type { PixelRect } from "../types";
 
 export type EmbeddedGeoref = {
   kind: "embedded";
@@ -126,7 +128,15 @@ export function pixelToLatLng(
   const [ox, xRes, xRot, oy, yRot, yRes] = georef.geotransform;
   const projX = ox + x * xRes + y * xRot;
   const projY = oy + x * yRot + y * yRes;
-  const [lng, lat] = converterFor(georef.crs).forward([projX, projY]);
+  return projectToLatLng(georef.crs, projX, projY);
+}
+
+export function projectToLatLng(
+  crs: string,
+  x: number,
+  y: number,
+): LatLngPoint {
+  const [lng, lat] = converterFor(crs).forward([x, y]);
   // proj4 doesn't throw for a finite-but-out-of-domain input (e.g. a
   // tiepoint that lands nowhere near the declared UTM zone) — it returns
   // null/Infinity/NaN instead. Left unchecked, `new L.LatLng(...)` silently
@@ -153,13 +163,15 @@ export function buildLatLngMesh(
   georef: EmbeddedGeoref,
   pixelSize: PixelSize,
   gridSize = 8,
+  sourceRect?: PixelRect,
 ): LatLngPoint[][] {
+  const rect = resolveSourceRect(pixelSize, sourceRect);
   const mesh: LatLngPoint[][] = [];
   for (let row = 0; row <= gridSize; row += 1) {
     const line: LatLngPoint[] = [];
-    const y = (pixelSize.height * row) / gridSize;
+    const y = rect.y + (rect.height * row) / gridSize;
     for (let col = 0; col <= gridSize; col += 1) {
-      const x = (pixelSize.width * col) / gridSize;
+      const x = rect.x + (rect.width * col) / gridSize;
       line.push(pixelToLatLng(georef, x, y));
     }
     mesh.push(line);

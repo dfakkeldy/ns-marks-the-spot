@@ -11,6 +11,7 @@ const stubMapApi = vi.hoisted(() => ({
   }),
   getPane: vi.fn(() => paneEl.current ?? undefined),
   addLayer: vi.fn(),
+  fitBounds: vi.fn(),
   removeLayer: vi.fn(),
 }));
 
@@ -23,7 +24,7 @@ const layerInstances = vi.hoisted(
     [] as Array<{
       options: unknown;
       setOpacity: ReturnType<typeof vi.fn>;
-      setLatLngMesh: ReturnType<typeof vi.fn>;
+      setGeometry: ReturnType<typeof vi.fn>;
     }>,
 );
 
@@ -31,7 +32,7 @@ vi.mock("../render/WarpedRasterLayer", () => ({
   WarpedRasterLayer: class {
     options: unknown;
     setOpacity = vi.fn();
-    setLatLngMesh = vi.fn();
+    setGeometry = vi.fn();
     constructor(options: unknown) {
       this.options = options;
       layerInstances.push(this as never);
@@ -47,6 +48,7 @@ vi.mock("../render/WarpedRasterLayer", () => ({
 }));
 
 import { UserMapLayers } from "./UserMapLayers";
+import { meshForRecord } from "../recordMesh";
 
 const record: UserMapRecord = {
   id: "a",
@@ -84,6 +86,7 @@ afterEach(() => {
   paneEl.current = null;
   stubMapApi.createPane.mockClear();
   stubMapApi.addLayer.mockClear();
+  stubMapApi.fitBounds.mockClear();
   stubMapApi.removeLayer.mockClear();
 });
 
@@ -243,7 +246,10 @@ describe("UserMapLayers draft overlay", () => {
 
     rerender(<UserMapLayers maps={[]} draft={{ ...draft, mesh: meshB }} />);
     await waitFor(() =>
-      expect(layerInstances[0].setLatLngMesh).toHaveBeenCalledWith(meshB),
+      expect(layerInstances[0].setGeometry).toHaveBeenCalledWith(
+        meshB,
+        undefined,
+      ),
     );
     expect(layerInstances).toHaveLength(1);
     expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1);
@@ -279,7 +285,7 @@ describe("UserMapLayers draft overlay", () => {
     // `useUserMaps` rebuilds its VisibleUserMap wrappers every render, so the
     // wrapper object is always new while `record` stays referentially stable.
     // Deriving the mesh in the render body returns a fresh array each time,
-    // and the geometry layout effect is keyed on it — measured 3 setLatLngMesh
+    // and the geometry layout effect is keyed on it — measured 3 geometry
     // calls after 3 identical re-renders. During a drag that is every saved
     // layer rebuilding its lattice and repainting on every pointer move.
     stubBitmapLoading();
@@ -287,7 +293,7 @@ describe("UserMapLayers draft overlay", () => {
       <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
     );
     await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
-    const pushesAfterMount = layerInstances[0].setLatLngMesh.mock.calls.length;
+    const pushesAfterMount = layerInstances[0].setGeometry.mock.calls.length;
     expect(pushesAfterMount).toBe(0);
     // Fresh wrapper object each time, same `record` reference — exactly what
     // useUserMaps hands down on an unrelated state change.
@@ -300,8 +306,123 @@ describe("UserMapLayers draft overlay", () => {
     rerender(
       <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
     );
-    expect(layerInstances[0].setLatLngMesh.mock.calls.length).toBe(
+    expect(layerInstances[0].setGeometry.mock.calls.length).toBe(
       pushesAfterMount,
     );
+  });
+
+  it("changes selected source rectangles without rebuilding or decoding", async () => {
+    const createImageBitmapMock = vi.fn(async () => ({
+      width: 1200,
+      height: 800,
+      close: vi.fn(),
+    }));
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal("createImageBitmap", createImageBitmapMock);
+    const first = {
+      ...GCP_RECORD,
+      sourceRect: { x: 10, y: 20, width: 500, height: 400 },
+    };
+    const { rerender } = render(
+      <UserMapLayers
+        maps={[{ record: first, previewUrl: "blob:pdf", opacity: 0.7 }]}
+      />,
+    );
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    const second = {
+      ...first,
+      sourceRect: { x: 100, y: 80, width: 300, height: 200 },
+    };
+    rerender(
+      <UserMapLayers
+        maps={[{ record: second, previewUrl: "blob:pdf", opacity: 0.7 }]}
+      />,
+    );
+    await waitFor(() =>
+      expect(layerInstances[0].setGeometry).toHaveBeenLastCalledWith(
+        expect.any(Array),
+        second.sourceRect,
+      ),
+    );
+    expect(layerInstances).toHaveLength(1);
+    expect(createImageBitmapMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("fits each confirmed frame revision once without rebuilding the raster", async () => {
+    const createImageBitmapMock = vi.fn(async () => ({
+      width: 1200,
+      height: 800,
+      close: vi.fn(),
+    }));
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal("createImageBitmap", createImageBitmapMock);
+    const first = {
+      ...GCP_RECORD,
+      sourceRect: { x: 10, y: 20, width: 500, height: 400 },
+    };
+    const firstMap = { record: first, previewUrl: "blob:pdf", opacity: 0.7 };
+    const { rerender } = render(
+      <UserMapLayers
+        maps={[firstMap]}
+        fitRequest={{ mapId: first.id, revision: 1 }}
+      />,
+    );
+    await waitFor(() => expect(stubMapApi.fitBounds).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+
+    const firstBounds = stubMapApi.fitBounds.mock.calls[0][0] as {
+      getSouth: () => number;
+      getWest: () => number;
+      getNorth: () => number;
+      getEast: () => number;
+    };
+    const firstVertices = meshForRecord(first)?.flat() ?? [];
+    expect([
+      firstBounds.getSouth(),
+      firstBounds.getWest(),
+      firstBounds.getNorth(),
+      firstBounds.getEast(),
+    ]).toEqual([
+      Math.min(...firstVertices.map(({ lat }) => lat)),
+      Math.min(...firstVertices.map(({ lng }) => lng)),
+      Math.max(...firstVertices.map(({ lat }) => lat)),
+      Math.max(...firstVertices.map(({ lng }) => lng)),
+    ]);
+    expect(stubMapApi.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      { padding: [48, 48], maxZoom: 16 },
+    );
+
+    rerender(
+      <UserMapLayers
+        maps={[firstMap]}
+        fitRequest={{ mapId: first.id, revision: 1 }}
+      />,
+    );
+    expect(stubMapApi.fitBounds).toHaveBeenCalledTimes(1);
+
+    if (first.georef.kind !== "gcp") {
+      throw new Error("test fixture must use GCP georeferencing");
+    }
+    const second = {
+      ...first,
+      sourceRect: { x: 100, y: 80, width: 300, height: 200 },
+      georef: {
+        ...first.georef,
+        gcps: first.georef.gcps.map((gcp) => ({
+          ...gcp,
+          map: { lat: gcp.map.lat + 0.5, lng: gcp.map.lng + 0.25 },
+        })),
+      },
+    };
+    rerender(
+      <UserMapLayers
+        maps={[{ ...firstMap, record: second }]}
+        fitRequest={{ mapId: first.id, revision: 2 }}
+      />,
+    );
+    await waitFor(() => expect(stubMapApi.fitBounds).toHaveBeenCalledTimes(2));
+    expect(layerInstances).toHaveLength(1);
+    expect(createImageBitmapMock).toHaveBeenCalledTimes(1);
   });
 });

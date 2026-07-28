@@ -79,6 +79,7 @@ __pycache__/
 # Web companion
 web/node_modules/
 web/dist/
+web/public/vendor/pdfjs/
 
 # Generated Church map rasters and tiles. Never committed - shipped as GitHub
 # Release assets instead. See docs/CHURCH_MAPS.md.

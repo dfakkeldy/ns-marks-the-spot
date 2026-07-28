@@ -1,3 +1,6 @@
+import { resolveSourceRect } from "../sourceRect";
+import type { PixelRect } from "../types";
+
 export type XY = { x: number; y: number };
 
 export const CLIP_OVERDRAW_DEVICE_PX = 2;
@@ -26,12 +29,21 @@ export function affineFromTriangles(
 }
 
 /** Pixel-space lattice in the same row/col order as buildLatLngMesh. */
-export function buildSrcMesh(width: number, height: number, gridSize = 8): XY[][] {
+export function buildSrcMesh(
+  width: number,
+  height: number,
+  gridSize = 8,
+  sourceRect?: PixelRect,
+): XY[][] {
+  const rect = resolveSourceRect({ width, height }, sourceRect);
   const mesh: XY[][] = [];
   for (let row = 0; row <= gridSize; row += 1) {
     const line: XY[] = [];
     for (let col = 0; col <= gridSize; col += 1) {
-      line.push({ x: (width * col) / gridSize, y: (height * row) / gridSize });
+      line.push({
+        x: rect.x + (rect.width * col) / gridSize,
+        y: rect.y + (rect.height * row) / gridSize,
+      });
     }
     mesh.push(line);
   }

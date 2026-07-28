@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "requiredHoldoutsPerSignature": 2,
+  "signatures": [
+    {
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
+      "selectedEmbeddedLabel": "Map Layers",
+      "approved": false,
+      "reason": "0 passing holdouts; 2 required"
+    },
+    {
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
+      "selectedEmbeddedLabel": "Map Layers",
+      "approved": false,
+      "reason": "0 passing holdouts; 2 required"
+    },
+    {
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
+      "selectedEmbeddedLabel": "Map Layers",
+      "approved": false,
+      "reason": "0 passing holdouts; 2 required"
+    }
+  ],
+  "rows": [
+    {
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
+      "role": "discovery",
+      "productId": "ME_Isles_of_Shoals_20240805",
+      "sha256": "9e0e5c17276b6ff0793c29ffc190b0b43e559fd197f0e17c79560adda54a4357",
+      "result": "discovery-only"
+    },
+    {
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
+      "role": "discovery",
+      "productId": "CA_San_Francisco_South_OE_W_20211202",
+      "sha256": "1e64eabdb4df545a651a7721ed808c6199e89df27c7659424ead22a3c9f74732",
+      "result": "discovery-only"
+    },
+    {
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
+      "role": "discovery",
+      "productId": "NH_Hampton_20240808",
+      "sha256": "a4b29c41289e5d4dab3ec33f2d0019441c2525aba0c61b498a15da3434bc546b",
+      "result": "discovery-only"
+    },
+    {
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
+      "role": "discovery",
+      "productId": "NH_Isles_of_Shoals_OE_W_20150610",
+      "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
+      "result": "discovery-only"
+    },
+    {
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
+      "role": "discovery",
+      "productId": "CA_Montara_Mountain_OE_W_20120515",
+      "sha256": "756f06c2c1a826c151bb2a753fe8a8e9efac28557865c37262cd773160961266",
+      "result": "discovery-only"
+    }
+  ],
+  "acquisition": {
+    "status": "unavailable",
+    "reason": "The authoritative USGS host did not resolve from the implementation environment, and no prior local corpus remained.",
+    "pdfBytesCommitted": false
+  }
+}
