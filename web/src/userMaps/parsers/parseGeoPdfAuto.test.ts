@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ParsedGeoPdf } from "./geoPdfSource";
+import type {
+  GeoPdfMetadataExtraction,
+  PdfViewportGeometry,
+} from "./geoPdfMetadata";
 import {
   parseGeoPdfAuto,
   type GeoPdfFeatureWorker,
@@ -13,9 +17,28 @@ const parsed: ParsedGeoPdf = {
   registration: { status: "manual", reason: "absent" },
 };
 
+const extraction: GeoPdfMetadataExtraction = {
+  producer: null,
+  pageStructure: null,
+  candidates: [],
+  rejected: [],
+};
+
+const viewport: PdfViewportGeometry = {
+  width: 4096,
+  height: 2048,
+  transform: [1, 0, 0, -1, 0, 2048],
+  viewBox: [0, 0, 4096, 2048],
+};
+
 function workerThat(
   reply:
     | { ok: true; kind: "parsed"; parsed: ParsedGeoPdf }
+    | {
+        ok: true;
+        kind: "metadata";
+        extraction: GeoPdfMetadataExtraction;
+      }
     | {
         ok: false;
         kind: "topology-unsupported";
@@ -46,48 +69,92 @@ describe("parseGeoPdfAuto", () => {
     const worker = workerThat({ ok: true, kind: "parsed", parsed });
     await expect(
       parseGeoPdfAuto(buffer, {
+        supportsWorker: true,
         supportsWorkerCanvas: true,
         createWorker: () => worker,
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
         parseOnMain: vi.fn(),
       }),
     ).resolves.toEqual(parsed);
     expect(worker.postMessage).toHaveBeenCalledWith(
-      { type: "parse", buffer },
+      {
+        type: "parse",
+        buffer,
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
+      },
       [buffer],
     );
     expect(worker.terminate).toHaveBeenCalledTimes(1);
   });
 
   it("uses the main-canvas fallback when worker rendering is unavailable", async () => {
-    const parseOnMain = vi.fn(async () => parsed);
+    const metadataWorker = workerThat({
+      ok: true,
+      kind: "metadata",
+      extraction,
+    });
+    const parseOnMain = vi.fn(async (buffer, extractMetadata) => {
+      expect(extractMetadata).toBeTypeOf("function");
+      await expect(
+        extractMetadata!(new Uint8Array(buffer), viewport),
+      ).resolves.toEqual(extraction);
+      return parsed;
+    });
+    const buffer = new ArrayBuffer(8);
     await expect(
-      parseGeoPdfAuto(new ArrayBuffer(8), {
+      parseGeoPdfAuto(buffer, {
+        supportsWorker: true,
         supportsWorkerCanvas: false,
-        createWorker: vi.fn(),
+        createWorker: () => metadataWorker,
         parseOnMain,
       }),
     ).resolves.toEqual(parsed);
+    expect(metadataWorker.postMessage).toHaveBeenCalledWith(
+      { type: "metadata", buffer, viewport },
+      [buffer],
+    );
+    expect(metadataWorker.terminate).toHaveBeenCalledTimes(1);
     expect(parseOnMain).toHaveBeenCalledTimes(1);
   });
 
   it("falls back once when the worker explicitly refuses the topology", async () => {
     const returned = new ArrayBuffer(8);
-    const worker = workerThat({
+    const preferredWorker = workerThat({
       ok: false,
       kind: "topology-unsupported",
       message: "no 2D context",
       buffer: returned,
     });
-    const parseOnMain = vi.fn(async () => parsed);
+    const metadataWorker = workerThat({
+      ok: true,
+      kind: "metadata",
+      extraction,
+    });
+    const createWorker = vi
+      .fn()
+      .mockReturnValueOnce(preferredWorker)
+      .mockReturnValueOnce(metadataWorker);
+    const parseOnMain = vi.fn(async (buffer, extractMetadata) => {
+      await extractMetadata!(new Uint8Array(buffer), viewport);
+      return parsed;
+    });
     await expect(
       parseGeoPdfAuto(new ArrayBuffer(8), {
+        supportsWorker: true,
         supportsWorkerCanvas: true,
-        createWorker: () => worker,
+        createWorker,
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
         parseOnMain,
       }),
     ).resolves.toEqual(parsed);
-    expect(parseOnMain).toHaveBeenCalledWith(returned);
+    expect(parseOnMain).toHaveBeenCalledWith(
+      returned,
+      expect.any(Function),
+    );
     expect(parseOnMain).toHaveBeenCalledTimes(1);
+    expect(createWorker).toHaveBeenCalledTimes(2);
+    expect(preferredWorker.terminate).toHaveBeenCalledTimes(1);
+    expect(metadataWorker.terminate).toHaveBeenCalledTimes(1);
   });
 
   it("does not retry typed import failures", async () => {
@@ -100,8 +167,10 @@ describe("parseGeoPdfAuto", () => {
     const parseOnMain = vi.fn();
     await expect(
       parseGeoPdfAuto(new ArrayBuffer(8), {
+        supportsWorker: true,
         supportsWorkerCanvas: true,
         createWorker: () => worker,
+        assetBaseUrl: "http://localhost/vendor/pdfjs/6.1.200/",
         parseOnMain,
       }),
     ).rejects.toMatchObject({
@@ -110,5 +179,21 @@ describe("parseGeoPdfAuto", () => {
     });
     expect(parseOnMain).not.toHaveBeenCalled();
     expect(worker.terminate).toHaveBeenCalledTimes(1);
+  });
+
+  it("parses entirely on main only when Worker itself is unavailable", async () => {
+    const buffer = new ArrayBuffer(8);
+    const parseOnMain = vi.fn(async () => parsed);
+    const createWorker = vi.fn();
+    await expect(
+      parseGeoPdfAuto(buffer, {
+        supportsWorker: false,
+        supportsWorkerCanvas: false,
+        createWorker,
+        parseOnMain,
+      }),
+    ).resolves.toEqual(parsed);
+    expect(parseOnMain).toHaveBeenCalledWith(buffer);
+    expect(createWorker).not.toHaveBeenCalled();
   });
 });

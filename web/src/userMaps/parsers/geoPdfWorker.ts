@@ -1,6 +1,7 @@
 import { UserMapImportError } from "../errors";
 import type { GeoPdfCanvas } from "./geoPdfSource";
 import { parseGeoPdf } from "./geoPdfSource";
+import { extractGeoPdfMetadata } from "./geoPdfMetadata";
 import type {
   GeoPdfWorkerReply,
   GeoPdfWorkerRequest,
@@ -54,7 +55,40 @@ function createOffscreenCanvas(
 }
 
 workerScope.onmessage = async ({ data }) => {
-  if (data.type !== "parse") {
+  if (data.type === "metadata") {
+    try {
+      const extraction = await extractGeoPdfMetadata(
+        new Uint8Array(data.buffer),
+        data.viewport,
+      );
+      workerScope.postMessage({ ok: true, kind: "metadata", extraction });
+    } catch (error) {
+      workerScope.postMessage({
+        ok: false,
+        kind: "metadata-error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "GeoPDF metadata could not be read",
+      });
+    }
+    return;
+  }
+  // pdfjs-dist 6.1.200's display API requires `window` while setting up its
+  // own worker. Inside a feature worker it falls back to pdf.worker.mjs in
+  // the current global scope, which sends PDF.js's private `ready` protocol
+  // onto this worker's parent channel. Return the buffer untouched so the
+  // supported PDF.js worker + main-thread canvas topology can be used.
+  if (typeof window === "undefined") {
+    workerScope.postMessage(
+      {
+        ok: false,
+        kind: "topology-unsupported",
+        message: "PDF.js display API requires a window-backed canvas topology",
+        buffer: data.buffer,
+      },
+      [data.buffer],
+    );
     return;
   }
   if (!supportsCanvas()) {
@@ -78,8 +112,9 @@ workerScope.onmessage = async ({ data }) => {
           options as Parameters<typeof pdfjs.getDocument>[0],
         ) as unknown as ReturnType<
           import("./geoPdfSource").GeoPdfParseEnvironment["getDocument"]
-        >,
+      >,
       createCanvas: createOffscreenCanvas,
+      assetBaseUrl: data.assetBaseUrl,
     });
     workerScope.postMessage({ ok: true, kind: "parsed", parsed });
   } catch (error) {

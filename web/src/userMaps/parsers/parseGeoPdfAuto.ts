@@ -4,16 +4,40 @@ import {
   type GeoPdfCanvas,
   type ParsedGeoPdf,
 } from "./geoPdfSource";
+import type {
+  GeoPdfMetadataExtraction,
+  PdfViewportGeometry,
+} from "./geoPdfMetadata";
 
-export type GeoPdfWorkerRequest = { type: "parse"; buffer: ArrayBuffer };
+export type GeoPdfWorkerRequest =
+  | {
+      type: "parse";
+      buffer: ArrayBuffer;
+      assetBaseUrl: string;
+    }
+  | {
+      type: "metadata";
+      buffer: ArrayBuffer;
+      viewport: PdfViewportGeometry;
+    };
 
 export type GeoPdfWorkerReply =
   | { ok: true; kind: "parsed"; parsed: ParsedGeoPdf }
+  | {
+      ok: true;
+      kind: "metadata";
+      extraction: GeoPdfMetadataExtraction;
+    }
   | {
       ok: false;
       kind: "import-error";
       code: UserMapImportErrorCode;
       userMessage: string;
+    }
+  | {
+      ok: false;
+      kind: "metadata-error";
+      message: string;
     }
   | {
       ok: false;
@@ -30,11 +54,20 @@ export type GeoPdfFeatureWorker = {
 };
 
 export type ParseGeoPdfAutoEnvironment = {
+  supportsWorker?: boolean;
   supportsWorkerCanvas?: boolean;
   createWorker?: () => GeoPdfFeatureWorker;
-  parseOnMain?: (buffer: ArrayBuffer) => Promise<ParsedGeoPdf>;
+  parseOnMain?: (
+    buffer: ArrayBuffer,
+    extractMetadata?: (
+      bytes: Uint8Array,
+      viewport: PdfViewportGeometry,
+    ) => Promise<GeoPdfMetadataExtraction>,
+  ) => Promise<ParsedGeoPdf>;
+  assetBaseUrl?: string;
 };
 
+const PDFJS_VERSION = "6.1.200";
 const PDF_WORKER_URL = new URL(
   "../../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
@@ -70,7 +103,13 @@ function createHtmlCanvas(
   };
 }
 
-async function parseOnMainThread(buffer: ArrayBuffer): Promise<ParsedGeoPdf> {
+async function parseOnMainThread(
+  buffer: ArrayBuffer,
+  extractMetadata?: (
+    bytes: Uint8Array,
+    viewport: PdfViewportGeometry,
+  ) => Promise<GeoPdfMetadataExtraction>,
+): Promise<ParsedGeoPdf> {
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
   return parseGeoPdf(buffer, {
@@ -81,12 +120,12 @@ async function parseOnMainThread(buffer: ArrayBuffer): Promise<ParsedGeoPdf> {
         import("./geoPdfSource").GeoPdfParseEnvironment["getDocument"]
       >,
     createCanvas: createHtmlCanvas,
+    extractMetadata,
   });
 }
 
 function workerCanvasSupported(): boolean {
   if (
-    typeof Worker === "undefined" ||
     typeof OffscreenCanvas === "undefined" ||
     typeof OffscreenCanvas.prototype.convertToBlob !== "function"
   ) {
@@ -97,6 +136,10 @@ function workerCanvasSupported(): boolean {
   } catch {
     return false;
   }
+}
+
+function workerSupported(): boolean {
+  return typeof Worker !== "undefined";
 }
 
 function defaultWorker(): GeoPdfFeatureWorker {
@@ -112,27 +155,74 @@ function corruptWorkerError(): UserMapImportError {
   );
 }
 
+function defaultAssetBaseUrl(): string {
+  if (typeof window === "undefined") {
+    throw new Error("A local PDF.js asset base URL is required");
+  }
+  return new URL(
+    `${import.meta.env.BASE_URL}vendor/pdfjs/${PDFJS_VERSION}/`,
+    window.location.href,
+  ).href;
+}
+
 async function parseInFeatureWorker(
   buffer: ArrayBuffer,
   createWorker: () => GeoPdfFeatureWorker,
+  assetBaseUrl: string,
 ): Promise<ParsedGeoPdf | { fallbackBuffer: ArrayBuffer }> {
   const worker = createWorker();
   try {
     return await new Promise((resolve, reject) => {
       worker.onmessage = ({ data }) => {
-        if (data.ok) {
+        if (data.ok && data.kind === "parsed") {
           resolve(data.parsed);
         } else if (data.kind === "topology-unsupported") {
           resolve({ fallbackBuffer: data.buffer });
-        } else {
+        } else if (data.kind === "import-error") {
           reject(new UserMapImportError(data.code, data.userMessage));
+        } else {
+          reject(corruptWorkerError());
         }
       };
       worker.onerror = () => reject(corruptWorkerError());
       try {
-        worker.postMessage({ type: "parse", buffer }, [buffer]);
+        worker.postMessage({ type: "parse", buffer, assetBaseUrl }, [buffer]);
       } catch {
         reject(corruptWorkerError());
+      }
+    });
+  } finally {
+    worker.terminate();
+  }
+}
+
+async function extractMetadataInWorker(
+  bytes: Uint8Array,
+  viewport: PdfViewportGeometry,
+  createWorker: () => GeoPdfFeatureWorker,
+): Promise<GeoPdfMetadataExtraction> {
+  const worker = createWorker();
+  const buffer = bytes.buffer as ArrayBuffer;
+  try {
+    return await new Promise((resolve, reject) => {
+      worker.onmessage = ({ data }) => {
+        if (data.ok && data.kind === "metadata") {
+          resolve(data.extraction);
+        } else if (!data.ok && data.kind === "metadata-error") {
+          reject(new Error(data.message));
+        } else {
+          reject(new Error("Unexpected GeoPDF metadata worker response"));
+        }
+      };
+      worker.onerror = () =>
+        reject(new Error("GeoPDF metadata worker failed"));
+      try {
+        worker.postMessage(
+          { type: "metadata", buffer, viewport },
+          [buffer],
+        );
+      } catch {
+        reject(new Error("GeoPDF metadata worker could not start"));
       }
     });
   } finally {
@@ -146,16 +236,25 @@ export async function parseGeoPdfAuto(
 ): Promise<ParsedGeoPdf> {
   const parseOnMain = environment.parseOnMain ?? parseOnMainThread;
   const supportsWorker =
-    environment.supportsWorkerCanvas ?? workerCanvasSupported();
+    environment.supportsWorker ?? workerSupported();
   if (!supportsWorker) {
     return parseOnMain(buffer);
   }
-  const result = await parseInFeatureWorker(
-    buffer,
-    environment.createWorker ?? defaultWorker,
-  );
-  if ("fallbackBuffer" in result) {
-    return parseOnMain(result.fallbackBuffer);
+  const createWorker = environment.createWorker ?? defaultWorker;
+  const supportsCanvas =
+    environment.supportsWorkerCanvas ?? workerCanvasSupported();
+  if (supportsCanvas) {
+    const result = await parseInFeatureWorker(
+      buffer,
+      createWorker,
+      environment.assetBaseUrl ?? defaultAssetBaseUrl(),
+    );
+    if (!("fallbackBuffer" in result)) {
+      return result;
+    }
+    buffer = result.fallbackBuffer;
   }
-  return result;
+  return parseOnMain(buffer, (bytes, viewport) =>
+    extractMetadataInWorker(bytes, viewport, createWorker),
+  );
 }
