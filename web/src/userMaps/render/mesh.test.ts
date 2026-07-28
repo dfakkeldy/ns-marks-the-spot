@@ -34,6 +34,20 @@ describe("buildSrcMesh", () => {
     expect(mesh[8][8]).toEqual({ x: 800, y: 400 });
     expect(mesh[4][2]).toEqual({ x: 200, y: 200 });
   });
+
+  it("builds the source lattice over only the selected rectangle", () => {
+    expect(
+      buildSrcMesh(
+        4096,
+        3072,
+        1,
+        { x: 200, y: 100, width: 3600, height: 2700 },
+      ),
+    ).toEqual([
+      [{ x: 200, y: 100 }, { x: 3800, y: 100 }],
+      [{ x: 200, y: 2800 }, { x: 3800, y: 2800 }],
+    ]);
+  });
 });
 
 /**

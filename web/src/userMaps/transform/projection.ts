@@ -1,5 +1,7 @@
 import proj4 from "proj4";
 import { UserMapImportError } from "../errors";
+import { resolveSourceRect } from "../sourceRect";
+import type { PixelRect } from "../types";
 
 export type EmbeddedGeoref = {
   kind: "embedded";
@@ -161,13 +163,15 @@ export function buildLatLngMesh(
   georef: EmbeddedGeoref,
   pixelSize: PixelSize,
   gridSize = 8,
+  sourceRect?: PixelRect,
 ): LatLngPoint[][] {
+  const rect = resolveSourceRect(pixelSize, sourceRect);
   const mesh: LatLngPoint[][] = [];
   for (let row = 0; row <= gridSize; row += 1) {
     const line: LatLngPoint[] = [];
-    const y = (pixelSize.height * row) / gridSize;
+    const y = rect.y + (rect.height * row) / gridSize;
     for (let col = 0; col <= gridSize; col += 1) {
-      const x = (pixelSize.width * col) / gridSize;
+      const x = rect.x + (rect.width * col) / gridSize;
       line.push(pixelToLatLng(georef, x, y));
     }
     mesh.push(line);

@@ -25,7 +25,7 @@ import {
   type TpsResidualRefusal,
 } from "./transform/residuals";
 import { MIN_GCPS_FOR_BENDING_TPS, solveTps } from "./transform/tps";
-import type { Gcp, GeoreferenceMethod } from "./types";
+import type { Gcp, GeoreferenceMethod, PixelRect } from "./types";
 
 export const UNDO_HISTORY_LIMIT = 50;
 export const PERSIST_DELAY_MS = 400;
@@ -196,6 +196,7 @@ export function useGeoreferenceSession(options: {
    * buy nothing at all on a scan that is not actually bent.
    */
   method?: GeoreferenceMethod;
+  sourceRect?: PixelRect;
 }): GeoreferenceSession {
   const { mapId, pixelSize } = options;
   const method = options.method ?? "affine";
@@ -620,11 +621,27 @@ export function useGeoreferenceSession(options: {
             tps.params,
             pixelSize,
             dragging ? TPS_DRAG_GRID_SIZE : TPS_GRID_SIZE,
+            options.sourceRect,
           )
         : null;
     }
-    return params ? buildGcpLatLngMesh(params, pixelSize) : null;
-  }, [dragging, gcps.length, method, params, pixelSize, tps]);
+    return params
+      ? buildGcpLatLngMesh(
+          params,
+          pixelSize,
+          undefined,
+          options.sourceRect,
+        )
+      : null;
+  }, [
+    dragging,
+    gcps.length,
+    method,
+    options.sourceRect,
+    params,
+    pixelSize,
+    tps,
+  ]);
   /**
    * Method-aware, because the two fits have completely different residual
    * signals and only one of them is ever non-zero.

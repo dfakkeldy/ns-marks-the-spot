@@ -131,4 +131,15 @@ describe("buildLatLngMesh", () => {
     expect(mesh[8][8]).toEqual(pixelToLatLng(UTM20_GEOREF, 800, 400));
     expect(mesh[4][2]).toEqual(pixelToLatLng(UTM20_GEOREF, 200, 200));
   });
+
+  it("evaluates an embedded mesh over only the selected rectangle", () => {
+    const mesh = buildLatLngMesh(
+      UTM20_GEOREF,
+      { width: 800, height: 400 },
+      1,
+      { x: 100, y: 50, width: 600, height: 300 },
+    );
+    expect(mesh[0][0]).toEqual(pixelToLatLng(UTM20_GEOREF, 100, 50));
+    expect(mesh[1][1]).toEqual(pixelToLatLng(UTM20_GEOREF, 700, 350));
+  });
 });

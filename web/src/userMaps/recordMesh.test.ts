@@ -140,4 +140,14 @@ describe("meshForRecord", () => {
     // so they keep the dense lattice. Only the GCP path is exact at 1x1.
     expect(meshForRecord(EMBEDDED_RECORD)).toHaveLength(9);
   });
+
+  it("forwards a saved record's selected source rectangle", () => {
+    const record = {
+      ...EMBEDDED_RECORD,
+      sourceRect: { x: 1, y: 1, width: 6, height: 4 },
+    };
+    const mesh = meshForRecord(record)!;
+    expect(mesh[0][0]).not.toEqual(meshForRecord(EMBEDDED_RECORD)![0][0]);
+    expect(mesh[8][8]).not.toEqual(meshForRecord(EMBEDDED_RECORD)![8][8]);
+  });
 });

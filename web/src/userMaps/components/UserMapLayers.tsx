@@ -7,7 +7,7 @@ import {
 import { meshForRecord } from "../recordMesh";
 import type { LatLngPoint } from "../transform/projection";
 import { WarpedRasterLayer } from "../render/WarpedRasterLayer";
-import type { UserMapRecord } from "../types";
+import type { PixelRect, UserMapRecord } from "../types";
 
 export type VisibleUserMap = {
   record: UserMapRecord;
@@ -41,15 +41,18 @@ function WarpedRasterOverlay({
   previewUrl,
   opacity,
   mesh,
+  sourceRect,
 }: {
   previewUrl: string;
   opacity: number;
   mesh: LatLngPoint[][] | null;
+  sourceRect?: PixelRect;
 }) {
   const leafletMap = useMap();
   const layerRef = useRef<WarpedRasterLayer | null>(null);
   const opacityRef = useRef(opacity);
   const meshRef = useRef(mesh);
+  const sourceRectRef = useRef(sourceRect);
   const hasMesh = mesh !== null;
 
   useEffect(() => {
@@ -80,6 +83,7 @@ function WarpedRasterOverlay({
           image: loaded,
           imageSize: { width: loaded.width, height: loaded.height },
           latLngMesh: currentMesh,
+          sourceRect: sourceRectRef.current,
         });
         layer.addTo(leafletMap);
         layerRef.current = layer;
@@ -110,11 +114,12 @@ function WarpedRasterOverlay({
     // the mesh, which changes far more often.)
     opacityRef.current = opacity;
     meshRef.current = mesh;
+    sourceRectRef.current = sourceRect;
     layerRef.current?.setOpacity(opacity);
     if (mesh) {
-      layerRef.current?.setLatLngMesh(mesh);
+      layerRef.current?.setGeometry(mesh, sourceRect);
     }
-  }, [opacity, mesh]);
+  }, [opacity, mesh, sourceRect]);
 
   return null;
 }
@@ -136,6 +141,7 @@ function SavedMapOverlay({ map }: { map: VisibleUserMap }) {
       previewUrl={map.previewUrl}
       opacity={map.opacity}
       mesh={mesh}
+      sourceRect={map.record.sourceRect}
     />
   );
 }
@@ -162,6 +168,7 @@ export function UserMapLayers({
           previewUrl={draft.previewUrl}
           opacity={draft.opacity}
           mesh={draft.mesh}
+          sourceRect={draft.record.sourceRect}
         />
       ) : null}
     </>
