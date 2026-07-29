@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "headSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
+  "headSha": "cfabf37bf3b8314c8b073533951e2ee7c88aa601",
   "decision": "blocked",
   "recordedAt": "2026-07-28",
   "updatedAt": "2026-07-29",
@@ -12,11 +12,15 @@
     "desktopPreviewCommand": "npx vite preview --host 0.0.0.0 --port 4179 --strictPort",
     "desktopPreviewUrl": "http://127.0.0.1:4179/",
     "physicalPreviewUrl": "http://192.168.1.161:4184/",
-    "evidenceBoundary": "The baseline complete desktop matrix belongs to 4c46ca276. The earlier renderer correction is fea868138 and its integrated physical evidence belongs to 7656364a. The complete candidate Chrome functional matrix belongs to parser commit ad1016b73, while exact layout commit ae7d57009 owns full local gates and the 320x640 rerun. Physical efficacy and merged-SHA desktop matrices remain separate.",
-    "integratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248",
+    "evidenceBoundary": "The baseline complete desktop matrix belongs to 4c46ca276. The earlier renderer correction is fea868138 and its integrated physical evidence belongs to 7656364a. The complete candidate Chrome functional matrix belongs to parser commit ad1016b73, while layout commit ae7d57009 owns the 320x640 rerun. PR 188 merged both runtime fixes and the candidate receipt as cfabf37bf; that exact integrated SHA owns fresh full local gates, but no complete post-merge desktop or physical matrix because the Mac and iPhone became unavailable.",
+    "integratedRuntimeSha": "cfabf37bf3b8314c8b073533951e2ee7c88aa601",
     "candidateParserSha": "ad1016b734abafded493443bc6a8be4229609448",
     "candidateLayoutSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
-    "candidatePreviewUrl": "http://127.0.0.1:4187/"
+    "candidatePreviewUrl": "http://127.0.0.1:4187/",
+    "mergedPreviewUrls": [
+      "http://127.0.0.1:4188/",
+      "http://127.0.0.1:4189/"
+    ]
   },
   "environment": {
     "os": "macOS 27.0 (26A5388g)",
@@ -58,6 +62,7 @@
       "viewport": "1440x817 CSS pixels at DPR 2; responsive control 320x640 CSS pixels",
       "result": "partial-pass",
       "candidateEvidence": "All five real files and all 16 frames, four embedded GCPs, chooser non-preselection, reload provenance, sole registrations, page-count and manual controls, Hampton stress, Maine import, and clean logs passed on ad1016b73. Exact ae7d57009 fixed and reran the 320x640 layout: card 229/229, group 255/255, panel 287/287, document 320/320, ordinary row 255/255.",
+      "mergedStatus": "Exact integrated cfabf37bf was freshly built and served. The first 4188 chooser attempt was discarded after a harness wait timed out while the import continued and a retry created duplicate Maine records. A fresh 4189-origin restart was blocked when supported desktop control reported that the Mac was locked and automatic unlock was paused. No post-merge Chrome matrix result is claimed.",
       "completed": [
         "all five real-USGS files through the native chooser",
         "every Measure and LGIDict main-map and inset frame selected explicitly",
@@ -86,7 +91,7 @@
       "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
       "viewport": "captured content surface 1179x768 pixels; separate CSS viewport unavailable",
       "result": "partial-pass",
-      "candidateStatus": "Complete candidate and merged-SHA reruns pending.",
+      "candidateStatus": "Complete merged-SHA rerun pending; the Mac is locked and supported foreground control is unavailable.",
       "completed": [
         "complete five-file real-USGS rendered matrix",
         "every main-map and inset selection from four embedded GCPs",
@@ -112,7 +117,7 @@
       "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
       "viewport": "captured content surface 1081x768 pixels; separate CSS viewport unavailable",
       "result": "partial-pass",
-      "candidateStatus": "Complete candidate and merged-SHA reruns pending.",
+      "candidateStatus": "Complete merged-SHA rerun pending; the Mac is locked and supported foreground control is unavailable.",
       "completed": [
         "complete five-file real-USGS rendered matrix",
         "every main-map and inset selection from four embedded GCPs",
@@ -430,6 +435,15 @@
       "npm run lint",
       "npm run build",
       "npm run check:pdf-assets checked 200 assets"
+    ],
+    "mergedRuntime": [
+      "exact integrated nightly cfabf37bf3b8314c8b073533951e2ee7c88aa601",
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1015 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
     ]
   },
   "automaticRule": {
@@ -442,12 +456,12 @@
   "blockers": [
     "The physical iPhone is unavailable, so exact candidate and merged-SHA Maine import plus legacy import/render/reload verification are waiting for the user.",
     "The earlier legacy physical result must be rerun at a persisted GCP extent before it can be distinguished from reproduced default-viewport behavior.",
-    "Publication, hosted CI, merge, and complete merged-SHA desktop matrices remain pending.",
+    "PR 188, hosted CI, and merge are complete; the complete exact merged-SHA Chrome, Firefox, and desktop Safari matrices remain pending because the Mac is locked and supported foreground control is unavailable.",
     "Chrome long-task, request-body, and retained-resource diagnostics remain unavailable.",
     "Desktop Safari console, network, and resource diagnostics remain unavailable.",
     "Firefox import request bodies and retained-object release remain unproven.",
     "The modern automatic-rule holdouts fail the frozen spatial threshold and the proposed producer metadata field does not match the files."
   ],
   "runtimeBranch": "nightly",
-  "receiptBranch": "feature/geopdf-mobile-safari-lifecycle-fixes"
+  "receiptBranch": "feature/geopdf-merged-desktop-waiting"
 }
