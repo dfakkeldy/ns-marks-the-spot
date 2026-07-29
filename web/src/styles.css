@@ -3977,6 +3977,10 @@ a {
   padding-bottom: 8px;
 }
 
+.user-map-row .layer-row > span:last-of-type {
+  overflow-wrap: anywhere;
+}
+
 .user-map-opacity {
   display: grid;
   grid-template-columns: 46px minmax(0, 1fr);
@@ -3993,6 +3997,7 @@ a {
 
 .user-map-opacity input[type="range"] {
   width: 100%;
+  margin: 0;
   accent-color: var(--survey-blue);
 }
 

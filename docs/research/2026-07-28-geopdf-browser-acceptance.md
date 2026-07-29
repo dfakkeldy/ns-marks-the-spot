@@ -1,6 +1,6 @@
 # GeoPDF browser acceptance receipt — blocked
 
-Date: 2026-07-28
+Date: 2026-07-28 (updated 2026-07-29)
 
 Baseline runtime commit: `4c46ca276982ac9e4da593ee79b5a88503818511`
 
@@ -8,7 +8,55 @@ Correction runtime commit: `fea8681385bf5ab2d62cc8e82f28839de1ca3a71`
 
 Integrated `nightly` commit: `7656364a6c16791a6334d0c8179e1c6c4cd01248`
 
-Decision: **BLOCKED**
+Candidate parser commit: `ad1016b734abafded493443bc6a8be4229609448`
+
+Candidate layout commit: `ae7d5700963ee7457d791c6c59df8383cee9cc09`
+
+Decision: **BLOCKED**. The physical verification work is currently
+`WAITING_FOR_USER` because the iPhone is unavailable; publication, CI, merge,
+and exact desktop verification remain independently actionable.
+
+## 2026-07-29 candidate correction
+
+The physical evidence below was reclassified after process diagnostics and
+bounded reproduction rather than accepted as a terminal harness failure.
+
+For the 5.8 MB Maine import, Mobile Safari displayed “This webpage was reloaded
+because a problem occurred.” The MobileSafari application process survived,
+while its WebContent process disappeared and was replaced. The latest available
+Jetsam report predated the fresh run, so it is corroborating memory-pressure
+evidence rather than an exact crash classification.
+
+The Maine PDF contains a 9,430×11,386 source image (107,369,980 pixels) plus
+85 large strips. PDF.js 6.1.200 was using its default adaptive maximum-image-area
+probe before resizing to the application's at-most-4,096² preview. Candidate
+`ad1016b73…` now passes a finite `canvasMaxAreaInBytes` of 64 MiB, exactly
+4,096² RGBA bytes. A focused regression was observed RED without that option
+and GREEN with it. This is a per-image resize budget, not a total process-memory
+ceiling and not proof of exact Jetsam causation.
+
+Chrome 150 then completed the complete five-real-file matrix on
+`ad1016b73…`: all 16 embedded frames were selected explicitly from initially
+unselected choosers, all used four embedded points, all selection/provenance
+states survived reload, and the Maine import completed without a page-process
+reset. Sole Measure/LGIDict placement, page-1-of-2 reporting, plain-PDF manual
+fallback, the 35 MB Hampton case, and warning/error logs also passed.
+
+That matrix exposed a separate 320×640 overflow in the Hampton user-map row.
+Candidate `ae7d57009…` adds only scoped emergency wrapping for imported-map copy
+and removes the opacity range input's 2 px user-agent margin. Strict RED/GREEN
+style regressions and an exact production-browser rerun passed. Final
+`clientWidth/scrollWidth` measurements were card 229/229, group 255/255, panel
+287/287, document 320/320, and an ordinary row 255/255; the long filename and
+provenance remained readable and Chrome logs were clean.
+
+The legacy post-reload physical result still needs one exact rerun that uses a
+persisted GCP's **Zoom to point** control before judging the raster. Desktop
+Chrome proved that reload preserved the raster and GCPs while returning the
+viewport to the default Nova Scotia centre; moving to the persisted Maine
+extent made the raster visible. This does not retroactively pass the physical
+legacy case. The iPhone is currently unavailable, so both exact physical cases
+remain `WAITING_FOR_USER`.
 
 The complete rendered matrix passes in Chrome 150, Firefox 146.0.1, and desktop
 Safari 27.0 on the baseline SHA. A physical iPhone 12 Pro run also proves the
@@ -24,10 +72,10 @@ conclusively with OpenStreetMap disabled. After reload, the record and
 `chosen by you` provenance persisted, but the raster did not repaint after
 waiting, an off/on cycle, or a pan.
 
-The 5.8 MB Maine import on the exact merged artifact also returned immediately
+The 5.8 MB Maine import on the earlier exact merged artifact also returned immediately
 to the startup licence dialog and created no record. The feature therefore
-remains physically failed and has not completed the full post-fix desktop
-diagnostic matrix. No runtime selector or parser change is justified. Every
+remained physically failed and had not completed the full post-fix desktop
+diagnostic matrix at that SHA. Every
 multi-frame GeoPDF still requires an explicit user choice.
 
 ## Artifact and publication boundary
@@ -213,8 +261,9 @@ The earlier 1158×1698/alpha-255 instrumented measurement remains supporting
 diagnostic evidence, but the integrated clean run now independently proves both
 the initial render pass and the post-reload render failure.
 
-No further user action is required for this receipt: the physical device was
-available and the safely actionable run was made.
+The earlier safely actionable physical run is complete, but candidate
+`ae7d57009…` still requires exact physical Mobile Safari verification when the
+device becomes available again.
 
 ## Independent holdout result
 
@@ -278,16 +327,22 @@ checks before merging. A clean archive of integrated `nightly` `7656364a…`
 then passed `npm ci` (329 packages, zero vulnerabilities), 12 Node script tests,
 1,013 Vitest tests with one skipped, lint, build, and the 200-asset PDF.js check.
 
+Candidate `ae7d57009…` passed `npm ci` (329 packages, zero vulnerabilities),
+12 Node script tests, 1,015 Vitest tests with one skipped, `npm run lint`,
+`npm run build`, and `npm run check:pdf-assets` (200 assets). The build retained
+only the existing large-chunk advisory. Hosted CI, merge, and merged-SHA gates
+remain separate.
+
 ## Unresolved stop rules
 
-The decision remains blocked because:
+The candidate remains blocked and is waiting for physical verification because:
 
-- exact merged physical Mobile Safari does not repaint the enabled legacy
-  raster after reload, despite persisting its record and provenance;
-- exact merged physical Mobile Safari does not complete the 5.8 MB Maine import
-  and creates no record;
-- the correction has not completed a full post-fix five-file desktop rendered
-  and diagnostic matrix;
+- the physical iPhone is unavailable, so the candidate Maine import and legacy
+  import/render/reload cases have not run;
+- the earlier legacy physical reload needs an exact GCP-extent rerun before it
+  can be distinguished from the reproduced default-viewport behavior;
+- publication, hosted CI, merge, and the exact merged-SHA complete desktop
+  matrices are not yet complete;
 - Chrome did not expose required long-task, request-body, or retained-resource
   diagnostics;
 - desktop Safari did not expose console, network, or resource diagnostics;

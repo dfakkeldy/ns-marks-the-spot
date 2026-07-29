@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "headSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248",
+  "headSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
   "decision": "blocked",
   "recordedAt": "2026-07-28",
   "updatedAt": "2026-07-29",
@@ -12,8 +12,11 @@
     "desktopPreviewCommand": "npx vite preview --host 0.0.0.0 --port 4179 --strictPort",
     "desktopPreviewUrl": "http://127.0.0.1:4179/",
     "physicalPreviewUrl": "http://192.168.1.161:4184/",
-    "evidenceBoundary": "The complete desktop matrix belongs to baseline 4c46ca276. The renderer correction is fea868138. Exact merged nightly 7656364a has full local gates and the fresh physical legacy/Maine matrix recorded here; it does not inherit an unrun complete post-fix desktop diagnostic matrix.",
-    "integratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248"
+    "evidenceBoundary": "The baseline complete desktop matrix belongs to 4c46ca276. The earlier renderer correction is fea868138 and its integrated physical evidence belongs to 7656364a. The complete candidate Chrome functional matrix belongs to parser commit ad1016b73, while exact layout commit ae7d57009 owns full local gates and the 320x640 rerun. Physical efficacy and merged-SHA desktop matrices remain separate.",
+    "integratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248",
+    "candidateParserSha": "ad1016b734abafded493443bc6a8be4229609448",
+    "candidateLayoutSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
+    "candidatePreviewUrl": "http://127.0.0.1:4187/"
   },
   "environment": {
     "os": "macOS 27.0 (26A5388g)",
@@ -38,8 +41,8 @@
   "topologies": [
     {
       "id": "metadata-worker-main-canvas-pdfjs",
-      "result": "fail",
-      "evidence": "Baseline desktop matrices pass. Exact merged 7656364a fresh physical Safari imports and initially renders the 3.2 MB legacy Map Layers frame, but post-reload raster repaint fails; the exact 5.8 MB Maine import resets to the licence dialog and creates no record."
+      "result": "waiting-for-user",
+      "evidence": "Baseline desktop matrices pass. Earlier exact merged 7656364a physical Safari imported and initially rendered the 3.2 MB legacy frame but appeared blank after reload; its 5.8 MB Maine import replaced the WebContent process and created no record. Candidate ad1016b73 bounds PDF.js per-image resizing to 4096-squared RGBA bytes and passes the complete Chrome functional matrix. Exact candidate physical efficacy is waiting for the unavailable iPhone; the legacy rerun must use a persisted GCP extent before judging repaint."
     },
     {
       "id": "pdfjs-feature-worker",
@@ -51,9 +54,10 @@
     {
       "name": "Chrome",
       "version": "150.0.7871.187",
-      "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
+      "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511; candidate functional matrix ad1016b734abafded493443bc6a8be4229609448; exact responsive rerun ae7d5700963ee7457d791c6c59df8383cee9cc09",
       "viewport": "1440x817 CSS pixels at DPR 2; responsive control 320x640 CSS pixels",
-      "result": "blocked",
+      "result": "partial-pass",
+      "candidateEvidence": "All five real files and all 16 frames, four embedded GCPs, chooser non-preselection, reload provenance, sole registrations, page-count and manual controls, Hampton stress, Maine import, and clean logs passed on ad1016b73. Exact ae7d57009 fixed and reran the 320x640 layout: card 229/229, group 255/255, panel 287/287, document 320/320, ordinary row 255/255.",
       "completed": [
         "all five real-USGS files through the native chooser",
         "every Measure and LGIDict main-map and inset frame selected explicitly",
@@ -82,6 +86,7 @@
       "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
       "viewport": "captured content surface 1179x768 pixels; separate CSS viewport unavailable",
       "result": "partial-pass",
+      "candidateStatus": "Complete candidate and merged-SHA reruns pending.",
       "completed": [
         "complete five-file real-USGS rendered matrix",
         "every main-map and inset selection from four embedded GCPs",
@@ -107,6 +112,7 @@
       "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
       "viewport": "captured content surface 1081x768 pixels; separate CSS viewport unavailable",
       "result": "partial-pass",
+      "candidateStatus": "Complete candidate and merged-SHA reruns pending.",
       "completed": [
         "complete five-file real-USGS rendered matrix",
         "every main-map and inset selection from four embedded GCPs",
@@ -129,7 +135,8 @@
       "version": "iOS 27.0 beta (24A5390f)",
       "artifact": "exact merged nightly 7656364a6c16791a6334d0c8179e1c6c4cd01248, with baseline and correction evidence retained separately",
       "viewport": "physical iPhone 12 Pro, 390x844-point screen; 85% page zoom for completed run",
-      "result": "fail",
+      "result": "waiting-for-user",
+      "candidateStatus": "The iPhone is unavailable. Exact candidate and merged-SHA Maine import plus legacy import/render/reload remain pending. The legacy reload must navigate to a persisted GCP extent before a repaint verdict.",
       "completed": [
         "devicectl and iPhone Mirroring confirmed the physical iPhone 12 Pro paired, trusted, locked, and reachable",
         "fresh Private-tab origin at the exact merged SHA with no prior GeoPDF record",
@@ -274,6 +281,26 @@
       "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
     }
   ],
+  "candidateChrome": {
+    "functionalRuntimeSha": "ad1016b734abafded493443bc6a8be4229609448",
+    "layoutRuntimeSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
+    "realFiles": "all five",
+    "embeddedFrames": 16,
+    "initialChoosersUnselected": true,
+    "embeddedPointsPerFrame": 4,
+    "reloadProvenance": "pass",
+    "maineImport": "pass without page-process reset",
+    "controls": "sole Measure, sole LGIDict, page 1 of 2, and plain-PDF manual fallback pass",
+    "responsive320x640": {
+      "result": "pass",
+      "card": "229/229 clientWidth/scrollWidth",
+      "group": "255/255 clientWidth/scrollWidth",
+      "panel": "287/287 clientWidth/scrollWidth",
+      "document": "320/320 clientWidth/scrollWidth",
+      "ordinaryRow": "255/255 clientWidth/scrollWidth"
+    },
+    "console": "no warning or error entries"
+  },
   "performance": [
     {
       "check": "35 MB stress import",
@@ -395,6 +422,14 @@
       "npm run lint",
       "npm run build",
       "npm run check:pdf-assets checked 200 assets"
+    ],
+    "candidateRuntime": [
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1015 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
     ]
   },
   "automaticRule": {
@@ -405,14 +440,14 @@
     "reason": "The proposed producer-keyed signatures cannot match actual metadata, and the modern holdouts do not satisfy the frozen oracle. Changing the key to Creator would require a newly frozen selector and independent holdouts."
   },
   "blockers": [
-    "Exact merged physical Mobile Safari fails to repaint the enabled legacy raster after reload, waiting, off-on, and pan, although its record and provenance persist.",
-    "Exact merged physical Mobile Safari fails the 5.8 MB Maine import by returning to the licence dialog and creating no record.",
-    "The correction has not completed a full post-fix five-file desktop rendered and diagnostic matrix.",
+    "The physical iPhone is unavailable, so exact candidate and merged-SHA Maine import plus legacy import/render/reload verification are waiting for the user.",
+    "The earlier legacy physical result must be rerun at a persisted GCP extent before it can be distinguished from reproduced default-viewport behavior.",
+    "Publication, hosted CI, merge, and complete merged-SHA desktop matrices remain pending.",
     "Chrome long-task, request-body, and retained-resource diagnostics remain unavailable.",
     "Desktop Safari console, network, and resource diagnostics remain unavailable.",
     "Firefox import request bodies and retained-object release remain unproven.",
     "The modern automatic-rule holdouts fail the frozen spatial threshold and the proposed producer metadata field does not match the files."
   ],
   "runtimeBranch": "nightly",
-  "receiptBranch": "feature/geopdf-postmerge-physical-evidence"
+  "receiptBranch": "feature/geopdf-mobile-safari-lifecycle-fixes"
 }
