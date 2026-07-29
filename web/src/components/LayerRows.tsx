@@ -2,6 +2,7 @@ import { useState } from "react";
 import type {
   EnvironmentalHealthLayerDescriptor,
   FloodHazardLayerDescriptor,
+  ForestryLayerDescriptor,
   HydroPilotLayerDescriptor,
   ProvinceLayerId,
   ResourceControlDescriptor,
@@ -476,6 +477,72 @@ export function EnvironmentalHealthLayerToggle({
           Review
         </button>
       ) : null}
+    </label>
+  );
+}
+
+export function ForestryLayerToggle({
+  layer,
+  checked,
+  status,
+  onChange,
+}: {
+  layer: ForestryLayerDescriptor;
+  checked: boolean;
+  status: MapLayerStatus;
+  onChange: (checked: boolean) => void;
+}) {
+  const statusBands = [
+    {
+      label: "Confirmed old growth",
+      color: layer.statusColors.confirmedOldGrowth,
+    },
+    {
+      label: "Restoration opportunity",
+      color: layer.statusColors.restorationOpportunity,
+    },
+    { label: "Status unknown", color: layer.statusColors.unknown },
+  ];
+
+  return (
+    <label className="layer-row forestry-layer-row">
+      <input
+        type="checkbox"
+        aria-label={layer.name}
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="switch" aria-hidden="true" />
+      <span>
+        <strong>{layer.name}</strong>
+        <small>{layer.webCaveat}</small>
+        {checked ? (
+          <ul
+            className="forestry-policy-legend"
+            aria-label="Old-growth policy status legend"
+          >
+            {statusBands.map((band) => (
+              <li key={band.label}>
+                <span
+                  className="forestry-policy-swatch"
+                  style={{ backgroundColor: band.color }}
+                  aria-hidden="true"
+                />
+                {band.label}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        <LayerMetadata
+          sourceDate={layer.sourceDate}
+          scale={layer.scale}
+          coverage={layer.coverage}
+          minZoom={layer.minZoom}
+          maxZoom={layer.maxZoom}
+          checked={checked}
+          status={status}
+        />
+      </span>
     </label>
   );
 }

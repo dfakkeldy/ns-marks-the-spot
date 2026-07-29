@@ -202,6 +202,25 @@ scales — the parity list of sources and renderers is unchanged:
   as disabled rows: no tiles have been produced for them yet. See
   [docs/CHURCH_MAPS.md](../docs/CHURCH_MAPS.md).
 
+## Forestry policy
+
+The collapsed **Forestry** group contains one web-only, default-off open-data
+overlay: the Province's
+[Old Growth Forest Policy Layer](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Old-Growth-Forest-Policy-Layer/wanf-acts).
+At zoom 9 or closer it queries only the current viewport from the official
+Socrata GeoJSON endpoint, cancels stale requests, and paginates in stable
+system-ID order. It does not require acceptance of the restricted Province map
+services licence.
+
+The renderer keeps the source's three policy states distinct: **Confirmed old
+growth**, **Restoration opportunity**, and **Status unknown**. Popups carry
+source-reported hectares, selection method, the official source link, and the
+Open Government Licence provenance. These are mapped policy areas on publicly
+owned land outside protected areas, not a complete inventory of old-growth
+forest. A returned zero is only “no mapped policy polygon returned for this
+viewport”; it is not evidence that no old growth exists. The policy provisions
+govern Crown-land management and do not establish conditions on private land.
+
 ## Geology and resources
 
 The collapsed **Geology & Resources** group is web-only and starts with every
@@ -779,8 +798,9 @@ date rather than leaving that date only in source data.
 ## Current boundary
 
 This slice includes the modern OpenStreetMap basemap, nine web-cleared
-Province layers, three default-off open geoscience/resource source
-overlays, one default-off licence-gated derived mineral-proximity parcel row,
+Province layers, three default-off open geoscience/resource source overlays,
+one default-off open old-growth policy overlay, one default-off licence-gated
+derived mineral-proximity parcel row,
 five default-off unofficial municipal zoning layers rendered live from
 municipal services and never republished as project data,
 live NSPRD PID/address/map-tap parcel discovery, browser location,

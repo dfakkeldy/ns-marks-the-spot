@@ -21,6 +21,14 @@ export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
 export const ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX = 165;
 
 /**
+ * Old-growth policy polygons are forestry context, not parcel evidence. They
+ * sit above contours but below NSPRD, water, roads, and selected parcels so
+ * those more precise reference layers remain legible.
+ */
+export const OLD_GROWTH_POLICY_PANE = "old-growth-policy-pane";
+export const OLD_GROWTH_POLICY_PANE_Z_INDEX = 190;
+
+/**
  * Zoning is a broad thematic fill, so it sits above the Province raster layers
  * but below the parcel-specific overlays a user is actively inspecting.
  */

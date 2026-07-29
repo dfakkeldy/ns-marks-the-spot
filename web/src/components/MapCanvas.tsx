@@ -26,6 +26,7 @@ import { ArcGISExportTileLayer } from "../layers/arcGISExport";
 import {
   hydroPilotLayerCatalog,
   environmentalHealthLayerCatalog,
+  forestryLayerCatalog,
   floodHazardLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
   allResourceLayerCatalog,
@@ -35,6 +36,7 @@ import {
   type HydroPilotLayerId,
   type EnvironmentalHealthLayerDescriptor,
   type EnvironmentalHealthLayerId,
+  type ForestryLayerId,
   type FloodHazardLayerDescriptor,
   type FloodHazardLayerId,
   type FletcherLayerId,
@@ -84,12 +86,15 @@ import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { FletcherTileLayer } from "./FletcherTileLayer";
 import { ZoningLayer } from "./ZoningLayer";
+import { OldGrowthPolicyLayer } from "./OldGrowthPolicyLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
   ESTABLISHED_PARCEL_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
+  OLD_GROWTH_POLICY_PANE,
+  OLD_GROWTH_POLICY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
   ZONING_PANE,
   ZONING_PANE_Z_INDEX,
@@ -126,6 +131,7 @@ type MapCanvasProps = {
   hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
+  forestryLayers?: Record<ForestryLayerId, boolean>;
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
@@ -174,6 +180,7 @@ export type MapLayerId =
   | HydroPilotLayerId
   | FloodHazardLayerId
   | EnvironmentalHealthLayerId
+  | ForestryLayerId
   | ZoningLayerId
   | WellLogLayerId;
 
@@ -209,6 +216,9 @@ const HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS: Record<
   "uranium-risk-wells": false,
   "manganese-risk-wells": false,
   "surficial-aquifers": false,
+};
+const HIDDEN_FORESTRY_LAYERS: Record<ForestryLayerId, boolean> = {
+  "old-growth-policy": false,
 };
 const HIDDEN_ZONING_LAYERS: Record<ZoningLayerId, boolean> = {
   "zoning-inverness": false,
@@ -1453,6 +1463,7 @@ export function MapCanvas({
   hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
+  forestryLayers = HIDDEN_FORESTRY_LAYERS,
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
   wellLogAccuracyFilter = "surveyed",
@@ -1706,6 +1717,20 @@ export function MapCanvas({
             renderMode={renderMode}
           />
         ))}
+        <Pane
+          name={OLD_GROWTH_POLICY_PANE}
+          style={{ zIndex: OLD_GROWTH_POLICY_PANE_Z_INDEX }}
+        >
+          {forestryLayerCatalog.map((layer) => (
+            <OldGrowthPolicyLayer
+              key={layer.id}
+              layer={layer}
+              visible={forestryLayers[layer.id]}
+              onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
+            />
+          ))}
+        </Pane>
         <Pane name={ZONING_PANE} style={{ zIndex: ZONING_PANE_Z_INDEX }}>
           {zoningLayerCatalog.map((layer) => (
             <ZoningLayer

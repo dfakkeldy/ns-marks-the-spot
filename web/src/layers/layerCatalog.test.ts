@@ -8,6 +8,7 @@ import {
   floodHazardLayerCatalog,
   initialEnvironmentalHealthLayerVisibility,
   initialFloodHazardLayerVisibility,
+  initialForestryLayerVisibility,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialResourceLayerVisibility,
@@ -16,6 +17,7 @@ import {
   provinceLayerCatalog,
   provinceLayerIds,
   resourceLayerCatalog,
+  forestryLayerCatalog,
   initialZoningLayerVisibility,
   zoningLayerCatalog,
   wellLogLayerCatalog,
@@ -154,6 +156,27 @@ describe("web native-layer parity catalog", () => {
       roads: true,
       buildings: false,
       contours: false,
+    });
+  });
+
+  it("offers the official old-growth policy polygons as an optional open forestry layer", () => {
+    expect(forestryLayerCatalog).toEqual([
+      expect.objectContaining({
+        id: "old-growth-policy",
+        name: "Old-growth policy areas",
+        sourceUrl:
+          "https://data.novascotia.ca/Lands-Forests-and-Wildlife/Old-Growth-Forest-Policy-Layer/wanf-acts",
+        serviceUrl:
+          "https://data.novascotia.ca/resource/wanf-acts.geojson",
+        licence: "province-open",
+        licenceUrl: OPEN_GOVERNMENT_LICENCE_TERMS_URL,
+        minZoom: 9,
+        webCaveat:
+          "Mapped policy areas on public land · not a complete old-growth inventory",
+      }),
+    ]);
+    expect(initialForestryLayerVisibility).toEqual({
+      "old-growth-policy": false,
     });
   });
 
