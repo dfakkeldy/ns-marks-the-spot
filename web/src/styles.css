@@ -633,6 +633,40 @@ a {
   border-radius: 2px;
 }
 
+.forestry-layer-group .resource-layer-controls {
+  background: rgba(22, 101, 52, 0.055);
+  border-color: rgba(22, 101, 52, 0.22);
+}
+
+.forestry-layer-row input:checked + .switch {
+  background: #166534;
+}
+
+.forestry-policy-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 5px 0 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  list-style: none;
+}
+
+.forestry-policy-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.forestry-policy-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
 .hydro-pilot-group .resource-layer-controls {
   background: rgba(51, 151, 183, 0.07);
   border-color: rgba(8, 118, 155, 0.24);
@@ -780,6 +814,45 @@ a {
 .zoning-popup {
   min-width: 210px;
   color: var(--chart-ink);
+}
+
+.old-growth-policy-popup {
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.old-growth-policy-popup .old-growth-policy-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #166534;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.old-growth-policy-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.1rem;
+}
+
+.old-growth-policy-popup > p:not(.old-growth-policy-popup-eyebrow) {
+  margin: 5px 0;
+  font-size: 0.74rem;
+}
+
+.old-growth-policy-popup .old-growth-policy-popup-note {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.old-growth-policy-popup a {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 0.74rem;
+  font-weight: 600;
 }
 
 .zoning-popup .zoning-popup-eyebrow {
@@ -3368,6 +3441,19 @@ a {
   border: 0;
   background: transparent;
   gap: 0.35mm;
+}
+
+.print-layer-symbol--old-growth-policy {
+  border: 1pt solid #333;
+  background:
+    linear-gradient(
+      90deg,
+      #777 0 33%,
+      #c4c4c4 33% 66%,
+      #f4f4f4 66% 100%
+    );
+  outline: 0.75pt dashed #666;
+  outline-offset: -1.5pt;
 }
 
 .print-layer-symbol--published-river-flood-zones {

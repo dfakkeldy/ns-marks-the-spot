@@ -16,6 +16,7 @@ import {
 import {
   EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
+  ForestryLayerToggle,
   ZoningLayerToggle,
   HydroPilotLayerToggle,
   HydroPotentialLegend,
@@ -71,11 +72,13 @@ import {
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
+  forestryLayerCatalog,
   floodHazardLayerCatalog,
   fletcherLayerCatalog,
   hydroPilotLayerCatalog,
   initialHydroPilotLayerVisibility,
   initialEnvironmentalHealthLayerVisibility,
+  initialForestryLayerVisibility,
   wellLogLayerCatalog,
   initialWellLogLayerVisibility,
   initialFloodHazardLayerVisibility,
@@ -88,6 +91,7 @@ import {
   zoningLayerCatalog,
   type HydroPilotLayerId,
   type EnvironmentalHealthLayerId,
+  type ForestryLayerId,
   type FloodHazardLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
@@ -215,6 +219,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
+  ...forestryLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
 ];
@@ -481,6 +486,14 @@ function printLayerSources(
       ? PROVINCE_ATTRIBUTION
       : OPEN_GOVERNMENT_ATTRIBUTION,
     licenceUrl: layer.licenceUrl,
+  }));
+  forestryLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: OPEN_GOVERNMENT_ATTRIBUTION,
+    licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
   }));
   zoningLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
@@ -825,6 +838,16 @@ export function App() {
           ]),
         ) as Record<EnvironmentalHealthLayerId, boolean>
       : initialEnvironmentalHealthLayerVisibility,
+  );
+  const [forestryLayers, setForestryLayers] = useState(
+    () => hasSharedLayers
+      ? Object.fromEntries(
+          forestryLayerCatalog.map(({ id }) => [
+            id,
+            initialShareState.layerIds.includes(id),
+          ]),
+        ) as Record<ForestryLayerId, boolean>
+      : initialForestryLayerVisibility,
   );
   const [zoningLayers, setZoningLayers] = useState(
     () => hasSharedLayers
@@ -1543,6 +1566,12 @@ export function App() {
   ) => {
     setEnvironmentalHealthLayers((current) => ({ ...current, [id]: visible }));
   };
+  const setForestryLayerVisibility = (
+    id: ForestryLayerId,
+    visible: boolean,
+  ) => {
+    setForestryLayers((current) => ({ ...current, [id]: visible }));
+  };
 
   const setZoningLayerVisibility = (id: ZoningLayerId, visible: boolean) => {
     setZoningLayers((current) => ({ ...current, [id]: visible }));
@@ -1820,6 +1849,9 @@ export function App() {
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
       .map(({ id }) => id),
+    ...forestryLayerCatalog
+      .filter(({ id }) => forestryLayers[id])
+      .map(({ id }) => id),
     ...zoningLayerCatalog
       .filter(({ id }) => zoningLayers[id])
       .map(({ id }) => id),
@@ -1830,6 +1862,7 @@ export function App() {
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
     fletcherVisible,
+    forestryLayers,
     hydroPilotLayers,
     provinceLayers,
     resourceLayers,
@@ -1871,6 +1904,9 @@ export function App() {
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
       .map(({ id }) => id),
+    ...forestryLayerCatalog
+      .filter(({ id }) => forestryLayers[id])
+      .map(({ id }) => id),
     ...zoningLayerCatalog
       .filter(({ id }) => zoningLayers[id])
       .map(({ id }) => id),
@@ -1882,6 +1918,7 @@ export function App() {
     effectiveFloodHazardLayers,
     effectiveResourceLayers,
     fletcherVisible,
+    forestryLayers,
     hydroPilotLayers,
     licenceAccepted,
     provinceLayers,
@@ -2090,6 +2127,13 @@ export function App() {
         })),
       ...environmentalHealthLayerCatalog
         .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...forestryLayerCatalog
+        .filter(({ id }) => forestryLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -2409,6 +2453,40 @@ export function App() {
                     rel="noreferrer"
                   >
                     Official Landforms source
+                  </a>
+                </p>
+              </div>
+            </details>
+            <details className="resource-layer-group forestry-layer-group">
+              <summary>
+                <span>Forestry</span>
+                <small>1 optional policy layer</small>
+              </summary>
+              <div className="resource-layer-controls">
+                {forestryLayerCatalog.map((layer) => (
+                  <ForestryLayerToggle
+                    key={layer.id}
+                    layer={layer}
+                    checked={forestryLayers[layer.id]}
+                    status={layerStatuses[layer.id]}
+                    onChange={(checked) =>
+                      setForestryLayerVisibility(layer.id, checked)
+                    }
+                  />
+                ))}
+                <p className="resource-source-note">
+                  The Province says the locations of all old-growth forest are
+                  not known. This layer maps policy areas on publicly owned land
+                  outside protected areas; a viewport with no mapped policy
+                  polygon is not evidence that no old growth exists. Policy
+                  protections apply to Crown-land management. {" "}
+                  <a
+                    aria-label="Official old-growth policy source"
+                    href={forestryLayerCatalog[0].sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Official source
                   </a>
                 </p>
               </div>
@@ -2962,6 +3040,7 @@ export function App() {
             hydroPilotLayers={hydroPilotLayers}
             floodHazardLayers={effectiveFloodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
+            forestryLayers={forestryLayers}
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
@@ -3079,6 +3158,9 @@ export function App() {
         <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
         {Object.values(resourceLayers).some(Boolean) ? (
           <span>Geoscience data © Province of Nova Scotia</span>
+        ) : null}
+        {Object.values(forestryLayers).some(Boolean) ? (
+          <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
         ) : null}
         <span>Boundaries are not a survey</span>
         <button type="button" onClick={() => setLicenceDialogOpen(true)}>

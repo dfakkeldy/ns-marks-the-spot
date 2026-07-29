@@ -41,6 +41,7 @@ vi.mock("./components/MapCanvas", () => ({
     provinceLayers,
     resourceLayers,
     hydroPilotLayers,
+    forestryLayers,
     environmentalHealthLayers,
     floodHazardLayers,
     fletcherVisible,
@@ -67,6 +68,7 @@ vi.mock("./components/MapCanvas", () => ({
     provinceLayers: Record<string, boolean>;
     resourceLayers: Record<string, boolean>;
     hydroPilotLayers: Record<string, boolean>;
+    forestryLayers?: Record<string, boolean>;
     environmentalHealthLayers?: Record<string, boolean>;
     floodHazardLayers: Record<string, boolean>;
     fletcherVisible?: boolean;
@@ -118,6 +120,7 @@ vi.mock("./components/MapCanvas", () => ({
           "abandoned-mines",
           "mineral-proximity-parcels",
           "inverness-hydro-potential",
+          "old-growth-policy",
           "published-river-flood-zones",
           "coastal-flood-current",
           "coastal-flood-2050",
@@ -158,6 +161,7 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["abandoned-mines"] ? "on" : "off"}; mineral proximity parcels:{" "}
       {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
       ; Inverness micro-hydro screen: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
+      ; old-growth policy areas: {forestryLayers?.["old-growth-policy"] ? "on" : "off"}
       ; arsenic risk: {environmentalHealthLayers?.["arsenic-risk-wells"] ? "on" : "off"}
       ; uranium risk: {environmentalHealthLayers?.["uranium-risk-wells"] ? "on" : "off"}
       ; surficial aquifers: {environmentalHealthLayers?.["surficial-aquifers"] ? "on" : "off"}
@@ -1116,6 +1120,55 @@ describe("NS Marks The Spot Online", () => {
         name: "Official Landforms source",
       }),
     ).toHaveAttribute("href", "https://data.novascotia.ca/d/j63u-5nkj");
+  });
+
+  it("keeps the open old-growth policy layer collapsed, optional, and explicit about coverage", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    const summary = screen.getByText("Forestry");
+    const group = summary.closest("details");
+    const toggle = screen.getByLabelText("Old-growth policy areas");
+
+    expect(group).not.toHaveAttribute("open");
+    expect(toggle).not.toBeChecked();
+    expect(toggle).toBeEnabled();
+    expect(screen.getByText("1 optional policy layer")).toBeInTheDocument();
+
+    await user.click(summary);
+    await user.click(toggle);
+
+    expect(group).toHaveAttribute("open");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "old-growth policy areas: on",
+    );
+    expect(
+      within(group as HTMLElement).getByText(/not a complete old-growth inventory/i),
+    ).toBeInTheDocument();
+    expect(
+      within(group as HTMLElement).getByText(/no mapped policy polygon/i),
+    ).toBeInTheDocument();
+    expect(
+      within(group as HTMLElement).getByRole("link", {
+        name: "Official old-growth policy source",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://data.novascotia.ca/Lands-Forests-and-Wildlife/Old-Growth-Forest-Policy-Layer/wanf-acts",
+    );
+    expect(
+      within(group as HTMLElement).getByText("Confirmed old growth"),
+    ).toBeInTheDocument();
+    expect(
+      within(group as HTMLElement).getByText("Restoration opportunity"),
+    ).toBeInTheDocument();
+    expect(
+      within(group as HTMLElement).getByText("Status unknown"),
+    ).toBeInTheDocument();
   });
 
   it("offers the Inverness terrain pilot independently with a visible symbology key", async () => {

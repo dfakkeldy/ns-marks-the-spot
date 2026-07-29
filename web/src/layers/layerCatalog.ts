@@ -43,6 +43,32 @@ export type ResourceLayerId = SourceResourceLayerId | DerivedResourceLayerId;
 
 export type HydroPilotLayerId = "inverness-hydro-potential";
 
+export type ForestryLayerId = "old-growth-policy";
+
+export const OLD_GROWTH_POLICY_SERVICE_URL =
+  "https://data.novascotia.ca/resource/wanf-acts.geojson";
+
+export type ForestryLayerDescriptor = {
+  id: ForestryLayerId;
+  name: string;
+  sourceUrl: string;
+  serviceUrl: string;
+  licenceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  licence: "province-open";
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+  statusColors: {
+    confirmedOldGrowth: string;
+    restorationOpportunity: string;
+    unknown: string;
+  };
+};
+
 export type ZoningLayerId =
   | "zoning-inverness"
   | "zoning-victoria"
@@ -973,6 +999,37 @@ export const initialEnvironmentalHealthLayerVisibility: Record<
   "uranium-risk-wells": false,
   "manganese-risk-wells": false,
   "surficial-aquifers": false,
+};
+
+export const forestryLayerCatalog: readonly ForestryLayerDescriptor[] = [
+  {
+    id: "old-growth-policy",
+    name: "Old-growth policy areas",
+    sourceUrl:
+      "https://data.novascotia.ca/Lands-Forests-and-Wildlife/Old-Growth-Forest-Policy-Layer/wanf-acts",
+    serviceUrl: OLD_GROWTH_POLICY_SERVICE_URL,
+    licenceUrl: OPEN_GOVERNMENT_LICENCE_TERMS_URL,
+    minZoom: 9,
+    maxZoom: 23,
+    opacity: 0.72,
+    licence: "province-open",
+    webCaveat:
+      "Mapped policy areas on public land · not a complete old-growth inventory",
+    sourceDate:
+      "Policy layer as of October 24, 2025 · updated October 27, 2025",
+    scale: "Policy-area polygons with source-reported hectares",
+    coverage:
+      "Mapped publicly owned land outside protected areas in Nova Scotia",
+    statusColors: {
+      confirmedOldGrowth: "#166534",
+      restorationOpportunity: "#d97706",
+      unknown: "#64748b",
+    },
+  },
+] as const;
+
+export const initialForestryLayerVisibility: Record<ForestryLayerId, boolean> = {
+  "old-growth-policy": false,
 };
 
 export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [

@@ -87,6 +87,19 @@ describe("map share state", () => {
     ).toEqual(screeningState);
   });
 
+  it("round-trips the old-growth policy layer", () => {
+    const forestryState: MapShareState = {
+      ...state,
+      layerIds: ["nsprd", "old-growth-policy"],
+    };
+
+    expect(
+      parseMapShareState(
+        buildMapShareUrl("https://example.com/map/", forestryState),
+      ),
+    ).toEqual(forestryState);
+  });
+
   it("ignores unknown events and layers while clamping the map position", () => {
     const parsed = parseMapShareState(
       "https://example.com/map/?mode=current&pid=15-234-636&event=unknown&layers=roads,unknown&position=99,-200,40",
