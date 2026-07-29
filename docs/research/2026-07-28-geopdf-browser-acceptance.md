@@ -6,6 +6,8 @@ Baseline runtime commit: `4c46ca276982ac9e4da593ee79b5a88503818511`
 
 Correction runtime commit: `fea8681385bf5ab2d62cc8e82f28839de1ca3a71`
 
+Integrated `nightly` commit: `7656364a6c16791a6334d0c8179e1c6c4cd01248`
+
 Decision: **BLOCKED**
 
 The complete rendered matrix passes in Chrome 150, Firefox 146.0.1, and desktop
@@ -15,17 +17,17 @@ provenance persistence.
 
 The correction SHA replaces the unreliable iPhone `ImageBitmap`-only path with
 a cancelable HTML-image fallback and bounds high-DPR canvas allocation to the
-viewport. Its exact archive passed every local gate. A targeted physical rerun
-on a behavior-matching instrumented branch restored a non-zero DPR-3 canvas at
-an embedded GCP and measured opaque pixels. That probe is supporting evidence,
-not an exact clean artifact. The exact archive reused a baseline-created
-persisted record, and its ocean-coloured raster did not produce a conclusive
-screenshot-only contrast.
+viewport. Exact merged `nightly` was then tested from a fresh Private-tab
+origin on the physical iPhone. The 3.2 MB legacy file reached an unselected
+three-frame chooser, accepted an explicit `Map Layers` choice, and rendered
+conclusively with OpenStreetMap disabled. After reload, the record and
+`chosen by you` provenance persisted, but the raster did not repaint after
+waiting, an off/on cycle, or a pan.
 
-The feature is still not fully browser-accepted: the 5.8 MB physical import
-still returns to the startup licence dialog, the correction SHA has not
-completed the full five-file desktop matrix, and required browser diagnostics
-remain unavailable. No runtime selector or parser change is justified. Every
+The 5.8 MB Maine import on the exact merged artifact also returned immediately
+to the startup licence dialog and created no record. The feature therefore
+remains physically failed and has not completed the full post-fix desktop
+diagnostic matrix. No runtime selector or parser change is justified. Every
 multi-frame GeoPDF still requires an explicit user choice.
 
 ## Artifact and publication boundary
@@ -34,10 +36,13 @@ multi-frame GeoPDF still requires an explicit user choice.
   `4c46ca276982ac9e4da593ee79b5a88503818511`.
 - The renderer correction was tested from a clean archive at
   `fea8681385bf5ab2d62cc8e82f28839de1ca3a71`.
+- PR #186 merged the correction and receipts into `nightly` at
+  `7656364a6c16791a6334d0c8179e1c6c4cd01248`. A clean archive of that SHA
+  passed all local gates and supplied the fresh physical evidence below.
 - Desktop preview origin:
   `http://127.0.0.1:4179/`.
-- Physical-iPhone preview origin:
-  `http://192.168.1.161:4179/`.
+- Integrated physical-iPhone preview origin:
+  `http://192.168.1.161:4184/`.
 - Chrome's normal acceptance surface was 1440×817 CSS pixels at DPR 2. The
   dedicated responsive case was exactly 320×640 CSS pixels.
 - Firefox and Safari evidence captures were 1179×768 and 1081×768 pixels,
@@ -46,9 +51,10 @@ multi-frame GeoPDF still requires an explicit user choice.
 - Physical Mobile Safari ran on an iPhone 12 Pro with a 390×844-point screen.
   The Maine attempt began at 100% page zoom; the completed legacy New Hampshire
   run used 85% page zoom so the non-licence continuation remained operable.
-- The complete baseline matrix does not transfer to `fea868138…`. That SHA owns
-  only its exact build gates, automated regressions, and targeted physical
-  reruns.
+- The complete baseline desktop matrix does not transfer to `fea868138…` or
+  `7656364a…`. The integrated SHA owns its exact build gates and fresh physical
+  legacy/Maine results, not an unrun complete post-fix desktop diagnostic
+  matrix.
 - No deployment or promotion to `weekly` or `main` was performed.
 
 ## Baseline Chrome 150
@@ -183,22 +189,29 @@ the native iOS Files chooser on the baseline run:
    and Adjust Points exposed embedded point data. After reload, the record
    remained enabled with the same selected label and provenance.
 
-The correction SHA was then run from an exact clean archive on the same physical
-device. It reused the record created by the baseline run; therefore its retained
-page, label, LGIDict family, enabled state, and `chosen by you` provenance are
-state evidence only, not fresh-import proof. At an embedded-GCP focus, a
-temporary diagnostic build reported a 1158×1698 DPR-3 canvas and centre alpha
-255, directly exercising the corrected HTML-image and viewport-bounded path.
-That instrumentation was removed before the exact archive was rebuilt. The
-clean artifact completed enable, reload, disable, and re-enable state checks,
-and its screenshots are retained. Because this sheet area is almost the same
-blue as the empty ocean map, the clean screenshots are not overstated as
-independently conclusive render proof.
+After PR #186 merged, exact `nightly` `7656364a…` was served from a clean archive
+to a fresh Private-tab origin with no existing GeoPDF record:
 
-The 5.8 MB Maine `/Measure` import was repeated on a behavior-matching corrected
-branch. After about 30 seconds Mobile Safari again returned to the startup
-licence dialog and the record was absent. It was not repeated from the exact
-correction archive, so the exact-artifact case remains unrun.
+1. Legacy New Hampshire `/LGIDict`, 3,241,291 bytes:
+   - the native Files chooser import completed;
+   - all three registrations appeared with no initial radio selection;
+   - `Map Layers` was selected explicitly and its preview outline changed;
+   - disabling OpenStreetMap left the warped USGS sheet visibly rendered,
+     providing conclusive initial-render proof;
+   - after reload and safe continuation without Province layers, the record
+     remained enabled with page 1, `Map Layers`, `LGIDict`, and
+     `chosen by you` provenance; but
+   - the raster remained blank after waiting, isolating from the base map,
+     disabling/re-enabling the record, and panning the map.
+2. Maine `/Measure`, 5,831,077 bytes:
+   - selecting the file returned Mobile Safari immediately to the startup
+     licence dialog; and
+   - after safe continuation, only the existing legacy record remained, proving
+     that no Maine record was created.
+
+The earlier 1158×1698/alpha-255 instrumented measurement remains supporting
+diagnostic evidence, but the integrated clean run now independently proves both
+the initial render pass and the post-reload render failure.
 
 No further user action is required for this receipt: the physical device was
 available and the safely actionable run was made.
@@ -229,14 +242,15 @@ silently approved here.
 
 ## Durable evidence
 
-Fifty screenshots are retained under
+Fifty-seven screenshots are retained under
 `docs/research/geopdf-browser-evidence/`. They include:
 
 - Chrome chooser, selected extents, final insets, 35 MB stress, and 320×640;
 - Firefox and desktop Safari first/final frames, stress cases, and controls;
 - physical chooser-unselected, explicit main-map selection, embedded-point
   inspector, persisted provenance, the 5.8 MB reading/reload sequence,
-  diagnostic supporting evidence, and correction-SHA enabled/disabled states.
+  diagnostic supporting evidence, correction-SHA enabled/disabled states, and
+  the integrated fresh import/render/reload/Maine matrix.
 
 The screenshots contain no PDF bytes. All external PDFs remain local and
 untracked.
@@ -259,20 +273,21 @@ tests, 1,013 Vitest tests with one skipped, `npm run lint`, `npm run build`, and
 `npm run check:pdf-assets` (200 assets). The build retained its existing
 large-chunk advisory; it emitted no error.
 
+PR #186 passed hosted change classification, web tests/build, and build-gate
+checks before merging. A clean archive of integrated `nightly` `7656364a…`
+then passed `npm ci` (329 packages, zero vulnerabilities), 12 Node script tests,
+1,013 Vitest tests with one skipped, lint, build, and the 200-asset PDF.js check.
+
 ## Unresolved stop rules
 
 The decision remains blocked because:
 
-- physical Mobile Safari did not complete the 5.8 MB Maine import on a
-  behavior-matching correction branch, while the exact correction case remains
-  unrun;
-- the exact correction archive reused a baseline-created legacy record, so its
-  fresh chooser-to-reload physical sequence remains unrun;
-- the correction SHA has targeted physical evidence but not a complete
-  post-fix five-file browser matrix;
-- the exact clean physical screenshots do not independently establish visual
-  contrast for the ocean-coloured raster; the opaque-canvas diagnostic is
-  supporting evidence only;
+- exact merged physical Mobile Safari does not repaint the enabled legacy
+  raster after reload, despite persisting its record and provenance;
+- exact merged physical Mobile Safari does not complete the 5.8 MB Maine import
+  and creates no record;
+- the correction has not completed a full post-fix five-file desktop rendered
+  and diagnostic matrix;
 - Chrome did not expose required long-task, request-body, or retained-resource
   diagnostics;
 - desktop Safari did not expose console, network, or resource diagnostics;

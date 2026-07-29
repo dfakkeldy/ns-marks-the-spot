@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
-  "headSha": "fea8681385bf5ab2d62cc8e82f28839de1ca3a71",
+  "headSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248",
   "decision": "blocked",
   "recordedAt": "2026-07-28",
   "updatedAt": "2026-07-29",
-  "branch": "feature/web-geopdf-browser-acceptance-final",
   "artifact": {
     "topology": "metadata-worker-main-canvas-pdfjs",
     "baselineRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
@@ -12,8 +11,9 @@
     "buildCommand": "npm ci && npm test && npm run lint && npm run build && npm run check:pdf-assets",
     "desktopPreviewCommand": "npx vite preview --host 0.0.0.0 --port 4179 --strictPort",
     "desktopPreviewUrl": "http://127.0.0.1:4179/",
-    "physicalPreviewUrl": "http://192.168.1.161:4179/",
-    "evidenceBoundary": "The complete desktop matrix belongs to the baseline SHA. The correction SHA has exact build gates, unit regressions, and targeted physical Mobile Safari reruns; it does not inherit a complete post-fix browser matrix."
+    "physicalPreviewUrl": "http://192.168.1.161:4184/",
+    "evidenceBoundary": "The complete desktop matrix belongs to baseline 4c46ca276. The renderer correction is fea868138. Exact merged nightly 7656364a has full local gates and the fresh physical legacy/Maine matrix recorded here; it does not inherit an unrun complete post-fix desktop diagnostic matrix.",
+    "integratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248"
   },
   "environment": {
     "os": "macOS 27.0 (26A5388g)",
@@ -38,8 +38,8 @@
   "topologies": [
     {
       "id": "metadata-worker-main-canvas-pdfjs",
-      "result": "partial-pass",
-      "evidence": "The baseline desktop rendered matrices pass. A behavior-matching instrumented correction branch painted an opaque canvas at an embedded GCP. The exact correction archive reused the baseline-created record; its enabled/disabled screenshots are state evidence only, and the ocean-coloured raster is not treated as an independently conclusive visual difference."
+      "result": "fail",
+      "evidence": "Baseline desktop matrices pass. Exact merged 7656364a fresh physical Safari imports and initially renders the 3.2 MB legacy Map Layers frame, but post-reload raster repaint fails; the exact 5.8 MB Maine import resets to the licence dialog and creates no record."
     },
     {
       "id": "pdfjs-feature-worker",
@@ -127,28 +127,24 @@
     {
       "name": "physical Mobile Safari",
       "version": "iOS 27.0 beta (24A5390f)",
-      "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511 and correction fea8681385bf5ab2d62cc8e82f28839de1ca3a71",
+      "artifact": "exact merged nightly 7656364a6c16791a6334d0c8179e1c6c4cd01248, with baseline and correction evidence retained separately",
       "viewport": "physical iPhone 12 Pro, 390x844-point screen; 85% page zoom for completed run",
-      "result": "blocked",
+      "result": "fail",
       "completed": [
-        "devicectl confirmed the physical device paired, trusted, booted, and available",
-        "native iOS Files chooser upload from local Downloads",
-        "3.2 MB legacy LGIDict chooser completed",
-        "all three registrations were visible with no initial selection",
-        "Map Layers selected explicitly",
-        "embedded-point inspector opened",
-        "page, label, LGIDict family, enabled state, and chosen-by-you provenance persisted after reload",
-        "a temporary correction-branch diagnostic restored a non-zero DPR-3 canvas at an embedded GCP and observed opaque painted pixels",
-        "the exact correction archive loaded the baseline-created persisted record and passed enable, reload, disable, and re-enable state checks; this is state evidence only, not a fresh-import proof"
+        "devicectl and iPhone Mirroring confirmed the physical iPhone 12 Pro paired, trusted, locked, and reachable",
+        "fresh Private-tab origin at the exact merged SHA with no prior GeoPDF record",
+        "native iOS Files chooser import of the 3.2 MB legacy LGIDict file",
+        "all three registrations visible with no initial selection",
+        "Map Layers selected explicitly and preview outline changed",
+        "initial raster rendered conclusively with OpenStreetMap disabled",
+        "page, label, LGIDict family, enabled state, and chosen-by-you provenance persisted after reload"
       ],
       "failed": [
-        "a behavior-matching correction branch still returned to the startup licence dialog during the 5.8 MB Maine Measure import and created no record"
+        "after reload and safe licence continuation, the enabled legacy raster remained blank after waiting, base-map isolation, an off-on cycle, and a pan",
+        "the exact 5.8 MB Maine Measure import returned to the startup licence dialog and created no record"
       ],
       "blocked": [
-        "physical Safari console and process diagnostics were unavailable",
-        "the exact clean ocean-coloured legacy raster did not yield a conclusive screenshot-only visual contrast, so the diagnostic canvas probe remains supporting rather than exact-artifact proof",
-        "the exact correction archive reused a baseline-created persisted record; fresh chooser import, no-preselection, selection, render, reload, and provenance verification remain unrun",
-        "the 5.8 MB Maine failure was not repeated from the exact correction archive"
+        "physical Safari console, process, request-body, long-task, and retained-resource diagnostics were unavailable"
       ]
     }
   ],
@@ -186,10 +182,11 @@
       "chromeResult": "all frames pass",
       "firefoxResult": "all frames pass",
       "safariResult": "all frames pass",
-      "mobileSafariResult": "fail; import did not complete",
+      "mobileSafariResult": "fail; exact merged import reset to the licence dialog and created no record",
       "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
       "mobileBaselineRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
-      "mobileCorrectionEvidence": "behavior-matching branch failure; exact fea8681385bf5ab2d62cc8e82f28839de1ca3a71 unrun"
+      "mobileCorrectionEvidence": "superseded by exact merged physical failure",
+      "mobileIntegratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248"
     },
     {
       "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
@@ -204,10 +201,11 @@
       "chromeResult": "all frames pass",
       "firefoxResult": "all frames pass",
       "safariResult": "all frames pass",
-      "mobileSafariResult": "baseline chooser and provenance persistence pass with blank post-reload view; correction SHA has an opaque-canvas diagnostic supporting pass but no conclusive clean screenshot-only contrast",
+      "mobileSafariResult": "fresh exact merged chooser, explicit selection, initial isolated render, and provenance persistence pass; post-reload raster repaint fails",
       "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
       "mobileBaselineRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
-      "mobileCorrectionEvidence": "instrumented branch opaque-canvas support; exact fea8681385bf5ab2d62cc8e82f28839de1ca3a71 reused baseline record and lacks fresh-import proof"
+      "mobileCorrectionEvidence": "superseded by fresh exact merged physical evidence",
+      "mobileIntegratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248"
     },
     {
       "name": "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
@@ -301,8 +299,8 @@
     },
     {
       "check": "physical reload persistence",
-      "result": "supporting-pass",
-      "evidence": "The baseline-created legacy record and provenance remained present under the exact correction SHA. A temporary diagnostic probe measured a non-zero 1158x1698 canvas with centre alpha 255 after embedded-GCP focus; exact clean enabled/disabled state screenshots are retained but are not fresh-import proof or a conclusive visual contrast."
+      "result": "fail",
+      "evidence": "On exact merged 7656364a the fresh legacy record and provenance persisted, but its raster did not repaint after reload, waiting, off-on, or pan."
     },
     {
       "check": "three normal import-remove cycles",
@@ -340,10 +338,11 @@
   "screenshots": [
     {
       "directory": "docs/research/geopdf-browser-evidence",
-      "count": 50,
+      "count": 57,
       "runtimeShas": [
         "4c46ca276982ac9e4da593ee79b5a88503818511",
-        "fea8681385bf5ab2d62cc8e82f28839de1ca3a71"
+        "fea8681385bf5ab2d62cc8e82f28839de1ca3a71",
+        "7656364a6c16791a6334d0c8179e1c6c4cd01248"
       ],
       "artifactBreakdown": [
         {
@@ -357,12 +356,17 @@
         {
           "artifact": "exact correction fea8681385bf5ab2d62cc8e82f28839de1ca3a71; persisted-state checks only",
           "count": 2
+        },
+        {
+          "artifact": "exact merged nightly 7656364a6c16791a6334d0c8179e1c6c4cd01248; fresh physical import/render/reload/Maine matrix",
+          "count": 7
         }
       ],
       "coverage": [
         "Chrome chooser, extents, insets, stress, and 320x640",
         "Firefox and desktop Safari first and final frames, stress, and controls",
-        "physical chooser, explicit selection, embedded points, provenance persistence, failures, and correction-state checks"
+        "physical chooser, explicit selection, embedded points, provenance persistence, failures, and correction-state checks",
+        "exact merged physical fresh chooser, explicit selection, isolated initial render, persisted provenance, blank post-reload raster, and Maine reset/absence"
       ]
     }
   ],
@@ -383,7 +387,15 @@
       "npm run build",
       "npm run check:pdf-assets checked 200 assets"
     ],
-    "buildAdvisory": "Existing large-chunk advisory only; no build error."
+    "buildAdvisory": "Existing large-chunk advisory only; no build error.",
+    "integratedRuntime": [
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1013 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
+    ]
   },
   "automaticRule": {
     "approved": false,
@@ -393,13 +405,14 @@
     "reason": "The proposed producer-keyed signatures cannot match actual metadata, and the modern holdouts do not satisfy the frozen oracle. Changing the key to Creator would require a newly frozen selector and independent holdouts."
   },
   "blockers": [
-    "Physical Mobile Safari still fails the 5.8 MB Maine import on a behavior-matching correction branch; the exact correction archive case remains unrun.",
-    "The exact correction archive reused the baseline-created legacy record, so fresh import-to-reload physical proof remains unrun.",
-    "The correction SHA has targeted physical proof but not a complete post-fix five-file browser matrix.",
-    "Exact clean physical screenshots do not independently prove the ocean-coloured raster contrast; the opaque-canvas diagnostic is supporting evidence only.",
+    "Exact merged physical Mobile Safari fails to repaint the enabled legacy raster after reload, waiting, off-on, and pan, although its record and provenance persist.",
+    "Exact merged physical Mobile Safari fails the 5.8 MB Maine import by returning to the licence dialog and creating no record.",
+    "The correction has not completed a full post-fix five-file desktop rendered and diagnostic matrix.",
     "Chrome long-task, request-body, and retained-resource diagnostics remain unavailable.",
     "Desktop Safari console, network, and resource diagnostics remain unavailable.",
     "Firefox import request bodies and retained-object release remain unproven.",
     "The modern automatic-rule holdouts fail the frozen spatial threshold and the proposed producer metadata field does not match the files."
-  ]
+  ],
+  "runtimeBranch": "nightly",
+  "receiptBranch": "feature/geopdf-postmerge-physical-evidence"
 }
