@@ -70,6 +70,54 @@ function stubBitmapLoading() {
   return bitmap;
 }
 
+function stubHtmlImageLoading({
+  width = 8,
+  height = 6,
+  error = null,
+  pending = false,
+}: {
+  width?: number;
+  height?: number;
+  error?: Error | null;
+  pending?: boolean;
+} = {}) {
+  class StubImage {
+    naturalWidth = width;
+    naturalHeight = height;
+    decoding = "auto";
+    onload: (() => void) | null = null;
+    onerror: ((event: Event) => void) | null = null;
+    private currentSrc = "";
+
+    get src() {
+      return this.currentSrc;
+    }
+
+    set src(value: string) {
+      this.currentSrc = value;
+      if (!value) {
+        return;
+      }
+      if (pending) {
+        return;
+      }
+      queueMicrotask(() => {
+        if (error) {
+          this.onerror?.(new Event("error"));
+        } else {
+          this.onload?.();
+        }
+      });
+    }
+  }
+  const image = new StubImage();
+  const ImageMock = vi.fn(function ImageConstructor() {
+    return image;
+  });
+  vi.stubGlobal("Image", ImageMock);
+  return image;
+}
+
 afterEach(() => {
   // Explicitly unmount before clearing mocks. This file's own afterEach runs
   // BEFORE the global afterEach in src/test/setup.ts (Vitest runs same-level
@@ -187,6 +235,7 @@ describe("UserMapLayers", () => {
   it("survives a failed bitmap load without an unhandled rejection", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("gone"); }));
     vi.stubGlobal("createImageBitmap", vi.fn());
+    stubHtmlImageLoading({ error: new Error("image also gone") });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     render(
       <UserMapLayers maps={[{ record, previewUrl: "blob:dead", opacity: 0.7 }]} />,
@@ -195,6 +244,82 @@ describe("UserMapLayers", () => {
     expect(stubMapApi.addLayer).not.toHaveBeenCalled();
     errorSpy.mockRestore();
   });
+
+  it("falls back to an HTML image when createImageBitmap rejects", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    vi.stubGlobal(
+      "createImageBitmap",
+      vi.fn(async () => { throw new Error("WebKit bitmap decode failed"); }),
+    );
+    const image = stubHtmlImageLoading({ width: 3213, height: 4096 });
+
+    const { unmount } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:png", opacity: 0.7 }]} />,
+    );
+
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    expect(layerInstances[0].options).toMatchObject({
+      image,
+      imageSize: { width: 3213, height: 4096 },
+    });
+
+    unmount();
+    expect(image.src).toBe("");
+  });
+
+  it("uses the proven HTML image path directly on iOS WebKit", async () => {
+    const iosNavigator = Object.create(navigator) as Navigator;
+    Object.defineProperties(iosNavigator, {
+      userAgent: {
+        value:
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1",
+      },
+      platform: { value: "iPhone" },
+      maxTouchPoints: { value: 5 },
+    });
+    vi.stubGlobal("navigator", iosNavigator);
+    const createImageBitmapMock = vi.fn(async () => ({
+      width: 3213,
+      height: 4096,
+      close: vi.fn(),
+    }));
+    vi.stubGlobal("createImageBitmap", createImageBitmapMock);
+    vi.stubGlobal("fetch", vi.fn(async () => ({ blob: async () => new Blob() })));
+    const image = stubHtmlImageLoading({ width: 3213, height: 4096 });
+
+    render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:png", opacity: 0.7 }]} />,
+    );
+
+    await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
+    expect(createImageBitmapMock).not.toHaveBeenCalled();
+    expect(layerInstances[0].options).toMatchObject({ image });
+  });
+
+  it("cancels a pending HTML image decode when the overlay unmounts", async () => {
+    const iosNavigator = Object.create(navigator) as Navigator;
+    Object.defineProperties(iosNavigator, {
+      userAgent: {
+        value:
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1",
+      },
+      platform: { value: "iPhone" },
+      maxTouchPoints: { value: 5 },
+    });
+    vi.stubGlobal("navigator", iosNavigator);
+    const image = stubHtmlImageLoading({ pending: true });
+
+    const { unmount } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:pending", opacity: 0.7 }]} />,
+    );
+    expect(image.src).toBe("blob:pending");
+
+    unmount();
+    expect(image.src).toBe("");
+    expect(image.onload).toBeNull();
+    expect(image.onerror).toBeNull();
+  });
+
 });
 
 const GCP_RECORD: UserMapRecord = {

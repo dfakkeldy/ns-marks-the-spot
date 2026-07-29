@@ -33,6 +33,17 @@ type WorldRect = { min: XY; max: XY };
 const BACKING_PAD_FACTOR = 0.5;
 
 /**
+ * A 3x phone already spends nine backing pixels per CSS pixel. Adding half a
+ * viewport on every side would then quadruple that allocation again, while a
+ * decoded GeoPDF preview is resident beside it. Keep the cache viewport-sized
+ * above desktop-class DPR; panning may re-warp more often, but the tab stays
+ * inside a practical pixel budget.
+ */
+function backingPadFactor(dpr: number): number {
+  return dpr > 2 ? 0 : BACKING_PAD_FACTOR;
+}
+
+/**
  * Per-dimension cap on the cached canvas, in device pixels. The padding above
  * quadruples the pixel count, and a 1280x800 viewport at dpr 2 would reach
  * 5120x3200 (~16.4 Mpx, 65 MB RGBA) — at the edge of iOS Safari's historical
@@ -418,7 +429,7 @@ export class WarpedRasterLayer extends L.Layer {
       this.viewRect(map),
       scaledDrape,
       dpr,
-      BACKING_PAD_FACTOR,
+      backingPadFactor(dpr),
     );
     this.cachedZoom = newZoom;
     this.cachedDpr = dpr;
@@ -626,7 +637,7 @@ export class WarpedRasterLayer extends L.Layer {
   }
 
   /** Full mesh walk into a freshly computed backing rect. */
-  private warpNow(padFactor = BACKING_PAD_FACTOR): void {
+  private warpNow(padFactor?: number): void {
     this.cancelScheduledWarp();
     const { canvas, map } = this;
     if (!canvas || !map) {
@@ -635,7 +646,12 @@ export class WarpedRasterLayer extends L.Layer {
     const dpr = globalThis.devicePixelRatio || 1;
     const zoom = map.getZoom();
     const { dstWorld, drape } = this.projectMesh(map, zoom, dpr);
-    const backing = computeBackingRect(this.viewRect(map), drape, dpr, padFactor);
+    const backing = computeBackingRect(
+      this.viewRect(map),
+      drape,
+      dpr,
+      padFactor ?? backingPadFactor(dpr),
+    );
     this.cachedZoom = zoom;
     this.cachedDpr = dpr;
     this.drapeRect = drape;

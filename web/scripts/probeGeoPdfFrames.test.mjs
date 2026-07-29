@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
   approvedRulesFromReceipt,
@@ -167,4 +168,26 @@ test("renders a stable TypeScript module from approved rules", () => {
       "",
     ].join("\n"),
   );
+});
+
+test("real holdout corpus evaluates every frozen signature and approves none", async () => {
+  const receipt = JSON.parse(
+    await readFile(
+      new URL(
+        "../../docs/research/2026-07-28-geopdf-frame-selection-corpus.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  const knownSignatures = new Set(
+    receipt.signatures.map(({ signature }) => signature),
+  );
+
+  assert.equal(receipt.rows.length, 12);
+  assert.equal(
+    receipt.rows.every(({ signature }) => knownSignatures.has(signature)),
+    true,
+  );
+  assert.deepEqual(approvedRulesFromReceipt(receipt), []);
 });

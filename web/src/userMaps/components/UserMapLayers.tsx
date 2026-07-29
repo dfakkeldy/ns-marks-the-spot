@@ -33,9 +33,100 @@ function ensurePane(map: ReturnType<typeof useMap>): void {
   }
 }
 
-async function loadBitmap(url: string): Promise<ImageBitmap> {
-  const response = await fetch(url);
-  return createImageBitmap(await response.blob());
+type LoadedRasterImage = {
+  source: CanvasImageSource;
+  width: number;
+  height: number;
+  dispose: () => void;
+};
+
+async function loadHtmlImage(
+  url: string,
+  signal: AbortSignal,
+): Promise<LoadedRasterImage> {
+  const image = new Image();
+  image.decoding = "async";
+  await new Promise<void>((resolve, reject) => {
+    const clear = () => {
+      image.onload = null;
+      image.onerror = null;
+      image.src = "";
+    };
+    const stopListening = () => signal.removeEventListener("abort", abort);
+    const abort = () => {
+      stopListening();
+      clear();
+      reject(new DOMException("HTML image decode cancelled", "AbortError"));
+    };
+    if (signal.aborted) {
+      abort();
+      return;
+    }
+    image.onload = () => {
+      stopListening();
+      resolve();
+    };
+    image.onerror = () => {
+      stopListening();
+      clear();
+      reject(new Error("HTML image decode failed"));
+    };
+    signal.addEventListener("abort", abort, { once: true });
+    image.src = url;
+  });
+  return {
+    source: image,
+    width: image.naturalWidth,
+    height: image.naturalHeight,
+    dispose: () => {
+      image.onload = null;
+      image.onerror = null;
+      image.src = "";
+    },
+  };
+}
+
+function isIOSWebKitRuntime(): boolean {
+  const { maxTouchPoints, platform, userAgent } = navigator;
+  return (
+    /\b(?:iPad|iPhone|iPod)\b/.test(userAgent) ||
+    (platform === "MacIntel" && maxTouchPoints > 1)
+  );
+}
+
+async function loadRasterImage(
+  url: string,
+  signal: AbortSignal,
+): Promise<LoadedRasterImage> {
+  // This same persisted PNG is already decoded through <img> in the scan
+  // pane. Use that proven source on iOS, where large createImageBitmap
+  // sources can remain blank when painted into the warped canvas.
+  if (isIOSWebKitRuntime()) {
+    return loadHtmlImage(url, signal);
+  }
+
+  let bitmapError: unknown;
+  try {
+    const response = await fetch(url, { signal });
+    const bitmap = await createImageBitmap(await response.blob());
+    return {
+      source: bitmap,
+      width: bitmap.width,
+      height: bitmap.height,
+      dispose: () => bitmap.close(),
+    };
+  } catch (error: unknown) {
+    bitmapError = error;
+  }
+
+  try {
+    return await loadHtmlImage(url, signal);
+  } catch (imageError: unknown) {
+    throw new AggregateError(
+      [bitmapError, imageError],
+      "User map preview failed through both bitmap decoders",
+    );
+  }
 }
 
 /**
@@ -66,19 +157,20 @@ function WarpedRasterOverlay({
       return;
     }
     let cancelled = false;
-    let bitmap: ImageBitmap | null = null;
-    void loadBitmap(previewUrl)
+    let raster: LoadedRasterImage | null = null;
+    const loadController = new AbortController();
+    void loadRasterImage(previewUrl, loadController.signal)
       .then((loaded) => {
         if (cancelled) {
-          loaded.close();
+          loaded.dispose();
           return;
         }
         const currentMesh = meshRef.current;
         if (!currentMesh) {
-          loaded.close();
+          loaded.dispose();
           return;
         }
-        bitmap = loaded;
+        raster = loaded;
         ensurePane(leafletMap);
         const layer = new WarpedRasterLayer({
           paneName: USER_MAPS_PANE,
@@ -86,7 +178,7 @@ function WarpedRasterOverlay({
           // the bitmap was decoding, and a stale closure would build the
           // layer with whatever was current when the effect first ran.
           opacity: opacityRef.current,
-          image: loaded,
+          image: loaded.source,
           imageSize: { width: loaded.width, height: loaded.height },
           latLngMesh: currentMesh,
           sourceRect: sourceRectRef.current,
@@ -102,9 +194,10 @@ function WarpedRasterOverlay({
       });
     return () => {
       cancelled = true;
+      loadController.abort();
       layerRef.current?.remove();
       layerRef.current = null;
-      bitmap?.close();
+      raster?.dispose();
     };
     // Deliberately NOT depending on `mesh`: a georeferencing drag changes it
     // dozens of times a second, and rebuilding here would re-decode the
