@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import * as cbrmRefresher from "./refreshCbrmTaxSaleResults.mjs";
 import {
   classifyCbrmResult,
   extractLatestResultsPdfUrl,
@@ -181,5 +182,44 @@ after`;
 export const CBRM_RESULT_DATASET_SHA256 =
   "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 after`);
+  });
+
+  it("keeps the original retrieval date when the official result bytes and rows are unchanged", () => {
+    const current = {
+      schemaVersion: 1,
+      eventId: "cbrm-2026-07-21",
+      saleDate: "2026-07-21",
+      landingPage:
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/",
+      source:
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
+      retrievedDate: "2026-07-27",
+      sourceDocumentSha256:
+        "755a685b15193daf0d7a07389bd0836e67d55d8fe4c5b94206de9e07baffc0b0",
+      ownerNamesExcluded: true,
+      resultRowCount: 1,
+      results: [{
+        lien: "26-10",
+        aan: "546828",
+        pid: "15129406",
+        minimumBidCents: 994_701,
+        redemptionCategory: "immediate-deed",
+        outcome: "sold",
+        winningBidCents: 994_701,
+      }],
+    };
+
+    const snapshot = cbrmRefresher.buildCbrmSnapshot(
+      current,
+      {
+        saleDate: "2026-07-21",
+        rows: current.results,
+      },
+      current.source,
+      Buffer.from("same document"),
+      new Date("2026-07-28T12:00:00Z"),
+    );
+
+    expect(snapshot).toEqual(current);
   });
 });

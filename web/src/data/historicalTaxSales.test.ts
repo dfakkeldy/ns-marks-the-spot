@@ -16,7 +16,7 @@ import {
 // Verified receipts must come from a municipality that published them or from an
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
-  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|(?:www\.)?modl\.ca|web\.archive\.org)\//u;
+  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|web\.archive\.org)\//u;
 
 describe("historical tax-sale records", () => {
   // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,

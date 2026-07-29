@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import * as watcher from "../watchTaxSaleSources.mjs";
 import { runWatch } from "../watchTaxSaleSources.mjs";
 import { CUMBERLAND_SOURCE } from "./cumberland.mjs";
 
@@ -94,6 +95,13 @@ function buildDeps({ live, captures = {} }) {
 }
 
 describe("runWatch", () => {
+  it("checks both configured overwrite-prone municipal result pages", () => {
+    expect(watcher.TAX_SALE_SOURCES.map(({ id }) => id)).toEqual([
+      "cumberland",
+      "richmond",
+    ]);
+  });
+
   it("reports unchanged when the live page still shows the ingested sale", async () => {
     const report = await runWatch(
       CUMBERLAND_SOURCE,

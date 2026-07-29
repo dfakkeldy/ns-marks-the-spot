@@ -103,9 +103,6 @@ function tally(source, rows) {
   return counts;
 }
 
-const OVERWRITE_CAVEAT =
-  "Cumberland publishes its tax-sale notice and its results at one address that is overwritten each sale, so the pre-sale property listing for this sale is no longer published and no archive capture of it survives; the archived result page therefore serves as both the notice and the result receipt. Assessment numbers and location descriptions are reproduced exactly as printed, which leaves seven-digit assessment values without their leading zero and keeps descriptions in the municipality's upper case; case was not normalized because doing so would corrupt names such as MCGEE and MCDOUGAL. Owner fields were deliberately omitted from this public dataset.";
-
 export function buildEvent({ source, sale, capture, retrievedOn }) {
   const counts = tally(source, sale.rows);
   const parts = [
@@ -124,7 +121,7 @@ export function buildEvent({ source, sale, capture, retrievedOn }) {
       `${counts.unknown} rows publish NOT COMPLETED with no amount and stay fail-closed as outcome unknown.`,
     );
   }
-  parts.push(OVERWRITE_CAVEAT);
+  parts.push(source.overwriteCaveat);
 
   return {
     id: eventIdFor(source.id, sale.saleDate),
@@ -195,7 +192,7 @@ export function buildLedgerEntry({
     status: "included",
     officialUrls: [source.landingPageUrl, capture.url],
     documentSha256: [capture.sha256, livePageSha256],
-    fieldsAvailable: [
+    fieldsAvailable: source.fieldsAvailable ?? [
       sale.listingIdentifierLabel === "AAN" ? "AAN" : "Assessment",
       "PID",
       "description",

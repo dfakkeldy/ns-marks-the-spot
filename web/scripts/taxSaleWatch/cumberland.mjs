@@ -165,6 +165,8 @@ export const CUMBERLAND_SOURCE = {
   landingPageUrl: "https://www.cumberlandcounty.ns.ca/tax-sales.html",
   saleMethod: "public-auction",
   advertisedAmountLabel: "Min bid",
+  overwriteCaveat:
+    "Cumberland publishes its tax-sale notice and its results at one address that is overwritten each sale, so the pre-sale property listing for this sale is no longer published and no archive capture of it survives; the archived result page therefore serves as both the notice and the result receipt. Assessment numbers and location descriptions are reproduced exactly as printed, which leaves seven-digit assessment values without their leading zero and keeps descriptions in the municipality's upper case; case was not normalized because doing so would corrupt names such as MCGEE and MCDOUGAL. Owner fields were deliberately omitted from this public dataset.",
   snapshotPath: "cumberlandTaxSale.snapshot.json",
   parseResults,
   classifyOutcome,
