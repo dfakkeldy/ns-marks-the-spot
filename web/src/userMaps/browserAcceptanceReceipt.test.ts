@@ -86,7 +86,7 @@ describe("GeoPDF browser acceptance receipt", () => {
     expect(screenshotEntry.directory).toBe(
       "docs/research/geopdf-browser-evidence",
     );
-    expect(screenshotEntry.count).toBe(50);
+    expect(screenshotEntry.count).toBe(57);
 
     const evidenceDirectory = join(
       __dirname,
@@ -94,7 +94,7 @@ describe("GeoPDF browser acceptance receipt", () => {
     );
     expect(existsSync(evidenceDirectory)).toBe(true);
     const evidenceFiles = readdirSync(evidenceDirectory);
-    expect(evidenceFiles).toHaveLength(50);
+    expect(evidenceFiles).toHaveLength(57);
     expect(evidenceFiles.every((name) => /\.jpe?g$/i.test(name))).toBe(true);
     for (const name of evidenceFiles) {
       expect(
