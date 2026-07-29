@@ -2,14 +2,16 @@ import { cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { UserMapRecord } from "../types";
 
-const paneEl = vi.hoisted(() => ({ current: null as HTMLElement | null }));
+const panes = vi.hoisted(() => new Map<string, HTMLElement>());
 
 const stubMapApi = vi.hoisted(() => ({
-  createPane: vi.fn(() => {
-    paneEl.current = document.createElement("div");
-    return paneEl.current;
+  createPane: vi.fn((name: string, parent?: HTMLElement) => {
+    const pane = document.createElement("div");
+    parent?.append(pane);
+    panes.set(name, pane);
+    return pane;
   }),
-  getPane: vi.fn(() => paneEl.current ?? undefined),
+  getPane: vi.fn((name: string) => panes.get(name)),
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
   removeLayer: vi.fn(),
@@ -131,7 +133,7 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
   layerInstances.length = 0;
-  paneEl.current = null;
+  panes.clear();
   stubMapApi.createPane.mockClear();
   stubMapApi.addLayer.mockClear();
   stubMapApi.fitBounds.mockClear();
@@ -140,12 +142,14 @@ afterEach(() => {
 
 describe("UserMapLayers", () => {
   it("creates the user-maps pane once per map set", async () => {
+    const tilePane = document.createElement("div");
+    panes.set("tilePane", tilePane);
     stubBitmapLoading();
     render(
       <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
     );
     await waitFor(() => expect(stubMapApi.addLayer).toHaveBeenCalledTimes(1));
-    expect(stubMapApi.createPane).toHaveBeenCalledWith("user-maps-pane");
+    expect(stubMapApi.createPane).toHaveBeenCalledWith("user-maps-pane", tilePane);
   });
 
   it("adds a warped layer per visible map, closes its bitmap on unmount", async () => {

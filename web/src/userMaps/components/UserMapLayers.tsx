@@ -28,7 +28,7 @@ export type DraftUserMap = VisibleUserMap & { mesh: LatLngPoint[][] | null };
 /** Idempotent: Leaflet keeps panes for the map's lifetime. */
 function ensurePane(map: ReturnType<typeof useMap>): void {
   if (!map.getPane(USER_MAPS_PANE)) {
-    const pane = map.createPane(USER_MAPS_PANE);
+    const pane = map.createPane(USER_MAPS_PANE, map.getPane("tilePane"));
     pane.style.zIndex = String(USER_MAPS_PANE_Z_INDEX);
   }
 }
