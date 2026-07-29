@@ -120,6 +120,16 @@ function environment(
 }
 
 describe("parseGeoPdf", () => {
+  it("passes a finite PDF.js per-image resize budget matching the preview budget", async () => {
+    const seams = environment();
+    await parseGeoPdf(new ArrayBuffer(16), seams.environment);
+    expect(seams.environment.getDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        canvasMaxAreaInBytes: 64 * 1024 * 1024,
+      }),
+    );
+  });
+
   it("rasterizes only page 1 at an opaque 4096-pixel dominant edge", async () => {
     const seams = environment();
     const parsed = await parseGeoPdf(new ArrayBuffer(16), seams.environment);

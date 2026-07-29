@@ -126,6 +126,10 @@ export async function parseGeoPdf(
     const pdfJsBytes = new Uint8Array(buffer.slice(0));
     loadingTask = environment.getDocument({
       data: pdfJsBytes,
+      // Match the maximum 4096² RGBA preview with a finite per-image resize
+      // area, skipping PDF.js's dangerous adaptive area probe for oversized
+      // images.
+      canvasMaxAreaInBytes: 64 * 1024 * 1024,
       cMapUrl: localAssetUrl(assetBaseUrl, "cmaps/"),
       cMapPacked: true,
       standardFontDataUrl: localAssetUrl(assetBaseUrl, "standard_fonts/"),
