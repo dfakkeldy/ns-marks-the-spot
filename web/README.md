@@ -702,30 +702,24 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. It contains seven
-result-backed Halifax events, three result-backed Victoria County events, and
-two result-backed CBRM events:
+The historical layer is visually distinct and off by default. Its 22 verified
+events span seven municipalities:
 
-| Event | Records | Exact PIDs | Sold | Unsold | Unknown | Official amount labels |
-| --- | ---: | ---: | ---: | ---: | ---: | --- |
-| Halifax March 8, 2022 | 11 | 11 | 9 | 2 | 0 | `Opening Bid`, `Selling Price` |
-| Halifax September 12, 2023 | 10 | 10 | 10 | 0 | 0 | `Opening Bid`, `Selling Price` |
-| Halifax January 16, 2024 | 8 | 9 | 8 | 0 | 0 | `Opening Bid`, `Selling Price` |
-| Halifax May 14, 2024 | 7 | 8 | 5 | 2 | 0 | `Opening Bid`, `Selling Price` |
-| Halifax September 24, 2024 | 9 | 10 | 8 | 0 | 1 | `Opening Bid`, `Selling Price` or `PENDING` |
-| Halifax March 25, 2025 | 5 | 7 | 5 | 0 | 0 | `Opening Bid`, `Selling Price` |
-| Halifax September 16, 2025 | 37 | 38 | 37 | 0 | 0 | `Opening Bid`, `Selling Price` |
-| Victoria County August 26, 2025 | 12 | 13 | 2 | 1 | 9 | `Total Owing`, `Successful Bid` |
-| Victoria County November 25, 2025 | 2 | 2 | 1 | 1 | 0 | `Total Owing`, `Successful Bid` |
-| Victoria County March 24, 2026 | 5 | 5 | 3 | 1 | 0 | `Total Owing`, `Successful Bid` |
-| CBRM July 22, 2025 | 73 | 75 | 50 | 0 | 22 | `Minimum bid`, `Winning bid` |
-| CBRM July 21, 2026 | 67 | 68 | 21 | 0 | 46 | `Minimum bid`, `Winning bid` |
-| **Total** | **246** | **245** | **159** | **7** | **78** | |
+| Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Halifax | 7 | 87 | 93 | 82 | 4 | 0 | 0 | 1 |
+| Victoria County | 3 | 19 | 19 | 6 | 3 | 1 | 0 | 9 |
+| CBRM | 2 | 140 | 133 | 71 | 0 | 0 | 1 | 68 |
+| Cumberland | 2 | 34 | 33 | 27 | 0 | 6 | 0 | 1 |
+| Lunenburg District | 6 | 145 | 125 | 69 | 21 | 37 | 0 | 18 |
+| Richmond | 1 | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| Pictou | 1 | 21 | 21 | 18 | 0 | 3 | 0 | 0 |
+| **Total** | **22** | **449** | **427** | **276** | **28** | **47** | **1** | **97** |
 
-Per-event PID counts are listing slots; the total counts each parcel once, and
-ten parcels appear in both CBRM sales. Two records fall outside the outcome
-columns above. The Victoria County March 24, 2026 event carries one `withdrawn`
-record: the official table prints `REMOVED` beside a $17,500.00 successful bid
+The total counts each parcel once; ten parcels appear in both CBRM sales and
+some parcels repeat across Lunenburg events. The Victoria County March 24, 2026
+event carries one `withdrawn` record: the official table prints `REMOVED`
+beside a $17,500.00 successful bid
 for PID `85142388`, so the contradiction is preserved without a winning-bid
 claim. The CBRM July 22, 2025 event carries one `redeemed` record, lien
 `25-143`, printed as `REDEEMED` with no bid.
@@ -742,6 +736,14 @@ with no published status stay outcome-unknown, and rows publishing no `Total
 Owing` (deferred, paid, or removed before sale) are excluded and itemized in the
 source ledger.
 
+Richmond's June 12, 2026 result contributes three numeric successful bids from
+an archived copy of its overwrite-prone official page. Pictou's April 10, 2026
+dated result PDF contributes 18 numeric selling prices and three rows whose
+selling-price column prints `Removed`; those three remain withdrawn with no
+selling-price claim. All 24 exact Richmond and Pictou PIDs returned from NSPRD
+on July 28, 2026. Their public datasets omit the assessed-name and
+successful-bidder fields carried by the source documents.
+
 The CBRM July 22, 2025 result prints a `WINNING BID` column and fills
 outcome-bearing rows in yellow. Each rendered row's fill was measured against
 its printed disposition, and the two agree on all 74 rows, so the highlighting
@@ -752,13 +754,12 @@ hands; thirteen rows with an empty bid cell are treated the same way. One row is
 excluded because the live NSPRD service returns no parcel for its exact official
 PID, and it is itemized in the match-exceptions file.
 
-Every published eight-digit PID matched NSPRD (Halifax on July 19, the 2026 CBRM
-notice on July 21, and Victoria County plus the 2025 CBRM result on July 23,
-2026). Multi-PID listings retain amounts at listing level rather than dividing
-them between parcels. The September 24, 2024 Halifax `PENDING` row, all 67
-notice-only CBRM records, and every outcome-unknown 2025 CBRM row are
-fail-closed with no winning bid or financial comparison. Assessed-owner and
-bidder names are absent.
+Every exact official eight-digit PID entering the layer matched NSPRD; the
+Lunenburg account-only records use their separately documented deterministic
+PVSC-coordinate reconciliation. Multi-PID listings retain amounts at listing
+level rather than dividing them between parcels. The September 24, 2024 Halifax
+`PENDING` row and every outcome-unknown CBRM row are fail-closed with no winning
+bid or financial comparison. Assessed-owner and bidder names are absent.
 
 `src/data/historicalSourceLedger.json` pins official URLs, retrieval dates,
 available fields, review notes, and SHA-256 receipts for the reviewed PDFs.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-07-24",
+  "retrievedOn": "2026-07-28",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -263,7 +263,7 @@
         "40e1e24039f26c369d07b8990a7071da841b0408337a08f93f895ffd69d2c324",
         "b2ff90287447e9ca822af653a42af0348767cae767d45f954326b39608668d92"
       ],
-      "fieldsAvailable": ["AAN", "PID", "description", "redemption expiry", "min bid", "winning bid"],
+      "fieldsAvailable": ["AAN", "PID", "description", "redeemable", "taxes, interest, other charges", "successful bid"],
       "officialWinningBidsFound": true,
       "notes": "All fourteen result rows were visually reviewed and included; eight publish a winning bid and six publish ADJORNED, recorded as withdrawn with no bid. Three independent copies agree row-for-row: the April 15 and May 9, 2026 archive captures and a live retrieval on July 23, 2026 whose SHA-256 is the third hash listed here. The page was also submitted to the Wayback Machine on July 23, 2026; that capture replays the results table, but its raw archived payload is a bot-verification interstitial rather than the page, so it is cited as a durable link only and is not hashed. The assessed-name column was discarded before the repository dataset was written."
     },
@@ -493,6 +493,39 @@
         {"item":129,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9879-tax-sale-award-129-1&category_slug=2026&Itemid=102","sha256":"81889610383e290d29c84c07ae0614ff675cd944adab86116acacf9581e21a0e"},
         {"item":140,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9880-tax-sale-award-140&category_slug=2026&Itemid=102","sha256":"656e54f53bef3ee78540283cea439f4d9b61140aa86a2b8100562f937cd34950"}
       ]
+    },
+    {
+      "municipality": "Municipality of the County of Richmond",
+      "event": "June 12, 2026 PROPERTY TAX SALE - (public auction)",
+      "status": "included",
+      "officialUrls": [
+        "https://www.richmondcounty.ca/tax-sales.html",
+        "https://web.archive.org/web/20260729005936id_/https://www.richmondcounty.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "01209ab715c583f0bb671ff5beb2867a2acb5ed56bfa6cb099d5bc5143c99b04",
+        "b626a3630b28b39528965f2ccd997c49201bcd7f2d449e33f5b2aacfb84925e8"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "description", "redeemable", "taxes, interest, other charges", "successful bid"],
+      "officialWinningBidsFound": true,
+      "notes": "3 result rows were ingested; 3 publish a winning bid. The live municipal page is overwritten each sale, so the receipt is a Wayback capture of that address whose archived id_ bytes were verified to carry the results table; the second hash is a live retrieval of the page taken the same day. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Pictou",
+      "event": "April 10, 2026 Tax Sale 2026-01 (public tender)",
+      "status": "included",
+      "officialUrls": [
+        "https://munpict.ca/departments-and-services/finance/tax-sale/",
+        "https://munpict.ca/assets/Tax-Sale-2026-01-Final-Advertisement-Posted-revised-April-10.pdf",
+        "https://munpict.ca/assets/MOPC-Finance-Master-Tax-Sale-Results-April-10-20261.pdf"
+      ],
+      "documentSha256": [
+        "9ee824de63bf9aa97a932f48c88709775b072890e9e7308b0162ff24f046c19b",
+        "05b8ff077ddc2f78845311d9a08132b657b74fc85eabcb6af60ebb83736673cd"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "district", "description", "minimum bid", "post-sale redeemable", "HST", "selling price"],
+      "officialWinningBidsFound": true,
+      "notes": "21 result rows were reconciled from the dated official PDF; 18 publish a numeric selling price and 3 print Removed. Removed is preserved as withdrawn with no selling-price claim. Every exact eight-digit PID returned from NSPRD on 2026-07-28."
     }
   ]
 }

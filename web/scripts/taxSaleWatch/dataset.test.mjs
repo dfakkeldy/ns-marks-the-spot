@@ -92,6 +92,24 @@ describe("dataset builders", () => {
     expect(event.sourceNotes).toMatch(/overwritten each sale/u);
   });
 
+  it("uses the source-specific overwrite caveat in an archived event receipt", () => {
+    const source = {
+      ...CUMBERLAND_SOURCE,
+      id: "richmond",
+      overwriteCaveat:
+        "Richmond publishes its current result table at a page that can be replaced by a later sale.",
+    };
+    const event = buildEvent({
+      source,
+      sale: SALE,
+      capture: CAPTURE,
+      retrievedOn: "2026-11-01",
+    });
+
+    expect(event.sourceNotes).toContain(source.overwriteCaveat);
+    expect(event.sourceNotes).not.toMatch(/pre-sale property listing/u);
+  });
+
   it("builds owner-free records with classified outcomes", () => {
     const records = buildRecords({
       source: CUMBERLAND_SOURCE,
@@ -139,5 +157,28 @@ describe("dataset builders", () => {
     expect(entry.officialUrls).toContain(CAPTURE.url);
     expect(entry.documentSha256).toEqual([CAPTURE.sha256, "b".repeat(64)]);
     expect(entry.notes).toMatch(/assessed-name column was discarded/u);
+  });
+
+  it("preserves the source's printed result-field labels in the ledger", () => {
+    const source = {
+      ...CUMBERLAND_SOURCE,
+      fieldsAvailable: [
+        "AAN",
+        "PID",
+        "description",
+        "redeemable",
+        "taxes, interest, other charges",
+        "successful bid",
+      ],
+    };
+    const entry = buildLedgerEntry({
+      source,
+      sale: SALE,
+      capture: CAPTURE,
+      retrievedOn: "2026-11-01",
+      livePageSha256: "b".repeat(64),
+    });
+
+    expect(entry.fieldsAvailable).toEqual(source.fieldsAvailable);
   });
 });

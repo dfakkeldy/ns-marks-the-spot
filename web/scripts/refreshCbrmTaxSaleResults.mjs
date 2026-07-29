@@ -224,6 +224,37 @@ function halifaxDate(now = new Date()) {
   return `${values.year}-${values.month}-${values.day}`;
 }
 
+export function buildCbrmSnapshot(
+  current,
+  parsed,
+  sourceUrl,
+  pdfBytes,
+  now = new Date(),
+) {
+  const sourceDocumentSha256 = createHash("sha256")
+    .update(pdfBytes)
+    .digest("hex");
+  const eventId = `cbrm-${parsed.saleDate}`;
+  const changed =
+    current.eventId !== eventId ||
+    current.source !== sourceUrl ||
+    current.sourceDocumentSha256 !== sourceDocumentSha256 ||
+    JSON.stringify(current.results) !== JSON.stringify(parsed.rows);
+
+  return {
+    schemaVersion: 1,
+    eventId,
+    saleDate: parsed.saleDate,
+    landingPage: LANDING_PAGE_URL,
+    source: sourceUrl,
+    retrievedDate: changed ? halifaxDate(now) : current.retrievedDate,
+    sourceDocumentSha256,
+    ownerNamesExcluded: true,
+    resultRowCount: parsed.rows.length,
+    results: parsed.rows,
+  };
+}
+
 async function fetchOk(url, accept) {
   const response = await fetch(url, {
     headers: { Accept: accept, "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
@@ -262,20 +293,13 @@ async function main() {
       redemptionCategory: row.redemptionCategory,
       ...classifyCbrmResult(row.winningRaw),
     }));
-    const snapshot = {
-      schemaVersion: 1,
-      eventId: `cbrm-${parsed.saleDate}`,
-      saleDate: parsed.saleDate,
-      landingPage: LANDING_PAGE_URL,
-      source: sourceUrl,
-      retrievedDate: halifaxDate(),
-      sourceDocumentSha256: createHash("sha256")
-        .update(pdfBytes)
-        .digest("hex"),
-      ownerNamesExcluded: true,
-      resultRowCount: resultRows.length,
-      results: resultRows,
-    };
+    const currentSnapshot = JSON.parse(await readFile(SNAPSHOT_PATH, "utf8"));
+    const snapshot = buildCbrmSnapshot(
+      currentSnapshot,
+      { saleDate: parsed.saleDate, rows: resultRows },
+      sourceUrl,
+      pdfBytes,
+    );
     const snapshotSource = `${JSON.stringify(snapshot, null, 2)}\n`;
     const datasetHash = createHash("sha256")
       .update(snapshotSource)
