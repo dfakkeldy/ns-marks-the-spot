@@ -6,15 +6,20 @@ Baseline runtime commit: `4c46ca276982ac9e4da593ee79b5a88503818511`
 
 Correction runtime commit: `fea8681385bf5ab2d62cc8e82f28839de1ca3a71`
 
-Integrated `nightly` commit: `7656364a6c16791a6334d0c8179e1c6c4cd01248`
+Earlier physical-evidence `nightly` commit:
+`7656364a6c16791a6334d0c8179e1c6c4cd01248`
+
+Current integrated `nightly` commit:
+`cfabf37bf3b8314c8b073533951e2ee7c88aa601`
 
 Candidate parser commit: `ad1016b734abafded493443bc6a8be4229609448`
 
 Candidate layout commit: `ae7d5700963ee7457d791c6c59df8383cee9cc09`
 
-Decision: **BLOCKED**. The physical verification work is currently
-`WAITING_FOR_USER` because the iPhone is unavailable; publication, CI, merge,
-and exact desktop verification remain independently actionable.
+Decision: **BLOCKED**. PR #188, hosted CI, and merge are complete. The physical
+verification work is `WAITING_FOR_USER` because the iPhone is unavailable, and
+the exact merged desktop matrices are waiting because the Mac is locked and
+supported foreground control is unavailable.
 
 ## 2026-07-29 candidate correction
 
@@ -58,6 +63,28 @@ extent made the raster visible. This does not retroactively pass the physical
 legacy case. The iPhone is currently unavailable, so both exact physical cases
 remain `WAITING_FOR_USER`.
 
+## 2026-07-29 merged publication and exact-artifact boundary
+
+PR #188 passed hosted change classification, web tests/build, and the repository
+build gate, then merged to `nightly` as
+`cfabf37bf3b8314c8b073533951e2ee7c88aa601`. No deployment or promotion was
+performed.
+
+The dedicated task worktree was fast-forwarded to that exact merge commit.
+`npm ci` installed 329 packages with zero vulnerabilities; all 12 Node script
+tests and 1,015 Vitest tests passed with one Vitest test skipped; lint and the
+production build passed; and the 200 pinned PDF.js assets were checked. The
+build retained only the existing large-chunk advisory.
+
+Fresh exact-merge previews were served at `http://127.0.0.1:4188/` and
+`http://127.0.0.1:4189/`. The first Chrome chooser attempt was discarded after
+the control harness timed out while the Maine import continued, and the retry
+created duplicate records. A fresh-origin restart was then blocked when
+supported desktop control reported that the Mac was locked and automatic unlock
+was paused because physical input had been detected. This is a harness blocker,
+not a product pass or failure. No post-merge Chrome, Firefox, or Safari matrix
+result is claimed from those attempts.
+
 The complete rendered matrix passes in Chrome 150, Firefox 146.0.1, and desktop
 Safari 27.0 on the baseline SHA. A physical iPhone 12 Pro run also proves the
 chooser, explicit legacy-frame selection, embedded-point inspection, and
@@ -87,6 +114,10 @@ multi-frame GeoPDF still requires an explicit user choice.
 - PR #186 merged the correction and receipts into `nightly` at
   `7656364a6c16791a6334d0c8179e1c6c4cd01248`. A clean archive of that SHA
   passed all local gates and supplied the fresh physical evidence below.
+- PR #188 merged the finite PDF.js image-area budget, responsive user-map-row
+  correction, and candidate receipt into `nightly` at
+  `cfabf37bf3b8314c8b073533951e2ee7c88aa601`. That exact SHA passed fresh full
+  local gates, while its complete desktop and physical matrices remain unrun.
 - Desktop preview origin:
   `http://127.0.0.1:4179/`.
 - Integrated physical-iPhone preview origin:
@@ -330,19 +361,26 @@ then passed `npm ci` (329 packages, zero vulnerabilities), 12 Node script tests,
 Candidate `ae7d57009…` passed `npm ci` (329 packages, zero vulnerabilities),
 12 Node script tests, 1,015 Vitest tests with one skipped, `npm run lint`,
 `npm run build`, and `npm run check:pdf-assets` (200 assets). The build retained
-only the existing large-chunk advisory. Hosted CI, merge, and merged-SHA gates
-remain separate.
+only the existing large-chunk advisory.
+
+PR #188 then passed all hosted web checks and merged as `cfabf37bf…`. A fresh
+exact-merge run passed `npm ci` (329 packages, zero vulnerabilities), 12 Node
+script tests, 1,015 Vitest tests with one skipped, `npm run lint`,
+`npm run build`, and `npm run check:pdf-assets` (200 assets). Hosted CI, merge,
+exact local gates, browser matrices, deployment, and promotion remain separate
+claims.
 
 ## Unresolved stop rules
 
-The candidate remains blocked and is waiting for physical verification because:
+The integrated artifact remains blocked because:
 
 - the physical iPhone is unavailable, so the candidate Maine import and legacy
   import/render/reload cases have not run;
 - the earlier legacy physical reload needs an exact GCP-extent rerun before it
   can be distinguished from the reproduced default-viewport behavior;
-- publication, hosted CI, merge, and the exact merged-SHA complete desktop
-  matrices are not yet complete;
+- the complete exact merged-SHA Chrome, Firefox, and desktop Safari matrices
+  remain pending because the Mac is locked and supported foreground control is
+  unavailable;
 - Chrome did not expose required long-task, request-body, or retained-resource
   diagnostics;
 - desktop Safari did not expose console, network, or resource diagnostics;
