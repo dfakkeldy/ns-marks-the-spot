@@ -63,6 +63,7 @@ export type ParseGeoPdfAutoEnvironment = {
       bytes: Uint8Array,
       viewport: PdfViewportGeometry,
     ) => Promise<GeoPdfMetadataExtraction>,
+    pdfJsOffscreenCanvasSupported?: boolean,
   ) => Promise<ParsedGeoPdf>;
   assetBaseUrl?: string;
 };
@@ -109,6 +110,7 @@ async function parseOnMainThread(
     bytes: Uint8Array,
     viewport: PdfViewportGeometry,
   ) => Promise<GeoPdfMetadataExtraction>,
+  pdfJsOffscreenCanvasSupported?: boolean,
 ): Promise<ParsedGeoPdf> {
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
@@ -121,7 +123,19 @@ async function parseOnMainThread(
       >,
     createCanvas: createHtmlCanvas,
     extractMetadata,
+    pdfJsOffscreenCanvasSupported,
   });
+}
+
+function isIOSWebKitRuntime(): boolean {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+  const { maxTouchPoints, platform, userAgent } = navigator;
+  return (
+    /\b(?:iPad|iPhone|iPod)\b/.test(userAgent) ||
+    (platform === "MacIntel" && maxTouchPoints > 1)
+  );
 }
 
 function workerCanvasSupported(): boolean {
@@ -235,10 +249,21 @@ export async function parseGeoPdfAuto(
   environment: ParseGeoPdfAutoEnvironment = {},
 ): Promise<ParsedGeoPdf> {
   const parseOnMain = environment.parseOnMain ?? parseOnMainThread;
+  const parseOnSupportedMain = (
+    extractMetadata?: (
+      bytes: Uint8Array,
+      viewport: PdfViewportGeometry,
+    ) => Promise<GeoPdfMetadataExtraction>,
+  ) =>
+    isIOSWebKitRuntime()
+      ? parseOnMain(buffer, extractMetadata, false)
+      : extractMetadata
+        ? parseOnMain(buffer, extractMetadata)
+        : parseOnMain(buffer);
   const supportsWorker =
     environment.supportsWorker ?? workerSupported();
   if (!supportsWorker) {
-    return parseOnMain(buffer);
+    return parseOnSupportedMain();
   }
   const createWorker = environment.createWorker ?? defaultWorker;
   const supportsCanvas =
@@ -254,7 +279,7 @@ export async function parseGeoPdfAuto(
     }
     buffer = result.fallbackBuffer;
   }
-  return parseOnMain(buffer, (bytes, viewport) =>
+  return parseOnSupportedMain((bytes, viewport) =>
     extractMetadataInWorker(bytes, viewport, createWorker),
   );
 }

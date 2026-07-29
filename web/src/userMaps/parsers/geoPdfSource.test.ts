@@ -130,6 +130,17 @@ describe("parseGeoPdf", () => {
     );
   });
 
+  it("can disable PDF.js OffscreenCanvas image resizing", async () => {
+    const seams = environment();
+    seams.environment.pdfJsOffscreenCanvasSupported = false;
+    await parseGeoPdf(new ArrayBuffer(16), seams.environment);
+    expect(seams.environment.getDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        isOffscreenCanvasSupported: false,
+      }),
+    );
+  });
+
   it("rasterizes only page 1 at an opaque 4096-pixel dominant edge", async () => {
     const seams = environment();
     const parsed = await parseGeoPdf(new ArrayBuffer(16), seams.environment);

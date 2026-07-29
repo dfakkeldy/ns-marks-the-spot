@@ -61,6 +61,7 @@ export type GeoPdfParseEnvironment = {
     extraction: GeoPdfMetadataExtraction,
   ) => ParsedPdfRegistration;
   assetBaseUrl?: string;
+  pdfJsOffscreenCanvasSupported?: boolean;
 };
 
 const PDFJS_VERSION = "6.1.200";
@@ -139,6 +140,12 @@ export async function parseGeoPdf(
       isEvalSupported: false,
       stopAtErrors: true,
       useWorkerFetch: false,
+      ...(environment.pdfJsOffscreenCanvasSupported === undefined
+        ? {}
+        : {
+            isOffscreenCanvasSupported:
+              environment.pdfJsOffscreenCanvasSupported,
+          }),
     });
     loadingTask.onPassword = () => {
       passwordError = passwordProtectedError();
