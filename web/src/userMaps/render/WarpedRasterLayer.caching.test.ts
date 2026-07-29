@@ -428,6 +428,22 @@ describe("WarpedRasterLayer warp caching", () => {
     expect(canvas.height).toBeLessThanOrEqual(600 * 3);
   });
 
+  it("warps at DPR 3 when an initially off-screen drape pans into view", () => {
+    vi.stubGlobal("devicePixelRatio", 3);
+    const map = pannableMap(pane, new L.Point(5000, 5000));
+    makeLayer().onAdd(map);
+    const canvas = pane.querySelector("canvas") as HTMLCanvasElement;
+    expect(canvas.width).toBe(0);
+    expect(canvas.height).toBe(0);
+    expect(warpCalls()).toBe(0);
+
+    map.simulatePan(-4000, -4000);
+
+    expect(canvas.width).toBeGreaterThan(0);
+    expect(canvas.height).toBeGreaterThan(0);
+    expect(warpCalls()).toBe(1);
+  });
+
   it("warps mesh swaps into an unpadded backing so drag frames stay viewport-sized", () => {
     const raf = stubRaf();
     // Wide drape (world x 1200.., y 1200.. far beyond the view) so backing

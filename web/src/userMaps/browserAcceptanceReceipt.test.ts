@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -72,5 +72,34 @@ describe("GeoPDF browser acceptance receipt", () => {
     const serialized = JSON.stringify(receipt);
     expect(serialized).not.toMatch(/\/(?:Users|private\/tmp)\//);
     expect(serialized).not.toContain("Dan’s");
+  });
+
+  it("keeps the durable screenshot count synchronized with the repository", () => {
+    validateReceipt(receipt);
+    const screenshots = (receipt as Receipt & { screenshots?: unknown[] })
+      .screenshots;
+    expect(Array.isArray(screenshots)).toBe(true);
+    const screenshotEntry = screenshots?.[0] as {
+      directory?: unknown;
+      count?: unknown;
+    };
+    expect(screenshotEntry.directory).toBe(
+      "docs/research/geopdf-browser-evidence",
+    );
+    expect(screenshotEntry.count).toBe(50);
+
+    const evidenceDirectory = join(
+      __dirname,
+      "../../../docs/research/geopdf-browser-evidence",
+    );
+    expect(existsSync(evidenceDirectory)).toBe(true);
+    const evidenceFiles = readdirSync(evidenceDirectory);
+    expect(evidenceFiles).toHaveLength(50);
+    expect(evidenceFiles.every((name) => /\.jpe?g$/i.test(name))).toBe(true);
+    for (const name of evidenceFiles) {
+      expect(
+        readFileSync(join(evidenceDirectory, name)).subarray(0, 3),
+      ).toEqual(Buffer.from([0xff, 0xd8, 0xff]));
+    }
   });
 });

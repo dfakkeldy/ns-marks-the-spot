@@ -1,66 +1,932 @@
 {
   "schemaVersion": 1,
+  "runtimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
   "requiredHoldoutsPerSignature": 2,
+  "thresholds": {
+    "maximumSourcePixels": 1,
+    "maximumProjectedMetres": 5,
+    "samplePositions": [
+      [
+        0.1,
+        0.1
+      ],
+      [
+        0.9,
+        0.1
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        0.1,
+        0.9
+      ],
+      [
+        0.9,
+        0.9
+      ]
+    ]
+  },
+  "metadataObservation": {
+    "producer": "null or undefined in all five discovery files and all twelve holdouts",
+    "legacyCreator": "ESRI ArcSOC 10.0.2.3200",
+    "currentCreator": "Esri ArcSOC 10.8.1.14362",
+    "applicationField": "pdf-lib document.getProducer()",
+    "decision": "The proposed producer-keyed signatures cannot match these files. A Creator-keyed selector would be a new rule requiring newly frozen independent evidence."
+  },
   "signatures": [
     {
       "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
+      "keyField": "producer",
       "selectedEmbeddedLabel": "Map Layers",
       "approved": false,
-      "reason": "0 passing holdouts; 2 required"
+      "reason": "The producer field is absent. One spatial holdout passes; two exceed the projected-metre gate and one is rejected for unsupported CRS."
     },
     {
       "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
+      "keyField": "producer",
       "selectedEmbeddedLabel": "Map Layers",
       "approved": false,
-      "reason": "0 passing holdouts; 2 required"
+      "reason": "The producer field is absent. One spatial holdout passes; two exceed the projected-metre gate and one is rejected for unsupported CRS."
     },
     {
       "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
+      "keyField": "producer",
       "selectedEmbeddedLabel": "Map Layers",
       "approved": false,
-      "reason": "0 passing holdouts; 2 required"
+      "reason": "The producer field is absent and all four independent holdouts exceed the one-pixel and five-metre thresholds."
     }
   ],
   "rows": [
     {
-      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
-      "role": "discovery",
-      "productId": "ME_Isles_of_Shoals_20240805",
-      "sha256": "9e0e5c17276b6ff0793c29ffc190b0b43e559fd197f0e17c79560adda54a4357",
-      "result": "discovery-only"
+      "family": "legacy-four-lgidict",
+      "role": "holdout",
+      "productId": "CA_Bear_Harbor_OE_W_20120221",
+      "quadrangle": "Bear Harbor",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Bear_Harbor_OE_W_20120221_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "CA_Bear_Harbor_OE_W_20120221_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 7969952,
+      "sha256": "6a7cfafdbccec46c51f9cdcb6d911c53f5cff087356bb2c658d3961c2337b477",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Adjoining Quadrangles Diagram",
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 0.927453,
+      "maximumProjectedMetres": 5.215381,
+      "result": "fail-projected-metre-threshold",
+      "candidateId": "lgidict-direct-2-355.1337931-338.9775566-2502.9517241-3243.0379903",
+      "candidateCount": 4,
+      "sourceRect": {
+        "x": 355.13379310338667,
+        "y": 338.9775565903765,
+        "width": 2502.9517241383633,
+        "height": 3243.037990266866
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3412,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 0.7851734080672578,
+          "metreError": 4.415405996696188
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 0.5581160592527834,
+          "metreError": 3.1386182084942194
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.314697900665612,
+          "metreError": 1.775696865436198
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 0.700552428519185,
+          "metreError": 3.93946554431631
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 0.9274532179152939,
+          "metreError": 5.215381061950403
+        }
+      ],
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
     },
     {
-      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
-      "role": "discovery",
-      "productId": "CA_San_Francisco_South_OE_W_20211202",
-      "sha256": "1e64eabdb4df545a651a7721ed808c6199e89df27c7659424ead22a3c9f74732",
-      "result": "discovery-only"
+      "family": "legacy-three-lgidict",
+      "role": "holdout",
+      "productId": "CA_Bear_Harbor_OE_W_20150227",
+      "quadrangle": "Bear Harbor",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Bear_Harbor_OE_W_20150227_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "CA_Bear_Harbor_OE_W_20150227_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 6251740,
+      "sha256": "ac47d93c097c94353c17c3de43d4016ddfeba680c2257e5cdaabe38d9c9247cf",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 0.927453,
+      "maximumProjectedMetres": 5.215381,
+      "result": "fail-projected-metre-threshold",
+      "candidateId": "lgidict-direct-0-355.1337931-338.9775566-2502.9517241-3243.0379903",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 355.13379310338667,
+        "y": 338.9775565908708,
+        "width": 2502.951724138198,
+        "height": 3243.0379902657137
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3412,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 0.7851734080023824,
+          "metreError": 4.415405996272528
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 0.5581160592472424,
+          "metreError": 3.138618208024999
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.3146979006842709,
+          "metreError": 1.775696865436198
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 0.7005524285212967,
+          "metreError": 3.9394655446920313
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 0.9274532179670046,
+          "metreError": 5.215381062309781
+        }
+      ],
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
     },
     {
-      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location",
-      "role": "discovery",
-      "productId": "NH_Hampton_20240808",
-      "sha256": "a4b29c41289e5d4dab3ec33f2d0019441c2525aba0c61b498a15da3434bc546b",
-      "result": "discovery-only"
+      "family": "legacy-four-lgidict",
+      "role": "holdout",
+      "productId": "CA_Cape_San_Martin_OE_W_20120323",
+      "quadrangle": "Cape San Martin",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Cape_San_Martin_OE_W_20120323_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "CA_Cape_San_Martin_OE_W_20120323_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 7534189,
+      "sha256": "d2fad33b42900bb77694459756c6ea0ce6edf08ea2bb0e4332de05677c61c407",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Adjoining Quadrangles Diagram",
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 0.86597,
+      "maximumProjectedMetres": 4.611864,
+      "result": "pass-spatial-only",
+      "candidateId": "lgidict-direct-3-286.0358621-338.9600902-2641.1696552-3241.2191299",
+      "candidateCount": 4,
+      "sourceRect": {
+        "x": 286.0358620688833,
+        "y": 338.96009020920565,
+        "width": 2641.1696551725563,
+        "height": 3241.219129925596
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3412,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 0.7148855375658798,
+          "metreError": 3.807274603272607
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 0.48788971584698043,
+          "metreError": 2.5987187156328933
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.24280852898819438,
+          "metreError": 1.2973917721585102
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 0.6375160875053163,
+          "metreError": 3.395465992460481
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 0.8659695556233271,
+          "metreError": 4.611864435926758
+        }
+      ],
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
     },
     {
-      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
-      "role": "discovery",
-      "productId": "NH_Isles_of_Shoals_OE_W_20150610",
-      "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
-      "result": "discovery-only"
+      "family": "legacy-three-lgidict",
+      "role": "holdout",
+      "productId": "CA_Cape_San_Martin_OE_W_20150303",
+      "quadrangle": "Cape San Martin",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Cape_San_Martin_OE_W_20150303_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "CA_Cape_San_Martin_OE_W_20150303_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 3914626,
+      "sha256": "beaa87cb2054ae085f9c64a6249f02fa70c4feccae3e592b8b168e8fff5739ee",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 0.86597,
+      "maximumProjectedMetres": 4.611864,
+      "result": "pass-spatial-only",
+      "candidateId": "lgidict-direct-0-286.0358621-338.9600902-2641.1696552-3241.2191299",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 286.03586206902713,
+        "y": 338.96009020871134,
+        "width": 2641.1696551728464,
+        "height": 3241.2191299265833
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3412,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 0.7148855375965911,
+          "metreError": 3.8072746034210705
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 0.4878897158533204,
+          "metreError": 2.5987187145299786
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.24280852877847112,
+          "metreError": 1.297391771349786
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 0.6375160878562913,
+          "metreError": 3.3954659936055323
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 0.8659695553806762,
+          "metreError": 4.611864434806844
+        }
+      ],
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
     },
     {
-      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection",
-      "role": "discovery",
-      "productId": "CA_Montara_Mountain_OE_W_20120515",
-      "sha256": "756f06c2c1a826c151bb2a753fe8a8e9efac28557865c37262cd773160961266",
-      "result": "discovery-only"
+      "family": "legacy-four-lgidict",
+      "role": "holdout",
+      "productId": "NH_Alstead_20120508",
+      "quadrangle": "Alstead",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Alstead_20120508_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Alstead_20120508_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 21576673,
+      "sha256": "b38cc231fc22401a53ce19d878ab97c1b8d4daf46ab3e70f2fd75ee25fd56158",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Adjoining Quadrangles Diagram",
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": null,
+      "maximumProjectedMetres": null,
+      "result": "fail-unsupported-crs",
+      "candidateId": null,
+      "candidateCount": 2,
+      "sourceRect": null,
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": null,
+      "samples": null,
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
+    },
+    {
+      "family": "legacy-three-lgidict",
+      "role": "holdout",
+      "productId": "NH_Alstead_20150521",
+      "quadrangle": "Alstead",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Alstead_20150521_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Alstead_20150521_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 18745974,
+      "sha256": "4955f9597a0f223fe28b72b964ce89ef1ab19feccaf7e3680c73a743efc17568",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": null,
+      "maximumProjectedMetres": null,
+      "result": "fail-unsupported-crs",
+      "candidateId": null,
+      "candidateCount": 1,
+      "sourceRect": null,
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": null,
+      "samples": null,
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
+    },
+    {
+      "family": "measure-three",
+      "role": "holdout",
+      "productId": "NH_Alstead_20240417",
+      "quadrangle": "Alstead",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Alstead_20240417_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Alstead_20240417_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 51678733,
+      "sha256": "919e9891df62bf304758fcadcb1d70d40ff44496a40745083b2ddaa208027679",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "Esri ArcSOC 10.8.1.14362",
+      "registration": "measure",
+      "labels": [
+        "Adjoining Sheet Diagram",
+        "Map Layers",
+        "Quadrangle Location"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 1.613533,
+      "maximumProjectedMetres": 9.535159,
+      "result": "fail-spatial-threshold",
+      "candidateId": "measure-direct-0-0-0-3387.9491188-4051.5214615",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 0,
+        "y": 0,
+        "width": 3387.949118773946,
+        "height": 4051.5214614559386
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3390,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3600,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 1.4461010396791114,
+          "metreError": 8.545742529775254
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 1.1912287335111207,
+          "metreError": 7.040002602625536
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.4052433443138537,
+          "metreError": 2.4021896419081568
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 1.3570001048545022,
+          "metreError": 8.019552351038689
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 1.6135330602152753,
+          "metreError": 9.53515944553868
+        }
+      ],
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location"
+    },
+    {
+      "family": "legacy-four-lgidict",
+      "role": "holdout",
+      "productId": "NH_Alton_20120608",
+      "quadrangle": "Alton",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Alton_20120608_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Alton_20120608_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 18803736,
+      "sha256": "91eeb4c4b1b99759bc820a691a400fd2cc3cb2ce0075bee8ca5d1030fcf7e333",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Adjoining Quadrangles Diagram",
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 0.981273,
+      "maximumProjectedMetres": 5.824024,
+      "result": "fail-projected-metre-threshold",
+      "candidateId": "lgidict-direct-0-420.0827586-338.9579618-2373.0537931-3245.9682144",
+      "candidateCount": 4,
+      "sourceRect": {
+        "x": 420.0827586205252,
+        "y": 338.9579617786412,
+        "width": 2373.05379310386,
+        "height": 3245.9682143727664
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3412,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 0.8471060808285189,
+          "metreError": 5.027885736950442
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 0.6209730169170398,
+          "metreError": 3.685677146952191
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.4000894627251425,
+          "metreError": 2.382241299395686
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 0.7557786402361888,
+          "metreError": 4.485615238030312
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 0.9812731425592263,
+          "metreError": 5.824024289568655
+        }
+      ],
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Adjoining Quadrangles Diagram\u001fMap Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
+    },
+    {
+      "family": "legacy-three-lgidict",
+      "role": "holdout",
+      "productId": "NH_Alton_20150520",
+      "quadrangle": "Alton",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Alton_20150520_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Alton_20150520_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 17486161,
+      "sha256": "3bc7a5228dd5ab7d329bc2eba92776bca11ede80c21c51d779924ade0a0946e0",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "ESRI ArcSOC 10.0.2.3200",
+      "registration": "lgidict",
+      "labels": [
+        "Map Layers",
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 0.981273,
+      "maximumProjectedMetres": 5.824024,
+      "result": "fail-projected-metre-threshold",
+      "candidateId": "lgidict-direct-2-420.0827586-338.9579618-2373.0537931-3245.9682144",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 420.0827586205252,
+        "y": 338.9579617786412,
+        "width": 2373.05379310386,
+        "height": 3245.9682143727664
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3213,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3412,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 0.8471060864205975,
+          "metreError": 5.027885803304812
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 0.6209730213567036,
+          "metreError": 3.6856771975218456
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.4000894656079944,
+          "metreError": 2.3822413317778266
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 0.7557786440985345,
+          "metreError": 4.485615289777551
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 0.9812731469297968,
+          "metreError": 5.82402435343884
+        }
+      ],
+      "signature": "ESRI ArcSOC 10.0.2.3200|lgidict|lgidict-array-v1|Map Layers\u001fQuadrangle Location\u001fUTM Grid and Projection"
+    },
+    {
+      "family": "measure-three",
+      "role": "holdout",
+      "productId": "NH_Alton_20240808",
+      "quadrangle": "Alton",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Alton_20240808_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Alton_20240808_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 50831811,
+      "sha256": "50a574f4aff9bd8e24767726b08157e0e9346676152cbd4433087d3010af3f16",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "Esri ArcSOC 10.8.1.14362",
+      "registration": "measure",
+      "labels": [
+        "Adjoining Sheet Diagram",
+        "Map Layers",
+        "Quadrangle Location"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 1.559349,
+      "maximumProjectedMetres": 9.255644,
+      "result": "fail-spatial-threshold",
+      "candidateId": "measure-direct-0-7.061912-0-3357.9360123-4037.0441808",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 7.0619120306513405,
+        "y": 0,
+        "width": 3357.936012260536,
+        "height": 4037.044180842912
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3390,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3600,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 1.3949557022624515,
+          "metreError": 8.279958077919071
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 1.2314566524644845,
+          "metreError": 7.30930054836752
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.39666241384972906,
+          "metreError": 2.3621263440110574
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 1.3978312118283807,
+          "metreError": 8.296774340020953
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 1.559348597517392,
+          "metreError": 9.255644028257246
+        }
+      ],
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location"
+    },
+    {
+      "family": "measure-three",
+      "role": "holdout",
+      "productId": "NH_Berlin_20240808",
+      "quadrangle": "Berlin",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Berlin_20240808_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Berlin_20240808_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 52302553,
+      "sha256": "956acd0b41de0daa53e2309506496b4b32a7c2d0b8374eb79da15acfd85c320e",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "Esri ArcSOC 10.8.1.14362",
+      "registration": "measure",
+      "labels": [
+        "Adjoining Sheet Diagram",
+        "Map Layers",
+        "Quadrangle Location"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 1.591572,
+      "maximumProjectedMetres": 9.605778,
+      "result": "fail-spatial-threshold",
+      "candidateId": "measure-direct-0-24.7166725-0-3322.6264913-4037.7503877",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 24.716672490421455,
+        "y": 0,
+        "width": 3322.6264913409964,
+        "height": 4037.750387739464
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3390,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3600,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 1.4288083817054422,
+          "metreError": 8.62354806719021
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 1.270121164873634,
+          "metreError": 7.665249353720933
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.4298408273941222,
+          "metreError": 2.602853504484466
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 1.4346943539238726,
+          "metreError": 8.658424768562943
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 1.5915717020603404,
+          "metreError": 9.605778045091057
+        }
+      ],
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location"
+    },
+    {
+      "family": "measure-three",
+      "role": "holdout",
+      "productId": "NH_Bristol_20240808",
+      "quadrangle": "Bristol",
+      "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Bristol_20240808_TM_geo.pdf",
+      "publisher": "U.S. Geological Survey",
+      "retrievedAt": "2026-07-28",
+      "filename": "NH_Bristol_20240808_TM_geo.pdf",
+      "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+      "usageNote": "USGS-authored material is generally public domain, but the map may contain identified third-party copyrighted content; retained locally for research and not redistributed.",
+      "byteSize": 57966354,
+      "sha256": "9cbf6c469a8ebdc4e1c50a4082142eccea398959de1a4401807f38da6ac22605",
+      "pageCount": 1,
+      "producer": null,
+      "creator": "Esri ArcSOC 10.8.1.14362",
+      "registration": "measure",
+      "labels": [
+        "Adjoining Sheet Diagram",
+        "Map Layers",
+        "Quadrangle Location"
+      ],
+      "selectedEmbeddedLabel": "Map Layers",
+      "maximumSourcePixels": 1.576224,
+      "maximumProjectedMetres": 9.371488,
+      "result": "fail-spatial-threshold",
+      "candidateId": "measure-direct-0-0-0-3380.8872264-4051.5214615",
+      "candidateCount": 3,
+      "sourceRect": {
+        "x": 0,
+        "y": 0,
+        "width": 3380.8872263601534,
+        "height": 4051.5214614559386
+      },
+      "gdalCommand": "gdal_translate -of VRT -oo NEATLINE=Map Layers <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+      "pixelSize": {
+        "width": 3390,
+        "height": 4096
+      },
+      "gdalRasterSize": {
+        "width": 3600,
+        "height": 4350
+      },
+      "samples": [
+        {
+          "u": 0.1,
+          "v": 0.1,
+          "pixelError": 1.4108070410311113,
+          "metreError": 8.38810197719591
+        },
+        {
+          "u": 0.9,
+          "v": 0.1,
+          "pixelError": 1.2562377839302168,
+          "metreError": 7.468639980680092
+        },
+        {
+          "u": 0.5,
+          "v": 0.5,
+          "pixelError": 0.39336269238981386,
+          "metreError": 2.3468856811583874
+        },
+        {
+          "u": 0.1,
+          "v": 0.9,
+          "pixelError": 1.4239468907222335,
+          "metreError": 8.465686010277663
+        },
+        {
+          "u": 0.9,
+          "v": 0.9,
+          "pixelError": 1.576223932615628,
+          "metreError": 9.371487704437154
+        }
+      ],
+      "signature": "Esri ArcSOC 10.8.1.14362|measure|measure-vp-geo-v1|Adjoining Sheet Diagram\u001fMap Layers\u001fQuadrangle Location"
     }
   ],
   "acquisition": {
-    "status": "unavailable",
-    "reason": "The authoritative USGS host did not resolve from the implementation environment, and no prior local corpus remained.",
-    "pdfBytesCommitted": false
+    "status": "complete",
+    "source": "authoritative USGS The National Map staged-products HTTPS host",
+    "publisher": "U.S. Geological Survey",
+    "retrievedAt": "2026-07-28",
+    "filesAcquired": 12,
+    "distinctHashes": 12,
+    "distinctQuadrangles": 6,
+    "licenceEvidence": "https://www.usgs.gov/faqs/are-usgs-topographic-maps-copyrighted?items_per_page=6&page=1",
+    "pdfBytesCommitted": false,
+    "pdfBytesTracked": false
+  },
+  "approvedRules": [],
+  "oracleMethod": {
+    "tool": "GDAL 3.9.0",
+    "commandTemplate": "gdal_translate -of VRT -oo NEATLINE=<embedded label> <pdf> <vrt>; gdaltransform -t_srs EPSG:4326 <vrt>",
+    "comparison": "Five frozen source positions compare the application affine transform with GDAL geolocation",
+    "independence": "The candidate selector and GDAL oracle were run separately; no result was changed after threshold evaluation"
   }
 }
