@@ -134,6 +134,20 @@ describe("GeoPDF frame chooser layout", () => {
   });
 });
 
+describe("user map row layout", () => {
+  it("wraps long imported filenames instead of widening a 320px layer panel", () => {
+    const copyDeclarations = styles.match(
+      /\.user-map-row \.layer-row > span:last-of-type\s*\{([^}]*)\}/,
+    )?.[1];
+    const opacityRangeDeclarations = styles.match(
+      /\.user-map-opacity input\[type="range"\]\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(copyDeclarations).toMatch(/overflow-wrap:\s*anywhere/);
+    expect(opacityRangeDeclarations).toMatch(/margin:\s*0/);
+  });
+});
+
 describe("map cartographic furniture", () => {
   it("keeps the coordinate readout above the two-line scale control", () => {
     const readoutDeclarations = styles.match(
