@@ -402,6 +402,32 @@ describe("WarpedRasterLayer warp caching", () => {
     expect(warpCalls()).toBe(1);
   });
 
+  it("keeps high-DPR backing stores within the visible viewport budget", () => {
+    vi.stubGlobal("devicePixelRatio", 3);
+    const wideMesh = [
+      [
+        { lat: 46, lng: -63.1 },
+        { lat: 46, lng: -56.1 },
+      ],
+      [
+        { lat: 39, lng: -63.1 },
+        { lat: 39, lng: -56.1 },
+      ],
+    ];
+    const map = pannableMap(pane);
+    makeLayer(wideMesh).onAdd(map);
+    const canvas = pane.querySelector("canvas") as HTMLCanvasElement;
+
+    // A 3x phone already spends nine device pixels per CSS pixel. The normal
+    // half-viewport padding would multiply that again, making this 800x600
+    // view exceed 3000x2100 device pixels before the decoded source is
+    // counted. High-DPR views trade pan slack for a viewport-bounded canvas.
+    expect(canvas.width).toBeGreaterThan(800 * 2);
+    expect(canvas.height).toBeGreaterThan(600 * 2);
+    expect(canvas.width).toBeLessThanOrEqual(800 * 3);
+    expect(canvas.height).toBeLessThanOrEqual(600 * 3);
+  });
+
   it("warps mesh swaps into an unpadded backing so drag frames stay viewport-sized", () => {
     const raf = stubRaf();
     // Wide drape (world x 1200.., y 1200.. far beyond the view) so backing
