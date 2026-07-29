@@ -153,9 +153,14 @@ vi.mock("react-leaflet", () => ({
   Pane: ({
     children,
     name,
+    pane,
     style,
-  }: PropsWithChildren<{ name: string; style?: CSSProperties }>) => (
-    <div data-testid={`pane-${name}`} style={style}>
+  }: PropsWithChildren<{
+    name: string;
+    pane?: string;
+    style?: CSSProperties;
+  }>) => (
+    <div data-testid={`pane-${name}`} data-parent-pane={pane} style={style}>
       {children}
     </div>
   ),
@@ -1332,6 +1337,9 @@ describe("MapCanvas cartographic furniture", () => {
     expect(
       screen.getByTestId("pane-old-growth-policy-pane"),
     ).toHaveStyle({ zIndex: "190" });
+    expect(
+      screen.getByTestId("pane-old-growth-policy-pane"),
+    ).toHaveAttribute("data-parent-pane", "tilePane");
   });
 
   it("shows a copyable centre/zoom readout", async () => {

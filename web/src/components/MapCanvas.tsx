@@ -1719,6 +1719,7 @@ export function MapCanvas({
         ))}
         <Pane
           name={OLD_GROWTH_POLICY_PANE}
+          pane="tilePane"
           style={{ zIndex: OLD_GROWTH_POLICY_PANE_Z_INDEX }}
         >
           {forestryLayerCatalog.map((layer) => (
