@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-07-28",
+  "retrievedOn": "2026-07-30",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -127,6 +127,20 @@
       "notes": "Thirty-seven result rows were reconciled to the final notice, including one two-PID listing. All result rows publish a selling price."
     },
     {
+      "municipality": "Halifax Regional Municipality",
+      "event": "May 12, 2026 tax sale",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://www.halifax.ca/media/94407",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-may-12.26.pdf",
+        "https://www.halifax.ca/home-property/property-taxes/tax-sale"
+      ],
+      "documentSha256": ["793d079d093fd4f92df2b0c3ad53c1c473fb5f4066e493b0deb7e8e3595553d9"],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "The live HRM tax-sale page links this result under HRM-TaxSale22, and the official filename and embedded title identify May 12, 2026. The table carries 15 owner-free rows: 14 numeric selling prices and one printed NO BIDS; 14 rows publish an exact PID and one is mobile-home-only. HRM no longer links the corresponding notice, and the available 2026 archive captures of the official landing page do not preserve one. A result table alone cannot supply the missing notice receipt or establish the complete event identity under the project contract, so no row is promoted into the public model."
+    },
+    {
       "municipality": "Municipality of the County of Victoria",
       "event": "August 26, 2025 tax sale by tender",
       "status": "included",
@@ -223,13 +237,17 @@
       "event": "March 10, 2026 tax sale",
       "status": "researched-not-included",
       "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-Tax-Sale-March-10-2026.pdf",
         "https://cbrm.ns.ca/wp-content/uploads/2026/03/Sold-Properties-March-10-2026-Tax-Sale.pdf",
         "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
       ],
-      "documentSha256": ["ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"],
-      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid for some rows"],
-      "officialWinningBidsFound": true,
-      "notes": "The result PDF mixes published winning bids with blank cells and outcome highlighting. It needs a separate row-by-row visual reconciliation before publication; the July 22, 2025 review shows the method, which is to measure each rendered row's fill against its printed disposition and only publish if the fill turns out to carry no independent meaning."
+      "documentSha256": [
+        "d9834ea2d175b53c7bca83e3aacf615dae496d23f8516a64d5e6421466d0f50e",
+        "ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption"],
+      "officialWinningBidsFound": false,
+      "notes": "On July 30, 2026, the CBRM landing page linked a July 27 replacement PDF at a new official URL; the previously recorded March URL returned 404. The replacement carries 44 identifier-bearing rows and no printed result, disposition, or winning-bid column. Some rows are highlighted yellow, but colour alone is not an accepted disposition, so no outcome is inferred and the event remains outside the public model. The prior document hash is retained as a provenance receipt for the replaced official file."
     },
     {
       "municipality": "Municipality of the County of Cumberland",
