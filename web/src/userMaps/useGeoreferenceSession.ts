@@ -123,6 +123,15 @@ export type GeoreferenceSession = {
   moveGcpOnScan: (id: string, x: number, y: number) => void;
   moveGcpOnMap: (id: string, lat: number, lng: number) => void;
   deleteGcp: (id: string) => void;
+  /**
+   * Replace every GCP at once, for a points file computed outside the browser.
+   *
+   * Replaces rather than merges: the imported set is a complete proposal for
+   * the sheet, and merging would need an id-collision policy that no caller
+   * could reason about. One undo reverses the whole import, so the prior points
+   * are recoverable rather than gone.
+   */
+  importGcps: (imported: Gcp[]) => void;
   undo: () => void;
   flush: () => void;
   discardPendingWrite: (mapId: string) => void;
@@ -546,6 +555,24 @@ export function useGeoreferenceSession(options: {
     [commit, snapshot],
   );
 
+  const importGcps = useCallback(
+    (imported: Gcp[]) => {
+      snapshot();
+      // A half-placed pair must not survive the replacement: its other half
+      // would be matched against a point set it was never picked in, and the
+      // panel would show a pending marker with nothing to pair it to.
+      setPending(null);
+      commit(imported);
+      // Re-seed the id counter from the imported set. Imported ids are the
+      // points file's own labels, so they normally do not look like `gcp-N`
+      // and cannot collide — but a file that did use that form would otherwise
+      // hand the next manually placed point an id that already exists, and two
+      // GCPs sharing an id cannot be dragged or deleted independently.
+      nextGcpNumberRef.current = highestGcpNumber(imported) + 1;
+    },
+    [commit, setPending, snapshot],
+  );
+
   const undo = useCallback(() => {
     const past = historyRef.current;
     if (past.length === 0) {
@@ -765,6 +792,7 @@ export function useGeoreferenceSession(options: {
     moveGcpOnScan,
     moveGcpOnMap,
     deleteGcp,
+    importGcps,
     undo,
     flush,
     discardPendingWrite,

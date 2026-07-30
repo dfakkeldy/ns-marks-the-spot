@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
 import { georeferenceAnnotation } from "../allmaps/annotation";
+import { UserMapImportError } from "../errors";
+import { parseFletcherGcps } from "../parsers/fletcherGcps";
 import { MIN_GCPS_FOR_BENDING_TPS, MIN_GCPS_FOR_TPS } from "../transform/tps";
 import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 import { GcpList } from "./GcpList";
@@ -116,10 +118,60 @@ export function GeoreferencePanel({
 }) {
   const [tab, setTab] = useState<"scan" | "map">("scan");
   const [selectedGcpId, setSelectedGcpId] = useState<string | null>(null);
+  const [importMessage, setImportMessage] = useState<{
+    ok: boolean;
+    text: string;
+  } | null>(null);
   const [scanFocus, setScanFocus] = useState<ScanFocusRequest | null>(null);
   const focusRequestId = useRef(0);
   const panelRef = useRef<HTMLElement>(null);
-  const { cancelPending, flush, undo } = session;
+  const { cancelPending, flush, undo, importGcps } = session;
+
+  const existingGcpCount = session.gcps.length;
+  const loadPointsFile = useCallback(
+    async (file: File) => {
+      let text: string;
+      try {
+        text = await file.text();
+      } catch {
+        setImportMessage({ ok: false, text: `Could not read ${file.name}.` });
+        return;
+      }
+      try {
+        // The record's own pixel size is passed so a points file measured
+        // against a DIFFERENT scan of the same sheet is refused here rather
+        // than silently placing every pin in the wrong location.
+        const parsed = parseFletcherGcps(text, {
+          pixelSize: record.pixelSize,
+        });
+        importGcps(parsed.gcps);
+        const replaced =
+          existingGcpCount > 0
+            ? `, replacing ${existingGcpCount} — undo with Cmd/Ctrl+Z`
+            : "";
+        // Checks are counted but never placed: they are the held-out points
+        // the fit is scored against, so promoting them would make the accuracy
+        // figure circular. Saying so is what stops it being read as data loss.
+        const held =
+          parsed.checks.length > 0
+            ? ` ${parsed.checks.length} check points were left out on purpose.`
+            : "";
+        setImportMessage({
+          ok: true,
+          text: `Loaded ${parsed.gcps.length} control points from ${file.name}${replaced}.${held}`,
+        });
+      } catch (error) {
+        setImportMessage({
+          ok: false,
+          text:
+            error instanceof UserMapImportError
+              ? error.userMessage
+              : `Could not read points from ${file.name}.`,
+        });
+      }
+    },
+    [existingGcpCount, importGcps, record.pixelSize],
+  );
   const hasPending = session.pending !== null;
   const canUndo = session.canUndo;
 
@@ -340,6 +392,41 @@ export function GeoreferencePanel({
               onZoomTo={zoomToGcp}
               selectedGcpId={selectedGcpId}
             />
+          </div>
+
+          <div className="georeference-points-import">
+            <label>
+              <small>Load points file</small>
+              <input
+                type="file"
+                accept=".csv,text/csv"
+                aria-label="Load a Fletcher points file"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  // Cleared immediately so re-choosing the SAME file fires
+                  // change again; a browser suppresses it when the value is
+                  // unchanged, which reads as "the button stopped working".
+                  event.target.value = "";
+                  if (!file) {
+                    return;
+                  }
+                  void loadPointsFile(file);
+                }}
+              />
+            </label>
+            {importMessage ? (
+              <small
+                data-testid="points-import-message"
+                role={importMessage.ok ? "status" : "alert"}
+                className={
+                  importMessage.ok
+                    ? "georeference-import-ok"
+                    : "georeference-import-error"
+                }
+              >
+                {importMessage.text}
+              </small>
+            ) : null}
           </div>
 
           <footer className="georeference-footer">

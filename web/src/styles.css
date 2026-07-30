@@ -4357,6 +4357,39 @@ a {
   overflow-y: auto;
 }
 
+/* Sits between the scrolling point list and the fixed footer. Does NOT scroll
+   with the list: a refusal message that scrolled out of view would read as the
+   import having silently done nothing. */
+.georeference-points-import {
+  display: grid;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(10 20 22 / 12%);
+  font-size: 0.76rem;
+}
+
+.georeference-points-import label {
+  display: grid;
+  gap: 4px;
+}
+
+.georeference-points-import input[type="file"] {
+  width: 100%;
+  font-size: 0.72rem;
+}
+
+.georeference-import-ok {
+  color: rgb(10 20 22 / 70%);
+}
+
+/* Same red and weight as `.user-map-error`, the other import-failure line in
+   this rail — two different reds for the same kind of message reads as two
+   different severities. */
+.georeference-import-error {
+  color: #a33228;
+  font-weight: 600;
+}
+
 .georeference-footer {
   display: grid;
   gap: 10px;
