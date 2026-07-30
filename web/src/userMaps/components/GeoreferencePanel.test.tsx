@@ -86,6 +86,7 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
     moveGcpOnScan: vi.fn(),
     moveGcpOnMap: vi.fn(),
     deleteGcp: vi.fn(),
+    importGcps: vi.fn(),
     undo: vi.fn(),
     flush: vi.fn(),
     // Task 12 adds this to GeoreferenceSession (a delete has to cancel its
@@ -922,5 +923,91 @@ describe("GeoreferencePanel export control", () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
+  });
+});
+
+describe("Fletcher points file import", () => {
+  const HEADER = "pixel_x,pixel_y,lon,lat,role,label";
+  // RECORD is 1200 x 800, so these pixels are inside it.
+  const POINTS = [
+    HEADER,
+    "100.0,100.0,-61.58333300,45.91666700,control,a",
+    "200.0,300.0,-61.50000000,45.83333300,control,b",
+    "400.0,500.0,-61.45000000,45.80000000,check,held-out",
+    "",
+  ].join("\n");
+
+  function pointsFile(text: string, name = "sheet-19.csv") {
+    return new File([text], name, { type: "text/csv" });
+  }
+
+  function fileInput() {
+    return screen.getByLabelText("Load a Fletcher points file");
+  }
+
+  it("places the control points and leaves the checks out", async () => {
+    const session = fakeSession();
+    renderPanel(session);
+    await userEvent.upload(fileInput(), pointsFile(POINTS));
+
+    expect(session.importGcps).toHaveBeenCalledTimes(1);
+    const imported = vi.mocked(session.importGcps).mock.calls[0]![0];
+    expect(imported.map((gcp) => gcp.id)).toEqual(["a", "b"]);
+    expect(imported[0]).toEqual({
+      id: "a",
+      pixel: { x: 100, y: 100 },
+      map: { lat: 45.916667, lng: -61.583333 },
+    });
+    const message = await screen.findByTestId("points-import-message");
+    expect(message).toHaveTextContent(/Loaded 2 control points from sheet-19\.csv/);
+    // Success is polite; a refusal below is assertive. Pinned because the role
+    // is the only thing that tells a screen-reader user which one happened.
+    expect(message).toHaveAttribute("role", "status");
+  });
+
+  it("says the held-out checks were left out on purpose", async () => {
+    // Otherwise "3 points in the file, 2 on the map" reads as data loss.
+    renderPanel(fakeSession());
+    await userEvent.upload(fileInput(), pointsFile(POINTS));
+    expect(await screen.findByTestId("points-import-message")).toHaveTextContent(
+      /1 check points were left out on purpose/,
+    );
+  });
+
+  it("warns how many existing points were replaced, and points at undo", async () => {
+    const existing: Gcp[] = [
+      { id: "gcp-1", pixel: { x: 1, y: 1 }, map: { lat: 45, lng: -61 } },
+    ];
+    renderPanel(fakeSession({ gcps: existing }));
+    await userEvent.upload(fileInput(), pointsFile(POINTS));
+    expect(await screen.findByTestId("points-import-message")).toHaveTextContent(
+      /replacing 1 — undo with Cmd\/Ctrl\+Z/,
+    );
+  });
+
+  it("refuses a file measured against a different scan without placing anything", async () => {
+    // RECORD is 1200 x 800; this point cannot belong to it.
+    const offSheet = [HEADER, "9999.0,9999.0,-61.5,45.8,control,a", ""].join(
+      "\n",
+    );
+    const session = fakeSession();
+    renderPanel(session);
+    await userEvent.upload(fileInput(), pointsFile(offSheet));
+
+    expect(session.importGcps).not.toHaveBeenCalled();
+    const message = await screen.findByTestId("points-import-message");
+    expect(message).toHaveTextContent(/measured against a different scan/);
+    expect(message).toHaveAttribute("role", "alert");
+  });
+
+  it("reports a file that is not a points file at all", async () => {
+    const session = fakeSession();
+    renderPanel(session);
+    await userEvent.upload(fileInput(), pointsFile("x,y\n1,2\n", "notes.csv"));
+
+    expect(session.importGcps).not.toHaveBeenCalled();
+    expect(await screen.findByTestId("points-import-message")).toHaveTextContent(
+      /Not a Fletcher points file/,
+    );
   });
 });

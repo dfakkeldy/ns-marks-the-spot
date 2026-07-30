@@ -1050,3 +1050,60 @@ describe("gcp id minting", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 });
+
+describe("importGcps", () => {
+  const IMPORTED: Gcp[] = [
+    { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 45.9, lng: -61.5 } },
+    { id: "b", pixel: { x: 30, y: 40 }, map: { lat: 45.8, lng: -61.4 } },
+  ];
+
+  it("replaces every existing point in one step", () => {
+    const { result } = setup();
+    act(() => result.current.pickScanPoint(100, 200));
+    act(() => result.current.pickMapPoint(46.05, -61.1));
+    expect(result.current.gcps).toHaveLength(1);
+
+    act(() => result.current.importGcps(IMPORTED));
+    expect(result.current.gcps).toEqual(IMPORTED);
+  });
+
+  it("is reversed by a single undo", () => {
+    // 45 pre-placed pins landing on top of hand-dragged work would be
+    // unrecoverable if the import pushed no history entry.
+    const { result } = setup();
+    act(() => result.current.pickScanPoint(100, 200));
+    act(() => result.current.pickMapPoint(46.05, -61.1));
+    const before = result.current.gcps;
+
+    act(() => result.current.importGcps(IMPORTED));
+    act(() => result.current.undo());
+    expect(result.current.gcps).toEqual(before);
+  });
+
+  it("drops a half-placed pair rather than leaving it orphaned", () => {
+    const { result } = setup();
+    act(() => result.current.pickScanPoint(100, 200));
+    expect(result.current.pending).not.toBeNull();
+
+    act(() => result.current.importGcps(IMPORTED));
+    expect(result.current.pending).toBeNull();
+  });
+
+  it("mints the next manual id above any gcp-N in the imported file", () => {
+    // A points file whose labels happen to look like the generated ids would
+    // otherwise hand the next placed point an id that already exists, and two
+    // GCPs sharing an id cannot be dragged or deleted independently.
+    const { result } = setup();
+    act(() =>
+      result.current.importGcps([
+        { id: "gcp-7", pixel: { x: 1, y: 2 }, map: { lat: 45, lng: -61 } },
+      ]),
+    );
+    act(() => result.current.pickScanPoint(300, 400));
+    act(() => result.current.pickMapPoint(45.5, -61.2));
+
+    const ids = result.current.gcps.map((gcp) => gcp.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toContain("gcp-8");
+  });
+});
