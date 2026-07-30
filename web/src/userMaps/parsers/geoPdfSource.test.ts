@@ -130,6 +130,63 @@ describe("parseGeoPdf", () => {
     );
   });
 
+  it("keeps a reduced preview edge and PDF.js image budget in lockstep", async () => {
+    const reducedExtraction: GeoPdfMetadataExtraction = {
+      ...soleExtraction,
+      candidates: [
+        {
+          ...soleExtraction.candidates[0],
+          sourceRect: { x: 0, y: 0, width: 2048, height: 1024 },
+          gcps: [
+            {
+              id: "a",
+              pixel: { x: 0, y: 0 },
+              map: { lat: 46, lng: -63 },
+            },
+            {
+              id: "b",
+              pixel: { x: 2048, y: 0 },
+              map: { lat: 46, lng: -62 },
+            },
+            {
+              id: "c",
+              pixel: { x: 0, y: 1024 },
+              map: { lat: 45, lng: -63 },
+            },
+          ],
+        },
+      ],
+    };
+    const seams = environment(reducedExtraction);
+    seams.environment.previewMaxEdge = 2048;
+    const parsed = await parseGeoPdf(
+      new ArrayBuffer(16),
+      seams.environment,
+    );
+    expect(seams.environment.getDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        canvasMaxAreaInBytes: 16 * 1024 * 1024,
+      }),
+    );
+    expect(parsed.pixelSize).toEqual({ width: 2048, height: 1024 });
+    expect(seams.fillRect).toHaveBeenCalledWith(0, 0, 2048, 1024);
+    expect(seams.extractMetadata.mock.calls[0][1]).toMatchObject({
+      width: 2048,
+      height: 1024,
+      transform: [10.24, 0, 0, -10.24, 0, 1024],
+    });
+    expect(parsed.registration).toMatchObject({
+      status: "automatic",
+      selected: {
+        sourceRect: { width: 2048, height: 1024 },
+        gcps: expect.arrayContaining([
+          expect.objectContaining({ pixel: { x: 2048, y: 0 } }),
+          expect.objectContaining({ pixel: { x: 0, y: 1024 } }),
+        ]),
+      },
+    });
+  });
+
   it("can disable PDF.js OffscreenCanvas image resizing", async () => {
     const seams = environment();
     seams.environment.pdfJsOffscreenCanvasSupported = false;

@@ -62,9 +62,11 @@ export type GeoPdfParseEnvironment = {
   ) => ParsedPdfRegistration;
   assetBaseUrl?: string;
   pdfJsOffscreenCanvasSupported?: boolean;
+  previewMaxEdge?: number;
 };
 
 const PDFJS_VERSION = "6.1.200";
+const DEFAULT_PREVIEW_MAX_EDGE = 4096;
 
 function defaultAssetBaseUrl(): string {
   if (typeof window === "undefined") {
@@ -114,6 +116,8 @@ export async function parseGeoPdf(
   environment: GeoPdfParseEnvironment,
 ): Promise<ParsedGeoPdf> {
   const assetBaseUrl = environment.assetBaseUrl ?? defaultAssetBaseUrl();
+  const previewMaxEdge =
+    environment.previewMaxEdge ?? DEFAULT_PREVIEW_MAX_EDGE;
   let loadingTask: PdfJsLoadingTask | null = null;
   let document: PdfJsDocument | null = null;
   let page: PdfJsPage | null = null;
@@ -127,10 +131,9 @@ export async function parseGeoPdf(
     const pdfJsBytes = new Uint8Array(buffer.slice(0));
     loadingTask = environment.getDocument({
       data: pdfJsBytes,
-      // Match the maximum 4096² RGBA preview with a finite per-image resize
-      // area, skipping PDF.js's dangerous adaptive area probe for oversized
-      // images.
-      canvasMaxAreaInBytes: 64 * 1024 * 1024,
+      // Match the RGBA preview with a finite per-image resize area, skipping
+      // PDF.js's dangerous adaptive area probe for oversized images.
+      canvasMaxAreaInBytes: previewMaxEdge ** 2 * 4,
       cMapUrl: localAssetUrl(assetBaseUrl, "cmaps/"),
       cMapPacked: true,
       standardFontDataUrl: localAssetUrl(assetBaseUrl, "standard_fonts/"),
@@ -164,22 +167,30 @@ export async function parseGeoPdf(
     if (!Number.isFinite(dominant) || dominant <= 0) {
       throw new Error("invalid PDF page dimensions");
     }
-    let scale = 4096 / dominant;
+    let scale = previewMaxEdge / dominant;
     let viewport = page.getViewport({ scale });
     let pixelSize = {
       width: Math.max(1, Math.round(viewport.width)),
       height: Math.max(1, Math.round(viewport.height)),
     };
-    if (Math.max(pixelSize.width, pixelSize.height) !== 4096) {
-      scale *= 4096 / Math.max(pixelSize.width, pixelSize.height);
+    if (
+      Math.max(pixelSize.width, pixelSize.height) !== previewMaxEdge
+    ) {
+      scale *=
+        previewMaxEdge /
+        Math.max(pixelSize.width, pixelSize.height);
       viewport = page.getViewport({ scale });
       pixelSize = {
         width: Math.max(1, Math.round(viewport.width)),
         height: Math.max(1, Math.round(viewport.height)),
       };
     }
-    if (Math.max(pixelSize.width, pixelSize.height) !== 4096) {
-      throw new Error("PDF page could not be normalized to 4096 pixels");
+    if (
+      Math.max(pixelSize.width, pixelSize.height) !== previewMaxEdge
+    ) {
+      throw new Error(
+        `PDF page could not be normalized to ${previewMaxEdge} pixels`,
+      );
     }
     const metadataViewport: PdfViewportGeometry = {
       width: pixelSize.width,
