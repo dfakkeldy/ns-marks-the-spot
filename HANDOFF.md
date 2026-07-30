@@ -23,3 +23,27 @@ Next:     Using ONLY tools/fletcher/feature_observations/sheet-19.json, refit at
           residual-vector-field image. Verdict: uniform frame offset or genuine
           internal warp? Do NOT read map crops. Stop and report cost when done.
 ```
+
+## 2026-07-30 — Point budget measured; corridor scope set
+
+Done: ran the density diagnostic (`reports/fletcher/SHEET19_DENSITY_DIAGNOSTIC.md`).
+Verdict is **distortion, not offset** — 0% of the LOO residual is a uniform
+shift. Held-out error has *not* plateaued at 45 controls, and LOO error ≈ 16% of
+local control spacing. So 45 is a floor, and placement beats count. Also pinned
+the Route 19 corridor from the Bazzite manifest: sheets **22, 19, 16, 14**
+(south→north), 19 already measured — scope drops 24 sheets to 4, three left.
+
+Next: build GCP import into the web georeferencer so machine-predicted points
+can be pre-placed for dragging. Then pilot sheet 16 (shares the 45.92 seam with
+19, has Mabou on it).
+
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/inverness-tax-sale-report-34e244
+Branch:   new branch fletcher/web-gcp-import off nightly
+Next:     Add GCP import to the web georeferencer: load a Fletcher points file
+          into an open record, pre-place pins, keep the residual column live,
+          and make export->convert round-trip byte-identically under test.
+          Budget controls by spacing (~16% law), not by a fixed per-sheet count.
+          Do NOT read map crops.
+```
