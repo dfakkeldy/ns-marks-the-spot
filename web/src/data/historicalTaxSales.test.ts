@@ -101,6 +101,37 @@ describe("historical tax-sale records", () => {
     ).toHaveLength(13);
   });
 
+  it("keeps the March 2026 CBRM colour-only result out of the public model", () => {
+    const researched = historicalSourceLedger.coverage.find(
+      ({ event }) => event === "March 10, 2026 tax sale",
+    );
+
+    expect(researched).toMatchObject({
+      municipality: "Cape Breton Regional Municipality",
+      status: "researched-not-included",
+      officialWinningBidsFound: false,
+    });
+    expect(researched?.fieldsAvailable).not.toContain("winning bid for some rows");
+    expect(
+      historicalTaxSaleEvents.some(({ id }) => id === "cbrm-2026-03-10"),
+    ).toBe(false);
+  });
+
+  it("keeps the notice-less May 2026 Halifax result out of the public model", () => {
+    const researched = historicalSourceLedger.coverage.find(
+      ({ event }) => event === "May 12, 2026 tax sale",
+    );
+
+    expect(researched).toMatchObject({
+      municipality: "Halifax Regional Municipality",
+      status: "researched-not-included",
+      officialWinningBidsFound: true,
+    });
+    expect(
+      historicalTaxSaleEvents.some(({ id }) => id === "hrm-2026-05-12"),
+    ).toBe(false);
+  });
+
   it("keeps blank-status Victoria County rows outcome-unknown", () => {
     const august = historicalTaxSaleRecords.filter(
       ({ eventId }) => eventId === "victoria-2025-08-26",
