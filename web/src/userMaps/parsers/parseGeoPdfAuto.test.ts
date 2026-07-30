@@ -155,6 +155,7 @@ describe("parseGeoPdfAuto", () => {
       expect.any(ArrayBuffer),
       expect.any(Function),
       false,
+      2048,
     );
   });
 
@@ -207,6 +208,7 @@ describe("parseGeoPdfAuto", () => {
       returned,
       expect.any(Function),
       false,
+      2048,
     );
     expect(createWorker).toHaveBeenCalledTimes(2);
     expect(preferredWorker.terminate).toHaveBeenCalledTimes(1);

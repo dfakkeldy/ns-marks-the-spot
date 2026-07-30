@@ -64,11 +64,13 @@ export type ParseGeoPdfAutoEnvironment = {
       viewport: PdfViewportGeometry,
     ) => Promise<GeoPdfMetadataExtraction>,
     pdfJsOffscreenCanvasSupported?: boolean,
+    previewMaxEdge?: number,
   ) => Promise<ParsedGeoPdf>;
   assetBaseUrl?: string;
 };
 
 const PDFJS_VERSION = "6.1.200";
+const IOS_PREVIEW_MAX_EDGE = 2048;
 const PDF_WORKER_URL = new URL(
   "../../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
@@ -111,6 +113,7 @@ async function parseOnMainThread(
     viewport: PdfViewportGeometry,
   ) => Promise<GeoPdfMetadataExtraction>,
   pdfJsOffscreenCanvasSupported?: boolean,
+  previewMaxEdge?: number,
 ): Promise<ParsedGeoPdf> {
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
@@ -124,6 +127,7 @@ async function parseOnMainThread(
     createCanvas: createHtmlCanvas,
     extractMetadata,
     pdfJsOffscreenCanvasSupported,
+    previewMaxEdge,
   });
 }
 
@@ -256,7 +260,12 @@ export async function parseGeoPdfAuto(
     ) => Promise<GeoPdfMetadataExtraction>,
   ) =>
     isIOSWebKitRuntime()
-      ? parseOnMain(buffer, extractMetadata, false)
+      ? parseOnMain(
+          buffer,
+          extractMetadata,
+          false,
+          IOS_PREVIEW_MAX_EDGE,
+        )
       : extractMetadata
         ? parseOnMain(buffer, extractMetadata)
         : parseOnMain(buffer);
