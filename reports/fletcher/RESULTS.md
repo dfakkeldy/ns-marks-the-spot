@@ -5,9 +5,18 @@ Final 13-sheet completion: 2026-07-26
 
 ## Outcome
 
-> **Product alignment rejected 2026-07-26.** A live comparison measured a
-> visible feature displacement of approximately 636 m. The current warps
-> require a feature-led do-over and must not be uploaded or republished.
+> **Engraved-grid product alignment rejected 2026-07-26.** A live comparison
+> measured a visible feature displacement of approximately 636 m. The
+> engraved-grid warps require a feature-led do-over and must not be uploaded or
+> republished.
+>
+> **Scope, clarified 2026-07-30.** This prohibition binds the engraved-grid
+> family only. It does not bind the feature-led pilots recorded under
+> [Modern-feature pilots](#modern-feature-pilots), which are fitted and scored
+> independently against modern surveyed features rather than against the
+> sheet's own 1884 engraved frame. A feature-led result may be tiled and
+> published once it passes its own structural gate **and** records human
+> overlay acceptance at useful zooms. Neither gate is waived by this scoping.
 
 `PASS` in this report is a lattice-fit diagnostic, not product geographic
 acceptance. It measures sparse checks against the historical sheet's own
@@ -76,6 +85,7 @@ table.
 | Sheet | Method version | Disposition | Selected transform | Transport n | Transport RMS/P95/max m | Natural n | Natural RMS/P95/max m | Structural gate | Visual QA | PNG tiles | Reason |
 | ---: | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | ---: | --- |
 | 24 | modern-feature-v1 | source-drift | — | — | —/—/— | — | —/—/— | — | not-run | 0 | source-drift: invalid Sheet 24 manifest receipt: manifest.sheets.24.list_number must be a non-empty string |
+| 19 | feature-led-v2 | scored | tps | 4 | 29.6/42.9/42.9 | 4 | 53.2/90.8/90.8 | not-set | not-run | 0 | 45 controls accepted from 94 screened NSTDB candidates (49 rejected with recorded reasons); 8 final checks frozen 2026-07-27 across 4 QA regions before the fit; combined check RMS 43.0, P95 90.8, max 90.8 m. No numeric gate has been agreed for feature-led v2, so no pass/fail is claimed. Not warped for publication, not tiled, not uploaded, and no human overlay acceptance has been recorded. Seam quality against neighbouring sheets is unmeasured. |
 
 
 ## Method and provenance
@@ -134,7 +144,9 @@ changed.
 
 ## What next
 
-1. Do not resume the full upload or republish the current warps.
+1. Do not resume the full upload or republish the engraved-grid warps. This
+   item does not bind feature-led v2 results, which publish under the scoping
+   recorded in [Outcome](#outcome) once they clear a gate and human acceptance.
 2. Start a separately approved, feature-led pilot on one representative sheet.
    Use dense, spatially distributed controls and untouched validation features
    across shorelines, rivers, lakes, roads and other stable features.
