@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-07-24",
+  "retrievedOn": "2026-07-30",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -127,6 +127,20 @@
       "notes": "Thirty-seven result rows were reconciled to the final notice, including one two-PID listing. All result rows publish a selling price."
     },
     {
+      "municipality": "Halifax Regional Municipality",
+      "event": "May 12, 2026 tax sale",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://www.halifax.ca/media/94407",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-may-12.26.pdf",
+        "https://www.halifax.ca/home-property/property-taxes/tax-sale"
+      ],
+      "documentSha256": ["793d079d093fd4f92df2b0c3ad53c1c473fb5f4066e493b0deb7e8e3595553d9"],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "The live HRM tax-sale page links this result under HRM-TaxSale22, and the official filename and embedded title identify May 12, 2026. The table carries 15 owner-free rows: 14 numeric selling prices and one printed NO BIDS; 14 rows publish an exact PID and one is mobile-home-only. HRM no longer links the corresponding notice, and the available 2026 archive captures of the official landing page do not preserve one. A result table alone cannot supply the missing notice receipt or establish the complete event identity under the project contract, so no row is promoted into the public model."
+    },
+    {
       "municipality": "Municipality of the County of Victoria",
       "event": "August 26, 2025 tax sale by tender",
       "status": "included",
@@ -187,15 +201,19 @@
     {
       "municipality": "Cape Breton Regional Municipality",
       "event": "July 21, 2026 tax sale",
-      "status": "included-awaiting-official-results",
+      "status": "included",
       "officialUrls": [
         "https://cbrm.ns.ca/wp-content/uploads/2026/06/JULY-21-2026-2nd-Ad.pdf",
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
         "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
       ],
-      "documentSha256": ["5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566"],
-      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption"],
-      "officialWinningBidsFound": false,
-      "notes": "The event date has passed, so 67 owner-free notice records covering 68 exact PIDs moved to the historical layer. The official landing page was checked after the auction on July 21 and did not yet link a result; all outcomes and winning bids remain unknown until CBRM posts confirmed results."
+      "documentSha256": [
+        "5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566",
+        "ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale"],
+      "officialWinningBidsFound": true,
+      "notes": "The owner-free notice carries 67 records covering 68 exact PIDs. CBRM's official result PDF carries 54 identifier-bearing rows: 21 print numeric winning bids and are included as sold, one prints PAID AT SALE and 32 print no winning bid or disposition, so those 33 remain outcome unknown. Thirteen notice rows do not appear in the result PDF and also remain unknown. The assessed-name column was discarded before the repository dataset was written. No outcome depends on yellow table highlighting: numeric winning bids are printed for every included sold row, while the PAID AT SALE row is also highlighted and remains unknown."
     },
     {
       "municipality": "Cape Breton Regional Municipality",
@@ -219,13 +237,17 @@
       "event": "March 10, 2026 tax sale",
       "status": "researched-not-included",
       "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-Tax-Sale-March-10-2026.pdf",
         "https://cbrm.ns.ca/wp-content/uploads/2026/03/Sold-Properties-March-10-2026-Tax-Sale.pdf",
         "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
       ],
-      "documentSha256": ["ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"],
-      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid for some rows"],
-      "officialWinningBidsFound": true,
-      "notes": "The result PDF mixes published winning bids with blank cells and outcome highlighting. It needs a separate row-by-row visual reconciliation before publication; the July 22, 2025 review shows the method, which is to measure each rendered row's fill against its printed disposition and only publish if the fill turns out to carry no independent meaning."
+      "documentSha256": [
+        "d9834ea2d175b53c7bca83e3aacf615dae496d23f8516a64d5e6421466d0f50e",
+        "ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption"],
+      "officialWinningBidsFound": false,
+      "notes": "On July 30, 2026, the CBRM landing page linked a July 27 replacement PDF at a new official URL; the previously recorded March URL returned 404. The replacement carries 44 identifier-bearing rows and no printed result, disposition, or winning-bid column. Some rows are highlighted yellow, but colour alone is not an accepted disposition, so no outcome is inferred and the event remains outside the public model. The prior document hash is retained as a provenance receipt for the replaced official file."
     },
     {
       "municipality": "Municipality of the County of Cumberland",
@@ -259,7 +281,7 @@
         "40e1e24039f26c369d07b8990a7071da841b0408337a08f93f895ffd69d2c324",
         "b2ff90287447e9ca822af653a42af0348767cae767d45f954326b39608668d92"
       ],
-      "fieldsAvailable": ["AAN", "PID", "description", "redemption expiry", "min bid", "winning bid"],
+      "fieldsAvailable": ["AAN", "PID", "description", "redeemable", "taxes, interest, other charges", "successful bid"],
       "officialWinningBidsFound": true,
       "notes": "All fourteen result rows were visually reviewed and included; eight publish a winning bid and six publish ADJORNED, recorded as withdrawn with no bid. Three independent copies agree row-for-row: the April 15 and May 9, 2026 archive captures and a live retrieval on July 23, 2026 whose SHA-256 is the third hash listed here. The page was also submitted to the Wayback Machine on July 23, 2026; that capture replays the results table, but its raw archived payload is a bot-verification interstitial rather than the page, so it is cited as a durable link only and is not hashed. The assessed-name column was discarded before the repository dataset was written."
     },
@@ -489,6 +511,39 @@
         {"item":129,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9879-tax-sale-award-129-1&category_slug=2026&Itemid=102","sha256":"81889610383e290d29c84c07ae0614ff675cd944adab86116acacf9581e21a0e"},
         {"item":140,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9880-tax-sale-award-140&category_slug=2026&Itemid=102","sha256":"656e54f53bef3ee78540283cea439f4d9b61140aa86a2b8100562f937cd34950"}
       ]
+    },
+    {
+      "municipality": "Municipality of the County of Richmond",
+      "event": "June 12, 2026 PROPERTY TAX SALE - (public auction)",
+      "status": "included",
+      "officialUrls": [
+        "https://www.richmondcounty.ca/tax-sales.html",
+        "https://web.archive.org/web/20260729005936id_/https://www.richmondcounty.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "01209ab715c583f0bb671ff5beb2867a2acb5ed56bfa6cb099d5bc5143c99b04",
+        "b626a3630b28b39528965f2ccd997c49201bcd7f2d449e33f5b2aacfb84925e8"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "description", "redeemable", "taxes, interest, other charges", "successful bid"],
+      "officialWinningBidsFound": true,
+      "notes": "3 result rows were ingested; 3 publish a winning bid. The live municipal page is overwritten each sale, so the receipt is a Wayback capture of that address whose archived id_ bytes were verified to carry the results table; the second hash is a live retrieval of the page taken the same day. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Pictou",
+      "event": "April 10, 2026 Tax Sale 2026-01 (public tender)",
+      "status": "included",
+      "officialUrls": [
+        "https://munpict.ca/departments-and-services/finance/tax-sale/",
+        "https://munpict.ca/assets/Tax-Sale-2026-01-Final-Advertisement-Posted-revised-April-10.pdf",
+        "https://munpict.ca/assets/MOPC-Finance-Master-Tax-Sale-Results-April-10-20261.pdf"
+      ],
+      "documentSha256": [
+        "9ee824de63bf9aa97a932f48c88709775b072890e9e7308b0162ff24f046c19b",
+        "05b8ff077ddc2f78845311d9a08132b657b74fc85eabcb6af60ebb83736673cd"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "district", "description", "minimum bid", "post-sale redeemable", "HST", "selling price"],
+      "officialWinningBidsFound": true,
+      "notes": "21 result rows were reconciled from the dated official PDF; 18 publish a numeric selling price and 3 print Removed. Removed is preserved as withdrawn with no selling-price claim. Every exact eight-digit PID returned from NSPRD on 2026-07-28."
     }
   ]
 }

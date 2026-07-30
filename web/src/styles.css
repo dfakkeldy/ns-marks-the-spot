@@ -633,6 +633,40 @@ a {
   border-radius: 2px;
 }
 
+.forestry-layer-group .resource-layer-controls {
+  background: rgba(22, 101, 52, 0.055);
+  border-color: rgba(22, 101, 52, 0.22);
+}
+
+.forestry-layer-row input:checked + .switch {
+  background: #166534;
+}
+
+.forestry-policy-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 5px 0 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  list-style: none;
+}
+
+.forestry-policy-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.forestry-policy-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
 .hydro-pilot-group .resource-layer-controls {
   background: rgba(51, 151, 183, 0.07);
   border-color: rgba(8, 118, 155, 0.24);
@@ -780,6 +814,45 @@ a {
 .zoning-popup {
   min-width: 210px;
   color: var(--chart-ink);
+}
+
+.old-growth-policy-popup {
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.old-growth-policy-popup .old-growth-policy-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #166534;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.old-growth-policy-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.1rem;
+}
+
+.old-growth-policy-popup > p:not(.old-growth-policy-popup-eyebrow) {
+  margin: 5px 0;
+  font-size: 0.74rem;
+}
+
+.old-growth-policy-popup .old-growth-policy-popup-note {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.old-growth-policy-popup a {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 0.74rem;
+  font-weight: 600;
 }
 
 .zoning-popup .zoning-popup-eyebrow {
@@ -3370,6 +3443,19 @@ a {
   gap: 0.35mm;
 }
 
+.print-layer-symbol--old-growth-policy {
+  border: 1pt solid #333;
+  background:
+    linear-gradient(
+      90deg,
+      #777 0 33%,
+      #c4c4c4 33% 66%,
+      #f4f4f4 66% 100%
+    );
+  outline: 0.75pt dashed #666;
+  outline-offset: -1.5pt;
+}
+
 .print-layer-symbol--published-river-flood-zones {
   border: 1.5pt dashed #222;
   background:
@@ -3891,6 +3977,10 @@ a {
   padding-bottom: 8px;
 }
 
+.user-map-row .layer-row > span:last-of-type {
+  overflow-wrap: anywhere;
+}
+
 .user-map-opacity {
   display: grid;
   grid-template-columns: 46px minmax(0, 1fr);
@@ -3907,6 +3997,7 @@ a {
 
 .user-map-opacity input[type="range"] {
   width: 100%;
+  margin: 0;
   accent-color: var(--survey-blue);
 }
 
@@ -3951,6 +4042,158 @@ a {
   border: 0;
   cursor: pointer;
   text-decoration: underline;
+}
+
+/* A GeoPDF with several registrations is already georeferenced. This modal
+   selects one of those embedded frames; it is intentionally separate from the
+   non-modal control-point editor below. */
+.geopdf-frame-chooser-backdrop {
+  position: fixed;
+  z-index: 1900;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  overflow: auto;
+  background: rgb(10 20 22 / 58%);
+}
+
+.geopdf-frame-chooser {
+  width: min(42rem, 100%);
+  max-height: 100%;
+  padding: 20px;
+  overflow: auto;
+  color: var(--ink);
+  background: var(--paper);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgb(10 20 22 / 36%);
+}
+
+.geopdf-frame-chooser h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+  overflow-wrap: anywhere;
+}
+
+.geopdf-frame-chooser > p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.geopdf-frame-preview {
+  position: relative;
+  width: 100%;
+  max-height: 46vh;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgb(10 20 22 / 18%);
+  border-radius: 6px;
+}
+
+.geopdf-frame-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.geopdf-frame-highlight {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  background: rgb(255 199 0 / 22%);
+  border: 3px solid #d34600;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 90%);
+}
+
+.geopdf-frame-chooser fieldset {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgb(10 20 22 / 18%);
+  border-radius: 6px;
+}
+
+.geopdf-frame-chooser legend {
+  padding: 0 4px;
+  font-weight: 700;
+}
+
+.geopdf-frame-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.geopdf-frame-option:hover {
+  background: rgb(47 128 237 / 8%);
+}
+
+.geopdf-frame-option input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--survey-blue);
+}
+
+.geopdf-frame-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.geopdf-frame-actions button {
+  min-height: 44px;
+}
+
+.geopdf-frame-chooser :is(input, button):focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .geopdf-frame-chooser-backdrop {
+    place-items: stretch;
+    padding:
+      env(safe-area-inset-top)
+      env(safe-area-inset-right)
+      env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+  }
+
+  .geopdf-frame-chooser {
+    width: 100%;
+    max-height: none;
+    min-height: 100%;
+    padding: 16px;
+    border-radius: 0;
+  }
+
+  .geopdf-frame-preview {
+    max-height: 38vh;
+  }
+
+  .geopdf-frame-actions {
+    position: sticky;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+    background: var(--paper);
+  }
 }
 
 /* Georeferencer (PR 2).
@@ -4228,6 +4471,24 @@ a {
 }
 
 .georeference-references-locked {
+  color: var(--muted);
+}
+
+/* The warp toggle, styled exactly like the reference-layers fieldset above it
+   rather than given a look of its own: they are siblings in the same footer
+   grid, and a bare <fieldset> falls back to the UA's 2px groove border, which
+   reads as a different KIND of control sitting next to it. */
+.georeference-method {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(10 20 22 / 12%);
+  border-radius: 6px;
+  font-size: 0.74rem;
+}
+
+.georeference-method small {
   color: var(--muted);
 }
 

@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 1,
+  "eventId": "cbrm-2026-07-21",
+  "saleDate": "2026-07-21",
+  "landingPage": "https://cbrm.ns.ca/business/property-sales-management/tax-sales/",
+  "source": "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
+  "retrievedDate": "2026-07-27",
+  "sourceDocumentSha256": "ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d",
+  "ownerNamesExcluded": true,
+  "resultRowCount": 54,
+  "results": [
+    {
+      "lien": "26-05",
+      "aan": "578134",
+      "pid": "15054588",
+      "minimumBidCents": 3310873,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-06",
+      "aan": "1351664",
+      "pid": "15161631",
+      "minimumBidCents": 3338032,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-10",
+      "aan": "546828",
+      "pid": "15129406",
+      "minimumBidCents": 994701,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 994701
+    },
+    {
+      "lien": "26-21",
+      "aan": "2904233",
+      "pid": "15498496",
+      "minimumBidCents": 971689,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "Official winning-bid column reads \"PAID AT SALE\"; no completed sale or winning bid is inferred."
+    },
+    {
+      "lien": "26-23",
+      "aan": "1870254",
+      "pid": "15437817",
+      "minimumBidCents": 1721181,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-24",
+      "aan": "2935694",
+      "pid": "15437825",
+      "minimumBidCents": 2075472,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-25",
+      "aan": "2817837",
+      "pid": "15144355",
+      "minimumBidCents": 2296153,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-29",
+      "aan": "4230604",
+      "pid": "15430697",
+      "minimumBidCents": 166972,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 300000
+    },
+    {
+      "lien": "26-30",
+      "aan": "1704621",
+      "pid": "15430689",
+      "minimumBidCents": 1478611,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-32",
+      "aan": "4790308",
+      "pid": "15401623",
+      "minimumBidCents": 745482,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-33",
+      "aan": "2975939",
+      "pid": "15401615",
+      "minimumBidCents": 590105,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-37",
+      "aan": "4688872",
+      "pid": "15131527",
+      "minimumBidCents": 318273,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 4100000
+    },
+    {
+      "lien": "26-38",
+      "aan": "2749033",
+      "pid": "15278112",
+      "minimumBidCents": 1023868,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 1023868
+    },
+    {
+      "lien": "26-43",
+      "aan": "1212206",
+      "pid": "15485543",
+      "minimumBidCents": 386398,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-44",
+      "aan": "6002293",
+      "pid": "15555303",
+      "minimumBidCents": 246981,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 246981
+    },
+    {
+      "lien": "26-45",
+      "aan": "2194279",
+      "pid": "15431745",
+      "minimumBidCents": 485897,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 760000
+    },
+    {
+      "lien": "26-46",
+      "aan": "4049756",
+      "pid": "15487713",
+      "minimumBidCents": 1080880,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-47",
+      "aan": "10656664",
+      "pid": "15876949",
+      "minimumBidCents": 916391,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 4100000
+    },
+    {
+      "lien": "26-48",
+      "aan": "1308564",
+      "pid": "15400419",
+      "minimumBidCents": 356115,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-49",
+      "aan": "2766124",
+      "pid": "15170897",
+      "minimumBidCents": 773929,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 970000
+    },
+    {
+      "lien": "26-51",
+      "aan": "380199",
+      "pid": "15443765",
+      "minimumBidCents": 2112230,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-56",
+      "aan": "4233107",
+      "pid": "15458540",
+      "minimumBidCents": 969767,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 1700000
+    },
+    {
+      "lien": "26-57",
+      "aan": "2946289",
+      "pid": "15417116",
+      "minimumBidCents": 1010242,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-58",
+      "aan": "3174085",
+      "pid": "15431620",
+      "minimumBidCents": 1429168,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-59",
+      "aan": "3140865",
+      "pid": "15416969",
+      "minimumBidCents": 1009034,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-60",
+      "aan": "2697505",
+      "pid": "15244833",
+      "minimumBidCents": 2646613,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-61",
+      "aan": "1135201",
+      "pid": "15047269",
+      "minimumBidCents": 640207,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 640207
+    },
+    {
+      "lien": "26-62",
+      "aan": "2821257",
+      "pid": "15245079",
+      "minimumBidCents": 2566345,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-66",
+      "aan": "10806283",
+      "pid": "15412836",
+      "minimumBidCents": 194763,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-67",
+      "aan": "2989662",
+      "pid": "15569841",
+      "minimumBidCents": 100459,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 320000
+    },
+    {
+      "lien": "26-72",
+      "aan": "3505588",
+      "pid": "15352891",
+      "minimumBidCents": 174656,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 1100000
+    },
+    {
+      "lien": "26-73",
+      "aan": "3648249",
+      "pid": "15354897",
+      "minimumBidCents": 1294789,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 1294789
+    },
+    {
+      "lien": "26-74",
+      "aan": "1720821",
+      "pid": "15180524",
+      "minimumBidCents": 1024777,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-79",
+      "aan": "2482177",
+      "pid": "15429921",
+      "minimumBidCents": 447320,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-80",
+      "aan": "10646804",
+      "pid": "15647670",
+      "minimumBidCents": 341546,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-81",
+      "aan": "10646790",
+      "pid": "15647688",
+      "minimumBidCents": 182270,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-82",
+      "aan": "10646812",
+      "pid": "15255375",
+      "minimumBidCents": 182270,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-83",
+      "aan": "120847",
+      "pid": "15243421",
+      "minimumBidCents": 1467113,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "sold",
+      "winningBidCents": 2000000
+    },
+    {
+      "lien": "26-84",
+      "aan": "1628712",
+      "pid": "15443682",
+      "minimumBidCents": 395706,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 395706
+    },
+    {
+      "lien": "26-85",
+      "aan": "1628739",
+      "pid": "15443690",
+      "minimumBidCents": 482527,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-88",
+      "aan": "1267094",
+      "pid": "15435654",
+      "minimumBidCents": 980896,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-90",
+      "aan": "4661443",
+      "pid": "15439292",
+      "minimumBidCents": 1056217,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-91",
+      "aan": "804924",
+      "pid": "15430069",
+      "minimumBidCents": 572477,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-92",
+      "aan": "2896044",
+      "pid": "15430077",
+      "minimumBidCents": 110417,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 180000
+    },
+    {
+      "lien": "26-93",
+      "aan": "2935414",
+      "pid": "15233315",
+      "minimumBidCents": 4889728,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-95",
+      "aan": "3347583",
+      "pid": "15138159",
+      "minimumBidCents": 3454161,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-104",
+      "aan": "9332316",
+      "pid": "15843675",
+      "minimumBidCents": 344897,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 2360000
+    },
+    {
+      "lien": "26-105",
+      "aan": "4187091",
+      "pid": "15174253",
+      "minimumBidCents": 1959890,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-107",
+      "aan": "7305672",
+      "pid": "15638067",
+      "minimumBidCents": 150252,
+      "redemptionCategory": "immediate-deed",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-109",
+      "aan": "5028485",
+      "pid": "15027097",
+      "minimumBidCents": 720346,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 1000000
+    },
+    {
+      "lien": "26-110",
+      "aan": "1137204",
+      "pid": "15019458",
+      "minimumBidCents": 433142,
+      "redemptionCategory": "six-month",
+      "outcome": "unknown",
+      "winningBidCents": null,
+      "resultNote": "The official result row publishes no winning bid or disposition; no outcome is inferred."
+    },
+    {
+      "lien": "26-111",
+      "aan": "9057528",
+      "pid": "15546591",
+      "minimumBidCents": 56384,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 56384
+    },
+    {
+      "lien": "26-112",
+      "aan": "4007689",
+      "pid": "15015621",
+      "minimumBidCents": 113969,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 113969
+    },
+    {
+      "lien": "26-113",
+      "aan": "3797368",
+      "pid": "15135189",
+      "minimumBidCents": 94401,
+      "redemptionCategory": "six-month",
+      "outcome": "sold",
+      "winningBidCents": 450000
+    }
+  ]
+}

@@ -3,11 +3,13 @@ import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
 import {
   allResourceLayerCatalog,
   environmentalHealthLayerCatalog,
+  forestryLayerCatalog,
   floodHazardLayerCatalog,
   fletcherLayerCatalog,
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
   type EnvironmentalHealthLayerId,
+  type ForestryLayerId,
   wellLogLayerCatalog,
   type HydroPilotLayerId,
   type FloodHazardLayerId,
@@ -29,6 +31,7 @@ export type ShareLayerId =
   | HydroPilotLayerId
   | FloodHazardLayerId
   | EnvironmentalHealthLayerId
+  | ForestryLayerId
   | ZoningLayerId
   | WellLogLayerId;
 
@@ -71,6 +74,7 @@ const validLayerIds = new Set<ShareLayerId>([
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
+  ...forestryLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
 ]);

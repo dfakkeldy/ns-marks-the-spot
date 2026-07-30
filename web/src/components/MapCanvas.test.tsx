@@ -88,6 +88,10 @@ const mineralLayerProps = vi.hoisted(() => ({
   current: undefined as Record<string, unknown> | undefined,
 }));
 
+const oldGrowthLayerProps = vi.hoisted(() => ({
+  current: undefined as Record<string, unknown> | undefined,
+}));
+
 const mineralLayerEffectStarts = vi.hoisted(() => vi.fn());
 
 vi.mock("react-leaflet", () => ({
@@ -149,9 +153,14 @@ vi.mock("react-leaflet", () => ({
   Pane: ({
     children,
     name,
+    pane,
     style,
-  }: PropsWithChildren<{ name: string; style?: CSSProperties }>) => (
-    <div data-testid={`pane-${name}`} style={style}>
+  }: PropsWithChildren<{
+    name: string;
+    pane?: string;
+    style?: CSSProperties;
+  }>) => (
+    <div data-testid={`pane-${name}`} data-parent-pane={pane} style={style}>
       {children}
     </div>
   ),
@@ -236,6 +245,19 @@ vi.mock("./MineralProximityParcelLayer", () => ({
   },
 }));
 
+vi.mock("./OldGrowthPolicyLayer", () => ({
+  OldGrowthPolicyLayer: (props: {
+    visible: boolean;
+    layer: { id: string };
+    renderMode: string;
+  }) => {
+    oldGrowthLayerProps.current = props;
+    return props.visible ? (
+      <div data-testid="old-growth-policy-layer">{props.layer.id}</div>
+    ) : null;
+  },
+}));
+
 vi.mock("./MeasureTool", () => ({
   MeasureTool: ({
     mode,
@@ -304,6 +326,7 @@ afterEach(() => {
   circleMarkerProps.calls.length = 0;
   tileLayerProps.calls.length = 0;
   mineralLayerProps.current = undefined;
+  oldGrowthLayerProps.current = undefined;
 });
 
 describe("MapCanvas browser location", () => {
@@ -1294,6 +1317,29 @@ describe("MapCanvas cartographic furniture", () => {
       "data-position",
       "bottomleft",
     );
+  });
+
+  it("renders the optional old-growth policy layer in its contextual pane", () => {
+    render(
+      <MapCanvas
+        {...furnitureProps}
+        forestryLayers={{ "old-growth-policy": true }}
+      />,
+    );
+
+    expect(screen.getByTestId("old-growth-policy-layer")).toHaveTextContent(
+      "old-growth-policy",
+    );
+    expect(oldGrowthLayerProps.current).toMatchObject({
+      visible: true,
+      renderMode: "interactive",
+    });
+    expect(
+      screen.getByTestId("pane-old-growth-policy-pane"),
+    ).toHaveStyle({ zIndex: "190" });
+    expect(
+      screen.getByTestId("pane-old-growth-policy-pane"),
+    ).toHaveAttribute("data-parent-pane", "tilePane");
   });
 
   it("shows a copyable centre/zoom readout", async () => {

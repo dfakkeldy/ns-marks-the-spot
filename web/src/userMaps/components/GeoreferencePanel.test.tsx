@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 // ScanPane mounts a real MapContainer, which needs a sized DOM node jsdom
 // does not provide. The panel's own behaviour is what this file tests, so the
@@ -26,18 +26,39 @@ import { describe, expect, it, vi } from "vitest";
 //    `tsc -b`-clean and green against every OTHER test in this file, because
 //    a stub that discards its props can't see which function it was handed.
 //    See "passes the real handlers..." below.
+//
+// For the same reason it echoes `tabPanel` back as id/role/aria-labelledby:
+// the scan pane is the Scan tab's PANEL, and the tab round trip below cannot
+// be checked against a stub that swallows it. Same honesty condition as the
+// class — ScanPane.test.tsx pins that the REAL component applies those three
+// attributes from the same prop, so this echo reflects the component rather
+// than inventing a shape for it.
 const scanPaneCalls: Array<Record<string, unknown>> = [];
 vi.mock("./ScanPane", () => ({
   ScanPane: (props: Record<string, unknown>) => {
     scanPaneCalls.push(props);
-    return <div className="georeference-scan" data-testid="scan-pane" />;
+    const tabPanel = props.tabPanel as
+      | { id: string; labelledBy: string }
+      | undefined;
+    return (
+      <div
+        className="georeference-scan"
+        data-testid="scan-pane"
+        id={tabPanel?.id}
+        role={tabPanel ? "tabpanel" : undefined}
+        aria-labelledby={tabPanel?.labelledBy}
+      />
+    );
   },
 }));
 
 import { GeoreferencePanel } from "./GeoreferencePanel";
 import { statusMessage } from "./georeferenceStatus";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
-import type { UserMapRecord } from "../types";
+import { georeferenceAnnotation } from "../allmaps/annotation";
+import { BENT, gcpRecord } from "../testFixtures";
+import { MIN_GCPS_FOR_TPS } from "../transform/tps";
+import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 
 const RECORD: UserMapRecord = {
   id: "m",
@@ -61,6 +82,7 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
     pickMapPoint: vi.fn(),
     cancelPending: vi.fn(),
     beginDragGcp: vi.fn(),
+    endDragGcp: vi.fn(),
     moveGcpOnScan: vi.fn(),
     moveGcpOnMap: vi.fn(),
     deleteGcp: vi.fn(),
@@ -74,12 +96,18 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
   };
 }
 
+/** A record whose GCP georeference uses `method`, for the warp toggle tests. */
+function recordWithMethod(method: GeoreferenceMethod): UserMapRecord {
+  return { ...RECORD, georef: { kind: "gcp", method, gcps: [] } };
+}
+
 function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typeof GeoreferencePanel>[0]> = {}) {
   const onClose = vi.fn();
   const onDelete = vi.fn();
   const onOpacityChange = vi.fn();
   const onToggleReferenceLayer = vi.fn();
   const onFocusGcpOnMap = vi.fn();
+  const onMethodChange = vi.fn();
   const utils = render(
     <GeoreferencePanel
       record={RECORD}
@@ -90,6 +118,7 @@ function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typ
       onClose={onClose}
       onDelete={onDelete}
       onFocusGcpOnMap={onFocusGcpOnMap}
+      onMethodChange={onMethodChange}
       referenceLayers={{ aerial: false, parcels: true }}
       referenceLayersLocked={false}
       onToggleReferenceLayer={onToggleReferenceLayer}
@@ -103,6 +132,7 @@ function renderPanel(session: GeoreferenceSession, props: Partial<Parameters<typ
     onOpacityChange,
     onToggleReferenceLayer,
     onFocusGcpOnMap,
+    onMethodChange,
   };
 }
 
@@ -123,22 +153,107 @@ describe("statusMessage", () => {
   });
 
   it("explains a refused solve without claiming it is always a straight scan line", () => {
-    // The status covers three refusals, only one of which is "the points on
-    // the SCAN are nearly collinear": a non-finite result and a 50:1 axis
-    // squash also land here, and the squash is what three map clicks down a
-    // meridian produce from a perfectly good scan triangle. Copy that said
-    // "move one off the line" would be wrong advice in two cases out of
-    // three, so it names both sides.
+    // The status covers every refusal shared by both solvers, most but not
+    // all of which are "the points on the SCAN are nearly collinear": a
+    // non-finite result and a 50:1 axis squash also land here, and the squash
+    // is what three map clicks down a meridian produce from a perfectly good
+    // scan triangle. Copy that said "move one off the line" would be wrong
+    // advice for those, so it names both sides. Two coincident TPS control
+    // points is the one refusal that DOESN'T land here — see the next test.
     expect(statusMessage({ kind: "degenerate" })).toBe(
       "These points can't pin the map down — check that neither the scan " +
         "points nor the map points sit on a straight line.",
     );
   });
 
-  it("reports RMS with the point count", () => {
-    expect(statusMessage({ kind: "solved", rmsMetres: 42.4, count: 5 })).toBe(
-      "RMS 42 m across 5 points",
+  it("tells the user to move or delete a duplicate rather than the generic degenerate message", () => {
+    // Task 4: coincident TPS control points get a specific, actionable
+    // message instead of `degenerate`'s — unlike a thin cloud or a squashed
+    // axis, nothing about two points on the same scan pixel is "a straight
+    // line", and the fix is concrete rather than "spread your points out".
+    expect(statusMessage({ kind: "coincident-points" })).toBe(
+      "Two points are on the same spot — move or delete one.",
     );
+  });
+
+  it("says the accuracy check is off rather than asking for a 4th point, past the cap", () => {
+    // Task 7b. `tpsResidualReport` returns null for two unrelated reasons, and
+    // only one of them is "too few points": above MAX_GCPS_FOR_TPS_RESIDUALS
+    // (50) leave-one-out would cost n O(n^3) solves on every pointer move.
+    // Folded into `exact-fit`, a user with 51 control points was told their fit
+    // was exact and to add a fourth. The remedy differs — there is none, and
+    // nothing is broken — so it earns its own kind.
+    expect(statusMessage({ kind: "too-many-points" })).toBe(
+      "Too many points to check accuracy — the map still draws.",
+    );
+    expect(statusMessage({ kind: "too-many-points" })).not.toBe(
+      statusMessage({ kind: "exact-fit" }),
+    );
+  });
+
+  it("names the remedy, and says the map draws, when a leave-one-out refit refuses", () => {
+    // Task 7b round 2, the third TPS refusal. Distinct from BOTH neighbours:
+    // unlike `too-many-points` there IS something to do about it, and unlike
+    // `degenerate` the map is already on screen — the full set solves, only
+    // the (n-1) subsets do not. Copy proposed for maintainer review.
+    expect(statusMessage({ kind: "refit-refused" })).toBe(
+      "Can't check accuracy — these points sit too close to a straight " +
+        "line. Spread them out; the map still draws.",
+    );
+  });
+
+  it("gives all five non-solved statuses five different sentences", () => {
+    // The taxonomy guard. Every per-kind test above would still pass if two
+    // kinds returned the SAME string, which is the failure this table has
+    // actually produced twice — `exact-fit`'s copy standing in for a refusal
+    // that had nothing to do with a fourth point.
+    const messages = (
+      [
+        { kind: "exact-fit" },
+        { kind: "too-many-points" },
+        { kind: "refit-refused" },
+        { kind: "degenerate" },
+        { kind: "coincident-points" },
+      ] as const
+    ).map(statusMessage);
+    expect(new Set(messages).size, JSON.stringify(messages)).toBe(5);
+  });
+
+  it("reports RMS with the point count on the AFFINE path", () => {
+    expect(
+      statusMessage({
+        kind: "solved",
+        rmsMetres: 42.4,
+        count: 5,
+        method: "affine",
+      }),
+    ).toBe("RMS 42 m across 5 points");
+  });
+
+  it("frames the TPS figure as an upper bound, because that is what it is", () => {
+    // A spline passes through its control points exactly, so there is no fit
+    // residual to call RMS; the number is leave-one-out, measured to overstate
+    // true warp error by 1.77x (n = 12) to 3.71x (n = 4) and never to
+    // understate it. Measured case: 4 points with ~65 m of true warp error
+    // printed "RMS 240 m", which a user reads as a georeference to discard.
+    expect(
+      statusMessage({
+        kind: "solved",
+        rmsMetres: 240.3,
+        count: 4,
+        method: "tps",
+      }),
+    ).toBe("No worse than 240 m across 4 points");
+    // The word that made the old sentence wrong must be gone, not merely
+    // prefixed: "RMS no worse than …" would pass a substring check.
+    expect(
+      statusMessage({
+        kind: "solved",
+        rmsMetres: 240.3,
+        count: 4,
+        method: "tps",
+      }),
+    ).not.toContain("RMS");
   });
 
   it("prompts for the other half of a pending pair", () => {
@@ -213,6 +328,57 @@ describe("GeoreferencePanel", () => {
       "data-tab",
       "scan",
     );
+  });
+
+  it("points each tab at a real panel that names that tab back", () => {
+    // `role="tablist"` + two `role="tab"` + `aria-selected` shipped with
+    // neither `aria-controls` nor any `role="tabpanel"`: the buttons
+    // announced as tabs and controlled nothing, so on the narrow layout —
+    // the only place the tablist is visible at all — a screen-reader user was
+    // told there were two panes and given nothing linking either tab to what
+    // it reveals.
+    //
+    // Asserted as a ROUND TRIP (tab -> aria-controls -> element -> its
+    // aria-labelledby -> back to that same tab's id) because both ids are
+    // just strings: `tsc -b` is equally happy with Scan pointing at the map
+    // bar and Map pointing at the scan. A one-way "has an aria-controls"
+    // check cannot tell a correct pair from a transposed one, and neither
+    // can a check that the attribute merely resolves to SOME element.
+    const { container } = renderPanel(fakeSession());
+    expect(screen.getAllByRole("tab")).toHaveLength(2);
+    const cases = [
+      // The panels live in two different places on purpose: the scan panel is
+      // a grid child of `.georeference-panel` (rendered by ScanPane), the map
+      // panel is the floating bar, a SIBLING of the panel. aria-controls is
+      // what associates them; DOM adjacency is impossible here.
+      { name: "Scan", panelClass: "georeference-scan" },
+      { name: "Map", panelClass: "georeference-map-bar" },
+    ];
+    for (const { name, panelClass } of cases) {
+      const tab = screen.getByRole("tab", { name });
+      const tabId = tab.getAttribute("id");
+      // Exact-ish, not `not.toBeNull()`: `getAttribute` returns null for a
+      // missing attribute, and an EMPTY id would still be a non-null string
+      // that no aria-labelledby could ever usefully point at.
+      expect(tabId).toEqual(expect.stringMatching(/\S/));
+      const controls = tab.getAttribute("aria-controls");
+      expect(controls).toEqual(expect.stringMatching(/\S/));
+      const panel = container.querySelector(`#${controls}`);
+      // The attribute existing is not the claim — the claim is that it names
+      // an element that is actually here. querySelector on a stale or
+      // misspelled id returns null, which an attribute-only assertion misses.
+      expect(panel).toBeInstanceOf(HTMLElement);
+      expect(panel).toHaveClass(panelClass);
+      expect(panel).toHaveAttribute("role", "tabpanel");
+      // The half that catches the transposition.
+      expect(panel).toHaveAttribute("aria-labelledby", tabId);
+      // Deliberately NOT `hidden`. Above the two-pane breakpoint the tablist
+      // is display:none and BOTH panes are on screen at once; only the
+      // stylesheet knows that, so a JS-side "hide the unselected panel" —
+      // the textbook next step of this pattern — would blank half the wide
+      // layout. Visibility stays the stylesheet's job, via `data-tab`.
+      expect(panel).not.toHaveAttribute("hidden");
+    }
   });
 
   it("announces status politely for screen readers", () => {
@@ -502,7 +668,12 @@ describe("GeoreferencePanel", () => {
     // pickMapPoint would record every scan click as a map click;
     // onDragStartGcp dropped entirely reopens the exact StrictMode
     // regression documented on ScanPane's own dragstart handler, where one
-    // Ctrl+Z walks back past an entire drag instead of one step.
+    // Ctrl+Z walks back past an entire drag instead of one step; and
+    // onDragEndGcp <-> beginDragGcp (identical signatures again) leaves the
+    // TPS drape stuck on the coarse drag lattice AND pushes a second undo
+    // snapshot on release. This panel is the ONLY place the scan pane's end
+    // handler is chosen, so nothing downstream — not even the real-mount
+    // drag test, which supplies its own spies — can catch that one.
     scanPaneCalls.length = 0;
     const gcp = { id: "a", pixel: { x: 10, y: 20 }, map: { lat: 46, lng: -61 } };
     const session = fakeSession({ gcps: [gcp] });
@@ -513,6 +684,7 @@ describe("GeoreferencePanel", () => {
     expect(props.onMoveGcp).toBe(session.moveGcpOnScan);
     expect(props.onPickPoint).toBe(session.pickScanPoint);
     expect(props.onDragStartGcp).toBe(session.beginDragGcp);
+    expect(props.onDragEndGcp).toBe(session.endDragGcp);
     expect(props.gcps).toBe(session.gcps);
     expect(props.previewUrl).toBe("blob:scan-preview");
     expect(props.pixelSize).toEqual(RECORD.pixelSize);
@@ -540,5 +712,215 @@ describe("GeoreferencePanel", () => {
     // window.confirm — the user reads a dialog that reappears as broken.
     expect(confirmSpy).toHaveBeenCalledTimes(2);
     confirmSpy.mockRestore();
+  });
+});
+
+describe("GeoreferencePanel warp toggle", () => {
+  const TPS_LABEL = "Curved warp (TPS)";
+
+  /** The first count at which a spline differs from the affine through the
+   * same points. Written as `MIN_GCPS_FOR_TPS + 1` rather than imported as
+   * `MIN_GCPS_FOR_BENDING_TPS`, deliberately: the component gates on the
+   * latter, so re-deriving it here keeps this an independent statement of what
+   * the gate should be instead of an identity that holds however the constant
+   * drifts. A literal 4 would be independent too, but would stop tracking the
+   * solver's floor. */
+  const GATE = MIN_GCPS_FOR_TPS + 1;
+
+  function warpToggle(): HTMLElement | null {
+    return screen.queryByRole("checkbox", { name: TPS_LABEL });
+  }
+
+  it("keeps the toggle out of the DOM below the gate, rather than disabling it", () => {
+    // Spec: "At 4+ points a TPS toggle appears." Below that it is ABSENT.
+    // A disabled-but-present control is a different promise — it advertises a
+    // warp the user cannot reach and gives no reason — and it is what an
+    // earlier draft of this panel would have shipped.
+    renderPanel(fakeSession({ gcps: [] }));
+    expect(warpToggle()).toBeNull();
+    // One below the gate, which is where an off-by-one lands.
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE - 1) }));
+    expect(warpToggle()).toBeNull();
+  });
+
+  it("offers the toggle from the gate upwards", () => {
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }));
+    const toggle = warpToggle();
+    expect(toggle).toBeInTheDocument();
+    // Present AND usable: the absent/disabled distinction above cuts both
+    // ways, so a toggle that appeared inert would fail the same spec line.
+    expect(toggle).toBeEnabled();
+  });
+
+  it("says in text what the curved warp does and does not overstate it", () => {
+    // Copy is the maintainer's call, proposed for review. It must NOT claim an
+    // accuracy improvement: the leave-one-out figure this panel displays is
+    // measured to OVERSTATE true warp error by 1.8x-3.7x, so any claim about
+    // error belongs in the accuracy line as an upper bound, not here.
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }));
+    expect(
+      screen.getByText(
+        "Passes exactly through every point. Better for hand-drawn maps " +
+          "that don't sit flat.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("takes its checked state from the record's own method, both ways", () => {
+    // The toggle's visual state and the state a screen reader announces are
+    // the SAME property of a native checkbox — there is no second, hidden
+    // carrier that could drift out of step with the tick, which is why this
+    // control needs no `.visually-hidden` label the way GcpList's suspect row
+    // does. What CAN drift is the checkbox and the record: a `checked` pinned
+    // to local state, or to a literal, would show "off" over a tps drape. So
+    // both members of the union are rendered and asserted.
+    const { unmount } = renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("affine"),
+    });
+    expect(warpToggle()).not.toBeChecked();
+    unmount();
+
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("tps"),
+    });
+    expect(warpToggle()).toBeChecked();
+  });
+
+  it("asks for the OTHER method, not for a fixed one", async () => {
+    // Both arms, because both "tps" and "affine" are valid members of
+    // GeoreferenceMethod: a handler wired to a constant — or to the value it
+    // already has — type-checks cleanly and would leave the toggle inert (or,
+    // inverted, switching the wrong way) with every other test here green.
+    const affine = renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("affine"),
+    });
+    await userEvent.click(screen.getByRole("checkbox", { name: TPS_LABEL }));
+    expect(affine.onMethodChange).toHaveBeenCalledWith("tps");
+    affine.unmount();
+
+    const tps = renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: recordWithMethod("tps"),
+    });
+    await userEvent.click(screen.getByRole("checkbox", { name: TPS_LABEL }));
+    expect(tps.onMethodChange).toHaveBeenCalledWith("affine");
+  });
+});
+
+describe("GeoreferencePanel export control", () => {
+  const EXPORT_LABEL = "Export georeference";
+
+  /**
+   * Deliberately `MIN_GCPS_FOR_TPS` (3), NOT the warp toggle's
+   * `MIN_GCPS_FOR_BENDING_TPS` (4). The plan draft that shipped to this task
+   * aligned the two gates on the theory that the earlier one-point gap was an
+   * inconsistency to fix; it wasn't. The toggle's 4 exists because a spline
+   * needs a FOURTH point to bend at all (tps.ts) — below it, TPS and affine
+   * produce an identical drape, so the toggle would be a choice with no
+   * consequence. Export has no such constraint: the IIIF spec's own floor for
+   * a warping transformation is 3 GCPs, and this app's own solver already
+   * draws a real (affine) drape at exactly 3 — `MIN_GCPS_FOR_AFFINE ===
+   * MIN_GCPS_FOR_TPS` (affine.ts, tps.ts). Gating export at 4 would withhold
+   * a valid export for every 3-point map the app already renders.
+   */
+  const GATE = MIN_GCPS_FOR_TPS;
+
+  function exportButton(): HTMLElement | null {
+    return screen.queryByRole("button", { name: EXPORT_LABEL });
+  }
+
+  function recordWithGcps(
+    gcps: Gcp[],
+    method: GeoreferenceMethod = "affine",
+  ): UserMapRecord {
+    return gcpRecord({ georef: { kind: "gcp", method, gcps } });
+  }
+
+  it("keeps the control out of the DOM below the export gate", () => {
+    renderPanel(fakeSession(), { record: recordWithGcps([]) });
+    expect(exportButton()).toBeNull();
+    // One below the gate, which is where an off-by-one lands.
+    renderPanel(fakeSession(), {
+      record: recordWithGcps(BENT.slice(0, GATE - 1)),
+    });
+    expect(exportButton()).toBeNull();
+  });
+
+  it("offers the control from the gate upwards — MIN_GCPS_FOR_TPS, not MIN_GCPS_FOR_BENDING_TPS", () => {
+    renderPanel(fakeSession(), { record: recordWithGcps(BENT.slice(0, GATE)) });
+    const button = exportButton();
+    expect(button).toBeInTheDocument();
+    expect(button).toBeEnabled();
+  });
+
+  it("is absent for an embedded-georeference record, which has no GCPs to export", () => {
+    // georeferenceAnnotation(record) returns null for this kind (Task 9). A
+    // button that appeared anyway and downloaded `null` would be worse than
+    // no button — this pins the control absent rather than merely inert.
+    const embedded: UserMapRecord = {
+      ...gcpRecord(),
+      georef: {
+        kind: "embedded",
+        crs: "EPSG:26920",
+        geotransform: [500000, 1, 0, 5100000, 0, -1],
+      },
+    };
+    renderPanel(fakeSession({ gcps: BENT.slice(0, GATE) }), {
+      record: embedded,
+    });
+    expect(exportButton()).toBeNull();
+  });
+
+  it("downloads the exact serialized annotation, named after the record, and revokes the URL it created", async () => {
+    // A per-call dynamic URL (not a fixed literal) so "revoke was called with
+    // the created URL" cannot pass by a hardcoded coincidence — see
+    // useUserMaps.test.ts for the same convention.
+    const createObjectURL = vi.fn<(blob: Blob) => string>(
+      () => `blob:georef-export-${Math.random()}`,
+    );
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal("URL", { ...URL, createObjectURL, revokeObjectURL });
+
+    // A real `function`, not an arrow, so `this` inside the mock is the
+    // clicked anchor — the only way to recover the filename it was given,
+    // since `link.click()` triggers navigation jsdom does not implement.
+    // Captured through a mutable object rather than a bare closed-over `let`
+    // — `tsc -b` otherwise narrows the outer variable to `never` at the read
+    // site below, past the point where the mock has actually run.
+    const captured: { link: HTMLAnchorElement | null } = { link: null };
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        captured.link = this;
+      });
+
+    const record = gcpRecord({
+      name: "Church of Inverness 1888",
+      georef: { kind: "gcp", method: "tps", gcps: BENT },
+    });
+    renderPanel(fakeSession(), { record });
+
+    await userEvent.click(screen.getByRole("button", { name: EXPORT_LABEL }));
+
+    // Assertion 1: the serialized payload equals georeferenceAnnotation(record).
+    expect(createObjectURL).toHaveBeenCalledTimes(1);
+    const blob = createObjectURL.mock.calls[0][0] as Blob;
+    const payload = JSON.parse(await blob.text());
+    expect(payload).toEqual(georeferenceAnnotation(record));
+
+    // Assertion 2: the filename is `<record.name>.georef.json`.
+    expect(captured.link?.download).toBe(
+      "Church of Inverness 1888.georef.json",
+    );
+
+    // Assertion 3: revokeObjectURL is called with the URL createObjectURL
+    // handed back for THIS call.
+    const createdUrl = createObjectURL.mock.results[0].value as string;
+    expect(revokeObjectURL).toHaveBeenCalledWith(createdUrl);
+
+    anchorClick.mockRestore();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 });

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { meshForRecord } from "./recordMesh";
-import type { UserMapRecord } from "./types";
+import { BENT, gcpRecord } from "./testFixtures";
+import { AFFINE_GRID_SIZE, TPS_GRID_SIZE } from "./transform/gcpMesh";
+import type { GcpGeoref, UserMapRecord } from "./types";
 
 const GCP_RECORD: UserMapRecord = {
   id: "g",
@@ -94,9 +96,58 @@ describe("meshForRecord", () => {
     ).toBeNull();
   });
 
+  it("draws a SAVED tps record through the spline too", () => {
+    // recordMesh.ts is what UserMapLayers actually calls (UserMapLayers.tsx:133).
+    // Without this, the panel shows TPS and the saved layer snaps back to affine
+    // the moment the user clicks Done — with every other test still green.
+    const record = gcpRecord({ georef: { kind: "gcp", gcps: BENT, method: "tps" } });
+    const mesh = meshForRecord(record)!;
+    expect(mesh.length - 1).toBe(TPS_GRID_SIZE);
+    const affineMesh = meshForRecord(gcpRecord({
+      georef: { kind: "gcp", gcps: BENT, method: "affine" },
+    }))!;
+    expect(affineMesh.length - 1).toBe(AFFINE_GRID_SIZE);
+  });
+
+  it("drops a 3-point tps record back to the AFFINE lattice", () => {
+    // A record reaches this state by having a point deleted after the warp was
+    // chosen: the toggle's gate is a count, so at three points the control is
+    // gone and the user cannot switch back. The drapes are identical there —
+    // the spline's bending weights are exactly zero at n = 3, measured at
+    // 1.317e-9 m worst separation — but the COST is not: TPS_GRID_SIZE is 32,
+    // so the spline path pays 2 * 32^2 = 2048 clipped full-image draws per
+    // redraw against the affine's 2, on every pan and zoom, forever.
+    const threePoint = meshForRecord({
+      ...GCP_RECORD,
+      georef: { ...(GCP_RECORD.georef as GcpGeoref), method: "tps" },
+    })!;
+    expect(threePoint.length - 1).toBe(AFFINE_GRID_SIZE);
+    // Not "it returned something": the fallback must produce the same drape
+    // the spline would have, or this is a silent georeferencing change rather
+    // than a cost saving. Compared against the record's own affine.
+    const asAffine = meshForRecord(GCP_RECORD)!;
+    expect(threePoint).toEqual(asAffine);
+    // …and one more point puts it straight back on the spline, so this is a
+    // floor and not a disabling of TPS in `meshForRecord`.
+    const fourPoint = meshForRecord(
+      gcpRecord({ georef: { kind: "gcp", gcps: BENT.slice(0, 4), method: "tps" } }),
+    )!;
+    expect(fourPoint.length - 1).toBe(TPS_GRID_SIZE);
+  });
+
   it("still builds an 8x8 mesh for embedded georeferencing", () => {
     // Embedded rasters go pixel -> UTM -> WGS84 -> Mercator, and UTM curves,
     // so they keep the dense lattice. Only the GCP path is exact at 1x1.
     expect(meshForRecord(EMBEDDED_RECORD)).toHaveLength(9);
+  });
+
+  it("forwards a saved record's selected source rectangle", () => {
+    const record = {
+      ...EMBEDDED_RECORD,
+      sourceRect: { x: 1, y: 1, width: 6, height: 4 },
+    };
+    const mesh = meshForRecord(record)!;
+    expect(mesh[0][0]).not.toEqual(meshForRecord(EMBEDDED_RECORD)![0][0]);
+    expect(mesh[8][8]).not.toEqual(meshForRecord(EMBEDDED_RECORD)![8][8]);
   });
 });

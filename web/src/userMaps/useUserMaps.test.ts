@@ -5,8 +5,21 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { UserMapImportError } from "./errors";
 import { UserMapStore } from "./store/userMapStore";
-import type { Gcp, GcpGeoref } from "./types";
-import { useUserMaps } from "./useUserMaps";
+import { meshForRecord } from "./recordMesh";
+import { BENT, gcpRecord } from "./testFixtures";
+import { solveAffineFromGcps } from "./transform/affine";
+import type { ParsedGeoPdf } from "./parsers/geoPdfSource";
+import type {
+  Gcp,
+  GcpGeoref,
+  ParsedPdfRegistration,
+  PdfRegistrationCandidate,
+} from "./types";
+import {
+  needsFrameSelection,
+  needsGeoreferencing,
+  useUserMaps,
+} from "./useUserMaps";
 
 function fixtureFile(name = "survey.tif"): File {
   const raw = readFileSync(
@@ -51,6 +64,43 @@ function tiffFile(name: string): File {
   return new File([magic], name, { type: "image/tiff" });
 }
 
+function pdfFile(name = "map.pdf"): File {
+  return new File(
+    [new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])],
+    name,
+    { type: "application/pdf" },
+  );
+}
+
+function pdfCandidate(
+  id: string,
+  label: string,
+): PdfRegistrationCandidate {
+  return {
+    id,
+    flavor: "measure",
+    embeddedLabel: label,
+    sourceRect: { x: 100, y: 80, width: 3600, height: 2700 },
+    gcps: [
+      { id: `${id}-1`, pixel: { x: 100, y: 80 }, map: { lat: 46, lng: -63 } },
+      { id: `${id}-2`, pixel: { x: 3700, y: 80 }, map: { lat: 46, lng: -62 } },
+      { id: `${id}-3`, pixel: { x: 100, y: 2780 }, map: { lat: 45, lng: -63 } },
+    ],
+  };
+}
+
+function testParsePdf(
+  registration: ParsedPdfRegistration,
+): () => Promise<ParsedGeoPdf> {
+  return async () => ({
+    pixelSize: { width: 4096, height: 3072 },
+    previewSize: { width: 4096, height: 3072 },
+    preview: new Blob(["preview"], { type: "image/png" }),
+    pageCount: 2,
+    registration,
+  });
+}
+
 let factory: IDBFactory;
 
 function options(overrides: Record<string, unknown> = {}) {
@@ -74,6 +124,46 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   localStorage.clear();
+});
+
+describe("needsGeoreferencing", () => {
+  it("does not badge a tps-solvable record as needing georeferencing", () => {
+    // needsGeoreferencing (useUserMaps.ts:57) gates admission to visibleMaps.
+    // Affine refuses a transform squashed past MIN_ANISOTROPY_RATIO; TPS has no
+    // such concept, so an affine-only check would exclude a record whose spline
+    // is fine and the user could never switch it on.
+    const record = gcpRecord({ georef: { kind: "gcp", gcps: BENT, method: "tps" } });
+    expect(needsGeoreferencing(record)).toBe(false);
+  });
+
+  it("badges a tps record the SPLINE refuses, though an affine would solve it", () => {
+    // Added beyond the brief's list, and it is the test that actually pins the
+    // wiring. Measured: the test above passes against an affine-only
+    // predicate, because `solveTps` refuses a strict SUPERSET of what
+    // `solveAffine` does — its destination gate IS a `solveAffine` call
+    // (tps.ts:162) — so no record exists that affine refuses and TPS accepts.
+    // The real divergence runs the other way, and this is it: a double-click
+    // puts two control points on the same scan pixel, which makes two rows of
+    // the interpolation matrix identical. An affine least-squares fit just
+    // averages the duplicate away and solves; the spline refuses. Left
+    // affine-only, the row gets an enabled checkbox and a slider, enters
+    // `visibleMaps`, and then `meshForRecord` returns null and nothing is
+    // drawn — the exact lie this predicate's doc comment exists to prevent.
+    const doubleClicked: Gcp[] = [
+      ...BENT,
+      { id: "dup", pixel: { x: 320, y: 240 }, map: { lat: 46.407181, lng: -61.530755 } },
+    ];
+    // Pins that the fixture discriminates rather than being degenerate for
+    // both solvers: an affine genuinely accepts these points.
+    expect(solveAffineFromGcps(doubleClicked)).not.toBeNull();
+    const record = gcpRecord({
+      georef: { kind: "gcp", gcps: doubleClicked, method: "tps" },
+    });
+    expect(needsGeoreferencing(record)).toBe(true);
+    // The predicate exists to mean "meshForRecord will draw nothing", so the
+    // two must agree about this record.
+    expect(meshForRecord(record)).toBeNull();
+  });
 });
 
 describe("useUserMaps", () => {
@@ -101,23 +191,208 @@ describe("useUserMaps", () => {
     await waitFor(() => expect(second.result.current.records).toHaveLength(1));
   });
 
-  it("reports the conversion hint for PDFs, even tiny ones", async () => {
-    const { result } = renderHook(() => useUserMaps(options()));
-    // 5 bytes on purpose: regression guard for the Uint8Array(buffer, 0, 16)
-    // RangeError the review caught.
-    const pdf = new File([new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d])], "plan.pdf");
-    await act(async () => {
-      await result.current.importFiles([pdf]);
-    });
-    expect(result.current.outcomes[0]).toMatchObject({ ok: false });
-    // PDFs are the only type still turned away, and the georeferencer now
-    // exists, so the old "arrives with the georeferencer" copy would be a
-    // lie: the message has to tell the user how to get the file in today.
-    expect((result.current.outcomes[0] as { message: string }).message).toContain(
-      "gdal_translate",
+  it("imports a sole GeoPDF frame from embedded coordinates", async () => {
+    const selected = pdfCandidate("main", "Map frame");
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parsePdf: testParsePdf({
+            status: "automatic",
+            selection: { kind: "sole" },
+            selected,
+            candidates: [selected],
+          }),
+        }),
+      ),
     );
-    expect(result.current.records).toHaveLength(0);
+    await act(async () => {
+      await result.current.importFiles([pdfFile("plan.pdf")]);
+    });
+    const record = result.current.records[0];
+    expect(record).toMatchObject({
+      source: "geopdf",
+      sourceRect: selected.sourceRect,
+      georef: { kind: "gcp", method: "affine", gcps: selected.gcps },
+      pdf: {
+        pageNumber: 1,
+        pageCount: 2,
+        registration: {
+          status: "embedded",
+          selection: { kind: "sole" },
+          selectedFrameId: "main",
+          adjusted: false,
+        },
+      },
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.fitRequest).toEqual({
+      mapId: record.id,
+      revision: 1,
+    });
+    expect((result.current.outcomes[0] as { note?: string }).note).toContain(
+      "later pages were not imported",
+    );
   });
+
+  it("keeps multi-frame GeoPDFs out of manual georeferencing until a frame is chosen", async () => {
+    const candidates = [
+      pdfCandidate("main", "Map Layers"),
+      pdfCandidate("inset", "Quadrangle Location"),
+    ];
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parsePdf: testParsePdf({
+            status: "selection-required",
+            candidates,
+          }),
+        }),
+      ),
+    );
+    await act(async () => {
+      await result.current.importFiles([pdfFile()]);
+    });
+    const record = result.current.records[0];
+    expect(needsFrameSelection(record)).toBe(true);
+    expect(needsGeoreferencing(record)).toBe(false);
+    expect(result.current.frameChoosingId).toBe(record.id);
+    expect(result.current.georeferencingId).toBeNull();
+    expect(result.current.visibleMaps).toHaveLength(0);
+    expect(result.current.fitRequest).toBeNull();
+
+    await act(async () => {
+      await result.current.selectPdfFrame(record.id, "inset");
+    });
+    expect(result.current.records[0]).toMatchObject({
+      sourceRect: candidates[1].sourceRect,
+      pdf: {
+        registration: {
+          status: "embedded",
+          selection: { kind: "user" },
+          selectedFrameId: "inset",
+          adjusted: false,
+        },
+      },
+    });
+    expect(result.current.georeferencingId).toBeNull();
+    expect(result.current.visibleMaps).toHaveLength(1);
+    expect(result.current.fitRequest).toEqual({
+      mapId: record.id,
+      revision: 1,
+    });
+  });
+
+  it("requires confirmation before replacing adjusted embedded points", async () => {
+    const candidates = [
+      pdfCandidate("main", "Map Layers"),
+      pdfCandidate("inset", "Quadrangle Location"),
+    ];
+    const { result } = renderHook(() =>
+      useUserMaps(
+        options({
+          parsePdf: testParsePdf({
+            status: "automatic",
+            selection: {
+              kind: "producer-rule",
+              ruleId: "usgs-ustopo-map-layers-v1",
+            },
+            selected: candidates[0],
+            candidates,
+          }),
+        }),
+      ),
+    );
+    await act(async () => {
+      await result.current.importFiles([pdfFile()]);
+    });
+    const id = result.current.records[0].id;
+    const adjusted = candidates[0].gcps.map((gcp, index) =>
+      index === 0
+        ? { ...gcp, pixel: { ...gcp.pixel, x: gcp.pixel.x + 1 } }
+        : gcp,
+    );
+    await act(async () => {
+      await result.current.saveGcps(id, adjusted);
+    });
+    expect(result.current.records[0].pdf?.registration).toMatchObject({
+      status: "embedded",
+      adjusted: true,
+    });
+    await expect(
+      result.current.selectPdfFrame(id, "inset"),
+    ).rejects.toThrow("confirmation");
+    expect(
+      result.current.records[0].pdf?.registration.status === "embedded"
+        ? result.current.records[0].pdf.registration.selectedFrameId
+        : null,
+    ).toBe("main");
+
+    await act(async () => {
+      await result.current.selectPdfFrame(id, "inset", {
+        replaceAdjustedPoints: true,
+      });
+    });
+    expect(result.current.records[0].pdf?.registration).toMatchObject({
+      status: "embedded",
+      selectedFrameId: "inset",
+      adjusted: false,
+    });
+  });
+
+  it("reloads GeoPDF frame provenance and source rectangle", async () => {
+    const selected = pdfCandidate("main", "Map Layers");
+    const hookOptions = options({
+      parsePdf: testParsePdf({
+        status: "automatic",
+        selection: { kind: "sole" },
+        selected,
+        candidates: [selected],
+      }),
+    });
+    const first = renderHook(() => useUserMaps(hookOptions));
+    await act(async () => {
+      await first.result.current.importFiles([pdfFile()]);
+    });
+    first.unmount();
+    const second = renderHook(() => useUserMaps(hookOptions));
+    await waitFor(() => expect(second.result.current.records).toHaveLength(1));
+    expect(second.result.current.records[0]).toMatchObject({
+      sourceRect: selected.sourceRect,
+      pdf: {
+        pageCount: 2,
+        registration: {
+          status: "embedded",
+          selectedFrameId: "main",
+          selection: { kind: "sole" },
+          adjusted: false,
+        },
+      },
+    });
+  });
+
+  it.each(["absent", "unsupported", "unsupported-crs", "invalid", "unreadable"] as const)(
+    "routes manual/%s PDF fallback to control points",
+    async (reason) => {
+      const { result } = renderHook(() =>
+        useUserMaps(
+          options({
+            parsePdf: testParsePdf({ status: "manual", reason }),
+          }),
+        ),
+      );
+      await act(async () => {
+        await result.current.importFiles([pdfFile()]);
+      });
+      expect(result.current.records[0].pdf?.registration).toMatchObject({
+        status: "manual",
+        reason,
+        adjusted: false,
+      });
+      expect(result.current.georeferencingId).toBe(
+        result.current.records[0].id,
+      );
+    },
+  );
 
   it("refuses files over the hard limit without reading them", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
@@ -501,6 +776,170 @@ describe("useUserMaps", () => {
     expect(persistedGeoref.gcps).toEqual(saved);
     // …and the raster the metadata-only write must NOT have touched.
     expect(await (await reopened.getPreviewBlob(first.id))?.text()).toBe("p");
+  });
+
+  it("preserves a seeded tps record's method through saveGcps, on the PERSISTED record", async () => {
+    // Nothing in the app can currently CREATE a tps record — EMPTY_GCP_GEOREF
+    // is affine, imports write affine, and no caller passes a method — so this
+    // seeds one directly the way a later UI toggle task will. saveUserMap is
+    // the only way to create a row; putUserMapRecord (saveGcps's own write) is
+    // a guarded UPDATE that refuses to create one (see its doc comment).
+    const seeded = gcpRecord({ id: "tps-map" });
+    expect(seeded.georef).toMatchObject({ method: "tps" });
+    const seedStore = await UserMapStore.open(factory);
+    await seedStore.saveUserMap(seeded, new Blob(["raster"]), new Blob(["p"]));
+
+    const { result } = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+
+    const nextGcps: Gcp[] = [
+      { id: "g0", pixel: { x: 5, y: 5 }, map: { lat: 46, lng: -61 } },
+    ];
+    await act(async () => {
+      await result.current.saveGcps("tps-map", nextGcps);
+    });
+
+    const updated = result.current.records.find((r) => r.id === "tps-map");
+    expect((updated?.georef as GcpGeoref).method).toBe("tps");
+
+    // The PERSISTED record, not just the in-memory one: `saved` is built
+    // outside setRecords and the exact same object is handed to
+    // putUserMapRecord, so a fix that only patched the in-memory copy (or
+    // read the wrong field) would pass the assertion above and fail this one.
+    const reopened = await UserMapStore.open(factory);
+    const persisted = (await reopened.listUserMaps()).find(
+      (r) => r.id === "tps-map",
+    );
+    expect((persisted?.georef as GcpGeoref).method).toBe("tps");
+  });
+
+  it("still persists method: affine for an affine record through saveGcps", async () => {
+    // The other half of the guard required alongside the tps test above: a
+    // "fix" that just swaps the literal "affine" for a literal "tps" passes
+    // that test and fails this one.
+    const seeded = gcpRecord({
+      id: "affine-map",
+      georef: { kind: "gcp", gcps: BENT, method: "affine" },
+    });
+    const seedStore = await UserMapStore.open(factory);
+    await seedStore.saveUserMap(seeded, new Blob(["raster"]), new Blob(["p"]));
+
+    const { result } = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+
+    const nextGcps: Gcp[] = [
+      { id: "g0", pixel: { x: 5, y: 5 }, map: { lat: 46, lng: -61 } },
+    ];
+    await act(async () => {
+      await result.current.saveGcps("affine-map", nextGcps);
+    });
+
+    const updated = result.current.records.find((r) => r.id === "affine-map");
+    expect((updated?.georef as GcpGeoref).method).toBe("affine");
+
+    const reopened = await UserMapStore.open(factory);
+    const persisted = (await reopened.listUserMaps()).find(
+      (r) => r.id === "affine-map",
+    );
+    expect((persisted?.georef as GcpGeoref).method).toBe("affine");
+  });
+
+  it("survives a remount: a method switched to tps comes back from IndexedDB", async () => {
+    // THE test for this setter. `setGeorefMethod` could flip session state and
+    // nothing else — the panel would look right for the rest of the session,
+    // an assertion against `result.current.records` would pass, and the choice
+    // would be gone the next time the map was opened. So the hook is unmounted
+    // and a FRESH one is mounted against the same database: `records` starts
+    // empty there and can only be repopulated by the initial load reading the
+    // row back.
+    const seeded = gcpRecord({
+      id: "switch-map",
+      georef: { kind: "gcp", gcps: BENT, method: "affine" },
+    });
+    const seedStore = await UserMapStore.open(factory);
+    await seedStore.saveUserMap(seeded, new Blob(["raster"]), new Blob(["p"]));
+
+    const first = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(first.result.current.records).toHaveLength(1));
+    await act(async () => {
+      await first.result.current.setGeorefMethod("switch-map", "tps");
+    });
+    expect(
+      (first.result.current.records[0].georef as GcpGeoref).method,
+    ).toBe("tps");
+    first.unmount();
+
+    const reopened = renderHook(() => useUserMaps(options()));
+    await waitFor(() => expect(reopened.result.current.records).toHaveLength(1));
+    const restored = reopened.result.current.records[0].georef as GcpGeoref;
+    expect(restored.method).toBe("tps");
+    // The points are the record's other half and must survive the same write:
+    // a setter that replaced `georef` wholesale rather than amending it would
+    // hand the user back a tps map with nothing to warp.
+    expect(restored.gcps).toEqual(BENT);
+  });
+
+  it("switches a method back to affine and leaves every other record's identity untouched", async () => {
+    // The opposite direction, so a setter hardcoded to "tps" fails here rather
+    // than riding on the test above — and the identity guard UserMapLayers
+    // depends on, which is the reason `saveGcps` builds its record outside the
+    // updater and returns every other entry by reference.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png"), pngFile("b.png")]);
+    });
+    const [target, other] = result.current.records;
+    const otherBefore = other;
+    await act(async () => {
+      await result.current.setGeorefMethod(target.id, "tps");
+    });
+    await act(async () => {
+      await result.current.setGeorefMethod(target.id, "affine");
+    });
+    expect(
+      (result.current.records.find((r) => r.id === target.id)
+        ?.georef as GcpGeoref).method,
+    ).toBe("affine");
+    expect(result.current.records.find((r) => r.id === other.id)).toBe(
+      otherBefore,
+    );
+    const store = await UserMapStore.open(factory);
+    const persisted = (await store.listUserMaps()).find(
+      (r) => r.id === target.id,
+    );
+    expect((persisted?.georef as GcpGeoref).method).toBe("affine");
+  });
+
+  it("keeps the chosen method for the session when its metadata write fails", async () => {
+    const failingStore = {
+      listUserMaps: async () => [],
+      saveUserMap: async () => {},
+      putUserMapRecord: async () => {
+        throw new Error("quota");
+      },
+      getPreviewBlob: async () => null,
+      deleteUserMap: async () => {},
+      close: () => {},
+    } as unknown as UserMapStore;
+    const { result } = renderHook(() =>
+      useUserMaps(options({ openStore: async () => failingStore })),
+    );
+    await act(async () => {
+      await result.current.importFiles([pngFile("a.png")]);
+    });
+    await act(async () => {
+      await result.current.setGeorefMethod(result.current.records[0].id, "tps");
+    });
+    // Same contract as saveGcps: a storage failure keeps the choice usable for
+    // this session rather than silently reverting the control the user moved.
+    expect((result.current.records[0].georef as GcpGeoref).method).toBe("tps");
+    // Asserted on the phrase that names THIS failure, not on the tail every
+    // storage message in this module shares: three different messages end in
+    // "close the tab", so `toContain("close the tab")` is satisfied by
+    // saveGcps' "Couldn't save these points — …" — which would tell a user who
+    // flipped the warp toggle that their POINTS failed to save.
+    expect(result.current.storageError).toContain("warp setting");
+    expect(result.current.storageError).toContain("close the tab");
   });
 
   it("keeps points for the session when the metadata write fails", async () => {

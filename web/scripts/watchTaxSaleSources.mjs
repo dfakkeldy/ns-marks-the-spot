@@ -8,6 +8,7 @@ import {
   submitToWayback,
 } from "./taxSaleWatch/archive.mjs";
 import { CUMBERLAND_SOURCE } from "./taxSaleWatch/cumberland.mjs";
+import { RICHMOND_SOURCE } from "./taxSaleWatch/richmond.mjs";
 import {
   buildEvent,
   buildLedgerEntry,
@@ -23,9 +24,7 @@ const DATASET_PATH = resolve(DATA_DIR, "historicalTaxSales.json");
 const LEDGER_PATH = resolve(DATA_DIR, "historicalSourceLedger.json");
 const MODEL_PATH = resolve(DATA_DIR, "historicalTaxSales.ts");
 
-// One entry today. A second overwrite-prone source is a config entry plus a
-// parser, not a second workflow.
-const SOURCES = [CUMBERLAND_SOURCE];
+export const TAX_SALE_SOURCES = [CUMBERLAND_SOURCE, RICHMOND_SOURCE];
 
 function halifaxDate(now = new Date()) {
   const parts = Object.fromEntries(
@@ -170,7 +169,7 @@ async function main() {
   let ledgerText = await readFile(LEDGER_PATH, "utf8");
   let datasetChanged = false;
 
-  for (const source of SOURCES) {
+  for (const source of TAX_SALE_SOURCES) {
     const snapshotPath = resolve(DATA_DIR, source.snapshotPath);
     const snapshot = JSON.parse(await readFile(snapshotPath, "utf8"));
     const report = await runWatch(source, {

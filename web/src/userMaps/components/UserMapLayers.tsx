@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { latLngBounds } from "leaflet";
 import { useMap } from "react-leaflet";
 import {
   USER_MAPS_PANE,
@@ -7,12 +8,17 @@ import {
 import { meshForRecord } from "../recordMesh";
 import type { LatLngPoint } from "../transform/projection";
 import { WarpedRasterLayer } from "../render/WarpedRasterLayer";
-import type { UserMapRecord } from "../types";
+import type { PixelRect, UserMapRecord } from "../types";
 
 export type VisibleUserMap = {
   record: UserMapRecord;
   previewUrl: string;
   opacity: number;
+};
+
+export type UserMapFitRequest = {
+  mapId: string;
+  revision: number;
 };
 
 /** The map being georeferenced. Its mesh is owned by the session, not derived
@@ -22,14 +28,105 @@ export type DraftUserMap = VisibleUserMap & { mesh: LatLngPoint[][] | null };
 /** Idempotent: Leaflet keeps panes for the map's lifetime. */
 function ensurePane(map: ReturnType<typeof useMap>): void {
   if (!map.getPane(USER_MAPS_PANE)) {
-    const pane = map.createPane(USER_MAPS_PANE);
+    const pane = map.createPane(USER_MAPS_PANE, map.getPane("tilePane"));
     pane.style.zIndex = String(USER_MAPS_PANE_Z_INDEX);
   }
 }
 
-async function loadBitmap(url: string): Promise<ImageBitmap> {
-  const response = await fetch(url);
-  return createImageBitmap(await response.blob());
+type LoadedRasterImage = {
+  source: CanvasImageSource;
+  width: number;
+  height: number;
+  dispose: () => void;
+};
+
+async function loadHtmlImage(
+  url: string,
+  signal: AbortSignal,
+): Promise<LoadedRasterImage> {
+  const image = new Image();
+  image.decoding = "async";
+  await new Promise<void>((resolve, reject) => {
+    const clear = () => {
+      image.onload = null;
+      image.onerror = null;
+      image.src = "";
+    };
+    const stopListening = () => signal.removeEventListener("abort", abort);
+    const abort = () => {
+      stopListening();
+      clear();
+      reject(new DOMException("HTML image decode cancelled", "AbortError"));
+    };
+    if (signal.aborted) {
+      abort();
+      return;
+    }
+    image.onload = () => {
+      stopListening();
+      resolve();
+    };
+    image.onerror = () => {
+      stopListening();
+      clear();
+      reject(new Error("HTML image decode failed"));
+    };
+    signal.addEventListener("abort", abort, { once: true });
+    image.src = url;
+  });
+  return {
+    source: image,
+    width: image.naturalWidth,
+    height: image.naturalHeight,
+    dispose: () => {
+      image.onload = null;
+      image.onerror = null;
+      image.src = "";
+    },
+  };
+}
+
+function isIOSWebKitRuntime(): boolean {
+  const { maxTouchPoints, platform, userAgent } = navigator;
+  return (
+    /\b(?:iPad|iPhone|iPod)\b/.test(userAgent) ||
+    (platform === "MacIntel" && maxTouchPoints > 1)
+  );
+}
+
+async function loadRasterImage(
+  url: string,
+  signal: AbortSignal,
+): Promise<LoadedRasterImage> {
+  // This same persisted PNG is already decoded through <img> in the scan
+  // pane. Use that proven source on iOS, where large createImageBitmap
+  // sources can remain blank when painted into the warped canvas.
+  if (isIOSWebKitRuntime()) {
+    return loadHtmlImage(url, signal);
+  }
+
+  let bitmapError: unknown;
+  try {
+    const response = await fetch(url, { signal });
+    const bitmap = await createImageBitmap(await response.blob());
+    return {
+      source: bitmap,
+      width: bitmap.width,
+      height: bitmap.height,
+      dispose: () => bitmap.close(),
+    };
+  } catch (error: unknown) {
+    bitmapError = error;
+  }
+
+  try {
+    return await loadHtmlImage(url, signal);
+  } catch (imageError: unknown) {
+    throw new AggregateError(
+      [bitmapError, imageError],
+      "User map preview failed through both bitmap decoders",
+    );
+  }
 }
 
 /**
@@ -41,15 +138,18 @@ function WarpedRasterOverlay({
   previewUrl,
   opacity,
   mesh,
+  sourceRect,
 }: {
   previewUrl: string;
   opacity: number;
   mesh: LatLngPoint[][] | null;
+  sourceRect?: PixelRect;
 }) {
   const leafletMap = useMap();
   const layerRef = useRef<WarpedRasterLayer | null>(null);
   const opacityRef = useRef(opacity);
   const meshRef = useRef(mesh);
+  const sourceRectRef = useRef(sourceRect);
   const hasMesh = mesh !== null;
 
   useEffect(() => {
@@ -57,19 +157,20 @@ function WarpedRasterOverlay({
       return;
     }
     let cancelled = false;
-    let bitmap: ImageBitmap | null = null;
-    void loadBitmap(previewUrl)
+    let raster: LoadedRasterImage | null = null;
+    const loadController = new AbortController();
+    void loadRasterImage(previewUrl, loadController.signal)
       .then((loaded) => {
         if (cancelled) {
-          loaded.close();
+          loaded.dispose();
           return;
         }
         const currentMesh = meshRef.current;
         if (!currentMesh) {
-          loaded.close();
+          loaded.dispose();
           return;
         }
-        bitmap = loaded;
+        raster = loaded;
         ensurePane(leafletMap);
         const layer = new WarpedRasterLayer({
           paneName: USER_MAPS_PANE,
@@ -77,9 +178,10 @@ function WarpedRasterOverlay({
           // the bitmap was decoding, and a stale closure would build the
           // layer with whatever was current when the effect first ran.
           opacity: opacityRef.current,
-          image: loaded,
+          image: loaded.source,
           imageSize: { width: loaded.width, height: loaded.height },
           latLngMesh: currentMesh,
+          sourceRect: sourceRectRef.current,
         });
         layer.addTo(leafletMap);
         layerRef.current = layer;
@@ -92,9 +194,10 @@ function WarpedRasterOverlay({
       });
     return () => {
       cancelled = true;
+      loadController.abort();
       layerRef.current?.remove();
       layerRef.current = null;
-      bitmap?.close();
+      raster?.dispose();
     };
     // Deliberately NOT depending on `mesh`: a georeferencing drag changes it
     // dozens of times a second, and rebuilding here would re-decode the
@@ -110,11 +213,12 @@ function WarpedRasterOverlay({
     // the mesh, which changes far more often.)
     opacityRef.current = opacity;
     meshRef.current = mesh;
+    sourceRectRef.current = sourceRect;
     layerRef.current?.setOpacity(opacity);
     if (mesh) {
-      layerRef.current?.setLatLngMesh(mesh);
+      layerRef.current?.setGeometry(mesh, sourceRect);
     }
-  }, [opacity, mesh]);
+  }, [opacity, mesh, sourceRect]);
 
   return null;
 }
@@ -136,20 +240,65 @@ function SavedMapOverlay({ map }: { map: VisibleUserMap }) {
       previewUrl={map.previewUrl}
       opacity={map.opacity}
       mesh={mesh}
+      sourceRect={map.record.sourceRect}
     />
   );
+}
+
+function UserMapFitController({
+  maps,
+  request,
+}: {
+  maps: VisibleUserMap[];
+  request: UserMapFitRequest | null;
+}) {
+  const leafletMap = useMap();
+  const consumedRevision = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!request || consumedRevision.current === request.revision) {
+      return;
+    }
+    const record = maps.find(({ record }) => record.id === request.mapId)?.record;
+    if (!record) {
+      return;
+    }
+    const mesh = meshForRecord(record);
+    if (!mesh) {
+      return;
+    }
+    const finiteVertices = mesh
+      .flat()
+      .filter(({ lat, lng }) => Number.isFinite(lat) && Number.isFinite(lng));
+    if (finiteVertices.length === 0) {
+      return;
+    }
+    const bounds = latLngBounds(
+      finiteVertices.map(({ lat, lng }) => [lat, lng]),
+    );
+    if (!bounds.isValid()) {
+      return;
+    }
+    leafletMap.fitBounds(bounds, { padding: [48, 48], maxZoom: 16 });
+    consumedRevision.current = request.revision;
+  }, [leafletMap, maps, request]);
+
+  return null;
 }
 
 /** Sole mount point MapCanvas needs. */
 export function UserMapLayers({
   maps,
   draft = null,
+  fitRequest = null,
 }: {
   maps: VisibleUserMap[];
   draft?: DraftUserMap | null;
+  fitRequest?: UserMapFitRequest | null;
 }) {
   return (
     <>
+      <UserMapFitController maps={maps} request={fitRequest} />
       {maps.map((map) => (
         <SavedMapOverlay key={map.record.id} map={map} />
       ))}
@@ -162,6 +311,7 @@ export function UserMapLayers({
           previewUrl={draft.previewUrl}
           opacity={draft.opacity}
           mesh={draft.mesh}
+          sourceRect={draft.record.sourceRect}
         />
       ) : null}
     </>

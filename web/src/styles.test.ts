@@ -124,6 +124,30 @@ describe("mobile parcel inspector layout", () => {
   });
 });
 
+describe("GeoPDF frame chooser layout", () => {
+  it("wraps long imported filenames instead of widening a 320px chooser", () => {
+    const headingDeclarations = styles.match(
+      /\.geopdf-frame-chooser h2\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(headingDeclarations).toMatch(/overflow-wrap:\s*anywhere/);
+  });
+});
+
+describe("user map row layout", () => {
+  it("wraps long imported filenames instead of widening a 320px layer panel", () => {
+    const copyDeclarations = styles.match(
+      /\.user-map-row \.layer-row > span:last-of-type\s*\{([^}]*)\}/,
+    )?.[1];
+    const opacityRangeDeclarations = styles.match(
+      /\.user-map-opacity input\[type="range"\]\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(copyDeclarations).toMatch(/overflow-wrap:\s*anywhere/);
+    expect(opacityRangeDeclarations).toMatch(/margin:\s*0/);
+  });
+});
+
 describe("map cartographic furniture", () => {
   it("keeps the coordinate readout above the two-line scale control", () => {
     const readoutDeclarations = styles.match(
@@ -435,5 +459,26 @@ describe("georeferencer overlay", () => {
       /\.georeference-opacity input\[type="range"\]\s*\{([^}]*)\}/,
     )?.[1];
     expect(range).toMatch(/width:\s*100%/);
+  });
+
+  it("gives the warp fieldset the same frame as the reference-layers one", () => {
+    // The precedent directly above: `.georeference-opacity` shipped with no
+    // rule and fell back to unstyled inline flow, which is why that test
+    // exists. `.georeference-method` is a <fieldset> sitting in the same
+    // footer grid as `.georeference-references`, so with no rule it falls back
+    // to the UA's `2px groove` border and reads as a different KIND of control
+    // beside its 1px-solid sibling. Asserted against that sibling rather than
+    // against literal values, so the two can only drift together.
+    const method = styles.match(/\.georeference-method\s*\{([^}]*)\}/)?.[1];
+    const references = styles.match(/\.georeference-references\s*\{([^}]*)\}/)?.[1];
+    expect(method).toBeDefined();
+    expect(method).toMatch(/display:\s*grid/);
+    // The UA default is a groove; an explicit border is the whole point.
+    expect(method).toMatch(/border:\s*1px\s+solid/);
+    expect(references).toMatch(/border:\s*1px\s+solid/);
+    expect(method).toMatch(/border-radius:/);
+    // The helper sentence is secondary text, like the locked-layers note.
+    const helper = styles.match(/\.georeference-method small\s*\{([^}]*)\}/)?.[1];
+    expect(helper).toMatch(/color:\s*var\(--muted\)/);
   });
 });

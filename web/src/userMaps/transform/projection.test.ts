@@ -4,6 +4,7 @@ import { UserMapImportError } from "../errors";
 import {
   buildLatLngMesh,
   pixelToLatLng,
+  projectToLatLng,
   validateCrs,
   type EmbeddedGeoref,
 } from "./projection";
@@ -113,6 +114,14 @@ describe("pixelToLatLng", () => {
   });
 });
 
+describe("projectToLatLng", () => {
+  it("projects a supported CRS point to WGS84", () => {
+    const point = projectToLatLng("EPSG:26920", 500_000, 5_000_000);
+    expect(point.lat).toBeCloseTo(45.153477, 5);
+    expect(point.lng).toBeCloseTo(-63, 5);
+  });
+});
+
 describe("buildLatLngMesh", () => {
   it("returns a (grid+1) x (grid+1) lattice covering the full raster", () => {
     const mesh = buildLatLngMesh(UTM20_GEOREF, { width: 800, height: 400 }, 8);
@@ -121,5 +130,16 @@ describe("buildLatLngMesh", () => {
     expect(mesh[0][0]).toEqual(pixelToLatLng(UTM20_GEOREF, 0, 0));
     expect(mesh[8][8]).toEqual(pixelToLatLng(UTM20_GEOREF, 800, 400));
     expect(mesh[4][2]).toEqual(pixelToLatLng(UTM20_GEOREF, 200, 200));
+  });
+
+  it("evaluates an embedded mesh over only the selected rectangle", () => {
+    const mesh = buildLatLngMesh(
+      UTM20_GEOREF,
+      { width: 800, height: 400 },
+      1,
+      { x: 100, y: 50, width: 600, height: 300 },
+    );
+    expect(mesh[0][0]).toEqual(pixelToLatLng(UTM20_GEOREF, 100, 50));
+    expect(mesh[1][1]).toEqual(pixelToLatLng(UTM20_GEOREF, 700, 350));
   });
 });

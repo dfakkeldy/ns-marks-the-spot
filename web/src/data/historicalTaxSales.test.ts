@@ -16,7 +16,7 @@ import {
 // Verified receipts must come from a municipality that published them or from an
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
-  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|(?:www\.)?modl\.ca|web\.archive\.org)\//u;
+  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|web\.archive\.org)\//u;
 
 describe("historical tax-sale records", () => {
   // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,
@@ -63,7 +63,7 @@ describe("historical tax-sale records", () => {
     );
   });
 
-  it("keeps every CBRM parcel outcome unknown until an official result is linked", () => {
+  it("uses only printed CBRM winning bids and keeps every other result unknown", () => {
     const cbrm = historicalTaxSaleEvents.find(
       ({ id }) => id === "cbrm-2026-07-21",
     );
@@ -72,16 +72,64 @@ describe("historical tax-sale records", () => {
     );
 
     expect(cbrm).toMatchObject({
-      resultStatus: "awaiting-official-results",
-      resultCheckedOn: "2026-07-21",
+      resultStatus: "verified",
+      resultUrl:
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
+      resultSnapshotDate: "2026-07-27",
+      resultSha256:
+        "ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d",
     });
-    expect(cbrm?.resultUrl).toBeUndefined();
     expect(records).toHaveLength(67);
-    expect(records.every(({ outcome }) => outcome === "unknown")).toBe(true);
-    expect(records.every(({ winningBidCents }) => winningBidCents === null)).toBe(true);
-    expect(records.every(({ reviewState }) => reviewState === "notice-verified")).toBe(
-      true,
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(21);
+    expect(records.filter(({ outcome }) => outcome === "unknown")).toHaveLength(
+      46,
     );
+    expect(
+      records.filter(({ resultNote }) =>
+        resultNote?.includes('reads "PAID AT SALE"'),
+      ),
+    ).toHaveLength(1);
+    expect(
+      records.filter(({ resultNote }) =>
+        resultNote?.includes("publishes no winning bid or disposition"),
+      ),
+    ).toHaveLength(32);
+    expect(
+      records.filter(({ resultNote }) =>
+        resultNote?.includes("does not carry this notice row"),
+      ),
+    ).toHaveLength(13);
+  });
+
+  it("keeps the March 2026 CBRM colour-only result out of the public model", () => {
+    const researched = historicalSourceLedger.coverage.find(
+      ({ event }) => event === "March 10, 2026 tax sale",
+    );
+
+    expect(researched).toMatchObject({
+      municipality: "Cape Breton Regional Municipality",
+      status: "researched-not-included",
+      officialWinningBidsFound: false,
+    });
+    expect(researched?.fieldsAvailable).not.toContain("winning bid for some rows");
+    expect(
+      historicalTaxSaleEvents.some(({ id }) => id === "cbrm-2026-03-10"),
+    ).toBe(false);
+  });
+
+  it("keeps the notice-less May 2026 Halifax result out of the public model", () => {
+    const researched = historicalSourceLedger.coverage.find(
+      ({ event }) => event === "May 12, 2026 tax sale",
+    );
+
+    expect(researched).toMatchObject({
+      municipality: "Halifax Regional Municipality",
+      status: "researched-not-included",
+      officialWinningBidsFound: true,
+    });
+    expect(
+      historicalTaxSaleEvents.some(({ id }) => id === "hrm-2026-05-12"),
+    ).toBe(false);
   });
 
   it("keeps blank-status Victoria County rows outcome-unknown", () => {

@@ -1,3 +1,6 @@
+import { resolveSourceRect } from "../sourceRect";
+import type { PixelRect } from "../types";
+
 export type XY = { x: number; y: number };
 
 export const CLIP_OVERDRAW_DEVICE_PX = 2;
@@ -26,12 +29,21 @@ export function affineFromTriangles(
 }
 
 /** Pixel-space lattice in the same row/col order as buildLatLngMesh. */
-export function buildSrcMesh(width: number, height: number, gridSize = 8): XY[][] {
+export function buildSrcMesh(
+  width: number,
+  height: number,
+  gridSize = 8,
+  sourceRect?: PixelRect,
+): XY[][] {
+  const rect = resolveSourceRect({ width, height }, sourceRect);
   const mesh: XY[][] = [];
   for (let row = 0; row <= gridSize; row += 1) {
     const line: XY[] = [];
     for (let col = 0; col <= gridSize; col += 1) {
-      line.push({ x: (width * col) / gridSize, y: (height * row) / gridSize });
+      line.push({
+        x: rect.x + (rect.width * col) / gridSize,
+        y: rect.y + (rect.height * row) / gridSize,
+      });
     }
     mesh.push(line);
   }
@@ -44,6 +56,25 @@ function drawTriangle(
   s0: XY, s1: XY, s2: XY,
   d0: XY, d1: XY, d2: XY,
 ): void {
+  // Cull triangles that cannot touch the backing canvas. The clip path grows
+  // each vertex up to CLIP_OVERDRAW_DEVICE_PX outward from the centroid, so
+  // the bbox must grow by the same amount before the miss test — a triangle
+  // whose raw bbox ends 1 px off-canvas still paints its overdraw ring.
+  // Nearly all of a viewport-capped walk's cost is per-triangle overhead for
+  // triangles that land entirely off-canvas; this skips them before any
+  // canvas state is touched.
+  const grownMinX = Math.min(d0.x, d1.x, d2.x) - CLIP_OVERDRAW_DEVICE_PX;
+  const grownMaxX = Math.max(d0.x, d1.x, d2.x) + CLIP_OVERDRAW_DEVICE_PX;
+  const grownMinY = Math.min(d0.y, d1.y, d2.y) - CLIP_OVERDRAW_DEVICE_PX;
+  const grownMaxY = Math.max(d0.y, d1.y, d2.y) + CLIP_OVERDRAW_DEVICE_PX;
+  if (
+    grownMaxX <= 0 ||
+    grownMaxY <= 0 ||
+    grownMinX >= ctx.canvas.width ||
+    grownMinY >= ctx.canvas.height
+  ) {
+    return;
+  }
   const cx = (d0.x + d1.x + d2.x) / 3;
   const cy = (d0.y + d1.y + d2.y) / 3;
   const grow = (d: XY): XY => {
@@ -71,6 +102,62 @@ function drawTriangle(
 }
 
 /**
+ * Draws a contiguous run of at most `maxTriangles` mesh triangles, starting
+ * at `startTriangle`. Returns the index to resume from — equal to the
+ * triangle count when the walk is complete. At least one triangle is always
+ * consumed so a chunk sequence cannot stall.
+ *
+ * The chunk is sized in TRIANGLES, not milliseconds, because a JS clock
+ * cannot see this work: clipped drawImage returns as soon as the command is
+ * queued, and the raster it triggers lands later (measured on an M1 Pro: a
+ * walk reporting 8 ms of elapsed JS time cost 750 ms of completed GPU work).
+ * The caller converts its frame budget into a count from observed frame
+ * deltas — see WarpedRasterLayer.refineWarp.
+ *
+ * Triangles are indexed cell-major in the same order drawWarpedImage always
+ * used — cell (row, col) owns triangles 2·(row·cols + col) and its
+ * successor — so a walk split across calls paints the shared-edge overdraw
+ * in the identical order and converges to the same pixels as a one-shot
+ * walk. Culled triangles count against the chunk too: skipping them is
+ * cheap, but scanning for a quota of DRAWN triangles would let one chunk
+ * traverse an unbounded off-canvas remainder.
+ */
+export function drawWarpedTriangles(
+  ctx: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  srcMesh: XY[][],
+  dstMesh: XY[][],
+  startTriangle: number,
+  maxTriangles: number,
+): number {
+  const rows = srcMesh.length - 1;
+  const cols = srcMesh[0].length - 1;
+  const total = rows * cols * 2;
+  const stop = Math.min(total, startTriangle + Math.max(1, maxTriangles));
+  let index = startTriangle;
+  while (index < stop) {
+    const cell = index >> 1;
+    const row = (cell / cols) | 0;
+    const col = cell % cols;
+    const s00 = srcMesh[row][col];
+    const s10 = srcMesh[row][col + 1];
+    const s01 = srcMesh[row + 1][col];
+    const d00 = dstMesh[row][col];
+    const d10 = dstMesh[row][col + 1];
+    const d01 = dstMesh[row + 1][col];
+    if ((index & 1) === 0) {
+      drawTriangle(ctx, image, s00, s10, s01, d00, d10, d01);
+    } else {
+      const s11 = srcMesh[row + 1][col + 1];
+      const d11 = dstMesh[row + 1][col + 1];
+      drawTriangle(ctx, image, s10, s11, s01, d10, d11, d01);
+    }
+    index += 1;
+  }
+  return index;
+}
+
+/**
  * Draws `image` through the mesh: each cell splits into two triangles, each
  * drawn with an exact affine transform under a clip path. Grid density (not
  * this function) controls how closely the warp tracks projection curvature.
@@ -81,18 +168,6 @@ export function drawWarpedImage(
   srcMesh: XY[][],
   dstMesh: XY[][],
 ): void {
-  for (let row = 0; row < srcMesh.length - 1; row += 1) {
-    for (let col = 0; col < srcMesh[row].length - 1; col += 1) {
-      const s00 = srcMesh[row][col];
-      const s10 = srcMesh[row][col + 1];
-      const s01 = srcMesh[row + 1][col];
-      const s11 = srcMesh[row + 1][col + 1];
-      const d00 = dstMesh[row][col];
-      const d10 = dstMesh[row][col + 1];
-      const d01 = dstMesh[row + 1][col];
-      const d11 = dstMesh[row + 1][col + 1];
-      drawTriangle(ctx, image, s00, s10, s01, d00, d10, d01);
-      drawTriangle(ctx, image, s10, s11, s01, d10, d11, d01);
-    }
-  }
+  const total = (srcMesh.length - 1) * (srcMesh[0].length - 1) * 2;
+  drawWarpedTriangles(ctx, image, srcMesh, dstMesh, 0, total);
 }

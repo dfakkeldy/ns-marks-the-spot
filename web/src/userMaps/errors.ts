@@ -1,6 +1,7 @@
 export type UserMapImportErrorCode =
   | "unsupported-type"
   | "corrupt-file"
+  | "password-protected"
   | "unsupported-crs"
   | "invalid-georeferencing"
   | "too-large"

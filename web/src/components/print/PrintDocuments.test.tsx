@@ -29,7 +29,7 @@ const allLayerIds = [
   "modern", "ns-aerial", "nsprd", "crown-lands", "flood-risk", "waterfalls",
   "water-features", "roads", "buildings", "contours", "mineral-occurrences",
   "mineral-tenure", "abandoned-mines", "mineral-proximity-parcels",
-  "inverness-hydro-potential", "published-river-flood-zones",
+  "inverness-hydro-potential", "old-growth-policy", "published-river-flood-zones",
   "coastal-flood-current", "coastal-flood-2050", "coastal-flood-2100",
 ] as const;
 const openStreetMapAttribution = "© OpenStreetMap contributors";
@@ -53,6 +53,7 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
   ["abandoned-mines", "Abandoned mine openings", "2024 · version 9", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["mineral-proximity-parcels", "Properties within 1 km of a mineral occurrence", "Mineral occurrences June 2024 · NSPRD live", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
   ["inverness-hydro-potential", "Inverness micro-hydro screen", "Watersheds 2021 · NSHN retrieved July 21, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["old-growth-policy", "Old-growth policy areas", "Policy layer as of October 24, 2025 · updated October 27, 2025", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["published-river-flood-zones", "Published river flood zones", "NSGC 2006-era mapping · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
   ["coastal-flood-current", "Coastal flooding — current", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
   ["coastal-flood-2050", "Coastal flooding — 2050", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
@@ -746,6 +747,9 @@ describe("print documents", () => {
     expect(
       legend.querySelector(".print-layer-symbol--coastal-flood-2100"),
     ).toHaveAttribute("data-symbol-kind", "coastal-2100");
+    expect(
+      legend.querySelector(".print-layer-symbol--old-growth-policy"),
+    ).toHaveAttribute("data-symbol-kind", "old-growth-policy-statuses");
 
     rerender(
       <PrintFieldDocument

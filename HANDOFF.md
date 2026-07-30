@@ -1,49 +1,37 @@
-# Fletcher feature-led v2 — handoff log
+# Fletcher web GCP import — handoff log
 
-## 2026-07-30 — Sheet 19 v2 result landed and made reviewable
+## 2026-07-30 — Points-file parser landed; UI wiring still open
 
-Done: committed the untracked `sheet-19-score.json`; added the Sheet 19
-feature-led-v2 row to `reports/fletcher/RESULTS.md` (45 controls, 8 frozen
-checks, RMS 43.0 / P95 90.8 / max 90.8 m, no gate claimed); scoped the
-"must not be uploaded or republished" order to the engraved-grid family so
-feature-led v2 can publish after a gate and human acceptance. Branch pushed, PR
-opened into `nightly`. Nothing is warped, tiled, uploaded, or visually accepted.
+Done: `web/src/userMaps/parsers/fletcherGcps.ts` parses the emitted Fletcher
+points CSV into the georeferencer's `Gcp` shape and serializes it back. Controls
+become GCPs; checks are parsed and returned separately but never fed to the
+solver, matching the Python side — promoting a check would make the accuracy
+figure circular. Refuses wrong headers, non-numeric and out-of-range
+coordinates, files with no controls, and points that fall outside a supplied
+`pixelSize` (a file measured against a different scan). 35 tests, including a
+byte-identical round trip over all 24 real emitted CSVs. Full web suite: 1057
+passing, lint clean.
 
-Next: settle the accuracy gate by answering offset-vs-distortion from the points
-already measured — refit at N = 4, 8, 12, 20, 30, 45 stratified controls against
-the 8 frozen checks. Zero human clicks, no image reads.
+Two things worth knowing. The two Python emitters disagree on precision
+(`emit_gcps.py` writes lon/lat at 6 dp, `emit_physical_gcps.py` at 8 dp), so the
+parser echoes each field's original text rather than reformatting a float —
+otherwise one emitter's files would not round-trip. And the round-trip test
+first resolved its directory from `process.cwd()`, which under vitest found only
+17 of the 24 files; it now resolves from `import.meta.url`.
 
-Resume:
-```
-Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/inverness-tax-sale-report-34e244
-Branch:   claude/fletcher-maps-georeferencing-a3f272 (PR open into nightly)
-Next:     Using ONLY tools/fletcher/feature_observations/sheet-19.json, refit at
-          N = 4, 8, 12, 20, 30, 45 spatially stratified controls and score each
-          against the 8 frozen final_checks. Commit the N-to-RMS table and a
-          residual-vector-field image. Verdict: uniform frame offset or genuine
-          internal warp? Do NOT read map crops. Stop and report cost when done.
-```
-
-## 2026-07-30 — Point budget measured; corridor scope set
-
-Done: ran the density diagnostic (`reports/fletcher/SHEET19_DENSITY_DIAGNOSTIC.md`).
-Verdict is **distortion, not offset** — 0% of the LOO residual is a uniform
-shift. Held-out error has *not* plateaued at 45 controls, and LOO error ≈ 16% of
-local control spacing. So 45 is a floor, and placement beats count. Also pinned
-the Route 19 corridor from the Bazzite manifest: sheets **22, 19, 16, 14**
-(south→north), 19 already measured — scope drops 24 sheets to 4, three left.
-
-Next: build GCP import into the web georeferencer so machine-predicted points
-can be pre-placed for dragging. Then pilot sheet 16 (shares the 45.92 seam with
-19, has Mabou on it).
+Next: the UI half of this milestone is NOT done. Nothing yet imports a points
+file into an open record, pre-places pins, or shows residuals over them. That
+needs `useGeoreferenceSession` (owns residuals), `GeoreferencePanel`, `GcpList`,
+and an import affordance alongside `ImportDialog`, each with the component tests
+this repo expects.
 
 Resume:
 ```
-Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/inverness-tax-sale-report-34e244
-Branch:   new branch fletcher/web-gcp-import off nightly
-Next:     Add GCP import to the web georeferencer: load a Fletcher points file
-          into an open record, pre-place pins, keep the residual column live,
-          and make export->convert round-trip byte-identically under test.
-          Budget controls by spacing (~16% law), not by a fixed per-sheet count.
-          Do NOT read map crops.
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/fletcher-web-gcp-import
+Branch:   fletcher/web-gcp-import (PR open into nightly)
+Next:     Wire parseFletcherGcps into the UI: accept a .csv in the import path,
+          load its controls into the open record via saveGcps, open the panel
+          over the pre-placed pins, and keep the residual column live so the
+          human can see which pins are worst. Add component tests to match
+          GcpList.test.tsx / GeoreferencePanel.test.tsx. Do NOT read map crops.
 ```
