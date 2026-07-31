@@ -3848,6 +3848,53 @@ a {
   overflow: hidden;
 }
 
+/* GeoPDF export frame mode */
+.export-frame-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 450; /* above MEASURE_PANE (430), below Leaflet controls (500) */
+  pointer-events: none;
+}
+.export-frame {
+  position: absolute;
+  border: 2px solid #1d4ed8;
+  box-shadow: 0 0 0 4000px rgba(15, 23, 42, 0.35);
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+.export-frame:active { cursor: grabbing; }
+.export-frame-scale {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  padding: 2px 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+}
+.export-frame-handle {
+  position: absolute;
+  right: -9px;
+  bottom: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 2px solid #fff;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+.export-frame-toolbar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
 @media print {
   body.print-preview-open .app-shell {
     display: none !important;
