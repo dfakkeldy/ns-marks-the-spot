@@ -149,7 +149,7 @@ export function GeoreferencePanel({
         const parsed = parseFletcherGcps(text, {
           pixelSize: record.pixelSize,
         });
-        importGcps(parsed.gcps);
+        importGcps(parsed.gcps, parsed.checks);
         const replaced =
           existingGcpCount > 0
             ? `, replacing ${existingGcpCount} — undo with Cmd/Ctrl+Z`
@@ -269,6 +269,7 @@ export function GeoreferencePanel({
   }, [pending, inverseParams]);
 
   const status = statusMessage(session.status);
+  const heldOut = session.heldOut;
   /**
    * The RECORD is the single source of truth for which solver is in play, and
    * that is the whole reason there is no `useState` here. App reads the same
@@ -375,6 +376,14 @@ export function GeoreferencePanel({
           <p role="status" aria-live="polite" className="georeference-status">
             {status}
           </p>
+          {heldOut ? (
+            <p className="georeference-heldout" role="status" aria-live="polite">
+              <strong>{Math.round(heldOut.rmsMetres)} m</strong> at{" "}
+              {heldOut.count} held-out check
+              {heldOut.count === 1 ? "" : "s"} (worst{" "}
+              {Math.round(heldOut.maxMetres)} m)
+            </p>
+          ) : null}
         </header>
 
         {/* A DIRECT child of the panel, not of the header: the narrow
@@ -426,6 +435,9 @@ export function GeoreferencePanel({
               onSelect={setSelectedGcpId}
               onZoomTo={zoomToGcp}
               selectedGcpId={selectedGcpId}
+              method={
+                record.georef.kind === "gcp" ? record.georef.method : "affine"
+              }
             />
           </div>
 

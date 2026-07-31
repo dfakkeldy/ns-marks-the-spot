@@ -87,6 +87,7 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
     moveGcpOnMap: vi.fn(),
     deleteGcp: vi.fn(),
     importGcps: vi.fn(),
+    heldOut: null,
     undo: vi.fn(),
     flush: vi.fn(),
     // Task 12 adds this to GeoreferenceSession (a delete has to cancel its

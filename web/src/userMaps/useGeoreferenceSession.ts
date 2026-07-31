@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import {
+  applyAffine,
   MIN_GCPS_FOR_AFFINE,
   solveAffineFromGcps,
   type AffineParams,
@@ -19,12 +20,18 @@ import {
 } from "./transform/gcpMesh";
 import type { LatLngPoint, PixelSize } from "./transform/projection";
 import {
+  heldOutReport,
   residualReport,
   tpsResidualReport,
+  type HeldOutReport,
   type ResidualReport,
   type TpsResidualRefusal,
 } from "./transform/residuals";
-import { MIN_GCPS_FOR_BENDING_TPS, solveTps } from "./transform/tps";
+import {
+  applyTps,
+  MIN_GCPS_FOR_BENDING_TPS,
+  solveTps,
+} from "./transform/tps";
 import type { Gcp, GeoreferenceMethod, PixelRect } from "./types";
 
 export const UNDO_HISTORY_LIMIT = 50;
@@ -131,7 +138,9 @@ export type GeoreferenceSession = {
    * could reason about. One undo reverses the whole import, so the prior points
    * are recoverable rather than gone.
    */
-  importGcps: (imported: Gcp[]) => void;
+  importGcps: (imported: Gcp[], checks?: Gcp[]) => void;
+  /** Accuracy at points the fit never saw, or null when none were imported. */
+  heldOut: HeldOutReport | null;
   undo: () => void;
   flush: () => void;
   discardPendingWrite: (mapId: string) => void;
@@ -227,6 +236,13 @@ export function useGeoreferenceSession(options: {
    * nothing to double.
    */
   const [dragging, setDragging] = useState(false);
+  /**
+   * Held-out points from an imported file. Never enter the fit — that is the
+   * whole point of them — and are kept only for this session: they belong to
+   * the file that was imported, not to the record, and a stale set silently
+   * scoring a later fit would be worse than having none.
+   */
+  const [checks, setChecks] = useState<Gcp[]>([]);
 
   // React's documented "adjust state when a prop changes": a CONDITIONAL
   // setState during render. Not an effect — `set-state-in-effect` is an error
@@ -556,7 +572,7 @@ export function useGeoreferenceSession(options: {
   );
 
   const importGcps = useCallback(
-    (imported: Gcp[]) => {
+    (imported: Gcp[], importedChecks: Gcp[] = []) => {
       snapshot();
       // A half-placed pair must not survive the replacement: its other half
       // would be matched against a point set it was never picked in, and the
@@ -569,6 +585,7 @@ export function useGeoreferenceSession(options: {
       // hand the next manually placed point an id that already exists, and two
       // GCPs sharing an id cannot be dragged or deleted independently.
       nextGcpNumberRef.current = highestGcpNumber(imported) + 1;
+      setChecks(importedChecks);
     },
     [commit, setPending, snapshot],
   );
@@ -716,6 +733,25 @@ export function useGeoreferenceSession(options: {
     return params ? residualReport(gcps, params) : null;
   }, [gcps, method, params, tpsReport]);
 
+  /**
+   * Scored with the SAME transform the drape uses, chosen by `method`, so the
+   * figure cannot disagree with what the user is looking at.
+   */
+  const heldOut = useMemo<HeldOutReport | null>(() => {
+    if (checks.length === 0) {
+      return null;
+    }
+    if (method === "tps") {
+      const solved = solveTps(gcps);
+      return solved.ok
+        ? heldOutReport(checks, (x, y) => applyTps(solved.params, x, y))
+        : null;
+    }
+    return params
+      ? heldOutReport(checks, (x, y) => applyAffine(params, x, y))
+      : null;
+  }, [checks, gcps, method, params]);
+
   const status = useMemo<GeoreferenceStatus>(() => {
     // A pending half-point is the most urgent thing to tell the user about,
     // so it outranks the point count.
@@ -793,6 +829,7 @@ export function useGeoreferenceSession(options: {
     moveGcpOnMap,
     deleteGcp,
     importGcps,
+    heldOut,
     undo,
     flush,
     discardPendingWrite,

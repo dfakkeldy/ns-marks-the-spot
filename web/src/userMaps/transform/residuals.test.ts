@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { Gcp } from "../types";
+import { toMercator } from "./webMercator";
 import { applyAffine, solveAffineFromGcps, type AffineParams } from "./affine";
 import {
+  heldOutReport,
   MAX_GCPS_FOR_TPS_RESIDUALS,
   MIN_GCPS_FOR_SUSPECT,
   MIN_GCPS_FOR_TPS_SUSPECT,
@@ -343,5 +345,49 @@ describe("tpsResidualReport", () => {
     ].map((result) => (result.ok ? "ok" : result.reason));
 
     expect(new Set(reasons).size, JSON.stringify(reasons)).toBe(3);
+  });
+});
+
+describe("heldOutReport", () => {
+  const CHECK: Gcp[] = [
+    { id: "k1", pixel: { x: 100, y: 100 }, map: { lat: 45.8, lng: -61.5 } },
+  ];
+
+  it("measures error at points the fit never saw", () => {
+    // A transform that lands the check exactly reports ~0; one shifted in
+    // Mercator metres reports that shift, converted to ground metres.
+    const exact = heldOutReport(CHECK, () => toMercator(CHECK[0]!.map));
+    expect(exact!.count).toBe(1);
+    expect(exact!.rmsMetres).toBeCloseTo(0, 3);
+
+    const off = heldOutReport(CHECK, () => {
+      const m = toMercator(CHECK[0]!.map);
+      return { x: m.x + 1000, y: m.y };
+    });
+    // 1000 Mercator metres is ~1000*cos(lat) on the ground at this latitude.
+    expect(off!.rmsMetres).toBeCloseTo(1000 * Math.cos((45.8 * Math.PI) / 180), 0);
+  });
+
+  it("returns null rather than a flattering zero when the transform is degenerate", () => {
+    // A refused solve projects to NaN. Reporting 0 m would read as a perfect
+    // score for a map that cannot be drawn at all.
+    expect(heldOutReport(CHECK, () => ({ x: NaN, y: NaN }))).toBeNull();
+  });
+
+  it("returns null when nothing was held out", () => {
+    expect(heldOutReport([], () => ({ x: 0, y: 0 }))).toBeNull();
+  });
+
+  it("can worsen while the leave-one-out figure improves", () => {
+    // The regression this figure exists to catch: dropping the controls with
+    // the largest leave-one-out values makes the survivors agree with each
+    // other while drifting off the ground together. Modelled here as a fit
+    // that is self-consistent but displaced.
+    const drifted = heldOutReport(CHECK, () => {
+      const m = toMercator(CHECK[0]!.map);
+      return { x: m.x + 500, y: m.y + 500 };
+    });
+    expect(drifted!.rmsMetres).toBeGreaterThan(400);
+    expect(drifted!.maxMetres).toBeGreaterThanOrEqual(drifted!.rmsMetres);
   });
 });
