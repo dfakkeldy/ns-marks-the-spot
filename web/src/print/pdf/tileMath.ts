@@ -96,9 +96,10 @@ export function tilesForBounds(
   const clamp = (value: number) =>
     Math.max(0, Math.min(count - 1, Math.floor(value)));
   const minTileX = clamp(((nw.x + WORLD_EXTENT) / (2 * WORLD_EXTENT)) * count);
-  // Using floor() for both min and max includes one extra column/row when bounds
-  // land exactly on tile-grid boundaries. This is intentional: the extra tiles
-  // draw off-canvas and ensure complete coverage without gaps.
+  // Using floor() on the max side includes one extra column/row when bounds
+  // land exactly on a tile-grid boundary (the min-side floor already picks the
+  // correct starting tile). This is intentional: the extra tile draws
+  // off-canvas and ensures complete coverage without gaps.
   const maxTileX = clamp(((se.x + WORLD_EXTENT) / (2 * WORLD_EXTENT)) * count);
   const minTileY = clamp(((WORLD_EXTENT - nw.y) / (2 * WORLD_EXTENT)) * count);
   const maxTileY = clamp(((WORLD_EXTENT - se.y) / (2 * WORLD_EXTENT)) * count);
