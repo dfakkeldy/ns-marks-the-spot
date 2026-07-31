@@ -62,6 +62,7 @@ vi.mock("./components/MapCanvas", () => ({
     userMaps,
     userMapFitRequest,
     exportFrame,
+    onExportFrameContinue,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -103,6 +104,10 @@ vi.mock("./components/MapCanvas", () => ({
     userMaps?: unknown[];
     userMapFitRequest?: { mapId: string; revision: number } | null;
     exportFrame?: unknown;
+    onExportFrameContinue?: (
+      bounds: { north: number; south: number; west: number; east: number },
+      orientation: "portrait" | "landscape",
+    ) => void;
   }) => {
     useEffect(() => {
       if (renderMode === "print") {
@@ -187,6 +192,22 @@ vi.mock("./components/MapCanvas", () => ({
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
+      {/* The real frame-to-dialog handoff lives inside `ExportFrameLayer`,
+          which this mock replaces — so stand in for its Continue button and
+          hand App the same (bounds, orientation) it would. Without this the
+          export dialog is unreachable from an App-level test. */}
+      {exportFrame ? (
+        <button
+          type="button"
+          onClick={() =>
+            onExportFrameContinue?.(
+              { north: 46.2, south: 46.0, west: -61.4, east: -61.1 },
+              "portrait",
+            )}
+        >
+          Continue export frame
+        </button>
+      ) : null}
       {renderMode !== "print" ? (
         <>
           <button
@@ -1066,6 +1087,36 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "export frame: framing",
     );
+  });
+
+  it("names a visible zoning layer as absent from the export instead of dropping it silently", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+    await user.click(screen.getByText("Municipal zoning"));
+    await user.click(screen.getByLabelText("Inverness County zoning"));
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+
+    // `buildExportLayers` carries OSM, Fletcher, and Province layers only —
+    // zoning (and six other families MapCanvas renders) never reaches the
+    // compositor. Exporting used to produce a page with no zoning on it and
+    // nothing said about that.
+    const dialog = screen.getByRole("dialog", {
+      name: "Export georeferenced PDF",
+    });
+    expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
+    expect(dialog).toHaveTextContent("Inverness County zoning");
+    // A notice, not a gate.
+    expect(
+      within(dialog).getByRole("button", { name: "Download PDF" }),
+    ).toBeEnabled();
   });
 
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {

@@ -86,11 +86,44 @@ describe("ExportDialog", () => {
 
   it("names a visible user map that will be skipped, without blocking download", async () => {
     const { props } = renderDialog({
-      omittedUserMapNames: ["My scanned survey plan"],
+      omittedLayerNames: ["My scanned survey plan"],
     });
     expect(screen.getByText(/My scanned survey plan/u)).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
     await waitFor(() => expect(props.saveFile).toHaveBeenCalledTimes(1));
+  });
+
+  it("names every visible layer the export will not contain, without blocking download", async () => {
+    // MapCanvas renders seven layer families the compositor does not carry.
+    // Turn on zoning or flood layers, export, and they were simply absent
+    // from the page with nothing said. This notice is the honest short form:
+    // the omission is visible, and the user still decides.
+    const { props } = renderDialog({
+      omittedLayerNames: [
+        "Inverness zoning",
+        "Published river flood zones",
+        "My scanned survey plan",
+      ],
+    });
+    const notice = screen.getByRole("alert");
+    expect(notice).toHaveTextContent(/will not be in the exported PDF/u);
+    for (const name of [
+      "Inverness zoning",
+      "Published river flood zones",
+      "My scanned survey plan",
+    ]) {
+      expect(notice).toHaveTextContent(name);
+    }
+
+    // A notice, not a gate: Download stays live and goes straight through,
+    // with no "Download anyway" confirmation step in between.
+    const download = screen.getByRole("button", { name: "Download PDF" });
+    expect(download).toBeEnabled();
+    await userEvent.click(download);
+    await waitFor(() => expect(props.saveFile).toHaveBeenCalledTimes(1));
+    expect(
+      screen.queryByRole("button", { name: "Download anyway" }),
+    ).not.toBeInTheDocument();
   });
 
   it("closes when Cancel is clicked or Escape is pressed", async () => {

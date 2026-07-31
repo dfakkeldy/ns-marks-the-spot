@@ -2043,6 +2043,51 @@ export function App() {
       return source ? [source] : [];
     });
   }, [captureLayerIds, fletcherTileConfiguration.baseUrl]);
+  /**
+   * The layer ids `buildExportLayers` actually carries into the PDF. Kept as
+   * an explicit mirror of that function's own filters rather than inferred
+   * from its output, because a compositor layer's id is not always the
+   * catalog id (Fletcher fans out into one `fletcher-NN` layer per sheet).
+   */
+  const exportedLayerIds = useMemo(() => {
+    const ids = new Set<ShareLayerId>();
+    if (showModernMap) ids.add("modern");
+    if (fletcherVisible && fletcherTileConfiguration.baseUrl) {
+      ids.add("fletcher");
+    }
+    for (const layer of provinceLayerCatalog) {
+      if (licenceAccepted && provinceLayers[layer.id] && layer.exportOptions) {
+        ids.add(layer.id);
+      }
+    }
+    return ids;
+  }, [
+    fletcherTileConfiguration.baseUrl,
+    fletcherVisible,
+    licenceAccepted,
+    provinceLayers,
+    showModernMap,
+  ]);
+  /**
+   * Everything on screen that the PDF will NOT contain, by name.
+   *
+   * `MapCanvas` renders seven layer families beyond OSM/Fletcher/Province —
+   * resources, hydro pilot, flood hazard, environmental health, forestry,
+   * zoning, well logs — and `buildExportLayers` carries none of them (nor a
+   * visible Province layer that has no `exportOptions`). Wiring those into
+   * the compositor is follow-up work; what cannot wait is that the omission
+   * be visible. Turning on zoning and exporting used to produce a page with
+   * no zoning on it and no hint that anything was missing, which is exactly
+   * the "silently incomplete map" the spec rules out.
+   *
+   * User-imported maps join the same list: same omission, same notice.
+   */
+  const omittedLayerNames = useMemo(() => [
+    ...captureLayerSources
+      .filter(({ id }) => !exportedLayerIds.has(id))
+      .map(({ name }) => name),
+    ...userMapsApi.visibleMaps.map(({ record }) => record.name),
+  ], [captureLayerSources, exportedLayerIds, userMapsApi.visibleMaps]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -3348,8 +3393,9 @@ export function App() {
               maxNativeZoom: layer.id === "ns-aerial" ? 19 : layer.maxZoom,
             })),
           // v1 scope cut: user-imported maps are not extracted into a
-          // CanvasImageSource + mesh yet (see omittedUserMapNames below,
-          // which tells the user plainly rather than silently dropping them).
+          // CanvasImageSource + mesh yet. They are named in
+          // `omittedLayerNames` below, alongside every other visible layer
+          // this export will not contain, rather than silently dropped.
           userMaps: [],
           selectedParcelRings: selectedParcelGeometry.features.flatMap(
             ({ geometry }) =>
@@ -3365,9 +3411,7 @@ export function App() {
         })}
         defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
         attributionLines={exportAttributionLines(captureLayerSources)}
-        omittedUserMapNames={userMapsApi.visibleMaps.map(
-          ({ record }) => record.name,
-        )}
+        omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
         onClose={() => setExportSession(null)}
       />

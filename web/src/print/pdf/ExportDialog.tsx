@@ -25,13 +25,15 @@ export type ExportDialogProps = {
   attributionLines: string[];
   shareUrl: string;
   /**
-   * Names of user-imported maps that are currently visible on screen but are
-   * NOT included in this export (v1 scope cut: the compositor's warp path
-   * supports them, but extracting a decoded raster + mesh from the stored
-   * record is follow-up work). Shown with the same treatment as failed
-   * layers so the omission is never silent.
+   * Names of layers that are visible on screen but will NOT be in this
+   * export — the seven layer families the compositor does not carry yet
+   * (resources, hydro pilot, flood hazard, environmental health, forestry,
+   * zoning, well logs), any Province layer without export options, and
+   * user-imported maps. Shown with the same treatment as failed layers so
+   * the omission is never silent. It does not block Download: the user is
+   * told what the page will be missing and decides.
    */
-  omittedUserMapNames?: string[];
+  omittedLayerNames?: string[];
   onClose: () => void;
   composeImage?: (
     onProgress: (progress: CompositorProgress) => void,
@@ -206,7 +208,7 @@ export function ExportDialog(props: ExportDialogProps) {
     phase.stage === "confirm-failures"
       ? phase.result.statuses.filter(({ status }) => status === "failed")
       : [];
-  const omittedUserMapNames = props.omittedUserMapNames ?? [];
+  const omittedLayerNames = props.omittedLayerNames ?? [];
 
   return (
     <div className="export-dialog-backdrop" role="presentation">
@@ -238,17 +240,19 @@ export function ExportDialog(props: ExportDialogProps) {
           Include legend
         </label>
 
-        {omittedUserMapNames.length > 0 ? (
+        {omittedLayerNames.length > 0 ? (
           <div role="alert" className="export-failures export-omitted-layers">
-            <p>Not included in this export:</p>
+            <p>
+              These layers are on the map but will not be in the exported PDF:
+            </p>
             <ul>
-              {omittedUserMapNames.map((name) => (
+              {omittedLayerNames.map((name) => (
                 <li key={name}>
                   <strong>{name}</strong>
-                  {" — imported map layers aren't supported in PDF exports yet."}
                 </li>
               ))}
             </ul>
+            <p>PDF export doesn&rsquo;t support them yet.</p>
           </div>
         ) : null}
 
