@@ -747,22 +747,49 @@ describe("attachGeoRegistration round-trips through the app's own parser", () =>
     expect(ne?.map.lng).toBeCloseTo(bounds.east, 9);
   });
 
-  it("registration is affine-exact at the frame midpoint (EPSG:3857)", async () => {
-    // With a Mercator CRS declared, the pixel→map relation is linear in
-    // Mercator metres. The lat/lng of the frame's centre pixel must equal
-    // the inverse-Mercator of the Mercator-space midpoint — no interior
-    // interpolation error at any scale.
+  it("is affine-exact at the frame midpoint (EPSG:3857)", async () => {
+    // The registration's own affine solution, evaluated at the frame's
+    // centre pixel, must equal the true Mercator midpoint of the framed
+    // area — that is what "no interior interpolation error" means, and it
+    // is what a geographic-CRS registration would FAIL (the geographic
+    // midpoint latitude differs from the Mercator one by ~2e-4° here).
     const { candidates } = await extractGeoPdfMetadata(
       await writtenBytes(),
       viewport(612, 792),
     );
-    const lgi = candidates.find(({ flavor }) => flavor === "lgidict");
-    // The parser converts the CTM through EPSG:3857 itself; if the corners
-    // above are exact and the flavour resolved, interior linearity follows
-    // from the affine CTM. Assert the CTM produced 4 valid corner GCPs.
-    expect(lgi?.gcps).toHaveLength(4);
+    for (const candidate of candidates) {
+      const params = solveAffineFromGcps(candidate.gcps);
+      expect(params).not.toBeNull();
+      const centre = applyAffine(params!, {
+        x: mapFrame.x + mapFrame.width / 2,
+        y: frameTopPx + 250, // centre row in top-left pixel space
+      });
+      const trueMid = fromMercator({
+        x: (toMercator({ lat: 0, lng: bounds.west }).x +
+            toMercator({ lat: 0, lng: bounds.east }).x) / 2,
+        y: (toMercator({ lat: bounds.north, lng: 0 }).y +
+            toMercator({ lat: bounds.south, lng: 0 }).y) / 2,
+      });
+      expect(centre.lat).toBeCloseTo(trueMid.lat, 7);
+      expect(centre.lng).toBeCloseTo(trueMid.lng, 7);
+      // Guard that this assertion has teeth: the naive geographic midpoint
+      // is measurably different, so a geographic registration would fail.
+      expect(Math.abs(trueMid.lat - (bounds.north + bounds.south) / 2))
+        .toBeGreaterThan(1e-4);
+    }
   });
 });
+```
+
+`solveAffineFromGcps` comes from
+`web/src/userMaps/transform/affine.ts`; add an `applyAffine` helper in the
+test file if that module does not already export one — read
+`affine.ts` first and use its own evaluation function if present, so the
+test exercises the app's real solver rather than a private copy:
+
+```ts
+import { solveAffineFromGcps } from "../../userMaps/transform/affine";
+import { fromMercator, toMercator } from "../../userMaps/transform/webMercator";
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
