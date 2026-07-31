@@ -106,20 +106,23 @@ async function renderTileLayer(
       image: await fetchImage(url, signal),
     })),
   );
-  ctx.save();
-  ctx.globalAlpha = layer.opacity;
   let failures = 0;
-  for (const result of settled) {
-    if (result.status === "rejected") {
-      failures += 1;
-      continue;
+  ctx.save();
+  try {
+    ctx.globalAlpha = layer.opacity;
+    for (const result of settled) {
+      if (result.status === "rejected") {
+        failures += 1;
+        continue;
+      }
+      const rect = tileOutputRect(space, result.value.tile);
+      ctx.drawImage(
+        result.value.image, rect.x, rect.y, rect.width, rect.height,
+      );
     }
-    const rect = tileOutputRect(space, result.value.tile);
-    ctx.drawImage(
-      result.value.image, rect.x, rect.y, rect.width, rect.height,
-    );
+  } finally {
+    ctx.restore();
   }
-  ctx.restore();
   if (failures > 0) {
     return {
       id: layer.id,
@@ -143,9 +146,12 @@ function renderWarpedLayer(
   const dstMesh = layer.latLngMesh.map((row) =>
     row.map((point) => latLngToOutput(space, point)));
   ctx.save();
-  ctx.globalAlpha = layer.opacity;
-  drawWarpedImage(ctx, layer.image, srcMesh, dstMesh);
-  ctx.restore();
+  try {
+    ctx.globalAlpha = layer.opacity;
+    drawWarpedImage(ctx, layer.image, srcMesh, dstMesh);
+  } finally {
+    ctx.restore();
+  }
   return { id: layer.id, name: layer.name, status: "rendered" };
 }
 
@@ -158,20 +164,42 @@ function renderVectorRing(
     return { id: layer.id, name: layer.name, status: "empty" };
   }
   ctx.save();
-  ctx.strokeStyle = layer.strokeStyle;
-  ctx.lineWidth = layer.lineWidthPx;
-  ctx.lineJoin = "round";
-  for (const ring of layer.rings) {
-    ctx.beginPath();
-    ring.forEach((point, index) => {
-      const { x, y } = latLngToOutput(space, point);
-      if (index === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
+  try {
+    ctx.strokeStyle = layer.strokeStyle;
+    ctx.lineWidth = layer.lineWidthPx;
+    ctx.lineJoin = "round";
+    for (const ring of layer.rings) {
+      ctx.beginPath();
+      ring.forEach((point, index) => {
+        const { x, y } = latLngToOutput(space, point);
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+  } finally {
+    ctx.restore();
   }
-  ctx.restore();
   return { id: layer.id, name: layer.name, status: "rendered" };
+}
+
+/**
+ * Extracts a human-readable message from a caught render failure. Native
+ * `DOMException` (e.g. from a tainted-canvas `getImageData`/`drawImage`
+ * failure) is not `instanceof Error` in browsers, so it needs its own
+ * shape check to avoid falling through to the generic fallback string.
+ */
+function extractErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof (error as { message: unknown }).message === "string"
+  ) {
+    return (error as { message: string }).message;
+  }
+  return "render failed";
 }
 
 /**
@@ -223,7 +251,7 @@ export async function composeMapImage(
         id: layer.id,
         name: layer.name,
         status: "failed",
-        detail: error instanceof Error ? error.message : "render failed",
+        detail: extractErrorMessage(error),
       });
     }
   }
