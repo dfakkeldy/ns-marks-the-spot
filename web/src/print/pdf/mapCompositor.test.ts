@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   composeMapImage,
+  type CompositorImageRequest,
   type CompositorProgress,
   type CompositorTileLayer,
 } from "./mapCompositor";
@@ -153,6 +154,117 @@ describe("composeMapImage", () => {
       status: "failed",
     });
     expect(statuses[1].detail).toMatch(/tile/u);
+  });
+
+  it("never has more than 6 tile fetches in flight at once", async () => {
+    // An ordinary parcel-zoom frame resolves to ~198 tiles per layer. Issuing
+    // them in one `Promise.allSettled` is bulk downloading by the OSM tile
+    // usage policy's definition, from a public static site.
+    const size = { widthPx: 800, heightPx: 640 };
+    const layer = redTileLayer();
+    const zoom = zoomForOutput(bounds, size.widthPx, layer.maxNativeZoom);
+    const tiles = tilesForBounds(bounds, zoom);
+    // Guard the test's own premise: a cap of 6 proves nothing on 4 tiles.
+    expect(tiles.length).toBeGreaterThan(6);
+
+    let inFlight = 0;
+    let peak = 0;
+    const { statuses } = await composeMapImage(bounds, size, [layer], {
+      fetchImage: async () => {
+        inFlight += 1;
+        peak = Math.max(peak, inFlight);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        inFlight -= 1;
+        return solidTile("#ff0000");
+      },
+    });
+
+    expect(statuses[0].status).toBe("rendered");
+    expect(peak).toBeLessThanOrEqual(6);
+    // And it really is parallel up to the cap, not serialised to one.
+    expect(peak).toBe(6);
+    // Every tile still fetched — the cap paces the work, it does not drop it.
+    expect(inFlight).toBe(0);
+  });
+
+  it("fetches an image layer once, for the whole frame at the output size", async () => {
+    const requested: CompositorImageRequest[] = [];
+    const { canvas, statuses } = await composeMapImage(bounds, size, [{
+      kind: "image",
+      id: "nsprd",
+      name: "Property boundaries",
+      opacity: 1,
+      url: (request) => {
+        requested.push(request);
+        return "https://arcgis.example/export?one";
+      },
+    }], { fetchImage: async () => solidTile("#00ff00") });
+
+    expect(statuses).toEqual([
+      { id: "nsprd", name: "Property boundaries", status: "rendered" },
+    ]);
+    expect(requested).toEqual([
+      { bounds, widthPx: size.widthPx, heightPx: size.heightPx },
+    ]);
+    // Drawn to fill the frame, corner to corner.
+    expect(pixel(canvas, 1, 1).slice(0, 3)).toEqual([0, 255, 0]);
+    expect(pixel(canvas, size.widthPx - 2, size.heightPx - 2).slice(0, 3))
+      .toEqual([0, 255, 0]);
+  });
+
+  it("caps the requested image size at the ArcGIS server limit", async () => {
+    // ArcGIS Server's default maxImageWidth/Height is 4096; asking beyond it
+    // returns an error, not a bigger image.
+    const requested: CompositorImageRequest[] = [];
+    const { statuses } = await composeMapImage(
+      bounds, { widthPx: 8192, heightPx: 4096 }, [{
+        kind: "image",
+        id: "nsprd",
+        name: "Property boundaries",
+        opacity: 1,
+        url: (request) => {
+          requested.push(request);
+          return "https://arcgis.example/export?one";
+        },
+      }], { fetchImage: async () => solidTile("#00ff00") },
+    );
+    expect(statuses[0].status).toBe("rendered");
+    expect(requested[0].widthPx).toBe(4096);
+    // Aspect preserved, so the render still lines up with the frame.
+    expect(requested[0].heightPx).toBe(2048);
+  });
+
+  it("reports an image layer that will not load as failed, never throwing", async () => {
+    const { statuses } = await composeMapImage(bounds, size, [
+      redTileLayer(),
+      {
+        kind: "image",
+        id: "nsprd",
+        name: "Property boundaries",
+        opacity: 1,
+        url: () => "https://arcgis.example/export?broken",
+      },
+    ], {
+      fetchImage: async (url) => {
+        if (url.includes("broken")) throw new Error("HTTP 500");
+        return solidTile("#ff0000");
+      },
+    });
+    expect(statuses[0].status).toBe("rendered");
+    expect(statuses[1]).toMatchObject({
+      id: "nsprd", status: "failed", detail: "HTTP 500",
+    });
+  });
+
+  it("marks an image layer with no coverage as empty", async () => {
+    const { statuses } = await composeMapImage(bounds, size, [{
+      kind: "image",
+      id: "nsprd",
+      name: "Property boundaries",
+      opacity: 1,
+      url: () => null,
+    }], { fetchImage: async () => solidTile("#00ff00") });
+    expect(statuses[0].status).toBe("empty");
   });
 
   it("marks a layer with no covering tiles as empty", async () => {

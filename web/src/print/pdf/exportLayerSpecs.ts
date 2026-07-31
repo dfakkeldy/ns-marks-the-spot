@@ -2,14 +2,18 @@ import {
   FLETCHER_LAYER_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
 } from "../../components/mapPanes";
-import { arcGISExportUrlForTile } from "../../layers/arcGISExport";
+import { arcGISExportUrlForBox } from "../../layers/arcGISExport";
 import { fletcherSheets, fletcherTileUrl } from "../../layers/fletcherLayer";
 import type { ArcGISExportOptions } from "../../layers/layerCatalog";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import type { LatLngPoint } from "../../userMaps/transform/projection";
 import { toMercator } from "../../userMaps/transform/webMercator";
 import type { PixelRect } from "../../userMaps/types";
-import type { CompositorLayer, CompositorTileLayer } from "./mapCompositor";
+import type {
+  CompositorImageLayer,
+  CompositorLayer,
+  CompositorTileLayer,
+} from "./mapCompositor";
 import { tileMercatorBounds, type TileCoords } from "./tileMath";
 
 export type ExportArcGisLayerInput = {
@@ -18,7 +22,8 @@ export type ExportArcGisLayerInput = {
   serviceUrl: string;
   exportOptions: ArcGISExportOptions;
   opacity: number;
-  maxNativeZoom: number;
+  // No `maxNativeZoom`: a single bbox render has no tile pyramid to clamp to.
+  // The service renders the frame at the size asked for.
 };
 
 export type ExportUserMapInput = {
@@ -90,18 +95,29 @@ function fletcherLayers(
     });
 }
 
-function arcGisLayer(layer: ExportArcGisLayerInput): CompositorTileLayer {
+/**
+ * ONE `/export` render per service, at the frame's bbox and output size —
+ * what the spec specified. The per-tile URL builder was reused here by
+ * mistake, which turned each Province layer into ~200 server-side renders
+ * (~800 across the four default layers) in a single burst against
+ * nsgiwa.novascotia.ca. These are dynamic map services: there is no cached
+ * tile to fetch, only a render to pay for.
+ */
+function arcGisLayer(layer: ExportArcGisLayerInput): CompositorImageLayer {
   return {
-    kind: "tile",
+    kind: "image",
     id: layer.id,
     name: layer.name,
     opacity: layer.opacity,
-    maxNativeZoom: layer.maxNativeZoom,
-    url: (tile) =>
-      arcGISExportUrlForTile(
+    url: ({ bounds, widthPx, heightPx }) => {
+      const nw = toMercator({ lat: bounds.north, lng: bounds.west });
+      const se = toMercator({ lat: bounds.south, lng: bounds.east });
+      return arcGISExportUrlForBox(
         { serviceUrl: layer.serviceUrl, ...layer.exportOptions },
-        tile,
-      ),
+        { minX: nw.x, minY: se.y, maxX: se.x, maxY: nw.y },
+        { widthPx, heightPx },
+      );
+    },
   };
 }
 

@@ -3390,7 +3390,6 @@ export function App() {
               serviceUrl: layer.serviceUrl,
               exportOptions: layer.exportOptions!,
               opacity: layer.opacity,
-              maxNativeZoom: layer.id === "ns-aerial" ? 19 : layer.maxZoom,
             })),
           // v1 scope cut: user-imported maps are not extracted into a
           // CanvasImageSource + mesh yet. They are named in

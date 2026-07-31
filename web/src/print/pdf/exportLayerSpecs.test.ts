@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { toMercator } from "../../userMaps/transform/webMercator";
+import { composeMapImage } from "./mapCompositor";
 import { buildExportLayers, type ExportLayerInputs } from "./exportLayerSpecs";
 
 const bounds = { north: 46.35, south: 46.25, west: -61.25, east: -61.10 };
@@ -54,7 +56,11 @@ describe("buildExportLayers", () => {
     ).toMatch(/^https:\/\/tiles\.example\/.+\/12\/1351\/1452\.png$/u);
   });
 
-  it("maps ArcGIS descriptors through arcGISExportUrlForTile", () => {
+  it("asks an ArcGIS service for ONE frame-sized render, not a tile grid", () => {
+    // Each ArcGIS "tile" is a server-side render, so the per-tile builder
+    // this replaces turned one layer into ~200 renders (~800 across the four
+    // default Province layers) in a single burst. The spec asked for "one
+    // bbox export-image request per service at the exact output size".
     const layers = buildExportLayers(inputs({
       arcgisLayers: [{
         id: "nsprd",
@@ -62,16 +68,64 @@ describe("buildExportLayers", () => {
         serviceUrl: "https://arcgis.example/rest/services/NSPRD/MapServer",
         exportOptions: { transparent: true, layers: "show:0" },
         opacity: 1,
-        maxNativeZoom: 19,
       }],
     }));
     const nsprd = layers.find((l) => l.id === "nsprd");
-    expect(nsprd?.kind).toBe("tile");
-    if (nsprd?.kind !== "tile") return;
-    const url = nsprd.url({ z: 12, x: 1351, y: 1452 });
-    expect(url).toContain("/export?");
-    expect(url).toContain("bboxSR=3857");
-    expect(url).toContain("layers=show%3A0");
+    expect(nsprd?.kind).toBe("image");
+    if (nsprd?.kind !== "image") return;
+
+    const raw = nsprd.url({ bounds, widthPx: 3067, heightPx: 1808 });
+    expect(raw).not.toBeNull();
+    const url = new URL(raw!);
+    expect(url.pathname).toBe("/rest/services/NSPRD/MapServer/export");
+    expect(url.searchParams.get("bboxSR")).toBe("3857");
+    expect(url.searchParams.get("imageSR")).toBe("3857");
+    expect(url.searchParams.get("layers")).toBe("show:0");
+    expect(url.searchParams.get("transparent")).toBe("true");
+    // The frame's own bbox, in Web Mercator, and the output size verbatim —
+    // no 256,256 tile anywhere in it.
+    const nw = toMercator({ lat: bounds.north, lng: bounds.west });
+    const se = toMercator({ lat: bounds.south, lng: bounds.east });
+    expect(url.searchParams.get("bbox")).toBe(
+      `${nw.x},${se.y},${se.x},${nw.y}`,
+    );
+    expect(url.searchParams.get("size")).toBe("3067,1808");
+  });
+
+  it("issues exactly one network request per ArcGIS layer for a whole frame", async () => {
+    const layers = buildExportLayers(inputs({
+      showModernMap: false,
+      fletcher: {
+        visible: false, opacity: 1, tileBaseUrl: null, maxNativeZoom: 15,
+      },
+      arcgisLayers: [{
+        id: "nsprd",
+        name: "Property boundaries",
+        serviceUrl: "https://arcgis.example/rest/services/NSPRD/MapServer",
+        exportOptions: { transparent: true },
+        opacity: 1,
+      }],
+    }));
+    const requested: string[] = [];
+    const tile = document.createElement("canvas");
+    tile.width = 8;
+    tile.height = 8;
+    const { statuses } = await composeMapImage(
+      bounds, { widthPx: 900, heightPx: 600 }, layers,
+      {
+        fetchImage: async (url) => {
+          requested.push(url);
+          return tile;
+        },
+      },
+    );
+
+    expect(statuses).toEqual([
+      { id: "nsprd", name: "Property boundaries", status: "rendered" },
+    ]);
+    // One. Not one per 256px tile of the frame.
+    expect(requested).toHaveLength(1);
+    expect(new URL(requested[0]).searchParams.get("size")).toBe("900,600");
   });
 
   it("appends user maps and the parcel ring above tile layers", () => {
@@ -104,14 +158,12 @@ describe("buildExportLayers", () => {
         serviceUrl: "https://arcgis.example/rest/services/AERIAL/MapServer",
         exportOptions: { transparent: false },
         opacity: 1,
-        maxNativeZoom: 19,
       }, {
         id: "nsprd",
         name: "Property boundaries",
         serviceUrl: "https://arcgis.example/rest/services/NSPRD/MapServer",
         exportOptions: { transparent: true },
         opacity: 1,
-        maxNativeZoom: 19,
       }],
       userMaps: [{
         id: "um-1", name: "My scan", image, imageWidth: 100, imageHeight: 80,
