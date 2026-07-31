@@ -32,8 +32,10 @@ const MUTED = rgb(0.42, 0.44, 0.48);
 const RULE = rgb(0.78, 0.8, 0.83);
 const CHIP = rgb(0.85, 0.86, 0.88);
 
+/** Falls back to the neutral chip colour for anything that isn't `#rrggbb`. */
 function hexToRgb(hex: string): RGB {
   const value = hex.replace("#", "");
+  if (!/^[0-9a-fA-F]{6}$/u.test(value)) return CHIP;
   return rgb(
     parseInt(value.slice(0, 2), 16) / 255,
     parseInt(value.slice(2, 4), 16) / 255,
@@ -64,13 +66,108 @@ function wrapText(
 }
 
 /**
- * StandardFonts render through WinAnsi (cp1252) encoding, which has no
- * glyph for "≈" — `buildScaleBar` correctly uses it to mean "approximately"
- * for on-screen/HTML consumers, but drawing it with a standard font would
- * throw. Swap it for a plain-ASCII stand-in instead of crashing the export.
+ * The single choke point every string must pass through before it reaches
+ * `page.drawText` (or any font-metric call, e.g. `wrapText`/`widthOfTextAtSize`).
+ *
+ * StandardFonts render through pdf-lib's WinAnsi (cp1252) encoding. Em
+ * dashes, curly quotes, and accented Latin letters ("Café") are all in
+ * cp1252 and render fine, but emoji, arrows, and other symbols outside it
+ * make pdf-lib throw an uncaught `Error: WinAnsi cannot encode "X"` —
+ * crashing the whole export over one decorative character a user happened
+ * to type into a title or notes field.
+ *
+ * "≈" gets a dedicated ASCII stand-in because `buildScaleBar` emits it on
+ * purpose for the HTML consumer (see scaleBar.ts) and "~" reads naturally
+ * in its place. Anything else the embedded font can't encode is swapped
+ * for a plain "?", checked per Unicode code point directly against the
+ * font — robust against arbitrary input rather than an exhaustive
+ * character list, and it can never throw. Whitespace is passed through
+ * unchecked: pdf-lib's WinAnsi encoding does encode newlines/tabs (it
+ * throws on them too), but replacing them here would corrupt `wrapText`'s
+ * later `\s+`-based word splitting, silently gluing words together.
  */
-function winAnsiSafe(text: string): string {
-  return text.replace(/≈/gu, "~");
+function sanitizeForPdf(text: string, font: PDFFont): string {
+  const withoutApprox = text.replace(/≈/gu, "~");
+  let safe = "";
+  for (const codePoint of withoutApprox) {
+    if (/\s/u.test(codePoint)) {
+      safe += codePoint;
+      continue;
+    }
+    try {
+      font.widthOfTextAtSize(codePoint, 1);
+      safe += codePoint;
+    } catch {
+      safe += "?";
+    }
+  }
+  return safe;
+}
+
+/**
+ * Trims `line` until appending an ellipsis fits within `maxWidth`, so a
+ * title/notes line clipped by the block's bottom edge says so instead of
+ * silently vanishing.
+ */
+function ellipsize(
+  line: string,
+  font: PDFFont,
+  size: number,
+  maxWidth: number,
+): string {
+  let candidate = line;
+  while (
+    candidate.length > 0 &&
+    font.widthOfTextAtSize(`${candidate}…`, size) > maxWidth
+  ) {
+    candidate = candidate.slice(0, -1);
+  }
+  return `${candidate.replace(/\s+$/u, "")}…`;
+}
+
+/**
+ * Draws pre-wrapped `lines` top-down, one `page.drawText` call per line,
+ * starting at `startY` and stepping by `lineHeight` (derived from the
+ * paragraph's own font size, not pdf-lib's hardcoded-24 default that a
+ * `maxWidth`-wrapped `drawText` call would otherwise use).
+ *
+ * Stops once a line's baseline would fall below `bottomY` — the
+ * block-bounds guard the title and subtitle previously lacked entirely,
+ * which let a long title spill past `titleBlock` and print over the map
+ * image drawn beneath it. When more lines exist than fit, the last line
+ * that *does* fit is ellipsized so the clipping is visible rather than
+ * silent.
+ *
+ * Returns the baseline Y of the last line actually drawn (or `startY`
+ * unchanged if nothing was), so callers can chain the next paragraph's own
+ * gap + font size onto it exactly as the original single-line cursor math
+ * did.
+ */
+function drawBoundedParagraph(
+  page: PDFPage,
+  lines: string[],
+  font: PDFFont,
+  size: number,
+  lineHeight: number,
+  x: number,
+  startY: number,
+  bottomY: number,
+  color: RGB,
+  maxWidth: number,
+): number {
+  let lastBaseline = startY;
+  for (let index = 0; index < lines.length; index += 1) {
+    const y = startY - index * lineHeight;
+    if (y < bottomY) break;
+    const linesRemain = index < lines.length - 1;
+    const nextWouldOverflow = y - lineHeight < bottomY;
+    const text = linesRemain && nextWouldOverflow
+      ? ellipsize(lines[index], font, size, maxWidth)
+      : lines[index];
+    page.drawText(text, { x, y, size, font, color });
+    lastBaseline = y;
+  }
+  return lastBaseline;
 }
 
 function drawScaleBar(
@@ -103,7 +200,7 @@ function drawScaleBar(
     font,
     color: MUTED,
   });
-  page.drawText(winAnsiSafe(spec.denominatorLabel), {
+  page.drawText(sanitizeForPdf(spec.denominatorLabel, font), {
     x, y: y + 9, size: caption, font, color: MUTED,
   });
 }
@@ -172,7 +269,7 @@ function drawLegend(
     }
     const label = isOverflowRow
       ? `…and ${overflow + 1} more — see attribution`
-      : entry.name;
+      : sanitizeForPdf(entry.name, fonts.regular);
     page.drawText(label, {
       x: box.x + 22, y: rowY + 1, size: type.caption,
       font: fonts.regular, color: INK,
@@ -206,28 +303,49 @@ export async function composeGeoPdf(input: ComposeInput): Promise<Uint8Array> {
     borderColor: INK, borderWidth: 1,
   });
 
-  // Title block: title, subtitle, then wrapped notes.
+  // Title block: title, subtitle, then wrapped notes. Each paragraph wraps
+  // itself with `wrapText` (real font metrics) and draws one line per
+  // `drawText` call via `drawBoundedParagraph` — deliberately NOT relying on
+  // `drawText`'s own `maxWidth` wrapping, whose line height is a flat 24pt
+  // regardless of font size. At the portrait template's 22pt title size that
+  // flat 24pt is barely more than one line's worth of leading, so a wrapped
+  // title's second line lands almost on top of the subtitle. Every paragraph
+  // shares the same `tb.y` bottom bound, so a long title that eats the whole
+  // block simply leaves no room for subtitle/notes, rather than any of the
+  // three printing below the block and over the map image drawn first.
   const tb = template.titleBlock;
-  let cursorY = tb.y + tb.height - template.type.title;
-  page.drawText(fields.title, {
-    x: tb.x, y: cursorY, size: template.type.title, font: bold, color: INK,
-    maxWidth: tb.width,
-  });
+  const titleLineHeight = template.type.title * 1.15;
+  const titleLines = wrapText(
+    sanitizeForPdf(fields.title, bold), bold, template.type.title, tb.width,
+  );
+  let cursorY = drawBoundedParagraph(
+    page, titleLines, bold, template.type.title, titleLineHeight,
+    tb.x, tb.y + tb.height - template.type.title, tb.y, INK, tb.width,
+  );
   if (fields.subtitle) {
     cursorY -= template.type.subtitle + 6;
-    page.drawText(fields.subtitle, {
-      x: tb.x, y: cursorY, size: template.type.subtitle,
-      font: regular, color: MUTED, maxWidth: tb.width,
-    });
+    if (cursorY >= tb.y) {
+      const subtitleLineHeight = template.type.subtitle * 1.15;
+      const subtitleLines = wrapText(
+        sanitizeForPdf(fields.subtitle, regular), regular, template.type.subtitle, tb.width,
+      );
+      cursorY = drawBoundedParagraph(
+        page, subtitleLines, regular, template.type.subtitle, subtitleLineHeight,
+        tb.x, cursorY, tb.y, MUTED, tb.width,
+      );
+    }
   }
   if (fields.notes) {
-    for (const line of wrapText(fields.notes, regular, template.type.body, tb.width)) {
-      cursorY -= template.type.body + 3;
-      if (cursorY < tb.y) break;
-      page.drawText(line, {
-        x: tb.x, y: cursorY, size: template.type.body,
-        font: regular, color: INK,
-      });
+    cursorY -= template.type.body + 3;
+    if (cursorY >= tb.y) {
+      const bodyLineHeight = template.type.body + 3;
+      const noteLines = wrapText(
+        sanitizeForPdf(fields.notes, regular), regular, template.type.body, tb.width,
+      );
+      drawBoundedParagraph(
+        page, noteLines, regular, template.type.body, bodyLineHeight,
+        tb.x, cursorY, tb.y, INK, tb.width,
+      );
     }
   }
 
@@ -254,7 +372,10 @@ export async function composeGeoPdf(input: ComposeInput): Promise<Uint8Array> {
     thickness: 0.75, color: RULE,
   });
   const stamp = `Generated ${input.generatedAt.slice(0, 10)} — kinnokilabs.com/map`;
-  const attributionText = [...input.attributionLines, stamp].join("  ·  ");
+  const safeAttributionLines = input.attributionLines.map(
+    (line) => sanitizeForPdf(line, regular),
+  );
+  const attributionText = [...safeAttributionLines, stamp].join("  ·  ");
   const capSize = template.type.caption;
   const lines = wrapText(attributionText, regular, capSize, strip.width);
   const maxLines = Math.max(1, Math.floor(strip.height / (capSize + 2)));
