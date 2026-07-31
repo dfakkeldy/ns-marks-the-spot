@@ -119,10 +119,14 @@ Research evidence preserves separate returned, empty, outside-coverage,
 below-zoom, unavailable, and timeout meanings. In particular, an unavailable
 source is never presented as an empty result or proof of absence.
 
-The **Print / Save PDF** action invokes the browser's print dialog. There is no
-direct PDF/PNG generator, canvas capture, raw geometry download, tile archive,
-or bulk data export. OpenStreetMap and ArcGIS images stay browser-rendered in a
-display-only, non-interactive Leaflet map. The output includes a locally
+The **Print / Save PDF** action invokes the browser's print dialog. The separate
+**Export map (PDF)** action generates a PDF directly in the browser: it fetches
+the map images for the framed area, composites them onto a canvas, and writes a
+single raster page. Everything happens client-side — no server round trip, and
+nothing is uploaded. What it produces is a picture of the map, not the data
+behind it: there is still no raw geometry download, no tile archive, and no bulk
+data export. OpenStreetMap and ArcGIS images stay browser-rendered in a
+display-only, non-interactive Leaflet map. The print output includes a locally
 generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
@@ -144,6 +148,19 @@ circle, and raw coordinates are not rendered or copied into print state.
 Location-triggered map movement is suppressed from the printable viewport.
 The receipt's latitude, longitude, and zoom describe the derived printed map
 position, not a browser-location reading.
+
+### Georeferenced PDF export
+
+Frame an area on the map and download a Letter portrait/landscape GeoPDF
+(ISO 32000 `/Measure` + OGC `/LGIDict`, EPSG:3857) that works in Avenza,
+QGIS/GDAL, and on paper, with an optional legend and always-on attribution.
+
+The attribution strip is not optional and is never quietly trimmed: it carries
+every rendered source's licence name and URL plus the capture timestamp,
+shrinking its own type to fit and ellipsizing visibly if even that is not
+enough. Layers that are on screen but not carried into the export are named in
+the dialog before the download, so the page never credits data it does not
+contain.
 
 ## Native layer parity
 

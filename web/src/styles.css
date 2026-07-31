@@ -3848,6 +3848,156 @@ a {
   overflow: hidden;
 }
 
+/* GeoPDF export frame mode */
+.export-frame-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 450; /* above MEASURE_PANE (430), below the map's HTML controls (500) */
+  pointer-events: none;
+}
+.export-frame {
+  position: absolute;
+  border: 2px solid #1d4ed8;
+  box-shadow: 0 0 0 4000px rgba(15, 23, 42, 0.35);
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+.export-frame:active { cursor: grabbing; }
+.export-frame-scale {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  padding: 2px 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+}
+.export-frame-handle {
+  position: absolute;
+  right: -9px;
+  bottom: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 2px solid #fff;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+.export-frame-toolbar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.export-map-trigger {
+  width: 100%;
+  margin: 12px 0 4px;
+}
+
+/* GeoPDF export dialog. Its own backdrop (rather than reusing
+   `.dialog-backdrop`) matches the rest of the app's overlay conventions —
+   `.print-preview-backdrop`, `.geopdf-frame-chooser-backdrop` — each
+   full-screen modal owns its stacking context. Sits above the print preview
+   (3000): opening the export flow while a print preview is up should not
+   read as buried behind it. */
+.export-dialog-backdrop {
+  position: fixed;
+  z-index: 3100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(18, 52, 59, 0.72);
+}
+
+.export-dialog {
+  width: min(440px, 100%);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: clamp(20px, 4vw, 28px);
+  background: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.export-dialog h2 {
+  margin: 0 0 4px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.6rem;
+}
+
+.export-dialog label {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.export-dialog input,
+.export-dialog textarea {
+  min-width: 0;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font: inherit;
+  background: var(--white);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+}
+
+.export-dialog input:focus,
+.export-dialog textarea:focus {
+  border-color: var(--survey-blue);
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.18);
+}
+
+.export-legend-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.export-failures {
+  margin-top: 10px;
+  padding: 10px 12px;
+  color: #a33228;
+  font-size: 0.86rem;
+  background: rgba(190, 77, 60, 0.08);
+  border: 1px solid rgba(190, 77, 60, 0.3);
+  border-radius: 6px;
+}
+
+.export-failures p { margin: 0; font-weight: 700; }
+.export-failures ul { margin: 4px 0 0 18px; padding: 0; }
+
+/* The omitted-user-map notice reuses the failures box's visual treatment
+   (same border/background) so the scope cut is never silent, but it is
+   informational, not an error — it never blocks the Download button the
+   way a render failure does. */
+.export-omitted-layers {
+  color: var(--chart-ink);
+  background: rgba(18, 52, 59, 0.05);
+  border-color: var(--line);
+}
+
+.export-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
 @media print {
   body.print-preview-open .app-shell {
     display: none !important;
@@ -3864,6 +4014,20 @@ a {
      `body.print-preview-open`, because a bare Cmd+P during a session must not
      stamp the panel either; it is chrome, never document. */
   .georeference-overlay {
+    display: none !important;
+  }
+
+  /* Same exposure, same fix, for the GeoPDF export UI. `<ExportDialog>` is
+     rendered OUTSIDE `.app-shell` too — a sibling of `<PrintPreview>` — so the
+     rule at the top of this block never matches its
+     `position: fixed; z-index: 3100` backdrop. `.export-frame-layer` IS inside
+     `.app-shell`, but that rule is keyed on `body.print-preview-open`, so a
+     bare Cmd+P while framing an export still prints the blue frame, the 4000px
+     page-dimming `box-shadow` around it, and the frame toolbar. Both are
+     unscoped for the same reason as the georeferencer above: chrome, never
+     document. */
+  .export-dialog-backdrop,
+  .export-frame-layer {
     display: none !important;
   }
 

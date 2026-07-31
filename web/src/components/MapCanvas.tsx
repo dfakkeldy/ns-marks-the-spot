@@ -129,6 +129,9 @@ import type {
   UserVectorFitRequest,
   VisibleUserVectorLayer,
 } from "../userMaps/vector/useUserVectorLayers";
+import { ExportFrameLayer } from "../print/pdf/ExportFrameLayer";
+import type { FrameState } from "../print/pdf/frameGeometry";
+import type { PdfTemplateId } from "../print/pdf/templates/types";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -175,6 +178,14 @@ type MapCanvasProps = {
   ) => void;
   renderMode?: MapRenderMode;
   fitBounds?: PrintMapBounds;
+  /** Non-null while the GeoPDF export frame overlay is active. */
+  exportFrame?: FrameState | null;
+  onExportFrameChange?: (frame: FrameState) => void;
+  onExportFrameCancel?: () => void;
+  onExportFrameContinue?: (
+    bounds: PrintMapBounds,
+    orientation: PdfTemplateId,
+  ) => void;
 };
 
 export type { MapRenderMode } from "./parcelStyle";
@@ -1510,6 +1521,10 @@ export function MapCanvas({
   onResourceLayerStatusChange,
   renderMode = "interactive",
   fitBounds,
+  exportFrame = null,
+  onExportFrameChange,
+  onExportFrameCancel,
+  onExportFrameContinue,
 }: MapCanvasProps) {
   const isPrintMode = renderMode === "print";
   const modernPrintError = useRef(false);
@@ -1675,6 +1690,14 @@ export function MapCanvas({
           />
         ) : null}
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
+        {exportFrame ? (
+          <ExportFrameLayer
+            state={exportFrame}
+            onStateChange={onExportFrameChange!}
+            onCancel={onExportFrameCancel!}
+            onContinue={onExportFrameContinue!}
+          />
+        ) : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (

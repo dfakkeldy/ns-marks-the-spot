@@ -160,8 +160,14 @@ import {
   type PrintEvent,
   type PrintLayerSource,
   type PrintLoadState,
+  type PrintMapBounds,
   type PrintMapViewport,
 } from "./services/printSnapshot";
+import { ExportDialog } from "./print/pdf/ExportDialog";
+import { exportAttributionLines } from "./print/pdf/attributionLines";
+import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
+import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
+import type { PdfTemplateId } from "./print/pdf/templates/types";
 import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapRows } from "./userMaps/components/UserMapRows";
@@ -204,6 +210,16 @@ const NO_GCPS: Gcp[] = [];
 const IDLE_PIXEL_SIZE = { width: 1, height: 1 };
 
 type SelectedEvidenceRequest = { pid: string; generation: number };
+
+/**
+ * The GeoPDF export flow's two phases: framing (dragging the paper-frame
+ * overlay on the live map) and dialog (title/legend fields, then render +
+ * download). Kept as one union rather than two independent booleans so the
+ * frame overlay and the dialog can never both be mounted at once.
+ */
+type GeoPdfExportSession =
+  | { stage: "framing"; frame: FrameState }
+  | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId };
 
 function isCurrentEvidenceRequest(
   current: SelectedEvidenceRequest | null,
@@ -522,8 +538,6 @@ function printLayerSources(
   }));
   return sources;
 }
-
-
 
 function LicenceDialog({
   onAccept,
@@ -1112,6 +1126,8 @@ export function App() {
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const printCaptureSequence = useRef(0);
   const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
+  const [exportSession, setExportSession] =
+    useState<GeoPdfExportSession | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
@@ -2027,6 +2043,61 @@ export function App() {
       return source ? [source] : [];
     });
   }, [captureLayerIds, fletcherTileConfiguration.baseUrl]);
+  /**
+   * The layer ids `buildExportLayers` actually carries into the PDF. Kept as
+   * an explicit mirror of that function's own filters rather than inferred
+   * from its output, because a compositor layer's id is not always the
+   * catalog id (Fletcher fans out into one `fletcher-NN` layer per sheet).
+   */
+  const exportedLayerIds = useMemo(() => {
+    const ids = new Set<ShareLayerId>();
+    if (showModernMap) ids.add("modern");
+    if (fletcherVisible && fletcherTileConfiguration.baseUrl) {
+      ids.add("fletcher");
+    }
+    for (const layer of provinceLayerCatalog) {
+      if (licenceAccepted && provinceLayers[layer.id] && layer.exportOptions) {
+        ids.add(layer.id);
+      }
+    }
+    return ids;
+  }, [
+    fletcherTileConfiguration.baseUrl,
+    fletcherVisible,
+    licenceAccepted,
+    provinceLayers,
+    showModernMap,
+  ]);
+  /**
+   * Everything on screen that the PDF will NOT contain, by name.
+   *
+   * `MapCanvas` renders seven layer families beyond OSM/Fletcher/Province —
+   * resources, hydro pilot, flood hazard, environmental health, forestry,
+   * zoning, well logs — and `buildExportLayers` carries none of them (nor a
+   * visible Province layer that has no `exportOptions`). Wiring those into
+   * the compositor is follow-up work; what cannot wait is that the omission
+   * be visible. Turning on zoning and exporting used to produce a page with
+   * no zoning on it and no hint that anything was missing, which is exactly
+   * the "silently incomplete map" the spec rules out.
+   *
+   * User-imported maps join the same list: same omission, same notice. So do
+   * user vector layers (KML/GPX/KMZ/shapefile import) — `UserVectorLayers`
+   * renders them in `MapCanvas`, but `buildExportLayers` does not composite
+   * them either, and a visible-but-unexported layer with no notice is exactly
+   * this list's reason to exist.
+   */
+  const omittedLayerNames = useMemo(() => [
+    ...captureLayerSources
+      .filter(({ id }) => !exportedLayerIds.has(id))
+      .map(({ name }) => name),
+    ...userMapsApi.visibleMaps.map(({ record }) => record.name),
+    ...userVectorApi.visibleLayers.map(({ record }) => record.name),
+  ], [
+    captureLayerSources,
+    exportedLayerIds,
+    userMapsApi.visibleMaps,
+    userVectorApi.visibleLayers,
+  ]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
@@ -2420,6 +2491,24 @@ export function App() {
               </ul>
             ) : null}
           </form>
+
+          {/* Deliberately NOT gated on `licenceAccepted`. Declining the
+              Province licence runs `continueWithoutProvinceLayers`, which
+              never sets that flag — so gating here locked the export out
+              permanently for exactly the user the feature was written for:
+              the one taking OSM + a Fletcher sheet into the field with live
+              GPS, which needs no Province data at all. Province layers are
+              already excluded from the export by the same mechanism that
+              excludes them from `captureLayerIds` — they are only visible,
+              and therefore only composited, once the licence is accepted. */}
+          <button
+            type="button"
+            className="secondary-action export-map-trigger"
+            onClick={() =>
+              setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
+          >
+            Export map (PDF)
+          </button>
 
           <section className={`map-mode-switcher ${mapMode}`} aria-label="Map record mode">
             <div className="map-mode-buttons">
@@ -3163,6 +3252,14 @@ export function App() {
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onLayerStatusChange={setLayerStatus}
+            exportFrame={
+              exportSession?.stage === "framing" ? exportSession.frame : null
+            }
+            onExportFrameChange={(frame) =>
+              setExportSession({ stage: "framing", frame })}
+            onExportFrameCancel={() => setExportSession(null)}
+            onExportFrameContinue={(bounds, orientation) =>
+              setExportSession({ stage: "dialog", bounds, orientation })}
           />
           <p
             className="parcel-lookup-message"
@@ -3280,6 +3377,63 @@ export function App() {
         capture={printCapture}
         baseUrl={window.location.href}
         onClose={() => setPrintCapture(null)}
+      />
+    ) : null}
+    {exportSession?.stage === "dialog" ? (
+      <ExportDialog
+        orientation={exportSession.orientation}
+        bounds={exportSession.bounds}
+        layers={buildExportLayers({
+          bounds: exportSession.bounds,
+          showModernMap,
+          fletcher: {
+            visible: fletcherVisible,
+            opacity: fletcherOpacity,
+            tileBaseUrl: normalizeFletcherTileBaseUrl(),
+            maxNativeZoom: fletcherLayerCatalog.maxZoom,
+          },
+          arcgisLayers: provinceLayerCatalog
+            .filter((layer) =>
+              licenceAccepted && provinceLayers[layer.id] && layer.exportOptions)
+            .map((layer) => ({
+              id: layer.id,
+              name: layer.name,
+              serviceUrl: layer.serviceUrl,
+              exportOptions: layer.exportOptions!,
+              opacity: layer.opacity,
+            })),
+          // v1 scope cut: user-imported maps are not extracted into a
+          // CanvasImageSource + mesh yet. They are named in
+          // `omittedLayerNames` below, alongside every other visible layer
+          // this export will not contain, rather than silently dropped.
+          userMaps: [],
+          selectedParcelRings: selectedParcelGeometry.features.flatMap(
+            ({ geometry }) =>
+              geometry.type === "Polygon"
+                ? geometry.coordinates.map((ring) =>
+                    ring.map(([lng, lat]) => ({ lat, lng })))
+                : geometry.type === "MultiPolygon"
+                  ? geometry.coordinates.flatMap((polygon) =>
+                      polygon.map((ring) =>
+                        ring.map(([lng, lat]) => ({ lat, lng }))))
+                  : [],
+          ),
+        })}
+        defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
+        attributionLines={exportAttributionLines(
+          // Credit exactly what the PDF contains: `captureLayerSources` is
+          // every visible source, but the compositor only carries the subset
+          // in `exportedLayerIds` (OSM, Fletcher, and Province layers with
+          // `exportOptions`). Passing the unfiltered list asserted licence
+          // obligations — coastal-flood, zoning, well-log, etc. — over data
+          // the page never contained. The omitted layers stay named in
+          // `omittedLayerNames` below; they must not also appear credited
+          // here.
+          captureLayerSources.filter(({ id }) => exportedLayerIds.has(id)),
+        )}
+        omittedLayerNames={omittedLayerNames}
+        shareUrl={window.location.href}
+        onClose={() => setExportSession(null)}
       />
     ) : null}
     {userMapsApi.frameChoosingMap ? (

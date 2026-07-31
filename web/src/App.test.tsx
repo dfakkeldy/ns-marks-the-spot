@@ -19,6 +19,7 @@ import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
+import { provinceLayerCatalog } from "./layers/layerCatalog";
 import { UserMapStore } from "./userMaps/store/userMapStore";
 import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
 import type {
@@ -32,6 +33,29 @@ const parseGeoPdfAutoMock = vi.hoisted(() => vi.fn());
 vi.mock("./userMaps/parsers/parseGeoPdfAuto", () => ({
   parseGeoPdfAuto: parseGeoPdfAutoMock,
 }));
+
+// The GeoPDF export path's own compositor and PDF composer are real,
+// heavyweight code (tile fetches, canvas compositing, pdf-lib) that no other
+// test in this file drives to completion — every existing export test stops
+// at the dialog. These two are mocked so an App-level test CAN click all the
+// way through "Download PDF" and inspect exactly what App.tsx handed the
+// compositor: the `layers` it built (province-licence filtering) and the
+// `attributionLines` it composed (export-vs-visible filtering), without
+// depending on real tile network calls or real canvas rendering.
+const composeMapImageMock = vi.hoisted(() => vi.fn());
+const composeGeoPdfMock = vi.hoisted(() => vi.fn());
+
+vi.mock("./print/pdf/mapCompositor", async (importOriginal) => {
+  const original =
+    await importOriginal<typeof import("./print/pdf/mapCompositor")>();
+  return { ...original, composeMapImage: composeMapImageMock };
+});
+
+vi.mock("./print/pdf/pdfComposer", async (importOriginal) => {
+  const original =
+    await importOriginal<typeof import("./print/pdf/pdfComposer")>();
+  return { ...original, composeGeoPdf: composeGeoPdfMock };
+});
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
@@ -61,6 +85,8 @@ vi.mock("./components/MapCanvas", () => ({
     georeference,
     userMaps,
     userMapFitRequest,
+    exportFrame,
+    onExportFrameContinue,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -101,6 +127,11 @@ vi.mock("./components/MapCanvas", () => ({
     } | null;
     userMaps?: unknown[];
     userMapFitRequest?: { mapId: string; revision: number } | null;
+    exportFrame?: unknown;
+    onExportFrameContinue?: (
+      bounds: { north: number; south: number; west: number; east: number },
+      orientation: "portrait" | "landscape",
+    ) => void;
   }) => {
     useEffect(() => {
       if (renderMode === "print") {
@@ -181,9 +212,26 @@ vi.mock("./components/MapCanvas", () => ({
       {georeference?.focus
         ? `${georeference.focus.lat},${georeference.focus.lng}`
         : "none"}
+      ; export frame: {exportFrame ? "framing" : "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
+      {/* The real frame-to-dialog handoff lives inside `ExportFrameLayer`,
+          which this mock replaces — so stand in for its Continue button and
+          hand App the same (bounds, orientation) it would. Without this the
+          export dialog is unreachable from an App-level test. */}
+      {exportFrame ? (
+        <button
+          type="button"
+          onClick={() =>
+            onExportFrameContinue?.(
+              { north: 46.2, south: 46.0, west: -61.4, east: -61.1 },
+              "portrait",
+            )}
+        >
+          Continue export frame
+        </button>
+      ) : null}
       {renderMode !== "print" ? (
         <>
           <button
@@ -454,6 +502,19 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchDwellingCharacteristics).mockResolvedValue([]);
     vi.mocked(buildEvidenceNote).mockClear();
+    composeMapImageMock.mockReset().mockResolvedValue({
+      canvas: (() => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 8;
+        canvas.height = 8;
+        return canvas;
+      })(),
+      statuses: [
+        { id: "modern", name: "OpenStreetMap base map", status: "rendered" },
+      ],
+    });
+    composeGeoPdfMock.mockReset()
+      .mockResolvedValue(new Uint8Array([37, 80, 68, 70]));
     Object.defineProperty(URL, "createObjectURL", {
       configurable: true,
       value: vi.fn(() => "blob:test-evidence"),
@@ -1038,6 +1099,189 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "Fletcher: on at 50%",
     );
+  });
+
+  it("lets a user who declined the Province licence still export a map", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    // `continueWithoutProvinceLayers` never sets `licenceAccepted`, so the
+    // blanket `disabled={!licenceAccepted}` this replaces locked the export
+    // out permanently for exactly the user the feature exists for: OSM plus a
+    // Fletcher sheet in the field over live GPS, which needs no Province data.
+    // Province layers stay out of the export on their own — they are not
+    // visible without the licence, so nothing composites them.
+    const exportTrigger = screen.getByRole("button", {
+      name: "Export map (PDF)",
+    });
+    expect(exportTrigger).toBeEnabled();
+
+    await user.click(exportTrigger);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "export frame: framing",
+    );
+  });
+
+  it("names a visible zoning layer as absent from the export instead of dropping it silently", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+    await user.click(screen.getByText("Municipal zoning"));
+    await user.click(screen.getByLabelText("Inverness County zoning"));
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+
+    // `buildExportLayers` carries OSM, Fletcher, and Province layers only —
+    // zoning (and six other families MapCanvas renders) never reaches the
+    // compositor. Exporting used to produce a page with no zoning on it and
+    // nothing said about that.
+    const dialog = screen.getByRole("dialog", {
+      name: "Export georeferenced PDF",
+    });
+    expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
+    expect(dialog).toHaveTextContent("Inverness County zoning");
+    // A notice, not a gate.
+    expect(
+      within(dialog).getByRole("button", { name: "Download PDF" }),
+    ).toBeEnabled();
+  });
+
+  it("credits an exported layer but not a visible layer the export omits", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+    await user.click(screen.getByText("Municipal zoning"));
+    await user.click(screen.getByLabelText("Inverness County zoning"));
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+    await user.click(
+      within(
+        screen.getByRole("dialog", { name: "Export georeferenced PDF" }),
+      ).getByRole("button", { name: "Download PDF" }),
+    );
+
+    await waitFor(() => expect(composeGeoPdfMock).toHaveBeenCalledTimes(1));
+    const [composeInput] = composeGeoPdfMock.mock.calls[0] as [
+      { attributionLines: string[] },
+    ];
+    const attributionText = composeInput.attributionLines.join(" ");
+    // Modern map is both captured AND exported (`buildExportLayers` always
+    // carries OSM): its OpenStreetMap attribution belongs on the page.
+    expect(attributionText).toContain("OpenStreetMap");
+    // Zoning is visible (captured) but not exported — `buildExportLayers`
+    // does not carry it, and the omission is already named separately in
+    // `omittedLayerNames`. Crediting it here would assert a licence over
+    // data the PDF does not contain, which the EDPC attribution text (only
+    // this layer family uses it) makes easy to catch.
+    expect(attributionText).not.toContain(
+      "Eastern District Planning Commission",
+    );
+  });
+
+  it("names a visible user vector layer as absent from the export instead of dropping it silently", async () => {
+    // Same gap as zoning above, but for the `nightly`-only vector-import
+    // feature (KML/GPX/KMZ/shapefile) this branch predates: `MapCanvas`
+    // renders it via `UserVectorLayers`, but `buildExportLayers` never
+    // carries user vector layers into the compositor, and until now
+    // `omittedLayerNames` never named them either.
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    const input = await screen.findByLabelText("Add a map file");
+    await user.upload(
+      input,
+      new File(
+        [
+          JSON.stringify({
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: { type: "Point", coordinates: [-61.2, 46.1] },
+                properties: {},
+              },
+            ],
+          }),
+        ],
+        "trail-markers.geojson",
+        { type: "application/geo+json" },
+      ),
+    );
+    // The import is async (file read + parse); a checked "Your data" row is
+    // the same completion signal the rest of this suite waits on for scans.
+    expect(await screen.findByLabelText("trail-markers")).toBeChecked();
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+
+    const dialog = screen.getByRole("dialog", {
+      name: "Export georeferenced PDF",
+    });
+    expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
+    expect(dialog).toHaveTextContent("trail-markers");
+    // A notice, not a gate.
+    expect(
+      within(dialog).getByRole("button", { name: "Download PDF" }),
+    ).toBeEnabled();
+  });
+
+  it("keeps every Province layer out of the exported PDF after declining the licence", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+    await user.click(
+      within(
+        screen.getByRole("dialog", { name: "Export georeferenced PDF" }),
+      ).getByRole("button", { name: "Download PDF" }),
+    );
+
+    await waitFor(() => expect(composeMapImageMock).toHaveBeenCalledTimes(1));
+    // `composeMapImage(bounds, size, layers, options)` — the third argument
+    // is exactly what `buildExportLayers` built from the province-layer
+    // filter this test guards. Declining the licence already keeps every
+    // `provinceLayers[id]` false today (a three-hop state invariant this
+    // suite does not otherwise pin at the export boundary), so this asserts
+    // the outcome the `licenceAccepted &&` guard exists to protect even if
+    // that invariant is ever weakened upstream.
+    const [, , layers] = composeMapImageMock.mock.calls[0] as [
+      unknown,
+      unknown,
+      Array<{ id: string }>,
+    ];
+    const provinceLayerIds = new Set(
+      provinceLayerCatalog.map(({ id }) => id as string),
+    );
+    expect(layers.some((layer) => provinceLayerIds.has(layer.id))).toBe(false);
   });
 
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {
