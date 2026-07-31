@@ -88,7 +88,7 @@ export function GcpList({
               // rather than at anything the user was looking at.
               onMouseLeave={() => onSelect(null)}
             >
-              <td>{index + 1}</td>
+              <td className="gcp-index">{index + 1}</td>
               <td>
                 {Math.round(gcp.pixel.x)}, {Math.round(gcp.pixel.y)}
               </td>

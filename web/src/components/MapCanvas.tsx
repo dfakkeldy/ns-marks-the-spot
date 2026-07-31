@@ -319,8 +319,14 @@ function ArcGISMapLayer({
               maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
               updateWhenZooming: false,
               keepBuffer: 2,
+              // Carried on screen too, not only in print. These layers arrive
+              // as server-rendered raster tiles, so the only way to change how
+              // one of them reads is a filter on its own container — and that
+              // needs a class identifying which layer the container holds.
               className:
-                renderMode === "print" ? `print-layer-${layer.id}` : undefined,
+                renderMode === "print"
+                  ? `print-layer-${layer.id}`
+                  : `map-layer-${layer.id}`,
             },
           ),
       );
