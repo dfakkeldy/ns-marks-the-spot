@@ -164,6 +164,26 @@ describe("PrintMap", () => {
     );
   });
 
+  it("keeps user-loaded material out of the print capture", () => {
+    // The documented print/export boundary excludes uploads. Print gets no
+    // user raster or vector props at all, so MapCanvas falls back to its
+    // empty defaults — the exclusion is structural, not a runtime filter
+    // someone could accidentally invert.
+    render(
+      <PrintMap
+        snapshot={snapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={vi.fn()}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(mapCanvasProps.current).not.toHaveProperty("userVectorLayers");
+    expect(mapCanvasProps.current).not.toHaveProperty("userVectorFitRequest");
+    expect(mapCanvasProps.current).not.toHaveProperty("userMaps");
+  });
+
   it("renders and tracks a captured derived mineral-proximity layer", () => {
     const onReadinessChange = vi.fn();
     render(

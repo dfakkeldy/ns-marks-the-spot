@@ -107,6 +107,47 @@ describe("UserMapRows", () => {
     expect(testApi.importFiles).not.toHaveBeenCalled();
   });
 
+  // --- Shared drop zone -------------------------------------------------------
+  //
+  // App routes every dropped file by content: rasters to this pipeline,
+  // vector files (GeoJSON today) to "Your data". The override props let App
+  // substitute the routed handler and the merged outcome list without adding
+  // members to UserMapsApi.
+
+  it("routes imports through the override handler when App provides one", async () => {
+    const testApi = api();
+    const routed = vi.fn();
+    render(<UserMapRows api={testApi} onImportFiles={routed} />);
+    await userEvent.upload(
+      screen.getByLabelText("Add a map file"),
+      new File(["x"], "camps.geojson"),
+    );
+    expect(routed).toHaveBeenCalledTimes(1);
+    expect(testApi.importFiles).not.toHaveBeenCalled();
+  });
+
+  it("renders merged outcomes from both pipelines when App passes them", () => {
+    render(
+      <UserMapRows
+        api={api()}
+        outcomes={[
+          { fileName: "camps.geojson", ok: true },
+          { fileName: "broken.tif", ok: false, message: "Not a recognized map file." },
+        ]}
+      />,
+    );
+    expect(screen.getByText(/camps\.geojson added/)).toBeInTheDocument();
+    expect(screen.getByText(/broken\.tif: Not a recognized map file\./)).toBeInTheDocument();
+  });
+
+  it("accepts GeoJSON in the shared file picker", () => {
+    render(<UserMapRows api={api()} />);
+    const accept = screen.getByLabelText("Add a map file").getAttribute("accept") ?? "";
+    expect(accept).toContain(".geojson");
+    expect(accept).toContain(".json");
+    expect(accept).toContain(".tif");
+  });
+
   it("shows the storage banner when persistence is unavailable", () => {
     render(
       <UserMapRows

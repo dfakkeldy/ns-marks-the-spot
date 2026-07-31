@@ -120,6 +120,11 @@ import {
   GeoreferenceMapLayer,
   type GeoreferenceBinding,
 } from "../userMaps/components/GeoreferenceMapLayer";
+import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
+import type {
+  UserVectorFitRequest,
+  VisibleUserVectorLayer,
+} from "../userMaps/vector/useUserVectorLayers";
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -141,6 +146,8 @@ type MapCanvasProps = {
   fletcherRetryToken?: number;
   userMaps?: VisibleUserMap[];
   userMapFitRequest?: UserMapFitRequest | null;
+  userVectorLayers?: VisibleUserVectorLayer[];
+  userVectorFitRequest?: UserVectorFitRequest | null;
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
   showTaxSale: boolean;
@@ -234,6 +241,7 @@ const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
 // render, churning the UserMapLayers bridge (and its layer-construction
 // effects) on every unrelated MapCanvas re-render.
 const EMPTY_USER_MAPS: VisibleUserMap[] = [];
+const EMPTY_USER_VECTOR_LAYERS: VisibleUserVectorLayer[] = [];
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
 
@@ -1473,6 +1481,8 @@ export function MapCanvas({
   fletcherRetryToken = 0,
   userMaps = EMPTY_USER_MAPS,
   userMapFitRequest = null,
+  userVectorLayers = EMPTY_USER_VECTOR_LAYERS,
+  userVectorFitRequest = null,
   georeference = null,
   showModernMap,
   showTaxSale,
@@ -1638,6 +1648,10 @@ export function MapCanvas({
           draft={georeference?.draft ?? null}
           fitRequest={userMapFitRequest}
         />
+        {/* User vector data never reaches PrintMap: the print pipeline takes
+            no userVectorLayers prop, keeping uploads out of the sealed print
+            capture by construction (documented print/export boundary). */}
+        <UserVectorLayers layers={userVectorLayers} fitRequest={userVectorFitRequest} />
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <PositionReadout /> : null}

@@ -580,3 +580,31 @@ IIIF Georeference Annotation — plain JSON, no `@allmaps/*` dependency, with
 `transformation` on the body FeatureCollection rather than the annotation root,
 and a `urn:uuid:` target because the extension has no provision for a local
 file with no IIIF service.
+
+### User vector data (`web/src/userMaps/vector/`)
+
+The parallel subsystem to the raster records: user-loaded vector layers
+("Your data"), with GeoJSON FeatureCollections in WGS84 as the canonical
+format everywhere past the parsers. It shares the raster store's IndexedDB
+database through one schema owner (`store/database.ts`, version 2 — a second
+open path with its own version constant would throw `VersionError` and take
+both UIs down); layer metadata lives in the `vectors` object store, geometry
+as JSON bytes under `${id}:vector` in the existing `blobs` store, and the
+as-imported original file under `${id}:vector-original` so provenance
+survives edits. The "Your maps" drop zone is the single import entry:
+`importRouting.ts` sniffs content only (raster magic bytes win; `{` / `<` /
+zip probes route the rest; extensions are never trusted) and calls BOTH
+pipelines every batch so stale outcomes clear. Imports are fail-closed with
+distinct states — malformed vs. valid-but-not-GeoJSON vs. empty vs. over the
+50 MB / 10,000-feature caps vs. a declared non-WGS84 CRS (refused, never
+reprojected silently; projected coordinates without a declared CRS are
+likewise refused rather than guessed). Rendering is one react-leaflet
+`GeoJSON` per layer in `user-vector-pane` (z-425: above selected parcels,
+below active measurements) sharing one canvas renderer — user files are
+unbounded and SVG DOM nodes jank phones — with points as circle markers so
+nothing escapes to Leaflet's marker pane. Popups build DOM via `textContent`
+only (KML descriptions carry HTML; it must render as text), and every layer
+row and popup names its origin file. User vector layers are excluded from
+print capture and share links by construction — `PrintMap` takes no vector
+prop — per the print/export boundary above. Everything is client-side;
+nothing is uploaded.
