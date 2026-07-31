@@ -3409,7 +3409,17 @@ export function App() {
           ),
         })}
         defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
-        attributionLines={exportAttributionLines(captureLayerSources)}
+        attributionLines={exportAttributionLines(
+          // Credit exactly what the PDF contains: `captureLayerSources` is
+          // every visible source, but the compositor only carries the subset
+          // in `exportedLayerIds` (OSM, Fletcher, and Province layers with
+          // `exportOptions`). Passing the unfiltered list asserted licence
+          // obligations — coastal-flood, zoning, well-log, etc. — over data
+          // the page never contained. The omitted layers stay named in
+          // `omittedLayerNames` below; they must not also appear credited
+          // here.
+          captureLayerSources.filter(({ id }) => exportedLayerIds.has(id)),
+        )}
         omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
         onClose={() => setExportSession(null)}

@@ -33,6 +33,29 @@ vi.mock("./userMaps/parsers/parseGeoPdfAuto", () => ({
   parseGeoPdfAuto: parseGeoPdfAutoMock,
 }));
 
+// The GeoPDF export path's own compositor and PDF composer are real,
+// heavyweight code (tile fetches, canvas compositing, pdf-lib) that no other
+// test in this file drives to completion — every existing export test stops
+// at the dialog. These two are mocked so an App-level test CAN click all the
+// way through "Download PDF" and inspect exactly what App.tsx handed the
+// compositor: the `layers` it built (province-licence filtering) and the
+// `attributionLines` it composed (export-vs-visible filtering), without
+// depending on real tile network calls or real canvas rendering.
+const composeMapImageMock = vi.hoisted(() => vi.fn());
+const composeGeoPdfMock = vi.hoisted(() => vi.fn());
+
+vi.mock("./print/pdf/mapCompositor", async (importOriginal) => {
+  const original =
+    await importOriginal<typeof import("./print/pdf/mapCompositor")>();
+  return { ...original, composeMapImage: composeMapImageMock };
+});
+
+vi.mock("./print/pdf/pdfComposer", async (importOriginal) => {
+  const original =
+    await importOriginal<typeof import("./print/pdf/pdfComposer")>();
+  return { ...original, composeGeoPdf: composeGeoPdfMock };
+});
+
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
     parcels,
@@ -478,6 +501,19 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchDwellingCharacteristics).mockResolvedValue([]);
     vi.mocked(buildEvidenceNote).mockClear();
+    composeMapImageMock.mockReset().mockResolvedValue({
+      canvas: (() => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 8;
+        canvas.height = 8;
+        return canvas;
+      })(),
+      statuses: [
+        { id: "modern", name: "OpenStreetMap base map", status: "rendered" },
+      ],
+    });
+    composeGeoPdfMock.mockReset()
+      .mockResolvedValue(new Uint8Array([37, 80, 68, 70]));
     Object.defineProperty(URL, "createObjectURL", {
       configurable: true,
       value: vi.fn(() => "blob:test-evidence"),
@@ -1117,6 +1153,44 @@ describe("NS Marks The Spot Online", () => {
     expect(
       within(dialog).getByRole("button", { name: "Download PDF" }),
     ).toBeEnabled();
+  });
+
+  it("credits an exported layer but not a visible layer the export omits", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+    await user.click(screen.getByText("Municipal zoning"));
+    await user.click(screen.getByLabelText("Inverness County zoning"));
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+    await user.click(
+      within(
+        screen.getByRole("dialog", { name: "Export georeferenced PDF" }),
+      ).getByRole("button", { name: "Download PDF" }),
+    );
+
+    await waitFor(() => expect(composeGeoPdfMock).toHaveBeenCalledTimes(1));
+    const [composeInput] = composeGeoPdfMock.mock.calls[0] as [
+      { attributionLines: string[] },
+    ];
+    const attributionText = composeInput.attributionLines.join(" ");
+    // Modern map is both captured AND exported (`buildExportLayers` always
+    // carries OSM): its OpenStreetMap attribution belongs on the page.
+    expect(attributionText).toContain("OpenStreetMap");
+    // Zoning is visible (captured) but not exported — `buildExportLayers`
+    // does not carry it, and the omission is already named separately in
+    // `omittedLayerNames`. Crediting it here would assert a licence over
+    // data the PDF does not contain, which the EDPC attribution text (only
+    // this layer family uses it) makes easy to catch.
+    expect(attributionText).not.toContain(
+      "Eastern District Planning Commission",
+    );
   });
 
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {
