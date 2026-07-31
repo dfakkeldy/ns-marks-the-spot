@@ -210,7 +210,12 @@ describe("composeGeoPdf", () => {
   it("does not throw when title/notes contain emoji, arrows, or other non-WinAnsi symbols", async () => {
     const bytes = await composeGeoPdf(input({
       fields: {
-        title: "Mabou Harbour ✅ boundary walk →",
+        // 🎉 (U+1F389) is a genuine astral-plane character (a surrogate
+        // pair in UTF-16), unlike ✅/☂/→ which are all in the BMP — this
+        // locks in that sanitizeForPdf's code-point iteration (`for...of`,
+        // which walks by Unicode code point) handles a real surrogate pair
+        // correctly instead of splitting it into two lone surrogates.
+        title: "Mabou Harbour ✅ boundary walk → 🎉",
         subtitle: "Fletcher sheet 14 over modern base",
         notes: "Saw an odd marker near the wharf ☂ — flagged for follow-up.",
       },
@@ -242,20 +247,45 @@ describe("composeGeoPdf", () => {
     const tb = template.titleBlock;
     const frame = template.mapFrame;
 
-    // Nothing else on this page is ever drawn above the map frame's top
-    // edge, so filtering to y above it isolates exactly the title-block
-    // content — this is the "does anything escape titleBlock" check.
-    const titleAreaText = drawn.filter((d) => d.y > frame.y + frame.height);
-    expect(titleAreaText.length).toBeGreaterThan(0);
-    for (const entry of titleAreaText) {
+    // Select title-block text by its *content*, not by a y-position filter.
+    // A position filter (e.g. "y above the map frame's top edge") is exactly
+    // what a broken bounds guard would let slip past: an escaped title line
+    // can land low enough to fall below that cutoff too, silently excluding
+    // the very evidence this test exists to catch. Instead, identify the
+    // drawn strings that belong to `longTitle` itself: `drawBoundedParagraph`
+    // only ever draws either a verbatim wrapped substring of `longTitle` or
+    // that substring's prefix + "…" (via `ellipsize`, which trims from the
+    // end), so stripping a trailing ellipsis and checking containment in
+    // `longTitle` identifies every title line regardless of where it landed.
+    // No other drawn string on this page (subtitle, legend, scale bar,
+    // north arrow, attribution) is a substring of `longTitle`.
+    const titleText = drawn.filter((d) => {
+      const stripped = d.text.endsWith("…") ? d.text.slice(0, -1) : d.text;
+      return stripped.length > 0 && longTitle.includes(stripped);
+    });
+    expect(titleText.length).toBeGreaterThan(0);
+    for (const entry of titleText) {
       expect(entry.y).toBeGreaterThanOrEqual(tb.y);
       expect(entry.y).toBeLessThanOrEqual(tb.y + tb.height);
     }
 
+    // Direct, unconditional check for the real-world harm the bounds guard
+    // exists to prevent: no drawn text of any kind — title or otherwise —
+    // may fall within the map frame's rect. Unlike the per-entry check
+    // above (which depends on correctly isolating title lines), this scans
+    // every drawn string on the page against the frame's actual (x, y)
+    // footprint, so it cannot be dodged by a selection filter that happens
+    // to exclude the escaped lines.
+    const insideMapFrame = drawn.filter(
+      (d) => d.y >= frame.y && d.y <= frame.y + frame.height
+        && d.x >= frame.x && d.x <= frame.x + frame.width,
+    );
+    expect(insideMapFrame).toEqual([]);
+
     // The title needs 4 wrapped lines but the block only has room for 2;
     // the last one that fits should say so with an ellipsis rather than
     // silently dropping the rest.
-    expect(titleAreaText.some((d) => d.text.endsWith("…"))).toBe(true);
+    expect(titleText.some((d) => d.text.endsWith("…"))).toBe(true);
 
     // With no room left, the subtitle must be suppressed entirely rather
     // than drawn past the block's bottom edge. ("over modern base" is
