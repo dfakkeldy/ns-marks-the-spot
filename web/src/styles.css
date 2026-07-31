@@ -4013,6 +4013,135 @@ a {
   text-decoration: underline;
 }
 
+/* The editing surface is a floating card, not a modal: the map behind it has
+   to stay visible and clickable, since drawing on it is the whole point. */
+.vector-edit-panel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: grid;
+  gap: 10px;
+  width: min(320px, calc(100vw - 24px));
+  padding: 12px;
+  background: var(--panel, #fff);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+
+.vector-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vector-edit-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.vector-edit-done {
+  min-height: 44px;
+  padding: 0 12px;
+  color: #fff;
+  font-weight: 700;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vector-edit-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* 44px minimum touch targets — drawing is a pointer-heavy task and this
+   panel is used on phones in the field. */
+.vector-edit-tools button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vector-edit-tools button.is-active {
+  color: #fff;
+  background: var(--survey-blue);
+  border-color: var(--survey-blue);
+}
+
+.vector-edit-field {
+  display: grid;
+  gap: 4px;
+}
+
+.vector-edit-field span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.vector-edit-field input,
+.vector-edit-field textarea {
+  min-height: 44px;
+  padding: 8px;
+  font: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.vector-edit-feature {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.vector-edit-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.user-vector-new,
+.user-vector-edit {
+  min-height: 44px;
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.user-vector-edit {
+  margin-left: 54px;
+  text-align: left;
+}
+
+/* On a phone the rail is a bottom sheet, so the panel moves out of the way
+   of it rather than overlapping. */
+@media (max-width: 860px) {
+  .vector-edit-panel {
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+}
+
 /* "Your data" vector rows reuse the user-map row skeleton; only the popup
    needs its own rules. Wrapping matches .user-map-row: an imported filename
    must never widen the 320px layer panel. */

@@ -64,6 +64,20 @@ export type UserVectorLayersApi = {
   setEnabled: (id: string, enabled: boolean) => void;
   /** Export is offered for user layers ONLY — never for official sources. */
   exportLayer: (id: string, format: VectorExportFormat) => Promise<void>;
+  /** Geometry by layer id — the edit session seeds its working copy from this. */
+  geometries: Record<string, FeatureCollection>;
+  /** The store's guarded update, for the edit session's debounced writes. */
+  putVectorLayer: (
+    record: UserVectorLayerRecord,
+    collection: FeatureCollection,
+  ) => Promise<void>;
+  /** Creates an empty layer to draw into; returns its id. */
+  createDrawnLayer: () => Promise<string>;
+  /** Applies an edit session's result to the list and the store. */
+  applyLayerEdit: (
+    record: UserVectorLayerRecord,
+    collection: FeatureCollection,
+  ) => void;
 };
 
 function loadUiState(): UserVectorUiState {
@@ -373,6 +387,58 @@ export function useUserVectorLayers(
     [],
   );
 
+  const putVectorLayer = useCallback(
+    async (record: UserVectorLayerRecord, collection: FeatureCollection) => {
+      await (await store()).putVectorLayer(record, collection);
+    },
+    [store],
+  );
+
+  const createDrawnLayer = useCallback(async (): Promise<string> => {
+    const now = new Date().toISOString();
+    const existing = recordsSnapshotRef.current;
+    const drawnCount = existing.filter((r) => r.origin.kind === "drawn").length;
+    const empty: FeatureCollection = { type: "FeatureCollection", features: [] };
+    const record: UserVectorLayerRecord = {
+      id: generateId(),
+      name: drawnCount === 0 ? "My drawing" : `My drawing ${drawnCount + 1}`,
+      source: "drawn",
+      origin: { kind: "drawn", createdAt: now },
+      createdAt: now,
+      revision: 0,
+      style: { color: nextLayerColor(existing.length) },
+      featureCount: 0,
+      // No geometry yet, so no extent — the fit has nothing to aim at until
+      // the user draws something.
+      bbox: null,
+    };
+    try {
+      await (await store()).saveVectorLayer(record, empty);
+    } catch {
+      // An unsaved drawing still works for this session; the edit session
+      // reports persistence trouble once the user actually draws.
+    }
+    setRecords((prev) => [...prev, record]);
+    setGeometries((prev) => ({ ...prev, [record.id]: empty }));
+    persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+    return record.id;
+  }, [persistUiState, store]);
+
+  /**
+   * Takes an edit session's working copy back into the list. The session
+   * owns the debounced write to IndexedDB, so this only mirrors state — a
+   * second write here would double every save.
+   */
+  const applyLayerEdit = useCallback(
+    (record: UserVectorLayerRecord, collection: FeatureCollection) => {
+      setRecords((prev) =>
+        prev.map((existing) => (existing.id === record.id ? record : existing)),
+      );
+      setGeometries((prev) => ({ ...prev, [record.id]: collection }));
+    },
+    [],
+  );
+
   const visibleLayers = useMemo<VisibleUserVectorLayer[]>(
     () =>
       records
@@ -394,5 +460,9 @@ export function useUserVectorLayers(
     removeLayer,
     setEnabled,
     exportLayer,
+    geometries,
+    putVectorLayer,
+    createDrawnLayer,
+    applyLayerEdit,
   };
 }

@@ -636,6 +636,31 @@ rather than failing. Every `.shp` must therefore have a readable sibling
 one bad shapefile refuses the whole archive rather than importing a partial
 result the UI could not explain.
 
+Drawing and editing (`vector/edit/`) run through Leaflet-Geoman. The layer
+under edit leaves the read-only list and is drawn instead by
+`EditableVectorLayer`, an imperative `L.geoJSON` the session owns for its
+whole lifetime — react-leaflet's `GeoJSON` never re-reads `data`, so the
+read-only list remounts on every revision, which mid-drag would destroy the
+very layer Geoman has handles attached to. That layer alone uses the SVG
+renderer: a browser spike confirmed Geoman attaches, enables and drags
+vertices on canvas perfectly well (its handles are DOM markers, independent
+of the shape's renderer), but `Edit.Line.disable()` reads
+`layer._path ? layer._path : layer._renderer._container`, and during map
+teardown the renderer is already gone — so the canvas branch throws on a
+layer still in edit mode. Only one layer is ever editable at a time, so the
+SVG node count that trades for is bounded; the unbounded case stays canvas.
+
+`useVectorEditSession` holds the working copy and owns the single write
+path: it recomputes feature count and bbox from the edited geometry, stamps
+`modifiedAt`, bumps `revision` (the read-only layer's remount key, so an
+un-bumped edit would leave the map showing pre-edit geometry), and debounces
+the IndexedDB write by 400 ms — the same figure and reason as the
+georeferencer's marker drag — flushing on close and unmount so the tail of a
+session is never lost. A failed write reports itself and leaves editing
+working rather than blocking it. The session seeds its draft when the named
+layer *becomes* available rather than only at `beginEdit`, because "New
+drawing layer" creates a record and asks to edit it in the same tick.
+
 Export is offered on user vector layers ONLY — never on official sources,
 whose redistribution terms belong to their publisher. GeoJSON export is a
 serialization of the canonical collection; `export/kmlWriter.ts` is

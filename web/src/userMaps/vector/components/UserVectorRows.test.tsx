@@ -38,6 +38,10 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     removeLayer: vi.fn(async () => {}),
     setEnabled: vi.fn(),
     exportLayer: vi.fn(async () => {}),
+    createDrawnLayer: vi.fn(async () => "new-layer"),
+    applyLayerEdit: vi.fn(),
+    geometries: {},
+    putVectorLayer: vi.fn(async () => {}),
     ...overrides,
   };
 }
@@ -120,6 +124,55 @@ describe("UserVectorRows", () => {
       screen.getByRole("button", { name: "Export Layer camps as KML" }),
     );
     expect(layers.exportLayer).toHaveBeenCalledWith("camps", "kml");
+  });
+
+  it("starts an edit session for a layer", async () => {
+    const onEdit = vi.fn();
+    render(<UserVectorRows api={api({ records: [record("camps")] })} onEdit={onEdit} />);
+    await userEvent.click(screen.getByRole("button", { name: "Edit Layer camps" }));
+    expect(onEdit).toHaveBeenCalledWith("camps");
+  });
+
+  it("offers a new drawing layer even with nothing loaded", async () => {
+    const onNewLayer = vi.fn();
+    render(<UserVectorRows api={api()} onNewLayer={onNewLayer} />);
+    await userEvent.click(screen.getByRole("button", { name: "New drawing layer" }));
+    expect(onNewLayer).toHaveBeenCalled();
+  });
+
+  it("marks the layer currently being edited", () => {
+    render(
+      <UserVectorRows
+        api={api({ records: [record("camps"), record("wells")] })}
+        onEdit={vi.fn()}
+        editingId="camps"
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Edit Layer camps" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "Edit Layer wells" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+  });
+
+  it("labels a drawn layer as edited once it has been changed", () => {
+    render(
+      <UserVectorRows
+        api={api({
+          records: [
+            record("sketch", {
+              source: "drawn",
+              origin: { kind: "drawn", createdAt: "2026-07-31T00:00:00.000Z" },
+              modifiedAt: "2026-07-31T12:00:00.000Z",
+            }),
+          ],
+        })}
+      />,
+    );
+    expect(screen.getByText(/Drawn on this device · edited/)).toBeInTheDocument();
   });
 
   it("surfaces the vector store's storage error", () => {

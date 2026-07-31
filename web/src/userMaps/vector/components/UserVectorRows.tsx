@@ -5,9 +5,16 @@ function provenance(record: UserVectorLayerRecord): string {
   const count = `${record.featureCount.toLocaleString("en-CA")} feature${
     record.featureCount === 1 ? "" : "s"
   }`;
-  return record.origin.kind === "imported"
-    ? `Your file · ${record.origin.filename} · ${count}`
-    : `Drawn on this device · ${count}`;
+  const source =
+    record.origin.kind === "imported"
+      ? `Your file · ${record.origin.filename}`
+      : "Drawn on this device";
+  // An edited layer no longer matches the file it came from, so the row says
+  // so rather than letting the filename imply the data is still as imported.
+  const edited = record.modifiedAt
+    ? ` · edited ${new Date(record.modifiedAt).toLocaleDateString("en-CA")}`
+    : "";
+  return `${source}${edited} · ${count}`;
 }
 
 /**
@@ -18,7 +25,17 @@ function provenance(record: UserVectorLayerRecord): string {
  * purpose: vector styles carry their own stroke/fill opacity, unlike the
  * raster rows' whole-image slider.
  */
-export function UserVectorRows({ api }: { api: UserVectorLayersApi }) {
+export function UserVectorRows({
+  api,
+  onEdit,
+  onNewLayer,
+  editingId = null,
+}: {
+  api: UserVectorLayersApi;
+  onEdit?: (id: string) => void;
+  onNewLayer?: () => void;
+  editingId?: string | null;
+}) {
   return (
     <details className="resource-layer-group user-vector-group" open>
       <summary>
@@ -34,6 +51,15 @@ export function UserVectorRows({ api }: { api: UserVectorLayersApi }) {
           <small role="alert" className="user-map-error">
             {api.storageError}
           </small>
+        ) : null}
+        {onNewLayer ? (
+          <button
+            type="button"
+            className="user-vector-new"
+            onClick={() => onNewLayer()}
+          >
+            New drawing layer
+          </button>
         ) : null}
         {api.records.map((record) => {
           const enabled = api.uiState[record.id]?.enabled ?? false;
@@ -74,6 +100,17 @@ export function UserVectorRows({ api }: { api: UserVectorLayersApi }) {
                   KML
                 </button>
               </div>
+              {onEdit ? (
+                <button
+                  type="button"
+                  className="user-vector-edit"
+                  aria-label={`Edit ${record.name}`}
+                  aria-pressed={editingId === record.id}
+                  onClick={() => onEdit(record.id)}
+                >
+                  {editingId === record.id ? "Editing" : "Edit"}
+                </button>
+              ) : null}
               <button
                 type="button"
                 className="user-map-remove"
