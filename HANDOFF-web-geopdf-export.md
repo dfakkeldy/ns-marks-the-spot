@@ -32,3 +32,19 @@ Branch: feature/web-geopdf-export
 Next action: run whole-branch review, then open PR to nightly, then execute
 docs/real-world-testing/2026-07-31-web-geopdf-export-test-plan.md
 ```
+
+## 2026-07-31 — PR opened
+
+Done: Tasks 1-9 complete with per-task reviews; whole-branch review (5 blockers)
+and verification pass (2 blockers) both fixed; rebased onto nightly (resolved
+MapCanvas import conflict, closed a post-rebase gap where nightly's new user
+vector layers were not named among export omissions). PR #203 -> nightly.
+Gates: 1343 tests pass, lint and build clean.
+Next: watch CI on PR #203, then execute the real-world test plan
+(gdalinfo / QGIS / Avenza) which is still UNRUN.
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/web-geopdf-export
+Branch: feature/web-geopdf-export (PR #203)
+Next action: check CI on PR 203, then run docs/real-world-testing/2026-07-31-web-geopdf-export-test-plan.md
+```
