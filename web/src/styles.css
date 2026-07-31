@@ -4024,6 +4024,31 @@ a {
   overflow-wrap: anywhere;
 }
 
+/* Export sits below the layer name, outside the toggle label so clicking a
+   format never also toggles the layer (same trap .user-map-remove avoids). */
+.user-vector-export {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0 54px;
+}
+
+.user-vector-export small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.user-vector-export button {
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .user-vector-popup {
   display: grid;
   gap: 4px;

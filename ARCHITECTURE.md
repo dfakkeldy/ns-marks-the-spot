@@ -598,7 +598,30 @@ pipelines every batch so stale outcomes clear. Imports are fail-closed with
 distinct states — malformed vs. valid-but-not-GeoJSON vs. empty vs. over the
 50 MB / 10,000-feature caps vs. a declared non-WGS84 CRS (refused, never
 reprojected silently; projected coordinates without a declared CRS are
-likewise refused rather than guessed). Rendering is one react-leaflet
+likewise refused rather than guessed).
+
+GeoJSON, KML, KMZ, and GPX import. KML and GPX convert through
+`@tmcw/togeojson` on the main thread — `DOMParser` has no worker equivalent,
+the same constraint `parsers/fletcherGcps.ts` lives with — dispatched by root
+element rather than namespace, since real-world exports frequently omit it.
+togeojson emits the simplestyle vocabulary `render/style.ts` already reads,
+so authored KML colours survive import unchanged; it also wraps a CDATA/HTML
+property as `{ "@type": "html", value }` while leaving a plain one a bare
+string, so `kmlSource.ts` flattens that to the string — every consumer reads
+string properties, and an unflattened object would make the description of a
+typical Google Earth file silently vanish rather than fail loudly. KMZ is
+unzipped with `fflate` (its own worker pool), preferring `doc.kml` and
+falling back to any single `.kml`; a zip holding neither is reported as a
+zipped shapefile awaiting a later phase, not as a damaged file.
+
+Export is offered on user vector layers ONLY — never on official sources,
+whose redistribution terms belong to their publisher. GeoJSON export is a
+serialization of the canonical collection; `export/kmlWriter.ts` is
+hand-written (as `allmaps/annotation.ts` is) and builds through
+`createDocument` + `XMLSerializer` rather than string concatenation, so
+escaping is structural and no interpolation mistake can emit user text as
+live markup. `services/downloadFile.ts` is the one download primitive, shared
+with the georeference and evidence-note exports. Rendering is one react-leaflet
 `GeoJSON` per layer in `user-vector-pane` (z-425: above selected parcels,
 below active measurements) sharing one canvas renderer — user files are
 unbounded and SVG DOM nodes jank phones — with points as circle markers so

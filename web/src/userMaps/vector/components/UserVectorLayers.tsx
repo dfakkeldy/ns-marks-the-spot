@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import L from "leaflet";
 import { GeoJSON, useMap } from "react-leaflet";
 import {
@@ -52,15 +52,28 @@ export function UserVectorLayers({
     return L.canvas({ pane: USER_VECTOR_PANE });
   }, [map]);
 
+  /**
+   * A fit must happen exactly once per request, but the request and the layer
+   * it names do not necessarily arrive in the same commit — the import hook
+   * publishes both from one batch, and React can render the request first.
+   * Keying the effect on the request alone therefore missed the layer and
+   * gave up permanently (every imported area layer left the map where it
+   * was); keying it on `layers` alone would yank the map back every time an
+   * unrelated layer toggled. So it watches both and remembers which revision
+   * it has already honoured.
+   */
+  const handledFitRevisionRef = useRef<number | null>(null);
   useEffect(() => {
-    if (!fitRequest) {
+    if (!fitRequest || handledFitRevisionRef.current === fitRequest.revision) {
       return;
     }
     const target = layers.find((layer) => layer.record.id === fitRequest.layerId);
     const bbox = target?.record.bbox;
     if (!bbox) {
+      // The layer has not landed yet; stay armed for the next render.
       return;
     }
+    handledFitRevisionRef.current = fitRequest.revision;
     const [west, south, east, north] = bbox;
     map.fitBounds(
       [
@@ -69,10 +82,7 @@ export function UserVectorLayers({
       ],
       { padding: [48, 48], maxZoom: FIT_MAX_ZOOM },
     );
-    // `layers` is deliberately absent from the deps: a fit fires once per
-    // request revision, not again when an unrelated layer toggles.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fitRequest, map]);
+  }, [fitRequest, layers, map]);
 
   return (
     <>

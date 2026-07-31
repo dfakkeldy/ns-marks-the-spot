@@ -2,12 +2,19 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FeatureCollection } from "geojson";
 import { UserMapImportError } from "../errors";
 import { generateId, stripExtension } from "../importUtils";
+import { downloadFile } from "../../services/downloadFile";
 import { parseGeoJsonAuto } from "./parsers/parseVectorInWorker";
 import type { ParsedVector } from "./parsers/geojsonSource";
+import { archiveHoldsKml, parseKmz } from "./parsers/kmzSource";
+import { parseXmlVector, type ParsedXmlVector } from "./parsers/xmlVectorSource";
 import { sniffVectorType } from "./parsers/sniffVector";
+import { geojsonExportBlob } from "./export/exportGeoJson";
+import { kmlExportBlob } from "./export/kmlWriter";
 import { nextLayerColor } from "./render/style";
 import { UserVectorStore } from "./store/userVectorStore";
-import type { UserVectorLayerRecord } from "./types";
+import type { UserVectorLayerRecord, UserVectorSource } from "./types";
+
+export type VectorExportFormat = "geojson" | "kml";
 
 /**
  * Well below the raster 500 MB cap on purpose: rasters get downsampled into
@@ -45,6 +52,8 @@ export type UserVectorLayersApi = {
   importFiles: (files: ArrayLike<File>) => Promise<void>;
   removeLayer: (id: string) => Promise<void>;
   setEnabled: (id: string, enabled: boolean) => void;
+  /** Export is offered for user layers ONLY — never for official sources. */
+  exportLayer: (id: string, format: VectorExportFormat) => Promise<void>;
 };
 
 function loadUiState(): UserVectorUiState {
@@ -66,10 +75,15 @@ export function useUserVectorLayers(
   options: {
     openStore?: () => Promise<UserVectorStore>;
     parseGeoJson?: (buffer: ArrayBuffer) => Promise<ParsedVector>;
+    download?: (filename: string, blob: Blob) => void;
   } = {},
 ): UserVectorLayersApi {
   const openStoreRef = useRef(options.openStore ?? (() => UserVectorStore.open()));
   const parseRef = useRef(options.parseGeoJson ?? parseGeoJsonAuto);
+  const parseXmlVectorRef = useRef<(text: string) => ParsedXmlVector>(parseXmlVector);
+  const parseKmzRef = useRef(parseKmz);
+  const isKmzRef = useRef(archiveHoldsKml);
+  const downloadRef = useRef(options.download ?? downloadFile);
   const storeRef = useRef<Promise<UserVectorStore> | null>(null);
   const [records, setRecords] = useState<UserVectorLayerRecord[]>([]);
   const [geometries, setGeometries] = useState<Record<string, FeatureCollection>>({});
@@ -143,6 +157,13 @@ export function useUserVectorLayers(
     recordsSnapshotRef.current = records;
   }, [records]);
 
+  // Same reason as recordsSnapshotRef: exportLayer must read the current
+  // geometry without capturing it, or its identity churns on every import.
+  const geometriesSnapshotRef = useRef(geometries);
+  useEffect(() => {
+    geometriesSnapshotRef.current = geometries;
+  }, [geometries]);
+
   const importFiles = useCallback(
     async (files: ArrayLike<File>) => {
       setImporting(true);
@@ -163,32 +184,39 @@ export function useUserVectorLayers(
             const sniffed = sniffVectorType(
               new Uint8Array(buffer, 0, Math.min(64, buffer.byteLength)),
             );
+            let parsed: ParsedVector;
+            let source: UserVectorSource;
             if (sniffed === "xml-candidate") {
+              // DOMParser has no worker equivalent, so KML/GPX parse on the
+              // main thread (same constraint as parsers/fletcherGcps.ts).
+              const xml = parseXmlVectorRef.current(new TextDecoder().decode(buffer));
+              parsed = xml;
+              source = xml.source;
+            } else if (sniffed === "zip") {
+              if (!(await isKmzRef.current(buffer))) {
+                throw new UserMapImportError(
+                  "unsupported-type",
+                  "Zipped shapefiles arrive in a later update — GeoJSON, KML, KMZ, and GPX work today.",
+                );
+              }
+              parsed = await parseKmzRef.current(buffer);
+              source = "kmz";
+            } else if (sniffed === "geojson-candidate") {
+              // parseGeoJsonAuto may transfer `buffer` to a worker, so this is
+              // the last use of it on this thread.
+              parsed = await parseRef.current(buffer);
+              source = "geojson";
+            } else {
               throw new UserMapImportError(
                 "unsupported-type",
-                "KML and GPX files arrive in a later update — GeoJSON works today.",
+                "Not a recognized data file. GeoJSON, KML, KMZ, and GPX all work.",
               );
             }
-            if (sniffed === "zip") {
-              throw new UserMapImportError(
-                "unsupported-type",
-                "KMZ and zipped shapefiles arrive in a later update — GeoJSON works today.",
-              );
-            }
-            if (sniffed !== "geojson-candidate") {
-              throw new UserMapImportError(
-                "unsupported-type",
-                "Not a recognized data file. GeoJSON works today.",
-              );
-            }
-            // parseGeoJsonAuto may transfer `buffer` to a worker, so this is
-            // the last use of it on this thread.
-            const parsed = await parseRef.current(buffer);
             const now = new Date().toISOString();
             const record: UserVectorLayerRecord = {
               id: generateId(),
               name: stripExtension(file.name),
-              source: "geojson",
+              source,
               origin: { kind: "imported", filename: file.name, importedAt: now },
               createdAt: now,
               revision: 0,
@@ -263,6 +291,21 @@ export function useUserVectorLayers(
     [persistUiState],
   );
 
+  const exportLayer = useCallback(
+    async (id: string, format: VectorExportFormat) => {
+      const record = recordsSnapshotRef.current.find((r) => r.id === id);
+      const data = geometriesSnapshotRef.current[id];
+      if (!record || !data) {
+        // The layer was removed between render and click; nothing to write.
+        return;
+      }
+      const blob =
+        format === "kml" ? kmlExportBlob(record.name, data) : geojsonExportBlob(data);
+      downloadRef.current(`${record.name}.${format}`, blob);
+    },
+    [],
+  );
+
   const visibleLayers = useMemo<VisibleUserVectorLayer[]>(
     () =>
       records
@@ -283,5 +326,6 @@ export function useUserVectorLayers(
     importFiles,
     removeLayer,
     setEnabled,
+    exportLayer,
   };
 }

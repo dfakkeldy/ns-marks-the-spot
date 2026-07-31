@@ -35,7 +35,7 @@ export const LARGE_FILE_BYTES = 150 * 1024 * 1024;
 const UI_STATE_KEY = "user-map-ui-state-v1";
 
 const UNRECOGNIZED_MESSAGE =
-  "Not a recognized file. GeoTIFF, PDF, PNG, JPEG, and GeoJSON all work.";
+  "Not a recognized file. GeoTIFF, PDF, PNG, JPEG, GeoJSON, KML, KMZ, and GPX all work.";
 
 const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
 
