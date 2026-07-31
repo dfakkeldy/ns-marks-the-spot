@@ -1,11 +1,13 @@
-import { PDFDocument } from "pdf-lib";
+import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber } from "pdf-lib";
 import { describe, expect, it } from "vitest";
 import {
   extractGeoPdfMetadata,
   type PdfViewportGeometry,
 } from "../../userMaps/parsers/geoPdfMetadata";
-import { applyAffine, solveAffineFromGcps } from "../../userMaps/transform/affine";
-import { fromMercator, toMercator } from "../../userMaps/transform/webMercator";
+import {
+  toMercator,
+  type MercatorPoint,
+} from "../../userMaps/transform/webMercator";
 import { attachGeoRegistration } from "./geoRegistration";
 
 const bounds = { north: 46.2, south: 46.0, west: -61.4, east: -61.1 };
@@ -69,46 +71,95 @@ describe("attachGeoRegistration round-trips through the app's own parser", () =>
       expect(ne?.map.lng).toBeCloseTo(bounds.east, 9);
     },
   );
+});
 
-  it("is affine-exact at the frame midpoint (EPSG:3857)", async () => {
-    // The registration's own affine solution, evaluated at the frame's
-    // centre pixel, must equal the true Mercator midpoint of the framed
-    // area — that is what "no interior interpolation error" means, and it
-    // is what a geographic-CRS registration would FAIL (the geographic
-    // midpoint latitude differs from the Mercator one by ~9e-5° here, i.e.
-    // about 10 m on the ground).
-    const { candidates } = await extractGeoPdfMetadata(
-      await writtenBytes(),
-      viewport(612, 792),
+// --- Helpers for reading the raw written PDF structure directly, rather ---
+// --- than through the app's own parser, which normalizes both a correct ---
+// --- EPSG:3857 writer and a wrong EPSG:4326 writer down to the same     ---
+// --- lat/lng corner GCPs (see the code-review finding this replaces).   ---
+
+function numbersFromPdfArray(array: PDFArray): number[] {
+  return Array.from({ length: array.size() }, (_, index) =>
+    array.lookup(index, PDFNumber).asNumber(),
+  );
+}
+
+function applyCtm(ctm: number[], x: number, y: number): MercatorPoint {
+  const [a, b, c, d, e, f] = ctm;
+  return { x: a * x + c * y + e, y: b * x + d * y + f };
+}
+
+function expectMetresClose(actual: MercatorPoint, expected: MercatorPoint) {
+  // A tenth-of-a-millimetre absolute tolerance on values of ~1e6-1e7
+  // metres — generous next to floating-point noise, but 10 orders of
+  // magnitude tighter than the ~13,000,000 m error a degrees-based CTM
+  // would produce for these bounds.
+  expect(Math.abs(actual.x - expected.x)).toBeLessThan(1e-4);
+  expect(Math.abs(actual.y - expected.y)).toBeLessThan(1e-4);
+}
+
+describe("attachGeoRegistration declares its CRS as Web Mercator, not degrees", () => {
+  it("stamps /Measure/GCS as EPSG:3857 PROJCS and /LGIDict/Projection as Mercator", async () => {
+    const document = await PDFDocument.load(await writtenBytes());
+    const page = document.getPage(0);
+
+    const viewportDict = page.node
+      .lookup(PDFName.of("VP"), PDFArray)
+      .lookup(0, PDFDict);
+    const gcs = viewportDict
+      .lookup(PDFName.of("Measure"), PDFDict)
+      .lookup(PDFName.of("GCS"), PDFDict);
+    expect(gcs.lookup(PDFName.of("Type"), PDFName).decodeText()).toBe(
+      "PROJCS",
     );
-    for (const candidate of candidates) {
-      const params = solveAffineFromGcps(candidate.gcps);
-      expect(params).not.toBeNull();
-      // applyAffine takes pixel coordinates in and returns Mercator metres
-      // (see affine.ts: "Pixels in, Mercator out"), so the pixel-space
-      // centre must be un-projected back to lat/lng before comparing.
-      const centreMercator = applyAffine(
-        params!,
-        mapFrame.x + mapFrame.width / 2,
-        frameTopPx + 250, // centre row in top-left pixel space
-      );
-      const centre = fromMercator(centreMercator);
-      const trueMid = fromMercator({
-        x: (toMercator({ lat: 0, lng: bounds.west }).x +
-            toMercator({ lat: 0, lng: bounds.east }).x) / 2,
-        y: (toMercator({ lat: bounds.north, lng: 0 }).y +
-            toMercator({ lat: bounds.south, lng: 0 }).y) / 2,
-      });
-      expect(centre.lat).toBeCloseTo(trueMid.lat, 7);
-      expect(centre.lng).toBeCloseTo(trueMid.lng, 7);
-      // Guard that this assertion has teeth: the naive geographic midpoint
-      // is measurably different (~9.07e-5° for these bounds, verified
-      // independently against the raw Mercator formulas), so a geographic
-      // registration would fail. Threshold set an order of magnitude below
-      // the actual divergence rather than the brief's original 1e-4, which
-      // slightly overshot the true value for this specific bounds fixture.
-      expect(Math.abs(trueMid.lat - (bounds.north + bounds.south) / 2))
-        .toBeGreaterThan(1e-5);
-    }
+    expect(gcs.lookup(PDFName.of("EPSG"), PDFNumber).asNumber()).toBe(3857);
+
+    const lgi = page.node
+      .lookup(PDFName.of("LGIDict"), PDFArray)
+      .lookup(0, PDFDict);
+    const projectionType = lgi
+      .lookup(PDFName.of("Projection"), PDFDict)
+      .lookup(PDFName.of("ProjectionType"), PDFName)
+      .decodeText();
+    expect(projectionType).toBe("MC");
+    expect(projectionType).not.toBe("GEOGRAPHIC");
+  });
+});
+
+describe("attachGeoRegistration's CTM targets Mercator metres, not degrees", () => {
+  it("maps the frame's corners and centre through /LGIDict/CTM onto the true Web Mercator point", async () => {
+    const document = await PDFDocument.load(await writtenBytes());
+    const page = document.getPage(0);
+    const lgi = page.node
+      .lookup(PDFName.of("LGIDict"), PDFArray)
+      .lookup(0, PDFDict);
+    const ctm = numbersFromPdfArray(lgi.lookup(PDFName.of("CTM"), PDFArray));
+    expect(ctm).toHaveLength(6);
+
+    const left = mapFrame.x;
+    const bottom = mapFrame.y;
+    const right = mapFrame.x + mapFrame.width;
+    const top = mapFrame.y + mapFrame.height;
+    const centreX = mapFrame.x + mapFrame.width / 2;
+    const centreY = mapFrame.y + mapFrame.height / 2;
+
+    // Ground truth computed independently via toMercator, not by re-deriving
+    // the writer's own scaleX/scaleY math.
+    const mercSW = toMercator({ lat: bounds.south, lng: bounds.west });
+    const mercNW = toMercator({ lat: bounds.north, lng: bounds.west });
+    const mercNE = toMercator({ lat: bounds.north, lng: bounds.east });
+    const mercSE = toMercator({ lat: bounds.south, lng: bounds.east });
+    const mercCentre: MercatorPoint = {
+      x: (mercSW.x + mercNE.x) / 2,
+      y: (mercSW.y + mercNE.y) / 2,
+    };
+
+    // A degrees-based CTM would put these around (-61.25, 46.1) — off by
+    // six orders of magnitude from the metres-based values asserted here.
+    expectMetresClose(applyCtm(ctm, left, bottom), mercSW);
+    expectMetresClose(applyCtm(ctm, left, top), mercNW);
+    expectMetresClose(applyCtm(ctm, right, top), mercNE);
+    expectMetresClose(applyCtm(ctm, right, bottom), mercSE);
+    expectMetresClose(applyCtm(ctm, centreX, centreY), mercCentre);
   });
 });
