@@ -37,6 +37,7 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     importFiles: vi.fn(async () => {}),
     removeLayer: vi.fn(async () => {}),
     setEnabled: vi.fn(),
+    exportLayer: vi.fn(async () => {}),
     ...overrides,
   };
 }
@@ -104,6 +105,21 @@ describe("UserVectorRows", () => {
     confirmSpy.mockReturnValue(true);
     await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
     expect(layers.removeLayer).toHaveBeenCalledWith("camps");
+  });
+
+  it("offers GeoJSON and KML export per layer", async () => {
+    const layers = api({ records: [record("camps")] });
+    render(<UserVectorRows api={layers} />);
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Export Layer camps as GeoJSON" }),
+    );
+    expect(layers.exportLayer).toHaveBeenCalledWith("camps", "geojson");
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Export Layer camps as KML" }),
+    );
+    expect(layers.exportLayer).toHaveBeenCalledWith("camps", "kml");
   });
 
   it("surfaces the vector store's storage error", () => {

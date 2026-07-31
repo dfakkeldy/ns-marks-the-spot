@@ -9,7 +9,8 @@ export type DisplayOutcome =
   | { fileName: string; ok: true; note?: string }
   | { fileName: string; ok: false; message: string };
 
-const DEFAULT_ACCEPT = ".tif,.tiff,.pdf,.png,.jpg,.jpeg,.geojson,.json";
+const DEFAULT_ACCEPT =
+  ".tif,.tiff,.pdf,.png,.jpg,.jpeg,.geojson,.json,.kml,.kmz,.gpx";
 
 /**
  * Inline import area (named per spec; the PR-2 georeferencer flow grows out

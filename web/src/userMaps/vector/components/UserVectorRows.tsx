@@ -25,7 +25,7 @@ export function UserVectorRows({ api }: { api: UserVectorLayersApi }) {
         <span>Your data</span>
         <small>
           {api.records.length === 0
-            ? "GeoJSON via the map file box"
+            ? "GeoJSON, KML, KMZ, GPX"
             : `${api.records.length} loaded`}
         </small>
       </summary>
@@ -54,6 +54,26 @@ export function UserVectorRows({ api }: { api: UserVectorLayersApi }) {
                   <small>{provenance(record)}</small>
                 </span>
               </label>
+              {/* Export exists on user layers only — never on official
+                  sources, whose redistribution terms are their publisher's
+                  to set, not this app's. */}
+              <div className="user-vector-export">
+                <small>Export</small>
+                <button
+                  type="button"
+                  aria-label={`Export ${record.name} as GeoJSON`}
+                  onClick={() => void api.exportLayer(record.id, "geojson")}
+                >
+                  GeoJSON
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Export ${record.name} as KML`}
+                  onClick={() => void api.exportLayer(record.id, "kml")}
+                >
+                  KML
+                </button>
+              </div>
               <button
                 type="button"
                 className="user-map-remove"

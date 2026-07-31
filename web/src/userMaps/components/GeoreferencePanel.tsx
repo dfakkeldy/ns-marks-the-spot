@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
 import { georeferenceAnnotation } from "../allmaps/annotation";
+import { downloadFile } from "../../services/downloadFile";
 import { UserMapImportError } from "../errors";
 import { parseFletcherGcps } from "../parsers/fletcherGcps";
 import {
@@ -342,18 +343,10 @@ export function GeoreferencePanel({
     if (!annotation) {
       return;
     }
-    // Same create-anchor-click-revoke sequence App.tsx uses for the evidence
-    // note export — one convention for "download a file" in this codebase.
-    const objectUrl = URL.createObjectURL(
-      new Blob([JSON.stringify(annotation, null, 2)], {
-        type: "application/json",
-      }),
+    downloadFile(
+      `${record.name}.georef.json`,
+      new Blob([JSON.stringify(annotation, null, 2)], { type: "application/json" }),
     );
-    const link = document.createElement("a");
-    link.href = objectUrl;
-    link.download = `${record.name}.georef.json`;
-    link.click();
-    URL.revokeObjectURL(objectUrl);
   }
 
   return (

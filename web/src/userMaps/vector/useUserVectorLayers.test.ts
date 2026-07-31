@@ -69,15 +69,100 @@ describe("useUserVectorLayers", () => {
     expect(result.current.records).toHaveLength(0);
   });
 
-  it("tells the user KML/GPX support is coming rather than calling the file broken", async () => {
-    const kml = new File(['<?xml version="1.0"?><kml/>'], "trails.kml");
+  it("imports a KML file, recording its format", async () => {
+    const kml = new File(
+      [
+        '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' +
+          "<Placemark><name>Gate</name><Point><coordinates>-63.5,44.65</coordinates></Point></Placemark>" +
+          "</Document></kml>",
+      ],
+      "trails.kml",
+    );
     const { result } = renderHook(() => useUserVectorLayers(options()));
     await act(() => result.current.importFiles([kml]));
+
+    expect(result.current.outcomes[0].ok).toBe(true);
+    expect(result.current.records[0]).toMatchObject({
+      name: "trails",
+      source: "kml",
+      featureCount: 1,
+    });
+    expect(result.current.visibleLayers[0].data.features[0].properties?.name).toBe(
+      "Gate",
+    );
+  });
+
+  it("imports a GPX file, recording its format", async () => {
+    const gpx = new File(
+      [
+        '<?xml version="1.0"?><gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1">' +
+          '<wpt lat="45.81" lon="-61.4"><name>Gate</name></wpt></gpx>',
+      ],
+      "walk.gpx",
+    );
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([gpx]));
+    expect(result.current.records[0]).toMatchObject({ name: "walk", source: "gpx" });
+  });
+
+  it("imports a KMZ archive, recording its format", async () => {
+    const { zipSync, strToU8 } = await import("fflate");
+    const zipped = zipSync({
+      "doc.kml": strToU8(
+        '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>' +
+          "<Placemark><name>Inside</name><Point><coordinates>-63,45</coordinates></Point></Placemark>" +
+          "</Document></kml>",
+      ),
+    });
+    const file = new File([zipped.buffer as ArrayBuffer], "places.kmz");
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([file]));
+    expect(result.current.records[0]).toMatchObject({ name: "places", source: "kmz" });
+  });
+
+  it("tells the user zipped shapefiles are still coming rather than calling them broken", async () => {
+    const { zipSync, strToU8 } = await import("fflate");
+    const zipped = zipSync({ "parcels.shp": strToU8("binary-ish"), "parcels.dbf": strToU8("x") });
+    const file = new File([zipped.buffer as ArrayBuffer], "parcels.zip");
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([file]));
     const outcome = result.current.outcomes[0];
     expect(outcome.ok).toBe(false);
     if (!outcome.ok) {
       expect(outcome.message).toMatch(/later update/i);
     }
+  });
+
+  it("exports a layer as GeoJSON and as KML", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const id = result.current.records[0].id;
+
+    await act(() => result.current.exportLayer(id, "geojson"));
+    expect(downloads[0].filename).toBe("camps.geojson");
+    expect(JSON.parse(await downloads[0].blob.text()).features).toHaveLength(1);
+
+    await act(() => result.current.exportLayer(id, "kml"));
+    expect(downloads[1].filename).toBe("camps.kml");
+    expect(await downloads[1].blob.text()).toContain("<Placemark>");
+  });
+
+  it("ignores an export request for a layer that is gone", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    await act(() => result.current.exportLayer("missing", "geojson"));
+    expect(downloads).toHaveLength(0);
   });
 
   it("refuses files over the size cap without reading them", async () => {

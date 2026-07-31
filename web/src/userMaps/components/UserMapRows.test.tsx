@@ -140,12 +140,22 @@ describe("UserMapRows", () => {
     expect(screen.getByText(/broken\.tif: Not a recognized map file\./)).toBeInTheDocument();
   });
 
-  it("accepts GeoJSON in the shared file picker", () => {
+  it("accepts every supported raster and vector format in the shared file picker", () => {
     render(<UserMapRows api={api()} />);
     const accept = screen.getByLabelText("Add a map file").getAttribute("accept") ?? "";
-    expect(accept).toContain(".geojson");
-    expect(accept).toContain(".json");
-    expect(accept).toContain(".tif");
+    for (const extension of [
+      ".tif",
+      ".pdf",
+      ".png",
+      ".jpg",
+      ".geojson",
+      ".json",
+      ".kml",
+      ".kmz",
+      ".gpx",
+    ]) {
+      expect(accept).toContain(extension);
+    }
   });
 
   it("shows the storage banner when persistence is unavailable", () => {

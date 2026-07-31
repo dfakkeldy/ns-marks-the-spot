@@ -102,6 +102,7 @@ import {
   fletcherSourceReceiptUrl,
   normalizeFletcherTileBaseUrl,
 } from "./layers/fletcherLayer";
+import { downloadFile } from "./services/downloadFile";
 import type { WellLogAccuracyFilter } from "./services/wellLogs";
 import {
   CIVIC_ADDRESS_DATASET_URL,
@@ -2254,14 +2255,10 @@ export function App() {
         };
       }),
     });
-    const objectUrl = URL.createObjectURL(
+    downloadFile(
+      note.filename,
       new Blob([note.markdown], { type: "text/markdown;charset=utf-8" }),
     );
-    const link = document.createElement("a");
-    link.href = objectUrl;
-    link.download = note.filename;
-    link.click();
-    URL.revokeObjectURL(objectUrl);
     setShareMessage(`Evidence note exported as ${note.filename}.`);
   };
 

@@ -84,7 +84,13 @@ const LAYER: VisibleUserVectorLayer = {
 };
 
 describe("UserVectorLayers pane mount", () => {
-  afterEach(() => {
+  afterEach(async () => {
+    // Leaflet's canvas renderer redraws on an animation frame. Unmounting
+    // with one still queued lets it fire against a torn-down renderer
+    // (`ctx` undefined), which surfaces as an unhandled error and can taint
+    // later tests. Letting the frame run while its map is still alive costs
+    // one jsdom tick and keeps the run's output clean.
+    await new Promise((resolve) => setTimeout(resolve, 32));
     // cleanup() unmounts MapContainer, which removes the map itself — no
     // manual map.remove() here, that would double-remove and throw.
     cleanup();
@@ -115,5 +121,94 @@ describe("UserVectorLayers pane mount", () => {
     // …and the point renders as a circle marker on that canvas, not as a
     // default icon marker escaping to Leaflet's markerPane (z 600).
     expect(map.getPane("markerPane")?.childElementCount ?? 0).toBe(0);
+  });
+
+  it("fits an area layer to its whole extent, not to the maximum zoom", async () => {
+    // Browser check found the map sitting at maxZoom (16) after importing a
+    // layer whose extent needs about zoom 14 — i.e. the layer filled the
+    // screen instead of fitting inside it. The fit must land on the zoom the
+    // extent actually calls for.
+    const host = document.createElement("div");
+    document.body.append(host);
+    render(
+      <MapContainer center={[46.5, -60.5]} zoom={10} zoomControl={false}>
+        <UserVectorLayers layers={[LAYER]} fitRequest={{ layerId: LAYER.record.id, revision: 1 }} />
+      </MapContainer>,
+      { container: host },
+    );
+
+    const map = createdMaps[0];
+    await waitFor(() => expect(map.getPane(USER_VECTOR_PANE)).toBeTruthy());
+
+    const [west, south, east, north] = LAYER.record.bbox!;
+    await waitFor(() => {
+      expect(map.getBounds().contains([[south, west], [north, east]])).toBe(true);
+    });
+    expect(map.getZoom()).toBeLessThan(16);
+  });
+
+  it("still fits when the request arrives before the layer is in the list", async () => {
+    // The real import order: the hook publishes the fit request and the new
+    // layer from the same batch, and React can commit a render where the
+    // request is present but the layer list has not caught up. Giving up
+    // there — and never retrying — left the map wherever it already was,
+    // which is what the browser showed for every area layer imported.
+    const host = document.createElement("div");
+    document.body.append(host);
+    const request = { layerId: LAYER.record.id, revision: 1 };
+    const { rerender } = render(
+      <MapContainer center={[46.5, -60.5]} zoom={10} zoomControl={false}>
+        <UserVectorLayers layers={[]} fitRequest={request} />
+      </MapContainer>,
+      { container: host },
+    );
+
+    const map = createdMaps[0];
+    await waitFor(() => expect(map.getPane(USER_VECTOR_PANE)).toBeTruthy());
+    expect(map.getCenter().lat).toBeCloseTo(46.5, 1);
+
+    rerender(
+      <MapContainer center={[46.5, -60.5]} zoom={10} zoomControl={false}>
+        <UserVectorLayers layers={[LAYER]} fitRequest={request} />
+      </MapContainer>,
+    );
+
+    const [west, south, east, north] = LAYER.record.bbox!;
+    await waitFor(() => {
+      expect(map.getBounds().contains([[south, west], [north, east]])).toBe(true);
+    });
+  });
+
+  it("does not re-fit when an unrelated layer is toggled", async () => {
+    // The fit is a one-shot per request: re-running it whenever the layer
+    // list changes would yank the map back every time the user turns another
+    // layer on or off.
+    const host = document.createElement("div");
+    document.body.append(host);
+    const request = { layerId: LAYER.record.id, revision: 1 };
+    const { rerender } = render(
+      <MapContainer center={[46.5, -60.5]} zoom={10} zoomControl={false}>
+        <UserVectorLayers layers={[LAYER]} fitRequest={request} />
+      </MapContainer>,
+      { container: host },
+    );
+
+    const map = createdMaps[0];
+    await waitFor(() => expect(map.getZoom()).toBeLessThan(16));
+    map.setView([44.0, -64.0], 9);
+
+    const other: VisibleUserVectorLayer = {
+      ...LAYER,
+      record: { ...LAYER.record, id: "another-layer" },
+    };
+    rerender(
+      <MapContainer center={[46.5, -60.5]} zoom={10} zoomControl={false}>
+        <UserVectorLayers layers={[LAYER, other]} fitRequest={request} />
+      </MapContainer>,
+    );
+
+    await waitFor(() => expect(map.getPane(USER_VECTOR_PANE)).toBeTruthy());
+    expect(map.getCenter().lat).toBeCloseTo(44.0, 1);
+    expect(map.getZoom()).toBe(9);
   });
 });
