@@ -15,6 +15,20 @@ import type { PrintLayerSource } from "../../services/printSnapshot";
  * "licence names and URLs, and the capture timestamp"; the `window.print()`
  * flow already rendered the URLs and only the export path was dropping them.
  *
+ * The group key is the attribution text AND the licence URL together, not
+ * attribution text alone. `OPEN_GOVERNMENT_ATTRIBUTION` is paired with three
+ * different licence URLs across layer families (resources/hydro/forestry/well
+ * logs use `OPEN_GOVERNMENT_LICENCE_URL`; coastal flood uses
+ * `COASTAL_HAZARD_LICENCE_URL`; environmental health uses
+ * `OPEN_GOVERNMENT_LICENCE_TERMS_URL`) — grouping on text alone silently
+ * discarded whichever URL lost the "first source wins" race and asserted the
+ * survivor's licence over data it doesn't cover. Keying on both fields means
+ * two sources only merge when they truly share one licence document; two
+ * sources with the same words but different URLs get their own lines. (The
+ * `PROVINCE_ATTRIBUTION` grouping below is safe either way today because
+ * `DEPARTMENTAL_AGREEMENT_LICENCE_URL` and `PROVINCE_LICENSE_URL` happen to be
+ * equal strings — keying on both fields makes that coincidence irrelevant.)
+ *
  * Insertion order is preserved (first-seen attribution first), which keeps the
  * strip in the same base-map-upward order as `captureLayerIds`.
  */
@@ -23,13 +37,15 @@ export function exportAttributionLines(
 ): string[] {
   const grouped = new Map<
     string,
-    { names: string[]; licenceUrl: string | null }
+    { names: string[]; attribution: string; licenceUrl: string | null }
   >();
   for (const source of sources) {
-    const existing = grouped.get(source.attribution);
+    const key = `${source.attribution} ${source.licenceUrl ?? ""}`;
+    const existing = grouped.get(key);
     if (!existing) {
-      grouped.set(source.attribution, {
+      grouped.set(key, {
         names: [source.name],
+        attribution: source.attribution,
         licenceUrl: source.licenceUrl,
       });
       continue;
@@ -38,7 +54,7 @@ export function exportAttributionLines(
       existing.names.push(source.name);
     }
   }
-  return [...grouped].map(([attribution, { names, licenceUrl }]) => {
+  return [...grouped.values()].map(({ names, attribution, licenceUrl }) => {
     const line = `${names.join(", ")}: ${attribution}`;
     return licenceUrl ? `${line} — ${licenceUrl}` : line;
   });

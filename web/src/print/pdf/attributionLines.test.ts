@@ -65,4 +65,35 @@ describe("exportAttributionLines", () => {
     );
     expect(withoutUrl).toBe("Municipality B zoning: Municipality B");
   });
+
+  it("keeps sources on separate lines when they share attribution text but carry different licence URLs", () => {
+    // OPEN_GOVERNMENT_ATTRIBUTION in the real catalog is paired with three
+    // different licence URLs (resources/hydro/forestry/well logs; coastal
+    // flood; environmental health). Grouping on attribution text alone lets
+    // the second source's name ride along on the first source's URL, so the
+    // PDF asserts one licence document over data it doesn't cover and drops
+    // the other URL entirely. Two sources, identical text, different URLs,
+    // is enough to reproduce it without depending on the real catalog.
+    const lines = exportAttributionLines([
+      source("resources-layer", "Geology & Resources layer",
+        "Open Government text", "https://example.invalid/open-government"),
+      source("coastal-layer", "Coastal flooding — current",
+        "Open Government text", "https://example.invalid/coastal-hazard"),
+    ]);
+
+    expect(lines).toHaveLength(2);
+    expect(lines).toContainEqual(
+      "Geology & Resources layer: Open Government text — " +
+      "https://example.invalid/open-government",
+    );
+    expect(lines).toContainEqual(
+      "Coastal flooding — current: Open Government text — " +
+      "https://example.invalid/coastal-hazard",
+    );
+    // Neither line may claim the other's URL.
+    const resourcesLine = lines.find((line) => line.startsWith("Geology"));
+    const coastalLine = lines.find((line) => line.startsWith("Coastal"));
+    expect(resourcesLine).not.toContain("coastal-hazard");
+    expect(coastalLine).not.toContain("open-government");
+  });
 });
