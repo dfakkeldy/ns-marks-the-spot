@@ -1,0 +1,6 @@
+2026/07/31 07:39:49:246  HTTPServer: GET http://127.0.0.1:4466/status
+2026/07/31 07:39:49:246  HTTPServer: --> HTTP 200
+2026/07/31 07:39:53:300  HTTPServer: POST http://127.0.0.1:4466/session
+2026/07/31 07:39:53:300  HTTPServer: {"capabilities":{"alwaysMatch":{"browserName":"safari"}}}
+2026/07/31 07:40:23:314  HTTPServer: --> HTTP 500
+2026/07/31 07:40:23:314  HTTPServer: --> {"value":{"error":"session not created","message":"Could not create a session: The session timed out while connecting to a Safari instance. The following asynchronous operation timed out: Request creation of a new automation session","stacktrace":""}}
