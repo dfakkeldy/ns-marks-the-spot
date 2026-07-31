@@ -1,0 +1,1260 @@
+{
+  "case": "stop-rule-1 legacy post-reload raster, Zoom-to-point rerun",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys, no bridge size ceiling",
+  "profile": "fresh geckodriver temporary profile; IndexedDB empty at t0",
+  "origin": "http://127.0.0.1:4340",
+  "file": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+  "fileBytes": 5831077,
+  "budgetSec": 420,
+  "browserName": "firefox",
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "platformName": "mac",
+  "startupDialogButton": null,
+  "idbAtStart": {
+    "blobKeys": [],
+    "blobs": {},
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {},
+    "reconstruction": {},
+    "recordCount": 0,
+    "records": [],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "fileInputCount": 1,
+  "importElapsedToChooserSec": 4.04,
+  "chooserInitialState": {
+    "anyChecked": false,
+    "checkedValues": [],
+    "confirmDisabled": true,
+    "dialogPresent": true,
+    "heading": "Choose a frame for ME_Isles_of_Shoals_20240805_TM_geo",
+    "highlightPresent": false,
+    "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+    "legend": "Registered frames on page 1",
+    "options": [
+      {
+        "checked": false,
+        "label": "Map Layers",
+        "value": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565"
+      },
+      {
+        "checked": false,
+        "label": "Quadrangle Location",
+        "value": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+      },
+      {
+        "checked": false,
+        "label": "Adjoining Sheet Diagram",
+        "value": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+      }
+    ],
+    "outcomes": [
+      "ME_Isles_of_Shoals_20240805_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "radioCount": 3,
+    "status": null
+  },
+  "mainMapLabelPresent": true,
+  "selectedCandidate": {
+    "checked": false,
+    "label": "Map Layers",
+    "value": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565"
+  },
+  "chooserAfterSelect": {
+    "checkedValues": [
+      "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565"
+    ],
+    "confirmDisabled": false,
+    "highlightPresent": true
+  },
+  "renderPreReload": {
+    "at": "2026-07-31T04:08:40.718Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.1052,
+        "overlapPx": 81640
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [
+      "ME_Isles_of_Shoals_20240805_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 575.5,
+          "height": 314,
+          "left": 743,
+          "right": 1003,
+          "top": 261.5,
+          "width": 260,
+          "x": 743,
+          "y": 261.5
+        },
+        "height": 628,
+        "meanAlpha": 250.506,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.985608,
+        "nonTransparentPixels": 321860,
+        "opacity": "0.7",
+        "sampleStep": 1,
+        "sampledPixels": 326560,
+        "transform": "translate3d(423px, 193.5px, 0px)",
+        "width": 520
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 20,
+    "tileDerived": {
+      "lat": 42.940339233631825,
+      "lng": -70.576171875,
+      "sampleTiles": 20,
+      "zoom": 11
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPreReload": {
+    "ariaLabel": "Adjust points for ME_Isles_of_Shoals_20240805_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 9 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "42.8545, -70.6504",
+        "offBy": "9 m",
+        "scanPixel": "22, 4082"
+      },
+      {
+        "index": "2",
+        "map": "43.0130, -70.6547",
+        "offBy": "9 m",
+        "scanPixel": "-53, 1"
+      },
+      {
+        "index": "3",
+        "map": "43.0155, -70.4745",
+        "offBy": "9 m",
+        "scanPixel": "3350, -62"
+      },
+      {
+        "index": "4",
+        "map": "42.8569, -70.4707",
+        "offBy": "9 m",
+        "scanPixel": "3425, 4019"
+      }
+    ],
+    "rmsText": "RMS 9 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "idbPreReload": {
+    "blobKeys": [
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview",
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:raster"
+    ],
+    "blobs": {
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview": {
+        "byteLength": 1166300,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:raster": {
+        "byteLength": 5831077,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"7c5478e0-4b12-4b67-9a2f-7de3b7da1101\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview": {
+        "byteLength": 1166300,
+        "decodedHeight": 4096,
+        "decodedWidth": 3390,
+        "key": "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.509934,
+        "sampledPixels": 1740000,
+        "thumbnailDataUrl": "data:image/png;base64,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",
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T04:08:33.792Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "measure-direct-0-gcp-1",
+              "map": {
+                "lat": 42.85448,
+                "lng": -70.65044
+              },
+              "pixel": {
+                "x": 22.25121676417471,
+                "y": 4081.884019030119
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-2",
+              "map": {
+                "lat": 43.01304,
+                "lng": -70.65468
+              },
+              "pixel": {
+                "x": -53.33270999236169,
+                "y": 1.4070333047661734
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-3",
+              "map": {
+                "lat": 43.01551,
+                "lng": -70.47446
+              },
+              "pixel": {
+                "x": 3349.8086195576643,
+                "y": -61.788862555021296
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-4",
+              "map": {
+                "lat": 42.85693,
+                "lng": -70.47068
+              },
+              "pixel": {
+                "x": 3425.392546314201,
+                "y": 4018.68812317033
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "7c5478e0-4b12-4b67-9a2f-7de3b7da1101",
+        "name": "ME_Isles_of_Shoals_20240805_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-0-gcp-1",
+                    "map": {
+                      "lat": 42.85448,
+                      "lng": -70.65044
+                    },
+                    "pixel": {
+                      "x": 22.25121676417471,
+                      "y": 4081.884019030119
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-2",
+                    "map": {
+                      "lat": 43.01304,
+                      "lng": -70.65468
+                    },
+                    "pixel": {
+                      "x": -53.33270999236169,
+                      "y": 1.4070333047661734
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-3",
+                    "map": {
+                      "lat": 43.01551,
+                      "lng": -70.47446
+                    },
+                    "pixel": {
+                      "x": 3349.8086195576643,
+                      "y": -61.788862555021296
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-4",
+                    "map": {
+                      "lat": 42.85693,
+                      "lng": -70.47068
+                    },
+                    "pixel": {
+                      "x": 3425.392546314201,
+                      "y": 4018.68812317033
+                    }
+                  }
+                ],
+                "id": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+                "sourceRect": {
+                  "height": 4020.095156475096,
+                  "width": 3329.6884033716474,
+                  "x": 21.185716475095784,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-1-gcp-1",
+                    "map": {
+                      "lat": 42.71996,
+                      "lng": -74.00461
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3837.893227892721
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-2",
+                    "map": {
+                      "lat": 47.77223,
+                      "lng": -74.00461
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-3",
+                    "map": {
+                      "lat": 47.77223,
+                      "lng": -64.02921
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-4",
+                    "map": {
+                      "lat": 42.71996,
+                      "lng": -64.02921
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3837.893227892721
+                    }
+                  }
+                ],
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-2-gcp-1",
+                    "map": {
+                      "lat": 42.74941,
+                      "lng": -70.74998
+                    },
+                    "pixel": {
+                      "x": 2172.5951999999997,
+                      "y": 4025.391727816092
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-2",
+                    "map": {
+                      "lat": 43.12509,
+                      "lng": -70.74998
+                    },
+                    "pixel": {
+                      "x": 2172.5951999999997,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-3",
+                    "map": {
+                      "lat": 43.12509,
+                      "lng": -70.37502
+                    },
+                    "pixel": {
+                      "x": 2265.8123524904213,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-4",
+                    "map": {
+                      "lat": 42.74941,
+                      "lng": -70.37502
+                    },
+                    "pixel": {
+                      "x": 2265.8123524904213,
+                      "y": 4025.391727816092
+                    }
+                  }
+                ],
+                "id": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 93.21715249042154,
+                  "x": 2172.5951999999997,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "selectedFrameId": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3390
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 4020.095156475096,
+          "width": 3329.6884033716474,
+          "x": 21.185716475095784,
+          "y": 0
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "startupDialogButtonAfterReload": null,
+  "postReloadSettleSeries": [
+    {
+      "tSinceReloadSec": 12.4,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.533203125,
+        "sampleTiles": 15,
+        "zoom": 11
+      }
+    },
+    {
+      "tSinceReloadSec": 25.6,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.533203125,
+        "sampleTiles": 15,
+        "zoom": 11
+      }
+    },
+    {
+      "tSinceReloadSec": 45.7,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.533203125,
+        "sampleTiles": 15,
+        "zoom": 11
+      }
+    }
+  ],
+  "idbPostReload": {
+    "blobKeys": [
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview",
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:raster"
+    ],
+    "blobs": {
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview": {
+        "byteLength": 1166300,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:raster": {
+        "byteLength": 5831077,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"7c5478e0-4b12-4b67-9a2f-7de3b7da1101\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview": {
+        "byteLength": 1166300,
+        "decodedHeight": 4096,
+        "decodedWidth": 3390,
+        "key": "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.509934,
+        "sampledPixels": 1740000,
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T04:08:33.792Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "measure-direct-0-gcp-1",
+              "map": {
+                "lat": 42.85448,
+                "lng": -70.65044
+              },
+              "pixel": {
+                "x": 22.25121676417471,
+                "y": 4081.884019030119
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-2",
+              "map": {
+                "lat": 43.01304,
+                "lng": -70.65468
+              },
+              "pixel": {
+                "x": -53.33270999236169,
+                "y": 1.4070333047661734
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-3",
+              "map": {
+                "lat": 43.01551,
+                "lng": -70.47446
+              },
+              "pixel": {
+                "x": 3349.8086195576643,
+                "y": -61.788862555021296
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-4",
+              "map": {
+                "lat": 42.85693,
+                "lng": -70.47068
+              },
+              "pixel": {
+                "x": 3425.392546314201,
+                "y": 4018.68812317033
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "7c5478e0-4b12-4b67-9a2f-7de3b7da1101",
+        "name": "ME_Isles_of_Shoals_20240805_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-0-gcp-1",
+                    "map": {
+                      "lat": 42.85448,
+                      "lng": -70.65044
+                    },
+                    "pixel": {
+                      "x": 22.25121676417471,
+                      "y": 4081.884019030119
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-2",
+                    "map": {
+                      "lat": 43.01304,
+                      "lng": -70.65468
+                    },
+                    "pixel": {
+                      "x": -53.33270999236169,
+                      "y": 1.4070333047661734
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-3",
+                    "map": {
+                      "lat": 43.01551,
+                      "lng": -70.47446
+                    },
+                    "pixel": {
+                      "x": 3349.8086195576643,
+                      "y": -61.788862555021296
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-4",
+                    "map": {
+                      "lat": 42.85693,
+                      "lng": -70.47068
+                    },
+                    "pixel": {
+                      "x": 3425.392546314201,
+                      "y": 4018.68812317033
+                    }
+                  }
+                ],
+                "id": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+                "sourceRect": {
+                  "height": 4020.095156475096,
+                  "width": 3329.6884033716474,
+                  "x": 21.185716475095784,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-1-gcp-1",
+                    "map": {
+                      "lat": 42.71996,
+                      "lng": -74.00461
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3837.893227892721
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-2",
+                    "map": {
+                      "lat": 47.77223,
+                      "lng": -74.00461
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-3",
+                    "map": {
+                      "lat": 47.77223,
+                      "lng": -64.02921
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-4",
+                    "map": {
+                      "lat": 42.71996,
+                      "lng": -64.02921
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3837.893227892721
+                    }
+                  }
+                ],
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-2-gcp-1",
+                    "map": {
+                      "lat": 42.74941,
+                      "lng": -70.74998
+                    },
+                    "pixel": {
+                      "x": 2172.5951999999997,
+                      "y": 4025.391727816092
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-2",
+                    "map": {
+                      "lat": 43.12509,
+                      "lng": -70.74998
+                    },
+                    "pixel": {
+                      "x": 2172.5951999999997,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-3",
+                    "map": {
+                      "lat": 43.12509,
+                      "lng": -70.37502
+                    },
+                    "pixel": {
+                      "x": 2265.8123524904213,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-4",
+                    "map": {
+                      "lat": 42.74941,
+                      "lng": -70.37502
+                    },
+                    "pixel": {
+                      "x": 2265.8123524904213,
+                      "y": 4025.391727816092
+                    }
+                  }
+                ],
+                "id": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 93.21715249042154,
+                  "x": 2172.5951999999997,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "selectedFrameId": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3390
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 4020.095156475096,
+          "width": 3329.6884033716474,
+          "x": 21.185716475095784,
+          "y": 0
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "renderPostReloadBeforeZoom": {
+    "at": "2026-07-31T04:09:35.236Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0,
+        "overlapPx": 0
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 68,
+          "height": 0,
+          "left": 313,
+          "right": 313,
+          "top": 68,
+          "width": 0,
+          "x": 313,
+          "y": 68
+        },
+        "height": 0,
+        "layerPresent": true,
+        "measuredState": "unsized-no-backing-allocated",
+        "nonTransparentFraction": null,
+        "opacity": "0.7",
+        "transform": "none",
+        "width": 0
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 15,
+    "tileDerived": {
+      "lat": 43.004647127794435,
+      "lng": -66.533203125,
+      "sampleTiles": 15,
+      "zoom": 11
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPostReload": {
+    "ariaLabel": "Adjust points for ME_Isles_of_Shoals_20240805_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 9 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "42.8545, -70.6504",
+        "offBy": "9 m",
+        "scanPixel": "22, 4082"
+      },
+      {
+        "index": "2",
+        "map": "43.0130, -70.6547",
+        "offBy": "9 m",
+        "scanPixel": "-53, 1"
+      },
+      {
+        "index": "3",
+        "map": "43.0155, -70.4745",
+        "offBy": "9 m",
+        "scanPixel": "3350, -62"
+      },
+      {
+        "index": "4",
+        "map": "42.8569, -70.4707",
+        "offBy": "9 m",
+        "scanPixel": "3425, 4019"
+      }
+    ],
+    "rmsText": "RMS 9 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "zoomToPointClick": {
+    "ariaLabel": "Zoom to point 1",
+    "clicked": true,
+    "text": "Zoom to"
+  },
+  "renderPanelOpenAfterZoom": {
+    "at": "2026-07-31T04:09:42.574Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.1986,
+        "overlapPx": 198665
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 0,
+      "right": 1425,
+      "top": 68,
+      "width": 1425,
+      "x": 0,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 344.5,
+          "height": 627.5,
+          "left": 706.5,
+          "right": 2137.5,
+          "top": -283,
+          "width": 1431,
+          "x": 706.5,
+          "y": -283
+        },
+        "height": 1255,
+        "meanAlpha": 254.44,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.998603,
+        "nonTransparentPixels": 224510,
+        "opacity": "0.7",
+        "sampleStep": 4,
+        "sampledPixels": 224824,
+        "transform": "translate3d(706.5px, -351px, 0px)",
+        "width": 2862
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane",
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 28,
+    "tileDerived": {
+      "lat": 42.851806095847046,
+      "lng": -70.6475830078125,
+      "sampleTiles": 28,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "renderPostReloadAfterZoom": {
+    "at": "2026-07-31T04:09:49.857Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.1991,
+        "overlapPx": 154425
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 344.5,
+          "height": 627.5,
+          "left": 866.5,
+          "right": 1977.5,
+          "top": -283,
+          "width": 1111,
+          "x": 866.5,
+          "y": -283
+        },
+        "height": 1255,
+        "meanAlpha": 254.04,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.996267,
+        "nonTransparentPixels": 309320,
+        "opacity": "0.7",
+        "sampleStep": 3,
+        "sampledPixels": 310479,
+        "transform": "translate3d(706.5px, -351px, 0px)",
+        "width": 2222
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 28,
+    "tileDerived": {
+      "lat": 42.851806095847046,
+      "lng": -70.6475830078125,
+      "sampleTiles": 28,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "verdict": {
+    "recordPersisted": true,
+    "previewBytesPresentAndDecodable": true,
+    "previewByteLengths": {
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview": 1166300
+    },
+    "previewNonTransparentFraction": {
+      "7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview": 1
+    },
+    "liveCanvasFractionBeforeZoom": null,
+    "liveCanvasFractionAfterZoom": 0.996267,
+    "canvasCountBeforeZoom": 1,
+    "canvasCountAfterZoom": 1,
+    "canvasStateBeforeZoom": "unsized",
+    "canvasStateAfterZoom": "painted",
+    "settleStates": [
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ]
+    ],
+    "decodeLatencyExcluded": true,
+    "classification": "PERSISTED_BUT_OFFSCREEN",
+    "reason": "Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  },
+  "finalBodyText": "NS Marks The Spot\nOnline\nAbout this map\niPhone app in development\nGet launch updates\n\u2303\nExplore Nova Scotia\nSearch by PID or civic address\nFind parcel\nEnter an 8-digit PID or a Nova Scotia civic address.\nCurrent notices\nHistorical records\nCURRENT \u00b7 advertised notices that still require municipal verification\nMap layers\nModern map\nOpenStreetMap\nReady\nSource & scale\nYour maps\n1 loaded\nDrag a file here, or choose one above.\nFiles stay on this device \u2014 nothing is uploaded.\nME_Isles_of_Shoals_20240805_TM_geo\nYour file \u00b7 3,390\u00d74,096 px\nGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by you\nOpacity\nChange frameAdjust pointsRemove\nNS Aerial\nProvince licence required\nOff\nSource & scale\nNS Property Boundaries\nProvince licence required\nOff\nSource & scale\nReview\nCrown Lands\nProvince licence required\nOff\nSource & scale\nWatersheds\nProvince licence required\nOff\nSource & scale\nWaterfalls\nProvince licence required\nOff\nSource & scale\nWater features\nProvince licence required\nOff\nSource & scale\nRoads, trails & culverts\nProvince licence required\nOff\nSource & scale\nBuildings\nProvince licence required\nOff\nSource & scale\nTopography\n1 optional terrain layer\nForestry\n1 optional policy layer\nFlood hazard context\n4 optional published screens\nEnvironmental health screens\n4 optional well-water & aquifer screens\nMunicipal zoning\n5 optional unofficial layers\nGroundwater\n1 optional well-log overlay\nMicro-hydro pilot\n1 optional Inverness screen\nGeology & Resources\n4 optional screening layers\nChurch (1860s\u201380s)\n4 Cape Breton counties \u00b7 tiles pending\nFletcher historical map\nTile hosting not configured\nOff\nSource & scale\nDavid Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries. Licensed CC BY-NC-SA 3.0: noncommercial use only; project georeferencing, clipping, and tiling changes are identified as derivatives and remain within the licence\u2019s ShareAlike boundary. The MIT software licence does not cover the imagery. This historical layer is context only: it is not a survey and does ",
+  "log": [
+    "[   2.90s] ATTACHED firefox 152.0.6 buildID=20260713164047 geckodriver=0.37.1",
+    "[   6.91s] [initial] clicking startup button 'Continue without Province layers'",
+    "[   8.93s] [initial] dialog attempt Continue without: Message: The element with the reference f201e5e7-e90d-4819-b259-3308d06cf647 is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  10.14s] IndexedDB at t0: 0 records (expect 0 \u2014 fresh profile)",
+    "[  10.15s] delivering ME_Isles_of_Shoals_20240805_TM_geo.pdf (5831077 bytes)",
+    "[  14.19s] chooser after 4.04s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  14.19s]   options: ['Map Layers', 'Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  14.32s] explicitly selecting 'Map Layers' value=measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+    "[  15.52s] clicked 'Use this frame'",
+    "[  19.64s] PRE-RELOAD canvases=1 nonTransparent=[0.985608] mapTier=not-found zoom=None",
+    "[  22.85s] PRE-RELOAD RMS: 'RMS 9 m across 4 points' points=4",
+    "[  27.41s] PRE-RELOAD idb: records=1 blobs={'7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview': {'byteLength': 1166300, 'ctor': 'ArrayBuffer', 'type': 'image/png'}, '7c5478e0-4b12-4b67-9a2f-7de3b7da1101:raster': {'byteLength': 5831077, 'ctor': 'ArrayBuffer', 'type': 'application/pdf'}}",
+    "[  27.41s] RELOADING",
+    "[  32.17s] [post-reload] clicking startup button 'Continue without Province layers'",
+    "[  34.21s] [post-reload] dialog attempt Continue without: Message: The element with the reference 7199dcfb-a674-48b5-9c93-b1d47333446f is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  40.38s]   settle +12.4s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  53.49s]   settle +25.6s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  73.66s]   settle +45.7s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  74.17s] POST-RELOAD/BEFORE-ZOOM canvases=1 nonTransparent=[None] rows=1 zoom=None centre=None",
+    "[  74.17s]   reconstructed 7c5478e0-4b12-4b67-9a2f-7de3b7da1101:preview: bytes=1166300 3390x4096 nonTransparent=1 nonWhite=0.509934",
+    "[  77.25s] POST-RELOAD RMS: 'RMS 9 m across 4 points' points=4",
+    "[  77.40s] Zoom to point: {'ariaLabel': 'Zoom to point 1', 'clicked': True, 'text': 'Zoom to'}",
+    "[  88.89s] POST-RELOAD/AFTER-ZOOM canvases=1 nonTransparent=[0.996267] zoom=None centre=None",
+    "[  88.89s] VERDICT: PERSISTED_BUT_OFFSCREEN",
+    "[  88.89s]   Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  ]
+}

@@ -1,0 +1,227 @@
+
+> ns-marks-the-spot-web@0.1.0 test
+> npm run test:scripts && vitest run
+
+
+> ns-marks-the-spot-web@0.1.0 test:scripts
+> node --test scripts/checkPdfAssets.test.mjs scripts/probeGeoPdfFrames.test.mjs
+
+TAP version 13
+# Subtest: prepares only the pinned local asset directories with stable hashes
+ok 1 - prepares only the pinned local asset directories with stable hashes
+  ---
+  duration_ms: 30.448834
+  type: 'test'
+  ...
+# Subtest: refuses any pdfjs-dist version other than the exact pin
+ok 2 - refuses any pdfjs-dist version other than the exact pin
+  ---
+  duration_ms: 2.913375
+  type: 'test'
+  ...
+# Subtest: check refuses a changed asset hash
+ok 3 - check refuses a changed asset hash
+  ---
+  duration_ms: 6.266917
+  type: 'test'
+  ...
+# Subtest: opens each named registration through GDAL's NEATLINE option
+ok 4 - opens each named registration through GDAL's NEATLINE option
+  ---
+  duration_ms: 1.146125
+  type: 'test'
+  ...
+# Subtest: signature includes producer, family, structure, and full label multiset
+ok 5 - signature includes producer, family, structure, and full label multiset
+  ---
+  duration_ms: 0.614542
+  type: 'test'
+  ...
+# Subtest: requires two distinct untouched passing holdouts
+ok 6 - requires two distinct untouched passing holdouts
+  ---
+  duration_ms: 0.137917
+  type: 'test'
+  ...
+# Subtest: does not double-count the same holdout product
+ok 7 - does not double-count the same holdout product
+  ---
+  duration_ms: 0.063958
+  type: 'test'
+  ...
+# Subtest: one false selection refuses an otherwise sufficient signature
+ok 8 - one false selection refuses an otherwise sufficient signature
+  ---
+  duration_ms: 0.070375
+  type: 'test'
+  ...
+# Subtest: emits no automatic rules when the receipt has no qualified holdouts
+ok 9 - emits no automatic rules when the receipt has no qualified holdouts
+  ---
+  duration_ms: 0.081167
+  type: 'test'
+  ...
+# Subtest: emits only exact signatures that pass the evidence gate
+ok 10 - emits only exact signatures that pass the evidence gate
+  ---
+  duration_ms: 0.074333
+  type: 'test'
+  ...
+# Subtest: renders a stable TypeScript module from approved rules
+ok 11 - renders a stable TypeScript module from approved rules
+  ---
+  duration_ms: 0.058375
+  type: 'test'
+  ...
+# Subtest: real holdout corpus evaluates every frozen signature and approves none
+ok 12 - real holdout corpus evaluates every frozen signature and approves none
+  ---
+  duration_ms: 5.423875
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 90.628333
+
+ RUN  v4.1.10 /Users/dfakkeldy/Developer/ns-marks-geopdf-acceptance/web
+
+ ✓ src/components/MeasureTool.test.tsx (10 tests) 170ms
+ ✓ src/userMaps/components/UserMapRows.test.tsx (16 tests) 234ms
+ ✓ src/userMaps/components/GeoreferencePanel.test.tsx (43 tests) 661ms
+ ✓ src/userMaps/useUserMaps.test.ts (38 tests) 780ms
+ ✓ src/userMaps/components/UserMapLayers.test.tsx (14 tests) 806ms
+ ✓ src/components/print/PrintDocuments.test.tsx (17 tests) 740ms
+ ✓ src/components/print/PrintPreview.test.tsx (13 tests) 810ms
+ ✓ src/components/MapCanvas.test.tsx (50 tests) 971ms
+ ✓ src/userMaps/components/GeoPdfFrameChooser.test.tsx (2 tests) 256ms
+ ✓ src/userMaps/components/GcpList.test.tsx (12 tests) 426ms
+ ✓ src/userMaps/render/WarpedRasterLayer.test.ts (10 tests) 316ms
+ ✓ src/components/MineralProximityParcelLayer.test.tsx (8 tests) 211ms
+ ✓ src/components/TaxSalePropertyList.test.tsx (2 tests) 150ms
+Not implemented: Window's scrollTo() method
+Not implemented: Window's scrollTo() method
+Not implemented: Window's scrollTo() method
+ ✓ src/userMaps/components/GeoreferenceMapLayer.realMount.test.tsx (3 tests) 146ms
+ ✓ src/userMaps/components/ScanPane.realMount.test.tsx (7 tests) 233ms
+ ✓ src/userMaps/store/userMapStore.test.ts (14 tests) 147ms
+ ✓ src/userMaps/render/WarpedRasterLayer.caching.test.ts (16 tests) 566ms
+     ✓ does not re-warp when a pan ends at the same zoom  544ms
+ ✓ src/userMaps/useGeoreferenceSession.test.ts (55 tests) 204ms
+ ✓ src/data/invernessHydroPotential.test.ts (3 tests) 122ms
+ ✓ src/userMaps/testFixtures.test.ts (5 tests) 24ms
+ ✓ src/components/mapPanes.test.ts (6 tests) 77ms
+ ✓ src/userMaps/components/UserMapLayers.paneMount.test.tsx (1 test) 97ms
+ ✓ src/services/nsprd.test.ts (8 tests) 63ms
+ ✓ src/userMaps/browserAcceptanceReceipt.test.ts (5 tests) 24ms
+ ✓ src/services/mineralProximity.test.ts (6 tests) 16ms
+ ✓ src/userMaps/transform/residuals.test.ts (19 tests) 91ms
+ ✓ src/userMaps/components/ScanPane.test.tsx (15 tests) 49ms
+ ✓ src/userMaps/components/GeoreferenceMapLayer.test.tsx (7 tests) 47ms
+ ✓ src/services/civicAddresses.test.ts (15 tests) 26ms
+ ✓ src/components/print/PrintMap.test.tsx (8 tests) 40ms
+stderr | src/userMaps/parsers/geoPdfMetadata.test.ts > extractGeoPdfMetadata > classifies unreadable bytes without guessing a registration family
+Trying to parse invalid object: {"line":30,"column":2,"offset":502})
+Invalid object ref: 4 0 R
+
+ ✓ src/userMaps/parsers/geoPdfMetadata.test.ts (15 tests) 57ms
+ ✓ src/services/arcGISFeatureOverlay.test.ts (7 tests) 61ms
+ ✓ scripts/taxSaleWatch/dataset.test.mjs (9 tests) 42ms
+ ✓ src/layers/layerCatalog.test.ts (42 tests) 18ms
+ ✓ src/components/OldGrowthPolicyLayer.test.ts (2 tests) 42ms
+ ✓ src/services/parcelResources.test.ts (5 tests) 44ms
+ ✓ scripts/taxSaleWatch/watchTaxSaleSources.test.mjs (6 tests) 16ms
+ ✓ scripts/refreshInvernessTaxSale.test.mjs (7 tests) 20ms
+ ✓ src/data/historicalTaxSales.test.ts (20 tests) 25ms
+ ✓ src/services/pvscDwellings.test.ts (7 tests) 17ms
+ ✓ src/userMaps/parsers/geoTiffSource.test.ts (16 tests) 16ms
+ ✓ src/services/pvscAssessments.test.ts (7 tests) 18ms
+ ✓ scripts/cbrmTaxSaleResults.test.mjs (7 tests) 13ms
+ ✓ src/data/taxSaleCatalog.test.ts (11 tests) 16ms
+ ✓ scripts/refreshPictouTaxSaleResults.test.mjs (4 tests) 13ms
+ ✓ src/services/parcelContext.test.ts (3 tests) 16ms
+ ✓ src/styles.test.ts (29 tests) 36ms
+ ✓ src/userMaps/parsers/fletcherGcps.test.ts (35 tests) 11ms
+ ✓ src/userMaps/transform/tps.test.ts (8 tests) 6ms
+ ✓ scripts/taxSaleWatch/archive.test.mjs (7 tests) 12ms
+ ✓ src/services/wellLogs.test.ts (19 tests) 20ms
+ ✓ src/userMaps/parsers/imageSource.test.ts (8 tests) 8ms
+ ✓ src/services/buildings.test.ts (3 tests) 9ms
+ ✓ src/services/floodHazard.test.ts (6 tests) 27ms
+ ✓ src/userMaps/transform/gcpMesh.test.ts (10 tests) 10ms
+ ✓ src/userMaps/recordMesh.test.ts (8 tests) 20ms
+ ✓ scripts/taxSaleWatch/cumberland.test.mjs (15 tests) 19ms
+ ✓ src/userMaps/parsers/geoPdfSource.test.ts (8 tests) 8ms
+ ✓ src/data/invernessTaxSale.test.ts (5 tests) 4ms
+ ✓ src/userMaps/parsers/geoPdfFrameSelection.test.ts (11 tests) 6ms
+ ✓ src/userMaps/transform/projection.test.ts (13 tests) 8ms
+ ✓ src/userMaps/render/mesh.test.ts (14 tests) 7ms
+ ✓ src/services/oldGrowthPolicy.test.ts (5 tests) 6ms
+ ✓ src/userMaps/parsers/parseGeoPdfAuto.test.ts (7 tests) 8ms
+ ✓ src/services/printSnapshot.test.ts (15 tests) 7ms
+ ✓ scripts/generateInvernessHydroPilot.test.mjs (8 tests) 7ms
+ ✓ src/services/zoning.test.ts (8 tests) 3ms
+ ✓ src/userMaps/transform/affine.test.ts (18 tests) 7ms
+ ✓ scripts/taxSaleWatch/richmond.test.mjs (2 tests) 3ms
+ ✓ src/userMaps/transform/webMercator.test.ts (7 tests) 3ms
+ ✓ src/services/evidenceNote.test.ts (5 tests) 4ms
+ ✓ src/services/mapShareState.test.ts (8 tests) 4ms
+ ✓ src/services/geodesy.test.ts (12 tests) 4ms
+ ✓ src/services/printQr.test.ts (2 tests) 3ms
+ ✓ src/layers/fletcherLayer.test.ts (4 tests) 4ms
+ ✓ src/userMaps/components/scanGeometry.test.ts (7 tests) 7ms
+ ✓ src/services/hydroPotential.test.ts (5 tests) 4ms
+ ✓ src/services/parcelMarkers.test.ts (4 tests) 3ms
+ ✓ src/data/annapolisTaxSale.test.ts (4 tests) 4ms
+ ✓ src/layers/arcGISExport.test.ts (3 tests) 3ms
+ ✓ src/services/browserLocation.test.ts (2 tests) 4ms
+ ✓ src/userMaps/allmaps/annotation.test.ts (3 tests) 3ms
+ ✓ src/licensing/provinceLicense.test.ts (5 tests) 5ms
+ ✓ src/userMaps/errors.test.ts (5 tests) 3ms
+ ✓ src/userMaps/parsers/sniff.test.ts (8 tests) 3ms
+ ✓ src/indexHtml.test.ts (4 tests) 4ms
+ ✓ src/userMaps/sourceRect.test.ts (2 tests) 3ms
+ ✓ src/userMaps/transform/conditioning.test.ts (3 tests) 2ms
+ ✓ src/services/viewpoint.test.ts (2 tests) 2ms
+ ✓ src/userMaps/components/gcpIcon.test.ts (3 tests) 2ms
+ ✓ src/licensing/rumseyLicense.test.ts (3 tests) 2ms
+ ↓ src/services/nsprd.live.test.ts (1 test | 1 skipped)
+ ✓ src/App.test.tsx (98 tests) 22324ms
+     ✓ requires licence acceptance before enabling Province map layers  361ms
+     ✓ toggles the building overlay and counts mapped building features on a PID  596ms
+     ✓ opens the About dialog from the header, explains the method, and closes  329ms
+     ✓ reveals the remaining privacy-minimized upcoming event after acceptance  349ms
+     ✓ makes current notices and historical records separate map modes  314ms
+     ✓ keeps historical records off by default and loads them on demand  522ms
+     ✓ renders the official pending result without a fabricated winning bid  373ms
+     ✓ shows owner-free historical outcome and financial context for a matched PID  530ms
+     ✓ keeps open geology and resource overlays collapsed, optional, and licence-independent  416ms
+     ✓ keeps topography collapsed and loads contours only when requested  319ms
+     ✓ keeps the open old-growth policy layer collapsed, optional, and explicit about coverage  341ms
+     ✓ preserves a requested shared derived layer through review and activates it only after acceptance  330ms
+     ✓ searches a civic address and opens its containing parcel  863ms
+     ✓ keeps an identified parcel when the initial tax-sale geometry arrives later  355ms
+     ✓ aborts a pending map-point lookup when a PID search takes over  372ms
+     ✓ aborts a pending civic search when the user changes its text  394ms
+     ✓ keeps the completed CBRM event out of current notices  356ms
+     ✓ keeps a blank CBRM result row unknown while linking the official result  439ms
+     ✓ shows notice-AAN assessment values and five-year history without calling them a PID value  327ms
+     ✓ exports relationship-safe mineral evidence and both derived-layer sources  355ms
+     ✓ keeps road and water results visible when civic lookup fails  312ms
+     ✓ opens a newly selected PID at the top of a fresh parcel sheet  371ms
+     ✓ keeps share and print viewport state isolated from a legacy location recenter  338ms
+     ✓ withholds print export until selected PID geometry arrives  352ms
+     ✓ does not let an older same-PID evidence request settle a reopened print capture  494ms
+     ✓ does not carry one map's zoom-to focus into the next session  333ms
+     ✓ ends a drag without opening a second undo step  305ms
+
+ Test Files  92 passed | 1 skipped (93)
+      Tests  1057 passed | 1 skipped (1058)
+   Start at  01:48:12
+   Duration  24.62s (transform 5.49s, setup 14.07s, import 9.47s, tests 31.59s, environment 65.25s)
+
