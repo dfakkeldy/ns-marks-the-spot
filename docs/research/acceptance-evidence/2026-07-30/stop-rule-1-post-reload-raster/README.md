@@ -66,7 +66,7 @@ Read straight out of IndexedDB `ns-marks-the-spot-user-maps` after reload:
 decoded **independently, into a canvas the application never touched**:
 3213 × 4096, non-transparent fraction **1.000000**, non-white fraction
 **0.591785**, mean alpha 254.0. That is real map content, not a blank PNG.
-See `reconstructed-preview-from-stored-bytes.png`.
+See `reconstructed-preview-from-stored-bytes.jpg`.
 
 Note the reload path draws the **preview** blob, never `:raster`
 (`getRasterBlob` is not called during rehydration), so the preview is the
@@ -215,15 +215,37 @@ every git repository.
 | File | What it proves |
 | --- | --- |
 | `stop-rule-1-result.json` | full machine-readable run: chooser state, IndexedDB dump, settle series, all four render probes, verdict |
-| `02-chooser-no-preselection.png` | three frames, nothing preselected, confirm disabled |
-| `04-rendered-pre-reload.png` | visible initial render |
-| `06-post-reload-before-zoom.png` | record present, raster not on screen |
-| `09-post-reload-after-zoom-to-point.png` | visible post-reload repaint |
-| `reconstructed-preview-from-stored-bytes.png` | the persisted bytes decoded independently of the app |
+| `02-chooser-no-preselection.jpg` | three frames, nothing preselected, confirm disabled |
+| `04-rendered-pre-reload.jpg` | visible initial render |
+| `06-post-reload-before-zoom.jpg` | record present, raster not on screen |
+| `09-post-reload-after-zoom-to-point.jpg` | visible post-reload repaint |
+| `reconstructed-preview-from-stored-bytes.jpg` | the persisted bytes decoded independently of the app |
 | `ff_stoprule1.py` | the harness |
 
-## Open repository item
+## Open repository item — RESOLVED 2026-07-31
 
-`.acceptance-evidence/` may need to move under `docs/research/` to match this
-repository's convention (`docs/research/geopdf-browser-evidence/` holds the
-receipt's 57 screenshots) if this branch becomes a PR. Flagged, not actioned.
+This directory has been moved from `.acceptance-evidence/` to
+`docs/research/acceptance-evidence/` to match the repository's convention
+(`docs/research/geopdf-browser-evidence/` holds the receipt's 57 screenshots).
+The move was made with `git mv`, as part of the PR that publishes this branch.
+
+## Screenshot re-encoding — recorded in the open, 2026-07-31
+
+The four viewport captures in this directory were originally committed as PNG at
+2880x1632 (DPR 2 of a 1440 CSS-pixel viewport), which does not match this
+mission's JPEG / 1440 px convention or the format used everywhere else in
+`docs/research/`. They were re-encoded to JPEG at 1440x816 with `sips` at
+quality 90, and the PNG originals were removed. Total for the directory fell
+from about 3.7 MB to about 0.8 MB.
+
+`reconstructed-preview-from-stored-bytes` was converted to JPEG at quality 95
+and left at its intrinsic 220x280 — it is a decode of the persisted bytes, not a
+viewport capture, so it was **not** upscaled to 1440.
+
+**This is a lossy re-encode of evidence and is stated rather than done
+silently.** What these captures have to show is the presence or absence of a
+large map raster and the checked/unchecked state of chooser radios, both of
+which survive JPEG compression at this quality; no measurement in
+`stop-rule-1-result.json` was derived from the images, and the harness
+`ff_stoprule1.py` reproduces them. A reader who needs pixel-exact originals
+should re-run the harness rather than trust a re-encode.

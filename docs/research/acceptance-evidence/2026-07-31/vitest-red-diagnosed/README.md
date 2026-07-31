@@ -133,7 +133,7 @@ diagnosis showed there was nothing for `npm ci` to fix.**
 - changed nothing about the failure, since the installed versions were already
   correct;
 - torn out `node_modules` beneath the live :4340 origin that every committed
-  Firefox result in `.acceptance-evidence/2026-07-31/` was measured against; and
+  Firefox result in `docs/research/acceptance-evidence/2026-07-31/` was measured against; and
 - risked reinstalling with `NODE_ENV=production` still set, i.e. 57 packages and
   no devDependencies — a strictly worse state than the one it started from.
 
@@ -217,7 +217,10 @@ without the maintainer's view would just move the surprise somewhere else.
 | `npm-test-NODE_ENV-test.log` | the repository's documented `npm test` gate: 12/12 script tests + full Vitest, exit 0 |
 | `vitest-diagnosis.json` | machine-readable: version table, error-class counts, failing-file list, environment provenance, gate results |
 
-## Open repository item
+## Open repository item — RESOLVED 2026-07-31
 
-`.acceptance-evidence/` may need to move under `docs/research/` to match this
-repository's convention if this branch becomes a PR. Flagged, not actioned.
+This directory has been moved from `.acceptance-evidence/` to
+`docs/research/acceptance-evidence/` to match the repository's convention,
+alongside `docs/research/geopdf-browser-evidence/`. The move was made with
+`git mv`, as part of the PR that publishes this branch. Paths written in these
+notes before the move refer to the same files at their new location.

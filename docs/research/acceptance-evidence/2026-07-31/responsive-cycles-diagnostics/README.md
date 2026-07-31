@@ -160,7 +160,10 @@ captured, matching the receipt's own position on both Chrome and Firefox.
 Screenshots are JPEG bounded to 1440 px on the long edge, matching the
 repository's convention. **No corpus PDF is in this commit.**
 
-## Open repository item
+## Open repository item — RESOLVED 2026-07-31
 
-`.acceptance-evidence/` may need to move under `docs/research/` to match this
-repository's convention if this branch becomes a PR. Flagged, not actioned.
+This directory has been moved from `.acceptance-evidence/` to
+`docs/research/acceptance-evidence/` to match the repository's convention,
+alongside `docs/research/geopdf-browser-evidence/`. The move was made with
+`git mv`, as part of the PR that publishes this branch. Paths written in these
+notes before the move refer to the same files at their new location.

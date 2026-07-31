@@ -80,7 +80,15 @@
     "safariPrefsWebDriverKeys": ["DidMigrateWebDriverAllowRemoteAutomation = 1"],
     "allowRemoteAutomationKeyPresent": false,
     "allowRemoteAutomationKeyInterpretation": "Absence of an AllowRemoteAutomation key is NOT evidence the Settings -> Developer toggle is off. A predecessor's correction, carried forward unchanged. The plist is not authoritative for this setting.",
-    "untestedVariable": "Safari -> Settings -> Developer -> 'Allow remote automation and external agents'. A GUI checkbox in the user's own login session with no scriptable authoritative read. This session could not test it."
+    "developerToggleState": "ENABLED",
+    "developerToggleSource": "../2026-07-30/stop-rule-1-import-hang/findings.md section 7 — verified visually in Safari 27 Settings -> Developer. Carried forward unchanged; the user is NOT asked to re-verify it.",
+    "bothDocumentedRemediesApplied": true,
+    "remediesApplied": [
+      "Safari -> Settings -> Developer -> 'Allow remote automation and external agents' enabled (verified visually by a predecessor)",
+      "sudo safaridriver --enable run by the user before this session"
+    ],
+    "remainingHypotheses": "None available from safaridriver's logs, which emit nothing between request and timeout. Remaining options are escalation, not configuration: a fresh macOS login session or different user account; an Apple feedback report against macOS 27.0 beta 26A5388g / Safari 27.0; or a different machine on a released macOS.",
+    "priorReproductionBreadth": "findings.md section 7 reproduced this failure at 25/40/60/90/120 s client timeouts, with Safari both closed and running, and confirmed by screenshot that no blocking dialog was on screen."
   },
 
   "longTasksApi": {
@@ -128,7 +136,8 @@
   },
 
   "userActionRequired": [
-    "Visually confirm Safari -> Settings -> Developer -> 'Allow remote automation and external agents' is checked. Safari 27 location; the Develop menu and the plist are both non-authoritative.",
-    "If it is already checked, the lane is failing for a reason not reachable from safaridriver's logs; the next step is a fresh macOS login session or an Apple-side report, not further probing from here."
+    "NONE for this branch to be reviewed. The Safari lane was already BLOCKED in the receipt and remains so; this run narrows the diagnosis without changing the state.",
+    "To unblock the lane at all, the remaining options are escalation rather than configuration: a fresh macOS login session or different user account; an Apple feedback report against macOS 27.0 beta 26A5388g / Safari 27.0; or a different machine on a released macOS.",
+    "The user is explicitly NOT asked to re-check the Developer toggle or re-run sudo safaridriver --enable. Both are already applied and neither changed the outcome."
   ]
 }

@@ -83,7 +83,9 @@
         "long-task and input-latency recording",
         "import request-body inspection",
         "worker, document, object URL, canvas, and retained-memory release"
-      ]
+      ],
+      "status20260731": "BLOCKED — import hang",
+      "note20260731": "No GeoPDF completes import in Chrome 150 on this machine at any size. A 2 KB in-repo synthetic fixture reproduces the identical indefinite Reading state as a 3.2 MB real USGS file, so this is not a size threshold. Isolated to one PDF.js step: the worker streams the page operator list, emits StartRenderPage and one obj, then stops producing output; renderTask.promise never settles. Recorded as \"worker stops mid-stream; render promise pending\", NOT as a proven deadlock — the worker is not terminated and emits no error, and did not answer an injected liveness message, but PDF.js MessageHandler may silently drop an unrecognised action, so non-response is strong but not conclusive. Ruled out by test: file delivery (byte-exact), repo SHA, file size, registration family, HTTP server, missing PDF.js assets, asset MIME, console errors, failed requests, browser major version."
     },
     {
       "name": "Firefox",
@@ -133,7 +135,9 @@
         "JavaScript from Apple Events was disabled",
         "the supported accessibility path did not expose Web Inspector",
         "console, request-body, long-task, and retained-resource diagnostics remained unavailable"
-      ]
+      ],
+      "status20260731": "BLOCKED — session creation fails; zero cases run",
+      "note20260731": "sudo safaridriver --enable was run by the user and the lane retried on 2026-07-31. POST /session returns HTTP 500 after 30 s on TWO independent drivers — the pre-existing one and one started fresh after the --enable — which rules out stale driver authorization state. The --diagnose log carries the HTTP layer only; the request never reaches a Safari instance. Both documented remedies are now applied (the Settings -> Developer toggle is enabled, verified visually and carried forward; --enable has been run) and neither changed the outcome. No window was opened, so the clean-profile requirement is UNEXERCISED, not satisfied. PerformanceObserver.supportedEntryTypes was never read, so Safari Long Tasks support is UNMEASURED — not \"unsupported\" and certainly not \"no long tasks\"."
     },
     {
       "name": "physical Mobile Safari",
@@ -157,6 +161,41 @@
       ],
       "blocked": [
         "physical Safari console, process, request-body, long-task, and retained-resource diagnostics were unavailable"
+      ]
+    },
+    {
+      "name": "Firefox",
+      "version": "152.0.6",
+      "buildId": "20260713164047",
+      "artifact": "branch runtime a75fef33c1004943465b6b95713c7f28201fd0f5, served from that worktree dist by vite preview",
+      "harness": "geckodriver 0.37.1 + Selenium 4.46.0, fresh geckodriver temp profile, native <input type=file> send_keys",
+      "viewport": "1440 px capture width; dedicated responsive control at 320x640 CSS pixels",
+      "result": "extends-the-record",
+      "closesReceiptLineItems": false,
+      "versionCaveat": "Firefox 152.0.6 is NOT the receipt 146.0.1. Every result here EXTENDS the record and closes NO Firefox line item the receipt left open. Nothing here transfers to Chrome.",
+      "completed": [
+        "stop rule 1 discriminated across all five real USGS files: persisted-but-offscreen, not lost bytes and not a genuine blank render",
+        "stored bytes read back from IndexedDB and reconstructed to an image, proving byte survival independently of the render",
+        "post-reload raster present and correct after using a persisted GCP Zoom to point control",
+        "16 of 16 frames across four multi-registration files selected explicitly, zero preselection, Use this frame disabled until chosen",
+        "no supported frame requested manual GCP entry; no silent first-or-largest selection",
+        "per-file IndexedDB and user-map-ui-state-v1 reset with an asserted recordsBeforeImport == 0 for every fixture",
+        "both files over 10 MB imported through a genuine native file input: San Francisco South 12,127,762 B and Hampton 35,264,037 B",
+        "manual-points boundary held in both directions across 13 tracked repository fixtures",
+        "distinct truthful fallback reasons: absent, invalid and unsupported-crs are not collapsed into one generic state",
+        "readable supported registration never pushed to manual; two or more candidates return selection-required",
+        "unreadable file produces a typed error and no record",
+        "page-count reporting: Page 1 of 2 imported, in both the outcome and the persisted row, with pageCount 2 persisted",
+        "a page-2 registration does not leak forward into page 1, which reports absent registration",
+        "reload persistence of selection, label, registration family and chosen-by-you provenance",
+        "320x640 responsive ledger matching the receipt",
+        "six of six import/remove cycles",
+        "zero failed resources, zero JS errors, zero unhandled rejections"
+      ],
+      "blocked": [
+        "Long Tasks API not implemented: longTaskApiSupported was false for all 13 fixtures. An empty supportedEntryTypes is NO INSTRUMENT, not no long tasks. The 200 ms threshold cannot be satisfied on any Firefox lane.",
+        "import-time request bodies not captured; no local-only-network claim",
+        "retained-resource and memory reclamation not captured; no resource-release claim"
       ]
     }
   ],
@@ -321,6 +360,11 @@
       "check": "Firefox heap snapshots",
       "result": "supporting",
       "evidence": "17.33 MB post-import and 16.26 MB five seconds after monitored removals; no pre-import baseline or retained-object ledger."
+    },
+    {
+      "check": "main-thread long tasks — instrument availability across all reachable lanes",
+      "result": "open",
+      "evidence": "Firefox 152.0.6: longTaskApiSupported false for all 13 fixtures; Firefox does not implement the Long Tasks API and an empty PerformanceObserver.supportedEntryTypes is no instrument, not no long tasks. Chromium: BLOCKED by the import hang, so no run reaches a measurable state. Desktop Safari: UNMEASURED — no session could be created, so supportedEntryTypes was never read. No currently reachable lane can satisfy the 200 ms threshold. The item stays OPEN."
     }
   ],
   "cleanup": [
@@ -444,7 +488,18 @@
       "npm run lint",
       "npm run build",
       "npm run check:pdf-assets checked 200 assets"
-    ]
+    ],
+    "branchLocalGates20260731": {
+      "runtimeSha": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+      "npmCi": "329 packages, 330 audited, 0 vulnerabilities — required npm ci --include=dev",
+      "nodeScriptTests": "12 of 12 passed",
+      "vitest": "1,057 passed, 1 skipped across 92 files passed and 1 skipped",
+      "lint": "clean",
+      "build": "NOT RUN by the 2026-07-31 session — running it would have overwritten the live dist that the evidence origins serve and that all committed Firefox evidence was measured against",
+      "checkPdfAssets": "200 assets checked",
+      "environmentTrap": "This host injects NODE_ENV=production into the agent process chain. A bare npm ci silently installs 57 packages and omits every devDependency, and Vitest reports a large false RED (React.act is not a function; No such built-in module: node:) that is infrastructure, not product assertions. NODE_ENV=test and npm ci --include=dev are required.",
+      "claimBoundary": "Local runtime proof ONLY. Not CI, not merge, not acceptance, not deployment."
+    }
   },
   "automaticRule": {
     "approved": false,
@@ -455,13 +510,116 @@
   },
   "blockers": [
     "The physical iPhone is unavailable, so exact candidate and merged-SHA Maine import plus legacy import/render/reload verification are waiting for the user.",
-    "The earlier legacy physical result must be rerun at a persisted GCP extent before it can be distinguished from reproduced default-viewport behavior.",
-    "PR 188, hosted CI, and merge are complete; the complete exact merged-SHA Chrome, Firefox, and desktop Safari matrices remain pending because the Mac is locked and supported foreground control is unavailable.",
-    "Chrome long-task, request-body, and retained-resource diagnostics remain unavailable.",
+    "Chrome and Chromium are BLOCKED by an import hang that reproduces at this receipt own baseline SHA and Chrome major version, isolated to PDF.js rasterization after StartRenderPage/obj with the render promise pending. This supersedes \"the Mac is locked\" as the reason the Chrome matrix has not rerun.",
+    "Desktop Safari is BLOCKED at session creation with zero cases run. Both documented remedies are applied and neither was effective.",
+    "The 200 ms long-task diagnostic is OPEN. Firefox has no instrument, Chromium is blocked, Safari is unmeasured; no currently reachable lane can satisfy it.",
+    "Chrome request-body and retained-resource diagnostics remain unavailable.",
     "Desktop Safari console, network, and resource diagnostics remain unavailable.",
-    "Firefox import request bodies and retained-object release remain unproven.",
-    "The modern automatic-rule holdouts fail the frozen spatial threshold and the proposed producer metadata field does not match the files."
+    "Firefox import request bodies and retained-object release remain unproven on every Firefox lane, including 152.0.6.",
+    "The modern automatic-rule holdouts fail the frozen spatial threshold and the proposed producer metadata field does not match the files.",
+    "The receipt-integrity question is open: a recorded Chrome matrix that does not reproduce at its own baseline.",
+    "byte_enc.pdf produced no documented error across 28 samples over 420 s. Recorded OPEN and distinct from the Chrome hang."
   ],
   "runtimeBranch": "nightly",
-  "receiptBranch": "feature/geopdf-merged-desktop-waiting"
+  "receiptBranch": "feature/geopdf-merged-desktop-waiting",
+  "extendedAt": "2026-07-31",
+  "openQuestions": [
+    {
+      "id": "receipt-integrity",
+      "state": "OPEN",
+      "statement": "This receipt records a complete Chrome 150 five-file matrix at baseline 4c46ca276982ac9e4da593ee79b5a88503818511. That baseline, rebuilt from a clean git archive of the same SHA and served independently, does not import a single GeoPDF on this machine, on the same Chrome major version the receipt names.",
+      "framing": "Recorded as an OPEN QUESTION, not a refutation.",
+      "readingsStillLive": [
+        "a machine- or profile-dependent factor not captured in the receipt",
+        "the recorded matrix is not reproducible as written"
+      ],
+      "excludedEitherWay": "repo SHA",
+      "ruledOutByTest": [
+        "file delivery — byte-exact 3,241,291/3,241,291, %PDF-1.6, %EOF, 4 ms",
+        "repo SHA — reproduces at baseline 4c46ca276",
+        "file size — reproduces at 2 KB",
+        "registration family — reproduces on LGIDict and on real Measure",
+        "HTTP server — reproduces on python http.server AND vite preview",
+        "missing PDF.js assets — all 201 present, cmaps/ standard_fonts/ iccs/ wasm/ present",
+        "asset MIME — openjpeg.wasm and jbig2.wasm both HTTP 200 application/wasm",
+        "console errors — none",
+        "failed network requests — none",
+        "browser major version — Chrome 150, the same major version the receipt records"
+      ],
+      "why": "A recorded pass that cannot be reproduced at its own baseline is a receipt-integrity concern independent of which reading is correct, and should not be silently carried forward."
+    },
+    {
+      "id": "byte_enc-no-documented-error",
+      "state": "OPEN",
+      "fixture": "web/src/test/fixtures/geopdf/byte_enc.pdf",
+      "byteSize": 2605,
+      "documentedBehaviour": "manifest.json records password-protected; the fixtures README describes a typed unlock/export error with no password UI",
+      "observedBehaviour": "through a 180 s settle window and a dedicated bounded re-run of 28 samples over 420 s, the status surface stayed on Reading \"byte_enc.pdf\" with no outcome, no error row and no record",
+      "verdict": "OPEN — not a pass and not a fail",
+      "distinctFrom": "the Chrome import hang, which occurs in a different browser and affects every file",
+      "harnessLabelCorrection": "control-matrix.json scores this fixture ERROR_NO_RECORD. That is the harness classifier being too coarse — it inferred \"error\" from the absence of a record. \"Still reading\" is not \"a typed error\". Corrected in prose rather than silently in the JSON so the discarded classification stays visible."
+    },
+    {
+      "id": "fixture-manifest-expected-values",
+      "state": "OPEN — documentation defect, NOT a product defect",
+      "statement": "web/src/test/fixtures/geopdf/README.md calls manifest.json authoritative for exact expected statuses. Measured against the running product, 6 of 13 expected values are inaccurate.",
+      "inaccurateEntries": [
+        {
+          "fixture": "ns-utm20-lgidict.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "ns-utm20-iso.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "test_iso32000.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "test_ogc_bp.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "rotated-cropped.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "adobe_style_geospatial.pdf",
+          "manifestExpected": "manual-ambiguous",
+          "observed": "selection-required"
+        }
+      ],
+      "whyNotAProductDefect": "In every case the observed behaviour is what the parser unit tests already assert, and placing a file whose CRS is in SUPPORTED_EPSG_CODES from its embedded coordinates is correct.",
+      "whyNoTestCatchesIt": "testFixtures.test.ts asserts the manifest AGAINST ITSELF, which stays green no matter what the product does. The expected column has no behavioural oracle behind it.",
+      "action": "Recommended, not actioned, and not approved. No fixture, manifest or test is changed. A future change should either correct the six values or bind them to real behaviour; correcting them without an oracle would only move the drift."
+    }
+  ],
+  "stopRule1": {
+    "state": "SETTLED",
+    "resolution": "PERSISTED_BUT_OFFSCREEN",
+    "lane": "desktop Firefox 152.0.6",
+    "coverage": "all five real USGS files",
+    "method": "Three outcomes were discriminated rather than inferred: stored bytes were read back from IndexedDB and reconstructed to an image (proving byte survival), the pre-reload render was captured, and the post-reload viewport was captured both before and after using a persisted GCP Zoom to point control.",
+    "finding": "The reload returns the viewport to the default Nova Scotia centre. The raster is off screen, not absent. Not lost bytes and not a genuine blank render.",
+    "doesNotClose": "Physical Mobile Safari, which stays WAITING_FOR_USER. The desktop mechanism is a strong candidate explanation for the physical result, not a closure of it."
+  },
+  "geoPdfApprovedRules": {
+    "state": "empty",
+    "verifiedAt": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+    "recommendation": "AGAINST a producer-specific automatic main-map rule.",
+    "rationale": "pdf-lib returns a null Producer for all 12 holdout files and ArcSOC appears in Creator instead, so producer-keyed signatures cannot match. Re-keying to Creator would define a NEW selector.",
+    "requirementForAnyFutureSelector": "A freshly frozen independent holdout, LARGER than the discovery set, drawn from quadrangles not used here.",
+    "defectDefinition": "A silent \"first\" or \"largest\" selection would be a defect."
+  },
+  "evidenceDirectories": [
+    "docs/research/geopdf-browser-evidence",
+    "docs/research/acceptance-evidence"
+  ],
+  "corpusPdfInRepository": false
 }

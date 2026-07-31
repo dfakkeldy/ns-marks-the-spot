@@ -91,11 +91,25 @@ Safari Technology Preview is not installed, so there is no second driver to try.
 
 The instruction was a bounded diagnostic pass, not a grind. Two independent
 drivers — one predating the `--enable`, one following it — produce an identical
-failure with no driver-side detail available. The one variable this session
-**cannot** test is the Safari → Settings → Developer → "Allow remote automation
-and external agents" checkbox, which is a GUI toggle in the user's own login
-session with no scriptable, authoritative read. That is a user action, so the
-lane is recorded as user-blocked and work moved on.
+failure, with no driver-side detail available from either.
+
+**Correction to a first draft of this note, made before re-reading the
+predecessor record.** This note initially proposed that the Safari → Settings →
+Developer → "Allow remote automation and external agents" checkbox was the one
+untested variable and asked the user to go and check it. That would have been
+wrong: `../../2026-07-30/stop-rule-1-import-hang/findings.md` §7 records that the
+setting **IS enabled**, verified visually in Safari 27's Settings → Developer
+pane, and that the same section reproduced this failure at 25/40/60/90/120 s
+client timeouts with Safari both closed and running, and confirmed by screenshot
+that no blocking dialog was on screen. That finding is carried forward
+unchanged. The user is not asked to re-verify it.
+
+So the honest position is narrower and worse than "one checkbox left to try":
+**the two remedies the record identified — the Developer toggle and
+`sudo safaridriver --enable` — have both now been applied, and neither changed
+the outcome.** No further hypothesis is available from safaridriver's logs, which
+emit nothing between the request and the timeout. Grinding further on this lane
+would produce repetition, not information, so it stops here.
 
 ## What this costs the mission
 
@@ -147,17 +161,27 @@ before and after this run.
 
 ## User action required
 
-The only untested variable is a GUI toggle in the user's login session:
+**Both documented remedies are already applied.** The Developer toggle is
+enabled (verified visually by a predecessor, §7 of the import-hang findings) and
+`sudo safaridriver --enable` has been run. There is no further step this record
+can name with confidence.
 
-1. **Safari → Settings → Developer → "Allow remote automation and external
-   agents"** — confirm it is checked. In Safari 27 this lives in Settings →
-   Developer, not the Develop menu. Neither the menu nor the plist is
-   authoritative, so this must be read visually.
-2. If it is already checked, the lane is failing for a reason not reachable from
-   safaridriver's logs, and the next step would be a fresh macOS login session or
-   an Apple-side report — not further probing from here.
+What remains is escalation rather than configuration, and none of it is a small
+ask:
 
-Then re-run the bounded, read-only probe:
+1. A fresh macOS login session, or a different user account, to exclude
+   per-session state that neither launchd nor safaridriver's log exposes.
+2. Failing that, this is plausibly a macOS 27.0 beta (`26A5388g`) /
+   Safari 27.0 defect in the automation-session path, and belongs in an Apple
+   feedback report rather than in further local probing.
+3. If a Safari result is needed sooner than either of those, the practical route
+   is a different machine on a released macOS — not this host.
+
+**None of the above is required for this branch to be reviewed.** The Safari lane
+was already `BLOCKED` in the receipt and remains so; this run narrows the
+diagnosis without changing the state.
+
+If the lane is ever unblocked, re-run the bounded, read-only probe:
 
 ```
 /Users/dfakkeldy/Developer/_geopdf-acceptance-tmp/ffvenv/bin/python \
