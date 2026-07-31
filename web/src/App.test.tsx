@@ -19,6 +19,7 @@ import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
+import { provinceLayerCatalog } from "./layers/layerCatalog";
 import { UserMapStore } from "./userMaps/store/userMapStore";
 import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
 import type {
@@ -1191,6 +1192,43 @@ describe("NS Marks The Spot Online", () => {
     expect(attributionText).not.toContain(
       "Eastern District Planning Commission",
     );
+  });
+
+  it("keeps every Province layer out of the exported PDF after declining the licence", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+    await user.click(
+      within(
+        screen.getByRole("dialog", { name: "Export georeferenced PDF" }),
+      ).getByRole("button", { name: "Download PDF" }),
+    );
+
+    await waitFor(() => expect(composeMapImageMock).toHaveBeenCalledTimes(1));
+    // `composeMapImage(bounds, size, layers, options)` — the third argument
+    // is exactly what `buildExportLayers` built from the province-layer
+    // filter this test guards. Declining the licence already keeps every
+    // `provinceLayers[id]` false today (a three-hop state invariant this
+    // suite does not otherwise pin at the export boundary), so this asserts
+    // the outcome the `licenceAccepted &&` guard exists to protect even if
+    // that invariant is ever weakened upstream.
+    const [, , layers] = composeMapImageMock.mock.calls[0] as [
+      unknown,
+      unknown,
+      Array<{ id: string }>,
+    ];
+    const provinceLayerIds = new Set(
+      provinceLayerCatalog.map(({ id }) => id as string),
+    );
+    expect(layers.some((layer) => provinceLayerIds.has(layer.id))).toBe(false);
   });
 
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {

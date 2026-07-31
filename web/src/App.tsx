@@ -3383,7 +3383,8 @@ export function App() {
             maxNativeZoom: fletcherLayerCatalog.maxZoom,
           },
           arcgisLayers: provinceLayerCatalog
-            .filter((layer) => provinceLayers[layer.id] && layer.exportOptions)
+            .filter((layer) =>
+              licenceAccepted && provinceLayers[layer.id] && layer.exportOptions)
             .map((layer) => ({
               id: layer.id,
               name: layer.name,
