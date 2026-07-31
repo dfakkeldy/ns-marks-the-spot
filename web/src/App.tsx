@@ -160,8 +160,13 @@ import {
   type PrintEvent,
   type PrintLayerSource,
   type PrintLoadState,
+  type PrintMapBounds,
   type PrintMapViewport,
 } from "./services/printSnapshot";
+import { ExportDialog } from "./print/pdf/ExportDialog";
+import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
+import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
+import type { PdfTemplateId } from "./print/pdf/templates/types";
 import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapRows } from "./userMaps/components/UserMapRows";
@@ -204,6 +209,16 @@ const NO_GCPS: Gcp[] = [];
 const IDLE_PIXEL_SIZE = { width: 1, height: 1 };
 
 type SelectedEvidenceRequest = { pid: string; generation: number };
+
+/**
+ * The GeoPDF export flow's two phases: framing (dragging the paper-frame
+ * overlay on the live map) and dialog (title/legend fields, then render +
+ * download). Kept as one union rather than two independent booleans so the
+ * frame overlay and the dialog can never both be mounted at once.
+ */
+type GeoPdfExportSession =
+  | { stage: "framing"; frame: FrameState }
+  | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId };
 
 function isCurrentEvidenceRequest(
   current: SelectedEvidenceRequest | null,
@@ -1112,6 +1127,8 @@ export function App() {
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const printCaptureSequence = useRef(0);
   const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
+  const [exportSession, setExportSession] =
+    useState<GeoPdfExportSession | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
@@ -2421,6 +2438,16 @@ export function App() {
             ) : null}
           </form>
 
+          <button
+            type="button"
+            className="secondary-action export-map-trigger"
+            disabled={!licenceAccepted}
+            onClick={() =>
+              setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
+          >
+            Export map (PDF)
+          </button>
+
           <section className={`map-mode-switcher ${mapMode}`} aria-label="Map record mode">
             <div className="map-mode-buttons">
               <button
@@ -3163,6 +3190,14 @@ export function App() {
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onLayerStatusChange={setLayerStatus}
+            exportFrame={
+              exportSession?.stage === "framing" ? exportSession.frame : null
+            }
+            onExportFrameChange={(frame) =>
+              setExportSession({ stage: "framing", frame })}
+            onExportFrameCancel={() => setExportSession(null)}
+            onExportFrameContinue={(bounds, orientation) =>
+              setExportSession({ stage: "dialog", bounds, orientation })}
           />
           <p
             className="parcel-lookup-message"
@@ -3280,6 +3315,55 @@ export function App() {
         capture={printCapture}
         baseUrl={window.location.href}
         onClose={() => setPrintCapture(null)}
+      />
+    ) : null}
+    {exportSession?.stage === "dialog" ? (
+      <ExportDialog
+        orientation={exportSession.orientation}
+        bounds={exportSession.bounds}
+        layers={buildExportLayers({
+          bounds: exportSession.bounds,
+          showModernMap,
+          fletcher: {
+            visible: fletcherVisible,
+            opacity: fletcherOpacity,
+            tileBaseUrl: normalizeFletcherTileBaseUrl(),
+            maxNativeZoom: fletcherLayerCatalog.maxZoom,
+          },
+          arcgisLayers: provinceLayerCatalog
+            .filter((layer) => provinceLayers[layer.id] && layer.exportOptions)
+            .map((layer) => ({
+              id: layer.id,
+              name: layer.name,
+              serviceUrl: layer.serviceUrl,
+              exportOptions: layer.exportOptions!,
+              opacity: layer.opacity,
+              maxNativeZoom: layer.id === "ns-aerial" ? 19 : layer.maxZoom,
+            })),
+          // v1 scope cut: user-imported maps are not extracted into a
+          // CanvasImageSource + mesh yet (see omittedUserMapNames below,
+          // which tells the user plainly rather than silently dropping them).
+          userMaps: [],
+          selectedParcelRings: selectedParcelGeometry.features.flatMap(
+            ({ geometry }) =>
+              geometry.type === "Polygon"
+                ? geometry.coordinates.map((ring) =>
+                    ring.map(([lng, lat]) => ({ lat, lng })))
+                : geometry.type === "MultiPolygon"
+                  ? geometry.coordinates.flatMap((polygon) =>
+                      polygon.map((ring) =>
+                        ring.map(([lng, lat]) => ({ lat, lng }))))
+                  : [],
+          ),
+        })}
+        defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
+        attributionLines={captureLayerSources.map((source) =>
+          `${source.name}: ${source.attribution}`)}
+        omittedUserMapNames={userMapsApi.visibleMaps.map(
+          ({ record }) => record.name,
+        )}
+        shareUrl={window.location.href}
+        onClose={() => setExportSession(null)}
       />
     ) : null}
     {userMapsApi.frameChoosingMap ? (
