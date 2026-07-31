@@ -3,6 +3,9 @@ import {
   boundsForFrameRect,
   DEFAULT_FRAME_STATE,
   frameScreenRect,
+  MAX_FRAME_SCALE,
+  MIN_FRAME_SCALE,
+  scaleAfterResizeDrag,
 } from "./frameGeometry";
 import { mapFrameAspect } from "./templates/types";
 import { pdfTemplates } from "./templates/index";
@@ -50,5 +53,27 @@ describe("boundsForFrameRect", () => {
     );
     expect(bounds.west).toBeCloseTo(-180, 4);
     expect(bounds.east).toBeCloseTo(180, 4);
+  });
+});
+
+describe("scaleAfterResizeDrag", () => {
+  it("grows the frame on a downward drag", () => {
+    const next = scaleAfterResizeDrag(0.5, 80, 800);
+    expect(next).toBeCloseTo(0.6, 5);
+  });
+
+  it("shrinks the frame on an upward drag", () => {
+    const next = scaleAfterResizeDrag(0.5, -80, 800);
+    expect(next).toBeCloseTo(0.4, 5);
+  });
+
+  it("clamps to MAX_FRAME_SCALE on a large downward drag", () => {
+    const next = scaleAfterResizeDrag(0.5, 8000, 800);
+    expect(next).toBe(MAX_FRAME_SCALE);
+  });
+
+  it("clamps to MIN_FRAME_SCALE on a large upward drag", () => {
+    const next = scaleAfterResizeDrag(0.5, -8000, 800);
+    expect(next).toBe(MIN_FRAME_SCALE);
   });
 });

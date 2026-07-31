@@ -3852,7 +3852,7 @@ a {
 .export-frame-layer {
   position: absolute;
   inset: 0;
-  z-index: 450; /* above MEASURE_PANE (430), below Leaflet controls (500) */
+  z-index: 450; /* above MEASURE_PANE (430), below the map's HTML controls (500) */
   pointer-events: none;
 }
 .export-frame {

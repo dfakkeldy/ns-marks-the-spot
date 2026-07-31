@@ -50,6 +50,22 @@ export function frameScreenRect(
 }
 
 /**
+ * Frame scale after a resize-handle drag, as a fraction of the container's
+ * limiting dimension (see `FrameState.scale`'s doc comment) — clamped to
+ * `[MIN_FRAME_SCALE, MAX_FRAME_SCALE]` the same way `frameScreenRect` clamps
+ * the incoming state, so a drag can never leave the frame in an invalid
+ * state even before the next render reads it back through `frameScreenRect`.
+ */
+export function scaleAfterResizeDrag(
+  startScale: number,
+  deltaY: number,
+  containerHeight: number,
+): number {
+  const next = startScale + deltaY / containerHeight;
+  return Math.min(MAX_FRAME_SCALE, Math.max(MIN_FRAME_SCALE, next));
+}
+
+/**
  * Screen rect → geographic bounds using the same spherical-Mercator scale
  * Leaflet uses (256 px world at z0), so the export shows exactly what the
  * frame framed.
