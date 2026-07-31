@@ -606,10 +606,10 @@ are live service examples, not fixtures used by the ordinary unit suite.
 ## Inverness 2026 source receipt
 
 - Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
-- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 4](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-4.pdf)
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 5](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-5.pdf)
 - PDF publication metadata is July 16, 2026; the current file was modified July
-  27 and retrieved July 27, 2026. Its SHA-256 is
-  `4ceb039af25ecb10f2e04e4d29028d8b4567a28314da772b26a18095ba585e9f`.
+  31 and retrieved July 31, 2026. Its SHA-256 is
+  `cd31c8eb9b5b721802e1db595f210192b2ec585ee6bb0b428fd4aa28a663ef2a`.
 - The revision still contains 45 lien entries and 47 unique PIDs, but visibly
   strikes through liens 5, 6, 10, 11, 12, and 37. Those six records (eight PIDs)
   remain in the dated evidence as `withdrawn`; only 39 advertised PIDs render
@@ -626,7 +626,7 @@ are live service examples, not fixtures used by the ordinary unit suite.
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `58cdf7158158b72619e1d08cb70a5eb5b2ebf0e49e7f7627ee9a2b3f7fabdb55`
+  `d9182c67abb619c8aaa5edc293b372b086be89643105c9ccb876e1346a7d891b`
   so either repository cannot drift silently.
 
 Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and
