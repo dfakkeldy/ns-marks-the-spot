@@ -299,3 +299,73 @@ describe("GcpList", () => {
     expect(onSelect).toHaveBeenLastCalledWith(null);
   });
 });
+
+describe("sorting", () => {
+  /** Residuals in fixture order: a=90, b=10, c=50, d=0. */
+  const REPORT = {
+    metresPerGcp: [90, 10, 50, 0],
+    mostInconsistentIndex: 0,
+  } as unknown as Parameters<typeof GcpList>[0]["report"];
+
+  function indexColumn() {
+    return screen
+      .getAllByRole("row")
+      .slice(1)
+      .map((row) => within(row).getAllByRole("cell")[0]!.textContent);
+  }
+
+  it("sorts by residual, worst first, on the second click", async () => {
+    renderList({ report: REPORT });
+    const header = screen.getByRole("button", { name: /Off by/ });
+    await userEvent.click(header); // ascending
+    expect(indexColumn()).toEqual(["4", "2", "3", "1"]);
+    await userEvent.click(header); // descending
+    expect(indexColumn()).toEqual(["1", "3", "2", "4"]);
+  });
+
+  it("keeps each point's original number when sorted", async () => {
+    // The number is the point's identity — the drag workflow says "rows 46 and
+    // up are proposals" — so renumbering by display position would mislabel it.
+    renderList({ report: REPORT });
+    await userEvent.click(screen.getByRole("button", { name: /Off by/ }));
+    const first = screen.getAllByRole("row")[1]!;
+    const cells = within(first).getAllByRole("cell").map((c) => c.textContent);
+    expect(cells[0]).toBe("4"); // d, residual 0
+    expect(cells[3]).toBe("0 m"); // its own residual, not row 1's
+  });
+
+  it("returns to file order on the third click", async () => {
+    // Without a way back, a user who sorted by residual could not find the
+    // proposals again, since those are identified by their file position.
+    renderList({ report: REPORT });
+    const header = screen.getByRole("button", { name: /Off by/ });
+    await userEvent.click(header);
+    await userEvent.click(header);
+    await userEvent.click(header);
+    expect(indexColumn()).toEqual(["1", "2", "3", "4"]);
+  });
+
+  it("parks points with no residual last in both directions", async () => {
+    // A missing residual is not 0 m. Zero is a real value here — a freshly
+    // imported proposal reads exactly that — so sorting unknowns to zero would
+    // bury them among the points that most need attention.
+    const partial = {
+      metresPerGcp: [90, 10],
+      mostInconsistentIndex: null,
+    } as unknown as Parameters<typeof GcpList>[0]["report"];
+    renderList({ report: partial });
+    const header = screen.getByRole("button", { name: /Off by/ });
+    await userEvent.click(header);
+    expect(indexColumn().slice(-2)).toEqual(["3", "4"]);
+    await userEvent.click(header);
+    expect(indexColumn().slice(-2)).toEqual(["3", "4"]);
+  });
+
+  it("reports sort state to assistive technology", async () => {
+    renderList({ report: REPORT });
+    const header = screen.getByRole("columnheader", { name: /Off by/ });
+    expect(header).toHaveAttribute("aria-sort", "none");
+    await userEvent.click(within(header).getByRole("button"));
+    expect(header).toHaveAttribute("aria-sort", "ascending");
+  });
+});

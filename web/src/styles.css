@@ -4617,3 +4617,19 @@ a {
     display: flex;
   }
 }
+
+/* Header cells are buttons so sorting is keyboard-reachable, but they must not
+   read as buttons — they carry the column name and sit inside a dense list. */
+.gcp-sort {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gcp-sort:hover {
+  text-decoration: underline;
+}

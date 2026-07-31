@@ -1,5 +1,65 @@
+import { useState } from "react";
 import type { ResidualReport } from "../transform/residuals";
 import type { Gcp } from "../types";
+
+type SortKey = "index" | "scan" | "map" | "residual";
+
+const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
+  { key: "index", label: "#" },
+  { key: "scan", label: "Scan" },
+  { key: "map", label: "Map" },
+  { key: "residual", label: "Off by" },
+];
+
+type Row = { gcp: Gcp; index: number };
+
+/**
+ * Sorts a COPY, and always breaks ties on the original index so the order is
+ * total. Without that, points sharing a residual (every un-nudged imported
+ * point reads 0 m) would shuffle between renders — and this list re-renders on
+ * every pointer move of a drag.
+ */
+function sortRows(
+  rows: Row[],
+  sort: { key: SortKey; descending: boolean },
+  report: ResidualReport | null,
+): Row[] {
+  // A point with no residual sorts last in BOTH directions rather than
+  // pretending to be 0 m. Zero is a real, meaningful value here — a freshly
+  // imported proposal reads exactly that — so parking the unknowns at zero
+  // would hide them among the points that most need dragging.
+  const residual = (row: Row) => report?.metresPerGcp[row.index];
+  const compare = (a: Row, b: Row): number => {
+    switch (sort.key) {
+      case "index":
+        return a.index - b.index;
+      case "scan":
+        return a.gcp.pixel.x - b.gcp.pixel.x || a.gcp.pixel.y - b.gcp.pixel.y;
+      case "map":
+        return a.gcp.map.lat - b.gcp.map.lat || a.gcp.map.lng - b.gcp.map.lng;
+      case "residual": {
+        const left = residual(a);
+        const right = residual(b);
+        if (left === undefined && right === undefined) return 0;
+        if (left === undefined) return 1;
+        if (right === undefined) return -1;
+        return left - right;
+      }
+    }
+  };
+  const missingResidual = (row: Row) =>
+    sort.key === "residual" && residual(row) === undefined;
+  return [...rows].sort((a, b) => {
+    if (missingResidual(a) !== missingResidual(b)) {
+      return missingResidual(a) ? 1 : -1;
+    }
+    const ordered = compare(a, b);
+    if (ordered !== 0) {
+      return sort.descending ? -ordered : ordered;
+    }
+    return a.index - b.index;
+  });
+}
 
 /**
  * Sub-metre precision would be false confidence: a hand-clicked point on a
@@ -40,6 +100,29 @@ export function GcpList({
   onZoomTo: (id: string) => void;
   selectedGcpId: string | null;
 }) {
+  const [sort, setSort] = useState<{ key: SortKey; descending: boolean } | null>(
+    null,
+  );
+
+  // Rows carry their ORIGINAL index, never their position after sorting. The
+  // "#" a user reads is the point's identity — the drag workflow refers to it
+  // ("rows 46 and up are proposals") — and `report.metresPerGcp` is indexed by
+  // it too, so a re-numbered list would mislabel points AND misread residuals.
+  const rows = gcps.map((gcp, index) => ({ gcp, index }));
+  const ordered = sort ? sortRows(rows, sort, report) : rows;
+
+  function toggleSort(key: SortKey) {
+    setSort((current) =>
+      current?.key === key
+        ? current.descending
+          ? // Third click clears it: with no way back to file order, a user
+            // who sorted by residual could not find "row 46" again.
+            null
+          : { key, descending: true }
+        : { key, descending: false },
+    );
+  }
+
   if (gcps.length === 0) {
     return null;
   }
@@ -47,10 +130,33 @@ export function GcpList({
     <table className="gcp-list">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Scan</th>
-          <th scope="col">Map</th>
-          <th scope="col">Off by</th>
+          {SORTABLE_COLUMNS.map(({ key, label }) => {
+            const active = sort?.key === key;
+            return (
+              <th
+                key={key}
+                scope="col"
+                aria-sort={
+                  active
+                    ? sort.descending
+                      ? "descending"
+                      : "ascending"
+                    : "none"
+                }
+              >
+                <button
+                  type="button"
+                  className="gcp-sort"
+                  onClick={() => toggleSort(key)}
+                >
+                  {label}
+                  <span aria-hidden="true">
+                    {active ? (sort.descending ? " ▾" : " ▴") : ""}
+                  </span>
+                </button>
+              </th>
+            );
+          })}
           <th scope="col">
             {/* Defined in styles.css (Task 12). Without that rule a literal
                 "Actions" heading shows up in the table. */}
@@ -59,7 +165,7 @@ export function GcpList({
         </tr>
       </thead>
       <tbody>
-        {gcps.map((gcp, index) => {
+        {ordered.map(({ gcp, index }) => {
           // mostInconsistentIndex is `number | null` — null below five
           // points, where no statistic beats chance. A strict === against a
           // number index handles both null and a missing report, so this
