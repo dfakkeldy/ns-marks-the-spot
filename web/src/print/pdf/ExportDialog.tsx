@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import { buildScaleBar } from "./scaleBar";
 import { buildExportQrPng } from "./exportQr";
@@ -43,7 +43,11 @@ export type ExportDialogProps = {
 type Phase =
   | { stage: "idle" }
   | { stage: "rendering"; progress: CompositorProgress | null }
-  | { stage: "confirm-failures"; result: CompositorResult }
+  | {
+      stage: "confirm-failures";
+      result: CompositorResult;
+      controller: AbortController;
+    }
   | { stage: "error"; message: string };
 
 function slugify(title: string): string {
@@ -67,16 +71,23 @@ function defaultSaveFile(bytes: Uint8Array, filename: string): void {
   URL.revokeObjectURL(url);
 }
 
-function canvasToJpegBytes(canvas: HTMLCanvasElement): Promise<Uint8Array> {
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(async (blob) => {
-      if (!blob) {
-        reject(new Error("JPEG encoding failed."));
-        return;
-      }
-      resolve(new Uint8Array(await blob.arrayBuffer()));
-    }, "image/jpeg", 0.85);
+function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
+  // The executor itself must stay synchronous — an async callback inside a
+  // Promise executor can throw/reject without ever calling resolve/reject,
+  // leaving the promise (and the export) hanging forever. `toBlob`'s
+  // callback only ever hands back the blob (or null); do the async decoding
+  // afterward, in `canvasToJpegBytes`, where a rejection properly propagates.
+  return new Promise((resolve) => {
+    canvas.toBlob(resolve, "image/jpeg", 0.85);
   });
+}
+
+async function canvasToJpegBytes(canvas: HTMLCanvasElement): Promise<Uint8Array> {
+  const blob = await canvasToBlob(canvas);
+  if (!blob) {
+    throw new Error("JPEG encoding failed.");
+  }
+  return new Uint8Array(await blob.arrayBuffer());
 }
 
 export function ExportDialog(props: ExportDialogProps) {
@@ -95,27 +106,45 @@ export function ExportDialog(props: ExportDialogProps) {
   const [legendOn, setLegendOn] = useState(true);
   const [phase, setPhase] = useState<Phase>({ stage: "idle" });
 
+  // Tracks the in-flight export attempt, if any, so Cancel/Escape can abort
+  // its tile fetches and so any already-running continuation (the
+  // composeImage → finishExport pipeline) can notice and bail out instead of
+  // downloading a file the user believes they cancelled.
+  const exportAbortRef = useRef<AbortController | null>(null);
+
   const onClose = props.onClose;
+  const cancelExport = () => {
+    exportAbortRef.current?.abort();
+    onClose();
+  };
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
+        exportAbortRef.current?.abort();
         onClose();
       }
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
+  // Belt-and-suspenders: if the dialog unmounts through some path other than
+  // the Cancel button or Escape key, still abort any in-flight tile fetches.
+  useEffect(() => () => exportAbortRef.current?.abort(), []);
 
   const composeImage = props.composeImage ??
     ((onProgress: (progress: CompositorProgress) => void) =>
       composeMapImage(props.bounds,
         { widthPx: resolution.widthPx, heightPx: resolution.heightPx },
-        props.layers, { onProgress }));
+        props.layers, { onProgress, signal: exportAbortRef.current?.signal }));
   const composePdf = props.composePdf ?? composeGeoPdf;
   const saveFile = props.saveFile ?? defaultSaveFile;
 
-  const finishExport = async (result: CompositorResult) => {
+  const finishExport = async (
+    result: CompositorResult,
+    controller: AbortController,
+  ) => {
+    if (controller.signal.aborted) return;
     const generatedAt = new Date().toISOString();
     const input: ComposeInput = {
       template,
@@ -136,25 +165,36 @@ export function ExportDialog(props: ExportDialogProps) {
       ),
       generatedAt,
     };
+    if (controller.signal.aborted) return;
     const bytes = await composePdf(input);
+    if (controller.signal.aborted) return;
     saveFile(bytes, `${slugify(title)}-${generatedAt.slice(0, 10)}.pdf`);
     props.onClose();
   };
 
   const startExport = async () => {
+    const controller = new AbortController();
+    exportAbortRef.current = controller;
     setPhase({ stage: "rendering", progress: null });
     try {
-      const result = await composeImage((progress) =>
-        setPhase({ stage: "rendering", progress }));
+      const result = await composeImage((progress) => {
+        // A stray progress tick that arrives after cancellation must not
+        // resurrect the "rendering" phase on an export the user walked away
+        // from — that would leave the state machine visibly stuck.
+        if (controller.signal.aborted) return;
+        setPhase({ stage: "rendering", progress });
+      });
+      if (controller.signal.aborted) return;
       const failures = result.statuses.filter(
         ({ status }) => status === "failed",
       );
       if (failures.length > 0) {
-        setPhase({ stage: "confirm-failures", result });
+        setPhase({ stage: "confirm-failures", result, controller });
         return;
       }
-      await finishExport(result);
+      await finishExport(result, controller);
     } catch (error) {
+      if (controller.signal.aborted) return;
       setPhase({
         stage: "error",
         message: error instanceof Error ? error.message : "Export failed.",
@@ -242,12 +282,12 @@ export function ExportDialog(props: ExportDialogProps) {
 
         <div className="export-dialog-actions">
           <button type="button" className="secondary-action"
-            onClick={props.onClose}>
+            onClick={cancelExport}>
             Cancel
           </button>
           {phase.stage === "confirm-failures" ? (
             <button type="button" className="primary-action"
-              onClick={() => void finishExport(phase.result)}>
+              onClick={() => void finishExport(phase.result, phase.controller)}>
               Download anyway
             </button>
           ) : (

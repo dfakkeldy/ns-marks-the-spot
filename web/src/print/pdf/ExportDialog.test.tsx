@@ -1,7 +1,14 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { ExportDialog, type ExportDialogProps } from "./ExportDialog";
+import type { CompositorResult } from "./mapCompositor";
+
+/** Lets a real (non-mocked) in-flight microtask/macrotask chain — like the
+ * real `canvasToJpegBytes` encode path — settle before we assert on it. */
+function flush(ms = 50): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const bounds = { north: 46.2, south: 46.0, west: -61.4, east: -61.1 };
 
@@ -92,5 +99,106 @@ describe("ExportDialog", () => {
     expect(props.onClose).toHaveBeenCalledTimes(1);
     await userEvent.keyboard("{Escape}");
     expect(props.onClose).toHaveBeenCalledTimes(2);
+  });
+
+  it("downloads immediately when a layer is merely empty, never touching the failure gate", async () => {
+    const canvas = document.createElement("canvas");
+    const { props } = renderDialog({
+      composeImage: vi.fn().mockResolvedValue({
+        canvas,
+        statuses: [
+          { id: "modern", name: "OpenStreetMap base map", status: "rendered" },
+          { id: "fletcher-14", name: "Fletcher sheet 14", status: "empty" },
+        ],
+      }),
+    });
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    await waitFor(() => expect(props.saveFile).toHaveBeenCalledTimes(1));
+    expect(
+      screen.queryByRole("button", { name: "Download anyway" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("never downloads if Cancel is clicked while the image is still rendering", async () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 8;
+    canvas.height = 8;
+    let resolveCompose!: (result: CompositorResult) => void;
+    const composeImage = vi.fn(
+      () =>
+        new Promise<CompositorResult>((resolve) => {
+          resolveCompose = resolve;
+        }),
+    );
+    const { props } = renderDialog({ composeImage });
+
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+    // The in-flight render finishes *after* the user cancelled.
+    resolveCompose({
+      canvas,
+      statuses: [{ id: "modern", name: "OpenStreetMap base map", status: "rendered" }],
+    });
+    await flush();
+
+    expect(props.composePdf).not.toHaveBeenCalled();
+    expect(props.saveFile).not.toHaveBeenCalled();
+  });
+
+  it("never downloads if Escape is pressed while the image is still rendering", async () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 8;
+    canvas.height = 8;
+    let resolveCompose!: (result: CompositorResult) => void;
+    const composeImage = vi.fn(
+      () =>
+        new Promise<CompositorResult>((resolve) => {
+          resolveCompose = resolve;
+        }),
+    );
+    const { props } = renderDialog({ composeImage });
+
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    await userEvent.keyboard("{Escape}");
+
+    resolveCompose({
+      canvas,
+      statuses: [{ id: "modern", name: "OpenStreetMap base map", status: "rendered" }],
+    });
+    await flush();
+
+    expect(props.composePdf).not.toHaveBeenCalled();
+    expect(props.saveFile).not.toHaveBeenCalled();
+  });
+
+  it("never downloads if Cancel is clicked from the failure-confirmation phase, even mid-resume", async () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 8;
+    canvas.height = 8;
+    const { props } = renderDialog({
+      composeImage: vi.fn().mockResolvedValue({
+        canvas,
+        statuses: [
+          { id: "modern", name: "OpenStreetMap base map", status: "rendered" },
+          { id: "fletcher-14", name: "Fletcher sheet 14", status: "failed",
+            detail: "3 of 12 tiles failed to load" },
+        ],
+      }),
+    });
+
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    const downloadAnyway = await screen.findByRole(
+      "button", { name: "Download anyway" },
+    );
+
+    // Resume ("Download anyway") and cancel back-to-back, synchronously —
+    // the resumed finishExport pipeline has a real async gap (JPEG
+    // encoding) that a click dispatched in the same tick lands ahead of.
+    fireEvent.click(downloadAnyway);
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await flush();
+
+    expect(props.saveFile).not.toHaveBeenCalled();
   });
 });
