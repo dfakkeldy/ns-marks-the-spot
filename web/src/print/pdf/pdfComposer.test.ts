@@ -337,6 +337,89 @@ describe("composeGeoPdf", () => {
     expect(noteLines.some((d) => d.text.endsWith("…"))).toBe(true);
   });
 
+  // --- Whole-branch review: the attribution strip must FIT, never be cut ----
+
+  /**
+   * What `exportAttributionLines` actually hands the composer for the app's
+   * DEFAULT layer set: OSM, Fletcher, and the four default Province services
+   * collapsed onto one line because they share the identical 149-character
+   * `PROVINCE_ATTRIBUTION`. Real strings — a shortened stand-in would not
+   * exercise the length that broke this.
+   */
+  const defaultLayerAttribution = [
+    "Modern map: © OpenStreetMap contributors — " +
+      "https://www.openstreetmap.org/copyright",
+    "Fletcher geological maps: David Rumsey Map Collection, David Rumsey Map " +
+      "Center, Stanford University Libraries — " +
+      "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "NS Aerial, NS Property Boundaries, Water features, Roads, trails & " +
+      "culverts: Contains information obtained under license from the " +
+      "Province of Nova Scotia which is provided without warranty or " +
+      "liability for errors or omissions. — " +
+      "https://nsgiwa.novascotia.ca/documents/licenses/MapService/" +
+      "Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf",
+  ];
+
+  for (const orientation of ["portrait", "landscape"] as const) {
+    it(
+      `renders every default-layer source and the stamp in the ${orientation} ` +
+      "attribution strip",
+      async () => {
+        const drawn = await extractDrawnText(await composeGeoPdf(input({
+          template: pdfTemplates[orientation],
+          attributionLines: defaultLayerAttribution,
+        })));
+        // Join the drawn lines: the strip wraps, so any single fragment may
+        // straddle two `Tj` strings. Collapse runs of whitespace so a phrase
+        // split across a wrap point still matches.
+        const strip = drawn.map((d) => d.text).join(" ")
+          .replace(/\s+/gu, " ");
+
+        // Every source's own name — the four Province layers are the ones
+        // `lines.slice(0, maxLines)` used to drop off the end.
+        for (const name of [
+          "OpenStreetMap contributors",
+          "David Rumsey Map Collection",
+          "NS Aerial",
+          "NS Property Boundaries",
+          "Water features",
+          "Roads, trails",
+        ]) {
+          expect(strip, `missing source: ${name}`).toContain(name);
+        }
+        // The Province licence text in full, not just its opening clause.
+        expect(strip).toContain(
+          "warranty or liability for errors or omissions.",
+        );
+        // Licence URLs — never emitted at all before this change.
+        expect(strip).toContain("creativecommons.org/licenses/by-nc-sa/3.0/");
+        expect(strip).toContain("NSPRD%20v1.pdf");
+        // And the capture stamp, which sits last and so was dropped first.
+        expect(strip).toContain("Generated 2026-07-31");
+        // Nothing was cut: no ellipsis anywhere in the strip.
+        expect(strip).not.toContain("…");
+      },
+    );
+  }
+
+  it("ellipsizes an attribution set too long even for the minimum caption size", async () => {
+    const absurd = Array.from(
+      { length: 60 },
+      (_, i) =>
+        `Layer ${i}: Contains information obtained under license from the ` +
+        "Province of Nova Scotia which is provided without warranty or " +
+        `liability for errors or omissions. — https://example.invalid/${i}`,
+    );
+    const drawn = await extractDrawnText(
+      await composeGeoPdf(input({ attributionLines: absurd })),
+    );
+    const texts = drawn.map((d) => d.text);
+    // It still renders — a strip this overlong must not blank itself out.
+    expect(texts.some((t) => t.includes("Layer 0"))).toBe(true);
+    // …and the truncation is VISIBLE rather than silent.
+    expect(texts.some((t) => t.endsWith("…"))).toBe(true);
+  });
+
   it("falls back to the neutral chip colour instead of crashing on a malformed swatchColor", async () => {
     const bytes = await composeGeoPdf(input({
       legend: [{ name: "Mystery layer", swatchColor: "not-a-color" }],

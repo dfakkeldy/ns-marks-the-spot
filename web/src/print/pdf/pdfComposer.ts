@@ -125,6 +125,58 @@ function ellipsize(
   return `${candidate.replace(/\s+$/u, "")}…`;
 }
 
+/** Baseline-to-baseline padding added to the caption size in the strip. */
+const CAPTION_LEADING = 2;
+
+/**
+ * Smallest caption size the attribution strip will shrink to. Below ~5pt the
+ * strip stops being readable on paper, at which point ellipsizing and saying
+ * so is more honest than rendering unreadable text.
+ */
+const MIN_CAPTION_SIZE = 5;
+
+/**
+ * Fits the attribution text INTO `strip` rather than cutting it to length.
+ *
+ * The attribution strip carries a licence obligation: source names, licence
+ * names and URLs, and the capture stamp. Wrapping at the template caption
+ * size and slicing to `floor(height / lineHeight)` dropped whatever did not
+ * fit — with the app's default layer set that was the later Province layers
+ * and the `Generated …` stamp, gone with no ellipsis and no notice. Silently
+ * cutting the attribution is worse than not having it.
+ *
+ * So step the caption size down until the wrapped text fits the strip's real
+ * height. Only if even `MIN_CAPTION_SIZE` cannot hold it does the last
+ * visible line get ellipsized — visible truncation, never silent.
+ */
+function fitAttribution(
+  text: string,
+  font: PDFFont,
+  strip: PdfRect,
+  preferredSize: number,
+): { size: number; lines: string[] } {
+  for (let size = preferredSize; size >= MIN_CAPTION_SIZE; size -= 0.5) {
+    const lines = wrapText(text, font, size, strip.width);
+    if (lines.length * (size + CAPTION_LEADING) <= strip.height) {
+      return { size, lines };
+    }
+  }
+  // Floor reached. `wrapText` at the floor is re-run rather than reused from
+  // the loop because the loop's decreasing step may never land exactly on
+  // MIN_CAPTION_SIZE (e.g. a 7.2pt template caption steps 7.2, 6.7, … 5.2).
+  const size = MIN_CAPTION_SIZE;
+  const lines = wrapText(text, font, size, strip.width);
+  const maxLines = Math.max(
+    1, Math.floor(strip.height / (size + CAPTION_LEADING)),
+  );
+  if (lines.length <= maxLines) return { size, lines };
+  const visible = lines.slice(0, maxLines);
+  visible[maxLines - 1] = ellipsize(
+    visible[maxLines - 1], font, size, strip.width,
+  );
+  return { size, lines: visible };
+}
+
 /**
  * Draws pre-wrapped `lines` top-down, one `page.drawText` call per line,
  * starting at `startY` and stepping by `lineHeight` (derived from the
@@ -376,13 +428,13 @@ export async function composeGeoPdf(input: ComposeInput): Promise<Uint8Array> {
     (line) => sanitizeForPdf(line, regular),
   );
   const attributionText = [...safeAttributionLines, stamp].join("  ·  ");
-  const capSize = template.type.caption;
-  const lines = wrapText(attributionText, regular, capSize, strip.width);
-  const maxLines = Math.max(1, Math.floor(strip.height / (capSize + 2)));
-  lines.slice(0, maxLines).forEach((line, index) => {
+  const { size: capSize, lines } = fitAttribution(
+    attributionText, regular, strip, template.type.caption,
+  );
+  lines.forEach((line, index) => {
     page.drawText(line, {
       x: strip.x,
-      y: strip.y + strip.height - (index + 1) * (capSize + 2),
+      y: strip.y + strip.height - (index + 1) * (capSize + CAPTION_LEADING),
       size: capSize, font: regular, color: MUTED,
     });
   });

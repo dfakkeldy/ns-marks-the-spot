@@ -164,6 +164,7 @@ import {
   type PrintMapViewport,
 } from "./services/printSnapshot";
 import { ExportDialog } from "./print/pdf/ExportDialog";
+import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
 import type { PdfTemplateId } from "./print/pdf/templates/types";
@@ -537,8 +538,6 @@ function printLayerSources(
   }));
   return sources;
 }
-
-
 
 function LicenceDialog({
   onAccept,
@@ -3365,8 +3364,7 @@ export function App() {
           ),
         })}
         defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
-        attributionLines={captureLayerSources.map((source) =>
-          `${source.name}: ${source.attribution}`)}
+        attributionLines={exportAttributionLines(captureLayerSources)}
         omittedUserMapNames={userMapsApi.visibleMaps.map(
           ({ record }) => record.name,
         )}
