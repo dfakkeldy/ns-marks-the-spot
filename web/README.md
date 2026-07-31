@@ -810,6 +810,11 @@ road/water/adjacency context, authoritative mapped civic-address points, the
 upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
 Maps directions, and a separate default-off layer of twelve verified Halifax,
 Victoria County, and CBRM result events.
+User-loaded files stay in the browser: raster maps (GeoTIFF, GeoPDF, PNG,
+JPEG) under "Your maps" and GeoJSON data layers under "Your data" share one
+drop zone, are stored locally in IndexedDB, render clearly labeled as
+user-loaded material, and are excluded from print capture and share links.
+KML/KMZ, GPX, and zipped-shapefile import land in later updates.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept

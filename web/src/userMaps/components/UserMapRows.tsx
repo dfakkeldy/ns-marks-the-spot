@@ -1,7 +1,7 @@
 import type { UserMapsApi } from "../useUserMaps";
 import { DEFAULT_OPACITY } from "../useUserMaps";
 import type { UserMapRecord } from "../types";
-import { ImportDialog } from "./ImportDialog";
+import { ImportDialog, type DisplayOutcome } from "./ImportDialog";
 
 function pdfProvenance(record: UserMapRecord): string | null {
   const pdf = record.pdf;
@@ -52,24 +52,38 @@ function pdfProvenance(record: UserMapRecord): string | null {
  * clicking Remove also toggle the checkbox, the way ZoningLayerToggle's
  * bylaw link has to stopPropagation to avoid the same trap.
  */
-export function UserMapRows({ api }: { api: UserMapsApi }) {
+export function UserMapRows({
+  api,
+  onImportFiles,
+  outcomes,
+  importing,
+  importingLabel,
+}: {
+  api: UserMapsApi;
+  /** App's routed handler for the shared drop zone; defaults to the raster
+   * pipeline so the component stands alone in tests and simpler mounts. */
+  onImportFiles?: (files: ArrayLike<File>) => void;
+  outcomes?: DisplayOutcome[];
+  importing?: boolean;
+  importingLabel?: string | null;
+}) {
   return (
     <details className="resource-layer-group user-map-group" open>
       <summary>
         <span>Your maps</span>
         <small>
           {api.records.length === 0
-            ? "Load GeoTIFF, PDF, or image"
+            ? "Load a map or data file"
             : `${api.records.length} loaded`}
         </small>
       </summary>
       <div className="resource-layer-controls">
         <ImportDialog
-          importing={api.importing}
-          importingLabel={api.importingLabel}
+          importing={importing ?? api.importing}
+          importingLabel={importingLabel ?? api.importingLabel}
           storageError={api.storageError}
-          outcomes={api.outcomes}
-          onImportFiles={(files) => void api.importFiles(files)}
+          outcomes={outcomes ?? api.outcomes}
+          onImportFiles={onImportFiles ?? ((files) => void api.importFiles(files))}
         />
         {api.records.map((record) => {
           const ui = api.uiState[record.id] ?? {

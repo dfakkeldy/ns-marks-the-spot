@@ -8,6 +8,8 @@ import {
   GEOREFERENCE_PANE_Z_INDEX,
   MEASURE_PANE,
   MEASURE_PANE_Z_INDEX,
+  USER_VECTOR_PANE,
+  USER_VECTOR_PANE_Z_INDEX,
   MINERAL_PROXIMITY_PANE,
   MINERAL_PROXIMITY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
@@ -90,6 +92,15 @@ describe("parcel pane ordering", () => {
     expect(MEASURE_PANE).not.toBe(ESTABLISHED_PARCEL_PANE);
   });
 
+  it("keeps user vector data above selected parcels and below measurements", () => {
+    expect(USER_VECTOR_PANE_Z_INDEX).toBeGreaterThan(
+      ESTABLISHED_PARCEL_PANE_Z_INDEX,
+    );
+    expect(USER_VECTOR_PANE_Z_INDEX).toBeLessThan(MEASURE_PANE_Z_INDEX);
+    expect(USER_VECTOR_PANE).not.toBe(MEASURE_PANE);
+    expect(USER_VECTOR_PANE).not.toBe(ESTABLISHED_PARCEL_PANE);
+  });
+
   it("stacks user maps above aerial imagery and below data overlays", () => {
     expect(FLETCHER_LAYER_Z_INDEX).toBeGreaterThan(
       PROVINCE_LAYER_Z_INDEXES["ns-aerial"],
@@ -116,6 +127,7 @@ describe("parcel pane ordering", () => {
       ESTABLISHED_PARCEL_PANE_Z_INDEX,
       MEASURE_PANE_Z_INDEX,
       USER_MAPS_PANE_Z_INDEX,
+      USER_VECTOR_PANE_Z_INDEX,
     );
     expect(GEOREFERENCE_PANE_Z_INDEX).toBeGreaterThan(dataPaneMax);
   });

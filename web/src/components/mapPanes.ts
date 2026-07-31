@@ -57,6 +57,15 @@ export const MEASURE_PANE = "measure-pane";
 export const MEASURE_PANE_Z_INDEX = 430;
 
 /**
+ * User vector data ("Your data") is annotation the user placed deliberately,
+ * so it renders above every data overlay including selected parcels (420) —
+ * but below an active measurement (430), which is always the immediate
+ * focus. Rendered with a canvas renderer; see UserVectorLayers.
+ */
+export const USER_VECTOR_PANE = "user-vector-pane";
+export const USER_VECTOR_PANE_Z_INDEX = 425;
+
+/**
  * User-loaded rasters sit directly above the aerial imagery (150) and below
  * every data overlay (environmental health 165, contours 180, parcels 200,
  * roads 235, waterfalls 250) so parcel lines and roads stay readable on top

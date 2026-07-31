@@ -4013,6 +4013,39 @@ a {
   text-decoration: underline;
 }
 
+/* "Your data" vector rows reuse the user-map row skeleton; only the popup
+   needs its own rules. Wrapping matches .user-map-row: an imported filename
+   must never widen the 320px layer panel. */
+.user-vector-row {
+  padding-bottom: 8px;
+}
+
+.user-vector-row .layer-row > span:last-of-type {
+  overflow-wrap: anywhere;
+}
+
+.user-vector-popup {
+  display: grid;
+  gap: 4px;
+  max-width: 240px;
+}
+
+.user-vector-popup-name {
+  font-weight: 700;
+}
+
+.user-vector-popup-description {
+  /* User data may carry raw HTML shown as text; long unbroken strings must
+     wrap inside the popup instead of stretching it across the map. */
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.user-vector-popup-provenance {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
 /* Screen-reader-only text. Clipped rather than display:none, which would
    remove it from the accessibility tree and defeat the point. */
 .visually-hidden {

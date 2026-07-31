@@ -164,6 +164,9 @@ import {
 import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapRows } from "./userMaps/components/UserMapRows";
+import { routeImportFiles } from "./userMaps/importRouting";
+import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
+import { UserVectorRows } from "./userMaps/vector/components/UserVectorRows";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
@@ -872,6 +875,27 @@ export function App() {
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
   const userMapsApi = useUserMaps();
+  const userVectorApi = useUserVectorLayers();
+
+  // The one drop zone serves both pipelines: files route by sniffed content,
+  // and BOTH importFiles run every batch — the empty side clears its stale
+  // outcomes, so the merged list below is always exactly this batch's.
+  const rasterImportFiles = userMapsApi.importFiles;
+  const vectorImportFiles = userVectorApi.importFiles;
+  const handleImportFiles = useCallback(
+    async (files: ArrayLike<File>) => {
+      const routed = await routeImportFiles(files);
+      await Promise.all([
+        rasterImportFiles(routed.raster),
+        vectorImportFiles(routed.vector),
+      ]);
+    },
+    [rasterImportFiles, vectorImportFiles],
+  );
+  const mergedImportOutcomes = useMemo(
+    () => [...userMapsApi.outcomes, ...userVectorApi.outcomes],
+    [userMapsApi.outcomes, userVectorApi.outcomes],
+  );
 
   const editingMap = userMapsApi.editingMap;
   const editingGeoref = editingMap?.record.georef;
@@ -2404,7 +2428,16 @@ export function App() {
                 />
               </span>
             </label>
-            <UserMapRows api={userMapsApi} />
+            <UserMapRows
+              api={userMapsApi}
+              onImportFiles={(files) => void handleImportFiles(files)}
+              outcomes={mergedImportOutcomes}
+              importing={userMapsApi.importing || userVectorApi.importing}
+              importingLabel={
+                userMapsApi.importingLabel ?? userVectorApi.importingLabel
+              }
+            />
+            <UserVectorRows api={userVectorApi} />
             {provinceLayerCatalog
               .filter(({ id }) => id !== "contours")
               .map((layer) => (
@@ -3050,6 +3083,8 @@ export function App() {
             fletcherRetryToken={fletcherRetryToken}
             userMaps={userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
+            userVectorLayers={userVectorApi.visibleLayers}
+            userVectorFitRequest={userVectorApi.fitRequest}
             georeference={georeferenceBinding}
             showModernMap={showModernMap}
             showTaxSale={

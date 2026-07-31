@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { UserMapImportError } from "./errors";
+import { generateId, stripExtension } from "./importUtils";
 import { parseGeoTiffAuto } from "./parsers/parseInWorker";
 import type { ParsedGeoTiff } from "./parsers/geoTiffSource";
 import type { ParsedGeoPdf } from "./parsers/geoPdfSource";
@@ -34,7 +35,7 @@ export const LARGE_FILE_BYTES = 150 * 1024 * 1024;
 const UI_STATE_KEY = "user-map-ui-state-v1";
 
 const UNRECOGNIZED_MESSAGE =
-  "Not a recognized map file. GeoTIFF, PNG, and JPEG all work.";
+  "Not a recognized file. GeoTIFF, PDF, PNG, JPEG, and GeoJSON all work.";
 
 const EMPTY_GCP_GEOREF: GcpGeoref = { kind: "gcp", gcps: [], method: "affine" };
 
@@ -195,30 +196,6 @@ function loadUiState(): UserMapUiState {
   }
 }
 
-function stripExtension(fileName: string): string {
-  const dot = fileName.lastIndexOf(".");
-  return dot > 0 ? fileName.slice(0, dot) : fileName;
-}
-
-/**
- * `crypto.randomUUID()` only exists in a secure context (HTTPS or
- * localhost). It's undefined on a plain `http://192.168.x.x:5173` dev
- * server — exactly how this app gets tested on a phone over the LAN — so
- * calling it unconditionally makes every import fail there, after a full
- * parse, with a generic error. `crypto.getRandomValues` has no such
- * restriction, so it's the fallback; ids only need to be unique within this
- * device's store, so RFC 4122 shape doesn't matter.
- */
-function generateId(): string {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-    return crypto.randomUUID();
-  }
-  if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
-    const bytes = crypto.getRandomValues(new Uint8Array(16));
-    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-  }
-  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
-}
 
 /**
  * Owns all user-map state so App.tsx stays a mounting point. The store opens
