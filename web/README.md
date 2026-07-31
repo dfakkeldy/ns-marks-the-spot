@@ -145,6 +145,11 @@ Location-triggered map movement is suppressed from the printable viewport.
 The receipt's latitude, longitude, and zoom describe the derived printed map
 position, not a browser-location reading.
 
+- **Georeferenced PDF export** — frame an area on the map and download a
+  Letter portrait/landscape GeoPDF (ISO 32000 `/Measure` + OGC `/LGIDict`,
+  EPSG:3857) that works in Avenza, QGIS/GDAL, and on paper, with an
+  optional legend and always-on attribution.
+
 ## Native layer parity
 
 The web catalog mirrors the native source URLs and rendering restrictions while

@@ -14,3 +14,21 @@ Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/web-geo
 Branch: feature/web-geopdf-export (tracks origin/nightly)
 Next action: invoke superpowers:writing-plans against docs/superpowers/specs/2026-07-30-web-geopdf-export-design.md
 ```
+
+## 2026-07-31 — Docs and real-world test plan committed
+
+Done: Tasks 1–9 of docs/superpowers/plans/2026-07-31-web-geopdf-export.md;
+all gates green (`npm test`: 102 files/1,145 tests passed, 1 skipped; lint;
+build); real-world test plan committed at
+docs/real-world-testing/2026-07-31-web-geopdf-export-test-plan.md (GDAL/QGIS/
+Avenza checks unrun, presented as a checklist); README entry added.
+Next: whole-branch review, then PR to nightly, then execute the real-world
+test plan (GDAL/QGIS/Avenza); user-map layers in exports remain the known
+follow-up.
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/web-geopdf-export
+Branch: feature/web-geopdf-export
+Next action: run whole-branch review, then open PR to nightly, then execute
+docs/real-world-testing/2026-07-31-web-geopdf-export-test-plan.md
+```
