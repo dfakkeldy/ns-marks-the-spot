@@ -1,0 +1,280 @@
+{
+  "case": "encrypted PDF control - bounded characterisation",
+  "fixture": "byte_enc.pdf",
+  "bytes": 2605,
+  "boundSeconds": 420.0,
+  "origin": "http://127.0.0.1:4340",
+  "samples": [
+    {
+      "t": 0.0,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 15.0,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 30.1,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 45.1,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 60.1,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 75.2,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 90.2,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 105.2,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 120.2,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 135.3,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 150.3,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 165.3,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 180.4,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 195.4,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 210.4,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 225.5,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 240.5,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 255.5,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 270.6,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 285.6,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 300.6,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 315.6,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 330.7,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 345.7,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 360.7,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 375.7,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 390.8,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    },
+    {
+      "t": 405.8,
+      "status": "Reading \"byte_enc.pdf\"\u2026",
+      "outcomes": [],
+      "errors": [],
+      "rowCount": 0,
+      "jsErrors": [],
+      "unhandledRejections": []
+    }
+  ],
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "recordsBeforeImport": 0,
+  "settledAtSeconds": null,
+  "idbFinal": {
+    "blobs": {},
+    "recordCount": 0,
+    "records": []
+  },
+  "final": {
+    "bodyMentionsAbsentRegistration": false,
+    "bodyMentionsManualPoints": false,
+    "errors": [],
+    "outcomes": [],
+    "pageCopy": [],
+    "rows": [],
+    "status": "Reading \"byte_enc.pdf\"\u2026"
+  },
+  "verdict": "NO_TYPED_ERROR_WITHIN_420S_STATUS_'Reading \"byte_enc.pdf\"\u2026'"
+}
