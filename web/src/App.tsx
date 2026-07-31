@@ -168,6 +168,11 @@ import { UserMapRows } from "./userMaps/components/UserMapRows";
 import { routeImportFiles } from "./userMaps/importRouting";
 import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
 import { UserVectorRows } from "./userMaps/vector/components/UserVectorRows";
+import { useVectorEditSession } from "./userMaps/vector/edit/useVectorEditSession";
+import {
+  VectorEditPanel,
+  type EditMode,
+} from "./userMaps/vector/edit/VectorEditPanel";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
@@ -896,6 +901,47 @@ export function App() {
   const mergedImportOutcomes = useMemo(
     () => [...userMapsApi.outcomes, ...userVectorApi.outcomes],
     [userMapsApi.outcomes, userVectorApi.outcomes],
+  );
+
+  const vectorEdit = useVectorEditSession({
+    records: userVectorApi.records,
+    geometries: userVectorApi.geometries,
+    putVectorLayer: userVectorApi.putVectorLayer,
+    onLayerChanged: userVectorApi.applyLayerEdit,
+  });
+  const [drawMode, setDrawMode] = useState<EditMode | null>(null);
+  const [selectedFeatureId, setSelectedFeatureId] = useState<string | null>(null);
+
+  const beginVectorEdit = useCallback(
+    (id: string) => {
+      setDrawMode(null);
+      setSelectedFeatureId(null);
+      vectorEdit.beginEdit(id);
+    },
+    [vectorEdit],
+  );
+  const endVectorEdit = useCallback(() => {
+    setDrawMode(null);
+    setSelectedFeatureId(null);
+    vectorEdit.endEdit();
+  }, [vectorEdit]);
+  // A new drawing layer opens straight into edit mode with the point tool
+  // armed: the only reason to create one is to start drawing.
+  const createAndEditVectorLayer = useCallback(async () => {
+    const id = await userVectorApi.createDrawnLayer();
+    beginVectorEdit(id);
+    setDrawMode("Marker");
+  }, [beginVectorEdit, userVectorApi]);
+
+  // The layer under edit is drawn by the Geoman bridge, so the read-only
+  // list must drop it or every feature would render twice — once editable,
+  // once not, with the stale copy on top.
+  const readOnlyVectorLayers = useMemo(
+    () =>
+      userVectorApi.visibleLayers.filter(
+        (layer) => layer.record.id !== vectorEdit.editingId,
+      ),
+    [userVectorApi.visibleLayers, vectorEdit.editingId],
   );
 
   const editingMap = userMapsApi.editingMap;
@@ -2434,7 +2480,14 @@ export function App() {
                 userMapsApi.importingLabel ?? userVectorApi.importingLabel
               }
             />
-            <UserVectorRows api={userVectorApi} />
+            <UserVectorRows
+              api={userVectorApi}
+              onEdit={(id) =>
+                vectorEdit.editingId === id ? endVectorEdit() : beginVectorEdit(id)
+              }
+              onNewLayer={() => void createAndEditVectorLayer()}
+              editingId={vectorEdit.editingId}
+            />
             {provinceLayerCatalog
               .filter(({ id }) => id !== "contours")
               .map((layer) => (
@@ -3080,8 +3133,19 @@ export function App() {
             fletcherRetryToken={fletcherRetryToken}
             userMaps={userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
-            userVectorLayers={userVectorApi.visibleLayers}
+            userVectorLayers={readOnlyVectorLayers}
             userVectorFitRequest={userVectorApi.fitRequest}
+            userVectorEdit={
+              vectorEdit.editingLayer
+                ? {
+                    record: vectorEdit.editingLayer.record,
+                    data: vectorEdit.editingLayer.data,
+                    mode: drawMode,
+                    onGeometryChange: vectorEdit.commitGeometry,
+                    onSelectFeature: setSelectedFeatureId,
+                  }
+                : null
+            }
             georeference={georeferenceBinding}
             showModernMap={showModernMap}
             showTaxSale={
@@ -3229,6 +3293,23 @@ export function App() {
             options,
           )
         }
+      />
+    ) : null}
+    {vectorEdit.editingLayer ? (
+      <VectorEditPanel
+        record={vectorEdit.editingLayer.record}
+        data={vectorEdit.editingLayer.data}
+        selectedFeatureId={selectedFeatureId}
+        drawMode={drawMode}
+        storageError={vectorEdit.storageError}
+        onDrawMode={setDrawMode}
+        onRename={vectorEdit.renameLayer}
+        onUpdateFeature={vectorEdit.updateFeatureDetails}
+        onDeleteFeature={(featureId) => {
+          vectorEdit.deleteFeature(featureId);
+          setSelectedFeatureId(null);
+        }}
+        onDone={endVectorEdit}
       />
     ) : null}
     {editingMap ? (

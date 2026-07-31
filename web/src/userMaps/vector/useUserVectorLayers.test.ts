@@ -1,6 +1,7 @@
 import { IDBFactory } from "fake-indexeddb";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import type { FeatureCollection } from "geojson";
 import { UserMapImportError } from "../errors";
 import { UserVectorStore } from "./store/userVectorStore";
 import { MAX_VECTOR_FILE_BYTES, useUserVectorLayers } from "./useUserVectorLayers";
@@ -215,6 +216,71 @@ describe("useUserVectorLayers", () => {
     await act(() => result.current.exportLayer(id, "kml"));
     expect(downloads[1].filename).toBe("camps.kml");
     expect(await downloads[1].blob.text()).toContain("<Placemark>");
+  });
+
+  it("creates an empty drawn layer to draw into", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+
+    let created = "";
+    await act(async () => {
+      created = await result.current.createDrawnLayer();
+    });
+
+    expect(created).toBeTruthy();
+    const record = result.current.records[0];
+    expect(record).toMatchObject({ id: created, source: "drawn", featureCount: 0 });
+    expect(record.origin).toMatchObject({ kind: "drawn" });
+    expect(record.bbox).toBeNull();
+    // Enabled so whatever the user draws appears immediately, and persisted
+    // so an empty layer survives a reload before anything is drawn.
+    expect(result.current.visibleLayers[0]?.record.id).toBe(created);
+
+    const store = await UserVectorStore.open(factory);
+    expect((await store.listVectorLayers())[0].id).toBe(created);
+    store.close();
+  });
+
+  it("names each new drawn layer distinctly", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(async () => {
+      await result.current.createDrawnLayer();
+    });
+    await act(async () => {
+      await result.current.createDrawnLayer();
+    });
+    const names = result.current.records.map((r) => r.name);
+    expect(new Set(names).size).toBe(2);
+  });
+
+  it("applies an edited record and geometry to the list", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const original = result.current.records[0];
+
+    const edited: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "f1",
+          geometry: { type: "Point", coordinates: [-60, 46] },
+          properties: { name: "Moved" },
+        },
+      ],
+    };
+    act(() =>
+      result.current.applyLayerEdit(
+        { ...original, name: "Renamed", revision: 1 },
+        edited,
+      ),
+    );
+
+    expect(result.current.records[0].name).toBe("Renamed");
+    expect(result.current.visibleLayers[0].data.features[0].properties).toEqual({
+      name: "Moved",
+    });
   });
 
   it("ignores an export request for a layer that is gone", async () => {

@@ -25,6 +25,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "2.20.0",
     "@tmcw/togeojson": "7.1.2",
     "fflate": "0.8.3",
     "geotiff": "2.1.3",

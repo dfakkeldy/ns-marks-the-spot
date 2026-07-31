@@ -121,6 +121,10 @@ import {
   type GeoreferenceBinding,
 } from "../userMaps/components/GeoreferenceMapLayer";
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
+import {
+  EditableVectorLayer,
+  type VectorEditBinding,
+} from "../userMaps/vector/edit/EditableVectorLayer";
 import type {
   UserVectorFitRequest,
   VisibleUserVectorLayer,
@@ -148,6 +152,7 @@ type MapCanvasProps = {
   userMapFitRequest?: UserMapFitRequest | null;
   userVectorLayers?: VisibleUserVectorLayer[];
   userVectorFitRequest?: UserVectorFitRequest | null;
+  userVectorEdit?: VectorEditBinding | null;
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
   showTaxSale: boolean;
@@ -1489,6 +1494,7 @@ export function MapCanvas({
   userMapFitRequest = null,
   userVectorLayers = EMPTY_USER_VECTOR_LAYERS,
   userVectorFitRequest = null,
+  userVectorEdit = null,
   georeference = null,
   showModernMap,
   showTaxSale,
@@ -1658,6 +1664,16 @@ export function MapCanvas({
             no userVectorLayers prop, keeping uploads out of the sealed print
             capture by construction (documented print/export boundary). */}
         <UserVectorLayers layers={userVectorLayers} fitRequest={userVectorFitRequest} />
+        {userVectorEdit ? (
+          <EditableVectorLayer
+            key={userVectorEdit.record.id}
+            record={userVectorEdit.record}
+            data={userVectorEdit.data}
+            mode={userVectorEdit.mode}
+            onGeometryChange={userVectorEdit.onGeometryChange}
+            onSelectFeature={userVectorEdit.onSelectFeature}
+          />
+        ) : null}
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <PositionReadout /> : null}

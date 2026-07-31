@@ -816,7 +816,9 @@ shapefiles) under "Your data" share one drop zone, are stored locally in
 IndexedDB, render clearly labeled as user-loaded material, and are excluded
 from print capture and share links. Vector layers export back out as GeoJSON
 or KML. A shapefile without its `.prj` is refused rather than assumed to be
-longitude/latitude. On-map drawing and editing land in a later update.
+longitude/latitude. Vector layers can also be drawn and edited on the map —
+add points, lines, and areas, reshape or move them, name individual features,
+and start a blank drawing layer of your own.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
