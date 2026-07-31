@@ -2,6 +2,7 @@ import { strFromU8, unzip } from "fflate";
 import { UserMapImportError } from "../../errors";
 import type { ParsedVector } from "./geojsonSource";
 import { parseKml } from "./kmlSource";
+import { classifyZipEntries, type ZipKind } from "./sniffVector";
 
 type ZipEntries = Record<string, Uint8Array>;
 
@@ -53,15 +54,15 @@ export async function parseKmz(buffer: ArrayBuffer): Promise<ParsedVector> {
 /**
  * Distinguishes a KMZ from the other zip a user may drop — a zipped
  * shapefile. Both share the same magic bytes, so only the entry names can
- * tell them apart, and the import needs to say "shapefiles are coming later"
- * rather than "this archive is broken".
+ * tell them apart, and each needs a different reader.
  */
-export async function archiveHoldsKml(buffer: ArrayBuffer): Promise<boolean> {
+export async function classifyArchive(buffer: ArrayBuffer): Promise<ZipKind> {
   try {
     const entries = await unzipAsync(new Uint8Array(buffer));
-    return Object.keys(entries).some((name) => name.toLowerCase().endsWith(".kml"));
+    return classifyZipEntries(Object.keys(entries));
   } catch {
-    // An unreadable archive is not a KMZ; the caller's own path reports it.
-    return false;
+    // An unreadable archive belongs to neither reader; the caller's own path
+    // reports the failure.
+    return "unknown-zip";
   }
 }

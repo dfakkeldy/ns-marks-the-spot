@@ -4,6 +4,33 @@ export type SniffedVectorType =
   | "xml-candidate"
   | "unknown";
 
+export type ZipKind = "kmz" | "shapefile" | "unknown-zip";
+
+/**
+ * A KMZ and a zipped shapefile are both zip archives with identical magic
+ * bytes, so only the entry names can tell them apart — and the two need
+ * different messages when neither applies.
+ *
+ * `__MACOSX` resource forks are skipped: zipping a folder on macOS adds
+ * mirror entries (`__MACOSX/._parcels.shp`) that would otherwise classify an
+ * archive by a file it does not actually contain. shpjs skips them for the
+ * same reason.
+ */
+export function classifyZipEntries(names: string[]): ZipKind {
+  const content = names.filter(
+    (name) => !name.includes("__MACOSX") && !name.split("/").pop()?.startsWith("._"),
+  );
+  const hasExtension = (extension: string) =>
+    content.some((name) => name.toLowerCase().endsWith(extension));
+  if (hasExtension(".kml")) {
+    return "kmz";
+  }
+  if (hasExtension(".shp")) {
+    return "shapefile";
+  }
+  return "unknown-zip";
+}
+
 const WHITESPACE = new Set([0x20, 0x09, 0x0a, 0x0d]);
 
 /**

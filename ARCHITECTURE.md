@@ -614,6 +614,28 @@ unzipped with `fflate` (its own worker pool), preferring `doc.kml` and
 falling back to any single `.kml`; a zip holding neither is reported as a
 zipped shapefile awaiting a later phase, not as a damaged file.
 
+Zipped shapefiles import through `shpjs`, in a worker (inflating an archive
+and running every vertex through a proj4 transform is the heaviest parse in
+this subsystem). One `.shp` becomes one layer, named after the shapefile
+rather than the archive, because collapsing unrelated feature sets under a
+single name and style would misrepresent them; the archive itself is kept as
+every produced layer's original so removing one leaves the others'
+provenance intact. Since a KMZ and a shapefile zip share the same magic
+bytes, `classifyZipEntries` picks the reader from the entry names, skipping
+`__MACOSX` resource forks that would otherwise classify an archive by a file
+it does not contain.
+
+The `.prj` gate runs BEFORE shpjs is handed anything, and this ordering is
+the point: shpjs builds a proj4 transform when a `.prj` is present and
+otherwise passes raw coordinates through untouched, so a projected shapefile
+missing its `.prj` would silently arrive as though its eastings and
+northings were degrees — a Nova Scotia parcel landing in the Gulf of Guinea
+rather than failing. Every `.shp` must therefore have a readable sibling
+`.prj`: absent is `missing-crs`, present-but-unparseable is `unsupported-crs`
+(the first asks the user to include a projection, the second to fix it), and
+one bad shapefile refuses the whole archive rather than importing a partial
+result the UI could not explain.
+
 Export is offered on user vector layers ONLY — never on official sources,
 whose redistribution terms belong to their publisher. GeoJSON export is a
 serialization of the canonical collection; `export/kmlWriter.ts` is
