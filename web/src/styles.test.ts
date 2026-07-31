@@ -195,10 +195,22 @@ describe("print document paged media", () => {
     // position/inset/z-index/display:flex, `.export-frame-layer` sets
     // position/inset/z-index/pointer-events — neither of which is
     // `display: none`, so these fail rather than matching the wrong rule.
+    //
+    // Anchored the same way as `.georeference-overlay` above: the selector
+    // must be directly followed (after whitespace, and optionally more
+    // comma-listed selectors) by the rule's own `{`. The surrounding comment
+    // names `.export-frame-layer` too, but always with a backtick right
+    // after the class name — never whitespace, a comma, or `{` — so it can
+    // never satisfy this anchor. The previous, unanchored `[^{}]*` prefix
+    // could: delete `.export-frame-layer` from the real selector list and
+    // the match fell through to the comment mention, then bled forward past
+    // it to the NEXT rule's `{` — which happened to be this same
+    // `.export-dialog-backdrop` rule — and passed on borrowed `display: none`
+    // that was never re-asserting `.export-frame-layer` at all.
     const printBlock = styles.slice(styles.indexOf("@media print"));
     for (const selector of [".export-dialog-backdrop", ".export-frame-layer"]) {
       const rule = printBlock.match(
-        new RegExp(`[^{}]*\\${selector}[^{}]*\\{([^}]*)\\}`),
+        new RegExp(`\\${selector}\\s*(?:,\\s*[.\\w-]+\\s*)*\\{([^}]*)\\}`),
       );
       expect(rule?.[1], `${selector} must be hidden in @media print`)
         .toMatch(/display:\s*none/);
