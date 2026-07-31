@@ -1194,6 +1194,59 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("names a visible user vector layer as absent from the export instead of dropping it silently", async () => {
+    // Same gap as zoning above, but for the `nightly`-only vector-import
+    // feature (KML/GPX/KMZ/shapefile) this branch predates: `MapCanvas`
+    // renders it via `UserVectorLayers`, but `buildExportLayers` never
+    // carries user vector layers into the compositor, and until now
+    // `omittedLayerNames` never named them either.
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    const input = await screen.findByLabelText("Add a map file");
+    await user.upload(
+      input,
+      new File(
+        [
+          JSON.stringify({
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: { type: "Point", coordinates: [-61.2, 46.1] },
+                properties: {},
+              },
+            ],
+          }),
+        ],
+        "trail-markers.geojson",
+        { type: "application/geo+json" },
+      ),
+    );
+    // The import is async (file read + parse); a checked "Your data" row is
+    // the same completion signal the rest of this suite waits on for scans.
+    expect(await screen.findByLabelText("trail-markers")).toBeChecked();
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+
+    const dialog = screen.getByRole("dialog", {
+      name: "Export georeferenced PDF",
+    });
+    expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
+    expect(dialog).toHaveTextContent("trail-markers");
+    // A notice, not a gate.
+    expect(
+      within(dialog).getByRole("button", { name: "Download PDF" }),
+    ).toBeEnabled();
+  });
+
   it("keeps every Province layer out of the exported PDF after declining the licence", async () => {
     const user = userEvent.setup();
     render(<App />);

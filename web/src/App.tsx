@@ -2080,14 +2080,24 @@ export function App() {
    * no zoning on it and no hint that anything was missing, which is exactly
    * the "silently incomplete map" the spec rules out.
    *
-   * User-imported maps join the same list: same omission, same notice.
+   * User-imported maps join the same list: same omission, same notice. So do
+   * user vector layers (KML/GPX/KMZ/shapefile import) — `UserVectorLayers`
+   * renders them in `MapCanvas`, but `buildExportLayers` does not composite
+   * them either, and a visible-but-unexported layer with no notice is exactly
+   * this list's reason to exist.
    */
   const omittedLayerNames = useMemo(() => [
     ...captureLayerSources
       .filter(({ id }) => !exportedLayerIds.has(id))
       .map(({ name }) => name),
     ...userMapsApi.visibleMaps.map(({ record }) => record.name),
-  ], [captureLayerSources, exportedLayerIds, userMapsApi.visibleMaps]);
+    ...userVectorApi.visibleLayers.map(({ record }) => record.name),
+  ], [
+    captureLayerSources,
+    exportedLayerIds,
+    userMapsApi.visibleMaps,
+    userVectorApi.visibleLayers,
+  ]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       mode: mapMode,
