@@ -179,6 +179,30 @@ describe("print document paged media", () => {
       .slice(styles.indexOf("@media print"))
       .match(/\.georeference-overlay\s*\{([^}]*)\}/);
     expect(printOverlay?.[1]).toMatch(/display:\s*none/);
+
+    // The GeoPDF export UI has the same exposure and needs the same guard.
+    // `<ExportDialog>` is also rendered outside `.app-shell`, so its
+    // `position: fixed; z-index: 3100` backdrop prints; `.export-frame-layer`
+    // IS inside `.app-shell` but that rule is keyed on
+    // `body.print-preview-open`, so a bare Cmd+P while framing an export
+    // prints the blue frame, its 4000px page-dimming shadow, and the toolbar.
+    //
+    // Read the same way as the overlay above: the FIRST rule at or after
+    // `@media print` whose selector list names the class, asserted on that
+    // rule's BODY. Selector text can't span a brace, so `[^{}]*` cannot run
+    // backwards past the previous rule. Delete the print rule and each match
+    // falls through to its screen rule — `.export-dialog-backdrop` sets
+    // position/inset/z-index/display:flex, `.export-frame-layer` sets
+    // position/inset/z-index/pointer-events — neither of which is
+    // `display: none`, so these fail rather than matching the wrong rule.
+    const printBlock = styles.slice(styles.indexOf("@media print"));
+    for (const selector of [".export-dialog-backdrop", ".export-frame-layer"]) {
+      const rule = printBlock.match(
+        new RegExp(`[^{}]*\\${selector}[^{}]*\\{([^}]*)\\}`),
+      );
+      expect(rule?.[1], `${selector} must be hidden in @media print`)
+        .toMatch(/display:\s*none/);
+    }
   });
 
   it("removes the screen-only preview backdrop before printing the selected document", () => {

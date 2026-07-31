@@ -4017,6 +4017,20 @@ a {
     display: none !important;
   }
 
+  /* Same exposure, same fix, for the GeoPDF export UI. `<ExportDialog>` is
+     rendered OUTSIDE `.app-shell` too — a sibling of `<PrintPreview>` — so the
+     rule at the top of this block never matches its
+     `position: fixed; z-index: 3100` backdrop. `.export-frame-layer` IS inside
+     `.app-shell`, but that rule is keyed on `body.print-preview-open`, so a
+     bare Cmd+P while framing an export still prints the blue frame, the 4000px
+     page-dimming `box-shadow` around it, and the frame toolbar. Both are
+     unscoped for the same reason as the georeferencer above: chrome, never
+     document. */
+  .export-dialog-backdrop,
+  .export-frame-layer {
+    display: none !important;
+  }
+
   .print-preview-controls,
   .print-document--inactive {
     display: none !important;
