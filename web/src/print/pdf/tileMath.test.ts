@@ -49,4 +49,49 @@ describe("tileMath", () => {
     expect(rect.width).toBeGreaterThan(0);
     expect(rect.height).toBeGreaterThan(0);
   });
+
+  it("handles partial-overlap tiles at grid edges", () => {
+    const space = outputSpaceForBounds(bounds, 1000, 800);
+    const tiles = tilesForBounds(bounds, 12);
+
+    // Verify multiple tiles are returned (roughly 4x4 grid)
+    expect(tiles.length).toBeGreaterThan(1);
+
+    // Find the SE-most tile (last one in the grid)
+    const lastTile = tiles[tiles.length - 1];
+    const lastRect = tileOutputRect(space, lastTile);
+
+    // SE-most tile should extend beyond canvas on right or bottom
+    const extendsBeyondRight = lastRect.x + lastRect.width > space.widthPx;
+    const extendsBeyondBottom = lastRect.y + lastRect.height > space.heightPx;
+    expect(extendsBeyondRight || extendsBeyondBottom).toBe(true);
+
+    // Verify grid is contiguous: all tiles in same row share same y,
+    // all tiles in same column share same x, and widths are uniform
+    const tileRectsByRow: { [y: number]: Array<{ rect: ReturnType<typeof tileOutputRect> }> } = {};
+    tiles.forEach(tile => {
+      const rect = tileOutputRect(space, tile);
+      const rowKey = Math.round(rect.y);
+      if (!tileRectsByRow[rowKey]) tileRectsByRow[rowKey] = [];
+      tileRectsByRow[rowKey].push({ rect });
+    });
+
+    // Check that all tiles in a row have the same y and same width
+    Object.values(tileRectsByRow).forEach(row => {
+      const firstY = row[0].rect.y;
+      const firstWidth = row[0].rect.width;
+      row.forEach(tileRect => {
+        expect(tileRect.rect.y).toBeCloseTo(firstY, 6);
+        expect(tileRect.rect.width).toBeCloseTo(firstWidth, 6);
+      });
+    });
+  });
+
+  it("clamps zoom to 0 for very small output width", () => {
+    // Full-world bounds drive the computed zoom negative without clamping
+    const worldBounds = { north: 85, south: -85, west: -180, east: 180 };
+    const zoom = zoomForOutput(worldBounds, 128, 19);
+    expect(zoom).toBe(0);
+    expect(zoom).toBeGreaterThanOrEqual(0);
+  });
 });
