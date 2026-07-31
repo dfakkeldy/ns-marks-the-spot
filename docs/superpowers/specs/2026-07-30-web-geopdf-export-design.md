@@ -173,8 +173,15 @@ historical sheets stay sharp.
 ## Georeferencing Registration
 
 `geoRegistration.ts` writes both flavours against the map image's placed
-rectangle on the page. Coordinates are geographic WGS 84 longitude/latitude,
-matching what the existing parser normalizes to.
+rectangle on the page. The declared CRS is **EPSG:3857 (Web Mercator)** —
+the raster's own projection — so the pixel-to-map relation is affine-exact
+at every pixel and every scale. (*Amended 2026-07-31 during planning: the
+original geographic-WGS 84 declaration interpolates linearly in lat/lon
+between corners, which diverges from the Mercator raster by ~0.4 m at
+1:25,000 but ~6 m at 1:100,000 — failing this spec's own accuracy gate.
+Declaring the projected CRS, as GDAL does for Mercator rasters, removes the
+error entirely.*) Corner coordinate values in `/GPTS` remain WGS 84
+latitude/longitude, as ISO 32000-2 requires.
 
 `/Measure` + `/VP` emission contract:
 
@@ -182,26 +189,24 @@ matching what the existing parser normalizes to.
 - `/GPTS` lists the four frame corners as latitude–longitude pairs and
   `/LPTS` the corresponding normalized viewport corners, in consistent
   winding.
-- `/GCS` declares geographic WGS 84.
+- `/GCS` declares EPSG:3857 as a `PROJCS` with its WKT.
 
 `/LGIDict` emission contract:
 
-- A registration whose `/CTM` maps PDF space to map coordinates and whose
+- A registration whose `/CTM` maps PDF space to EPSG:3857 metres and whose
   `/Neatline` is the map frame as an explicitly **closed** ring — the GeoPDF
   compatibility spike recorded GDAL's "Non closed ring" warning for
   open-ring producers, and this writer does not reproduce that defect.
-- A geographic projection description consistent with the `/Measure` GCS.
+- A Mercator projection description (`ProjectionType "MC"`, datum WGE)
+  consistent with the `/Measure` GCS.
 
 Numerical gates:
 
 - Round-trip through `geoPdfMetadata.ts` reproduces the frame corners to
-  1 × 10⁻⁹ degrees for both flavours.
-- Because the raster is Web Mercator and corner registration interpolates
-  linearly in geographic space, interior deviation is nonzero. A unit test
-  computes the worst-case interior ground deviation for representative frames
-  (1:5,000 through 1:100,000 at Nova Scotia latitudes) and asserts it stays
-  below one ground metre. This is the same registration model USGS topo
-  GeoPDFs use; the test makes the error budget explicit instead of assumed.
+  1 × 10⁻⁹ degrees for both flavours, with no rejected registrations.
+- With the projected CRS declared, registration is affine in the raster's
+  own space — there is no interior interpolation error to budget; the
+  round-trip test asserts exactness instead.
 
 ## PDF Composition
 
@@ -254,8 +259,8 @@ testable headlessly, matching the discipline of
 Automated (vitest, part of the standard `npm test` gate):
 
 - Registration round-trip through the existing parser, both flavours, corner
-  exactness and closed neatline asserted.
-- Interior-deviation error budget test as specified above.
+  exactness and closed neatline asserted (affine-exact under the projected
+  CRS — no interior error budget needed).
 - Template invariants: every block inside the page, no overlaps between the
   map frame and text blocks, margins respected in both orientations.
 - Scale-bar rounding and tile-selection math against `webMercator.ts`.
@@ -295,7 +300,7 @@ separate states and are reported separately.
    with licences and capture date, QR share link, and — when enabled — the
    legend of actually-rendered layers.
 3. All text in the PDF is vector (selectable), and the file passes the
-   round-trip, error-budget, and size tests.
+   round-trip, registration-exactness, and size tests.
 4. `gdalinfo`, QGIS, and Avenza each read the georeferencing correctly on at
    least one portrait and one landscape export over a Fletcher-covered area.
 5. A compositing failure in any layer is surfaced by name with a
