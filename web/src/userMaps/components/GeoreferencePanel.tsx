@@ -1,9 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
 import { georeferenceAnnotation } from "../allmaps/annotation";
 import { UserMapImportError } from "../errors";
 import { parseFletcherGcps } from "../parsers/fletcherGcps";
+import {
+  applyAffine,
+  solveInverseAffineFromGcps,
+} from "../transform/affine";
 import { MIN_GCPS_FOR_BENDING_TPS, MIN_GCPS_FOR_TPS } from "../transform/tps";
+import { toMercator } from "../transform/webMercator";
 import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
 import { GcpList } from "./GcpList";
 import { statusMessage } from "./georeferenceStatus";
@@ -232,6 +237,36 @@ export function GeoreferencePanel({
     setScanFocus({ pixel: gcp.pixel, requestId: focusRequestId.current });
     onFocusGcpOnMap(gcp);
   }
+
+  /**
+   * Where a map location falls on the scan, per the points placed so far.
+   * Null until three points exist — before that there is no transform and any
+   * guess would be invention.
+   */
+  const inverseParams = useMemo(
+    () => solveInverseAffineFromGcps(session.gcps),
+    [session.gcps],
+  );
+
+  const pending = session.pending;
+  useEffect(() => {
+    // A map-first click means the user has named a place and is now hunting
+    // for it on the engraving — the expensive half of placing a point. Moving
+    // the scan there turns that hunt into a glance.
+    //
+    // Keyed on the pending point rather than on a click handler because the
+    // click is caught in the live map, which lives in App, not in this panel.
+    if (!pending || pending.side !== "map" || !inverseParams) {
+      return;
+    }
+    const mercator = toMercator(pending.map);
+    const pixel = applyAffine(inverseParams, mercator.x, mercator.y);
+    if (!Number.isFinite(pixel.x) || !Number.isFinite(pixel.y)) {
+      return;
+    }
+    focusRequestId.current += 1;
+    setScanFocus({ pixel, requestId: focusRequestId.current });
+  }, [pending, inverseParams]);
 
   const status = statusMessage(session.status);
   /**

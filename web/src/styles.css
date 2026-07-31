@@ -4412,8 +4412,32 @@ a {
   text-align: left;
 }
 
+/* The province renders this layer server-side, so its line weights and colours
+   are not ours to set — a filter on the tile container is the only lever. It is
+   safe to push hard because the export is `transparent: true`: the tiles carry
+   the water linework and nothing else, so this cannot touch the basemap or a
+   georeferenced scan underneath. Wanted when the layer is used as a landmark
+   reference over a busy historical sheet, where the default hairlines vanish. */
+.map-layer-water-features {
+  filter: contrast(1.45) saturate(1.35) brightness(0.92);
+}
+
 .gcp-row td {
   padding: 3px 0;
+}
+
+/* Bold, and gapped away from the scan coordinates beside it. Unstyled the row
+   reads "13917, 1670" — the index runs straight into the first coordinate, and
+   the index is exactly what the drag workflow refers to ("rows 46 and up").
+   Tabular figures keep the column edge straight from 1 to 50. */
+/* Selector must out-specify `.gcp-row td` above (0,1,1), which sets
+   `padding: 3px 0`. As a bare `.gcp-index` (0,1,0) the padding silently lost
+   and the columns still touched — bold alone did not separate them. */
+.gcp-row td.gcp-index {
+  padding-right: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .gcp-residual {
@@ -4592,4 +4616,20 @@ a {
   .georeference-map-bar[data-tab="map"] {
     display: flex;
   }
+}
+
+/* Header cells are buttons so sorting is keyboard-reachable, but they must not
+   read as buttons — they carry the column name and sit inside a dense list. */
+.gcp-sort {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gcp-sort:hover {
+  text-decoration: underline;
 }

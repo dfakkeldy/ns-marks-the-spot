@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { Gcp } from "../types";
-import { applyAffine, solveAffine, solveAffineFromGcps, type AffineParams } from "./affine";
-import { fromMercator } from "./webMercator";
+import {
+  applyAffine,
+  solveAffine,
+  solveAffineFromGcps,
+  solveInverseAffineFromGcps,
+  type AffineParams,
+} from "./affine";
+import { fromMercator, toMercator } from "./webMercator";
 
 /** Rotation + scale + translation, in Mercator metres. */
 const TRUTH: AffineParams = [3.5, -1.25, -6790000, 0.75, 4.5, 5780000];
@@ -256,5 +262,41 @@ describe("solveAffineFromGcps", () => {
     const expectedPoint = applyAffine(TRUTH, 2048, 1536);
     expect(predicted.x).toBeCloseTo(expectedPoint.x, 3);
     expect(Math.abs(predicted.x)).toBeGreaterThan(1000);
+  });
+});
+
+describe("solveInverseAffineFromGcps", () => {
+  const GCPS: Gcp[] = [
+    { id: "a", pixel: { x: 100, y: 100 }, map: { lat: 45.9, lng: -61.6 } },
+    { id: "b", pixel: { x: 900, y: 120 }, map: { lat: 45.9, lng: -61.4 } },
+    { id: "c", pixel: { x: 120, y: 700 }, map: { lat: 45.75, lng: -61.6 } },
+    { id: "d", pixel: { x: 880, y: 690 }, map: { lat: 45.75, lng: -61.4 } },
+  ];
+
+  it("maps a control's own map position back to its pixel", () => {
+    const inverse = solveInverseAffineFromGcps(GCPS)!;
+    expect(inverse).not.toBeNull();
+    for (const gcp of GCPS) {
+      const mercator = toMercator(gcp.map);
+      const pixel = applyAffine(inverse, mercator.x, mercator.y);
+      // Loose: four points on a slightly irregular quad have no exact affine
+      // fit, and this drives a pane recentre rather than a measurement.
+      expect(pixel.x).toBeCloseTo(gcp.pixel.x, -2);
+      expect(pixel.y).toBeCloseTo(gcp.pixel.y, -2);
+    }
+  });
+
+  it("round-trips through the forward solve", () => {
+    const forward = solveAffineFromGcps(GCPS)!;
+    const inverse = solveInverseAffineFromGcps(GCPS)!;
+    const start = { x: 500, y: 400 };
+    const out = applyAffine(forward, start.x, start.y);
+    const back = applyAffine(inverse, out.x, out.y);
+    expect(back.x).toBeCloseTo(start.x, -2);
+    expect(back.y).toBeCloseTo(start.y, -2);
+  });
+
+  it("refuses below the affine minimum, like the forward solve", () => {
+    expect(solveInverseAffineFromGcps(GCPS.slice(0, 2))).toBeNull();
   });
 });

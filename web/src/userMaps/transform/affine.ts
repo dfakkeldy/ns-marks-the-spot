@@ -194,3 +194,29 @@ export function solveAffineFromGcps(gcps: Gcp[]): AffineParams | null {
     gcps.map((gcp) => ({ src: gcp.pixel, dst: toMercator(gcp.map) })),
   );
 }
+
+/**
+ * The same solve with the two sides swapped: Mercator metres in, scan pixels
+ * out. Used to answer "where on the scan is this place on the map?" — the
+ * question a georeferencer asks constantly and could previously only answer by
+ * eye.
+ *
+ * Deliberately affine even when the record's warp is TPS. This drives a pane
+ * recentre, not a measurement: affine needs three points where TPS needs more,
+ * survives control sets that would refuse a spline, and cannot fold space the
+ * way an inverted spline can far from its controls. An answer that is roughly
+ * right everywhere beats an exact one that is unavailable or wild.
+ *
+ * `solveAffine` is reused rather than inverting the forward parameters because
+ * it centres both sides on their centroids; inverting a 2x2 built from raw
+ * pixels against ~7e6 metre coordinates throws away most of its precision to
+ * cancellation, which is the whole reason that centring exists.
+ */
+export function solveInverseAffineFromGcps(gcps: Gcp[]): AffineParams | null {
+  return solveAffine(
+    gcps.map((gcp) => {
+      const mercator = toMercator(gcp.map);
+      return { src: { x: mercator.x, y: mercator.y }, dst: gcp.pixel };
+    }),
+  );
+}
