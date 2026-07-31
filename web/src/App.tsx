@@ -2438,10 +2438,18 @@ export function App() {
             ) : null}
           </form>
 
+          {/* Deliberately NOT gated on `licenceAccepted`. Declining the
+              Province licence runs `continueWithoutProvinceLayers`, which
+              never sets that flag — so gating here locked the export out
+              permanently for exactly the user the feature was written for:
+              the one taking OSM + a Fletcher sheet into the field with live
+              GPS, which needs no Province data at all. Province layers are
+              already excluded from the export by the same mechanism that
+              excludes them from `captureLayerIds` — they are only visible,
+              and therefore only composited, once the licence is accepted. */}
           <button
             type="button"
             className="secondary-action export-map-trigger"
-            disabled={!licenceAccepted}
             onClick={() =>
               setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
           >

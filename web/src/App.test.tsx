@@ -61,6 +61,7 @@ vi.mock("./components/MapCanvas", () => ({
     georeference,
     userMaps,
     userMapFitRequest,
+    exportFrame,
   }: {
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -101,6 +102,7 @@ vi.mock("./components/MapCanvas", () => ({
     } | null;
     userMaps?: unknown[];
     userMapFitRequest?: { mapId: string; revision: number } | null;
+    exportFrame?: unknown;
   }) => {
     useEffect(() => {
       if (renderMode === "print") {
@@ -181,6 +183,7 @@ vi.mock("./components/MapCanvas", () => ({
       {georeference?.focus
         ? `${georeference.focus.lat},${georeference.focus.lng}`
         : "none"}
+      ; export frame: {exportFrame ? "framing" : "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -1037,6 +1040,31 @@ describe("NS Marks The Spot Online", () => {
     });
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "Fletcher: on at 50%",
+    );
+  });
+
+  it("lets a user who declined the Province licence still export a map", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", { name: "Continue without Province layers" }),
+    );
+
+    // `continueWithoutProvinceLayers` never sets `licenceAccepted`, so the
+    // blanket `disabled={!licenceAccepted}` this replaces locked the export
+    // out permanently for exactly the user the feature exists for: OSM plus a
+    // Fletcher sheet in the field over live GPS, which needs no Province data.
+    // Province layers stay out of the export on their own — they are not
+    // visible without the licence, so nothing composites them.
+    const exportTrigger = screen.getByRole("button", {
+      name: "Export map (PDF)",
+    });
+    expect(exportTrigger).toBeEnabled();
+
+    await user.click(exportTrigger);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "export frame: framing",
     );
   });
 
