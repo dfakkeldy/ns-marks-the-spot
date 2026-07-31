@@ -1,0 +1,1691 @@
+{
+  "case": "control fixtures - page count and the manual-points boundary",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys",
+  "profile": "fresh geckodriver temporary profile per launch",
+  "guards": [
+    "per-file IndexedDB + UI-state reset (ff_chooser.reset_storage)",
+    "recordsBeforeImport == 0 asserted per file"
+  ],
+  "origin": "http://127.0.0.1:4340",
+  "fixtureDir": "/Users/dfakkeldy/Developer/ns-marks-geopdf-acceptance/web/src/test/fixtures/geopdf",
+  "fixtures": [
+    {
+      "file": "ns-utm20-lgidict.pdf",
+      "bytes": 1896,
+      "manifestExpected": "manual-unsupported",
+      "sourceDerivedExpectation": "embedded",
+      "expectManual": false,
+      "why": "geoPdfMetadata.test.ts asserts rejected==[] and a sole 'NAD83 / UTM zone 20N' candidate; EPSG:26920 is in SUPPORTED_EPSG_CODES. Manifest 'expected' contradicts both.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.58,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [
+          "ns-utm20-lgidict.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates."
+        ],
+        "pageCopy": [
+          "ns-utm20-lgidict.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.",
+          "ns-utm20-lgidictYour file \u00b7 4,096\u00d73,072 pxGeoPDF page 1 \u00b7 NAD83 / UTM zone 20N \u00b7 LGIDict \u00b7 sole registrationOpacityAdjust pointsRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Adjust points",
+              "Remove"
+            ],
+            "checkboxDisabled": false,
+            "checked": true,
+            "georefButtons": [
+              "Adjust points"
+            ],
+            "needsGeoreferenceBadge": [],
+            "provenance": [],
+            "text": "ns-utm20-lgidictYour file \u00b7 4,096\u00d73,072 pxGeoPDF page 1 \u00b7 NAD83 / UTM zone 20N \u00b7 LGIDict \u00b7 sole registrationOpacityAdjust pointsRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "0596a948-59c8-4dba-948a-5075c1d850e0:preview": {
+            "byteLength": 106284,
+            "type": "image/png"
+          },
+          "0596a948-59c8-4dba-948a-5075c1d850e0:raster": {
+            "byteLength": 1896,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "NAD83 / UTM zone 20N",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-7-0-0-0-4096-3072",
+                "sourceRect": {
+                  "height": 3072,
+                  "width": 4096,
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "lgidict-7-0-gcp-1",
+                "map": {
+                  "lat": 45.15347718443478,
+                  "lng": -63
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "id": "lgidict-7-0-gcp-2",
+                "map": {
+                  "lat": 45.15293708335921,
+                  "lng": -63
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 3072
+                }
+              },
+              {
+                "id": "lgidict-7-0-gcp-3",
+                "map": {
+                  "lat": 45.15293707882459,
+                  "lng": -62.998982257469585
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 3072
+                }
+              },
+              {
+                "id": "lgidict-7-0-gcp-4",
+                "map": {
+                  "lat": 45.15347717990008,
+                  "lng": -62.998982247856524
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 0
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "0596a948-59c8-4dba-948a-5075c1d850e0",
+            "manualReason": null,
+            "name": "ns-utm20-lgidict",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 3072,
+              "width": 4096
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "lgidict-7-0-0-0-4096-3072",
+            "selectedLabel": "NAD83 / UTM zone 20N",
+            "selection": {
+              "kind": "sole"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 3072,
+              "width": 4096,
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      "observed": "EMBEDDED",
+      "pageCount": 1,
+      "registrationStatus": "embedded",
+      "manualReason": null,
+      "selection": {
+        "kind": "sole"
+      },
+      "gcpCount": 4,
+      "georefMethod": "affine",
+      "boundaryVerdict": "OK_EMBEDDED",
+      "manifestAgreesWithObservation": false,
+      "screenshot": "control-ns-utm20-lgidict.jpg"
+    },
+    {
+      "file": "ns-utm20-iso.pdf",
+      "bytes": 1878,
+      "manifestExpected": "manual-unsupported",
+      "sourceDerivedExpectation": "embedded",
+      "expectManual": false,
+      "why": "geoPdfMetadata.test.ts asserts rejected==[] and a sole 'Layer' Measure candidate with 4 gcps; EPSG:26920 supported.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.56,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [
+          "ns-utm20-iso.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates."
+        ],
+        "pageCopy": [
+          "ns-utm20-iso.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.",
+          "ns-utm20-isoYour file \u00b7 4,096\u00d73,072 pxGeoPDF page 1 \u00b7 Layer \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Adjust points",
+              "Remove"
+            ],
+            "checkboxDisabled": false,
+            "checked": true,
+            "georefButtons": [
+              "Adjust points"
+            ],
+            "needsGeoreferenceBadge": [],
+            "provenance": [],
+            "text": "ns-utm20-isoYour file \u00b7 4,096\u00d73,072 pxGeoPDF page 1 \u00b7 Layer \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "283d6476-fa8f-4480-825c-f17c256832c6:preview": {
+            "byteLength": 106284,
+            "type": "image/png"
+          },
+          "283d6476-fa8f-4480-825c-f17c256832c6:raster": {
+            "byteLength": 1878,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Layer",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-7-0-0-0-4096-3072",
+                "sourceRect": {
+                  "height": 3072,
+                  "width": 4096,
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ],
+            "flavor": "measure",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "measure-7-0-gcp-1",
+                "map": {
+                  "lat": 45.15347718443477,
+                  "lng": -63
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "id": "measure-7-0-gcp-2",
+                "map": {
+                  "lat": 45.15293708335921,
+                  "lng": -63
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 3072
+                }
+              },
+              {
+                "id": "measure-7-0-gcp-3",
+                "map": {
+                  "lat": 45.15293707882461,
+                  "lng": -62.998982257469585
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 3072
+                }
+              },
+              {
+                "id": "measure-7-0-gcp-4",
+                "map": {
+                  "lat": 45.15347717990009,
+                  "lng": -62.998982247856524
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 0
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "283d6476-fa8f-4480-825c-f17c256832c6",
+            "manualReason": null,
+            "name": "ns-utm20-iso",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 3072,
+              "width": 4096
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "measure-7-0-0-0-4096-3072",
+            "selectedLabel": "Layer",
+            "selection": {
+              "kind": "sole"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 3072,
+              "width": 4096,
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      "observed": "EMBEDDED",
+      "pageCount": 1,
+      "registrationStatus": "embedded",
+      "manualReason": null,
+      "selection": {
+        "kind": "sole"
+      },
+      "gcpCount": 4,
+      "georefMethod": "affine",
+      "boundaryVerdict": "OK_EMBEDDED",
+      "manifestAgreesWithObservation": false,
+      "screenshot": "control-ns-utm20-iso.jpg"
+    },
+    {
+      "file": "byte_and_rgbsmall_2pages.pdf",
+      "bytes": 8992,
+      "manifestExpected": "page-1-only",
+      "sourceDerivedExpectation": "page-1-only",
+      "expectManual": null,
+      "why": "two pages; must report 2 and import page 1 only.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": true,
+        "errors": [],
+        "outcomes": [
+          "byte_and_rgbsmall_2pages.pdf added \u2014 Page 1 of 2 imported; later pages were not imported. This GeoPDF registration uses an unsupported coordinate system. Add matching points to place it."
+        ],
+        "pageCopy": [
+          "byte_and_rgbsmall_2pages.pdf added \u2014 Page 1 of 2 imported; later pages were not imported. This GeoPDF registration uses an unsupported coordinate system. Add matching points to place it.",
+          "byte_and_rgbsmall_2pagesYour file \u00b7 4,096\u00d74,096 px \u00b7 Needs georeferencingGeoPDF page 1 of 2 \u00b7 unsupported-crs registration \u00b7 manual pointsGeoreferenceRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Georeference",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "georefButtons": [
+              "Georeference"
+            ],
+            "needsGeoreferenceBadge": [
+              "Needs georeferencing"
+            ],
+            "provenance": [],
+            "text": "byte_and_rgbsmall_2pagesYour file \u00b7 4,096\u00d74,096 px \u00b7 Needs georeferencingGeoPDF page 1 of 2 \u00b7 unsupported-crs registration \u00b7 manual pointsGeoreferenceRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "e68afc7e-155a-4f2b-b862-63e9e5145410:preview": {
+            "byteLength": 246024,
+            "type": "image/png"
+          },
+          "e68afc7e-155a-4f2b-b862-63e9e5145410:raster": {
+            "byteLength": 8992,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": null,
+            "flavor": null,
+            "gcpCount": 0,
+            "gcps": [],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "e68afc7e-155a-4f2b-b862-63e9e5145410",
+            "manualReason": "unsupported-crs",
+            "name": "byte_and_rgbsmall_2pages",
+            "pageCount": 2,
+            "pixelSize": {
+              "height": 4096,
+              "width": 4096
+            },
+            "registrationStatus": "manual",
+            "selectedFrameId": null,
+            "selectedLabel": null,
+            "selection": null,
+            "source": "geopdf",
+            "sourceRect": null
+          }
+        ]
+      },
+      "observed": "MANUAL",
+      "pageCount": 2,
+      "registrationStatus": "manual",
+      "manualReason": "unsupported-crs",
+      "selection": null,
+      "gcpCount": 0,
+      "georefMethod": "affine",
+      "boundaryVerdict": "NOT_A_BOUNDARY_CASE_observed_MANUAL",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-byte_and_rgbsmall_2pages.jpg"
+    },
+    {
+      "file": "registration-page-2.pdf",
+      "bytes": 2377,
+      "manifestExpected": "manual-page-1-missing",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "registration lives on page 2; page 1 has none, so page 1 must fall back to manual rather than borrow page 2's registration.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.56,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": true,
+        "bodyMentionsManualPoints": true,
+        "errors": [],
+        "outcomes": [
+          "registration-page-2.pdf added \u2014 Page 1 of 2 imported; later pages were not imported. No supported geospatial registration was found. Add matching points to place it."
+        ],
+        "pageCopy": [
+          "registration-page-2.pdf added \u2014 Page 1 of 2 imported; later pages were not imported. No supported geospatial registration was found. Add matching points to place it.",
+          "registration-page-2Your file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 of 2 \u00b7 absent registration \u00b7 manual pointsGeoreferenceRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Georeference",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "georefButtons": [
+              "Georeference"
+            ],
+            "needsGeoreferenceBadge": [
+              "Needs georeferencing"
+            ],
+            "provenance": [],
+            "text": "registration-page-2Your file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 of 2 \u00b7 absent registration \u00b7 manual pointsGeoreferenceRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "240e0ec7-63ee-4866-ad39-34b07a9ac9ff:preview": {
+            "byteLength": 61670,
+            "type": "image/png"
+          },
+          "240e0ec7-63ee-4866-ad39-34b07a9ac9ff:raster": {
+            "byteLength": 2377,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": null,
+            "flavor": null,
+            "gcpCount": 0,
+            "gcps": [],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "240e0ec7-63ee-4866-ad39-34b07a9ac9ff",
+            "manualReason": "absent",
+            "name": "registration-page-2",
+            "pageCount": 2,
+            "pixelSize": {
+              "height": 2731,
+              "width": 4096
+            },
+            "registrationStatus": "manual",
+            "selectedFrameId": null,
+            "selectedLabel": null,
+            "selection": null,
+            "source": "geopdf",
+            "sourceRect": null
+          }
+        ]
+      },
+      "observed": "MANUAL",
+      "pageCount": 2,
+      "registrationStatus": "manual",
+      "manualReason": "absent",
+      "selection": null,
+      "gcpCount": 0,
+      "georefMethod": "affine",
+      "boundaryVerdict": "OK_MANUAL",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-registration-page-2.jpg"
+    },
+    {
+      "file": "plain.pdf",
+      "bytes": 1030,
+      "manifestExpected": "manual-missing",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "registration absent -> 'absent registration - manual points'.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": true,
+        "bodyMentionsManualPoints": true,
+        "errors": [],
+        "outcomes": [
+          "plain.pdf added \u2014 Page 1 imported. No supported geospatial registration was found. Add matching points to place it."
+        ],
+        "pageCopy": [
+          "plain.pdf added \u2014 Page 1 imported. No supported geospatial registration was found. Add matching points to place it.",
+          "plainYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 absent registration \u00b7 manual pointsGeoreferenceRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Georeference",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "georefButtons": [
+              "Georeference"
+            ],
+            "needsGeoreferenceBadge": [
+              "Needs georeferencing"
+            ],
+            "provenance": [],
+            "text": "plainYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 absent registration \u00b7 manual pointsGeoreferenceRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "adf9dd7c-134b-4e85-ad30-16d9663db6c2:preview": {
+            "byteLength": 61666,
+            "type": "image/png"
+          },
+          "adf9dd7c-134b-4e85-ad30-16d9663db6c2:raster": {
+            "byteLength": 1030,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": null,
+            "flavor": null,
+            "gcpCount": 0,
+            "gcps": [],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "adf9dd7c-134b-4e85-ad30-16d9663db6c2",
+            "manualReason": "absent",
+            "name": "plain",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 2731,
+              "width": 4096
+            },
+            "registrationStatus": "manual",
+            "selectedFrameId": null,
+            "selectedLabel": null,
+            "selection": null,
+            "source": "geopdf",
+            "sourceRect": null
+          }
+        ]
+      },
+      "observed": "MANUAL",
+      "pageCount": 1,
+      "registrationStatus": "manual",
+      "manualReason": "absent",
+      "selection": null,
+      "gcpCount": 0,
+      "georefMethod": "affine",
+      "boundaryVerdict": "OK_MANUAL",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-plain.jpg"
+    },
+    {
+      "file": "malformed-measure.pdf",
+      "bytes": 1971,
+      "manifestExpected": "manual-invalid",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "measure registration with invalid cardinality.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": true,
+        "errors": [],
+        "outcomes": [
+          "malformed-measure.pdf added \u2014 Page 1 imported. The embedded positioning could not be validated. Add matching points to place it."
+        ],
+        "pageCopy": [
+          "malformed-measure.pdf added \u2014 Page 1 imported. The embedded positioning could not be validated. Add matching points to place it.",
+          "malformed-measureYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 invalid registration \u00b7 manual pointsGeoreferenceRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Georeference",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "georefButtons": [
+              "Georeference"
+            ],
+            "needsGeoreferenceBadge": [
+              "Needs georeferencing"
+            ],
+            "provenance": [],
+            "text": "malformed-measureYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 invalid registration \u00b7 manual pointsGeoreferenceRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "04d1ae9e-9170-4b91-ac69-9f7dd4b77642:preview": {
+            "byteLength": 61643,
+            "type": "image/png"
+          },
+          "04d1ae9e-9170-4b91-ac69-9f7dd4b77642:raster": {
+            "byteLength": 1971,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": null,
+            "flavor": null,
+            "gcpCount": 0,
+            "gcps": [],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "04d1ae9e-9170-4b91-ac69-9f7dd4b77642",
+            "manualReason": "invalid",
+            "name": "malformed-measure",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 2731,
+              "width": 4096
+            },
+            "registrationStatus": "manual",
+            "selectedFrameId": null,
+            "selectedLabel": null,
+            "selection": null,
+            "source": "geopdf",
+            "sourceRect": null
+          }
+        ]
+      },
+      "observed": "MANUAL",
+      "pageCount": 1,
+      "registrationStatus": "manual",
+      "manualReason": "invalid",
+      "selection": null,
+      "gcpCount": 0,
+      "georefMethod": "affine",
+      "boundaryVerdict": "OK_MANUAL",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-malformed-measure.jpg"
+    },
+    {
+      "file": "unsupported-crs.pdf",
+      "bytes": 1345,
+      "manifestExpected": "manual-unsupported-crs",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "EPSG 999999 is not in SUPPORTED_EPSG_CODES.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": true,
+        "errors": [],
+        "outcomes": [
+          "unsupported-crs.pdf added \u2014 Page 1 imported. This GeoPDF registration uses an unsupported coordinate system. Add matching points to place it."
+        ],
+        "pageCopy": [
+          "unsupported-crs.pdf added \u2014 Page 1 imported. This GeoPDF registration uses an unsupported coordinate system. Add matching points to place it.",
+          "unsupported-crsYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 unsupported-crs registration \u00b7 manual pointsGeoreferenceRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Georeference",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "georefButtons": [
+              "Georeference"
+            ],
+            "needsGeoreferenceBadge": [
+              "Needs georeferencing"
+            ],
+            "provenance": [],
+            "text": "unsupported-crsYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 unsupported-crs registration \u00b7 manual pointsGeoreferenceRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "25427d6e-3180-46a2-a26a-30a8ffe4970c:preview": {
+            "byteLength": 61651,
+            "type": "image/png"
+          },
+          "25427d6e-3180-46a2-a26a-30a8ffe4970c:raster": {
+            "byteLength": 1345,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": null,
+            "flavor": null,
+            "gcpCount": 0,
+            "gcps": [],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "25427d6e-3180-46a2-a26a-30a8ffe4970c",
+            "manualReason": "unsupported-crs",
+            "name": "unsupported-crs",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 2731,
+              "width": 4096
+            },
+            "registrationStatus": "manual",
+            "selectedFrameId": null,
+            "selectedLabel": null,
+            "selection": null,
+            "source": "geopdf",
+            "sourceRect": null
+          }
+        ]
+      },
+      "observed": "MANUAL",
+      "pageCount": 1,
+      "registrationStatus": "manual",
+      "manualReason": "unsupported-crs",
+      "selection": null,
+      "gcpCount": 0,
+      "georefMethod": "affine",
+      "boundaryVerdict": "OK_MANUAL",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-unsupported-crs.jpg"
+    },
+    {
+      "file": "test_iso32000.pdf",
+      "bytes": 1625,
+      "manifestExpected": "manual-unsupported",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "pinned to manual-unsupported by testFixtures.test.ts.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [
+          "test_iso32000.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates."
+        ],
+        "pageCopy": [
+          "test_iso32000.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.",
+          "test_iso32000Your file \u00b7 4,096\u00d74,096 pxGeoPDF page 1 \u00b7 Layer \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Adjust points",
+              "Remove"
+            ],
+            "checkboxDisabled": false,
+            "checked": true,
+            "georefButtons": [
+              "Adjust points"
+            ],
+            "needsGeoreferenceBadge": [],
+            "provenance": [],
+            "text": "test_iso32000Your file \u00b7 4,096\u00d74,096 pxGeoPDF page 1 \u00b7 Layer \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "584204cc-f456-4a5e-806e-1fc21d5dbb91:preview": {
+            "byteLength": 246024,
+            "type": "image/png"
+          },
+          "584204cc-f456-4a5e-806e-1fc21d5dbb91:raster": {
+            "byteLength": 1625,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Layer",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-7-0-0-0-4096-4096",
+                "sourceRect": {
+                  "height": 4096,
+                  "width": 4096,
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ],
+            "flavor": "measure",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "measure-7-0-gcp-1",
+                "map": {
+                  "lat": 49,
+                  "lng": 2
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "id": "measure-7-0-gcp-2",
+                "map": {
+                  "lat": 48,
+                  "lng": 2
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 4096
+                }
+              },
+              {
+                "id": "measure-7-0-gcp-3",
+                "map": {
+                  "lat": 48,
+                  "lng": 3
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 4096
+                }
+              },
+              {
+                "id": "measure-7-0-gcp-4",
+                "map": {
+                  "lat": 49,
+                  "lng": 3
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 0
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "584204cc-f456-4a5e-806e-1fc21d5dbb91",
+            "manualReason": null,
+            "name": "test_iso32000",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 4096
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "measure-7-0-0-0-4096-4096",
+            "selectedLabel": "Layer",
+            "selection": {
+              "kind": "sole"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 4096,
+              "width": 4096,
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      "observed": "EMBEDDED",
+      "pageCount": 1,
+      "registrationStatus": "embedded",
+      "manualReason": null,
+      "selection": {
+        "kind": "sole"
+      },
+      "gcpCount": 4,
+      "georefMethod": "affine",
+      "boundaryVerdict": "BOUNDARY_MISMATCH_expected_manual_got_EMBEDDED",
+      "manifestAgreesWithObservation": false,
+      "screenshot": "control-test_iso32000.jpg"
+    },
+    {
+      "file": "test_ogc_bp.pdf",
+      "bytes": 1367,
+      "manifestExpected": "manual-unsupported",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "pinned to manual-unsupported by testFixtures.test.ts.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [
+          "test_ogc_bp.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates."
+        ],
+        "pageCopy": [
+          "test_ogc_bp.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.",
+          "test_ogc_bpYour file \u00b7 4,096\u00d74,096 pxGeoPDF page 1 \u00b7 WGS 84 \u00b7 LGIDict \u00b7 sole registrationOpacityAdjust pointsRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Adjust points",
+              "Remove"
+            ],
+            "checkboxDisabled": false,
+            "checked": true,
+            "georefButtons": [
+              "Adjust points"
+            ],
+            "needsGeoreferenceBadge": [],
+            "provenance": [],
+            "text": "test_ogc_bpYour file \u00b7 4,096\u00d74,096 pxGeoPDF page 1 \u00b7 WGS 84 \u00b7 LGIDict \u00b7 sole registrationOpacityAdjust pointsRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "ab85de76-a597-4f0c-90dd-e4aaaf23e0d6:preview": {
+            "byteLength": 246024,
+            "type": "image/png"
+          },
+          "ab85de76-a597-4f0c-90dd-e4aaaf23e0d6:raster": {
+            "byteLength": 1367,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "WGS 84",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-7-0-0-0-4096-4096",
+                "sourceRect": {
+                  "height": 4096,
+                  "width": 4096,
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "lgidict-7-0-gcp-1",
+                "map": {
+                  "lat": 49,
+                  "lng": 2
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "id": "lgidict-7-0-gcp-2",
+                "map": {
+                  "lat": 48.00000000000001,
+                  "lng": 2
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 4096
+                }
+              },
+              {
+                "id": "lgidict-7-0-gcp-3",
+                "map": {
+                  "lat": 48.00000000000001,
+                  "lng": 3.0000000000000004
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 4096
+                }
+              },
+              {
+                "id": "lgidict-7-0-gcp-4",
+                "map": {
+                  "lat": 49,
+                  "lng": 3.0000000000000004
+                },
+                "pixel": {
+                  "x": 4096,
+                  "y": 0
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "ab85de76-a597-4f0c-90dd-e4aaaf23e0d6",
+            "manualReason": null,
+            "name": "test_ogc_bp",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 4096
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "lgidict-7-0-0-0-4096-4096",
+            "selectedLabel": "WGS 84",
+            "selection": {
+              "kind": "sole"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 4096,
+              "width": 4096,
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      "observed": "EMBEDDED",
+      "pageCount": 1,
+      "registrationStatus": "embedded",
+      "manualReason": null,
+      "selection": {
+        "kind": "sole"
+      },
+      "gcpCount": 4,
+      "georefMethod": "affine",
+      "boundaryVerdict": "BOUNDARY_MISMATCH_expected_manual_got_EMBEDDED",
+      "manifestAgreesWithObservation": false,
+      "screenshot": "control-test_ogc_bp.jpg"
+    },
+    {
+      "file": "rotated-cropped.pdf",
+      "bytes": 2020,
+      "manifestExpected": "manual-unsupported",
+      "sourceDerivedExpectation": "manual",
+      "expectManual": true,
+      "why": "rotated/cropped measure registration.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.55,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [
+          "rotated-cropped.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates."
+        ],
+        "pageCopy": [
+          "rotated-cropped.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.",
+          "rotated-croppedYour file \u00b7 2,048\u00d74,096 pxGeoPDF page 1 \u00b7 Map frame \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Adjust points",
+              "Remove"
+            ],
+            "checkboxDisabled": false,
+            "checked": true,
+            "georefButtons": [
+              "Adjust points"
+            ],
+            "needsGeoreferenceBadge": [],
+            "provenance": [],
+            "text": "rotated-croppedYour file \u00b7 2,048\u00d74,096 pxGeoPDF page 1 \u00b7 Map frame \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "379b24cb-3a81-47cc-9c92-658bfe8c1911:preview": {
+            "byteLength": 42274,
+            "type": "image/png"
+          },
+          "379b24cb-3a81-47cc-9c92-658bfe8c1911:raster": {
+            "byteLength": 2020,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map frame",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-0-0-0-2048-4096",
+                "sourceRect": {
+                  "height": 4096,
+                  "width": 2048,
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ],
+            "flavor": "measure",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "measure-direct-0-gcp-1",
+                "map": {
+                  "lat": 45,
+                  "lng": -64
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "id": "measure-direct-0-gcp-2",
+                "map": {
+                  "lat": 46,
+                  "lng": -64
+                },
+                "pixel": {
+                  "x": 2048,
+                  "y": 0
+                }
+              },
+              {
+                "id": "measure-direct-0-gcp-3",
+                "map": {
+                  "lat": 46,
+                  "lng": -63
+                },
+                "pixel": {
+                  "x": 2048,
+                  "y": 4096
+                }
+              },
+              {
+                "id": "measure-direct-0-gcp-4",
+                "map": {
+                  "lat": 45,
+                  "lng": -63
+                },
+                "pixel": {
+                  "x": 0,
+                  "y": 4096
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "379b24cb-3a81-47cc-9c92-658bfe8c1911",
+            "manualReason": null,
+            "name": "rotated-cropped",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 2048
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "measure-direct-0-0-0-2048-4096",
+            "selectedLabel": "Map frame",
+            "selection": {
+              "kind": "sole"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 4096,
+              "width": 2048,
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      "observed": "EMBEDDED",
+      "pageCount": 1,
+      "registrationStatus": "embedded",
+      "manualReason": null,
+      "selection": {
+        "kind": "sole"
+      },
+      "gcpCount": 4,
+      "georefMethod": "affine",
+      "boundaryVerdict": "BOUNDARY_MISMATCH_expected_manual_got_EMBEDDED",
+      "manifestAgreesWithObservation": false,
+      "screenshot": "control-rotated-cropped.jpg"
+    },
+    {
+      "file": "adobe_style_geospatial.pdf",
+      "bytes": 57553,
+      "manifestExpected": "manual-ambiguous",
+      "sourceDerivedExpectation": "manual-or-chooser",
+      "expectManual": true,
+      "why": "two registrations; manifest expects ambiguous -> manual.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.57,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": true,
+        "dialogPresent": true,
+        "heading": "Choose a frame for adobe_style_geospatial",
+        "highlightPresent": false,
+        "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+        "legend": "Registered frames on page 1",
+        "options": [
+          {
+            "checked": false,
+            "index": 0,
+            "label": "Layers\u0000",
+            "value": "measure-direct-0-294.7878788-408.5656566-2606.5454545-2151.4343434"
+          },
+          {
+            "checked": false,
+            "index": 1,
+            "label": "New Data Frame\u0000",
+            "value": "measure-direct-1-1768.7272727-2766.8686869-1106.7474747-982.6262626"
+          }
+        ],
+        "radioCount": 2
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [
+          "adobe_style_geospatial.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+        ],
+        "pageCopy": [
+          "adobe_style_geospatial.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it.",
+          "adobe_style_geospatialYour file \u00b7 3,165\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+        ],
+        "rows": [
+          {
+            "buttons": [
+              "Choose frame",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "georefButtons": [
+              "Choose frame"
+            ],
+            "needsGeoreferenceBadge": [
+              "Choose frame"
+            ],
+            "provenance": [],
+            "text": "adobe_style_geospatialYour file \u00b7 3,165\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+          }
+        ],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {
+          "e98b0cdf-8fbe-41c6-825d-a76a8b8f7005:preview": {
+            "byteLength": 544189,
+            "type": "image/png"
+          },
+          "e98b0cdf-8fbe-41c6-825d-a76a8b8f7005:raster": {
+            "byteLength": 57553,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": null,
+            "candidates": [
+              {
+                "embeddedLabel": "Layers\u0000",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-0-294.7878788-408.5656566-2606.5454545-2151.4343434",
+                "sourceRect": {
+                  "height": 2151.4343434343436,
+                  "width": 2606.5454545454545,
+                  "x": 294.7878787878788,
+                  "y": 408.5656565656563
+                }
+              },
+              {
+                "embeddedLabel": "New Data Frame\u0000",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-1-1768.7272727-2766.8686869-1106.7474747-982.6262626",
+                "sourceRect": {
+                  "height": 982.6262626262628,
+                  "width": 1106.7474747474748,
+                  "x": 1768.727272727273,
+                  "y": 2766.868686868687
+                }
+              }
+            ],
+            "flavor": null,
+            "gcpCount": 0,
+            "gcps": [],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "e98b0cdf-8fbe-41c6-825d-a76a8b8f7005",
+            "manualReason": null,
+            "name": "adobe_style_geospatial",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 3165
+            },
+            "registrationStatus": "selection-required",
+            "selectedFrameId": null,
+            "selectedLabel": null,
+            "selection": null,
+            "source": "geopdf",
+            "sourceRect": null
+          }
+        ]
+      },
+      "observed": "CHOOSER_PRESENTED",
+      "pageCount": 1,
+      "registrationStatus": "selection-required",
+      "manualReason": null,
+      "selection": null,
+      "gcpCount": 0,
+      "georefMethod": "affine",
+      "boundaryVerdict": "BOUNDARY_MISMATCH_expected_manual_got_CHOOSER_PRESENTED",
+      "manifestAgreesWithObservation": false,
+      "screenshot": "control-adobe_style_geospatial.jpg"
+    },
+    {
+      "file": "corrupt.pdf",
+      "bytes": 515,
+      "manifestExpected": "invalid-pdf",
+      "sourceDerivedExpectation": "error",
+      "expectManual": null,
+      "why": "truncated bytes; not a renderable PDF.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 4.56,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [
+          "corrupt.pdf: This PDF could not be read. Export a new copy and try again."
+        ],
+        "outcomes": [
+          "corrupt.pdf: This PDF could not be read. Export a new copy and try again."
+        ],
+        "pageCopy": [],
+        "rows": [],
+        "status": null
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {},
+        "recordCount": 0,
+        "records": []
+      },
+      "observed": "ERROR_NO_RECORD",
+      "boundaryVerdict": "NOT_A_BOUNDARY_CASE_observed_ERROR_NO_RECORD",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-corrupt.jpg"
+    },
+    {
+      "file": "byte_enc.pdf",
+      "bytes": 2605,
+      "manifestExpected": "password-protected",
+      "sourceDerivedExpectation": "error",
+      "expectManual": null,
+      "why": "encrypted; typed unlock/export error with no password UI.",
+      "recordsBeforeImport": 0,
+      "secondsToSettle": 184.04,
+      "chooser": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": null,
+        "dialogPresent": false,
+        "heading": null,
+        "highlightPresent": false,
+        "intro": null,
+        "legend": null,
+        "options": [],
+        "radioCount": 0
+      },
+      "control": {
+        "bodyMentionsAbsentRegistration": false,
+        "bodyMentionsManualPoints": false,
+        "errors": [],
+        "outcomes": [],
+        "pageCopy": [],
+        "rows": [],
+        "status": "Reading \"byte_enc.pdf\"\u2026"
+      },
+      "jsErrors": [],
+      "unhandledRejections": [],
+      "longTaskApiSupported": false,
+      "idb": {
+        "blobs": {},
+        "recordCount": 0,
+        "records": []
+      },
+      "observed": "ERROR_NO_RECORD",
+      "boundaryVerdict": "NOT_A_BOUNDARY_CASE_observed_ERROR_NO_RECORD",
+      "manifestAgreesWithObservation": true,
+      "screenshot": "control-byte_enc.jpg"
+    }
+  ],
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "log": [
+    "[   2.35s] ATTACHED firefox 152.0.6 buildID=20260713164047 gecko=0.37.1",
+    "[   2.37s] ===== ns-utm20-lgidict.pdf (1896 B) =====",
+    "[  18.67s]   observed=EMBEDDED pageCount=1 manualReason=None verdict=OK_EMBEDDED",
+    "[  18.67s]   outcomes=['ns-utm20-lgidict.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.']",
+    "[  18.67s]   errors=[]",
+    "[  18.67s]   row0=ns-utm20-lgidictYour file \u00b7 4,096\u00d73,072 pxGeoPDF page 1 \u00b7 NAD83 / UTM zone 20N \u00b7 LGIDict \u00b7 sole registrationOpacityAdjust pointsRemove",
+    "[  18.67s]   georefButtons=['Adjust points']",
+    "[  18.67s] ===== ns-utm20-iso.pdf (1878 B) =====",
+    "[  33.67s]   observed=EMBEDDED pageCount=1 manualReason=None verdict=OK_EMBEDDED",
+    "[  33.67s]   outcomes=['ns-utm20-iso.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.']",
+    "[  33.67s]   errors=[]",
+    "[  33.67s]   row0=ns-utm20-isoYour file \u00b7 4,096\u00d73,072 pxGeoPDF page 1 \u00b7 Layer \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove",
+    "[  33.67s]   georefButtons=['Adjust points']",
+    "[  33.67s] ===== byte_and_rgbsmall_2pages.pdf (8992 B) =====",
+    "[  48.67s]   observed=MANUAL pageCount=2 manualReason=unsupported-crs verdict=NOT_A_BOUNDARY_CASE_observed_MANUAL",
+    "[  48.67s]   outcomes=['byte_and_rgbsmall_2pages.pdf added \u2014 Page 1 of 2 imported; later pages were not imported. This GeoPDF registration uses an unsupported coordinate system. Add matching points to place it.']",
+    "[  48.67s]   errors=[]",
+    "[  48.67s]   row0=byte_and_rgbsmall_2pagesYour file \u00b7 4,096\u00d74,096 px \u00b7 Needs georeferencingGeoPDF page 1 of 2 \u00b7 unsupported-crs registration \u00b7 manual pointsGeoreferenceRemove",
+    "[  48.67s]   georefButtons=['Georeference']",
+    "[  48.67s] ===== registration-page-2.pdf (2377 B) =====",
+    "[  63.67s]   observed=MANUAL pageCount=2 manualReason=absent verdict=OK_MANUAL",
+    "[  63.67s]   outcomes=['registration-page-2.pdf added \u2014 Page 1 of 2 imported; later pages were not imported. No supported geospatial registration was found. Add matching points to place it.']",
+    "[  63.67s]   errors=[]",
+    "[  63.67s]   row0=registration-page-2Your file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 of 2 \u00b7 absent registration \u00b7 manual pointsGeoreferenceRemove",
+    "[  63.67s]   georefButtons=['Georeference']",
+    "[  63.67s] ===== plain.pdf (1030 B) =====",
+    "[  78.73s]   observed=MANUAL pageCount=1 manualReason=absent verdict=OK_MANUAL",
+    "[  78.73s]   outcomes=['plain.pdf added \u2014 Page 1 imported. No supported geospatial registration was found. Add matching points to place it.']",
+    "[  78.73s]   errors=[]",
+    "[  78.73s]   row0=plainYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 absent registration \u00b7 manual pointsGeoreferenceRemove",
+    "[  78.73s]   georefButtons=['Georeference']",
+    "[  78.73s] ===== malformed-measure.pdf (1971 B) =====",
+    "[  94.03s]   observed=MANUAL pageCount=1 manualReason=invalid verdict=OK_MANUAL",
+    "[  94.03s]   outcomes=['malformed-measure.pdf added \u2014 Page 1 imported. The embedded positioning could not be validated. Add matching points to place it.']",
+    "[  94.03s]   errors=[]",
+    "[  94.03s]   row0=malformed-measureYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 invalid registration \u00b7 manual pointsGeoreferenceRemove",
+    "[  94.03s]   georefButtons=['Georeference']",
+    "[  94.04s] ===== unsupported-crs.pdf (1345 B) =====",
+    "[ 109.18s]   observed=MANUAL pageCount=1 manualReason=unsupported-crs verdict=OK_MANUAL",
+    "[ 109.18s]   outcomes=['unsupported-crs.pdf added \u2014 Page 1 imported. This GeoPDF registration uses an unsupported coordinate system. Add matching points to place it.']",
+    "[ 109.18s]   errors=[]",
+    "[ 109.18s]   row0=unsupported-crsYour file \u00b7 4,096\u00d72,731 px \u00b7 Needs georeferencingGeoPDF page 1 \u00b7 unsupported-crs registration \u00b7 manual pointsGeoreferenceRemove",
+    "[ 109.18s]   georefButtons=['Georeference']",
+    "[ 109.18s] ===== test_iso32000.pdf (1625 B) =====",
+    "[ 124.50s]   observed=EMBEDDED pageCount=1 manualReason=None verdict=BOUNDARY_MISMATCH_expected_manual_got_EMBEDDED",
+    "[ 124.50s]   outcomes=['test_iso32000.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.']",
+    "[ 124.50s]   errors=[]",
+    "[ 124.50s]   row0=test_iso32000Your file \u00b7 4,096\u00d74,096 pxGeoPDF page 1 \u00b7 Layer \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove",
+    "[ 124.50s]   georefButtons=['Adjust points']",
+    "[ 124.50s] ===== test_ogc_bp.pdf (1367 B) =====",
+    "[ 139.84s]   observed=EMBEDDED pageCount=1 manualReason=None verdict=BOUNDARY_MISMATCH_expected_manual_got_EMBEDDED",
+    "[ 139.84s]   outcomes=['test_ogc_bp.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.']",
+    "[ 139.84s]   errors=[]",
+    "[ 139.84s]   row0=test_ogc_bpYour file \u00b7 4,096\u00d74,096 pxGeoPDF page 1 \u00b7 WGS 84 \u00b7 LGIDict \u00b7 sole registrationOpacityAdjust pointsRemove",
+    "[ 139.84s]   georefButtons=['Adjust points']",
+    "[ 139.84s] ===== rotated-cropped.pdf (2020 B) =====",
+    "[ 155.13s]   observed=EMBEDDED pageCount=1 manualReason=None verdict=BOUNDARY_MISMATCH_expected_manual_got_EMBEDDED",
+    "[ 155.13s]   outcomes=['rotated-cropped.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.']",
+    "[ 155.13s]   errors=[]",
+    "[ 155.13s]   row0=rotated-croppedYour file \u00b7 2,048\u00d74,096 pxGeoPDF page 1 \u00b7 Map frame \u00b7 Measure \u00b7 sole registrationOpacityAdjust pointsRemove",
+    "[ 155.13s]   georefButtons=['Adjust points']",
+    "[ 155.13s] ===== adobe_style_geospatial.pdf (57553 B) =====",
+    "[ 170.21s]   observed=CHOOSER_PRESENTED pageCount=1 manualReason=None verdict=BOUNDARY_MISMATCH_expected_manual_got_CHOOSER_PRESENTED",
+    "[ 170.21s]   outcomes=['adobe_style_geospatial.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it.']",
+    "[ 170.21s]   errors=[]",
+    "[ 170.21s]   row0=adobe_style_geospatialYour file \u00b7 3,165\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove",
+    "[ 170.21s]   georefButtons=['Choose frame']",
+    "[ 170.21s] ===== corrupt.pdf (515 B) =====",
+    "[ 185.12s]   observed=ERROR_NO_RECORD pageCount=None manualReason=None verdict=NOT_A_BOUNDARY_CASE_observed_ERROR_NO_RECORD",
+    "[ 185.12s]   outcomes=['corrupt.pdf: This PDF could not be read. Export a new copy and try again.']",
+    "[ 185.12s]   errors=['corrupt.pdf: This PDF could not be read. Export a new copy and try again.']",
+    "[ 185.12s] ===== byte_enc.pdf (2605 B) =====",
+    "[ 379.73s]   observed=ERROR_NO_RECORD pageCount=None manualReason=None verdict=NOT_A_BOUNDARY_CASE_observed_ERROR_NO_RECORD",
+    "[ 379.73s]   outcomes=[]",
+    "[ 379.73s]   errors=[]"
+  ]
+}
