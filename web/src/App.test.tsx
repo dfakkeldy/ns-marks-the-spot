@@ -719,7 +719,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText("Snapshot retrieved July 27, 2026"),
+      screen.getAllByText("Snapshot retrieved July 31, 2026"),
     ).toHaveLength(1);
   });
 

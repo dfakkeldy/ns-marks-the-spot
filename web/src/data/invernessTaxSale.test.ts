@@ -45,7 +45,7 @@ describe("the Inverness County 2026 public dataset", () => {
 
   it("records the corrected official source and sale details", () => {
     expect(invernessTaxSaleNotice.sourceUrl).toBe(
-      "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-4.pdf",
+      "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-5.pdf",
     );
     expect(invernessTaxSaleNotice.publishedOn).toBe("2026-07-16");
     expect(invernessTaxSaleNotice.saleStartsAt).toBe("2026-08-11T09:30:00-03:00");
