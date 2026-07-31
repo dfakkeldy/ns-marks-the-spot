@@ -25,7 +25,7 @@ export function UserVectorRows({ api }: { api: UserVectorLayersApi }) {
         <span>Your data</span>
         <small>
           {api.records.length === 0
-            ? "GeoJSON, KML, KMZ, GPX"
+            ? "GeoJSON, KML, KMZ, GPX, SHP"
             : `${api.records.length} loaded`}
         </small>
       </summary>

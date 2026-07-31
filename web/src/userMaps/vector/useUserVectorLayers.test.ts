@@ -120,17 +120,81 @@ describe("useUserVectorLayers", () => {
     expect(result.current.records[0]).toMatchObject({ name: "places", source: "kmz" });
   });
 
-  it("tells the user zipped shapefiles are still coming rather than calling them broken", async () => {
-    const { zipSync, strToU8 } = await import("fflate");
-    const zipped = zipSync({ "parcels.shp": strToU8("binary-ish"), "parcels.dbf": strToU8("x") });
-    const file = new File([zipped.buffer as ArrayBuffer], "parcels.zip");
+  it("imports a zipped shapefile, reprojected and recorded as such", async () => {
+    const { zipSync } = await import("fflate");
+    const { NAD83_UTM20N_WKT, buildPointShp } = await import(
+      "./parsers/shapefileTestFixtures"
+    );
+    const zipped = zipSync({
+      "parcels.shp": buildPointShp([{ x: 500000, y: 5000000 }]),
+      "parcels.prj": new TextEncoder().encode(NAD83_UTM20N_WKT),
+    });
+    const file = new File([zipped.buffer as ArrayBuffer], "ns-export.zip");
     const { result } = renderHook(() => useUserVectorLayers(options()));
     await act(() => result.current.importFiles([file]));
+
+    expect(result.current.outcomes[0].ok).toBe(true);
+    expect(result.current.records[0]).toMatchObject({
+      name: "parcels",
+      source: "shapefile-zip",
+    });
+    const [lon] = (
+      result.current.visibleLayers[0].data.features[0].geometry as GeoJSON.Point
+    ).coordinates;
+    expect(lon).toBeCloseTo(-63, 5);
+  });
+
+  it("adds one layer per shapefile when an archive holds several", async () => {
+    const { zipSync } = await import("fflate");
+    const { NAD83_UTM20N_WKT, buildPointShp } = await import(
+      "./parsers/shapefileTestFixtures"
+    );
+    const prj = new TextEncoder().encode(NAD83_UTM20N_WKT);
+    const zipped = zipSync({
+      "roads.shp": buildPointShp([{ x: 500000, y: 5000000 }]),
+      "roads.prj": prj,
+      "wells.shp": buildPointShp([{ x: 600000, y: 5080000 }]),
+      "wells.prj": prj,
+    });
+    const file = new File([zipped.buffer as ArrayBuffer], "bundle.zip");
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([file]));
+
+    expect(result.current.records.map((r) => r.name).sort()).toEqual([
+      "roads",
+      "wells",
+    ]);
+    // Each layer is independently toggleable, so each needs its own colour.
+    const colours = new Set(result.current.records.map((r) => r.style.color));
+    expect(colours.size).toBe(2);
+    expect(result.current.outcomes).toHaveLength(1);
+
+    const outcome = result.current.outcomes[0];
+    expect(outcome.ok).toBe(true);
+    if (outcome.ok) {
+      expect(outcome.note).toContain("2 layers");
+      // Both layers lack a .dbf; saying so twice is noise, not information.
+      const attributeNotes = outcome.note?.match(/attribute table/g) ?? [];
+      expect(attributeNotes).toHaveLength(1);
+    }
+  });
+
+  it("refuses a shapefile with no .prj instead of guessing its projection", async () => {
+    const { zipSync } = await import("fflate");
+    const { buildPointShp } = await import("./parsers/shapefileTestFixtures");
+    const zipped = zipSync({
+      "parcels.shp": buildPointShp([{ x: 500000, y: 5000000 }]),
+    });
+    const file = new File([zipped.buffer as ArrayBuffer], "no-prj.zip");
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([file]));
+
     const outcome = result.current.outcomes[0];
     expect(outcome.ok).toBe(false);
     if (!outcome.ok) {
-      expect(outcome.message).toMatch(/later update/i);
+      expect(outcome.message).toMatch(/\.prj/);
     }
+    expect(result.current.records).toHaveLength(0);
   });
 
   it("exports a layer as GeoJSON and as KML", async () => {

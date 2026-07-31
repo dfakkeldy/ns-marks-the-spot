@@ -5,7 +5,9 @@ import { generateId, stripExtension } from "../importUtils";
 import { downloadFile } from "../../services/downloadFile";
 import { parseGeoJsonAuto } from "./parsers/parseVectorInWorker";
 import type { ParsedVector } from "./parsers/geojsonSource";
-import { archiveHoldsKml, parseKmz } from "./parsers/kmzSource";
+import { classifyArchive, parseKmz } from "./parsers/kmzSource";
+import { parseShapefileAuto } from "./parsers/parseShapefileAuto";
+import type { ParsedShapefileLayer } from "./parsers/shapefileZipSource";
 import { parseXmlVector, type ParsedXmlVector } from "./parsers/xmlVectorSource";
 import { sniffVectorType } from "./parsers/sniffVector";
 import { geojsonExportBlob } from "./export/exportGeoJson";
@@ -15,6 +17,14 @@ import { UserVectorStore } from "./store/userVectorStore";
 import type { UserVectorLayerRecord, UserVectorSource } from "./types";
 
 export type VectorExportFormat = "geojson" | "kml";
+
+/** One layer awaiting a record — a single file may produce several. */
+type PendingLayer = {
+  parsed: ParsedVector;
+  name: string;
+  source: UserVectorSource;
+  note?: string;
+};
 
 /**
  * Well below the raster 500 MB cap on purpose: rasters get downsampled into
@@ -82,7 +92,9 @@ export function useUserVectorLayers(
   const parseRef = useRef(options.parseGeoJson ?? parseGeoJsonAuto);
   const parseXmlVectorRef = useRef<(text: string) => ParsedXmlVector>(parseXmlVector);
   const parseKmzRef = useRef(parseKmz);
-  const isKmzRef = useRef(archiveHoldsKml);
+  const classifyArchiveRef = useRef(classifyArchive);
+  const parseShapefileRef =
+    useRef<(buffer: ArrayBuffer) => Promise<ParsedShapefileLayer[]>>(parseShapefileAuto);
   const downloadRef = useRef(options.download ?? downloadFile);
   const storeRef = useRef<Promise<UserVectorStore> | null>(null);
   const [records, setRecords] = useState<UserVectorLayerRecord[]>([]);
@@ -184,64 +196,119 @@ export function useUserVectorLayers(
             const sniffed = sniffVectorType(
               new Uint8Array(buffer, 0, Math.min(64, buffer.byteLength)),
             );
-            let parsed: ParsedVector;
-            let source: UserVectorSource;
+            // One dropped file can hold several layers: a zipped shapefile
+            // gets one layer per .shp, since collapsing unrelated feature
+            // sets under a single name and style would misrepresent them.
+            let pending: PendingLayer[];
             if (sniffed === "xml-candidate") {
               // DOMParser has no worker equivalent, so KML/GPX parse on the
               // main thread (same constraint as parsers/fletcherGcps.ts).
               const xml = parseXmlVectorRef.current(new TextDecoder().decode(buffer));
-              parsed = xml;
-              source = xml.source;
+              pending = [
+                { parsed: xml, name: stripExtension(file.name), source: xml.source },
+              ];
             } else if (sniffed === "zip") {
-              if (!(await isKmzRef.current(buffer))) {
+              const kind = await classifyArchiveRef.current(buffer);
+              if (kind === "kmz") {
+                pending = [
+                  {
+                    parsed: await parseKmzRef.current(buffer),
+                    name: stripExtension(file.name),
+                    source: "kmz",
+                  },
+                ];
+              } else if (kind === "shapefile") {
+                // Transfers `buffer` to a worker, so this is its last use here.
+                const layers = await parseShapefileRef.current(buffer);
+                pending = layers.map((layer) => ({
+                  parsed: layer,
+                  name: layer.name,
+                  source: "shapefile-zip" as const,
+                  note: layer.note,
+                }));
+              } else {
                 throw new UserMapImportError(
                   "unsupported-type",
-                  "Zipped shapefiles arrive in a later update — GeoJSON, KML, KMZ, and GPX work today.",
+                  "This archive holds neither a KML nor a shapefile.",
                 );
               }
-              parsed = await parseKmzRef.current(buffer);
-              source = "kmz";
             } else if (sniffed === "geojson-candidate") {
               // parseGeoJsonAuto may transfer `buffer` to a worker, so this is
               // the last use of it on this thread.
-              parsed = await parseRef.current(buffer);
-              source = "geojson";
+              pending = [
+                {
+                  parsed: await parseRef.current(buffer),
+                  name: stripExtension(file.name),
+                  source: "geojson",
+                },
+              ];
             } else {
               throw new UserMapImportError(
                 "unsupported-type",
-                "Not a recognized data file. GeoJSON, KML, KMZ, and GPX all work.",
+                "Not a recognized data file. GeoJSON, KML, KMZ, GPX, and zipped shapefiles all work.",
               );
             }
+
             const now = new Date().toISOString();
-            const record: UserVectorLayerRecord = {
-              id: generateId(),
-              name: stripExtension(file.name),
-              source,
-              origin: { kind: "imported", filename: file.name, importedAt: now },
-              createdAt: now,
-              revision: 0,
-              style: { color: nextLayerColor(colorCursor) },
-              featureCount: parsed.featureCount,
-              bbox: parsed.bbox,
-            };
-            let note: string | undefined;
-            try {
-              await (await store()).saveVectorLayer(record, parsed.collection, file);
-            } catch (saveError) {
-              // Spec promise: a save failure never discards the import; the
-              // layer lives in memory for this session.
-              note =
-                saveError instanceof UserMapImportError
-                  ? saveError.userMessage
-                  : "Couldn't save this layer — it stays available until you " +
-                    "close the tab.";
+            const notes: string[] = [];
+            let firstId: string | null = null;
+            for (const layer of pending) {
+              const record: UserVectorLayerRecord = {
+                id: generateId(),
+                name: layer.name,
+                source: layer.source,
+                origin: { kind: "imported", filename: file.name, importedAt: now },
+                createdAt: now,
+                revision: 0,
+                style: { color: nextLayerColor(colorCursor) },
+                featureCount: layer.parsed.featureCount,
+                bbox: layer.parsed.bbox,
+              };
+              if (layer.note) {
+                notes.push(layer.note);
+              }
+              try {
+                // Every layer from an archive keeps the whole archive as its
+                // original, so removing any one layer leaves the others'
+                // provenance intact. Duplication is bounded by the file cap.
+                await (await store()).saveVectorLayer(record, layer.parsed.collection, file);
+              } catch (saveError) {
+                // Spec promise: a save failure never discards the import; the
+                // layer lives in memory for this session.
+                notes.push(
+                  saveError instanceof UserMapImportError
+                    ? saveError.userMessage
+                    : "Couldn't save this layer — it stays available until you " +
+                      "close the tab.",
+                );
+              }
+              colorCursor += 1;
+              setRecords((prev) => [...prev, record]);
+              setGeometries((prev) => ({
+                ...prev,
+                [record.id]: layer.parsed.collection,
+              }));
+              persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+              firstId ??= record.id;
             }
-            colorCursor += 1;
-            setRecords((prev) => [...prev, record]);
-            setGeometries((prev) => ({ ...prev, [record.id]: parsed.collection }));
-            persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
-            requestFit(record.id);
-            batch.push({ fileName: file.name, ok: true, id: record.id, note });
+            if (pending.length > 1) {
+              notes.unshift(`${pending.length} layers found in this archive.`);
+            }
+            // Layers from one archive usually share a problem (no .dbf beside
+            // any of them, say), and repeating the identical sentence once
+            // per layer reads as noise rather than as more information.
+            const uniqueNotes = [...new Set(notes)];
+            // Fit to the first layer only: walking the map through every
+            // layer of an archive in turn would just be motion.
+            if (firstId) {
+              requestFit(firstId);
+            }
+            batch.push({
+              fileName: file.name,
+              ok: true,
+              id: firstId ?? "",
+              note: uniqueNotes.length > 0 ? uniqueNotes.join(" ") : undefined,
+            });
           } catch (error) {
             const message =
               error instanceof UserMapImportError

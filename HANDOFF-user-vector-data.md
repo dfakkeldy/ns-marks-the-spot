@@ -48,3 +48,30 @@ Resume:
 ```
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/wizardly-liskov-4b89a9, branch claude/vector-kml-gpx-export-phase2 (PR to nightly). Start Phase 3: zipped shapefile import, TDD, fail-closed on a missing .prj, following the plan file.
 ```
+
+## 2026-07-31 — Phase 3 shipped: zipped shapefile import
+
+Done: `shpjs` in a worker, one layer per `.shp`, named after the shapefile.
+`.prj` gate runs before shpjs (which otherwise treats a missing `.prj` as
+"already degrees") — absent is `missing-crs`, unparseable is
+`unsupported-crs`, and one bad `.shp` refuses the whole archive.
+`classifyZipEntries` picks KMZ vs shapefile from entry names, skipping
+`__MACOSX` forks. Import loop now handles one file producing several layers.
+Fixtures include a minimal SHP/DBF writer so reprojection is tested against
+real bytes, not a stub. Gates green (1216 tests, lint, build);
+browser-verified UTM 20N → WGS84 through the worker, the no-`.prj` refusal,
+and multi-layer naming.
+
+Next: Phase 4 — drawing and editing with `@geoman-io/leaflet-geoman-free`.
+Spike Geoman against the canvas-rendered pane FIRST (fallback: SVG renderer
+for the layer under edit only). Then `useVectorEditSession`, an imperative
+`EditableVectorLayer` bridge with debounced `putVectorLayer`, a custom
+toolbar, and a "New layer" button creating `origin: {kind:"drawn"}`. Export
+and provenance already handle drawn layers. Delete `HANDOFF-user-vector-data.md`
+in that PR — it closes the task. Plan: `~/.claude/plans/yeah-that-sounds-great-fuzzy-spark.md`.
+
+Resume:
+
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/wizardly-liskov-4b89a9, branch claude/vector-shapefile-import-phase3 (PR to nightly). Start Phase 4: drawing and editing with Leaflet-Geoman, spiking canvas-renderer compatibility first, following the plan file.
+```

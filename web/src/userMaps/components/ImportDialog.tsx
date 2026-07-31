@@ -10,7 +10,7 @@ export type DisplayOutcome =
   | { fileName: string; ok: false; message: string };
 
 const DEFAULT_ACCEPT =
-  ".tif,.tiff,.pdf,.png,.jpg,.jpeg,.geojson,.json,.kml,.kmz,.gpx";
+  ".tif,.tiff,.pdf,.png,.jpg,.jpeg,.geojson,.json,.kml,.kmz,.gpx,.zip";
 
 /**
  * Inline import area (named per spec; the PR-2 georeferencer flow grows out

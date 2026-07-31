@@ -153,6 +153,7 @@ describe("UserMapRows", () => {
       ".kml",
       ".kmz",
       ".gpx",
+      ".zip",
     ]) {
       expect(accept).toContain(extension);
     }
