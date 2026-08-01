@@ -32,8 +32,12 @@ export type FletcherPointRow = {
    * re-formatting from the parsed float would round-trip one of them wrong.
    * Echoing the original text makes byte-identical output independent of which
    * emitter produced the file, and of any future precision change.
+   *
+   * Absent for points that never came from a file — anything placed or dragged
+   * in the panel — which is why `serializeFletcherGcps` carries a formatting
+   * fallback rather than assuming this is here.
    */
-  source: { pixelX: string; pixelY: string; lon: string; lat: string };
+  source?: { pixelX: string; pixelY: string; lon: string; lat: string };
 };
 
 export type ParsedFletcherGcps = {

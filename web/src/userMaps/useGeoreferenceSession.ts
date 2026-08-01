@@ -141,6 +141,8 @@ export type GeoreferenceSession = {
   importGcps: (imported: Gcp[], checks?: Gcp[]) => void;
   /** Accuracy at points the fit never saw, or null when none were imported. */
   heldOut: HeldOutReport | null;
+  /** Imported held-out points, so a session can write itself out complete. */
+  checks: Gcp[];
   undo: () => void;
   flush: () => void;
   discardPendingWrite: (mapId: string) => void;
@@ -830,6 +832,7 @@ export function useGeoreferenceSession(options: {
     deleteGcp,
     importGcps,
     heldOut,
+    checks,
     undo,
     flush,
     discardPendingWrite,

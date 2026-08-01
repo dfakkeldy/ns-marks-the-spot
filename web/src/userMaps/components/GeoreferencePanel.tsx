@@ -4,6 +4,11 @@ import { georeferenceAnnotation } from "../allmaps/annotation";
 import { UserMapImportError } from "../errors";
 import { parseFletcherGcps } from "../parsers/fletcherGcps";
 import {
+  buildExportCsv,
+  exportFileName,
+  pointsChanged,
+} from "../autoExport";
+import {
   applyAffine,
   solveInverseAffineFromGcps,
 } from "../transform/affine";
@@ -180,6 +185,47 @@ export function GeoreferencePanel({
   const hasPending = session.pending !== null;
   const canUndo = session.canUndo;
 
+  // The set this session opened with, so a close that changed nothing does not
+  // write a file. Keyed on the record id: switching maps starts a new session.
+  const openedWith = useRef<{ id: string; gcps: Gcp[] }>({
+    id: record.id,
+    gcps: session.gcps,
+  });
+  if (openedWith.current.id !== record.id) {
+    openedWith.current = { id: record.id, gcps: session.gcps };
+  }
+
+  const sessionGcps = session.gcps;
+  const sessionChecks = session.checks;
+  const recordName = record.name;
+  const closeSession = useCallback(() => {
+    // Placement lives in IndexedDB, which no backup reaches. A session that
+    // moved anything writes itself out before it can be lost. Downloads are
+    // the only place a page may put a file unasked, so that is where it goes.
+    if (
+      sessionGcps.length > 0 &&
+      pointsChanged(openedWith.current.gcps, sessionGcps)
+    ) {
+      const now = new Date();
+      const blob = new Blob(
+        [buildExportCsv(recordName, sessionGcps, sessionChecks, now)],
+        { type: "text/csv" },
+      );
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = exportFileName(recordName, now);
+      link.click();
+      // Revoked on a later task: revoking synchronously can cancel the
+      // download in Chrome before it has read the blob.
+      setTimeout(() => URL.revokeObjectURL(url), 30_000);
+    }
+    // Writes are debounced, so the tail of a session would otherwise be lost
+    // between the last edit and the panel unmounting.
+    flush();
+    onClose();
+  }, [flush, onClose, recordName, sessionChecks, sessionGcps]);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -188,8 +234,7 @@ export function GeoreferencePanel({
         if (hasPending) {
           cancelPending();
         } else {
-          flush();
-          onClose();
+          closeSession();
         }
         return;
       }
@@ -214,14 +259,9 @@ export function GeoreferencePanel({
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [canUndo, cancelPending, flush, hasPending, onClose, undo]);
+  }, [canUndo, cancelPending, closeSession, hasPending, undo]);
 
-  function close() {
-    // Writes are debounced, so the tail of a session would otherwise be lost
-    // between the last edit and the panel unmounting.
-    flush();
-    onClose();
-  }
+
 
   function zoomToGcp(id: string) {
     const gcp = session.gcps.find((candidate) => candidate.id === id);
@@ -270,6 +310,7 @@ export function GeoreferencePanel({
 
   const status = statusMessage(session.status);
   const heldOut = session.heldOut;
+
   /**
    * The RECORD is the single source of truth for which solver is in play, and
    * that is the whole reason there is no `useState` here. App reads the same
@@ -566,7 +607,7 @@ export function GeoreferencePanel({
               <button
                 type="button"
                 className="georeference-done"
-                onClick={close}
+                onClick={closeSession}
               >
                 Done
               </button>

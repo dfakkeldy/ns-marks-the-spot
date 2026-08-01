@@ -88,6 +88,7 @@ function fakeSession(overrides: Partial<GeoreferenceSession> = {}): Georeference
     deleteGcp: vi.fn(),
     importGcps: vi.fn(),
     heldOut: null,
+    checks: [],
     undo: vi.fn(),
     flush: vi.fn(),
     // Task 12 adds this to GeoreferenceSession (a delete has to cancel its
@@ -1010,5 +1011,83 @@ describe("Fletcher points file import", () => {
     expect(await screen.findByTestId("points-import-message")).toHaveTextContent(
       /Not a Fletcher points file/,
     );
+  });
+});
+
+describe("auto-export on close", () => {
+  function captureDownloads() {
+    const downloads: { name: string; href: string }[] = [];
+    const realCreate = document.createElement.bind(document);
+    vi.spyOn(document, "createElement").mockImplementation((tag: string) => {
+      const el = realCreate(tag) as HTMLElement;
+      if (tag === "a") {
+        vi.spyOn(el as HTMLAnchorElement, "click").mockImplementation(() => {
+          const anchor = el as HTMLAnchorElement;
+          downloads.push({ name: anchor.download, href: anchor.href });
+        });
+      }
+      return el;
+    });
+    vi.stubGlobal("URL", {
+      ...URL,
+      createObjectURL: () => "blob:stub",
+      revokeObjectURL: () => {},
+    });
+    return downloads;
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  const PLACED: Gcp[] = [
+    { id: "a", pixel: { x: 1, y: 2 }, map: { lat: 45.9, lng: -61.5 } },
+  ];
+
+  it("writes a timestamped file when the points moved", async () => {
+    const downloads = captureDownloads();
+    // The SAME panel has to see the move: a freshly mounted one would take the
+    // already-moved points as its baseline and correctly decide nothing changed.
+    const panel = (session: GeoreferenceSession) => (
+      <GeoreferencePanel
+        record={RECORD}
+        previewUrl="blob:scan"
+        opacity={0.7}
+        session={session}
+        onOpacityChange={vi.fn()}
+        onClose={vi.fn()}
+        onDelete={vi.fn()}
+        onFocusGcpOnMap={vi.fn()}
+        onMethodChange={vi.fn()}
+        referenceLayers={{ aerial: false, parcels: true }}
+        onToggleReferenceLayer={vi.fn()}
+      />
+    );
+    const { rerender } = render(panel(fakeSession({ gcps: PLACED })));
+    rerender(
+      panel(
+        fakeSession({ gcps: [{ ...PLACED[0]!, pixel: { x: 50, y: 60 } }] }),
+      ),
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(downloads).toHaveLength(1);
+    expect(downloads[0]!.name).toMatch(/\.csv$/);
+    expect(downloads[0]!.name).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}/);
+  });
+
+  it("writes nothing when the session changed nothing", async () => {
+    // Opening a panel to look at a sheet must not litter the Downloads folder.
+    const downloads = captureDownloads();
+    renderPanel(fakeSession({ gcps: PLACED }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(downloads).toEqual([]);
+  });
+
+  it("writes nothing when there are no points at all", async () => {
+    const downloads = captureDownloads();
+    renderPanel(fakeSession({ gcps: [] }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(downloads).toEqual([]);
   });
 });
