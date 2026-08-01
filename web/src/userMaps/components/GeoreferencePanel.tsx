@@ -5,6 +5,12 @@ import { downloadFile } from "../../services/downloadFile";
 import { UserMapImportError } from "../errors";
 import { parseFletcherGcps } from "../parsers/fletcherGcps";
 import {
+  AUTO_EXPORT_INTERVAL_MS,
+  buildExportCsv,
+  exportFileName,
+  pointsChanged,
+} from "../autoExport";
+import {
   applyAffine,
   solveInverseAffineFromGcps,
 } from "../transform/affine";
@@ -150,7 +156,7 @@ export function GeoreferencePanel({
         const parsed = parseFletcherGcps(text, {
           pixelSize: record.pixelSize,
         });
-        importGcps(parsed.gcps);
+        importGcps(parsed.gcps, parsed.checks);
         const replaced =
           existingGcpCount > 0
             ? `, replacing ${existingGcpCount} — undo with Cmd/Ctrl+Z`
@@ -181,6 +187,102 @@ export function GeoreferencePanel({
   const hasPending = session.pending !== null;
   const canUndo = session.canUndo;
 
+  /**
+   * The record this session belongs to, and the points as of the last file it
+   * wrote — the baseline every later write is judged against.
+   *
+   * Seeded with the set the session opened with, so opening a sheet to look at
+   * it writes nothing. ADVANCED by each write, which is what the periodic
+   * checkpoint below needs and "the set we opened with" could not give it:
+   * against a fixed baseline every checkpoint after the first would still see a
+   * change, and an idle session would drop a fresh copy of identical points
+   * every five minutes for as long as it stayed open.
+   *
+   * Keyed on the record id: switching maps starts a new session, with a new
+   * baseline and nothing owed to disk.
+   */
+  const exported = useRef<{ id: string; gcps: Gcp[] }>({
+    id: record.id,
+    gcps: session.gcps,
+  });
+  if (exported.current.id !== record.id) {
+    exported.current = { id: record.id, gcps: session.gcps };
+  }
+
+  const sessionGcps = session.gcps;
+  const sessionChecks = session.checks;
+  const recordName = record.name;
+
+  /**
+   * Writes the session out as a points file, if anything moved since the last
+   * one. Placement lives in IndexedDB, which no backup reaches; downloads are
+   * the only place a page may put a file unasked, so that is where it goes.
+   */
+  const exportPoints = useCallback(
+    (gcps: Gcp[], checks: Gcp[]) => {
+      if (gcps.length === 0 || !pointsChanged(exported.current.gcps, gcps)) {
+        return;
+      }
+      const now = new Date();
+      const blob = new Blob([buildExportCsv(recordName, gcps, checks, now)], {
+        type: "text/csv",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = exportFileName(recordName, now);
+      link.click();
+      // Revoked on a later task: revoking synchronously can cancel the
+      // download in Chrome before it has read the blob.
+      setTimeout(() => URL.revokeObjectURL(url), 30_000);
+      exported.current = { id: exported.current.id, gcps };
+    },
+    [recordName],
+  );
+
+  const closeSession = useCallback(() => {
+    exportPoints(sessionGcps, sessionChecks);
+    // Writes are debounced, so the tail of a session would otherwise be lost
+    // between the last edit and the panel unmounting.
+    flush();
+    onClose();
+  }, [exportPoints, flush, onClose, sessionChecks, sessionGcps]);
+
+  /**
+   * Current points, for the checkpoint timer to read when it fires.
+   *
+   * A ref rather than an interval dependency: an interval rebuilt on every edit
+   * has its clock restarted by every drag, so a session under continuous
+   * editing — precisely the one with the most on the line — would be the one
+   * that never reached a checkpoint.
+   */
+  const latest = useRef({ gcps: sessionGcps, checks: sessionChecks });
+  useEffect(() => {
+    latest.current = { gcps: sessionGcps, checks: sessionChecks };
+  }, [sessionChecks, sessionGcps]);
+
+  /**
+   * Checkpoint an open session to disk.
+   *
+   * NOT protection against losing points: `useGeoreferenceSession` already
+   * commits every edit to IndexedDB within `PERSIST_DELAY_MS`, so a crash, a
+   * reload, or a stopped dev server costs at most 400 ms of dragging. What this
+   * protects is the FILE — the only copy that survives losing the ORIGIN, which
+   * is a different failure and the one that has actually bitten: two sheets'
+   * worth of placement have had to be read back out of browser storage by hand.
+   *
+   * Until this lands, a session earned its file only by ending through Done.
+   * Every other way out — closing the tab, reloading, the dev server going down
+   * mid-sheet — left an hour of work reachable only from one browser profile's
+   * IndexedDB, on one origin, on one machine.
+   */
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      exportPoints(latest.current.gcps, latest.current.checks);
+    }, AUTO_EXPORT_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [exportPoints]);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -189,8 +291,7 @@ export function GeoreferencePanel({
         if (hasPending) {
           cancelPending();
         } else {
-          flush();
-          onClose();
+          closeSession();
         }
         return;
       }
@@ -215,14 +316,9 @@ export function GeoreferencePanel({
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [canUndo, cancelPending, flush, hasPending, onClose, undo]);
+  }, [canUndo, cancelPending, closeSession, hasPending, undo]);
 
-  function close() {
-    // Writes are debounced, so the tail of a session would otherwise be lost
-    // between the last edit and the panel unmounting.
-    flush();
-    onClose();
-  }
+
 
   function zoomToGcp(id: string) {
     const gcp = session.gcps.find((candidate) => candidate.id === id);
@@ -270,6 +366,8 @@ export function GeoreferencePanel({
   }, [pending, inverseParams]);
 
   const status = statusMessage(session.status);
+  const heldOut = session.heldOut;
+
   /**
    * The RECORD is the single source of truth for which solver is in play, and
    * that is the whole reason there is no `useState` here. App reads the same
@@ -368,6 +466,14 @@ export function GeoreferencePanel({
           <p role="status" aria-live="polite" className="georeference-status">
             {status}
           </p>
+          {heldOut ? (
+            <p className="georeference-heldout" role="status" aria-live="polite">
+              <strong>{Math.round(heldOut.rmsMetres)} m</strong> at{" "}
+              {heldOut.count} held-out check
+              {heldOut.count === 1 ? "" : "s"} (worst{" "}
+              {Math.round(heldOut.maxMetres)} m)
+            </p>
+          ) : null}
         </header>
 
         {/* A DIRECT child of the panel, not of the header: the narrow
@@ -419,6 +525,9 @@ export function GeoreferencePanel({
               onSelect={setSelectedGcpId}
               onZoomTo={zoomToGcp}
               selectedGcpId={selectedGcpId}
+              method={
+                record.georef.kind === "gcp" ? record.georef.method : "affine"
+              }
             />
           </div>
 
@@ -547,7 +656,7 @@ export function GeoreferencePanel({
               <button
                 type="button"
                 className="georeference-done"
-                onClick={close}
+                onClick={closeSession}
               >
                 Done
               </button>

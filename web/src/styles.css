@@ -4984,3 +4984,11 @@ a {
 .gcp-sort:hover {
   text-decoration: underline;
 }
+
+/* Sits directly under the panel's own accuracy line. Deliberately the more
+   prominent of the two: it is the only figure measured at points the fit never
+   saw, and the line above it is a bound rather than an error. */
+.georeference-heldout {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+}

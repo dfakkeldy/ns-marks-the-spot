@@ -1,7 +1,11 @@
 import type { Gcp } from "../types";
 import { applyAffine, solveAffineFromGcps, type AffineParams } from "./affine";
 import { applyTps, MIN_GCPS_FOR_TPS, solveTps } from "./tps";
-import { fromMercator, groundMetresBetween } from "./webMercator";
+import {
+  fromMercator,
+  groundMetresBetween,
+  type MercatorPoint,
+} from "./webMercator";
 
 /**
  * Below this an affine fit passes exactly through every point by
@@ -368,5 +372,49 @@ export function tpsResidualReport(gcps: Gcp[]): TpsResidualResult {
       rmsMetres: rmsMetres(metresPerGcp),
       mostInconsistentIndex,
     },
+  };
+}
+
+/**
+ * Accuracy at points the fit never saw.
+ *
+ * Every other figure in this module is measured at the fit's OWN control
+ * points, which is why they need hedging: an affine fit residual is in-sample,
+ * and the TPS figure is a leave-one-out upper bound. This one is neither. The
+ * checks are held out by construction, so their error is the plain question a
+ * georeferencer actually has — "is the map in the right place?" — and it is the
+ * only figure here that can fall while the others rise.
+ *
+ * That divergence is not hypothetical. On Fletcher sheet 19, deleting the
+ * controls with the largest leave-one-out values took that figure from 309 m to
+ * 140 m while true error at eight frozen checks went from 43 m to 392 m: the
+ * survivors agreed with each other and drifted off the ground together.
+ */
+export type HeldOutReport = {
+  count: number;
+  rmsMetres: number;
+  maxMetres: number;
+};
+
+export function heldOutReport(
+  checks: Gcp[],
+  project: (x: number, y: number) => MercatorPoint,
+): HeldOutReport | null {
+  if (checks.length === 0) {
+    return null;
+  }
+  const metres = checks.map((check) =>
+    groundMetresBetween(fromMercator(project(check.pixel.x, check.pixel.y)), check.map),
+  );
+  if (!metres.every((value) => Number.isFinite(value))) {
+    // A refused or degenerate transform projects to NaN. Reporting 0 m, or an
+    // RMS over a mix of numbers and NaN, would read as a perfect score for a
+    // map that cannot be drawn at all.
+    return null;
+  }
+  return {
+    count: checks.length,
+    rmsMetres: rmsMetres(metres),
+    maxMetres: Math.max(...metres),
   };
 }

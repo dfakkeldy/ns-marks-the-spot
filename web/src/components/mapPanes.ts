@@ -9,7 +9,13 @@ export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
   buildings: 225,
   "flood-risk": 230,
   roads: 235,
+  // Above the full roads layer, which it is meant to be read instead of, and
+  // above water so a filtered road stays visible where it crosses a river.
+  "main-roads": 240,
   waterfalls: 250,
+  // Labels sit on top of everything: a name hidden under a parcel edge is a
+  // name that cannot do the job this layer exists for.
+  "place-names": 300,
 };
 
 /**

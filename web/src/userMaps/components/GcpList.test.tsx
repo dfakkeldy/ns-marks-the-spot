@@ -29,6 +29,7 @@ function renderList(props: Partial<Parameters<typeof GcpList>[0]> = {}) {
       onSelect={onSelect}
       onZoomTo={onZoomTo}
       selectedGcpId={null}
+      method="affine"
       {...props}
     />,
   );
@@ -133,6 +134,7 @@ describe("GcpList", () => {
     // (40.9) AND a constant, three explanations for one observation.
     rerender(
       <GcpList
+        method="affine"
         gcps={GCPS}
         report={{
           metresPerGcp: [12.4, 8.1, 40.9, 15.2, 9.7],
@@ -367,5 +369,37 @@ describe("sorting", () => {
     expect(header).toHaveAttribute("aria-sort", "none");
     await userEvent.click(within(header).getByRole("button"));
     expect(header).toHaveAttribute("aria-sort", "ascending");
+  });
+});
+
+describe("residual column naming", () => {
+  it("calls the column 'Off by' under an affine fit", () => {
+    renderList({ method: "affine" });
+    expect(screen.getByRole("button", { name: /Off by/ })).toBeInTheDocument();
+  });
+
+  it("calls it 'If removed' under TPS, because that is what it measures", () => {
+    // A spline passes exactly through every control, so the figure is
+    // leave-one-out, not a distance from the fit. Labelling it "Off by" reads
+    // as "this point is wrong by this much" and invites deleting the points
+    // that are holding the sheet down.
+    renderList({ method: "tps" });
+    expect(screen.queryByRole("button", { name: /Off by/ })).toBeNull();
+    const header = screen.getByRole("button", { name: /If removed/ });
+    expect(header).toHaveAttribute(
+      "title",
+      expect.stringContaining("not that it is in the wrong place"),
+    );
+  });
+
+  it("still sorts under either name", async () => {
+    const report = {
+      metresPerGcp: [90, 10, 50, 0],
+      mostInconsistentIndex: 0,
+    } as unknown as Parameters<typeof GcpList>[0]["report"];
+    renderList({ method: "tps", report });
+    await userEvent.click(screen.getByRole("button", { name: /If removed/ }));
+    const first = screen.getAllByRole("row")[1]!;
+    expect(within(first).getAllByRole("cell")[0]).toHaveTextContent("4");
   });
 });

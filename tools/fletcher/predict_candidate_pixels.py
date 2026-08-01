@@ -91,6 +91,16 @@ def select_sparsest(
     chosen: list[dict] = []
     placed = list(existing)
     remaining = [c for c in candidates]
+    if not placed and remaining:
+        # A sheet with no controls yet has nothing to measure a gap from. Start
+        # at the candidate nearest the centroid so the first pick is central
+        # and the spread grows outward, rather than starting at an edge.
+        cx = sum(c["px"] for c in remaining) / len(remaining)
+        cy = sum(c["py"] for c in remaining) / len(remaining)
+        first = min(remaining, key=lambda c: math.hypot(c["px"] - cx, c["py"] - cy))
+        chosen.append({**first, "gap_px": float("inf")})
+        placed.append((first["px"], first["py"]))
+        remaining.remove(first)
     while remaining and len(chosen) < count:
         best, best_gap = None, -1.0
         for candidate in remaining:
@@ -117,6 +127,27 @@ def _row(px: float, py: float, lon: float, lat: float, role: str, label: str) ->
 
 def build_csv(observation: dict, proposals: list[dict]) -> str:
     controls = observation["controls"]
+    if not controls:
+        # A sheet with no measured controls yet: every row is a proposal, so
+        # the "rows 1-N are accepted" rule below has nothing to protect and
+        # would only mislead. Say plainly that all of them need dragging.
+        lines = [
+            f"# sheet-{observation.get('sheet_id', '?')} machine proposals — NONE are measured yet.",
+            "# GENERATED - do not hand-edit.",
+            f"# All {len(proposals)} rows sit at PREDICTED pixels. Drag every one onto the"
+            " drawn feature, or delete it if the sheet does not show it.",
+            "# Positions come from this sheet's engraved-graticule fit, which is known to"
+            " be off by roughly 600 m; that is the offset you are correcting.",
+            "# Every residual reads 0 until you move the point, so the column cannot tell"
+            " you which are still untouched.",
+            HEADER,
+        ]
+        for proposal in proposals:
+            lines.append(
+                _row(proposal["px"], proposal["py"], proposal["lon"], proposal["lat"],
+                     "control", proposal["id"])
+            )
+        return "\n".join(lines) + "\n"
     lines = [
         f"# sheet-{observation.get('sheet_id', '?')} accepted controls + machine proposals.",
         "# GENERATED - do not hand-edit.",
@@ -154,7 +185,20 @@ def build_csv(observation: dict, proposals: list[dict]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--observation", type=pathlib.Path, required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--observation", type=pathlib.Path)
+    source.add_argument(
+        "--controls-csv",
+        type=pathlib.Path,
+        help="Seed the fit from an emitted GCP CSV instead, for a sheet with no "
+        "feature-led observation yet. Its `control` rows become the transform.",
+    )
+    parser.add_argument(
+        "--frame",
+        help="x0,y0,x1,y1 usable map area in source pixels. Required with "
+        "--controls-csv, which carries no frame of its own.",
+    )
+    parser.add_argument("--sheet-id", default="?")
     parser.add_argument("--candidates", type=pathlib.Path, required=True)
     parser.add_argument("--out", type=pathlib.Path, required=True)
     parser.add_argument("--count", type=int, default=40)
@@ -166,7 +210,33 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    observation = json.loads(args.observation.read_text(encoding="utf-8"))
+    if args.observation:
+        observation = json.loads(args.observation.read_text(encoding="utf-8"))
+    else:
+        if not args.frame:
+            parser.error("--frame is required with --controls-csv")
+        x0, y0, x1, y1 = (float(v) for v in args.frame.split(","))
+        # The emitters put a provenance banner above the header, so the file
+        # cannot be handed to DictReader directly — it would take the first
+        # `#` line as the column names.
+        body = [
+            line
+            for line in args.controls_csv.read_text(encoding="utf-8").splitlines()
+            if line and not line.startswith("#")
+        ]
+        seed = [r for r in csv.DictReader(body) if r["role"] == "control"]
+        observation = {
+            "sheet_id": args.sheet_id,
+            "usable_frame": [[x0, y0], [x1, y0], [x1, y1], [x0, y1]],
+            "controls": [
+                {
+                    "id": r["label"],
+                    "pixel": {"x": float(r["pixel_x"]), "y": float(r["pixel_y"])},
+                    "lonlat": {"lon": float(r["lon"]), "lat": float(r["lat"])},
+                }
+                for r in seed
+            ],
+        }
     rows = list(csv.DictReader(args.candidates.open(encoding="utf-8")))
     lonlats = [(float(r["lon"]), float(r["lat"])) for r in rows]
     pixels = inverse_transform(observation["controls"], lonlats)
@@ -178,11 +248,16 @@ def main(argv: list[str] | None = None) -> int:
         if inside(frame, px, py)
     ]
 
-    existing = [(c["pixel"]["x"], c["pixel"]["y"]) for c in observation["controls"]]
+    # The graticule seed is a transform, not a result: it was rejected for
+    # product use at roughly 600 m, so it fits the predictions and is then
+    # dropped. Emitting it as accepted controls would smuggle the very warp
+    # this pass exists to replace back into the next fit.
+    emitted = observation if args.observation else {**observation, "controls": []}
+    existing = [(c["pixel"]["x"], c["pixel"]["y"]) for c in emitted["controls"]]
     chosen = select_sparsest(existing, candidates, args.count, args.min_gap_px)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(build_csv(observation, chosen), encoding="utf-8")
+    args.out.write_text(build_csv(emitted, chosen), encoding="utf-8")
     widest = chosen[0]["gap_px"] if chosen else 0.0
     tightest = chosen[-1]["gap_px"] if chosen else 0.0
     print(

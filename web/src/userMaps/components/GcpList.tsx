@@ -1,14 +1,44 @@
 import { useState } from "react";
 import type { ResidualReport } from "../transform/residuals";
-import type { Gcp } from "../types";
+import type { Gcp, GeoreferenceMethod } from "../types";
 
 type SortKey = "index" | "scan" | "map" | "residual";
 
-const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
+/**
+ * The residual column means DIFFERENT things per method, and the difference is
+ * the one a user acts on. Under affine it is the fit residual — how far this
+ * point sits from the fit, so a large value really can mean a misplaced point.
+ * Under TPS the spline passes exactly through every control, so the figure is
+ * instead leave-one-out: how far the map would move HERE if this point were
+ * deleted. A large value there means the point is load-bearing, not wrong.
+ *
+ * Labelling both "Off by" cost a real sheet: sorting descending and deleting
+ * the top of the list took true error at eight frozen checks from 43 m to
+ * 392 m, because every deletion removed the only control holding down a sparse
+ * patch. The header now says which question it is answering.
+ */
+function residualColumn(method: GeoreferenceMethod): {
+  label: string;
+  hint: string;
+} {
+  return method === "tps"
+    ? {
+        label: "If removed",
+        hint:
+          "How far this part of the map would shift if this point were " +
+          "deleted. A big number means the point is doing a lot of work — " +
+          "not that it is in the wrong place.",
+      }
+    : {
+        label: "Off by",
+        hint: "How far this point sits from the fitted transform.",
+      };
+}
+
+const BASE_COLUMNS: { key: SortKey; label: string }[] = [
   { key: "index", label: "#" },
   { key: "scan", label: "Scan" },
   { key: "map", label: "Map" },
-  { key: "residual", label: "Off by" },
 ];
 
 type Row = { gcp: Gcp; index: number };
@@ -87,6 +117,7 @@ export function GcpList({
   onSelect,
   onZoomTo,
   selectedGcpId,
+  method,
 }: {
   gcps: Gcp[];
   report: ResidualReport | null;
@@ -99,10 +130,13 @@ export function GcpList({
   onSelect: (id: string | null) => void;
   onZoomTo: (id: string) => void;
   selectedGcpId: string | null;
+  /** Decides what the residual column is measuring, and so what it is called. */
+  method: GeoreferenceMethod;
 }) {
   const [sort, setSort] = useState<{ key: SortKey; descending: boolean } | null>(
     null,
   );
+  const residual = residualColumn(method);
 
   // Rows carry their ORIGINAL index, never their position after sorting. The
   // "#" a user reads is the point's identity — the drag workflow refers to it
@@ -130,7 +164,7 @@ export function GcpList({
     <table className="gcp-list">
       <thead>
         <tr>
-          {SORTABLE_COLUMNS.map(({ key, label }) => {
+          {[...BASE_COLUMNS, { key: "residual" as const, ...residual }].map(({ key, label }) => {
             const active = sort?.key === key;
             return (
               <th
@@ -147,6 +181,7 @@ export function GcpList({
                 <button
                   type="button"
                   className="gcp-sort"
+                  title={key === "residual" ? residual.hint : undefined}
                   onClick={() => toggleSort(key)}
                 >
                   {label}
