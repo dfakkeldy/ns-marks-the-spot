@@ -1,6 +1,7 @@
 # sheet-16 Fletcher feature-led points, measured by hand 2026-08-01.
 # Recovered from browser storage; every row was dragged onto its drawn feature.
-# 26 hand-placed (gcp-*) + 6 dragged machine proposals (cand-*).
+# 32 controls in the first pass, then 6 added to fill gaps on the eastern side.
+# No checks frozen yet: choosing them after a fit would make any score circular.
 pixel_x,pixel_y,lon,lat,role,label
 5858.0,3571.5,-61.39992760,46.01190630,control,cand-0168
 1643.0,4754.0,-61.59120083,45.97309478,control,cand-0465
@@ -34,3 +35,9 @@ pixel_x,pixel_y,lon,lat,role,label
 5874.5,6298.9,-61.39778137,45.92628920,control,gcp-27
 5338.0,5793.9,-61.42224312,45.94228709,control,gcp-28
 5575.0,4317.4,-61.41383171,45.98903066,control,gcp-29
+7432.5,4667.9,-61.33006096,45.97683403,control,gcp-30
+7727.5,5206.4,-61.31555557,45.96236755,control,gcp-32
+7567.5,5492.4,-61.32040501,45.95291009,control,gcp-33
+8007.5,5631.9,-61.30220890,45.94956826,control,gcp-34
+8733.5,4915.4,-61.27203941,45.96890030,control,gcp-35
+9237.0,5629.9,-61.24792099,45.94664400,control,gcp-36
