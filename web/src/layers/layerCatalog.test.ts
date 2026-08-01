@@ -156,6 +156,10 @@ describe("web native-layer parity catalog", () => {
       roads: true,
       buildings: false,
       contours: false,
+      // Reading aids for matching a historical sheet, not part of the everyday
+      // parcel view, so both stay off until asked for.
+      "place-names": false,
+      "main-roads": false,
     });
   });
 

@@ -24,7 +24,12 @@ export type FletcherLayerId = "fletcher";
 
 export type TopographyLayerId = "contours";
 
-export type WebOnlyProvinceLayerId = "buildings" | TopographyLayerId;
+export type GeoreferenceAidLayerId = "place-names" | "main-roads";
+
+export type WebOnlyProvinceLayerId =
+  | "buildings"
+  | TopographyLayerId
+  | GeoreferenceAidLayerId;
 
 export type ProvinceLayerId =
   | Exclude<NativeLayerId, RumseyReferenceLayerId>
@@ -721,11 +726,113 @@ export const topographyLayerCatalog: readonly (
   },
 ] as const;
 
+/**
+ * Modern roads outnumber the ones an 1884 surveyor drew by roughly five to one,
+ * and the surplus is not a matter of detail: on Fletcher sheet 22, 3040 of 5663
+ * road features are TRACK and another 944 are DRIVEWAY. Neither existed to be
+ * mapped. Matching a historical sheet against the full layer means reading past
+ * four wrong roads for every right one.
+ *
+ * `ROAD - Local%` keeps the local road network — paved and unpaved, one lane and
+ * two — and drops tracks, driveways, resource-access roads, ramps and trails.
+ * Measured on sheet 22's extent: 5663 features down to 1149. Highways ride along
+ * on their own layer, which carries the trunk routes that mostly follow the old
+ * alignments.
+ *
+ * This is a legibility filter, not a claim about history. A local road in the
+ * layer may well be modern; the filter only removes the classes that certainly
+ * are.
+ */
+const MAIN_ROADS_DYNAMIC_LAYERS = JSON.stringify([
+  {
+    id: 8,
+    source: { type: "mapLayer", mapLayerId: 8 },
+    definitionExpression: "FEAT_DESC LIKE 'ROAD - Local%'",
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [40, 40, 40, 235],
+          width: 1.6,
+        },
+      },
+    },
+  },
+  {
+    id: 7,
+    source: { type: "mapLayer", mapLayerId: 7 },
+    drawingInfo: {
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [0, 0, 0, 255],
+          width: 2.6,
+        },
+      },
+    },
+  },
+]);
+
+export const georeferenceAidLayerCatalog: readonly (
+  WebLayerDescriptor & { id: GeoreferenceAidLayerId }
+)[] = [
+  {
+    id: "place-names",
+    name: "Place names",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NS_GeoNAMES_pnt_UT83/MapServer",
+    nativeDefaultVisibility: false,
+    minZoom: 8,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "province-restricted",
+    webAvailability: "available",
+    webCaveat: "Official geographic names · settlements, water and coast",
+    sourceDate: "CGNDB via NSGI · service checked August 1, 2026",
+    scale: "Point gazetteer with labels",
+    coverage: "Nova Scotia",
+    exportOptions: {
+      transparent: true,
+      // Settlements plus the named water and coastal features an 1884 sheet
+      // also labels; the rest of the gazetteer (parks, protected areas, game
+      // management) is modern administration and only adds noise here.
+      layers: "show:3,4,6,7,24,27,31,33,37",
+      dpi: 144,
+    },
+  },
+  {
+    id: "main-roads",
+    name: "Main roads only",
+    serviceUrl:
+      "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+    nativeDefaultVisibility: false,
+    minZoom: 9,
+    maxZoom: 24,
+    opacity: 1,
+    licence: "province-restricted",
+    webAvailability: "available",
+    webCaveat: "Local roads and highways only · tracks and driveways hidden",
+    sourceDate: "Live service · checked August 1, 2026",
+    scale: "NSTDB 1:10,000, filtered",
+    coverage: "Nova Scotia",
+    exportOptions: {
+      transparent: true,
+      dynamicLayers: MAIN_ROADS_DYNAMIC_LAYERS,
+      dpi: 144,
+    },
+  },
+] as const;
+
 export const webOnlyProvinceLayerCatalog: readonly (
   WebLayerDescriptor & { id: WebOnlyProvinceLayerId }
 )[] = [
   ...buildingLayerCatalog,
   ...topographyLayerCatalog,
+  ...georeferenceAidLayerCatalog,
 ] as const;
 
 export const provinceLayerCatalog: readonly (
@@ -766,6 +873,10 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
   roads: true,
   buildings: false,
   contours: false,
+  // Both off by default: they are aids for reading a historical sheet against
+  // the modern map, not part of the everyday parcel view.
+  "place-names": false,
+  "main-roads": false,
 };
 
 const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";

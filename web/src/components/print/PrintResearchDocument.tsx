@@ -109,6 +109,8 @@ const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   waterfalls: "waterfall-point",
   "water-features": "water-lines",
   roads: "road-corridor",
+  "main-roads": "road-corridor",
+  "place-names": "place-label",
   buildings: "building-footprints",
   contours: "contour-lines",
   "mineral-occurrences": "mineral-point",

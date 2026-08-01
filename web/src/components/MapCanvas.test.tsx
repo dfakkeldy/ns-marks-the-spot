@@ -361,6 +361,10 @@ describe("MapCanvas browser location", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -411,6 +415,10 @@ describe("MapCanvas browser location", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -448,6 +456,10 @@ describe("MapCanvas browser location", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -495,6 +507,10 @@ describe("MapCanvas browser location", () => {
         roads: false,
         buildings: false,
         contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -540,6 +556,10 @@ describe("MapCanvas viewport reporting", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -595,6 +615,10 @@ describe("MapCanvas viewport reporting", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -704,6 +728,10 @@ describe("MapCanvas sizing", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -753,6 +781,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -798,6 +830,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -837,6 +873,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -877,6 +917,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -929,6 +973,10 @@ describe("MapCanvas parcel discovery", () => {
         roads: true,
         buildings: false,
         contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -980,6 +1028,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1031,6 +1083,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1077,6 +1133,10 @@ describe("MapCanvas parcel discovery", () => {
         roads: true,
         buildings: false,
         contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -1139,6 +1199,10 @@ describe("MapCanvas parcel discovery", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1225,6 +1289,10 @@ describe("MapCanvas overview markers", () => {
       roads: true,
       buildings: false,
       contours: false,
+
+      "place-names": false,
+
+      "main-roads": false,
     },
     resourceLayers: hiddenResourceLayers,
     showModernMap: false,
@@ -1295,6 +1363,10 @@ describe("MapCanvas cartographic furniture", () => {
       roads: true,
       buildings: false,
       contours: false,
+
+      "place-names": false,
+
+      "main-roads": false,
     },
     resourceLayers: hiddenResourceLayers,
     showModernMap: false,
@@ -1382,6 +1454,10 @@ describe("MapCanvas Province overlays", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1413,6 +1489,10 @@ describe("MapCanvas Province overlays", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1466,6 +1546,10 @@ describe("MapCanvas Province overlays", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1498,6 +1582,10 @@ describe("MapCanvas Province overlays", () => {
           roads: false,
           buildings: false,
           contours: true,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -1547,6 +1635,10 @@ describe("MapCanvas resource overlays", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -1597,6 +1689,10 @@ describe("MapCanvas resource overlays", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -1647,6 +1743,10 @@ describe("MapCanvas resource overlays", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={{ ...hiddenResourceLayers, "abandoned-mines": true }}
         showModernMap={false}
@@ -1687,6 +1787,10 @@ describe("MapCanvas resource overlays", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -1730,6 +1834,10 @@ describe("MapCanvas resource overlays", () => {
         roads: false,
         buildings: false,
         contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
       },
       resourceLayers: hiddenResourceLayers,
       showModernMap: false,
@@ -1786,6 +1894,10 @@ describe("MapCanvas resource overlays", () => {
         roads: false,
         buildings: false,
         contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
       },
       resourceLayers: {
         ...hiddenResourceLayers,
@@ -1843,6 +1955,10 @@ describe("MapCanvas micro-hydro pilot", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         hydroPilotLayers={{ "inverness-hydro-potential": true }}
@@ -1882,6 +1998,10 @@ describe("MapCanvas well logs", () => {
     roads: false,
     buildings: false,
     contours: false,
+
+    "place-names": false,
+
+    "main-roads": false,
   } as const;
 
   function renderWellLogs({
@@ -2091,6 +2211,10 @@ describe("MapCanvas print mode", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -2150,6 +2274,10 @@ describe("MapCanvas print mode", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={{
           ...hiddenResourceLayers,
@@ -2259,6 +2387,10 @@ describe("MapCanvas print mode", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -2310,6 +2442,10 @@ describe("MapCanvas print mode", () => {
           roads: false,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap
@@ -2354,6 +2490,10 @@ describe("MapCanvas print mode", () => {
           roads: true,
           buildings: false,
           contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
         }}
         resourceLayers={hiddenResourceLayers}
         showModernMap={false}
@@ -2406,6 +2546,10 @@ describe("georeference binding", () => {
       roads: false,
       buildings: false,
       contours: false,
+
+      "place-names": false,
+
+      "main-roads": false,
     },
     resourceLayers: hiddenResourceLayers,
     showModernMap: false,
