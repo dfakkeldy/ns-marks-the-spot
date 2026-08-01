@@ -30,3 +30,28 @@ Next:     Open the panel on a real Fletcher scan in a dev build, load
           populate. Then start sheet 16: mine candidates, emit CSV, import,
           drag round 1 of 3. Do NOT read map crops.
 ```
+
+## 2026-08-01 — Open sessions checkpoint themselves to disk
+
+Done: `AUTO_EXPORT_INTERVAL_MS` (5 min) in `autoExport.ts`; `GeoreferencePanel`
+now writes a points CSV on a timer, not only on Done. The export baseline ref
+(`exported`) advances on every write, so a checkpoint followed by Done does not
+write the same points twice, and an idle panel writes nothing. IndexedDB was
+already safe — `useGeoreferenceSession` debounces at 400 ms — so this protects
+the FILE, the only copy that survives losing the origin. 4 tests added,
+mutation-checked; suite 1097 green, tsc + eslint clean. Live panel verified to
+register exactly one 300 000 ms interval (StrictMode registers two, cleanup
+reclaims one).
+
+Next: sheet 22 point placement (4 corner bootstrap loaded, 50 proposals in
+`web/public/sheet22-proposals.csv`). Then close out sheet 16: freeze ~8
+stratified checks, refit on the rest, score. Then sheet 14.
+
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/fletcher-judique-align
+Branch:   fletcher/judique-align (PR #197 open into nightly)
+Next:     Start dev server via the `judique` launch.json entry (port 5173),
+          then place points on sheet 22 in Chrome. The map record lives in
+          IndexedDB on http://localhost:5173 — that origin only.
+```

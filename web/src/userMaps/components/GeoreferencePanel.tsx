@@ -4,6 +4,7 @@ import { georeferenceAnnotation } from "../allmaps/annotation";
 import { UserMapImportError } from "../errors";
 import { parseFletcherGcps } from "../parsers/fletcherGcps";
 import {
+  AUTO_EXPORT_INTERVAL_MS,
   buildExportCsv,
   exportFileName,
   pointsChanged,
@@ -185,32 +186,46 @@ export function GeoreferencePanel({
   const hasPending = session.pending !== null;
   const canUndo = session.canUndo;
 
-  // The set this session opened with, so a close that changed nothing does not
-  // write a file. Keyed on the record id: switching maps starts a new session.
-  const openedWith = useRef<{ id: string; gcps: Gcp[] }>({
+  /**
+   * The record this session belongs to, and the points as of the last file it
+   * wrote — the baseline every later write is judged against.
+   *
+   * Seeded with the set the session opened with, so opening a sheet to look at
+   * it writes nothing. ADVANCED by each write, which is what the periodic
+   * checkpoint below needs and "the set we opened with" could not give it:
+   * against a fixed baseline every checkpoint after the first would still see a
+   * change, and an idle session would drop a fresh copy of identical points
+   * every five minutes for as long as it stayed open.
+   *
+   * Keyed on the record id: switching maps starts a new session, with a new
+   * baseline and nothing owed to disk.
+   */
+  const exported = useRef<{ id: string; gcps: Gcp[] }>({
     id: record.id,
     gcps: session.gcps,
   });
-  if (openedWith.current.id !== record.id) {
-    openedWith.current = { id: record.id, gcps: session.gcps };
+  if (exported.current.id !== record.id) {
+    exported.current = { id: record.id, gcps: session.gcps };
   }
 
   const sessionGcps = session.gcps;
   const sessionChecks = session.checks;
   const recordName = record.name;
-  const closeSession = useCallback(() => {
-    // Placement lives in IndexedDB, which no backup reaches. A session that
-    // moved anything writes itself out before it can be lost. Downloads are
-    // the only place a page may put a file unasked, so that is where it goes.
-    if (
-      sessionGcps.length > 0 &&
-      pointsChanged(openedWith.current.gcps, sessionGcps)
-    ) {
+
+  /**
+   * Writes the session out as a points file, if anything moved since the last
+   * one. Placement lives in IndexedDB, which no backup reaches; downloads are
+   * the only place a page may put a file unasked, so that is where it goes.
+   */
+  const exportPoints = useCallback(
+    (gcps: Gcp[], checks: Gcp[]) => {
+      if (gcps.length === 0 || !pointsChanged(exported.current.gcps, gcps)) {
+        return;
+      }
       const now = new Date();
-      const blob = new Blob(
-        [buildExportCsv(recordName, sessionGcps, sessionChecks, now)],
-        { type: "text/csv" },
-      );
+      const blob = new Blob([buildExportCsv(recordName, gcps, checks, now)], {
+        type: "text/csv",
+      });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -219,12 +234,53 @@ export function GeoreferencePanel({
       // Revoked on a later task: revoking synchronously can cancel the
       // download in Chrome before it has read the blob.
       setTimeout(() => URL.revokeObjectURL(url), 30_000);
-    }
+      exported.current = { id: exported.current.id, gcps };
+    },
+    [recordName],
+  );
+
+  const closeSession = useCallback(() => {
+    exportPoints(sessionGcps, sessionChecks);
     // Writes are debounced, so the tail of a session would otherwise be lost
     // between the last edit and the panel unmounting.
     flush();
     onClose();
-  }, [flush, onClose, recordName, sessionChecks, sessionGcps]);
+  }, [exportPoints, flush, onClose, sessionChecks, sessionGcps]);
+
+  /**
+   * Current points, for the checkpoint timer to read when it fires.
+   *
+   * A ref rather than an interval dependency: an interval rebuilt on every edit
+   * has its clock restarted by every drag, so a session under continuous
+   * editing — precisely the one with the most on the line — would be the one
+   * that never reached a checkpoint.
+   */
+  const latest = useRef({ gcps: sessionGcps, checks: sessionChecks });
+  useEffect(() => {
+    latest.current = { gcps: sessionGcps, checks: sessionChecks };
+  }, [sessionChecks, sessionGcps]);
+
+  /**
+   * Checkpoint an open session to disk.
+   *
+   * NOT protection against losing points: `useGeoreferenceSession` already
+   * commits every edit to IndexedDB within `PERSIST_DELAY_MS`, so a crash, a
+   * reload, or a stopped dev server costs at most 400 ms of dragging. What this
+   * protects is the FILE — the only copy that survives losing the ORIGIN, which
+   * is a different failure and the one that has actually bitten: two sheets'
+   * worth of placement have had to be read back out of browser storage by hand.
+   *
+   * Until this lands, a session earned its file only by ending through Done.
+   * Every other way out — closing the tab, reloading, the dev server going down
+   * mid-sheet — left an hour of work reachable only from one browser profile's
+   * IndexedDB, on one origin, on one machine.
+   */
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      exportPoints(latest.current.gcps, latest.current.checks);
+    }, AUTO_EXPORT_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [exportPoints]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

@@ -17,6 +17,20 @@ import {
  * wrong folder than it is missing.
  */
 
+/**
+ * How often an OPEN session writes a checkpoint.
+ *
+ * Not a debounce, and deliberately three orders of magnitude longer than the
+ * 400 ms IndexedDB one in `useGeoreferenceSession`. That write is cheap and
+ * invisible; this one puts a file in the user's Downloads folder, so the
+ * cadence is bounded by how much clutter an afternoon may produce rather than
+ * by how much work a crash may cost. At five minutes a two-hour sheet leaves
+ * about two dozen files, each a valid restore point; at the 15 s a debounce
+ * would suggest it leaves four hundred, and the real one is unfindable among
+ * them.
+ */
+export const AUTO_EXPORT_INTERVAL_MS = 5 * 60_000;
+
 /** Filesystem-safe, and sorts chronologically inside a folder. */
 export function exportTimestamp(now: Date): string {
   const pad = (value: number) => String(value).padStart(2, "0");

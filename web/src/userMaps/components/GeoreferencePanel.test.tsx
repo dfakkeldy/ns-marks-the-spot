@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -56,6 +56,7 @@ import { GeoreferencePanel } from "./GeoreferencePanel";
 import { statusMessage } from "./georeferenceStatus";
 import type { GeoreferenceSession } from "../useGeoreferenceSession";
 import { georeferenceAnnotation } from "../allmaps/annotation";
+import { AUTO_EXPORT_INTERVAL_MS } from "../autoExport";
 import { BENT, gcpRecord } from "../testFixtures";
 import { MIN_GCPS_FOR_TPS } from "../transform/tps";
 import type { Gcp, GeoreferenceMethod, UserMapRecord } from "../types";
@@ -1014,7 +1015,7 @@ describe("Fletcher points file import", () => {
   });
 });
 
-describe("auto-export on close", () => {
+describe("auto-export", () => {
   function captureDownloads() {
     const downloads: { name: string; href: string }[] = [];
     const realCreate = document.createElement.bind(document);
@@ -1039,37 +1040,39 @@ describe("auto-export on close", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.useRealTimers();
   });
 
   const PLACED: Gcp[] = [
     { id: "a", pixel: { x: 1, y: 2 }, map: { lat: 45.9, lng: -61.5 } },
   ];
+  const MOVED: Gcp[] = [{ ...PLACED[0]!, pixel: { x: 50, y: 60 } }];
+  const MOVED_AGAIN: Gcp[] = [{ ...PLACED[0]!, pixel: { x: 90, y: 99 } }];
+
+  // Hoisted because every test below has to drive ONE panel across a change:
+  // a freshly mounted one takes the already-moved points as its baseline and
+  // correctly decides nothing moved, so a `renderPanel` per state proves
+  // nothing about either the close path or the clock.
+  const panel = (session: GeoreferenceSession) => (
+    <GeoreferencePanel
+      record={RECORD}
+      previewUrl="blob:scan"
+      opacity={0.7}
+      session={session}
+      onOpacityChange={vi.fn()}
+      onClose={vi.fn()}
+      onDelete={vi.fn()}
+      onFocusGcpOnMap={vi.fn()}
+      onMethodChange={vi.fn()}
+      referenceLayers={{ aerial: false, parcels: true }}
+      onToggleReferenceLayer={vi.fn()}
+    />
+  );
 
   it("writes a timestamped file when the points moved", async () => {
     const downloads = captureDownloads();
-    // The SAME panel has to see the move: a freshly mounted one would take the
-    // already-moved points as its baseline and correctly decide nothing changed.
-    const panel = (session: GeoreferenceSession) => (
-      <GeoreferencePanel
-        record={RECORD}
-        previewUrl="blob:scan"
-        opacity={0.7}
-        session={session}
-        onOpacityChange={vi.fn()}
-        onClose={vi.fn()}
-        onDelete={vi.fn()}
-        onFocusGcpOnMap={vi.fn()}
-        onMethodChange={vi.fn()}
-        referenceLayers={{ aerial: false, parcels: true }}
-        onToggleReferenceLayer={vi.fn()}
-      />
-    );
     const { rerender } = render(panel(fakeSession({ gcps: PLACED })));
-    rerender(
-      panel(
-        fakeSession({ gcps: [{ ...PLACED[0]!, pixel: { x: 50, y: 60 } }] }),
-      ),
-    );
+    rerender(panel(fakeSession({ gcps: MOVED })));
     await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(downloads).toHaveLength(1);
     expect(downloads[0]!.name).toMatch(/\.csv$/);
@@ -1089,5 +1092,60 @@ describe("auto-export on close", () => {
     renderPanel(fakeSession({ gcps: [] }));
     await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(downloads).toEqual([]);
+  });
+
+  it("checkpoints an open session without waiting for Done", () => {
+    // The whole point: a session that never reaches Done — a closed tab, a
+    // reload, a stopped dev server — still leaves a file behind.
+    const downloads = captureDownloads();
+    vi.useFakeTimers();
+    const { rerender } = render(panel(fakeSession({ gcps: PLACED })));
+    rerender(panel(fakeSession({ gcps: MOVED })));
+    expect(downloads).toEqual([]);
+    act(() => void vi.advanceTimersByTime(AUTO_EXPORT_INTERVAL_MS));
+    expect(downloads).toHaveLength(1);
+  });
+
+  it("leaves an idle session alone however long it stays open", () => {
+    // A panel left open over lunch must not drop a file every five minutes.
+    const downloads = captureDownloads();
+    vi.useFakeTimers();
+    render(panel(fakeSession({ gcps: PLACED })));
+    act(() => void vi.advanceTimersByTime(AUTO_EXPORT_INTERVAL_MS * 6));
+    expect(downloads).toEqual([]);
+  });
+
+  // The two tests below click Done with `fireEvent`, not `userEvent`, and the
+  // difference is not stylistic: `userEvent` awaits its own `setTimeout`
+  // between events, which under fake timers nothing advances, so both hung
+  // until the 5 s test timeout. Done is a plain button with an onClick — a
+  // synchronous click event is the whole interaction.
+
+  it("does not write the same points twice when Done follows a checkpoint", () => {
+    const downloads = captureDownloads();
+    vi.useFakeTimers();
+    const { rerender } = render(panel(fakeSession({ gcps: PLACED })));
+    rerender(panel(fakeSession({ gcps: MOVED })));
+    act(() => void vi.advanceTimersByTime(AUTO_EXPORT_INTERVAL_MS));
+    expect(downloads).toHaveLength(1);
+
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    // Against a fixed opened-with baseline this is 2: the same points, written
+    // once by the clock and again on the way out.
+    expect(downloads).toHaveLength(1);
+  });
+
+  it("writes again when the points move after a checkpoint", () => {
+    // The other half of the baseline: advancing it must not suppress real
+    // later work.
+    const downloads = captureDownloads();
+    vi.useFakeTimers();
+    const { rerender } = render(panel(fakeSession({ gcps: PLACED })));
+    rerender(panel(fakeSession({ gcps: MOVED })));
+    act(() => void vi.advanceTimersByTime(AUTO_EXPORT_INTERVAL_MS));
+    rerender(panel(fakeSession({ gcps: MOVED_AGAIN })));
+
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(downloads).toHaveLength(2);
   });
 });
