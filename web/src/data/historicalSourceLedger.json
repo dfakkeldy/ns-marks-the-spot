@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-07-30",
+  "retrievedOn": "2026-08-02",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -544,6 +544,20 @@
       "fieldsAvailable": ["AAN", "PID", "district", "description", "minimum bid", "post-sale redeemable", "HST", "selling price"],
       "officialWinningBidsFound": true,
       "notes": "21 result rows were reconciled from the dated official PDF; 18 publish a numeric selling price and 3 print Removed. Removed is preserved as withdrawn with no selling-price claim. Every exact eight-digit PID returned from NSPRD on 2026-07-28."
+    },
+    {
+      "municipality": "Municipality of the District of Shelburne",
+      "event": "February 9, 2026 tax sale by tender",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://www.municipalityofshelburne.ca/tax-sale/",
+        "https://www.municipalityofshelburne.ca/2026/02/11/tax-sale-results/",
+        "https://www.municipalityofshelburne.ca/wp-content/uploads/2026/02/Public-Tax-Sale-Results-2026.pdf"
+      ],
+      "documentSha256": ["71cbfdebc90e7758e9bfb37a4675a76bec6416f8c95d458e58a95dc4bb4836e4"],
+      "fieldsAvailable": ["AAN", "PID", "description", "winning bid", "NO BIDS"],
+      "officialWinningBidsFound": true,
+      "notes": "The two-page official result PDF identifies 17 owner-free rows: 11 print numeric winning bids and 6 print NO BIDS. The current municipal landing page no longer links the matching pre-sale notice or any advertised amount, so the result cannot be reconciled against notice fields and does not satisfy the public historical model's positive advertised-amount contract. No row is promoted into the map dataset."
     }
   ]
 }
