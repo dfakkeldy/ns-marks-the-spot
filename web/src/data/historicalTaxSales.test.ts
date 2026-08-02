@@ -132,6 +132,26 @@ describe("historical tax-sale records", () => {
     ).toBe(false);
   });
 
+  it("keeps the result-only February 2026 Shelburne sale out of the public model", () => {
+    const researched = historicalSourceLedger.coverage.find(
+      ({ event }) => event === "February 9, 2026 tax sale by tender",
+    );
+
+    expect(researched).toMatchObject({
+      municipality: "Municipality of the District of Shelburne",
+      status: "researched-not-included",
+      officialWinningBidsFound: true,
+      documentSha256: [
+        "71cbfdebc90e7758e9bfb37a4675a76bec6416f8c95d458e58a95dc4bb4836e4",
+      ],
+    });
+    expect(
+      historicalTaxSaleEvents.some(
+        ({ id }) => id === "shelburne-2026-02-09",
+      ),
+    ).toBe(false);
+  });
+
   it("keeps blank-status Victoria County rows outcome-unknown", () => {
     const august = historicalTaxSaleRecords.filter(
       ({ eventId }) => eventId === "victoria-2025-08-26",
