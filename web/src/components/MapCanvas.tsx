@@ -260,6 +260,10 @@ const EMPTY_USER_MAPS: VisibleUserMap[] = [];
 const EMPTY_USER_VECTOR_LAYERS: VisibleUserVectorLayer[] = [];
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+const CSS_METRES_PER_PIXEL = 0.0254 / 96;
+const DISPLAY_SCALE_SAMPLE_WIDTH_CSS_PIXELS = 100;
+const DISPLAY_SCALE_EXPLANATION =
+  "Calculated at map centre using 96 CSS pixels per inch. Browser zoom and display scaling affect physical accuracy.";
 
 /**
  * A double-click arrives as click → click → dblclick, so a parcel identify
@@ -1281,6 +1285,61 @@ function MapSizeController() {
   return null;
 }
 
+function approximateScreenScaleDenominator(map: LeafletMap): number | null {
+  const size = map.getSize();
+  const sampleWidth = Math.min(
+    DISPLAY_SCALE_SAMPLE_WIDTH_CSS_PIXELS,
+    size.x,
+  );
+  if (!Number.isFinite(sampleWidth) || sampleWidth <= 0) {
+    return null;
+  }
+
+  const y = size.y / 2;
+  const x = (size.x - sampleWidth) / 2;
+  const left = map.containerPointToLatLng([x, y]);
+  const right = map.containerPointToLatLng([x + sampleWidth, y]);
+  const groundMetres = map.distance(left, right);
+  const denominator =
+    groundMetres / (sampleWidth * CSS_METRES_PER_PIXEL);
+
+  if (!Number.isFinite(denominator) || denominator <= 0) {
+    return null;
+  }
+  return Number(denominator.toPrecision(3));
+}
+
+function ApproximateScaleReadout() {
+  const map = useMap();
+  const [denominator, setDenominator] = useState(() =>
+    approximateScreenScaleDenominator(map),
+  );
+
+  useEffect(() => {
+    function updateScale() {
+      setDenominator(approximateScreenScaleDenominator(map));
+    }
+
+    updateScale();
+    map.on("moveend", updateScale);
+    map.on("zoomend", updateScale);
+    return () => {
+      map.off("moveend", updateScale);
+      map.off("zoomend", updateScale);
+    };
+  }, [map]);
+
+  if (denominator === null) {
+    return null;
+  }
+
+  return (
+    <p className="display-scale-readout" title={DISPLAY_SCALE_EXPLANATION}>
+      Approx. screen scale 1:{denominator.toLocaleString("en-CA")}
+    </p>
+  );
+}
+
 function PositionReadout() {
   const map = useMap();
   const [position, setPosition] = useState(() => ({
@@ -1699,6 +1758,7 @@ export function MapCanvas({
           />
         ) : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
+        {!isPrintMode ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {showModernMap ? (
           <TileLayer

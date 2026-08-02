@@ -48,6 +48,12 @@ const mapMock = vi.hoisted(() => ({
   })),
   getZoom: vi.fn(() => 9),
   getContainer: vi.fn(() => document.body),
+  getSize: vi.fn(() => ({ x: 800, y: 600 })),
+  containerPointToLatLng: vi.fn(({ x, y }: { x: number; y: number }) => ({
+    lat: 46 + y / 1_000_000,
+    lng: -61 + x / 1_000_000,
+  })),
+  distance: vi.fn(() => 330.7291667),
   invalidateSize: vi.fn(),
   on: vi.fn(),
   off: vi.fn(),
@@ -1391,6 +1397,27 @@ describe("MapCanvas cartographic furniture", () => {
     );
   });
 
+  it("shows an approximate representative fraction and updates it with the map", () => {
+    render(<MapCanvas {...furnitureProps} />);
+
+    const readout = screen.getByText("Approx. screen scale 1:12,500");
+    expect(readout).toHaveAttribute(
+      "title",
+      expect.stringContaining("96 CSS pixels per inch"),
+    );
+
+    mapMock.distance.mockReturnValue(661.4583333);
+    act(() => {
+      for (const [, handler] of mapMock.on.mock.calls.filter(
+        ([event]) => event === "zoomend",
+      )) {
+        handler();
+      }
+    });
+
+    expect(readout).toHaveTextContent("Approx. screen scale 1:25,000");
+  });
+
   it("renders the optional old-growth policy layer in its contextual pane", () => {
     render(
       <MapCanvas
@@ -2239,6 +2266,7 @@ describe("MapCanvas print mode", () => {
     expect(screen.queryByRole("button", { name: "Use my location" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Copy map centre coordinates" })).toBeNull();
     expect(screen.queryByTestId("scale-control")).toBeNull();
+    expect(screen.queryByText(/Approx\. screen scale/u)).toBeNull();
     expect(screen.queryByTestId("measure-tool")).toBeNull();
     expect(mapEventHandlers.click).toBeUndefined();
     expect(screen.getByTestId("tile-layer")).toHaveAttribute(

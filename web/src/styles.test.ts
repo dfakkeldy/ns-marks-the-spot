@@ -153,8 +153,12 @@ describe("map cartographic furniture", () => {
     const readoutDeclarations = styles.match(
       /\.position-readout\s*\{([^}]*)\}/,
     )?.[1];
+    const displayScaleDeclarations = styles.match(
+      /\.display-scale-readout\s*\{([^}]*)\}/,
+    )?.[1];
 
     expect(readoutDeclarations).toMatch(/bottom:\s*72px/);
+    expect(displayScaleDeclarations).toMatch(/bottom:\s*50px/);
   });
 });
 
