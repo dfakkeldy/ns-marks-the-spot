@@ -55,3 +55,29 @@ Next:     Start dev server via the `judique` launch.json entry (port 5173),
           then place points on sheet 22 in Chrome. The map record lives in
           IndexedDB on http://localhost:5173 — that origin only.
 ```
+
+## 2026-08-01 — Water layer no longer hides the drawn coastline
+
+Done: `.map-layer-water-features` gains `opacity: 0.45 !important`. Sublayer 8
+("Wet Features") fills water with solid `rgba(204,230,242,255)` at z-index 210
+against the raster's 155, so the modern water body painted flat over the 1884
+shoreline — the exact feature a coastal sheet is georeferenced against. CSS not
+the catalog `opacity` field: `MapCanvas` builds screen AND print tiles from that
+field, so changing it would restyle water in exported GeoPDFs; `map-layer-*` is
+screen-only. `!important` because Leaflet writes opacity inline. Value measured
+against sheet 19 at Judique.
+
+Note: local suite is flaky right now at load average ~306 — App.test.tsx
+integration tests hit their 5 s timeout. Clean runs verified (1097 passed);
+trust CI over a local red run until the machine load is dealt with.
+
+Next: sheet 22 point placement, then close out sheet 16 (freeze checks, refit,
+score), then sheet 14.
+
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/fletcher-judique-align
+Branch:   fletcher/judique-align
+Next:     Place points on sheet 22 in Chrome at http://localhost:5173 (start the
+          `judique` launch.json entry first). Water is now readable over coasts.
+```
