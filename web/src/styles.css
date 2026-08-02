@@ -4768,9 +4768,31 @@ a {
    safe to push hard because the export is `transparent: true`: the tiles carry
    the water linework and nothing else, so this cannot touch the basemap or a
    georeferenced scan underneath. Wanted when the layer is used as a landmark
-   reference over a busy historical sheet, where the default hairlines vanish. */
+   reference over a busy historical sheet, where the default hairlines vanish.
+
+   The `transparent: true` claim above holds for the LINES; it does not hold for
+   the polygons. Sublayer 8 ("Wet Features") fills lakes, estuaries and the sea
+   with solid `rgba(204, 230, 242, 255)`, and this layer sits at z-index 210
+   against the historical raster's 155 — so at full opacity the modern water
+   body paints flat over the drawn 1884 shoreline underneath it. That shoreline
+   is the thing a coastal sheet is georeferenced AGAINST, and it was invisible
+   in exactly the places the control points have to go.
+
+   `!important` because Leaflet writes `opacity` as an INLINE style on the layer
+   container from the catalog's `opacity` field, and an inline style beats any
+   selector. The catalog field is the other lever and is deliberately not used:
+   `MapCanvas` builds screen and print tiles from that same value, so setting it
+   there would quietly restyle water in exported GeoPDFs too. `map-layer-*` is
+   the screen class — print gets `print-layer-*` — so this stays on screen,
+   where the georeferencing happens.
+
+   0.45 measured over sheet 19 at Judique: the 1884 coastline and its labels
+   read through the modern water, while the modern shoreline stays traceable as
+   a soft edge. Both edges legible at once is the requirement — a point has to
+   be dragged from one to the other. */
 .map-layer-water-features {
   filter: contrast(1.45) saturate(1.35) brightness(0.92);
+  opacity: 0.45 !important;
 }
 
 .gcp-row td {
