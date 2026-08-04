@@ -683,7 +683,7 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("reveals the remaining privacy-minimized upcoming event after acceptance", async () => {
+  it("reveals the privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -693,13 +693,16 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
-      screen.getByText("39 advertised · 6 withdrawn · 39 active PIDs"),
+      screen.getByText("37 advertised · 8 withdrawn · 37 active PIDs"),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
     ).not.toBeInTheDocument();
     expect(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
+    ).toBeChecked();
+    expect(
+      screen.getByRole("checkbox", { name: /Middleton.*August 20, 2026/i }),
     ).toBeChecked();
     expect(screen.getByLabelText("Search by PID or civic address")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
@@ -719,8 +722,8 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText("Snapshot retrieved July 31, 2026"),
-    ).toHaveLength(1);
+      screen.getAllByText("Snapshot retrieved August 4, 2026"),
+    ).toHaveLength(2);
   });
 
   it("makes current notices and historical records separate map modes", async () => {
@@ -3030,13 +3033,17 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 40;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 41;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 1;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 4;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 3;");
+    await user.click(
+      screen.getByRole("checkbox", { name: /Middleton.*August 20, 2026/i }),
     );
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0;");
   });

@@ -2,8 +2,9 @@
 
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
-The current-notice catalog covers the August 11, 2026 Inverness County auction
-and the August 31, 2026 Annapolis County tax sale by tender.
+The current-notice catalog covers the August 11, 2026 Inverness County auction,
+the August 20, 2026 Middleton auction, and the August 31, 2026 Annapolis County
+tax sale by tender.
 The completed July 21, 2026 CBRM event is retained in historical-record mode
 with outcomes explicitly pending until the municipality publishes results.
 
@@ -37,7 +38,8 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
 1. Each municipality's official notice supplies its event date and public
    parcel fields. The catalog preserves the municipality's financial wording:
    CBRM publishes a minimum bid, Inverness publishes total arrears, and
-   Annapolis publishes a $1.00 minimum bid plus HST for its sealed tender.
+   Middleton publishes a total due, and Annapolis publishes a $1.00 minimum bid
+   plus HST for its sealed tender.
 2. **Current notices** and **Historical records** are separate map modes with
    their own colour, heading, controls, and parcel-sheet marker. Changing modes
    clears the previous selection so a dated result cannot be mistaken for a
@@ -606,14 +608,14 @@ are live service examples, not fixtures used by the ordinary unit suite.
 ## Inverness 2026 source receipt
 
 - Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
-- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 5](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-5.pdf)
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 6](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-6.pdf)
 - PDF publication metadata is July 16, 2026; the current file was modified July
-  31 and retrieved July 31, 2026. Its SHA-256 is
-  `cd31c8eb9b5b721802e1db595f210192b2ec585ee6bb0b428fd4aa28a663ef2a`.
+  31 and retrieved August 4, 2026. Its SHA-256 is
+  `ccfc7370e6416de0af1610a2b6af7157a6cc86b203cf738d3768573545c60a3c`.
 - The revision still contains 45 lien entries and 47 unique PIDs, but visibly
-  strikes through liens 5, 6, 10, 11, 12, and 37. Those six records (eight PIDs)
-  remain in the dated evidence as `withdrawn`; only 39 advertised PIDs render
-  in the active tax-sale parcel layer. Lien 11 covers three PIDs.
+  strikes through liens 5, 6, 10, 11, 12, 33, 34, and 37. Those eight records
+  (ten PIDs) remain in the dated evidence as `withdrawn`; only 37 advertised
+  PIDs render in the active tax-sale parcel layer. Lien 11 covers three PIDs.
 - NSPRD validation on July 19, 2026: all 47 unique PIDs matched. NSPRD returned
   53 geometry features because some PIDs have more than one polygon record.
 - Source anomaly: lien 6 appears in the summary table but its detailed property
@@ -626,7 +628,7 @@ are live service examples, not fixtures used by the ordinary unit suite.
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `d9182c67abb619c8aaa5edc293b372b086be89643105c9ccb876e1346a7d891b`
+  `0844ed7fdf4a3b699952bbccfbe14bc58e1ed9b6d9cd7d1f77d9d453d20f7876`
   so either repository cannot drift silently.
 
 Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and
@@ -635,6 +637,27 @@ municipal landing page, parses owner-free summary fields, detects visible
 strike-through marks from PDF vector geometry, preserves reviewed location
 normalization, and updates both document and JSON receipts. An omitted stored
 row or ambiguous landing-page link fails closed instead of deleting evidence.
+
+## Middleton August 2026 source receipt
+
+- Official source: [Town of Middleton Property Tax Sale Information](https://www.discovermiddleton.ca/property-tax-sale-information)
+- The page was retrieved August 4, 2026 and advertises a public auction at
+  10:00 a.m. August 20, 2026 in Town Hall Council Chambers, 131 Commercial
+  Street, Middleton.
+- Three non-empty rows each publish one exact eight-digit PID, one exact
+  eight-digit AAN, a total due, and a `Y` or `N` redemption value. All three
+  PIDs matched the live NSPRD parcel service on August 4, 2026. The assessed
+  owner column is discarded before the public snapshot is written.
+- The official HTML varies per request, so unstable raw page bytes are not
+  represented as a document receipt. The refresher instead hashes the
+  normalized owner-free event and listing facts at
+  `d3d4b41e49e4d91b882544b6d448ca4d9d16b48edd60e59e9e4ca34a5fd1cc15`.
+  The byte-for-byte public dataset SHA-256 is
+  `1672235b4e27d4a0a300e00ccb31928592ad74ddc71c377844a577d41f96bdb9`.
+
+Run `npm run refresh:middleton-tax-sale` to reparse the official table. An
+empty or malformed identifier, duplicate PID or AAN, unfamiliar redemption
+value, changed table schema, or ambiguous event detail fails closed.
 
 `npm run watch:tax-sales` handles sources that publish results to a single page
 they overwrite each sale, where the previous sale's results are destroyed rather
@@ -824,7 +847,7 @@ municipal services and never republished as project data,
 live NSPRD PID/address/map-tap parcel discovery, browser location,
 mapped acreage, parcel
 road/water/adjacency context, authoritative mapped civic-address points, the
-upcoming Inverness municipal tax-sale event, local Plus Codes with opt-in Google
+three upcoming municipal tax-sale events, local Plus Codes with opt-in Google
 Maps directions, and a separate default-off layer of twelve verified Halifax,
 Victoria County, and CBRM result events.
 User-loaded files stay in the browser: raster maps (GeoTIFF, GeoPDF, PNG,
