@@ -11,6 +11,8 @@ import { INVERNESS_BOOK_DATASET_SHA256 } from "./invernessTaxSale";
 import invernessBookDatasetSource from "./invernessTaxSale.snapshot.json?raw";
 import { ANNAPOLIS_TENDER_DATASET_SHA256 } from "./annapolisTaxSale";
 import annapolisTenderDatasetSource from "./annapolisTaxSale.snapshot.json?raw";
+import { MIDDLETON_TAX_SALE_DATASET_SHA256 } from "./middletonTaxSale";
+import middletonDatasetSource from "./middletonTaxSale.snapshot.json?raw";
 import {
   CBRM_RESULT_DATASET_SHA256,
   HISTORICAL_DATASET_SHA256,
@@ -44,6 +46,12 @@ describe("the multi-municipality tax-sale catalog", () => {
   it("pins the byte-for-byte published Annapolis tender dataset", async () => {
     expect(await sha256Hex(annapolisTenderDatasetSource)).toBe(
       ANNAPOLIS_TENDER_DATASET_SHA256,
+    );
+  });
+
+  it("pins the byte-for-byte published Middleton notice dataset", async () => {
+    expect(await sha256Hex(middletonDatasetSource)).toBe(
+      MIDDLETON_TAX_SALE_DATASET_SHA256,
     );
   });
 
@@ -82,19 +90,49 @@ describe("the multi-municipality tax-sale catalog", () => {
     ).toBe("verify-results");
   });
 
-  it("preserves the Inverness 45-listing, 47-PID receipt and six withdrawals", () => {
+  it("represents the Middleton auction with exact owner-free notice fields", () => {
+    const middleton = event("middleton-2026-08-20");
+
+    expect(middleton.eventType).toBe("public-auction");
+    expect(middleton.eventStatus).toBe("upcoming");
+    expect(middleton.saleStartsAt).toBe("2026-08-20T10:00:00-03:00");
+    expect(middleton.listings).toHaveLength(3);
+    expect(middleton.listings.map(({ pids }) => pids)).toEqual([
+      ["05078472"],
+      ["05193040"],
+      ["05030911"],
+    ]);
+    expect(middleton.listings.map(({ financial }) => financial.amountCents)).toEqual([
+      1_165_610,
+      8_227_737,
+      1_514_126,
+    ]);
+    expect(middleton.listings.map(({ redemptionCategory }) => redemptionCategory)).toEqual([
+      "six-month",
+      "six-month",
+      "not-redeemable",
+    ]);
+    expect(
+      eventLifecycleStatus(middleton, new Date("2026-08-20T12:59:59Z")),
+    ).toBe("upcoming");
+    expect(
+      eventLifecycleStatus(middleton, new Date("2026-08-20T13:00:01Z")),
+    ).toBe("verify-results");
+  });
+
+  it("preserves the Inverness 45-listing, 47-PID receipt and eight withdrawals", () => {
     const inverness = event("inverness-county-2026-08-11");
     const pids = inverness.listings.flatMap(({ pids }) => pids);
 
     expect(inverness.listings).toHaveLength(45);
     expect(pids).toHaveLength(47);
     expect(new Set(pids).size).toBe(47);
-    expect(advertisedPidsForEvents([inverness])).toHaveLength(39);
+    expect(advertisedPidsForEvents([inverness])).toHaveLength(37);
     expect(
       inverness.listings
         .filter(({ listingStatus }) => listingStatus === "withdrawn")
         .map(({ lien }) => lien),
-    ).toEqual(["5", "6", "10", "11", "12", "37"]);
+    ).toEqual(["5", "6", "10", "11", "12", "33", "34", "37"]);
     expect(
       inverness.listings.find(({ lien }) => lien === "11")?.pids,
     ).toEqual(["50076777", "50207794", "50207802"]);
@@ -106,7 +144,7 @@ describe("the multi-municipality tax-sale catalog", () => {
       "00603988",
     );
     expect(INVERNESS_BOOK_DATASET_SHA256).toBe(
-      "d9182c67abb619c8aaa5edc293b372b086be89643105c9ccb876e1346a7d891b",
+      "0844ed7fdf4a3b699952bbccfbe14bc58e1ed9b6d9cd7d1f77d9d453d20f7876",
     );
     expect(inverness.sourceDatasetSha256).toBe(
       INVERNESS_BOOK_DATASET_SHA256,
@@ -173,10 +211,11 @@ describe("the multi-municipality tax-sale catalog", () => {
 
     expect(upcoming.map(({ id }) => id)).toEqual([
       "inverness-county-2026-08-11",
+      "middleton-2026-08-20",
       "annapolis-county-2026-08-31",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(46);
-    expect(pidsForEvents(upcoming)).toHaveLength(48);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(49);
+    expect(pidsForEvents(upcoming)).toHaveLength(51);
     expect(historical.map(({ id }) => id)).toEqual(["cbrm-2026-07-21"]);
     expect(pidsForEvents(historical)).toHaveLength(68);
   });
