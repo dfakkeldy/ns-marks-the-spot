@@ -3,8 +3,8 @@
   "title": "Inverness County tax-sale listings — August 11, 2026",
   "saleDate": "2026-08-11",
   "publishedDate": "2026-07-16",
-  "retrievedDate": "2026-08-04",
-  "source": "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-6.pdf",
+  "retrievedDate": "2026-08-06",
+  "source": "https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-7.pdf",
   "crossCheck": "https://github.com/dfakkeldy/ns-marks-the-spot/tree/92f1261e5/web",
   "normalization": "Location capitalization, road abbreviations, accents, punctuation, and obvious summary-table text errors were normalized after visual review; lien, AAN, amount, redemption, PID, and visible strike-through status remain source facts.",
   "status": "dated municipal snapshot; advertised and withdrawn states require continued municipal verification",
@@ -98,7 +98,7 @@
       "pids": [
         "50113968"
       ],
-      "listingStatus": "advertised"
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 9,
@@ -452,7 +452,7 @@
       "pids": [
         "50326339"
       ],
-      "listingStatus": "advertised"
+      "listingStatus": "withdrawn"
     },
     {
       "lien": 41,
@@ -511,5 +511,5 @@
     }
   ],
   "landingPage": "https://invernesscounty.ca/services/finance-taxation/tax-sales/",
-  "sourceDocumentSha256": "ccfc7370e6416de0af1610a2b6af7157a6cc86b203cf738d3768573545c60a3c"
+  "sourceDocumentSha256": "298fd732f82e317cc4ecfe395b7f9f375a65e2c151cb093da9a0d8949518e720"
 }

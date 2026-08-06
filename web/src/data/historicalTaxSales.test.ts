@@ -16,7 +16,7 @@ import {
 // Verified receipts must come from a municipality that published them or from an
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
-  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|web\.archive\.org)\//u;
+  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|(?:www\.)?regionofqueens\.com|web\.archive\.org)\//u;
 
 describe("historical tax-sale records", () => {
   // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,
@@ -150,6 +150,39 @@ describe("historical tax-sale records", () => {
         ({ id }) => id === "shelburne-2026-02-09",
       ),
     ).toBe(false);
+  });
+
+  it("publishes the self-contained Queens result only after deterministic PID reconciliation", () => {
+    const event = historicalTaxSaleEvents.find(
+      ({ id }) => id === "queens-2026-02-10",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === event?.id,
+    );
+
+    expect(event).toMatchObject({
+      municipality: "Region of Queens Municipality",
+      saleMethod: "sealed-tender",
+      resultStatus: "verified",
+      noticeSha256:
+        "7630a812b112f2211df6b4566bc0923bd1712fb6b2864efaece8d6f5df2b5a62",
+      resultSha256:
+        "7630a812b112f2211df6b4566bc0923bd1712fb6b2864efaece8d6f5df2b5a62",
+    });
+    expect(records).toHaveLength(16);
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(4);
+    expect(records.filter(({ outcome }) => outcome === "unsold")).toHaveLength(2);
+    expect(records.filter(({ outcome }) => outcome === "withdrawn")).toHaveLength(
+      10,
+    );
+    expect(
+      records.every(
+        ({ nspMatchStatus, nspMatchMethod, reviewState }) =>
+          nspMatchStatus === "matched" &&
+          nspMatchMethod === "deterministic-reconciliation" &&
+          reviewState === "visually-verified",
+      ),
+    ).toBe(true);
   });
 
   it("keeps blank-status Victoria County rows outcome-unknown", () => {

@@ -693,7 +693,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
-      screen.getByText("37 advertised · 8 withdrawn · 37 active PIDs"),
+      screen.getByText("35 advertised · 10 withdrawn · 35 active PIDs"),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
@@ -722,7 +722,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText("Snapshot retrieved August 4, 2026"),
+      screen.getAllByText("Snapshot retrieved August 6, 2026"),
     ).toHaveLength(2);
   });
 
@@ -913,7 +913,7 @@ describe("NS Marks The Spot Online", () => {
     );
 
     await user.selectOptions(screen.getByLabelText("Historical outcome"), "unsold");
-    expect(screen.getByText("28 records · 22 PIDs")).toBeInTheDocument();
+    expect(screen.getByText("30 records · 24 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2022");
     expect(screen.getByText("10 records · 10 PIDs")).toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Historical sale year"), "2024");
@@ -3033,7 +3033,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 41;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 39;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-08-02",
+  "retrievedOn": "2026-08-06",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -544,6 +544,19 @@
       "fieldsAvailable": ["AAN", "PID", "district", "description", "minimum bid", "post-sale redeemable", "HST", "selling price"],
       "officialWinningBidsFound": true,
       "notes": "21 result rows were reconciled from the dated official PDF; 18 publish a numeric selling price and 3 print Removed. Removed is preserved as withdrawn with no selling-price claim. Every exact eight-digit PID returned from NSPRD on 2026-07-28."
+    },
+    {
+      "municipality": "Region of Queens Municipality",
+      "event": "February 10, 2026 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.regionofqueens.com/municipal-services/finance/tax-sales/",
+        "https://www.regionofqueens.com/~documents/route%3A/download/4347/"
+      ],
+      "documentSha256": ["7630a812b112f2211df6b4566bc0923bd1712fb6b2864efaece8d6f5df2b5a62"],
+      "fieldsAvailable": ["Assessment #", "property details", "minimum bid", "successful bid", "REMOVED", "No successful bids"],
+      "officialWinningBidsFound": true,
+      "notes": "The municipality's self-contained 16-row result sheet was rendered and reconciled row by row: 4 rows publish numeric successful bids, 2 print No successful bids, and 10 are marked REMOVED. The result does not publish PID or redemption status. Every assessment number resolved through its PVSC open-data coordinate to exactly one NSPRD PID on 2026-08-06 and is labelled deterministic-reconciliation; no owner field entered the public dataset."
     },
     {
       "municipality": "Municipality of the District of Shelburne",
