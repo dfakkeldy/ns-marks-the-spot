@@ -608,13 +608,13 @@ are live service examples, not fixtures used by the ordinary unit suite.
 ## Inverness 2026 source receipt
 
 - Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
-- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 6](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-6.pdf)
-- PDF publication metadata is July 16, 2026; the current file was modified July
-  31 and retrieved August 4, 2026. Its SHA-256 is
-  `ccfc7370e6416de0af1610a2b6af7157a6cc86b203cf738d3768573545c60a3c`.
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 7](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-7.pdf)
+- PDF publication metadata is July 16, 2026; the current file was modified August
+  6 and retrieved August 7, 2026. Its SHA-256 is
+  `298fd732f82e317cc4ecfe395b7f9f375a65e2c151cb093da9a0d8949518e720`.
 - The revision still contains 45 lien entries and 47 unique PIDs, but visibly
-  strikes through liens 5, 6, 10, 11, 12, 33, 34, and 37. Those eight records
-  (ten PIDs) remain in the dated evidence as `withdrawn`; only 37 advertised
+  strikes through liens 5, 6, 8, 10, 11, 12, 33, 34, 37, and 40. Those ten records
+  (twelve PIDs) remain in the dated evidence as `withdrawn`; only 35 advertised
   PIDs render in the active tax-sale parcel layer. Lien 11 covers three PIDs.
 - NSPRD validation on July 19, 2026: all 47 unique PIDs matched. NSPRD returned
   53 geometry features because some PIDs have more than one polygon record.
@@ -628,7 +628,7 @@ are live service examples, not fixtures used by the ordinary unit suite.
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `0844ed7fdf4a3b699952bbccfbe14bc58e1ed9b6d9cd7d1f77d9d453d20f7876`
+  `3b53724bba595e72e3d1b6d17cacf85d24af4682999290bb24a81eb90f2e394a`
   so either repository cannot drift silently.
 
 Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and
