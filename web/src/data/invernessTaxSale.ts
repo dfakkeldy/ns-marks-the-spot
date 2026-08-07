@@ -12,7 +12,7 @@ export type TaxSaleListing = {
 };
 
 export const INVERNESS_BOOK_DATASET_SHA256 =
-  "0844ed7fdf4a3b699952bbccfbe14bc58e1ed9b6d9cd7d1f77d9d453d20f7876";
+  "3b53724bba595e72e3d1b6d17cacf85d24af4682999290bb24a81eb90f2e394a";
 
 export const invernessTaxSaleNotice = {
   municipality: "Municipality of the County of Inverness",
