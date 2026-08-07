@@ -2,7 +2,8 @@
 
 Retrieved and reviewed July 19, 2026; CBRM result availability re-checked July
 21, 2026 after the auction; Victoria County, Cumberland, and the CBRM July 22,
-2025 result sources were retrieved and reviewed July 23, 2026. Only official
+2025 result sources were retrieved and reviewed July 23, 2026; the Region of
+Queens February 10, 2026 result was retrieved and reviewed August 6, 2026. Only official
 municipal primary sources were used. Text extraction supported reconciliation;
 PIDs and financial values in the fourteen result-backed Halifax notice/result
 PDFs, the three Victoria County result PDFs, every row of the CBRM July 22, 2025
@@ -10,6 +11,25 @@ result, and both Cumberland result tables were also checked against rendered
 pages. Tender terms independently confirmed the sale method for six Halifax
 events and the August 2025 Victoria County event. Public data and screenshots
 omit assessed-owner and bidder names.
+
+## Result-backed Region of Queens event (derived PIDs)
+
+The Region of Queens [official result sheet](https://www.regionofqueens.com/~documents/route%3A/download/4347/)
+is self-contained: all 16 rows publish an assessment number, property details,
+and minimum bid, while the result column prints four numeric successful bids,
+two `No successful bids` outcomes, and ten `REMOVED` dispositions. The rendered
+page was reviewed row by row because extracted text detaches the overlaid
+`REMOVED` labels from their table rows. The sheet does not publish PIDs or
+redemption status.
+
+Each assessment number was matched through its PVSC open-data coordinate to the
+NSPRD parcel layer on August 6, 2026. All 16 resolved to exactly one PID, so each
+record carries match method `deterministic-reconciliation`; none was ambiguous
+or unmatched. The owner column was discarded before the public dataset was
+written. The result PDF SHA-256 is
+`7630a812b112f2211df6b4566bc0923bd1712fb6b2864efaece8d6f5df2b5a62`.
+The [municipal tax-sale landing page](https://www.regionofqueens.com/municipal-services/finance/tax-sales/)
+remains the current official link to that result.
 
 Cumberland is the first source that publishes results as an HTML table on a
 single page it overwrites each sale, rather than as a dated PDF. Its receipts

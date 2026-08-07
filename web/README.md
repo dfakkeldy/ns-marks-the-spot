@@ -608,13 +608,13 @@ are live service examples, not fixtures used by the ordinary unit suite.
 ## Inverness 2026 source receipt
 
 - Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
-- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 7](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-7.pdf)
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 9](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-9.pdf)
 - PDF publication metadata is July 16, 2026; the current file was modified August
-  6 and retrieved August 7, 2026. Its SHA-256 is
-  `298fd732f82e317cc4ecfe395b7f9f375a65e2c151cb093da9a0d8949518e720`.
+  7 and retrieved August 7, 2026. Its SHA-256 is
+  `16cc0963bff71ca122500e602e564d79f012e47845a12995d736819c6341f04a`.
 - The revision still contains 45 lien entries and 47 unique PIDs, but visibly
-  strikes through liens 5, 6, 8, 10, 11, 12, 33, 34, 37, and 40. Those ten records
-  (twelve PIDs) remain in the dated evidence as `withdrawn`; only 35 advertised
+  strikes through liens 5, 6, 8, 10, 11, 12, 33, 34, 37, 40, 41, and 45. Those
+  twelve records (fourteen PIDs) remain in the dated evidence as `withdrawn`; only 33 advertised
   PIDs render in the active tax-sale parcel layer. Lien 11 covers three PIDs.
 - NSPRD validation on July 19, 2026: all 47 unique PIDs matched. NSPRD returned
   53 geometry features because some PIDs have more than one polygon record.
@@ -623,12 +623,14 @@ are live service examples, not fixtures used by the ordinary unit suite.
   official summary row.
 - Source normalization: extracted text renders lien 19 as `N0`; visual review of
   the rendered summary confirms `NO`, stored as `redeemable: false`.
+- Revision 9 corrects lien 42 to redeemable while withdrawing liens 41 and 45;
+  those changes remain distinct from any sale outcome.
 - The wrong 2025 notice is not an input to this layer.
 - The owner-free book dataset is checked in byte-for-byte as
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `3b53724bba595e72e3d1b6d17cacf85d24af4682999290bb24a81eb90f2e394a`
+  `6675756d1ef10419a74b18062dd2dd1a90916879146b31823d431df261372762`
   so either repository cannot drift silently.
 
 Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and
@@ -641,7 +643,7 @@ row or ambiguous landing-page link fails closed instead of deleting evidence.
 ## Middleton August 2026 source receipt
 
 - Official source: [Town of Middleton Property Tax Sale Information](https://www.discovermiddleton.ca/property-tax-sale-information)
-- The page was retrieved August 4, 2026 and advertises a public auction at
+- The page was retrieved August 7, 2026 and advertises a public auction at
   10:00 a.m. August 20, 2026 in Town Hall Council Chambers, 131 Commercial
   Street, Middleton.
 - Three non-empty rows each publish one exact eight-digit PID, one exact
@@ -651,9 +653,9 @@ row or ambiguous landing-page link fails closed instead of deleting evidence.
 - The official HTML varies per request, so unstable raw page bytes are not
   represented as a document receipt. The refresher instead hashes the
   normalized owner-free event and listing facts at
-  `d3d4b41e49e4d91b882544b6d448ca4d9d16b48edd60e59e9e4ca34a5fd1cc15`.
+  `087eab9bbd3260c7a2b8e9daedb88c45e8bdcef5f72616f6d934d54b592bf94b`.
   The byte-for-byte public dataset SHA-256 is
-  `1672235b4e27d4a0a300e00ccb31928592ad74ddc71c377844a577d41f96bdb9`.
+  `de851169cf38c179ba9fc82012a36907dd99632f74d58f11e01d72d32f09dac6`.
 
 Run `npm run refresh:middleton-tax-sale` to reparse the official table. An
 empty or malformed identifier, duplicate PID or AAN, unfamiliar redemption
@@ -742,8 +744,8 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 22 verified
-events span seven municipalities:
+The historical layer is visually distinct and off by default. Its 23 verified
+events span eight municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -754,7 +756,8 @@ events span seven municipalities:
 | Lunenburg District | 6 | 145 | 125 | 69 | 21 | 37 | 0 | 18 |
 | Richmond | 1 | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | Pictou | 1 | 21 | 21 | 18 | 0 | 3 | 0 | 0 |
-| **Total** | **22** | **449** | **427** | **276** | **28** | **47** | **1** | **97** |
+| Queens | 1 | 16 | 16 | 4 | 2 | 10 | 0 | 0 |
+| **Total** | **23** | **465** | **443** | **280** | **30** | **57** | **1** | **97** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026

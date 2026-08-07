@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "municipality": "Town of Middleton",
   "source": "https://www.discovermiddleton.ca/property-tax-sale-information",
-  "retrievedDate": "2026-08-04",
-  "sourceFactsSha256": "d3d4b41e49e4d91b882544b6d448ca4d9d16b48edd60e59e9e4ca34a5fd1cc15",
+  "retrievedDate": "2026-08-07",
+  "sourceFactsSha256": "087eab9bbd3260c7a2b8e9daedb88c45e8bdcef5f72616f6d934d54b592bf94b",
   "sourceHashPolicy": "The official HTML varies per request; this receipt hashes normalized owner-free event and listing facts instead of unstable page bytes.",
   "ownerNamesExcluded": true,
   "eventDate": "2026-08-20",
@@ -19,7 +19,7 @@
         "05078472"
       ],
       "aan": "03949001",
-      "totalDueCents": 1165610,
+      "totalDueCents": 1183095,
       "redeemable": true,
       "listingStatus": "advertised"
     },
@@ -30,7 +30,7 @@
         "05193040"
       ],
       "aan": "03334198",
-      "totalDueCents": 8227737,
+      "totalDueCents": 8351154,
       "redeemable": true,
       "listingStatus": "advertised"
     },
@@ -41,7 +41,7 @@
         "05030911"
       ],
       "aan": "01204483",
-      "totalDueCents": 1514126,
+      "totalDueCents": 1536838,
       "redeemable": false,
       "listingStatus": "advertised"
     }
