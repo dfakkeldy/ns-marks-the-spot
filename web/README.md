@@ -744,8 +744,8 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 23 verified
-events span eight municipalities:
+The historical layer is visually distinct and off by default. Its 24 verified
+events span nine municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -757,7 +757,8 @@ events span eight municipalities:
 | Richmond | 1 | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | Pictou | 1 | 21 | 21 | 18 | 0 | 3 | 0 | 0 |
 | Queens | 1 | 16 | 16 | 4 | 2 | 10 | 0 | 0 |
-| **Total** | **23** | **465** | **443** | **280** | **30** | **57** | **1** | **97** |
+| Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
+| **Total** | **24** | **481** | **459** | **292** | **31** | **57** | **3** | **98** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026
@@ -766,6 +767,13 @@ beside a $17,500.00 successful bid
 for PID `85142388`, so the contradiction is preserved without a winning-bid
 claim. The CBRM July 22, 2025 event carries one `redeemed` record, lien
 `25-143`, printed as `REDEEMED` with no bid.
+
+Clare's February 28, 2026 notice and result reconcile all 16 exact AAN/PID
+pairs. Twelve unqualified `Sold` rows carry numeric sale prices, one is
+`Unsold`, and two later-redemption rows remain `redeemed` without winning-bid
+claims. The row that prints `Sold` and $26,000.00 but also says the buyer
+forfeited remains outcome-unknown; the contradiction is preserved rather than
+collapsed into a completed sale.
 
 Every Halifax listing was reconciled between the official notice and result.
 The July 21, 2026 CBRM result rows were reconciled to the official notice by

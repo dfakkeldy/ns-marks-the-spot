@@ -3,8 +3,10 @@
 Retrieved and reviewed July 19, 2026; CBRM result availability re-checked July
 21, 2026 after the auction; Victoria County, Cumberland, and the CBRM July 22,
 2025 result sources were retrieved and reviewed July 23, 2026; the Region of
-Queens February 10, 2026 result was retrieved and reviewed August 6, 2026. Only official
-municipal primary sources were used. Text extraction supported reconciliation;
+Queens February 10, 2026 result was retrieved and reviewed August 6, 2026; and
+the Clare February 28, 2026 notice and result were retrieved and reviewed
+August 8, 2026. Only official municipal primary sources were used. Text
+extraction supported reconciliation;
 PIDs and financial values in the fourteen result-backed Halifax notice/result
 PDFs, the three Victoria County result PDFs, every row of the CBRM July 22, 2025
 result, and both Cumberland result tables were also checked against rendered
@@ -30,6 +32,25 @@ written. The result PDF SHA-256 is
 `7630a812b112f2211df6b4566bc0923bd1712fb6b2864efaece8d6f5df2b5a62`.
 The [municipal tax-sale landing page](https://www.regionofqueens.com/municipal-services/finance/tax-sales/)
 remains the current official link to that result.
+
+## Result-backed Clare event (exact official PIDs)
+
+Clare's [final official notice](https://www.clarenovascotia.com/en/governance/your-municipality/news/2026-tax-sale)
+and [official result](https://www.clarenovascotia.com/images/2026_Tax_Sale_Update_ENG.pdf)
+reconcile all 16 exact AAN/PID pairs. The notice publishes property description
+and taxes, interest, and expenses; the result publishes result, sale price, and
+post-sale status. The notice SHA-256 is
+`8f1070e83955ff48e087b6a18a9f5cbc653de8c684ce392465dcef2af443512d`;
+the result PDF SHA-256 is
+`669547d1ed5419092940d7d4c998be1f942ed00bcc44c7a0b213fca60c3a22a5`.
+
+Twelve rows print an unqualified `Sold` disposition and numeric sale price and
+are recorded as sold. One prints `Unsold`. Two print numeric sale prices but
+also later redemption dates, so they are recorded as redeemed without
+winning-bid claims. One prints `Sold` and $26,000.00 but also says the buyer
+forfeited on March 2; that contradiction is preserved as outcome unknown with
+no winning-bid claim. The owner-bearing source columns were discarded before
+the public dataset was written.
 
 Cumberland is the first source that publishes results as an HTML table on a
 single page it overwrites each sale, rather than as a dated PDF. Its receipts

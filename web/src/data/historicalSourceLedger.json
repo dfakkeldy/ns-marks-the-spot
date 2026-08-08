@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-08-06",
+  "retrievedOn": "2026-08-08",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -557,6 +557,23 @@
       "fieldsAvailable": ["Assessment #", "property details", "minimum bid", "successful bid", "REMOVED", "No successful bids"],
       "officialWinningBidsFound": true,
       "notes": "The municipality's self-contained 16-row result sheet was rendered and reconciled row by row: 4 rows publish numeric successful bids, 2 print No successful bids, and 10 are marked REMOVED. The result does not publish PID or redemption status. Every assessment number resolved through its PVSC open-data coordinate to exactly one NSPRD PID on 2026-08-06 and is labelled deterministic-reconciliation; no owner field entered the public dataset."
+    },
+    {
+      "municipality": "Municipality of the District of Clare",
+      "event": "February 28, 2026 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.clarenovascotia.com/en/governance/your-municipality/news/2026-tax-sale",
+        "https://www.clarenovascotia.com/en/governance/municipal-office/finance/pay-taxes",
+        "https://www.clarenovascotia.com/images/2026_Tax_Sale_Update_ENG.pdf"
+      ],
+      "documentSha256": [
+        "8f1070e83955ff48e087b6a18a9f5cbc653de8c684ce392465dcef2af443512d",
+        "669547d1ed5419092940d7d4c998be1f942ed00bcc44c7a0b213fca60c3a22a5"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "property location and description", "taxes, interest, and expenses", "result", "sale price", "post-sale status"],
+      "officialWinningBidsFound": true,
+      "notes": "All 16 exact AAN/PID pairs reconcile between the final official notice and result. Twelve rows publish an unqualified Sold disposition and numeric sale price, one is Unsold, and two publish later redemption dates. One result prints Sold and a numeric sale price but also says the buyer forfeited; that row remains outcome-unknown with no winning-bid claim. Assessed-owner fields were omitted before the public dataset was written."
     },
     {
       "municipality": "Municipality of the District of Shelburne",

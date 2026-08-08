@@ -16,7 +16,7 @@ import {
 // Verified receipts must come from a municipality that published them or from an
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
-  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|(?:www\.)?regionofqueens\.com|web\.archive\.org)\//u;
+  /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|(?:www\.)?regionofqueens\.com|(?:www\.)?clarenovascotia\.com|web\.archive\.org)\//u;
 
 describe("historical tax-sale records", () => {
   // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,
@@ -180,6 +180,50 @@ describe("historical tax-sale records", () => {
         ({ nspMatchStatus, nspMatchMethod, reviewState }) =>
           nspMatchStatus === "matched" &&
           nspMatchMethod === "deterministic-reconciliation" &&
+          reviewState === "visually-verified",
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps Clare forfeiture and redemption states distinct from completed sales", () => {
+    const event = historicalTaxSaleEvents.find(
+      ({ id }) => id === "clare-2026-02-28",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === event?.id,
+    );
+
+    expect(event).toMatchObject({
+      municipality: "Municipality of the District of Clare",
+      saleMethod: "public-auction",
+      resultStatus: "verified",
+      noticeSha256:
+        "8f1070e83955ff48e087b6a18a9f5cbc653de8c684ce392465dcef2af443512d",
+      resultSha256:
+        "669547d1ed5419092940d7d4c998be1f942ed00bcc44c7a0b213fca60c3a22a5",
+    });
+    expect(records).toHaveLength(16);
+    expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(12);
+    expect(records.filter(({ outcome }) => outcome === "unsold")).toHaveLength(1);
+    expect(records.filter(({ outcome }) => outcome === "redeemed")).toHaveLength(2);
+    expect(records.filter(({ outcome }) => outcome === "unknown")).toHaveLength(1);
+    expect(records.find(({ listingIdentifier }) => listingIdentifier === "00697958")).toMatchObject({
+      pids: ["30023824"],
+      winningBidCents: null,
+      outcome: "unknown",
+      resultNote:
+        "The official result prints Sold and a $26,000.00 sale price, then states Buyer forfeited on March 2. The contradiction is preserved and no completed sale is inferred.",
+    });
+    expect(
+      records
+        .filter(({ outcome }) => outcome === "redeemed")
+        .every(({ winningBidCents }) => winningBidCents === null),
+    ).toBe(true);
+    expect(
+      records.every(
+        ({ nspMatchStatus, nspMatchMethod, reviewState }) =>
+          nspMatchStatus === "matched" &&
+          nspMatchMethod === "exact-official-pid" &&
           reviewState === "visually-verified",
       ),
     ).toBe(true);
