@@ -120,19 +120,21 @@ describe("the multi-municipality tax-sale catalog", () => {
     ).toBe("verify-results");
   });
 
-  it("preserves the Inverness 45-listing, 47-PID receipt and twelve withdrawals", () => {
+  it("preserves the Inverness 45-listing, 47-PID receipt and eighteen withdrawals", () => {
     const inverness = event("inverness-county-2026-08-11");
     const pids = inverness.listings.flatMap(({ pids }) => pids);
 
     expect(inverness.listings).toHaveLength(45);
     expect(pids).toHaveLength(47);
     expect(new Set(pids).size).toBe(47);
-    expect(advertisedPidsForEvents([inverness])).toHaveLength(33);
+    expect(advertisedPidsForEvents([inverness])).toHaveLength(27);
     expect(
       inverness.listings
         .filter(({ listingStatus }) => listingStatus === "withdrawn")
         .map(({ lien }) => lien),
-    ).toEqual(["5", "6", "8", "10", "11", "12", "33", "34", "37", "40", "41", "45"]);
+    ).toEqual([
+      "5", "6", "8", "9", "10", "11", "12", "13", "14", "15", "28", "33", "34", "36", "37", "40", "41", "45",
+    ]);
     expect(
       inverness.listings.find(({ lien }) => lien === "11")?.pids,
     ).toEqual(["50076777", "50207794", "50207802"]);
@@ -144,7 +146,7 @@ describe("the multi-municipality tax-sale catalog", () => {
       "00603988",
     );
     expect(INVERNESS_BOOK_DATASET_SHA256).toBe(
-      "6675756d1ef10419a74b18062dd2dd1a90916879146b31823d431df261372762",
+      "d95bc8357ae406f6a2e3e26b7de7a8d9d52d9fd11fc35cafc3ad321e543ce4ba",
     );
     expect(inverness.sourceDatasetSha256).toBe(
       INVERNESS_BOOK_DATASET_SHA256,

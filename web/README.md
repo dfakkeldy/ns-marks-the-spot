@@ -608,13 +608,14 @@ are live service examples, not fixtures used by the ordinary unit suite.
 ## Inverness 2026 source receipt
 
 - Official landing page: [Inverness County Property Tax Sales](https://invernesscounty.ca/services/finance-taxation/tax-sales/)
-- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 9](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-9.pdf)
+- Current official source: [Tax Sale by Public Auction — August 11, 2026, revision 11](https://invernesscounty.ca/wp-content/uploads/2026/07/Tax-Sale_August-11-11.pdf)
 - PDF publication metadata is July 16, 2026; the current file was modified August
-  7 and retrieved August 7, 2026. Its SHA-256 is
-  `16cc0963bff71ca122500e602e564d79f012e47845a12995d736819c6341f04a`.
+  10 and retrieved August 10, 2026. Its SHA-256 is
+  `98273b7db3db7af2081f2da88cee9f16bc4d6151b3a7f8a1531b6fbd8cc4fa37`.
 - The revision still contains 45 lien entries and 47 unique PIDs, but visibly
-  strikes through liens 5, 6, 8, 10, 11, 12, 33, 34, 37, 40, 41, and 45. Those
-  twelve records (fourteen PIDs) remain in the dated evidence as `withdrawn`; only 33 advertised
+  strikes through liens 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 28, 33, 34, 36,
+  37, 40, 41, and 45. Those eighteen records (twenty PIDs) remain in the dated
+  evidence as `withdrawn`; only 27 advertised
   PIDs render in the active tax-sale parcel layer. Lien 11 covers three PIDs.
 - NSPRD validation on July 19, 2026: all 47 unique PIDs matched. NSPRD returned
   53 geometry features because some PIDs have more than one polygon record.
@@ -623,14 +624,14 @@ are live service examples, not fixtures used by the ordinary unit suite.
   official summary row.
 - Source normalization: extracted text renders lien 19 as `N0`; visual review of
   the rendered summary confirms `NO`, stored as `redeemable: false`.
-- Revision 9 corrects lien 42 to redeemable while withdrawing liens 41 and 45;
-  those changes remain distinct from any sale outcome.
+- Revision 11 retains lien 42 as redeemable and additionally withdraws liens 9,
+  13, 14, 15, 28, and 36; those changes remain distinct from any sale outcome.
 - The wrong 2025 notice is not an input to this layer.
 - The owner-free book dataset is checked in byte-for-byte as
   `src/data/invernessTaxSale.snapshot.json`; the web model is generated from
   that JSON, including its AAN strings and integer-cent conversion. A test pins
   the published SHA-256
-  `6675756d1ef10419a74b18062dd2dd1a90916879146b31823d431df261372762`
+  `d95bc8357ae406f6a2e3e26b7de7a8d9d52d9fd11fc35cafc3ad321e543ce4ba`
   so either repository cannot drift silently.
 
 Run `npm run refresh:inverness-tax-sale` with Poppler's `pdftotext` and

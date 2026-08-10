@@ -693,7 +693,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
-      screen.getByText("33 advertised · 12 withdrawn · 33 active PIDs"),
+      screen.getByText("27 advertised · 18 withdrawn · 27 active PIDs"),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
@@ -722,8 +722,11 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText("Snapshot retrieved August 7, 2026"),
-    ).toHaveLength(2);
+      screen.getByText("Snapshot retrieved August 10, 2026"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Snapshot retrieved August 7, 2026"),
+    ).toBeInTheDocument();
   });
 
   it("makes current notices and historical records separate map modes", async () => {
@@ -3033,7 +3036,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 37;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 31;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
