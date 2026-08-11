@@ -1970,26 +1970,37 @@ describe("NS Marks The Spot Online", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("finds a tax-sale listing by PID without claiming that it is available", async () => {
-    const user = userEvent.setup();
-    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
-
-    const search = screen.getByLabelText("Search by PID or civic address");
-    await user.type(search, "50203256");
-    await user.click(screen.getByRole("button", { name: "Find parcel" }));
-
-    expect(screen.getByRole("heading", { name: "Highway 19, Mabou" })).toBeInTheDocument();
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "focus request: 50203256",
+  it("finds a pre-sale tax-sale listing by PID without claiming that it is available", async () => {
+    const nowSpy = vi.spyOn(Date, "now").mockReturnValue(
+      new Date("2026-08-11T12:29:59Z").getTime(),
     );
-    expect(screen.getByText("Listed in official notice")).toBeInTheDocument();
-    expect(
-      within(screen.getByRole("complementary", { name: "Parcel 50203256 details" })).queryByText(
-        /available/i,
-      ),
-    ).not.toBeInTheDocument();
-    expect(screen.getByText("$15,529.15")).toBeInTheDocument();
+    const user = userEvent.setup();
+    try {
+      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+      vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+        type: "FeatureCollection",
+        features: pids.map(parcelFeature),
+      }));
+      render(<App />);
+
+      const search = screen.getByLabelText("Search by PID or civic address");
+      await user.type(search, "50203256");
+      await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+      expect(screen.getByRole("heading", { name: "Highway 19, Mabou" })).toBeInTheDocument();
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+        "focus request: 50203256",
+      );
+      expect(await screen.findByText("Listed in official notice")).toBeInTheDocument();
+      expect(
+        within(screen.getByRole("complementary", { name: "Parcel 50203256 details" })).queryByText(
+          /available/i,
+        ),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText("$15,529.15")).toBeInTheDocument();
+    } finally {
+      nowSpy.mockRestore();
+    }
   });
 
   it("shows notice-AAN assessment values and five-year history without calling them a PID value", async () => {
