@@ -1,4 +1,3 @@
-import SwiftData
 import SwiftUI
 
 @main
@@ -14,6 +13,5 @@ struct NSMarksTheSpotApp: App {
                 isUITestMode: container.isUITestMode
             )
         }
-        .modelContainer(for: PointOfInterest.self)
     }
 }

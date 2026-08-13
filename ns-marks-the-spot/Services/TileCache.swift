@@ -75,11 +75,9 @@ final class TileCache: @unchecked Sendable {
     private let keyIndex = TileCacheKeyIndex()
 
     init(
-        tileStore: TileStore? = nil,
         diskRoot: URL? = nil,
         maxDiskBytes: Int? = TileCache.defaultMaxDiskBytes
     ) {
-        _ = tileStore
         self.maxDiskBytes = maxDiskBytes
         if let diskRoot {
             self.diskRoot = diskRoot

@@ -163,7 +163,7 @@ struct OfflineAreasViewModelTests {
             try? FileManager.default.removeItem(at: cacheRoot)
         }
         let store = TileStore(rootDirectory: storeRoot)
-        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
         let viewModel = OfflineAreasViewModel(
             tileStore: store,
             tileCache: cache,

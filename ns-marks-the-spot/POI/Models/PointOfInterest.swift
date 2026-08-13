@@ -1,8 +1,6 @@
 import Foundation
-import SwiftData
 
-@Model
-final class PointOfInterest {
+nonisolated struct PointOfInterest: Identifiable, Hashable, Sendable {
     var id: String
     var name: String
     var latitude: Double

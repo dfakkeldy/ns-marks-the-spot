@@ -15,7 +15,7 @@ final class AppContainer {
         let store = TileStore()
         self.tileStore = store
 
-        let cache = TileCache(tileStore: store)
+        let cache = TileCache()
         self.tileCache = cache
 
         let fetcher = TileFetcher(tileCache: cache)
