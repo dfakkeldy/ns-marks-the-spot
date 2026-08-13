@@ -1,4 +1,6 @@
+import MapCatalog
 import MapKit
+import NSDataServices
 import UIKit
 
 /// `nonisolated`: MapKit invokes `loadTile` on its own background queues, so
@@ -7,7 +9,6 @@ import UIKit
 nonisolated final class OpacityTileOverlay: MKTileOverlay {
     /// Set to true to draw tile borders and coordinates on every tile (including real ones).
     static let debugShowTileGrid = false
-    static let bundledNativeZoomRange = 11...15
 
     let configuration: TileLayerConfiguration
     weak var renderer: MKTileOverlayRenderer?
@@ -36,9 +37,17 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
             return cached
         }
 
-        if let tileData = loadTileFromBundle(path: path) {
-            tileCache?.cacheTile(tileData, z: z, x: x, y: y, layerName: cacheKey)
-            return tileData
+        if let fetcher = tileFetcher,
+           case .fletcherSheets(let baseURL) = configuration.source
+        {
+            if let tileData = await Self.fletcherSheetTile(
+                z: z, x: x, y: y,
+                baseURL: baseURL, layerName: cacheKey,
+                fetcher: fetcher, cache: tileCache
+            ) {
+                return tileData
+            }
+            return try Self.fallbackTileData(z: z, x: x, y: y)
         }
 
         if let fetcher = tileFetcher,
@@ -97,89 +106,98 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         return data
     }
 
-    private func loadTileFromBundle(path: MKTileOverlayPath) -> Data? {
-        if Self.bundledNativeZoomRange.contains(path.z) {
-            return loadRawTileFromBundle(z: path.z, x: path.x, y: path.y)
-        }
+    /// One Fletcher tile, from every sheet that covers it.
+    ///
+    /// The sheets overlap along their surveyed margins, so a tile can fall under
+    /// two or three of them — and where it does, each sheet usually holds only
+    /// part of the picture, because a sheet's declared bounds are its
+    /// georeferenced extent rather than the exact footprint of its scan. Taking
+    /// the first sheet that answers would leave the rest of that tile blank.
+    /// The web does not do that: Leaflet mounts all 24 as separate layers and
+    /// stacks them, so a seam tile is drawn from every sheet that has pixels
+    /// there.
+    ///
+    /// So this stacks too, in sheet order, lowest first — the same order Leaflet
+    /// mounts them in, which is what decides who wins where two sheets both have
+    /// ink. The single-sheet case is the overwhelming majority and returns its
+    /// bytes untouched rather than paying a decode and re-encode for nothing.
+    ///
+    /// Returns `nil` when no sheet covers the tile, which is most of the world.
+    private static func fletcherSheetTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        baseURL: URL,
+        layerName: String,
+        fetcher: TileFetcher,
+        cache: TileCache?
+    ) async -> Data? {
+        let covering = FletcherSheets.sheets(coveringTileX: x, y: y, z: z)
+        guard !covering.isEmpty else { return nil }
 
-        if path.z < Self.bundledNativeZoomRange.lowerBound {
-            return loadStitchedTileFromBundle(z: path.z, x: path.x, y: path.y)
-        }
-
-        if path.z > Self.bundledNativeZoomRange.upperBound {
-            let sourceZoom = Self.bundledNativeZoomRange.upperBound
-            let scaleFactor = 1 << (path.z - sourceZoom)
-            let parentX = path.x / scaleFactor
-            let parentY = path.y / scaleFactor
-
-            if let tileData = loadRawTileFromBundle(z: sourceZoom, x: parentX, y: parentY),
-               let img = UIImage(data: tileData) {
-                let size = CGSize(width: 256, height: 256)
-                let format = UIGraphicsImageRendererFormat()
-                format.scale = 1.0
-                let renderer = UIGraphicsImageRenderer(size: size, format: format)
-
-                let subTileSize = 256.0 / CGFloat(scaleFactor)
-                let offsetX = CGFloat(path.x % scaleFactor) * subTileSize
-                let offsetY = CGFloat(path.y % scaleFactor) * subTileSize
-
-                return renderer.pngData { ctx in
-                    img.draw(in: CGRect(x: -offsetX, y: -offsetY, width: 256.0 * CGFloat(scaleFactor), height: 256.0 * CGFloat(scaleFactor)))
+        var stacked: [Data] = []
+        var isWhole = true
+        for sheet in covering {
+            guard let template = FletcherTileURL.tileTemplate(
+                sheet: sheet.sheet, baseURL: baseURL
+            ), let templateURL = URL(string: template) else {
+                isWhole = false
+                continue
+            }
+            // Cached per sheet, not per layer: two sheets can answer for the
+            // same (z, x, y), and one key for both would let a margin tile from
+            // sheet 5 be served where sheet 6 was asked for.
+            let sheetLayerName = Self.sheetCacheIdentifier(layerName, sheet: sheet.sheet)
+            if let cached = cache?.cachedTile(z: z, x: x, y: y, layerName: sheetLayerName) {
+                stacked.append(cached)
+                continue
+            }
+            do {
+                stacked.append(
+                    try await fetcher.fetchTile(
+                        z: z, x: x, y: y, from: templateURL, layerName: sheetLayerName
+                    )
+                )
+            } catch {
+                // A sheet with no ink here answers 404, and that is a complete
+                // answer: the composite is whole without it. Only a sheet we
+                // could not reach leaves the tile unfinished, and the
+                // consequence of getting that wrong is a half-drawn seam frozen
+                // into the cache.
+                if !TileFetcherError.meansNoTileExists(error) {
+                    isWhole = false
                 }
             }
         }
 
-        return nil
+        guard let composited = TileComposite.stack(stacked) else { return nil }
+
+        // Cached under the layer key when the stack is whole, so `loadTile`'s
+        // opening lookup skips all of this on the next draw. A partial stack is
+        // deliberately not cached: the sheet that failed is the network, and
+        // caching what we drew without it would freeze a half-drawn seam in
+        // place until the cache was swept.
+        //
+        // Keyed on how many sheets *cover* the tile, not how many answered.
+        // Over the interior one sheet covers, its bytes are already cached
+        // under its own key, and a second copy under the layer key would double
+        // the cache for most of the survey. At a seam two or more cover, and
+        // caching the composite is what stops every later draw re-requesting
+        // the sheet that legitimately 404s there.
+        if isWhole, covering.count > 1 {
+            cache?.cacheTile(composited, z: z, x: x, y: y, layerName: layerName)
+        }
+        return composited
     }
 
-    private func loadRawTileFromBundle(z: Int, x: Int, y: Int) -> Data? {
-        let tilePath = "Tiles/\(configuration.name)/\(z)/\(x)/\(y)"
-        guard let url = Bundle.main.url(forResource: tilePath, withExtension: "png") else {
-            return nil
-        }
-        return try? Data(contentsOf: url)
-    }
-
-    private func loadStitchedTileFromBundle(z: Int, x: Int, y: Int) -> Data? {
-        let targetZ = Self.bundledNativeZoomRange.lowerBound
-        guard z < targetZ else { return nil }
-
-        let diff = targetZ - z
-        let numTilesPerSide = 1 << diff
-        let tileSize = 256 / CGFloat(numTilesPerSide)
-
-        let size = CGSize(width: 256, height: 256)
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1.0
-
-        let renderer = UIGraphicsImageRenderer(size: size, format: format)
-        var hasAnyImage = false
-
-        let data = renderer.pngData { ctx in
-            let startX = x << diff
-            let startY = y << diff
-
-            for row in 0..<numTilesPerSide {
-                for col in 0..<numTilesPerSide {
-                    let tileX = startX + col
-                    let tileY = startY + row
-
-                    if let imgData = loadRawTileFromBundle(z: targetZ, x: tileX, y: tileY),
-                       let img = UIImage(data: imgData) {
-                        hasAnyImage = true
-                        let rect = CGRect(
-                            x: CGFloat(col) * tileSize,
-                            y: CGFloat(row) * tileSize,
-                            width: tileSize,
-                            height: tileSize
-                        )
-                        img.draw(in: rect)
-                    }
-                }
-            }
-        }
-
-        return hasAnyImage ? data : nil
+    /// The cache layer name for one sheet of a Fletcher layer.
+    ///
+    /// Not shared with the offline downloader, which writes saved areas to
+    /// `TileStore` under the layer id and never touches this cache — the two
+    /// stores answer different questions, and a saved area outliving a cache
+    /// sweep is the point of having both.
+    private static func sheetCacheIdentifier(_ layerName: String, sheet: Int) -> String {
+        "\(layerName)_sheet-\(sheet)"
     }
 
     private static func fallbackTile(z: Int, x: Int, y: Int) -> Data? {

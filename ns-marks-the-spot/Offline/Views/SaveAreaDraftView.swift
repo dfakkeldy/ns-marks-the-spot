@@ -1,3 +1,4 @@
+import MapCatalog
 import SwiftUI
 
 struct SaveAreaDraftView: View {
@@ -7,8 +8,13 @@ struct SaveAreaDraftView: View {
     let bounds: MapBounds
 
     @State private var areaName = "Saved Area"
-    @State private var minZoom = 10
-    @State private var maxZoom = 14
+    /// Clamped to the zooms the sheets were rendered at. Offering more looks
+    /// generous and is not: every tile outside the pyramid is a download that
+    /// cannot succeed, and the area it belongs to stays "partial" forever.
+    private static let zooms = FletcherSheets.zoomRange
+
+    @State private var minZoom = max(10, FletcherSheets.zoomRange.lowerBound)
+    @State private var maxZoom = min(14, FletcherSheets.zoomRange.upperBound)
     @State private var draftArea: SavedOfflineArea?
     @State private var didSave = false
 
@@ -16,8 +22,16 @@ struct SaveAreaDraftView: View {
         Form {
             Section("Area") {
                 TextField("Name", text: $areaName)
-                Stepper("Minimum Zoom: \(minZoom)", value: $minZoom, in: 0...maxZoom)
-                Stepper("Maximum Zoom: \(maxZoom)", value: $maxZoom, in: minZoom...18)
+                Stepper(
+                    "Minimum Zoom: \(minZoom)",
+                    value: $minZoom,
+                    in: Self.zooms.lowerBound...maxZoom
+                )
+                Stepper(
+                    "Maximum Zoom: \(maxZoom)",
+                    value: $maxZoom,
+                    in: minZoom...Self.zooms.upperBound
+                )
 
                 Button("Estimate Fletcher Tiles") {
                     estimateDraft()

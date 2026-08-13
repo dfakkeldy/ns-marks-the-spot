@@ -1,4 +1,6 @@
 import Foundation
+import GeoCore
+import MapCatalog
 import Testing
 @testable import ns_marks_the_spot
 
@@ -689,12 +691,17 @@ struct OfflineAreasViewModelTests {
         return false
     }
 
+    /// Fletcher sheet 1, because the planner refuses ground the survey does not
+    /// cover and these tests need an area that actually plans tiles. Halifax —
+    /// what this used to be — now plans none, which turns a download test into
+    /// a test that nothing happens.
     private func sampleBounds() -> MapBounds {
-        MapBounds(
-            minLatitude: 44.64,
-            minLongitude: -63.58,
-            maxLatitude: 44.66,
-            maxLongitude: -63.56
+        let sheet = FletcherSheets.sheet(1)!.bounds
+        return MapBounds(
+            minLatitude: sheet.south,
+            minLongitude: sheet.west,
+            maxLatitude: sheet.north,
+            maxLongitude: sheet.east
         )
     }
 }

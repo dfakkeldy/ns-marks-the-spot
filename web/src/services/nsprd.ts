@@ -1,7 +1,7 @@
 export const NSPRD_LAYER_URL =
   "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0";
 
-const NSPRD_PID_BATCH_SIZE = 40;
+export const NSPRD_PID_BATCH_SIZE = 40;
 
 export type NsprdFeatureProperties = {
   PID: string;

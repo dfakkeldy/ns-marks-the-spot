@@ -1,5 +1,6 @@
 import Foundation
 import GeoCore
+import ParityFixtures
 import Testing
 
 @testable import MapCatalog
@@ -23,6 +24,38 @@ struct FletcherSheetParityTests {
         // cache that still holds the old prefix.
         let web = try #require(Self.fixture.fletcher?["tileRevision"]?.string)
         #expect(FletcherSheets.tileRevision == web)
+    }
+
+    @Test("Renders at the same zooms the web requests")
+    func matchesZoomRange() throws {
+        // MapKit asks an overlay for every tile in view and has no per-layer
+        // bounds, so this range is the only thing stopping the app requesting
+        // zooms the pyramid was never rendered at. Drifting wider than the web
+        // is not a cosmetic difference — it is a guaranteed 404 per tile.
+        let entry = try #require(Self.fixture.layer("fletcher"))
+        let minimum = try #require(entry["minZoom"]?.int)
+        let maximum = try #require(entry["maxZoom"]?.int)
+        #expect(FletcherSheets.zoomRange.lowerBound == minimum)
+        #expect(FletcherSheets.zoomRange.upperBound == maximum)
+    }
+
+    @Test("Bounds every sheet with one coverage box")
+    func coverageHoldsEverySheet() {
+        let coverage = FletcherSheets.coverage
+        #expect(coverage.isWellFormed)
+        for sheet in FletcherSheets.all {
+            #expect(
+                coverage.intersection(with: sheet.bounds) == sheet.bounds,
+                "sheet \(sheet.sheet) falls outside the coverage box"
+            )
+        }
+        // Tight, not merely containing: a box padded out to the province would
+        // still pass the loop above while undoing the work-bounding this exists
+        // for.
+        #expect(coverage.south == FletcherSheets.all.map(\.bounds.south).min())
+        #expect(coverage.west == FletcherSheets.all.map(\.bounds.west).min())
+        #expect(coverage.north == FletcherSheets.all.map(\.bounds.north).max())
+        #expect(coverage.east == FletcherSheets.all.map(\.bounds.east).max())
     }
 
     @Test("Declares the same sheets the web declares")

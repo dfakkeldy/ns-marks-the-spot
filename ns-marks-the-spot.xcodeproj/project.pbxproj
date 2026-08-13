@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CC5603312FBB70BC00918D5A /* Tiles in Resources */ = {isa = PBXBuildFile; fileRef = CC5603302FBB70BC00918D5A /* Tiles */; };
+		CCA100012FBB70BC00918D5A /* GeoCore in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100022FBB70BC00918D5A /* GeoCore */; };
+		CCA100032FBB70BC00918D5A /* MapCatalog in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100042FBB70BC00918D5A /* MapCatalog */; };
+		CCA100052FBB70BC00918D5A /* NSDataServices in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100062FBB70BC00918D5A /* NSDataServices */; };
+		CCA100072FBB70BC00918D5A /* GeoCore in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100082FBB70BC00918D5A /* GeoCore */; };
+		CCA100092FBB70BC00918D5A /* MapCatalog in Frameworks */ = {isa = PBXBuildFile; productRef = CCA1000A2FBB70BC00918D5A /* MapCatalog */; };
+		CCA1000B2FBB70BC00918D5A /* NSDataServices in Frameworks */ = {isa = PBXBuildFile; productRef = CCA1000C2FBB70BC00918D5A /* NSDataServices */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +36,6 @@
 		CC5603052FBB70BB00918D5A /* ns-marks-the-spot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ns-marks-the-spot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5603122FBB70BC00918D5A /* ns-marks-the-spotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ns-marks-the-spotTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC56031C2FBB70BC00918D5A /* ns-marks-the-spotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ns-marks-the-spotUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC5603302FBB70BC00918D5A /* Tiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tiles; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -57,6 +61,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCA100012FBB70BC00918D5A /* GeoCore in Frameworks */,
+				CCA100032FBB70BC00918D5A /* MapCatalog in Frameworks */,
+				CCA100052FBB70BC00918D5A /* NSDataServices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCA100072FBB70BC00918D5A /* GeoCore in Frameworks */,
+				CCA100092FBB70BC00918D5A /* MapCatalog in Frameworks */,
+				CCA1000B2FBB70BC00918D5A /* NSDataServices in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +93,6 @@
 				CC5603072FBB70BB00918D5A /* ns-marks-the-spot */,
 				CC5603152FBB70BC00918D5A /* ns-marks-the-spotTests */,
 				CC56031F2FBB70BC00918D5A /* ns-marks-the-spotUITests */,
-				CC5603302FBB70BC00918D5A /* Tiles */,
 				CC5603062FBB70BB00918D5A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -118,6 +127,9 @@
 			);
 			name = "ns-marks-the-spot";
 			packageProductDependencies = (
+				CCA100022FBB70BC00918D5A /* GeoCore */,
+				CCA100042FBB70BC00918D5A /* MapCatalog */,
+				CCA100062FBB70BC00918D5A /* NSDataServices */,
 			);
 			productName = "ns-marks-the-spot";
 			productReference = CC5603052FBB70BB00918D5A /* ns-marks-the-spot.app */;
@@ -141,6 +153,9 @@
 			);
 			name = "ns-marks-the-spotTests";
 			packageProductDependencies = (
+				CCA100082FBB70BC00918D5A /* GeoCore */,
+				CCA1000A2FBB70BC00918D5A /* MapCatalog */,
+				CCA1000C2FBB70BC00918D5A /* NSDataServices */,
 			);
 			productName = "ns-marks-the-spotTests";
 			productReference = CC5603122FBB70BC00918D5A /* ns-marks-the-spotTests.xctest */;
@@ -201,6 +216,9 @@
 			);
 			mainGroup = CC5602FC2FBB70BB00918D5A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CCA1000D2FBB70BC00918D5A /* XCLocalSwiftPackageReference "NSMarksCore" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CC5603062FBB70BB00918D5A /* Products */;
 			projectDirPath = "";
@@ -218,7 +236,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5603312FBB70BC00918D5A /* Tiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,7 +425,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can compare where you are with historical maps and reference layers.";
-				INFOPLIST_KEY_OldMapsOnlineAPIKey = "$(OLDMAPSONLINE_API_KEY)";
+				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -442,7 +459,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can compare where you are with historical maps and reference layers.";
-				INFOPLIST_KEY_OldMapsOnlineAPIKey = "$(OLDMAPSONLINE_API_KEY)";
+				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -591,6 +608,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		CCA1000D2FBB70BC00918D5A /* XCLocalSwiftPackageReference "NSMarksCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NSMarksCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CCA100022FBB70BC00918D5A /* GeoCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GeoCore;
+		};
+		CCA100042FBB70BC00918D5A /* MapCatalog */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MapCatalog;
+		};
+		CCA100062FBB70BC00918D5A /* NSDataServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NSDataServices;
+		};
+		CCA100082FBB70BC00918D5A /* GeoCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GeoCore;
+		};
+		CCA1000A2FBB70BC00918D5A /* MapCatalog */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MapCatalog;
+		};
+		CCA1000C2FBB70BC00918D5A /* NSDataServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NSDataServices;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CC5602FD2FBB70BB00918D5A /* Project object */;
 }

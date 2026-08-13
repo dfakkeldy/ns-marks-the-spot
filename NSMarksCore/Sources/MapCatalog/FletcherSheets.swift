@@ -88,6 +88,15 @@ public enum FletcherSheets {
                       north: 45.57560020947801, east: -61.2158203125),
     ]
 
+    /// The zooms the sheets were actually rendered at.
+    ///
+    /// It belongs beside the sheet bounds and the revision because all three
+    /// describe one tile build: re-rendering deeper changes this, the revision,
+    /// and nothing else. Leaflet takes it as `maxNativeZoom` and upscales past
+    /// it; `MKTileOverlay.maximumZ` behaves the same way, so both surfaces stop
+    /// requesting at the same place and keep drawing beyond it.
+    public static let zoomRange = 8...16
+
     public static func sheet(_ number: Int) -> FletcherSheet? {
         all.first { $0.sheet == number }
     }
@@ -117,4 +126,22 @@ public enum FletcherSheets {
     public static func sheets(coveringTileX x: Int, y: Int, z: Int) -> [FletcherSheet] {
         sheets(intersecting: TileMath.geographicBounds(x: x, y: y, z: z))
     }
+
+    /// One box holding all 24 sheets.
+    ///
+    /// Coarse on purpose: the survey's real footprint is ragged, and this is the
+    /// rectangle around it. Its job is to bound work before the per-sheet test
+    /// runs — clipping a saved-area selection to this first means planning a
+    /// download iterates over Nova Scotia rather than over whatever the user
+    /// had on screen, which at zoom 16 is the difference between a few hundred
+    /// thousand tiles and a few billion.
+    public static let coverage: GeoBoundingBox = {
+        guard let box = GeoBoundingBox.union(all.map(\.bounds)) else {
+            // `all` is a non-empty literal, so this is unreachable short of
+            // someone emptying it — in which case a zero box correctly says
+            // there is nothing to draw.
+            return GeoBoundingBox(south: 0, west: 0, north: 0, east: 0)
+        }
+        return box
+    }()
 }

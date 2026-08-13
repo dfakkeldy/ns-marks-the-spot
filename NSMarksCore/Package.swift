@@ -35,13 +35,24 @@ let package = Package(
             dependencies: ["GeoCore"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
+        // The web's exported fixture and the reader for it, shared by every
+        // test target that checks itself against the web. It lives under
+        // `Tests/` and is not a product, so it cannot be linked into the app —
+        // this JSON must never ship. Its own target rather than a file in
+        // `MapCatalogTests` because the services tests need the same bytes, and
+        // a second copy of a fixture is a second thing to forget to regenerate.
+        .target(
+            name: "ParityFixtures",
+            dependencies: ["GeoCore"],
+            path: "Tests/ParityFixtures",
+            // Copied, not processed: the tests compare bytes-in-fields against
+            // what the web declared, and resource processing could rewrite it.
+            resources: [.copy("Fixtures")],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
         .testTarget(
             name: "MapCatalogTests",
-            dependencies: ["MapCatalog"],
-            // The parity fixture the web exports. Copied, not processed: the
-            // test compares bytes-in-fields against what the web declared, and
-            // resource processing could rewrite it.
-            resources: [.copy("Fixtures")],
+            dependencies: ["MapCatalog", "ParityFixtures"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .target(
@@ -51,7 +62,7 @@ let package = Package(
         ),
         .testTarget(
             name: "NSDataServicesTests",
-            dependencies: ["NSDataServices"],
+            dependencies: ["NSDataServices", "ParityFixtures"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
     ]

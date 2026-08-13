@@ -10,7 +10,7 @@ import {
  * file must never ship inside the app — it exists only so the two catalogs can
  * be compared in CI.
  */
-const FIXTURE_PATH = "../../../NSMarksCore/Tests/MapCatalogTests/Fixtures/layer-parity.json";
+const FIXTURE_PATH = "../../../NSMarksCore/Tests/ParityFixtures/Fixtures/layer-parity.json";
 
 describe("layer parity fixture", () => {
   it("matches the checked-in fixture the Swift catalog is tested against", async () => {

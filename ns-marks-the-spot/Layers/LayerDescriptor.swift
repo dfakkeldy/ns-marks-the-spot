@@ -27,6 +27,9 @@ nonisolated enum LayerOfflinePolicy: Equatable, Sendable {
 
 nonisolated enum LayerSourceKind: Equatable, Sendable {
     case remoteXYZTemplate
+    /// One base URL over 24 per-sheet `{z}/{x}/{y}` pyramids. See
+    /// `TileLayerSource.fletcherSheets`.
+    case fletcherSheetPyramid
     case arcGISMapService
     case arcGISDynamic
 }
@@ -35,7 +38,11 @@ nonisolated struct LayerDescriptor: Identifiable, Equatable, Sendable {
     let id: LayerID
     let name: String
     let sourceKind: LayerSourceKind
-    let sourceURL: URL?
+    /// `var` only so a test can install a descriptor at a base URL of its own.
+    /// The catalog's own entries are still immutable: this is a value type and
+    /// `LayerCatalog.all` hands out copies, so nothing shared can be reached
+    /// through it.
+    var sourceURL: URL?
     let defaultOpacity: CGFloat
     let defaultVisibility: Bool
     let minZoom: Int

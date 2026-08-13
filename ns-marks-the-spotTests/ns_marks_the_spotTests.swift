@@ -223,8 +223,15 @@ struct ReleaseReadinessTests {
         #expect(OpacityTileOverlay.debugShowTileGrid == false)
     }
 
-    @Test func bundledFletcherZoomRangeMatchesCheckedInAssets() {
-        #expect(OpacityTileOverlay.bundledNativeZoomRange == 11...15)
+    @Test func noFletcherPyramidIsBundledInTheApp() {
+        // The 311 MB `Tiles/Fletcher` pyramid shipped inside the app until the
+        // direct-Rumsey switch. It was derived from OldMapsOnline, which the
+        // David Rumsey permission does not cover, and that permission does not
+        // extend to native offline bundling either — so nothing may reappear
+        // here without a separate written agreement, however convenient an
+        // offline default would be.
+        #expect(Bundle.main.url(forResource: "Tiles", withExtension: nil) == nil)
+        #expect(Bundle.main.url(forResource: "Tiles/Fletcher/11/676/724", withExtension: "png") == nil)
     }
 }
 

@@ -1,6 +1,7 @@
 import CoreGraphics
 import CryptoKit
 import Foundation
+import MapCatalog
 
 nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
     case standard = "Standard"
@@ -13,6 +14,14 @@ nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
 
 nonisolated enum TileLayerSource: Equatable, Sendable {
     case tile(URL)
+    /// The Fletcher survey: 24 separately georeferenced sheets served from one
+    /// base URL, each its own `{z}/{x}/{y}` pyramid under `sheet-NN/`.
+    ///
+    /// A case of its own rather than 24 `.tile` layers because the app presents
+    /// Fletcher as one switch with one opacity slider, and because MapKit asks
+    /// an overlay for every tile in view: without knowing the sheet extents,
+    /// panning Cape Breton would fire 24 requests per tile and discard 23.
+    case fletcherSheets(baseURL: URL)
     case arcgisMapService(URL, transparent: Bool)
     case arcgisDynamic(URL, dynamicLayers: String?, layerRestrictions: String?)
 }
@@ -62,6 +71,16 @@ nonisolated struct TileLayerConfiguration: Identifiable, Equatable, Sendable {
         switch source {
         case .tile(let url):
             configString = "tile|\(url.absoluteString)"
+        case .fletcherSheets(let baseURL):
+            // The revision belongs here even though it already appears in every
+            // per-sheet path. The path is what gets fetched; this is what gets
+            // read back. Without it a re-render at the same host requests new
+            // URLs but hits the previous build's entries under the same key, so
+            // the map keeps drawing the retired pyramid. `FletcherSourceMigration`
+            // does empty the cache, but it is fire-and-forget from launch, and
+            // MapKit starts asking for tiles before it finishes — this makes
+            // the identity correct rather than the timing lucky.
+            configString = "fletcherSheets|\(FletcherSheets.tileRevision)|\(baseURL.absoluteString)"
         case .arcgisMapService(let url, let transparent):
             configString = "arcgisMapService|\(url.absoluteString)|\(transparent)"
         case .arcgisDynamic(let url, let dynamicLayers, let layerRestrictions):

@@ -1,8 +1,10 @@
 import Foundation
+import MapCatalog
+import NSDataServices
+import OSLog
 
 enum LayerCatalog {
     private static let provinceDisclaimer = "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
-    private static let oldMapsOnlineFletcherTemplate = "https://wmts.oldmapsonline.org/maps/9b86f069-b432-5e78-a4c9-306ee238e5fb/2023-06-13T14:40:41.945831Z/{z}/{x}/{y}.png"
     private static let arcGISDynamicMinimumZoom = 12
     private static let rumseyAttribution = LayerAttribution(
         provider: "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries",
@@ -16,12 +18,18 @@ enum LayerCatalog {
         LayerDescriptor(
             id: .fletcher,
             name: "Fletcher",
-            sourceKind: .remoteXYZTemplate,
-            sourceURL: fletcherSourceURL,
+            sourceKind: .fletcherSheetPyramid,
+            sourceURL: fletcherTileBaseURL,
             defaultOpacity: 1.0,
             defaultVisibility: true,
-            minZoom: 0,
-            maxZoom: 24,
+            // The pyramid the render pipeline produced, and nothing outside it.
+            // MapKit asks an overlay for every tile in view, so a wider range
+            // here is not harmless: it is a 404 for every tile at every zoom
+            // the sheets were never rendered at. Past 16 MapKit scales the
+            // zoom-16 tiles up, which is what Leaflet's `maxNativeZoom` does on
+            // the web.
+            minZoom: FletcherSheets.zoomRange.lowerBound,
+            maxZoom: FletcherSheets.zoomRange.upperBound,
             renderingRole: .overlay,
             offlinePolicy: .savedAreaDownloadable,
             cacheKey: "fletcher",
@@ -175,30 +183,73 @@ enum LayerCatalog {
         all.first { $0.id == id }
     }
 
-    private static var fletcherSourceURL: URL? {
-        guard let key = configuredOldMapsOnlineKey else {
-            return URL(string: oldMapsOnlineFletcherTemplate)
-        }
+    /// Where the Fletcher tile build is hosted, or `nil` if it is not hosted
+    /// yet.
+    ///
+    /// `nil` is a real state, not a failure: the sheets are rendered from the
+    /// David Rumsey scans by our own pipeline, and until that build is behind
+    /// an HTTPS host there is nothing to point at. The layer is then not
+    /// installed at all — better an absent row than a switch that does nothing.
+    ///
+    /// A malformed or unsafe value is different, and `normalizeBaseURL` throws
+    /// on it. Swallowing that would turn a misconfigured build into a silently
+    /// missing feature; it is logged and treated as unhosted, which is the only
+    /// safe reading, but the log is what makes it findable.
+    ///
+    /// The log is `os.Logger` rather than `assertionFailure` because the case
+    /// that needs finding is the release build shipped with a bad host, and an
+    /// assertion is compiled out of exactly that build. Refusing the value is
+    /// still right — an unusable base URL must not become a request — so this
+    /// records and continues rather than trapping.
+    /// `nonisolated` because `normalizedBuildSetting` is, and the target
+    /// compiles with `-default-isolation=MainActor`, which would otherwise put
+    /// this on the main actor and make it unreachable from there. `Logger` is
+    /// `Sendable`, so there is nothing to protect.
+    nonisolated private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "ns-marks-the-spot",
+        category: "LayerCatalog"
+    )
 
-        let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
-        return URL(string: "\(oldMapsOnlineFletcherTemplate)?key=\(encodedKey)")
-    }
-
-    private static var configuredOldMapsOnlineKey: String? {
-        [
-            Bundle.main.object(forInfoDictionaryKey: "OldMapsOnlineAPIKey") as? String,
-            ProcessInfo.processInfo.environment["OLDMAPSONLINE_API_KEY"]
+    static var fletcherTileBaseURL: URL? {
+        let configured = [
+            Bundle.main.object(forInfoDictionaryKey: "FletcherTileBaseURL") as? String,
+            ProcessInfo.processInfo.environment["FLETCHER_TILE_BASE_URL"]
         ]
         .compactMap { $0 }
-        .compactMap(normalizedOldMapsOnlineKey)
+        .compactMap(normalizedBuildSetting)
         .first
+
+        do {
+            return try FletcherTileURL.normalizeBaseURL(configured)
+        } catch {
+            logger.error("FletcherTileBaseURL is set but unusable: \(String(describing: error))")
+            return nil
+        }
     }
 
-    nonisolated private static func normalizedOldMapsOnlineKey(_ value: String) -> String? {
+    /// Drops a build setting that was never substituted.
+    ///
+    /// An unset `$(FLETCHER_TILE_BASE_URL)` reaches the Info.plist as the
+    /// literal `$(FLETCHER_TILE_BASE_URL)`, and a placeholder left in a config
+    /// file reaches it as `<your-host-here>`. Both are "not configured", not
+    /// values to parse.
+    nonisolated static func normalizedBuildSetting(_ value: String) -> String? {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty,
               !trimmed.contains("$("),
               !trimmed.hasPrefix("<") else {
+            return nil
+        }
+        // The one host this app may never read Fletcher tiles from. The David
+        // Rumsey permission recorded in `docs/FLETCHER_GEOREFERENCING.md` covers
+        // the scans we render ourselves and explicitly does not extend to
+        // OldMapsOnline-derived tiles, warps, bounds or endpoints. Enforced here
+        // rather than documented because the failure mode is a build setting
+        // pointed back at the retired source by someone reaching for the
+        // quickest way to make the layer appear — which is exactly the moment a
+        // comment is not read.
+        guard !trimmed.lowercased().contains("oldmapsonline") else {
+            logger.error("Refusing FletcherTileBaseURL: the Rumsey permission does not cover OldMapsOnline-derived tiles")
             return nil
         }
         return trimmed

@@ -6,6 +6,31 @@ nonisolated enum TileFetcherError: Error, Equatable {
     case invalidContentType(String?)
     case invalidImageData
     case unsupportedDynamicLayerZoom(Int)
+
+    /// Whether this means "there is no tile here" rather than "the tile could
+    /// not be fetched right now".
+    ///
+    /// The distinction only matters for the Fletcher sheets, and there it
+    /// matters a lot. A sheet's bounds are a rectangle drawn around a scan with
+    /// ragged content, so along the survey's edges a sheet legitimately covers
+    /// tiles it has no ink for, and a 404 is the normal answer. Treating that
+    /// as a failure makes every seam permanently incomplete. A 5xx or a dropped
+    /// connection is the opposite: a tile we could have had, and one that will
+    /// probably be there on the next try, so a composite missing it must not be
+    /// cached or saved as though it were whole.
+    ///
+    /// 403 and 410 are here because object stores answer that way for a missing
+    /// key — S3 returns 403 without `ListBucket`, and a pyramid served straight
+    /// out of a bucket is the likely hosting.
+    static func meansNoTileExists(_ error: any Error) -> Bool {
+        guard let error = error as? TileFetcherError else { return false }
+        switch error {
+        case .invalidHTTPStatus(let code):
+            return code == 404 || code == 403 || code == 410
+        case .invalidContentType, .invalidImageData, .unsupportedDynamicLayerZoom:
+            return false
+        }
+    }
 }
 
 /// Stateless beyond its two `Sendable` collaborators, so tile fetches can run

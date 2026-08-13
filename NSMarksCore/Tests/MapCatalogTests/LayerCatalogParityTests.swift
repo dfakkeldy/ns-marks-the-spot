@@ -1,5 +1,6 @@
 import Foundation
 import GeoCore
+import ParityFixtures
 import Testing
 
 @testable import MapCatalog

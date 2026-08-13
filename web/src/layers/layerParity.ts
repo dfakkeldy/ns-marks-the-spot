@@ -24,6 +24,13 @@ import {
   type FletcherSheet,
   fletcherSheets,
 } from "./fletcherLayer";
+import {
+  NSPRD_LAYER_URL,
+  NSPRD_PID_BATCH_SIZE,
+  buildPidQueryUrl,
+  buildPointQueryUrl,
+  normalizePid,
+} from "../services/nsprd";
 
 /**
  * The parity fixture the native iOS catalog is tested against.
@@ -86,6 +93,25 @@ export type LayerParityFixture = {
     /** Path segment identifying the tile build both surfaces expect. */
     tileRevision: string;
     sheets: readonly FletcherSheet[];
+  };
+  /**
+   * The NSPRD parcel query, as this code actually spells it.
+   *
+   * Emitted rather than described because the native port has to reproduce two
+   * things no prose captures reliably: `URLSearchParams`' encoding (`+` for
+   * space, `%27` for an apostrophe, and every reserved character escaped) and
+   * JavaScript's `\s`, which carries the byte-order mark and the Unicode space
+   * separators that Foundation's whitespace sets leave out. Both were guessed
+   * at once already. Running the real functions and recording the answer means
+   * the Swift side is tested against what ships, not against a reading of it.
+   */
+  parcelQuery: {
+    layerUrl: string;
+    pidBatchSize: number;
+    /** `normalizePid` over inputs chosen to sit on its edges. */
+    normalization: readonly { input: string; pid: string | null }[];
+    /** Whole query URLs, byte for byte. */
+    samples: readonly { name: string; url: string }[];
   };
 };
 
@@ -182,6 +208,49 @@ const SOURCES: readonly Source[] = [
   },
 ];
 
+/**
+ * Inputs that sit on the edges of `normalizePid`'s two regexes.
+ *
+ * The Unicode ones are not hypothetical: a PID pasted from a spreadsheet export
+ * arrives wrapped in a byte-order mark, and one copied out of a PDF often
+ * carries a non-breaking or figure space. Whatever this function does with
+ * those, the native app has to do the same, or the same paste works on one
+ * surface and fails on the other.
+ */
+const PID_NORMALIZATION_CASES: readonly string[] = [
+  "12345678",
+  "1234-5678",
+  "12-34-56-78",
+  "12 34 56 78",
+  " 12345678 ",
+  "\t12345678\n",
+  "\r12345678",
+  "\u000b12345678", // vertical tab
+  "\u000c12345678", // form feed
+  "\u00a012345678", // non-breaking space
+  "\u2007123456\u200778", // figure space, mid-string
+  "\u200a12345678", // hair space
+  "\u2028\u202912345678", // line and paragraph separators
+  "\u202f12345678", // narrow no-break space
+  "\u205f12345678", // medium mathematical space
+  "\u168012345678", // Ogham space mark, which is not blank on screen
+  "\u300012345678", // ideographic space
+  "\ufeff12345678", // byte-order mark, what a spreadsheet export prepends
+  "\u200b12345678", // zero-width space: blank to a reader, not to \\s
+  "\u00a0\u200912345678\u3000", // several at once
+  "PID 12345678",
+  "1234_5678",
+  "1234.5678",
+  "1234567",
+  "123456789",
+  "",
+  "   ",
+  "-",
+  "--------",
+  "\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668", // Arabic-Indic digits
+  "\uff11\uff12\uff13\uff14\uff15\uff16\uff17\uff18", // fullwidth digits
+];
+
 /** Sorts object keys so the fixture is stable across regenerations. */
 function sortKeys(value: unknown): unknown {
   if (Array.isArray(value)) {
@@ -221,6 +290,45 @@ export function buildLayerParityFixture(): LayerParityFixture {
     fletcher: {
       tileRevision: FLETCHER_TILE_REVISION,
       sheets: fletcherSheets,
+    },
+    parcelQuery: {
+      layerUrl: NSPRD_LAYER_URL,
+      pidBatchSize: NSPRD_PID_BATCH_SIZE,
+      normalization: PID_NORMALIZATION_CASES.map((input) => ({
+        input,
+        pid: normalizePid(input),
+      })),
+      samples: [
+        { name: "single-pid", url: buildPidQueryUrl(["40203483"]) },
+        {
+          // Duplicates and two spellings of one PID: the request has to carry
+          // three entries in first-seen order, which is what pins both the
+          // de-duplication and the ordering.
+          name: "multi-pid-deduplicated",
+          url: buildPidQueryUrl([
+            "40203483",
+            "4020-3483",
+            "00123456",
+            "40203483",
+            "99887766",
+          ]),
+        },
+        {
+          name: "point-fractional",
+          url: buildPointQueryUrl(44.651070408, -63.582687), // Halifax
+        },
+        {
+          // Whole numbers, where JavaScript writes `-63` and Swift's default
+          // interpolation writes `-63.0`. Off Nova Scotia, but the formatting
+          // difference is the point.
+          name: "point-whole-numbers",
+          url: buildPointQueryUrl(45, -63),
+        },
+        {
+          name: "point-negative-zero",
+          url: buildPointQueryUrl(-0, 0),
+        },
+      ],
     },
   };
 }

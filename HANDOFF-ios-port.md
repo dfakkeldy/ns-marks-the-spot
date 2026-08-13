@@ -133,3 +133,74 @@ web/src/layers/fletcherLayer.ts into NSMarksCore with tests (ungated), then
 wire the app target: delete root Tiles/, add FLETCHER_TILE_BASE_URL, migrate
 TileStore on key "fletcher-direct-rumsey-20260726.1".
 ```
+
+## 2026-08-13 — Fletcher direct-Rumsey switch: portable half landed, app half staged
+
+Done: `b09e18919` (still zero Apple builds). Portable half in NSMarksCore:
+`GeoBoundingBox` + `TileMath.geographicBounds`, `FletcherSheets` (24 sheet
+bounds generated from the web fixture, never typed) and `FletcherTileURL`
+(`normalizeBaseURL` with typed `BaseURLError`; refuses non-HTTPS, any
+`oldmapsonline` host, and any query/fragment/userinfo). 125 package tests, 49
+web tests, green in ~0.015 s. Codex verified all 96 decimal literals
+digit-for-digit and found one vacuous test (`coversEverySheet` passed a
+constant template) — fixed and mutation-confirmed.
+App half is written and **uncommitted, never compiled**: pbxproj wires
+NSMarksCore as an `XCLocalSwiftPackageReference` into app + unit-test targets
+and drops every `Tiles` ref; root `Tiles/` `git rm`'d (3755 files, 311 MB —
+a rights obligation, not a size win); `.fletcherSheets(baseURL:)` source;
+`OpacityTileOverlay.fletcherSheetTile` (per-sheet cache keys, highest sheet
+first); `FletcherSourceMigration` clears the tile cache once per revision.
+Every touched file passes `swiftc -parse`; the gate has been HOLD all day
+(swapFree ~440-840 MB against a 2048 MB warnMin).
+Next: one gated `xcodebuild test` admission to validate the app half, then
+commit it. Then grouped layer UI + status chips, a CI job for package tests,
+and the app-local `LayerID` (10 cases) vs GeoCore `LayerID` (36) collision.
+Hold promotion past nightly until HTTPS tile hosting exists.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (7 commits ahead of nightly, dirty).
+Next action: poll /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
+every ~5 min; when it admits, spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -project ns-marks-the-spot.xcodeproj
+-scheme ns-marks-the-spot -destination 'platform=iOS Simulator,name=iPhone 17'`
+and fix what surfaces before committing the app half.
+```
+
+## 2026-08-13 — App half committed; both targets type-check clean without the gate
+
+Done: two Codex adversarial reviews (13 + 7 findings, all dispositioned).
+Real ones: `TileStore` kept OldMapsOnline tiles the cache sweep missed;
+`MapViewState`'s cache identity ignored the revision so old tiles outlived the
+switch; 404 (no such sheet) was conflated with 503 (transient), which poisoned
+composites and permanently failed saved areas; `tileCount` scanned ~2.2 M tiles
+on the main actor during a drag (now `countingLimit = 200_000`); three offline
+test suites were fixtured on Halifax, which the new coverage filter makes an
+empty plan — every assertion in them was `0 == 0`. Codex is not authoritative
+on compilation: it web-searched Apple docs and cleared the `Task.detached`
+capture in `FletcherSourceMigration`, and that exact line is what the build
+then failed on (`UserDefaults` is not `Sendable` in this SDK).
+One gate admission spent on `build-for-testing`; it failed on that one error.
+Its DerivedData `.swiftmodule`s then made a **gate-free** loop possible:
+`xcrun swiftc -typecheck` against the iphonesimulator SDK with the same six
+flags the target uses (`-swift-version 6`, `-default-isolation=MainActor`,
+`MemberImportVisibility`, `InferIsolatedConformances`,
+`NonisolatedNonsendingByDefault`). App target (34 sources) and unit-test target
+(17 sources, `-enable-testing` + the TestingMacros `-plugin-path`) both
+type-check with **0 errors, 0 warnings**, in seconds, without touching the gate.
+143 package tests + 18 web tests green.
+Next: still one gated `xcodebuild test` run to prove runtime behaviour — type
+checking is not execution. Then grouped layer UI + status chips, a CI job for
+package tests, and the app-local `LayerID` (10 cases) vs GeoCore `LayerID` (36)
+collision. Hold promotion past nightly until HTTPS tile hosting exists.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (clean, app half committed).
+Next action: poll /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
+every ~5 min; when it admits, spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -project ns-marks-the-spot.xcodeproj
+-scheme ns-marks-the-spot -destination 'platform=iOS Simulator,name=iPhone 17'`
+and read Swift Testing failures with
+`xcrun xcresulttool get test-results tests --path <.xcresult>`.
+```

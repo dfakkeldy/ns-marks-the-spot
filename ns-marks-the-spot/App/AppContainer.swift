@@ -22,9 +22,11 @@ final class AppContainer {
         let fetcher = TileFetcher(tileCache: cache)
         self.tileFetcher = fetcher
         let tileDownloadManager = TileDownloadManager(tileStore: store)
+        FletcherSourceMigration.runIfNeeded(tileCache: cache, tileStore: store)
+
         let fletcherTileLoader = LayerCatalog.descriptor(for: .fletcher)
             .flatMap { descriptor in
-                descriptor.sourceURL.map { FletcherTileLoader(tileFetcher: fetcher, templateURL: $0) }
+                descriptor.sourceURL.map { FletcherTileLoader(tileFetcher: fetcher, baseURL: $0) }
             }
         self.offlineAreasViewModel = OfflineAreasViewModel(
             tileStore: store,
@@ -39,18 +41,31 @@ final class AppContainer {
         self.poiViewModel = POIViewModel()
 
         for descriptor in LayerCatalog.all {
-            guard let layer = makeLayer(from: descriptor) else { continue }
+            guard let layer = Self.makeLayer(from: descriptor) else { continue }
             controller.addLayer(layer)
         }
     }
 
-    private func makeLayer(from descriptor: LayerDescriptor) -> MapLayerState? {
+    /// Turns a catalogue entry into an installed layer, or `nil` where there is
+    /// nothing renderable to install.
+    ///
+    /// `static` and not `private` so it can be exercised against a descriptor
+    /// the caller supplies. It reads nothing but its argument, and the branch
+    /// that matters most — Fletcher with a host configured — is unreachable in
+    /// a checkout without `FLETCHER_TILE_BASE_URL`, which is every checkout in
+    /// CI. A test that could only observe the ambient configuration would pass
+    /// with that branch deleted.
+    static func makeLayer(from descriptor: LayerDescriptor) -> MapLayerState? {
         switch descriptor.id {
         case .fletcher:
-            guard let url = descriptor.sourceURL else { return nil }
+            // No configured host means no tile build to point at, so the layer
+            // is not installed at all. A row whose switch does nothing reads as
+            // a broken feature; an absent row reads as a feature that has not
+            // shipped, which is what this is until the sheets are hosted.
+            guard let baseURL = descriptor.sourceURL else { return nil }
             return MapLayerState(
                 descriptor: descriptor,
-                source: .tile(url)
+                source: .fletcherSheets(baseURL: baseURL)
             )
         case .nsAerial:
             guard let url = descriptor.sourceURL else { return nil }

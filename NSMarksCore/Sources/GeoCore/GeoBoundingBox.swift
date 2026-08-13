@@ -53,4 +53,34 @@ public struct GeoBoundingBox: Hashable, Sendable {
         south <= other.north && north >= other.south
             && west <= other.east && east >= other.west
     }
+
+    /// The ground both boxes share, or `nil` when they share none.
+    ///
+    /// Boxes that only touch along an edge return the degenerate box rather
+    /// than `nil`, matching `intersects`. A caller measuring area gets zero,
+    /// which is the truthful answer.
+    public func intersection(with other: GeoBoundingBox) -> GeoBoundingBox? {
+        guard intersects(other) else { return nil }
+        return GeoBoundingBox(
+            south: Swift.max(south, other.south),
+            west: Swift.max(west, other.west),
+            north: Swift.min(north, other.north),
+            east: Swift.min(east, other.east)
+        )
+    }
+
+    /// The smallest box holding every box in `boxes`, or `nil` for none.
+    public static func union<S: Sequence<GeoBoundingBox>>(_ boxes: S) -> GeoBoundingBox? {
+        var iterator = boxes.makeIterator()
+        guard var result = iterator.next() else { return nil }
+        while let box = iterator.next() {
+            result = GeoBoundingBox(
+                south: Swift.min(result.south, box.south),
+                west: Swift.min(result.west, box.west),
+                north: Swift.max(result.north, box.north),
+                east: Swift.max(result.east, box.east)
+            )
+        }
+        return result
+    }
 }
