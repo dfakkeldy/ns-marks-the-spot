@@ -34,24 +34,56 @@ public struct ParcelFeature: Sendable, Equatable {
     /// read as one.
     public let mappedAreaSquareMetres: Double?
 
-    /// The shape, in GeoJSON winding, outer ring first within each part.
+    /// What the service said this parcel's outline is.
     ///
-    /// Not reversed. The web reverses rings before sending them back to ArcGIS
-    /// as an `esriGeometryPolygon`, which wants the opposite winding — that is
-    /// a fact about building a query, and belongs wherever that query is built
-    /// rather than in what the source said.
-    public let parts: [PolygonHitTest.PolygonPart]
+    /// Three outcomes rather than a possibly-empty array of rings, because "no
+    /// boundary came with this record" and "a boundary came and could not be
+    /// read" are different evidence, and an empty array would say the first
+    /// while meaning either.
+    public enum Boundary: Sendable, Equatable {
+        /// The shape, in GeoJSON winding, outer ring first within each part.
+        ///
+        /// Not reversed. The web reverses rings before sending them back to
+        /// ArcGIS as an `esriGeometryPolygon`, which wants the opposite winding
+        /// — that is a fact about building a query, and belongs wherever that
+        /// query is built rather than in what the source said.
+        case shape([PolygonHitTest.PolygonPart])
+
+        /// `"geometry": null`, or no geometry key. The record exists; the
+        /// service did not draw it.
+        case notSupplied
+
+        /// Geometry arrived and this reader could not turn it into a boundary.
+        ///
+        /// Never partially recovered. Half of a parcel outline is not a smaller
+        /// parcel — it is an outline nobody drew, and hit-testing or rendering
+        /// it would put an invented boundary on the map. Anything shown from a
+        /// feature in this state has to say the shape is unavailable rather than
+        /// leave the parcel looking unmapped.
+        case unreadable
+
+        /// The parts to draw and hit-test, and nothing for a boundary that was
+        /// never supplied or could not be read.
+        public var parts: [PolygonHitTest.PolygonPart] {
+            switch self {
+            case .shape(let parts): parts
+            case .notSupplied, .unreadable: []
+            }
+        }
+    }
+
+    public let boundary: Boundary
 
     public init(
         pid: String,
         updatedAtEpochMilliseconds: Double? = nil,
         mappedAreaSquareMetres: Double? = nil,
-        parts: [PolygonHitTest.PolygonPart] = []
+        boundary: Boundary = .notSupplied
     ) {
         self.pid = pid
         self.updatedAtEpochMilliseconds = updatedAtEpochMilliseconds
         self.mappedAreaSquareMetres = mappedAreaSquareMetres
-        self.parts = parts
+        self.boundary = boundary
     }
 
     /// `updatedAtEpochMilliseconds` read as ArcGIS dates are conventionally
@@ -72,7 +104,14 @@ public struct ParcelFeature: Sendable, Equatable {
 
 /// What one NSPRD `/query` answered with.
 public struct ParcelFeatureCollection: Sendable, Equatable {
-    public let features: [ParcelFeature]
+    /// The features that came back carrying a PID.
+    ///
+    /// Named for what it holds rather than for the whole reply, because the
+    /// obvious question — is this empty? — has the wrong answer when shapes
+    /// arrived without identifiers. `identifiedFeatures.isEmpty` says only that
+    /// nothing could be identified; `isEmpty` is the one that means the service
+    /// returned nothing.
+    public let identifiedFeatures: [ParcelFeature]
 
     /// Shapes the service returned that carried no usable PID.
     ///
@@ -82,8 +121,8 @@ public struct ParcelFeatureCollection: Sendable, Equatable {
     /// something we could not read" be presented as "there is no parcel here".
     public let unidentifiedFeatureCount: Int
 
-    public init(features: [ParcelFeature], unidentifiedFeatureCount: Int = 0) {
-        self.features = features
+    public init(identifiedFeatures: [ParcelFeature], unidentifiedFeatureCount: Int = 0) {
+        self.identifiedFeatures = identifiedFeatures
         self.unidentifiedFeatureCount = unidentifiedFeatureCount
     }
 
@@ -93,7 +132,7 @@ public struct ParcelFeatureCollection: Sendable, Equatable {
     /// return. Distinct from every `Failure`, which mean the question was not
     /// answered — and neither is evidence that no parcel exists.
     public var isEmpty: Bool {
-        features.isEmpty && unidentifiedFeatureCount == 0
+        identifiedFeatures.isEmpty && unidentifiedFeatureCount == 0
     }
 }
 
@@ -151,12 +190,12 @@ public enum ParcelResponse {
                     pid: pid,
                     updatedAtEpochMilliseconds: feature.properties?.updatedAt,
                     mappedAreaSquareMetres: Self.usableArea(feature.properties?.area),
-                    parts: feature.geometry?.parts ?? []
+                    boundary: feature.geometry?.boundary ?? .notSupplied
                 )
             )
         }
         return ParcelFeatureCollection(
-            features: parcels, unidentifiedFeatureCount: unidentified
+            identifiedFeatures: parcels, unidentifiedFeatureCount: unidentified
         )
     }
 
@@ -169,10 +208,15 @@ public enum ParcelResponse {
         forPID pid: String,
         in collection: ParcelFeatureCollection
     ) -> Double? {
-        let total = collection.features
+        let total = collection.identifiedFeatures
             .filter { $0.pid == pid }
             .reduce(0.0) { $0 + ($1.mappedAreaSquareMetres ?? 0) }
-        return total > 0 ? total : nil
+        // The finite check is repeated after the sum, not just per feature:
+        // areas large enough to overflow when added would arrive here as an
+        // infinite total that passed every individual check, and an infinite
+        // total rendered as acres is a number nobody measured.
+        guard total.isFinite, total > 0 else { return nil }
+        return total
     }
 
     /// Square metres as acres, rounded to two decimals the way the web rounds.
@@ -230,8 +274,20 @@ public enum ParcelResponse {
         }
     }
 
+    /// Reads a feature's geometry, all or nothing.
+    ///
+    /// One unreadable ring condemns the whole feature's boundary rather than
+    /// just itself. Rings are not independent: the first is the outline and the
+    /// rest are the holes cut out of it, so dropping one either promotes a hole
+    /// to an outline or fills land the service deliberately excluded. Either
+    /// way the map would draw a parcel with a boundary the source never sent,
+    /// and hit-testing it would match properties that are not there.
+    ///
+    /// The same rule spans a MultiPolygon's parts. Keeping the readable parts of
+    /// a parcel split by a road would show one side of the road as the whole
+    /// property.
     private struct Geometry: Decodable {
-        let parts: [PolygonHitTest.PolygonPart]
+        let boundary: ParcelFeature.Boundary
 
         private enum CodingKeys: String, CodingKey {
             case type
@@ -239,29 +295,63 @@ public enum ParcelResponse {
         }
 
         init(from decoder: any Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard let container = try? decoder.container(keyedBy: CodingKeys.self) else {
+                boundary = .unreadable
+                return
+            }
             switch try? container.decodeIfPresent(String.self, forKey: .type) {
             case "Polygon":
-                let rings = (try? container.decode([[[Double]]].self, forKey: .coordinates)) ?? []
-                parts = [Self.part(from: rings)].filter { !$0.isEmpty }
+                guard let rings = try? container.decode([[[Double]]].self, forKey: .coordinates),
+                      let part = Self.part(from: rings) else {
+                    boundary = .unreadable
+                    return
+                }
+                boundary = .shape([part])
             case "MultiPolygon":
-                let polygons =
-                    (try? container.decode([[[[Double]]]].self, forKey: .coordinates)) ?? []
-                parts = polygons.map(Self.part(from:)).filter { !$0.isEmpty }
+                guard let polygons =
+                    try? container.decode([[[[Double]]]].self, forKey: .coordinates) else {
+                    boundary = .unreadable
+                    return
+                }
+                var parts: [PolygonHitTest.PolygonPart] = []
+                parts.reserveCapacity(polygons.count)
+                for polygon in polygons {
+                    guard let part = Self.part(from: polygon) else {
+                        boundary = .unreadable
+                        return
+                    }
+                    parts.append(part)
+                }
+                boundary = parts.isEmpty ? .unreadable : .shape(parts)
             default:
-                // A parcel layer answering with a point or a line is an anomaly,
-                // and so is `"geometry": null`. The feature is kept either way:
-                // the PID is the evidence, and a record that cannot be drawn is
-                // still a record that was returned.
-                parts = []
+                // A parcel layer answering with a point, a line, or a
+                // GeometryCollection is an anomaly this reader will not guess
+                // at. The feature is still kept — the PID is the evidence, and a
+                // record that cannot be drawn is still a record that came back.
+                //
+                // The web hands whatever arrived to Leaflet, which can draw the
+                // polygon members of a GeometryCollection, so the two surfaces
+                // will disagree on such a reply. Saying so is the point of the
+                // `.unreadable` case: the phone reports a shape it could not
+                // read, rather than a parcel with no shape.
+                boundary = .unreadable
             }
         }
 
-        private static func part(from rings: [[[Double]]]) -> PolygonHitTest.PolygonPart {
-            rings.compactMap(Self.ring(from:))
+        /// One polygon's rings, or `nil` if any of them is not a ring.
+        private static func part(from rings: [[[Double]]]) -> PolygonHitTest.PolygonPart? {
+            guard !rings.isEmpty else { return nil }
+            var part: PolygonHitTest.PolygonPart = []
+            part.reserveCapacity(rings.count)
+            for positions in rings {
+                guard let ring = Self.ring(from: positions) else { return nil }
+                part.append(ring)
+            }
+            return part
         }
 
-        /// A ring, or `nil` if any of its positions is not a coordinate.
+        /// A ring, or `nil` if any of its positions is not a coordinate or the
+        /// positions do not enclose anything.
         ///
         /// All or nothing per ring: skipping the bad positions and keeping the
         /// rest would hand back a closed shape with a different outline from the
@@ -281,6 +371,18 @@ public enum ParcelResponse {
                 }
                 points.append(GeoPoint(lat: latitude, lng: longitude))
             }
+
+            // Three corners is the least that encloses ground. `PolygonHitTest`
+            // closes every ring with a modulo index, so a shorter run of points
+            // would silently become a shape: two points a line with an area of
+            // nothing, one point a spot that answers "yes, inside" to a click
+            // landing exactly on it. Both would report a parcel hit where the
+            // service drew no parcel. GeoJSON's own closing repeat is allowed
+            // for but not required, since the modulo close makes it redundant.
+            let corners = points.count >= 2 && points[0] == points[points.count - 1]
+                ? points.count - 1
+                : points.count
+            guard corners >= 3 else { return nil }
             return points
         }
     }
