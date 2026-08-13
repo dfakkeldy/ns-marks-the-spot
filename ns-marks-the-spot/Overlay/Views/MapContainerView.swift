@@ -4,33 +4,33 @@ struct MapContainerView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     let controller: MapController
+    let navigationModel: NavigationModel
     let isUITestMode: Bool
-    @StateObject private var overlayVM: OverlayViewModel
-    @ObservedObject private var poiVM: POIViewModel
-    @ObservedObject private var offlineVM: OfflineAreasViewModel
-    @State private var selectedPOI: PointOfInterest?
+    @State private var overlayVM: OverlayViewModel
+    private let poiVM: POIViewModel
+    private let offlineVM: OfflineAreasViewModel
     @State private var isLayersMenuExpanded = false
-    @State private var isOfflineStoragePresented = false
     @State private var mapHeading: Double = 0
-    @State private var selectedSaveBounds: MapBounds?
-    @State private var isSaveAreaDraftPresented = false
     @State private var isSelectingSaveArea = false
-    @State private var isInfoPresented = false
 
     init(
         controller: MapController,
+        navigationModel: NavigationModel,
         poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
         isUITestMode: Bool = false
     ) {
         self.controller = controller
+        self.navigationModel = navigationModel
         self.isUITestMode = isUITestMode
         self.poiVM = poiViewModel
         self.offlineVM = offlineAreasViewModel
-        _overlayVM = StateObject(wrappedValue: OverlayViewModel(controller: controller))
+        _overlayVM = State(initialValue: OverlayViewModel(controller: controller))
     }
 
     var body: some View {
+        @Bindable var navigationModel = navigationModel
+
         ZStack {
             MapSurfaceView(controller: controller)
                 .ignoresSafeArea()
@@ -110,7 +110,7 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
-                            isOfflineStoragePresented = true
+                            navigationModel.activeSheet = .offlineStorage
                         } label: {
                             Image(systemName: "externaldrive")
                                 .font(.system(size: 18, weight: .semibold))
@@ -124,7 +124,7 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
-                            isInfoPresented = true
+                            navigationModel.activeSheet = .info
                         } label: {
                             Image(systemName: "info.circle")
                                 .font(.system(size: 18, weight: .semibold))
@@ -206,7 +206,9 @@ struct MapContainerView: View {
                 case .headingChanged(let heading):
                     mapHeading = heading
                 case .annotationSelected(let annotationID):
-                    selectedPOI = poiVM.points.first { $0.id == annotationID }
+                    if let poi = poiVM.points.first(where: { $0.id == annotationID }) {
+                        navigationModel.activeSheet = .poiDetail(poi)
+                    }
                 case .boundsSelected(let bounds):
                     finishBoundsSelection(with: bounds)
                 }
@@ -220,18 +222,8 @@ struct MapContainerView: View {
                 }
             }
         }
-        .onChange(of: selectedPOI) { _, newValue in
+        .onChange(of: navigationModel.activeSheet) { _, newValue in
             if newValue != nil {
-                cancelBoundsSelection()
-            }
-        }
-        .onChange(of: isOfflineStoragePresented) { _, isPresented in
-            if isPresented {
-                cancelBoundsSelection()
-            }
-        }
-        .onChange(of: isInfoPresented) { _, isPresented in
-            if isPresented {
                 cancelBoundsSelection()
             }
         }
@@ -243,27 +235,17 @@ struct MapContainerView: View {
         .onDisappear {
             cancelBoundsSelection()
         }
-        .sheet(item: $selectedPOI) { poi in
-            POIDetailView(poi: poi)
-        }
-        .sheet(isPresented: $isOfflineStoragePresented) {
-            OfflineStorageView(viewModel: offlineVM)
-        }
-        .sheet(isPresented: $isInfoPresented) {
-            InfoSheetView()
-        }
-        .sheet(
-            isPresented: $isSaveAreaDraftPresented,
-            onDismiss: {
-                selectedSaveBounds = nil
-            }
-        ) {
-            if let selectedSaveBounds {
+        .sheet(item: $navigationModel.activeSheet) { route in
+            switch route {
+            case .poiDetail(let poi):
+                POIDetailView(poi: poi)
+            case .offlineStorage:
+                OfflineStorageView(viewModel: offlineVM)
+            case .info:
+                InfoSheetView()
+            case .saveAreaDraft(let bounds):
                 NavigationStack {
-                    SaveAreaDraftView(
-                        viewModel: offlineVM,
-                        bounds: selectedSaveBounds
-                    )
+                    SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)
                 }
             }
         }
@@ -279,8 +261,7 @@ struct MapContainerView: View {
     private func finishBoundsSelection(with bounds: MapBounds) {
         controller.endBoundsSelection()
         isSelectingSaveArea = false
-        selectedSaveBounds = bounds.normalized
-        isSaveAreaDraftPresented = true
+        navigationModel.activeSheet = .saveAreaDraft(bounds.normalized)
     }
 
     private func saveVisibleMapArea() {

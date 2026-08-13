@@ -1,5 +1,6 @@
 import CoreLocation
 import MapKit
+import Observation
 
 /// Interaction events flowing back from the map surface, routed through a
 /// single handler so future interaction modes can gate them centrally.
@@ -13,20 +14,21 @@ enum MapEvent {
 /// All state changes flow through `apply(_:)`, which reconciles via
 /// `MapStateDiff`; the imperative helpers below are thin wrappers that
 /// mutate the desired state and apply it.
+@Observable
 final class MapController: NSObject {
     private(set) var state = MapViewState()
-    var events: ((MapEvent) -> Void)?
+    @ObservationIgnored var events: ((MapEvent) -> Void)?
 
-    private let tileCache: TileCache?
-    private let tileFetcher: TileFetcher?
-    private let locationManager = CLLocationManager()
+    @ObservationIgnored private let tileCache: TileCache?
+    @ObservationIgnored private let tileFetcher: TileFetcher?
+    @ObservationIgnored private let locationManager = CLLocationManager()
     private(set) var isWaitingToCenterOnUserLocation = false
     private(set) var mapHeading: Double = 0
 
-    private var selectionStartCoordinate: CLLocationCoordinate2D?
-    private var selectionOverlay: MKPolygon?
-    private var wasScrollEnabled = true
-    private var wasZoomEnabled = true
+    @ObservationIgnored private var selectionStartCoordinate: CLLocationCoordinate2D?
+    @ObservationIgnored private var selectionOverlay: MKPolygon?
+    @ObservationIgnored private var wasScrollEnabled = true
+    @ObservationIgnored private var wasZoomEnabled = true
 
     init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
         self.tileCache = tileCache
@@ -35,7 +37,7 @@ final class MapController: NSObject {
         locationManager.delegate = self
     }
 
-    weak var mapView: MKMapView? {
+    @ObservationIgnored weak var mapView: MKMapView? {
         didSet {
             syncStateToAttachedMapView()
         }

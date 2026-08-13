@@ -8,6 +8,7 @@ struct NSMarksTheSpotApp: App {
         WindowGroup {
             MapContainerView(
                 controller: container.mapController,
+                navigationModel: container.navigationModel,
                 poiViewModel: container.poiViewModel,
                 offlineAreasViewModel: container.offlineAreasViewModel,
                 isUITestMode: container.isUITestMode

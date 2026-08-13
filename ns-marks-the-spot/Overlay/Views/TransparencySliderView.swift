@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TransparencySliderView: View {
-    @ObservedObject var viewModel: OverlayViewModel
+    let viewModel: OverlayViewModel
     @Binding var isExpanded: Bool
 
     var body: some View {

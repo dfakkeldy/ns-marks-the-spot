@@ -2,6 +2,7 @@ import Foundation
 
 final class AppContainer {
     let mapController: MapController
+    let navigationModel = NavigationModel()
     let tileStore: TileStore
     let tileCache: TileCache
     let tileFetcher: TileFetcher

@@ -1,8 +1,12 @@
-import Combine
-import SwiftUI
+import Foundation
+import Observation
 
+/// Layer-menu logic over `MapController`. Carries no observable state of its
+/// own: views reading `layers`/`baseMapType` track the controller's applied
+/// state directly through Observation.
 @MainActor
-final class OverlayViewModel: ObservableObject {
+@Observable
+final class OverlayViewModel {
     private let nsAerialLayerId = LayerID.nsAerial.rawValue
     private let nsAerialBasemapOpacity: CGFloat = 1.0
     private let restoredOverlayOpacity: CGFloat = 0.7
@@ -19,7 +23,6 @@ final class OverlayViewModel: ObservableObject {
     func setBaseMapType(_ type: MapBaseType) {
         controller.baseMapType = type
         syncNSAerialLayerVisibility(for: type)
-        objectWillChange.send()
     }
 
     func offlineStatus(for layerId: String) -> String {
@@ -40,7 +43,6 @@ final class OverlayViewModel: ObservableObject {
 
     func updateLayerOpacity(for id: String, to value: CGFloat) {
         controller.setOpacity(for: id, to: value)
-        objectWillChange.send()
     }
 
     func toggleVisibility(_ id: String) {
@@ -48,7 +50,6 @@ final class OverlayViewModel: ObservableObject {
 
         if id == nsAerialLayerId {
             toggleNSAerialVisibility(layer)
-            objectWillChange.send()
             return
         }
 
@@ -57,7 +58,6 @@ final class OverlayViewModel: ObservableObject {
             restoreVisibleOpacityIfNeeded(for: layer)
         }
         controller.setVisible(for: id, to: newVisibility)
-        objectWillChange.send()
     }
 
     private func syncNSAerialLayerVisibility(for type: MapBaseType) {

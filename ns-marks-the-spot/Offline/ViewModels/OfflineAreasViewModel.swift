@@ -1,5 +1,5 @@
-import Combine
 import Foundation
+import Observation
 
 struct OfflineLayerStorageSummary: Identifiable, Equatable {
     let id: String
@@ -9,26 +9,27 @@ struct OfflineLayerStorageSummary: Identifiable, Equatable {
 }
 
 @MainActor
-final class OfflineAreasViewModel: ObservableObject {
-    @Published private(set) var savedAreas: [SavedOfflineArea] = []
-    @Published private(set) var storageSummary = TileStoreSummary(
+@Observable
+final class OfflineAreasViewModel {
+    private(set) var savedAreas: [SavedOfflineArea] = []
+    private(set) var storageSummary = TileStoreSummary(
         totalBytes: 0,
         layerBytes: [:],
         savedAreaBytes: [:]
     )
-    @Published private(set) var storageErrorMessage: String?
-    @Published private(set) var isStorageOperationInProgress = false
-    @Published private(set) var activeDownloadAreaID: String?
+    private(set) var storageErrorMessage: String?
+    private(set) var isStorageOperationInProgress = false
+    private(set) var activeDownloadAreaID: String?
 
     static let maximumSavedAreaTileCount = 100_000
-    private let tileStore: TileStore
-    private let tileCache: TileCache
-    private let savedAreaRepository: SavedOfflineAreaRepository
-    private let tileDownloadManager: TileDownloadManager?
-    private let tileLoader: (any TileDataLoading)?
-    private let averageTileBytes = 12_000
-    private var hasLoadedSavedAreas = false
-    private var activeDownloadTask: Task<Void, Never>?
+    @ObservationIgnored private let tileStore: TileStore
+    @ObservationIgnored private let tileCache: TileCache
+    @ObservationIgnored private let savedAreaRepository: SavedOfflineAreaRepository
+    @ObservationIgnored private let tileDownloadManager: TileDownloadManager?
+    @ObservationIgnored private let tileLoader: (any TileDataLoading)?
+    @ObservationIgnored private let averageTileBytes = 12_000
+    @ObservationIgnored private var hasLoadedSavedAreas = false
+    @ObservationIgnored private var activeDownloadTask: Task<Void, Never>?
 
     var maximumSavedAreaTileCount: Int {
         Self.maximumSavedAreaTileCount
