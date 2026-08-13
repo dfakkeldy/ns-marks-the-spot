@@ -18,6 +18,7 @@ let package = Package(
     products: [
         .library(name: "GeoCore", targets: ["GeoCore"]),
         .library(name: "MapCatalog", targets: ["MapCatalog"]),
+        .library(name: "NSDataServices", targets: ["NSDataServices"]),
     ],
     targets: [
         .target(
@@ -41,6 +42,16 @@ let package = Package(
             // test compares bytes-in-fields against what the web declared, and
             // resource processing could rewrite it.
             resources: [.copy("Fixtures")],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .target(
+            name: "NSDataServices",
+            dependencies: ["GeoCore", "MapCatalog"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "NSDataServicesTests",
+            dependencies: ["NSDataServices"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
     ]
