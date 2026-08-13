@@ -6,6 +6,11 @@ struct TransparencySliderView: View {
     let viewModel: OverlayViewModel
     @Binding var isExpanded: Bool
 
+    /// Which sections are open. `nil` until the panel is first laid out, so the
+    /// opening set can be chosen from what is actually on the map rather than
+    /// guessed at before the layers are installed.
+    @State private var expandedGroups: Set<LayerGroupID>?
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Header
@@ -58,13 +63,32 @@ struct TransparencySliderView: View {
 
             // Layers List
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 16) {
-                    ForEach(viewModel.rows) { row in
-                        LayerRowView(row: row, viewModel: viewModel)
+                VStack(spacing: 8) {
+                    ForEach(viewModel.sections) { section in
+                        LayerSectionView(
+                            section: section,
+                            viewModel: viewModel,
+                            isExpanded: Binding(
+                                get: { expandedGroups?.contains(section.group) ?? false },
+                                set: { open in
+                                    var groups = expandedGroups ?? []
+                                    if open {
+                                        groups.insert(section.group)
+                                    } else {
+                                        groups.remove(section.group)
+                                    }
+                                    expandedGroups = groups
+                                }
+                            )
+                        )
                     }
                 }
             }
             .frame(maxHeight: 350)
+        }
+        .onAppear {
+            guard expandedGroups == nil else { return }
+            expandedGroups = Self.initiallyExpandedGroups(in: viewModel.sections)
         }
         .padding(16)
         .background(
@@ -87,6 +111,132 @@ struct TransparencySliderView: View {
             )
         }
     }
+
+    /// The sections the panel opens on: whichever ones are drawing something,
+    /// plus the core layers.
+    ///
+    /// Opening everything would be a scroll of twenty-five switches, which is
+    /// the thing the sections exist to avoid. Opening only `mapLayers` would
+    /// hide the fact that Fletcher — the layer the app launches showing — is on,
+    /// because it sits in its own section at the bottom.
+    static func initiallyExpandedGroups(in sections: [LayerSection]) -> Set<LayerGroupID> {
+        var groups = sections
+            .filter { $0.visibleCount > 0 }
+            .reduce(into: Set<LayerGroupID>()) { $0.insert($1.group) }
+        groups.insert(.mapLayers)
+        return groups
+    }
+}
+
+private struct LayerSectionView: View {
+    let section: LayerSection
+    let viewModel: OverlayViewModel
+    @Binding var isExpanded: Bool
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            VStack(spacing: 16) {
+                ForEach(section.rows) { row in
+                    LayerRowView(row: row, viewModel: viewModel)
+                }
+            }
+            .padding(.top, 8)
+        } label: {
+            VStack(alignment: .leading, spacing: 1) {
+                Text(section.title)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.primary)
+
+                Text(section.subtitle)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("\(section.title), \(section.subtitle)")
+        }
+        .tint(.secondary)
+        .padding(.vertical, 4)
+    }
+}
+
+/// What the layer's tiles are doing, in the web panel's words.
+///
+/// A chip rather than another grey caption line, because it is the one part of
+/// the row that changes while the user is looking at it. The colour carries the
+/// same three readings the web's `.layer-runtime` classes do — working,
+/// finished, broken — and nothing else, so a chip is never the only thing
+/// saying something important.
+private struct RuntimeChip: View {
+    let status: LayerRuntimeStatus
+
+    var body: some View {
+        Text(status.label)
+            .font(.caption2)
+            .fontWeight(.medium)
+            .foregroundStyle(tint)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(tint.opacity(0.12), in: Capsule())
+            .accessibilityLabel("Status: \(status.label)")
+    }
+
+    private var tint: Color {
+        switch status.emphasis {
+        case .quiet: return .secondary
+        case .working: return .blue
+        case .ready: return .green
+        case .broken: return .orange
+        }
+    }
+}
+
+/// Where the layer's data came from, how good it is, and how much of the
+/// province it covers.
+///
+/// The web puts this under a "Source & scale" disclosure on every row, and the
+/// native app has had it nowhere: the info sheet credits the source and repeats
+/// the caveat, but never says the date, the scale, or the coverage. Those are
+/// the three facts that decide what a reader may conclude from a layer, and
+/// they belong beside the switch that turns it on rather than two taps away in
+/// a sheet about licensing.
+private struct LayerProvenanceDisclosure: View {
+    let descriptor: LayerDescriptor
+    @State private var isExpanded = false
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            VStack(alignment: .leading, spacing: 2) {
+                line("Source date", descriptor.sourceDate)
+                line("Scale", descriptor.scale)
+                line("Coverage", descriptor.coverage)
+                line("Zoom", "\(descriptor.minZoom)–\(descriptor.maxZoom)")
+
+                if let sourceURL = descriptor.sourceURL {
+                    Link("Official source", destination: sourceURL)
+                        .font(.caption2)
+                        .padding(.top, 2)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 4)
+        } label: {
+            Text("Source & scale")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+        .tint(.secondary)
+        .accessibilityHint("Source date, scale, coverage and zoom range for \(descriptor.name)")
+    }
+
+    private func line(_ label: String, _ value: String) -> some View {
+        Text("\(label): \(value)")
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+    }
 }
 
 private struct LayerRowView: View {
@@ -103,7 +253,7 @@ private struct LayerRowView: View {
                     .background(row.isVisible ? Color.blue.opacity(0.15) : Color.primary.opacity(0.05))
                     .clipShape(RoundedRectangle(cornerRadius: 6))
 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 3) {
                     Text(row.name)
                         .font(.subheadline)
                         .fontWeight(.medium)
@@ -111,9 +261,18 @@ private struct LayerRowView: View {
                         .lineLimit(2)
                         .minimumScaleFactor(0.9)
 
+                    // Only for a layer that is on. The switch beside it already
+                    // says "off", and twenty grey chips repeating it would bury
+                    // the one row that is loading or has failed.
+                    if row.isVisible, let runtime = row.runtime {
+                        RuntimeChip(status: runtime)
+                    }
+
                     Text(status)
                         .font(.caption2)
                         .foregroundStyle(.secondary)
+
+                    LayerProvenanceDisclosure(descriptor: row.descriptor)
                 }
 
                 Spacer()

@@ -26,6 +26,23 @@ final class MapController: NSObject {
     private(set) var isWaitingToCenterOnUserLocation = false
     private(set) var mapHeading: Double = 0
 
+    /// The map's current zoom, as the whole number the tile pyramid is indexed
+    /// by, so the panel can say which layers are too far out to load.
+    ///
+    /// Whole numbers because that is the only resolution the answer needs and
+    /// because this is written from `mapViewDidChangeVisibleRegion`, which fires
+    /// on every frame of a pinch; a `Double` here would invalidate every view
+    /// reading it sixty times a second to say nothing new.
+    private(set) var zoomLevel: Int = 0
+
+    /// What each installed layer's tiles are doing, keyed by layer id.
+    ///
+    /// Written from `progress`, which counts on MapKit's queues and reports
+    /// only the transitions.
+    private(set) var layerLoadPhases: [String: TileLoadPhase] = [:]
+
+    @ObservationIgnored let progress = LayerLoadProgressBox()
+
     @ObservationIgnored private var selectionStartCoordinate: CLLocationCoordinate2D?
     @ObservationIgnored private var selectionOverlay: MKPolygon?
     @ObservationIgnored private var wasScrollEnabled = true
@@ -41,6 +58,18 @@ final class MapController: NSObject {
         self.clearanceBox = clearanceBox
         super.init()
         locationManager.delegate = self
+        progress.observe { [weak self] layerID in
+            Task { @MainActor in
+                guard let self else { return }
+                // Read back rather than take a value from the notification: two
+                // tile queues can transition the same layer moments apart and
+                // these hops are not ordered, so the only value that is safe to
+                // publish is the one the box holds right now.
+                let phase = self.progress.phase(for: layerID)
+                guard self.layerLoadPhases[layerID] != phase else { return }
+                self.layerLoadPhases[layerID] = phase
+            }
+        }
     }
 
     @ObservationIgnored weak var mapView: MKMapView? {
@@ -76,7 +105,8 @@ final class MapController: NSObject {
                 configuration: layer.configuration,
                 tileCache: tileCache,
                 tileFetcher: tileFetcher,
-                clearanceBox: clearanceBox
+                clearanceBox: clearanceBox,
+                progress: progress
             )
             overlay.canReplaceMapContent = false
             overlay.minimumZ = layer.configuration.minZoom
@@ -182,6 +212,11 @@ final class MapController: NSObject {
 
     func removeLayer(by id: String) {
         mutate { $0.layers.removeAll { $0.id == id } }
+        // Same reason as hiding: the overlay goes away with tiles still in the
+        // air, and a layer re-added later gets a new overlay whose cycle those
+        // stragglers must not settle.
+        progress.reset(id)
+        layerLoadPhases[id] = nil
     }
 
     func setOpacity(for layerID: String, to value: CGFloat) {
@@ -196,6 +231,12 @@ final class MapController: NSObject {
             guard let index = state.layers.firstIndex(where: { $0.id == layerID }) else { return }
             state.layers[index].isVisible = visible
         }
+        guard !visible else { return }
+        // A layer switched off forgets where its tiles got to, so switching it
+        // back on reads "Ready to load" rather than reopening on a failure from
+        // whatever the network was doing when the user last had it on.
+        progress.reset(layerID)
+        layerLoadPhases[layerID] = .idle
     }
 
     // MARK: - Annotations
@@ -323,6 +364,42 @@ extension MapController: MKMapViewDelegate {
         let heading = mapView.camera.heading
         mapHeading = heading
         events?(.headingChanged(heading))
+
+        if let zoom = Self.tileZoomLevel(of: mapView) {
+            recordZoomLevel(zoom)
+        }
+    }
+
+    /// Records the zoom the map is now at.
+    ///
+    /// Separate from the delegate callback because the two are separately
+    /// wrong-able: this one is what the panel's "Zoom to N+ to load" reading
+    /// depends on, and driving it through a live `MKMapView` would mean
+    /// asserting through MapKit's region clamping as well as through the
+    /// reading.
+    func recordZoomLevel(_ zoom: Int) {
+        guard zoom != zoomLevel else { return }
+        zoomLevel = zoom
+    }
+
+    /// The web-Mercator zoom the visible region corresponds to.
+    ///
+    /// MapKit has no zoom property; this is the standard reading of one, from
+    /// how much longitude fits across the view at 256-point tiles. It is what
+    /// decides whether the panel says a layer is too far out to load, so it has
+    /// to mean the same thing `MKTileOverlay.minimumZ` does — which is the same
+    /// `z` the tile path carries.
+    ///
+    /// `nil` while the view has no size, which is every call before layout: a
+    /// zero width would otherwise compute a zoom of negative infinity and the
+    /// panel would tell the user to zoom in on a map that has not been drawn.
+    static func tileZoomLevel(of mapView: MKMapView) -> Int? {
+        let width = Double(mapView.bounds.width)
+        let longitudeSpan = mapView.region.span.longitudeDelta
+        guard width > 0, longitudeSpan > 0 else { return nil }
+        let zoom = log2(360 * (width / 256) / longitudeSpan)
+        guard zoom.isFinite else { return nil }
+        return Int(zoom.rounded())
     }
 
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {

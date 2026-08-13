@@ -12,18 +12,96 @@ import Observation
 /// still appears, disabled, because a layer silently ceasing to exist depending
 /// on a build setting the user cannot see reads as a bug in the app rather than
 /// as a feature that has not shipped.
+/// What a layer's tiles are doing, as the panel says it.
+nonisolated struct LayerRuntimeStatus: Equatable, Sendable {
+    /// How loudly the chip says it. Three readings, because that is all the
+    /// web's `.layer-runtime` styling distinguishes and all a colour can carry
+    /// on its own; the label is what actually says which state this is.
+    enum Emphasis: Equatable, Sendable {
+        case quiet
+        case working
+        case ready
+        case broken
+    }
+
+    let label: String
+    let emphasis: Emphasis
+}
+
 nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
     let descriptor: LayerDescriptor
     let installed: MapLayerState?
     /// Whether the Province licence still stands between the user and this
     /// layer's imagery.
     let needsLicence: Bool
+    /// What this layer's tiles are doing, in the web panel's words — `nil` for
+    /// a row with nothing installed behind it, which has no tiles to be doing
+    /// anything and says why on its own line.
+    let runtime: LayerRuntimeStatus?
 
     var id: String { descriptor.id.rawValue }
     var name: String { descriptor.name }
     var isAvailable: Bool { installed != nil }
     var isVisible: Bool { installed?.isVisible ?? false }
     var opacity: CGFloat { installed?.opacity ?? 0 }
+
+    /// The web's `layerRuntimeLabel`, with the same vocabulary and the same
+    /// order of questions.
+    ///
+    /// Off first, because a layer that is not on is not loading whatever the
+    /// tile queues were last doing. Zoom next, because MapKit will not ask for
+    /// a tile below `minimumZ` and the phase would sit at `idle` — "Ready to
+    /// load" is exactly wrong for a layer that is on and will not draw until
+    /// the user zooms in.
+    ///
+    /// The web's `Ready · N loaded` has no counterpart here: its N counts
+    /// features returned by a query, and every layer this app installs is a
+    /// raster. Reporting a tile count in its place would put a different
+    /// measurement behind the same words.
+    static func runtimeStatus(
+        isVisible: Bool,
+        minZoom: Int,
+        zoomLevel: Int,
+        phase: TileLoadPhase
+    ) -> LayerRuntimeStatus {
+        guard isVisible else {
+            return LayerRuntimeStatus(label: "Off", emphasis: .quiet)
+        }
+        guard zoomLevel >= minZoom else {
+            return LayerRuntimeStatus(label: "Zoom to \(minZoom)+ to load", emphasis: .quiet)
+        }
+
+        switch phase {
+        case .loading:
+            return LayerRuntimeStatus(label: "Loading visible area…", emphasis: .working)
+        case .failing:
+            return LayerRuntimeStatus(label: "Source temporarily unavailable", emphasis: .broken)
+        case .ready:
+            return LayerRuntimeStatus(label: "Ready", emphasis: .ready)
+        case .idle:
+            return LayerRuntimeStatus(label: "Ready to load", emphasis: .quiet)
+        }
+    }
+}
+
+/// One collapsible section of the layer panel.
+nonisolated struct LayerSection: Identifiable, Equatable, Sendable {
+    let group: LayerGroupID
+    let rows: [LayerRow]
+
+    var id: String { group.rawValue }
+    var title: String { NativeLayerTraits.title(for: group) }
+    var visibleCount: Int { rows.count(where: \.isVisible) }
+
+    /// The line under the heading.
+    ///
+    /// Counted from the rows this panel is actually showing rather than copied
+    /// from the web's equivalent line, which counts what *that* surface shows —
+    /// the same section holds five zoning layers there and none here.
+    var subtitle: String {
+        let layers = rows.count == 1 ? "1 layer" : "\(rows.count) layers"
+        return visibleCount == 0 ? layers : "\(layers) · \(visibleCount) on"
+    }
 }
 
 /// Layer-menu logic over `MapController`. Carries no observable state of its
@@ -55,12 +133,40 @@ final class OverlayViewModel {
             uniquingKeysWith: { first, _ in first }
         )
         let needsDecision = licenceStore.needsDecision
+        let zoomLevel = controller.zoomLevel
         return Self.presentedDescriptors.map { descriptor in
-            LayerRow(
+            let layer = installed[descriptor.id.rawValue]
+            return LayerRow(
                 descriptor: descriptor,
-                installed: installed[descriptor.id.rawValue],
-                needsLicence: needsDecision && descriptor.requiresProvinceClearance
+                installed: layer,
+                needsLicence: needsDecision && descriptor.requiresProvinceClearance,
+                runtime: layer.map { layer in
+                    LayerRow.runtimeStatus(
+                        isVisible: layer.isVisible,
+                        minZoom: descriptor.minZoom,
+                        zoomLevel: zoomLevel,
+                        phase: controller.layerLoadPhases[layer.id] ?? .idle
+                    )
+                }
             )
+        }
+    }
+
+    /// The panel's sections, in catalog order, carrying only the groups that
+    /// have a row to show.
+    ///
+    /// Groups rather than one flat list because the catalog went from ten
+    /// layers to twenty-five: a single scroll of switches is where a user stops
+    /// being able to find the one they came for. Empty groups are dropped
+    /// instead of rendered empty — `forestry`, `zoning`, `groundwater` and
+    /// `hydro-pilot` are catalogued but arrive with the vector layers, and a
+    /// section that opens onto nothing reads as a bug rather than as a phase
+    /// that has not shipped.
+    var sections: [LayerSection] {
+        let grouped = Dictionary(grouping: rows) { $0.descriptor.group }
+        return LayerGroupID.allCases.compactMap { group in
+            guard let rows = grouped[group], !rows.isEmpty else { return nil }
+            return LayerSection(group: group, rows: rows)
         }
     }
 
@@ -120,14 +226,25 @@ final class OverlayViewModel {
     /// app has not built yet or from a test, is caught too. `onChange` fires
     /// before the store's new value is in place, so the re-read is scheduled
     /// rather than immediate, and re-registering is what keeps it watching.
+    ///
+    /// Switching the refused layers off is part of mirroring, not a separate
+    /// courtesy. Stopping the requests is only half of a revocation: the rows
+    /// would stay on, and a layer whose tiles are all being refused reports the
+    /// last thing its tiles did — so a revoked layer could sit there switched
+    /// on saying "Ready" over nothing. Only the tracked read belongs inside
+    /// `withObservationTracking`; hiding reads `controller.layers`, which is
+    /// observable, and tracking that here would re-arm this on every layer
+    /// change.
     private func mirrorClearanceIntoBox() {
-        withObservationTracking {
-            clearanceBox.update(licenceStore.clearance)
+        let clearance = withObservationTracking {
+            licenceStore.clearance
         } onChange: { [weak self] in
             Task { @MainActor in
                 self?.mirrorClearanceIntoBox()
             }
         }
+        clearanceBox.update(clearance)
+        hideRefusedLayers()
     }
 
     var isShowingLicenceSheet: Bool { licencePromptedLayerID != nil }
@@ -159,18 +276,26 @@ final class OverlayViewModel {
         // requested next. Nothing restricted should be on at this point — they
         // install hidden and cannot be switched on without accepting — so this
         // is a belt on the case where some future path turns one on first.
-        hideRestrictedLayers()
+        hideRefusedLayers()
     }
 
     func dismissLicenceSheet() {
         licencePromptedLayerID = nil
     }
 
-    private func hideRestrictedLayers() {
+    /// Switches off any visible layer the current clearance no longer permits.
+    ///
+    /// Asks the clearance per layer rather than switching off everything
+    /// restricted, because this also runs on every mirror — including the one
+    /// right after the user accepts, where switching restricted layers off
+    /// would undo the acceptance.
+    private func hideRefusedLayers() {
+        let clearance = clearanceBox.clearance
         for layer in controller.layers {
             guard layer.isVisible,
                   let id = LayerID(rawValue: layer.id),
-                  LayerCatalog.descriptor(for: id)?.requiresProvinceClearance == true else {
+                  LayerCatalog.descriptor(for: id)?.requiresProvinceClearance == true,
+                  !clearance.allows(id) else {
                 continue
             }
             show(layer, visible: false)

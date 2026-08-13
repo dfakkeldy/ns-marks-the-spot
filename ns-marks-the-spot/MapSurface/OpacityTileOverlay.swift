@@ -16,17 +16,20 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
     private let clearanceBox: LicenceClearanceBox
+    private let progress: LayerLoadProgressBox?
 
     init(
         configuration: TileLayerConfiguration,
         tileCache: TileCache? = nil,
         tileFetcher: TileFetcher? = nil,
-        clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
+        clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
+        progress: LayerLoadProgressBox? = nil
     ) {
         self.configuration = configuration
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
         self.clearanceBox = clearanceBox
+        self.progress = progress
         super.init(urlTemplate: nil)
     }
 
@@ -36,6 +39,26 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
     /// region-isolation checker cannot analyze inside this ObjC override
     /// ("pattern that the region-based isolation checker does not understand").
     override func loadTile(at path: MKTileOverlayPath) async throws -> Data {
+        let token = progress?.began(configuration.id)
+        do {
+            let (data, outcome) = try await tile(at: path)
+            if let token { progress?.finished(token, outcome) }
+            return data
+        } catch {
+            if let token { progress?.finished(token, TileLoadOutcome(classifying: error)) }
+            throw error
+        }
+    }
+
+    /// The tile, and whether producing it went the way it was supposed to.
+    ///
+    /// The two are separate answers. A layer that legitimately has nothing at
+    /// this square — outside the Fletcher sheets, or refused by the licence —
+    /// returns a transparent tile and `.served`, because the panel already has
+    /// better words for both of those than "source temporarily unavailable".
+    /// Only a source we could not reach, or an answer that was not a tile, is
+    /// `.failed`.
+    private func tile(at path: MKTileOverlayPath) async throws -> (Data, TileLoadOutcome) {
         let cacheKey = configuration.cacheIdentifier
         let z = path.z
         let x = path.x
@@ -55,24 +78,25 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         if case .catalogExport(let layerID) = configuration.source,
            !clearanceBox.clearance.allows(layerID)
         {
-            return try Self.fallbackTileData(z: z, x: x, y: y)
+            return (try Self.fallbackTileData(z: z, x: x, y: y), .served)
         }
 
         if let cache = tileCache, let cached = cache.cachedTile(z: z, x: x, y: y, layerName: cacheKey) {
-            return cached
+            return (cached, .served)
         }
 
         if let fetcher = tileFetcher,
            case .fletcherSheets(let baseURL) = configuration.source
         {
-            if let tileData = await Self.fletcherSheetTile(
+            let sheet = await Self.fletcherSheetTile(
                 z: z, x: x, y: y,
                 baseURL: baseURL, layerName: cacheKey,
                 fetcher: fetcher, cache: tileCache
-            ) {
-                return tileData
+            )
+            if let tileData = sheet.data {
+                return (tileData, sheet.outcome)
             }
-            return try Self.fallbackTileData(z: z, x: x, y: y)
+            return (try Self.fallbackTileData(z: z, x: x, y: y), sheet.outcome)
         }
 
         if let fetcher = tileFetcher,
@@ -80,32 +104,37 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
            remoteURL.scheme == "https" || remoteURL.scheme == "http"
         {
             do {
-                return try await fetcher.fetchTile(
+                let tileData = try await fetcher.fetchTile(
                     z: z, x: x, y: y,
                     from: remoteURL, layerName: cacheKey
                 )
+                return (tileData, .served)
             } catch {
-                return try Self.fallbackTileData(z: z, x: x, y: y)
+                return (
+                    try Self.fallbackTileData(z: z, x: x, y: y),
+                    TileLoadOutcome(classifying: error)
+                )
             }
         }
 
         if let fetcher = tileFetcher,
            case .catalogExport(let layerID) = configuration.source
         {
-            if let tileData = await Self.catalogExportTile(
+            let export = await Self.catalogExportTile(
                 layerID: layerID,
                 z: z, x: x, y: y,
                 layerName: cacheKey,
                 clearanceBox: clearanceBox,
                 fetcher: fetcher,
                 cache: tileCache
-            ) {
-                return tileData
+            )
+            if let tileData = export.data {
+                return (tileData, export.outcome)
             }
-            return try Self.fallbackTileData(z: z, x: x, y: y)
+            return (try Self.fallbackTileData(z: z, x: x, y: y), export.outcome)
         }
 
-        return try Self.fallbackTileData(z: z, x: x, y: y)
+        return (try Self.fallbackTileData(z: z, x: x, y: y), .served)
     }
 
     /// One `/export` tile for a catalogued layer, including the second pass for
@@ -120,9 +149,12 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
     /// whose id, visibility and opacity would have to be kept in step with the
     /// row the user actually sees.
     ///
-    /// Returns `nil` when the layer produced nothing to draw, including when
-    /// the licence refuses it — the caller answers with a transparent tile,
-    /// because MapKit treats a thrown error as a tile to retry.
+    /// Returns `nil` data when the layer produced nothing to draw, including
+    /// when the licence refuses it — the caller answers with a transparent
+    /// tile, because MapKit treats a thrown error as a tile to retry.
+    ///
+    /// The outcome is the separate question of whether that nothing was an
+    /// answer or a failure to get one, which is what the panel reports.
     private static func catalogExportTile(
         layerID: LayerID,
         z: Int,
@@ -132,7 +164,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         clearanceBox: LicenceClearanceBox,
         fetcher: TileFetcher,
         cache: TileCache?
-    ) async -> Data? {
+    ) async -> (data: Data?, outcome: TileLoadOutcome) {
         var stacked: [Data] = []
         do {
             let clearance = clearanceBox.clearance
@@ -151,7 +183,11 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
             // distinction that matters — whether the layer may be requested at
             // all — was already made before the cache read, and drawing a
             // partial composite would freeze a road with no casing under it.
-            return nil
+            //
+            // Classified rather than assumed to be a failure: the base pass and
+            // the casing pass are two round trips, and a pan away between them
+            // cancels whichever is in flight.
+            return (nil, TileLoadOutcome(classifying: error))
         }
 
         // Re-read rather than reuse the value the requests were built from. A
@@ -159,11 +195,15 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         // middle of it, and the bytes in hand are the ones that would otherwise
         // be written to disk and drawn — a refusal that only stopped the *next*
         // request would leave this tile on the map and in the cache.
-        guard clearanceBox.clearance.allows(layerID) else { return nil }
+        //
+        // Discarding them is the licence working, not the source failing, so
+        // this reports `.served`: the row already says the licence is what
+        // stands in the way.
+        guard clearanceBox.clearance.allows(layerID) else { return (nil, .served) }
 
-        guard let composited = TileComposite.stack(stacked) else { return nil }
+        guard let composited = TileComposite.stack(stacked) else { return (nil, .failed) }
         cache?.cacheTile(composited, z: z, x: x, y: y, layerName: layerName)
-        return composited
+        return (composited, .served)
     }
 
     private static func fallbackTileData(z: Int, x: Int, y: Int) throws -> Data {
@@ -189,7 +229,9 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
     /// ink. The single-sheet case is the overwhelming majority and returns its
     /// bytes untouched rather than paying a decode and re-encode for nothing.
     ///
-    /// Returns `nil` when no sheet covers the tile, which is most of the world.
+    /// Returns `nil` data when no sheet covers the tile, which is most of the
+    /// world — and `.served` with it, because a square the survey never mapped
+    /// is an answer rather than an outage.
     private static func fletcherSheetTile(
         z: Int,
         x: Int,
@@ -198,9 +240,9 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         layerName: String,
         fetcher: TileFetcher,
         cache: TileCache?
-    ) async -> Data? {
+    ) async -> (data: Data?, outcome: TileLoadOutcome) {
         let covering = FletcherSheets.sheets(coveringTileX: x, y: y, z: z)
-        guard !covering.isEmpty else { return nil }
+        guard !covering.isEmpty else { return (nil, .served) }
 
         var stacked: [Data] = []
         var isWhole = true
@@ -226,6 +268,13 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
                     )
                 )
             } catch {
+                // Nobody is waiting for this tile any more, so the remaining
+                // sheets are round trips spent on a square that will not be
+                // drawn. Returning here also keeps the cancellation from being
+                // recorded as an incomplete stack.
+                if TileLoadOutcome(classifying: error) == .cancelled {
+                    return (nil, .cancelled)
+                }
                 // A sheet with no ink here answers 404, and that is a complete
                 // answer: the composite is whole without it. Only a sheet we
                 // could not reach leaves the tile unfinished, and the
@@ -237,7 +286,11 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
             }
         }
 
-        guard let composited = TileComposite.stack(stacked) else { return nil }
+        // `isWhole` is the outcome: a sheet that answered 404 has told us there
+        // is no ink there, and a sheet we could not reach has told us nothing.
+        let outcome: TileLoadOutcome = isWhole ? .served : .failed
+
+        guard let composited = TileComposite.stack(stacked) else { return (nil, outcome) }
 
         // Cached under the layer key when the stack is whole, so `loadTile`'s
         // opening lookup skips all of this on the next draw. A partial stack is
@@ -254,7 +307,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         if isWhole, covering.count > 1 {
             cache?.cacheTile(composited, z: z, x: x, y: y, layerName: layerName)
         }
-        return composited
+        return (composited, outcome)
     }
 
     /// The cache layer name for one sheet of a Fletcher layer.

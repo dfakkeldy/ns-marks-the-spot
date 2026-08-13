@@ -218,6 +218,43 @@ struct OverlayViewModelBasemapTests {
         withExtendedLifetime(viewModel) {}
     }
 
+    @Test func revokingSwitchesTheLayerOffRatherThanLeavingItOnDrawingNothing() async {
+        // Stopping the requests is only half of a revocation. The switch would
+        // stay on, and the runtime line reports the last thing the tiles did —
+        // so the panel would sit there saying a layer was ready over a square
+        // that is now being refused every time it is asked for.
+        let box = LicenceClearanceBox()
+        let store = ProvinceLicenceStore(storage: InMemoryProvinceLicenceStorage(initial: .accepted))
+        let controller = MapController()
+        if let descriptor = LayerCatalog.descriptor(for: .crownLands),
+           let layer = AppContainer.makeLayer(
+               from: descriptor,
+               fletcherBaseURL: URL(string: "https://tiles.example.test/fletcher")
+           ) {
+            controller.addLayer(layer)
+        }
+        let viewModel = OverlayViewModel(
+            controller: controller,
+            licenceStore: store,
+            clearanceBox: box
+        )
+        viewModel.toggleVisibility(LayerID.crownLands.rawValue)
+        #expect(Self.isVisible(viewModel, .crownLands) == true)
+
+        store.revoke()
+
+        var hidden = false
+        for _ in 0..<50 where !hidden {
+            await Task.yield()
+            hidden = Self.isVisible(viewModel, .crownLands) == false
+        }
+        #expect(hidden)
+    }
+
+    private static func isVisible(_ viewModel: OverlayViewModel, _ id: LayerID) -> Bool? {
+        viewModel.rows.first { $0.id == id.rawValue }?.isVisible
+    }
+
     @Test func anAcceptedLicenceIsAlreadyInTheBoxAtLaunch() {
         // Every overlay is installed during `AppContainer.init`, before any view
         // exists. On the second launch after acceptance the box has to start
