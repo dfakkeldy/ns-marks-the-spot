@@ -8,6 +8,7 @@ let package = Package(
         .target(name: "GeoTIFFTags"),
         .executableTarget(name: "geotiff-probe", dependencies: ["GeoTIFFTags"]),
         .executableTarget(name: "geopdf-probe"),
+        .executableTarget(name: "warp-probe"),
         .testTarget(name: "GeoTIFFTagsTests", dependencies: ["GeoTIFFTags"]),
     ]
 )
