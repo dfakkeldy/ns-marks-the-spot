@@ -58,6 +58,11 @@ let package = Package(
         .target(
             name: "NSDataServices",
             dependencies: ["GeoCore", "MapCatalog"],
+            // The Inverness micro-hydro pilot is a derived dataset the web
+            // bundles rather than fetches, so the app bundles the same bytes.
+            // Copied rather than processed: the file is the pinned evidence,
+            // and its metadata block is quoted in the UI.
+            resources: [.copy("Resources/inverness-hydro-potential.json")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(
