@@ -93,7 +93,8 @@ struct MineralProximityTests {
         let parcels = try await MineralProximityFetcher(transport: service.transport)
             .parcels(in: proximityViewport, clearance: cleared)
 
-        #expect(parcels.isEmpty)
+        #expect(parcels.parcels.isEmpty)
+        #expect(parcels.isComplete)
         #expect(await service.occurrenceURLs.count == 1)
         #expect(await service.parcelBodies.isEmpty)
     }
@@ -132,7 +133,7 @@ struct MineralProximityTests {
             .parcels(in: proximityViewport, clearance: cleared)
 
         #expect(await service.parcelBodies.count == 2)
-        #expect(parcels.map(\.pid) == ["01234567", "01234568"])
+        #expect(parcels.parcels.map(\.pid) == ["01234567", "01234568"])
     }
 
     @Test("A numeric PID is not read, because it is not the same identifier")
@@ -153,7 +154,53 @@ struct MineralProximityTests {
         let parcels = try await MineralProximityFetcher(transport: service.transport)
             .parcels(in: proximityViewport, clearance: cleared)
 
-        #expect(parcels.isEmpty)
+        // Nothing drawn, but the viewport was not cleanly answered: a numeric
+        // PID is a row this app could not identify, not the absence of one.
+        #expect(parcels.parcels.isEmpty)
+        #expect(parcels.unreadableParcels == 1)
+        #expect(!parcels.isComplete)
+    }
+
+    @Test("The request body is the web's bytes, in the web's order")
+    func theBodyIsWrittenOut() {
+        let body = MineralProximityOverlay.body(
+            for: [GeoPoint(lat: 45.65, lng: -61.35), GeoPoint(lat: 45.66, lng: -61.34)],
+            page: 1
+        )
+
+        // Written out rather than probed by substring: the geometry travels as
+        // JSON inside a form field, so an extra escape here would be a body
+        // NSPRD refuses while every `contains` check still passed.
+        #expect(
+            body == "f=geojson&where=1%3D1"
+                + "&geometry=%7B%22points%22%3A%5B%5B-61.35%2C45.65%5D%2C%5B-61.34%2C45.66%5D%5D"
+                + "%2C%22spatialReference%22%3A%7B%22wkid%22%3A4326%7D%7D"
+                + "&geometryType=esriGeometryMultipoint&inSR=4326"
+                + "&spatialRel=esriSpatialRelIntersects&distance=1000&units=esriSRUnit_Meter"
+                + "&outFields=PID&returnGeometry=true&outSR=4326"
+                + "&resultRecordCount=2000&resultOffset=2000&orderByFields=PID"
+        )
+    }
+
+    @Test("An occurrence row that cannot be placed is not a clean empty result")
+    func anUnplaceableOccurrenceIsReported() async throws {
+        let service = TwoServices(
+            occurrences: Data(
+                """
+                {"type":"FeatureCollection","features":[{"type":"Feature",\
+                "geometry":{"type":"LineString","coordinates":[[-61.35,45.65],[-61.34,45.66]]},\
+                "properties":{"geo_id":"1"}}]}
+                """.utf8
+            ),
+            parcels: []
+        )
+        let result = try await MineralProximityFetcher(transport: service.transport)
+            .parcels(in: proximityViewport, clearance: cleared)
+
+        #expect(result.parcels.isEmpty)
+        #expect(result.unreadableOccurrences == 1)
+        #expect(!result.isComplete)
+        #expect(await service.parcelBodies.isEmpty)
     }
 
     @Test("Occurrence points are batched at the web's batch size")

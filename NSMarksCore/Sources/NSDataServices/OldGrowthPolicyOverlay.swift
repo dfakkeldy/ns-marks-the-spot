@@ -126,18 +126,25 @@ public enum OldGrowthPolicyOverlay {
         }
         guard let raw = payload.features else { throw .malformed }
 
-        let areas = raw.compactMap { feature -> Area? in
-            // Only areal geometry is kept: a policy area is a piece of ground,
-            // and a stray point or line in the response is not one.
-            guard let geometry = feature.geometry, !geometry.polygonParts.isEmpty else {
-                return nil
-            }
-            let properties = feature.properties ?? [:]
-            return Area(
-                geometry: geometry,
-                status: status(from: properties),
-                hectares: hectares(from: properties),
-                selectionMethod: text(properties["selmethtxt"])
+        var areas: [Area] = []
+        areas.reserveCapacity(raw.count)
+        for feature in raw {
+            // Fail closed on anything that is not an areal feature with
+            // properties, as the web's reader does. Dropping the odd row would
+            // be worse than it looks here: the count of areas is what the panel
+            // reports, so a page of rows this reader could not understand would
+            // arrive on screen as a viewport with less old growth in it.
+            guard let geometry = feature.geometry, !geometry.polygonParts.isEmpty,
+                  let properties = feature.properties
+            else { throw .malformed }
+
+            areas.append(
+                Area(
+                    geometry: geometry,
+                    status: status(from: properties),
+                    hectares: hectares(from: properties),
+                    selectionMethod: text(properties["selmethtxt"])
+                )
             )
         }
         return Page(areas: areas, returnedCount: raw.count)

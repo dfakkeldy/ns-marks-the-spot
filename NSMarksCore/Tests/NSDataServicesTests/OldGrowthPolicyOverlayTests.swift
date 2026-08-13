@@ -60,19 +60,34 @@ struct OldGrowthPolicyResponseTests {
         }
     }
 
-    @Test("A geometry that encloses no ground is not a policy area")
-    func onlyArealGeometryIsAnArea() throws {
-        let page = try OldGrowthPolicyOverlay.page(
-            from: policyCollection(
-                """
-                {"type":"Feature","geometry":{"type":"Point","coordinates":[-61.35,45.65]},\
-                "properties":{"old_growth":"1"}}
-                """
+    @Test("A row that is not an areal feature fails the page, as it does on the web")
+    func aRowThatIsNotAnAreaFailsClosed() {
+        // Dropping it would put a smaller amount of mapped old growth on screen
+        // and call it the answer, so the whole page is refused instead.
+        #expect(throws: OldGrowthPolicyOverlay.Failure.malformed) {
+            try OldGrowthPolicyOverlay.page(
+                from: policyCollection(
+                    """
+                    {"type":"Feature","geometry":{"type":"Point","coordinates":[-61.35,45.65]},\
+                    "properties":{"old_growth":"1"}}
+                    """
+                )
             )
-        )
+        }
+    }
 
-        #expect(page.returnedCount == 1)
-        #expect(page.areas.isEmpty)
+    @Test("A row with no properties fails the page too")
+    func aRowWithoutPropertiesFailsClosed() {
+        #expect(throws: OldGrowthPolicyOverlay.Failure.malformed) {
+            try OldGrowthPolicyOverlay.page(
+                from: policyCollection(
+                    """
+                    {"type":"Feature","geometry":{"type":"Polygon","coordinates":\
+                    [[[-61.4,45.6],[-61.4,45.7],[-61.3,45.7],[-61.3,45.6],[-61.4,45.6]]]}}
+                    """
+                )
+            )
+        }
     }
 }
 

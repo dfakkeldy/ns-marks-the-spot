@@ -52,6 +52,24 @@ public enum MineralProximityOverlay {
         public let geometry: GeoJSONGeometry
     }
 
+    /// What the derivation produced, and what it could not read.
+    ///
+    /// The unreadable counts are carried rather than dropped because this
+    /// layer's empty state is a claim: no parcels drawn reads as no recorded
+    /// occurrence within a kilometre. If rows arrived that this app could not
+    /// understand — an occurrence with unreadable geometry, a parcel with no
+    /// textual PID — then the viewport was not fully answered, and the panel
+    /// has to be able to say so instead of showing a clean blank.
+    public struct Result: Sendable, Hashable {
+        public let parcels: [Parcel]
+        /// Occurrence rows that arrived without usable point geometry.
+        public let unreadableOccurrences: Int
+        /// Parcel rows that arrived without usable geometry or a textual PID.
+        public let unreadableParcels: Int
+
+        public var isComplete: Bool { unreadableOccurrences == 0 && unreadableParcels == 0 }
+    }
+
     static func batches(of points: [GeoPoint]) -> [[GeoPoint]] {
         stride(from: 0, to: points.count, by: pointsPerBatch).map { start in
             Array(points[start..<Swift.min(start + pointsPerBatch, points.count)])
@@ -107,7 +125,7 @@ public nonisolated final class MineralProximityFetcher: Sendable {
     public func parcels(
         in bounds: GeoBoundingBox,
         clearance: ProvinceLicenceClearance
-    ) async throws(MineralProximityOverlay.Failure) -> [MineralProximityOverlay.Parcel] {
+    ) async throws(MineralProximityOverlay.Failure) -> MineralProximityOverlay.Result {
         // Gated on the derived layer, not on NSPRD: the derived layer is what
         // the user turned on, and the catalog marks it restricted in its own
         // right precisely so this check cannot be satisfied by the occurrence
@@ -140,22 +158,34 @@ public nonisolated final class MineralProximityFetcher: Sendable {
             guard case .point(let location) = feature.geometry else { return nil }
             return location
         }
-        guard !points.isEmpty else { return [] }
+        // A non-point occurrence row is counted with the ones that failed to
+        // decode: either way it is a record this app could not place, so it
+        // cannot be part of a clean "nothing nearby".
+        let unreadableOccurrences =
+            found.unreadableFeatures + (found.features.count - points.count)
+        guard !points.isEmpty else {
+            return MineralProximityOverlay.Result(
+                parcels: [],
+                unreadableOccurrences: unreadableOccurrences,
+                unreadableParcels: 0
+            )
+        }
 
         var parcels: [MineralProximityOverlay.Parcel] = []
         var seen = Set<String>()
         // Batches run in parallel, as the web's `Promise.all` does, but the
         // pages inside a batch cannot: the next offset is only known once the
         // page before it comes back short.
-        let batched: [[MineralProximityOverlay.Parcel]]
+        let batched: [(parcels: [MineralProximityOverlay.Parcel], unreadable: Int)]
         do {
             batched = try await withThrowingTaskGroup(
-                of: (Int, [MineralProximityOverlay.Parcel]).self
+                of: (Int, (parcels: [MineralProximityOverlay.Parcel], unreadable: Int)).self
             ) { group in
                 for (index, batch) in MineralProximityOverlay.batches(of: points).enumerated() {
                     group.addTask { (index, try await self.parcels(near: batch)) }
                 }
-                var results: [(Int, [MineralProximityOverlay.Parcel])] = []
+                var results:
+                    [(Int, (parcels: [MineralProximityOverlay.Parcel], unreadable: Int))] = []
                 for try await result in group {
                     results.append(result)
                 }
@@ -167,20 +197,27 @@ public nonisolated final class MineralProximityFetcher: Sendable {
             throw .cancelled
         }
 
-        for parcel in batched.joined() where seen.insert(parcel.pid).inserted {
+        for parcel in batched.flatMap(\.parcels) where seen.insert(parcel.pid).inserted {
             parcels.append(parcel)
         }
-        return parcels
+        return MineralProximityOverlay.Result(
+            parcels: parcels,
+            unreadableOccurrences: unreadableOccurrences,
+            unreadableParcels: batched.reduce(0) { $0 + $1.unreadable }
+        )
     }
 
     private func parcels(
         near points: [GeoPoint]
-    ) async throws(MineralProximityOverlay.Failure) -> [MineralProximityOverlay.Parcel] {
+    ) async throws(MineralProximityOverlay.Failure)
+        -> (parcels: [MineralProximityOverlay.Parcel], unreadable: Int)
+    {
         guard let url = ParcelQuery.layerURL.map({ $0.appendingPathComponent("query") }) else {
             throw .refused(.noServiceURL)
         }
 
         var found: [MineralProximityOverlay.Parcel] = []
+        var unreadable = 0
         for page in 0..<MineralProximityOverlay.maximumPagesPerBatch {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
@@ -212,19 +249,23 @@ public nonisolated final class MineralProximityFetcher: Sendable {
                 throw .unreadable(error)
             }
 
+            unreadable += result.unreadableCount
             for feature in result.features {
                 // Only a textual PID is accepted. NSPRD publishes the column as
                 // text and its numbers carry leading zeros; reading a numeric
                 // value here would turn 01234567 into 1234567, which is a
                 // different parcel's identifier rather than an unreadable one.
-                guard case .string(let pid) = feature.properties["PID"] else { continue }
+                guard case .string(let pid) = feature.properties["PID"] else {
+                    unreadable += 1
+                    continue
+                }
                 found.append(
                     MineralProximityOverlay.Parcel(pid: pid, geometry: feature.geometry)
                 )
             }
 
             if result.returnedCount < MineralProximityOverlay.pageSize {
-                return found
+                return (found, unreadable)
             }
         }
 
