@@ -189,6 +189,7 @@ final class OverlayViewModel {
     private let assessmentFetcher: PVSCAssessmentFetcher
     private let dwellingFetcher: PVSCDwellingFetcher
     private let buildingFetcher: BuildingCountFetcher
+    private let resourceFetcher: ResourceIntersectionFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -203,7 +204,8 @@ final class OverlayViewModel {
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
         assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(),
         dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
-        buildingFetcher: BuildingCountFetcher = BuildingCountFetcher()
+        buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(),
+        resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
@@ -214,6 +216,7 @@ final class OverlayViewModel {
         self.assessmentFetcher = assessmentFetcher
         self.dwellingFetcher = dwellingFetcher
         self.buildingFetcher = buildingFetcher
+        self.resourceFetcher = resourceFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -559,6 +562,9 @@ final class OverlayViewModel {
         case assessments(Result<PVSCAssessmentResponse.Result, PVSCAssessmentFailure>)
         case dwellings(Result<PVSCDwellingResponse.Result, PVSCDwellingFailure>)
         case buildings(Result<ParcelBuildingCount, BuildingCountFailure>)
+        /// One value carrying three sources, because they are refused together
+        /// — a parcel with no rings — and answer separately.
+        case resources(Result<ParcelResourceIntersections, ResourceIntersectionQuery.Refusal>)
     }
 
     /// Rebuilds the panel for whatever is selected now.
@@ -595,6 +601,7 @@ final class OverlayViewModel {
             state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.buildings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            state.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             inspection = state
             return
         }
@@ -603,7 +610,7 @@ final class OverlayViewModel {
         inspectionLookup = Task {
             [
                 weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
-                buildingFetcher, clearance = clearanceBox.clearance
+                buildingFetcher, resourceFetcher, clearance = clearanceBox.clearance
             ] in
             await withTaskGroup(of: Evidence.self) { group in
                 group.addTask {
@@ -636,6 +643,19 @@ final class OverlayViewModel {
                         )
                     } catch {
                         return .buildings(.failure(error))
+                    }
+                }
+                group.addTask {
+                    do throws(ResourceIntersectionQuery.Refusal) {
+                        return .resources(
+                            .success(
+                                try await resourceFetcher.intersections(
+                                    for: parts, clearance: clearance
+                                )
+                            )
+                        )
+                    } catch {
+                        return .resources(.failure(error))
                     }
                 }
                 for await evidence in group {
@@ -711,6 +731,10 @@ final class OverlayViewModel {
             inspection?.buildings = .unavailable(
                 ParcelLookupMessage.buildingEvidenceFailure(failure)
             )
+        case .resources(.success(let intersections)):
+            inspection?.resources = .ready(intersections)
+        case .resources(.failure(.noBoundary)):
+            inspection?.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
         }
     }
 

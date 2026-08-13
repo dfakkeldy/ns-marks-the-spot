@@ -45,7 +45,8 @@ struct ParcelInspectionTests {
             contextFetcher: ParcelContextFetcher(transport: .urlSession(session())),
             assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session())),
             dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session())),
-            buildingFetcher: BuildingCountFetcher(transport: .urlSession(session()))
+            buildingFetcher: BuildingCountFetcher(transport: .urlSession(session())),
+            resourceFetcher: ResourceIntersectionFetcher(transport: .urlSession(session()))
         )
         if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
             viewModel.toggleVisibility(LayerID.nsprd.rawValue)
@@ -240,6 +241,10 @@ struct ParcelInspectionTests {
             inspection?.buildings
                 == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
         )
+        #expect(
+            inspection?.resources
+                == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+        )
         #expect(StubURLProtocol.requestCount(channel: channel) == requestsForTheParcel)
     }
 
@@ -287,6 +292,49 @@ struct ParcelInspectionTests {
             return
         }
         #expect(message == "The Province building count is unavailable right now.")
+    }
+
+    // MARK: - Geology & resource context
+
+    @Test func aMineralOccurrenceOnTheParcelIsListedAsOnTheParcel() async throws {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("mineral_occurrence", .success(Data("""
+            {"features":[{"attributes":{"Occ_num":"012","Name":"Gold Brook","Status":"Showing"}}]}
+            """.utf8))),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .ready(let intersections) = await Self.inspect(viewModel)?.resources else {
+            Issue.record("expected resource intersections")
+            return
+        }
+        let source = try #require(intersections.sources.first { $0.layerID == .mineralOccurrences })
+        let occurrences = try source.records.get()
+        #expect(occurrences.map(\.name) == ["Gold Brook"])
+        // The same record answers both the on-parcel and the nearby request;
+        // being on the parcel is the stronger statement and the one kept.
+        #expect(occurrences.map(\.relationship) == [.onParcel])
+    }
+
+    /// One source down is one source down. The other two answered, and a panel
+    /// that hid them would throw away evidence it holds.
+    @Test func oneResourceSourceFailingLeavesTheOthersStanding() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("NovaRoc", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .ready(let intersections) = await Self.inspect(viewModel)?.resources else {
+            Issue.record("expected resource intersections")
+            return
+        }
+        #expect(intersections.sources[0].records == .success([]))
+        #expect(intersections.sources[1].records == .failure(.invalidHTTPStatus(503)))
+        #expect(intersections.sources[2].records == .success([]))
     }
 
     /// One sublayer failing takes the whole count down rather than shortening

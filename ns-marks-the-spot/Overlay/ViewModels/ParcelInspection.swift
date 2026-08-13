@@ -36,6 +36,10 @@ struct ParcelInspection: Equatable {
     /// is an answer; it is not a vacant lot.
     var buildings: ParcelEvidence<ParcelBuildingCount> = .looking
 
+    /// The geology and resource sources, each carrying its own answer or its
+    /// own reason for having none.
+    var resources: ParcelEvidence<ParcelResourceIntersections> = .looking
+
     var civicAddresses: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .looking
     var mappedContext: ParcelEvidence<ParcelContext> = .looking
     var assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .looking

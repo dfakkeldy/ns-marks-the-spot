@@ -1,3 +1,5 @@
+import GeoCore
+import MapCatalog
 import NSDataServices
 import SwiftUI
 
@@ -24,6 +26,7 @@ struct ParcelInspectorView: View {
                     dwellings
                     civicAddresses
                     mappedContext
+                    resources
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 16)
@@ -510,6 +513,101 @@ struct ParcelInspectorView: View {
                         }
                     )
                 )
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Geology & resource context
+
+    private var resources: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Geology & resource context")
+                .font(.subheadline.weight(.semibold))
+
+            switch inspection.resources {
+            case .looking:
+                status("Checking official mapped resource sources against this parcel…")
+            case .unavailable(let reason):
+                status("\(reason) No absence is inferred.")
+            case .ready(let intersections):
+                ForEach(intersections.sources, id: \.layerID) { source in
+                    resourceSource(source)
+                }
+
+                Text(
+                    "On-parcel and nearby published records are screening context only. This "
+                        + "context does not prove mineralization, deposit extent, grade, "
+                        + "recoverability, value, mineral rights, access, permission to explore, "
+                        + "or source completeness."
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// One source's own heading, answer, and source link.
+    ///
+    /// Each source stands alone because one being down says nothing about the
+    /// other two, and a single "unavailable" over all three would hide the two
+    /// that answered.
+    @ViewBuilder
+    private func resourceSource(_ source: ParcelResourceIntersections.Source) -> some View {
+        let descriptor = LayerCatalog.descriptor(for: source.layerID)
+
+        VStack(alignment: .leading, spacing: 6) {
+            Text(descriptor?.name ?? source.layerID.rawValue)
+                .font(.footnote.weight(.semibold))
+
+            switch source.records {
+            case .failure:
+                status("Source unavailable; no absence is inferred.")
+            case .success(let records) where records.isEmpty:
+                status(
+                    source.layerID == .mineralOccurrences
+                        ? "No published mineral occurrence was returned on or within 1 km of "
+                            + "this parcel."
+                        : "No mapped intersection was returned for this parcel."
+                )
+            case .success(let records):
+                ForEach(records, id: \.id) { record in
+                    resourceRow(record, showingRelationship: source.layerID == .mineralOccurrences)
+                }
+            }
+
+            if let sourceURL = descriptor?.sourceURL {
+                Link("\(descriptor?.name ?? "Source") source", destination: sourceURL)
+                    .font(.caption2)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func resourceRow(
+        _ record: ResourceIntersectionResponse.Intersection,
+        showingRelationship: Bool
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(record.name)
+                .font(.footnote.weight(.semibold))
+            if showingRelationship {
+                // Only the mineral inventory is asked twice, so only there does
+                // "on the parcel" mean something different from "within a
+                // kilometre of it".
+                Text(
+                    "\(record.id) · "
+                        + (record.relationship == .onParcel ? "On parcel" : "Within 1 km")
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            }
+            if !record.detail.isEmpty {
+                Text(record.detail)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
