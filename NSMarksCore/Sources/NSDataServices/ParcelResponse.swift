@@ -136,6 +136,22 @@ public struct ParcelFeatureCollection: Sendable, Equatable {
     }
 }
 
+/// A parcel's mapped area, in the units the inspector shows.
+///
+/// Carries the raw square metres as well as the rounded acres, so anything that
+/// needs to compute uses the measurement rather than the display value.
+public struct MappedArea: Sendable, Equatable {
+    public let squareMetres: Double
+    public let acres: Double
+    public let label: String
+
+    public init(squareMetres: Double, acres: Double, label: String) {
+        self.squareMetres = squareMetres
+        self.acres = acres
+        self.label = label
+    }
+}
+
 /// Reads NSPRD's `/query` replies.
 ///
 /// The parsing rules are the web's `fetchParcelCollection`, including the one
@@ -223,6 +239,38 @@ public enum ParcelResponse {
     public static func acres(fromSquareMetres squareMetres: Double) -> Double {
         (squareMetres / Geodesy.squareMetresPerAcre * 100).rounded() / 100
     }
+
+    /// The service's mapped area for one PID, ready to show.
+    ///
+    /// "Mapped area" throughout, never "area" or "size": this is the area of
+    /// the NSPRD polygon, which is a mapping product. It is not a survey, not
+    /// the deeded area, and not what an assessment roll or a plan of survey
+    /// would say. `nil` means the service supplied no usable area for the
+    /// parcel — not that the parcel has none.
+    public static func mappedArea(
+        forPID pid: String,
+        in collection: ParcelFeatureCollection
+    ) -> MappedArea? {
+        guard let squareMetres = mappedAreaSquareMetres(forPID: pid, in: collection) else {
+            return nil
+        }
+        let acres = acres(fromSquareMetres: squareMetres)
+        return MappedArea(
+            squareMetres: squareMetres,
+            acres: acres,
+            label: "\(acreFormatter.string(from: acres as NSNumber) ?? "\(acres)") acres"
+        )
+    }
+
+    /// The web's `Intl.NumberFormat("en-CA", { min: 2, max: 2 })`.
+    private static let acreFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_CA")
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
 
     /// `SHAPE.AREA` if it is a measurement, `nil` if it is the absence of one.
     private static func usableArea(_ value: Double?) -> Double? {
