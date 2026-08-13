@@ -210,7 +210,26 @@ struct MapContainerView: View {
                 }
                 .accessibilityElement(children: .combine)
             }
+
+            // A card rather than a sheet, and not in `activeSheet`: the panel
+            // describes an outline on the map, so the map has to stay visible
+            // and draggable underneath it. Hidden during area selection, which
+            // owns the whole surface.
+            if let inspection = overlayVM.inspection, !isSelectingSaveArea {
+                VStack {
+                    Spacer()
+
+                    ParcelInspectorView(inspection: inspection) {
+                        overlayVM.clearParcelSelection()
+                    }
+                    .frame(maxHeight: 360)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 12)
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
+        .animation(.spring(response: 0.35, dampingFraction: 0.9), value: overlayVM.inspection)
         .onAppear {
             controller.events = { event in
                 switch event {

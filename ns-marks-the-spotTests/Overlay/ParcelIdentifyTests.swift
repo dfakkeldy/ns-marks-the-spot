@@ -42,6 +42,12 @@ struct ParcelIdentifyTests {
             // to as the single sequence the user sees.
             civicFetcher: CivicAddressFetcher(
                 transport: .urlSession(StubURLProtocol.session(channel: channel))
+            ),
+            // On the channel too, and not for its answers: selecting a parcel
+            // starts this lookup, and an unstubbed one would send a test's
+            // twenty-two NSTDB requests at the live services.
+            contextFetcher: ParcelContextFetcher(
+                transport: .urlSession(StubURLProtocol.session(channel: channel))
             )
         )
         // Restricted layers install hidden, so this is what turns parcels on —

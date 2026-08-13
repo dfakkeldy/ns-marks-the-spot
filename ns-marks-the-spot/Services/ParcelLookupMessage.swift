@@ -72,6 +72,47 @@ nonisolated enum ParcelLookupMessage {
     /// exist.
     static let noAddressMatched = "No mapped civic address matched that search."
 
+    // MARK: - The parcel panel
+
+    /// The record arrived without a shape, so the lookups that take its rings
+    /// could not be made. Not a finding about the parcel.
+    static let noBoundaryToAskWith =
+        "This parcel arrived without a boundary, so nothing could be looked up inside it."
+
+    /// Why the civic-address lookup for a parcel produced nothing.
+    ///
+    /// Separate from the search wording because it answers a different
+    /// question: the search says the file matched nothing, this says the file
+    /// could not be consulted about this parcel.
+    static func addressEvidenceFailure(_ failure: CivicAddressFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Civic address lookup was replaced."
+        case .refused(.noBoundary):
+            return noBoundaryToAskWith
+        case .refused(.queryTooShort), .refused(.malformedURL):
+            return "The civic address lookup is misconfigured in this build."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "Civic address lookup is unavailable right now."
+        }
+    }
+
+    /// Why the mapped-feature lookup produced nothing.
+    static func contextEvidenceFailure(_ failure: ParcelContextFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Mapped feature lookup was replaced."
+        case .refused(.licenceNotAccepted):
+            return "Accept the Province data licence to see mapped roads and water."
+        case .refused(.noBoundary):
+            return noBoundaryToAskWith
+        case .refused(.noServiceURL), .refused(.malformedURL):
+            return "The mapped feature services are misconfigured in this build."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "Mapped feature lookup is unavailable right now."
+        }
+    }
+
     /// Why an address search produced nothing, in words that do not claim the
     /// address is absent. `nil` for cancellation, as with parcels.
     static func failure(_ failure: CivicAddressFailure) -> String? {

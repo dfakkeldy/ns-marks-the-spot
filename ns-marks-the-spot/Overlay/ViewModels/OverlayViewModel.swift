@@ -185,6 +185,7 @@ final class OverlayViewModel {
     private let clearanceBox: LicenceClearanceBox
     private let parcelFetcher: ParcelFetcher
     private let civicFetcher: CivicAddressFetcher
+    private let contextFetcher: ParcelContextFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -195,13 +196,15 @@ final class OverlayViewModel {
         licenceStore: ProvinceLicenceStore,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
-        civicFetcher: CivicAddressFetcher = CivicAddressFetcher()
+        civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
+        contextFetcher: ParcelContextFetcher = ParcelContextFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
         self.parcelFetcher = parcelFetcher
         self.civicFetcher = civicFetcher
+        self.contextFetcher = contextFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -523,6 +526,113 @@ final class OverlayViewModel {
         controller.setParcelShapes(parcels.shapes)
         if focus, let bounds = parcels.selectedBounds {
             controller.focus(on: bounds)
+        }
+        refreshInspection()
+    }
+
+    // MARK: - The parcel panel
+
+    /// What the panel shows about the selected parcel, `nil` when none is
+    /// selected.
+    private(set) var inspection: ParcelInspection?
+
+    @ObservationIgnored private var inspectionLookup: Task<Void, Never>?
+
+    /// The same seam as `awaitParcelLookup`, for the panel's two lookups.
+    func awaitInspection() async {
+        await inspectionLookup?.value
+    }
+
+    /// One answer from one source, on its way back to the panel.
+    private enum Evidence: Sendable {
+        case addresses(Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>)
+        case context(Result<ParcelContext, ParcelContextFailure>)
+    }
+
+    /// Rebuilds the panel for whatever is selected now.
+    ///
+    /// Everything the parcel record itself carries is filled in at once; the
+    /// two lookups that go out to services start `looking` and land separately,
+    /// so a slow one does not hold up a fast one.
+    private func refreshInspection() {
+        inspectionLookup?.cancel()
+        inspectionLookup = nil
+
+        guard let pid = parcels.selectedPID, !parcels.selectedFeatures.isEmpty else {
+            inspection = nil
+            return
+        }
+        let features = parcels.selectedFeatures
+        var state = ParcelInspection(
+            pid: pid,
+            mappedArea: ParcelResponse.mappedArea(
+                forPID: pid,
+                in: ParcelFeatureCollection(identifiedFeatures: features)
+            ),
+            boundaryNotice: parcels.boundaryNotice
+        )
+
+        let parts = features.flatMap(\.boundary.parts)
+        guard !parts.isEmpty else {
+            // The record came back without a shape, so neither lookup can be
+            // made: both take the parcel's rings. Saying so is the point —
+            // "no civic address on this parcel" would be a finding, and nothing
+            // was asked.
+            state.civicAddresses = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            state.mappedContext = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            inspection = state
+            return
+        }
+        inspection = state
+
+        inspectionLookup = Task {
+            [weak self, civicFetcher, contextFetcher, clearance = clearanceBox.clearance] in
+            await withTaskGroup(of: Evidence.self) { group in
+                group.addTask {
+                    do throws(CivicAddressFailure) {
+                        return .addresses(.success(try await civicFetcher.addresses(inside: parts)))
+                    } catch {
+                        return .addresses(.failure(error))
+                    }
+                }
+                group.addTask {
+                    do throws(ParcelContextFailure) {
+                        return .context(
+                            .success(try await contextFetcher.context(for: parts, clearance: clearance))
+                        )
+                    } catch {
+                        return .context(.failure(error))
+                    }
+                }
+                for await evidence in group {
+                    guard !Task.isCancelled, let self else { return }
+                    self.apply(evidence, to: pid)
+                }
+            }
+        }
+    }
+
+    /// Writes one source's answer into the panel, if the panel is still showing
+    /// the parcel it was asked about.
+    private func apply(_ evidence: Evidence, to pid: String) {
+        guard inspection?.pid == pid else { return }
+        switch evidence {
+        case .addresses(.success(let addresses)):
+            inspection?.civicAddresses = .ready(addresses)
+        case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)):
+            // Superseded, not failed. Leaving it `looking` is honest: this
+            // parcel's panel is about to be replaced.
+            break
+        case .addresses(.failure(let failure)):
+            inspection?.civicAddresses = .unavailable(
+                ParcelLookupMessage.addressEvidenceFailure(failure)
+            )
+        case .context(.success(let context)):
+            inspection?.mappedContext = .ready(context)
+        case .context(.failure(let failure)):
+            inspection?.mappedContext = .unavailable(
+                ParcelLookupMessage.contextEvidenceFailure(failure)
+            )
         }
     }
 
