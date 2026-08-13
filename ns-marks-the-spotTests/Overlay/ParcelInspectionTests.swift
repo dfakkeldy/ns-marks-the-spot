@@ -8,7 +8,7 @@ import Testing
 
 /// The panel that opens on the selected parcel.
 ///
-/// Four services answer it and any of them can fail, so most of what is
+/// Five services answer it and any of them can fail, so most of what is
 /// asserted here is which of three states a section lands in. That is the whole
 /// job: `ready([])` says the parcel has none of the thing, `unavailable` says
 /// nobody was able to say, and a panel that renders the second as the first
@@ -26,11 +26,14 @@ struct ParcelInspectionTests {
         answering responses: [(String, StubURLProtocol.Response)],
         licence: ProvinceLicenceState = .accepted
     ) -> OverlayViewModel {
-        // PVSC before the catch-all: an ArcGIS empty-feature body is not a
-        // Socrata row list, so without this every parcel panel in this file
-        // would carry an unreadable-assessment failure it never asked about.
+        // PVSC and the building count before the catch-all: neither a Socrata
+        // row list nor an ArcGIS count reply is shaped like the empty-feature
+        // body, so without these every parcel panel in this file would carry a
+        // failure it never asked about.
         StubURLProtocol.stub(
-            channel: channel, matching: responses + [("thedatazone", noRows), ("", noFeatures)]
+            channel: channel,
+            matching: responses
+                + [("thedatazone", noRows), ("Buildings_UT83", zeroCount), ("", noFeatures)]
         )
         let session = { StubURLProtocol.session(channel: channel) }
         let viewModel = OverlayViewModel.forTesting(
@@ -41,7 +44,8 @@ struct ParcelInspectionTests {
             civicFetcher: CivicAddressFetcher(transport: .urlSession(session())),
             contextFetcher: ParcelContextFetcher(transport: .urlSession(session())),
             assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session())),
-            dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session()))
+            dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session())),
+            buildingFetcher: BuildingCountFetcher(transport: .urlSession(session()))
         )
         if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
             viewModel.toggleVisibility(LayerID.nsprd.rawValue)
@@ -116,6 +120,8 @@ struct ParcelInspectionTests {
     private static let noFeatures = StubURLProtocol.Response.success(Data(#"{"features": []}"#.utf8))
 
     private static let noRows = StubURLProtocol.Response.success(Data("[]".utf8))
+
+    private static let zeroCount = StubURLProtocol.Response.success(Data(#"{"count":0}"#.utf8))
 
     /// One PVSC account row, at a point the caller places.
     private static func account(
@@ -230,7 +236,75 @@ struct ParcelInspectionTests {
             inspection?.assessments
                 == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
         )
+        #expect(
+            inspection?.buildings
+                == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+        )
         #expect(StubURLProtocol.requestCount(channel: channel) == requestsForTheParcel)
+    }
+
+    // MARK: - Mapped buildings
+
+    @Test func theBuildingsMappedOnTheParcelAreCounted() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("Buildings_UT83", .success(Data(#"{"count":2}"#.utf8))),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        // Three sublayers answering 2 each: two point layers and one polygon.
+        #expect(
+            await Self.inspect(viewModel)?.buildings
+                == .ready(ParcelBuildingCount(points: 4, polygons: 2))
+        )
+    }
+
+    /// The one building state that says something about the parcel.
+    @Test func aParcelWithNothingMappedOnItCountsZero() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        #expect(
+            await Self.inspect(viewModel)?.buildings
+                == .ready(ParcelBuildingCount(points: 0, polygons: 0))
+        )
+    }
+
+    @Test func aBuildingServiceOutageIsNotAVacantLot() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("Buildings_UT83", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .unavailable(let message) = await Self.inspect(viewModel)?.buildings else {
+            Issue.record("expected unavailable")
+            return
+        }
+        #expect(message == "The Province building count is unavailable right now.")
+    }
+
+    /// One sublayer failing takes the whole count down rather than shortening
+    /// it, because a total assembled from two of three layers is a smaller
+    /// number with nothing on it to say it is short.
+    @Test func aPartialBuildingAnswerIsNotATotal() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("Buildings_UT83/4/query", .success(Data(#"{"error":{"code":500}}"#.utf8))),
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("Buildings_UT83", .success(Data(#"{"count":2}"#.utf8))),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .unavailable = await Self.inspect(viewModel)?.buildings else {
+            Issue.record("a failed sublayer was reported as a count")
+            return
+        }
     }
 
     // MARK: - Civic addresses

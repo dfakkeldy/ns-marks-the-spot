@@ -180,6 +180,22 @@ nonisolated enum ParcelLookupMessage {
         }
     }
 
+    /// Why the building count produced no number.
+    static func buildingEvidenceFailure(_ failure: BuildingCountFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Building count was replaced."
+        case .refused(.licenceNotAccepted):
+            return "Accept the Province data licence to count mapped buildings."
+        case .refused(.noBoundary):
+            return noBoundaryToAskWith
+        case .refused(.noServiceURL), .refused(.malformedURL):
+            return "The building service is misconfigured in this build."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "The Province building count is unavailable right now."
+        }
+    }
+
     /// Why an address search produced nothing, in words that do not claim the
     /// address is absent. `nil` for cancellation, as with parcels.
     static func failure(_ failure: CivicAddressFailure) -> String? {

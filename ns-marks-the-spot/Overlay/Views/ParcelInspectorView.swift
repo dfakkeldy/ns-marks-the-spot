@@ -70,6 +70,8 @@ struct ParcelInspectorView: View {
                     .foregroundStyle(.secondary)
             }
 
+            buildings
+
             if let notice = inspection.boundaryNotice {
                 Text(notice)
                     .font(.footnote)
@@ -586,6 +588,56 @@ struct ParcelInspectorView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Mapped buildings
+
+    /// The NSTDB building count, beside the mapped area because both are facts
+    /// about the outline rather than about a record attached to it.
+    @ViewBuilder
+    private var buildings: some View {
+        LabeledContent("Mapped buildings") {
+            switch inspection.buildings {
+            case .looking:
+                Text("Checking…").foregroundStyle(.secondary)
+            case .unavailable:
+                Text("Unavailable").foregroundStyle(.secondary)
+            case .ready(let count):
+                Text(count.total.formatted(.number)).monospacedDigit()
+            }
+        }
+        .font(.subheadline)
+
+        switch inspection.buildings {
+        case .looking:
+            EmptyView()
+        case .unavailable(let reason):
+            Text("\(reason) No absence is inferred.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        case .ready(let count):
+            // The split matters: NSTDB carries points and footprints, and a
+            // building can appear as both, so the total is an upper bound on
+            // structures rather than a structure count.
+            Text(buildingCaveat(count))
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func buildingCaveat(_ count: ParcelBuildingCount) -> String {
+        guard count.total > 0 else {
+            // The one building state that says something about the parcel, and
+            // it stops at what NSTDB holds on its own compilation date.
+            return "Nothing is mapped inside this outline in NSTDB 1:10,000. "
+                + "That is not a finding that the lot is vacant."
+        }
+        let points = count.points == 1 ? "1 point" : "\(count.points) points"
+        let polygons = count.polygons == 1 ? "1 footprint" : "\(count.polygons) footprints"
+        return "\(points) and \(polygons) in NSTDB 1:10,000. A structure can carry both, "
+            + "so this counts mapped features rather than buildings standing today."
     }
 
     private func status(_ text: String) -> some View {

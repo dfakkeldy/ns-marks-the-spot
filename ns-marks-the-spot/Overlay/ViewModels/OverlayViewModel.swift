@@ -188,6 +188,7 @@ final class OverlayViewModel {
     private let contextFetcher: ParcelContextFetcher
     private let assessmentFetcher: PVSCAssessmentFetcher
     private let dwellingFetcher: PVSCDwellingFetcher
+    private let buildingFetcher: BuildingCountFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -201,7 +202,8 @@ final class OverlayViewModel {
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
         assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(),
-        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher()
+        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
+        buildingFetcher: BuildingCountFetcher = BuildingCountFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
@@ -211,6 +213,7 @@ final class OverlayViewModel {
         self.contextFetcher = contextFetcher
         self.assessmentFetcher = assessmentFetcher
         self.dwellingFetcher = dwellingFetcher
+        self.buildingFetcher = buildingFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -555,6 +558,7 @@ final class OverlayViewModel {
         case context(Result<ParcelContext, ParcelContextFailure>)
         case assessments(Result<PVSCAssessmentResponse.Result, PVSCAssessmentFailure>)
         case dwellings(Result<PVSCDwellingResponse.Result, PVSCDwellingFailure>)
+        case buildings(Result<ParcelBuildingCount, BuildingCountFailure>)
     }
 
     /// Rebuilds the panel for whatever is selected now.
@@ -590,6 +594,7 @@ final class OverlayViewModel {
             state.mappedContext = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            state.buildings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             inspection = state
             return
         }
@@ -598,7 +603,7 @@ final class OverlayViewModel {
         inspectionLookup = Task {
             [
                 weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
-                clearance = clearanceBox.clearance
+                buildingFetcher, clearance = clearanceBox.clearance
             ] in
             await withTaskGroup(of: Evidence.self) { group in
                 group.addTask {
@@ -622,6 +627,15 @@ final class OverlayViewModel {
                         return .assessments(.success(try await assessmentFetcher.assessments(for: parts)))
                     } catch {
                         return .assessments(.failure(error))
+                    }
+                }
+                group.addTask {
+                    do throws(BuildingCountFailure) {
+                        return .buildings(
+                            .success(try await buildingFetcher.count(for: parts, clearance: clearance))
+                        )
+                    } catch {
+                        return .buildings(.failure(error))
                     }
                 }
                 for await evidence in group {
@@ -657,7 +671,8 @@ final class OverlayViewModel {
         case .addresses(.success(let addresses)):
             inspection?.civicAddresses = .ready(addresses)
         case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)),
-            .assessments(.failure(.cancelled)), .dwellings(.failure(.cancelled)):
+            .assessments(.failure(.cancelled)), .dwellings(.failure(.cancelled)),
+            .buildings(.failure(.cancelled)):
             // Superseded, not failed. Leaving it `looking` is honest: this
             // parcel's panel is about to be replaced.
             break
@@ -689,6 +704,12 @@ final class OverlayViewModel {
         case .dwellings(.failure(let failure)):
             inspection?.dwellings = .unavailable(
                 ParcelLookupMessage.dwellingEvidenceFailure(failure)
+            )
+        case .buildings(.success(let count)):
+            inspection?.buildings = .ready(count)
+        case .buildings(.failure(let failure)):
+            inspection?.buildings = .unavailable(
+                ParcelLookupMessage.buildingEvidenceFailure(failure)
             )
         }
     }

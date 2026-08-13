@@ -91,7 +91,8 @@ extension OverlayViewModel {
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
         assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(),
-        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher()
+        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
+        buildingFetcher: BuildingCountFetcher = BuildingCountFetcher()
     ) -> OverlayViewModel {
         let controller = MapController()
         for id in ids {
@@ -114,7 +115,8 @@ extension OverlayViewModel {
             civicFetcher: civicFetcher,
             contextFetcher: contextFetcher,
             assessmentFetcher: assessmentFetcher,
-            dwellingFetcher: dwellingFetcher
+            dwellingFetcher: dwellingFetcher,
+            buildingFetcher: buildingFetcher
         )
     }
 }

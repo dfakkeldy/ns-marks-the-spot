@@ -32,6 +32,10 @@ struct ParcelInspection: Equatable {
     /// there.
     let boundaryNotice: String?
 
+    /// How many buildings NSTDB has mapped inside the outline. A count of zero
+    /// is an answer; it is not a vacant lot.
+    var buildings: ParcelEvidence<ParcelBuildingCount> = .looking
+
     var civicAddresses: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .looking
     var mappedContext: ParcelEvidence<ParcelContext> = .looking
     var assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .looking
