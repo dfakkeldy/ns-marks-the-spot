@@ -41,6 +41,13 @@ struct MapContainerView: View {
 
             VStack {
                 HStack(alignment: .top, spacing: 12) {
+                    if !isSelectingSaveArea {
+                        ParcelSearchBar(viewModel: overlayVM)
+                            .frame(maxWidth: 260, alignment: .leading)
+                            .padding(.leading, 12)
+                            .padding(.top, 60)
+                    }
+
                     Spacer()
 
                     if isLayersMenuExpanded {
@@ -215,6 +222,11 @@ struct MapContainerView: View {
                     }
                 case .boundsSelected(let bounds):
                     finishBoundsSelection(with: bounds)
+                case .mapTapped(let latitude, let longitude):
+                    // The view model decides whether a tap means anything: the
+                    // parcel layer has to be on and the map zoomed in far
+                    // enough for a finger to be pointing at one property.
+                    overlayVM.identifyParcel(latitude: latitude, longitude: longitude)
                 }
             }
             if isUITestMode {

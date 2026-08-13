@@ -172,6 +172,7 @@ nonisolated struct MapViewState: Equatable, Sendable {
     var baseMapType: MapBaseType = .standard
     var layers: [MapLayerState] = []
     var annotations: [MapAnnotation] = []
+    var parcelShapes: [ParcelShape] = []
     var showsUserLocation = false
     var interactionMode: MapInteractionMode = .idle
 }

@@ -23,6 +23,27 @@ struct MapSurfaceView: UIViewRepresentable {
         selectionPan.cancelsTouchesInView = true
         mapView.addGestureRecognizer(selectionPan)
 
+        let identifyTap = UITapGestureRecognizer(
+            target: controller,
+            action: #selector(MapController.handleIdentifyTap(_:))
+        )
+        identifyTap.name = MapController.identifyTapName
+        identifyTap.delegate = controller
+        // Not consumed: MapKit's own recognizers still need this touch, and a
+        // tap that identified a parcel while swallowing the map's handling of
+        // it would make the map feel dead under the finger.
+        identifyTap.cancelsTouchesInView = false
+        // A double tap zooms. Waiting for MapKit's own double-tap recognizers
+        // to fail is what stops a zoom from also identifying whatever happened
+        // to be under the first tap — the web spends 250 ms guessing at the
+        // same thing.
+        for recognizer in mapView.gestureRecognizers ?? [] {
+            guard let tap = recognizer as? UITapGestureRecognizer,
+                  tap.numberOfTapsRequired > 1 else { continue }
+            identifyTap.require(toFail: tap)
+        }
+        mapView.addGestureRecognizer(identifyTap)
+
         controller.mapView = mapView
         return mapView
     }

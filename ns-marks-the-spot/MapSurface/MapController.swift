@@ -8,6 +8,11 @@ enum MapEvent {
     case headingChanged(Double)
     case annotationSelected(id: String)
     case boundsSelected(MapBounds)
+    /// A single tap on the map itself, at the coordinate under the finger.
+    ///
+    /// Whether it means anything is the handler's decision — this reports where
+    /// the user touched, not that a parcel should be identified.
+    case mapTapped(latitude: Double, longitude: Double)
 }
 
 /// Owns the MKMapView, its delegate work, and the applied `MapViewState`.
@@ -111,7 +116,15 @@ final class MapController: NSObject {
             overlay.canReplaceMapContent = false
             overlay.minimumZ = layer.configuration.minZoom
             overlay.maximumZ = layer.configuration.maxZoom
-            mapView.addOverlay(overlay)
+            // Below the parcel outlines rather than on top of them. Install
+            // order is z-order, so a layer switched on after a parcel was
+            // selected would otherwise paint over the outline the user is
+            // looking at — imagery hiding the boundary it is being compared to.
+            if let firstParcel = mapView.overlays.first(where: { $0 is ParcelPolygon }) {
+                mapView.insertOverlay(overlay, below: firstParcel)
+            } else {
+                mapView.addOverlay(overlay)
+            }
 
         case .removeTileOverlay(let id):
             for overlay in mapView.overlays {
@@ -135,6 +148,12 @@ final class MapController: NSObject {
         case .removeAnnotation(let id):
             for annotation in mapView.annotations where annotation.mapAnnotationID == id {
                 mapView.removeAnnotation(annotation)
+            }
+
+        case .setParcelShapes(let shapes):
+            mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
+            for shape in shapes {
+                mapView.addOverlays(ParcelPolygon.polygons(for: shape))
             }
 
         case .setShowsUserLocation(let shows):
@@ -246,6 +265,42 @@ final class MapController: NSObject {
         mutate { $0.annotations.append(annotation) }
     }
 
+    func setParcelShapes(_ shapes: [ParcelShape]) {
+        mutate { $0.parcelShapes = shapes }
+    }
+
+    /// Brings `bounds` into view, with room around it.
+    ///
+    /// The padding is what makes a selected parcel readable rather than
+    /// touching the edges of the screen; MapKit will also clamp the rect to a
+    /// minimum span, so a very small lot stops at a sensible zoom instead of
+    /// filling the screen with one corner of it.
+    func focus(on bounds: MapBounds) {
+        guard let mapView else { return }
+        let corner = MKMapPoint(
+            CLLocationCoordinate2D(
+                latitude: bounds.maxLatitude, longitude: bounds.minLongitude
+            )
+        )
+        let opposite = MKMapPoint(
+            CLLocationCoordinate2D(
+                latitude: bounds.minLatitude, longitude: bounds.maxLongitude
+            )
+        )
+        let rect = MKMapRect(
+            x: min(corner.x, opposite.x),
+            y: min(corner.y, opposite.y),
+            width: abs(opposite.x - corner.x),
+            height: abs(opposite.y - corner.y)
+        )
+        guard !rect.isNull, rect.size.width > 0, rect.size.height > 0 else { return }
+        mapView.setVisibleMapRect(
+            rect,
+            edgePadding: UIEdgeInsets(top: 64, left: 48, bottom: 64, right: 48),
+            animated: true
+        )
+    }
+
     func removeAnnotation(by id: String) {
         mutate { $0.annotations.removeAll { $0.id == id } }
     }
@@ -324,6 +379,16 @@ final class MapController: NSObject {
         let polygon = MKPolygon(coordinates: coordinates, count: coordinates.count)
         selectionOverlay = polygon
         mapView.addOverlay(polygon)
+    }
+
+    @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+        guard recognizer.state == .ended,
+              let mapView = recognizer.view as? MKMapView else { return }
+        let coordinate = mapView.convert(
+            recognizer.location(in: mapView), toCoordinateFrom: mapView
+        )
+        guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+        events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
     }
 
     @objc func handleSelectionPan(_ recognizer: UIPanGestureRecognizer) {
@@ -409,6 +474,13 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        // Before the plain `MKPolygon` branch, which it is a kind of: the
+        // bounds-selection rectangle and a parcel boundary are both polygons
+        // and must not be drawn as the same thing.
+        if let parcel = overlay as? ParcelPolygon {
+            return Self.renderer(for: parcel)
+        }
+
         if let polygon = overlay as? MKPolygon {
             let renderer = MKPolygonRenderer(polygon: polygon)
             renderer.fillColor = UIColor.systemBlue.withAlphaComponent(0.15)
@@ -423,6 +495,27 @@ extension MapController: MKMapViewDelegate {
         let renderer = MKTileOverlayRenderer(tileOverlay: tileOverlay)
         renderer.alpha = state.layers.first { $0.id == tileOverlay.configuration.id }?.effectiveAlpha ?? 1.0
         tileOverlay.renderer = renderer
+        return renderer
+    }
+
+    /// The web's interactive parcel styling, so a boundary reads the same on
+    /// both surfaces.
+    ///
+    /// The selection is an outline with no fill: the point of selecting a
+    /// parcel is to compare its boundary against the imagery under it, and a
+    /// tint over the whole lot is what you would have to see through.
+    static func renderer(for parcel: ParcelPolygon) -> MKPolygonRenderer {
+        let renderer = MKPolygonRenderer(polygon: parcel)
+        switch parcel.role {
+        case .selected:
+            renderer.strokeColor = UIColor(red: 0.624, green: 0.184, blue: 0.141, alpha: 1)
+            renderer.fillColor = .clear
+            renderer.lineWidth = 4
+        case .context:
+            renderer.strokeColor = UIColor(red: 0.039, green: 0.443, blue: 0.502, alpha: 1)
+            renderer.fillColor = UIColor(red: 0.933, green: 0.969, blue: 0.961, alpha: 0.08)
+            renderer.lineWidth = 1.25
+        }
         return renderer
     }
 
@@ -453,8 +546,19 @@ extension MapController: MKMapViewDelegate {
 // MARK: - UIGestureRecognizerDelegate
 
 extension MapController: UIGestureRecognizerDelegate {
+    /// The name the identify tap is registered under.
+    ///
+    /// Two recognizers share this delegate and want opposite answers: the
+    /// bounds-selection pan may only begin while selecting bounds, and the
+    /// identify tap may only begin while not. Answering by name rather than by
+    /// type is what keeps adding one from disabling the other.
+    static let identifyTapName = "ParcelIdentifyTap"
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        isSelectingBounds
+        if gestureRecognizer.name == Self.identifyTapName {
+            return !isSelectingBounds
+        }
+        return isSelectingBounds
     }
 
     func gestureRecognizer(

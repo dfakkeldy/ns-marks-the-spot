@@ -7,6 +7,13 @@ nonisolated enum MapMutation: Equatable, Sendable {
     case setTileOverlayAlpha(id: String, alpha: CGFloat)
     case addAnnotation(MapAnnotation)
     case removeAnnotation(id: String)
+    /// Replaces every parcel outline at once.
+    ///
+    /// Wholesale rather than added and removed one at a time, because moving
+    /// the selection restyles the parcel that lost it as well as the one that
+    /// gained it, and a per-id diff would have to notice a change that is not
+    /// in the set of ids. The web rebuilds its parcel layer on the same event.
+    case setParcelShapes([ParcelShape])
     case setShowsUserLocation(Bool)
     case beginBoundsSelection
     case endBoundsSelection
@@ -25,6 +32,10 @@ nonisolated enum MapStateDiff {
 
         mutations.append(contentsOf: layerMutations(from: current.layers, to: desired.layers))
         mutations.append(contentsOf: annotationMutations(from: current.annotations, to: desired.annotations))
+
+        if current.parcelShapes != desired.parcelShapes {
+            mutations.append(.setParcelShapes(desired.parcelShapes))
+        }
 
         if current.showsUserLocation != desired.showsUserLocation {
             mutations.append(.setShowsUserLocation(desired.showsUserLocation))

@@ -183,6 +183,7 @@ final class OverlayViewModel {
     private let controller: MapController
     private let licenceStore: ProvinceLicenceStore
     private let clearanceBox: LicenceClearanceBox
+    private let parcelFetcher: ParcelFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -191,11 +192,13 @@ final class OverlayViewModel {
     init(
         controller: MapController,
         licenceStore: ProvinceLicenceStore,
-        clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
+        clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
+        parcelFetcher: ParcelFetcher = ParcelFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
+        self.parcelFetcher = parcelFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -205,6 +208,167 @@ final class OverlayViewModel {
             licenceStore: container.licenceStore,
             clearanceBox: container.clearanceBox
         )
+    }
+
+    // MARK: - Parcels
+
+    private(set) var parcels = ParcelSelection()
+
+    /// What the last parcel lookup is doing or found, in the words the web uses.
+    private(set) var parcelMessage: String?
+
+    /// The one lookup allowed to be in flight.
+    ///
+    /// Cancelled rather than left to finish, so a second tap cannot be
+    /// overtaken by the first one's answer and select a parcel the user has
+    /// already moved away from.
+    @ObservationIgnored private var parcelLookup: Task<Void, Never>?
+
+    /// Whether a tap on the map should ask NSPRD what is under it.
+    ///
+    /// The layer switch is the user's statement that parcels are what they are
+    /// working with, and the zoom floor is the one the catalog sets for the
+    /// boundary layer itself: identifying a point on a province-wide view would
+    /// return whatever parcel happened to be under a finger covering a
+    /// kilometre of ground.
+    var isIdentifyingParcels: Bool {
+        installedLayer(.nsprd)?.isVisible == true
+            && controller.zoomLevel >= Self.parcelIdentifyMinimumZoom
+    }
+
+    private static let parcelIdentifyMinimumZoom =
+        LayerCatalog.descriptor(for: .nsprd)?.minZoom ?? 14
+
+    /// Asks what parcel is under a tapped point.
+    func identifyParcel(latitude: Double, longitude: Double) {
+        guard isIdentifyingParcels else { return }
+        parcelMessage = ParcelLookupMessage.searchingAtPoint
+        startLookup(forPointTap: true) { [parcelFetcher, clearance = clearanceBox.clearance] in
+            // `do throws(…)` rather than a bare `do`: inside a closure the
+            // thrown type is not inferred, and an untyped catch would widen the
+            // failure to `any Error` — losing exactly the distinctions the
+            // messages depend on.
+            do throws(ParcelLookupFailure) {
+                return .success(
+                    try await parcelFetcher.parcel(
+                        latitude: latitude, longitude: longitude, clearance: clearance
+                    )
+                )
+            } catch {
+                return .failure(error)
+            }
+        } onSuccess: { [weak self] collection in
+            guard let self else { return }
+            guard let pid = collection.identifiedFeatures.first?.pid else {
+                // The service looked and found nothing. The only place in this
+                // file that may say so.
+                parcelMessage = ParcelLookupMessage.noParcelAtPoint
+                return
+            }
+            adopt(collection, selecting: pid, focus: false)
+        }
+    }
+
+    /// Looks up a PID the user typed.
+    func searchParcel(_ query: String) {
+        guard let pid = ParcelQuery.normalizePID(query) else {
+            // Not "that is not a PID": a civic address is a legitimate thing to
+            // type here on the web, and this app cannot search one yet. Saying
+            // the input is wrong would blame the user for a missing feature.
+            parcelMessage = query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ? nil
+                : "Enter an 8-digit Nova Scotia parcel ID. Civic address search is not in the app yet."
+            return
+        }
+
+        if parcels.holds(pid: pid) {
+            // Already loaded. Selecting without a request is what makes going
+            // back to a parcel instant, and it is safe precisely because the
+            // shapes came from the service rather than from anything derived.
+            parcelLookup?.cancel()
+            parcels.select(pid)
+            publishParcels(focus: true)
+            parcelMessage = ParcelLookupMessage.selected(pid: pid)
+            return
+        }
+
+        parcelMessage = ParcelLookupMessage.loading(pid: pid)
+        startLookup(forPointTap: false) { [parcelFetcher, clearance = clearanceBox.clearance] in
+            do throws(ParcelLookupFailure) {
+                return .success(try await parcelFetcher.parcels(pids: [pid], clearance: clearance))
+            } catch {
+                return .failure(error)
+            }
+        } onSuccess: { [weak self] collection in
+            guard let self else { return }
+            guard collection.identifiedFeatures.contains(where: { $0.pid == pid }) else {
+                parcelMessage = ParcelLookupMessage.noParcelForPID
+                return
+            }
+            adopt(collection, selecting: pid, focus: true)
+        }
+    }
+
+    /// Waits for the lookup in flight, if any.
+    ///
+    /// A seam for tests, which otherwise have to guess how long a stubbed
+    /// request takes. Awaiting the task is also what makes a cancellation test
+    /// meaningful: it returns when the work is genuinely over rather than when
+    /// a sleep expired.
+    func awaitParcelLookup() async {
+        await parcelLookup?.value
+    }
+
+    func clearParcelSelection() {
+        parcelLookup?.cancel()
+        parcels.select(nil)
+        publishParcels(focus: false)
+        parcelMessage = nil
+    }
+
+    private func adopt(
+        _ collection: ParcelFeatureCollection, selecting pid: String, focus: Bool
+    ) {
+        parcels.merge(collection)
+        parcels.select(pid)
+        publishParcels(focus: focus)
+        // The boundary notice wins over "selected": a parcel drawing nothing is
+        // the thing the user needs told, and "PID … selected." over a map with
+        // no outline on it reads as the parcel not being there.
+        parcelMessage = parcels.boundaryNotice ?? ParcelLookupMessage.selected(pid: pid)
+    }
+
+    private func publishParcels(focus: Bool) {
+        controller.setParcelShapes(parcels.shapes)
+        if focus, let bounds = parcels.selectedBounds {
+            controller.focus(on: bounds)
+        }
+    }
+
+    private func startLookup(
+        forPointTap: Bool,
+        _ lookup: @escaping @Sendable () async
+            -> Result<ParcelFeatureCollection, ParcelLookupFailure>,
+        onSuccess: @escaping @MainActor (ParcelFeatureCollection) -> Void
+    ) {
+        parcelLookup?.cancel()
+        parcelLookup = Task { [weak self] in
+            let outcome = await lookup()
+            // Cancellation is checked after the await as well as inside the
+            // fetcher: a lookup that has already been replaced must not write
+            // its answer, or a fast second tap would be overwritten by a slow
+            // first one and the map would select the parcel the user left.
+            guard !Task.isCancelled else { return }
+            switch outcome {
+            case .success(let collection):
+                onSuccess(collection)
+            case .failure(let failure):
+                guard let message = ParcelLookupMessage.failure(
+                    failure, forPointTap: forPointTap
+                ) else { return }
+                self?.parcelMessage = message
+            }
+        }
     }
 
     // MARK: - Licence

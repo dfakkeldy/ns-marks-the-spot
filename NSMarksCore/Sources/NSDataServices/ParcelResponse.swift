@@ -40,7 +40,7 @@ public struct ParcelFeature: Sendable, Equatable {
     /// boundary came with this record" and "a boundary came and could not be
     /// read" are different evidence, and an empty array would say the first
     /// while meaning either.
-    public enum Boundary: Sendable, Equatable {
+    public enum Boundary: Sendable, Hashable {
         /// The shape, in GeoJSON winding, outer ring first within each part.
         ///
         /// Not reversed. The web reverses rings before sending them back to

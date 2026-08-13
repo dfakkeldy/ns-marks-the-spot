@@ -85,7 +85,9 @@ extension OverlayViewModel {
     /// the app installs.
     static func forTesting(
         installing ids: [LayerID],
-        licence: ProvinceLicenceState = .accepted
+        licence: ProvinceLicenceState = .accepted,
+        zoomLevel: Int? = nil,
+        parcelFetcher: ParcelFetcher = ParcelFetcher()
     ) -> OverlayViewModel {
         let controller = MapController()
         for id in ids {
@@ -96,11 +98,15 @@ extension OverlayViewModel {
                   ) else { continue }
             controller.addLayer(layer)
         }
+        if let zoomLevel {
+            controller.recordZoomLevel(zoomLevel)
+        }
         return OverlayViewModel(
             controller: controller,
             licenceStore: ProvinceLicenceStore(
                 storage: InMemoryProvinceLicenceStorage(initial: licence)
-            )
+            ),
+            parcelFetcher: parcelFetcher
         )
     }
 }
