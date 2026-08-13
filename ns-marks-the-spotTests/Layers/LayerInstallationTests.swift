@@ -6,7 +6,7 @@ import Testing
 struct LayerInstallationTests {
     @Test func appContainerInstallsCatalogLayers() {
         let container = AppContainer()
-        let ids = container.mapEngine.layers.map(\.id)
+        let ids = container.mapController.layers.map(\.id)
 
         #expect(ids.contains("fletcher"))
         #expect(ids.contains("ns-aerial"))
@@ -18,14 +18,14 @@ struct LayerInstallationTests {
 
     @Test func nsAerialLayerUsesArcGISMapServiceSource() {
         let container = AppContainer()
-        let layer = container.mapEngine.layers.first { $0.id == "ns-aerial" }
+        let layer = container.mapController.layers.first { $0.id == "ns-aerial" }
 
         guard let layer else {
             Issue.record("NS Aerial layer was not installed")
             return
         }
 
-        if case .arcgisMapService(let url, let transparent) = layer.type {
+        if case .arcgisMapService(let url, let transparent) = layer.configuration.source {
             #expect(url.absoluteString == "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
             #expect(transparent == false)
         } else {
@@ -39,7 +39,7 @@ struct LayerInstallationTests {
             return
         }
 
-        if case .tile(let url) = installedLayer.type {
+        if case .tile(let url) = installedLayer.configuration.source {
             #expect(url.absoluteString.contains("https://wmts.oldmapsonline.org/maps/"))
             #expect(url.absoluteString.contains("%7Bz%7D/%7Bx%7D/%7By%7D.png"))
             #expect(!url.absoluteString.contains("key="))
@@ -51,10 +51,10 @@ struct LayerInstallationTests {
     @Test func catalogInstalledFletcherLayerUsesSourceAwareCacheIdentifier() throws {
         let descriptor = try #require(LayerCatalog.descriptor(for: .fletcher))
         let url = try #require(descriptor.sourceURL)
-        let layer = MapKitTileLayer(descriptor: descriptor, type: .tile(url))
+        let configuration = TileLayerConfiguration(descriptor: descriptor, source: .tile(url))
 
-        #expect(layer.cacheIdentifier.hasPrefix("\(descriptor.cacheKey)_"))
-        #expect(layer.cacheIdentifier != descriptor.cacheKey)
+        #expect(configuration.cacheIdentifier.hasPrefix("\(descriptor.cacheKey)_"))
+        #expect(configuration.cacheIdentifier != descriptor.cacheKey)
     }
 
     @Test func arcGISDynamicLayersRetainRestrictionsAndPayloads() {
@@ -65,14 +65,14 @@ struct LayerInstallationTests {
             return
         }
 
-        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = floodRisk.type {
+        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = floodRisk.configuration.source {
             #expect(dynamicLayers == nil)
             #expect(layerRestrictions == "show:24,25,26")
         } else {
             Issue.record("Flood risk should use ArcGIS dynamic layers")
         }
 
-        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = propertyBoundaries.type {
+        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = propertyBoundaries.configuration.source {
             #expect(layerRestrictions == nil)
             #expect(dynamicLayers?.contains("\"mapLayerId\":0") == true)
             #expect(dynamicLayers?.contains("\"showLabels\":false") == true)
@@ -80,7 +80,7 @@ struct LayerInstallationTests {
             Issue.record("Property boundaries should use ArcGIS dynamic layers")
         }
 
-        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = waterfalls.type {
+        if case .arcgisDynamic(_, let dynamicLayers, let layerRestrictions) = waterfalls.configuration.source {
             #expect(layerRestrictions == nil)
             #expect(dynamicLayers?.contains("\"mapLayerId\":1") == true)
             #expect(dynamicLayers?.contains("FEAT_DESC = 'Falls -  On a single line river point'") == true)
@@ -89,7 +89,7 @@ struct LayerInstallationTests {
         }
     }
 
-    private func installedLayer(id: String) -> (any MapLayer)? {
-        AppContainer().mapEngine.layers.first { $0.id == id }
+    private func installedLayer(id: String) -> MapLayerState? {
+        AppContainer().mapController.layers.first { $0.id == id }
     }
 }

@@ -72,7 +72,7 @@ struct TileStoreTests {
             try? FileManager.default.removeItem(at: cacheRoot)
         }
         let store = TileStore(rootDirectory: root)
-        let cache = TileCache(tileStore: store, diskRoot: cacheRoot)
+        let cache = TileCache(diskRoot: cacheRoot)
         let data = Data([0x40, 0x41])
 
         cache.cacheTile(data, z: 8, x: 9, y: 10, layerName: "fletcher")

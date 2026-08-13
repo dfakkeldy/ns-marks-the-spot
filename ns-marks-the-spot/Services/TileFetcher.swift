@@ -1,14 +1,16 @@
 import Foundation
 import UIKit
 
-enum TileFetcherError: Error, Equatable {
+nonisolated enum TileFetcherError: Error, Equatable {
     case invalidHTTPStatus(Int)
     case invalidContentType(String?)
     case invalidImageData
     case unsupportedDynamicLayerZoom(Int)
 }
 
-final class TileFetcher {
+/// Stateless beyond its two `Sendable` collaborators, so tile fetches can run
+/// on MapKit's background tile-loading tasks without hopping to the main actor.
+nonisolated final class TileFetcher: Sendable {
     private static let minimumArcGISDynamicZoom = 12
     private static let maximumArcGISDynamicExportSize = 1024
 

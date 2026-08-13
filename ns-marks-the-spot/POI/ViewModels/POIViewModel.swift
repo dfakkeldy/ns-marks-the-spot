@@ -1,14 +1,15 @@
-import Combine
 import Foundation
+import Observation
 
 @MainActor
-final class POIViewModel: ObservableObject {
-    @Published var points: [PointOfInterest] = []
-    @Published private(set) var waterfallFetchErrorMessage: String?
-    @Published private(set) var isFetchingWaterfalls = false
+@Observable
+final class POIViewModel {
+    var points: [PointOfInterest] = []
+    private(set) var waterfallFetchErrorMessage: String?
+    private(set) var isFetchingWaterfalls = false
 
-    private let fetchWaterfalls: () async throws -> [PointOfInterest]
-    private var hasLoadedRemoteWaterfalls = false
+    @ObservationIgnored private let fetchWaterfalls: () async throws -> [PointOfInterest]
+    @ObservationIgnored private var hasLoadedRemoteWaterfalls = false
 
     init(fetchWaterfalls: @escaping () async throws -> [PointOfInterest] = {
         try await POIFetcher().fetchWaterfalls()
@@ -16,10 +17,10 @@ final class POIViewModel: ObservableObject {
         self.fetchWaterfalls = fetchWaterfalls
     }
 
-    func fetchRemoteWaterfalls(engine: any MapEngine, force: Bool = false) async {
+    func fetchRemoteWaterfalls(controller: MapController, force: Bool = false) async {
         guard !isFetchingWaterfalls else { return }
         if hasLoadedRemoteWaterfalls && !force {
-            syncAnnotations(to: engine)
+            syncAnnotations(to: controller)
             return
         }
 
@@ -31,17 +32,17 @@ final class POIViewModel: ObservableObject {
             let waterfalls = try await fetchWaterfalls()
             hasLoadedRemoteWaterfalls = true
             points = merged(points: points, with: waterfalls)
-            syncAnnotations(to: engine)
+            syncAnnotations(to: controller)
         } catch {
             waterfallFetchErrorMessage = "Waterfalls are unavailable right now."
         }
     }
 
-    func syncAnnotations(to engine: any MapEngine) {
-        var existingAnnotationIDs = Set(engine.annotations.map(\.id))
+    func syncAnnotations(to controller: MapController) {
+        var existingAnnotationIDs = Set(controller.annotations.map(\.id))
         for point in points {
             guard !existingAnnotationIDs.contains(point.id) else { continue }
-            engine.addAnnotation(
+            controller.addAnnotation(
                 MapAnnotation(
                     id: point.id,
                     latitude: point.latitude,

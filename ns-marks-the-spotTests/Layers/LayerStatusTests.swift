@@ -5,68 +5,80 @@ import Testing
 @MainActor
 struct LayerStatusTests {
     @Test func fletcherReturnsDownloadable() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(
-            id: LayerID.fletcher.rawValue,
-            name: "Fletcher",
-            type: .tile(URL(fileURLWithPath: "/"))
+        let controller = MapController()
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.fletcher.rawValue,
+                    name: "Fletcher",
+                    source: .tile(URL(fileURLWithPath: "/"))
+                )
+            )
         )
-        engine.addLayer(layer)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         #expect(viewModel.offlineStatus(for: LayerID.fletcher.rawValue) == "Downloadable")
     }
 
     @Test func nsAerialReturnsCachedWhenViewed() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(
-            id: LayerID.nsAerial.rawValue,
-            name: "NS Aerial",
-            type: .arcgisMapService(URL(string: "https://example.com")!, transparent: false)
+        let controller = MapController()
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.nsAerial.rawValue,
+                    name: "NS Aerial",
+                    source: .arcgisMapService(URL(string: "https://example.com")!, transparent: false)
+                )
+            )
         )
-        engine.addLayer(layer)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         #expect(viewModel.offlineStatus(for: LayerID.nsAerial.rawValue) == "Cached when viewed")
     }
 
     @Test func unknownLayerReturnsOnline() {
-        let engine = MockMapEngine()
-        let viewModel = OverlayViewModel(engine: engine)
+        let controller = MapController()
+        let viewModel = OverlayViewModel(controller: controller)
 
         #expect(viewModel.offlineStatus(for: "unknown") == "Online")
     }
 
     @Test func selectingNSAerialBasemapTurnsLayerVisible() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(
-            id: LayerID.nsAerial.rawValue,
-            name: "NS Aerial",
-            type: .arcgisMapService(URL(string: "https://example.com")!, transparent: false)
+        let controller = MapController()
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.nsAerial.rawValue,
+                    name: "NS Aerial",
+                    source: .arcgisMapService(URL(string: "https://example.com")!, transparent: false)
+                ),
+                isVisible: false
+            )
         )
-        layer.isVisible = false
-        engine.addLayer(layer)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         viewModel.setBaseMapType(.nsAerial)
 
-        #expect(layer.isVisible == true)
+        #expect(controller.layers.first?.isVisible == true)
     }
 
     @Test func switchingAwayFromNSAerialHidesLayer() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(
-            id: LayerID.nsAerial.rawValue,
-            name: "NS Aerial",
-            type: .arcgisMapService(URL(string: "https://example.com")!, transparent: false)
+        let controller = MapController()
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.nsAerial.rawValue,
+                    name: "NS Aerial",
+                    source: .arcgisMapService(URL(string: "https://example.com")!, transparent: false)
+                ),
+                isVisible: true
+            )
         )
-        layer.isVisible = true
-        engine.addLayer(layer)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         viewModel.setBaseMapType(.nsAerial)
         viewModel.setBaseMapType(.standard)
 
-        #expect(layer.isVisible == false)
+        #expect(controller.layers.first?.isVisible == false)
     }
 }

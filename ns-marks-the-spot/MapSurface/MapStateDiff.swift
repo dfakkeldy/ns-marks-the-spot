@@ -1,0 +1,95 @@
+import CoreGraphics
+
+nonisolated enum MapMutation: Equatable, Sendable {
+    case setMapType(MapBaseType)
+    case addTileOverlay(MapLayerState)
+    case removeTileOverlay(id: String)
+    case setTileOverlayAlpha(id: String, alpha: CGFloat)
+    case addAnnotation(MapAnnotation)
+    case removeAnnotation(id: String)
+    case setShowsUserLocation(Bool)
+    case beginBoundsSelection
+    case endBoundsSelection
+}
+
+/// Pure state-transition planner: given the applied state and the desired
+/// state, emit the mutations that reconcile them. No MapKit types, no side
+/// effects — tests assert directly on the emitted mutations.
+nonisolated enum MapStateDiff {
+    static func mutations(from current: MapViewState, to desired: MapViewState) -> [MapMutation] {
+        var mutations: [MapMutation] = []
+
+        if current.baseMapType != desired.baseMapType {
+            mutations.append(.setMapType(desired.baseMapType))
+        }
+
+        mutations.append(contentsOf: layerMutations(from: current.layers, to: desired.layers))
+        mutations.append(contentsOf: annotationMutations(from: current.annotations, to: desired.annotations))
+
+        if current.showsUserLocation != desired.showsUserLocation {
+            mutations.append(.setShowsUserLocation(desired.showsUserLocation))
+        }
+
+        if current.interactionMode != desired.interactionMode {
+            switch desired.interactionMode {
+            case .selectingBounds:
+                mutations.append(.beginBoundsSelection)
+            case .idle:
+                mutations.append(.endBoundsSelection)
+            }
+        }
+
+        return mutations
+    }
+
+    private static func layerMutations(
+        from current: [MapLayerState],
+        to desired: [MapLayerState]
+    ) -> [MapMutation] {
+        var mutations: [MapMutation] = []
+        let currentByID = Dictionary(current.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let desiredIDs = Set(desired.map(\.id))
+
+        for layer in current where !desiredIDs.contains(layer.id) {
+            mutations.append(.removeTileOverlay(id: layer.id))
+        }
+
+        for layer in desired {
+            guard let existing = currentByID[layer.id] else {
+                mutations.append(.addTileOverlay(layer))
+                continue
+            }
+
+            if existing.configuration != layer.configuration {
+                mutations.append(.removeTileOverlay(id: layer.id))
+                mutations.append(.addTileOverlay(layer))
+                continue
+            }
+
+            if existing.effectiveAlpha != layer.effectiveAlpha {
+                mutations.append(.setTileOverlayAlpha(id: layer.id, alpha: layer.effectiveAlpha))
+            }
+        }
+
+        return mutations
+    }
+
+    private static func annotationMutations(
+        from current: [MapAnnotation],
+        to desired: [MapAnnotation]
+    ) -> [MapMutation] {
+        var mutations: [MapMutation] = []
+        let currentIDs = Set(current.map(\.id))
+        let desiredIDs = Set(desired.map(\.id))
+
+        for annotation in current where !desiredIDs.contains(annotation.id) {
+            mutations.append(.removeAnnotation(id: annotation.id))
+        }
+
+        for annotation in desired where !currentIDs.contains(annotation.id) {
+            mutations.append(.addAnnotation(annotation))
+        }
+
+        return mutations
+    }
+}

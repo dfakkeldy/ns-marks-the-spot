@@ -3,7 +3,7 @@ import SwiftUI
 struct OfflineStorageView: View {
     @Environment(\.dismiss) private var dismiss
 
-    @ObservedObject var viewModel: OfflineAreasViewModel
+    let viewModel: OfflineAreasViewModel
     @State private var isConfirmingDeleteAllCachedTiles = false
     @State private var layerPendingDeletion: OfflineLayerStorageSummary?
     @State private var areaPendingDeletion: SavedOfflineArea?

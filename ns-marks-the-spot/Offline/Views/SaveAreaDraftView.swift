@@ -3,7 +3,7 @@ import SwiftUI
 struct SaveAreaDraftView: View {
     @Environment(\.dismiss) private var dismiss
 
-    @ObservedObject var viewModel: OfflineAreasViewModel
+    let viewModel: OfflineAreasViewModel
     let bounds: MapBounds
 
     @State private var areaName = "Saved Area"

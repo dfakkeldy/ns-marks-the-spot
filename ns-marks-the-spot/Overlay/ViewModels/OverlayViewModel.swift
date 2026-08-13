@@ -1,28 +1,28 @@
-import Combine
-import SwiftUI
+import Foundation
+import Observation
 
+/// Layer-menu logic over `MapController`. Carries no observable state of its
+/// own: views reading `layers`/`baseMapType` track the controller's applied
+/// state directly through Observation.
 @MainActor
-final class OverlayViewModel: ObservableObject {
-    @Published var opacity: CGFloat = 0.5
-    @Published var selectedLayerId: String?
-
+@Observable
+final class OverlayViewModel {
     private let nsAerialLayerId = LayerID.nsAerial.rawValue
     private let nsAerialBasemapOpacity: CGFloat = 1.0
     private let restoredOverlayOpacity: CGFloat = 0.7
 
-    var layers: [any MapLayer] { engine.layers }
-    var baseMapType: MapBaseType { engine.baseMapType }
+    var layers: [MapLayerState] { controller.layers }
+    var baseMapType: MapBaseType { controller.baseMapType }
 
-    private let engine: any MapEngine
+    private let controller: MapController
 
-    init(engine: any MapEngine) {
-        self.engine = engine
+    init(controller: MapController) {
+        self.controller = controller
     }
 
     func setBaseMapType(_ type: MapBaseType) {
-        engine.baseMapType = type
+        controller.baseMapType = type
         syncNSAerialLayerVisibility(for: type)
-        objectWillChange.send()
     }
 
     func offlineStatus(for layerId: String) -> String {
@@ -41,31 +41,15 @@ final class OverlayViewModel: ObservableObject {
         }
     }
 
-    func updateOpacity(_ newValue: CGFloat) {
-        opacity = newValue
-        if let layerId = selectedLayerId {
-            engine.setOpacity(for: layerId, to: newValue)
-        }
-        objectWillChange.send()
-    }
-
     func updateLayerOpacity(for id: String, to value: CGFloat) {
-        engine.setOpacity(for: id, to: value)
-        objectWillChange.send()
-    }
-
-    func selectLayer(_ id: String) {
-        selectedLayerId = id
-        opacity = engine.layers.first { $0.id == id }?.opacity ?? 0.5
-        objectWillChange.send()
+        controller.setOpacity(for: id, to: value)
     }
 
     func toggleVisibility(_ id: String) {
-        guard let layer = engine.layers.first(where: { $0.id == id }) else { return }
+        guard let layer = controller.layers.first(where: { $0.id == id }) else { return }
 
         if id == nsAerialLayerId {
             toggleNSAerialVisibility(layer)
-            objectWillChange.send()
             return
         }
 
@@ -73,42 +57,41 @@ final class OverlayViewModel: ObservableObject {
         if newVisibility {
             restoreVisibleOpacityIfNeeded(for: layer)
         }
-        engine.setVisible(for: id, to: newVisibility)
-        objectWillChange.send()
+        controller.setVisible(for: id, to: newVisibility)
     }
 
     private func syncNSAerialLayerVisibility(for type: MapBaseType) {
-        guard let nsAerialLayer = engine.layers.first(where: { $0.id == nsAerialLayerId }) else {
+        guard let nsAerialLayer = controller.layers.first(where: { $0.id == nsAerialLayerId }) else {
             return
         }
 
         if type == .nsAerial {
             if nsAerialLayer.opacity <= 0 {
-                engine.setOpacity(for: nsAerialLayerId, to: nsAerialBasemapOpacity)
+                controller.setOpacity(for: nsAerialLayerId, to: nsAerialBasemapOpacity)
             }
-            engine.setVisible(for: nsAerialLayerId, to: true)
+            controller.setVisible(for: nsAerialLayerId, to: true)
         } else if nsAerialLayer.isVisible {
-            engine.setVisible(for: nsAerialLayerId, to: false)
+            controller.setVisible(for: nsAerialLayerId, to: false)
         }
     }
 
-    private func toggleNSAerialVisibility(_ layer: any MapLayer) {
+    private func toggleNSAerialVisibility(_ layer: MapLayerState) {
         if layer.isVisible {
-            engine.setVisible(for: nsAerialLayerId, to: false)
-            if engine.baseMapType == .nsAerial {
-                engine.baseMapType = .standard
+            controller.setVisible(for: nsAerialLayerId, to: false)
+            if controller.baseMapType == .nsAerial {
+                controller.baseMapType = .standard
             }
         } else {
             restoreVisibleOpacityIfNeeded(for: layer)
-            engine.setVisible(for: nsAerialLayerId, to: true)
-            engine.baseMapType = .nsAerial
+            controller.setVisible(for: nsAerialLayerId, to: true)
+            controller.baseMapType = .nsAerial
         }
     }
 
-    private func restoreVisibleOpacityIfNeeded(for layer: any MapLayer) {
+    private func restoreVisibleOpacityIfNeeded(for layer: MapLayerState) {
         guard layer.opacity <= 0 else { return }
         let fallbackOpacity = visibleFallbackOpacity(for: layer.id)
-        engine.setOpacity(for: layer.id, to: fallbackOpacity)
+        controller.setOpacity(for: layer.id, to: fallbackOpacity)
     }
 
     private func visibleFallbackOpacity(for layerId: String) -> CGFloat {

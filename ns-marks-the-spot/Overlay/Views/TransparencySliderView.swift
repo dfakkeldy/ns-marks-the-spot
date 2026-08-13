@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TransparencySliderView: View {
-    @ObservedObject var viewModel: OverlayViewModel
+    let viewModel: OverlayViewModel
     @Binding var isExpanded: Bool
 
     var body: some View {
@@ -150,7 +150,7 @@ struct TransparencySliderView: View {
         case "crown-lands": return "leaf.fill"
         case "flood-risk": return "drop.triangle.fill"
         case "waterfalls": return "drop.circle.fill"
-        default: return "layers"
+        default: return "square.3.stack.3d"
         }
     }
 }

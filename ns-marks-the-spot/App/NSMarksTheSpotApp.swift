@@ -1,4 +1,3 @@
-import SwiftData
 import SwiftUI
 
 @main
@@ -8,12 +7,12 @@ struct NSMarksTheSpotApp: App {
     var body: some Scene {
         WindowGroup {
             MapContainerView(
-                engine: container.mapEngine,
+                controller: container.mapController,
+                navigationModel: container.navigationModel,
                 poiViewModel: container.poiViewModel,
                 offlineAreasViewModel: container.offlineAreasViewModel,
                 isUITestMode: container.isUITestMode
             )
         }
-        .modelContainer(for: PointOfInterest.self)
     }
 }

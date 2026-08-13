@@ -7,14 +7,14 @@ struct POIViewModelTests {
         let viewModel = POIViewModel {
             throw POIFetcherError.invalidHTTPStatus(503)
         }
-        let engine = MockMapEngine()
+        let controller = MapController()
 
-        await viewModel.fetchRemoteWaterfalls(engine: engine)
+        await viewModel.fetchRemoteWaterfalls(controller: controller)
 
         #expect(viewModel.waterfallFetchErrorMessage == "Waterfalls are unavailable right now.")
         #expect(viewModel.isFetchingWaterfalls == false)
         #expect(viewModel.points.isEmpty)
-        #expect(engine.annotations.isEmpty)
+        #expect(controller.annotations.isEmpty)
     }
 
     @Test func fetchRemoteWaterfallsDeduplicatesPointsAndAnnotationsAcrossAppearances() async {
@@ -31,15 +31,15 @@ struct POIViewModelTests {
                 )
             ]
         }
-        let engine = MockMapEngine()
+        let controller = MapController()
 
-        await viewModel.fetchRemoteWaterfalls(engine: engine)
-        await viewModel.fetchRemoteWaterfalls(engine: engine)
+        await viewModel.fetchRemoteWaterfalls(controller: controller)
+        await viewModel.fetchRemoteWaterfalls(controller: controller)
 
         #expect(fetchCount == 1)
         #expect(viewModel.points.count == 1)
-        #expect(engine.annotations.count == 1)
-        #expect(engine.annotations.first?.id == "waterfall-1060")
+        #expect(controller.annotations.count == 1)
+        #expect(controller.annotations.first?.id == "waterfall-1060")
     }
 
     @Test func retryAfterFailureClearsErrorAndAddsAnnotations() async {
@@ -59,22 +59,22 @@ struct POIViewModelTests {
                 )
             ]
         }
-        let engine = MockMapEngine()
+        let controller = MapController()
 
-        await viewModel.fetchRemoteWaterfalls(engine: engine)
+        await viewModel.fetchRemoteWaterfalls(controller: controller)
         shouldFail = false
-        await viewModel.fetchRemoteWaterfalls(engine: engine, force: true)
+        await viewModel.fetchRemoteWaterfalls(controller: controller, force: true)
 
         #expect(viewModel.waterfallFetchErrorMessage == nil)
         #expect(viewModel.points.count == 1)
-        #expect(engine.annotations.count == 1)
+        #expect(controller.annotations.count == 1)
     }
 
     @Test func syncAnnotationsSkipsExistingAnnotationIDs() {
         let viewModel = POIViewModel {
             []
         }
-        let engine = MockMapEngine()
+        let controller = MapController()
         let point = PointOfInterest(
             id: "waterfall-1060",
             name: "Waterfall #1060",
@@ -83,7 +83,7 @@ struct POIViewModelTests {
             category: "waterfall"
         )
         viewModel.points = [point]
-        engine.addAnnotation(
+        controller.addAnnotation(
             MapAnnotation(
                 id: point.id,
                 latitude: point.latitude,
@@ -93,8 +93,8 @@ struct POIViewModelTests {
             )
         )
 
-        viewModel.syncAnnotations(to: engine)
+        viewModel.syncAnnotations(to: controller)
 
-        #expect(engine.annotations.count == 1)
+        #expect(controller.annotations.count == 1)
     }
 }

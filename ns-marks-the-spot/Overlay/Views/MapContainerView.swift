@@ -3,42 +3,42 @@ import SwiftUI
 struct MapContainerView: View {
     @Environment(\.scenePhase) private var scenePhase
 
-    let engine: any MapEngine
+    let controller: MapController
+    let navigationModel: NavigationModel
     let isUITestMode: Bool
-    @StateObject private var overlayVM: OverlayViewModel
-    @ObservedObject private var poiVM: POIViewModel
-    @ObservedObject private var offlineVM: OfflineAreasViewModel
-    @State private var selectedPOI: PointOfInterest?
+    @State private var overlayVM: OverlayViewModel
+    private let poiVM: POIViewModel
+    private let offlineVM: OfflineAreasViewModel
     @State private var isLayersMenuExpanded = false
-    @State private var isOfflineStoragePresented = false
     @State private var mapHeading: Double = 0
-    @State private var selectedSaveBounds: MapBounds?
-    @State private var isSaveAreaDraftPresented = false
     @State private var isSelectingSaveArea = false
-    @State private var isInfoPresented = false
 
     init(
-        engine: any MapEngine,
+        controller: MapController,
+        navigationModel: NavigationModel,
         poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
         isUITestMode: Bool = false
     ) {
-        self.engine = engine
+        self.controller = controller
+        self.navigationModel = navigationModel
         self.isUITestMode = isUITestMode
         self.poiVM = poiViewModel
         self.offlineVM = offlineAreasViewModel
-        _overlayVM = StateObject(wrappedValue: OverlayViewModel(engine: engine))
+        _overlayVM = State(initialValue: OverlayViewModel(controller: controller))
     }
 
     var body: some View {
+        @Bindable var navigationModel = navigationModel
+
         ZStack {
-            engine.makeMapView()
+            MapSurfaceView(controller: controller)
                 .ignoresSafeArea()
 
             VStack {
                 HStack(alignment: .top, spacing: 12) {
                     Spacer()
-                    
+
                     if isLayersMenuExpanded {
                         TransparencySliderView(viewModel: overlayVM, isExpanded: $isLayersMenuExpanded)
                             .frame(width: 300)
@@ -48,7 +48,7 @@ struct MapContainerView: View {
                             ))
                             .padding(.top, 60)
                     }
-                    
+
                     VStack(spacing: 12) {
                         if isSelectingSaveArea {
                             VStack(alignment: .trailing, spacing: 8) {
@@ -76,7 +76,7 @@ struct MapContainerView: View {
                         if mapHeading != 0 {
                             Button {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    engine.resetHeading()
+                                    controller.resetHeading()
                                 }
                             } label: {
                                 Image(systemName: "compass.fill")
@@ -92,10 +92,10 @@ struct MapContainerView: View {
                             .transition(.scale.combined(with: .opacity))
                             .disabled(isSelectingSaveArea)
                         }
-                        
+
                         Button {
-                            engine.showsUserLocation = true
-                            engine.centerOnUserLocation()
+                            controller.showsUserLocation = true
+                            controller.centerOnUserLocation()
                         } label: {
                             Image(systemName: "location.fill")
                                 .font(.system(size: 18, weight: .semibold))
@@ -110,7 +110,7 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
-                            isOfflineStoragePresented = true
+                            navigationModel.activeSheet = .offlineStorage
                         } label: {
                             Image(systemName: "externaldrive")
                                 .font(.system(size: 18, weight: .semibold))
@@ -124,7 +124,7 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
-                            isInfoPresented = true
+                            navigationModel.activeSheet = .info
                         } label: {
                             Image(systemName: "info.circle")
                                 .font(.system(size: 18, weight: .semibold))
@@ -151,7 +151,7 @@ struct MapContainerView: View {
                         }
                         .accessibilityLabel("Save Area")
                         .disabled(isSelectingSaveArea)
-                        
+
                         Button {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                                 isLayersMenuExpanded.toggle()
@@ -185,7 +185,7 @@ struct MapContainerView: View {
 
                         Button("Retry") {
                             Task {
-                                await poiVM.fetchRemoteWaterfalls(engine: engine, force: true)
+                                await poiVM.fetchRemoteWaterfalls(controller: controller, force: true)
                             }
                         }
                         .buttonStyle(.bordered)
@@ -201,36 +201,29 @@ struct MapContainerView: View {
             }
         }
         .onAppear {
-            engine.headingChangeHandler = { heading in
-                self.mapHeading = heading
-            }
-            if let firstLayer = engine.layers.first {
-                overlayVM.selectLayer(firstLayer.id)
-            }
-            engine.setAnnotationSelectionHandler { annotationID in
-                selectedPOI = poiVM.points.first { $0.id == annotationID }
+            controller.events = { event in
+                switch event {
+                case .headingChanged(let heading):
+                    mapHeading = heading
+                case .annotationSelected(let annotationID):
+                    if let poi = poiVM.points.first(where: { $0.id == annotationID }) {
+                        navigationModel.activeSheet = .poiDetail(poi)
+                    }
+                case .boundsSelected(let bounds):
+                    finishBoundsSelection(with: bounds)
+                }
             }
             if isUITestMode {
                 poiVM.points = []
-                poiVM.syncAnnotations(to: engine)
+                poiVM.syncAnnotations(to: controller)
             } else {
                 Task {
-                    await poiVM.fetchRemoteWaterfalls(engine: engine)
+                    await poiVM.fetchRemoteWaterfalls(controller: controller)
                 }
             }
         }
-        .onChange(of: selectedPOI) { _, newValue in
+        .onChange(of: navigationModel.activeSheet) { _, newValue in
             if newValue != nil {
-                cancelBoundsSelection()
-            }
-        }
-        .onChange(of: isOfflineStoragePresented) { _, isPresented in
-            if isPresented {
-                cancelBoundsSelection()
-            }
-        }
-        .onChange(of: isInfoPresented) { _, isPresented in
-            if isPresented {
                 cancelBoundsSelection()
             }
         }
@@ -242,27 +235,17 @@ struct MapContainerView: View {
         .onDisappear {
             cancelBoundsSelection()
         }
-        .sheet(item: $selectedPOI) { poi in
-            POIDetailView(poi: poi)
-        }
-        .sheet(isPresented: $isOfflineStoragePresented) {
-            OfflineStorageView(viewModel: offlineVM)
-        }
-        .sheet(isPresented: $isInfoPresented) {
-            InfoSheetView()
-        }
-        .sheet(
-            isPresented: $isSaveAreaDraftPresented,
-            onDismiss: {
-                selectedSaveBounds = nil
-            }
-        ) {
-            if let selectedSaveBounds {
+        .sheet(item: $navigationModel.activeSheet) { route in
+            switch route {
+            case .poiDetail(let poi):
+                POIDetailView(poi: poi)
+            case .offlineStorage:
+                OfflineStorageView(viewModel: offlineVM)
+            case .info:
+                InfoSheetView()
+            case .saveAreaDraft(let bounds):
                 NavigationStack {
-                    SaveAreaDraftView(
-                        viewModel: offlineVM,
-                        bounds: selectedSaveBounds
-                    )
+                    SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)
                 }
             }
         }
@@ -272,27 +255,24 @@ struct MapContainerView: View {
         guard !isSelectingSaveArea else { return }
 
         isSelectingSaveArea = true
-        engine.beginBoundsSelection { bounds in
-            finishBoundsSelection(with: bounds)
-        }
+        controller.beginBoundsSelection()
     }
 
     private func finishBoundsSelection(with bounds: MapBounds) {
-        engine.endBoundsSelection()
+        controller.endBoundsSelection()
         isSelectingSaveArea = false
-        selectedSaveBounds = bounds.normalized
-        isSaveAreaDraftPresented = true
+        navigationModel.activeSheet = .saveAreaDraft(bounds.normalized)
     }
 
     private func saveVisibleMapArea() {
-        guard let bounds = engine.currentVisibleBounds() else { return }
+        guard let bounds = controller.currentVisibleBounds() else { return }
         finishBoundsSelection(with: bounds)
     }
 
     private func cancelBoundsSelection() {
         guard isSelectingSaveArea else { return }
 
-        engine.endBoundsSelection()
+        controller.endBoundsSelection()
         isSelectingSaveArea = false
     }
 }
