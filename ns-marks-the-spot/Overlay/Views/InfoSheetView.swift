@@ -1,8 +1,12 @@
+import MapCatalog
 import SwiftUI
 
 struct InfoSheetView: View {
     @Environment(\.dismiss) private var dismiss
 
+    /// Every catalogued layer, including the ones this build cannot draw. The
+    /// sheet answers "where does this map's data come from", and a source is no
+    /// less real for not being rendered yet.
     private let layers = LayerCatalog.all
 
     var body: some View {
@@ -57,24 +61,28 @@ struct InfoSheetView: View {
 private struct LayerAttributionRow: View {
     let layer: LayerDescriptor
 
+    private var attribution: LayerAttribution {
+        NativeLayerTraits.attribution(for: layer)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(layer.name)
                 .font(.subheadline)
                 .bold()
 
-            Text(layer.attribution.provider)
+            Text(attribution.provider)
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            if let copyright = layer.attribution.copyright {
+            if let copyright = attribution.copyright {
                 Text(copyright)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
-            if let licenseTitle = layer.attribution.licenseTitle {
-                if let licenseURL = layer.attribution.resolvedLicenseURL {
+            if let licenseTitle = attribution.licenseTitle {
+                if let licenseURL = attribution.resolvedLicenseURL {
                     Link(licenseTitle, destination: licenseURL)
                         .font(.caption)
                 } else {
@@ -84,15 +92,13 @@ private struct LayerAttributionRow: View {
                 }
             }
 
-            Text(layer.attribution.disclaimer)
+            Text(attribution.disclaimer)
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            if let userCaveat = layer.userCaveat {
-                Text(userCaveat)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            Text(NativeLayerTraits.caveat(for: layer))
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)

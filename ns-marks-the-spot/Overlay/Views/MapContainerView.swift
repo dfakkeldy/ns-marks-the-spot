@@ -15,6 +15,7 @@ struct MapContainerView: View {
 
     init(
         controller: MapController,
+        overlayViewModel: OverlayViewModel,
         navigationModel: NavigationModel,
         poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
@@ -25,7 +26,10 @@ struct MapContainerView: View {
         self.isUITestMode = isUITestMode
         self.poiVM = poiViewModel
         self.offlineVM = offlineAreasViewModel
-        _overlayVM = State(initialValue: OverlayViewModel(controller: controller))
+        // Supplied rather than built here: it needs the licence store and the
+        // clearance the tile path reads, and a second store built in a view
+        // would be a second answer to the same question.
+        _overlayVM = State(initialValue: overlayViewModel)
     }
 
     var body: some View {

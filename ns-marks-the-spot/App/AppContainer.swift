@@ -1,5 +1,9 @@
 import Foundation
+import GeoCore
+import MapCatalog
+import NSDataServices
 
+@MainActor
 final class AppContainer {
     let mapController: MapController
     let navigationModel = NavigationModel()
@@ -8,9 +12,16 @@ final class AppContainer {
     let tileFetcher: TileFetcher
     let poiViewModel: POIViewModel
     let offlineAreasViewModel: OfflineAreasViewModel
+    let licenceStore: ProvinceLicenceStore
     let isUITestMode: Bool
 
-    init() {
+    /// The clearance the tile-loading queues read.
+    ///
+    /// Kept in step with `licenceStore` by `OverlayViewModel`, which is the one
+    /// place acceptance and revocation happen.
+    let clearanceBox: LicenceClearanceBox
+
+    init(licenceStorage: (any ProvinceLicenceStorage)? = nil) {
         self.isUITestMode = ProcessInfo.processInfo.arguments.contains("UITestMode")
 
         let store = TileStore()
@@ -24,10 +35,20 @@ final class AppContainer {
         let tileDownloadManager = TileDownloadManager(tileStore: store)
         FletcherSourceMigration.runIfNeeded(tileCache: cache, tileStore: store)
 
-        let fletcherTileLoader = LayerCatalog.descriptor(for: .fletcher)
-            .flatMap { descriptor in
-                descriptor.sourceURL.map { FletcherTileLoader(tileFetcher: fetcher, baseURL: $0) }
-            }
+        let licenceStore: ProvinceLicenceStore
+        if let licenceStorage {
+            licenceStore = ProvinceLicenceStore(storage: licenceStorage)
+        } else {
+            licenceStore = ProvinceLicenceStore()
+        }
+        self.licenceStore = licenceStore
+        let clearanceBox = LicenceClearanceBox(licenceStore.clearance)
+        self.clearanceBox = clearanceBox
+
+        let fletcherBaseURL = FletcherHost.configuredBaseURL
+        let fletcherTileLoader = fletcherBaseURL.map {
+            FletcherTileLoader(tileFetcher: fetcher, baseURL: $0)
+        }
         self.offlineAreasViewModel = OfflineAreasViewModel(
             tileStore: store,
             tileCache: cache,
@@ -35,91 +56,84 @@ final class AppContainer {
             tileLoader: fletcherTileLoader
         )
 
-        let controller = MapController(tileCache: cache, tileFetcher: fetcher)
+        let controller = MapController(
+            tileCache: cache,
+            tileFetcher: fetcher,
+            clearanceBox: clearanceBox
+        )
         self.mapController = controller
 
         self.poiViewModel = POIViewModel()
 
-        for descriptor in LayerCatalog.all {
-            guard let layer = Self.makeLayer(from: descriptor) else { continue }
+        for layer in Self.installableLayers(fletcherBaseURL: fletcherBaseURL) {
             controller.addLayer(layer)
         }
+    }
+
+    /// Every catalogued raster the app can draw, bottom of the stack first.
+    ///
+    /// Not filtered by licence. A restricted layer is installed but starts
+    /// hidden, and `OpacityTileOverlay` asks `TileRequestFactory` for a cleared
+    /// request before every tile — so an unaccepted layer draws nothing and
+    /// contacts nothing, while still having a row the user can turn on to reach
+    /// the licence sheet. Filtering here instead would remove the row, leaving
+    /// no way to accept and nothing to accept it for.
+    static func installableLayers(fletcherBaseURL: URL?) -> [MapLayerState] {
+        NativeLayerTraits.installOrder
+            .compactMap(LayerCatalog.descriptor(for:))
+            .compactMap { makeLayer(from: $0, fletcherBaseURL: fletcherBaseURL) }
     }
 
     /// Turns a catalogue entry into an installed layer, or `nil` where there is
     /// nothing renderable to install.
     ///
+    /// Keyed on `delivery`, which is the field the shared catalog exists to
+    /// answer this question with, rather than on the id. A layer added to the
+    /// catalog is drawn without an entry here; a layer whose delivery this app
+    /// has no renderer for is skipped rather than guessed at.
+    ///
     /// `static` and not `private` so it can be exercised against a descriptor
-    /// the caller supplies. It reads nothing but its argument, and the branch
-    /// that matters most — Fletcher with a host configured — is unreachable in
-    /// a checkout without `FLETCHER_TILE_BASE_URL`, which is every checkout in
-    /// CI. A test that could only observe the ambient configuration would pass
-    /// with that branch deleted.
-    static func makeLayer(from descriptor: LayerDescriptor) -> MapLayerState? {
-        switch descriptor.id {
-        case .fletcher:
-            // No configured host means no tile build to point at, so the layer
-            // is not installed at all. A row whose switch does nothing reads as
-            // a broken feature; an absent row reads as a feature that has not
-            // shipped, which is what this is until the sheets are hosted.
-            guard let baseURL = descriptor.sourceURL else { return nil }
+    /// the caller supplies. The branch that matters most — Fletcher with a host
+    /// configured — is unreachable in a checkout without
+    /// `FLETCHER_TILE_BASE_URL`, which is every checkout in CI. A test that
+    /// could only observe the ambient configuration would pass with that branch
+    /// deleted.
+    static func makeLayer(
+        from descriptor: LayerDescriptor,
+        fletcherBaseURL: URL?
+    ) -> MapLayerState? {
+        switch descriptor.delivery {
+        case .xyzTemplate:
+            // Fletcher is the only one, and its address is a build setting
+            // rather than catalog data. With no host configured there is no
+            // pyramid to point at, so nothing is installed — the panel still
+            // shows the row, disabled, because it reads the catalog.
+            guard descriptor.id == .fletcher, let baseURL = fletcherBaseURL else {
+                return nil
+            }
             return MapLayerState(
                 descriptor: descriptor,
                 source: .fletcherSheets(baseURL: baseURL)
             )
-        case .nsAerial:
-            guard let url = descriptor.sourceURL else { return nil }
+
+        case .mapExport:
+            // The URL is built per tile by `TileRequestFactory`; what matters
+            // here is only that it *can* be built, so a catalog entry missing
+            // its endpoint or its export options is skipped rather than
+            // installed as a layer that answers every tile with a blank.
+            guard descriptor.serviceURL != nil, descriptor.exportOptions != nil else {
+                return nil
+            }
             return MapLayerState(
                 descriptor: descriptor,
-                source: .arcgisMapService(url, transparent: false)
+                source: .catalogExport(descriptor.id)
             )
-        case .nsPropertyBoundaries:
-            guard let url = descriptor.sourceURL else { return nil }
-            return MapLayerState(
-                descriptor: descriptor,
-                source: .arcgisDynamic(
-                    url,
-                    dynamicLayers: """
-                    [{"id":0,"source":{"type":"mapLayer","mapLayerId":0},"drawingInfo":{"showLabels":false}}]
-                    """,
-                    layerRestrictions: nil
-                )
-            )
-        case .crownLands:
-            guard let url = descriptor.sourceURL else { return nil }
-            return MapLayerState(
-                descriptor: descriptor,
-                source: .arcgisDynamic(
-                    url,
-                    dynamicLayers: """
-                    [{"id":0,"source":{"type":"mapLayer","mapLayerId":0},"drawingInfo":{"renderer":{"type":"simple","symbol":{"type":"esriSFS","style":"esriSFSSolid","color":[46,180,46,128],"outline":{"type":"esriSLS","style":"esriSLSSolid","color":[0,100,0,255],"width":2}}},"labelingInfo":[]}]
-                    """,
-                    layerRestrictions: nil
-                )
-            )
-        case .floodRisk:
-            guard let url = descriptor.sourceURL else { return nil }
-            return MapLayerState(
-                descriptor: descriptor,
-                source: .arcgisDynamic(url, dynamicLayers: nil, layerRestrictions: "show:24,25,26")
-            )
-        case .waterfalls:
-            guard let url = descriptor.sourceURL else { return nil }
-            return MapLayerState(
-                descriptor: descriptor,
-                source: .arcgisDynamic(
-                    url,
-                    dynamicLayers: """
-                    [{"id":1,"source":{"type":"mapLayer","mapLayerId":1},"definitionExpression":"FEAT_DESC = 'Falls -  On a single line river point'","drawingInfo":{"renderer":{"type":"simple","symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[0,120,255,255],"size":8,"outline":{"type":"esriSLS","style":"esriSLSSolid","color":[255,255,255,255],"width":1.5}}},"showLabels":true,"labelingInfo":[{"labelExpression":"[ZVALUE]","labelPlacement":"esriServerPointLabelPlacementAboveRight","symbol":{"type":"esriTS","color":[0,120,255,255],"font":{"size":10,"family":"Arial","weight":"bold"}},"minScale":50000}]}}]
-                    """,
-                    layerRestrictions: nil
-                )
-            )
-        case .churchInverness, .churchVictoria, .churchRichmond, .churchCapeBreton:
-            // Catalogued for attribution and metadata only. No tiles have been
-            // produced for the Church series yet, so there is no renderable
-            // source to install. Give these a source URL and a tile type when
-            // the pyramids exist.
+
+        case .featureQuery, .derivedParcelQuery, .geoJSONEndpoint,
+             .bundledGeoJSON, .unavailable:
+            // Vector deliveries arrive with the feature layers in a later
+            // phase; `.unavailable` is the four Church sheets, catalogued for
+            // attribution with no tiles to draw.
             return nil
         }
     }

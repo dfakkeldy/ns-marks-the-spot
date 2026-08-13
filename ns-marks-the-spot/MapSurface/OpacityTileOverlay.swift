@@ -1,3 +1,4 @@
+import GeoCore
 import MapCatalog
 import MapKit
 import NSDataServices
@@ -14,11 +15,18 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
     weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
+    private let clearanceBox: LicenceClearanceBox
 
-    init(configuration: TileLayerConfiguration, tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
+    init(
+        configuration: TileLayerConfiguration,
+        tileCache: TileCache? = nil,
+        tileFetcher: TileFetcher? = nil,
+        clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
+    ) {
         self.configuration = configuration
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
+        self.clearanceBox = clearanceBox
         super.init(urlTemplate: nil)
     }
 
@@ -32,6 +40,23 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         let z = path.z
         let x = path.x
         let y = path.y
+
+        // Before the cache, not after. Bytes already on disk are still Province
+        // imagery, and answering from the cache after a refusal would make the
+        // gate mean "stop fetching" where the user was told it means "stop
+        // using". Checking here is what makes the map agree with the switch.
+        //
+        // Sweeping those bytes off disk when an accepted licence is later
+        // revoked is a separate obligation, and nothing reaches
+        // `ProvinceLicenceStore.revoke()` yet — this app currently has an
+        // accept-or-decline sheet and no revoke control. When one lands it needs
+        // a cache sweep beside it; until then no session can get from accepted
+        // back to refused, so there is no state this check leaves inconsistent.
+        if case .catalogExport(let layerID) = configuration.source,
+           !clearanceBox.clearance.allows(layerID)
+        {
+            return try Self.fallbackTileData(z: z, x: x, y: y)
+        }
 
         if let cache = tileCache, let cached = cache.cachedTile(z: z, x: x, y: y, layerName: cacheKey) {
             return cached
@@ -65,38 +90,80 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         }
 
         if let fetcher = tileFetcher,
-           case .arcgisMapService(let serverURL, let transparent) = configuration.source
+           case .catalogExport(let layerID) = configuration.source
         {
-            do {
-                return try await fetcher.fetchArcGISMapServiceTile(
-                    z: z,
-                    x: x,
-                    y: y,
-                    from: serverURL,
-                    layerName: cacheKey,
-                    transparent: transparent
-                )
-            } catch {
-                return try Self.fallbackTileData(z: z, x: x, y: y)
+            if let tileData = await Self.catalogExportTile(
+                layerID: layerID,
+                z: z, x: x, y: y,
+                layerName: cacheKey,
+                clearanceBox: clearanceBox,
+                fetcher: fetcher,
+                cache: tileCache
+            ) {
+                return tileData
             }
-        }
-
-        if let fetcher = tileFetcher,
-           case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = configuration.source
-        {
-            do {
-                return try await fetcher.fetchArcGISDynamicTile(
-                    z: z, x: x, y: y,
-                    from: serverURL, layerName: cacheKey,
-                    dynamicLayersJSON: dynamicLayers,
-                    layerRestrictions: layerRestrictions
-                )
-            } catch {
-                return try Self.fallbackTileData(z: z, x: x, y: y)
-            }
+            return try Self.fallbackTileData(z: z, x: x, y: y)
         }
 
         return try Self.fallbackTileData(z: z, x: x, y: y)
+    }
+
+    /// One `/export` tile for a catalogued layer, including the second pass for
+    /// the one layer the web draws twice.
+    ///
+    /// Both passes are stacked into a single tile rather than mounted as two
+    /// MapKit overlays. On the web the casing renders exactly one z-index above
+    /// its base — `PROVINCE_LAYER_Z_INDEXES["roads"]` is 235 and the casing is
+    /// 236 — and nothing else occupies 236 through 239, so no layer can come
+    /// between them. Stacking here gives the same result with one row, one
+    /// opacity slider and one cache entry, instead of a second installed layer
+    /// whose id, visibility and opacity would have to be kept in step with the
+    /// row the user actually sees.
+    ///
+    /// Returns `nil` when the layer produced nothing to draw, including when
+    /// the licence refuses it — the caller answers with a transparent tile,
+    /// because MapKit treats a thrown error as a tile to retry.
+    private static func catalogExportTile(
+        layerID: LayerID,
+        z: Int,
+        x: Int,
+        y: Int,
+        layerName: String,
+        clearanceBox: LicenceClearanceBox,
+        fetcher: TileFetcher,
+        cache: TileCache?
+    ) async -> Data? {
+        var stacked: [Data] = []
+        do {
+            let clearance = clearanceBox.clearance
+            let base = try TileRequestFactory.tileRequest(
+                for: layerID, x: x, y: y, z: z, clearance: clearance
+            )
+            stacked.append(try await fetcher.imageData(from: base.url))
+
+            if let casing = try TileRequestFactory.overlayTileRequest(
+                for: layerID, x: x, y: y, z: z, clearance: clearance
+            ) {
+                stacked.append(try await fetcher.imageData(from: casing.url))
+            }
+        } catch {
+            // A refusal and a failed fetch are both "no tile right now". The
+            // distinction that matters — whether the layer may be requested at
+            // all — was already made before the cache read, and drawing a
+            // partial composite would freeze a road with no casing under it.
+            return nil
+        }
+
+        // Re-read rather than reuse the value the requests were built from. A
+        // network round trip is long enough for the user to refuse in the
+        // middle of it, and the bytes in hand are the ones that would otherwise
+        // be written to disk and drawn — a refusal that only stopped the *next*
+        // request would leave this tile on the map and in the cache.
+        guard clearanceBox.clearance.allows(layerID) else { return nil }
+
+        guard let composited = TileComposite.stack(stacked) else { return nil }
+        cache?.cacheTile(composited, z: z, x: x, y: y, layerName: layerName)
+        return composited
     }
 
     private static func fallbackTileData(z: Int, x: Int, y: Int) throws -> Data {

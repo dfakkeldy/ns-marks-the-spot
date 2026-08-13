@@ -1,4 +1,8 @@
 import Foundation
+import GeoCore
+import MapCatalog
+import MapKit
+import NSDataServices
 import Testing
 @testable import ns_marks_the_spot
 
@@ -201,7 +205,10 @@ struct OverlayViewModelTests {
                 opacity: 0.5
             )
         )
-        let vm = OverlayViewModel(controller: controller)
+        let vm = OverlayViewModel(
+            controller: controller,
+            licenceStore: ProvinceLicenceStore(storage: InMemoryProvinceLicenceStorage())
+        )
 
         vm.updateLayerOpacity(for: "l1", to: 0.75)
 
@@ -210,7 +217,10 @@ struct OverlayViewModelTests {
 
     @Test func updateLayerOpacityOnUnknownLayerDoesNotCrash() {
         let controller = MapController()
-        let vm = OverlayViewModel(controller: controller)
+        let vm = OverlayViewModel(
+            controller: controller,
+            licenceStore: ProvinceLicenceStore(storage: InMemoryProvinceLicenceStorage())
+        )
 
         vm.updateLayerOpacity(for: "nonexistent", to: 1.0)
     }
@@ -232,6 +242,77 @@ struct ReleaseReadinessTests {
         // offline default would be.
         #expect(Bundle.main.url(forResource: "Tiles", withExtension: nil) == nil)
         #expect(Bundle.main.url(forResource: "Tiles/Fletcher/11/676/724", withExtension: "png") == nil)
+    }
+}
+
+// MARK: - Province licence gate
+
+/// The gate where it actually stands: `OpacityTileOverlay.loadTile`.
+///
+/// The view-model tests check that acceptance reaches the clearance box. That is
+/// not the same claim as this one, and a box that is perfectly in step is worth
+/// nothing if the tile path does not read it — which is why these drive the
+/// overlay and count the requests that left the process.
+@MainActor
+struct ProvinceLicenceGateTests {
+    @Test func aRestrictedLayerMakesNoRequestBeforeTheLicenceIsAccepted() async throws {
+        let png = try #require(Data(base64Encoded: TileFetcherTests.onePixelPNGBase64))
+        TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: png)
+        let overlay = try Self.overlay(for: .nsprd, clearance: LicenceClearanceBox())
+
+        let data = try await overlay.loadTile(at: MKTileOverlayPath(x: 42, y: 55, z: 15, contentScaleFactor: 1))
+
+        // A transparent tile rather than a thrown error: MapKit retries a
+        // throwing tile, and retrying a refusal forever is not a refusal.
+        #expect(data.isEmpty == false)
+        #expect(TileFetcherURLProtocol.requests.isEmpty, "a refused layer must not reach the network")
+    }
+
+    @Test func acceptingTheLicenceLetsTheSameLayerLoad() async throws {
+        let png = try #require(Data(base64Encoded: TileFetcherTests.onePixelPNGBase64))
+        TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: png)
+
+        let box = LicenceClearanceBox()
+        let overlay = try Self.overlay(for: .nsprd, clearance: box)
+        let store = ProvinceLicenceStore(storage: InMemoryProvinceLicenceStorage(initial: .unknown))
+        let viewModel = OverlayViewModel(
+            controller: MapController(),
+            licenceStore: store,
+            clearanceBox: box
+        )
+        viewModel.acceptProvinceLicence()
+
+        _ = try await overlay.loadTile(at: MKTileOverlayPath(x: 42, y: 55, z: 15, contentScaleFactor: 1))
+
+        // The same overlay instance, unchanged, now reaches the service: the
+        // box is read per tile rather than captured at install time.
+        let requested = try #require(TileFetcherURLProtocol.requests.first?.url?.absoluteString)
+        #expect(requested.contains("/export"))
+        #expect(requested.contains("nsgiwa.novascotia.ca"))
+    }
+
+    private static func overlay(
+        for id: LayerID,
+        clearance: LicenceClearanceBox
+    ) throws -> OpacityTileOverlay {
+        let descriptor = try #require(LayerCatalog.descriptor(for: id))
+        #expect(descriptor.requiresProvinceClearance, "this test needs a restricted layer")
+
+        let configuration = TileLayerConfiguration(
+            descriptor: descriptor,
+            source: .catalogExport(id)
+        )
+        let session = URLSessionConfiguration.ephemeral
+        session.protocolClasses = [TileFetcherURLProtocol.self]
+        return OpacityTileOverlay(
+            configuration: configuration,
+            // No cache: a cached tile would answer before the network is
+            // reached, and "made no request" would then be true for the wrong
+            // reason.
+            tileCache: nil,
+            tileFetcher: TileFetcher(urlSession: URLSession(configuration: session)),
+            clearanceBox: clearance
+        )
     }
 }
 
@@ -329,25 +410,26 @@ struct TileFetcherTests {
         #expect(cache.cachedTile(z: 3, x: 4, y: 5, layerName: "fletcher") == nil)
     }
 
-    @Test func dynamicArcGISTilesRejectLowZoomBeforeNetworkFetch() async throws {
-        TileFetcherURLProtocol.reset(statusCode: 200, contentType: "image/png", data: Data())
+    @Test func imageDataRejectsANonImageResponseWithoutReturningBytes() async throws {
+        // The zoom floor this test used to assert is gone: `TileFetcher` no
+        // longer refuses low zooms of its own accord, because `MKTileOverlay`
+        // already declines to ask outside `minimumZ...maximumZ` and the floor
+        // was silently refusing waterfalls at z7 and place names at z8. What
+        // remains the fetcher's job is refusing a response that is not imagery.
+        TileFetcherURLProtocol.reset(
+            statusCode: 200,
+            contentType: "application/json",
+            data: Data("{\"error\":{\"code\":499}}".utf8)
+        )
         let fetcher = TileFetcher(urlSession: makeURLSession())
-        let serverURL = try #require(URL(string: "https://example.com/arcgis/rest/services/layer/MapServer"))
+        let url = try #require(URL(string: "https://example.com/arcgis/rest/services/layer/MapServer/export"))
 
-        await #expect(throws: TileFetcherError.unsupportedDynamicLayerZoom(10)) {
-            _ = try await fetcher.fetchArcGISDynamicTile(
-                z: 10,
-                x: 330,
-                y: 375,
-                from: serverURL,
-                layerName: "nsprd"
-            )
+        await #expect(throws: TileFetcherError.invalidContentType("application/json")) {
+            _ = try await fetcher.imageData(from: url)
         }
-
-        #expect(TileFetcherURLProtocol.requests.isEmpty)
     }
 
-    private static let onePixelPNGBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="
+    static let onePixelPNGBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="
 
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory

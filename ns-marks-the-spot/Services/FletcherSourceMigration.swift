@@ -1,4 +1,5 @@
 import Foundation
+import GeoCore
 import MapCatalog
 
 /// Clears the tile cache once, on the first launch after the Fletcher source

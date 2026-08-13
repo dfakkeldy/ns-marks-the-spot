@@ -1,6 +1,7 @@
 import CoreGraphics
 import CryptoKit
 import Foundation
+import GeoCore
 import MapCatalog
 
 nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
@@ -22,8 +23,15 @@ nonisolated enum TileLayerSource: Equatable, Sendable {
     /// an overlay for every tile in view: without knowing the sheet extents,
     /// panning Cape Breton would fire 24 requests per tile and discard 23.
     case fletcherSheets(baseURL: URL)
-    case arcgisMapService(URL, transparent: Bool)
-    case arcgisDynamic(URL, dynamicLayers: String?, layerRestrictions: String?)
+    /// A catalogued `map-export` layer, drawn from the shared descriptor.
+    ///
+    /// The id alone, not the address: `TileRequestFactory` turns it into a URL,
+    /// and it checks the Province licence before it constructs one. Carrying
+    /// the endpoint and the `dynamicLayers` payload here instead — which is
+    /// what this enum used to do — put a ready-made address in a value that
+    /// nothing had cleared, and meant the app kept its own hand-copied
+    /// duplicate of four styling blobs the catalog already held.
+    case catalogExport(LayerID)
 }
 
 /// The immutable identity of a tile layer: where its tiles come from and how
@@ -59,7 +67,14 @@ nonisolated struct TileLayerConfiguration: Identifiable, Equatable, Sendable {
             name: descriptor.name,
             source: source,
             minZoom: descriptor.minZoom,
-            maxZoom: descriptor.maxZoom
+            // `maxNativeZoom` where the source has one, because that is what
+            // `maximumZ` means to MapKit: the last zoom it will request a tile
+            // for, above which it scales the last real tile up. Leaflet's
+            // `maxNativeZoom` is the same idea, and `maxZoom` on both sides is
+            // how far the user may keep zooming — 23 for NS Aerial against 19
+            // published levels. Passing 23 here would ask the service for four
+            // levels of tiles that do not exist.
+            maxZoom: descriptor.maxNativeZoom ?? descriptor.maxZoom
         )
     }
 
@@ -81,15 +96,36 @@ nonisolated struct TileLayerConfiguration: Identifiable, Equatable, Sendable {
             // MapKit starts asking for tiles before it finishes — this makes
             // the identity correct rather than the timing lucky.
             configString = "fletcherSheets|\(FletcherSheets.tileRevision)|\(baseURL.absoluteString)"
-        case .arcgisMapService(let url, let transparent):
-            configString = "arcgisMapService|\(url.absoluteString)|\(transparent)"
-        case .arcgisDynamic(let url, let dynamicLayers, let layerRestrictions):
-            configString = "arcgis|\(url.absoluteString)|\(dynamicLayers ?? "")|\(layerRestrictions ?? "")"
+        case .catalogExport(let layerID):
+            // The whole export, not just the id. A catalog edit that restyles
+            // `dynamicLayers`, changes `dpi`, or moves the service to another
+            // host produces different pixels at the same (z, x, y), and the
+            // cache must not answer the new request with the old build's
+            // imagery. Reading it from the descriptor rather than storing a
+            // copy keeps the two from drifting.
+            let descriptor = LayerCatalog.descriptor(for: layerID)
+            configString = [
+                "catalogExport",
+                layerID.rawValue,
+                descriptor?.serviceURL?.absoluteString ?? "",
+                exportFingerprint(descriptor?.exportOptions),
+                exportFingerprint(descriptor?.exportOverlayOptions),
+            ].joined(separator: "|")
         }
 
         let hashed = SHA256.hash(data: Data(configString.utf8))
         let hashString = hashed.compactMap { String(format: "%02x", $0) }.joined()
         return "\(id)_\(hashString)"
+    }
+
+    private static func exportFingerprint(_ options: ArcGISExportOptions?) -> String {
+        guard let options else { return "" }
+        return [
+            String(options.transparent),
+            options.layers ?? "",
+            options.dynamicLayers ?? "",
+            options.dpi.map(String.init) ?? "",
+        ].joined(separator: "~")
     }
 }
 
@@ -114,8 +150,13 @@ nonisolated struct MapLayerState: Identifiable, Equatable, Sendable {
     init(descriptor: LayerDescriptor, source: TileLayerSource) {
         self.init(
             configuration: TileLayerConfiguration(descriptor: descriptor, source: source),
-            opacity: descriptor.defaultOpacity,
-            isVisible: descriptor.defaultVisibility
+            // The shared catalog's `opacity` is the value the web opens a layer
+            // at, and `nil` means the layer draws with someone else's styling
+            // rather than an opacity of its own — only the derived parcel layer,
+            // which is not a tile overlay. 1.0 is the neutral reading for a
+            // raster that reached here anyway.
+            opacity: descriptor.opacity.map { CGFloat($0) } ?? 1.0,
+            isVisible: descriptor.nativeDefaultVisible
         )
     }
 }

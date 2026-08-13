@@ -21,6 +21,7 @@ final class MapController: NSObject {
 
     @ObservationIgnored private let tileCache: TileCache?
     @ObservationIgnored private let tileFetcher: TileFetcher?
+    @ObservationIgnored private let clearanceBox: LicenceClearanceBox
     @ObservationIgnored private let locationManager = CLLocationManager()
     private(set) var isWaitingToCenterOnUserLocation = false
     private(set) var mapHeading: Double = 0
@@ -30,9 +31,14 @@ final class MapController: NSObject {
     @ObservationIgnored private var wasScrollEnabled = true
     @ObservationIgnored private var wasZoomEnabled = true
 
-    init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
+    init(
+        tileCache: TileCache? = nil,
+        tileFetcher: TileFetcher? = nil,
+        clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
+    ) {
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
+        self.clearanceBox = clearanceBox
         super.init()
         locationManager.delegate = self
     }
@@ -69,7 +75,8 @@ final class MapController: NSObject {
             let overlay = OpacityTileOverlay(
                 configuration: layer.configuration,
                 tileCache: tileCache,
-                tileFetcher: tileFetcher
+                tileFetcher: tileFetcher,
+                clearanceBox: clearanceBox
             )
             overlay.canReplaceMapContent = false
             overlay.minimumZ = layer.configuration.minZoom
