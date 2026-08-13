@@ -40,6 +40,11 @@ struct ParcelInspection: Equatable {
     /// own reason for having none.
     var resources: ParcelEvidence<ParcelResourceIntersections> = .looking
 
+    /// Published river study areas and the three coastal scenarios. Screening
+    /// evidence: the coastal half is a pixel count taken off the Province's own
+    /// render, not a survey of the ground.
+    var floodHazard: ParcelEvidence<ParcelFloodHazard> = .looking
+
     var civicAddresses: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .looking
     var mappedContext: ParcelEvidence<ParcelContext> = .looking
     var assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .looking

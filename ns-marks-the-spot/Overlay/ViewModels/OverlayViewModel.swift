@@ -190,6 +190,7 @@ final class OverlayViewModel {
     private let dwellingFetcher: PVSCDwellingFetcher
     private let buildingFetcher: BuildingCountFetcher
     private let resourceFetcher: ResourceIntersectionFetcher
+    private let floodFetcher: FloodHazardFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -205,7 +206,8 @@ final class OverlayViewModel {
         assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(),
         dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
         buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(),
-        resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher()
+        resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher(),
+        floodFetcher: FloodHazardFetcher = FloodHazardFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
@@ -217,6 +219,7 @@ final class OverlayViewModel {
         self.dwellingFetcher = dwellingFetcher
         self.buildingFetcher = buildingFetcher
         self.resourceFetcher = resourceFetcher
+        self.floodFetcher = floodFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -565,6 +568,9 @@ final class OverlayViewModel {
         /// One value carrying three sources, because they are refused together
         /// — a parcel with no rings — and answer separately.
         case resources(Result<ParcelResourceIntersections, ResourceIntersectionQuery.Refusal>)
+        /// Likewise: the river study areas and the three coastal scenarios are
+        /// refused together and answer separately.
+        case flood(Result<ParcelFloodHazard, FloodHazardQuery.Refusal>)
     }
 
     /// Rebuilds the panel for whatever is selected now.
@@ -602,6 +608,7 @@ final class OverlayViewModel {
             state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.buildings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            state.floodHazard = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             inspection = state
             return
         }
@@ -610,7 +617,9 @@ final class OverlayViewModel {
         inspectionLookup = Task {
             [
                 weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
-                buildingFetcher, resourceFetcher, clearance = clearanceBox.clearance
+                buildingFetcher, resourceFetcher, floodFetcher,
+                clearance = clearanceBox.clearance,
+                mappedAreaSquareMetres = state.mappedArea?.squareMetres
             ] in
             await withTaskGroup(of: Evidence.self) { group in
                 group.addTask {
@@ -656,6 +665,21 @@ final class OverlayViewModel {
                         )
                     } catch {
                         return .resources(.failure(error))
+                    }
+                }
+                group.addTask {
+                    do throws(FloodHazardQuery.Refusal) {
+                        return .flood(
+                            .success(
+                                try await floodFetcher.hazard(
+                                    for: parts,
+                                    mappedAreaSquareMetres: mappedAreaSquareMetres,
+                                    clearance: clearance
+                                )
+                            )
+                        )
+                    } catch {
+                        return .flood(.failure(error))
                     }
                 }
                 for await evidence in group {
@@ -735,6 +759,10 @@ final class OverlayViewModel {
             inspection?.resources = .ready(intersections)
         case .resources(.failure(.noBoundary)):
             inspection?.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+        case .flood(.success(let hazard)):
+            inspection?.floodHazard = .ready(hazard)
+        case .flood(.failure(.noBoundary)):
+            inspection?.floodHazard = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
         }
     }
 

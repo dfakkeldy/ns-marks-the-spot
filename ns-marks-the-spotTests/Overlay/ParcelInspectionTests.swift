@@ -8,7 +8,7 @@ import Testing
 
 /// The panel that opens on the selected parcel.
 ///
-/// Five services answer it and any of them can fail, so most of what is
+/// Six services answer it and any of them can fail, so most of what is
 /// asserted here is which of three states a section lands in. That is the whole
 /// job: `ready([])` says the parcel has none of the thing, `unavailable` says
 /// nobody was able to say, and a panel that renders the second as the first
@@ -46,7 +46,10 @@ struct ParcelInspectionTests {
             assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session())),
             dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session())),
             buildingFetcher: BuildingCountFetcher(transport: .urlSession(session())),
-            resourceFetcher: ResourceIntersectionFetcher(transport: .urlSession(session()))
+            resourceFetcher: ResourceIntersectionFetcher(transport: .urlSession(session())),
+            floodFetcher: FloodHazardFetcher(
+                transport: .urlSession(session()), decoder: Self.floodedWhenMarked
+            )
         )
         if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
             viewModel.toggleVisibility(LayerID.nsprd.rawValue)
@@ -123,6 +126,19 @@ struct ParcelInspectionTests {
     private static let noRows = StubURLProtocol.Response.success(Data("[]".utf8))
 
     private static let zeroCount = StubURLProtocol.Response.success(Data(#"{"count":0}"#.utf8))
+
+    /// Stands in for decoding the Province's rendered scenario. A stub reply
+    /// carrying `FLOODED` reads as a raster drawn edge to edge, and anything
+    /// else — including the catch-all's empty ArcGIS body — reads as a render
+    /// with nothing on it.
+    private static let floodedWhenMarked = RasterDecoder { data throws(RasterDecoder.UndecodableRaster) in
+        let drawn = String(decoding: data, as: UTF8.self).contains("FLOODED")
+        return RasterDecoder.Raster(
+            rgba: (0..<(4 * 4)).flatMap { _ in [UInt8(0), 0, 0, drawn ? 255 : 0] },
+            width: 4,
+            height: 4
+        )
+    }
 
     /// One PVSC account row, at a point the caller places.
     private static func account(
@@ -245,6 +261,10 @@ struct ParcelInspectionTests {
             inspection?.resources
                 == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
         )
+        #expect(
+            inspection?.floodHazard
+                == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+        )
         #expect(StubURLProtocol.requestCount(channel: channel) == requestsForTheParcel)
     }
 
@@ -353,6 +373,61 @@ struct ParcelInspectionTests {
             Issue.record("a failed sublayer was reported as a count")
             return
         }
+    }
+
+    // MARK: - Flood hazard
+
+    /// The fixture parcel sits near Halifax harbour, nowhere near any of the
+    /// four published study areas. That is not a finding that it does not flood.
+    @Test func aParcelOutsideEveryStudyAreaIsNotReportedAsDry() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .ready(let hazard) = await Self.inspect(viewModel)?.floodHazard else {
+            Issue.record("expected flood evidence")
+            return
+        }
+        #expect(hazard.river == .outsidePublishedExtents)
+        #expect(hazard.coastal.map(\.scenario) == [.current, .year2050, .year2100])
+    }
+
+    @Test func aCoastalScenarioCoveringTheParcelIsReportedAsCovering() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("OCN_Projected_Worst_Case_Flooding_2100", .success(Data("FLOODED".utf8))),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .ready(let hazard) = await Self.inspect(viewModel)?.floodHazard else {
+            Issue.record("expected flood evidence")
+            return
+        }
+        #expect(hazard.coastal[0].sample.map(\.intersects) == .success(false))
+        #expect(hazard.coastal[2].sample.map(\.intersects) == .success(true))
+        #expect(hazard.coastal[2].sample.map(\.approximateAffectedPercent) == .success(100))
+    }
+
+    /// One render failing is one render failing. Rendering it as "no coastal
+    /// hazard" would be this app's finding, not the Province's.
+    @Test func aCoastalOutageIsNotAScenarioThatMissesTheParcel() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("OCN_Projected_Worst_Case_Flooding_2050", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        guard case .ready(let hazard) = await Self.inspect(viewModel)?.floodHazard else {
+            Issue.record("expected flood evidence")
+            return
+        }
+        #expect(hazard.coastal[1].sample == .failure(.invalidHTTPStatus(503)))
+        #expect(hazard.coastal[0].sample.map(\.intersects) == .success(false))
+        #expect(hazard.coastal[2].sample.map(\.intersects) == .success(false))
     }
 
     // MARK: - Civic addresses

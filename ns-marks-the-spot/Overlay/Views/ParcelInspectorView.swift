@@ -1,3 +1,4 @@
+import Foundation
 import GeoCore
 import MapCatalog
 import NSDataServices
@@ -27,6 +28,7 @@ struct ParcelInspectorView: View {
                     civicAddresses
                     mappedContext
                     resources
+                    floodHazard
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 16)
@@ -612,6 +614,197 @@ struct ParcelInspectorView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    // MARK: - Flood hazard
+
+    private var floodHazard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Flood hazard evidence")
+                .font(.subheadline.weight(.semibold))
+
+            switch inspection.floodHazard {
+            case .looking:
+                status("Checking published river and coastal hazard mapping…")
+            case .unavailable(let reason):
+                status("\(reason) No absence is inferred.")
+            case .ready(let hazard):
+                riverFlood(hazard.river)
+                coastalFlood(hazard.coastal)
+
+                Text(
+                    "A 1% or 5% annual-exceedance probability describes the mapped flood "
+                        + "event, not a probability for the whole PID. The 2050 and 2100 "
+                        + "figures are sea-level scenarios, not further probabilities. The "
+                        + "coastal percentages are read off the Province's own rendered map "
+                        + "and are an approximate screen — not a survey, an elevation "
+                        + "certificate, or an insurance finding."
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+                if let river = LayerCatalog.descriptor(for: .publishedRiverFloodZones)?.sourceURL {
+                    Link("Published river flood layers", destination: river)
+                        .font(.caption2)
+                }
+                if let coast = LayerCatalog.descriptor(for: .coastalFloodCurrent)?.sourceURL {
+                    Link("Nova Scotia Coastal Hazard Map", destination: coast)
+                        .font(.caption2)
+                }
+                if let licence = LayerCatalog.descriptor(for: .coastalFloodCurrent)?.licenceURL {
+                    Link("Coastal data licence and notices", destination: licence)
+                        .font(.caption2)
+                }
+
+                floodLicenceNotice
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// The notices the coastal licence requires to travel with the data.
+    ///
+    /// Not decoration and not summarisable: the permission, the disclaimer of
+    /// endorsement, and the disclaimer of warranty are conditions of using the
+    /// Department's data, so they are rendered wherever that data is shown.
+    private var floodLicenceNotice: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(
+                "Reproduced and distributed with the permission of the Department of "
+                    + "Service Nova Scotia."
+            )
+            Text(
+                "This product has been produced by KinNoKi Labs and includes data provided "
+                    + "by the Department of Service Nova Scotia. The incorporation of that "
+                    + "data shall not be construed as constituting an endorsement by the "
+                    + "Department of Service Nova Scotia of this product."
+            )
+            Text(
+                "Service Nova Scotia makes no representation and gives no warranty of any "
+                    + "kind respecting the data's accuracy, usefulness, novelty, validity, "
+                    + "scope, completeness, or currency."
+            )
+        }
+        .font(.caption2)
+        .foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder
+    private func riverFlood(_ river: RiverFloodEvidence) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Published river mapping")
+                .font(.footnote.weight(.semibold))
+
+            switch river {
+            case .publishedIntersection(let findings):
+                ForEach(findings, id: \.self) { finding in
+                    Text(Self.sentence(for: finding))
+                        .font(.footnote)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            case .withinPublishedExtentWithNoIntersection:
+                // A real negative from a real survey, and still hedged: the
+                // service publishes mapped zones, not a polygon saying where it
+                // looked.
+                status(
+                    "No published river flood geometry intersected this parcel. It falls "
+                        + "inside a published layer's extent, and the service carries no "
+                        + "study-coverage polygon, so absence is not inferred."
+                )
+            case .outsidePublishedExtents:
+                status(
+                    "Outside the extents of the four published river-flood study areas. "
+                        + "River flood probability is not assessed here."
+                )
+            case .unavailable(let failure):
+                status(
+                    "\(ParcelLookupMessage.floodEvidenceFailure(failure)) "
+                        + "No absence is inferred."
+                )
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder
+    private func coastalFlood(_ scenarios: [CoastalFloodEvidence]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Coastal scenarios")
+                .font(.footnote.weight(.semibold))
+
+            ForEach(scenarios, id: \.scenario) { scenario in
+                Text(Self.sentence(for: scenario))
+                    .font(.footnote)
+                    .foregroundStyle(scenarioIsAnswered(scenario) ? .primary : .secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func scenarioIsAnswered(_ scenario: CoastalFloodEvidence) -> Bool {
+        if case .success = scenario.sample { return true }
+        return false
+    }
+
+    private static func sentence(for finding: RiverAEPIntersection) -> String {
+        let kind = finding.relationship == .area ? "flood area" : "zone boundary"
+        return "\(finding.annualExceedanceProbabilityPercent)% annual-exceedance \(kind) "
+            + "intersects this parcel (\(finding.places.joined(separator: ", ")))."
+    }
+
+    private static func sentence(for scenario: CoastalFloodEvidence) -> String {
+        let label = Self.label(for: scenario.scenario)
+        switch scenario.sample {
+        case .failure(let failure):
+            return "\(label): \(ParcelLookupMessage.floodEvidenceFailure(failure)) "
+                + "No absence is inferred."
+        case .success(let summary) where !summary.wasSampled:
+            // The render landed no sample inside the outline, so nothing was
+            // measured. Reporting 0% here would turn a failure to sample into a
+            // finding that the scenario misses the lot.
+            return "\(label): this parcel is too small at the sampled resolution to read "
+                + "off the scenario map, so nothing was measured."
+        case .success(let summary) where !summary.intersects:
+            return "\(label): no scenario pixel fell inside this parcel. That is a screen "
+                + "of the mapped scenario, not proof of no coastal hazard."
+        case .success(let summary):
+            let percent = summary.approximateAffectedPercent.map {
+                Self.percentFormatter.string(from: $0 as NSNumber) ?? "\($0)"
+            } ?? "an unknown share of"
+            let area = summary.approximateAffectedSquareMetres.map {
+                " (about \(Self.areaFormatter.string(from: $0.rounded() as NSNumber) ?? "\($0)") m²)"
+            } ?? ""
+            return "\(label): approximately \(percent)% of the mapped parcel area\(area) "
+                + "falls inside the scenario."
+        }
+    }
+
+    private static func label(for scenario: FloodHazardQuery.CoastalScenario) -> String {
+        switch scenario {
+        case .current: "Current sea level"
+        case .year2050: "2050"
+        case .year2100: "2100"
+        }
+    }
+
+    private static let percentFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_CA")
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
+
+    private static let areaFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_CA")
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        return formatter
+    }()
 
     /// The civic addresses to merge into the road list, and only when they have
     /// actually arrived: a road named by an address must not appear because the

@@ -196,6 +196,26 @@ nonisolated enum ParcelLookupMessage {
         }
     }
 
+    /// Why one flood source produced nothing.
+    ///
+    /// Used for the river half and for each coastal scenario, so the wording
+    /// names neither: what the reader needs is that this source did not answer,
+    /// and the section says which source it was.
+    static func floodEvidenceFailure(_ failure: FloodHazardFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Flood lookup was replaced."
+        case .refused(.licenceNotAccepted):
+            return "Accept the Province data licence to check the published flood study areas."
+        case .refused(.noServiceURL), .refused(.malformedURL):
+            return "The flood services are misconfigured in this build."
+        case .unreadable(.undecodableRaster):
+            return "The scenario image could not be read, so nothing was measured."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "This flood source is unavailable right now."
+        }
+    }
+
     /// Why an address search produced nothing, in words that do not claim the
     /// address is absent. `nil` for cancellation, as with parcels.
     static func failure(_ failure: CivicAddressFailure) -> String? {
