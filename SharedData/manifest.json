@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "annapolisTaxSale.snapshot.json",
+      "bytes": 2764,
+      "sha256": "ccfe84b6452c25fce271a8a83ebd9f18fe2055d126d426efac79c415ea84d87b"
+    },
+    {
+      "path": "cbrmTaxSaleResults.snapshot.json",
+      "bytes": 16044,
+      "sha256": "dc57447252e40e8834fcee39d6ad69b20d24aba6b57b32f02ac52f610b934d64"
+    },
+    {
+      "path": "cumberlandTaxSale.snapshot.json",
+      "bytes": 881,
+      "sha256": "9bcd30bf6c6f3b60a48fbd0eaffd62d07174e13346b8c05d0c05c31507cd5c25"
+    },
+    {
+      "path": "historicalMatchExceptions.json",
+      "bytes": 1658,
+      "sha256": "8aeed7a89ad82cc039c119edbe4f590a027d5f0dc926cf8fbe49045180c48292"
+    },
+    {
+      "path": "historicalSourceLedger.json",
+      "bytes": 61816,
+      "sha256": "aab0f6855e7ce7ad6eb729c52f6e6e82a3af4e566b4292c5ca92c01f00c7b65b"
+    },
+    {
+      "path": "historicalTaxSales.json",
+      "bytes": 231585,
+      "sha256": "f5f000eb06f3dbbe6b2bdc5991792e62f7bfb025aef1da339669c0f5643eba24"
+    },
+    {
+      "path": "invernessHydroPotential.json",
+      "bytes": 920117,
+      "sha256": "4de6dab8274f693c5c61667857948fc23efe3bd4eb1980160640a205ef18c38e"
+    },
+    {
+      "path": "invernessTaxSale.snapshot.json",
+      "bytes": 12238,
+      "sha256": "d95bc8357ae406f6a2e3e26b7de7a8d9d52d9fd11fc35cafc3ad321e543ce4ba"
+    },
+    {
+      "path": "middletonTaxSale.snapshot.json",
+      "bytes": 1401,
+      "sha256": "de851169cf38c179ba9fc82012a36907dd99632f74d58f11e01d72d32f09dac6"
+    },
+    {
+      "path": "richmondTaxSale.snapshot.json",
+      "bytes": 896,
+      "sha256": "a00b87296ef051ac95319a0f8bdd769188a6381760beb90162ce30ebe5fed86f"
+    }
+  ]
+}

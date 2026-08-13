@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "cumberland",
+  "landingPage": "https://www.cumberlandcounty.ns.ca/tax-sales.html",
+  "retrievedDate": "2026-07-24",
+  "observedSale": {
+    "saleDate": "2026-03-03",
+    "heading": "MARCH 3, 2026 TAX SALE RESULTS",
+    "rowCount": 14
+  },
+  "livePageSha256": "b2ff90287447e9ca822af653a42af0348767cae767d45f954326b39608668d92",
+  "archive": {
+    "captureTimestamp": "20260415155709",
+    "captureUrl": "https://web.archive.org/web/20260415155709id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+    "captureSha256": "8aad467e955cba418f800bcfcb76096099558cbfe6e9530291a190a0fe58de56"
+  },
+  "pendingCapture": false,
+  "ingestedEventId": "cumberland-2026-03-03",
+  "status": "Cumberland overwrites this page each sale. The watcher archives a changed page before ingesting it, and only cites capture bytes that carry the results table."
+}

@@ -1,0 +1,593 @@
+{
+  "schemaVersion": 1,
+  "retrievedOn": "2026-08-08",
+  "coverage": [
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "March 8, 2022 tax sale",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/MAR8.22website.newspaper%20%233.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/Tax%20Sale%20Results%20for%20Website%20March%208_0_0.pdf"
+      ],
+      "documentSha256": [
+        "da1948056b94af75cdd261cbcbb0cdb19dd25f98c997e5e0336a54b2b73fc4f9",
+        "b76f4f6840ddc0160f289e4e17cf54f4f11939d8ff35f19dab931a069b5543b8"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "opening bid", "selling price", "redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Eleven result rows were reconciled to the notice. Nine sold and two no-bid outcomes were visually verified."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 12, 2023 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept12.23website.newspaper-draft-edit-sept-11-3.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept-12_0.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-sept-12-2023-tax-sale-for-website_0.pdf"
+      ],
+      "documentSha256": [
+        "388108c2e9463c591d6a58a04135cf3505f9fc3bc4da5460d39bc84471135aed",
+        "29b6919b5462afae4a58c9a7b55235dbb4e01495a2992e3d8247d714e8782204",
+        "c8afab0e563dd1065016e2d1fbf841cd898a2c26388c73413ace52d6b58d1c17"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Ten result rows were reconciled to the thirteen-row notice. All ten publish selling prices; the three notice-only rows have no published result and remain excluded."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "January 16, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/media/84741",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-jan16.24.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-january-16-2024-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "28f76c08fa18d6f37ca2b75faa3c7c1eda9bd4e682190ac30aef19bfd20704de",
+        "7bd54363ac92540b598f4706909789c8f6efbf587963a15a20b1356959c28e96",
+        "b879d8837b6bde9fde1d66ae8f777418cf72a33f43639df89788c1e8bb57e496"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Eight result rows, representing nine PIDs, were reconciled to the notice. All eight publish selling prices."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "May 14, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/may142024websiteuploadapril12.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-may14.24.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-may-14-2024-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "ff44e872edb97c0fd0d4c72819d2f4d5eafedda9fbd8b8577085c908c15ed2c5",
+        "b250b7d9c0bf74b81d19cc6f464442ee60aef401741bc8cc02a2b8ec83e184ad",
+        "5d48c810e95f1655be7fe49dacebf9813febd5751eda4981bf736344b7d8c1d4"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Seven result rows, representing eight PIDs, were reconciled to the notice. Five sold and two no-bid outcomes were visually verified."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 24, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept24.2024newspaper.website-draft-update-sept9.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept24.24.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-sept-24-2024-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "17fffcc047209cca4787b42bdc594b1872f1ad1be5c64ebfc50f2370c3798f6f",
+        "10ad87054f1dd6622bb93c8cf6cb0f24f05d88e9f704e0f28c6fa0497a270e88",
+        "0de2181e3911f6767027c3dc5c0258d635ff09abdec0f5f20d63e8ba0b16472e"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price or PENDING", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Nine result rows, representing ten PIDs, were reconciled to the notice. Eight publish selling prices; one remains explicitly PENDING and is included as outcome unknown without a winning bid."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "March 25, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/mar25.2025newspaper.website-updatedmar21.2025.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-mar25.25.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-results-mar-25-2025-tax-sale-for-website.pdf"
+      ],
+      "documentSha256": [
+        "b0a7a6295ce0021b172ecee8a6b87551e3e6c59469ad6c3c2766e9f51f1581b4",
+        "44cefb06ad8650d137fa9166210efab0650f6ea222febd08a8acf74a0c434bed",
+        "dc2bb61ee87103b1ef9ab3140c32e861abedd9669870fd87d6cc6a6ab22fd335"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Five result rows, representing seven PIDs, were reconciled to the final notice. All five publish selling prices."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "September 16, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept16.2025newspaper.website-sept15-2.25.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/revised-tender-doc-new-process-sept16.25.pdf",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept-16.pdf"
+      ],
+      "documentSha256": [
+        "b653a1ad975f6e72ee66a2ddedd76c2a415a1dc1cc70ee743ce8ead9535c5ad0",
+        "f1e362a74880c0236c2e7bef1c8d254ea1555b3d981b90c26cd9e7444b56e033",
+        "298eb52e49c734b418bea2e7b73747adfc3b3848cccbaa0aeb56fb578c270768"
+      ],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "Thirty-seven result rows were reconciled to the final notice, including one two-PID listing. All result rows publish a selling price."
+    },
+    {
+      "municipality": "Halifax Regional Municipality",
+      "event": "May 12, 2026 tax sale",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://www.halifax.ca/media/94407",
+        "https://cdn.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-may-12.26.pdf",
+        "https://www.halifax.ca/home-property/property-taxes/tax-sale"
+      ],
+      "documentSha256": ["793d079d093fd4f92df2b0c3ad53c1c473fb5f4066e493b0deb7e8e3595553d9"],
+      "fieldsAvailable": ["Assessment #", "PID", "location", "Opening Bid", "Selling Price", "Redeemable"],
+      "officialWinningBidsFound": true,
+      "notes": "The live HRM tax-sale page links this result under HRM-TaxSale22, and the official filename and embedded title identify May 12, 2026. The table carries 15 owner-free rows: 14 numeric selling prices and one printed NO BIDS; 14 rows publish an exact PID and one is mobile-home-only. HRM no longer links the corresponding notice, and the available 2026 archive captures of the official landing page do not preserve one. A result table alone cannot supply the missing notice receipt or establish the complete event identity under the project contract, so no row is promoted into the public model."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "August 26, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/tax-sale-by-tender-deadline-to-submit-a-bid-is-noon-on-tuesday-august-26-2025/",
+        "https://victoriacounty.com/wp-content/uploads/2025/07/Tax-Sale-Notice-1-Website-Post.jpeg",
+        "https://victoriacounty.com/wp-content/uploads/2025/07/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-aug-26-2025.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2025/09/Tax-Sale-Results-August-26-2025.pdf"
+      ],
+      "documentSha256": [
+        "cc201189d850b05a419b876c32cb23f75ff3487034d0b1e433246cf0bbd94dcd",
+        "69b3db9491611816fd09a4ddbda0c9f43300feb2fb972d6acd158f8bcbcdce52",
+        "2d85a27e119a597dd5f61e18bd0df8a3c33c5046c2c1dd45a98deedc7a796cb1"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "Total Owing", "HST", "status", "redeem", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "All twelve result rows were visually reviewed and included, one carrying two PIDs. Two SOLD/PAID rows publish successful bids and one row is NOT SOLD; the remaining nine rows publish a Total Owing but no status or successful bid and stay outcome-unknown, three of them unnumbered in the official table. The pre-sale property listing is no longer published and has no Wayback capture, so notice-to-result reconciliation is impossible; the announcement notice and tender terms pin the tender method and the August 26, 2025 noon deadline. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "November 25, 2025 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/upcoming-tax-sale-by-public-auction-2/",
+        "https://victoriacounty.com/wp-content/uploads/2025/10/Tax-Sale-Notice-2-Website-Post.jpeg",
+        "https://victoriacounty.com/wp-content/uploads/2025/12/Tax-Sale-Results-for-November-25-2025.pdf"
+      ],
+      "documentSha256": [
+        "cb54268759745bb68475e0f1e3233558b879dbfda66c3df55cf8eb010fbd06aa",
+        "592396e7d8c39320407b1f512aeddd1bbb25c8c59a1774ac45aa523a589f56db"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "Total Owing", "HST", "status", "redeemable", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "Six result rows were visually reviewed; two are included. AAN 0617717 (printed with seven digits and retained verbatim) sold for $16,000.00 and one row is NOT SOLD. One DEFERRED row and three PAID rows publish no Total Owing, redemption state, or successful bid and are excluded because the public schema requires a positive advertised amount: AAN 10835534 (PID 85030674, deferred), AAN 07972415 (PID 85061869), AAN 09055460 (PID 85050979), and AAN 09330739 (PID 85130839). The official announcement pins the public-auction method at 11:00 a.m. at the Inverary Resort's MacAulay Conference Centre, Baddeck. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Victoria",
+      "event": "March 24, 2026 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+        "https://victoriacounty.com/upcoming-tax-sale-by-public-auction-3/",
+        "https://victoriacounty.com/wp-content/uploads/2026/02/Tax-Sale-Housekeeping-Rules.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2026/02/Tax-Sale-Registration-Form.pdf",
+        "https://victoriacounty.com/wp-content/uploads/2026/03/Tax-Sale-Results-March-24-2026.pdf"
+      ],
+      "documentSha256": [
+        "a1220caa96989654dd34c468e5f10e59a97fe232ae3bf1efdc73fa7fbb2d1f7f",
+        "3a603c74648e04f11cb525c9d0040156f1c42c0822dd5bc1f276e2686ccc5897",
+        "78a4bc0e6bf5d0348fef186d25bb57569b25a3122859d217c46b64ec5b5f9f89"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "location", "Total Owing", "HST", "status", "redeemable", "Successful Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "Fifteen result rows were visually reviewed; five are included. Three SOLD rows publish successful bids, one row is NOT SOLD, and AAN 09541209 (PID 85142388) prints REMOVED beside a successful bid of $17,500.00 and is kept fail-closed as withdrawn with no winning bid. Ten REMOVED rows publish no Total Owing and are excluded, including AAN 08820759 whose PID cell prints a malformed seven-digit value (8510331/85103364). The announcement page that pins the auction method and venue was hashed as an HTML snapshot on 2026-07-23 because the linked property-listing page has since been cleared and says no notices exist."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
+      "event": "July 21, 2026 tax sale",
+      "status": "included",
+      "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2026/06/JULY-21-2026-2nd-Ad.pdf",
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-July-21-2026.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": [
+        "5435e9b89df5ac15f63097c0935661b5616e7b6bdc8b04fd4e8811ba6d457566",
+        "ae4f1b0b08528a6d7e90fb3c2e5816bde6ec593e63c44c02f5b4e9fae07d7d5d"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale"],
+      "officialWinningBidsFound": true,
+      "notes": "The owner-free notice carries 67 records covering 68 exact PIDs. CBRM's official result PDF carries 54 identifier-bearing rows: 21 print numeric winning bids and are included as sold, one prints PAID AT SALE and 32 print no winning bid or disposition, so those 33 remain outcome unknown. Thirteen notice rows do not appear in the result PDF and also remain unknown. The assessed-name column was discarded before the repository dataset was written. No outcome depends on yellow table highlighting: numeric winning bids are printed for every included sold row, while the PAID AT SALE row is also highlighted and remains unknown."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
+      "event": "July 22, 2025 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://web.archive.org/web/20250714162415id_/http://www.cbrm.ns.ca/tax-sales.html",
+        "https://cbrm.ns.ca/wp-content/uploads/2025/11/CBRM-List-of-Sold-Properties-Tax-Sale-July-22-2025.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": [
+        "57a1c33af8a5056416ffc6eb6e4c80b9edea80eebe5fc3993c72304e84e266fe",
+        "b6a549fc8c0c49482246946b24eb4f8182694c23bf8e9342565bba8263da44f3"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption", "winning bid", "paid at sale", "redeemed", "walked away"],
+      "officialWinningBidsFound": true,
+      "notes": "The re-downloaded result PDF re-hashed to the recorded receipt, and all 74 rows were reconciled against the rendered pages rather than extracted text alone. The table fills outcome-bearing rows in yellow, but that fill is redundant with the printed WINNING BID column on every one of the 74 rows, so no disposition depends on visual emphasis; this is what separates it from the March 10, 2026 result. Seventy-three rows are included: 50 publish a winning bid, one prints REDEEMED, and 22 stay outcome-unknown (five PAID AT SALE, four WALKED AWAY, and thirteen rows printing no winning bid at all). PAID AT SALE is not read as a completed sale because the official wording does not distinguish a bidder paying at the sale from the account being paid to stop it. Lien 25-178 (AAN 2210363, PID 15440050) is excluded because the live NSPRD service returns no parcel for that PID; it is itemized in the match-exceptions file. CBRM removed its pre-sale notice PDFs when the site migrated, and the notice was never archived, so the notice receipt is the official CBRM tax-sales page captured on 2025-07-14, which pins the July 22, 2025 11:00 a.m. in-person public auction at Centre 200, Sydney and links the maps and descriptions for liens 25-97 to 25-217. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Cape Breton Regional Municipality",
+      "event": "March 10, 2026 tax sale",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://cbrm.ns.ca/wp-content/uploads/2026/07/List-of-Sold-Properties-Tax-Sale-March-10-2026.pdf",
+        "https://cbrm.ns.ca/wp-content/uploads/2026/03/Sold-Properties-March-10-2026-Tax-Sale.pdf",
+        "https://cbrm.ns.ca/business/property-sales-management/tax-sales/"
+      ],
+      "documentSha256": [
+        "d9834ea2d175b53c7bca83e3aacf615dae496d23f8516a64d5e6421466d0f50e",
+        "ed0dbc1dcc09a7fb9a063b716784cb1b3ba18306f9984013791e4b250f667dc4"
+      ],
+      "fieldsAvailable": ["lien", "AAN", "PID", "address", "location", "minimum bid", "redemption"],
+      "officialWinningBidsFound": false,
+      "notes": "On July 30, 2026, the CBRM landing page linked a July 27 replacement PDF at a new official URL; the previously recorded March URL returned 404. The replacement carries 44 identifier-bearing rows and no printed result, disposition, or winning-bid column. Some rows are highlighted yellow, but colour alone is not an accepted disposition, so no outcome is inferred and the event remains outside the public model. The prior document hash is retained as a provenance receipt for the replaced official file."
+    },
+    {
+      "municipality": "Municipality of the County of Cumberland",
+      "event": "October 21, 2025 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20251113031043id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260122202627id_/https://cumberlandcounty.ns.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "e7e47cbcc9ac6b227877cedc74914a8051ca2f18d47befc01c376b2b3ff61cc2",
+        "b1692feee7aa13339e7b87f4151b6eac75c19d43f1c7cc1c1fb2cac31f9931f2"
+      ],
+      "fieldsAvailable": ["Assessment", "PID", "description", "redemption expiry", "min bid", "winning bid"],
+      "officialWinningBidsFound": true,
+      "notes": "All twenty result rows were visually reviewed and included; nineteen publish a winning bid and one publishes NOT COMPLETED with no amount and stays outcome-unknown. The live municipal page is overwritten each sale and no longer carries this table, so both receipts are archive captures of that same address; the two captures were parsed independently and agree row-for-row. No pre-sale notice for this sale survives in the archive, so notice-to-result reconciliation was impossible. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Cumberland",
+      "event": "March 3, 2026 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260415155709id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260509234637id_/https://cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20260724022617/https://www.cumberlandcounty.ns.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "8aad467e955cba418f800bcfcb76096099558cbfe6e9530291a190a0fe58de56",
+        "40e1e24039f26c369d07b8990a7071da841b0408337a08f93f895ffd69d2c324",
+        "b2ff90287447e9ca822af653a42af0348767cae767d45f954326b39608668d92"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "description", "redeemable", "taxes, interest, other charges", "successful bid"],
+      "officialWinningBidsFound": true,
+      "notes": "All fourteen result rows were visually reviewed and included; eight publish a winning bid and six publish ADJORNED, recorded as withdrawn with no bid. Three independent copies agree row-for-row: the April 15 and May 9, 2026 archive captures and a live retrieval on July 23, 2026 whose SHA-256 is the third hash listed here. The page was also submitted to the Wayback Machine on July 23, 2026; that capture replays the results table, but its raw archived payload is a bot-verification interstitial rather than the page, so it is cited as a durable link only and is not hashed. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Cumberland",
+      "event": "January 14, 2025 and March 18, 2025 tax sales",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://web.archive.org/web/20250124093558id_/https://www.cumberlandcounty.ns.ca/tax-sales.html",
+        "https://web.archive.org/web/20250215042907id_/https://cumberlandcounty.ns.ca/tax-sales.html"
+      ],
+      "documentSha256": [],
+      "fieldsAvailable": ["AAN", "PID", "district", "assessed owner and location", "balance due", "redeemable"],
+      "officialWinningBidsFound": false,
+      "notes": "The archive holds pre-sale notice tables for both sales, two properties for January 14, 2025 and thirty-two for March 18, 2025, but no capture of either result table exists because Cumberland overwrites its single tax-sale page and no crawl landed between those sales and the next overwrite. Notice-only rows are held out of the published dataset under the same fail-closed rule applied elsewhere. Several March 18, 2025 parcels reappear with published results in the included October 21, 2025 and March 3, 2026 events."
+    },
+    {
+      "municipality": "Municipality of the District of Lunenburg",
+      "event": "March 1, 2021 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.modl.ca/2021-tax-sale-awards.html",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=7193-2020-01-009-tax-sale-tender&category_slug=tax-sales&Itemid=102",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9893-tax-surplus-list&category_slug=tax-sales&Itemid=102"
+      ],
+      "documentSha256": [
+        "d1f93c033539fff54852cda1cd21c317f3a572b7604d8c020e24d49b2fc5ac4b",
+        "02bc6b977c4bd4b549cc739a22ee1337f58cd8ce09ca938e546978bc0ba2bb52",
+        "c0dda6948f98e98aec2dd6ac96a277e274116962d5a5afab1b667d04064bbd96"
+      ],
+      "fieldsAvailable": ["item number", "AAN", "civic address", "description", "redeemable", "HST applicable", "minimum opening bid", "winning bid (per-property award document)"],
+      "officialWinningBidsFound": true,
+      "notes": "27 advertised listings were reconciled from the official tender package to the municipality's per-property award documents. 16 sold with a winning bid read from the award document, Two received no bids, Seven were withdrawn, and Two have no published award document and are published with an unknown outcome rather than an inferred one. MODL publishes assessment account numbers but no PIDs, so every PID was derived by matching the account's PVSC coordinate against the NSPRD parcel layer. Assessed-owner and bidder identities carried on both surfaces were deliberately omitted from this public dataset. The award document for item 60 prints assessment account 03191477 and item 31 shows the sale awarded then withdrawn by both bidders; item 229's award document and the surplus record disagree on the final price. These are recorded but not published as winning bids.",
+      "awardDocuments": [
+        {"item":31,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7164-tax-sale-award-31&category_slug=tax-sales&Itemid=102","sha256":"d2b36a7ac6967928fc73a35cab0fb2fdf01b1300f4e16966db6fd54c47016060"},
+        {"item":35,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7166-tax-sale-award-35&category_slug=tax-sales&Itemid=102","sha256":"e6ce55a4cd7c5bfe9e363037327ae3bcb9564be76be795b2006d8ca914093a42"},
+        {"item":40,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7167-tax-sale-award-40&category_slug=tax-sales&Itemid=102","sha256":"6c3daaf3141af4c487709cefd6f0baae99a802c3135d0925701c8990e2037c2a"},
+        {"item":46,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7172-tax-sale-award-46&category_slug=tax-sales&Itemid=102","sha256":"d8afc233cc8e86176b3631a9ff6d83bc1fbdc10c6c5f44e391a2e4e8ebc502de"},
+        {"item":49,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7170-tax-sale-award-49&category_slug=tax-sales&Itemid=102","sha256":"628fecf07c5e75df15c198da66cc45e0a7c7320fb765bfcad98a1c1eb57e8e95"},
+        {"item":50,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7168-tax-sale-award-50&category_slug=tax-sales&Itemid=102","sha256":"044fb8d0a7a937ecec5c4a582219d5b81f631844993d9109898940212f1e78b1"},
+        {"item":56,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7173-tax-sale-award-56&category_slug=tax-sales&Itemid=102","sha256":"312df8b60d98a4a84d12fa0d7a969f5d56609e97feff464baafebcce401fbbb8"},
+        {"item":60,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7174-tax-sale-award-60&category_slug=tax-sales&Itemid=102","sha256":"11aa0f218d76f8ee67dda269d0cdcc1d066fabc9d1774cffe475216902132401"},
+        {"item":61,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7169-tax-sale-award-61&category_slug=tax-sales&Itemid=102","sha256":"f7da890be18de3c961d4419b763baf1fa71902a2517b118fff66a3cfacdd4a8f"},
+        {"item":67,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7175-tax-sale-award-67&category_slug=tax-sales&Itemid=102","sha256":"f17022907c5464226c870429578f534c4d5aea07f2667cc0dd7243ce47591d18"},
+        {"item":85,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7176-tax-sale-award-85&category_slug=tax-sales&Itemid=102","sha256":"a604806b1ce9183bde231056da3e00570e698b1514577b62f4925da1b702a6e0"},
+        {"item":123,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7177-tax-sale-award-123&category_slug=tax-sales&Itemid=102","sha256":"dc82328bfe069a4451278bf2f0802ecab3caf1c8ca59758abbbb0c86452d8600"},
+        {"item":162,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7178-tax-sale-award-162&category_slug=tax-sales&Itemid=102","sha256":"99315aaef77f122330731750085d1d82e242574c62dbd734c0b5d9249163cf05"},
+        {"item":168,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7179-tax-sale-award-168&category_slug=tax-sales&Itemid=102","sha256":"09abdf9aaf698baf63b15da8fea9f62ebbdc1cb67ebc4fba867304732cb32b61"},
+        {"item":169,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7192-tax-sale-award-169&category_slug=tax-sales&Itemid=102","sha256":"a73f5c944b31c0f2ee57f8cab24d5ddc1b158aedb3111a59c70c6e7c363dcf2b"},
+        {"item":170,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7181-tax-sale-award-170&category_slug=tax-sales&Itemid=102","sha256":"ed9e2ca9908e9a6f22a1bb9c874ba23dc702be820835105c8b4fee96b49e66f7"},
+        {"item":175,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7171-tax-sale-award-175&category_slug=tax-sales&Itemid=102","sha256":"4505bbaee0bc786ce6c13aacc2b3fa475b3e2bbc4b98f29cb3037cf38776b91c"},
+        {"item":216,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7182-tax-sale-award-216&category_slug=tax-sales&Itemid=102","sha256":"aed1f402fb53bccbc78968679c1d220b00b180513f51ba9f590272dff1b5c6ef"},
+        {"item":229,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7183-tax-sale-award-229-1&category_slug=tax-sales&Itemid=102","sha256":"bee0eaab2d4fc42725eef405db74c91c218a9b469316984114401d15c7a7a11a"},
+        {"item":249,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7184-tax-sale-award-249&category_slug=tax-sales&Itemid=102","sha256":"b3326222bce2c8a45ec713738d33b8f6c56ac851203ea357edd176af819e1459"}
+      ]
+    },
+    {
+      "municipality": "Municipality of the District of Lunenburg",
+      "event": "March 7, 2022 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.modl.ca/tax-sales-2.html",
+        "https://www.modl.ca/fileman.html?container=fileman-files&folder=&name=Tender%202021-01-001%20Tax%20Sale.pdf&routed=1&view=file",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9893-tax-surplus-list&category_slug=tax-sales&Itemid=102"
+      ],
+      "documentSha256": [
+        "ce13954bcb0a43abd8c85d5fed6c898985c3c4664b673ced7e537dd613bec4aa",
+        "cdf65699217e3dc332146a2469665581731f1ec8af642daf5277281087815a38",
+        "c0dda6948f98e98aec2dd6ac96a277e274116962d5a5afab1b667d04064bbd96"
+      ],
+      "fieldsAvailable": ["item number", "AAN", "civic address", "description", "redeemable", "HST applicable", "minimum opening bid", "winning bid (per-property award document)"],
+      "officialWinningBidsFound": true,
+      "notes": "39 advertised listings were reconciled from the official tender package to the municipality's per-property award documents. 16 sold with a winning bid read from the award document, Eight received no bids, Fifteen were withdrawn, and No have no published award document and are published with an unknown outcome rather than an inferred one. MODL publishes assessment account numbers but no PIDs, so every PID was derived by matching the account's PVSC coordinate against the NSPRD parcel layer. Assessed-owner and bidder identities carried on both surfaces were deliberately omitted from this public dataset. The original tender package is no longer served by modl.ca; it was recovered from the Internet Archive snapshot of the municipality's own file link.",
+      "awardDocuments": [
+        {"item":15,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7612-tax-sale-award-15&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"b05a552962561adbb963875c33a6ff56de510a4a78688f143e40796cc0577b2e"},
+        {"item":16,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7613-tax-sale-award-16&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"b06f2e56655f5cdfeefb1adaf55a45859430dbd0f02b9dd53a8084dd781db585"},
+        {"item":19,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7644-tax-sale-award-19-updated-1&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"e349d5caa18b3c27ce7753ebc0b68015b999716c860f442ccfabef8260b023b0"},
+        {"item":21,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7615-tax-sale-award-21&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"c717753cfd5108b6a59f57dbe46fa89276a1c83d9c144bb2a9b059e6ac43bfc6"},
+        {"item":22,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7616-tax-sale-award-22&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"3f4ddc6f54d49f9d9087c646cb22cbbf95ed909ff7184139fcb9bee044e4d0e4"},
+        {"item":31,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7617-tax-sale-award-31-1&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"9b3f4d93db3c324fa04e5be2f1ef0ca9c3a69b6c056e4279df5256fc29b8d678"},
+        {"item":34,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7618-tax-sale-award-34&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"1074defd24c23b3e83602bb54097886fd378118bdf744b40a5cc883e25091ee7"},
+        {"item":46,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7619-tax-sale-award-46-1&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"e33d6f0a0409b579871cc00137658d386baa14b5ce7e2f4e2237d78b73204e50"},
+        {"item":57,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7642-tax-sale-award-57-updated&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"2bb6df973d7901dd5f999794164835daa4843872df8b02e02f1003cddcd3e25c"},
+        {"item":70,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7621-tax-sale-award-70&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"611b8db4bc5eb79986ae8a032308269a780f5205b5b9a3aa95c1fb7c5654e27c"},
+        {"item":76,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7622-tax-sale-award-76&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"91d70c768531eb29b0981c99c9df6812e5a24cd77e84dfc9f0213d156de65c50"},
+        {"item":88,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7623-tax-sale-award-88&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"cc31b4abf24099b877d7fea0313ae3f00af3b4acac9f256fb4306ead4a8073b5"},
+        {"item":89,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7624-tax-sale-award-89&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"a35e8c306105a45142dc79688306880436224f70a815440e5262457be3312587"},
+        {"item":91,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7625-tax-sale-award-91&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"6d1aa76ea865a9d3ad88c6cb637b5a8265cfa08f52849a4e787c3b5ceed10288"},
+        {"item":106,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7626-tax-sale-award-106&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"310b8631f762e6f2cafff4a6c5bb646f1541cdbd060fb93dc917cfdc2693f227"},
+        {"item":108,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7627-tax-sale-award-108&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"153932697c966a26048df66bda54b664fc119a4d2022a2388da7e5abe3984638"},
+        {"item":111,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7628-tax-sale-award-111&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"7987b503feef53492ba5f8eb206ae625b442875634a63dc307592987155dc65d"},
+        {"item":113,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7629-tax-sale-award-113&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"f1fc3e087c42082482e6bdcb9a504df421d43182b4756af0edcb33d7a9e240fe"},
+        {"item":124,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7630-tax-sale-award-124&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"5537877db6de42bf1f1ae770870598938103d56ee0dbbd0a14180c6320fe6b90"},
+        {"item":126,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7631-tax-sale-award-126&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"edf12a7f77350398d56e3c64b930f6a99cc051772c74c4adcaf9b36bbe4355c0"},
+        {"item":129,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7632-tax-sale-award-129&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"2a2a0f355333f5deb8f3908b4d775d08769a776fb38e40560cb29ffa459caae0"},
+        {"item":130,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7633-tax-sale-award-130&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"aad6e023d884afa2198c19dd7b1bd6e75ba9612948e49743e78bb91b14227e3e"},
+        {"item":135,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7634-tax-sale-award-135&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"374cd125dc8f7a8cec915d9f35b6fc3f9b97960c191cad44c3b5668f56852ce0"},
+        {"item":136,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=7635-tax-sale-award-136&category_slug=financial-and-tax-related-documents&Itemid=102","sha256":"3e2b6697a9dea164803003eeadf1b9405dd7d3d179e3e1887b926fec7ed6805d"}
+      ]
+    },
+    {
+      "municipality": "Municipality of the District of Lunenburg",
+      "event": "March 6, 2023 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.modl.ca/2023-tax-sale.html",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=8113-2022-2023-tax-sale-ad&category_slug=tax-sales&Itemid=102",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=8178-addendum-3-issued-march-2-2023&category_slug=tax-sales&Itemid=102",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9893-tax-surplus-list&category_slug=tax-sales&Itemid=102"
+      ],
+      "documentSha256": [
+        "011e28846ebc9f46e503ba101a89c0149f9f7751d2ae03d96f72580c9c6c6733",
+        "8e09ec56890bcedb3eb2e6b3e7609f96df696d34e9c050e984d5d5ca50ff9798",
+        "f7b945e0adcc5228ec2685ab5974d244a0c8556f356efae63c1f41b8148e0d92",
+        "c0dda6948f98e98aec2dd6ac96a277e274116962d5a5afab1b667d04064bbd96"
+      ],
+      "fieldsAvailable": ["item number", "AAN", "civic address", "description", "redeemable", "HST applicable", "minimum opening bid", "winning bid (per-property award document)"],
+      "officialWinningBidsFound": true,
+      "notes": "Thirteen advertised listings were reconciled from the official tender package to the municipality's per-property award documents. Seven sold with a winning bid read from the award document, One received no bids, Four were withdrawn, and One have no published award document and are published with an unknown outcome rather than an inferred one. MODL publishes assessment account numbers but no PIDs, so every PID was derived by matching the account's PVSC coordinate against the NSPRD parcel layer. Assessed-owner and bidder identities carried on both surfaces were deliberately omitted from this public dataset.",
+      "awardDocuments": [
+        {"item":7,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8186-tax-sale-award-7&category_slug=tax-sales&Itemid=102","sha256":"02c302e9b5f599a639315bd2cb44dfaf0f1d761d6f8eb9cbe84da69feb1d0706"},
+        {"item":21,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8187-tax-sale-award-21-1&category_slug=tax-sales&Itemid=102","sha256":"800fa64a4fc930a7a11161ab6b108937a72a5b6a1e8d83fbcde5e8affe218324"},
+        {"item":42,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8188-tax-sale-award-42&category_slug=tax-sales&Itemid=102","sha256":"e98a7e07cf833f7de8441162011c164d1dc7e297cc09c7ea7915eefb073ca9d9"},
+        {"item":57,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8189-tax-sale-award-57-1&category_slug=tax-sales&Itemid=102","sha256":"f97c8fb0e7ed4e329269b4ec59b5697c589db18de8ade9dc811a4e52accf89ad"},
+        {"item":65,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8190-tax-sale-award-65&category_slug=tax-sales&Itemid=102","sha256":"fe3745eaf7c89e34d7dd21ee0bf0f7fadfba21414b09e6caed589cc5da7b5a19"},
+        {"item":83,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8191-tax-sale-award-83&category_slug=tax-sales&Itemid=102","sha256":"688c8519ad6ec1558e5ddcdac139556e59781ca56005dd2ac0c0cd08d80354c2"},
+        {"item":108,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8192-tax-sale-award-108-1&category_slug=tax-sales&Itemid=102","sha256":"ed7068e9fc69fe0984f740763b2b92be613085ff15a7a22e2ae18e5dd998cde9"},
+        {"item":117,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=8193-tax-sale-award-117&category_slug=tax-sales&Itemid=102","sha256":"931d75d4baa9ad81b2fc4d79be584160ee8f96cda5aa39c5017e2355acf76870"}
+      ]
+    },
+    {
+      "municipality": "Municipality of the District of Lunenburg",
+      "event": "March 6, 2024 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.modl.ca/tax-sales-24.html",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=8726-tax-sale-tender-package&category_slug=2024&Itemid=102",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9893-tax-surplus-list&category_slug=tax-sales&Itemid=102"
+      ],
+      "documentSha256": [
+        "4d6c9000773e9c4ebfe2296032cddffec628e77e734d4742bb7c3ccacf22c8f0",
+        "f4e23cc5a0971322c35099f040380b13b0e8cd1d1a016779de46578f8d4c59c3",
+        "c0dda6948f98e98aec2dd6ac96a277e274116962d5a5afab1b667d04064bbd96"
+      ],
+      "fieldsAvailable": ["item number", "AAN", "civic address", "description", "redeemable", "HST applicable", "minimum opening bid", "winning bid (per-property award document)"],
+      "officialWinningBidsFound": true,
+      "notes": "25 advertised listings were reconciled from the official tender package to the municipality's per-property award documents. Eleven sold with a winning bid read from the award document, Four received no bids, No were withdrawn, and Ten have no published award document and are published with an unknown outcome rather than an inferred one. MODL publishes assessment account numbers but no PIDs, so every PID was derived by matching the account's PVSC coordinate against the NSPRD parcel layer. Assessed-owner and bidder identities carried on both surfaces were deliberately omitted from this public dataset. The award document for item 104 prints assessment account 09837996, a transposition of the notice value 09873996 (which alone exists in PVSC).",
+      "awardDocuments": [
+        {"item":1,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8786-tax-sale-award-1&category_slug=2024&Itemid=102","sha256":"dea91073b185fbbf2b79c61265e316530d5299a0ee98fe6c7056c0a0c589d8df"},
+        {"item":12,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8787-tax-sale-award-12&category_slug=2024&Itemid=102","sha256":"865bc6e135fddeb5c4a2e702c13e40d293461cce27c0be50e507b1174b233979"},
+        {"item":50,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8788-tax-sale-award-50-1&category_slug=2024&Itemid=102","sha256":"2f83efbe99e89e91fd7af240b9249aba97dcbe6c8714cf8f007f8253c2095d30"},
+        {"item":52,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8789-tax-sale-award-52&category_slug=2024&Itemid=102","sha256":"851f1af471d3ed047a5957763f0d21085a565f12f278de729659c164e45e90d7"},
+        {"item":56,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8790-tax-sale-award-56-1&category_slug=2024&Itemid=102","sha256":"c58121d7a60a8fa972e237c92b3cd4e4f805d305aac8d2ce55835e78706f8009"},
+        {"item":68,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8791-tax-sale-award-68&category_slug=2024&Itemid=102","sha256":"069eed45885ae7e776e353bf4166d384d2abdbe2552e3eaeda02cc1344bd482a"},
+        {"item":71,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8792-tax-sale-award-71&category_slug=2024&Itemid=102","sha256":"5f37847c07a5c27f9840c66bfeae83627aed217bb52de33ee5ddf6153e28c540"},
+        {"item":73,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8793-tax-sale-award-73&category_slug=2024&Itemid=102","sha256":"45b372f6739062a7eef237e5654331959400f107f7e48dc037c1d96092d2bee7"},
+        {"item":84,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8794-tax-sale-award-84&category_slug=2024&Itemid=102","sha256":"2753c9d36cc2d7214aa4bdddb677c1baa2aeea6f990d902187a7f17fd06cdc27"},
+        {"item":86,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8795-tax-sale-award-86&category_slug=2024&Itemid=102","sha256":"24dbc67ba25d2f3c5a272bc66f8ac8bac5d8d0b3eec44c4ce51bd93c4bd0fab0"},
+        {"item":90,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8796-tax-sale-award-90&category_slug=2024&Itemid=102","sha256":"a7b3de1fc7a0f7013cf82c05c0e23b1e19dacf86479d9173e81e551d6f58dec7"},
+        {"item":96,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8797-tax-sale-award-96&category_slug=2024&Itemid=102","sha256":"907f0a58f6da0a07a7c23b6e43474d112b2e3210643780a24c22731644139054"},
+        {"item":97,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8798-tax-sale-award-97&category_slug=2024&Itemid=102","sha256":"0346c427ecbb59c54a3322a7f3eb7e4f1d244226b29c18d041f38adf9f7203d5"},
+        {"item":104,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8799-tax-sale-award-104&category_slug=2024&Itemid=102","sha256":"130bb86c39fdbe8e717b26018e78d7268c167e35fbaff0992be510a444760cff"},
+        {"item":131,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=8800-tax-sale-award-131&category_slug=2024&Itemid=102","sha256":"83fe70206e4ac4d03534f3dc25278b24f6843329770d9ac34ee1f3702f415c88"}
+      ]
+    },
+    {
+      "municipality": "Municipality of the District of Lunenburg",
+      "event": "March 3, 2025 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.modl.ca/tax-sales-25.html",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9283-2025-tax-sale-tender-package&category_slug=2025&Itemid=102",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9893-tax-surplus-list&category_slug=tax-sales&Itemid=102"
+      ],
+      "documentSha256": [
+        "875fd0b48835603123ece65caae06708e850f31a562342960b60404aa07f7ee3",
+        "28839d3b3800c8e79411f12b1e667b1335cb204a1dc41ef139b9b271d593f1e6",
+        "c0dda6948f98e98aec2dd6ac96a277e274116962d5a5afab1b667d04064bbd96"
+      ],
+      "fieldsAvailable": ["item number", "AAN", "civic address", "description", "redeemable", "HST applicable", "minimum opening bid", "winning bid (per-property award document)"],
+      "officialWinningBidsFound": true,
+      "notes": "18 advertised listings were reconciled from the official tender package to the municipality's per-property award documents. Eleven sold with a winning bid read from the award document, Two received no bids, No were withdrawn, and Five have no published award document and are published with an unknown outcome rather than an inferred one. MODL publishes assessment account numbers but no PIDs, so every PID was derived by matching the account's PVSC coordinate against the NSPRD parcel layer. Assessed-owner and bidder identities carried on both surfaces were deliberately omitted from this public dataset.",
+      "awardDocuments": [
+        {"item":3,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9375-tax-sale-award-3&category_slug=tax-sale-awards&Itemid=102","sha256":"d8c3412139722bf6e0060faf2b03e244f43be44c81a3689074de99cf63c42d16"},
+        {"item":8,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9376-tax-sale-award-8&category_slug=tax-sale-awards&Itemid=102","sha256":"602283b50f6af3878f08a111f6a3c9fe8e9bca35a69dbcd26cadab623e036fb4"},
+        {"item":9,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9377-tax-sale-award-9&category_slug=tax-sale-awards&Itemid=102","sha256":"0d13fd85c25890bd4b5de2b804cfc1afb8b55a6ebdfc87f1cab580e2bb2d7e15"},
+        {"item":36,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9365-tax-sale-award-36&category_slug=tax-sale-awards&Itemid=102","sha256":"0b7488f994b1b3306906c5d482ad26b153dd00413dbfe8794d58d1abb619d869"},
+        {"item":45,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9366-tax-sale-award-45&category_slug=tax-sale-awards&Itemid=102","sha256":"27df135ec3ba071131e469c71dc6dcf88b63f9aab041c1e18848c0e45dff1ec7"},
+        {"item":46,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9367-tax-sale-award-46-2&category_slug=tax-sale-awards&Itemid=102","sha256":"085fdb2496544479aafbe85acff50c05021872f806ccfd8ba34c38c729ac87b3"},
+        {"item":55,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9368-tax-sale-award-55&category_slug=tax-sale-awards&Itemid=102","sha256":"e237aa7f9a927168973379fe8446b6e9223ae071f462304a286c50cfa7115eab"},
+        {"item":78,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9369-tax-sale-award-78&category_slug=tax-sale-awards&Itemid=102","sha256":"455300f7e050e0b082f5bc65cf549c0a74b32bd09d624d500385267bc1f67535"},
+        {"item":98,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9370-tax-sale-award-98&category_slug=tax-sale-awards&Itemid=102","sha256":"9a5cc136b04af1f197459aafba51b3dd2ac5d1c83faf9b067308710ebd6e9b12"},
+        {"item":101,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9371-tax-sale-award-101&category_slug=tax-sale-awards&Itemid=102","sha256":"da93bb3719104d1ad4a584f4eb027b2ab0612062a78e36faa90523dd48d0d7ed"},
+        {"item":108,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9372-tax-sale-award-108-2&category_slug=tax-sale-awards&Itemid=102","sha256":"2966dc551e87e6fcfd30029abee25142bd97dae90df8626f822599268b25c77c"},
+        {"item":112,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9373-tax-sale-award-112&category_slug=tax-sale-awards&Itemid=102","sha256":"18ab08272ccfd6918d822dd62b7bceb9fae16f17c6512dce7edfb064579927e1"},
+        {"item":166,"url":"https://www.modl.ca/index.php?option=com_docman&view=download&alias=9374-tax-sale-award-166&category_slug=tax-sale-awards&Itemid=102","sha256":"07447baf2ab946f54372882322ce59825a9b77fc546e36098902763687b4de12"}
+      ]
+    },
+    {
+      "municipality": "Municipality of the District of Lunenburg",
+      "event": "March 2, 2026 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.modl.ca/2026-tax-sales.html",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9810-2026-tax-sale-tender-package&category_slug=2026&Itemid=102",
+        "https://www.modl.ca/index.php?option=com_docman&view=download&alias=9893-tax-surplus-list&category_slug=tax-sales&Itemid=102"
+      ],
+      "documentSha256": [
+        "04f0b0ecd71d64368607203d6bb4384440fef61f98de579c909550ef4dda75db",
+        "ab558051fb529a79889c9cf2422f9a42b8d232dec90c220b151976501972e907",
+        "c0dda6948f98e98aec2dd6ac96a277e274116962d5a5afab1b667d04064bbd96"
+      ],
+      "fieldsAvailable": ["item number", "AAN", "civic address", "description", "redeemable", "HST applicable", "minimum opening bid", "winning bid (per-property award document)"],
+      "officialWinningBidsFound": true,
+      "notes": "23 advertised listings were reconciled from the official tender package to the municipality's per-property award documents. Eight sold with a winning bid read from the award document, Four received no bids, Eleven were withdrawn, and No have no published award document and are published with an unknown outcome rather than an inferred one. MODL publishes assessment account numbers but no PIDs, so every PID was derived by matching the account's PVSC coordinate against the NSPRD parcel layer. Assessed-owner and bidder identities carried on both surfaces were deliberately omitted from this public dataset. The award document for item 65 prints assessment account 03630478, which does not exist in PVSC; the notice value 03647013 was used.",
+      "awardDocuments": [
+        {"item":2,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9869-tax-sale-award-2&category_slug=2026&Itemid=102","sha256":"4c56b710b62debf8e01dfd4d192e3e7c54380fae03264a4a572eff8eda977dc2"},
+        {"item":3,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9870-tax-sale-award-3-1&category_slug=2026&Itemid=102","sha256":"f7d6098fa198f72ffe8196fa7c3f9e17fc05df379db6e3fc3449f38d94cc3231"},
+        {"item":5,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9871-tax-sale-award-5&category_slug=2026&Itemid=102","sha256":"bc98291f4e89276b272bf5cd7232db9150542c70f1f2d41a3494bfb42afad425"},
+        {"item":10,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9872-tax-sale-award-10&category_slug=2026&Itemid=102","sha256":"a4645ada8ea3f02c3472fb16c3496594f91dfdef0f18250f27eb2643e110c18e"},
+        {"item":24,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9873-tax-sale-award-24&category_slug=2026&Itemid=102","sha256":"bacaa247da0ac955e85220e0ad802e1e284ef15aae07cd57ec3efeb05d6e39d8"},
+        {"item":51,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9820-tax-sale-51-reporting-letter-attachments&category_slug=2026&Itemid=102","sha256":"8f6f5c9f3ee7fc539375c2f34fd2932623ba8b7f2f13e91f970634912a66bdd6"},
+        {"item":65,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9875-tax-sale-award-65-1&category_slug=2026&Itemid=102","sha256":"41511b2e266ce6317beaee08229ce6940ac94e899166e0c57f92590a8bc413f2"},
+        {"item":99,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9876-tax-sale-award-99&category_slug=2026&Itemid=102","sha256":"49c9d168308347040775c03f292c40747ef8ba11890cd31eef5fb87c12df60b8"},
+        {"item":120,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9877-tax-sale-award-120&category_slug=2026&Itemid=102","sha256":"d077840597d6065bf68b3a87ac416a72b31bf866faf0b2091568b6eb9c7d6173"},
+        {"item":123,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9878-tax-sale-award-123-1&category_slug=2026&Itemid=102","sha256":"572643042486b8cf35fea3ece9003b5aa73f7e62dce1ad99fa1fa57445b7951e"},
+        {"item":129,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9879-tax-sale-award-129-1&category_slug=2026&Itemid=102","sha256":"81889610383e290d29c84c07ae0614ff675cd944adab86116acacf9581e21a0e"},
+        {"item":140,"url":"https://modl.ca/index.php?option=com_docman&view=download&alias=9880-tax-sale-award-140&category_slug=2026&Itemid=102","sha256":"656e54f53bef3ee78540283cea439f4d9b61140aa86a2b8100562f937cd34950"}
+      ]
+    },
+    {
+      "municipality": "Municipality of the County of Richmond",
+      "event": "June 12, 2026 PROPERTY TAX SALE - (public auction)",
+      "status": "included",
+      "officialUrls": [
+        "https://www.richmondcounty.ca/tax-sales.html",
+        "https://web.archive.org/web/20260729005936id_/https://www.richmondcounty.ca/tax-sales.html"
+      ],
+      "documentSha256": [
+        "01209ab715c583f0bb671ff5beb2867a2acb5ed56bfa6cb099d5bc5143c99b04",
+        "b626a3630b28b39528965f2ccd997c49201bcd7f2d449e33f5b2aacfb84925e8"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "description", "redeemable", "taxes, interest, other charges", "successful bid"],
+      "officialWinningBidsFound": true,
+      "notes": "3 result rows were ingested; 3 publish a winning bid. The live municipal page is overwritten each sale, so the receipt is a Wayback capture of that address whose archived id_ bytes were verified to carry the results table; the second hash is a live retrieval of the page taken the same day. The assessed-name column was discarded before the repository dataset was written."
+    },
+    {
+      "municipality": "Municipality of the County of Pictou",
+      "event": "April 10, 2026 Tax Sale 2026-01 (public tender)",
+      "status": "included",
+      "officialUrls": [
+        "https://munpict.ca/departments-and-services/finance/tax-sale/",
+        "https://munpict.ca/assets/Tax-Sale-2026-01-Final-Advertisement-Posted-revised-April-10.pdf",
+        "https://munpict.ca/assets/MOPC-Finance-Master-Tax-Sale-Results-April-10-20261.pdf"
+      ],
+      "documentSha256": [
+        "9ee824de63bf9aa97a932f48c88709775b072890e9e7308b0162ff24f046c19b",
+        "05b8ff077ddc2f78845311d9a08132b657b74fc85eabcb6af60ebb83736673cd"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "district", "description", "minimum bid", "post-sale redeemable", "HST", "selling price"],
+      "officialWinningBidsFound": true,
+      "notes": "21 result rows were reconciled from the dated official PDF; 18 publish a numeric selling price and 3 print Removed. Removed is preserved as withdrawn with no selling-price claim. Every exact eight-digit PID returned from NSPRD on 2026-07-28."
+    },
+    {
+      "municipality": "Region of Queens Municipality",
+      "event": "February 10, 2026 tax sale by tender",
+      "status": "included",
+      "officialUrls": [
+        "https://www.regionofqueens.com/municipal-services/finance/tax-sales/",
+        "https://www.regionofqueens.com/~documents/route%3A/download/4347/"
+      ],
+      "documentSha256": ["7630a812b112f2211df6b4566bc0923bd1712fb6b2864efaece8d6f5df2b5a62"],
+      "fieldsAvailable": ["Assessment #", "property details", "minimum bid", "successful bid", "REMOVED", "No successful bids"],
+      "officialWinningBidsFound": true,
+      "notes": "The municipality's self-contained 16-row result sheet was rendered and reconciled row by row: 4 rows publish numeric successful bids, 2 print No successful bids, and 10 are marked REMOVED. The result does not publish PID or redemption status. Every assessment number resolved through its PVSC open-data coordinate to exactly one NSPRD PID on 2026-08-06 and is labelled deterministic-reconciliation; no owner field entered the public dataset."
+    },
+    {
+      "municipality": "Municipality of the District of Clare",
+      "event": "February 28, 2026 tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.clarenovascotia.com/en/governance/your-municipality/news/2026-tax-sale",
+        "https://www.clarenovascotia.com/en/governance/municipal-office/finance/pay-taxes",
+        "https://www.clarenovascotia.com/images/2026_Tax_Sale_Update_ENG.pdf"
+      ],
+      "documentSha256": [
+        "8f1070e83955ff48e087b6a18a9f5cbc653de8c684ce392465dcef2af443512d",
+        "669547d1ed5419092940d7d4c998be1f942ed00bcc44c7a0b213fca60c3a22a5"
+      ],
+      "fieldsAvailable": ["AAN", "PID", "property location and description", "taxes, interest, and expenses", "result", "sale price", "post-sale status"],
+      "officialWinningBidsFound": true,
+      "notes": "All 16 exact AAN/PID pairs reconcile between the final official notice and result. Twelve rows publish an unqualified Sold disposition and numeric sale price, one is Unsold, and two publish later redemption dates. One result prints Sold and a numeric sale price but also says the buyer forfeited; that row remains outcome-unknown with no winning-bid claim. Assessed-owner fields were omitted before the public dataset was written."
+    },
+    {
+      "municipality": "Municipality of the District of Shelburne",
+      "event": "February 9, 2026 tax sale by tender",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://www.municipalityofshelburne.ca/tax-sale/",
+        "https://www.municipalityofshelburne.ca/2026/02/11/tax-sale-results/",
+        "https://www.municipalityofshelburne.ca/wp-content/uploads/2026/02/Public-Tax-Sale-Results-2026.pdf"
+      ],
+      "documentSha256": ["71cbfdebc90e7758e9bfb37a4675a76bec6416f8c95d458e58a95dc4bb4836e4"],
+      "fieldsAvailable": ["AAN", "PID", "description", "winning bid", "NO BIDS"],
+      "officialWinningBidsFound": true,
+      "notes": "The two-page official result PDF identifies 17 owner-free rows: 11 print numeric winning bids and 6 print NO BIDS. The current municipal landing page no longer links the matching pre-sale notice or any advertised amount, so the result cannot be reconciled against notice fields and does not satisfy the public historical model's positive advertised-amount contract. No row is promoted into the map dataset."
+    }
+  ]
+}
