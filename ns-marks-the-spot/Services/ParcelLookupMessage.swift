@@ -29,6 +29,38 @@ nonisolated enum ParcelLookupMessage {
 
     static let noParcelForPID = "No NSPRD parcel was found for that PID."
 
+    // MARK: - Civic addresses
+
+    static let searchingAddresses = "Searching mapped civic addresses…"
+
+    /// What to type. Two sentences rather than one, because the two inputs fail
+    /// for opposite reasons: digits that are not a PID are the wrong length,
+    /// and a two-letter address is too little to search on.
+    static let enterAPID = "Enter an 8-digit Nova Scotia parcel ID."
+    static let enterMoreOfAnAddress = "Enter at least three characters of a civic address."
+
+    /// The file was searched and matched nothing.
+    ///
+    /// "Mapped" is doing work: the Civic Address File is a record of civic
+    /// points, and an address missing from it is not an address that does not
+    /// exist.
+    static let noAddressMatched = "No mapped civic address matched that search."
+
+    /// Why an address search produced nothing, in words that do not claim the
+    /// address is absent. `nil` for cancellation, as with parcels.
+    static func failure(_ failure: CivicAddressFailure) -> String? {
+        switch failure {
+        case .cancelled:
+            return nil
+        case .refused(.queryTooShort):
+            return enterMoreOfAnAddress
+        case .refused(.noBoundary), .refused(.malformedURL):
+            return "The civic address search is misconfigured in this build."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "Civic address search is unavailable right now."
+        }
+    }
+
     /// Why a lookup produced nothing, in words that do not claim the parcel is
     /// absent.
     ///

@@ -36,6 +36,12 @@ struct ParcelIdentifyTests {
             zoomLevel: zoomLevel,
             parcelFetcher: ParcelFetcher(
                 transport: .urlSession(StubURLProtocol.session(channel: channel))
+            ),
+            // Both fetchers answer on the one channel, matched by needle, so a
+            // test can watch an address search and the parcel lookup it leads
+            // to as the single sequence the user sees.
+            civicFetcher: CivicAddressFetcher(
+                transport: .urlSession(StubURLProtocol.session(channel: channel))
             )
         )
         // Restricted layers install hidden, so this is what turns parcels on —
@@ -216,19 +222,171 @@ struct ParcelIdentifyTests {
         #expect(viewModel.parcelMessage == "No NSPRD parcel was found for that PID.")
     }
 
-    @Test func aCivicAddressIsAMissingFeatureRatherThanABadEntry() async {
-        // The web searches civic addresses from this field; the app cannot yet.
-        // Telling the user to enter a parcel ID as though they had typed one
-        // wrongly would blame them for a feature that has not shipped.
+    // MARK: - Civic addresses
+
+    /// Two civic points on the same road, which is why a search lists rather
+    /// than jumps: picking one for the user would present a guess as an answer.
+    private static let twoAddresses = StubURLProtocol.Response.success(Data("""
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "geometry": {"type": "Point", "coordinates": [-63.5741, 44.6462]},
+          "properties": {
+            "pntid": "1001", "civicnum": "1234", "strname": "Barrington",
+            "strsuffix": "Street", "comm": "Halifax", "mun": "Halifax",
+            "county": "Halifax"
+          }
+        },
+        {
+          "geometry": {"type": "Point", "coordinates": [-63.5748, 44.6470]},
+          "properties": {
+            "pntid": "1002", "civicnum": "1236", "strname": "Barrington",
+            "strsuffix": "Street", "comm": "Halifax", "mun": "Halifax",
+            "county": "Halifax"
+          }
+        }
+      ]
+    }
+    """.utf8))
+
+    private static let noAddresses = StubURLProtocol.Response.success(Data("""
+    {"type": "FeatureCollection", "features": []}
+    """.utf8))
+
+    @Test func typingAnAddressListsTheMatchesWithoutAskingTheProvince() async {
+        // The address file and the parcel register are separate records. A
+        // search shows what the file has; it does not yet claim a parcel.
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("tntn-er5g", Self.twoAddresses),
+            ("nsgiwa", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("1234 Barrington Street")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.map(\.pntid) == ["1001", "1002"])
+        #expect(viewModel.addressResults.first?.label == "1234 Barrington Street, Halifax")
+        #expect(viewModel.parcelMessage == nil)
+        #expect(viewModel.parcels.selectedPID == nil)
+    }
+
+    @Test func choosingAnAddressAsksTheProvinceWhatParcelIsUnderIt() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("tntn-er5g", Self.twoAddresses),
+            ("nsgiwa", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("1234 Barrington Street")
+        await viewModel.awaitAddressSearch()
+        let chosen = viewModel.addressResults[0]
+        viewModel.selectAddress(chosen)
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.parcels.selectedPID == "50334317")
+        #expect(viewModel.parcelMessage == "PID 50334317 selected.")
+        // The list closes on the choice: leaving it open would keep offering
+        // the alternatives as though nothing had been decided.
+        #expect(viewModel.addressResults.isEmpty)
+    }
+
+    /// The Civic Address File is Open-Government-Licence data. Gating it behind
+    /// the Province licence would deny a user open data on the strength of an
+    /// agreement that does not cover it.
+    @Test func anAddressSearchWorksWithoutTheProvinceLicence() async {
+        let channel = #function
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("tntn-er5g", Self.twoAddresses)],
+            licence: .unknown,
+            showingParcels: false
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("1234 Barrington Street")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.count == 2)
+    }
+
+    @Test func aSearchThatMatchesNothingSaysTheFileWasSearched() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.noAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("Nonesuch Road")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.parcelMessage == "No mapped civic address matched that search.")
+        #expect(viewModel.addressResults.isEmpty)
+    }
+
+    /// The address equivalent of the parcel outage rule: an unanswered question
+    /// is not an absent address, and must not be worded as one.
+    @Test(arguments: [
+        ("a refusal", StubURLProtocol.Response.status(500)),
+        ("no network", .failure(.notConnectedToInternet)),
+        ("a reply that is not JSON", .success(Data("<html>502</html>".utf8))),
+    ])
+    func anAddressFileThatCannotBeReachedNeverSaysTheAddressIsAbsent(
+        _ label: String, response: StubURLProtocol.Response
+    ) async {
+        let channel = "\(#function)-\(label)"
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", response)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("1234 Barrington Street")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.parcelMessage == "Civic address search is unavailable right now.")
+        #expect(viewModel.addressResults.isEmpty)
+    }
+
+    /// Digits of the wrong length were meant as a PID. Searching them as an
+    /// address would answer "no mapped civic address matched", which reads as a
+    /// missing property rather than as a mistyped identifier.
+    @Test func digitsThatAreNotAPIDAskForAPIDRatherThanSearchingAddresses() async {
         let channel = #function
         let viewModel = Self.viewModel(channel, answering: Self.parcel(pid: "50334317"))
         defer { StubURLProtocol.clear(channel: channel) }
 
-        viewModel.searchParcel("1234 Barrington Street")
-        await viewModel.awaitParcelLookup()
+        viewModel.searchParcel("1234567")
+        await viewModel.awaitAddressSearch()
 
-        #expect(viewModel.parcelMessage?.contains("not in the app yet") == true)
+        #expect(viewModel.parcelMessage == "Enter an 8-digit Nova Scotia parcel ID.")
         #expect(StubURLProtocol.requestCount(channel: channel) == 0)
+    }
+
+    @Test func twoCharactersIsTooLittleToSearchOn() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: Self.parcel(pid: "50334317"))
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("Ba")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.parcelMessage == "Enter at least three characters of a civic address.")
+        #expect(StubURLProtocol.requestCount(channel: channel) == 0)
+    }
+
+    @Test func clearingTheFieldSaysNothingAtAll() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.noAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("Nonesuch Road")
+        await viewModel.awaitAddressSearch()
+        #expect(viewModel.parcelMessage != nil)
+
+        viewModel.searchParcel("")
+        await viewModel.awaitAddressSearch()
+
+        // An emptied field is a search abandoned, not a search that failed.
+        #expect(viewModel.parcelMessage == nil)
     }
 
     @Test func anUnansweredLicenceIsExplainedRatherThanReportedAsAnOutage() async {

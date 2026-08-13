@@ -184,6 +184,7 @@ final class OverlayViewModel {
     private let licenceStore: ProvinceLicenceStore
     private let clearanceBox: LicenceClearanceBox
     private let parcelFetcher: ParcelFetcher
+    private let civicFetcher: CivicAddressFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -193,12 +194,14 @@ final class OverlayViewModel {
         controller: MapController,
         licenceStore: ProvinceLicenceStore,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
-        parcelFetcher: ParcelFetcher = ParcelFetcher()
+        parcelFetcher: ParcelFetcher = ParcelFetcher(),
+        civicFetcher: CivicAddressFetcher = CivicAddressFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
         self.parcelFetcher = parcelFetcher
+        self.civicFetcher = civicFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -242,7 +245,23 @@ final class OverlayViewModel {
     /// Asks what parcel is under a tapped point.
     func identifyParcel(latitude: Double, longitude: Double) {
         guard isIdentifyingParcels else { return }
-        parcelMessage = ParcelLookupMessage.searchingAtPoint
+        identifyParcel(latitude: latitude, longitude: longitude, at: nil, focus: false)
+    }
+
+    /// The same lookup, for a point the user did not tap.
+    ///
+    /// `address` skips the zoom and layer-visibility guards, and it is right to
+    /// skip them: those exist because a fingertip on a province-wide map covers
+    /// a kilometre of ground, and a chosen civic address is a coordinate the
+    /// Province published. The map is focused on the result for the same reason
+    /// — nothing about the current view says where that address is.
+    private func identifyParcel(
+        latitude: Double, longitude: Double, at address: String?, focus: Bool
+    ) {
+        addressResults = []
+        addressLookup?.cancel()
+        parcelMessage = address.map(ParcelLookupMessage.searching(for:))
+            ?? ParcelLookupMessage.searchingAtPoint
         startLookup(forPointTap: true) { [parcelFetcher, clearance = clearanceBox.clearance] in
             // `do throws(…)` rather than a bare `do`: inside a closure the
             // thrown type is not inferred, and an untyped catch would widen the
@@ -265,21 +284,32 @@ final class OverlayViewModel {
                 parcelMessage = ParcelLookupMessage.noParcelAtPoint
                 return
             }
-            adopt(collection, selecting: pid, focus: false)
+            adopt(collection, selecting: pid, focus: focus)
         }
     }
 
-    /// Looks up a PID the user typed.
+    /// Looks up whatever the user typed: a PID, or a civic address.
+    ///
+    /// Reading the input is the package's job, so the same rules decide it here
+    /// and in the tests that run without a simulator.
     func searchParcel(_ query: String) {
-        guard let pid = ParcelQuery.normalizePID(query) else {
-            // Not "that is not a PID": a civic address is a legitimate thing to
-            // type here on the web, and this app cannot search one yet. Saying
-            // the input is wrong would blame the user for a missing feature.
-            parcelMessage = query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                ? nil
-                : "Enter an 8-digit Nova Scotia parcel ID. Civic address search is not in the app yet."
-            return
+        switch ParcelSearchInput.classify(query) {
+        case .pid(let pid):
+            searchPID(pid)
+        case .empty:
+            abandonAddressSearch(saying: nil)
+        case .notAPID:
+            abandonAddressSearch(saying: ParcelLookupMessage.enterAPID)
+        case .tooShort:
+            abandonAddressSearch(saying: ParcelLookupMessage.enterMoreOfAnAddress)
+        case .address(let text):
+            searchCivicAddress(text)
         }
+    }
+
+    private func searchPID(_ pid: String) {
+        addressResults = []
+        addressLookup?.cancel()
 
         if parcels.holds(pid: pid) {
             // Already loaded. Selecting without a request is what makes going
@@ -309,6 +339,81 @@ final class OverlayViewModel {
         }
     }
 
+    // MARK: - Civic addresses
+
+    /// Addresses matching the last search, for the user to choose from.
+    ///
+    /// A list rather than a jump to the first result: several properties share
+    /// a road name, and picking one for the user would be presenting a guess as
+    /// an answer. Empty whenever a parcel is selected or a new search starts.
+    private(set) var addressResults: [CivicAddressResponse.CivicAddress] = []
+
+    private(set) var isSearchingAddresses = false
+
+    @ObservationIgnored private var addressLookup: Task<Void, Never>?
+
+    /// Stops looking for addresses without disturbing the parcel on screen.
+    ///
+    /// A half-typed query is not a reason to drop the parcel the user is
+    /// already looking at, so this clears the result list and the search in
+    /// flight and nothing else.
+    private func abandonAddressSearch(saying message: String?) {
+        addressResults = []
+        addressLookup?.cancel()
+        isSearchingAddresses = false
+        parcelMessage = message
+    }
+
+    /// Searches the Civic Address File for text that is not a PID.
+    ///
+    /// Needs no Province licence — the file is open data — so this works even
+    /// for a user who declined. Choosing a result then asks NSPRD, which is
+    /// where the licence applies, and refuses in the usual words.
+    private func searchCivicAddress(_ typed: String) {
+        addressResults = []
+        parcelLookup?.cancel()
+        addressLookup?.cancel()
+        isSearchingAddresses = true
+        parcelMessage = ParcelLookupMessage.searchingAddresses
+        addressLookup = Task { [weak self, civicFetcher] in
+            let outcome: Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>
+            do throws(CivicAddressFailure) {
+                outcome = .success(try await civicFetcher.search(typed))
+            } catch {
+                outcome = .failure(error)
+            }
+            guard !Task.isCancelled, let self else { return }
+            isSearchingAddresses = false
+
+            switch outcome {
+            case .success(let addresses):
+                addressResults = addresses
+                // The file was searched and matched nothing. The only message
+                // here allowed to say so.
+                parcelMessage = addresses.isEmpty ? ParcelLookupMessage.noAddressMatched : nil
+            case .failure(let failure):
+                guard let message = ParcelLookupMessage.failure(failure) else { return }
+                parcelMessage = message
+            }
+        }
+    }
+
+    /// Finds the parcel under a civic address the user chose.
+    func selectAddress(_ address: CivicAddressResponse.CivicAddress) {
+        identifyParcel(
+            latitude: address.coordinate.lat,
+            longitude: address.coordinate.lng,
+            at: address.label,
+            focus: true
+        )
+    }
+
+    /// Waits for an address search in flight, if any. The parcel equivalent,
+    /// and a seam for the same reason.
+    func awaitAddressSearch() async {
+        await addressLookup?.value
+    }
+
     /// Waits for the lookup in flight, if any.
     ///
     /// A seam for tests, which otherwise have to guess how long a stubbed
@@ -321,6 +426,9 @@ final class OverlayViewModel {
 
     func clearParcelSelection() {
         parcelLookup?.cancel()
+        addressLookup?.cancel()
+        addressResults = []
+        isSearchingAddresses = false
         parcels.select(nil)
         publishParcels(focus: false)
         parcelMessage = nil

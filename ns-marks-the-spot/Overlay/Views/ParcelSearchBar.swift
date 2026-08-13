@@ -1,6 +1,7 @@
+import NSDataServices
 import SwiftUI
 
-/// Looks up a parcel by PID, and reports what the lookup did.
+/// Looks up a parcel by PID or civic address, and reports what the lookup did.
 ///
 /// The message under the field is not decoration. A parcel lookup can fail in
 /// ways that look identical on a map — nothing drawn — and only the words
@@ -17,10 +18,12 @@ struct ParcelSearchBar: View {
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(.secondary)
 
-                TextField("Parcel ID", text: $query)
+                // A default keyboard rather than a numeric one: the field takes
+                // civic addresses as well as PIDs, and offering digits only
+                // would say otherwise before the user typed anything.
+                TextField("PID or civic address", text: $query)
                     .textFieldStyle(.plain)
                     .font(.subheadline)
-                    .keyboardType(.numbersAndPunctuation)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .submitLabel(.search)
@@ -29,7 +32,7 @@ struct ParcelSearchBar: View {
                         viewModel.searchParcel(query)
                         isFocused = false
                     }
-                    .accessibilityLabel("Parcel ID")
+                    .accessibilityLabel("PID or civic address")
 
                 if !query.isEmpty {
                     Button {
@@ -48,6 +51,10 @@ struct ParcelSearchBar: View {
             .background(.regularMaterial)
             .clipShape(.rect(cornerRadius: 12))
             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+
+            if !viewModel.addressResults.isEmpty {
+                addressResults
+            }
 
             if let message = viewModel.parcelMessage {
                 Text(message)
@@ -71,5 +78,38 @@ struct ParcelSearchBar: View {
             guard let selected, selected != query else { return }
             query = selected
         }
+    }
+
+    /// The addresses that matched, for the user to choose between.
+    ///
+    /// Choosing one is what asks NSPRD which parcel is under it — the address
+    /// and the parcel are separate records, and the app does not claim one from
+    /// the other until the Province has been asked.
+    private var addressResults: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(viewModel.addressResults, id: \.pntid) { address in
+                Button {
+                    query = address.label
+                    isFocused = false
+                    viewModel.selectAddress(address)
+                } label: {
+                    Text(address.label)
+                        .font(.footnote)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+
+                if address.pntid != viewModel.addressResults.last?.pntid {
+                    Divider().padding(.leading, 12)
+                }
+            }
+        }
+        .background(.regularMaterial)
+        .clipShape(.rect(cornerRadius: 12))
+        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+        .accessibilityIdentifier("civic-address-results")
     }
 }

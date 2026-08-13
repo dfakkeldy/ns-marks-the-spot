@@ -87,7 +87,8 @@ extension OverlayViewModel {
         installing ids: [LayerID],
         licence: ProvinceLicenceState = .accepted,
         zoomLevel: Int? = nil,
-        parcelFetcher: ParcelFetcher = ParcelFetcher()
+        parcelFetcher: ParcelFetcher = ParcelFetcher(),
+        civicFetcher: CivicAddressFetcher = CivicAddressFetcher()
     ) -> OverlayViewModel {
         let controller = MapController()
         for id in ids {
@@ -106,7 +107,8 @@ extension OverlayViewModel {
             licenceStore: ProvinceLicenceStore(
                 storage: InMemoryProvinceLicenceStorage(initial: licence)
             ),
-            parcelFetcher: parcelFetcher
+            parcelFetcher: parcelFetcher,
+            civicFetcher: civicFetcher
         )
     }
 }
