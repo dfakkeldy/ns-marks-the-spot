@@ -144,7 +144,7 @@ public enum MappedFeatureResponse {
     }
 
     /// An ArcGIS attribute, which may be a string, a number, or null.
-    public enum AttributeValue: Sendable, Equatable, Decodable {
+    public enum AttributeValue: Sendable, Hashable, Decodable {
         case string(String)
         case number(Double)
         case null

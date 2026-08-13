@@ -24,16 +24,10 @@ struct LayerCatalogParityTests {
     /// `everyFixtureFieldIsModelledOrDeferred`, so a web change cannot slip in
     /// unnoticed just because Swift has no property for it.
     static let deferredFields: Set<String> = [
-        // Only the two mineral point layers still defer this one. The zoning
-        // layers model their own `outFields` in `LayerCatalog.zoningDetail`,
-        // which `matchesZoningDetail` checks against the fixture — but the
-        // field name is global to this check, so it stays listed here until
-        // those two are modelled too.
-        "outFields",
         // Environmental-health legend and guidance — Phase 6.
         "guidance", "riskBands", "screening",
-        // Point-layer styling and the well-log manual link — Phase 6.
-        "markerColor", "manualUrl",
+        // The well-log manual link — Phase 6.
+        "manualUrl",
         // Forestry status colours — Phase 6.
         "statusColors",
     ]
@@ -316,6 +310,26 @@ struct LayerCatalogParityTests {
         }
     }
 
+    @Test("Mineral point detail matches the fixture, layer for layer")
+    func matchesResourcePointDetail() {
+        let modelled = Set(LayerCatalog.resourcePointDetail.map(\.id.rawValue))
+        let declared = Set(
+            Self.fixture.layers.filter { $0.value["markerColor"] != nil }.keys
+        )
+        #expect(modelled == declared)
+
+        for detail in LayerCatalog.resourcePointDetail {
+            let id = detail.id.rawValue
+            guard let web = Self.fixture.layer(id) else { continue }
+
+            #expect(
+                detail.outFields == web["outFields"]?.array?.compactMap(\.string),
+                "\(id) outFields"
+            )
+            #expect(detail.markerColor == web["markerColor"]?.nonNull?.string, "\(id) markerColor")
+        }
+    }
+
     @Test("Every fixture field is either modelled or explicitly deferred")
     func everyFixtureFieldIsModelledOrDeferred() {
         let modelled: Set<String> = [
@@ -330,6 +344,9 @@ struct LayerCatalogParityTests {
             "attribution", "bylawLabel", "bylawUrl", "fillColor", "strokeColor",
             "idField", "orderByFields", "planAreaField", "redistribution",
             "zoneCodeField", "zoneNameField",
+            // Modelled on `ZoningLayerDetail` and `ResourcePointLayerDetail`,
+            // which declare an `outFields` each; both are checked below.
+            "outFields", "markerColor",
         ]
         var unknown: Set<String> = []
         for entry in Self.fixture.layers.values {
