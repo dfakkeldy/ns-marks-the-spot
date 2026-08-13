@@ -104,3 +104,32 @@ Next action: implement Phase 1 layer catalog + licence gate from the parity
 spec; keep pure logic in NSMarksCore (`swift test`, ungated) and let only the
 app-target wiring wait on xcode-build-slot.sh.
 ```
+
+## 2026-08-13 — Phase 1: catalog, parity oracle and the licence gate land
+
+Done: three more commits, still zero Apple builds. `LayerID`/`LayerGroupID`/
+`LayerLicence` + `OverlayZIndex` in GeoCore; `web/src/layers/layerParity.ts`
+exports `layer-parity.json` via `toMatchFileSnapshot` (no new dependency); all
+36 descriptors in `MapCatalog` with a field-by-field Swift parity test.
+Then `NSDataServices`: `TileRequest` (internal init), `ProvinceLicence*`,
+`TileRequestFactory` (licence checked before the URL is built), and
+`ArcGISExportURL` byte-compatible with `URLSearchParams`. 105 package tests,
+8 web tests, all green; three mutations confirmed the gate tests bite.
+A Codex adversarial pass (`codex exec ... < /dev/null` — without the redirect
+it blocks on stdin forever) found five real transcription errors, all fixed in
+4a4ffd826; it confirmed every licence, the 16-member restricted set, all
+service URLs and all `dynamicLayers` bytes are correct.
+Next: Fletcher direct-Rumsey switch (spec §5) — sheets + URL normalisation are
+portable and testable now; deleting the 311 MB root `Tiles/`, the Info.plist
+`FLETCHER_TILE_BASE_URL` key and the pbxproj `XCLocalSwiftPackageReference`
+need the app target. Then grouped layer UI. Hold promotion past nightly until
+HTTPS hosting exists.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (6 commits ahead of nightly).
+Next action: port normalizeFletcherTileBaseUrl + the 24 sheet bounds from
+web/src/layers/fletcherLayer.ts into NSMarksCore with tests (ungated), then
+wire the app target: delete root Tiles/, add FLETCHER_TILE_BASE_URL, migrate
+TileStore on key "fletcher-direct-rumsey-20260726.1".
+```
