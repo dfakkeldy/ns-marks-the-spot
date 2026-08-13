@@ -204,3 +204,38 @@ every ~5 min; when it admits, spend ONE admission on
 and read Swift Testing failures with
 `xcrun xcresulttool get test-results tests --path <.xcresult>`.
 ```
+
+## 2026-08-13 — shared catalog + Province licence gate committed
+
+Done: `b60b2d53e` deletes the app-local `LayerCatalog`/`LayerDescriptor`
+and reads `MapCatalog` directly; `NativeLayerTraits` keeps only the
+MapKit-specific facts (install order = z-order, offline policy, basemap
+capability). Restricted Province layers now sit behind an acceptance
+sheet, gated *before* the tile cache, with `LicenceClearanceBox` carrying
+the answer to MapKit's background queues and `withObservationTracking`
+mirroring the store into it. Codex adversarial review returned 5
+findings; all 5 fixed (the sharpest: `setBaseMapType(.nsAerial)`
+bypassed the gate entirely). App + unit-test targets both type-check
+clean gate-free; 143 package tests green.
+Next: the gated `xcodebuild test` run — type checking is not execution.
+Then Phase 1's last item, the grouped collapsible layer panel with the
+web's status vocabulary from `web/src/components/LayerRows.tsx`
+(Off / Ready to load / Loading visible area… / Ready · N loaded /
+Zoom to N+ to load / Source temporarily unavailable), grouped by
+`GeoCore.LayerGroupID`.
+Still owed beyond Phase 1: a CI job for the package tests, and a
+Province-licence revoke control **with a cache sweep beside it** —
+`OpacityTileOverlay` documents that debt at its pre-cache gate.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (clean, pushed).
+Next action: poll /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
+every ~5 min; when admitted spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+(unit bundle only + no concurrency: the UI bundle hangs on debugger
+attach and four clones exhaust memory). Read Swift Testing failures with
+`xcrun xcresulttool get test-results tests --path <.xcresult>`.
+```
