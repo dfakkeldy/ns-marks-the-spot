@@ -304,3 +304,38 @@ every ~5 min; on admission run ONE
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — Civic-address search, and the transport seam under it
+Done: three commits. `refactor(core): move parcel fetchers into the
+package behind a transport` (e1e478fae) — `HTTPTransport` is a Sendable
+struct wrapping `(URLRequest) async throws -> (Data, URLResponse)`, so
+fetchers live in NSMarksCore and their tests run gate-free.
+`feat(core): look up civic addresses from the Province's open data`
+(775c402dd) — CivicAddressQuery/Response/Fetcher, a port of the web's
+`civicAddresses.ts`; Socrata `tntn-er5g`, Open Government Licence, no
+clearance (the confinement test says why in words and now also checks
+mechanically that anything reading a service address from the catalog
+takes a clearance). `feat(app): search civic addresses from the parcel
+field` (71edee8e9) — the field stops saying "not in the app yet";
+`ParcelSearchInput.classify` reads PID vs address vs too-short in the
+package. Then `fix(app): keep the search field and its lookups in step`
+(474eb6fce) — seven defects Codex found: unidentified boundaries
+reported as "no parcel", first-of-several presented as an
+identification, stale results surviving a keystroke, an invalid
+submission not cancelling the parcel lookup, isSearchingAddresses stuck
+true, the chosen address replaced by its PID, an all-unreadable page
+reported as no-such-address. Plus the OGL-NS attribution the licence
+requires. Package tests 252/252 gate-free; app + test targets typecheck
+via the scratchpad scripts (run them with **zsh**, not bash).
+Next: unchanged and now overdue — one gate admission on the unit bundle.
+Then Phase 3's inspector UI.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: poll `/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status`
+every ~5 min; on admission run ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
