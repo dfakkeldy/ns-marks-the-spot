@@ -93,10 +93,10 @@ struct LayerCatalogParityTests {
             )
 
             // The derived parcel layer declares no opacity; it draws with the
-            // parcel overlay's own styling.
-            if let opacity = web["opacity"]?.double {
-                #expect(layer.opacity == opacity, "\(id) opacity")
-            }
+            // parcel overlay's own styling. Asserted in both directions, so a
+            // Swift-invented default fails here rather than quietly becoming
+            // the number the renderer uses.
+            #expect(layer.opacity == web["opacity"]?.double, "\(id) opacity")
 
             // nativeDefaultVisibility only exists on the descriptors the web
             // shares with the native app; the rest are off by definition.
@@ -169,6 +169,71 @@ struct LayerCatalogParityTests {
                     "\(id) sets requiresProvinceLicence but Swift does not gate it"
                 )
             }
+        }
+    }
+
+    /// How the web actually obtains each layer, read off `MapCanvas` and the
+    /// layer components rather than off the catalog.
+    ///
+    /// The web declares `delivery` on only five layers, so the parity check
+    /// above can say nothing about the other thirty-one — and that gap already
+    /// hid one wrong answer: `inverness-hydro-potential` was modelled as a
+    /// live FeatureServer query when the web imports a bundled JSON document
+    /// and never contacts its `serviceUrl` at all. This table closes the gap by
+    /// being an independent statement of what each layer does, so a wrong
+    /// inference has to be argued with rather than merely not contradicted.
+    static let expectedDelivery: [String: LayerDelivery] = [
+        // ArcGIS /export rasters.
+        "ns-aerial": .mapExport, "nsprd": .mapExport, "crown-lands": .mapExport,
+        "flood-risk": .mapExport, "waterfalls": .mapExport,
+        "water-features": .mapExport, "roads": .mapExport,
+        "buildings": .mapExport, "place-names": .mapExport,
+        "main-roads": .mapExport, "contours": .mapExport,
+        "published-river-flood-zones": .mapExport,
+        "coastal-flood-current": .mapExport, "coastal-flood-2050": .mapExport,
+        "coastal-flood-2100": .mapExport, "arsenic-risk-wells": .mapExport,
+        "uranium-risk-wells": .mapExport, "manganese-risk-wells": .mapExport,
+        "surficial-aquifers": .mapExport, "mineral-tenure": .mapExport,
+        // Viewport-scoped feature queries.
+        "zoning-inverness": .featureQuery, "zoning-victoria": .featureQuery,
+        "zoning-richmond": .featureQuery, "zoning-cumberland": .featureQuery,
+        "zoning-halifax": .featureQuery, "ns-well-logs": .featureQuery,
+        "mineral-occurrences": .featureQuery, "abandoned-mines": .featureQuery,
+        // Fetched whole, per viewport, as GeoJSON.
+        "old-growth-policy": .geoJSONEndpoint,
+        // Shipped in the app; its serviceUrl is provenance, not an endpoint.
+        "inverness-hydro-potential": .bundledGeoJSON,
+        // Derived from other layers.
+        "mineral-proximity-parcels": .derivedParcelQuery,
+        // Pre-rendered sheets at a runtime-configured base URL.
+        "fletcher": .xyzTemplate,
+        // Rights pending: catalogued, never fetched.
+        "church-inverness": .unavailable, "church-victoria": .unavailable,
+        "church-richmond": .unavailable, "church-cape-breton": .unavailable,
+    ]
+
+    @Test("Delivery matches how the web actually obtains each layer")
+    func matchesDelivery() {
+        #expect(Set(Self.expectedDelivery.keys) == Set(Self.fixture.layers.keys))
+        for layer in LayerCatalog.all {
+            #expect(
+                layer.delivery == Self.expectedDelivery[layer.id.rawValue],
+                "\(layer.id.rawValue) delivery"
+            )
+        }
+    }
+
+    @Test("Only ArcGIS exports and tile templates count as rasters")
+    func rasterClassificationFollowsDelivery() {
+        // Old growth is the case worth pinning: it has a tile-space z-index,
+        // because its Leaflet pane hangs off `tilePane`, but it draws GeoJSON.
+        // Treating it as a raster would install a tile overlay for a layer that
+        // has no tiles.
+        #expect(LayerCatalog.descriptor(for: .oldGrowthPolicy)?.isRaster == false)
+        #expect(LayerCatalog.descriptor(for: .invernessHydroPotential)?.isRaster == false)
+        for layer in LayerCatalog.all {
+            let expected = layer.delivery == .mapExport || layer.delivery == .xyzTemplate
+            #expect(layer.isRaster == expected, "\(layer.id.rawValue) isRaster")
         }
     }
 

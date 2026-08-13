@@ -32,16 +32,29 @@ public enum LayerCatalog {
     ///
     /// Derived from the descriptors, never from a hand-kept id list. The web
     /// exports a `provinceLayerIds` array that looks like it would serve here
-    /// and does not: it omits `place-names` and `main-roads`, both restricted.
-    /// A port that gated on it would ship two unlicensed Province services.
+    /// and does not: it names nine layers where sixteen are restricted, missing
+    /// `place-names`, `main-roads`, `published-river-flood-zones`,
+    /// `arsenic-risk-wells`, `manganese-risk-wells`, `surficial-aquifers` and
+    /// the derived `mineral-proximity-parcels`. A port that gated on it would
+    /// ship six unlicensed Province services.
     public static let restrictedLayerIDs: Set<LayerID> = Set(
         all.filter(\.requiresProvinceClearance).map(\.id)
     )
 
-    /// Hosts that must never be contacted without clearance.
+    /// Hosts that serve at least one restricted layer.
     ///
-    /// Derived too, so adding a restricted layer automatically extends the
-    /// assertion that no request reaches one of these.
+    /// Diagnostic, not a blocklist — and the distinction is the point. The
+    /// licence attaches to the layer, not to the machine: `nsgiwa` and `dawson`
+    /// each serve both restricted layers and layers published under the Open
+    /// Government Licence, which need no acceptance and which the web requests
+    /// freely. Treating this set as "hosts we may not contact" would hide
+    /// uranium risk and the coastal-flood projections behind a dialog they do
+    /// not require.
+    ///
+    /// What is safe to assert host-wide is the converse: a request built
+    /// without clearance must never carry the *service URL* of a restricted
+    /// layer. No service URL in the catalog is shared between a restricted and
+    /// an open layer, so that check is exact.
     public static let restrictedHosts: Set<String> = Set(
         all.filter(\.requiresProvinceClearance)
             .compactMap { $0.serviceURL?.host() }
@@ -655,7 +668,7 @@ public enum LayerCatalog {
             group: .hydroPilot,
             uiOrder: 26,
             licence: .provinceOpen,
-            delivery: .featureQuery,
+            delivery: .bundledGeoJSON,
             serviceURL: URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer"),
             sourceURL: URL(string: "https://data.novascotia.ca/Internal-Government-Services/1-10-000-Nova-Scotia-Watersheds-Map/kzer-4ht8"),
             minZoom: 8,
@@ -742,7 +755,6 @@ public enum LayerCatalog {
             sourceURL: URL(string: "https://novascotia.ca/natr/meb/download/dp002.asp"),
             minZoom: 12,
             maxZoom: 23,
-            opacity: 1,
             webDefaultVisible: false,
             requiresProvinceLicence: true,
             caveat: "Derived from published occurrences and NSPRD parcels; not proof of mineralization",

@@ -15,6 +15,14 @@ public enum LayerDelivery: String, Hashable, Sendable, Codable {
     case derivedParcelQuery = "derived-parcel-query"
     /// A whole GeoJSON document fetched once from an open-data endpoint.
     case geoJSONEndpoint = "geojson-endpoint"
+    /// A GeoJSON document shipped inside the app.
+    ///
+    /// Distinct from `geoJSONEndpoint` because it makes no request at all. The
+    /// layer still records the `serviceURL` it was derived from — that is
+    /// provenance for the caveat text, not something to fetch — and treating
+    /// that URL as live would send a request the web never makes, to a
+    /// Province host, for data already on disk.
+    case bundledGeoJSON = "bundled-geojson"
     /// Pre-rendered XYZ tiles.
     case xyzTemplate = "xyz-template"
     /// Catalogued, but nothing fetches it.
@@ -82,7 +90,11 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
     /// Highest zoom the source actually publishes. Above it the renderer
     /// upsamples rather than requesting a tile that does not exist.
     public let maxNativeZoom: Int?
-    public let opacity: Double
+    /// `nil` only for `mineral-proximity-parcels`, which the web declares
+    /// without one: it draws with the parcel overlay's own styling rather
+    /// than as a layer with an opacity of its own. Defaulting it to 1 would
+    /// have been a number this app invented.
+    public let opacity: Double?
     public let webDefaultVisible: Bool
     public let nativeDefaultVisible: Bool
     public let caveat: String
@@ -120,7 +132,7 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
         minZoom: Int,
         maxZoom: Int,
         maxNativeZoom: Int? = nil,
-        opacity: Double,
+        opacity: Double? = nil,
         webDefaultVisible: Bool,
         nativeDefaultVisible: Bool = false,
         requiresProvinceLicence: Bool = false,

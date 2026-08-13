@@ -129,6 +129,64 @@ public enum OverlayZIndex {
     /// Leaflet's own overlay pane, recorded for reference only.
     public static let leafletOverlayPane = 400
 
+    /// The modern basemap, which the web mounts as an OpenStreetMap tile layer
+    /// at z-index 100 — below everything here.
+    ///
+    /// It has no `LayerID` because natively it is not an overlay at all: it is
+    /// MapKit's own base map, which always draws beneath every `MKOverlay`.
+    /// Recorded so the number is not mistaken for a gap.
+    public static let modernBasemap = 100
+
+    // MARK: - Vector layers
+
+    /// Layers the web draws as client-side geometry rather than as
+    /// server-rendered imagery.
+    ///
+    /// `old-growth-policy` is the trap here. Its z-index is a *tile-space*
+    /// number, because the web mounts its pane with `tilePane` as the parent —
+    /// so `space(of:)` rightly answers `.tile`. But the layer itself is a
+    /// `GeoJSON` fetched per viewport, not a raster, so it must not appear in
+    /// `installOrder`, which exists to sequence MapKit tile overlays. Having a
+    /// tile-space z-index and being a tile overlay are different properties,
+    /// and only this set separates them.
+    public static let vectorLayers: Set<LayerID> = [
+        .oldGrowthPolicy,
+        .zoningInverness, .zoningVictoria, .zoningRichmond,
+        .zoningCumberland, .zoningHalifax,
+        .mineralProximityParcels, .nsWellLogs,
+        .mineralOccurrences, .abandonedMines, .invernessHydroPotential,
+    ]
+
+    /// The order the web mounts raster layers in, which is what breaks ties.
+    ///
+    /// Leaflet sorts by `zIndex`, but layers sharing a z-index fall back to DOM
+    /// insertion order — so mount order is not cosmetic, it decides which of
+    /// two equal layers wins. Three layers sit at 225 (`buildings`,
+    /// `mineral-tenure`, `published-river-flood-zones`) and they are mounted
+    /// from three different catalog arrays, in this sequence, by `MapCanvas`:
+    /// Fletcher, then `provinceLayerCatalog`, then the `map-export` members of
+    /// `resourceLayerCatalog`, then `environmentalHealthLayerCatalog`, then
+    /// `floodHazardLayerCatalog`.
+    ///
+    /// Written out rather than derived from `LayerID.allCases`: the two orders
+    /// disagree exactly at that 225 tie, and taking the declaration order would
+    /// have drawn mineral tenure over published flood zones, inverting the web.
+    public static let webMountOrder: [LayerID] = [
+        .fletcher,
+        // provinceLayerCatalog — the province-restricted members of the native
+        // catalog, then buildings, contours, and the georeference aids.
+        .nsAerial, .nsprd, .crownLands, .floodRisk, .waterfalls,
+        .waterFeatures, .roads, .buildings, .contours, .placeNames, .mainRoads,
+        // resourceLayerCatalog, filtered to `delivery === "map-export"`.
+        .mineralTenure,
+        // environmentalHealthLayerCatalog.
+        .arsenicRiskWells, .uraniumRiskWells, .manganeseRiskWells,
+        .surficialAquifers,
+        // floodHazardLayerCatalog.
+        .publishedRiverFloodZones, .coastalFloodCurrent, .coastalFlood2050,
+        .coastalFlood2100,
+    ]
+
     // MARK: - Lookup
 
     /// The space a layer's z-index lives in.
@@ -173,46 +231,57 @@ public enum OverlayZIndex {
     /// Z-index for a raster layer, or `nil` if the layer is not a raster in
     /// tile space.
     ///
-    /// `pass` exists for layers rendered as more than one request. The web
-    /// writes `PROVINCE_LAYER_Z_INDEXES[layer.id] + index`, so a second pass
-    /// lands exactly one above its base — that is how the road-contrast
-    /// overlay stays on top of the roads it outlines.
+    /// `pass` exists only for the Province layers, and only because `roads` is
+    /// drawn twice — once for the roads and once for the contrast casing that
+    /// keeps them readable. The web writes
+    /// `PROVINCE_LAYER_Z_INDEXES[layer.id] + index` over
+    /// `[exportOptions, exportOverlayOptions]`, so the casing lands exactly one
+    /// above its base.
+    ///
+    /// Nothing else is multi-pass: Fletcher is a fixed 155, and every resource,
+    /// environmental-health and flood export is mounted as a single tile layer
+    /// with one fixed z-index. A `pass` above zero is therefore not a thing the
+    /// web can produce for them, and honouring it here would invent a stacking
+    /// position that does not exist — so those layers ignore it.
     public static func tileZIndex(for id: LayerID, pass: Int = 0) -> Int? {
         if let base = provinceLayers[id] {
             return base + pass
         }
         switch id {
         case .fletcher:
-            return fletcher + pass
+            return fletcher
         case .arsenicRiskWells, .uraniumRiskWells, .manganeseRiskWells,
             .surficialAquifers:
-            return environmentalHealth + pass
+            return environmentalHealth
         case .coastalFloodCurrent, .coastalFlood2050, .coastalFlood2100:
-            return coastalFloodExport + pass
+            return coastalFloodExport
         case .publishedRiverFloodZones, .mineralTenure:
-            return resourceExportDefault + pass
+            return resourceExportDefault
         case .oldGrowthPolicy:
-            return oldGrowthPolicy + pass
+            // A tile-space number, but not a tile overlay — see `vectorLayers`.
+            return oldGrowthPolicy
         default:
             return nil
         }
     }
 
-    /// The ids that render as rasters, ascending by z-index — the order MapKit
-    /// overlays must be installed in.
+    /// The ids that render as raster tile overlays, ascending by z-index — the
+    /// order MapKit overlays must be installed in.
     ///
-    /// Ties are broken by the layer's declared order so the result is total and
-    /// stable; MapKit needs a definite index, not a partial order.
+    /// Ties are broken by `webMountOrder`, because that is what breaks them on
+    /// the web: equal z-indexes leave Leaflet deferring to DOM insertion order.
+    /// MapKit needs a definite index rather than a partial order, and it has to
+    /// be the same definite index the browser arrives at.
     public static func installOrder(for ids: [LayerID]) -> [LayerID] {
-        let declared = LayerID.allCases.enumerated()
+        let mounted = webMountOrder.enumerated()
             .reduce(into: [LayerID: Int]()) { $0[$1.element] = $1.offset }
         return ids
-            .filter { tileZIndex(for: $0) != nil }
+            .filter { !vectorLayers.contains($0) && tileZIndex(for: $0) != nil }
             .sorted {
                 let left = tileZIndex(for: $0) ?? 0
                 let right = tileZIndex(for: $1) ?? 0
                 if left != right { return left < right }
-                return (declared[$0] ?? 0) < (declared[$1] ?? 0)
+                return (mounted[$0] ?? .max) < (mounted[$1] ?? .max)
             }
     }
 }

@@ -3,8 +3,14 @@ import Foundation
 /// Every layer the web map offers, keyed by the web's own id string.
 ///
 /// Raw values are the web ids verbatim so share links, parity fixtures and
-/// exported JSON need no translation table. Cases are grouped in the order the
-/// catalog declares them.
+/// exported JSON need no translation table.
+///
+/// Cases are grouped by theme for reading. Declaration order carries no
+/// meaning and nothing should depend on it: the web assembles its layers from
+/// several catalog arrays whose concatenation matches neither this order nor
+/// the panel's. The two orders that do matter are recorded where they belong —
+/// panel order in `LayerCatalog.all`, mount order in
+/// `OverlayZIndex.webMountOrder`.
 public enum LayerID: String, CaseIterable, Hashable, Sendable, Codable {
     // Map layers
     case fletcher
@@ -89,9 +95,16 @@ public enum LayerGroupID: String, CaseIterable, Hashable, Sendable, Codable {
 ///
 /// This enum — not a hand-maintained id list — is what decides whether a layer
 /// sits behind the Province gate. The web also exports a `provinceLayerIds`
-/// array, and it is a trap: it omits `place-names` and `main-roads`, both of
-/// which are province-restricted. A port that gated on that array would ship
-/// two unlicensed Province services.
+/// array, and it is a trap: it names nine layers where sixteen are restricted.
+/// It omits `place-names`, `main-roads`, `published-river-flood-zones`,
+/// `arsenic-risk-wells`, `manganese-risk-wells` and `surficial-aquifers`, all
+/// of which are backed by a Province service, plus the derived
+/// `mineral-proximity-parcels`. A port that gated on that array would ship six
+/// unlicensed Province services.
+///
+/// The array is not wrong for its own purpose — it is the set of layers the
+/// *native* app's first cut shipped, which is why it exists — it is simply not
+/// a licence classification, and reading it as one is the mistake.
 public enum LayerLicence: String, CaseIterable, Hashable, Sendable {
     case provinceRestricted = "province-restricted"
     case provinceOpen = "province-open"

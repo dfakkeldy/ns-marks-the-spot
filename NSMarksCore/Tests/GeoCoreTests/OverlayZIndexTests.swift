@@ -197,24 +197,62 @@ struct OverlayZIndexTests {
         #expect(ordered == [.nsAerial, .placeNames])
     }
 
-    @Test("Install order is total and stable when z-indexes tie")
-    func installOrderBreaksTiesStably() {
-        // buildings, published-river-flood-zones and mineral-tenure all sit at
-        // 225. MapKit needs a definite index, so the order must not depend on
-        // input order.
+    @Test("Ties resolve the way the browser resolves them")
+    func installOrderBreaksTiesLikeTheWeb() {
+        // buildings, mineral-tenure and published-river-flood-zones all sit at
+        // 225, so Leaflet falls back to DOM insertion order — and `MapCanvas`
+        // mounts provinceLayerCatalog, then the resource exports, then the
+        // flood exports. Declaration order in `LayerID` would put flood zones
+        // second and draw mineral tenure over them, inverting the web.
         let forward = OverlayZIndex.installOrder(for: [
             .buildings, .publishedRiverFloodZones, .mineralTenure,
         ])
         let reversed = OverlayZIndex.installOrder(for: [
             .mineralTenure, .publishedRiverFloodZones, .buildings,
         ])
-        #expect(forward == reversed)
-        #expect(forward.count == 3)
+        #expect(forward == [.buildings, .mineralTenure, .publishedRiverFloodZones])
+        #expect(forward == reversed, "MapKit needs an index that ignores input order")
+    }
+
+    @Test("The mount order lists every raster exactly once")
+    func mountOrderCoversTheRasters() {
+        let rasters = LayerID.allCases.filter {
+            OverlayZIndex.tileZIndex(for: $0) != nil
+                && !OverlayZIndex.vectorLayers.contains($0)
+        }
+        #expect(Set(OverlayZIndex.webMountOrder) == Set(rasters))
+        #expect(OverlayZIndex.webMountOrder.count == rasters.count, "a layer is listed twice")
+        #expect(OverlayZIndex.webMountOrder.count == 21)
     }
 
     @Test("Install order covers every raster layer without dropping one")
     func installOrderCoversAllRasters() {
-        let rasters = LayerID.allCases.filter { OverlayZIndex.tileZIndex(for: $0) != nil }
-        #expect(OverlayZIndex.installOrder(for: LayerID.allCases).count == rasters.count)
+        let installed = OverlayZIndex.installOrder(for: LayerID.allCases)
+        #expect(Set(installed) == Set(OverlayZIndex.webMountOrder))
+    }
+
+    @Test("Old growth has a tile-space z-index but is not installed as a tile overlay")
+    func oldGrowthIsNotARaster() {
+        // Its Leaflet pane hangs off `tilePane`, so its number really is a
+        // tile-space number — but the layer draws GeoJSON fetched per viewport.
+        // Both halves have to stay true at once.
+        #expect(OverlayZIndex.space(of: .oldGrowthPolicy) == .tile)
+        #expect(OverlayZIndex.tileZIndex(for: .oldGrowthPolicy) == 190)
+        #expect(OverlayZIndex.vectorLayers.contains(.oldGrowthPolicy))
+        #expect(!OverlayZIndex.installOrder(for: [.oldGrowthPolicy]).contains(.oldGrowthPolicy))
+    }
+
+    @Test("Only the Province layers have a second pass")
+    func onlyProvinceLayersHonourPass() {
+        // `roads` is drawn twice — the second pass is the contrast casing — and
+        // the web writes `PROVINCE_LAYER_Z_INDEXES[id] + index`. Every other
+        // layer is mounted once at a fixed z-index, so a pass above zero must
+        // not invent a stacking position the web cannot produce.
+        #expect(OverlayZIndex.tileZIndex(for: .roads, pass: 1) == 236)
+        #expect(OverlayZIndex.tileZIndex(for: .fletcher, pass: 1) == 155)
+        #expect(OverlayZIndex.tileZIndex(for: .coastalFlood2100, pass: 1) == 228)
+        #expect(OverlayZIndex.tileZIndex(for: .arsenicRiskWells, pass: 1) == 165)
+        #expect(OverlayZIndex.tileZIndex(for: .mineralTenure, pass: 1) == 225)
+        #expect(OverlayZIndex.tileZIndex(for: .oldGrowthPolicy, pass: 1) == 190)
     }
 }
