@@ -1,7 +1,10 @@
 import MapKit
 import UIKit
 
-final class OpacityTileOverlay: MKTileOverlay {
+/// `nonisolated`: MapKit invokes `loadTile` on its own background queues, so
+/// nothing here may require the main actor. All stored state is immutable
+/// except `renderer`, which only the main-actor `MapController` touches.
+nonisolated final class OpacityTileOverlay: MKTileOverlay {
     /// Set to true to draw tile borders and coordinates on every tile (including real ones).
     static let debugShowTileGrid = false
     static let bundledNativeZoomRange = 11...15
@@ -18,7 +21,7 @@ final class OpacityTileOverlay: MKTileOverlay {
         super.init(urlTemplate: nil)
     }
 
-    override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, (any Error)?) -> Void) {
+    override func loadTile(at path: MKTileOverlayPath, result: @escaping @Sendable (Data?, (any Error)?) -> Void) {
         let cacheKey = configuration.cacheIdentifier
 
         if let cache = tileCache, let cached = cache.cachedTile(z: path.z, x: path.x, y: path.y, layerName: cacheKey) {
@@ -44,7 +47,7 @@ final class OpacityTileOverlay: MKTileOverlay {
                     )
                     result(data, nil)
                 } catch {
-                    result(fallbackTile(path: path), nil)
+                    result(Self.fallbackTile(path: path), nil)
                 }
             }
             return
@@ -65,7 +68,7 @@ final class OpacityTileOverlay: MKTileOverlay {
                     )
                     result(data, nil)
                 } catch {
-                    result(fallbackTile(path: path), nil)
+                    result(Self.fallbackTile(path: path), nil)
                 }
             }
             return
@@ -84,13 +87,13 @@ final class OpacityTileOverlay: MKTileOverlay {
                     )
                     result(data, nil)
                 } catch {
-                    result(fallbackTile(path: path), nil)
+                    result(Self.fallbackTile(path: path), nil)
                 }
             }
             return
         }
 
-        result(fallbackTile(path: path), nil)
+        result(Self.fallbackTile(path: path), nil)
     }
 
     private func loadTileFromBundle(path: MKTileOverlayPath) -> Data? {
@@ -178,15 +181,15 @@ final class OpacityTileOverlay: MKTileOverlay {
         return hasAnyImage ? data : nil
     }
 
-    private func fallbackTile(path: MKTileOverlayPath) -> Data? {
-        if Self.debugShowTileGrid {
+    private static func fallbackTile(path: MKTileOverlayPath) -> Data? {
+        if debugShowTileGrid {
             return generatePlaceholderTile(path: path)
         }
 
         return transparentTile()
     }
 
-    private func transparentTile() -> Data? {
+    private static func transparentTile() -> Data? {
         let size = CGSize(width: 256, height: 256)
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
@@ -195,7 +198,7 @@ final class OpacityTileOverlay: MKTileOverlay {
         return renderer.pngData { _ in }
     }
 
-    private func generatePlaceholderTile(path: MKTileOverlayPath) -> Data? {
+    private static func generatePlaceholderTile(path: MKTileOverlayPath) -> Data? {
         let size = CGSize(width: 256, height: 256)
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1

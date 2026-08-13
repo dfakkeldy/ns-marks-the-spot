@@ -354,17 +354,44 @@ struct TileFetcherTests {
     }
 }
 
-private final class TileFetcherURLProtocol: URLProtocol {
-    static var requests: [URLRequest] = []
-    static var statusCode = 200
-    static var contentType = "image/png"
-    static var responseData = Data()
+/// URLSession invokes protocol overrides on its own loading threads, so the
+/// stubbed response and recorded requests live behind a lock.
+nonisolated private final class TileFetcherURLProtocolState: @unchecked Sendable {
+    private let lock = NSLock()
+    private var recordedRequests: [URLRequest] = []
+    private var statusCode = 200
+    private var contentType = "image/png"
+    private var responseData = Data()
+
+    var requests: [URLRequest] {
+        lock.withLock { recordedRequests }
+    }
+
+    func record(_ request: URLRequest) {
+        lock.withLock { recordedRequests.append(request) }
+    }
+
+    func stub() -> (statusCode: Int, contentType: String, responseData: Data) {
+        lock.withLock { (statusCode, contentType, responseData) }
+    }
+
+    func reset(statusCode: Int, contentType: String, data: Data) {
+        lock.withLock {
+            recordedRequests = []
+            self.statusCode = statusCode
+            self.contentType = contentType
+            responseData = data
+        }
+    }
+}
+
+nonisolated private final class TileFetcherURLProtocol: URLProtocol {
+    private static let state = TileFetcherURLProtocolState()
+
+    static var requests: [URLRequest] { state.requests }
 
     static func reset(statusCode: Int, contentType: String, data: Data) {
-        requests = []
-        self.statusCode = statusCode
-        self.contentType = contentType
-        responseData = data
+        state.reset(statusCode: statusCode, contentType: contentType, data: data)
     }
 
     override class func canInit(with request: URLRequest) -> Bool {
@@ -376,20 +403,21 @@ private final class TileFetcherURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
-        Self.requests.append(request)
+        Self.state.record(request)
+        let stub = Self.state.stub()
         guard let url = request.url,
               let response = HTTPURLResponse(
                 url: url,
-                statusCode: Self.statusCode,
+                statusCode: stub.statusCode,
                 httpVersion: nil,
-                headerFields: ["Content-Type": Self.contentType]
+                headerFields: ["Content-Type": stub.contentType]
               ) else {
             client?.urlProtocol(self, didFailWithError: URLError(.badURL))
             return
         }
 
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        client?.urlProtocol(self, didLoad: Self.responseData)
+        client?.urlProtocol(self, didLoad: stub.responseData)
         client?.urlProtocolDidFinishLoading(self)
     }
 

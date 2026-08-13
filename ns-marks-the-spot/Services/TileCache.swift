@@ -1,16 +1,16 @@
 import Foundation
 
-struct TileCacheDiskSummary: Equatable {
+nonisolated struct TileCacheDiskSummary: Equatable, Sendable {
     let totalBytes: Int
     let layerBytes: [String: Int]
 }
 
-enum TileCacheStoragePolicy {
+nonisolated enum TileCacheStoragePolicy: Sendable {
     case memoryAndDisk
     case memoryOnly
 }
 
-private final class TileCacheKeyIndex: @unchecked Sendable {
+nonisolated private final class TileCacheKeyIndex: @unchecked Sendable {
     private let lock = NSLock()
     private var keysByLayer: [String: Set<String>] = [:]
 
@@ -55,7 +55,7 @@ private final class TileCacheKeyIndex: @unchecked Sendable {
 /// any read failure is tolerated via `try?`, degrading to a benign cache miss
 /// and re-fetch. `NSCache`/`FileManager` aren't SDK-marked `Sendable`, so the
 /// guarantee is asserted via `@unchecked`.
-final class TileCache: @unchecked Sendable {
+nonisolated final class TileCache: @unchecked Sendable {
     private struct DiskEntry {
         let url: URL
         let key: String

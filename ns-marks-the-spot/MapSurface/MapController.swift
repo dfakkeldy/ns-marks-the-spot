@@ -383,7 +383,10 @@ extension MapController: UIGestureRecognizerDelegate {
 
 // MARK: - CLLocationManagerDelegate
 
-extension MapController: CLLocationManagerDelegate {
+// `@preconcurrency`: CLLocationManagerDelegate requirements are nonisolated,
+// but the manager is created on the main run loop, so callbacks arrive on the
+// main thread and may satisfy the requirements from this main-actor class.
+extension MapController: @preconcurrency CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
