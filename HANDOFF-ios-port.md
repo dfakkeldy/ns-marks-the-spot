@@ -278,3 +278,29 @@ every ~5 min; when admitted spend ONE admission on
 attach and four clones exhaust memory). Read Swift Testing failures with
 `xcrun xcresulttool get test-results tests --path <.xcresult>`.
 ```
+
+## 2026-08-13 — Phase 2 parcels: identify by tap and by PID
+Done: `feat(ios): find a parcel by tapping the map or typing its PID`
+(ee1545998) — ParcelShape/ParcelPolygon drawing in the web's colours,
+ParcelSelection (dedupes on PID+geometry), ParcelLookupMessage (the
+web's strings; only a successful empty collection may say "no parcel"),
+identify tap gated on layer-visible + zoom ≥ nsprd minZoom, search bar.
+Plus `test(ios): key network stubs per test, not per host` (6f0ca5b0c):
+both parcel suites shared one host key and clobbered each other under
+Swift Testing's parallelism — they take per-test channels now.
+20 new app tests (ParcelSelectionTests 9, ParcelIdentifyTests 11+3
+parameterised). Package tests 164/164 gate-free. **Still no Apple build
+or test run against any of this.**
+Next: same as the previous entry — one gate admission on the unit
+bundle, and settle the hidden alpha-0 overlay tile-fetch question with
+it. Civic-address search stays unported (said in words, not faked).
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: poll `/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status`
+every ~5 min; on admission run ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
