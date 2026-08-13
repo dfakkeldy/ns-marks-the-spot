@@ -19,6 +19,11 @@ import {
   wellLogLayerCatalog,
   zoningLayerCatalog,
 } from "./layerCatalog";
+import {
+  FLETCHER_TILE_REVISION,
+  type FletcherSheet,
+  fletcherSheets,
+} from "./fletcherLayer";
 
 /**
  * The parity fixture the native iOS catalog is tested against.
@@ -67,6 +72,21 @@ export type LayerParityFixture = {
   schemaVersion: number;
   groupOrder: readonly LayerParityGroupId[];
   layers: readonly LayerParityEntry[];
+  /**
+   * The Fletcher tile build, which the layer entry cannot carry.
+   *
+   * `fletcherLayerCatalog` describes one control in the panel, but the layer
+   * behind it is 24 separately georeferenced sheets, each with its own bounds.
+   * Those bounds are the georeferencing — a sheet drawn to the wrong extent is
+   * a map pointing at the wrong ground — so they belong in the fixture for the
+   * same reason the layer fields do: transcribing 96 numbers by hand into
+   * Swift is exactly the operation that needs a witness.
+   */
+  fletcher: {
+    /** Path segment identifying the tile build both surfaces expect. */
+    tileRevision: string;
+    sheets: readonly FletcherSheet[];
+  };
 };
 
 /**
@@ -198,6 +218,10 @@ export function buildLayerParityFixture(): LayerParityFixture {
     schemaVersion: LAYER_PARITY_SCHEMA_VERSION,
     groupOrder: GROUP_ORDER,
     layers,
+    fletcher: {
+      tileRevision: FLETCHER_TILE_REVISION,
+      sheets: fletcherSheets,
+    },
   };
 }
 

@@ -77,4 +77,25 @@ public enum TileMath {
         let latitudeRadians = atan(sinh(.pi * (1 - 2 * Double(y) / tilesAtZoom)))
         return GeoPoint(lat: latitudeRadians * 180.0 / .pi, lng: longitude)
     }
+
+    /// The WGS84 rectangle a tile covers.
+    ///
+    /// The companion to `webMercatorBounds`, in the units a layer's declared
+    /// extent is written in. Needed because MapKit hands an overlay a
+    /// `(z, x, y)` and asks for pixels, while a bounded layer — a Fletcher
+    /// sheet, a user-loaded scan — knows only its lat/lng corners; something
+    /// has to put the two in the same space before a request is made.
+    ///
+    /// Y is inverted relative to latitude: tile row `y` runs from the north-west
+    /// corner of `y` down to the north-west corner of `y + 1`.
+    public static func geographicBounds(x: Int, y: Int, z: Int) -> GeoBoundingBox {
+        let northWest = northWestCorner(x: x, y: y, z: z)
+        let southEast = northWestCorner(x: x + 1, y: y + 1, z: z)
+        return GeoBoundingBox(
+            south: southEast.lat,
+            west: northWest.lng,
+            north: northWest.lat,
+            east: southEast.lng
+        )
+    }
 }

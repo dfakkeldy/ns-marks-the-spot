@@ -1,4 +1,5 @@
 import Foundation
+import GeoCore
 
 /// A decoded JSON value.
 ///
@@ -75,11 +76,45 @@ enum JSONValue: Decodable, Sendable, Equatable {
     }
 }
 
+/// One Fletcher sheet as the fixture declares it.
+struct FixtureSheet: Sendable {
+    let sheet: Int
+    let bounds: GeoBoundingBox
+}
+
 /// The web's exported catalog, as read from the fixture.
 struct ParityFixture: Sendable {
     let groupOrder: [String]
     let order: [String]
     let layers: [String: [String: JSONValue]]
+    let fletcher: [String: JSONValue]?
+
+    /// The sheet index, decoded from the fixture's `[[south, west], [north,
+    /// east]]` corner pairs.
+    ///
+    /// The corner order is spelled out here, once, because it is the only place
+    /// the test suite can get it wrong in a way that still typechecks — and
+    /// getting it wrong here would make a transposed Swift transcription pass.
+    var fletcherSheets: [FixtureSheet]? {
+        guard let entries = fletcher?["sheets"]?.array else { return nil }
+        let decoded = entries.compactMap { entry -> FixtureSheet? in
+            guard let object = entry.object,
+                  let number = object["sheet"]?.int,
+                  let corners = object["bounds"]?.array, corners.count == 2,
+                  let southWest = corners[0].array, southWest.count == 2,
+                  let northEast = corners[1].array, northEast.count == 2,
+                  let south = southWest[0].double, let west = southWest[1].double,
+                  let north = northEast[0].double, let east = northEast[1].double
+            else { return nil }
+            return FixtureSheet(
+                sheet: number,
+                bounds: GeoBoundingBox(south: south, west: west, north: north, east: east)
+            )
+        }
+        // A partial decode would silently shrink the comparison set, so an
+        // entry this reader could not understand is a failure, not a skip.
+        return decoded.count == entries.count ? decoded : nil
+    }
 
     static let loaded: ParityFixture = {
         guard let url = Bundle.module.url(
@@ -104,7 +139,8 @@ struct ParityFixture: Sendable {
             layers: objects.reduce(into: [:]) { result, entry in
                 guard let id = entry["id"]?.string else { return }
                 result[id] = entry
-            }
+            },
+            fletcher: root["fletcher"]?.object
         )
     }()
 

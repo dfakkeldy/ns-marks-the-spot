@@ -19,15 +19,15 @@ struct ArcGISExportURLTests {
 
     @Test("Tile bounds match the web's webMercatorBoundsForTile")
     func tileBounds() {
-        let world = WebMercator.worldExtent
-        let whole = WebMercator.bounds(x: 0, y: 0, z: 0)
+        let world = TileMath.webMercatorWorldExtent
+        let whole = TileMath.webMercatorBounds(x: 0, y: 0, z: 0)
         #expect(whole.minX == -world)
         #expect(whole.maxY == world)
         #expect(whole.maxX == world)
         #expect(whole.minY == -world)
 
         // The four z1 quadrants tile the world exactly, meeting at the origin.
-        let topRight = WebMercator.bounds(x: 1, y: 0, z: 1)
+        let topRight = TileMath.webMercatorBounds(x: 1, y: 0, z: 1)
         #expect(topRight.minX == 0)
         #expect(topRight.minY == 0)
         #expect(topRight.maxX == world)
@@ -39,7 +39,7 @@ struct ArcGISExportURLTests {
         // A truncated copy shifts every bbox: at z19 the tile span is ~76 m, so
         // losing the last digits is not a rounding detail, it is a visible
         // offset between the two maps.
-        #expect("\(WebMercator.worldExtent)" == "20037508.342789244")
+        #expect("\(TileMath.webMercatorWorldExtent)" == "20037508.342789244")
     }
 
     // MARK: - Number formatting

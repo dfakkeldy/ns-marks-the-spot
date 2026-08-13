@@ -1,41 +1,6 @@
 import Foundation
+import GeoCore
 import MapCatalog
-
-/// A box in Web Mercator (EPSG:3857) metres.
-public struct WebMercatorBox: Sendable, Equatable {
-    public let minX: Double
-    public let minY: Double
-    public let maxX: Double
-    public let maxY: Double
-
-    public init(minX: Double, minY: Double, maxX: Double, maxY: Double) {
-        self.minX = minX
-        self.minY = minY
-        self.maxX = maxX
-        self.maxY = maxY
-    }
-}
-
-public enum WebMercator {
-    /// Half the width of the Web Mercator world, in metres. The web hard-codes
-    /// this same literal; sharing the digits matters because it is the origin
-    /// every tile bound is measured from, and a truncated copy would shift
-    /// every request by centimetres at z8 and metres at z19.
-    public static let worldExtent = 20_037_508.342789244
-
-    /// The bounds of an XYZ tile, matching `webMercatorBoundsForTile` on the web.
-    public static func bounds(x: Int, y: Int, z: Int) -> WebMercatorBox {
-        let tileSpan = (2 * worldExtent) / pow(2, Double(z))
-        let minX = -worldExtent + Double(x) * tileSpan
-        let maxY = worldExtent - Double(y) * tileSpan
-        return WebMercatorBox(
-            minX: minX,
-            minY: maxY - tileSpan,
-            maxX: minX + tileSpan,
-            maxY: maxY
-        )
-    }
-}
 
 /// Assembles the ArcGIS `/export` query.
 ///
@@ -102,7 +67,7 @@ enum ArcGISExportURL {
         url(
             serviceURL: serviceURL,
             options: options,
-            box: WebMercator.bounds(x: x, y: y, z: z),
+            box: TileMath.webMercatorBounds(x: x, y: y, z: z),
             widthPx: 256,
             heightPx: 256
         )

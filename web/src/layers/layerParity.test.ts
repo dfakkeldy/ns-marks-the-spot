@@ -82,6 +82,30 @@ describe("layer parity fixture", () => {
     ]);
   });
 
+  it("carries all 24 Fletcher sheets, numbered 1..24", () => {
+    const { sheets } = buildLayerParityFixture().fletcher;
+    expect(sheets.map(({ sheet }) => sheet)).toEqual(
+      Array.from({ length: 24 }, (_, index) => index + 1),
+    );
+  });
+
+  it("declares each sheet as south-west then north-east", () => {
+    // Leaflet's LatLngBounds tuple order, which is the order the native side
+    // has to read them in. A transposed corner would still be a valid box, so
+    // nothing downstream would catch it — the sheet would simply draw
+    // somewhere in the Atlantic.
+    for (const { sheet, bounds } of buildLayerParityFixture().fletcher.sheets) {
+      const [[south, west], [north, east]] = bounds;
+      expect(north, `sheet ${sheet} latitude`).toBeGreaterThan(south);
+      expect(east, `sheet ${sheet} longitude`).toBeGreaterThan(west);
+      // Cape Breton, loosely. Catches a sign flip or a swapped lat/lng pair.
+      expect(south).toBeGreaterThan(45);
+      expect(north).toBeLessThan(48);
+      expect(west).toBeGreaterThan(-62);
+      expect(east).toBeLessThan(-60);
+    }
+  });
+
   it("flags the derived parcel layer as needing the Province licence", () => {
     // mineral-proximity-parcels carries requiresProvinceLicence rather than a
     // licence field, so a gate that only reads `licence` would miss it.
