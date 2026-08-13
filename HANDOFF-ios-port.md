@@ -62,3 +62,21 @@ Next action: check `~/.claude/bin/xcode-build-slot.sh --status`; when the gate
 admits, run the iOS ImageIO tiled-TIFF test on the spike branch and replace the
 "Pending" block in docs/spikes/ios-port-spike-1-geotiff-tags.md.
 ```
+
+## 2026-08-13 — Spike 1 closed: iOS confirms the tiled+compressed ImageIO hole
+
+Done: iPhone 17 simulator (iOS 26.5) reproduces the macOS result exactly —
+tiled+DEFLATE gives properties=nil and image=nil, striped+DEFLATE control
+passes. Spike 1 is complete; the fail-closed + hand-rolled DEFLATE/LZW
+recommendation is no longer contingent. Spikes 1, 3 and 4 all written up.
+Next: spikes 2 (MKMultiPolygon paging), 3's device leg, 5 (Designed-for-iPad).
+Pre-flight every queued Swift file with `xcrun swiftc -parse` first: a syntax
+error cost a two-hour gate wait on this one.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/map-portfolio-improvements-fa1f45,
+branch claude/ios-web-map-parity-a66e38.
+Next action: write Phase 0 spike 2 (10x2k-parcel MKMultiPolygon paging, z>=15
+restyle, tap hit-test) on the spike branch, parse-check it, then queue it
+through xcode-build-slot.sh.
+```

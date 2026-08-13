@@ -2,7 +2,8 @@
 
 Date: 2026-08-13
 Spike branch: `spike/geotiff-ifd-reader` (`spikes/geotiff-ifd/`)
-Status: **tag reader confirmed; ImageIO has a hole that changes the Phase 8 plan**
+Status: **complete — tag reader confirmed; ImageIO has a hole, confirmed on iOS,
+that changes the Phase 8 plan**
 
 ## The questions
 
@@ -114,18 +115,24 @@ fixtures (one 256×256 raster written twice by GDAL, tiled+DEFLATE and
 striped+DEFLATE, differing only in tiling) go through `CGImageSource` in the
 app's test target on an iPhone 17 simulator.
 
-> **Pending** — not yet run. The Apple build slot itself is free; the resource
-> gate is holding, on memory pressure 2 with 1.27 GB free swap against its
-> 2 GB warning-pressure floor. That is a host condition, not a queue to wait
-> out, so this is blocked until the machine has headroom rather than deferred
-> by minutes. Result to be appended here; the fixtures and test live at
-> `ns-marks-the-spotTests/SpikeImageIOTiledTIFFTests.swift` on the spike branch.
+**iOS matches macOS. The hole is real on the target platform.** On an iPhone 17
+simulator (iOS 26.5):
 
-Until it runs, treat Result 3 as macOS-only. It should not be promoted into a
-Phase 8 design decision on the assumption that iOS matches — that assumption is
-exactly what this leg exists to test.
+| Fixture | `CGImageSourceCopyPropertiesAtIndex` | `CGImageSourceCreateImageAtIndex` |
+| --- | --- | --- |
+| striped + DEFLATE (control) | 256×256 | non-nil |
+| tiled + DEFLATE | **nil** | **nil** |
 
-### Options if iOS behaves like macOS
+Recorded verbatim by the test as
+`iOS ImageIO tiled+DEFLATE: properties=nil image=nil`. The two fixtures are the
+same 256×256 raster written twice by GDAL, verified to differ only in layout
+(`Block=128x128` against `Block=256x10`), so tiling is the only variable.
+
+So this is not a macOS quirk to be designed around on the assumption iOS is
+better — it is the behaviour Phase 8 will actually ship against, and the
+recommendation below stands rather than being contingent.
+
+### Options, now that iOS is confirmed to behave this way
 
 1. **Hand-roll the strip/tile decode** for DEFLATE (via the `Compression`
    framework) and LZW, plus predictor 2 undo. Bounded at roughly 350–450 LOC on
