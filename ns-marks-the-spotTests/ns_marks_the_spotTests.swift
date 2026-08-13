@@ -140,43 +140,52 @@ struct MapAnnotationTests {
     }
 }
 
-// MARK: - MapKitTileLayer
+// MARK: - TileLayerConfiguration
 
-@MainActor
-struct MapKitTileLayerTests {
+struct TileLayerConfigurationTests {
     @Test func initialization() {
         let url = URL(fileURLWithPath: "Tiles/Fletcher")
-        let layer = MapKitTileLayer(id: "fletcher", name: "Fletcher", type: .tile(url))
+        let configuration = TileLayerConfiguration(id: "fletcher", name: "Fletcher", source: .tile(url))
 
-        #expect(layer.id == "fletcher")
-        #expect(layer.name == "Fletcher")
-        #expect(layer.opacity == 1.0)
-        #expect(layer.isVisible == true)
+        #expect(configuration.id == "fletcher")
+        #expect(configuration.name == "Fletcher")
+        #expect(configuration.minZoom == 0)
+        #expect(configuration.maxZoom == 24)
 
-        if case .tile(let storedURL) = layer.type {
+        if case .tile(let storedURL) = configuration.source {
             #expect(storedURL == url)
         } else {
-            Issue.record("Expected .tile type, got \(layer.type)")
+            Issue.record("Expected .tile source, got \(configuration.source)")
         }
     }
 
-    @Test func opacityIsMutable() {
-        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
-        layer.opacity = 0.3
-        #expect(layer.opacity == 0.3)
+    @Test func layerStateDefaultsToFullyVisible() {
+        let layer = MapLayerState(
+            configuration: TileLayerConfiguration(id: "test", name: "Test", source: .tile(URL(fileURLWithPath: "/")))
+        )
+
+        #expect(layer.opacity == 1.0)
+        #expect(layer.isVisible == true)
+        #expect(layer.effectiveAlpha == 1.0)
     }
 
-    @Test func visibilityToggles() {
-        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
-        layer.isVisible = false
-        #expect(layer.isVisible == false)
+    @Test func hiddenLayerHasZeroEffectiveAlpha() {
+        let layer = MapLayerState(
+            configuration: TileLayerConfiguration(id: "test", name: "Test", source: .tile(URL(fileURLWithPath: "/"))),
+            opacity: 0.6,
+            isVisible: false
+        )
+
+        #expect(layer.effectiveAlpha == 0.0)
     }
 
     @Test func adHocLayerUsesDeterministicHashedCacheIdentifier() {
-        let layer = MapKitTileLayer(id: "test", name: "Test", type: .tile(URL(fileURLWithPath: "/tmp/tiles")))
+        let configuration = TileLayerConfiguration(id: "test", name: "Test", source: .tile(URL(fileURLWithPath: "/tmp/tiles")))
+        let rebuilt = TileLayerConfiguration(id: "test", name: "Test", source: .tile(URL(fileURLWithPath: "/tmp/tiles")))
 
-        #expect(layer.cacheIdentifier.hasPrefix("test_"))
-        #expect(layer.cacheIdentifier != "test")
+        #expect(configuration.cacheIdentifier.hasPrefix("test_"))
+        #expect(configuration.cacheIdentifier != "test")
+        #expect(configuration.cacheIdentifier == rebuilt.cacheIdentifier)
     }
 }
 
@@ -184,85 +193,26 @@ struct MapKitTileLayerTests {
 
 @MainActor
 struct OverlayViewModelTests {
-    @Test func initialOpacity() {
-        let engine = MockMapEngine()
-        let vm = OverlayViewModel(engine: engine)
+    @Test func updateLayerOpacityForwardsToController() {
+        let controller = MapController()
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(id: "l1", name: "Test", source: .tile(URL(fileURLWithPath: "/"))),
+                opacity: 0.5
+            )
+        )
+        let vm = OverlayViewModel(controller: controller)
 
-        #expect(vm.opacity == 0.5)
-        #expect(vm.selectedLayerId == nil)
+        vm.updateLayerOpacity(for: "l1", to: 0.75)
+
+        #expect(controller.layers.first?.opacity == 0.75)
     }
 
-    @Test func updateOpacity() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
-        layer.opacity = 0.5
-        engine.addLayer(layer)
+    @Test func updateLayerOpacityOnUnknownLayerDoesNotCrash() {
+        let controller = MapController()
+        let vm = OverlayViewModel(controller: controller)
 
-        let vm = OverlayViewModel(engine: engine)
-        vm.selectLayer("l1")
-        vm.updateOpacity(0.75)
-
-        #expect(vm.opacity == 0.75)
-        #expect(layer.opacity == 0.75)
-    }
-
-    @Test func updateOpacityWithoutSelectedLayerDoesNotCrash() {
-        let engine = MockMapEngine()
-        let vm = OverlayViewModel(engine: engine)
-
-        vm.updateOpacity(1.0)
-        #expect(vm.opacity == 1.0)
-    }
-
-    @Test func selectLayerSyncsOpacity() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
-        layer.opacity = 0.25
-        engine.addLayer(layer)
-
-        let vm = OverlayViewModel(engine: engine)
-        vm.selectLayer("l1")
-
-        #expect(vm.opacity == 0.25)
-        #expect(vm.selectedLayerId == "l1")
-    }
-
-    @Test func opacityClampedByEngine() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
-        engine.addLayer(layer)
-
-        let vm = OverlayViewModel(engine: engine)
-        vm.selectLayer("l1")
-
-        // Engine clamps to 0...1
-        vm.updateOpacity(-0.5)
-        #expect(layer.opacity == 0.0)
-
-        vm.updateOpacity(1.8)
-        #expect(layer.opacity == 1.0)
-    }
-}
-
-// MARK: - MapEngine setVisible
-
-@MainActor
-struct SetVisibleTests {
-    @Test func setVisibleTogglesLayerVisibility() {
-        let engine = MockMapEngine()
-        let layer = MapKitTileLayer(id: "l1", name: "Test", type: .tile(URL(fileURLWithPath: "/")))
-        engine.addLayer(layer)
-
-        engine.setVisible(for: "l1", to: false)
-        #expect(layer.isVisible == false)
-
-        engine.setVisible(for: "l1", to: true)
-        #expect(layer.isVisible == true)
-    }
-
-    @Test func setVisibleOnUnknownLayerDoesNotCrash() {
-        let engine = MockMapEngine()
-        engine.setVisible(for: "nonexistent", to: false)
+        vm.updateLayerOpacity(for: "nonexistent", to: 1.0)
     }
 }
 

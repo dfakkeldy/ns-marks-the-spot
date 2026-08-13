@@ -6,20 +6,20 @@ final class OpacityTileOverlay: MKTileOverlay {
     static let debugShowTileGrid = false
     static let bundledNativeZoomRange = 11...15
 
-    weak var mapLayer: (any MapLayer)?
+    let configuration: TileLayerConfiguration
     weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
 
-    init(tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
+    init(configuration: TileLayerConfiguration, tileCache: TileCache? = nil, tileFetcher: TileFetcher? = nil) {
+        self.configuration = configuration
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
         super.init(urlTemplate: nil)
     }
 
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, (any Error)?) -> Void) {
-        let layerName = mapLayer?.name ?? "unknown"
-        let cacheKey = mapLayer?.cacheIdentifier ?? layerName
+        let cacheKey = configuration.cacheIdentifier
 
         if let cache = tileCache, let cached = cache.cachedTile(z: path.z, x: path.x, y: path.y, layerName: cacheKey) {
             result(cached, nil)
@@ -33,8 +33,7 @@ final class OpacityTileOverlay: MKTileOverlay {
         }
 
         if let tile_fetcher = tileFetcher,
-           let layer = mapLayer,
-           case .tile(let remoteURL) = layer.type,
+           case .tile(let remoteURL) = configuration.source,
            remoteURL.scheme == "https" || remoteURL.scheme == "http"
         {
             Task {
@@ -52,8 +51,7 @@ final class OpacityTileOverlay: MKTileOverlay {
         }
 
         if let tile_fetcher = tileFetcher,
-           let layer = mapLayer,
-           case .arcgisMapService(let serverURL, let transparent) = layer.type
+           case .arcgisMapService(let serverURL, let transparent) = configuration.source
         {
             Task {
                 do {
@@ -74,8 +72,7 @@ final class OpacityTileOverlay: MKTileOverlay {
         }
 
         if let tile_fetcher = tileFetcher,
-           let layer = mapLayer,
-           case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = layer.type
+           case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = configuration.source
         {
             Task {
                 do {
@@ -110,30 +107,29 @@ final class OpacityTileOverlay: MKTileOverlay {
             let scaleFactor = 1 << (path.z - sourceZoom)
             let parentX = path.x / scaleFactor
             let parentY = path.y / scaleFactor
-            
+
             if let tileData = loadRawTileFromBundle(z: sourceZoom, x: parentX, y: parentY),
                let img = UIImage(data: tileData) {
                 let size = CGSize(width: 256, height: 256)
                 let format = UIGraphicsImageRendererFormat()
                 format.scale = 1.0
                 let renderer = UIGraphicsImageRenderer(size: size, format: format)
-                
+
                 let subTileSize = 256.0 / CGFloat(scaleFactor)
                 let offsetX = CGFloat(path.x % scaleFactor) * subTileSize
                 let offsetY = CGFloat(path.y % scaleFactor) * subTileSize
-                
+
                 return renderer.pngData { ctx in
                     img.draw(in: CGRect(x: -offsetX, y: -offsetY, width: 256.0 * CGFloat(scaleFactor), height: 256.0 * CGFloat(scaleFactor)))
                 }
             }
         }
-        
+
         return nil
     }
 
     private func loadRawTileFromBundle(z: Int, x: Int, y: Int) -> Data? {
-        guard let layerName = mapLayer?.name else { return nil }
-        let tilePath = "Tiles/\(layerName)/\(z)/\(x)/\(y)"
+        let tilePath = "Tiles/\(configuration.name)/\(z)/\(x)/\(y)"
         guard let url = Bundle.main.url(forResource: tilePath, withExtension: "png") else {
             return nil
         }

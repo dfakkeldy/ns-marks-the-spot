@@ -5,87 +5,99 @@ import Testing
 @MainActor
 struct OverlayViewModelBasemapTests {
     @Test func selectingNSAerialBasemapShowsLayerAndSwitchingAwayHidesIt() throws {
-        let engine = MockMapEngine()
+        let controller = MapController()
         let nsAerialURL = try #require(
             URL(string: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer")
         )
-        let nsAerial = MapKitTileLayer(
-            id: LayerID.nsAerial.rawValue,
-            name: "NS Aerial",
-            type: .arcgisMapService(nsAerialURL, transparent: false)
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.nsAerial.rawValue,
+                    name: "NS Aerial",
+                    source: .arcgisMapService(nsAerialURL, transparent: false)
+                ),
+                opacity: 0,
+                isVisible: false
+            )
         )
-        nsAerial.opacity = 0
-        nsAerial.isVisible = false
-        engine.addLayer(nsAerial)
 
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         viewModel.setBaseMapType(.nsAerial)
 
-        #expect(engine.baseMapType == .nsAerial)
-        #expect(nsAerial.isVisible == true)
-        #expect(nsAerial.opacity > 0)
+        #expect(controller.baseMapType == .nsAerial)
+        #expect(controller.layers.first?.isVisible == true)
+        #expect((controller.layers.first?.opacity ?? 0) > 0)
 
         viewModel.setBaseMapType(.standard)
 
-        #expect(engine.baseMapType == .standard)
-        #expect(nsAerial.isVisible == false)
+        #expect(controller.baseMapType == .standard)
+        #expect(controller.layers.first?.isVisible == false)
     }
 
     @Test func hidingNSAerialLayerSwitchesBasemapBackToStandard() throws {
-        let engine = MockMapEngine()
+        let controller = MapController()
         let nsAerialURL = try #require(URL(string: "https://example.com/ns-aerial"))
-        let nsAerial = MapKitTileLayer(
-            id: LayerID.nsAerial.rawValue,
-            name: "NS Aerial",
-            type: .arcgisMapService(nsAerialURL, transparent: false)
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.nsAerial.rawValue,
+                    name: "NS Aerial",
+                    source: .arcgisMapService(nsAerialURL, transparent: false)
+                )
+            )
         )
-        engine.addLayer(nsAerial)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         viewModel.setBaseMapType(.nsAerial)
         viewModel.toggleVisibility(LayerID.nsAerial.rawValue)
 
-        #expect(engine.baseMapType == .standard)
-        #expect(nsAerial.isVisible == false)
+        #expect(controller.baseMapType == .standard)
+        #expect(controller.layers.first?.isVisible == false)
     }
 
     @Test func showingNSAerialLayerSelectsNSAerialBasemap() throws {
-        let engine = MockMapEngine()
+        let controller = MapController()
         let nsAerialURL = try #require(URL(string: "https://example.com/ns-aerial"))
-        let nsAerial = MapKitTileLayer(
-            id: LayerID.nsAerial.rawValue,
-            name: "NS Aerial",
-            type: .arcgisMapService(nsAerialURL, transparent: false)
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.nsAerial.rawValue,
+                    name: "NS Aerial",
+                    source: .arcgisMapService(nsAerialURL, transparent: false)
+                ),
+                opacity: 0,
+                isVisible: false
+            )
         )
-        nsAerial.isVisible = false
-        nsAerial.opacity = 0
-        engine.addLayer(nsAerial)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         viewModel.toggleVisibility(LayerID.nsAerial.rawValue)
 
-        #expect(engine.baseMapType == .nsAerial)
-        #expect(nsAerial.isVisible == true)
-        #expect(nsAerial.opacity == 1)
+        #expect(controller.baseMapType == .nsAerial)
+        #expect(controller.layers.first?.isVisible == true)
+        #expect(controller.layers.first?.opacity == 1)
     }
 
     @Test func showingZeroOpacityOptionalLayerRestoresUsableOpacity() throws {
-        let engine = MockMapEngine()
+        let controller = MapController()
         let layerURL = try #require(URL(string: "https://example.com/crown-lands"))
-        let layer = MapKitTileLayer(
-            id: LayerID.crownLands.rawValue,
-            name: "Crown Lands",
-            type: .arcgisDynamic(layerURL, dynamicLayers: nil, layerRestrictions: nil)
+        controller.addLayer(
+            MapLayerState(
+                configuration: TileLayerConfiguration(
+                    id: LayerID.crownLands.rawValue,
+                    name: "Crown Lands",
+                    source: .arcgisDynamic(layerURL, dynamicLayers: nil, layerRestrictions: nil)
+                ),
+                opacity: 0,
+                isVisible: false
+            )
         )
-        layer.isVisible = false
-        layer.opacity = 0
-        engine.addLayer(layer)
-        let viewModel = OverlayViewModel(engine: engine)
+        let viewModel = OverlayViewModel(controller: controller)
 
         viewModel.toggleVisibility(LayerID.crownLands.rawValue)
 
-        #expect(layer.isVisible == true)
-        #expect(layer.opacity > 0)
+        #expect(controller.layers.first?.isVisible == true)
+        #expect((controller.layers.first?.opacity ?? 0) > 0)
     }
 }
