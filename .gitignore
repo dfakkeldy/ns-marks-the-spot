@@ -101,3 +101,6 @@ reports/church/*-heat.png
 # directory's own self-ignoring `*` gitignore can't be committed, so the rule
 # lives here where it is tracked.
 .superpowers/
+
+# SwiftPM build products for the local NSMarksCore package
+NSMarksCore/.build/
