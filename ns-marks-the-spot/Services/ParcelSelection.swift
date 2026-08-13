@@ -43,11 +43,25 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
     /// its shape, and only one of those is a fact about the property.
     var boundaryNotice: String? {
         guard let selectedPID, !selectedFeatures.isEmpty else { return nil }
-        guard selectedFeatures.allSatisfy({ $0.boundary.parts.isEmpty }) else { return nil }
-        if selectedFeatures.contains(where: { $0.boundary == .unreadable }) {
-            return "PID \(selectedPID) came back with a boundary this app could not read."
+        let missing = selectedFeatures.filter { $0.boundary.parts.isEmpty }
+        guard !missing.isEmpty else { return nil }
+        let unreadable = missing.contains { $0.boundary == .unreadable }
+
+        guard missing.count < selectedFeatures.count else {
+            return unreadable
+                ? "PID \(selectedPID) came back with a boundary this app could not read."
+                : "PID \(selectedPID) came back without a mapped boundary."
         }
-        return "PID \(selectedPID) came back without a mapped boundary."
+        // Some of the parcel is drawn and some of it is not, which is the worse
+        // case of the two: an outline appears, everything below is looked up
+        // inside it, and nothing on screen would otherwise say that part of the
+        // parcel was never searched.
+        return "PID \(selectedPID) came back as \(selectedFeatures.count) pieces, and "
+            + "\(missing.count) of them "
+            + (unreadable
+                ? "carried a boundary this app could not read. "
+                : "arrived without a mapped boundary. ")
+            + "Everything below was looked up inside the pieces that are drawn."
     }
 
     /// A box around every part of the selected parcel, or `nil` when there is

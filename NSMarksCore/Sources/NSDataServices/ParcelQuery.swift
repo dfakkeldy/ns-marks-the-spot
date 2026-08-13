@@ -188,7 +188,7 @@ public enum ParcelQuery {
     /// `CharacterSet.whitespacesAndNewlines` omits — and a BOM is exactly what
     /// arrives when a PID is pasted out of a spreadsheet export. Matching the
     /// web here means the same paste succeeds on both surfaces.
-    private static func isJSWhitespace(_ scalar: Unicode.Scalar) -> Bool {
+    static func isJSWhitespace(_ scalar: Unicode.Scalar) -> Bool {
         switch scalar {
         case " ", "\t", "\n", "\r", "\u{0B}", "\u{0C}",
              "\u{A0}", "\u{1680}", "\u{2028}", "\u{2029}",

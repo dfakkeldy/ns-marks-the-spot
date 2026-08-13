@@ -49,9 +49,11 @@ public nonisolated final class PVSCAssessmentFetcher: Sendable {
             } catch {
                 throw .refused(error)
             }
+            let page = try await page(from: url)
             return PVSCAssessmentResponse.Result(
                 matchMethod: .noticeAAN,
-                accounts: PVSCAssessmentResponse.accounts(from: try await page(from: url).rows)
+                accounts: PVSCAssessmentResponse.accounts(from: page.rows),
+                unreadableRows: page.rowCount - page.rows.count
             )
         }
 
@@ -60,18 +62,14 @@ public nonisolated final class PVSCAssessmentFetcher: Sendable {
         // render as "no account is mapped on this parcel", which is a finding.
         guard !boxes.isEmpty else { throw .refused(.noBoundary) }
 
-        var collected: [[(aan: String, record: PVSCAssessmentResponse.Record)]] = Array(
-            repeating: [], count: boxes.count
-        )
+        var collected: [Box] = Array(repeating: Box(rows: [], unreadableRows: 0), count: boxes.count)
         do {
-            try await withThrowingTaskGroup(
-                of: (Int, [(aan: String, record: PVSCAssessmentResponse.Record)]).self
-            ) { group in
+            try await withThrowingTaskGroup(of: (Int, Box).self) { group in
                 for (index, box) in boxes.enumerated() {
                     group.addTask { (index, try await self.allPages(in: box)) }
                 }
-                for try await (index, rows) in group {
-                    collected[index] = rows
+                for try await (index, box) in group {
+                    collected[index] = box
                 }
             }
         } catch let failure as PVSCAssessmentFailure {
@@ -80,21 +78,44 @@ public nonisolated final class PVSCAssessmentFetcher: Sendable {
             throw .cancelled
         }
 
-        let inside = collected.flatMap(\.self).filter { row in
-            parts.contains { PolygonHitTest.contains(row.record.coordinate, part: $0) }
+        var inside: [(aan: String, record: PVSCAssessmentResponse.Record)] = []
+        var strictlyInside: Set<String> = []
+        var onBoundary: Set<String> = []
+        for row in collected.flatMap(\.rows) {
+            guard let containment = parts
+                .compactMap({ PolygonHitTest.containment(row.record.coordinate, part: $0) })
+                .max()
+            else { continue }
+            inside.append(row)
+            if containment == .interior {
+                strictlyInside.insert(row.aan)
+            } else {
+                onBoundary.insert(row.aan)
+            }
         }
+
         return PVSCAssessmentResponse.Result(
             matchMethod: .spatial,
-            accounts: PVSCAssessmentResponse.accounts(from: inside)
+            accounts: PVSCAssessmentResponse.accounts(
+                from: inside, onParcelBoundary: onBoundary.subtracting(strictlyInside)
+            ),
+            // Overlapping boxes can re-read a row, so a multi-part parcel can
+            // count one unreadable row more than once. It is a floor on how
+            // much was missed, and a floor above zero is the whole point.
+            unreadableRows: collected.map(\.unreadableRows).reduce(0, +)
         )
+    }
+
+    /// What one bounding box produced.
+    private struct Box: Sendable {
+        var rows: [(aan: String, record: PVSCAssessmentResponse.Record)]
+        var unreadableRows: Int
     }
 
     /// Every page of one box. Socrata pages silently, so the run ends on a
     /// short page rather than on the first one.
-    private func allPages(
-        in bounds: CivicAddressQuery.Bounds
-    ) async throws(PVSCAssessmentFailure) -> [(aan: String, record: PVSCAssessmentResponse.Record)] {
-        var collected: [(aan: String, record: PVSCAssessmentResponse.Record)] = []
+    private func allPages(in bounds: CivicAddressQuery.Bounds) async throws(PVSCAssessmentFailure) -> Box {
+        var collected = Box(rows: [], unreadableRows: 0)
         var offset = 0
         while true {
             let url: URL
@@ -105,7 +126,8 @@ public nonisolated final class PVSCAssessmentFetcher: Sendable {
             }
 
             let page = try await page(from: url)
-            collected.append(contentsOf: page.rows)
+            collected.rows.append(contentsOf: page.rows)
+            collected.unreadableRows += page.rowCount - page.rows.count
             // Measured on rows sent, not rows read: a full page with one
             // unreadable row is still a full page.
             if page.rowCount < PVSCAssessmentQuery.pageSize { return collected }

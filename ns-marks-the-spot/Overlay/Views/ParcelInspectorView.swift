@@ -21,6 +21,7 @@ struct ParcelInspectorView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     assessments
+                    dwellings
                     civicAddresses
                     mappedContext
                 }
@@ -105,6 +106,7 @@ struct ParcelInspectorView: View {
                             + "parcel. This does not prove no assessment account or assessed "
                             + "value exists."
                 )
+                unreadableRowsNotice(result.unreadableRows)
             case .ready(let result):
                 Text(Self.matchSentence(for: result))
                     .font(.caption)
@@ -113,6 +115,16 @@ struct ParcelInspectorView: View {
 
                 ForEach(result.accounts, id: \.aan) { account in
                     accountRow(account)
+                }
+
+                if result.accounts.contains(where: \.onParcelBoundary) {
+                    Text(
+                        "An account marked as on the boundary sits on a line this parcel shares "
+                            + "with its neighbour, so it falls inside both."
+                    )
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
 
                 if let year = result.accounts.first?.current?.taxYear {
@@ -126,6 +138,8 @@ struct ParcelInspectorView: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 }
+
+                unreadableRowsNotice(result.unreadableRows)
             }
 
             Link(destination: PVSCAssessmentQuery.datasetURL) {
@@ -138,8 +152,39 @@ struct ParcelInspectorView: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             }
+            licenceLink
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// The governing terms, reachable rather than merely named. The licence
+    /// requires the attribution above; a reader who wants to know what else it
+    /// requires has to be able to open it.
+    private var licenceLink: some View {
+        Link(destination: PVSCAssessmentQuery.licenceURL) {
+            Text("Open Data & Information Government Licence – PVSC & Participating Municipalities")
+                .font(.caption2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    /// What the reply carried and this app could not read.
+    ///
+    /// Without it a row that failed to parse is indistinguishable from a row
+    /// that was never sent, and the second is the one that means the parcel has
+    /// no such record.
+    @ViewBuilder
+    private func unreadableRowsNotice(_ count: Int) -> some View {
+        if count > 0 {
+            Text(
+                count == 1
+                    ? "1 row in the PVSC reply could not be read and is not listed."
+                    : "\(count) rows in the PVSC reply could not be read and are not listed."
+            )
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        }
     }
 
     private var assessmentHeading: String {
@@ -165,9 +210,16 @@ struct ParcelInspectorView: View {
 
     private func accountRow(_ account: PVSCAssessmentResponse.Account) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("AAN \(account.aan)")
-                .font(.footnote.weight(.semibold))
-                .monospacedDigit()
+            HStack(spacing: 6) {
+                Text("AAN \(account.aan)")
+                    .font(.footnote.weight(.semibold))
+                    .monospacedDigit()
+                if account.onParcelBoundary {
+                    Text("on the boundary")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
 
             if let current = account.current {
                 LabeledContent("Tax year") {
@@ -210,6 +262,122 @@ struct ParcelInspectorView: View {
     /// both surfaces have to print the same one.
     private static func money(_ value: Double) -> String {
         value.formatted(.currency(code: "CAD").locale(Locale(identifier: "en_CA")))
+    }
+
+    // MARK: - PVSC dwellings
+
+    private var dwellings: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("PVSC dwellings")
+                .font(.subheadline.weight(.semibold))
+
+            switch inspection.dwellings {
+            case .looking:
+                status("Checking PVSC residential dwelling data…")
+            case .unavailable(let reason):
+                status(reason)
+            case .ready(let result) where result.accounts.isEmpty:
+                // The only line here that says something about the parcel, and
+                // it still stops well short of "no building": this dataset is
+                // residential, so a shop or a barn is absent from it by design.
+                status(
+                    "No residential dwelling record was returned for this parcel's matched "
+                        + "accounts. This does not prove no building exists — commercial and "
+                        + "other non-residential structures are not in this dataset."
+                )
+                unreadableRowsNotice(result.unreadableRows)
+            case .ready(let result):
+                ForEach(result.accounts, id: \.aan) { account in
+                    dwellingAccountRow(account, showAAN: result.accounts.count > 1)
+                }
+
+                unreadableRowsNotice(result.unreadableRows)
+
+                Text(
+                    "Assessment dwelling records are fresher than aerial mapping but are not a "
+                        + "building census. Multi-unit parcels can repeat living-unit totals "
+                        + "across records, and records do not establish current condition, "
+                        + "occupancy, or permits."
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Link(destination: PVSCDwellingQuery.datasetURL) {
+                Text(
+                    "Source: PVSC residential dwelling characteristics · "
+                        + "\(PVSCDwellingQuery.sourceDate). "
+                        + PVSCAssessmentQuery.attribution
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func dwellingAccountRow(
+        _ account: PVSCDwellingResponse.Account, showAAN: Bool
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if showAAN {
+                Text("AAN \(account.aan)")
+                    .font(.footnote.weight(.semibold))
+                    .monospacedDigit()
+            }
+
+            // By position: two dwellings on one account can carry identical
+            // characteristics, and collapsing them would drop a building.
+            ForEach(Array(account.dwellings.enumerated()), id: \.offset) { _, dwelling in
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(
+                        dwelling.yearBuilt.map { "Built \(Self.year($0))" }
+                            ?? "Build year not published"
+                    )
+                    .font(.footnote)
+
+                    let facts = Self.facts(dwelling)
+                    if !facts.isEmpty {
+                        Text(facts)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// The web's `dwellingFactsLabel`. A characteristic PVSC did not publish is
+    /// left out rather than written as a zero or a no.
+    private static func facts(_ dwelling: PVSCDwellingResponse.Dwelling) -> String {
+        var parts: [String] = []
+        if let style = dwelling.style { parts.append(style) }
+        if let area = dwelling.squareFeetLivingArea {
+            parts.append("\(count(area)) sq ft living area")
+        }
+        if let units = dwelling.livingUnits {
+            parts.append("\(count(units)) living unit\(units == 1 ? "" : "s")")
+        }
+        if let bathrooms = dwelling.bathrooms {
+            parts.append("\(count(bathrooms)) bathroom\(bathrooms == 1 ? "" : "s")")
+        }
+        if let garage = dwelling.garage { parts.append(garage ? "Garage" : "No garage") }
+        if dwelling.underConstruction == true { parts.append("Under construction") }
+        return parts.joined(separator: " · ")
+    }
+
+    /// `toLocaleString("en-CA")`: grouped, and fractional only when the figure
+    /// is (a bathroom and a half is a real PVSC value).
+    private static func count(_ value: Double) -> String {
+        value.formatted(
+            .number.grouping(.automatic).precision(.fractionLength(0...3))
+                .locale(Locale(identifier: "en_CA"))
+        )
     }
 
     // MARK: - Civic addresses

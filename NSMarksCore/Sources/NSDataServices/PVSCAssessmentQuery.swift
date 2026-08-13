@@ -67,11 +67,25 @@ public enum PVSCAssessmentQuery {
     /// in it is not an AAN — same rule as `ParcelQuery.normalizePID`, and for
     /// the same reason: guessing at what a label meant would attach one
     /// account's values to another account's number.
+    ///
+    /// ASCII digits only, scalar by scalar rather than by `\d` or `isNumber`.
+    /// Foundation counts every Unicode decimal digit; JavaScript's `/\d/u` does
+    /// not, so `"١٢٣٤"` is refused on the web and would otherwise be padded and
+    /// sent from here as though it were an account number somebody wrote down.
     public static func normalizeAAN(_ value: String) -> String? {
-        guard value.range(of: #"^[\d\s-]+$"#, options: .regularExpression) != nil else {
-            return nil
+        var digits = ""
+        for scalar in value.unicodeScalars {
+            switch scalar {
+            case "0"..."9":
+                digits.unicodeScalars.append(scalar)
+            case "-":
+                continue
+            case _ where ParcelQuery.isJSWhitespace(scalar):
+                continue
+            default:
+                return nil
+            }
         }
-        let digits = value.filter { $0.isNumber }
         guard (1...8).contains(digits.count) else { return nil }
         return String(repeating: "0", count: 8 - digits.count) + digits
     }

@@ -77,6 +77,16 @@ struct PVSCAssessmentQueryTests {
         #expect(PVSCAssessmentQuery.normalizeAAN("-") == nil)
     }
 
+    @Test("A digit that is not an ASCII digit is not an account number")
+    func onlyASCIIDigitsCount() {
+        // Foundation reads Devanagari and full-width digits as numbers; PVSC's
+        // account numbers are ASCII, so accepting these would send a query for
+        // an account nobody typed.
+        #expect(PVSCAssessmentQuery.normalizeAAN("१२३४") == nil)
+        #expect(PVSCAssessmentQuery.normalizeAAN("１２３４") == nil)
+        #expect(PVSCAssessmentQuery.normalizeAAN("12٣4") == nil)
+    }
+
     @Test("The account query asks for that account's last ten years, newest first")
     func historyURL() throws {
         let url = try PVSCAssessmentQuery.historyURL(forAAN: "1234")
@@ -347,5 +357,64 @@ struct PVSCAssessmentFetcherTests {
             .assessments(for: square)
         #expect(result.matchMethod == .spatial)
         #expect(result.accounts.isEmpty)
+    }
+
+    @Test("Rows that could not be read are counted, not quietly dropped")
+    func aPartlyUnreadablePageSaysHowMuchWasMissed() async throws {
+        let recorder = Recorder(
+            pages: [
+                reply([
+                    row(aan: "1", year: 2026),
+                    // A blank figure drops this row. One account comes back
+                    // where PVSC sent two, and only this count says so.
+                    """
+                    {"aan":"2","tax_year":"2026","assessed_value":"",\
+                    "taxable_assessed_value":"1","x_coord":"0.5","y_coord":"0.5"}
+                    """,
+                ])
+            ]
+        )
+        let result = try await PVSCAssessmentFetcher(transport: recorder.transport)
+            .assessments(for: square)
+
+        #expect(result.accounts.map(\.aan) == ["00000001"])
+        #expect(result.unreadableRows == 1)
+    }
+
+    @Test("An account point on the parcel's edge is marked, because the edge is shared")
+    func aPointOnTheEdgeIsFlagged() async throws {
+        let recorder = Recorder(
+            pages: [
+                reply([
+                    row(aan: "1", year: 2026, lng: 0.5, lat: 0.5),
+                    // Exactly on the southern edge, which the neighbour shares.
+                    row(aan: "2", year: 2026, lng: 0.5, lat: 0),
+                ])
+            ]
+        )
+        let result = try await PVSCAssessmentFetcher(transport: recorder.transport)
+            .assessments(for: square)
+
+        #expect(result.accounts.map(\.aan) == ["00000001", "00000002"])
+        #expect(result.accounts.map(\.onParcelBoundary) == [false, true])
+    }
+
+    @Test("An account with a point inside as well as one on the edge is not marked")
+    func anAccountWithAnInteriorPointIsNotFlagged() async throws {
+        let recorder = Recorder(
+            pages: [
+                reply([
+                    row(aan: "1", year: 2026, lng: 0.5, lat: 0),
+                    row(aan: "1", year: 2025, lng: 0.5, lat: 0.5),
+                ])
+            ]
+        )
+        let result = try await PVSCAssessmentFetcher(transport: recorder.transport)
+            .assessments(for: square)
+
+        // One of this account's points is unambiguously on the parcel. Calling
+        // the account "on the boundary" on the strength of the other would
+        // understate what PVSC published.
+        #expect(result.accounts.map(\.onParcelBoundary) == [false])
     }
 }

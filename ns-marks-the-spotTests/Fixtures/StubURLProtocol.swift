@@ -76,6 +76,13 @@ nonisolated final class StubURLProtocol: URLProtocol {
         state.requestCount(key: channel)
     }
 
+    /// Requests whose URL contains `match`. Zero is the assertion that matters:
+    /// a service that must not be consulted — because the question it answers
+    /// was never askable — has to be provably unasked, not merely unrendered.
+    static func requestCount(channel: String, matching match: String) -> Int {
+        state.requestCount(key: channel, matching: match)
+    }
+
     override class func canInit(with request: URLRequest) -> Bool { true }
 
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
@@ -86,7 +93,7 @@ nonisolated final class StubURLProtocol: URLProtocol {
             return
         }
         let key = request.value(forHTTPHeaderField: Self.channelHeader) ?? host
-        Self.state.record(key: key)
+        Self.state.record(key: key, url: url.absoluteString)
 
         let statusCode: Int
         let body: Data
@@ -123,11 +130,13 @@ nonisolated final class StubURLProtocol: URLProtocol {
         private let lock = NSLock()
         private nonisolated(unsafe) var responses: [String: [(String, Response)]] = [:]
         private nonisolated(unsafe) var counts: [String: Int] = [:]
+        private nonisolated(unsafe) var urls: [String: [String]] = [:]
 
         func stub(key: String, matching matches: [(String, Response)]) {
             lock.withLock {
                 responses[key] = matches
                 counts[key] = 0
+                urls[key] = []
             }
         }
 
@@ -135,15 +144,23 @@ nonisolated final class StubURLProtocol: URLProtocol {
             lock.withLock {
                 responses[key] = nil
                 counts[key] = nil
+                urls[key] = nil
             }
         }
 
-        func record(key: String) {
-            lock.withLock { counts[key, default: 0] += 1 }
+        func record(key: String, url: String) {
+            lock.withLock {
+                counts[key, default: 0] += 1
+                urls[key, default: []].append(url)
+            }
         }
 
         func requestCount(key: String) -> Int {
             lock.withLock { counts[key] ?? 0 }
+        }
+
+        func requestCount(key: String, matching match: String) -> Int {
+            lock.withLock { (urls[key] ?? []).count { $0.contains(match) } }
         }
 
         /// An unstubbed key, or one with no matching answer, gets a 404 rather

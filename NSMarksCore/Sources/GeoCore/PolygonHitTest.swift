@@ -67,20 +67,45 @@ public enum PolygonHitTest {
         return inside
     }
 
+    /// How a point sits in a polygon, when it sits in one at all.
+    ///
+    /// The distinction is not decoration. A point on a line shared by two
+    /// parcels is contained by both, so an account matched that way belongs to
+    /// this parcel exactly as much as it belongs to the neighbour — and a panel
+    /// that says "inside this parcel" about it has said something it cannot
+    /// support. Ordered so that a strictly interior hit wins over a boundary
+    /// one when a point lands in more than one part.
+    public enum Containment: Sendable, Equatable, Comparable {
+        case boundary
+        case interior
+    }
+
     /// Contained by a single polygon: inside the outer ring and outside every
     /// hole, with any boundary hit short-circuiting to true.
     public static func contains(_ point: GeoPoint, part: PolygonPart) -> Bool {
-        if part.contains(where: { isOnRingBoundary(point, ring: $0) }) {
-            return true
-        }
-        guard let outerRing = part.first else { return false }
-        let holes = part.dropFirst()
-        return isInRingInterior(point, ring: outerRing)
-            && !holes.contains { isInRingInterior(point, ring: $0) }
+        containment(point, part: part) != nil
     }
 
     /// Contained by any part of a MultiPolygon.
     public static func contains(_ point: GeoPoint, multiPolygon: [PolygonPart]) -> Bool {
-        multiPolygon.contains { contains(point, part: $0) }
+        containment(point, multiPolygon: multiPolygon) != nil
+    }
+
+    /// Where the point sits, or `nil` when it is outside.
+    public static func containment(_ point: GeoPoint, part: PolygonPart) -> Containment? {
+        if part.contains(where: { isOnRingBoundary(point, ring: $0) }) {
+            return .boundary
+        }
+        guard let outerRing = part.first else { return nil }
+        let holes = part.dropFirst()
+        let inside = isInRingInterior(point, ring: outerRing)
+            && !holes.contains { isInRingInterior(point, ring: $0) }
+        return inside ? .interior : nil
+    }
+
+    public static func containment(
+        _ point: GeoPoint, multiPolygon: [PolygonPart]
+    ) -> Containment? {
+        multiPolygon.compactMap { containment(point, part: $0) }.max()
     }
 }

@@ -8,11 +8,11 @@ import Testing
 
 /// The panel that opens on the selected parcel.
 ///
-/// Two services answer it independently and either can fail, so most of what
-/// is asserted here is which of three states a section lands in. That is the
-/// whole job: `ready([])` says the parcel has none of the thing, `unavailable`
-/// says nobody was able to say, and a panel that renders the second as the
-/// first tells a user there is no road beside a property when in fact the road
+/// Four services answer it and any of them can fail, so most of what is
+/// asserted here is which of three states a section lands in. That is the whole
+/// job: `ready([])` says the parcel has none of the thing, `unavailable` says
+/// nobody was able to say, and a panel that renders the second as the first
+/// tells a user there is no road beside a property when in fact the road
 /// service was down.
 @MainActor
 @Suite("Parcel inspection")
@@ -40,7 +40,8 @@ struct ParcelInspectionTests {
             parcelFetcher: ParcelFetcher(transport: .urlSession(session())),
             civicFetcher: CivicAddressFetcher(transport: .urlSession(session())),
             contextFetcher: ParcelContextFetcher(transport: .urlSession(session())),
-            assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session()))
+            assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session())),
+            dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session()))
         )
         if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
             viewModel.toggleVisibility(LayerID.nsprd.rawValue)
@@ -497,7 +498,7 @@ struct ParcelInspectionTests {
         let channel = #function
         let viewModel = Self.viewModel(channel, answering: [
             ("NSPRD", Self.parcel(pid: "50334317")),
-            ("thedatazone", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+            ("bt58-qu28", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
         ])
         defer { StubURLProtocol.clear(channel: channel) }
 
@@ -523,7 +524,7 @@ struct ParcelInspectionTests {
         let viewModel = Self.viewModel(channel, answering: [
             ("NSPRD", Self.parcel(pid: "50334317")),
             // Inside the parcel's bounding box, above its diagonal edge.
-            ("thedatazone", Self.account(aan: "1234", year: 2026, lng: -63.49, lat: 44.69)),
+            ("bt58-qu28", Self.account(aan: "1234", year: 2026, lng: -63.49, lat: 44.69)),
         ])
         defer { StubURLProtocol.clear(channel: channel) }
 
@@ -537,7 +538,7 @@ struct ParcelInspectionTests {
         let channel = #function
         let viewModel = Self.viewModel(channel, answering: [
             ("NSPRD", Self.parcel(pid: "50334317")),
-            ("thedatazone", .status(503)),
+            ("bt58-qu28", .status(503)),
         ])
         defer { StubURLProtocol.clear(channel: channel) }
 
@@ -557,7 +558,7 @@ struct ParcelInspectionTests {
         let channel = #function
         let viewModel = Self.viewModel(channel, answering: [
             ("NSPRD", Self.parcel(pid: "50334317")),
-            ("thedatazone", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+            ("bt58-qu28", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
             ("nsgiwa.novascotia.ca", .status(503)),
         ])
         defer { StubURLProtocol.clear(channel: channel) }
@@ -573,5 +574,99 @@ struct ParcelInspectionTests {
             Issue.record("the road lookup should have failed independently")
             return
         }
+    }
+
+    // MARK: - PVSC dwellings
+
+    @Test func theDwellingsOnAMatchedAccountAreListed() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("bt58-qu28", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+            ("a859-xvcs", .success(Data("""
+            [{"aan":"00001234","year_built":"1962","style":"1 Storey","garage":"Y"}]
+            """.utf8))),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        guard case .ready(let result) = inspection?.dwellings else {
+            Issue.record("expected dwellings, got \(String(describing: inspection?.dwellings))")
+            return
+        }
+        #expect(result.accounts.map(\.aan) == ["00001234"])
+        #expect(result.accounts.first?.dwellings.first?.yearBuilt == 1962)
+    }
+
+    /// The dataset is keyed by account number. With no account matched there is
+    /// no question to put, and "no dwelling record" would be an answer to one.
+    @Test func noMatchedAccountMeansTheDwellingDatasetIsNeverAsked() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("bt58-qu28", Self.noRows),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        #expect(
+            inspection?.dwellings
+                == .unavailable(ParcelLookupMessage.noAccountToAskDwellingsWith)
+        )
+        #expect(StubURLProtocol.requestCount(channel: channel, matching: "a859-xvcs") == 0)
+    }
+
+    /// One failure, two silences, and the second one has to name the first —
+    /// otherwise the dwelling section reads as a dataset that was consulted.
+    @Test func anAssessmentFailureLeavesTheDwellingSectionSayingWhy() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("bt58-qu28", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        #expect(inspection?.dwellings == .unavailable(ParcelLookupMessage.dwellingsNotLookedUp))
+        #expect(StubURLProtocol.requestCount(channel: channel, matching: "a859-xvcs") == 0)
+    }
+
+    @Test func aDwellingOutageIsNotAParcelWithoutABuilding() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("bt58-qu28", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+            ("a859-xvcs", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        guard case .unavailable(let message) = inspection?.dwellings else {
+            Issue.record("expected unavailable, got \(String(describing: inspection?.dwellings))")
+            return
+        }
+        #expect(message == "PVSC dwelling data is unavailable right now.")
+    }
+
+    /// The account PVSC lists no house on. The one dwelling state allowed to
+    /// say something about the parcel, and it still says only "not in this
+    /// dataset".
+    @Test func aMatchedAccountWithNoDwellingRecordIsAnAnswer() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("bt58-qu28", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+            ("a859-xvcs", Self.noRows),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        #expect(
+            await Self.inspect(viewModel)?.dwellings
+                == .ready(PVSCDwellingResponse.Result(accounts: []))
+        )
     }
 }

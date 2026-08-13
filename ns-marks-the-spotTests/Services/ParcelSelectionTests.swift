@@ -81,6 +81,24 @@ struct ParcelSelectionTests {
         #expect(selection.boundaryNotice?.contains("without a mapped boundary") == true)
     }
 
+    @Test func aParcelOnlyPartlyDrawnSaysHowMuchOfItWasSearched() {
+        // The worst of the three: an outline appears, every lookup below runs
+        // inside it, and without this sentence nothing on screen says that a
+        // piece of the parcel was never searched at all.
+        var selection = ParcelSelection()
+        selection.merge(Self.collection(
+            ParcelFeature(pid: "1", boundary: Self.triangle()),
+            ParcelFeature(pid: "1", boundary: .unreadable)
+        ))
+        selection.select("1")
+
+        let notice = selection.boundaryNotice
+        #expect(notice?.contains("2 pieces") == true)
+        #expect(notice?.contains("1 of them") == true)
+        #expect(notice?.contains("could not read") == true)
+        #expect(notice?.contains("inside the pieces that are drawn") == true)
+    }
+
     @Test func aParcelThatDrawsNeedsNoExplanation() {
         var selection = ParcelSelection()
         selection.merge(Self.collection(ParcelFeature(pid: "1", boundary: Self.triangle())))

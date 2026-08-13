@@ -35,4 +35,9 @@ struct ParcelInspection: Equatable {
     var civicAddresses: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .looking
     var mappedContext: ParcelEvidence<ParcelContext> = .looking
     var assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .looking
+
+    /// Downstream of `assessments`: the dwelling dataset is keyed by account
+    /// number, so this question cannot be asked until that one is answered, and
+    /// cannot be asked at all when it comes back with no account.
+    var dwellings: ParcelEvidence<PVSCDwellingResponse.Result> = .looking
 }

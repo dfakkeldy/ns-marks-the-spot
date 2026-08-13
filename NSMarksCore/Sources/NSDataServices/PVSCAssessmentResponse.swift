@@ -33,9 +33,18 @@ public enum PVSCAssessmentResponse {
         public let aan: String
         public let records: [Record]
 
-        public init(aan: String, records: [Record]) {
+        /// Every point that matched this account landed on the parcel's
+        /// outline rather than strictly within it.
+        ///
+        /// Parcels share their edges, so a point on one is inside both
+        /// neighbours. The account is still listed — dropping it would hide a
+        /// real record — but it is listed as sitting on the line.
+        public let onParcelBoundary: Bool
+
+        public init(aan: String, records: [Record], onParcelBoundary: Bool = false) {
             self.aan = aan
             self.records = records
+            self.onParcelBoundary = onParcelBoundary
         }
 
         /// The most recent year on record.
@@ -57,9 +66,18 @@ public enum PVSCAssessmentResponse {
         public let matchMethod: MatchMethod
         public let accounts: [Account]
 
-        public init(matchMethod: MatchMethod, accounts: [Account]) {
+        /// Rows PVSC sent that could not be read.
+        ///
+        /// Carried to the screen rather than swallowed. A reply of two rows
+        /// where the unreadable one was the account on this parcel produces the
+        /// same empty list as a reply of two readable rows for the neighbours,
+        /// and only one of those means no account is mapped here.
+        public let unreadableRows: Int
+
+        public init(matchMethod: MatchMethod, accounts: [Account], unreadableRows: Int = 0) {
             self.matchMethod = matchMethod
             self.accounts = accounts
+            self.unreadableRows = unreadableRows
         }
     }
 
@@ -104,7 +122,10 @@ public enum PVSCAssessmentResponse {
     /// order and years newest first. Values are never summed across accounts:
     /// two accounts on one parcel are two records, and adding them would invent
     /// a figure PVSC never published.
-    public static func accounts(from rows: [(aan: String, record: Record)]) -> [Account] {
+    public static func accounts(
+        from rows: [(aan: String, record: Record)],
+        onParcelBoundary boundaryAANs: Set<String> = []
+    ) -> [Account] {
         var order: [String] = []
         var byAAN: [String: [Int: Record]] = [:]
         for row in rows {
@@ -119,7 +140,8 @@ public enum PVSCAssessmentResponse {
         return order.sorted().map { aan in
             Account(
                 aan: aan,
-                records: (byAAN[aan] ?? [:]).values.sorted { $0.taxYear > $1.taxYear }
+                records: (byAAN[aan] ?? [:]).values.sorted { $0.taxYear > $1.taxYear },
+                onParcelBoundary: boundaryAANs.contains(aan)
             )
         }
     }
@@ -130,6 +152,9 @@ public enum PVSCAssessmentResponse {
         guard let rawAAN = row.aan?.text,
               let aan = PVSCAssessmentQuery.normalizeAAN(rawAAN),
               let taxYear = row.tax_year?.number, taxYear == taxYear.rounded(),
+              // The web keeps any integral year; this stops short of the range
+              // where `Int` conversion is unsafe. A tax year beyond ±9e15 is
+              // not a year, so refusing it costs nothing real.
               taxYear.magnitude < 9e15,
               let assessed = row.assessed_value?.number,
               let taxable = row.taxable_assessed_value?.number,

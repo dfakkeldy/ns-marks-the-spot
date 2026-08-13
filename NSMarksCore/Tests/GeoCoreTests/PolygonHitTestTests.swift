@@ -58,6 +58,53 @@ struct PolygonHitTestTests {
         #expect(PolygonHitTest.contains(GeoPoint(lat: 4, lng: 5), part: squareWithHole))
     }
 
+    @Test("separates a point on the edge from a point well inside")
+    func containmentDistinguishesTheEdge() {
+        // A point on a shared edge sits on both neighbours. Callers that would
+        // otherwise report it as this parcel's need to be able to see that.
+        #expect(
+            PolygonHitTest.containment(GeoPoint(lat: 0, lng: 5), part: squareWithHole) == .boundary
+        )
+        #expect(
+            PolygonHitTest.containment(GeoPoint(lat: 2, lng: 2), part: squareWithHole) == .interior
+        )
+        #expect(PolygonHitTest.containment(GeoPoint(lat: 20, lng: 20), part: squareWithHole) == nil)
+        #expect(PolygonHitTest.containment(GeoPoint(lat: 5, lng: 5), part: squareWithHole) == nil)
+    }
+
+    @Test("takes the strongest containment across a multipolygon")
+    func containmentAcrossPartsPrefersTheInterior() {
+        let west: PolygonHitTest.PolygonPart = [
+            [
+                GeoPoint(lat: 0, lng: 0),
+                GeoPoint(lat: 0, lng: 5),
+                GeoPoint(lat: 5, lng: 5),
+                GeoPoint(lat: 5, lng: 0),
+            ]
+        ]
+        let east: PolygonHitTest.PolygonPart = [
+            [
+                GeoPoint(lat: 0, lng: 5),
+                GeoPoint(lat: 0, lng: 10),
+                GeoPoint(lat: 5, lng: 10),
+                GeoPoint(lat: 5, lng: 5),
+            ]
+        ]
+        // On the seam between the two parts of one parcel — a boundary of each,
+        // but inside the parcel, so the parcel-level answer is not "on an edge".
+        #expect(
+            PolygonHitTest.containment(GeoPoint(lat: 2, lng: 5), multiPolygon: [west, east])
+                == .boundary
+        )
+        #expect(
+            PolygonHitTest.containment(GeoPoint(lat: 2, lng: 2), multiPolygon: [west, east])
+                == .interior
+        )
+        #expect(
+            PolygonHitTest.containment(GeoPoint(lat: 2, lng: 20), multiPolygon: [west, east]) == nil
+        )
+    }
+
     @Test("rejects everything for an empty part")
     func emptyPart() {
         #expect(!PolygonHitTest.contains(GeoPoint(lat: 1, lng: 1), part: []))

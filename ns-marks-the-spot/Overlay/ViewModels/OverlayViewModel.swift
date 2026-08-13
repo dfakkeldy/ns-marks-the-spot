@@ -187,6 +187,7 @@ final class OverlayViewModel {
     private let civicFetcher: CivicAddressFetcher
     private let contextFetcher: ParcelContextFetcher
     private let assessmentFetcher: PVSCAssessmentFetcher
+    private let dwellingFetcher: PVSCDwellingFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -199,7 +200,8 @@ final class OverlayViewModel {
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
-        assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher()
+        assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(),
+        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
@@ -208,6 +210,7 @@ final class OverlayViewModel {
         self.civicFetcher = civicFetcher
         self.contextFetcher = contextFetcher
         self.assessmentFetcher = assessmentFetcher
+        self.dwellingFetcher = dwellingFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -551,6 +554,7 @@ final class OverlayViewModel {
         case addresses(Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>)
         case context(Result<ParcelContext, ParcelContextFailure>)
         case assessments(Result<PVSCAssessmentResponse.Result, PVSCAssessmentFailure>)
+        case dwellings(Result<PVSCDwellingResponse.Result, PVSCDwellingFailure>)
     }
 
     /// Rebuilds the panel for whatever is selected now.
@@ -585,6 +589,7 @@ final class OverlayViewModel {
             state.civicAddresses = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.mappedContext = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             inspection = state
             return
         }
@@ -592,7 +597,7 @@ final class OverlayViewModel {
 
         inspectionLookup = Task {
             [
-                weak self, civicFetcher, contextFetcher, assessmentFetcher,
+                weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
                 clearance = clearanceBox.clearance
             ] in
             await withTaskGroup(of: Evidence.self) { group in
@@ -622,6 +627,23 @@ final class OverlayViewModel {
                 for await evidence in group {
                     guard !Task.isCancelled, let self else { return }
                     self.apply(evidence, to: pid)
+                    // The dwelling dataset is keyed by account number, so it
+                    // joins the group only once the assessment lookup has named
+                    // some — and it joins this group rather than a task of its
+                    // own so that abandoning the parcel cancels it too.
+                    if case .assessments(.success(let result)) = evidence, !result.accounts.isEmpty,
+                        self.inspection?.pid == pid {
+                        let aans = result.accounts.map(\.aan)
+                        group.addTask {
+                            do throws(PVSCDwellingFailure) {
+                                return .dwellings(
+                                    .success(try await dwellingFetcher.dwellings(forAANs: aans))
+                                )
+                            } catch {
+                                return .dwellings(.failure(error))
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -635,7 +657,7 @@ final class OverlayViewModel {
         case .addresses(.success(let addresses)):
             inspection?.civicAddresses = .ready(addresses)
         case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)),
-            .assessments(.failure(.cancelled)):
+            .assessments(.failure(.cancelled)), .dwellings(.failure(.cancelled)):
             // Superseded, not failed. Leaving it `looking` is honest: this
             // parcel's panel is about to be replaced.
             break
@@ -651,9 +673,22 @@ final class OverlayViewModel {
             )
         case .assessments(.success(let result)):
             inspection?.assessments = .ready(result)
+            if result.accounts.isEmpty {
+                // No account to ask about, so the dwelling dataset is never
+                // consulted. "No dwelling record" would be a finding drawn from
+                // a question nobody asked.
+                inspection?.dwellings = .unavailable(ParcelLookupMessage.noAccountToAskDwellingsWith)
+            }
         case .assessments(.failure(let failure)):
             inspection?.assessments = .unavailable(
                 ParcelLookupMessage.assessmentEvidenceFailure(failure)
+            )
+            inspection?.dwellings = .unavailable(ParcelLookupMessage.dwellingsNotLookedUp)
+        case .dwellings(.success(let result)):
+            inspection?.dwellings = .ready(result)
+        case .dwellings(.failure(let failure)):
+            inspection?.dwellings = .unavailable(
+                ParcelLookupMessage.dwellingEvidenceFailure(failure)
             )
         }
     }

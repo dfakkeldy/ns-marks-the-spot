@@ -150,6 +150,36 @@ nonisolated enum ParcelLookupMessage {
         }
     }
 
+    /// The assessment lookup failed, so the question that depends on it was
+    /// never put. Two failures, one cause, and the reader is told which.
+    static let dwellingsNotLookedUp =
+        "Dwelling records were not looked up because the PVSC assessment account "
+            + "lookup was unavailable."
+
+    /// The assessment lookup answered with no account.
+    ///
+    /// The web says "no residential dwelling record was returned for this
+    /// parcel's matched accounts" whether or not any account was matched, which
+    /// reads as a dataset that was asked and said no. With no account there is
+    /// no question to ask, and that is what this says.
+    static let noAccountToAskDwellingsWith =
+        "No PVSC assessment account was matched to this parcel, so the dwelling "
+            + "dataset could not be asked about it."
+
+    /// Why the dwelling lookup produced nothing.
+    static func dwellingEvidenceFailure(_ failure: PVSCDwellingFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Dwelling lookup was replaced."
+        case .refused(.noAccounts):
+            return noAccountToAskDwellingsWith
+        case .refused(.malformedURL):
+            return "The dwelling lookup is misconfigured in this build."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "PVSC dwelling data is unavailable right now."
+        }
+    }
+
     /// Why an address search produced nothing, in words that do not claim the
     /// address is absent. `nil` for cancellation, as with parcels.
     static func failure(_ failure: CivicAddressFailure) -> String? {
