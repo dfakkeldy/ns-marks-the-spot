@@ -86,10 +86,18 @@ struct LayerIdentityTests {
         #expect(json == #"["place-names","ns-aerial"]"#)
     }
 
-    @Test("Declares 10 layer groups with unique ids")
+    @Test("Declares 11 layer groups in panel order with unique ids")
     func groupIdentity() {
-        #expect(LayerGroupID.allCases.count == 10)
-        #expect(Set(LayerGroupID.allCases.map(\.rawValue)).count == 10)
+        #expect(Set(LayerGroupID.allCases.map(\.rawValue)).count == 11)
+        // Declaration order is panel order; a native sectioned list reads
+        // straight off allCases, so a reordering here silently reorders the UI.
+        #expect(
+            LayerGroupID.allCases.map(\.rawValue) == [
+                "map-layers", "topography", "forestry", "flood-hazard",
+                "environmental-health", "zoning", "groundwater", "hydro-pilot",
+                "geology-resources", "church", "historical",
+            ]
+        )
     }
 
     // MARK: - Licence

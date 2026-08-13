@@ -63,18 +63,26 @@ public enum LayerID: String, CaseIterable, Hashable, Sendable, Codable {
     case nsWellLogs = "ns-well-logs"
 }
 
-/// The collapsible groups the layer panel presents.
+/// The groups the layer panel presents, in the order it presents them.
+///
+/// Nine of these are the web's collapsible sections. The other two are the
+/// flat runs of rows: `mapLayers` above the first section, and `historical` —
+/// the Fletcher control — below the last one. Fletcher gets its own group
+/// rather than joining `mapLayers` because the web renders it at the bottom;
+/// folding it into the first group would move it to the top of a native
+/// sectioned list.
 public enum LayerGroupID: String, CaseIterable, Hashable, Sendable, Codable {
     case mapLayers = "map-layers"
     case topography
+    case forestry
     case floodHazard = "flood-hazard"
     case environmentalHealth = "environmental-health"
-    case church
-    case forestry
-    case geologyResources = "geology-resources"
+    case zoning
     case groundwater
     case hydroPilot = "hydro-pilot"
-    case zoning
+    case geologyResources = "geology-resources"
+    case church
+    case historical
 }
 
 /// The licence a layer's data is published under.
