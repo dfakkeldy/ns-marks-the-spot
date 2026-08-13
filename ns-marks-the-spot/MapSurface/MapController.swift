@@ -406,11 +406,14 @@ extension MapController: @preconcurrency CLLocationManagerDelegate {
 
 // MARK: - Annotation bridging
 
-protocol MapKitAnnotationIdentifying: MKAnnotation {
+nonisolated protocol MapKitAnnotationIdentifying: MKAnnotation {
     var mapAnnotationID: String { get }
 }
 
-final class MapKitPointAnnotation: MKPointAnnotation, MapKitAnnotationIdentifying {
+/// `nonisolated`: MKPointAnnotation's designated `init()` is nonisolated, and an
+/// implicitly main-actor subclass may not change the isolation of an inherited
+/// initializer. The stored identifier is immutable, so any isolation may read it.
+nonisolated final class MapKitPointAnnotation: MKPointAnnotation, MapKitAnnotationIdentifying {
     let mapAnnotationID: String
 
     init(annotation: MapAnnotation) {
@@ -425,7 +428,7 @@ final class MapKitPointAnnotation: MKPointAnnotation, MapKitAnnotationIdentifyin
     }
 }
 
-private extension MKAnnotation {
+nonisolated private extension MKAnnotation {
     var mapAnnotationID: String? {
         (self as? MapKitAnnotationIdentifying)?.mapAnnotationID
     }

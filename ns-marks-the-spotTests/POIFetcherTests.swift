@@ -136,15 +136,44 @@ struct POIFetcherTests {
     }
 }
 
-private final class WaterfallURLProtocol: URLProtocol {
-    static var requests: [URLRequest] = []
-    static var statusCode = 200
-    static var responseData = Data()
+/// Lock-guarded stub state: URLProtocol callbacks arrive on URLSession's
+/// loader thread while tests configure and read from their own isolation.
+nonisolated private final class WaterfallURLProtocolState: @unchecked Sendable {
+    private let lock = NSLock()
+    private var recordedRequests: [URLRequest] = []
+    private var statusCode = 200
+    private var responseData = Data()
+
+    var requests: [URLRequest] {
+        lock.withLock { recordedRequests }
+    }
+
+    func record(_ request: URLRequest) {
+        lock.withLock { recordedRequests.append(request) }
+    }
+
+    func stub() -> (statusCode: Int, responseData: Data) {
+        lock.withLock { (statusCode, responseData) }
+    }
+
+    func reset(statusCode: Int, responseData: Data) {
+        lock.withLock {
+            recordedRequests = []
+            self.statusCode = statusCode
+            self.responseData = responseData
+        }
+    }
+}
+
+nonisolated private final class WaterfallURLProtocol: URLProtocol {
+    private static let state = WaterfallURLProtocolState()
+
+    static var requests: [URLRequest] {
+        state.requests
+    }
 
     static func reset(statusCode: Int = 200, responseData: Data = Data()) {
-        requests = []
-        self.statusCode = statusCode
-        self.responseData = responseData
+        state.reset(statusCode: statusCode, responseData: responseData)
     }
 
     override class func canInit(with request: URLRequest) -> Bool {
@@ -156,11 +185,12 @@ private final class WaterfallURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
-        Self.requests.append(request)
+        Self.state.record(request)
+        let stub = Self.state.stub()
         guard let url = request.url,
               let response = HTTPURLResponse(
                 url: url,
-                statusCode: Self.statusCode,
+                statusCode: stub.statusCode,
                 httpVersion: nil,
                 headerFields: ["Content-Type": "application/json"]
               ) else {
@@ -169,7 +199,7 @@ private final class WaterfallURLProtocol: URLProtocol {
         }
 
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        client?.urlProtocol(self, didLoad: Self.responseData)
+        client?.urlProtocol(self, didLoad: stub.responseData)
         client?.urlProtocolDidFinishLoading(self)
     }
 

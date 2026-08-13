@@ -21,79 +21,80 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         super.init(urlTemplate: nil)
     }
 
-    override func loadTile(at path: MKTileOverlayPath, result: @escaping @Sendable (Data?, (any Error)?) -> Void) {
+    /// Overrides the async translation of `loadTile(at:result:)`; MapKit's ObjC
+    /// completion entry point dispatches here through the generated thunk. The
+    /// async form avoids unstructured `Task` creation, which the Swift 6.0
+    /// region-isolation checker cannot analyze inside this ObjC override
+    /// ("pattern that the region-based isolation checker does not understand").
+    override func loadTile(at path: MKTileOverlayPath) async throws -> Data {
         let cacheKey = configuration.cacheIdentifier
+        let z = path.z
+        let x = path.x
+        let y = path.y
 
-        if let cache = tileCache, let cached = cache.cachedTile(z: path.z, x: path.x, y: path.y, layerName: cacheKey) {
-            result(cached, nil)
-            return
+        if let cache = tileCache, let cached = cache.cachedTile(z: z, x: x, y: y, layerName: cacheKey) {
+            return cached
         }
 
         if let tileData = loadTileFromBundle(path: path) {
-            tileCache?.cacheTile(tileData, z: path.z, x: path.x, y: path.y, layerName: cacheKey)
-            result(tileData, nil)
-            return
+            tileCache?.cacheTile(tileData, z: z, x: x, y: y, layerName: cacheKey)
+            return tileData
         }
 
-        if let tile_fetcher = tileFetcher,
+        if let fetcher = tileFetcher,
            case .tile(let remoteURL) = configuration.source,
            remoteURL.scheme == "https" || remoteURL.scheme == "http"
         {
-            Task {
-                do {
-                    let data = try await tile_fetcher.fetchTile(
-                        z: path.z, x: path.x, y: path.y,
-                        from: remoteURL, layerName: cacheKey
-                    )
-                    result(data, nil)
-                } catch {
-                    result(Self.fallbackTile(path: path), nil)
-                }
+            do {
+                return try await fetcher.fetchTile(
+                    z: z, x: x, y: y,
+                    from: remoteURL, layerName: cacheKey
+                )
+            } catch {
+                return try Self.fallbackTileData(z: z, x: x, y: y)
             }
-            return
         }
 
-        if let tile_fetcher = tileFetcher,
+        if let fetcher = tileFetcher,
            case .arcgisMapService(let serverURL, let transparent) = configuration.source
         {
-            Task {
-                do {
-                    let data = try await tile_fetcher.fetchArcGISMapServiceTile(
-                        z: path.z,
-                        x: path.x,
-                        y: path.y,
-                        from: serverURL,
-                        layerName: cacheKey,
-                        transparent: transparent
-                    )
-                    result(data, nil)
-                } catch {
-                    result(Self.fallbackTile(path: path), nil)
-                }
+            do {
+                return try await fetcher.fetchArcGISMapServiceTile(
+                    z: z,
+                    x: x,
+                    y: y,
+                    from: serverURL,
+                    layerName: cacheKey,
+                    transparent: transparent
+                )
+            } catch {
+                return try Self.fallbackTileData(z: z, x: x, y: y)
             }
-            return
         }
 
-        if let tile_fetcher = tileFetcher,
+        if let fetcher = tileFetcher,
            case .arcgisDynamic(let serverURL, let dynamicLayers, let layerRestrictions) = configuration.source
         {
-            Task {
-                do {
-                    let data = try await tile_fetcher.fetchArcGISDynamicTile(
-                        z: path.z, x: path.x, y: path.y,
-                        from: serverURL, layerName: cacheKey,
-                        dynamicLayersJSON: dynamicLayers,
-                        layerRestrictions: layerRestrictions
-                    )
-                    result(data, nil)
-                } catch {
-                    result(Self.fallbackTile(path: path), nil)
-                }
+            do {
+                return try await fetcher.fetchArcGISDynamicTile(
+                    z: z, x: x, y: y,
+                    from: serverURL, layerName: cacheKey,
+                    dynamicLayersJSON: dynamicLayers,
+                    layerRestrictions: layerRestrictions
+                )
+            } catch {
+                return try Self.fallbackTileData(z: z, x: x, y: y)
             }
-            return
         }
 
-        result(Self.fallbackTile(path: path), nil)
+        return try Self.fallbackTileData(z: z, x: x, y: y)
+    }
+
+    private static func fallbackTileData(z: Int, x: Int, y: Int) throws -> Data {
+        guard let data = fallbackTile(z: z, x: x, y: y) else {
+            throw CocoaError(.fileReadUnknown)
+        }
+        return data
     }
 
     private func loadTileFromBundle(path: MKTileOverlayPath) -> Data? {
@@ -181,9 +182,9 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         return hasAnyImage ? data : nil
     }
 
-    private static func fallbackTile(path: MKTileOverlayPath) -> Data? {
+    private static func fallbackTile(z: Int, x: Int, y: Int) -> Data? {
         if debugShowTileGrid {
-            return generatePlaceholderTile(path: path)
+            return generatePlaceholderTile(z: z, x: x, y: y)
         }
 
         return transparentTile()
@@ -198,7 +199,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
         return renderer.pngData { _ in }
     }
 
-    private static func generatePlaceholderTile(path: MKTileOverlayPath) -> Data? {
+    private static func generatePlaceholderTile(z: Int, x: Int, y: Int) -> Data? {
         let size = CGSize(width: 256, height: 256)
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
@@ -211,7 +212,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
             UIColor.brown.withAlphaComponent(0.3).setStroke()
             ctx.stroke(CGRect(origin: .zero, size: size).insetBy(dx: 0.5, dy: 0.5))
 
-            let text = "z\(path.z) x\(path.x) y\(path.y)"
+            let text = "z\(z) x\(x) y\(y)"
             let attrs: [NSAttributedString.Key: Any] = [
                 .font: UIFont.systemFont(ofSize: 11),
                 .foregroundColor: UIColor.brown.withAlphaComponent(0.5)
