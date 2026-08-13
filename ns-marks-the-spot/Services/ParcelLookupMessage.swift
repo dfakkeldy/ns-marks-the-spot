@@ -136,6 +136,20 @@ nonisolated enum ParcelLookupMessage {
         }
     }
 
+    /// Why the assessment lookup produced nothing.
+    static func assessmentEvidenceFailure(_ failure: PVSCAssessmentFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Assessment lookup was replaced."
+        case .refused(.noBoundary):
+            return noBoundaryToAskWith
+        case .refused(.notAnAAN), .refused(.malformedURL):
+            return "The assessment lookup is misconfigured in this build."
+        case .unreachable, .invalidHTTPStatus, .unreadable:
+            return "PVSC assessment data is unavailable right now."
+        }
+    }
+
     /// Why an address search produced nothing, in words that do not claim the
     /// address is absent. `nil` for cancellation, as with parcels.
     static func failure(_ failure: CivicAddressFailure) -> String? {

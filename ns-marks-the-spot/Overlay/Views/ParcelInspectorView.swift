@@ -20,6 +20,7 @@ struct ParcelInspectorView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    assessments
                     civicAddresses
                     mappedContext
                 }
@@ -78,6 +79,137 @@ struct ParcelInspectorView: View {
         .padding(.horizontal, 16)
         .padding(.top, 14)
         .padding(.bottom, 12)
+    }
+
+    // MARK: - PVSC assessment accounts
+
+    private var assessments: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(assessmentHeading)
+                .font(.subheadline.weight(.semibold))
+
+            switch inspection.assessments {
+            case .looking:
+                status("Checking PVSC open assessment data…")
+            case .unavailable(let reason):
+                // "No absence is inferred" in the web's words, kept because a
+                // reader who skips the reason still needs to know that nothing
+                // about this parcel was learned.
+                status("\(reason) No absence is inferred.")
+            case .ready(let result) where result.accounts.isEmpty:
+                status(
+                    result.matchMethod == .noticeAAN
+                        ? "No record was returned for the official notice AAN in the PVSC open "
+                            + "dataset. This does not prove no assessment account exists."
+                        : "No PVSC account point from the open dataset was mapped inside this "
+                            + "parcel. This does not prove no assessment account or assessed "
+                            + "value exists."
+                )
+            case .ready(let result):
+                Text(Self.matchSentence(for: result))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                ForEach(result.accounts, id: \.aan) { account in
+                    accountRow(account)
+                }
+
+                if let year = result.accounts.first?.current?.taxYear {
+                    Text(
+                        "The \(Self.year(year)) assessment reflects market value as of "
+                            + "January 1, \(Self.year(year - 1)) and physical state as of "
+                            + "December 1, \(Self.year(year - 1)). It is not today's sale price "
+                            + "or an appraisal. Taxable assessment may differ."
+                    )
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Link(destination: PVSCAssessmentQuery.datasetURL) {
+                Text(
+                    "Source: PVSC assessed and taxable assessment history · "
+                        + "\(PVSCAssessmentQuery.sourceDate). "
+                        + PVSCAssessmentQuery.attribution
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var assessmentHeading: String {
+        if case .ready(let result) = inspection.assessments, result.accounts.count == 1 {
+            return "PVSC assessment account"
+        }
+        return "PVSC assessment accounts"
+    }
+
+    /// What the accounts are evidence of, which is not the same question as
+    /// what they say. A notice AAN is a record; a point inside an outline is a
+    /// point inside an outline.
+    private static func matchSentence(for result: PVSCAssessmentResponse.Result) -> String {
+        if result.matchMethod == .noticeAAN {
+            return "Matched by official notice AAN."
+        }
+        if result.accounts.count == 1 {
+            return "Matched by a PVSC account point inside the mapped parcel."
+        }
+        return "\(result.accounts.count) PVSC account points were mapped inside this parcel. "
+            + "Values are shown separately and are not summed."
+    }
+
+    private func accountRow(_ account: PVSCAssessmentResponse.Account) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("AAN \(account.aan)")
+                .font(.footnote.weight(.semibold))
+                .monospacedDigit()
+
+            if let current = account.current {
+                LabeledContent("Tax year") {
+                    Text(Self.year(current.taxYear)).monospacedDigit()
+                }
+                LabeledContent("Assessed value") {
+                    Text(Self.money(current.assessedValue)).monospacedDigit()
+                }
+                LabeledContent("Taxable assessment") {
+                    Text(Self.money(current.taxableAssessedValue)).monospacedDigit()
+                }
+            }
+
+            if account.records.count > 1 {
+                DisclosureGroup("Assessment history") {
+                    ForEach(account.records, id: \.taxYear) { record in
+                        LabeledContent(Self.year(record.taxYear)) {
+                            Text(
+                                "\(Self.money(record.assessedValue)) assessed · "
+                                    + "\(Self.money(record.taxableAssessedValue)) taxable"
+                            )
+                            .monospacedDigit()
+                        }
+                        .font(.caption2)
+                    }
+                }
+                .font(.caption)
+            }
+        }
+        .font(.caption)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// A year is a label, not a quantity: the device's grouping separator would
+    /// print 2026 as "2,026".
+    private static func year(_ value: Int) -> String { String(value) }
+
+    /// Canadian dollars in the web's `en-CA` formatting. Pinned rather than
+    /// taken from the device, because the figure is a Nova Scotia record and
+    /// both surfaces have to print the same one.
+    private static func money(_ value: Double) -> String {
+        value.formatted(.currency(code: "CAD").locale(Locale(identifier: "en_CA")))
     }
 
     // MARK: - Civic addresses

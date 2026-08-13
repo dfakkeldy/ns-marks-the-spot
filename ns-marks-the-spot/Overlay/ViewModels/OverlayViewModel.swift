@@ -186,6 +186,7 @@ final class OverlayViewModel {
     private let parcelFetcher: ParcelFetcher
     private let civicFetcher: CivicAddressFetcher
     private let contextFetcher: ParcelContextFetcher
+    private let assessmentFetcher: PVSCAssessmentFetcher
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -197,7 +198,8 @@ final class OverlayViewModel {
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
-        contextFetcher: ParcelContextFetcher = ParcelContextFetcher()
+        contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
+        assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher()
     ) {
         self.controller = controller
         self.licenceStore = licenceStore
@@ -205,6 +207,7 @@ final class OverlayViewModel {
         self.parcelFetcher = parcelFetcher
         self.civicFetcher = civicFetcher
         self.contextFetcher = contextFetcher
+        self.assessmentFetcher = assessmentFetcher
         mirrorClearanceIntoBox()
     }
 
@@ -547,6 +550,7 @@ final class OverlayViewModel {
     private enum Evidence: Sendable {
         case addresses(Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>)
         case context(Result<ParcelContext, ParcelContextFailure>)
+        case assessments(Result<PVSCAssessmentResponse.Result, PVSCAssessmentFailure>)
     }
 
     /// Rebuilds the panel for whatever is selected now.
@@ -580,13 +584,17 @@ final class OverlayViewModel {
             // was asked.
             state.civicAddresses = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.mappedContext = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             inspection = state
             return
         }
         inspection = state
 
         inspectionLookup = Task {
-            [weak self, civicFetcher, contextFetcher, clearance = clearanceBox.clearance] in
+            [
+                weak self, civicFetcher, contextFetcher, assessmentFetcher,
+                clearance = clearanceBox.clearance
+            ] in
             await withTaskGroup(of: Evidence.self) { group in
                 group.addTask {
                     do throws(CivicAddressFailure) {
@@ -604,6 +612,13 @@ final class OverlayViewModel {
                         return .context(.failure(error))
                     }
                 }
+                group.addTask {
+                    do throws(PVSCAssessmentFailure) {
+                        return .assessments(.success(try await assessmentFetcher.assessments(for: parts)))
+                    } catch {
+                        return .assessments(.failure(error))
+                    }
+                }
                 for await evidence in group {
                     guard !Task.isCancelled, let self else { return }
                     self.apply(evidence, to: pid)
@@ -619,7 +634,8 @@ final class OverlayViewModel {
         switch evidence {
         case .addresses(.success(let addresses)):
             inspection?.civicAddresses = .ready(addresses)
-        case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)):
+        case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)),
+            .assessments(.failure(.cancelled)):
             // Superseded, not failed. Leaving it `looking` is honest: this
             // parcel's panel is about to be replaced.
             break
@@ -632,6 +648,12 @@ final class OverlayViewModel {
         case .context(.failure(let failure)):
             inspection?.mappedContext = .unavailable(
                 ParcelLookupMessage.contextEvidenceFailure(failure)
+            )
+        case .assessments(.success(let result)):
+            inspection?.assessments = .ready(result)
+        case .assessments(.failure(let failure)):
+            inspection?.assessments = .unavailable(
+                ParcelLookupMessage.assessmentEvidenceFailure(failure)
             )
         }
     }

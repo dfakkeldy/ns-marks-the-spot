@@ -26,7 +26,12 @@ struct ParcelInspectionTests {
         answering responses: [(String, StubURLProtocol.Response)],
         licence: ProvinceLicenceState = .accepted
     ) -> OverlayViewModel {
-        StubURLProtocol.stub(channel: channel, matching: responses + [("", noFeatures)])
+        // PVSC before the catch-all: an ArcGIS empty-feature body is not a
+        // Socrata row list, so without this every parcel panel in this file
+        // would carry an unreadable-assessment failure it never asked about.
+        StubURLProtocol.stub(
+            channel: channel, matching: responses + [("thedatazone", noRows), ("", noFeatures)]
+        )
         let session = { StubURLProtocol.session(channel: channel) }
         let viewModel = OverlayViewModel.forTesting(
             installing: [.nsprd],
@@ -34,7 +39,8 @@ struct ParcelInspectionTests {
             zoomLevel: 16,
             parcelFetcher: ParcelFetcher(transport: .urlSession(session())),
             civicFetcher: CivicAddressFetcher(transport: .urlSession(session())),
-            contextFetcher: ParcelContextFetcher(transport: .urlSession(session()))
+            contextFetcher: ParcelContextFetcher(transport: .urlSession(session())),
+            assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session()))
         )
         if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
             viewModel.toggleVisibility(LayerID.nsprd.rawValue)
@@ -107,6 +113,18 @@ struct ParcelInspectionTests {
     """.utf8))
 
     private static let noFeatures = StubURLProtocol.Response.success(Data(#"{"features": []}"#.utf8))
+
+    private static let noRows = StubURLProtocol.Response.success(Data("[]".utf8))
+
+    /// One PVSC account row, at a point the caller places.
+    private static func account(
+        aan: String, year: Int, lng: Double, lat: Double
+    ) -> StubURLProtocol.Response {
+        .success(Data("""
+        [{"aan":"\(aan)","tax_year":"\(year)","assessed_value":"231500",
+          "taxable_assessed_value":"198000","x_coord":"\(lng)","y_coord":"\(lat)"}]
+        """.utf8))
+    }
 
     /// Sublayer 8 of the roads service — "Road or trail".
     private static let roadsSublayer8 = "BASE_NSTDB_10k_Roads_UT83/MapServer/8/query"
@@ -205,6 +223,10 @@ struct ParcelInspectionTests {
         )
         #expect(
             inspection?.mappedContext
+                == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+        )
+        #expect(
+            inspection?.assessments
                 == .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
         )
         #expect(StubURLProtocol.requestCount(channel: channel) == requestsForTheParcel)
@@ -467,5 +489,89 @@ struct ParcelInspectionTests {
             return
         }
         #expect(stillTheSecond.first?.label.contains("Second Parcel Road") == true)
+    }
+
+    // MARK: - PVSC assessment accounts
+
+    @Test func anAccountPointInsideTheParcelIsListedWithItsFigures() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("thedatazone", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        guard case .ready(let result) = inspection?.assessments else {
+            Issue.record("expected assessments, got \(String(describing: inspection?.assessments))")
+            return
+        }
+        // Spatial, because nothing named an AAN. The panel says so, and the
+        // sentence it says is not the one a notice AAN earns.
+        #expect(result.matchMethod == .spatial)
+        #expect(result.accounts.map(\.aan) == ["00001234"])
+        #expect(result.accounts.first?.current?.assessedValue == 231_500)
+        #expect(result.accounts.first?.current?.taxableAssessedValue == 198_000)
+    }
+
+    /// The box PVSC is asked about is bigger than the parcel, so the reply
+    /// carries accounts that are not on it. Listing one would put another
+    /// property's assessed value on this parcel's panel.
+    @Test func anAccountPointOutsideTheParcelIsNotListed() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            // Inside the parcel's bounding box, above its diagonal edge.
+            ("thedatazone", Self.account(aan: "1234", year: 2026, lng: -63.49, lat: 44.69)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        #expect(
+            await Self.inspect(viewModel)?.assessments
+                == .ready(PVSCAssessmentResponse.Result(matchMethod: .spatial, accounts: []))
+        )
+    }
+
+    @Test func anAssessmentOutageIsNotAParcelWithoutAnAccount() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("thedatazone", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        guard case .unavailable(let message) = inspection?.assessments else {
+            Issue.record("expected unavailable, got \(String(describing: inspection?.assessments))")
+            return
+        }
+        #expect(message == "PVSC assessment data is unavailable right now.")
+    }
+
+    /// Three sources answer the panel now, and the third has to be as
+    /// independent as the first two: an NSTDB outage must not take the
+    /// assessment accounts down with it.
+    @Test func theAccountsStandWhenTheRoadLookupFails() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("thedatazone", Self.account(aan: "1234", year: 2026, lng: -63.45, lat: 44.62)),
+            ("nsgiwa.novascotia.ca", .status(503)),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+
+        guard case .ready(let result) = inspection?.assessments else {
+            Issue.record("expected assessments, got \(String(describing: inspection?.assessments))")
+            return
+        }
+        #expect(result.accounts.count == 1)
+        guard case .unavailable = inspection?.mappedContext else {
+            Issue.record("the road lookup should have failed independently")
+            return
+        }
     }
 }

@@ -34,4 +34,5 @@ struct ParcelInspection: Equatable {
 
     var civicAddresses: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .looking
     var mappedContext: ParcelEvidence<ParcelContext> = .looking
+    var assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .looking
 }
