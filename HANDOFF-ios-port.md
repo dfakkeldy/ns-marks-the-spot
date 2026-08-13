@@ -80,3 +80,27 @@ Next action: write Phase 0 spike 2 (10x2k-parcel MKMultiPolygon paging, z>=15
 restyle, tap hit-test) on the spike branch, parse-check it, then queue it
 through xcode-build-slot.sh.
 ```
+
+## 2026-08-13 — Phase 1 opened; NSMarksCore lands, logic tests leave the build gate
+
+Done: worktree moved to `ios-web-map-parity-2de228` on
+`claude/ios-web-map-parity-2de228`, reset onto `nightly` (5a677c8) — the old
+worktree's branch merged as PR #216, verified as a real merge, spike docs
+included. Key finding: the RAM-gate hook only intercepts
+`xcodebuild`/`fastlane`/`make`, so `swift test` over a pure SPM package is
+ungated. Four commits: NSMarksCore package + GeoCore geodesy (12 tests),
+point-in-polygon with holes (10), Web Mercator + slippy tile maths (10, with a
+cross-check tying the two ported halves together), and the web-side
+`exportSharedData.mjs` + repo-root `SharedData/` with a SHA-256 manifest
+(12 node tests; wired into `npm run test:scripts`). All 32 package tests and
+24 web script tests green. Zero Apple builds consumed.
+Next: layer-catalog parity, licence gate, Fletcher direct-Rumsey switch — a
+6-agent parity extraction over the web sources is synthesising the spec.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (4 commits ahead of nightly, unpushed).
+Next action: implement Phase 1 layer catalog + licence gate from the parity
+spec; keep pure logic in NSMarksCore (`swift test`, ungated) and let only the
+app-target wiring wait on xcode-build-slot.sh.
+```
