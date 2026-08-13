@@ -239,3 +239,42 @@ every ~5 min; when admitted spend ONE admission on
 attach and four clones exhaust memory). Read Swift Testing failures with
 `xcrun xcresulttool get test-results tests --path <.xcresult>`.
 ```
+
+## 2026-08-13 — Grouped layer panel with per-layer runtime status
+
+Done: `9c03a4f6b`. Panel is now collapsible sections in catalog order
+(headings from `NativeLayerTraits.title(for:)`, empty groups dropped),
+each visible layer carries a status chip in the web's vocabulary, and
+every row gained a "Source & scale" disclosure (source date, scale,
+coverage, zoom range, official-source link) — the native app previously
+showed none of that. Backed by `LayerLoadProgressBox`, which MapKit's
+tile queues report into through `OpacityTileOverlay.loadTile`.
+Codex adversarial review ran against the staged diff; five of its six
+findings were applied, the sixth was the ordering defect already fixed:
+- notifications carry only the layer id, panel re-reads the phase
+- requests carry a generation, so a fetch in flight across a hide/show
+  cannot settle the new cycle (`removeLayer` resets too)
+- `TileLoadOutcome.cancelled` — MapKit's pan-away cancellations are no
+  longer reported as "Source temporarily unavailable"
+- revoking now hides refused layers as part of mirroring the clearance
+- `OpacityTileOverlayProgressTests` drives the real `loadTile` against a
+  stubbed session, so deleting the reporting fails the suite
+Verified by gate-free `swiftc -typecheck` (app + tests) only. **No
+Apple build or test run has executed against any of this work yet.**
+Next: the gate has held all day (outside preferred windows). At 22:00
+spend one admission on the unit bundle, and use the same run to settle
+whether MapKit fetches tiles for hidden alpha-0 overlays — 6 → 21
+installed layers may mean ~3.5x the tile traffic the app draws.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (clean, pushed).
+Next action: poll /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
+every ~5 min; when admitted spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+(unit bundle only + no concurrency: the UI bundle hangs on debugger
+attach and four clones exhaust memory). Read Swift Testing failures with
+`xcrun xcresulttool get test-results tests --path <.xcresult>`.
+```
