@@ -105,13 +105,17 @@ public nonisolated final class FeatureOverlayFetcher: Sendable {
     /// What makes two returned rows the same feature.
     ///
     /// Pages can overlap when a service reorders rows between requests, so the
-    /// same feature can arrive twice. The web keys on the feature id, then the
-    /// id field, then the serialized geometry; this keys on the geometry itself
-    /// for that last case, which compares the same shapes without depending on
-    /// how they were spelled.
+    /// same feature can arrive twice. The web keys on the feature id, falling
+    /// back to the id field and then to the serialized geometry, and it puts
+    /// all three in one string namespace — a row carrying `id: 7` and a row
+    /// carrying only `OBJECTID: 7` are the same feature to it. That is kept:
+    /// splitting them into separate cases would let one feature through twice
+    /// whenever a service publishes the id in only one of the two places.
+    ///
+    /// The geometry fallback compares the shape itself rather than a
+    /// serialization of it, so two spellings of one outline still match.
     private enum FeatureKey: Hashable {
         case identifier(String)
-        case field(String)
         case geometry(GeoJSONGeometry)
 
         init(_ feature: FeatureOverlayResponse.Feature, idField: String) {
@@ -121,9 +125,9 @@ public nonisolated final class FeatureOverlayFetcher: Sendable {
             }
             switch feature.properties[idField] {
             case .string(let text) where !text.isEmpty:
-                self = .field(text)
+                self = .identifier(text)
             case .number(let number):
-                self = .field(ArcGISExportURL.jsNumber(number))
+                self = .identifier(ArcGISExportURL.jsNumber(number))
             case .string, .null, nil:
                 self = .geometry(feature.geometry)
             }

@@ -251,6 +251,24 @@ struct FeatureOverlayFetcherTests {
         #expect(overlay.features.count == FeatureOverlayQuery.pageSize)
     }
 
+    @Test("The same feature keyed two ways is still one feature")
+    func theIDFieldAndTheFeatureIDShareOneNamespace() async throws {
+        // Some services publish the row id at the top level, some only in the
+        // attributes, and a service that changes its mind between pages must
+        // not draw the zone twice.
+        let withTopLevelID = zone(id: "7", code: "CR", longitude: -61.35)
+        let withOnlyTheField = """
+            {"type":"Feature","geometry":{"type":"Polygon","coordinates":\
+            [[[-61.35,45.6],[-61.35,45.7],[-61.34,45.7],[-61.34,45.6],[-61.35,45.6]]]},\
+            "properties":{"OBJECTID":7,"Zone":"CR"}}
+            """
+        let service = PagedService(pages: [collection("\(withTopLevelID),\(withOnlyTheField)")])
+        let overlay = try await FeatureOverlayFetcher(transport: service.transport)
+            .features(for: plan())
+
+        #expect(overlay.features.count == 1)
+    }
+
     @Test("A service that never runs out is refused, not truncated")
     func anEndlessServiceIsRefused() async throws {
         let full = collection(

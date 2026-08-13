@@ -32,6 +32,11 @@ public enum FeatureOverlayQuery {
     }
 
     /// What one overlay asks a service for.
+    ///
+    /// Readable from anywhere and constructible only from inside this module,
+    /// on purpose: `plan(for:...)` is the only door in, and it is the door the
+    /// licence gate stands in. A public initializer would let a caller hand the
+    /// fetcher a restricted service URL it never had to ask permission for.
     public struct Plan: Sendable, Equatable {
         public let serviceURL: URL
         public let bounds: GeoBoundingBox
@@ -41,7 +46,7 @@ public enum FeatureOverlayQuery {
         public let orderByFields: String
         public let idField: String
 
-        public init(
+        init(
             serviceURL: URL,
             bounds: GeoBoundingBox,
             outFields: [String],
@@ -62,8 +67,9 @@ public enum FeatureOverlayQuery {
 
     /// The plan for a catalogued layer, gated on the Province licence.
     ///
-    /// The gate stands in front of the URL rather than in front of the request
-    /// so that no restricted service URL is ever assembled, let alone sent.
+    /// The gate is the first thing this function does — ahead of the catalog
+    /// lookup, not merely ahead of the request — so a refused layer's service
+    /// URL is never read out of the catalog, let alone assembled into a query.
     public static func plan(
         for layer: LayerID,
         bounds: GeoBoundingBox,
@@ -74,11 +80,10 @@ public enum FeatureOverlayQuery {
         idField: String = defaultIDField,
         clearance: ProvinceLicenceClearance
     ) throws(Refusal) -> Plan {
-        guard let descriptor = LayerCatalog.descriptor(for: layer) else {
-            throw .noServiceURL
-        }
         guard clearance.allows(layer) else { throw .licenceNotAccepted }
-        guard let serviceURL = descriptor.serviceURL else { throw .noServiceURL }
+        guard let descriptor = LayerCatalog.descriptor(for: layer),
+              let serviceURL = descriptor.serviceURL
+        else { throw .noServiceURL }
 
         return Plan(
             serviceURL: serviceURL,
@@ -92,7 +97,10 @@ public enum FeatureOverlayQuery {
     }
 
     /// One page of `plan`, as a URL.
-    public static func url(for plan: Plan, page: Int) throws(Refusal) -> URL {
+    ///
+    /// Internal because the fetcher owns the paging: `page` is an index into a
+    /// loop bounded by `maximumPages`, not a number a caller supplies.
+    static func url(for plan: Plan, page: Int) throws(Refusal) -> URL {
         let base = plan.serviceURL.absoluteString
         let trimmed = base.hasSuffix("/") ? String(base.dropLast()) : base
         guard var components = URLComponents(string: "\(trimmed)/query") else {

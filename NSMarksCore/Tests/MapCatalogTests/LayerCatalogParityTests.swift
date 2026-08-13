@@ -24,10 +24,12 @@ struct LayerCatalogParityTests {
     /// `everyFixtureFieldIsModelledOrDeferred`, so a web change cannot slip in
     /// unnoticed just because Swift has no property for it.
     static let deferredFields: Set<String> = [
-        // Zoning attribute mapping and styling — Phase 6.
-        "attribution", "bylawLabel", "bylawUrl", "fillColor", "idField",
-        "orderByFields", "outFields", "planAreaField", "redistribution",
-        "strokeColor", "zoneCodeField", "zoneNameField",
+        // Only the two mineral point layers still defer this one. The zoning
+        // layers model their own `outFields` in `LayerCatalog.zoningDetail`,
+        // which `matchesZoningDetail` checks against the fixture — but the
+        // field name is global to this check, so it stays listed here until
+        // those two are modelled too.
+        "outFields",
         // Environmental-health legend and guidance — Phase 6.
         "guidance", "riskBands", "screening",
         // Point-layer styling and the well-log manual link — Phase 6.
@@ -275,6 +277,45 @@ struct LayerCatalogParityTests {
         #expect(native.dpi == web["dpi"]?.int, "\(label).dpi")
     }
 
+    @Test("Zoning detail matches the fixture, layer for layer")
+    func matchesZoningDetail() {
+        // Both directions: a zoning layer the fixture declares and the detail
+        // table omits would otherwise render with no field mapping, no
+        // attribution, and no link to the by-law it claims to draw.
+        let modelled = Set(LayerCatalog.zoningDetail.map(\.id.rawValue))
+        let declared = Set(
+            Self.fixture.layers.filter { $0.value["zoneCodeField"] != nil }.keys
+        )
+        #expect(modelled == declared)
+
+        for detail in LayerCatalog.zoningDetail {
+            let id = detail.id.rawValue
+            guard let web = Self.fixture.layer(id) else { continue }
+
+            #expect(detail.bylawURL.absoluteString == web["bylawUrl"]?.nonNull?.string, "\(id) bylawUrl")
+            #expect(detail.bylawLabel == web["bylawLabel"]?.nonNull?.string, "\(id) bylawLabel")
+            #expect(
+                detail.redistribution.rawValue == web["redistribution"]?.nonNull?.string,
+                "\(id) redistribution"
+            )
+            #expect(detail.attribution == web["attribution"]?.nonNull?.string, "\(id) attribution")
+            #expect(detail.zoneCodeField == web["zoneCodeField"]?.nonNull?.string, "\(id) zoneCodeField")
+            #expect(detail.zoneNameField == web["zoneNameField"]?.nonNull?.string, "\(id) zoneNameField")
+            #expect(detail.planAreaField == web["planAreaField"]?.nonNull?.string, "\(id) planAreaField")
+            #expect(detail.idField == web["idField"]?.nonNull?.string, "\(id) idField")
+            #expect(
+                detail.orderByFields == web["orderByFields"]?.nonNull?.string,
+                "\(id) orderByFields"
+            )
+            #expect(
+                detail.outFields == web["outFields"]?.array?.compactMap(\.string),
+                "\(id) outFields"
+            )
+            #expect(detail.fillColor == web["fillColor"]?.nonNull?.string, "\(id) fillColor")
+            #expect(detail.strokeColor == web["strokeColor"]?.nonNull?.string, "\(id) strokeColor")
+        }
+    }
+
     @Test("Every fixture field is either modelled or explicitly deferred")
     func everyFixtureFieldIsModelledOrDeferred() {
         let modelled: Set<String> = [
@@ -284,6 +325,11 @@ struct LayerCatalogParityTests {
             "nativeDefaultVisibility", "requiresProvinceLicence", "webCaveat",
             "sourceDate", "scale", "coverage", "exportOptions",
             "exportOverlayOptions",
+            // Modelled on `ZoningLayerDetail` rather than on the descriptor
+            // every layer shares, and checked by `matchesZoningDetail`.
+            "attribution", "bylawLabel", "bylawUrl", "fillColor", "strokeColor",
+            "idField", "orderByFields", "planAreaField", "redistribution",
+            "zoneCodeField", "zoneNameField",
         ]
         var unknown: Set<String> = []
         for entry in Self.fixture.layers.values {
