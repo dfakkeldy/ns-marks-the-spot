@@ -212,15 +212,35 @@ struct RestrictedRequestImpossibilityTests {
         #expect(defaults.object(forKey: key) == nil, "declining wrote a value")
     }
 
+    /// The only files permitted to mention `URLSession`.
+    private static let networkDoors: Set<String> = [
+        "TileRequest.swift",
+        "HTTPTransport.swift",
+    ]
+
     // MARK: - The type lock
 
-    /// `URLSession` appears in exactly one source file in the package.
+    /// Every file in the package that can reach the network is named here.
     ///
-    /// The `TileRequest` lock only works if `URLSessionTileFetcher` is the only
-    /// way out to the network. A second call site elsewhere in the package —
-    /// added innocently, taking a plain `URL` — would leave the lock guarding a
-    /// door with a hole beside it, and no other test would notice.
-    @Test("URLSession is confined to the tile fetcher")
+    /// The `TileRequest` lock only works if the ways out are countable. A call
+    /// site added innocently elsewhere — taking a plain `URL` — would leave the
+    /// lock guarding a door with a hole beside it, and no other test would
+    /// notice.
+    ///
+    /// There are two doors, and they are not equivalent:
+    ///
+    /// - `TileRequest.swift` accepts only a `TileRequest`, which cannot be
+    ///   constructed without a clearance. The lock is in the type.
+    /// - `HTTPTransport.swift` accepts a `URLRequest`, so the lock cannot be in
+    ///   the type. It is in the callers: every fetcher in this package takes a
+    ///   `ProvinceLicenceClearance` and refuses before it assembles a request,
+    ///   which `anUnansweredLicenceStopsTheRequestBeforeItIsBuilt` pins for
+    ///   each of them.
+    ///
+    /// Adding a third name to this list means adding a way to reach a
+    /// restricted service, so it should be a deliberate edit with its own
+    /// answer to "what stops this being called without clearance?".
+    @Test("Reaching the network is confined to two named files")
     func urlSessionIsConfinedToTheFetcher() throws {
         let sources = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()  // NSDataServicesTests
@@ -238,13 +258,13 @@ struct RestrictedRequestImpossibilityTests {
             guard let text = try? String(contentsOf: url, encoding: .utf8),
                   text.contains("URLSession")
             else { continue }
-            if url.lastPathComponent != "TileRequest.swift" {
+            if !Self.networkDoors.contains(url.lastPathComponent) {
                 offenders.append(url.lastPathComponent)
             }
         }
         #expect(
             offenders.isEmpty,
-            "URLSession escaped TileRequest.swift into: \(offenders.sorted())"
+            "URLSession escaped the named doors into: \(offenders.sorted())"
         )
     }
 }

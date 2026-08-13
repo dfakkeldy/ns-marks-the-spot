@@ -34,7 +34,9 @@ struct ParcelIdentifyTests {
             installing: [.nsprd],
             licence: licence,
             zoomLevel: zoomLevel,
-            parcelFetcher: ParcelFetcher(urlSession: StubURLProtocol.session(channel: channel))
+            parcelFetcher: ParcelFetcher(
+                transport: .urlSession(StubURLProtocol.session(channel: channel))
+            )
         )
         // Restricted layers install hidden, so this is what turns parcels on —
         // and with an unanswered licence it deliberately does not, which is the

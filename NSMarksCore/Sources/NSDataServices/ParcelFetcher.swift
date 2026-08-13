@@ -1,6 +1,5 @@
 import Foundation
 import GeoCore
-import NSDataServices
 
 /// Why a parcel lookup produced no parcels.
 ///
@@ -8,7 +7,7 @@ import NSDataServices
 /// shown as "there is no parcel". The service looking and finding nothing is a
 /// successful return of an empty `ParcelFeatureCollection`, which is why that
 /// state is deliberately not a case in this enum.
-nonisolated enum ParcelLookupFailure: Error, Equatable {
+public nonisolated enum ParcelLookupFailure: Error, Equatable {
     /// Never asked. The Province licence stands in the way, or nothing in the
     /// input parsed as a PID.
     case refused(ParcelQuery.Refusal)
@@ -26,7 +25,7 @@ nonisolated enum ParcelLookupFailure: Error, Equatable {
 
 /// Fetches parcels from NSPRD.
 ///
-/// Stateless beyond its `URLSession`, and `nonisolated`, so a tap on the map can
+/// Stateless beyond its transport, and `nonisolated`, so a tap on the map can
 /// start a lookup without the main actor waiting on it.
 ///
 /// The clearance is a parameter on every call rather than a stored property.
@@ -34,11 +33,11 @@ nonisolated enum ParcelLookupFailure: Error, Equatable {
 /// revoke has to reach the next request, not the next launch — so this asks for
 /// it each time and hands it straight to `ParcelQuery`, which refuses before it
 /// assembles a URL.
-nonisolated final class ParcelFetcher: Sendable {
-    private let urlSession: URLSession
+public nonisolated final class ParcelFetcher: Sendable {
+    private let transport: HTTPTransport
 
-    init(urlSession: URLSession = .shared) {
-        self.urlSession = urlSession
+    public init(transport: HTTPTransport = .urlSession()) {
+        self.transport = transport
     }
 
     /// Every parcel among `pids`, in the order the service returned them.
@@ -47,7 +46,7 @@ nonisolated final class ParcelFetcher: Sendable {
     /// the web. That is the same shape as the service having no record of them,
     /// which it is: the caller compares what it asked for against what came
     /// back rather than being handed a claim about which is which.
-    func parcels(
+    public func parcels(
         pids: [String],
         clearance: ProvinceLicenceClearance
     ) async throws(ParcelLookupFailure) -> ParcelFeatureCollection {
@@ -90,7 +89,7 @@ nonisolated final class ParcelFetcher: Sendable {
     /// An empty result is the honest answer for water, a road right-of-way, or
     /// anywhere outside the surveyed parcel fabric — the service was asked and
     /// said there is nothing there.
-    func parcel(
+    public func parcel(
         latitude: Double,
         longitude: Double,
         clearance: ProvinceLicenceClearance
@@ -112,7 +111,7 @@ nonisolated final class ParcelFetcher: Sendable {
         let data: Data
         let response: URLResponse
         do {
-            (data, response) = try await urlSession.data(from: url)
+            (data, response) = try await transport(URLRequest(url: url))
         } catch is CancellationError {
             throw .cancelled
         } catch let error as URLError {
