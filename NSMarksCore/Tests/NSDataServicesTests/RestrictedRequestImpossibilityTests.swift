@@ -232,10 +232,12 @@ struct RestrictedRequestImpossibilityTests {
     /// - `TileRequest.swift` accepts only a `TileRequest`, which cannot be
     ///   constructed without a clearance. The lock is in the type.
     /// - `HTTPTransport.swift` accepts a `URLRequest`, so the lock cannot be in
-    ///   the type. It is in the callers: every fetcher in this package takes a
-    ///   `ProvinceLicenceClearance` and refuses before it assembles a request,
-    ///   which `anUnansweredLicenceStopsTheRequestBeforeItIsBuilt` pins for
-    ///   each of them.
+    ///   the type. It is in the callers, and `everyServiceAddressedFromTheCatalogAsksForClearance`
+    ///   below is what keeps that true as services are added.
+    ///
+    /// Not every fetcher needs a clearance: the Civic Address File is published
+    /// under the Open Government Licence, which requires attribution and no
+    /// acceptance. Gating open data would be its own kind of wrong.
     ///
     /// Adding a third name to this list means adding a way to reach a
     /// restricted service, so it should be a deliberate edit with its own
@@ -265,6 +267,42 @@ struct RestrictedRequestImpossibilityTests {
         #expect(
             offenders.isEmpty,
             "URLSession escaped the named doors into: \(offenders.sorted())"
+        )
+    }
+
+    /// Every Province service address in this package comes out of the catalog,
+    /// and the catalog is where the licence gate is recorded — so a file that
+    /// reads a service URL from it is a file that might be addressing a
+    /// restricted service, and it has to take a clearance.
+    ///
+    /// This is the mechanical half of the rule above. It will also trip on a
+    /// future fetcher that reads an *open* layer's address from the catalog,
+    /// which is the intended cost: the fix is to look at the layer and decide,
+    /// rather than to discover months later that a restricted service was being
+    /// asked without one.
+    @Test("Every service addressed from the catalog asks for clearance")
+    func everyServiceAddressedFromTheCatalogAsksForClearance() throws {
+        let sources = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appending(path: "Sources")
+        let files = try #require(
+            FileManager.default.enumerator(at: sources, includingPropertiesForKeys: nil),
+            "package sources are not readable"
+        )
+
+        var offenders: [String] = []
+        for case let url as URL in files where url.pathExtension == "swift" {
+            guard let text = try? String(contentsOf: url, encoding: .utf8),
+                  text.contains("LayerCatalog.descriptor"),
+                  !text.contains("ProvinceLicenceClearance")
+            else { continue }
+            offenders.append(url.lastPathComponent)
+        }
+        #expect(
+            offenders.isEmpty,
+            "read a service address from the catalog without a clearance: \(offenders.sorted())"
         )
     }
 }
