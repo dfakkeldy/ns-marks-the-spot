@@ -339,3 +339,40 @@ every ~5 min; on admission run ONE
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — Phase 3 parcel inspector landed and reviewed
+
+Done: the panel is built and reachable. `PlaceLinks` (Plus Code +
+Google directions, ported from `googleMaps.ts`) and `ParcelRoads` (the
+`MappedContextDetails` two-source merge) in the package (eced94ab2);
+`ParcelInspection` + `ParcelInspectorView` + the `withTaskGroup` in
+`refreshInspection`, presented as a bottom card in `MapContainerView`'s
+`ZStack` — not a sheet, so the map stays visible under it (51d30335e).
+Codex found seven more defects, all fixed in 0b900aa14: an unanswered
+civic source credited in the road list's empty message; a licence
+revocation that left the parcel, its panel and its NSTDB evidence on
+screen; `plusCode` trapping on a finite-but-absurd coordinate;
+`jsNumber` misformatting degrees near zero; the card covering the
+layers button on a 667pt phone; two wordings drifted from the web.
+Plus-Code and number expectations come from running the web under node.
+New test fixture `HeldTransport` holds a reply until released, so the
+stale-answer test arranges a genuine overlap. Package tests 265/265
+gate-free; app + test targets typecheck (scripts need **zsh**).
+
+Next: still one gate admission on the unit bundle — nothing in the app
+target has ever been *run*. The gate has been BUSY/HOLD all day with
+other people's builds. Then Phase 3's remaining evidence services
+(PVSC assessments and dwellings, buildings, resource intersections,
+zoning, flood hazard, well logs, mineral proximity, hydro potential,
+old-growth policy, evidence note).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: poll `/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status`
+every ~5 min; on admission run ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
