@@ -9,46 +9,61 @@ waterfalls.
 
 ## Key Design Decisions
 
-### Engine-Agnostic Facade
-The app is built to swap map providers without rewriting UI code. Two
-protocols form the boundary:
+### State-Diffed Map Surface
+The map is a concrete MapKit module (`MapSurface/`), not a provider-agnostic
+protocol facade. The former `MapEngine`/`MapLayer` protocols and their mock
+existed to hypothetically swap map vendors; that flexibility was never used,
+and it priced every new map feature at three implementations. Three pieces
+replace them:
 
-- **`MapEngine`** — defines map behavior (add/remove layers, set opacity,
-  render view, and manage saved-area rectangle selection). Conforming types:
-  `MapKitEngine`, `MockMapEngine`.
-- **`MapLayer`** — defines an overlay layer (tile URL or vector source,
-  opacity, visibility). Conforming types: `MapKitTileLayer`.
+- **`MapViewState`** — an `Equatable` value describing what the map should
+  show: base map, tile layers (`MapLayerState` over an immutable
+  `TileLayerConfiguration`), annotations, user-location visibility, and the
+  current interaction mode.
+- **`MapStateDiff`** — a pure function from `(current, desired)` to
+  `[MapMutation]` (add/remove overlay, set alpha, set map type, …). This is
+  where ordering rules live, and it is what unit tests assert against — no
+  mock engine required.
+- **`MapController`** — owns the `MKMapView`, is its delegate, applies
+  mutations, and reports interaction back through a single `MapEvent` stream
+  (heading changes, annotation selection, completed bounds selections), gated
+  by the interaction mode. Its imperative API (`addLayer`, `setOpacity`,
+  `beginBoundsSelection`, …) is a thin wrapper that edits the desired state
+  and applies the diff. Attaching a map view replays the diff from an empty
+  state, which is how layers and annotations added before the view existed
+  appear on it.
 
-To swap MapKit for Google Maps, write a new `GoogleMapsEngine` that
-conforms to `MapEngine`, then change one line in `AppContainer`. No SwiftUI
-view imports MapKit directly.
+SwiftUI views other than the `MapSurfaceView` representable still never
+import MapKit; they observe `MapController.state` through `@Observable`.
 
 ### Layer Architecture
 ```
-┌─────────────────────────────┐
-│  SwiftUI Views              │  ← observes ViewModels, never imports MapKit
-├─────────────────────────────┤
-│  ViewModels (ObservableObject)│  ← holds @Published state, delegates to MapEngine
-├─────────────────────────────┤
-│  MapEngine Protocol          │  ← abstraction boundary
-├─────────────────────────────┤
-│  MapKitEngine                │  ← concrete implementation (UIViewRepresentable)
-├─────────────────────────────┤
+┌───────────────────────────────┐
+│  SwiftUI Views                │  ← observe @Observable models; no MapKit
+├───────────────────────────────┤
+│  ViewModels (@Observable)     │  ← feature logic over MapController
+├───────────────────────────────┤
+│  MapController + MapViewState │  ← desired state; MapStateDiff reconciles
+├───────────────────────────────┤
+│  MKMapView + OpacityTileOverlay│ ← MapKit rendering, off-main tile loads
+├───────────────────────────────┤
 │  Services (TileFetcher, Cache)│  ← network & persistence
-├─────────────────────────────┤
-│  SwiftData (PointOfInterest) │  ← local POI storage
-└─────────────────────────────┘
+└───────────────────────────────┘
 ```
 
+Navigation is routed, not toggled: the map screen's modals are one
+`SheetRoute?` on an app-level `NavigationModel`, so a future share-link or
+deep-link parser has a single value to drive.
+
 ### Data Flow — Transparency Slider
-1. User drags `TransparencySliderView` → writes to `OverlayViewModel.opacity`
-   binding
-2. `OverlayViewModel.updateOpacity(_:)` updates `@Published opacity` and
-   calls `engine.setOpacity(for:to:)`
-3. `MapKitEngine.setOpacity(for:to:)` finds the matching layer and sets
-   `layer.opacity`
-4. The `MKTileOverlay` renderer reads the updated opacity on the next
-   draw cycle
+1. User drags `TransparencySliderView` → calls
+   `OverlayViewModel.updateLayerOpacity(for:to:)`
+2. The view model forwards to `MapController.setOpacity(for:to:)`, which
+   edits the desired `MapViewState` and applies the diff
+3. The diff emits `.setTileOverlayAlpha` only when the layer's effective
+   alpha actually changed; the controller pokes the live
+   `MKTileOverlayRenderer`
+4. Views re-render because they read `MapController.state` via Observation
 
 ### Dependency Injection
 Manual DI via `AppContainer`. No third-party framework. The container owns
@@ -59,11 +74,11 @@ safety — missing dependencies are compiler errors, not runtime crashes.
 v1.0 centralizes map layer definitions in `LayerCatalog`. Each layer declares
 its rendering role, source URL, attribution, cache key, zoom range, and offline
 policy. SwiftUI views consume catalog metadata through view models while MapKit
-rendering remains behind `MapEngine`.
+rendering stays inside `MapSurface/`.
 
 Viewed tiles are persisted through `TileStore`. Fletcher tiles can also be
-downloaded for rectangular saved areas through the `MapEngine` bounds-selection
-flow added for v1.0. NS Aerial and restricted Nova Scotia reference layers are
+downloaded for rectangular saved areas through the controller's
+bounds-selection flow added for v1.0. NS Aerial and restricted Nova Scotia reference layers are
 viewed-cache only in v1.0.
 
 The A.F. Church county maps (four Cape Breton Island sheets from the David
@@ -73,21 +88,20 @@ Fletcher precedent as disabled rows; on iOS they carry `sourceURL: nil` and
 install no layer. See `docs/CHURCH_MAPS.md`.
 
 ### Folder Organization
-Feature-grouped — each feature (MapEngine, Layers, Offline, Overlay, POI) is a
-self-contained folder with its own protocols, implementations, and views.
-Mocks are centralized at the top level.
+Feature-grouped — each feature (MapSurface, Layers, Offline, Overlay, POI) is
+a self-contained folder with its own types and views.
 
 ## Dependencies
 - **SwiftUI** — UI framework (OS)
-- **MapKit** — map rendering (OS, behind protocol)
-- **SwiftData** — POI persistence (OS)
+- **MapKit** — map rendering (OS, contained in `MapSurface/`)
 
-No third-party dependencies.
+No third-party dependencies. POIs are plain value types fetched per launch;
+nothing is persisted through SwiftData.
 
 ## Online Web Companion
 
 The `web/` React + Vite app is a separate online-only delivery surface. It does
-not change the native app's offline contract or Swift `MapEngine` boundary.
+not change the native app's offline contract or its `MapSurface` boundary.
 Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the web
 catalog's Province MapServer layers in the browser.
 
