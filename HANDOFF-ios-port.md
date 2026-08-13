@@ -405,3 +405,34 @@ inspector panel; on gate admission spend it on ONE
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — Phase 3 evidence services complete
+
+Done: `75ba0a887` NSTDB building counts; `989fc429a` resource and geology
+intersections; `9b913f2fe` published river study areas plus the three
+coastal scenarios, including a deliberate correction to the web — the
+coastal bbox is now fitted to the integer pixel grid, because ArcGIS
+silently widens a mismatched extent and `f=image` never says so, which
+made every percentage off a tall parcel a measurement of the wrong
+ground. Service Nova Scotia's permission, non-endorsement and warranty
+notices now render with the coastal panel; they existed nowhere in the
+native app before. Codex reviewed each landing. Package tests 355/355
+gate-free; app and test targets typecheck (scripts need **zsh**).
+
+Next: Phase 3's parcel-scoped evidence is done. `evidenceNote.ts` needs
+share-state and belongs with Phase 5, and zoning / well logs / hydro
+potential / old-growth / mineral proximity are viewport-scoped and belong
+with Phase 6 — port `arcGISFeatureOverlay.ts` first as their shared
+bounds-query seam. The gate has still never run the app-target unit
+bundle.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: start Phase 6 by porting web/src/services/arcGISFeatureOverlay.ts
+as the shared viewport bounds-query seam; on gate admission spend it on ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
