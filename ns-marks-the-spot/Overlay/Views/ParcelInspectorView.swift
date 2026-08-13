@@ -142,9 +142,14 @@ struct ParcelInspectorView: View {
             if let plusCode = PlaceLinks.plusCode(for: address.coordinate),
                let directions = PlaceLinks.directionsURL(for: address.coordinate) {
                 Link(destination: directions) {
-                    Label(plusCode, systemImage: "arrow.triangle.turn.up.right.circle")
-                        .font(.caption2)
-                        .monospaced()
+                    HStack(spacing: 6) {
+                        Text(plusCode).monospaced()
+                        // Spelled out as it is on the web. The icon alone
+                        // leaves what the link does to be guessed at, and a
+                        // link that opens another app should say so.
+                        Text("Directions in Google Maps")
+                    }
+                    .font(.caption2)
                 }
                 .accessibilityLabel("\(plusCode) — Directions in Google Maps")
             }
@@ -164,13 +169,21 @@ struct ParcelInspectorView: View {
             case .ready(let context):
                 featureList(
                     "Roads at or beside parcel",
-                    empty: "No intersecting, adjacent, or civic-address road was found for this parcel.",
+                    empty: ParcelLookupMessage.noRoadsListed(addressesAnswered: addressesAnswered),
                     rows: Self.rows(
                         ParcelRoads.list(context, namedBy: readyAddresses).map {
                             ($0.name, $0.kind, Self.label(for: $0.evidence))
                         }
                     )
                 )
+
+                if let shortfall = ParcelLookupMessage
+                    .roadListShortfall(addressesAnswered: addressesAnswered) {
+                    Text(shortfall)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
                 Text(
                     "Adjacency and civic addressing are useful map context, not proof "
@@ -206,6 +219,13 @@ struct ParcelInspectorView: View {
     private var readyAddresses: [CivicAddressResponse.CivicAddress] {
         if case .ready(let addresses) = inspection.civicAddresses { return addresses }
         return []
+    }
+
+    /// Whether the address file is one of the sources the road list can be
+    /// described as having consulted.
+    private var addressesAnswered: Bool {
+        if case .ready = inspection.civicAddresses { return true }
+        return false
     }
 
     private static let adjacentLabel =

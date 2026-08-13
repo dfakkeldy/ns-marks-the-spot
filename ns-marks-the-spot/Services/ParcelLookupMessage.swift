@@ -79,6 +79,29 @@ nonisolated enum ParcelLookupMessage {
     static let noBoundaryToAskWith =
         "This parcel arrived without a boundary, so nothing could be looked up inside it."
 
+    /// What an empty road list means, which depends on who answered.
+    ///
+    /// Two sources fill that list. The web credits both in one sentence
+    /// whatever state they are in, so a civic lookup that is still loading — or
+    /// that failed — reads as a source that looked and found no road. Only the
+    /// sources that actually answered are named here.
+    static func noRoadsListed(addressesAnswered: Bool) -> String {
+        addressesAnswered
+            ? "No intersecting, adjacent, or civic-address road was found for this parcel."
+            : "No mapped road intersects or runs beside this parcel."
+    }
+
+    /// Why a road list may be short, or `nil` when it is not.
+    ///
+    /// A list missing the roads one source would have named looks exactly like
+    /// a complete one, so the shortfall has to be said out loud.
+    static func roadListShortfall(addressesAnswered: Bool) -> String? {
+        addressesAnswered
+            ? nil
+            : "The civic address file has not answered, so a road named only by an "
+                + "address on this parcel would not be listed."
+    }
+
     /// Why the civic-address lookup for a parcel produced nothing.
     ///
     /// Separate from the search wording because it answers a different
@@ -109,7 +132,7 @@ nonisolated enum ParcelLookupMessage {
         case .refused(.noServiceURL), .refused(.malformedURL):
             return "The mapped feature services are misconfigured in this build."
         case .unreachable, .invalidHTTPStatus, .unreadable:
-            return "Mapped feature lookup is unavailable right now."
+            return "Mapped road and water intersections are unavailable right now."
         }
     }
 

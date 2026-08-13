@@ -55,8 +55,12 @@ struct ParcelInspectionTests {
 
     // MARK: - Fixtures
 
-    private static func parcel(pid: String) -> StubURLProtocol.Response {
-        .success(Data("""
+    /// A parcel whose triangle sits at `westEdge`, which is how a test tells
+    /// one parcel's downstream lookups from another's: the civic query carries
+    /// the parcel's bounding box in its URL.
+    private static func parcel(pid: String, westEdge: String = "-63.5") -> StubURLProtocol.Response {
+        let east = String(format: "%.1f", (Double(westEdge) ?? -63.5) + 0.1)
+        return .success(Data("""
         {
           "type": "FeatureCollection",
           "features": [
@@ -64,12 +68,32 @@ struct ParcelInspectionTests {
               "properties": {"PID": "\(pid)", "SHAPE.AREA": 11057.27},
               "geometry": {
                 "type": "Polygon",
-                "coordinates": [[[-63.5, 44.6], [-63.4, 44.6], [-63.4, 44.7], [-63.5, 44.6]]]
+                "coordinates": [
+                  [[\(westEdge), 44.6], [\(east), 44.6], [\(east), 44.7], [\(westEdge), 44.6]]
+                ]
               }
             }
           ]
         }
         """.utf8))
+    }
+
+    private static func addresses(_ road: String) -> Data {
+        Data("""
+        {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "properties": {
+                "pntid": "1", "civic_num": "10", "strname": "\(road)",
+                "unit_type": null, "unit": null, "streettype": null, "streetdir": null,
+                "mailing_muni": "Halifax", "county": "Halifax"
+              },
+              "geometry": {"type": "Point", "coordinates": [-63.5752, 44.6488]}
+            }
+          ]
+        }
+        """.utf8)
     }
 
     /// A PID the service could name but not draw.
@@ -327,5 +351,121 @@ struct ParcelInspectionTests {
             return
         }
         #expect(addresses.count == 2)
+    }
+
+    // MARK: - Wording that must not credit a silent source
+
+    /// The road list is filled from two sources, and only one of them can fail.
+    /// An empty list must not be described as though both had looked.
+    @Test func anEmptyRoadListOnlyNamesTheSourcesThatAnswered() {
+        #expect(
+            ParcelLookupMessage.noRoadsListed(addressesAnswered: true)
+                .contains("civic-address")
+        )
+        let unanswered = ParcelLookupMessage.noRoadsListed(addressesAnswered: false)
+        #expect(!unanswered.lowercased().contains("civic"))
+        #expect(!unanswered.lowercased().contains("address"))
+    }
+
+    /// A short list looks exactly like a complete one, so the shortfall is said
+    /// out loud whenever the address file has not answered.
+    @Test func aRoadListMissingASourceSaysSo() {
+        #expect(ParcelLookupMessage.roadListShortfall(addressesAnswered: true) == nil)
+        #expect(
+            ParcelLookupMessage.roadListShortfall(addressesAnswered: false)?
+                .contains("has not answered") == true
+        )
+    }
+
+    // MARK: - Withdrawing permission
+
+    /// Hiding the tile layers is only half a revocation. The parcel drawn over
+    /// them and the panel describing it are NSPRD too, and they are the part
+    /// the user is actually reading.
+    @Test func refusingTheProvinceLicenceTakesTheParcelAndItsPanelDown() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+            ("tntn-er5g", Self.twoAddresses),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        _ = await Self.inspect(viewModel)
+        #expect(viewModel.inspection != nil)
+
+        viewModel.declineProvinceLicence()
+
+        #expect(viewModel.inspection == nil)
+        #expect(viewModel.parcels.selectedPID == nil)
+        #expect(viewModel.parcels.features.isEmpty)
+        #expect(viewModel.searchText.isEmpty)
+        #expect(viewModel.parcelMessage == nil)
+        #expect(viewModel.addressResults.isEmpty)
+    }
+
+    /// The case the PID guard exists for, arranged rather than hoped for.
+    ///
+    /// The first parcel's address lookup is still in flight when the second is
+    /// selected, and is let go only after the second has answered. Without the
+    /// guard the panel would end up showing the second parcel's PID over the
+    /// first parcel's address.
+    @Test func anAnswerForThePreviousParcelDoesNotLandOnThisOne() async throws {
+        let channel = #function
+        let gate = HeldTransport()
+        await gate.answer("-63.5", with: Self.addresses("First Parcel Road"))
+        await gate.answer("-62.5", with: Self.addresses("Second Parcel Road"))
+
+        StubURLProtocol.stub(channel: channel, matching: [
+            ("11111111", Self.parcel(pid: "11111111", westEdge: "-63.5")),
+            ("22222222", Self.parcel(pid: "22222222", westEdge: "-62.5")),
+            ("", Self.noFeatures),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let session = { StubURLProtocol.session(channel: channel) }
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd],
+            zoomLevel: 16,
+            parcelFetcher: ParcelFetcher(transport: .urlSession(session())),
+            civicFetcher: CivicAddressFetcher(transport: await gate.transport),
+            contextFetcher: ParcelContextFetcher(transport: .urlSession(session()))
+        )
+        if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
+            viewModel.toggleVisibility(LayerID.nsprd.rawValue)
+        }
+
+        viewModel.searchParcel("11111111")
+        await viewModel.awaitParcelLookup()
+        // Waiting for the request to reach the gate, not merely for the app to
+        // have asked for it: a lookup cancelled before it ever ran would leave
+        // nothing to arrive late, and the test would prove nothing.
+        await gate.awaitArrivals("-63.5")
+        #expect(viewModel.inspection?.pid == "11111111")
+        #expect(viewModel.inspection?.civicAddresses == .looking)
+
+        // The second parcel arrives while the first parcel's address lookup is
+        // still held.
+        viewModel.searchParcel("22222222")
+        await viewModel.awaitParcelLookup()
+        await gate.release("-62.5")
+        await viewModel.awaitInspection()
+
+        guard case .ready(let secondAddresses) = viewModel.inspection?.civicAddresses else {
+            Issue.record("the second parcel's addresses should have landed")
+            await gate.release("-63.5")
+            return
+        }
+        #expect(secondAddresses.first?.label.contains("Second Parcel Road") == true)
+
+        // Now let the first parcel's reply through and wait for it to finish.
+        await gate.release("-63.5")
+        await gate.awaitCompletions("-63.5")
+
+        #expect(viewModel.inspection?.pid == "22222222")
+        guard case .ready(let stillTheSecond) = viewModel.inspection?.civicAddresses else {
+            Issue.record("the second parcel's addresses were replaced")
+            return
+        }
+        #expect(stillTheSecond.first?.label.contains("Second Parcel Road") == true)
     }
 }

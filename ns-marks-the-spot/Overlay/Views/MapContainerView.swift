@@ -216,15 +216,22 @@ struct MapContainerView: View {
             // and draggable underneath it. Hidden during area selection, which
             // owns the whole surface.
             if let inspection = overlayVM.inspection, !isSelectingSaveArea {
-                VStack {
-                    Spacer()
+                GeometryReader { proxy in
+                    VStack {
+                        Spacer()
 
-                    ParcelInspectorView(inspection: inspection) {
-                        overlayVM.clearParcelSelection()
+                        ParcelInspectorView(inspection: inspection) {
+                            overlayVM.clearParcelSelection()
+                        }
+                        // Height off the screen rather than a fixed 360: the
+                        // control column above runs to roughly 330 points from
+                        // the top, and on a 667-point phone a fixed card
+                        // reaches up under the layers button and swallows its
+                        // taps.
+                        .frame(maxHeight: min(360, proxy.size.height * 0.45))
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 12)
                     }
-                    .frame(maxHeight: 360)
-                    .padding(.horizontal, 12)
-                    .padding(.bottom, 12)
                 }
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }

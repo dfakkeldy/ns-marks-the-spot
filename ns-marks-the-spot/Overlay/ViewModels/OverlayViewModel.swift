@@ -700,6 +700,33 @@ final class OverlayViewModel {
         }
         clearanceBox.update(clearance)
         hideRefusedLayers()
+        dropRefusedParcelEvidence(clearance)
+    }
+
+    /// Province data already on screen when permission is withdrawn.
+    ///
+    /// Hiding the layers stops the tiles and nothing else. The parcel drawn
+    /// over them, the panel describing it, and the NSTDB roads and water in
+    /// that panel are all Province data too, and they are the part a user is
+    /// actually reading — a revocation that leaves them there has revoked
+    /// nothing they can see.
+    ///
+    /// Cancelling matters as much as clearing: a lookup that went out under an
+    /// accepted licence is still in flight, and `apply` would land its answer
+    /// in a panel the user has since withdrawn permission for.
+    private func dropRefusedParcelEvidence(_ clearance: ProvinceLicenceClearance) {
+        guard !clearance.allows(.nsprd) else { return }
+        guard !parcels.features.isEmpty || parcels.selectedPID != nil
+            || !addressResults.isEmpty || parcelMessage != nil else { return }
+
+        parcelLookup?.cancel()
+        cancelAddressLookup()
+        addressResults = []
+        setSearchText("")
+        parcels = ParcelSelection()
+        // Ends the inspection lookup as well, by way of an empty selection.
+        publishParcels(focus: false)
+        parcelMessage = nil
     }
 
     var isShowingLicenceSheet: Bool { licencePromptedLayerID != nil }
@@ -732,6 +759,10 @@ final class OverlayViewModel {
         // install hidden and cannot be switched on without accepting — so this
         // is a belt on the case where some future path turns one on first.
         hideRefusedLayers()
+        // Synchronously rather than by way of the observation mirror: the
+        // mirror runs a hop later, and a parcel is Province data that should be
+        // gone by the time the sheet has finished dismissing.
+        dropRefusedParcelEvidence(licenceStore.clearance)
     }
 
     func dismissLicenceSheet() {
