@@ -227,6 +227,41 @@ struct CivicAddressFetcherTests {
         #expect(addresses.isEmpty)
     }
 
+    /// The other kind of nothing. Rows came back and none of them could be
+    /// read, which is a failure to read the file — reporting it as an empty
+    /// result would say the Province has no civic address here on the strength
+    /// of a parsing defect.
+    @Test func aPageWhoseEveryRowIsUnreadableIsNotAnEmptyResult() async {
+        let unusable = """
+        {"type":"Feature","geometry":{"type":"Point","coordinates":[-61.4,46.0]},\
+        "properties":{"civicnum":"11064"}}
+        """
+        let stub = StubTransport(Self.collection([unusable, unusable]))
+        let fetcher = CivicAddressFetcher(transport: stub.transport)
+
+        await #expect(throws: CivicAddressFailure.unreadable(.unusableRows(2))) {
+            try await fetcher.addresses(inside: [Self.square])
+        }
+        await #expect(throws: CivicAddressFailure.unreadable(.unusableRows(2))) {
+            try await fetcher.search("11064 Highway 19")
+        }
+    }
+
+    @Test func aPageWithSomeUnreadableRowsKeepsTheOnesItCouldRead() async throws {
+        // The complement, and the reason the rule is "every row": what was read
+        // is real, and refusing the page would hide addresses that are there.
+        let unusable = """
+        {"type":"Feature","geometry":{"type":"Point","coordinates":[1,1]},\
+        "properties":{"civicnum":"11064"}}
+        """
+        let stub = StubTransport(Self.collection([unusable, Self.point("kept", lng: 1, lat: 1)]))
+
+        let addresses = try await CivicAddressFetcher(transport: stub.transport)
+            .addresses(inside: [Self.square])
+
+        #expect(addresses.map(\.pntid) == ["kept"])
+    }
+
     // MARK: - Paging
 
     @Test func aFullPageMeansThereMayBeMoreAndTheRunContinues() async throws {

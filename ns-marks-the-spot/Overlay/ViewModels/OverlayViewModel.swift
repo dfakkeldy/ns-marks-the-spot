@@ -259,7 +259,7 @@ final class OverlayViewModel {
         latitude: Double, longitude: Double, at address: String?, focus: Bool
     ) {
         addressResults = []
-        addressLookup?.cancel()
+        cancelAddressLookup()
         parcelMessage = address.map(ParcelLookupMessage.searching(for:))
             ?? ParcelLookupMessage.searchingAtPoint
         startLookup(forPointTap: true) { [parcelFetcher, clearance = clearanceBox.clearance] in
@@ -279,13 +279,50 @@ final class OverlayViewModel {
         } onSuccess: { [weak self] collection in
             guard let self else { return }
             guard let pid = collection.identifiedFeatures.first?.pid else {
-                // The service looked and found nothing. The only place in this
-                // file that may say so.
-                parcelMessage = ParcelLookupMessage.noParcelAtPoint
+                // Two different nothings. An empty reply is the service looking
+                // and finding no parcel — the only place in this file that may
+                // say so. Shapes without a readable PID are the service finding
+                // something this build could not identify, which is not the
+                // same fact and must not borrow the same sentence.
+                parcelMessage = collection.isEmpty
+                    ? ParcelLookupMessage.noParcelAtPoint
+                    : ParcelLookupMessage.unidentifiedAtPoint(collection.unidentifiedFeatureCount)
                 return
             }
-            adopt(collection, selecting: pid, focus: focus)
+            adopt(collection, selecting: pid, focus: focus, labelling: address)
         }
+    }
+
+    // MARK: - The search field
+
+    /// What the search field contains.
+    ///
+    /// Held here rather than in the view because both sides write it — the user
+    /// types, and a selection fills it in — and only this side can tell those
+    /// apart. A view that could not would cancel the lookup it had just started
+    /// the moment it wrote the result into the field.
+    private(set) var searchText = ""
+
+    /// The user typed. Write it, then use `submitSearch`.
+    func editSearchText(_ text: String) {
+        guard text != searchText else { return }
+        searchText = text
+        // Everything on screen described the previous text. The results list
+        // most of all: leaving it up would let the user pick an address that no
+        // longer matches what the field says.
+        parcelLookup?.cancel()
+        cancelAddressLookup()
+        addressResults = []
+        parcelMessage = nil
+    }
+
+    func submitSearch() {
+        searchParcel(searchText)
+    }
+
+    /// Fills the field in from a result, without that counting as typing.
+    private func setSearchText(_ text: String) {
+        searchText = text
     }
 
     /// Looks up whatever the user typed: a PID, or a civic address.
@@ -309,7 +346,7 @@ final class OverlayViewModel {
 
     private func searchPID(_ pid: String) {
         addressResults = []
-        addressLookup?.cancel()
+        cancelAddressLookup()
 
         if parcels.holds(pid: pid) {
             // Already loaded. Selecting without a request is what makes going
@@ -318,6 +355,7 @@ final class OverlayViewModel {
             parcelLookup?.cancel()
             parcels.select(pid)
             publishParcels(focus: true)
+            setSearchText(pid)
             parcelMessage = ParcelLookupMessage.selected(pid: pid)
             return
         }
@@ -332,7 +370,9 @@ final class OverlayViewModel {
         } onSuccess: { [weak self] collection in
             guard let self else { return }
             guard collection.identifiedFeatures.contains(where: { $0.pid == pid }) else {
-                parcelMessage = ParcelLookupMessage.noParcelForPID
+                parcelMessage = collection.isEmpty
+                    ? ParcelLookupMessage.noParcelForPID
+                    : ParcelLookupMessage.unidentifiedForPID(collection.unidentifiedFeatureCount)
                 return
             }
             adopt(collection, selecting: pid, focus: true)
@@ -352,15 +392,28 @@ final class OverlayViewModel {
 
     @ObservationIgnored private var addressLookup: Task<Void, Never>?
 
-    /// Stops looking for addresses without disturbing the parcel on screen.
+    /// Drops the search in flight, if any.
     ///
-    /// A half-typed query is not a reason to drop the parcel the user is
-    /// already looking at, so this clears the result list and the search in
-    /// flight and nothing else.
-    private func abandonAddressSearch(saying message: String?) {
-        addressResults = []
+    /// The flag is cleared here rather than in the task, because a cancelled
+    /// task returns at its cancellation guard without reaching the line that
+    /// would clear it — which would leave a spinner running over a search
+    /// nobody is waiting for.
+    private func cancelAddressLookup() {
         addressLookup?.cancel()
+        addressLookup = nil
         isSearchingAddresses = false
+    }
+
+    /// Stops looking without disturbing the parcel drawn on the map.
+    ///
+    /// Both lookups are dropped, not just the address one: a submission that
+    /// cannot be searched still replaces whatever the user asked before it, and
+    /// a parcel lookup left running would land afterwards and overwrite the
+    /// explanation with a selection the user did not ask for.
+    private func abandonAddressSearch(saying message: String?) {
+        parcelLookup?.cancel()
+        cancelAddressLookup()
+        addressResults = []
         parcelMessage = message
     }
 
@@ -372,7 +425,7 @@ final class OverlayViewModel {
     private func searchCivicAddress(_ typed: String) {
         addressResults = []
         parcelLookup?.cancel()
-        addressLookup?.cancel()
+        cancelAddressLookup()
         isSearchingAddresses = true
         parcelMessage = ParcelLookupMessage.searchingAddresses
         addressLookup = Task { [weak self, civicFetcher] in
@@ -400,6 +453,11 @@ final class OverlayViewModel {
 
     /// Finds the parcel under a civic address the user chose.
     func selectAddress(_ address: CivicAddressResponse.CivicAddress) {
+        // The field takes the chosen address straight away rather than when the
+        // parcel comes back: the user has made a choice, and a field still
+        // showing what they typed while the map moves says the choice did not
+        // register.
+        setSearchText(address.label)
         identifyParcel(
             latitude: address.coordinate.lat,
             longitude: address.coordinate.lng,
@@ -426,24 +484,39 @@ final class OverlayViewModel {
 
     func clearParcelSelection() {
         parcelLookup?.cancel()
-        addressLookup?.cancel()
+        cancelAddressLookup()
         addressResults = []
-        isSearchingAddresses = false
+        setSearchText("")
         parcels.select(nil)
         publishParcels(focus: false)
         parcelMessage = nil
     }
 
     private func adopt(
-        _ collection: ParcelFeatureCollection, selecting pid: String, focus: Bool
+        _ collection: ParcelFeatureCollection,
+        selecting pid: String,
+        focus: Bool,
+        labelling address: String? = nil
     ) {
         parcels.merge(collection)
         parcels.select(pid)
         publishParcels(focus: focus)
+        // The field keeps the address the user chose rather than the PID it
+        // resolved to: they asked about an address, and replacing their words
+        // with an identifier hides which of the listed addresses is on screen.
+        setSearchText(address ?? pid)
+
+        // More than one PID under one point: the parcels meet there, and which
+        // one the service listed first is not evidence of which one the point
+        // belongs to.
+        let others = Set(collection.identifiedFeatures.map(\.pid)).subtracting([pid]).count
         // The boundary notice wins over "selected": a parcel drawing nothing is
         // the thing the user needs told, and "PID … selected." over a map with
         // no outline on it reads as the parcel not being there.
-        parcelMessage = parcels.boundaryNotice ?? ParcelLookupMessage.selected(pid: pid)
+        parcelMessage = parcels.boundaryNotice
+            ?? (others > 0
+                ? ParcelLookupMessage.selectedWhereParcelsMeet(pid: pid, others: others)
+                : ParcelLookupMessage.selected(pid: pid))
     }
 
     private func publishParcels(focus: Bool) {

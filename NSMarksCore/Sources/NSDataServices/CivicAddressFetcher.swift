@@ -153,11 +153,21 @@ public nonisolated final class CivicAddressFetcher: Sendable {
             throw .invalidHTTPStatus(http.statusCode)
         }
 
+        let page: CivicAddressResponse.Page
         do {
-            return try CivicAddressResponse.page(from: data)
+            page = try CivicAddressResponse.page(from: data)
         } catch {
             throw .unreadable(error)
         }
+        // Rows arrived and not one of them could be read. That is a failure to
+        // read the file, not a file with nothing in it, and the two must not
+        // arrive at the same sentence: only the second means no such address is
+        // mapped. A partly-unreadable page is left alone — what was read is
+        // real, and refusing it would hide addresses that are there.
+        if page.rowCount > 0 && page.addresses.isEmpty {
+            throw .unreadable(.unusableRows(page.rowCount))
+        }
+        return page
     }
 
     /// The box around one polygon part, or `nil` if it has no usable positions.

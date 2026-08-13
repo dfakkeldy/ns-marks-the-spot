@@ -8,8 +8,18 @@ import SwiftUI
 /// separate "the Province has no parcel there" from "we could not ask".
 struct ParcelSearchBar: View {
     @Bindable var viewModel: OverlayViewModel
-    @State private var query = ""
     @FocusState private var isFocused: Bool
+
+    /// The field's text lives in the view model, which is the only place that
+    /// can tell the user typing from the app filling a result in. The binding
+    /// routes writes back through `editSearchText`, so a keystroke drops the
+    /// stale results and a programmatic fill does not.
+    private var query: Binding<String> {
+        Binding(
+            get: { viewModel.searchText },
+            set: { viewModel.editSearchText($0) }
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -21,7 +31,7 @@ struct ParcelSearchBar: View {
                 // A default keyboard rather than a numeric one: the field takes
                 // civic addresses as well as PIDs, and offering digits only
                 // would say otherwise before the user typed anything.
-                TextField("PID or civic address", text: $query)
+                TextField("PID or civic address", text: query)
                     .textFieldStyle(.plain)
                     .font(.subheadline)
                     .autocorrectionDisabled()
@@ -29,14 +39,13 @@ struct ParcelSearchBar: View {
                     .submitLabel(.search)
                     .focused($isFocused)
                     .onSubmit {
-                        viewModel.searchParcel(query)
+                        viewModel.submitSearch()
                         isFocused = false
                     }
                     .accessibilityLabel("PID or civic address")
 
-                if !query.isEmpty {
+                if !viewModel.searchText.isEmpty {
                     Button {
-                        query = ""
                         viewModel.clearParcelSelection()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
@@ -71,13 +80,6 @@ struct ParcelSearchBar: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        // A tap on the map identifies a parcel, so the field has to keep the
-        // selection it produced in view: whatever the user last asked about is
-        // what the field says, whether they typed it or tapped it.
-        .onChange(of: viewModel.parcels.selectedPID) { _, selected in
-            guard let selected, selected != query else { return }
-            query = selected
-        }
     }
 
     /// The addresses that matched, for the user to choose between.
@@ -89,7 +91,6 @@ struct ParcelSearchBar: View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(viewModel.addressResults, id: \.pntid) { address in
                 Button {
-                    query = address.label
                     isFocused = false
                     viewModel.selectAddress(address)
                 } label: {
@@ -102,10 +103,24 @@ struct ParcelSearchBar: View {
                 }
                 .buttonStyle(.plain)
 
-                if address.pntid != viewModel.addressResults.last?.pntid {
-                    Divider().padding(.leading, 12)
-                }
+                Divider().padding(.leading, 12)
             }
+
+            // Attribution, not decoration: the Civic Address File is published
+            // under the Open Government Licence – Nova Scotia, which requires
+            // the source to be identified wherever the data is shown. It also
+            // tells the user whose record these addresses are, which is the
+            // difference between a Province record and a guess by this app.
+            Link(destination: CivicAddressQuery.datasetURL) {
+                Text("Nova Scotia Civic Address File · Open Government Licence – Nova Scotia")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .accessibilityIdentifier("civic-address-attribution")
         }
         .background(.regularMaterial)
         .clipShape(.rect(cornerRadius: 12))

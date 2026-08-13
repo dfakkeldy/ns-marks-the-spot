@@ -58,6 +58,13 @@ public enum CivicAddressResponse {
     public enum Failure: Error, Equatable, Sendable {
         /// Not JSON, or not a GeoJSON feature collection.
         case malformed
+        /// A feature collection carrying rows, none of which could be read.
+        ///
+        /// Distinct from `malformed` and from an empty collection, because it
+        /// is neither: the file had something to say and this build could not
+        /// read it. Reporting it as an empty result would turn a parsing defect
+        /// into "there is no such address".
+        case unusableRows(Int)
     }
 
     /// One reply: the addresses in it, and how many rows it actually carried.

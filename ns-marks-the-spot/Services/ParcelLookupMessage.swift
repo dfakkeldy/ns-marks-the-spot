@@ -29,6 +29,32 @@ nonisolated enum ParcelLookupMessage {
 
     static let noParcelForPID = "No NSPRD parcel was found for that PID."
 
+    /// The service returned shapes this build could not identify.
+    ///
+    /// Neither "there is no parcel" nor "we could not ask": something came back
+    /// and it carried no readable PID. Saying either of the others would turn a
+    /// gap in the reply into a fact about the ground or about the network.
+    static func unidentifiedAtPoint(_ count: Int) -> String {
+        count == 1
+            ? "NSPRD returned a boundary at that point with no readable PID."
+            : "NSPRD returned \(count) boundaries at that point with no readable PID."
+    }
+
+    static func unidentifiedForPID(_ count: Int) -> String {
+        "NSPRD answered for that PID with \(count) boundar\(count == 1 ? "y" : "ies") "
+            + "carrying no readable PID."
+    }
+
+    /// Several parcels meet at the point that was asked about.
+    ///
+    /// The one selected is the first the service listed, and the order it lists
+    /// in is not evidence of which parcel the point belongs to — so the user is
+    /// told there is a choice rather than left to assume there was not.
+    static func selectedWhereParcelsMeet(pid: String, others: Int) -> String {
+        "PID \(pid) selected. \(others + 1) parcels meet at that point; "
+            + "this is the first NSPRD listed, not a determination of which one it is."
+    }
+
     // MARK: - Civic addresses
 
     static let searchingAddresses = "Searching mapped civic addresses…"

@@ -93,6 +93,78 @@ struct ParcelIdentifyTests {
     {"type": "FeatureCollection", "features": []}
     """.utf8))
 
+    /// A boundary the service returned without a PID on it.
+    private static let unidentifiedParcel = StubURLProtocol.Response.success(Data("""
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "properties": {"SHAPE.AREA": 11057.27},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[-63.5, 44.6], [-63.4, 44.6], [-63.4, 44.7], [-63.5, 44.6]]]
+          }
+        }
+      ]
+    }
+    """.utf8))
+
+    /// Two parcels answering one point, as happens on a shared boundary.
+    private static let twoParcels = StubURLProtocol.Response.success(Data("""
+    {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "properties": {"PID": "11111111", "SHAPE.AREA": 11057.27},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[-63.5, 44.6], [-63.4, 44.6], [-63.4, 44.7], [-63.5, 44.6]]]
+          }
+        },
+        {
+          "properties": {"PID": "22222222", "SHAPE.AREA": 9000.0},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[-63.5, 44.6], [-63.4, 44.7], [-63.5, 44.7], [-63.5, 44.6]]]
+          }
+        }
+      ]
+    }
+    """.utf8))
+
+    /// The reply carried something. Calling that "no parcel here" would turn a
+    /// PID this build could not read into a statement about the ground.
+    @Test func aBoundaryWithNoReadablePIDIsNotAMissingParcel() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: Self.unidentifiedParcel)
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.identifyParcel(latitude: 44.65, longitude: -63.45)
+        await viewModel.awaitParcelLookup()
+
+        #expect(
+            viewModel.parcelMessage
+                == "NSPRD returned a boundary at that point with no readable PID."
+        )
+        #expect(viewModel.parcels.selectedPID == nil)
+    }
+
+    /// Which parcel ArcGIS lists first is not evidence of which parcel the
+    /// point is in. One is selected so there is something to look at; the words
+    /// say it was not a determination.
+    @Test func parcelsMeetingAtAPointAreNotSettledByListOrder() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: Self.twoParcels)
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.identifyParcel(latitude: 44.65, longitude: -63.45)
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.parcels.selectedPID == "11111111")
+        #expect(viewModel.parcelMessage?.contains("2 parcels meet at that point") == true)
+        #expect(viewModel.parcelMessage?.contains("not a determination") == true)
+    }
+
     @Test func tappingAParcelSelectsAndDrawsIt() async {
         let channel = #function
         let viewModel = Self.viewModel(channel, answering: Self.parcel(pid: "50334317"))
@@ -371,6 +443,78 @@ struct ParcelIdentifyTests {
 
         #expect(viewModel.parcelMessage == "Enter at least three characters of a civic address.")
         #expect(StubURLProtocol.requestCount(channel: channel) == 0)
+    }
+
+    /// The field is the user's statement of what they are asking about. A
+    /// result list left standing over changed text offers addresses that no
+    /// longer match the question.
+    @Test func typingAgainDropsTheResultsOfTheSearchBeforeIt() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.editSearchText("1234 Barrington Street")
+        viewModel.submitSearch()
+        await viewModel.awaitAddressSearch()
+        #expect(viewModel.addressResults.count == 2)
+
+        viewModel.editSearchText("1234 Barrington Stree")
+
+        #expect(viewModel.addressResults.isEmpty)
+        #expect(viewModel.parcelMessage == nil)
+    }
+
+    /// The user asked about an address, so the field keeps saying the address.
+    /// Replacing it with the PID it resolved to hides which of the listed
+    /// addresses is the one on screen.
+    @Test func choosingAnAddressLeavesItInTheFieldRatherThanThePID() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("tntn-er5g", Self.twoAddresses),
+            ("nsgiwa", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.editSearchText("1234 Barrington Street")
+        viewModel.submitSearch()
+        await viewModel.awaitAddressSearch()
+        viewModel.selectAddress(viewModel.addressResults[0])
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.parcels.selectedPID == "50334317")
+        #expect(viewModel.searchText == "1234 Barrington Street, Halifax")
+    }
+
+    /// A tap identifies a parcel rather than an address, so there the field
+    /// takes the PID.
+    @Test func tappingTheMapPutsThePIDInTheField() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: Self.parcel(pid: "50334317"))
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.identifyParcel(latitude: 44.65, longitude: -63.45)
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.searchText == "50334317")
+    }
+
+    /// A cancelled task returns at its cancellation guard without running the
+    /// line that would clear the flag, so cancelling has to clear it.
+    @Test func abandoningAnAddressSearchStopsSayingItIsSearching() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("tntn-er5g", Self.twoAddresses),
+            ("nsgiwa", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("1234 Barrington Street")
+        #expect(viewModel.isSearchingAddresses)
+        viewModel.searchParcel("50334317")
+
+        #expect(!viewModel.isSearchingAddresses)
+        await viewModel.awaitParcelLookup()
+        #expect(!viewModel.isSearchingAddresses)
     }
 
     @Test func clearingTheFieldSaysNothingAtAll() async {
