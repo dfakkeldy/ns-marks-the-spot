@@ -114,9 +114,16 @@ fixtures (one 256×256 raster written twice by GDAL, tiled+DEFLATE and
 striped+DEFLATE, differing only in tiling) go through `CGImageSource` in the
 app's test target on an iPhone 17 simulator.
 
-> **Pending** — the Apple build slot has been held by another session all
-> evening. Result to be appended here; the fixtures and test live at
+> **Pending** — not yet run. The Apple build slot itself is free; the resource
+> gate is holding, on memory pressure 2 with 1.27 GB free swap against its
+> 2 GB warning-pressure floor. That is a host condition, not a queue to wait
+> out, so this is blocked until the machine has headroom rather than deferred
+> by minutes. Result to be appended here; the fixtures and test live at
 > `ns-marks-the-spotTests/SpikeImageIOTiledTIFFTests.swift` on the spike branch.
+
+Until it runs, treat Result 3 as macOS-only. It should not be promoted into a
+Phase 8 design decision on the assumption that iOS matches — that assumption is
+exactly what this leg exists to test.
 
 ### Options if iOS behaves like macOS
 

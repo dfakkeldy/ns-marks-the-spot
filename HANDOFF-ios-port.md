@@ -41,3 +41,24 @@ branch claude/ios-web-map-parity-a66e38 (pushed, PR open to nightly).
 Next action: start Phase 0 spike 1 — GeoTIFF IFD tag reader vs repo fixtures —
 on a throwaway branch off nightly.
 ```
+
+## 2026-08-13 — Phase 0 spikes 1, 3, 4: mac-native legs done; device legs blocked
+
+Done: spikes 1 (GeoTIFF tags), 3 (TPS warp cost) and 4 (CGPDF GeoPDF) complete
+and written up in `docs/spikes/`. Reader is 282 LOC / 15 tests; CGPDF needs no
+PDF dependency; warp cost tracks minification, not source size, so a per-zoom
+scale-matched mip drops an 8192px source from 1310 to 2.8 ms/tile — this
+retires the plan's "cap sources at 4096 px" performance constraint and composes
+with spike 1's thumbnail path. Spike code on `spike/geotiff-ifd-reader`
+(83a17a0, pushed); writeups on this branch (387636f).
+Next: spike 1's iOS leg, spike 2, spike 3's device leg, spike 5 — all need
+Xcode. Blocked on host memory, not slot contention: the slot reports FREE while
+the gate holds at pressure 2 with 1.27 GB free swap against a 2 GB floor.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/map-portfolio-improvements-fa1f45,
+branch claude/ios-web-map-parity-a66e38.
+Next action: check `~/.claude/bin/xcode-build-slot.sh --status`; when the gate
+admits, run the iOS ImageIO tiled-TIFF test on the spike branch and replace the
+"Pending" block in docs/spikes/ios-port-spike-1-geotiff-tags.md.
+```
