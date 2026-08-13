@@ -376,3 +376,32 @@ every ~5 min; on admission run ONE
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — PVSC assessments and dwellings landed, review applied
+
+Done: `e79e166de` PVSC assessment accounts (spatial match against the
+parcel's rings, notice-AAN path built but unreachable until tax sales);
+`611ce82b2` PVSC residential dwellings, asked only after an account
+matches, plus six of seven findings from a Codex adversarial review —
+unreadable-row counts on both PVSC results, a notice for a parcel only
+partly drawn, `PolygonHitTest.containment` so an edge point is labelled
+rather than claimed, ASCII-only AAN digits, the PVSC licence link, and
+the 9e15 year cutoff explained. Package tests 310/310 gate-free; app and
+test targets typecheck (scripts need **zsh**). Both pushed.
+
+Next: the gate has still never run the app-target unit bundle — BUSY/HOLD
+all day. Then the rest of Phase 3: buildings, resource intersections,
+zoning, flood hazard, well logs, mineral proximity, hydro potential,
+old-growth policy, evidence note. `CivicAddressFetcher` has the same
+unreadable-row hole the PVSC fetchers just closed.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: continue Phase 3 with the NSTDB buildings layer in the
+inspector panel; on gate admission spend it on ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
