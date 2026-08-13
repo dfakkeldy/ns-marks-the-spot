@@ -436,3 +436,30 @@ as the shared viewport bounds-query seam; on gate admission spend it on ONE
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — Phase 6 fetch services all ported
+
+Done: shared viewport seam + six layers landed and pushed — zoning, well
+logs, mineral occurrences/abandoned mines, old-growth policy, mineral
+proximity (derived, gated on the derived layer first), and the bundled
+Inverness hydro pilot (920 KB resource, strict decode). Catalog parity
+now defers only legend/guidance fields. 422 package tests, gate-free;
+app + test targets typecheck. Codex reviewed each landing; its two real
+findings are fixed in f521c9e90 (old-growth fails closed on an
+unreadable row; mineral proximity reports unreadable counts instead of
+an empty result).
+
+Next: nothing in Phase 6 is wired into the map renderer or layer panel
+yet — that is the remaining work. The gate has still never run the
+app-target unit bundle.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: wire the six Phase 6 layers into MapSurface + the layer panel
+(viewport-driven refresh, licence gate, per-layer status); on gate admission
+spend it on ONE `xcode-build-slot.sh -- xcodebuild test
+-only-testing:ns-marks-the-spotTests -disable-concurrent-testing
+-scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
