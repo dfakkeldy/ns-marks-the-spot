@@ -102,6 +102,20 @@ public enum PlaceLinks {
         return URL(string: "https://www.google.com/maps/dir/?\(query)")
     }
 
+    /// The parcel's page on ViewPoint, or `nil` when the PID is not eight
+    /// digits.
+    ///
+    /// A commercial listing site, not a record source. What it shows about a
+    /// parcel is its own; nothing there is evidence in this app's sense, and a
+    /// page that exists is not a statement that the property is for sale.
+    ///
+    /// The eight-digit rule is theirs: the URL is keyed on a full PID, and a
+    /// partial one would open somebody else's parcel rather than fail.
+    public static func viewpointParcelURL(pid: String) -> URL? {
+        guard pid.count == 8, pid.allSatisfy({ $0.isASCII && $0.isNumber }) else { return nil }
+        return URL(string: "https://www.viewpoint.ca/show/property/\(pid)")
+    }
+
     /// A latitude or longitude written the way JavaScript writes it.
     ///
     /// `ArcGISExportURL.jsNumber` is not reusable here. It is byte-matched for
