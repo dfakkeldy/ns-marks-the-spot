@@ -142,6 +142,11 @@ struct MapContainerView: View {
                         }
                         .accessibilityLabel("Offline Maps")
 
+                        // One list at a time, as the web renders one panel at a
+                        // time. Both on screen at once would let a reader pick a
+                        // dated result out of one list while the map beside it is
+                        // answering the other question.
+                        if overlayVM.mapRecordMode == .current {
                         Button {
                             cancelBoundsSelection()
                             navigationModel.activeSheet = .taxSaleNotices
@@ -156,7 +161,7 @@ struct MapContainerView: View {
                         }
                         .accessibilityLabel("Tax-sale Notices")
                         .disabled(isSelectingSaveArea)
-
+                        } else {
                         Button {
                             cancelBoundsSelection()
                             navigationModel.activeSheet = .historicalTaxSales
@@ -171,6 +176,7 @@ struct MapContainerView: View {
                         }
                         .accessibilityLabel("Historical Tax-sale Records")
                         .disabled(isSelectingSaveArea)
+                        }
 
                         Button {
                             cancelBoundsSelection()

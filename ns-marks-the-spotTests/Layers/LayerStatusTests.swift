@@ -84,6 +84,7 @@ extension OverlayViewModel {
     /// so a test cannot assert against a layer shaped differently from the one
     /// the app installs.
     static func forTesting(
+        controller: MapController = MapController(),
         installing ids: [LayerID],
         licence: ProvinceLicenceState = .accepted,
         zoomLevel: Int? = nil,
@@ -98,7 +99,6 @@ extension OverlayViewModel {
         resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher(),
         floodFetcher: FloodHazardFetcher = FloodHazardFetcher()
     ) -> OverlayViewModel {
-        let controller = MapController()
         for id in ids {
             guard let descriptor = LayerCatalog.descriptor(for: id),
                   let layer = AppContainer.makeLayer(

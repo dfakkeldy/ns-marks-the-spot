@@ -102,6 +102,44 @@ struct HistoricalTaxSalePanelTests {
         return HistoricalTaxSaleCatalog(events: [alpha, beta], records: records)
     }
 
+    /// A live notice naming a PID the historical set also names, which is the
+    /// only case where the two sets can contradict each other on the map.
+    private static func noticeCatalogAdvertising(_ pid: String) -> TaxSaleCatalog {
+        let id = "gamma-2026-09-01"
+        return TaxSaleCatalog(events: [
+            TaxSaleEvent(
+                id: id,
+                municipalityID: "gamma",
+                municipality: "Municipality of Gamma County",
+                shortMunicipality: "Gamma",
+                eventType: .publicAuction,
+                eventStatus: .upcoming,
+                saleStartsAt: Date(timeIntervalSince1970: 4_000_000_000),
+                venue: "Gamma Hall",
+                sourceURL: URL(string: "https://example.test/gamma-notice.pdf")!,
+                sourceLabel: "Gamma County tax sale notice",
+                retrievedOn: "2026-08-01",
+                listings: [
+                    TaxSaleListing(
+                        eventID: id,
+                        recordID: "\(id)-1",
+                        lien: "1",
+                        pids: [pid],
+                        location: "Gamma Road",
+                        financial: MunicipalFinancialField(
+                            kind: .minimumBid,
+                            label: "Minimum bid",
+                            amountCents: 120_000
+                        ),
+                        redemptionCategory: .sixMonth,
+                        redemptionLabel: "Six-month redemption period",
+                        listingStatus: .advertised
+                    )
+                ]
+            )
+        ])
+    }
+
     private static func historical(mode: HistoricalTaxSaleViewModel.Mode = .historical)
         -> HistoricalTaxSaleViewModel
     {
@@ -113,13 +151,15 @@ struct HistoricalTaxSalePanelTests {
     private static func viewModel(
         _ channel: String,
         answering responses: [(String, StubURLProtocol.Response)],
-        historical: HistoricalTaxSaleViewModel
+        historical: HistoricalTaxSaleViewModel,
+        taxSale: TaxSaleViewModel? = nil
     ) -> OverlayViewModel {
         StubURLProtocol.stub(channel: channel, matching: responses)
         let session = StubURLProtocol.session(channel: channel)
         let viewModel = OverlayViewModel.forTesting(
             installing: [.nsprd],
             zoomLevel: 16,
+            taxSale: taxSale,
             historical: historical,
             parcelFetcher: ParcelFetcher(transport: .urlSession(session)),
             civicFetcher: CivicAddressFetcher(transport: .urlSession(session)),
@@ -358,6 +398,139 @@ struct HistoricalTaxSalePanelTests {
 
         #expect(viewModel.inspection?.recordModeMarker == nil)
         #expect(viewModel.inspection?.historicalRecords.isEmpty == true)
+    }
+
+    // MARK: - The two sets never share a map or a card
+
+    /// A PID in both sets is drawn as one thing at a time, and in the
+    /// historical mode it is the dated one.
+    @Test func anAdvertisedParcelIsNotDrawnUnderTheHistoricalCaption() async {
+        let channel = #function
+        let historical = Self.historical()
+        // 44444444 is in the historical set and advertised in a current notice
+        // too, which is the case a PID in both sets creates.
+        let taxSale = TaxSaleViewModel(catalog: Self.noticeCatalogAdvertising("44444444"))
+        StubURLProtocol.stub(
+            channel: channel,
+            matching: [("", Self.parcels(["44444444", "55555555"]))]
+        )
+        let session = StubURLProtocol.session(channel: channel)
+        let controller = MapController()
+        let viewModel = OverlayViewModel.forTesting(
+            controller: controller,
+            installing: [.nsprd],
+            zoomLevel: 16,
+            taxSale: taxSale,
+            historical: historical,
+            parcelFetcher: ParcelFetcher(transport: .urlSession(session))
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadHistoricalParcels()
+        await viewModel.awaitHistoricalParcels()
+
+        // Whatever the notices say is listed, the historical mode draws none of
+        // it: the caption promises everything on the map is dated.
+        let roles = controller.state.parcelShapes.map(\.role)
+        #expect(roles == [.historicalTaxSale, .historicalTaxSale])
+        #expect(viewModel.mapRecordMode == .historical)
+    }
+
+    /// A card opened in the historical mode carries no current notice, even for
+    /// a PID both sets name.
+    @Test func aHistoricalCardCarriesNoCurrentNotice() async {
+        let channel = #function
+        let historical = Self.historical()
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["44444444"]))],
+            historical: historical,
+            taxSale: TaxSaleViewModel(catalog: Self.noticeCatalogAdvertising("44444444"))
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.selectHistoricalParcel(pid: "44444444")
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.inspection?.taxSaleNotice == nil)
+        #expect(viewModel.inspection?.historicalRecords.count == 1)
+    }
+
+    /// Picking a record out of the list puts the map in the mode that record
+    /// belongs to, rather than opening a card the current mode empties.
+    @Test func pickingARecordSwitchesTheMapIntoItsOwnMode() async {
+        let channel = #function
+        let historical = Self.historical(mode: .current)
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["44444444"]))],
+            historical: historical
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.selectHistoricalParcel(pid: "44444444")
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.mapRecordMode == .historical)
+        #expect(viewModel.inspection?.historicalRecords.count == 1)
+    }
+
+    // MARK: - Asking again
+
+    /// A service that was down is asked again. One transient failure must not
+    /// become the map's answer for the rest of the session.
+    @Test func aFailedLoadCanBeRetried() async {
+        let channel = #function
+        let historical = Self.historical()
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [
+                ("", .failure(.notConnectedToInternet)),
+                ("", Self.parcels(["44444444", "55555555"])),
+            ],
+            historical: historical
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadHistoricalParcels()
+        await viewModel.awaitHistoricalParcels()
+        #expect(
+            viewModel.historicalParcelMessage == ParcelLookupMessage.historicalParcelsUnavailable
+        )
+
+        viewModel.loadHistoricalParcels()
+        await viewModel.awaitHistoricalParcels()
+
+        #expect(viewModel.historicalParcelMessage == "2 historical PIDs matched in NSPRD.")
+    }
+
+    /// Accepting the licence from inside the historical mode draws it, rather
+    /// than leaving the user to switch away and back.
+    @Test func acceptingTheLicenceLoadsTheHistoricalParcelsThatWereRefused() async {
+        let channel = #function
+        let historical = Self.historical()
+        StubURLProtocol.stub(
+            channel: channel,
+            matching: [("", Self.parcels(["44444444", "55555555"]))]
+        )
+        let session = StubURLProtocol.session(channel: channel)
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd],
+            licence: .unknown,
+            zoomLevel: 16,
+            historical: historical,
+            parcelFetcher: ParcelFetcher(transport: .urlSession(session))
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadHistoricalParcels()
+        await viewModel.awaitHistoricalParcels()
+        #expect(viewModel.historicalParcelMessage == nil)
+
+        viewModel.acceptProvinceLicence()
+        await viewModel.awaitHistoricalParcels()
+
+        #expect(viewModel.historicalParcelMessage == "2 historical PIDs matched in NSPRD.")
     }
 
     /// The records survive a parcel service that is down, and the message says

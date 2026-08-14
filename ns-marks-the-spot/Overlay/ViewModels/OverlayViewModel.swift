@@ -745,6 +745,11 @@ final class OverlayViewModel {
                     : ParcelLookupMessage.historicalPIDsReturned(matched, of: wanted.count)
             case .failure(let failure):
                 guard failure != .cancelled else { return }
+                // Reopened, because "unavailable right now" is a statement
+                // about this attempt. Leaving the latch closed would make one
+                // transient failure the map's answer for the rest of the
+                // session, with no way to ask again but to leave the mode.
+                hasLoadedHistoricalParcels = false
                 let now = Set(parcels.features.map(\.pid))
                 let matched = wanted.count { now.contains($0) }
                 historicalParcelMessage = matched > 0
@@ -811,6 +816,10 @@ final class OverlayViewModel {
 
     /// Opens a property picked out of the historical panel.
     func selectHistoricalParcel(pid: String) {
+        // Switched first, and only when it is not already on: the mode change
+        // drops the open card, so doing it after the selection would throw away
+        // the card the user just asked for.
+        setMapRecordMode(.historical)
         if !parcels.holds(pid: pid) {
             // Selected up front for the same reason a notice row is: the record
             // is already in hand, and a parcel service that does not answer
@@ -827,6 +836,7 @@ final class OverlayViewModel {
     /// property out of a notice whose parcels are hidden would zoom the map to
     /// a parcel that is not drawn.
     func selectListedParcel(eventID: String, pid: String) {
+        setMapRecordMode(.current)
         taxSale?.setEventVisibility(eventID, to: true)
         // Selected before the parcel is asked for, as the web selects it. The
         // notice is what the user tapped and it is already in hand; hanging its
@@ -846,9 +856,13 @@ final class OverlayViewModel {
     }
 
     private func publishParcels(focus: Bool) {
+        // One record set at a time. An advertised parcel left orange under the
+        // historical caption would put a live offering on a map whose whole
+        // claim is that everything on it is dated.
+        let listed = mapRecordMode == .current ? (taxSale?.highlightedPIDs ?? []) : []
         controller.setParcelShapes(
             parcels.shapes(
-                taxSalePIDs: taxSale?.highlightedPIDs ?? [],
+                taxSalePIDs: listed,
                 historicalPIDs: historical?.highlightedPIDs ?? []
             )
         )
@@ -899,7 +913,10 @@ final class OverlayViewModel {
             inspection = nil
             return
         }
-        let notice = taxSale?.listingContext(forPID: pid)
+        // Gated on the mode for the same reason the styling is: a PID in both
+        // sets would otherwise open a card headed "Listed in official notice"
+        // in the mode that promises everything on it is a dated outcome.
+        let notice = mapRecordMode == .current ? taxSale?.listingContext(forPID: pid) : nil
         let records = historical?.contexts(forPID: pid) ?? []
         // Only printed in the historical mode. The current notices are the
         // map's ordinary state, and a marker on every card would stop being
@@ -1238,6 +1255,10 @@ final class OverlayViewModel {
         // else asks again. Without this, a user who accepts on their first run
         // sees every notice switched on and not one parcel drawn.
         loadListedParcels()
+        // And the same for a user who reached the historical mode before
+        // accepting: its load was refused at the licence guard, and leaving and
+        // re-entering the mode would be the only way back to a drawn map.
+        loadHistoricalParcels()
         let pending = licencePromptedLayerID
         licencePromptedLayerID = nil
         guard let pending else { return }
