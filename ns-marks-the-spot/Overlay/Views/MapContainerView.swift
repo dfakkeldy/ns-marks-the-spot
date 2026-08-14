@@ -8,6 +8,7 @@ struct MapContainerView: View {
     let isUITestMode: Bool
     @State private var overlayVM: OverlayViewModel
     @State private var featureVM: ViewportFeatureViewModel
+    @State private var taxSaleVM: TaxSaleViewModel
     private let poiVM: POIViewModel
     private let offlineVM: OfflineAreasViewModel
     @State private var isLayersMenuExpanded = false
@@ -18,6 +19,7 @@ struct MapContainerView: View {
         controller: MapController,
         overlayViewModel: OverlayViewModel,
         viewportFeatureViewModel: ViewportFeatureViewModel,
+        taxSaleViewModel: TaxSaleViewModel = TaxSaleViewModel(),
         navigationModel: NavigationModel,
         poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
@@ -33,6 +35,7 @@ struct MapContainerView: View {
         // would be a second answer to the same question.
         _overlayVM = State(initialValue: overlayViewModel)
         _featureVM = State(initialValue: viewportFeatureViewModel)
+        _taxSaleVM = State(initialValue: taxSaleViewModel)
     }
 
     var body: some View {
@@ -135,6 +138,21 @@ struct MapContainerView: View {
                                 .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                         }
                         .accessibilityLabel("Offline Maps")
+
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .taxSaleNotices
+                        } label: {
+                            Image(systemName: "banknote")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Tax-sale Notices")
+                        .disabled(isSelectingSaveArea)
 
                         Button {
                             cancelBoundsSelection()
@@ -263,6 +281,10 @@ struct MapContainerView: View {
                     overlayVM.identifyParcel(latitude: latitude, longitude: longitude)
                 }
             }
+            // The advertised parcels, asked for once. Not gated on the sheet
+            // being opened: the map draws them, and a user who never opens the
+            // panel would otherwise see a map with no tax sales on it.
+            overlayVM.loadListedParcels()
             if isUITestMode {
                 poiVM.points = []
                 poiVM.syncAnnotations(to: controller)
@@ -293,6 +315,14 @@ struct MapContainerView: View {
                 OfflineStorageView(viewModel: offlineVM)
             case .info:
                 InfoSheetView()
+            case .taxSaleNotices:
+                TaxSaleNoticesView(
+                    viewModel: taxSaleVM,
+                    overlayViewModel: overlayVM
+                ) {
+                    // The property's parcel card is behind this sheet.
+                    navigationModel.activeSheet = nil
+                }
             case .saveAreaDraft(let bounds):
                 NavigationStack {
                     SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)

@@ -87,6 +87,7 @@ extension OverlayViewModel {
         installing ids: [LayerID],
         licence: ProvinceLicenceState = .accepted,
         zoomLevel: Int? = nil,
+        taxSale: TaxSaleViewModel? = nil,
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
@@ -113,6 +114,7 @@ extension OverlayViewModel {
             licenceStore: ProvinceLicenceStore(
                 storage: InMemoryProvinceLicenceStorage(initial: licence)
             ),
+            taxSale: taxSale,
             parcelFetcher: parcelFetcher,
             civicFetcher: civicFetcher,
             contextFetcher: contextFetcher,

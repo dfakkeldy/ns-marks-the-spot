@@ -17,12 +17,17 @@ struct ParcelInspectorView: View {
     let inspection: ParcelInspection
     let onClose: () -> Void
 
+    /// Read once when the card opens, so an event's lifecycle label does not
+    /// change under the reader mid-scroll.
+    @State private var now = Date()
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    taxSaleNotice
                     assessments
                     dwellings
                     civicAddresses
@@ -38,6 +43,7 @@ struct ParcelInspectorView: View {
         .clipShape(.rect(cornerRadius: 16))
         .shadow(color: .black.opacity(0.18), radius: 8, x: 0, y: 2)
         .accessibilityIdentifier("parcel-inspector")
+        .onAppear { now = Date() }
     }
 
     private var header: some View {
@@ -47,9 +53,9 @@ struct ParcelInspectorView: View {
                     Text("PID \(inspection.pid)")
                         .font(.headline)
                         .monospacedDigit()
-                    Text("NSPRD parcel")
+                    Text(sourceSubtitle)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(inspection.taxSaleNotice == nil ? .secondary : .primary)
                 }
 
                 Spacer()
@@ -87,6 +93,106 @@ struct ParcelInspectorView: View {
         .padding(.horizontal, 16)
         .padding(.top, 14)
         .padding(.bottom, 12)
+    }
+
+    // MARK: - Tax-sale notice
+
+    /// Who says this parcel is worth looking at: a municipality's notice, or
+    /// only the parcel fabric.
+    private var sourceSubtitle: String {
+        guard let notice = inspection.taxSaleNotice else { return "NSPRD parcel" }
+        switch notice.event.lifecycle(now: now) {
+        case .historical: return "Historical result - not available"
+        case .verifyResults: return TaxSaleEventLifecycle.verifyResults.label
+        case .upcoming: return "Listed in official notice"
+        }
+    }
+
+    /// What the notice itself says about this PID.
+    ///
+    /// Every line is the municipality's, quoted under its own label — the
+    /// amount under the name the notice gave it, the redemption wording as
+    /// printed, the retrieval day of the snapshot this build carries. A reader
+    /// has to be able to tell a fact the municipality published from a fact
+    /// this map computed, and the two sit in the same card.
+    @ViewBuilder
+    private var taxSaleNotice: some View {
+        if let notice = inspection.taxSaleNotice {
+            let event = notice.event
+            let listing = notice.listing
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Municipal tax-sale notice")
+                    .font(.subheadline.weight(.semibold))
+
+                Text(listing.propertyLabel)
+                    .font(.subheadline)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                LabeledContent("Municipality") { Text(event.municipality) }
+                LabeledContent("Event") {
+                    Text("\(TaxSaleFormat.eventDateLabel(event)) · \(event.eventType.label)")
+                }
+                if let lien = listing.lien {
+                    LabeledContent("Lien") { Text(lien).monospacedDigit() }
+                }
+                if let aan = listing.aan {
+                    LabeledContent("AAN") { Text(aan).monospacedDigit() }
+                }
+                LabeledContent("Official location") { Text(listing.location) }
+                LabeledContent(listing.financial.label) {
+                    Text(TaxSaleFormat.currency(cents: listing.financial.amountCents))
+                        .monospacedDigit()
+                }
+                LabeledContent("Redemption") { Text(listing.redemptionLabel) }
+                LabeledContent("Listing status") { Text(listing.listingStatus.label) }
+                LabeledContent("Source retrieved") {
+                    Text(TaxSaleFormat.day(event.retrievedOn)).monospacedDigit()
+                }
+
+                Label(noticeCaveat(event: event, listing: listing), systemImage: "exclamationmark.triangle")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Link("View direct official source", destination: event.sourceURL)
+                    .font(.footnote)
+            }
+            .font(.subheadline)
+            .multilineTextAlignment(.leading)
+            .accessibilityIdentifier("parcel-inspector-tax-sale")
+        } else {
+            // Said out loud rather than left to the absence of a section: a
+            // card with no notice on it looks the same as a card whose notice
+            // failed to load, and only one of those is a fact.
+            Text("This PID is not listed in any municipal notice included by this map.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    /// The sentence the web attaches to every listing, chosen by what is
+    /// actually uncertain: a struck-out listing, a sale date already past, or a
+    /// live notice that any of the usual things may have already changed.
+    private func noticeCaveat(event: TaxSaleEvent, listing: TaxSaleListing) -> String {
+        let municipality = event.shortMunicipality
+        let disclaimer =
+            "This map does not imply access, clear title, possession or buildability."
+        switch (event.lifecycle(now: now), listing.listingStatus) {
+        case (.historical, _):
+            return "This is a dated historical result, not a currently available property."
+        case (_, .withdrawn):
+            return "The municipality's current notice revision strikes this listing out. "
+                + "Verify status directly with \(municipality); this map does not imply "
+                + "access, clear title, possession or buildability."
+        case (.verifyResults, _):
+            return "The advertised sale date has passed. Verify results and current status "
+                + "with \(municipality). \(disclaimer)"
+        case (.upcoming, _):
+            return "Properties may be paid, removed or deferred. Verify current status with "
+                + "\(municipality). \(disclaimer)"
+        }
     }
 
     // MARK: - PVSC assessment accounts

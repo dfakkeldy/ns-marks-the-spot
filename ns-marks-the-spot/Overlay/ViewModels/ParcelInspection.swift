@@ -32,6 +32,15 @@ struct ParcelInspection: Equatable {
     /// there.
     let boundaryNotice: String?
 
+    /// The current municipal notice that named this PID, when one did.
+    ///
+    /// Not `ParcelEvidence`: the notices ship with the app, so this is known
+    /// the moment a parcel is selected and can never be "still looking" or
+    /// "could not ask". `nil` means no notice this map carries lists the
+    /// parcel — which is not the same as the parcel not being in a tax sale
+    /// somewhere this map does not cover.
+    var taxSaleNotice: TaxSaleNoticeContext?
+
     /// How many buildings NSTDB has mapped inside the outline. A count of zero
     /// is an answer; it is not a vacant lot.
     var buildings: ParcelEvidence<ParcelBuildingCount> = .looking

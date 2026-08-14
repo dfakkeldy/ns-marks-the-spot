@@ -28,10 +28,18 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
     }
 
     /// What the map should draw.
-    var shapes: [ParcelShape] {
+    var shapes: [ParcelShape] { shapes(taxSalePIDs: []) }
+
+    /// The same, styling the parcels a current tax-sale notice advertises.
+    ///
+    /// The highlight is passed in rather than held here: which parcels are
+    /// listed is a fact about the bundled notices and the switches over them,
+    /// and this type's job is the geometry the Province returned.
+    func shapes(taxSalePIDs: Set<String>) -> [ParcelShape] {
         ParcelShape.shapes(
             for: ParcelFeatureCollection(identifiedFeatures: features),
-            selecting: selectedPID
+            selecting: selectedPID,
+            taxSalePIDs: taxSalePIDs
         )
     }
 

@@ -240,6 +240,10 @@ final class OverlayViewModel {
     /// are dropped rather than shown disabled: a row whose switch cannot be
     /// wired to anything is worse than no row.
     private let features: ViewportFeatureViewModel?
+    /// The bundled tax-sale notices, when this build has them. `nil` in the
+    /// tests that exercise the parcel path on its own, where no parcel is
+    /// listed and nothing would be highlighted.
+    private let taxSale: TaxSaleViewModel?
     private let licenceStore: ProvinceLicenceStore
     private let clearanceBox: LicenceClearanceBox
     private let parcelFetcher: ParcelFetcher
@@ -259,6 +263,7 @@ final class OverlayViewModel {
         controller: MapController,
         licenceStore: ProvinceLicenceStore,
         features: ViewportFeatureViewModel? = nil,
+        taxSale: TaxSaleViewModel? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
@@ -271,6 +276,7 @@ final class OverlayViewModel {
     ) {
         self.controller = controller
         self.features = features
+        self.taxSale = taxSale
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
         self.parcelFetcher = parcelFetcher
@@ -284,11 +290,16 @@ final class OverlayViewModel {
         mirrorClearanceIntoBox()
     }
 
-    convenience init(container: AppContainer, features: ViewportFeatureViewModel? = nil) {
+    convenience init(
+        container: AppContainer,
+        features: ViewportFeatureViewModel? = nil,
+        taxSale: TaxSaleViewModel? = nil
+    ) {
         self.init(
             controller: container.mapController,
             licenceStore: container.licenceStore,
             features: features,
+            taxSale: taxSale,
             clearanceBox: container.clearanceBox
         )
     }
@@ -450,6 +461,17 @@ final class OverlayViewModel {
         } onSuccess: { [weak self] collection in
             guard let self else { return }
             guard collection.identifiedFeatures.contains(where: { $0.pid == pid }) else {
+                // A listed PID with no parcel behind it still has a notice to
+                // show, and the notice is what the user came for. Selecting it
+                // opens that card; the message says the geometry, not the
+                // listing, is what is missing.
+                if taxSale?.listingContext(forPID: pid) != nil {
+                    parcels.select(pid)
+                    publishParcels(focus: false)
+                    setSearchText(pid)
+                    parcelMessage = ParcelLookupMessage.listedParcelWithoutGeometry(pid: pid)
+                    return
+                }
                 parcelMessage = collection.isEmpty
                     ? ParcelLookupMessage.noParcelForPID
                     : ParcelLookupMessage.unidentifiedForPID(collection.unidentifiedFeatureCount)
@@ -599,8 +621,84 @@ final class OverlayViewModel {
                 : ParcelLookupMessage.selected(pid: pid))
     }
 
+    // MARK: - The parcels a notice advertises
+
+    /// What the one bulk request for listed parcels is doing or found.
+    ///
+    /// Separate from `parcelMessage`, which belongs to the lookup the user is
+    /// waiting on. This one answers a different question — whether the map is
+    /// showing every advertised property — and it must not be overwritten by a
+    /// search, or a user who ran one would be told the notices loaded when they
+    /// did not.
+    private(set) var listedParcelMessage: String?
+
+    @ObservationIgnored private var listedParcelLoad: Task<Void, Never>?
+
+    @ObservationIgnored private var hasLoadedListedParcels = false
+
+    /// Asks NSPRD for every parcel the current notices advertise.
+    ///
+    /// One request set for all of them, once: this is the map opening, not a
+    /// lookup, and re-asking as switches and filters move would spend the
+    /// Province's service on geometry already in hand. What the switches move
+    /// is which of these parcels is drawn as listed.
+    func loadListedParcels() {
+        guard let taxSale, clearanceBox.clearance.allows(.nsprd) else { return }
+        let pids = taxSale.advertisedPIDs
+        // Retried after a failure, and only then: the boundaries do not change
+        // while the app is open, so a second success would redraw what is
+        // already on screen at the cost of another round of requests.
+        guard !pids.isEmpty, !hasLoadedListedParcels else { return }
+
+        listedParcelLoad?.cancel()
+        listedParcelLoad = Task { [weak self, parcelFetcher, clearance = clearanceBox.clearance] in
+            let outcome: Result<ParcelFeatureCollection, ParcelLookupFailure>
+            do throws(ParcelLookupFailure) {
+                outcome = .success(try await parcelFetcher.parcels(pids: pids, clearance: clearance))
+            } catch {
+                outcome = .failure(error)
+            }
+            guard !Task.isCancelled, let self else { return }
+            switch outcome {
+            case .success(let collection):
+                hasLoadedListedParcels = true
+                parcels.merge(collection)
+                publishParcels(focus: false)
+                // Counted from what came back rather than from what was asked
+                // for: a PID NSPRD has no record of is absent from the reply,
+                // and reporting the request's size would hide that.
+                let matched = Set(collection.identifiedFeatures.map(\.pid)).count
+                listedParcelMessage = ParcelLookupMessage.listedPIDsMatched(matched)
+            case .failure(let failure):
+                guard failure != .cancelled else { return }
+                listedParcelMessage = ParcelLookupMessage.listedParcelsUnavailable
+            }
+        }
+    }
+
+    /// The seam `awaitParcelLookup` is, for the bulk load.
+    func awaitListedParcels() async {
+        await listedParcelLoad?.value
+    }
+
+    /// Opens the property a user picked out of a notice.
+    ///
+    /// The event is switched on first, as the web switches it on: picking a
+    /// property out of a notice whose parcels are hidden would zoom the map to
+    /// a parcel that is not drawn.
+    func selectListedParcel(eventID: String, pid: String) {
+        taxSale?.setEventVisibility(eventID, to: true)
+        searchPID(pid)
+    }
+
+    /// Redraws with whatever the tax-sale switches now say, without asking the
+    /// service anything.
+    func refreshListedParcelStyling() {
+        publishParcels(focus: false)
+    }
+
     private func publishParcels(focus: Bool) {
-        controller.setParcelShapes(parcels.shapes)
+        controller.setParcelShapes(parcels.shapes(taxSalePIDs: taxSale?.highlightedPIDs ?? []))
         if focus, let bounds = parcels.selectedBounds {
             controller.focus(on: bounds)
         }
@@ -644,10 +742,35 @@ final class OverlayViewModel {
         inspectionLookup?.cancel()
         inspectionLookup = nil
 
-        guard let pid = parcels.selectedPID, !parcels.selectedFeatures.isEmpty else {
+        guard let pid = parcels.selectedPID else {
             inspection = nil
             return
         }
+        let notice = taxSale?.listingContext(forPID: pid)
+
+        guard !parcels.selectedFeatures.isEmpty else {
+            // No parcel record, so every source that takes the parcel's rings
+            // is unaskable. A notice is still worth showing on its own: the
+            // municipality named this PID, and that fact does not depend on
+            // NSPRD holding geometry for it.
+            guard let notice else {
+                inspection = nil
+                return
+            }
+            var state = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
+            state.taxSaleNotice = notice
+            let reason = ParcelLookupMessage.noParcelRecordToAskWith
+            state.civicAddresses = .unavailable(reason)
+            state.mappedContext = .unavailable(reason)
+            state.assessments = .unavailable(reason)
+            state.dwellings = .unavailable(reason)
+            state.buildings = .unavailable(reason)
+            state.resources = .unavailable(reason)
+            state.floodHazard = .unavailable(reason)
+            inspection = state
+            return
+        }
+
         let features = parcels.selectedFeatures
         var state = ParcelInspection(
             pid: pid,
@@ -657,6 +780,7 @@ final class OverlayViewModel {
             ),
             boundaryNotice: parcels.boundaryNotice
         )
+        state.taxSaleNotice = notice
 
         let parts = features.flatMap(\.boundary.parts)
         guard !parts.isEmpty else {

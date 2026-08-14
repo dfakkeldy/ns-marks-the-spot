@@ -1,0 +1,180 @@
+import NSDataServices
+import SwiftUI
+
+/// The current tax-sale notices, and the properties each advertises.
+///
+/// A sheet rather than the web's rail: the same content, on a phone. What it
+/// must keep from the web is the order of the claims — a dated notice, from a
+/// named municipality, retrieved on a stated day, with a link to the source
+/// document — so nothing here reads as this app's own listing of a property.
+struct TaxSaleNoticesView: View {
+    let viewModel: TaxSaleViewModel
+    let overlayViewModel: OverlayViewModel
+    /// Dismisses this sheet once a property is chosen, so the map and the
+    /// parcel card it just opened are visible.
+    let onSelectProperty: () -> Void
+
+    @State private var now = Date()
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    Text(
+                        "Dated official notices. Past sale dates require municipal "
+                            + "result verification."
+                    )
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                    Picker("Redemption category", selection: filterBinding) {
+                        ForEach(RedemptionFilter.allCases, id: \.self) { filter in
+                            Text("\(filter.label) \(viewModel.filterCounts[filter] ?? 0)")
+                                .tag(filter)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    if let message = overlayViewModel.listedParcelMessage {
+                        Text(message)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .accessibilityAddTraits(.updatesFrequently)
+                    }
+
+                    ForEach(viewModel.unreadableDatasetNames, id: \.self) { name in
+                        Label(
+                            "This build could not read \(name), so that "
+                                + "municipality's notice is missing.",
+                            systemImage: "exclamationmark.triangle"
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                    }
+                }
+
+                ForEach(viewModel.upcomingEvents) { event in
+                    Section {
+                        eventHeader(event)
+                        ForEach(viewModel.listings(in: event)) { listing in
+                            ForEach(listing.pids, id: \.self) { pid in
+                                propertyRow(event: event, listing: listing, pid: pid)
+                            }
+                        }
+                        sourceLinks(event)
+                    }
+                }
+            }
+            .navigationTitle("Tax-sale notices")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .onAppear { now = Date() }
+    }
+
+    private var filterBinding: Binding<RedemptionFilter> {
+        Binding(
+            get: { viewModel.filter },
+            set: { filter in
+                viewModel.filter = filter
+                // The highlight is the filter's only effect on the map, and it
+                // is computed from state the map does not observe.
+                overlayViewModel.refreshListedParcelStyling()
+            }
+        )
+    }
+
+    @ViewBuilder
+    private func eventHeader(_ event: TaxSaleEvent) -> some View {
+        let summary = viewModel.summary(for: event)
+
+        Toggle(isOn: Binding(
+            get: { viewModel.isSelected(event.id) },
+            set: { visible in
+                viewModel.setEventVisibility(event.id, to: visible)
+                overlayViewModel.refreshListedParcelStyling()
+            }
+        )) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(event.shortMunicipality)
+                    .font(.headline)
+                Text(TaxSaleFormat.eventDateLabel(event))
+                    .font(.subheadline)
+                Text(event.lifecycle(now: now).label)
+                    .font(.footnote)
+                    .foregroundStyle(
+                        event.lifecycle(now: now) == .verifyResults ? .orange : .secondary
+                    )
+                Text(
+                    "\(summary.advertised) advertised · \(summary.withdrawn) withdrawn · "
+                        + "\(summary.activePIDs) active PIDs"
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                Text("Snapshot retrieved \(TaxSaleFormat.day(event.retrievedOn))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func propertyRow(
+        event: TaxSaleEvent,
+        listing: TaxSaleListing,
+        pid: String
+    ) -> some View {
+        Button {
+            overlayViewModel.selectListedParcel(eventID: event.id, pid: pid)
+            onSelectProperty()
+        } label: {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(listing.propertyLabel)
+                    .font(.subheadline.weight(.semibold))
+                Text(listing.lien.map { "Lien \($0) · PID \(pid)" } ?? "PID \(pid)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(
+                    "\(listing.financial.label) "
+                        + TaxSaleFormat.currency(cents: listing.financial.amountCents)
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                Text(listing.redemptionLabel)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if listing.listingStatus == .withdrawn {
+                    // Struck out in the municipality's current revision. Kept in
+                    // the list because it is in the notice the user is reading;
+                    // its parcel is not drawn.
+                    Text(TaxSaleListingStatus.withdrawn.label)
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                }
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(
+            "\(listing.propertyLabel), lien \(listing.lien ?? "not listed"), PID \(pid)"
+        )
+    }
+
+    @ViewBuilder
+    private func sourceLinks(_ event: TaxSaleEvent) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if let venue = event.venue {
+                Text(venue)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Link("Open direct official source", destination: event.sourceURL)
+                .font(.footnote)
+            if let landing = event.landingPageURL, landing != event.sourceURL {
+                Link("Open the municipality's tax-sale page", destination: landing)
+                    .font(.footnote)
+            }
+            Text("\(event.sourceLabel) · \(event.eventType.label)")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+    }
+}

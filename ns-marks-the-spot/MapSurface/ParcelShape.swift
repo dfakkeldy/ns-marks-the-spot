@@ -16,6 +16,12 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
         /// The parcel the user asked about: outline only, no fill, so the
         /// imagery underneath stays readable.
         case selected
+        /// Named as advertised in a current municipal tax-sale notice.
+        ///
+        /// Filled, unlike the selection, because this is a set of parcels the
+        /// user is scanning for rather than one they are reading a boundary
+        /// against.
+        case taxSale
         /// Drawn for context around the selection.
         case context
     }
@@ -34,18 +40,25 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
     /// map must not do is let that absence read as the parcel not existing, so
     /// whatever presents the selection says so in words; see
     /// `ParcelSelection.boundaryNotice`.
+    /// The selection wins over the tax-sale styling, as it does on the web: a
+    /// listed parcel the user has selected is being read as a boundary, and the
+    /// panel beside it already says it is listed.
     static func shapes(
         for collection: ParcelFeatureCollection,
-        selecting pid: String?
+        selecting pid: String?,
+        taxSalePIDs: Set<String> = []
     ) -> [ParcelShape] {
         collection.identifiedFeatures.compactMap { feature in
             let parts = feature.boundary.parts
             guard !parts.isEmpty else { return nil }
-            return ParcelShape(
-                pid: feature.pid,
-                role: feature.pid == pid ? .selected : .context,
-                parts: parts
-            )
+            let role: Role = if feature.pid == pid {
+                .selected
+            } else if taxSalePIDs.contains(feature.pid) {
+                .taxSale
+            } else {
+                .context
+            }
+            return ParcelShape(pid: feature.pid, role: role, parts: parts)
         }
     }
 }

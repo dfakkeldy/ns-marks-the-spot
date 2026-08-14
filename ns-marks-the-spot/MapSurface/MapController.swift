@@ -557,6 +557,10 @@ extension MapController: MKMapViewDelegate {
             renderer.strokeColor = UIColor(red: 0.624, green: 0.184, blue: 0.141, alpha: 1)
             renderer.fillColor = .clear
             renderer.lineWidth = 4
+        case .taxSale:
+            renderer.strokeColor = UIColor(red: 0.745, green: 0.302, blue: 0.235, alpha: 1)
+            renderer.fillColor = UIColor(red: 0.906, green: 0.659, blue: 0.420, alpha: 0.3)
+            renderer.lineWidth = 2
         case .context:
             renderer.strokeColor = UIColor(red: 0.039, green: 0.443, blue: 0.502, alpha: 1)
             renderer.fillColor = UIColor(red: 0.933, green: 0.969, blue: 0.961, alpha: 0.08)

@@ -79,6 +79,34 @@ nonisolated enum ParcelLookupMessage {
     static let noBoundaryToAskWith =
         "This parcel arrived without a boundary, so nothing could be looked up inside it."
 
+    /// There is no parcel record at all, only a notice naming the PID.
+    ///
+    /// A different sentence from `noBoundaryToAskWith`: there, NSPRD answered
+    /// and sent a record with no rings. Here it has no record to send.
+    static let noParcelRecordToAskWith =
+        "NSPRD returned no parcel for this PID, so nothing could be looked up inside it."
+
+    // MARK: - Tax-sale notices
+
+    /// How many advertised PIDs NSPRD had a parcel for.
+    ///
+    /// The count is of what came back, not of what was asked for. A listed PID
+    /// the parcel fabric has no record of is a gap the user should see, and
+    /// echoing the request's size would paper over it.
+    static func listedPIDsMatched(_ count: Int) -> String {
+        "\(count) PIDs matched in NSPRD."
+    }
+
+    /// The notices are readable; their parcels are not drawable right now.
+    static let listedParcelsUnavailable =
+        "The Province parcel service is temporarily unavailable. "
+            + "The official notices remain accessible."
+
+    /// The listing opened, and there is no parcel to put on the map with it.
+    static func listedParcelWithoutGeometry(pid: String) -> String {
+        "PID \(pid) is listed in a notice, but NSPRD returned no parcel to map."
+    }
+
     /// What an empty road list means, which depends on who answered.
     ///
     /// Two sources fill that list. The web credits both in one sentence
