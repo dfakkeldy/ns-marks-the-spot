@@ -94,6 +94,18 @@ final class ViewportFeatureViewModel {
 
     @ObservationIgnored private var refreshTasks: [LayerID: Task<Void, Never>] = [:]
 
+    /// Which request each layer is waiting on.
+    ///
+    /// `Task.isCancelled` is not enough on its own: a cancelled request that
+    /// was already past its last suspension point finishes normally, and a
+    /// *failing* one finishes through the catch path where there is nothing to
+    /// cancel. Either way it would land after the newer request and put a
+    /// stale status — `failed` over `ready`, or `failed` over a layer the user
+    /// has since switched off — on a layer that is doing something else. The
+    /// web guards the same way, comparing `currentRequest` with `requestNumber`
+    /// on both the success and the failure path.
+    @ObservationIgnored private var requestNumbers: [LayerID: Int] = [:]
+
     init(
         controller: MapController,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
@@ -133,6 +145,7 @@ final class ViewportFeatureViewModel {
 
     func isVisible(_ id: LayerID) -> Bool { visibility[id] ?? false }
 
+    /// The opacity this layer is drawn at: the catalog's, which is the web's.
     func opacity(_ id: LayerID) -> Double { opacities[id] ?? 1 }
 
     func status(_ id: LayerID) -> ViewportLayerStatus { statuses[id] ?? .off }
@@ -146,6 +159,11 @@ final class ViewportFeatureViewModel {
             // asking about.
             refreshTasks[id]?.cancel()
             refreshTasks[id] = nil
+            // Retires the in-flight request as well as its task: a fetch
+            // already past its last suspension point still finishes, and
+            // without this a failure could arrive and repaint a switched-off
+            // layer as broken.
+            requestNumbers[id] = (requestNumbers[id] ?? 0) + 1
             shapesByLayer[id] = nil
             markersByLayer[id] = nil
             statuses[id] = .off
@@ -155,15 +173,14 @@ final class ViewportFeatureViewModel {
         refresh(id)
     }
 
-    func setOpacity(_ id: LayerID, to value: Double) {
-        let clamped = min(max(value, 0), 1)
-        guard opacities[id] != clamped else { return }
-        opacities[id] = clamped
-        // Restyling means rebuilding, because the style travels with each
-        // drawn feature rather than with a layer object MapKit holds.
-        guard isVisible(id) else { return }
-        refresh(id)
-    }
+    // No opacity control, deliberately. The web gives one layer a slider —
+    // Fletcher — and draws every layer here at the opacity its catalog entry
+    // declares, which is part of how the layer reads: the hollow dashed well
+    // marker and the 28% policy-area fill are statements about the record, not
+    // a preference. A slider would also be half a lie on this surface, because
+    // several of these styles never consume the value; and each move would be a
+    // fresh query, since the style travels with the drawn feature rather than
+    // with a layer object MapKit holds.
 
     /// Re-queries every visible layer. Call on a settled viewport, and after
     /// the licence answer changes.
@@ -177,6 +194,8 @@ final class ViewportFeatureViewModel {
 
     private func refresh(_ id: LayerID) {
         refreshTasks[id]?.cancel()
+        let request = (requestNumbers[id] ?? 0) + 1
+        requestNumbers[id] = request
 
         guard isVisible(id) else {
             statuses[id] = .off
@@ -184,7 +203,10 @@ final class ViewportFeatureViewModel {
         }
 
         let descriptor = LayerCatalog.descriptor(for: id)
-        let minZoom = descriptor?.minZoom ?? 0
+        // A bundled layer is not a viewport query. The whole collection ships
+        // with the app, so there is no zoom below which it cannot be answered,
+        // and the web draws it at every zoom the map allows.
+        let minZoom = descriptor?.delivery == .bundledGeoJSON ? 0 : (descriptor?.minZoom ?? 0)
         guard controller.zoomLevel >= minZoom else {
             // Not a failure and not an empty answer: nothing was asked. The
             // features from a closer view are dropped so the map never shows
@@ -211,7 +233,7 @@ final class ViewportFeatureViewModel {
             guard let self else { return }
             try? await Task.sleep(for: Self.refreshDebounce)
             guard !Task.isCancelled else { return }
-            await load(id, in: box)
+            await load(id, in: box, request: request)
         }
     }
 
@@ -222,21 +244,25 @@ final class ViewportFeatureViewModel {
         publish()
     }
 
-    private func load(_ id: LayerID, in box: GeoBoundingBox) async {
+    private func load(_ id: LayerID, in box: GeoBoundingBox, request: Int) async {
         let clearance = clearanceBox.clearance
         let opacity = opacity(id)
 
         do {
             let found = try await features(for: id, in: box, clearance: clearance, opacity: opacity)
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled, requestNumbers[id] == request else { return }
             shapesByLayer[id] = found.shapes
             markersByLayer[id] = found.markers
             statuses[id] = .ready(
-                drawn: found.shapes.count + found.markers.count,
+                drawn: found.reportedCount ?? (found.shapes.count + found.markers.count),
                 unreadable: found.unreadable
             )
             publish()
         } catch {
+            // The same guard on the failing path: a request the user has
+            // already moved past must not report a failure over the answer
+            // that replaced it.
+            guard requestNumbers[id] == request else { return }
             switch error {
             case .cancelled:
                 // The user moved on; the previous view's answer stands until
@@ -260,6 +286,11 @@ final class ViewportFeatureViewModel {
         var shapes: [FeatureShape] = []
         var markers: [FeatureMarker] = []
         var unreadable = 0
+        /// What the chip counts, when the drawn things are not what the layer
+        /// is a count of. Only the hydro pilot sets it: it draws 1,213 stream
+        /// reaches across the 13 watersheds it screened, and the web reports
+        /// the watersheds, because "1,213 loaded" would read as 1,213 sites.
+        var reportedCount: Int?
     }
 
     private enum FetchFailure: Error {
@@ -399,7 +430,12 @@ final class ViewportFeatureViewModel {
     ) async throws(FetchFailure) -> Found {
         let found: (records: [WellLogOverlay.Record], unreadable: Int)
         do {
-            found = try await wells.wells(in: box, filter: .all, clearance: clearance)
+            // Surveyed only, which is what the web asks for and what this
+            // layer's own caveat tells the user it is showing. A ±8 km record
+            // is an area report, and drawing it as a dot at a coordinate while
+            // the panel says "surveyed ±50 m wells only" would be the map
+            // contradicting its own provenance line.
+            found = try await wells.wells(in: box, filter: .surveyed, clearance: clearance)
         } catch {
             throw Self.translate(error)
         }
@@ -477,7 +513,8 @@ final class ViewportFeatureViewModel {
                     title: reach.watershedName,
                     subtitle: reach.potentialClass.label
                 )
-            }
+            },
+            reportedCount: collection.metadata.watershedCount
         )
     }
 

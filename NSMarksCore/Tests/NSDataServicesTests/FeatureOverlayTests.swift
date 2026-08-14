@@ -213,6 +213,46 @@ struct FeatureOverlayResponseTests {
         #expect(page.unreadableCount == 2)
         #expect(page.features.map(\.id) == ["3"])
     }
+
+    @Test
+    func geometryWithNoCoordinatesAtAllIsAGapRatherThanAFeature() throws {
+        // The same failure as a one-position line, one level up: an empty
+        // coordinate list decodes, counts as a feature the viewport returned,
+        // and puts nothing on the map. Counting it as unreadable is what keeps
+        // "Ready · 1 loaded" from meaning an empty screen.
+        let page = try FeatureOverlayResponse.page(
+            from: collection(
+                """
+                {"type":"Feature","id":"1","geometry":{"type":"Polygon",\
+                "coordinates":[]},"properties":{}},\
+                {"type":"Feature","id":"2","geometry":{"type":"MultiPolygon",\
+                "coordinates":[[]]},"properties":{}},\(zone(id: "3", code: "R1", longitude: -61.35))
+                """
+            )
+        )
+
+        #expect(page.returnedCount == 3)
+        #expect(page.unreadableCount == 2)
+        #expect(page.features.map(\.id) == ["3"])
+    }
+
+    @Test
+    func aRingThatDoesNotRepeatItsFirstPositionIsStillThatGround() throws {
+        // Refusing it would throw away a real polygon over a punctuation mark:
+        // the closing edge a renderer draws is the one the ring already implies.
+        let page = try FeatureOverlayResponse.page(
+            from: collection(
+                """
+                {"type":"Feature","id":"1","geometry":{"type":"Polygon",\
+                "coordinates":[[[-61.35,45.65],[-61.34,45.65],[-61.34,45.66],\
+                [-61.35,45.66]]]},"properties":{}}
+                """
+            )
+        )
+
+        #expect(page.unreadableCount == 0)
+        #expect(page.features.map(\.id) == ["1"])
+    }
 }
 
 @Suite("Paging a viewport")

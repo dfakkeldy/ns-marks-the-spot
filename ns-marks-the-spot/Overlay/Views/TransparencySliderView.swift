@@ -310,7 +310,7 @@ private struct LayerRowView: View {
                 }
             }
 
-            if row.isVisible {
+            if row.isVisible, row.hasOpacityControl {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("Opacity")

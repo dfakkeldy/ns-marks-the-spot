@@ -1,15 +1,16 @@
 import Foundation
 import GeoCore
 import MapCatalog
+import MapKit
 import NSDataServices
 import Testing
 @testable import ns_marks_the_spot
 
 /// The panel switches for the layers that are queries rather than tiles.
 ///
-/// None of these reach a network: what is under test is the state the switch,
-/// the slider and the status chip report, which is decided before any request
-/// goes out.
+/// None of these reach a real network: what is under test is the state the
+/// switch and the status chip report, which is decided either side of the
+/// request rather than by it.
 @MainActor
 struct ViewportFeaturePanelTests {
     @Test func everyVectorLayerGetsARowWhenThereIsSomethingToAnswerForIt() {
@@ -65,13 +66,30 @@ struct ViewportFeaturePanelTests {
         #expect(features.isVisible(.zoningHalifax) == false)
     }
 
-    @Test func theSliderSetsTheOpacityTheFeaturesAreDrawnAt() {
+    @Test func aQueriedLayerOffersNoOpacitySliderToLieWith() {
+        // Its opacity is baked into each feature's style at the catalog value,
+        // which is what the web draws. A slider would move a number the map
+        // never reads.
         let (viewModel, features) = panel()
+        let catalogOpacity = LayerCatalog.descriptor(for: .zoningHalifax)?.opacity ?? 1
+
+        #expect(row(viewModel, .zoningHalifax)?.hasOpacityControl == false)
+        #expect(row(viewModel, .nsprd)?.hasOpacityControl == true)
 
         viewModel.updateLayerOpacity(for: LayerID.zoningHalifax.rawValue, to: 0.35)
 
-        #expect(abs(features.opacity(.zoningHalifax) - 0.35) < 0.0001)
-        #expect(abs((row(viewModel, .zoningHalifax)?.opacity ?? 0) - 0.35) < 0.0001)
+        #expect(abs(features.opacity(.zoningHalifax) - catalogOpacity) < 0.0001)
+    }
+
+    @Test func theHydroPilotIsBundledSoNoZoomHidesIt() {
+        // Every reach ships with the app; there is no viewport query to be too
+        // far out for, and the web draws it at the map's minimum zoom.
+        let controller = MapController()
+        let features = ViewportFeatureViewModel(controller: controller)
+
+        features.setVisible(.invernessHydroPotential, to: true)
+
+        #expect(features.status(.invernessHydroPotential) != .zoomGated(minZoom: 8))
     }
 
     @Test func theChipSaysWhatTheQuerySaid() {
@@ -144,6 +162,53 @@ struct ViewportFeaturePanelTests {
         // Accepting answers the tap that raised the sheet, rather than
         // dismissing and leaving the user to reach for the switch again.
         #expect(features.isVisible(layerID))
+    }
+
+    @Test func aFailureFromARequestTheUserHasMovedPastIsNotReported() async {
+        // The switch is answered before the fetch comes back. A cancelled task
+        // that is already past its last suspension point still finishes — and
+        // through the failing path there is nothing left to cancel — so without
+        // a request-generation check this lands as "Source temporarily
+        // unavailable" on a layer the user turned off.
+        let gate = Gate()
+        let controller = MapController()
+        controller.mapView = MKMapView()
+        controller.recordZoomLevel(20)
+        let features = ViewportFeatureViewModel(
+            controller: controller,
+            zoning: ZoningFetcher(
+                transport: HTTPTransport { _ in
+                    await gate.wait()
+                    throw URLError(.timedOut)
+                }
+            )
+        )
+
+        features.setVisible(.zoningHalifax, to: true)
+        try? await Task.sleep(for: .milliseconds(600))
+        features.setVisible(.zoningHalifax, to: false)
+        await gate.open()
+        for _ in 0..<50 { await Task.yield() }
+
+        #expect(features.status(.zoningHalifax) == .off)
+    }
+
+    /// Holds a stubbed request open until the test decides it should finish.
+    private actor Gate {
+        private var waiters: [CheckedContinuation<Void, Never>] = []
+        private var isOpen = false
+
+        func wait() async {
+            guard !isOpen else { return }
+            await withCheckedContinuation { waiters.append($0) }
+        }
+
+        func open() {
+            isOpen = true
+            let resumable = waiters
+            waiters = []
+            resumable.forEach { $0.resume() }
+        }
     }
 
     private func panel() -> (OverlayViewModel, ViewportFeatureViewModel) {

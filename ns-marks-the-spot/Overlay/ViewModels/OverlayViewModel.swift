@@ -55,6 +55,14 @@ nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
     var id: String { descriptor.id.rawValue }
     var name: String { descriptor.name }
     var isAvailable: Bool { installed != nil || feature != nil }
+
+    /// Whether this row's layer can be drawn at an opacity the user chooses.
+    ///
+    /// False for the queried vector layers: their opacity is baked into each
+    /// feature's style at the value the catalog declares, which is the value
+    /// the web draws them at and part of what the style says — a hollow dashed
+    /// well marker is a statement about the record's accuracy, not a look.
+    var hasOpacityControl: Bool { feature == nil }
     var isVisible: Bool { feature?.isVisible ?? installed?.isVisible ?? false }
     var opacity: CGFloat { feature?.opacity ?? installed?.opacity ?? 0 }
 
@@ -1032,10 +1040,8 @@ final class OverlayViewModel {
     }
 
     func updateLayerOpacity(for id: String, to value: CGFloat) {
-        if let features, let layerID = vectorLayerID(id) {
-            features.setOpacity(layerID, to: Double(value))
-            return
-        }
+        // The queried layers have no opacity control; see `hasOpacityControl`.
+        guard vectorLayerID(id) == nil else { return }
         controller.setOpacity(for: id, to: value)
     }
 
