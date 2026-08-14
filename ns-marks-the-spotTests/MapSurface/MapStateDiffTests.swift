@@ -1,4 +1,6 @@
 import Foundation
+import GeoCore
+import NSDataServices
 import Testing
 @testable import ns_marks_the_spot
 
@@ -122,6 +124,79 @@ struct MapStateDiffTests {
         desired.showsUserLocation = true
 
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.setShowsUserLocation(true)])
+    }
+
+    @Test func featureShapesAreInstalledBeforeParcelOutlines() {
+        let current = MapViewState()
+        var desired = current
+        let shape = makeShape(id: "og-1")
+        let parcel = ParcelShape(pid: "12345678", role: .selected, parts: [[square]])
+        desired.featureShapes = [shape]
+        desired.parcelShapes = [parcel]
+
+        // Install order is z-order: a viewport layer must not be laid over the
+        // parcel the user selected.
+        #expect(
+            MapStateDiff.mutations(from: current, to: desired) == [
+                .setFeatureShapes([shape]),
+                .setParcelShapes([parcel])
+            ]
+        )
+    }
+
+    @Test func changedFeatureMarkersEmitTheWholeSet() {
+        var current = MapViewState()
+        current.featureMarkers = [makeMarker(id: "well-1")]
+        var desired = current
+        let replacement = makeMarker(id: "well-2")
+        desired.featureMarkers = [replacement]
+
+        #expect(
+            MapStateDiff.mutations(from: current, to: desired) == [
+                .setFeatureMarkers([replacement])
+            ]
+        )
+    }
+
+    @Test func unchangedFeaturesEmitNothing() {
+        var state = MapViewState()
+        state.featureShapes = [makeShape(id: "og-1")]
+        state.featureMarkers = [makeMarker(id: "well-1")]
+
+        #expect(MapStateDiff.mutations(from: state, to: state).isEmpty)
+    }
+
+    private var square: [GeoPoint] {
+        [
+            GeoPoint(lat: 45, lng: -63),
+            GeoPoint(lat: 45, lng: -62),
+            GeoPoint(lat: 46, lng: -62),
+            GeoPoint(lat: 46, lng: -63),
+            GeoPoint(lat: 45, lng: -63)
+        ]
+    }
+
+    private func makeShape(id: String) -> FeatureShape {
+        FeatureShape(
+            id: id,
+            layer: .oldGrowthPolicy,
+            geometry: .polygon([square]),
+            style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 1.7),
+            title: id,
+            subtitle: nil
+        )
+    }
+
+    private func makeMarker(id: String) -> FeatureMarker {
+        FeatureMarker(
+            id: id,
+            layer: .nsWellLogs,
+            latitude: 45.5,
+            longitude: -63.5,
+            style: VectorFeatureStyle(strokeHex: "#ffffff", lineWidth: 1.5, markerRadius: 5),
+            title: id,
+            subtitle: nil
+        )
     }
 
     private func makeLayer(id: String, opacity: CGFloat = 1.0, isVisible: Bool = true) -> MapLayerState {

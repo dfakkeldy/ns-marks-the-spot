@@ -49,6 +49,34 @@ struct OverlayZIndexTests {
         #expect(OverlayZIndex.georeference == 660)
     }
 
+    @Test("The vector draw order puts old growth beneath every pane-space layer")
+    func vectorDrawOrderRespectsBothSpaces() throws {
+        let policy = try #require(OverlayZIndex.vectorDrawOrder(for: .oldGrowthPolicy))
+        for id in OverlayZIndex.vectorLayers where id != .oldGrowthPolicy {
+            let other = try #require(OverlayZIndex.vectorDrawOrder(for: id))
+            // Old growth is forestry context under a pane the web parents to
+            // the tile pane. Its 190 never competes with a pane number.
+            #expect(policy < other, "old-growth-policy must draw below \(id.rawValue)")
+        }
+
+        // Within pane space the web's own order still decides.
+        #expect(
+            OverlayZIndex.vectorDrawOrder(for: .zoningHalifax)!
+                < OverlayZIndex.vectorDrawOrder(for: .mineralProximityParcels)!
+        )
+        #expect(
+            OverlayZIndex.vectorDrawOrder(for: .mineralProximityParcels)!
+                < OverlayZIndex.vectorDrawOrder(for: .nsWellLogs)!
+        )
+    }
+
+    @Test("Raster layers have no vector draw order")
+    func rasterLayersHaveNoVectorDrawOrder() {
+        #expect(OverlayZIndex.vectorDrawOrder(for: .nsAerial) == nil)
+        #expect(OverlayZIndex.vectorDrawOrder(for: .fletcher) == nil)
+        #expect(OverlayZIndex.vectorDrawOrder(for: .nsprd) == nil)
+    }
+
     @Test("The historical raster sits above the aerial basemap and below every data layer")
     func fletcherIsContextNotEvidence() {
         // The whole point of the app: the scan is context you read modern data

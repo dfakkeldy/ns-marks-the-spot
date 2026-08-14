@@ -1,5 +1,6 @@
 import CoreLocation
 import MapKit
+import NSDataServices
 import Observation
 
 /// Interaction events flowing back from the map surface, routed through a
@@ -149,6 +150,33 @@ final class MapController: NSObject {
             for annotation in mapView.annotations where annotation.mapAnnotationID == id {
                 mapView.removeAnnotation(annotation)
             }
+
+        case .setFeatureShapes(let shapes):
+            mapView.removeOverlays(
+                mapView.overlays.filter { $0 is FeaturePolygon || $0 is FeaturePolyline }
+            )
+            // Ascending by the web's pane order, so a zoning wash goes down
+            // before the reaches and parcels that must stay readable over it.
+            // Inserted below the parcel outlines rather than appended, because
+            // MapKit draws in installation order and a layer switched on while
+            // a parcel is selected would otherwise cover the boundary the user
+            // is looking at.
+            let ordered = shapes.sorted { $0.zIndex < $1.zIndex }.flatMap { $0.overlays() }
+            if let firstParcel = mapView.overlays.first(where: { $0 is ParcelPolygon }) {
+                // One at a time, each directly below the parcel: successive
+                // inserts keep the ascending order they arrive in.
+                for overlay in ordered {
+                    mapView.insertOverlay(overlay, below: firstParcel)
+                }
+            } else {
+                mapView.addOverlays(ordered)
+            }
+
+        case .setFeatureMarkers(let markers):
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? FeatureMarkerAnnotation }
+            )
+            mapView.addAnnotations(markers.map(FeatureMarkerAnnotation.init(marker:)))
 
         case .setParcelShapes(let shapes):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
@@ -481,6 +509,18 @@ extension MapController: MKMapViewDelegate {
             return Self.renderer(for: parcel)
         }
 
+        if let feature = overlay as? FeaturePolygon {
+            let renderer = MKPolygonRenderer(polygon: feature)
+            Self.apply(feature.style, to: renderer)
+            return renderer
+        }
+
+        if let feature = overlay as? FeaturePolyline {
+            let renderer = MKPolylineRenderer(polyline: feature)
+            Self.apply(feature.style, to: renderer)
+            return renderer
+        }
+
         if let polygon = overlay as? MKPolygon {
             let renderer = MKPolygonRenderer(polygon: polygon)
             renderer.fillColor = UIColor.systemBlue.withAlphaComponent(0.15)
@@ -519,8 +559,40 @@ extension MapController: MKMapViewDelegate {
         return renderer
     }
 
+    /// The web's path options, applied to a MapKit renderer.
+    ///
+    /// The dash pattern is carried across rather than dropped: on this map a
+    /// dashed outline is a statement — the location is approximate, or the
+    /// polygon is something this app derived — and a renderer that quietly drew
+    /// it solid would upgrade the claim.
+    static func apply(_ style: VectorFeatureStyle, to renderer: MKOverlayPathRenderer) {
+        renderer.strokeColor = UIColor(
+            featureHex: style.strokeHex, alpha: style.strokeOpacity
+        )
+        renderer.fillColor = style.fillHex.map {
+            UIColor(featureHex: $0, alpha: style.fillOpacity)
+        }
+        renderer.lineWidth = style.lineWidth
+        renderer.lineDashPattern = style.dashPattern?.map { NSNumber(value: $0) }
+    }
+
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
+
+        // Before the pin branch: a well log and a saved point of interest are
+        // both point annotations, and a well drawn as a dropped pin would read
+        // as a place someone marked rather than as a record with an accuracy.
+        if let feature = annotation as? FeatureMarkerAnnotation {
+            let identifier = "FeatureMarker"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: feature, reuseIdentifier: identifier)
+            view.annotation = feature
+            view.canShowCallout = true
+            view.image = FeatureMarkerImage.image(for: feature.style)
+            return view
+        }
+
         guard annotation is MKPointAnnotation else { return nil }
 
         let identifier = "POIAnnotation"

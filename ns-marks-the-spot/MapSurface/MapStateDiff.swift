@@ -14,6 +14,11 @@ nonisolated enum MapMutation: Equatable, Sendable {
     /// gained it, and a per-id diff would have to notice a change that is not
     /// in the set of ids. The web rebuilds its parcel layer on the same event.
     case setParcelShapes([ParcelShape])
+    /// Replaces every viewport-layer shape at once, for the same reason parcel
+    /// outlines are replaced wholesale: a pan reissues the query, and the answer
+    /// is a new set of features rather than an edit to the old one.
+    case setFeatureShapes([FeatureShape])
+    case setFeatureMarkers([FeatureMarker])
     case setShowsUserLocation(Bool)
     case beginBoundsSelection
     case endBoundsSelection
@@ -33,8 +38,19 @@ nonisolated enum MapStateDiff {
         mutations.append(contentsOf: layerMutations(from: current.layers, to: desired.layers))
         mutations.append(contentsOf: annotationMutations(from: current.annotations, to: desired.annotations))
 
+        // Before the parcel outlines: install order is z-order, and every
+        // viewport layer draws below the parcel a user selected, which stays
+        // the visual authority.
+        if current.featureShapes != desired.featureShapes {
+            mutations.append(.setFeatureShapes(desired.featureShapes))
+        }
+
         if current.parcelShapes != desired.parcelShapes {
             mutations.append(.setParcelShapes(desired.parcelShapes))
+        }
+
+        if current.featureMarkers != desired.featureMarkers {
+            mutations.append(.setFeatureMarkers(desired.featureMarkers))
         }
 
         if current.showsUserLocation != desired.showsUserLocation {

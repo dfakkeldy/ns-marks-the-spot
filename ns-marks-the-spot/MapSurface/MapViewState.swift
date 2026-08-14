@@ -173,6 +173,10 @@ nonisolated struct MapViewState: Equatable, Sendable {
     var layers: [MapLayerState] = []
     var annotations: [MapAnnotation] = []
     var parcelShapes: [ParcelShape] = []
+    /// Areal and linear geometry from the viewport feature layers.
+    var featureShapes: [FeatureShape] = []
+    /// Point geometry from the same layers, drawn as fixed-size dots.
+    var featureMarkers: [FeatureMarker] = []
     var showsUserLocation = false
     var interactionMode: MapInteractionMode = .idle
 }

@@ -228,6 +228,33 @@ public enum OverlayZIndex {
         }
     }
 
+    /// One ascending key the vector layers can all be sorted by, or `nil` for a
+    /// layer that draws no client-side geometry.
+    ///
+    /// Necessary because the vector layers do not share a space.
+    /// `old-growth-policy` carries a tile-space z-index of 190, and its pane is
+    /// a child of the tile pane, which itself sits at 200 in map-pane space —
+    /// so on the web it draws beneath every pane-space vector layer, zoning
+    /// (300) included. Comparing 190 against 300 directly reaches the right
+    /// answer for the wrong reason, and would invert the moment a vector layer
+    /// took a tile-space number above 300. The offset keeps the two spaces
+    /// ordered by space first and number second, which is what the browser
+    /// actually does.
+    public static func vectorDrawOrder(for id: LayerID) -> Int? {
+        guard vectorLayers.contains(id) else { return nil }
+        switch space(of: id) {
+        case .tile:
+            return tileZIndex(for: id) ?? leafletTilePane
+        case .pane:
+            return paneSpaceOffset + (paneZIndex(for: id) ?? leafletOverlayPane)
+        }
+    }
+
+    /// Separates the two spaces in `vectorDrawOrder`. Larger than any z-index
+    /// either space uses, so no tile-space layer can sort above a pane-space
+    /// one.
+    private static let paneSpaceOffset = 10_000
+
     /// Z-index for a raster layer, or `nil` if the layer is not a raster in
     /// tile space.
     ///
