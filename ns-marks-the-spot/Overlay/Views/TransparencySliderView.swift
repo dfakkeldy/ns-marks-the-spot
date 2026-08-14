@@ -58,6 +58,40 @@ struct TransparencySliderView: View {
                 .pickerStyle(.segmented)
             }
 
+            // Map Record Mode
+            //
+            // Kept beside the base map rather than inside the tax-sale sheet,
+            // because it decides what every tax-sale colour on the map means and
+            // a reader has to be able to see which mode they are in without
+            // opening anything.
+            if viewModel.offersRecordModes {
+                Divider()
+                    .background(.primary.opacity(0.1))
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Map Record Mode")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+
+                    Picker("Map Record Mode", selection: Binding(
+                        get: { viewModel.mapRecordMode },
+                        set: { viewModel.setMapRecordMode($0) }
+                    )) {
+                        ForEach(HistoricalTaxSaleViewModel.Mode.allCases) { mode in
+                            Text(mode.label).tag(mode)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityIdentifier("map-record-mode")
+
+                    Text(viewModel.recordModeCaption)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
             Divider()
                 .background(.primary.opacity(0.1))
 

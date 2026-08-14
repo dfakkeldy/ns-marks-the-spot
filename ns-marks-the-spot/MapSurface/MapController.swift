@@ -557,10 +557,22 @@ extension MapController: MKMapViewDelegate {
             renderer.strokeColor = UIColor(red: 0.624, green: 0.184, blue: 0.141, alpha: 1)
             renderer.fillColor = .clear
             renderer.lineWidth = 4
+        case .selectedHistorical:
+            renderer.strokeColor = UIColor(red: 0.286, green: 0.200, blue: 0.435, alpha: 1)
+            renderer.fillColor = .clear
+            renderer.lineWidth = 4
         case .taxSale:
             renderer.strokeColor = UIColor(red: 0.745, green: 0.302, blue: 0.235, alpha: 1)
             renderer.fillColor = UIColor(red: 0.906, green: 0.659, blue: 0.420, alpha: 0.3)
             renderer.lineWidth = 2
+        case .historicalTaxSale:
+            renderer.strokeColor = UIColor(red: 0.353, green: 0.263, blue: 0.522, alpha: 1)
+            renderer.fillColor = UIColor(red: 0.643, green: 0.580, blue: 0.800, alpha: 0.34)
+            renderer.lineWidth = 2.25
+            // Dashed on the web, and dashed here: on this map a dashed outline
+            // says the parcel is being drawn for a record rather than for a
+            // current offering, and drawing it solid would upgrade the claim.
+            renderer.lineDashPattern = [5, 3]
         case .context:
             renderer.strokeColor = UIColor(red: 0.039, green: 0.443, blue: 0.502, alpha: 1)
             renderer.fillColor = UIColor(red: 0.933, green: 0.969, blue: 0.961, alpha: 0.08)

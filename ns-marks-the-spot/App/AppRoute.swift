@@ -9,6 +9,7 @@ enum SheetRoute: Identifiable, Equatable {
     case offlineStorage
     case info
     case taxSaleNotices
+    case historicalTaxSales
     case saveAreaDraft(MapBounds)
 
     var id: String {
@@ -21,6 +22,8 @@ enum SheetRoute: Identifiable, Equatable {
             return "info"
         case .taxSaleNotices:
             return "tax-sale-notices"
+        case .historicalTaxSales:
+            return "historical-tax-sales"
         case .saveAreaDraft:
             return "save-area-draft"
         }

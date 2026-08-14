@@ -178,7 +178,7 @@ struct TaxSalePanelTests {
         await viewModel.awaitListedParcels()
 
         let roles = viewModel.parcels
-            .shapes(taxSalePIDs: taxSale.highlightedPIDs)
+            .shapes(taxSalePIDs: taxSale.highlightedPIDs, historicalPIDs: [])
             .map(\.role)
         #expect(roles == [.taxSale, .taxSale])
     }
@@ -318,7 +318,7 @@ struct TaxSalePanelTests {
         viewModel.submitSearch()
         await viewModel.awaitParcelLookup()
 
-        let shapes = viewModel.parcels.shapes(taxSalePIDs: taxSale.highlightedPIDs)
+        let shapes = viewModel.parcels.shapes(taxSalePIDs: taxSale.highlightedPIDs, historicalPIDs: [])
         #expect(shapes.first(where: { $0.pid == "11111111" })?.role == .selected)
         #expect(shapes.first(where: { $0.pid == "22222222" })?.role == .taxSale)
     }
@@ -418,7 +418,7 @@ struct TaxSalePanelTests {
         #expect(taxSale.highlightedPIDs == ["22222222"])
         #expect(taxSale.advertisedPIDs == ["11111111", "22222222"])
         let roles = viewModel.parcels
-            .shapes(taxSalePIDs: taxSale.highlightedPIDs)
+            .shapes(taxSalePIDs: taxSale.highlightedPIDs, historicalPIDs: [])
             .filter { $0.role == .taxSale }
             .map(\.pid)
         #expect(roles == ["22222222"])

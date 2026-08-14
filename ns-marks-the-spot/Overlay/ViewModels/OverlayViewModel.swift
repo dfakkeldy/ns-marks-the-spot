@@ -244,6 +244,7 @@ final class OverlayViewModel {
     /// tests that exercise the parcel path on its own, where no parcel is
     /// listed and nothing would be highlighted.
     private let taxSale: TaxSaleViewModel?
+    private let historical: HistoricalTaxSaleViewModel?
     private let licenceStore: ProvinceLicenceStore
     private let clearanceBox: LicenceClearanceBox
     private let parcelFetcher: ParcelFetcher
@@ -264,6 +265,7 @@ final class OverlayViewModel {
         licenceStore: ProvinceLicenceStore,
         features: ViewportFeatureViewModel? = nil,
         taxSale: TaxSaleViewModel? = nil,
+        historical: HistoricalTaxSaleViewModel? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
@@ -277,6 +279,7 @@ final class OverlayViewModel {
         self.controller = controller
         self.features = features
         self.taxSale = taxSale
+        self.historical = historical
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
         self.parcelFetcher = parcelFetcher
@@ -293,13 +296,15 @@ final class OverlayViewModel {
     convenience init(
         container: AppContainer,
         features: ViewportFeatureViewModel? = nil,
-        taxSale: TaxSaleViewModel? = nil
+        taxSale: TaxSaleViewModel? = nil,
+        historical: HistoricalTaxSaleViewModel? = nil
     ) {
         self.init(
             controller: container.mapController,
             licenceStore: container.licenceStore,
             features: features,
             taxSale: taxSale,
+            historical: historical,
             clearanceBox: container.clearanceBox
         )
     }
@@ -681,6 +686,141 @@ final class OverlayViewModel {
         await listedParcelLoad?.value
     }
 
+    // MARK: - Historical records
+
+    /// What the historical bulk request is doing or found.
+    ///
+    /// Its own message for the same reason the current one has its own: it
+    /// answers whether the map is showing every matched historical parcel, and
+    /// a search must not overwrite that with an answer to a different question.
+    private(set) var historicalParcelMessage: String?
+
+    @ObservationIgnored private var historicalParcelLoad: Task<Void, Never>?
+
+    @ObservationIgnored private var hasLoadedHistoricalParcels = false
+
+    /// Asks NSPRD for the matched historical parcels the map does not hold.
+    ///
+    /// Only what is missing: the current notices have already brought back
+    /// their parcels, and CBRM's sale is in both sets. Asking again for a
+    /// parcel already in hand would spend the Province's service to redraw what
+    /// is on screen.
+    func loadHistoricalParcels() {
+        guard let historical, historical.isShowingHistorical,
+              clearanceBox.clearance.allows(.nsprd) else { return }
+        let wanted = historical.matchedPIDs
+        guard !wanted.isEmpty, !hasLoadedHistoricalParcels else { return }
+        hasLoadedHistoricalParcels = true
+
+        let held = Set(parcels.features.map(\.pid))
+        let missing = wanted.filter { !held.contains($0) }
+        guard !missing.isEmpty else {
+            historicalParcelMessage = ParcelLookupMessage.historicalPIDsMatched(wanted.count)
+            return
+        }
+
+        historicalParcelMessage = ParcelLookupMessage.historicalRecordsLoadedParcelsComing
+        historicalParcelLoad = Task {
+            [weak self, parcelFetcher, clearance = clearanceBox.clearance] in
+            let outcome: Result<ParcelFeatureCollection, ParcelLookupFailure>
+            do throws(ParcelLookupFailure) {
+                outcome = .success(
+                    try await parcelFetcher.parcels(pids: missing, clearance: clearance)
+                )
+            } catch {
+                outcome = .failure(error)
+            }
+            guard !Task.isCancelled, let self else { return }
+            switch outcome {
+            case .success(let collection):
+                parcels.merge(collection)
+                publishParcels(focus: false)
+                // Counted over what the map now holds, so a PID NSPRD has no
+                // record of is visible as a shortfall instead of being folded
+                // into the number asked for.
+                let now = Set(parcels.features.map(\.pid))
+                let matched = wanted.count { now.contains($0) }
+                historicalParcelMessage = matched == wanted.count
+                    ? ParcelLookupMessage.historicalPIDsMatched(matched)
+                    : ParcelLookupMessage.historicalPIDsReturned(matched, of: wanted.count)
+            case .failure(let failure):
+                guard failure != .cancelled else { return }
+                let now = Set(parcels.features.map(\.pid))
+                let matched = wanted.count { now.contains($0) }
+                historicalParcelMessage = matched > 0
+                    ? ParcelLookupMessage.someHistoricalParcelsUnavailable(
+                        matched, of: wanted.count
+                    )
+                    : ParcelLookupMessage.historicalParcelsUnavailable
+            }
+        }
+    }
+
+    func awaitHistoricalParcels() async {
+        await historicalParcelLoad?.value
+    }
+
+    /// Switches the map between the current notices and the published records.
+    ///
+    /// The two are never drawn together. Leaving the historical mode drops its
+    /// message as well as its styling: a count of matched historical parcels
+    /// standing over a map showing current notices is a sentence about a set
+    /// nobody is looking at.
+    /// Which record set the map is reading. `current` where this build was
+    /// assembled without the historical catalog, which is the honest answer:
+    /// there is no other set to be in.
+    var mapRecordMode: HistoricalTaxSaleViewModel.Mode { historical?.mode ?? .current }
+
+    /// Whether there is a second record set to offer at all.
+    var offersRecordModes: Bool { historical != nil }
+
+    /// The line under the switch, saying what the mode the map is in is worth.
+    var recordModeCaption: String {
+        switch mapRecordMode {
+        case .current:
+            "CURRENT · advertised notices that still require municipal verification"
+        case .historical:
+            "HISTORICAL · dated notices and verified outcomes, never current offerings"
+        }
+    }
+
+    func setMapRecordMode(_ mode: HistoricalTaxSaleViewModel.Mode) {
+        guard let historical, historical.mode != mode else { return }
+        // The open card is dropped, as the web drops it. A parcel card carries
+        // the notice or the records of the mode it was opened in, and leaving it
+        // up across a switch would leave a dated outcome on screen under a map
+        // that has started answering the other question.
+        clearParcelSelection()
+        historical.mode = mode
+        if mode == .historical {
+            loadHistoricalParcels()
+        } else {
+            historicalParcelLoad?.cancel()
+            historicalParcelLoad = nil
+            hasLoadedHistoricalParcels = false
+            historicalParcelMessage = nil
+        }
+        publishParcels(focus: false)
+    }
+
+    /// Redraws with whatever the historical filters now say, without asking the
+    /// service anything.
+    func refreshHistoricalStyling() {
+        publishParcels(focus: false)
+    }
+
+    /// Opens a property picked out of the historical panel.
+    func selectHistoricalParcel(pid: String) {
+        if !parcels.holds(pid: pid) {
+            // Selected up front for the same reason a notice row is: the record
+            // is already in hand, and a parcel service that does not answer
+            // must not decide whether the user sees what they tapped.
+            parcels.select(pid)
+            publishParcels(focus: false)
+        }
+        searchPID(pid)
+    }
+
     /// Opens the property a user picked out of a notice.
     ///
     /// The event is switched on first, as the web switches it on: picking a
@@ -706,7 +846,12 @@ final class OverlayViewModel {
     }
 
     private func publishParcels(focus: Bool) {
-        controller.setParcelShapes(parcels.shapes(taxSalePIDs: taxSale?.highlightedPIDs ?? []))
+        controller.setParcelShapes(
+            parcels.shapes(
+                taxSalePIDs: taxSale?.highlightedPIDs ?? [],
+                historicalPIDs: historical?.highlightedPIDs ?? []
+            )
+        )
         if focus, let bounds = parcels.selectedBounds {
             controller.focus(on: bounds)
         }
@@ -755,18 +900,27 @@ final class OverlayViewModel {
             return
         }
         let notice = taxSale?.listingContext(forPID: pid)
+        let records = historical?.contexts(forPID: pid) ?? []
+        // Only printed in the historical mode. The current notices are the
+        // map's ordinary state, and a marker on every card would stop being
+        // read long before the one card that needs it.
+        let modeMarker = historical?.isShowingHistorical == true
+            ? historical?.mode.markerLabel
+            : nil
 
         guard !parcels.selectedFeatures.isEmpty else {
             // No parcel record, so every source that takes the parcel's rings
             // is unaskable. A notice is still worth showing on its own: the
             // municipality named this PID, and that fact does not depend on
             // NSPRD holding geometry for it.
-            guard let notice else {
+            guard notice != nil || !records.isEmpty else {
                 inspection = nil
                 return
             }
             var state = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
             state.taxSaleNotice = notice
+            state.historicalRecords = records
+            state.recordModeMarker = modeMarker
             let reason = ParcelLookupMessage.noParcelRecordToAskWith
             state.civicAddresses = .unavailable(reason)
             state.mappedContext = .unavailable(reason)
@@ -789,6 +943,8 @@ final class OverlayViewModel {
             boundaryNotice: parcels.boundaryNotice
         )
         state.taxSaleNotice = notice
+        state.historicalRecords = records
+        state.recordModeMarker = modeMarker
 
         let parts = features.flatMap(\.boundary.parts)
         guard !parts.isEmpty else {

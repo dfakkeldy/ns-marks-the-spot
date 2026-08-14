@@ -12,13 +12,20 @@ struct NSMarksTheSpotApp: App {
             // Likewise: the notices panel and the parcels the map draws as
             // listed have to be the same set of switches.
             let taxSale = TaxSaleViewModel()
+            // And again: the historical panel's mode and filters decide which
+            // parcels the map draws, so the panel and the map read one value.
+            let historical = HistoricalTaxSaleViewModel()
             MapContainerView(
                 controller: container.mapController,
                 overlayViewModel: OverlayViewModel(
-                    container: container, features: features, taxSale: taxSale
+                    container: container,
+                    features: features,
+                    taxSale: taxSale,
+                    historical: historical
                 ),
                 viewportFeatureViewModel: features,
                 taxSaleViewModel: taxSale,
+                historicalViewModel: historical,
                 navigationModel: container.navigationModel,
                 poiViewModel: container.poiViewModel,
                 offlineAreasViewModel: container.offlineAreasViewModel,

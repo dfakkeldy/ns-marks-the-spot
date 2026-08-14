@@ -102,6 +102,36 @@ nonisolated enum ParcelLookupMessage {
         "The Province parcel service is temporarily unavailable. "
             + "The official notices remain accessible."
 
+    // MARK: - Historical records
+
+    /// The records are readable before any parcel is.
+    ///
+    /// Said in that order deliberately: the records ship with the app, and a
+    /// user who reads "loading" should know the evidence is already here and it
+    /// is only the map drawing that is outstanding.
+    static let historicalRecordsLoadedParcelsComing =
+        "Historical records loaded. Loading matched map parcels…"
+
+    static func historicalPIDsMatched(_ count: Int) -> String {
+        "\(count) historical PIDs matched in NSPRD."
+    }
+
+    /// Fewer parcels than records. The shortfall is stated rather than rounded
+    /// away: a matched PID the parcel fabric has no record of is a gap in the
+    /// map, not a record that does not exist.
+    static func historicalPIDsReturned(_ matched: Int, of total: Int) -> String {
+        "\(matched) of \(total) historical PIDs returned by NSPRD."
+    }
+
+    static func someHistoricalParcelsUnavailable(_ matched: Int, of total: Int) -> String {
+        "\(matched) of \(total) historical PIDs are shown. Remaining matched parcel "
+            + "geometry is unavailable right now."
+    }
+
+    static let historicalParcelsUnavailable =
+        "Historical records remain available, but matched parcel geometry is "
+            + "unavailable right now."
+
     /// The listing opened, and there is no parcel to put on the map with it.
     static func listedParcelWithoutGeometry(pid: String) -> String {
         "PID \(pid) is listed in a notice, but NSPRD returned no parcel to map."

@@ -9,6 +9,7 @@ struct MapContainerView: View {
     @State private var overlayVM: OverlayViewModel
     @State private var featureVM: ViewportFeatureViewModel
     @State private var taxSaleVM: TaxSaleViewModel
+    @State private var historicalVM: HistoricalTaxSaleViewModel
     private let poiVM: POIViewModel
     private let offlineVM: OfflineAreasViewModel
     @State private var isLayersMenuExpanded = false
@@ -20,6 +21,7 @@ struct MapContainerView: View {
         overlayViewModel: OverlayViewModel,
         viewportFeatureViewModel: ViewportFeatureViewModel,
         taxSaleViewModel: TaxSaleViewModel = TaxSaleViewModel(),
+        historicalViewModel: HistoricalTaxSaleViewModel = HistoricalTaxSaleViewModel(),
         navigationModel: NavigationModel,
         poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
@@ -36,6 +38,7 @@ struct MapContainerView: View {
         _overlayVM = State(initialValue: overlayViewModel)
         _featureVM = State(initialValue: viewportFeatureViewModel)
         _taxSaleVM = State(initialValue: taxSaleViewModel)
+        _historicalVM = State(initialValue: historicalViewModel)
     }
 
     var body: some View {
@@ -152,6 +155,21 @@ struct MapContainerView: View {
                                 .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                         }
                         .accessibilityLabel("Tax-sale Notices")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .historicalTaxSales
+                        } label: {
+                            Image(systemName: "clock.arrow.circlepath")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.purple)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Historical Tax-sale Records")
                         .disabled(isSelectingSaveArea)
 
                         Button {
@@ -318,6 +336,14 @@ struct MapContainerView: View {
             case .taxSaleNotices:
                 TaxSaleNoticesView(
                     viewModel: taxSaleVM,
+                    overlayViewModel: overlayVM
+                ) {
+                    // The property's parcel card is behind this sheet.
+                    navigationModel.activeSheet = nil
+                }
+            case .historicalTaxSales:
+                HistoricalTaxSalesView(
+                    viewModel: historicalVM,
                     overlayViewModel: overlayVM
                 ) {
                     // The property's parcel card is behind this sheet.

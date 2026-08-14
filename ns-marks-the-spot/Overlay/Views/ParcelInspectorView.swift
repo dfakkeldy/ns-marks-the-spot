@@ -28,6 +28,7 @@ struct ParcelInspectorView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     taxSaleNotice
+                    historicalRecords
                     assessments
                     dwellings
                     civicAddresses
@@ -56,6 +57,11 @@ struct ParcelInspectorView: View {
                     Text(sourceSubtitle)
                         .font(.caption)
                         .foregroundStyle(inspection.taxSaleNotice == nil ? .secondary : .primary)
+                    if let marker = inspection.recordModeMarker {
+                        Text(marker)
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(.purple)
+                    }
                 }
 
                 Spacer()
@@ -192,6 +198,99 @@ struct ParcelInspectorView: View {
         case (.upcoming, _):
             return "Properties may be paid, removed or deferred. Verify current status with "
                 + "\(municipality). \(disclaimer)"
+        }
+    }
+
+    // MARK: - Historical records
+
+    /// What the published results said about this PID, one card per sale.
+    ///
+    /// Shown only in the historical mode, and only for the records the panel's
+    /// filters currently leave: a card that quietly included a sale the list is
+    /// hiding would make the filter mean something different on the map than it
+    /// means in the panel.
+    @ViewBuilder
+    private var historicalRecords: some View {
+        if !inspection.historicalRecords.isEmpty {
+            VStack(alignment: .leading, spacing: 14) {
+                Text("Historical tax-sale records")
+                    .font(.subheadline.weight(.semibold))
+
+                ForEach(inspection.historicalRecords, id: \.record.recordID) { context in
+                    historicalRecord(context)
+                }
+            }
+            .font(.subheadline)
+            .accessibilityIdentifier("parcel-inspector-historical")
+        }
+    }
+
+    @ViewBuilder
+    private func historicalRecord(_ context: HistoricalRecordContext) -> some View {
+        let event = context.event
+        let record = context.record
+
+        VStack(alignment: .leading, spacing: 6) {
+            Text("\(event.shortMunicipality) · \(TaxSaleFormat.day(event.saleDate))")
+                .font(.subheadline.weight(.semibold))
+
+            Text(record.civicDescription)
+                .fixedSize(horizontal: false, vertical: true)
+
+            LabeledContent("Sale method") { Text(event.saleMethod.label) }
+            LabeledContent(event.listingIdentifierLabel) {
+                Text(record.listingIdentifier).monospacedDigit()
+            }
+            LabeledContent(event.advertisedAmountLabel) {
+                Text(TaxSaleFormat.currency(cents: record.advertisedAmountCents))
+                    .monospacedDigit()
+            }
+            LabeledContent("Outcome") { Text(context.outcomeLabel) }
+            LabeledContent("Winning bid") { Text(context.winningBidLabel).monospacedDigit() }
+
+            // Only where the source published both numbers. A comparison against
+            // an unpublished bid would be arithmetic on a number nobody printed.
+            if let comparison = context.financialComparison {
+                LabeledContent("Difference") {
+                    Text(TaxSaleFormat.currency(cents: comparison.differenceCents))
+                        .monospacedDigit()
+                }
+                LabeledContent("Above \(event.advertisedAmountLabel.lowercased())") {
+                    Text(String(format: "%.2f%%", comparison.percentageAbove))
+                        .monospacedDigit()
+                }
+                LabeledContent("Winning-bid multiple") {
+                    Text(String(format: "%.2f×", comparison.winningBidMultiple))
+                        .monospacedDigit()
+                }
+            }
+
+            LabeledContent("Redemption field") { Text(record.redemptionLabel) }
+            if let note = record.resultNote {
+                Text(note)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            LabeledContent("Parcel match") { Text(record.nsprdMatchMethod.label) }
+            LabeledContent("Source retrieved") {
+                Text(TaxSaleFormat.day(event.retrievedOn)).monospacedDigit()
+            }
+
+            Label(context.limitNote, systemImage: "exclamationmark.triangle")
+                .font(.caption)
+                .foregroundStyle(.orange)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // Both documents, separately named. The notice is what was
+            // advertised and the result is what was published afterwards; a
+            // reader checking one of them should not be handed the other.
+            Link("Official notice", destination: event.noticeURL)
+                .font(.footnote)
+            if let resultURL = event.resultURL {
+                Link("Published results", destination: resultURL)
+                    .font(.footnote)
+            }
         }
     }
 

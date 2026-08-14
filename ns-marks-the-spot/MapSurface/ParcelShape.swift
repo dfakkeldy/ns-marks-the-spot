@@ -22,6 +22,15 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
         /// user is scanning for rather than one they are reading a boundary
         /// against.
         case taxSale
+        /// The selection, while the map is reading historical records.
+        ///
+        /// A different outline colour from `selected`, as on the web: the two
+        /// modes answer different questions — what is for sale now, and what
+        /// changed hands before — and a parcel that looks identical in both
+        /// invites a dated result to be read as a current offering.
+        case selectedHistorical
+        /// Named in a published historical tax-sale record.
+        case historicalTaxSale
         /// Drawn for context around the selection.
         case context
     }
@@ -46,17 +55,27 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
     static func shapes(
         for collection: ParcelFeatureCollection,
         selecting pid: String?,
-        taxSalePIDs: Set<String> = []
+        taxSalePIDs: Set<String> = [],
+        historicalPIDs: Set<String> = []
     ) -> [ParcelShape] {
         collection.identifiedFeatures.compactMap { feature in
             let parts = feature.boundary.parts
             guard !parts.isEmpty else { return nil }
-            let role: Role = if feature.pid == pid {
-                .selected
+            let role: Role
+            if feature.pid == pid {
+                // Historical only when the parcel is not also currently
+                // listed: a property in both is for sale now, and that is the
+                // more consequential of the two things to be looking at.
+                role = historicalPIDs.contains(feature.pid)
+                    && !taxSalePIDs.contains(feature.pid)
+                    ? .selectedHistorical
+                    : .selected
             } else if taxSalePIDs.contains(feature.pid) {
-                .taxSale
+                role = .taxSale
+            } else if historicalPIDs.contains(feature.pid) {
+                role = .historicalTaxSale
             } else {
-                .context
+                role = .context
             }
             return ParcelShape(pid: feature.pid, role: role, parts: parts)
         }

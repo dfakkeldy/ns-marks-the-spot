@@ -41,6 +41,20 @@ struct ParcelInspection: Equatable {
     /// somewhere this map does not cover.
     var taxSaleNotice: TaxSaleNoticeContext?
 
+    /// The published historical records naming this PID, when the map is
+    /// reading them.
+    ///
+    /// Empty in the current-notice mode by design rather than by accident: the
+    /// two record sets answer different questions, and a dated result shown
+    /// beside a live notice is the one confusion this feature cannot afford.
+    var historicalRecords: [HistoricalRecordContext] = []
+
+    /// Which record set the map is reading, printed on the card when that is not
+    /// the ordinary one. A reader who left the app in the historical mode and
+    /// came back to it needs to know which question the parcel colours and this
+    /// card are answering before they read either.
+    var recordModeMarker: String?
+
     /// How many buildings NSTDB has mapped inside the outline. A count of zero
     /// is an answer; it is not a vacant lot.
     var buildings: ParcelEvidence<ParcelBuildingCount> = .looking

@@ -88,6 +88,7 @@ extension OverlayViewModel {
         licence: ProvinceLicenceState = .accepted,
         zoomLevel: Int? = nil,
         taxSale: TaxSaleViewModel? = nil,
+        historical: HistoricalTaxSaleViewModel? = nil,
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
@@ -115,6 +116,7 @@ extension OverlayViewModel {
                 storage: InMemoryProvinceLicenceStorage(initial: licence)
             ),
             taxSale: taxSale,
+            historical: historical,
             parcelFetcher: parcelFetcher,
             civicFetcher: civicFetcher,
             contextFetcher: contextFetcher,
