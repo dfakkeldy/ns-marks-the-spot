@@ -56,7 +56,7 @@ public enum TaxSaleListingStatus: String, Sendable, Hashable, CaseIterable {
 /// `unknown` is a real and distinct answer: a notice that does not state a
 /// redemption period has not stated one, which is different from stating that
 /// there is none.
-public enum RedemptionCategory: String, Sendable, Hashable, CaseIterable {
+public enum RedemptionCategory: String, Sendable, Hashable, CaseIterable, Decodable {
     case sixMonth = "six-month"
     case immediateDeed = "immediate-deed"
     case notRedeemable = "not-redeemable"

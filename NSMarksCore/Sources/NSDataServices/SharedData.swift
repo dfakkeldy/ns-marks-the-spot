@@ -19,6 +19,8 @@ public enum SharedData {
     public enum Dataset: String, CaseIterable, Sendable {
         case annapolisTaxSale = "annapolisTaxSale.snapshot.json"
         case cbrmTaxSale = "cbrmTaxSale.snapshot.json"
+        case cbrmTaxSaleResults = "cbrmTaxSaleResults.snapshot.json"
+        case historicalTaxSales = "historicalTaxSales.json"
         case invernessTaxSale = "invernessTaxSale.snapshot.json"
         case middletonTaxSale = "middletonTaxSale.snapshot.json"
     }
