@@ -484,3 +484,25 @@ Next action: start Phase 4 (tax sales); on gate admission spend it on ONE
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — Phase 6 closed; first app-target test run
+
+Done: Codex review of the wiring found six issues; all fixed in fca2c47f3
+(stale-request guard on both paths, surveyed-only wells, hydro is bundled
+so no zoom gate and it counts watersheds, no opacity slider on queried
+layers, empty geometry unreadable). Package 435 green. First-ever
+app-target run on an iPhone 17 sim: ViewportFeaturePanelTests +
+OverlayDrawOrderTests, 28 tests, TEST SUCCEEDED.
+
+Next: Phase 4 (tax sales). The whole-bundle app test run still hangs —
+task #12 — boot the sim and run focused suites until that is fixed.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: start Phase 4 (tax sales). To run app tests: xcrun simctl boot
+24FBD923-387E-4B7E-9063-FCF166239B1C, then ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests/<Suite>
+-scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
