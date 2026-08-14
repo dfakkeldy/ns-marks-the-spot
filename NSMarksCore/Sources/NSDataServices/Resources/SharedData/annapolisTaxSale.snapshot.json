@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "title": "Annapolis County tax sale by tender — Tender #08-2026, closing August 31, 2026",
+  "saleDate": "2026-08-31",
+  "tenderNumber": "08-2026",
+  "retrievedDate": "2026-07-23",
+  "source": "https://annapoliscounty.ca/tax-finance/tax-sale/2342-june-2026-tax-sale-by-tender",
+  "landingPage": "https://annapoliscounty.ca/tax-finance/tax-sale",
+  "crossCheck": "https://github.com/dfakkeldy/ns-marks-the-spot/tree/80a9aae83/web",
+  "normalization": "The on-page table prints AAN 9153144; the linked Property Online map PDF prints the eight-digit AAN 09153144 and PID 05266937, and the eight-digit forms are stored so exact NSPRD parcel matching works. Address capitalization was normalized after visual review; tender number, description, minimum bid, HST treatment, deadline, and redemption period remain source facts.",
+  "status": "dated municipal snapshot; the notice page is rewritten in place (its URL slug still says June 2026) and requires continued municipal verification",
+  "sourceAccessNotes": "The notice page returns HTTP 403 to plain fetchers and HTTP 200 with a browser user agent, and its bytes vary per request because of a dynamic form token, so the two linked PDFs are the hash-pinned source documents and the notice is preserved as a Wayback capture.",
+  "noticeArchivedCopy": "https://web.archive.org/web/20260724020945/https://annapoliscounty.ca/tax-finance/tax-sale/2342-june-2026-tax-sale-by-tender",
+  "ownerNamesExcluded": true,
+  "listingCount": 1,
+  "parcelIdentifierCount": 1,
+  "listings": [
+    {
+      "tenderItem": 1,
+      "aan": "09153144",
+      "description": "SHOPPING CENTRE - LOT 227",
+      "address": "1043 Highway 1, Cornwallis Park",
+      "minimumBid": 1.0,
+      "hstOnTotalBid": true,
+      "redemptionPeriod": "six-month",
+      "pids": [
+        "05266937"
+      ],
+      "listingStatus": "advertised"
+    }
+  ],
+  "supportingDocuments": [
+    {
+      "label": "Parcel Description Report (PID 05266937, Lot 227, Cornwallis Park)",
+      "url": "https://annapoliscounty.ca/images/2026_TAX_SALE/9153144_copy.pdf",
+      "sha256": "b040f7e1e20fb5a0e583e99bac8e0eb24ae4a87e8131c5915029022938c773d5",
+      "retrievedOn": "2026-07-23",
+      "archivedCopy": "https://web.archive.org/web/20260724021006/https://annapoliscounty.ca/images/2026_TAX_SALE/9153144_copy.pdf"
+    },
+    {
+      "label": "Property Online map (PID 05266937, AAN 09153144)",
+      "url": "https://annapoliscounty.ca/images/2026_TAX_SALE/9153144_Map.pdf",
+      "sha256": "6d01a50da1d65fa22f9ff9048353deae50330ead31ac4530297d1fb906049a78",
+      "retrievedOn": "2026-07-23",
+      "archivedCopy": "https://web.archive.org/web/20260724021018/https://annapoliscounty.ca/images/2026_TAX_SALE/9153144_Map.pdf"
+    }
+  ]
+}

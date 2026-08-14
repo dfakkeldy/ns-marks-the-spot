@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "municipality": "Town of Middleton",
+  "source": "https://www.discovermiddleton.ca/property-tax-sale-information",
+  "retrievedDate": "2026-08-07",
+  "sourceFactsSha256": "087eab9bbd3260c7a2b8e9daedb88c45e8bdcef5f72616f6d934d54b592bf94b",
+  "sourceHashPolicy": "The official HTML varies per request; this receipt hashes normalized owner-free event and listing facts instead of unstable page bytes.",
+  "ownerNamesExcluded": true,
+  "eventDate": "2026-08-20",
+  "saleTime": "10:00",
+  "venue": "Town Hall Council Chambers - 131 Commercial Street, Middleton",
+  "listingCount": 3,
+  "parcelIdentifierCount": 3,
+  "listings": [
+    {
+      "item": 1,
+      "address": "Dwelling, 12-16 Bridge Street, Middleton",
+      "pids": [
+        "05078472"
+      ],
+      "aan": "03949001",
+      "totalDueCents": 1183095,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 2,
+      "address": "Land, 50 School Street, Middleton",
+      "pids": [
+        "05193040"
+      ],
+      "aan": "03334198",
+      "totalDueCents": 8351154,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 3,
+      "address": "Land, Senator Road, Middleton",
+      "pids": [
+        "05030911"
+      ],
+      "aan": "01204483",
+      "totalDueCents": 1536838,
+      "redeemable": false,
+      "listingStatus": "advertised"
+    }
+  ]
+}

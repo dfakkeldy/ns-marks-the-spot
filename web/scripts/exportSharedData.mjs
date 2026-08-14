@@ -23,6 +23,7 @@ import { fileURLToPath } from "node:url";
 // would silently adopt whatever lands in web/src/data next.
 export const SHARED_DATASETS = [
   "annapolisTaxSale.snapshot.json",
+  "cbrmTaxSale.snapshot.json",
   "cbrmTaxSaleResults.snapshot.json",
   "cumberlandTaxSale.snapshot.json",
   "historicalMatchExceptions.json",
