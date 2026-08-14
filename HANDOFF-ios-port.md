@@ -506,3 +506,26 @@ Next action: start Phase 4 (tax sales). To run app tests: xcrun simctl boot
 `xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests/<Suite>
 -scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-14 — Phase 4 complete in source; no simulator run yet
+
+Done: tax-sale notices (Stage B) and the historical record set (Stage C) are
+both on the native map. Historical mode switcher in the layers panel, filter
+panel + record list sheet, purple parcel styling, inspector historical section.
+Two Codex reviews; all eight findings fixed. Package tests 463 green; both app
+targets type-check. Commits 974da2a2a, 7c6969cc1, f2008a324, e67d3db23,
+75adb9fe5.
+
+Next: run the two app-target suites (TaxSalePanelTests,
+HistoricalTaxSalePanelTests) — the build gate has been HOLD all session
+(swapFree ~530MB, warnMin 2048), so nothing has run on a simulator. Then
+Phase 5 (field tools, share links, GeoPDF hand-off).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: xcrun simctl boot 24FBD923-387E-4B7E-9063-FCF166239B1C, then ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests/HistoricalTaxSalePanelTests
+-scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
