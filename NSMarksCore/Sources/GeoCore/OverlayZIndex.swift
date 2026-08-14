@@ -244,15 +244,28 @@ public enum OverlayZIndex {
         guard vectorLayers.contains(id) else { return nil }
         switch space(of: id) {
         case .tile:
-            return tileZIndex(for: id) ?? leafletTilePane
+            return drawOrder(tileZIndex(for: id) ?? leafletTilePane, in: .tile)
         case .pane:
-            return paneSpaceOffset + (paneZIndex(for: id) ?? leafletOverlayPane)
+            return drawOrder(paneZIndex(for: id) ?? leafletOverlayPane, in: .pane)
         }
     }
 
-    /// Separates the two spaces in `vectorDrawOrder`. Larger than any z-index
-    /// either space uses, so no tile-space layer can sort above a pane-space
-    /// one.
+    /// A z-index in `space`, mapped onto one ascending number line.
+    ///
+    /// Leaflet keeps the two spaces apart with real DOM nesting; a surface with
+    /// a single flat list of overlays — MapKit, and the print composer — has to
+    /// flatten them, and the flattening has to preserve the nesting: every
+    /// tile-space number sits inside a pane that is itself below every
+    /// pane-space number.
+    public static func drawOrder(_ zIndex: Int, in space: OverlayZSpace) -> Int {
+        switch space {
+        case .tile: return zIndex
+        case .pane: return paneSpaceOffset + zIndex
+        }
+    }
+
+    /// Separates the two spaces in `drawOrder`. Larger than any z-index either
+    /// space uses, so no tile-space layer can sort above a pane-space one.
     private static let paneSpaceOffset = 10_000
 
     /// Z-index for a raster layer, or `nil` if the layer is not a raster in

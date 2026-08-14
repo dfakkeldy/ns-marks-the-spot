@@ -117,15 +117,12 @@ final class MapController: NSObject {
             overlay.canReplaceMapContent = false
             overlay.minimumZ = layer.configuration.minZoom
             overlay.maximumZ = layer.configuration.maxZoom
-            // Below the parcel outlines rather than on top of them. Install
-            // order is z-order, so a layer switched on after a parcel was
-            // selected would otherwise paint over the outline the user is
-            // looking at — imagery hiding the boundary it is being compared to.
-            if let firstParcel = mapView.overlays.first(where: { $0 is ParcelPolygon }) {
-                mapView.insertOverlay(overlay, below: firstParcel)
-            } else {
-                mapView.addOverlay(overlay)
-            }
+            // At the position the web draws it in, not on top. Install order is
+            // z-order, so a layer switched on after a parcel was selected would
+            // otherwise paint over the outline the user is looking at — imagery
+            // hiding the boundary it is being compared to — and over the vector
+            // layers, which sit above every raster.
+            mapView.installInDrawOrder(overlay)
 
         case .removeTileOverlay(let id):
             for overlay in mapView.overlays {
@@ -155,21 +152,14 @@ final class MapController: NSObject {
             mapView.removeOverlays(
                 mapView.overlays.filter { $0 is FeaturePolygon || $0 is FeaturePolyline }
             )
-            // Ascending by the web's pane order, so a zoning wash goes down
-            // before the reaches and parcels that must stay readable over it.
-            // Inserted below the parcel outlines rather than appended, because
-            // MapKit draws in installation order and a layer switched on while
-            // a parcel is selected would otherwise cover the boundary the user
-            // is looking at.
-            let ordered = shapes.sorted { $0.zIndex < $1.zIndex }.flatMap { $0.overlays() }
-            if let firstParcel = mapView.overlays.first(where: { $0 is ParcelPolygon }) {
-                // One at a time, each directly below the parcel: successive
-                // inserts keep the ascending order they arrive in.
-                for overlay in ordered {
-                    mapView.insertOverlay(overlay, below: firstParcel)
-                }
-            } else {
-                mapView.addOverlays(ordered)
+            // Ascending by the web's drawing order, so a zoning wash goes down
+            // before the reaches and parcels that must stay readable over it,
+            // and old growth — whose pane the web parents to the tile pane —
+            // goes under the rasters rather than over them.
+            let ordered = shapes.sorted { $0.zIndex < $1.zIndex }
+                .flatMap { $0.overlays() }
+            for overlay in ordered {
+                mapView.installInDrawOrder(overlay)
             }
 
         case .setFeatureMarkers(let markers):
@@ -180,8 +170,8 @@ final class MapController: NSObject {
 
         case .setParcelShapes(let shapes):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
-            for shape in shapes {
-                mapView.addOverlays(ParcelPolygon.polygons(for: shape))
+            for polygon in shapes.flatMap({ ParcelPolygon.polygons(for: $0) }) {
+                mapView.installInDrawOrder(polygon)
             }
 
         case .setShowsUserLocation(let shows):

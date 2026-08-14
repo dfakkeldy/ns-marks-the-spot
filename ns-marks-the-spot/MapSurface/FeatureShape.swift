@@ -22,7 +22,8 @@ nonisolated struct FeatureShape: Identifiable, Equatable, Sendable {
     /// Where this layer sits in the web's drawing order, across both of
     /// Leaflet's stacking spaces.
     var zIndex: Int {
-        OverlayZIndex.vectorDrawOrder(for: layer) ?? OverlayZIndex.leafletOverlayPane
+        OverlayZIndex.vectorDrawOrder(for: layer)
+            ?? OverlayZIndex.drawOrder(OverlayZIndex.leafletOverlayPane, in: .pane)
     }
 }
 
@@ -71,12 +72,14 @@ nonisolated extension UIColor {
 nonisolated final class FeaturePolygon: MKPolygon {
     var featureID: String = ""
     var style = VectorFeatureStyle(strokeHex: "#000000", lineWidth: 1)
+    var drawOrder = OverlayZIndex.drawOrder(OverlayZIndex.leafletOverlayPane, in: .pane)
 }
 
 /// An `MKPolyline` that remembers which feature it came from.
 nonisolated final class FeaturePolyline: MKPolyline {
     var featureID: String = ""
     var style = VectorFeatureStyle(strokeHex: "#000000", lineWidth: 1)
+    var drawOrder = OverlayZIndex.drawOrder(OverlayZIndex.leafletOverlayPane, in: .pane)
 }
 
 extension FeatureShape {
@@ -85,7 +88,7 @@ extension FeatureShape {
     /// A feature with no areal or linear geometry produces none, which is how a
     /// point that arrived on a polygon layer stops rather than becomes a dot
     /// the layer never promised to draw.
-    func overlays() -> [MKOverlay] {
+    func overlays() -> [any MKOverlay & WebDrawOrdered] {
         switch geometry {
         case .polygon(let part):
             return polygons(for: [part])
@@ -100,7 +103,7 @@ extension FeatureShape {
         }
     }
 
-    private func polygons(for parts: [PolygonHitTest.PolygonPart]) -> [MKOverlay] {
+    private func polygons(for parts: [PolygonHitTest.PolygonPart]) -> [any MKOverlay & WebDrawOrdered] {
         parts.compactMap { part in
             guard let outer = part.first else { return nil }
             // Rings after the first are holes: a policy area with a lake cut
@@ -115,17 +118,19 @@ extension FeatureShape {
             )
             polygon.featureID = id
             polygon.style = style
+            polygon.drawOrder = zIndex
             return polygon
         }
     }
 
-    private func polylines(for lines: [[GeoPoint]]) -> [MKOverlay] {
+    private func polylines(for lines: [[GeoPoint]]) -> [any MKOverlay & WebDrawOrdered] {
         lines.compactMap { line in
             guard line.count >= 2 else { return nil }
             let coordinates = Self.coordinates(line)
             let polyline = FeaturePolyline(coordinates: coordinates, count: coordinates.count)
             polyline.featureID = id
             polyline.style = style
+            polyline.drawOrder = zIndex
             return polyline
         }
     }
