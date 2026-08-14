@@ -28,9 +28,22 @@ nonisolated struct LayerRuntimeStatus: Equatable, Sendable {
     let emphasis: Emphasis
 }
 
+/// What a viewport-queried vector layer's switch and slider currently say.
+///
+/// A separate type from `MapLayerState` because there is nothing installed
+/// behind one of these rows: the layer is a query re-run on every settled
+/// viewport, and its "on" is a state this app holds rather than an overlay
+/// MapKit has been handed.
+nonisolated struct FeatureRowState: Equatable, Sendable {
+    let isVisible: Bool
+    let opacity: CGFloat
+}
+
 nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
     let descriptor: LayerDescriptor
     let installed: MapLayerState?
+    /// Set for the vector layers, which have no `installed` state at all.
+    let feature: FeatureRowState?
     /// Whether the Province licence still stands between the user and this
     /// layer's imagery.
     let needsLicence: Bool
@@ -41,9 +54,9 @@ nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
 
     var id: String { descriptor.id.rawValue }
     var name: String { descriptor.name }
-    var isAvailable: Bool { installed != nil }
-    var isVisible: Bool { installed?.isVisible ?? false }
-    var opacity: CGFloat { installed?.opacity ?? 0 }
+    var isAvailable: Bool { installed != nil || feature != nil }
+    var isVisible: Bool { feature?.isVisible ?? installed?.isVisible ?? false }
+    var opacity: CGFloat { feature?.opacity ?? installed?.opacity ?? 0 }
 
     /// The web's `layerRuntimeLabel`, with the same vocabulary and the same
     /// order of questions.
@@ -134,12 +147,34 @@ final class OverlayViewModel {
         )
         let needsDecision = licenceStore.needsDecision
         let zoomLevel = controller.zoomLevel
-        return Self.presentedDescriptors.map { descriptor in
+        return presentedDescriptors.map { descriptor in
+            let needsLicence = needsDecision && descriptor.requiresProvinceClearance
+
+            // A vector layer's row is answered entirely by the viewport view
+            // model: it counts what it drew and what it could not read, which
+            // is the web's `Ready · N loaded` and has no tile equivalent.
+            if let features, OverlayZIndex.vectorLayers.contains(descriptor.id) {
+                let status = features.status(descriptor.id)
+                return LayerRow(
+                    descriptor: descriptor,
+                    installed: nil,
+                    feature: FeatureRowState(
+                        isVisible: features.isVisible(descriptor.id),
+                        opacity: CGFloat(features.opacity(descriptor.id))
+                    ),
+                    needsLicence: needsLicence,
+                    runtime: LayerRuntimeStatus(
+                        label: status.label, emphasis: status.emphasis
+                    )
+                )
+            }
+
             let layer = installed[descriptor.id.rawValue]
             return LayerRow(
                 descriptor: descriptor,
                 installed: layer,
-                needsLicence: needsDecision && descriptor.requiresProvinceClearance,
+                feature: nil,
+                needsLicence: needsLicence,
                 runtime: layer.map { layer in
                     LayerRow.runtimeStatus(
                         isVisible: layer.isVisible,
@@ -158,10 +193,8 @@ final class OverlayViewModel {
     /// Groups rather than one flat list because the catalog went from ten
     /// layers to twenty-five: a single scroll of switches is where a user stops
     /// being able to find the one they came for. Empty groups are dropped
-    /// instead of rendered empty — `forestry`, `zoning`, `groundwater` and
-    /// `hydro-pilot` are catalogued but arrive with the vector layers, and a
-    /// section that opens onto nothing reads as a bug rather than as a phase
-    /// that has not shipped.
+    /// instead of rendered empty — a section that opens onto nothing reads as a
+    /// bug rather than as a phase that has not shipped.
     var sections: [LayerSection] {
         let grouped = Dictionary(grouping: rows) { $0.descriptor.group }
         return LayerGroupID.allCases.compactMap { group in
@@ -171,16 +204,34 @@ final class OverlayViewModel {
     }
 
     /// The catalog entries that get a row: everything the app installs as a
-    /// tile overlay, plus the Church sheets, which are catalogued with no tiles
-    /// and appear so the user can see what is coming and where the scan lives.
-    private static let presentedDescriptors: [LayerDescriptor] = {
+    /// tile overlay, the viewport-queried vector layers when this app has a
+    /// view model to answer for them, plus the Church sheets, which are
+    /// catalogued with no tiles and appear so the user can see what is coming
+    /// and where the scan lives.
+    private var presentedDescriptors: [LayerDescriptor] {
+        features == nil ? Self.tileDescriptors : Self.allDescriptors
+    }
+
+    private static let tileDescriptors: [LayerDescriptor] = descriptors(includingVectors: false)
+    private static let allDescriptors: [LayerDescriptor] = descriptors(includingVectors: true)
+
+    private static func descriptors(includingVectors: Bool) -> [LayerDescriptor] {
         let installable = Set(NativeLayerTraits.installOrder)
         return LayerCatalog.all
-            .filter { installable.contains($0.id) || $0.group == .church }
+            .filter { descriptor in
+                installable.contains(descriptor.id)
+                    || descriptor.group == .church
+                    || (includingVectors && OverlayZIndex.vectorLayers.contains(descriptor.id))
+            }
             .sorted { $0.uiOrder < $1.uiOrder }
-    }()
+    }
 
     private let controller: MapController
+    /// The viewport-queried layers, when this build has them. `nil` in the
+    /// tests that only exercise the tile panel, which is why the vector rows
+    /// are dropped rather than shown disabled: a row whose switch cannot be
+    /// wired to anything is worse than no row.
+    private let features: ViewportFeatureViewModel?
     private let licenceStore: ProvinceLicenceStore
     private let clearanceBox: LicenceClearanceBox
     private let parcelFetcher: ParcelFetcher
@@ -199,6 +250,7 @@ final class OverlayViewModel {
     init(
         controller: MapController,
         licenceStore: ProvinceLicenceStore,
+        features: ViewportFeatureViewModel? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
@@ -210,6 +262,7 @@ final class OverlayViewModel {
         floodFetcher: FloodHazardFetcher = FloodHazardFetcher()
     ) {
         self.controller = controller
+        self.features = features
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
         self.parcelFetcher = parcelFetcher
@@ -223,10 +276,11 @@ final class OverlayViewModel {
         mirrorClearanceIntoBox()
     }
 
-    convenience init(container: AppContainer) {
+    convenience init(container: AppContainer, features: ViewportFeatureViewModel? = nil) {
         self.init(
             controller: container.mapController,
             licenceStore: container.licenceStore,
+            features: features,
             clearanceBox: container.clearanceBox
         )
     }
@@ -875,7 +929,10 @@ final class OverlayViewModel {
         // rather than a dialog that dismissed and did nothing.
         let pending = licencePromptedLayerID
         licencePromptedLayerID = nil
-        if let pending, let layer = installedLayer(pending) {
+        guard let pending else { return }
+        if let features, OverlayZIndex.vectorLayers.contains(pending) {
+            features.setVisible(pending, to: true)
+        } else if let layer = installedLayer(pending) {
             show(layer, visible: true)
         }
     }
@@ -915,6 +972,13 @@ final class OverlayViewModel {
                 continue
             }
             show(layer, visible: false)
+        }
+
+        guard let features else { return }
+        for id in ViewportFeatureViewModel.layers where features.isVisible(id) {
+            guard LayerCatalog.descriptor(for: id)?.requiresProvinceClearance == true,
+                  !clearance.allows(id) else { continue }
+            features.setVisible(id, to: false)
         }
     }
 
@@ -968,10 +1032,26 @@ final class OverlayViewModel {
     }
 
     func updateLayerOpacity(for id: String, to value: CGFloat) {
+        if let features, let layerID = vectorLayerID(id) {
+            features.setOpacity(layerID, to: Double(value))
+            return
+        }
         controller.setOpacity(for: id, to: value)
     }
 
     func toggleVisibility(_ id: String) {
+        // A vector layer's switch is the same decision point as a raster's:
+        // the licence has to be answered before the first query goes out, not
+        // after features are already on the map.
+        if let features, let layerID = vectorLayerID(id) {
+            if !features.isVisible(layerID), requiresUnansweredLicence(id) {
+                licencePromptedLayerID = layerID
+                return
+            }
+            features.setVisible(layerID, to: !features.isVisible(layerID))
+            return
+        }
+
         guard let layer = installedLayer(id) else { return }
 
         // Turning a restricted layer on is the moment the licence has to be
@@ -993,6 +1073,12 @@ final class OverlayViewModel {
             return false
         }
         return descriptor.requiresProvinceClearance
+    }
+
+    private func vectorLayerID(_ id: String) -> LayerID? {
+        guard let layerID = LayerID(rawValue: id),
+              OverlayZIndex.vectorLayers.contains(layerID) else { return nil }
+        return layerID
     }
 
     private func installedLayer(_ id: String) -> MapLayerState? {

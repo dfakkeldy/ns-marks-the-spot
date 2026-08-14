@@ -7,6 +7,7 @@ struct MapContainerView: View {
     let navigationModel: NavigationModel
     let isUITestMode: Bool
     @State private var overlayVM: OverlayViewModel
+    @State private var featureVM: ViewportFeatureViewModel
     private let poiVM: POIViewModel
     private let offlineVM: OfflineAreasViewModel
     @State private var isLayersMenuExpanded = false
@@ -16,6 +17,7 @@ struct MapContainerView: View {
     init(
         controller: MapController,
         overlayViewModel: OverlayViewModel,
+        viewportFeatureViewModel: ViewportFeatureViewModel,
         navigationModel: NavigationModel,
         poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
@@ -30,6 +32,7 @@ struct MapContainerView: View {
         // clearance the tile path reads, and a second store built in a view
         // would be a second answer to the same question.
         _overlayVM = State(initialValue: overlayViewModel)
+        _featureVM = State(initialValue: viewportFeatureViewModel)
     }
 
     var body: some View {
@@ -248,6 +251,11 @@ struct MapContainerView: View {
                     }
                 case .boundsSelected(let bounds):
                     finishBoundsSelection(with: bounds)
+                case .visibleRegionSettled:
+                    // Leaflet's `moveend`: the viewport layers ask their
+                    // services what is in the view the user actually stopped
+                    // on, not the ones they panned through.
+                    featureVM.refreshAll()
                 case .mapTapped(let latitude, let longitude):
                     // The view model decides whether a tap means anything: the
                     // parcel layer has to be on and the map zoomed in far

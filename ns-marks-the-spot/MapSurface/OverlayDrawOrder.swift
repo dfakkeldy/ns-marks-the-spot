@@ -8,6 +8,17 @@ import MapKit
 /// has to be placed against the ones already there rather than simply appended.
 /// `OverlayZIndex.drawOrder` flattens Leaflet's two stacking spaces onto the
 /// one number line that comparison needs.
+///
+/// A known divergence from the web: this covers overlays only. Wells, mineral
+/// occurrences and abandoned mines are drawn as annotations, and MapKit puts
+/// every annotation above every overlay with no way to interleave them — so a
+/// well dot can sit over a parcel boundary that the web would have drawn on
+/// top of it. Annotations rather than small circle overlays because a marker is
+/// a record the user has to be able to tap and read, and a callout is what
+/// makes that possible; a fixed-size dot drawn as an overlay would be a shape
+/// on the ground whose apparent radius grew with the zoom, which is a claim
+/// about location accuracy the record does not make. The order is wrong; the
+/// alternative would have been misleading about what the dot means.
 nonisolated protocol WebDrawOrdered {
     var webDrawOrder: Int { get }
 }

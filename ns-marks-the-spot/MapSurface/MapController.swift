@@ -14,6 +14,10 @@ enum MapEvent {
     /// Whether it means anything is the handler's decision — this reports where
     /// the user touched, not that a parcel should be identified.
     case mapTapped(latitude: Double, longitude: Double)
+    /// The view stopped moving. Leaflet's `moveend`/`zoomend`, which is what
+    /// the viewport feature layers re-query on — every frame of a pan would be
+    /// a query for ground the user is already leaving.
+    case visibleRegionSettled
 }
 
 /// Owns the MKMapView, its delegate work, and the applied `MapViewState`.
@@ -287,6 +291,14 @@ final class MapController: NSObject {
         mutate { $0.parcelShapes = shapes }
     }
 
+    func setFeatureShapes(_ shapes: [FeatureShape]) {
+        mutate { $0.featureShapes = shapes }
+    }
+
+    func setFeatureMarkers(_ markers: [FeatureMarker]) {
+        mutate { $0.featureMarkers = markers }
+    }
+
     /// Brings `bounds` into view, with room around it.
     ///
     /// The padding is what makes a selected parcel readable rather than
@@ -443,6 +455,10 @@ final class MapController: NSObject {
 // MARK: - MKMapViewDelegate
 
 extension MapController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        events?(.visibleRegionSettled)
+    }
+
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         let heading = mapView.camera.heading
         mapHeading = heading
@@ -564,6 +580,8 @@ extension MapController: MKMapViewDelegate {
         }
         renderer.lineWidth = style.lineWidth
         renderer.lineDashPattern = style.dashPattern?.map { NSNumber(value: $0) }
+        renderer.lineCap = style.hasRoundedEnds ? .round : .butt
+        renderer.lineJoin = style.hasRoundedEnds ? .round : .miter
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
