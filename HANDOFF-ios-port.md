@@ -463,3 +463,24 @@ spend it on ONE `xcode-build-slot.sh -- xcodebuild test
 -only-testing:ns-marks-the-spotTests -disable-concurrent-testing
 -scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-13 — Phase 6 wired end to end
+
+Done: viewport layers now draw, order against the rasters, and have panel
+rows (860c3d3c8 + the wiring commit). Unreadable rows are counted rather
+than dropped; degenerate geometry fails closed. Package suite 433 green;
+both app targets typecheck (0 errors). The marker/overlay plane divergence
+is documented in OverlayDrawOrder.swift.
+
+Next: Codex adversarial review of the wiring, then Phase 4 (tax sales).
+The gate has still never run the app-target unit bundle.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: start Phase 4 (tax sales); on gate admission spend it on ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
