@@ -688,6 +688,14 @@ final class OverlayViewModel {
     /// a parcel that is not drawn.
     func selectListedParcel(eventID: String, pid: String) {
         taxSale?.setEventVisibility(eventID, to: true)
+        // Selected before the parcel is asked for, as the web selects it. The
+        // notice is what the user tapped and it is already in hand; hanging its
+        // card on a successful NSPRD reply would mean a service outage answers
+        // the tap by leaving the previous parcel on screen and opening nothing.
+        if taxSale?.listingContext(forPID: pid) != nil, !parcels.holds(pid: pid) {
+            parcels.select(pid)
+            publishParcels(focus: false)
+        }
         searchPID(pid)
     }
 
@@ -1032,6 +1040,17 @@ final class OverlayViewModel {
     /// in a panel the user has since withdrawn permission for.
     private func dropRefusedParcelEvidence(_ clearance: ProvinceLicenceClearance) {
         guard !clearance.allows(.nsprd) else { return }
+
+        // Ahead of the guard below, because a bulk load in flight has drawn
+        // nothing yet: it would pass the "nothing on screen" test, land after
+        // the revocation, and put every advertised parcel on a map the user has
+        // just withdrawn permission for. Its message goes with it, and the
+        // one-shot latch resets so accepting again re-asks.
+        listedParcelLoad?.cancel()
+        listedParcelLoad = nil
+        hasLoadedListedParcels = false
+        listedParcelMessage = nil
+
         guard !parcels.features.isEmpty || parcels.selectedPID != nil
             || !addressResults.isEmpty || parcelMessage != nil else { return }
 
@@ -1059,6 +1078,10 @@ final class OverlayViewModel {
         // The layer the user was reaching for when the sheet appeared. Turning
         // it on here is what makes accepting read as an answer to the tap
         // rather than a dialog that dismissed and did nothing.
+        // The advertised parcels were refused when the map opened, and nothing
+        // else asks again. Without this, a user who accepts on their first run
+        // sees every notice switched on and not one parcel drawn.
+        loadListedParcels()
         let pending = licencePromptedLayerID
         licencePromptedLayerID = nil
         guard let pending else { return }

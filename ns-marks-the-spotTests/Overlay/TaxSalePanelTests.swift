@@ -323,6 +323,79 @@ struct TaxSalePanelTests {
         #expect(shapes.first(where: { $0.pid == "22222222" })?.role == .taxSale)
     }
 
+    /// A parcel service that fails still opens the notice the user tapped.
+    ///
+    /// The notice is in hand before the request goes out, so the outcome of the
+    /// request cannot decide whether the user sees what they asked for.
+    @Test func aFailedParcelFetchStillOpensTheNoticeThatWasTapped() async {
+        let channel = #function
+        let taxSale = Self.taxSale()
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("", .failure(.timedOut))],
+            taxSale: taxSale
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.selectListedParcel(eventID: "test-2026-09-01", pid: "11111111")
+        await viewModel.awaitParcelLookup()
+
+        #expect(viewModel.inspection?.pid == "11111111")
+        #expect(viewModel.inspection?.taxSaleNotice?.listing.lien == "1")
+        #expect(viewModel.parcelMessage == "The Province parcel search is unavailable right now.")
+    }
+
+    // MARK: - The licence
+
+    /// Accepting on a first run asks for the advertised parcels.
+    ///
+    /// The map opened without permission, so the load was refused and nothing
+    /// else retries it: without this the notices are all switched on and no
+    /// parcel is ever drawn.
+    @Test func acceptingTheLicenceAsksForTheParcelsThatWereRefusedAtLaunch() async {
+        let channel = #function
+        let taxSale = Self.taxSale()
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["11111111", "22222222"]))],
+            taxSale: taxSale,
+            licence: .unknown
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadListedParcels()
+        await viewModel.awaitListedParcels()
+        #expect(viewModel.listedParcelMessage == nil)
+
+        viewModel.acceptProvinceLicence()
+        await viewModel.awaitListedParcels()
+
+        #expect(viewModel.listedParcelMessage == "2 PIDs matched in NSPRD.")
+    }
+
+    /// Withdrawing permission stops a bulk load that is already in the air.
+    ///
+    /// It has drawn nothing yet, so nothing on screen says it is running — and
+    /// a reply that lands afterwards would put Province geometry on a map the
+    /// user has just revoked permission for.
+    @Test func revokingTheLicenceStopsABulkLoadInFlight() async {
+        let channel = #function
+        let taxSale = Self.taxSale()
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["11111111", "22222222"]))],
+            taxSale: taxSale
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadListedParcels()
+        viewModel.declineProvinceLicence()
+        await viewModel.awaitListedParcels()
+
+        #expect(viewModel.parcels.shapes.isEmpty)
+        #expect(viewModel.listedParcelMessage == nil)
+    }
+
     // MARK: - The filter
 
     /// The filter moves the highlight without moving what was fetched.
