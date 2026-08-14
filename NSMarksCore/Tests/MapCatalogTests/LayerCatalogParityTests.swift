@@ -28,8 +28,6 @@ struct LayerCatalogParityTests {
         "guidance", "riskBands", "screening",
         // The well-log manual link — Phase 6.
         "manualUrl",
-        // Forestry status colours — Phase 6.
-        "statusColors",
     ]
 
     // MARK: - Coverage
@@ -330,6 +328,27 @@ struct LayerCatalogParityTests {
         }
     }
 
+    @Test("Forestry status colours match the fixture")
+    func matchesForestryStatusColors() {
+        let modelled = Set(LayerCatalog.forestryStatusColors.map(\.id.rawValue))
+        let declared = Set(
+            Self.fixture.layers.filter { $0.value["statusColors"] != nil }.keys
+        )
+        #expect(modelled == declared)
+
+        for colors in LayerCatalog.forestryStatusColors {
+            let id = colors.id.rawValue
+            guard let web = Self.fixture.layer(id)?["statusColors"]?.object else { continue }
+
+            #expect(colors.confirmedOldGrowth == web["confirmedOldGrowth"]?.string, "\(id) confirmed")
+            #expect(
+                colors.restorationOpportunity == web["restorationOpportunity"]?.string,
+                "\(id) restoration"
+            )
+            #expect(colors.unknown == web["unknown"]?.string, "\(id) unknown")
+        }
+    }
+
     @Test("Every fixture field is either modelled or explicitly deferred")
     func everyFixtureFieldIsModelledOrDeferred() {
         let modelled: Set<String> = [
@@ -347,6 +366,9 @@ struct LayerCatalogParityTests {
             // Modelled on `ZoningLayerDetail` and `ResourcePointLayerDetail`,
             // which declare an `outFields` each; both are checked below.
             "outFields", "markerColor",
+            // Modelled on `ForestryStatusColors`, checked by
+            // `matchesForestryStatusColors`.
+            "statusColors",
         ]
         var unknown: Set<String> = []
         for entry in Self.fixture.layers.values {
