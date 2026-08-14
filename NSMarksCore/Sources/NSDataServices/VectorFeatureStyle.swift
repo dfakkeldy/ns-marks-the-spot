@@ -19,6 +19,10 @@ public struct VectorFeatureStyle: Sendable, Hashable {
     public let dashPattern: [Double]?
     /// Point features only: the circle's radius in points.
     public let markerRadius: Double?
+    /// Rounded ends and corners, as the web asks for on the hydro reaches: a
+    /// stream drawn with mitred joins reads as a surveyed alignment rather than
+    /// as the smoothed centre line it is.
+    public let hasRoundedEnds: Bool
 
     public init(
         strokeHex: String,
@@ -27,7 +31,8 @@ public struct VectorFeatureStyle: Sendable, Hashable {
         fillOpacity: Double = 0,
         lineWidth: Double,
         dashPattern: [Double]? = nil,
-        markerRadius: Double? = nil
+        markerRadius: Double? = nil,
+        hasRoundedEnds: Bool = false
     ) {
         self.strokeHex = strokeHex
         self.strokeOpacity = strokeOpacity
@@ -36,6 +41,7 @@ public struct VectorFeatureStyle: Sendable, Hashable {
         self.lineWidth = lineWidth
         self.dashPattern = dashPattern
         self.markerRadius = markerRadius
+        self.hasRoundedEnds = hasRoundedEnds
     }
 }
 
@@ -159,7 +165,8 @@ public enum VectorFeatureStyles {
         return VectorFeatureStyle(
             strokeHex: style.colorHex,
             strokeOpacity: style.opacity,
-            lineWidth: style.width
+            lineWidth: style.width,
+            hasRoundedEnds: true
         )
     }
 }

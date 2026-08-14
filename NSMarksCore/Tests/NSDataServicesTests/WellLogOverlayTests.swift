@@ -173,8 +173,11 @@ struct WellLogFetcherTests {
             clearance: ProvinceLicenceClearance(allowsRestrictedLayers: true)
         )
 
-        #expect(wells.map(\.wellNumber) == ["1"])
-        #expect(wells[0].location == GeoPoint(lat: 45.65, lng: -61.35))
-        #expect(wells[0].accuracy == .surveyed)
+        #expect(wells.records.map(\.wellNumber) == ["1"])
+        #expect(wells.records[0].location == GeoPoint(lat: 45.65, lng: -61.35))
+        #expect(wells.records[0].accuracy == .surveyed)
+        // The line-geometry row is not a well this app can place, and saying so
+        // is the difference between one well here and one well it could draw.
+        #expect(wells.unreadable == 1)
     }
 }

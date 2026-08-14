@@ -85,7 +85,9 @@ public nonisolated final class ResourcePointFetcher: Sendable {
         for layer: LayerID,
         in bounds: GeoBoundingBox,
         clearance: ProvinceLicenceClearance
-    ) async throws(FeatureOverlayFailure) -> [ResourcePointOverlay.Record] {
+    ) async throws(FeatureOverlayFailure) -> (
+        records: [ResourcePointOverlay.Record], unreadable: Int
+    ) {
         guard let detail = LayerCatalog.resourcePointDetail(for: layer) else {
             throw .refused(.noServiceURL)
         }
@@ -102,7 +104,8 @@ public nonisolated final class ResourcePointFetcher: Sendable {
             throw .refused(error)
         }
 
-        return try await overlay.features(for: plan).features.compactMap { feature in
+        let found = try await overlay.features(for: plan)
+        let records = found.features.compactMap { feature -> ResourcePointOverlay.Record? in
             guard case .point(let location) = feature.geometry else { return nil }
             return ResourcePointOverlay.Record(
                 location: location,
@@ -110,5 +113,13 @@ public nonisolated final class ResourcePointFetcher: Sendable {
                 properties: feature.properties
             )
         }
+        // Rows that arrived without point geometry are counted, not dropped in
+        // silence. A published inventory answering with nothing this app can
+        // place is not the same fact as an inventory with nothing here, and an
+        // empty map is exactly how the second one reads.
+        return (
+            records,
+            found.unreadableFeatures + (found.features.count - records.count)
+        )
     }
 }

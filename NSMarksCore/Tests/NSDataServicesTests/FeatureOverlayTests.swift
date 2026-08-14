@@ -191,6 +191,28 @@ struct FeatureOverlayResponseTests {
         #expect(page.unreadableCount == 1)
         #expect(page.features.map(\.id) == ["2"])
     }
+
+    @Test("A line of one point, and a ring that cannot close, are unreadable")
+    func degenerateGeometryIsRefusedRatherThanDrawnAsNothing() throws {
+        // Both decode happily as coordinate lists and then draw nothing at all,
+        // so accepting them would delete a feature from the map while the
+        // query still reported a complete answer.
+        let page = try FeatureOverlayResponse.page(
+            from: collection(
+                """
+                {"type":"Feature","id":"1","geometry":{"type":"LineString",\
+                "coordinates":[[-61.35,45.65]]},"properties":{}},\
+                {"type":"Feature","id":"2","geometry":{"type":"Polygon",\
+                "coordinates":[[[-61.35,45.65],[-61.34,45.65],[-61.35,45.65]]]},\
+                "properties":{}},\(zone(id: "3", code: "R1", longitude: -61.35))
+                """
+            )
+        )
+
+        #expect(page.returnedCount == 3)
+        #expect(page.unreadableCount == 2)
+        #expect(page.features.map(\.id) == ["3"])
+    }
 }
 
 @Suite("Paging a viewport")

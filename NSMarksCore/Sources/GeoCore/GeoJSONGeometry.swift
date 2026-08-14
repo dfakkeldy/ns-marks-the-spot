@@ -93,6 +93,26 @@ extension GeoJSONGeometry: Decodable {
             return GeoPoint(lat: pair[1], lng: pair[0])
         }
 
+        /// A line needs two positions to be a line.
+        ///
+        /// Refused here rather than dropped later: a one-position line decodes
+        /// happily and then draws nothing, so the feature would vanish from the
+        /// map while its query still reported a complete answer. Refusing it
+        /// makes it an unreadable feature, which is a count the panel shows.
+        func line(_ positions: [[Double]]) throws -> [GeoPoint] {
+            let points = try positions.map(position)
+            guard points.count >= 2 else { throw Unreadable() }
+            return points
+        }
+
+        /// A ring needs four positions, the last repeating the first, which is
+        /// the smallest closed shape GeoJSON defines.
+        func ring(_ positions: [[Double]]) throws -> [GeoPoint] {
+            let points = try positions.map(position)
+            guard points.count >= 4 else { throw Unreadable() }
+            return points
+        }
+
         switch type {
         case "Point":
             self = .point(try position(try container.decode([Double].self, forKey: .coordinates)))
@@ -101,23 +121,19 @@ extension GeoJSONGeometry: Decodable {
                 try container.decode([[Double]].self, forKey: .coordinates).map(position)
             )
         case "LineString":
-            self = .lineString(
-                try container.decode([[Double]].self, forKey: .coordinates).map(position)
-            )
+            self = .lineString(try line(container.decode([[Double]].self, forKey: .coordinates)))
         case "MultiLineString":
             self = .multiLineString(
-                try container.decode([[[Double]]].self, forKey: .coordinates)
-                    .map { try $0.map(position) }
+                try container.decode([[[Double]]].self, forKey: .coordinates).map(line)
             )
         case "Polygon":
             self = .polygon(
-                try container.decode([[[Double]]].self, forKey: .coordinates)
-                    .map { try $0.map(position) }
+                try container.decode([[[Double]]].self, forKey: .coordinates).map(ring)
             )
         case "MultiPolygon":
             self = .multiPolygon(
                 try container.decode([[[[Double]]]].self, forKey: .coordinates)
-                    .map { try $0.map { try $0.map(position) } }
+                    .map { try $0.map(ring) }
             )
         default:
             throw Unreadable()

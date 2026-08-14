@@ -251,7 +251,9 @@ public nonisolated final class WellLogFetcher: Sendable {
         in bounds: GeoBoundingBox,
         filter: WellLogOverlay.AccuracyFilter,
         clearance: ProvinceLicenceClearance
-    ) async throws(FeatureOverlayFailure) -> [WellLogOverlay.Record] {
+    ) async throws(FeatureOverlayFailure) -> (
+        records: [WellLogOverlay.Record], unreadable: Int
+    ) {
         let plan: FeatureOverlayQuery.Plan
         do {
             plan = try FeatureOverlayQuery.plan(
@@ -267,9 +269,17 @@ public nonisolated final class WellLogFetcher: Sendable {
             throw .refused(error)
         }
 
-        return try await overlay.features(for: plan).features.compactMap { feature in
+        let found = try await overlay.features(for: plan)
+        let records = found.features.compactMap { feature -> WellLogOverlay.Record? in
             guard case .point(let location) = feature.geometry else { return nil }
             return WellLogOverlay.record(at: location, properties: feature.properties)
         }
+        // Counted rather than discarded: a well log is a coordinate somebody
+        // reported, and a row this app could not place is a gap in the answer
+        // rather than an absence of wells.
+        return (
+            records,
+            found.unreadableFeatures + (found.features.count - records.count)
+        )
     }
 }

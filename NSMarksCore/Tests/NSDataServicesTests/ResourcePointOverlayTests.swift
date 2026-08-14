@@ -100,8 +100,32 @@ struct ResourcePointFetcherTests {
         let query = try #require(await service.urls.first?.query(percentEncoded: false))
         #expect(query.contains("outFields=geo_id,ShaftID,Name,Opening_ty,Degree_Haz,Protection"))
         #expect(query.contains("orderByFields=geo_id"))
-        #expect(points.map(\.label) == ["Shaft 4 · Hazard: Low"])
-        #expect(points[0].location == GeoPoint(lat: 45.65, lng: -61.35))
+        #expect(points.records.map(\.label) == ["Shaft 4 · Hazard: Low"])
+        #expect(points.records[0].location == GeoPoint(lat: 45.65, lng: -61.35))
+        #expect(points.unreadable == 0)
+    }
+
+    @Test("A row that is not a point is counted, not quietly dropped")
+    func aNonPointRowIsAGapInTheAnswer() async throws {
+        let service = Service(
+            Data(
+                """
+                {"type":"FeatureCollection","features":[\
+                {"type":"Feature","id":"1","geometry":{"type":"LineString",\
+                "coordinates":[[-61.35,45.65],[-61.34,45.66]]},"properties":{"Name":"Trench"}}]}
+                """.utf8
+            )
+        )
+
+        let points = try await ResourcePointFetcher(transport: service.transport).points(
+            for: .abandonedMines,
+            in: GeoBoundingBox(south: 45.6, west: -61.4, north: 45.7, east: -61.3),
+            clearance: ProvinceLicenceClearance(allowsRestrictedLayers: false)
+        )
+
+        // No openings drawn, but not an inventory with no openings in it.
+        #expect(points.records.isEmpty)
+        #expect(points.unreadable == 1)
     }
 
     @Test("A layer that is not a point inventory is refused, not queried")
