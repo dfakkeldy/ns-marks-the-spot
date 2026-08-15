@@ -188,6 +188,10 @@ nonisolated struct MapViewState: Equatable, Sendable {
     var vectorDraft: VectorDraftPreview?
     /// The vertices of the selected feature, as draggable handles.
     var vectorHandles: VectorSelectionHandles?
+    /// Where the listed parcels are, for the zooms at which their boundaries
+    /// are too small to see. Held whatever the zoom; the controller decides
+    /// when they are on the map.
+    var parcelOverviewMarkers: [ParcelOverviewMarker] = []
     var showsUserLocation = false
     var interactionMode: MapInteractionMode = .idle
 }

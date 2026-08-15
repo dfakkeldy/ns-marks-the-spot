@@ -393,6 +393,16 @@ struct MapContainerView: View {
                 case .headingChanged(let heading):
                     mapHeading = heading
                 case .annotationSelected(let annotationID):
+                    if annotationID.hasPrefix(MapController.parcelOverviewPrefix) {
+                        overlayVM.selectOverviewMarker(
+                            pid: String(
+                                annotationID.dropFirst(
+                                    MapController.parcelOverviewPrefix.count
+                                )
+                            )
+                        )
+                        break
+                    }
                     // A marker of the user's own says so, in the same card
                     // every other geometry type of theirs uses.
                     if let item = userVectorsVM.feature(annotationID: annotationID) {

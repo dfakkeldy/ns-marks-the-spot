@@ -82,6 +82,83 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
     }
 }
 
+/// The dot a listed parcel is drawn as while its boundary is too small to see.
+///
+/// Only the listed roles get one. A context parcel needs no marker: it is drawn
+/// for the boundary the user is reading against, and at an overview zoom there
+/// is no boundary to read.
+nonisolated struct ParcelOverviewMarker: Identifiable, Equatable, Sendable {
+    let pid: String
+    let role: ParcelShape.Role
+    let point: GeoPoint
+
+    var id: String { pid }
+
+    init?(shape: ParcelShape) {
+        switch shape.role {
+        case .taxSale, .historicalTaxSale, .selected, .selectedHistorical:
+            break
+        case .context:
+            return nil
+        }
+        guard let point = ParcelMarkers.representativePoint(parts: shape.parts) else {
+            return nil
+        }
+        pid = shape.pid
+        role = shape.role
+        self.point = point
+    }
+}
+
+/// One overview marker on the map.
+nonisolated final class ParcelOverviewAnnotation: MKPointAnnotation,
+    MapKitAnnotationIdentifying
+{
+    let mapAnnotationID: String
+    let role: ParcelShape.Role
+    let isSelected: Bool
+
+    init(marker: ParcelOverviewMarker) {
+        mapAnnotationID = MapController.parcelOverviewPrefix + marker.pid
+        role = marker.role
+        isSelected = marker.role == .selected || marker.role == .selectedHistorical
+        super.init()
+        coordinate = CLLocationCoordinate2D(
+            latitude: marker.point.lat, longitude: marker.point.lng
+        )
+    }
+}
+
+/// The circle an overview marker is drawn as.
+///
+/// The web's interactive styling: a white ring around a filled dot, the current
+/// listings in the tax-sale red and the historical ones in its purple, so a
+/// dated record is never mistaken for something on offer now.
+nonisolated enum ParcelOverviewMarkerImage {
+    static func image(role: ParcelShape.Role, isSelected: Bool) -> UIImage {
+        let radius: CGFloat = isSelected ? 9 : 7
+        let width: CGFloat = isSelected ? 3 : 1.5
+        let size = CGSize(width: (radius + width) * 2, height: (radius + width) * 2)
+        let fill: UIColor
+        switch role {
+        case .historicalTaxSale, .selectedHistorical:
+            fill = UIColor(featureHex: "#5a4385")
+        case .taxSale, .selected, .context:
+            fill = UIColor(featureHex: "#be4d3c")
+        }
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            let circle = UIBezierPath(
+                ovalIn: CGRect(x: width, y: width, width: radius * 2, height: radius * 2)
+            )
+            fill.withAlphaComponent(isSelected ? 1 : 0.85).setFill()
+            circle.fill()
+            UIColor.white.setStroke()
+            circle.lineWidth = width
+            circle.stroke()
+        }
+    }
+}
+
 /// An `MKPolygon` that remembers which parcel it came from.
 ///
 /// One polygon per part: a parcel split by a road is several shapes, and MapKit

@@ -98,6 +98,34 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
         return bounds
     }
 
+    /// A box around every parcel in a named set, or nil when none of them has
+    /// a boundary that came back.
+    ///
+    /// Used to open the map on the parcels a tax sale actually names, rather
+    /// than on the province: a user who launched the app to look at a sale
+    /// should not have to find it first.
+    func bounds(forPIDs pids: Set<String>) -> MapBounds? {
+        let points = identifiedFeatures
+            .filter { pids.contains($0.pid) }
+            .flatMap { $0.boundary.parts.flatMap { $0.flatMap(\.self) } }
+        guard let first = points.first else { return nil }
+        var bounds = MapBounds(
+            minLatitude: first.lat,
+            minLongitude: first.lng,
+            maxLatitude: first.lat,
+            maxLongitude: first.lng
+        )
+        for point in points.dropFirst() {
+            bounds = MapBounds(
+                minLatitude: min(bounds.minLatitude, point.lat),
+                minLongitude: min(bounds.minLongitude, point.lng),
+                maxLatitude: max(bounds.maxLatitude, point.lat),
+                maxLongitude: max(bounds.maxLongitude, point.lng)
+            )
+        }
+        return bounds
+    }
+
     mutating func select(_ pid: String?) {
         selectedPID = pid
     }

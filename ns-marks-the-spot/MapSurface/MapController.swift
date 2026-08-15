@@ -205,6 +205,9 @@ final class MapController: NSObject {
                 mapView.addAnnotations(drawing.annotations())
             }
 
+        case .setParcelOverviewMarkers:
+            installParcelOverviewMarkers(on: mapView)
+
         case .setVectorHandles(let handles):
             mapView.removeAnnotations(
                 mapView.annotations.compactMap { $0 as? VectorVertexHandleAnnotation }
@@ -350,6 +353,14 @@ final class MapController: NSObject {
         mutate { $0.annotations.append(annotation) }
     }
 
+    /// What an overview marker's annotation id begins with, so a tap can be
+    /// routed back to the parcel it stands for.
+    nonisolated static let parcelOverviewPrefix = "parcel-overview-"
+
+    func setParcelOverviewMarkers(_ markers: [ParcelOverviewMarker]) {
+        mutate { $0.parcelOverviewMarkers = markers }
+    }
+
     func setParcelShapes(_ shapes: [ParcelShape]) {
         mutate { $0.parcelShapes = shapes }
     }
@@ -384,7 +395,10 @@ final class MapController: NSObject {
     /// touching the edges of the screen; MapKit will also clamp the rect to a
     /// minimum span, so a very small lot stops at a sensible zoom instead of
     /// filling the screen with one corner of it.
-    func focus(on bounds: MapBounds) {
+    /// `maxZoom` caps how far in the fit may go, as the web's `fitBounds` does.
+    /// Without it, a sale that advertised one small lot would open the map at
+    /// the lot's fence line, which says nothing about where the sale is.
+    func focus(on bounds: MapBounds, maxZoom: Int? = nil) {
         // Anything that moves the map deliberately outranks a link's held
         // position: applying it later would drag the reader off what they just
         // asked to see.
@@ -407,6 +421,23 @@ final class MapController: NSObject {
             height: abs(opposite.y - corner.y)
         )
         guard !rect.isNull, rect.size.width > 0, rect.size.height > 0 else { return }
+        var rect = rect
+        if let maxZoom, mapView.bounds.width > 0 {
+            // The longitude a view this wide covers at that zoom, read the same
+            // way `tileZoomLevel` reads a zoom off a span: 256-point tiles.
+            let widest = 360 * (Double(mapView.bounds.width) / 256) / pow(2, Double(maxZoom))
+            let span = abs(bounds.maxLongitude - bounds.minLongitude)
+            if span < widest, span >= 0 {
+                let centre = MKMapPoint(x: rect.midX, y: rect.midY)
+                let scale = widest / max(span, .leastNormalMagnitude)
+                let width = min(rect.size.width * scale, MKMapRect.world.size.width)
+                let height = min(rect.size.height * scale, MKMapRect.world.size.height)
+                rect = MKMapRect(
+                    x: centre.x - width / 2, y: centre.y - height / 2,
+                    width: width, height: height
+                )
+            }
+        }
         mapView.setVisibleMapRect(
             rect,
             edgePadding: UIEdgeInsets(top: 64, left: 48, bottom: 64, right: 48),
@@ -639,7 +670,27 @@ extension MapController: MKMapViewDelegate {
     /// reading.
     func recordZoomLevel(_ zoom: Int) {
         guard zoom != zoomLevel else { return }
+        let wasOverview = zoomLevel <= ParcelMarkers.overviewMaxZoom
+        let isOverview = zoom <= ParcelMarkers.overviewMaxZoom
         zoomLevel = zoom
+        // Only on the crossing. This runs on every frame of a pinch, and
+        // rebuilding the annotations sixty times a second to say the same thing
+        // would be the pinch the user notices.
+        if wasOverview != isOverview, let mapView {
+            installParcelOverviewMarkers(on: mapView)
+        }
+    }
+
+    /// The markers the current zoom calls for: all of them below the threshold,
+    /// none above it, where the boundaries themselves are legible.
+    private func installParcelOverviewMarkers(on mapView: MKMapView) {
+        mapView.removeAnnotations(
+            mapView.annotations.compactMap { $0 as? ParcelOverviewAnnotation }
+        )
+        guard zoomLevel <= ParcelMarkers.overviewMaxZoom else { return }
+        mapView.addAnnotations(
+            state.parcelOverviewMarkers.map(ParcelOverviewAnnotation.init(marker:))
+        )
     }
 
     /// The web-Mercator zoom the visible region corresponds to.
@@ -815,6 +866,21 @@ extension MapController: MKMapViewDelegate {
         // Before the pin branch: a well log and a saved point of interest are
         // both point annotations, and a well drawn as a dropped pin would read
         // as a place someone marked rather than as a record with an accuracy.
+        if let marker = annotation as? ParcelOverviewAnnotation {
+            let identifier = "ParcelOverviewMarker"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: marker, reuseIdentifier: identifier)
+            view.annotation = marker
+            // No callout: the tap opens the parcel's own panel, which is where
+            // a listing is read, and a bubble over it would say less.
+            view.canShowCallout = false
+            view.image = ParcelOverviewMarkerImage.image(
+                role: marker.role, isSelected: marker.isSelected
+            )
+            return view
+        }
+
         if let handle = annotation as? VectorVertexHandleAnnotation {
             let identifier = "VectorVertexHandle"
             let view =

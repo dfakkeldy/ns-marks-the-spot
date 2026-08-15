@@ -675,6 +675,7 @@ final class OverlayViewModel {
                 hasLoadedListedParcels = true
                 parcels.merge(collection)
                 publishParcels(focus: false)
+                frameListedParcelsOnce()
                 // Counted from what came back rather than from what was asked
                 // for: a PID NSPRD has no record of is absent from the reply,
                 // and reporting the request's size would hide that.
@@ -855,6 +856,33 @@ final class OverlayViewModel {
         searchPID(pid)
     }
 
+    /// Opens the map on the parcels a current tax sale names, once.
+    ///
+    /// As the web does on first load. A user who launched the app to look at a
+    /// sale should not have to find it first, and the province-wide opening
+    /// view shows a sale as nothing at all.
+    ///
+    /// Not when a shared link is holding the position: that link named a place,
+    /// and moving off it would answer a question the sender did not ask. Not in
+    /// historical mode either — the fit is to what is advertised now.
+    private func frameListedParcelsOnce() {
+        guard !hasFramedListedParcels, !isHoldingLinkPosition, mapRecordMode == .current,
+              let listed = taxSale?.highlightedPIDs, !listed.isEmpty,
+              let bounds = parcels.bounds(forPIDs: listed)
+        else { return }
+        hasFramedListedParcels = true
+        // The web's own cap on this fit.
+        controller.focus(on: bounds, maxZoom: 13)
+    }
+
+    /// A tap on the dot standing in for a parcel too small to see.
+    ///
+    /// The same thing as tapping the parcel itself: the marker is where the
+    /// parcel is, and what the user wants is the panel about it.
+    func selectOverviewMarker(pid: String) {
+        searchPID(pid)
+    }
+
     /// Redraws with whatever the tax-sale switches now say, without asking the
     /// service anything.
     func refreshListedParcelStyling() {
@@ -866,12 +894,16 @@ final class OverlayViewModel {
         // historical caption would put a live offering on a map whose whole
         // claim is that everything on it is dated.
         let listed = mapRecordMode == .current ? (taxSale?.highlightedPIDs ?? []) : []
-        controller.setParcelShapes(
-            parcels.shapes(
-                taxSalePIDs: listed,
-                historicalPIDs: historical?.highlightedPIDs ?? []
-            )
+        let shapes = parcels.shapes(
+            taxSalePIDs: listed,
+            historicalPIDs: historical?.highlightedPIDs ?? []
         )
+        controller.setParcelShapes(shapes)
+        // A listed parcel is a sub-pixel polygon at an overview zoom: a user
+        // looking at the province would see nothing at all where a tax sale is,
+        // which is the one thing that view is for. The controller decides which
+        // zooms these are drawn at.
+        controller.setParcelOverviewMarkers(shapes.compactMap(ParcelOverviewMarker.init(shape:)))
         if isHoldingLinkPosition, focus {
             // Consumed once. The link's extent wins over the parcel it names,
             // but only for the lookup that link started.
@@ -924,6 +956,10 @@ final class OverlayViewModel {
     /// Set while a link's own parcel lookup is in flight, so the parcel does not
     /// reframe a map the link already positioned.
     private var isHoldingLinkPosition = false
+    /// Whether the opening fit to the advertised parcels has already happened.
+    /// Once only: refitting after the user has moved would take the map away
+    /// from wherever they went.
+    private var hasFramedListedParcels = false
 
     /// Where the map is, as a latitude, a longitude, and a tile zoom.
     ///

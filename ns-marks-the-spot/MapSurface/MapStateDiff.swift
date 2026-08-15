@@ -25,6 +25,7 @@ nonisolated enum MapMutation: Equatable, Sendable {
     case setUserVectors([UserVectorDrawing])
     case setVectorDraft(VectorDraftPreview?)
     case setVectorHandles(VectorSelectionHandles?)
+    case setParcelOverviewMarkers([ParcelOverviewMarker])
     case setFeatureMarkers([FeatureMarker])
     case setShowsUserLocation(Bool)
     case beginBoundsSelection
@@ -74,6 +75,10 @@ nonisolated enum MapStateDiff {
 
         // Last of the vector work: the shape in progress is drawn over
         // everything, including the layer it will join.
+        if current.parcelOverviewMarkers != desired.parcelOverviewMarkers {
+            mutations.append(.setParcelOverviewMarkers(desired.parcelOverviewMarkers))
+        }
+
         if current.vectorHandles != desired.vectorHandles {
             mutations.append(.setVectorHandles(desired.vectorHandles))
         }
