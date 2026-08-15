@@ -845,3 +845,36 @@ xcode-build-slot.sh --status reads GO, spend ONE admission on
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
 ```
+
+## 2026-08-15 — the last three debts outside the gate
+
+Done: three items that were owed and did not need the gate. The Province
+licence can now be withdrawn (`OverlayViewModel.revokeProvinceLicence`, control
+in the info sheet): requests stop, refused layers switch off, and the cached
+tiles are deleted, with a failure to delete surfaced rather than swallowed. The
+sweep list comes from `LayerCatalog.restrictedLayerIDs`, and an uncatalogued
+layer is swept rather than kept. Saved offline areas are deliberately untouched
+— `TileDownloadManager` saves Fletcher only, and Fletcher is not restricted.
+The civic-address lookup now carries `unreadableRows`, so the parcel panel says
+"none I could read" instead of "none" when the file sent rows this build could
+not parse. And CI runs `swift test --package-path NSMarksCore` as its own
+check, required whenever the native scope is.
+
+Package: 865 tests, 120 suites. App + tests type-check with 0 errors and
+0 warnings.
+
+Next: everything still open needs the gate — the first real `xcodebuild test`
+run, the hidden-overlay tile question (#11), and the whole-bundle hang (#12,
+whose stated cause looks stale: `StubURLProtocol` is per-key and lock-guarded).
+Gate has read HOLD all weekend; opens 22:00.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: run ./Scripts/typecheck-ios.sh (seconds, no gate); then when
+xcode-build-slot.sh --status reads GO, spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
+```
