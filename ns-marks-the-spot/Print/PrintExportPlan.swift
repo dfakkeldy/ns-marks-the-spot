@@ -66,6 +66,10 @@ nonisolated enum PrintExportPlan {
         var incomplete: [String]
         /// On the screen, and outside what the page can draw.
         var unsupported: [String] = []
+        /// Asked, answered, and with nothing of theirs over this ground.
+        var uncovered: [String] = []
+        /// Switched on, and never fetched because the licence is unanswered.
+        var licenceBlocked: [String] = []
 
         var notes: [String] {
             var lines = [String]()
@@ -75,6 +79,25 @@ nonisolated enum PrintExportPlan {
                         + unsupported.joined(separator: ", ")
                         + ". They were on the screen this page was made from. "
                         + "Absence here is not evidence the layer has nothing at this place."
+                )
+            }
+            if !licenceBlocked.isEmpty {
+                lines.append(
+                    "Not printed — the licence has not been accepted: "
+                        + licenceBlocked.joined(separator: ", ")
+                        + ". Absence here is not evidence the layer has nothing at this place."
+                )
+            }
+            if !uncovered.isEmpty {
+                // A different sentence from the one above, and deliberately so.
+                // This layer answered; it simply does not reach this ground. A
+                // reader may conclude the source does not cover this place, and
+                // may not conclude anything about what is here.
+                lines.append(
+                    "No coverage here — these layers were on the screen and reach none of "
+                        + "this ground: " + uncovered.joined(separator: ", ")
+                        + ". That is a limit of the source's extent, not a finding about "
+                        + "this place."
                 )
             }
             if !omitted.isEmpty {
@@ -102,6 +125,8 @@ nonisolated enum PrintExportPlan {
         var omitted = [String]()
         var incomplete = [String]()
         var unsupported = [String]()
+        var uncovered = [String]()
+        var licenceBlocked = [String]()
         for outcome in outcomes {
             switch outcome.state {
             case .drawn:
@@ -124,11 +149,16 @@ nonisolated enum PrintExportPlan {
                 // Kept out of the legend for the same reason a failed layer is:
                 // the legend names what the reader is looking at.
                 unsupported.append(outcome.name)
+            case .outsideCoverage:
+                uncovered.append(outcome.name)
+            case .licenceBlocked:
+                licenceBlocked.append(outcome.name)
             }
         }
         return LayerAccount(
             legend: legend, omitted: omitted, incomplete: incomplete,
-            unsupported: unsupported
+            unsupported: unsupported, uncovered: uncovered,
+            licenceBlocked: licenceBlocked
         )
     }
 
@@ -149,6 +179,11 @@ nonisolated enum PrintExportPlan {
             // would credit a publisher for a picture the page does not carry.
             if case .failed = outcome.state { continue }
             if case .unsupported = outcome.state { continue }
+            // Neither of these put a pixel on the page, so neither is credited.
+            // An attribution is owed for use, and a layer that reaches none of
+            // this ground — or that was never fetched at all — was not used.
+            if case .outsideCoverage = outcome.state { continue }
+            if case .licenceBlocked = outcome.state { continue }
             guard let layer = descriptor(outcome.id) else { continue }
             // The app's own credit table, which is where the disclaimer text a
             // licence obliges is kept; the shared catalog carries the licence,

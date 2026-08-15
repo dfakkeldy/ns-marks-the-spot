@@ -50,7 +50,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     override func loadTile(at path: MKTileOverlayPath) async throws -> Data {
         let token = progress?.began(configuration.id)
         do {
-            let (data, outcome) = try await tile(at: path)
+            let (data, outcome, _) = try await tile(at: path)
             if let token { progress?.finished(token, outcome) }
             return data
         } catch {
@@ -72,19 +72,29 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     /// Deliberately outside the layer-load progress the map reports: an export
     /// is not the screen loading, and counting its fetches would move the
     /// panel's per-layer state for a map nobody is looking at.
-    func exportTile(at path: MKTileOverlayPath) async throws -> (Data, TileLoadOutcome) {
+    func exportTile(
+        at path: MKTileOverlayPath
+    ) async throws -> (Data, TileLoadOutcome, TileSubstance) {
         try await tile(at: path)
     }
 
-    /// The tile, and whether producing it went the way it was supposed to.
+    /// The tile, whether producing it went the way it was supposed to, and what
+    /// is actually in it.
     ///
-    /// The two are separate answers. A layer that legitimately has nothing at
-    /// this square — outside the Fletcher sheets, or refused by the licence —
-    /// returns a transparent tile and `.served`, because the panel already has
-    /// better words for both of those than "source temporarily unavailable".
-    /// Only a source we could not reach, or an answer that was not a tile, is
+    /// Three separate answers. A layer that legitimately has nothing at this
+    /// square — outside the Fletcher sheets, or refused by the licence —
+    /// returns a transparent tile and `.served`, because the panel has better
+    /// words for both of those than "source temporarily unavailable"; only a
+    /// source we could not reach, or an answer that was not a tile, is
     /// `.failed`.
-    private func tile(at path: MKTileOverlayPath) async throws -> (Data, TileLoadOutcome) {
+    ///
+    /// The substance is the third answer and exists for the printed page. Two
+    /// of those `.served` squares carry no ink from any source, and a legend
+    /// built from the outcome alone would credit a licence for pixels that were
+    /// never drawn and tell the reader that surveyed ground came back empty.
+    private func tile(
+        at path: MKTileOverlayPath
+    ) async throws -> (Data, TileLoadOutcome, TileSubstance) {
         let cacheKey = configuration.cacheIdentifier
         let z = path.z
         let x = path.x
@@ -104,11 +114,11 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         if case .catalogExport(let layerID) = configuration.source,
            !clearanceBox.clearance.allows(layerID)
         {
-            return (try Self.fallbackTileData(z: z, x: x, y: y), .served)
+            return (try Self.fallbackTileData(z: z, x: x, y: y), .served, .licenceRefused)
         }
 
         if let cache = tileCache, let cached = cache.cachedTile(z: z, x: x, y: y, layerName: cacheKey) {
-            return (cached, .served)
+            return (cached, .served, .source)
         }
 
         if let fetcher = tileFetcher,
@@ -120,9 +130,16 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
                 fetcher: fetcher, cache: tileCache
             )
             if let tileData = sheet.data {
-                return (tileData, sheet.outcome)
+                return (tileData, sheet.outcome, .source)
             }
-            return (try Self.fallbackTileData(z: z, x: x, y: y), sheet.outcome)
+            // No sheet covers this square, or the ones that do could not be
+            // reached. The outcome already separates those two; the substance
+            // is what stops an uncovered square being counted as ink.
+            return (
+                try Self.fallbackTileData(z: z, x: x, y: y),
+                sheet.outcome,
+                sheet.outcome == .served ? .outsideCoverage : .placeholder
+            )
         }
 
         if let fetcher = tileFetcher,
@@ -134,11 +151,12 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
                     z: z, x: x, y: y,
                     from: remoteURL, layerName: cacheKey
                 )
-                return (tileData, .served)
+                return (tileData, .served, .source)
             } catch {
                 return (
                     try Self.fallbackTileData(z: z, x: x, y: y),
-                    TileLoadOutcome(classifying: error)
+                    TileLoadOutcome(classifying: error),
+                    .placeholder
                 )
             }
         }
@@ -155,12 +173,21 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
                 cache: tileCache
             )
             if let tileData = export.data {
-                return (tileData, export.outcome)
+                return (tileData, export.outcome, .source)
             }
-            return (try Self.fallbackTileData(z: z, x: x, y: y), export.outcome)
+            // A `.served` nothing from this path is the licence being answered
+            // mid-flight — the only way the request is made and the bytes then
+            // discarded. Everything else here is a stand-in for an answer.
+            return (
+                try Self.fallbackTileData(z: z, x: x, y: y),
+                export.outcome,
+                export.outcome == .served ? .licenceRefused : .placeholder
+            )
         }
 
-        return (try Self.fallbackTileData(z: z, x: x, y: y), .served)
+        // A layer with no fetcher and no source to read: nothing was asked, and
+        // the square is a stand-in rather than an answer.
+        return (try Self.fallbackTileData(z: z, x: x, y: y), .served, .placeholder)
     }
 
     /// One `/export` tile for a catalogued layer, including the second pass for

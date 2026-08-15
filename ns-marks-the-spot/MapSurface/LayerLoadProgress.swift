@@ -50,6 +50,32 @@ nonisolated enum TileLoadOutcome: Equatable, Sendable {
     }
 }
 
+/// What is actually in a square, which is a different question from whether
+/// producing it went wrong.
+///
+/// The screen does not need this: every one of these draws as a transparent
+/// square and looks the same. A printed page does, because it makes claims in
+/// words. A layer whose every square came back `outsideCoverage` put no ink on
+/// the page, so crediting its licence would be a claim that it did, and a
+/// legend naming it would tell the reader the ground was surveyed and found
+/// empty. "The survey does not reach here" and "the survey found nothing here"
+/// are different statements about the same blank paper.
+nonisolated enum TileSubstance: Equatable, Sendable {
+    /// Bytes a source produced, from the network or the cache. Blank ink is
+    /// included on purpose: a source that answers with an empty square has
+    /// answered, and the page may say so.
+    case source
+    /// No sheet or service covers this square, so nobody was asked. Known
+    /// locally, before any request.
+    case outsideCoverage
+    /// The licence for this layer has not been accepted, so it was not fetched.
+    case licenceRefused
+    /// A stand-in for an answer that did not arrive. Pairs with a `.failed` or
+    /// `.cancelled` outcome; MapKit treats a thrown error as a tile to retry,
+    /// so a failure has to come back as bytes.
+    case placeholder
+}
+
 /// A request the box has been told about, returned by `began` and handed back
 /// to `finished`.
 ///

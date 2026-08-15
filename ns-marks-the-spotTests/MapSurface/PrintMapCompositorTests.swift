@@ -65,23 +65,28 @@ nonisolated struct PrintMapCompositorTests {
     ) -> (red: Double, green: Double, blue: Double)? {
         guard let image = UIImage(data: data)?.cgImage else { return nil }
         var sample = [UInt8](repeating: 0, count: 4)
-        let context = sample.withUnsafeMutableBytes { buffer in
-            CGContext(
+        // Every use of the pointer stays inside the closure. A `CGContext` built
+        // on `buffer.baseAddress` and returned from here would outlive the
+        // borrow it was made from, and would only work for as long as `Array`
+        // happens to keep its storage put.
+        let drawn = sample.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(
                 data: buffer.baseAddress,
                 width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4,
                 space: CGColorSpaceCreateDeviceRGB(),
                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ) else { return false }
+            // A `CGContext` counts up from the bottom and the sample point
+            // counts down from the top, so the image is shifted until the
+            // wanted pixel is the only one inside the one-pixel context.
+            context.translateBy(x: -point.x, y: point.y - CGFloat(image.height) + 1)
+            context.draw(
+                image,
+                in: CGRect(x: 0, y: 0, width: image.width, height: image.height)
             )
+            return true
         }
-        guard let context else { return nil }
-        // A `CGContext` counts up from the bottom and the sample point counts
-        // down from the top, so the image is shifted until the wanted pixel is
-        // the only one inside the one-pixel context.
-        context.translateBy(x: -point.x, y: point.y - CGFloat(image.height) + 1)
-        context.draw(
-            image,
-            in: CGRect(x: 0, y: 0, width: image.width, height: image.height)
-        )
+        guard drawn else { return nil }
         return (
             Double(sample[0]) / 255, Double(sample[1]) / 255, Double(sample[2]) / 255
         )
@@ -90,7 +95,11 @@ nonisolated struct PrintMapCompositorTests {
     private static func isNear(
         _ sample: (red: Double, green: Double, blue: Double)?,
         _ expected: (red: Double, green: Double, blue: Double),
-        tolerance: Double = 0.12
+        // Tight enough to fail an opacity that is wrong rather than noisy. At
+        // 0.12 a nominally half-opaque layer could land anywhere from 0.39 to
+        // 0.61 and pass, which is a fifth of the user's setting; JPEG at 0.92
+        // over these large flat fields does not need that much room.
+        tolerance: Double = 0.04
     ) -> Bool {
         guard let sample else { return false }
         return abs(sample.red - expected.red) < tolerance
@@ -144,7 +153,7 @@ nonisolated struct PrintMapCompositorTests {
     @Test func tilesThatCameBackAsPlaceholdersDoNotCountAsDrawn() async throws {
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
             // Bytes and a failure, the way the overlay answers.
-            (Self.tile(.clear), .failed)
+            (Self.tile(.clear), .failed, .placeholder)
         }
 
         let outcome = try #require(output.outcomes.first)
@@ -154,15 +163,62 @@ nonisolated struct PrintMapCompositorTests {
         }
     }
 
-    /// A square the source answered for is drawn even when it is blank. Blank
-    /// is a real answer — outside the Fletcher sheets, or a layer with nothing
-    /// here — and demoting it would be the mirror of the error above.
+    /// A square the source answered for is drawn even when it is blank: a
+    /// source with nothing at this square has answered, and demoting that would
+    /// be the mirror of the error above.
+    ///
+    /// This is bytes from a source, which is what `.source` says. A square no
+    /// source was asked for is a different case and is not drawn — see the
+    /// coverage test below.
     @Test func aBlankSquareTheSourceAnsweredForStillCounts() async throws {
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
-            (Self.tile(.clear), .served)
+            (Self.tile(.clear), .served, .source)
         }
 
         #expect(output.outcomes.map(\.state) == [.drawn])
+    }
+
+    /// A layer whose every square lies outside its source's extent put nothing
+    /// on the page, and must not be reported as though it had.
+    ///
+    /// This is the Fletcher case away from the surveyed sheets: nothing is
+    /// fetched, nothing fails, and a transparent square comes back for each
+    /// one. Called `.drawn` it would earn a legend row saying the survey was
+    /// consulted here and an attribution crediting a licence for pixels nobody
+    /// drew — and blank paper the reader would take for surveyed ground with
+    /// nothing on it.
+    @Test func aLayerThatReachesNoneOfThisGroundIsNotDrawn() async throws {
+        let output = try await Self.compose(layers: [Self.layer("fletcher")]) { _, _ in
+            (Self.tile(.clear), .served, .outsideCoverage)
+        }
+
+        #expect(output.outcomes.map(\.state) == [.outsideCoverage])
+    }
+
+    /// And the other side of it: a sheet edge crossing the frame is ink on the
+    /// page. One real square makes the layer drawn, because the squares past
+    /// the sheet's edge are ground the survey never reached rather than squares
+    /// that went missing.
+    @Test func oneRealSquareIsEnoughToCountAsDrawn() async throws {
+        let real = Mutex(1)
+        let output = try await Self.compose(layers: [Self.layer("fletcher")]) { _, _ in
+            real.take()
+                ? (Self.tile(.red), .served, .source)
+                : (Self.tile(.clear), .served, .outsideCoverage)
+        }
+
+        #expect(output.outcomes.map(\.state) == [.drawn])
+    }
+
+    /// A layer left unfetched because its licence is unanswered says that, and
+    /// says it separately from having no coverage. The remedies differ: one is
+    /// answered by accepting the licence, the other by nothing at all.
+    @Test func aLayerItsLicenceHasNotClearedSaysSoRatherThanShowingAsEmpty() async throws {
+        let output = try await Self.compose(layers: [Self.layer("province")]) { _, _ in
+            (Self.tile(.clear), .served, .licenceRefused)
+        }
+
+        #expect(output.outcomes.map(\.state) == [.licenceBlocked])
     }
 
     /// Part of a layer is worse than none of it: the page looks complete, and
@@ -173,7 +229,7 @@ nonisolated struct PrintMapCompositorTests {
         let failing = Mutex(1)
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
             if failing.take() { throw URLError(.timedOut) }
-            return (Self.pixel, .served)
+            return (Self.pixel, .served, .source)
         }
 
         let outcome = try #require(output.outcomes.first)
@@ -193,7 +249,7 @@ nonisolated struct PrintMapCompositorTests {
             layers: [Self.layer("visible"), Self.layer("hidden", alpha: 0)]
         ) { configuration, _ in
             if configuration.id == "hidden" { _ = asked.take() }
-            return (Self.pixel, .served)
+            return (Self.pixel, .served, .source)
         }
 
         #expect(output.outcomes.map(\.id) == ["visible"])
@@ -205,7 +261,7 @@ nonisolated struct PrintMapCompositorTests {
     /// these pixels cover exactly these bounds.
     @Test func theRasterIsTheSizeTheRegistrationAssumes() async throws {
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
-            (Self.pixel, .served)
+            (Self.pixel, .served, .source)
         }
 
         #expect(output.widthPx == 600)
@@ -222,11 +278,47 @@ nonisolated struct PrintMapCompositorTests {
     /// that is nothing but base map.
     @Test func theTilesAreActuallyDrawnOntoTheRaster() async throws {
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
-            (Self.tile(.red), .served)
+            (Self.tile(.red), .served, .source)
         }
 
         #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 0, 0)))
         #expect(Self.isNear(Self.colour(CGPoint(x: 40, y: 40), in: output.jpeg), (1, 0, 0)))
+    }
+
+    /// Each square lands where its coordinates say.
+    ///
+    /// The test above cannot show this: every tile is the same red, so swapped
+    /// x and y, reversed rows, or one tile stretched across the whole frame all
+    /// produce the same full-red page. Here the colour depends on the tile
+    /// *column* alone, which makes the page vertically striped — so a scan
+    /// across it changes colour and a scan down it does not. Transposing the
+    /// coordinates turns the stripes horizontal and fails both assertions at
+    /// once.
+    @Test func eachSquareLandsWhereItsCoordinatesSay() async throws {
+        let columns = Tally()
+        let rows = Tally()
+        let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, path in
+            columns.add(path.x)
+            rows.add(path.y)
+            return (Self.tile(path.x.isMultiple(of: 2) ? .red : .blue), .served, .source)
+        }
+
+        // The fixture itself, asserted: with one column of tiles the stripe
+        // test below would be vacuously true, and with one row the vertical
+        // scan would prove nothing.
+        #expect(columns.distinct > 1)
+        #expect(rows.distinct > 1)
+
+        func reddish(_ x: Double, _ y: Double) -> Bool? {
+            guard let sample = Self.colour(CGPoint(x: x, y: y), in: output.jpeg) else {
+                return nil
+            }
+            return sample.red > sample.blue
+        }
+        let across = stride(from: 5.0, to: 600, by: 5).map { reddish($0, 200) }
+        let down = stride(from: 5.0, to: 400, by: 5).map { reddish(300, $0) }
+        #expect(Set(across.map { $0 ?? false }).count == 2)
+        #expect(Set(down.map { $0 ?? false }).count == 1)
     }
 
     /// Opacity is the user's answer to "how much of what is underneath do I
@@ -234,7 +326,7 @@ nonisolated struct PrintMapCompositorTests {
     /// thing they set it to keep.
     @Test func layerOpacityIsCarriedOntoThePage() async throws {
         let output = try await Self.compose(layers: [Self.layer("parcels", alpha: 0.5)]) { _, _ in
-            (Self.tile(.red), .served)
+            (Self.tile(.red), .served, .source)
         }
 
         // Half of red over the white base map, not red and not white.
@@ -247,7 +339,7 @@ nonisolated struct PrintMapCompositorTests {
         let output = try await Self.compose(
             layers: [Self.layer("under"), Self.layer("over")]
         ) { configuration, _ in
-            (Self.tile(configuration.id == "over" ? .blue : .red), .served)
+            (Self.tile(configuration.id == "over" ? .blue : .red), .served, .source)
         }
 
         #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (0, 0, 1)))
@@ -275,7 +367,7 @@ nonisolated struct PrintMapCompositorTests {
             }
         ) { _, _ in
             _ = tiles.take()
-            return (Self.pixel, .served)
+            return (Self.pixel, .served, .source)
         }
 
         #expect(renders.value == 1)
@@ -300,7 +392,7 @@ nonisolated struct PrintMapCompositorTests {
         let output = try await Self.compose(
             layers: [layer],
             renderProvider: { _, _, _, _ in throw URLError(.badServerResponse) }
-        ) { _, _ in (Self.pixel, .served) }
+        ) { _, _ in (Self.pixel, .served, .source) }
 
         let outcome = try #require(output.outcomes.first)
         guard case .failed = outcome.state else {
@@ -337,7 +429,7 @@ nonisolated struct PrintMapCompositorTests {
 
         let output = try await Self.compose(
             layers: [], parcels: [parcel]
-        ) { _, _ in (Self.pixel, .served) }
+        ) { _, _ in (Self.pixel, .served, .source) }
 
         // Inside the outer ring, tinted by the tax-sale fill over white.
         let filled = try #require(Self.colour(CGPoint(x: 150, y: 200), in: output.jpeg))
@@ -355,7 +447,7 @@ nonisolated struct PrintMapCompositorTests {
             gauge.entered()
             try? await Task.sleep(for: .milliseconds(5))
             gauge.left()
-            return (Self.pixel, .served)
+            return (Self.pixel, .served, .source)
         }
 
         #expect(output.outcomes.map(\.state) == [.drawn])
@@ -377,6 +469,20 @@ nonisolated struct PrintMapCompositorTests {
 }
 
 /// A counter the concurrent tile fetches can share.
+/// Distinct values a provider was asked for, across the concurrent fetches.
+private nonisolated final class Tally: @unchecked Sendable {
+    private let lock = NSLock()
+    private var seen = Set<Int>()
+
+    func add(_ value: Int) {
+        lock.withLock { _ = seen.insert(value) }
+    }
+
+    var distinct: Int {
+        lock.withLock { seen.count }
+    }
+}
+
 private nonisolated final class Mutex: @unchecked Sendable {
     private let lock = NSLock()
     private var count: Int

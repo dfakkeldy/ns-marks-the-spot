@@ -978,13 +978,14 @@ final class OverlayViewModel {
         generatedAt: Date = Date()
     ) -> PrintExportRequest? {
         guard let bounds = controller.currentVisibleBounds() else { return nil }
+        let box = GeoBoundingBox(
+            south: bounds.minLatitude,
+            west: bounds.minLongitude,
+            north: bounds.maxLatitude,
+            east: bounds.maxLongitude
+        )
         return PrintExportRequest(
-            visibleBounds: GeoBoundingBox(
-                south: bounds.minLatitude,
-                west: bounds.minLongitude,
-                north: bounds.maxLatitude,
-                east: bounds.maxLongitude
-            ),
+            visibleBounds: box,
             baseMap: controller.baseMapType,
             layers: controller.layers,
             parcels: controller.state.parcelShapes,
@@ -992,7 +993,7 @@ final class OverlayViewModel {
             // The compositor cannot draw them, and a page that simply left them
             // out would show empty ground where the user was looking at wells
             // or occurrences.
-            unsupportedLayers: unsupportedPrintLayers(),
+            unsupportedLayers: unsupportedPrintLayers(within: box),
             template: template,
             fields: fields,
             generatedAt: generatedAt
@@ -1007,12 +1008,30 @@ final class OverlayViewModel {
     /// Read from what is on the map rather than from which rows are switched
     /// on: a layer that is on but has nothing in this viewport is not missing
     /// from the page, and saying it was would be its own false note.
-    private func unsupportedPrintLayers() -> [LayerID] {
+    private func unsupportedPrintLayers(within bounds: GeoBoundingBox) -> [LayerID] {
+        // Restricted to the frame being printed, not merely to what the view
+        // model is holding. The viewport layers keep the previous view's
+        // features while their replacement loads, and keep them indefinitely
+        // when the reload fails — so a page made after a long pan would
+        // otherwise carry "these layers were on the screen this page was made
+        // from" about wells a hundred kilometres away. The disclosure is only
+        // honest about features the reader would have expected to see here.
+        //
+        // Bounding boxes rather than exact geometry: a shape that overlaps the
+        // frame at all had ink the page cannot carry, and a box is never
+        // smaller than its shape, so this errs towards disclosing.
         var seen = Set<LayerID>()
         var ordered = [LayerID]()
-        for layer in controller.state.featureShapes.map(\.layer)
-            + controller.state.featureMarkers.map(\.layer)
-        where seen.insert(layer).inserted {
+        let onPage = controller.state.featureShapes
+            .filter { $0.geometry.boundingBox?.intersects(bounds) == true }
+            .map(\.layer)
+            + controller.state.featureMarkers
+            .filter {
+                bounds.south <= $0.latitude && $0.latitude <= bounds.north
+                    && bounds.west <= $0.longitude && $0.longitude <= bounds.east
+            }
+            .map(\.layer)
+        for layer in onPage where seen.insert(layer).inserted {
             ordered.append(layer)
         }
         return ordered

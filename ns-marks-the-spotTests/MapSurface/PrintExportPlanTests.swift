@@ -151,6 +151,63 @@ struct PrintExportPlanTests {
         #expect(sources.map(\.name) == ["Apple Maps"])
     }
 
+    /// "The survey does not reach here" and "the survey found nothing here"
+    /// are different statements about the same blank paper, and the page has to
+    /// make the first one rather than let the reader make the second.
+    @Test func aLayerThatReachesNoneOfThisGroundSaysSoInItsOwnWords() {
+        let account = PrintExportPlan.account(
+            for: [
+                Self.outcome("roads", "Roads", .drawn),
+                Self.outcome("fletcher", "Fletcher 1949", .outsideCoverage)
+            ],
+            swatch: { _ in nil }
+        )
+
+        #expect(account.legend.map(\.name) == ["Roads"])
+        #expect(account.uncovered == ["Fletcher 1949"])
+        let note = account.notes.first { $0.contains("Fletcher 1949") }
+        #expect(note != nil)
+        #expect(note?.contains("No coverage here") == true)
+        #expect(note?.contains("not a finding about this place") == true)
+        // Not a source that could not be reached, and not one the page cannot
+        // draw. Those are three different things to tell a reader.
+        #expect(account.omitted.isEmpty)
+        #expect(account.unsupported.isEmpty)
+    }
+
+    /// A layer whose licence is unanswered was never fetched. Saying it printed
+    /// nothing would be a claim about the ground; saying nothing at all would
+    /// let the reader make that claim themselves.
+    @Test func aLayerWhoseLicenceIsUnansweredSaysThatRatherThanNothing() {
+        let account = PrintExportPlan.account(
+            for: [Self.outcome("imagery", "Provincial imagery", .licenceBlocked)],
+            swatch: { _ in nil }
+        )
+
+        #expect(account.legend.isEmpty)
+        #expect(account.licenceBlocked == ["Provincial imagery"])
+        let note = account.notes.first
+        #expect(note?.contains("the licence has not been accepted") == true)
+        #expect(note?.contains("not evidence") == true)
+    }
+
+    /// Neither put ink on the page, so neither is credited: an attribution is
+    /// owed for use, and a layer that was never fetched — or that reaches none
+    /// of this ground — was not used.
+    @Test func aLayerThatPutNoInkOnThePageIsNotCredited() throws {
+        let roads = try #require(LayerCatalog.descriptor(for: .roads))
+        let sources = PrintExportPlan.sources(
+            baseMap: .standard,
+            outcomes: [
+                Self.outcome("roads", "Roads", .outsideCoverage),
+                Self.outcome("roads2", "Roads", .licenceBlocked)
+            ],
+            descriptor: { _ in roads }
+        )
+
+        #expect(sources.map(\.name) == ["Apple Maps"])
+    }
+
     /// The disclaimer a licence obliges travels with the layer, because that is
     /// the obligation — naming the provider alone is not the statement the
     /// Province licence requires.

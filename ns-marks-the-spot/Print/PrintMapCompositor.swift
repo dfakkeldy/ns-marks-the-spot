@@ -23,6 +23,18 @@ nonisolated struct PrintMapCompositor {
         /// different documents.
         case partial(missing: Int, of: Int)
         case failed(String)
+        /// Every square was answered and none of them carried any of this
+        /// layer's ink, because nothing of it reaches this ground — outside the
+        /// Fletcher sheets, say.
+        ///
+        /// Distinct from `.drawn` because the page makes claims in words: a
+        /// legend row would tell the reader this ground was surveyed and found
+        /// empty, and the attribution would credit a licence for pixels nobody
+        /// drew. Distinct from `.failed` because nothing went wrong.
+        case outsideCoverage
+        /// Switched on, and not fetched because its licence has not been
+        /// accepted. The screen shows the same blank; the page has to say why.
+        case licenceBlocked
         /// On the screen, and outside what this export can draw.
         ///
         /// The compositor never produces this — it draws rasters and parcel
@@ -61,7 +73,7 @@ nonisolated struct PrintMapCompositor {
     /// the same square a source with nothing here answers with, and this
     /// compositor's whole purpose is to keep those two apart in the legend.
     typealias TileProvider = @Sendable (TileLayerConfiguration, MKTileOverlayPath) async throws
-        -> (Data, TileLoadOutcome)
+        -> (Data, TileLoadOutcome, TileSubstance)
 
     /// Renders one catalogued Province layer over the whole frame at once.
     ///
@@ -196,22 +208,25 @@ nonisolated struct PrintMapCompositor {
         _ tile: PrintTile,
         _ configuration: TileLayerConfiguration,
         _ provider: @escaping TileProvider
-    ) async -> (tile: PrintTile, image: UIImage?, error: String?) {
+    ) async -> (tile: PrintTile, image: UIImage?, substance: TileSubstance, error: String?) {
         do {
-            let (data, outcome) = try await provider(
+            let (data, outcome, substance) = try await provider(
                 configuration,
                 MKTileOverlayPath(x: tile.x, y: tile.y, z: tile.z, contentScaleFactor: 1)
             )
             switch outcome {
             case .served:
-                return (tile, UIImage(data: data), nil)
+                return (tile, UIImage(data: data), substance, nil)
             case .failed:
-                return (tile, nil, "The source could not be reached.")
+                return (tile, nil, .placeholder, "The source could not be reached.")
             case .cancelled:
-                return (tile, nil, "The request was abandoned before it finished.")
+                return (
+                    tile, nil, .placeholder,
+                    "The request was abandoned before it finished."
+                )
             }
         } catch {
-            return (tile, nil, error.localizedDescription)
+            return (tile, nil, .placeholder, error.localizedDescription)
         }
     }
 
@@ -230,9 +245,18 @@ nonisolated struct PrintMapCompositor {
 
         var images = [(PrintTile, UIImage)]()
         var firstError: String?
+        // What the answered squares actually contained, which decides whether
+        // this layer may be named on the page at all.
+        var inked = 0
+        var uncovered = 0
+        var refused = 0
         // The error travels as its message rather than as an `any Error`,
         // which is not `Sendable` and so cannot leave a task group.
-        await withTaskGroup(of: (tile: PrintTile, image: UIImage?, error: String?).self) { group in
+        await withTaskGroup(
+            of: (
+                tile: PrintTile, image: UIImage?, substance: TileSubstance, error: String?
+            ).self
+        ) { group in
             let configuration = layer.configuration
             var next = 0
             while next < min(tileConcurrency, planned.count) {
@@ -243,6 +267,12 @@ nonisolated struct PrintMapCompositor {
             while let result = await group.next() {
                 if let image = result.image {
                     images.append((result.tile, image))
+                    switch result.substance {
+                    case .source: inked += 1
+                    case .outsideCoverage: uncovered += 1
+                    case .licenceRefused: refused += 1
+                    case .placeholder: break
+                    }
                 } else if firstError == nil {
                     // Nil bytes that were not an error are an answer that was
                     // not an image, which is still a square that did not draw.
@@ -264,10 +294,24 @@ nonisolated struct PrintMapCompositor {
         }
 
         let missing = planned.count - images.count
-        if missing == 0 { return (images, .drawn) }
         if images.isEmpty {
             return (images, .failed(firstError ?? "No tiles were returned."))
         }
+        // Before the missing-square arithmetic, because a layer that put no ink
+        // anywhere is not a partly drawn layer. One real square is enough to
+        // make it drawn — a Fletcher sheet's edge crossing the frame is ink on
+        // the page, and the squares beyond it are ground the survey never
+        // reached rather than squares that failed.
+        if inked == 0 {
+            if refused > 0 { return (images, .licenceBlocked) }
+            if uncovered > 0 { return (images, .outsideCoverage) }
+            // Answered squares that carried neither ink nor a reason: nothing
+            // was actually fetched. Reported as a failure rather than as a
+            // drawn layer, because the page would otherwise name a source it
+            // never contacted.
+            return (images, .failed(firstError ?? "Nothing was fetched for this layer."))
+        }
+        if missing == 0 { return (images, .drawn) }
         return (images, .partial(missing: missing, of: planned.count))
     }
 

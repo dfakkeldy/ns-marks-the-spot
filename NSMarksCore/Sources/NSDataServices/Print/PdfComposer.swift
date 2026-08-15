@@ -51,6 +51,21 @@ public enum PdfComposer {
         public var fields: Fields
         /// Nil draws no legend box. The attribution strip always draws.
         public var legend: [LegendEntry]?
+        /// Statements the page must carry however crowded it gets: what was on
+        /// the screen and is not on the paper, and why.
+        ///
+        /// They ride in the attribution strip rather than in `fields.notes`
+        /// because the strip is the only region with a guarantee. Notes share
+        /// the title block's bottom bound, so a long enough title or subtitle
+        /// leaves them no room at all and they are simply not drawn — which for
+        /// a licence credit would be a breach and for a disclosure is a page
+        /// that quietly stops saying a layer is missing. The strip instead
+        /// steps its caption size down until the text fits, and ellipsizes
+        /// visibly only when even the floor cannot hold it.
+        ///
+        /// Drawn ahead of the credits, so what the reader must not conclude
+        /// comes before who is owed a mention.
+        public var disclosures: [String]
         public var attributionLines: [String]
         public var scaleBar: PrintScaleBar
         public var generatedAt: Date
@@ -61,6 +76,7 @@ public enum PdfComposer {
             mapImage: MapImage,
             fields: Fields,
             legend: [LegendEntry]?,
+            disclosures: [String] = [],
             attributionLines: [String],
             scaleBar: PrintScaleBar,
             generatedAt: Date
@@ -70,6 +86,7 @@ public enum PdfComposer {
             self.mapImage = mapImage
             self.fields = fields
             self.legend = legend
+            self.disclosures = disclosures
             self.attributionLines = attributionLines
             self.scaleBar = scaleBar
             self.generatedAt = generatedAt
@@ -393,7 +410,7 @@ public enum PdfComposer {
             width: 0.75
         )
         let stamp = "Generated \(day(input.generatedAt)) — kinnokilabs.com/map"
-        let attribution = (input.attributionLines + [stamp])
+        let attribution = (input.disclosures + input.attributionLines + [stamp])
             .map { regular.sanitized($0) }
             .joined(separator: "  ·  ")
         let fitted = fitAttribution(

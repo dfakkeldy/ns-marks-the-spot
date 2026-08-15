@@ -122,9 +122,16 @@ struct PrintExportSheet: View {
         }
     }
 
+    /// Whether the row reads as ordinary or as a warning.
+    ///
+    /// A layer that reaches none of this ground is ordinary: nothing went
+    /// wrong, and the page says so in the same words this row does. Everything
+    /// else here is something the reader has to weigh.
     private static func isComplete(_ state: PrintMapCompositor.LayerState) -> Bool {
-        if case .drawn = state { return true }
-        return false
+        switch state {
+        case .drawn, .outsideCoverage: true
+        default: false
+        }
     }
 
     private static func description(of state: PrintMapCompositor.LayerState) -> String {
@@ -133,6 +140,8 @@ struct PrintExportSheet: View {
         case .partial(let missing, let total): "Partly printed — \(missing) of \(total) missing"
         case .failed: "Not printed"
         case .unsupported: "Not printed — cannot be drawn on a page yet"
+        case .outsideCoverage: "Nothing here — this source reaches none of this ground"
+        case .licenceBlocked: "Not printed — the licence has not been accepted"
         }
     }
 }

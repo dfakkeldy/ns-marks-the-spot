@@ -91,7 +91,12 @@ nonisolated enum PrintExport {
             for: outcomes,
             swatch: { _ in nil }
         )
-        var notes = account.notes
+        // The account's notes go to the strip, not into the user's own notes.
+        // A layer that was on the screen and is not on the paper has to be said
+        // in a place the layout cannot drop; the title block can be eaten
+        // whole by a long title, and this sentence going missing is the page
+        // silently claiming the map is complete.
+        var notes = [String]()
         if resolution.reduced {
             // The dot pitch is a property of the page, and a reader comparing
             // two printouts of the same view deserves to know which one holds
@@ -114,6 +119,7 @@ nonisolated enum PrintExport {
                 ),
                 fields: fields,
                 legend: account.legend.isEmpty ? nil : account.legend,
+                disclosures: account.notes,
                 attributionLines: PrintAttribution.lines(
                     for: PrintExportPlan.sources(
                         baseMap: request.baseMap,

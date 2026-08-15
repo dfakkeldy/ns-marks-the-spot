@@ -150,7 +150,8 @@ struct PdfComposerTests {
             PdfComposer.LegendEntry(name: "Parcels", swatchColour: "#3388ff"),
             PdfComposer.LegendEntry(name: "Well logs", swatchColour: nil),
         ],
-        attribution: [String] = ["Parcels — Province of Nova Scotia — OGL-NS"]
+        attribution: [String] = ["Parcels — Province of Nova Scotia — OGL-NS"],
+        disclosures: [String] = []
     ) throws -> PdfComposer.Input {
         PdfComposer.Input(
             template: template,
@@ -160,6 +161,7 @@ struct PdfComposerTests {
             ),
             fields: fields,
             legend: legend,
+            disclosures: disclosures,
             attributionLines: attribution,
             scaleBar: PrintScaleBar.build(
                 bounds: bounds, mapFrame: template.mapFrame, maxWidthPoints: template.scaleBar.maxWidth
@@ -257,6 +259,38 @@ struct PdfComposerTests {
         let shown = drawn.map(\.text).filter { $0.hasPrefix("Layer ") }.count
         #expect(shown > 0)
         #expect(overflow?.contains("\(20 - shown)") == true)
+    }
+
+    /// A disclosure has to reach the page even when the title block is already
+    /// full.
+    ///
+    /// Notes share the title block's bottom bound with the title and subtitle,
+    /// so a long enough title pushes them off the page entirely — silently.
+    /// That is survivable for "Screening only." and not for "this layer was not
+    /// printed", which is the difference between a page that is missing a
+    /// sentence and a page that is missing a sentence the reader needed in
+    /// order to read the rest of it correctly. Disclosures therefore ride in
+    /// the attribution strip, which shrinks to fit rather than dropping lines.
+    @Test func aDisclosureSurvivesATitleThatFillsTheWholeTitleBlock() throws {
+        let disclosure =
+            "Not printed — the licence has not been accepted: Provincial imagery."
+        let drawn = Self.drawnLines(
+            PdfComposer.compose(
+                try Self.input(
+                    fields: PdfComposer.Fields(
+                        title: String(repeating: "Big Bras d'Or ", count: 30),
+                        subtitle: "PID 15000000",
+                        notes: "Screening only."
+                    ),
+                    disclosures: [disclosure]
+                )
+            )
+        )
+        // The note is gone, pushed out by the title, and the disclosure is not.
+        #expect(!drawn.contains { $0.text.contains("Screening only") })
+        // The strip joins its entries onto one shrunk-to-fit line, so the
+        // disclosure is looked for inside that line rather than as its own.
+        #expect(drawn.contains { $0.text.contains(disclosure) })
     }
 
     /// The stamp is the date in UTC, not the phone's, so two people comparing
