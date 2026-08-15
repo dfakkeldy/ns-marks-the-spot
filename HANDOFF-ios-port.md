@@ -686,3 +686,30 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — georeferencing core complete in the package
+
+Done: Codex review 3 acted on (0486374d0) — a UTM coordinate is now checked
+against its own zone, Web Mercator ordinates are checked before `unproject`
+clamps them, "EPSG:+26920" no longer parses, a sub-tolerance crop past the right
+edge can no longer clamp to a negative width, and a grid size below one is
+refused instead of silently becoming one cell. Three tests that compared a mesh
+vertex against the expression that produced it now measure interpolation
+between vertices, in Web Mercator, which exposed the honest number the old test
+hid: eight cells leaves ~37 m of residual across a province-wide sheet, not
+zero. Also landed: `UserMapRecord` (2a725bc88), `WarpMesh` (119953611), and the
+import gate `UserMapImport` (ef0969f37). 710 package tests pass. The app target
+has still never been compiled; the gate has read HOLD all day.
+
+Next: Codex review 4 of WarpMesh/UserMapRecord/UserMapImport is running
+(scratchpad/codex-review4.txt). Then the app-target work — Image I/O decode,
+the Core Graphics warp draw, the georeferencer UI — none of which can be
+compiled until the gate opens at 22:00.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
