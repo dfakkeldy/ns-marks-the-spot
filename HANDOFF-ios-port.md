@@ -713,3 +713,26 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — user rasters draw, and persist
+
+Done: Codex review 4 acted on in full. A geotransform whose linear part cannot
+be inverted is refused (it passed every corner check and collapsed the sheet
+only at draw time); `WarpMesh.transform` now verifies the transform it solved
+rather than trusting a nonzero determinant; culling reads every coordinate, not
+the extremes, so a NaN anywhere refuses; a walk budget of `Int.max` no longer
+overflows; `chooseImage` returns nil for no images. Four weak tests replaced.
+New: the MapKit warped-raster overlay and renderer (46be8c481), the saved file
+format `UserMapLibrary` (7aad1f0a1), and the Image I/O importer plus on-device
+store (1bad6e7d6). 728 package tests pass. The app target has still never been
+compiled — the gate read HOLD all day; it opens at 22:00.
+
+Next: the georeferencer UI and the layer-panel rows, then compile.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
