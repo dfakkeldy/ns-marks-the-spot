@@ -24,8 +24,18 @@ public enum TileRequestFactory {
         /// The layer's address is runtime configuration that is not set.
         case noServiceURL(LayerID)
         case zoomOutOfRange(LayerID, Int)
+        /// Bigger than one `/export` render will return.
+        case sizeOutOfRange(LayerID, Int)
         case malformedURL(LayerID)
     }
+
+    /// The largest single `/export` render to ask for.
+    ///
+    /// ArcGIS map services cap the image they will return, and 4096 is the
+    /// figure both this app and the browser already work to. A frame larger
+    /// than this has to be asked for in pieces rather than silently returned
+    /// smaller than requested and stretched to fit.
+    public static let maximumExportDimensionPx = 4096
 
     /// A cleared request for one 256px tile.
     public static func tileRequest(
@@ -63,6 +73,65 @@ public enum TileRequestFactory {
             x: x,
             y: y,
             z: z
+        ) else {
+            throw .malformedURL(id)
+        }
+        return TileRequest(layer: id, url: url)
+    }
+
+    /// A cleared request for one whole-frame render, for export rather than
+    /// for the map.
+    ///
+    /// These are dynamic map services: there is no cached tile to fetch, only a
+    /// render to pay for. On screen that cost is spread over panning and the
+    /// tile cache absorbs it, but a print frame at 300 dpi is around 200 tiles
+    /// per layer, and the four default Province layers would put roughly 800
+    /// server-side renders on nsgiwa.novascotia.ca in one burst every time
+    /// somebody exported a page. One render of the frame is the same picture
+    /// for one two-hundredth of the service's work.
+    ///
+    /// `overlay` selects the second pass for the layers the web draws twice;
+    /// see `overlayTileRequest`. It returns `nil` when the layer has no such
+    /// pass.
+    public static func exportRequest(
+        for id: LayerID,
+        box: WebMercatorBox,
+        widthPx: Int,
+        heightPx: Int,
+        overlay: Bool = false,
+        clearance: ProvinceLicenceClearance
+    ) throws(Refusal) -> TileRequest? {
+        guard let layer = LayerCatalog.descriptor(for: id) else {
+            throw .unknownLayer(id)
+        }
+        // First, before anything constructs an address.
+        guard clearance.allows(layer) else {
+            throw .licenceNotAccepted(id)
+        }
+        guard layer.isRaster else {
+            throw .notARasterLayer(id)
+        }
+        let size = max(widthPx, heightPx)
+        guard size > 0, size <= maximumExportDimensionPx else {
+            throw .sizeOutOfRange(id, size)
+        }
+        guard let serviceURL = layer.serviceURL else {
+            throw .noServiceURL(id)
+        }
+        let options = overlay ? layer.exportOverlayOptions : layer.exportOptions
+        guard let options else {
+            // No second pass is a fact about the layer; no first pass would be
+            // a catalog bug, and refusing beats guessing at defaults and
+            // sending a request the web never makes.
+            if overlay { return nil }
+            throw .notARasterLayer(id)
+        }
+        guard let url = ArcGISExportURL.url(
+            serviceURL: serviceURL,
+            options: options,
+            box: box,
+            widthPx: widthPx,
+            heightPx: heightPx
         ) else {
             throw .malformedURL(id)
         }

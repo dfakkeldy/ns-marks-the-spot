@@ -53,6 +53,9 @@ struct PrintMapCompositorTests {
     private static func compose(
         layers: [MapLayerState],
         parcels: [ParcelShape] = [],
+        renderProvider: @escaping PrintMapCompositor.RenderProvider = { _, _, _, _ in
+            throw URLError(.unsupportedURL)
+        },
         tileProvider: @escaping PrintMapCompositor.TileProvider
     ) async throws -> PrintMapCompositor.Output {
         try await PrintMapCompositor.compose(
@@ -64,6 +67,7 @@ struct PrintMapCompositorTests {
             parcels: parcels,
             lineScale: 2,
             tileProvider: tileProvider,
+            renderProvider: renderProvider,
             baseMapProvider: blankBaseMap
         )
     }
@@ -135,6 +139,58 @@ struct PrintMapCompositorTests {
         let image = try #require(UIImage(data: output.jpeg))
         #expect(Int(image.size.width) == 600)
         #expect(Int(image.size.height) == 400)
+    }
+
+    /// A Province layer is one render of the frame, not one render per tile.
+    /// These services render on demand, and a 300 dpi page asked tile by tile
+    /// is a couple of hundred renders per layer landing on the service at once.
+    @Test func aCataloguedLayerIsOneRenderOfTheFrame() async throws {
+        let renders = Mutex(0)
+        let tiles = Mutex(0)
+        let layer = MapLayerState(
+            configuration: TileLayerConfiguration(
+                id: "roads", name: "Roads", source: .catalogExport(.roads)
+            )
+        )
+
+        let output = try await Self.compose(
+            layers: [layer],
+            renderProvider: { _, _, widthPx, heightPx in
+                _ = renders.take()
+                #expect(widthPx == 600)
+                #expect(heightPx == 400)
+                return Self.pixel
+            }
+        ) { _, _ in
+            _ = tiles.take()
+            return Self.pixel
+        }
+
+        #expect(renders.value == 1)
+        #expect(tiles.value == 0)
+        #expect(output.outcomes.map(\.state) == [.drawn])
+    }
+
+    /// A render that did not arrive is reported failed, like a tile layer that
+    /// did not. It is the only thing standing between a blank patch of paper
+    /// and a legend claiming the layer was consulted.
+    @Test func aCataloguedLayerThatDidNotRenderIsReportedFailed() async throws {
+        let layer = MapLayerState(
+            configuration: TileLayerConfiguration(
+                id: "roads", name: "Roads", source: .catalogExport(.roads)
+            )
+        )
+
+        let output = try await Self.compose(
+            layers: [layer],
+            renderProvider: { _, _, _, _ in throw URLError(.badServerResponse) }
+        ) { _, _ in Self.pixel }
+
+        let outcome = try #require(output.outcomes.first)
+        guard case .failed = outcome.state else {
+            Issue.record("Expected a failed layer, got \(outcome.state)")
+            return
+        }
     }
 
     /// Exporting must not become a second, ungated route to a source. A layer

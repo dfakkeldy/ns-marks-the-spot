@@ -49,6 +49,13 @@ nonisolated struct PrintMapCompositor {
     typealias TileProvider = @Sendable (TileLayerConfiguration, MKTileOverlayPath) async throws
         -> Data
 
+    /// Renders one catalogued Province layer over the whole frame at once.
+    ///
+    /// Injected rather than defaulted: this path needs the licence clearance
+    /// the app is holding, and a compositor that could build its own would be a
+    /// way around the gate.
+    typealias RenderProvider = @Sendable (LayerID, WebMercatorBox, Int, Int) async throws -> Data
+
     /// Renders the base map under everything else.
     typealias BaseMapProvider = @Sendable (GeoBoundingBox, Int, Int, MapBaseType) async throws
         -> UIImage
@@ -71,18 +78,47 @@ nonisolated struct PrintMapCompositor {
         /// on screen prints at that weight rather than as a hairline.
         lineScale: Double,
         tileProvider: @escaping TileProvider,
+        renderProvider: @escaping RenderProvider,
         baseMapProvider: @escaping BaseMapProvider = Self.snapshotBaseMap
     ) async throws -> Output {
         let space = PrintOutputSpace(bounds: bounds, widthPx: widthPx, heightPx: heightPx)
         let base = try await baseMapProvider(bounds, widthPx, heightPx, baseMap)
 
-        var drawnLayers = [(layer: MapLayerState, tiles: [(PrintTile, UIImage)])]()
+        var drawnLayers = [(layer: MapLayerState, tiles: [(PrintTile, UIImage)], whole: UIImage?)]()
         var outcomes = [LayerOutcome]()
         for layer in layers where layer.effectiveAlpha > 0 {
+            // A catalogued Province layer is a dynamic map service: nothing is
+            // cached at the far end, so every tile is a render somebody pays
+            // for. A 300 dpi frame is around 200 tiles, and the default four
+            // layers would put some 800 renders on the service in one burst
+            // every time a page was exported. One render of the whole frame is
+            // the same picture for one two-hundredth of the work.
+            if case .catalogExport(let layerID) = layer.configuration.source {
+                do {
+                    let data = try await renderProvider(
+                        layerID, box(for: bounds), widthPx, heightPx
+                    )
+                    guard let image = UIImage(data: data) else {
+                        throw Failure.rasterNotEncodable
+                    }
+                    drawnLayers.append((layer, [], image))
+                    outcomes.append(
+                        LayerOutcome(id: layer.id, name: layer.name, state: .drawn)
+                    )
+                } catch {
+                    outcomes.append(
+                        LayerOutcome(
+                            id: layer.id, name: layer.name,
+                            state: .failed(error.localizedDescription)
+                        )
+                    )
+                }
+                continue
+            }
             let (tiles, state) = await self.tiles(
                 for: layer, bounds: bounds, widthPx: widthPx, provider: tileProvider
             )
-            drawnLayers.append((layer, tiles))
+            drawnLayers.append((layer, tiles, nil))
             outcomes.append(LayerOutcome(id: layer.id, name: layer.name, state: state))
         }
 
@@ -97,6 +133,7 @@ nonisolated struct PrintMapCompositor {
             for entry in drawnLayers {
                 context.cgContext.saveGState()
                 context.cgContext.setAlpha(entry.layer.effectiveAlpha)
+                entry.whole?.draw(in: CGRect(x: 0, y: 0, width: widthPx, height: heightPx))
                 for (tile, image) in entry.tiles {
                     let rect = space.rect(for: tile)
                     image.draw(
@@ -115,6 +152,15 @@ nonisolated struct PrintMapCompositor {
             throw Failure.rasterNotEncodable
         }
         return Output(jpeg: jpeg, widthPx: widthPx, heightPx: heightPx, outcomes: outcomes)
+    }
+
+    /// The frame in the projection the services are asked in.
+    static func box(for bounds: GeoBoundingBox) -> WebMercatorBox {
+        let northWest = WebMercator.project(GeoPoint(lat: bounds.north, lng: bounds.west))
+        let southEast = WebMercator.project(GeoPoint(lat: bounds.south, lng: bounds.east))
+        return WebMercatorBox(
+            minX: northWest.x, minY: southEast.y, maxX: southEast.x, maxY: northWest.y
+        )
     }
 
     /// Fetches one layer's squares, and says how the layer fared.
@@ -293,6 +339,54 @@ nonisolated struct PrintMapCompositor {
 
     enum TileProviderFailure: Error, Equatable {
         case noOverlayForLayer(String)
+        case noRenderForLayer(String)
+    }
+
+    /// Renders a catalogued layer over the whole frame, through the same
+    /// licence check the map's tiles go through.
+    ///
+    /// Both of the layer's passes, where it has two: the web draws the roads
+    /// casing over the base pass, and a printed page missing it would show a
+    /// different road network from the screen it was exported from.
+    static func renderer(
+        clearance: LicenceClearanceBox, fetcher: TileFetcher = TileFetcher()
+    ) -> RenderProvider {
+        { layerID, box, widthPx, heightPx in
+            let held = clearance.clearance
+            guard let request = try TileRequestFactory.exportRequest(
+                for: layerID, box: box, widthPx: widthPx, heightPx: heightPx, clearance: held
+            ) else {
+                throw TileProviderFailure.noRenderForLayer(layerID.rawValue)
+            }
+            let base = try await fetcher.imageData(from: request.url)
+            guard let second = try TileRequestFactory.exportRequest(
+                for: layerID, box: box, widthPx: widthPx, heightPx: heightPx,
+                overlay: true, clearance: held
+            ) else {
+                return base
+            }
+            let casing = try await fetcher.imageData(from: second.url)
+            return flattened(base: base, over: casing, widthPx: widthPx, heightPx: heightPx)
+                ?? base
+        }
+    }
+
+    /// Two passes of one layer as one image, transparency intact — it is drawn
+    /// over the base map, so flattening it onto white would black out the map.
+    static func flattened(
+        base: Data, over casing: Data, widthPx: Int, heightPx: Int
+    ) -> Data? {
+        guard let under = UIImage(data: base), let over = UIImage(data: casing) else {
+            return nil
+        }
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = false
+        let rect = CGRect(x: 0, y: 0, width: widthPx, height: heightPx)
+        return UIGraphicsImageRenderer(size: rect.size, format: format).image { _ in
+            under.draw(in: rect)
+            over.draw(in: rect)
+        }.pngData()
     }
 
     /// Fetches through the map's own overlays, so the export honours the cache
