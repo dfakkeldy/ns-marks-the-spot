@@ -635,3 +635,31 @@ Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper and fix the compile errors in the new
 ns-marks-the-spot/Print/ files.
 ```
+
+## 2026-08-15 — Phase 7 export: Codex review applied
+
+Done: read the full adversarial review and fixed what it found. The one that
+mattered: `OpacityTileOverlay.loadTile` cannot throw (MapKit retries anything
+that does), so a source it could not reach answers with a transparent square —
+and the compositor was counting those as drawn, which would have put a legend
+on a page saying a source was consulted that was never reached. `exportTile`
+now returns the disposition beside the bytes. Also: roads casing fails its
+layer instead of printing the base pass alone; parcel interior rings cut holes
+(even-odd) instead of being filled; `exportRequest` checks both dimensions;
+`OpacityTileOverlay` is `@unchecked Sendable` with `renderer` main-actor
+isolated (the review's compile blocker); draw-order precondition documented.
+New: `LayerState.unsupported`, so a vector layer on screen but not on the page
+is named in the notes rather than leaving blank ground. Compositor tests now
+read pixels back — placement, opacity, order, holes, the six-at-a-time ceiling.
+535 package tests pass; the app target is still `swiftc -parse` clean only.
+
+Next: the 22:00 admission on the app test target. Phase 8 georeferencing maths
+can go in NSMarksCore meanwhile, where it is testable without the gate.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
