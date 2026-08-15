@@ -13,6 +13,9 @@ struct MapContainerView: View {
     @State private var historicalVM: HistoricalTaxSaleViewModel
     private let poiVM: POIViewModel
     private let offlineVM: OfflineAreasViewModel
+    /// The user's own maps. Owned here rather than injected: nothing outside
+    /// this view needs them, and they never leave the device.
+    @State private var userMapsVM = UserMapsViewModel()
     @State private var isLayersMenuExpanded = false
     @State private var mapHeading: Double = 0
     @State private var isSelectingSaveArea = false
@@ -66,7 +69,11 @@ struct MapContainerView: View {
                     Spacer()
 
                     if isLayersMenuExpanded {
-                        TransparencySliderView(viewModel: overlayVM, isExpanded: $isLayersMenuExpanded)
+                        TransparencySliderView(
+                            viewModel: overlayVM,
+                            userMaps: userMapsVM,
+                            isExpanded: $isLayersMenuExpanded
+                        )
                             .frame(width: 300)
                             .transition(.asymmetric(
                                 insertion: .move(edge: .trailing).combined(with: .opacity),
@@ -362,6 +369,15 @@ struct MapContainerView: View {
                     await poiVM.fetchRemoteWaterfalls(controller: controller)
                 }
             }
+        }
+        .task {
+            await userMapsVM.load()
+        }
+        // The view model owns the rows; the map only ever draws what they
+        // currently say. Pushed on change rather than on a timer so a slider
+        // drag moves the drape it is under.
+        .onChange(of: userMapsVM.drapes) { _, drapes in
+            controller.setUserMaps(drapes)
         }
         .onChange(of: navigationModel.activeSheet) { _, newValue in
             if newValue != nil {

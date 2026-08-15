@@ -4,6 +4,10 @@ import SwiftUI
 
 struct TransparencySliderView: View {
     let viewModel: OverlayViewModel
+    /// The user's own maps. Optional because they are a separate concern from
+    /// the catalogued layers, and a panel shown without them (a preview, a
+    /// test) should still be the same panel.
+    var userMaps: UserMapsViewModel?
     @Binding var isExpanded: Bool
 
     /// Which sections are open. `nil` until the panel is first laid out, so the
@@ -115,6 +119,12 @@ struct TransparencySliderView: View {
                                 }
                             )
                         )
+                    }
+
+                    if let userMaps {
+                        Divider()
+                            .background(.primary.opacity(0.1))
+                        UserMapRowsView(viewModel: userMaps)
                     }
                 }
             }

@@ -319,6 +319,10 @@ final class MapController: NSObject {
         mutate { $0.featureShapes = shapes }
     }
 
+    func setUserMaps(_ drapes: [UserMapDrape]) {
+        mutate { $0.userMaps = drapes }
+    }
+
     func setFeatureMarkers(_ markers: [FeatureMarker]) {
         mutate { $0.featureMarkers = markers }
     }
