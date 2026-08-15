@@ -26,6 +26,7 @@ describe("LayerCategorySection", () => {
     expect(
       screen.queryByRole("region", { name: /Land & Property/i }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByText("Property controls")).not.toBeInTheDocument();
 
     await userEvent.click(button);
 

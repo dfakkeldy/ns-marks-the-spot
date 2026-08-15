@@ -1,6 +1,5 @@
 import {
   act,
-  configure,
   fireEvent,
   render,
   screen,
@@ -30,7 +29,18 @@ import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
-import { provinceLayerCatalog } from "./layers/layerCatalog";
+import {
+  allResourceLayerCatalog,
+  churchLayerCatalog,
+  environmentalHealthLayerCatalog,
+  fletcherLayerCatalog,
+  floodHazardLayerCatalog,
+  forestryLayerCatalog,
+  hydroPilotLayerCatalog,
+  provinceLayerCatalog,
+  wellLogLayerCatalog,
+  zoningLayerCatalog,
+} from "./layers/layerCatalog";
 import { UserMapStore } from "./userMaps/store/userMapStore";
 import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
 import type {
@@ -47,11 +57,59 @@ const lastObservedInteractiveMapState = vi.hoisted(() => ({
   value: null as string | null,
 }));
 
-// Most tests in this established App suite exercise renderer/service state,
-// not category navigation. Keep those assertions able to address controls in
-// collapsed panels; the category-specific tests below opt back into the
-// visible accessibility tree and exercise the real disclosure buttons.
-configure({ defaultHidden: true });
+const currentCatalogueIds = [
+  "modern",
+  fletcherLayerCatalog.id,
+  ...provinceLayerCatalog.map(({ id }) => id),
+  ...allResourceLayerCatalog.map(({ id }) => id),
+  ...hydroPilotLayerCatalog.map(({ id }) => id),
+  ...floodHazardLayerCatalog.map(({ id }) => id),
+  ...environmentalHealthLayerCatalog.map(({ id }) => id),
+  ...forestryLayerCatalog.map(({ id }) => id),
+  ...zoningLayerCatalog.map(({ id }) => id),
+  ...wellLogLayerCatalog.map(({ id }) => id),
+  ...churchLayerCatalog.map(({ id }) => id),
+];
+
+const expectedCataloguePlacement = [
+  { id: "modern", label: "Modern map", category: "Background Maps", kind: "control" },
+  { id: "ns-aerial", label: "NS Aerial", category: "Background Maps", kind: "control" },
+  { id: "nsprd", label: "NS Property Boundaries", category: "Land & Property", kind: "control" },
+  { id: "crown-lands", label: "Crown Lands", category: "Land & Property", kind: "control" },
+  { id: "buildings", label: "Buildings", category: "Land & Property", kind: "control" },
+  { id: "zoning-inverness", label: "Inverness County zoning", category: "Land & Property", kind: "control" },
+  { id: "zoning-victoria", label: "Victoria County zoning", category: "Land & Property", kind: "control" },
+  { id: "zoning-richmond", label: "Richmond County zoning", category: "Land & Property", kind: "control" },
+  { id: "zoning-cumberland", label: "Cumberland County zoning", category: "Land & Property", kind: "control" },
+  { id: "zoning-halifax", label: "Halifax Regional Municipality zoning", category: "Land & Property", kind: "control" },
+  { id: "roads", label: "Roads, trails & culverts", category: "Roads & Places", kind: "control" },
+  { id: "main-roads", label: "Main roads only", category: "Roads & Places", kind: "control" },
+  { id: "place-names", label: "Place names", category: "Roads & Places", kind: "control" },
+  { id: "flood-risk", label: "Watersheds", category: "Environment & Hazards", kind: "control" },
+  { id: "waterfalls", label: "Waterfalls", category: "Water & Terrain", kind: "control" },
+  { id: "water-features", label: "Water features", category: "Water & Terrain", kind: "control" },
+  { id: "contours", label: "Contours", category: "Water & Terrain", kind: "control" },
+  { id: "inverness-hydro-potential", label: "Inverness micro-hydro screen", category: "Water & Terrain", kind: "control" },
+  { id: "published-river-flood-zones", label: "Published river flood zones", category: "Environment & Hazards", kind: "control" },
+  { id: "coastal-flood-current", label: "Coastal flooding — current", category: "Environment & Hazards", kind: "control" },
+  { id: "coastal-flood-2050", label: "Coastal flooding — 2050", category: "Environment & Hazards", kind: "control" },
+  { id: "coastal-flood-2100", label: "Coastal flooding — 2100", category: "Environment & Hazards", kind: "control" },
+  { id: "arsenic-risk-wells", label: "Arsenic risk — bedrock wells", category: "Environment & Hazards", kind: "control" },
+  { id: "uranium-risk-wells", label: "Uranium risk — bedrock wells", category: "Environment & Hazards", kind: "control" },
+  { id: "manganese-risk-wells", label: "Manganese risk — water wells", category: "Environment & Hazards", kind: "control" },
+  { id: "surficial-aquifers", label: "Surficial aquifers", category: "Environment & Hazards", kind: "control" },
+  { id: "ns-well-logs", label: "Water well logs", category: "Environment & Hazards", kind: "control" },
+  { id: "old-growth-policy", label: "Old-growth policy areas", category: "Forestry & Ecology", kind: "control" },
+  { id: "mineral-occurrences", label: "Mineral occurrences", category: "Geology & Resources", kind: "control" },
+  { id: "mineral-tenure", label: "Mineral tenure", category: "Geology & Resources", kind: "control" },
+  { id: "abandoned-mines", label: "Abandoned mine openings", category: "Geology & Resources", kind: "control" },
+  { id: "mineral-proximity-parcels", label: "Properties within 1 km of a mineral occurrence", category: "Geology & Resources", kind: "control" },
+  { id: "fletcher", label: "Fletcher historical map", category: "Historical Maps", kind: "control" },
+  { id: "church-inverness", label: "Church — Inverness County", category: "Historical Maps", kind: "unavailable" },
+  { id: "church-victoria", label: "Church — Victoria County", category: "Historical Maps", kind: "unavailable" },
+  { id: "church-richmond", label: "Church — Richmond County", category: "Historical Maps", kind: "unavailable" },
+  { id: "church-cape-breton", label: "Church — Cape Breton County", category: "Historical Maps", kind: "unavailable" },
+] as const;
 
 vi.mock("./userMaps/parsers/parseGeoPdfAuto", () => ({
   parseGeoPdfAuto: parseGeoPdfAutoMock,
@@ -516,7 +574,15 @@ function openLayerCategory(name: string): HTMLElement {
   if (disclosure.getAttribute("aria-expanded") === "false") {
     fireEvent.click(disclosure);
   }
-  return screen.getByRole("region", { name: matcher, hidden: false });
+  return screen.getByRole("region", { name: matcher });
+}
+
+function renderAppWithCategoriesOpen() {
+  const result = render(<App />);
+  for (const { name } of layerCategories) {
+    openLayerCategory(name);
+  }
+  return result;
 }
 
 const STORED_FIELD_THEME = {
@@ -634,7 +700,23 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("renders each catalogue control in exactly one labelled category region", async () => {
+  it("does not expose controls from a collapsed category", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?layers=modern");
+    render(<App />);
+
+    expect(screen.queryByLabelText("NS Property Boundaries"))
+      .not.toBeInTheDocument();
+    expect(screen.queryByRole("region", {
+      name: /Land & Property/i,
+      hidden: false,
+    })).not.toBeInTheDocument();
+
+    const land = openLayerCategory("Land & Property");
+    expect(within(land).getByLabelText("NS Property Boundaries")).toBeVisible();
+  });
+
+  it("renders every current catalogue entry in exactly one expected category region", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?layers=modern");
     render(<App />);
@@ -648,36 +730,33 @@ describe("NS Marks The Spot Online", () => {
       }
     }
 
-    const land = screen.getByRole("region", { name: /Land & Property/i });
-    const roads = screen.getByRole("region", { name: /Roads & Places/i });
-    const forestry = screen.getByRole("region", { name: /Forestry & Ecology/i });
-    const historical = screen.getByRole("region", { name: /Historical Maps/i });
+    expect([...currentCatalogueIds].sort()).toEqual(
+      expectedCataloguePlacement.map(({ id }) => id).sort(),
+    );
+
+    const categoryRegions = new Map(
+      layerCategories.map(({ name }) => [
+        name,
+        screen.getByRole("region", { name: new RegExp(`^${name}`) }),
+      ]),
+    );
+
+    for (const entry of expectedCataloguePlacement) {
+      const expectedRegion = categoryRegions.get(entry.category);
+      expect(expectedRegion).toBeDefined();
+
+      if (entry.kind === "control") {
+        expect(within(expectedRegion as HTMLElement).getByLabelText(entry.label))
+          .toBeInTheDocument();
+        expect(screen.getAllByLabelText(entry.label)).toHaveLength(1);
+      } else {
+        expect(within(expectedRegion as HTMLElement).getByText(entry.label))
+          .toBeInTheDocument();
+        expect(screen.getAllByText(entry.label)).toHaveLength(1);
+      }
+    }
+
     const taxSale = screen.getByRole("region", { name: /Tax Sale/i });
-
-    expect(within(land).getByLabelText("NS Property Boundaries"))
-      .toBeInTheDocument();
-    expect(within(roads).queryByLabelText("NS Property Boundaries"))
-      .not.toBeInTheDocument();
-    expect(screen.getAllByLabelText("NS Property Boundaries")).toHaveLength(1);
-
-    expect(within(roads).getByLabelText("Roads, trails & culverts"))
-      .toBeInTheDocument();
-    expect(within(land).queryByLabelText("Roads, trails & culverts"))
-      .not.toBeInTheDocument();
-    expect(screen.getAllByLabelText("Roads, trails & culverts")).toHaveLength(1);
-
-    expect(within(forestry).getByLabelText("Old-growth policy areas"))
-      .toBeInTheDocument();
-    expect(within(historical).queryByLabelText("Old-growth policy areas"))
-      .not.toBeInTheDocument();
-    expect(screen.getAllByLabelText("Old-growth policy areas")).toHaveLength(1);
-
-    expect(within(historical).getByLabelText("Fletcher historical map"))
-      .toBeInTheDocument();
-    expect(within(historical).getByText("Church — Inverness County"))
-      .toBeInTheDocument();
-    expect(screen.getAllByLabelText("Fletcher historical map")).toHaveLength(1);
-    expect(screen.getAllByText("Church — Inverness County")).toHaveLength(1);
 
     expect(within(taxSale).getByRole("heading", {
       name: "Tax-sale notices",
@@ -716,7 +795,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("counts a shared restricted layer only after Province licence acceptance", async () => {
     window.history.replaceState(null, "", "/?layers=nsprd");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const disclosure = screen.getByRole("button", {
       name: /Land & Property.*Off.*Province licence required/i,
@@ -737,7 +816,7 @@ describe("NS Marks The Spot Online", () => {
   it("does not prompt for the Province licence on an ordinary first visit", () => {
     window.history.replaceState(null, "", "/");
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(
       screen.queryByRole("dialog", { name: /province data licence/i }),
@@ -758,7 +837,7 @@ describe("NS Marks The Spot Online", () => {
       "",
       "/?taxSale=on&mode=current&layers=ns-aerial,nsprd,roads,water-features",
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     observedInteractiveMapStates.length = 0;
     await userEvent.selectOptions(
@@ -773,7 +852,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("defers a restricted theme until the one licence decision", async () => {
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const mapSetup = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(mapSetup, "forestry-field-access");
@@ -785,6 +864,8 @@ describe("NS Marks The Spot Online", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /accept/i }));
 
+    openLayerCategory("Background Maps");
+    openLayerCategory("Forestry & Ecology");
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("Old-growth policy areas")).toBeChecked();
     expect(mapSetup).toHaveFocus();
@@ -792,7 +873,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("applies the unrestricted subset and names blocked layers after refusal", async () => {
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const mapSetup = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(mapSetup, "historical-maps");
@@ -800,6 +881,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: /continue without/i }),
     );
 
+    openLayerCategory("Background Maps");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(mapSetupStatus()).toHaveTextContent(
       /Historical Maps — Partially applied.*Fletcher historical map.*Place Names.*Main Roads/i,
@@ -819,13 +901,13 @@ describe("NS Marks The Spot Online", () => {
       "",
       "/?taxSale=off&mode=current&layers=modern,roads",
     );
-    const { unmount } = render(<App />);
+    const { unmount } = renderAppWithCategoriesOpen();
 
     expect(mapSetupStatus()).toHaveTextContent("Shared setup");
 
     unmount();
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(screen.getByLabelText("Modern map"));
 
     expect(mapSetupStatus()).toHaveTextContent(
@@ -845,7 +927,7 @@ describe("NS Marks The Spot Online", () => {
     );
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -893,11 +975,15 @@ describe("NS Marks The Spot Online", () => {
 
     try {
       render(<App />);
+      openLayerCategory("My Maps");
       expect(
         await screen.findByRole("checkbox", { name: "Private woodlot scan" }),
       ).toBeChecked();
+      await userEvent.click(screen.getByRole("button", { name: /^My Maps/ }));
+      openLayerCategory("Roads & Places");
       await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
       expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+      await userEvent.click(screen.getByRole("button", { name: /^Roads & Places/ }));
 
       await userEvent.click(
         screen.getByRole("button", { name: "Save current setup as…" }),
@@ -929,6 +1015,7 @@ describe("NS Marks The Spot Online", () => {
       expect(raw).not.toContain("position");
       expect(raw).not.toContain("event");
       expect(raw).not.toContain("licence");
+      openLayerCategory("Roads & Places");
       expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
 
       const customThemeId = (JSON.parse(raw ?? "null") as {
@@ -939,6 +1026,7 @@ describe("NS Marks The Spot Online", () => {
         screen.getByLabelText("Map setup"),
         "explore-nova-scotia",
       );
+      openLayerCategory("Roads & Places");
       expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
       await waitFor(() => {
         expect(new URL(window.location.href).searchParams.get("layers"))
@@ -949,6 +1037,7 @@ describe("NS Marks The Spot Online", () => {
         screen.getByLabelText("Map setup"),
         customThemeId,
       );
+      openLayerCategory("Roads & Places");
       expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
       await waitFor(() => {
         expect(new URL(window.location.href).searchParams.get("layers"))
@@ -960,6 +1049,7 @@ describe("NS Marks The Spot Online", () => {
       await userEvent.click(
         screen.getByRole("button", { name: "Reset current theme" }),
       );
+      openLayerCategory("Roads & Places");
       expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
       expect(mapSetupStatus()).toHaveTextContent("Road work");
     } finally {
@@ -972,7 +1062,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
@@ -1008,7 +1098,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([{ ...STORED_FIELD_THEME, name: "Woodlot" }]);
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -1042,6 +1132,8 @@ describe("NS Marks The Spot Online", () => {
       localStorage.getItem(CUSTOM_THEME_STORAGE_KEY) ?? "null",
     ) as { themes: Array<{ id: string; name: string; layerIds: string[] }> };
     expect(stored.themes).toEqual([]);
+    openLayerCategory("Background Maps");
+    openLayerCategory("Roads & Places");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByLabelText("Map setup")).toHaveValue("shared");
@@ -1059,7 +1151,7 @@ describe("NS Marks The Spot Online", () => {
       },
     ]);
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -1080,7 +1172,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    const first = render(<App />);
+    const first = renderAppWithCategoriesOpen();
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -1091,7 +1183,7 @@ describe("NS Marks The Spot Online", () => {
         .toBe("modern,roads");
     });
     first.unmount();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("Map setup")).toHaveValue("custom-field-day");
     expect(mapSetupStatus()).toHaveTextContent("Field day");
@@ -1103,7 +1195,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
     window.history.replaceState(null, "", "/");
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("Map setup")).toHaveValue(
       "explore-nova-scotia",
@@ -1119,7 +1211,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?layers=modern,roads");
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
@@ -1138,7 +1230,7 @@ describe("NS Marks The Spot Online", () => {
   it("retains the previous theme list and map state when browser persistence fails", async () => {
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
     const oldRaw = localStorage.getItem(CUSTOM_THEME_STORAGE_KEY);
     const originalSetItem = Storage.prototype.setItem;
     const setItem = vi.spyOn(Storage.prototype, "setItem").mockImplementation(
@@ -1178,7 +1270,7 @@ describe("NS Marks The Spot Online", () => {
   it("uses the same licence decision and reset path for a restricted custom theme", async () => {
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const picker = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(picker, "custom-field-day");
@@ -1215,7 +1307,7 @@ describe("NS Marks The Spot Online", () => {
       pointCount: 2,
       polygonCount: 0,
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("buildings: off");
@@ -1240,7 +1332,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("shows the modern map when continuing without Province layers", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
@@ -1252,7 +1344,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("credits the open-source software separately from map-data licences", () => {
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(
       screen.getByRole("link", {
@@ -1270,7 +1362,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("invites map feedback through the KinNoKi Labs map address", () => {
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(
       screen.getByRole("link", {
@@ -1283,7 +1375,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("invites beta interest without claiming the iPhone beta is available", () => {
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const betaLinks = screen.getAllByRole("link", {
       name: "Get launch updates",
@@ -1307,7 +1399,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("opens the About dialog from the header, explains the method, and closes", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Accept and view map layers" }),
@@ -1339,7 +1431,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("reveals the privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Accept and view map layers" }),
@@ -1389,7 +1481,7 @@ describe("NS Marks The Spot Online", () => {
   it("makes current notices and historical records separate map modes", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByRole("button", { name: "Current notices" })).toHaveAttribute(
       "aria-pressed",
@@ -1425,7 +1517,7 @@ describe("NS Marks The Spot Online", () => {
       features: pids.map(parcelFeature),
     }));
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByRole("button", { name: "Historical records" })).toHaveAttribute(
       "aria-pressed",
@@ -1455,7 +1547,7 @@ describe("NS Marks The Spot Online", () => {
       "/?mode=current&layers=arsenic-risk-wells,uranium-risk-wells,surficial-aquifers",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     // The open-licensed uranium screen needs no acceptance; the two restricted
     // services must stay off until the Province licence is accepted.
@@ -1473,7 +1565,7 @@ describe("NS Marks The Spot Online", () => {
       "/?mode=current&layers=arsenic-risk-wells,surficial-aquifers",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const canvas = screen.getByTestId("map-canvas");
     expect(canvas).toHaveTextContent("arsenic risk: on");
@@ -1483,7 +1575,7 @@ describe("NS Marks The Spot Online", () => {
   it("carries the province's testing guidance beside every well-water screen", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const environment = openLayerCategory("Environment & Hazards");
 
@@ -1515,7 +1607,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps layer provenance one disclosure away without burying the live status", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     openLayerCategory("Land & Property");
 
@@ -1554,7 +1646,7 @@ describe("NS Marks The Spot Online", () => {
       features: pids.map(parcelFeature),
     }));
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "historical layer: off",
@@ -1598,7 +1690,7 @@ describe("NS Marks The Spot Online", () => {
         return historicalRequest.promise;
       });
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await user.click(screen.getByRole("button", { name: "Historical records" }));
 
     expect(
@@ -1618,7 +1710,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
     }));
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Historical records" }),
@@ -1651,7 +1743,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
     }));
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Historical records" }),
@@ -1680,7 +1772,7 @@ describe("NS Marks The Spot Online", () => {
   it("uses the parcel-first map defaults and keeps Fletcher last in Historical Maps", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
@@ -1702,7 +1794,7 @@ describe("NS Marks The Spot Online", () => {
   it("lists the Church county sheets as unavailable rows above Fletcher", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const layerSection = openLayerCategory("Historical Maps");
     const layerNames = Array.from(
@@ -1738,7 +1830,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     const user = userEvent.setup();
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const toggle = screen.getByLabelText("Fletcher historical map");
     expect(toggle).toBeEnabled();
@@ -1768,7 +1860,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("lets a user who declined the Province licence still export a map", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
@@ -1793,7 +1885,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("names a visible zoning layer as absent from the export instead of dropping it silently", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
@@ -1823,7 +1915,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("credits an exported layer but not a visible layer the export omits", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
@@ -1866,7 +1958,7 @@ describe("NS Marks The Spot Online", () => {
     // carries user vector layers into the compositor, and until now
     // `omittedLayerNames` never named them either.
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
@@ -1914,7 +2006,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("keeps every Province layer out of the exported PDF after declining the licence", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
@@ -1961,6 +2053,7 @@ describe("NS Marks The Spot Online", () => {
       name: /^Geology & Resources/,
     });
     expect(groupSummary).toHaveAttribute("aria-expanded", "false");
+    const group = openLayerCategory("Geology & Resources");
     expect(screen.getByLabelText("Mineral occurrences")).not.toBeChecked();
     expect(screen.getByLabelText("Mineral tenure")).not.toBeChecked();
     expect(screen.getByLabelText("Abandoned mine openings")).not.toBeChecked();
@@ -1970,7 +2063,6 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(proximityToggle).not.toBeChecked();
     expect(proximityToggle).toBeDisabled();
-    const group = openLayerCategory("Geology & Resources");
     await user.click(screen.getByLabelText("Mineral occurrences"));
     await user.click(screen.getByLabelText("Mineral tenure"));
 
@@ -2011,9 +2103,8 @@ describe("NS Marks The Spot Online", () => {
 
     const summary = screen.getByRole("button", { name: /^Water & Terrain/ });
     expect(summary).toHaveAttribute("aria-expanded", "false");
-    expect(screen.getByLabelText("Contours")).not.toBeChecked();
-
     const group = openLayerCategory("Water & Terrain");
+    expect(screen.getByLabelText("Contours")).not.toBeChecked();
     await user.click(screen.getByLabelText("Contours"));
 
     expect(summary).toHaveAttribute("aria-expanded", "true");
@@ -2037,13 +2128,12 @@ describe("NS Marks The Spot Online", () => {
     );
 
     const summary = screen.getByRole("button", { name: /^Forestry & Ecology/ });
-    const toggle = screen.getByLabelText("Old-growth policy areas");
-
     expect(summary).toHaveAttribute("aria-expanded", "false");
+    const group = openLayerCategory("Forestry & Ecology");
+    const toggle = screen.getByLabelText("Old-growth policy areas");
     expect(toggle).not.toBeChecked();
     expect(toggle).toBeEnabled();
 
-    const group = openLayerCategory("Forestry & Ecology");
     await user.click(toggle);
 
     expect(summary).toHaveAttribute("aria-expanded", "true");
@@ -2085,10 +2175,10 @@ describe("NS Marks The Spot Online", () => {
 
     const summary = screen.getByRole("button", { name: /^Water & Terrain/ });
     expect(summary).toHaveAttribute("aria-expanded", "false");
+    const group = openLayerCategory("Water & Terrain");
     expect(screen.getByLabelText("Inverness micro-hydro screen")).not.toBeChecked();
     expect(screen.getByLabelText("Inverness micro-hydro screen")).toBeEnabled();
 
-    const group = openLayerCategory("Water & Terrain");
     await user.click(screen.getByLabelText("Inverness micro-hydro screen"));
 
     expect(summary).toHaveAttribute("aria-expanded", "true");
@@ -2123,7 +2213,7 @@ describe("NS Marks The Spot Online", () => {
   it("enables the derived parcel control after licence acceptance but keeps it off by default", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const proximityToggle = screen.getByLabelText(
       "Properties within 1 km of a mineral occurrence",
@@ -2150,7 +2240,7 @@ describe("NS Marks The Spot Online", () => {
       "/?mode=current&layers=mineral-proximity-parcels&position=46.1,-60.9,12",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const proximityToggle = screen.getByLabelText(
       "Properties within 1 km of a mineral occurrence",
@@ -2187,7 +2277,7 @@ describe("NS Marks The Spot Online", () => {
       "/?mode=current&layers=published-river-flood-zones,coastal-flood-current&position=46.1,-60.9,12",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const canvas = screen.getByTestId("map-canvas");
     expect(canvas).toHaveTextContent("published river flood zones: off");
@@ -2212,7 +2302,7 @@ describe("NS Marks The Spot Online", () => {
       "/?mode=current&layers=published-river-flood-zones&position=46.1,-60.9,12",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "published river flood zones: on",
@@ -2236,7 +2326,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50251750")],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -2281,7 +2371,7 @@ describe("NS Marks The Spot Online", () => {
         "11064 Highway 19, Southwest Mabou, Inverness County",
       ),
     ]);
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
 
@@ -2314,7 +2404,7 @@ describe("NS Marks The Spot Online", () => {
         type: "FeatureCollection",
         features: [parcelFeature("50251750")],
       });
-      render(<App />);
+      renderAppWithCategoriesOpen();
 
       fireEvent.click(screen.getByRole("button", { name: "Tap map parcel" }));
       await act(async () => {
@@ -2349,7 +2439,7 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50251750")],
     });
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
     await screen.findByRole("complementary", {
       name: "Parcel 50251750 details",
@@ -2384,7 +2474,7 @@ describe("NS Marks The Spot Online", () => {
       });
     });
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
     await vi.waitFor(() => expect(pointSignal).toBeDefined());
@@ -2415,7 +2505,7 @@ describe("NS Marks The Spot Online", () => {
       });
     });
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
     const search = screen.getByLabelText("Search by PID or civic address");
     await user.type(search, "Highway 19 Mabou");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -2433,7 +2523,7 @@ describe("NS Marks The Spot Online", () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
@@ -2455,7 +2545,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
     }));
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(screen.getByRole("button", { name: "Historical records" }));
     await user.type(screen.getByLabelText("Search by PID or civic address"), "15054588");
@@ -2480,7 +2570,7 @@ describe("NS Marks The Spot Online", () => {
   it("toggles native-parity Province layers independently", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const crownLands = screen.getByLabelText("Crown Lands");
     const waterfalls = screen.getByLabelText("Waterfalls");
@@ -2498,7 +2588,7 @@ describe("NS Marks The Spot Online", () => {
   it("shows the official road-style legend only while the road layer is visible", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const legend = screen.getByRole("list", { name: "Road type legend" });
     expect(within(legend).getByText("Highway")).toBeInTheDocument();
@@ -2515,7 +2605,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("toggles the modern map independently of Province layers", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const modernMap = screen.getByLabelText("Modern map");
     expect(modernMap).toBeChecked();
@@ -2539,7 +2629,7 @@ describe("NS Marks The Spot Online", () => {
       "/?layers=ns-aerial,nsprd&position=46.1,-60.9,12",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("Modern map")).not.toBeChecked();
@@ -2553,7 +2643,7 @@ describe("NS Marks The Spot Online", () => {
       "/?layers=ns-aerial,nsprd&position=46.1,-60.9,9",
     );
 
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("Modern map")).toBeChecked();
@@ -2578,7 +2668,7 @@ describe("NS Marks The Spot Online", () => {
       },
     );
 
-    const { unmount } = render(<App />);
+    const { unmount } = renderAppWithCategoriesOpen();
     expect(document.documentElement.style.getPropertyValue("--app-viewport-height"))
       .toBe("640px");
 
@@ -2589,7 +2679,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("collapses and restores the header", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const collapse = screen.getByRole("button", { name: "Collapse header" });
     expect(collapse).toHaveAttribute("aria-expanded", "true");
@@ -2609,7 +2699,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("keeps mobile map controls closed until the user opens them", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     const controls = screen.getByRole("complementary", { name: "Map controls" });
     const trigger = screen.getByRole("button", { name: "Search & layers" });
@@ -2639,7 +2729,7 @@ describe("NS Marks The Spot Online", () => {
         type: "FeatureCollection",
         features: pids.map(parcelFeature),
       }));
-      render(<App />);
+      renderAppWithCategoriesOpen();
 
       const search = screen.getByLabelText("Search by PID or civic address");
       await user.type(search, "50203256");
@@ -2678,7 +2768,7 @@ describe("NS Marks The Spot Online", () => {
         ],
       }],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
@@ -2721,7 +2811,7 @@ describe("NS Marks The Spot Online", () => {
         }],
       }],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50076777");
@@ -2784,7 +2874,7 @@ describe("NS Marks The Spot Online", () => {
         ],
       },
     ]);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(
@@ -2841,7 +2931,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchDwellingCharacteristics).mockRejectedValueOnce(
       new Error("dwelling source down"),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(
@@ -2885,7 +2975,7 @@ describe("NS Marks The Spot Online", () => {
       }],
     });
     vi.mocked(fetchDwellingCharacteristics).mockResolvedValueOnce([]);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(
@@ -2921,7 +3011,7 @@ describe("NS Marks The Spot Online", () => {
         { aan: "00000002", records: [{ taxYear: 2026, assessedValue: 200_000, taxableAssessedValue: 180_000, coordinates: [-61.16, 46.36] }] },
       ],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -2945,7 +3035,7 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     vi.mocked(fetchParcelAssessments).mockRejectedValueOnce(new Error("offline"));
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -2962,7 +3052,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
     }));
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByText("47 parcels shown").closest("summary")!,
@@ -3009,7 +3099,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps the property lists aligned with the redemption filter", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: /Immediate \/ none/ }),
@@ -3065,7 +3155,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
       civicAddress("address-road", "12 Main St, Mabou"),
     ]);
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3100,7 +3190,7 @@ describe("NS Marks The Spot Online", () => {
       ],
     });
     vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3126,7 +3216,7 @@ describe("NS Marks The Spot Online", () => {
         resolveAddresses = resolve;
       }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3212,7 +3302,7 @@ describe("NS Marks The Spot Online", () => {
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "error", intersections: [] },
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3255,7 +3345,7 @@ describe("NS Marks The Spot Online", () => {
         { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "Unavailable" },
       ],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3279,7 +3369,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3318,7 +3408,7 @@ describe("NS Marks The Spot Online", () => {
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.click(
@@ -3373,7 +3463,7 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     vi.mocked(fetchParcelResourceIntersections).mockReturnValueOnce(resources.promise);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3430,7 +3520,7 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchParcelAssessments).mockReturnValueOnce(assessments.promise);
     vi.mocked(fetchDwellingCharacteristics).mockReturnValueOnce(dwellings.promise);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3488,7 +3578,7 @@ describe("NS Marks The Spot Online", () => {
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
       civicAddress("101", "Unit 2, 12 Main St, Mabou, Inverness County"),
     ]);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3519,7 +3609,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3548,7 +3638,7 @@ describe("NS Marks The Spot Online", () => {
       ],
     });
     vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(new Error("offline"));
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3572,7 +3662,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
     ]);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -3610,7 +3700,7 @@ describe("NS Marks The Spot Online", () => {
         civicAddress("200", "8 Second St, Whycocomagh, Inverness County"),
       ]);
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("2 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
@@ -3640,7 +3730,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317"), parcelFeature("50203256")],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("2 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
@@ -3666,7 +3756,7 @@ describe("NS Marks The Spot Online", () => {
   it("finds an archived CBRM listing only in historical-record mode", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(screen.getByRole("button", { name: "Historical records" }));
     await user.type(screen.getByLabelText("Search by PID or civic address"), "15054588");
@@ -3703,7 +3793,7 @@ describe("NS Marks The Spot Online", () => {
   it("toggles upcoming events without mixing their PID counts", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 69;");
     await user.click(
@@ -3731,7 +3821,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps NSPRD failures visible without manufacturing geometry", async () => {
     const user = userEvent.setup();
     vi.mocked(fetchParcels).mockRejectedValueOnce(new Error("offline"));
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.click(
       screen.getByRole("button", { name: "Accept and view map layers" }),
@@ -3748,7 +3838,7 @@ describe("NS Marks The Spot Online", () => {
   it("rejects malformed PID searches", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "5020");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3759,7 +3849,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("does not expose print export before a parcel is selected", () => {
-    render(<App />);
+    renderAppWithCategoriesOpen();
 
     expect(
       screen.queryByRole("button", { name: "Print / export" }),
@@ -3773,7 +3863,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("01234567")],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
@@ -3799,7 +3889,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcels)
       .mockResolvedValueOnce({ type: "FeatureCollection", features: [] })
       .mockReturnValueOnce(parcelLookup.promise);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("0 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
@@ -3821,7 +3911,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("01234567")],
     });
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
@@ -3858,7 +3948,7 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("01234567")],
     });
     vi.mocked(fetchParcelResourceIntersections).mockReturnValueOnce(resources.promise);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
@@ -3895,7 +3985,7 @@ describe("NS Marks The Spot Online", () => {
       .mockReturnValueOnce(olderResources.promise)
       .mockReturnValueOnce(currentResources.promise);
     const initialResourceRequestCount = vi.mocked(fetchParcelResourceIntersections).mock.calls.length;
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await screen.findByText("1 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
@@ -4051,7 +4141,7 @@ describe("georeferencer", () => {
 
   it("stays closed until a map is opened for georeferencing", async () => {
     await seedScan();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     expect(
       await screen.findByRole("button", { name: /^Georeference / }),
     ).toBeInTheDocument();
@@ -4075,7 +4165,7 @@ describe("georeferencer", () => {
         "placed-1": { enabled: true, opacity: 0.7 },
       }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await waitFor(() =>
       expect(screen.getByTestId("map-canvas")).toHaveTextContent(
         "saved user map layers: 1",
@@ -4109,7 +4199,7 @@ describe("georeferencer", () => {
     // its absence: the toggle would still persist, the panel would still show
     // it checked, and the drape would go on being an affine.
     await seedScan(TPS_COINCIDENT);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", {
         name: "Georeference Church of Inverness 1888",
@@ -4130,7 +4220,7 @@ describe("georeferencer", () => {
   it("persists a warp switch made in the panel, all the way to IndexedDB", async () => {
     // Three points would be below the gate, so this fixture carries four.
     await seedScan(PLACED_FOUR);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Four-point scan" }),
     );
@@ -4160,7 +4250,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await waitFor(() =>
       expect(screen.getByTestId("map-canvas")).toHaveTextContent(
         "saved user map layers: 1",
@@ -4179,7 +4269,7 @@ describe("georeferencer", () => {
 
   it("closes back to the map without leaving the draft behind", async () => {
     await seedScan();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
@@ -4199,7 +4289,7 @@ describe("georeferencer", () => {
     // The bug needs two maps to show, which is why no existing test sees it.
     await seedScan(PLACED);
     await seedScan(PLACED_B);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -4233,7 +4323,7 @@ describe("georeferencer", () => {
     // tab — a leftover from a session about an entirely different scan.
     await seedScan(PLACED);
     await seedScan(PLACED_B);
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -4259,7 +4349,7 @@ describe("georeferencer", () => {
     // localStorage.setItem("ns-marks-the-spot:province-license:v1",
     // "accepted"), so rendering plain gives the un-accepted state.
     await seedScan();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
@@ -4280,7 +4370,7 @@ describe("georeferencer", () => {
       "/?taxSale=off&mode=current&layers=modern,nsprd",
     );
     await seedScan();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: /^Georeference / }),
     );
@@ -4299,7 +4389,7 @@ describe("georeferencer", () => {
     // Spec: an imported scan opens the panel. `useUserMaps` consumes the
     // outcome flag (Task 5); this is the App-level proof that the flag
     // actually reaches the UI rather than being produced and dropped.
-    render(<App />);
+    renderAppWithCategoriesOpen();
     const input = await screen.findByLabelText("Add a map file");
     const magic = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     await userEvent.upload(
@@ -4359,7 +4449,7 @@ describe("georeferencer", () => {
 
   it("chooses an embedded main frame without opening georeferencing", async () => {
     arrangeMultiFramePdf();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await uploadPdf("USGS chooser main");
 
     const chooser = await screen.findByRole("dialog", {
@@ -4402,7 +4492,7 @@ describe("georeferencer", () => {
 
   it("persists the chosen inset rectangle and its own embedded GCPs", async () => {
     arrangeMultiFramePdf();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await uploadPdf("USGS chooser inset");
 
     const chooser = await screen.findByRole("dialog", {
@@ -4448,7 +4538,7 @@ describe("georeferencer", () => {
 
   it("treats a live map click as the MAP side of a pending pair, not the scan side", async () => {
     await seedScan();
-    render(<App />);
+    renderAppWithCategoriesOpen();
     // The exact name, not the generic /^Georeference /: the previous test in
     // this file imports a scan with a random UUID that IndexedDB does not
     // reset between tests, so the loose pattern can match two rows here.
@@ -4483,7 +4573,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -4514,7 +4604,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -4547,7 +4637,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );
@@ -4583,7 +4673,7 @@ describe("georeferencer", () => {
       "user-map-ui-state-v1",
       JSON.stringify({ "placed-1": { enabled: true, opacity: 0.7 } }),
     );
-    render(<App />);
+    renderAppWithCategoriesOpen();
     await userEvent.click(
       await screen.findByRole("button", { name: "Adjust points for Placed scan" }),
     );

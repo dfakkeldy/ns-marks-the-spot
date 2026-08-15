@@ -38,16 +38,17 @@ export function LayerCategorySection({
           <span className="layer-category-summary">{summary}</span>
         </button>
       </h3>
-      <div
-        id={panelId}
-        className="layer-category-panel"
-        role="region"
-        aria-labelledby={buttonId}
-        hidden={!expanded}
-      >
-        <p className="layer-category-description">{description}</p>
-        {children}
-      </div>
+      {expanded ? (
+        <div
+          id={panelId}
+          className="layer-category-panel"
+          role="region"
+          aria-labelledby={buttonId}
+        >
+          <p className="layer-category-description">{description}</p>
+          {children}
+        </div>
+      ) : null}
     </section>
   );
 }

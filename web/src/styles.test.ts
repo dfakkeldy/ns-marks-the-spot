@@ -39,7 +39,9 @@ describe("desktop layer category disclosures", () => {
 
     expect(buttonDeclarations).toMatch(/min-height:\s*56px/);
     expect(buttonDeclarations).toMatch(/width:\s*100%/);
-    expect(focusDeclarations).toMatch(/outline:\s*3px solid/);
+    expect(focusDeclarations).toMatch(
+      /outline:\s*3px solid var\(--survey-blue\)/,
+    );
     expect(focusDeclarations).not.toMatch(/outline:\s*(?:0|none)/);
   });
 });

@@ -716,7 +716,7 @@ a {
 }
 
 .layer-category-heading:focus-visible {
-  outline: 3px solid rgba(47, 128, 237, 0.42);
+  outline: 3px solid var(--survey-blue);
   outline-offset: 2px;
   border-radius: 4px;
 }
