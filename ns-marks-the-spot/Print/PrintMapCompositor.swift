@@ -163,6 +163,23 @@ nonisolated struct PrintMapCompositor {
         )
     }
 
+    /// One square, and whether it arrived.
+    private static func fetch(
+        _ tile: PrintTile,
+        _ configuration: TileLayerConfiguration,
+        _ provider: @escaping TileProvider
+    ) async -> (tile: PrintTile, image: UIImage?, error: String?) {
+        do {
+            let data = try await provider(
+                configuration,
+                MKTileOverlayPath(x: tile.x, y: tile.y, z: tile.z, contentScaleFactor: 1)
+            )
+            return (tile, UIImage(data: data), nil)
+        } catch {
+            return (tile, nil, error.localizedDescription)
+        }
+    }
+
     /// Fetches one layer's squares, and says how the layer fared.
     private static func tiles(
         for layer: MapLayerState,
@@ -178,35 +195,30 @@ nonisolated struct PrintMapCompositor {
 
         var images = [(PrintTile, UIImage)]()
         var firstError: String?
-        await withTaskGroup(of: (PrintTile, Result<UIImage?, Error>).self) { group in
+        // The error travels as its message rather than as an `any Error`,
+        // which is not `Sendable` and so cannot leave a task group.
+        await withTaskGroup(of: (tile: PrintTile, image: UIImage?, error: String?).self) { group in
+            let configuration = layer.configuration
             var next = 0
-            func submit() {
-                guard next < planned.count else { return }
+            while next < min(tileConcurrency, planned.count) {
                 let tile = planned[next]
+                group.addTask { await fetch(tile, configuration, provider) }
                 next += 1
-                group.addTask {
-                    do {
-                        let data = try await provider(
-                            layer.configuration,
-                            MKTileOverlayPath(
-                                x: tile.x, y: tile.y, z: tile.z, contentScaleFactor: 1
-                            )
-                        )
-                        return (tile, .success(UIImage(data: data)))
-                    } catch {
-                        return (tile, .failure(error))
-                    }
-                }
             }
-            for _ in 0..<min(tileConcurrency, planned.count) { submit() }
-            while let (tile, result) = await group.next() {
-                switch result {
-                case .success(let image):
-                    if let image { images.append((tile, image)) }
-                case .failure(let error):
-                    if firstError == nil { firstError = error.localizedDescription }
+            while let result = await group.next() {
+                if let image = result.image {
+                    images.append((result.tile, image))
+                } else if firstError == nil {
+                    // Nil bytes that were not an error are an answer that was
+                    // not an image, which is still a square that did not draw.
+                    firstError = result.error
+                        ?? "The source returned something that was not an image."
                 }
-                submit()
+                if next < planned.count {
+                    let tile = planned[next]
+                    group.addTask { await fetch(tile, configuration, provider) }
+                    next += 1
+                }
             }
         }
 
