@@ -17,6 +17,15 @@ struct ParcelInspectorView: View {
     let inspection: ParcelInspection
     let onClose: () -> Void
 
+    /// Whether every source the evidence note reports on has answered. The
+    /// export waits for that rather than stamping "unavailable" on a source
+    /// that was still being asked.
+    var canExportNote = false
+    /// Shares a link back to this map view. `nil` where the card is shown
+    /// without the map behind it.
+    var onShareMapLink: (() -> Void)?
+    var onExportNote: (() -> Void)?
+
     /// Read once when the card opens, so an event's lifecycle label does not
     /// change under the reader mid-scroll.
     @State private var now = Date()
@@ -35,6 +44,7 @@ struct ParcelInspectorView: View {
                     mappedContext
                     resources
                     floodHazard
+                    fieldTools
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 16)
@@ -664,6 +674,62 @@ struct ParcelInspectorView: View {
                     .font(.caption2)
                 }
                 .accessibilityLabel("\(plusCode) — Directions in Google Maps")
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Taking the parcel with you
+
+    /// The three ways this parcel leaves the app: a link back to this view, the
+    /// evidence note, and the commercial listing page.
+    @ViewBuilder
+    private var fieldTools: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Take this with you")
+                .font(.subheadline.weight(.semibold))
+
+            if let onShareMapLink {
+                Button(action: onShareMapLink) {
+                    Label("Share this map view", systemImage: "square.and.arrow.up")
+                        .font(.footnote)
+                }
+                .accessibilityIdentifier("parcel-inspector-share-link")
+            }
+
+            if let onExportNote {
+                Button(action: onExportNote) {
+                    Label("Export evidence note", systemImage: "doc.text")
+                        .font(.footnote)
+                }
+                .disabled(!canExportNote)
+                .accessibilityIdentifier("parcel-inspector-export-note")
+
+                if !canExportNote {
+                    // Said out loud rather than left as a greyed button: the
+                    // note names every source it asked, so it waits until every
+                    // source has answered.
+                    Text("Available once every source above has answered.")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            if let listing = PlaceLinks.viewpointParcelURL(pid: inspection.pid) {
+                Link(destination: listing) {
+                    Label("Open on ViewPoint", systemImage: "arrow.up.right.square")
+                        .font(.footnote)
+                }
+                // ViewPoint is a commercial listing site. Nothing there is a
+                // record source, and a page existing for a PID is not a
+                // statement that the property is for sale.
+                Text(
+                    "A commercial listing site, not a record source. Nothing shown there is "
+                        + "evidence about this parcel."
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

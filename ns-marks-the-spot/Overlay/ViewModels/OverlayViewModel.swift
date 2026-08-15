@@ -866,10 +866,152 @@ final class OverlayViewModel {
                 historicalPIDs: historical?.highlightedPIDs ?? []
             )
         )
-        if focus, let bounds = parcels.selectedBounds {
+        if isHoldingLinkPosition, focus {
+            // Consumed once. The link's extent wins over the parcel it names,
+            // but only for the lookup that link started.
+            isHoldingLinkPosition = false
+        } else if focus, let bounds = parcels.selectedBounds {
             controller.focus(on: bounds)
         }
         refreshInspection()
+    }
+
+    // MARK: - Carrying the map out of the app
+
+    /// Where the browser map lives. A shared link is a link into that map:
+    /// somebody who does not have this app installed still gets the parcel.
+    static let webMapURL = URL(string: "https://kinnokilabs.com/apps/nsmarksthespot/map/")!
+
+    /// What the map is currently looking at, in the form the two surfaces share.
+    ///
+    /// `MapShareState.modernBaseLayerID` stands in for the standard base map,
+    /// which the web models as a layer and this app models as a map type. The
+    /// satellite base has no web equivalent and is simply not carried — a link
+    /// naming a layer that does not exist there would be dropped on arrival
+    /// anyway.
+    var shareState: MapShareState {
+        let eventIDs: [String]
+        switch mapRecordMode {
+        case .current:
+            eventIDs = (taxSale?.selectedEventIDs).map { Array($0).sorted() } ?? []
+        case .historical:
+            // Only the events the open parcel actually appears in. The
+            // historical panel filters records rather than selecting events, so
+            // there is no selected set to carry.
+            eventIDs = parcels.selectedPID
+                .map { pid in historical?.contexts(forPID: pid).map(\.event.id) ?? [] }
+                .map { Array(Set($0)).sorted() } ?? []
+        }
+
+        return MapShareState(
+            mode: mapRecordMode == .historical ? .historical : .current,
+            pid: parcels.selectedPID,
+            eventIDs: eventIDs,
+            layerIDs: (baseMapType == .standard ? [MapShareState.modernBaseLayerID] : [])
+                + rows.filter(\.isVisible).map(\.id),
+            position: mapPosition
+        )
+    }
+
+    var shareURL: URL? { shareState.url(base: Self.webMapURL) }
+
+    /// Set while a link's own parcel lookup is in flight, so the parcel does not
+    /// reframe a map the link already positioned.
+    private var isHoldingLinkPosition = false
+
+    /// Where the map is, as a latitude, a longitude, and a tile zoom.
+    ///
+    /// Falls back to the opening view before the map has been laid out, which
+    /// is the only honest answer available: nothing has been looked at yet.
+    private var mapPosition: MapPosition {
+        guard let bounds = controller.currentVisibleBounds() else { return .default }
+        return MapPosition(
+            latitude: (bounds.minLatitude + bounds.maxLatitude) / 2,
+            longitude: (bounds.minLongitude + bounds.maxLongitude) / 2,
+            zoom: controller.zoomLevel
+        )
+    }
+
+    /// Whether the open parcel has heard back from every source the note
+    /// reports on.
+    var canExportEvidenceNote: Bool {
+        inspection.map(ParcelEvidenceExport.isReady) ?? false
+    }
+
+    /// The note for the open parcel, or `nil` when no parcel is open or a
+    /// source has not answered yet.
+    ///
+    /// `generatedAt` is a parameter rather than `Date()` read in here: the note
+    /// is stamped with it, and a stamp the caller cannot control is a stamp
+    /// nothing can check.
+    func evidenceNote(generatedAt: Date = Date()) -> EvidenceNote? {
+        guard let inspection, ParcelEvidenceExport.isReady(inspection),
+              let shareURL else { return nil }
+        return EvidenceNote.build(
+            ParcelEvidenceExport.input(
+                generatedAt: generatedAt,
+                inspection: inspection,
+                mode: mapRecordMode == .historical ? .historical : .current,
+                shareURL: shareURL,
+                position: mapPosition,
+                activeLayers: rows.filter(\.isVisible).map(\.descriptor),
+                baseMap: baseMapType,
+                fletcherBaseURL: FletcherHost.configuredBaseURL
+            )
+        )
+    }
+
+    /// Opens a shared link.
+    ///
+    /// Restores what this build can vouch for and nothing else: the record set,
+    /// the layers it carries, and the parcel. Unknown IDs were already dropped
+    /// in parsing, and a layer the Province licence still stands in front of
+    /// stays off — a link cannot accept a licence on the reader's behalf.
+    func restore(from url: URL) {
+        let state = MapShareState.parse(
+            url.absoluteString,
+            validEventIDs: Set(
+                (taxSale?.upcomingEvents.map(\.id) ?? [])
+                    + (historical?.catalogEventIDs ?? [])
+            ),
+            validLayerIDs: Set(rows.map(\.id)).union([MapShareState.modernBaseLayerID])
+        )
+
+        setMapRecordMode(state.mode == .historical ? .historical : .current)
+        setBaseMapType(
+            state.layerIDs.contains(MapShareState.modernBaseLayerID) ? .standard : baseMapType
+        )
+        if let taxSale, state.mode == .current, !state.eventIDs.isEmpty {
+            for event in taxSale.upcomingEvents {
+                taxSale.setEventVisibility(event.id, to: state.eventIDs.contains(event.id))
+            }
+            refreshListedParcelStyling()
+        }
+        for row in rows where row.isAvailable {
+            let wanted = state.layerIDs.contains(row.id)
+            // Only switched when it differs, and never switched *on* through a
+            // licence the reader has not accepted: `toggleVisibility` raises
+            // the sheet, which is the right outcome for a tap and the wrong one
+            // for a link that opened by itself.
+            if wanted != row.isVisible, !(wanted && row.needsLicence) {
+                toggleVisibility(row.id)
+            }
+        }
+        controller.center(
+            on: GeoPoint(lat: state.position.latitude, lng: state.position.longitude),
+            zoom: state.position.zoom
+        )
+        guard let pid = state.pid else {
+            // A link that names no parcel is a link to a view, and leaving a
+            // previously open parcel selected would attach this reader's card to
+            // a map the sender never sent.
+            clearParcelSelection()
+            return
+        }
+        // The link said where it was looking. Opening the parcel would otherwise
+        // frame the parcel instead, throwing away the extent the sender chose.
+        isHoldingLinkPosition = true
+        searchParcel(pid)
     }
 
     // MARK: - The parcel panel

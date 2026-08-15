@@ -1,3 +1,4 @@
+import NSDataServices
 import SwiftUI
 
 struct MapContainerView: View {
@@ -15,6 +16,11 @@ struct MapContainerView: View {
     @State private var isLayersMenuExpanded = false
     @State private var mapHeading: Double = 0
     @State private var isSelectingSaveArea = false
+    /// What the system share sheet is currently holding, prepared at the moment
+    /// of the tap so an evidence note carries the time it was actually made.
+    @State private var share: SharePayload?
+    /// Why an evidence note could not be written, when it could not.
+    @State private var exportFailure: String?
 
     init(
         controller: MapController,
@@ -179,6 +185,21 @@ struct MapContainerView: View {
                         }
 
                         Button {
+                            share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Share This Map View")
+                        .accessibilityIdentifier("share-map-view")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
                             cancelBoundsSelection()
                             navigationModel.activeSheet = .info
                         } label: {
@@ -265,9 +286,17 @@ struct MapContainerView: View {
                     VStack {
                         Spacer()
 
-                        ParcelInspectorView(inspection: inspection) {
-                            overlayVM.clearParcelSelection()
-                        }
+                        ParcelInspectorView(
+                            inspection: inspection,
+                            onClose: { overlayVM.clearParcelSelection() },
+                            canExportNote: overlayVM.canExportEvidenceNote,
+                            onShareMapLink: {
+                                share = SharePayload(
+                                    url: overlayVM.shareURL ?? OverlayViewModel.webMapURL
+                                )
+                            },
+                            onExportNote: exportEvidenceNote
+                        )
                         // Height off the screen rather than a fixed 360: the
                         // control column above runs to roughly 330 points from
                         // the top, and on a 667-point phone a fixed card
@@ -361,6 +390,44 @@ struct MapContainerView: View {
                 }
             }
         }
+        .sheet(item: $share) { payload in
+            ShareSheet(items: payload.items)
+        }
+        .alert(
+            "The evidence note could not be written.",
+            isPresented: .init(
+                get: { exportFailure != nil },
+                set: { if !$0 { exportFailure = nil } }
+            ),
+            presenting: exportFailure
+        ) { _ in
+            Button("OK", role: .cancel) { exportFailure = nil }
+        } message: { reason in
+            Text(reason)
+        }
+        // A shared link opened from elsewhere. Nothing registers a scheme or an
+        // associated domain yet, so this fires only once one is configured —
+        // wired now so the restore path is the same one the tests exercise.
+        .onOpenURL { url in
+            overlayVM.restore(from: url)
+        }
+    }
+
+    /// Writes the note and hands it to the share sheet.
+    ///
+    /// Stamped here, at the tap, rather than when the button was drawn: the
+    /// note carries a generation time and a reader has no way to tell a stale
+    /// stamp from a fresh one.
+    private func exportEvidenceNote() {
+        guard let note = overlayVM.evidenceNote() else {
+            exportFailure = "Not every source has answered yet."
+            return
+        }
+        guard let payload = SharePayload(text: note.markdown, filename: note.filename) else {
+            exportFailure = "The file could not be written to this device's temporary storage."
+            return
+        }
+        share = payload
     }
 
     private func beginSaveAreaSelection() {

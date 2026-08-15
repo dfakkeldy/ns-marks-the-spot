@@ -106,9 +106,18 @@ public struct EvidenceNoteInput: Sendable {
     public var activeLayers: [Source]
     public var events: [Event]
     public var civicAddresses: [Link]
+    /// Why no civic point could be looked up, when none could.
+    ///
+    /// Set instead of leaving `civicAddresses` empty. An empty list is the
+    /// statement that the file has no address point inside this parcel, and a
+    /// lookup that never ran must not make that statement.
+    public var civicNotice: String?
     public var assessmentEvidence: AssessmentEvidence
     public var dwellingEvidence: DwellingEvidence
     public var resourceResults: [Result]
+    /// Why the geology and resource sources were not asked at all, when they
+    /// were not — a parcel with no boundary has nothing to intersect.
+    public var resourceNotice: String?
 
     public init(
         generatedAt: Date,
@@ -119,9 +128,11 @@ public struct EvidenceNoteInput: Sendable {
         activeLayers: [Source] = [],
         events: [Event] = [],
         civicAddresses: [Link] = [],
+        civicNotice: String? = nil,
         assessmentEvidence: AssessmentEvidence,
         dwellingEvidence: DwellingEvidence,
-        resourceResults: [Result] = []
+        resourceResults: [Result] = [],
+        resourceNotice: String? = nil
     ) {
         self.generatedAt = generatedAt
         self.pid = pid
@@ -131,9 +142,11 @@ public struct EvidenceNoteInput: Sendable {
         self.activeLayers = activeLayers
         self.events = events
         self.civicAddresses = civicAddresses
+        self.civicNotice = civicNotice
         self.assessmentEvidence = assessmentEvidence
         self.dwellingEvidence = dwellingEvidence
         self.resourceResults = resourceResults
+        self.resourceNotice = resourceNotice
     }
 }
 
@@ -145,9 +158,14 @@ extension EvidenceNote {
             : input.activeLayers.map {
                 "- [\($0.name)](\($0.sourceURL.absoluteString)) — \($0.sourceDate)"
             }
-        let civic = input.civicAddresses.isEmpty
-            ? ["- No mapped civic address point returned inside the parcel."]
-            : input.civicAddresses.map { "- [\($0.label)](\($0.sourceURL.absoluteString))" }
+        let civic: [String]
+        if let notice = input.civicNotice {
+            civic = ["- \(notice) No absence is inferred."]
+        } else if input.civicAddresses.isEmpty {
+            civic = ["- No mapped civic address point returned inside the parcel."]
+        } else {
+            civic = input.civicAddresses.map { "- [\($0.label)](\($0.sourceURL.absoluteString))" }
+        }
         let events = input.events.isEmpty
             ? ["No included municipal event is associated with this parcel in the selected mode."]
             : input.events.flatMap { event in
@@ -227,10 +245,11 @@ extension EvidenceNote {
                 "## Geology and resource context",
                 "",
             ]
-            + input.resourceResults.flatMap(resultLines)
-            + input.resourceResults.map {
-                "- [\($0.name) source](\($0.sourceURL.absoluteString))"
-            }
+            + (input.resourceNotice.map { ["- \($0) No absence is inferred."] }
+                ?? input.resourceResults.flatMap(resultLines)
+                    + input.resourceResults.map {
+                        "- [\($0.name) source](\($0.sourceURL.absoluteString))"
+                    })
             + [
                 "",
                 """

@@ -1,0 +1,279 @@
+import Foundation
+import GeoCore
+import MapCatalog
+import NSDataServices
+import Testing
+
+@testable import ns_marks_the_spot
+
+/// What leaves the app: the link back to a map view, and the note about a
+/// parcel.
+@MainActor
+@Suite("Sharing a view and exporting a parcel's evidence")
+struct MapShareAndEvidenceTests {
+    private static func inspection(
+        pid: String = "15234636",
+        notice: TaxSaleNoticeContext? = nil,
+        historical: [HistoricalRecordContext] = [],
+        civic: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .ready([]),
+        resources: ParcelEvidence<ParcelResourceIntersections> = .ready(
+            ParcelResourceIntersections(sources: [])
+        ),
+        assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .ready(
+            PVSCAssessmentResponse.Result(matchMethod: .spatial, accounts: [])
+        ),
+        dwellings: ParcelEvidence<PVSCDwellingResponse.Result> = .ready(
+            PVSCDwellingResponse.Result(accounts: [])
+        )
+    ) -> ParcelInspection {
+        var inspection = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
+        inspection.taxSaleNotice = notice
+        inspection.historicalRecords = historical
+        inspection.civicAddresses = civic
+        inspection.resources = resources
+        inspection.assessments = assessments
+        inspection.dwellings = dwellings
+        return inspection
+    }
+
+    private static func note(
+        _ inspection: ParcelInspection,
+        mode: MapShareState.Mode = .current
+    ) -> EvidenceNote {
+        EvidenceNote.build(
+            ParcelEvidenceExport.input(
+                generatedAt: Date(timeIntervalSince1970: 1_784_556_306),
+                inspection: inspection,
+                mode: mode,
+                shareURL: URL(string: "https://example.com/map/")!,
+                position: MapPosition(latitude: 46.1, longitude: -60.1, zoom: 15),
+                activeLayers: [],
+                baseMap: .standard,
+                fletcherBaseURL: nil
+            )
+        )
+    }
+
+    // MARK: - The link
+
+    @Test func theLinkCarriesTheVisibleLayersAndTheBaseMap() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
+        model.toggleVisibility(LayerID.nsprd.rawValue)
+
+        let state = model.shareState
+        #expect(state.mode == .current)
+        #expect(state.layerIDs.contains(MapShareState.modernBaseLayerID))
+        #expect(state.layerIDs.contains(LayerID.nsprd.rawValue))
+        #expect(state.layerIDs.contains(LayerID.nsAerial.rawValue) == false)
+        #expect(model.shareURL?.absoluteString.hasPrefix(
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/?mode=current"
+        ) == true)
+    }
+
+    /// The satellite base is MapKit's, and the web has nothing to restore it
+    /// with. Naming it in a link would be naming a layer that does not exist
+    /// there.
+    @Test func theSatelliteBaseIsNotCarried() {
+        let model = OverlayViewModel.forTesting(installing: [])
+        model.setBaseMapType(.satellite)
+
+        #expect(model.shareState.layerIDs.contains(MapShareState.modernBaseLayerID) == false)
+    }
+
+    @Test func aHistoricalMapSaysSoInTheLink() {
+        let historical = HistoricalTaxSaleViewModel()
+        let model = OverlayViewModel.forTesting(installing: [], historical: historical)
+        model.setMapRecordMode(.historical)
+
+        #expect(model.shareState.mode == .historical)
+        #expect(model.shareURL?.absoluteString.contains("mode=historical") == true)
+    }
+
+    // MARK: - Opening one
+
+    @Test func openingALinkRestoresItsLayersAndItsRecordSet() {
+        let historical = HistoricalTaxSaleViewModel()
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsprd, .nsAerial],
+            historical: historical
+        )
+        model.toggleVisibility(LayerID.nsAerial.rawValue)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?mode=historical&layers=nsprd&position=46.1,-60.1,14"
+            )!
+        )
+
+        #expect(model.mapRecordMode == .historical)
+        #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == true)
+        // Switched off again, because the link says which layers were on and an
+        // extra one would put a source in front of the reader that the sender
+        // was not reading.
+        #expect(model.rows.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false)
+    }
+
+    /// A link cannot accept the Province licence on the reader's behalf. The
+    /// layer stays off and no sheet is raised by a link that opened itself.
+    @Test func aLinkCannotTurnOnALayerTheLicenceStillGuards() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd], licence: .unknown)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=nsprd")!
+        )
+
+        #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == false)
+        #expect(model.isShowingLicenceSheet == false)
+    }
+
+    /// A link that names no parcel is a link to a view. Whatever card was open
+    /// belongs to the reader's own earlier search, not to what arrived.
+    @Test func aLinkWithoutAParcelClosesTheOpenCard() {
+        let model = OverlayViewModel.forTesting(installing: [])
+        model.editSearchText("15234636")
+
+        model.restore(from: URL(string: "https://example.com/map/?mode=current")!)
+
+        #expect(model.parcels.selectedPID == nil)
+        #expect(model.searchText.isEmpty)
+        #expect(model.parcelMessage == nil)
+    }
+
+    // MARK: - The note
+
+    /// A whole lookup that could not run is not the same as one that ran and
+    /// found nothing, and the note has to keep the two apart at the section
+    /// level as well as the record level.
+    @Test func anUnavailableSourceIsNotAnEmptyAnswer() {
+        let note = Self.note(
+            Self.inspection(
+                civic: .unavailable("The civic address source could not be reached."),
+                resources: .unavailable("The geology sources could not be reached.")
+            )
+        )
+
+        #expect(note.markdown.contains(
+            "- The civic address source could not be reached. No absence is inferred."
+        ))
+        #expect(
+            note.markdown.contains("No mapped civic address point returned inside the parcel.")
+                == false
+        )
+        #expect(note.markdown.contains(
+            "- The geology sources could not be reached. No absence is inferred."
+        ))
+    }
+
+    /// The base map is a source: a note listing only the overlays describes a
+    /// map nobody looked at.
+    @Test func theNoteNamesTheBaseMapItWasReadOver() {
+        #expect(Self.note(Self.inspection()).markdown.contains("Apple Maps standard base map"))
+    }
+
+    @Test func theNoteIsHeldBackUntilEverySourceHasAnswered() {
+        #expect(ParcelEvidenceExport.isReady(Self.inspection()))
+        #expect(ParcelEvidenceExport.isReady(Self.inspection(dwellings: .looking)) == false)
+        #expect(ParcelEvidenceExport.isReady(Self.inspection(civic: .looking)) == false)
+    }
+
+    /// The dwelling dataset is keyed by assessment account, so no account means
+    /// the question was never asked. The note has to say that rather than say
+    /// the dataset failed or that there is no house.
+    @Test func anUnaskedDwellingLookupReadsAsUnasked() {
+        let unasked = Self.note(
+            Self.inspection(
+                dwellings: .unavailable(ParcelLookupMessage.noAccountToAskDwellingsWith)
+            )
+        )
+        #expect(unasked.markdown.contains("were not looked up because no PVSC assessment"))
+        #expect(unasked.markdown.contains("dwelling source unavailable") == false)
+
+        let failed = Self.note(
+            Self.inspection(dwellings: .unavailable("PVSC dwelling data is unavailable right now."))
+        )
+        #expect(
+            failed.markdown.contains("PVSC residential dwelling source unavailable at export time.")
+        )
+    }
+
+    /// The mineral inventory is the only source asked twice — on the parcel and
+    /// within a kilometre — so it is the only one whose lines say which.
+    @Test func onlyTheMineralInventoryReportsProximity() {
+        let note = Self.note(
+            Self.inspection(
+                resources: .ready(
+                    ParcelResourceIntersections(sources: [
+                        ParcelResourceIntersections.Source(
+                            layerID: .mineralOccurrences,
+                            records: .success([
+                                ResourceIntersectionResponse.Intersection(
+                                    id: "A01-002",
+                                    name: "Nearby occurrence",
+                                    detail: "Placer · Au",
+                                    relationship: .withinOneKilometre
+                                )
+                            ])
+                        ),
+                        ParcelResourceIntersections.Source(
+                            layerID: .abandonedMines,
+                            records: .success([
+                                ResourceIntersectionResponse.Intersection(
+                                    id: "M-1",
+                                    name: "Shaft",
+                                    detail: "Reported 1908",
+                                    relationship: .onParcel
+                                )
+                            ])
+                        ),
+                    ])
+                )
+            )
+        )
+
+        #expect(note.markdown.contains("A01-002 · Nearby occurrence · Within 1 km · Placer · Au"))
+        #expect(note.markdown.contains("- Shaft · Reported 1908") == false)
+        #expect(note.markdown.contains("Shaft · Reported 1908"))
+        #expect(note.markdown.contains("Shaft · Within 1 km") == false)
+    }
+
+    /// A source that could not be reached is written as unavailable, not as a
+    /// source that answered with nothing.
+    @Test func aFailedResourceSourceIsNotAnEmptyAnswer() {
+        let note = Self.note(
+            Self.inspection(
+                resources: .ready(
+                    ParcelResourceIntersections(sources: [
+                        ParcelResourceIntersections.Source(
+                            layerID: .mineralOccurrences,
+                            records: .failure(.unreachable(.notConnectedToInternet))
+                        )
+                    ])
+                )
+            )
+        )
+
+        #expect(note.markdown.contains("source unavailable at export time."))
+        #expect(note.markdown.contains("No published mineral occurrence was returned") == false)
+    }
+
+    /// The note inherits the panel's rule: the current notice or the dated
+    /// records, never both on the same page.
+    @Test func theNoteCarriesOneRecordSet() {
+        let records = HistoricalTaxSaleCatalog.bundled.records(
+            matching: HistoricalTaxSaleCatalog.Filter()
+        )
+        guard let record = records.first,
+              let event = HistoricalTaxSaleCatalog.bundled.event(id: record.eventID)
+        else { return }
+
+        let note = Self.note(
+            Self.inspection(historical: [HistoricalRecordContext(event: event, record: record)]),
+            mode: .historical
+        )
+
+        #expect(note.markdown.contains("Mode: Historical records"))
+        #expect(note.markdown.contains(event.shortMunicipality))
+        #expect(note.markdown.contains(event.noticeURL.absoluteString))
+    }
+}

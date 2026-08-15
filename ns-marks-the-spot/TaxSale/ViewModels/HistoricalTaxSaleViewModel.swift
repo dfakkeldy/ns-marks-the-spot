@@ -50,6 +50,11 @@ final class HistoricalTaxSaleViewModel {
     /// Datasets this build ships and could not read, with the reason.
     var unreadable: [HistoricalTaxSaleCatalog.Unreadable] { catalog.unreadable }
 
+    /// Every dated event this build carries. What a shared link is checked
+    /// against: a link naming an event that is not in here is naming one this
+    /// build cannot show.
+    var catalogEventIDs: [String] { catalog.events.map(\.id) }
+
     var municipalities: [(id: String, label: String)] { catalog.municipalities }
     var years: [String] { catalog.years }
     var outcomes: [HistoricalOutcome] { catalog.outcomes }

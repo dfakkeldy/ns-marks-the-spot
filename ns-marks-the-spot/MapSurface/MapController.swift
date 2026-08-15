@@ -1,4 +1,5 @@
 import CoreLocation
+import GeoCore
 import MapKit
 import NSDataServices
 import Observation
@@ -207,6 +208,17 @@ final class MapController: NSObject {
         for mutation in MapStateDiff.mutations(from: MapViewState(), to: state) {
             perform(mutation, on: mapView)
         }
+        applyPendingCenterIfPossible()
+    }
+
+    /// A position a link asked for before the map could be put there.
+    @ObservationIgnored private var pendingCenter: (point: GeoPoint, zoom: Int)?
+
+    /// Retried whenever the map view changes, which is how a launch-time link
+    /// gets its position once layout has given the view a width.
+    private func applyPendingCenterIfPossible() {
+        guard let pending = pendingCenter, let mapView, mapView.bounds.width > 0 else { return }
+        center(on: pending.point, zoom: pending.zoom)
     }
 
     private static func mkMapType(for baseType: MapBaseType) -> MKMapType {
@@ -327,6 +339,36 @@ final class MapController: NSObject {
         mapView.setVisibleMapRect(
             rect,
             edgePadding: UIEdgeInsets(top: 64, left: 48, bottom: 64, right: 48),
+            animated: true
+        )
+    }
+
+    /// Puts the map where a shared link says it was, at the zoom it names.
+    ///
+    /// The zoom is a web-Mercator tile zoom, which MapKit has no setter for, so
+    /// it is turned back into a width on the ground the same way
+    /// `tileZoomLevel` reads one off: 256-point tiles across the view. Nothing
+    /// happens before layout — a view with no width has no span to be at, and
+    /// guessing one would land the reader somewhere the sender never was.
+    func center(on point: GeoPoint, zoom: Int) {
+        guard let mapView, mapView.bounds.width > 0 else {
+            // A link opened at launch arrives before the map has a width. Held
+            // rather than dropped, because the alternative is a reader who
+            // followed a link and landed on the opening view of the province.
+            pendingCenter = (point, zoom)
+            return
+        }
+        pendingCenter = nil
+        let metresPerPoint = 156_543.03392 * cos(point.lat * .pi / 180)
+            / pow(2, Double(zoom))
+        let width = metresPerPoint * Double(mapView.bounds.width)
+        guard width.isFinite, width > 0 else { return }
+        mapView.setRegion(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: point.lat, longitude: point.lng),
+                latitudinalMeters: width,
+                longitudinalMeters: width
+            ),
             animated: true
         )
     }
@@ -456,10 +498,12 @@ final class MapController: NSObject {
 
 extension MapController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        applyPendingCenterIfPossible()
         events?(.visibleRegionSettled)
     }
 
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        applyPendingCenterIfPossible()
         let heading = mapView.camera.heading
         mapHeading = heading
         events?(.headingChanged(heading))
