@@ -554,3 +554,30 @@ Next action: xcrun simctl boot 24FBD923-387E-4B7E-9063-FCF166239B1C, then ONE
 `xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests/MapShareAndEvidenceTests
 -scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-14 — first simulator run; Phase 7 begun
+
+Done: the gate opened and the three never-run app suites ran on iPhone 17.
+MapShareAndEvidenceTests 11/11 and TaxSalePanelTests 12/12 green;
+HistoricalTaxSalePanelTests had one real failure — `aFailedLoadCanBeRetried`
+was written against an ordered stub queue that does not exist (StubURLProtocol
+matches by URL substring), so the failure answered forever. Fixed and
+re-run 15/15 green. Swept the target for the same mistake; it was the only one.
+Second Codex review of Phase 5: three findings fixed (3ec083e20), two
+declined with reasons in the commit and the transcript.
+Phase 7 started: frame geometry, scale bar and both page templates ported
+with the web's own assertions (0477fe7af). Package tests 491 green.
+
+Next: the GeoPDF writer. CoreGraphics cannot set /VP + /Measure or /LGIDict,
+so the plan is a small hand-written one-page PDF writer in NSMarksCore
+(Helvetica text, DCTDecode image XObject) rather than byte-patching a
+CoreGraphics document.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: port web/src/print/pdf/geoRegistration.ts and pdfComposer.ts into
+NSMarksCore/Sources/NSDataServices/Print/, with tests that parse the emitted
+bytes back.
+```
