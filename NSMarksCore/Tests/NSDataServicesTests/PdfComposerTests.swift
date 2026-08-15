@@ -261,6 +261,25 @@ struct PdfComposerTests {
         #expect(overflow?.contains("\(20 - shown)") == true)
     }
 
+    /// A page exported without its legend still credits its sources and still
+    /// says what it could not draw.
+    ///
+    /// The legend is the user's to switch off; attribution is a licence
+    /// obligation and a disclosure is what the reader must not conclude.
+    /// Dropping the box must not quietly take either with it.
+    @Test func droppingTheLegendKeepsTheAttributionAndTheDisclosures() throws {
+        let disclosure = "Not printed — the licence has not been accepted: Provincial imagery."
+        let drawn = Self.drawnLines(
+            PdfComposer.compose(try Self.input(legend: nil, disclosures: [disclosure]))
+        )
+        let text = drawn.map(\.text)
+
+        #expect(!text.contains { $0.contains("LEGEND") })
+        #expect(!text.contains { $0 == "Parcels" })
+        #expect(text.contains { $0.contains("Province of Nova Scotia") })
+        #expect(text.contains { $0.contains(disclosure) })
+    }
+
     /// A disclosure has to reach the page even when the title block is already
     /// full.
     ///

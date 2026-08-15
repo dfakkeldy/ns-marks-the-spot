@@ -13,6 +13,7 @@ struct PrintExportSheet: View {
     @State private var subtitle = ""
     @State private var notes = ""
     @State private var orientation = PdfTemplate.ID.portrait
+    @State private var includesLegend = true
     @State private var isWorking = false
     @State private var failure: String?
     /// What each layer did, after an export. Kept on screen because it is the
@@ -34,6 +35,13 @@ struct PrintExportSheet: View {
                         Text("Landscape").tag(PdfTemplate.ID.landscape)
                     }
                     .pickerStyle(.segmented)
+                    // The web's "Include legend". Off does not make the page
+                    // say less about its sources: the attribution strip and the
+                    // disclosures are obligations and always print. What goes is
+                    // the box of swatches, which is what a reader wants back
+                    // when the map itself needs the room.
+                    Toggle("Include legend", isOn: $includesLegend)
+                        .accessibilityIdentifier("print-include-legend")
                 }
 
                 if !outcomes.isEmpty {
@@ -104,7 +112,8 @@ struct PrintExportSheet: View {
                 title: title.isEmpty ? "NS Marks The Spot" : title,
                 subtitle: subtitle,
                 notes: notes
-            )
+            ),
+            includesLegend: includesLegend
         ) else {
             failure = "The map has not been laid out yet."
             return

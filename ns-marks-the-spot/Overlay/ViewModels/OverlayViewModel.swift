@@ -1019,6 +1019,7 @@ final class OverlayViewModel {
     func printExportRequest(
         template: PdfTemplate,
         fields: PdfComposer.Fields,
+        includesLegend: Bool = true,
         generatedAt: Date = Date()
     ) -> PrintExportRequest? {
         guard let bounds = controller.currentVisibleBounds() else { return nil }
@@ -1040,6 +1041,7 @@ final class OverlayViewModel {
             unsupportedLayers: unsupportedPrintLayers(within: box),
             template: template,
             fields: fields,
+            includesLegend: includesLegend,
             // The link this page came from, so paper leads back to the map. Read
             // here with the rest of the snapshot: the share link encodes the
             // view, and one read a moment later would point somewhere else.

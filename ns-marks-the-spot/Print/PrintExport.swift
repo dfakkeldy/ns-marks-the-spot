@@ -25,6 +25,12 @@ nonisolated struct PrintExportRequest: Sendable {
     var unsupportedLayers: [LayerID] = []
     var template: PdfTemplate
     var fields: PdfComposer.Fields
+    /// Whether the page carries its legend box.
+    ///
+    /// Only the swatches. The attribution strip and the disclosures are
+    /// obligations — who is owed a credit, and what the reader must not
+    /// conclude — and neither is ever the user's to switch off.
+    var includesLegend: Bool = true
     /// Where the page's QR code should point, or nil for no code at all.
     var shareURL: URL?
     var generatedAt: Date
@@ -120,7 +126,8 @@ nonisolated enum PrintExport {
                     heightPx: raster.heightPx
                 ),
                 fields: fields,
-                legend: account.legend.isEmpty ? nil : account.legend,
+                legend: request.includesLegend && !account.legend.isEmpty
+                    ? account.legend : nil,
                 disclosures: account.notes,
                 attributionLines: PrintAttribution.lines(
                     for: PrintExportPlan.sources(
