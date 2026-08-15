@@ -33,6 +33,12 @@ public struct UserMapImportRefusal: Error, Equatable, Sendable {
         case tooLarge = "too-large"
         case quota
         case storageFailed = "storage-failed"
+        /// A vector file with more features than one layer will draw.
+        case tooManyFeatures = "too-many-features"
+        /// Read, understood, and holding nothing to put on a map. Distinct
+        /// from a corrupt file: this one is intact and the user's expectation
+        /// of seeing something is still wrong.
+        case emptyFile = "empty-file"
     }
 
     public var code: Code
