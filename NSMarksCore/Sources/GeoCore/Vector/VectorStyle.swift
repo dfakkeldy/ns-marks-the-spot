@@ -1,7 +1,14 @@
 import Foundation
 
 /// How one feature of a user's layer is drawn.
-public struct VectorFeatureStyle: Hashable, Sendable {
+///
+/// Named for the user rather than for features in general because
+/// `NSDataServices` already has a `VectorFeatureStyle` for the catalogued
+/// layers: same idea, different vocabulary (that one carries a dash pattern and
+/// a marker radius the catalog specifies, this one carries the simplestyle
+/// properties a user's own file may set). App files import both modules, so two
+/// types of the same name would be ambiguous at every use site.
+public struct UserVectorStyle: Hashable, Sendable {
     public var strokeHex: String
     public var weight: Double
     public var strokeOpacity: Double
@@ -56,11 +63,11 @@ public enum VectorStyle {
     /// user recognises rather than a layer that vanishes.
     public static func style(
         for feature: GeoJsonFeature, layerColorHex: String
-    ) -> VectorFeatureStyle {
+    ) -> UserVectorStyle {
         let properties = feature.properties
         let stroke = color(properties["stroke"]) ?? layerColorHex
         let fill = color(properties["marker-color"]) ?? color(properties["fill"]) ?? layerColorHex
-        return VectorFeatureStyle(
+        return UserVectorStyle(
             strokeHex: stroke,
             weight: finite(properties["stroke-width"]) ?? 2,
             strokeOpacity: finite(properties["stroke-opacity"]) ?? 0.9,
