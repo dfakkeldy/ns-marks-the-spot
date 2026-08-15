@@ -414,14 +414,13 @@ final class MapController: NSObject {
                 latitude: bounds.minLatitude, longitude: bounds.maxLongitude
             )
         )
-        let rect = MKMapRect(
+        var rect = MKMapRect(
             x: min(corner.x, opposite.x),
             y: min(corner.y, opposite.y),
             width: abs(opposite.x - corner.x),
             height: abs(opposite.y - corner.y)
         )
         guard !rect.isNull, rect.size.width > 0, rect.size.height > 0 else { return }
-        var rect = rect
         if let maxZoom, mapView.bounds.width > 0 {
             // The longitude a view this wide covers at that zoom, read the same
             // way `tileZoomLevel` reads a zoom off a span: 256-point tiles.

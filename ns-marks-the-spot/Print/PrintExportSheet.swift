@@ -41,8 +41,13 @@ struct PrintExportSheet: View {
                         ForEach(outcomes, id: \.id) { outcome in
                             LabeledContent(outcome.name) {
                                 Text(Self.description(of: outcome.state))
+                                    // Both arms named as `Color`: `.secondary`
+                                    // is a hierarchical style and `.red` a
+                                    // colour, and a ternary between the two has
+                                    // no common type to infer.
                                     .foregroundStyle(
-                                        Self.isComplete(outcome.state) ? .secondary : .red
+                                        Self.isComplete(outcome.state)
+                                            ? Color.secondary : Color.red
                                     )
                             }
                         }

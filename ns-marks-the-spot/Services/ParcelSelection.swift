@@ -105,7 +105,7 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
     /// than on the province: a user who launched the app to look at a sale
     /// should not have to find it first.
     func bounds(forPIDs pids: Set<String>) -> MapBounds? {
-        let points = identifiedFeatures
+        let points = features
             .filter { pids.contains($0.pid) }
             .flatMap { $0.boundary.parts.flatMap { $0.flatMap(\.self) } }
         guard let first = points.first else { return nil }
