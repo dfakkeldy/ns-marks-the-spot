@@ -484,10 +484,7 @@ struct HistoricalTaxSalePanelTests {
         let historical = Self.historical()
         let viewModel = Self.viewModel(
             channel,
-            answering: [
-                ("", .failure(.notConnectedToInternet)),
-                ("", Self.parcels(["44444444", "55555555"])),
-            ],
+            answering: [("", .failure(.notConnectedToInternet))],
             historical: historical
         )
         defer { StubURLProtocol.clear(channel: channel) }
@@ -498,6 +495,14 @@ struct HistoricalTaxSalePanelTests {
             viewModel.historicalParcelMessage == ParcelLookupMessage.historicalParcelsUnavailable
         )
 
+        // Stubs are matched by substring rather than served in order, so the
+        // service coming back up is a new registration. Two catch-all entries
+        // would have left the first one — the failure — answering forever, and
+        // the retry could never have been seen to work.
+        StubURLProtocol.stub(
+            channel: channel,
+            matching: [("", Self.parcels(["44444444", "55555555"]))]
+        )
         viewModel.loadHistoricalParcels()
         await viewModel.awaitHistoricalParcels()
 
