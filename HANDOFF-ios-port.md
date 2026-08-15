@@ -878,3 +878,45 @@ xcode-build-slot.sh --status reads GO, spend ONE admission on
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
 ```
+
+## 2026-08-15 — the parity sweep, and what it found
+
+Done: swept `web/src/services`, `layers`, `userMaps`, `print` and the rendered
+strings against the iOS tree. Services, layer catalog, inspector sections and
+tax-sale filters were already at parity. Six real gaps, all now closed and
+pushed: the measure tool (distance/area by tapping), the printed QR code, the
+map position readout, the "Include legend" toggle, the Allmaps georeference
+export, and the evidence appendix — the web's research document is its field
+sheet plus that appendix, and the app had the two as separate exports. The
+appendix is laid out from the evidence note's own markdown so the printed and
+emailed statements cannot drift; its pages carry no viewport or LGIDict.
+
+Codex reviewed the lot adversarially and found eight defects; six are fixed in
+89d965024 (export Cancel now cancels the work, the exact link prints as text
+beside the QR, the annotation names the record id and needs a solved fit, the
+readout is absent until the map settles, save-area stops a live measurement).
+Two left alone on purpose, with reasons in that commit message.
+
+Deliberate non-gap: the web's `autoExport.ts` checkpoints exist because
+IndexedDB is wiped by "clear site data"; iOS user maps sit in ordinary
+backed-up storage.
+
+Package: 893 tests, 124 suites. App + tests type-check clean. Gate has read
+BUSY+HOLD all weekend (PID 40086 holds the slot; swap ~1.3 GB against a 2 GB
+warn floor).
+
+Next: nothing outside the gate is left on the parity list. The first real
+`xcodebuild test`, the hidden-overlay tile question (#11), the whole-bundle
+hang (#12), and simulator verification of the six new controls (#13) all wait
+on it.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: poll `xcode-build-slot.sh --status` every ~5 min; when it reads
+GO, spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
+```
