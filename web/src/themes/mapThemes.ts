@@ -15,16 +15,23 @@ export type BuiltInMapThemeId =
   | "historical-maps"
   | "georeferencing";
 
-export interface MapThemeDefinition {
-  id: string;
-  kind: "built-in" | "custom";
-  name: string;
-  description: string;
-  layerIds: readonly ShareLayerId[];
-  opacityOverrides: Readonly<Partial<Record<ShareLayerId, number>>>;
-  preferredCategoryIds: readonly LayerCategoryId[];
-  taxSaleEnabled: boolean;
-  mapMode: MapMode;
+export interface MapThemeState {
+  readonly layerIds: readonly ShareLayerId[];
+  readonly opacityOverrides: Readonly<Partial<Record<ShareLayerId, number>>>;
+  readonly taxSaleEnabled: boolean;
+  readonly mapMode: MapMode;
+}
+
+export interface MapThemeDefinition extends MapThemeState {
+  readonly id: string;
+  readonly kind: "built-in" | "custom";
+  readonly name: string;
+  readonly description: string;
+  readonly preferredCategoryIds: readonly LayerCategoryId[];
+}
+
+export interface CustomMapThemeDefinition extends MapThemeDefinition {
+  readonly kind: "custom";
 }
 
 export const builtInMapThemes = [
