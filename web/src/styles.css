@@ -1183,6 +1183,38 @@ a {
   font-weight: 800;
 }
 
+.tax-sale-property-list-body > .tax-sale-property-list-unavailable-heading {
+  margin-top: 10px;
+  color: #7d322b;
+  font-weight: 800;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable li {
+  display: grid;
+  gap: 3px;
+  padding: 8px 9px;
+  color: var(--chart-ink);
+  background: #fff7ed;
+  border: 1px dashed rgba(125, 50, 43, 0.4);
+  border-radius: 4px;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable strong {
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable span {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  line-height: 1.35;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable .geometry-unavailable {
+  color: #7d322b;
+}
+
 .tax-sale-property-list-empty {
   padding: 8px 9px;
   background: var(--fog);

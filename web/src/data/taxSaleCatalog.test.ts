@@ -3,6 +3,7 @@ import {
   advertisedPidsForEvents,
   eventLifecycleStatus,
   eventsForStatus,
+  geometryExceptionPidsForEvents,
   listingContextForPid,
   pidsForEvents,
   taxSaleEvents,
@@ -13,6 +14,10 @@ import { ANNAPOLIS_TENDER_DATASET_SHA256 } from "./annapolisTaxSale";
 import annapolisTenderDatasetSource from "./annapolisTaxSale.snapshot.json?raw";
 import { MIDDLETON_TAX_SALE_DATASET_SHA256 } from "./middletonTaxSale";
 import middletonDatasetSource from "./middletonTaxSale.snapshot.json?raw";
+import { HALIFAX_TAX_SALE_DATASET_SHA256 } from "./halifaxTaxSale";
+import halifaxDatasetSource from "./halifaxTaxSale.snapshot.json?raw";
+import { VICTORIA_TAX_SALE_DATASET_SHA256 } from "./victoriaTaxSale";
+import victoriaDatasetSource from "./victoriaTaxSale.snapshot.json?raw";
 import {
   CBRM_RESULT_DATASET_SHA256,
   HISTORICAL_DATASET_SHA256,
@@ -53,6 +58,11 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(await sha256Hex(middletonDatasetSource)).toBe(
       MIDDLETON_TAX_SALE_DATASET_SHA256,
     );
+  });
+
+  it("pins the byte-for-byte published Victoria and Halifax notice datasets", async () => {
+    expect(await sha256Hex(victoriaDatasetSource)).toBe(VICTORIA_TAX_SALE_DATASET_SHA256);
+    expect(await sha256Hex(halifaxDatasetSource)).toBe(HALIFAX_TAX_SALE_DATASET_SHA256);
   });
 
   it("pins the byte-for-byte historical tax-sale dataset", async () => {
@@ -215,9 +225,16 @@ describe("the multi-municipality tax-sale catalog", () => {
       "inverness-county-2026-08-11",
       "middleton-2026-08-20",
       "annapolis-county-2026-08-31",
+      "victoria-county-2026-09-14",
+      "halifax-2026-09-15",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(49);
-    expect(pidsForEvents(upcoming)).toHaveLength(51);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(86);
+    expect(pidsForEvents(upcoming)).toHaveLength(89);
+    expect(advertisedPidsForEvents(upcoming)).toHaveLength(69);
+    expect(geometryExceptionPidsForEvents(upcoming)).toEqual([
+      "41051889",
+      "41051897",
+    ]);
     expect(historical.map(({ id }) => id)).toEqual(["cbrm-2026-07-21"]);
     expect(pidsForEvents(historical)).toHaveLength(68);
   });
@@ -230,6 +247,14 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(listingContextForPid("05266937")?.event.municipalityId).toBe(
       "annapolis-county",
     );
+    expect(listingContextForPid("85057701")?.event.municipalityId).toBe(
+      "victoria-county",
+    );
+    expect(listingContextForPid("00535617")?.event.municipalityId).toBe(
+      "halifax-regional-municipality",
+    );
+    expect(listingContextForPid("41051889")).toBeUndefined();
+    expect(listingContextForPid("41051897")).toBeUndefined();
     expect(listingContextForPid("5266937")).toBeUndefined();
     expect(listingContextForPid("1505458")).toBeUndefined();
   });

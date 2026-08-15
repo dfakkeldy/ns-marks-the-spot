@@ -2979,10 +2979,14 @@ export function App() {
             </p>
             {upcomingTaxSaleEvents.map((event) => {
               const pidCount = advertisedPidsForEvents([event]).length;
-              const advertisedCount = event.listings.filter(
+              const mappedAdvertisedCount = event.listings.filter(
                 ({ listingStatus }) => listingStatus === "advertised",
               ).length;
-              const withdrawnCount = event.listings.length - advertisedCount;
+              const geometryExceptions = event.geometryExceptions ?? [];
+              const advertisedCount =
+                mappedAdvertisedCount + geometryExceptions.length;
+              const withdrawnCount =
+                event.listings.length - mappedAdvertisedCount;
               const filteredListings = event.listings.filter((listing) =>
                 listingMatchesTaxSaleFilter(listing, taxSaleFilter),
               );
@@ -3004,7 +3008,9 @@ export function App() {
                       <small>{eventDateLabel(event)}</small>
                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                       <small>
-                        {advertisedCount} advertised · {withdrawnCount} withdrawn · {pidCount} active PIDs
+                        {geometryExceptions.length > 0
+                          ? `${advertisedCount} advertised · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
+                          : `${advertisedCount} advertised · ${withdrawnCount} withdrawn · ${pidCount} active PIDs`}
                       </small>
                       <small>
                         Snapshot retrieved {snapshotDateLabel(event)}
@@ -3015,6 +3021,7 @@ export function App() {
                     eventId={event.id}
                     municipality={event.shortMunicipality}
                     listings={filteredListings}
+                    geometryExceptions={geometryExceptions}
                     selectedPid={selectedPid}
                     disabled={!licenceAccepted}
                     onSelectPid={(eventId, pid) => {
