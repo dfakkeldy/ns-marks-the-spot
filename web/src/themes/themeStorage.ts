@@ -16,7 +16,7 @@ import {
 
 export const CUSTOM_THEME_STORAGE_KEY = "ns-marks-the-spot:custom-themes";
 
-const THEME_LIBRARY_LOAD_WARNING = "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.";
+const THEME_LIBRARY_LOAD_WARNING = "Your custom-theme library could not be loaded.";
 const THEME_LIBRARY_SAVE_WARNING = "Your custom themes could not be saved in this browser.";
 const CUSTOM_THEME_DESCRIPTION = "A custom map theme.";
 
@@ -35,10 +35,17 @@ interface StoredThemeLibraryV1 {
   themes: StoredCustomThemeV1[];
 }
 
-export interface CustomThemeLoadResult {
-  themes: MapThemeDefinition[];
-  warning: string | null;
-}
+export type CustomThemeLoadResult =
+  | {
+    status: "loaded";
+    themes: CustomMapThemeDefinition[];
+    warning: null;
+  }
+  | {
+    status: "partial" | "fatal";
+    themes: CustomMapThemeDefinition[];
+    warning: string;
+  };
 
 export type ThemeSaveResult =
   | { ok: true }
@@ -244,7 +251,10 @@ function parseStoredThemeLibrary(value: unknown): CustomThemeLoadResult {
     .map((theme) => parseStoredTheme(theme, seenIds, warnings))
     .filter((theme): theme is CustomMapThemeDefinition => theme !== null);
 
-  return { themes, warning: restorationWarning(warnings) };
+  const warning = restorationWarning(warnings);
+  return warning === null
+    ? { status: "loaded", themes, warning: null }
+    : { status: "partial", themes, warning };
 }
 
 export function loadCustomThemes(storage: Storage): CustomThemeLoadResult {
@@ -252,16 +262,24 @@ export function loadCustomThemes(storage: Storage): CustomThemeLoadResult {
   try {
     raw = storage.getItem(CUSTOM_THEME_STORAGE_KEY);
   } catch {
-    return { themes: [], warning: THEME_LIBRARY_LOAD_WARNING };
+    return {
+      status: "fatal",
+      themes: [],
+      warning: THEME_LIBRARY_LOAD_WARNING,
+    };
   }
   if (raw === null) {
-    return { themes: [], warning: null };
+    return { status: "loaded", themes: [], warning: null };
   }
 
   try {
     return parseStoredThemeLibrary(JSON.parse(raw));
   } catch {
-    return { themes: [], warning: THEME_LIBRARY_LOAD_WARNING };
+    return {
+      status: "fatal",
+      themes: [],
+      warning: THEME_LIBRARY_LOAD_WARNING,
+    };
   }
 }
 

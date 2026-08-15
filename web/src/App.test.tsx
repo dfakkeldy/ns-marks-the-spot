@@ -924,6 +924,34 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent("Shared setup");
   });
 
+  it("reports a selected equivalent custom theme as exact", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    storeCustomThemes([
+      STORED_FIELD_THEME,
+      {
+        ...STORED_FIELD_THEME,
+        id: "custom-field-day-copy",
+        name: "Field day copy",
+      },
+    ]);
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "custom-field-day-copy",
+    );
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue(
+      "custom-field-day-copy",
+    );
+    expect(mapSetupStatus()).toHaveTextContent("Field day copy");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+    expect(
+      screen.queryByRole("button", { name: "Reset current theme" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("reloads a saved custom theme and restores its exact state", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([STORED_FIELD_THEME]);
@@ -959,6 +987,27 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent(
       "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
     );
+    expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe("not-json");
+  });
+
+  it("restores a recognized share when custom-theme storage is corrupt", () => {
+    localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?layers=modern,roads");
+
+    render(<App />);
+
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(screen.getByLabelText("Map setup")).toHaveValue("shared");
+    expect(mapSetupStatus()).toHaveTextContent(
+      "Your custom-theme library could not be loaded. Custom themes are unavailable for this session.",
+    );
+    expect(mapSetupStatus()).not.toHaveTextContent(
+      "Explore Nova Scotia is being used",
+    );
+    expect(new URL(window.location.href).searchParams.get("layers"))
+      .toBe("modern,roads");
     expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe("not-json");
   });
 

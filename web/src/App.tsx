@@ -823,7 +823,11 @@ export function App() {
     initialCustomThemes,
   );
   const [themeLibraryNotice, setThemeLibraryNotice] = useState<string | null>(
-    initialCustomThemeLibrary.warning,
+    () => initialCustomThemeLibrary.status === "fatal"
+      ? hasRecognizedShareState
+        ? `${initialCustomThemeLibrary.warning} Custom themes are unavailable for this session.`
+        : `${initialCustomThemeLibrary.warning} Explore Nova Scotia is being used for this session.`
+      : initialCustomThemeLibrary.warning,
   );
   const [themeManagerOpen, setThemeManagerOpen] = useState(false);
   const openThemeManager = useCallback(() => setThemeManagerOpen(true), []);
@@ -2340,11 +2344,13 @@ export function App() {
     reportThemeRepositoryError,
     selectedThemeId,
   ]);
-  const matchedTheme = useMemo(
-    () => matchTheme(themeComparableState, mapThemes),
-    [mapThemes, themeComparableState],
-  );
   const selectedTheme = mapThemes.find(({ id }) => id === selectedThemeId);
+  const matchedTheme = useMemo(
+    () => selectedTheme && themeStatesMatch(themeComparableState, selectedTheme)
+      ? selectedTheme
+      : matchTheme(themeComparableState, mapThemes),
+    [mapThemes, selectedTheme, themeComparableState],
+  );
   const activeThemeId = selectedTheme?.id ?? matchedTheme?.id ?? null;
   const themeResultMatches = themeResult !== null
     && themeStatesMatch(themeComparableState, themeResult.target);

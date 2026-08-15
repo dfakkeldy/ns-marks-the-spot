@@ -36,6 +36,7 @@ describe("custom theme storage", () => {
     }));
 
     expect(loadCustomThemes(localStorage)).toMatchObject({
+      status: "partial",
       themes: [{
         id: "custom-1",
         kind: "custom",
@@ -50,8 +51,9 @@ describe("custom theme storage", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
 
     expect(loadCustomThemes(localStorage)).toEqual({
+      status: "fatal",
       themes: [],
-      warning: "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+      warning: "Your custom-theme library could not be loaded.",
     });
     expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe("not-json");
   });
@@ -67,7 +69,11 @@ describe("custom theme storage", () => {
       },
     } as unknown as Storage;
 
-    expect(loadCustomThemes(storage)).toEqual({ themes: [], warning: null });
+    expect(loadCustomThemes(storage)).toEqual({
+      status: "loaded",
+      themes: [],
+      warning: null,
+    });
   });
 
   it("uses the fallback warning when browser storage cannot be read", () => {
@@ -78,8 +84,9 @@ describe("custom theme storage", () => {
     } as unknown as Storage;
 
     expect(loadCustomThemes(unavailableStorage)).toEqual({
+      status: "fatal",
       themes: [],
-      warning: "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+      warning: "Your custom-theme library could not be loaded.",
     });
   });
 
@@ -93,6 +100,7 @@ describe("custom theme storage", () => {
     }));
 
     expect(loadCustomThemes(localStorage)).toMatchObject({
+      status: "partial",
       themes: [{ id: "custom-1", name: "Field day" }],
       warning: expect.stringContaining("duplicate ID: custom-1"),
     });
