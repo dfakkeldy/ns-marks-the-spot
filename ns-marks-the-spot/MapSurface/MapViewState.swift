@@ -180,6 +180,9 @@ nonisolated struct MapViewState: Equatable, Sendable {
     /// The user's own scans, in panel order. Only the ones actually drawing:
     /// a hidden row is absent rather than present at zero alpha.
     var userMaps: [UserMapDrape] = []
+    /// The user's own vector layers, in panel order. Only the ones actually
+    /// drawing: a hidden row is absent rather than present at zero alpha.
+    var userVectors: [UserVectorDrawing] = []
     var showsUserLocation = false
     var interactionMode: MapInteractionMode = .idle
 }

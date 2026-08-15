@@ -16,6 +16,7 @@ struct MapContainerView: View {
     /// The user's own maps. Owned here rather than injected: nothing outside
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
+    @State private var userVectorsVM = UserVectorsViewModel()
     @State private var isLayersMenuExpanded = false
     @State private var mapHeading: Double = 0
     @State private var isSelectingSaveArea = false
@@ -72,6 +73,8 @@ struct MapContainerView: View {
                         TransparencySliderView(
                             viewModel: overlayVM,
                             userMaps: userMapsVM,
+                            userVectors: userVectorsVM,
+                            onZoomToLayer: { controller.frame($0) },
                             isExpanded: $isLayersMenuExpanded
                         )
                             .frame(width: 300)
@@ -372,12 +375,16 @@ struct MapContainerView: View {
         }
         .task {
             await userMapsVM.load()
+            await userVectorsVM.load()
         }
         // The view model owns the rows; the map only ever draws what they
         // currently say. Pushed on change rather than on a timer so a slider
         // drag moves the drape it is under.
         .onChange(of: userMapsVM.drapes) { _, drapes in
             controller.setUserMaps(drapes)
+        }
+        .onChange(of: userVectorsVM.drawings) { _, drawings in
+            controller.setUserVectors(drawings)
         }
         .onChange(of: navigationModel.activeSheet) { _, newValue in
             if newValue != nil {

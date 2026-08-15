@@ -19,6 +19,10 @@ nonisolated enum MapMutation: Equatable, Sendable {
     /// is a new set of features rather than an edit to the old one.
     case setFeatureShapes([FeatureShape])
     case setUserMaps([UserMapDrape])
+    /// Replaces every user vector layer at once. An edit rewrites a layer's
+    /// features rather than patching one of them, so there is no smaller unit
+    /// to diff.
+    case setUserVectors([UserVectorDrawing])
     case setFeatureMarkers([FeatureMarker])
     case setShowsUserLocation(Bool)
     case beginBoundsSelection
@@ -56,6 +60,14 @@ nonisolated enum MapStateDiff {
 
         if current.parcelShapes != desired.parcelShapes {
             mutations.append(.setParcelShapes(desired.parcelShapes))
+        }
+
+        // After the parcels: the user's own layers draw above every catalogued
+        // one, because they are what the user is working on and a boundary
+        // they sketched must not disappear under the layer they are comparing
+        // it to.
+        if current.userVectors != desired.userVectors {
+            mutations.append(.setUserVectors(desired.userVectors))
         }
 
         if current.featureMarkers != desired.featureMarkers {

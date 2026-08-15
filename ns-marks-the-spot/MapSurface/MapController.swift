@@ -185,6 +185,24 @@ final class MapController: NSObject {
                 mapView.installInDrawOrder(overlay)
             }
 
+        case .setUserVectors(let drawings):
+            // Overlays and annotations together, because a layer's points and
+            // its boundaries are one thing to the user: removing them in two
+            // passes would leave the waypoints of a layer that was switched off
+            // sitting on the map.
+            mapView.removeOverlays(
+                mapView.overlays.filter { $0 is UserVectorPolygon || $0 is UserVectorPolyline }
+            )
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? UserVectorAnnotation }
+            )
+            for drawing in drawings {
+                for overlay in drawing.overlays() {
+                    mapView.installInDrawOrder(overlay)
+                }
+                mapView.addAnnotations(drawing.annotations())
+            }
+
         case .setParcelShapes(let shapes):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
             for polygon in shapes.flatMap({ ParcelPolygon.polygons(for: $0) }) {
@@ -323,6 +341,10 @@ final class MapController: NSObject {
         mutate { $0.userMaps = drapes }
     }
 
+    func setUserVectors(_ drawings: [UserVectorDrawing]) {
+        mutate { $0.userVectors = drawings }
+    }
+
     func setFeatureMarkers(_ markers: [FeatureMarker]) {
         mutate { $0.featureMarkers = markers }
     }
@@ -388,6 +410,33 @@ final class MapController: NSObject {
                 center: CLLocationCoordinate2D(latitude: point.lat, longitude: point.lng),
                 latitudinalMeters: width,
                 longitudinalMeters: width
+            ),
+            animated: true
+        )
+    }
+
+    /// Frames a bounding box, with room around it.
+    ///
+    /// Padded rather than fitted exactly, so a layer's outermost feature is not
+    /// left touching the edge of the screen where the panel and the controls
+    /// sit over it. A degenerate box — one point, or one straight line — is
+    /// given a minimum span rather than a zero-sized region, which MapKit
+    /// clamps to an arbitrary zoom.
+    func frame(_ box: GeoBoundingBox) {
+        guard let mapView else { return }
+        let latitudeSpan = max((box.north - box.south) * 1.25, 0.002)
+        let longitudeSpan = max((box.east - box.west) * 1.25, 0.002)
+        guard latitudeSpan.isFinite, longitudeSpan.isFinite else { return }
+        pendingCenter = nil
+        mapView.setRegion(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(
+                    latitude: (box.north + box.south) / 2,
+                    longitude: (box.east + box.west) / 2
+                ),
+                span: MKCoordinateSpan(
+                    latitudeDelta: latitudeSpan, longitudeDelta: longitudeSpan
+                )
             ),
             animated: true
         )
@@ -602,6 +651,26 @@ extension MapController: MKMapViewDelegate {
             return UserMapOverlayRenderer(userMap: userMap)
         }
 
+        // Before the catalogued feature branches, though they are unrelated
+        // classes: a user's polygon is styled from their own file's simplestyle
+        // properties, not from the catalog's vocabulary.
+        if let polygon = overlay as? UserVectorPolygon {
+            let renderer = MKPolygonRenderer(polygon: polygon)
+            Self.apply(polygon.style, to: renderer)
+            return renderer
+        }
+
+        if let polyline = overlay as? UserVectorPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            Self.apply(polyline.style, to: renderer)
+            // Rounded, because a user's own line is usually a route or a
+            // sketched boundary rather than a surveyed edge, and mitred joins
+            // spike at every sharp corner of a hand-drawn track.
+            renderer.lineCap = .round
+            renderer.lineJoin = .round
+            return renderer
+        }
+
         if let feature = overlay as? FeaturePolygon {
             let renderer = MKPolygonRenderer(polygon: feature)
             Self.apply(feature.style, to: renderer)
@@ -687,12 +756,38 @@ extension MapController: MKMapViewDelegate {
         renderer.lineJoin = style.hasRoundedEnds ? .round : .miter
     }
 
+    /// The same, for a user's own layer.
+    ///
+    /// A separate overload rather than a shared type: the catalog's styling
+    /// vocabulary and the simplestyle properties a user's file may carry are
+    /// different vocabularies, and collapsing them would mean inventing a dash
+    /// pattern or a marker radius for a file that never specified one.
+    static func apply(_ style: UserVectorStyle, to renderer: MKOverlayPathRenderer) {
+        renderer.strokeColor = UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity)
+        renderer.fillColor = UIColor(featureHex: style.fillHex, alpha: style.fillOpacity)
+        renderer.lineWidth = style.weight
+    }
+
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
 
         // Before the pin branch: a well log and a saved point of interest are
         // both point annotations, and a well drawn as a dropped pin would read
         // as a place someone marked rather than as a record with an accuracy.
+        // A user's own point, before both: it is drawn in their layer's colour
+        // and its callout carries the provenance line that says the app did not
+        // publish it.
+        if let point = annotation as? UserVectorAnnotation {
+            let identifier = "UserVectorPoint"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: point, reuseIdentifier: identifier)
+            view.annotation = point
+            view.canShowCallout = true
+            view.image = UserVectorMarkerImage.image(for: point.style)
+            return view
+        }
+
         if let feature = annotation as? FeatureMarkerAnnotation {
             let identifier = "FeatureMarker"
             let view =

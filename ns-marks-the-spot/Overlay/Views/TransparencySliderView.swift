@@ -8,6 +8,10 @@ struct TransparencySliderView: View {
     /// the catalogued layers, and a panel shown without them (a preview, a
     /// test) should still be the same panel.
     var userMaps: UserMapsViewModel?
+    /// The user's own vector layers, optional for the same reason.
+    var userVectors: UserVectorsViewModel?
+    /// Where to send the map when a row asks to be seen.
+    var onZoomToLayer: ((GeoBoundingBox) -> Void)?
     @Binding var isExpanded: Bool
 
     /// Which sections are open. `nil` until the panel is first laid out, so the
@@ -125,6 +129,12 @@ struct TransparencySliderView: View {
                         Divider()
                             .background(.primary.opacity(0.1))
                         UserMapRowsView(viewModel: userMaps)
+                    }
+
+                    if let userVectors {
+                        Divider()
+                            .background(.primary.opacity(0.1))
+                        UserVectorRowsView(viewModel: userVectors, onZoom: onZoomToLayer)
                     }
                 }
             }
