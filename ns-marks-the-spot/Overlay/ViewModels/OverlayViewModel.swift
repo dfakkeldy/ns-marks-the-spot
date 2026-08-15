@@ -426,7 +426,13 @@ final class OverlayViewModel {
     /// Reading the input is the package's job, so the same rules decide it here
     /// and in the tests that run without a simulator.
     func searchParcel(_ query: String) {
-        switch ParcelSearchInput.classify(query) {
+        let input = ParcelSearchInput.classify(query)
+        // Only a PID lookup can be the one a link started, so anything else
+        // means the reader is searching and the link's hold on the extent is
+        // over.
+        if case .pid = input {} else { isHoldingLinkPosition = false }
+
+        switch input {
         case .pid(let pid):
             searchPID(pid)
         case .empty:
@@ -1298,6 +1304,10 @@ final class OverlayViewModel {
                 ) else { return }
                 self?.parcelMessage = message
             }
+            // Whatever the lookup did, the link that may have started it is
+            // finished with. Left standing, the hold would swallow the next
+            // parcel the user opens themselves.
+            self?.isHoldingLinkPosition = false
         }
     }
 

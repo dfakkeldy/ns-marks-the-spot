@@ -87,9 +87,7 @@ nonisolated enum ParcelEvidenceExport {
     ) -> [EvidenceNoteInput.Source] {
         [
             EvidenceNoteInput.Source(
-                name: baseMap == .satellite
-                    ? "Apple Maps satellite imagery"
-                    : "Apple Maps standard base map",
+                name: baseMapName(baseMap),
                 sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/")!,
                 sourceDate: "Live Apple Maps tiles"
             )
@@ -121,6 +119,21 @@ nonisolated enum ParcelEvidenceExport {
                 }
                 return listed
             }
+    }
+
+    /// What the reader was reading over. Named exactly, because "standard base
+    /// map" against a photograph would misdescribe the page the note is about.
+    /// The NS aerial base draws over Apple's standard tiles and is listed as
+    /// its own layer besides, so here it is the tiles underneath that get named.
+    private static func baseMapName(_ baseMap: MapBaseType) -> String {
+        switch baseMap {
+        case .standard, .nsAerial:
+            return "Apple Maps standard base map"
+        case .satellite:
+            return "Apple Maps satellite imagery"
+        case .hybrid:
+            return "Apple Maps satellite imagery with labels"
+        }
     }
 
     /// Where a reader can go and check a layer.

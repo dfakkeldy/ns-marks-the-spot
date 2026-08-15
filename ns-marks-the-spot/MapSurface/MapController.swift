@@ -318,6 +318,10 @@ final class MapController: NSObject {
     /// minimum span, so a very small lot stops at a sensible zoom instead of
     /// filling the screen with one corner of it.
     func focus(on bounds: MapBounds) {
+        // Anything that moves the map deliberately outranks a link's held
+        // position: applying it later would drag the reader off what they just
+        // asked to see.
+        pendingCenter = nil
         guard let mapView else { return }
         let corner = MKMapPoint(
             CLLocationCoordinate2D(
@@ -389,6 +393,9 @@ final class MapController: NSObject {
 
     private func center(on location: CLLocation) {
         isWaitingToCenterOnUserLocation = false
+        // Same rule as `focus(on:)`: going to where the reader is outranks a
+        // link's held position.
+        pendingCenter = nil
         let region = MKCoordinateRegion(
             center: location.coordinate,
             latitudinalMeters: 5000,
