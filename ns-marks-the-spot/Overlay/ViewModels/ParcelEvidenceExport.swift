@@ -270,6 +270,12 @@ nonisolated enum ParcelEvidenceExport {
         )
     }
 
+    /// How current the source says it is. A finding quoted with no date reads
+    /// as today's.
+    private static func sourceDate(for id: LayerID) -> String? {
+        LayerCatalog.descriptor(for: id)?.sourceDate
+    }
+
     private static func buildingResults(
         _ inspection: ParcelInspection
     ) -> [EvidenceNoteInput.Result] {
@@ -291,7 +297,8 @@ nonisolated enum ParcelEvidenceExport {
                         ParcelEvidenceWording.buildingCaveat(count),
                     ],
                     attribution: credit,
-                    licenceURL: licence
+                    licenceURL: licence,
+                    sourceDate: sourceDate(for: .buildings)
                 )
             ]
         case .unavailable(let reason):
@@ -341,9 +348,17 @@ nonisolated enum ParcelEvidenceExport {
                 addresses = []
                 addressesAnswered = false
             }
-            let roads = ParcelRoads.list(context, namedBy: addresses).map { road in
+            var roads = ParcelRoads.list(context, namedBy: addresses).map { road in
                 "\(road.name) · \(road.kind) · "
                     + ParcelEvidenceWording.label(for: road.evidence)
+            }
+            // A list missing the roads one source would have named looks
+            // exactly like a complete one. The panel says so under the list;
+            // without this the note handed over the short list on its own.
+            if let shortfall = ParcelLookupMessage.roadListShortfall(
+                addressesAnswered: addressesAnswered
+            ) {
+                roads.append(shortfall)
             }
             let water = context.water.map { feature in
                 "\(feature.name) · \(feature.kind) · "
@@ -361,7 +376,8 @@ nonisolated enum ParcelEvidenceExport {
                         addressesAnswered: addressesAnswered
                     ),
                     attribution: roadCredit,
-                    licenceURL: roadLicence
+                    licenceURL: roadLicence,
+                    sourceDate: sourceDate(for: .roads)
                 ),
                 EvidenceNoteInput.Result(
                     name: waterName,
@@ -370,7 +386,8 @@ nonisolated enum ParcelEvidenceExport {
                     results: water,
                     emptyMessage: ParcelEvidenceWording.noWaterFeature,
                     attribution: waterCredit,
-                    licenceURL: waterLicence
+                    licenceURL: waterLicence,
+                    sourceDate: sourceDate(for: .waterFeatures)
                 ),
             ]
         case .unavailable(let reason):
@@ -412,6 +429,8 @@ nonisolated enum ParcelEvidenceExport {
         // every coastal finding this note reports.
         let coastalCredit = CoastalFloodLicence.attribution
         let coastalLicence = LayerCatalog.descriptor(for: .coastalFloodCurrent)?.licenceURL
+        let riverDate = sourceDate(for: .publishedRiverFloodZones)
+        let coastalDate = sourceDate(for: .coastalFloodCurrent)
 
         switch inspection.floodHazard {
         case .ready(let hazard):
@@ -424,14 +443,16 @@ nonisolated enum ParcelEvidenceExport {
                     status: .ready,
                     results: findings.map(ParcelEvidenceWording.sentence(for:)),
                     attribution: riverCredit,
-                    licenceURL: riverLicence
+                    licenceURL: riverLicence,
+                    sourceDate: riverDate
                 )
             case .withinPublishedExtentWithNoIntersection:
                 river = EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .ready, results: [],
                     emptyMessage: ParcelEvidenceWording
                         .withinPublishedExtentWithNoIntersection,
-                    attribution: riverCredit, licenceURL: riverLicence
+                    attribution: riverCredit, licenceURL: riverLicence,
+                    sourceDate: riverDate
                 )
             case .outsidePublishedExtents:
                 // Not an error and not an empty answer: the question was never
@@ -439,13 +460,15 @@ nonisolated enum ParcelEvidenceExport {
                 river = EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .ready, results: [],
                     emptyMessage: ParcelEvidenceWording.outsidePublishedExtents,
-                    attribution: riverCredit, licenceURL: riverLicence
+                    attribution: riverCredit, licenceURL: riverLicence,
+                    sourceDate: riverDate
                 )
             case .unavailable(let failure):
                 river = EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .error, results: [],
                     errorMessage: ParcelEvidenceWording.sentence(for: failure),
-                    attribution: riverCredit, licenceURL: riverLicence
+                    attribution: riverCredit, licenceURL: riverLicence,
+                    sourceDate: riverDate
                 )
             }
             return [
@@ -457,7 +480,8 @@ nonisolated enum ParcelEvidenceExport {
                     results: hazard.coastal.map(ParcelEvidenceWording.sentence(for:)),
                     emptyMessage: "No coastal scenario was sampled for this parcel.",
                     attribution: coastalCredit,
-                    licenceURL: coastalLicence
+                    licenceURL: coastalLicence,
+                    sourceDate: coastalDate
                 ),
             ]
         case .unavailable(let reason):
@@ -518,7 +542,8 @@ nonisolated enum ParcelEvidenceExport {
                     status: .error,
                     results: [],
                     attribution: credit,
-                    licenceURL: licence
+                    licenceURL: licence,
+                    sourceDate: descriptor?.sourceDate
                 )
             case .success(let records):
                 return EvidenceNoteInput.Result(
@@ -542,7 +567,8 @@ nonisolated enum ParcelEvidenceExport {
                             + "this parcel."
                         : nil,
                     attribution: credit,
-                    licenceURL: licence
+                    licenceURL: licence,
+                    sourceDate: descriptor?.sourceDate
                 )
             }
         }

@@ -225,6 +225,28 @@ struct MapShareAndEvidenceTests {
         #expect(note.markdown.contains("No mapped water feature intersects this parcel."))
     }
 
+    /// A road list assembled without the address file is short, and the note
+    /// has to say so. Handed over on its own it reads as the whole set of
+    /// roads at this parcel.
+    @Test func aRoadListMissingItsAddressHalfSaysSo() {
+        let note = Self.note(
+            Self.inspection(civic: .unavailable("The civic address source could not be reached."))
+        )
+
+        #expect(
+            note.markdown.contains(
+                "The civic address file has not answered, so a road named only by an address "
+                    + "on this parcel would not be listed."
+            )
+        )
+    }
+
+    /// A flood percentage with no definition beside it reads as a property of
+    /// the parcel. It is not one, and the sentence that says so travels with it.
+    @Test func aFloodFigureCarriesWhatItMeasures() {
+        #expect(Self.note(Self.inspection()).markdown.contains(FloodEvidenceCaveat.measurement))
+    }
+
     /// The coastal licence's three notices are conditions of using the data,
     /// so they travel with every coastal finding the note reports rather than
     /// staying on the panel the reader has already closed.

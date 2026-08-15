@@ -84,6 +84,9 @@ public struct EvidenceNoteInput: Sendable {
         /// travels one page away from the data does not travel at all.
         public let attribution: String?
         public let licenceURL: URL?
+        /// What the source itself says about how current it is. Printed with
+        /// the link, because a finding quoted with no date reads as current.
+        public let sourceDate: String?
 
         public init(
             name: String,
@@ -93,7 +96,8 @@ public struct EvidenceNoteInput: Sendable {
             emptyMessage: String? = nil,
             errorMessage: String? = nil,
             attribution: String? = nil,
-            licenceURL: URL? = nil
+            licenceURL: URL? = nil,
+            sourceDate: String? = nil
         ) {
             self.name = name
             self.sourceURL = sourceURL
@@ -103,6 +107,7 @@ public struct EvidenceNoteInput: Sendable {
             self.errorMessage = errorMessage
             self.attribution = attribution
             self.licenceURL = licenceURL
+            self.sourceDate = sourceDate
         }
     }
 
@@ -292,6 +297,8 @@ extension EvidenceNote {
             + input.floodResults.flatMap(sourceLines)
             + [
                 "",
+                FloodEvidenceCaveat.measurement,
+                "",
                 """
                 Published river mapping and coastal scenarios are screening layers at \
                 their own scales and dates. Outside a study extent means the question was \
@@ -372,7 +379,8 @@ extension EvidenceNote {
     /// A source's link, its credit, and its licence — the lines that have to
     /// accompany the finding above them.
     private static func sourceLines(_ result: EvidenceNoteInput.Result) -> [String] {
-        ["- [\(result.name) source](\(result.sourceURL.absoluteString))"]
+        ["- [\(result.name) source](\(result.sourceURL.absoluteString))"
+            + (result.sourceDate.map { " — \($0)" } ?? "")]
             + (result.attribution.map { ["- \($0)"] } ?? [])
             + (result.licenceURL.map { ["- [\(result.name) licence](\($0.absoluteString))"] } ?? [])
     }

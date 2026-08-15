@@ -516,7 +516,18 @@ public enum PdfComposer {
                 regular.sanitized("Exact map receipt: \(link)"),
                 font: regular, size: type.caption, maxWidth: strip.width
             )
-            let receiptHeight = Double(receiptLines.count) * (type.caption + captionLeading)
+            let rowHeight = type.caption + captionLeading
+            // The credits come first when there is not room for both. A long
+            // URL — every layer switched on runs to some six hundred characters
+            // — wrapped to five rows in a strip that holds two, and printed
+            // over the attributions underneath it. The written address is a
+            // courtesy and the credits are an obligation, so the courtesy is
+            // the half that goes. The QR square still carries the link.
+            let affordable = Int((strip.height / rowHeight).rounded(.down)) - 1
+            if receiptLines.count > max(0, affordable) {
+                receiptLines = []
+            }
+            let receiptHeight = Double(receiptLines.count) * rowHeight
             creditStrip = PdfRect(
                 x: strip.x, y: strip.y + receiptHeight,
                 width: strip.width, height: max(0, strip.height - receiptHeight)

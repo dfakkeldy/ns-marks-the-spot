@@ -336,6 +336,25 @@ struct PdfComposerTests {
         #expect(drawn.contains { $0.text.contains(link) })
     }
 
+    /// A link too long for the strip gives way to the credits rather than
+    /// printing over them. The QR square still carries it.
+    @Test func aReceiptTooLongForTheStripYieldsToTheCredits() throws {
+        let long = "https://kinnokilabs.com/apps/nsmarksthespot/map/?mode=current&layers="
+            + Array(repeating: "a-rather-long-layer-identifier", count: 20).joined(separator: ",")
+        let drawn = Self.drawnLines(
+            PdfComposer.compose(
+                try Self.input(
+                    template: .landscape,
+                    attribution: ["Parcels — Province of Nova Scotia — OGL-NS"],
+                    shareURLText: long
+                )
+            )
+        )
+
+        #expect(!drawn.contains { $0.text.contains("Exact map receipt") })
+        #expect(drawn.contains { $0.text.contains("Province of Nova Scotia") })
+    }
+
     @Test func aPageWithNoLinkPrintsNoReceiptLine() throws {
         let drawn = Self.drawnLines(PdfComposer.compose(try Self.input()))
         #expect(!drawn.contains { $0.text.contains("Exact map receipt") })

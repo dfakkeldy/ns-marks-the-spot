@@ -167,6 +167,12 @@ nonisolated struct PrintMapCompositor {
             outcomes.append(LayerOutcome(id: layer.id, name: layer.name, state: state))
         }
 
+        // The tile path reports an abandoned request as an outcome rather than
+        // throwing, so a cancel during the only layer's tiles reached here with
+        // nothing to stop it — and the compositor went on to allocate and
+        // encode a full 300 dpi raster for a page nobody was waiting for.
+        try Task.checkCancellation()
+
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
         format.opaque = true

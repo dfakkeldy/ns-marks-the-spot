@@ -913,14 +913,8 @@ struct ParcelInspectorView: View {
                 riverFlood(hazard.river)
                 coastalFlood(hazard.coastal)
 
-                Text(
-                    "A 1% or 5% annual-exceedance probability describes the mapped flood "
-                        + "event, not a probability for the whole PID. The 2050 and 2100 "
-                        + "figures are sea-level scenarios, not further probabilities. The "
-                        + "coastal percentages are read off the Province's own rendered map "
-                        + "and are an approximate screen — not a survey, an elevation "
-                        + "certificate, or an insurance finding."
-                )
+                // The same sentence the note and the printed appendix carry.
+                Text(FloodEvidenceCaveat.measurement)
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
