@@ -35,12 +35,16 @@ public struct PixelRect: Hashable, Sendable {
 /// of why the numbers were chosen; they are not claims about this renderer,
 /// which draws the mesh through a different path and will need its own.
 public enum GcpMesh {
-    /// Why a control-point rectangle can be refused.
-    public enum RectRefusal: Error, Equatable, Sendable {
+    /// Why a lattice cannot be built.
+    public enum MeshRefusal: Error, Equatable, Sendable {
         /// Not a rectangle: a non-finite edge, or no area.
         case degenerate
         /// Asks for pixels the raster does not have.
         case outsideRaster
+        /// A grid size below one. Silently rounding it up to a single cell
+        /// would throw away a spline's whole bending term — a hundred metres
+        /// on a county-scale sheet — and report success.
+        case notALattice
     }
 
     /// How far outside the raster an edge may sit and still be read as sitting
@@ -96,7 +100,7 @@ public enum GcpMesh {
     /// raster, or the whole raster when none was given.
     public static func resolve(
         pixelSize: PixelSize, sourceRect: PixelRect?
-    ) throws(RectRefusal) -> PixelRect {
+    ) throws(MeshRefusal) -> PixelRect {
         let rect = sourceRect ?? PixelRect(
             x: 0, y: 0, width: pixelSize.width, height: pixelSize.height
         )
@@ -115,13 +119,16 @@ public enum GcpMesh {
         // Clamped rather than trusted: the tolerance above admits an edge a
         // hair outside the raster, and sampling there would read pixels that
         // do not exist.
-        let x = max(0, rect.x)
-        let y = max(0, rect.y)
-        return PixelRect(
-            x: x, y: y,
-            width: min(rect.width, pixelSize.width - x),
-            height: min(rect.height, pixelSize.height - y)
-        )
+        let x = min(max(0, rect.x), pixelSize.width)
+        let y = min(max(0, rect.y), pixelSize.height)
+        let width = min(rect.width, pixelSize.width - x)
+        let height = min(rect.height, pixelSize.height - y)
+        // A crop narrower than the tolerance, sitting a hair past the right or
+        // bottom edge, passes the check above and clamps to a negative extent —
+        // a lattice that runs backwards out of the raster. There is no
+        // rectangle there to evaluate, so it is refused rather than drawn.
+        guard width > 0, height > 0 else { throw .outsideRaster }
+        return PixelRect(x: x, y: y, width: width, height: height)
     }
 
     /// Lattice of ground positions for an affine warp.
@@ -133,7 +140,7 @@ public enum GcpMesh {
         pixelSize: PixelSize,
         gridSize: Int = affineGridSize,
         sourceRect: PixelRect? = nil
-    ) throws(RectRefusal) -> [[GeoPoint]] {
+    ) throws(MeshRefusal) -> [[GeoPoint]] {
         try mesh(pixelSize: pixelSize, gridSize: gridSize, sourceRect: sourceRect) {
             transform.apply(x: $0, y: $1)
         }
@@ -150,7 +157,7 @@ public enum GcpMesh {
         pixelSize: PixelSize,
         gridSize: Int = splineGridSize,
         sourceRect: PixelRect? = nil
-    ) throws(RectRefusal) -> [[GeoPoint]] {
+    ) throws(MeshRefusal) -> [[GeoPoint]] {
         try mesh(pixelSize: pixelSize, gridSize: gridSize, sourceRect: sourceRect) {
             spline.apply(x: $0, y: $1)
         }
@@ -161,11 +168,12 @@ public enum GcpMesh {
         gridSize: Int,
         sourceRect: PixelRect?,
         project: (Double, Double) -> MercatorPoint
-    ) throws(RectRefusal) -> [[GeoPoint]] {
-        let rect = try resolve(pixelSize: pixelSize, sourceRect: sourceRect)
+    ) throws(MeshRefusal) -> [[GeoPoint]] {
         // A lattice needs at least the one cell the affine tier uses; zero
         // would divide by zero and a negative would produce nothing at all.
-        let steps = max(1, gridSize)
+        guard gridSize >= 1 else { throw .notALattice }
+        let rect = try resolve(pixelSize: pixelSize, sourceRect: sourceRect)
+        let steps = gridSize
         return (0...steps).map { row in
             let y = rect.y + rect.height * Double(row) / Double(steps)
             return (0...steps).map { col in

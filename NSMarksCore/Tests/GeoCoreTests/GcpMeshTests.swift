@@ -3,6 +3,36 @@ import Testing
 
 @testable import GeoCore
 
+/// Bilinear interpolation of one mesh cell, in the renderer's space.
+///
+/// The screen is Web Mercator scaled and translated, so the straight line a
+/// triangle draws between two vertices is straight in Mercator metres, not in
+/// degrees. Averaging latitudes instead would measure a different mesh from the
+/// one that actually gets drawn.
+enum MeshInterpolation {
+    static func point(
+        in mesh: [[GeoPoint]], atX fx: Double, y fy: Double,
+        row: Int = 0, column: Int = 0
+    ) -> GeoPoint {
+        let weighted = [
+            (mesh[row][column], (1 - fx) * (1 - fy)),
+            (mesh[row][column + 1], fx * (1 - fy)),
+            (mesh[row + 1][column], (1 - fx) * fy),
+            (mesh[row + 1][column + 1], fx * fy),
+        ].map { (WebMercator.project($0.0), $0.1) }
+        return WebMercator.unproject(
+            MercatorPoint(
+                x: weighted.reduce(0) { $0 + $1.0.x * $1.1 },
+                y: weighted.reduce(0) { $0 + $1.0.y * $1.1 }
+            )
+        )
+    }
+
+    static func centre(of mesh: [[GeoPoint]], row: Int = 0, column: Int = 0) -> GeoPoint {
+        point(in: mesh, atX: 0.5, y: 0.5, row: row, column: column)
+    }
+}
+
 @Suite("Affine mesh")
 struct AffineGcpMeshTests {
     private static let truth = GeoCore.AffineTransform(
@@ -39,16 +69,32 @@ struct AffineGcpMeshTests {
         #expect(mesh[4][2] == Self.corner(1024, 1536))
     }
 
-    /// The claim the default rests on: every interior node of a dense mesh
-    /// already lies where interpolating the coarse mesh's corners would put it.
-    /// If this ever fails the transform stopped being affine, and the default
-    /// grid size has to change with it.
+    /// The claim the default rests on: interpolating the one-cell mesh —
+    /// which is what the renderer does between vertices, in Web Mercator, not
+    /// in degrees — lands where the transform itself says the ground is.
+    ///
+    /// Comparing a dense mesh's vertex against the transform at the same pixel
+    /// would proves nothing: both sides evaluate the same expression, so the
+    /// test passes however wrong the projection is. What has to be measured is
+    /// the gap between the vertices, because that gap is the whole reason a
+    /// lattice would be needed.
     @Test func aDenserGridBuysNothing() throws {
-        let dense = try GcpMesh.latLngMesh(Self.truth, pixelSize: Self.pixelSize, gridSize: 8)
-        let midpoint = Self.corner(2048, 1536)
-        #expect(abs(dense[4][4].lat - midpoint.lat) < 1e-12)
-        #expect(abs(dense[4][4].lng - midpoint.lng) < 1e-12)
+        let coarse = try GcpMesh.latLngMesh(Self.truth, pixelSize: Self.pixelSize)
+        let interpolated = MeshInterpolation.centre(of: coarse)
+        let truth = Self.corner(2048, 1536)
+        #expect(WebMercator.groundMetres(from: interpolated, to: truth) < 1e-6)
+
+        // And at the quarter points too, so a mesh that happened to be right at
+        // its own centre and bowed either side of it would still fail.
+        for (pixel, mercator) in [(1024.0, 0.25), (3072.0, 0.75)] {
+            let along = MeshInterpolation.point(in: coarse, atX: mercator, y: mercator)
+            #expect(
+                WebMercator.groundMetres(from: along, to: Self.corner(pixel, pixel * 0.75))
+                    < 1e-6
+            )
+        }
     }
+
 
     /// A quarter-turn transform is where a mesh that quietly swaps its axes
     /// still looks plausible, because the raster's own corners come back in a
@@ -106,7 +152,7 @@ struct SourceRectangleTests {
         PixelRect(x: 0, y: 0, width: .infinity, height: 100),
     ])
     func aRectangleWithNoAreaIsRefused(rect: PixelRect) {
-        #expect(throws: GcpMesh.RectRefusal.degenerate) {
+        #expect(throws: GcpMesh.MeshRefusal.degenerate) {
             try GcpMesh.resolve(pixelSize: Self.pixelSize, sourceRect: rect)
         }
     }
@@ -122,8 +168,51 @@ struct SourceRectangleTests {
         PixelRect(x: 0, y: 3000, width: 100, height: 200),
     ])
     func aRectangleReachingPastTheRasterIsRefused(rect: PixelRect) {
-        #expect(throws: GcpMesh.RectRefusal.outsideRaster) {
+        #expect(throws: GcpMesh.MeshRefusal.outsideRaster) {
             try GcpMesh.resolve(pixelSize: Self.pixelSize, sourceRect: rect)
+        }
+    }
+
+    /// A crop narrower than the edge tolerance, sitting a hair past the right
+    /// edge, passes the tolerance check and would clamp to a negative width —
+    /// a lattice running backwards out of the raster, sampling pixels that do
+    /// not exist. Microscopic, and still not a rectangle.
+    @Test(arguments: [
+        PixelRect(x: 4096.00000005, y: 0, width: 0.00000001, height: 1),
+        PixelRect(x: 0, y: 3072.00000005, width: 1, height: 0.00000001),
+    ])
+    func aRectangleTheToleranceAdmitsCannotClampToNothing(rect: PixelRect) {
+        #expect(throws: GcpMesh.MeshRefusal.outsideRaster) {
+            try GcpMesh.resolve(pixelSize: Self.pixelSize, sourceRect: rect)
+        }
+    }
+}
+
+@Suite("Grid size")
+struct GridSizeTests {
+    /// Rounded up to one cell, a spline mesh would lose its whole bending term
+    /// — over a hundred metres on the fixture above — and report success. The
+    /// caller asked for a lattice it did not get, so it is told.
+    @Test(arguments: [0, -1, Int.min])
+    func aGridSizeBelowOneIsRefusedRatherThanRoundedUp(gridSize: Int) throws {
+        let size = PixelSize(width: 2000, height: 1700)
+        let spline = try ThinPlateSpline.solve(controlPoints: GeoreferenceFixtures.bent)
+        #expect(throws: GcpMesh.MeshRefusal.notALattice) {
+            try GcpMesh.latLngMesh(spline, pixelSize: size, gridSize: gridSize)
+        }
+        #expect(throws: GcpMesh.MeshRefusal.notALattice) {
+            try GcpMesh.latLngMesh(
+                GeoCore.AffineTransform(a: 1, b: 0, c: 0, d: 0, e: 1, f: 0),
+                pixelSize: size, gridSize: gridSize
+            )
+        }
+        #expect(throws: GcpMesh.MeshRefusal.notALattice) {
+            try RasterProjection.latLngMesh(
+                RasterProjection.EmbeddedGeoreference(
+                    crs: "EPSG:26920", geotransform: [400_000, 10, 0, 5_040_000, 0, -10]
+                ),
+                pixelSize: size, gridSize: gridSize
+            )
         }
     }
 }
@@ -197,14 +286,10 @@ struct SplineGcpMeshTests {
         let coarse = try GcpMesh.latLngMesh(spline, pixelSize: size, gridSize: 1)
         let dense = try GcpMesh.latLngMesh(spline, pixelSize: size, gridSize: 2)
 
-        // Interpolating the coarse cell's corners puts the centre here.
-        let flat = (
-            lat: (coarse[0][0].lat + coarse[0][1].lat + coarse[1][0].lat + coarse[1][1].lat) / 4,
-            lng: (coarse[0][0].lng + coarse[0][1].lng + coarse[1][0].lng + coarse[1][1].lng) / 4
-        )
-        let bent = dense[1][1]
+        // Where the renderer would put the centre from the coarse cell alone,
+        // against where the spline says the ground is.
         let missed = WebMercator.groundMetres(
-            from: GeoPoint(lat: flat.lat, lng: flat.lng), to: bent
+            from: MeshInterpolation.centre(of: coarse), to: dense[1][1]
         )
         #expect(missed > 100)
         #expect(GcpMesh.splineGridSize > 1)

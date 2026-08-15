@@ -21,6 +21,13 @@ struct RasterCoordinateSystemTests {
         "NAD83 / UTM zone 20N",
         "EPSG:",
         "",
+        // Swift's integer parsing accepts a leading sign; the web's
+        // `/^EPSG:(\d+)$/i` does not, and a file the two surfaces disagree
+        // about is worse than a file both refuse.
+        "EPSG:+26920",
+        "EPSG:-26920",
+        "EPSG:26920 20",
+        "EPSG:2692٠",  // Arabic-Indic zero: a digit to Swift, not to the web
     ])
     func aSystemOutsideTheListIsRefused(crs: String) {
         #expect(RasterProjection.CoordinateSystem(crs: crs) == nil)
@@ -83,14 +90,28 @@ struct RasterProjectionTests {
         }
     }
 
+    /// Pinned to proj4's numbers rather than round-tripped through
+    /// `WebMercator.project`. A round trip through the same helper cancels its
+    /// own mistakes: give both directions the wrong earth radius and the test
+    /// still passes while every sheet lands in the wrong place.
     @Test func webMercatorMetresComeBackAsDegrees() throws {
-        let source = GeoPoint(lat: 46.353_788, lng: -61.387_588)
-        let projected = WebMercator.project(source)
         let point = try RasterProjection.groundPosition(
-            crs: "EPSG:3857", x: projected.x, y: projected.y
+            crs: "EPSG:3857", x: -7_013_820.0, y: 5_780_000.0
         )
-        #expect(abs(point.lat - source.lat) < 1e-9)
-        #expect(abs(point.lng - source.lng) < 1e-9)
+        #expect(abs(point.lat - 45.997_820_745_048_67) < 1e-9)
+        #expect(abs(point.lng - (-63.006_217_060_631_82)) < 1e-9)
+    }
+
+    /// `WebMercator.unproject` clamps to the projection's latitude limit, so an
+    /// ordinate that is not a coordinate at all comes back looking like a
+    /// perfectly ordinary 85.05°. Checked before unprojecting, or a raster
+    /// tagged with someone else's units is drawn at the top of the world.
+    @Test func mercatorOrdinatesOutsideTheProjectedWorldAreRefused() {
+        for (x, y) in [(0.0, 100_000_000.0), (100_000_000.0, 0.0), (0.0, -30_000_000.0)] {
+            #expect(throws: RasterProjection.Refusal.invalidGeoreferencing) {
+                try RasterProjection.groundPosition(crs: "EPSG:3857", x: x, y: y)
+            }
+        }
     }
 
     private static let georeference = RasterProjection.EmbeddedGeoreference(
@@ -172,6 +193,55 @@ struct RasterProjectionTests {
                 crs: "EPSG:4326", x: -61.4, y: 460.3
             )
         }
+        // Far east of the zone the truncated series is still finite and no
+        // longer accurate — measured 154 m against proj4 at this easting.
+        #expect(throws: RasterProjection.Refusal.invalidGeoreferencing) {
+            try RasterProjection.groundPosition(
+                crs: "EPSG:26920", x: 2_000_000, y: 5_100_000
+            )
+        }
+        // Southern-hemisphere northings: these three CRSs are northern, so the
+        // false northing is zero and a negative latitude means the file is not
+        // what it says it is.
+        #expect(throws: RasterProjection.Refusal.invalidGeoreferencing) {
+            try RasterProjection.groundPosition(
+                crs: "EPSG:2962", x: 500_000, y: -1_000_000
+            )
+        }
+    }
+
+    /// The province's own sheets overrun their zone: Yarmouth is about 3.4°
+    /// west of the 63rd meridian and still ships as zone 20. The domain check
+    /// has to admit that, which is why it is five degrees and not three.
+    @Test func aSheetThatOverrunsItsZoneTheWayNovaScotiasDoIsStillPlaced() throws {
+        let yarmouth = try RasterProjection.groundPosition(
+            crs: "EPSG:26920", x: 240_000, y: 4_860_000
+        )
+        #expect(yarmouth.lng < -66)
+        #expect(yarmouth.lat > 43)
+    }
+
+    /// What no guard here can catch, recorded so nobody reads the refusals
+    /// above as more than they are: a zone-21 raster labelled zone 20 lands 6°
+    /// west — a plausible Maritime coordinate, about 470 km from the truth.
+    /// The offset from the central meridian is identical in both zones, so the
+    /// coordinate carries no evidence of which one is right; only the file's
+    /// own declaration says, and that declaration is what is wrong. It is
+    /// caught, if at all, by the user seeing the sheet land in the wrong
+    /// county.
+    @Test func aMislabelledZoneIsPlacedConfidentlyInTheWrongPlace() throws {
+        let honest = try RasterProjection.groundPosition(
+            crs: "EPSG:2962", x: 700_000, y: 5_100_000
+        )
+        let mislabelled = try RasterProjection.groundPosition(
+            crs: "EPSG:26920", x: 700_000, y: 5_100_000
+        )
+        // 1e-8° is the tolerance this file pins proj4 at throughout: about a
+        // millimetre, and this coordinate sits near the zone edge where the
+        // series is at its weakest.
+        #expect(abs(honest.lng - (-54.415_934_879_586_075)) < 1e-8)
+        #expect(abs(mislabelled.lng - (-60.415_934_879_586_075)) < 1e-8)
+        #expect(WebMercator.groundMetres(from: honest, to: mislabelled) > 400_000)
     }
 }
 
@@ -209,20 +279,30 @@ struct EmbeddedMeshTests {
             crs: "EPSG:26920", geotransform: [250_000, 100, 0, 5_100_000, 0, -100]
         )
         let size = PixelSize(width: 4000, height: 2000)
-        let coarse = try RasterProjection.latLngMesh(wide, pixelSize: size, gridSize: 1)
-        let truth = try RasterProjection.groundPosition(wide, x: 2000, y: 1000)
-        let flat = GeoPoint(
-            lat: (coarse[0][0].lat + coarse[0][1].lat
-                  + coarse[1][0].lat + coarse[1][1].lat) / 4,
-            lng: (coarse[0][0].lng + coarse[0][1].lng
-                  + coarse[1][0].lng + coarse[1][1].lng) / 4
-        )
-        #expect(WebMercator.groundMetres(from: flat, to: truth) > 100)
 
-        // And at the real grid size the same midpoint is a lattice vertex, so
-        // the bow it would have carried is gone.
+        // One cell, interpolated the way the renderer interpolates — in Web
+        // Mercator, not by averaging degrees — misses the middle of the sheet
+        // by kilometres.
+        let coarse = try RasterProjection.latLngMesh(wide, pixelSize: size, gridSize: 1)
+        let centre = try RasterProjection.groundPosition(wide, x: 2000, y: 1000)
+        #expect(
+            WebMercator.groundMetres(from: MeshInterpolation.centre(of: coarse), to: centre)
+                > 2_000
+        )
+
+        // Eight cells does not make the curve go away; it makes it small. This
+        // is measured between vertices, at the centre of one cell, because a
+        // vertex is where the mesh is exact by construction and asserting
+        // there would prove nothing about the mesh at all.
         let dense = try RasterProjection.latLngMesh(wide, pixelSize: size)
-        #expect(WebMercator.groundMetres(from: dense[4][4], to: truth) < 1e-6)
+        let insideACell = try RasterProjection.groundPosition(wide, x: 2250, y: 1125)
+        let residual = WebMercator.groundMetres(
+            from: MeshInterpolation.centre(of: dense, row: 4, column: 4), to: insideACell
+        )
+        #expect(residual < 50)
+        // And the residual is real, not zero: quoting it here so a later change
+        // that made it worse would have to change this number knowingly.
+        #expect(residual > 30)
     }
 
     @Test func onlyTheSelectedRectangleIsEvaluated() throws {
@@ -241,7 +321,7 @@ struct EmbeddedMeshTests {
     }
 
     @Test func aRectangleReachingPastTheRasterIsRefused() {
-        #expect(throws: GcpMesh.RectRefusal.outsideRaster) {
+        #expect(throws: GcpMesh.MeshRefusal.outsideRaster) {
             try RasterProjection.latLngMesh(
                 Self.georeference,
                 pixelSize: Self.pixelSize,

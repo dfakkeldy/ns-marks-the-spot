@@ -42,9 +42,15 @@ public enum RasterProjection {
         /// verified it against.
         public init?(crs: String) {
             let trimmed = crs.trimmingCharacters(in: .whitespacesAndNewlines)
+            let digits = trimmed.dropFirst(5)
             guard trimmed.count > 5,
                   trimmed.prefix(5).lowercased() == "epsg:",
-                  let code = Int(trimmed.dropFirst(5)),
+                  // Digits and nothing else. Swift's integer parsing accepts a
+                  // leading sign, so "EPSG:+26920" would otherwise come back as
+                  // zone 20 while the web's `/^EPSG:(\d+)$/i` refuses it — a
+                  // file the two surfaces disagree about.
+                  digits.allSatisfy(\.isASCII), digits.allSatisfy(\.isNumber),
+                  let code = Int(digits),
                   let system = CoordinateSystem(rawValue: code)
             else { return nil }
             self = system
@@ -124,9 +130,18 @@ public enum RasterProjection {
         case .nad83CsrsGeographic, .wgs84:
             point = GeoPoint(lat: y, lng: x)
         case .webMercator:
+            // Checked before unprojecting, not after: `unproject` clamps to the
+            // projection's latitude limit, so a northing of a hundred million
+            // would otherwise come back as a perfectly ordinary 85.05° rather
+            // than as the nonsense it is.
+            guard abs(x) <= mercatorWorldExtent, abs(y) <= mercatorWorldExtent else {
+                throw .invalidGeoreferencing
+            }
             point = WebMercator.unproject(MercatorPoint(x: x, y: y))
         case .nad83UtmZone20, .nad83CsrsUtmZone20, .nad83CsrsUtmZone21:
-            point = utmToGround(easting: x, northing: y, zone: system.utmZone ?? 20)
+            let zone = system.utmZone ?? 20
+            point = utmToGround(easting: x, northing: y, zone: zone)
+            try checkInsideZone(point, zone: zone)
         }
         // A coordinate far outside its declared zone comes back finite-looking
         // from the series but no longer means anything, so the answer is
@@ -151,8 +166,9 @@ public enum RasterProjection {
         gridSize: Int = embeddedGridSize,
         sourceRect: PixelRect? = nil
     ) throws -> [[GeoPoint]] {
+        guard gridSize >= 1 else { throw GcpMesh.MeshRefusal.notALattice }
         let rect = try GcpMesh.resolve(pixelSize: pixelSize, sourceRect: sourceRect)
-        let steps = max(1, gridSize)
+        let steps = gridSize
         var mesh = [[GeoPoint]]()
         for row in 0...steps {
             let y = rect.y + rect.height * Double(row) / Double(steps)
@@ -164,6 +180,38 @@ public enum RasterProjection {
             mesh.append(line)
         }
         return mesh
+    }
+
+    // MARK: - Domain
+
+    /// Half the width of the projected world in EPSG:3857 metres.
+    static let mercatorWorldExtent = WebMercator.earthRadiusMetres * .pi
+
+    /// How far from its zone's central meridian a coordinate may land.
+    ///
+    /// A UTM zone is 6° wide, so 3° each side, but real provincial rasters
+    /// overrun their zone: NS ships zone-20 sheets that reach Yarmouth at about
+    /// 3.4° west of the 63rd meridian. Five degrees admits that overrun and
+    /// still refuses the two things worth refusing — a zone-21 raster labelled
+    /// zone 20, which lands a full 6° out, and a coordinate so far from the
+    /// meridian that Snyder's truncated series has stopped being accurate
+    /// (PROJ puts that divergence at roughly 3°, and at 19° out it measured
+    /// 154 m against proj4).
+    static let maxDegreesFromCentralMeridian = 5.0
+
+    /// What the guard cannot do: a raster whose metadata names the wrong zone
+    /// but whose eastings still fall inside the zone it names is placed
+    /// confidently in the wrong place, about 470 km away. Nothing in the
+    /// coordinate carries the information needed to notice — only the file's
+    /// own declaration says which zone it is in, and that declaration is what
+    /// is wrong. It is caught, if at all, by the user seeing the sheet land in
+    /// the wrong county.
+    private static func checkInsideZone(_ point: GeoPoint, zone: Int) throws(Refusal) {
+        let centralMeridian = Double(zone) * 6 - 183
+        guard point.lat.isFinite, point.lng.isFinite,
+              point.lat >= 0, point.lat <= 84,
+              abs(point.lng - centralMeridian) <= maxDegreesFromCentralMeridian
+        else { throw .invalidGeoreferencing }
     }
 
     // MARK: - Transverse Mercator, inverse
