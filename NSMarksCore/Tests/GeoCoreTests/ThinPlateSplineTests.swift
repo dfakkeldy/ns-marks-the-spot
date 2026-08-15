@@ -7,19 +7,10 @@ import Testing
 /// the two surfaces refuse and accept the same control-point sets.
 @Suite("Thin-plate spline")
 struct ThinPlateSplineTests {
-    /// Eight points from a bent survey — the web's `BENT` fixture, verbatim,
-    /// because the measured separations recorded in these tests were taken
-    /// against exactly these numbers.
-    static let bent = [
-        GroundControlPoint(pixel: PixelPoint(x: 320, y: 240), map: GeoPoint(lat: 46.407181, lng: -61.530755)),
-        GroundControlPoint(pixel: PixelPoint(x: 3610, y: 300), map: GeoPoint(lat: 46.39359, lng: -61.331564)),
-        GroundControlPoint(pixel: PixelPoint(x: 2180, y: 2830), map: GeoPoint(lat: 46.270564, lng: -61.421238)),
-        GroundControlPoint(pixel: PixelPoint(x: 1870, y: 410), map: GeoPoint(lat: 46.395776, lng: -61.436675)),
-        GroundControlPoint(pixel: PixelPoint(x: 940, y: 1420), map: GeoPoint(lat: 46.344717, lng: -61.494514)),
-        GroundControlPoint(pixel: PixelPoint(x: 2650, y: 1180), map: GeoPoint(lat: 46.353788, lng: -61.387588)),
-        GroundControlPoint(pixel: PixelPoint(x: 3820, y: 2050), map: GeoPoint(lat: 46.305077, lng: -61.313447)),
-        GroundControlPoint(pixel: PixelPoint(x: 610, y: 2560), map: GeoPoint(lat: 46.284573, lng: -61.52146))
-    ]
+    /// The bent survey lives in `GeoreferenceFixtures` rather than here,
+    /// because the accuracy suite asserts measured metre figures against the
+    /// same eight points and two copies could quietly drift apart.
+    static let bent = GeoreferenceFixtures.bent
 
     /// The defining property: an interpolating spline passes through every one
     /// of its control points. A surface that merely came close would be a fit,

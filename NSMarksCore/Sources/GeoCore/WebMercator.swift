@@ -61,6 +61,15 @@ public enum WebMercator {
         let deltaLongitude = (end.lng - start.lng) * .pi / 180
         let h = pow(sin(deltaLatitude / 2), 2)
             + cos(startLatitude) * cos(endLatitude) * pow(sin(deltaLongitude / 2), 2)
-        return 2 * earthRadiusMetres * asin(min(1, sqrt(h)))
+        // The clamp keeps `asin` in domain against rounding just past 1, and it
+        // must not swallow a NaN on the way. `Swift.min(1, .nan)` returns 1 —
+        // it answers `y < x ? y : x`, and every comparison against NaN is false
+        // — where the JavaScript this is ported from returns NaN. Left as
+        // `min`, a coordinate that is not a number would come back as
+        // `asin(1)`, a confident 20 037 km, and an accuracy report would print
+        // that as a distance rather than refusing.
+        let clamped = sqrt(h)
+        guard clamped.isFinite else { return .nan }
+        return 2 * earthRadiusMetres * asin(min(1, clamped))
     }
 }
