@@ -302,3 +302,83 @@ struct PdfComposerTests {
             == "D:20250815000000+00'00'")
     }
 }
+
+@Suite("The page's QR code")
+struct PdfQrCodeTests {
+    /// A tiny stand-in for a real code: the encoder is a platform framework
+    /// and lives in the app, so what is tested here is the drawing — where the
+    /// modules land and which way up they are.
+    private static let modules: [[Bool]] = [
+        [true, true, false],
+        [false, true, false],
+        [false, false, true],
+    ]
+
+    private static let slot = PdfTemplate.SquareSlot(x: 100, y: 50, size: 70)
+
+    /// Every rectangle the content stream fills, as (x, y, width, height).
+    private static func filled(_ content: PdfContent) -> [(Double, Double, Double, Double)] {
+        String(decoding: content.data, as: UTF8.self)
+            .split(separator: "\n")
+            .filter { $0.hasSuffix(" re f") || $0.hasSuffix(" re") }
+            .compactMap { line in
+                let parts = line.split(separator: " ").compactMap { Double($0) }
+                guard parts.count == 4 else { return nil }
+                return (parts[0], parts[1], parts[2], parts[3])
+            }
+    }
+
+    /// The code stays inside the square the template gave it. A quiet zone
+    /// added outside the slot would put white paper over the block beside it,
+    /// and the layout's blocks are meant not to overlap.
+    @Test func everyModuleStaysInsideTheSlot() {
+        var content = PdfContent()
+        PdfComposer.drawQrCode(into: &content, slot: Self.slot, modules: Self.modules)
+
+        let rectangles = Self.filled(content)
+        #expect(!rectangles.isEmpty)
+        for (x, y, width, height) in rectangles {
+            #expect(x >= Self.slot.x)
+            #expect(y >= Self.slot.y)
+            #expect(x + width <= Self.slot.x + Self.slot.size + 0.001)
+            #expect(y + height <= Self.slot.y + Self.slot.size + 0.001)
+        }
+    }
+
+    /// One white square plus one rectangle per dark module — a code drawn any
+    /// other way would either lose modules or invent them.
+    @Test func oneRectangleIsDrawnPerDarkModule() {
+        var content = PdfContent()
+        PdfComposer.drawQrCode(into: &content, slot: Self.slot, modules: Self.modules)
+
+        let dark = Self.modules.flatMap(\.self).filter(\.self).count
+        #expect(Self.filled(content).count == dark + 1)
+    }
+
+    /// Modules arrive top row first and PDF counts up from the bottom of the
+    /// page. Getting this backwards mirrors the code vertically, which still
+    /// looks like a QR and scans as nothing.
+    @Test func theFirstRowOfModulesDrawsAtTheTopOfTheSlot() throws {
+        var content = PdfContent()
+        PdfComposer.drawQrCode(into: &content, slot: Self.slot, modules: Self.modules)
+
+        // Drop the white background, which covers the whole slot.
+        let squares = Self.filled(content).filter { $0.2 < Self.slot.size }
+        let highest = try #require(squares.max { $0.1 < $1.1 })
+        let lowest = try #require(squares.min { $0.1 < $1.1 })
+
+        // Row 0 is dark at its left edge; row 2 only at its right. So the
+        // highest square on the page is also the leftmost, and the lowest is
+        // the rightmost — which a vertical mirror would swap.
+        #expect(highest.0 < lowest.0)
+        #expect(highest.1 > lowest.1)
+        let moduleSize = Self.slot.size / 7
+        #expect(abs(highest.1 - (Self.slot.y + Self.slot.size - 3 * moduleSize)) < 0.001)
+    }
+
+    @Test func aPageWithNoLinkDrawsNoCode() throws {
+        var withCode = PdfContent()
+        PdfComposer.drawQrCode(into: &withCode, slot: Self.slot, modules: [])
+        #expect(withCode.data.isEmpty)
+    }
+}

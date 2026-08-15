@@ -25,6 +25,8 @@ nonisolated struct PrintExportRequest: Sendable {
     var unsupportedLayers: [LayerID] = []
     var template: PdfTemplate
     var fields: PdfComposer.Fields
+    /// Where the page's QR code should point, or nil for no code at all.
+    var shareURL: URL?
     var generatedAt: Date
 }
 
@@ -132,6 +134,12 @@ nonisolated enum PrintExport {
                     mapFrame: template.mapFrame,
                     maxWidthPoints: template.scaleBar.maxWidth
                 ),
+                // A link nobody can encode leaves the square empty rather than
+                // failing the export: the code is a shortcut back to the map,
+                // not part of what the page says.
+                qrModules: request.shareURL.flatMap {
+                    QRCodeModules.modules(for: $0.absoluteString)
+                },
                 generatedAt: request.generatedAt
             )
         )

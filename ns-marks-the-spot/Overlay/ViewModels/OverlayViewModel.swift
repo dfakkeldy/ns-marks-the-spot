@@ -1039,6 +1039,10 @@ final class OverlayViewModel {
             unsupportedLayers: unsupportedPrintLayers(within: box),
             template: template,
             fields: fields,
+            // The link this page came from, so paper leads back to the map. Read
+            // here with the rest of the snapshot: the share link encodes the
+            // view, and one read a moment later would point somewhere else.
+            shareURL: shareURL,
             generatedAt: generatedAt
         )
     }

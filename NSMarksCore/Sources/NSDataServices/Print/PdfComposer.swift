@@ -68,6 +68,16 @@ public enum PdfComposer {
         public var disclosures: [String]
         public var attributionLines: [String]
         public var scaleBar: PrintScaleBar
+        /// The QR code as its modules, row by row from the top, `true` for a
+        /// dark one. Nil draws nothing.
+        ///
+        /// A grid rather than an image, for two reasons. It draws as filled
+        /// rectangles, so the code is vector and stays sharp at any print size
+        /// rather than being resampled from a bitmap. And the encoder that made
+        /// it is a platform framework, which keeps this composer testable
+        /// without one. Nil is the ordinary case for a page with nowhere to
+        /// point at: the QR is a courtesy, never an export blocker.
+        public var qrModules: [[Bool]]?
         public var generatedAt: Date
 
         public init(
@@ -79,6 +89,7 @@ public enum PdfComposer {
             disclosures: [String] = [],
             attributionLines: [String],
             scaleBar: PrintScaleBar,
+            qrModules: [[Bool]]? = nil,
             generatedAt: Date
         ) {
             self.template = template
@@ -89,6 +100,7 @@ public enum PdfComposer {
             self.disclosures = disclosures
             self.attributionLines = attributionLines
             self.scaleBar = scaleBar
+            self.qrModules = qrModules
             self.generatedAt = generatedAt
         }
     }
@@ -271,6 +283,44 @@ public enum PdfComposer {
         content.line(from: (centreX + 4, tip - 6), to: (centreX, tip), colour: ink, width: 1.2)
     }
 
+    /// The QR code, drawn as one filled rectangle per dark module over a white
+    /// square.
+    ///
+    /// The quiet zone is inside the slot, not added around it: the layout's
+    /// blocks must not overlap, and a code that grew its own margin outward
+    /// would put white paper over whatever the template placed beside it. Two
+    /// modules of quiet zone on each side matches the web's `margin: 2`; the
+    /// module size is floored to a whole number of hundredths so a rounding
+    /// remainder cannot leave a seam between neighbouring modules.
+    static func drawQrCode(
+        into content: inout PdfContent, slot: PdfTemplate.SquareSlot, modules: [[Bool]]
+    ) {
+        guard let width = modules.first?.count, width > 0, modules.count == width else { return }
+
+        content.fillRectangle(
+            PdfRect(x: slot.x, y: slot.y, width: slot.size, height: slot.size),
+            colour: PdfColor(1, 1, 1)
+        )
+        let quietZone = 2.0
+        let moduleSize = slot.size / (Double(width) + quietZone * 2)
+        let origin = quietZone * moduleSize
+        for (row, cells) in modules.enumerated() {
+            for (column, isDark) in cells.enumerated() where isDark {
+                content.fillRectangle(
+                    PdfRect(
+                        x: slot.x + origin + Double(column) * moduleSize,
+                        // Modules arrive top row first; PDF user space counts up
+                        // from the bottom of the page.
+                        y: slot.y + origin + Double(width - row - 1) * moduleSize,
+                        width: moduleSize,
+                        height: moduleSize
+                    ),
+                    colour: PdfColor(0, 0, 0)
+                )
+            }
+        }
+    }
+
     static func drawLegend(
         into content: inout PdfContent,
         box: PdfRect,
@@ -400,6 +450,9 @@ public enum PdfComposer {
         }
         drawScaleBar(into: &content, template: template, spec: input.scaleBar)
         drawNorthArrow(into: &content, template: template)
+        if let modules = input.qrModules {
+            drawQrCode(into: &content, slot: template.qr, modules: modules)
+        }
 
         // Attribution strip — always drawn, ruled off above.
         let strip = template.attributionStrip
