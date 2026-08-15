@@ -609,6 +609,22 @@ function renderAppWithCategoriesOpen() {
   return result;
 }
 
+function setTaxSaleResearchUrl(): void {
+  window.history.replaceState(
+    null,
+    "",
+    "/?taxSale=on&mode=current&layers=modern,ns-aerial,nsprd,water-features,roads",
+  );
+}
+
+function setRestrictedGeneralShareUrl(): void {
+  window.history.replaceState(
+    null,
+    "",
+    "/?taxSale=off&layers=modern,ns-aerial,nsprd",
+  );
+}
+
 function setMatchMedia(query: string, initialMatches: boolean) {
   let matches = initialMatches;
   const listeners = new Set<(event: MediaQueryListEvent) => void>();
@@ -685,11 +701,7 @@ function storeCustomThemes(
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
-    window.history.replaceState(
-      null,
-      "",
-      "/?taxSale=on&mode=current&layers=modern,ns-aerial,nsprd,water-features,roads",
-    );
+    window.history.replaceState(null, "", "/");
     observedInteractiveMapStates.length = 0;
     lastObservedInteractiveMapState.value = null;
     vi.mocked(fetchParcels).mockResolvedValue({
@@ -775,6 +787,9 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "tax-sale layer: off",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "focus request: none",
     );
   });
 
@@ -1131,6 +1146,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("clears current and historical tax-sale filters when an off theme is applied", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
     await userEvent.click(screen.getByRole("button", {
@@ -1419,6 +1435,31 @@ describe("NS Marks The Spot Online", () => {
     expect(observedInteractiveMapStates).toEqual([
       "modern:on;ns-aerial:off;nsprd:off;roads:off;water:off;tax-sale:off",
     ]);
+  });
+
+  it("applies every built-in setup without enabling two opaque backgrounds", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    render(<App />);
+
+    const setups = [
+      ["explore-nova-scotia", "Explore Nova Scotia"],
+      ["tax-sale-research", "Tax Sale Research"],
+      ["forestry-field-access", "Forestry & Field Access"],
+      ["historical-maps", "Historical Maps"],
+      ["georeferencing", "Georeferencing"],
+    ] as const;
+
+    for (const [id, name] of setups) {
+      await userEvent.selectOptions(screen.getByLabelText("Map setup"), id);
+      const backgrounds = openLayerCategory("Background Maps");
+      const enabledOpaqueBackgrounds = [
+        within(backgrounds).getByLabelText("Modern map"),
+        within(backgrounds).getByLabelText("NS Aerial"),
+      ].filter((control) => (control as HTMLInputElement).checked);
+
+      expect(enabledOpaqueBackgrounds).toHaveLength(1);
+      expect(mapSetupStatus()).toHaveTextContent(name);
+    }
   });
 
   it("defers a restricted theme until the one licence decision", async () => {
@@ -2020,7 +2061,6 @@ describe("NS Marks The Spot Online", () => {
       polygonCount: 0,
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("buildings: off");
     await user.click(screen.getByLabelText("Buildings"));
@@ -2044,6 +2084,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("shows the modern map when continuing without Province layers", async () => {
     const user = userEvent.setup();
+    setRestrictedGeneralShareUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2114,9 +2155,6 @@ describe("NS Marks The Spot Online", () => {
     renderAppWithCategoriesOpen();
 
     await user.click(
-      screen.getByRole("button", { name: "Accept and view map layers" }),
-    );
-    await user.click(
       screen.getAllByRole("button", { name: "About this map" })[0],
     );
 
@@ -2143,6 +2181,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("reveals the privacy-minimized upcoming events after acceptance", async () => {
     const user = userEvent.setup();
+    setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2193,6 +2232,7 @@ describe("NS Marks The Spot Online", () => {
   it("makes current notices and historical records separate map modes", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
     expect(screen.getByRole("button", { name: "Current notices" })).toHaveAttribute(
@@ -2256,7 +2296,7 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?mode=current&layers=arsenic-risk-wells,uranium-risk-wells,surficial-aquifers",
+      "/?taxSale=off&mode=current&layers=arsenic-risk-wells,uranium-risk-wells,surficial-aquifers",
     );
 
     renderAppWithCategoriesOpen();
@@ -2274,7 +2314,7 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?mode=current&layers=arsenic-risk-wells,surficial-aquifers",
+      "/?taxSale=off&mode=current&layers=arsenic-risk-wells,surficial-aquifers",
     );
 
     renderAppWithCategoriesOpen();
@@ -2319,6 +2359,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps layer provenance one disclosure away without burying the live status", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern,nsprd");
     renderAppWithCategoriesOpen();
 
     openLayerCategory("Land & Property");
@@ -2353,6 +2394,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps historical records off by default and loads them on demand", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
@@ -2392,6 +2434,7 @@ describe("NS Marks The Spot Online", () => {
     const historicalRequest =
       deferred<Awaited<ReturnType<typeof fetchParcels>>>();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels)
       .mockResolvedValueOnce({ type: "FeatureCollection", features: [] })
       .mockImplementationOnce((pids, _signal, onBatch) => {
@@ -2418,6 +2461,7 @@ describe("NS Marks The Spot Online", () => {
   it("renders the official pending result without a fabricated winning bid", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
@@ -2451,6 +2495,7 @@ describe("NS Marks The Spot Online", () => {
   it("shows owner-free historical outcome and financial context for a matched PID", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
@@ -2481,18 +2526,18 @@ describe("NS Marks The Spot Online", () => {
     expect(within(inspector).queryByText(/assessed owner/i)).not.toBeInTheDocument();
   });
 
-  it("uses the parcel-first map defaults and keeps Fletcher last in Historical Maps", () => {
+  it("uses the Explore Nova Scotia defaults and keeps Fletcher last in Historical Maps", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
     renderAppWithCategoriesOpen();
 
     expect(screen.getByLabelText("Modern map")).toBeChecked();
-    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
-    expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
-    expect(screen.getByLabelText("Water features")).toBeChecked();
-    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(screen.getByLabelText("NS Aerial")).not.toBeChecked();
+    expect(screen.getByLabelText("NS Property Boundaries")).not.toBeChecked();
+    expect(screen.getByLabelText("Water features")).not.toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: on; tax-sale layer: on; Fletcher: off at 72% from no host; property boundaries: on; water: on; roads: on",
+      "modern map: on; tax-sale layer: off; Fletcher: off at 72% from no host; property boundaries: off; water: off; roads: off",
     );
 
     const layerSection = openLayerCategory("Historical Maps");
@@ -2572,6 +2617,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("lets a user who declined the Province licence still export a map", async () => {
     const user = userEvent.setup();
+    setRestrictedGeneralShareUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2597,6 +2643,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("names a visible zoning layer as absent from the export instead of dropping it silently", async () => {
     const user = userEvent.setup();
+    setRestrictedGeneralShareUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2627,6 +2674,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("credits an exported layer but not a visible layer the export omits", async () => {
     const user = userEvent.setup();
+    setRestrictedGeneralShareUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2670,6 +2718,7 @@ describe("NS Marks The Spot Online", () => {
     // carries user vector layers into the compositor, and until now
     // `omittedLayerNames` never named them either.
     const user = userEvent.setup();
+    setRestrictedGeneralShareUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2718,6 +2767,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("keeps every Province layer out of the exported PDF after declining the licence", async () => {
     const user = userEvent.setup();
+    setRestrictedGeneralShareUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -2756,10 +2806,6 @@ describe("NS Marks The Spot Online", () => {
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {
     const user = userEvent.setup();
     render(<App />);
-
-    await user.click(
-      screen.getByRole("button", { name: "Continue without Province layers" }),
-    );
 
     const groupSummary = screen.getByRole("button", {
       name: /^Geology & Resources/,
@@ -2835,10 +2881,6 @@ describe("NS Marks The Spot Online", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(
-      screen.getByRole("button", { name: "Continue without Province layers" }),
-    );
-
     const summary = screen.getByRole("button", { name: /^Forestry & Ecology/ });
     expect(summary).toHaveAttribute("aria-expanded", "false");
     const group = openLayerCategory("Forestry & Ecology");
@@ -2880,10 +2922,6 @@ describe("NS Marks The Spot Online", () => {
   it("offers the Inverness terrain pilot independently with a visible symbology key", async () => {
     const user = userEvent.setup();
     render(<App />);
-
-    await user.click(
-      screen.getByRole("button", { name: "Continue without Province layers" }),
-    );
 
     const summary = screen.getByRole("button", { name: /^Water & Terrain/ });
     expect(summary).toHaveAttribute("aria-expanded", "false");
@@ -2949,7 +2987,7 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?mode=current&layers=mineral-proximity-parcels&position=46.1,-60.9,12",
+      "/?taxSale=off&mode=current&layers=mineral-proximity-parcels&position=46.1,-60.9,12",
     );
 
     renderAppWithCategoriesOpen();
@@ -2986,7 +3024,7 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?mode=current&layers=published-river-flood-zones,coastal-flood-current&position=46.1,-60.9,12",
+      "/?taxSale=off&mode=current&layers=published-river-flood-zones,coastal-flood-current&position=46.1,-60.9,12",
     );
 
     renderAppWithCategoriesOpen();
@@ -3011,7 +3049,7 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?mode=current&layers=published-river-flood-zones&position=46.1,-60.9,12",
+      "/?taxSale=off&mode=current&layers=published-river-flood-zones&position=46.1,-60.9,12",
     );
 
     renderAppWithCategoriesOpen();
@@ -3138,6 +3176,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps an identified parcel when the initial tax-sale geometry arrives later", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     let resolveTaxSaleParcels: (
       collection: Awaited<ReturnType<typeof fetchParcels>>,
     ) => void = () => undefined;
@@ -3172,6 +3211,7 @@ describe("NS Marks The Spot Online", () => {
   it("aborts a pending map-point lookup when a PID search takes over", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
@@ -3187,7 +3227,6 @@ describe("NS Marks The Spot Online", () => {
     });
 
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
     await vi.waitFor(() => expect(pointSignal).toBeDefined());
 
@@ -3234,6 +3273,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps the completed CBRM event out of current notices", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
 
     renderAppWithCategoriesOpen();
 
@@ -3253,6 +3293,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps a blank CBRM result row unknown while linking the official result", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
@@ -3300,6 +3341,7 @@ describe("NS Marks The Spot Online", () => {
   it("shows the official road-style legend only while the road layer is visible", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern,roads");
     renderAppWithCategoriesOpen();
 
     const legend = screen.getByRole("list", { name: "Road type legend" });
@@ -3437,6 +3479,7 @@ describe("NS Marks The Spot Online", () => {
     const user = userEvent.setup();
     try {
       localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+      setTaxSaleResearchUrl();
       vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
         type: "FeatureCollection",
         features: pids.map(parcelFeature),
@@ -3466,6 +3509,7 @@ describe("NS Marks The Spot Online", () => {
   it("shows notice-AAN assessment values and five-year history without calling them a PID value", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [parcelFeature("50203256")],
@@ -3481,7 +3525,6 @@ describe("NS Marks The Spot Online", () => {
       }],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3507,6 +3550,7 @@ describe("NS Marks The Spot Online", () => {
   it("does not assign a shared notice AAN value to each PID", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [parcelFeature("50076777")],
@@ -3524,7 +3568,6 @@ describe("NS Marks The Spot Online", () => {
       }],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50076777");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3587,7 +3630,6 @@ describe("NS Marks The Spot Online", () => {
       },
     ]);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -3644,7 +3686,6 @@ describe("NS Marks The Spot Online", () => {
       new Error("dwelling source down"),
     );
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -3688,7 +3729,6 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchDwellingCharacteristics).mockResolvedValueOnce([]);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(
       screen.getByLabelText("Search by PID or civic address"),
@@ -3724,7 +3764,6 @@ describe("NS Marks The Spot Online", () => {
       ],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3748,7 +3787,6 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchParcelAssessments).mockRejectedValueOnce(new Error("offline"));
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -3760,6 +3798,7 @@ describe("NS Marks The Spot Online", () => {
   it("browses tax-sale properties and selects one parcel at a time", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
       type: "FeatureCollection",
       features: pids.map(parcelFeature),
@@ -3811,6 +3850,7 @@ describe("NS Marks The Spot Online", () => {
   it("keeps the property lists aligned with the redemption filter", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(
@@ -3929,7 +3969,6 @@ describe("NS Marks The Spot Online", () => {
       }),
     );
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4015,7 +4054,6 @@ describe("NS Marks The Spot Online", () => {
       "abandoned-mines": { status: "error", intersections: [] },
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4058,7 +4096,6 @@ describe("NS Marks The Spot Online", () => {
       ],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4082,7 +4119,6 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4121,7 +4157,6 @@ describe("NS Marks The Spot Online", () => {
       "abandoned-mines": { status: "ready", intersections: [] },
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.click(
       screen.getByLabelText("Properties within 1 km of a mineral occurrence"),
@@ -4176,7 +4211,6 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchParcelResourceIntersections).mockReturnValueOnce(resources.promise);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4233,7 +4267,6 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcelAssessments).mockReturnValueOnce(assessments.promise);
     vi.mocked(fetchDwellingCharacteristics).mockReturnValueOnce(dwellings.promise);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4291,7 +4324,6 @@ describe("NS Marks The Spot Online", () => {
       civicAddress("101", "Unit 2, 12 Main St, Mabou, Inverness County"),
     ]);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4322,7 +4354,6 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4351,7 +4382,6 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(new Error("offline"));
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4375,7 +4405,6 @@ describe("NS Marks The Spot Online", () => {
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
     ]);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4413,7 +4442,6 @@ describe("NS Marks The Spot Online", () => {
       ]);
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("2 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
     await user.type(search, "50334317");
@@ -4443,7 +4471,6 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317"), parcelFeature("50203256")],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("2 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
     await user.type(search, "50334317");
@@ -4468,6 +4495,7 @@ describe("NS Marks The Spot Online", () => {
   it("finds an archived CBRM listing only in historical-record mode", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
     await user.click(screen.getByRole("button", { name: "Historical records" }));
@@ -4505,6 +4533,7 @@ describe("NS Marks The Spot Online", () => {
   it("toggles upcoming events without mixing their PID counts", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 69;");
@@ -4532,6 +4561,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("keeps NSPRD failures visible without manufacturing geometry", async () => {
     const user = userEvent.setup();
+    setTaxSaleResearchUrl();
     vi.mocked(fetchParcels).mockRejectedValueOnce(new Error("offline"));
     renderAppWithCategoriesOpen();
 
@@ -4576,7 +4606,6 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("01234567")],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4598,11 +4627,8 @@ describe("NS Marks The Spot Online", () => {
     const user = userEvent.setup();
     const parcelLookup = deferred<{ type: "FeatureCollection"; features: ReturnType<typeof parcelFeature>[] }>();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    vi.mocked(fetchParcels)
-      .mockResolvedValueOnce({ type: "FeatureCollection", features: [] })
-      .mockReturnValueOnce(parcelLookup.promise);
+    vi.mocked(fetchParcels).mockReturnValueOnce(parcelLookup.promise);
     renderAppWithCategoriesOpen();
-    await screen.findByText("0 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4624,7 +4650,6 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("01234567")],
     });
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4661,7 +4686,7 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchParcelResourceIntersections).mockReturnValueOnce(resources.promise);
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
+    await user.click(screen.getByLabelText("Water features"));
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "01234567");
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
@@ -4698,7 +4723,6 @@ describe("NS Marks The Spot Online", () => {
       .mockReturnValueOnce(currentResources.promise);
     const initialResourceRequestCount = vi.mocked(fetchParcelResourceIntersections).mock.calls.length;
     renderAppWithCategoriesOpen();
-    await screen.findByText("1 PIDs matched in NSPRD.");
 
     const search = screen.getByLabelText("Search by PID or civic address");
     await user.type(search, "01234567");

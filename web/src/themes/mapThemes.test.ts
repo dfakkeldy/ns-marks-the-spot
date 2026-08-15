@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { builtInMapThemes, validateMapTheme } from "./mapThemes";
+import {
+  buildMapPresentationFixture,
+  builtInMapThemes,
+  validateMapTheme,
+} from "./mapThemes";
 
 describe("built-in map themes", () => {
   it("defines the approved Explore setup", () => {
@@ -113,5 +117,11 @@ describe("built-in map themes", () => {
     for (const theme of builtInMapThemes) {
       expect(validateMapTheme(theme)).toEqual([]);
     }
+  });
+
+  it("exports the native portability fixture from the registries", async () => {
+    await expect(
+      `${JSON.stringify(buildMapPresentationFixture(), null, 2)}\n`,
+    ).toMatchFileSnapshot("./fixtures/map-presentation.json");
   });
 });

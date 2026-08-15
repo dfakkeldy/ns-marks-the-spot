@@ -18,6 +18,38 @@ npm run dev
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 
+## Map setup, categories, and themes
+
+A first visit uses **Explore Nova Scotia**: the modern map is on, catalogue
+overlays are off, and **Tax Sale** is off. Layer controls are organized into ten
+collapsible categories: **Background Maps**, **Land & Property**,
+**Roads & Places**, **Water & Terrain**, **Environment & Hazards**,
+**Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
+**Tax Sale**, and **My Maps**.
+
+The five built-in map setups are **Explore Nova Scotia**,
+**Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**, and
+**Georeferencing**. Applying a setup replaces the catalogue-layer configuration
+coherently; it does not remove or change imported maps or data.
+
+Custom themes are stored only in this browser's `localStorage`. They can save
+visible catalogue-layer IDs, supported opacity overrides, preferred categories,
+Tax Sale on/off, and current/historical mode. They do not save the selected PID,
+inspector or evidence contents, search text, map position, browser location,
+dated tax-sale event IDs or filters, licence/location permissions, or imported
+map bytes, object references, and file paths. There are no accounts or theme
+synchronization in this release.
+
+New share links write `taxSale=on` or `taxSale=off` explicitly. For backward
+compatibility, a legacy link with `mode` or `event` but no `taxSale` parameter
+still enables Tax Sale; exact shared state takes precedence over local custom
+theme storage.
+
+The generated web-to-native category and built-in-theme contract is
+[`src/themes/fixtures/map-presentation.json`](src/themes/fixtures/map-presentation.json).
+It is intended for later Swift parity work. This first release does not modify
+the iPhone app or transfer custom themes between web and iPhone.
+
 ## Share card
 
 `index.html` declares Open Graph/Twitter tags pointing at

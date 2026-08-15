@@ -1,5 +1,8 @@
 import {
   isLayerCategoryId,
+  layerCategories,
+  layerIdsForCategory,
+  type CategorizedLayerId,
   type LayerCategoryId,
 } from "../layers/layerCategories";
 import {
@@ -32,6 +35,23 @@ export interface MapThemeDefinition extends MapThemeState {
 
 export interface CustomMapThemeDefinition extends MapThemeDefinition {
   readonly kind: "custom";
+}
+
+export interface MapPresentationFixture {
+  version: 1;
+  categories: Array<{
+    id: LayerCategoryId;
+    name: string;
+    layerIds: CategorizedLayerId[];
+  }>;
+  builtInThemes: Array<{
+    id: BuiltInMapThemeId;
+    name: string;
+    layerIds: ShareLayerId[];
+    preferredCategoryIds: LayerCategoryId[];
+    taxSaleEnabled: boolean;
+    mapMode: MapMode;
+  }>;
 }
 
 export const builtInMapThemes = [
@@ -91,6 +111,27 @@ export const builtInMapThemes = [
     mapMode: "current",
   },
 ] as const satisfies readonly MapThemeDefinition[];
+
+export function buildMapPresentationFixture(): MapPresentationFixture {
+  return {
+    version: 1,
+    categories: layerCategories.map(({ id, name }) => ({
+      id,
+      name,
+      layerIds: id === "tax-sale" || id === "my-maps"
+        ? []
+        : layerIdsForCategory(id),
+    })),
+    builtInThemes: builtInMapThemes.map((theme) => ({
+      id: theme.id,
+      name: theme.name,
+      layerIds: [...theme.layerIds],
+      preferredCategoryIds: [...theme.preferredCategoryIds],
+      taxSaleEnabled: theme.taxSaleEnabled,
+      mapMode: theme.mapMode,
+    })),
+  };
+}
 
 export function validateMapTheme(theme: MapThemeDefinition): string[] {
   const errors: string[] = [];
