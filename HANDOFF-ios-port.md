@@ -581,3 +581,30 @@ Next action: port web/src/print/pdf/geoRegistration.ts and pdfComposer.ts into
 NSMarksCore/Sources/NSDataServices/Print/, with tests that parse the emitted
 bytes back.
 ```
+
+## 2026-08-15 — Phase 7: the whole page composes and reads as a GeoPDF
+
+Done: PdfWriter + GeoPdfRegistration (8aa0e1f72), PdfFont/PdfContent/PdfComposer
+(4cca6fb14), attribution grouping + resolution ladder (51bacdd8a). 522 package
+tests pass in ~0.4 s. Checked outside the app: `gdalinfo /tmp/page.pdf` reads
+ground coordinates with no warnings, `pdftotext` recovers the text, and the
+rasterized page was looked at. GDAL caught three registration defects the
+CoreGraphics round-trip could not see — all three are still live in the web's
+geoRegistration.ts and are filed as a separate task.
+
+Next: the app side of Phase 7. Nothing of it exists yet — the print frame
+overlay on the map, capturing the map raster at the chosen dpi, the export
+dialog, and sharing the finished PDF. The open question to settle first is how
+the raster is captured: MKMapSnapshotter renders the base map but not overlays,
+so tile and vector layers have to be drawn on top, and a page whose legend
+names a layer the raster does not contain would break the evidence contract.
+Build gate was GO at the time of writing.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: design the map-raster capture for print — MKMapSnapshotter for the
+base plus explicit tile/vector overlay drawing — then wire the print frame,
+export dialog, and share to PdfComposer.compose.
+```
