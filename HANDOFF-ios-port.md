@@ -608,3 +608,30 @@ Next action: design the map-raster capture for print — MKMapSnapshotter for th
 base plus explicit tile/vector overlay drawing — then wire the print frame,
 export dialog, and share to PdfComposer.compose.
 ```
+
+## 2026-08-15 — Phase 7 app side written, unbuilt
+
+Done: `PrintMapCompositor` (MKMapSnapshotter base + tiles + parcel outlines,
+per-layer drawn/partial/failed outcomes, tiles fetched through the map's own
+overlays so the export cannot bypass the licence clearance),
+`TileRequestFactory.exportRequest` (one whole-frame `/export` render per
+Province layer instead of ~200 tile renders, size-capped and licence-gated),
+`PrintExportPlan` (frame grows to the paper rather than cropping; a layer that
+failed is kept out of the legend, out of the attribution strip, and named in
+words under the notes), `PrintExport`, `PrintExportSheet`, and a printer button
+on the map. 534 package tests pass. App-target tests written but **never
+compiled** — build gate has been HOLD (outside window) all session; opens
+22:00. Everything is `swiftc -parse` clean only.
+
+Next: spend the 22:00 admission on the app test target, fix what the compiler
+finds (the untested assumption is that UIKit drawing from `nonisolated static
+async` passes strict concurrency), then verify a real export in the simulator.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper and fix the compile errors in the new
+ns-marks-the-spot/Print/ files.
+```
