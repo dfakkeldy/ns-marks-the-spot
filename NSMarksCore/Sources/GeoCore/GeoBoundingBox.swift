@@ -16,7 +16,7 @@ import Foundation
 /// Antimeridian-crossing boxes are out of scope: everything this app draws is
 /// in Nova Scotia, and modelling the wrap would add a case no call site here
 /// can exercise.
-public struct GeoBoundingBox: Hashable, Sendable {
+public struct GeoBoundingBox: Hashable, Sendable, Codable {
     public var south: Double
     public var west: Double
     public var north: Double
