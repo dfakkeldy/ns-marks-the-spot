@@ -11,6 +11,21 @@ public struct CanvasPoint: Hashable, Sendable {
     }
 }
 
+/// A rectangle of the drawing surface, in the same units as `CanvasPoint`.
+public struct CanvasRect: Hashable, Sendable {
+    public var x: Double
+    public var y: Double
+    public var width: Double
+    public var height: Double
+
+    public init(x: Double, y: Double, width: Double, height: Double) {
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+    }
+}
+
 /// A source triangle and where on the canvas it goes.
 public struct MeshTriangle: Hashable, Sendable {
     public var source: (PixelPoint, PixelPoint, PixelPoint)
@@ -141,13 +156,20 @@ public enum WarpMesh {
         }
     }
 
-    /// Whether a triangle can put ink on a canvas of this size.
+    /// Whether a triangle can put ink inside `rect`.
     ///
     /// The bounding box is grown by the overdraw first: a triangle whose raw
-    /// box ends a pixel off-canvas still paints its overdraw ring, and culling
-    /// it would leave a visible notch along the edge of the sheet.
-    public static func isOnCanvas(
-        _ triangle: MeshTriangle, canvasWidth: Double, canvasHeight: Double
+    /// box ends a pixel outside still paints its overdraw ring there, and
+    /// culling it would leave a visible notch along the edge of the sheet.
+    ///
+    /// `overdraw` is in the same units as the rectangle, which is why it is a
+    /// parameter rather than the constant. A canvas measures in device pixels;
+    /// a MapKit overlay renderer measures in map points, where two device
+    /// pixels is two divided by the zoom scale.
+    public static func intersects(
+        _ triangle: MeshTriangle,
+        rect: CanvasRect,
+        overdraw: Double = clipOverdrawDevicePixels
     ) -> Bool {
         let xs = [triangle.destination.0.x, triangle.destination.1.x, triangle.destination.2.x]
         let ys = [triangle.destination.0.y, triangle.destination.1.y, triangle.destination.2.y]
@@ -155,15 +177,16 @@ public enum WarpMesh {
               let minY = ys.min(), let maxY = ys.max(),
               minX.isFinite, maxX.isFinite, minY.isFinite, maxY.isFinite
         else { return false }
-        let grow = clipOverdrawDevicePixels
-        return maxX + grow > 0 && maxY + grow > 0
-            && minX - grow < canvasWidth && minY - grow < canvasHeight
+        return maxX + overdraw > rect.x && maxY + overdraw > rect.y
+            && minX - overdraw < rect.x + rect.width
+            && minY - overdraw < rect.y + rect.height
     }
 
     /// The clip path for one triangle: its vertices pushed out from the
     /// centroid, so neighbours overlap rather than leaving a hairline seam.
     public static func clipPath(
-        for triangle: MeshTriangle
+        for triangle: MeshTriangle,
+        overdraw: Double = clipOverdrawDevicePixels
     ) -> (CanvasPoint, CanvasPoint, CanvasPoint) {
         let (d0, d1, d2) = triangle.destination
         let cx = (d0.x + d1.x + d2.x) / 3
@@ -177,8 +200,8 @@ public enum WarpMesh {
             let length = (dx * dx + dy * dy).squareRoot()
             guard length > 0 else { return point }
             return CanvasPoint(
-                x: point.x + dx / length * clipOverdrawDevicePixels,
-                y: point.y + dy / length * clipOverdrawDevicePixels
+                x: point.x + dx / length * overdraw,
+                y: point.y + dy / length * overdraw
             )
         }
         return (grown(d0), grown(d1), grown(d2))

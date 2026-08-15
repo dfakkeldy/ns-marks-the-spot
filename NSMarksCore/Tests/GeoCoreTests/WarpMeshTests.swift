@@ -260,15 +260,15 @@ struct WarpCullingTests {
 
     @Test func aTriangleWellOffTheCanvasIsCulled() {
         #expect(
-            !WarpMesh.isOnCanvas(
+            !WarpMesh.intersects(
                 Self.triangle([(-500, -500), (-480, -500), (-500, -480)]),
-                canvasWidth: 400, canvasHeight: 300
+                rect: CanvasRect(x: 0, y: 0, width: 400, height: 300)
             )
         )
         #expect(
-            !WarpMesh.isOnCanvas(
+            !WarpMesh.intersects(
                 Self.triangle([(900, 10), (920, 10), (900, 30)]),
-                canvasWidth: 400, canvasHeight: 300
+                rect: CanvasRect(x: 0, y: 0, width: 400, height: 300)
             )
         )
     }
@@ -280,24 +280,24 @@ struct WarpCullingTests {
     /// which is most of the time.
     @Test func aTriangleJustOffTheEdgeStillPaintsItsOverdrawRing() {
         #expect(
-            WarpMesh.isOnCanvas(
+            WarpMesh.intersects(
                 Self.triangle([(-21, 10), (-1.5, 10), (-21, 30)]),
-                canvasWidth: 400, canvasHeight: 300
+                rect: CanvasRect(x: 0, y: 0, width: 400, height: 300)
             )
         )
         #expect(
-            WarpMesh.isOnCanvas(
+            WarpMesh.intersects(
                 Self.triangle([(401.5, 10), (420, 10), (401.5, 30)]),
-                canvasWidth: 400, canvasHeight: 300
+                rect: CanvasRect(x: 0, y: 0, width: 400, height: 300)
             )
         )
     }
 
     @Test func aTriangleWithNoFinitePositionIsNotDrawn() {
         #expect(
-            !WarpMesh.isOnCanvas(
+            !WarpMesh.intersects(
                 Self.triangle([(.nan, 10), (20, 10), (0, 30)]),
-                canvasWidth: 400, canvasHeight: 300
+                rect: CanvasRect(x: 0, y: 0, width: 400, height: 300)
             )
         )
     }

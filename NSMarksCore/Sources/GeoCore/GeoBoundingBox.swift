@@ -83,4 +83,37 @@ public struct GeoBoundingBox: Hashable, Sendable {
         }
         return result
     }
+
+    /// The smallest box holding every point, or `nil` when the sequence is
+    /// empty or any point is not a place.
+    ///
+    /// One bad vertex refuses the whole box rather than being skipped. This is
+    /// how a warped raster gets the rectangle MapKit culls it against, and a
+    /// box computed from the survivors of a mesh with a NaN in it would be a
+    /// confident rectangle around a sheet that draws with a hole in it — the
+    /// wrong thing to look correct.
+    ///
+    /// Every vertex is read, not just the four corners: a warped sheet's edges
+    /// bow outward, and a box drawn to the corners alone clips the bulge.
+    public static func covering<S: Sequence<GeoPoint>>(_ points: S) -> GeoBoundingBox? {
+        var result: GeoBoundingBox?
+        for point in points {
+            guard point.lat.isFinite, point.lng.isFinite,
+                  abs(point.lat) <= 90, abs(point.lng) <= 180
+            else { return nil }
+            guard let current = result else {
+                result = GeoBoundingBox(
+                    south: point.lat, west: point.lng, north: point.lat, east: point.lng
+                )
+                continue
+            }
+            result = GeoBoundingBox(
+                south: Swift.min(current.south, point.lat),
+                west: Swift.min(current.west, point.lng),
+                north: Swift.max(current.north, point.lat),
+                east: Swift.max(current.east, point.lng)
+            )
+        }
+        return result
+    }
 }

@@ -582,6 +582,10 @@ extension MapController: MKMapViewDelegate {
             return Self.renderer(for: parcel)
         }
 
+        if let userMap = overlay as? UserMapOverlay {
+            return UserMapOverlayRenderer(userMap: userMap)
+        }
+
         if let feature = overlay as? FeaturePolygon {
             let renderer = MKPolygonRenderer(polygon: feature)
             Self.apply(feature.style, to: renderer)
