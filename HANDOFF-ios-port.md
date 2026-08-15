@@ -808,3 +808,40 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — The app target compiles, and can be checked without the gate
+
+Done: `Scripts/typecheck-ios.sh`. It cross-compiles NSMarksCore for the
+simulator triple and runs the real type-checker over the app and unit-test
+sources with the six flags the target uses — `-default-isolation MainActor`
+above all, without which every isolation error in the app target stays
+invisible. No binary, under a minute, so it is not what the build gate exists
+to serialize. Phases 7, 8 and 9 had never been type-checked at all; `-parse`
+sees syntax and nothing else.
+
+Four errors it found and fixed: `var rect = rect` shadowing its own `let` in
+`focus(on:)`, a missing `import GeoCore` in MapContainerView,
+`identifiedFeatures` (no such property) in `bounds(forPIDs:)`, and
+`onEditLayer`/`onNewDrawingLayer` passed in the wrong order. Two expressions
+also defeated the type-checker outright: MapContainerView's 520-line body, now
+split into the map, its lifecycle and its sheets, and a `.secondary : .red`
+ternary between a hierarchical style and a colour. App + tests: 0 errors,
+8 warnings. Package: 863 tests, 120 suites.
+
+Codex was asked for the same thing in parallel and produced nothing usable —
+it read files for 27k lines and died. The compiler is the authority here.
+
+Next: the gated `xcodebuild test` run is now worth an admission for the first
+time — it will fail on behaviour, not on typos. Gate still HOLD (weekend, so
+22:00; a manual Xcode build is also holding the slot).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: run ./Scripts/typecheck-ios.sh first (seconds, no gate); then when
+xcode-build-slot.sh --status reads GO, spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
+```
