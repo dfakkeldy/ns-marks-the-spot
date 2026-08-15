@@ -3,7 +3,10 @@ import userEvent from "@testing-library/user-event";
 import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
-import { PROVINCE_ATTRIBUTION } from "./licensing/provinceLicense";
+import {
+  PROVINCE_ATTRIBUTION,
+  PROVINCE_LICENSE_ACCEPTANCE_KEY,
+} from "./licensing/provinceLicense";
 import { matchedHistoricalPids } from "./data/historicalTaxSales";
 import { buildEvidenceNote } from "./services/evidenceNote";
 import {
@@ -72,6 +75,7 @@ vi.mock("./components/MapCanvas", () => ({
     fletcherOpacity,
     fletcherTileBaseUrl,
     showModernMap,
+    showTaxSale,
     showHistoricalTaxSales,
     initialPosition,
     preserveInitialPosition,
@@ -101,6 +105,7 @@ vi.mock("./components/MapCanvas", () => ({
     fletcherOpacity?: number;
     fletcherTileBaseUrl?: string | null;
     showModernMap: boolean;
+    showTaxSale: boolean;
     showHistoricalTaxSales: boolean;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
     preserveInitialPosition?: boolean;
@@ -176,7 +181,8 @@ vi.mock("./components/MapCanvas", () => ({
     return (
     <div data-testid="map-canvas">
       Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
-      modern map: {showModernMap ? "on" : "off"}; Fletcher:{" "}
+      modern map: {showModernMap ? "on" : "off"}; tax-sale layer:{" "}
+      {showTaxSale ? "on" : "off"}; Fletcher:{" "}
       {fletcherVisible ? "on" : "off"} at{" "}
       {Math.round((fletcherOpacity ?? 0) * 100)}% from{" "}
       {fletcherTileBaseUrl ?? "no host"}; property boundaries:{" "}
@@ -466,7 +472,7 @@ function deferred<T>() {
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
-    window.history.replaceState(null, "", "/");
+    window.history.replaceState(null, "", "/?mode=current");
     vi.mocked(fetchParcels).mockResolvedValue({
       type: "FeatureCollection",
       features: [],
@@ -529,6 +535,28 @@ describe("NS Marks The Spot Online", () => {
     vi.useRealTimers();
     vi.unstubAllGlobals();
     vi.unstubAllEnvs();
+  });
+
+  it("starts with Explore Nova Scotia and performs no tax-sale geometry request", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(new URL(window.location.href).searchParams.get("taxSale"))
+        .toBe("off");
+    });
+    expect(fetchParcels).not.toHaveBeenCalled();
+    expect(
+      screen.getByRole("heading", { name: "Explore Nova Scotia" }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Map PID count: 0",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "tax-sale layer: off",
+    );
   });
 
   it("requires licence acceptance before enabling Province map layers", () => {
@@ -1032,7 +1060,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Water features")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: on; Fletcher: off at 72% from no host; property boundaries: on; water: on; roads: on",
+      "modern map: on; tax-sale layer: on; Fletcher: off at 72% from no host; property boundaries: on; water: on; roads: on",
     );
 
     const layerSection = screen.getByRole("region", { name: "Map layers" });

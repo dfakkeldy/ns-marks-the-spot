@@ -42,6 +42,7 @@ export type MapPosition = {
 };
 
 export type MapShareState = {
+  taxSaleEnabled: boolean;
   mode: MapMode;
   pid: string | null;
   eventIds: string[];
@@ -106,6 +107,12 @@ function parsePosition(value: string | null): MapPosition {
 
 export function parseMapShareState(value: string): MapShareState {
   const url = new URL(value, "https://example.invalid");
+  const explicitTaxSale = url.searchParams.get("taxSale");
+  const taxSaleEnabled = explicitTaxSale === "on"
+    ? true
+    : explicitTaxSale === "off"
+      ? false
+      : url.searchParams.has("mode") || url.searchParams.has("event");
   const mode = url.searchParams.get("mode") === "historical"
     ? "historical"
     : "current";
@@ -117,12 +124,27 @@ export function parseMapShareState(value: string): MapShareState {
     .filter(isShareLayerId);
 
   return {
+    taxSaleEnabled,
     mode,
     pid: normalizePid(url.searchParams.get("pid") ?? ""),
     eventIds,
     layerIds,
     position: parsePosition(url.searchParams.get("position")),
   };
+}
+
+const recognizedShareKeys = [
+  "taxSale",
+  "mode",
+  "event",
+  "pid",
+  "layers",
+  "position",
+] as const;
+
+export function hasRecognizedMapShareState(value: string): boolean {
+  const url = new URL(value, "https://example.invalid");
+  return recognizedShareKeys.some((key) => url.searchParams.has(key));
 }
 
 function compactCoordinate(value: number): string {
@@ -136,11 +158,12 @@ export function buildMapShareUrl(
   const url = new URL(baseUrl);
   url.search = "";
   url.hash = "";
+  url.searchParams.set("taxSale", state.taxSaleEnabled ? "on" : "off");
   url.searchParams.set("mode", state.mode);
   if (state.pid) {
     url.searchParams.set("pid", state.pid);
   }
-  if (state.eventIds.length > 0) {
+  if (state.taxSaleEnabled && state.eventIds.length > 0) {
     url.searchParams.set("event", state.eventIds.join(","));
   }
   url.searchParams.set("layers", state.layerIds.join(","));

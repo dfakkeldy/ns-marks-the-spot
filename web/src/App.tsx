@@ -200,6 +200,7 @@ const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
   features: [],
 };
+const EMPTY_PID_SET = new Set<string>();
 
 /**
  * Stable identities for the idle session. Fresh literals here would give the
@@ -775,6 +776,9 @@ export function App() {
       : null,
   });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
+  const [taxSaleEnabled, setTaxSaleEnabled] = useState(
+    initialShareState.taxSaleEnabled,
+  );
   const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
     position: initialShareState.position,
     bounds: {
@@ -1108,13 +1112,16 @@ export function App() {
   const [layerStatuses, setLayerStatuses] = useState(initialLayerStatuses);
   const [selectedEventIds, setSelectedEventIds] = useState(
     () => new Set(
-      hasSharedEvents
-        ? initialShareState.eventIds
-        : upcomingTaxSaleEvents.map(({ id }) => id),
+      taxSaleEnabled
+        ? hasSharedEvents
+          ? initialShareState.eventIds
+          : upcomingTaxSaleEvents.map(({ id }) => id)
+        : [],
     ),
   );
   const [taxSaleFilter, setTaxSaleFilter] = useState<TaxSaleFilter>("all");
-  const showHistoricalTaxSales = mapMode === "historical";
+  const showHistoricalTaxSales =
+    taxSaleEnabled && mapMode === "historical";
   const [historicalMunicipality, setHistoricalMunicipality] = useState("all");
   const [historicalYear, setHistoricalYear] = useState("all");
   const [historicalOutcome, setHistoricalOutcome] =
@@ -1122,6 +1129,18 @@ export function App() {
   const [historicalParcelMessage, setHistoricalParcelMessage] = useState<
     string | null
   >(null);
+  const disableTaxSale = useCallback(() => {
+    setTaxSaleEnabled(false);
+    setSelectedEventIds(new Set());
+    setTaxSaleFilter("all");
+    setHistoricalMunicipality("all");
+    setHistoricalYear("all");
+    setHistoricalOutcome("all");
+    setHistoricalParcelMessage(null);
+  }, []);
+  // Theme commits and the master control consume this transition in Tasks 5
+  // and 8. Keep the complete transition local to App in the meantime.
+  void disableTaxSale;
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const printCaptureSequence = useRef(0);
@@ -1150,7 +1169,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (!licenceAccepted) {
+    if (!licenceAccepted || !taxSaleEnabled) {
       return;
     }
 
@@ -1172,7 +1191,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted]);
+  }, [licenceAccepted, taxSaleEnabled]);
 
   useEffect(() => {
     if (
@@ -1204,7 +1223,7 @@ export function App() {
   }, [licenceAccepted, parcels.features, selectedPid]);
 
   useEffect(() => {
-    if (!licenceAccepted || !showHistoricalTaxSales) {
+    if (!licenceAccepted || !taxSaleEnabled || !showHistoricalTaxSales) {
       historicalLoadAttempted.current = false;
       setHistoricalParcelMessage(null);
       return;
@@ -1276,7 +1295,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, showHistoricalTaxSales]);
+  }, [licenceAccepted, showHistoricalTaxSales, taxSaleEnabled]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -1891,7 +1910,7 @@ export function App() {
     }
   };
 
-  const selectedListingContext = selectedPid && mapMode === "current"
+  const selectedListingContext = taxSaleEnabled && selectedPid && mapMode === "current"
     ? listingContextForPid(selectedPid)
     : undefined;
   const selectedHistoricalContexts = useMemo(
@@ -1958,10 +1977,12 @@ export function App() {
     wellLogLayers,
   ]);
   const printEventIds = useMemo(
-    () => mapMode === "current"
-      ? Array.from(selectedEventIds)
-      : Array.from(new Set(selectedHistoricalContexts.map(({ event }) => event.id))),
-    [mapMode, selectedEventIds, selectedHistoricalContexts],
+    () => !taxSaleEnabled
+      ? []
+      : mapMode === "current"
+        ? Array.from(selectedEventIds)
+        : Array.from(new Set(selectedHistoricalContexts.map(({ event }) => event.id))),
+    [mapMode, selectedEventIds, selectedHistoricalContexts, taxSaleEnabled],
   );
   const printEvents = useMemo(
     () => mapMode === "current"
@@ -2100,13 +2121,16 @@ export function App() {
   ]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
+      taxSaleEnabled,
       mode: mapMode,
       pid: selectedPid,
-      eventIds: mapMode === "current"
-        ? Array.from(selectedEventIds)
-        : Array.from(
-            new Set(selectedHistoricalContexts.map(({ event }) => event.id)),
-          ),
+      eventIds: taxSaleEnabled
+        ? mapMode === "current"
+          ? Array.from(selectedEventIds)
+          : Array.from(
+              new Set(selectedHistoricalContexts.map(({ event }) => event.id)),
+            )
+        : [],
       layerIds: activeLayerIds,
       position: mapViewport.position,
     }),
@@ -2117,6 +2141,7 @@ export function App() {
       selectedEventIds,
       selectedHistoricalContexts,
       selectedPid,
+      taxSaleEnabled,
     ],
   );
 
@@ -2144,13 +2169,15 @@ export function App() {
       capturedAt: new Date().toISOString(),
       pid: selectedPid,
       evidenceRequest: selectedEvidenceRequest,
+      taxSaleEnabled,
       mode: mapMode,
       eventIds: printEventIds,
       events: printEvents,
       selectedParcelGeometry,
       mapParcels: parcels,
-      taxSalePids: Array.from(filteredTaxSalePids),
-      historicalTaxSalePids: Array.from(filteredHistoricalPids),
+      taxSalePids: taxSaleEnabled ? Array.from(filteredTaxSalePids) : [],
+      historicalTaxSalePids:
+        taxSaleEnabled ? Array.from(filteredHistoricalPids) : [],
       viewport: mapViewport,
       layerIds: captureLayerIds,
       wellLogAccuracyFilter,
@@ -3211,8 +3238,10 @@ export function App() {
           </div>
           <MapCanvas
             parcels={parcels}
-            taxSalePids={filteredTaxSalePids}
-            historicalTaxSalePids={filteredHistoricalPids}
+            taxSalePids={taxSaleEnabled ? filteredTaxSalePids : EMPTY_PID_SET}
+            historicalTaxSalePids={
+              taxSaleEnabled ? filteredHistoricalPids : EMPTY_PID_SET
+            }
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
             resourceLayers={effectiveResourceLayers}
@@ -3245,10 +3274,13 @@ export function App() {
             georeference={georeferenceBinding}
             showModernMap={showModernMap}
             showTaxSale={
-              licenceAccepted && mapMode === "current" && selectedEventIds.size > 0
+              taxSaleEnabled &&
+              licenceAccepted &&
+              mapMode === "current" &&
+              selectedEventIds.size > 0
             }
             showHistoricalTaxSales={
-              licenceAccepted && showHistoricalTaxSales
+              taxSaleEnabled && licenceAccepted && showHistoricalTaxSales
             }
             onSelectPid={selectParcel}
             onIdentifyParcel={(latitude, longitude) => {
