@@ -163,8 +163,6 @@ describe("print documents", () => {
         snapshot={snapshot({
           taxSaleEnabled: false,
           mode: "current",
-          eventIds: [],
-          events: [],
         })}
         map={map}
         includeAerial={false}
@@ -182,7 +180,9 @@ describe("print documents", () => {
     expect(container).not.toHaveTextContent("Current map state");
     expect(container).not.toHaveTextContent("Historical map state");
     expect(container).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(container).not.toHaveTextContent("Listed in official notice");
     expect(screen.getByText("PID 01234567")).toBeInTheDocument();
+    expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     const legend = screen.getByLabelText("Active map layers");
     expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
     expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
@@ -196,8 +196,6 @@ describe("print documents", () => {
         snapshot={snapshot({
           taxSaleEnabled: false,
           mode: "historical",
-          eventIds: [],
-          events: [],
           template: "field",
         })}
         map={map}
@@ -215,6 +213,8 @@ describe("print documents", () => {
     expect(container).not.toHaveTextContent("Current map state");
     expect(container).not.toHaveTextContent("Historical map state");
     expect(container).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(container).not.toHaveTextContent("Listed in official notice");
+    expect(screen.getByText("PID 01234567")).toBeInTheDocument();
     expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     const legend = screen.getByLabelText("Active map layers");
     expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();

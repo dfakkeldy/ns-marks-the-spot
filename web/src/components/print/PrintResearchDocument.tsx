@@ -425,10 +425,12 @@ export function PrintCaptureContext({ snapshot }: { snapshot: PrintSnapshot }) {
   for (const event of snapshot.events) {
     if (!eventsById.has(event.id)) eventsById.set(event.id, event);
   }
-  const selectedEvents = [...new Set(snapshot.eventIds)].flatMap((id) => {
-    const event = eventsById.get(id);
-    return event ? [event] : [];
-  });
+  const selectedEvents = snapshot.taxSaleEnabled
+    ? [...new Set(snapshot.eventIds)].flatMap((id) => {
+        const event = eventsById.get(id);
+        return event ? [event] : [];
+      })
+    : [];
   return (
     <div className="print-capture-context">
       <span>{mode}</span>
