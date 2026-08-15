@@ -785,3 +785,26 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — Deferred Phase 4 item: tax-sale overview markers
+
+Done: listed parcels now show as markers at zoom 11 and below, where the
+polygons are sub-pixel and the province-wide view showed nothing at all where a
+sale was. `ParcelMarkers.representativePoint` in GeoCore picks the centroid of
+the largest outer ring — not the mean of the parts, which lands on the road that
+split them (863 tests, 120 suites). App target: `ParcelOverviewMarker`,
+red for current sales and purple for historical, installed and removed only on
+the zoom-11 threshold crossing; tapping one selects the parcel. The opening view
+now fits the advertised parcels once, capped at zoom 13.
+
+Next: unchanged — the gate is still HOLD and nothing in Phases 7, 8 or 9 has
+been type-checked. A Codex pass looking only for compile errors across the
+never-compiled files is running while the gate is shut.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
