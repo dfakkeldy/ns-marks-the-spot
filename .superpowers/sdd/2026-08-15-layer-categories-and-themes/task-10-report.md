@@ -184,3 +184,68 @@ Rendered QA used the in-app Chromium browser, not Safari or Firefox. Manual
 request-level network instrumentation was unavailable in that browser runtime;
 the exact default-off fetch and focus behavior remains locked by the passing App
 acceptance test.
+
+## Fix Round 1 — explicit non-tax URL intent
+
+Review found one generic concurrency test using `setTaxSaleResearchUrl()` and
+four non-tax layer-only shares whose source URLs omitted `taxSale=off`. The
+concurrency test now starts from explicit `/`; its map-point/PID abort behavior
+no longer creates unrelated notice geometry or event fetches. The four reviewed
+shares explicitly say `taxSale=off` and assert the rendered Tax Sale control or
+map state remains off.
+
+The complete direct-URL audit also found three general `layers=modern` cases.
+Those now say `taxSale=off` as well. Every remaining
+`setTaxSaleResearchUrl()` call belongs to a test whose named behavior requires
+current/historical tax-sale notices, results, filters, geometry, or failures.
+Every direct non-tax `layers=` URL is explicit off. The only direct layer share
+without `taxSale` is the intentional compatibility case; its test is now named
+`restores mode, PID, layers, and position from a legacy mode/event URL` and
+asserts that the parameter-absent legacy URL enables the Tax Sale control.
+
+Test-quality evidence:
+
+- RED:
+  - added a real rendered assertion that Tax Sale stays unchecked in
+    `aborts a pending map-point lookup when a PID search takes over`;
+  - the focused test failed because the research helper genuinely rendered
+    `Show tax-sale information` checked.
+- GREEN:
+  - replaced the unrelated research helper with `/`;
+  - the focused concurrency case passed.
+- Characterization:
+  - the four layer-only shares already rendered Tax Sale off before their URL
+    strings were made explicit, so their new off/unchecked assertions passed
+    before the URL edit. This is intentional characterization of existing
+    behavior, not a claimed production RED.
+- Focused audit command:
+  - `npx vitest run src/App.test.tsx -t 'counts a shared restricted layer|restores a recognized share when custom-theme storage is corrupt|aborts a pending map-point lookup|preserves an explicitly shared aerial-only basemap|restores Modern map when shared aerial|legacy mode/event URL' --reporter=dot`
+  - 6 passed, 131 skipped.
+- Complete App file:
+  - `npx vitest run src/App.test.tsx --reporter=dot`
+  - 137 passed in 65.72 seconds.
+- Final full web verification:
+  - `npm test`
+  - script tests: 12 passed;
+  - Vitest: 135 files passed, 1 skipped; 1476 tests passed, 1 skipped;
+  - exit 0 in 79.36 seconds.
+- `npm run lint`
+  - exit 0 with no findings.
+- `npm run build`
+  - exit 0; TypeScript and Vite completed, 613 modules transformed;
+  - the existing over-500-kB chunk advisory remains.
+- `git diff --check`
+  - exit 0.
+
+One earlier full-suite attempt encountered the known fixed-five-second App-test
+sensitivity under aggregate load: the unchanged
+`clears current and historical tax-sale filters when an off theme is applied`
+timed out after 5.025 seconds while 1475 tests passed. It passed alone in 1.74
+seconds, the complete App file was already green, and the fresh full run above
+passed without weakening any timeout or assertion.
+
+Fix Round 1 self-review confirmed that only `web/src/App.test.tsx` and this
+report changed. No helper can mask the ordinary first-visit default, no non-tax
+test opts into events or notice geometry, the sole parameter-absent legacy case
+is explicit in both name and behavior, and no production, fixture, README,
+native, dependency, or iPhone file changed.

@@ -1180,7 +1180,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("does not expose controls from a collapsed category", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    window.history.replaceState(null, "", "/?layers=modern");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern");
     render(<App />);
 
     expect(screen.queryByLabelText("NS Property Boundaries"))
@@ -1302,7 +1302,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("renders every current catalogue entry in exactly one expected category region", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    window.history.replaceState(null, "", "/?layers=modern");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern");
     render(<App />);
 
     for (const category of layerCategories) {
@@ -1356,7 +1356,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("updates a collapsed category summary from Off to 1 on without modifying the theme", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    window.history.replaceState(null, "", "/?layers=modern");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern");
     render(<App />);
 
     const disclosure = screen.getByRole("button", {
@@ -1380,9 +1380,10 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("counts a shared restricted layer only after Province licence acceptance", async () => {
-    window.history.replaceState(null, "", "/?layers=nsprd");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=nsprd");
     renderAppWithCategoriesOpen();
 
+    expect(screen.getByLabelText("Show tax-sale information")).not.toBeChecked();
     const disclosure = screen.getByRole("button", {
       name: /Land & Property.*Off.*Province licence required/i,
     });
@@ -1959,10 +1960,13 @@ describe("NS Marks The Spot Online", () => {
   it("restores a recognized share when custom-theme storage is corrupt", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    window.history.replaceState(null, "", "/?layers=modern,roads");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern,roads");
 
     render(<App />);
 
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "tax-sale layer: off",
+    );
     openLayerCategories("Background Maps", "Roads & Places");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
@@ -2257,7 +2261,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("historical layer: on");
   });
 
-  it("restores mode, PID, layers, and position from a shared URL", async () => {
+  it("restores mode, PID, layers, and position from a legacy mode/event URL", async () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     window.history.replaceState(
       null,
@@ -2271,6 +2275,7 @@ describe("NS Marks The Spot Online", () => {
 
     renderAppWithCategoriesOpen();
 
+    expect(screen.getByLabelText("Show tax-sale information")).toBeChecked();
     expect(screen.getByRole("button", { name: "Historical records" })).toHaveAttribute(
       "aria-pressed",
       "true",
@@ -3211,7 +3216,7 @@ describe("NS Marks The Spot Online", () => {
   it("aborts a pending map-point lookup when a PID search takes over", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    setTaxSaleResearchUrl();
+    window.history.replaceState(null, "", "/");
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
@@ -3227,6 +3232,7 @@ describe("NS Marks The Spot Online", () => {
     });
 
     renderAppWithCategoriesOpen();
+    expect(screen.getByLabelText("Show tax-sale information")).not.toBeChecked();
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
     await vi.waitFor(() => expect(pointSignal).toBeDefined());
 
@@ -3380,11 +3386,12 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?layers=ns-aerial,nsprd&position=46.1,-60.9,12",
+      "/?taxSale=off&layers=ns-aerial,nsprd&position=46.1,-60.9,12",
     );
 
     renderAppWithCategoriesOpen();
 
+    expect(screen.getByLabelText("Show tax-sale information")).not.toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("Modern map")).not.toBeChecked();
   });
@@ -3394,11 +3401,12 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(
       null,
       "",
-      "/?layers=ns-aerial,nsprd&position=46.1,-60.9,9",
+      "/?taxSale=off&layers=ns-aerial,nsprd&position=46.1,-60.9,9",
     );
 
     renderAppWithCategoriesOpen();
 
+    expect(screen.getByLabelText("Show tax-sale information")).not.toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("Modern map")).toBeChecked();
   });
