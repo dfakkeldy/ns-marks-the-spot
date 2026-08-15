@@ -69,20 +69,39 @@ public enum VectorStyle {
         let fill = color(properties["marker-color"]) ?? color(properties["fill"]) ?? layerColorHex
         return UserVectorStyle(
             strokeHex: stroke,
-            weight: finite(properties["stroke-width"]) ?? 2,
-            strokeOpacity: finite(properties["stroke-opacity"]) ?? 0.9,
+            weight: width(properties["stroke-width"]) ?? 2,
+            strokeOpacity: opacity(properties["stroke-opacity"]) ?? 0.9,
             fillHex: fill,
-            fillOpacity: finite(properties["fill-opacity"]) ?? 0.25
+            fillOpacity: opacity(properties["fill-opacity"]) ?? 0.25
         )
     }
 
+    /// A colour only if this file's vocabulary can actually draw it.
+    ///
+    /// Checked here rather than at the renderer, because the promise above is
+    /// that a malformed value falls back to the layer colour. A `rebeccapurple`
+    /// or an `rgb(1,2,3)` handed straight through would reach the renderer's
+    /// own fallback instead, which is the diagnostic magenta — a colour that
+    /// tells the user their file is broken when it is merely written in a form
+    /// this reader does not parse.
     private static func color(_ value: JSONValue?) -> String? {
-        guard let text = value?.stringValue, !text.isEmpty else { return nil }
+        guard let text = value?.stringValue, components(ofHex: text) != nil else { return nil }
         return text
     }
 
-    private static func finite(_ value: JSONValue?) -> Double? {
-        value?.doubleValue
+    /// A stroke width the renderer can use.
+    ///
+    /// Clamped rather than trusted: the value came out of a file, and a
+    /// negative or absurd width becomes a negative image size at the point
+    /// renderer. Twenty points is already a line as wide as a fingertip.
+    private static func width(_ value: JSONValue?) -> Double? {
+        guard let raw = value?.doubleValue, raw.isFinite, raw > 0 else { return nil }
+        return min(raw, 20)
+    }
+
+    private static func opacity(_ value: JSONValue?) -> Double? {
+        guard let raw = value?.doubleValue, raw.isFinite else { return nil }
+        return min(max(raw, 0), 1)
     }
 
     /// A `#rgb`, `#rrggbb` or `#rrggbbaa` colour as components in 0...1.

@@ -292,18 +292,55 @@ public enum ShapefileParse {
     /// GeoJSON instead nests each polygon's holes inside it. Getting this
     /// wrong does not fail — it draws a lake as land, or one parcel as a hole
     /// in its neighbour.
+    /// Each hole is attached to the smallest outer ring that contains it,
+    /// rather than to whichever outer ring came before it in the file. The
+    /// format does not promise that a hole follows its own boundary — a part
+    /// order of outer, outer, hole is legal, and reading it positionally cuts
+    /// the hole out of the wrong parcel. Smallest containing ring rather than
+    /// any containing ring, so an island inside a lake inside a boundary
+    /// belongs to the lake.
     static func polygon(from rings: [[GeoJsonPosition]]) -> GeoJsonGeometry? {
-        var polygons: [[[GeoJsonPosition]]] = []
-        for ring in rings where ring.count >= 4 {
-            if signedArea(ring) < 0 || polygons.isEmpty {
-                // Counter-clockwise-first is malformed, and a hole with no
-                // boundary to belong to is drawn as its own shape rather than
-                // dropped: the user's ground is visible either way.
-                polygons.append([ring])
+        let usable = rings.filter { $0.count >= 4 }
+        var outers: [[GeoJsonPosition]] = []
+        var holes: [[GeoJsonPosition]] = []
+        for ring in usable {
+            if signedArea(ring) < 0 {
+                outers.append(ring)
             } else {
-                polygons[polygons.count - 1].append(ring)
+                holes.append(ring)
             }
         }
+
+        // A file whose first ring winds the wrong way is malformed. Its rings
+        // are still the user's ground, so they are drawn as boundaries rather
+        // than dropped.
+        if outers.isEmpty {
+            outers = holes
+            holes = []
+        }
+
+        var polygons: [[[GeoJsonPosition]]] = outers.map { [$0] }
+        for hole in holes {
+            guard let anchor = hole.first else { continue }
+            let point = GeoPoint(lat: anchor.lat, lng: anchor.lng)
+            var best: (index: Int, area: Double)?
+            for (index, outer) in outers.enumerated() {
+                let ring = outer.map { GeoPoint(lat: $0.lat, lng: $0.lng) }
+                guard PolygonHitTest.isInRingInterior(point, ring: ring) else { continue }
+                let area = abs(signedArea(outer))
+                if best == nil || area < best!.area {
+                    best = (index, area)
+                }
+            }
+            if let best {
+                polygons[best.index].append(hole)
+            } else {
+                // A hole with no boundary to belong to is its own shape rather
+                // than dropped: the user's ground is visible either way.
+                polygons.append([hole])
+            }
+        }
+
         guard !polygons.isEmpty else { return nil }
         return polygons.count == 1 ? .polygon(polygons[0]) : .multiPolygon(polygons)
     }

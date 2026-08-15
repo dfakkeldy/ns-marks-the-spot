@@ -259,31 +259,51 @@ public enum VectorEdit {
         case .multiLineString(let lines):
             return lines.contains(where: nearLine)
         case .polygon(let rings):
+            // The boundary as well as the interior: the stroke is drawn a few
+            // points wide, and a tap that lands on the line the user aimed at
+            // must not miss because it fell a metre outside it.
             return PolygonHitTest.contains(point, part: rings.map(ring))
+                || rings.contains(where: nearLine)
         case .multiPolygon(let parts):
             return PolygonHitTest.contains(point, multiPolygon: parts.map { $0.map(ring) })
+                || parts.contains { $0.contains(where: nearLine) }
         case .collection(let geometries):
             return geometries.contains { isHit($0, at: position, tolerance: tolerance) }
         }
     }
 
     private static func distance(_ first: GeoPoint, _ second: GeoPoint) -> Double {
-        // Plain degrees, not metres: the tolerance arrives in the same units,
-        // both come from the same screen, and a projection here would be
-        // precision the tap does not have.
-        (pow(first.lat - second.lat, 2) + pow(first.lng - second.lng, 2)).squareRoot()
+        // Degrees of longitude, which is what the caller's tolerance is: a
+        // fingertip is so many pixels, and Web Mercator lays longitude out
+        // linearly across the screen.
+        //
+        // Latitude is divided by cos(lat) for the same reason — the same
+        // pixel height covers fewer degrees of latitude the further north the
+        // map is, so comparing raw degrees would make a tap taller than it is
+        // wide in Nova Scotia by a factor of about 1.4.
+        let scale = max(cos(first.lat * .pi / 180), 0.01)
+        let latitude = (first.lat - second.lat) / scale
+        let longitude = first.lng - second.lng
+        return (latitude * latitude + longitude * longitude).squareRoot()
     }
 
     private static func distanceToSegment(
         _ point: GeoPoint, _ start: GeoPoint, _ end: GeoPoint
     ) -> Double {
+        // Projected in the same scaled space `distance` measures in, so the
+        // nearest point on the segment is the nearest one on screen rather
+        // than the nearest one in raw degrees.
+        let scale = max(cos(point.lat * .pi / 180), 0.01)
         let dx = end.lng - start.lng
-        let dy = end.lat - start.lat
+        let dy = (end.lat - start.lat) / scale
         let lengthSquared = dx * dx + dy * dy
         guard lengthSquared > 0 else { return distance(point, start) }
-        var t = ((point.lng - start.lng) * dx + (point.lat - start.lat) * dy) / lengthSquared
+        var t =
+            ((point.lng - start.lng) * dx + ((point.lat - start.lat) / scale) * dy) / lengthSquared
         t = min(max(t, 0), 1)
-        return distance(point, GeoPoint(lat: start.lat + t * dy, lng: start.lng + t * dx))
+        return distance(
+            point, GeoPoint(lat: start.lat + t * dy * scale, lng: start.lng + t * dx)
+        )
     }
 
     /// The layer's bounding box, recomputed from what it now holds.

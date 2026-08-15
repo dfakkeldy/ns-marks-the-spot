@@ -84,6 +84,9 @@ public enum UserVectorParse {
             seen.insert(id)
             var copy = feature
             copy.id = id
+            if let geometry = copy.geometry {
+                copy.geometry = try repaired(geometry)
+            }
             normalized.append(copy)
         }
 
@@ -99,6 +102,70 @@ public enum UserVectorParse {
             bbox: west.isFinite
                 ? GeoBoundingBox(south: south, west: west, north: north, east: east)
                 : nil
+        )
+    }
+
+    /// One geometry with its rings closed, or a refusal for one that cannot be
+    /// drawn at all.
+    ///
+    /// The two are different failures and are treated differently. A ring whose
+    /// first and last position differ is a file that broke the spec in a way
+    /// with exactly one right answer — the ring closes where it started — so it
+    /// is closed here rather than refused, because MapKit would close it
+    /// implicitly on screen and the export would then write out something the
+    /// user never saw. A ring of two positions, or a line of one, has no right
+    /// answer: it is refused rather than padded into a shape the file does not
+    /// contain.
+    static func repaired(_ geometry: GeoJsonGeometry) throws(UserMapImportRefusal)
+        -> GeoJsonGeometry
+    {
+        func line(_ positions: [GeoJsonPosition]) throws(UserMapImportRefusal)
+            -> [GeoJsonPosition]
+        {
+            guard positions.count >= 2 else { throw degenerate() }
+            return positions
+        }
+        func ring(_ positions: [GeoJsonPosition]) throws(UserMapImportRefusal)
+            -> [GeoJsonPosition]
+        {
+            // Three distinct corners is the least that encloses ground. The
+            // closing repeat is not one of them.
+            var closed = positions
+            if let first = closed.first, first == closed.last {
+                closed.removeLast()
+            }
+            guard closed.count >= 3, let first = closed.first else { throw degenerate() }
+            closed.append(first)
+            return closed
+        }
+
+        switch geometry {
+        case .point, .multiPoint:
+            return geometry
+        case .lineString(let positions):
+            return .lineString(try line(positions))
+        case .multiLineString(let lines):
+            return .multiLineString(try lines.map(line))
+        case .polygon(let rings):
+            return .polygon(try rings.map(ring))
+        case .multiPolygon(let parts):
+            var repairedParts: [[[GeoJsonPosition]]] = []
+            for part in parts {
+                repairedParts.append(try part.map(ring))
+            }
+            return .multiPolygon(repairedParts)
+        case .collection(let geometries):
+            return .collection(try geometries.map(repaired))
+        }
+    }
+
+    static func degenerate() -> UserMapImportRefusal {
+        UserMapImportRefusal(
+            code: .corruptFile,
+            userMessage: """
+                This file has a shape with too few points to draw — a line needs \
+                two and an area needs three.
+                """
         )
     }
 
