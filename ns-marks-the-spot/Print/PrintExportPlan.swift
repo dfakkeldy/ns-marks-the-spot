@@ -1,0 +1,160 @@
+import Foundation
+import GeoCore
+import MapCatalog
+import NSDataServices
+
+/// Turns what the map is showing into what the page will say about it.
+///
+/// Kept apart from the export coordinator so the two decisions that a reader
+/// could be misled by — what ground the page covers, and which layers it claims
+/// to show — can be read and tested without a map view or a network.
+nonisolated enum PrintExportPlan {
+    /// The ground the printed frame covers.
+    ///
+    /// The paper's proportions are not the screen's, so one of the two
+    /// dimensions has to give. It grows rather than shrinks: a page that
+    /// covered less than the screen it was exported from would silently crop
+    /// whatever the user had just put in the corner of the view.
+    static func bounds(
+        covering visible: GeoBoundingBox, mapFrame: PdfRect
+    ) -> GeoBoundingBox {
+        let northWest = WebMercator.project(
+            GeoPoint(lat: visible.north, lng: visible.west)
+        )
+        let southEast = WebMercator.project(
+            GeoPoint(lat: visible.south, lng: visible.east)
+        )
+        let width = southEast.x - northWest.x
+        let height = northWest.y - southEast.y
+        guard width > 0, height > 0, mapFrame.height > 0 else { return visible }
+
+        let target = mapFrame.width / mapFrame.height
+        var halfWidth = width / 2
+        var halfHeight = height / 2
+        if width / height < target {
+            halfWidth = height * target / 2
+        } else {
+            halfHeight = width / target / 2
+        }
+        let centreX = (northWest.x + southEast.x) / 2
+        let centreY = (northWest.y + southEast.y) / 2
+
+        let topLeft = WebMercator.unproject(
+            MercatorPoint(x: centreX - halfWidth, y: centreY + halfHeight)
+        )
+        let bottomRight = WebMercator.unproject(
+            MercatorPoint(x: centreX + halfWidth, y: centreY - halfHeight)
+        )
+        return GeoBoundingBox(
+            south: bottomRight.lat, west: topLeft.lng,
+            north: topLeft.lat, east: bottomRight.lng
+        )
+    }
+
+    /// What the legend may name, and what the page has to admit it is missing.
+    ///
+    /// A layer that did not draw is not in the legend. The legend is the page's
+    /// account of what the reader is looking at, and naming a layer that is not
+    /// in the raster would turn a source that could not be reached into a
+    /// source that answered with nothing — which is the one substitution this
+    /// map may never make.
+    struct LayerAccount: Equatable {
+        var legend: [PdfComposer.LegendEntry]
+        /// Named on the page, in words, under the notes.
+        var omitted: [String]
+        /// Drew, but not everywhere.
+        var incomplete: [String]
+
+        var notes: [String] {
+            var lines = [String]()
+            if !omitted.isEmpty {
+                lines.append(
+                    "Not printed — the source could not be reached: "
+                        + omitted.joined(separator: ", ")
+                        + ". Absence here is not evidence the layer has nothing at this place."
+                )
+            }
+            if !incomplete.isEmpty {
+                lines.append(
+                    "Partly printed — some tiles did not arrive: "
+                        + incomplete.joined(separator: ", ") + "."
+                )
+            }
+            return lines
+        }
+    }
+
+    static func account(
+        for outcomes: [PrintMapCompositor.LayerOutcome],
+        swatch: (String) -> String?
+    ) -> LayerAccount {
+        var legend = [PdfComposer.LegendEntry]()
+        var omitted = [String]()
+        var incomplete = [String]()
+        for outcome in outcomes {
+            switch outcome.state {
+            case .drawn:
+                legend.append(
+                    PdfComposer.LegendEntry(
+                        name: outcome.name, swatchColour: swatch(outcome.id)
+                    )
+                )
+            case .partial:
+                incomplete.append(outcome.name)
+                legend.append(
+                    PdfComposer.LegendEntry(
+                        name: "\(outcome.name) (partly printed)",
+                        swatchColour: swatch(outcome.id)
+                    )
+                )
+            case .failed:
+                omitted.append(outcome.name)
+            }
+        }
+        return LayerAccount(legend: legend, omitted: omitted, incomplete: incomplete)
+    }
+
+    /// The attribution strip's sources, base map first, in the order they were
+    /// drawn — and only for layers that actually printed.
+    static func sources(
+        baseMap: MapBaseType,
+        outcomes: [PrintMapCompositor.LayerOutcome],
+        descriptor: (String) -> LayerDescriptor?
+    ) -> [PrintLayerSource] {
+        var sources = [
+            PrintLayerSource(
+                name: baseMapName(baseMap), attribution: "© Apple Maps", licenceUrl: nil
+            )
+        ]
+        for outcome in outcomes {
+            // A layer whose attribution is printed but whose pixels are not
+            // would credit a publisher for a picture the page does not carry.
+            if case .failed = outcome.state { continue }
+            guard let layer = descriptor(outcome.id) else { continue }
+            // The app's own credit table, which is where the disclaimer text a
+            // licence obliges is kept; the shared catalog carries the licence,
+            // not the words it requires.
+            let credit = NativeLayerTraits.attribution(for: layer)
+            sources.append(
+                PrintLayerSource(
+                    name: layer.name,
+                    attribution: [credit.copyright ?? credit.provider, credit.disclaimer]
+                        .joined(separator: ". "),
+                    licenceUrl: credit.licenseURL?.absoluteString
+                )
+            )
+        }
+        return sources
+    }
+
+    private static func baseMapName(_ baseMap: MapBaseType) -> String {
+        switch baseMap {
+        case .standard: "Apple Maps"
+        case .satellite: "Apple Maps imagery"
+        case .hybrid: "Apple Maps imagery"
+        // The aerial is a layer of its own and is credited as one; what is
+        // underneath it is still Apple's standard map.
+        case .nsAerial: "Apple Maps"
+        }
+    }
+}
