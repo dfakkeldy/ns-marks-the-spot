@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { builtInMapThemes } from "./mapThemes";
 import {
   matchTheme,
+  normalizeLayerOpacityOverrides,
   resolveTheme,
   visibilityRecordFor,
 } from "./themeState";
@@ -118,5 +119,12 @@ describe("theme state", () => {
       taxSaleEnabled: false,
       mapMode: "historical",
     }, [theme])?.id).toBe("explore-nova-scotia");
+  });
+
+  it("omits opacity overrides for layers outside the active theme", () => {
+    expect(normalizeLayerOpacityOverrides(
+      ["modern"],
+      { modern: 0.8, fletcher: 0.5 },
+    )).toEqual({ modern: 0.8 });
   });
 });

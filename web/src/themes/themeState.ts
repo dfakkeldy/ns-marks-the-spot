@@ -33,6 +33,19 @@ export function visibilityRecordFor<T extends string>(
   ) as Record<T, boolean>;
 }
 
+export function normalizeLayerOpacityOverrides(
+  layerIds: readonly ShareLayerId[],
+  opacityOverrides: ThemeComparableState["opacityOverrides"],
+): Partial<Record<ShareLayerId, number>> {
+  const activeLayerIds = new Set(layerIds);
+  return Object.fromEntries(
+    Object.entries(opacityOverrides).filter(
+      ([id, opacity]) => opacity !== undefined
+        && activeLayerIds.has(id as ShareLayerId),
+    ),
+  );
+}
+
 export function resolveTheme(
   theme: MapThemeDefinition,
   capabilities: ThemeCapabilities,
@@ -51,10 +64,9 @@ export function resolveTheme(
   return {
     target: {
       layerIds,
-      opacityOverrides: Object.fromEntries(
-        Object.entries(theme.opacityOverrides).filter(([id]) =>
-          layerIds.includes(id as ShareLayerId),
-        ),
+      opacityOverrides: normalizeLayerOpacityOverrides(
+        layerIds,
+        theme.opacityOverrides,
       ),
       preferredCategoryIds: theme.preferredCategoryIds,
       taxSaleEnabled: theme.taxSaleEnabled,

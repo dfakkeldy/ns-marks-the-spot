@@ -151,6 +151,7 @@ import {
 } from "./themes/themeStorage";
 import {
   matchTheme,
+  normalizeLayerOpacityOverrides,
   resolveTheme,
   themeStatesMatch,
   visibilityRecordFor,
@@ -2359,9 +2360,12 @@ export function App() {
   };
   const themeComparableState = useMemo<ThemeComparableState>(() => ({
     layerIds: activeLayerIds,
-    opacityOverrides: fletcherOpacity === fletcherLayerCatalog.opacity
-      ? {}
-      : { fletcher: fletcherOpacity },
+    opacityOverrides: normalizeLayerOpacityOverrides(
+      activeLayerIds,
+      fletcherOpacity === fletcherLayerCatalog.opacity
+        ? {}
+        : { fletcher: fletcherOpacity },
+    ),
     taxSaleEnabled,
     mapMode,
   }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);

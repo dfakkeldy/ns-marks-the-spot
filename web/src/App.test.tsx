@@ -1569,6 +1569,91 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("does not save hidden Fletcher opacity in a custom theme", async () => {
+    vi.stubEnv(
+      "VITE_FLETCHER_TILE_BASE_URL",
+      "https://tiles.example.test/ns-marks",
+    );
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    const first = render(<App />);
+
+    openLayerCategory("Historical Maps");
+    const fletcherToggle = screen.getByLabelText("Fletcher historical map");
+    await userEvent.click(fletcherToggle);
+    fireEvent.change(screen.getByRole("slider", { name: /Opacity/ }), {
+      target: { value: "0.5" },
+    });
+    await userEvent.click(fletcherToggle);
+
+    openLayerCategory("Roads & Places");
+    await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Save current setup as…" }),
+    );
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "Theme name" }),
+      "Hidden opacity",
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Save current setup" }),
+    );
+
+    const stored = JSON.parse(
+      localStorage.getItem(CUSTOM_THEME_STORAGE_KEY) ?? "null",
+    ) as { themes: Array<{
+      id: string;
+      layerIds: string[];
+      opacityOverrides: Record<string, number>;
+    }> };
+    expect(stored.themes).toHaveLength(1);
+    expect(stored.themes[0].layerIds).toEqual(["modern", "roads"]);
+    expect(stored.themes[0].opacityOverrides).toEqual({});
+
+    const customThemeId = stored.themes[0].id;
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      customThemeId,
+    );
+
+    expect(fletcherToggle).not.toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Fletcher: off at 72%",
+    );
+    expect(mapSetupStatus()).toHaveTextContent("Hidden opacity");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+
+    await userEvent.click(fletcherToggle);
+    expect(mapSetupStatus()).toHaveTextContent("Hidden opacity — Modified");
+    await userEvent.click(
+      screen.getByRole("button", { name: "Reset current theme" }),
+    );
+    expect(fletcherToggle).not.toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Fletcher: off at 72%",
+    );
+    expect(mapSetupStatus()).toHaveTextContent("Hidden opacity");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+    await waitFor(() => {
+      expect(new URL(window.location.href).searchParams.get("layers"))
+        .toBe("modern,roads");
+    });
+
+    first.unmount();
+    render(<App />);
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue(customThemeId);
+    expect(screen.getByLabelText("Fletcher historical map")).not.toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Fletcher: off at 72%",
+    );
+    expect(mapSetupStatus()).toHaveTextContent("Hidden opacity");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+  });
+
   it("saves only the current catalogue setup, then applies and resets it through the shared URL", async () => {
     const privateMapId = "private-theme-boundary-map";
     const store = await UserMapStore.open();
