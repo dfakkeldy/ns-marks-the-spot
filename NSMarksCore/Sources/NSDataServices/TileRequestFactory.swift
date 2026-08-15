@@ -90,6 +90,14 @@ public enum TileRequestFactory {
     /// somebody exported a page. One render of the frame is the same picture
     /// for one two-hundredth of the service's work.
     ///
+    /// The layer's zoom range is deliberately not checked, as on the web: a
+    /// single bbox render has no tile pyramid to clamp to, and the service
+    /// draws the frame at the size asked for. One consequence is worth knowing
+    /// — a frame further out than a layer's `minZoom` prints that layer even
+    /// though the screen it was exported from showed nothing. The page is
+    /// correct and its legend names the layer; it simply holds more than the
+    /// screen did.
+    ///
     /// `overlay` selects the second pass for the layers the web draws twice;
     /// see `overlayTileRequest`. It returns `nil` when the layer has no such
     /// pass.
