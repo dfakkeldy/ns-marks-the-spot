@@ -6,7 +6,7 @@ import Foundation
 /// a simulator; the app bridges to CoreLocation at the `MapSurface/` boundary.
 /// Field names mirror the web's `GeoPoint` (`lat`/`lng`) so ported algorithms
 /// read line-for-line against their TypeScript originals.
-public struct GeoPoint: Hashable, Sendable {
+public struct GeoPoint: Hashable, Sendable, Codable {
     public var lat: Double
     public var lng: Double
 

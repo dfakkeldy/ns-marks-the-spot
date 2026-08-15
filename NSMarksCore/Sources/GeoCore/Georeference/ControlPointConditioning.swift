@@ -7,7 +7,7 @@ import Foundation
 /// another — and because a control point taken from a downscaled preview solves
 /// perfectly cleanly and lands the map somewhere else entirely, with nothing in
 /// the arithmetic able to tell.
-public struct PixelPoint: Hashable, Sendable {
+public struct PixelPoint: Hashable, Sendable, Codable {
     public var x: Double
     public var y: Double
 

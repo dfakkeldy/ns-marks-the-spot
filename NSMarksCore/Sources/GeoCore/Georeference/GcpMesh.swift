@@ -1,7 +1,7 @@
 import Foundation
 
 /// The raster's size in its own pixels.
-public struct PixelSize: Hashable, Sendable {
+public struct PixelSize: Hashable, Sendable, Codable {
     public var width: Double
     public var height: Double
 
@@ -13,7 +13,7 @@ public struct PixelSize: Hashable, Sendable {
 
 /// A rectangle of the raster, in the same pixels — the part of a scan the user
 /// kept, when they cropped the margins off a sheet.
-public struct PixelRect: Hashable, Sendable {
+public struct PixelRect: Hashable, Sendable, Codable {
     public var x: Double
     public var y: Double
     public var width: Double

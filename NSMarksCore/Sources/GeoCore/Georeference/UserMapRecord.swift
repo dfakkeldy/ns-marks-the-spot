@@ -1,7 +1,7 @@
 import Foundation
 
 /// A raster the user brought in, and what is known about where it belongs.
-public struct UserMapRecord: Identifiable, Hashable, Sendable {
+public struct UserMapRecord: Identifiable, Hashable, Sendable, Codable {
     /// How the sheet is placed.
     public enum Placement: Hashable, Sendable {
         /// The file said so itself — a GeoTIFF's tags.

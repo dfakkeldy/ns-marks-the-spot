@@ -3,7 +3,7 @@ import Foundation
 /// One control point in a georeferencing session: a place on the scan and the
 /// place on the ground it is claimed to be, with an identity so it can be
 /// dragged and deleted while the list around it changes.
-public struct SessionControlPoint: Identifiable, Hashable, Sendable {
+public struct SessionControlPoint: Identifiable, Hashable, Sendable, Codable {
     public var id: String
     public var pixel: PixelPoint
     public var map: GeoPoint
@@ -20,7 +20,7 @@ public struct SessionControlPoint: Identifiable, Hashable, Sendable {
 }
 
 /// Which solver draws the sheet.
-public enum GeoreferenceMethod: String, Hashable, Sendable {
+public enum GeoreferenceMethod: String, Hashable, Sendable, Codable {
     case affine
     case spline
 }
