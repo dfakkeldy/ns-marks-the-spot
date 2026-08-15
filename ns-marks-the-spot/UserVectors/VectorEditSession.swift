@@ -41,6 +41,15 @@ final class VectorEditSession {
     private let viewModel: UserVectorsViewModel
     private let persistDelay: Duration
     @ObservationIgnored private var persistTask: Task<Void, Never>?
+    /// The edit that has not reached the disk yet, if there is one.
+    ///
+    /// Tracked rather than inferred from `parsed`, because "there is geometry
+    /// here" and "the geometry here differs from the stored copy" are different
+    /// questions. Without it, closing a session the user only looked at would
+    /// rewrite the file and advance the revision, and closing one the timer had
+    /// already saved would do it a second time — two modified dates and two
+    /// revisions for one edit.
+    @ObservationIgnored private var unsaved: ParsedVector?
 
     init(viewModel: UserVectorsViewModel, persistDelay: Duration = VectorEditSession.persistDelay) {
         self.viewModel = viewModel
@@ -65,15 +74,20 @@ final class VectorEditSession {
     /// Ends the session, writing anything still pending.
     ///
     /// Losing the tail of a session is the one moment the debounce would read
-    /// as data loss.
-    func end() async {
-        await flush()
+    /// as data loss — so an edit that could not be written keeps the session
+    /// open, with the error on screen and the geometry still in hand. The one
+    /// working copy of the user's shape is not discarded because a disk was
+    /// full.
+    @discardableResult
+    func end() async -> Bool {
+        guard await flush() else { return false }
         editingID = nil
         record = nil
         parsed = nil
         draft = nil
         selectedFeatureID = nil
         tool = .selecting
+        return true
     }
 
     // MARK: - Drawing
@@ -175,6 +189,7 @@ final class VectorEditSession {
     /// The single write path: hold the new geometry, then schedule the save.
     private func commit(_ edited: ParsedVector) {
         parsed = edited
+        unsaved = edited
         record?.featureCount = edited.featureCount
         record?.bbox = edited.bbox
         schedulePersist()
@@ -190,18 +205,34 @@ final class VectorEditSession {
         }
     }
 
-    private func flush() async {
+    /// Writes whatever is pending now, rather than when the timer says.
+    ///
+    /// Called when the session ends and when the app is going away: a debounce
+    /// that outlives the thing it was debouncing writes nothing at all, because
+    /// the scheduled task is holding the session weakly and the session is
+    /// gone.
+    @discardableResult
+    func flush() async -> Bool {
         persistTask?.cancel()
         persistTask = nil
-        await write()
+        return await write()
     }
 
-    private func write() async {
-        guard let editingID, let parsed else { return }
-        await viewModel.replaceGeometry(id: editingID, with: parsed)
-        // The view model reports its own storage refusals; surfaced here so the
-        // editing panel says it rather than the layer list the user cannot see
-        // while editing.
-        storageError = viewModel.lastRefusal?.userMessage
+    @discardableResult
+    private func write() async -> Bool {
+        // Nothing pending is a success: there is no edit that failed to save.
+        guard let editingID, let pending = unsaved else { return true }
+        guard await viewModel.replaceGeometry(id: editingID, with: pending) else {
+            // The view model reports its own storage refusals; surfaced here so
+            // the editing panel says it rather than the layer list the user
+            // cannot see while editing. The pending copy is kept, so the next
+            // edit or the next Done tries again.
+            storageError = viewModel.lastRefusal?.userMessage
+            return false
+        }
+        unsaved = nil
+        storageError = nil
+        record = viewModel.rows.first { $0.id == editingID }?.record ?? record
+        return true
     }
 }

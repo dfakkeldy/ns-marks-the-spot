@@ -16,9 +16,14 @@ struct UserVectorRowsView: View {
     /// Called to open the editor on a layer. Optional for the same reason: the
     /// panel is still the panel without a map behind it.
     var onEdit: ((UserVectorsViewModel.Row) -> Void)?
+    /// Starts an empty layer and opens the editor on it. Without this, drawing
+    /// would only be reachable by first importing a file, which a user who came
+    /// to sketch a boundary does not have.
+    var onNewDrawingLayer: (() -> Void)?
 
     @State private var isImporting = false
     @State private var sharing: SharePayload?
+    @State private var deleting: UserVectorsViewModel.Row?
     @State private var renaming: UserVectorsViewModel.Row?
     @State private var newName = ""
 
@@ -30,6 +35,12 @@ struct UserVectorRowsView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
                 Spacer()
+                if let onNewDrawingLayer {
+                    Button(action: onNewDrawingLayer) {
+                        Label("Draw", systemImage: "pencil.and.outline")
+                            .font(.caption)
+                    }
+                }
                 Button {
                     isImporting = true
                 } label: {
@@ -39,7 +50,7 @@ struct UserVectorRowsView: View {
             }
 
             if viewModel.rows.isEmpty {
-                Text("Import GeoJSON, KML, KMZ, GPX or a zipped shapefile.")
+                Text("Draw your own, or import GeoJSON, KML, KMZ, GPX or a zipped shapefile.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -57,7 +68,7 @@ struct UserVectorRowsView: View {
                     onExport: row.parsed.map { parsed in
                         { format in sharing = Self.payload(row.record, parsed, format) }
                     },
-                    onDelete: { Task { await viewModel.delete(id: row.id) } }
+                    onDelete: { deleting = row }
                 )
             }
 
@@ -70,6 +81,29 @@ struct UserVectorRowsView: View {
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
             }
+        }
+        // Confirmed, because a drawn layer has no file to import again: the
+        // copy on this device is the only one there is.
+        .alert(
+            "Delete \(deleting?.record.name ?? "this layer")?",
+            isPresented: Binding(
+                get: { deleting != nil },
+                set: { if !$0 { deleting = nil } }
+            )
+        ) {
+            Button("Cancel", role: .cancel) { deleting = nil }
+            Button("Delete", role: .destructive) {
+                if let row = deleting {
+                    Task { await viewModel.delete(id: row.id) }
+                }
+                deleting = nil
+            }
+        } message: {
+            Text(
+                deleting?.record.source == .drawn
+                    ? "This layer was drawn here and isn't saved anywhere else."
+                    : "This removes it from the map. Your original file is untouched."
+            )
         }
         .sheet(item: $sharing) { payload in
             ShareSheet(items: payload.items)

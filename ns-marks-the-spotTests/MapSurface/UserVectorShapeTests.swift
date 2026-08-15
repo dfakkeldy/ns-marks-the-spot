@@ -206,3 +206,63 @@ struct UserVectorStateDiffTests {
         #expect(MapStateDiff.mutations(from: state, to: state).isEmpty)
     }
 }
+
+@Suite("Handles on the feature being edited")
+struct VectorSelectionHandleTests {
+    private func position(_ lng: Double, _ lat: Double) -> GeoJsonPosition {
+        GeoJsonPosition(lng: lng, lat: lat)
+    }
+
+    private func feature(_ geometry: GeoJsonGeometry) -> GeoJsonFeature {
+        GeoJsonFeature(id: "f1", geometry: geometry, properties: [:])
+    }
+
+    /// A closed ring's last position is its first one. Two handles on one
+    /// corner would let the user drag the copy and watch the shape not move.
+    @Test func aClosedRingGetsOneHandlePerCornerNotTwo() throws {
+        let ring = [
+            position(-63, 44), position(-62, 44), position(-62, 45), position(-63, 44),
+        ]
+        let handles = try #require(
+            VectorSelectionHandles(feature: feature(.polygon([ring])), colorHex: "#d55e00")
+        )
+        #expect(handles.handles().count == 3)
+    }
+
+    @Test func everyVertexOfALineIsDraggable() throws {
+        let line = [position(-63, 44), position(-62, 44), position(-61, 45)]
+        let handles = try #require(
+            VectorSelectionHandles(feature: feature(.lineString(line)), colorHex: "#d55e00")
+        )
+        let dragged = handles.handles()
+        #expect(dragged.count == 3)
+        #expect(dragged.map(\.vertex) == [0, 1, 2])
+    }
+
+    /// `VectorEdit.moving` carries no part index, so a multi-part feature would
+    /// need this view to guess which part a handle meant. It offers none rather
+    /// than moving the wrong one.
+    @Test func aMultiPartFeatureOffersNoHandles() {
+        let parts = [[position(-63, 44), position(-62, 45)], [position(-61, 46)]]
+        #expect(
+            VectorSelectionHandles(
+                feature: feature(.multiLineString(parts)), colorHex: "#d55e00"
+            ) == nil
+        )
+    }
+
+    /// A hole is the user's ground too: it has corners, and they must be
+    /// draggable and addressed by their own ring.
+    @Test func aHoleSCornersAreHandlesOnTheirOwnRing() throws {
+        let outer = [
+            position(-63, 44), position(-60, 44), position(-60, 47), position(-63, 44),
+        ]
+        let hole = [
+            position(-62, 45), position(-61, 45), position(-61, 46), position(-62, 45),
+        ]
+        let handles = try #require(
+            VectorSelectionHandles(feature: feature(.polygon([outer, hole])), colorHex: "#d55e00")
+        )
+        #expect(handles.handles().filter { $0.ring == 1 }.count == 3)
+    }
+}

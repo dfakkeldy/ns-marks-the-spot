@@ -14,6 +14,8 @@ struct TransparencySliderView: View {
     var onZoomToLayer: ((GeoBoundingBox) -> Void)?
     /// Opens the editor on one of the user's layers.
     var onEditLayer: ((UserVectorsViewModel.Row) -> Void)?
+    /// Starts an empty layer to draw into.
+    var onNewDrawingLayer: (() -> Void)?
     @Binding var isExpanded: Bool
 
     /// Which sections are open. `nil` until the panel is first laid out, so the
@@ -139,7 +141,8 @@ struct TransparencySliderView: View {
                         UserVectorRowsView(
                             viewModel: userVectors,
                             onZoom: onZoomToLayer,
-                            onEdit: onEditLayer
+                            onEdit: onEditLayer,
+                            onNewDrawingLayer: onNewDrawingLayer
                         )
                     }
                 }

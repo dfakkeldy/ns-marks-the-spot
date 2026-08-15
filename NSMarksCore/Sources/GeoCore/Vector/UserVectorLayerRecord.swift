@@ -117,12 +117,39 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
 public struct UserVectorLibrary: Hashable, Sendable, Codable {
     public var version: Int
     public var layers: [UserVectorLayerRecord]
+    /// Which layers the user has switched off.
+    ///
+    /// Here rather than on the record, because whether a layer is currently
+    /// drawn is a view preference and a record is the evidence: the file it
+    /// came from, when, how many features, and where. Persisted at all because
+    /// a user who switches off eight of nine layers and reopens the app should
+    /// not have to do it again.
+    public var hiddenLayerIDs: [String]
 
     public static let currentVersion = 1
 
-    public init(version: Int = UserVectorLibrary.currentVersion, layers: [UserVectorLayerRecord]) {
+    public init(
+        version: Int = UserVectorLibrary.currentVersion,
+        layers: [UserVectorLayerRecord],
+        hiddenLayerIDs: [String] = []
+    ) {
         self.version = version
         self.layers = layers
+        self.hiddenLayerIDs = hiddenLayerIDs
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version, layers, hiddenLayerIDs
+    }
+
+    /// Decoded by hand only so a library written before visibility was
+    /// remembered still reads, with every layer showing.
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        version = try container.decode(Int.self, forKey: .version)
+        layers = try container.decode([UserVectorLayerRecord].self, forKey: .layers)
+        hiddenLayerIDs =
+            try container.decodeIfPresent([String].self, forKey: .hiddenLayerIDs) ?? []
     }
 
     /// Whether this build should touch the document at all.

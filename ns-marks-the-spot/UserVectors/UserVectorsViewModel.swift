@@ -27,7 +27,7 @@ final class UserVectorsViewModel {
 
     private let store: UserVectorStore
 
-    init(store: UserVectorStore = UserVectorStore()) {
+    init(store: UserVectorStore = .shared) {
         self.store = store
     }
 
@@ -37,9 +37,9 @@ final class UserVectorsViewModel {
     /// panel's do: a user with a ten-thousand-feature layer should see it
     /// listed while it parses rather than face an empty panel.
     func load() async {
-        let records: [UserVectorLayerRecord]
+        let library: UserVectorLibrary
         do {
-            records = try await store.load()
+            library = try await store.load()
         } catch {
             // A library this build cannot read is left exactly as it is. The
             // rows stay empty rather than being replaced by an empty library
@@ -47,9 +47,16 @@ final class UserVectorsViewModel {
             rows = []
             return
         }
-        rows = records.map { Row(record: $0, isVisible: true, parsed: nil) }
-        for record in records {
+        let hidden = Set(library.hiddenLayerIDs)
+        rows = library.layers.map {
+            Row(record: $0, isVisible: !hidden.contains($0.id), parsed: nil)
+        }
+        for record in library.layers {
             let parsed = try? await store.geometry(id: record.id)
+            // Found again rather than remembered: the user can delete a layer,
+            // or import another, while this loop is suspended reading a large
+            // one, and an index taken before the await would then land on
+            // somebody else's row.
             guard let index = rows.firstIndex(where: { $0.id == record.id }) else { continue }
             rows[index].parsed = parsed
         }
@@ -66,9 +73,8 @@ final class UserVectorsViewModel {
         do {
             let imported = try VectorImport.read(data, filename: filename)
             for layer in imported.layers {
-                let id = UUID().uuidString
                 let record = UserVectorLayerRecord(
-                    id: id,
+                    id: UUID().uuidString,
                     name: layer.name,
                     source: imported.source,
                     origin: .imported(filename: filename, importedAt: now),
@@ -77,72 +83,146 @@ final class UserVectorsViewModel {
                     featureCount: layer.parsed.featureCount,
                     bbox: layer.parsed.bbox
                 )
-                try await store.writeGeometry(layer.parsed, id: id)
-                try await store.save(rows.map(\.record) + [record])
+                _ = try await store.add(record, geometry: layer.parsed)
                 rows.append(Row(record: record, isVisible: true, parsed: layer.parsed))
             }
         } catch let refusal as UserMapImportRefusal {
             lastRefusal = refusal
         } catch {
-            // Writing failed rather than reading: the file was fine and the
-            // device could not keep it. Said as its own thing, because "this
-            // file cannot be read" would send the user to re-export something
-            // that was never the problem.
-            lastRefusal = UserMapImportRefusal(
-                code: .storageFailed,
-                userMessage: """
-                    This layer could not be saved to your device. Free some \
-                    space and import it again.
-                    """
+            lastRefusal = Self.storageRefusal(
+                "This layer could not be saved to your device. Free some space and import it again."
             )
         }
+    }
+
+    /// Starts an empty layer for the user to draw into.
+    ///
+    /// Its own path rather than a side effect of drawing, because a user who
+    /// has imported nothing still has something to draw on: the map. Returns
+    /// the row so the caller can open the editor on it.
+    @discardableResult
+    func newDrawingLayer(name: String = "My drawing", now: Date = Date()) async -> Row? {
+        let record = UserVectorLayerRecord(
+            id: UUID().uuidString,
+            name: name,
+            source: .drawn,
+            origin: .drawn(createdAt: now),
+            createdAt: now,
+            colorHex: VectorStyle.nextLayerColor(existingCount: rows.count),
+            featureCount: 0,
+            bbox: nil
+        )
+        let empty = ParsedVector(features: [], bbox: nil)
+        do {
+            _ = try await store.add(record, geometry: empty)
+        } catch {
+            lastRefusal = Self.storageRefusal(
+                "This layer could not be saved to your device. Free some space and try again."
+            )
+            return nil
+        }
+        let row = Row(record: record, isVisible: true, parsed: empty)
+        rows.append(row)
+        return row
     }
 
     func setVisible(_ isVisible: Bool, id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible
+        // Remembered on disk, but not waited for: a switch that stalled on the
+        // filesystem would be a switch that did not move.
+        Task { _ = try? await store.setVisible(isVisible, id: id) }
     }
 
     func rename(id: String, to name: String) async {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, let index = rows.firstIndex(where: { $0.id == id }) else { return }
+        guard !trimmed.isEmpty, rows.contains(where: { $0.id == id }) else { return }
+        do {
+            _ = try await store.rename(id: id, to: trimmed)
+        } catch {
+            lastRefusal = Self.storageRefusal(
+                "This name could not be saved to your device. Free some space and try again."
+            )
+            return
+        }
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].record.name = trimmed
-        try? await store.save(rows.map(\.record))
     }
 
     /// Replaces a layer's features with an edited set.
     ///
-    /// The revision is bumped and the geometry rewritten together: the drawn
-    /// layer keys off the revision, so a save that wrote the file without
-    /// bumping it would leave the old shape on screen.
-    func replaceGeometry(id: String, with parsed: ParsedVector, now: Date = Date()) async {
-        guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
+    /// Returns whether the edit reached the disk. The caller keeps its own copy
+    /// until it does: the working copy is the only one that has the edit in it,
+    /// and discarding it on a failed write is the shape data loss actually
+    /// takes.
+    @discardableResult
+    func replaceGeometry(
+        id: String, with parsed: ParsedVector, now: Date = Date()
+    ) async -> Bool {
+        let library: UserVectorLibrary
         do {
-            try await store.writeGeometry(parsed, id: id)
+            library = try await store.replaceGeometry(id: id, with: parsed, now: now)
         } catch {
-            lastRefusal = UserMapImportRefusal(
-                code: .storageFailed,
-                userMessage: """
-                    This edit could not be saved to your device. Free some \
-                    space and try again.
-                    """
+            lastRefusal = Self.storageRefusal(
+                "This edit could not be saved to your device. Free some space and try again."
             )
-            return
+            return false
         }
+        // The record comes back from the store rather than being edited here,
+        // so what the panel shows is what the library says.
+        guard let index = rows.firstIndex(where: { $0.id == id }),
+              let record = library.layers.first(where: { $0.id == id })
+        else { return true }
+        rows[index].record = record
         rows[index].parsed = parsed
-        rows[index].record.revision += 1
-        rows[index].record.modifiedAt = now
-        rows[index].record.featureCount = parsed.featureCount
-        rows[index].record.bbox = parsed.bbox
-        try? await store.save(rows.map(\.record))
+        return true
     }
 
     func delete(id: String) async {
-        guard let remaining = try? await store.delete(id: id, from: rows.map(\.record)) else {
-            return
-        }
-        let kept = Set(remaining.map(\.id))
+        guard let library = try? await store.delete(id: id) else { return }
+        let kept = Set(library.layers.map(\.id))
         rows.removeAll { !kept.contains($0.id) }
+    }
+
+    /// The feature under a tap, among the layers currently drawn.
+    ///
+    /// Later layers win, because that is the order they are installed in and so
+    /// the order they are drawn in: the answer is the one the user can see they
+    /// are pointing at. Hidden layers are not consulted at all — a switched-off
+    /// layer that still answered taps would be a layer the user cannot get rid
+    /// of.
+    func feature(
+        at position: GeoJsonPosition, toleranceDegrees: Double
+    ) -> UserVectorCalloutItem? {
+        var found: UserVectorCalloutItem?
+        for row in rows where row.isVisible {
+            guard let parsed = row.parsed else { continue }
+            if let feature = VectorEdit.feature(
+                at: position, in: parsed, toleranceDegrees: toleranceDegrees
+            ) {
+                found = UserVectorCalloutItem(feature: feature, record: row.record)
+            }
+        }
+        return found
+    }
+
+    /// The feature behind one of the map's annotation ids, which are
+    /// layer-qualified: `<layer id>/<feature id>`.
+    func feature(annotationID: String) -> UserVectorCalloutItem? {
+        guard let separator = annotationID.firstIndex(of: "/") else { return nil }
+        let layerID = String(annotationID[annotationID.startIndex..<separator])
+        let featureID = String(annotationID[annotationID.index(after: separator)...])
+        guard let row = rows.first(where: { $0.id == layerID }),
+              let feature = row.parsed?.features.first(where: { $0.id == featureID })
+        else { return nil }
+        return UserVectorCalloutItem(feature: feature, record: row.record)
+    }
+
+    private static func storageRefusal(_ message: String) -> UserMapImportRefusal {
+        // Said as its own thing rather than as a read failure: the file was
+        // fine and the device could not keep it, and "this file cannot be read"
+        // would send the user to re-export something that was never the problem.
+        UserMapImportRefusal(code: .storageFailed, userMessage: message)
     }
 
     /// What the map should be drawing, in panel order.

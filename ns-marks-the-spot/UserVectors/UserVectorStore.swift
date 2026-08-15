@@ -9,10 +9,23 @@ import GeoCore
 /// change. A library that carried its geometry would rewrite ten thousand
 /// features every time a visibility switch moved.
 ///
+/// Every mutation re-reads the document inside the actor and writes back what
+/// it read plus the one change. Taking a snapshot from a caller and writing it
+/// whole would mean an import that started before an edit finished could put
+/// the edited layer back the way it was, or drop it — the caller's snapshot is
+/// always older than the disk by however long its own `await` took.
+///
 /// Nothing here leaves the device. An imported survey, and anything the user
 /// draws over it, is their own research; no part of this store has a network
 /// path.
 actor UserVectorStore {
+    /// The one store this process uses.
+    ///
+    /// Shared rather than one per view, because the serialization above is only
+    /// worth anything if every writer goes through the same actor. Two scenes
+    /// on an iPad, each with its own store, would race on the same file.
+    static let shared = UserVectorStore()
+
     /// Why the library could not be read or written.
     enum StoreRefusal: Error, Equatable {
         /// A document written by a newer build. Refused rather than read, and
@@ -22,6 +35,8 @@ actor UserVectorStore {
         case unreadable
         /// A record with no geometry file, or one that will not parse.
         case geometryMissing(String)
+        /// The layer this operation names is not in the library any more.
+        case noSuchLayer(String)
     }
 
     private let directory: URL
@@ -57,8 +72,24 @@ actor UserVectorStore {
         return directory.appendingPathComponent("\(id).geojson")
     }
 
-    func load() throws -> [UserVectorLayerRecord] {
-        guard fileManager.fileExists(atPath: libraryURL.path) else { return [] }
+    /// The library as it is on disk right now, and the orphans swept.
+    ///
+    /// The sweep runs here and only here, on a document this build understood:
+    /// after an unreadable or later-version library the records are unknown, and
+    /// deleting every geometry file "no record claims" would delete them all.
+    func load() throws -> UserVectorLibrary {
+        let library = try read()
+        try? sweepOrphanedGeometry(keeping: library.layers)
+        return library
+    }
+
+    /// Reads without sweeping. Every mutation starts here, so what it writes
+    /// back is the document as it actually is rather than as its caller last
+    /// saw it.
+    private func read() throws -> UserVectorLibrary {
+        guard fileManager.fileExists(atPath: libraryURL.path) else {
+            return UserVectorLibrary(layers: [])
+        }
         let data = try Data(contentsOf: libraryURL)
         let library: UserVectorLibrary
         do {
@@ -69,13 +100,71 @@ actor UserVectorStore {
         guard library.isReadable else {
             throw StoreRefusal.fromALaterVersion(library.version)
         }
-        return library.layers
+        return library
     }
 
-    func save(_ layers: [UserVectorLayerRecord]) throws {
+    private func write(_ library: UserVectorLibrary) throws {
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
-        let data = try encoder.encode(UserVectorLibrary(layers: layers))
+        let data = try encoder.encode(library)
         try data.write(to: libraryURL, options: .atomic)
+    }
+
+    /// Adds a layer, geometry first.
+    ///
+    /// Geometry first because the failure that leaves a record pointing at a
+    /// file that is not there is the one the panel cannot recover from; the
+    /// other way round leaves an orphan the next sweep collects.
+    func add(_ record: UserVectorLayerRecord, geometry: ParsedVector) throws -> UserVectorLibrary {
+        try writeGeometry(geometry, id: record.id)
+        var library = try read()
+        library.layers.append(record)
+        try write(library)
+        return library
+    }
+
+    /// Replaces a layer's features and advances its revision in one operation.
+    ///
+    /// One operation because the two are one fact. Writing the geometry and
+    /// then failing to record the revision would leave the new shape on disk
+    /// under a record that still describes the old one — a layer whose feature
+    /// count, extent and modified date all disagree with what it draws.
+    func replaceGeometry(
+        id: String, with parsed: ParsedVector, now: Date
+    ) throws -> UserVectorLibrary {
+        var library = try read()
+        guard let index = library.layers.firstIndex(where: { $0.id == id }) else {
+            throw StoreRefusal.noSuchLayer(id)
+        }
+        try writeGeometry(parsed, id: id)
+        library.layers[index].revision += 1
+        library.layers[index].modifiedAt = now
+        library.layers[index].featureCount = parsed.featureCount
+        library.layers[index].bbox = parsed.bbox
+        try write(library)
+        return library
+    }
+
+    func rename(id: String, to name: String) throws -> UserVectorLibrary {
+        var library = try read()
+        guard let index = library.layers.firstIndex(where: { $0.id == id }) else {
+            throw StoreRefusal.noSuchLayer(id)
+        }
+        library.layers[index].name = name
+        try write(library)
+        return library
+    }
+
+    func setVisible(_ isVisible: Bool, id: String) throws -> UserVectorLibrary {
+        var library = try read()
+        var hidden = Set(library.hiddenLayerIDs)
+        if isVisible {
+            hidden.remove(id)
+        } else {
+            hidden.insert(id)
+        }
+        library.hiddenLayerIDs = hidden.sorted()
+        try write(library)
+        return library
     }
 
     /// Stores a layer's features, as GeoJSON.
@@ -100,20 +189,20 @@ actor UserVectorStore {
     /// The record goes first. A geometry file left behind is wasted space the
     /// next sweep can find; a record left pointing at a deleted file is a row
     /// in the panel that can never draw.
-    func delete(
-        id: String, from layers: [UserVectorLayerRecord]
-    ) throws -> [UserVectorLayerRecord] {
-        let remaining = layers.filter { $0.id != id }
-        try save(remaining)
+    func delete(id: String) throws -> UserVectorLibrary {
+        var library = try read()
+        library.layers.removeAll { $0.id == id }
+        library.hiddenLayerIDs.removeAll { $0 == id }
+        try write(library)
         try? fileManager.removeItem(at: geometryURL(for: id))
-        return remaining
+        return library
     }
 
     /// Deletes geometry files no record claims.
     ///
     /// Reachable state, not a theoretical one: a delete interrupted between the
-    /// two steps above, or a save that failed after its geometry was written.
-    /// Without this the orphans are invisible and permanent.
+    /// two steps above, or an add whose library write failed after its geometry
+    /// was written. Without this the orphans are invisible and permanent.
     func sweepOrphanedGeometry(keeping layers: [UserVectorLayerRecord]) throws {
         guard let files = try? fileManager.contentsOfDirectory(
             at: directory, includingPropertiesForKeys: nil

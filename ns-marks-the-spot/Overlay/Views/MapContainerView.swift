@@ -21,6 +21,7 @@ struct MapContainerView: View {
     /// stays a list: editing is a mode the rest of the panel does not need to
     /// know about.
     @State private var editSession: VectorEditSession?
+    @State private var vectorCallout: UserVectorCalloutItem?
     @State private var isLayersMenuExpanded = false
     @State private var mapHeading: Double = 0
     @State private var isSelectingSaveArea = false
@@ -79,13 +80,16 @@ struct MapContainerView: View {
                             userMaps: userMapsVM,
                             userVectors: userVectorsVM,
                             onZoomToLayer: { controller.frame($0) },
+                            onNewDrawingLayer: {
+                                Task {
+                                    guard let row = await userVectorsVM.newDrawingLayer() else {
+                                        return
+                                    }
+                                    beginEditing(row)
+                                }
+                            },
                             onEditLayer: { row in
-                                let session = VectorEditSession(viewModel: userVectorsVM)
-                                session.begin(row)
-                                editSession = session
-                                // The panel would cover the ground being drawn
-                                // on.
-                                isLayersMenuExpanded = false
+                                beginEditing(row)
                             },
                             isExpanded: $isLayersMenuExpanded
                         )
@@ -352,11 +356,29 @@ struct MapContainerView: View {
             if let editSession {
                 VectorEditPanel(session: editSession) {
                     Task {
-                        await editSession.end()
+                        // Only closed once the last edit is on disk. A session
+                        // dismissed over a failed write would take the only
+                        // copy of the shape with it.
+                        guard await editSession.end() else { return }
                         self.editSession = nil
                         controller.setVectorDraft(nil)
+                        controller.setVectorHandles(nil)
                         pushUserVectors()
                     }
+                }
+                .frame(maxWidth: 420)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if let vectorCallout, editSession == nil {
+                UserVectorCalloutCard(
+                    callout: vectorCallout.callout,
+                    layerName: vectorCallout.layerName
+                ) {
+                    self.vectorCallout = nil
                 }
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
@@ -371,11 +393,23 @@ struct MapContainerView: View {
                 case .headingChanged(let heading):
                     mapHeading = heading
                 case .annotationSelected(let annotationID):
+                    // A marker of the user's own says so, in the same card
+                    // every other geometry type of theirs uses.
+                    if let item = userVectorsVM.feature(annotationID: annotationID) {
+                        vectorCallout = item
+                        break
+                    }
                     if let poi = poiVM.points.first(where: { $0.id == annotationID }) {
                         navigationModel.activeSheet = .poiDetail(poi)
                     }
                 case .boundsSelected(let bounds):
                     finishBoundsSelection(with: bounds)
+                case .vertexMoved(let featureID, let ring, let vertex, let latitude, let longitude):
+                    editSession?.moveVertex(
+                        featureID: featureID, ring: ring, vertex: vertex,
+                        latitude: latitude, longitude: longitude
+                    )
+
                 case .visibleRegionSettled:
                     // Leaflet's `moveend`: the viewport layers ask their
                     // services what is in the view the user actually stopped
@@ -391,6 +425,18 @@ struct MapContainerView: View {
                         )
                         break
                     }
+                    // The user's own layers answer first. They are drawn above
+                    // every catalogued one, so a tap that landed on a track the
+                    // user imported means the track — identifying the parcel
+                    // underneath would answer a question they did not ask.
+                    if let item = userVectorsVM.feature(
+                        at: GeoJsonPosition(lng: longitude, lat: latitude),
+                        toleranceDegrees: fingerTolerance
+                    ) {
+                        vectorCallout = item
+                        break
+                    }
+                    vectorCallout = nil
                     // The view model decides whether a tap means anything: the
                     // parcel layer has to be on and the map zoomed in far
                     // enough for a finger to be pointing at one property.
@@ -431,6 +477,15 @@ struct MapContainerView: View {
         .onChange(of: editSession?.draft) { _, draft in
             controller.setVectorDraft(draftPreview(draft))
         }
+        .onChange(of: editSession?.selectedFeatureID) { _, _ in
+            controller.setVectorHandles(selectionHandles())
+        }
+        // After a vertex moves, the handles are rebuilt from the new geometry:
+        // MapKit left the dragged one where the finger did, and every other
+        // handle on a closed ring may have moved with it.
+        .onChange(of: editSession?.parsed) { _, _ in
+            controller.setVectorHandles(selectionHandles())
+        }
         .onChange(of: navigationModel.activeSheet) { _, newValue in
             if newValue != nil {
                 cancelBoundsSelection()
@@ -439,10 +494,19 @@ struct MapContainerView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase != .active {
                 cancelBoundsSelection()
+                // The debounce cannot outlive the app. A pending edit that was
+                // still waiting for its timer when the user switched away would
+                // never be written at all.
+                if let editSession {
+                    Task { await editSession.flush() }
+                }
             }
         }
         .onDisappear {
             cancelBoundsSelection()
+            if let editSession {
+                Task { await editSession.flush() }
+            }
         }
         .sheet(item: $navigationModel.activeSheet) { route in
             switch route {
@@ -554,6 +618,31 @@ struct MapContainerView: View {
         controller.setUserVectors(drawings)
     }
 
+    /// The finger's reach in degrees of longitude at this zoom, so a line stays
+    /// tappable zoomed out without swallowing its neighbours zoomed in. Roughly
+    /// 22 points of screen, which is the touch target Apple asks for halved.
+    private var fingerTolerance: Double {
+        22 * 360 / (256 * pow(2, Double(controller.zoomLevel)))
+    }
+
+    private func beginEditing(_ row: UserVectorsViewModel.Row) {
+        let session = VectorEditSession(viewModel: userVectorsVM)
+        session.begin(row)
+        editSession = session
+        // A callout and an editing panel would be two cards over the same map.
+        vectorCallout = nil
+        // The layer panel would cover the ground being drawn on.
+        isLayersMenuExpanded = false
+    }
+
+    /// The handles for whichever feature is selected, or none.
+    private func selectionHandles() -> VectorSelectionHandles? {
+        guard let session = editSession, let feature = session.selectedFeature else { return nil }
+        return VectorSelectionHandles(
+            feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
+        )
+    }
+
     private func draftPreview(_ draft: VectorDraft?) -> VectorDraftPreview? {
         guard let draft, let session = editSession else { return nil }
         return VectorDraftPreview(
@@ -573,10 +662,7 @@ struct MapContainerView: View {
             return
         }
         guard let parsed = session.parsed else { return }
-        // The finger's reach in degrees at this zoom, so a line stays tappable
-        // zoomed out without swallowing its neighbours zoomed in. Roughly 22
-        // points of screen, which is the touch target Apple asks for halved.
-        let tolerance = 22 * 360 / (256 * pow(2, Double(controller.zoomLevel)))
+        let tolerance = fingerTolerance
         session.select(
             featureID: VectorEdit.feature(
                 at: GeoJsonPosition(lng: longitude, lat: latitude),

@@ -15,6 +15,8 @@ enum MapEvent {
     /// Whether it means anything is the handler's decision — this reports where
     /// the user touched, not that a parcel should be identified.
     case mapTapped(latitude: Double, longitude: Double)
+    /// A vertex handle the user dragged to a new place.
+    case vertexMoved(featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double)
     /// The view stopped moving. Leaflet's `moveend`/`zoomend`, which is what
     /// the viewport feature layers re-query on — every frame of a pan would be
     /// a query for ground the user is already leaving.
@@ -203,6 +205,14 @@ final class MapController: NSObject {
                 mapView.addAnnotations(drawing.annotations())
             }
 
+        case .setVectorHandles(let handles):
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? VectorVertexHandleAnnotation }
+            )
+            if let handles {
+                mapView.addAnnotations(handles.handles())
+            }
+
         case .setVectorDraft(let draft):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? VectorDraftPolyline })
             mapView.removeAnnotations(
@@ -358,6 +368,10 @@ final class MapController: NSObject {
 
     func setVectorDraft(_ draft: VectorDraftPreview?) {
         mutate { $0.vectorDraft = draft }
+    }
+
+    func setVectorHandles(_ handles: VectorSelectionHandles?) {
+        mutate { $0.vectorHandles = handles }
     }
 
     func setFeatureMarkers(_ markers: [FeatureMarker]) {
@@ -792,7 +806,7 @@ extension MapController: MKMapViewDelegate {
     static func apply(_ style: UserVectorStyle, to renderer: MKOverlayPathRenderer) {
         renderer.strokeColor = UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity)
         renderer.fillColor = UIColor(featureHex: style.fillHex, alpha: style.fillOpacity)
-        renderer.lineWidth = style.weight
+        renderer.lineWidth = CGFloat(style.weight)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -801,6 +815,21 @@ extension MapController: MKMapViewDelegate {
         // Before the pin branch: a well log and a saved point of interest are
         // both point annotations, and a well drawn as a dropped pin would read
         // as a place someone marked rather than as a record with an accuracy.
+        if let handle = annotation as? VectorVertexHandleAnnotation {
+            let identifier = "VectorVertexHandle"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+            view.annotation = handle
+            view.canShowCallout = false
+            // Dragged rather than tapped-then-tapped: MapKit's own drag is the
+            // gesture the user already knows, and it moves the handle under the
+            // finger instead of asking them to aim twice.
+            view.isDraggable = true
+            view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            return view
+        }
+
         if let handle = annotation as? VectorDraftVertexAnnotation {
             let identifier = "VectorDraftHandle"
             let view =
@@ -823,7 +852,11 @@ extension MapController: MKMapViewDelegate {
                 mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
                 ?? MKAnnotationView(annotation: point, reuseIdentifier: identifier)
             view.annotation = point
-            view.canShowCallout = true
+            // The app's own card rather than MapKit's callout bubble: the
+            // bubble has a title and a subtitle and no third line, and the
+            // provenance is not optional decoration — a marker the user
+            // imported has to say so wherever it is shown.
+            view.canShowCallout = false
             view.image = UserVectorMarkerImage.image(for: point.style)
             return view
         }
@@ -853,6 +886,35 @@ extension MapController: MKMapViewDelegate {
         view.markerTintColor = .systemRed
         view.glyphImage = UIImage(systemName: "mappin")
         return view
+    }
+
+    /// Reports a dragged vertex once, when the finger lifts.
+    ///
+    /// On `.ending` rather than on every move: a drag reports continuously, and
+    /// committing each step would write a revision of the layer for every pixel
+    /// the finger travelled.
+    func mapView(
+        _ mapView: MKMapView,
+        annotationView view: MKAnnotationView,
+        didChange newState: MKAnnotationView.DragState,
+        fromOldState oldState: MKAnnotationView.DragState
+    ) {
+        guard newState == .ending || newState == .canceling,
+              let handle = view.annotation as? VectorVertexHandleAnnotation
+        else { return }
+        // Told where it ended up rather than where MapKit thinks it is: the
+        // view's own coordinate is the one the drag left behind.
+        let coordinate = handle.coordinate
+        guard newState == .ending else { return }
+        events?(
+            .vertexMoved(
+                featureID: handle.featureID,
+                ring: handle.ring,
+                vertex: handle.vertex,
+                latitude: coordinate.latitude,
+                longitude: coordinate.longitude
+            )
+        )
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

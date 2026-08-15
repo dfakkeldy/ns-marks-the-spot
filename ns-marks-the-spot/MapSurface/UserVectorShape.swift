@@ -178,6 +178,75 @@ nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
     }
 }
 
+/// The vertices of the feature the user has selected, as handles they can drag.
+///
+/// Only single-part geometry gets them. `VectorEdit.moving` addresses a vertex
+/// by ring and index and carries no part index, so a multi-polygon would need
+/// this view to guess which part it meant — and moving the wrong part is a
+/// silent corruption of the user's own data. A multi-part feature can still be
+/// named and deleted; it just cannot be reshaped here.
+nonisolated struct VectorSelectionHandles: Equatable, Sendable {
+    var featureID: String
+    var rings: [[GeoJsonPosition]]
+    var colorHex: String
+
+    init?(feature: GeoJsonFeature, colorHex: String) {
+        guard let id = feature.id, let geometry = feature.geometry else { return nil }
+        switch geometry {
+        case .point(let position): rings = [[position]]
+        case .lineString(let line): rings = [line]
+        case .polygon(let polygonRings): rings = polygonRings
+        case .multiPoint, .multiLineString, .multiPolygon, .collection: return nil
+        }
+        featureID = id
+        self.colorHex = colorHex
+    }
+
+    func handles() -> [VectorVertexHandleAnnotation] {
+        var annotations: [VectorVertexHandleAnnotation] = []
+        for (ring, positions) in rings.enumerated() {
+            for (vertex, position) in positions.enumerated() {
+                // A closed ring's last position is its first one. Two handles
+                // on one corner would let the user drag the copy and watch the
+                // shape not move.
+                if positions.count > 1, vertex == positions.count - 1,
+                    positions.first == positions.last
+                {
+                    continue
+                }
+                annotations.append(
+                    VectorVertexHandleAnnotation(
+                        featureID: featureID, ring: ring, vertex: vertex,
+                        position: position, colorHex: colorHex
+                    )
+                )
+            }
+        }
+        return annotations
+    }
+}
+
+/// One draggable vertex of the selected feature.
+nonisolated final class VectorVertexHandleAnnotation: MKPointAnnotation,
+    MapKitAnnotationIdentifying
+{
+    let mapAnnotationID: String
+    let featureID: String
+    let ring: Int
+    let vertex: Int
+    let colorHex: String
+
+    init(featureID: String, ring: Int, vertex: Int, position: GeoJsonPosition, colorHex: String) {
+        mapAnnotationID = "vertex-\(featureID)-\(ring)-\(vertex)"
+        self.featureID = featureID
+        self.ring = ring
+        self.vertex = vertex
+        self.colorHex = colorHex
+        super.init()
+        coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
+    }
+}
+
 /// The handle a draft vertex is drawn as: small, hollow and unmistakably not a
 /// marker the layer holds.
 nonisolated enum VectorDraftHandleImage {

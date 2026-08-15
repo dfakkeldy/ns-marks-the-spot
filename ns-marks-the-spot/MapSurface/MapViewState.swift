@@ -186,6 +186,8 @@ nonisolated struct MapViewState: Equatable, Sendable {
     /// The shape currently being drawn, if one is. Not part of any layer until
     /// the user finishes it.
     var vectorDraft: VectorDraftPreview?
+    /// The vertices of the selected feature, as draggable handles.
+    var vectorHandles: VectorSelectionHandles?
     var showsUserLocation = false
     var interactionMode: MapInteractionMode = .idle
 }
