@@ -106,11 +106,12 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         // using". Checking here is what makes the map agree with the switch.
         //
         // Sweeping those bytes off disk when an accepted licence is later
-        // revoked is a separate obligation, and nothing reaches
-        // `ProvinceLicenceStore.revoke()` yet — this app currently has an
-        // accept-or-decline sheet and no revoke control. When one lands it needs
-        // a cache sweep beside it; until then no session can get from accepted
-        // back to refused, so there is no state this check leaves inconsistent.
+        // revoked is a separate obligation, and it is met beside the revoke
+        // control in `OverlayViewModel.revokeProvinceLicence`. This check is
+        // still what makes the two agree in the window between them: the
+        // clearance changes first and the disk is emptied a moment later, and
+        // for that moment the cache still holds imagery the user has withdrawn
+        // permission for.
         if case .catalogExport(let layerID) = configuration.source,
            !clearanceBox.clearance.allows(layerID)
         {

@@ -247,6 +247,10 @@ final class OverlayViewModel {
     private let historical: HistoricalTaxSaleViewModel?
     private let licenceStore: ProvinceLicenceStore
     private let clearanceBox: LicenceClearanceBox
+    /// The cache a revocation has to empty. Optional because most tests drive
+    /// this model with no cache at all; a revocation without one still stops
+    /// every request, and says in the sheet that it swept nothing.
+    private let tileCache: TileCache?
     private let parcelFetcher: ParcelFetcher
     private let civicFetcher: CivicAddressFetcher
     private let contextFetcher: ParcelContextFetcher
@@ -267,6 +271,7 @@ final class OverlayViewModel {
         taxSale: TaxSaleViewModel? = nil,
         historical: HistoricalTaxSaleViewModel? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
+        tileCache: TileCache? = nil,
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
@@ -282,6 +287,7 @@ final class OverlayViewModel {
         self.historical = historical
         self.licenceStore = licenceStore
         self.clearanceBox = clearanceBox
+        self.tileCache = tileCache
         self.parcelFetcher = parcelFetcher
         self.civicFetcher = civicFetcher
         self.contextFetcher = contextFetcher
@@ -305,7 +311,8 @@ final class OverlayViewModel {
             features: features,
             taxSale: taxSale,
             historical: historical,
-            clearanceBox: container.clearanceBox
+            clearanceBox: container.clearanceBox,
+            tileCache: container.tileCache
         )
     }
 
@@ -1552,6 +1559,83 @@ final class OverlayViewModel {
 
     func dismissLicenceSheet() {
         licencePromptedLayerID = nil
+    }
+
+    /// Whether the user has restricted Province layers to withdraw.
+    ///
+    /// The control that calls `revokeProvinceLicence` is shown only when this
+    /// is true: offering to withdraw permission that was never given describes
+    /// a state the user is not in.
+    var hasAcceptedProvinceLicence: Bool {
+        clearanceBox.clearance.allowsRestrictedLayers
+    }
+
+    /// Tiles a revocation was supposed to delete and could not.
+    ///
+    /// Surfaced rather than swallowed. A revocation that stops the requests but
+    /// leaves the imagery on disk has done half of what the user asked for, and
+    /// the half it did not do is the half about data already held.
+    private(set) var licenceSweepFailure: String?
+
+    /// Withdraws acceptance, and takes the Province imagery off this device.
+    ///
+    /// Three things, in this order, because each is visible on its own: the
+    /// clearance stops every new request, the layers and parcel evidence
+    /// already on screen go, and the cached tiles are deleted. Stopping at the
+    /// first would leave the map drawing from cache; stopping at the second
+    /// would leave the bytes on disk to be drawn again the moment a future bug
+    /// read the cache before the gate.
+    ///
+    /// Saved offline areas are not swept, and that is not an oversight: the
+    /// downloader saves Fletcher tiles only, and Fletcher is not a restricted
+    /// Province layer. If a restricted layer ever becomes downloadable, this
+    /// has to grow a second sweep — `TileStore`, not `TileCache`.
+    func revokeProvinceLicence() async {
+        licenceSweepFailure = nil
+        licenceStore.revoke()
+        // Synchronously, as `decline` does: the mirror runs a hop later and the
+        // map should not draw one more restricted frame.
+        clearanceBox.update(licenceStore.clearance)
+        hideRefusedLayers()
+        dropRefusedParcelEvidence(licenceStore.clearance)
+
+        guard let tileCache else { return }
+        var unswept: [String] = []
+        for layer in Self.restrictedInstalledLayers(controller.layers) {
+            do {
+                try await tileCache.clearLayer(named: layer.configuration.cacheIdentifier)
+            } catch {
+                unswept.append(layer.name)
+            }
+        }
+        guard !unswept.isEmpty else { return }
+        licenceSweepFailure = """
+            Tiles already downloaded for \(unswept.joined(separator: ", ")) \
+            could not be deleted from this device. The map will not draw or \
+            request them again, but the files are still there.
+            """
+    }
+
+    func dismissLicenceSweepFailure() {
+        licenceSweepFailure = nil
+    }
+
+    /// The installed layers a revocation has to sweep.
+    ///
+    /// Read off the catalog's own restricted set rather than a list written out
+    /// here: a restricted layer added to the catalog later would otherwise keep
+    /// its cached tiles after the user withdrew permission, and nothing in this
+    /// file would say so.
+    static func restrictedInstalledLayers(_ layers: [MapLayerState]) -> [MapLayerState] {
+        layers.filter { layer in
+            guard let id = LayerID(rawValue: layer.configuration.id) else {
+                // An installed layer with no catalog id cannot be shown to be
+                // unrestricted, and the safe reading of "unknown" here is to
+                // sweep it.
+                return true
+            }
+            return LayerCatalog.restrictedLayerIDs.contains(id)
+        }
     }
 
     /// Switches off any visible layer the current clearance no longer permits.

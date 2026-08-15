@@ -61,64 +61,64 @@ struct MapContainerView: View {
         @Bindable var navigationModel = navigationModel
 
         return lifecycle(mapStack)
-        .sheet(item: $navigationModel.activeSheet) { route in
-            switch route {
-            case .poiDetail(let poi):
-                POIDetailView(poi: poi)
-            case .offlineStorage:
-                OfflineStorageView(viewModel: offlineVM)
-            case .info:
-                InfoSheetView()
-            case .taxSaleNotices:
-                TaxSaleNoticesView(
-                    viewModel: taxSaleVM,
-                    overlayViewModel: overlayVM
-                ) {
-                    // The property's parcel card is behind this sheet.
-                    navigationModel.activeSheet = nil
-                }
-            case .historicalTaxSales:
-                HistoricalTaxSalesView(
-                    viewModel: historicalVM,
-                    overlayViewModel: overlayVM
-                ) {
-                    // The property's parcel card is behind this sheet.
-                    navigationModel.activeSheet = nil
-                }
-            case .saveAreaDraft(let bounds):
-                NavigationStack {
-                    SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)
-                }
-            case .printExport:
-                PrintExportSheet(overlayVM: overlayVM) { url in
-                    // The finished page goes straight to the share sheet, and
-                    // the export sheet stays up: it is holding the account of
-                    // which layers did not print.
-                    share = SharePayload(url: url)
+            .sheet(item: $navigationModel.activeSheet) { route in
+                switch route {
+                case .poiDetail(let poi):
+                    POIDetailView(poi: poi)
+                case .offlineStorage:
+                    OfflineStorageView(viewModel: offlineVM)
+                case .info:
+                    InfoSheetView(overlayVM: overlayVM)
+                case .taxSaleNotices:
+                    TaxSaleNoticesView(
+                        viewModel: taxSaleVM,
+                        overlayViewModel: overlayVM
+                    ) {
+                        // The property's parcel card is behind this sheet.
+                        navigationModel.activeSheet = nil
+                    }
+                case .historicalTaxSales:
+                    HistoricalTaxSalesView(
+                        viewModel: historicalVM,
+                        overlayViewModel: overlayVM
+                    ) {
+                        // The property's parcel card is behind this sheet.
+                        navigationModel.activeSheet = nil
+                    }
+                case .saveAreaDraft(let bounds):
+                    NavigationStack {
+                        SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)
+                    }
+                case .printExport:
+                    PrintExportSheet(overlayVM: overlayVM) { url in
+                        // The finished page goes straight to the share sheet, and
+                        // the export sheet stays up: it is holding the account of
+                        // which layers did not print.
+                        share = SharePayload(url: url)
+                    }
                 }
             }
-        }
-        .sheet(item: $share) { payload in
-            ShareSheet(items: payload.items)
-        }
-        .alert(
-            "The evidence note could not be written.",
-            isPresented: .init(
-                get: { exportFailure != nil },
-                set: { if !$0 { exportFailure = nil } }
-            ),
-            presenting: exportFailure
-        ) { _ in
-            Button("OK", role: .cancel) { exportFailure = nil }
-        } message: { reason in
-            Text(reason)
-        }
-        // A shared link opened from elsewhere. Nothing registers a scheme or an
-        // associated domain yet, so this fires only once one is configured —
-        // wired now so the restore path is the same one the tests exercise.
-        .onOpenURL { url in
-            overlayVM.restore(from: url)
-        }
+            .sheet(item: $share) { payload in
+                ShareSheet(items: payload.items)
+            }
+            .alert(
+                "The evidence note could not be written.",
+                isPresented: .init(
+                    get: { exportFailure != nil },
+                    set: { if !$0 { exportFailure = nil } }
+                ),
+                presenting: exportFailure
+            ) { _ in
+                Button("OK", role: .cancel) { exportFailure = nil }
+            } message: { reason in
+                Text(reason)
+            }
+            // A shared link opened from elsewhere. Nothing registers a scheme or an
+            // associated domain yet, so this fires only once one is configured —
+            // wired now so the restore path is the same one the tests exercise.
+            .onOpenURL { url in
+                overlayVM.restore(from: url)
+            }
     }
 
     /// The map and everything drawn over it.
@@ -127,333 +127,333 @@ struct MapContainerView: View {
     /// whole chain in one expression exceeded the type-checker's budget and
     /// failed to compile at all. Each piece here checks on its own.
     private var mapStack: some View {
-            ZStack {
-                MapSurfaceView(controller: controller)
-                    .ignoresSafeArea()
+        ZStack {
+            MapSurfaceView(controller: controller)
+                .ignoresSafeArea()
 
-                VStack {
-                    HStack(alignment: .top, spacing: 12) {
-                        if !isSelectingSaveArea {
-                            ParcelSearchBar(viewModel: overlayVM)
-                                .frame(maxWidth: 260, alignment: .leading)
-                                .padding(.leading, 12)
-                                .padding(.top, 60)
-                        }
-
-                        Spacer()
-
-                        if isLayersMenuExpanded {
-                            TransparencySliderView(
-                                viewModel: overlayVM,
-                                userMaps: userMapsVM,
-                                userVectors: userVectorsVM,
-                                onZoomToLayer: { controller.frame($0) },
-                                onEditLayer: { row in
-                                    beginEditing(row)
-                                },
-                                onNewDrawingLayer: {
-                                    Task {
-                                        guard let row = await userVectorsVM.newDrawingLayer() else {
-                                            return
-                                        }
-                                        beginEditing(row)
-                                    }
-                                },
-                                isExpanded: $isLayersMenuExpanded
-                            )
-                                .frame(width: 300)
-                                .transition(.asymmetric(
-                                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                                    removal: .move(edge: .trailing).combined(with: .opacity)
-                                ))
-                                .padding(.top, 60)
-                        }
-
-                        VStack(spacing: 12) {
-                            if isSelectingSaveArea {
-                                VStack(alignment: .trailing, spacing: 8) {
-                                    Text("Drag to select an area")
-                                        .font(.subheadline)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 8)
-                                        .background(.regularMaterial)
-                                        .clipShape(.rect(cornerRadius: 16))
-
-                                    Button("Use Visible Map") {
-                                        saveVisibleMapArea()
-                                    }
-                                    .buttonStyle(.borderedProminent)
-
-                                    Button("Cancel") {
-                                        cancelBoundsSelection()
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .tint(.red)
-                                }
-                                .transition(.move(edge: .trailing).combined(with: .opacity))
-                            }
-
-                            if mapHeading != 0 {
-                                Button {
-                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                        controller.resetHeading()
-                                    }
-                                } label: {
-                                    Image(systemName: "compass.fill")
-                                        .font(.system(size: 18, weight: .semibold))
-                                        .foregroundStyle(.blue)
-                                        .frame(width: 44, height: 44)
-                                        .background(.regularMaterial)
-                                        .clipShape(Circle())
-                                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                                        .rotationEffect(.degrees(-mapHeading))
-                                }
-                                .accessibilityLabel("Reset Map Heading")
-                                .transition(.scale.combined(with: .opacity))
-                                .disabled(isSelectingSaveArea)
-                            }
-
-                            Button {
-                                controller.showsUserLocation = true
-                                controller.centerOnUserLocation()
-                            } label: {
-                                Image(systemName: "location.fill")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Current Location")
-                            .disabled(isSelectingSaveArea)
-
-                            Button {
-                                cancelBoundsSelection()
-                                navigationModel.activeSheet = .offlineStorage
-                            } label: {
-                                Image(systemName: "externaldrive")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Offline Maps")
-
-                            // One list at a time, as the web renders one panel at a
-                            // time. Both on screen at once would let a reader pick a
-                            // dated result out of one list while the map beside it is
-                            // answering the other question.
-                            if overlayVM.mapRecordMode == .current {
-                            Button {
-                                cancelBoundsSelection()
-                                navigationModel.activeSheet = .taxSaleNotices
-                            } label: {
-                                Image(systemName: "banknote")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Tax-sale Notices")
-                            .disabled(isSelectingSaveArea)
-                            } else {
-                            Button {
-                                cancelBoundsSelection()
-                                navigationModel.activeSheet = .historicalTaxSales
-                            } label: {
-                                Image(systemName: "clock.arrow.circlepath")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.purple)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Historical Tax-sale Records")
-                            .disabled(isSelectingSaveArea)
-                            }
-
-                            Button {
-                                share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
-                            } label: {
-                                Image(systemName: "square.and.arrow.up")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Share This Map View")
-                            .accessibilityIdentifier("share-map-view")
-                            .disabled(isSelectingSaveArea)
-
-                            Button {
-                                cancelBoundsSelection()
-                                navigationModel.activeSheet = .printExport
-                            } label: {
-                                Image(systemName: "printer")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Export This Map As A PDF")
-                            .accessibilityIdentifier("export-map-pdf")
-                            .disabled(isSelectingSaveArea)
-
-                            Button {
-                                cancelBoundsSelection()
-                                navigationModel.activeSheet = .info
-                            } label: {
-                                Image(systemName: "info.circle")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Data Sources and Licenses")
-                            .disabled(isSelectingSaveArea)
-
-                            Button {
-                                beginSaveAreaSelection()
-                            } label: {
-                                Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(isSelectingSaveArea ? .white : .blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(isSelectingSaveArea ? Color.blue : Color.clear)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Save Area")
-                            .disabled(isSelectingSaveArea)
-
-                            Button {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                                    isLayersMenuExpanded.toggle()
-                                }
-                            } label: {
-                                Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel("Toggle Layers Menu")
-                            .disabled(isSelectingSaveArea)
-                        }
-                        .padding(.trailing, 12)
-                        .padding(.top, 60)
+            VStack {
+                HStack(alignment: .top, spacing: 12) {
+                    if !isSelectingSaveArea {
+                        ParcelSearchBar(viewModel: overlayVM)
+                            .frame(maxWidth: 260, alignment: .leading)
+                            .padding(.leading, 12)
+                            .padding(.top, 60)
                     }
-                    Spacer()
-                }
 
-                if let waterfallFetchErrorMessage = poiVM.waterfallFetchErrorMessage {
+                    Spacer()
+
+                    if isLayersMenuExpanded {
+                        TransparencySliderView(
+                            viewModel: overlayVM,
+                            userMaps: userMapsVM,
+                            userVectors: userVectorsVM,
+                            onZoomToLayer: { controller.frame($0) },
+                            onEditLayer: { row in
+                                beginEditing(row)
+                            },
+                            onNewDrawingLayer: {
+                                Task {
+                                    guard let row = await userVectorsVM.newDrawingLayer() else {
+                                        return
+                                    }
+                                    beginEditing(row)
+                                }
+                            },
+                            isExpanded: $isLayersMenuExpanded
+                        )
+                            .frame(width: 300)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .trailing).combined(with: .opacity),
+                                removal: .move(edge: .trailing).combined(with: .opacity)
+                            ))
+                            .padding(.top, 60)
+                    }
+
+                    VStack(spacing: 12) {
+                        if isSelectingSaveArea {
+                            VStack(alignment: .trailing, spacing: 8) {
+                                Text("Drag to select an area")
+                                    .font(.subheadline)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                    .background(.regularMaterial)
+                                    .clipShape(.rect(cornerRadius: 16))
+
+                                Button("Use Visible Map") {
+                                    saveVisibleMapArea()
+                                }
+                                .buttonStyle(.borderedProminent)
+
+                                Button("Cancel") {
+                                    cancelBoundsSelection()
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.red)
+                            }
+                            .transition(.move(edge: .trailing).combined(with: .opacity))
+                        }
+
+                        if mapHeading != 0 {
+                            Button {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    controller.resetHeading()
+                                }
+                            } label: {
+                                Image(systemName: "compass.fill")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundStyle(.blue)
+                                    .frame(width: 44, height: 44)
+                                    .background(.regularMaterial)
+                                    .clipShape(Circle())
+                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                                    .rotationEffect(.degrees(-mapHeading))
+                            }
+                            .accessibilityLabel("Reset Map Heading")
+                            .transition(.scale.combined(with: .opacity))
+                            .disabled(isSelectingSaveArea)
+                        }
+
+                        Button {
+                            controller.showsUserLocation = true
+                            controller.centerOnUserLocation()
+                        } label: {
+                            Image(systemName: "location.fill")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Current Location")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .offlineStorage
+                        } label: {
+                            Image(systemName: "externaldrive")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Offline Maps")
+
+                        // One list at a time, as the web renders one panel at a
+                        // time. Both on screen at once would let a reader pick a
+                        // dated result out of one list while the map beside it is
+                        // answering the other question.
+                        if overlayVM.mapRecordMode == .current {
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .taxSaleNotices
+                        } label: {
+                            Image(systemName: "banknote")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Tax-sale Notices")
+                        .disabled(isSelectingSaveArea)
+                        } else {
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .historicalTaxSales
+                        } label: {
+                            Image(systemName: "clock.arrow.circlepath")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.purple)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Historical Tax-sale Records")
+                        .disabled(isSelectingSaveArea)
+                        }
+
+                        Button {
+                            share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Share This Map View")
+                        .accessibilityIdentifier("share-map-view")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .printExport
+                        } label: {
+                            Image(systemName: "printer")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Export This Map As A PDF")
+                        .accessibilityIdentifier("export-map-pdf")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            cancelBoundsSelection()
+                            navigationModel.activeSheet = .info
+                        } label: {
+                            Image(systemName: "info.circle")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Data Sources and Licenses")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            beginSaveAreaSelection()
+                        } label: {
+                            Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(isSelectingSaveArea ? .white : .blue)
+                                .frame(width: 44, height: 44)
+                                .background(isSelectingSaveArea ? Color.blue : Color.clear)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Save Area")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                isLayersMenuExpanded.toggle()
+                            }
+                        } label: {
+                            Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
+                                .frame(width: 44, height: 44)
+                                .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Toggle Layers Menu")
+                        .disabled(isSelectingSaveArea)
+                    }
+                    .padding(.trailing, 12)
+                    .padding(.top, 60)
+                }
+                Spacer()
+            }
+
+            if let waterfallFetchErrorMessage = poiVM.waterfallFetchErrorMessage {
+                VStack {
+                    Spacer()
+
+                    HStack(spacing: 12) {
+                        Label(waterfallFetchErrorMessage, systemImage: "exclamationmark.triangle")
+                            .font(.footnote)
+
+                        Button("Retry") {
+                            Task {
+                                await poiVM.fetchRemoteWaterfalls(controller: controller, force: true)
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: 8))
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 24)
+                }
+                .accessibilityElement(children: .combine)
+            }
+
+            // A card rather than a sheet, and not in `activeSheet`: the panel
+            // describes an outline on the map, so the map has to stay visible
+            // and draggable underneath it. Hidden during area selection, which
+            // owns the whole surface.
+            if let inspection = overlayVM.inspection, !isSelectingSaveArea {
+                GeometryReader { proxy in
                     VStack {
                         Spacer()
 
-                        HStack(spacing: 12) {
-                            Label(waterfallFetchErrorMessage, systemImage: "exclamationmark.triangle")
-                                .font(.footnote)
-
-                            Button("Retry") {
-                                Task {
-                                    await poiVM.fetchRemoteWaterfalls(controller: controller, force: true)
-                                }
-                            }
-                            .buttonStyle(.bordered)
-                        }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                        .background(.regularMaterial)
-                        .clipShape(.rect(cornerRadius: 8))
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 24)
+                        ParcelInspectorView(
+                            inspection: inspection,
+                            onClose: { overlayVM.clearParcelSelection() },
+                            canExportNote: overlayVM.canExportEvidenceNote,
+                            onShareMapLink: {
+                                share = SharePayload(
+                                    url: overlayVM.shareURL ?? OverlayViewModel.webMapURL
+                                )
+                            },
+                            onExportNote: exportEvidenceNote
+                        )
+                        // Height off the screen rather than a fixed 360: the
+                        // control column above runs to roughly 330 points from
+                        // the top, and on a 667-point phone a fixed card
+                        // reaches up under the layers button and swallows its
+                        // taps.
+                        .frame(maxHeight: min(360, proxy.size.height * 0.45))
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 12)
                     }
-                    .accessibilityElement(children: .combine)
                 }
-
-                // A card rather than a sheet, and not in `activeSheet`: the panel
-                // describes an outline on the map, so the map has to stay visible
-                // and draggable underneath it. Hidden during area selection, which
-                // owns the whole surface.
-                if let inspection = overlayVM.inspection, !isSelectingSaveArea {
-                    GeometryReader { proxy in
-                        VStack {
-                            Spacer()
-
-                            ParcelInspectorView(
-                                inspection: inspection,
-                                onClose: { overlayVM.clearParcelSelection() },
-                                canExportNote: overlayVM.canExportEvidenceNote,
-                                onShareMapLink: {
-                                    share = SharePayload(
-                                        url: overlayVM.shareURL ?? OverlayViewModel.webMapURL
-                                    )
-                                },
-                                onExportNote: exportEvidenceNote
-                            )
-                            // Height off the screen rather than a fixed 360: the
-                            // control column above runs to roughly 330 points from
-                            // the top, and on a 667-point phone a fixed card
-                            // reaches up under the layers button and swallows its
-                            // taps.
-                            .frame(maxHeight: min(360, proxy.size.height * 0.45))
-                            .padding(.horizontal, 12)
-                            .padding(.bottom, 12)
-                        }
-                    }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            .overlay(alignment: .bottom) {
-                if let editSession {
-                    VectorEditPanel(session: editSession) {
-                        Task {
-                            // Only closed once the last edit is on disk. A session
-                            // dismissed over a failed write would take the only
-                            // copy of the shape with it.
-                            guard await editSession.end() else { return }
-                            self.editSession = nil
-                            controller.setVectorDraft(nil)
-                            controller.setVectorHandles(nil)
-                            pushUserVectors()
-                        }
+        }
+        .overlay(alignment: .bottom) {
+            if let editSession {
+                VectorEditPanel(session: editSession) {
+                    Task {
+                        // Only closed once the last edit is on disk. A session
+                        // dismissed over a failed write would take the only
+                        // copy of the shape with it.
+                        guard await editSession.end() else { return }
+                        self.editSession = nil
+                        controller.setVectorDraft(nil)
+                        controller.setVectorHandles(nil)
+                        pushUserVectors()
                     }
-                    .frame(maxWidth: 420)
-                    .padding(.horizontal, 12)
-                    .padding(.bottom, 12)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
+                .frame(maxWidth: 420)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            .overlay(alignment: .bottom) {
-                if let vectorCallout, editSession == nil {
-                    UserVectorCalloutCard(
-                        callout: vectorCallout.callout,
-                        layerName: vectorCallout.layerName
-                    ) {
-                        self.vectorCallout = nil
-                    }
-                    .frame(maxWidth: 420)
-                    .padding(.horizontal, 12)
-                    .padding(.bottom, 12)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+        }
+        .overlay(alignment: .bottom) {
+            if let vectorCallout, editSession == nil {
+                UserVectorCalloutCard(
+                    callout: vectorCallout.callout,
+                    layerName: vectorCallout.layerName
+                ) {
+                    self.vectorCallout = nil
                 }
+                .frame(maxWidth: 420)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
+        }
     }
 
     /// What the container does as it appears, changes and goes away.
