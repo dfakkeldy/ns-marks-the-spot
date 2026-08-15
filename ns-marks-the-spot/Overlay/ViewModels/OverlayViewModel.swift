@@ -972,7 +972,8 @@ final class OverlayViewModel {
     ///
     /// Falls back to the opening view before the map has been laid out, which
     /// is the only honest answer available: nothing has been looked at yet.
-    private var mapPosition: MapPosition {
+    /// Read by the share link, the evidence note, and the readout on the map.
+    var mapPosition: MapPosition {
         guard let bounds = controller.currentVisibleBounds() else { return .default }
         return MapPosition(
             latitude: (bounds.minLatitude + bounds.maxLatitude) / 2,

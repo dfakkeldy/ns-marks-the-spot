@@ -145,3 +145,32 @@ struct MapShareStateTests {
         #expect(url.absoluteString.contains("00000000") == false)
     }
 }
+
+/// The readout under the map, which is also what the user copies out of it.
+@Suite("The position readout")
+struct MapPositionReadoutTests {
+    @Test func theCentreIsFiveDecimalsAndTheZoomComesFirst() {
+        let position = MapPosition(latitude: 46.18845, longitude: -60.02123, zoom: 15)
+
+        #expect(position.coordinateText == "46.18845, -60.02123")
+        #expect(position.readoutText == "Z 15 · 46.18845, -60.02123")
+    }
+
+    /// Five decimals always, not "up to five": a coordinate that dropped its
+    /// trailing zeros would paste as a different-looking number every time the
+    /// map moved a metre.
+    @Test func aRoundCoordinateStillPrintsItsDecimals() {
+        #expect(
+            MapPosition(latitude: 46, longitude: -61, zoom: 9).coordinateText
+                == "46.00000, -61.00000"
+        )
+    }
+
+    /// The pair is meant to be pasted into something else. A decimal comma
+    /// would turn two numbers into four, wherever the phone happens to be set.
+    @Test func theSeparatorIsTheOnlyCommaWhateverTheLocale() {
+        let text = MapPosition(latitude: 46.5, longitude: -60.5, zoom: 12).coordinateText
+        #expect(text.filter { $0 == "," }.count == 1)
+        #expect(text.contains("."))
+    }
+}

@@ -57,6 +57,24 @@ public struct MapPosition: Sendable, Equatable {
 
     /// The web's opening view, which is Cape Breton rather than the province.
     public static let `default` = MapPosition(latitude: 46.08, longitude: -60.92, zoom: 9)
+
+    /// The centre as a pair anything else will accept — five decimals, which is
+    /// about a metre, and no more: a coordinate read off a map has no business
+    /// claiming millimetres.
+    ///
+    /// Formatted without a locale on purpose. This string is meant to be pasted
+    /// into a GPS, a spreadsheet or another map, and a decimal comma would make
+    /// two numbers separated by a comma into four.
+    public var coordinateText: String {
+        String(format: "%.5f, %.5f", latitude, longitude)
+    }
+
+    /// What the readout on the map says: the zoom the view is at, then where
+    /// its centre is. The web's wording, so a coordinate read off one surface
+    /// looks like the same coordinate on the other.
+    public var readoutText: String {
+        "Z \(zoom) · \(coordinateText)"
+    }
 }
 
 extension MapShareState {

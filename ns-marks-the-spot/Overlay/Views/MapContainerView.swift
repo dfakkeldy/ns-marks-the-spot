@@ -28,6 +28,10 @@ struct MapContainerView: View {
     @State private var measure: MeasureSession?
     @State private var isLayersMenuExpanded = false
     @State private var mapHeading: Double = 0
+    /// Where the map settled, for the readout. Held rather than read on every
+    /// redraw: the map's own bounds are not observable, so the readout would
+    /// otherwise show wherever the view happened to be when SwiftUI last ran.
+    @State private var mapPosition: MapPosition = .default
     @State private var isSelectingSaveArea = false
     /// What the system share sheet is currently holding, prepared at the moment
     /// of the tap so an evidence note carries the time it was actually made.
@@ -474,6 +478,18 @@ struct MapContainerView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+        // Bottom-left, and only when nothing else is down there. The cards run
+        // the width of the screen, and a readout under one of them would be a
+        // control the user can see and cannot reach.
+        .overlay(alignment: .bottomLeading) {
+            if overlayVM.inspection == nil, editSession == nil, measure == nil,
+               vectorCallout == nil, !isSelectingSaveArea
+            {
+                MapPositionReadout(position: mapPosition)
+                    .padding(.leading, 12)
+                    .padding(.bottom, 12)
+            }
+        }
         .overlay(alignment: .bottom) {
             if let measure {
                 MeasurePanelView(
@@ -543,6 +559,7 @@ struct MapContainerView: View {
                         )
 
                     case .visibleRegionSettled:
+                        mapPosition = overlayVM.mapPosition
                         // Leaflet's `moveend`: the viewport layers ask their
                         // services what is in the view the user actually stopped
                         // on, not the ones they panned through.
