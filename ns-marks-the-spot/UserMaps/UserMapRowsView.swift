@@ -67,6 +67,7 @@ struct UserMapRowsView: View {
         }
         .sheet(item: $georeferencing) { row in
             GeoreferenceView(
+                identifier: row.record.id,
                 name: row.record.name,
                 preview: row.preview,
                 pixelSize: row.record.pixelSize,

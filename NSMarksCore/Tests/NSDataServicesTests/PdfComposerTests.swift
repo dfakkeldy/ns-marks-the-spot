@@ -152,7 +152,8 @@ struct PdfComposerTests {
         ],
         attribution: [String] = ["Parcels — Province of Nova Scotia — OGL-NS"],
         disclosures: [String] = [],
-        appendix: [PdfAppendix.Block] = []
+        appendix: [PdfAppendix.Block] = [],
+        shareURLText: String? = nil
     ) throws -> PdfComposer.Input {
         PdfComposer.Input(
             template: template,
@@ -167,6 +168,7 @@ struct PdfComposerTests {
             scaleBar: PrintScaleBar.build(
                 bounds: bounds, mapFrame: template.mapFrame, maxWidthPoints: template.scaleBar.maxWidth
             ),
+            shareURLText: shareURLText,
             appendix: appendix,
             generatedAt: Date(timeIntervalSince1970: 1_755_216_000)
         )
@@ -314,6 +316,24 @@ struct PdfComposerTests {
         #expect(!text.contains { $0 == "Parcels" })
         #expect(text.contains { $0.contains("Province of Nova Scotia") })
         #expect(text.contains { $0.contains(disclosure) })
+    }
+
+    /// The link is printed as text, not only as the code.
+    ///
+    /// A QR square is defeated by a fold, a photocopy, or a phone with no
+    /// camera, and the page's whole claim is that this exact map can be got
+    /// back to. Written out, the address survives all three.
+    @Test func theExactLinkIsPrintedAsWellAsEncoded() throws {
+        let link = "https://kinnokilabs.com/map#pos=45.12345,-61.54321,14"
+        let drawn = Self.drawnLines(
+            PdfComposer.compose(try Self.input(shareURLText: link))
+        )
+        #expect(drawn.contains { $0.text.contains(link) })
+    }
+
+    @Test func aPageWithNoLinkPrintsNoReceiptLine() throws {
+        let drawn = Self.drawnLines(PdfComposer.compose(try Self.input()))
+        #expect(!drawn.contains { $0.text.contains("Exact map receipt") })
     }
 
     /// A disclosure has to reach the page even when the title block is already

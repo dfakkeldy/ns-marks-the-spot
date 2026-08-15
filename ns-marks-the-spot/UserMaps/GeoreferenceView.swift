@@ -10,6 +10,11 @@ import SwiftUI
 /// is no width for two panes, and the pair of taps is a sequence anyway — the
 /// panel says which half it is waiting for.
 struct GeoreferenceView: View {
+    /// The record's own id, which is what the exported annotation names.
+    ///
+    /// Not the name: two scans can be called `survey.png`, and an annotation
+    /// that gives them the same target says they are one document placed twice.
+    let identifier: String
     let name: String
     let preview: CGImage?
     let pixelSize: PixelSize
@@ -28,6 +33,7 @@ struct GeoreferenceView: View {
     )
 
     init(
+        identifier: String,
         name: String,
         preview: CGImage?,
         pixelSize: PixelSize,
@@ -35,6 +41,7 @@ struct GeoreferenceView: View {
         method: GeoreferenceMethod = .affine,
         onSave: @escaping ([SessionControlPoint], GeoreferenceMethod) -> Void
     ) {
+        self.identifier = identifier
         self.name = name
         self.preview = preview
         self.pixelSize = pixelSize
@@ -96,7 +103,7 @@ struct GeoreferenceView: View {
                 controlPoints: session.controlPoints,
                 method: session.method,
                 pixelSize: pixelSize,
-                target: "urn:ns-marks-the-spot:\(name)"
+                target: "urn:ns-marks-the-spot:\(identifier)"
             )
             let url = FileManager.default.temporaryDirectory
                 .appending(path: "\(name).georef.json")
@@ -203,13 +210,13 @@ struct GeoreferenceView: View {
                     .font(.footnote)
             }
 
-            // Three points, not the four the warped fit needs: three is the
-            // IIIF extension's own floor and the count at which this app first
-            // draws a drape, so a valid annotation is offered for every
-            // placement the user can already see on the map. Absent rather than
-            // disabled below it — a disabled control advertises something the
-            // user cannot have and explains nothing about why.
-            if session.controlPoints.count >= AffineFit.minimumControlPoints {
+            // The same bar Save uses: a solved placement. Counting points
+            // instead would export three collinear or coincident ones — a fit
+            // this app refuses to draw, handed to another tool as though it
+            // were a placement. Absent rather than disabled — a disabled
+            // control advertises something the user cannot have and explains
+            // nothing about why.
+            if session.mesh != nil {
                 Button {
                     exportAnnotation()
                 } label: {

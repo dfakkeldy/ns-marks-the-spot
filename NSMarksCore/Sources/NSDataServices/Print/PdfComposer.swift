@@ -77,6 +77,9 @@ public enum PdfComposer {
         /// it is a platform framework, which keeps this composer testable
         /// without one. Nil is the ordinary case for a page with nowhere to
         /// point at: the QR is a courtesy, never an export blocker.
+        /// The same address the QR code carries, printed as text. Nil where
+        /// there is no link to give.
+        public var shareURLText: String?
         public var qrModules: [[Bool]]?
         /// The evidence appendix, as pages after the map. Empty is a map on its
         /// own, which is what the field sheet is.
@@ -96,6 +99,7 @@ public enum PdfComposer {
             disclosures: [String] = [],
             attributionLines: [String],
             scaleBar: PrintScaleBar,
+            shareURLText: String? = nil,
             qrModules: [[Bool]]? = nil,
             appendix: [PdfAppendix.Block] = [],
             generatedAt: Date
@@ -108,6 +112,7 @@ public enum PdfComposer {
             self.disclosures = disclosures
             self.attributionLines = attributionLines
             self.scaleBar = scaleBar
+            self.shareURLText = shareURLText
             self.qrModules = qrModules
             self.appendix = appendix
             self.generatedAt = generatedAt
@@ -472,7 +477,16 @@ public enum PdfComposer {
             width: 0.75
         )
         let stamp = "Generated \(day(input.generatedAt)) — kinnokilabs.com/map"
-        let attribution = (input.disclosures + input.attributionLines + [stamp])
+        // The link in words as well as in the code. A QR is a courtesy that a
+        // fold, a photocopy or a phone without a camera defeats, and the whole
+        // claim of the square is that this page can be got back to; written out
+        // it survives all three. In the strip rather than beside the code
+        // because the strip is the one region that shrinks to fit rather than
+        // silently dropping what it cannot hold.
+        let receipt = input.shareURLText.map { "Exact map receipt: \($0)" }
+        let attribution = (
+            input.disclosures + input.attributionLines + [receipt, stamp].compactMap { $0 }
+        )
             .map { regular.sanitized($0) }
             .joined(separator: "  ·  ")
         let fitted = fitAttribution(

@@ -16,6 +16,8 @@ struct PrintExportSheet: View {
     @State private var includesLegend = true
     @State private var includesAppendix = false
     @State private var isWorking = false
+    /// The running export, held so Cancel and dismissal can stop it.
+    @State private var work: Task<Void, Never>?
     @State private var failure: String?
     /// What each layer did, after an export. Kept on screen because it is the
     /// only place a reader is told a layer they had switched on is not on the
@@ -115,14 +117,23 @@ struct PrintExportSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("Cancel") {
+                        // Cancel has to reach the work, not just the sheet. A
+                        // page in progress is minutes of tile fetching and a
+                        // full-resolution raster in memory; left running it
+                        // finishes into a dismissed view and hands a share
+                        // sheet to a user who said no.
+                        work?.cancel()
+                        dismiss()
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Export") { Task { await export() } }
+                    Button("Export") { work = Task { await export() } }
                         .disabled(isWorking)
                         .accessibilityIdentifier("print-export")
                 }
             }
+            .onDisappear { work?.cancel() }
             .overlay {
                 if isWorking {
                     ProgressView("Drawing the map…")
@@ -163,12 +174,19 @@ struct PrintExportSheet: View {
                 tileProvider: overlayVM.printTileProvider,
                 renderProvider: overlayVM.printRenderProvider
             )
+            // The compositor's own awaits may not have noticed the cancellation
+            // — a file written and a share sheet presented after Cancel is the
+            // app overruling the user.
+            guard !Task.isCancelled else { return }
             outcomes = result.outcomes
             let url = try PrintExport.write(
                 result.pdf, named: title.isEmpty ? "NS Marks map" : title
             )
             onExported(url)
+        } catch is CancellationError {
+            return
         } catch {
+            guard !Task.isCancelled else { return }
             failure = "The page could not be made: \(error.localizedDescription)"
         }
     }

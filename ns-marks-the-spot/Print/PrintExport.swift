@@ -146,6 +146,7 @@ nonisolated enum PrintExport {
                 // A link nobody can encode leaves the square empty rather than
                 // failing the export: the code is a shortcut back to the map,
                 // not part of what the page says.
+                shareURLText: request.shareURL?.absoluteString,
                 qrModules: request.shareURL.flatMap {
                     QRCodeModules.modules(for: $0.absoluteString)
                 },

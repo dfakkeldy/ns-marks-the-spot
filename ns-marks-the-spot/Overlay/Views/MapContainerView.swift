@@ -31,7 +31,13 @@ struct MapContainerView: View {
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
     /// otherwise show wherever the view happened to be when SwiftUI last ran.
-    @State private var mapPosition: MapPosition = .default
+    /// Nil until the map has actually settled somewhere.
+    ///
+    /// Not seeded with a default: the readout is a coordinate the user can copy
+    /// and paste into somebody else's map, and a placeholder that has never
+    /// been anywhere near the visible ground is a wrong answer offered with the
+    /// same confidence as a right one. Absent until it is true.
+    @State private var mapPosition: MapPosition?
     @State private var isSelectingSaveArea = false
     /// What the system share sheet is currently holding, prepared at the moment
     /// of the tap so an evidence note carries the time it was actually made.
@@ -482,8 +488,8 @@ struct MapContainerView: View {
         // the width of the screen, and a readout under one of them would be a
         // control the user can see and cannot reach.
         .overlay(alignment: .bottomLeading) {
-            if overlayVM.inspection == nil, editSession == nil, measure == nil,
-               vectorCallout == nil, !isSelectingSaveArea
+            if let mapPosition, overlayVM.inspection == nil, editSession == nil,
+               measure == nil, vectorCallout == nil, !isSelectingSaveArea
             {
                 MapPositionReadout(position: mapPosition)
                     .padding(.leading, 12)
@@ -689,6 +695,11 @@ struct MapContainerView: View {
     private func beginSaveAreaSelection() {
         guard !isSelectingSaveArea else { return }
 
+        // Two modes that both claim the map's taps. Measuring is the one the
+        // user just left, so it ends here rather than lying in wait: a half
+        // placed measurement that resumes after the storage rectangle is drawn
+        // is a shape the user has forgotten they started.
+        stopMeasuring()
         isSelectingSaveArea = true
         controller.beginBoundsSelection()
     }
