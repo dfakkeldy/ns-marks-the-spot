@@ -111,6 +111,18 @@ public enum RasterProjection {
               x.isFinite, y.isFinite
         else { throw .invalidGeoreferencing }
         let t = georeference.geotransform
+        // A geotransform that cannot be inverted maps the whole raster onto a
+        // line or a single point. Every corner of such a sheet projects to a
+        // perfectly ordinary place, so the corner checks at import pass and the
+        // collapse only appears at draw time, as a sheet that vanished. Refused
+        // here so it is refused everywhere: mesh, corners and import all come
+        // through this function.
+        //
+        // `isNormal` rather than `!= 0` deliberately. It also rejects a
+        // determinant that underflowed to subnormal — pixels sized in
+        // fractions of an ångström, which is a collapse in every way that
+        // matters — and one that overflowed to infinity.
+        guard (t[1] * t[5] - t[2] * t[4]).isNormal else { throw .invalidGeoreferencing }
         return try groundPosition(
             crs: georeference.crs,
             x: t[0] + x * t[1] + y * t[2],

@@ -243,6 +243,53 @@ struct RasterProjectionTests {
         #expect(abs(mislabelled.lng - (-60.415_934_879_586_075)) < 1e-8)
         #expect(WebMercator.groundMetres(from: honest, to: mislabelled) > 400_000)
     }
+
+    /// A geotransform that cannot be inverted puts every pixel of the sheet on
+    /// one line, or on one point. The corners still project to real places, so
+    /// nothing about them looks wrong — the sheet simply is not there once it
+    /// is drawn, which reads as a rendering bug rather than as a bad file.
+    ///
+    /// The cases: no scale at all; a rotation-only pair whose rows are
+    /// parallel, so the sheet folds onto a line; and a scale small enough that
+    /// the determinant underflows, which is a collapse arriving by a different
+    /// route.
+    @Test(arguments: [
+        [400_000.0, 0, 0, 5_040_000.0, 0, 0],
+        [400_000.0, 10, 20, 5_040_000.0, 5, 10],
+        [400_000.0, 1e-160, 0, 5_040_000.0, 0, 1e-160],
+    ])
+    func aRasterThatCollapsesToNothingIsRefusedBeforeItIsDrawn(geotransform: [Double]) {
+        let georeference = RasterProjection.EmbeddedGeoreference(
+            crs: "EPSG:26920", geotransform: geotransform
+        )
+        #expect(throws: RasterProjection.Refusal.invalidGeoreferencing) {
+            _ = try RasterProjection.groundPosition(georeference, x: 0, y: 0)
+        }
+        // And the import gate reports it as georeferencing the user can
+        // replace by hand, not as a corrupt file.
+        do {
+            try UserMapImport.checkGeoreferencing(
+                georeference, pixelSize: PixelSize(width: 4000, height: 3000)
+            )
+            Issue.record("expected a refusal")
+        } catch {
+            #expect(error.code == .invalidGeoreferencing)
+        }
+    }
+
+    /// The same shape of transform, one honest reflection away: a north-up
+    /// sheet has a negative Y scale and a negative determinant, and a test
+    /// that checked for a positive one would refuse every ordinary GeoTIFF.
+    @Test func anOrdinaryNorthUpSheetIsNotMistakenForACollapse() throws {
+        let point = try RasterProjection.groundPosition(
+            RasterProjection.EmbeddedGeoreference(
+                crs: "EPSG:26920", geotransform: [400_000, 10, 0, 5_040_000, 0, -10]
+            ),
+            x: 100, y: 100
+        )
+        #expect(point.lat < 45.5)
+        #expect(point.lat > 45.0)
+    }
 }
 
 @Suite("Embedded raster mesh")
