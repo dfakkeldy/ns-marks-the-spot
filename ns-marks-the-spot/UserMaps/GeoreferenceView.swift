@@ -20,6 +20,8 @@ struct GeoreferenceView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var session: GeoreferenceSession
+    @State private var share: SharePayload?
+    @State private var exportFailure: String?
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 45.0, longitude: -63.0),
         span: MKCoordinateSpan(latitudeDelta: 4, longitudeDelta: 5)
@@ -70,6 +72,38 @@ struct GeoreferenceView: View {
                     .disabled(session.mesh == nil)
                 }
             }
+            .sheet(item: $share) { payload in
+                ShareSheet(items: payload.items)
+            }
+        }
+    }
+
+    /// Writes the placement as a IIIF Georeference Annotation and hands it to
+    /// the share sheet.
+    ///
+    /// The points the user is looking at, not a stored copy: on this surface
+    /// the session is the state, so there is no window in which the button is
+    /// offering an older placement than the one on screen.
+    ///
+    /// A local scan has no public IIIF address, so the annotation names it by a
+    /// urn placeholder. That is a document another tool can read the placement
+    /// out of — it is not a published map, and it does not become one by being
+    /// exported.
+    private func exportAnnotation() {
+        exportFailure = nil
+        do {
+            let data = try GeoreferenceAnnotation.data(
+                controlPoints: session.controlPoints,
+                method: session.method,
+                pixelSize: pixelSize,
+                target: "urn:ns-marks-the-spot:\(name)"
+            )
+            let url = FileManager.default.temporaryDirectory
+                .appending(path: "\(name).georef.json")
+            try data.write(to: url, options: .atomic)
+            share = SharePayload(url: url)
+        } catch {
+            exportFailure = "The georeference could not be written to this device."
         }
     }
 
@@ -167,6 +201,29 @@ struct GeoreferenceView: View {
             if session.pending != nil {
                 Button("Cancel this point") { session.cancelPending() }
                     .font(.footnote)
+            }
+
+            // Three points, not the four the warped fit needs: three is the
+            // IIIF extension's own floor and the count at which this app first
+            // draws a drape, so a valid annotation is offered for every
+            // placement the user can already see on the map. Absent rather than
+            // disabled below it — a disabled control advertises something the
+            // user cannot have and explains nothing about why.
+            if session.controlPoints.count >= AffineFit.minimumControlPoints {
+                Button {
+                    exportAnnotation()
+                } label: {
+                    Label("Export georeference", systemImage: "square.and.arrow.up")
+                        .font(.footnote)
+                }
+                .accessibilityIdentifier("export-georeference")
+            }
+
+            if let exportFailure {
+                Text(exportFailure)
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding()
