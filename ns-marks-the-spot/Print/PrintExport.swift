@@ -33,6 +33,8 @@ nonisolated struct PrintExportRequest: Sendable {
     var includesLegend: Bool = true
     /// Where the page's QR code should point, or nil for no code at all.
     var shareURL: URL?
+    /// The evidence appendix's pages, or empty for a map on its own.
+    var appendix: [PdfAppendix.Block] = []
     var generatedAt: Date
 }
 
@@ -147,6 +149,7 @@ nonisolated enum PrintExport {
                 qrModules: request.shareURL.flatMap {
                     QRCodeModules.modules(for: $0.absoluteString)
                 },
+                appendix: request.appendix,
                 generatedAt: request.generatedAt
             )
         )

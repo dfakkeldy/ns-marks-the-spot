@@ -1020,6 +1020,7 @@ final class OverlayViewModel {
         template: PdfTemplate,
         fields: PdfComposer.Fields,
         includesLegend: Bool = true,
+        includesAppendix: Bool = false,
         generatedAt: Date = Date()
     ) -> PrintExportRequest? {
         guard let bounds = controller.currentVisibleBounds() else { return nil }
@@ -1046,6 +1047,16 @@ final class OverlayViewModel {
             // here with the rest of the snapshot: the share link encodes the
             // view, and one read a moment later would point somewhere else.
             shareURL: shareURL,
+            // The appendix is the evidence note, laid out as pages rather than
+            // written as a file. Built from the note itself so the document the
+            // user prints and the one they email cannot come to say different
+            // things about the same parcel. Stamped with the page's own time,
+            // for the same reason the page is.
+            appendix: includesAppendix
+                ? PdfAppendix.blocks(
+                    fromMarkdown: evidenceNote(generatedAt: generatedAt)?.markdown ?? ""
+                )
+                : [],
             generatedAt: generatedAt
         )
     }

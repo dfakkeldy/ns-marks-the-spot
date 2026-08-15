@@ -78,6 +78,13 @@ public enum PdfComposer {
         /// without one. Nil is the ordinary case for a page with nowhere to
         /// point at: the QR is a courtesy, never an export blocker.
         public var qrModules: [[Bool]]?
+        /// The evidence appendix, as pages after the map. Empty is a map on its
+        /// own, which is what the field sheet is.
+        ///
+        /// The appendix is text and carries no registration: only the map page
+        /// says where it is on the ground, and a reader's GIS tool must not be
+        /// able to pick up a page of sentences as if it were georeferenced.
+        public var appendix: [PdfAppendix.Block]
         public var generatedAt: Date
 
         public init(
@@ -90,6 +97,7 @@ public enum PdfComposer {
             attributionLines: [String],
             scaleBar: PrintScaleBar,
             qrModules: [[Bool]]? = nil,
+            appendix: [PdfAppendix.Block] = [],
             generatedAt: Date
         ) {
             self.template = template
@@ -101,6 +109,7 @@ public enum PdfComposer {
             self.attributionLines = attributionLines
             self.scaleBar = scaleBar
             self.qrModules = qrModules
+            self.appendix = appendix
             self.generatedAt = generatedAt
         }
     }
@@ -566,12 +575,45 @@ public enum PdfComposer {
                 ),
             ])
         )
+        // The appendix pages share the map page's fonts and carry no image and
+        // no viewport: they are text on paper, and nothing about them should
+        // read as a second map.
+        let appendixPages = PdfAppendix.pages(input.appendix, template: template).map { stream in
+            let streamNumber = writer.add(.stream([], stream))
+            return writer.add(
+                .dictionary([
+                    ("Type", .name("Page")),
+                    ("Parent", .reference(pages)),
+                    (
+                        "MediaBox",
+                        .array([
+                            .integer(0), .integer(0),
+                            .number(template.pageWidth), .number(template.pageHeight),
+                        ])
+                    ),
+                    ("Contents", .reference(streamNumber)),
+                    (
+                        "Resources",
+                        .dictionary([
+                            (
+                                "Font",
+                                .dictionary([
+                                    ("F1", .reference(regular)),
+                                    ("F2", .reference(bold)),
+                                ])
+                            )
+                        ])
+                    ),
+                ])
+            )
+        }
+        let kids = [page] + appendixPages
         writer.fill(
             pages,
             with: .dictionary([
                 ("Type", .name("Pages")),
-                ("Kids", .array([.reference(page)])),
-                ("Count", .integer(1)),
+                ("Kids", .array(kids.map { .reference($0) })),
+                ("Count", .integer(kids.count)),
             ])
         )
         writer.fill(

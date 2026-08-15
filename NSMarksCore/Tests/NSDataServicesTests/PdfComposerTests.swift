@@ -151,7 +151,8 @@ struct PdfComposerTests {
             PdfComposer.LegendEntry(name: "Well logs", swatchColour: nil),
         ],
         attribution: [String] = ["Parcels — Province of Nova Scotia — OGL-NS"],
-        disclosures: [String] = []
+        disclosures: [String] = [],
+        appendix: [PdfAppendix.Block] = []
     ) throws -> PdfComposer.Input {
         PdfComposer.Input(
             template: template,
@@ -166,8 +167,43 @@ struct PdfComposerTests {
             scaleBar: PrintScaleBar.build(
                 bounds: bounds, mapFrame: template.mapFrame, maxWidthPoints: template.scaleBar.maxWidth
             ),
+            appendix: appendix,
             generatedAt: Date(timeIntervalSince1970: 1_755_216_000)
         )
+    }
+
+    /// The appendix arrives as pages of the same size, and only the map page
+    /// claims to know where it is: a reader's GIS tool must not be able to pick
+    /// up a page of sentences as georeferenced ground.
+    @Test("The evidence appendix follows the map, and carries no registration")
+    func theAppendixFollowsTheMapWithoutARegistration() throws {
+        let blocks =
+            [PdfAppendix.Block.heading("Resources")]
+            + (1...90).map { PdfAppendix.Block.bullet("Result \($0): nothing returned.") }
+        let data = PdfComposer.compose(try Self.input(appendix: blocks))
+        let provider = try #require(CGDataProvider(data: data as CFData))
+        let document = try #require(CGPDFDocument(provider))
+        #expect(document.numberOfPages > 1)
+
+        let first = try #require(document.page(at: 1))
+        var viewport: CGPDFObjectRef?
+        #expect(CGPDFDictionaryGetObject(try #require(first.dictionary), "VP", &viewport))
+
+        for number in 2...document.numberOfPages {
+            let page = try #require(document.page(at: number))
+            let dictionary = try #require(page.dictionary)
+            var found: CGPDFObjectRef?
+            #expect(!CGPDFDictionaryGetObject(dictionary, "VP", &found))
+            #expect(!CGPDFDictionaryGetObject(dictionary, "LGIDict", &found))
+            #expect(page.getBoxRect(.mediaBox).width == first.getBoxRect(.mediaBox).width)
+        }
+    }
+
+    @Test("No appendix leaves the export a single map page")
+    func withoutAnAppendixThePageStandsAlone() throws {
+        let data = PdfComposer.compose(try Self.input())
+        let provider = try #require(CGDataProvider(data: data as CFData))
+        #expect(try #require(CGPDFDocument(provider)).numberOfPages == 1)
     }
 
     /// The composed page opens, has one page of the template's size, and still

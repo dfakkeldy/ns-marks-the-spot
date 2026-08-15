@@ -14,6 +14,7 @@ struct PrintExportSheet: View {
     @State private var notes = ""
     @State private var orientation = PdfTemplate.ID.portrait
     @State private var includesLegend = true
+    @State private var includesAppendix = false
     @State private var isWorking = false
     @State private var failure: String?
     /// What each layer did, after an export. Kept on screen because it is the
@@ -42,6 +43,38 @@ struct PrintExportSheet: View {
                     // when the map itself needs the room.
                     Toggle("Include legend", isOn: $includesLegend)
                         .accessibilityIdentifier("print-include-legend")
+                }
+
+                // The web's research document, which is its field sheet plus
+                // the evidence appendix. Offered only when the appendix has
+                // something to carry: with no parcel open, or with a source
+                // still out, the pages would be a heading and nothing under it,
+                // and a page of blanks reads as a parcel with no evidence
+                // rather than as a report made too early.
+                Section("Evidence") {
+                    if overlayVM.canExportEvidenceNote {
+                        Toggle("Include evidence appendix", isOn: $includesAppendix)
+                            .accessibilityIdentifier("print-include-appendix")
+                        Text(
+                            """
+                            The same statements as the evidence note, printed \
+                            after the map. What a source returned, what it \
+                            returned nothing for, and what was never asked are \
+                            three different lines.
+                            """
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    } else {
+                        Text(
+                            """
+                            Open a parcel and let its sources answer to print \
+                            the evidence appendix with the map.
+                            """
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    }
                 }
 
                 if !outcomes.isEmpty {
@@ -113,7 +146,11 @@ struct PrintExportSheet: View {
                 subtitle: subtitle,
                 notes: notes
             ),
-            includesLegend: includesLegend
+            includesLegend: includesLegend,
+            // Asked for and available are two different things: a parcel closed
+            // between switching this on and tapping Export would otherwise
+            // print an empty appendix.
+            includesAppendix: includesAppendix && overlayVM.canExportEvidenceNote
         ) else {
             failure = "The map has not been laid out yet."
             return
