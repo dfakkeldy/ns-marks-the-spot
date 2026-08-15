@@ -89,6 +89,18 @@ struct ExportRequestTests {
         #expect(request == nil)
     }
 
+    /// A frame with no height is not a smaller frame, it is not a frame. The
+    /// service would answer it with an error page or an image holding no
+    /// ground, and either would be composited as though it were the layer.
+    @Test func aFrameWithNoHeightIsRefused() throws {
+        let id = try Self.openRasterLayer()
+        #expect(throws: TileRequestFactory.Refusal.sizeOutOfRange(id, 0)) {
+            try TileRequestFactory.exportRequest(
+                for: id, box: Self.box, widthPx: 800, heightPx: 0, clearance: Self.cleared
+            )
+        }
+    }
+
     /// The frame render and a tile of the same layer differ only in bbox and
     /// size: same service, same styling, so the printed layer looks like the
     /// one on screen rather than a differently styled render of it.

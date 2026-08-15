@@ -119,8 +119,14 @@ public enum TileRequestFactory {
         guard layer.isRaster else {
             throw .notARasterLayer(id)
         }
+        // Both dimensions, not the larger one: a frame 100 wide and 0 high is
+        // not a render, and asking for it would return either an error page or
+        // an image with no ground in it.
+        guard widthPx > 0, heightPx > 0 else {
+            throw .sizeOutOfRange(id, min(widthPx, heightPx))
+        }
         let size = max(widthPx, heightPx)
-        guard size > 0, size <= maximumExportDimensionPx else {
+        guard size <= maximumExportDimensionPx else {
             throw .sizeOutOfRange(id, size)
         }
         guard let serviceURL = layer.serviceURL else {

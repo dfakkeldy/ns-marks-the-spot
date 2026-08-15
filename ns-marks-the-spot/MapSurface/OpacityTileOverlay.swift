@@ -7,12 +7,21 @@ import UIKit
 /// `nonisolated`: MapKit invokes `loadTile` on its own background queues, so
 /// nothing here may require the main actor. All stored state is immutable
 /// except `renderer`, which only the main-actor `MapController` touches.
-nonisolated final class OpacityTileOverlay: MKTileOverlay {
+///
+/// `@unchecked Sendable` states that in the compiler's terms, and the isolation
+/// above is what makes it true rather than hopeful: every stored property is a
+/// `let` of a thread-safe type except `renderer`, which is `@MainActor` and so
+/// cannot be reached from the background queues `loadTile` runs on. The
+/// conformance is needed because the print export hands a set of these overlays
+/// to a `@Sendable` tile provider — the export fetches through the map's own
+/// overlays precisely so it inherits their cache and their licence gate, and
+/// the alternative was a second, ungated route to the same sources.
+nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     /// Set to true to draw tile borders and coordinates on every tile (including real ones).
     static let debugShowTileGrid = false
 
     let configuration: TileLayerConfiguration
-    weak var renderer: MKTileOverlayRenderer?
+    @MainActor weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
     private let clearanceBox: LicenceClearanceBox
@@ -48,6 +57,23 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay {
             if let token { progress?.finished(token, TileLoadOutcome(classifying: error)) }
             throw error
         }
+    }
+
+    /// The same square `loadTile` would hand MapKit, plus the separate question
+    /// of whether it is a tile or a stand-in for one.
+    ///
+    /// The print export needs both, and `loadTile` can only give it one.
+    /// MapKit treats a thrown error as a tile to retry, so every failure there
+    /// has to come back as transparent bytes — and once those are drawn they
+    /// are indistinguishable from a source that legitimately has nothing at
+    /// this square. A page whose legend was built from `loadTile` alone would
+    /// tell its reader the layer had been asked and answered when it had not.
+    ///
+    /// Deliberately outside the layer-load progress the map reports: an export
+    /// is not the screen loading, and counting its fetches would move the
+    /// panel's per-layer state for a map nobody is looking at.
+    func exportTile(at path: MKTileOverlayPath) async throws -> (Data, TileLoadOutcome) {
+        try await tile(at: path)
     }
 
     /// The tile, and whether producing it went the way it was supposed to.

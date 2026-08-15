@@ -46,8 +46,13 @@ nonisolated struct PrintMapCompositor {
     /// Fetches one square of one layer. Injected so the compositor can be
     /// exercised without a network, and so the app can hand it the same tile
     /// path the map itself uses — cache, licence gate and all.
+    ///
+    /// It returns the disposition beside the bytes because the bytes cannot
+    /// carry it. A tile source that failed answers with a transparent square,
+    /// the same square a source with nothing here answers with, and this
+    /// compositor's whole purpose is to keep those two apart in the legend.
     typealias TileProvider = @Sendable (TileLayerConfiguration, MKTileOverlayPath) async throws
-        -> Data
+        -> (Data, TileLoadOutcome)
 
     /// Renders one catalogued Province layer over the whole frame at once.
     ///
@@ -67,6 +72,14 @@ nonisolated struct PrintMapCompositor {
     /// rate-limited by the very service it is quoting.
     static let tileConcurrency = 6
 
+    /// - Parameter layers: in the order they are to be drawn, bottom first.
+    ///   This is not sorted here, because the order that matters is the one the
+    ///   screen is actually showing: `MapController` installs its overlays in
+    ///   `NativeLayerTraits.installOrder` and MapKit draws them in installation
+    ///   order, so `controller.layers` already *is* the z-order the user is
+    ///   looking at. Re-deriving it here would let the page and the screen
+    ///   disagree about which layer is on top the first time the two orderings
+    ///   drifted apart.
     static func compose(
         bounds: GeoBoundingBox,
         widthPx: Int,
@@ -164,17 +177,30 @@ nonisolated struct PrintMapCompositor {
     }
 
     /// One square, and whether it arrived.
+    ///
+    /// A square the source answered for is kept even when it is blank: blank is
+    /// a real answer, and the page is entitled to draw it. A square the source
+    /// failed or abandoned is dropped even though bytes came back with it,
+    /// because those bytes are a placeholder standing in for an answer nobody
+    /// got.
     private static func fetch(
         _ tile: PrintTile,
         _ configuration: TileLayerConfiguration,
         _ provider: @escaping TileProvider
     ) async -> (tile: PrintTile, image: UIImage?, error: String?) {
         do {
-            let data = try await provider(
+            let (data, outcome) = try await provider(
                 configuration,
                 MKTileOverlayPath(x: tile.x, y: tile.y, z: tile.z, contentScaleFactor: 1)
             )
-            return (tile, UIImage(data: data), nil)
+            switch outcome {
+            case .served:
+                return (tile, UIImage(data: data), nil)
+            case .failed:
+                return (tile, nil, "The source could not be reached.")
+            case .cancelled:
+                return (tile, nil, "The request was abandoned before it finished.")
+            }
         } catch {
             return (tile, nil, error.localizedDescription)
         }
@@ -247,8 +273,13 @@ nonisolated struct PrintMapCompositor {
         for parcel in parcels {
             let style = self.style(for: parcel.role)
             for part in parcel.parts {
+                // One path for the whole part, not one per ring. A part's first
+                // ring is its outline and any that follow are holes in it —
+                // `MKPolygon(interiorPolygons:)` on screen — so filling each
+                // ring on its own would paint the holes back in. Even-odd is
+                // what makes the second ring subtract from the first.
+                let path = CGMutablePath()
                 for ring in part where ring.count > 1 {
-                    let path = CGMutablePath()
                     for (index, point) in ring.enumerated() {
                         let placed = space.point(for: point)
                         let target = CGPoint(x: placed.x, y: placed.y)
@@ -259,21 +290,24 @@ nonisolated struct PrintMapCompositor {
                         }
                     }
                     path.closeSubpath()
-                    if let fill = style.fill {
-                        context.addPath(path)
-                        context.setFillColor(fill.cgColor)
-                        context.fillPath()
-                    }
-                    context.addPath(path)
-                    context.setStrokeColor(style.stroke.cgColor)
-                    context.setLineWidth(style.width * lineScale)
-                    if let dash = style.dash {
-                        context.setLineDash(phase: 0, lengths: dash.map { $0 * lineScale })
-                    } else {
-                        context.setLineDash(phase: 0, lengths: [])
-                    }
-                    context.strokePath()
                 }
+                guard !path.isEmpty else { continue }
+                if let fill = style.fill {
+                    context.addPath(path)
+                    context.setFillColor(fill.cgColor)
+                    context.fillPath(using: .evenOdd)
+                }
+                // The hole's edge is drawn too: it is a boundary of the parcel,
+                // and the map strokes it.
+                context.addPath(path)
+                context.setStrokeColor(style.stroke.cgColor)
+                context.setLineWidth(style.width * lineScale)
+                if let dash = style.dash {
+                    context.setLineDash(phase: 0, lengths: dash.map { $0 * lineScale })
+                } else {
+                    context.setLineDash(phase: 0, lengths: [])
+                }
+                context.strokePath()
             }
         }
         context.setLineDash(phase: 0, lengths: [])
@@ -352,6 +386,8 @@ nonisolated struct PrintMapCompositor {
     enum TileProviderFailure: Error, Equatable {
         case noOverlayForLayer(String)
         case noRenderForLayer(String)
+        /// A layer with two passes returned both, and they could not be stacked.
+        case passesNotCombinable(String)
     }
 
     /// Renders a catalogued layer over the whole frame, through the same
@@ -378,8 +414,16 @@ nonisolated struct PrintMapCompositor {
                 return base
             }
             let casing = try await fetcher.imageData(from: second.url)
-            return flattened(base: base, over: casing, widthPx: widthPx, heightPx: heightPx)
-                ?? base
+            // Fails the layer rather than returning the base pass alone. The
+            // casing is what keeps a road legible where it crosses water, so a
+            // page missing it shows a different road network from the screen it
+            // was exported from — and would say "Printed" underneath it.
+            guard let both = flattened(
+                base: base, over: casing, widthPx: widthPx, heightPx: heightPx
+            ) else {
+                throw TileProviderFailure.passesNotCombinable(layerID.rawValue)
+            }
+            return both
         }
     }
 
@@ -413,7 +457,9 @@ nonisolated struct PrintMapCompositor {
             guard let overlay = overlays[configuration.id] else {
                 throw TileProviderFailure.noOverlayForLayer(configuration.id)
             }
-            return try await overlay.loadTile(at: path)
+            // `exportTile`, not `loadTile`: the second answer is the one the
+            // legend is built from.
+            return try await overlay.exportTile(at: path)
         }
     }
 }

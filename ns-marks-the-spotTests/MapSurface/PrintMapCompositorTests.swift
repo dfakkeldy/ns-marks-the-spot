@@ -11,7 +11,11 @@ import UIKit
 /// The compositor is where the printed page stops being a live map and becomes
 /// a fixed claim about what was there. These cover the part of that which can
 /// go wrong quietly: a layer that did not draw.
-struct PrintMapCompositorTests {
+///
+/// `nonisolated` because the app target runs with `-default-isolation=MainActor`
+/// and every helper here is called from the `@Sendable` provider closures the
+/// compositor invokes off the main actor.
+nonisolated struct PrintMapCompositorTests {
     private static let bounds = GeoBoundingBox(
         south: 46.10, west: -61.30, north: 46.14, east: -61.24
     )
@@ -31,14 +35,16 @@ struct PrintMapCompositorTests {
         )
     }
 
-    /// A one-pixel tile, so the drawing path runs without a network.
-    private static let pixel: Data = {
+    /// A flat 256px square, so the drawing path runs without a network.
+    private static func tile(_ colour: UIColor) -> Data {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 256, height: 256))
         return renderer.image { context in
-            UIColor.red.setFill()
+            colour.setFill()
             context.fill(CGRect(x: 0, y: 0, width: 256, height: 256))
         }.pngData()!
-    }()
+    }
+
+    private static let pixel: Data = tile(.red)
 
     private static func blankBaseMap(
         _ bounds: GeoBoundingBox, _ widthPx: Int, _ heightPx: Int, _ base: MapBaseType
@@ -48,6 +54,48 @@ struct PrintMapCompositorTests {
             UIColor.white.setFill()
             context.fill(CGRect(x: 0, y: 0, width: widthPx, height: heightPx))
         }
+    }
+
+    /// What one pixel of the finished raster actually is.
+    ///
+    /// Dimensions and outcomes can all be right while nothing was drawn, so the
+    /// tests that care about placement, order and opacity read the pixels back.
+    private static func colour(
+        _ point: CGPoint, in data: Data
+    ) -> (red: Double, green: Double, blue: Double)? {
+        guard let image = UIImage(data: data)?.cgImage else { return nil }
+        var sample = [UInt8](repeating: 0, count: 4)
+        let context = sample.withUnsafeMutableBytes { buffer in
+            CGContext(
+                data: buffer.baseAddress,
+                width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            )
+        }
+        guard let context else { return nil }
+        // A `CGContext` counts up from the bottom and the sample point counts
+        // down from the top, so the image is shifted until the wanted pixel is
+        // the only one inside the one-pixel context.
+        context.translateBy(x: -point.x, y: point.y - CGFloat(image.height) + 1)
+        context.draw(
+            image,
+            in: CGRect(x: 0, y: 0, width: image.width, height: image.height)
+        )
+        return (
+            Double(sample[0]) / 255, Double(sample[1]) / 255, Double(sample[2]) / 255
+        )
+    }
+
+    private static func isNear(
+        _ sample: (red: Double, green: Double, blue: Double)?,
+        _ expected: (red: Double, green: Double, blue: Double),
+        tolerance: Double = 0.12
+    ) -> Bool {
+        guard let sample else { return false }
+        return abs(sample.red - expected.red) < tolerance
+            && abs(sample.green - expected.green) < tolerance
+            && abs(sample.blue - expected.blue) < tolerance
     }
 
     private static func compose(
@@ -88,6 +136,35 @@ struct PrintMapCompositorTests {
         }
     }
 
+    /// The map's tile path never throws — MapKit retries anything that does, so
+    /// a source it could not reach comes back as a transparent square instead.
+    /// If the compositor took those bytes at face value the page would carry a
+    /// legend saying a source was consulted that was never reached, which is
+    /// exactly the reading the whole evidence contract exists to prevent.
+    @Test func tilesThatCameBackAsPlaceholdersDoNotCountAsDrawn() async throws {
+        let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
+            // Bytes and a failure, the way the overlay answers.
+            (Self.tile(.clear), .failed)
+        }
+
+        let outcome = try #require(output.outcomes.first)
+        guard case .failed = outcome.state else {
+            Issue.record("Expected a failed layer, got \(outcome.state)")
+            return
+        }
+    }
+
+    /// A square the source answered for is drawn even when it is blank. Blank
+    /// is a real answer — outside the Fletcher sheets, or a layer with nothing
+    /// here — and demoting it would be the mirror of the error above.
+    @Test func aBlankSquareTheSourceAnsweredForStillCounts() async throws {
+        let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
+            (Self.tile(.clear), .served)
+        }
+
+        #expect(output.outcomes.map(\.state) == [.drawn])
+    }
+
     /// Part of a layer is worse than none of it: the page looks complete, and
     /// the hole is where the reader would have looked. The count travels so the
     /// page can say how much is missing.
@@ -96,7 +173,7 @@ struct PrintMapCompositorTests {
         let failing = Mutex(1)
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
             if failing.take() { throw URLError(.timedOut) }
-            return Self.pixel
+            return (Self.pixel, .served)
         }
 
         let outcome = try #require(output.outcomes.first)
@@ -116,7 +193,7 @@ struct PrintMapCompositorTests {
             layers: [Self.layer("visible"), Self.layer("hidden", alpha: 0)]
         ) { configuration, _ in
             if configuration.id == "hidden" { _ = asked.take() }
-            return Self.pixel
+            return (Self.pixel, .served)
         }
 
         #expect(output.outcomes.map(\.id) == ["visible"])
@@ -128,7 +205,7 @@ struct PrintMapCompositorTests {
     /// these pixels cover exactly these bounds.
     @Test func theRasterIsTheSizeTheRegistrationAssumes() async throws {
         let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
-            Self.pixel
+            (Self.pixel, .served)
         }
 
         #expect(output.widthPx == 600)
@@ -139,6 +216,41 @@ struct PrintMapCompositorTests {
         let image = try #require(UIImage(data: output.jpeg))
         #expect(Int(image.size.width) == 600)
         #expect(Int(image.size.height) == 400)
+    }
+
+    /// The tiles reach the paper. Everything else here can pass with a page
+    /// that is nothing but base map.
+    @Test func theTilesAreActuallyDrawnOntoTheRaster() async throws {
+        let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
+            (Self.tile(.red), .served)
+        }
+
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 0, 0)))
+        #expect(Self.isNear(Self.colour(CGPoint(x: 40, y: 40), in: output.jpeg), (1, 0, 0)))
+    }
+
+    /// Opacity is the user's answer to "how much of what is underneath do I
+    /// still need to see", and a page that ignored it would hide the very
+    /// thing they set it to keep.
+    @Test func layerOpacityIsCarriedOntoThePage() async throws {
+        let output = try await Self.compose(layers: [Self.layer("parcels", alpha: 0.5)]) { _, _ in
+            (Self.tile(.red), .served)
+        }
+
+        // Half of red over the white base map, not red and not white.
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 0.5, 0.5)))
+    }
+
+    /// The layer the user sees on top prints on top. The compositor takes the
+    /// order it is given, and this is the test that says so.
+    @Test func theLastLayerGivenIsTheOneOnTop() async throws {
+        let output = try await Self.compose(
+            layers: [Self.layer("under"), Self.layer("over")]
+        ) { configuration, _ in
+            (Self.tile(configuration.id == "over" ? .blue : .red), .served)
+        }
+
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (0, 0, 1)))
     }
 
     /// A Province layer is one render of the frame, not one render per tile.
@@ -159,16 +271,20 @@ struct PrintMapCompositorTests {
                 _ = renders.take()
                 #expect(widthPx == 600)
                 #expect(heightPx == 400)
-                return Self.pixel
+                return Self.tile(.green)
             }
         ) { _, _ in
             _ = tiles.take()
-            return Self.pixel
+            return (Self.pixel, .served)
         }
 
         #expect(renders.value == 1)
         #expect(tiles.value == 0)
         #expect(output.outcomes.map(\.state) == [.drawn])
+        // And the render is on the page, not merely counted.
+        #expect(
+            Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (0, 1, 0))
+        )
     }
 
     /// A render that did not arrive is reported failed, like a tile layer that
@@ -184,7 +300,7 @@ struct PrintMapCompositorTests {
         let output = try await Self.compose(
             layers: [layer],
             renderProvider: { _, _, _, _ in throw URLError(.badServerResponse) }
-        ) { _, _ in Self.pixel }
+        ) { _, _ in (Self.pixel, .served) }
 
         let outcome = try #require(output.outcomes.first)
         guard case .failed = outcome.state else {
@@ -206,10 +322,62 @@ struct PrintMapCompositorTests {
             )
         }
     }
+
+    /// A hole in a parcel is a piece of ground that is not in it. Filling it
+    /// would draw a boundary the record does not describe.
+    @Test func aHoleInAParcelIsNotFilled() async throws {
+        let parcel = ParcelShape(
+            pid: "00000001",
+            role: .taxSale,
+            parts: [[
+                Self.ring(west: -61.29, east: -61.25, south: 46.105, north: 46.135),
+                Self.ring(west: -61.275, east: -61.265, south: 46.117, north: 46.123)
+            ]]
+        )
+
+        let output = try await Self.compose(
+            layers: [], parcels: [parcel]
+        ) { _, _ in (Self.pixel, .served) }
+
+        // Inside the outer ring, tinted by the tax-sale fill over white.
+        let filled = try #require(Self.colour(CGPoint(x: 150, y: 200), in: output.jpeg))
+        #expect(filled.blue < 0.96)
+        // Inside the hole, still the base map.
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 1, 1)))
+    }
+
+    /// The six-at-a-time limit is what keeps an export from being throttled by
+    /// the service it is quoting, and it only holds if the group refills rather
+    /// than starting every square at once.
+    @Test func noMoreThanSixSquaresAreInFlightAtOnce() async throws {
+        let gauge = Gauge()
+        let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, _ in
+            gauge.entered()
+            try? await Task.sleep(for: .milliseconds(5))
+            gauge.left()
+            return (Self.pixel, .served)
+        }
+
+        #expect(output.outcomes.map(\.state) == [.drawn])
+        #expect(gauge.peak <= PrintMapCompositor.tileConcurrency)
+        // And it did use the width it was given, or the ceiling proves nothing.
+        #expect(gauge.peak > 1)
+    }
+
+    private static func ring(
+        west: Double, east: Double, south: Double, north: Double
+    ) -> [GeoPoint] {
+        [
+            GeoPoint(lat: north, lng: west),
+            GeoPoint(lat: north, lng: east),
+            GeoPoint(lat: south, lng: east),
+            GeoPoint(lat: south, lng: west)
+        ]
+    }
 }
 
 /// A counter the concurrent tile fetches can share.
-private final class Mutex: @unchecked Sendable {
+private nonisolated final class Mutex: @unchecked Sendable {
     private let lock = NSLock()
     private var count: Int
     private let limit: Int
@@ -229,5 +397,25 @@ private final class Mutex: @unchecked Sendable {
             count += 1
             return count <= limit
         }
+    }
+}
+
+/// The most fetches that were ever in flight together.
+private nonisolated final class Gauge: @unchecked Sendable {
+    private let lock = NSLock()
+    private var current = 0
+    private var highest = 0
+
+    var peak: Int { lock.withLock { highest } }
+
+    func entered() {
+        lock.withLock {
+            current += 1
+            highest = max(highest, current)
+        }
+    }
+
+    func left() {
+        lock.withLock { current -= 1 }
     }
 }
