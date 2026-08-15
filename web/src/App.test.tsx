@@ -577,6 +577,20 @@ function openLayerCategory(name: string): HTMLElement {
   return screen.getByRole("region", { name: matcher });
 }
 
+function expandedLayerCategoryIds(): string[] {
+  return layerCategories
+    .filter(({ name }) => screen.getByRole("button", {
+      name: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`),
+    }).getAttribute("aria-expanded") === "true")
+    .map(({ id }) => id);
+}
+
+function openLayerCategories(...names: string[]): void {
+  for (const name of names) {
+    openLayerCategory(name);
+  }
+}
+
 function renderAppWithCategoriesOpen() {
   const result = render(<App />);
   for (const { name } of layerCategories) {
@@ -837,7 +851,7 @@ describe("NS Marks The Spot Online", () => {
       "",
       "/?taxSale=on&mode=current&layers=ns-aerial,nsprd,roads,water-features",
     );
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     observedInteractiveMapStates.length = 0;
     await userEvent.selectOptions(
@@ -845,6 +859,7 @@ describe("NS Marks The Spot Online", () => {
       "explore-nova-scotia",
     );
 
+    expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
     expect(observedInteractiveMapStates).toEqual([
       "modern:on;ns-aerial:off;nsprd:off;roads:off;water:off;tax-sale:off",
     ]);
@@ -852,7 +867,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("defers a restricted theme until the one licence decision", async () => {
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     const mapSetup = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(mapSetup, "forestry-field-access");
@@ -864,8 +879,7 @@ describe("NS Marks The Spot Online", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /accept/i }));
 
-    openLayerCategory("Background Maps");
-    openLayerCategory("Forestry & Ecology");
+    openLayerCategories("Background Maps", "Forestry & Ecology");
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByLabelText("Old-growth policy areas")).toBeChecked();
     expect(mapSetup).toHaveFocus();
@@ -873,7 +887,7 @@ describe("NS Marks The Spot Online", () => {
 
   it("applies the unrestricted subset and names blocked layers after refusal", async () => {
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     const mapSetup = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(mapSetup, "historical-maps");
@@ -901,13 +915,13 @@ describe("NS Marks The Spot Online", () => {
       "",
       "/?taxSale=off&mode=current&layers=modern,roads",
     );
-    const { unmount } = renderAppWithCategoriesOpen();
+    const { unmount } = render(<App />);
 
     expect(mapSetupStatus()).toHaveTextContent("Shared setup");
 
     unmount();
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
     await userEvent.click(screen.getByLabelText("Modern map"));
 
     expect(mapSetupStatus()).toHaveTextContent(
@@ -927,7 +941,7 @@ describe("NS Marks The Spot Online", () => {
     );
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -1062,8 +1076,10 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
+    expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
+    openLayerCategory("Roads & Places");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
     await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
@@ -1078,6 +1094,8 @@ describe("NS Marks The Spot Online", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
     await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
+    await userEvent.click(screen.getByRole("button", { name: /^Background Maps/ }));
+    expect(expandedLayerCategoryIds()).toEqual(["roads-places"]);
     await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
     await userEvent.click(
       screen.getByRole("button", { name: "Update from current setup" }),
@@ -1085,12 +1103,24 @@ describe("NS Marks The Spot Online", () => {
 
     const stored = JSON.parse(
       localStorage.getItem(CUSTOM_THEME_STORAGE_KEY) ?? "null",
-    ) as { themes: Array<{ id: string; name: string; layerIds: string[] }> };
-    expect(stored.themes).toEqual([expect.objectContaining({
+    ) as { themes: Array<{
+      id: string;
+      name: string;
+      layerIds: string[];
+      opacityOverrides: Record<string, number>;
+      preferredCategoryIds: string[];
+      taxSaleEnabled: boolean;
+      mapMode: string;
+    }> };
+    expect(stored.themes).toEqual([{
       id: "custom-field-day",
       name: "Woodlot",
       layerIds: ["modern", "roads"],
-    })]);
+      opacityOverrides: {},
+      preferredCategoryIds: ["roads-places"],
+      taxSaleEnabled: false,
+      mapMode: "current",
+    }]);
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
   });
 
@@ -1098,7 +1128,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([{ ...STORED_FIELD_THEME, name: "Woodlot" }]);
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -1151,7 +1181,7 @@ describe("NS Marks The Spot Online", () => {
       },
     ]);
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
@@ -1172,21 +1202,25 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    const first = renderAppWithCategoriesOpen();
+    const first = render(<App />);
 
+    expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
       "custom-field-day",
     );
+    expect(expandedLayerCategoryIds()).toEqual(["roads-places"]);
     await waitFor(() => {
       expect(new URL(window.location.href).searchParams.get("layers"))
         .toBe("modern,roads");
     });
     first.unmount();
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
+    expect(expandedLayerCategoryIds()).toEqual(["roads-places"]);
     expect(screen.getByLabelText("Map setup")).toHaveValue("custom-field-day");
     expect(mapSetupStatus()).toHaveTextContent("Field day");
+    openLayerCategory("Background Maps");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
   });
@@ -1195,7 +1229,7 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
     window.history.replaceState(null, "", "/");
 
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
     expect(screen.getByLabelText("Map setup")).toHaveValue(
       "explore-nova-scotia",
@@ -1211,8 +1245,9 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?layers=modern,roads");
 
-    renderAppWithCategoriesOpen();
+    render(<App />);
 
+    openLayerCategories("Background Maps", "Roads & Places");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByLabelText("Map setup")).toHaveValue("shared");
@@ -1230,7 +1265,8 @@ describe("NS Marks The Spot Online", () => {
   it("retains the previous theme list and map state when browser persistence fails", async () => {
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
+    openLayerCategory("Roads & Places");
     const oldRaw = localStorage.getItem(CUSTOM_THEME_STORAGE_KEY);
     const originalSetItem = Storage.prototype.setItem;
     const setItem = vi.spyOn(Storage.prototype, "setItem").mockImplementation(
@@ -1270,7 +1306,8 @@ describe("NS Marks The Spot Online", () => {
   it("uses the same licence decision and reset path for a restricted custom theme", async () => {
     storeCustomThemes([STORED_FIELD_THEME]);
     window.history.replaceState(null, "", "/");
-    renderAppWithCategoriesOpen();
+    render(<App />);
+    openLayerCategory("Roads & Places");
 
     const picker = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(picker, "custom-field-day");
