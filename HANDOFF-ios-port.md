@@ -920,3 +920,31 @@ GO, spend ONE admission on
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
 ```
+
+## 2026-08-15 — the evidence the note was leaving out
+
+Done: 10b9891fd puts mapped area, mapped buildings, mapped roads and water,
+and the flood screens into the exported note (and so into the printed
+appendix, which is built from it), moves the panel's wording into
+ParcelEvidenceWording so the screen and the document cannot drift, gives
+`EvidenceNoteInput.Result` an `errorMessage` so licence-blocked, failed and
+unasked stay three sentences, and gates the export on those three lookups.
+85345fed4 prints each source's credit and licence beside its findings and
+moves the coastal licence's three mandatory notices into CoastalFloodLicence,
+shared by panel, note and appendix. Package: 897 tests, 124 suites, green.
+App + tests type-check clean (`zsh ./Scripts/typecheck-ios.sh`). Codex review
+#3 of 10b9891fd is still running.
+
+Next: the gate. Saturday 17:30 reads HOLD — outside the window until 22:00,
+and swapFree ~0.9 GB against a 2 GB warn floor, so 22:00 may not admit either.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: poll `xcode-build-slot.sh --status` every ~5 min; when it reads
+GO, spend ONE admission on
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests
+-disable-concurrent-testing -scheme ns-marks-the-spot
+-destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
+```
