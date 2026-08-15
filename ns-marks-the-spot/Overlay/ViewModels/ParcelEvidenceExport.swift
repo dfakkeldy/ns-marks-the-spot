@@ -23,6 +23,9 @@ nonisolated enum ParcelEvidenceExport {
             && hasSettled(inspection.assessments)
             && hasSettled(inspection.dwellings)
             && hasSettled(inspection.civicAddresses)
+            && hasSettled(inspection.buildings)
+            && hasSettled(inspection.mappedContext)
+            && hasSettled(inspection.floodHazard)
     }
 
     private static func hasSettled<Value>(_ evidence: ParcelEvidence<Value>) -> Bool {
@@ -54,6 +57,10 @@ nonisolated enum ParcelEvidenceExport {
             events: events(inspection, mode: mode),
             civicAddresses: civicAddresses(inspection),
             civicNotice: notice(inspection.civicAddresses),
+            mappedArea: inspection.mappedArea?.label,
+            buildingResults: buildingResults(inspection),
+            contextResults: contextResults(inspection),
+            floodResults: floodResults(inspection),
             assessmentEvidence: assessments(inspection),
             dwellingEvidence: dwellings(inspection),
             resourceResults: resourceResults(inspection),
@@ -241,6 +248,213 @@ nonisolated enum ParcelEvidenceExport {
             return .error
         }
     }
+
+    /// A layer's public address, for the note's "go and check this yourself"
+    /// link. `nil` drops the whole result rather than printing a finding a
+    /// reader cannot trace.
+    private static func sourceURL(for id: LayerID) -> URL? {
+        let descriptor = LayerCatalog.descriptor(for: id)
+        return descriptor?.sourceURL ?? descriptor?.serviceURL
+    }
+
+    private static func buildingResults(
+        _ inspection: ParcelInspection
+    ) -> [EvidenceNoteInput.Result] {
+        guard let sourceURL = sourceURL(for: .buildings) else { return [] }
+        let name = LayerCatalog.descriptor(for: .buildings)?.name ?? "Buildings"
+        switch inspection.buildings {
+        case .ready(let count):
+            // The count and the caveat travel together. The number on its own
+            // reads as a structure count, which is exactly what it is not.
+            return [
+                EvidenceNoteInput.Result(
+                    name: name,
+                    sourceURL: sourceURL,
+                    status: .ready,
+                    results: [
+                        "\(count.total) mapped building feature"
+                            + (count.total == 1 ? "" : "s"),
+                        ParcelEvidenceWording.buildingCaveat(count),
+                    ]
+                )
+            ]
+        case .unavailable(let reason):
+            return [
+                EvidenceNoteInput.Result(
+                    name: name, sourceURL: sourceURL, status: .error, results: [],
+                    errorMessage: "\(reason) No absence is inferred."
+                )
+            ]
+        case .looking:
+            return [
+                EvidenceNoteInput.Result(
+                    name: name, sourceURL: sourceURL, status: .error, results: [],
+                    errorMessage: unsettled
+                )
+            ]
+        }
+    }
+
+    /// The roads and the water, as two sources rather than one.
+    ///
+    /// They come back in a single lookup, but they answer different questions
+    /// and their empty answers mean different things — and "no road listed"
+    /// depends on whether the address file answered, which the water half does
+    /// not care about.
+    private static func contextResults(
+        _ inspection: ParcelInspection
+    ) -> [EvidenceNoteInput.Result] {
+        guard let roadURL = sourceURL(for: .roads),
+              let waterURL = sourceURL(for: .waterFeatures)
+        else { return [] }
+        let roadName = LayerCatalog.descriptor(for: .roads)?.name ?? "Roads"
+        let waterName = LayerCatalog.descriptor(for: .waterFeatures)?.name ?? "Water features"
+
+        switch inspection.mappedContext {
+        case .ready(let context):
+            let addresses: [CivicAddressResponse.CivicAddress]
+            let addressesAnswered: Bool
+            if case .ready(let reading) = inspection.civicAddresses {
+                addresses = reading.addresses
+                addressesAnswered = true
+            } else {
+                addresses = []
+                addressesAnswered = false
+            }
+            let roads = ParcelRoads.list(context, namedBy: addresses).map { road in
+                "\(road.name) · \(road.kind) · "
+                    + ParcelEvidenceWording.label(for: road.evidence)
+            }
+            let water = context.water.map { feature in
+                "\(feature.name) · \(feature.kind) · "
+                    + (feature.relationship == .intersects
+                        ? "Intersects parcel"
+                        : ParcelEvidenceWording.adjacentLabel)
+            }
+            return [
+                EvidenceNoteInput.Result(
+                    name: roadName,
+                    sourceURL: roadURL,
+                    status: .ready,
+                    results: roads,
+                    emptyMessage: ParcelLookupMessage.noRoadsListed(
+                        addressesAnswered: addressesAnswered
+                    )
+                ),
+                EvidenceNoteInput.Result(
+                    name: waterName,
+                    sourceURL: waterURL,
+                    status: .ready,
+                    results: water,
+                    emptyMessage: ParcelEvidenceWording.noWaterFeature
+                ),
+            ]
+        case .unavailable(let reason):
+            return [
+                EvidenceNoteInput.Result(
+                    name: roadName, sourceURL: roadURL, status: .error, results: [],
+                    errorMessage: reason
+                ),
+                EvidenceNoteInput.Result(
+                    name: waterName, sourceURL: waterURL, status: .error, results: [],
+                    errorMessage: reason
+                ),
+            ]
+        case .looking:
+            return [
+                EvidenceNoteInput.Result(
+                    name: roadName, sourceURL: roadURL, status: .error, results: [],
+                    errorMessage: unsettled
+                ),
+                EvidenceNoteInput.Result(
+                    name: waterName, sourceURL: waterURL, status: .error, results: [],
+                    errorMessage: unsettled
+                ),
+            ]
+        }
+    }
+
+    private static func floodResults(
+        _ inspection: ParcelInspection
+    ) -> [EvidenceNoteInput.Result] {
+        guard let riverURL = sourceURL(for: .publishedRiverFloodZones),
+              let coastalURL = sourceURL(for: .coastalFloodCurrent)
+        else { return [] }
+        let riverName = "Published river flood mapping"
+        let coastalName = "Nova Scotia Coastal Hazard Map"
+
+        switch inspection.floodHazard {
+        case .ready(let hazard):
+            let river: EvidenceNoteInput.Result
+            switch hazard.river {
+            case .publishedIntersection(let findings):
+                river = EvidenceNoteInput.Result(
+                    name: riverName,
+                    sourceURL: riverURL,
+                    status: .ready,
+                    results: findings.map(ParcelEvidenceWording.sentence(for:))
+                )
+            case .withinPublishedExtentWithNoIntersection:
+                river = EvidenceNoteInput.Result(
+                    name: riverName, sourceURL: riverURL, status: .ready, results: [],
+                    emptyMessage: ParcelEvidenceWording
+                        .withinPublishedExtentWithNoIntersection
+                )
+            case .outsidePublishedExtents:
+                // Not an error and not an empty answer: the question was never
+                // in scope here, and the note has to be able to say that.
+                river = EvidenceNoteInput.Result(
+                    name: riverName, sourceURL: riverURL, status: .ready, results: [],
+                    emptyMessage: ParcelEvidenceWording.outsidePublishedExtents
+                )
+            case .unavailable(let failure):
+                river = EvidenceNoteInput.Result(
+                    name: riverName, sourceURL: riverURL, status: .error, results: [],
+                    errorMessage: ParcelEvidenceWording.sentence(for: failure)
+                )
+            }
+            return [
+                river,
+                EvidenceNoteInput.Result(
+                    name: coastalName,
+                    sourceURL: coastalURL,
+                    status: .ready,
+                    results: hazard.coastal.map(ParcelEvidenceWording.sentence(for:)),
+                    emptyMessage: "No coastal scenario was sampled for this parcel."
+                ),
+            ]
+        case .unavailable(let reason):
+            let message = "\(reason) No absence is inferred."
+            return [
+                EvidenceNoteInput.Result(
+                    name: riverName, sourceURL: riverURL, status: .error, results: [],
+                    errorMessage: message
+                ),
+                EvidenceNoteInput.Result(
+                    name: coastalName, sourceURL: coastalURL, status: .error, results: [],
+                    errorMessage: message
+                ),
+            ]
+        case .looking:
+            return [
+                EvidenceNoteInput.Result(
+                    name: riverName, sourceURL: riverURL, status: .error, results: [],
+                    errorMessage: unsettled
+                ),
+                EvidenceNoteInput.Result(
+                    name: coastalName, sourceURL: coastalURL, status: .error, results: [],
+                    errorMessage: unsettled
+                ),
+            ]
+        }
+    }
+
+    /// What a source that had not answered yet is called. The export is gated
+    /// on every source having settled, so this should never print — it is here
+    /// so that if the gate is ever bypassed the note says "not answered"
+    /// rather than "nothing found".
+    private static let unsettled =
+        "This source had not answered when the note was written."
 
     private static func resourceResults(
         _ inspection: ParcelInspection

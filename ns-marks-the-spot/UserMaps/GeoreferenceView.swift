@@ -105,8 +105,16 @@ struct GeoreferenceView: View {
                 pixelSize: pixelSize,
                 target: "urn:ns-marks-the-spot:\(identifier)"
             )
-            let url = FileManager.default.temporaryDirectory
-                .appending(path: "\(name).georef.json")
+            // The record's id in the directory, its name on the file. Two
+            // scans called `survey` wrote the same path, and the second export
+            // replaced the first annotation while the share sheet for it was
+            // still open.
+            let directory = FileManager.default.temporaryDirectory
+                .appending(path: "georef-\(identifier)")
+            try FileManager.default.createDirectory(
+                at: directory, withIntermediateDirectories: true
+            )
+            let url = directory.appending(path: "\(name).georef.json")
             try data.write(to: url, options: .atomic)
             share = SharePayload(url: url)
         } catch {

@@ -43,6 +43,12 @@ nonisolated enum PrintExport {
         case couldNotWriteFile
     }
 
+    /// What every page says about itself, word for word as the web's printed
+    /// documents say it.
+    static let screeningCaveat =
+        "Screening evidence only. Not a survey, title opinion, access conclusion, "
+        + "appraisal, or proof of absence."
+
     /// The finished page, and the account of what did and did not draw.
     struct Result: Sendable {
         var pdf: Data
@@ -130,11 +136,19 @@ nonisolated enum PrintExport {
                 fields: fields,
                 legend: request.includesLegend && !account.legend.isEmpty
                     ? account.legend : nil,
-                disclosures: account.notes,
+                // The general caveat first, and unconditionally. Everything
+                // else in this list is about something that went wrong, so a
+                // page where nothing did carried no caveat at all — and a
+                // printed map with no warning on it is exactly the artefact
+                // somebody puts in front of a lawyer. It rides with the
+                // disclosures because that is the region that shrinks to fit
+                // rather than dropping what it cannot hold.
+                disclosures: [Self.screeningCaveat] + account.notes,
                 attributionLines: PrintAttribution.lines(
                     for: PrintExportPlan.sources(
                         baseMap: request.baseMap,
                         outcomes: outcomes,
+                        drewParcels: !request.parcels.isEmpty,
                         descriptor: descriptor
                     )
                 ),

@@ -121,6 +121,12 @@ nonisolated struct PrintMapCompositor {
         var drawnLayers = [(layer: MapLayerState, tiles: [(PrintTile, UIImage)], whole: UIImage?)]()
         var outcomes = [LayerOutcome]()
         for layer in layers where layer.effectiveAlpha > 0 {
+            // Checked between layers as well as inside them: the tile path
+            // reports an abandoned request as a layer that failed rather than
+            // throwing, so without this the compositor works through every
+            // remaining layer and allocates the full-resolution raster after
+            // the user has cancelled.
+            try Task.checkCancellation()
             // A catalogued Province layer is a dynamic map service: nothing is
             // cached at the far end, so every tile is a render somebody pays
             // for. A 300 dpi frame is around 200 tiles, and the default four
@@ -139,6 +145,11 @@ nonisolated struct PrintMapCompositor {
                     outcomes.append(
                         LayerOutcome(id: layer.id, name: layer.name, state: .drawn)
                     )
+                } catch is CancellationError {
+                    // Not a layer that failed: the user cancelled the export.
+                    // Swallowed, it became a "could not be reached" note and
+                    // the compositor carried on fetching the rest.
+                    throw CancellationError()
                 } catch {
                     outcomes.append(
                         LayerOutcome(

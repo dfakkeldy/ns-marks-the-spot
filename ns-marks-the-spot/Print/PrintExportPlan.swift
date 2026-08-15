@@ -164,9 +164,16 @@ nonisolated enum PrintExportPlan {
 
     /// The attribution strip's sources, base map first, in the order they were
     /// drawn — and only for layers that actually printed.
+    /// `drewParcels` credits the parcel geometry the compositor draws itself.
+    ///
+    /// Those outlines are not a layer outcome — they go onto the page whether
+    /// or not the parcel layer is switched on — so deriving the credits from
+    /// outcomes alone printed official Province boundaries over a page whose
+    /// only attribution was Apple's. The obligation follows the ink.
     static func sources(
         baseMap: MapBaseType,
         outcomes: [PrintMapCompositor.LayerOutcome],
+        drewParcels: Bool = false,
         descriptor: (String) -> LayerDescriptor?
     ) -> [PrintLayerSource] {
         var sources = [
@@ -198,7 +205,27 @@ nonisolated enum PrintExportPlan {
                 )
             )
         }
+        // Credited once. With the parcel layer on it is already in the list
+        // above, and a page that named the Province twice would read as two
+        // sources agreeing.
+        if drewParcels, !sources.contains(where: { $0.name == parcelSourceName }),
+           let layer = descriptor(LayerID.nsprd.rawValue)
+        {
+            let credit = NativeLayerTraits.attribution(for: layer)
+            sources.append(
+                PrintLayerSource(
+                    name: layer.name,
+                    attribution: [credit.copyright ?? credit.provider, credit.disclaimer]
+                        .joined(separator: ". "),
+                    licenceUrl: credit.licenseURL?.absoluteString
+                )
+            )
+        }
         return sources
+    }
+
+    private static var parcelSourceName: String {
+        LayerCatalog.descriptor(for: .nsprd)?.name ?? "NSPRD"
     }
 
     private static func baseMapName(_ baseMap: MapBaseType) -> String {

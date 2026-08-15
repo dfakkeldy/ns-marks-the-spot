@@ -761,7 +761,7 @@ struct ParcelInspectorView: View {
                     empty: ParcelLookupMessage.noRoadsListed(addressesAnswered: addressesAnswered),
                     rows: Self.rows(
                         ParcelRoads.list(context, namedBy: readyAddresses).map {
-                            ($0.name, $0.kind, Self.label(for: $0.evidence))
+                            ($0.name, $0.kind, ParcelEvidenceWording.label(for: $0.evidence))
                         }
                     )
                 )
@@ -784,7 +784,7 @@ struct ParcelInspectorView: View {
 
                 featureList(
                     "Intersecting water features",
-                    empty: "No mapped water feature intersects this parcel.",
+                    empty: ParcelEvidenceWording.noWaterFeature,
                     rows: Self.rows(
                         context.water.map {
                             (
@@ -792,7 +792,7 @@ struct ParcelInspectorView: View {
                                 $0.kind,
                                 $0.relationship == .intersects
                                     ? "Intersects parcel"
-                                    : Self.adjacentLabel
+                                    : ParcelEvidenceWording.adjacentLabel
                             )
                         }
                     )
@@ -982,29 +982,16 @@ struct ParcelInspectorView: View {
             switch river {
             case .publishedIntersection(let findings):
                 ForEach(findings, id: \.self) { finding in
-                    Text(Self.sentence(for: finding))
+                    Text(ParcelEvidenceWording.sentence(for: finding))
                         .font(.footnote)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             case .withinPublishedExtentWithNoIntersection:
-                // A real negative from a real survey, and still hedged: the
-                // service publishes mapped zones, not a polygon saying where it
-                // looked.
-                status(
-                    "No published river flood geometry intersected this parcel. It falls "
-                        + "inside a published layer's extent, and the service carries no "
-                        + "study-coverage polygon, so absence is not inferred."
-                )
+                status(ParcelEvidenceWording.withinPublishedExtentWithNoIntersection)
             case .outsidePublishedExtents:
-                status(
-                    "Outside the extents of the four published river-flood study areas. "
-                        + "River flood probability is not assessed here."
-                )
+                status(ParcelEvidenceWording.outsidePublishedExtents)
             case .unavailable(let failure):
-                status(
-                    "\(ParcelLookupMessage.floodEvidenceFailure(failure)) "
-                        + "No absence is inferred."
-                )
+                status(ParcelEvidenceWording.sentence(for: failure))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -1017,7 +1004,7 @@ struct ParcelInspectorView: View {
                 .font(.footnote.weight(.semibold))
 
             ForEach(scenarios, id: \.scenario) { scenario in
-                Text(Self.sentence(for: scenario))
+                Text(ParcelEvidenceWording.sentence(for: scenario))
                     .font(.footnote)
                     .foregroundStyle(scenarioIsAnswered(scenario) ? .primary : .secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -1030,63 +1017,6 @@ struct ParcelInspectorView: View {
         if case .success = scenario.sample { return true }
         return false
     }
-
-    private static func sentence(for finding: RiverAEPIntersection) -> String {
-        let kind = finding.relationship == .area ? "flood area" : "zone boundary"
-        return "\(finding.annualExceedanceProbabilityPercent)% annual-exceedance \(kind) "
-            + "intersects this parcel (\(finding.places.joined(separator: ", ")))."
-    }
-
-    private static func sentence(for scenario: CoastalFloodEvidence) -> String {
-        let label = Self.label(for: scenario.scenario)
-        switch scenario.sample {
-        case .failure(let failure):
-            return "\(label): \(ParcelLookupMessage.floodEvidenceFailure(failure)) "
-                + "No absence is inferred."
-        case .success(let summary) where !summary.wasSampled:
-            // The render landed no sample inside the outline, so nothing was
-            // measured. Reporting 0% here would turn a failure to sample into a
-            // finding that the scenario misses the lot.
-            return "\(label): this parcel is too small at the sampled resolution to read "
-                + "off the scenario map, so nothing was measured."
-        case .success(let summary) where !summary.intersects:
-            return "\(label): no scenario pixel fell inside this parcel. That is a screen "
-                + "of the mapped scenario, not proof of no coastal hazard."
-        case .success(let summary):
-            let percent = summary.approximateAffectedPercent.map {
-                Self.percentFormatter.string(from: $0 as NSNumber) ?? "\($0)"
-            } ?? "an unknown share of"
-            let area = summary.approximateAffectedSquareMetres.map {
-                " (about \(Self.areaFormatter.string(from: $0.rounded() as NSNumber) ?? "\($0)") m²)"
-            } ?? ""
-            return "\(label): approximately \(percent)% of the mapped parcel area\(area) "
-                + "falls inside the scenario."
-        }
-    }
-
-    private static func label(for scenario: FloodHazardQuery.CoastalScenario) -> String {
-        switch scenario {
-        case .current: "Current sea level"
-        case .year2050: "2050"
-        case .year2100: "2100"
-        }
-    }
-
-    private static let percentFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "en_CA")
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
-
-    private static let areaFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "en_CA")
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
 
     /// The civic addresses to merge into the road list, and only when they have
     /// actually arrived: a road named by an address must not appear because the
@@ -1101,17 +1031,6 @@ struct ParcelInspectorView: View {
     private var addressesAnswered: Bool {
         if case .ready = inspection.civicAddresses { return true }
         return false
-    }
-
-    private static let adjacentLabel =
-        "Adjacent within \(MappedFeatureQuery.adjacentRoadDistanceMetres) m"
-
-    private static func label(for evidence: ParcelRoads.Evidence) -> String {
-        switch evidence {
-        case .intersects: "Intersects parcel"
-        case .adjacent: adjacentLabel
-        case .namedByCivicAddress: "Named by civic address"
-        }
     }
 
     /// One listed feature. Identified by position rather than by name: two
@@ -1190,27 +1109,11 @@ struct ParcelInspectorView: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         case .ready(let count):
-            // The split matters: NSTDB carries points and footprints, and a
-            // building can appear as both, so the total is an upper bound on
-            // structures rather than a structure count.
-            Text(buildingCaveat(count))
+            Text(ParcelEvidenceWording.buildingCaveat(count))
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
-    }
-
-    private func buildingCaveat(_ count: ParcelBuildingCount) -> String {
-        guard count.total > 0 else {
-            // The one building state that says something about the parcel, and
-            // it stops at what NSTDB holds on its own compilation date.
-            return "Nothing is mapped inside this outline in NSTDB 1:10,000. "
-                + "That is not a finding that the lot is vacant."
-        }
-        let points = count.points == 1 ? "1 point" : "\(count.points) points"
-        let polygons = count.polygons == 1 ? "1 footprint" : "\(count.polygons) footprints"
-        return "\(points) and \(polygons) in NSTDB 1:10,000. A structure can carry both, "
-            + "so this counts mapped features rather than buildings standing today."
     }
 
     private func status(_ text: String) -> some View {

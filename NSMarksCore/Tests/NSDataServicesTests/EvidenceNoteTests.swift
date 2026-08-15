@@ -20,6 +20,10 @@ struct EvidenceNoteTests {
         activeLayers: [EvidenceNoteInput.Source] = [],
         events: [EvidenceNoteInput.Event] = [],
         civicAddresses: [EvidenceNoteInput.Link] = [],
+        mappedArea: String? = nil,
+        buildings: [EvidenceNoteInput.Result] = [],
+        context: [EvidenceNoteInput.Result] = [],
+        flood: [EvidenceNoteInput.Result] = [],
         assessments: EvidenceNoteInput.AssessmentEvidence,
         dwellings: EvidenceNoteInput.DwellingEvidence,
         resources: [EvidenceNoteInput.Result] = []
@@ -33,6 +37,10 @@ struct EvidenceNoteTests {
             activeLayers: activeLayers,
             events: events,
             civicAddresses: civicAddresses,
+            mappedArea: mappedArea,
+            buildingResults: buildings,
+            contextResults: context,
+            floodResults: flood,
             assessmentEvidence: assessments,
             dwellingEvidence: dwellings,
             resourceResults: resources
@@ -294,6 +302,93 @@ struct EvidenceNoteTests {
                 "No included municipal event is associated with this parcel in the selected mode."
             )
         )
+    }
+
+    /// The four mapped-evidence sections the panel shows and the note used to
+    /// leave out. A note that simply omitted the flood section read as a parcel
+    /// nobody had asked about flooding.
+    @Test func theMappedEvidenceSectionsCarryTheirOwnCaveats() {
+        let source = URL(string: "https://nsgiwa.novascotia.ca/arcgis")!
+        let note = EvidenceNote.build(
+            Self.input(
+                mappedArea: "1.82 ha (4.5 ac)",
+                buildings: [
+                    EvidenceNoteInput.Result(
+                        name: "Buildings", sourceURL: source, status: .ready,
+                        results: ["2 mapped building features"]
+                    )
+                ],
+                context: [
+                    EvidenceNoteInput.Result(
+                        name: "Roads, trails & culverts", sourceURL: source, status: .ready,
+                        results: [], emptyMessage: "No mapped road was listed for this parcel."
+                    )
+                ],
+                flood: [
+                    EvidenceNoteInput.Result(
+                        name: "Published river flood mapping", sourceURL: source,
+                        status: .ready, results: [],
+                        emptyMessage: "Outside the extents of the four published river-flood "
+                            + "study areas."
+                    )
+                ],
+                assessments: .error,
+                dwellings: .blocked
+            )
+        )
+
+        #expect(note.markdown.contains("## Mapped parcel area"))
+        #expect(note.markdown.contains("- 1.82 ha (4.5 ac)"))
+        #expect(note.markdown.contains("is not a survey"))
+        #expect(note.markdown.contains("- Buildings: 2 mapped building features"))
+        #expect(note.markdown.contains("not a building census"))
+        #expect(
+            note.markdown.contains(
+                "- Roads, trails & culverts: No mapped road was listed for this parcel."
+            )
+        )
+        #expect(note.markdown.contains("does not establish legal"))
+        #expect(note.markdown.contains("## Flood evidence"))
+        #expect(note.markdown.contains("Outside the extents"))
+        #expect(note.markdown.contains("not a finding of no flood hazard"))
+    }
+
+    /// A source that failed says why, in its own words. "Unavailable" over a
+    /// licence that was never accepted would read as an outage.
+    @Test func aFailedMappedSourceKeepsItsOwnReason() {
+        let source = URL(string: "https://nsgiwa.novascotia.ca/arcgis")!
+        let note = EvidenceNote.build(
+            Self.input(
+                flood: [
+                    EvidenceNoteInput.Result(
+                        name: "Nova Scotia Coastal Hazard Map", sourceURL: source,
+                        status: .error, results: [],
+                        errorMessage: "The coastal scenario render could not be read. "
+                            + "No absence is inferred."
+                    )
+                ],
+                assessments: .error,
+                dwellings: .blocked
+            )
+        )
+
+        #expect(
+            note.markdown.contains(
+                "- Nova Scotia Coastal Hazard Map: The coastal scenario render could not be "
+                    + "read. No absence is inferred."
+            )
+        )
+        #expect(!note.markdown.contains("Coastal Hazard Map: source unavailable"))
+    }
+
+    /// No mapped area is said out loud, because a section that vanishes reads
+    /// as a question nobody asked.
+    @Test func aParcelWithNoMappedAreaSaysSo() {
+        let note = EvidenceNote.build(
+            Self.input(assessments: .error, dwellings: .blocked)
+        )
+
+        #expect(note.markdown.contains("- No mapped parcel area returned."))
     }
 
     @Test func thePositionIsWrittenToFiveDecimals() {

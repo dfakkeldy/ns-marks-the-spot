@@ -26,6 +26,13 @@ struct MapShareAndEvidenceTests {
         ),
         dwellings: ParcelEvidence<PVSCDwellingResponse.Result> = .ready(
             PVSCDwellingResponse.Result(accounts: [])
+        ),
+        buildings: ParcelEvidence<ParcelBuildingCount> = .ready(
+            ParcelBuildingCount(points: 0, polygons: 0)
+        ),
+        context: ParcelEvidence<ParcelContext> = .ready(ParcelContext()),
+        flood: ParcelEvidence<ParcelFloodHazard> = .ready(
+            ParcelFloodHazard(river: .outsidePublishedExtents, coastal: [])
         )
     ) -> ParcelInspection {
         var inspection = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
@@ -35,6 +42,9 @@ struct MapShareAndEvidenceTests {
         inspection.resources = resources
         inspection.assessments = assessments
         inspection.dwellings = dwellings
+        inspection.buildings = buildings
+        inspection.mappedContext = context
+        inspection.floodHazard = flood
         return inspection
     }
 
@@ -173,10 +183,72 @@ struct MapShareAndEvidenceTests {
         #expect(Self.note(Self.inspection()).markdown.contains("Apple Maps standard base map"))
     }
 
+    /// The panel and the note say the same thing about the same finding. They
+    /// read the wording from one place, and this is the test that keeps them
+    /// there: a note with its own copy of the coastal sentence would drift from
+    /// the screen the reader was looking at when they exported it.
+    @Test func theNoteCarriesTheSameMappedEvidenceThePanelShows() {
+        let note = Self.note(
+            Self.inspection(
+                flood: .ready(
+                    ParcelFloodHazard(
+                        river: .publishedIntersection([
+                            RiverAEPIntersection(
+                                annualExceedanceProbabilityPercent: 1,
+                                relationship: .area,
+                                places: ["Sydney"]
+                            )
+                        ]),
+                        coastal: [
+                            CoastalFloodEvidence(
+                                scenario: .year2100,
+                                sample: .success(
+                                    FloodHazardResponse.RasterSampleSummary(
+                                        sampledParcelPixels: 400,
+                                        floodedParcelPixels: 40,
+                                        approximateAffectedPercent: 10,
+                                        approximateAffectedSquareMetres: 1820
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                )
+            )
+        )
+
+        #expect(note.markdown.contains("1% annual-exceedance flood area intersects this parcel"))
+        #expect(note.markdown.contains("2100: approximately 10% of the mapped parcel area"))
+        #expect(note.markdown.contains("not a finding of no flood hazard"))
+        // The roads half answered with nothing, and says so as an answer.
+        #expect(note.markdown.contains("## Mapped roads and water"))
+        #expect(note.markdown.contains("No mapped water feature intersects this parcel."))
+    }
+
+    /// A source that failed keeps its own reason all the way into the note.
+    @Test func aFailedBuildingCountReadsAsAFailureNotAsNoBuildings() {
+        let note = Self.note(
+            Self.inspection(buildings: .unavailable("The building service could not be reached."))
+        )
+
+        #expect(
+            note.markdown.contains(
+                "The building service could not be reached. No absence is inferred."
+            )
+        )
+        #expect(!note.markdown.contains("Nothing is mapped inside this outline"))
+    }
+
     @Test func theNoteIsHeldBackUntilEverySourceHasAnswered() {
         #expect(ParcelEvidenceExport.isReady(Self.inspection()))
         #expect(ParcelEvidenceExport.isReady(Self.inspection(dwellings: .looking)) == false)
         #expect(ParcelEvidenceExport.isReady(Self.inspection(civic: .looking)) == false)
+        // The mapped-evidence sources gate the note too. Exporting while the
+        // flood screen was still running produced a dated document with no
+        // flood section at all, which reads as a parcel nobody asked about.
+        #expect(ParcelEvidenceExport.isReady(Self.inspection(buildings: .looking)) == false)
+        #expect(ParcelEvidenceExport.isReady(Self.inspection(context: .looking)) == false)
+        #expect(ParcelEvidenceExport.isReady(Self.inspection(flood: .looking)) == false)
     }
 
     /// The dwelling dataset is keyed by assessment account, so no account means

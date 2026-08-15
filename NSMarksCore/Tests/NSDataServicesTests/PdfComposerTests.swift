@@ -26,14 +26,19 @@ struct PdfTextFittingTests {
         }
     }
 
-    /// A word longer than the whole column still gets a line of its own rather
-    /// than disappearing, because a PID with no spaces in it is exactly the
-    /// kind of thing a reader needs to see.
-    @Test func aWordWiderThanTheColumnStillGetsALine() {
+    /// A word longer than the whole column is broken across lines rather than
+    /// running off the paper, because a PID with no spaces in it is exactly the
+    /// kind of thing a reader needs to see — and half of it in the margin is
+    /// the same as losing it.
+    @Test func aWordWiderThanTheColumnIsBrokenRatherThanOverflowing() {
         let lines = PdfComposer.wrap(
             "00000000 4444444444444444444444444444", font: .regular, size: 10, maxWidth: 30
         )
-        #expect(lines == ["00000000", "4444444444444444444444444444"])
+        // Every character survives, in order, and every line fits the column.
+        #expect(lines.joined() == "000000004444444444444444444444444444")
+        for line in lines {
+            #expect(PdfFont.regular.width(of: line, size: 10) <= 30)
+        }
     }
 
     @Test func ellipsisFitsInsideTheWidthItWasGiven() {

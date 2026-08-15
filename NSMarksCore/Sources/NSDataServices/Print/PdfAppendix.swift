@@ -191,11 +191,19 @@ public enum PdfAppendix {
                 y = metrics.topY
             }
             for line in group {
-                y -= line.spaceBefore + line.size * 1.35
-                current.append(Placed(
-                    text: line.text, font: line.font, size: line.size,
-                    indent: line.indent, spaceBefore: line.spaceBefore
-                ))
+                // Line by line, not group by group. A paragraph longer than a
+                // whole page — a resource section with dozens of results — has
+                // to be able to break in the middle of itself; kept together it
+                // runs off the bottom of the page and the lines below the media
+                // box are simply not there.
+                let step = line.spaceBefore + line.size * 1.35
+                if y - step < metrics.bottomY, !current.isEmpty {
+                    pages.append(current)
+                    current = []
+                    y = metrics.topY
+                }
+                y -= step
+                current.append(line)
             }
         }
         if !current.isEmpty { pages.append(current) }

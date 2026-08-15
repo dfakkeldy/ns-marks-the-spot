@@ -69,19 +69,28 @@ public struct EvidenceNoteInput: Sendable {
         public let status: Status
         public let results: [String]
         public let emptyMessage: String?
+        /// Why this source has no answer, in its own words.
+        ///
+        /// A licence never accepted, a service that failed, and a question that
+        /// could not be asked are three different states, and the note keeps
+        /// them apart. Without this they all printed as "source unavailable",
+        /// which reads as an outage for a layer the reader could switch on.
+        public let errorMessage: String?
 
         public init(
             name: String,
             sourceURL: URL,
             status: Status,
             results: [String],
-            emptyMessage: String? = nil
+            emptyMessage: String? = nil,
+            errorMessage: String? = nil
         ) {
             self.name = name
             self.sourceURL = sourceURL
             self.status = status
             self.results = results
             self.emptyMessage = emptyMessage
+            self.errorMessage = errorMessage
         }
     }
 
@@ -112,6 +121,20 @@ public struct EvidenceNoteInput: Sendable {
     /// statement that the file has no address point inside this parcel, and a
     /// lookup that never ran must not make that statement.
     public var civicNotice: String?
+    /// The parcel's mapped area as the panel says it, or nil where the
+    /// geometry returned none. Not computed here: an area the note worked out
+    /// for itself could disagree with the one on the screen.
+    public var mappedArea: String?
+    /// Mapped buildings, mapped roads and water, and the flood screens.
+    ///
+    /// Carried in the same shape as the resource screens, and for the same
+    /// reason: each names its own source, and each says in its own words what
+    /// its empty answer means. The web's appendix reports all three, and a note
+    /// that skipped them let a parcel with a failed flood lookup read as a
+    /// parcel nobody had asked about flooding.
+    public var buildingResults: [Result]
+    public var contextResults: [Result]
+    public var floodResults: [Result]
     public var assessmentEvidence: AssessmentEvidence
     public var dwellingEvidence: DwellingEvidence
     public var resourceResults: [Result]
@@ -129,6 +152,10 @@ public struct EvidenceNoteInput: Sendable {
         events: [Event] = [],
         civicAddresses: [Link] = [],
         civicNotice: String? = nil,
+        mappedArea: String? = nil,
+        buildingResults: [Result] = [],
+        contextResults: [Result] = [],
+        floodResults: [Result] = [],
         assessmentEvidence: AssessmentEvidence,
         dwellingEvidence: DwellingEvidence,
         resourceResults: [Result] = [],
@@ -143,6 +170,10 @@ public struct EvidenceNoteInput: Sendable {
         self.events = events
         self.civicAddresses = civicAddresses
         self.civicNotice = civicNotice
+        self.mappedArea = mappedArea
+        self.buildingResults = buildingResults
+        self.contextResults = contextResults
+        self.floodResults = floodResults
         self.assessmentEvidence = assessmentEvidence
         self.dwellingEvidence = dwellingEvidence
         self.resourceResults = resourceResults
@@ -204,6 +235,57 @@ extension EvidenceNote {
                 """
                 Mapped physical-address points are not proof of ownership, access, \
                 occupancy, mailing address, or legal parcel status.
+                """,
+                "",
+                "## Mapped parcel area",
+                "",
+                "- " + (input.mappedArea ?? "No mapped parcel area returned."),
+                "",
+                """
+                Mapped area is measured from NSPRD boundary geometry. It is approximate, \
+                is not a survey, and does not establish the parcel's legal dimensions.
+                """,
+                "",
+                "## Mapped buildings",
+                "",
+            ]
+            + input.buildingResults.flatMap(resultLines)
+            + input.buildingResults.map { "- [\($0.name) source](\($0.sourceURL.absoluteString))" }
+            + [
+                "",
+                """
+                A mapped building feature is a record in a topographic dataset, not a \
+                building census. It does not establish current structures, condition, \
+                occupancy, permits, or that every structure here was mapped.
+                """,
+                "",
+                "## Mapped roads and water",
+                "",
+            ]
+            + input.contextResults.flatMap(resultLines)
+            + input.contextResults.map { "- [\($0.name) source](\($0.sourceURL.absoluteString))" }
+            + [
+                "",
+                """
+                A mapped road touching or near this parcel does not establish legal \
+                access, frontage, right of way, maintenance, or that the road is \
+                passable. Mapped water does not establish a watercourse boundary, \
+                riparian right, or a regulated buffer.
+                """,
+                "",
+                "## Flood evidence",
+                "",
+            ]
+            + input.floodResults.flatMap(resultLines)
+            + input.floodResults.map { "- [\($0.name) source](\($0.sourceURL.absoluteString))" }
+            + [
+                "",
+                """
+                Published river mapping and coastal scenarios are screening layers at \
+                their own scales and dates. Outside a study extent means the question was \
+                not assessed here, which is not a finding of no flood hazard. No result \
+                here establishes a parcel-level flood probability, insurability, or a \
+                development permission.
                 """,
                 "",
                 "## PVSC assessment accounts",
@@ -279,7 +361,10 @@ extension EvidenceNote {
 
     private static func resultLines(_ result: EvidenceNoteInput.Result) -> [String] {
         if result.status == .error {
-            return ["- \(result.name): source unavailable at export time."]
+            return [
+                "- \(result.name): "
+                    + (result.errorMessage ?? "source unavailable at export time.")
+            ]
         }
         if result.results.isEmpty {
             return [

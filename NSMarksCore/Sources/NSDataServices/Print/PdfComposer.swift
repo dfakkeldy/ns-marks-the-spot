@@ -136,17 +136,39 @@ public enum PdfComposer {
     // MARK: - Text fitting
 
     /// Greedy word wrap, measured with the font's real metrics.
+    ///
+    /// A word wider than the whole line is broken across lines rather than
+    /// started anyway. Nothing in ordinary prose is that long; the things that
+    /// are — a receipt URL carrying every layer id, an ArcGIS service address
+    /// in a credit — are exactly the strings a reader needs whole, and a line
+    /// that runs off the right edge of the paper takes the tail of one with it
+    /// silently.
     static func wrap(_ text: String, font: PdfFont, size: Double, maxWidth: Double) -> [String] {
         var lines = [String]()
         var line = ""
         for word in text.split(whereSeparator: \.isWhitespace) {
             let candidate = line.isEmpty ? String(word) : "\(line) \(word)"
-            if font.width(of: candidate, size: size) <= maxWidth || line.isEmpty {
+            if font.width(of: candidate, size: size) <= maxWidth {
                 line = candidate
-            } else {
-                lines.append(line)
-                line = String(word)
+                continue
             }
+            if !line.isEmpty {
+                lines.append(line)
+                line = ""
+            }
+            var remainder = Substring(word)
+            while font.width(of: String(remainder), size: size) > maxWidth {
+                var head = remainder
+                while head.count > 1, font.width(of: String(head), size: size) > maxWidth {
+                    head = head.dropLast()
+                }
+                lines.append(String(head))
+                remainder = remainder.dropFirst(head.count)
+                // A single character wider than the line would loop forever;
+                // it has already been emitted on its own line above.
+                if head.count == 1, font.width(of: String(head), size: size) > maxWidth { break }
+            }
+            line = String(remainder)
         }
         if !line.isEmpty { lines.append(line) }
         return lines
@@ -480,17 +502,42 @@ public enum PdfComposer {
         // The link in words as well as in the code. A QR is a courtesy that a
         // fold, a photocopy or a phone without a camera defeats, and the whole
         // claim of the square is that this page can be got back to; written out
-        // it survives all three. In the strip rather than beside the code
-        // because the strip is the one region that shrinks to fit rather than
-        // silently dropping what it cannot hold.
-        let receipt = input.shareURLText.map { "Exact map receipt: \($0)" }
-        let attribution = (
-            input.disclosures + input.attributionLines + [receipt, stamp].compactMap { $0 }
-        )
+        // it survives all three.
+        //
+        // Its own rows at the foot of the strip, with the space taken out of
+        // what the credits get, rather than appended to them. Joined on, it was
+        // last in a line that ellipsizes when it runs out of room — so a page
+        // with enough sources to credit dropped the whole address and kept the
+        // guarantee only in the comment above it.
+        var creditStrip = strip
+        var receiptLines = [String]()
+        if let link = input.shareURLText {
+            receiptLines = wrap(
+                regular.sanitized("Exact map receipt: \(link)"),
+                font: regular, size: type.caption, maxWidth: strip.width
+            )
+            let receiptHeight = Double(receiptLines.count) * (type.caption + captionLeading)
+            creditStrip = PdfRect(
+                x: strip.x, y: strip.y + receiptHeight,
+                width: strip.width, height: max(0, strip.height - receiptHeight)
+            )
+        }
+        for (index, line) in receiptLines.enumerated() {
+            content.text(
+                line,
+                font: regular,
+                size: type.caption,
+                x: strip.x,
+                y: strip.y + Double(receiptLines.count - index - 1)
+                    * (type.caption + captionLeading),
+                colour: muted
+            )
+        }
+        let attribution = (input.disclosures + input.attributionLines + [stamp])
             .map { regular.sanitized($0) }
             .joined(separator: "  ·  ")
         let fitted = fitAttribution(
-            attribution, font: regular, strip: strip, preferredSize: type.caption
+            attribution, font: regular, strip: creditStrip, preferredSize: type.caption
         )
         for (index, line) in fitted.lines.enumerated() {
             content.text(
