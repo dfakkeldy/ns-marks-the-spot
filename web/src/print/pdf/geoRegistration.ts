@@ -1,6 +1,15 @@
-import { PDFHexString, PDFName, type PDFDocument, type PDFPage } from "pdf-lib";
+import {
+  PDFHexString,
+  PDFName,
+  PDFString,
+  type PDFDocument,
+  type PDFPage,
+} from "pdf-lib";
 import type { PrintMapBounds } from "../../services/printSnapshot";
-import { toMercator } from "../../userMaps/transform/webMercator";
+import {
+  EARTH_RADIUS_METRES,
+  toMercator,
+} from "../../userMaps/transform/webMercator";
 import type { PdfRect } from "./templates/types";
 
 const WEB_MERCATOR_WKT =
@@ -80,14 +89,37 @@ export function attachGeoRegistration(
     ],
     Projection: {
       Type: "Projection",
-      ProjectionType: "MC",
-      Datum: "WGE",
-      Units: "m",
+      // A PDF *string*, not a name: context.obj() would turn the bare JS
+      // string into /MC, and GDAL then rejects the whole projection object
+      // ("Cannot find ProjectionType of Projection object") and falls back
+      // to reporting page pixels instead of ground coordinates. Same for
+      // Datum descriptions and Units below.
+      ProjectionType: PDFString.of("MC"),
+      // The datum is spelled out rather than given as the code "WGE",
+      // because "WGE" names the WGS 84 *ellipsoid* while the CTM above is
+      // in spherical Web Mercator metres. Read against the ellipsoid, this
+      // frame came back 46.392°N where it should have said 46.2°N — about
+      // 21 km north. An inverse flattening of zero is what makes the
+      // reader's Mercator spherical, so the two agree exactly. The
+      // Ellipsoid sub-dictionary is required: GDAL warns "Cannot find
+      // Ellipsoid in Datum" without it.
+      Datum: {
+        Description: PDFString.of("WGS 84 sphere"),
+        Ellipsoid: {
+          Description: PDFString.of("WGS 84 sphere"),
+          SemiMajorAxis: EARTH_RADIUS_METRES,
+          InvFlattening: 0,
+        },
+      },
+      Units: PDFString.of("m"),
       CentralMeridian: 0,
       OriginLatitude: 0,
       FalseEasting: 0,
       FalseNorthing: 0,
-      ScaleFactor: 0,
+      // Web Mercator is true to scale at the equator, so this is 1. A zero
+      // here is not "unset": PROJ refuses it outright ("Invalid value for
+      // k/k_0: it should be > 0") and the file loses its georeferencing.
+      ScaleFactor: 1,
     },
   });
   page.node.set(PDFName.of("LGIDict"), document.context.obj([lgi]));

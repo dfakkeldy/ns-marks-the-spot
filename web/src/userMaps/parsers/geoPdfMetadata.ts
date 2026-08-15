@@ -362,6 +362,31 @@ function terraGoNad83Definition(datum: PDFObject | undefined): string | null {
   return `+a=${semiMajor} +rf=${inverseFlattening} +towgs84=${dx},${dy},${dz},0,0,0,0`;
 }
 
+/**
+ * True for either spelling of the sphere Web Mercator is defined on: the
+ * bare code "WGE", which is what this app's own exporter wrote until the
+ * GDAL fix, and the spelled-out spherical datum it writes now. "WGE" names
+ * the WGS 84 *ellipsoid* rather than the sphere, which is exactly why the
+ * exporter stopped using it — but files carrying it are already in the
+ * wild, and their CTM is spherical metres regardless of the label.
+ */
+function isWebMercatorSphereDatum(datum: PDFObject | undefined): boolean {
+  if (textValue(datum) === "WGE" || nameValue(datum) === "WGE") {
+    return true;
+  }
+  if (!(datum instanceof PDFDict)) {
+    return false;
+  }
+  const ellipsoid = lookup(datum, "Ellipsoid");
+  if (!(ellipsoid instanceof PDFDict)) {
+    return false;
+  }
+  return (
+    scalar(lookup(ellipsoid, "SemiMajorAxis")) === 6_378_137 &&
+    scalar(lookup(ellipsoid, "InvFlattening")) === 0
+  );
+}
+
 function projectionDefinition(projection: PDFDict): string {
   if (nameValue(lookup(projection, "Type")) !== "Projection") {
     throw new UnsupportedRegistrationError("unsupported projection dictionary");
@@ -395,13 +420,16 @@ function projectionDefinition(projection: PDFDict): string {
   }
   if (
     projectionType === "MC" &&
-    datum === "WGE" &&
+    isWebMercatorSphereDatum(datumObject) &&
     units === "m" &&
     scalar(lookup(projection, "CentralMeridian")) === 0 &&
     scalar(lookup(projection, "OriginLatitude")) === 0 &&
     scalar(lookup(projection, "FalseEasting")) === 0 &&
     scalar(lookup(projection, "FalseNorthing")) === 0 &&
-    scalar(lookup(projection, "ScaleFactor")) === 0
+    // 1 is the correct scale factor — Web Mercator is true to scale at the
+    // equator — but files this app wrote before the GDAL fix carry a 0,
+    // which is a value PROJ itself rejects. Both are read as EPSG:3857.
+    [0, 1].includes(scalar(lookup(projection, "ScaleFactor")) as number)
   ) {
     return "EPSG:3857";
   }
