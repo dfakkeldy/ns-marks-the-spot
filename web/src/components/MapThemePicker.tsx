@@ -10,6 +10,8 @@ interface MapThemePickerProps {
   notice: string | null;
   selectRef?: Ref<HTMLSelectElement>;
   onSelect: (themeId: string) => void;
+  onSave: () => void;
+  onManage: () => void;
   onReset: () => void;
 }
 
@@ -20,9 +22,13 @@ export function MapThemePicker({
   notice,
   selectRef,
   onSelect,
+  onSave,
+  onManage,
   onReset,
 }: MapThemePickerProps) {
   const active = themes.find(({ id }) => id === activeThemeId);
+  const builtInThemes = themes.filter(({ kind }) => kind === "built-in");
+  const customThemes = themes.filter(({ kind }) => kind === "custom");
   const label = status === "modified"
     ? `${active?.name ?? "Shared setup"} — Modified`
     : status === "partial"
@@ -42,11 +48,22 @@ export function MapThemePicker({
           {activeThemeId === null ? (
             <option value="shared">Shared setup</option>
           ) : null}
-          {themes.map((theme) => (
-            <option key={theme.id} value={theme.id}>
-              {theme.name}
-            </option>
-          ))}
+          <optgroup label="Built-in themes">
+            {builtInThemes.map((theme) => (
+              <option key={theme.id} value={theme.id}>
+                {theme.name}
+              </option>
+            ))}
+          </optgroup>
+          {customThemes.length > 0 ? (
+            <optgroup label="My themes">
+              {customThemes.map((theme) => (
+                <option key={theme.id} value={theme.id}>
+                  {theme.name}
+                </option>
+              ))}
+            </optgroup>
+          ) : null}
         </select>
       </label>
       <p className="map-theme-description">
@@ -56,11 +73,19 @@ export function MapThemePicker({
         {label}
         {notice ? ` ${notice}` : ""}
       </p>
-      {status === "modified" || status === "partial" ? (
-        <button type="button" onClick={onReset}>
-          Reset current setup
+      <div className="map-theme-actions">
+        <button type="button" onClick={onSave}>
+          Save current setup as…
         </button>
-      ) : null}
+        <button type="button" onClick={onManage}>
+          Manage themes
+        </button>
+        {status === "modified" || status === "partial" ? (
+          <button type="button" onClick={onReset}>
+            Reset current theme
+          </button>
+        ) : null}
+      </div>
     </section>
   );
 }

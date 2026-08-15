@@ -3,6 +3,31 @@ import { describe, expect, it } from "vitest";
 
 const styles = readFileSync("./src/styles.css", "utf8");
 
+describe("custom map-theme controls", () => {
+  it("shows keyboard focus on every picker and manager control", () => {
+    const focusRule = styles.match(
+      /\.map-theme-picker :is\(select, button\):focus-visible,\s*\.theme-manager-dialog :is\(input, button\):focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(focusRule).toMatch(/outline:\s*3px solid/);
+    expect(focusRule).not.toMatch(/outline:\s*(?:0|none)/);
+  });
+
+  it("keeps picker and manager controls at least 44px tall on phones", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 560px)");
+    const mobileEnd = styles.indexOf(
+      "@media (prefers-reduced-motion: reduce)",
+      mobileStart,
+    );
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const controls = mobileStyles.match(
+      /\.map-theme-picker :is\(select, button\),\s*\.theme-manager-dialog :is\(input, button\)\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(controls).toMatch(/min-height:\s*44px/);
+  });
+});
+
 describe("parcel sheet typographic hierarchy", () => {
   it("left-aligns prose facts and reserves right-aligned mono for figures", () => {
     const ddDeclarations = styles.match(

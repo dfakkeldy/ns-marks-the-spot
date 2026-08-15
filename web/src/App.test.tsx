@@ -30,6 +30,7 @@ import type {
   PdfRegistrationCandidate,
   UserMapRecord,
 } from "./userMaps/types";
+import { CUSTOM_THEME_STORAGE_KEY } from "./themes/themeStorage";
 
 const parseGeoPdfAutoMock = vi.hoisted(() => vi.fn());
 const observedInteractiveMapStates = vi.hoisted((): string[] => []);
@@ -494,6 +495,25 @@ function mapSetupStatus(): HTMLElement {
   return within(picker as HTMLElement).getByRole("status");
 }
 
+const STORED_FIELD_THEME = {
+  id: "custom-field-day",
+  name: "Field day",
+  layerIds: ["modern", "roads"],
+  opacityOverrides: {},
+  preferredCategoryIds: ["roads-places"],
+  taxSaleEnabled: false,
+  mapMode: "current",
+};
+
+function storeCustomThemes(
+  themes: readonly (typeof STORED_FIELD_THEME)[],
+): void {
+  localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, JSON.stringify({
+    version: 1,
+    themes,
+  }));
+}
+
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -688,7 +708,7 @@ describe("NS Marks The Spot Online", () => {
       "Explore Nova Scotia — Modified",
     );
     await userEvent.click(
-      screen.getByRole("button", { name: "Reset current setup" }),
+      screen.getByRole("button", { name: "Reset current theme" }),
     );
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
@@ -719,6 +739,295 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent(
       "Historical Maps — Modified",
     );
+  });
+
+  it("saves only the current catalogue setup, then applies and resets it through the shared URL", async () => {
+    const privateMapId = "private-theme-boundary-map";
+    const store = await UserMapStore.open();
+    await store.saveUserMap({
+      id: privateMapId,
+      name: "Private woodlot scan",
+      source: "image",
+      createdAt: "2026-08-15T00:00:00.000Z",
+      pixelSize: { width: 1200, height: 800 },
+      georef: {
+        kind: "gcp",
+        method: "affine",
+        gcps: [
+          { id: "a", pixel: { x: 0, y: 0 }, map: { lat: 46.1, lng: -61.2 } },
+          { id: "b", pixel: { x: 1200, y: 0 }, map: { lat: 46.1, lng: -61 } },
+          { id: "c", pixel: { x: 0, y: 800 }, map: { lat: 46, lng: -61.2 } },
+        ],
+      },
+    }, new Blob(["private-raster"]), new Blob(["private-preview"]));
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ [privateMapId]: { enabled: true, opacity: 0.7 } }),
+    );
+    window.history.replaceState(null, "", "/");
+
+    try {
+      render(<App />);
+      expect(
+        await screen.findByRole("checkbox", { name: "Private woodlot scan" }),
+      ).toBeChecked();
+      await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
+      expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+
+      await userEvent.click(
+        screen.getByRole("button", { name: "Save current setup as…" }),
+      );
+      await userEvent.type(
+        screen.getByRole("textbox", { name: "Theme name" }),
+        "Road work",
+      );
+      await userEvent.click(
+        screen.getByRole("button", { name: "Save current setup" }),
+      );
+
+      const raw = localStorage.getItem(CUSTOM_THEME_STORAGE_KEY);
+      expect(raw).not.toBeNull();
+      expect(JSON.parse(raw ?? "null")).toEqual({
+        version: 1,
+        themes: [{
+          id: expect.any(String),
+          name: "Road work",
+          layerIds: ["modern", "roads"],
+          opacityOverrides: {},
+          preferredCategoryIds: ["background-maps"],
+          taxSaleEnabled: false,
+          mapMode: "current",
+        }],
+      });
+      expect(raw).not.toContain("Private woodlot scan");
+      expect(raw).not.toContain("blob:test-evidence");
+      expect(raw).not.toContain("position");
+      expect(raw).not.toContain("event");
+      expect(raw).not.toContain("licence");
+      expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+
+      const customThemeId = (JSON.parse(raw ?? "null") as {
+        themes: Array<{ id: string }>;
+      }).themes[0].id;
+      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.selectOptions(
+        screen.getByLabelText("Map setup"),
+        "explore-nova-scotia",
+      );
+      expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
+      await waitFor(() => {
+        expect(new URL(window.location.href).searchParams.get("layers"))
+          .toBe("modern");
+      });
+
+      await userEvent.selectOptions(
+        screen.getByLabelText("Map setup"),
+        customThemeId,
+      );
+      expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+      await waitFor(() => {
+        expect(new URL(window.location.href).searchParams.get("layers"))
+          .toBe("modern,roads");
+      });
+
+      await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
+      expect(mapSetupStatus()).toHaveTextContent("Road work — Modified");
+      await userEvent.click(
+        screen.getByRole("button", { name: "Reset current theme" }),
+      );
+      expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+      expect(mapSetupStatus()).toHaveTextContent("Road work");
+    } finally {
+      await store.deleteUserMap(privateMapId);
+      store.close();
+    }
+  });
+
+  it("persists rename and update without changing map layers", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    storeCustomThemes([STORED_FIELD_THEME]);
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
+    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    const rename = screen.getByRole("textbox", { name: "Rename Field day" });
+    await userEvent.clear(rename);
+    await userEvent.type(rename, "Woodlot");
+    await userEvent.click(screen.getByRole("button", { name: "Rename" }));
+
+    expect(screen.getByRole("option", { name: "Woodlot" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
+
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
+    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Update from current setup" }),
+    );
+
+    const stored = JSON.parse(
+      localStorage.getItem(CUSTOM_THEME_STORAGE_KEY) ?? "null",
+    ) as { themes: Array<{ id: string; name: string; layerIds: string[] }> };
+    expect(stored.themes).toEqual([expect.objectContaining({
+      id: "custom-field-day",
+      name: "Woodlot",
+      layerIds: ["modern", "roads"],
+    })]);
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+  });
+
+  it("persists duplicate and confirmed delete without changing active map layers", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    storeCustomThemes([{ ...STORED_FIELD_THEME, name: "Woodlot" }]);
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "custom-field-day",
+    );
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(screen.getByRole("button", { name: "Duplicate" }));
+
+    let stored = JSON.parse(
+      localStorage.getItem(CUSTOM_THEME_STORAGE_KEY) ?? "null",
+    ) as { themes: Array<{ id: string; name: string; layerIds: string[] }> };
+    expect(stored.themes).toHaveLength(2);
+    expect(stored.themes[1]).toMatchObject({
+      name: "Woodlot",
+      layerIds: ["modern", "roads"],
+    });
+
+    const rows = screen.getAllByRole("listitem", { name: "Woodlot theme" });
+    await userEvent.click(within(rows[1]).getByRole("button", { name: "Delete" }));
+    await userEvent.click(
+      within(rows[1]).getByRole("button", { name: "Confirm delete" }),
+    );
+    const activeRow = screen.getByRole("listitem", { name: "Woodlot theme" });
+    await userEvent.click(within(activeRow).getByRole("button", { name: "Delete" }));
+    await userEvent.click(
+      within(activeRow).getByRole("button", { name: "Confirm delete" }),
+    );
+
+    stored = JSON.parse(
+      localStorage.getItem(CUSTOM_THEME_STORAGE_KEY) ?? "null",
+    ) as { themes: Array<{ id: string; name: string; layerIds: string[] }> };
+    expect(stored.themes).toEqual([]);
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(screen.getByLabelText("Map setup")).toHaveValue("shared");
+    expect(mapSetupStatus()).toHaveTextContent("Shared setup");
+  });
+
+  it("reloads a saved custom theme and restores its exact state", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    storeCustomThemes([STORED_FIELD_THEME]);
+    window.history.replaceState(null, "", "/");
+    const first = render(<App />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "custom-field-day",
+    );
+    await waitFor(() => {
+      expect(new URL(window.location.href).searchParams.get("layers"))
+        .toBe("modern,roads");
+    });
+    first.unmount();
+    render(<App />);
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue("custom-field-day");
+    expect(mapSetupStatus()).toHaveTextContent("Field day");
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+  });
+
+  it("keeps corrupt custom-theme storage untouched and uses Explore for the session", () => {
+    localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue(
+      "explore-nova-scotia",
+    );
+    expect(mapSetupStatus()).toHaveTextContent(
+      "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+    );
+    expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe("not-json");
+  });
+
+  it("retains the previous theme list and map state when browser persistence fails", async () => {
+    storeCustomThemes([STORED_FIELD_THEME]);
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+    const oldRaw = localStorage.getItem(CUSTOM_THEME_STORAGE_KEY);
+    const originalSetItem = Storage.prototype.setItem;
+    const setItem = vi.spyOn(Storage.prototype, "setItem").mockImplementation(
+      function failingCustomThemeWrite(this: Storage, key, value) {
+        if (key === CUSTOM_THEME_STORAGE_KEY) {
+          throw new DOMException("quota exceeded", "QuotaExceededError");
+        }
+        originalSetItem.call(this, key, value);
+      },
+    );
+
+    try {
+      await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+      const rename = screen.getByRole("textbox", { name: "Rename Field day" });
+      await userEvent.clear(rename);
+      await userEvent.type(rename, "Woodlot");
+      await userEvent.click(screen.getByRole("button", { name: "Rename" }));
+
+      expect(mapSetupStatus()).toHaveTextContent(
+        "Your custom themes could not be saved in this browser.",
+      );
+      expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe(oldRaw);
+      expect(screen.getByRole("option", { name: "Field day" })).toBeInTheDocument();
+      expect(screen.queryByRole("option", { name: "Woodlot" })).not.toBeInTheDocument();
+      expect(screen.getByLabelText("Modern map")).toBeChecked();
+      expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
+
+      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+      expect(screen.getByRole("textbox", { name: "Rename Field day" }))
+        .toHaveValue("Field day");
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
+  it("uses the same licence decision and reset path for a restricted custom theme", async () => {
+    storeCustomThemes([STORED_FIELD_THEME]);
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    const picker = screen.getByLabelText("Map setup");
+    await userEvent.selectOptions(picker, "custom-field-day");
+    expect(
+      screen.getByRole("dialog", { name: "Province data licence" }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /continue without/i }),
+    );
+    expect(mapSetupStatus()).toHaveTextContent("Field day — Partially applied");
+    await userEvent.click(
+      screen.getByRole("button", { name: "Reset current theme" }),
+    );
+    expect(
+      screen.getByRole("dialog", { name: "Province data licence" }),
+    ).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: /accept/i }));
+    expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
+    expect(mapSetupStatus()).toHaveTextContent("Field day");
   });
 
   it("toggles the building overlay and counts mapped building features on a PID", async () => {

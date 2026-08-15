@@ -17,6 +17,7 @@ import {
   MapThemePicker,
   type MapThemeStatus,
 } from "./components/MapThemePicker";
+import { ThemeManagerDialog } from "./components/ThemeManagerDialog";
 import {
   EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
@@ -129,7 +130,20 @@ import {
   type MapMode,
   type ShareLayerId,
 } from "./services/mapShareState";
-import { builtInMapThemes } from "./themes/mapThemes";
+import {
+  builtInMapThemes,
+  type CustomMapThemeDefinition,
+  type MapThemeDefinition,
+} from "./themes/mapThemes";
+import {
+  createCustomTheme,
+  deleteCustomTheme,
+  duplicateCustomTheme,
+  loadCustomThemes,
+  renameCustomTheme,
+  saveCustomThemes,
+  updateCustomTheme,
+} from "./themes/themeStorage";
 import {
   matchTheme,
   resolveTheme,
@@ -723,6 +737,17 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
 
 export function App() {
   const initialUrl = useRef(new URL(window.location.href)).current;
+  const [initialCustomThemeLibrary] = useState(
+    () => loadCustomThemes(window.localStorage),
+  );
+  const [initialCustomThemes] = useState<CustomMapThemeDefinition[]>(
+    () => initialCustomThemeLibrary.themes.filter(
+      (theme): theme is CustomMapThemeDefinition => theme.kind === "custom",
+    ),
+  );
+  const [initialMapThemes] = useState<MapThemeDefinition[]>(
+    () => [...builtInMapThemes, ...initialCustomThemes],
+  );
   const initialShareState = useRef(
     parseMapShareState(initialUrl.toString()),
   ).current;
@@ -747,7 +772,7 @@ export function App() {
     opacityOverrides: {},
     taxSaleEnabled: initialTaxSaleEnabled,
     mapMode: initialShareState.mode,
-  }, builtInMapThemes)).current;
+  }, initialMapThemes)).current;
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -794,6 +819,19 @@ export function App() {
       : "explore-nova-scotia",
   );
   const [themeResult, setThemeResult] = useState<ResolvedTheme | null>(null);
+  const [customThemes, setCustomThemes] = useState<CustomMapThemeDefinition[]>(
+    initialCustomThemes,
+  );
+  const [themeLibraryNotice, setThemeLibraryNotice] = useState<string | null>(
+    initialCustomThemeLibrary.warning,
+  );
+  const [themeManagerOpen, setThemeManagerOpen] = useState(false);
+  const openThemeManager = useCallback(() => setThemeManagerOpen(true), []);
+  const closeThemeManager = useCallback(() => setThemeManagerOpen(false), []);
+  const mapThemes = useMemo<MapThemeDefinition[]>(
+    () => [...builtInMapThemes, ...customThemes],
+    [customThemes],
+  );
   const mapSetupSelectRef = useRef<HTMLSelectElement>(null);
   const [headerCollapsed, setHeaderCollapsed] = useState(
     () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
@@ -971,7 +1009,7 @@ export function App() {
       initialCatalogueLayerIds,
     ),
   );
-  const [, setExpandedCategoryIds] = useState<Set<LayerCategoryId>>(
+  const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<LayerCategoryId>>(
     () => new Set(
       hasRecognizedShareState
         ? initialThemeMatch?.preferredCategoryIds ?? []
@@ -1740,7 +1778,7 @@ export function App() {
   }, []);
 
   const selectTheme = useCallback((themeId: string) => {
-    const theme = builtInMapThemes.find(({ id }) => id === themeId);
+    const theme = mapThemes.find(({ id }) => id === themeId);
     if (!theme) return;
 
     const requiresLicence = theme.layerIds.some(
@@ -1758,7 +1796,7 @@ export function App() {
       availableLayerIds: availableThemeLayerIds,
       restrictedLayerIds: restrictedThemeLayerIds,
     }));
-  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted]);
+  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes]);
 
   const reviewProvinceLicence = () => {
     setLicenceIntent({ kind: "layer" });
@@ -1773,7 +1811,7 @@ export function App() {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     setLicenceAccepted(true);
     if (licenceIntent?.kind === "theme") {
-      const theme = builtInMapThemes.find(
+      const theme = mapThemes.find(
         ({ id }) => id === licenceIntent.themeId,
       );
       if (theme) {
@@ -1794,7 +1832,7 @@ export function App() {
 
   const continueWithoutProvinceLayers = () => {
     if (licenceIntent?.kind === "theme") {
-      const theme = builtInMapThemes.find(
+      const theme = mapThemes.find(
         ({ id }) => id === licenceIntent.themeId,
       );
       if (theme) {
@@ -2205,11 +2243,109 @@ export function App() {
     taxSaleEnabled,
     mapMode,
   }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
+  const persistCustomThemes = useCallback((nextThemes: CustomMapThemeDefinition[]) => {
+    const result = saveCustomThemes(nextThemes, window.localStorage);
+    if (!result.ok) {
+      setThemeLibraryNotice(result.message);
+      return false;
+    }
+    setCustomThemes(nextThemes);
+    setThemeLibraryNotice(null);
+    return true;
+  }, []);
+  const reportThemeRepositoryError = useCallback((error: unknown) => {
+    setThemeLibraryNotice(
+      error instanceof Error
+        ? error.message
+        : "Your custom themes could not be changed.",
+    );
+  }, []);
+  const saveCurrentTheme = useCallback((name: string) => {
+    try {
+      return persistCustomThemes([
+        ...customThemes,
+        createCustomTheme(
+          name,
+          themeComparableState,
+          Array.from(expandedCategoryIds),
+        ),
+      ]);
+    } catch (error) {
+      reportThemeRepositoryError(error);
+      return false;
+    }
+  }, [
+    customThemes,
+    expandedCategoryIds,
+    persistCustomThemes,
+    reportThemeRepositoryError,
+    themeComparableState,
+  ]);
+  const renameSavedTheme = useCallback((themeId: string, name: string) => {
+    try {
+      return persistCustomThemes(
+        renameCustomTheme(customThemes, themeId, name),
+      );
+    } catch (error) {
+      reportThemeRepositoryError(error);
+      return false;
+    }
+  }, [customThemes, persistCustomThemes, reportThemeRepositoryError]);
+  const updateSavedTheme = useCallback((
+    themeId: string,
+    state: ThemeComparableState,
+    preferredCategoryIds: readonly LayerCategoryId[],
+  ) => {
+    try {
+      return persistCustomThemes(
+        updateCustomTheme(
+          customThemes,
+          themeId,
+          state,
+          preferredCategoryIds,
+        ),
+      );
+    } catch (error) {
+      reportThemeRepositoryError(error);
+      return false;
+    }
+  }, [customThemes, persistCustomThemes, reportThemeRepositoryError]);
+  const duplicateSavedTheme = useCallback((themeId: string) => {
+    try {
+      return persistCustomThemes(
+        duplicateCustomTheme(customThemes, themeId),
+      );
+    } catch (error) {
+      reportThemeRepositoryError(error);
+      return false;
+    }
+  }, [customThemes, persistCustomThemes, reportThemeRepositoryError]);
+  const deleteSavedTheme = useCallback((themeId: string) => {
+    try {
+      const persisted = persistCustomThemes(
+        deleteCustomTheme(customThemes, themeId),
+      );
+      if (persisted && selectedThemeId === themeId) {
+        setSelectedThemeId(null);
+        setThemeResult(null);
+      }
+      return persisted;
+    } catch (error) {
+      reportThemeRepositoryError(error);
+      return false;
+    }
+  }, [
+    customThemes,
+    persistCustomThemes,
+    reportThemeRepositoryError,
+    selectedThemeId,
+  ]);
   const matchedTheme = useMemo(
-    () => matchTheme(themeComparableState, builtInMapThemes),
-    [themeComparableState],
+    () => matchTheme(themeComparableState, mapThemes),
+    [mapThemes, themeComparableState],
   );
-  const activeThemeId = selectedThemeId ?? matchedTheme?.id ?? null;
+  const selectedTheme = mapThemes.find(({ id }) => id === selectedThemeId);
+  const activeThemeId = selectedTheme?.id ?? matchedTheme?.id ?? null;
   const themeResultMatches = themeResult !== null
     && themeStatesMatch(themeComparableState, themeResult.target);
   const themeStatus: MapThemeStatus = themeResult?.status === "partial"
@@ -2220,9 +2356,12 @@ export function App() {
       : matchedTheme?.id === activeThemeId
         ? "exact"
         : "modified";
-  const themeNotice = themeStatus === "partial" && themeResult !== null
+  const themeResolution = themeStatus === "partial" && themeResult !== null
     ? themeResolutionNotice(themeResult)
     : null;
+  const themeNotice = [themeLibraryNotice, themeResolution]
+    .filter((notice): notice is string => notice !== null)
+    .join(" ") || null;
   const printEventIds = useMemo(
     () => !taxSaleEnabled
       ? []
@@ -2785,12 +2924,14 @@ export function App() {
           </button>
 
           <MapThemePicker
-            themes={builtInMapThemes}
+            themes={mapThemes}
             activeThemeId={activeThemeId}
             status={themeStatus}
             notice={themeNotice}
             selectRef={mapSetupSelectRef}
             onSelect={selectTheme}
+            onSave={openThemeManager}
+            onManage={openThemeManager}
             onReset={() => {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
@@ -3669,6 +3810,20 @@ export function App() {
         />
       ) : null}
       {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
+      {themeManagerOpen ? (
+        <ThemeManagerDialog
+          themes={mapThemes}
+          currentState={themeComparableState}
+          preferredCategoryIds={Array.from(expandedCategoryIds)}
+          notice={themeLibraryNotice}
+          onSave={saveCurrentTheme}
+          onRename={renameSavedTheme}
+          onUpdate={updateSavedTheme}
+          onDuplicate={duplicateSavedTheme}
+          onDelete={deleteSavedTheme}
+          onClose={closeThemeManager}
+        />
+      ) : null}
     </div>
     {printCapture ? (
       <PrintPreview
