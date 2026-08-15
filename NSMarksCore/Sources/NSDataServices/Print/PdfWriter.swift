@@ -16,6 +16,11 @@ public indirect enum PdfObject: Sendable {
     /// A hex string, written `<…>`. Used where a viewer must not have to guess
     /// an encoding — the WKT and the dictionary labels in the geo registration.
     case hexString(String)
+    /// A PDF text string: UTF-16BE behind a byte-order mark, which is the one
+    /// form every reader has to decode. Document metadata goes out this way so
+    /// a title with an accent or a dash survives into the reader's window,
+    /// rather than arriving as the mojibake a raw byte string would give.
+    case textString(String)
     case array([PdfObject])
     case dictionary([(String, PdfObject)])
     /// A stream: its dictionary entries, and its bytes. `/Length` is written by
@@ -66,7 +71,7 @@ public struct PdfWriter {
     /// `catalog` is the object number of the document catalog. Any object
     /// reserved and never filled is written as null rather than left as a
     /// dangling reference a reader would have to recover from.
-    public func data(catalog: Int) -> Data {
+    public func data(catalog: Int, info: Int? = nil) -> Data {
         var out = Data("%PDF-1.7\n".utf8)
         // A comment of high bytes, which is how a file declares itself binary
         // to tools that would otherwise transfer it as text and corrupt the
@@ -88,14 +93,12 @@ public struct PdfWriter {
             out.append(Data(String(format: "%010d 00000 n \n", offset).utf8))
         }
         out.append(Data("trailer\n".utf8))
-        out.append(
-            Self.serialize(
-                .dictionary([
-                    ("Size", .integer(objects.count + 1)),
-                    ("Root", .reference(catalog)),
-                ])
-            )
-        )
+        var trailer: [(String, PdfObject)] = [
+            ("Size", .integer(objects.count + 1)),
+            ("Root", .reference(catalog)),
+        ]
+        if let info { trailer.append(("Info", .reference(info))) }
+        out.append(Self.serialize(.dictionary(trailer)))
         out.append(Data("\nstartxref\n\(xrefOffset)\n%%EOF\n".utf8))
         return out
     }
@@ -116,6 +119,14 @@ public struct PdfWriter {
             return Data("(\(escapedString(value)))".utf8)
         case .hexString(let value):
             let hex = Array(value.utf8).map { String(format: "%02X", $0) }.joined()
+            return Data("<\(hex)>".utf8)
+        case .textString(let value):
+            var bytes: [UInt8] = [0xFE, 0xFF]
+            for unit in Array(value.utf16) {
+                bytes.append(UInt8(unit >> 8))
+                bytes.append(UInt8(unit & 0xFF))
+            }
+            let hex = bytes.map { String(format: "%02X", $0) }.joined()
             return Data("<\(hex)>".utf8)
         case .array(let values):
             let body = values.map { String(decoding: serialize($0), as: UTF8.self) }
