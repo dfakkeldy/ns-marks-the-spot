@@ -251,7 +251,7 @@ struct TaxSalePanelTests {
     /// The card comes up with every parcel-scoped source marked unavailable
     /// rather than empty: nothing was asked about this parcel, because there is
     /// no parcel record to ask with.
-    @Test func aListedPIDWithNoParcelStillOpensItsNotice() async {
+    @Test func aListedPIDWithNoParcelStillOpensItsNotice() async throws {
         let channel = #function
         let taxSale = Self.taxSale()
         let viewModel = Self.viewModel(
@@ -269,14 +269,14 @@ struct TaxSalePanelTests {
             viewModel.parcelMessage
                 == "PID 22222222 is listed in a notice, but NSPRD returned no parcel to map."
         )
-        let inspection = try? #require(viewModel.inspection)
-        #expect(inspection?.pid == "22222222")
-        #expect(inspection?.taxSaleNotice?.listing.lien == "2")
+        let inspection = try #require(viewModel.inspection)
+        #expect(inspection.pid == "22222222")
+        #expect(inspection.taxSaleNotice?.listing.lien == "2")
         #expect(
-            inspection?.assessments == .unavailable(ParcelLookupMessage.noParcelRecordToAskWith)
+            inspection.assessments == .unavailable(ParcelLookupMessage.noParcelRecordToAskWith)
         )
         #expect(
-            inspection?.buildings == .unavailable(ParcelLookupMessage.noParcelRecordToAskWith)
+            inspection.buildings == .unavailable(ParcelLookupMessage.noParcelRecordToAskWith)
         )
     }
 

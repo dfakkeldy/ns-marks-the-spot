@@ -109,8 +109,12 @@ struct UserMapRowsView: View {
 
 private struct UserMapRow: View {
     let row: UserMapsViewModel.Row
-    let onVisible: (Bool) -> Void
-    let onOpacity: (CGFloat) -> Void
+    // `@MainActor`, not a bare function type: `Binding(get:set:)` wants a
+    // `@Sendable` setter, and a plain closure property is not one. An
+    // actor-isolated closure is Sendable-convertible because it can only
+    // ever run on that actor — which is where a row's callbacks belong.
+    let onVisible: @MainActor (Bool) -> Void
+    let onOpacity: @MainActor (CGFloat) -> Void
     let onPlace: () -> Void
     let onDelete: () -> Void
 

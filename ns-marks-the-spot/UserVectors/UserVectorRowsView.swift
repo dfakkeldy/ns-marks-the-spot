@@ -235,7 +235,9 @@ struct UserVectorRowsView: View {
 
 private struct UserVectorRow: View {
     let row: UserVectorsViewModel.Row
-    let onVisible: (Bool) -> Void
+    // See `UserMapRow`: an isolated closure is what `Binding`'s `@Sendable`
+    // setter will take.
+    let onVisible: @MainActor (Bool) -> Void
     let onZoom: (() -> Void)?
     let onRename: () -> Void
     let onEdit: (() -> Void)?
