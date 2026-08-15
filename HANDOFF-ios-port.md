@@ -758,3 +758,30 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — Codex review of Phase 9 acted on in full
+
+Done: all 18 findings. GeoCore (858 tests, 119 suites): shapefile holes now
+attach to the smallest containing ring rather than the previous part; unclosed
+rings are closed and two-corner rings refused; taps reach an area's edge and the
+tolerance is scaled by cos(lat); simplestyle width/opacity are clamped and
+unparseable colours fall back to the layer's. App target: the store owns
+read-modify-write behind one shared actor, geometry and revision move together,
+the orphan sweep has a caller, a failed write no longer discards the edit, the
+debounce flushes on backgrounding, a clean session writes nothing, and the
+original imported bytes are kept and shareable. Parity gaps closed: a Draw
+button, draggable vertex handles on single-part geometry, a provenance-bearing
+card for every tapped feature, and visibility remembered across launches.
+Commits through 2026-08-15 pushed. `renderer.lineWidth = style.weight` was the
+one certain compile error Codex found; fixed.
+
+Next: the gate is HOLD (weekend, so 22:00 only; swap is also below the floor).
+Nothing in Phases 7, 8 or 9 has been type-checked. Compile first when it opens.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
