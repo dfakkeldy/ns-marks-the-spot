@@ -257,11 +257,25 @@ nonisolated enum ParcelEvidenceExport {
         return descriptor?.sourceURL ?? descriptor?.serviceURL
     }
 
+    /// Who a layer's data belongs to, in the words its licence requires.
+    ///
+    /// The same credit table the printed page uses. The note quotes findings
+    /// out of these sources, so it owes the same credit the map does.
+    private static func attribution(for id: LayerID) -> (String?, URL?) {
+        guard let descriptor = LayerCatalog.descriptor(for: id) else { return (nil, nil) }
+        let credit = NativeLayerTraits.attribution(for: descriptor)
+        return (
+            [credit.copyright ?? credit.provider, credit.disclaimer].joined(separator: ". "),
+            credit.licenseURL
+        )
+    }
+
     private static func buildingResults(
         _ inspection: ParcelInspection
     ) -> [EvidenceNoteInput.Result] {
         guard let sourceURL = sourceURL(for: .buildings) else { return [] }
         let name = LayerCatalog.descriptor(for: .buildings)?.name ?? "Buildings"
+        let (credit, licence) = attribution(for: .buildings)
         switch inspection.buildings {
         case .ready(let count):
             // The count and the caveat travel together. The number on its own
@@ -275,21 +289,25 @@ nonisolated enum ParcelEvidenceExport {
                         "\(count.total) mapped building feature"
                             + (count.total == 1 ? "" : "s"),
                         ParcelEvidenceWording.buildingCaveat(count),
-                    ]
+                    ],
+                    attribution: credit,
+                    licenceURL: licence
                 )
             ]
         case .unavailable(let reason):
             return [
                 EvidenceNoteInput.Result(
                     name: name, sourceURL: sourceURL, status: .error, results: [],
-                    errorMessage: "\(reason) No absence is inferred."
+                    errorMessage: "\(reason) No absence is inferred.",
+                    attribution: credit, licenceURL: licence
                 )
             ]
         case .looking:
             return [
                 EvidenceNoteInput.Result(
                     name: name, sourceURL: sourceURL, status: .error, results: [],
-                    errorMessage: unsettled
+                    errorMessage: unsettled,
+                    attribution: credit, licenceURL: licence
                 )
             ]
         }
@@ -309,6 +327,8 @@ nonisolated enum ParcelEvidenceExport {
         else { return [] }
         let roadName = LayerCatalog.descriptor(for: .roads)?.name ?? "Roads"
         let waterName = LayerCatalog.descriptor(for: .waterFeatures)?.name ?? "Water features"
+        let (roadCredit, roadLicence) = attribution(for: .roads)
+        let (waterCredit, waterLicence) = attribution(for: .waterFeatures)
 
         switch inspection.mappedContext {
         case .ready(let context):
@@ -339,36 +359,40 @@ nonisolated enum ParcelEvidenceExport {
                     results: roads,
                     emptyMessage: ParcelLookupMessage.noRoadsListed(
                         addressesAnswered: addressesAnswered
-                    )
+                    ),
+                    attribution: roadCredit,
+                    licenceURL: roadLicence
                 ),
                 EvidenceNoteInput.Result(
                     name: waterName,
                     sourceURL: waterURL,
                     status: .ready,
                     results: water,
-                    emptyMessage: ParcelEvidenceWording.noWaterFeature
+                    emptyMessage: ParcelEvidenceWording.noWaterFeature,
+                    attribution: waterCredit,
+                    licenceURL: waterLicence
                 ),
             ]
         case .unavailable(let reason):
             return [
                 EvidenceNoteInput.Result(
                     name: roadName, sourceURL: roadURL, status: .error, results: [],
-                    errorMessage: reason
+                    errorMessage: reason, attribution: roadCredit, licenceURL: roadLicence
                 ),
                 EvidenceNoteInput.Result(
                     name: waterName, sourceURL: waterURL, status: .error, results: [],
-                    errorMessage: reason
+                    errorMessage: reason, attribution: waterCredit, licenceURL: waterLicence
                 ),
             ]
         case .looking:
             return [
                 EvidenceNoteInput.Result(
                     name: roadName, sourceURL: roadURL, status: .error, results: [],
-                    errorMessage: unsettled
+                    errorMessage: unsettled, attribution: roadCredit, licenceURL: roadLicence
                 ),
                 EvidenceNoteInput.Result(
                     name: waterName, sourceURL: waterURL, status: .error, results: [],
-                    errorMessage: unsettled
+                    errorMessage: unsettled, attribution: waterCredit, licenceURL: waterLicence
                 ),
             ]
         }
@@ -382,6 +406,12 @@ nonisolated enum ParcelEvidenceExport {
         else { return [] }
         let riverName = "Published river flood mapping"
         let coastalName = "Nova Scotia Coastal Hazard Map"
+        let (riverCredit, riverLicence) = attribution(for: .publishedRiverFloodZones)
+        // The coastal licence names its own three notices, which are conditions
+        // of using the data rather than a credit line, so they travel with
+        // every coastal finding this note reports.
+        let coastalCredit = CoastalFloodLicence.attribution
+        let coastalLicence = LayerCatalog.descriptor(for: .coastalFloodCurrent)?.licenceURL
 
         switch inspection.floodHazard {
         case .ready(let hazard):
@@ -392,25 +422,30 @@ nonisolated enum ParcelEvidenceExport {
                     name: riverName,
                     sourceURL: riverURL,
                     status: .ready,
-                    results: findings.map(ParcelEvidenceWording.sentence(for:))
+                    results: findings.map(ParcelEvidenceWording.sentence(for:)),
+                    attribution: riverCredit,
+                    licenceURL: riverLicence
                 )
             case .withinPublishedExtentWithNoIntersection:
                 river = EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .ready, results: [],
                     emptyMessage: ParcelEvidenceWording
-                        .withinPublishedExtentWithNoIntersection
+                        .withinPublishedExtentWithNoIntersection,
+                    attribution: riverCredit, licenceURL: riverLicence
                 )
             case .outsidePublishedExtents:
                 // Not an error and not an empty answer: the question was never
                 // in scope here, and the note has to be able to say that.
                 river = EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .ready, results: [],
-                    emptyMessage: ParcelEvidenceWording.outsidePublishedExtents
+                    emptyMessage: ParcelEvidenceWording.outsidePublishedExtents,
+                    attribution: riverCredit, licenceURL: riverLicence
                 )
             case .unavailable(let failure):
                 river = EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .error, results: [],
-                    errorMessage: ParcelEvidenceWording.sentence(for: failure)
+                    errorMessage: ParcelEvidenceWording.sentence(for: failure),
+                    attribution: riverCredit, licenceURL: riverLicence
                 )
             }
             return [
@@ -420,7 +455,9 @@ nonisolated enum ParcelEvidenceExport {
                     sourceURL: coastalURL,
                     status: .ready,
                     results: hazard.coastal.map(ParcelEvidenceWording.sentence(for:)),
-                    emptyMessage: "No coastal scenario was sampled for this parcel."
+                    emptyMessage: "No coastal scenario was sampled for this parcel.",
+                    attribution: coastalCredit,
+                    licenceURL: coastalLicence
                 ),
             ]
         case .unavailable(let reason):
@@ -428,22 +465,22 @@ nonisolated enum ParcelEvidenceExport {
             return [
                 EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .error, results: [],
-                    errorMessage: message
+                    errorMessage: message, attribution: riverCredit, licenceURL: riverLicence
                 ),
                 EvidenceNoteInput.Result(
                     name: coastalName, sourceURL: coastalURL, status: .error, results: [],
-                    errorMessage: message
+                    errorMessage: message, attribution: coastalCredit, licenceURL: coastalLicence
                 ),
             ]
         case .looking:
             return [
                 EvidenceNoteInput.Result(
                     name: riverName, sourceURL: riverURL, status: .error, results: [],
-                    errorMessage: unsettled
+                    errorMessage: unsettled, attribution: riverCredit, licenceURL: riverLicence
                 ),
                 EvidenceNoteInput.Result(
                     name: coastalName, sourceURL: coastalURL, status: .error, results: [],
-                    errorMessage: unsettled
+                    errorMessage: unsettled, attribution: coastalCredit, licenceURL: coastalLicence
                 ),
             ]
         }
@@ -466,6 +503,7 @@ nonisolated enum ParcelEvidenceExport {
                 return nil
             }
             let name = descriptor?.name ?? source.layerID.rawValue
+            let (credit, licence) = attribution(for: source.layerID)
             // Only the mineral inventory is asked twice — on the parcel and
             // within a kilometre — so only there does the relationship need
             // saying. Printing it elsewhere would imply a proximity search
@@ -478,7 +516,9 @@ nonisolated enum ParcelEvidenceExport {
                     name: name,
                     sourceURL: sourceURL,
                     status: .error,
-                    results: []
+                    results: [],
+                    attribution: credit,
+                    licenceURL: licence
                 )
             case .success(let records):
                 return EvidenceNoteInput.Result(
@@ -500,7 +540,9 @@ nonisolated enum ParcelEvidenceExport {
                     emptyMessage: isMineral
                         ? "No published mineral occurrence was returned on or within 1 km of "
                             + "this parcel."
-                        : nil
+                        : nil,
+                    attribution: credit,
+                    licenceURL: licence
                 )
             }
         }

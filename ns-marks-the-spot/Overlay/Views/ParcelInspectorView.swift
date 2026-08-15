@@ -944,28 +944,15 @@ struct ParcelInspectorView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// The notices the coastal licence requires to travel with the data.
-    ///
-    /// Not decoration and not summarisable: the permission, the disclaimer of
-    /// endorsement, and the disclaimer of warranty are conditions of using the
-    /// Department's data, so they are rendered wherever that data is shown.
+    /// The notices the coastal licence requires to travel with the data. The
+    /// same three sentences the exported note and the printed appendix carry,
+    /// read from one place so a licence condition cannot be reworded on one
+    /// surface and not the other.
     private var floodLicenceNotice: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(
-                "Reproduced and distributed with the permission of the Department of "
-                    + "Service Nova Scotia."
-            )
-            Text(
-                "This product has been produced by KinNoKi Labs and includes data provided "
-                    + "by the Department of Service Nova Scotia. The incorporation of that "
-                    + "data shall not be construed as constituting an endorsement by the "
-                    + "Department of Service Nova Scotia of this product."
-            )
-            Text(
-                "Service Nova Scotia makes no representation and gives no warranty of any "
-                    + "kind respecting the data's accuracy, usefulness, novelty, validity, "
-                    + "scope, completeness, or currency."
-            )
+            ForEach(CoastalFloodLicence.notices, id: \.self) { notice in
+                Text(notice)
+            }
         }
         .font(.caption2)
         .foregroundStyle(.secondary)

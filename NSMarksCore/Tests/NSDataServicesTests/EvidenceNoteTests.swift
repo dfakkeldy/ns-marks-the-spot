@@ -381,6 +381,35 @@ struct EvidenceNoteTests {
         #expect(!note.markdown.contains("Coastal Hazard Map: source unavailable"))
     }
 
+    /// A finding drags its credit and its licence along with it. The appendix
+    /// gets torn out and pasted elsewhere, and an obligation printed a page
+    /// away from the data does not travel with it.
+    @Test func aSourcesCreditAndLicencePrintBesideItsFinding() {
+        let note = EvidenceNote.build(
+            Self.input(
+                flood: [
+                    EvidenceNoteInput.Result(
+                        name: "Nova Scotia Coastal Hazard Map",
+                        sourceURL: URL(string: "https://example.test/coastal")!,
+                        status: .ready,
+                        results: ["2100: approximately 4% of the mapped parcel area"],
+                        attribution: "Reproduced with the permission of the Department.",
+                        licenceURL: URL(string: "https://example.test/licence")!
+                    )
+                ],
+                assessments: .error,
+                dwellings: .blocked
+            )
+        )
+
+        #expect(note.markdown.contains("- Reproduced with the permission of the Department."))
+        #expect(
+            note.markdown.contains(
+                "- [Nova Scotia Coastal Hazard Map licence](https://example.test/licence)"
+            )
+        )
+    }
+
     /// No mapped area is said out loud, because a section that vanishes reads
     /// as a question nobody asked.
     @Test func aParcelWithNoMappedAreaSaysSo() {

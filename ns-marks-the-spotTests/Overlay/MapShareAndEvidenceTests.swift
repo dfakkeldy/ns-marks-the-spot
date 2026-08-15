@@ -225,6 +225,17 @@ struct MapShareAndEvidenceTests {
         #expect(note.markdown.contains("No mapped water feature intersects this parcel."))
     }
 
+    /// The coastal licence's three notices are conditions of using the data,
+    /// so they travel with every coastal finding the note reports rather than
+    /// staying on the panel the reader has already closed.
+    @Test func aCoastalFindingCarriesTheLicencesOwnNotices() {
+        let note = Self.note(Self.inspection())
+
+        for notice in CoastalFloodLicence.notices {
+            #expect(note.markdown.contains(notice))
+        }
+    }
+
     /// A source that failed keeps its own reason all the way into the note.
     @Test func aFailedBuildingCountReadsAsAFailureNotAsNoBuildings() {
         let note = Self.note(

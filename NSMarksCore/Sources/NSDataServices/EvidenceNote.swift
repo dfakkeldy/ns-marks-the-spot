@@ -76,6 +76,14 @@ public struct EvidenceNoteInput: Sendable {
         /// them apart. Without this they all printed as "source unavailable",
         /// which reads as an outage for a layer the reader could switch on.
         public let errorMessage: String?
+        /// The credit and any notice the licence obliges, printed with this
+        /// source's findings.
+        ///
+        /// Beside the finding rather than in a footer: the appendix is torn
+        /// out, quoted, and pasted into other documents, and an obligation that
+        /// travels one page away from the data does not travel at all.
+        public let attribution: String?
+        public let licenceURL: URL?
 
         public init(
             name: String,
@@ -83,7 +91,9 @@ public struct EvidenceNoteInput: Sendable {
             status: Status,
             results: [String],
             emptyMessage: String? = nil,
-            errorMessage: String? = nil
+            errorMessage: String? = nil,
+            attribution: String? = nil,
+            licenceURL: URL? = nil
         ) {
             self.name = name
             self.sourceURL = sourceURL
@@ -91,6 +101,8 @@ public struct EvidenceNoteInput: Sendable {
             self.results = results
             self.emptyMessage = emptyMessage
             self.errorMessage = errorMessage
+            self.attribution = attribution
+            self.licenceURL = licenceURL
         }
     }
 
@@ -250,7 +262,7 @@ extension EvidenceNote {
                 "",
             ]
             + input.buildingResults.flatMap(resultLines)
-            + input.buildingResults.map { "- [\($0.name) source](\($0.sourceURL.absoluteString))" }
+            + input.buildingResults.flatMap(sourceLines)
             + [
                 "",
                 """
@@ -263,7 +275,7 @@ extension EvidenceNote {
                 "",
             ]
             + input.contextResults.flatMap(resultLines)
-            + input.contextResults.map { "- [\($0.name) source](\($0.sourceURL.absoluteString))" }
+            + input.contextResults.flatMap(sourceLines)
             + [
                 "",
                 """
@@ -277,7 +289,7 @@ extension EvidenceNote {
                 "",
             ]
             + input.floodResults.flatMap(resultLines)
-            + input.floodResults.map { "- [\($0.name) source](\($0.sourceURL.absoluteString))" }
+            + input.floodResults.flatMap(sourceLines)
             + [
                 "",
                 """
@@ -329,9 +341,7 @@ extension EvidenceNote {
             ]
             + (input.resourceNotice.map { ["- \($0) No absence is inferred."] }
                 ?? input.resourceResults.flatMap(resultLines)
-                    + input.resourceResults.map {
-                        "- [\($0.name) source](\($0.sourceURL.absoluteString))"
-                    })
+                    + input.resourceResults.flatMap(sourceLines))
             + [
                 "",
                 """
@@ -357,6 +367,14 @@ extension EvidenceNote {
             filename: "ns-marks-evidence-\(input.pid)-\(Format.filenameStamp(input.generatedAt)).md",
             markdown: markdown
         )
+    }
+
+    /// A source's link, its credit, and its licence — the lines that have to
+    /// accompany the finding above them.
+    private static func sourceLines(_ result: EvidenceNoteInput.Result) -> [String] {
+        ["- [\(result.name) source](\(result.sourceURL.absoluteString))"]
+            + (result.attribution.map { ["- \($0)"] } ?? [])
+            + (result.licenceURL.map { ["- [\(result.name) licence](\($0.absoluteString))"] } ?? [])
     }
 
     private static func resultLines(_ result: EvidenceNoteInput.Result) -> [String] {
