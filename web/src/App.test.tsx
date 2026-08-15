@@ -15,6 +15,7 @@ import {
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
 } from "./licensing/provinceLicense";
 import { matchedHistoricalPids } from "./data/historicalTaxSales";
+import { eventsForStatus } from "./data/taxSaleCatalog";
 import { buildEvidenceNote } from "./services/evidenceNote";
 import {
   OPEN_GOVERNMENT_ATTRIBUTION,
@@ -1110,14 +1111,11 @@ describe("NS Marks The Spot Online", () => {
     const eventIds = new URL(window.location.href).searchParams
       .get("event")
       ?.split(",");
-    expect(eventIds).toEqual([
-      "inverness-county-2026-08-11",
-      "middleton-2026-08-20",
-      "annapolis-county-2026-08-31",
-    ]);
-    expect(JSON.stringify(builtInMapThemes)).not.toContain(
-      "middleton-2026-08-20",
-    );
+    const currentEventIds = eventsForStatus("upcoming").map(({ id }) => id);
+    expect(eventIds).toEqual(currentEventIds);
+    for (const eventId of currentEventIds) {
+      expect(JSON.stringify(builtInMapThemes)).not.toContain(eventId);
+    }
   });
 
   it("applies the Tax Sale Research theme with all current notices after acceptance", async () => {
