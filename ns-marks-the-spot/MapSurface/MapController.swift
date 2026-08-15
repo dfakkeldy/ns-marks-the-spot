@@ -203,6 +203,17 @@ final class MapController: NSObject {
                 mapView.addAnnotations(drawing.annotations())
             }
 
+        case .setVectorDraft(let draft):
+            mapView.removeOverlays(mapView.overlays.compactMap { $0 as? VectorDraftPolyline })
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? VectorDraftVertexAnnotation }
+            )
+            guard let draft else { break }
+            if let overlay = draft.overlay() {
+                mapView.installInDrawOrder(overlay)
+            }
+            mapView.addAnnotations(draft.handles())
+
         case .setParcelShapes(let shapes):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
             for polygon in shapes.flatMap({ ParcelPolygon.polygons(for: $0) }) {
@@ -343,6 +354,10 @@ final class MapController: NSObject {
 
     func setUserVectors(_ drawings: [UserVectorDrawing]) {
         mutate { $0.userVectors = drawings }
+    }
+
+    func setVectorDraft(_ draft: VectorDraftPreview?) {
+        mutate { $0.vectorDraft = draft }
     }
 
     func setFeatureMarkers(_ markers: [FeatureMarker]) {
@@ -651,6 +666,18 @@ extension MapController: MKMapViewDelegate {
             return UserMapOverlayRenderer(userMap: userMap)
         }
 
+        if let draft = overlay as? VectorDraftPolyline {
+            let renderer = MKPolylineRenderer(polyline: draft)
+            renderer.strokeColor = UIColor(featureHex: draft.colorHex)
+            renderer.lineWidth = 2
+            // Dashed, because this is a gesture in progress rather than data:
+            // drawn solid it would look like a feature the layer already holds.
+            renderer.lineDashPattern = [6, 4]
+            renderer.lineCap = .round
+            renderer.lineJoin = .round
+            return renderer
+        }
+
         // Before the catalogued feature branches, though they are unrelated
         // classes: a user's polygon is styled from their own file's simplestyle
         // properties, not from the catalog's vocabulary.
@@ -774,6 +801,19 @@ extension MapController: MKMapViewDelegate {
         // Before the pin branch: a well log and a saved point of interest are
         // both point annotations, and a well drawn as a dropped pin would read
         // as a place someone marked rather than as a record with an accuracy.
+        if let handle = annotation as? VectorDraftVertexAnnotation {
+            let identifier = "VectorDraftHandle"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+            view.annotation = handle
+            // No callout: a vertex is not a record, and a popup over the shape
+            // being drawn would cover the ground the next tap has to land on.
+            view.canShowCallout = false
+            view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            return view
+        }
+
         // A user's own point, before both: it is drawn in their layer's colour
         // and its callout carries the provenance line that says the app did not
         // publish it.

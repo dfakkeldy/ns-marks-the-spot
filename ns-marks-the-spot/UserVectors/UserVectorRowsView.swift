@@ -13,6 +13,9 @@ struct UserVectorRowsView: View {
     /// Called with a layer's extent when the user asks to see it. Optional so
     /// the panel can be shown — in a preview, in a test — without a map.
     var onZoom: ((GeoBoundingBox) -> Void)?
+    /// Called to open the editor on a layer. Optional for the same reason: the
+    /// panel is still the panel without a map behind it.
+    var onEdit: ((UserVectorsViewModel.Row) -> Void)?
 
     @State private var isImporting = false
     @State private var renaming: UserVectorsViewModel.Row?
@@ -49,6 +52,7 @@ struct UserVectorRowsView: View {
                         newName = row.record.name
                         renaming = row
                     },
+                    onEdit: onEdit.map { edit in { edit(row) } },
                     onDelete: { Task { await viewModel.delete(id: row.id) } }
                 )
             }
@@ -114,6 +118,7 @@ private struct UserVectorRow: View {
     let onVisible: (Bool) -> Void
     let onZoom: (() -> Void)?
     let onRename: () -> Void
+    let onEdit: (() -> Void)?
     let onDelete: () -> Void
 
     var body: some View {
@@ -133,6 +138,9 @@ private struct UserVectorRow: View {
                 Menu {
                     if let onZoom {
                         Button("Zoom to layer", action: onZoom)
+                    }
+                    if let onEdit {
+                        Button("Edit…", action: onEdit)
                     }
                     Button("Rename…", action: onRename)
                     Button("Delete", role: .destructive, action: onDelete)

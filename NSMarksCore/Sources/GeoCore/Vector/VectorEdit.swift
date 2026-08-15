@@ -204,6 +204,88 @@ public enum VectorEdit {
         }
     }
 
+    /// The feature under a tap, or nil for a tap on nothing.
+    ///
+    /// Areas are hit-tested by containment and lines by distance, because a
+    /// line has no inside. `toleranceDegrees` is the finger: it comes from the
+    /// caller because how much ground a fingertip covers depends on the zoom,
+    /// and a fixed tolerance would make a line untappable when zoomed out and
+    /// greedy when zoomed in.
+    ///
+    /// Last match wins, so the answer is the feature drawn on top — the one the
+    /// user can see they are pointing at.
+    public static func feature(
+        at position: GeoJsonPosition, in parsed: ParsedVector, toleranceDegrees: Double
+    ) -> GeoJsonFeature? {
+        var hit: GeoJsonFeature?
+        for feature in parsed.features {
+            guard let geometry = feature.geometry else { continue }
+            if isHit(geometry, at: position, tolerance: toleranceDegrees) {
+                hit = feature
+            }
+        }
+        return hit
+    }
+
+    private static func isHit(
+        _ geometry: GeoJsonGeometry, at position: GeoJsonPosition, tolerance: Double
+    ) -> Bool {
+        let point = GeoPoint(lat: position.lat, lng: position.lng)
+        func ring(_ positions: [GeoJsonPosition]) -> [GeoPoint] {
+            positions.map { GeoPoint(lat: $0.lat, lng: $0.lng) }
+        }
+        func nearLine(_ positions: [GeoJsonPosition]) -> Bool {
+            let points = ring(positions)
+            guard points.count >= 2 else {
+                return points.first.map { distance(point, $0) <= tolerance } ?? false
+            }
+            for index in 0..<(points.count - 1) {
+                if distanceToSegment(point, points[index], points[index + 1]) <= tolerance {
+                    return true
+                }
+            }
+            return false
+        }
+
+        switch geometry {
+        case .point(let candidate):
+            return distance(point, GeoPoint(lat: candidate.lat, lng: candidate.lng)) <= tolerance
+        case .multiPoint(let candidates):
+            return candidates.contains {
+                distance(point, GeoPoint(lat: $0.lat, lng: $0.lng)) <= tolerance
+            }
+        case .lineString(let line):
+            return nearLine(line)
+        case .multiLineString(let lines):
+            return lines.contains(where: nearLine)
+        case .polygon(let rings):
+            return PolygonHitTest.contains(point, part: rings.map(ring))
+        case .multiPolygon(let parts):
+            return PolygonHitTest.contains(point, multiPolygon: parts.map { $0.map(ring) })
+        case .collection(let geometries):
+            return geometries.contains { isHit($0, at: position, tolerance: tolerance) }
+        }
+    }
+
+    private static func distance(_ first: GeoPoint, _ second: GeoPoint) -> Double {
+        // Plain degrees, not metres: the tolerance arrives in the same units,
+        // both come from the same screen, and a projection here would be
+        // precision the tap does not have.
+        (pow(first.lat - second.lat, 2) + pow(first.lng - second.lng, 2)).squareRoot()
+    }
+
+    private static func distanceToSegment(
+        _ point: GeoPoint, _ start: GeoPoint, _ end: GeoPoint
+    ) -> Double {
+        let dx = end.lng - start.lng
+        let dy = end.lat - start.lat
+        let lengthSquared = dx * dx + dy * dy
+        guard lengthSquared > 0 else { return distance(point, start) }
+        var t = ((point.lng - start.lng) * dx + (point.lat - start.lat) * dy) / lengthSquared
+        t = min(max(t, 0), 1)
+        return distance(point, GeoPoint(lat: start.lat + t * dy, lng: start.lng + t * dx))
+    }
+
     /// The layer's bounding box, recomputed from what it now holds.
     ///
     /// Recomputed on every edit because the record's bbox is what "zoom to

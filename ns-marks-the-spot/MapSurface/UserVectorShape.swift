@@ -120,6 +120,84 @@ nonisolated enum UserVectorDrawOrder {
     static let value = OverlayZIndex.drawOrder(OverlayZIndex.userVector, in: .pane)
 }
 
+/// The shape the user is part-way through drawing.
+///
+/// Its own overlay, drawn dashed and above everything else, because it is not
+/// data yet: a rubber band between two taps is a gesture in progress, and
+/// drawing it like a saved feature would say the layer already holds it.
+nonisolated struct VectorDraftPreview: Equatable, Sendable {
+    var shape: VectorEditShape
+    var vertices: [GeoJsonPosition]
+    var colorHex: String
+
+    /// The line through the vertices so far, closed for an area once it is a
+    /// shape rather than a corner.
+    func overlay() -> VectorDraftPolyline? {
+        guard vertices.count >= 2 else { return nil }
+        var positions = vertices
+        if shape == .area, vertices.count >= 3, let first = vertices.first {
+            positions.append(first)
+        }
+        let coordinates = positions.map {
+            CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lng)
+        }
+        let polyline = VectorDraftPolyline(coordinates: coordinates, count: coordinates.count)
+        polyline.colorHex = colorHex
+        return polyline
+    }
+
+    /// A handle on every vertex placed so far, so the user can see what they
+    /// have put down — including the single tap of a point, which has no line.
+    func handles() -> [VectorDraftVertexAnnotation] {
+        vertices.enumerated().map { index, position in
+            VectorDraftVertexAnnotation(index: index, position: position, colorHex: colorHex)
+        }
+    }
+}
+
+/// The rubber band itself.
+nonisolated final class VectorDraftPolyline: MKPolyline, WebDrawOrdered {
+    var colorHex: String = "#d55e00"
+
+    // Above the finished layers: the user is looking at what they are drawing.
+    var webDrawOrder: Int { UserVectorDrawOrder.value + 1 }
+}
+
+/// One placed vertex of the shape being drawn.
+nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
+    MapKitAnnotationIdentifying
+{
+    let mapAnnotationID: String
+    let colorHex: String
+
+    init(index: Int, position: GeoJsonPosition, colorHex: String) {
+        mapAnnotationID = "draft-vertex-\(index)"
+        self.colorHex = colorHex
+        super.init()
+        coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
+    }
+}
+
+/// The handle a draft vertex is drawn as: small, hollow and unmistakably not a
+/// marker the layer holds.
+nonisolated enum VectorDraftHandleImage {
+    static func image(colorHex: String) -> UIImage {
+        let radius: CGFloat = 5
+        let width: CGFloat = 2
+        let size = CGSize(width: (radius + width) * 2, height: (radius + width) * 2)
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            let circle = UIBezierPath(
+                ovalIn: CGRect(x: width, y: width, width: radius * 2, height: radius * 2)
+            )
+            UIColor.white.setFill()
+            circle.fill()
+            UIColor(featureHex: colorHex).setStroke()
+            circle.lineWidth = width
+            circle.stroke()
+        }
+    }
+}
+
 /// An `MKPolygon` that remembers whose layer and which feature it came from.
 nonisolated final class UserVectorPolygon: MKPolygon, WebDrawOrdered {
     var layerID: String = ""

@@ -12,6 +12,8 @@ struct TransparencySliderView: View {
     var userVectors: UserVectorsViewModel?
     /// Where to send the map when a row asks to be seen.
     var onZoomToLayer: ((GeoBoundingBox) -> Void)?
+    /// Opens the editor on one of the user's layers.
+    var onEditLayer: ((UserVectorsViewModel.Row) -> Void)?
     @Binding var isExpanded: Bool
 
     /// Which sections are open. `nil` until the panel is first laid out, so the
@@ -134,7 +136,11 @@ struct TransparencySliderView: View {
                     if let userVectors {
                         Divider()
                             .background(.primary.opacity(0.1))
-                        UserVectorRowsView(viewModel: userVectors, onZoom: onZoomToLayer)
+                        UserVectorRowsView(
+                            viewModel: userVectors,
+                            onZoom: onZoomToLayer,
+                            onEdit: onEditLayer
+                        )
                     }
                 }
             }

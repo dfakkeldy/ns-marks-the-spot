@@ -206,3 +206,74 @@ struct VectorEditTests {
         #expect(box.north == 44)
     }
 }
+
+@Suite("Tapping a feature to select it")
+struct VectorHitTestTests {
+    private func layer(_ json: String) throws -> ParsedVector {
+        try UserVectorParse.parseGeoJson(Data(json.utf8))
+    }
+
+    private func at(_ lng: Double, _ lat: Double) -> GeoJsonPosition {
+        GeoJsonPosition(lng: lng, lat: lat)
+    }
+
+    @Test func aTapInsideAnAreaSelectsIt() throws {
+        let parsed = try layer(
+            """
+            {"type":"Polygon","coordinates":[[[-63,44],[-62,44],[-62,45],[-63,45],[-63,44]]]}
+            """
+        )
+        #expect(
+            VectorEdit.feature(at: at(-62.5, 44.5), in: parsed, toleranceDegrees: 0.001) != nil
+        )
+        #expect(VectorEdit.feature(at: at(-70, 40), in: parsed, toleranceDegrees: 0.001) == nil)
+    }
+
+    /// A line has no inside, so it is hit by distance. Without this a user
+    /// could never select a track they imported.
+    @Test func aTapNearALineSelectsIt() throws {
+        let parsed = try layer(#"{"type":"LineString","coordinates":[[-63,44],[-62,44]]}"#)
+        #expect(
+            VectorEdit.feature(at: at(-62.5, 44.0005), in: parsed, toleranceDegrees: 0.001) != nil
+        )
+        #expect(
+            VectorEdit.feature(at: at(-62.5, 44.05), in: parsed, toleranceDegrees: 0.001) == nil
+        )
+    }
+
+    /// The finger's reach is the caller's to say: a fixed tolerance would make
+    /// a line untappable zoomed out and greedy zoomed in.
+    @Test func theTapToleranceIsTheCallers() throws {
+        let parsed = try layer(#"{"type":"Point","coordinates":[-63,44]}"#)
+        #expect(VectorEdit.feature(at: at(-63.01, 44), in: parsed, toleranceDegrees: 0.1) != nil)
+        #expect(VectorEdit.feature(at: at(-63.01, 44), in: parsed, toleranceDegrees: 0.001) == nil)
+    }
+
+    /// Overlapping features resolve to the one drawn on top — the one the user
+    /// can see they are pointing at.
+    @Test func theTopmostOfTwoOverlappingFeaturesWins() throws {
+        let parsed = try layer(
+            """
+            {"type":"FeatureCollection","features":[
+              {"type":"Feature","id":"under","geometry":{"type":"Polygon","coordinates":
+                [[[-63,44],[-62,44],[-62,45],[-63,45],[-63,44]]]},"properties":{}},
+              {"type":"Feature","id":"over","geometry":{"type":"Polygon","coordinates":
+                [[[-63,44],[-62,44],[-62,45],[-63,45],[-63,44]]]},"properties":{}}]}
+            """
+        )
+        let hit = VectorEdit.feature(at: at(-62.5, 44.5), in: parsed, toleranceDegrees: 0.001)
+        #expect(hit?.id == "over")
+    }
+
+    @Test func aRowWithNoPlaceIsNeverSelected() throws {
+        let parsed = try layer(
+            """
+            {"type":"FeatureCollection","features":[
+              {"type":"Feature","geometry":null,"properties":{"pid":"1"}},
+              {"type":"Feature","geometry":{"type":"Point","coordinates":[-63,44]},
+               "properties":{}}]}
+            """
+        )
+        #expect(VectorEdit.feature(at: at(-10, 10), in: parsed, toleranceDegrees: 1) == nil)
+    }
+}
