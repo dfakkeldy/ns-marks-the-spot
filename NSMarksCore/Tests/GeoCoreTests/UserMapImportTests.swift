@@ -76,7 +76,7 @@ struct UserMapImportGateTests {
 
     /// The smallest image that still covers the preview target, so a huge
     /// raster decodes from an overview rather than from its base image.
-    @Test func theSmallestSufficientOverviewIsChosen() {
+    @Test func theSmallestSufficientOverviewIsChosen() throws {
         let sizes = [
             PixelSize(width: 32_000, height: 24_000),  // base
             PixelSize(width: 16_000, height: 12_000),
@@ -84,12 +84,14 @@ struct UserMapImportGateTests {
             PixelSize(width: 4_000, height: 3_000),  // below the target
             PixelSize(width: 2_000, height: 1_500),
         ]
-        #expect(sizes[UserMapImport.chooseImage(sizes: sizes, target: 4096)].width == 8_000)
+        let chosen = try #require(UserMapImport.chooseImage(sizes: sizes, target: 4096))
+        #expect(sizes[chosen].width == 8_000)
         // The order overviews are listed in is a file's own business, so the
         // choice cannot depend on it. Asserted on the image chosen rather than
         // on its index, which is what changes when the list is reordered.
         let shuffled = [sizes[3], sizes[0], sizes[4], sizes[2], sizes[1]]
-        #expect(shuffled[UserMapImport.chooseImage(sizes: shuffled, target: 4096)].width == 8_000)
+        let fromShuffled = try #require(UserMapImport.chooseImage(sizes: shuffled, target: 4096))
+        #expect(shuffled[fromShuffled].width == 8_000)
     }
 
     /// Nothing covers the target, so the base image is used. Scaling a smaller
@@ -99,7 +101,10 @@ struct UserMapImportGateTests {
             PixelSize(width: 900, height: 700), PixelSize(width: 400, height: 300),
         ]
         #expect(UserMapImport.chooseImage(sizes: sizes, target: 4096) == 0)
-        #expect(UserMapImport.chooseImage(sizes: [], target: 4096) == 0)
+        // No images at all is not "the base image": there is no index to
+        // return, and returning one anyway hands a decoder a subscript out of
+        // bounds on somebody's file.
+        #expect(UserMapImport.chooseImage(sizes: [], target: 4096) == nil)
     }
 
     @Test func thePreviewIsCappedAndNeverEnlarged() {

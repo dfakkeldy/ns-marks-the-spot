@@ -114,7 +114,12 @@ public enum UserMapImport {
     /// Falls back to the base image when nothing covers it, because upscaling
     /// an overview fabricates detail: the sheet would look sharp and be a
     /// guess. Index 0 is the base image by TIFF convention.
-    public static func chooseImage(sizes: [PixelSize], target: Int) -> Int {
+    ///
+    /// Nil when there are no images at all. Returning 0 would hand the caller
+    /// an index into an empty collection — a trap on the next line, in a
+    /// decoder, on somebody's file.
+    public static func chooseImage(sizes: [PixelSize], target: Int) -> Int? {
+        guard !sizes.isEmpty else { return nil }
         var best = 0
         var bestLongestEdge = Double.infinity
         for (index, size) in sizes.enumerated() {

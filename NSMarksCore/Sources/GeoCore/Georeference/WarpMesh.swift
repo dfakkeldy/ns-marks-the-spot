@@ -131,6 +131,30 @@ public enum WarpMesh {
             f: d0.y - b * s0.x - d * s0.y
         )
         guard [a, b, c, d, transform.e, transform.f].allSatisfy(\.isFinite) else { return nil }
+
+        // Finite is not the same as right. A source triangle a hundredth of a
+        // nanometre across — reachable through a crop of that size, which the
+        // rectangle gates accept because it is positive — divides differences
+        // that are all rounding error, and the result is a perfectly finite
+        // transform that puts the vertices tens of pixels from where they
+        // belong. So the transform is asked to do the one job it was solved
+        // for, and checked against the answer that was already known.
+        //
+        // The tolerance is relative to the destination triangle, because that
+        // is the space the error appears in: a thousandth of the triangle's
+        // own extent is far below anything visible at the seam and far above
+        // the rounding of a well-conditioned solve.
+        let extent = max(
+            max(d0.x, d1.x, d2.x) - min(d0.x, d1.x, d2.x),
+            max(d0.y, d1.y, d2.y) - min(d0.y, d1.y, d2.y)
+        )
+        let tolerance = max(extent, 1) * 1e-3
+        for (sourcePoint, expected) in [(s0, d0), (s1, d1), (s2, d2)] {
+            let mapped = transform.apply(sourcePoint)
+            guard abs(mapped.x - expected.x) <= tolerance,
+                  abs(mapped.y - expected.y) <= tolerance
+            else { return nil }
+        }
         return transform
     }
 
@@ -173,9 +197,14 @@ public enum WarpMesh {
     ) -> Bool {
         let xs = [triangle.destination.0.x, triangle.destination.1.x, triangle.destination.2.x]
         let ys = [triangle.destination.0.y, triangle.destination.1.y, triangle.destination.2.y]
-        guard let minX = xs.min(), let maxX = xs.max(),
-              let minY = ys.min(), let maxY = ys.max(),
-              minX.isFinite, maxX.isFinite, minY.isFinite, maxY.isFinite
+        // Every coordinate, not just the extremes: `min` and `max` propagate a
+        // NaN only when it comes first, so a triangle with one unplaceable
+        // vertex in the middle would otherwise report finite bounds and be
+        // kept — the answer depending on which vertex was bad rather than on
+        // whether one was.
+        guard (xs + ys).allSatisfy(\.isFinite),
+              let minX = xs.min(), let maxX = xs.max(),
+              let minY = ys.min(), let maxY = ys.max()
         else { return false }
         return maxX + overdraw > rect.x && maxY + overdraw > rect.y
             && minX - overdraw < rect.x + rect.width
@@ -251,8 +280,11 @@ public enum WarpMesh {
         let total = rows * columns * 2
         let begin = min(max(0, start), total)
         // At least one triangle, or a chunked sequence with a zero budget
-        // never finishes.
-        let stop = min(total, begin + max(1, limit))
+        // never finishes. Compared against the remainder rather than added to
+        // `begin`, because a caller asking for `Int.max` — "draw the rest" —
+        // would otherwise overflow and trap.
+        let budget = max(1, limit)
+        let stop = budget >= total - begin ? total : begin + budget
         guard begin < stop else { return ([], total) }
 
         var triangles = [MeshTriangle]()

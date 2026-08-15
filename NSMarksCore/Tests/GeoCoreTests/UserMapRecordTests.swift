@@ -123,20 +123,29 @@ struct UserMapRecordTests {
 
     /// A cropped sheet draws over what the user kept, not over the scan they
     /// cropped it from.
-    @Test func aCropIsHonouredOnBothPlacementKinds() {
+    ///
+    /// Each cropped mesh is required to exist before its corner is compared.
+    /// An optional that is nil differs from every corner there is, so a
+    /// version of this test that only compared the two would pass just as
+    /// happily if cropping had stopped placing the sheet at all.
+    @Test(arguments: [GeoreferenceMethod.affine, .spline])
+    func aCropIsHonouredOnEveryPlacementKind(method: GeoreferenceMethod) throws {
         let crop = PixelRect(x: 100, y: 50, width: 1200, height: 900)
         let controls = Self.points(GeoreferenceFixtures.bent)
 
-        let whole = Self.record(.controlPoints(controls, method: .affine))
-        let cropped = Self.record(.controlPoints(controls, method: .affine), sourceRect: crop)
-        #expect(whole.mesh?[0][0] != cropped.mesh?[0][0])
+        let whole = try #require(Self.record(.controlPoints(controls, method: method)).mesh)
+        let cropped = try #require(
+            Self.record(.controlPoints(controls, method: method), sourceRect: crop).mesh
+        )
+        #expect(whole[0][0] != cropped[0][0])
 
         let embedded = RasterProjection.EmbeddedGeoreference(
             crs: "EPSG:26920", geotransform: [400_000, 10, 0, 5_040_000, 0, -10]
         )
-        #expect(
-            Self.record(.embedded(embedded)).mesh?[0][0]
-                != Self.record(.embedded(embedded), sourceRect: crop).mesh?[0][0]
+        let wholeEmbedded = try #require(Self.record(.embedded(embedded)).mesh)
+        let croppedEmbedded = try #require(
+            Self.record(.embedded(embedded), sourceRect: crop).mesh
         )
+        #expect(wholeEmbedded[0][0] != croppedEmbedded[0][0])
     }
 }

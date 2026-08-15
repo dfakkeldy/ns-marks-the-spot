@@ -59,6 +59,38 @@ struct WarpTransformTests {
         #expect(WarpMesh.transform(source: source, destination: Self.destination) == nil)
     }
 
+    /// A source triangle a hundredth of a nanometre across. The determinant is
+    /// finite and not zero, so nothing about it looks degenerate, and the
+    /// differences being divided are entirely rounding error: the transform
+    /// that comes back puts two of the three vertices tens of pixels from
+    /// where they were solved to go. Found by Codex; the web has the same
+    /// formula and the same defect.
+    @Test func aTransformThatDoesNotDoWhatItWasSolvedForIsRefused() {
+        let source = (
+            PixelPoint(x: 4095, y: 3071),
+            PixelPoint(x: 4095.000_000_000_01, y: 3071),
+            PixelPoint(x: 4095, y: 3071.000_000_000_01)
+        )
+        let determinant = 1e-11 * 1e-11
+        #expect(determinant != 0)
+        #expect(WarpMesh.transform(source: source, destination: Self.destination) == nil)
+    }
+
+    /// And the refusal is not simply "small triangles". A crop of a few pixels
+    /// is an ordinary thing for a user to make, and it solves exactly.
+    @Test func aGenuinelySmallButWellConditionedTriangleStillHasATransform() throws {
+        let source = (
+            PixelPoint(x: 4095, y: 3071), PixelPoint(x: 4098, y: 3071),
+            PixelPoint(x: 4095, y: 3074)
+        )
+        let transform = try #require(
+            WarpMesh.transform(source: source, destination: Self.destination)
+        )
+        let placed = transform.apply(source.1)
+        #expect(abs(placed.x - Self.destination.1.x) < 1e-6)
+        #expect(abs(placed.y - Self.destination.1.y) < 1e-6)
+    }
+
     /// A destination triangle with no area is not degenerate input — it is a
     /// sheet seen edge on, and the answer is a transform that collapses it.
     /// Refusing here would drop triangles a steeply tilted warp legitimately
@@ -169,6 +201,62 @@ struct WarpWalkTests {
             #expect(corners.contains(PixelPoint(x: 10, y: 0)))
             #expect(corners.contains(PixelPoint(x: 0, y: 10)))
         }
+    }
+
+    /// The exact two triangles of one cell, vertex by vertex, in the order
+    /// they paint.
+    ///
+    /// The corner-set test above is blind to three things that all matter:
+    /// which half paints first, whether each source vertex is paired with its
+    /// own destination vertex, and the winding. Swapping the two halves, or
+    /// reversing one destination triplet, leaves every other test in this file
+    /// green — and paints the sheet with its cells mirrored, or the shared
+    /// strip written in the wrong order.
+    @Test func aCellsTrianglesArePinnedVertexByVertexAndInPaintOrder() {
+        let (source, destination) = Self.meshes(rows: 1, columns: 1)
+        let triangles = WarpMesh.allTriangles(source: source, destination: destination)
+        #expect(triangles == [
+            MeshTriangle(
+                source: (
+                    PixelPoint(x: 0, y: 0), PixelPoint(x: 10, y: 0), PixelPoint(x: 0, y: 10)
+                ),
+                destination: (
+                    CanvasPoint(x: 0, y: 0), CanvasPoint(x: 20, y: 0), CanvasPoint(x: 0, y: 20)
+                )
+            ),
+            MeshTriangle(
+                source: (
+                    PixelPoint(x: 10, y: 0), PixelPoint(x: 10, y: 10), PixelPoint(x: 0, y: 10)
+                ),
+                destination: (
+                    CanvasPoint(x: 20, y: 0), CanvasPoint(x: 20, y: 20), CanvasPoint(x: 0, y: 20)
+                )
+            ),
+        ])
+    }
+
+    /// Both halves wind the same way. A cell with one half wound against the
+    /// other is a cell drawn mirrored, which on a scan of a map reads as a
+    /// plausible sheet rather than as a defect.
+    @Test func bothHalvesWindTheSameWay() {
+        let (source, destination) = Self.meshes(rows: 2, columns: 2)
+        func cross(_ a: CanvasPoint, _ b: CanvasPoint, _ c: CanvasPoint) -> Double {
+            (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+        }
+        let signs = WarpMesh.allTriangles(source: source, destination: destination)
+            .map { cross($0.destination.0, $0.destination.1, $0.destination.2) > 0 }
+        #expect(Set(signs).count == 1)
+    }
+
+    /// "Draw the rest of it" is a budget a caller can reasonably ask for, and
+    /// adding it to the cursor overflows.
+    @Test func anUnboundedBudgetFinishesTheWalkRatherThanTrapping() {
+        let (source, destination) = Self.meshes(rows: 3, columns: 4)
+        let step = WarpMesh.walk(
+            source: source, destination: destination, from: 1, limit: .max
+        )
+        #expect(step.next == 24)
+        #expect(step.triangles.count == 23)
     }
 
     /// Neighbouring triangles overlap by the overdraw ring, so the same pixels
@@ -293,10 +381,18 @@ struct WarpCullingTests {
         )
     }
 
-    @Test func aTriangleWithNoFinitePositionIsNotDrawn() {
+    /// Whichever vertex is the bad one. `min` and `max` propagate a NaN only
+    /// when it comes first, so a version reading the extremes alone answers
+    /// this correctly for the first vertex and wrongly for the other two —
+    /// which is worse than answering wrongly for all three, because the first
+    /// case is the one a test tends to be written for.
+    @Test(arguments: [0, 1, 2])
+    func aTriangleWithNoFinitePositionIsNotDrawn(badVertex: Int) {
+        var vertices: [(Double, Double)] = [(0, 10), (20, 10), (0, 30)]
+        vertices[badVertex] = (.nan, vertices[badVertex].1)
         #expect(
             !WarpMesh.intersects(
-                Self.triangle([(.nan, 10), (20, 10), (0, 30)]),
+                Self.triangle(vertices),
                 rect: CanvasRect(x: 0, y: 0, width: 400, height: 300)
             )
         )
