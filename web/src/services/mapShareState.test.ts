@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildMapShareUrl,
+  isShareLayerId,
   parseMapShareState,
   type MapShareState,
 } from "./mapShareState";
@@ -25,6 +26,12 @@ describe("map share state", () => {
     ],
     position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
   };
+
+  it("recognizes only layer IDs that can appear in shared map state", () => {
+    expect(isShareLayerId("modern")).toBe(true);
+    expect(isShareLayerId("not-a-layer")).toBe(false);
+    expect(isShareLayerId(42)).toBe(false);
+  });
 
   it("puts PID, event, layers, and position into one shareable URL", () => {
     const url = new URL(buildMapShareUrl("https://example.com/map/", state));

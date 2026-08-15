@@ -66,7 +66,7 @@ const validEventIds = new Set([
   ...taxSaleEvents.map(({ id }) => id),
   ...historicalTaxSaleEvents.map(({ id }) => id),
 ]);
-const validLayerIds = new Set<ShareLayerId>([
+const shareLayerIdSet = new Set<ShareLayerId>([
   "modern",
   fletcherLayerCatalog.id,
   ...provinceLayerCatalog.map(({ id }) => id),
@@ -78,6 +78,10 @@ const validLayerIds = new Set<ShareLayerId>([
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
 ]);
+
+export function isShareLayerId(value: unknown): value is ShareLayerId {
+  return typeof value === "string" && shareLayerIdSet.has(value as ShareLayerId);
+}
 
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.min(Math.max(value, minimum), maximum);
@@ -110,7 +114,7 @@ export function parseMapShareState(value: string): MapShareState {
     .filter((id) => validEventIds.has(id));
   const layerIds = (url.searchParams.get("layers") ?? "")
     .split(",")
-    .filter((id): id is ShareLayerId => validLayerIds.has(id as ShareLayerId));
+    .filter(isShareLayerId);
 
   return {
     mode,
