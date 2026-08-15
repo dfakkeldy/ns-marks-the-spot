@@ -736,3 +736,25 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — Phase 9 landed: user vector layers, drawing, editing, export
+
+Done: import (GeoJSON/KML/KMZ/GPX/zipped shapefile) → records → map overlays →
+panel rows → drawing and editing → export. `VectorFeatureStyle` renamed
+`UserVectorStyle` to clear an ambiguity with `NSDataServices` at every app-target
+use site. Edit operations, hit-testing and export all live in GeoCore, so they
+are verified gate-free: 845 package tests in 115 suites pass. Commits e6ccaac3f,
+8539f067e, 57e67cdf1, ffccd86ff, 66a8bd443, c7848796e — all pushed. Codex
+adversarial review of the whole subsystem is running; review 5 before it died
+unread when its own heredoc hung.
+
+Next: triage the Codex findings, then compile. Nothing in Phases 7, 8 or 9 has
+ever been through a type-checker — only `swiftc -parse`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
