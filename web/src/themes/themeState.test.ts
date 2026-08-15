@@ -74,10 +74,17 @@ describe("theme state", () => {
       taxSaleEnabled: true,
       mapMode: "current",
     }, builtInMapThemes)).toBeUndefined();
+  });
+
+  it("matches the current Tax Sale Research setup but not its changed mode", () => {
+    const taxSaleResearch = builtInMapThemes.find(
+      ({ id }) => id === "tax-sale-research",
+    )!;
+
+    expect(matchTheme(taxSaleResearch, builtInMapThemes)?.id)
+      .toBe("tax-sale-research");
     expect(matchTheme({
-      layerIds: ["modern"],
-      opacityOverrides: {},
-      taxSaleEnabled: true,
+      ...taxSaleResearch,
       mapMode: "historical",
     }, builtInMapThemes)).toBeUndefined();
   });
