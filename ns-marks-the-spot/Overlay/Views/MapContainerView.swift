@@ -23,6 +23,9 @@ struct MapContainerView: View {
     /// know about.
     @State private var editSession: VectorEditSession?
     @State private var vectorCallout: UserVectorCalloutItem?
+    /// The measurement in progress, or none. Not persisted anywhere: a measured
+    /// distance is a question about the map, asked and answered.
+    @State private var measure: MeasureSession?
     @State private var isLayersMenuExpanded = false
     @State private var mapHeading: Double = 0
     @State private var isSelectingSaveArea = false
@@ -227,6 +230,37 @@ struct MapContainerView: View {
                         }
                         .accessibilityLabel("Current Location")
                         .disabled(isSelectingSaveArea)
+
+                        // Two buttons rather than one with a mode, as on the
+                        // web: distance and area are different questions, and a
+                        // single toggle would make asking the second one a
+                        // two-step operation.
+                        ForEach(MeasureSession.Mode.allCases, id: \.self) { mode in
+                            Button {
+                                toggleMeasuring(mode)
+                            } label: {
+                                Image(systemName: Self.measureSymbol(mode))
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundStyle(measure?.mode == mode ? .white : .blue)
+                                    .frame(width: 44, height: 44)
+                                    .background(
+                                        measure?.mode == mode
+                                            ? Color.blue : Color.primary.opacity(0.001)
+                                    )
+                                    .background(.regularMaterial)
+                                    .clipShape(Circle())
+                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                            }
+                            .accessibilityLabel(
+                                mode == .distance ? "Measure Distance" : "Measure Area"
+                            )
+                            .accessibilityIdentifier("measure-\(mode.rawValue)")
+                            .accessibilityAddTraits(measure?.mode == mode ? .isSelected : [])
+                            // Editing owns the map's taps while it is open, so
+                            // offering to measure would offer something that
+                            // cannot happen.
+                            .disabled(isSelectingSaveArea || editSession != nil)
+                        }
 
                         Button {
                             cancelBoundsSelection()
@@ -441,6 +475,21 @@ struct MapContainerView: View {
             }
         }
         .overlay(alignment: .bottom) {
+            if let measure {
+                MeasurePanelView(
+                    session: measure,
+                    onUndo: { updateMeasure { $0.undoLastPoint() } },
+                    onFinish: { updateMeasure { $0.finish() } },
+                    onClear: { updateMeasure { $0.clear() } },
+                    onClose: { stopMeasuring() }
+                )
+                .frame(maxWidth: 420)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
+        .overlay(alignment: .bottom) {
             if let vectorCallout, editSession == nil {
                 UserVectorCalloutCard(
                     callout: vectorCallout.callout,
@@ -499,6 +548,15 @@ struct MapContainerView: View {
                         // on, not the ones they panned through.
                         featureVM.refreshAll()
                     case .mapTapped(let latitude, let longitude):
+                        // Measuring owns the tap, as the web's capture layer
+                        // does: a tap placing a corner must not also identify
+                        // the parcel under it and open a card over the shape.
+                        if measure != nil {
+                            updateMeasure {
+                                $0.add(GeoPoint(lat: latitude, lng: longitude))
+                            }
+                            break
+                        }
                         if let editSession, editSession.isEditing {
                             // While editing, a tap belongs to the layer being
                             // edited: identifying a parcel under the shape the user
@@ -651,7 +709,74 @@ struct MapContainerView: View {
         22 * 360 / (256 * pow(2, Double(controller.zoomLevel)))
     }
 
+    // MARK: - Measuring
+
+    private static func measureSymbol(_ mode: MeasureSession.Mode) -> String {
+        switch mode {
+        case .distance: return "ruler"
+        // The same symbol the drawing tools use for an area, so one shape means
+        // one thing across the app.
+        case .area: return "pentagon"
+        }
+    }
+
+    /// Turns a mode on, switches to it, or turns it back off — the web's
+    /// `toggle`. Switching modes starts a fresh shape rather than reinterpreting
+    /// the placed points, because three corners of an area are not a path the
+    /// user meant to walk.
+    private func toggleMeasuring(_ mode: MeasureSession.Mode) {
+        cancelBoundsSelection()
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+            if measure?.mode == mode {
+                stopMeasuring()
+                return
+            }
+            // The inspector card describes a parcel identified by a tap, and
+            // taps now mean measuring; leaving it up would leave a card the map
+            // has stopped answering to.
+            overlayVM.clearParcelSelection()
+            vectorCallout = nil
+            isLayersMenuExpanded = false
+            measure = MeasureSession(mode: mode)
+            pushMeasureShape()
+        }
+    }
+
+    private func stopMeasuring() {
+        measure = nil
+        controller.setVectorDraft(nil)
+    }
+
+    /// The single path by which a measurement changes: mutate it, then redraw.
+    private func updateMeasure(_ change: (inout MeasureSession) -> Void) {
+        guard var session = measure else { return }
+        change(&session)
+        measure = session
+        pushMeasureShape()
+    }
+
+    /// Draws the measured shape with the drawing tool's rubber band. Same
+    /// overlay, different colour — the web's `#d97706`, so a measurement is not
+    /// mistaken for one of the user's saved lines.
+    private func pushMeasureShape() {
+        guard let measure else {
+            controller.setVectorDraft(nil)
+            return
+        }
+        controller.setVectorDraft(
+            VectorDraftPreview(
+                shape: measure.mode == .distance ? .line : .area,
+                vertices: measure.points.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) },
+                colorHex: "#d97706"
+            )
+        )
+    }
+
     private func beginEditing(_ row: UserVectorsViewModel.Row) {
+        // Editing and measuring both claim the map's taps. Beginning an edit
+        // ends the measurement rather than leaving a live readout no tap will
+        // ever reach.
+        stopMeasuring()
         let session = VectorEditSession(viewModel: userVectorsVM)
         session.begin(row)
         editSession = session
