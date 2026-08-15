@@ -177,6 +177,9 @@ nonisolated struct MapViewState: Equatable, Sendable {
     var featureShapes: [FeatureShape] = []
     /// Point geometry from the same layers, drawn as fixed-size dots.
     var featureMarkers: [FeatureMarker] = []
+    /// The user's own scans, in panel order. Only the ones actually drawing:
+    /// a hidden row is absent rather than present at zero alpha.
+    var userMaps: [UserMapDrape] = []
     var showsUserLocation = false
     var interactionMode: MapInteractionMode = .idle
 }

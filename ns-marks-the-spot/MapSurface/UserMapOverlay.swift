@@ -2,6 +2,24 @@ import GeoCore
 import MapKit
 import UIKit
 
+/// One of the user's maps as the map state carries it: a value, so the diff
+/// can tell whether anything actually changed before rebuilding overlays.
+///
+/// `CGImage` is Sendable and immutable, so the pixels ride along without a
+/// copy. Compared by identity rather than by content — two decodes of the same
+/// file are the same picture and nothing here needs to know that, whereas
+/// comparing pixels on every diff would read a preview end to end whenever a
+/// slider moved.
+nonisolated struct UserMapDrape: Equatable, Sendable {
+    var record: UserMapRecord
+    var image: CGImage
+    var alpha: CGFloat
+
+    static func == (lhs: UserMapDrape, rhs: UserMapDrape) -> Bool {
+        lhs.record == rhs.record && lhs.image === rhs.image && lhs.alpha == rhs.alpha
+    }
+}
+
 /// A user's own scan, draped over the map through its georeferencing mesh.
 ///
 /// The mesh is fixed at construction rather than read from the record on every

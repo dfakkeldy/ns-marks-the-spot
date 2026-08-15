@@ -173,6 +173,18 @@ final class MapController: NSObject {
             )
             mapView.addAnnotations(markers.map(FeatureMarkerAnnotation.init(marker:)))
 
+        case .setUserMaps(let drapes):
+            // Replaced wholesale, like the feature shapes: a record's mesh is
+            // rebuilt by any edit to its placement, so "the same overlay with
+            // one thing changed" is not a state this has.
+            mapView.removeOverlays(mapView.overlays.compactMap { $0 as? UserMapOverlay })
+            for drape in drapes {
+                guard let overlay = UserMapOverlay(
+                    record: drape.record, image: drape.image, alpha: drape.alpha
+                ) else { continue }
+                mapView.installInDrawOrder(overlay)
+            }
+
         case .setParcelShapes(let shapes):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
             for polygon in shapes.flatMap({ ParcelPolygon.polygons(for: $0) }) {

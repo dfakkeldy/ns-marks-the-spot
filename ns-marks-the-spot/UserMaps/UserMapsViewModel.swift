@@ -122,15 +122,19 @@ final class UserMapsViewModel {
         rows.removeAll { !kept.contains($0.id) }
     }
 
-    /// The overlays MapKit should be holding, in panel order.
+    /// What the map should be drawing, in panel order.
     ///
-    /// A hidden row is left out entirely rather than installed at zero alpha.
-    /// A user's scan is already decoded and resident; an invisible overlay
-    /// would still be walked and clipped on every draw for no pixels at all.
-    var overlays: [UserMapOverlay] {
+    /// A hidden row is left out entirely rather than passed at zero alpha. A
+    /// user's scan is already decoded and resident; an invisible overlay would
+    /// still be walked and clipped on every draw for no pixels at all.
+    ///
+    /// Values, not overlays: the map state is diffed before anything is
+    /// rebuilt, and building an overlay here would mean solving a mesh on
+    /// every read of this property.
+    var drapes: [UserMapDrape] {
         rows.compactMap { row in
             guard row.isVisible, let preview = row.preview else { return nil }
-            return UserMapOverlay(record: row.record, image: preview, alpha: row.opacity)
+            return UserMapDrape(record: row.record, image: preview, alpha: row.opacity)
         }
     }
 }

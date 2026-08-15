@@ -18,6 +18,7 @@ nonisolated enum MapMutation: Equatable, Sendable {
     /// outlines are replaced wholesale: a pan reissues the query, and the answer
     /// is a new set of features rather than an edit to the old one.
     case setFeatureShapes([FeatureShape])
+    case setUserMaps([UserMapDrape])
     case setFeatureMarkers([FeatureMarker])
     case setShowsUserLocation(Bool)
     case beginBoundsSelection
@@ -37,6 +38,14 @@ nonisolated enum MapStateDiff {
 
         mutations.append(contentsOf: layerMutations(from: current.layers, to: desired.layers))
         mutations.append(contentsOf: annotationMutations(from: current.annotations, to: desired.annotations))
+
+        // The user's scans first: they sit in tile space, under every vector
+        // layer, and `installInDrawOrder` places them there whatever order
+        // these mutations arrive in — but rebuilding them after the parcels
+        // would still churn overlays the map is already holding.
+        if current.userMaps != desired.userMaps {
+            mutations.append(.setUserMaps(desired.userMaps))
+        }
 
         // Before the parcel outlines: install order is z-order, and every
         // viewport layer draws below the parcel a user selected, which stays
