@@ -79,7 +79,7 @@ public enum RasterProjection {
     ///
     /// `geotransform` is in GDAL's order:
     /// `[originX, xResolution, xRotation, originY, yRotation, yResolution]`.
-    public struct EmbeddedGeoreference: Equatable, Sendable {
+    public struct EmbeddedGeoreference: Hashable, Sendable {
         public var crs: String
         public var geotransform: [Double]
 
