@@ -861,8 +861,16 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => expect(exportButton).toBeEnabled());
     await userEvent.click(exportButton);
     expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
+      taxSaleEnabled: false,
       events: [],
     }));
+    const exportedNote = vi.mocked(buildEvidenceNote).mock.results.at(-1)?.value;
+    expect(exportedNote?.markdown).not.toContain("Mode: Current notices");
+    expect(exportedNote?.markdown).not.toContain("## Event");
+    expect(exportedNote?.markdown).not.toContain(
+      "Tax-sale notices and results are dated source records",
+    );
+    expect(exportedNote?.markdown).toContain("## PVSC assessment accounts");
 
     await userEvent.click(within(inspector).getByRole("button", {
       name: "Print / export",
@@ -870,9 +878,13 @@ describe("NS Marks The Spot Online", () => {
     const printDialog = await screen.findByRole("dialog", {
       name: "Print / export",
     });
-    expect(within(printDialog).getByText(
-      "No selected tax-sale event evidence was captured.",
-    )).toBeInTheDocument();
+    const appendix = within(printDialog).getByRole("region", {
+      name: "Evidence appendix",
+    });
+    expect(appendix).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(within(appendix).getByRole("heading", {
+      name: "Mapped parcel area",
+    })).toBeInTheDocument();
     expect(within(printDialog).getByText(/Map PID count: 0/))
       .toHaveTextContent("historical PID count: 0");
     anchorClick.mockRestore();

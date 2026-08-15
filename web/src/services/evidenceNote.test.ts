@@ -6,6 +6,7 @@ describe("parcel evidence note", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),
       pid: "15234636",
+      taxSaleEnabled: true,
       mode: "current",
       shareUrl: "https://example.com/map/?pid=15234636",
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
@@ -77,6 +78,8 @@ describe("parcel evidence note", () => {
       "ns-marks-evidence-15234636-2026-07-20T14-05-06Z.md",
     );
     expect(note.markdown).toContain("Generated: 2026-07-20T14:05:06.000Z");
+    expect(note.markdown).toContain("Mode: Current notices");
+    expect(note.markdown).toContain("## Event");
     expect(note.markdown).toContain("[Open this map state](https://example.com/map/?pid=15234636)");
     expect(note.markdown).toContain("[Official notice](https://example.com/notice)");
     expect(note.markdown).toContain("[Mineral occurrences source](https://example.com/minerals)");
@@ -102,10 +105,60 @@ describe("parcel evidence note", () => {
     expect(note.markdown).toContain("not a building census");
   });
 
+  it("omits retained tax-sale context from an ordinary parcel note", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: false,
+      mode: "historical",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [{
+        name: "NS Property Boundaries",
+        sourceUrl: "https://example.com/nsprd",
+        sourceDate: "Live service checked July 20, 2026",
+      }],
+      events: [{
+        name: "Retained Tax Sale Event",
+        sources: [{
+          label: "Official tax-sale notice",
+          sourceUrl: "https://example.com/retained-notice",
+        }],
+      }],
+      civicAddresses: [],
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [{
+        name: "Mineral occurrences",
+        sourceUrl: "https://example.com/minerals",
+        status: "ready",
+        results: [],
+      }],
+    });
+
+    expect(note.markdown).not.toContain("Mode: Historical records");
+    expect(note.markdown).not.toContain("## Event");
+    expect(note.markdown).not.toContain("Retained Tax Sale Event");
+    expect(note.markdown).not.toContain("Official tax-sale notice");
+    expect(note.markdown).not.toContain(
+      "Tax-sale notices and results are dated source records",
+    );
+    expect(note.markdown).toContain("[NS Property Boundaries](https://example.com/nsprd)");
+    expect(note.markdown).toContain("## PVSC assessment accounts");
+    expect(note.markdown).toContain(
+      "No PVSC assessment account point was returned inside the mapped parcel geometry.",
+    );
+    expect(note.markdown).toContain("## Geology and resource context");
+  });
+
   it("exports source-specific bounded empty wording", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),
       pid: "15234636",
+      taxSaleEnabled: true,
       mode: "current",
       shareUrl: "https://example.com/map/?pid=15234636",
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
@@ -141,6 +194,7 @@ describe("parcel evidence note", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),
       pid: "15234636",
+      taxSaleEnabled: true,
       mode: "historical",
       shareUrl: "https://example.com/map/?pid=15234636",
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
@@ -177,6 +231,7 @@ describe("parcel evidence note", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),
       pid: "15234636",
+      taxSaleEnabled: true,
       mode: "current",
       shareUrl: "https://example.com/map/?pid=15234636",
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
@@ -198,6 +253,7 @@ describe("parcel evidence note", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),
       pid: "15234636",
+      taxSaleEnabled: true,
       mode: "current",
       shareUrl: "https://example.com/map/?pid=15234636",
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },

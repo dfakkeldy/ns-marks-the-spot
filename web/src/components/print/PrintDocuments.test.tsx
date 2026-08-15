@@ -166,7 +166,7 @@ describe("print documents", () => {
         })}
         map={map}
         includeAerial={false}
-        includeAppendix={false}
+        includeAppendix
         scale={scale}
         shareUrl={shareUrl}
         qr={qr}
@@ -181,7 +181,14 @@ describe("print documents", () => {
     expect(container).not.toHaveTextContent("Historical map state");
     expect(container).not.toHaveTextContent(/tax[- ]sale/i);
     expect(container).not.toHaveTextContent("Listed in official notice");
-    expect(screen.getByText("PID 01234567")).toBeInTheDocument();
+    const appendix = screen.getByRole("region", { name: "Evidence appendix" });
+    expect(within(appendix).getByRole("heading", {
+      name: "Mapped parcel area",
+    })).toBeInTheDocument();
+    expect(within(appendix).getByRole("heading", {
+      name: "Assessment accounts",
+    })).toBeInTheDocument();
+    expect(within(appendix).getByText("PID 01234567")).toBeInTheDocument();
     expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     const legend = screen.getByLabelText("Active map layers");
     expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();

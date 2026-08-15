@@ -571,7 +571,7 @@ export function PrintEvidenceAppendix({
         survey, access, condition, value, permission, service, or feasibility
         conclusions.
       </p>
-      <SelectedEvents snapshot={snapshot} />
+      {snapshot.taxSaleEnabled ? <SelectedEvents snapshot={snapshot} /> : null}
       <MappedArea snapshot={snapshot} />
       <Buildings snapshot={snapshot} />
       <Assessments snapshot={snapshot} />

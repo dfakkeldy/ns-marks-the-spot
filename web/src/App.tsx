@@ -2848,6 +2848,7 @@ export function App() {
     const note = buildEvidenceNote({
       generatedAt: new Date(),
       pid: selectedPid,
+      taxSaleEnabled,
       mode: mapMode,
       shareUrl,
       position: mapViewport.position,
