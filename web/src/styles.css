@@ -476,6 +476,34 @@ a {
   background: #fff7f4;
 }
 
+.tax-sale-master {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 4px;
+  color: var(--chart-ink);
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tax-sale-master input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--survey-red);
+}
+
+.tax-sale-master input:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+#tax-sale-dependent-controls .map-mode-switcher {
+  margin-top: 8px;
+}
+
 .map-mode-switcher.historical {
   color: #49336f;
   background: #f5f0fc;

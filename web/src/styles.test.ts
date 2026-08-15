@@ -46,6 +46,22 @@ describe("desktop layer category disclosures", () => {
   });
 });
 
+describe("tax-sale category master", () => {
+  it("keeps the master touch-friendly with a visible keyboard focus", () => {
+    const masterDeclarations = styles.match(
+      /\.tax-sale-master\s*\{([^}]*)\}/,
+    )?.[1];
+    const focusDeclarations = styles.match(
+      /\.tax-sale-master input:focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(masterDeclarations).toMatch(/min-height:\s*44px/);
+    expect(focusDeclarations).toMatch(
+      /outline:\s*3px solid var\(--survey-blue\)/,
+    );
+  });
+});
+
 describe("parcel sheet typographic hierarchy", () => {
   it("left-aligns prose facts and reserves right-aligned mono for figures", () => {
     const ddDeclarations = styles.match(

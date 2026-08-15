@@ -1280,9 +1280,10 @@ export function App() {
     setHistoricalOutcome("all");
     setHistoricalParcelMessage(null);
   }, []);
-  // Theme commits and the master control consume this transition in Tasks 5
-  // and 8. Keep the complete transition local to App in the meantime.
-  void disableTaxSale;
+  const enableTaxSale = useCallback(() => {
+    setTaxSaleEnabled(true);
+    setSelectedEventIds(new Set(upcomingTaxSaleEvents.map(({ id }) => id)));
+  }, []);
   const [currentTime, setCurrentTime] = useState(Date.now);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const printCaptureSequence = useRef(0);
@@ -1482,7 +1483,7 @@ export function App() {
     const selectedFeatures = parcels.features.filter(
       ({ properties }) => properties.PID === selectedPid,
     );
-    const noticeAan = mapMode === "current"
+    const noticeAan = taxSaleEnabled && mapMode === "current"
       ? listingContextForPid(selectedPid)?.listing.aan
       : undefined;
     if (selectedFeatures.length === 0 && !noticeAan) {
@@ -1509,7 +1510,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, mapMode, parcels, selectedEvidenceRequest, selectedPid]);
+  }, [licenceAccepted, mapMode, parcels, selectedEvidenceRequest, selectedPid, taxSaleEnabled]);
 
   useEffect(() => {
     if (assessmentState.status !== "ready") {
@@ -1748,6 +1749,12 @@ export function App() {
     () => new Set(matchedHistoricalPids(filteredHistoricalRecords)),
     [filteredHistoricalRecords],
   );
+  const effectiveTaxSalePids = taxSaleEnabled
+    ? filteredTaxSalePids
+    : EMPTY_PID_SET;
+  const effectiveHistoricalTaxSalePids = taxSaleEnabled
+    ? filteredHistoricalPids
+    : EMPTY_PID_SET;
 
   const applyResolvedTheme = useCallback((resolved: ResolvedTheme) => {
     const visible = new Set(resolved.target.layerIds);
@@ -1796,6 +1803,13 @@ export function App() {
         ? new Set(upcomingTaxSaleEvents.map(({ id }) => id))
         : new Set(),
     );
+    if (!resolved.target.taxSaleEnabled) {
+      setTaxSaleFilter("all");
+      setHistoricalMunicipality("all");
+      setHistoricalYear("all");
+      setHistoricalOutcome("all");
+      setHistoricalParcelMessage(null);
+    }
     setThemeResult(resolved);
   }, []);
 
@@ -2432,14 +2446,16 @@ export function App() {
     [mapMode, selectedEventIds, selectedHistoricalContexts, taxSaleEnabled],
   );
   const printEvents = useMemo(
-    () => mapMode === "current"
+    () => !taxSaleEnabled
+      ? []
+      : mapMode === "current"
       ? taxSaleEvents
         .filter(({ id }) => selectedEventIds.has(id))
         .map((event) => printEventForCurrent(event, currentTime))
       : historicalTaxSaleEvents
         .filter(({ id }) => printEventIds.includes(id))
         .map(printEventForHistorical),
-    [currentTime, mapMode, printEventIds, selectedEventIds],
+    [currentTime, mapMode, printEventIds, selectedEventIds, taxSaleEnabled],
   );
   const captureLayerIds = useMemo<ShareLayerId[]>(() => [
     ...(showModernMap ? (["modern"] as const) : []),
@@ -2622,9 +2638,8 @@ export function App() {
       events: printEvents,
       selectedParcelGeometry,
       mapParcels: parcels,
-      taxSalePids: taxSaleEnabled ? Array.from(filteredTaxSalePids) : [],
-      historicalTaxSalePids:
-        taxSaleEnabled ? Array.from(filteredHistoricalPids) : [],
+      taxSalePids: Array.from(effectiveTaxSalePids),
+      historicalTaxSalePids: Array.from(effectiveHistoricalTaxSalePids),
       viewport: mapViewport,
       layerIds: captureLayerIds,
       wellLogAccuracyFilter,
@@ -3414,10 +3429,25 @@ export function App() {
 
                   {category.id === "tax-sale" ? (
                     <>
-                      <section
-                        className={`map-mode-switcher ${mapMode}`}
-                        aria-label="Map record mode"
-                      >
+                      <label className="tax-sale-master">
+                        <input
+                          type="checkbox"
+                          checked={taxSaleEnabled}
+                          aria-controls="tax-sale-dependent-controls"
+                          onChange={(event) => event.target.checked
+                            ? enableTaxSale()
+                            : disableTaxSale()}
+                        />
+                        <span>Show tax-sale information</span>
+                      </label>
+
+                      {taxSaleEnabled ? (
+                        <div id="tax-sale-dependent-controls">
+                          <section
+                            className={`map-mode-switcher ${mapMode}`}
+                            role="group"
+                            aria-label="Current notices or historical records"
+                          >
                         <div className="map-mode-buttons">
                           <button
                             type="button"
@@ -3441,9 +3471,9 @@ export function App() {
                             ? "CURRENT · advertised notices that still require municipal verification"
                             : "HISTORICAL · dated notices and verified outcomes, never current offerings"}
                         </p>
-                      </section>
+                          </section>
 
-                      {mapMode === "current" ? (
+                          {mapMode === "current" ? (
                         <>
                           <section
                             className="rail-section tax-sale-events"
@@ -3565,7 +3595,7 @@ export function App() {
                             ))}
                           </section>
                         </>
-                      ) : (
+                          ) : (
                         <section
                           className="rail-section historical-layer-controls"
                           role="region"
@@ -3652,7 +3682,9 @@ export function App() {
                             {historicalParcelMessage}
                           </p>
                         </section>
-                      )}
+                          )}
+                        </div>
+                      ) : null}
                     </>
                   ) : null}
 
@@ -3723,10 +3755,8 @@ export function App() {
           </div>
           <MapCanvas
             parcels={parcels}
-            taxSalePids={taxSaleEnabled ? filteredTaxSalePids : EMPTY_PID_SET}
-            historicalTaxSalePids={
-              taxSaleEnabled ? filteredHistoricalPids : EMPTY_PID_SET
-            }
+            taxSalePids={effectiveTaxSalePids}
+            historicalTaxSalePids={effectiveHistoricalTaxSalePids}
             selectedPid={selectedPid}
             provinceLayers={provinceLayers}
             resourceLayers={effectiveResourceLayers}

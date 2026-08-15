@@ -50,6 +50,7 @@ import type {
 } from "./userMaps/types";
 import { CUSTOM_THEME_STORAGE_KEY } from "./themes/themeStorage";
 import { layerCategories } from "./layers/layerCategories";
+import { builtInMapThemes } from "./themes/mapThemes";
 
 const parseGeoPdfAutoMock = vi.hoisted(() => vi.fn());
 const observedInteractiveMapStates = vi.hoisted((): string[] => []);
@@ -155,6 +156,7 @@ vi.mock("./components/MapCanvas", () => ({
     showModernMap,
     showTaxSale,
     showHistoricalTaxSales,
+    selectedPid,
     initialPosition,
     preserveInitialPosition,
     onIdentifyParcel,
@@ -185,6 +187,7 @@ vi.mock("./components/MapCanvas", () => ({
     showModernMap: boolean;
     showTaxSale: boolean;
     showHistoricalTaxSales: boolean;
+    selectedPid?: string | null;
     initialPosition?: { latitude: number; longitude: number; zoom: number };
     preserveInitialPosition?: boolean;
     onIdentifyParcel: (latitude: number, longitude: number) => void;
@@ -312,6 +315,7 @@ vi.mock("./components/MapCanvas", () => ({
         ? `${georeference.focus.lat},${georeference.focus.lng}`
         : "none"}
       ; export frame: {exportFrame ? "framing" : "none"}
+      ; selected PID: {selectedPid ?? "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -714,6 +718,195 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("removes every tax-sale surface without refetching or clearing the selected parcel", async () => {
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined);
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=on&mode=current&pid=50203256&event=middleton-2026-08-20&layers=nsprd",
+    );
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+    render(<App />);
+    const taxSale = openLayerCategory("Tax Sale");
+
+    expect(await within(taxSale).findByRole("region", {
+      name: "Current tax-sale notices",
+    })).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+        "selected PID: 50203256",
+      );
+    });
+    vi.mocked(fetchParcels).mockClear();
+
+    await userEvent.click(
+      within(taxSale).getByLabelText("Show tax-sale information"),
+    );
+
+    expect(fetchParcels).not.toHaveBeenCalled();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "tax-sale layer: off",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "historical layer: off",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Map PID count: 0",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "historical PID count: 0",
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "selected PID: 50203256",
+    );
+    const inspector = screen.getByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+    expect(inspector).toBeInTheDocument();
+    expect(within(taxSale).queryByRole("group", {
+      name: /current notices or historical records/i,
+    })).not.toBeInTheDocument();
+    expect(within(taxSale).queryByRole("region", {
+      name: "Current tax-sale notices",
+    })).not.toBeInTheDocument();
+    expect(within(taxSale).queryByLabelText("Redemption category"))
+      .not.toBeInTheDocument();
+    expect(new URL(window.location.href).searchParams.get("event")).toBeNull();
+
+    const exportButton = within(inspector).getByRole("button", {
+      name: "Export evidence note",
+    });
+    await waitFor(() => expect(exportButton).toBeEnabled());
+    await userEvent.click(exportButton);
+    expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
+      events: [],
+    }));
+
+    await userEvent.click(within(inspector).getByRole("button", {
+      name: "Print / export",
+    }));
+    const printDialog = await screen.findByRole("dialog", {
+      name: "Print / export",
+    });
+    expect(within(printDialog).getByText(
+      "No selected tax-sale event evidence was captured.",
+    )).toBeInTheDocument();
+    expect(within(printDialog).getByText(/Map PID count: 0/))
+      .toHaveTextContent("historical PID count: 0");
+    anchorClick.mockRestore();
+  });
+
+  it("uses ordinary parcel evidence rather than a notice AAN while Tax Sale is off", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=off&mode=current&pid=50203256&layers=nsprd",
+    );
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [parcelFeature("50203256")],
+    });
+
+    render(<App />);
+
+    await screen.findByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+    await waitFor(() => expect(fetchParcelAssessments).toHaveBeenCalled());
+    expect(fetchParcelAssessments).toHaveBeenLastCalledWith(
+      expect.any(Array),
+      undefined,
+      expect.any(AbortSignal),
+    );
+  });
+
+  it("enables all currently loaded notices from the category master", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+    const taxSale = openLayerCategory("Tax Sale");
+
+    await userEvent.click(
+      within(taxSale).getByLabelText("Show tax-sale information"),
+    );
+
+    const eventIds = new URL(window.location.href).searchParams
+      .get("event")
+      ?.split(",");
+    expect(eventIds).toEqual([
+      "inverness-county-2026-08-11",
+      "middleton-2026-08-20",
+      "annapolis-county-2026-08-31",
+    ]);
+    expect(JSON.stringify(builtInMapThemes)).not.toContain(
+      "middleton-2026-08-20",
+    );
+  });
+
+  it("applies the Tax Sale Research theme with all current notices after acceptance", async () => {
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "tax-sale-research",
+    );
+    await userEvent.click(screen.getByRole("button", { name: /accept/i }));
+
+    const taxSale = screen.getByRole("region", { name: /Tax Sale/i });
+    expect(within(taxSale).getByLabelText("Show tax-sale information"))
+      .toBeChecked();
+    const modeGroup = within(taxSale).getByRole("group", {
+      name: "Current notices or historical records",
+    });
+    expect(modeGroup).toBeInTheDocument();
+    expect(screen.getAllByRole("group", {
+      name: "Current notices or historical records",
+    })).toHaveLength(1);
+    expect(new URL(window.location.href).searchParams.get("event"))
+      .toContain("middleton-2026-08-20");
+  });
+
+  it("clears current and historical tax-sale filters when an off theme is applied", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    renderAppWithCategoriesOpen();
+
+    await userEvent.click(screen.getByRole("button", {
+      name: /Immediate \/ none/,
+    }));
+    await userEvent.click(screen.getByRole("button", {
+      name: "Historical records",
+    }));
+    await userEvent.selectOptions(
+      screen.getByLabelText("Historical municipality"),
+      "cbrm",
+    );
+
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "explore-nova-scotia",
+    );
+    const taxSale = openLayerCategory("Tax Sale");
+    await userEvent.click(
+      within(taxSale).getByLabelText("Show tax-sale information"),
+    );
+
+    expect(within(taxSale).getByRole("button", { name: /^All / }))
+      .toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(within(taxSale).getByRole("button", {
+      name: "Historical records",
+    }));
+    expect(within(taxSale).getByLabelText("Historical municipality"))
+      .toHaveValue("all");
+  });
+
   it("does not expose controls from a collapsed category", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?layers=modern");
@@ -772,14 +965,16 @@ describe("NS Marks The Spot Online", () => {
 
     const taxSale = screen.getByRole("region", { name: /Tax Sale/i });
 
-    expect(within(taxSale).getByRole("heading", {
+    expect(within(taxSale).getByLabelText("Show tax-sale information"))
+      .not.toBeChecked();
+    expect(within(taxSale).queryByRole("heading", {
       name: "Tax-sale notices",
       level: 4,
-    })).toBeInTheDocument();
-    expect(within(taxSale).getByRole("heading", {
+    })).not.toBeInTheDocument();
+    expect(within(taxSale).queryByRole("heading", {
       name: "Redemption category",
       level: 4,
-    })).toBeInTheDocument();
+    })).not.toBeInTheDocument();
   });
 
   it("updates a collapsed category summary from Off to 1 on without modifying the theme", async () => {
