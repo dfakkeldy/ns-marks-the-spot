@@ -28,6 +28,22 @@ describe("custom map-theme controls", () => {
   });
 });
 
+describe("desktop layer category disclosures", () => {
+  it("keeps category headings scannable and keyboard focus visible", () => {
+    const buttonDeclarations = styles.match(
+      /\.layer-category-heading\s*\{([^}]*)\}/,
+    )?.[1];
+    const focusDeclarations = styles.match(
+      /\.layer-category-heading:focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(buttonDeclarations).toMatch(/min-height:\s*56px/);
+    expect(buttonDeclarations).toMatch(/width:\s*100%/);
+    expect(focusDeclarations).toMatch(/outline:\s*3px solid/);
+    expect(focusDeclarations).not.toMatch(/outline:\s*(?:0|none)/);
+  });
+});
+
 describe("parcel sheet typographic hierarchy", () => {
   it("left-aligns prose facts and reserves right-aligned mono for figures", () => {
     const ddDeclarations = styles.match(

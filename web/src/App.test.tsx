@@ -1,4 +1,12 @@
-import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  configure,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -31,12 +39,19 @@ import type {
   UserMapRecord,
 } from "./userMaps/types";
 import { CUSTOM_THEME_STORAGE_KEY } from "./themes/themeStorage";
+import { layerCategories } from "./layers/layerCategories";
 
 const parseGeoPdfAutoMock = vi.hoisted(() => vi.fn());
 const observedInteractiveMapStates = vi.hoisted((): string[] => []);
 const lastObservedInteractiveMapState = vi.hoisted(() => ({
   value: null as string | null,
 }));
+
+// Most tests in this established App suite exercise renderer/service state,
+// not category navigation. Keep those assertions able to address controls in
+// collapsed panels; the category-specific tests below opt back into the
+// visible accessibility tree and exercise the real disclosure buttons.
+configure({ defaultHidden: true });
 
 vi.mock("./userMaps/parsers/parseGeoPdfAuto", () => ({
   parseGeoPdfAuto: parseGeoPdfAutoMock,
@@ -495,6 +510,15 @@ function mapSetupStatus(): HTMLElement {
   return within(picker as HTMLElement).getByRole("status");
 }
 
+function openLayerCategory(name: string): HTMLElement {
+  const matcher = new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`);
+  const disclosure = screen.getByRole("button", { name: matcher });
+  if (disclosure.getAttribute("aria-expanded") === "false") {
+    fireEvent.click(disclosure);
+  }
+  return screen.getByRole("region", { name: matcher, hidden: false });
+}
+
 const STORED_FIELD_THEME = {
   id: "custom-field-day",
   name: "Field day",
@@ -608,6 +632,106 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "tax-sale layer: off",
     );
+  });
+
+  it("renders each catalogue control in exactly one labelled category region", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?layers=modern");
+    render(<App />);
+
+    for (const category of layerCategories) {
+      const disclosure = screen.getByRole("button", {
+        name: new RegExp(`^${category.name}`),
+      });
+      if (disclosure.getAttribute("aria-expanded") === "false") {
+        await userEvent.click(disclosure);
+      }
+    }
+
+    const land = screen.getByRole("region", { name: /Land & Property/i });
+    const roads = screen.getByRole("region", { name: /Roads & Places/i });
+    const forestry = screen.getByRole("region", { name: /Forestry & Ecology/i });
+    const historical = screen.getByRole("region", { name: /Historical Maps/i });
+    const taxSale = screen.getByRole("region", { name: /Tax Sale/i });
+
+    expect(within(land).getByLabelText("NS Property Boundaries"))
+      .toBeInTheDocument();
+    expect(within(roads).queryByLabelText("NS Property Boundaries"))
+      .not.toBeInTheDocument();
+    expect(screen.getAllByLabelText("NS Property Boundaries")).toHaveLength(1);
+
+    expect(within(roads).getByLabelText("Roads, trails & culverts"))
+      .toBeInTheDocument();
+    expect(within(land).queryByLabelText("Roads, trails & culverts"))
+      .not.toBeInTheDocument();
+    expect(screen.getAllByLabelText("Roads, trails & culverts")).toHaveLength(1);
+
+    expect(within(forestry).getByLabelText("Old-growth policy areas"))
+      .toBeInTheDocument();
+    expect(within(historical).queryByLabelText("Old-growth policy areas"))
+      .not.toBeInTheDocument();
+    expect(screen.getAllByLabelText("Old-growth policy areas")).toHaveLength(1);
+
+    expect(within(historical).getByLabelText("Fletcher historical map"))
+      .toBeInTheDocument();
+    expect(within(historical).getByText("Church — Inverness County"))
+      .toBeInTheDocument();
+    expect(screen.getAllByLabelText("Fletcher historical map")).toHaveLength(1);
+    expect(screen.getAllByText("Church — Inverness County")).toHaveLength(1);
+
+    expect(within(taxSale).getByRole("heading", {
+      name: "Tax-sale notices",
+      level: 4,
+    })).toBeInTheDocument();
+    expect(within(taxSale).getByRole("heading", {
+      name: "Redemption category",
+      level: 4,
+    })).toBeInTheDocument();
+  });
+
+  it("updates a collapsed category summary from Off to 1 on without modifying the theme", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?layers=modern");
+    render(<App />);
+
+    const disclosure = screen.getByRole("button", {
+      name: /Land & Property.*Off/i,
+    });
+    await userEvent.click(disclosure);
+    expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+
+    const land = screen.getByRole("region", { name: /Land & Property/i });
+    await userEvent.click(within(land).getByLabelText("NS Property Boundaries"));
+
+    expect(disclosure).toHaveAccessibleName(/Land & Property.*1 on/i);
+    await userEvent.click(disclosure);
+    expect(screen.queryByRole("region", {
+      name: /Land & Property/i,
+      hidden: false,
+    }))
+      .not.toBeInTheDocument();
+    expect(disclosure).toHaveAccessibleName(/Land & Property.*1 on/i);
+  });
+
+  it("counts a shared restricted layer only after Province licence acceptance", async () => {
+    window.history.replaceState(null, "", "/?layers=nsprd");
+    render(<App />);
+
+    const disclosure = screen.getByRole("button", {
+      name: /Land & Property.*Off.*Province licence required/i,
+    });
+    expect(disclosure).not.toHaveAccessibleName(/1 on/i);
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeDisabled();
+    expect(screen.getByLabelText("NS Property Boundaries")).not.toBeChecked();
+
+    await userEvent.click(screen.getByRole("button", {
+      name: "Accept and view map layers",
+    }));
+
+    expect(disclosure).toHaveAccessibleName(/Land & Property.*1 on/i);
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeEnabled();
+    expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
   });
 
   it("does not prompt for the Province licence on an ordinary first visit", () => {
@@ -1361,18 +1485,18 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    await user.click(screen.getByText("Environmental health screens"));
+    const environment = openLayerCategory("Environment & Hazards");
 
     expect(
-      screen.getByText(/Testing your well is the only way to find out/i),
+      within(environment).getByText(/Testing your well is the only way to find out/i),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
+      within(environment).getByText(
         /relative risk zones mapped by bedrock unit, not test\s+results for any property/i,
       ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/says nothing about water quality at any property/i),
+      within(environment).getByText(/says nothing about water quality at any property/i),
     ).toBeInTheDocument();
 
     const arsenic = screen.getByLabelText("Arsenic risk — bedrock wells");
@@ -1392,6 +1516,8 @@ describe("NS Marks The Spot Online", () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
+
+    openLayerCategory("Land & Property");
 
     const propertyRow = screen.getByLabelText("NS Property Boundaries").closest("label");
     expect(propertyRow).not.toBeNull();
@@ -1551,7 +1677,7 @@ describe("NS Marks The Spot Online", () => {
     expect(within(inspector).queryByText(/assessed owner/i)).not.toBeInTheDocument();
   });
 
-  it("uses the parcel-first map defaults and keeps Fletcher last", () => {
+  it("uses the parcel-first map defaults and keeps Fletcher last in Historical Maps", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
     render(<App />);
@@ -1565,7 +1691,7 @@ describe("NS Marks The Spot Online", () => {
       "modern map: on; tax-sale layer: on; Fletcher: off at 72% from no host; property boundaries: on; water: on; roads: on",
     );
 
-    const layerSection = screen.getByRole("region", { name: "Map layers" });
+    const layerSection = openLayerCategory("Historical Maps");
     const layerNames = Array.from(
       layerSection.querySelectorAll(".layer-row strong"),
       (element) => element.textContent,
@@ -1578,7 +1704,7 @@ describe("NS Marks The Spot Online", () => {
 
     render(<App />);
 
-    const layerSection = screen.getByRole("region", { name: "Map layers" });
+    const layerSection = openLayerCategory("Historical Maps");
     const layerNames = Array.from(
       layerSection.querySelectorAll(".layer-row strong"),
       (element) => element.textContent,
@@ -1589,7 +1715,7 @@ describe("NS Marks The Spot Online", () => {
     expect(layerNames).toContain("Church — Richmond County");
     expect(layerNames).toContain("Church — Cape Breton County");
 
-    // Fletcher stays the final row in the rail and fails closed without a host.
+    // Fletcher stays the final row in Historical Maps and fails closed without a host.
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
     expect(screen.getByLabelText("Fletcher historical map")).toBeDisabled();
     expect(screen.getByText("Tile hosting not configured")).toBeInTheDocument();
@@ -1672,7 +1798,7 @@ describe("NS Marks The Spot Online", () => {
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
-    await user.click(screen.getByText("Municipal zoning"));
+    openLayerCategory("Land & Property");
     await user.click(screen.getByLabelText("Inverness County zoning"));
 
     await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
@@ -1702,7 +1828,7 @@ describe("NS Marks The Spot Online", () => {
     await user.click(
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
-    await user.click(screen.getByText("Municipal zoning"));
+    openLayerCategory("Land & Property");
     await user.click(screen.getByLabelText("Inverness County zoning"));
 
     await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
@@ -1831,9 +1957,10 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
 
-    const groupSummary = screen.getByText("Geology & Resources");
-    const group = groupSummary.closest("details");
-    expect(group).not.toHaveAttribute("open");
+    const groupSummary = screen.getByRole("button", {
+      name: /^Geology & Resources/,
+    });
+    expect(groupSummary).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByLabelText("Mineral occurrences")).not.toBeChecked();
     expect(screen.getByLabelText("Mineral tenure")).not.toBeChecked();
     expect(screen.getByLabelText("Abandoned mine openings")).not.toBeChecked();
@@ -1843,13 +1970,11 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(proximityToggle).not.toBeChecked();
     expect(proximityToggle).toBeDisabled();
-    expect(screen.getByText("4 optional screening layers")).toBeInTheDocument();
-
-    await user.click(groupSummary);
+    const group = openLayerCategory("Geology & Resources");
     await user.click(screen.getByLabelText("Mineral occurrences"));
     await user.click(screen.getByLabelText("Mineral tenure"));
 
-    expect(group).toHaveAttribute("open");
+    expect(groupSummary).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "mineral occurrences: on; mineral tenure: on; abandoned mines: off; mineral proximity parcels: off",
     );
@@ -1884,16 +2009,14 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     render(<App />);
 
-    const summary = screen.getByText("Topography");
-    const group = summary.closest("details");
-    expect(group).not.toHaveAttribute("open");
-    expect(screen.getByText("1 optional terrain layer")).toBeInTheDocument();
+    const summary = screen.getByRole("button", { name: /^Water & Terrain/ });
+    expect(summary).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByLabelText("Contours")).not.toBeChecked();
 
-    await user.click(summary);
+    const group = openLayerCategory("Water & Terrain");
     await user.click(screen.getByLabelText("Contours"));
 
-    expect(group).toHaveAttribute("open");
+    expect(summary).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("contours: on");
     expect(
       within(group as HTMLElement).getByText(/terrain screening only/i),
@@ -1913,19 +2036,17 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
 
-    const summary = screen.getByText("Forestry");
-    const group = summary.closest("details");
+    const summary = screen.getByRole("button", { name: /^Forestry & Ecology/ });
     const toggle = screen.getByLabelText("Old-growth policy areas");
 
-    expect(group).not.toHaveAttribute("open");
+    expect(summary).toHaveAttribute("aria-expanded", "false");
     expect(toggle).not.toBeChecked();
     expect(toggle).toBeEnabled();
-    expect(screen.getByText("1 optional policy layer")).toBeInTheDocument();
 
-    await user.click(summary);
+    const group = openLayerCategory("Forestry & Ecology");
     await user.click(toggle);
 
-    expect(group).toHaveAttribute("open");
+    expect(summary).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "old-growth policy areas: on",
     );
@@ -1962,14 +2083,15 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
 
-    const summary = screen.getByText("Micro-hydro pilot");
-    const group = summary.closest("details");
-    expect(group).not.toHaveAttribute("open");
+    const summary = screen.getByRole("button", { name: /^Water & Terrain/ });
+    expect(summary).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByLabelText("Inverness micro-hydro screen")).not.toBeChecked();
     expect(screen.getByLabelText("Inverness micro-hydro screen")).toBeEnabled();
 
-    await user.click(summary);
+    const group = openLayerCategory("Water & Terrain");
     await user.click(screen.getByLabelText("Inverness micro-hydro screen"));
+
+    expect(summary).toHaveAttribute("aria-expanded", "true");
 
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "Inverness micro-hydro screen: on",

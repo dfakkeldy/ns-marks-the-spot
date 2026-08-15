@@ -18,6 +18,7 @@ import {
   type MapThemeStatus,
 } from "./components/MapThemePicker";
 import { ThemeManagerDialog } from "./components/ThemeManagerDialog";
+import { LayerCategorySection } from "./components/LayerCategorySection";
 import {
   EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
@@ -84,7 +85,6 @@ import {
   wellLogLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
-  topographyLayerCatalog,
   zoningLayerCatalog,
   type HydroPilotLayerId,
   type EnvironmentalHealthLayerId,
@@ -95,6 +95,11 @@ import {
   type ZoningLayerId,
   type WellLogLayerId,
 } from "./layers/layerCatalog";
+import {
+  layerCategories,
+  layerCategoryByLayerId,
+  type LayerCategoryId,
+} from "./layers/layerCategories";
 import {
   fletcherSourceReceiptUrl,
   normalizeFletcherTileBaseUrl,
@@ -152,7 +157,6 @@ import {
   type ResolvedTheme,
   type ThemeComparableState,
 } from "./themes/themeState";
-import type { LayerCategoryId } from "./layers/layerCategories";
 import {
   fetchParcelResourceIntersections,
   type ParcelResourceIntersections,
@@ -1019,6 +1023,20 @@ export function App() {
         ? initialThemeMatch?.preferredCategoryIds ?? []
         : ["background-maps"],
     ),
+  );
+  const setCategoryExpanded = useCallback(
+    (categoryId: LayerCategoryId, expanded: boolean) => {
+      setExpandedCategoryIds((current) => {
+        const next = new Set(current);
+        if (expanded) {
+          next.add(categoryId);
+        } else {
+          next.delete(categoryId);
+        }
+        return next;
+      });
+    },
+    [],
   );
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
@@ -2239,6 +2257,43 @@ export function App() {
     zoningLayers,
     wellLogLayers,
   ]);
+  const categorySummary = (categoryId: LayerCategoryId): string => {
+    if (categoryId === "my-maps") {
+      const count = userMapsApi.records.length + userVectorApi.records.length;
+      return count === 0 ? "Add" : `${count} added`;
+    }
+
+    if (categoryId === "tax-sale") {
+      const summary = taxSaleEnabled ? "On" : "Off";
+      return licenceAccepted ? summary : `${summary} · Province licence required`;
+    }
+
+    const activeCount = activeLayerIds.filter(
+      (layerId) =>
+        layerCategoryByLayerId[layerId] === categoryId &&
+        (licenceAccepted || !restrictedThemeLayerIds.has(layerId)),
+    ).length;
+    const summary = activeCount === 0 ? "Off" : `${activeCount} on`;
+    const notices: string[] = [];
+
+    if (categoryId === "historical-maps") {
+      if (!fletcherTileConfiguration.baseUrl) {
+        notices.push("Fletcher unavailable");
+      }
+      notices.push(`${churchLayerCatalog.length} Church maps unavailable`);
+    }
+
+    if (
+      !licenceAccepted &&
+      Array.from(restrictedThemeLayerIds).some(
+        (layerId) => layerCategoryByLayerId[layerId] === categoryId,
+      )
+    ) {
+      notices.push("Province licence required");
+    }
+
+    return [summary, ...notices].join(" · ");
+  };
   const themeComparableState = useMemo<ThemeComparableState>(() => ({
     layerIds: activeLayerIds,
     opacityOverrides: fletcherOpacity === fletcherLayerCatalog.opacity
@@ -2943,666 +2998,690 @@ export function App() {
             }}
           />
 
-          <section className={`map-mode-switcher ${mapMode}`} aria-label="Map record mode">
-            <div className="map-mode-buttons">
-              <button
-                type="button"
-                className={mapMode === "current" ? "selected" : ""}
-                aria-pressed={mapMode === "current"}
-                onClick={() => changeMapMode("current")}
-              >
-                Current notices
-              </button>
-              <button
-                type="button"
-                className={mapMode === "historical" ? "selected" : ""}
-                aria-pressed={mapMode === "historical"}
-                onClick={() => changeMapMode("historical")}
-              >
-                Historical records
-              </button>
-            </div>
-            <p>
-              {mapMode === "current"
-                ? "CURRENT · advertised notices that still require municipal verification"
-                : "HISTORICAL · dated notices and verified outcomes, never current offerings"}
-            </p>
-          </section>
-
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
-            <label className="layer-row">
-              <input
-                type="checkbox"
-                aria-label="Modern map"
-                checked={showModernMap}
-                onChange={(event) => setShowModernMap(event.target.checked)}
-              />
-              <span className="switch" aria-hidden="true" />
-              <span>
-                <strong>Modern map</strong>
-                <small>OpenStreetMap</small>
-                <LayerMetadata
-                  sourceDate="Live tiles · checked July 20, 2026"
-                  scale="Web map · native detail to zoom 19"
-                  coverage="Worldwide"
-                  minZoom={7}
-                  maxZoom={23}
-                  checked={showModernMap}
-                  status={layerStatuses.modern}
-                />
-              </span>
-            </label>
-            <UserMapRows
-              api={userMapsApi}
-              onImportFiles={(files) => void handleImportFiles(files)}
-              outcomes={mergedImportOutcomes}
-              importing={userMapsApi.importing || userVectorApi.importing}
-              importingLabel={
-                userMapsApi.importingLabel ?? userVectorApi.importingLabel
-              }
-            />
-            <UserVectorRows
-              api={userVectorApi}
-              onEdit={(id) =>
-                vectorEdit.editingId === id ? endVectorEdit() : beginVectorEdit(id)
-              }
-              onNewLayer={() => void createAndEditVectorLayer()}
-              editingId={vectorEdit.editingId}
-            />
-            {provinceLayerCatalog
-              .filter(({ id }) => id !== "contours")
-              .map((layer) => (
-                <div className="layer-control" key={layer.id}>
-                  <LayerToggle
-                    layer={layer}
-                    checked={provinceLayers[layer.id]}
-                    licenceAccepted={licenceAccepted}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setProvinceLayerVisibility(layer.id, checked)
-                    }
-                    onReviewLicence={reviewProvinceLicence}
-                  />
-                  {layer.id === "roads" && provinceLayers.roads ? (
-                    <RoadLegend />
-                  ) : null}
-                </div>
-              ))}
-            <details className="resource-layer-group topography-layer-group">
-              <summary>
-                <span>Topography</span>
-                <small>1 optional terrain layer</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {topographyLayerCatalog.map((layer) => (
-                  <LayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={provinceLayers[layer.id]}
-                    licenceAccepted={licenceAccepted}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setProvinceLayerVisibility(layer.id, checked)
-                    }
-                    onReviewLicence={reviewProvinceLicence}
-                  />
-                ))}
-                <p className="resource-source-note">
-                  Contours show mapped elevation shape and depressions. They do
-                  not establish surveyed grade, drainage, stability, access,
-                  flood exposure, or buildability. {" "}
-                  <a
-                    href="https://data.novascotia.ca/d/j63u-5nkj"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Official Landforms source
-                  </a>
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group forestry-layer-group">
-              <summary>
-                <span>Forestry</span>
-                <small>1 optional policy layer</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {forestryLayerCatalog.map((layer) => (
-                  <ForestryLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={forestryLayers[layer.id]}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setForestryLayerVisibility(layer.id, checked)
-                    }
-                  />
-                ))}
-                <p className="resource-source-note">
-                  The Province says the locations of all old-growth forest are
-                  not known. This layer maps policy areas on publicly owned land
-                  outside protected areas; a viewport with no mapped policy
-                  polygon is not evidence that no old growth exists. Policy
-                  protections apply to Crown-land management. {" "}
-                  <a
-                    aria-label="Official old-growth policy source"
-                    href={forestryLayerCatalog[0].sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Official source
-                  </a>
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group flood-hazard-layer-group">
-              <summary>
-                <span>Flood hazard context</span>
-                <small>4 optional published screens</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {floodHazardLayerCatalog.map((layer) => (
-                  <FloodHazardLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={floodHazardLayers[layer.id]}
-                    licenceAccepted={licenceAccepted}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) => setFloodHazardLayerVisibility(layer.id, checked)}
-                    onReviewLicence={reviewProvinceLicence}
-                  />
-                ))}
-                <p className="resource-source-note">
-                  Annual-exceedance percentages describe mapped events, not a whole-PID score.
-                  Future coastal years are scenarios. Each layer is independently controlled.
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group environmental-health-layer-group">
-              <summary>
-                <span>Environmental health screens</span>
-                <small>4 optional well-water &amp; aquifer screens</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {environmentalHealthLayerCatalog.map((layer) => (
-                  <EnvironmentalHealthLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={environmentalHealthLayers[layer.id]}
-                    licenceAccepted={licenceAccepted}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setEnvironmentalHealthLayerVisibility(layer.id, checked)
-                    }
-                    onReviewLicence={reviewProvinceLicence}
-                  />
-                ))}
-                <p className="resource-source-note">
-                  These are relative risk zones mapped by bedrock unit, not test
-                  results for any property. A parcel takes the band of the rock
-                  beneath it, and wells in any band can exceed a guideline.
-                  Testing your well water is the only way to know what is in it.
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group zoning-layer-group">
-              <summary>
-                <span>Municipal zoning</span>
-                <small>5 optional unofficial layers</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {zoningLayerCatalog.map((layer) => (
-                  <ZoningLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={zoningLayers[layer.id]}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setZoningLayerVisibility(layer.id, checked)
-                    }
-                  />
-                ))}
-                <p className="resource-source-note">
-                  These are unofficial renderings of municipal map services, not
-                  the municipalities&rsquo; official copies, and are not to be
-                  used for legal purposes. Always confirm a zone and its rules
-                  against the linked land use by-law and with the municipality.
-                </p>
-                <p className="resource-source-note">
-                  Nova Scotia publishes no provincial zoning layer, and most
-                  municipalities publish no zoning GIS at all. An area with no
-                  polygon is an area this map has no data for &mdash; it is not
-                  evidence that no zoning applies. Towns inside a county are
-                  separate zoning jurisdictions, so a county layer does not
-                  cover town parcels.
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group well-log-group">
-              <summary>
-                <span>Groundwater</span>
-                <small>1 optional well-log overlay</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {wellLogLayerCatalog.map((layer) => (
-                  <WellLogLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={wellLogLayers[layer.id]}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setWellLogLayerVisibility(layer.id, checked)
-                    }
-                  />
-                ))}
-                {wellLogLayers["ns-well-logs"] ? (
-                  <>
-                    <WellLogAccuracyFilterControl
-                      value={wellLogAccuracyFilter}
-                      onChange={setWellLogAccuracyFilter}
-                    />
-                    <WellLogAccuracyLegend />
-                  </>
-                ) : null}
-                <p className="resource-source-note well-log-note">
-                  The Province records an estimated location accuracy for every
-                  well. Only records accurate to ±50 m — mostly wells drilled
-                  after 2004, positioned with a driller's GPS — are drawn as
-                  solid points. Older records were placed from map books, NTS
-                  sheets, or community centroids and can be off by 800 m to 8 km;
-                  they stay hidden until you ask for them, and then draw hollow
-                  to show a well was reported nearby rather than where it sits.
-                  Depths and yields are the driller's report, not a survey or a
-                  guarantee of water. {" "}
-                  <a
-                    href={wellLogLayerCatalog[0].sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    DP ME 430 source
-                  </a>
-                  {" · "}
-                  <a
-                    href={wellLogLayerCatalog[0].manualUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Accuracy definitions
-                  </a>
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group hydro-pilot-group">
-              <summary>
-                <span>Micro-hydro pilot</span>
-                <small>1 optional Inverness screen</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {hydroPilotLayerCatalog.map((layer) => (
-                  <HydroPilotLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={hydroPilotLayers[layer.id]}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setHydroPilotLayerVisibility(layer.id, checked)
-                    }
-                  />
-                ))}
-                {hydroPilotLayers["inverness-hydro-potential"] ? (
-                  <HydroPotentialLegend />
-                ) : null}
-                <p className="resource-source-note hydro-pilot-note">
-                  Width uses routed official tertiary/sub-tertiary catchment area;
-                  colour uses a fixed 8 L/s/km² regional flow scenario, mapped gross
-                  drop, route distance, and 60% nominal efficiency. Values step at
-                  catchment outlets and are not exact at every point. The kW scale is
-                  for screening—not measured flow, net head, or predicted output. {" "}
-                  <a
-                    href={hydroPilotLayerCatalog[0].sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Watershed source
-                  </a>{" "}
-                  · {" "}
-                  <a
-                    href={hydroPilotLayerCatalog[0].serviceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    NSHN source
-                  </a>
-                  {" · "}
-                  <a
-                    href="https://wateroffice.ec.gc.ca/services/index_e.html"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Flow calibration source
-                  </a>
-                  {" · "}
-                  <a
-                    href="https://natural-resources.canada.ca/maps-tools-publications/publications/micro-hydro-systems-buyer-s-guide"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Micro-hydro method
-                  </a>
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group">
-              <summary>
-                <span>Geology &amp; Resources</span>
-                <small>4 optional screening layers</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {allResourceLayerCatalog.map((layer) => (
-                  <ResourceLayerToggle
-                    key={layer.id}
-                    layer={layer}
-                    checked={resourceLayers[layer.id]}
-                    licenceAccepted={licenceAccepted}
-                    status={layerStatuses[layer.id]}
-                    onChange={(checked) =>
-                      setResourceLayerVisibility(layer.id, checked)
-                    }
-                    onReviewLicence={reviewProvinceLicence}
-                  />
-                ))}
-                <p className="resource-source-note">
-                  Three Province geoscience overlays use {" "}
-                  <a
-                    aria-label="Open data sources"
-                    href="https://novascotia.ca/natr/meb/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    open data
-                  </a>
-                  . The derived 1 km parcel layer combines the open Mineral
-                  Occurrences inventory with restricted NSPRD geometry and
-                  therefore requires Province licence acceptance. All results are
-                  screening context, not mineral, legal, ownership, access,
-                  safety, or economic conclusions.
-                </p>
-              </div>
-            </details>
-            <details className="resource-layer-group church-layer-group">
-              <summary>
-                <span>Church (1860s–80s)</span>
-                <small>4 Cape Breton counties · tiles pending</small>
-              </summary>
-              <div className="resource-layer-controls">
-                {churchLayerCatalog.map((layer) => (
-                  <div className="layer-row unavailable" key={layer.id}>
-                    <span className="switch" aria-hidden="true" />
-                    <span>
-                      <strong>{layer.name}</strong>
-                      <small>{layer.webCaveat}</small>
-                      <LayerMetadata
-                        sourceDate={layer.sourceDate}
-                        scale={layer.scale}
-                        coverage={layer.coverage}
-                        minZoom={layer.minZoom}
-                        maxZoom={layer.maxZoom}
-                        checked={false}
-                        status={{ status: "idle" }}
-                      />
-                    </span>
-                  </div>
-                ))}
-                <p className="resource-source-note">
-                  A.F. Church topographical township maps name the residents of
-                  each building, and the occupations of prominent townsfolk.
-                  Scans courtesy of the{" "}
-                  <a
-                    href={RUMSEY_COLLECTION_TERMS_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    David Rumsey Map Collection
-                  </a>
-                  . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
-                </p>
-              </div>
-            </details>
-            <FletcherLayerControl
-              layer={fletcherLayerCatalog}
-              checked={fletcherVisible}
-              enabled={Boolean(fletcherTileConfiguration.baseUrl)}
-              opacity={fletcherOpacity}
-              status={
-                fletcherTileConfiguration.error
-                  ? { status: "error" }
-                  : layerStatuses.fletcher
-              }
-              onChange={setFletcherVisible}
-              onOpacityChange={setFletcherOpacity}
-              onRetry={() => setFletcherRetryToken((token) => token + 1)}
-            />
-            <p className="resource-source-note fletcher-source-note">
-              {RUMSEY_ATTRIBUTION}. Licensed{" "}
-              <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">
-                {RUMSEY_LICENCE_NAME}
-              </a>
-              : noncommercial use only; project georeferencing, clipping, and
-              tiling changes are identified as derivatives and remain within
-              the licence’s ShareAlike boundary. The MIT software licence does
-              not cover the imagery. This historical layer is context only: it
-              is not a survey and does not establish current parcels, title,
-              legal access, roads, shoreline, flood conditions, value,
-              permissions, or services.
-            </p>
-          </section>
-
-          {mapMode === "current" ? (
-            <>
-          <section
-            className="rail-section tax-sale-events"
-            role="region"
-            aria-label="Current tax-sale notices"
-          >
-            <h2 id="events-heading">Tax-sale notices</h2>
-            <p className="section-intro">
-              Dated official notices. Past sale dates require municipal result
-              verification.
-            </p>
-            {upcomingTaxSaleEvents.map((event) => {
-              const pidCount = advertisedPidsForEvents([event]).length;
-              const mappedAdvertisedCount = event.listings.filter(
-                ({ listingStatus }) => listingStatus === "advertised",
-              ).length;
-              const geometryExceptions = event.geometryExceptions ?? [];
-              const advertisedCount =
-                mappedAdvertisedCount + geometryExceptions.length;
-              const withdrawnCount =
-                event.listings.length - mappedAdvertisedCount;
-              const filteredListings = event.listings.filter((listing) =>
-                listingMatchesTaxSaleFilter(listing, taxSaleFilter),
+            {layerCategories.map((category) => {
+              const provinceCategoryLayers = provinceLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
               );
+              const zoningCategoryLayers = zoningLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+              const hydroCategoryLayers = hydroPilotLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+              const floodCategoryLayers = floodHazardLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+              const environmentalCategoryLayers =
+                environmentalHealthLayerCatalog.filter(
+                  ({ id }) => layerCategoryByLayerId[id] === category.id,
+                );
+              const forestryCategoryLayers = forestryLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+              const resourceCategoryLayers = allResourceLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+              const wellCategoryLayers = wellLogLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+              const churchCategoryLayers = churchLayerCatalog.filter(
+                ({ id }) => layerCategoryByLayerId[id] === category.id,
+              );
+
               return (
-                <div className="tax-sale-event" key={event.id}>
-                  <label className="layer-row event-row">
-                    <input
-                      type="checkbox"
-                      aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)} - ${eventLifecycleLabel(event, currentTime)}`}
-                      checked={licenceAccepted && selectedEventIds.has(event.id)}
-                      disabled={!licenceAccepted}
-                      onChange={(change) =>
-                        setEventVisibility(event.id, change.target.checked)
-                      }
+                <LayerCategorySection
+                  key={category.id}
+                  id={category.id}
+                  name={category.name}
+                  description={category.description}
+                  summary={categorySummary(category.id)}
+                  expanded={expandedCategoryIds.has(category.id)}
+                  onExpandedChange={(expanded) =>
+                    setCategoryExpanded(category.id, expanded)}
+                >
+                  {layerCategoryByLayerId.modern === category.id ? (
+                    <label className="layer-row">
+                      <input
+                        type="checkbox"
+                        aria-label="Modern map"
+                        checked={showModernMap}
+                        onChange={(event) =>
+                          setShowModernMap(event.target.checked)}
+                      />
+                      <span className="switch" aria-hidden="true" />
+                      <span>
+                        <strong>Modern map</strong>
+                        <small>OpenStreetMap</small>
+                        <LayerMetadata
+                          sourceDate="Live tiles · checked July 20, 2026"
+                          scale="Web map · native detail to zoom 19"
+                          coverage="Worldwide"
+                          minZoom={7}
+                          maxZoom={23}
+                          checked={showModernMap}
+                          status={layerStatuses.modern}
+                        />
+                      </span>
+                    </label>
+                  ) : null}
+
+                  {provinceCategoryLayers.map((layer) => (
+                    <div className="layer-control" key={layer.id}>
+                      <LayerToggle
+                        layer={layer}
+                        checked={provinceLayers[layer.id]}
+                        licenceAccepted={licenceAccepted}
+                        status={layerStatuses[layer.id]}
+                        onChange={(checked) =>
+                          setProvinceLayerVisibility(layer.id, checked)}
+                        onReviewLicence={reviewProvinceLicence}
+                      />
+                      {layer.id === "roads" && provinceLayers.roads ? (
+                        <RoadLegend />
+                      ) : null}
+                    </div>
+                  ))}
+
+                  {provinceCategoryLayers.some(({ id }) => id === "contours") ? (
+                    <p className="resource-source-note">
+                      Contours show mapped elevation shape and depressions. They
+                      do not establish surveyed grade, drainage, stability,
+                      access, flood exposure, or buildability. {" "}
+                      <a
+                        href="https://data.novascotia.ca/d/j63u-5nkj"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Official Landforms source
+                      </a>
+                    </p>
+                  ) : null}
+
+                  {zoningCategoryLayers.map((layer) => (
+                    <ZoningLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={zoningLayers[layer.id]}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setZoningLayerVisibility(layer.id, checked)}
                     />
-                    <span className="switch" aria-hidden="true" />
-                    <span>
-                      <strong>{event.shortMunicipality}</strong>
-                      <small>{eventDateLabel(event)}</small>
-                      <small>{eventLifecycleLabel(event, currentTime)}</small>
-                      <small>
-                        {geometryExceptions.length > 0
-                          ? `${advertisedCount} advertised · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
-                          : `${advertisedCount} advertised · ${withdrawnCount} withdrawn · ${pidCount} active PIDs`}
-                      </small>
-                      <small>
-                        Snapshot retrieved {snapshotDateLabel(event)}
-                      </small>
-                    </span>
-                  </label>
-                  <TaxSalePropertyList
-                    eventId={event.id}
-                    municipality={event.shortMunicipality}
-                    listings={filteredListings}
-                    geometryExceptions={geometryExceptions}
-                    selectedPid={selectedPid}
-                    disabled={!licenceAccepted}
-                    onSelectPid={(eventId, pid) => {
-                      void selectListedParcel(eventId, pid);
-                    }}
-                  />
-                </div>
+                  ))}
+                  {zoningCategoryLayers.length > 0 ? (
+                    <>
+                      <p className="resource-source-note">
+                        These are unofficial renderings of municipal map
+                        services, not the municipalities&rsquo; official copies,
+                        and are not to be used for legal purposes. Always
+                        confirm a zone and its rules against the linked land use
+                        by-law and with the municipality.
+                      </p>
+                      <p className="resource-source-note">
+                        Nova Scotia publishes no provincial zoning layer, and
+                        most municipalities publish no zoning GIS at all. An
+                        area with no polygon is an area this map has no data for
+                        &mdash; it is not evidence that no zoning applies. Towns
+                        inside a county are separate zoning jurisdictions, so a
+                        county layer does not cover town parcels.
+                      </p>
+                    </>
+                  ) : null}
+
+                  {hydroCategoryLayers.map((layer) => (
+                    <HydroPilotLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={hydroPilotLayers[layer.id]}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setHydroPilotLayerVisibility(layer.id, checked)}
+                    />
+                  ))}
+                  {hydroCategoryLayers.length > 0 ? (
+                    <>
+                      {hydroPilotLayers["inverness-hydro-potential"] ? (
+                        <HydroPotentialLegend />
+                      ) : null}
+                      <p className="resource-source-note hydro-pilot-note">
+                        Width uses routed official tertiary/sub-tertiary
+                        catchment area; colour uses a fixed 8 L/s/km² regional
+                        flow scenario, mapped gross drop, route distance, and
+                        60% nominal efficiency. Values step at catchment outlets
+                        and are not exact at every point. The kW scale is for
+                        screening—not measured flow, net head, or predicted
+                        output. {" "}
+                        <a
+                          href={hydroPilotLayerCatalog[0].sourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Watershed source
+                        </a>{" "}
+                        · {" "}
+                        <a
+                          href={hydroPilotLayerCatalog[0].serviceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          NSHN source
+                        </a>
+                        {" · "}
+                        <a
+                          href="https://wateroffice.ec.gc.ca/services/index_e.html"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Flow calibration source
+                        </a>
+                        {" · "}
+                        <a
+                          href="https://natural-resources.canada.ca/maps-tools-publications/publications/micro-hydro-systems-buyer-s-guide"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Micro-hydro method
+                        </a>
+                      </p>
+                    </>
+                  ) : null}
+
+                  {floodCategoryLayers.map((layer) => (
+                    <FloodHazardLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={floodHazardLayers[layer.id]}
+                      licenceAccepted={licenceAccepted}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setFloodHazardLayerVisibility(layer.id, checked)}
+                      onReviewLicence={reviewProvinceLicence}
+                    />
+                  ))}
+                  {floodCategoryLayers.length > 0 ? (
+                    <p className="resource-source-note">
+                      Annual-exceedance percentages describe mapped events, not
+                      a whole-PID score. Future coastal years are scenarios.
+                      Each layer is independently controlled.
+                    </p>
+                  ) : null}
+
+                  {environmentalCategoryLayers.map((layer) => (
+                    <EnvironmentalHealthLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={environmentalHealthLayers[layer.id]}
+                      licenceAccepted={licenceAccepted}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setEnvironmentalHealthLayerVisibility(layer.id, checked)}
+                      onReviewLicence={reviewProvinceLicence}
+                    />
+                  ))}
+                  {environmentalCategoryLayers.length > 0 ? (
+                    <p className="resource-source-note">
+                      These are relative risk zones mapped by bedrock unit, not
+                      test results for any property. A parcel takes the band of
+                      the rock beneath it, and wells in any band can exceed a
+                      guideline. Testing your well water is the only way to know
+                      what is in it.
+                    </p>
+                  ) : null}
+
+                  {wellCategoryLayers.map((layer) => (
+                    <WellLogLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={wellLogLayers[layer.id]}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setWellLogLayerVisibility(layer.id, checked)}
+                    />
+                  ))}
+                  {wellCategoryLayers.length > 0 ? (
+                    <>
+                      {wellLogLayers["ns-well-logs"] ? (
+                        <>
+                          <WellLogAccuracyFilterControl
+                            value={wellLogAccuracyFilter}
+                            onChange={setWellLogAccuracyFilter}
+                          />
+                          <WellLogAccuracyLegend />
+                        </>
+                      ) : null}
+                      <p className="resource-source-note well-log-note">
+                        The Province records an estimated location accuracy for
+                        every well. Only records accurate to ±50 m — mostly
+                        wells drilled after 2004, positioned with a driller's
+                        GPS — are drawn as solid points. Older records were
+                        placed from map books, NTS sheets, or community
+                        centroids and can be off by 800 m to 8 km; they stay
+                        hidden until you ask for them, and then draw hollow to
+                        show a well was reported nearby rather than where it
+                        sits. Depths and yields are the driller's report, not a
+                        survey or a guarantee of water. {" "}
+                        <a
+                          href={wellLogLayerCatalog[0].sourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          DP ME 430 source
+                        </a>
+                        {" · "}
+                        <a
+                          href={wellLogLayerCatalog[0].manualUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Accuracy definitions
+                        </a>
+                      </p>
+                    </>
+                  ) : null}
+
+                  {forestryCategoryLayers.map((layer) => (
+                    <ForestryLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={forestryLayers[layer.id]}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setForestryLayerVisibility(layer.id, checked)}
+                    />
+                  ))}
+                  {forestryCategoryLayers.length > 0 ? (
+                    <p className="resource-source-note">
+                      The Province says the locations of all old-growth forest
+                      are not known. This layer maps policy areas on publicly
+                      owned land outside protected areas; a viewport with no
+                      mapped policy polygon is not evidence that no old growth
+                      exists. Policy protections apply to Crown-land
+                      management. {" "}
+                      <a
+                        aria-label="Official old-growth policy source"
+                        href={forestryLayerCatalog[0].sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Official source
+                      </a>
+                    </p>
+                  ) : null}
+
+                  {resourceCategoryLayers.map((layer) => (
+                    <ResourceLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={resourceLayers[layer.id]}
+                      licenceAccepted={licenceAccepted}
+                      status={layerStatuses[layer.id]}
+                      onChange={(checked) =>
+                        setResourceLayerVisibility(layer.id, checked)}
+                      onReviewLicence={reviewProvinceLicence}
+                    />
+                  ))}
+                  {resourceCategoryLayers.length > 0 ? (
+                    <p className="resource-source-note">
+                      Three Province geoscience overlays use {" "}
+                      <a
+                        aria-label="Open data sources"
+                        href="https://novascotia.ca/natr/meb/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        open data
+                      </a>
+                      . The derived 1 km parcel layer combines the open Mineral
+                      Occurrences inventory with restricted NSPRD geometry and
+                      therefore requires Province licence acceptance. All
+                      results are screening context, not mineral, legal,
+                      ownership, access, safety, or economic conclusions.
+                    </p>
+                  ) : null}
+
+                  {churchCategoryLayers.map((layer) => (
+                    <div className="layer-row unavailable" key={layer.id}>
+                      <span className="switch" aria-hidden="true" />
+                      <span>
+                        <strong>{layer.name}</strong>
+                        <small>{layer.webCaveat}</small>
+                        <LayerMetadata
+                          sourceDate={layer.sourceDate}
+                          scale={layer.scale}
+                          coverage={layer.coverage}
+                          minZoom={layer.minZoom}
+                          maxZoom={layer.maxZoom}
+                          checked={false}
+                          status={{ status: "idle" }}
+                        />
+                      </span>
+                    </div>
+                  ))}
+                  {churchCategoryLayers.length > 0 ? (
+                    <p className="resource-source-note">
+                      A.F. Church topographical township maps name the residents
+                      of each building, and the occupations of prominent
+                      townsfolk. Scans courtesy of the {" "}
+                      <a
+                        href={RUMSEY_COLLECTION_TERMS_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        David Rumsey Map Collection
+                      </a>
+                      . {RUMSEY_ATTRIBUTION}. Web tiles are not produced yet.
+                    </p>
+                  ) : null}
+
+                  {layerCategoryByLayerId.fletcher === category.id ? (
+                    <>
+                      <FletcherLayerControl
+                        layer={fletcherLayerCatalog}
+                        checked={fletcherVisible}
+                        enabled={Boolean(fletcherTileConfiguration.baseUrl)}
+                        opacity={fletcherOpacity}
+                        status={
+                          fletcherTileConfiguration.error
+                            ? { status: "error" }
+                            : layerStatuses.fletcher
+                        }
+                        onChange={setFletcherVisible}
+                        onOpacityChange={setFletcherOpacity}
+                        onRetry={() =>
+                          setFletcherRetryToken((token) => token + 1)}
+                      />
+                      <p className="resource-source-note fletcher-source-note">
+                        {RUMSEY_ATTRIBUTION}. Licensed {" "}
+                        <a
+                          href={RUMSEY_LICENCE_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {RUMSEY_LICENCE_NAME}
+                        </a>
+                        : noncommercial use only; project georeferencing,
+                        clipping, and tiling changes are identified as
+                        derivatives and remain within the licence’s ShareAlike
+                        boundary. The MIT software licence does not cover the
+                        imagery. This historical layer is context only: it is
+                        not a survey and does not establish current parcels,
+                        title, legal access, roads, shoreline, flood conditions,
+                        value, permissions, or services.
+                      </p>
+                    </>
+                  ) : null}
+
+                  {category.id === "tax-sale" ? (
+                    <>
+                      <section
+                        className={`map-mode-switcher ${mapMode}`}
+                        aria-label="Map record mode"
+                      >
+                        <div className="map-mode-buttons">
+                          <button
+                            type="button"
+                            className={mapMode === "current" ? "selected" : ""}
+                            aria-pressed={mapMode === "current"}
+                            onClick={() => changeMapMode("current")}
+                          >
+                            Current notices
+                          </button>
+                          <button
+                            type="button"
+                            className={mapMode === "historical" ? "selected" : ""}
+                            aria-pressed={mapMode === "historical"}
+                            onClick={() => changeMapMode("historical")}
+                          >
+                            Historical records
+                          </button>
+                        </div>
+                        <p>
+                          {mapMode === "current"
+                            ? "CURRENT · advertised notices that still require municipal verification"
+                            : "HISTORICAL · dated notices and verified outcomes, never current offerings"}
+                        </p>
+                      </section>
+
+                      {mapMode === "current" ? (
+                        <>
+                          <section
+                            className="rail-section tax-sale-events"
+                            role="region"
+                            aria-label="Current tax-sale notices"
+                          >
+                            <h4 id="events-heading" className="nested-rail-heading">
+                              Tax-sale notices
+                            </h4>
+                            <p className="section-intro">
+                              Dated official notices. Past sale dates require
+                              municipal result verification.
+                            </p>
+                            {upcomingTaxSaleEvents.map((event) => {
+                              const pidCount = advertisedPidsForEvents([event]).length;
+                              const mappedAdvertisedCount = event.listings.filter(
+                                ({ listingStatus }) => listingStatus === "advertised",
+                              ).length;
+                              const geometryExceptions = event.geometryExceptions ?? [];
+                              const advertisedCount =
+                                mappedAdvertisedCount + geometryExceptions.length;
+                              const withdrawnCount =
+                                event.listings.length - mappedAdvertisedCount;
+                              const filteredListings = event.listings.filter((listing) =>
+                                listingMatchesTaxSaleFilter(listing, taxSaleFilter),
+                              );
+                              return (
+                                <div className="tax-sale-event" key={event.id}>
+                                  <label className="layer-row event-row">
+                                    <input
+                                      type="checkbox"
+                                      aria-label={`${event.shortMunicipality} tax sale - ${eventDateLabel(event)} - ${eventLifecycleLabel(event, currentTime)}`}
+                                      checked={licenceAccepted && selectedEventIds.has(event.id)}
+                                      disabled={!licenceAccepted}
+                                      onChange={(change) =>
+                                        setEventVisibility(event.id, change.target.checked)}
+                                    />
+                                    <span className="switch" aria-hidden="true" />
+                                    <span>
+                                      <strong>{event.shortMunicipality}</strong>
+                                      <small>{eventDateLabel(event)}</small>
+                                      <small>{eventLifecycleLabel(event, currentTime)}</small>
+                                      <small>
+                                        {geometryExceptions.length > 0
+                                          ? `${advertisedCount} advertised · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
+                                          : `${advertisedCount} advertised · ${withdrawnCount} withdrawn · ${pidCount} active PIDs`}
+                                      </small>
+                                      <small>
+                                        Snapshot retrieved {snapshotDateLabel(event)}
+                                      </small>
+                                    </span>
+                                  </label>
+                                  <TaxSalePropertyList
+                                    eventId={event.id}
+                                    municipality={event.shortMunicipality}
+                                    listings={filteredListings}
+                                    geometryExceptions={geometryExceptions}
+                                    selectedPid={selectedPid}
+                                    disabled={!licenceAccepted}
+                                    onSelectPid={(eventId, pid) => {
+                                      void selectListedParcel(eventId, pid);
+                                    }}
+                                  />
+                                </div>
+                              );
+                            })}
+                            <p className="parcel-message" role="status" aria-live="polite">
+                              {parcelMessage}
+                            </p>
+                          </section>
+
+                          <section
+                            className="rail-section tax-sale-controls"
+                            aria-labelledby="filter-heading"
+                          >
+                            <h4 id="filter-heading" className="nested-rail-heading">
+                              Redemption category
+                            </h4>
+                            <div className="segmented-control" aria-label="Redemption category">
+                              <button
+                                type="button"
+                                className={taxSaleFilter === "all" ? "selected" : ""}
+                                aria-pressed={taxSaleFilter === "all"}
+                                onClick={() => setTaxSaleFilter("all")}
+                              >
+                                All {filterCounts.all}
+                              </button>
+                              <button
+                                type="button"
+                                className={taxSaleFilter === "redemption" ? "selected" : ""}
+                                aria-pressed={taxSaleFilter === "redemption"}
+                                onClick={() => setTaxSaleFilter("redemption")}
+                              >
+                                Redemption {filterCounts.redemption}
+                              </button>
+                              <button
+                                type="button"
+                                className={
+                                  taxSaleFilter === "immediate-or-none" ? "selected" : ""
+                                }
+                                aria-pressed={taxSaleFilter === "immediate-or-none"}
+                                onClick={() => setTaxSaleFilter("immediate-or-none")}
+                              >
+                                Immediate / none {filterCounts.immediateOrNone}
+                              </button>
+                            </div>
+
+                            {upcomingTaxSaleEvents.map((event) => (
+                              <div className="source-note" key={event.id}>
+                                <strong>
+                                  {event.shortMunicipality} · {eventDateLabel(event)}
+                                </strong>
+                                <span>{event.venue}</span>
+                                <span>{eventLifecycleLabel(event, currentTime)}</span>
+                                <a href={event.sourceUrl} target="_blank" rel="noreferrer">
+                                  Open direct official source
+                                </a>
+                              </div>
+                            ))}
+                          </section>
+                        </>
+                      ) : (
+                        <section
+                          className="rail-section historical-layer-controls"
+                          role="region"
+                          aria-label="Historical tax-sale records"
+                        >
+                          <h4 id="historical-heading" className="nested-rail-heading">
+                            Historical tax-sale records
+                          </h4>
+                          <p className="section-intro">
+                            Dated notices and verified results. Recent events can
+                            remain outcome unknown while official results are
+                            pending. These are never current offerings.
+                          </p>
+                          <div className="historical-mode-summary">
+                            <strong>Historical records active</strong>
+                            <span>
+                              {historicalTaxSaleRecords.length} records · {" "}
+                              {allHistoricalTaxSalePids.length} exact matched PIDs
+                            </span>
+                            <span>
+                              {historicalMunicipalities.map(([, label]) => label).join(" · ")} · {" "}
+                              {historicalYears.at(-1)}–{historicalYears[0]}
+                            </span>
+                          </div>
+                          <div className="historical-filters" aria-label="Historical filters">
+                            <label>
+                              Municipality
+                              <select
+                                aria-label="Historical municipality"
+                                value={historicalMunicipality}
+                                disabled={!licenceAccepted}
+                                onChange={(event) =>
+                                  setHistoricalMunicipality(event.target.value)}
+                              >
+                                <option value="all">All municipalities</option>
+                                {historicalMunicipalities.map(([id, label]) => (
+                                  <option key={id} value={id}>
+                                    {label}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                            <label>
+                              Sale year
+                              <select
+                                aria-label="Historical sale year"
+                                value={historicalYear}
+                                disabled={!licenceAccepted}
+                                onChange={(event) => setHistoricalYear(event.target.value)}
+                              >
+                                <option value="all">All years</option>
+                                {historicalYears.map((year) => (
+                                  <option key={year} value={year}>
+                                    {year}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                            <label>
+                              Outcome
+                              <select
+                                aria-label="Historical outcome"
+                                value={historicalOutcome}
+                                disabled={!licenceAccepted}
+                                onChange={(event) =>
+                                  setHistoricalOutcome(
+                                    event.target.value as HistoricalOutcomeFilter,
+                                  )}
+                              >
+                                <option value="all">All outcomes</option>
+                                {historicalOutcomes.map((outcome) => (
+                                  <option key={outcome} value={outcome}>
+                                    {historicalOutcomeLabel(outcome)}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          </div>
+                          <p className="historical-filter-count">
+                            {countLabel(filteredHistoricalRecords.length, "record")} · {" "}
+                            {countLabel(filteredHistoricalPids.size, "PID")}
+                          </p>
+                          <p className="parcel-message" role="status" aria-live="polite">
+                            {historicalParcelMessage}
+                          </p>
+                        </section>
+                      )}
+                    </>
+                  ) : null}
+
+                  {category.id === "my-maps" ? (
+                    <>
+                      <UserMapRows
+                        api={userMapsApi}
+                        onImportFiles={(files) => void handleImportFiles(files)}
+                        outcomes={mergedImportOutcomes}
+                        importing={userMapsApi.importing || userVectorApi.importing}
+                        importingLabel={
+                          userMapsApi.importingLabel ?? userVectorApi.importingLabel
+                        }
+                      />
+                      <UserVectorRows
+                        api={userVectorApi}
+                        onEdit={(id) =>
+                          vectorEdit.editingId === id
+                            ? endVectorEdit()
+                            : beginVectorEdit(id)}
+                        onNewLayer={() => void createAndEditVectorLayer()}
+                        editingId={vectorEdit.editingId}
+                      />
+                    </>
+                  ) : null}
+                </LayerCategorySection>
               );
             })}
-            <p className="parcel-message" role="status" aria-live="polite">
-              {parcelMessage}
-            </p>
           </section>
-
-          <section
-            className="rail-section tax-sale-controls"
-            aria-labelledby="filter-heading"
-          >
-            <h2 id="filter-heading">Redemption category</h2>
-            <div className="segmented-control" aria-label="Redemption category">
-              <button
-                type="button"
-                className={taxSaleFilter === "all" ? "selected" : ""}
-                aria-pressed={taxSaleFilter === "all"}
-                onClick={() => setTaxSaleFilter("all")}
-              >
-                All {filterCounts.all}
-              </button>
-              <button
-                type="button"
-                className={taxSaleFilter === "redemption" ? "selected" : ""}
-                aria-pressed={taxSaleFilter === "redemption"}
-                onClick={() => setTaxSaleFilter("redemption")}
-              >
-                Redemption {filterCounts.redemption}
-              </button>
-              <button
-                type="button"
-                className={
-                  taxSaleFilter === "immediate-or-none" ? "selected" : ""
-                }
-                aria-pressed={taxSaleFilter === "immediate-or-none"}
-                onClick={() => setTaxSaleFilter("immediate-or-none")}
-              >
-                Immediate / none {filterCounts.immediateOrNone}
-              </button>
-            </div>
-
-            {upcomingTaxSaleEvents.map((event) => (
-              <div className="source-note" key={event.id}>
-                <strong>
-                  {event.shortMunicipality} · {eventDateLabel(event)}
-                </strong>
-                <span>{event.venue}</span>
-                <span>{eventLifecycleLabel(event, currentTime)}</span>
-                <a href={event.sourceUrl} target="_blank" rel="noreferrer">
-                  Open direct official source
-                </a>
-              </div>
-            ))}
-          </section>
-
-            </>
-          ) : (
-
-          <section
-            className="rail-section historical-layer-controls"
-            role="region"
-            aria-label="Historical tax-sale records"
-          >
-            <h2 id="historical-heading">Historical tax-sale records</h2>
-            <p className="section-intro">
-              Dated notices and verified results. Recent events can remain outcome
-              unknown while official results are pending. These are never current
-              offerings.
-            </p>
-            <div className="historical-mode-summary">
-              <strong>Historical records active</strong>
-              <span>
-                {historicalTaxSaleRecords.length} records ·{" "}
-                {allHistoricalTaxSalePids.length} exact matched PIDs
-              </span>
-              <span>
-                {historicalMunicipalities.map(([, label]) => label).join(" · ")} ·{" "}
-                {historicalYears.at(-1)}–{historicalYears[0]}
-              </span>
-            </div>
-            <div className="historical-filters" aria-label="Historical filters">
-              <label>
-                Municipality
-                <select
-                  aria-label="Historical municipality"
-                  value={historicalMunicipality}
-                  disabled={!licenceAccepted}
-                  onChange={(event) => setHistoricalMunicipality(event.target.value)}
-                >
-                  <option value="all">All municipalities</option>
-                  {historicalMunicipalities.map(([id, label]) => (
-                    <option key={id} value={id}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Sale year
-                <select
-                  aria-label="Historical sale year"
-                  value={historicalYear}
-                  disabled={!licenceAccepted}
-                  onChange={(event) => setHistoricalYear(event.target.value)}
-                >
-                  <option value="all">All years</option>
-                  {historicalYears.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Outcome
-                <select
-                  aria-label="Historical outcome"
-                  value={historicalOutcome}
-                  disabled={!licenceAccepted}
-                  onChange={(event) =>
-                    setHistoricalOutcome(event.target.value as HistoricalOutcomeFilter)
-                  }
-                >
-                  <option value="all">All outcomes</option>
-                  {historicalOutcomes.map((outcome) => (
-                    <option key={outcome} value={outcome}>
-                      {historicalOutcomeLabel(outcome)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <p className="historical-filter-count">
-              {countLabel(filteredHistoricalRecords.length, "record")} ·{" "}
-              {countLabel(filteredHistoricalPids.size, "PID")}
-            </p>
-            <p className="parcel-message" role="status" aria-live="polite">
-              {historicalParcelMessage}
-            </p>
-          </section>
-          )}
 
           <section className="offline-card" aria-labelledby="offline-heading">
             <img src={appIconUrl} alt="" />
