@@ -481,7 +481,10 @@ export function PrintResearchDocument({
         <div className="print-research-support">
           <ResearchFactGrid snapshot={snapshot} />
           <EvidenceStatusGrid snapshot={snapshot} />
-          <ActiveLayerLegend sources={renderedSources} mapMode={snapshot.mode} />
+          <ActiveLayerLegend
+            sources={renderedSources}
+            mapMode={snapshot.taxSaleEnabled ? snapshot.mode : undefined}
+          />
           <div className="print-research-details">
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />

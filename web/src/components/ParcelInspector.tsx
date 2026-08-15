@@ -243,6 +243,7 @@ export function ParcelInspector({
   historicalContexts,
   resourceIntersections,
   floodHazard,
+  taxSaleEnabled,
   mapMode,
   shareUrl,
   shareMessage,
@@ -265,6 +266,7 @@ export function ParcelInspector({
   historicalContexts: HistoricalRecordContext[];
   resourceIntersections: ParcelResourceState;
   floodHazard: FloodHazardState;
+  taxSaleEnabled: boolean;
   mapMode: MapMode;
   shareUrl: string;
   shareMessage: string | null;
@@ -312,9 +314,11 @@ export function ParcelInspector({
             ? `${historicalContexts.length} historical tax-sale ${historicalContexts.length === 1 ? "record" : "records"}`
             : "NSPRD parcel"}
       </p>
-      <p className={`parcel-mode-marker ${mapMode}`}>
-        {mapMode === "current" ? "Current-notice mode" : "Historical-records mode"}
-      </p>
+      {taxSaleEnabled ? (
+        <p className={`parcel-mode-marker ${mapMode}`}>
+          {mapMode === "current" ? "Current-notice mode" : "Historical-records mode"}
+        </p>
+      ) : null}
       <dl className="parcel-facts">
         {event ? (
           <>
@@ -442,7 +446,7 @@ export function ParcelInspector({
               ? `The advertised sale date has passed. Verify results and current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`
             : `Properties may be paid, removed or deferred. Verify current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`}
         </p>
-      ) : historicalContexts.length === 0 ? (
+      ) : taxSaleEnabled && historicalContexts.length === 0 ? (
         <p className="sale-warning neutral">
           This PID is not listed in any municipal notice included by this map.
         </p>

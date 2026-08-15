@@ -70,6 +70,7 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
 function snapshot(overrides: Record<string, unknown> = {}) {
   return {
     pid: "01234567",
+    taxSaleEnabled: true,
     mode: "current",
     eventIds: ["inverness-2026"],
     events: [{
@@ -156,6 +157,62 @@ function snapshot(overrides: Record<string, unknown> = {}) {
 const map = <div aria-label="Printable map">Captured map</div>;
 
 describe("print documents", () => {
+  it("omits the current tax-sale symbol from a tax-off research legend", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          taxSaleEnabled: false,
+          mode: "current",
+          eventIds: [],
+          events: [],
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const legend = screen.getByLabelText("Active map layers");
+    expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
+    expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
+    expect(within(legend).queryByText("Current tax-sale parcel")).not.toBeInTheDocument();
+    expect(legend.querySelector(".print-layer-symbol--current-tax-sale")).toBeNull();
+  });
+
+  it("omits the historical tax-sale symbol from a tax-off field legend", () => {
+    render(
+      <PrintFieldDocument
+        snapshot={snapshot({
+          taxSaleEnabled: false,
+          mode: "historical",
+          eventIds: [],
+          events: [],
+          template: "field",
+        })}
+        map={map}
+        includeAerial={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const legend = screen.getByLabelText("Active map layers");
+    expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
+    expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
+    expect(within(legend).queryByText("Historical tax-sale parcel")).not.toBeInTheDocument();
+    expect(legend.querySelector(".print-layer-symbol--historical-tax-sale")).toBeNull();
+  });
+
   it("prints Fletcher imagery attribution and licence as a separate map source", () => {
     const fletcherSource: PrintLayerSource = {
       id: "fletcher",

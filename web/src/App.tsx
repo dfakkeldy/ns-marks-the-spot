@@ -1493,13 +1493,21 @@ export function App() {
     const controller = new AbortController();
     setAssessmentState({ status: "loading", request });
     fetchParcelAssessments(selectedFeatures, noticeAan, controller.signal)
-      .then((value) => setAssessmentState((current) =>
-        isCurrentEvidenceRequest(current.request, request)
-          ? { status: "ready", value, request }
-          : current,
-      ))
+      .then((value) => {
+        if (controller.signal.aborted) {
+          return;
+        }
+        setAssessmentState((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
+        if (
+          controller.signal.aborted ||
+          (error instanceof DOMException && error.name === "AbortError")
+        ) {
           return;
         }
         setAssessmentState((current) =>
@@ -3836,6 +3844,7 @@ export function App() {
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
               floodHazard={floodHazard}
+              taxSaleEnabled={taxSaleEnabled}
               mapMode={mapMode}
               shareUrl={shareUrl}
               shareMessage={shareMessage}
