@@ -749,6 +749,26 @@ a {
   border-radius: 4px;
 }
 
+.layer-category-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  color: var(--chart-ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.layer-category-back:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
 .layer-category-summary {
   grid-column: 1;
   color: var(--muted);
@@ -2796,6 +2816,15 @@ a {
 
   .layer-rail.mobile-open {
     display: block;
+  }
+
+  .layer-category-heading,
+  .layer-category-back {
+    min-height: 44px;
+  }
+
+  .layer-category-list--focused {
+    margin-top: 8px;
   }
 
   .mobile-sheet-header {

@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { createRef } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { LayerCategorySection } from "./LayerCategorySection";
 
@@ -81,5 +82,24 @@ describe("LayerCategorySection", () => {
       "Roads, trails, place names, and reference routes.",
     );
     expect(region).toHaveTextContent("Road controls");
+  });
+
+  it("exposes its disclosure button for phone focus restoration", () => {
+    const buttonRef = createRef<HTMLButtonElement>();
+    render(
+      <LayerCategorySection
+        id="my-maps"
+        name="My Maps"
+        description="Import and control your own maps."
+        summary="Add"
+        expanded={false}
+        onExpandedChange={() => undefined}
+        buttonRef={buttonRef}
+      >
+        <div>Map controls</div>
+      </LayerCategorySection>,
+    );
+
+    expect(buttonRef.current).toBe(screen.getByRole("button", { name: /My Maps.*Add/ }));
   });
 });

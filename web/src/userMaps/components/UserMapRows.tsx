@@ -43,22 +43,15 @@ function pdfProvenance(record: UserMapRecord): string | null {
 }
 
 /**
- * The one element App.tsx mounts in the layer list. Structured to match the
- * other `resource-layer-group` sections (Church maps, well logs, Geology &
- * Resources): a collapsible group with a summary line, then one
- * `layer-control` row per item. Each row keeps the checkbox inside its own
+ * The raster controls App mounts directly inside My Maps. The transitional
+ * UserMapRows wrapper below retains the old standalone disclosure for simpler
+ * consumers. Each row keeps the checkbox inside its own
  * `<label>` (toggling the map) and puts the opacity slider and Remove button
  * as siblings outside that label — nesting them inside it would make
  * clicking Remove also toggle the checkbox, the way ZoningLayerToggle's
  * bylaw link has to stopPropagation to avoid the same trap.
  */
-export function UserMapRows({
-  api,
-  onImportFiles,
-  outcomes,
-  importing,
-  importingLabel,
-}: {
+export interface UserMapRowsProps {
   api: UserMapsApi;
   /** App's routed handler for the shared drop zone; defaults to the raster
    * pipeline so the component stands alone in tests and simpler mounts. */
@@ -66,26 +59,25 @@ export function UserMapRows({
   outcomes?: DisplayOutcome[];
   importing?: boolean;
   importingLabel?: string | null;
-}) {
+}
+
+function renderUserMapControls({
+  api,
+  onImportFiles,
+  outcomes,
+  importing,
+  importingLabel,
+}: UserMapRowsProps) {
   return (
-    <details className="resource-layer-group user-map-group" open>
-      <summary>
-        <span>Your maps</span>
-        <small>
-          {api.records.length === 0
-            ? "Load a map or data file"
-            : `${api.records.length} loaded`}
-        </small>
-      </summary>
-      <div className="resource-layer-controls">
-        <ImportDialog
+    <>
+      <ImportDialog
           importing={importing ?? api.importing}
           importingLabel={importingLabel ?? api.importingLabel}
           storageError={api.storageError}
           outcomes={outcomes ?? api.outcomes}
           onImportFiles={onImportFiles ?? ((files) => void api.importFiles(files))}
         />
-        {api.records.map((record) => {
+      {api.records.map((record) => {
           const ui = api.uiState[record.id] ?? {
             enabled: false,
             opacity: DEFAULT_OPACITY,
@@ -208,8 +200,32 @@ export function UserMapRows({
               </button>
             </div>
           );
-        })}
-      </div>
+      })}
+    </>
+  );
+}
+
+export function UserMapControls(props: UserMapRowsProps) {
+  return (
+    <div className="resource-layer-controls">
+      {renderUserMapControls(props)}
+    </div>
+  );
+}
+
+export function UserMapRows(props: UserMapRowsProps) {
+  const { api } = props;
+  return (
+    <details className="resource-layer-group user-map-group" open>
+      <summary>
+        <span>Your maps</span>
+        <small>
+          {api.records.length === 0
+            ? "Load a map or data file"
+            : `${api.records.length} loaded`}
+        </small>
+      </summary>
+      <UserMapControls {...props} />
     </details>
   );
 }

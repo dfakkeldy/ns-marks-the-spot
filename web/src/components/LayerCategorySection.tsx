@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import type { LayerCategoryId } from "../layers/layerCategories";
 
 export interface LayerCategorySectionProps {
@@ -8,6 +8,7 @@ export interface LayerCategorySectionProps {
   summary: string;
   expanded: boolean;
   onExpandedChange: (expanded: boolean) => void;
+  buttonRef?: Ref<HTMLButtonElement>;
   children: ReactNode;
 }
 
@@ -18,6 +19,7 @@ export function LayerCategorySection({
   summary,
   expanded,
   onExpandedChange,
+  buttonRef,
   children,
 }: LayerCategorySectionProps) {
   const buttonId = `layer-category-${id}-button`;
@@ -27,6 +29,7 @@ export function LayerCategorySection({
     <section className="layer-category" data-category-id={id}>
       <h3>
         <button
+          ref={buttonRef}
           id={buttonId}
           type="button"
           className="layer-category-heading"

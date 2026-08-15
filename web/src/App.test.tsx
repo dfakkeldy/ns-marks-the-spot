@@ -603,6 +603,19 @@ function renderAppWithCategoriesOpen() {
   return result;
 }
 
+function setMatchMedia(query: string, matches: boolean): void {
+  vi.stubGlobal("matchMedia", vi.fn((value: string): MediaQueryList => ({
+    matches: value === query ? matches : false,
+    media: value,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(() => false),
+  })));
+}
+
 const STORED_FIELD_THEME = {
   id: "custom-field-day",
   name: "Field day",
@@ -1118,6 +1131,63 @@ describe("NS Marks The Spot Online", () => {
     expect(within(land).getByLabelText("NS Property Boundaries")).toBeVisible();
   });
 
+  it("renders raster and vector controls directly inside the single My Maps category", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    const myMaps = openLayerCategory("My Maps");
+    expect(within(myMaps).getByLabelText("Add a map file")).toBeInTheDocument();
+    expect(within(myMaps).getByRole("button", { name: "New drawing layer" }))
+      .toBeInTheDocument();
+    expect(within(myMaps).queryByText("Your maps")).not.toBeInTheDocument();
+    expect(within(myMaps).queryByText("Your data")).not.toBeInTheDocument();
+    expect(within(myMaps).queryByRole("group")).not.toBeInTheDocument();
+  });
+
+  it("shows one focused category and restores its button focus in phone mode", async () => {
+    setMatchMedia("(max-width: 860px)", true);
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Search & layers" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Historical Maps/ }));
+
+    expect(screen.getByRole("button", { name: "Back to categories" }))
+      .toHaveFocus();
+    expect(screen.getByRole("region", { name: /^Historical Maps/ }))
+      .toBeVisible();
+    expect(screen.queryByRole("button", { name: /^Land & Property/ }))
+      .not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Back to categories" }));
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /^Historical Maps/ }))
+        .toHaveFocus();
+    });
+  });
+
+  it("keeps the phone sheet and focused category open when a layer toggles", async () => {
+    setMatchMedia("(max-width: 860px)", true);
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Search & layers" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Forestry & Ecology/ }));
+    await userEvent.click(screen.getByLabelText("Old-growth policy areas"));
+
+    expect(screen.getByRole("complementary", { name: "Map controls" }))
+      .toHaveClass("mobile-open");
+    expect(screen.getByRole("region", { name: /^Forestry & Ecology/ }))
+      .toBeVisible();
+    expect(screen.getByRole("button", { name: "Back to categories" }))
+      .toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /^Land & Property/ }))
+      .not.toBeInTheDocument();
+  });
+
   it("renders every current catalogue entry in exactly one expected category region", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?layers=modern");
@@ -1456,6 +1526,125 @@ describe("NS Marks The Spot Online", () => {
       openLayerCategory("Roads & Places");
       expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
       expect(mapSetupStatus()).toHaveTextContent("Road work");
+    } finally {
+      await store.deleteUserMap(privateMapId);
+      store.close();
+    }
+  });
+
+  it("preserves an imported GeoPDF across Forestry and Explore without leaking private data into themes", async () => {
+    const privateMapId = "private-geopdf-theme-boundary";
+    const privatePath = "/Users/private/Maps/cape-breton-woodlot.pdf";
+    const privateRasterBytes = "PRIVATE_GEOPDF_RASTER_BYTES";
+    const privatePreviewBytes = "PRIVATE_GEOPDF_PREVIEW_BYTES";
+    const registrationCandidate: PdfRegistrationCandidate = {
+      id: "private-main-frame",
+      flavor: "measure",
+      embeddedLabel: privatePath,
+      sourceRect: { x: 20, y: 30, width: 1000, height: 700 },
+      gcps: [
+        { id: "gcp-a", pixel: { x: 20, y: 30 }, map: { lat: 46.2, lng: -61.3 } },
+        { id: "gcp-b", pixel: { x: 1020, y: 30 }, map: { lat: 46.2, lng: -61 } },
+        { id: "gcp-c", pixel: { x: 20, y: 730 }, map: { lat: 45.9, lng: -61.3 } },
+      ],
+    };
+    const record: UserMapRecord = {
+      id: privateMapId,
+      name: "Private Cape Breton woodlot GeoPDF",
+      source: "geopdf",
+      createdAt: "2026-08-15T00:00:00.000Z",
+      pixelSize: { width: 1200, height: 800 },
+      sourceRect: registrationCandidate.sourceRect,
+      georef: {
+        kind: "gcp",
+        method: "affine",
+        gcps: registrationCandidate.gcps,
+      },
+      pdf: {
+        pageNumber: 1,
+        pageCount: 1,
+        registration: {
+          status: "embedded",
+          flavor: "measure",
+          selection: { kind: "sole" },
+          selectedFrameId: registrationCandidate.id,
+          selectedLabel: registrationCandidate.embeddedLabel,
+          candidates: [registrationCandidate],
+          adjusted: false,
+        },
+      },
+    };
+    const store = await UserMapStore.open();
+    await store.saveUserMap(
+      record,
+      new Blob([privateRasterBytes]),
+      new Blob([privatePreviewBytes]),
+    );
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    localStorage.setItem(
+      "user-map-ui-state-v1",
+      JSON.stringify({ [privateMapId]: { enabled: true, opacity: 0.35 } }),
+    );
+    window.history.replaceState(null, "", "/");
+
+    const expectPrivateMapState = async () => {
+      const myMaps = openLayerCategory("My Maps");
+      expect(await within(myMaps).findByRole("checkbox", {
+        name: record.name,
+      })).toBeChecked();
+      expect(within(myMaps).getByRole("slider", {
+        name: `${record.name} opacity`,
+      })).toHaveValue("35");
+    };
+
+    try {
+      render(<App />);
+      await expectPrivateMapState();
+
+      await userEvent.selectOptions(
+        screen.getByLabelText("Map setup"),
+        "forestry-field-access",
+      );
+      await expectPrivateMapState();
+
+      await userEvent.selectOptions(
+        screen.getByLabelText("Map setup"),
+        "explore-nova-scotia",
+      );
+      await expectPrivateMapState();
+
+      const storedRecord = (await store.listUserMaps()).find(
+        ({ id }) => id === privateMapId,
+      );
+      expect(storedRecord).toEqual(record);
+      expect(storedRecord?.pdf?.registration).toEqual(record.pdf?.registration);
+      expect(JSON.parse(localStorage.getItem("user-map-ui-state-v1") ?? "null"))
+        .toEqual({ [privateMapId]: { enabled: true, opacity: 0.35 } });
+
+      await userEvent.click(
+        screen.getByRole("button", { name: "Save current setup as…" }),
+      );
+      await userEvent.type(
+        screen.getByRole("textbox", { name: "Theme name" }),
+        "Private map companion",
+      );
+      await userEvent.click(
+        screen.getByRole("button", { name: "Save current setup" }),
+      );
+
+      const rawThemeLibrary = localStorage.getItem(CUSTOM_THEME_STORAGE_KEY);
+      expect(rawThemeLibrary).not.toBeNull();
+      for (const privateValue of [
+        record.name,
+        privateRasterBytes,
+        privatePreviewBytes,
+        "blob:test-evidence",
+        privatePath,
+        registrationCandidate.id,
+      ]) {
+        expect(rawThemeLibrary).not.toContain(privateValue);
+        expect(window.location.href).not.toContain(privateValue);
+      }
     } finally {
       await store.deleteUserMap(privateMapId);
       store.close();

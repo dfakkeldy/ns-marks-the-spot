@@ -46,6 +46,34 @@ describe("desktop layer category disclosures", () => {
   });
 });
 
+describe("phone-focused layer categories", () => {
+  it("keeps category and Back controls touch-friendly with visible focus", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const touchDeclarations = mobileStyles.match(
+      /\.layer-category-heading,\s*\.layer-category-back\s*\{([^}]*)\}/,
+    )?.[1];
+    const backFocus = styles.match(
+      /\.layer-category-back:focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(touchDeclarations).toMatch(/min-height:\s*44px/);
+    expect(backFocus).toMatch(/outline:\s*3px solid var\(--survey-blue\)/);
+    expect(backFocus).not.toMatch(/outline:\s*(?:0|none)/);
+  });
+
+  it("keeps the focused list in the existing map-overlay sheet", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+
+    expect(mobileStyles).toMatch(/\.layer-category-list--focused\s*\{/);
+    expect(mobileStyles).toMatch(/\.layer-rail\s*\{[^}]*position:\s*absolute/s);
+    expect(mobileStyles).toMatch(/\.layer-rail\s*\{[^}]*max-height:\s*min\(86svh, 760px\)/s);
+  });
+});
+
 describe("tax-sale category master", () => {
   it("keeps the master touch-friendly with a visible keyboard focus", () => {
     const masterDeclarations = styles.match(

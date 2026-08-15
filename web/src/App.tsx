@@ -195,10 +195,10 @@ import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry"
 import type { PdfTemplateId } from "./print/pdf/templates/types";
 import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
-import { UserMapRows } from "./userMaps/components/UserMapRows";
+import { UserMapControls } from "./userMaps/components/UserMapRows";
 import { routeImportFiles } from "./userMaps/importRouting";
 import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
-import { UserVectorRows } from "./userMaps/vector/components/UserVectorRows";
+import { UserVectorControls } from "./userMaps/vector/components/UserVectorRows";
 import { useVectorEditSession } from "./userMaps/vector/edit/useVectorEditSession";
 import {
   VectorEditPanel,
@@ -845,6 +845,30 @@ export function App() {
     () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
   );
   const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
+  const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
+    () => window.matchMedia?.("(max-width: 860px)").matches ?? false,
+  );
+  const [focusedCategoryId, setFocusedCategoryId] =
+    useState<LayerCategoryId | null>(null);
+  const categoryButtonRefs = useRef(
+    new Map<LayerCategoryId, HTMLButtonElement>(),
+  );
+  const categoryBackButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!window.matchMedia) return;
+    const query = window.matchMedia("(max-width: 860px)");
+    const update = () => setPhoneCategoryLayout(query.matches);
+    update();
+    query.addEventListener?.("change", update);
+    return () => query.removeEventListener?.("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (focusedCategoryId !== null) {
+      categoryBackButtonRef.current?.focus();
+    }
+  }, [focusedCategoryId]);
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
     initialNeedsLicence,
   );
@@ -1038,6 +1062,19 @@ export function App() {
     },
     [],
   );
+  const focusCategory = useCallback((categoryId: LayerCategoryId) => {
+    setCategoryExpanded(categoryId, true);
+    setFocusedCategoryId(categoryId);
+  }, [setCategoryExpanded]);
+  const returnToCategories = useCallback(() => {
+    const previousId = focusedCategoryId;
+    setFocusedCategoryId(null);
+    if (previousId !== null) {
+      window.requestAnimationFrame(() => {
+        categoryButtonRefs.current.get(previousId)?.focus();
+      });
+    }
+  }, [focusedCategoryId]);
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
   const userMapsApi = useUserMaps();
@@ -3023,7 +3060,26 @@ export function App() {
 
           <section className="rail-section" aria-labelledby="layers-heading">
             <h2 id="layers-heading">Map layers</h2>
-            {layerCategories.map((category) => {
+            {phoneCategoryLayout && focusedCategoryId !== null ? (
+              <button
+                ref={categoryBackButtonRef}
+                type="button"
+                className="layer-category-back"
+                onClick={returnToCategories}
+              >
+                Back to categories
+              </button>
+            ) : null}
+            <div className={
+              phoneCategoryLayout && focusedCategoryId !== null
+                ? "layer-category-list layer-category-list--focused"
+                : "layer-category-list"
+            }>
+            {layerCategories
+              .filter((category) =>
+                !phoneCategoryLayout || focusedCategoryId === null ||
+                  category.id === focusedCategoryId)
+              .map((category) => {
               const provinceCategoryLayers = provinceLayerCatalog.filter(
                 ({ id }) => layerCategoryByLayerId[id] === category.id,
               );
@@ -3060,9 +3116,24 @@ export function App() {
                   name={category.name}
                   description={category.description}
                   summary={categorySummary(category.id)}
-                  expanded={expandedCategoryIds.has(category.id)}
+                  expanded={
+                    phoneCategoryLayout && focusedCategoryId === category.id
+                      ? true
+                      : expandedCategoryIds.has(category.id)
+                  }
                   onExpandedChange={(expanded) =>
-                    setCategoryExpanded(category.id, expanded)}
+                    phoneCategoryLayout
+                      ? focusedCategoryId === null
+                        ? focusCategory(category.id)
+                        : undefined
+                      : setCategoryExpanded(category.id, expanded)}
+                  buttonRef={(button) => {
+                    if (button) {
+                      categoryButtonRefs.current.set(category.id, button);
+                    } else {
+                      categoryButtonRefs.current.delete(category.id);
+                    }
+                  }}
                 >
                   {layerCategoryByLayerId.modern === category.id ? (
                     <label className="layer-row">
@@ -3698,7 +3769,7 @@ export function App() {
 
                   {category.id === "my-maps" ? (
                     <>
-                      <UserMapRows
+                      <UserMapControls
                         api={userMapsApi}
                         onImportFiles={(files) => void handleImportFiles(files)}
                         outcomes={mergedImportOutcomes}
@@ -3707,7 +3778,7 @@ export function App() {
                           userMapsApi.importingLabel ?? userVectorApi.importingLabel
                         }
                       />
-                      <UserVectorRows
+                      <UserVectorControls
                         api={userVectorApi}
                         onEdit={(id) =>
                           vectorEdit.editingId === id
@@ -3721,6 +3792,7 @@ export function App() {
                 </LayerCategorySection>
               );
             })}
+            </div>
           </section>
 
           <section className="offline-card" aria-labelledby="offline-heading">

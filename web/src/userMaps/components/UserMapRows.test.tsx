@@ -7,7 +7,7 @@ import {
   type UserMapsApi,
 } from "../useUserMaps";
 import type { Gcp, UserMapRecord } from "../types";
-import { UserMapRows } from "./UserMapRows";
+import { UserMapControls, UserMapRows } from "./UserMapRows";
 
 const record: UserMapRecord = {
   id: "a",
@@ -56,6 +56,14 @@ function api(overrides: Partial<UserMapsApi> = {}): UserMapsApi {
 }
 
 describe("UserMapRows", () => {
+  it("exposes the controls without owning another category disclosure", () => {
+    render(<UserMapControls api={api()} />);
+
+    expect(screen.queryByRole("group")).not.toBeInTheDocument();
+    expect(screen.queryByText("Your maps")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Add a map file")).toBeInTheDocument();
+  });
+
   it("shows the privacy promise verbatim", () => {
     render(<UserMapRows api={api()} />);
     expect(

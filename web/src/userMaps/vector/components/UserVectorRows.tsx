@@ -18,41 +18,35 @@ function provenance(record: UserVectorLayerRecord): string {
 }
 
 /**
- * The "Your data" section beside "Your maps": user vector layers, always
- * labeled as user-loaded material so they read as annotations, never as
- * official records. Import happens through the shared drop zone in "Your
- * maps" — this group only lists, toggles, and removes. No opacity slider on
+ * The vector controls App mounts directly inside My Maps. The transitional
+ * UserVectorRows wrapper below retains the old standalone disclosure. Vector
+ * layers stay labeled as user-loaded material, never official records. Import
+ * happens through the shared drop zone; these controls list, toggle, and
+ * remove. No opacity slider on
  * purpose: vector styles carry their own stroke/fill opacity, unlike the
  * raster rows' whole-image slider.
  */
-export function UserVectorRows({
-  api,
-  onEdit,
-  onNewLayer,
-  editingId = null,
-}: {
+export interface UserVectorRowsProps {
   api: UserVectorLayersApi;
   onEdit?: (id: string) => void;
   onNewLayer?: () => void;
   editingId?: string | null;
-}) {
+}
+
+function renderUserVectorControls({
+  api,
+  onEdit,
+  onNewLayer,
+  editingId = null,
+}: UserVectorRowsProps) {
   return (
-    <details className="resource-layer-group user-vector-group" open>
-      <summary>
-        <span>Your data</span>
-        <small>
-          {api.records.length === 0
-            ? "GeoJSON, KML, KMZ, GPX, SHP"
-            : `${api.records.length} loaded`}
-        </small>
-      </summary>
-      <div className="resource-layer-controls">
-        {api.storageError ? (
+    <>
+      {api.storageError ? (
           <small role="alert" className="user-map-error">
             {api.storageError}
           </small>
         ) : null}
-        {onNewLayer ? (
+      {onNewLayer ? (
           <button
             type="button"
             className="user-vector-new"
@@ -61,7 +55,7 @@ export function UserVectorRows({
             New drawing layer
           </button>
         ) : null}
-        {api.records.map((record) => {
+      {api.records.map((record) => {
           const enabled = api.uiState[record.id]?.enabled ?? false;
           return (
             <div className="layer-control user-vector-row" key={record.id}>
@@ -130,8 +124,32 @@ export function UserVectorRows({
               </button>
             </div>
           );
-        })}
-      </div>
+      })}
+    </>
+  );
+}
+
+export function UserVectorControls(props: UserVectorRowsProps) {
+  return (
+    <div className="resource-layer-controls">
+      {renderUserVectorControls(props)}
+    </div>
+  );
+}
+
+export function UserVectorRows(props: UserVectorRowsProps) {
+  const { api } = props;
+  return (
+    <details className="resource-layer-group user-vector-group" open>
+      <summary>
+        <span>Your data</span>
+        <small>
+          {api.records.length === 0
+            ? "GeoJSON, KML, KMZ, GPX, SHP"
+            : `${api.records.length} loaded`}
+        </small>
+      </summary>
+      <UserVectorControls {...props} />
     </details>
   );
 }
