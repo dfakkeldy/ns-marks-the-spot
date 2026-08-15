@@ -589,6 +589,12 @@ function expandedLayerCategoryIds(): string[] {
     .map(({ id }) => id);
 }
 
+function visibleLayerCategoryButtons(): HTMLElement[] {
+  return layerCategories.map(({ name }) => screen.getByRole("button", {
+    name: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`),
+  }));
+}
+
 function openLayerCategories(...names: string[]): void {
   for (const name of names) {
     openLayerCategory(name);
@@ -603,17 +609,58 @@ function renderAppWithCategoriesOpen() {
   return result;
 }
 
-function setMatchMedia(query: string, matches: boolean): void {
-  vi.stubGlobal("matchMedia", vi.fn((value: string): MediaQueryList => ({
-    matches: value === query ? matches : false,
-    media: value,
+function setMatchMedia(query: string, initialMatches: boolean) {
+  let matches = initialMatches;
+  const listeners = new Set<(event: MediaQueryListEvent) => void>();
+  const controlledQuery = {
+    get matches() {
+      return matches;
+    },
+    media: query,
     onchange: null,
     addListener: vi.fn(),
     removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(() => false),
-  })));
+    addEventListener: vi.fn((type: string, listener: EventListener) => {
+      if (type === "change") {
+        listeners.add(listener as (event: MediaQueryListEvent) => void);
+      }
+    }),
+    removeEventListener: vi.fn((type: string, listener: EventListener) => {
+      if (type === "change") {
+        listeners.delete(listener as (event: MediaQueryListEvent) => void);
+      }
+    }),
+    dispatchEvent: vi.fn((event: Event) => {
+      for (const listener of listeners) {
+        listener(event as MediaQueryListEvent);
+      }
+      return true;
+    }),
+  } as MediaQueryList;
+  vi.stubGlobal("matchMedia", vi.fn((value: string): MediaQueryList => (
+    value === query
+      ? controlledQuery
+      : {
+          matches: false,
+          media: value,
+          onchange: null,
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          dispatchEvent: vi.fn(() => false),
+        }
+  )));
+  return {
+    setMatches(nextMatches: boolean) {
+      matches = nextMatches;
+      const event = { matches, media: query } as MediaQueryListEvent;
+      controlledQuery.dispatchEvent(event);
+    },
+    listenerCount() {
+      return listeners.size;
+    },
+  };
 }
 
 const STORED_FIELD_THEME = {
@@ -1166,6 +1213,55 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.getByRole("button", { name: /^Historical Maps/ }))
         .toHaveFocus();
     });
+  });
+
+  it("clears phone focus across breakpoints without changing desktop disclosures", async () => {
+    const media = setMatchMedia("(max-width: 860px)", false);
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    const { unmount } = render(<App />);
+
+    expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
+
+    act(() => media.setMatches(true));
+    await userEvent.click(screen.getByRole("button", { name: "Search & layers" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Historical Maps/ }));
+    expect(screen.getByRole("button", { name: "Back to categories" }))
+      .toBeInTheDocument();
+
+    act(() => media.setMatches(false));
+    expect(screen.queryByRole("button", { name: "Back to categories" }))
+      .not.toBeInTheDocument();
+    expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
+
+    act(() => media.setMatches(true));
+    expect(screen.queryByRole("button", { name: "Back to categories" }))
+      .not.toBeInTheDocument();
+    expect(visibleLayerCategoryButtons()).toHaveLength(10);
+    expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
+
+    expect(media.listenerCount()).toBe(1);
+    unmount();
+    expect(media.listenerCount()).toBe(0);
+  });
+
+  it("returns to the phone category list when the focused heading is activated", async () => {
+    setMatchMedia("(max-width: 860px)", true);
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Search & layers" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Historical Maps/ }));
+    await userEvent.click(screen.getByRole("button", { name: /^Historical Maps/ }));
+
+    expect(screen.queryByRole("button", { name: "Back to categories" }))
+      .not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /^Historical Maps/ }))
+        .toHaveFocus();
+    });
+    expect(visibleLayerCategoryButtons()).toHaveLength(10);
   });
 
   it("keeps the phone sheet and focused category open when a layer toggles", async () => {

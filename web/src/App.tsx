@@ -858,7 +858,12 @@ export function App() {
   useEffect(() => {
     if (!window.matchMedia) return;
     const query = window.matchMedia("(max-width: 860px)");
-    const update = () => setPhoneCategoryLayout(query.matches);
+    const update = () => {
+      setPhoneCategoryLayout(query.matches);
+      if (!query.matches) {
+        setFocusedCategoryId(null);
+      }
+    };
     update();
     query.addEventListener?.("change", update);
     return () => query.removeEventListener?.("change", update);
@@ -1063,9 +1068,8 @@ export function App() {
     [],
   );
   const focusCategory = useCallback((categoryId: LayerCategoryId) => {
-    setCategoryExpanded(categoryId, true);
     setFocusedCategoryId(categoryId);
-  }, [setCategoryExpanded]);
+  }, []);
   const returnToCategories = useCallback(() => {
     const previousId = focusedCategoryId;
     setFocusedCategoryId(null);
@@ -3123,7 +3127,9 @@ export function App() {
                   }
                   onExpandedChange={(expanded) =>
                     phoneCategoryLayout
-                      ? focusedCategoryId === null
+                      ? focusedCategoryId === category.id && !expanded
+                        ? returnToCategories()
+                        : focusedCategoryId === null
                         ? focusCategory(category.id)
                         : undefined
                       : setCategoryExpanded(category.id, expanded)}
