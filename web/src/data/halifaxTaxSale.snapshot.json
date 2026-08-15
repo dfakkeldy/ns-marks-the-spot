@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "municipality": "Halifax Regional Municipality",
+  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-13.26.pdf",
+  "landingPage": "https://www.halifax.ca/home-property/property-taxes/tax-sale",
+  "tenderInstructions": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
+  "retrievedDate": "2026-08-15",
+  "tenderNumber": "HRM-TaxSale23",
+  "tenderDocumentSha256": "4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56",
+  "scheduleDocumentSha256": "129ce382934a556739486d80c2de0ebee3f0d47dee94a8544734d90d9db3f648",
+  "sourceFactsSha256": "070c66cc8c7b8819a1ce12d41e07eab33d529300951c0baa36a9d4f68f571389",
+  "sourceHashPolicy": "Both dated official PDFs contain assessed-owner names. This receipt hashes the source bytes and normalized owner-free facts; the PDFs themselves are not committed.",
+  "ownerNamesExcluded": true,
+  "eventDate": "2026-09-15",
+  "bidDeadlineTime": "10:00",
+  "venue": "Online or Alderney Customer Service Centre, 40 Alderney Drive, Dartmouth, Nova Scotia",
+  "sourceRowCount": 31,
+  "listingCount": 31,
+  "parcelIdentifierCount": 32,
+  "mappedListingCount": 29,
+  "mappedParcelIdentifierCount": 30,
+  "hstYesCount": 9,
+  "notRedeemableCount": 2,
+  "geometryExceptions": [
+    {
+      "aan": "09417036",
+      "pid": "41051889",
+      "reason": "no-nsprd-geometry",
+      "checkedOn": "2026-08-15"
+    },
+    {
+      "aan": "09417044",
+      "pid": "41051897",
+      "reason": "no-nsprd-geometry",
+      "checkedOn": "2026-08-15"
+    }
+  ],
+  "listings": [
+    {
+      "item": 1,
+      "aan": "00276111",
+      "pids": [
+        "00535617"
+      ],
+      "description": "1295 Higginsville Rd Higginsville - Dwelling",
+      "openingBidCents": 297246,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 2,
+      "aan": "00418048",
+      "pids": [
+        "00577643"
+      ],
+      "description": "1125 Mushaboom Rd Mushaboom - Dwelling",
+      "openingBidCents": 1489072,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 3,
+      "aan": "00511188",
+      "pids": [
+        "00594325"
+      ],
+      "description": "8 Marinavista Lane Lot 6-Ab Boutiliers Point - Dwelling",
+      "openingBidCents": 1035214,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 4,
+      "aan": "01312286",
+      "pids": [
+        "00002006"
+      ],
+      "description": "6020 Inglis St Halifax - Dwelling",
+      "openingBidCents": 566201,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 5,
+      "aan": "01611097",
+      "pids": [
+        "00420273"
+      ],
+      "description": "71 Crestfield Dr Lot 58 Hammonds Plains - Dwelling",
+      "openingBidCents": 690526,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 6,
+      "aan": "01729306",
+      "pids": [
+        "41275561"
+      ],
+      "description": "2123 Creighton St Lot Dms-8 Halifax - Building",
+      "openingBidCents": 2715649,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 7,
+      "aan": "01850652",
+      "pids": [
+        "00015966"
+      ],
+      "description": "3257 Agricola St Halifax - Dwelling",
+      "openingBidCents": 1691120,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 8,
+      "aan": "01896946",
+      "pids": [
+        "00308601"
+      ],
+      "description": "40 Mountain Rd Halifax - Dwelling",
+      "openingBidCents": 1000384,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 9,
+      "aan": "01968106",
+      "pids": [
+        "40014169"
+      ],
+      "description": "199b Old Beaver Bank Rd Lot 4 Lower Sackville - Dwelling",
+      "openingBidCents": 945948,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 10,
+      "aan": "02300761",
+      "pids": [
+        "00018531"
+      ],
+      "description": "3484 Intercolonial St Lot E Halifax - Building",
+      "openingBidCents": 6141121,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 11,
+      "aan": "02365103",
+      "pids": [
+        "00098723",
+        "00632414"
+      ],
+      "description": "8 Greenbank Crt Lot 12 Dartmouth - Dwelling",
+      "openingBidCents": 1086255,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 12,
+      "aan": "02977664",
+      "pids": [
+        "40123432"
+      ],
+      "description": "124 Ridge Ave Lot K-1 Waverley - Dwelling",
+      "openingBidCents": 948222,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 13,
+      "aan": "03042227",
+      "pids": [
+        "00649160"
+      ],
+      "description": "Old Public Rd Nine Mile River - Land",
+      "openingBidCents": 428673,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 14,
+      "aan": "03130053",
+      "pids": [
+        "00039396"
+      ],
+      "description": "223 Victoria Rd Dartmouth - Dwelling",
+      "openingBidCents": 323738,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 15,
+      "aan": "03294625",
+      "pids": [
+        "40290983"
+      ],
+      "description": "206 South Rd South Section - Building",
+      "openingBidCents": 2168614,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 16,
+      "aan": "03952967",
+      "pids": [
+        "40222507"
+      ],
+      "description": "9992 Peggys Cove Rd Lot E Hacketts Cove - Dwelling",
+      "openingBidCents": 801221,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 17,
+      "aan": "03975738",
+      "pids": [
+        "40078875"
+      ],
+      "description": "2 Lockwood Ave Lot 56&55a Herring Cove - Dwelling",
+      "openingBidCents": 771431,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 18,
+      "aan": "04360435",
+      "pids": [
+        "41414913"
+      ],
+      "description": "1183 Fall River Rd Lot A-1 Fall River - Dwelling",
+      "openingBidCents": 2023919,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 19,
+      "aan": "04884574",
+      "pids": [
+        "00040493"
+      ],
+      "description": "158 Victoria Rd Dartmouth - Dwelling",
+      "openingBidCents": 1076666,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 20,
+      "aan": "05009715",
+      "pids": [
+        "40281776"
+      ],
+      "description": "Pleasant St Lot 6 Dartmouth - Land",
+      "openingBidCents": 807688,
+      "redeemable": false,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 21,
+      "aan": "06343732",
+      "pids": [
+        "40423212"
+      ],
+      "description": "41 Lumberman Dr Lot 449b Middle Sackville - Dwelling",
+      "openingBidCents": 824836,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 22,
+      "aan": "07669615",
+      "pids": [
+        "40538225"
+      ],
+      "description": "1814 Hammonds Plains Rd Lot 1 Hammonds Plains - Dwelling",
+      "openingBidCents": 1082207,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 23,
+      "aan": "08587949",
+      "pids": [
+        "40636888"
+      ],
+      "description": "Privateer Rd Lot 4 West Dover - Land",
+      "openingBidCents": 2736877,
+      "redeemable": false,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 24,
+      "aan": "08960526",
+      "pids": [
+        "40772188"
+      ],
+      "description": "Jeddore Cape Lot 2 Lower West Jeddore - Land",
+      "openingBidCents": 730640,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 25,
+      "aan": "09002952",
+      "pids": [
+        "40816878"
+      ],
+      "description": "61 Byblos Rd Lot 28 Upper Hammonds Plains - Dwelling",
+      "openingBidCents": 1109418,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 26,
+      "aan": "09417036",
+      "pids": [
+        "41051889"
+      ],
+      "description": "40 Regency Park Dr Unit P19 Halifax Cc Unit #P19 *Parking Space",
+      "openingBidCents": 153403,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 27,
+      "aan": "09417044",
+      "pids": [
+        "41051897"
+      ],
+      "description": "40 Regency Park Dr Unit P20 Halifax Cc Unit #P20 *Parking Space",
+      "openingBidCents": 153406,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 28,
+      "aan": "10117747",
+      "pids": [
+        "41270000"
+      ],
+      "description": "Cresthaven Dr Halifax - Land",
+      "openingBidCents": 850350,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 29,
+      "aan": "10190312",
+      "pids": [
+        "41274085"
+      ],
+      "description": "57 Inspector Crt Lot 10 Halifax - Dwelling",
+      "openingBidCents": 1198513,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 30,
+      "aan": "10206863",
+      "pids": [
+        "41296948"
+      ],
+      "description": "65 Meadow Dr Beaver Bank - Land",
+      "openingBidCents": 422364,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 31,
+      "aan": "10996597",
+      "pids": [
+        "41515701"
+      ],
+      "description": "38 Dugger Mcneil Dr Lot 4-2 Beechville - Land",
+      "openingBidCents": 28474623,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    }
+  ]
+}

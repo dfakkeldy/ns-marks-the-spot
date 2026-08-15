@@ -475,6 +475,16 @@ tile host show an honest disabled state. The scoped permission does not by
 itself clear native offline bundling, and this workflow does not change the
 existing native layer.
 
+Current-notice source rows and rendered parcel geometry are also separate
+evidence states. A municipal PID that returns no exact NSPRD feature remains in
+the owner-free source snapshot and is represented by a dated
+`TaxSaleGeometryException`; it is not passed to the map layer, counted as a
+mapped parcel, or replaced with another PID. Event controls disclose advertised,
+mapped, and unavailable counts, and the property browser shows each exception
+as non-interactive official notice evidence. Live acceptance requires every
+ordinary catalog PID to resolve and every declared exception PID to remain
+empty, so NSPRD changes fail closed for review in either direction.
+
 Historical outcomes use a second, default-off client-side catalog in
 `web/src/data/historicalTaxSales.json`. Municipal notice/result pairs are the
 authority for event, outcome, and financial fields. Two NSPRD match methods are

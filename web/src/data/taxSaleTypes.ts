@@ -35,6 +35,15 @@ export type TaxSaleListing = {
   listingStatus: TaxSaleListingStatus;
 };
 
+export type TaxSaleGeometryException = {
+  recordId: string;
+  aan?: string;
+  pids: string[];
+  location: string;
+  reason: "no-nsprd-geometry";
+  checkedOn: string;
+};
+
 export type TaxSaleEvent = {
   id: string;
   municipalityId: string;
@@ -53,4 +62,5 @@ export type TaxSaleEvent = {
   retrievedOn: string;
   sourceDatasetSha256?: string;
   listings: TaxSaleListing[];
+  geometryExceptions?: TaxSaleGeometryException[];
 };

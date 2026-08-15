@@ -3,8 +3,9 @@
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
 The current-notice catalog covers the August 11, 2026 Inverness County auction,
-the August 20, 2026 Middleton auction, and the August 31, 2026 Annapolis County
-tax sale by tender.
+the August 20, 2026 Middleton auction, the August 31, 2026 Annapolis County tax
+sale by tender, the September 14, 2026 Victoria County tender, and the September
+15, 2026 Halifax tender.
 The completed July 21, 2026 CBRM event is retained in historical-record mode
 with outcomes explicitly pending until the municipality publishes results.
 
@@ -53,7 +54,10 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    PID or by the exact coordinate of a visible-boundary map tap or chosen civic
    point. The selected parcel sheet sums NSPRD's mapped area across every
    polygon returned for that PID and converts it to acres. The municipal notice
-   remains the authority for tax-sale fields.
+   remains the authority for tax-sale fields. An official notice row whose PID
+   returns no exact NSPRD geometry stays in the owner-free source receipt and is
+   disclosed as unavailable rather than silently omitted or assigned substitute
+   geometry.
 5. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
@@ -742,6 +746,63 @@ closed on an unrecognized winning-bid value or identifier mismatch.
   that JSON. A test pins the published SHA-256
   `ccfe84b6452c25fce271a8a83ebd9f18fe2055d126d426efac79c415ea84d87b`
   so either repository cannot drift silently.
+
+## Victoria September 2026 source receipt
+
+- Official landing page: [Victoria County Tax Sales](https://victoriacounty.com/residents/property-taxation-services/tax-sales/)
+- Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
+  dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
+  Administration Building in Baddeck.
+- The official table contains nine numbered rows. Row 1 prints `REMOVED` in
+  every public field, including AAN and PID, so it is retained only as one
+  opaque removed-row count and is not assigned a parcel identity. The other
+  eight rows publish exact AAN/PID pairs, descriptions, redeemability, and total
+  owing. All eight PIDs matched NSPRD on August 15, 2026.
+- The assessed-name column is discarded before normalized facts or the public
+  snapshot are written. Land-registration values are validated for known
+  `YES`/`NO` input but are not added to the public map schema. The normalized
+  owner-free source-facts SHA-256 is
+  `384263a9a3e1ee8e1797d1a10535113ea3fc7ffe009680f91053dc5e2c721755`;
+  the byte-for-byte public dataset SHA-256 is
+  `d2444c096300054cdcf53e9b74dbede0c108da6bb9acea50bb80b773cd4d9b43`.
+- Because the municipality overwrites this HTML notice as properties are
+  removed, the page was archived before ingestion. The raw replay bytes are
+  preserved at the [Wayback Machine](https://web.archive.org/web/20260815200820id_/https://victoriacounty.com/property-tax-sale-notice/)
+  with SHA-256
+  `5e55ee85b2c8f56f78b1162c4e4f25c07e3c6ef420a3bbee94ba3b0886c99895`.
+
+Run `npm run refresh:victoria-tax-sale` to reparse the official table. A partial
+removal, malformed or duplicate identifier, unfamiliar `YES`/`NO` state, row
+count regression, or changed notice that cannot first be matched to a verified
+archive capture fails closed.
+
+## Halifax September 2026 source receipt
+
+- Official landing page: [Halifax Tax Sale](https://www.halifax.ca/home-property/property-taxes/tax-sale).
+  Tender `HRM-TaxSale23` closes at 10:00 AM September 15, 2026. The official
+  [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
+  have SHA-256
+  `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-13.26.pdf)
+  has SHA-256
+  `129ce382934a556739486d80c2de0ebee3f0d47dee94a8544734d90d9db3f648`.
+- Schedule A contains 31 advertised rows and 32 exact PIDs. Twenty-nine rows
+  covering 30 PIDs returned exact NSPRD geometry on August 15, 2026. PIDs
+  `41051889` (AAN `09417036`) and `41051897` (AAN `09417044`) returned valid
+  empty NSPRD collections. Both official parking-space rows remain in the
+  owner-free source snapshot and appear as non-interactive geometry exceptions;
+  no replacement PID or parcel is inferred.
+- Nine source rows print HST `Yes`, and two print redeemable `No`. Those inputs
+  are validated and counted but HST is not added to the public listing schema.
+  The assessed-name column and owner-bearing PDF bytes are not committed. The
+  byte-for-byte owner-free public dataset SHA-256 is
+  `33949145508644e6aa516eff2adf47483ac4f1f597fdaee6810942477e5577ec`.
+
+Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs. The
+refresh fails closed on a changed document link, tender number, fixed-column
+layout, identifier, amount, flag, row/PID count, or geometry-exception pair.
+The live NSPRD test requires every mapped PID to resolve and every declared
+exception PID to remain empty, so either provincial change triggers review.
 
 ## Historical record layer receipt
 
