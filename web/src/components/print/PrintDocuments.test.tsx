@@ -157,8 +157,8 @@ function snapshot(overrides: Record<string, unknown> = {}) {
 const map = <div aria-label="Printable map">Captured map</div>;
 
 describe("print documents", () => {
-  it("omits the current tax-sale symbol from a tax-off research legend", () => {
-    render(
+  it("removes current tax-sale presentation from a tax-off research document", () => {
+    const { container } = render(
       <PrintResearchDocument
         snapshot={snapshot({
           taxSaleEnabled: false,
@@ -178,6 +178,11 @@ describe("print documents", () => {
       />,
     );
 
+    expect(container.querySelector(".print-capture-context")).toHaveTextContent("Map state");
+    expect(container).not.toHaveTextContent("Current map state");
+    expect(container).not.toHaveTextContent("Historical map state");
+    expect(container).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(screen.getByText("PID 01234567")).toBeInTheDocument();
     const legend = screen.getByLabelText("Active map layers");
     expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
     expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
@@ -185,8 +190,8 @@ describe("print documents", () => {
     expect(legend.querySelector(".print-layer-symbol--current-tax-sale")).toBeNull();
   });
 
-  it("omits the historical tax-sale symbol from a tax-off field legend", () => {
-    render(
+  it("removes historical tax-sale presentation from a tax-off field document", () => {
+    const { container } = render(
       <PrintFieldDocument
         snapshot={snapshot({
           taxSaleEnabled: false,
@@ -206,6 +211,11 @@ describe("print documents", () => {
       />,
     );
 
+    expect(container.querySelector(".print-capture-context")).toHaveTextContent("Map state");
+    expect(container).not.toHaveTextContent("Current map state");
+    expect(container).not.toHaveTextContent("Historical map state");
+    expect(container).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
     const legend = screen.getByLabelText("Active map layers");
     expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
     expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();

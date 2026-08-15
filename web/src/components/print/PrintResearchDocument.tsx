@@ -416,7 +416,11 @@ export function PrintMapFailure({
 }
 
 export function PrintCaptureContext({ snapshot }: { snapshot: PrintSnapshot }) {
-  const mode = snapshot.mode === "historical" ? "Historical map state" : "Current map state";
+  const mode = !snapshot.taxSaleEnabled
+    ? "Map state"
+    : snapshot.mode === "historical"
+      ? "Historical map state"
+      : "Current map state";
   const eventsById = new Map<string, PrintSnapshot["events"][number]>();
   for (const event of snapshot.events) {
     if (!eventsById.has(event.id)) eventsById.set(event.id, event);

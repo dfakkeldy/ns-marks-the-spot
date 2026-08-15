@@ -946,6 +946,82 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("ignores a late notice-AAN assessment failure after Tax Sale is turned off", async () => {
+    const noticeAssessment = deferred<Awaited<ReturnType<typeof fetchParcelAssessments>>>();
+    const ordinaryAssessment = deferred<Awaited<ReturnType<typeof fetchParcelAssessments>>>();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=on&mode=current&pid=50203256&event=inverness-county-2026-08-11&layers=nsprd",
+    );
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection",
+      features: pids.map(parcelFeature),
+    }));
+    vi.mocked(fetchParcelAssessments).mockImplementation((_features, noticeAan) =>
+      noticeAan ? noticeAssessment.promise : ordinaryAssessment.promise,
+    );
+
+    render(<App />);
+    const taxSale = openLayerCategory("Tax Sale");
+
+    await waitFor(() => expect(fetchParcelAssessments).toHaveBeenCalledWith(
+      expect.any(Array),
+      "00603988",
+      expect.any(AbortSignal),
+    ));
+    await userEvent.click(
+      within(taxSale).getByLabelText("Show tax-sale information"),
+    );
+    await waitFor(() => expect(fetchParcelAssessments).toHaveBeenCalledWith(
+      expect.any(Array),
+      undefined,
+      expect.any(AbortSignal),
+    ));
+
+    await act(async () => {
+      ordinaryAssessment.resolve({
+        matchMethod: "spatial",
+        accounts: [{
+          aan: "SPATIAL2",
+          records: [{
+            taxYear: 2026,
+            assessedValue: 333_000,
+            taxableAssessedValue: 330_000,
+            coordinates: [-61.391318, 46.071925],
+          }],
+        }],
+      });
+      await ordinaryAssessment.promise;
+    });
+
+    const assessment = await screen.findByRole("region", {
+      name: "PVSC assessment account",
+    });
+    expect(within(assessment).getByText(
+      "Matched by a PVSC account point inside the mapped parcel.",
+    )).toBeInTheDocument();
+    expect(within(assessment).getByText("$333,000.00")).toBeInTheDocument();
+
+    await act(async () => {
+      noticeAssessment.reject(new Error("late notice lookup failed"));
+      await noticeAssessment.promise.catch(() => undefined);
+    });
+
+    expect(within(assessment).getByText(
+      "Matched by a PVSC account point inside the mapped parcel.",
+    )).toBeInTheDocument();
+    expect(within(assessment).getByText("$333,000.00")).toBeInTheDocument();
+    expect(within(assessment).queryByText(
+      "PVSC open assessment data is unavailable. No absence is inferred.",
+    )).not.toBeInTheDocument();
+    expect(fetchDwellingCharacteristics).not.toHaveBeenCalledWith(
+      ["00603988"],
+      expect.any(AbortSignal),
+    );
+  });
+
   it("enables all currently loaded notices from the category master", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");
