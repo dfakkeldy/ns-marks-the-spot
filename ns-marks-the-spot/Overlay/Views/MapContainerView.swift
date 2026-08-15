@@ -201,6 +201,22 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
+                            navigationModel.activeSheet = .printExport
+                        } label: {
+                            Image(systemName: "printer")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+                        .accessibilityLabel("Export This Map As A PDF")
+                        .accessibilityIdentifier("export-map-pdf")
+                        .disabled(isSelectingSaveArea)
+
+                        Button {
+                            cancelBoundsSelection()
                             navigationModel.activeSheet = .info
                         } label: {
                             Image(systemName: "info.circle")
@@ -387,6 +403,13 @@ struct MapContainerView: View {
             case .saveAreaDraft(let bounds):
                 NavigationStack {
                     SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)
+                }
+            case .printExport:
+                PrintExportSheet(overlayVM: overlayVM) { url in
+                    // The finished page goes straight to the share sheet, and
+                    // the export sheet stays up: it is holding the account of
+                    // which layers did not print.
+                    share = SharePayload(url: url)
                 }
             }
         }

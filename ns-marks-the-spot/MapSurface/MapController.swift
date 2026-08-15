@@ -432,6 +432,22 @@ final class MapController: NSObject {
         events?(.boundsSelected(bounds.normalized))
     }
 
+    /// The tile overlays currently installed, keyed by layer id.
+    ///
+    /// The export composites through these rather than building its own: they
+    /// are what is holding the tile cache and the licence clearance, and an
+    /// export that fetched around them would be a second, ungated route to the
+    /// same sources.
+    func installedTileOverlays() -> [String: OpacityTileOverlay] {
+        var installed = [String: OpacityTileOverlay]()
+        for overlay in mapView?.overlays ?? [] {
+            if let tileOverlay = overlay as? OpacityTileOverlay {
+                installed[tileOverlay.configuration.id] = tileOverlay
+            }
+        }
+        return installed
+    }
+
     func currentVisibleBounds() -> MapBounds? {
         guard let region = mapView?.region else { return nil }
         return MapBounds(

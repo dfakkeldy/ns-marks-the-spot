@@ -967,6 +967,43 @@ final class OverlayViewModel {
         )
     }
 
+    /// Everything the printed page needs about the map, read at the tap.
+    ///
+    /// A snapshot rather than a live reference: compositing takes seconds, and
+    /// a page assembled from a map that moved underneath it would carry a
+    /// registration for ground it does not show.
+    func printExportRequest(
+        template: PdfTemplate,
+        fields: PdfComposer.Fields,
+        generatedAt: Date = Date()
+    ) -> PrintExportRequest? {
+        guard let bounds = controller.currentVisibleBounds() else { return nil }
+        return PrintExportRequest(
+            visibleBounds: GeoBoundingBox(
+                south: bounds.minLatitude,
+                west: bounds.minLongitude,
+                north: bounds.maxLatitude,
+                east: bounds.maxLongitude
+            ),
+            baseMap: controller.baseMapType,
+            layers: controller.layers,
+            parcels: controller.state.parcelShapes,
+            template: template,
+            fields: fields,
+            generatedAt: generatedAt
+        )
+    }
+
+    /// The map's own tile path, so the export honours the cache and the licence
+    /// clearance the screen is already holding rather than asking again.
+    var printTileProvider: PrintMapCompositor.TileProvider {
+        PrintMapCompositor.provider(overlays: controller.installedTileOverlays())
+    }
+
+    var printRenderProvider: PrintMapCompositor.RenderProvider {
+        PrintMapCompositor.renderer(clearance: clearanceBox)
+    }
+
     /// Opens a shared link.
     ///
     /// Restores what this build can vouch for and nothing else: the record set,
