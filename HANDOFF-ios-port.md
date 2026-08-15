@@ -663,3 +663,26 @@ branch claude/ios-web-map-parity-2de228.
 Next action: once xcode-build-slot.sh --status reads GO, run the app test
 target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
 ```
+
+## 2026-08-15 — georeferencing maths: spline, residuals, mesh, projection
+
+Done: Codex review 2's five print findings are fixed and committed (f5ba644a1)
+— tiles now carry what is in them, so a layer that put no ink on the page is
+neither legended nor credited, and the unsupported-layer disclosure moved to the
+attribution strip where it cannot be silently pushed off the page. Phase 8 in
+NSMarksCore: thin-plate spline (b78a61381), residuals (66ad29298), the warp
+lattice (754e30ff5), and embedded-GeoTIFF placement with a hand-rolled inverse
+transverse Mercator pinned against proj4 (f388ccb3f). 623 package tests pass.
+The app target has still never been compiled — every app file is
+`swiftc -parse` clean only, and the resource gate has read HOLD all day.
+
+Next: Codex review 3 of the projection maths is running. Then the import
+parsers, then the warped-raster renderer. The gate opens at 22:00.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: once xcode-build-slot.sh --status reads GO, run the app test
+target through the slot wrapper; expect the first errors in ns-marks-the-spot/Print/.
+```
