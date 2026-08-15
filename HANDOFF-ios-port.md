@@ -529,3 +529,28 @@ Next action: xcrun simctl boot 24FBD923-387E-4B7E-9063-FCF166239B1C, then ONE
 `xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests/HistoricalTaxSalePanelTests
 -scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
 ```
+
+## 2026-08-14 — Phase 5: share links and evidence-note export
+
+Done: `MapShareState` + `EvidenceNote` in NSDataServices (package tests 480
+green); `ParcelEvidenceExport`, share-sheet wiring, inspector field tools,
+`restore(from:)`, `MapController.center(on:zoom:)` with a pending centre for
+cold launch. One Codex review, eight findings, all fixed. Commits e1c0c4273,
+bcf28ae19. Both app targets type-check.
+
+Known limits: `.onOpenURL` cannot fire — no URL scheme, no associated-domains
+entitlement, so shared https links open the browser. GeoPDF hand-off moved to
+Phase 7 (print), since the PDF handed off is the one the print path makes.
+
+Next: the build gate opens at 22:00. Run the three never-run app suites
+(TaxSalePanelTests, HistoricalTaxSalePanelTests, MapShareAndEvidenceTests),
+then start Phase 7.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228.
+Next action: xcrun simctl boot 24FBD923-387E-4B7E-9063-FCF166239B1C, then ONE
+`xcode-build-slot.sh -- xcodebuild test -only-testing:ns-marks-the-spotTests/MapShareAndEvidenceTests
+-scheme ns-marks-the-spot -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`
+```
