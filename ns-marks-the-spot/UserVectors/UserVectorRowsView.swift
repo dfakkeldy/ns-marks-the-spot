@@ -18,6 +18,7 @@ struct UserVectorRowsView: View {
     var onEdit: ((UserVectorsViewModel.Row) -> Void)?
 
     @State private var isImporting = false
+    @State private var sharing: SharePayload?
     @State private var renaming: UserVectorsViewModel.Row?
     @State private var newName = ""
 
@@ -53,6 +54,9 @@ struct UserVectorRowsView: View {
                         renaming = row
                     },
                     onEdit: onEdit.map { edit in { edit(row) } },
+                    onExport: row.parsed.map { parsed in
+                        { format in sharing = Self.payload(row.record, parsed, format) }
+                    },
                     onDelete: { Task { await viewModel.delete(id: row.id) } }
                 )
             }
@@ -66,6 +70,9 @@ struct UserVectorRowsView: View {
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
             }
+        }
+        .sheet(item: $sharing) { payload in
+            ShareSheet(items: payload.items)
         }
         .fileImporter(
             isPresented: $isImporting,
@@ -99,6 +106,47 @@ struct UserVectorRowsView: View {
         }
     }
 
+    /// What a layer can be handed to another app as.
+    ///
+    /// Both, rather than GeoJSON alone: GeoJSON is what another mapping tool
+    /// wants, and KML is what Google Earth opens. Neither is a conversion of the
+    /// other's meaning — the KML carries the authored styling, the GeoJSON
+    /// carries every property the file arrived with.
+    enum ExportFormat: String, CaseIterable {
+        case geoJson = "GeoJSON"
+        case kml = "KML"
+
+        var fileExtension: String { self == .geoJson ? "geojson" : "kml" }
+    }
+
+    /// The layer written to a temporary file under its own name.
+    ///
+    /// Named for the layer rather than its id, because the id is this app's
+    /// bookkeeping and the name is what the user called it. `nil` if it cannot
+    /// be written or encoded: a share that silently handed over nothing would
+    /// look like the other app refused it.
+    static func payload(
+        _ record: UserVectorLayerRecord, _ parsed: ParsedVector, _ format: ExportFormat
+    ) -> SharePayload? {
+        let safe = record.name
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { !$0.isEmpty }
+            .joined(separator: "-")
+        let filename = "\(safe.isEmpty ? "layer" : safe).\(format.fileExtension)"
+        switch format {
+        case .geoJson:
+            guard let data = try? VectorExport.geoJson(parsed),
+                let text = String(data: data, encoding: .utf8)
+            else { return nil }
+            return SharePayload(text: text, filename: filename)
+        case .kml:
+            return SharePayload(
+                text: VectorExport.kml(layerName: record.name, parsed: parsed),
+                filename: filename
+            )
+        }
+    }
+
     /// Reads the chosen file into memory, under the security scope the picker
     /// hands over.
     ///
@@ -119,6 +167,9 @@ private struct UserVectorRow: View {
     let onZoom: (() -> Void)?
     let onRename: () -> Void
     let onEdit: (() -> Void)?
+    /// Nil while the layer's features are still being read: there is nothing to
+    /// hand over yet, and an export of an unloaded layer would be an empty file.
+    let onExport: ((UserVectorRowsView.ExportFormat) -> Void)?
     let onDelete: () -> Void
 
     var body: some View {
@@ -141,6 +192,13 @@ private struct UserVectorRow: View {
                     }
                     if let onEdit {
                         Button("Edit…", action: onEdit)
+                    }
+                    if let onExport {
+                        Menu("Export") {
+                            ForEach(UserVectorRowsView.ExportFormat.allCases, id: \.self) { format in
+                                Button(format.rawValue) { onExport(format) }
+                            }
+                        }
                     }
                     Button("Rename…", action: onRename)
                     Button("Delete", role: .destructive, action: onDelete)
