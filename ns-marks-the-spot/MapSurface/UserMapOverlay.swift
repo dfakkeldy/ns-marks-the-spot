@@ -16,8 +16,18 @@ nonisolated final class UserMapOverlay: NSObject, MKOverlay {
     let mesh: [[GeoPoint]]
     /// Pixel positions, paired vertex for vertex with `mesh`.
     let sourceMesh: [[PixelPoint]]
-    /// The decoded preview, in the pixels `sourceMesh` is expressed in.
+    /// The decoded preview. Its own dimensions are not the ones that matter —
+    /// see `pixelSize`.
     let image: CGImage
+    /// The size of the raster the preview was made from, which is the space
+    /// `sourceMesh` is expressed in.
+    ///
+    /// A preview is capped at a few thousand pixels on its longest edge, and a
+    /// provincial sheet can be ten times that. Drawing the preview at its own
+    /// size under a transform solved in the original's pixels would shrink the
+    /// sheet to a corner of where it belongs — a sheet in the right county,
+    /// wrong by a factor nobody would guess from looking at it.
+    let pixelSize: PixelSize
     /// What the user set on the layer's slider.
     let alpha: CGFloat
 
@@ -28,10 +38,13 @@ nonisolated final class UserMapOverlay: NSObject, MKOverlay {
     /// disagree about the crop. Both mean there is nothing to draw, and an
     /// overlay that exists but draws nothing is worse than none: it takes a
     /// slot in the draw order and a row in the panel.
-    init?(record: UserMapRecord, image: CGImage, alpha: CGFloat, gridSize: Int) {
+    init?(record: UserMapRecord, image: CGImage, alpha: CGFloat) {
         guard let mesh = record.mesh,
+              // The record states the grid size the solver that built its mesh
+              // used, so the pixel lattice cannot be paired against a ground
+              // mesh of a different shape.
               let sourceMesh = try? WarpMesh.sourceMesh(
-                  pixelSize: record.pixelSize, gridSize: gridSize,
+                  pixelSize: record.pixelSize, gridSize: record.meshGridSize,
                   sourceRect: record.sourceRect
               ),
               mesh.count == sourceMesh.count,
@@ -43,6 +56,7 @@ nonisolated final class UserMapOverlay: NSObject, MKOverlay {
         self.mesh = mesh
         self.sourceMesh = sourceMesh
         self.image = image
+        self.pixelSize = record.pixelSize
         self.alpha = alpha
         self.boundingMapRect = rect
         self.coordinate = MKMapPoint(x: rect.midX, y: rect.midY).coordinate
@@ -122,8 +136,10 @@ nonisolated final class UserMapOverlayRenderer: MKOverlayRenderer {
             width: Double(clip.width), height: Double(clip.height)
         )
 
-        let width = CGFloat(userMap.image.width)
-        let height = CGFloat(userMap.image.height)
+        // The original raster's size, not the preview's: the transform was
+        // solved in those pixels, so the preview is stretched back up to them.
+        let width = CGFloat(userMap.pixelSize.width)
+        let height = CGFloat(userMap.pixelSize.height)
         context.interpolationQuality = .high
 
         for triangle in WarpMesh.allTriangles(

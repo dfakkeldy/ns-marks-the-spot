@@ -81,6 +81,25 @@ public struct UserMapRecord: Identifiable, Hashable, Sendable, Codable {
         }
     }
 
+    /// The lattice's grid size — one fewer than the rows `mesh` returns.
+    ///
+    /// Stated here, beside the branch that chooses it, because the renderer
+    /// has to build a *pixel* lattice of the same shape to pair with it. A
+    /// caller that guessed would pair a 33-row ground mesh against a 9-row
+    /// pixel one, and the honest thing a renderer can do with that is refuse
+    /// to draw — a sheet that vanishes when the user switches to a spline.
+    public var meshGridSize: Int {
+        switch placement {
+        case .embedded:
+            return RasterProjection.embeddedGridSize
+        case .controlPoints(let points, let method):
+            return method == .spline
+                && points.count >= ThinPlateSpline.minimumBendingControlPoints
+                ? GcpMesh.splineGridSize
+                : GcpMesh.affineGridSize
+        }
+    }
+
     /// Whether this record still needs a user to place it.
     ///
     /// True exactly when there is no lattice to draw. Derived from the same

@@ -121,6 +121,34 @@ struct UserMapRecordTests {
         #expect(record.needsGeoreferencing)
     }
 
+    /// The stated grid size and the mesh that comes back have to agree, on
+    /// every branch. They are chosen in two places — the mesh by which solver
+    /// ran, the size by a rule repeating that choice — and a renderer pairs a
+    /// pixel lattice of the stated size against the mesh. Disagreement means a
+    /// sheet that stops drawing, so it is pinned rather than assumed.
+    @Test func theStatedGridSizeIsTheOneTheMeshCameBackWith() throws {
+        let bent = Self.points(GeoreferenceFixtures.bent)
+        let records = [
+            Self.record(
+                .embedded(
+                    RasterProjection.EmbeddedGeoreference(
+                        crs: "EPSG:26920", geotransform: [400_000, 10, 0, 5_040_000, 0, -10]
+                    )
+                )
+            ),
+            Self.record(.controlPoints(bent, method: .affine)),
+            Self.record(.controlPoints(bent, method: .spline)),
+            // Below the bending threshold a spline record falls back to the
+            // affine lattice, and the stated size has to fall back with it.
+            Self.record(.controlPoints(Array(bent.prefix(3)), method: .spline)),
+        ]
+        for record in records {
+            let mesh = try #require(record.mesh)
+            #expect(mesh.count == record.meshGridSize + 1)
+            #expect(mesh[0].count == record.meshGridSize + 1)
+        }
+    }
+
     /// A cropped sheet draws over what the user kept, not over the scan they
     /// cropped it from.
     ///
