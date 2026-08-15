@@ -287,6 +287,77 @@ a {
   margin-top: 20px;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.map-theme-picker {
+  display: grid;
+  gap: 8px;
+  margin: 18px -12px 0;
+  padding: 12px;
+  background: #f3f8ff;
+  border: 1px solid rgba(47, 128, 237, 0.28);
+  border-radius: 8px;
+}
+
+.map-theme-picker h2,
+.map-theme-picker p {
+  margin: 0;
+}
+
+.map-theme-picker h2 {
+  font-size: 0.96rem;
+}
+
+.map-theme-picker select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+}
+
+.map-theme-picker select:focus-visible,
+.map-theme-picker button:focus-visible {
+  outline: 3px solid var(--survey-blue);
+}
+
+.map-theme-picker .map-theme-description {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.map-theme-picker [role="status"] {
+  color: var(--deep-water);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.map-theme-picker button {
+  justify-self: start;
+  padding: 6px 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
 .map-mode-switcher {
   margin: 18px -12px 0;
   padding: 12px;

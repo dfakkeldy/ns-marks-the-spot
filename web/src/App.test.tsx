@@ -32,6 +32,10 @@ import type {
 } from "./userMaps/types";
 
 const parseGeoPdfAutoMock = vi.hoisted(() => vi.fn());
+const observedInteractiveMapStates = vi.hoisted((): string[] => []);
+const lastObservedInteractiveMapState = vi.hoisted(() => ({
+  value: null as string | null,
+}));
 
 vi.mock("./userMaps/parsers/parseGeoPdfAuto", () => ({
   parseGeoPdfAuto: parseGeoPdfAutoMock,
@@ -138,6 +142,21 @@ vi.mock("./components/MapCanvas", () => ({
       orientation: "portrait" | "landscape",
     ) => void;
   }) => {
+    if (renderMode !== "print") {
+      const normalizedState = [
+        `modern:${showModernMap ? "on" : "off"}`,
+        `ns-aerial:${provinceLayers["ns-aerial"] ? "on" : "off"}`,
+        `nsprd:${provinceLayers.nsprd ? "on" : "off"}`,
+        `roads:${provinceLayers.roads ? "on" : "off"}`,
+        `water:${provinceLayers["water-features"] ? "on" : "off"}`,
+        `tax-sale:${showTaxSale ? "on" : "off"}`,
+      ].join(";");
+      if (normalizedState !== lastObservedInteractiveMapState.value) {
+        observedInteractiveMapStates.push(normalizedState);
+        lastObservedInteractiveMapState.value = normalizedState;
+      }
+    }
+
     useEffect(() => {
       if (renderMode === "print") {
         [
@@ -469,10 +488,22 @@ function deferred<T>() {
   return { promise, resolve, reject };
 }
 
+function mapSetupStatus(): HTMLElement {
+  const picker = screen.getByLabelText("Map setup").closest(".map-theme-picker");
+  if (!picker) throw new Error("Map setup picker is missing");
+  return within(picker as HTMLElement).getByRole("status");
+}
+
 describe("NS Marks The Spot Online", () => {
   beforeEach(() => {
     localStorage.clear();
-    window.history.replaceState(null, "", "/?mode=current");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=on&mode=current&layers=modern,ns-aerial,nsprd,water-features,roads",
+    );
+    observedInteractiveMapStates.length = 0;
+    lastObservedInteractiveMapState.value = null;
     vi.mocked(fetchParcels).mockResolvedValue({
       type: "FeatureCollection",
       features: [],
@@ -559,22 +590,135 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("requires licence acceptance before enabling Province map layers", () => {
+  it("does not prompt for the Province licence on an ordinary first visit", () => {
+    window.history.replaceState(null, "", "/");
+
     render(<App />);
 
     expect(
-      screen.getByRole("dialog", { name: "Use Nova Scotia map data" }),
-    ).toBeInTheDocument();
-    expect(screen.getAllByText(PROVINCE_ATTRIBUTION)).toHaveLength(2);
-    expect(
-      screen.getByRole("button", { name: "Accept and view map layers" }),
-    ).toBeInTheDocument();
+      screen.queryByRole("dialog", { name: /province data licence/i }),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText("NS Aerial")).not.toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).not.toBeChecked();
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
     expect(screen.getByLabelText("Buildings")).not.toBeChecked();
     expect(screen.getByLabelText("Contours")).not.toBeChecked();
+    expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
+  });
+
+  it("applies Explore in one committed render", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=on&mode=current&layers=ns-aerial,nsprd,roads,water-features",
+    );
+    render(<App />);
+
+    observedInteractiveMapStates.length = 0;
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "explore-nova-scotia",
+    );
+
+    expect(observedInteractiveMapStates).toEqual([
+      "modern:on;ns-aerial:off;nsprd:off;roads:off;water:off;tax-sale:off",
+    ]);
+  });
+
+  it("defers a restricted theme until the one licence decision", async () => {
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    const mapSetup = screen.getByLabelText("Map setup");
+    await userEvent.selectOptions(mapSetup, "forestry-field-access");
+
+    expect(
+      screen.getByRole("dialog", { name: /province data licence/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+
+    await userEvent.click(screen.getByRole("button", { name: /accept/i }));
+
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
+    expect(screen.getByLabelText("Old-growth policy areas")).toBeChecked();
+    expect(mapSetup).toHaveFocus();
+  });
+
+  it("applies the unrestricted subset and names blocked layers after refusal", async () => {
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    const mapSetup = screen.getByLabelText("Map setup");
+    await userEvent.selectOptions(mapSetup, "historical-maps");
+    await userEvent.click(
+      screen.getByRole("button", { name: /continue without/i }),
+    );
+
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(mapSetupStatus()).toHaveTextContent(
+      /Historical Maps — Partially applied.*Fletcher historical map.*Place Names.*Main Roads/i,
+    );
+    expect(mapSetup).toHaveFocus();
+
+    await userEvent.click(screen.getByLabelText("Modern map"));
+
+    expect(mapSetupStatus()).toHaveTextContent("Historical Maps — Modified");
+    expect(mapSetupStatus()).not.toHaveTextContent("Partially applied");
+  });
+
+  it("labels recognized unmatched state as shared and manual changes as modified", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=off&mode=current&layers=modern,roads",
+    );
+    const { unmount } = render(<App />);
+
+    expect(mapSetupStatus()).toHaveTextContent("Shared setup");
+
+    unmount();
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+    await userEvent.click(screen.getByLabelText("Modern map"));
+
+    expect(mapSetupStatus()).toHaveTextContent(
+      "Explore Nova Scotia — Modified",
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Reset current setup" }),
+    );
+    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
+  });
+
+  it("uses Fletcher catalogue opacity for exact matching and marks an override modified", async () => {
+    vi.stubEnv(
+      "VITE_FLETCHER_TILE_BASE_URL",
+      "https://tiles.example.test/ns-marks",
+    );
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText("Map setup"),
+      "historical-maps",
+    );
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "Fletcher: on at 72%",
+    );
+    expect(mapSetupStatus()).toHaveTextContent("Historical Maps");
+
+    fireEvent.change(screen.getByRole("slider", { name: /Opacity/ }), {
+      target: { value: "0.5" },
+    });
+    expect(mapSetupStatus()).toHaveTextContent(
+      "Historical Maps — Modified",
+    );
   });
 
   it("toggles the building overlay and counts mapped building features on a PID", async () => {
@@ -1362,7 +1506,7 @@ describe("NS Marks The Spot Online", () => {
       }),
     );
     expect(
-      screen.getByRole("dialog", { name: "Use Nova Scotia map data" }),
+      screen.getByRole("dialog", { name: "Province data licence" }),
     ).toBeInTheDocument();
     expect(
       within(group as HTMLElement).getByRole("link", { name: "Open data sources" }),
@@ -1572,9 +1716,12 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByLabelText("Published river flood zones"),
     ).not.toBeChecked();
-    expect(new URL(window.location.href).searchParams.get("layers")).not.toContain(
+    expect(new URL(window.location.href).searchParams.get("layers")).toContain(
       "published-river-flood-zones",
     );
+    expect(
+      screen.getByRole("dialog", { name: "Province data licence" }),
+    ).toBeInTheDocument();
   });
 
   it("renders shared restricted flood-hazard layers once the licence is accepted", () => {
@@ -3643,12 +3790,15 @@ describe("georeferencer", () => {
 
   it("drives the real province layers once the licence is accepted", async () => {
     // The other half of the gate: proves the footer toggle is wired to the
-    // app's actual layer state and not to a copy that goes nowhere.
-    // `initialProvinceLayerVisibility.nsprd` is TRUE (verified in
-    // layerCatalog.ts), so the click here turns property boundaries OFF —
-    // an earlier draft asserted this backwards and would have passed only by
-    // accident if the default ever flipped.
+    // app's actual layer state and not to a copy that goes nowhere. The
+    // explicit share state requests NSPRD because an ordinary first visit is
+    // now the modern-only Explore setup.
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=off&mode=current&layers=modern,nsprd",
+    );
     await seedScan();
     render(<App />);
     await userEvent.click(

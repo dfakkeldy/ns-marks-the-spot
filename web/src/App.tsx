@@ -14,6 +14,10 @@ import {
   type ParcelFocusRequest,
 } from "./components/MapCanvas";
 import {
+  MapThemePicker,
+  type MapThemeStatus,
+} from "./components/MapThemePicker";
+import {
   EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
   ForestryLayerToggle,
@@ -76,18 +80,10 @@ import {
   floodHazardLayerCatalog,
   fletcherLayerCatalog,
   hydroPilotLayerCatalog,
-  initialHydroPilotLayerVisibility,
-  initialEnvironmentalHealthLayerVisibility,
-  initialForestryLayerVisibility,
   wellLogLayerCatalog,
-  initialWellLogLayerVisibility,
-  initialFloodHazardLayerVisibility,
-  initialProvinceLayerVisibility,
-  initialResourceLayerVisibility,
   provinceLayerCatalog,
   resourceLayerCatalog,
   topographyLayerCatalog,
-  initialZoningLayerVisibility,
   zoningLayerCatalog,
   type HydroPilotLayerId,
   type EnvironmentalHealthLayerId,
@@ -128,10 +124,21 @@ import { buildEvidenceNote } from "./services/evidenceNote";
 import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
 import {
   buildMapShareUrl,
+  hasRecognizedMapShareState,
   parseMapShareState,
   type MapMode,
   type ShareLayerId,
 } from "./services/mapShareState";
+import { builtInMapThemes } from "./themes/mapThemes";
+import {
+  matchTheme,
+  resolveTheme,
+  themeStatesMatch,
+  visibilityRecordFor,
+  type ResolvedTheme,
+  type ThemeComparableState,
+} from "./themes/themeState";
+import type { LayerCategoryId } from "./layers/layerCategories";
 import {
   fetchParcelResourceIntersections,
   type ParcelResourceIntersections,
@@ -195,6 +202,10 @@ const BETA_SIGNUP_URL =
 
 type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
 type HistoricalOutcomeFilter = "all" | HistoricalOutcome;
+type LicenceIntent =
+  | { kind: "theme"; themeId: string }
+  | { kind: "layer" }
+  | null;
 
 const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
@@ -249,6 +260,54 @@ const allMapLayerIds: MapLayerId[] = [
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
 ];
+
+const restrictedThemeLayerIds = new Set<ShareLayerId>([
+  ...provinceLayerCatalog.map(({ id }) => id),
+  ...allResourceLayerCatalog
+    .filter(
+      (layer) =>
+        "requiresProvinceLicence" in layer && layer.requiresProvinceLicence,
+    )
+    .map(({ id }) => id),
+  ...floodHazardLayerCatalog
+    .filter(({ licence }) => licence === "province-restricted")
+    .map(({ id }) => id),
+  ...environmentalHealthLayerCatalog
+    .filter(({ licence }) => licence === "province-restricted")
+    .map(({ id }) => id),
+]);
+
+const themeLayerNames = new Map<ShareLayerId, string>([
+  ["modern", "Modern map"],
+  ["fletcher", "Fletcher historical map"],
+  ...provinceLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...allResourceLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...hydroPilotLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...floodHazardLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...environmentalHealthLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...forestryLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...zoningLayerCatalog.map(({ id, name }) => [id, `${name} zoning`] as const),
+  ...wellLogLayerCatalog.map(({ id, name }) => [id, name] as const),
+]);
+
+function themeResolutionNotice(resolved: ResolvedTheme): string | null {
+  const notices: string[] = [];
+  if (resolved.unavailableLayerIds.length > 0) {
+    notices.push(
+      `Unavailable: ${resolved.unavailableLayerIds
+        .map((id) => themeLayerNames.get(id) ?? id)
+        .join(", ")}.`,
+    );
+  }
+  if (resolved.blockedLayerIds.length > 0) {
+    notices.push(
+      `Licence required: ${resolved.blockedLayerIds
+        .map((id) => themeLayerNames.get(id) ?? id)
+        .join(", ")}.`,
+    );
+  }
+  return notices.length > 0 ? notices.join(" ") : null;
+}
 
 function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
   return Object.fromEntries(
@@ -558,7 +617,7 @@ function LicenceDialog({
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
-        <h2 id="licence-title">Use Nova Scotia map data</h2>
+        <h2 id="licence-title">Province data licence</h2>
         <p>
           Aerial imagery, property boundaries, Crown lands, flood-risk areas,
           waterfalls, water features, and transportation features come from
@@ -667,9 +726,28 @@ export function App() {
   const initialShareState = useRef(
     parseMapShareState(initialUrl.toString()),
   ).current;
+  const hasRecognizedShareState = hasRecognizedMapShareState(initialUrl.href);
   const hasSharedLayers = initialUrl.searchParams.has("layers");
   const hasSharedEvents = initialUrl.searchParams.has("event");
   const hasSharedPosition = initialUrl.searchParams.has("position");
+  const initialCatalogueLayerIds = useRef(new Set<ShareLayerId>(
+    hasRecognizedShareState ? initialShareState.layerIds : ["modern"],
+  )).current;
+  const initialTaxSaleEnabled = hasRecognizedShareState
+    ? initialShareState.taxSaleEnabled
+    : false;
+  const initialLicenceAccepted = useRef(isLicenceAccepted()).current;
+  const initialNeedsLicence = hasRecognizedShareState
+    && !initialLicenceAccepted
+    && [...initialCatalogueLayerIds].some((id) =>
+      restrictedThemeLayerIds.has(id),
+    );
+  const initialThemeMatch = useRef(matchTheme({
+    layerIds: [...initialCatalogueLayerIds],
+    opacityOverrides: {},
+    taxSaleEnabled: initialTaxSaleEnabled,
+    mapMode: initialShareState.mode,
+  }, builtInMapThemes)).current;
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -686,13 +764,43 @@ export function App() {
       };
     }
   }, []);
-  const [licenceAccepted, setLicenceAccepted] = useState(isLicenceAccepted);
+  const availableThemeLayerIds = useMemo(() => {
+    const ids = new Set<ShareLayerId>([
+      "modern",
+      "fletcher",
+      ...provinceLayerCatalog.map(({ id }) => id),
+      ...allResourceLayerCatalog.map(({ id }) => id),
+      ...hydroPilotLayerCatalog.map(({ id }) => id),
+      ...floodHazardLayerCatalog.map(({ id }) => id),
+      ...environmentalHealthLayerCatalog.map(({ id }) => id),
+      ...forestryLayerCatalog.map(({ id }) => id),
+      ...zoningLayerCatalog.map(({ id }) => id),
+      ...wellLogLayerCatalog.map(({ id }) => id),
+    ]);
+    if (!fletcherTileConfiguration.baseUrl) {
+      ids.delete("fletcher");
+    }
+    return ids;
+  }, [fletcherTileConfiguration.baseUrl]);
+  const [licenceAccepted, setLicenceAccepted] = useState(
+    initialLicenceAccepted,
+  );
+  const [licenceIntent, setLicenceIntent] = useState<LicenceIntent>(
+    initialNeedsLicence ? { kind: "layer" } : null,
+  );
+  const [selectedThemeId, setSelectedThemeId] = useState<string | null>(
+    hasRecognizedShareState
+      ? initialThemeMatch?.id ?? null
+      : "explore-nova-scotia",
+  );
+  const [themeResult, setThemeResult] = useState<ResolvedTheme | null>(null);
+  const mapSetupSelectRef = useRef<HTMLSelectElement>(null);
   const [headerCollapsed, setHeaderCollapsed] = useState(
     () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
   );
   const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
   const [licenceDialogOpen, setLicenceDialogOpen] = useState(
-    () => !isLicenceAccepted(),
+    initialNeedsLicence,
   );
   const [aboutOpen, setAboutOpen] = useState(false);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
@@ -777,7 +885,7 @@ export function App() {
   });
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
   const [taxSaleEnabled, setTaxSaleEnabled] = useState(
-    initialShareState.taxSaleEnabled,
+    initialTaxSaleEnabled,
   );
   const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
     position: initialShareState.position,
@@ -789,37 +897,32 @@ export function App() {
     },
   });
   const sharedLayersIncludeUsableBasemap =
-    initialShareState.layerIds.includes("modern") ||
+    initialCatalogueLayerIds.has("modern") ||
     (
-      initialShareState.layerIds.includes("ns-aerial") &&
+      initialCatalogueLayerIds.has("ns-aerial") &&
       initialShareState.position.zoom >=
         (provinceLayerCatalog.find(({ id }) => id === "ns-aerial")?.minZoom ??
           Number.POSITIVE_INFINITY)
     );
   const [showModernMap, setShowModernMap] = useState(
-    hasSharedLayers
-      ? initialShareState.layerIds.includes("modern") ||
-          !sharedLayersIncludeUsableBasemap
-      : true,
+    () => initialCatalogueLayerIds.has("modern") || (
+      hasSharedLayers && !sharedLayersIncludeUsableBasemap
+    ),
   );
   const [fletcherVisible, setFletcherVisible] = useState(
     () =>
       Boolean(fletcherTileConfiguration.baseUrl) &&
-      initialShareState.layerIds.includes("fletcher"),
+      initialCatalogueLayerIds.has("fletcher"),
   );
   const [fletcherOpacity, setFletcherOpacity] = useState(
     fletcherLayerCatalog.opacity,
   );
   const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
   const intendedInitialProvinceLayers = useRef(
-    hasSharedLayers
-      ? Object.fromEntries(
-          provinceLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<ProvinceLayerId, boolean>
-      : initialProvinceLayerVisibility,
+    visibilityRecordFor(
+      provinceLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   ).current;
   const [provinceLayers, setProvinceLayers] = useState(
     () => licenceAccepted
@@ -827,74 +930,53 @@ export function App() {
       : disabledProvinceLayers(),
   );
   const [resourceLayers, setResourceLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          allResourceLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<ResourceLayerId, boolean>
-      : initialResourceLayerVisibility,
+    () => visibilityRecordFor(
+      allResourceLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   );
   const [hydroPilotLayers, setHydroPilotLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          hydroPilotLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<HydroPilotLayerId, boolean>
-      : initialHydroPilotLayerVisibility,
+    () => visibilityRecordFor(
+      hydroPilotLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   );
   const [floodHazardLayers, setFloodHazardLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          floodHazardLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<FloodHazardLayerId, boolean>
-      : initialFloodHazardLayerVisibility,
+    () => visibilityRecordFor(
+      floodHazardLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   );
   const [environmentalHealthLayers, setEnvironmentalHealthLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          environmentalHealthLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<EnvironmentalHealthLayerId, boolean>
-      : initialEnvironmentalHealthLayerVisibility,
+    () => visibilityRecordFor(
+      environmentalHealthLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   );
   const [forestryLayers, setForestryLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          forestryLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<ForestryLayerId, boolean>
-      : initialForestryLayerVisibility,
+    () => visibilityRecordFor(
+      forestryLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   );
   const [zoningLayers, setZoningLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          zoningLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<ZoningLayerId, boolean>
-      : initialZoningLayerVisibility,
+    () => visibilityRecordFor(
+      zoningLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
   );
   const [wellLogLayers, setWellLogLayers] = useState(
-    () => hasSharedLayers
-      ? Object.fromEntries(
-          wellLogLayerCatalog.map(({ id }) => [
-            id,
-            initialShareState.layerIds.includes(id),
-          ]),
-        ) as Record<WellLogLayerId, boolean>
-      : initialWellLogLayerVisibility,
+    () => visibilityRecordFor(
+      wellLogLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
+  );
+  const [, setExpandedCategoryIds] = useState<Set<LayerCategoryId>>(
+    () => new Set(
+      hasRecognizedShareState
+        ? initialThemeMatch?.preferredCategoryIds ?? []
+        : ["background-maps"],
+    ),
   );
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
@@ -1607,17 +1689,145 @@ export function App() {
     [filteredHistoricalRecords],
   );
 
+  const applyResolvedTheme = useCallback((resolved: ResolvedTheme) => {
+    const visible = new Set(resolved.target.layerIds);
+    setShowModernMap(visible.has("modern"));
+    setFletcherVisible(visible.has("fletcher"));
+    setProvinceLayers(visibilityRecordFor(
+      provinceLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setResourceLayers(visibilityRecordFor(
+      allResourceLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setHydroPilotLayers(visibilityRecordFor(
+      hydroPilotLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setFloodHazardLayers(visibilityRecordFor(
+      floodHazardLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setEnvironmentalHealthLayers(visibilityRecordFor(
+      environmentalHealthLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setForestryLayers(visibilityRecordFor(
+      forestryLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setZoningLayers(visibilityRecordFor(
+      zoningLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setWellLogLayers(visibilityRecordFor(
+      wellLogLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
+    setFletcherOpacity(
+      resolved.target.opacityOverrides.fletcher ?? fletcherLayerCatalog.opacity,
+    );
+    setExpandedCategoryIds(new Set(resolved.target.preferredCategoryIds));
+    setTaxSaleEnabled(resolved.target.taxSaleEnabled);
+    setMapMode(resolved.target.mapMode);
+    setSelectedEventIds(
+      resolved.target.taxSaleEnabled && resolved.target.mapMode === "current"
+        ? new Set(upcomingTaxSaleEvents.map(({ id }) => id))
+        : new Set(),
+    );
+    setThemeResult(resolved);
+  }, []);
+
+  const selectTheme = useCallback((themeId: string) => {
+    const theme = builtInMapThemes.find(({ id }) => id === themeId);
+    if (!theme) return;
+
+    const requiresLicence = theme.layerIds.some(
+      (id) => availableThemeLayerIds.has(id) && restrictedThemeLayerIds.has(id),
+    );
+    if (!licenceAccepted && requiresLicence) {
+      setLicenceIntent({ kind: "theme", themeId });
+      setLicenceDialogOpen(true);
+      return;
+    }
+
+    setSelectedThemeId(themeId);
+    applyResolvedTheme(resolveTheme(theme, {
+      licenceAccepted,
+      availableLayerIds: availableThemeLayerIds,
+      restrictedLayerIds: restrictedThemeLayerIds,
+    }));
+  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted]);
+
+  const reviewProvinceLicence = () => {
+    setLicenceIntent({ kind: "layer" });
+    setLicenceDialogOpen(true);
+  };
+
+  const restoreMapSetupFocus = () => {
+    mapSetupSelectRef.current?.focus();
+  };
+
   const acceptLicence = () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    setProvinceLayers(intendedInitialProvinceLayers);
     setLicenceAccepted(true);
+    if (licenceIntent?.kind === "theme") {
+      const theme = builtInMapThemes.find(
+        ({ id }) => id === licenceIntent.themeId,
+      );
+      if (theme) {
+        setSelectedThemeId(theme.id);
+        applyResolvedTheme(resolveTheme(theme, {
+          licenceAccepted: true,
+          availableLayerIds: availableThemeLayerIds,
+          restrictedLayerIds: restrictedThemeLayerIds,
+        }));
+      }
+    } else {
+      setProvinceLayers(intendedInitialProvinceLayers);
+    }
     setLicenceDialogOpen(false);
+    setLicenceIntent(null);
+    restoreMapSetupFocus();
   };
 
   const continueWithoutProvinceLayers = () => {
-    setProvinceLayers(disabledProvinceLayers());
-    setShowModernMap(true);
+    if (licenceIntent?.kind === "theme") {
+      const theme = builtInMapThemes.find(
+        ({ id }) => id === licenceIntent.themeId,
+      );
+      if (theme) {
+        setSelectedThemeId(theme.id);
+        applyResolvedTheme(resolveTheme(theme, {
+          licenceAccepted: false,
+          availableLayerIds: availableThemeLayerIds,
+          restrictedLayerIds: restrictedThemeLayerIds,
+        }));
+      }
+    } else {
+      setProvinceLayers(disabledProvinceLayers());
+      setResourceLayers((current) => ({
+        ...current,
+        "mineral-proximity-parcels": false,
+      }));
+      setFloodHazardLayers((current) => Object.fromEntries(
+        floodHazardLayerCatalog.map((layer) => [
+          layer.id,
+          layer.licence === "province-restricted" ? false : current[layer.id],
+        ]),
+      ) as Record<FloodHazardLayerId, boolean>);
+      setEnvironmentalHealthLayers((current) => Object.fromEntries(
+        environmentalHealthLayerCatalog.map((layer) => [
+          layer.id,
+          layer.licence === "province-restricted" ? false : current[layer.id],
+        ]),
+      ) as Record<EnvironmentalHealthLayerId, boolean>);
+      setShowModernMap(true);
+    }
     setLicenceDialogOpen(false);
+    setLicenceIntent(null);
+    restoreMapSetupFocus();
   };
 
   const setEventVisibility = (id: string, visible: boolean) => {
@@ -1937,45 +2147,82 @@ export function App() {
     selectedPid && selectedParcelGeometry.features.length > 0 && selectedEvidenceRequest,
   );
 
-  const activeLayerIds = useMemo<ShareLayerId[]>(() => [
-    ...(showModernMap ? (["modern"] as const) : []),
-    ...(fletcherVisible ? (["fletcher"] as const) : []),
-    ...provinceLayerCatalog
-      .filter(({ id }) => provinceLayers[id])
-      .map(({ id }) => id),
-    ...allResourceLayerCatalog
-      .filter(({ id }) => resourceLayers[id])
-      .map(({ id }) => id),
-    ...hydroPilotLayerCatalog
-      .filter(({ id }) => hydroPilotLayers[id])
-      .map(({ id }) => id),
-    ...floodHazardLayerCatalog
-      .filter(({ id }) => effectiveFloodHazardLayers[id])
-      .map(({ id }) => id),
-    ...environmentalHealthLayerCatalog
-      .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
-      .map(({ id }) => id),
-    ...forestryLayerCatalog
-      .filter(({ id }) => forestryLayers[id])
-      .map(({ id }) => id),
-    ...zoningLayerCatalog
-      .filter(({ id }) => zoningLayers[id])
-      .map(({ id }) => id),
-    ...wellLogLayerCatalog
-      .filter(({ id }) => wellLogLayers[id])
-      .map(({ id }) => id),
-  ], [
+  const activeLayerIds = useMemo<ShareLayerId[]>(() => {
+    const active = new Set<ShareLayerId>([
+      ...(showModernMap ? (["modern"] as const) : []),
+      ...(fletcherVisible ? (["fletcher"] as const) : []),
+      ...provinceLayerCatalog
+        .filter(({ id }) => provinceLayers[id])
+        .map(({ id }) => id),
+      ...allResourceLayerCatalog
+        .filter(({ id }) => resourceLayers[id])
+        .map(({ id }) => id),
+      ...hydroPilotLayerCatalog
+        .filter(({ id }) => hydroPilotLayers[id])
+        .map(({ id }) => id),
+      ...floodHazardLayerCatalog
+        .filter(({ id }) => effectiveFloodHazardLayers[id])
+        .map(({ id }) => id),
+      ...environmentalHealthLayerCatalog
+        .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
+        .map(({ id }) => id),
+      ...forestryLayerCatalog
+        .filter(({ id }) => forestryLayers[id])
+        .map(({ id }) => id),
+      ...zoningLayerCatalog
+        .filter(({ id }) => zoningLayers[id])
+        .map(({ id }) => id),
+      ...wellLogLayerCatalog
+        .filter(({ id }) => wellLogLayers[id])
+        .map(({ id }) => id),
+    ]);
+    if (!licenceAccepted && licenceIntent?.kind === "layer") {
+      initialCatalogueLayerIds.forEach((id) => {
+        if (restrictedThemeLayerIds.has(id)) active.add(id);
+      });
+    }
+    return allMapLayerIds.filter((id): id is ShareLayerId => active.has(id));
+  }, [
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
     fletcherVisible,
     forestryLayers,
     hydroPilotLayers,
+    initialCatalogueLayerIds,
+    licenceAccepted,
+    licenceIntent,
     provinceLayers,
     resourceLayers,
     showModernMap,
     zoningLayers,
     wellLogLayers,
   ]);
+  const themeComparableState = useMemo<ThemeComparableState>(() => ({
+    layerIds: activeLayerIds,
+    opacityOverrides: fletcherOpacity === fletcherLayerCatalog.opacity
+      ? {}
+      : { fletcher: fletcherOpacity },
+    taxSaleEnabled,
+    mapMode,
+  }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
+  const matchedTheme = useMemo(
+    () => matchTheme(themeComparableState, builtInMapThemes),
+    [themeComparableState],
+  );
+  const activeThemeId = selectedThemeId ?? matchedTheme?.id ?? null;
+  const themeResultMatches = themeResult !== null
+    && themeStatesMatch(themeComparableState, themeResult.target);
+  const themeStatus: MapThemeStatus = themeResult?.status === "partial"
+      && themeResultMatches
+    ? "partial"
+    : activeThemeId === null
+      ? "shared"
+      : matchedTheme?.id === activeThemeId
+        ? "exact"
+        : "modified";
+  const themeNotice = themeStatus === "partial" && themeResult !== null
+    ? themeResolutionNotice(themeResult)
+    : null;
   const printEventIds = useMemo(
     () => !taxSaleEnabled
       ? []
@@ -2537,6 +2784,18 @@ export function App() {
             Export map (PDF)
           </button>
 
+          <MapThemePicker
+            themes={builtInMapThemes}
+            activeThemeId={activeThemeId}
+            status={themeStatus}
+            notice={themeNotice}
+            selectRef={mapSetupSelectRef}
+            onSelect={selectTheme}
+            onReset={() => {
+              if (activeThemeId) selectTheme(activeThemeId);
+            }}
+          />
+
           <section className={`map-mode-switcher ${mapMode}`} aria-label="Map record mode">
             <div className="map-mode-buttons">
               <button
@@ -2616,7 +2875,7 @@ export function App() {
                     onChange={(checked) =>
                       setProvinceLayerVisibility(layer.id, checked)
                     }
-                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                    onReviewLicence={reviewProvinceLicence}
                   />
                   {layer.id === "roads" && provinceLayers.roads ? (
                     <RoadLegend />
@@ -2639,7 +2898,7 @@ export function App() {
                     onChange={(checked) =>
                       setProvinceLayerVisibility(layer.id, checked)
                     }
-                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                    onReviewLicence={reviewProvinceLicence}
                   />
                 ))}
                 <p className="resource-source-note">
@@ -2704,7 +2963,7 @@ export function App() {
                     licenceAccepted={licenceAccepted}
                     status={layerStatuses[layer.id]}
                     onChange={(checked) => setFloodHazardLayerVisibility(layer.id, checked)}
-                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                    onReviewLicence={reviewProvinceLicence}
                   />
                 ))}
                 <p className="resource-source-note">
@@ -2729,7 +2988,7 @@ export function App() {
                     onChange={(checked) =>
                       setEnvironmentalHealthLayerVisibility(layer.id, checked)
                     }
-                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                    onReviewLicence={reviewProvinceLicence}
                   />
                 ))}
                 <p className="resource-source-note">
@@ -2903,7 +3162,7 @@ export function App() {
                     onChange={(checked) =>
                       setResourceLayerVisibility(layer.id, checked)
                     }
-                    onReviewLicence={() => setLicenceDialogOpen(true)}
+                    onReviewLicence={reviewProvinceLicence}
                   />
                 ))}
                 <p className="resource-source-note">
@@ -3395,7 +3654,7 @@ export function App() {
           <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
         ) : null}
         <span>Boundaries are not a survey</span>
-        <button type="button" onClick={() => setLicenceDialogOpen(true)}>
+        <button type="button" onClick={reviewProvinceLicence}>
           Data &amp; licences
         </button>
         <button type="button" onClick={() => setAboutOpen(true)}>

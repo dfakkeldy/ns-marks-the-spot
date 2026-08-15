@@ -1,8 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { builtInMapThemes } from "./mapThemes";
-import { matchTheme, resolveTheme } from "./themeState";
+import {
+  matchTheme,
+  resolveTheme,
+  visibilityRecordFor,
+} from "./themeState";
 
 describe("theme state", () => {
+  it("builds a complete visibility record instead of patching the old one", () => {
+    expect(
+      visibilityRecordFor(
+        ["roads", "water-features"],
+        new Set(["roads"]),
+      ),
+    ).toEqual({
+      roads: true,
+      "water-features": false,
+    });
+  });
+
   it("resolves one complete target before UI state changes", () => {
     const theme = builtInMapThemes.find(({ id }) => id === "forestry-field-access")!;
 

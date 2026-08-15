@@ -24,6 +24,15 @@ export interface ResolvedTheme {
   status: "exact" | "partial";
 }
 
+export function visibilityRecordFor<T extends string>(
+  ids: readonly T[],
+  visibleLayerIds: ReadonlySet<string>,
+): Record<T, boolean> {
+  return Object.fromEntries(
+    ids.map((id) => [id, visibleLayerIds.has(id)]),
+  ) as Record<T, boolean>;
+}
+
 export function resolveTheme(
   theme: MapThemeDefinition,
   capabilities: ThemeCapabilities,
@@ -75,13 +84,16 @@ export function matchTheme(
   state: ThemeComparableState,
   themes: readonly MapThemeDefinition[],
 ): MapThemeDefinition | undefined {
-  const layerIds = normalizedLayerIds(state.layerIds);
-  const opacityOverrides = normalizedOpacityOverrides(state.opacityOverrides);
+  return themes.find((theme) => themeStatesMatch(state, theme));
+}
 
-  return themes.find((theme) => (
-    normalizedLayerIds(theme.layerIds) === layerIds
-    && normalizedOpacityOverrides(theme.opacityOverrides) === opacityOverrides
-    && theme.taxSaleEnabled === state.taxSaleEnabled
-    && (!state.taxSaleEnabled || theme.mapMode === state.mapMode)
-  ));
+export function themeStatesMatch(
+  left: ThemeComparableState,
+  right: ThemeComparableState,
+): boolean {
+  return normalizedLayerIds(left.layerIds) === normalizedLayerIds(right.layerIds)
+    && normalizedOpacityOverrides(left.opacityOverrides)
+      === normalizedOpacityOverrides(right.opacityOverrides)
+    && left.taxSaleEnabled === right.taxSaleEnabled
+    && (!left.taxSaleEnabled || left.mapMode === right.mapMode);
 }
