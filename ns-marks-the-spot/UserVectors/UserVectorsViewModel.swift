@@ -72,6 +72,9 @@ final class UserVectorsViewModel {
         lastRefusal = nil
         do {
             let imported = try VectorImport.read(data, filename: filename)
+            // One id for the file, shared by every layer it holds: a zipped
+            // shapefile archive can carry several, and the archive is one file.
+            let originalFileID = UUID().uuidString
             for layer in imported.layers {
                 let record = UserVectorLayerRecord(
                     id: UUID().uuidString,
@@ -81,9 +84,10 @@ final class UserVectorsViewModel {
                     createdAt: now,
                     colorHex: VectorStyle.nextLayerColor(existingCount: rows.count),
                     featureCount: layer.parsed.featureCount,
-                    bbox: layer.parsed.bbox
+                    bbox: layer.parsed.bbox,
+                    originalFileID: originalFileID
                 )
-                _ = try await store.add(record, geometry: layer.parsed)
+                _ = try await store.add(record, geometry: layer.parsed, original: data)
                 rows.append(Row(record: record, isVisible: true, parsed: layer.parsed))
             }
         } catch let refusal as UserMapImportRefusal {
@@ -208,6 +212,14 @@ final class UserVectorsViewModel {
 
     /// The feature behind one of the map's annotation ids, which are
     /// layer-qualified: `<layer id>/<feature id>`.
+    /// The file the user imported, exactly as they gave it.
+    func originalFile(for id: String) async -> Data? {
+        guard let fileID = rows.first(where: { $0.id == id })?.record.originalFileID else {
+            return nil
+        }
+        return await store.original(fileID: fileID)
+    }
+
     func feature(annotationID: String) -> UserVectorCalloutItem? {
         guard let separator = annotationID.firstIndex(of: "/") else { return nil }
         let layerID = String(annotationID[annotationID.startIndex..<separator])

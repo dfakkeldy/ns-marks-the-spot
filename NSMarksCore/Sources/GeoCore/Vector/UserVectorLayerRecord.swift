@@ -87,6 +87,19 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
     public var featureCount: Int
     /// Nil when nothing in the layer has a position.
     public var bbox: GeoBoundingBox?
+    /// The stored copy of the file this layer was imported from, if there is
+    /// one.
+    ///
+    /// Shared by every layer out of the same file, because a zipped shapefile
+    /// archive can hold several and one copy of the archive is what the user
+    /// gave us. Nil for a drawn layer, which came from no file.
+    ///
+    /// Kept because the canonical in-app format is GeoJSON, and a conversion is
+    /// not the thing it converted: a KML's own styling, a GPX's timestamps and
+    /// a shapefile's projection metadata do not survive it. Handing back the
+    /// GeoJSON as if it were the file the user imported would be handing them
+    /// something they never gave us.
+    public var originalFileID: String?
 
     public init(
         id: String,
@@ -98,7 +111,8 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
         revision: Int = 1,
         colorHex: String,
         featureCount: Int,
-        bbox: GeoBoundingBox?
+        bbox: GeoBoundingBox?,
+        originalFileID: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -110,6 +124,7 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
         self.colorHex = colorHex
         self.featureCount = featureCount
         self.bbox = bbox
+        self.originalFileID = originalFileID
     }
 }
 

@@ -66,8 +66,17 @@ struct UserVectorRowsView: View {
                     },
                     onEdit: onEdit.map { edit in { edit(row) } },
                     onExport: row.parsed.map { parsed in
-                        { format in sharing = Self.payload(row.record, parsed, format) }
+                        { format in
+                            if format == .original {
+                                Task {
+                                    sharing = await originalPayload(row)
+                                }
+                            } else {
+                                sharing = Self.payload(row.record, parsed, format)
+                            }
+                        }
                     },
+                    hasOriginal: row.record.originalFileID != nil,
                     onDelete: { deleting = row }
                 )
             }
@@ -149,8 +158,21 @@ struct UserVectorRowsView: View {
     enum ExportFormat: String, CaseIterable {
         case geoJson = "GeoJSON"
         case kml = "KML"
+        /// The bytes the user imported, byte for byte.
+        ///
+        /// Offered because the two above are conversions, and a conversion is
+        /// not the thing it converted: the KML the user brought in carries its
+        /// author's styling and the shapefile carries its own projection
+        /// metadata, none of which survives the trip through GeoJSON.
+        case original = "Original file"
 
-        var fileExtension: String { self == .geoJson ? "geojson" : "kml" }
+        var fileExtension: String {
+            switch self {
+            case .geoJson: return "geojson"
+            case .kml: return "kml"
+            case .original: return "original"
+            }
+        }
     }
 
     /// The layer written to a temporary file under its own name.
@@ -178,7 +200,23 @@ struct UserVectorRowsView: View {
                 text: VectorExport.kml(layerName: record.name, parsed: parsed),
                 filename: filename
             )
+        case .original:
+            // Handled by its caller, which has to read the bytes off disk.
+            return nil
         }
+    }
+
+    /// The imported file under the name it arrived with.
+    ///
+    /// Its own name rather than the layer's, because this is the file the user
+    /// gave us and handing it back renamed would make it look converted.
+    private func originalPayload(_ row: UserVectorsViewModel.Row) async -> SharePayload? {
+        guard case .imported(let filename, _) = row.record.origin,
+              let data = await viewModel.originalFile(for: row.id)
+        else { return nil }
+        let url = FileManager.default.temporaryDirectory.appending(path: filename)
+        guard (try? data.write(to: url, options: .atomic)) != nil else { return nil }
+        return SharePayload(url: url)
     }
 
     /// Reads the chosen file into memory, under the security scope the picker
@@ -204,6 +242,8 @@ private struct UserVectorRow: View {
     /// Nil while the layer's features are still being read: there is nothing to
     /// hand over yet, and an export of an unloaded layer would be an empty file.
     let onExport: ((UserVectorRowsView.ExportFormat) -> Void)?
+    /// Whether this build still holds the file the layer was imported from.
+    let hasOriginal: Bool
     let onDelete: () -> Void
 
     var body: some View {
@@ -230,7 +270,9 @@ private struct UserVectorRow: View {
                     if let onExport {
                         Menu("Export") {
                             ForEach(UserVectorRowsView.ExportFormat.allCases, id: \.self) { format in
-                                Button(format.rawValue) { onExport(format) }
+                                if format != .original || hasOriginal {
+                                    Button(format.rawValue) { onExport(format) }
+                                }
                             }
                         }
                     }

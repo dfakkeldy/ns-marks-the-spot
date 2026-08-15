@@ -63,6 +63,11 @@ actor UserVectorStore {
         directory.appendingPathComponent("library.json")
     }
 
+    private func originalURL(for id: String) -> URL {
+        precondition(!id.contains("/") && !id.contains(".."), "a record id is not a path")
+        return directory.appendingPathComponent("\(id).original")
+    }
+
     private func geometryURL(for id: String) -> URL {
         // The id is ours — a UUID string — and never a name the user typed, so
         // it cannot walk out of this directory. Checked anyway, because the day
@@ -114,8 +119,22 @@ actor UserVectorStore {
     /// Geometry first because the failure that leaves a record pointing at a
     /// file that is not there is the one the panel cannot recover from; the
     /// other way round leaves an orphan the next sweep collects.
-    func add(_ record: UserVectorLayerRecord, geometry: ParsedVector) throws -> UserVectorLibrary {
+    func add(
+        _ record: UserVectorLayerRecord,
+        geometry: ParsedVector,
+        original: Data? = nil
+    ) throws -> UserVectorLibrary {
         try writeGeometry(geometry, id: record.id)
+        if let original, let originalFileID = record.originalFileID {
+            try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+            // Written once per file, not once per layer: several layers out of
+            // one archive share the copy, and writing it again for each would
+            // store the same shapefile zip three times.
+            let url = originalURL(for: originalFileID)
+            if !fileManager.fileExists(atPath: url.path) {
+                try original.write(to: url, options: .atomic)
+            }
+        }
         var library = try read()
         library.layers.append(record)
         try write(library)
@@ -177,6 +196,14 @@ actor UserVectorStore {
         try VectorExport.geoJson(parsed).write(to: geometryURL(for: id), options: .atomic)
     }
 
+    /// The bytes the user imported, if this build still has them.
+    ///
+    /// Nil rather than an error: a library written before originals were kept
+    /// has none, and a layer that came from no file never had one.
+    func original(fileID: String) -> Data? {
+        try? Data(contentsOf: originalURL(for: fileID))
+    }
+
     func geometry(id: String) throws -> ParsedVector {
         guard let data = try? Data(contentsOf: geometryURL(for: id)),
               let parsed = try? UserVectorParse.parseGeoJson(data)
@@ -195,6 +222,9 @@ actor UserVectorStore {
         library.hiddenLayerIDs.removeAll { $0 == id }
         try write(library)
         try? fileManager.removeItem(at: geometryURL(for: id))
+        // The original stays until the last layer sharing it is gone, which the
+        // sweep decides on the next load.
+        try? sweepOrphanedGeometry(keeping: library.layers)
         return library
     }
 
@@ -207,10 +237,19 @@ actor UserVectorStore {
         guard let files = try? fileManager.contentsOfDirectory(
             at: directory, includingPropertiesForKeys: nil
         ) else { return }
-        let kept = Set(layers.map(\.id))
-        for file in files where file.pathExtension == "geojson" {
-            if !kept.contains(file.deletingPathExtension().lastPathComponent) {
-                try? fileManager.removeItem(at: file)
+        let keptGeometry = Set(layers.map(\.id))
+        // Originals are shared, so one is orphaned only when the last layer
+        // that came out of it is gone.
+        let keptOriginals = Set(layers.compactMap(\.originalFileID))
+        for file in files {
+            let name = file.deletingPathExtension().lastPathComponent
+            switch file.pathExtension {
+            case "geojson":
+                if !keptGeometry.contains(name) { try? fileManager.removeItem(at: file) }
+            case "original":
+                if !keptOriginals.contains(name) { try? fileManager.removeItem(at: file) }
+            default:
+                break
             }
         }
     }
