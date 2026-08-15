@@ -626,13 +626,24 @@ struct ParcelInspectorView: View {
                 status("Looking up mapped civic addresses…")
             case .unavailable(let reason):
                 status(reason)
-            case .ready(let addresses) where addresses.isEmpty:
+            case .ready(let reading) where reading.addresses.isEmpty:
                 // Asked and answered. The only line here allowed to say the
-                // parcel has none.
-                status("No civic address point is mapped inside this parcel.")
-            case .ready(let addresses):
-                ForEach(addresses, id: \.pntid) { address in
+                // parcel has none — and only when every row the file sent was
+                // read, which is what the shortfall below is guarding.
+                status(
+                    reading.unreadableRows == 0
+                        ? "No civic address point is mapped inside this parcel."
+                        : ParcelLookupMessage.noReadableAddresses(reading.unreadableRows)
+                )
+            case .ready(let reading):
+                ForEach(reading.addresses, id: \.pntid) { address in
                     addressRow(address)
+                }
+                if reading.unreadableRows > 0 {
+                    // The list above is not the file's answer, only the part of
+                    // it this build could place. Said here rather than left to
+                    // the reader to infer from a short list.
+                    status(ParcelLookupMessage.addressShortfall(reading.unreadableRows))
                 }
             }
 
@@ -647,7 +658,7 @@ struct ParcelInspectorView: View {
     }
 
     private var addressHeading: String {
-        if case .ready(let addresses) = inspection.civicAddresses, addresses.count == 1 {
+        if case .ready(let reading) = inspection.civicAddresses, reading.addresses.count == 1 {
             return "Mapped civic address"
         }
         return "Mapped civic addresses"
@@ -1081,7 +1092,7 @@ struct ParcelInspectorView: View {
     /// actually arrived: a road named by an address must not appear because the
     /// address lookup failed quietly.
     private var readyAddresses: [CivicAddressResponse.CivicAddress] {
-        if case .ready(let addresses) = inspection.civicAddresses { return addresses }
+        if case .ready(let reading) = inspection.civicAddresses { return reading.addresses }
         return []
     }
 

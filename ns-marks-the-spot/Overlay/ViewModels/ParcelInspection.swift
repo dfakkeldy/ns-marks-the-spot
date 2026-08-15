@@ -68,7 +68,7 @@ struct ParcelInspection: Equatable {
     /// render, not a survey of the ground.
     var floodHazard: ParcelEvidence<ParcelFloodHazard> = .looking
 
-    var civicAddresses: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .looking
+    var civicAddresses: ParcelEvidence<CivicAddressResponse.Reading> = .looking
     var mappedContext: ParcelEvidence<ParcelContext> = .looking
     var assessments: ParcelEvidence<PVSCAssessmentResponse.Result> = .looking
 

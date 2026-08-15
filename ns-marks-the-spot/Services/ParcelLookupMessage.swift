@@ -160,6 +160,30 @@ nonisolated enum ParcelLookupMessage {
                 + "address on this parcel would not be listed."
     }
 
+    /// Rows the address file sent that this build could not read.
+    ///
+    /// Shown under a list that has addresses in it. The list is real; it is
+    /// just not the whole of what the file holds here, and a reader counting
+    /// the addresses on a property should be told the count is a floor.
+    static func addressShortfall(_ rows: Int) -> String {
+        rows == 1
+            ? "One more mapped point here could not be read, so it is not listed."
+            : "\(rows) more mapped points here could not be read, so they are not listed."
+    }
+
+    /// Every row the file sent for this parcel was unreadable *and* something
+    /// was still readable enough elsewhere to reach here.
+    ///
+    /// Deliberately not "no civic address point is mapped inside this parcel":
+    /// the file had rows for it. What this build has is nothing it could place.
+    static func noReadableAddresses(_ rows: Int) -> String {
+        rows == 1
+            ? "One mapped point here could not be read. Whether an address is "
+                + "mapped inside this parcel is unknown."
+            : "\(rows) mapped points here could not be read. Whether an address "
+                + "is mapped inside this parcel is unknown."
+    }
+
     /// Why the civic-address lookup for a parcel produced nothing.
     ///
     /// Separate from the search wording because it answers a different

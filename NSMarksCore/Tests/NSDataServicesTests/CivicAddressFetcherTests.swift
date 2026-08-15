@@ -156,7 +156,7 @@ struct CivicAddressFetcherTests {
         ]))
 
         let addresses = try await CivicAddressFetcher(transport: stub.transport)
-            .addresses(inside: [triangle])
+            .addresses(inside: [triangle]).addresses
 
         #expect(addresses.map(\.pntid) == ["inside"])
     }
@@ -184,7 +184,7 @@ struct CivicAddressFetcherTests {
         ]))
 
         let addresses = try await CivicAddressFetcher(transport: stub.transport)
-            .addresses(inside: [withHole])
+            .addresses(inside: [withHole]).addresses
 
         #expect(addresses.map(\.pntid) == ["on-the-hole-edge", "in-the-parcel"])
     }
@@ -203,7 +203,7 @@ struct CivicAddressFetcherTests {
         ]))
 
         let addresses = try await CivicAddressFetcher(transport: stub.transport)
-            .addresses(inside: [Self.square, far])
+            .addresses(inside: [Self.square, far]).addresses
 
         #expect(stub.log.count == 2)
         #expect(addresses.map(\.pntid) == ["shared", "far-side"])
@@ -222,7 +222,7 @@ struct CivicAddressFetcherTests {
     @Test func aParcelWithNoCivicPointOnItComesBackEmpty() async throws {
         // The one honest empty: the file was asked and had nothing here.
         let addresses = try await CivicAddressFetcher(transport: StubTransport(Self.nothing).transport)
-            .addresses(inside: [Self.square])
+            .addresses(inside: [Self.square]).addresses
 
         #expect(addresses.isEmpty)
     }
@@ -240,7 +240,7 @@ struct CivicAddressFetcherTests {
         let fetcher = CivicAddressFetcher(transport: stub.transport)
 
         await #expect(throws: CivicAddressFailure.unreadable(.unusableRows(2))) {
-            try await fetcher.addresses(inside: [Self.square])
+            try await fetcher.addresses(inside: [Self.square]).addresses
         }
         await #expect(throws: CivicAddressFailure.unreadable(.unusableRows(2))) {
             try await fetcher.search("11064 Highway 19")
@@ -257,9 +257,39 @@ struct CivicAddressFetcherTests {
         let stub = StubTransport(Self.collection([unusable, Self.point("kept", lng: 1, lat: 1)]))
 
         let addresses = try await CivicAddressFetcher(transport: stub.transport)
-            .addresses(inside: [Self.square])
+            .addresses(inside: [Self.square]).addresses
 
         #expect(addresses.map(\.pntid) == ["kept"])
+    }
+
+    @Test func theRowsItCouldNotReadAreCounted() async throws {
+        // A page nobody could read at all already fails, loudly. This is the
+        // quieter case: some rows read and some did not, and without the count
+        // the panel lists what it got as though that were everything the file
+        // holds for this parcel.
+        let unusable = """
+        {"type":"Feature","geometry":{"type":"Point","coordinates":[1,1]},\
+        "properties":{"civicnum":"11064"}}
+        """
+        let stub = StubTransport(
+            Self.collection([unusable, Self.point("kept", lng: 1, lat: 1), unusable])
+        )
+
+        let reading = try await CivicAddressFetcher(transport: stub.transport)
+            .addresses(inside: [Self.square])
+
+        #expect(reading.addresses.map(\.pntid) == ["kept"])
+        #expect(reading.unreadableRows == 2)
+    }
+
+    @Test func aParcelWhoseRowsAllReadReportsNoShortfall() async throws {
+        let stub = StubTransport(Self.collection([Self.point("kept", lng: 1, lat: 1)]))
+
+        let reading = try await CivicAddressFetcher(transport: stub.transport)
+            .addresses(inside: [Self.square])
+
+        #expect(reading.addresses.map(\.pntid) == ["kept"])
+        #expect(reading.unreadableRows == 0)
     }
 
     // MARK: - Paging
@@ -274,7 +304,7 @@ struct CivicAddressFetcherTests {
         ])
 
         let addresses = try await CivicAddressFetcher(transport: stub.transport)
-            .addresses(inside: [Self.square])
+            .addresses(inside: [Self.square]).addresses
 
         #expect(stub.log.count == 2)
         #expect(addresses.count == CivicAddressQuery.pageSize + 1)
@@ -295,7 +325,7 @@ struct CivicAddressFetcherTests {
         ])
 
         let addresses = try await CivicAddressFetcher(transport: stub.transport)
-            .addresses(inside: [Self.square])
+            .addresses(inside: [Self.square]).addresses
 
         #expect(stub.log.count == 2)
         #expect(addresses.last?.pntid == "last")
@@ -307,7 +337,7 @@ struct CivicAddressFetcherTests {
         let fetcher = CivicAddressFetcher(transport: StubTransport(.status(503)).transport)
 
         await #expect(throws: CivicAddressFailure.invalidHTTPStatus(503)) {
-            try await fetcher.addresses(inside: [Self.square])
+            try await fetcher.addresses(inside: [Self.square]).addresses
         }
     }
 
@@ -316,7 +346,7 @@ struct CivicAddressFetcherTests {
         let fetcher = CivicAddressFetcher(transport: stub.transport)
 
         await #expect(throws: CivicAddressFailure.unreadable(.malformed)) {
-            try await fetcher.addresses(inside: [Self.square])
+            try await fetcher.addresses(inside: [Self.square]).addresses
         }
     }
 
@@ -328,7 +358,7 @@ struct CivicAddressFetcherTests {
         let fetcher = CivicAddressFetcher(transport: StubTransport(answer).transport)
 
         await #expect(throws: CivicAddressFailure.cancelled) {
-            try await fetcher.addresses(inside: [Self.square])
+            try await fetcher.addresses(inside: [Self.square]).addresses
         }
     }
 

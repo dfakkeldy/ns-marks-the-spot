@@ -34,21 +34,26 @@ public nonisolated final class CivicAddressFetcher: Sendable {
     /// Being inside a parcel is not proof that the address belongs to it: the
     /// file places points by rules of its own, and a shared driveway or a
     /// mis-placed point lands where it lands.
+    ///
+    /// Returns what was read *and* how many rows could not be, because the
+    /// panel this feeds is allowed to say a parcel has no mapped address and
+    /// that claim is only true if nothing was dropped on the way.
     public func addresses(
         inside parts: [PolygonHitTest.PolygonPart]
-    ) async throws(CivicAddressFailure) -> [CivicAddressResponse.CivicAddress] {
+    ) async throws(CivicAddressFailure) -> CivicAddressResponse.Reading {
         let boxes = parts.compactMap(Self.bounds(of:))
         // Nothing was asked, so nothing was learned — the same refusal the
         // mapped-feature lookup makes, and for the same reason: an empty list
         // here would render as "no civic address on this parcel".
         guard !boxes.isEmpty else { throw .refused(.noBoundary) }
 
-        var candidates: [[CivicAddressResponse.CivicAddress]] = Array(
-            repeating: [], count: boxes.count
+        var candidates: [CivicAddressResponse.Reading] = Array(
+            repeating: CivicAddressResponse.Reading(addresses: [], unreadableRows: 0),
+            count: boxes.count
         )
         do {
             try await withThrowingTaskGroup(
-                of: (Int, [CivicAddressResponse.CivicAddress]).self
+                of: (Int, CivicAddressResponse.Reading).self
             ) { group in
                 for (index, box) in boxes.enumerated() {
                     group.addTask { (index, try await self.allPages(in: box)) }
@@ -64,10 +69,18 @@ public nonisolated final class CivicAddressFetcher: Sendable {
         }
 
         var seen = Set<String>()
-        return candidates.flatMap(\.self).filter { address in
+        let inside = candidates.flatMap(\.addresses).filter { address in
             parts.contains { PolygonHitTest.contains(address.coordinate, part: $0) }
                 && seen.insert(address.pntid).inserted
         }
+        // Summed across boxes without deduplication, unlike the addresses: an
+        // unreadable row has no identity to dedupe on. A parcel of several
+        // parts with overlapping boxes can therefore count one bad row twice,
+        // which overstates the shortfall rather than hiding it.
+        return CivicAddressResponse.Reading(
+            addresses: inside,
+            unreadableRows: candidates.reduce(0) { $0 + $1.unreadableRows }
+        )
     }
 
     /// The civic points matching typed text, best first.
@@ -110,8 +123,9 @@ public nonisolated final class CivicAddressFetcher: Sendable {
     /// and exactly the case where the answer matters.
     private func allPages(
         in bounds: CivicAddressQuery.Bounds
-    ) async throws(CivicAddressFailure) -> [CivicAddressResponse.CivicAddress] {
+    ) async throws(CivicAddressFailure) -> CivicAddressResponse.Reading {
         var collected: [CivicAddressResponse.CivicAddress] = []
+        var unreadable = 0
         var offset = 0
         while true {
             let url: URL
@@ -123,12 +137,15 @@ public nonisolated final class CivicAddressFetcher: Sendable {
 
             let page = try await page(from: url)
             collected.append(contentsOf: page.addresses)
+            unreadable += page.rowCount - page.addresses.count
             // Short page: the file has no more rows in this box. Measured
             // against the rows sent rather than the addresses kept — a page of
             // a thousand rows with one unusable row is still a full page, and
             // stopping there would drop every address after it.
             if page.rowCount < CivicAddressQuery.pageSize {
-                return collected
+                return CivicAddressResponse.Reading(
+                    addresses: collected, unreadableRows: unreadable
+                )
             }
             offset += CivicAddressQuery.pageSize
         }

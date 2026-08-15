@@ -1156,7 +1156,7 @@ final class OverlayViewModel {
 
     /// One answer from one source, on its way back to the panel.
     private enum Evidence: Sendable {
-        case addresses(Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>)
+        case addresses(Result<CivicAddressResponse.Reading, CivicAddressFailure>)
         case context(Result<ParcelContext, ParcelContextFailure>)
         case assessments(Result<PVSCAssessmentResponse.Result, PVSCAssessmentFailure>)
         case dwellings(Result<PVSCDwellingResponse.Result, PVSCDwellingFailure>)
@@ -1348,8 +1348,8 @@ final class OverlayViewModel {
     private func apply(_ evidence: Evidence, to pid: String) {
         guard inspection?.pid == pid else { return }
         switch evidence {
-        case .addresses(.success(let addresses)):
-            inspection?.civicAddresses = .ready(addresses)
+        case .addresses(.success(let reading)):
+            inspection?.civicAddresses = .ready(reading)
         case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)),
             .assessments(.failure(.cancelled)), .dwellings(.failure(.cancelled)),
             .buildings(.failure(.cancelled)):

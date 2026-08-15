@@ -15,7 +15,9 @@ struct MapShareAndEvidenceTests {
         pid: String = "15234636",
         notice: TaxSaleNoticeContext? = nil,
         historical: [HistoricalRecordContext] = [],
-        civic: ParcelEvidence<[CivicAddressResponse.CivicAddress]> = .ready([]),
+        civic: ParcelEvidence<CivicAddressResponse.Reading> = .ready(
+            CivicAddressResponse.Reading(addresses: [], unreadableRows: 0)
+        ),
         resources: ParcelEvidence<ParcelResourceIntersections> = .ready(
             ParcelResourceIntersections(sources: [])
         ),

@@ -210,8 +210,8 @@ nonisolated enum ParcelEvidenceExport {
     private static func civicAddresses(
         _ inspection: ParcelInspection
     ) -> [EvidenceNoteInput.Link] {
-        guard case .ready(let addresses) = inspection.civicAddresses else { return [] }
-        return addresses.map {
+        guard case .ready(let reading) = inspection.civicAddresses else { return [] }
+        return reading.addresses.map {
             EvidenceNoteInput.Link(label: $0.label, sourceURL: CivicAddressQuery.datasetURL)
         }
     }

@@ -78,6 +78,25 @@ public enum CivicAddressResponse {
         public let rowCount: Int
     }
 
+    /// What a lookup read, and what it could not.
+    ///
+    /// The count is not decoration. A parcel's panel is allowed to say "no
+    /// civic address point is mapped inside this parcel", and that sentence is
+    /// only true if every row the file sent was read. Rows dropped for a
+    /// missing `pntid` or an unusable coordinate are rows this app cannot place
+    /// and cannot describe — carrying the number is what lets the panel say
+    /// "none I could read" instead of "none".
+    public struct Reading: Sendable, Equatable {
+        public let addresses: [CivicAddress]
+        /// Rows the file returned that this build could not read.
+        public let unreadableRows: Int
+
+        public init(addresses: [CivicAddress], unreadableRows: Int) {
+            self.addresses = addresses
+            self.unreadableRows = unreadableRows
+        }
+    }
+
     /// Every civic point in a reply, in the order the file returned them.
     ///
     /// Features without a `pntid` or without a usable coordinate are dropped:

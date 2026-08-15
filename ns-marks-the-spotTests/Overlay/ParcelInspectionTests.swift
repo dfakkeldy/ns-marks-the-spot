@@ -446,8 +446,10 @@ struct ParcelInspectionTests {
             Issue.record("expected addresses, got \(String(describing: inspection?.civicAddresses))")
             return
         }
-        #expect(addresses.map(\.pntid) == ["1", "2"])
-        #expect(addresses.first?.label.contains("1234 Barrington Street") == true)
+        #expect(addresses.addresses.map(\.pntid) == ["1", "2"])
+        #expect(
+            addresses.addresses.first?.label.contains("1234 Barrington Street") == true
+        )
     }
 
     /// The one state allowed to mean the parcel has no mapped address.
@@ -459,7 +461,10 @@ struct ParcelInspectionTests {
         ])
         defer { StubURLProtocol.clear(channel: channel) }
 
-        #expect(await Self.inspect(viewModel)?.civicAddresses == .ready([]))
+        #expect(
+            await Self.inspect(viewModel)?.civicAddresses
+                == .ready(CivicAddressResponse.Reading(addresses: [], unreadableRows: 0))
+        )
     }
 
     @Test func anAddressOutageIsNotAnAbsenceOfAddresses() async {
@@ -570,7 +575,7 @@ struct ParcelInspectionTests {
             Issue.record("expected addresses, got \(String(describing: second?.civicAddresses))")
             return
         }
-        #expect(addresses.count == 2)
+        #expect(addresses.addresses.count == 2)
     }
 
     // MARK: - Wording that must not credit a silent source
@@ -675,7 +680,7 @@ struct ParcelInspectionTests {
             await gate.release("-63.5")
             return
         }
-        #expect(secondAddresses.first?.label.contains("Second Parcel Road") == true)
+        #expect(secondAddresses.addresses.first?.label.contains("Second Parcel Road") == true)
 
         // Now let the first parcel's reply through and wait for it to finish.
         await gate.release("-63.5")
@@ -686,7 +691,7 @@ struct ParcelInspectionTests {
             Issue.record("the second parcel's addresses were replaced")
             return
         }
-        #expect(stillTheSecond.first?.label.contains("Second Parcel Road") == true)
+        #expect(stillTheSecond.addresses.first?.label.contains("Second Parcel Road") == true)
     }
 
     // MARK: - PVSC assessment accounts
