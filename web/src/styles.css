@@ -2818,6 +2818,10 @@ a {
     display: block;
   }
 
+  .map-theme-picker select,
+  .map-theme-actions button,
+  .theme-manager-dialog input,
+  .theme-manager-dialog button,
   .layer-category-heading,
   .layer-category-back {
     min-height: 44px;
@@ -3022,11 +3026,6 @@ a {
 
   .segmented-control button:first-child {
     border-top: 0;
-  }
-
-  .map-theme-picker :is(select, button),
-  .theme-manager-dialog :is(input, button) {
-    min-height: 44px;
   }
 
   .theme-manager-backdrop {

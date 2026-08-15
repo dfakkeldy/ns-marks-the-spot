@@ -9,21 +9,25 @@ describe("custom map-theme controls", () => {
       /\.map-theme-picker :is\(select, button\):focus-visible,\s*\.theme-manager-dialog :is\(input, button\):focus-visible\s*\{([^}]*)\}/,
     )?.[1];
 
-    expect(focusRule).toMatch(/outline:\s*3px solid/);
+    expect(focusRule).toMatch(
+      /outline:\s*3px solid var\(--survey-blue\)/,
+    );
     expect(focusRule).not.toMatch(/outline:\s*(?:0|none)/);
   });
 
-  it("keeps picker and manager controls at least 44px tall on phones", () => {
-    const mobileStart = styles.indexOf("@media (max-width: 560px)");
-    const mobileEnd = styles.indexOf(
-      "@media (prefers-reduced-motion: reduce)",
-      mobileStart,
+  it("keeps every setup and theme-manager control 44px tall throughout the phone layout", () => {
+    const phoneStart = styles.indexOf("@media (max-width: 860px)");
+    const narrowPhoneStart = styles.indexOf(
+      "@media (max-width: 560px)",
+      phoneStart,
     );
-    const mobileStyles = styles.slice(mobileStart, mobileEnd);
-    const controls = mobileStyles.match(
-      /\.map-theme-picker :is\(select, button\),\s*\.theme-manager-dialog :is\(input, button\)\s*\{([^}]*)\}/,
+    const phoneStyles = styles.slice(phoneStart, narrowPhoneStart);
+    const controls = phoneStyles.match(
+      /\.map-theme-picker select,\s*\.map-theme-actions button,\s*\.theme-manager-dialog input,\s*\.theme-manager-dialog button,\s*\.layer-category-heading,\s*\.layer-category-back\s*\{([^}]*)\}/,
     )?.[1];
 
+    expect(phoneStart).toBeGreaterThanOrEqual(0);
+    expect(narrowPhoneStart).toBeGreaterThan(phoneStart);
     expect(controls).toMatch(/min-height:\s*44px/);
   });
 });
