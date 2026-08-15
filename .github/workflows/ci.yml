@@ -154,6 +154,30 @@ jobs:
       - name: Build web app
         run: npm run build
 
+  # NSMarksCore is the shared logic the app is built on: the layer catalog,
+  # the GIS clients, the evidence contracts. It builds and tests without a
+  # simulator, an app bundle, or code signing, so it finishes in seconds and
+  # reports on its own rather than as one line inside a twenty-minute native
+  # run. When both jobs fail, this one says whether the fault is in the shared
+  # logic or only in the app around it.
+  core_package:
+    name: Core package tests
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
+    runs-on: macos-26
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Test core package
+        run: swift test --package-path NSMarksCore
+
   native_app:
     name: Native build + tests
     needs: changes
@@ -238,6 +262,7 @@ jobs:
     name: Build gate + tests
     needs:
       - changes
+      - core_package
       - native_app
       - web_app
     if: always()
@@ -249,6 +274,7 @@ jobs:
           CHANGE_CLASSIFICATION_RESULT: ${{ needs.changes.result }}
           NATIVE_REQUIRED: ${{ needs.changes.outputs.native }}
           NATIVE_RESULT: ${{ needs.native_app.result }}
+          CORE_RESULT: ${{ needs.core_package.result }}
           WEB_REQUIRED: ${{ needs.changes.outputs.web }}
           WEB_RESULT: ${{ needs.web_app.result }}
         run: |
@@ -259,6 +285,11 @@ jobs:
 
           if [ "$WEB_REQUIRED" = "true" ] && [ "$WEB_RESULT" != "success" ]; then
             echo "::error::Required web suite did not pass: $WEB_RESULT"
+            exit 1
+          fi
+
+          if [ "$NATIVE_REQUIRED" = "true" ] && [ "$CORE_RESULT" != "success" ]; then
+            echo "::error::Required core package suite did not pass: $CORE_RESULT"
             exit 1
           fi
 
