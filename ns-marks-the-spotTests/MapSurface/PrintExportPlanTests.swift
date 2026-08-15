@@ -117,6 +117,40 @@ struct PrintExportPlanTests {
         #expect(!sources.contains { $0.name == "Missing" })
     }
 
+    /// A layer this app cannot draw onto a page is named on the page anyway.
+    /// It was on the screen the reader exported, and blank ground where it was
+    /// would read as a layer that found nothing there.
+    @Test func aLayerThePageCannotDrawIsStillNamedInWords() {
+        let account = PrintExportPlan.account(
+            for: [
+                Self.outcome("roads", "Roads", .drawn),
+                Self.outcome("well-logs", "Well logs", .unsupported)
+            ],
+            swatch: { _ in nil }
+        )
+
+        #expect(account.legend.map(\.name) == ["Roads"])
+        #expect(account.unsupported == ["Well logs"])
+        let note = account.notes.first
+        #expect(note?.contains("Well logs") == true)
+        #expect(note?.contains("not evidence") == true)
+        // And it is not folded in with a source that could not be reached,
+        // which is a different thing to tell a reader.
+        #expect(account.omitted.isEmpty)
+    }
+
+    /// Nor is it credited: the page does not carry its pixels.
+    @Test func aLayerThePageCannotDrawIsNotCredited() throws {
+        let roads = try #require(LayerCatalog.descriptor(for: .roads))
+        let sources = PrintExportPlan.sources(
+            baseMap: .standard,
+            outcomes: [Self.outcome("roads", "Roads", .unsupported)],
+            descriptor: { _ in roads }
+        )
+
+        #expect(sources.map(\.name) == ["Apple Maps"])
+    }
+
     /// The disclaimer a licence obliges travels with the layer, because that is
     /// the obligation — naming the provider alone is not the statement the
     /// Province licence requires.

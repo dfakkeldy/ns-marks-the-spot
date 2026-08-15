@@ -48,9 +48,10 @@ struct PrintExportSheet: View {
                         }
                         Text(
                             """
-                            A layer that could not be reached is left off the page \
-                            and out of its legend. Its absence is not evidence that \
-                            the source has nothing here.
+                            A layer that could not be reached, or that this app \
+                            cannot yet draw onto a page, is left off the page and \
+                            out of its legend. Its absence is not evidence that the \
+                            source has nothing here. The page says so in words too.
                             """
                         )
                         .font(.footnote)
@@ -131,6 +132,7 @@ struct PrintExportSheet: View {
         case .drawn: "Printed"
         case .partial(let missing, let total): "Partly printed — \(missing) of \(total) missing"
         case .failed: "Not printed"
+        case .unsupported: "Not printed — cannot be drawn on a page yet"
         }
     }
 }

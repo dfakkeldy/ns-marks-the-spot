@@ -23,6 +23,15 @@ nonisolated struct PrintMapCompositor {
         /// different documents.
         case partial(missing: Int, of: Int)
         case failed(String)
+        /// On the screen, and outside what this export can draw.
+        ///
+        /// The compositor never produces this — it draws rasters and parcel
+        /// outlines, and nothing else reaches it. It is set by whoever assembles
+        /// the export, because a layer the page cannot carry has to be named
+        /// somewhere or it leaves the screen without leaving a trace, and blank
+        /// paper where a layer was would read as ground the layer has nothing
+        /// on.
+        case unsupported
     }
 
     struct LayerOutcome: Equatable, Sendable {

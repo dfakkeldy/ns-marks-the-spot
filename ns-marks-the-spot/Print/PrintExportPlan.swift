@@ -64,9 +64,19 @@ nonisolated enum PrintExportPlan {
         var omitted: [String]
         /// Drew, but not everywhere.
         var incomplete: [String]
+        /// On the screen, and outside what the page can draw.
+        var unsupported: [String] = []
 
         var notes: [String] {
             var lines = [String]()
+            if !unsupported.isEmpty {
+                lines.append(
+                    "Not printed — this app cannot yet draw these layers onto a page: "
+                        + unsupported.joined(separator: ", ")
+                        + ". They were on the screen this page was made from. "
+                        + "Absence here is not evidence the layer has nothing at this place."
+                )
+            }
             if !omitted.isEmpty {
                 lines.append(
                     "Not printed — the source could not be reached: "
@@ -91,6 +101,7 @@ nonisolated enum PrintExportPlan {
         var legend = [PdfComposer.LegendEntry]()
         var omitted = [String]()
         var incomplete = [String]()
+        var unsupported = [String]()
         for outcome in outcomes {
             switch outcome.state {
             case .drawn:
@@ -109,9 +120,16 @@ nonisolated enum PrintExportPlan {
                 )
             case .failed:
                 omitted.append(outcome.name)
+            case .unsupported:
+                // Kept out of the legend for the same reason a failed layer is:
+                // the legend names what the reader is looking at.
+                unsupported.append(outcome.name)
             }
         }
-        return LayerAccount(legend: legend, omitted: omitted, incomplete: incomplete)
+        return LayerAccount(
+            legend: legend, omitted: omitted, incomplete: incomplete,
+            unsupported: unsupported
+        )
     }
 
     /// The attribution strip's sources, base map first, in the order they were
@@ -130,6 +148,7 @@ nonisolated enum PrintExportPlan {
             // A layer whose attribution is printed but whose pixels are not
             // would credit a publisher for a picture the page does not carry.
             if case .failed = outcome.state { continue }
+            if case .unsupported = outcome.state { continue }
             guard let layer = descriptor(outcome.id) else { continue }
             // The app's own credit table, which is where the disclaimer text a
             // licence obliges is kept; the shared catalog carries the licence,

@@ -988,6 +988,11 @@ final class OverlayViewModel {
             baseMap: controller.baseMapType,
             layers: controller.layers,
             parcels: controller.state.parcelShapes,
+            // Every vector layer with something drawn on the screen right now.
+            // The compositor cannot draw them, and a page that simply left them
+            // out would show empty ground where the user was looking at wells
+            // or occurrences.
+            unsupportedLayers: unsupportedPrintLayers(),
             template: template,
             fields: fields,
             generatedAt: generatedAt
@@ -996,6 +1001,23 @@ final class OverlayViewModel {
 
     /// The map's own tile path, so the export honours the cache and the licence
     /// clearance the screen is already holding rather than asking again.
+    /// The vector layers currently drawing something, in the order the map
+    /// draws them.
+    ///
+    /// Read from what is on the map rather than from which rows are switched
+    /// on: a layer that is on but has nothing in this viewport is not missing
+    /// from the page, and saying it was would be its own false note.
+    private func unsupportedPrintLayers() -> [LayerID] {
+        var seen = Set<LayerID>()
+        var ordered = [LayerID]()
+        for layer in controller.state.featureShapes.map(\.layer)
+            + controller.state.featureMarkers.map(\.layer)
+        where seen.insert(layer).inserted {
+            ordered.append(layer)
+        }
+        return ordered
+    }
+
     var printTileProvider: PrintMapCompositor.TileProvider {
         PrintMapCompositor.provider(overlays: controller.installedTileOverlays())
     }

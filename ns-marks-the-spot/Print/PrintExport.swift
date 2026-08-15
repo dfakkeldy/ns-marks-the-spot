@@ -15,6 +15,14 @@ nonisolated struct PrintExportRequest: Sendable {
     var baseMap: MapBaseType
     var layers: [MapLayerState]
     var parcels: [ParcelShape]
+    /// Vector layers with features on the screen this page was made from.
+    ///
+    /// The compositor draws rasters and parcel outlines, so these do not reach
+    /// the paper — the browser's export does not carry them either. They are
+    /// carried here so the page can say so: a reader who switched a layer on,
+    /// looked at it, and printed it would otherwise be handed blank ground
+    /// where it was.
+    var unsupportedLayers: [LayerID] = []
     var template: PdfTemplate
     var fields: PdfComposer.Fields
     var generatedAt: Date
@@ -69,8 +77,18 @@ nonisolated enum PrintExport {
             baseMapProvider: baseMapProvider
         )
 
+        // Appended after the drawn layers, so the "what printed" list reads in
+        // the order the page was assembled and ends with what it could not
+        // carry.
+        let outcomes = raster.outcomes + request.unsupportedLayers.map { id in
+            PrintMapCompositor.LayerOutcome(
+                id: id.rawValue,
+                name: descriptor(id.rawValue)?.name ?? id.rawValue,
+                state: .unsupported
+            )
+        }
         let account = PrintExportPlan.account(
-            for: raster.outcomes,
+            for: outcomes,
             swatch: { _ in nil }
         )
         var notes = account.notes
@@ -99,7 +117,7 @@ nonisolated enum PrintExport {
                 attributionLines: PrintAttribution.lines(
                     for: PrintExportPlan.sources(
                         baseMap: request.baseMap,
-                        outcomes: raster.outcomes,
+                        outcomes: outcomes,
                         descriptor: descriptor
                     )
                 ),
@@ -111,7 +129,7 @@ nonisolated enum PrintExport {
                 generatedAt: request.generatedAt
             )
         )
-        return Result(pdf: pdf, resolution: resolution, outcomes: raster.outcomes)
+        return Result(pdf: pdf, resolution: resolution, outcomes: outcomes)
     }
 
     /// Writes the page where the share sheet can hand it on.
