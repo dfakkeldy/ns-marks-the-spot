@@ -132,6 +132,15 @@ public struct GeoreferenceSession: Sendable {
     public private(set) var transform: AffineTransform?
     public private(set) var spline: ThinPlateSpline?
     public private(set) var mesh: [[GeoPoint]]?
+    /// The lattice `mesh` was built on.
+    ///
+    /// Published rather than left for a caller to re-derive, because the choice
+    /// has three inputs — the method, the bending threshold, and whether a drag
+    /// is live — and a caller that guessed 32 during a drag would pair the
+    /// ground mesh against a pixel lattice of a different shape. The renderer
+    /// refuses that outright, so the sheet would vanish for exactly as long as
+    /// the finger was down.
+    public private(set) var meshGridSize = GcpMesh.affineGridSize
     public private(set) var report: GeoreferenceResiduals.Report?
     public private(set) var heldOut: GeoreferenceResiduals.HeldOutReport?
     public private(set) var status: GeoreferenceStatus = .needMore(
@@ -327,36 +336,42 @@ public struct GeoreferenceSession: Sendable {
             }
         }
 
-        mesh = buildMesh()
+        (mesh, meshGridSize) = buildMesh()
         (report, reportRefusal) = buildReport(controls)
         heldOut = buildHeldOut()
         status = buildStatus()
     }
 
-    private func buildMesh() -> [[GeoPoint]]? {
+    /// The lattice and the mesh together, because they are one decision: a
+    /// caller holding one without the other cannot pair them.
+    private func buildMesh() -> ([[GeoPoint]]?, Int) {
         // Below the bending threshold a spline session takes the affine
         // lattice, because at three points the bending weights are exactly
         // zero and the two sheets agree to a nanometre. The only thing a
         // 32×32 lattice buys there is two thousand draws in place of two.
         if method == .spline,
            controlPoints.count >= ThinPlateSpline.minimumBendingControlPoints {
-            guard let spline else { return nil }
+            let gridSize = isDragging ? GcpMesh.splineDragGridSize : GcpMesh.splineGridSize
+            guard let spline else { return (nil, gridSize) }
             // Two tiers, and only on the spline path. Each cell costs two
             // clipped draws of the whole source, and a drag emits state on
             // every touch move; the coarse tier is what keeps that a live warp
             // rather than a slideshow. The affine path deliberately does not
             // switch tiers — one cell is already exact, so a "drag tier" there
             // would cost hundreds of draws in place of two and buy nothing.
-            return try? GcpMesh.latLngMesh(
-                spline,
-                pixelSize: pixelSize,
-                gridSize: isDragging ? GcpMesh.splineDragGridSize : GcpMesh.splineGridSize,
-                sourceRect: sourceRect
+            return (
+                try? GcpMesh.latLngMesh(
+                    spline, pixelSize: pixelSize, gridSize: gridSize, sourceRect: sourceRect
+                ),
+                gridSize
             )
         }
-        guard let transform else { return nil }
-        return try? GcpMesh.latLngMesh(
-            transform, pixelSize: pixelSize, sourceRect: sourceRect
+        guard let transform else { return (nil, GcpMesh.affineGridSize) }
+        return (
+            try? GcpMesh.latLngMesh(
+                transform, pixelSize: pixelSize, sourceRect: sourceRect
+            ),
+            GcpMesh.affineGridSize
         )
     }
 

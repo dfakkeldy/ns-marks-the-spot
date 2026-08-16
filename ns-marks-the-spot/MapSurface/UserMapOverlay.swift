@@ -52,29 +52,65 @@ nonisolated final class UserMapOverlay: NSObject, MKOverlay {
     let coordinate: CLLocationCoordinate2D
     let boundingMapRect: MKMapRect
 
-    /// Nil when the record cannot be placed, or when its mesh and the raster
+    /// A placement still being made, straight off the session's own mesh.
+    ///
+    /// Its own entry point rather than a record built on the fly: a record is a
+    /// saved placement, and a half-finished session minting one would make the
+    /// library's own type describe something the user has not agreed to keep.
+    convenience init?(
+        draftID: String,
+        mesh: [[GeoPoint]],
+        pixelSize: PixelSize,
+        gridSize: Int,
+        sourceRect: PixelRect?,
+        image: CGImage,
+        alpha: CGFloat
+    ) {
+        self.init(
+            id: draftID, mesh: mesh, pixelSize: pixelSize, gridSize: gridSize,
+            sourceRect: sourceRect, image: image, alpha: alpha
+        )
+    }
+
+    convenience init?(record: UserMapRecord, image: CGImage, alpha: CGFloat) {
+        guard let mesh = record.mesh else { return nil }
+        self.init(
+            id: record.id, mesh: mesh, pixelSize: record.pixelSize,
+            gridSize: record.meshGridSize, sourceRect: record.sourceRect,
+            image: image, alpha: alpha
+        )
+    }
+
+    /// Nil when the placement cannot be drawn, or when its mesh and the raster
     /// disagree about the crop. Both mean there is nothing to draw, and an
     /// overlay that exists but draws nothing is worse than none: it takes a
     /// slot in the draw order and a row in the panel.
-    init?(record: UserMapRecord, image: CGImage, alpha: CGFloat) {
-        guard let mesh = record.mesh,
-              // The record states the grid size the solver that built its mesh
+    private init?(
+        id: String,
+        mesh: [[GeoPoint]],
+        pixelSize: PixelSize,
+        gridSize: Int,
+        sourceRect: PixelRect?,
+        image: CGImage,
+        alpha: CGFloat
+    ) {
+        guard
+              // The caller states the grid size the solver that built this mesh
               // used, so the pixel lattice cannot be paired against a ground
               // mesh of a different shape.
               let sourceMesh = try? WarpMesh.sourceMesh(
-                  pixelSize: record.pixelSize, gridSize: record.meshGridSize,
-                  sourceRect: record.sourceRect
+                  pixelSize: pixelSize, gridSize: gridSize, sourceRect: sourceRect
               ),
               mesh.count == sourceMesh.count,
               zip(mesh, sourceMesh).allSatisfy({ $0.count == $1.count }),
               let rect = Self.boundingMapRect(of: mesh)
         else { return nil }
 
-        self.id = record.id
+        self.id = id
         self.mesh = mesh
         self.sourceMesh = sourceMesh
         self.image = image
-        self.pixelSize = record.pixelSize
+        self.pixelSize = pixelSize
         self.alpha = alpha
         self.boundingMapRect = rect
         self.coordinate = MKMapPoint(x: rect.midX, y: rect.midY).coordinate

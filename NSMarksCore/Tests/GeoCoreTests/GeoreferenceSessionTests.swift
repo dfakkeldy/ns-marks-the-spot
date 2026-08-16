@@ -337,6 +337,24 @@ struct GeoreferenceSessionStatusTests {
         #expect(session.mesh?.count == GcpMesh.splineGridSize + 1)
     }
 
+    /// A renderer pairs the ground mesh against a pixel lattice it builds from
+    /// this number. If the two disagreed the sheet would draw nothing — and the
+    /// tier changes mid-drag, so the number has to travel with the mesh rather
+    /// than be guessed alongside it.
+    @Test func theLatticeSizeTravelsWithTheMeshItBuilt() {
+        var session = Self.session(GeoreferenceFixtures.bent, method: .spline)
+        #expect(session.meshGridSize == GcpMesh.splineGridSize)
+        #expect(session.mesh?.count == session.meshGridSize + 1)
+
+        session.beginDrag(session.controlPoints[0].id)
+        #expect(session.meshGridSize == GcpMesh.splineDragGridSize)
+        #expect(session.mesh?.count == session.meshGridSize + 1)
+
+        session.method = .affine
+        #expect(session.meshGridSize == GcpMesh.affineGridSize)
+        #expect(session.mesh?.count == session.meshGridSize + 1)
+    }
+
     /// The affine path deliberately does not switch tiers: one cell is already
     /// exact, so a coarse drag tier would cost draws and buy nothing.
     @Test func theAffineLatticeDoesNotSwitchTiers() {

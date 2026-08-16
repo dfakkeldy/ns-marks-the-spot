@@ -83,6 +83,53 @@ public enum ScanGeometry {
         )
     }
 
+    /// The fitted rectangle after the user has zoomed and panned the scan.
+    ///
+    /// Everything else here keeps working on the result, which is the point:
+    /// the zoom is expressed as a different rectangle rather than as a second
+    /// transform threaded through the tap, the marker and the drag separately.
+    /// Three places converting pane points to pixels is three places for a zoom
+    /// to be forgotten, and a forgotten one places a control point somewhere
+    /// the user did not tap while everything downstream agrees on the wrong
+    /// answer.
+    ///
+    /// Scaled about the pane's centre, because that is where a pinch is
+    /// anchored when the gesture reports magnification alone.
+    public static func zoomed(
+        _ fitted: PaneRect, in pane: PaneRect, scale: Double, offset: (x: Double, y: Double)
+    ) -> PaneRect? {
+        guard scale.isFinite, scale > 0,
+              offset.x.isFinite, offset.y.isFinite,
+              pane.width > 0, pane.height > 0
+        else { return nil }
+        let centreX = pane.x + pane.width / 2
+        let centreY = pane.y + pane.height / 2
+        return PaneRect(
+            x: centreX + (fitted.x - centreX) * scale + offset.x,
+            y: centreY + (fitted.y - centreY) * scale + offset.y,
+            width: fitted.width * scale,
+            height: fitted.height * scale
+        )
+    }
+
+    /// The pan that brings one raster pixel to the middle of the pane, for a
+    /// list row asking to be looked at.
+    ///
+    /// Returned as an offset to apply rather than applied here, so the caller
+    /// keeps one source of truth for where the scan is sitting.
+    public static func offsetCentring(
+        _ pixel: PixelPoint, pixelSize: PixelSize, fitted: PaneRect, in pane: PaneRect,
+        scale: Double
+    ) -> (x: Double, y: Double)? {
+        guard let zoomed = zoomed(fitted, in: pane, scale: scale, offset: (x: 0, y: 0)),
+              let at = point(for: pixel, pixelSize: pixelSize, fitted: zoomed)
+        else { return nil }
+        return (
+            x: pane.x + pane.width / 2 - at.x,
+            y: pane.y + pane.height / 2 - at.y
+        )
+    }
+
     public static func clampToRaster(
         _ pixel: PixelPoint, pixelSize: PixelSize
     ) -> PixelPoint {
