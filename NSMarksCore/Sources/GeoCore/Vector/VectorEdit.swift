@@ -272,38 +272,18 @@ public enum VectorEdit {
         }
     }
 
+    // The screen-shaped distances live in `GeometryHitTest`, which the
+    // catalogued layers hit-test through as well: a tap that reaches a user's
+    // imported boundary but not a zone polygon drawn over the same ground would
+    // be two different fingers.
     private static func distance(_ first: GeoPoint, _ second: GeoPoint) -> Double {
-        // Degrees of longitude, which is what the caller's tolerance is: a
-        // fingertip is so many pixels, and Web Mercator lays longitude out
-        // linearly across the screen.
-        //
-        // Latitude is divided by cos(lat) for the same reason — the same
-        // pixel height covers fewer degrees of latitude the further north the
-        // map is, so comparing raw degrees would make a tap taller than it is
-        // wide in Nova Scotia by a factor of about 1.4.
-        let scale = max(cos(first.lat * .pi / 180), 0.01)
-        let latitude = (first.lat - second.lat) / scale
-        let longitude = first.lng - second.lng
-        return (latitude * latitude + longitude * longitude).squareRoot()
+        GeometryHitTest.distance(first, second)
     }
 
     private static func distanceToSegment(
         _ point: GeoPoint, _ start: GeoPoint, _ end: GeoPoint
     ) -> Double {
-        // Projected in the same scaled space `distance` measures in, so the
-        // nearest point on the segment is the nearest one on screen rather
-        // than the nearest one in raw degrees.
-        let scale = max(cos(point.lat * .pi / 180), 0.01)
-        let dx = end.lng - start.lng
-        let dy = (end.lat - start.lat) / scale
-        let lengthSquared = dx * dx + dy * dy
-        guard lengthSquared > 0 else { return distance(point, start) }
-        var t =
-            ((point.lng - start.lng) * dx + ((point.lat - start.lat) / scale) * dy) / lengthSquared
-        t = min(max(t, 0), 1)
-        return distance(
-            point, GeoPoint(lat: start.lat + t * dy * scale, lng: start.lng + t * dx)
-        )
+        GeometryHitTest.distanceToSegment(point, start, end)
     }
 
     /// The layer's bounding box, recomputed from what it now holds.
