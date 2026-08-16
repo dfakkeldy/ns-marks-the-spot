@@ -43,6 +43,10 @@ struct PrintExportSheet: View {
     /// presentation.
     struct PreviewedPage: Identifiable {
         var url: URL
+        /// Layers the reader switched on that are not on this page, carried to
+        /// the preview so the warning travels with the file rather than staying
+        /// behind on the sheet the preview covers.
+        var incomplete: [String]
         var id: String { url.path }
     }
 
@@ -202,7 +206,9 @@ struct PrintExportSheet: View {
                 }
             }
             .sheet(item: $preview) { page in
-                PrintExportPreview(url: page.url) { onExported(page.url) }
+                PrintExportPreview(url: page.url, incomplete: page.incomplete) {
+                    onExported(page.url)
+                }
             }
             .onDisappear { work?.cancel() }
             .overlay {
@@ -256,7 +262,12 @@ struct PrintExportSheet: View {
             // Shown, not sent. The share sheet comes from the preview's own
             // button, so nothing leaves the device before the user has seen
             // what it says.
-            preview = PreviewedPage(url: url)
+            preview = PreviewedPage(
+                url: url,
+                incomplete: result.outcomes
+                    .filter { !Self.isComplete($0.state) }
+                    .map { "\($0.name) — \(Self.description(of: $0.state))" }
+            )
         } catch is CancellationError {
             return
         } catch {

@@ -96,9 +96,52 @@ struct PrintFrameGeometryTests {
     ])
     func aResizeDragLandsWhereItIsDraggedAndNoFurther(deltaY: Double, expected: Double) {
         let next = PrintFrameGeometry.scaleAfterResizeDrag(
-            startScale: 0.5, deltaY: deltaY, containerHeight: 800
+            startScale: 0.5, deltaY: deltaY, containerFit: 800
         )
         #expect(abs(next - expected) < 1e-9)
+    }
+
+    /// The handle has to keep up with the finger on a phone, where the frame's
+    /// size comes from the width and not the height.
+    @Test func theFrameEdgeFollowsTheFingerOnAPhone() {
+        let container = (width: 390.0, height: 844.0)
+        let aspect = PdfTemplate.landscape.mapFrameAspect
+        let fit = PrintFrameGeometry.fittedHeight(container: container, aspect: aspect)
+        var state = PrintFrameGeometry.FrameState(orientation: .landscape, scale: 0.4)
+        let before = PrintFrameGeometry.screenRect(
+            container: container, aspect: aspect, state: state
+        )
+
+        state.scale = PrintFrameGeometry.scaleAfterResizeDrag(
+            startScale: state.scale, deltaY: 100, containerFit: fit
+        )
+        let after = PrintFrameGeometry.screenRect(
+            container: container, aspect: aspect, state: state
+        )
+
+        // The frame grows by the drag, less the half of it the top edge takes
+        // as the frame stays centred — not the ~27 points a container-height
+        // divisor would have given.
+        #expect(abs((after.height - before.height) - 100) < 1e-6)
+    }
+
+    @Test func aFrameDraggedPastTheEdgeComesStraightBack() {
+        let container = (width: 390.0, height: 844.0)
+        let aspect = PdfTemplate.landscape.mapFrameAspect
+        var state = PrintFrameGeometry.FrameState(orientation: .landscape, offsetX: 200)
+        state = PrintFrameGeometry.clampedOffsets(
+            state, container: container, aspect: aspect
+        )
+        let atEdge = PrintFrameGeometry.screenRect(
+            container: container, aspect: aspect, state: state
+        )
+
+        state.offsetX -= 40
+        let after = PrintFrameGeometry.screenRect(
+            container: container, aspect: aspect, state: state
+        )
+
+        #expect(abs((atEdge.x - after.x) - 40) < 1e-6)
     }
 }
 

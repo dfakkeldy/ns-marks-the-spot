@@ -60,7 +60,7 @@ public enum PrintFrameGeometry {
         state: FrameState
     ) -> ScreenRect {
         let scale = min(maximumScale, max(minimumScale, state.scale))
-        let fitted = min(container.height, container.width / aspect)
+        let fitted = fittedHeight(container: container, aspect: aspect)
         var height = fitted * scale
         var width = height * aspect
         if width > container.width * maximumScale {
@@ -77,15 +77,52 @@ public enum PrintFrameGeometry {
         )
     }
 
+    /// The height of the largest frame of this aspect the container can hold —
+    /// the dimension `FrameState.scale` is a fraction of.
+    public static func fittedHeight(
+        container: (width: Double, height: Double), aspect: Double
+    ) -> Double {
+        min(container.height, container.width / aspect)
+    }
+
     /// The scale a resize drag lands on, clamped the same way `screenRect`
     /// clamps what it is handed, so a drag cannot leave the frame in a state
     /// the next layout has to rescue.
+    ///
+    /// The drag is divided by the same fitted dimension the scale is a fraction
+    /// of, so the frame edge tracks the finger. Dividing by the container's full
+    /// height — which is what the browser does, and what is correct there
+    /// because on a wide screen the two are the same number — makes the handle
+    /// travel a fraction of the drag on a phone in landscape paper, where the
+    /// width is the limit; it then reads as broken rather than slow.
     public static func scaleAfterResizeDrag(
         startScale: Double,
         deltaY: Double,
-        containerHeight: Double
+        containerFit: Double
     ) -> Double {
-        min(maximumScale, max(minimumScale, startScale + deltaY / containerHeight))
+        guard containerFit > 0 else { return min(maximumScale, max(minimumScale, startScale)) }
+        return min(maximumScale, max(minimumScale, startScale + deltaY / containerFit))
+    }
+
+    /// Drag offsets held to the travel the frame actually has.
+    ///
+    /// `screenRect` already refuses to put the frame outside the container, but
+    /// it clamps what it draws, not what is stored. Without this the offset goes
+    /// on accumulating past the edge, and the reader who overshoots has to drag
+    /// all the way back through that invisible surplus before the frame moves
+    /// again — which reads as the frame having stuck.
+    public static func clampedOffsets(
+        _ state: FrameState,
+        container: (width: Double, height: Double),
+        aspect: Double
+    ) -> FrameState {
+        let rect = screenRect(container: container, aspect: aspect, state: state)
+        let travelX = max(0, (container.width - rect.width) / 2)
+        let travelY = max(0, (container.height - rect.height) / 2)
+        var clamped = state
+        clamped.offsetX = min(travelX, max(-travelX, state.offsetX))
+        clamped.offsetY = min(travelY, max(-travelY, state.offsetY))
+        return clamped
     }
 
     /// The ground the frame covers, using the same spherical-Mercator scale the

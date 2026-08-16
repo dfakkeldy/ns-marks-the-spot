@@ -583,10 +583,41 @@ final class MapController: NSObject {
     /// layer is drawn ignoring the safe area for the same reason, so the
     /// rectangle the arithmetic places and the rectangle the user sees are the
     /// same rectangle.
+    /// Put the map flat and north-up, and hold it there while the page is being
+    /// framed.
+    ///
+    /// The frame's arithmetic reads screen x as east and screen y as south, the
+    /// way a printed north-up page does. Under a rotated or pitched camera that
+    /// is false: the rectangle on screen and the ground the export claims come
+    /// apart, and the page would be an axis-aligned area the reader never drew,
+    /// labelled with a scale computed from it. Straightening the camera is
+    /// visible and undoable; exporting the wrong ground is neither.
+    func beginPrintFraming() {
+        guard let mapView else { return }
+        mapView.isRotateEnabled = false
+        mapView.isPitchEnabled = false
+        guard mapView.camera.heading != 0 || mapView.camera.pitch != 0 else { return }
+        let camera = mapView.camera.copy() as! MKMapCamera
+        camera.heading = 0
+        camera.pitch = 0
+        mapView.setCamera(camera, animated: false)
+        mapHeading = 0
+        events?(.headingChanged(0))
+    }
+
+    func endPrintFraming() {
+        mapView?.isRotateEnabled = true
+        mapView?.isPitchEnabled = true
+    }
+
     func printFraming() -> (
         centre: GeoPoint, zoom: Double, container: (width: Double, height: Double)
     )? {
         guard let mapView else { return nil }
+        // Belt and braces with `beginPrintFraming`: no framing at all rather
+        // than framing that lies about which ground it covers.
+        let heading = mapView.camera.heading
+        guard heading < 0.5 || heading > 359.5, mapView.camera.pitch < 0.5 else { return nil }
         let width = Double(mapView.bounds.width)
         let height = Double(mapView.bounds.height)
         let longitudeSpan = mapView.region.span.longitudeDelta

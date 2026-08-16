@@ -348,6 +348,7 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
+                            controller.beginPrintFraming()
                             printFrame = .default
                         } label: {
                             Image(systemName: "printer")
@@ -545,7 +546,10 @@ struct MapContainerView: View {
                         get: { printFrame ?? .default },
                         set: { printFrame = $0 }
                     ),
-                    onCancel: { printFrame = nil },
+                    onCancel: {
+                        printFrame = nil
+                        controller.endPrintFraming()
+                    },
                     onContinue: { drawn in
                         let state = printFrame ?? .default
                         // Re-read the map here rather than trusting the bounds
@@ -555,6 +559,7 @@ struct MapContainerView: View {
                         // than where it is.
                         let bounds = currentFrameBounds(state) ?? drawn
                         printFrame = nil
+                        controller.endPrintFraming()
                         navigationModel.activeSheet = .printExport(
                             PrintExportFraming(bounds: bounds, orientation: state.orientation)
                         )
@@ -563,8 +568,11 @@ struct MapContainerView: View {
             }
         }
         .overlay(alignment: .bottom) {
+            // Not while the page is being framed: this overlay sits above the
+            // frame's own toolbar, and a card left open from an earlier tap
+            // would cover Cancel and Continue on a phone.
             if let selection = featureVM.selection, editSession == nil, vectorCallout == nil,
-               measure == nil
+               measure == nil, printFrame == nil
             {
                 FeatureCalloutCard(
                     callout: selection.callout,

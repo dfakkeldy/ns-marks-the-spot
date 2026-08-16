@@ -35,6 +35,37 @@ struct PrintExportFrameView: View {
         )
     }
 
+    private var fit: Double {
+        PrintFrameGeometry.fittedHeight(
+            container: container, aspect: template.mapFrameAspect
+        )
+    }
+
+    private var scaleLabel: String {
+        PrintScaleBar.build(
+            bounds: bounds,
+            mapFrame: template.mapFrame,
+            maxWidthPoints: template.scaleBar.maxWidth
+        ).denominatorLabel
+    }
+
+    /// A drag that has left the frame where it can actually sit.
+    private func settle() {
+        state = PrintFrameGeometry.clampedOffsets(
+            state, container: container, aspect: template.mapFrameAspect
+        )
+        dragStart = nil
+    }
+
+    /// One step of the frame under VoiceOver, which has no drag to offer.
+    private func nudge(dx: Double = 0, dy: Double = 0) {
+        state.offsetX += dx
+        state.offsetY += dy
+        state = PrintFrameGeometry.clampedOffsets(
+            state, container: container, aspect: template.mapFrameAspect
+        )
+    }
+
     private var bounds: GeoBoundingBox {
         PrintFrameGeometry.bounds(
             forFrame: rect, container: container, center: centre, zoom: zoom
@@ -74,13 +105,7 @@ struct PrintExportFrameView: View {
             Rectangle()
                 .strokeBorder(.white, lineWidth: 2)
                 .background(Rectangle().fill(.white.opacity(0.001)))
-            Text(
-                PrintScaleBar.build(
-                    bounds: bounds,
-                    mapFrame: template.mapFrame,
-                    maxWidthPoints: template.scaleBar.maxWidth
-                ).denominatorLabel
-            )
+            Text(scaleLabel)
             .font(.caption.monospacedDigit())
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
@@ -101,18 +126,30 @@ struct PrintExportFrameView: View {
                     state.offsetX = start.offsetX + value.translation.width
                     state.offsetY = start.offsetY + value.translation.height
                 }
-                .onEnded { _ in dragStart = nil }
+                .onEnded { _ in settle() }
         )
         .accessibilityElement()
         .accessibilityLabel("Export frame")
-        .accessibilityValue(
-            PrintScaleBar.build(
-                bounds: bounds,
-                mapFrame: template.mapFrame,
-                maxWidthPoints: template.scaleBar.maxWidth
-            ).denominatorLabel
-        )
+        .accessibilityValue(scaleLabel)
+        // Dragging is the only way to place the frame by hand, so without these
+        // a VoiceOver reader can hear the scale but cannot change it — they
+        // would be told what the page shows with no way to choose it. Adjusting
+        // resizes, in the same 5% steps the web's slider handle uses; the four
+        // actions move it.
+        .accessibilityAdjustableAction { direction in
+            let step = direction == .increment ? 0.05 : -0.05
+            state.scale = PrintFrameGeometry.scaleAfterResizeDrag(
+                startScale: state.scale, deltaY: step * fit, containerFit: fit
+            )
+            settle()
+        }
+        .accessibilityAction(named: "Move left") { nudge(dx: -nudgeStep) }
+        .accessibilityAction(named: "Move right") { nudge(dx: nudgeStep) }
+        .accessibilityAction(named: "Move up") { nudge(dy: -nudgeStep) }
+        .accessibilityAction(named: "Move down") { nudge(dy: nudgeStep) }
     }
+
+    private var nudgeStep: Double { max(16, container.width / 12) }
 
     private var handle: some View {
         Image(systemName: "arrow.down.right.and.arrow.up.left")
@@ -130,10 +167,10 @@ struct PrintExportFrameView: View {
                         state.scale = PrintFrameGeometry.scaleAfterResizeDrag(
                             startScale: start.scale,
                             deltaY: value.translation.height,
-                            containerHeight: container.height
+                            containerFit: fit
                         )
                     }
-                    .onEnded { _ in dragStart = nil }
+                    .onEnded { _ in settle() }
             )
             .accessibilityLabel("Resize export frame")
             .accessibilityIdentifier("print-frame-handle")

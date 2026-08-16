@@ -21,13 +21,24 @@ struct PrintExportFraming: Equatable {
 /// on it, and this is the only chance to see them together before it is sent.
 struct PrintExportPreview: View {
     let url: URL
+    /// Layers that were switched on and are not on the page. Named here, in
+    /// front of the file, because this page is going somewhere else: whoever
+    /// reads it next cannot tell a source that had nothing to say from one that
+    /// could not be reached, and the person sending it is the last one who can.
+    var incomplete: [String] = []
     let onShare: () -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @State private var isConfirmingShare = false
 
     var body: some View {
         NavigationStack {
-            PdfPageView(url: url)
+            VStack(spacing: 0) {
+                if !incomplete.isEmpty {
+                    incompleteBanner
+                }
+                PdfPageView(url: url)
+            }
                 .ignoresSafeArea(edges: .bottom)
                 .navigationTitle("The page")
                 .navigationBarTitleDisplayMode(.inline)
@@ -37,15 +48,57 @@ struct PrintExportPreview: View {
                     }
                     ToolbarItem(placement: .confirmationAction) {
                         Button {
-                            onShare()
-                            dismiss()
+                            if incomplete.isEmpty {
+                                share()
+                            } else {
+                                isConfirmingShare = true
+                            }
                         } label: {
                             Label("Share", systemImage: "square.and.arrow.up")
                         }
                         .accessibilityIdentifier("print-preview-share")
                     }
                 }
+                .confirmationDialog(
+                    "This page is missing layers",
+                    isPresented: $isConfirmingShare,
+                    titleVisibility: .visible
+                ) {
+                    Button("Share anyway") { share() }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text(incomplete.joined(separator: "\n"))
+                }
         }
+    }
+
+    private func share() {
+        onShare()
+        dismiss()
+    }
+
+    private var incompleteBanner: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Label("Not everything you switched on is on this page", systemImage:
+                "exclamationmark.triangle.fill")
+                .font(.footnote.bold())
+            ForEach(incomplete, id: \.self) { line in
+                Text(line).font(.caption)
+            }
+            Text(
+                """
+                A layer that is missing here is missing from the page's legend \
+                too. Its absence is not evidence that the source has nothing on \
+                this ground.
+                """
+            )
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Color.yellow.opacity(0.18))
+        .accessibilityElement(children: .combine)
     }
 }
 
