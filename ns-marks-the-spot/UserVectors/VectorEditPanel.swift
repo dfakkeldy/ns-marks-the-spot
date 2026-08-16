@@ -96,6 +96,13 @@ struct VectorEditPanel: View {
                         .lineLimit(2...4)
                         .textFieldStyle(.roundedBorder)
                         .onSubmit { commitFeature() }
+                    // Named because the two kinds of handle look different and
+                    // do different things, and nothing else on screen says so:
+                    // a user who drags the middle one expecting a vertex would
+                    // move their whole shape and not know why.
+                    Text("Drag the arrows in the middle to move the whole feature.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     Button("Delete this feature", role: .destructive) {
                         isConfirmingDelete = true
                     }

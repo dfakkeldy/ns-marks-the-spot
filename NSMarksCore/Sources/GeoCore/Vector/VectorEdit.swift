@@ -204,6 +204,75 @@ public enum VectorEdit {
         }
     }
 
+    /// The layer with one whole feature shifted.
+    ///
+    /// A shape drawn in the wrong place is a common mistake and an expensive
+    /// one to correct a vertex at a time: a traced boundary of thirty corners
+    /// would have to be dragged thirty times, and would come out a different
+    /// shape. Moving every position by the same offset keeps the shape and
+    /// changes only where it sits.
+    ///
+    /// The offset is in degrees, which is not distance: a shape dragged east
+    /// keeps its longitude span rather than its width in metres. That is what
+    /// the user sees on a Mercator map — the shape stays under the finger and
+    /// stays the size it looked — and it is what the web's drag mode does.
+    ///
+    /// Multi-part geometry moves too, unlike a vertex drag: a shift applies to
+    /// every position equally, so no part index is needed to know what to move.
+    public static func translating(
+        featureID: String,
+        byLatitude latitudeDelta: Double,
+        longitude longitudeDelta: Double,
+        in parsed: ParsedVector
+    ) -> ParsedVector {
+        guard latitudeDelta != 0 || longitudeDelta != 0 else { return parsed }
+        return recomputed(
+            parsed.features.map { feature in
+                guard feature.id == featureID, let geometry = feature.geometry else {
+                    return feature
+                }
+                var updated = feature
+                updated.geometry = translated(
+                    geometry, byLatitude: latitudeDelta, longitude: longitudeDelta
+                )
+                return updated
+            }
+        )
+    }
+
+    private static func translated(
+        _ geometry: GeoJsonGeometry, byLatitude dLat: Double, longitude dLng: Double
+    ) -> GeoJsonGeometry {
+        func shift(_ position: GeoJsonPosition) -> GeoJsonPosition {
+            // Latitude is held inside the world rather than wrapped: a shape
+            // pushed off the top of the map is a shape the user can no longer
+            // see or recover. Longitude is left alone, because this app's
+            // ground is nowhere near the antimeridian and clamping there would
+            // deform a shape rather than stop it.
+            GeoJsonPosition(
+                lng: position.lng + dLng,
+                lat: min(90, max(-90, position.lat + dLat))
+            )
+        }
+        func shiftAll(_ positions: [GeoJsonPosition]) -> [GeoJsonPosition] {
+            positions.map(shift)
+        }
+
+        switch geometry {
+        case .point(let position): return .point(shift(position))
+        case .multiPoint(let positions): return .multiPoint(shiftAll(positions))
+        case .lineString(let line): return .lineString(shiftAll(line))
+        case .multiLineString(let lines): return .multiLineString(lines.map(shiftAll))
+        case .polygon(let rings): return .polygon(rings.map(shiftAll))
+        case .multiPolygon(let polygons):
+            return .multiPolygon(polygons.map { $0.map(shiftAll) })
+        case .collection(let geometries):
+            return .collection(
+                geometries.map { translated($0, byLatitude: dLat, longitude: dLng) }
+            )
+        }
+    }
+
     /// The feature under a tap, or nil for a tap on nothing.
     ///
     /// Areas are hit-tested by containment and lines by distance, because a

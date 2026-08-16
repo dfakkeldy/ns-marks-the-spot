@@ -176,6 +176,22 @@ final class VectorEditSession {
         )
     }
 
+    /// Carries a whole feature by the distance its handle travelled.
+    ///
+    /// A shape drawn in the wrong place would otherwise have to be corrected a
+    /// vertex at a time, which is slow and comes out a different shape.
+    func moveFeature(featureID: String, latitudeDelta: Double, longitudeDelta: Double) {
+        guard let parsed else { return }
+        commit(
+            VectorEdit.translating(
+                featureID: featureID,
+                byLatitude: latitudeDelta,
+                longitude: longitudeDelta,
+                in: parsed
+            )
+        )
+    }
+
     func renameLayer(_ name: String) async {
         guard let editingID else { return }
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)

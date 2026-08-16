@@ -192,6 +192,60 @@ struct VectorEditTests {
         #expect(edited.features == parsed.features)
     }
 
+    @Test func movingAWholeShapeKeepsItsShape() throws {
+        let original = try square
+        let id = try #require(original.features.first?.id)
+        let edited = VectorEdit.translating(
+            featureID: id, byLatitude: 0.5, longitude: -0.25, in: original
+        )
+        guard case .polygon(let rings)? = edited.features.first?.geometry,
+              case .polygon(let before)? = original.features.first?.geometry
+        else {
+            Issue.record("Expected a polygon.")
+            return
+        }
+
+        #expect(rings[0].count == before[0].count)
+        for (moved, start) in zip(rings[0], before[0]) {
+            #expect(abs(moved.lat - (start.lat + 0.5)) < 1e-12)
+            #expect(abs(moved.lng - (start.lng - 0.25)) < 1e-12)
+        }
+        // The ring is still closed, and the extent moved with it.
+        #expect(rings[0].first == rings[0].last)
+        #expect(abs((edited.bbox?.south ?? 0) - ((original.bbox?.south ?? 0) + 0.5)) < 1e-12)
+    }
+
+    /// Unlike a vertex drag, which needs a part index it does not carry: the
+    /// same offset applies to every position, so there is nothing to guess.
+    @Test func movingAWholeShapeMovesEveryPartOfIt() throws {
+        let parsed = try layer(
+            #"{"type":"MultiLineString","coordinates":[[[-63,44],[-62,45]],[[-61,46],[-60,47]]]}"#
+        )
+        let id = try #require(parsed.features.first?.id)
+        let edited = VectorEdit.translating(
+            featureID: id, byLatitude: 1, longitude: 1, in: parsed
+        )
+        guard case .multiLineString(let lines)? = edited.features.first?.geometry else {
+            Issue.record("Expected a multi-line.")
+            return
+        }
+        #expect(lines[0][0] == position(-62, 45))
+        #expect(lines[1][1] == position(-59, 48))
+    }
+
+    @Test func aShapeCannotBePushedOffTheTopOfTheWorld() throws {
+        let parsed = try layer(#"{"type":"Point","coordinates":[-63,44]}"#)
+        let id = try #require(parsed.features.first?.id)
+        let edited = VectorEdit.translating(
+            featureID: id, byLatitude: 60, longitude: 0, in: parsed
+        )
+        guard case .point(let moved)? = edited.features.first?.geometry else {
+            Issue.record("Expected a point.")
+            return
+        }
+        #expect(moved.lat == 90)
+    }
+
     @Test func aFeatureWithNoPlaceDoesNotWidenTheExtent() throws {
         let parsed = try layer(
             """

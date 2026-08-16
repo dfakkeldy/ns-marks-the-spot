@@ -25,6 +25,7 @@ nonisolated enum MapMutation: Equatable, Sendable {
     case setUserVectors([UserVectorDrawing])
     case setVectorDraft(VectorDraftPreview?)
     case setVectorHandles(VectorSelectionHandles?)
+    case setVectorMoveHandle(VectorMoveHandle?)
     case setParcelOverviewMarkers([ParcelOverviewMarker])
     case setFeatureMarkers([FeatureMarker])
     case setShowsUserLocation(Bool)
@@ -81,6 +82,10 @@ nonisolated enum MapStateDiff {
 
         if current.vectorHandles != desired.vectorHandles {
             mutations.append(.setVectorHandles(desired.vectorHandles))
+        }
+
+        if current.vectorMoveHandle != desired.vectorMoveHandle {
+            mutations.append(.setVectorMoveHandle(desired.vectorMoveHandle))
         }
 
         if current.vectorDraft != desired.vectorDraft {

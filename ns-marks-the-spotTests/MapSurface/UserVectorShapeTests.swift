@@ -254,6 +254,29 @@ struct VectorSelectionHandleTests {
         )
     }
 
+    /// Unlike the vertex handles: a shift applies to every part equally, so
+    /// there is no part index to guess and nothing to get wrong.
+    @Test func aMultiPartFeatureCanStillBeCarriedWhole() throws {
+        let parts = [[position(-63, 44), position(-61, 44)], [position(-61, 46)]]
+        let handle = try #require(
+            VectorMoveHandle(feature: feature(.multiLineString(parts)), colorHex: "#d55e00")
+        )
+
+        #expect(handle.featureID == "f1")
+        // The mean of the three vertices.
+        #expect(abs(handle.centre.lng - (-61.666666666)) < 1e-6)
+        #expect(abs(handle.centre.lat - 44.666666666) < 1e-6)
+    }
+
+    @Test func aFeatureWithNoPlaceHasNothingToPickUp() {
+        #expect(
+            VectorMoveHandle(
+                feature: GeoJsonFeature(id: "f1", geometry: nil, properties: [:]),
+                colorHex: "#d55e00"
+            ) == nil
+        )
+    }
+
     /// A hole is the user's ground too: it has corners, and they must be
     /// draggable and addressed by their own ring.
     @Test func aHoleSCornersAreHandlesOnTheirOwnRing() throws {

@@ -188,6 +188,8 @@ nonisolated struct MapViewState: Equatable, Sendable {
     var vectorDraft: VectorDraftPreview?
     /// The vertices of the selected feature, as draggable handles.
     var vectorHandles: VectorSelectionHandles?
+    /// Where the selected feature can be picked up and carried whole.
+    var vectorMoveHandle: VectorMoveHandle?
     /// Where the listed parcels are, for the zooms at which their boundaries
     /// are too small to see. Held whatever the zoom; the controller decides
     /// when they are on the map.

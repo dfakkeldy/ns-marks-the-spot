@@ -17,6 +17,10 @@ enum MapEvent {
     case mapTapped(latitude: Double, longitude: Double)
     /// A vertex handle the user dragged to a new place.
     case vertexMoved(featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double)
+    /// A whole feature carried, reported as the offset it travelled rather than
+    /// where the handle landed: the shape moves by that offset, and its own
+    /// positions are what the geometry is made of.
+    case featureMoved(featureID: String, latitudeDelta: Double, longitudeDelta: Double)
     /// The view stopped moving. Leaflet's `moveend`/`zoomend`, which is what
     /// the viewport feature layers re-query on — every frame of a pan would be
     /// a query for ground the user is already leaving.
@@ -216,6 +220,14 @@ final class MapController: NSObject {
                 mapView.addAnnotations(handles.handles())
             }
 
+        case .setVectorMoveHandle(let handle):
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? VectorMoveHandleAnnotation }
+            )
+            if let handle {
+                mapView.addAnnotation(handle.annotation())
+            }
+
         case .setVectorDraft(let draft):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? VectorDraftPolyline })
             mapView.removeAnnotations(
@@ -408,6 +420,10 @@ final class MapController: NSObject {
 
     func setVectorHandles(_ handles: VectorSelectionHandles?) {
         mutate { $0.vectorHandles = handles }
+    }
+
+    func setVectorMoveHandle(_ handle: VectorMoveHandle?) {
+        mutate { $0.vectorMoveHandle = handle }
     }
 
     func setFeatureMarkers(_ markers: [FeatureMarker]) {
@@ -1004,6 +1020,21 @@ extension MapController: MKMapViewDelegate {
             return view
         }
 
+        if let handle = annotation as? VectorMoveHandleAnnotation {
+            let identifier = "VectorMoveHandle"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+            view.annotation = handle
+            view.canShowCallout = false
+            view.isDraggable = true
+            // Deliberately unlike a vertex handle: dragging this one moves the
+            // whole shape, and two handles that looked the same would make that
+            // a surprise rather than a choice.
+            view.image = VectorMoveHandleImage.image(colorHex: handle.colorHex)
+            return view
+        }
+
         if let handle = annotation as? VectorDraftVertexAnnotation {
             let identifier = "VectorDraftHandle"
             let view =
@@ -1078,6 +1109,19 @@ extension MapController: MKMapViewDelegate {
         didChange newState: MKAnnotationView.DragState,
         fromOldState oldState: MKAnnotationView.DragState
     ) {
+        if let handle = view.annotation as? VectorMoveHandleAnnotation {
+            guard newState == .ending else { return }
+            let landed = handle.coordinate
+            events?(
+                .featureMoved(
+                    featureID: handle.featureID,
+                    latitudeDelta: landed.latitude - handle.origin.lat,
+                    longitudeDelta: landed.longitude - handle.origin.lng
+                )
+            )
+            return
+        }
+
         guard newState == .ending || newState == .canceling,
               let handle = view.annotation as? VectorVertexHandleAnnotation
         else { return }

@@ -163,6 +163,59 @@ nonisolated final class VectorDraftPolyline: MKPolyline, WebDrawOrdered {
     var webDrawOrder: Int { UserVectorDrawOrder.value + 1 }
 }
 
+/// Where the selected feature can be picked up and carried.
+///
+/// A single handle at the middle of the shape rather than dragging the shape
+/// itself, which is what the browser does. On a phone a drag that starts on a
+/// polygon is already the pan gesture, and stealing it would leave a user
+/// unable to move the map while anything is selected. One handle keeps both
+/// gestures, and — unlike the vertex handles — it works on multi-part geometry,
+/// because the same offset applies to every part and there is nothing to guess.
+nonisolated struct VectorMoveHandle: Equatable, Sendable {
+    var featureID: String
+    var centre: GeoJsonPosition
+    var colorHex: String
+
+    init?(feature: GeoJsonFeature, colorHex: String) {
+        guard let id = feature.id, let geometry = feature.geometry else { return nil }
+        let positions = geometry.positions
+        guard !positions.isEmpty else { return nil }
+        // The mean of the vertices, not the centroid of the area: it is cheap,
+        // it is inside anything convex, and this is a grab handle rather than a
+        // measurement — nothing is reported from where it sits.
+        let lat = positions.reduce(0) { $0 + $1.lat } / Double(positions.count)
+        let lng = positions.reduce(0) { $0 + $1.lng } / Double(positions.count)
+        featureID = id
+        centre = GeoJsonPosition(lng: lng, lat: lat)
+        self.colorHex = colorHex
+    }
+
+    func annotation() -> VectorMoveHandleAnnotation {
+        VectorMoveHandleAnnotation(featureID: featureID, position: centre, colorHex: colorHex)
+    }
+}
+
+/// The handle that carries the whole feature.
+nonisolated final class VectorMoveHandleAnnotation: MKPointAnnotation,
+    MapKitAnnotationIdentifying
+{
+    let mapAnnotationID: String
+    let featureID: String
+    let colorHex: String
+    /// Where the handle was before this drag, so the distance it travelled can
+    /// be applied to the shape it belongs to.
+    let origin: GeoJsonPosition
+
+    init(featureID: String, position: GeoJsonPosition, colorHex: String) {
+        mapAnnotationID = "move-\(featureID)"
+        self.featureID = featureID
+        self.colorHex = colorHex
+        origin = position
+        super.init()
+        coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
+    }
+}
+
 /// One placed vertex of the shape being drawn.
 nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
     MapKitAnnotationIdentifying
@@ -263,6 +316,31 @@ nonisolated enum VectorDraftHandleImage {
             UIColor(featureHex: colorHex).setStroke()
             circle.lineWidth = width
             circle.stroke()
+        }
+    }
+}
+
+/// The grab handle that carries a whole feature: filled, larger than a vertex
+/// handle, and marked with the four-way arrow every platform uses for "move".
+nonisolated enum VectorMoveHandleImage {
+    static func image(colorHex: String) -> UIImage {
+        let diameter: CGFloat = 30
+        let size = CGSize(width: diameter, height: diameter)
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            let circle = UIBezierPath(
+                ovalIn: CGRect(x: 1, y: 1, width: diameter - 2, height: diameter - 2)
+            )
+            UIColor(featureHex: colorHex).setFill()
+            circle.fill()
+            UIColor.white.setStroke()
+            circle.lineWidth = 2
+            circle.stroke()
+
+            let glyph = UIImage(systemName: "arrow.up.and.down.and.arrow.left.and.right")?
+                .withTintColor(.white, renderingMode: .alwaysOriginal)
+            glyph?.draw(
+                in: CGRect(x: diameter / 2 - 7, y: diameter / 2 - 7, width: 14, height: 14)
+            )
         }
     }
 }

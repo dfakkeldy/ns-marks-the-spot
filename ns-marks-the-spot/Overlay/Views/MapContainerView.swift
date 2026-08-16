@@ -489,6 +489,7 @@ struct MapContainerView: View {
                         self.editSession = nil
                         controller.setVectorDraft(nil)
                         controller.setVectorHandles(nil)
+                        controller.setVectorMoveHandle(nil)
                         pushUserVectors()
                     }
                 }
@@ -678,6 +679,12 @@ struct MapContainerView: View {
                             featureID: featureID, ring: ring, vertex: vertex,
                             latitude: latitude, longitude: longitude
                         )
+                    case .featureMoved(let featureID, let latitudeDelta, let longitudeDelta):
+                        editSession?.moveFeature(
+                            featureID: featureID,
+                            latitudeDelta: latitudeDelta,
+                            longitudeDelta: longitudeDelta
+                        )
 
                     case .visibleRegionSettled:
                         mapPosition = overlayVM.mapPosition
@@ -794,12 +801,17 @@ struct MapContainerView: View {
             }
             .onChange(of: editSession?.selectedFeatureID) { _, _ in
                 controller.setVectorHandles(selectionHandles())
+                controller.setVectorMoveHandle(moveHandle())
             }
             // After a vertex moves, the handles are rebuilt from the new geometry:
             // MapKit left the dragged one where the finger did, and every other
             // handle on a closed ring may have moved with it.
             .onChange(of: editSession?.parsed) { _, _ in
                 controller.setVectorHandles(selectionHandles())
+                // Rebuilt after a move as well as a reshape: the handle is drawn
+                // at the middle of the shape, and MapKit left it where the finger
+                // stopped rather than where the moved shape's middle now is.
+                controller.setVectorMoveHandle(moveHandle())
             }
             .onChange(of: navigationModel.activeSheet) { _, newValue in
                 if newValue != nil {
@@ -983,6 +995,13 @@ struct MapContainerView: View {
     private func selectionHandles() -> VectorSelectionHandles? {
         guard let session = editSession, let feature = session.selectedFeature else { return nil }
         return VectorSelectionHandles(
+            feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
+        )
+    }
+
+    private func moveHandle() -> VectorMoveHandle? {
+        guard let session = editSession, let feature = session.selectedFeature else { return nil }
+        return VectorMoveHandle(
             feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
         )
     }
