@@ -970,3 +970,25 @@ branch claude/ios-web-map-parity-2de228. Next action: read
 scratchpad/apptests.log for TEST SUCCEEDED/FAILED; on failure extract messages
 with `xcrun xcresulttool get test-results tests --path <.xcresult>`.
 ```
+
+## 2026-08-16 — all twelve failures from the hung gated run accounted for
+
+Done: A gate-free simulator probe diagnosed the last one. Nine were fixed
+without a build admission: one real defect (print ignored layer opacity —
+`setAlpha` does nothing to `UIImage.draw(in:)`, 9299ec0d1), eight stub races
+cured by `.serialized`, and one stale expectation — `ranked` correctly drops
+1236 when the user typed 1234, so the test now searches the street and a new
+test pins the narrowing (357f105b4). Codex found no defect in either commit.
+`Scripts/gated-focused-tests.sh` runs the eight suites one invocation at a
+time, each with its own `-resultBundlePath`, because the whole bundle hangs
+and a hung run finalises no bundle. Package: 900 tests green.
+
+Next: run that script through the slot in the 22:00 window.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Next action: after 22:00 run
+`/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh`
+and read the per-suite bundles under .build/focused-tests/.
+```
