@@ -1039,3 +1039,21 @@ branch claude/ios-web-map-parity-2de228. Next action: after 22:00 run
 `/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh`
 and read the per-suite bundles under .build/focused-tests/.
 ```
+
+## 2026-08-16 — Legends landed; export frame hardened after adversarial review
+
+Done: `36862e210` gives the four health screens, old-growth, roads and
+micro-hydro a legend in the layer panel, with the province's guidance carried
+in the catalog and checked against the web fixture. `e06f8fca9` closes all six
+Codex findings on the export frame: north-up lock while framing, fitted-unit
+resize, clamped offsets, feature card suppressed, VoiceOver adjust/move, and a
+share confirmation listing the layers missing from the page. 932 package tests.
+Next: task #20 parity gaps (GeoPDF import, documents, deep links, move tool,
+batch import, scale readout, tile retry); gated test run after 22:00.
+Resume:
+
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228. Next: pick up task #20 — start with the
+scale readout and tile retry, then deep links.
+```
