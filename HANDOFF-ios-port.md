@@ -1057,3 +1057,26 @@ Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-
 on claude/ios-web-map-parity-2de228. Next: pick up task #20 — start with the
 scale readout and tile retry, then deep links.
 ```
+
+## 2026-08-16 — Four parity gaps closed; two documents, not one
+
+Done: `6be00d6d1` approximate screen-scale readout (measured from the live map,
+nominal-ppi caveat behind a tap). `d26623074` per-layer "Retry tiles" on a
+broken layer. `995911950` move tool: one centre handle carries a whole feature,
+multi-part included. `60d3b8929` field sheet vs research summary — the choice
+picks the caveat, the appendix and the filename; the PID only names a page whose
+frame actually holds that parcel; the caveat now prints on every appendix page
+footer alongside the record mode; the filename is sanitised. 943 package tests,
+typecheck clean. Two Codex findings knowingly not taken: the research page one
+has no fact grid or evidence-status grid (that content is in the appendix, which
+is deliberately sentences not tables), and the appendix is no longer optional on
+a research summary. Deep links deferred: universal links need an
+apple-app-site-association file on the KinNoKi-published site, outside this repo.
+Next: task #20's GeoPDF import and batch import; gated test run after 22:00.
+Resume:
+
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228. Next: port GeoPDF import (web parsers under
+web/src/userMaps/parsers/geoPdf*.ts) using PDFKit for the raster.
+```
