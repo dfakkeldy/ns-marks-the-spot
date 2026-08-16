@@ -470,7 +470,13 @@ public enum LayerCatalog {
             sourceDate: "Live service · checked July 23, 2026",
             scale: "Bedrock-unit risk bands · high risk is >15% of well samples over the 10 µg/L guideline",
             coverage: "Nova Scotia bedrock aquifers",
-            exportOptions: ArcGISExportOptions(transparent: true)
+            exportOptions: ArcGISExportOptions(transparent: true),
+            guidance: "Testing your well is the only way to find out whether arsenic is a concern in your well, so it is important to test your water no matter where you live.",
+            riskBands: [
+                LayerRiskBand(label: "High Risk", colorHex: "#993d7a"),
+                LayerRiskBand(label: "Medium Risk", colorHex: "#c363e0"),
+                LayerRiskBand(label: "Low Risk", colorHex: "#d8b5eb"),
+            ]
         ),
         LayerDescriptor(
             id: .uraniumRiskWells,
@@ -494,7 +500,13 @@ public enum LayerCatalog {
             sourceDate: "Open File Report ME 2020-001 · service checked July 23, 2026",
             scale: "Bedrock-unit risk bands · high risk is >15% of well samples over the 20 µg/L guideline",
             coverage: "Nova Scotia bedrock aquifers",
-            exportOptions: ArcGISExportOptions(transparent: true)
+            exportOptions: ArcGISExportOptions(transparent: true),
+            guidance: "Risk bands describe bedrock units, not individual wells. Test your well water to find out whether uranium is a concern at this property.",
+            riskBands: [
+                LayerRiskBand(label: "High Risk", colorHex: "#808000"),
+                LayerRiskBand(label: "Medium Risk", colorHex: "#ffffbf"),
+                LayerRiskBand(label: "Low Risk", colorHex: "#b0b0b0"),
+            ]
         ),
         LayerDescriptor(
             id: .manganeseRiskWells,
@@ -514,7 +526,13 @@ public enum LayerCatalog {
             sourceDate: "Open File Report ME 2021-002 · service checked July 23, 2026",
             scale: "Aquifer risk bands · high risk is >15% of well samples over the 120 µg/L guideline",
             coverage: "Nova Scotia bedrock and surficial aquifers",
-            exportOptions: ArcGISExportOptions(transparent: true)
+            exportOptions: ArcGISExportOptions(transparent: true),
+            guidance: "Risk bands describe bedrock and surficial aquifers, not individual wells. Test your well water to find out whether manganese is a concern at this property.",
+            riskBands: [
+                LayerRiskBand(label: "High Risk", colorHex: "#828282"),
+                LayerRiskBand(label: "Medium Risk", colorHex: "#b2b2b2"),
+                LayerRiskBand(label: "Low Risk", colorHex: "#e1e1e1"),
+            ]
         ),
         LayerDescriptor(
             id: .surficialAquifers,
@@ -534,7 +552,8 @@ public enum LayerCatalog {
             sourceDate: "Live service · checked July 23, 2026",
             scale: "Provincial surficial aquifer mapping (h490ns)",
             coverage: "Mapped Nova Scotia surficial aquifers",
-            exportOptions: ArcGISExportOptions(transparent: true)
+            exportOptions: ArcGISExportOptions(transparent: true),
+            guidance: "Mapped aquifer extent only. This layer carries no risk rating and says nothing about water quality at any property."
         ),
     ]
 

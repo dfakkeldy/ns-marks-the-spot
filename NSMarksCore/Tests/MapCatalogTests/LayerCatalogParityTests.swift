@@ -24,8 +24,10 @@ struct LayerCatalogParityTests {
     /// `everyFixtureFieldIsModelledOrDeferred`, so a web change cannot slip in
     /// unnoticed just because Swift has no property for it.
     static let deferredFields: Set<String> = [
-        // Environmental-health legend and guidance — Phase 6.
-        "guidance", "riskBands", "screening",
+        // Which screen a health layer belongs to. The panel does not branch on
+        // it: a layer with no risk bands draws no legend, which is the same
+        // distinction read off the data the legend is made of.
+        "screening",
         // The well-log manual link — Phase 6.
         "manualUrl",
     ]
@@ -100,6 +102,38 @@ struct LayerCatalogParityTests {
                 layer.nativeDefaultVisible == webNativeDefault,
                 "\(id) nativeDefaultVisible"
             )
+        }
+    }
+
+    /// The advice and the legend a health screen carries.
+    ///
+    /// Field-by-field against the fixture, colours included: the swatch beside
+    /// a band is a claim that this is the colour on the map, and a hex that has
+    /// drifted from the province's makes the legend say something the raster
+    /// does not.
+    @Test("Carries the province's guidance and legend for every health screen")
+    func matchesGuidanceAndRiskBands() {
+        for layer in LayerCatalog.all {
+            let id = layer.id.rawValue
+            guard let web = Self.fixture.layer(id) else { continue }
+
+            #expect(
+                layer.guidance == (web["guidance"]?.nonNull?.string ?? ""),
+                "\(id) guidance"
+            )
+
+            let webBands = web["riskBands"]?.nonNull?.array ?? []
+            #expect(layer.riskBands.count == webBands.count, "\(id) risk band count")
+            for (band, expected) in zip(layer.riskBands, webBands) {
+                #expect(
+                    band.label == expected.object?["label"]?.string,
+                    "\(id) risk band label"
+                )
+                #expect(
+                    band.colorHex == expected.object?["color"]?.string,
+                    "\(id) risk band colour"
+                )
+            }
         }
     }
 
@@ -251,7 +285,7 @@ struct LayerCatalogParityTests {
     /// The byte sequence is what reaches the ArcGIS service: two encodings that
     /// differ only in key order are equivalent JSON but different requests, and
     /// a cached render keyed by URL would treat them as different layers.
-    private func expectExport(_ native: ArcGISExportOptions?, _ web: JSONValue?, label: String) {
+    private func expectExport(_ native: ArcGISExportOptions?, _ web: ParityFixtures.JSONValue?, label: String) {
         guard let web = web?.object else {
             #expect(native == nil, "\(label): Swift declares options the web does not")
             return
@@ -369,6 +403,9 @@ struct LayerCatalogParityTests {
             // Modelled on `ForestryStatusColors`, checked by
             // `matchesForestryStatusColors`.
             "statusColors",
+            // The health screens' advice and legend, checked by
+            // `matchesGuidanceAndRiskBands`.
+            "guidance", "riskBands",
         ]
         var unknown: Set<String> = []
         for entry in Self.fixture.layers.values {

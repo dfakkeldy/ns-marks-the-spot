@@ -71,6 +71,19 @@ public struct ArcGISExportOptions: Hashable, Sendable {
 /// the phases that render those layers and are deliberately absent; the parity
 /// test names them so their absence is a recorded decision rather than an
 /// oversight.
+/// One band of a health screen's legend, as the province draws it.
+public struct LayerRiskBand: Hashable, Sendable {
+    public let label: String
+    /// The province's own hex, so the swatch beside the label is the colour on
+    /// the map rather than an approximation of it.
+    public let colorHex: String
+
+    public init(label: String, colorHex: String) {
+        self.label = label
+        self.colorHex = colorHex
+    }
+}
+
 public struct LayerDescriptor: Identifiable, Hashable, Sendable {
     public let id: LayerID
     public let name: String
@@ -103,6 +116,20 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
     public let coverage: String
     public let exportOptions: ArcGISExportOptions?
     public let exportOverlayOptions: ArcGISExportOptions?
+    /// The province's own advice about this layer, in the province's own words.
+    ///
+    /// Empty for every layer that is not a health screen. These four rasters
+    /// carry no popup and no feature to tap, so the panel row is the only place
+    /// a reader can meet the advice before acting on a colour — and the advice
+    /// is what separates "this bedrock unit has a high rate of exceedances" from
+    /// "the water at this address is unsafe", which the map never says.
+    public let guidance: String
+    /// The legend the province draws the layer with, in its order.
+    ///
+    /// Empty where the layer rates nothing: the surficial-aquifer extent is a
+    /// context layer, and giving it bands would invent a risk claim the source
+    /// does not make.
+    public let riskBands: [LayerRiskBand]
     /// Set directly for the derived parcel layer, which has no `licence`.
     private let requiresProvinceLicence: Bool
 
@@ -141,7 +168,9 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
         scale: String,
         coverage: String,
         exportOptions: ArcGISExportOptions? = nil,
-        exportOverlayOptions: ArcGISExportOptions? = nil
+        exportOverlayOptions: ArcGISExportOptions? = nil,
+        guidance: String = "",
+        riskBands: [LayerRiskBand] = []
     ) {
         self.id = id
         self.name = name
@@ -166,6 +195,8 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
         self.coverage = coverage
         self.exportOptions = exportOptions
         self.exportOverlayOptions = exportOverlayOptions
+        self.guidance = guidance
+        self.riskBands = riskBands
     }
 }
 

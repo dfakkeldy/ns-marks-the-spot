@@ -383,6 +383,13 @@ private struct LayerRowView: View {
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
 
+            if row.isVisible {
+                LayerLegends.view(for: row.descriptor)
+                    .padding(.leading, 40)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+
             if row.isVisible, row.hasOpacityControl {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
