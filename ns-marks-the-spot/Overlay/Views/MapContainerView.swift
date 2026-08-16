@@ -38,6 +38,10 @@ struct MapContainerView: View {
     /// been anywhere near the visible ground is a wrong answer offered with the
     /// same confidence as a right one. Absent until it is true.
     @State private var mapPosition: MapPosition?
+    /// How large the ground on screen is, in the terms a paper map states it
+    /// in. Nil until the map has settled, and nil again whenever it cannot be
+    /// measured.
+    @State private var screenScale: String?
     @State private var isSelectingSaveArea = false
     /// What the system share sheet is currently holding, prepared at the moment
     /// of the tap so an evidence note carries the time it was actually made.
@@ -502,7 +506,7 @@ struct MapContainerView: View {
                measure == nil, vectorCallout == nil, featureVM.selection == nil,
                !isSelectingSaveArea
             {
-                MapPositionReadout(position: mapPosition)
+                MapPositionReadout(position: mapPosition, screenScale: screenScale)
                     .padding(.leading, 12)
                     .padding(.bottom, 12)
             }
@@ -677,6 +681,8 @@ struct MapContainerView: View {
 
                     case .visibleRegionSettled:
                         mapPosition = overlayVM.mapPosition
+                        screenScale = controller.groundMetresPerPoint()
+                            .flatMap { DisplayScale.label(groundMetresPerPoint: $0) }
                         // Leaflet's `moveend`: the viewport layers ask their
                         // services what is in the view the user actually stopped
                         // on, not the ones they panned through.

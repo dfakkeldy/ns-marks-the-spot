@@ -13,10 +13,43 @@ import UIKit
 /// is pointed, and it is not a reading of where the phone is.
 struct MapPositionReadout: View {
     let position: MapPosition
+    /// Roughly how large what is on screen is, in the terms a paper map uses.
+    /// Approximate, and stated as such: see `DisplayScale`.
+    var screenScale: String?
 
     @State private var hasCopied = false
+    @State private var isShowingScaleCaveat = false
 
     var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            coordinate
+            if let screenScale {
+                Button {
+                    isShowingScaleCaveat = true
+                } label: {
+                    Text(screenScale)
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(.regularMaterial)
+                        .clipShape(.rect(cornerRadius: 8))
+                }
+                .accessibilityLabel(screenScale)
+                .accessibilityHint("How accurate this is")
+                .accessibilityIdentifier("map-scale-readout")
+                .popover(isPresented: $isShowingScaleCaveat) {
+                    Text(DisplayScale.caveat)
+                        .font(.footnote)
+                        .padding()
+                        .frame(maxWidth: 280)
+                        .presentationCompactAdaptation(.popover)
+                }
+            }
+        }
+    }
+
+    private var coordinate: some View {
         Button {
             UIPasteboard.general.string = position.coordinateText
             hasCopied = true

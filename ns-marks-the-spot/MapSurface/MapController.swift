@@ -539,6 +539,30 @@ final class MapController: NSObject {
         events?(.headingChanged(0))
     }
 
+    // MARK: - Screen scale
+
+    /// How much ground one point of screen covers at the centre of the view.
+    ///
+    /// Measured across a 100-point sample through the centre, as the web
+    /// measures it, rather than derived from the zoom: at Nova Scotia's
+    /// latitude a Mercator tile covers about two thirds of the ground its zoom
+    /// nominally says, and a readout that ignored that would be wrong by half.
+    func groundMetresPerPoint() -> Double? {
+        guard let mapView, mapView.bounds.width > 0 else { return nil }
+        let sample = 100.0
+        let centre = CGPoint(x: mapView.bounds.midX, y: mapView.bounds.midY)
+        let left = mapView.convert(centre, toCoordinateFrom: mapView)
+        let right = mapView.convert(
+            CGPoint(x: centre.x + sample, y: centre.y), toCoordinateFrom: mapView
+        )
+        guard CLLocationCoordinate2DIsValid(left), CLLocationCoordinate2DIsValid(right) else {
+            return nil
+        }
+        let metres = MKMapPoint(left).distance(to: MKMapPoint(right))
+        guard metres.isFinite, metres > 0 else { return nil }
+        return metres / sample
+    }
+
     // MARK: - Bounds selection
 
     func beginBoundsSelection() {
