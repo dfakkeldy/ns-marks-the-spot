@@ -561,6 +561,11 @@ struct MapContainerView: View {
                         mapHeading = heading
                     case .annotationSelected(let annotationID):
                         if annotationID.hasPrefix(MapController.parcelOverviewPrefix) {
+                            // The parcel answers, so nothing else may still be
+                            // answering: two cards about different ground,
+                            // stacked, read as one card about one place.
+                            vectorCallout = nil
+                            featureVM.clearSelection()
                             overlayVM.selectOverviewMarker(
                                 pid: String(
                                     annotationID.dropFirst(
@@ -574,6 +579,8 @@ struct MapContainerView: View {
                         // every other geometry type of theirs uses.
                         if let item = userVectorsVM.feature(annotationID: annotationID) {
                             vectorCallout = item
+                            featureVM.clearSelection()
+                            overlayVM.clearParcelSelection()
                             break
                         }
                         if let found = featureVM.callout(annotationID: annotationID) {
@@ -635,12 +642,31 @@ struct MapContainerView: View {
                             break
                         }
                         vectorCallout = nil
+                        // A parcel already drawn on the map is above every one
+                        // of these layers — zoning at 300, mineral proximity at
+                        // 390, wells at 405, against 420 for an established
+                        // parcel — so a tap inside its outline means the
+                        // parcel. Only drawn ones: an unidentified parcel is
+                        // not on the map to be tapped, which is why the
+                        // catalogued layers are still asked before the identify
+                        // request below.
+                        if controller.state.parcelShapes.contains(where: {
+                            PolygonHitTest.contains(
+                                GeoPoint(lat: latitude, lng: longitude),
+                                multiPolygon: $0.parts
+                            )
+                        }) {
+                            featureVM.clearSelection()
+                            overlayVM.identifyParcel(
+                                latitude: latitude, longitude: longitude
+                            )
+                            break
+                        }
                         // Then the catalogued layers that draw shapes rather
-                        // than tiles. Above the parcel test for the same reason
-                        // the user's layers are above this one: a tap that
-                        // reached a zone or a stream reach meant that feature,
-                        // and the parcel underneath answers a different
-                        // question.
+                        // than tiles, above the identify request below: a tap
+                        // that reached a zone or a stream reach meant that
+                        // feature, and asking the registry what parcel is under
+                        // it answers a different question.
                         if let found = featureVM.callout(
                             at: GeoPoint(lat: latitude, lng: longitude),
                             toleranceDegrees: fingerTolerance
@@ -826,16 +852,10 @@ struct MapContainerView: View {
     /// property under it, as though the app were answering both — and a parcel
     /// lookup already in flight would land afterwards and open a panel the user
     /// never asked for.
-    private func selectFeature(
-        _ found: (id: String, layer: LayerID, callout: FeatureCallout)
-    ) {
+    private func selectFeature(_ found: ViewportFeatureViewModel.FeatureSelection) {
         vectorCallout = nil
         overlayVM.clearParcelSelection()
-        featureVM.select(
-            ViewportFeatureViewModel.FeatureSelection(
-                id: found.id, layer: found.layer, callout: found.callout
-            )
-        )
+        featureVM.select(found)
     }
 
     private func stopMeasuring() {

@@ -74,9 +74,7 @@ struct FeatureIdentifyTests {
         let viewModel = await loaded()
         let (_, vertex) = try firstQualifyingReach()
         let found = try #require(viewModel.callout(at: vertex, toleranceDegrees: 0.0002))
-        viewModel.select(
-            .init(id: found.id, layer: found.layer, callout: found.callout)
-        )
+        viewModel.select(found)
         #expect(viewModel.selection != nil)
 
         viewModel.setVisible(.invernessHydroPotential, to: false)
@@ -90,9 +88,7 @@ struct FeatureIdentifyTests {
         let viewModel = await loaded()
         let (_, vertex) = try firstQualifyingReach()
         let found = try #require(viewModel.callout(at: vertex, toleranceDegrees: 0.0002))
-        viewModel.select(
-            .init(id: found.id, layer: found.layer, callout: found.callout)
-        )
+        viewModel.select(found)
 
         viewModel.refreshAll()
         try? await Task.sleep(for: .milliseconds(600))
@@ -111,5 +107,26 @@ struct FeatureIdentifyTests {
         viewModel.setVisible(.invernessHydroPotential, to: false)
 
         #expect(viewModel.callout(at: vertex, toleranceDegrees: 0.0002) == nil)
+    }
+
+    /// Two features can carry the same id and say the same words: a
+    /// service-backed layer numbers features by their place in the answer, and
+    /// zoning cards repeat across a plan area. What separates them is the
+    /// ground, so the card is kept only while the same ground is still drawn.
+    @Test func aCardWhoseGroundMovedIsNotKept() async throws {
+        let viewModel = await loaded()
+        let (_, vertex) = try firstQualifyingReach()
+        let found = try #require(viewModel.callout(at: vertex, toleranceDegrees: 0.0002))
+        viewModel.select(
+            .init(
+                id: found.id, layer: found.layer, callout: found.callout,
+                anchor: .marker(latitude: vertex.lat + 0.4, longitude: vertex.lng + 0.4)
+            )
+        )
+
+        viewModel.refreshAll()
+        try? await Task.sleep(for: .milliseconds(600))
+
+        #expect(viewModel.selection == nil)
     }
 }

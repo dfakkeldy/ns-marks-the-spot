@@ -86,9 +86,23 @@ final class ViewportFeatureViewModel {
     private(set) var selection: FeatureSelection?
 
     struct FeatureSelection: Identifiable, Equatable, Sendable {
+        /// Where on the ground the card is about.
+        ///
+        /// Carried so a redraw can tell one feature from another that happens
+        /// to say the same thing. A service-backed layer numbers its features
+        /// by their position in the answer, and a zoning description is not
+        /// unique — two polygons of the same zone in the same plan area
+        /// produce identical cards — so id and text together can still name a
+        /// different piece of ground after a pan.
+        enum Anchor: Equatable, Sendable {
+            case shape(GeoJSONGeometry)
+            case marker(latitude: Double, longitude: Double)
+        }
+
         let id: String
         let layer: LayerID
         let callout: FeatureCallout
+        let anchor: Anchor
     }
 
     /// The layers this app draws as client-side geometry, in panel order.
@@ -181,20 +195,26 @@ final class ViewportFeatureViewModel {
     /// Drops a selection whose feature is no longer drawn.
     ///
     /// Called wherever the published features change. The card survives only
-    /// while a feature is drawn with both the same id and the same content.
+    /// while a feature is drawn with the same id, the same content *and* the
+    /// same geometry.
     ///
-    /// Both, because a service-backed layer numbers its features by their
-    /// position in the answer: after a pan, `#3` is a different zone. Matching
-    /// on the id alone would leave a card describing one polygon pinned to
-    /// another, which is worse than losing it.
+    /// All three, because a service-backed layer numbers its features by their
+    /// position in the answer: after a pan, `#3` is a different zone. Id and
+    /// text alone are not enough either — two polygons of one zone in one plan
+    /// area produce identical cards, so the ground itself is what settles
+    /// whether this is still the feature the user tapped. Losing the card is
+    /// the safe outcome; keeping one pinned to different ground is not.
     private func invalidateSelectionIfGone() {
         guard let selection else { return }
         let stillDrawn =
             shapesByLayer[selection.layer]?.contains {
                 $0.id == selection.id && $0.callout == selection.callout
+                    && selection.anchor == .shape($0.geometry)
             } == true
             || markersByLayer[selection.layer]?.contains {
                 $0.id == selection.id && $0.callout == selection.callout
+                    && selection.anchor
+                        == .marker(latitude: $0.latitude, longitude: $0.longitude)
             } == true
         if !stillDrawn { self.selection = nil }
     }
@@ -643,7 +663,7 @@ final class ViewportFeatureViewModel {
     /// polygon has to be reachable.
     func callout(
         at point: GeoPoint, toleranceDegrees tolerance: Double
-    ) -> (id: String, layer: LayerID, callout: FeatureCallout)? {
+    ) -> FeatureSelection? {
         let markers = Self.layers.flatMap { markersByLayer[$0] ?? [] }
         var nearest: (marker: FeatureMarker, distance: Double)?
         for marker in markers where marker.callout != nil {
@@ -658,7 +678,12 @@ final class ViewportFeatureViewModel {
             }
         }
         if let nearest, let callout = nearest.marker.callout {
-            return (nearest.marker.id, nearest.marker.layer, callout)
+            return FeatureSelection(
+                id: nearest.marker.id, layer: nearest.marker.layer, callout: callout,
+                anchor: .marker(
+                    latitude: nearest.marker.latitude, longitude: nearest.marker.longitude
+                )
+            )
         }
 
         let shapes = Self.layers
@@ -668,7 +693,10 @@ final class ViewportFeatureViewModel {
         for shape in shapes.map(\.element) {
             guard let callout = shape.callout else { continue }
             if GeometryHitTest.hits(shape.geometry, at: point, toleranceDegrees: tolerance) {
-                return (shape.id, shape.layer, callout)
+                return FeatureSelection(
+                    id: shape.id, layer: shape.layer, callout: callout,
+                    anchor: .shape(shape.geometry)
+                )
             }
         }
         return nil
@@ -677,11 +705,14 @@ final class ViewportFeatureViewModel {
     /// The card for a marker the map selected, which is how a dot answers: a
     /// tap on an annotation reaches MapKit's selection rather than the map's
     /// own tap.
-    func callout(annotationID: String) -> (id: String, layer: LayerID, callout: FeatureCallout)? {
+    func callout(annotationID: String) -> FeatureSelection? {
         for marker in Self.layers.flatMap({ markersByLayer[$0] ?? [] })
         where marker.id == annotationID {
             guard let callout = marker.callout else { return nil }
-            return (marker.id, marker.layer, callout)
+            return FeatureSelection(
+                id: marker.id, layer: marker.layer, callout: callout,
+                anchor: .marker(latitude: marker.latitude, longitude: marker.longitude)
+            )
         }
         return nil
     }

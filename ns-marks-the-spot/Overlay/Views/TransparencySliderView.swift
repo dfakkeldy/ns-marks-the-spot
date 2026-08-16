@@ -471,6 +471,20 @@ private struct LayerRowView: View {
 }
 
 
+/// The dot as the map draws it, so the legend cannot describe a marker the user
+/// is not looking at.
+///
+/// Rendered from the same style the layer uses rather than redrawn by hand:
+/// the whole claim of a legend is that these two are the same picture.
+private struct WellAccuracySwatch: View {
+    let accuracy: WellLogOverlay.Accuracy
+
+    var body: some View {
+        Image(uiImage: FeatureMarkerImage.image(for: VectorFeatureStyles.wellLog(accuracy)))
+            .accessibilityHidden(true)
+    }
+}
+
 /// Which well records the layer asks for.
 ///
 /// Two choices rather than a switch per accuracy band, as on the web: the
@@ -494,12 +508,26 @@ private struct WellAccuracyFilterControl: View {
             .pickerStyle(.segmented)
             .accessibilityLabel("Well location accuracy")
 
-            // The sentence the web prints under its legend. Without it, a
-            // hollow marker is decoration; with it, it is the record saying it
-            // does not know where the well is.
+            // The web's legend, bands and all. The marker is the only thing on
+            // the map carrying how well a location is known, so a user who
+            // cannot read the marker is reading every one of these records as
+            // though it were a surveyed position — and four of the five bands
+            // are not. The note is the sentence that says so outright.
+            Text("Marker = how well the location is known")
+                .font(.caption2.bold())
+                .foregroundStyle(.secondary)
+            ForEach(WellLogOverlay.accuracyBands, id: \.accuracy) { band in
+                HStack(spacing: 6) {
+                    WellAccuracySwatch(accuracy: band.accuracy)
+                    Text(band.label)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
             Text(
-                "Hollow markers report that a well exists somewhere nearby, "
-                + "not where it is."
+                "Only surveyed wells are drawn as solid points. Hollow markers "
+                + "report that a well exists somewhere nearby, not where it is."
             )
             .font(.caption2)
             .foregroundStyle(.secondary)
