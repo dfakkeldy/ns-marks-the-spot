@@ -1035,11 +1035,11 @@ final class OverlayViewModel {
             baseMap: controller.baseMapType,
             layers: controller.layers,
             parcels: controller.state.parcelShapes,
-            // Every vector layer with something drawn on the screen right now.
-            // The compositor cannot draw them, and a page that simply left them
-            // out would show empty ground where the user was looking at wells
-            // or occurrences.
-            unsupportedLayers: unsupportedPrintLayers(within: box),
+            // The client-side layers as the screen has them, so a page shows
+            // the zones and reaches the reader was looking at rather than blank
+            // ground where they were.
+            features: printedFeatures(within: box),
+            markers: printedMarkers(within: box),
             template: template,
             fields: fields,
             includesLegend: includesLegend,
@@ -1063,39 +1063,31 @@ final class OverlayViewModel {
 
     /// The map's own tile path, so the export honours the cache and the licence
     /// clearance the screen is already holding rather than asking again.
-    /// The vector layers currently drawing something, in the order the map
-    /// draws them.
+    /// The features the page carries, in the order the map draws them.
     ///
     /// Read from what is on the map rather than from which rows are switched
-    /// on: a layer that is on but has nothing in this viewport is not missing
-    /// from the page, and saying it was would be its own false note.
-    private func unsupportedPrintLayers(within bounds: GeoBoundingBox) -> [LayerID] {
+    /// on: a layer that is on but has nothing in this viewport contributes
+    /// nothing to the page, and listing it would claim ink that was never laid.
+    private func printedFeatures(within bounds: GeoBoundingBox) -> [FeatureShape] {
         // Restricted to the frame being printed, not merely to what the view
         // model is holding. The viewport layers keep the previous view's
         // features while their replacement loads, and keep them indefinitely
         // when the reload fails — so a page made after a long pan would
-        // otherwise carry "these layers were on the screen this page was made
-        // from" about wells a hundred kilometres away. The disclosure is only
-        // honest about features the reader would have expected to see here.
+        // otherwise be composited from wells a hundred kilometres away.
         //
         // Bounding boxes rather than exact geometry: a shape that overlaps the
-        // frame at all had ink the page cannot carry, and a box is never
-        // smaller than its shape, so this errs towards disclosing.
-        var seen = Set<LayerID>()
-        var ordered = [LayerID]()
-        let onPage = controller.state.featureShapes
-            .filter { $0.geometry.boundingBox?.intersects(bounds) == true }
-            .map(\.layer)
-            + controller.state.featureMarkers
-            .filter {
-                bounds.south <= $0.latitude && $0.latitude <= bounds.north
-                    && bounds.west <= $0.longitude && $0.longitude <= bounds.east
-            }
-            .map(\.layer)
-        for layer in onPage where seen.insert(layer).inserted {
-            ordered.append(layer)
+        // frame at all has ink on this page, and a box is never smaller than
+        // its shape, so this errs towards including.
+        controller.state.featureShapes.filter {
+            $0.geometry.boundingBox?.intersects(bounds) == true
         }
-        return ordered
+    }
+
+    private func printedMarkers(within bounds: GeoBoundingBox) -> [FeatureMarker] {
+        controller.state.featureMarkers.filter {
+            bounds.south <= $0.latitude && $0.latitude <= bounds.north
+                && bounds.west <= $0.longitude && $0.longitude <= bounds.east
+        }
     }
 
     var printTileProvider: PrintMapCompositor.TileProvider {

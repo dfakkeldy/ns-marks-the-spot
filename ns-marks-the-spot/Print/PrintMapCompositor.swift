@@ -108,6 +108,11 @@ nonisolated struct PrintMapCompositor {
         baseMap: MapBaseType,
         layers: [MapLayerState],
         parcels: [ParcelShape],
+        /// The client-side layers, in the order the map draws them. Their
+        /// outcomes are appended to the tile layers' so a page that shows a
+        /// zone has a legend row and an attribution for it.
+        features: [FeatureShape] = [],
+        markers: [FeatureMarker] = [],
         /// Raster pixels per PDF point, so a line drawn at the weight it has
         /// on screen prints at that weight rather than as a hairline.
         lineScale: Double,
@@ -199,6 +204,12 @@ nonisolated struct PrintMapCompositor {
                     )
                 }
             }
+            // Under the parcels, as on screen: a boundary the reader is
+            // checking must not be buried by a zone drawn over it.
+            draw(
+                features: features, markers: markers, into: context.cgContext,
+                space: space, lineScale: lineScale
+            )
             draw(parcels: parcels, into: context.cgContext, space: space, lineScale: lineScale)
         }
 
@@ -336,6 +347,117 @@ nonisolated struct PrintMapCompositor {
         }
         if missing == 0 { return (images, .drawn) }
         return (images, .partial(missing: missing, of: planned.count))
+    }
+
+    /// The client-side feature layers, in their print styling.
+    ///
+    /// Ordered by the same z-index the screen uses, so a page and a screenshot
+    /// of the same ground stack their layers the same way.
+    private static func draw(
+        features: [FeatureShape],
+        markers: [FeatureMarker],
+        into context: CGContext,
+        space: PrintOutputSpace,
+        lineScale: Double
+    ) {
+        for shape in features.enumerated()
+            .sorted(by: { ($0.element.zIndex, $0.offset) < ($1.element.zIndex, $1.offset) })
+            .map(\.element)
+        {
+            let style = shape.printStyle
+            switch shape.geometry {
+            case .polygon(let part):
+                stroke(parts: [part], style: style, filled: true,
+                       into: context, space: space, lineScale: lineScale)
+            case .multiPolygon(let parts):
+                stroke(parts: parts, style: style, filled: true,
+                       into: context, space: space, lineScale: lineScale)
+            case .lineString(let line):
+                stroke(parts: [[line]], style: style, filled: false,
+                       into: context, space: space, lineScale: lineScale)
+            case .multiLineString(let lines):
+                stroke(parts: [lines], style: style, filled: false,
+                       into: context, space: space, lineScale: lineScale)
+            case .point, .multiPoint:
+                // A shape layer that answered with a point draws nothing, the
+                // same as on screen: a dot this layer never promised would be a
+                // record the page invented.
+                continue
+            }
+        }
+
+        for marker in markers {
+            // Fixed size in points, as on screen and for the same reason: the
+            // record is at this coordinate to whatever precision its accuracy
+            // band allows, and a circle scaled to the page would read as a
+            // measured radius around it.
+            let style = marker.printStyle
+            let placed = space.point(for: GeoPoint(lat: marker.latitude, lng: marker.longitude))
+            let radius = (style.markerRadius ?? 5) * lineScale
+            let rect = CGRect(
+                x: placed.x - radius, y: placed.y - radius, width: radius * 2, height: radius * 2
+            )
+            let circle = CGPath(ellipseIn: rect, transform: nil)
+            if let fillHex = style.fillHex, style.fillOpacity > 0 {
+                context.addPath(circle)
+                context.setFillColor(
+                    UIColor(featureHex: fillHex, alpha: style.fillOpacity).cgColor
+                )
+                context.fillPath()
+            }
+            context.addPath(circle)
+            context.setStrokeColor(
+                UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
+            )
+            context.setLineWidth(style.lineWidth * lineScale)
+            context.setLineDash(
+                phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
+            )
+            context.strokePath()
+        }
+        context.setLineDash(phase: 0, lengths: [])
+        context.setLineCap(.butt)
+        context.setLineJoin(.miter)
+    }
+
+    private static func stroke(
+        parts: [[[GeoPoint]]],
+        style: VectorFeatureStyle,
+        filled: Bool,
+        into context: CGContext,
+        space: PrintOutputSpace,
+        lineScale: Double
+    ) {
+        for part in parts {
+            // One path per part so a ring after the first subtracts as a hole,
+            // exactly as the parcel outlines do.
+            let path = CGMutablePath()
+            for ring in part where ring.count > 1 {
+                for (index, point) in ring.enumerated() {
+                    let placed = space.point(for: point)
+                    let target = CGPoint(x: placed.x, y: placed.y)
+                    if index == 0 { path.move(to: target) } else { path.addLine(to: target) }
+                }
+                if filled { path.closeSubpath() }
+            }
+            guard !path.isEmpty else { continue }
+            if filled, let fillHex = style.fillHex, style.fillOpacity > 0 {
+                context.addPath(path)
+                context.setFillColor(UIColor(featureHex: fillHex, alpha: style.fillOpacity).cgColor)
+                context.fillPath(using: .evenOdd)
+            }
+            context.addPath(path)
+            context.setStrokeColor(
+                UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
+            )
+            context.setLineWidth(style.lineWidth * lineScale)
+            context.setLineCap(style.hasRoundedEnds ? .round : .butt)
+            context.setLineJoin(style.hasRoundedEnds ? .round : .miter)
+            context.setLineDash(
+                phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
+            )
+            context.strokePath()
+        }
     }
 
     /// Parcel outlines, in the same colours and weights the map draws them

@@ -348,6 +348,7 @@ final class ViewportFeatureViewModel {
                     layer: id,
                     geometry: zone.geometry,
                     style: style,
+                    printStyle: PrintVectorFeatureStyles.zoning,
                     title: zone.description.label,
                     subtitle: zone.description.planArea,
                     callout: FeatureCallouts.zoning(
@@ -387,6 +388,7 @@ final class ViewportFeatureViewModel {
                     style: VectorFeatureStyles.oldGrowth(
                         area.status, colors: colors, opacity: opacity
                     ),
+                    printStyle: PrintVectorFeatureStyles.oldGrowth(area.status),
                     title: area.status.label,
                     subtitle: area.selectionMethod,
                     callout: FeatureCallouts.oldGrowth(
@@ -421,6 +423,7 @@ final class ViewportFeatureViewModel {
                     layer: .mineralProximityParcels,
                     geometry: parcel.geometry,
                     style: VectorFeatureStyles.mineralProximityParcel,
+                    printStyle: PrintVectorFeatureStyles.mineralProximityParcel,
                     title: "PID \(parcel.pid)",
                     subtitle: "Within 1 km of a recorded mineral occurrence",
                     callout: FeatureCallouts.mineralProximity(
@@ -462,6 +465,7 @@ final class ViewportFeatureViewModel {
                     latitude: record.location.lat,
                     longitude: record.location.lng,
                     style: VectorFeatureStyles.wellLog(record.accuracy),
+                    printStyle: PrintVectorFeatureStyles.wellLog(record.accuracy),
                     title: record.wellNumber ?? "Well log",
                     subtitle: record.accuracyStatement,
                     callout: FeatureCallouts.wellLog(
@@ -498,6 +502,7 @@ final class ViewportFeatureViewModel {
                     latitude: record.location.lat,
                     longitude: record.location.lng,
                     style: style,
+                    printStyle: PrintVectorFeatureStyles.resourcePoint(detail),
                     title: record.label,
                     subtitle: nil,
                     // No card: the service answers with a name and a
@@ -533,6 +538,7 @@ final class ViewportFeatureViewModel {
                     style: VectorFeatureStyles.hydroReach(
                         reach.potentialClass, upstreamAreaKm2: reach.upstreamAreaKm2
                     ),
+                    printStyle: PrintVectorFeatureStyles.hydroReach(reach.potentialClass),
                     title: reach.watershedName,
                     subtitle: reach.potentialClass.label,
                     callout: FeatureCallouts.hydroReach(

@@ -170,3 +170,107 @@ public enum VectorFeatureStyles {
         )
     }
 }
+
+/// The same layers as they print.
+///
+/// A separate set rather than the screen styles at a different opacity, because
+/// the page is a different medium: the screen tells these layers apart by hue,
+/// and a page that may be photocopied, faxed to a municipality or printed on a
+/// mono office printer has to tell them apart by weight and dash instead. The
+/// web's print branches, carried over so a printed page from either surface can
+/// be laid beside the other and read the same way.
+public enum PrintVectorFeatureStyles {
+    public static let zoning = VectorFeatureStyle(
+        strokeHex: "#333333",
+        fillHex: "#ededed",
+        fillOpacity: 0.35,
+        lineWidth: 1,
+        dashPattern: [1, 2]
+    )
+
+    public static func oldGrowth(_ status: OldGrowthPolicyOverlay.Status) -> VectorFeatureStyle {
+        switch status {
+        case .confirmedOldGrowth:
+            VectorFeatureStyle(
+                strokeHex: "#2f2f2f", fillHex: "#bcbcbc", fillOpacity: 0.5, lineWidth: 1.5
+            )
+        case .restorationOpportunity:
+            VectorFeatureStyle(
+                strokeHex: "#666666", fillHex: "#dedede", fillOpacity: 0.45, lineWidth: 1.4,
+                dashPattern: [6, 3]
+            )
+        case .unknown:
+            VectorFeatureStyle(
+                strokeHex: "#888888", fillHex: "#f2f2f2", fillOpacity: 0.35, lineWidth: 1.3,
+                dashPattern: [2, 3]
+            )
+        }
+    }
+
+    /// Still dashed on paper, and in its own pattern: the derivation is the
+    /// reason this parcel is on the page, and the page has no colour left to
+    /// say so with.
+    public static let mineralProximityParcel = VectorFeatureStyle(
+        strokeHex: "#222222",
+        fillHex: "#e6e6e6",
+        fillOpacity: 0.28,
+        lineWidth: 2,
+        dashPattern: [2, 3, 8, 3]
+    )
+
+    public static func resourcePoint(_ detail: ResourcePointLayerDetail) -> VectorFeatureStyle {
+        VectorFeatureStyle(
+            strokeHex: "#111111",
+            fillHex: "#e8e8e8",
+            fillOpacity: 0.8,
+            lineWidth: 1.5,
+            // The openings keep the dash they have nowhere else: on a mono page
+            // the two inventories are otherwise the same grey dot, and one of
+            // them is a physical hazard.
+            dashPattern: detail.id == .abandonedMines ? [2, 2] : nil,
+            markerRadius: detail.id == .abandonedMines ? 6 : 5
+        )
+    }
+
+    /// A well, in ink rather than in accuracy colour.
+    ///
+    /// The filled-versus-hollow distinction survives the loss of hue, which is
+    /// the one that matters: a hollow dashed dot is a record from an area, and
+    /// printing it solid would put a well on the page at a spot nobody surveyed.
+    public static func wellLog(_ accuracy: WellLogOverlay.Accuracy) -> VectorFeatureStyle {
+        if accuracy == .surveyed {
+            return VectorFeatureStyle(
+                strokeHex: "#111111",
+                fillHex: "#4b4b4b",
+                fillOpacity: 0.85,
+                lineWidth: 1.25,
+                markerRadius: 5
+            )
+        }
+        return VectorFeatureStyle(
+            strokeHex: "#111111",
+            strokeOpacity: 0.7,
+            fillHex: nil,
+            fillOpacity: 0,
+            lineWidth: 1,
+            dashPattern: [2, 2],
+            markerRadius: 4
+        )
+    }
+
+    /// A screened reach, where the opportunity band is carried entirely by
+    /// weight and dash — the seven bands are a colour ramp on screen and have
+    /// to survive a mono page as seven distinguishable lines.
+    public static func hydroReach(
+        _ potentialClass: HydroPotentialPilot.PotentialClass
+    ) -> VectorFeatureStyle {
+        let style = HydroPotentialPilot.printLineStyle(for: potentialClass)
+        return VectorFeatureStyle(
+            strokeHex: "#222222",
+            strokeOpacity: 0.9,
+            lineWidth: style.width,
+            dashPattern: style.dashPattern,
+            hasRoundedEnds: true
+        )
+    }
+}

@@ -15,14 +15,13 @@ nonisolated struct PrintExportRequest: Sendable {
     var baseMap: MapBaseType
     var layers: [MapLayerState]
     var parcels: [ParcelShape]
-    /// Vector layers with features on the screen this page was made from.
+    /// The client-side layers' features, as they were on the screen this page
+    /// was made from — zones, policy areas, screened reaches and the rest.
     ///
-    /// The compositor draws rasters and parcel outlines, so these do not reach
-    /// the paper — the browser's export does not carry them either. They are
-    /// carried here so the page can say so: a reader who switched a layer on,
-    /// looked at it, and printed it would otherwise be handed blank ground
-    /// where it was.
-    var unsupportedLayers: [LayerID] = []
+    /// Snapshotted with everything else so the page cannot be assembled from a
+    /// half-reloaded viewport.
+    var features: [FeatureShape] = []
+    var markers: [FeatureMarker] = []
     var template: PdfTemplate
     var fields: PdfComposer.Fields
     /// Whether the page carries its legend box.
@@ -85,6 +84,8 @@ nonisolated enum PrintExport {
             baseMap: request.baseMap,
             layers: request.layers,
             parcels: request.parcels,
+            features: request.features,
+            markers: request.markers,
             // A line drawn at the weight it has on screen, so a boundary reads
             // the same on paper as it did in the hand.
             lineScale: Double(resolution.widthPx) / template.mapFrame.width,
@@ -93,14 +94,21 @@ nonisolated enum PrintExport {
             baseMapProvider: baseMapProvider
         )
 
-        // Appended after the drawn layers, so the "what printed" list reads in
-        // the order the page was assembled and ends with what it could not
-        // carry.
-        let outcomes = raster.outcomes + request.unsupportedLayers.map { id in
+        // Appended after the tile layers, so the "what printed" list reads in
+        // the order the page was assembled. Each of these is `.drawn` because
+        // its features were already in hand when the page was made: there was
+        // no request to fail and nothing to arrive late.
+        var featureLayers = [LayerID]()
+        var seen = Set<LayerID>()
+        for layer in request.features.map(\.layer) + request.markers.map(\.layer)
+        where seen.insert(layer).inserted {
+            featureLayers.append(layer)
+        }
+        let outcomes = raster.outcomes + featureLayers.map { id in
             PrintMapCompositor.LayerOutcome(
                 id: id.rawValue,
                 name: descriptor(id.rawValue)?.name ?? id.rawValue,
-                state: .unsupported
+                state: .drawn
             )
         }
         let account = PrintExportPlan.account(

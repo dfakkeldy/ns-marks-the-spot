@@ -16,6 +16,10 @@ nonisolated struct FeatureShape: Identifiable, Equatable, Sendable {
     /// As decoded. Point and multi-point geometry produce no shape.
     let geometry: GeoJSONGeometry
     let style: VectorFeatureStyle
+    /// How the same feature is drawn on the page, which is not the screen style
+    /// at a lower opacity: the page has to tell these layers apart in weight and
+    /// dash because it may be read in mono.
+    let printStyle: VectorFeatureStyle
     let title: String
     let subtitle: String?
     /// What this feature says when it is tapped. Optional because a layer this
@@ -30,6 +34,7 @@ nonisolated struct FeatureShape: Identifiable, Equatable, Sendable {
         layer: LayerID,
         geometry: GeoJSONGeometry,
         style: VectorFeatureStyle,
+        printStyle: VectorFeatureStyle? = nil,
         title: String,
         subtitle: String?,
         callout: FeatureCallout? = nil
@@ -38,6 +43,7 @@ nonisolated struct FeatureShape: Identifiable, Equatable, Sendable {
         self.layer = layer
         self.geometry = geometry
         self.style = style
+        self.printStyle = printStyle ?? style
         self.title = title
         self.subtitle = subtitle
         self.callout = callout
@@ -58,6 +64,7 @@ nonisolated struct FeatureMarker: Identifiable, Equatable, Sendable {
     let latitude: Double
     let longitude: Double
     let style: VectorFeatureStyle
+    let printStyle: VectorFeatureStyle
     let title: String
     let subtitle: String?
     let callout: FeatureCallout?
@@ -68,6 +75,7 @@ nonisolated struct FeatureMarker: Identifiable, Equatable, Sendable {
         latitude: Double,
         longitude: Double,
         style: VectorFeatureStyle,
+        printStyle: VectorFeatureStyle? = nil,
         title: String,
         subtitle: String?,
         callout: FeatureCallout? = nil
@@ -77,6 +85,7 @@ nonisolated struct FeatureMarker: Identifiable, Equatable, Sendable {
         self.latitude = latitude
         self.longitude = longitude
         self.style = style
+        self.printStyle = printStyle ?? style
         self.title = title
         self.subtitle = subtitle
         self.callout = callout
