@@ -18,6 +18,30 @@ nonisolated struct FeatureShape: Identifiable, Equatable, Sendable {
     let style: VectorFeatureStyle
     let title: String
     let subtitle: String?
+    /// What this feature says when it is tapped. Optional because a layer this
+    /// app can draw but has no sourced account of must stay untappable rather
+    /// than open a card that says less than the web's.
+    let callout: FeatureCallout?
+
+    /// Defaulted so a feature with nothing sourced to say is written that way
+    /// deliberately, rather than every construction site having to repeat nil.
+    init(
+        id: String,
+        layer: LayerID,
+        geometry: GeoJSONGeometry,
+        style: VectorFeatureStyle,
+        title: String,
+        subtitle: String?,
+        callout: FeatureCallout? = nil
+    ) {
+        self.id = id
+        self.layer = layer
+        self.geometry = geometry
+        self.style = style
+        self.title = title
+        self.subtitle = subtitle
+        self.callout = callout
+    }
 
     /// Where this layer sits in the web's drawing order, across both of
     /// Leaflet's stacking spaces.
@@ -36,6 +60,27 @@ nonisolated struct FeatureMarker: Identifiable, Equatable, Sendable {
     let style: VectorFeatureStyle
     let title: String
     let subtitle: String?
+    let callout: FeatureCallout?
+
+    init(
+        id: String,
+        layer: LayerID,
+        latitude: Double,
+        longitude: Double,
+        style: VectorFeatureStyle,
+        title: String,
+        subtitle: String?,
+        callout: FeatureCallout? = nil
+    ) {
+        self.id = id
+        self.layer = layer
+        self.latitude = latitude
+        self.longitude = longitude
+        self.style = style
+        self.title = title
+        self.subtitle = subtitle
+        self.callout = callout
+    }
 }
 
 /// A hex colour as the catalog and the web write it.

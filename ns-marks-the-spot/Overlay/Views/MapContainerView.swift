@@ -23,6 +23,7 @@ struct MapContainerView: View {
     /// know about.
     @State private var editSession: VectorEditSession?
     @State private var vectorCallout: UserVectorCalloutItem?
+    @State private var featureCallout: FeatureCalloutItem?
     /// The measurement in progress, or none. Not persisted anywhere: a measured
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
@@ -489,7 +490,8 @@ struct MapContainerView: View {
         // control the user can see and cannot reach.
         .overlay(alignment: .bottomLeading) {
             if let mapPosition, overlayVM.inspection == nil, editSession == nil,
-               measure == nil, vectorCallout == nil, !isSelectingSaveArea
+               measure == nil, vectorCallout == nil, featureCallout == nil,
+               !isSelectingSaveArea
             {
                 MapPositionReadout(position: mapPosition)
                     .padding(.leading, 12)
@@ -525,6 +527,26 @@ struct MapContainerView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+        .overlay(alignment: .bottom) {
+            if let featureCallout, editSession == nil, vectorCallout == nil {
+                FeatureCalloutCard(
+                    callout: featureCallout.callout,
+                    onOpenParcel: { pid in
+                        // The proximity layer's card is about a parcel, so
+                        // opening it hands the PID to the same search a typed
+                        // one goes through — the registry answers, rather than
+                        // this card promoting its own copy into a selection.
+                        self.featureCallout = nil
+                        overlayVM.searchParcel(pid)
+                    },
+                    onClose: { self.featureCallout = nil }
+                )
+                .frame(maxWidth: 420)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
     }
 
     /// What the container does as it appears, changes and goes away.
@@ -551,6 +573,13 @@ struct MapContainerView: View {
                         // every other geometry type of theirs uses.
                         if let item = userVectorsVM.feature(annotationID: annotationID) {
                             vectorCallout = item
+                            break
+                        }
+                        if let found = featureVM.callout(annotationID: annotationID) {
+                            vectorCallout = nil
+                            featureCallout = FeatureCalloutItem(
+                                id: found.id, callout: found.callout
+                            )
                             break
                         }
                         if let poi = poiVM.points.first(where: { $0.id == annotationID }) {
@@ -598,9 +627,26 @@ struct MapContainerView: View {
                             toleranceDegrees: fingerTolerance
                         ) {
                             vectorCallout = item
+                            featureCallout = nil
                             break
                         }
                         vectorCallout = nil
+                        // Then the catalogued layers that draw shapes rather
+                        // than tiles. Above the parcel test for the same reason
+                        // the user's layers are above this one: a tap that
+                        // reached a zone or a stream reach meant that feature,
+                        // and the parcel underneath answers a different
+                        // question.
+                        if let found = featureVM.callout(
+                            at: GeoPoint(lat: latitude, lng: longitude),
+                            toleranceDegrees: fingerTolerance
+                        ) {
+                            featureCallout = FeatureCalloutItem(
+                                id: found.id, callout: found.callout
+                            )
+                            break
+                        }
+                        featureCallout = nil
                         // The view model decides whether a tap means anything: the
                         // parcel layer has to be on and the map zoomed in far
                         // enough for a finger to be pointing at one property.
@@ -764,6 +810,7 @@ struct MapContainerView: View {
             // has stopped answering to.
             overlayVM.clearParcelSelection()
             vectorCallout = nil
+            featureCallout = nil
             isLayersMenuExpanded = false
             measure = MeasureSession(mode: mode)
             pushMeasureShape()

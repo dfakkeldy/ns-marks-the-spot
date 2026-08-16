@@ -60,7 +60,8 @@ struct FeatureShapeTests {
             geometry: .polygon([outer]),
             style: style,
             title: "z-1",
-            subtitle: nil
+            subtitle: nil,
+            callout: nil
         )
 
         #expect(policy.zIndex < zoning.zIndex)
@@ -111,7 +112,8 @@ struct FeatureShapeTests {
             geometry: geometry,
             style: style,
             title: "og-1",
-            subtitle: nil
+            subtitle: nil,
+            callout: nil
         )
     }
 }

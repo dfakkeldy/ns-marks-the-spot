@@ -349,7 +349,10 @@ final class ViewportFeatureViewModel {
                     geometry: zone.geometry,
                     style: style,
                     title: zone.description.label,
-                    subtitle: zone.description.planArea
+                    subtitle: zone.description.planArea,
+                    callout: FeatureCallouts.zoning(
+                        zone.description, detail: detail, layerName: Self.name(of: id)
+                    )
                 )
             },
             unreadable: found.unreadable
@@ -385,7 +388,12 @@ final class ViewportFeatureViewModel {
                         area.status, colors: colors, opacity: opacity
                     ),
                     title: area.status.label,
-                    subtitle: area.selectionMethod
+                    subtitle: area.selectionMethod,
+                    callout: FeatureCallouts.oldGrowth(
+                        area,
+                        layerName: Self.name(of: .oldGrowthPolicy),
+                        sourceURL: Self.sourceURL(of: .oldGrowthPolicy)
+                    )
                 )
             }
         )
@@ -414,7 +422,13 @@ final class ViewportFeatureViewModel {
                     geometry: parcel.geometry,
                     style: VectorFeatureStyles.mineralProximityParcel,
                     title: "PID \(parcel.pid)",
-                    subtitle: "Within 1 km of a recorded mineral occurrence"
+                    subtitle: "Within 1 km of a recorded mineral occurrence",
+                    callout: FeatureCallouts.mineralProximity(
+                        pid: parcel.pid,
+                        distanceKm: 1,
+                        layerName: Self.name(of: .mineralProximityParcels),
+                        sourceURL: Self.sourceURL(of: .mineralProximityParcels)
+                    )
                 )
             },
             // Both halves of the derivation, added rather than reported apart:
@@ -449,7 +463,12 @@ final class ViewportFeatureViewModel {
                     longitude: record.location.lng,
                     style: VectorFeatureStyles.wellLog(record.accuracy),
                     title: record.wellNumber ?? "Well log",
-                    subtitle: record.accuracyStatement
+                    subtitle: record.accuracyStatement,
+                    callout: FeatureCallouts.wellLog(
+                        record,
+                        layerName: Self.name(of: .nsWellLogs),
+                        sourceURL: Self.sourceURL(of: .nsWellLogs)
+                    )
                 )
             },
             unreadable: found.unreadable
@@ -480,7 +499,11 @@ final class ViewportFeatureViewModel {
                     longitude: record.location.lng,
                     style: style,
                     title: record.label,
-                    subtitle: nil
+                    subtitle: nil,
+                    // No card: the service answers with a name and a
+                    // coordinate, and the web's popup says the same. A card
+                    // here would be a heading with nothing under it.
+                    callout: nil
                 )
             },
             unreadable: found.unreadable
@@ -511,7 +534,12 @@ final class ViewportFeatureViewModel {
                         reach.potentialClass, upstreamAreaKm2: reach.upstreamAreaKm2
                     ),
                     title: reach.watershedName,
-                    subtitle: reach.potentialClass.label
+                    subtitle: reach.potentialClass.label,
+                    callout: FeatureCallouts.hydroReach(
+                        reach,
+                        metadata: collection.metadata,
+                        layerName: Self.name(of: .invernessHydroPotential)
+                    )
                 )
             },
             reportedCount: collection.metadata.watershedCount
@@ -524,6 +552,73 @@ final class ViewportFeatureViewModel {
         case .cancelled: .cancelled
         default: .unavailable
         }
+    }
+
+    // MARK: - Identify
+
+    /// What the feature under a tap says about itself, or nil for a tap that
+    /// reached none.
+    ///
+    /// Topmost first, so the answer is the feature the user can see they are
+    /// pointing at: highest draw order wins, and among equals the one the
+    /// catalog lists later, which is the one drawn over the other.
+    ///
+    /// Markers are tested before shapes because a dot is drawn over the areas
+    /// beneath it and is the smaller target of the two — a well inside a zoning
+    /// polygon has to be reachable.
+    func callout(
+        at point: GeoPoint, toleranceDegrees tolerance: Double
+    ) -> (id: String, callout: FeatureCallout)? {
+        let markers = Self.layers.flatMap { markersByLayer[$0] ?? [] }
+        var nearest: (marker: FeatureMarker, distance: Double)?
+        for marker in markers where marker.callout != nil {
+            let distance = GeometryHitTest.distance(
+                point, GeoPoint(lat: marker.latitude, lng: marker.longitude)
+            )
+            guard distance <= tolerance else { continue }
+            // Nearest rather than last: dots overlap at low zoom, and the one
+            // whose centre the finger is closest to is the one being aimed at.
+            if nearest == nil || distance < nearest!.distance {
+                nearest = (marker, distance)
+            }
+        }
+        if let nearest, let callout = nearest.marker.callout {
+            return (nearest.marker.id, callout)
+        }
+
+        let shapes = Self.layers
+            .flatMap { shapesByLayer[$0] ?? [] }
+            .enumerated()
+            .sorted { ($0.element.zIndex, $0.offset) > ($1.element.zIndex, $1.offset) }
+        for shape in shapes.map(\.element) {
+            guard let callout = shape.callout else { continue }
+            if GeometryHitTest.hits(shape.geometry, at: point, toleranceDegrees: tolerance) {
+                return (shape.id, callout)
+            }
+        }
+        return nil
+    }
+
+    /// The card for a marker the map selected, which is how a dot answers: a
+    /// tap on an annotation reaches MapKit's selection rather than the map's
+    /// own tap.
+    func callout(annotationID: String) -> (id: String, callout: FeatureCallout)? {
+        for marker in Self.layers.flatMap({ markersByLayer[$0] ?? [] })
+        where marker.id == annotationID {
+            guard let callout = marker.callout else { return nil }
+            return (marker.id, callout)
+        }
+        return nil
+    }
+
+    /// The layer's catalog name, which is what the panel calls it — so a card
+    /// and the switch that turned it on say the same thing.
+    private static func name(of id: LayerID) -> String {
+        LayerCatalog.descriptor(for: id)?.name ?? id.rawValue
+    }
+
+    private static func sourceURL(of id: LayerID) -> URL? {
+        LayerCatalog.descriptor(for: id)?.sourceURL
     }
 
     // MARK: - Publishing

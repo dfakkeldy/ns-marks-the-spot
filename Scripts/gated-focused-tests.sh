@@ -18,6 +18,7 @@ OUT=$ROOT/.build/focused-tests
 DEST='platform=iOS Simulator,name=iPhone 17 Pro'
 SUITES=(
   ParcelIdentifyTests
+  FeatureIdentifyTests
   POIFetcherTests
   FletcherTileLoaderTests
   TileStubbedSuites

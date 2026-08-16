@@ -213,7 +213,8 @@ struct MapStateDiffTests {
             geometry: .polygon([square]),
             style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 1.7),
             title: id,
-            subtitle: nil
+            subtitle: nil,
+            callout: nil
         )
     }
 
@@ -225,7 +226,8 @@ struct MapStateDiffTests {
             longitude: -63.5,
             style: VectorFeatureStyle(strokeHex: "#ffffff", lineWidth: 1.5, markerRadius: 5),
             title: id,
-            subtitle: nil
+            subtitle: nil,
+            callout: nil
         )
     }
 
