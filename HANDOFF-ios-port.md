@@ -1080,3 +1080,28 @@ Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-
 on claude/ios-web-map-parity-2de228. Next: port GeoPDF import (web parsers under
 web/src/userMaps/parsers/geoPdf*.ts) using PDFKit for the raster.
 ```
+
+## 2026-08-16 — GeoPDF import matches the web; batch import lands
+
+Done: `577b6d5ba` reworks the GeoPDF import against a Codex review. A PDF is
+never refused over its registration any more: one frame places it, several are
+the user's choice (`PdfFrameChooser`), none leaves a stated reason —
+`PdfMapRegistration.selection(of:)` replacing `outcome(of:)`, with
+`PdfImportMetadata` on the record so the panel can say what happened. Also
+crop-box rather than media-box rendering, bounded `VP`/`LGIDict` traversal,
+fractional-EPSG refusal, and a render scale that no longer exceeds the cap.
+Import now takes several files, each with its own named notice. 976 package
+tests, typecheck clean, and the simulator probe confirms the export round-trip,
+the crop box, and both import outcomes. Task #20's open item is now only deep
+links, which stay deferred (needs an apple-app-site-association file on the
+KinNoKi-published site, outside this repo).
+Next: read the second Codex review (task `bvzd9ltnu`), then the gated test run
+after 22:00.
+Resume:
+
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228. Next: act on the second Codex review of
+577b6d5ba, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
