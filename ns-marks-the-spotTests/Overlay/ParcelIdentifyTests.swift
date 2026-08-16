@@ -342,13 +342,31 @@ struct ParcelIdentifyTests {
         ])
         defer { StubURLProtocol.clear(channel: channel) }
 
-        viewModel.searchParcel("1234 Barrington Street")
+        viewModel.searchParcel("Barrington Street")
         await viewModel.awaitAddressSearch()
 
         #expect(viewModel.addressResults.map(\.pntid) == ["1001", "1002"])
         #expect(viewModel.addressResults.first?.label == "1234 Barrington Street, Halifax")
         #expect(viewModel.parcelMessage == nil)
         #expect(viewModel.parcels.selectedPID == nil)
+    }
+
+    /// Socrata's full-text search answers a civic number generously — asking
+    /// for 1234 returns the neighbours too — so the number the user typed has
+    /// to narrow the list. A search for one house that lists the house next
+    /// door invites selecting the wrong parcel.
+    @Test func aCivicNumberNarrowsTheListToTheHouseTyped() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("tntn-er5g", Self.twoAddresses),
+            ("nsgiwa", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.searchParcel("1234 Barrington Street")
+        await viewModel.awaitAddressSearch()
+
+        #expect(viewModel.addressResults.map(\.pntid) == ["1001"])
     }
 
     @Test func choosingAnAddressAsksTheProvinceWhatParcelIsUnderIt() async {

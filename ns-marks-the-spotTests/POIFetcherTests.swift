@@ -2,6 +2,9 @@ import Foundation
 import Testing
 @testable import ns_marks_the_spot
 
+/// Serialized: every test here rewrites one global stub, so in parallel they
+/// answer each other's requests and only the last writer passes.
+@Suite(.serialized)
 struct POIFetcherTests {
     @Test func fetchWaterfallsUsesFallsLayerAndDecodesMixedArcGISAttributes() async throws {
         WaterfallURLProtocol.reset(
