@@ -88,6 +88,13 @@ public enum PdfComposer {
         /// says where it is on the ground, and a reader's GIS tool must not be
         /// able to pick up a page of sentences as if it were georeferenced.
         public var appendix: [PdfAppendix.Block]
+        /// What the appendix pages must not be read as, printed in the footer
+        /// of each one.
+        ///
+        /// Repeated rather than stated once, because these pages are separated
+        /// from the map and from each other: filed, photocopied, quoted. A
+        /// caveat that lives on page one does not travel with page four.
+        public var appendixCaveat: String
         public var generatedAt: Date
 
         public init(
@@ -102,6 +109,7 @@ public enum PdfComposer {
             shareURLText: String? = nil,
             qrModules: [[Bool]]? = nil,
             appendix: [PdfAppendix.Block] = [],
+            appendixCaveat: String = "",
             generatedAt: Date
         ) {
             self.template = template
@@ -115,6 +123,7 @@ public enum PdfComposer {
             self.shareURLText = shareURLText
             self.qrModules = qrModules
             self.appendix = appendix
+            self.appendixCaveat = appendixCaveat
             self.generatedAt = generatedAt
         }
     }
@@ -650,7 +659,9 @@ public enum PdfComposer {
         // The appendix pages share the map page's fonts and carry no image and
         // no viewport: they are text on paper, and nothing about them should
         // read as a second map.
-        let appendixPages = PdfAppendix.pages(input.appendix, template: template).map { stream in
+        let appendixPages = PdfAppendix.pages(
+            input.appendix, template: template, caveat: input.appendixCaveat
+        ).map { stream in
             let streamNumber = writer.add(.stream([], stream))
             return writer.add(
                 .dictionary([

@@ -24,7 +24,7 @@ struct PrintExportSheet: View {
     @State private var subtitle = ""
     @State private var notes = ""
     @State private var includesLegend = true
-    @State private var includesAppendix = false
+    @State private var kind: PrintDocumentKind = .fieldSheet
     @State private var isWorking = false
     /// The running export, held so Cancel and dismissal can stop it.
     @State private var work: Task<Void, Never>?
@@ -52,6 +52,17 @@ struct PrintExportSheet: View {
 
     private var template: PdfTemplate { PdfTemplate.template(framing.orientation) }
 
+    /// The open parcel, but only when its boundary is on the ground being
+    /// printed. A page named after a parcel it does not show would tell the
+    /// reader they are looking at that parcel.
+    private var framedPID: String? {
+        overlayVM.inspectedPID(shownWithin: framing.bounds)
+    }
+
+    private var canExport: Bool {
+        kind != .researchSummary || overlayVM.canExportEvidenceNote
+    }
+
     /// The dot pitch this device will actually render at, resolved before the
     /// export rather than reported after it: a page at 150 dpi is a different
     /// document from one at 300, and a user is entitled to know which one they
@@ -68,8 +79,30 @@ struct PrintExportSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                // The web makes two documents from one map, and so does this.
+                // Chosen before the page is described, because the choice
+                // decides what the page warns the reader about and what it is
+                // called.
+                Section("Document") {
+                    Picker("Document", selection: $kind) {
+                        ForEach(PrintDocumentKind.allCases) { option in
+                            Text(option.label).tag(option)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityIdentifier("print-document-kind")
+                    // Locked while a page is being drawn: the request took its
+                    // copy of the kind before the first await, so a switch mid
+                    // export would leave the sheet describing one document and
+                    // present the other.
+                    .disabled(isWorking)
+                    Text(Self.explanation(of: kind))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+
                 Section("Page") {
-                    TextField("Title", text: $title)
+                    TextField(kind.defaultTitle(pid: framedPID), text: $title)
                         .accessibilityIdentifier("print-title")
                     TextField("Subtitle", text: $subtitle)
                     TextField("Notes", text: $notes, axis: .vertical)
@@ -119,35 +152,37 @@ struct PrintExportSheet: View {
                     }
                 }
 
-                // The web's research document, which is its field sheet plus
-                // the evidence appendix. Offered only when the appendix has
-                // something to carry: with no parcel open, or with a source
-                // still out, the pages would be a heading and nothing under it,
-                // and a page of blanks reads as a parcel with no evidence
+                // The research summary is the field sheet plus the evidence
+                // appendix, so it is only a document at all once the appendix
+                // has something to carry. With no parcel open, or with a source
+                // still out, its pages would be a heading and nothing under it
+                // — and a page of blanks reads as a parcel with no evidence
                 // rather than as a report made too early.
-                Section("Evidence") {
-                    if overlayVM.canExportEvidenceNote {
-                        Toggle("Include evidence appendix", isOn: $includesAppendix)
-                            .accessibilityIdentifier("print-include-appendix")
-                        Text(
-                            """
-                            The same statements as the evidence note, printed \
-                            after the map. What a source returned, what it \
-                            returned nothing for, and what was never asked are \
-                            three different lines.
-                            """
-                        )
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                    } else {
-                        Text(
-                            """
-                            Open a parcel and let its sources answer to print \
-                            the evidence appendix with the map.
-                            """
-                        )
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                if kind == .researchSummary {
+                    Section("Evidence appendix") {
+                        if overlayVM.canExportEvidenceNote {
+                            Text(
+                                """
+                                The same statements as the evidence note, printed \
+                                after the map. What a source returned, what it \
+                                returned nothing for, and what was never asked are \
+                                three different lines.
+                                """
+                            )
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                        } else {
+                            Label(
+                                """
+                                No parcel's sources have answered yet, so this \
+                                page would carry an empty appendix. Open a parcel, \
+                                or export the field sheet instead.
+                                """,
+                                systemImage: "exclamationmark.triangle"
+                            )
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
+                        }
                     }
                 }
 
@@ -201,7 +236,12 @@ struct PrintExportSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Export") { work = Task { await export() } }
-                        .disabled(isWorking)
+                        // A research summary with no evidence to append is not
+                        // a research summary. Exporting one would hand over a
+                        // page carrying that name and that caveat with nothing
+                        // behind it — the field sheet under a title that claims
+                        // sources were consulted.
+                        .disabled(isWorking || !canExport)
                         .accessibilityIdentifier("print-export")
                 }
             }
@@ -226,18 +266,16 @@ struct PrintExportSheet: View {
         isWorking = true
         defer { isWorking = false }
 
+        let name = title.isEmpty ? kind.defaultTitle(pid: framedPID) : title
         guard let request = overlayVM.printExportRequest(
             template: template,
-            fields: PdfComposer.Fields(
-                title: title.isEmpty ? "NS Marks The Spot" : title,
-                subtitle: subtitle,
-                notes: notes
-            ),
+            fields: PdfComposer.Fields(title: name, subtitle: subtitle, notes: notes),
             includesLegend: includesLegend,
             // Asked for and available are two different things: a parcel closed
-            // between switching this on and tapping Export would otherwise
-            // print an empty appendix.
-            includesAppendix: includesAppendix && overlayVM.canExportEvidenceNote,
+            // between picking the research summary and tapping Export would
+            // otherwise print an empty appendix.
+            includesAppendix: kind.includesAppendix && overlayVM.canExportEvidenceNote,
+            caveat: kind.caveat,
             frame: framing.bounds
         ) else {
             failure = "The map has not been laid out yet."
@@ -256,9 +294,7 @@ struct PrintExportSheet: View {
             // app overruling the user.
             guard !Task.isCancelled else { return }
             outcomes = result.outcomes
-            let url = try PrintExport.write(
-                result.pdf, named: title.isEmpty ? "NS Marks map" : title
-            )
+            let url = try PrintExport.write(result.pdf, named: name)
             // Shown, not sent. The share sheet comes from the preview's own
             // button, so nothing leaves the device before the user has seen
             // what it says.
@@ -273,6 +309,22 @@ struct PrintExportSheet: View {
         } catch {
             guard !Task.isCancelled else { return }
             failure = "The page could not be made: \(error.localizedDescription)"
+        }
+    }
+
+    /// What the reader is choosing between, said before they choose.
+    private static func explanation(of kind: PrintDocumentKind) -> String {
+        switch kind {
+        case .fieldSheet:
+            """
+            The map on its own, to carry onto the ground. It says to confirm \
+            conditions, boundaries and permissions on site.
+            """
+        case .researchSummary:
+            """
+            The same map, followed by the evidence appendix: what each source \
+            answered, what it returned nothing for, and what was never asked.
+            """
         }
     }
 

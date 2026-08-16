@@ -91,3 +91,50 @@ struct PdfAppendixTests {
         #expect(metrics.bottomY > metrics.margin)
     }
 }
+
+/// The footer caveat, which is what an appendix page says about itself once it
+/// has been separated from the map it came with.
+@Suite("The appendix's own caveat")
+struct PdfAppendixCaveatTests {
+    private static let field =
+        "Field screening/reference material only. Not a survey or an access conclusion. "
+        + "Confirm conditions, boundaries, and permissions on site and from "
+        + "authoritative sources."
+
+    /// Not only the first. These pages get filed, photocopied and quoted one at
+    /// a time, and page four on its own is the page somebody acts on.
+    @Test func everyPageCarriesIt() {
+        let blocks = (1...200).map { PdfAppendix.Block.body("Line \($0).") }
+        let pages = PdfAppendix.pages(blocks, template: .portrait, caveat: "Screening only.")
+        #expect(pages.count > 1)
+        for page in pages {
+            #expect(String(decoding: page, as: UTF8.self).contains("Screening only."))
+        }
+    }
+
+    /// A caveat too long for the footer is cut visibly rather than quietly. A
+    /// sentence that stops mid-clause with no ellipsis reads as the whole
+    /// warning.
+    @Test func aCaveatTooLongForTheFooterSaysItWasCut() {
+        let metrics = PdfAppendix.Metrics(template: .portrait)
+        let lines = PdfAppendix.caveatLines(String(repeating: "warning ", count: 200), metrics: metrics)
+        #expect(lines.count == PdfAppendix.caveatRows)
+        #expect(lines.last?.hasSuffix("…") == true)
+    }
+
+    /// The field sheet's caveat is the longest either document carries; it has
+    /// to reach paper whole.
+    @Test func theLongestRealCaveatStillFits() {
+        let metrics = PdfAppendix.Metrics(template: .portrait)
+        let lines = PdfAppendix.caveatLines(Self.field, metrics: metrics)
+        #expect(lines.count <= PdfAppendix.caveatRows)
+        #expect(lines.joined(separator: " ") == Self.field)
+    }
+
+    /// No caveat means no footer rows, so a caller that passes nothing gets the
+    /// page it always got.
+    @Test func noCaveatDrawsNothing() {
+        let metrics = PdfAppendix.Metrics(template: .portrait)
+        #expect(PdfAppendix.caveatLines("", metrics: metrics).isEmpty)
+    }
+}

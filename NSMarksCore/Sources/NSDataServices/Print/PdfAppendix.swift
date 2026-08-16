@@ -169,7 +169,9 @@ public enum PdfAppendix {
     /// A heading is never left stranded at the foot of a page: a group whose
     /// first line fits but whose successor could not follow it is pushed whole
     /// to the next page. Nothing is dropped — the pages simply continue.
-    public static func pages(_ blocks: [Block], template: PdfTemplate) -> [Data] {
+    public static func pages(
+        _ blocks: [Block], template: PdfTemplate, caveat: String = ""
+    ) -> [Data] {
         let metrics = Metrics(template: template)
         let groups = placed(blocks, metrics: metrics)
         guard !groups.isEmpty else { return [] }
@@ -214,7 +216,8 @@ public enum PdfAppendix {
                 metrics: metrics,
                 isFirst: index == 0,
                 page: index + 1,
-                of: pages.count
+                of: pages.count,
+                caveat: caveat
             )
         }
     }
@@ -223,8 +226,33 @@ public enum PdfAppendix {
         group.first?.font.face == .bold
     }
 
+    /// How many footer rows the caveat may take. Two at the caption size is
+    /// what the space between the last body line and the page number holds.
+    static let caveatRows = 2
+
+    /// The caveat, wrapped to the rows the footer has, with visible truncation
+    /// rather than a silently short sentence.
+    static func caveatLines(_ caveat: String, metrics: Metrics) -> [String] {
+        guard !caveat.isEmpty else { return [] }
+        var lines = PdfComposer.wrap(
+            caveat, font: .regular, size: metrics.captionSize, maxWidth: metrics.textWidth
+        )
+        guard lines.count > caveatRows else { return lines }
+        lines = Array(lines.prefix(caveatRows))
+        lines[caveatRows - 1] = PdfComposer.ellipsized(
+            lines[caveatRows - 1], font: .regular, size: metrics.captionSize,
+            maxWidth: metrics.textWidth
+        )
+        return lines
+    }
+
     private static func render(
-        _ lines: [Placed], metrics: Metrics, isFirst: Bool, page: Int, of total: Int
+        _ lines: [Placed],
+        metrics: Metrics,
+        isFirst: Bool,
+        page: Int,
+        of total: Int,
+        caveat: String
     ) -> Data {
         var content = PdfContent()
         let ink = PdfColor(0.1, 0.1, 0.1)
@@ -251,6 +279,23 @@ public enum PdfAppendix {
             font: .regular, size: metrics.captionSize,
             x: metrics.margin, y: metrics.margin * 0.6, colour: muted
         )
+        // On every page, not only the first. These pages are torn off, filed,
+        // photocopied and handed on one at a time, and a page of findings with
+        // no statement of what it does not establish is the artefact somebody
+        // puts in front of a lawyer. The bottom margin already holds two
+        // caption rows above the page number, so nothing above is displaced.
+        let caveatRows = caveatLines(caveat, metrics: metrics)
+        for (index, line) in caveatRows.enumerated() {
+            content.text(
+                line,
+                font: .regular,
+                size: metrics.captionSize,
+                x: metrics.margin,
+                y: metrics.margin * 0.6
+                    + Double(caveatRows.count - index) * (metrics.captionSize + 2),
+                colour: muted
+            )
+        }
         return content.data
     }
 }

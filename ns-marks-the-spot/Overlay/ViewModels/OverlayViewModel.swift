@@ -1034,6 +1034,8 @@ final class OverlayViewModel {
         fields: PdfComposer.Fields,
         includesLegend: Bool = true,
         includesAppendix: Bool = false,
+        /// What the document being made says it must not be read as.
+        caveat: String = PrintExport.screeningCaveat,
         /// The ground the user framed. Nil falls back to the whole visible map,
         /// which the export then grows to the paper's proportions — the older
         /// behaviour, kept for callers that never showed a frame.
@@ -1050,6 +1052,18 @@ final class OverlayViewModel {
             )
         }
         guard let box = framed else { return nil }
+        var disclosures = [caveat] + printCaptureContext
+        // The appendix is about a parcel and the map is about ground, and the
+        // two can be in different places. Said on the page rather than left for
+        // a reader to notice, because the pages are stapled together and read
+        // as one document.
+        if includesAppendix, let pid = inspection?.pid,
+           inspectedPID(shownWithin: box) == nil {
+            disclosures.append(
+                "The evidence appendix is for PID \(pid), whose boundary is not on "
+                    + "this map. The map shows other ground."
+            )
+        }
         return PrintExportRequest(
             visibleBounds: box,
             baseMap: controller.baseMapType,
@@ -1077,8 +1091,63 @@ final class OverlayViewModel {
                     fromMarkdown: evidenceNote(generatedAt: generatedAt)?.markdown ?? ""
                 )
                 : [],
+            disclosures: disclosures,
             generatedAt: generatedAt
         )
+    }
+
+    /// The open parcel's PID, when its boundary is inside the ground about to
+    /// be printed.
+    ///
+    /// The frame is drawn by hand and the selection is not cleared by panning,
+    /// so a user can select a parcel, travel kilometres, and frame somewhere
+    /// else entirely. A page named after a PID whose parcel is nowhere on it
+    /// tells the reader they are looking at that parcel — the single wrong
+    /// conclusion this export could hand somebody. Nil in that case, and the
+    /// page carries the generic name instead.
+    func inspectedPID(shownWithin bounds: GeoBoundingBox) -> String? {
+        guard let pid = inspection?.pid,
+              let shape = controller.state.parcelShapes.first(where: { $0.pid == pid }),
+              let box = Self.boundingBox(of: shape)
+        else { return nil }
+        // Boxes rather than rings: the frame grows to the paper's proportions
+        // after this, so an outline that only overlaps the corner still prints.
+        guard box.south <= bounds.north, box.north >= bounds.south,
+              box.west <= bounds.east, box.east >= bounds.west
+        else { return nil }
+        return pid
+    }
+
+    private static func boundingBox(of shape: ParcelShape) -> GeoBoundingBox? {
+        var box: GeoBoundingBox?
+        for ring in shape.parts.joined() {
+            for point in ring {
+                guard var current = box else {
+                    box = GeoBoundingBox(
+                        south: point.lat, west: point.lng,
+                        north: point.lat, east: point.lng
+                    )
+                    continue
+                }
+                current.south = min(current.south, point.lat)
+                current.west = min(current.west, point.lng)
+                current.north = max(current.north, point.lat)
+                current.east = max(current.east, point.lng)
+                box = current
+            }
+        }
+        return box
+    }
+
+    /// What state the map was in when the page was captured, in the words the
+    /// map itself uses under its record switch.
+    ///
+    /// Printed on every page that has two record sets to choose between, as the
+    /// web prints it. A dated outcome on paper with nothing saying it is
+    /// historical is a dated outcome that reads as a current offering.
+    var printCaptureContext: [String] {
+        guard offersRecordModes else { return [] }
+        return [recordModeCaption]
     }
 
     /// The map's own tile path, so the export honours the cache and the licence

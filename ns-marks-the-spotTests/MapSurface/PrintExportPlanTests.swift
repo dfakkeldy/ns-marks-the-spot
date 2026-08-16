@@ -255,3 +255,87 @@ struct PrintExportPlanTests {
     }
 
 }
+
+/// The two documents one map page can become.
+@Suite("Field sheet and research summary")
+struct PrintDocumentKindTests {
+    /// The appendix is the whole structural difference: everything else about
+    /// the two pages is the same map.
+    @Test func onlyTheResearchSummaryCarriesTheAppendix() {
+        #expect(PrintDocumentKind.researchSummary.includesAppendix)
+        #expect(!PrintDocumentKind.fieldSheet.includesAppendix)
+    }
+
+    /// A sheet carried onto the ground asks the reader to confirm what is
+    /// there; a filed page lists what it is not. Swapping them would put a
+    /// site-visit instruction on a document nobody is taking outside.
+    @Test func eachDocumentCarriesItsOwnWarning() {
+        #expect(PrintDocumentKind.fieldSheet.caveat.contains("on site"))
+        #expect(PrintDocumentKind.researchSummary.caveat.contains("proof of absence"))
+        #expect(PrintDocumentKind.fieldSheet.caveat != PrintDocumentKind.researchSummary.caveat)
+    }
+
+    /// The default name is also the filename, so a folder of exports can be
+    /// told apart by the parcel each one is about.
+    @Test func anUnnamedPageIsNamedAfterItsParcel() {
+        #expect(
+            PrintDocumentKind.researchSummary.defaultTitle(pid: "12345678")
+                == "Parcel research summary — PID 12345678"
+        )
+        #expect(
+            PrintDocumentKind.fieldSheet.defaultTitle(pid: "12345678")
+                == "Parcel field sheet — PID 12345678"
+        )
+    }
+
+    /// With no parcel open the page is a map of ground, not of a parcel. A
+    /// title promising a PID it does not have would be a claim about which
+    /// parcel the reader is looking at.
+    @Test func aPageWithNoParcelDoesNotClaimOne() {
+        for pid in [nil, ""] {
+            #expect(!PrintDocumentKind.fieldSheet.defaultTitle(pid: pid).contains("PID"))
+            #expect(!PrintDocumentKind.researchSummary.defaultTitle(pid: pid).contains("PID"))
+        }
+    }
+}
+
+/// The exported file's name, which now carries a PID the app did not choose.
+@Suite("Naming the exported file")
+struct PrintExportFilenameTests {
+    /// A PID arrives from the parcel service exactly as the service wrote it,
+    /// and a "/" in one asks the file system for a directory that is not there.
+    /// The export would fail over something the user never typed.
+    @Test func aPathSeparatorCannotReachTheFileSystem() {
+        let name = PrintExport.filename(for: "Parcel field sheet — PID 12/345678")
+        #expect(!name.contains("/"))
+        #expect(name.contains("12"))
+        #expect(name.contains("345678"))
+    }
+
+    /// The em dash the default title uses is a perfectly good file name
+    /// character, and stripping it would be the port breaking its own titles.
+    @Test func theDefaultTitleSurvivesIntact() {
+        #expect(
+            PrintExport.filename(for: "Parcel research summary — PID 12345678")
+                == "Parcel research summary — PID 12345678"
+        )
+    }
+
+    /// A leading dot hides the file in the folder the user filed it in.
+    @Test func aHiddenFileIsNotWhatAnybodyAskedFor() {
+        #expect(!PrintExport.filename(for: "..secret").hasPrefix("."))
+    }
+
+    /// A name past the file system's limit is refused outright, so the page is
+    /// written under a shorter one rather than not at all.
+    @Test func anOverlongTitleIsCutRatherThanRefused() {
+        #expect(PrintExport.filename(for: String(repeating: "a", count: 400)).count <= 120)
+    }
+
+    /// A title that was nothing but forbidden characters still has to name a
+    /// file.
+    @Test func aTitleWithNothingLeftFallsBackToAName() {
+        #expect(PrintExport.filename(for: "///") == "NS Marks map")
+        #expect(PrintExport.filename(for: "") == "NS Marks map")
+    }
+}

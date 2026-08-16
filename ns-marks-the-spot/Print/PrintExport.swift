@@ -34,6 +34,14 @@ nonisolated struct PrintExportRequest: Sendable {
     var shareURL: URL?
     /// The evidence appendix's pages, or empty for a map on its own.
     var appendix: [PdfAppendix.Block] = []
+    /// What this page must not be read as, and what state the map was in when
+    /// it was captured. Set by the document being made, and never empty: the
+    /// default is the stricter of the two caveats.
+    ///
+    /// These print ahead of the account of what did and did not draw, and ahead
+    /// of the credits, because what a reader must not conclude comes before
+    /// either.
+    var disclosures: [String] = [PrintExport.screeningCaveat]
     var generatedAt: Date
 }
 
@@ -42,11 +50,19 @@ nonisolated enum PrintExport {
         case couldNotWriteFile
     }
 
-    /// What every page says about itself, word for word as the web's printed
-    /// documents say it.
+    /// What a filed page says about itself, word for word as the web's research
+    /// document says it.
     static let screeningCaveat =
         "Screening evidence only. Not a survey, title opinion, access conclusion, "
         + "appraisal, or proof of absence."
+
+    /// The field sheet's, which is a different warning rather than a shorter
+    /// one. A page taken onto the ground is read against what the reader can
+    /// see there, so it asks them to confirm rather than listing what it is not.
+    static let fieldCaveat =
+        "Field screening/reference material only. Not a survey or an access conclusion. "
+        + "Confirm conditions, boundaries, and permissions on site and from "
+        + "authoritative sources."
 
     /// The finished page, and the account of what did and did not draw.
     struct Result: Sendable {
@@ -151,7 +167,7 @@ nonisolated enum PrintExport {
                 // somebody puts in front of a lawyer. It rides with the
                 // disclosures because that is the region that shrinks to fit
                 // rather than dropping what it cannot hold.
-                disclosures: [Self.screeningCaveat] + account.notes,
+                disclosures: request.disclosures + account.notes,
                 attributionLines: PrintAttribution.lines(
                     for: PrintExportPlan.sources(
                         baseMap: request.baseMap,
@@ -173,6 +189,10 @@ nonisolated enum PrintExport {
                     QRCodeModules.modules(for: $0.absoluteString)
                 },
                 appendix: request.appendix,
+                // The document's own caveat, which is the first disclosure. The
+                // rest are about this page's layers and mean nothing on a page
+                // of sentences.
+                appendixCaveat: request.disclosures.first ?? Self.screeningCaveat,
                 generatedAt: request.generatedAt
             )
         )
@@ -185,9 +205,8 @@ nonisolated enum PrintExport {
     /// somebody files, and "NS Marks map.pdf" is what it should be called in
     /// the place they file it.
     static func write(_ pdf: Data, named name: String) throws -> URL {
-        let safe = name.isEmpty ? "NS Marks map" : name
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent(safe)
+            .appendingPathComponent(filename(for: name))
             .appendingPathExtension("pdf")
         do {
             try pdf.write(to: url, options: .atomic)
@@ -195,5 +214,29 @@ nonisolated enum PrintExport {
             throw Failure.couldNotWriteFile
         }
         return url
+    }
+
+    /// A title made safe to be one path component.
+    ///
+    /// The default title now carries a PID exactly as the parcel service
+    /// returned it, and a title the user typed carries whatever they typed. A
+    /// "/" in either asks for a directory that is not there, and the export
+    /// fails with "could not write file" over something the reader never chose.
+    /// A leading dot hides the file from the place they filed it. And a name
+    /// long enough to pass 255 bytes is refused outright.
+    ///
+    /// The characters go to spaces rather than being dropped, so a mangled PID
+    /// still reads as two pieces rather than silently running together into a
+    /// different number.
+    static func filename(for title: String) -> String {
+        let forbidden = CharacterSet(charactersIn: "/\\:*?\"<>|").union(.controlCharacters)
+        var cleaned = String(
+            title.unicodeScalars.map { forbidden.contains($0) ? " " : Character($0) }
+        )
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+        while cleaned.hasPrefix(".") { cleaned.removeFirst() }
+        cleaned = String(cleaned.prefix(120))
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return cleaned.isEmpty ? "NS Marks map" : cleaned
     }
 }
