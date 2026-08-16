@@ -257,7 +257,7 @@ private struct UserVectorRow: View {
                     .fill(Color(uiColor: UIColor(featureHex: row.record.colorHex)))
                     .frame(width: 10, height: 10)
 
-                Toggle(isOn: Binding(get: { row.isVisible }, set: onVisible)) {
+                Toggle(isOn: Binding(get: { row.isVisible }, set: mainActorSetter(onVisible))) {
                     Text(row.record.name).font(.subheadline)
                 }
                 .toggleStyle(.switch)

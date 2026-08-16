@@ -80,4 +80,43 @@ xcrun swiftc -typecheck \
   -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" \
   "${TESTS[@]}"
 
-print "app and tests type-check clean"
+# Type checking proves the code means something; it does not prove the compiler
+# can emit it. A reabstraction thunk that crashes IRGen — the Swift 6.3.3 bug
+# `mainActorSetter` exists to dodge — passes every check above and then aborts
+# the build, which on this machine costs a whole gate admission to discover.
+# Emitting objects in batch mode, file by file, is how the app target compiles,
+# so it reproduces those crashes here for about twenty seconds.
+OBJECTS=$SCRATCH/objects
+mkdir -p "$OBJECTS"
+{
+  print '{'
+  for f in $APP; do print "  \"$PWD/$f\": {\"object\": \"$OBJECTS/${f:t:r}.o\"},"; done
+  print '  "": {"swift-dependencies": "'"$OBJECTS/module.swiftdeps"'"}'
+  print '}'
+} > "$OBJECTS/map.json"
+
+print "emitting objects for ${#APP} app sources"
+xcrun swiftc -c -enable-batch-mode \
+  -module-name ns_marks_the_spot -enable-testing -Onone \
+  "${FLAGS[@]}" -I "$MODULES" \
+  -output-file-map "$OBJECTS/map.json" \
+  "${APP[@]/#/$PWD/}"
+
+{
+  print '{'
+  for f in $TESTS; do print "  \"$PWD/$f\": {\"object\": \"$OBJECTS/tests-${f:t:r}.o\"},"; done
+  print '  "": {"swift-dependencies": "'"$OBJECTS/tests.swiftdeps"'"}'
+  print '}'
+} > "$OBJECTS/tests-map.json"
+
+print "emitting objects for ${#TESTS} test sources"
+xcrun swiftc -c -enable-batch-mode \
+  -module-name ns_marks_the_spotTests -enable-testing -Onone \
+  "${FLAGS[@]}" \
+  -I "$MODULES" -I "$SCRATCH/appmodule" \
+  -plugin-path "$DEV/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing" \
+  -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" \
+  -output-file-map "$OBJECTS/tests-map.json" \
+  "${TESTS[@]/#/$PWD/}"
+
+print "app and tests type-check clean, and both compile"

@@ -114,6 +114,14 @@ private struct UserMapRow: View {
     // `@Sendable` setter, and a plain closure property is not one. An
     // actor-isolated closure is Sendable-convertible because it can only
     // ever run on that actor — which is where a row's callbacks belong.
+    //
+    // Handing one of these to `Binding(set:)` *directly* crashes the Swift
+    // 6.3.3 code generator: emitting the isolated-to-`@Sendable` reabstraction
+    // thunk asks LLVM for a 4-billion-element vector and aborts. It is not a
+    // type error, so it survives `-typecheck` and only appears in a real build.
+    // Calling through a closure literal that re-enters the actor explicitly
+    // asks for no thunk and keeps the isolation these callbacks are declared
+    // with. See `mainActorSetter` below.
     let onVisible: @MainActor (Bool) -> Void
     let onOpacity: @MainActor (CGFloat) -> Void
     let onPlace: () -> Void
@@ -123,7 +131,7 @@ private struct UserMapRow: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Toggle(
-                    isOn: Binding(get: { row.isVisible }, set: onVisible)
+                    isOn: Binding(get: { row.isVisible }, set: mainActorSetter(onVisible))
                 ) {
                     Text(row.record.name).font(.subheadline)
                 }
@@ -147,7 +155,7 @@ private struct UserMapRow: View {
                     .font(.caption)
             } else {
                 Slider(
-                    value: Binding(get: { row.opacity }, set: onOpacity),
+                    value: Binding(get: { row.opacity }, set: mainActorSetter(onOpacity)),
                     in: 0...1
                 )
                 .disabled(!row.isVisible)
