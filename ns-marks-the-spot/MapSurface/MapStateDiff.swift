@@ -107,20 +107,31 @@ nonisolated enum MapStateDiff {
         return mutations
     }
 
+    /// A hidden layer has no overlay on the map at all.
+    ///
+    /// Leaving one installed at alpha 0 draws nothing, but MapKit goes on
+    /// asking it for every tile the view moves over — so a layer the user
+    /// switched off would keep requesting the Province's service, out of sight,
+    /// for as long as the app was open. The web adds a tile layer only while it
+    /// is visible and removes it on hide; this is that behaviour.
     private static func layerMutations(
         from current: [MapLayerState],
         to desired: [MapLayerState]
     ) -> [MapMutation] {
         var mutations: [MapMutation] = []
-        let currentByID = Dictionary(current.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        let desiredIDs = Set(desired.map(\.id))
+        // Keyed on what is actually installed, which is the shown layers.
+        let installed = Dictionary(
+            current.filter { $0.effectiveAlpha > 0 }.map { ($0.id, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        let shownIDs = Set(desired.filter { $0.effectiveAlpha > 0 }.map(\.id))
 
-        for layer in current where !desiredIDs.contains(layer.id) {
+        for layer in current where installed[layer.id] != nil && !shownIDs.contains(layer.id) {
             mutations.append(.removeTileOverlay(id: layer.id))
         }
 
-        for layer in desired {
-            guard let existing = currentByID[layer.id] else {
+        for layer in desired where layer.effectiveAlpha > 0 {
+            guard let existing = installed[layer.id] else {
                 mutations.append(.addTileOverlay(layer))
                 continue
             }

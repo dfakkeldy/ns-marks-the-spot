@@ -16,10 +16,22 @@ struct MapStateDiffTests {
     @Test func addingLayerEmitsAddTileOverlay() {
         let current = MapViewState()
         var desired = current
-        let layer = makeLayer(id: "fletcher", opacity: 0.7, isVisible: false)
+        let layer = makeLayer(id: "fletcher", opacity: 0.7, isVisible: true)
         desired.layers = [layer]
 
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.addTileOverlay(layer)])
+    }
+
+    /// Installing a layer switched off puts no overlay on the map. MapKit asks
+    /// an installed overlay for every tile the view moves over whatever its
+    /// alpha, so a restricted layer the user has not switched on would be
+    /// requesting the Province's service invisibly.
+    @Test func aLayerInstalledHiddenPutsNoOverlayOnTheMap() {
+        let current = MapViewState()
+        var desired = current
+        desired.layers = [makeLayer(id: "fletcher", opacity: 0.7, isVisible: false)]
+
+        #expect(MapStateDiff.mutations(from: current, to: desired).isEmpty)
     }
 
     @Test func removingLayerEmitsRemoveTileOverlay() {
@@ -31,7 +43,9 @@ struct MapStateDiffTests {
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.removeTileOverlay(id: "fletcher")])
     }
 
-    @Test func hidingLayerEmitsZeroAlpha() {
+    /// Switching a layer off takes its overlay away rather than fading it to
+    /// nothing, so it stops asking its source for tiles.
+    @Test func hidingLayerRemovesTheOverlay() {
         var current = MapViewState()
         current.layers = [makeLayer(id: "fletcher", opacity: 0.8, isVisible: true)]
         var desired = current
@@ -39,12 +53,12 @@ struct MapStateDiffTests {
 
         #expect(
             MapStateDiff.mutations(from: current, to: desired) == [
-                .setTileOverlayAlpha(id: "fletcher", alpha: 0)
+                .removeTileOverlay(id: "fletcher")
             ]
         )
     }
 
-    @Test func showingLayerEmitsItsOpacityAsAlpha() {
+    @Test func showingLayerInstallsItAtItsOpacity() {
         var current = MapViewState()
         current.layers = [makeLayer(id: "fletcher", opacity: 0.8, isVisible: false)]
         var desired = current
@@ -52,7 +66,23 @@ struct MapStateDiffTests {
 
         #expect(
             MapStateDiff.mutations(from: current, to: desired) == [
-                .setTileOverlayAlpha(id: "fletcher", alpha: 0.8)
+                .addTileOverlay(desired.layers[0])
+            ]
+        )
+    }
+
+    /// A layer turned down to nothing is switched off as far as the map is
+    /// concerned: the slider at zero has to stop the requests too, or the
+    /// cheapest way to hide a layer would be the one that keeps fetching it.
+    @Test func anOpacityOfZeroRemovesTheOverlayAsWell() {
+        var current = MapViewState()
+        current.layers = [makeLayer(id: "fletcher", opacity: 0.8, isVisible: true)]
+        var desired = current
+        desired.layers[0].opacity = 0
+
+        #expect(
+            MapStateDiff.mutations(from: current, to: desired) == [
+                .removeTileOverlay(id: "fletcher")
             ]
         )
     }
