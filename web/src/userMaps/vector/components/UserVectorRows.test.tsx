@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { UserVectorLayerRecord } from "../types";
 import type { UserVectorLayersApi } from "../useUserVectorLayers";
-import { UserVectorRows } from "./UserVectorRows";
+import { UserVectorControls, UserVectorRows } from "./UserVectorRows";
 
 function record(id: string, overrides: Partial<UserVectorLayerRecord> = {}): UserVectorLayerRecord {
   return {
@@ -50,6 +50,14 @@ describe("UserVectorRows", () => {
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
+  });
+
+  it("exposes the controls without owning another category disclosure", () => {
+    const onNewLayer = vi.fn();
+    render(<UserVectorControls api={api()} onNewLayer={onNewLayer} />);
+
+    expect(screen.queryByText("Your data")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "New drawing layer" })).toBeInTheDocument();
   });
 
   it("renders nothing but the group shell when no layers exist", () => {

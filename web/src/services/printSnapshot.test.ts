@@ -18,6 +18,7 @@ const base: PrintCaptureBase = {
   capturedAt: "2026-07-23T13:42:00.000Z",
   pid: "01234567",
   evidenceRequest: { pid: "01234567", generation: 7 },
+  taxSaleEnabled: true,
   mode: "current",
   eventIds: ["inverness-2026-08-11"],
   events: [{
@@ -376,7 +377,7 @@ describe("print map derivation", () => {
       { latitude: 46.35, longitude: -61.15, zoom: 15 },
       ["nsprd", "roads"],
     )).toBe(
-      "https://example.com/map/?mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
+      "https://example.com/map/?taxSale=on&mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
     );
   });
 

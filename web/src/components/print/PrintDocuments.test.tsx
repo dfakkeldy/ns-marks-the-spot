@@ -70,6 +70,7 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
 function snapshot(overrides: Record<string, unknown> = {}) {
   return {
     pid: "01234567",
+    taxSaleEnabled: true,
     mode: "current",
     eventIds: ["inverness-2026"],
     events: [{
@@ -156,6 +157,79 @@ function snapshot(overrides: Record<string, unknown> = {}) {
 const map = <div aria-label="Printable map">Captured map</div>;
 
 describe("print documents", () => {
+  it("removes current tax-sale presentation from a tax-off research document", () => {
+    const { container } = render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          taxSaleEnabled: false,
+          mode: "current",
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(container.querySelector(".print-capture-context")).toHaveTextContent("Map state");
+    expect(container).not.toHaveTextContent("Current map state");
+    expect(container).not.toHaveTextContent("Historical map state");
+    expect(container).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(container).not.toHaveTextContent("Listed in official notice");
+    const appendix = screen.getByRole("region", { name: "Evidence appendix" });
+    expect(within(appendix).getByRole("heading", {
+      name: "Mapped parcel area",
+    })).toBeInTheDocument();
+    expect(within(appendix).getByRole("heading", {
+      name: "Assessment accounts",
+    })).toBeInTheDocument();
+    expect(within(appendix).getByText("PID 01234567")).toBeInTheDocument();
+    expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
+    const legend = screen.getByLabelText("Active map layers");
+    expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
+    expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
+    expect(within(legend).queryByText("Current tax-sale parcel")).not.toBeInTheDocument();
+    expect(legend.querySelector(".print-layer-symbol--current-tax-sale")).toBeNull();
+  });
+
+  it("removes historical tax-sale presentation from a tax-off field document", () => {
+    const { container } = render(
+      <PrintFieldDocument
+        snapshot={snapshot({
+          taxSaleEnabled: false,
+          mode: "historical",
+          template: "field",
+        })}
+        map={map}
+        includeAerial={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(container.querySelector(".print-capture-context")).toHaveTextContent("Map state");
+    expect(container).not.toHaveTextContent("Current map state");
+    expect(container).not.toHaveTextContent("Historical map state");
+    expect(container).not.toHaveTextContent(/tax[- ]sale/i);
+    expect(container).not.toHaveTextContent("Listed in official notice");
+    expect(screen.getByText("PID 01234567")).toBeInTheDocument();
+    expect(screen.getByLabelText("Printable map")).toBeInTheDocument();
+    const legend = screen.getByLabelText("Active map layers");
+    expect(within(legend).getByText("Selected parcel")).toBeInTheDocument();
+    expect(within(legend).getByText("NS Property Boundaries")).toBeInTheDocument();
+    expect(within(legend).queryByText("Historical tax-sale parcel")).not.toBeInTheDocument();
+    expect(legend.querySelector(".print-layer-symbol--historical-tax-sale")).toBeNull();
+  });
+
   it("prints Fletcher imagery attribution and licence as a separate map source", () => {
     const fletcherSource: PrintLayerSource = {
       id: "fletcher",

@@ -44,6 +44,7 @@ type DwellingEvidence =
 export type EvidenceNoteInput = {
   generatedAt: Date;
   pid: string;
+  taxSaleEnabled: boolean;
   mode: MapMode;
   shareUrl: string;
   position: MapPosition;
@@ -181,19 +182,25 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
         ),
       ])
     : ["No included municipal event is associated with this parcel in the selected mode."];
+  const modeLine = input.taxSaleEnabled
+    ? [`Mode: ${input.mode === "current" ? "Current notices" : "Historical records"}`]
+    : [];
+  const eventSection = input.taxSaleEnabled
+    ? ["", "## Event", "", ...events]
+    : [];
+  const generalLimitations = input.taxSaleEnabled
+    ? "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage. Tax-sale notices and results are dated source records and require current verification with the municipality."
+    : "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage.";
 
   const markdown = [
     "# NS Marks The Spot parcel evidence note",
     "",
     `Generated: ${generated}`,
     `PID: ${input.pid}`,
-    `Mode: ${input.mode === "current" ? "Current notices" : "Historical records"}`,
+    ...modeLine,
     `Map position: ${input.position.latitude.toFixed(5)}, ${input.position.longitude.toFixed(5)} at zoom ${input.position.zoom}`,
     `[Open this map state](${input.shareUrl})`,
-    "",
-    "## Event",
-    "",
-    ...events,
+    ...eventSection,
     "",
     "## Active map sources",
     "",
@@ -234,7 +241,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     "",
     "## General limitations",
     "",
-    "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage. Tax-sale notices and results are dated source records and require current verification with the municipality.",
+    generalLimitations,
     "",
   ].join("\n");
 

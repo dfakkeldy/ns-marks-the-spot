@@ -416,15 +416,21 @@ export function PrintMapFailure({
 }
 
 export function PrintCaptureContext({ snapshot }: { snapshot: PrintSnapshot }) {
-  const mode = snapshot.mode === "historical" ? "Historical map state" : "Current map state";
+  const mode = !snapshot.taxSaleEnabled
+    ? "Map state"
+    : snapshot.mode === "historical"
+      ? "Historical map state"
+      : "Current map state";
   const eventsById = new Map<string, PrintSnapshot["events"][number]>();
   for (const event of snapshot.events) {
     if (!eventsById.has(event.id)) eventsById.set(event.id, event);
   }
-  const selectedEvents = [...new Set(snapshot.eventIds)].flatMap((id) => {
-    const event = eventsById.get(id);
-    return event ? [event] : [];
-  });
+  const selectedEvents = snapshot.taxSaleEnabled
+    ? [...new Set(snapshot.eventIds)].flatMap((id) => {
+        const event = eventsById.get(id);
+        return event ? [event] : [];
+      })
+    : [];
   return (
     <div className="print-capture-context">
       <span>{mode}</span>
@@ -481,7 +487,10 @@ export function PrintResearchDocument({
         <div className="print-research-support">
           <ResearchFactGrid snapshot={snapshot} />
           <EvidenceStatusGrid snapshot={snapshot} />
-          <ActiveLayerLegend sources={renderedSources} mapMode={snapshot.mode} />
+          <ActiveLayerLegend
+            sources={renderedSources}
+            mapMode={snapshot.taxSaleEnabled ? snapshot.mode : undefined}
+          />
           <div className="print-research-details">
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />

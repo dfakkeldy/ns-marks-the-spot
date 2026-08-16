@@ -68,6 +68,7 @@ export type PrintCaptureBase = {
   capturedAt: string;
   pid: string;
   evidenceRequest: { pid: string; generation: number };
+  taxSaleEnabled: boolean;
   mode: MapMode;
   eventIds: string[];
   events: PrintEvent[];
@@ -222,6 +223,7 @@ export function buildPrintMapShareUrl(
   renderedLayerIds: readonly ShareLayerId[],
 ): string {
   return buildMapShareUrl(baseUrl, {
+    taxSaleEnabled: snapshot.taxSaleEnabled,
     mode: snapshot.mode,
     pid: snapshot.pid,
     eventIds: [...snapshot.eventIds],
