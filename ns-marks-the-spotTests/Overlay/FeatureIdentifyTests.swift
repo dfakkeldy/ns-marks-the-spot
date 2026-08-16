@@ -67,6 +67,39 @@ struct FeatureIdentifyTests {
         #expect(viewModel.callout(at: far, toleranceDegrees: 0.0002) == nil)
     }
 
+    /// The card is a claim about a feature on the map. When the map stops
+    /// drawing the feature, the claim has to go with it — otherwise a user who
+    /// switches a layer off is left holding a card off a layer they turned off.
+    @Test func switchingTheLayerOffTakesItsCardWithIt() async throws {
+        let viewModel = await loaded()
+        let (_, vertex) = try firstQualifyingReach()
+        let found = try #require(viewModel.callout(at: vertex, toleranceDegrees: 0.0002))
+        viewModel.select(
+            .init(id: found.id, layer: found.layer, callout: found.callout)
+        )
+        #expect(viewModel.selection != nil)
+
+        viewModel.setVisible(.invernessHydroPotential, to: false)
+
+        #expect(viewModel.selection == nil)
+    }
+
+    /// The bundled pilot redraws the same reaches under the same ids, so a
+    /// reload that changes nothing must not close a card the user is reading.
+    @Test func aReloadThatChangesNothingLeavesTheCardOpen() async throws {
+        let viewModel = await loaded()
+        let (_, vertex) = try firstQualifyingReach()
+        let found = try #require(viewModel.callout(at: vertex, toleranceDegrees: 0.0002))
+        viewModel.select(
+            .init(id: found.id, layer: found.layer, callout: found.callout)
+        )
+
+        viewModel.refreshAll()
+        try? await Task.sleep(for: .milliseconds(600))
+
+        #expect(viewModel.selection?.callout.title == found.callout.title)
+    }
+
     /// A layer the user switched off must not answer for the ground it used to
     /// cover: a card from an invisible layer is the map speaking for something
     /// the user cannot see it drawing.

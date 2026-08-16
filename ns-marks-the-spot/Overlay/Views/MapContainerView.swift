@@ -23,7 +23,6 @@ struct MapContainerView: View {
     /// know about.
     @State private var editSession: VectorEditSession?
     @State private var vectorCallout: UserVectorCalloutItem?
-    @State private var featureCallout: FeatureCalloutItem?
     /// The measurement in progress, or none. Not persisted anywhere: a measured
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
@@ -490,7 +489,7 @@ struct MapContainerView: View {
         // control the user can see and cannot reach.
         .overlay(alignment: .bottomLeading) {
             if let mapPosition, overlayVM.inspection == nil, editSession == nil,
-               measure == nil, vectorCallout == nil, featureCallout == nil,
+               measure == nil, vectorCallout == nil, featureVM.selection == nil,
                !isSelectingSaveArea
             {
                 MapPositionReadout(position: mapPosition)
@@ -528,18 +527,20 @@ struct MapContainerView: View {
             }
         }
         .overlay(alignment: .bottom) {
-            if let featureCallout, editSession == nil, vectorCallout == nil {
+            if let selection = featureVM.selection, editSession == nil, vectorCallout == nil,
+               measure == nil
+            {
                 FeatureCalloutCard(
-                    callout: featureCallout.callout,
+                    callout: selection.callout,
                     onOpenParcel: { pid in
                         // The proximity layer's card is about a parcel, so
                         // opening it hands the PID to the same search a typed
                         // one goes through — the registry answers, rather than
                         // this card promoting its own copy into a selection.
-                        self.featureCallout = nil
+                        featureVM.clearSelection()
                         overlayVM.searchParcel(pid)
                     },
-                    onClose: { self.featureCallout = nil }
+                    onClose: { featureVM.clearSelection() }
                 )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
@@ -576,10 +577,13 @@ struct MapContainerView: View {
                             break
                         }
                         if let found = featureVM.callout(annotationID: annotationID) {
-                            vectorCallout = nil
-                            featureCallout = FeatureCalloutItem(
-                                id: found.id, callout: found.callout
-                            )
+                            // Measuring and editing own the map, as they do for
+                            // a tap: a dot selected while the user is placing a
+                            // corner must not open a card over their work, and
+                            // one selected mid-edit must not be waiting for them
+                            // when they finish.
+                            guard measure == nil, editSession?.isEditing != true else { break }
+                            selectFeature(found)
                             break
                         }
                         if let poi = poiVM.points.first(where: { $0.id == annotationID }) {
@@ -627,7 +631,7 @@ struct MapContainerView: View {
                             toleranceDegrees: fingerTolerance
                         ) {
                             vectorCallout = item
-                            featureCallout = nil
+                            featureVM.clearSelection()
                             break
                         }
                         vectorCallout = nil
@@ -641,12 +645,10 @@ struct MapContainerView: View {
                             at: GeoPoint(lat: latitude, lng: longitude),
                             toleranceDegrees: fingerTolerance
                         ) {
-                            featureCallout = FeatureCalloutItem(
-                                id: found.id, callout: found.callout
-                            )
+                            selectFeature(found)
                             break
                         }
-                        featureCallout = nil
+                        featureVM.clearSelection()
                         // The view model decides whether a tap means anything: the
                         // parcel layer has to be on and the map zoomed in far
                         // enough for a finger to be pointing at one property.
@@ -810,11 +812,30 @@ struct MapContainerView: View {
             // has stopped answering to.
             overlayVM.clearParcelSelection()
             vectorCallout = nil
-            featureCallout = nil
+            featureVM.clearSelection()
             isLayersMenuExpanded = false
             measure = MeasureSession(mode: mode)
             pushMeasureShape()
         }
+    }
+
+    /// Opens a catalogue feature's card, and closes whatever it answers over.
+    ///
+    /// The parcel selection goes with it. A tap means one question, and leaving
+    /// the inspector up would put a card about a zone beside a panel about the
+    /// property under it, as though the app were answering both — and a parcel
+    /// lookup already in flight would land afterwards and open a panel the user
+    /// never asked for.
+    private func selectFeature(
+        _ found: (id: String, layer: LayerID, callout: FeatureCallout)
+    ) {
+        vectorCallout = nil
+        overlayVM.clearParcelSelection()
+        featureVM.select(
+            ViewportFeatureViewModel.FeatureSelection(
+                id: found.id, layer: found.layer, callout: found.callout
+            )
+        )
     }
 
     private func stopMeasuring() {

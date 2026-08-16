@@ -67,6 +67,30 @@ final class ViewportFeatureViewModel {
 
     private(set) var statuses: [LayerID: ViewportLayerStatus] = [:]
 
+    /// Which well records the layer asks for.
+    ///
+    /// Surveyed is the honest default made explicit, as it is on the web: those
+    /// are the only band located tightly enough to read as a point, so the
+    /// coarser records are opt-in. The filter goes into the service query, so
+    /// records the user has not asked for are never transferred.
+    private(set) var wellAccuracyFilter: WellLogOverlay.AccuracyFilter = .surveyed
+
+    /// The tapped feature's card, or nil for nothing selected.
+    ///
+    /// Held here rather than in the view because it has to die with its
+    /// evidence. A card is a claim about a feature on the map, and the map
+    /// takes features away without being asked — a layer switched off, a
+    /// viewport reloaded, an accuracy filter narrowed. Kept in the view, it
+    /// would go on describing a well the user can no longer see, off a layer
+    /// they have turned off.
+    private(set) var selection: FeatureSelection?
+
+    struct FeatureSelection: Identifiable, Equatable, Sendable {
+        let id: String
+        let layer: LayerID
+        let callout: FeatureCallout
+    }
+
     /// The layers this app draws as client-side geometry, in panel order.
     static let layers: [LayerID] = LayerCatalog.all
         .filter { OverlayZIndex.vectorLayers.contains($0.id) }
@@ -149,6 +173,42 @@ final class ViewportFeatureViewModel {
     func opacity(_ id: LayerID) -> Double { opacities[id] ?? 1 }
 
     func status(_ id: LayerID) -> ViewportLayerStatus { statuses[id] ?? .off }
+
+    func select(_ selection: FeatureSelection?) { self.selection = selection }
+
+    func clearSelection() { selection = nil }
+
+    /// Drops a selection whose feature is no longer drawn.
+    ///
+    /// Called wherever the published features change. The card survives only
+    /// while a feature is drawn with both the same id and the same content.
+    ///
+    /// Both, because a service-backed layer numbers its features by their
+    /// position in the answer: after a pan, `#3` is a different zone. Matching
+    /// on the id alone would leave a card describing one polygon pinned to
+    /// another, which is worse than losing it.
+    private func invalidateSelectionIfGone() {
+        guard let selection else { return }
+        let stillDrawn =
+            shapesByLayer[selection.layer]?.contains {
+                $0.id == selection.id && $0.callout == selection.callout
+            } == true
+            || markersByLayer[selection.layer]?.contains {
+                $0.id == selection.id && $0.callout == selection.callout
+            } == true
+        if !stillDrawn { self.selection = nil }
+    }
+
+    func setWellAccuracyFilter(_ filter: WellLogOverlay.AccuracyFilter) {
+        guard wellAccuracyFilter != filter else { return }
+        wellAccuracyFilter = filter
+        // The features on the map are the answer to the old question. Cleared
+        // rather than left up: a map still showing approximate wells after the
+        // user narrowed to surveyed ones would be answering a question they
+        // withdrew.
+        clear(.nsWellLogs)
+        refresh(.nsWellLogs)
+    }
 
     func setVisible(_ id: LayerID, to visible: Bool) {
         guard visibility[id] != visible else { return }
@@ -447,12 +507,14 @@ final class ViewportFeatureViewModel {
     ) async throws(FetchFailure) -> Found {
         let found: (records: [WellLogOverlay.Record], unreadable: Int)
         do {
-            // Surveyed only, which is what the web asks for and what this
-            // layer's own caveat tells the user it is showing. A ±8 km record
-            // is an area report, and drawing it as a dot at a coordinate while
-            // the panel says "surveyed ±50 m wells only" would be the map
-            // contradicting its own provenance line.
-            found = try await wells.wells(in: box, filter: .surveyed, clearance: clearance)
+            // Pushed into the query rather than filtered here, as the web
+            // does: a record the user has not asked to see is never fetched.
+            // A ±8 km record is an area report rather than a location, which
+            // is why asking for one is a deliberate act and why it is drawn
+            // hollow when it arrives.
+            found = try await wells.wells(
+                in: box, filter: wellAccuracyFilter, clearance: clearance
+            )
         } catch {
             throw Self.translate(error)
         }
@@ -470,7 +532,11 @@ final class ViewportFeatureViewModel {
                     subtitle: record.accuracyStatement,
                     callout: FeatureCallouts.wellLog(
                         record,
-                        layerName: Self.name(of: .nsWellLogs),
+                        // The web's eyebrow rather than the panel's row name:
+                        // the published dataset number is what makes a depth
+                        // checkable against the source, and "Water well logs"
+                        // alone does not say which table it came from.
+                        layerName: "NS well logs · DP ME 430",
                         sourceURL: Self.sourceURL(of: .nsWellLogs)
                     )
                 )
@@ -544,7 +610,10 @@ final class ViewportFeatureViewModel {
                     callout: FeatureCallouts.hydroReach(
                         reach,
                         metadata: collection.metadata,
-                        layerName: Self.name(of: .invernessHydroPotential)
+                        // "Point-screen pilot" rather than the row's name: the
+                        // qualifier is what stops a kW figure being read as a
+                        // survey of the stream.
+                        layerName: "Inverness point-screen pilot"
                     )
                 )
             },
@@ -574,7 +643,7 @@ final class ViewportFeatureViewModel {
     /// polygon has to be reachable.
     func callout(
         at point: GeoPoint, toleranceDegrees tolerance: Double
-    ) -> (id: String, callout: FeatureCallout)? {
+    ) -> (id: String, layer: LayerID, callout: FeatureCallout)? {
         let markers = Self.layers.flatMap { markersByLayer[$0] ?? [] }
         var nearest: (marker: FeatureMarker, distance: Double)?
         for marker in markers where marker.callout != nil {
@@ -589,7 +658,7 @@ final class ViewportFeatureViewModel {
             }
         }
         if let nearest, let callout = nearest.marker.callout {
-            return (nearest.marker.id, callout)
+            return (nearest.marker.id, nearest.marker.layer, callout)
         }
 
         let shapes = Self.layers
@@ -599,7 +668,7 @@ final class ViewportFeatureViewModel {
         for shape in shapes.map(\.element) {
             guard let callout = shape.callout else { continue }
             if GeometryHitTest.hits(shape.geometry, at: point, toleranceDegrees: tolerance) {
-                return (shape.id, callout)
+                return (shape.id, shape.layer, callout)
             }
         }
         return nil
@@ -608,11 +677,11 @@ final class ViewportFeatureViewModel {
     /// The card for a marker the map selected, which is how a dot answers: a
     /// tap on an annotation reaches MapKit's selection rather than the map's
     /// own tap.
-    func callout(annotationID: String) -> (id: String, callout: FeatureCallout)? {
+    func callout(annotationID: String) -> (id: String, layer: LayerID, callout: FeatureCallout)? {
         for marker in Self.layers.flatMap({ markersByLayer[$0] ?? [] })
         where marker.id == annotationID {
             guard let callout = marker.callout else { return nil }
-            return (marker.id, callout)
+            return (marker.id, marker.layer, callout)
         }
         return nil
     }
@@ -632,6 +701,7 @@ final class ViewportFeatureViewModel {
     /// Hands the map every layer's features at once, in panel order so equal
     /// z-indexes break the way the catalog reads.
     private func publish() {
+        invalidateSelectionIfGone()
         controller.setFeatureShapes(Self.layers.flatMap { shapesByLayer[$0] ?? [] })
         controller.setFeatureMarkers(Self.layers.flatMap { markersByLayer[$0] ?? [] })
     }

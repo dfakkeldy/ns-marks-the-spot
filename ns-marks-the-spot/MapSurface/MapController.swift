@@ -932,7 +932,12 @@ extension MapController: MKMapViewDelegate {
                 mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
                 ?? MKAnnotationView(annotation: feature, reuseIdentifier: identifier)
             view.annotation = feature
-            view.canShowCallout = true
+            // The app's own card, for the same reason the user's markers use
+            // one: the bubble holds a title and a subtitle, and these records
+            // do not travel without the source that published them and the
+            // sentence saying what they are not evidence of. Two callouts on
+            // one dot would have meant the shorter one could be read alone.
+            view.canShowCallout = false
             view.image = FeatureMarkerImage.image(for: feature.style)
             return view
         }
