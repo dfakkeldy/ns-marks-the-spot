@@ -1,5 +1,6 @@
 import GeoCore
 import MapCatalog
+import NSDataServices
 import SwiftUI
 
 struct TransparencySliderView: View {
@@ -373,6 +374,15 @@ private struct LayerRowView: View {
                 }
             }
 
+            if row.isVisible, row.descriptor.id == .nsWellLogs {
+                WellAccuracyFilterControl(
+                    value: viewModel.wellAccuracyFilter,
+                    onChange: { viewModel.setWellAccuracyFilter($0) }
+                )
+                .padding(.leading, 40)
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+
             if row.isVisible, row.hasOpacityControl {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
@@ -456,6 +466,44 @@ private struct LayerRowView: View {
             return "diamond.fill"
         default:
             return "square.3.stack.3d"
+        }
+    }
+}
+
+
+/// Which well records the layer asks for.
+///
+/// Two choices rather than a switch per accuracy band, as on the web: the
+/// distinction that matters is between a record located tightly enough to read
+/// as a point and one that is a report from an area. Surveyed is the default
+/// because it is the only band that can be read as a location, so seeing the
+/// rest is something the user asks for.
+private struct WellAccuracyFilterControl: View {
+    let value: WellLogOverlay.AccuracyFilter
+    var onChange: (WellLogOverlay.AccuracyFilter) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Picker("Well location accuracy", selection: Binding(
+                get: { value },
+                set: { onChange($0) }
+            )) {
+                Text("Surveyed only").tag(WellLogOverlay.AccuracyFilter.surveyed)
+                Text("Include approximate").tag(WellLogOverlay.AccuracyFilter.all)
+            }
+            .pickerStyle(.segmented)
+            .accessibilityLabel("Well location accuracy")
+
+            // The sentence the web prints under its legend. Without it, a
+            // hollow marker is decoration; with it, it is the record saying it
+            // does not know where the well is.
+            Text(
+                "Hollow markers report that a well exists somewhere nearby, "
+                + "not where it is."
+            )
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
         }
     }
 }

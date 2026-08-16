@@ -195,6 +195,19 @@ final class OverlayViewModel {
         }
     }
 
+    /// Which well records the layer is asking for, and the switch for it.
+    ///
+    /// Proxied through here because the panel talks to this view model, and the
+    /// well layer's own state lives with the layers that are queries rather
+    /// than tiles.
+    var wellAccuracyFilter: WellLogOverlay.AccuracyFilter {
+        features?.wellAccuracyFilter ?? .surveyed
+    }
+
+    func setWellAccuracyFilter(_ filter: WellLogOverlay.AccuracyFilter) {
+        features?.setWellAccuracyFilter(filter)
+    }
+
     /// The panel's sections, in catalog order, carrying only the groups that
     /// have a row to show.
     ///
