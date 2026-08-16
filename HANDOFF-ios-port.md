@@ -948,3 +948,25 @@ GO, spend ONE admission on
 -disable-concurrent-testing -scheme ns-marks-the-spot
 -destination 'id=24FBD923-387E-4B7E-9063-FCF166239B1C'`.
 ```
+
+## 2026-08-15 — the app target could not compile at all
+
+Done: the first gated `xcodebuild test` failed before running a single test —
+swift-frontend aborted emitting the isolated-to-`@Sendable` thunk that
+`Binding(get:set:)` needs when handed a `@MainActor` callback (Swift 6.3.3,
+"SmallVector unable to grow"). Both row lists did it. Fixed with
+`mainActorSetter`; reproduced and confirmed gate-free first. `typecheck-ios.sh`
+now emits objects for app and test sources in batch mode, so this class of
+crash costs ~20 s instead of a build admission. Package: 898 tests green.
+Committed as 5d0b6a164.
+
+Next: the gated app-test run has still never executed. A retry loop is armed;
+the slot is held by an unrelated Echo build and swap is at 654 MB.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Next action: read
+scratchpad/apptests.log for TEST SUCCEEDED/FAILED; on failure extract messages
+with `xcrun xcresulttool get test-results tests --path <.xcresult>`.
+```
