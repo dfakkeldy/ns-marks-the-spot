@@ -329,7 +329,22 @@ private struct LayerRowView: View {
                     // says "off", and twenty grey chips repeating it would bury
                     // the one row that is loading or has failed.
                     if row.isVisible, let runtime = row.runtime {
-                        RuntimeChip(status: runtime)
+                        HStack(spacing: 8) {
+                            RuntimeChip(status: runtime)
+                            // A source that failed on one bar of signal is
+                            // usually fine a minute later. Without this the way
+                            // back is switching the layer off and on, which
+                            // nobody guesses, and the layer reads as broken
+                            // when it was the moment that was.
+                            if runtime.emphasis == .broken, row.hasOpacityControl {
+                                Button("Retry tiles") { viewModel.retryTiles(for: row.id) }
+                                    .font(.caption2.weight(.medium))
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(.blue)
+                                    .accessibilityLabel("Retry \(row.name) tiles")
+                                    .accessibilityIdentifier("retry-tiles-\(row.id)")
+                            }
+                        }
                     }
 
                     Text(status)

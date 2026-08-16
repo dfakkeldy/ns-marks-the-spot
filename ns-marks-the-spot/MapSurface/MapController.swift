@@ -326,6 +326,31 @@ final class MapController: NSObject {
         layerLoadPhases[id] = nil
     }
 
+    /// Ask a failing layer for its tiles again.
+    ///
+    /// The web offers this beside the status line, and it matters more in the
+    /// field than at a desk: a source that timed out on one bar of signal is
+    /// usually fine a minute later, and without a retry the only way back is to
+    /// switch the layer off and on — which a user has no reason to guess, and
+    /// which reads as the layer being broken rather than the moment being.
+    ///
+    /// The overlay is torn down and rebuilt rather than nudged. MapKit holds
+    /// its own images per overlay instance, so the failed squares of the old
+    /// one would otherwise stay on screen however the fetch went.
+    func retryTiles(for layerID: String) {
+        guard let index = state.layers.firstIndex(where: { $0.id == layerID }),
+              state.layers[index].isVisible
+        else { return }
+        let layer = state.layers[index]
+        progress.reset(layerID)
+        layerLoadPhases[layerID] = .idle
+        // The replacement renderer reads its alpha back out of `state.layers`,
+        // which this does not touch, so the layer comes back at the opacity the
+        // user had it at rather than fully opaque.
+        mapView.map { perform(.removeTileOverlay(id: layer.id), on: $0) }
+        mapView.map { perform(.addTileOverlay(layer), on: $0) }
+    }
+
     func setOpacity(for layerID: String, to value: CGFloat) {
         mutate { state in
             guard let index = state.layers.firstIndex(where: { $0.id == layerID }) else { return }

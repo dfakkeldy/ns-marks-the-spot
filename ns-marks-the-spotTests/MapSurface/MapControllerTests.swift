@@ -192,6 +192,33 @@ struct MapControllerTests {
         #expect(controller.annotations.first?.title == "First")
     }
 
+    @Test func retryingAFailedLayerPutsItBackOnTheStartLine() throws {
+        let controller = MapController()
+        let mapView = MKMapView()
+        controller.mapView = mapView
+        controller.addLayer(makeLayer(id: "nsprd"))
+
+        controller.retryTiles(for: "nsprd")
+
+        #expect(controller.layerLoadPhases["nsprd"] == .idle)
+        // Replaced, not duplicated: two overlays for one layer would draw the
+        // failed squares over the retried ones.
+        #expect(mapView.overlays.compactMap { $0 as? OpacityTileOverlay }.count == 1)
+    }
+
+    @Test func aLayerThatIsOffIsNotRetried() throws {
+        let controller = MapController()
+        let mapView = MKMapView()
+        controller.mapView = mapView
+        controller.addLayer(makeLayer(id: "nsprd", isVisible: false))
+
+        controller.retryTiles(for: "nsprd")
+
+        // Switching a layer on is already its own retry; refetching one nobody
+        // is looking at spends a field user's data on nothing.
+        #expect(controller.layerLoadPhases["nsprd"] == nil)
+    }
+
     private func makeLayer(id: String, opacity: CGFloat = 1.0, isVisible: Bool = true) -> MapLayerState {
         MapLayerState(
             configuration: TileLayerConfiguration(

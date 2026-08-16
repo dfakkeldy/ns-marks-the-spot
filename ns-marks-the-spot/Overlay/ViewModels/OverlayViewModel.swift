@@ -1749,6 +1749,15 @@ final class OverlayViewModel {
         controller.setOpacity(for: id, to: value)
     }
 
+    /// Ask a layer whose tiles failed for them again.
+    ///
+    /// Rasters only: a queried vector layer refreshes itself when the viewport
+    /// settles, so it already has a way back that this would only duplicate.
+    func retryTiles(for id: String) {
+        guard vectorLayerID(id) == nil else { return }
+        controller.retryTiles(for: id)
+    }
+
     func toggleVisibility(_ id: String) {
         // A vector layer's switch is the same decision point as a raster's:
         // the licence has to be answered before the first query goes out, not
