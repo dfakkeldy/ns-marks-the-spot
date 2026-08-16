@@ -126,13 +126,13 @@ public enum PdfMapRegistration {
     /// Which of the two registrations a candidate came from. Kept on the
     /// candidate because a file carrying both should let the user see which one
     /// they are about to trust, rather than the reader silently preferring one.
-    public enum Flavour: String, Equatable, Sendable {
+    public enum Flavour: String, Hashable, Sendable, Codable {
         case measure
         case lgiDict
     }
 
     /// Why a registration in the file was not offered.
-    public enum Rejection: String, Equatable, Sendable {
+    public enum Rejection: String, Hashable, Sendable, Codable {
         /// Structurally not a registration this reader understands — the wrong
         /// dictionary type, an unsupported version, a neatline that is not a
         /// rectangle.
@@ -154,7 +154,7 @@ public enum PdfMapRegistration {
     }
 
     /// One registration the file offers, ready to become a user map.
-    public struct Candidate: Equatable, Sendable, Identifiable {
+    public struct Candidate: Hashable, Sendable, Codable, Identifiable {
         public var id: String
         public var flavour: Flavour
         /// The name the file gave this registration, if it gave one. Shown to
@@ -378,6 +378,13 @@ public enum PdfMapRegistration {
         let type = gcs["Type"]?.nameValue
         guard type == "GEOGCS" || type == "PROJCS" else { throw ReadFailure.unsupported }
         if let epsg = gcs["EPSG"]?.scalarValue {
+            // Whole numbers only, and only ones an EPSG register could hold.
+            // Truncating would turn "EPSG 4326.5" — which is not a code at all
+            // — into WGS84 and accept the file, and converting a value of 1e30
+            // to an integer traps the process on a file the user merely opened.
+            guard epsg == epsg.rounded(), epsg >= 0, epsg <= 1_000_000 else {
+                throw ReadFailure.unsupportedCrs
+            }
             try check(crs: "EPSG:\(Int(epsg))")
             return
         }
@@ -622,44 +629,75 @@ public enum PdfMapRegistration {
         return "\(flavour.rawValue)-\(identity)-\(numbers)"
     }
 
-    /// What an extraction means for the file the user chose.
-    public enum Outcome: Equatable, Sendable {
-        /// A registration to place the sheet by. The rest of the candidates are
-        /// carried so the user can be told there were others.
-        case placed(Candidate, alternatives: [Candidate])
-        /// The page said nothing about where it belongs. An ordinary scan, for
-        /// the georeferencer — not an error.
-        case unregistered
-        /// The page said where it belongs and this app could not use the
-        /// answer.
-        case refused(Rejection)
+    /// Why a page has to be placed by hand.
+    ///
+    /// `absent` is the ordinary case — a PDF that was never georeferenced. The
+    /// rest each name something the file did claim, so the user is told the
+    /// difference between "this file says nothing" and "this file says
+    /// something this app will not act on".
+    public enum ManualReason: String, Equatable, Sendable, Codable {
+        case absent
+        case unsupported
+        case unsupportedCrs = "unsupported-crs"
+        case invalid
+        case unreadable
     }
 
-    /// Which registration to place the sheet by, or what to tell the user.
+    /// What an extraction means for the file the user chose.
     ///
-    /// The first usable candidate wins, in the file's own order — `VP` before
-    /// `LGIDict`, because the ISO structure carries latitude and longitude
-    /// outright while TerraGo's has to be projected, and a projection is one
-    /// more place two surfaces can disagree.
+    /// A page is never refused over its registration. It is imported either
+    /// placed, or waiting for the user to say which frame, or waiting to be
+    /// placed by hand with the reason stated — because the pixels are usable
+    /// either way, and a user with a scanned plan and no coordinates is exactly
+    /// who the georeferencer is for. What must not happen is a page arriving
+    /// silently unplaced, with nothing said about the coordinates it turned out
+    /// to be carrying.
+    public enum FrameSelection: Equatable, Sendable {
+        /// One registration, or one the app is sure of. The sheet is placed.
+        case automatic(Candidate)
+        /// Several frames — a main map and its insets — and no way to tell
+        /// which the user means. Imported unplaced, with the choice offered.
+        ///
+        /// Guessing here is the failure this case exists to prevent: an inset's
+        /// registration is perfectly valid and drapes a corner of the sheet
+        /// over the whole county, with every number in the file agreeing.
+        case selectionRequired([Candidate])
+        /// Nothing usable. For the georeferencer, with the reason said.
+        case manual(ManualReason)
+    }
+
+    /// Which frame places the sheet, or what the user is told instead.
     ///
-    /// A page whose only registrations were refused is refused, rather than
-    /// quietly demoted to a blank scan for the user to place by hand. The
-    /// file's own answer about where it sits went unread, and placing it by eye
-    /// on top of that is worse than being told why.
-    public static func outcome(of extraction: Extraction) -> Outcome {
-        if let first = extraction.candidates.first {
-            return .placed(first, alternatives: Array(extraction.candidates.dropFirst()))
+    /// Ported from `web/src/userMaps/parsers/geoPdfFrameSelection.ts`, minus
+    /// its producer-rule table: that table is empty on the web today, so
+    /// porting the machinery would be a subsystem with nothing in it.
+    public static func selection(of extraction: Extraction) -> FrameSelection {
+        if extraction.candidates.count == 1 {
+            return .automatic(extraction.candidates[0])
         }
-        guard !extraction.rejected.isEmpty else { return .unregistered }
-        // The most specific reason present, not the first. A file with one
-        // structurally unreadable viewport and one in an unsupported system
-        // should say which system, because that is the half the user can act
-        // on.
-        for reason in [Rejection.unsupportedCrs, .invalid, .unsupported, .unreadable]
-        where extraction.rejected.contains(where: { $0.reason == reason }) {
-            return .refused(reason)
+        if extraction.candidates.count > 1 {
+            return .selectionRequired(extraction.candidates)
         }
-        return .unregistered
+        return .manual(manualReason(for: extraction.rejected))
+    }
+
+    /// The reason to report when several registrations failed differently.
+    ///
+    /// The web's precedence, in the web's order: the further a registration got
+    /// before it failed, the more the user can do about it. "Unreadable" beats
+    /// "unsupported" because a file this app could not even parse is a
+    /// different conversation from one whose structure it simply does not
+    /// model.
+    public static func manualReason(for rejected: [Refusal]) -> ManualReason {
+        for (reason, manual) in [
+            (Rejection.unreadable, ManualReason.unreadable),
+            (.invalid, .invalid),
+            (.unsupportedCrs, .unsupportedCrs),
+            (.unsupported, .unsupported),
+        ] where rejected.contains(where: { $0.reason == reason }) {
+            return manual
+        }
+        return .absent
     }
 
     /// How large a rasterised page may be on its longest side.
@@ -674,9 +712,12 @@ public enum PdfMapRegistration {
 
     /// How much to magnify a page, in points, to reach that cap.
     ///
-    /// Never below 1: a page smaller than the cap is drawn at least at its own
-    /// size, because rendering a business-card-sized inset at 0.3× would throw
-    /// away detail to save memory nobody needed.
+    /// The longest side lands on the cap exactly, in both directions: a letter
+    /// page is magnified about five times, and a plotter sheet metres across is
+    /// reduced. A floor of one would look kinder to a small page and is what
+    /// makes the cap a lie — a PDF declaring a media box of a hundred thousand
+    /// points is a few hundred bytes, and drawing it at its own size asks this
+    /// device for forty gigabytes.
     public static func renderScale(
         pageWidth: Double, pageHeight: Double, maxDimension: Double = maxRenderDimension
     ) -> Double? {
@@ -684,7 +725,7 @@ public enum PdfMapRegistration {
         guard pageWidth.isFinite, pageHeight.isFinite,
               pageWidth > 0, pageHeight > 0, longest > 0
         else { return nil }
-        return max(1, maxDimension / longest)
+        return maxDimension / longest
     }
 
     /// The web's PDF number pattern: a bare decimal with an optional exponent.

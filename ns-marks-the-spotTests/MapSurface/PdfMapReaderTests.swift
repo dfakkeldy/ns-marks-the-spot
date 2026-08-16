@@ -98,8 +98,9 @@ struct PdfMapRoundTripTests {
         )
 
         let read = try PdfMapReader.read(pdf)
-        guard case .placed(let candidate, _) =
-            PdfMapRegistration.outcome(of: read.extraction)
+        #expect(read.pageCount == 1)
+        guard case .automatic(let candidate) =
+            PdfMapRegistration.selection(of: read.extraction)
         else {
             Issue.record("the app's own export was not read as georeferenced")
             return
@@ -137,7 +138,9 @@ struct PdfMapRoundTripTests {
         context.closePDF()
 
         let read = try PdfMapReader.read(data as Data)
-        #expect(PdfMapRegistration.outcome(of: read.extraction) == .unregistered)
+        #expect(
+            PdfMapRegistration.selection(of: read.extraction) == .manual(.absent)
+        )
         #expect(read.pixelSize.width == 4096)
     }
 
@@ -146,5 +149,104 @@ struct PdfMapRoundTripTests {
         #expect(throws: UserMapImportRefusal.self) {
             _ = try PdfMapReader.read(Data("%PDF-1.7 and then nothing".utf8))
         }
+    }
+}
+
+@Suite("Importing a PDF")
+struct PdfMapImportTests {
+    /// A page with the given boxes and nothing meaningful drawn on it.
+    private func page(media: CGRect, crop: CGRect? = nil) throws -> Data {
+        let data = NSMutableData()
+        let consumer = try #require(CGDataConsumer(data: data))
+        var box = media
+        let context = try #require(CGContext(consumer: consumer, mediaBox: &box, nil))
+        var info: [String: Any] = [kCGPDFContextMediaBox as String: Data(
+            bytes: &box, count: MemoryLayout<CGRect>.size
+        )]
+        if var crop {
+            info[kCGPDFContextCropBox as String] = Data(
+                bytes: &crop, count: MemoryLayout<CGRect>.size
+            )
+        }
+        context.beginPDFPage(info as CFDictionary)
+        context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
+        context.fill(CGRect(x: 10, y: 10, width: 20, height: 20))
+        context.endPDFPage()
+        context.closePDF()
+        return data as Data
+    }
+
+    @Test("A PDF this app cannot place is imported anyway, and says why")
+    func anUnplaceablePageIsStillAMap() throws {
+        let imported = try UserMapImporter.import(
+            data: try page(media: CGRect(x: 0, y: 0, width: 300, height: 200)),
+            id: "map-1",
+            name: "Scan"
+        )
+        // Not a refusal: the page is a usable map either way, and refusing it
+        // would have made the old advice — place it by hand — impossible on the
+        // very path that gave it.
+        #expect(imported.needsGeoreferencing)
+        #expect(imported.record.sourceRect == nil)
+        #expect(imported.record.pdf?.registration == .manual(.absent))
+        #expect(imported.record.pdf?.note.contains("Add matching points") == true)
+    }
+
+    @Test("A page cropped to its map frame is read at the crop box")
+    func theCropBoxIsWhatIsDrawn() throws {
+        // A sheet cropped down to a square frame. Reading the media box here
+        // would size the raster to the uncropped page while every reader in the
+        // world showed the crop — so the registration's pixels and the image's
+        // pixels would be different pixels.
+        let read = try PdfMapReader.read(
+            try page(
+                media: CGRect(x: 0, y: 0, width: 400, height: 200),
+                crop: CGRect(x: 50, y: 0, width: 200, height: 200)
+            )
+        )
+        #expect(read.pixelSize.width == read.pixelSize.height)
+    }
+
+    @Test("The app's own export imports placed, with the frame it used named")
+    func theExportImportsPlaced() throws {
+        let bounds = GeoBoundingBox(south: 44.60, west: -63.70, north: 44.70, east: -63.50)
+        let template = PdfTemplate.template(.portrait)
+        let pdf = PdfComposer.compose(
+            PdfComposer.Input(
+                template: template,
+                bounds: bounds,
+                mapImage: PdfComposer.MapImage(jpegBytes: Data(), widthPx: 1, heightPx: 1),
+                fields: PdfComposer.Fields(title: "Import"),
+                legend: nil,
+                disclosures: [],
+                attributionLines: [],
+                scaleBar: PrintScaleBar.build(
+                    bounds: bounds,
+                    mapFrame: template.mapFrame,
+                    maxWidthPoints: template.scaleBar.maxWidth
+                ),
+                shareURLText: nil,
+                qrModules: nil,
+                appendix: [],
+                generatedAt: Date(timeIntervalSince1970: 0)
+            )
+        )
+
+        let imported = try UserMapImporter.import(data: pdf, id: "map-2", name: "Export")
+        #expect(!imported.needsGeoreferencing)
+        #expect(imported.record.sourceRect != nil)
+        guard case .embedded(let frameID, _, _) = imported.record.pdf?.registration else {
+            Issue.record("the app's own export did not import placed")
+            return
+        }
+        // The control points are named for the frame that produced them, so a
+        // record cannot end up holding two frames' points under one identity.
+        guard case .controlPoints(let points, let method) = imported.record.placement else {
+            Issue.record("a placed export carried no control points")
+            return
+        }
+        #expect(method == .affine)
+        #expect(points.count == 4)
+        #expect(points.allSatisfy { $0.id.hasPrefix(frameID) })
     }
 }

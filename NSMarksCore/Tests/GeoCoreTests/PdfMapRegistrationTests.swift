@@ -336,17 +336,22 @@ struct PdfRegistrationOutcomeTests {
     @Test("A page with no registration is an ordinary scan, not a failure")
     func nothingSaidIsNotAFailure() {
         #expect(
-            PdfMapRegistration.outcome(of: PdfMapRegistration.Extraction())
-                == .unregistered
+            PdfMapRegistration.selection(of: PdfMapRegistration.Extraction())
+                == .manual(.absent)
         )
     }
 
-    @Test("A page whose only registration was refused is refused")
-    func aRefusedRegistrationIsNotDemotedToABlankScan() {
+    @Test("A page whose only registration was refused still imports, with the reason")
+    func aRefusedRegistrationIsStillAnImport() {
+        // Not a refusal: the page is a usable map whichever way it is placed,
+        // and the reason is what tells the user whether to re-export it or just
+        // click four corners.
         let extraction = PdfMapRegistration.Extraction(
             rejected: [.init(flavour: .lgiDict, reason: .unsupportedCrs)]
         )
-        #expect(PdfMapRegistration.outcome(of: extraction) == .refused(.unsupportedCrs))
+        #expect(
+            PdfMapRegistration.selection(of: extraction) == .manual(.unsupportedCrs)
+        )
     }
 
     @Test("The reason the user can act on is the one reported")
@@ -357,7 +362,9 @@ struct PdfRegistrationOutcomeTests {
                 .init(flavour: .lgiDict, reason: .unsupportedCrs),
             ]
         )
-        #expect(PdfMapRegistration.outcome(of: extraction) == .refused(.unsupportedCrs))
+        #expect(
+            PdfMapRegistration.selection(of: extraction) == .manual(.unsupportedCrs)
+        )
     }
 
     @Test("A usable registration beside a refused one still places the sheet")
@@ -366,25 +373,73 @@ struct PdfRegistrationOutcomeTests {
         for (key, value) in lgiPage(version: "9.9") { page[key] = value }
         let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
         #expect(extraction.rejected.count == 1)
-        guard case .placed(let candidate, let alternatives) =
-            PdfMapRegistration.outcome(of: extraction)
+        guard case .automatic(let candidate) = PdfMapRegistration.selection(of: extraction)
         else { Issue.record("the page was not placed"); return }
         #expect(candidate.flavour == .measure)
-        #expect(alternatives.isEmpty)
     }
 
-    @Test("A page is drawn at least at its own size, and never past the cap")
-    func theRenderScaleHasBothEnds() throws {
+    @Test("Two frames on one page are the user's choice, not the app's")
+    func twoFramesAreAChoice() {
+        // Both are honest registrations of different ground. Picking the first
+        // would drape an inset over the county it is an inset of, and the map
+        // would look entirely plausible while it did.
+        var page = measurePage()
+        for (key, value) in lgiPage() { page[key] = value }
+        let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
+        guard case .selectionRequired(let candidates) =
+            PdfMapRegistration.selection(of: extraction)
+        else { Issue.record("one of the two frames was chosen for the user"); return }
+        #expect(candidates.count == 2)
+    }
+
+    @Test("A page is drawn to the cap, whichever way round it is")
+    func theRenderScaleFillsTheCap() throws {
         // A letter page: 4096 / 792 points.
         let letter = try #require(
             PdfMapRegistration.renderScale(pageWidth: 612, pageHeight: 792)
         )
         #expect(abs(letter - 4096 / 792) < 1e-9)
-        // A page already larger than the cap is still drawn at its own size
-        // rather than shrunk: a wall-sized plan's detail is the point of it.
-        #expect(PdfMapRegistration.renderScale(pageWidth: 9000, pageHeight: 6000) == 1)
+        // A page whose points already outnumber the cap is scaled *down* to it.
+        // Not doing so would render a wall-sized plan at 9000 px and hand the
+        // decoder a raster several times the cap in each direction.
+        let plan = try #require(
+            PdfMapRegistration.renderScale(pageWidth: 9000, pageHeight: 6000)
+        )
+        #expect(abs(plan - 4096 / 9000) < 1e-9)
         #expect(PdfMapRegistration.renderScale(pageWidth: 0, pageHeight: 792) == nil)
         #expect(PdfMapRegistration.renderScale(pageWidth: .nan, pageHeight: 792) == nil)
+    }
+}
+
+@Suite("What the panel says about a PDF import")
+struct PdfImportNoteTests {
+    @Test("An atlas says how many pages it left behind")
+    func laterPagesAreNamed() {
+        let note = PdfImportMetadata(
+            pageCount: 40, registration: .manual(.absent)
+        ).note
+        #expect(note.contains("Page 1 of 40"))
+        #expect(note.contains("later pages were not imported"))
+    }
+
+    @Test("A placed sheet says the file placed it")
+    func placementIsAttributed() {
+        let note = PdfImportMetadata(
+            pageCount: 1,
+            registration: .embedded(frameID: "direct-0", label: nil, candidates: [])
+        ).note
+        #expect(note == "Page 1 imported. Placed from the coordinates in the file.")
+    }
+
+    @Test("Every manual reason names a remedy rather than just a fault")
+    func eachReasonIsActionable() {
+        for reason in [
+            PdfMapRegistration.ManualReason.absent, .unsupported, .unsupportedCrs,
+            .invalid, .unreadable,
+        ] {
+            let note = PdfImportMetadata(pageCount: 1, registration: .manual(reason)).note
+            #expect(note.hasSuffix("Add matching points to place it."))
+        }
     }
 }
 

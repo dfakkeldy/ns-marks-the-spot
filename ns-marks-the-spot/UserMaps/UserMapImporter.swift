@@ -73,83 +73,71 @@ enum UserMapImporter {
         data: Data, id: String, name: String
     ) throws(UserMapImportRefusal) -> Imported {
         let read = try PdfMapReader.read(data)
-        switch PdfMapRegistration.outcome(of: read.extraction) {
-        case .placed(let candidate, _):
-            return Imported(
-                record: UserMapRecord(
-                    id: id,
-                    name: name,
-                    pixelSize: read.pixelSize,
-                    // The registration's own frame, so a map sheet inside a page
-                    // of margins and title blocks drapes only the sheet. Drawing
-                    // the whole page would put the legend box on the ground.
-                    sourceRect: candidate.sourceRect,
-                    placement: .controlPoints(
-                        candidate.gcps.enumerated().map { index, gcp in
-                            SessionControlPoint(
-                                id: "\(candidate.id)-\(index + 1)",
-                                pixel: gcp.pixel,
-                                map: gcp.map
-                            )
-                        },
-                        // Affine, not a spline: these points come from a
-                        // rectangle's corners, and a spline through four
-                        // corners has nothing to bend towards.
-                        method: .affine
-                    )
-                ),
-                preview: read.image,
-                needsGeoreferencing: false
+        let registration: PdfImportMetadata.Registration
+        let placement: UserMapRecord.Placement
+        let sourceRect: PixelRect?
+
+        // A registration this app will not use is not a reason to refuse the
+        // file. The page is a perfectly good map either way, and hand placement
+        // is exactly what the georeferencer is for — so every one of these
+        // imports, and the record says which it was. Refusing here would also
+        // have made the old advice ("import it and place it by hand")
+        // impossible to follow on the very path that gave it.
+        switch PdfMapRegistration.selection(of: read.extraction) {
+        case .automatic(let candidate):
+            registration = .embedded(
+                frameID: candidate.id,
+                label: candidate.label,
+                candidates: read.extraction.candidates
             )
-        case .unregistered:
-            return Imported(
-                record: UserMapRecord(
-                    id: id, name: name, pixelSize: read.pixelSize,
-                    placement: .controlPoints([], method: .affine)
-                ),
-                preview: read.image,
-                needsGeoreferencing: true
+            // The registration's own frame, so a map sheet inside a page of
+            // margins and title blocks drapes only the sheet. Drawing the whole
+            // page would put the legend box on the ground.
+            sourceRect = candidate.sourceRect
+            placement = .controlPoints(
+                controlPoints(of: candidate),
+                // Affine, not a spline: these points come from a rectangle's
+                // corners, and a spline through four corners has nothing to
+                // bend towards.
+                method: .affine
             )
-        case .refused(let reason):
-            throw refusal(for: reason)
+        case .selectionRequired(let candidates):
+            // Several frames on one page — a county sheet with three insets,
+            // each honestly registered to different ground. Choosing for the
+            // user would drape one of them over the others' territory, so
+            // nothing is drawn until they say which sheet they meant.
+            registration = .selectionRequired(candidates)
+            sourceRect = nil
+            placement = .controlPoints([], method: .affine)
+        case .manual(let reason):
+            registration = .manual(reason)
+            sourceRect = nil
+            placement = .controlPoints([], method: .affine)
         }
+
+        return Imported(
+            record: UserMapRecord(
+                id: id,
+                name: name,
+                pixelSize: read.pixelSize,
+                sourceRect: sourceRect,
+                placement: placement,
+                pdf: PdfImportMetadata(
+                    pageCount: read.pageCount, registration: registration
+                )
+            ),
+            preview: read.image,
+            needsGeoreferencing: sourceRect == nil
+        )
     }
 
-    /// What to tell the user about a registration this app would not use.
-    ///
-    /// Each of these has a different remedy, which is why they are not one
-    /// message: an unsupported system is re-exported, a broken one is fixed at
-    /// the source, and a structure this reader does not model is placed by hand.
-    private static func refusal(
-        for reason: PdfMapRegistration.Rejection
-    ) -> UserMapImportRefusal {
-        switch reason {
-        case .unsupportedCrs:
-            UserMapImportRefusal(
-                code: .unsupportedCrs,
-                userMessage: """
-                    This PDF is georeferenced in a coordinate system this app \
-                    cannot place. Re-export it in NAD83 UTM zone 20 or 21, or in \
-                    latitude and longitude.
-                    """
-            )
-        case .invalid:
-            UserMapImportRefusal(
-                code: .invalidGeoreferencing,
-                userMessage: """
-                    This PDF carries georeferencing whose numbers do not place \
-                    the page anywhere on the earth. Re-export it from whatever \
-                    made it.
-                    """
-            )
-        case .unsupported, .unreadable:
-            UserMapImportRefusal(
-                code: .unsupportedType,
-                userMessage: """
-                    This PDF's georeferencing is in a form this app does not \
-                    read. Export the page as a GeoTIFF, or import it and place \
-                    it by hand.
-                    """
+    /// A frame's ground control points, as the record stores them.
+    static func controlPoints(
+        of candidate: PdfMapRegistration.Candidate
+    ) -> [SessionControlPoint] {
+        candidate.gcps.enumerated().map { index, gcp in
+            SessionControlPoint(
+                id: "\(candidate.id)-\(index + 1)", pixel: gcp.pixel, map: gcp.map
             )
         }
     }

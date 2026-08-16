@@ -21,6 +21,14 @@ final class UserMapsViewModel {
         var id: String { record.id }
         /// The user has to place it before it can draw.
         var needsGeoreferencing: Bool { record.needsGeoreferencing }
+        /// A PDF that offered more than one frame and is still waiting to be
+        /// told which one it is. Placing it by hand answers the question too,
+        /// which is why this stops asking once the sheet is placed.
+        var needsFrameSelection: Bool {
+            record.pdf?.needsFrameSelection == true && record.needsGeoreferencing
+        }
+        /// The frames the file offered, for the chooser.
+        var frames: [PdfMapRegistration.Candidate] { record.pdf?.candidates ?? [] }
 
         static func == (lhs: Row, rhs: Row) -> Bool {
             lhs.record == rhs.record && lhs.isVisible == rhs.isVisible
@@ -28,10 +36,28 @@ final class UserMapsViewModel {
         }
     }
 
+    /// Something the panel has to say about a file the user just chose.
+    ///
+    /// One list for refusals and for what an import quietly decided, because
+    /// with several files at once they are the same question — *what happened
+    /// to the file I picked?* — and a refusal shown alone would leave the other
+    /// four files' outcomes to be guessed from the rows.
+    struct ImportNotice: Identifiable, Equatable {
+        var id: String
+        /// The file's name. Carried even for a single import: without it a
+        /// message about "this PDF" belongs to whichever of five files the
+        /// reader assumes.
+        var name: String
+        var message: String
+        /// A refused file, as against one that imported with something to say.
+        var isRefusal: Bool
+    }
+
     private(set) var rows: [Row] = []
-    /// The last refusal, for the panel to show. Held rather than thrown past
-    /// the user: an import that failed silently reads as a file that vanished.
-    private(set) var lastRefusal: UserMapImportRefusal?
+    /// What the last batch of imports came to, for the panel to show. Held
+    /// rather than thrown past the user: an import that failed silently reads
+    /// as a file that vanished.
+    private(set) var notices: [ImportNotice] = []
 
     private let store: UserMapStore
 
@@ -66,8 +92,24 @@ final class UserMapsViewModel {
         }
     }
 
+    /// Imports several chosen files, one after another.
+    ///
+    /// Sequential, and one file's refusal never stops the rest: a user who
+    /// selected a folder of scans with one broken file in it should get the
+    /// other nine maps and be told which one did not come.
+    func importMaps(_ files: [(data: Data, name: String)]) async {
+        notices = []
+        for file in files {
+            await importMap(data: file.data, name: file.name, clearingNotices: false)
+        }
+    }
+
     func importMap(data: Data, name: String) async {
-        lastRefusal = nil
+        await importMap(data: data, name: name, clearingNotices: true)
+    }
+
+    private func importMap(data: Data, name: String, clearingNotices: Bool) async {
+        if clearingNotices { notices = [] }
         let id = UUID().uuidString
         do {
             let imported = try UserMapImporter.import(data: data, id: id, name: name)
@@ -80,21 +122,63 @@ final class UserMapsViewModel {
                     preview: imported.preview
                 )
             )
+            // A PDF is the one import whose result does not show what the app
+            // did: which page came, whether the file placed it, and whether it
+            // offered more than one frame. Said out loud, or the user reads a
+            // hand-placeable cover sheet as the whole atlas.
+            if let note = imported.record.pdf?.note {
+                notices.append(
+                    ImportNotice(id: id, name: name, message: note, isRefusal: false)
+                )
+            }
         } catch let refusal as UserMapImportRefusal {
-            lastRefusal = refusal
+            notices.append(
+                ImportNotice(
+                    id: id, name: name, message: refusal.userMessage, isRefusal: true
+                )
+            )
         } catch {
             // Writing failed rather than reading: the file was fine and the
             // device could not keep it. Said as its own thing, because "your
             // map is corrupt" would send the user to re-export a file that
             // was never the problem.
-            lastRefusal = UserMapImportRefusal(
-                code: .storageFailed,
-                userMessage: """
-                    This map could not be saved to your device. Free some \
-                    space and import it again.
-                    """
+            notices.append(
+                ImportNotice(
+                    id: id,
+                    name: name,
+                    message: """
+                        This map could not be saved to your device. Free some \
+                        space and import it again.
+                        """,
+                    isRefusal: true
+                )
             )
         }
+    }
+
+    /// Records which of a PDF's frames the user says the sheet is.
+    ///
+    /// The chosen frame's own control points, not a guess: each candidate was
+    /// read from the file and describes its own ground. Nothing is redrawn from
+    /// the page — only which part of it is claimed to cover which ground.
+    func selectFrame(id: String, candidateID: String) async {
+        guard let index = rows.firstIndex(where: { $0.id == id }),
+              let metadata = rows[index].record.pdf,
+              let candidate = metadata.candidates.first(where: { $0.id == candidateID })
+        else { return }
+        rows[index].record.sourceRect = candidate.sourceRect
+        rows[index].record.placement = .controlPoints(
+            UserMapImporter.controlPoints(of: candidate), method: .affine
+        )
+        rows[index].record.pdf = PdfImportMetadata(
+            pageCount: metadata.pageCount,
+            registration: .embedded(
+                frameID: candidate.id,
+                label: candidate.label,
+                candidates: metadata.candidates
+            )
+        )
+        try? await store.save(rows.map(\.record))
     }
 
     func setVisible(_ isVisible: Bool, id: String) {

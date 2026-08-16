@@ -18,6 +18,10 @@ enum PdfMapReader {
         /// is no larger version of the page to record control points against,
         /// so the render resolution is the map's resolution for good.
         var pixelSize: PixelSize
+        /// How many pages the file had. Only the first is drawn, and the panel
+        /// says so — an atlas reduced to its cover without a word is a user
+        /// concluding the other sheets held nothing.
+        var pageCount: Int
         var extraction: PdfMapRegistration.Extraction
     }
 
@@ -57,8 +61,9 @@ enum PdfMapReader {
             )
         }
 
-        let box = page.getBoxRect(.mediaBox)
-        guard let scale = PdfMapRegistration.renderScale(
+        let box = Self.renderedBox(of: page)
+        guard box.width.isFinite, box.height.isFinite,
+              let scale = PdfMapRegistration.renderScale(
             pageWidth: Double(box.width), pageHeight: Double(box.height)
         ) else {
             throw UserMapImportRefusal(
@@ -135,10 +140,49 @@ enum PdfMapReader {
         return Read(
             image: image,
             pixelSize: PixelSize(width: Double(width), height: Double(height)),
+            pageCount: document.numberOfPages,
             extraction: PdfMapRegistration.candidates(
-                page: dictionary(page.dictionary, depth: 0), viewport: viewport
+                page: registrationKeys(of: page.dictionary), viewport: viewport
             )
         )
+    }
+
+    /// The two page keys a registration can live under, and nothing else.
+    ///
+    /// Converting the whole page dictionary would be a much simpler line, and
+    /// it walks the document: a page points at its parent, the parent lists
+    /// every page as a kid, and each of those points back at the parent. The
+    /// depth cap stops that recursing for ever but not from fanning out, so an
+    /// eighty-page atlas expands eighty sheets' worth of resources before the
+    /// reader has decided whether the file is georeferenced at all. The web
+    /// resolves exactly these two roots, for the same reason.
+    static func registrationKeys(of page: CGPDFDictionaryRef?) -> [String: PdfValue] {
+        guard let page else { return [:] }
+        var pairs = [String: PdfValue]()
+        for key in ["VP", "LGIDict"] {
+            var value: CGPDFObjectRef?
+            guard CGPDFDictionaryGetObject(page, key, &value), let value else { continue }
+            pairs[key] = object(value, depth: 1)
+        }
+        return pairs
+    }
+
+    /// The part of the page that is actually drawn.
+    ///
+    /// The crop box, not the media box. A page cropped down to its map frame
+    /// displays as the frame in every reader, and the web's renderer sizes its
+    /// viewport from the crop box too; sizing from the media box here would put
+    /// the sheet's registration in one set of pixels and its image in another,
+    /// and drape the map over ground the crop box was drawn to exclude.
+    ///
+    /// Intersected rather than trusted: a crop box outside the media box is
+    /// malformed, and the spec says the media box wins.
+    static func renderedBox(of page: CGPDFPage) -> CGRect {
+        let media = page.getBoxRect(.mediaBox)
+        let crop = page.getBoxRect(.cropBox)
+        guard !crop.isEmpty, !crop.isNull, !crop.isInfinite else { return media }
+        let clipped = crop.intersection(media)
+        return clipped.isEmpty || clipped.isNull ? media : clipped
     }
 
     /// PDF user space onto the rendered canvas, still y-up.

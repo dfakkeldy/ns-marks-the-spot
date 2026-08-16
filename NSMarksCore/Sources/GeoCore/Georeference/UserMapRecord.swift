@@ -23,19 +23,25 @@ public struct UserMapRecord: Identifiable, Hashable, Sendable, Codable {
     /// The part of the scan the user kept, when they cropped the margins off.
     public var sourceRect: PixelRect?
     public var placement: Placement
+    /// What a PDF import turned out to be, or nil for every other kind of
+    /// file. Kept because a PDF is the one import whose result does not show
+    /// what the app did — see `PdfImportMetadata`.
+    public var pdf: PdfImportMetadata?
 
     public init(
         id: String,
         name: String,
         pixelSize: PixelSize,
         sourceRect: PixelRect? = nil,
-        placement: Placement
+        placement: Placement,
+        pdf: PdfImportMetadata? = nil
     ) {
         self.id = id
         self.name = name
         self.pixelSize = pixelSize
         self.sourceRect = sourceRect
         self.placement = placement
+        self.pdf = pdf
     }
 
     /// The lattice this record draws through, or nil when it cannot be placed

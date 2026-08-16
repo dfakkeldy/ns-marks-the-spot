@@ -7,7 +7,7 @@ import Foundation
 /// at the solver's boundary, so no caller has to remember to do it — solving in
 /// degrees would skew east-west against north-south by about cos(latitude),
 /// which at Nova Scotian latitudes is a 1.44× error nobody would see as one.
-public struct GroundControlPoint: Hashable, Sendable {
+public struct GroundControlPoint: Hashable, Sendable, Codable {
     /// In the original raster's pixels, never a preview's.
     public var pixel: PixelPoint
     public var map: GeoPoint
