@@ -1,10 +1,21 @@
 import Foundation
+import GeoCore
 import NSDataServices
+import PDFKit
 import SwiftUI
 
 /// The page the user is about to make, and what it will and will not show.
 struct PrintExportSheet: View {
     let overlayVM: OverlayViewModel
+    /// The ground the user framed on the map, and the paper it was framed for.
+    /// The orientation is not offered again here: it decided the shape of the
+    /// frame, and changing it now would print ground the frame never covered.
+    let framing: PrintExportFraming
+    /// What is on the map and will not be on the page, named before the export
+    /// runs rather than after it. A user's own scan or drawing is on screen and
+    /// the compositor does not carry it; finding that out from a finished page
+    /// is finding out too late.
+    let omitted: [String]
     /// Called with the finished file, for the system share sheet.
     let onExported: (URL) -> Void
 
@@ -12,7 +23,6 @@ struct PrintExportSheet: View {
     @State private var title = ""
     @State private var subtitle = ""
     @State private var notes = ""
-    @State private var orientation = PdfTemplate.ID.portrait
     @State private var includesLegend = true
     @State private var includesAppendix = false
     @State private var isWorking = false
@@ -23,6 +33,33 @@ struct PrintExportSheet: View {
     /// only place a reader is told a layer they had switched on is not on the
     /// page they just made.
     @State private var outcomes: [PrintMapCompositor.LayerOutcome] = []
+    /// The finished page, held so it can be looked at before it is sent
+    /// anywhere. What the compositor made is the only place the reader can
+    /// check that the frame they drew is the ground that printed.
+    @State private var preview: PreviewedPage?
+
+    /// The finished file, made presentable. A bare `URL` cannot identify a
+    /// sheet, and two exports in a row would otherwise reuse the first one's
+    /// presentation.
+    struct PreviewedPage: Identifiable {
+        var url: URL
+        var id: String { url.path }
+    }
+
+    private var template: PdfTemplate { PdfTemplate.template(framing.orientation) }
+
+    /// The dot pitch this device will actually render at, resolved before the
+    /// export rather than reported after it: a page at 150 dpi is a different
+    /// document from one at 300, and a user is entitled to know which one they
+    /// are about to wait for.
+    private var resolution: ExportResolution {
+        PrintResolution.resolve(
+            mapFrame: template.mapFrame,
+            constrainedDevice: PrintResolution.isConstrained(
+                physicalMemoryBytes: ProcessInfo.processInfo.physicalMemory
+            )
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -33,11 +70,24 @@ struct PrintExportSheet: View {
                     TextField("Subtitle", text: $subtitle)
                     TextField("Notes", text: $notes, axis: .vertical)
                         .lineLimit(1...4)
-                    Picker("Orientation", selection: $orientation) {
-                        Text("Portrait").tag(PdfTemplate.ID.portrait)
-                        Text("Landscape").tag(PdfTemplate.ID.landscape)
+                    LabeledContent("Paper") {
+                        Text(
+                            "Letter \(framing.orientation.rawValue) · "
+                                + "\(resolution.dpi) dpi"
+                                + (resolution.reduced
+                                    ? " (reduced to fit this device's memory)" : "")
+                        )
+                        .multilineTextAlignment(.trailing)
                     }
-                    .pickerStyle(.segmented)
+                    LabeledContent("Scale") {
+                        Text(
+                            PrintScaleBar.build(
+                                bounds: framing.bounds,
+                                mapFrame: template.mapFrame,
+                                maxWidthPoints: template.scaleBar.maxWidth
+                            ).denominatorLabel
+                        )
+                    }
                     // The web's "Include legend". Off does not make the page
                     // say less about its sources: the attribution strip and the
                     // disclosures are obligations and always print. What goes is
@@ -45,6 +95,24 @@ struct PrintExportSheet: View {
                     // when the map itself needs the room.
                     Toggle("Include legend", isOn: $includesLegend)
                         .accessibilityIdentifier("print-include-legend")
+                }
+
+                if !omitted.isEmpty {
+                    Section("Will not be on the page") {
+                        ForEach(omitted, id: \.self) { name in
+                            Text(name)
+                        }
+                        Text(
+                            """
+                            These are on the map and this app cannot yet draw \
+                            them onto a page. Exporting is still allowed — the \
+                            page simply will not show them, and their absence \
+                            from it is not evidence they have nothing here.
+                            """
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    }
                 }
 
                 // The web's research document, which is its field sheet plus
@@ -133,6 +201,9 @@ struct PrintExportSheet: View {
                         .accessibilityIdentifier("print-export")
                 }
             }
+            .sheet(item: $preview) { page in
+                PrintExportPreview(url: page.url) { onExported(page.url) }
+            }
             .onDisappear { work?.cancel() }
             .overlay {
                 if isWorking {
@@ -149,7 +220,6 @@ struct PrintExportSheet: View {
         isWorking = true
         defer { isWorking = false }
 
-        let template = PdfTemplate.template(orientation)
         guard let request = overlayVM.printExportRequest(
             template: template,
             fields: PdfComposer.Fields(
@@ -161,7 +231,8 @@ struct PrintExportSheet: View {
             // Asked for and available are two different things: a parcel closed
             // between switching this on and tapping Export would otherwise
             // print an empty appendix.
-            includesAppendix: includesAppendix && overlayVM.canExportEvidenceNote
+            includesAppendix: includesAppendix && overlayVM.canExportEvidenceNote,
+            frame: framing.bounds
         ) else {
             failure = "The map has not been laid out yet."
             return
@@ -182,7 +253,10 @@ struct PrintExportSheet: View {
             let url = try PrintExport.write(
                 result.pdf, named: title.isEmpty ? "NS Marks map" : title
             )
-            onExported(url)
+            // Shown, not sent. The share sheet comes from the preview's own
+            // button, so nothing leaves the device before the user has seen
+            // what it says.
+            preview = PreviewedPage(url: url)
         } catch is CancellationError {
             return
         } catch {

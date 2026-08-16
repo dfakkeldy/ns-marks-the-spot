@@ -1,0 +1,163 @@
+import GeoCore
+import NSDataServices
+import SwiftUI
+
+/// What ground the page will cover, chosen on the map itself.
+///
+/// The paper is not the shape of the screen, so something has to decide which
+/// part of the view becomes the page. Exporting the visible map and letting the
+/// page grow to the paper's proportions — which is what this app did before —
+/// silently adds ground on two sides and puts the thing the user was looking at
+/// somewhere other than the middle. Here the frame is the page: what is inside
+/// it prints, at the scale the readout states, and nothing else does.
+///
+/// Ported from `web/src/print/pdf/ExportFrameLayer.tsx`, and using the same
+/// arithmetic in `PrintFrameGeometry`, so the same drag on either surface
+/// exports the same ground.
+struct PrintExportFrameView: View {
+    let container: (width: Double, height: Double)
+    let centre: GeoPoint
+    let zoom: Double
+    @Binding var state: PrintFrameGeometry.FrameState
+    let onCancel: () -> Void
+    let onContinue: (GeoBoundingBox) -> Void
+
+    /// The frame as it stood when the current drag began. A gesture reports its
+    /// translation from where it started, so without this each report would be
+    /// applied to a frame that has already moved by the last one.
+    @State private var dragStart: PrintFrameGeometry.FrameState?
+
+    private var template: PdfTemplate { PdfTemplate.template(state.orientation) }
+
+    private var rect: PrintFrameGeometry.ScreenRect {
+        PrintFrameGeometry.screenRect(
+            container: container, aspect: template.mapFrameAspect, state: state
+        )
+    }
+
+    private var bounds: GeoBoundingBox {
+        PrintFrameGeometry.bounds(
+            forFrame: rect, container: container, center: centre, zoom: zoom
+        )
+    }
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            // The ground that will not print, dimmed. Not hit-testable: the map
+            // stays pannable and pinchable underneath, which is how the frame is
+            // aimed at a place that is not currently on screen.
+            dimming.allowsHitTesting(false)
+            frame
+            toolbar
+        }
+        .frame(width: container.width, height: container.height, alignment: .topLeading)
+        .ignoresSafeArea()
+    }
+
+    private var dimming: some View {
+        Rectangle()
+            .fill(.black.opacity(0.4))
+            .mask {
+                ZStack {
+                    Rectangle()
+                    Rectangle()
+                        .frame(width: rect.width, height: rect.height)
+                        .position(x: rect.x + rect.width / 2, y: rect.y + rect.height / 2)
+                        .blendMode(.destinationOut)
+                }
+                .compositingGroup()
+            }
+    }
+
+    private var frame: some View {
+        ZStack(alignment: .bottomTrailing) {
+            Rectangle()
+                .strokeBorder(.white, lineWidth: 2)
+                .background(Rectangle().fill(.white.opacity(0.001)))
+            Text(
+                PrintScaleBar.build(
+                    bounds: bounds,
+                    mapFrame: template.mapFrame,
+                    maxWidthPoints: template.scaleBar.maxWidth
+                ).denominatorLabel
+            )
+            .font(.caption.monospacedDigit())
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(.regularMaterial, in: Capsule())
+            .padding(8)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+
+            handle
+        }
+        .frame(width: rect.width, height: rect.height)
+        .position(x: rect.x + rect.width / 2, y: rect.y + rect.height / 2)
+        .contentShape(Rectangle())
+        .gesture(
+            DragGesture(minimumDistance: 4)
+                .onChanged { value in
+                    let start = dragStart ?? state
+                    if dragStart == nil { dragStart = start }
+                    state.offsetX = start.offsetX + value.translation.width
+                    state.offsetY = start.offsetY + value.translation.height
+                }
+                .onEnded { _ in dragStart = nil }
+        )
+        .accessibilityElement()
+        .accessibilityLabel("Export frame")
+        .accessibilityValue(
+            PrintScaleBar.build(
+                bounds: bounds,
+                mapFrame: template.mapFrame,
+                maxWidthPoints: template.scaleBar.maxWidth
+            ).denominatorLabel
+        )
+    }
+
+    private var handle: some View {
+        Image(systemName: "arrow.down.right.and.arrow.up.left")
+            .font(.system(size: 14, weight: .semibold))
+            .foregroundStyle(.black)
+            .frame(width: 44, height: 44)
+            .background(.white, in: Circle())
+            .padding(4)
+            .contentShape(Circle())
+            .gesture(
+                DragGesture(minimumDistance: 2)
+                    .onChanged { value in
+                        let start = dragStart ?? state
+                        if dragStart == nil { dragStart = start }
+                        state.scale = PrintFrameGeometry.scaleAfterResizeDrag(
+                            startScale: start.scale,
+                            deltaY: value.translation.height,
+                            containerHeight: container.height
+                        )
+                    }
+                    .onEnded { _ in dragStart = nil }
+            )
+            .accessibilityLabel("Resize export frame")
+            .accessibilityIdentifier("print-frame-handle")
+    }
+
+    private var toolbar: some View {
+        HStack(spacing: 12) {
+            Button(state.orientation == .portrait ? "Portrait" : "Landscape") {
+                state.orientation = state.orientation == .portrait ? .landscape : .portrait
+            }
+            .buttonStyle(.bordered)
+            .accessibilityIdentifier("print-frame-orientation")
+
+            Spacer()
+
+            Button("Cancel", action: onCancel)
+                .buttonStyle(.bordered)
+            Button("Continue") { onContinue(bounds) }
+                .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("print-frame-continue")
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(.regularMaterial)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+    }
+}

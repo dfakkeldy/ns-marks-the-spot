@@ -11,7 +11,8 @@ enum SheetRoute: Identifiable, Equatable {
     case taxSaleNotices
     case historicalTaxSales
     case saveAreaDraft(MapBounds)
-    case printExport
+    /// The ground the user framed for the page, chosen before this sheet opens.
+    case printExport(PrintExportFraming)
 
     var id: String {
         switch self {

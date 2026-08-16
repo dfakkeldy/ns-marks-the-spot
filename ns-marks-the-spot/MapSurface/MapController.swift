@@ -572,6 +572,35 @@ final class MapController: NSObject {
         return installed
     }
 
+    /// Where the map is, for drawing an export frame over it.
+    ///
+    /// The zoom is the same reading `tileZoomLevel` takes and deliberately not
+    /// rounded to it: the frame's ground is computed from this number, and a
+    /// zoom rounded to the nearest tile level would export ground up to half a
+    /// zoom away from the picture the user framed.
+    ///
+    /// The size is the map view's own, which is the whole screen — the frame
+    /// layer is drawn ignoring the safe area for the same reason, so the
+    /// rectangle the arithmetic places and the rectangle the user sees are the
+    /// same rectangle.
+    func printFraming() -> (
+        centre: GeoPoint, zoom: Double, container: (width: Double, height: Double)
+    )? {
+        guard let mapView else { return nil }
+        let width = Double(mapView.bounds.width)
+        let height = Double(mapView.bounds.height)
+        let longitudeSpan = mapView.region.span.longitudeDelta
+        guard width > 0, height > 0, longitudeSpan > 0 else { return nil }
+        let zoom = log2(360 * (width / 256) / longitudeSpan)
+        guard zoom.isFinite else { return nil }
+        let centre = mapView.region.center
+        return (
+            GeoPoint(lat: centre.latitude, lng: centre.longitude),
+            zoom,
+            (width: width, height: height)
+        )
+    }
+
     func currentVisibleBounds() -> MapBounds? {
         guard let region = mapView?.region else { return nil }
         return MapBounds(

@@ -227,4 +227,31 @@ struct PrintExportPlanTests {
         let credit = NativeLayerTraits.attribution(for: roads)
         #expect(sources[1].attribution.contains(credit.disclaimer))
     }
+
+    /// A frame the user drew is already the paper's shape, so the export's own
+    /// growth has nothing left to do. If it did, the page would cover ground
+    /// outside the rectangle the user was shown — which is the whole point of
+    /// letting them draw one.
+    @Test(arguments: [PdfTemplate.ID.portrait, .landscape])
+    func groundTheUserFramedIsTheGroundThatPrints(orientation: PdfTemplate.ID) {
+        let template = PdfTemplate.template(orientation)
+        let container = (width: 390.0, height: 844.0)
+        let rect = PrintFrameGeometry.screenRect(
+            container: container,
+            aspect: template.mapFrameAspect,
+            state: PrintFrameGeometry.FrameState(orientation: orientation)
+        )
+        let framed = PrintFrameGeometry.bounds(
+            forFrame: rect, container: container,
+            center: GeoPoint(lat: 46.15, lng: -61.3), zoom: 13
+        )
+
+        let printed = PrintExportPlan.bounds(covering: framed, mapFrame: template.mapFrame)
+
+        #expect(abs(printed.north - framed.north) < 1e-9)
+        #expect(abs(printed.south - framed.south) < 1e-9)
+        #expect(abs(printed.east - framed.east) < 1e-9)
+        #expect(abs(printed.west - framed.west) < 1e-9)
+    }
+
 }

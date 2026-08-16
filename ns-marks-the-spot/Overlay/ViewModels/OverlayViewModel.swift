@@ -1034,15 +1034,22 @@ final class OverlayViewModel {
         fields: PdfComposer.Fields,
         includesLegend: Bool = true,
         includesAppendix: Bool = false,
+        /// The ground the user framed. Nil falls back to the whole visible map,
+        /// which the export then grows to the paper's proportions — the older
+        /// behaviour, kept for callers that never showed a frame.
+        frame: GeoBoundingBox? = nil,
         generatedAt: Date = Date()
     ) -> PrintExportRequest? {
-        guard let bounds = controller.currentVisibleBounds() else { return nil }
-        let box = GeoBoundingBox(
-            south: bounds.minLatitude,
-            west: bounds.minLongitude,
-            north: bounds.maxLatitude,
-            east: bounds.maxLongitude
-        )
+        var framed = frame
+        if framed == nil, let bounds = controller.currentVisibleBounds() {
+            framed = GeoBoundingBox(
+                south: bounds.minLatitude,
+                west: bounds.minLongitude,
+                north: bounds.maxLatitude,
+                east: bounds.maxLongitude
+            )
+        }
+        guard let box = framed else { return nil }
         return PrintExportRequest(
             visibleBounds: box,
             baseMap: controller.baseMapType,

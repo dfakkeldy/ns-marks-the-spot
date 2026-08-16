@@ -44,6 +44,11 @@ struct MapContainerView: View {
     @State private var share: SharePayload?
     /// Why an evidence note could not be written, when it could not.
     @State private var exportFailure: String?
+    /// The export frame being aimed, or none. Held here rather than in the
+    /// sheet because the frame is drawn over the live map: the user pans and
+    /// zooms under it, which is how a page is aimed at ground that was not on
+    /// screen when they reached for the printer.
+    @State private var printFrame: PrintFrameGeometry.FrameState?
 
     init(
         controller: MapController,
@@ -102,8 +107,12 @@ struct MapContainerView: View {
                     NavigationStack {
                         SaveAreaDraftView(viewModel: offlineVM, bounds: bounds)
                     }
-                case .printExport:
-                    PrintExportSheet(overlayVM: overlayVM) { url in
+                case .printExport(let framing):
+                    PrintExportSheet(
+                        overlayVM: overlayVM,
+                        framing: framing,
+                        omitted: unprintableLayerNames
+                    ) { url in
                         // The finished page goes straight to the share sheet, and
                         // the export sheet stays up: it is holding the account of
                         // which layers did not print.
@@ -339,7 +348,7 @@ struct MapContainerView: View {
 
                         Button {
                             cancelBoundsSelection()
-                            navigationModel.activeSheet = .printExport
+                            printFrame = .default
                         } label: {
                             Image(systemName: "printer")
                                 .font(.system(size: 18, weight: .semibold))
@@ -526,6 +535,33 @@ struct MapContainerView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+        .overlay {
+            if printFrame != nil, let framing = controller.printFraming() {
+                PrintExportFrameView(
+                    container: framing.container,
+                    centre: framing.centre,
+                    zoom: framing.zoom,
+                    state: Binding(
+                        get: { printFrame ?? .default },
+                        set: { printFrame = $0 }
+                    ),
+                    onCancel: { printFrame = nil },
+                    onContinue: { drawn in
+                        let state = printFrame ?? .default
+                        // Re-read the map here rather than trusting the bounds
+                        // the layer drew with. The layer's ground is recomputed
+                        // when the map settles, and a Continue tapped during a
+                        // pan would otherwise export where the map was rather
+                        // than where it is.
+                        let bounds = currentFrameBounds(state) ?? drawn
+                        printFrame = nil
+                        navigationModel.activeSheet = .printExport(
+                            PrintExportFraming(bounds: bounds, orientation: state.orientation)
+                        )
+                    }
+                )
+            }
+        }
         .overlay(alignment: .bottom) {
             if let selection = featureVM.selection, editSession == nil, vectorCallout == nil,
                measure == nil
@@ -548,6 +584,33 @@ struct MapContainerView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+    }
+
+    /// The ground the frame covers as the map stands right now.
+    private func currentFrameBounds(
+        _ state: PrintFrameGeometry.FrameState
+    ) -> GeoBoundingBox? {
+        guard let framing = controller.printFraming() else { return nil }
+        let rect = PrintFrameGeometry.screenRect(
+            container: framing.container,
+            aspect: PdfTemplate.template(state.orientation).mapFrameAspect,
+            state: state
+        )
+        return PrintFrameGeometry.bounds(
+            forFrame: rect, container: framing.container,
+            center: framing.centre, zoom: framing.zoom
+        )
+    }
+
+    /// The names of things on the map that the page cannot carry.
+    ///
+    /// A user's own scan and a user's own drawing are both on screen and
+    /// neither is composited into the raster. Named before the export rather
+    /// than discovered from a finished page, and never silently dropped: a map
+    /// missing the layer the user came to print is worse when nobody said so.
+    private var unprintableLayerNames: [String] {
+        controller.state.userMaps.map(\.record.name)
+            + controller.state.userVectors.map(\.record.name)
     }
 
     /// What the container does as it appears, changes and goes away.

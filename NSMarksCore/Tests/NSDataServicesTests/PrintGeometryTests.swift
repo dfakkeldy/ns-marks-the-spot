@@ -24,6 +24,27 @@ struct PrintFrameGeometryTests {
         #expect(abs(rect.y + rect.height / 2 - 400) < 1e-9)
     }
 
+    /// A phone is narrow enough that a portrait page fitted to the screen's
+    /// height would be wider than the screen. The handle has to keep working
+    /// there: every scale in range must produce a frame that fits, and a larger
+    /// scale must produce a visibly larger frame.
+    @Test func theHandleStillMovesTheFrameOnAPhone() {
+        let phone = (width: 390.0, height: 844.0)
+        let aspect = PdfTemplate.portrait.mapFrameAspect
+        let small = PrintFrameGeometry.screenRect(
+            container: phone, aspect: aspect,
+            state: PrintFrameGeometry.FrameState(orientation: .portrait, scale: 0.4)
+        )
+        let large = PrintFrameGeometry.screenRect(
+            container: phone, aspect: aspect,
+            state: PrintFrameGeometry.FrameState(orientation: .portrait, scale: 0.9)
+        )
+
+        #expect(large.width > small.width * 1.5)
+        #expect(large.width <= phone.width)
+        #expect(abs(large.width / large.height - aspect) < 1e-9)
+    }
+
     @Test func aFrameDraggedOffTheEdgeStaysOnTheMap() {
         let rect = PrintFrameGeometry.screenRect(
             container: Self.container,

@@ -45,16 +45,23 @@ public enum PrintFrameGeometry {
 
     /// The frame's rectangle on screen, kept inside the container.
     ///
-    /// The width check is what stops a landscape frame on a narrow phone from
-    /// running off both sides: the height gives way instead, so the aspect the
-    /// page will be printed at is preserved.
+    /// `scale` is a fraction of the largest frame of this aspect that the
+    /// container can hold, not of the container's height. On a wide screen the
+    /// two are the same thing, which is why the browser could use the height.
+    /// On a phone they are not: a portrait page is taller than it is wide, but
+    /// so is the screen, so height alone puts every scale above about 0.4 hard
+    /// against the side of the display — the handle then moves nothing for most
+    /// of its travel and the reader concludes it is broken. Fitting to the
+    /// limiting dimension makes the whole range of the drag do something on
+    /// every screen, and leaves the printed aspect untouched either way.
     public static func screenRect(
         container: (width: Double, height: Double),
         aspect: Double,
         state: FrameState
     ) -> ScreenRect {
         let scale = min(maximumScale, max(minimumScale, state.scale))
-        var height = container.height * scale
+        let fitted = min(container.height, container.width / aspect)
+        var height = fitted * scale
         var width = height * aspect
         if width > container.width * maximumScale {
             width = container.width * maximumScale
