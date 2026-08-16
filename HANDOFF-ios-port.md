@@ -1016,3 +1016,26 @@ branch claude/ios-web-map-parity-2de228. Next action: after 22:00 run
 `/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh`
 and read the per-suite bundles under .build/focused-tests/.
 ```
+
+## 2026-08-16 — georeferencing editable, second Codex round closed
+
+Done: `ab43f3901` makes the placement visible and correctable — a live warped
+draft under numbered draggable markers, a zoomable/pannable scan pane, and a
+method-aware per-point diagnostics list ("Off by" under affine, "If removed"
+under a spline). `cb8d9a26d` closes Codex round two: a selection now carries the
+geometry it was tapped on, so a redraw cannot pin a card to different ground;
+each selection kind clears the others; a tap inside a drawn parcel wins over
+catalogue polygons; the well legend shows the markers and the full accuracy
+warning. Package: 928 tests green. Probe evidence: affine grid=1, spline
+grid=32 settling and 16 mid-drag, overlay drawn in every state.
+
+Next: the gated run; then print export frame (#18) and the remaining parity
+gaps (#20).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Next action: after 22:00 run
+`/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh`
+and read the per-suite bundles under .build/focused-tests/.
+```
