@@ -23,10 +23,15 @@ struct PrintExportPlanTests {
 
         let bounds = PrintExportPlan.bounds(covering: visible, mapFrame: frame)
 
-        #expect(bounds.north >= visible.north)
-        #expect(bounds.south <= visible.south)
-        #expect(bounds.west <= visible.west)
-        #expect(bounds.east >= visible.east)
+        // The axis the paper does not grow comes back through a projection and
+        // an unprojection, so it lands a few parts in a quadrillion of a degree
+        // inside where it started — a distance the size of an atom. The claim
+        // is that nothing is cropped, not that the arithmetic is exact.
+        let slack = 1e-9
+        #expect(bounds.north >= visible.north - slack)
+        #expect(bounds.south <= visible.south + slack)
+        #expect(bounds.west <= visible.west + slack)
+        #expect(bounds.east >= visible.east - slack)
     }
 
     /// And it is centred on what the user was looking at, in the projection the

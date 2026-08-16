@@ -285,19 +285,17 @@ struct LayerRowRuntimeWiringTests {
         // already drawing, or promise one that is not.
         let mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: 256, height: 256))
 
-        // 360° across a 256-point view is the whole world at one tile: zoom 0.
-        mapView.region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-            span: MKCoordinateSpan(latitudeDelta: 90, longitudeDelta: 360)
-        )
-        #expect(MapController.tileZoomLevel(of: mapView) == 0)
-
-        // Half the longitude across the same view is one level in, and so on.
-        mapView.region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-            span: MKCoordinateSpan(latitudeDelta: 45, longitudeDelta: 45)
-        )
-        #expect(MapController.tileZoomLevel(of: mapView) == 3)
+        // Asked for, not given: MapKit settles the region it will actually
+        // show — a request for the whole world across 256 points comes back a
+        // quarter of that — so the readings are checked against spans it
+        // honours, and each halving has to move the reading by exactly one.
+        for (span, expected) in [(45.0, 3), (22.5, 4), (11.25, 5), (5.625, 6)] {
+            mapView.region = MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span)
+            )
+            #expect(MapController.tileZoomLevel(of: mapView) == expected)
+        }
     }
 
     @Test func aMapWithNoSizeYetReportsNoZoom() {

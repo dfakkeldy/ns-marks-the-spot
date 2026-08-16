@@ -111,6 +111,22 @@ struct UserVectorParseTests {
         #expect(refused.code == .emptyFile)
     }
 
+    /// A ring of two corners encloses no ground. Kept, it would be an invisible
+    /// overlay that still gets hit-tested on every tap, in a layer that claims
+    /// in the panel to be drawing. Refusing says which shape is wrong.
+    @Test func aRingWithTooFewCornersIsRefusedAndSaysWhatIsMissing() throws {
+        let refused = try refusal(#"{"type":"Polygon","coordinates":[[[-63,44],[-62,44]]]}"#)
+        #expect(refused.code == .corruptFile)
+        #expect(refused.userMessage.contains("an area needs three"))
+    }
+
+    /// A line of one point is the same failure from the other side.
+    @Test func aLineWithOnePointIsRefusedTheSameWay() throws {
+        let refused = try refusal(#"{"type":"LineString","coordinates":[[-63,44]]}"#)
+        #expect(refused.code == .corruptFile)
+        #expect(refused.userMessage.contains("a line needs two"))
+    }
+
     /// An attribute row with no place is legal GeoJSON, and a layer made only
     /// of those would list its features in the panel and paint nothing.
     @Test func featuresWithNoGeometryAtAllAreRefusedAsEmpty() throws {

@@ -131,13 +131,16 @@ struct UserVectorShapeTests {
         #expect(polygon.style.fillHex == "#0072b2")
     }
 
-    /// A degenerate ring is not a shape. Drawn as one it would be an invisible
-    /// overlay that still gets hit-tested on every tap.
-    @Test func aRingWithTooFewPointsDrawsNothing() throws {
-        #expect(
-            try drawing(#"{"type":"Polygon","coordinates":[[[-63,44],[-62,44]]]}"#)
-                .overlays().isEmpty
-        )
+    /// A degenerate ring is not a shape, and it never reaches the drawing at
+    /// all: the import refuses the file and says why. Refusing is the stronger
+    /// answer — a layer that silently drew nothing would sit in the list
+    /// claiming to be on the map.
+    @Test func aRingWithTooFewPointsIsRefusedAtImport() {
+        #expect(throws: UserMapImportRefusal.self) {
+            try UserVectorParse.parseGeoJson(
+                Data(#"{"type":"Polygon","coordinates":[[[-63,44],[-62,44]]]}"#.utf8)
+            )
+        }
     }
 
     /// The user's own layers draw above every catalogued one: a boundary they

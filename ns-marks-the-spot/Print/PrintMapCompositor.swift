@@ -182,16 +182,22 @@ nonisolated struct PrintMapCompositor {
         let raster = renderer.image { context in
             base.draw(in: CGRect(x: 0, y: 0, width: widthPx, height: heightPx))
             for entry in drawnLayers {
-                context.cgContext.saveGState()
-                context.cgContext.setAlpha(entry.layer.effectiveAlpha)
-                entry.whole?.draw(in: CGRect(x: 0, y: 0, width: widthPx, height: heightPx))
+                // The alpha is passed to each draw rather than set on the
+                // context: `UIImage.draw(in:)` supplies an alpha of 1 of its
+                // own, which overrides `setAlpha` and prints every layer fully
+                // opaque however faint it looked on screen.
+                let alpha = entry.layer.effectiveAlpha
+                entry.whole?.draw(
+                    in: CGRect(x: 0, y: 0, width: widthPx, height: heightPx),
+                    blendMode: .normal, alpha: alpha
+                )
                 for (tile, image) in entry.tiles {
                     let rect = space.rect(for: tile)
                     image.draw(
-                        in: CGRect(x: rect.x, y: rect.y, width: rect.width, height: rect.height)
+                        in: CGRect(x: rect.x, y: rect.y, width: rect.width, height: rect.height),
+                        blendMode: .normal, alpha: alpha
                     )
                 }
-                context.cgContext.restoreGState()
             }
             draw(parcels: parcels, into: context.cgContext, space: space, lineScale: lineScale)
         }
