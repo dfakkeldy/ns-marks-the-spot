@@ -29,25 +29,17 @@ enum UserMapImporter {
         try UserMapImport.checkFileSize(data.count)
         let route = try UserMapImport.route(data)
 
+        // A PDF is its own pipeline: Image I/O cannot open one, the page has to
+        // be drawn before it has pixels at all, and its registration is a
+        // different parser from a GeoTIFF's tags.
+        if route == .pdf { return try importPdf(data: data, id: id, name: name) }
+
         let placement: UserMapRecord.Placement?
         switch route {
         case .geoTiff:
             placement = try embeddedPlacement(in: data)
-        case .image:
+        case .image, .pdf:
             placement = nil
-        case .pdf:
-            // A PDF has to be rasterised at a chosen page and scale before any
-            // of this applies, and a GeoPDF's registration is a different
-            // parser again. Refused explicitly rather than fed to Image I/O,
-            // which would decode page one at seventy-two dots per inch and
-            // present the result as the user's map.
-            throw UserMapImportRefusal(
-                code: .unsupportedType,
-                userMessage: """
-                    PDF maps cannot be imported yet. Export the page as a \
-                    GeoTIFF, a PNG, or a JPEG and import that.
-                    """
-            )
         }
 
         let (preview, pixelSize) = try decodePreview(data)
@@ -67,6 +59,99 @@ enum UserMapImporter {
             preview: preview,
             needsGeoreferencing: placement == nil
         )
+    }
+
+    /// A PDF page, drawn and placed.
+    ///
+    /// Separate from the raster path because almost nothing is shared: the page
+    /// is rendered rather than decoded, the rendered size *is* the original
+    /// size, and the registration comes from the page's own dictionaries rather
+    /// than from image tags. The preview is the render — there is no bigger
+    /// version of a page to keep, and the control points are already in these
+    /// pixels.
+    private static func importPdf(
+        data: Data, id: String, name: String
+    ) throws(UserMapImportRefusal) -> Imported {
+        let read = try PdfMapReader.read(data)
+        switch PdfMapRegistration.outcome(of: read.extraction) {
+        case .placed(let candidate, _):
+            return Imported(
+                record: UserMapRecord(
+                    id: id,
+                    name: name,
+                    pixelSize: read.pixelSize,
+                    // The registration's own frame, so a map sheet inside a page
+                    // of margins and title blocks drapes only the sheet. Drawing
+                    // the whole page would put the legend box on the ground.
+                    sourceRect: candidate.sourceRect,
+                    placement: .controlPoints(
+                        candidate.gcps.enumerated().map { index, gcp in
+                            SessionControlPoint(
+                                id: "\(candidate.id)-\(index + 1)",
+                                pixel: gcp.pixel,
+                                map: gcp.map
+                            )
+                        },
+                        // Affine, not a spline: these points come from a
+                        // rectangle's corners, and a spline through four
+                        // corners has nothing to bend towards.
+                        method: .affine
+                    )
+                ),
+                preview: read.image,
+                needsGeoreferencing: false
+            )
+        case .unregistered:
+            return Imported(
+                record: UserMapRecord(
+                    id: id, name: name, pixelSize: read.pixelSize,
+                    placement: .controlPoints([], method: .affine)
+                ),
+                preview: read.image,
+                needsGeoreferencing: true
+            )
+        case .refused(let reason):
+            throw refusal(for: reason)
+        }
+    }
+
+    /// What to tell the user about a registration this app would not use.
+    ///
+    /// Each of these has a different remedy, which is why they are not one
+    /// message: an unsupported system is re-exported, a broken one is fixed at
+    /// the source, and a structure this reader does not model is placed by hand.
+    private static func refusal(
+        for reason: PdfMapRegistration.Rejection
+    ) -> UserMapImportRefusal {
+        switch reason {
+        case .unsupportedCrs:
+            UserMapImportRefusal(
+                code: .unsupportedCrs,
+                userMessage: """
+                    This PDF is georeferenced in a coordinate system this app \
+                    cannot place. Re-export it in NAD83 UTM zone 20 or 21, or in \
+                    latitude and longitude.
+                    """
+            )
+        case .invalid:
+            UserMapImportRefusal(
+                code: .invalidGeoreferencing,
+                userMessage: """
+                    This PDF carries georeferencing whose numbers do not place \
+                    the page anywhere on the earth. Re-export it from whatever \
+                    made it.
+                    """
+            )
+        case .unsupported, .unreadable:
+            UserMapImportRefusal(
+                code: .unsupportedType,
+                userMessage: """
+                    This PDF's georeferencing is in a form this app does not \
+                    read. Export the page as a GeoTIFF, or import it and place \
+                    it by hand.
+                    """
+            )
+        }
     }
 
     /// The placement a GeoTIFF carries, or nil when it carries none.
