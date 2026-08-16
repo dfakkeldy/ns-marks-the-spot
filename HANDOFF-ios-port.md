@@ -992,3 +992,27 @@ branch claude/ios-web-map-parity-2de228. Next action: after 22:00 run
 `/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh`
 and read the per-suite bundles under .build/focused-tests/.
 ```
+
+## 2026-08-16 — Catalogued features answer a tap, and reach the page
+
+Done: Five commits. `f92898336` ports the web's per-layer popups into
+`FeatureCallout` plus a shared screen-space hit test; `cdd241599` wires the tap;
+`ff51d0565` composites the six feature-backed layers onto the printed page in
+the web's mono-safe print styling, so they are `.drawn` rather than
+`.unsupported`; `6f71f6041` fixes five defects Codex found in the first two
+(card outliving its evidence, MapKit's caveat-free bubble over well markers,
+measure/edit tap ownership, a parcel identify left pending, diverging eyebrow
+wording); `d4facb0e8` adds the well accuracy filter, applied in the query rather
+than after it. Closes audit gaps 2, 6, 7, 8, 14 and most of 5. Package: 917
+tests green. Verified headless through the simulator probe — card contents,
+selection dropping with its layer, 0.0120 ink on a page that was blank.
+
+Next: still the gated run; then georeferencing GCP editing (#17).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Next action: after 22:00 run
+`/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh`
+and read the per-suite bundles under .build/focused-tests/.
+```
