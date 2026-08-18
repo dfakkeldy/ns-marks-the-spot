@@ -2,7 +2,7 @@ import type { TaxSaleEvent, TaxSaleGeometryException } from "./taxSaleTypes";
 import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
 
 export const HALIFAX_TAX_SALE_DATASET_SHA256 =
-  "33949145508644e6aa516eff2adf47483ac4f1f597fdaee6810942477e5577ec";
+  "3a188b2fd8b78e2204538b0fe9006cba24337168031e7da47154a51f28e9c84c";
 
 const HALIFAX_EVENT_ID = "halifax-2026-09-15";
 

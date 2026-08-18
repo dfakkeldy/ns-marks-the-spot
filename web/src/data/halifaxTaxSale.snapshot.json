@@ -1,26 +1,26 @@
 {
   "schemaVersion": 1,
   "municipality": "Halifax Regional Municipality",
-  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-13.26.pdf",
+  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-18.26.pdf",
   "landingPage": "https://www.halifax.ca/home-property/property-taxes/tax-sale",
   "tenderInstructions": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
-  "retrievedDate": "2026-08-15",
+  "retrievedDate": "2026-08-18",
   "tenderNumber": "HRM-TaxSale23",
   "tenderDocumentSha256": "4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56",
-  "scheduleDocumentSha256": "129ce382934a556739486d80c2de0ebee3f0d47dee94a8544734d90d9db3f648",
-  "sourceFactsSha256": "070c66cc8c7b8819a1ce12d41e07eab33d529300951c0baa36a9d4f68f571389",
+  "scheduleDocumentSha256": "346db085fce52ea896294ec2562f1ccd2291a562028c42200a5c18af18871c1d",
+  "sourceFactsSha256": "d5091037dfc6175254af5dfa903c10eb31314d5d3873e97a02c2b92160aed0cf",
   "sourceHashPolicy": "Both dated official PDFs contain assessed-owner names. This receipt hashes the source bytes and normalized owner-free facts; the PDFs themselves are not committed.",
   "ownerNamesExcluded": true,
   "eventDate": "2026-09-15",
   "bidDeadlineTime": "10:00",
   "venue": "Online or Alderney Customer Service Centre, 40 Alderney Drive, Dartmouth, Nova Scotia",
-  "sourceRowCount": 31,
-  "listingCount": 31,
-  "parcelIdentifierCount": 32,
-  "mappedListingCount": 29,
-  "mappedParcelIdentifierCount": 30,
-  "hstYesCount": 9,
-  "notRedeemableCount": 2,
+  "sourceRowCount": 29,
+  "listingCount": 29,
+  "parcelIdentifierCount": 30,
+  "mappedListingCount": 27,
+  "mappedParcelIdentifierCount": 28,
+  "hstYesCount": 8,
+  "notRedeemableCount": 1,
   "geometryExceptions": [
     {
       "aan": "09417036",
@@ -160,17 +160,6 @@
     },
     {
       "item": 12,
-      "aan": "02977664",
-      "pids": [
-        "40123432"
-      ],
-      "description": "124 Ridge Ave Lot K-1 Waverley - Dwelling",
-      "openingBidCents": 948222,
-      "redeemable": true,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 13,
       "aan": "03042227",
       "pids": [
         "00649160"
@@ -181,7 +170,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 14,
+      "item": 13,
       "aan": "03130053",
       "pids": [
         "00039396"
@@ -192,7 +181,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 15,
+      "item": 14,
       "aan": "03294625",
       "pids": [
         "40290983"
@@ -203,7 +192,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 16,
+      "item": 15,
       "aan": "03952967",
       "pids": [
         "40222507"
@@ -214,7 +203,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 17,
+      "item": 16,
       "aan": "03975738",
       "pids": [
         "40078875"
@@ -225,7 +214,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 18,
+      "item": 17,
       "aan": "04360435",
       "pids": [
         "41414913"
@@ -236,7 +225,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 19,
+      "item": 18,
       "aan": "04884574",
       "pids": [
         "00040493"
@@ -247,18 +236,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 20,
-      "aan": "05009715",
-      "pids": [
-        "40281776"
-      ],
-      "description": "Pleasant St Lot 6 Dartmouth - Land",
-      "openingBidCents": 807688,
-      "redeemable": false,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 21,
+      "item": 19,
       "aan": "06343732",
       "pids": [
         "40423212"
@@ -269,7 +247,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 22,
+      "item": 20,
       "aan": "07669615",
       "pids": [
         "40538225"
@@ -280,7 +258,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 23,
+      "item": 21,
       "aan": "08587949",
       "pids": [
         "40636888"
@@ -291,7 +269,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 24,
+      "item": 22,
       "aan": "08960526",
       "pids": [
         "40772188"
@@ -302,7 +280,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 25,
+      "item": 23,
       "aan": "09002952",
       "pids": [
         "40816878"
@@ -313,7 +291,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 26,
+      "item": 24,
       "aan": "09417036",
       "pids": [
         "41051889"
@@ -324,7 +302,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 27,
+      "item": 25,
       "aan": "09417044",
       "pids": [
         "41051897"
@@ -335,7 +313,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 28,
+      "item": 26,
       "aan": "10117747",
       "pids": [
         "41270000"
@@ -346,7 +324,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 29,
+      "item": 27,
       "aan": "10190312",
       "pids": [
         "41274085"
@@ -357,7 +335,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 30,
+      "item": 28,
       "aan": "10206863",
       "pids": [
         "41296948"
@@ -368,7 +346,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 31,
+      "item": 29,
       "aan": "10996597",
       "pids": [
         "41515701"

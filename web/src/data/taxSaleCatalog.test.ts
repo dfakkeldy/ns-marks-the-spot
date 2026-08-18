@@ -106,19 +106,16 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(middleton.eventType).toBe("public-auction");
     expect(middleton.eventStatus).toBe("upcoming");
     expect(middleton.saleStartsAt).toBe("2026-08-20T10:00:00-03:00");
-    expect(middleton.listings).toHaveLength(3);
+    expect(middleton.listings).toHaveLength(2);
     expect(middleton.listings.map(({ pids }) => pids)).toEqual([
-      ["05078472"],
       ["05193040"],
       ["05030911"],
     ]);
     expect(middleton.listings.map(({ financial }) => financial.amountCents)).toEqual([
-      1_183_095,
       8_351_154,
       1_536_838,
     ]);
     expect(middleton.listings.map(({ redemptionCategory }) => redemptionCategory)).toEqual([
-      "six-month",
       "six-month",
       "not-redeemable",
     ]);
@@ -228,9 +225,9 @@ describe("the multi-municipality tax-sale catalog", () => {
       "victoria-county-2026-09-14",
       "halifax-2026-09-15",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(86);
-    expect(pidsForEvents(upcoming)).toHaveLength(89);
-    expect(advertisedPidsForEvents(upcoming)).toHaveLength(69);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(83);
+    expect(pidsForEvents(upcoming)).toHaveLength(86);
+    expect(advertisedPidsForEvents(upcoming)).toHaveLength(66);
     expect(geometryExceptionPidsForEvents(upcoming)).toEqual([
       "41051889",
       "41051897",
