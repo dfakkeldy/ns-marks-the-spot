@@ -32,17 +32,21 @@ function textContent(value) {
 }
 
 function uniqueMatchingUrls(html, pattern) {
+  const officialOrigin = new URL(LANDING_PAGE_URL).origin;
   return [...new Set(Array.from(
     html.matchAll(/href=["']([^"']+)["']/giu),
     ([, href]) => String(new URL(decodeHtml(href), LANDING_PAGE_URL)),
-  ).filter((url) => pattern.test(new URL(url).pathname)))];
+  ).filter((url) => {
+    const parsed = new URL(url);
+    return parsed.origin === officialOrigin && pattern.test(parsed.pathname);
+  }))];
 }
 
 export function parseLandingPage(html) {
   const pageText = textContent(html.replace(/<script\b[\s\S]*?<\/script>/giu, " ").replace(/<style\b[\s\S]*?<\/style>/giu, " "));
   const tenderNumbers = [...new Set(pageText.match(/HRM-TaxSale\d+/gu) ?? [])];
   const tenderUrls = uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu);
-  const scheduleUrls = uniqueMatchingUrls(html, /\/sept15\.2026newspaper\.website-draft-aug-13\.26\.pdf$/iu);
+  const scheduleUrls = uniqueMatchingUrls(html, /\/sept15\.2026newspaper\.website-draft-aug-\d{1,2}\.26\.pdf$/iu);
   if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
     throw new Error(`Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`);
   }
@@ -111,6 +115,12 @@ export function parseScheduleText(source) {
     }
   }
   return listings;
+}
+
+export function assertCurrentScheduleCounts(listings) {
+  if (listings.length !== 29) throw new Error(`Expected 29 Halifax Schedule A rows, found ${listings.length}.`);
+  const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
+  if (pidCount !== 30) throw new Error(`Expected 30 Halifax Schedule A PIDs, found ${pidCount}.`);
 }
 
 function sha256(contents) {
@@ -216,9 +226,7 @@ async function main() {
   const [tenderText, scheduleText] = await Promise.all([pdfText(tenderBytes), pdfText(scheduleBytes)]);
   const tender = parseTenderText(tenderText, landing.tenderNumber);
   const listings = parseScheduleText(scheduleText);
-  if (listings.length !== 31) throw new Error(`Expected 31 Halifax Schedule A rows, found ${listings.length}.`);
-  const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-  if (pidCount !== 32) throw new Error(`Expected 32 Halifax Schedule A PIDs, found ${pidCount}.`);
+  assertCurrentScheduleCounts(listings);
   const receipt = { ...landing, ...tender, listings };
   const current = currentSource ? JSON.parse(currentSource) : null;
   const snapshot = buildSnapshot(current, receipt, tenderBytes, scheduleBytes);

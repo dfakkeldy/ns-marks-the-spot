@@ -2,7 +2,7 @@ import type { TaxSaleEvent } from "./taxSaleTypes";
 import middletonTaxSaleSnapshot from "./middletonTaxSale.snapshot.json";
 
 export const MIDDLETON_TAX_SALE_DATASET_SHA256 =
-  "de851169cf38c179ba9fc82012a36907dd99632f74d58f11e01d72d32f09dac6";
+  "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13";
 
 const MIDDLETON_EVENT_ID = "middleton-2026-08-20";
 
