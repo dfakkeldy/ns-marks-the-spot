@@ -273,25 +273,30 @@ enum UserMapImporter {
         // turn the original's dimensions have turned with them, and a record
         // keeping the stored pair would scale every control point the user
         // places through a size the picture does not have.
-        let quarterTurned = honouringOrientation && Self.isQuarterTurn(
-            orientation(of: source, at: chosen)
+        //
+        // Measured off the thumbnail rather than read from an Orientation tag,
+        // because a TIFF carries one tag per image and the overview chosen here
+        // is often not the image the tag is on. Reading index 0's tag while
+        // decoding index 2's pixels swaps the recorded size for a picture that
+        // was never turned. Whichever image was decoded, its own shape says
+        // whether the decode turned it.
+        let quarterTurned = Self.isQuarterTurn(
+            decoded: image, stored: sizes[chosen]
         )
         let size = quarterTurned
             ? PixelSize(width: base.height, height: base.width) : base
         return (image, size)
     }
 
-    /// The TIFF/EXIF orientation of one image in a file, or 1 when it says
-    /// nothing — which is what an unoriented file means.
-    private static func orientation(of source: CGImageSource, at index: Int) -> Int {
-        let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil)
-            as? [CFString: Any]
-        return properties?[kCGImagePropertyOrientation] as? Int ?? 1
-    }
-
-    /// The four TIFF orientations that exchange the axes. Values 5 to 8 are the
-    /// ones that involve a 90° turn; 1 to 4 only flip.
-    private static func isQuarterTurn(_ orientation: Int) -> Bool {
-        (5...8).contains(orientation)
+    /// Whether decoding exchanged the image's axes.
+    ///
+    /// Both readings are compared rather than one being tested, because a
+    /// thumbnail is scaled and its aspect never matches the stored one exactly.
+    /// The question is only which of the two possible aspects it is nearer.
+    private static func isQuarterTurn(decoded: CGImage, stored: PixelSize) -> Bool {
+        guard stored.width > 0, stored.height > 0, decoded.height > 0 else { return false }
+        let thumbnail = Double(decoded.width) / Double(decoded.height)
+        let upright = stored.width / stored.height
+        return abs(thumbnail - upright) > abs(thumbnail - 1 / upright)
     }
 }

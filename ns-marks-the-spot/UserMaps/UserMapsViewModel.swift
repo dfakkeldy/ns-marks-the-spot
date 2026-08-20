@@ -85,6 +85,16 @@ final class UserMapsViewModel {
     /// read it, or for a support answer that recovers it.
     private(set) var isLibrarySealed = false
 
+    /// The library as the disk last confirmed it.
+    ///
+    /// What an undone change is undone *to*. Remembering instead the record
+    /// each edit found in front of it looks equivalent and is not: two edits to
+    /// one sheet can overlap, and the second finds what the first put there
+    /// rather than what was saved. Undoing both then leaves the sheet on the
+    /// first edit, which never reached the disk either, while the panel says
+    /// the change was undone.
+    private var saved: [UserMapRecord] = []
+
     private let store: UserMapStore
 
     init(store: UserMapStore = UserMapStore()) {
@@ -101,6 +111,32 @@ final class UserMapsViewModel {
         let records: [UserMapRecord]
         do {
             records = try await store.load()
+        } catch UserMapStore.StoreRefusal.unreadable {
+            // Damaged at this build's own version, which the store establishes
+            // by reading the format number before anything else. There is no
+            // later build coming to read this file, so sealing would take the
+            // user's maps away and never give them back: the panel would refuse
+            // every import for the life of the install, and only deleting the
+            // app would clear it. The file is moved aside instead, never
+            // deleted, and a new library starts.
+            rows = []
+            // Sealed only if it could not even be moved, which leaves the
+            // unreadable file in place and every write still dangerous.
+            let moved = try? await store.setAsideDamagedLibrary()
+            isLibrarySealed = moved == nil
+            notices = [
+                Notice(
+                    id: "library",
+                    name: "Your maps",
+                    message: moved == nil ? sealedMessage : """
+                        Your saved maps could not be read, so they have been \
+                        set aside and a new library started. Nothing was \
+                        deleted: the maps are still on this device.
+                        """,
+                    isRefusal: true
+                ),
+            ]
+            return
         } catch {
             // A library this build cannot read is left exactly as it is, and
             // the fact is remembered. Empty rows are not enough on their own:
@@ -119,6 +155,7 @@ final class UserMapsViewModel {
             return
         }
         isLibrarySealed = false
+        saved = records
         rows = records.map {
             Row(record: $0, isVisible: true, opacity: 1, preview: nil)
         }
@@ -160,6 +197,14 @@ final class UserMapsViewModel {
         do {
             let imported = try UserMapImporter.import(data: data, id: id, name: name)
             try await store.writePreview(imported.preview, id: id)
+            // Checked again, because the seal can go up while this file was
+            // decoding. `load()` reads the library across an await, so an
+            // import started before it finished passes the check at the top of
+            // this function and would resume afterwards to write its single map
+            // over a library the app had meanwhile refused to read. The preview
+            // just written is left where it is: the next load that succeeds
+            // sweeps it, which is what the sweep is for.
+            guard !isLibrarySealed else { return refuseWhileSealed() }
             rows.append(
                 Row(
                     record: imported.record, isVisible: true, opacity: 1,
@@ -178,6 +223,7 @@ final class UserMapsViewModel {
             // the last one applied.
             do {
                 try await store.save(rows.map(\.record))
+                saved = rows.map(\.record)
             } catch {
                 rows.removeAll { $0.id == id }
                 throw error
@@ -234,7 +280,6 @@ final class UserMapsViewModel {
               let metadata = rows[index].record.pdf,
               let candidate = metadata.candidates.first(where: { $0.id == candidateID })
         else { return }
-        let restore = rows[index].record
         rows[index].record.sourceRect = candidate.sourceRect
         rows[index].record.placement = .controlPoints(
             UserMapImporter.controlPoints(of: candidate), method: .affine
@@ -255,7 +300,7 @@ final class UserMapsViewModel {
                 )
             )
         )
-        await save(rows[index].record.name, restoring: restore, at: id)
+        await save(rows[index].record.name, at: id)
     }
 
     /// Writes the library, and puts the record back if the device would not
@@ -265,11 +310,17 @@ final class UserMapsViewModel {
     /// on screen, the editor closes, and the work is gone at the next launch
     /// with nothing having looked wrong. Reverting keeps what is drawn and what
     /// is stored the same thing, and says so.
-    private func save(_ name: String, restoring record: UserMapRecord, at id: String) async {
+    private func save(_ name: String, at id: String) async {
         do {
             try await store.save(rows.map(\.record))
+            saved = rows.map(\.record)
         } catch {
-            if let index = rows.firstIndex(where: { $0.id == id }) {
+            // Everything goes back, not only the record this call was told
+            // about: a failed write leaves the whole document unwritten, and
+            // any other edit still in flight is just as unsaved as this one.
+            let confirmed = Dictionary(uniqueKeysWithValues: saved.map { ($0.id, $0) })
+            for index in rows.indices {
+                guard let record = confirmed[rows[index].id] else { continue }
                 rows[index].record = record
             }
             notices = [
@@ -332,7 +383,6 @@ final class UserMapsViewModel {
     func place(id: String, controlPoints: [SessionControlPoint], method: GeoreferenceMethod) async {
         guard !isLibrarySealed else { return }
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
-        let restore = rows[index].record
         // Points that actually moved mark the record as the user's work, so
         // switching to another frame later asks before replacing it. Compared
         // rather than assumed: the georeferencer saves on a close as well as on
@@ -343,7 +393,7 @@ final class UserMapsViewModel {
             rows[index].record.pdf = rows[index].record.pdf?.markingAdjusted()
         }
         rows[index].record.placement = .controlPoints(controlPoints, method: method)
-        await save(rows[index].record.name, restoring: restore, at: id)
+        await save(rows[index].record.name, at: id)
     }
 
     func delete(id: String) async {
@@ -353,6 +403,7 @@ final class UserMapsViewModel {
         ) else { return }
         let kept = Set(remaining.map(\.id))
         rows.removeAll { !kept.contains($0.id) }
+        saved = remaining
     }
 
     /// What the map should be drawing, in panel order.

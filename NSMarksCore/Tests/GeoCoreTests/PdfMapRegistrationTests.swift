@@ -119,33 +119,36 @@ struct PdfMeasureRegistrationTests {
         #expect(extraction.rejected.first?.reason == .invalid)
     }
 
-    @Test("Page units written where fractions belong are refused")
-    func localPointsMustBeFractionsOfTheBBox() {
-        // `LPTS` is defined as fractions of the BBox. A producer writing page
-        // units — 100 where it meant 0.1 — leaves a registration nothing
-        // downstream can tell from a correct one: the three points are well
-        // separated, they solve to a clean affine, and every ground point is in
-        // Nova Scotia. The sheet is then placed by extrapolating a hundred page
-        // widths out from them, and draws with total confidence on ground it
-        // has never been near.
+    @Test("A rotated frame whose corners run past its own BBox is kept")
+    func localPointsMayLeaveTheUnitSquare() {
+        // The values, the BBox and the page size are the web's regression
+        // fixture in `geoPdfMetadata.test.ts`, taken from a USGS quadrangle
+        // whose map frame is rotated about a degree inside its viewport. Every
+        // corner of a rotated frame sticks out past the box on one side or
+        // another, so `LPTS` runs from -0.02238 to 1.02238. This is what an
+        // ordinary georeferenced sheet looks like, and refusing it would send
+        // the user to place by hand a map that told us where it sits.
         let page = measurePage(
-            lpts: [100, 100, 101, 100, 100, 101],
-            gpts: [44.6, -63.7, 44.7, -63.6, 44.8, -63.5]
+            lpts: [
+                0.00032, 1.01537,
+                -0.02238, 0.00035,
+                0.99968, -0.01537,
+                1.02238, 0.99965,
+            ],
+            gpts: [
+                42.85448, -70.65044,
+                43.01304, -70.65468,
+                43.01551, -70.47446,
+                42.85693, -70.47068,
+            ],
+            bbox: [10.79975, 2088, 1708.16044, 38.69368]
         )
-        let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
-        #expect(extraction.candidates.isEmpty)
-        #expect(extraction.rejected.first?.reason == .invalid)
-    }
-
-    @Test("Rounding at the edges of the BBox is still a registration")
-    func fractionsMayRoundPastTheEdge() {
-        // The check above is for a different unit, not for a file whose corner
-        // came back as 1.0000001 from someone else's arithmetic.
-        let page = measurePage(lpts: [-0.0000001, 0, 0, 1.0000001, 1, 1, 1, 0])
-        #expect(
-            PdfMapRegistration.candidates(page: page, viewport: viewport())
-                .candidates.count == 1
+        let extraction = PdfMapRegistration.candidates(
+            page: page, viewport: viewport(width: 1728, height: 2088)
         )
+        #expect(extraction.rejected.isEmpty)
+        #expect(extraction.candidates.count == 1)
+        #expect(extraction.candidates.first?.gcps.count == 4)
     }
 
     @Test("Fewer than three pairs is not a registration")

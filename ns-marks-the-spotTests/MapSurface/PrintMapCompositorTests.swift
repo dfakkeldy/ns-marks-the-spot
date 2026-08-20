@@ -321,6 +321,46 @@ nonisolated struct PrintMapCompositorTests {
         #expect(Set(down.map { $0 ?? false }).count == 1)
     }
 
+    /// North is at the top of the page.
+    ///
+    /// Neither test above can show this. Vertical stripes stay vertical when
+    /// the rows are reversed, and a page turned upside down has the same four
+    /// corners on the same four coordinates as one the right way up, so every
+    /// extent still checks out. The only thing that tells them apart is which
+    /// ground the ink at the top of the sheet came from.
+    ///
+    /// It matters more here than anywhere else in the app: the export is what
+    /// a user carries into the field, and a mirrored one sends them the wrong
+    /// way up a road with a map that agrees with itself.
+    @Test func theNorthOfTheFrameIsAtTheTopOfThePage() async throws {
+        let rows = Tally()
+        let output = try await Self.compose(layers: [Self.layer("parcels")]) { _, path in
+            rows.add(path.y)
+            return (Self.tile(path.y.isMultiple(of: 2) ? .red : .blue), .served, .source)
+        }
+        // Web Mercator tile y counts southward, so the smallest one asked for
+        // is the row of squares covering the north edge of the frame.
+        let northmost = try #require(rows.smallest)
+        #expect(rows.distinct > 1)
+
+        func reddish(_ x: Double, _ y: Double) -> Bool? {
+            guard let sample = Self.colour(CGPoint(x: x, y: y), in: output.jpeg) else {
+                return nil
+            }
+            return sample.red > sample.blue
+        }
+        // Horizontal stripes this time, which is the transpose check the other
+        // way round.
+        let across = stride(from: 5.0, to: 600, by: 5).map { reddish($0, 200) }
+        let down = stride(from: 5.0, to: 400, by: 5).map { reddish(300, $0) }
+        #expect(Set(across.map { $0 ?? false }).count == 1)
+        #expect(Set(down.map { $0 ?? false }).count == 2)
+
+        // And the band at the top of the page is the northern one. Reverse the
+        // rows and this is the assertion that fails.
+        #expect(reddish(300, 4) == northmost.isMultiple(of: 2))
+    }
+
     /// Opacity is the user's answer to "how much of what is underneath do I
     /// still need to see", and a page that ignored it would hide the very
     /// thing they set it to keep.
@@ -480,6 +520,10 @@ private nonisolated final class Tally: @unchecked Sendable {
 
     var distinct: Int {
         lock.withLock { seen.count }
+    }
+
+    var smallest: Int? {
+        lock.withLock { seen.min() }
     }
 }
 

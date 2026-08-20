@@ -355,3 +355,95 @@ struct PdfMapImportTests {
         #expect(points.allSatisfy { $0.id.hasPrefix(frameID) })
     }
 }
+
+/// A registered page that is also rotated.
+///
+/// Assembled by hand because there is no other way to get one. `PdfComposer`
+/// never writes `/Rotate`, and PDFKit, which can set it, drops the `/VP`
+/// registration when it rewrites the file. Five objects and an xref table is
+/// less machinery than either alternative.
+private func rotatedRegisteredPdf(rotation: Int, width: Int = 400, height: Int = 200) -> Data {
+    // The map is north-up in the page's own space, whatever `/Rotate` then asks
+    // a reader to do with the sheet. Ink fills the page's top-left quarter,
+    // which is the north-west of the ground below it. `LPTS` names the BBox
+    // corners anticlockwise from the bottom left, and `GPTS` answers each with
+    // the ground there.
+    let content = "0 0 0 rg 0 \(height / 2) \(width / 2) \(height / 2) re f\n"
+    let objects = [
+        "<< /Type /Catalog /Pages 2 0 R >>",
+        "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+        """
+        << /Type /Page /Parent 2 0 R /MediaBox [0 0 \(width) \(height)] \
+        /Rotate \(rotation) /Contents 4 0 R /VP [ << /Type /Viewport \
+        /BBox [0 0 \(width) \(height)] /Name (Sheet) /Measure << /Type /Measure \
+        /Subtype /GEO /GCS << /Type /GEOGCS /EPSG 4326 >> \
+        /LPTS [0 0 0 1 1 1 1 0] \
+        /GPTS [44.60 -63.70 44.70 -63.70 44.70 -63.50 44.60 -63.50] >> >> ] >>
+        """,
+        "<< /Length \(content.utf8.count) >>\nstream\n\(content)endstream",
+    ]
+
+    var bytes = Data("%PDF-1.7\n".utf8)
+    var offsets = [Int]()
+    for (index, body) in objects.enumerated() {
+        offsets.append(bytes.count)
+        bytes.append(Data("\(index + 1) 0 obj\n\(body)\nendobj\n".utf8))
+    }
+    let startxref = bytes.count
+    var table = "xref\n0 \(objects.count + 1)\n0000000000 65535 f \n"
+    for offset in offsets {
+        table += String(format: "%010d 00000 n \n", offset)
+    }
+    table += "trailer\n<< /Size \(objects.count + 1) /Root 1 0 R >>\n"
+    table += "startxref\n\(startxref)\n%%EOF\n"
+    bytes.append(Data(table.utf8))
+    return bytes
+}
+
+@Suite("A page that asks to be turned before it is read")
+struct RotatedPdfPageTests {
+    private static let bounds = GeoBoundingBox(
+        south: 44.60, west: -63.70, north: 44.70, east: -63.50
+    )
+
+    /// The rotation branch, measured rather than derived.
+    ///
+    /// The reader turns the page, and separately writes a viewport transform
+    /// that has to describe the pixels that turn produced. Nothing else checks
+    /// the two against each other: the existing rotation tests do corner
+    /// arithmetic on `drawingTransform` alone, and corners survive a page being
+    /// turned the wrong way or coming out mirrored. Here the same quarter of
+    /// the same map is drawn four times and asked where it landed. All four
+    /// answers have to be the same piece of ground, because they are.
+    @Test("However the page is turned, the ink is on the same ground", arguments: [0, 90, 180, 270])
+    func aTurnedPageStillRegistersToItsOwnGround(rotation: Int) throws {
+        let read = try PdfMapReader.read(rotatedRegisteredPdf(rotation: rotation))
+        guard case .automatic(let candidate) =
+            PdfMapRegistration.selection(of: read.extraction)
+        else {
+            Issue.record("a page turned \(rotation)° was not read as georeferenced")
+            return
+        }
+        let transform = try #require(AffineFit.solve(controlPoints: candidate.gcps))
+        let data = try #require(read.image.dataProvider?.data)
+        let bytes = try #require(CFDataGetBytePtr(data))
+
+        let stride = read.image.bytesPerRow
+        let pixel = read.image.bitsPerPixel / 8
+        var sumX = 0.0, sumY = 0.0, count = 0.0
+        for y in 0..<read.image.height {
+            for x in 0..<read.image.width where bytes[y * stride + x * pixel] < 128 {
+                sumX += Double(x)
+                sumY += Double(y)
+                count += 1
+            }
+        }
+        try #require(count > 0, "a page turned \(rotation)° came out blank")
+
+        let here = WebMercator.unproject(
+            transform.apply(x: sumX / count, y: sumY / count)
+        )
+        #expect(here.lat > (Self.bounds.north + Self.bounds.south) / 2)
+        #expect(here.lng < (Self.bounds.east + Self.bounds.west) / 2)
+    }
+}

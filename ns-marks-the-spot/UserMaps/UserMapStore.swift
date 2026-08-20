@@ -60,17 +60,32 @@ actor UserMapStore {
         return directory.appendingPathComponent("\(id).png")
     }
 
+    /// Just the format number, read on its own before anything else.
+    ///
+    /// A newer build is free to change what a record looks like, and then this
+    /// build's decode of the whole document fails on the records rather than on
+    /// the version. Read in that order the two cases are indistinguishable, and
+    /// they call for opposite things: a later version's document must be left
+    /// exactly as it is, while a damaged one must not lock the user out for
+    /// good. The version is the one field that is promised never to move.
+    private struct LibraryStamp: Decodable {
+        var version: Int
+    }
+
     func load() throws -> [UserMapRecord] {
         guard fileManager.fileExists(atPath: libraryURL.path) else { return [] }
         let data = try Data(contentsOf: libraryURL)
+        guard let stamp = try? decoder.decode(LibraryStamp.self, from: data) else {
+            throw StoreRefusal.unreadable
+        }
+        guard UserMapLibrary(version: stamp.version, maps: []).isReadable else {
+            throw StoreRefusal.fromALaterVersion(stamp.version)
+        }
         let library: UserMapLibrary
         do {
             library = try decoder.decode(UserMapLibrary.self, from: data)
         } catch {
             throw StoreRefusal.unreadable
-        }
-        guard library.isReadable else {
-            throw StoreRefusal.fromALaterVersion(library.version)
         }
         return library.maps
     }
@@ -79,6 +94,38 @@ actor UserMapStore {
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
         let data = try encoder.encode(UserMapLibrary(maps: maps))
         try data.write(to: libraryURL, options: .atomic)
+    }
+
+    /// Moves a library this build cannot decode out of the way, with the
+    /// pixels that belong to it, so a new one can be started.
+    ///
+    /// Moved, never deleted. The document is the only record of where the user
+    /// placed every sheet by hand, which can be hours of their work, and the
+    /// previews beside it are the only copy of the pixels: this app does not
+    /// keep the file they imported. A folder that is still on the device is one
+    /// a later build or a support answer can recover.
+    ///
+    /// The whole folder rather than the one file, because the previews left
+    /// behind would belong to no record any more, and the next successful load
+    /// sweeps exactly those away. Set aside together they stay a library.
+    ///
+    /// Only for a document whose own version says this build should have been
+    /// able to read it. Moving a later version's library aside would hide the
+    /// maps the newer build is holding.
+    @discardableResult
+    func setAsideDamagedLibrary() throws -> URL {
+        let parent = directory.deletingLastPathComponent()
+        let stem = "\(directory.lastPathComponent)-damaged"
+        var destination = parent.appendingPathComponent(stem, isDirectory: true)
+        var attempt = 2
+        while fileManager.fileExists(atPath: destination.path), attempt < 100 {
+            destination = parent.appendingPathComponent(
+                "\(stem)-\(attempt)", isDirectory: true
+            )
+            attempt += 1
+        }
+        try fileManager.moveItem(at: directory, to: destination)
+        return destination
     }
 
     /// Stores a preview beside the library, as PNG.
