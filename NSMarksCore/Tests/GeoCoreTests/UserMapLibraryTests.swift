@@ -126,3 +126,100 @@ struct UserMapLibraryTests {
         }
     }
 }
+
+/// A PDF import, once it is a file on somebody's phone.
+///
+/// The registration is the only part of a record that says what the *app*
+/// decided rather than what the user did, so it is the part that has to survive
+/// a relaunch unchanged: a chosen frame that came back as "choose a frame"
+/// would ask the user to place a sheet they already placed, and an embedded
+/// frame that came back as manual would quietly unplace a map that was right.
+@Suite("Saving what a PDF import came to")
+struct UserMapPdfRecordTests {
+    private static let encoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        return encoder
+    }()
+
+    private static let candidates = [
+        PdfMapRegistration.Candidate(
+            id: "measure-direct-0",
+            flavour: .measure,
+            label: "Main sheet",
+            sourceRect: PixelRect(x: 0, y: 0, width: 2000, height: 1600),
+            gcps: [
+                GroundControlPoint(
+                    pixel: PixelPoint(x: 0, y: 0), map: GeoPoint(lat: 45.1, lng: -64.4)
+                ),
+                GroundControlPoint(
+                    pixel: PixelPoint(x: 2000, y: 1600),
+                    map: GeoPoint(lat: 45.0, lng: -64.2)
+                ),
+            ]
+        ),
+        PdfMapRegistration.Candidate(
+            id: "lgiDict-direct-1",
+            flavour: .lgiDict,
+            label: nil,
+            sourceRect: PixelRect(x: 1500, y: 1200, width: 400, height: 300),
+            gcps: []
+        ),
+    ]
+
+    private static func record(_ registration: PdfImportMetadata.Registration) -> UserMapRecord {
+        UserMapRecord(
+            id: "pdf-1", name: "County sheet",
+            pixelSize: PixelSize(width: 2000, height: 1600),
+            placement: .controlPoints([], method: .affine),
+            pdf: PdfImportMetadata(pageCount: 12, registration: registration)
+        )
+    }
+
+    @Test("Every registration state comes back as the state it was")
+    func eachStateRoundTrips() throws {
+        for registration in [
+            PdfImportMetadata.Registration.embedded(
+                frameID: "measure-direct-0", label: "Main sheet", candidates: Self.candidates
+            ),
+            .selectionRequired(Self.candidates),
+            .manual(.unsupportedCrs),
+        ] {
+            let saved = Self.record(registration)
+            let data = try Self.encoder.encode(UserMapLibrary(maps: [saved]))
+            let decoded = try JSONDecoder().decode(UserMapLibrary.self, from: data)
+            #expect(decoded.maps == [saved])
+        }
+    }
+
+    @Test("The states are named on disk, so renaming a case has to be deliberate")
+    func theFormatIsPinned() throws {
+        let json = try #require(
+            String(
+                data: Self.encoder.encode(
+                    Self.record(.manual(.unsupportedCrs)).pdf
+                ),
+                encoding: .utf8
+            )
+        )
+        #expect(json.contains("\"kind\":\"manual\""))
+        #expect(json.contains("\"reason\":\"unsupported-crs\""))
+    }
+
+    @Test("A library saved before PDFs could be imported still opens")
+    func anOlderLibraryStillOpens() throws {
+        // The field was added to a format that was already on phones. A record
+        // written without it has to decode, or the panel comes up empty and the
+        // user's maps read as thrown away.
+        let json = Data(
+            """
+            {"version":1,"maps":[{"id":"a1","name":"Scan","pixelSize":\
+            {"width":100,"height":80},"placement":{"kind":"controlPoints",\
+            "controlPoints":[],"method":"affine"}}]}
+            """.utf8
+        )
+        let library = try JSONDecoder().decode(UserMapLibrary.self, from: json)
+        #expect(library.maps.count == 1)
+        #expect(library.maps[0].pdf == nil)
+    }
+}

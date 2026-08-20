@@ -10,7 +10,9 @@ import Foundation
 /// a different claim about the ground under the drape, so each is written down.
 public struct PdfImportMetadata: Hashable, Sendable, Codable {
     /// Which frame, if any, places the sheet.
-    public enum Registration: Hashable, Sendable, Codable {
+    /// Coded by hand in `UserMapLibrary.swift`, beside the other conformances
+    /// that are a file format rather than an implementation detail.
+    public enum Registration: Hashable, Sendable {
         /// Placed from the file's own coordinates. The frame that was used, and
         /// the others that were not — a user who suspects the wrong frame was
         /// chosen can switch to another without re-importing.
