@@ -43,11 +43,17 @@ nonisolated enum QRCodeModules {
         ) else { return nil }
         context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
 
-        // Core Graphics hands back the bottom row first; the composer wants the
-        // top row first, which is how a QR reader sees the code.
+        // Row order straight through. A bitmap context's first row of memory
+        // is the top of the image, so the grid is already in the order the
+        // composer wants. Turning it over here — which is the reflex, because
+        // the context's *y* does count upwards — mirrors the code: the three
+        // finder squares come out at top-left, bottom-left and bottom-right
+        // instead of top-left, top-right and bottom-left. Apple's own detector
+        // reads a mirrored QR, so a round-trip test passes either way; a phone
+        // camera on the printed page mostly does not.
         let grid = (0..<height).map { row in
             (0..<width).map { column in
-                pixels[(height - row - 1) * width + column] < 128
+                pixels[row * width + column] < 128
             }
         }
         return trimmed(grid)

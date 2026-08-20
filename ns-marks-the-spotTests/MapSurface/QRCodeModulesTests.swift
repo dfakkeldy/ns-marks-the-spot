@@ -33,6 +33,40 @@ struct QRCodeModulesTests {
         #expect(modules[0][7] == false)
     }
 
+    /// Which way up the grid is, measured rather than assumed.
+    ///
+    /// A QR carries exactly three finder squares: top-left, top-right and
+    /// bottom-left. The empty fourth corner is the only thing in the code that
+    /// tells the two vertical orientations apart, and it is the reason a
+    /// mirrored grid has to be caught here. Encoding the link and decoding it
+    /// again does not catch it: Apple's own detector reads a mirrored code
+    /// quite happily, so that round trip passes whichever way up the grid is.
+    /// A phone camera pointed at the printed page mostly does not.
+    @Test func theThreeFinderSquaresSitInTheCornersAQrReaderLooksIn() throws {
+        let modules = try #require(QRCodeModules.modules(for: Self.link))
+        let last = modules.count - 7
+
+        #expect(Self.holdsAFinder(modules, row: 0, column: 0))
+        #expect(Self.holdsAFinder(modules, row: 0, column: last))
+        #expect(Self.holdsAFinder(modules, row: last, column: 0))
+        #expect(Self.holdsAFinder(modules, row: last, column: last) == false)
+    }
+
+    /// The seven-by-seven finder square: a dark border, a light ring inside it,
+    /// a three-by-three dark core.
+    private static func holdsAFinder(_ modules: [[Bool]], row: Int, column: Int) -> Bool {
+        for down in 0..<7 {
+            for across in 0..<7 {
+                let onBorder = down == 0 || down == 6 || across == 0 || across == 6
+                let inCore = (2...4).contains(down) && (2...4).contains(across)
+                if modules[row + down][column + across] != (onBorder || inCore) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
     @Test func theSameLinkAlwaysEncodesTheSameWay() throws {
         let first = try #require(QRCodeModules.modules(for: Self.link))
         let second = try #require(QRCodeModules.modules(for: Self.link))
