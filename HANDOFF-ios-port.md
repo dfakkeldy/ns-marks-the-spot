@@ -1154,3 +1154,39 @@ on claude/ios-web-map-parity-2de228. Run
 then read each bundle under .build/focused-tests with
 xcrun xcresulttool get test-results tests --path <bundle>.
 ```
+
+## 2026-08-20 — QR mirror fixed, review 5 triaged, gated run started
+
+Done: found and fixed a mirrored print QR. `QRCodeModules` turned the grid
+over leaving Core Image, so every printed code carried its finder squares at
+top-left, bottom-left and bottom-right. Nothing caught it because the old test
+checked only the top-left corner, which survives a vertical mirror, and because
+Apple's `CIDetector` reads a mirrored code either way (measured: both
+orientations "READS BACK"). The new test asserts the empty fourth corner.
+
+Codex review 5 returned nine findings against 628cd7033. One (`saved` rebuilt
+from `rows` after the await) was already fixed in 594a5e679. Six accepted and
+landed in aa6779155: the later-version seal moved into the store actor, a
+reload no longer applied over a newer write, the sweep reads the library
+itself, version <= 0 reclassified as damage, set-aside made idempotent, and the
+importer's quarter turn measured against the primary rather than the decoded
+overview. Two rejected with reasons: the parent-directory permission case (the
+app's own Application Support is writable by construction, and the fallback is
+already safe), and the LPTS magnitude gap, which the web shares by the same
+code path — spawned as a separate task against the web contract.
+
+Every fix was A/B'd through the gate-free simulator probe before it was
+accepted. The seal race fails 3/3 with the store guard removed; the old
+per-edit rollback strands 44.80 4/4; the four PDF rotations measure
+4096x2048/2048x4096 with the ink at 0.25/0.75 as expected.
+
+Next: read the gated bundles. Run started 09:01 on aa6779155.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228. Read each bundle under
+.build/focused-tests with
+xcrun xcresulttool get test-results tests --path <bundle>
+(Swift Testing Issue.record messages never reach the xcodebuild console).
+```

@@ -23,7 +23,40 @@ set -u
 ROOT=${0:a:h:h}
 OUT=$ROOT/.build/focused-tests
 DERIVED=$OUT/DerivedData
-DEST='platform=iOS Simulator,name=iPhone 17 Pro'
+
+# The simulator is looked up rather than named. A hard-coded name goes stale
+# whenever Xcode ships a new device set, and the way that showed was
+# "Unable to find a device matching the provided destination specifier" after
+# the build gate had already spent an admission on the run. Resolved by id,
+# newest iPhone first, a renamed device costs nothing.
+UDID=$(xcrun simctl list devices available -j | python3 -c '
+import json, sys
+runtimes = json.load(sys.stdin)["devices"]
+best = None
+for runtime, devices in runtimes.items():
+    if "iOS" not in runtime:
+        continue
+    for device in devices:
+        name = device["name"]
+        if not name.startswith("iPhone"):
+            continue
+        try:
+            model = int(name.split()[1])
+        except (IndexError, ValueError):
+            continue
+        rank = (model, device["state"] == "Booted", name)
+        if best is None or rank > best[0]:
+            best = (rank, device["udid"], name)
+if best is None:
+    sys.exit(1)
+print(best[1], best[2])
+')
+if [[ -z ${UDID:-} ]]; then
+  print -u2 "no iOS simulator is available to run on"
+  exit 1
+fi
+print "=== running on ${UDID#* } (${UDID%% *})"
+DEST="platform=iOS Simulator,id=${UDID%% *}"
 
 # Every top-level type in the test target that holds at least one `@Test`.
 # Helper types — builders, fixtures — carry none and are left out, because
