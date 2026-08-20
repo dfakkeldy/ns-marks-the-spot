@@ -2,7 +2,7 @@ import type { TaxSaleEvent } from "./taxSaleTypes";
 import victoriaTaxSaleSnapshot from "./victoriaTaxSale.snapshot.json";
 
 export const VICTORIA_TAX_SALE_DATASET_SHA256 =
-  "d2444c096300054cdcf53e9b74dbede0c108da6bb9acea50bb80b773cd4d9b43";
+  "4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467";
 
 const VICTORIA_EVENT_ID = "victoria-county-2026-09-14";
 

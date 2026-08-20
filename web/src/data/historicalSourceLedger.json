@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-08-08",
+  "retrievedOn": "2026-08-20",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -588,6 +588,22 @@
       "fieldsAvailable": ["AAN", "PID", "description", "winning bid", "NO BIDS"],
       "officialWinningBidsFound": true,
       "notes": "The two-page official result PDF identifies 17 owner-free rows: 11 print numeric winning bids and 6 print NO BIDS. The current municipal landing page no longer links the matching pre-sale notice or any advertised amount, so the result cannot be reconciled against notice fields and does not satisfy the public historical model's positive advertised-amount contract. No row is promoted into the map dataset."
+    },
+    {
+      "municipality": "Town of Middleton",
+      "event": "August 20, 2026 property tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.discovermiddleton.ca/property-tax-sale-information",
+        "https://web.archive.org/web/20260820200525id_/https://www.discovermiddleton.ca/property-tax-sale-information"
+      ],
+      "documentSha256": [
+        "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13",
+        "d81652aee056a28dc013741a0b9f6d13e82df0305099a8ba6639240b5655b982"
+      ],
+      "fieldsAvailable": ["notice AAN", "notice PID", "property description", "opening bid", "successful bid", "REMOVED"],
+      "officialWinningBidsFound": false,
+      "notes": "2 exact-PID notice rows were reconciled by unique official property description and both print NO BID. 7 additional rows print REMOVED without parcel identifiers and remain outside the map dataset. The result identity column was discarded before ingestion."
     }
   ]
 }

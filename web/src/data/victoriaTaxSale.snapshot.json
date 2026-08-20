@@ -3,35 +3,24 @@
   "municipality": "Municipality of the County of Victoria",
   "source": "https://victoriacounty.com/property-tax-sale-notice/",
   "landingPage": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
-  "retrievedDate": "2026-08-15",
+  "retrievedDate": "2026-08-20",
   "publishedOn": "2026-08-13",
-  "sourceFactsSha256": "384263a9a3e1ee8e1797d1a10535113ea3fc7ffe009680f91053dc5e2c721755",
+  "sourceFactsSha256": "a2f2808c2246a027ffe045f75efdeac2ccb24a55991f93015ecbb2fab89018d0",
   "sourceHashPolicy": "The overwrite-prone official HTML contains assessed-owner names. This receipt hashes normalized owner-free event and row facts; the external Wayback receipt preserves the full official page bytes before ingestion.",
   "archiveReceipt": {
-    "timestamp": "20260815200820",
-    "url": "https://web.archive.org/web/20260815200820id_/https://victoriacounty.com/property-tax-sale-notice/",
-    "sha256": "5e55ee85b2c8f56f78b1162c4e4f25c07e3c6ef420a3bbee94ba3b0886c99895"
+    "timestamp": "20260819200343",
+    "url": "https://web.archive.org/web/20260819200343id_/https://victoriacounty.com/property-tax-sale-notice/",
+    "sha256": "df7b7fb25d8853863cdcd2923069e714283c30228fda4708e9e095632db3cfdc"
   },
   "ownerNamesExcluded": true,
   "eventDate": "2026-09-14",
   "bidDeadlineTime": "12:00",
   "venue": "Municipal Administration Building, 495 Chebucto Street, Baddeck, NS B0E 1B0",
   "sourceRowCount": 9,
-  "opaqueRemovedRowCount": 1,
-  "listingCount": 8,
-  "parcelIdentifierCount": 8,
+  "opaqueRemovedRowCount": 2,
+  "listingCount": 7,
+  "parcelIdentifierCount": 7,
   "listings": [
-    {
-      "item": 2,
-      "aan": "01510347",
-      "pids": [
-        "85057701"
-      ],
-      "description": "30 Courtney Rd., Cape North, Land/Dwelling/Building, 21,780 Sq. Feet +/-",
-      "redeemable": true,
-      "totalOwingCents": 289364,
-      "listingStatus": "advertised"
-    },
     {
       "item": 3,
       "aan": "01511165",

@@ -498,8 +498,8 @@ covers several parcels, so listing-level amounts are never allocated by the UI.
 Filters derive matched PID sets by municipality, year, and outcome without
 altering the upcoming-notice layer.
 
-The supported slice spans nine municipalities and carries 24 events, 481
-owner-free records, and 459 matched PIDs. Halifax Regional Municipality
+The supported slice spans ten municipalities and carries 25 events, 483
+owner-free records, and 461 matched PIDs. Halifax Regional Municipality
 contributes seven tender events
 (March 8, 2022 through September 16, 2025) with 87 records and 93 exact official
 PIDs. Victoria County, Cumberland County, and the two CBRM sales add
@@ -510,6 +510,9 @@ Pictou rows printed `Removed`, retained as withdrawn without a selling price.
 Queens adds 16 account-coordinate-reconciled records. Clare adds 16 exact-PID
 records from a notice/result pair, preserving later redemptions and a
 buyer-forfeiture contradiction without completed-sale winning-bid claims.
+Middleton adds two exact-PID records whose unique official descriptions match
+result rows printed `NO BID`; seven additional `REMOVED` result rows publish no
+parcel identifier and remain opaque outside the mapped records.
 Six Municipality of the District of Lunenburg tender events (March 1, 2021
 through March 2, 2026) add 145 records whose PIDs are all derived by
 deterministic reconciliation; Lunenburg publishes winning bids only in
