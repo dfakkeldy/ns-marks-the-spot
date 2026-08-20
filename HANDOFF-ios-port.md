@@ -1128,3 +1128,29 @@ on claude/ios-web-map-parity-2de228. Next: run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 and read the per-suite bundles under .build/focused-tests/
 ```
+
+## 2026-08-20 — adversarial review 4 acted on, export chain measured end to end
+
+Done: Codex review of the orientation fix returned seven findings; all seven
+acted on in 628cd7033. The LPTS range guard was my own regression and is gone
+(the web has no such check, and its regression set has a USGS quadrangle running
+-0.02238 to 1.02238). Seal re-checked after the decode; damaged library now told
+from a newer build's by reading the format number first, and set aside rather
+than locking the user out; refused edits roll back to what disk last confirmed,
+not to what each edit found; TIFF turn measured off the decoded image instead of
+a tag that may sit on another subimage. Two weak tests strengthened, and the
+last two untested links in the export chain measured: a hand-built /Rotate page
+through PdfMapReader (all four rotations put the same quarter on the same
+ground), and PrintMapCompositor (the exported page is north-up).
+
+Next: run the gated app-target suites. The gate holds until 09:00 today
+(weekday window 09:00-15:00); slot FREE, pressure 1, swapFree 1041MB.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228. Run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+then read each bundle under .build/focused-tests with
+xcrun xcresulttool get test-results tests --path <bundle>.
+```
