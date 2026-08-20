@@ -49,6 +49,18 @@ struct UserMapRowsView: View {
                 )
             }
 
+            if !viewModel.notices.isEmpty {
+                HStack {
+                    Text("Messages")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Dismiss") { viewModel.clearNotices() }
+                        .font(.caption)
+                }
+            }
+
             ForEach(viewModel.notices) { notice in
                 // Each message in its own words. They were written for the
                 // person who chose that file and they say what to do about it;
@@ -72,7 +84,14 @@ struct UserMapRowsView: View {
             Task { await load(urls) }
         }
         .sheet(item: $choosingFrame) { row in
-            PdfFrameChooser(name: row.record.name, frames: row.frames) { candidate in
+            PdfFrameChooser(
+                name: row.record.name,
+                preview: row.preview,
+                pixelSize: row.record.pixelSize,
+                frames: row.frames,
+                selectedFrameID: row.selectedFrameID,
+                replacesUserWork: row.frameChangeReplacesUserWork
+            ) { candidate in
                 Task { await viewModel.selectFrame(id: row.id, candidateID: candidate.id) }
             }
         }
@@ -90,24 +109,35 @@ struct UserMapRowsView: View {
         }
     }
 
-    /// Reads the chosen file into memory, under the security scope the picker
-    /// hands over.
+    /// Reads each chosen file into memory, under the security scope the picker
+    /// hands over, and imports it before reading the next.
     ///
     /// Read rather than referenced: the scope ends when this returns, and a
     /// record holding a URL into another app's container would be a map that
     /// worked until the user moved the file.
+    ///
+    /// One at a time, rather than reading the selection and then importing it.
+    /// A map file runs to hundreds of megabytes and the picker will hand over
+    /// as many as the user selects; holding the whole selection as `Data` is a
+    /// gigabyte resident before the first sheet is decoded, and the system ends
+    /// the app for it while every file was inside the size limit on its own.
     private func load(_ urls: [URL]) async {
-        var files = [(data: Data, name: String)]()
+        viewModel.beginImports()
         for url in urls {
+            let name = url.deletingPathExtension().lastPathComponent
             let scoped = url.startAccessingSecurityScopedResource()
-            defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-            // A file the picker handed over but the sandbox will not open —
-            // rare, and nothing here can say more about it than the picker
-            // already did.
-            guard let data = try? Data(contentsOf: url) else { continue }
-            files.append((data, url.deletingPathExtension().lastPathComponent))
+            let data = try? Data(contentsOf: url)
+            if scoped { url.stopAccessingSecurityScopedResource() }
+            guard let data else {
+                // The picker handed this over and the sandbox would not open
+                // it. Rare, and said out loud anyway: a file that silently did
+                // not arrive is a user counting their rows and wondering which
+                // of the ten they lost.
+                viewModel.reportUnreadable(name: name)
+                continue
+            }
+            await viewModel.importMap(data: data, name: name)
         }
-        await viewModel.importMaps(files)
     }
 
     private func controlPoints(of row: UserMapsViewModel.Row) -> [SessionControlPoint] {
@@ -161,6 +191,11 @@ private struct UserMapRow: View {
                 Menu {
                     if row.needsFrameSelection {
                         Button("Choose map frame…", action: onChooseFrame)
+                    } else if row.canChangeFrame {
+                        // The sheet is drawn on ground the file named, and the
+                        // user is the only one who can know it named the wrong
+                        // frame of the several the page carried.
+                        Button("Change map frame…", action: onChooseFrame)
                     }
                     Button("Place on map…", action: onPlace)
                     Button("Delete", role: .destructive, action: onDelete)
@@ -168,6 +203,16 @@ private struct UserMapRow: View {
                     Image(systemName: "ellipsis.circle")
                 }
                 .accessibilityLabel("Options for \(row.record.name)")
+            }
+
+            if let provenance = row.provenance {
+                // What placed this sheet, said in the row. Once a file-placed
+                // map and a hand-placed one are both drawn, this line is the
+                // only thing that tells them apart.
+                Text(provenance)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             if row.needsFrameSelection {
@@ -198,66 +243,138 @@ private struct UserMapRow: View {
 /// inset towns, each correctly placed on its own ground. Choosing for the user
 /// would drape one of them over the others' territory, and the result would
 /// look entirely plausible, so the page waits here instead.
+///
+/// The page itself is the chooser, with the selected frame drawn on it. A list
+/// of coordinates would be asking the user to identify a map from its corner
+/// numbers; the outline shows them which part of their own sheet they are
+/// about to place, which is the question they can actually answer.
 private struct PdfFrameChooser: View {
     let name: String
+    let preview: CGImage?
+    let pixelSize: PixelSize
     let frames: [PdfMapRegistration.Candidate]
+    let selectedFrameID: String?
+    /// Switching would replace points the user moved themselves.
+    let replacesUserWork: Bool
     let onChoose: (PdfMapRegistration.Candidate) -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @State private var chosenID: String?
+    @State private var isConfirming = false
+
+    private var chosen: PdfMapRegistration.Candidate? {
+        frames.first { $0.id == chosenID }
+    }
 
     var body: some View {
         NavigationStack {
-            List(frames) { frame in
-                Button {
-                    onChoose(frame)
-                    dismiss()
-                } label: {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(frame.label ?? "Frame \(index(of: frame))")
-                            .font(.subheadline)
-                        // The ground it covers and the part of the page it is,
-                        // because on an unlabelled page those are the only two
-                        // things that tell one frame from another.
-                        Text(extent(of: frame))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        Text(area(of: frame))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Choose the map or inset to draw. Its own coordinates place it.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                page
+
+                List(Array(frames.enumerated()), id: \.element.id) { index, frame in
+                    Button {
+                        chosenID = frame.id
+                    } label: {
+                        HStack {
+                            Text(PdfImportMetadata.label(at: index, in: frames))
+                                .font(.subheadline)
+                            Spacer()
+                            if frame.id == chosenID {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.tint)
+                            }
+                        }
                     }
+                    .accessibilityAddTraits(
+                        frame.id == chosenID ? [.isSelected] : []
+                    )
                 }
+                .listStyle(.plain)
             }
+            .padding(.horizontal)
             .navigationTitle(name)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                 }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Use this frame") {
+                        // Only if there is work to lose. A first choice, or a
+                        // switch between two frames the user has not touched,
+                        // is not worth a dialog.
+                        if replacesUserWork, chosenID != selectedFrameID {
+                            isConfirming = true
+                        } else {
+                            use()
+                        }
+                    }
+                    .disabled(chosen == nil)
+                }
             }
+            .confirmationDialog(
+                """
+                Placing this frame replaces the points you moved with the \
+                frame's own coordinates.
+                """,
+                isPresented: $isConfirming,
+                titleVisibility: .visible
+            ) {
+                Button("Replace my points", role: .destructive) { use() }
+                Button("Keep my points", role: .cancel) {}
+            }
+            .onAppear { chosenID = chosenID ?? selectedFrameID }
         }
     }
 
-    private func index(of frame: PdfMapRegistration.Candidate) -> Int {
-        (frames.firstIndex(of: frame) ?? 0) + 1
+    /// The page, with the frame about to be placed outlined on it.
+    private var page: some View {
+        GeometryReader { geometry in
+            let scale = min(
+                geometry.size.width / pixelSize.width,
+                geometry.size.height / pixelSize.height
+            )
+            let drawn = CGSize(
+                width: pixelSize.width * scale, height: pixelSize.height * scale
+            )
+            ZStack(alignment: .topLeading) {
+                if let preview {
+                    Image(decorative: preview, scale: 1)
+                        .resizable()
+                        .frame(width: drawn.width, height: drawn.height)
+                } else {
+                    // The pixels have not loaded, or are gone. The outline is
+                    // still worth showing: it is where on the sheet the frame
+                    // sits, which is the whole question.
+                    Rectangle()
+                        .fill(.quaternary)
+                        .frame(width: drawn.width, height: drawn.height)
+                }
+                if let rect = chosen?.sourceRect {
+                    Rectangle()
+                        .strokeBorder(.tint, lineWidth: 2)
+                        .frame(
+                            width: rect.width * scale, height: rect.height * scale
+                        )
+                        .offset(x: rect.x * scale, y: rect.y * scale)
+                }
+            }
+            .frame(
+                width: geometry.size.width, height: geometry.size.height,
+                alignment: .top
+            )
+        }
+        .frame(height: 240)
+        .accessibilityLabel("Page 1 of \(name)")
     }
 
-    /// The corners of the ground the frame claims, to five decimals — about a
-    /// metre, which is the scale at which two frames on one page differ.
-    private func extent(of frame: PdfMapRegistration.Candidate) -> String {
-        let lats = frame.gcps.map(\.map.lat)
-        let lngs = frame.gcps.map(\.map.lng)
-        guard let south = lats.min(), let north = lats.max(),
-              let west = lngs.min(), let east = lngs.max()
-        else { return "No extent recorded" }
-        return String(
-            format: "%.5f, %.5f to %.5f, %.5f", south, west, north, east
-        )
-    }
-
-    private func area(of frame: PdfMapRegistration.Candidate) -> String {
-        let rect = frame.sourceRect
-        return String(
-            format: "%.0f × %.0f px on the page", rect.width, rect.height
-        )
+    private func use() {
+        guard let chosen else { return }
+        onChoose(chosen)
+        dismiss()
     }
 }

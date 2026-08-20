@@ -57,16 +57,16 @@ extension UserMapRecord.Placement: Codable {
 }
 
 extension PdfImportMetadata.Registration: Codable {
-    // By hand for the same reason as `Placement` above: this is a file format
+    // By hand for the same reason as `Placement` below: this is a file format
     // now, and a case renamed in source must not quietly stop matching the
     // records already on somebody's phone — which for this type would turn a
     // sheet the file placed into one the user is asked to place again.
     private enum CodingKeys: String, CodingKey {
         case kind
-        case frameID
-        case label
+        case embedded
         case candidates
         case reason
+        case adjusted
     }
 
     private enum Kind: String, Codable {
@@ -80,11 +80,7 @@ extension PdfImportMetadata.Registration: Codable {
         switch try container.decode(Kind.self, forKey: .kind) {
         case .embedded:
             self = .embedded(
-                frameID: try container.decode(String.self, forKey: .frameID),
-                label: try container.decodeIfPresent(String.self, forKey: .label),
-                candidates: try container.decode(
-                    [PdfMapRegistration.Candidate].self, forKey: .candidates
-                )
+                try container.decode(PdfImportMetadata.Embedded.self, forKey: .embedded)
             )
         case .selectionRequired:
             self = .selectionRequired(
@@ -94,7 +90,11 @@ extension PdfImportMetadata.Registration: Codable {
             )
         case .manual:
             self = .manual(
-                try container.decode(PdfMapRegistration.ManualReason.self, forKey: .reason)
+                reason: try container.decode(
+                    PdfMapRegistration.ManualReason.self, forKey: .reason
+                ),
+                adjusted: try container.decodeIfPresent(Bool.self, forKey: .adjusted)
+                    ?? false
             )
         }
     }
@@ -102,17 +102,16 @@ extension PdfImportMetadata.Registration: Codable {
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .embedded(let frameID, let label, let candidates):
+        case .embedded(let embedded):
             try container.encode(Kind.embedded, forKey: .kind)
-            try container.encode(frameID, forKey: .frameID)
-            try container.encodeIfPresent(label, forKey: .label)
-            try container.encode(candidates, forKey: .candidates)
+            try container.encode(embedded, forKey: .embedded)
         case .selectionRequired(let candidates):
             try container.encode(Kind.selectionRequired, forKey: .kind)
             try container.encode(candidates, forKey: .candidates)
-        case .manual(let reason):
+        case .manual(let reason, let adjusted):
             try container.encode(Kind.manual, forKey: .kind)
             try container.encode(reason, forKey: .reason)
+            try container.encode(adjusted, forKey: .adjusted)
         }
     }
 }

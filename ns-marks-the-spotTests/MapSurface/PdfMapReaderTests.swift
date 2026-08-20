@@ -1,8 +1,10 @@
 import CoreGraphics
 import Foundation
 import GeoCore
+import ImageIO
 import NSDataServices
 import Testing
+import UniformTypeIdentifiers
 
 @testable import ns_marks_the_spot
 
@@ -144,6 +146,100 @@ struct PdfMapRoundTripTests {
         #expect(read.pixelSize.width == 4096)
     }
 
+    /// A map image that is black in its north-west quarter and white elsewhere.
+    private func quarterMarked(width: Int, height: Int) throws -> Data {
+        let context = try #require(
+            CGContext(
+                data: nil, width: width, height: height, bitsPerComponent: 8,
+                bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue
+            )
+        )
+        context.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+        context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+        context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
+        // The north-west of a north-up map is the top-left of the raster, which
+        // in this y-up context is the upper half.
+        context.fill(CGRect(x: 0, y: height / 2, width: width / 2, height: height / 2))
+        let image = try #require(context.makeImage())
+        let out = NSMutableData()
+        let destination = try #require(
+            CGImageDestinationCreateWithData(out, UTType.jpeg.identifier as CFString, 1, nil)
+        )
+        CGImageDestinationAddImage(destination, image, nil)
+        #expect(CGImageDestinationFinalize(destination))
+        return out as Data
+    }
+
+    @Test("The pixels come back the way up the registration says they are")
+    func theSheetIsNotMirrored() throws {
+        // The corner test above cannot see this. A page rendered upside down
+        // registers to exactly the same four corners — they are the corners of
+        // the same rectangle — so every number checks out while every sheet
+        // drapes mirrored north to south. Measured, before this was fixed: the
+        // quarter of the map drawn in the north-west read back at 44.617°N,
+        // south of the sheet's own midpoint.
+        let bounds = GeoBoundingBox(south: 44.60, west: -63.70, north: 44.70, east: -63.50)
+        let template = PdfTemplate.template(.portrait)
+        let pdf = PdfComposer.compose(
+            PdfComposer.Input(
+                template: template,
+                bounds: bounds,
+                mapImage: PdfComposer.MapImage(
+                    jpegBytes: try quarterMarked(width: 400, height: 400),
+                    widthPx: 400,
+                    heightPx: 400
+                ),
+                fields: PdfComposer.Fields(title: "Orientation"),
+                legend: nil,
+                disclosures: [],
+                attributionLines: [],
+                scaleBar: PrintScaleBar.build(
+                    bounds: bounds,
+                    mapFrame: template.mapFrame,
+                    maxWidthPoints: template.scaleBar.maxWidth
+                ),
+                shareURLText: nil,
+                qrModules: nil,
+                appendix: [],
+                generatedAt: Date(timeIntervalSince1970: 0)
+            )
+        )
+
+        let read = try PdfMapReader.read(pdf)
+        guard case .automatic(let candidate) =
+            PdfMapRegistration.selection(of: read.extraction)
+        else {
+            Issue.record("the marked export was not read as georeferenced")
+            return
+        }
+        let transform = try #require(AffineFit.solve(controlPoints: candidate.gcps))
+        let data = try #require(read.image.dataProvider?.data)
+        let bytes = try #require(CFDataGetBytePtr(data))
+
+        // Only the ink inside the map frame: the sheet's title block and footer
+        // are black on white too, and would drag the centroid off the map.
+        let rect = candidate.sourceRect
+        let stride = read.image.bytesPerRow
+        let pixel = read.image.bitsPerPixel / 8
+        var sumX = 0.0, sumY = 0.0, count = 0.0
+        for y in Int(rect.y)..<Int(rect.y + rect.height) {
+            for x in Int(rect.x)..<Int(rect.x + rect.width)
+            where bytes[y * stride + x * pixel] < 128 {
+                sumX += Double(x)
+                sumY += Double(y)
+                count += 1
+            }
+        }
+        try #require(count > 0)
+
+        let here = WebMercator.unproject(
+            transform.apply(x: sumX / count, y: sumY / count)
+        )
+        #expect(here.lat > (bounds.north + bounds.south) / 2)
+        #expect(here.lng < (bounds.east + bounds.west) / 2)
+    }
+
     @Test("A file that is not a PDF at all is refused as one")
     func nonsenseIsRefused() {
         #expect(throws: UserMapImportRefusal.self) {
@@ -188,7 +284,9 @@ struct PdfMapImportTests {
         // very path that gave it.
         #expect(imported.needsGeoreferencing)
         #expect(imported.record.sourceRect == nil)
-        #expect(imported.record.pdf?.registration == .manual(.absent))
+        #expect(
+            imported.record.pdf?.registration == .manual(reason: .absent, adjusted: false)
+        )
         #expect(imported.record.pdf?.note.contains("Add matching points") == true)
     }
 
@@ -235,10 +333,17 @@ struct PdfMapImportTests {
         let imported = try UserMapImporter.import(data: pdf, id: "map-2", name: "Export")
         #expect(!imported.needsGeoreferencing)
         #expect(imported.record.sourceRect != nil)
-        guard case .embedded(let frameID, _, _) = imported.record.pdf?.registration else {
+        guard case .embedded(let embedded) = imported.record.pdf?.registration else {
             Issue.record("the app's own export did not import placed")
             return
         }
+        // Sole, not chosen: the page carried one frame and the user was never
+        // asked anything. The row says which, and saying "chosen by you" about
+        // a choice nobody made would be the app putting words in their mouth.
+        #expect(embedded.selection == .sole)
+        #expect(embedded.flavour == .measure)
+        #expect(!embedded.adjusted)
+        let frameID = embedded.frameID
         // The control points are named for the frame that produced them, so a
         // record cannot end up holding two frames' points under one identity.
         guard case .controlPoints(let points, let method) = imported.record.placement else {

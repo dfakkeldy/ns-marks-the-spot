@@ -108,10 +108,15 @@ enum PdfMapReader {
         context.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
         context.fill(CGRect(x: 0, y: 0, width: width, height: height))
 
-        // PDF's y grows upwards and a raster's grows downwards, so the page is
-        // drawn into a flipped context.
-        context.translateBy(x: 0, y: CGFloat(height))
-        context.scaleBy(x: 1, y: -1)
+        // No flip. A bitmap context's own y grows upwards, exactly as PDF's
+        // does, and its first row of memory is the top of the image — so a page
+        // drawn straight through comes out the way it was written. Flipping the
+        // context here, which is the reflex, renders the sheet mirrored
+        // north-to-south; every corner in the registration still checks out
+        // against the file's own numbers, because the corners of a mirrored
+        // rectangle are the same four corners. Measured on the app's own
+        // export: the quarter of the map drawn in the north-west read back at
+        // 44.617°N, south of the sheet's midpoint.
         let drawing = Self.drawingTransform(
             box: box, scale: CGFloat(scale), rotation: rotation
         )
@@ -124,10 +129,11 @@ enum PdfMapReader {
             )
         }
 
-        // The same two steps the drawing did, composed into one transform in
-        // PDF's own `[a b c d e f]` order: the page's drawing transform, then
-        // the flip back down into raster rows. A registration read through any
-        // other transform describes pixels that are not the ones in the image.
+        // The drawing transform, in PDF's own `[a b c d e f]` order, with its
+        // y turned over: the drawing lands in a context that counts upwards
+        // from the bottom, and a control point is recorded in raster rows that
+        // count downwards from the top. A registration read through any other
+        // transform describes pixels that are not the ones in the image.
         let viewport = PdfViewportGeometry(
             transform: [
                 Double(drawing.a), -Double(drawing.b),

@@ -42,7 +42,12 @@ enum UserMapImporter {
             placement = nil
         }
 
-        let (preview, pixelSize) = try decodePreview(data)
+        // A file that placed itself is decoded in its own raster's row order;
+        // one the user will place by hand is decoded the way up it asks to be
+        // read. See `decodePreview`.
+        let (preview, pixelSize) = try decodePreview(
+            data, honouringOrientation: placement == nil
+        )
         if let placement, case .embedded(let georeference) = placement {
             try UserMapImport.checkGeoreferencing(georeference, pixelSize: pixelSize)
         }
@@ -86,9 +91,17 @@ enum UserMapImporter {
         switch PdfMapRegistration.selection(of: read.extraction) {
         case .automatic(let candidate):
             registration = .embedded(
-                frameID: candidate.id,
-                label: candidate.label,
-                candidates: read.extraction.candidates
+                PdfImportMetadata.Embedded(
+                    flavour: candidate.flavour,
+                    // Sole, not chosen: the page offered one frame, so nobody
+                    // decided anything. The distinction prints in the row, and
+                    // "chosen by you" on a page the user never saw a choice for
+                    // would be the app putting words in their mouth.
+                    selection: .sole,
+                    frameID: candidate.id,
+                    label: candidate.label,
+                    candidates: read.extraction.candidates
+                )
             )
             // The registration's own frame, so a map sheet inside a page of
             // margins and title blocks drapes only the sheet. Drawing the whole
@@ -110,7 +123,7 @@ enum UserMapImporter {
             sourceRect = nil
             placement = .controlPoints([], method: .affine)
         case .manual(let reason):
-            registration = .manual(reason)
+            registration = .manual(reason: reason, adjusted: false)
             sourceRect = nil
             placement = .controlPoints([], method: .affine)
         }
@@ -198,8 +211,18 @@ enum UserMapImporter {
     /// original's pixels, so a record carrying a preview's dimensions would
     /// misplace every point on any sheet large enough to have been downscaled
     /// — and the arithmetic would look healthy the whole way through.
+    ///
+    /// `honouringOrientation` decides what a TIFF's or JPEG's Orientation tag
+    /// is allowed to do. A photograph of a paper map arrives sideways with a
+    /// tag saying so, and turning it upright is the only way the user can work
+    /// with it — but a *georeferenced* file's geotransform is written in its
+    /// raster's own rows and columns, and knows nothing of that tag. Rotate
+    /// those pixels and the sheet is drawn quarter-turned over ground it does
+    /// describe correctly, with every number in the file still checking out.
+    /// So: the user's own placement gets the upright picture, and a file that
+    /// placed itself is decoded exactly as it was written.
     private static func decodePreview(
-        _ data: Data
+        _ data: Data, honouringOrientation: Bool
     ) throws(UserMapImportRefusal) -> (CGImage, PixelSize) {
         guard let source = CGImageSourceCreateWithData(data as CFData, nil),
               CGImageSourceGetCount(source) > 0
@@ -236,7 +259,7 @@ enum UserMapImporter {
         // preview at all, because the full-size bitmap is never materialised.
         let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceCreateThumbnailWithTransform: honouringOrientation,
             kCGImageSourceShouldCacheImmediately: true,
             kCGImageSourceThumbnailMaxPixelSize: UserMapImport.previewMaxDimension,
         ]
@@ -245,6 +268,30 @@ enum UserMapImporter {
         ) else {
             throw UserMapImport.decodeFailure(ofImageSized: sizes[chosen])
         }
-        return (image, base)
+        // `kCGImagePropertyPixelWidth` is the stored raster's width, before any
+        // orientation is applied. When the pixels have been turned a quarter
+        // turn the original's dimensions have turned with them, and a record
+        // keeping the stored pair would scale every control point the user
+        // places through a size the picture does not have.
+        let quarterTurned = honouringOrientation && Self.isQuarterTurn(
+            orientation(of: source, at: chosen)
+        )
+        let size = quarterTurned
+            ? PixelSize(width: base.height, height: base.width) : base
+        return (image, size)
+    }
+
+    /// The TIFF/EXIF orientation of one image in a file, or 1 when it says
+    /// nothing — which is what an unoriented file means.
+    private static func orientation(of source: CGImageSource, at index: Int) -> Int {
+        let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil)
+            as? [CFString: Any]
+        return properties?[kCGImagePropertyOrientation] as? Int ?? 1
+    }
+
+    /// The four TIFF orientations that exchange the axes. Values 5 to 8 are the
+    /// ones that involve a 90° turn; 1 to 4 only flip.
+    private static func isQuarterTurn(_ orientation: Int) -> Bool {
+        (5...8).contains(orientation)
     }
 }

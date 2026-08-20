@@ -27,8 +27,21 @@ final class UserMapsViewModel {
         var needsFrameSelection: Bool {
             record.pdf?.needsFrameSelection == true && record.needsGeoreferencing
         }
+        /// A placed PDF whose page carried other frames as well. Offered as a
+        /// change rather than a choice: the sheet is drawn on ground the file
+        /// named, and the user is the only one who can know it named the wrong
+        /// frame.
+        var canChangeFrame: Bool { record.pdf?.canChangeFrame == true }
         /// The frames the file offered, for the chooser.
         var frames: [PdfMapRegistration.Candidate] { record.pdf?.candidates ?? [] }
+        /// Which frame is placing the sheet now, so the chooser opens on it.
+        var selectedFrameID: String? { record.pdf?.selectedFrameID }
+        /// Whether switching frames would throw away points the user moved.
+        var frameChangeReplacesUserWork: Bool {
+            record.pdf?.isAdjusted == true && record.pdf?.selectedFrameID != nil
+        }
+        /// What placed this sheet, for the row to say out loud.
+        var provenance: String? { record.pdf?.provenance }
 
         static func == (lhs: Row, rhs: Row) -> Bool {
             lhs.record == rhs.record && lhs.isVisible == rhs.isVisible
@@ -36,28 +49,41 @@ final class UserMapsViewModel {
         }
     }
 
-    /// Something the panel has to say about a file the user just chose.
+    /// Something the panel has to say about a map.
     ///
-    /// One list for refusals and for what an import quietly decided, because
-    /// with several files at once they are the same question — *what happened
-    /// to the file I picked?* — and a refusal shown alone would leave the other
-    /// four files' outcomes to be guessed from the rows.
-    struct ImportNotice: Identifiable, Equatable {
+    /// One list for refusals, for what an import quietly decided, and for work
+    /// the device would not keep, because with several files at once they are
+    /// the same question — *what happened to the map I just gave you?* — and a
+    /// refusal shown alone would leave the other four files' outcomes to be
+    /// guessed from the rows.
+    struct Notice: Identifiable, Equatable {
         var id: String
-        /// The file's name. Carried even for a single import: without it a
+        /// The map's name. Carried even for a single import: without it a
         /// message about "this PDF" belongs to whichever of five files the
         /// reader assumes.
         var name: String
         var message: String
-        /// A refused file, as against one that imported with something to say.
+        /// Something that did not happen, as against something that happened
+        /// with a remark attached.
         var isRefusal: Bool
     }
 
     private(set) var rows: [Row] = []
-    /// What the last batch of imports came to, for the panel to show. Held
-    /// rather than thrown past the user: an import that failed silently reads
-    /// as a file that vanished.
-    private(set) var notices: [ImportNotice] = []
+    /// What the last thing the user asked for came to, for the panel to show.
+    /// Held rather than thrown past the user: an import that failed silently
+    /// reads as a file that vanished.
+    private(set) var notices: [Notice] = []
+
+    /// True when there is a library on this device that this build could not
+    /// read, so nothing may be written over it.
+    ///
+    /// A newer build's document, or a damaged one. Either way the file holds
+    /// maps the user still has, and the panel showing no rows is already the
+    /// worst of it: saving anything at all from here — one import is enough —
+    /// would replace their whole library with whatever this session happens to
+    /// hold. Refusing every write keeps the file intact for a build that can
+    /// read it, or for a support answer that recovers it.
+    private(set) var isLibrarySealed = false
 
     private let store: UserMapStore
 
@@ -76,15 +102,34 @@ final class UserMapsViewModel {
         do {
             records = try await store.load()
         } catch {
-            // A library this build cannot read is left exactly as it is. The
-            // rows stay empty rather than being replaced by an empty library
-            // the next save would write over the user's maps.
+            // A library this build cannot read is left exactly as it is, and
+            // the fact is remembered. Empty rows are not enough on their own:
+            // the very next import would compute its document from an empty
+            // list and write the user's maps away.
             rows = []
+            isLibrarySealed = true
+            notices = [
+                Notice(
+                    id: "library",
+                    name: "Your maps",
+                    message: sealedMessage,
+                    isRefusal: true
+                ),
+            ]
             return
         }
+        isLibrarySealed = false
         rows = records.map {
             Row(record: $0, isVisible: true, opacity: 1, preview: nil)
         }
+        // Pixels with no record left to belong to. An import whose library
+        // write was refused has already written its preview, and a crash
+        // between the two writes leaves the same thing; either way it is tens
+        // of megabytes of a map the user cannot see and cannot delete. Only
+        // after a load that succeeded: `records` is the whole library here, and
+        // sweeping against the empty list a failed load leaves would take every
+        // preview on the device with it.
+        try? await store.sweepOrphanedPreviews(keeping: records)
         for record in records {
             let preview = try? await store.preview(id: record.id)
             guard let index = rows.firstIndex(where: { $0.id == record.id }) else { continue }
@@ -92,48 +137,63 @@ final class UserMapsViewModel {
         }
     }
 
-    /// Imports several chosen files, one after another.
+    /// Clears what the panel is saying, ready for a batch of imports.
     ///
-    /// Sequential, and one file's refusal never stops the rest: a user who
-    /// selected a folder of scans with one broken file in it should get the
-    /// other nine maps and be told which one did not come.
-    func importMaps(_ files: [(data: Data, name: String)]) async {
+    /// Called once before the files rather than taken as a list of them,
+    /// because the caller reads each file only when its turn comes: several
+    /// large scans held as `Data` at once is a gigabyte of buffers resident
+    /// before the first one has been decoded, and the system stops the app for
+    /// it while every individual file was within the size limit.
+    func beginImports() {
+        guard !isLibrarySealed else { return }
         notices = []
-        for file in files {
-            await importMap(data: file.data, name: file.name, clearingNotices: false)
-        }
     }
 
+    /// Imports one chosen file.
+    ///
+    /// One file's refusal never stops the next: a user who selected a folder of
+    /// scans with one broken file in it should get the other nine maps and be
+    /// told which one did not come.
     func importMap(data: Data, name: String) async {
-        await importMap(data: data, name: name, clearingNotices: true)
-    }
-
-    private func importMap(data: Data, name: String, clearingNotices: Bool) async {
-        if clearingNotices { notices = [] }
+        guard !isLibrarySealed else { return refuseWhileSealed() }
         let id = UUID().uuidString
         do {
             let imported = try UserMapImporter.import(data: data, id: id, name: name)
             try await store.writePreview(imported.preview, id: id)
-            let records = rows.map(\.record) + [imported.record]
-            try await store.save(records)
             rows.append(
                 Row(
                     record: imported.record, isVisible: true, opacity: 1,
                     preview: imported.preview
                 )
             )
+            // Appended first, so the document written below is the whole
+            // library including this map. Ordering, not decoration: two imports
+            // running at once — a second selection made while the first is
+            // still decoding — otherwise each build their document from a
+            // `rows` neither has been added to yet, and the second write lands
+            // without the first map in it. The row is on screen and the file
+            // has lost it, which shows up as a map that vanished overnight.
+            // With the append first, every write holds every mutation made
+            // before it, and the store is an actor, so the last write made is
+            // the last one applied.
+            do {
+                try await store.save(rows.map(\.record))
+            } catch {
+                rows.removeAll { $0.id == id }
+                throw error
+            }
             // A PDF is the one import whose result does not show what the app
             // did: which page came, whether the file placed it, and whether it
             // offered more than one frame. Said out loud, or the user reads a
             // hand-placeable cover sheet as the whole atlas.
             if let note = imported.record.pdf?.note {
                 notices.append(
-                    ImportNotice(id: id, name: name, message: note, isRefusal: false)
+                    Notice(id: id, name: name, message: note, isRefusal: false)
                 )
             }
         } catch let refusal as UserMapImportRefusal {
             notices.append(
-                ImportNotice(
+                Notice(
                     id: id, name: name, message: refusal.userMessage, isRefusal: true
                 )
             )
@@ -143,7 +203,7 @@ final class UserMapsViewModel {
             // map is corrupt" would send the user to re-export a file that
             // was never the problem.
             notices.append(
-                ImportNotice(
+                Notice(
                     id: id,
                     name: name,
                     message: """
@@ -156,16 +216,25 @@ final class UserMapsViewModel {
         }
     }
 
+    /// Puts the notices away once the user has read them.
+    ///
+    /// Manual rather than timed: several of these are the only statement the
+    /// app makes about what it did with a file, and one that cleared itself
+    /// would be a statement the user could miss entirely.
+    func clearNotices() { notices = [] }
+
     /// Records which of a PDF's frames the user says the sheet is.
     ///
     /// The chosen frame's own control points, not a guess: each candidate was
     /// read from the file and describes its own ground. Nothing is redrawn from
     /// the page — only which part of it is claimed to cover which ground.
     func selectFrame(id: String, candidateID: String) async {
+        guard !isLibrarySealed else { return }
         guard let index = rows.firstIndex(where: { $0.id == id }),
               let metadata = rows[index].record.pdf,
               let candidate = metadata.candidates.first(where: { $0.id == candidateID })
         else { return }
+        let restore = rows[index].record
         rows[index].record.sourceRect = candidate.sourceRect
         rows[index].record.placement = .controlPoints(
             UserMapImporter.controlPoints(of: candidate), method: .affine
@@ -173,12 +242,80 @@ final class UserMapsViewModel {
         rows[index].record.pdf = PdfImportMetadata(
             pageCount: metadata.pageCount,
             registration: .embedded(
-                frameID: candidate.id,
-                label: candidate.label,
-                candidates: metadata.candidates
+                PdfImportMetadata.Embedded(
+                    flavour: candidate.flavour,
+                    selection: .user,
+                    frameID: candidate.id,
+                    label: candidate.label,
+                    candidates: metadata.candidates,
+                    // The points are the frame's own again, whatever the user
+                    // had moved them to. That is why switching frames away from
+                    // adjusted points is something they get asked about first.
+                    adjusted: false
+                )
             )
         )
-        try? await store.save(rows.map(\.record))
+        await save(rows[index].record.name, restoring: restore, at: id)
+    }
+
+    /// Writes the library, and puts the record back if the device would not
+    /// keep it.
+    ///
+    /// A discarded write is the failure mode with no symptom: the sheet moves
+    /// on screen, the editor closes, and the work is gone at the next launch
+    /// with nothing having looked wrong. Reverting keeps what is drawn and what
+    /// is stored the same thing, and says so.
+    private func save(_ name: String, restoring record: UserMapRecord, at id: String) async {
+        do {
+            try await store.save(rows.map(\.record))
+        } catch {
+            if let index = rows.firstIndex(where: { $0.id == id }) {
+                rows[index].record = record
+            }
+            notices = [
+                Notice(
+                    id: id,
+                    name: name,
+                    message: """
+                        This change could not be saved to your device, so it \
+                        has been undone. Free some space and try again.
+                        """,
+                    isRefusal: true
+                ),
+            ]
+        }
+    }
+
+    /// What the panel says when the user acts on a library it cannot write to.
+    private var sealedMessage: String {
+        """
+        Your saved maps could not be read by this version, so they are not \
+        shown and nothing new can be saved over them. Update the app and open \
+        it again.
+        """
+    }
+
+    /// Says that a file the picker offered could not be opened at all.
+    func reportUnreadable(name: String) {
+        notices.append(
+            Notice(
+                id: UUID().uuidString,
+                name: name,
+                message: "This file could not be opened from where it is stored.",
+                isRefusal: true
+            )
+        )
+    }
+
+    /// Says why nothing can be written, once, however many files were chosen.
+    ///
+    /// Replaces rather than appends: a selection of ten files would otherwise
+    /// post the same paragraph ten times, and the reason is the library rather
+    /// than any of the files.
+    private func refuseWhileSealed() {
+        notices = [
+            Notice(id: "library", name: "Your maps", message: sealedMessage, isRefusal: true),
+        ]
     }
 
     func setVisible(_ isVisible: Bool, id: String) {
@@ -193,15 +330,27 @@ final class UserMapsViewModel {
 
     /// Saves a placement the user worked out in the georeferencer.
     func place(id: String, controlPoints: [SessionControlPoint], method: GeoreferenceMethod) async {
+        guard !isLibrarySealed else { return }
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
+        let restore = rows[index].record
+        // Points that actually moved mark the record as the user's work, so
+        // switching to another frame later asks before replacing it. Compared
+        // rather than assumed: the georeferencer saves on a close as well as on
+        // an edit, and a record marked adjusted by merely being opened would
+        // put a warning in front of a user who changed nothing.
+        if case .controlPoints(let existing, _) = rows[index].record.placement,
+           existing != controlPoints {
+            rows[index].record.pdf = rows[index].record.pdf?.markingAdjusted()
+        }
         rows[index].record.placement = .controlPoints(controlPoints, method: method)
-        try? await store.save(rows.map(\.record))
+        await save(rows[index].record.name, restoring: restore, at: id)
     }
 
     func delete(id: String) async {
-        guard let remaining = try? await store.delete(id: id, from: rows.map(\.record)) else {
-            return
-        }
+        guard !isLibrarySealed else { return }
+        guard let remaining = try? await store.delete(
+            id: id, from: rows.map(\.record)
+        ) else { return }
         let kept = Set(remaining.map(\.id))
         rows.removeAll { !kept.contains($0.id) }
     }

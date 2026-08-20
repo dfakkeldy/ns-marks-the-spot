@@ -119,6 +119,35 @@ struct PdfMeasureRegistrationTests {
         #expect(extraction.rejected.first?.reason == .invalid)
     }
 
+    @Test("Page units written where fractions belong are refused")
+    func localPointsMustBeFractionsOfTheBBox() {
+        // `LPTS` is defined as fractions of the BBox. A producer writing page
+        // units — 100 where it meant 0.1 — leaves a registration nothing
+        // downstream can tell from a correct one: the three points are well
+        // separated, they solve to a clean affine, and every ground point is in
+        // Nova Scotia. The sheet is then placed by extrapolating a hundred page
+        // widths out from them, and draws with total confidence on ground it
+        // has never been near.
+        let page = measurePage(
+            lpts: [100, 100, 101, 100, 100, 101],
+            gpts: [44.6, -63.7, 44.7, -63.6, 44.8, -63.5]
+        )
+        let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
+        #expect(extraction.candidates.isEmpty)
+        #expect(extraction.rejected.first?.reason == .invalid)
+    }
+
+    @Test("Rounding at the edges of the BBox is still a registration")
+    func fractionsMayRoundPastTheEdge() {
+        // The check above is for a different unit, not for a file whose corner
+        // came back as 1.0000001 from someone else's arithmetic.
+        let page = measurePage(lpts: [-0.0000001, 0, 0, 1.0000001, 1, 1, 1, 0])
+        #expect(
+            PdfMapRegistration.candidates(page: page, viewport: viewport())
+                .candidates.count == 1
+        )
+    }
+
     @Test("Fewer than three pairs is not a registration")
     func threePairsAreTheMinimum() {
         let page = measurePage(lpts: [0, 0, 1, 1], gpts: [44.6, -63.7, 44.7, -63.5])
@@ -416,7 +445,7 @@ struct PdfImportNoteTests {
     @Test("An atlas says how many pages it left behind")
     func laterPagesAreNamed() {
         let note = PdfImportMetadata(
-            pageCount: 40, registration: .manual(.absent)
+            pageCount: 40, registration: .manual(reason: .absent, adjusted: false)
         ).note
         #expect(note.contains("Page 1 of 40"))
         #expect(note.contains("later pages were not imported"))
@@ -426,7 +455,12 @@ struct PdfImportNoteTests {
     func placementIsAttributed() {
         let note = PdfImportMetadata(
             pageCount: 1,
-            registration: .embedded(frameID: "direct-0", label: nil, candidates: [])
+            registration: .embedded(
+                PdfImportMetadata.Embedded(
+                    flavour: .measure, selection: .sole, frameID: "direct-0",
+                    label: nil, candidates: []
+                )
+            )
         ).note
         #expect(note == "Page 1 imported. Placed from the coordinates in the file.")
     }
@@ -437,7 +471,9 @@ struct PdfImportNoteTests {
             PdfMapRegistration.ManualReason.absent, .unsupported, .unsupportedCrs,
             .invalid, .unreadable,
         ] {
-            let note = PdfImportMetadata(pageCount: 1, registration: .manual(reason)).note
+            let note = PdfImportMetadata(
+                pageCount: 1, registration: .manual(reason: reason, adjusted: false)
+            ).note
             #expect(note.hasSuffix("Add matching points to place it."))
         }
     }
@@ -469,5 +505,96 @@ struct PdfCandidateIdentityTests {
         for (key, value) in lgiPage() { page[key] = value }
         let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
         #expect(extraction.candidates.map(\.flavour) == [.measure, .lgiDict])
+    }
+}
+
+@Suite("What the row says placed a PDF")
+struct PdfProvenanceTests {
+    private static let frames = [
+        PdfMapRegistration.Candidate(
+            id: "measure-0", flavour: .measure, label: "Halifax County",
+            sourceRect: PixelRect(x: 0, y: 0, width: 100, height: 100), gcps: []
+        ),
+        PdfMapRegistration.Candidate(
+            id: "measure-1", flavour: .measure, label: nil,
+            sourceRect: PixelRect(x: 0, y: 0, width: 10, height: 10), gcps: []
+        ),
+        PdfMapRegistration.Candidate(
+            id: "measure-2", flavour: .measure, label: nil,
+            sourceRect: PixelRect(x: 20, y: 0, width: 10, height: 10), gcps: []
+        ),
+    ]
+
+    @Test("An unnamed frame is numbered among the unnamed ones")
+    func unnamedFramesAreNumberedAmongThemselves() {
+        // Not by position on the page: on a sheet whose main map is labelled
+        // and whose two insets are not, numbering by position would call the
+        // first inset "frame 2" and leave the user looking for a frame 1.
+        #expect(PdfImportMetadata.label(at: 0, in: Self.frames) == "Halifax County")
+        #expect(PdfImportMetadata.label(at: 1, in: Self.frames) == "Unnamed frame 1")
+        #expect(PdfImportMetadata.label(at: 2, in: Self.frames) == "Unnamed frame 2")
+    }
+
+    @Test("A sole registration is not reported as the user's choice")
+    func soleIsNotChosen() {
+        let metadata = PdfImportMetadata(
+            pageCount: 1,
+            registration: .embedded(
+                PdfImportMetadata.Embedded(
+                    flavour: .measure, selection: .sole, frameID: "measure-0",
+                    label: "Halifax County", candidates: [Self.frames[0]]
+                )
+            )
+        )
+        #expect(
+            metadata.provenance
+                == "GeoPDF page 1 · Halifax County · Measure · sole registration"
+        )
+        // One frame is nothing to change to.
+        #expect(!metadata.canChangeFrame)
+    }
+
+    @Test("Moving the points shows in the row, and only after they move")
+    func adjustmentIsVisible() {
+        let metadata = PdfImportMetadata(
+            pageCount: 12,
+            registration: .embedded(
+                PdfImportMetadata.Embedded(
+                    flavour: .lgiDict, selection: .user, frameID: "measure-1",
+                    label: nil, candidates: Self.frames
+                )
+            )
+        )
+        #expect(
+            metadata.provenance
+                == "GeoPDF page 1 of 12 · Unnamed frame 1 · LGIDict · chosen by you"
+        )
+        #expect(!metadata.isAdjusted)
+        #expect(metadata.canChangeFrame)
+        #expect(metadata.markingAdjusted().provenance.hasSuffix("· adjusted"))
+    }
+
+    @Test("A page still waiting for a frame cannot be adjusted away from")
+    func nothingToAdjustYet() {
+        // There is no placement to have moved from, so marking it adjusted
+        // would put a "this replaces your points" warning in front of a user
+        // who has never placed anything.
+        let waiting = PdfImportMetadata(
+            pageCount: 1, registration: .selectionRequired(Self.frames)
+        )
+        #expect(waiting.markingAdjusted() == waiting)
+        #expect(waiting.provenance == "GeoPDF page 1 · Choose frame")
+        #expect(waiting.selectedFrameID == nil)
+    }
+
+    @Test("A hand-placed page says the registration it could not use")
+    func manualNamesTheReason() {
+        let manual = PdfImportMetadata(
+            pageCount: 1, registration: .manual(reason: .unsupportedCrs, adjusted: true)
+        )
+        #expect(
+            manual.provenance
+                == "GeoPDF page 1 · unsupported-crs registration · manual points · adjusted"
+        )
     }
 }

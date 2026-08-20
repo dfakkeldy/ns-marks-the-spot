@@ -180,10 +180,17 @@ struct UserMapPdfRecordTests {
     func eachStateRoundTrips() throws {
         for registration in [
             PdfImportMetadata.Registration.embedded(
-                frameID: "measure-direct-0", label: "Main sheet", candidates: Self.candidates
+                PdfImportMetadata.Embedded(
+                    flavour: .measure,
+                    selection: .user,
+                    frameID: "measure-direct-0",
+                    label: "Main sheet",
+                    candidates: Self.candidates,
+                    adjusted: true
+                )
             ),
             .selectionRequired(Self.candidates),
-            .manual(.unsupportedCrs),
+            .manual(reason: .unsupportedCrs, adjusted: false),
         ] {
             let saved = Self.record(registration)
             let data = try Self.encoder.encode(UserMapLibrary(maps: [saved]))
@@ -197,7 +204,7 @@ struct UserMapPdfRecordTests {
         let json = try #require(
             String(
                 data: Self.encoder.encode(
-                    Self.record(.manual(.unsupportedCrs)).pdf
+                    Self.record(.manual(reason: .unsupportedCrs, adjusted: false)).pdf
                 ),
                 encoding: .utf8
             )

@@ -337,6 +337,18 @@ public enum PdfMapRegistration {
               let ground = measure["GPTS"]?.numberArray,
               local.count == ground.count, local.count >= 6, local.count % 2 == 0
         else { throw ReadFailure.invalid }
+        // `LPTS` is defined as fractions of the BBox, so every value belongs
+        // between zero and one. Checked rather than assumed, because a producer
+        // writing page units here instead — 100 where it meant 0.1 — yields a
+        // set of points that is perfectly well conditioned, solves to a clean
+        // affine, and lands on real Nova Scotia ground. Nothing downstream can
+        // tell that apart from a correct registration: the sheet is then placed
+        // by extrapolating from control points hundreds of page-widths away,
+        // and it draws confidently on the wrong ground. The tolerance is for
+        // rounding in the file, not for a different unit.
+        guard local.allSatisfy({ $0 >= -0.001 && $0 <= 1.001 }) else {
+            throw ReadFailure.invalid
+        }
 
         let (left, bottom, right, top) = (bbox[0], bbox[1], bbox[2], bbox[3])
         guard left != right, bottom != top else { throw ReadFailure.invalid }
