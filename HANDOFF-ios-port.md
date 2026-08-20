@@ -1105,3 +1105,26 @@ on claude/ios-web-map-parity-2de228. Next: act on the second Codex review of
 577b6d5ba, then run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-20 — imported PDFs were drawing upside down; six review fixes
+
+Done: `8d0cb3b76`. `PdfMapReader.read` flipped the bitmap context before
+drawing, so every imported sheet draped mirrored north to south while its
+registration described top-down rows. Corner checks cannot see this, because a
+mirrored rectangle has the same four corners; the new `theSheetIsNotMirrored`
+measures ink position through the affine and fails against the old reader. Also
+from a Codex review: unchecked `LPTS` range, TIFF Orientation applied to pixels
+the geotransform does not know about, an unreadable library being overwritten by
+the next import, discarded save failures shown as success, the whole file
+selection held in memory at once, and `sweepOrphanedPreviews` never called. 986
+package tests; typecheck clean; the simulator probe runs all eight new
+app-target cases green.
+Next: the gated test run after 22:00, then the remaining Phase 0 spikes.
+Resume:
+
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228. Next: run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and read the per-suite bundles under .build/focused-tests/
+```
