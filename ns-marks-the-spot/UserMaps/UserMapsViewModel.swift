@@ -222,8 +222,14 @@ final class UserMapsViewModel {
             // before it, and the store is an actor, so the last write made is
             // the last one applied.
             do {
-                try await store.save(rows.map(\.record))
-                saved = rows.map(\.record)
+                // The document is read once and then both written and
+                // remembered. Reading `rows` again after the write would record
+                // whatever a second import appended while this one was in
+                // flight as confirmed, when only this document reached the
+                // disk.
+                let document = rows.map(\.record)
+                try await store.save(document)
+                saved = document
             } catch {
                 rows.removeAll { $0.id == id }
                 throw error
@@ -311,9 +317,10 @@ final class UserMapsViewModel {
     /// with nothing having looked wrong. Reverting keeps what is drawn and what
     /// is stored the same thing, and says so.
     private func save(_ name: String, at id: String) async {
+        let document = rows.map(\.record)
         do {
-            try await store.save(rows.map(\.record))
-            saved = rows.map(\.record)
+            try await store.save(document)
+            saved = document
         } catch {
             // Everything goes back, not only the record this call was told
             // about: a failed write leaves the whole document unwritten, and
