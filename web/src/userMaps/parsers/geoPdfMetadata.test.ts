@@ -61,6 +61,47 @@ async function measureWithExtendedLocalPoints(): Promise<Uint8Array> {
   return document.save({ useObjectStreams: false });
 }
 
+/**
+ * The same four ordinary Halifax corners a working sheet would carry, with
+ * `LPTS` written in page units rather than as fractions of the BBox — a
+ * hundred times too large. Every downstream check passes on this file: the
+ * affine is well conditioned and the mesh corners are valid latitudes and
+ * longitudes, because the mesh only asks that much.
+ */
+async function measureWithPageUnitLocalPoints(): Promise<Uint8Array> {
+  const document = await PDFDocument.create();
+  const page = document.addPage([612, 792]);
+  const measure = document.context.obj({
+    Type: "Measure",
+    Subtype: "GEO",
+    Bounds: [0, 0, 0, 1, 1, 1, 1, 0],
+    LPTS: [
+      0, 0,
+      0, 100,
+      100, 100,
+      100, 0,
+    ],
+    GPTS: [
+      44.62, -63.62,
+      44.68, -63.62,
+      44.68, -63.54,
+      44.62, -63.54,
+    ],
+    GCS: {
+      Type: "GEOGCS",
+      EPSG: 4326,
+    },
+  });
+  const registration = document.context.obj({
+    Type: "Viewport",
+    BBox: [0, 0, 612, 792],
+    Name: PDFHexString.fromText("Map Layers"),
+    Measure: measure,
+  });
+  page.node.set(PDFName.of("VP"), document.context.obj([registration]));
+  return document.save({ useObjectStreams: false });
+}
+
 async function terraGo23Registrations(
   neatlineOverride?: number[],
 ): Promise<Uint8Array> {
@@ -160,6 +201,32 @@ describe("extractGeoPdfMetadata", () => {
       embeddedLabel: "Map Layers",
     });
     expect(result.candidates[0].gcps).toHaveLength(4);
+    // The point of this fixture: its control points really do land off the
+    // rendered raster, so a guard on where they land has to admit them. Pinned
+    // in raster fractions rather than left implicit, because the number here is
+    // what says how much room the page-unit guard below must leave.
+    const excursions = result.candidates[0].gcps.map(({ pixel }) =>
+      Math.max(
+        0,
+        -pixel.x / 1728,
+        (pixel.x - 1728) / 1728,
+        -pixel.y / 2088,
+        (pixel.y - 2088) / 2088,
+      ),
+    );
+    expect(Math.max(...excursions)).toBeCloseTo(0.0157, 4);
+  });
+
+  it("rejects a Measure frame whose local points were written in page units", async () => {
+    const result = await extractGeoPdfMetadata(
+      await measureWithPageUnitLocalPoints(),
+      viewport(612, 792),
+    );
+
+    expect(result.candidates).toEqual([]);
+    expect(result.rejected).toEqual([
+      { flavor: "measure", reason: "invalid" },
+    ]);
   });
 
   it("returns every valid Measure viewport in stable document order", async () => {

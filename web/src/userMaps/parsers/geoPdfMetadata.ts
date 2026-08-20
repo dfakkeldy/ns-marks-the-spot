@@ -180,7 +180,53 @@ function hasThreeDistinctPixels(gcps: Gcp[]): boolean {
   ).size >= 3;
 }
 
-function validateCandidate(candidate: PdfRegistrationCandidate): void {
+/**
+ * How far past the rendered raster a control point may sit, as a fraction of
+ * the raster's own width or height.
+ *
+ * A control point names a spot on the page, so the check that it is one is
+ * where it lands — not what the file's numbers looked like on the way there.
+ * `Measure` builds its pixels from `LPTS`, which the spec defines as fractions
+ * of the viewport BBox; a producer that writes page units there instead sends
+ * every corner a hundred page-widths off the sheet, and nothing further down
+ * notices. The affine those points solve is well conditioned, and the mesh only
+ * asks whether the extrapolated corners are still valid latitudes and
+ * longitudes, which they are — so the user is told the file placed itself, and
+ * the sheet is drawn at a hundredth of its size on ground it does not cover.
+ *
+ * The tempting check — require `LPTS` inside the unit square — rejects real
+ * files, and was written and reverted once on the iOS side for that reason. A
+ * sheet whose map frame is rotated a degree or two inside its viewport has
+ * corners outside the box on every side: the USGS quadrangle in this file's own
+ * regression set runs from -0.02238 to 1.02238.
+ *
+ * So the line is drawn on the raster instead, where the two cases are nowhere
+ * near each other. Measured across every fixture here, that rotated quadrangle
+ * is the only one to leave the raster at all, and it leaves it by 1.6%; a
+ * page-unit file overshoots by about 9,900%. Half a raster is thirty times the
+ * worst real excursion and two hundred times short of the failure — a gap wide
+ * enough that tightening it later could only cost real sheets.
+ */
+const CONTROL_POINT_RASTER_MARGIN = 0.5;
+
+function onRenderedPage(
+  { x, y }: { x: number; y: number },
+  viewport: PdfViewportGeometry,
+): boolean {
+  const marginX = viewport.width * CONTROL_POINT_RASTER_MARGIN;
+  const marginY = viewport.height * CONTROL_POINT_RASTER_MARGIN;
+  return (
+    x >= -marginX &&
+    x <= viewport.width + marginX &&
+    y >= -marginY &&
+    y <= viewport.height + marginY
+  );
+}
+
+function validateCandidate(
+  candidate: PdfRegistrationCandidate,
+  viewport: PdfViewportGeometry,
+): void {
   if (
     candidate.gcps.length < 3 ||
     !hasThreeDistinctPixels(candidate.gcps) ||
@@ -191,6 +237,9 @@ function validateCandidate(candidate: PdfRegistrationCandidate): void {
     )
   ) {
     throw new Error("invalid control points");
+  }
+  if (candidate.gcps.some(({ pixel }) => !onRenderedPage(pixel, viewport))) {
+    throw new Error("control points fall outside the rendered page");
   }
   const params = solveAffineFromGcps(candidate.gcps);
   if (!params) {
@@ -276,6 +325,11 @@ function measureCandidate(
   ) {
     throw new Error("invalid Measure point arrays");
   }
+  // No range check on the local points themselves: they are fractions of the
+  // BBox, and real sheets leave the unit square whenever the map frame is
+  // rotated inside its viewport. What a file that wrote page units here gets
+  // wrong is where the resulting control points land, and that is checked
+  // against the rendered raster in `validateCandidate`.
   const [left, bottom, right, top] = bbox;
   if (left === right || bottom === top) {
     throw new Error("empty Measure bounding box");
@@ -316,7 +370,7 @@ function measureCandidate(
     sourceRect,
     gcps,
   };
-  validateCandidate(candidate);
+  validateCandidate(candidate, viewport);
   return candidate;
 }
 
@@ -527,7 +581,7 @@ function lgiCandidate(
     sourceRect,
     gcps,
   };
-  validateCandidate(candidate);
+  validateCandidate(candidate, viewport);
   return candidate;
 }
 
