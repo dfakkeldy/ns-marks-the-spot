@@ -238,8 +238,16 @@ struct UserMapsLibraryTests {
             // Both edits are in flight before either write comes back, which is
             // what makes the second one find the first one's work rather than
             // the disk's. Undoing each to what it personally found leaves the
-            // sheet on 44.80 — a placement that never reached the file — while
+            // sheet on 44.80, a placement that never reached the file, while
             // the panel says the change was undone.
+            //
+            // `async let` orders nothing by itself, so whether this reaches the
+            // interleaving is a question about the runtime rather than about
+            // the code. Measured, not assumed: with the per-edit undo this
+            // replaced, the run below ends on 44.80 every time, four times out
+            // of four. If a later runtime schedules these two differently the
+            // test stops proving what it says, and the way that shows is this
+            // comment no longer matching a rerun of that comparison.
             async let first: Void = viewModel.place(
                 id: id, controlPoints: points(44.80), method: .affine
             )
@@ -344,6 +352,128 @@ struct DamagedLibraryTests {
             #expect(viewModel.rows.count == 1)
             let written = try #require(libraryBytes(in: directory))
             #expect(String(decoding: written, as: UTF8.self).contains("Fresh start"))
+        }
+    }
+
+    @Test(
+        "A version below the first is damage, not a document from the future",
+        arguments: [0, -1]
+    )
+    func aVersionBelowTheFirstIsSetAside(version: Int) async throws {
+        try await withLibraryDirectory { directory in
+            defer { removeSetAside(beside: directory) }
+            // Zero and negative numbers are not versions this app or any later
+            // one writes. Read as "later than I can handle" they seal the panel
+            // for the life of the install over what is only a corrupt field,
+            // and no later build is ever coming to unseal it.
+            let damaged = Data(#"{"version":\#(version),"maps":[]}"#.utf8)
+            try damaged.write(to: directory.appendingPathComponent("library.json"))
+
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+            #expect(!viewModel.isLibrarySealed)
+
+            await viewModel.importMap(data: try image(), name: "Fresh start")
+            #expect(viewModel.rows.count == 1)
+        }
+    }
+
+    /// Two loads can read the same damaged document before either recovers.
+    @Test("Setting a damaged library aside twice is not a failure the second time")
+    func recoveringTwiceLeavesTheLibraryUsable() async throws {
+        try await withLibraryDirectory { directory in
+            defer { removeSetAside(beside: directory) }
+            let damaged = Data(#"{"version":1,"maps":[{"nonsense":true}]}"#.utf8)
+            try damaged.write(to: directory.appendingPathComponent("library.json"))
+
+            let store = UserMapStore(directory: directory)
+            #expect(try await store.setAsideDamagedLibrary())
+            // The source is gone, which is the outcome asked for. Reported as a
+            // failure it seals a library that has just been replaced.
+            #expect(try await store.setAsideDamagedLibrary())
+        }
+    }
+
+    /// A reload can overlap an import, and what it read is then already out of
+    /// date.
+    ///
+    /// The damage is not only the row that disappears from the panel. The
+    /// orphan sweep that follows a successful load deletes preview files no
+    /// record claims, and the arriving map's pixels are on disk before its
+    /// record is: swept against a list read before the import, they are the
+    /// orphan. The app keeps no copy of the file the user imported, so those
+    /// pixels do not come back.
+    @Test("A reload that overlaps an import keeps the arriving map and its pixels")
+    func aReloadDoesNotSweepAnArrivingMap() async throws {
+        try await withLibraryDirectory { directory in
+            let pixels = try image()
+            let opening = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await opening.load()
+            await opening.importMap(data: pixels, name: "Already there")
+
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+            async let importing: Void = viewModel.importMap(data: pixels, name: "Arriving")
+            async let reloading: Void = viewModel.load()
+            _ = await (importing, reloading)
+
+            let written = String(
+                decoding: try #require(libraryBytes(in: directory)), as: UTF8.self
+            )
+            #expect(written.contains("Already there"))
+            #expect(written.contains("Arriving"))
+            #expect(viewModel.rows.count == 2)
+
+            let previews = try FileManager.default.contentsOfDirectory(
+                at: directory, includingPropertiesForKeys: nil
+            ).filter { $0.pathExtension == "png" }
+            #expect(previews.count == 2)
+        }
+    }
+
+    /// The same window, driven through the panel rather than the store.
+    ///
+    /// Measured, not assumed: with the store's refusal taken out this fails on
+    /// every run, and the file ends up holding the one imported map in place of
+    /// the newer build's library.
+    @Test("An import already under way never overwrites a later build's library")
+    func aRacingImportLosesToTheSeal() async throws {
+        try await withLibraryDirectory { directory in
+            let later = Data(#"{"version":999,"maps":[]}"#.utf8)
+            try later.write(to: directory.appendingPathComponent("library.json"))
+
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            let pixels = try image()
+            async let importing: Void = viewModel.importMap(data: pixels, name: "Racing")
+            async let loading: Void = viewModel.load()
+            _ = await (importing, loading)
+
+            #expect(libraryBytes(in: directory) == later)
+            #expect(viewModel.isLibrarySealed)
+        }
+    }
+
+    /// The window the view model's own seal cannot close.
+    ///
+    /// `load` learns of a later version across an await. An import that started
+    /// before that await passes its check while the answer is still in flight,
+    /// and resumes afterwards to write. Only the store sees both calls, and an
+    /// actor runs them in the order they arrived, so this is where the refusal
+    /// has to be for the newer build's library to survive.
+    @Test("A save is refused after the store has read a later build's library")
+    func theStoreItselfRefusesToWriteOverALaterVersion() async throws {
+        try await withLibraryDirectory { directory in
+            let later = Data(#"{"version":999,"maps":[]}"#.utf8)
+            try later.write(to: directory.appendingPathComponent("library.json"))
+
+            let store = UserMapStore(directory: directory)
+            await #expect(throws: UserMapStore.StoreRefusal.fromALaterVersion(999)) {
+                try await store.load()
+            }
+            await #expect(throws: UserMapStore.StoreRefusal.fromALaterVersion(999)) {
+                try await store.save([])
+            }
+            #expect(libraryBytes(in: directory) == later)
         }
     }
 

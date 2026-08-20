@@ -445,5 +445,18 @@ struct RotatedPdfPageTests {
         )
         #expect(here.lat > (Self.bounds.north + Self.bounds.south) / 2)
         #expect(here.lng < (Self.bounds.east + Self.bounds.west) / 2)
+
+        // The ground answer alone does not prove the page was turned at all. A
+        // reader that ignored `/Rotate` outright would draw the same landscape
+        // sheet four times and put the ink north-west every time, and every
+        // assertion above would still hold. What separates the four cases is
+        // the raster: a quarter turn exchanges its sides, and the quarter that
+        // holds the ink walks the corners clockwise.
+        let quarterTurned = rotation == 90 || rotation == 270
+        #expect((read.pixelSize.width < read.pixelSize.height) == quarterTurned)
+        let across = sumX / count / Double(read.image.width)
+        let down = sumY / count / Double(read.image.height)
+        #expect((across > 0.5) == (rotation == 90 || rotation == 180))
+        #expect((down > 0.5) == (rotation == 180 || rotation == 270))
     }
 }

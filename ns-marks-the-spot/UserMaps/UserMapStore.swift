@@ -32,6 +32,18 @@ actor UserMapStore {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
+    /// The version of a library this build refused to read, once it has seen
+    /// one, until a load succeeds.
+    ///
+    /// Kept here rather than only in the view model because the view model's
+    /// copy cannot be checked at the moment of the write. Its `load` learns of
+    /// a later version across an await, and an import that began before that
+    /// await passes its own check while the answer is still in flight, then
+    /// resumes and writes. Both calls arrive here, and an actor runs them in
+    /// order, so the read that refused always lands before the write that
+    /// followed it.
+    private var refusedVersion: Int?
+
     init(directory: URL? = nil, fileManager: FileManager = .default) {
         self.fileManager = fileManager
         if let directory {
@@ -78,7 +90,13 @@ actor UserMapStore {
         guard let stamp = try? decoder.decode(LibraryStamp.self, from: data) else {
             throw StoreRefusal.unreadable
         }
-        guard UserMapLibrary(version: stamp.version, maps: []).isReadable else {
+        // Below the first version is not a document from the future, it is a
+        // document with a nonsense version in it — a zero, a negative number,
+        // a field some other writer put there. Reading the two the same way
+        // seals the library for good over what is only damage.
+        guard stamp.version >= 1 else { throw StoreRefusal.unreadable }
+        guard stamp.version <= UserMapLibrary.currentVersion else {
+            refusedVersion = stamp.version
             throw StoreRefusal.fromALaterVersion(stamp.version)
         }
         let library: UserMapLibrary
@@ -87,10 +105,12 @@ actor UserMapStore {
         } catch {
             throw StoreRefusal.unreadable
         }
+        refusedVersion = nil
         return library.maps
     }
 
     func save(_ maps: [UserMapRecord]) throws {
+        if let refusedVersion { throw StoreRefusal.fromALaterVersion(refusedVersion) }
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
         let data = try encoder.encode(UserMapLibrary(maps: maps))
         try data.write(to: libraryURL, options: .atomic)
@@ -112,8 +132,15 @@ actor UserMapStore {
     /// Only for a document whose own version says this build should have been
     /// able to read it. Moving a later version's library aside would hide the
     /// maps the newer build is holding.
+    ///
+    /// Answers whether the damaged library is out of the way, which a call that
+    /// found nothing left to move has achieved just as much as one that moved
+    /// it. Two loads can read the same damaged document before either recovers
+    /// from it, and reporting the second one's missing source as a failure
+    /// would seal a library that had just been successfully replaced.
     @discardableResult
-    func setAsideDamagedLibrary() throws -> URL {
+    func setAsideDamagedLibrary() throws -> Bool {
+        guard fileManager.fileExists(atPath: directory.path) else { return true }
         let parent = directory.deletingLastPathComponent()
         let stem = "\(directory.lastPathComponent)-damaged"
         var destination = parent.appendingPathComponent(stem, isDirectory: true)
@@ -125,7 +152,7 @@ actor UserMapStore {
             attempt += 1
         }
         try fileManager.moveItem(at: directory, to: destination)
-        return destination
+        return true
     }
 
     /// Stores a preview beside the library, as PNG.
@@ -171,7 +198,18 @@ actor UserMapStore {
     /// Reachable state, not a theoretical one: a delete interrupted between
     /// the two steps above, or a save that failed after its preview was
     /// written. Without this the orphans are invisible and permanent.
-    func sweepOrphanedPreviews(keeping maps: [UserMapRecord]) throws {
+    func sweepOrphanedPreviews() throws {
+        // The document is read here rather than passed in. A caller's list is
+        // whatever it read some time ago, and a save can land in between: an
+        // import that finished while a reload was in flight is in the file and
+        // not in the reload's copy, and sweeping against that copy deletes the
+        // pixels of a map the library still lists. Read inside the actor, the
+        // list is the one the last write left.
+        //
+        // A document that will not read sweeps nothing. Previews are the only
+        // copy of the pixels, and "no records" and "no readable records" are
+        // not the same statement.
+        guard let maps = try? load() else { return }
         guard let files = try? fileManager.contentsOfDirectory(
             at: directory, includingPropertiesForKeys: nil
         ) else { return }

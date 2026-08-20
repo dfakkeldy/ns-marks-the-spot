@@ -278,11 +278,18 @@ enum UserMapImporter {
         // because a TIFF carries one tag per image and the overview chosen here
         // is often not the image the tag is on. Reading index 0's tag while
         // decoding index 2's pixels swaps the recorded size for a picture that
-        // was never turned. Whichever image was decoded, its own shape says
-        // whether the decode turned it.
-        let quarterTurned = Self.isQuarterTurn(
-            decoded: image, stored: sizes[chosen]
-        )
+        // was never turned.
+        //
+        // Compared against the *primary*, which is the image whose size is
+        // being corrected, and not against the overview that happened to be
+        // decoded. An overview is a scaled copy of the primary, so the upright
+        // thumbnail's shape is the primary's upright shape; comparing it with
+        // the overview's own stored pair instead answers a question about the
+        // overview and applies it to the primary. A multi-image TIFF whose
+        // 4000×2000 primary is tagged sideways and whose 1000×2000 overview is
+        // stored already upright reads as "not turned" that way, and every
+        // control point the user places is then scaled through swapped axes.
+        let quarterTurned = Self.isQuarterTurn(decoded: image, stored: base)
         let size = quarterTurned
             ? PixelSize(width: base.height, height: base.width) : base
         return (image, size)
@@ -297,6 +304,11 @@ enum UserMapImporter {
         guard stored.width > 0, stored.height > 0, decoded.height > 0 else { return false }
         let thumbnail = Double(decoded.width) / Double(decoded.height)
         let upright = stored.width / stored.height
+        // A square image looks the same either way, and its two candidate
+        // aspects are the same number: the comparison below would be decided by
+        // whichever way a thumbnail's rounding happened to fall. Said not
+        // turned, which is what a square picture is.
+        guard abs(upright - 1 / upright) > 0.01 else { return false }
         return abs(thumbnail - upright) > abs(thumbnail - 1 / upright)
     }
 }

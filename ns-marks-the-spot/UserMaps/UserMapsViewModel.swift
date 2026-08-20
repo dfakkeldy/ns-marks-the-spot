@@ -95,6 +95,16 @@ final class UserMapsViewModel {
     /// the change was undone.
     private var saved: [UserMapRecord] = []
 
+    /// How many library writes have been started since launch.
+    ///
+    /// `load` reads the file across an await, and a write can begin while it is
+    /// still reading. What comes back is then older than what is on screen, and
+    /// applying it drops a map the file already holds — after which the next
+    /// placement writes that shortened list back and the map is gone for real.
+    /// Counted from the start of each write rather than its finish, so a write
+    /// still in flight counts too.
+    private var writes = 0
+
     private let store: UserMapStore
 
     init(store: UserMapStore = UserMapStore()) {
@@ -108,10 +118,17 @@ final class UserMapsViewModel {
     /// fills in all at once, which is indistinguishable from an app that lost
     /// their maps.
     func load() async {
+        let mark = writes
         let records: [UserMapRecord]
         do {
             records = try await store.load()
+            // Nothing read here may be applied over a newer write. Checked on
+            // the way out of every branch below as well as this one: a load
+            // that read a damaged file while an import was writing a sound one
+            // would otherwise set the new library aside as the damage.
+            guard mark == writes else { return }
         } catch UserMapStore.StoreRefusal.unreadable {
+            guard mark == writes else { return }
             // Damaged at this build's own version, which the store establishes
             // by reading the format number before anything else. There is no
             // later build coming to read this file, so sealing would take the
@@ -122,22 +139,23 @@ final class UserMapsViewModel {
             rows = []
             // Sealed only if it could not even be moved, which leaves the
             // unreadable file in place and every write still dangerous.
-            let moved = try? await store.setAsideDamagedLibrary()
-            isLibrarySealed = moved == nil
+            let recovered = (try? await store.setAsideDamagedLibrary()) ?? false
+            isLibrarySealed = !recovered
             notices = [
                 Notice(
                     id: "library",
                     name: "Your maps",
-                    message: moved == nil ? sealedMessage : """
+                    message: recovered ? """
                         Your saved maps could not be read, so they have been \
                         set aside and a new library started. Nothing was \
                         deleted: the maps are still on this device.
-                        """,
+                        """ : sealedMessage,
                     isRefusal: true
                 ),
             ]
             return
         } catch {
+            guard mark == writes else { return }
             // A library this build cannot read is left exactly as it is, and
             // the fact is remembered. Empty rows are not enough on their own:
             // the very next import would compute its document from an empty
@@ -166,7 +184,7 @@ final class UserMapsViewModel {
         // after a load that succeeded: `records` is the whole library here, and
         // sweeping against the empty list a failed load leaves would take every
         // preview on the device with it.
-        try? await store.sweepOrphanedPreviews(keeping: records)
+        try? await store.sweepOrphanedPreviews()
         for record in records {
             let preview = try? await store.preview(id: record.id)
             guard let index = rows.firstIndex(where: { $0.id == record.id }) else { continue }
@@ -196,6 +214,12 @@ final class UserMapsViewModel {
         let id = UUID().uuidString
         do {
             let imported = try UserMapImporter.import(data: data, id: id, name: name)
+            // Counted from here, not from the library write below. The preview
+            // lands on disk first, and until the record naming it lands too
+            // there is a file no document claims — which is exactly what the
+            // orphan sweep deletes. A reload that overlaps this import has to
+            // know the import began before it can sweep anything.
+            writes += 1
             try await store.writePreview(imported.preview, id: id)
             // Checked again, because the seal can go up while this file was
             // decoding. `load()` reads the library across an await, so an
@@ -228,6 +252,7 @@ final class UserMapsViewModel {
                 // flight as confirmed, when only this document reached the
                 // disk.
                 let document = rows.map(\.record)
+                writes += 1
                 try await store.save(document)
                 saved = document
             } catch {
@@ -319,6 +344,7 @@ final class UserMapsViewModel {
     private func save(_ name: String, at id: String) async {
         let document = rows.map(\.record)
         do {
+            writes += 1
             try await store.save(document)
             saved = document
         } catch {
@@ -405,6 +431,7 @@ final class UserMapsViewModel {
 
     func delete(id: String) async {
         guard !isLibrarySealed else { return }
+        writes += 1
         guard let remaining = try? await store.delete(
             id: id, from: rows.map(\.record)
         ) else { return }
