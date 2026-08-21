@@ -11,6 +11,22 @@ private func viewport(width: Double = 612, height: Double = 792) -> PdfViewportG
     )
 }
 
+/// How far the furthest control point lands past the rendered raster, as a
+/// fraction of the raster's own width or height. Zero for a sheet whose corners
+/// all sit on the page.
+private func excursion(
+    of gcps: [GroundControlPoint], on viewport: PdfViewportGeometry
+) -> Double {
+    var worst = 0.0
+    for gcp in gcps {
+        let overshootX: Double = max(-gcp.pixel.x, gcp.pixel.x - viewport.width)
+        let overshootY: Double = max(-gcp.pixel.y, gcp.pixel.y - viewport.height)
+        worst = max(worst, overshootX / viewport.width)
+        worst = max(worst, overshootY / viewport.height)
+    }
+    return worst
+}
+
 /// A Measure viewport over the whole page, with four corners in Halifax.
 private func measurePage(
     lpts: [Double] = [0, 0, 0, 1, 1, 1, 1, 0],
@@ -149,6 +165,34 @@ struct PdfMeasureRegistrationTests {
         #expect(extraction.rejected.isEmpty)
         #expect(extraction.candidates.count == 1)
         #expect(extraction.candidates.first?.gcps.count == 4)
+        // The point of this fixture: its control points really do land off the
+        // rendered raster, so the page-unit guard below has to admit them.
+        // Pinned rather than left implicit, because this number is the one that
+        // says how much room that guard must leave.
+        let worst = excursion(
+            of: extraction.candidates.first?.gcps ?? [],
+            on: viewport(width: 1728, height: 2088)
+        )
+        #expect(abs(worst - 0.0157) < 0.0001)
+    }
+
+    @Test("Local points written in page units place nothing and are refused")
+    func pageUnitLocalPointsAreRefused() {
+        // The same four ordinary Halifax corners a working sheet would carry,
+        // with `LPTS` written in page units rather than as fractions of the
+        // BBox — a hundred times too large. Every other check passes on this
+        // file: the affine is well conditioned, and the mesh corners are valid
+        // latitudes and longitudes because that is all the mesh asks. What
+        // gives it away is that its control points land at (61200, -78408) on a
+        // 612x792 page, so the sheet would be drawn at a hundredth of its size
+        // on ground it does not cover, and the user would be told the file
+        // placed itself.
+        let page = measurePage(lpts: [0, 0, 0, 100, 100, 100, 100, 0])
+        let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
+        #expect(extraction.candidates.isEmpty)
+        #expect(extraction.rejected == [
+            PdfMapRegistration.Refusal(flavour: .measure, reason: .invalid)
+        ])
     }
 
     @Test("Fewer than three pairs is not a registration")
