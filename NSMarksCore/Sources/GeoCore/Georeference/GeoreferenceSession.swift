@@ -115,7 +115,18 @@ public struct GeoreferenceSession: Sendable {
         didSet { if sourceRect != oldValue { refresh() } }
     }
 
-    private var history: [[SessionControlPoint]] = []
+    /// An undo step: both point sets, because they are one placement.
+    ///
+    /// Checks used to sit outside the history. An import replaced them and an
+    /// undo put the old control points back without them, leaving an accuracy
+    /// figure measured against ground that came from a file no longer loaded —
+    /// a number on screen scoring a placement it did not belong to.
+    private struct Step {
+        var controlPoints: [SessionControlPoint]
+        var checks: [GroundControlPoint]
+    }
+
+    private var history: [Step] = []
     private var nextNumber = 1
     /// "The last thing that happened was an undo." A drag opens exactly one
     /// undo step, at its start; an undo during that drag consumes it, and
@@ -275,8 +286,10 @@ public struct GeoreferenceSession: Sendable {
     }
 
     public mutating func undo() {
-        guard let restored = history.popLast() else { return }
+        guard let step = history.popLast() else { return }
+        let restored = step.controlPoints
         controlPoints = restored
+        checks = step.checks
         pending = nil
         if let draggedID, !restored.contains(where: { $0.id == draggedID }) {
             // This undo deleted the point the live drag holds. Its marker is
@@ -296,7 +309,7 @@ public struct GeoreferenceSession: Sendable {
 
     private mutating func snapshot() {
         undoConsumedStep = false
-        history.append(controlPoints)
+        history.append(Step(controlPoints: controlPoints, checks: checks))
         if history.count > Self.undoLimit { history.removeFirst() }
     }
 

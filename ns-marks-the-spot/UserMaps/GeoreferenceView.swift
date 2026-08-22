@@ -51,6 +51,17 @@ struct GeoreferenceView: View {
     /// every point that was there, and a reader who is not told how many were
     /// swapped has no way to know whether to undo.
     @State private var importMessage: ImportMessage?
+    /// The names the held-out checks arrived with, in the order the session
+    /// holds them. A check is stored as ground and pixels alone, and for a
+    /// graticule file those names are the intersections — so they are kept
+    /// here rather than lost the moment a file is read.
+    @State private var checkLabels: [String] = []
+    private let drafts = GeoreferenceDraftStore()
+    /// Points found on disk that the stored placement does not have. Offered,
+    /// never applied on its own: a draft is what the user was in the middle of
+    /// when something interrupted them, and replacing a saved placement with
+    /// it without asking would be the same data loss in the other direction.
+    @State private var restorable: GeoreferenceDraftStore.Draft?
 
     private struct ImportMessage: Equatable {
         var succeeded: Bool
@@ -126,6 +137,10 @@ struct GeoreferenceView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         onSave(session.controlPoints, session.method)
+                        // The placement is now in the library, so the draft is
+                        // a second copy of it and a restore offer next time
+                        // would be about work that was never lost.
+                        drafts.discard(identifier: identifier)
                         dismiss()
                     }
                     // Saving fewer points than a solver needs would store a
@@ -139,6 +154,18 @@ struct GeoreferenceView: View {
                 ShareSheet(items: payload.items)
             }
             .sheet(isPresented: $showsPoints) { pointsSheet }
+            .onAppear {
+                guard let draft = drafts.draft(identifier: identifier),
+                      draft.controls != session.controlPoints
+                else { return }
+                restorable = draft
+            }
+            // Both, because the two say different things. Points changing is
+            // every placement, deletion and undo; the drag flag going false is
+            // the end of a drag, whose last move already changed the points
+            // and would otherwise be the one position never written.
+            .onChange(of: session.controlPoints) { _, _ in saveDraft() }
+            .onChange(of: session.isDragging) { _, _ in saveDraft() }
             .fileImporter(
                 isPresented: $showsPointsImporter,
                 // Both types, because a `.csv` handed over by Files sometimes
@@ -194,6 +221,30 @@ struct GeoreferenceView: View {
         }
     }
 
+    /// Writes the working points to the container, unless a finger is down.
+    ///
+    /// Skipped mid-drag because a drag reports every frame, and a file written
+    /// sixty times a second buys nothing over the one written when the finger
+    /// lifts.
+    private func saveDraft() {
+        guard !session.isDragging else { return }
+        drafts.write(
+            identifier: identifier,
+            name: name,
+            controls: session.controlPoints,
+            checks: session.checks,
+            checkLabels: checkLabels
+        )
+    }
+
+    /// Puts the draft on the sheet. One undo takes it back off again, because
+    /// `replaceAll` opens an undo step like any other edit.
+    private func restore(_ draft: GeoreferenceDraftStore.Draft) {
+        session.replaceAll(with: draft.controls, checks: draft.checks)
+        checkLabels = draft.checkLabels
+        restorable = nil
+    }
+
     /// Reads a Fletcher points file and puts its control points on the sheet.
     ///
     /// The record's own pixel size goes in with it, so a file measured against
@@ -220,6 +271,7 @@ struct GeoreferenceView: View {
             let parsed = try FletcherGcpFile.parse(text, pixelSize: pixelSize)
             let replaced = session.controlPoints.count
             session.replaceAll(with: parsed.controls, checks: parsed.checks)
+            checkLabels = parsed.rows.filter { $0.role == .check }.map(\.id)
             // Checks are counted and not placed. They are the points the fit is
             // scored against, so promoting one would make the accuracy figure
             // circular — saying so is what stops the missing pins reading as
@@ -234,6 +286,38 @@ struct GeoreferenceView: View {
             )
         } catch {
             importMessage = ImportMessage(succeeded: false, text: error.message)
+        }
+    }
+
+    /// Writes the session as a points file and hands it to the share sheet.
+    ///
+    /// The same format the import reads, at full precision, so the file is a
+    /// restore point rather than a rounded picture of one. Checks are written
+    /// with their own role and stay out of any later fit, which is what makes
+    /// this a complete record of the session instead of half of it.
+    private func exportPoints() {
+        exportFailure = nil
+        let now = Date()
+        do {
+            let text = FletcherGcpFile.snapshot(
+                name: name,
+                controls: session.controlPoints,
+                checks: session.checks,
+                checkLabels: checkLabels,
+                at: now
+            )
+            let directory = FileManager.default.temporaryDirectory
+                .appending(path: "georef-\(identifier)")
+            try FileManager.default.createDirectory(
+                at: directory, withIntermediateDirectories: true
+            )
+            let url = directory.appending(
+                path: FletcherGcpFile.snapshotFileName(for: name, at: now)
+            )
+            try Data(text.utf8).write(to: url, options: .atomic)
+            share = SharePayload(url: url)
+        } catch {
+            exportFailure = "The points could not be written to this device."
         }
     }
 
@@ -426,6 +510,10 @@ struct GeoreferenceView: View {
 
     private var controls: some View {
         VStack(alignment: .leading, spacing: 12) {
+            if let restorable {
+                restoreBanner(restorable)
+            }
+
             Text(session.status.message)
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -493,20 +581,38 @@ struct GeoreferenceView: View {
 
                 Spacer()
 
-                // The same bar Save uses: a solved placement. Counting points
-                // instead would export three collinear or coincident ones — a
-                // fit this app refuses to draw, handed to another tool as
-                // though it were a placement. Absent rather than disabled — a
-                // disabled control advertises something the user cannot have
-                // and explains nothing about why.
-                if session.mesh != nil {
-                    Button {
-                        exportAnnotation()
+                // A menu rather than two more buttons: six controls on one
+                // row do not fit a phone, and these two are the pair a reader
+                // chooses between rather than uses together.
+                if !session.controlPoints.isEmpty {
+                    Menu {
+                        Button {
+                            exportPoints()
+                        } label: {
+                            Label("Points file", systemImage: "tablecells")
+                        }
+                        .accessibilityIdentifier("export-points")
+
+                        // The same bar Save uses: a solved placement.
+                        // Counting points instead would export three
+                        // collinear or coincident ones — a fit this app
+                        // refuses to draw, handed to another tool as though
+                        // it were a placement. Absent rather than disabled: a
+                        // disabled control advertises something the user
+                        // cannot have and explains nothing about why.
+                        if session.mesh != nil {
+                            Button {
+                                exportAnnotation()
+                            } label: {
+                                Label("Georeference", systemImage: "mappin.and.ellipse")
+                            }
+                            .accessibilityIdentifier("export-georeference")
+                        }
                     } label: {
-                        Label("Export georeference", systemImage: "square.and.arrow.up")
+                        Label("Export", systemImage: "square.and.arrow.up")
                             .font(.footnote)
                     }
-                    .accessibilityIdentifier("export-georeference")
+                    .accessibilityIdentifier("georeference-export")
                 }
             }
 
@@ -527,6 +633,40 @@ struct GeoreferenceView: View {
         }
         .padding()
         .background(.bar)
+    }
+
+    /// Says what was found and how much of it, then gets out of the way.
+    ///
+    /// A count and a time, because that is what tells a reader whether the
+    /// draft is the afternoon they lost or a stale copy of something they
+    /// already redid. Discard is offered next to it so the offer can be made
+    /// to stop coming back.
+    private func restoreBanner(_ draft: GeoreferenceDraftStore.Draft) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(
+                """
+                \(draft.controls.count) unsaved point\(draft.controls.count == 1 ? "" : "s") \
+                from \(draft.savedAt.formatted(date: .abbreviated, time: .shortened)).
+                """
+            )
+            .font(.footnote)
+            .fixedSize(horizontal: false, vertical: true)
+
+            Spacer()
+
+            Button("Restore") { restore(draft) }
+                .font(.footnote)
+                .accessibilityIdentifier("georeference-restore-draft")
+
+            Button("Discard") {
+                drafts.discard(identifier: identifier)
+                restorable = nil
+            }
+            .font(.footnote)
+            .accessibilityIdentifier("georeference-discard-draft")
+        }
+        .padding(8)
+        .background(Color(.tertiarySystemBackground), in: RoundedRectangle(cornerRadius: 8))
     }
 
     private var pointsSheet: some View {

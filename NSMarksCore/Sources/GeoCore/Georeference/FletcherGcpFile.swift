@@ -185,6 +185,103 @@ public enum FletcherGcpFile {
         return lines.joined(separator: "\n") + "\n"
     }
 
+    // MARK: - A session, written out
+
+    /// A working session as a points file, at full precision.
+    ///
+    /// Ported from `web/src/userMaps/autoExport.ts`. Not the emitters' 1 and 8
+    /// decimals: those keep GENERATED pipeline files stable and diffable,
+    /// while this file's only job is to restore the session exactly. A dragged
+    /// point sits at a sub-pixel position, 800.25 becomes 800.3 at one
+    /// decimal, and a backup that moves every point on the way back in is not
+    /// a backup.
+    /// `checkLabels` are the names the checks arrived with, in the same order.
+    /// A held-out point is stored as ground and pixels alone, so its label
+    /// does not survive a session on its own — and for a graticule file those
+    /// labels are the intersections' names. Passing them keeps the file worth
+    /// handing back to the pipeline; without them the checks are numbered.
+    public static func snapshot(
+        name: String,
+        controls: [SessionControlPoint],
+        checks: [GroundControlPoint],
+        checkLabels: [String] = [],
+        at date: Date
+    ) -> String {
+        let rows =
+            controls.map {
+                exactRow(id: $0.id, pixel: $0.pixel, map: $0.map, role: .control)
+            }
+            + checks.enumerated().map { index, check in
+                exactRow(
+                    id: index < checkLabels.count ? checkLabels[index] : "check-\(index + 1)",
+                    pixel: check.pixel, map: check.map, role: .check
+                )
+            }
+        let held = checks.isEmpty
+            ? ""
+            : ", \(checks.count) held-out check\(checks.count == 1 ? "" : "s")"
+        return serialize(
+            rows: rows,
+            comments: [
+                "# \(name) — saved \(iso8601(date)).",
+                """
+                # \(controls.count) control\(controls.count == 1 ? "" : "s")\(held). \
+                Re-import this file to restore the session.
+                """,
+            ]
+        )
+    }
+
+    /// Filesystem-safe, and sorts chronologically inside a folder.
+    public static func snapshotFileName(for name: String, at date: Date) -> String {
+        let slug = String(
+            name.lowercased().map { $0.isLetter || $0.isNumber ? $0 : "-" }
+        )
+        .split(separator: "-", omittingEmptySubsequences: true)
+        .joined(separator: "-")
+        .prefix(60)
+        return "\(slug.isEmpty ? "user-map" : String(slug))-\(stamp(date)).csv"
+    }
+
+    /// Built per call rather than held: `ISO8601DateFormatter` is a class with
+    /// mutable settings, so one shared instance is not safe to reach from two
+    /// tasks at once, and a snapshot is written rarely enough that the cost
+    /// does not matter.
+    private static func iso8601(_ date: Date) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return formatter.string(from: date)
+    }
+
+    /// Local time, not UTC: the reader is looking for the file they made
+    /// twenty minutes ago, and a name in another timezone is one they have to
+    /// convert before they can find it.
+    private static func stamp(_ date: Date) -> String {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = .current
+        let parts = calendar.dateComponents(
+            [.year, .month, .day, .hour, .minute, .second], from: date
+        )
+        func pad(_ value: Int?) -> String { String(format: "%02d", value ?? 0) }
+        return """
+            \(parts.year ?? 0)-\(pad(parts.month))-\(pad(parts.day))\
+            T\(pad(parts.hour))-\(pad(parts.minute))-\(pad(parts.second))
+            """
+    }
+
+    private static func exactRow(
+        id: String, pixel: PixelPoint, map: GeoPoint, role: Role
+    ) -> Row {
+        Row(
+            id: id, pixel: pixel, map: map, role: role,
+            source: Row.SourceText(
+                pixelX: number(pixel.x), pixelY: number(pixel.y),
+                lon: number(map.lng), lat: number(map.lat)
+            )
+        )
+    }
+
     // MARK: - Reading one row
 
     private static func row(from line: String, line number: Int) throws(ReadFailure) -> Row {

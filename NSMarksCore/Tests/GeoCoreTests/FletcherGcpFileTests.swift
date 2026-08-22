@@ -255,3 +255,102 @@ struct HeldOutMessageTests {
         #expect(report.message == "4 m at 1 held-out check (worst 4 m)")
     }
 }
+
+@Suite("Writing a session out")
+struct FletcherGcpSnapshotTests {
+    static let moment = Date(timeIntervalSince1970: 1_700_000_000)
+
+    /// The point of full precision: a dragged point sits between raster
+    /// pixels, and the emitters' one decimal would move it on the way back in.
+    @Test("A dragged point comes back where it was left")
+    func aDraggedPointComesBackWhereItWasLeft() throws {
+        let placed = SessionControlPoint(
+            id: "1", pixel: PixelPoint(x: 800.25, y: 1200.75),
+            map: GeoPoint(lat: 45.123456789, lng: -61.987654321)
+        )
+        let text = FletcherGcpFile.snapshot(
+            name: "Survey sheet", controls: [placed, Self.placed2], checks: [], at: Self.moment
+        )
+        let parsed = try FletcherGcpFile.parse(text)
+        #expect(parsed.controls[0].pixel == placed.pixel)
+        #expect(parsed.controls[0].map == placed.map)
+    }
+
+    static let placed2 = SessionControlPoint(
+        id: "2", pixel: PixelPoint(x: 10, y: 20), map: GeoPoint(lat: 46, lng: -62)
+    )
+
+    /// A whole number is written without a trailing `.0`, the way both the
+    /// browser and the emitters write it.
+    @Test("A whole pixel is a whole number")
+    func aWholePixelIsAWholeNumber() {
+        let text = FletcherGcpFile.snapshot(
+            name: "s", controls: [Self.placed2], checks: [], at: Self.moment
+        )
+        #expect(text.contains("10,20,-62,46,control,2"))
+    }
+
+    @Test("Checks are written with their own role and keep their names")
+    func checksAreWrittenWithTheirOwnRoleAndKeepTheirNames() throws {
+        let text = FletcherGcpFile.snapshot(
+            name: "s",
+            controls: [Self.placed2],
+            checks: [
+                GroundControlPoint(
+                    pixel: PixelPoint(x: 5, y: 6), map: GeoPoint(lat: 45, lng: -61)
+                )
+            ],
+            checkLabels: ["61d35mW 45d50mN"],
+            at: Self.moment
+        )
+        #expect(text.contains("5,6,-61,45,check,61d35mW 45d50mN"))
+        let parsed = try FletcherGcpFile.parse(text)
+        #expect(parsed.controls.count == 1)
+        #expect(parsed.checks.count == 1)
+    }
+
+    @Test("A check with no name is numbered rather than dropped")
+    func aCheckWithNoNameIsNumberedRatherThanDropped() throws {
+        let text = FletcherGcpFile.snapshot(
+            name: "s",
+            controls: [Self.placed2],
+            checks: [
+                GroundControlPoint(
+                    pixel: PixelPoint(x: 5, y: 6), map: GeoPoint(lat: 45, lng: -61)
+                )
+            ],
+            at: Self.moment
+        )
+        #expect(text.contains(",check,check-1"))
+        #expect(try FletcherGcpFile.parse(text).checks.count == 1)
+    }
+
+    @Test("The banner says what is in the file")
+    func theBannerSaysWhatIsInTheFile() throws {
+        let text = FletcherGcpFile.snapshot(
+            name: "Sheet 19", controls: [Self.placed2], checks: [], at: Self.moment
+        )
+        let parsed = try FletcherGcpFile.parse(text)
+        #expect(parsed.comments.count == 2)
+        #expect(parsed.comments[0].hasPrefix("# Sheet 19 — saved 2023-11-14T22:13:20"))
+        #expect(parsed.comments[1].contains("1 control."))
+        #expect(parsed.comments[1].contains("Re-import this file to restore the session."))
+    }
+
+    @Test("A name becomes a filename that sorts by time")
+    func aNameBecomesAFilenameThatSortsByTime() {
+        let name = FletcherGcpFile.snapshotFileName(for: "Sheet 19 (draft).png", at: Self.moment)
+        #expect(name.hasPrefix("sheet-19-draft-png-"))
+        #expect(name.hasSuffix(".csv"))
+        #expect(!name.contains(" "))
+        #expect(!name.contains(":"))
+    }
+
+    @Test("A name with nothing usable in it still makes a file")
+    func aNameWithNothingUsableInItStillMakesAFile() {
+        #expect(
+            FletcherGcpFile.snapshotFileName(for: "///", at: Self.moment)
+                .hasPrefix("user-map-")
+        )
+    }
+}

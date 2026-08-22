@@ -405,3 +405,66 @@ struct GeoreferenceSessionStatusTests {
         #expect(session.spline == nil)
     }
 }
+
+/// An import brings held-out points with it, and taking the import back has to
+/// take them back too. Left behind, they scored the restored placement against
+/// ground that came from a file the user had just undone.
+@Suite("Undoing an import")
+struct GeoreferenceImportUndoTests {
+    static func square(offset: Double = 0) -> [SessionControlPoint] {
+        [
+            SessionControlPoint(
+                id: "1", pixel: PixelPoint(x: 100 + offset, y: 100),
+                map: GeoPoint(lat: 45, lng: -61)
+            ),
+            SessionControlPoint(
+                id: "2", pixel: PixelPoint(x: 900 + offset, y: 100),
+                map: GeoPoint(lat: 45, lng: -60.9)
+            ),
+            SessionControlPoint(
+                id: "3", pixel: PixelPoint(x: 100 + offset, y: 900),
+                map: GeoPoint(lat: 44.9, lng: -61)
+            ),
+            SessionControlPoint(
+                id: "4", pixel: PixelPoint(x: 900 + offset, y: 900),
+                map: GeoPoint(lat: 44.9, lng: -60.9)
+            ),
+        ]
+    }
+
+    static let check = GroundControlPoint(
+        pixel: PixelPoint(x: 500, y: 500), map: GeoPoint(lat: 44.95, lng: -60.95)
+    )
+
+    @Test("Undo takes the imported checks back with the points")
+    func undoTakesTheImportedChecksBackWithThePoints() {
+        var session = GeoreferenceSession(
+            controlPoints: Self.square(), pixelSize: PixelSize(width: 1000, height: 1000)
+        )
+        #expect(session.checks.isEmpty)
+        #expect(session.heldOut == nil)
+
+        session.replaceAll(with: Self.square(offset: 40), checks: [Self.check])
+        #expect(session.heldOut != nil)
+
+        session.undo()
+        #expect(session.controlPoints == Self.square())
+        #expect(session.checks.isEmpty)
+        // The figure has to go with them. Left standing, it scored the
+        // restored placement against a point from a discarded file.
+        #expect(session.heldOut == nil)
+    }
+
+    @Test("Undoing an ordinary edit leaves the checks alone")
+    func undoingAnOrdinaryEditLeavesTheChecksAlone() {
+        var session = GeoreferenceSession(pixelSize: PixelSize(width: 1000, height: 1000))
+        session.replaceAll(with: Self.square(), checks: [Self.check])
+        let before = session.heldOut
+
+        session.delete(session.controlPoints[3].id)
+        session.undo()
+
+        #expect(session.checks == [Self.check])
+        #expect(session.heldOut == before)
+    }
+}
