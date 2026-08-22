@@ -1226,3 +1226,35 @@ on claude/ios-web-map-parity-2de228, at 6fb66c292. From 22:00 run
 then read every bundle under .build/focused-tests with
 xcrun xcresulttool get test-results tests --path <bundle>.
 ```
+
+## 2026-08-22 — Codex parity audit triaged; five gaps closed gate-free
+
+Done: Codex's read-only parity audit named 14 gaps. Closed so far, each
+committed: the well-log `manualUrl` link; the opening view (the app opened on
+Halifax at a province span, the web on Cape Breton at z9 — now shared through
+`MapPosition.default` and applied once layout gives the map a width); the
+location button's silence when permission was already refused; tapping a
+mineral occurrence or mine opening, which computed a label and threw it away;
+`MKScaleView` beside the position readout; and the georeferencer's fixed 70%
+draft opacity, now a slider that moves the renderer's alpha.
+
+Verified gate-free: the scratchpad probe run on the booted simulator (9/9,
+span 1.069° at 390 pt confirms z9), `swift test --package-path NSMarksCore`
+991/991, `Scripts/typecheck-ios.sh` clean. A `swift test` SIGSEGV during the
+`manualURL` work was a stale SwiftPM test-module object file after the
+`LayerDescriptor` layout changed; `swift package clean` fixes it.
+
+Next: the audit's remaining gaps, largest first — no OSM base layer, no
+reference layers in the georeferencer, no Fletcher CSV import or held-out
+error, no session autosave, no unified batch import. The print seal difference
+and the narrower accepted coordinate-system list look deliberate and
+fail-closed; decide rather than change. Then the gated suite from 22:00.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228, at 04ddfc5ce. From 22:00 run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+then read every bundle under .build/focused-tests with
+xcrun xcresulttool get test-results tests --path <bundle>.
+```
