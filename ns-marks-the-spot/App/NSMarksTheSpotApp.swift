@@ -31,6 +31,11 @@ struct NSMarksTheSpotApp: App {
                 offlineAreasViewModel: container.offlineAreasViewModel,
                 isUITestMode: container.isUITestMode
             )
+            // Lent down rather than passed through four views that have no use
+            // for it. The georeferencer is the only screen that draws official
+            // layers outside the main map, and it must draw them through the
+            // app's own cache and clearance.
+            .environment(\.georeferenceReferences, GeoreferenceReferenceServices(container: container))
         }
     }
 }

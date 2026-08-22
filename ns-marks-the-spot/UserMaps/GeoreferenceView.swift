@@ -28,6 +28,9 @@ struct GeoreferenceView: View {
     let onSave: ([SessionControlPoint], GeoreferenceMethod) -> Void
 
     @Environment(\.dismiss) private var dismiss
+    /// The app's tile cache, fetcher and licence clearance, lent so this pane
+    /// can draw official layers without a second route to them.
+    @Environment(\.georeferenceReferences) private var referenceServices
     @State private var session: GeoreferenceSession
     @State private var share: SharePayload?
     @State private var exportFailure: String?
@@ -45,6 +48,17 @@ struct GeoreferenceView: View {
     @State private var draftOpacity: Double = 0.7
     @State private var sort = GcpListPresentation.Sort(key: .index)
     @State private var showsPointsImporter = false
+    /// Which official layers are drawn under the scan. Off to start, like the
+    /// browser: a sheet opened over imagery it was not meant to be compared
+    /// against costs a wait for tiles and hides the base map's labels.
+    @State private var references: Set<GeoreferenceReference> = []
+    /// The pane's current zoom, so the panel can say when a layer is on but the
+    /// map is too far out for it to draw anything.
+    @State private var paneZoom: Double = 0
+    /// Whether the opening state has been copied from the main map. Once only:
+    /// after that the reader owns these switches, and re-seeding would turn a
+    /// layer they just switched off back on.
+    @State private var seededReferences = false
     /// What the last points file did, said out loud.
     ///
     /// A failure has to be readable, and so does a success: an import replaces
@@ -155,6 +169,7 @@ struct GeoreferenceView: View {
             }
             .sheet(isPresented: $showsPoints) { pointsSheet }
             .onAppear {
+                seedReferences()
                 guard let draft = drafts.draft(identifier: identifier),
                       draft.controls != session.controlPoints
                 else { return }
@@ -471,6 +486,125 @@ struct GeoreferenceView: View {
             }
     }
 
+    /// Whether the provincial layers may be drawn at all.
+    ///
+    /// Read on every pass rather than captured, so a clearance revoked while
+    /// this sheet is open takes the switches with it. Acceptance itself is not
+    /// offered here: it belongs to the licence sheet on the main map, and a
+    /// second place to agree would be a second record of what was agreed to.
+    private var referenceLayersLocked: Bool {
+        referenceServices?.allowsRestrictedLayers != true
+    }
+
+    /// The official evidence a scan can be lined up against.
+    ///
+    /// Buttons rather than switch rows: two labelled switches would take a
+    /// third of a phone panel that already has to hold the status, the fit and
+    /// the point list.
+    @ViewBuilder
+    private var referenceLayerControls: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 8) {
+                Text("Reference layers")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                ForEach(GeoreferenceReference.allCases) { reference in
+                    Toggle(reference.title, isOn: binding(for: reference))
+                        .toggleStyle(.button)
+                        .font(.footnote)
+                        .accessibilityIdentifier("georeference-reference-\(reference.id)")
+                }
+
+                Spacer(minLength: 0)
+            }
+            .disabled(referenceLayersLocked)
+
+            if referenceLayersLocked {
+                // The browser's sentence. It says where to go rather than
+                // offering a shortcut, because accepting a licence next to the
+                // layer it unlocks is agreeing to terms nobody has read.
+                Text("Close this panel and accept the provincial data licence to use these.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("georeference-references-locked")
+            } else {
+                ForEach(tooFarOut, id: \.id) { reference in
+                    // Said out loud, because the alternative is a switch that
+                    // reads "on" over empty ground. A reader lining a scan up
+                    // against nothing would take the blank for the register
+                    // having no parcels here.
+                    Label(
+                        "\(reference.title): zoom in to see them.",
+                        systemImage: "arrow.up.left.and.arrow.down.right"
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("georeference-reference-too-far-out")
+                }
+
+                // The licence's own words, beside the imagery it covers. This
+                // pane is a map of its own behind a sheet: the strip under the
+                // main map is not on screen and does not describe what is drawn
+                // here, and an obligation to attribute follows the pixels.
+                ForEach(credits) { credit in
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(credit.copyright ?? credit.provider)
+                        Text(credit.disclaimer)
+                        if let title = credit.licenseTitle, let url = credit.licenseURL {
+                            Link(title, destination: url)
+                        }
+                    }
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("georeference-reference-credit")
+                }
+            }
+        }
+    }
+
+    /// The layers switched on that this map is too far out to draw.
+    private var tooFarOut: [GeoreferenceReference] {
+        guard let referenceServices, paneZoom > 0 else { return [] }
+        return GeoreferenceReference.allCases.filter {
+            references.contains($0)
+                && paneZoom < Double(referenceServices.minimumZoom(for: $0) ?? 0)
+        }
+    }
+
+    /// What the layers currently drawn here oblige this panel to say.
+    private var credits: [ActiveAttribution.Credit] {
+        referenceServices?.credits(for: references) ?? []
+    }
+
+    /// Copies the main map's reference layers, once, when the sheet opens.
+    private func seedReferences() {
+        guard !seededReferences, let referenceServices else { return }
+        seededReferences = true
+        references = referenceServices.activeOnTheMainMap
+    }
+
+    /// A switch that cannot turn a layer on while the licence is unanswered.
+    ///
+    /// The guard is on the write, not only on `disabled`: an accessibility
+    /// action or a state restored from a draft would otherwise install an
+    /// overlay the user never cleared.
+    private func binding(for reference: GeoreferenceReference) -> Binding<Bool> {
+        Binding(
+            get: { references.contains(reference) },
+            set: { isOn in
+                guard isOn, !referenceLayersLocked else {
+                    references.remove(reference)
+                    return
+                }
+                references.insert(reference)
+            }
+        )
+    }
+
     // MARK: - The map
 
     private var mapPane: some View {
@@ -480,6 +614,11 @@ struct GeoreferenceView: View {
             pending: session.pending,
             draft: draft,
             draftOpacity: draftOpacity,
+            // Locked means none, whatever the switches last said. A licence
+            // withdrawn while this sheet is open takes the imagery off this map
+            // as well as off the one behind it.
+            references: referenceLayersLocked ? [] : references,
+            referenceServices: referenceServices,
             focus: mapFocus,
             onTap: { coordinate in
                 session.pickMapPoint(lat: coordinate.latitude, lng: coordinate.longitude)
@@ -488,7 +627,8 @@ struct GeoreferenceView: View {
             onMove: { id, coordinate in
                 session.moveOnMap(id, lat: coordinate.latitude, lng: coordinate.longitude)
             },
-            onDragEnd: { _ in session.endDrag() }
+            onDragEnd: { _ in session.endDrag() },
+            onZoomChange: { paneZoom = $0 }
         )
     }
 
@@ -539,6 +679,10 @@ struct GeoreferenceView: View {
                     .accessibilityLabel("Map opacity")
                     .accessibilityValue("\(Int((draftOpacity * 100).rounded())) percent")
                     .accessibilityIdentifier("georeference-opacity")
+            }
+
+            if referenceServices != nil {
+                referenceLayerControls
             }
 
             HStack {

@@ -49,11 +49,21 @@ struct GeoreferenceMapPane: UIViewRepresentable {
     /// through it. The web puts this on a slider, because a dense sheet can
     /// hide the very shoreline the reader is trying to line it up with.
     let draftOpacity: Double
+    /// The official layers drawn under the scan. Empty is the ordinary case:
+    /// most sheets are placed against the base map alone.
+    let references: Set<GeoreferenceReference>
+    /// Nil where the app never built a container to lend its tile cache and
+    /// clearance from, which is a preview or a test. No services means no
+    /// reference layers, never an ungated fetch of its own.
+    let referenceServices: GeoreferenceReferenceServices?
     let focus: (point: GeoPoint, request: PaneFocusRequest)?
     let onTap: (CLLocationCoordinate2D) -> Void
     let onDragBegin: (String) -> Void
     let onMove: (String, CLLocationCoordinate2D) -> Void
     let onDragEnd: (String) -> Void
+    /// The pane's own zoom, reported as it changes. The panel needs it to say
+    /// when a reference layer is switched on but too far out to draw.
+    let onZoomChange: (Double) -> Void
 
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -65,6 +75,9 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         )
         mapView.addGestureRecognizer(tap)
         context.coordinator.mapView = mapView
+        // Once at birth: the pane opens at a province-wide span and the panel
+        // has to be able to say so before the reader touches anything.
+        context.coordinator.reportZoom(of: mapView)
         return mapView
     }
 
@@ -73,7 +86,11 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         context.coordinator.onDragBegin = onDragBegin
         context.coordinator.onMove = onMove
         context.coordinator.onDragEnd = onDragEnd
+        context.coordinator.onZoomChange = onZoomChange
         context.coordinator.apply(points: points, pending: pending)
+        // Before the draft, so the scan lands on top of anything installed on
+        // this pass rather than under it.
+        context.coordinator.apply(references: references, services: referenceServices)
         // Before the draft: a rebuild has to use the opacity the reader is on,
         // not the one the last overlay was made with.
         context.coordinator.apply(draftOpacity: draftOpacity)
@@ -82,7 +99,10 @@ struct GeoreferenceMapPane: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(onTap: onTap, onDragBegin: onDragBegin, onMove: onMove, onDragEnd: onDragEnd)
+        Coordinator(
+            onTap: onTap, onDragBegin: onDragBegin, onMove: onMove,
+            onDragEnd: onDragEnd, onZoomChange: onZoomChange
+        )
     }
 
     /// One control point on the ground, carrying the id the session knows it by
@@ -103,11 +123,19 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         var onDragBegin: (String) -> Void
         var onMove: (String, CLLocationCoordinate2D) -> Void
         var onDragEnd: (String) -> Void
+        var onZoomChange: (Double) -> Void
         weak var mapView: MKMapView?
+        /// The last zoom reported. Held so a pan, which changes the region
+        /// without changing the scale, does not restate it on every frame.
+        private var lastZoom: Double?
 
         private var annotations: [String: GcpAnnotation] = [:]
         private var pendingAnnotation: GcpAnnotation?
         private var draftOverlay: UserMapOverlay?
+        /// The reference layers currently installed, by the switch that asked
+        /// for them. Held so a layer switched off is the overlay that comes
+        /// out, and so its renderer can be given the catalogue's opacity.
+        private var referenceOverlays: [GeoreferenceReference: GeoreferenceReferenceOverlay] = [:]
         private var lastDraft: GeoreferenceDraft?
         /// The opacity the current overlay was built with. Kept even when there
         /// is no overlay yet, so the next one is built at the setting the
@@ -123,12 +151,37 @@ struct GeoreferenceMapPane: UIViewRepresentable {
             onTap: @escaping (CLLocationCoordinate2D) -> Void,
             onDragBegin: @escaping (String) -> Void,
             onMove: @escaping (String, CLLocationCoordinate2D) -> Void,
-            onDragEnd: @escaping (String) -> Void
+            onDragEnd: @escaping (String) -> Void,
+            onZoomChange: @escaping (Double) -> Void
         ) {
             self.onTap = onTap
             self.onDragBegin = onDragBegin
             self.onMove = onMove
             self.onDragEnd = onDragEnd
+            self.onZoomChange = onZoomChange
+        }
+
+        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+            reportZoom(of: mapView)
+        }
+
+        /// The web-tile zoom this pane is showing.
+        ///
+        /// Derived from the span and the pane's own width rather than read off
+        /// MapKit, which has no such number: a layer's `minZoom` is a statement
+        /// about tile pyramids, and comparing it against anything else would be
+        /// comparing two different scales.
+        func reportZoom(of mapView: MKMapView) {
+            let width = mapView.bounds.width
+            let span = mapView.region.span.longitudeDelta
+            guard width > 0, span > 0 else { return }
+            let zoom = log2(360 * width / (256 * span))
+            guard zoom.isFinite else { return }
+            // A tenth of a level: enough to cross a `minZoom` boundary, not
+            // enough to redraw the panel on every pixel of a pinch.
+            if let lastZoom, abs(lastZoom - zoom) < 0.1 { return }
+            lastZoom = zoom
+            onZoomChange(zoom)
         }
 
         @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
@@ -211,6 +264,33 @@ struct GeoreferenceMapPane: UIViewRepresentable {
             }
         }
 
+        /// Installs and removes the official layers under the scan.
+        ///
+        /// A switched-off layer is removed rather than made transparent: this
+        /// pane is open for one placement, and an invisible overlay left
+        /// installed would go on fetching tiles of a service the user has
+        /// stopped looking at.
+        func apply(references: Set<GeoreferenceReference>, services: GeoreferenceReferenceServices?) {
+            guard let mapView else { return }
+            // An empty set is how a withdrawn licence reaches the tiles already
+            // on screen. The gate stops the next fetch; only removing the
+            // overlay takes back what MapKit has already drawn.
+            for (reference, installed) in referenceOverlays where !references.contains(reference) {
+                mapView.removeOverlay(installed.overlay)
+                referenceOverlays[reference] = nil
+            }
+            guard let services else { return }
+            for reference in references where referenceOverlays[reference] == nil {
+                guard let installed = services.overlay(for: reference) else { continue }
+                referenceOverlays[reference] = installed
+                // In the web's order, which is the main map's: imagery under
+                // the scan, boundaries over it. A lot line drawn on top is the
+                // point of turning parcels on — an 1884 edge is being compared
+                // against the modern one, and the modern one has to be visible.
+                mapView.installInDrawOrder(installed.overlay)
+            }
+        }
+
         /// Changes the working opacity without rebuilding the overlay.
         ///
         /// The renderer already has the warped image; only its alpha moves. A
@@ -249,7 +329,11 @@ struct GeoreferenceMapPane: UIViewRepresentable {
                   )
             else { return }
             draftOverlay = overlay
-            mapView.addOverlay(overlay)
+            // In draw order rather than appended, because a rebuild happens on
+            // every warp: appended, the scan would climb above the property
+            // boundaries the moment a point moved, and the order would depend
+            // on which the reader turned on first.
+            mapView.installInDrawOrder(overlay)
         }
 
         func apply(focus: (point: GeoPoint, request: PaneFocusRequest)?) {
@@ -273,10 +357,17 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         func mapView(
             _ mapView: MKMapView, rendererFor overlay: any MKOverlay
         ) -> MKOverlayRenderer {
-            guard let userMap = overlay as? UserMapOverlay else {
-                return MKOverlayRenderer(overlay: overlay)
+            if let userMap = overlay as? UserMapOverlay {
+                return UserMapOverlayRenderer(userMap: userMap)
             }
-            return UserMapOverlayRenderer(userMap: userMap)
+            if let tileOverlay = overlay as? OpacityTileOverlay {
+                let renderer = MKTileOverlayRenderer(tileOverlay: tileOverlay)
+                renderer.alpha = referenceOverlays.values
+                    .first { $0.overlay === tileOverlay }?.alpha ?? 1
+                tileOverlay.renderer = renderer
+                return renderer
+            }
+            return MKOverlayRenderer(overlay: overlay)
         }
 
         func mapView(
