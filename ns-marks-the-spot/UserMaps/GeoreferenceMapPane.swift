@@ -45,6 +45,10 @@ struct GeoreferenceMapPane: UIViewRepresentable {
     /// Nil while the points cannot place the sheet. Nothing is drawn then,
     /// which is the honest picture: there is no placement to look at yet.
     let draft: GeoreferenceDraft?
+    /// How much of the ground the scan is being matched against stays visible
+    /// through it. The web puts this on a slider, because a dense sheet can
+    /// hide the very shoreline the reader is trying to line it up with.
+    let draftOpacity: Double
     let focus: (point: GeoPoint, request: PaneFocusRequest)?
     let onTap: (CLLocationCoordinate2D) -> Void
     let onDragBegin: (String) -> Void
@@ -70,6 +74,9 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         context.coordinator.onMove = onMove
         context.coordinator.onDragEnd = onDragEnd
         context.coordinator.apply(points: points, pending: pending)
+        // Before the draft: a rebuild has to use the opacity the reader is on,
+        // not the one the last overlay was made with.
+        context.coordinator.apply(draftOpacity: draftOpacity)
         context.coordinator.apply(draft: draft)
         context.coordinator.apply(focus: focus)
     }
@@ -102,6 +109,10 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         private var pendingAnnotation: GcpAnnotation?
         private var draftOverlay: UserMapOverlay?
         private var lastDraft: GeoreferenceDraft?
+        /// The opacity the current overlay was built with. Kept even when there
+        /// is no overlay yet, so the next one is built at the setting the
+        /// reader chose rather than at the default they moved away from.
+        private var lastDraftOpacity: Double = 0.7
         private var lastFocus: PaneFocusRequest?
         /// The point currently under a finger. Its coordinate is not written
         /// back from state while the drag is live: the finger is the authority,
@@ -200,6 +211,22 @@ struct GeoreferenceMapPane: UIViewRepresentable {
             }
         }
 
+        /// Changes the working opacity without rebuilding the overlay.
+        ///
+        /// The renderer already has the warped image; only its alpha moves. A
+        /// remove-and-re-add would redraw every triangle on each step of the
+        /// slider, which is the one thing this view cannot afford to do while
+        /// a finger is on it.
+        func apply(draftOpacity: Double) {
+            guard draftOpacity != lastDraftOpacity else { return }
+            lastDraftOpacity = draftOpacity
+            guard let mapView, let draftOverlay,
+                  let renderer = mapView.renderer(for: draftOverlay)
+            else { return }
+            renderer.alpha = draftOpacity
+            renderer.setNeedsDisplay()
+        }
+
         func apply(draft: GeoreferenceDraft?) {
             guard let mapView, draft != lastDraft else { return }
             lastDraft = draft
@@ -215,10 +242,10 @@ struct GeoreferenceMapPane: UIViewRepresentable {
                       gridSize: draft.gridSize,
                       sourceRect: draft.sourceRect,
                       image: draft.image,
-                      // Part transparent so the ground the scan is being
-                      // matched against stays readable underneath it. This is
-                      // the working view, not the drape the panel controls.
-                      alpha: 0.7
+                      // The working view's own opacity, not the drape the
+                      // layers panel controls: this one exists to let the
+                      // ground show through while the sheet is being lined up.
+                      alpha: lastDraftOpacity
                   )
             else { return }
             draftOverlay = overlay

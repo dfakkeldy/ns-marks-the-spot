@@ -35,6 +35,13 @@ struct GeoreferenceView: View {
         span: MKCoordinateSpan(latitudeDelta: 4, longitudeDelta: 5)
     )
     @State private var showsPoints = false
+    /// How much of the ground shows through the sheet being placed.
+    ///
+    /// Starts where the fixed value used to be, so nothing moves for a reader
+    /// who never touches it. The web's slider runs 0 to 100 in fives, and a
+    /// dense scan can hide the shoreline it is being lined up against, which is
+    /// the whole reason the control exists.
+    @State private var draftOpacity: Double = 0.7
     @State private var sort = GcpListPresentation.Sort(key: .index)
 
     // The scan's own pan and zoom. A sheet fitted to a phone-height pane is
@@ -317,6 +324,7 @@ struct GeoreferenceView: View {
             points: session.controlPoints,
             pending: session.pending,
             draft: draft,
+            draftOpacity: draftOpacity,
             focus: mapFocus,
             onTap: { coordinate in
                 session.pickMapPoint(lat: coordinate.latitude, lng: coordinate.longitude)
@@ -351,6 +359,17 @@ struct GeoreferenceView: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+
+            HStack {
+                Text("Map opacity")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                Slider(value: $draftOpacity, in: 0...1, step: 0.05)
+                    .accessibilityLabel("Map opacity")
+                    .accessibilityValue("\(Int((draftOpacity * 100).rounded())) percent")
+                    .accessibilityIdentifier("georeference-opacity")
+            }
 
             HStack {
                 Picker("Fit", selection: $session.method) {
