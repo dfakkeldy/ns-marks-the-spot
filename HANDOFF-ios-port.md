@@ -1309,3 +1309,35 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-pa
 git log --oneline -1   # a10ed72d4
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-22 — Gaps 3, 12 and 2 closed
+
+Done: the base-map picker gained "None", a white `BlankBaseOverlay` installed
+through the draw order at the modern-basemap slot, so a scan can be read and
+printed with no modern ink under it; the printed page and the evidence note
+drop the Apple credit when nothing Apple is drawn. Both Import buttons now take
+a mixed selection and route each file by its bytes through `ImportRouting`,
+ported from `web/src/userMaps/importRouting.ts`; the vector side reports every
+refusal in a batch by name instead of overwriting one slot. Launch visibility
+now reads clearance: an accepted licence opens on aerial, parcels, water and
+roads as the browser does, an unanswered one still opens on the native default
+alone. Two pre-existing red tests in `OverlayDrawOrderTests` were fixed: they
+built layers from catalogue descriptors, which are hidden by native default and
+therefore never installed, so they were asserting the order of an empty map.
+
+Judgement call worth a second opinion: gap 3 does not ship OpenStreetMap tiles.
+The OSMF tile usage policy forbids an app pulling from tile.openstreetmap.org,
+and Apple Standard already supplies a modern street map, so "None" closes the
+behaviour the web actually has rather than the tile source it uses.
+
+Next: gate opens 22:00. Verify in the simulator the five-segment base-map
+picker on a small phone, the attribution strip, the georeferencer control row,
+and the new print controls; then run the gated focused suite and triage.
+Codex review of the blank base map (task brmmejtz4) was still running.
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+git log --oneline -1   # b8301c53b
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
