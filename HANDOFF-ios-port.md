@@ -1258,3 +1258,28 @@ on claude/ios-web-map-parity-2de228, at 04ddfc5ce. From 22:00 run
 then read every bundle under .build/focused-tests with
 xcrun xcresulttool get test-results tests --path <bundle>.
 ```
+
+## 2026-08-22 — Gaps 6, 9 and 4 closed; one real defect found and fixed
+
+Done: Fletcher points file parses and serializes in Swift (all 24 emitted
+sheets byte-identical), held-out accuracy shown beside the fit, import/export
+and a crash-safe draft wired into the georeferencer, active-source attribution
+strip under the map with MapKit's ornaments pushed above it. Codex review found
+that undo after an import left the imported checks in place, so the panel
+scored a restored placement against ground from a discarded file; checks now
+travel in the undo step. The browser has the same defect and this does not fix
+it there. 1018 package tests green, `typecheck-ios.sh` clean, `ActiveAttribution`
+verified against the real catalog through the simulator probe.
+
+Next: gate is shut until 22:00. Verify the new controls in the simulator
+(attribution strip height vs the Apple logo, the georeferencer control row on a
+small phone, MKScaleView's rendered size), then run the gated focused suite and
+triage. Remaining audit gaps: #2 default layer stack, #3 OSM base layer,
+#5 georeferencer reference layers, #11 print defaults, #12 mixed batch import.
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+git log --oneline -1   # 7a0ed55d8
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
