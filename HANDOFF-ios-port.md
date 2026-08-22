@@ -1190,3 +1190,39 @@ on claude/ios-web-map-parity-2de228. Read each bundle under
 xcrun xcresulttool get test-results tests --path <bundle>
 (Swift Testing Issue.record messages never reach the xcodebuild console).
 ```
+
+## 2026-08-22 — two gated failures fixed, and the GeoPDF frame check tightened
+
+Done: the gated run reached 20 of 53 suites before the host tore it down, with
+two failures, both now fixed and A/B'd. `aRacingImportLosesToTheSeal` was my own
+write-generation guard suppressing the seal in the later-version branch; a
+refused write cannot have changed the file, so that branch no longer checks the
+count. `aCardWhoseGroundMovedIsNotKept` was never a slow test: `MapController`
+holds its map view weakly, and the helper built one and returned without it, so
+every refresh after the first stopped at `loading` and published nothing.
+Measured on the real view model: 3 runs of 3 never settled with the view
+released, 3 of 3 settled in 0.49 s holding it. `FeatureIdentifyTests` now owns
+its map view, and the 600 ms sleeps are `settles(_:until:)`, which records its
+own timeout.
+
+Codex review 6 (2ec5569c1..HEAD) called the seal asymmetry and the map-view
+lifetime sound, and found the GeoPDF control-point guard measures against the
+page rather than the frame the registration claims. Fixed on both surfaces:
+half a *frame*, not half a page. Every fixture measured at three page sizes, no
+real file leaves its own frame, the rotated USGS quadrangle leaves it by 2.24%.
+Removing the check reproduces the acceptance on both sides. `npm test` also
+runs green again — `exportSharedData.test.mjs` had been failing vitest since it
+landed here.
+
+Next: the gate is shut until 22:00 (Saturday, so no weekday window). Re-run the
+focused suite from the top; suites from `OfflineAreasViewModelTests` onwards
+have never run on this branch.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+on claude/ios-web-map-parity-2de228, at 6fb66c292. From 22:00 run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+then read every bundle under .build/focused-tests with
+xcrun xcresulttool get test-results tests --path <bundle>.
+```
