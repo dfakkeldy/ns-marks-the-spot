@@ -283,6 +283,15 @@ private struct LayerProvenanceDisclosure: View {
                         .font(.caption2)
                         .padding(.top, 2)
                 }
+                // Beside the source link, as the web puts it. The download
+                // page hands over the database; this is where the source says
+                // what its own accuracy bands mean, which is what a reader
+                // needs before deciding whether a hollow well marker is a
+                // location or a report about an area.
+                if let manualURL = descriptor.manualURL {
+                    Link("Accuracy definitions", destination: manualURL)
+                        .font(.caption2)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 4)

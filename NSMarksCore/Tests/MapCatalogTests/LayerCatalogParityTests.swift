@@ -28,8 +28,6 @@ struct LayerCatalogParityTests {
         // it: a layer with no risk bands draws no legend, which is the same
         // distinction read off the data the legend is made of.
         "screening",
-        // The well-log manual link — Phase 6.
-        "manualUrl",
     ]
 
     // MARK: - Coverage
@@ -164,6 +162,13 @@ struct LayerCatalogParityTests {
             #expect(
                 layer.licenceURL?.absoluteString == web["licenceUrl"]?.nonNull?.string,
                 "\(id) licenceUrl"
+            )
+            // Only the well logs carry one. The check runs over every layer
+            // anyway, so a second source that starts publishing a manual has
+            // to be given one here rather than quietly losing the link.
+            #expect(
+                layer.manualURL?.absoluteString == web["manualUrl"]?.nonNull?.string,
+                "\(id) manualUrl"
             )
         }
     }
@@ -388,6 +393,7 @@ struct LayerCatalogParityTests {
         let modelled: Set<String> = [
             "id", "name", "group", "uiOrder", "licence", "delivery",
             "webAvailability", "serviceUrl", "sourceUrl", "licenceUrl",
+            "manualUrl",
             "minZoom", "maxZoom", "opacity", "webDefaultVisible",
             "nativeDefaultVisibility", "requiresProvinceLicence", "webCaveat",
             "sourceDate", "scale", "coverage", "exportOptions",

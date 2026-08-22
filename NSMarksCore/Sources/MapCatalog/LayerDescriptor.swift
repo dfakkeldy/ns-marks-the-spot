@@ -98,6 +98,14 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
     public let serviceURL: URL?
     public let sourceURL: URL?
     public let licenceURL: URL?
+    /// Where the source explains what its own numbers mean.
+    ///
+    /// Only the well logs carry one, and it is the reason the field exists
+    /// separately from `sourceURL`: the download page hands over the database,
+    /// while the manual is what defines the location-accuracy bands the marker
+    /// shapes stand for. A reader deciding whether a hollow marker is a well
+    /// or a report about an area needs the second document, not the first.
+    public let manualURL: URL?
     public let minZoom: Int
     public let maxZoom: Int
     /// Highest zoom the source actually publishes. Above it the renderer
@@ -156,6 +164,7 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
         serviceURL: URL?,
         sourceURL: URL? = nil,
         licenceURL: URL? = nil,
+        manualURL: URL? = nil,
         minZoom: Int,
         maxZoom: Int,
         maxNativeZoom: Int? = nil,
@@ -182,6 +191,7 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
         self.serviceURL = serviceURL
         self.sourceURL = sourceURL
         self.licenceURL = licenceURL
+        self.manualURL = manualURL
         self.minZoom = minZoom
         self.maxZoom = maxZoom
         self.maxNativeZoom = maxNativeZoom

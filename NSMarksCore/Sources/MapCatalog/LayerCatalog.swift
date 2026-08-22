@@ -667,6 +667,9 @@ public enum LayerCatalog {
             delivery: .featureQuery,
             serviceURL: URL(string: "https://services.arcgis.com/TS1HHBYLM10d1SZH/ArcGIS/rest/services/hg_Water_Well_logs_h430ns_UT83/FeatureServer/0"),
             sourceURL: URL(string: "https://novascotia.ca/natr/meb/download/dp430.asp"),
+            manualURL: URL(
+                string: "https://novascotia.ca/nse/groundwater/docs/UsersManual_NSWellLogsDatabase.pdf"
+            ),
             minZoom: 12,
             maxZoom: 23,
             opacity: 0.95,
