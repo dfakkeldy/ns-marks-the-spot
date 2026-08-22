@@ -346,7 +346,7 @@ public enum PdfMapRegistration {
         // placement on real files, which is why that check was written here
         // once and taken back out. What a file that wrote page units here gets
         // wrong is where its control points land, and `validate` checks that
-        // against the rendered raster.
+        // against the frame this BBox describes.
 
         let (left, bottom, right, top) = (bbox[0], bbox[1], bbox[2], bbox[3])
         guard left != right, bottom != top else { throw ReadFailure.invalid }
@@ -378,7 +378,7 @@ public enum PdfMapRegistration {
             sourceRect: sourceRect,
             gcps: gcps
         )
-        try validate(candidate, viewport: viewport)
+        try validate(candidate)
         return candidate
     }
 
@@ -450,7 +450,7 @@ public enum PdfMapRegistration {
             sourceRect: sourceRect,
             gcps: gcps
         )
-        try validate(candidate, viewport: viewport)
+        try validate(candidate)
         return candidate
     }
 
@@ -552,39 +552,44 @@ public enum PdfMapRegistration {
 
     // MARK: - Checks
 
-    /// How far past the rendered raster a control point may sit, as a fraction
-    /// of the raster's own width or height.
+    /// How far outside the frame it registers a control point may sit, as a
+    /// fraction of that frame's own width or height.
     ///
     /// Ported from the web, which owns this contract: the two surfaces have to
     /// agree about which files import. A control point names a spot on the
-    /// page, so the check that it is one is where it lands — not what the
-    /// file's numbers looked like on the way there. `Measure` builds its pixels
-    /// from `LPTS`, which the spec defines as fractions of the viewport BBox; a
-    /// producer that writes page units there instead sends every corner a
-    /// hundred page-widths off the sheet, and nothing further down notices. The
-    /// affine those points solve is well conditioned, and the mesh below only
-    /// asks whether the extrapolated corners are still valid latitudes and
-    /// longitudes, which they are — so the user is told the file placed itself,
-    /// and the sheet is drawn at a hundredth of its size on ground it does not
-    /// cover.
+    /// page, so the check that it is one is where it lands, not what the file's
+    /// numbers looked like on the way there. `Measure` builds its pixels from
+    /// `LPTS`, which the spec defines as fractions of the viewport BBox; a
+    /// producer that writes page units there instead sends every corner far off
+    /// its own frame, and nothing further down notices. The affine those points
+    /// solve is well conditioned, and the mesh below only asks whether the
+    /// extrapolated corners are still valid latitudes and longitudes, which
+    /// they are, so the user is told the file placed itself and the sheet is
+    /// drawn at a fraction of its size on ground it does not cover.
     ///
-    /// The tempting check — require `LPTS` inside the unit square — rejects
+    /// The tempting check, requiring `LPTS` inside the unit square, rejects
     /// real files, and was written here and reverted once for that reason. So
-    /// the line is drawn on the raster instead, where the two cases are nowhere
-    /// near each other: measured across the web's fixtures, the rotated USGS
-    /// quadrangle is the only one to leave the raster at all, and it leaves it
-    /// by 1.6%, while a page-unit file overshoots by about 9,900%. Half a
-    /// raster is thirty times the worst real excursion and two hundred times
-    /// short of the failure.
-    static let controlPointRasterMargin = 0.5
+    /// the line is drawn on the frame the registration claims — for `Measure`
+    /// the BBox in rendered pixels, which is read from the file independently
+    /// of `LPTS` — and not on the whole page. The page is the wrong yardstick
+    /// because a registration is free to cover a corner of it: the web's ISO
+    /// fixtures register frames between 6 and 504 pixels across on pages of 612
+    /// to 2088, so half a page is up to 125 frame-widths of slack, and a scale
+    /// error inside that is silently placed rather than refused.
+    ///
+    /// Measured across every one of those fixtures, at three page sizes: no
+    /// real file's control points leave their own frame at all, and the rotated
+    /// USGS quadrangle, the only file whose `LPTS` leave the unit square,
+    /// leaves its frame by 2.24%. Half a frame is twenty-two times that.
+    static let controlPointFrameMargin = 0.5
 
-    static func onRenderedPage(
-        _ pixel: PixelPoint, viewport: PdfViewportGeometry
-    ) -> Bool {
-        let marginX = viewport.width * controlPointRasterMargin
-        let marginY = viewport.height * controlPointRasterMargin
-        return pixel.x >= -marginX && pixel.x <= viewport.width + marginX
-            && pixel.y >= -marginY && pixel.y <= viewport.height + marginY
+    static func onRegisteredFrame(_ pixel: PixelPoint, frame: PixelRect) -> Bool {
+        let marginX = frame.width * controlPointFrameMargin
+        let marginY = frame.height * controlPointFrameMargin
+        return pixel.x >= frame.x - marginX
+            && pixel.x <= frame.x + frame.width + marginX
+            && pixel.y >= frame.y - marginY
+            && pixel.y <= frame.y + frame.height + marginY
     }
 
     /// Whether a registration places a map, rather than merely holding numbers.
@@ -592,9 +597,7 @@ public enum PdfMapRegistration {
     /// Three points is the affine solver's minimum, and three *distinct* points
     /// is what actually determines a transform: a `LPTS` array listing the same
     /// corner three times solves nothing while passing a count check.
-    static func validate(
-        _ candidate: Candidate, viewport: PdfViewportGeometry
-    ) throws {
+    static func validate(_ candidate: Candidate) throws {
         guard candidate.gcps.count >= 3 else { throw ReadFailure.invalid }
         let distinct = Set(candidate.gcps.map { "\($0.pixel.x)-\($0.pixel.y)" })
         guard distinct.count >= 3,
@@ -604,7 +607,7 @@ public enum PdfMapRegistration {
         else { throw ReadFailure.invalid }
 
         guard candidate.gcps.allSatisfy({
-            onRenderedPage($0.pixel, viewport: viewport)
+            onRegisteredFrame($0.pixel, frame: candidate.sourceRect)
         }) else { throw ReadFailure.invalid }
 
         guard let transform = AffineFit.solve(controlPoints: candidate.gcps) else {

@@ -41,7 +41,9 @@ struct FeatureIdentifyTests {
         let viewModel = ViewportFeatureViewModel(controller: controller)
         viewModel.setVisible(.invernessHydroPotential, to: true)
         viewModel.refreshAll()
-        await settles { viewModel.status(.invernessHydroPotential) != .loading }
+        await settles("the hydro pilot to finish loading") {
+            viewModel.status(.invernessHydroPotential) != .loading
+        }
         return viewModel
     }
 
@@ -105,7 +107,9 @@ struct FeatureIdentifyTests {
         // The refresh publishes its features and re-checks the card in the
         // same step it leaves `loading`, so a settled status is the whole of
         // what this assertion is waiting for.
-        await settles { viewModel.status(.invernessHydroPotential) != .loading }
+        await settles("the hydro pilot to finish loading") {
+            viewModel.status(.invernessHydroPotential) != .loading
+        }
 
         #expect(viewModel.selection?.callout.title == found.callout.title)
     }
@@ -142,7 +146,9 @@ struct FeatureIdentifyTests {
         // The refresh publishes its features and re-checks the card in the
         // same step it leaves `loading`, so a settled status is the whole of
         // what this assertion is waiting for.
-        await settles { viewModel.status(.invernessHydroPotential) != .loading }
+        await settles("the hydro pilot to finish loading") {
+            viewModel.status(.invernessHydroPotential) != .loading
+        }
 
         #expect(viewModel.selection == nil)
     }

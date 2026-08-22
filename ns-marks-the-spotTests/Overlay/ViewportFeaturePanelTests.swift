@@ -193,7 +193,9 @@ struct ViewportFeaturePanelTests {
         // Held until the request is actually at the gate. What this test needs
         // is a fetch in flight when the switch flips, and waiting out the
         // debounce on a timer only guesses at that.
-        await settles { await gate.isHoldingARequest }
+        await settles("the zoning request to reach the gate") {
+            await gate.isHoldingARequest
+        }
         features.setVisible(.zoningHalifax, to: false)
         await gate.open()
         for _ in 0..<50 { await Task.yield() }

@@ -15,14 +15,18 @@ private func viewport(width: Double = 612, height: Double = 792) -> PdfViewportG
 /// fraction of the raster's own width or height. Zero for a sheet whose corners
 /// all sit on the page.
 private func excursion(
-    of gcps: [GroundControlPoint], on viewport: PdfViewportGeometry
+    of gcps: [GroundControlPoint], past frame: PixelRect
 ) -> Double {
     var worst = 0.0
     for gcp in gcps {
-        let overshootX: Double = max(-gcp.pixel.x, gcp.pixel.x - viewport.width)
-        let overshootY: Double = max(-gcp.pixel.y, gcp.pixel.y - viewport.height)
-        worst = max(worst, overshootX / viewport.width)
-        worst = max(worst, overshootY / viewport.height)
+        let overshootX: Double = max(
+            frame.x - gcp.pixel.x, gcp.pixel.x - (frame.x + frame.width)
+        )
+        let overshootY: Double = max(
+            frame.y - gcp.pixel.y, gcp.pixel.y - (frame.y + frame.height)
+        )
+        worst = max(worst, overshootX / frame.width)
+        worst = max(worst, overshootY / frame.height)
     }
     return worst
 }
@@ -165,15 +169,16 @@ struct PdfMeasureRegistrationTests {
         #expect(extraction.rejected.isEmpty)
         #expect(extraction.candidates.count == 1)
         #expect(extraction.candidates.first?.gcps.count == 4)
-        // The point of this fixture: its control points really do land off the
-        // rendered raster, so the page-unit guard below has to admit them.
-        // Pinned rather than left implicit, because this number is the one that
-        // says how much room that guard must leave.
-        let worst = excursion(
-            of: extraction.candidates.first?.gcps ?? [],
-            on: viewport(width: 1728, height: 2088)
-        )
-        #expect(abs(worst - 0.0157) < 0.0001)
+        // The point of this fixture: its control points really do leave the
+        // frame it registers, so the scale-error guards below have to admit
+        // them. Pinned as a fraction of that frame rather than left implicit,
+        // because this number is the one that says how much room those guards
+        // must leave.
+        guard let candidate = extraction.candidates.first else {
+            Issue.record("the rotated frame was refused"); return
+        }
+        let worst = excursion(of: candidate.gcps, past: candidate.sourceRect)
+        #expect(abs(worst - 0.0224) < 0.0001)
     }
 
     @Test("Local points written in page units place nothing and are refused")
@@ -188,6 +193,27 @@ struct PdfMeasureRegistrationTests {
         // on ground it does not cover, and the user would be told the file
         // placed itself.
         let page = measurePage(lpts: [0, 0, 0, 100, 100, 100, 100, 0])
+        let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
+        #expect(extraction.candidates.isEmpty)
+        #expect(extraction.rejected == [
+            PdfMapRegistration.Refusal(flavour: .measure, reason: .invalid)
+        ])
+    }
+
+    @Test("A scale error that never leaves the page is refused too")
+    func aScaleErrorInsideThePageIsRefused() {
+        // The page is the wrong yardstick, and this is the file that shows it.
+        // A registration is free to cover a corner of the sheet: this BBox is a
+        // hundredth of it, which is the ordinary shape of the web's ISO
+        // fixtures. The same hundredfold `LPTS` error as above then puts every
+        // control point exactly on a page edge, so nothing measured against the
+        // raster can tell this apart from a sheet that fills the page — and the
+        // user would be told the file placed itself, at a hundredth of its size
+        // on ground it does not cover.
+        let page = measurePage(
+            lpts: [0, 0, 0, 100, 100, 100, 100, 0],
+            bbox: [0, 0, 6.12, 7.92]
+        )
         let extraction = PdfMapRegistration.candidates(page: page, viewport: viewport())
         #expect(extraction.candidates.isEmpty)
         #expect(extraction.rejected == [
