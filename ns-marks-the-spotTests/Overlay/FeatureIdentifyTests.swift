@@ -13,10 +13,21 @@ import Testing
 /// is decided either side of the request rather than by it.
 @MainActor
 struct FeatureIdentifyTests {
+    /// The view the layers query.
+    ///
+    /// Held by the test case rather than made inside `loaded()`, because
+    /// `MapController` refers to its map view weakly: in the app the view owns
+    /// the controller, and the other direction would be a cycle. A map view
+    /// made and dropped inside a helper leaves the controller with nothing to
+    /// read, so every refresh after the first stops at `loading` with no
+    /// request sent and nothing published — and a card that should have been
+    /// dropped stays up. That is what made these tests pass or fail by how
+    /// soon the object happened to be freed. Swift Testing builds a fresh
+    /// instance per test, so each gets its own.
+    private let mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: 390, height: 700))
+
     private func loaded() async -> ViewportFeatureViewModel {
         let controller = MapController()
-        // The layers query the view they can see, so the test gives them one.
-        let mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: 390, height: 700))
         mapView.setRegion(
             MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: 46.15, longitude: -61.3),
@@ -30,7 +41,7 @@ struct FeatureIdentifyTests {
         let viewModel = ViewportFeatureViewModel(controller: controller)
         viewModel.setVisible(.invernessHydroPotential, to: true)
         viewModel.refreshAll()
-        try? await Task.sleep(for: .milliseconds(600))
+        await settles { viewModel.status(.invernessHydroPotential) != .loading }
         return viewModel
     }
 
@@ -91,7 +102,10 @@ struct FeatureIdentifyTests {
         viewModel.select(found)
 
         viewModel.refreshAll()
-        try? await Task.sleep(for: .milliseconds(600))
+        // The refresh publishes its features and re-checks the card in the
+        // same step it leaves `loading`, so a settled status is the whole of
+        // what this assertion is waiting for.
+        await settles { viewModel.status(.invernessHydroPotential) != .loading }
 
         #expect(viewModel.selection?.callout.title == found.callout.title)
     }
@@ -125,7 +139,10 @@ struct FeatureIdentifyTests {
         )
 
         viewModel.refreshAll()
-        try? await Task.sleep(for: .milliseconds(600))
+        // The refresh publishes its features and re-checks the card in the
+        // same step it leaves `loading`, so a settled status is the whole of
+        // what this assertion is waiting for.
+        await settles { viewModel.status(.invernessHydroPotential) != .loading }
 
         #expect(viewModel.selection == nil)
     }

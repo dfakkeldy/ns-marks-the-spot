@@ -122,12 +122,17 @@ final class UserMapsViewModel {
         let records: [UserMapRecord]
         do {
             records = try await store.load()
-            // Nothing read here may be applied over a newer write. Checked on
-            // the way out of every branch below as well as this one: a load
-            // that read a damaged file while an import was writing a sound one
-            // would otherwise set the new library aside as the damage.
+            // Nothing read here may be applied over a newer write. What came
+            // back describes the file as it was before that write, and putting
+            // it on screen drops a map the file already holds — after which the
+            // next placement writes the shortened list back and the map is gone
+            // for real.
             guard mark == writes else { return }
         } catch UserMapStore.StoreRefusal.unreadable {
+            // The same check, for a stronger reason: a write that landed while
+            // this read was in flight has replaced the damaged document with a
+            // sound one, and setting it aside now would carry off the map that
+            // just arrived along with the damage.
             guard mark == writes else { return }
             // Damaged at this build's own version, which the store establishes
             // by reading the format number before anything else. There is no
@@ -155,7 +160,13 @@ final class UserMapsViewModel {
             ]
             return
         } catch {
-            guard mark == writes else { return }
+            // No `writes` check here, unlike the two branches above. This is
+            // the later-version case, and the store refuses every write once it
+            // has read one, so a write that started meanwhile did not land and
+            // cannot have made the file readable. Bailing out on the count
+            // would leave the panel unsealed over a library this build must not
+            // touch, which is the one state this branch exists to prevent.
+            //
             // A library this build cannot read is left exactly as it is, and
             // the fact is remembered. Empty rows are not enough on their own:
             // the very next import would compute its document from an empty

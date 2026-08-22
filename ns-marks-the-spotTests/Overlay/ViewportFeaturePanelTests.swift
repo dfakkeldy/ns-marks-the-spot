@@ -172,7 +172,12 @@ struct ViewportFeaturePanelTests {
         // unavailable" on a layer the user turned off.
         let gate = Gate()
         let controller = MapController()
-        controller.mapView = MKMapView()
+        // Held for the length of the test: the controller keeps its map view
+        // weakly, and without one it finds no bounds and never sends the
+        // request this test needs in flight.
+        let mapView = MKMapView()
+        defer { withExtendedLifetime(mapView) {} }
+        controller.mapView = mapView
         controller.recordZoomLevel(20)
         let features = ViewportFeatureViewModel(
             controller: controller,
@@ -185,7 +190,10 @@ struct ViewportFeaturePanelTests {
         )
 
         features.setVisible(.zoningHalifax, to: true)
-        try? await Task.sleep(for: .milliseconds(600))
+        // Held until the request is actually at the gate. What this test needs
+        // is a fetch in flight when the switch flips, and waiting out the
+        // debounce on a timer only guesses at that.
+        await settles { await gate.isHoldingARequest }
         features.setVisible(.zoningHalifax, to: false)
         await gate.open()
         for _ in 0..<50 { await Task.yield() }
@@ -197,6 +205,9 @@ struct ViewportFeaturePanelTests {
     private actor Gate {
         private var waiters: [CheckedContinuation<Void, Never>] = []
         private var isOpen = false
+
+        /// Whether a request is waiting here right now.
+        var isHoldingARequest: Bool { !waiters.isEmpty }
 
         func wait() async {
             guard !isOpen else { return }
