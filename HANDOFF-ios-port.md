@@ -1283,3 +1283,29 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-pa
 git log --oneline -1   # 7a0ed55d8
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-22 — Gaps 5 and 11 closed
+
+Done: the georeferencer draws the aerial and the parcel boundaries behind and
+over a scan, from the catalogue, through the app's own cache and licence gate;
+revoking mid-sheet retracts tiles already drawn. Print sheet defaults to the
+research summary when a parcel is framed and gained appendix and aerial
+switches; leaving the aerial off drops both the ink and its credit. Codex
+review of gap 5 raised six findings: five applied (attribution, revocation,
+below-zoom warning, seeding from the main map, Coordinator tests), one
+dismissed as a criterion from my own prompt rather than from the web. It also
+caught a real ordering bug: the draft was appended, so a warp rebuild put the
+scan over the boundaries. `typecheck-ios.sh` clean; simulator probe confirms
+order ns-aerial/scan/nsprd across toggle, rebuild and revoke, and 4224-byte
+licenceRefused tiles for both layers with no acceptance.
+
+Next: gate opens 22:00. Remaining audit gaps: #2 default layer stack (needs a
+product decision), #3 OSM base layer (raises an OSM tile-usage-policy question),
+#12 mixed raster/vector batch import.
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+git log --oneline -1   # a10ed72d4
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
