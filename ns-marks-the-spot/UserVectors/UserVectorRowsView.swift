@@ -10,6 +10,10 @@ import UniformTypeIdentifiers
 /// they drew themselves.
 struct UserVectorRowsView: View {
     @Bindable var viewModel: UserVectorsViewModel
+    /// The other pipeline, so a selection holding both kinds of file can be
+    /// made from either section's Import button. Optional because a panel
+    /// without a map section is still a panel.
+    var maps: UserMapsViewModel?
     /// Called with a layer's extent when the user asks to see it. Optional so
     /// the panel can be shown — in a preview, in a test — without a map.
     var onZoom: ((GeoBoundingBox) -> Void)?
@@ -90,6 +94,31 @@ struct UserVectorRowsView: View {
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
             }
+
+            if !viewModel.importNotices.isEmpty {
+                HStack {
+                    Text("Messages")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Dismiss") { viewModel.clearNotices() }
+                        .font(.caption)
+                }
+            }
+
+            // Named, one per file: a selection of ten reports ten times, and
+            // the reader can tell which of their files did not come.
+            ForEach(viewModel.importNotices) { notice in
+                Label(
+                    "\(notice.name): \(notice.message)",
+                    systemImage: notice.isRefusal
+                        ? "exclamationmark.triangle" : "info.circle"
+                )
+                .font(.caption)
+                .foregroundStyle(notice.isRefusal ? .orange : .secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
         }
         // Confirmed, because a drawn layer has no file to import again: the
         // copy on this device is the only one there is.
@@ -119,15 +148,11 @@ struct UserVectorRowsView: View {
         }
         .fileImporter(
             isPresented: $isImporting,
-            // `.data` as well as the named types: the sniffer reads the bytes,
-            // and a GeoJSON exported as `.txt` or a KML the system does not
-            // recognise would otherwise be unpickable rather than refused with
-            // a reason.
-            allowedContentTypes: [.json, .xml, .zip, .data],
-            allowsMultipleSelection: false
+            allowedContentTypes: UserFileImport.contentTypes,
+            allowsMultipleSelection: true
         ) { result in
-            guard case .success(let urls) = result, let url = urls.first else { return }
-            Task { await load(url) }
+            guard case .success(let urls) = result else { return }
+            Task { await UserFileImport.load(urls, maps: maps, vectors: viewModel) }
         }
         .alert(
             "Rename layer",
@@ -225,12 +250,6 @@ struct UserVectorRowsView: View {
     /// Read rather than referenced: the scope ends when this returns, and a
     /// record holding a URL into another app's container would be a layer that
     /// worked until the user moved the file.
-    private func load(_ url: URL) async {
-        let scoped = url.startAccessingSecurityScopedResource()
-        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        guard let data = try? Data(contentsOf: url) else { return }
-        await viewModel.importFile(data: data, filename: url.lastPathComponent)
-    }
 }
 
 private struct UserVectorRow: View {

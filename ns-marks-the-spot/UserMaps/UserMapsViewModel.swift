@@ -49,24 +49,9 @@ final class UserMapsViewModel {
         }
     }
 
-    /// Something the panel has to say about a map.
-    ///
-    /// One list for refusals, for what an import quietly decided, and for work
-    /// the device would not keep, because with several files at once they are
-    /// the same question — *what happened to the map I just gave you?* — and a
-    /// refusal shown alone would leave the other four files' outcomes to be
-    /// guessed from the rows.
-    struct Notice: Identifiable, Equatable {
-        var id: String
-        /// The map's name. Carried even for a single import: without it a
-        /// message about "this PDF" belongs to whichever of five files the
-        /// reader assumes.
-        var name: String
-        var message: String
-        /// Something that did not happen, as against something that happened
-        /// with a remark attached.
-        var isRefusal: Bool
-    }
+    /// Something the panel has to say about a map. Shared with the vector
+    /// panel, because one selection can now land in both.
+    typealias Notice = UserImportNotice
 
     private(set) var rows: [Row] = []
     /// What the last thing the user asked for came to, for the panel to show.

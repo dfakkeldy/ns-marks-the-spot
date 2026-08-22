@@ -133,7 +133,7 @@ struct TransparencySliderView: View {
                     if let userMaps {
                         Divider()
                             .background(.primary.opacity(0.1))
-                        UserMapRowsView(viewModel: userMaps)
+                        UserMapRowsView(viewModel: userMaps, vectors: userVectors)
                     }
 
                     if let userVectors {
@@ -141,6 +141,7 @@ struct TransparencySliderView: View {
                             .background(.primary.opacity(0.1))
                         UserVectorRowsView(
                             viewModel: userVectors,
+                            maps: userMaps,
                             onZoom: onZoomToLayer,
                             onEdit: onEditLayer,
                             onNewDrawingLayer: onNewDrawingLayer

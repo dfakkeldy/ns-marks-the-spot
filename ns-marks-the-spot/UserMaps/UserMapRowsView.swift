@@ -11,6 +11,10 @@ import UniformTypeIdentifiers
 /// research, not a record.
 struct UserMapRowsView: View {
     @Bindable var viewModel: UserMapsViewModel
+    /// The other pipeline, so a selection holding both kinds of file can be
+    /// made from either section's Import button. Optional because a panel
+    /// without a data section is still a panel.
+    var vectors: UserVectorsViewModel?
 
     @State private var isImporting = false
     @State private var georeferencing: UserMapsViewModel.Row?
@@ -77,11 +81,11 @@ struct UserMapRowsView: View {
         }
         .fileImporter(
             isPresented: $isImporting,
-            allowedContentTypes: [.tiff, .png, .jpeg, .pdf],
+            allowedContentTypes: UserFileImport.contentTypes,
             allowsMultipleSelection: true
         ) { result in
             guard case .success(let urls) = result else { return }
-            Task { await load(urls) }
+            Task { await UserFileImport.load(urls, maps: viewModel, vectors: vectors) }
         }
         .sheet(item: $choosingFrame) { row in
             PdfFrameChooser(
@@ -106,37 +110,6 @@ struct UserMapRowsView: View {
             ) { points, method in
                 Task { await viewModel.place(id: row.id, controlPoints: points, method: method) }
             }
-        }
-    }
-
-    /// Reads each chosen file into memory, under the security scope the picker
-    /// hands over, and imports it before reading the next.
-    ///
-    /// Read rather than referenced: the scope ends when this returns, and a
-    /// record holding a URL into another app's container would be a map that
-    /// worked until the user moved the file.
-    ///
-    /// One at a time, rather than reading the selection and then importing it.
-    /// A map file runs to hundreds of megabytes and the picker will hand over
-    /// as many as the user selects; holding the whole selection as `Data` is a
-    /// gigabyte resident before the first sheet is decoded, and the system ends
-    /// the app for it while every file was inside the size limit on its own.
-    private func load(_ urls: [URL]) async {
-        viewModel.beginImports()
-        for url in urls {
-            let name = url.deletingPathExtension().lastPathComponent
-            let scoped = url.startAccessingSecurityScopedResource()
-            let data = try? Data(contentsOf: url)
-            if scoped { url.stopAccessingSecurityScopedResource() }
-            guard let data else {
-                // The picker handed this over and the sandbox would not open
-                // it. Rare, and said out loud anyway: a file that silently did
-                // not arrive is a user counting their rows and wondering which
-                // of the ten they lost.
-                viewModel.reportUnreadable(name: name)
-                continue
-            }
-            await viewModel.importMap(data: data, name: name)
         }
     }
 

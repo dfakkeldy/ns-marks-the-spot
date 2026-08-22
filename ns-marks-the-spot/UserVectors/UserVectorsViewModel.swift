@@ -21,9 +21,17 @@ final class UserVectorsViewModel {
     }
 
     private(set) var rows: [Row] = []
-    /// The last refusal, for the panel to show. Held rather than thrown past
-    /// the user: an import that failed silently reads as a file that vanished.
+    /// The last refusal from renaming, redrawing or deleting a layer, for the
+    /// panel to show. Held rather than thrown past the user: work that failed
+    /// silently reads as work the app kept.
+    ///
+    /// Imports report through `importNotices` instead — one selection can hold
+    /// ten files, and a single slot would tell the user about the last of them
+    /// and lose the rest.
     private(set) var lastRefusal: UserMapImportRefusal?
+
+    /// What became of each file in the selection just imported.
+    private(set) var importNotices: [UserImportNotice] = []
 
     private let store: UserVectorStore
 
@@ -91,12 +99,49 @@ final class UserVectorsViewModel {
                 rows.append(Row(record: record, isVisible: true, parsed: layer.parsed))
             }
         } catch let refusal as UserMapImportRefusal {
-            lastRefusal = refusal
+            // One file's refusal never stops the next: a user who selected a
+            // folder with one broken file in it should get the other nine
+            // layers and be told which one did not come.
+            report(refusal.userMessage, for: filename)
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "This layer could not be saved to your device. Free some space and import it again."
+            report(
+                "This layer could not be saved to your device. Free some space and import it again.",
+                for: filename
             )
         }
+    }
+
+    /// Clears what the panel is saying, ready for a batch of imports.
+    func beginImports() {
+        importNotices = []
+    }
+
+    func clearNotices() {
+        importNotices = []
+    }
+
+    /// Says that a file the picker offered could not be opened at all.
+    func reportUnreadable(name: String) {
+        report("This file could not be opened from where it is stored.", for: name)
+    }
+
+    private func report(_ message: String, for filename: String) {
+        importNotices.append(
+            UserImportNotice(
+                id: UUID().uuidString,
+                name: Self.stem(of: filename),
+                message: message,
+                isRefusal: true
+            )
+        )
+    }
+
+    /// The name without its extension, which is what the rows are named by and
+    /// so what the reader is looking at when they try to work out which file a
+    /// message is about.
+    private static func stem(of filename: String) -> String {
+        let stem = (filename as NSString).deletingPathExtension
+        return stem.isEmpty ? filename : stem
     }
 
     /// Starts an empty layer for the user to draw into.
