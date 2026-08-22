@@ -2,6 +2,7 @@ import CoreGraphics
 import GeoCore
 import MapKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// Placing a scan on the map by hand: tap a feature on the sheet, tap the same
 /// feature on the map, repeat — then drag either half of a pair until the sheet
@@ -43,6 +44,18 @@ struct GeoreferenceView: View {
     /// the whole reason the control exists.
     @State private var draftOpacity: Double = 0.7
     @State private var sort = GcpListPresentation.Sort(key: .index)
+    @State private var showsPointsImporter = false
+    /// What the last points file did, said out loud.
+    ///
+    /// A failure has to be readable, and so does a success: an import replaces
+    /// every point that was there, and a reader who is not told how many were
+    /// swapped has no way to know whether to undo.
+    @State private var importMessage: ImportMessage?
+
+    private struct ImportMessage: Equatable {
+        var succeeded: Bool
+        var text: String
+    }
 
     // The scan's own pan and zoom. A sheet fitted to a phone-height pane is
     // thousands of raster pixels to the point, so a control placed on it could
@@ -126,6 +139,21 @@ struct GeoreferenceView: View {
                 ShareSheet(items: payload.items)
             }
             .sheet(isPresented: $showsPoints) { pointsSheet }
+            .fileImporter(
+                isPresented: $showsPointsImporter,
+                // Both types, because a `.csv` handed over by Files sometimes
+                // arrives typed as plain text and a picker that will not offer
+                // it reads as the file being unsupported.
+                allowedContentTypes: [.commaSeparatedText, .plainText]
+            ) { result in
+                switch result {
+                case .success(let url): loadPoints(from: url)
+                case .failure:
+                    importMessage = ImportMessage(
+                        succeeded: false, text: "That file could not be opened."
+                    )
+                }
+            }
         }
     }
 
@@ -163,6 +191,49 @@ struct GeoreferenceView: View {
             share = SharePayload(url: url)
         } catch {
             exportFailure = "The georeference could not be written to this device."
+        }
+    }
+
+    /// Reads a Fletcher points file and puts its control points on the sheet.
+    ///
+    /// The record's own pixel size goes in with it, so a file measured against
+    /// a different scan of the same sheet is refused here rather than placing
+    /// every pin somewhere plausible and wrong.
+    private func loadPoints(from url: URL) {
+        let name = url.lastPathComponent
+        // A file picked from Files is outside the app's container, and reading
+        // it without this returns nothing.
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+
+        let text: String
+        do {
+            text = try String(contentsOf: url, encoding: .utf8)
+        } catch {
+            importMessage = ImportMessage(
+                succeeded: false, text: "Could not read \(name)."
+            )
+            return
+        }
+
+        do {
+            let parsed = try FletcherGcpFile.parse(text, pixelSize: pixelSize)
+            let replaced = session.controlPoints.count
+            session.replaceAll(with: parsed.controls, checks: parsed.checks)
+            // Checks are counted and not placed. They are the points the fit is
+            // scored against, so promoting one would make the accuracy figure
+            // circular — saying so is what stops the missing pins reading as
+            // points the app dropped.
+            let held = parsed.checks.isEmpty
+                ? ""
+                : " \(parsed.checks.count) check points were left out on purpose."
+            let over = replaced == 0 ? "" : ", replacing \(replaced) — Undo puts them back"
+            importMessage = ImportMessage(
+                succeeded: true,
+                text: "Loaded \(parsed.controls.count) control points from \(name)\(over).\(held)"
+            )
+        } catch {
+            importMessage = ImportMessage(succeeded: false, text: error.message)
         }
     }
 
@@ -360,6 +431,17 @@ struct GeoreferenceView: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
+            // Measured at points the fit never saw, which is why it is stated
+            // apart from the status line above rather than folded into it.
+            // The status figure is how well the transform hits the pins it was
+            // built from; this is how far off the sheet is somewhere else.
+            if let heldOut = session.heldOut {
+                Text(heldOut.message)
+                    .font(.footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("georeference-held-out")
+            }
+
             HStack {
                 Text("Map opacity")
                     .font(.footnote)
@@ -396,6 +478,14 @@ struct GeoreferenceView: View {
                     .accessibilityIdentifier("georeference-points")
                 }
 
+                Button {
+                    showsPointsImporter = true
+                } label: {
+                    Label("Load points", systemImage: "square.and.arrow.down")
+                        .font(.footnote)
+                }
+                .accessibilityIdentifier("georeference-load-points")
+
                 if session.pending != nil {
                     Button("Cancel this point") { session.cancelPending() }
                         .font(.footnote)
@@ -425,6 +515,14 @@ struct GeoreferenceView: View {
                     .font(.caption)
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
+            }
+
+            if let importMessage {
+                Text(importMessage.text)
+                    .font(.caption)
+                    .foregroundStyle(importMessage.succeeded ? Color.secondary : Color.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("georeference-import-message")
             }
         }
         .padding()

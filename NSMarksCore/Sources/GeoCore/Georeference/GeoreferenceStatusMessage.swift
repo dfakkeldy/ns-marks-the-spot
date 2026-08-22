@@ -66,3 +66,21 @@ extension GeoreferenceStatus {
         }
     }
 }
+
+extension GeoreferenceResiduals.HeldOutReport {
+    /// The independent accuracy figure, in the web panel's words.
+    ///
+    /// Said separately from the fit's own status because it answers a
+    /// different question. The status figure is measured at the points that
+    /// produced the transform; this one is measured at points the transform
+    /// never saw, which is the only number that says how the sheet behaves
+    /// away from a pin.
+    public var message: String {
+        let rounded = rmsMetres.isFinite ? Int(rmsMetres.rounded()) : 0
+        let worst = maxMetres.isFinite ? Int(maxMetres.rounded()) : 0
+        return """
+            \(rounded) m at \(count) held-out check\(count == 1 ? "" : "s") \
+            (worst \(worst) m)
+            """
+    }
+}
