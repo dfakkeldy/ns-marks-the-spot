@@ -278,13 +278,13 @@ final class MapController: NSObject {
     }
 
     /// A position a link asked for before the map could be put there.
-    @ObservationIgnored private var pendingCenter: (point: GeoPoint, zoom: Int)?
+    @ObservationIgnored private var pendingCenter: (point: GeoPoint, zoom: Int, animated: Bool)?
 
     /// Retried whenever the map view changes, which is how a launch-time link
     /// gets its position once layout has given the view a width.
     private func applyPendingCenterIfPossible() {
         guard let pending = pendingCenter, let mapView, mapView.bounds.width > 0 else { return }
-        center(on: pending.point, zoom: pending.zoom)
+        center(on: pending.point, zoom: pending.zoom, animated: pending.animated)
     }
 
     private static func mkMapType(for baseType: MapBaseType) -> MKMapType {
@@ -492,12 +492,15 @@ final class MapController: NSObject {
     /// `tileZoomLevel` reads one off: 256-point tiles across the view. Nothing
     /// happens before layout — a view with no width has no span to be at, and
     /// guessing one would land the reader somewhere the sender never was.
-    func center(on point: GeoPoint, zoom: Int) {
+    ///
+    /// `animated` is false for the opening view, which has no previous position
+    /// to travel from: the map would otherwise fly to its own first frame.
+    func center(on point: GeoPoint, zoom: Int, animated: Bool = true) {
         guard let mapView, mapView.bounds.width > 0 else {
             // A link opened at launch arrives before the map has a width. Held
             // rather than dropped, because the alternative is a reader who
             // followed a link and landed on the opening view of the province.
-            pendingCenter = (point, zoom)
+            pendingCenter = (point, zoom, animated)
             return
         }
         pendingCenter = nil
@@ -511,7 +514,7 @@ final class MapController: NSObject {
                 latitudinalMeters: width,
                 longitudinalMeters: width
             ),
-            animated: true
+            animated: animated
         )
     }
 
@@ -548,7 +551,57 @@ final class MapController: NSObject {
 
     // MARK: - Location
 
+    /// The three things the web says about a location request, word for word.
+    ///
+    /// The refusal is the one that matters. A button that quietly does nothing
+    /// reads as a broken button rather than as a permission the reader can
+    /// change, and this app had no way to say which it was.
+    enum LocationMessage: String, Sendable {
+        case searching = "Finding your location\u{2026}"
+        case found = "Your location is shown on the map."
+        case denied = "Location permission was not granted. You can keep using the map."
+    }
+
+    /// What to tell the reader about the last location request, if anything.
+    private(set) var locationMessage: LocationMessage?
+
+    /// How long the success message stays up, as the web keeps it.
+    static let locationFoundMessageDuration: Duration = .seconds(4)
+
+    @ObservationIgnored private var locationMessageDismissal: Task<Void, Never>?
+
+    /// What an authorization answer is worth telling the reader.
+    ///
+    /// `readerAsked` is the whole rule: this app is told about authorization at
+    /// launch as well as after a tap, and a refusal announced to someone who
+    /// never pressed the button is a complaint about a feature they did not
+    /// use. Separate from the callback because a test can name a status, while
+    /// a `CLLocationManager` in a test process cannot be given one.
+    static func locationMessage(
+        for status: CLAuthorizationStatus,
+        readerAsked: Bool
+    ) -> LocationMessage? {
+        switch status {
+        case .denied, .restricted:
+            return readerAsked ? .denied : nil
+        default:
+            return nil
+        }
+    }
+
     func centerOnUserLocation() {
+        if let refusal = Self.locationMessage(
+            for: locationManager.authorizationStatus, readerAsked: true
+        ) {
+            // Answered before the map asked. The delegate is not called for a
+            // status that did not change, so a refusal already on file has to
+            // be reported here or the button stays silent for exactly the
+            // readers who need to know why nothing happened.
+            isWaitingToCenterOnUserLocation = false
+            report(refusal)
+            return
+        }
+        report(.searching)
         guard let location = mapView?.userLocation.location else {
             isWaitingToCenterOnUserLocation = true
             return
@@ -556,8 +609,27 @@ final class MapController: NSObject {
         center(on: location)
     }
 
+    /// Shows a message, and takes the success one down again after a while.
+    ///
+    /// Only the success message expires. The other two describe a request that
+    /// has not finished and a setting that has not changed, and neither stops
+    /// being true because time passed.
+    private func report(_ message: LocationMessage) {
+        locationMessageDismissal?.cancel()
+        locationMessageDismissal = nil
+        locationMessage = message
+        guard message == .found else { return }
+        locationMessageDismissal = Task { [weak self] in
+            try? await Task.sleep(for: Self.locationFoundMessageDuration)
+            guard !Task.isCancelled else { return }
+            guard self?.locationMessage == .found else { return }
+            self?.locationMessage = nil
+        }
+    }
+
     private func center(on location: CLLocation) {
         isWaitingToCenterOnUserLocation = false
+        report(.found)
         // Same rule as `focus(on:)`: going to where the reader is outranks a
         // link's held position.
         pendingCenter = nil
@@ -1179,7 +1251,13 @@ extension MapController: UIGestureRecognizerDelegate {
 // main thread and may satisfy the requirements from this main-actor class.
 extension MapController: @preconcurrency CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
+        let status = manager.authorizationStatus
+        if let message = Self.locationMessage(
+            for: status, readerAsked: isWaitingToCenterOnUserLocation
+        ) {
+            report(message)
+        }
+        switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             mapView?.showsUserLocation = state.showsUserLocation
             if isWaitingToCenterOnUserLocation {

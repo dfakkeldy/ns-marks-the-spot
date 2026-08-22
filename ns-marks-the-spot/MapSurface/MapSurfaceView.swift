@@ -1,4 +1,6 @@
+import GeoCore
 import MapKit
+import NSDataServices
 import SwiftUI
 
 struct MapSurfaceView: UIViewRepresentable {
@@ -10,9 +12,19 @@ struct MapSurfaceView: UIViewRepresentable {
         mapView.accessibilityLabel = "Map of Nova Scotia"
         mapView.showsCompass = false
 
-        let center = CLLocationCoordinate2D(latitude: 44.68, longitude: -63.74)
-        let span = MKCoordinateSpan(latitudeDelta: 5.0, longitudeDelta: 5.0)
-        mapView.region = MKCoordinateRegion(center: center, span: span)
+        // The web's opening view, not a province-wide one: both surfaces open
+        // on Cape Breton at zoom 9, so a reader who has one open beside the
+        // other is looking at the same ground before touching anything. The
+        // span here is only what fills the first frame — zoom 9 is a count of
+        // tiles across the view, so the width has to exist before it can be
+        // turned into a region, which is what the call below waits for.
+        let opening = MapPosition.default
+        mapView.region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: opening.latitude, longitude: opening.longitude
+            ),
+            span: MKCoordinateSpan(latitudeDelta: 1.1, longitudeDelta: 1.1)
+        )
 
         let selectionPan = UIPanGestureRecognizer(
             target: controller,
@@ -45,6 +57,14 @@ struct MapSurfaceView: UIViewRepresentable {
         mapView.addGestureRecognizer(identifyTap)
 
         controller.mapView = mapView
+        // Held until layout, then applied without animation. A link opened at
+        // the same moment replaces it, which is the right order: the reader
+        // asked for that position and did not ask for this one.
+        controller.center(
+            on: GeoPoint(lat: opening.latitude, lng: opening.longitude),
+            zoom: opening.zoom,
+            animated: false
+        )
         return mapView
     }
 

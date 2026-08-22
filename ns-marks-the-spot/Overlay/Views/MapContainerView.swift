@@ -445,6 +445,28 @@ struct MapContainerView: View {
                 .accessibilityElement(children: .combine)
             }
 
+            // Top-centre, clear of the search bar. The location button sits on
+            // the right with nothing under it, so a refusal reported down at
+            // the bottom would land under whichever card happens to be open.
+            if let locationMessage = controller.locationMessage {
+                VStack {
+                    Text(locationMessage.rawValue)
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(.regularMaterial)
+                        .clipShape(.rect(cornerRadius: 8))
+                        .padding(.horizontal, 16)
+                        .padding(.top, 116)
+
+                    Spacer()
+                }
+                // The message describes the map; it must not take taps from it.
+                .allowsHitTesting(false)
+                .accessibilityElement(children: .combine)
+            }
+
             // A card rather than a sheet, and not in `activeSheet`: the panel
             // describes an outline on the map, so the map has to stay visible
             // and draggable underneath it. Hidden during area selection, which
@@ -781,6 +803,13 @@ struct MapContainerView: View {
             .task {
                 await userMapsVM.load()
                 await userVectorsVM.load()
+            }
+            // Spoken as well as drawn, which is what the web's polite live
+            // region does. A reader using VoiceOver taps a button and needs to
+            // be told the answer, not to go looking for where it appeared.
+            .onChange(of: controller.locationMessage) { _, message in
+                guard let message else { return }
+                AccessibilityNotification.Announcement(message.rawValue).post()
             }
             // The view model owns the rows; the map only ever draws what they
             // currently say. Pushed on change rather than on a timer so a slider
