@@ -92,7 +92,23 @@ final class MapController: NSObject {
     @ObservationIgnored weak var mapView: MKMapView? {
         didSet {
             syncStateToAttachedMapView()
+            mapView?.layoutMargins.bottom = bottomOrnamentInset
         }
+    }
+
+    /// How much room the overlays along the bottom take up.
+    ///
+    /// MapKit puts the Apple logo and the Legal link inside the map's layout
+    /// margins, and this app draws a scale bar, a position readout and a source
+    /// strip over the same corner. Both of those are required to stay visible,
+    /// so the margin is raised to whatever the overlays actually measure rather
+    /// than to a number picked here and left to rot as the stack changes.
+    @ObservationIgnored private var bottomOrnamentInset: CGFloat = 0
+
+    func setBottomOrnamentInset(_ inset: CGFloat) {
+        guard inset != bottomOrnamentInset else { return }
+        bottomOrnamentInset = inset
+        mapView?.layoutMargins.bottom = inset
     }
 
     // MARK: - State application

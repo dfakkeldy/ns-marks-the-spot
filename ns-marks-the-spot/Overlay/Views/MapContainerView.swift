@@ -525,23 +525,42 @@ struct MapContainerView: View {
         // the width of the screen, and a readout under one of them would be a
         // control the user can see and cannot reach.
         .overlay(alignment: .bottomLeading) {
-            if let mapPosition, overlayVM.inspection == nil, editSession == nil,
-               measure == nil, vectorCallout == nil, featureVM.selection == nil,
-               !isSelectingSaveArea
+            if overlayVM.inspection == nil, editSession == nil, measure == nil,
+               vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea
             {
                 VStack(alignment: .leading, spacing: 6) {
-                    // Hidden from VoiceOver on purpose. A bar is measured off
-                    // the screen, which is not something it can be read out;
-                    // the readout under it says the same scale in words and
-                    // carries the caveat that goes with it.
-                    MapScaleBar(controller: controller)
-                        .frame(width: 120, height: 24)
-                        .accessibilityHidden(true)
+                    if let mapPosition {
+                        // Hidden from VoiceOver on purpose. A bar is measured
+                        // off the screen, which is not something it can be
+                        // read out; the readout under it says the same scale
+                        // in words and carries the caveat that goes with it.
+                        MapScaleBar(controller: controller)
+                            .frame(width: 120, height: 24)
+                            .accessibilityHidden(true)
 
-                    MapPositionReadout(position: mapPosition, screenScale: screenScale)
+                        MapPositionReadout(position: mapPosition, screenScale: screenScale)
+                    }
+
+                    // Under the readout rather than beside it, and not gated
+                    // on a position: a reader who has turned a provincial or
+                    // Rumsey layer on should meet its provenance where they
+                    // are reading it, not only in a sheet listing every layer
+                    // the app could show.
+                    MapAttributionStrip(
+                        descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor)
+                    ) {
+                        navigationModel.activeSheet = .info
+                    }
                 }
                 .padding(.leading, 12)
                 .padding(.bottom, 12)
+                // Measured rather than guessed: the stack's height changes
+                // with the source strip, and MapKit's own logo and Legal link
+                // have to stay above it.
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                    controller.setBottomOrnamentInset($0)
+                }
+                .onDisappear { controller.setBottomOrnamentInset(0) }
             }
         }
         .overlay(alignment: .bottom) {
