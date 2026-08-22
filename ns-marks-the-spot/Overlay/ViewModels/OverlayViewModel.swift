@@ -1034,6 +1034,13 @@ final class OverlayViewModel {
         fields: PdfComposer.Fields,
         includesLegend: Bool = true,
         includesAppendix: Bool = false,
+        /// Whether the aerial photography is drawn onto the page.
+        ///
+        /// Separate from whether it is on the screen. At 300 dpi the imagery is
+        /// the heaviest thing on the sheet and, on paper, a dark wash that
+        /// buries the parcel lines and labels the page exists to show — which
+        /// is why the browser leaves it off until it is asked for.
+        includesAerial: Bool = true,
         /// What the document being made says it must not be read as.
         caveat: String = PrintExport.screeningCaveat,
         /// The ground the user framed. Nil falls back to the whole visible map,
@@ -1067,7 +1074,13 @@ final class OverlayViewModel {
         return PrintExportRequest(
             visibleBounds: box,
             baseMap: controller.baseMapType,
-            layers: controller.layers,
+            // Dropped from the list rather than drawn transparent: the legend
+            // and the credits are built from these, and a page that names a
+            // source it carries no ink from tells the reader the imagery was
+            // consulted for what they are looking at.
+            layers: includesAerial
+                ? controller.layers
+                : controller.layers.filter { $0.id != LayerID.nsAerial.rawValue },
             parcels: controller.state.parcelShapes,
             // The client-side layers as the screen has them, so a page shows
             // the zones and reaches the reader was looking at rather than blank

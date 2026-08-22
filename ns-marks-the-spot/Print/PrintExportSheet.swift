@@ -1,5 +1,6 @@
 import Foundation
 import GeoCore
+import MapCatalog
 import NSDataServices
 import PDFKit
 import SwiftUI
@@ -24,7 +25,16 @@ struct PrintExportSheet: View {
     @State private var subtitle = ""
     @State private var notes = ""
     @State private var includesLegend = true
-    @State private var kind: PrintDocumentKind = .fieldSheet
+    /// Whether the evidence appendix follows the map.
+    ///
+    /// The web offers this apart from the document choice, and so does this: a
+    /// reader who wants the research summary's caveat and its map does not
+    /// always want the eight pages of source-by-source account behind it. The
+    /// switch cannot add an appendix to a field sheet, only leave one out.
+    @State private var includesAppendix = true
+    /// Whether the aerial photography prints. Off to start, like the browser.
+    @State private var includesAerial = false
+    @State private var kind: PrintDocumentKind
     @State private var isWorking = false
     /// The running export, held so Cancel and dismissal can stop it.
     @State private var work: Task<Void, Never>?
@@ -37,6 +47,27 @@ struct PrintExportSheet: View {
     /// anywhere. What the compositor made is the only place the reader can
     /// check that the frame they drew is the ground that printed.
     @State private var preview: PreviewedPage?
+
+    init(
+        overlayVM: OverlayViewModel,
+        framing: PrintExportFraming,
+        omitted: [String],
+        onExported: @escaping (URL) -> Void
+    ) {
+        self.overlayVM = overlayVM
+        self.framing = framing
+        self.omitted = omitted
+        self.onExported = onExported
+        // The research summary where there is a parcel to write one about,
+        // which is the browser's default and the only case the browser can
+        // reach. Framing ground with no parcel open is a native-only case, and
+        // there the research summary has nothing to append: opening on it would
+        // show a reader an Export button that does not work and no reason why.
+        _kind = State(
+            initialValue: overlayVM.inspectedPID(shownWithin: framing.bounds) != nil
+                ? .researchSummary : .fieldSheet
+        )
+    }
 
     /// The finished file, made presentable. A bare `URL` cannot identify a
     /// sheet, and two exports in a row would otherwise reuse the first one's
@@ -57,6 +88,15 @@ struct PrintExportSheet: View {
     /// reader they are looking at that parcel.
     private var framedPID: String? {
         overlayVM.inspectedPID(shownWithin: framing.bounds)
+    }
+
+    /// Whether there is any aerial photography on the map to print.
+    ///
+    /// The switch is shown either way rather than hidden, because "there is no
+    /// imagery on this map" and "imagery is available and left off" are two
+    /// different things to tell a reader about the page they are making.
+    private var aerialAvailable: Bool {
+        overlayVM.rows.contains { $0.descriptor.id == .nsAerial && $0.isVisible }
     }
 
     private var canExport: Bool {
@@ -99,6 +139,20 @@ struct PrintExportSheet: View {
                     Text(Self.explanation(of: kind))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+
+                    // The browser's checkbox, disabled the same way. It can
+                    // only take the appendix away: a field sheet with one
+                    // stapled to it would carry "confirm this on site" over
+                    // pages that say what was and was not asked, which are two
+                    // different instructions to the same reader.
+                    Toggle("Include evidence appendix", isOn: $includesAppendix)
+                        .disabled(isWorking || kind != .researchSummary)
+                        .accessibilityIdentifier("print-include-appendix")
+                    if kind != .researchSummary {
+                        Text("Available for the Research summary only.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 Section("Page") {
@@ -132,6 +186,19 @@ struct PrintExportSheet: View {
                     // when the map itself needs the room.
                     Toggle("Include legend", isOn: $includesLegend)
                         .accessibilityIdentifier("print-include-legend")
+
+                    // Off unless asked for, as in the browser. At this dot
+                    // pitch the photography is the slowest thing on the page
+                    // and, printed, a dark wash over the boundaries and labels
+                    // the sheet is being made to show.
+                    Toggle("Include aerial imagery", isOn: $includesAerial)
+                        .disabled(isWorking || !aerialAvailable)
+                        .accessibilityIdentifier("print-include-aerial")
+                    if !aerialAvailable {
+                        Text("Aerial imagery is not switched on for this map.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 if !omitted.isEmpty {
@@ -274,7 +341,9 @@ struct PrintExportSheet: View {
             // Asked for and available are two different things: a parcel closed
             // between picking the research summary and tapping Export would
             // otherwise print an empty appendix.
-            includesAppendix: kind.includesAppendix && overlayVM.canExportEvidenceNote,
+            includesAppendix: kind.includesAppendix && includesAppendix
+                && overlayVM.canExportEvidenceNote,
+            includesAerial: includesAerial,
             caveat: kind.caveat,
             frame: framing.bounds
         ) else {
