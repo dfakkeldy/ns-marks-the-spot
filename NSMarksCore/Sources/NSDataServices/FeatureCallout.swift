@@ -142,6 +142,36 @@ public enum FeatureCallouts {
         )
     }
 
+    /// A tapped point from one of the two provincial inventories.
+    ///
+    /// The web shows the name and the commodity or hazard on hover and nothing
+    /// else, so this card shows the same two things and adds no field the web
+    /// keeps out of its tooltip. What it does add is the eyebrow and the
+    /// caveat: a hover line vanishes when the pointer moves, while a card sits
+    /// there, and a hazard grade left sitting on screen with no source and no
+    /// qualification is the kind of thing a reader starts treating as a survey.
+    ///
+    /// The caveat is the layer's own, carried from the catalog rather than
+    /// written here, so the sentence under the point is the sentence the panel
+    /// already showed for the layer.
+    public static func resourcePoint(
+        _ record: ResourcePointOverlay.Record,
+        layer: LayerID,
+        layerName: String,
+        caveat: String,
+        sourceURL: URL?
+    ) -> FeatureCallout {
+        let parts = ResourcePointOverlay.parts(for: layer, properties: record.properties)
+        return FeatureCallout(
+            layerName: layerName,
+            title: parts.name,
+            summary: parts.detail.isEmpty ? nil : parts.detail,
+            caveat: caveat,
+            linkLabel: sourceURL == nil ? nil : "Official source",
+            linkURL: sourceURL
+        )
+    }
+
     public static func wellLog(
         _ record: WellLogOverlay.Record, layerName: String, sourceURL: URL?
     ) -> FeatureCallout {

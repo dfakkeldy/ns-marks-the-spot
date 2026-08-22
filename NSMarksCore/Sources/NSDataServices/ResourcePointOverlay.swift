@@ -53,23 +53,35 @@ public enum ResourcePointOverlay {
         for layer: LayerID,
         properties: [String: MappedFeatureResponse.AttributeValue]
     ) -> String {
+        let parts = parts(for: layer, properties: properties)
+        return [parts.name, parts.detail]
+            .filter { !$0.isEmpty }
+            .joined(separator: " · ")
+    }
+
+    /// The same line, split where a card wants to break it.
+    ///
+    /// The web has one hover line and joins the two; a card has a title and a
+    /// line under it. Split here rather than parsed back out of `label`, and
+    /// joined by `label` rather than written twice, so the two surfaces cannot
+    /// end up naming the same point differently.
+    public static func parts(
+        for layer: LayerID,
+        properties: [String: MappedFeatureResponse.AttributeValue]
+    ) -> (name: String, detail: String) {
         let name = text(properties["Name"])
 
         if layer == .mineralOccurrences {
             let commodityList = text(properties["Comm_list"])
             let commodity = commodityList.isEmpty ? text(properties["Comm_prim"]) : commodityList
-            return [name.isEmpty ? "Mineral occurrence" : name, commodity]
-                .filter { !$0.isEmpty }
-                .joined(separator: " · ")
+            return (name.isEmpty ? "Mineral occurrence" : name, commodity)
         }
 
         let hazard = text(properties["Degree_Haz"])
-        return [
+        return (
             name.isEmpty ? "Abandoned mine opening" : name,
-            hazard.isEmpty ? "" : "Hazard: \(hazard)",
-        ]
-        .filter { !$0.isEmpty }
-        .joined(separator: " · ")
+            hazard.isEmpty ? "" : "Hazard: \(hazard)"
+        )
     }
 }
 

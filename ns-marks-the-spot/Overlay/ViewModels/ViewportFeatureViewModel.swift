@@ -579,6 +579,10 @@ final class ViewportFeatureViewModel {
             throw Self.translate(error)
         }
 
+        // The layer's own sentence, not one written for the card: the panel
+        // already qualifies this inventory, and a tapped point has to be
+        // qualified the same way or the map says two things about one source.
+        let caveat = LayerCatalog.descriptor(for: id)?.caveat ?? ""
         let style = VectorFeatureStyles.resourcePoint(detail, opacity: opacity)
         return Found(
             markers: found.records.enumerated().map { index, record in
@@ -591,10 +595,13 @@ final class ViewportFeatureViewModel {
                     printStyle: PrintVectorFeatureStyles.resourcePoint(detail),
                     title: record.label,
                     subtitle: nil,
-                    // No card: the service answers with a name and a
-                    // coordinate, and the web's popup says the same. A card
-                    // here would be a heading with nothing under it.
-                    callout: nil
+                    callout: FeatureCallouts.resourcePoint(
+                        record,
+                        layer: id,
+                        layerName: Self.name(of: id),
+                        caveat: caveat,
+                        sourceURL: Self.sourceURL(of: id)
+                    )
                 )
             },
             unreadable: found.unreadable
