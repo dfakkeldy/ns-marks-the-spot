@@ -51,6 +51,51 @@ struct LayerInstallationTests {
         }
     }
 
+    @Test("A returning licensed user opens on the layers the browser opens on")
+    func anAcceptedLicenceOpensTheWebDefaults() {
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .accepted)
+        )
+        let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
+        let installed = Set(container.mapController.layers.map(\.id))
+        let webDefaults = Set(
+            LayerCatalog.all.filter(\.webDefaultVisible).map(\.id.rawValue)
+        ).intersection(installed)
+
+        #expect(webDefaults.count == 4, "aerial, parcels, water and roads")
+        #expect(on == webDefaults)
+        // The app keeps no per-layer memory between launches. Left to the
+        // catalogue's native default this user would switch all four back on
+        // every cold start, which the browser has never asked of them.
+        #expect(on.contains(LayerID.nsprd.rawValue))
+        #expect(container.mapController.baseMapType == .nsAerial)
+    }
+
+    @Test("An unanswered licence opens on the native default alone")
+    func anUnansweredLicenceOpensOnNothingRestricted() {
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .unknown)
+        )
+        let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
+
+        #expect(on.isSubset(of: Set(LayerCatalog.nativeDefaultVisibleIDs.map(\.rawValue))))
+        #expect(container.mapController.baseMapType == .standard)
+    }
+
+    @Test("Withheld clearance narrows the opening set to the native default")
+    func launchVisibilityReadsClearance() {
+        #expect(
+            AppContainer.launchVisibleIDs(clearance: .none)
+                == LayerCatalog.nativeDefaultVisibleIDs
+        )
+
+        let store = ProvinceLicenceStore(storage: InMemoryProvinceLicenceStorage())
+        store.accept()
+        let accepted = AppContainer.launchVisibleIDs(clearance: store.clearance)
+        #expect(accepted.isSuperset(of: [.nsAerial, .nsprd, .waterFeatures, .roads]))
+        #expect(accepted.contains(.fletcher), "the app's own sheet stays on either way")
+    }
+
     @Test func exportLayersCarryTheirCatalogIdRatherThanAnAddress() throws {
         let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage())
         let nsAerial = try #require(

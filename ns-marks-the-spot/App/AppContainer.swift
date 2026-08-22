@@ -65,9 +65,41 @@ final class AppContainer {
 
         self.poiViewModel = POIViewModel()
 
-        for layer in Self.installableLayers(fletcherBaseURL: fletcherBaseURL) {
+        let opening = Self.launchVisibleIDs(clearance: licenceStore.clearance)
+        var openedAerial = false
+        for var layer in Self.installableLayers(fletcherBaseURL: fletcherBaseURL) {
+            if let id = LayerID(rawValue: layer.id) {
+                layer.isVisible = opening.contains(id)
+                openedAerial = openedAerial || (id == .nsAerial && layer.isVisible)
+            }
             controller.addLayer(layer)
         }
+        // NS Aerial is a base map as well as an overlay, and the two move
+        // together everywhere else. Setting the layer alone would open with
+        // imagery drawn and the base-map picker reading "Standard".
+        if openedAerial {
+            controller.baseMapType = .nsAerial
+        }
+    }
+
+    /// The layers the map opens on, given what the user has already agreed to.
+    ///
+    /// `nativeDefaultVisible` answers for a fresh install: the licence is
+    /// unanswered, and Fletcher is the one sheet set that needs no permission.
+    /// It is the wrong answer for a returning user who accepted months ago. The
+    /// browser opens that user on aerial imagery, parcels, water and roads, and
+    /// this app remembers no per-layer choice between launches — so without
+    /// this they switch the same four back on at every cold start.
+    ///
+    /// Clearance is read, never assumed. Before acceptance this is exactly the
+    /// catalogue's native default, which is what keeps a first launch off the
+    /// Province services and out of the licence dialog.
+    static func launchVisibleIDs(clearance: ProvinceLicenceClearance) -> Set<LayerID> {
+        guard clearance.allowsRestrictedLayers else {
+            return LayerCatalog.nativeDefaultVisibleIDs
+        }
+        return LayerCatalog.nativeDefaultVisibleIDs
+            .union(LayerCatalog.all.filter(\.webDefaultVisible).map(\.id))
     }
 
     /// Every catalogued raster the app can draw, bottom of the stack first.
