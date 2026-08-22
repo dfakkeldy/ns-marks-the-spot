@@ -219,8 +219,6 @@ public enum HydroPotentialPilot {
         case unreadable
     }
 
-    static let resourceName = "inverness-hydro-potential"
-
     /// The bundled collection.
     ///
     /// Decoding is strict, unlike the network readers in this module. A
@@ -229,13 +227,9 @@ public enum HydroPotentialPilot {
     /// a field it cannot read is a packaging mistake and must fail loudly
     /// rather than draw a partial map.
     public static func bundledCollection() throws(LoadFailure) -> Collection {
-        try bundledCollection(in: .module)
-    }
-
-    static func bundledCollection(in bundle: Bundle) throws(LoadFailure) -> Collection {
-        guard let url = bundle.url(forResource: resourceName, withExtension: "json"),
-              let data = try? Data(contentsOf: url)
-        else { throw .resourceMissing }
+        guard let data = try? SharedData.bytes(of: .invernessHydroPotential) else {
+            throw .resourceMissing
+        }
         return try collection(from: data)
     }
 

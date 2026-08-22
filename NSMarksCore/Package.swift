@@ -58,19 +58,12 @@ let package = Package(
         .target(
             name: "NSDataServices",
             dependencies: ["GeoCore", "MapCatalog"],
-            // The Inverness micro-hydro pilot is a derived dataset the web
-            // bundles rather than fetches, so the app bundles the same bytes.
-            // Copied rather than processed: the file is the pinned evidence,
-            // and its metadata block is quoted in the UI.
-            resources: [
-                .copy("Resources/inverness-hydro-potential.json"),
-                // The tax-sale snapshots and the manifest that pins them,
-                // copied verbatim out of the repository's `SharedData/` export
-                // so both surfaces read the same bytes. Copied rather than
-                // processed for the same reason: the manifest hashes describe
-                // these files exactly, and a test re-hashes them.
-                .copy("Resources/SharedData"),
-            ],
+            // The tax-sale snapshots, the Inverness micro-hydro pilot, and the
+            // manifest that pins them, copied verbatim out of the repository's
+            // `SharedData/` export so both surfaces read the same bytes.
+            // Copied rather than processed: the manifest hashes describe these
+            // files exactly, and a test re-hashes them.
+            resources: [.copy("Resources/SharedData")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

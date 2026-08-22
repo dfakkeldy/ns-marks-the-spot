@@ -21,6 +21,12 @@ public enum SharedData {
         case cbrmTaxSale = "cbrmTaxSale.snapshot.json"
         case cbrmTaxSaleResults = "cbrmTaxSaleResults.snapshot.json"
         case historicalTaxSales = "historicalTaxSales.json"
+        // Not a tax sale: the micro-hydro pilot is a derived dataset the web
+        // bundles rather than fetches. It is here so it is hashed against the
+        // web's manifest like everything else. It shipped for a while as its
+        // own copied resource, outside the manifest, which is exactly how one
+        // surface comes to quote an upstream area the other does not.
+        case invernessHydroPotential = "invernessHydroPotential.json"
         case invernessTaxSale = "invernessTaxSale.snapshot.json"
         case middletonTaxSale = "middletonTaxSale.snapshot.json"
     }
