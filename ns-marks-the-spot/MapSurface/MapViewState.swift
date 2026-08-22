@@ -9,6 +9,10 @@ nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
     case satellite = "Satellite"
     case hybrid = "Hybrid"
     case nsAerial = "NS Aerial"
+    /// No base map at all, the way the browser reads with its modern map
+    /// switched off. Drawn as `BlankBaseOverlay`, since MapKit has no blank
+    /// map type of its own.
+    case blank = "None"
 
     var id: String { self.rawValue }
 }

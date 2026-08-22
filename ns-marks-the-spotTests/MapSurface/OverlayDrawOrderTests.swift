@@ -73,15 +73,19 @@ struct OverlayDrawOrderTests {
         mapView.overlays.compactMap { ($0 as? WebDrawOrdered)?.webDrawOrder }
     }
 
-    private var nsprdLayer: MapLayerState? {
-        LayerCatalog.descriptor(for: .nsprd).map {
-            MapLayerState(descriptor: $0, source: .catalogExport(.nsprd))
-        }
-    }
+    private var nsprdLayer: MapLayerState? { shownLayer(.nsprd) }
 
-    private var contoursLayer: MapLayerState? {
-        LayerCatalog.descriptor(for: .contours).map {
-            MapLayerState(descriptor: $0, source: .catalogExport(.contours))
+    private var contoursLayer: MapLayerState? { shownLayer(.contours) }
+
+    /// Switched on, which the catalogue's native default is not: the app opens
+    /// with every Province layer off, and a hidden layer draws at alpha 0, so
+    /// `MapStateDiff` never installs an overlay for it at all. Built from the
+    /// descriptor alone these tests were asserting the order of an empty map.
+    private func shownLayer(_ id: LayerID) -> MapLayerState? {
+        LayerCatalog.descriptor(for: id).map {
+            var layer = MapLayerState(descriptor: $0, source: .catalogExport(id))
+            layer.isVisible = true
+            return layer
         }
     }
 

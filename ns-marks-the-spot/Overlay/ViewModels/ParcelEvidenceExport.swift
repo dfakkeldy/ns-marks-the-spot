@@ -140,6 +140,8 @@ nonisolated enum ParcelEvidenceExport {
             return "Apple Maps satellite imagery"
         case .hybrid:
             return "Apple Maps satellite imagery with labels"
+        case .blank:
+            return "no base map"
         }
     }
 

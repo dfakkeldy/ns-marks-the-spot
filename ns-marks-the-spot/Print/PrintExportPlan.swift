@@ -176,11 +176,15 @@ nonisolated enum PrintExportPlan {
         drewParcels: Bool = false,
         descriptor: (String) -> LayerDescriptor?
     ) -> [PrintLayerSource] {
-        var sources = [
-            PrintLayerSource(
-                name: baseMapName(baseMap), attribution: "© Apple Maps", licenceUrl: nil
-            )
-        ]
+        // A page printed with no base map carries no Apple pixels, so it owes
+        // Apple nothing. The obligation follows the ink here as it does below.
+        var sources = baseMap == .blank
+            ? []
+            : [
+                PrintLayerSource(
+                    name: baseMapName(baseMap), attribution: "© Apple Maps", licenceUrl: nil
+                )
+            ]
         for outcome in outcomes {
             // A layer whose attribution is printed but whose pixels are not
             // would credit a publisher for a picture the page does not carry.
@@ -236,6 +240,10 @@ nonisolated enum PrintExportPlan {
         // The aerial is a layer of its own and is credited as one; what is
         // underneath it is still Apple's standard map.
         case .nsAerial: "Apple Maps"
+        // Never reaches the strip — `sources` drops the base entry entirely —
+        // but the evidence note names what was read over, and "no base map" is
+        // the honest answer there.
+        case .blank: "No base map"
         }
     }
 }

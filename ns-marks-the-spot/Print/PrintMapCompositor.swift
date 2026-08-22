@@ -572,12 +572,29 @@ nonisolated struct PrintMapCompositor {
         case .standard, .nsAerial: options.mapType = .standard
         case .satellite: options.mapType = .satellite
         case .hybrid: options.mapType = .hybrid
+        // Reading with no base map is a choice about what the page shows, and
+        // the page has to keep it. Asking MapKit for a snapshot and drawing it
+        // anyway would put back exactly the roads and labels the reader turned
+        // off to see an historical sheet clean.
+        case .blank: return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
         }
 
         do {
             return try await MKMapSnapshotter(options: options).start().image
         } catch {
             throw Failure.baseMapUnavailable(error.localizedDescription)
+        }
+    }
+
+    /// White, the colour of the paper the rest of the page is printed on.
+    static func blankBaseMap(widthPx: Int, heightPx: Int) -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = true
+        let size = CGSize(width: widthPx, height: heightPx)
+        return UIGraphicsImageRenderer(size: size, format: format).image { context in
+            UIColor.white.setFill()
+            context.fill(CGRect(origin: .zero, size: size))
         }
     }
 

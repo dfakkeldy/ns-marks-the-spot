@@ -132,6 +132,7 @@ final class MapController: NSObject {
         switch mutation {
         case .setMapType(let baseType):
             mapView.mapType = Self.mkMapType(for: baseType)
+            applyBlankBase(baseType == .blank, on: mapView)
 
         case .addTileOverlay(let layer):
             let overlay = OpacityTileOverlay(
@@ -314,6 +315,25 @@ final class MapController: NSObject {
         case .nsAerial:
             // NS Aerial renders as a tile overlay above the standard basemap.
             return .standard
+        case .blank:
+            // Whatever is set here is covered by `BlankBaseOverlay`; MapKit
+            // requires a map type and has no case for none.
+            return .standard
+        }
+    }
+
+    /// Puts the blank world in or takes it out.
+    ///
+    /// Installed through the draw order like any other overlay, so it lands
+    /// under the layers that are already on the map rather than over them —
+    /// switching the base map must not blank out the sheet being read.
+    private func applyBlankBase(_ wanted: Bool, on mapView: MKMapView) {
+        let installed = mapView.overlays.compactMap { $0 as? BlankBaseOverlay }
+        if wanted {
+            guard installed.isEmpty else { return }
+            mapView.installInDrawOrder(BlankBaseOverlay())
+        } else {
+            for overlay in installed { mapView.removeOverlay(overlay) }
         }
     }
 
@@ -993,6 +1013,13 @@ extension MapController: MKMapViewDelegate {
             renderer.strokeColor = .systemBlue
             renderer.lineWidth = 2
             return renderer
+        }
+
+        // Before the `OpacityTileOverlay` branch: this is a tile overlay too,
+        // and without a renderer of its own it would draw nothing, which on a
+        // base-replacing overlay is a black map.
+        if let blank = overlay as? BlankBaseOverlay {
+            return MKTileOverlayRenderer(tileOverlay: blank)
         }
 
         guard let tileOverlay = overlay as? OpacityTileOverlay else {
