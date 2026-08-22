@@ -529,9 +529,19 @@ struct MapContainerView: View {
                measure == nil, vectorCallout == nil, featureVM.selection == nil,
                !isSelectingSaveArea
             {
-                MapPositionReadout(position: mapPosition, screenScale: screenScale)
-                    .padding(.leading, 12)
-                    .padding(.bottom, 12)
+                VStack(alignment: .leading, spacing: 6) {
+                    // Hidden from VoiceOver on purpose. A bar is measured off
+                    // the screen, which is not something it can be read out;
+                    // the readout under it says the same scale in words and
+                    // carries the caveat that goes with it.
+                    MapScaleBar(controller: controller)
+                        .frame(width: 120, height: 24)
+                        .accessibilityHidden(true)
+
+                    MapPositionReadout(position: mapPosition, screenScale: screenScale)
+                }
+                .padding(.leading, 12)
+                .padding(.bottom, 12)
             }
         }
         .overlay(alignment: .bottom) {
