@@ -1384,3 +1384,35 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-pa
 git log --oneline -1   # 72bb61e77
 ls -1 .build/focused-tests | grep -c '\.xcresult'
 ```
+
+## 2026-08-23 — Phase B: the browser's ten sections in the phone's layer panel
+
+Done: `LayerCategory` ported from `web/src/layers/layerCategories.ts` into
+`NSMarksCore/Sources/MapCatalog` (ten categories, `LayerID.category`, the web's
+headings and sentences word for word), covered by the parity fixture at schema
+version 2. `OverlayViewModel.sections(addedMapCount:)` now groups by category
+and carries the web's per-section summary; `TransparencySliderView` renders all
+ten, opens on Background Maps like the web, and moved the base-map picker, the
+tax-sale switch and the My Maps controls inside their own sections. The four
+catalog groups that only hold query layers are no longer invisible. Also: the
+PDF quarter turns are literal matrices, `Scripts/gated-focused-tests.sh` takes
+suite names and runs `-parallel-testing-enabled NO`, and six stale app-target
+suites were put back against the app they test (the `OfflineAreasViewModelTests`
+hang had a second, real cause: its loader blocked every tile after the first,
+and Fletcher sheet 1 spans more than two).
+
+Green: 1042 package tests / 147 suites, `Scripts/typecheck-ios.sh`, and the 12
+gated app suites the change touches. Four commits, unpushed, 52 ahead of origin.
+
+Next: simulator verification of the ten sections on a phone, then Phase C (map
+setup / themes: five built-ins plus locally saved custom themes; the web's
+`preferredCategoryIds` also decides which sections a shared link opens).
+Deliberately deferred and worth recording: the web's phone drill-down layout
+(`phoneCategoryLayout` / `focusedCategoryId` in `web/src/App.tsx`).
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+git log --oneline -1   # 667831a70
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
+```
