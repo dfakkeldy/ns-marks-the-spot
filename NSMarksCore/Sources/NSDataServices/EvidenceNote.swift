@@ -396,8 +396,13 @@ extension EvidenceNote {
                 "## Geology and resource context",
                 "",
             ]
-            + (input.resourceNotice.map { ["- \($0) No absence is inferred."] }
-                ?? input.resourceResults.flatMap(resultLines)
+            // A whole-section notice is the last resort, not the first. When
+            // the caller knows which sources were asked it lists them, and a
+            // notice printed over that list would take their names and their
+            // links away from a reader who needs both to go and ask again.
+            + (input.resourceResults.isEmpty
+                ? input.resourceNotice.map { ["- \($0) No absence is inferred."] } ?? []
+                : input.resourceResults.flatMap(resultLines)
                     + input.resourceResults.flatMap(sourceLines))
             + [
                 "",

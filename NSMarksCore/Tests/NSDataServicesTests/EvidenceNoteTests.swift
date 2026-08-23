@@ -29,7 +29,8 @@ struct EvidenceNoteTests {
         flood: [EvidenceNoteInput.Result] = [],
         assessments: EvidenceNoteInput.AssessmentEvidence,
         dwellings: EvidenceNoteInput.DwellingEvidence,
-        resources: [EvidenceNoteInput.Result] = []
+        resources: [EvidenceNoteInput.Result] = [],
+        resourceNotice: String? = nil
     ) -> EvidenceNoteInput {
         EvidenceNoteInput(
             generatedAt: generatedAt,
@@ -49,7 +50,8 @@ struct EvidenceNoteTests {
             floodResults: flood,
             assessmentEvidence: assessments,
             dwellingEvidence: dwellings,
-            resourceResults: resources
+            resourceResults: resources,
+            resourceNotice: resourceNotice
         )
     }
 
@@ -385,6 +387,50 @@ struct EvidenceNoteTests {
             )
         )
         #expect(!note.markdown.contains("Coastal Hazard Map: source unavailable"))
+    }
+
+    /// A section notice speaks for a whole lookup, and the sources under it
+    /// each speak for themselves. When both are there the sources win: a reader
+    /// left with one sentence has no name to ask again about and no link to ask
+    /// it at.
+    @Test func namedSourcesOutrankASectionNotice() {
+        let source = URL(string: "https://gis.novascotia.ca/arcgis")!
+        let waiting = "This source had not answered when the note was written."
+        let note = EvidenceNote.build(
+            Self.input(
+                assessments: .error,
+                dwellings: .error,
+                resources: ["Mineral occurrences", "Mineral tenure", "Abandoned mine openings"]
+                    .map { name in
+                        EvidenceNoteInput.Result(
+                            name: name, sourceURL: source, status: .error, results: [],
+                            errorMessage: waiting
+                        )
+                    },
+                resourceNotice: waiting
+            )
+        )
+
+        #expect(note.markdown.contains("- Mineral tenure: \(waiting)"))
+        #expect(note.markdown.contains("- Abandoned mine openings: \(waiting)"))
+    }
+
+    /// With nothing to list, the notice is all there is, and the section still
+    /// has to say the silence is not an answer.
+    @Test func aSectionNoticeSpeaksWhenNoSourceCan() {
+        let note = EvidenceNote.build(
+            Self.input(
+                assessments: .error,
+                dwellings: .error,
+                resourceNotice: "The geology sources could not be reached."
+            )
+        )
+
+        #expect(
+            note.markdown.contains(
+                "- The geology sources could not be reached. No absence is inferred."
+            )
+        )
     }
 
     /// A finding drags its credit and its licence along with it. The appendix
