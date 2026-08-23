@@ -60,8 +60,8 @@ struct MapShareAndEvidenceTests {
           "features": [
             {
               "properties": {
-                "pntid": "1", "civic_num": "12", "street_name": "Main",
-                "street_suffix": "St", "community": "Sydney"
+                "pntid": "1", "civicnum": "12", "strname": "Main",
+                "strsuffix": "St", "comm": "Sydney"
               },
               "geometry": {"type": "Point", "coordinates": [-60.1, 46.1]}
             }
@@ -508,8 +508,8 @@ struct MapShareAndEvidenceTests {
             )
         )
 
-        #expect(Self.oneAddress.count == 1)
-        #expect(note.markdown.contains("12 Main St"))
+        #expect(Self.oneAddress.first?.label == "12 Main St, Sydney")
+        #expect(note.markdown.contains("12 Main St, Sydney"))
         #expect(note.markdown.contains("2 more mapped points here could not be read"))
     }
 

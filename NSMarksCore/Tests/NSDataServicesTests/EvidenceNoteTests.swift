@@ -542,6 +542,22 @@ struct EvidenceNoteTests {
         #expect(note.markdown.contains("2 more mapped points here could not be read"))
     }
 
+    /// Every row unreadable is not an empty file. The note must print the
+    /// count rather than the sentence that says no address is mapped here.
+    @Test func addressRowsThatCouldNotBeReadAreNotAnEmptyParcelInTheNote() {
+        let note = EvidenceNote.build(
+            Self.input(
+                civicShortfall: "3 mapped points here could not be read. Whether an "
+                    + "address is mapped inside this parcel is unknown.",
+                assessments: .ready(PVSCAssessmentResponse.Result(matchMethod: .spatial, accounts: [])),
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: []))
+            )
+        )
+
+        #expect(note.markdown.contains("3 mapped points here could not be read"))
+        #expect(!note.markdown.contains("No mapped civic address point returned inside the parcel."))
+    }
+
     /// Rows the PVSC reply carried and this build could not parse. The panel
     /// counts them; a note that dropped the count would present a short list
     /// as the whole record.

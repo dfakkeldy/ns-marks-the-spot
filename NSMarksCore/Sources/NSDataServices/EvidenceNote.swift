@@ -242,7 +242,12 @@ extension EvidenceNote {
         if let notice = input.civicNotice {
             civic = ["- \(notice) No absence is inferred."]
         } else if input.civicAddresses.isEmpty {
-            civic = ["- No mapped civic address point returned inside the parcel."]
+            // A shortfall with nothing above it is the case where the file had
+            // rows here and none of them could be read. Printing the absence
+            // sentence there would turn this build's parsing into a finding
+            // about the parcel.
+            civic = ["- " + (input.civicShortfall
+                ?? "No mapped civic address point returned inside the parcel.")]
         } else {
             civic = input.civicAddresses.map { "- [\($0.label)](\($0.sourceURL.absoluteString))" }
                 + (input.civicShortfall.map { ["- \($0)"] } ?? [])
