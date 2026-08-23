@@ -1343,6 +1343,11 @@ final class OverlayViewModel {
             )
         }
         guard let box = framed else { return nil }
+        // The ground that will actually print, which is the frame grown to the
+        // paper. Read here as well as in the export because the sentences below
+        // are about what the reader will be holding, and the frame on its own
+        // is smaller than that.
+        let printed = PrintExportPlan.bounds(covering: box, mapFrame: template.mapFrame)
         var disclosures = [caveat] + printCaptureContext
         // The appendix is about a parcel and the map is about ground, and the
         // two can be in different places. Said on the page rather than left for
@@ -1353,6 +1358,16 @@ final class OverlayViewModel {
             disclosures.append(
                 "The evidence appendix is for PID \(pid), whose boundary is not on "
                     + "this map. The map shows other ground."
+            )
+        }
+        // The page is titled for the parcel it frames, and a title is a claim
+        // about the whole of it. A frame drawn by hand cuts wherever the user
+        // dragged it, so a page can promise PID 15234636 and show its northern
+        // third.
+        if let pid = inspectedPID(shownWithin: box), !parcelFits(pid, within: printed) {
+            disclosures.append(
+                "PID \(pid) runs past the edge of this map. The page shows part "
+                    + "of the parcel."
             )
         }
         if appendixWithheld {
@@ -1425,6 +1440,26 @@ final class OverlayViewModel {
               box.west <= bounds.east, box.east >= bounds.west
         else { return nil }
         return pid
+    }
+
+    /// Whether the named parcel's whole outline is inside the ground that will
+    /// print.
+    ///
+    /// Boxes rather than rings, and that is the safe direction: a bounding box
+    /// that fits guarantees the outline inside it fits, so this never claims a
+    /// parcel is cut when it is not. It can miss a parcel whose box pokes out
+    /// where the outline does not, which costs a sentence the page did not
+    /// need rather than a promise it cannot keep.
+    ///
+    /// True when there is no geometry to check. A parcel with no outline is
+    /// already the subject of its own notice on the card, and the page has the
+    /// "boundary is not on this map" sentence for the case where it is absent.
+    private func parcelFits(_ pid: String, within bounds: GeoBoundingBox) -> Bool {
+        guard let shape = controller.state.parcelShapes.first(where: { $0.pid == pid }),
+              let box = Self.boundingBox(of: shape)
+        else { return true }
+        return box.south >= bounds.south && box.north <= bounds.north
+            && box.west >= bounds.west && box.east <= bounds.east
     }
 
     private static func boundingBox(of shape: ParcelShape) -> GeoBoundingBox? {
