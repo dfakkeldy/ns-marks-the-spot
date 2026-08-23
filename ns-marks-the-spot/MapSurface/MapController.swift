@@ -38,6 +38,15 @@ final class MapController: NSObject {
 
     @ObservationIgnored private let tileCache: TileCache?
     @ObservationIgnored private let tileFetcher: TileFetcher?
+    /// Where a saved offline area keeps its tiles.
+    ///
+    /// Separate from the cache, and read for a different reason: the cache is
+    /// whatever the user happened to pan over and is swept when it grows, while
+    /// this is what they asked the app to keep. The overlay asks it before the
+    /// network, which is what makes a saved area mean anything once the phone
+    /// is off the network.
+    @ObservationIgnored private let tileStore: TileStore?
+    @ObservationIgnored private let fletcherMigration: Task<Void, Never>?
     @ObservationIgnored private let clearanceBox: LicenceClearanceBox
     @ObservationIgnored private let locationManager = CLLocationManager()
     private(set) var isWaitingToCenterOnUserLocation = false
@@ -76,10 +85,14 @@ final class MapController: NSObject {
     init(
         tileCache: TileCache? = nil,
         tileFetcher: TileFetcher? = nil,
+        tileStore: TileStore? = nil,
+        fletcherMigration: Task<Void, Never>? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
     ) {
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
+        self.tileStore = tileStore
+        self.fletcherMigration = fletcherMigration
         self.clearanceBox = clearanceBox
         super.init()
         locationManager.delegate = self
@@ -147,6 +160,8 @@ final class MapController: NSObject {
                 configuration: layer.configuration,
                 tileCache: tileCache,
                 tileFetcher: tileFetcher,
+                tileStore: tileStore,
+                fletcherMigration: fletcherMigration,
                 clearanceBox: clearanceBox,
                 progress: progress
             )

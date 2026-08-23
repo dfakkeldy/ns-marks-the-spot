@@ -26,6 +26,14 @@ final class AppContainer {
     /// place acceptance and revocation happen.
     let clearanceBox: LicenceClearanceBox
 
+    /// The one-off sweep of tiles from a superseded Fletcher build, or `nil`
+    /// when this install has already done it.
+    ///
+    /// Held rather than dropped because the map and the offline screen both
+    /// have to wait for it before they trust a stored tile. See
+    /// `FletcherSourceMigration.runIfNeeded`.
+    let fletcherMigration: Task<Void, Never>?
+
     /// The container the app launches with.
     ///
     /// `UITestMode` on the command line builds one that remembers nothing: an
@@ -62,7 +70,8 @@ final class AppContainer {
         let fetcher = TileFetcher(tileCache: cache)
         self.tileFetcher = fetcher
         let tileDownloadManager = TileDownloadManager(tileStore: store)
-        FletcherSourceMigration.runIfNeeded(tileCache: cache, tileStore: store)
+        let migration = FletcherSourceMigration.runIfNeeded(tileCache: cache, tileStore: store)
+        self.fletcherMigration = migration
 
         let licenceStore: ProvinceLicenceStore
         if let licenceStorage {
@@ -82,12 +91,15 @@ final class AppContainer {
             tileStore: store,
             tileCache: cache,
             tileDownloadManager: tileDownloadManager,
-            tileLoader: fletcherTileLoader
+            tileLoader: fletcherTileLoader,
+            fletcherMigration: migration
         )
 
         let controller = MapController(
             tileCache: cache,
             tileFetcher: fetcher,
+            tileStore: store,
+            fletcherMigration: migration,
             clearanceBox: clearanceBox
         )
         self.mapController = controller

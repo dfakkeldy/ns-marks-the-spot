@@ -38,7 +38,13 @@ nonisolated enum FletcherSourceMigration {
 
     /// Runs the sweep if this install has not already done it for this revision.
     ///
-    /// Fire-and-forget at launch; `run` is the awaitable form the tests use.
+    /// Started at launch and returned rather than dropped, because everything
+    /// that reads a stored Fletcher tile has to wait for it. `TileStore` keys
+    /// those tiles by layer id alone, so bytes from the superseded build sit
+    /// under the same key as the current one until this has run — and a reader
+    /// that does not wait can draw them, or can have its own fresh download
+    /// swept out from under it a moment after it reported success. `nil` means
+    /// there is nothing to wait for. `run` is the awaitable form the tests use.
     ///
     /// It takes no `defaults` because `UserDefaults` is not `Sendable`, and the
     /// closure handed to `Task.detached` is a `sending` parameter: capturing an
@@ -47,10 +53,11 @@ nonisolated enum FletcherSourceMigration {
     /// instead, so the standard domain is obtained there and never crosses an
     /// isolation boundary. Tests await `run` directly and pass their own domain,
     /// which is why this overload does not need the seam.
-    static func runIfNeeded(tileCache: TileCache, tileStore: TileStore) {
-        guard isNeeded() else { return }
-        Task.detached(priority: .utility) {
-            await run(tileCache: tileCache, tileStore: tileStore)
+    @discardableResult
+    static func runIfNeeded(tileCache: TileCache, tileStore: TileStore) -> Task<Void, Never>? {
+        guard isNeeded() else { return nil }
+        return Task.detached(priority: .utility) {
+            _ = await run(tileCache: tileCache, tileStore: tileStore)
         }
     }
 
