@@ -44,6 +44,13 @@ nonisolated struct PrintMapCompositor {
         /// paper where a layer was would read as ground the layer has nothing
         /// on.
         case unsupported
+        /// Switched on, drew nothing, and the reason is neither a licence nor a
+        /// limit of this exporter: the frame is below the layer's minimum zoom,
+        /// the query had not answered yet, or the service was down.
+        ///
+        /// The reason travels with it because those are three different things
+        /// to a reader deciding whether to go back and print the sheet again.
+        case notDrawn(reason: String)
     }
 
     struct LayerOutcome: Equatable, Sendable {
@@ -539,6 +546,59 @@ nonisolated struct PrintMapCompositor {
                 1.25, nil
             )
         }
+    }
+
+    /// What the parcel marks are called on the page, and the colours they were
+    /// drawn in.
+    ///
+    /// Parcels reach the raster from their own list rather than from the layer
+    /// list, so no layer row accounts for them and, without this, the reader
+    /// gets up to five colours of boundary and no key. The browser puts its one
+    /// parcel mark in the layer list for exactly this reason.
+    ///
+    /// The swatch is read back out of the colour the compositor strokes with,
+    /// so the key cannot drift from the ink. Roles appear in a fixed order, and
+    /// only the roles whose parcels reach this frame: the frame is drawn by
+    /// hand and can be nowhere near the selection, and a key to a colour that
+    /// is not on the page is the page describing ink it does not carry.
+    static func parcelLegend(
+        for parcels: [ParcelShape], within bounds: GeoBoundingBox
+    ) -> [PdfComposer.LegendEntry] {
+        let drawn = Set(parcels.filter { $0.reaches(bounds) }.map(\.role))
+        let ordered: [ParcelShape.Role] = [
+            .selected, .selectedHistorical, .taxSale, .historicalTaxSale, .context
+        ]
+        return ordered.filter(drawn.contains).map { role in
+            PdfComposer.LegendEntry(
+                name: legendName(for: role), swatchColour: hex(of: style(for: role).stroke)
+            )
+        }
+    }
+
+    /// The mark's name, said the way the panel that produced it says it. A
+    /// current notice and a published past record are different documents, and
+    /// the page has to keep a reader from reading one as the other.
+    private static func legendName(for role: ParcelShape.Role) -> String {
+        switch role {
+        case .selected: "Selected parcel"
+        case .selectedHistorical: "Selected parcel (historical record)"
+        case .taxSale: "In a current tax-sale notice"
+        case .historicalTaxSale: "In a published past tax-sale record"
+        case .context: "Nearby parcel boundary"
+        }
+    }
+
+    private static func hex(of colour: UIColor) -> String {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        guard colour.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else { return "#000000" }
+        // Clamped, not merely rounded: an extended-range colour reports
+        // components outside 0...1 and the conversion would trap, which is a
+        // crash in the middle of making a page.
+        let channel = { (value: CGFloat) in UInt32(min(255, max(0, (value * 255).rounded()))) }
+        return String(format: "#%02X%02X%02X", channel(red), channel(green), channel(blue))
     }
 
     // MARK: - Defaults

@@ -40,6 +40,13 @@ nonisolated enum ViewportLayerStatus: Equatable, Sendable {
         }
     }
 
+    /// The same words, fitted into a sentence: no capital and no trailing
+    /// ellipsis, because the printed page lists these inside a paragraph rather
+    /// than beside a switch.
+    var printReason: String {
+        label.trimmingCharacters(in: CharacterSet(charactersIn: "\u{2026}. ")).lowercased()
+    }
+
     var emphasis: LayerRuntimeStatus.Emphasis {
         switch self {
         case .off, .zoomGated: return .quiet

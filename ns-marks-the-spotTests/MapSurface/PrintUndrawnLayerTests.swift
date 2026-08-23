@@ -1,0 +1,143 @@
+import Foundation
+import GeoCore
+import MapCatalog
+import NSDataServices
+import Testing
+
+@testable import ns_marks_the_spot
+
+/// What the page says about a layer the reader switched on and cannot see.
+///
+/// The compositor only ever hears about shapes, so a zoom-gated, still-loading
+/// or failed layer reaches the paper as blank ground and no sentence at all.
+/// Blank ground with no sentence reads as ground that was asked about.
+@Suite("Layers that were on and put nothing on the page")
+@MainActor
+struct PrintUndrawnLayerTests {
+    private static let framed = GeoBoundingBox(
+        south: 45.6, west: -61.4, north: 45.7, east: -61.3
+    )
+
+    private static func shape(_ layer: LayerID, at box: GeoBoundingBox) -> FeatureShape {
+        FeatureShape(
+            id: "\(layer.rawValue)-1",
+            layer: layer,
+            geometry: .polygon([
+                [
+                    GeoPoint(lat: box.south, lng: box.west),
+                    GeoPoint(lat: box.south, lng: box.east),
+                    GeoPoint(lat: box.north, lng: box.east),
+                    GeoPoint(lat: box.north, lng: box.west),
+                    GeoPoint(lat: box.south, lng: box.west)
+                ]
+            ]),
+            style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 1.7),
+            title: "feature",
+            subtitle: nil,
+            callout: nil
+        )
+    }
+
+    private func request(
+        statuses: [LayerID: ViewportLayerStatus], shapes: [FeatureShape] = []
+    ) -> PrintExportRequest? {
+        let controller = MapController()
+        controller.setFeatureShapes(shapes)
+        let viewModel = OverlayViewModel.forTesting(
+            controller: controller, installing: [.nsprd]
+        )
+        return viewModel.printExportRequest(
+            template: PdfTemplate.template(.landscape),
+            fields: PdfComposer.Fields(title: "Sheet", subtitle: "", notes: ""),
+            frame: Self.framed,
+            featureStatuses: statuses
+        )
+    }
+
+    /// Three different reasons for the same blank paper, and the reader is
+    /// deciding whether to frame tighter, wait, or come back tomorrow.
+    @Test("A gated, loading or failed layer is carried to the page with its reason")
+    func aGatedLoadingOrFailedLayerIsCarriedToThePageWithItsReason() throws {
+        let printed = try #require(
+            request(statuses: [
+                .zoningHalifax: .zoomGated(minZoom: 12),
+                .nsWellLogs: .loading,
+                .abandonedMines: .failed
+            ])
+        )
+
+        // Fixed order, because a dictionary has none and two exports of one
+        // view must not produce two differently worded pages.
+        #expect(
+            printed.undrawnFeatureLayers.map(\.id)
+                == [.abandonedMines, .nsWellLogs, .zoningHalifax]
+        )
+        let reasons = Dictionary(
+            uniqueKeysWithValues: printed.undrawnFeatureLayers.map { ($0.id, $0.status.printReason) }
+        )
+        #expect(reasons[.zoningHalifax] == "zoom to 12+ to load")
+        #expect(reasons[.nsWellLogs] == "loading visible area")
+        #expect(reasons[.abandonedMines] == "source temporarily unavailable")
+    }
+
+    /// The distinction the whole feature turns on. A layer that answered and
+    /// found nothing here has made a finding, and the page must not overwrite
+    /// it with "not printed" — that would turn evidence of absence back into
+    /// absence of evidence.
+    @Test("A layer that answered with nothing is not called unprinted")
+    func aLayerThatAnsweredWithNothingIsNotCalledUnprinted() throws {
+        let printed = try #require(
+            request(statuses: [
+                .nsWellLogs: .ready(drawn: 0, unreadable: 0),
+                .zoningHalifax: .off
+            ])
+        )
+
+        #expect(printed.undrawnFeatureLayers.isEmpty)
+    }
+
+    /// Ink beats status. A layer whose query is refreshing for the next view
+    /// still has last view's shapes on this page, and naming it as unprinted
+    /// beside its own polygons would be the page contradicting itself.
+    @Test("A layer with shapes inside the frame is not named as unprinted")
+    func aLayerWithShapesInsideTheFrameIsNotNamedAsUnprinted() throws {
+        let printed = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, at: Self.framed)]
+            )
+        )
+
+        #expect(printed.undrawnFeatureLayers.isEmpty)
+        #expect(printed.features.count == 1)
+    }
+
+    /// Shapes a hundred kilometres away are not on this page, so as far as this
+    /// sheet is concerned the layer drew nothing and owes the reader a reason.
+    @Test("Shapes outside the frame do not count as drawn")
+    func shapesOutsideTheFrameDoNotCountAsDrawn() throws {
+        let elsewhere = GeoBoundingBox(south: 44.0, west: -64.0, north: 44.1, east: -63.9)
+        let printed = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, at: elsewhere)]
+            )
+        )
+
+        #expect(printed.features.isEmpty)
+        #expect(printed.undrawnFeatureLayers.map(\.id) == [.zoningHalifax])
+    }
+
+    /// The licence has its own sentence on the page, and it is the stronger
+    /// one: nothing was ever fetched, so there is nothing to have missed.
+    @Test("An unaccepted licence keeps its own words on the page")
+    func anUnacceptedLicenceKeepsItsOwnWordsOnThePage() throws {
+        let printed = try #require(request(statuses: [.zoningHalifax: .licenceBlocked]))
+        #expect(printed.undrawnFeatureLayers.map(\.id) == [.zoningHalifax])
+        #expect(PrintExport.pageState(for: .licenceBlocked) == .licenceBlocked)
+        #expect(
+            PrintExport.pageState(for: .zoomGated(minZoom: 12))
+                == .notDrawn(reason: "zoom to 12+ to load")
+        )
+    }
+}

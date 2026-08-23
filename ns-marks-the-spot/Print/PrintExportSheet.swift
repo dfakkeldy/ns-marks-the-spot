@@ -17,6 +17,10 @@ struct PrintExportSheet: View {
     /// the compositor does not carry it; finding that out from a finished page
     /// is finding out too late.
     let omitted: [String]
+    /// What each feature-query layer was doing when this sheet came up. Read
+    /// here rather than at export time so the reader is told before they make
+    /// the page, and so the same statuses reach the page's own notes.
+    let featureStatuses: [LayerID: ViewportLayerStatus]
     /// Called with the finished file, for the system share sheet.
     let onExported: (URL) -> Void
 
@@ -52,11 +56,13 @@ struct PrintExportSheet: View {
         overlayVM: OverlayViewModel,
         framing: PrintExportFraming,
         omitted: [String],
+        featureStatuses: [LayerID: ViewportLayerStatus] = [:],
         onExported: @escaping (URL) -> Void
     ) {
         self.overlayVM = overlayVM
         self.framing = framing
         self.omitted = omitted
+        self.featureStatuses = featureStatuses
         self.onExported = onExported
         // The research summary where there is a parcel to write one about,
         // which is the browser's default and the only case the browser can
@@ -82,6 +88,11 @@ struct PrintExportSheet: View {
     }
 
     private var template: PdfTemplate { PdfTemplate.template(framing.orientation) }
+
+    /// The switched-on feature layers that will put nothing inside this frame.
+    private var undrawnNotes: [String] {
+        overlayVM.undrawnFeatureLayerNotes(within: framing.bounds, statuses: featureStatuses)
+    }
 
     /// The open parcel, but only when its boundary is on the ground being
     /// printed. A page named after a parcel it does not show would tell the
@@ -198,6 +209,24 @@ struct PrintExportSheet: View {
                         Text("Aerial imagery is not switched on for this map.")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
+                    }
+                }
+
+                if !undrawnNotes.isEmpty {
+                    Section("Switched on, with nothing to print") {
+                        ForEach(undrawnNotes, id: \.self) { note in
+                            Text(note)
+                        }
+                        Text(
+                            """
+                            The page will name these too. Two of the reasons \
+                            clear on their own: zoom in past the layer's \
+                            minimum and export again, or wait for a query that \
+                            is still running.
+                            """
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                     }
                 }
 
@@ -345,7 +374,8 @@ struct PrintExportSheet: View {
                 && overlayVM.canExportEvidenceNote,
             includesAerial: includesAerial,
             caveat: kind.caveat,
-            frame: framing.bounds
+            frame: framing.bounds,
+            featureStatuses: featureStatuses
         ) else {
             failure = "The map has not been laid out yet."
             return
@@ -417,6 +447,7 @@ struct PrintExportSheet: View {
         case .unsupported: "Not printed — cannot be drawn on a page yet"
         case .outsideCoverage: "Nothing here — this source reaches none of this ground"
         case .licenceBlocked: "Not printed — the licence has not been accepted"
+        case .notDrawn(let reason): "Not printed — \(reason)"
         }
     }
 }

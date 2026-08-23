@@ -496,6 +496,65 @@ nonisolated struct PrintMapCompositorTests {
         #expect(gauge.peak > 1)
     }
 
+    /// The parcel marks are the only ink on the page that no layer row
+    /// accounts for. Four colours of boundary with no key is a page a reader
+    /// cannot use, and the two tax-sale colours are the pair they most need
+    /// told apart: one is a parcel advertised now, the other one sold years ago.
+    @Test func everyParcelMarkOnThePageIsNamedAndKeyedByColour() {
+        let entries = PrintMapCompositor.parcelLegend(
+            for: [
+                Self.parcel("1", .context),
+                Self.parcel("2", .historicalTaxSale),
+                Self.parcel("3", .selected),
+                Self.parcel("4", .taxSale)
+            ],
+            within: Self.bounds
+        )
+
+        #expect(
+            entries.map(\.name) == [
+                "Selected parcel",
+                "In a current tax-sale notice",
+                "In a published past tax-sale record",
+                "Nearby parcel boundary"
+            ]
+        )
+        // The swatch is read back from the stroke the compositor uses, so the
+        // key matches the ink rather than a colour written down twice.
+        #expect(entries.map(\.swatchColour) == ["#9F2F24", "#BE4D3C", "#5A4385", "#0A7180"])
+        // One row per mark, however many parcels carry it.
+        #expect(entries.count == 4)
+    }
+
+    /// The print frame is drawn by hand and can be nowhere near the selection.
+    /// A key to a colour that is not on the page describes ink the page does
+    /// not carry.
+    @Test func aParcelMarkOutsideTheFrameIsNotKeyed() {
+        let elsewhere = ParcelShape(
+            pid: "9",
+            role: .selected,
+            parts: [[Self.ring(west: -63.5, east: -63.4, south: 44.6, north: 44.7)]]
+        )
+
+        #expect(PrintMapCompositor.parcelLegend(for: [elsewhere], within: Self.bounds).isEmpty)
+        // And a parcel that swallows the whole frame without a vertex inside it
+        // is still on the page.
+        let around = ParcelShape(
+            pid: "10",
+            role: .selected,
+            parts: [[Self.ring(west: -62, east: -60, south: 45, north: 47)]]
+        )
+        #expect(PrintMapCompositor.parcelLegend(for: [around], within: Self.bounds).count == 1)
+    }
+
+    private static func parcel(_ pid: String, _ role: ParcelShape.Role) -> ParcelShape {
+        ParcelShape(
+            pid: pid,
+            role: role,
+            parts: [[Self.ring(west: -61.29, east: -61.25, south: 46.105, north: 46.135)]]
+        )
+    }
+
     private static func ring(
         west: Double, east: Double, south: Double, north: Double
     ) -> [GeoPoint] {

@@ -70,6 +70,8 @@ nonisolated enum PrintExportPlan {
         var uncovered: [String] = []
         /// Switched on, and never fetched because the licence is unanswered.
         var licenceBlocked: [String] = []
+        /// Switched on, and nothing of theirs reached the page, each with why.
+        var notDrawn: [String] = []
 
         var notes: [String] {
             var lines = [String]()
@@ -107,6 +109,17 @@ nonisolated enum PrintExportPlan {
                         + ". Absence here is not evidence the layer has nothing at this place."
                 )
             }
+            if !notDrawn.isEmpty {
+                // The reason travels with the name because these three are
+                // different documents: a layer below its zoom prints if the
+                // reader frames tighter, a layer still loading prints if they
+                // wait, and a layer whose source is down does not print today.
+                lines.append(
+                    "Not printed — these layers were switched on and put nothing on this "
+                        + "page: " + notDrawn.joined(separator: ", ")
+                        + ". Absence here is not evidence the layer has nothing at this place."
+                )
+            }
             if !incomplete.isEmpty {
                 lines.append(
                     "Partly printed — some tiles did not arrive: "
@@ -127,6 +140,7 @@ nonisolated enum PrintExportPlan {
         var unsupported = [String]()
         var uncovered = [String]()
         var licenceBlocked = [String]()
+        var notDrawn = [String]()
         for outcome in outcomes {
             switch outcome.state {
             case .drawn:
@@ -153,12 +167,16 @@ nonisolated enum PrintExportPlan {
                 uncovered.append(outcome.name)
             case .licenceBlocked:
                 licenceBlocked.append(outcome.name)
+            case .notDrawn(let reason):
+                // Out of the legend, like every other layer with no ink on the
+                // page: the legend names what the reader is looking at.
+                notDrawn.append("\(outcome.name) (\(reason))")
             }
         }
         return LayerAccount(
             legend: legend, omitted: omitted, incomplete: incomplete,
             unsupported: unsupported, uncovered: uncovered,
-            licenceBlocked: licenceBlocked
+            licenceBlocked: licenceBlocked, notDrawn: notDrawn
         )
     }
 

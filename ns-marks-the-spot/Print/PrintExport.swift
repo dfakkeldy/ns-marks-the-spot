@@ -22,6 +22,15 @@ nonisolated struct PrintExportRequest: Sendable {
     /// half-reloaded viewport.
     var features: [FeatureShape] = []
     var markers: [FeatureMarker] = []
+    /// Layers that were switched on and put no ink on this page, with what each
+    /// was doing when it was made.
+    ///
+    /// These never reach the compositor: they are client-side query layers, and
+    /// a layer holding no shapes has nothing to hand it. Without this the page
+    /// is blank where they were and says nothing at all — which reads as ground
+    /// the layer was asked about and found empty. The browser names the same
+    /// layers on its own printed sheet.
+    var undrawnFeatureLayers: [UndrawnFeatureLayer] = []
     var template: PdfTemplate
     var fields: PdfComposer.Fields
     /// Whether the page carries its legend box.
@@ -43,6 +52,14 @@ nonisolated struct PrintExportRequest: Sendable {
     /// either.
     var disclosures: [String] = [PrintExport.screeningCaveat]
     var generatedAt: Date
+
+    /// A layer that was on the screen and contributed nothing to the paper.
+    struct UndrawnFeatureLayer: Sendable, Equatable {
+        var id: LayerID
+        /// What the layer panel said it was doing, in the panel's own words, so
+        /// the page and the screen give the reader one account.
+        var status: ViewportLayerStatus
+    }
 }
 
 nonisolated enum PrintExport {
@@ -69,6 +86,18 @@ nonisolated enum PrintExport {
         var pdf: Data
         var resolution: ExportResolution
         var outcomes: [PrintMapCompositor.LayerOutcome]
+    }
+
+    /// How the page reports a layer that was on and drew nothing here.
+    ///
+    /// The licence keeps its own sentence, and it is the stronger one: nothing
+    /// was ever fetched, so there is no missing draw to explain. Everything else
+    /// carries the panel's own reason, because zoom, wait and outage are three
+    /// different things to a reader deciding whether to print again.
+    static func pageState(for status: ViewportLayerStatus) -> PrintMapCompositor.LayerState {
+        status == .licenceBlocked
+            ? .licenceBlocked
+            : .notDrawn(reason: status.printReason)
     }
 
     static func build(
@@ -126,6 +155,12 @@ nonisolated enum PrintExport {
                 name: descriptor(id.rawValue)?.name ?? id.rawValue,
                 state: .drawn
             )
+        } + request.undrawnFeatureLayers.map { layer in
+            PrintMapCompositor.LayerOutcome(
+                id: layer.id.rawValue,
+                name: descriptor(layer.id.rawValue)?.name ?? layer.id.rawValue,
+                state: pageState(for: layer.status)
+            )
         }
         let account = PrintExportPlan.account(
             for: outcomes,
@@ -143,6 +178,8 @@ nonisolated enum PrintExport {
             // less detail.
             notes.append("Map raster printed at \(resolution.dpi) dpi.")
         }
+        let legend = PrintMapCompositor.parcelLegend(for: request.parcels, within: bounds)
+            + account.legend
         var fields = request.fields
         fields.notes = ([request.fields.notes] + notes)
             .filter { !$0.isEmpty }
@@ -158,8 +195,12 @@ nonisolated enum PrintExport {
                     heightPx: raster.heightPx
                 ),
                 fields: fields,
-                legend: request.includesLegend && !account.legend.isEmpty
-                    ? account.legend : nil,
+                // The parcel marks lead the legend. They are the ink the page
+                // was made for, they are the only ink no layer row accounts
+                // for, and the legend truncates from the bottom — a layer that
+                // falls off is still named in the attribution strip, while a
+                // parcel mark that falls off is named nowhere.
+                legend: request.includesLegend && !legend.isEmpty ? legend : nil,
                 // The general caveat first, and unconditionally. Everything
                 // else in this list is about something that went wrong, so a
                 // page where nothing did carried no caveat at all — and a

@@ -196,6 +196,40 @@ struct PrintExportPlanTests {
         #expect(note?.contains("not evidence") == true)
     }
 
+    /// A zoom-gated or still-loading layer is the one case where blank paper is
+    /// recoverable: the reader can frame tighter, or wait, and print again. The
+    /// page has to say which it is, and it has to say it is not a finding.
+    @Test func aLayerSwitchedOnWithNothingToDrawSaysWhyAndSaysItIsNotAFinding() {
+        let account = PrintExportPlan.account(
+            for: [
+                Self.outcome("roads", "Roads", .drawn),
+                Self.outcome("zoning", "Zoning", .notDrawn(reason: "zoom to 12+ to load")),
+                Self.outcome(
+                    "wells", "Well logs", .notDrawn(reason: "source temporarily unavailable")
+                )
+            ],
+            swatch: { _ in nil }
+        )
+
+        // Out of the legend: the legend names what is on the page.
+        #expect(account.legend.map(\.name) == ["Roads"])
+        #expect(
+            account.notDrawn == [
+                "Zoning (zoom to 12+ to load)",
+                "Well logs (source temporarily unavailable)"
+            ]
+        )
+        let note = account.notes.first { $0.contains("Zoning") }
+        #expect(note != nil)
+        #expect(note?.contains("zoom to 12+ to load") == true)
+        #expect(note?.contains("source temporarily unavailable") == true)
+        #expect(note?.contains("not evidence the layer has nothing at this place") == true)
+        // Not a source that failed to draw what it had, and not one outside its
+        // own coverage. Both of those are statements about the ground.
+        #expect(account.omitted.isEmpty)
+        #expect(account.uncovered.isEmpty)
+    }
+
     /// Neither put ink on the page, so neither is credited: an attribution is
     /// owed for use, and a layer that was never fetched — or that reaches none
     /// of this ground — was not used.
@@ -205,7 +239,8 @@ struct PrintExportPlanTests {
             baseMap: .standard,
             outcomes: [
                 Self.outcome("roads", "Roads", .outsideCoverage),
-                Self.outcome("roads2", "Roads", .licenceBlocked)
+                Self.outcome("roads2", "Roads", .licenceBlocked),
+                Self.outcome("roads3", "Roads", .notDrawn(reason: "loading visible area"))
             ],
             descriptor: { _ in roads }
         )

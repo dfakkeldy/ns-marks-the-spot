@@ -115,7 +115,8 @@ struct MapContainerView: View {
                     PrintExportSheet(
                         overlayVM: overlayVM,
                         framing: framing,
-                        omitted: unprintableLayerNames
+                        omitted: unprintableLayerNames,
+                        featureStatuses: featureVM.statuses
                     ) { url in
                         // The finished page goes straight to the share sheet, and
                         // the export sheet stays up: it is holding the account of

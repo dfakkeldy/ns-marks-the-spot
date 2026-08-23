@@ -42,6 +42,33 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
 
     var id: String { pid }
 
+    /// Whether any of this parcel has ink inside the given ground.
+    ///
+    /// Compared box to box rather than edge to edge: a parcel whose box
+    /// overlaps may or may not put a line inside, and a box is never smaller
+    /// than its shape, so this errs towards saying yes. Used by the printed
+    /// legend, where a wrongly-included key row costs a reader far less than a
+    /// wrongly-omitted one.
+    func reaches(_ bounds: GeoBoundingBox) -> Bool {
+        var south = Double.infinity
+        var north = -Double.infinity
+        var west = Double.infinity
+        var east = -Double.infinity
+        for part in parts {
+            for ring in part {
+                for point in ring {
+                    south = min(south, point.lat)
+                    north = max(north, point.lat)
+                    west = min(west, point.lng)
+                    east = max(east, point.lng)
+                }
+            }
+        }
+        guard south <= north, west <= east else { return false }
+        return GeoBoundingBox(south: south, west: west, north: north, east: east)
+            .intersects(bounds)
+    }
+
     /// The shapes for a collection, with `pid` selected.
     ///
     /// Features whose boundary was not supplied or could not be read produce no
