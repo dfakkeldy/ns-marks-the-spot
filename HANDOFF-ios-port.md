@@ -1539,3 +1539,20 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
 gh pr checks 224 --watch
 ```
+
+## 2026-08-23 — Codex parity findings 1, 4, 6, 9 closed
+
+Done: Victoria + Halifax notices now bundled and decoded natively
+(`TaxSaleSnapshots.victoria/halifax`, `geometryExceptions` held apart from
+mapped listings, rendered in `TaxSaleNoticesView`); the notice AAN reaches
+PVSC, including for listed parcels NSPRD has no geometry for; the building
+count and civic-address lines carry source, attribution and a licence link
+that opens the licence. Type-check clean; CI green through 3391436f1.
+Next: read CI for a27cac651, update the PR #224 body, then the 22:00 gate run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and triage every bundle.
+```
