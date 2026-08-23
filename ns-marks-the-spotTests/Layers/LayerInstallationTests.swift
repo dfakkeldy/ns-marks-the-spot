@@ -60,25 +60,33 @@ struct LayerInstallationTests {
         }
     }
 
-    @Test("A returning licensed user opens on the layers the browser opens on")
-    func anAcceptedLicenceOpensTheWebDefaults() {
-        let container = AppContainer(
+    /// Accepting the licence is not a request to switch layers on.
+    ///
+    /// This used to assert the opposite, on the reading that the browser opens
+    /// a returning reader on aerial imagery, parcels, water and roads. It does
+    /// not: `initialProvinceLayerVisibility` is read by the parity export and
+    /// by nothing that runs, and the browser opens on Explore Nova Scotia,
+    /// which is the modern base map alone. A licensed launch that switched on
+    /// four Province layers put the reader on services they had not asked
+    /// anything of yet, and did it because of a dead constant.
+    @Test("An accepted licence opens on the same layers an unanswered one does")
+    func anAcceptedLicenceDoesNotSwitchLayersOn() {
+        let accepted = AppContainer(
             licenceStorage: InMemoryProvinceLicenceStorage(initial: .accepted),
             sessionStore: .forTesting()
         )
-        let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
-        let installed = Set(container.mapController.layers.map(\.id))
-        let webDefaults = Set(
-            LayerCatalog.all.filter(\.webDefaultVisible).map(\.id.rawValue)
-        ).intersection(installed)
+        let unanswered = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .unknown),
+            sessionStore: .forTesting()
+        )
 
-        #expect(webDefaults.count == 4, "aerial, parcels, water and roads")
-        #expect(on == webDefaults)
-        // A first launch has nothing of this reader's to go on. Left to the
-        // catalogue's native default they would switch all four back on before
-        // they had done anything, which the browser has never asked of them.
-        #expect(on.contains(LayerID.nsprd.rawValue))
-        #expect(container.mapController.baseMapType == .nsAerial)
+        let on = Set(accepted.mapController.layers.filter(\.isVisible).map(\.id))
+        #expect(on == Set(unanswered.mapController.layers.filter(\.isVisible).map(\.id)))
+        #expect(on.isSubset(of: Set(LayerCatalog.nativeDefaultVisibleIDs.map(\.rawValue))))
+        #expect(!on.contains(LayerID.nsprd.rawValue))
+        // Aerial is a base map as well as an overlay. With it off, the picker
+        // reads Standard, which is what the browser's modern base map is.
+        #expect(accepted.mapController.baseMapType == .standard)
     }
 
     @Test("An unanswered licence opens on the native default alone")
@@ -93,8 +101,8 @@ struct LayerInstallationTests {
         #expect(container.mapController.baseMapType == .standard)
     }
 
-    @Test("Withheld clearance narrows the opening set to the native default")
-    func launchVisibilityReadsClearance() {
+    @Test("With nothing stored, clearance does not change what opens")
+    func launchVisibilityIsTheNativeDefaultEitherWay() {
         #expect(
             AppContainer.launchVisibleIDs(clearance: .none)
                 == LayerCatalog.nativeDefaultVisibleIDs
@@ -103,8 +111,9 @@ struct LayerInstallationTests {
         let store = ProvinceLicenceStore(storage: InMemoryProvinceLicenceStorage())
         store.accept()
         let accepted = AppContainer.launchVisibleIDs(clearance: store.clearance)
-        #expect(accepted.isSuperset(of: [.nsAerial, .nsprd, .waterFeatures, .roads]))
+        #expect(accepted == LayerCatalog.nativeDefaultVisibleIDs)
         #expect(accepted.contains(.fletcher), "the app's own sheet stays on either way")
+        #expect(accepted.isDisjoint(with: [.nsAerial, .nsprd, .waterFeatures, .roads]))
     }
 
     @Test func exportLayersCarryTheirCatalogIdRatherThanAnAddress() throws {

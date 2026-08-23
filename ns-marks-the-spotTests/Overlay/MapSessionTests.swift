@@ -84,9 +84,11 @@ struct MapSessionTests {
             clearance: store.clearance, session: session
         )
 
+        // A session is the whole answer: even Fletcher, which opens the map
+        // when nothing is stored, stays off because this reader switched it off.
         #expect(opening == [.nsprd])
-        // The web defaults would have brought three more back with it.
         #expect(opening.contains(.nsAerial) == false)
+        #expect(opening.contains(.fletcher) == false)
     }
 
     /// A session records what was on screen. It is not permission, and the
@@ -108,7 +110,12 @@ struct MapSessionTests {
         )
 
         #expect(container.restoredSession == nil)
-        #expect(container.mapController.layers.contains { $0.id == LayerID.nsprd.rawValue && $0.isVisible })
+        // The catalogue's native default, which is what the browser's own
+        // no-link launch amounts to: nothing of the Province's switched on
+        // before the reader has asked for anything.
+        let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
+        #expect(on.isSubset(of: Set(LayerCatalog.nativeDefaultVisibleIDs.map(\.rawValue))))
+        #expect(!on.contains(LayerID.nsprd.rawValue))
     }
 
     // MARK: - Resuming
