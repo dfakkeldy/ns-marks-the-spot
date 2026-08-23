@@ -836,6 +836,13 @@ struct MapContainerView: View {
                     controller.frame(box)
                 }
             }
+            // The same journey for a raster that arrived already placed, or
+            // whose PDF frame the reader has just changed.
+            .onChange(of: userMapsVM.pendingFit) { _, _ in
+                if let box = userMapsVM.takePendingFit() {
+                    controller.frame(box)
+                }
+            }
             // The session's working copy, not the stored one: a shape has to follow
             // the user's finger rather than wait for a write to land.
             .onChange(of: editSession?.parsed) { _, _ in

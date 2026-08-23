@@ -2,6 +2,7 @@ import CoreGraphics
 import Foundation
 import GeoCore
 import ImageIO
+import NSDataServices
 import Testing
 import UniformTypeIdentifiers
 
@@ -746,6 +747,83 @@ struct UserMapDisplayTests {
 
             #expect(viewModel.isLibrarySealed)
             #expect(display.load()["kept"] == kept)
+        }
+    }
+}
+
+@Suite("Where the map goes when a file places itself")
+@MainActor
+struct UserMapFitTests {
+    /// The app's own export, which imports placed. Its bounds are known, so
+    /// what the map is asked to frame can be checked against ground rather
+    /// than against whatever the importer happened to produce.
+    private static let exportBounds = GeoBoundingBox(
+        south: 44.60, west: -63.70, north: 44.70, east: -63.50
+    )
+
+    private static func placedPdf() -> Data {
+        let template = PdfTemplate.template(.portrait)
+        return PdfComposer.compose(
+            PdfComposer.Input(
+                template: template,
+                bounds: exportBounds,
+                mapImage: PdfComposer.MapImage(jpegBytes: Data(), widthPx: 1, heightPx: 1),
+                fields: PdfComposer.Fields(title: "Placed"),
+                legend: nil,
+                disclosures: [],
+                attributionLines: [],
+                scaleBar: PrintScaleBar.build(
+                    bounds: exportBounds,
+                    mapFrame: template.mapFrame,
+                    maxWidthPoints: template.scaleBar.maxWidth
+                ),
+                shareURLText: nil,
+                qrModules: nil,
+                appendix: [],
+                generatedAt: Date(timeIntervalSince1970: 0)
+            )
+        )
+    }
+
+    @Test("A sheet that arrived placed brings the map to it")
+    func aPlacedImportAsksTheMapToCome() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: Self.placedPdf(), name: "Placed")
+
+            let box = try #require(viewModel.pendingFit)
+            // The ground the sheet covers, not the page it came on. A quarter
+            // of a degree of slack: the frame is the map area of the export,
+            // which is inset from the page, and the check that matters is that
+            // the map is sent to Halifax rather than to the origin.
+            #expect(abs(box.south - Self.exportBounds.south) < 0.25)
+            #expect(abs(box.north - Self.exportBounds.north) < 0.25)
+            #expect(abs(box.west - Self.exportBounds.west) < 0.25)
+            #expect(abs(box.east - Self.exportBounds.east) < 0.25)
+
+            // Taken once. A visibility toggle or a reload afterwards must not
+            // fly the reader back to a sheet they have since navigated away
+            // from.
+            #expect(viewModel.takePendingFit() != nil)
+            #expect(viewModel.pendingFit == nil)
+            #expect(viewModel.takePendingFit() == nil)
+        }
+    }
+
+    @Test("A scan with no georeferencing has nowhere to send the map")
+    func anUnplacedImportLeavesTheMapWhereItIs() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+
+            #expect(viewModel.rows.first?.needsGeoreferencing == true)
+            #expect(viewModel.pendingFit == nil)
         }
     }
 }

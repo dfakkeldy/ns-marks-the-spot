@@ -219,6 +219,7 @@ final class UserMapsViewModel {
     /// it while every individual file was within the size limit.
     func beginImports() {
         sealedRefusalNames = []
+        pendingFit = nil
         guard !isLibrarySealed else { return }
         notices = []
     }
@@ -293,6 +294,18 @@ final class UserMapsViewModel {
                 // and a refusal is exactly when those entries belong to maps
                 // this build cannot even see.
                 rememberDisplay()
+                // A file that placed itself is drawn somewhere the reader is
+                // probably not looking. The browser flies to it; here the
+                // panel covers the map on a phone, so without this the import
+                // of a georeferenced sheet produces no visible change at all
+                // and reads as a file the app quietly refused.
+                //
+                // Only the ones that arrived placed. A scan with no
+                // georeferencing has nowhere to fly to, and the reader is
+                // about to place it by hand anyway.
+                if !imported.record.needsGeoreferencing {
+                    pendingFit = Self.box(around: imported.record)
+                }
             } catch {
                 rows.removeAll { $0.id == id }
                 throw error
@@ -370,6 +383,33 @@ final class UserMapsViewModel {
             )
         )
         await save(rows[index].record.name, at: id)
+        // The chosen frame is a different piece of ground from the one that
+        // was drawn a moment ago, and the reader chose it from a picker rather
+        // than from the map. The browser brings the map to it; so does this.
+        // Read from `rows` rather than from the record built above, because a
+        // refused write has already put the old one back.
+        if let row = rows.first(where: { $0.id == id }) {
+            pendingFit = Self.box(around: row.record)
+        }
+    }
+
+    /// The ground a placed record covers, or nil when it draws nothing.
+    ///
+    /// `mesh` is the same lattice the overlay draws through, so the box is the
+    /// sheet as it is actually placed rather than the corners of what the file
+    /// claimed. A record with no mesh has no extent, and flying to a guess
+    /// would land the reader somewhere the sheet is not.
+    private static func box(around record: UserMapRecord) -> GeoBoundingBox? {
+        record.mesh.flatMap { GeoBoundingBox.covering($0.lazy.flatMap { $0 }) }
+    }
+
+    /// A box the map should come to, cleared by whoever takes it.
+    private(set) var pendingFit: GeoBoundingBox?
+
+    /// Takes the request, so a later change cannot fire the same journey twice.
+    func takePendingFit() -> GeoBoundingBox? {
+        defer { pendingFit = nil }
+        return pendingFit
     }
 
     /// Writes the library, and puts the record back if the device would not
