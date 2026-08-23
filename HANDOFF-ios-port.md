@@ -1341,3 +1341,46 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-pa
 git log --oneline -1   # b8301c53b
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-23 — tax-sale master switch, off by default
+
+Done: the map now opens without tax-sale information, as the browser does, and
+one switch on the layer panel decides it (`OverlayViewModel.showsTaxSale`).
+Everything that was on the map only because of tax sales answers to it: drawn
+parcels and their overview dots, the panel counts, the record modes, the notice
+on the parcel card, the evidence note, and the share link. The link gains
+`taxSale=on|off`, written first as the browser writes it — without it the
+browser infers tax sales from `mode`, and the phone always writes `mode`, so
+every link shared from the phone was turning tax sales on for the recipient.
+
+A Codex adversarial pass on the first cut found four real leaks, all fixed in
+the same commit: the bulk-loaded advertised parcels stayed in hand and were
+redrawn as ordinary "nearby parcel boundary" outlines; the parcel card printed
+"not listed in any municipal notice included by this map" on every card,
+including on a map that never asked; the evidence note wrote a mode line, an
+event section and "no included municipal event is associated with this parcel"
+regardless; and an in-flight bulk load was left to land after the switch. Codex
+findings recorded and not acted on: the `event=` present-vs-empty distinction is
+lost on both surfaces (a pre-existing web contract question), and writing `mode`
+alongside `taxSale=off` is misread by a stale browser build (the current web
+writer does the same, so changing native alone would break parity).
+
+Diagnosed the `OfflineAreasViewModelTests` hang that ate the previous overnight
+window: it is not a deadlock. Every test passes, then a simulator clone fails to
+launch the app ("RequestDenied / launch-failed") and xcodebuild retries the
+whole suite on fresh clones forever. Parallel testing on a 16 GB Mac is the
+cause; `-parallel-testing-enabled NO` is the fix, not yet applied because the
+script was running.
+
+Next: add `-parallel-testing-enabled NO` to `Scripts/gated-focused-tests.sh`
+once the current run finishes, triage the run's `.xcresult` bundles, then
+Phase B — the web's ten layer categories in the native layer panel
+(`web/src/layers/layerCategories.ts` against native's eleven-value
+`LayerGroupID`, which is a different taxonomy).
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+git log --oneline -1   # 72bb61e77
+ls -1 .build/focused-tests | grep -c '\.xcresult'
+```
