@@ -91,14 +91,15 @@ extension OverlayViewModel {
         taxSale: TaxSaleViewModel? = nil,
         historical: HistoricalTaxSaleViewModel? = nil,
         showsTaxSale: Bool? = nil,
-        parcelFetcher: ParcelFetcher = ParcelFetcher(),
-        civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
-        contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
-        assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(),
-        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
-        buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(),
-        resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher(),
-        floodFetcher: FloodHazardFetcher = FloodHazardFetcher(),
+        parcelFetcher: ParcelFetcher = ParcelFetcher(transport: .unanswered),
+        civicFetcher: CivicAddressFetcher = CivicAddressFetcher(transport: .unanswered),
+        contextFetcher: ParcelContextFetcher = ParcelContextFetcher(transport: .unanswered),
+        assessmentFetcher: PVSCAssessmentFetcher = PVSCAssessmentFetcher(transport: .unanswered),
+        dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(transport: .unanswered),
+        buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(transport: .unanswered),
+        resourceFetcher: ResourceIntersectionFetcher
+            = ResourceIntersectionFetcher(transport: .unanswered),
+        floodFetcher: FloodHazardFetcher = FloodHazardFetcher(transport: .unanswered),
         themes: MapThemeLibrary = .forTesting()
     ) -> OverlayViewModel {
         for id in ids {
@@ -135,6 +136,27 @@ extension OverlayViewModel {
         viewModel.setTaxSaleEnabled(showsTaxSale ?? (taxSale != nil || historical != nil))
         return viewModel
     }
+}
+
+extension HTTPTransport {
+    /// A transport that answers nothing, for the fetchers a test did not stub.
+    ///
+    /// The defaults above use this rather than a real `URLSession`, and the
+    /// reason is not tidiness. Selecting a parcel that has geometry starts
+    /// seven evidence requests at once — civic addresses, mapped context,
+    /// assessments, dwellings, buildings, resources, flood — so a test that
+    /// stubs only the parcel service still sends the other six to the live
+    /// Province and PVSC endpoints. That is a unit test contacting a public
+    /// service on every run, and on CI it is worse than impolite: those
+    /// requests stalled for thirty seconds, the test host was killed
+    /// mid-test, and a suite that passes locally reported two tests as failed
+    /// with no message against either of them.
+    ///
+    /// `notConnectedToInternet` rather than a success: a fetcher nobody
+    /// stubbed has nothing to say, and the inspection records that as
+    /// unavailable, which is what the panel shows when a service cannot be
+    /// reached.
+    static let unanswered = HTTPTransport { _ in throw URLError(.notConnectedToInternet) }
 }
 
 extension MapThemeLibrary {
