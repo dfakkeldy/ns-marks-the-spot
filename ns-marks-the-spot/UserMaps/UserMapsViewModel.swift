@@ -319,6 +319,16 @@ final class UserMapsViewModel {
                     Notice(id: id, name: named, message: note, isRefusal: false)
                 )
             }
+            // A sheet that carried georeferencing this app could not read. The
+            // map is in the library and the row offers placement, so this is
+            // not a refusal — but without it the reader watches a file they
+            // exported *with* a projection arrive asking to be placed by hand,
+            // with nothing to say why or what would fix it.
+            if let unread = imported.unreadGeoreferencing {
+                notices.append(
+                    Notice(id: id, name: named, message: unread, isRefusal: false)
+                )
+            }
         } catch let refusal as UserMapImportRefusal {
             notices.append(
                 Notice(

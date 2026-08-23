@@ -188,6 +188,12 @@ public enum UserMapImport {
     /// numbers that are not places — checked here, at import, because the
     /// alternative is a sheet drawn as triangles stretched across the globe,
     /// which looks like a rendering bug rather than a bad file.
+    ///
+    /// Neither is a reason to turn the file away, and the messages say so: the
+    /// caller keeps the map and offers hand placement, which is the same
+    /// decision the PDF path makes about a registration it will not use. What
+    /// is refused is the file's claim about where its pixels belong, not the
+    /// pixels.
     public static func checkGeoreferencing(
         _ georeference: RasterProjection.EmbeddedGeoreference, pixelSize: PixelSize
     ) throws(UserMapImportRefusal) {
@@ -205,8 +211,9 @@ public enum UserMapImport {
                 throw UserMapImportRefusal(
                     code: .unsupportedCrs,
                     userMessage: """
-                        This map is in \(crs), which this app cannot place. \
-                        Re-export it in NAD83 UTM zone 20 or 21, or in \
+                        This map is in \(crs), which this app cannot read. It is \
+                        in your library, ready to place by hand. To have it place \
+                        itself, re-export it in NAD83 UTM zone 20 or 21, or in \
                         latitude and longitude.
                         """
                 )
@@ -215,8 +222,8 @@ public enum UserMapImport {
                     code: .invalidGeoreferencing,
                     userMessage: """
                         This map says where it belongs, and the numbers do not \
-                        land anywhere on the earth. You can still place it by \
-                        hand.
+                        land anywhere on the earth. It is in your library, ready \
+                        to place by hand.
                         """
                 )
             }

@@ -22,6 +22,7 @@ struct InfoSheetView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     aboutSection
                     methodSection
+                    makerSection
                     linksSection
                     licenceSection
                     dataSourcesSection
@@ -107,6 +108,27 @@ struct InfoSheetView: View {
         "An empty answer and a failed source are reported differently. Absence of evidence is never shown as evidence of absence.",
         "No assessed-owner name is ingested. Your location, your saved areas and the maps you import stay on this device.",
     ]
+
+    /// Who made the map, which is part of what a reader is judging when they
+    /// judge the map.
+    ///
+    /// The browser's About dialog says it and this sheet did not, so a reader
+    /// who came to the app first had no way to tell whether the person naming
+    /// every source and scale had ever made a map before. The sentence about
+    /// web engineering is left in the browser, where it is true of the thing
+    /// being described; the standard it names is the same on both.
+    private var makerSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Who Makes It")
+                .font(.headline)
+
+            Text("I have made maps for twenty years, mostly for forestry in Nova Scotia. Every layer here names its source, its scale and its licence, the way a printed map sheet carries its legend and its survey notes.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
 
     /// Where to read the code, and how to reach a person.
     ///

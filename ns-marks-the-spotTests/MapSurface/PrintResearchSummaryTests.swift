@@ -59,6 +59,50 @@ struct PrintResearchSummaryTests {
         #expect(ParcelEvidenceExport.isReady(inspection))
     }
 
+    /// The wait is not open-ended, and what comes out of it has to be readable
+    /// as a report made early rather than as a parcel with nothing behind it.
+    @Test("A note written while a source was out says so, source by source")
+    func aNoteWrittenEarlySaysWhichSourcesWereStillOut() throws {
+        var inspection = Self.settled()
+        inspection.civicAddresses = .looking
+        inspection.resources = .looking
+
+        let input = ParcelEvidenceExport.input(
+            generatedAt: Date(timeIntervalSince1970: 1_700_000_000),
+            inspection: inspection,
+            taxSaleEnabled: false,
+            mode: .current,
+            shareURL: try #require(URL(string: "https://example.invalid/map")),
+            position: MapPosition(latitude: 45.6, longitude: -61.4, zoom: 15),
+            activeLayers: [],
+            baseMap: .standard,
+            fletcherBaseURL: nil
+        )
+
+        // Not "no civic address on this parcel", which is a finding, and not
+        // "the source was unavailable", which is a claim about the service.
+        let waiting = "This source had not answered when the note was written."
+        #expect(input.civicNotice == waiting)
+        #expect(input.resourceNotice == waiting)
+        #expect(input.civicAddresses.isEmpty)
+        #expect(EvidenceNote.build(input).markdown.contains(waiting))
+    }
+
+    /// Per-source lines in an appendix somebody may never reach are not the
+    /// same as telling them on the front page.
+    @Test("A page made early names the sources that never answered")
+    func aPageMadeEarlyNamesTheSourcesThatNeverAnswered() throws {
+        #expect(ParcelEvidenceExport.stillOutDisclosure([]) == nil)
+
+        let sentence = try #require(
+            ParcelEvidenceExport.stillOutDisclosure(
+                ["Flood evidence", "Geology and resource context"]
+            )
+        )
+        #expect(sentence.contains("Flood evidence and Geology and resource context"))
+        #expect(sentence.contains("not a finding about this parcel"))
+    }
+
     @Test("Pending sources are named in the order the note lists them")
     func pendingSourcesAreNamedInTheOrderTheNoteListsThem() {
         let inspection = ParcelInspection(

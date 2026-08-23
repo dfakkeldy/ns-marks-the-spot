@@ -48,6 +48,20 @@ nonisolated enum ParcelEvidenceExport {
         .map(\.0)
     }
 
+    /// What a page says on its front when it was made while a source was still
+    /// out, or `nil` when none was.
+    ///
+    /// The appendix says it source by source, in its own words, and that is not
+    /// enough on its own: a reader acting on a research summary is entitled to
+    /// know before they read it that one of the answers never arrived, because
+    /// the one that never arrived may be the one they came for.
+    static func stillOutDisclosure(_ names: [String]) -> String? {
+        guard !names.isEmpty else { return nil }
+        return "This page was made while \(names.formatted(.list(type: .and))) "
+            + "had not answered. Their absence from the appendix is not a "
+            + "finding about this parcel."
+    }
+
     private static func hasSettled<Value>(_ evidence: ParcelEvidence<Value>) -> Bool {
         if case .looking = evidence { return false }
         return true

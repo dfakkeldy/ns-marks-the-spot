@@ -1733,3 +1733,44 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 and verify the measuring readout, the panel's opening sections, and a saved
 area drawing with the network off in the simulator.
 ```
+
+## 2026-08-23 — audit 8, the browser's fifteen seconds and the map it kept
+Done: CI green on a51193523. Codex's eighth pass found nine gaps; five are
+fixed and four are recorded.
+The browser gives a research report's sources fifteen seconds and then writes
+the page with whatever arrived, naming the rest. The phone waited forever, so
+one source that hung rather than failed left the reader unable to take a dated
+receipt at all, with nothing on screen saying the wait would not end. The map
+now runs that clock per parcel (`.task(id:)` on the open PID), the note and the
+appendix may be written once it expires, and both the export sheet and the page
+name every source that never answered. `.looking` already renders as "This
+source had not answered when the note was written.", which is truer than the
+browser's own "unavailable at export time", so only the gate needed relaxing.
+A GeoTIFF whose projection this app cannot read used to be refused outright,
+while the same file arriving as a PDF was kept for hand placement. It is now
+kept either way: the importer drops the placement, keeps the map, and the
+message says the file is in the library and what re-export would fix it.
+The building count on the browser's parcel panel carried the open-government
+attribution, but NSTDB is restricted and the browser's own printed report
+already said so. The panel now matches the report.
+A setup restored from a shared link says so instead of calling itself the
+reader's own, until the reader changes a layer. And the About sheet says who
+makes the map, which the browser's does.
+Recorded, not built: a session-only fallback when import storage is full (the
+phone's "free some space and import it again" is accurate and actionable, and
+the browser's temporary layer is an IndexedDB-quota accommodation, not a
+feature); universal links (entitlements, a paid team and an AASA file on the
+KinNoKi domain — a deployment decision, not a code gap); annotations drawing
+above overlays (MapKit's own order, already written down in
+OverlayDrawOrder.swift); and raster tile counts (a custom MKTileOverlay loader
+for little the reader would use).
+Next: PR #226 review, then the 22:00 gated app-target run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify in the simulator: the measuring readout, the panel's opening
+sections, the About sheet's new "Who Makes It" section, the delete
+confirmation, the raster fit, and a saved area drawing with the network off.
+```

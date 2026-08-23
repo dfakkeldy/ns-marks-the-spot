@@ -54,6 +54,20 @@ struct MapContainerView: View {
     /// measured.
     @State private var screenScale: String?
     @State private var isSelectingSaveArea = false
+    /// Whether the open parcel's sources have had the time they are given to
+    /// answer.
+    ///
+    /// The browser waits fifteen seconds for the evidence behind a research
+    /// report and then writes it with whatever arrived. Without the same limit
+    /// here, one source that hangs rather than fails leaves the reader unable
+    /// to take a dated receipt at all, and nothing on screen tells them the
+    /// wait will not end.
+    ///
+    /// Kept beside the map rather than inside the export sheet because the
+    /// clock is about the parcel. The sources have been answering since it was
+    /// tapped, and a reader who spent a minute framing a page has already
+    /// given them that minute.
+    @State private var sourcesHaveHadTheirTime = false
     /// What the system share sheet is currently holding, prepared at the moment
     /// of the tap so an evidence note carries the time it was actually made.
     @State private var share: SharePayload?
@@ -121,7 +135,8 @@ struct MapContainerView: View {
                         overlayVM: overlayVM,
                         framing: framing,
                         omitted: unprintableLayerNames,
-                        featureStatuses: featureVM.statuses
+                        featureStatuses: featureVM.statuses,
+                        sourcesHaveHadTheirTime: sourcesHaveHadTheirTime
                     ) { url in
                         // The finished page goes straight to the share sheet, and
                         // the export sheet stays up: it is holding the account of
@@ -144,6 +159,15 @@ struct MapContainerView: View {
                 Button("OK", role: .cancel) { exportFailure = nil }
             } message: { reason in
                 Text(reason)
+            }
+            // The clock on the open parcel's sources, restarted for each parcel
+            // so a slow answer for one is never counted against the next.
+            .task(id: overlayVM.inspection?.pid) {
+                sourcesHaveHadTheirTime = false
+                guard overlayVM.inspection != nil else { return }
+                try? await Task.sleep(for: Self.evidenceWait)
+                guard !Task.isCancelled else { return }
+                sourcesHaveHadTheirTime = true
             }
             // A shared link opened from elsewhere. Nothing registers a scheme or an
             // associated domain yet, so this fires only once one is configured —
@@ -475,7 +499,8 @@ struct MapContainerView: View {
                         ParcelInspectorView(
                             inspection: inspection,
                             onClose: { overlayVM.clearParcelSelection() },
-                            canExportNote: overlayVM.canExportEvidenceNote,
+                            canExportNote: overlayVM.canExportEvidenceNote
+                                || sourcesHaveHadTheirTime,
                             onShareMapLink: {
                                 share = SharePayload(
                                     url: overlayVM.shareURL ?? OverlayViewModel.webMapURL
@@ -920,13 +945,20 @@ struct MapContainerView: View {
     }
 
 
+    /// How long the sources are given before a report may be written without
+    /// them. The browser's fifteen seconds, so the same hung source produces
+    /// the same document on either surface.
+    private static let evidenceWait = Duration.seconds(15)
+
     /// Writes the note and hands it to the share sheet.
     ///
     /// Stamped here, at the tap, rather than when the button was drawn: the
     /// note carries a generation time and a reader has no way to tell a stale
     /// stamp from a fresh one.
     private func exportEvidenceNote() {
-        guard let note = overlayVM.evidenceNote() else {
+        guard let note = overlayVM.evidenceNote(
+            includingSourcesStillOut: sourcesHaveHadTheirTime
+        ) else {
             exportFailure = "Not every source has answered yet."
             return
         }

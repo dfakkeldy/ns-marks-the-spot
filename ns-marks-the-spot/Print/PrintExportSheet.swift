@@ -21,6 +21,13 @@ struct PrintExportSheet: View {
     /// here rather than at export time so the reader is told before they make
     /// the page, and so the same statuses reach the page's own notes.
     let featureStatuses: [LayerID: ViewportLayerStatus]
+    /// Whether the parcel's sources have had the time the browser gives them.
+    ///
+    /// Held by the map behind this sheet rather than started when the sheet
+    /// opens, because the clock is about the parcel and the sources have been
+    /// answering since it was tapped. A reader who spent a minute framing the
+    /// page has already given them their minute.
+    let sourcesHaveHadTheirTime: Bool
     /// Called with the finished file, for the system share sheet.
     let onExported: (URL) -> Void
 
@@ -57,12 +64,14 @@ struct PrintExportSheet: View {
         framing: PrintExportFraming,
         omitted: [String],
         featureStatuses: [LayerID: ViewportLayerStatus] = [:],
+        sourcesHaveHadTheirTime: Bool = false,
         onExported: @escaping (URL) -> Void
     ) {
         self.overlayVM = overlayVM
         self.framing = framing
         self.omitted = omitted
         self.featureStatuses = featureStatuses
+        self.sourcesHaveHadTheirTime = sourcesHaveHadTheirTime
         self.onExported = onExported
         // The research summary where there is a parcel to write one about,
         // which is the browser's default and the only case the browser can
@@ -110,8 +119,18 @@ struct PrintExportSheet: View {
         overlayVM.rows.contains { $0.descriptor.id == .nsAerial && $0.isVisible }
     }
 
+    /// Whether the appendix may be written with a source still out.
+    ///
+    /// Only once the sources have had their time, and only where there is a
+    /// parcel to write about. A page with no parcel open has no appendix to
+    /// write early.
+    private var writesAppendixEarly: Bool {
+        sourcesHaveHadTheirTime && !overlayVM.canExportEvidenceNote
+            && overlayVM.inspection != nil
+    }
+
     private var canExport: Bool {
-        kind != .researchSummary || overlayVM.canExportEvidenceNote
+        kind != .researchSummary || overlayVM.canExportEvidenceNote || writesAppendixEarly
     }
 
     /// The dot pitch this device will actually render at, resolved before the
@@ -267,6 +286,13 @@ struct PrintExportSheet: View {
                             )
                             .font(.footnote)
                             .foregroundStyle(.secondary)
+                        } else if writesAppendixEarly {
+                            Label(
+                                Self.appendixWritesEarly(for: overlayVM.inspection),
+                                systemImage: "clock.badge.exclamationmark"
+                            )
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
                         } else {
                             Label(
                                 Self.appendixHold(for: overlayVM.inspection),
@@ -363,7 +389,7 @@ struct PrintExportSheet: View {
         // between picking the research summary and tapping Export would
         // otherwise print an empty appendix.
         let carriesAppendix = kind.includesAppendix && includesAppendix
-            && overlayVM.canExportEvidenceNote
+            && (overlayVM.canExportEvidenceNote || writesAppendixEarly)
         guard let request = overlayVM.printExportRequest(
             template: template,
             fields: PdfComposer.Fields(title: name, subtitle: subtitle, notes: notes),
@@ -374,6 +400,7 @@ struct PrintExportSheet: View {
             // so rather than let the title stand for evidence it is not
             // carrying.
             appendixWithheld: kind.includesAppendix && !carriesAppendix,
+            appendixNamesSourcesStillOut: writesAppendixEarly,
             includesAerial: includesAerial,
             caveat: kind.caveat,
             frame: framing.bounds,
@@ -437,6 +464,26 @@ struct PrintExportSheet: View {
             PID \(inspection.pid) is still waiting on \
             \(waiting.formatted(.list(type: .and))). Exporting now would stamp \
             "unavailable" on a source that is about to answer.
+            """
+    }
+
+    /// What the appendix will say about a source that has stopped answering.
+    ///
+    /// The wait is not open-ended. A source that has had its time and sent
+    /// nothing is a source this page can report on, and holding the export any
+    /// longer tells a reader whose fourth source will never answer that no
+    /// dated receipt can be made at all. What it cannot do is pass the silence
+    /// off as an answer, so the sources are named here before the page is made
+    /// and again on the page itself.
+    private static func appendixWritesEarly(for inspection: ParcelInspection?) -> String {
+        guard let inspection else { return "" }
+        let waiting = ParcelEvidenceExport.pending(inspection)
+        guard !waiting.isEmpty else { return "" }
+        return """
+            PID \(inspection.pid) did not hear back from \
+            \(waiting.formatted(.list(type: .and))) in the time the sources are \
+            given. The appendix will name each one as still unanswered, which is \
+            not the same as a source that answered with nothing.
             """
     }
 

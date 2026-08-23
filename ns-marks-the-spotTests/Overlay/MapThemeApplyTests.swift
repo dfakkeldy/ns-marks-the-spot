@@ -298,6 +298,42 @@ struct MapThemeApplyTests {
         #expect(viewModel.themeStatusText == "Current setup")
     }
 
+    /// A setup that matches nothing saved has no name of its own, and where it
+    /// came from is the only thing left to call it.
+    ///
+    /// The browser has it easier: on the browser an unnamed setup can only have
+    /// come from a link, so it is always "Shared setup". Here it is also what a
+    /// launch nobody has touched reads, which is why the two are told apart
+    /// rather than assumed.
+    @Test func aSetupALinkPutThereIsNamedAsTheSendersUntilTheReaderChangesIt() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])
+        #expect(viewModel.themeStatusText == "Explore Nova Scotia")
+
+        viewModel.restore(
+            from: URL(string: "https://example.com/map/?layers=nsprd,roads&position=45.6,-61.4,15")!
+        )
+
+        #expect(viewModel.activeThemeID == nil)
+        #expect(viewModel.themeStatusText == "Shared setup")
+        #expect(viewModel.themeDescription == "Map settings restored from a shared link.")
+
+        // The first switch the reader touches makes it theirs, which is the
+        // same moment the link's own notice stops describing what is on screen.
+        viewModel.toggleVisibility(LayerID.roads.rawValue)
+        #expect(viewModel.themeStatusText == "Current setup")
+        #expect(viewModel.themeDescription == "The layers this map currently has on.")
+    }
+
+    /// Nothing arrived from anybody, so there is nobody to attribute the map to.
+    @Test func aSetupTheReaderBuiltIsTheirOwn() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])
+        viewModel.toggleVisibility(LayerID.nsprd.rawValue)
+        viewModel.toggleVisibility(LayerID.roads.rawValue)
+
+        #expect(viewModel.activeThemeID == nil)
+        #expect(viewModel.themeStatusText == "Current setup")
+    }
+
     /// A refused save keeps nothing and says nothing was kept, so the manager
     /// can leave the reader's typing in the field to try again.
     @Test func aSetupThatCouldNotBeSavedReportsThat() {

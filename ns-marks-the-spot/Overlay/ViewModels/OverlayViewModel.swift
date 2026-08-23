@@ -1278,8 +1278,21 @@ final class OverlayViewModel {
     /// `generatedAt` is a parameter rather than `Date()` read in here: the note
     /// is stamped with it, and a stamp the caller cannot control is a stamp
     /// nothing can check.
-    func evidenceNote(generatedAt: Date = Date()) -> EvidenceNote? {
-        guard let inspection, ParcelEvidenceExport.isReady(inspection),
+    ///
+    /// `includingSourcesStillOut` is the way out of a source that has hung
+    /// rather than merely taken its time. The browser gives the sources fifteen
+    /// seconds and then writes the report anyway, and a reader whose fourth
+    /// source will never answer is otherwise told, for as long as they keep
+    /// looking, that no dated receipt can be made at all. Nothing is invented
+    /// by writing early: a source that has not answered has no value to report,
+    /// and the note already says in its own words that this one had not
+    /// answered when it was written.
+    func evidenceNote(
+        generatedAt: Date = Date(),
+        includingSourcesStillOut: Bool = false
+    ) -> EvidenceNote? {
+        guard let inspection,
+              includingSourcesStillOut || ParcelEvidenceExport.isReady(inspection),
               let shareURL else { return nil }
         return EvidenceNote.build(
             ParcelEvidenceExport.input(
@@ -1314,6 +1327,13 @@ final class OverlayViewModel {
         /// for evidence that has none on it, and no way to tell that from a
         /// parcel nothing was found for.
         appendixWithheld: Bool = false,
+        /// Whether the appendix may be written while a source is still out.
+        ///
+        /// Set once the sources have had the time the browser gives them. The
+        /// appendix then names each one that had not answered, which is what
+        /// the note says about them anyway, and the page carries a line saying
+        /// which ones those were.
+        appendixNamesSourcesStillOut: Bool = false,
         /// Whether the aerial photography is drawn onto the page.
         ///
         /// Separate from whether it is on the screen. At 300 dpi the imagery is
@@ -1377,6 +1397,17 @@ final class OverlayViewModel {
                     + "asked are not on this document."
             )
         }
+        // Said on the front of the document rather than left to the appendix's
+        // own per-source lines. A reader who acts on a research summary is
+        // entitled to know before they read it that it was written while a
+        // source was still out, because the answer that never arrived may be
+        // the one they were looking for.
+        if includesAppendix, appendixNamesSourcesStillOut, let inspection,
+           let stillOut = ParcelEvidenceExport.stillOutDisclosure(
+               ParcelEvidenceExport.pending(inspection)
+           ) {
+            disclosures.append(stillOut)
+        }
         return PrintExportRequest(
             visibleBounds: box,
             baseMap: controller.baseMapType,
@@ -1412,7 +1443,10 @@ final class OverlayViewModel {
             // for the same reason the page is.
             appendix: includesAppendix
                 ? PdfAppendix.blocks(
-                    fromMarkdown: evidenceNote(generatedAt: generatedAt)?.markdown ?? ""
+                    fromMarkdown: evidenceNote(
+                        generatedAt: generatedAt,
+                        includingSourcesStillOut: appendixNamesSourcesStillOut
+                    )?.markdown ?? ""
                 )
                 : [],
             disclosures: disclosures,
@@ -1692,6 +1726,10 @@ final class OverlayViewModel {
         }
         if origin == .sharedLink {
             noteWhatTheLinkCouldNotRestore(refused: refusedByLicence, notCarried: notCarried)
+            // After the toggles above, which clear it: this is the state the
+            // link asked for, and it is the sender's rather than the reader's
+            // until the reader changes it.
+            setupCameFromALink = true
         }
         controller.center(
             on: GeoPoint(lat: state.position.latitude, lng: state.position.longitude),
@@ -1725,6 +1763,18 @@ final class OverlayViewModel {
         // written before the Province answers should still name.
         restoringPID = pid
     }
+
+    /// Whether the setup on screen is the one a link asked for.
+    ///
+    /// The panel names the setup, and a combination that matches no saved theme
+    /// has no name of its own. The browser calls that one "Shared setup",
+    /// because on the browser an unnamed setup can only have come from a link.
+    /// Here it can also be a launch nobody has touched, so the two are told
+    /// apart by this rather than by assuming.
+    ///
+    /// Cleared by the first switch the reader touches, like the link's notice:
+    /// after that the map is theirs, whatever it opened as.
+    private(set) var setupCameFromALink = false
 
     /// What a shared link asked for and this map is not showing.
     ///
@@ -1925,11 +1975,12 @@ final class OverlayViewModel {
 
     /// The name of the setup, and what has happened to it.
     ///
-    /// "Current setup" rather than the browser's "Shared setup": on the phone
-    /// this is also what a fresh launch reads, before anybody has picked
-    /// anything or opened a link.
+    /// An unnamed setup is "Current setup" rather than the browser's "Shared
+    /// setup", because on the phone it is also what a fresh launch reads,
+    /// before anybody has picked anything. Where a link did put it there, it
+    /// says so.
     var themeStatusText: String {
-        let name = activeThemeID.flatMap(themes.theme(_:))?.name ?? "Current setup"
+        let name = activeThemeID.flatMap(themes.theme(_:))?.name ?? unnamedSetupName
         return switch themeStatus {
         case .exact, .unnamed: name
         case .modified: "\(name) · Modified"
@@ -1939,7 +1990,19 @@ final class OverlayViewModel {
 
     var themeDescription: String {
         activeThemeID.flatMap(themes.theme(_:))?.description
-            ?? "The layers this map currently has on."
+            ?? (setupCameFromALink
+                ? "Map settings restored from a shared link."
+                : "The layers this map currently has on.")
+    }
+
+    /// What to call a setup that matches nothing saved.
+    ///
+    /// "Current setup" on a map the reader built themselves, which on the phone
+    /// includes a launch nobody has touched. "Shared setup" where a link put it
+    /// there, so a reader who opens somebody else's view and then goes looking
+    /// at the panel is told whose view it is.
+    private var unnamedSetupName: String {
+        setupCameFromALink ? "Shared setup" : "Current setup"
     }
 
     /// Which layers the last theme could not deliver, and why. `nil` when it
@@ -2661,11 +2724,16 @@ final class OverlayViewModel {
             let wanted = pendingSharedLayerIDs
             pendingSharedLayerIDs = []
             sharedLinkNotice = nil
+            // Held across the loop below. These switches are the link's own,
+            // finished late because the licence stood in front of them, and
+            // `toggleVisibility` cannot tell them from the reader's.
+            let fromALink = setupCameFromALink
             for id in wanted {
                 guard let row = rows.first(where: { $0.id == id }),
                       row.isAvailable, !row.isVisible else { continue }
                 toggleVisibility(id)
             }
+            setupCameFromALink = fromALink
             return
         }
         guard let pending else { return }
@@ -2889,8 +2957,10 @@ final class OverlayViewModel {
     func toggleVisibility(_ id: String) {
         // The link's notice describes the view that arrived. Once the reader
         // starts switching layers themselves it describes a map that is no
-        // longer on screen, so it goes with the first switch they touch.
+        // longer on screen, so it goes with the first switch they touch. The
+        // same is true of calling the setup the sender's.
         sharedLinkNotice = nil
+        setupCameFromALink = false
         // A vector layer's switch is the same decision point as a raster's:
         // the licence has to be answered before the first query goes out, not
         // after features are already on the map.
