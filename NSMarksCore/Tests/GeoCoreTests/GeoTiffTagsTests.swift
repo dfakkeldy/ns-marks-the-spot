@@ -18,13 +18,26 @@ struct TiffBuilder {
     var strings = [UInt16: String]()
     var version: UInt16 = 42
     var byteOrderMark: [UInt8]?
+    /// Write the 64-bit layout: eight-byte counts and offsets in twenty-byte
+    /// entries, behind a sixteen-byte header. Sets the version on its own,
+    /// because a file cannot be one layout and claim the other.
+    var big = false
+    /// What the 64-bit header gives as the width of its own offsets. Only
+    /// eight is defined; anything else is here to be refused.
+    var offsetWidth: UInt16 = 8
 
     func build() -> Data {
         var header = Data()
         let mark = byteOrderMark ?? (bigEndian ? [0x4D, 0x4D] : [0x49, 0x49])
         header.append(contentsOf: mark)
-        header.append(integer(UInt64(version), bytes: 2))
-        header.append(integer(8, bytes: 4))  // first directory sits right after
+        header.append(integer(UInt64(big ? 43 : version), bytes: 2))
+        if big {
+            header.append(integer(UInt64(offsetWidth), bytes: 2))
+            header.append(integer(0, bytes: 2))
+            header.append(integer(16, bytes: 8))  // first directory sits right after
+        } else {
+            header.append(integer(8, bytes: 4))  // first directory sits right after
+        }
 
         // Entries in tag order, as the specification requires.
         var entries = [(tag: UInt16, type: UInt16, count: UInt32, payload: Data)]()
@@ -47,26 +60,27 @@ struct TiffBuilder {
         }
         entries.sort { $0.tag < $1.tag }
 
-        var directory = integer(UInt64(entries.count), bytes: 2)
+        let field = big ? 8 : 4
+        var directory = integer(UInt64(entries.count), bytes: big ? 8 : 2)
         // Everything the entries cannot hold inline goes after the directory
-        // and its four-byte "next directory" pointer.
-        var heapAt = 8 + 2 + entries.count * 12 + 4
+        // and its "next directory" pointer.
+        var heapAt = header.count + (big ? 8 : 2) + entries.count * (big ? 20 : 12) + field
         var heap = Data()
         for entry in entries {
             directory.append(integer(UInt64(entry.tag), bytes: 2))
             directory.append(integer(UInt64(entry.type), bytes: 2))
-            directory.append(integer(UInt64(entry.count), bytes: 4))
-            if entry.payload.count <= 4 {
+            directory.append(integer(UInt64(entry.count), bytes: field))
+            if entry.payload.count <= field {
                 var inline = entry.payload
-                inline.append(Data(repeating: 0, count: 4 - inline.count))
+                inline.append(Data(repeating: 0, count: field - inline.count))
                 directory.append(inline)
             } else {
-                directory.append(integer(UInt64(heapAt), bytes: 4))
+                directory.append(integer(UInt64(heapAt), bytes: field))
                 heap.append(entry.payload)
                 heapAt += entry.payload.count
             }
         }
-        directory.append(integer(0, bytes: 4))  // no second directory
+        directory.append(integer(0, bytes: field))  // no second directory
         return header + directory + heap
     }
 
@@ -218,15 +232,95 @@ struct GeoTiffTagsTests {
     }
 
     /// BigTIFF is a real format that large provincial rasters are often
-    /// exported in, and its header is not this one. Refused by name, because a
-    /// refusal naming the format is recoverable and a sheet placed from a
-    /// header that was never parsed is not.
-    @Test func aBigTiffIsRefusedByNameRatherThanMisread() {
+    /// exported in, and ImageIO decodes its pixels without being asked. A
+    /// reader that refused the tags would have left a perfectly readable sheet
+    /// to be placed by hand.
+    ///
+    /// Asserted against the classic layout of the same sheet rather than
+    /// against written-out numbers: the two layouts are the same tags in
+    /// different-width fields, and the whole claim is that they read alike.
+    @Test func theSameSheetReadsTheSameInEitherLayout() throws {
+        let classic = try GeoTiffTags.parse(TiffBuilder.northUpSheet().build())
         var builder = TiffBuilder.northUpSheet()
-        builder.version = 43
+        builder.big = true
+        #expect(try GeoTiffTags.parse(builder.build()) == classic)
+    }
+
+    /// The 64-bit header is byte-ordered like any other, and a sheet written
+    /// on a big-endian machine is not a different sheet.
+    @Test func aBigEndianBigTiffReadsTheSameToo() throws {
+        let classic = try GeoTiffTags.parse(TiffBuilder.northUpSheet().build())
+        var builder = TiffBuilder.northUpSheet(bigEndian: true)
+        builder.big = true
+        #expect(try GeoTiffTags.parse(builder.build()) == classic)
+    }
+
+    /// Eight is the only offset width the format defines. A file naming
+    /// another is a real TIFF this reader cannot walk, and saying which is
+    /// what makes the refusal recoverable.
+    @Test func aBigTiffWithAnUndefinedOffsetWidthIsRefusedByName() {
+        var builder = TiffBuilder.northUpSheet()
+        builder.big = true
+        builder.offsetWidth = 16
         #expect(throws: GeoTiffTags.Refusal.bigTiff) {
             try GeoTiffTags.parse(builder.build())
         }
+    }
+
+    /// A count field eight bytes wide can name more entries than any file
+    /// holds. Converted to an `Int` first, that traps rather than refuses.
+    @Test func aBigTiffClaimingImpossiblyManyEntriesIsRefusedRatherThanTrapping() {
+        var builder = TiffBuilder.northUpSheet()
+        builder.big = true
+        var bytes = builder.build()
+        // The directory count sits directly after the sixteen-byte header.
+        for index in 16..<24 { bytes[index] = 0xFF }
+        #expect(throws: GeoTiffTags.Refusal.truncated) {
+            try GeoTiffTags.parse(bytes)
+        }
+    }
+
+    /// The same trap one field further in: an entry's own value count.
+    @Test func aBigTiffEntryClaimingImpossiblyManyValuesIsRefusedRatherThanTrapping() {
+        var builder = TiffBuilder.northUpSheet()
+        builder.big = true
+        var bytes = builder.build()
+        // First entry: header, eight-byte count, then tag and type.
+        for index in 28..<36 { bytes[index] = 0xFF }
+        #expect(throws: GeoTiffTags.Refusal.truncated) {
+            try GeoTiffTags.parse(bytes)
+        }
+    }
+
+    /// The other BigTIFF tests build their bytes with the same understanding
+    /// of the layout that the reader has, so the two could be wrong together.
+    /// This one is a file a separate writer produced, kept as bytes: eight
+    /// byte counts written as LONG8, values padded out to their own alignment,
+    /// a tag order this builder does not emit.
+    /// A BigTIFF a separate writer produced, kept as bytes. The other 64-bit
+    /// tests build their files with the same understanding of the layout the
+    /// reader has, so the two could be wrong together; this one cannot be.
+    /// It writes its byte counts as LONG8, pads values out to their own
+    /// alignment, and orders its tags in a way `TiffBuilder` never does.
+    static let foreignBigTiff: [String] = [
+        "SUkrAAgAAAAQAAAAAAAAAAwAAAAAAAAAAAEDAAEAAAAAAAAAAgAAAAAAAAAB",
+        "AQMAAQAAAAAAAAACAAAAAAAAAAIBAwADAAAAAAAAAAgACAAIAAAAAwEDAAEA",
+        "AAAAAAAAAQAAAAAAAAAGAQMAAQAAAAAAAAACAAAAAAAAABEBEAABAAAAAAAA",
+        "ABABAAAAAAAAFQEDAAEAAAAAAAAAAwAAAAAAAAAWAQMAAQAAAAAAAAACAAAA",
+        "AAAAABcBEAABAAAAAAAAAAwAAAAAAAAADoMMAAMAAAAAAAAAIAEAAAAAAACC",
+        "hAwABgAAAAAAAAA4AQAAAAAAAK+HAwAQAAAAAAAAAGgBAAAAAAAAAAAAAAAA",
+        "AAD/AAAA/wAAAP///wAAAAAAAAAAAAAAAEAAAAAAAAAIQAAAAAAAAAAAAAAA",
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICEHkEAAAAA0BJTQQAAAAAAAAAA",
+        "AQABAAAAAwAABAAAAQABAAEEAAABAAEAAAwAAAEAKGk=",
+    ]
+
+    @Test func aBigTiffFromAnotherWriterReadsAsItsOwnTagsSay() throws {
+        let text = Self.foreignBigTiff.joined()
+        let bytes = try #require(Data(base64Encoded: text))
+        let metadata = try GeoTiffTags.parse(bytes)
+        #expect(metadata.pixelSize == PixelSize(width: 2, height: 2))
+        #expect(metadata.crs == "EPSG:26920")
+        #expect(metadata.geotransform == [500_000, 2, 0, 5_000_000, 0, -3])
     }
 
     @Test func somethingThatIsNotATiffIsRefused() {

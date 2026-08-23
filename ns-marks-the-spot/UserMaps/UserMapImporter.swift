@@ -158,9 +158,9 @@ enum UserMapImporter {
     /// The placement a GeoTIFF carries, or nil when it carries none.
     ///
     /// A TIFF with no geo tags is an ordinary scan and goes to the
-    /// georeferencer. A TIFF this cannot read at all — BigTIFF, or truncated —
-    /// is refused, because its pixels may still decode and placing them by
-    /// hand while the file's own answer went unread is worse than saying so.
+    /// georeferencer. A TIFF this cannot read at all is refused, because its
+    /// pixels may still decode and placing them by hand while the file's own
+    /// answer went unread is worse than saying so.
     private static func embeddedPlacement(
         in data: Data
     ) throws(UserMapImportRefusal) -> UserMapRecord.Placement? {
@@ -173,8 +173,9 @@ enum UserMapImporter {
                 throw UserMapImportRefusal(
                     code: .unsupportedType,
                     userMessage: """
-                        This is a BigTIFF, which this app cannot read. \
-                        Re-export it as an ordinary GeoTIFF.
+                        This BigTIFF gives the width of its own offsets as \
+                        something other than eight bytes, which no version of \
+                        the format defines. Re-export it.
                         """
                 )
             case .notATiff, .truncated:

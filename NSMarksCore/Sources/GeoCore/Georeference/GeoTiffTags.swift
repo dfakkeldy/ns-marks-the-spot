@@ -8,18 +8,20 @@ import Foundation
 /// belongs. So this walks the first image file directory and reads exactly
 /// those tags.
 ///
-/// Ported from what `geotiff.js` gives the web's `parsers/geoTiffSource.ts`.
-/// The two differ in one way worth stating: `geotiff.js` reads BigTIFF, and
-/// this refuses it by name rather than misreading its header as a classic
-/// TIFF's. A refusal that says which format it saw is recoverable; a sheet
-/// placed from a header that was never parsed is not.
+/// Ported from what `geotiff.js` gives the web's `parsers/geoTiffSource.ts`,
+/// classic and 64-bit layouts alike. BigTIFF is the same tag set written with
+/// eight-byte counts and offsets in twenty-byte entries, and provincial
+/// rasters are routinely exported that way; ImageIO decodes their pixels
+/// without being asked, so refusing the tags would have left the reader
+/// placing a readable sheet by hand.
 public enum GeoTiffTags {
     public enum Refusal: Error, Equatable, Sendable {
         /// No TIFF byte-order mark and magic number at the front.
         case notATiff
-        /// A real TIFF, in the 64-bit variant this does not read. Large
-        /// provincial rasters are often exported this way, so it is called out
-        /// rather than folded into `notATiff`.
+        /// A BigTIFF that declares an offset width other than the eight bytes
+        /// the format defines. Named rather than folded into `notATiff`,
+        /// because the file is a real TIFF and the reader is the part that
+        /// cannot follow it.
         case bigTiff
         /// The header is a TIFF's and the file stops before the tags it points
         /// at.
@@ -197,6 +199,9 @@ public enum GeoTiffTags {
     private struct Reader {
         let data: Data
         let bigEndian: Bool
+        /// The 64-bit layout: eight-byte counts and offsets, in twenty-byte
+        /// directory entries rather than twelve-byte ones.
+        let isBig: Bool
         let firstDirectoryOffset: Int
         /// Filled while reading the directory, because a string tag has to be
         /// decoded as bytes rather than as the numbers everything else is.
@@ -212,41 +217,78 @@ public enum GeoTiffTags {
             }
             self.data = data
             let version = Self.integer(data, at: 2, bytes: 2, bigEndian: bigEndian)
+            let pointer: UInt64
             switch version {
-            case 42: break
-            case 43: throw .bigTiff
+            case 42:
+                isBig = false
+                pointer = Self.integer(data, at: 4, bytes: 4, bigEndian: bigEndian)
+            case 43:
+                // Sixteen bytes of header rather than eight. The two after the
+                // version say how wide an offset is, and eight is the only
+                // width the format has ever defined — a file claiming another
+                // is one this cannot walk, whatever else is right about it.
+                guard data.count >= 16,
+                    Self.integer(data, at: 6, bytes: 2, bigEndian: bigEndian) == 0
+                else { throw .notATiff }
+                guard Self.integer(data, at: 4, bytes: 2, bigEndian: bigEndian) == 8
+                else { throw .bigTiff }
+                isBig = true
+                pointer = Self.integer(data, at: 8, bytes: 8, bigEndian: bigEndian)
             default: throw .notATiff
             }
-            firstDirectoryOffset = Int(
-                Self.integer(data, at: 4, bytes: 4, bigEndian: bigEndian)
-            )
+            // An eight-byte offset can name ground no file has. Bounded before
+            // it becomes an `Int`, where the conversion itself would trap.
+            guard pointer <= UInt64(data.count) else { throw .truncated }
+            firstDirectoryOffset = Int(pointer)
         }
 
         /// Every tag in the first directory, as doubles — which is lossy for a
         /// 64-bit integer and exact for everything a GeoTIFF puts in these
         /// tags, all of which are counts, codes, or coordinates.
         mutating func firstDirectory() throws(Refusal) -> [UInt16: [Double]] {
+            // The two layouts differ only in how wide these three fields are:
+            // the directory's entry count, each entry's value count, and the
+            // offset that stands in for a value too long to sit inline. Which
+            // also moves the inline threshold, because the slot holding it is
+            // the same field.
+            let countWidth = isBig ? 8 : 2
+            let entryWidth = isBig ? 20 : 12
+            let fieldWidth = isBig ? 8 : 4
+
             var offset = firstDirectoryOffset
-            guard offset > 0, offset + 2 <= data.count else { throw .truncated }
-            let count = Int(Self.integer(data, at: offset, bytes: 2, bigEndian: bigEndian))
-            offset += 2
-            guard offset + count * 12 <= data.count else { throw .truncated }
+            guard offset > 0, offset + countWidth <= data.count else { throw .truncated }
+            let declared = Self.integer(
+                data, at: offset, bytes: countWidth, bigEndian: bigEndian
+            )
+            // A directory cannot hold more entries than the file has room for.
+            // Checked before the conversion rather than after: an eight-byte
+            // count can exceed `Int` outright, and `Int(_:)` traps on that.
+            guard declared <= UInt64(data.count / entryWidth) else { throw .truncated }
+            let count = Int(declared)
+            offset += countWidth
+            guard offset + count * entryWidth <= data.count else { throw .truncated }
 
             var entries = [UInt16: [Double]]()
             for index in 0..<count {
-                let entry = offset + index * 12
+                let entry = offset + index * entryWidth
                 let tag = UInt16(Self.integer(data, at: entry, bytes: 2, bigEndian: bigEndian))
                 let type = Int(Self.integer(data, at: entry + 2, bytes: 2, bigEndian: bigEndian))
-                let length = Int(Self.integer(data, at: entry + 4, bytes: 4, bigEndian: bigEndian))
+                let declaredLength = Self.integer(
+                    data, at: entry + 4, bytes: fieldWidth, bigEndian: bigEndian
+                )
+                guard declaredLength <= UInt64(data.count) else { throw .truncated }
+                let length = Int(declaredLength)
                 guard let width = Self.byteWidth(ofType: type) else { continue }
                 let total = width * length
-                // Four bytes or fewer live in the entry itself; anything longer
-                // is an offset to them.
-                var valueAt = entry + 8
-                if total > 4 {
-                    valueAt = Int(
-                        Self.integer(data, at: entry + 8, bytes: 4, bigEndian: bigEndian)
+                // A value that fits the offset slot lives in it; anything
+                // longer is an offset to where it does live.
+                var valueAt = entry + 4 + fieldWidth
+                if total > fieldWidth {
+                    let pointer = Self.integer(
+                        data, at: valueAt, bytes: fieldWidth, bigEndian: bigEndian
                     )
+                    guard pointer <= UInt64(data.count) else { throw .truncated }
+                    valueAt = Int(pointer)
                 }
                 guard valueAt >= 0, valueAt + total <= data.count, total >= 0
                 else { throw .truncated }
