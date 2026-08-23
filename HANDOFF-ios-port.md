@@ -1867,3 +1867,43 @@ fix what it finds, then run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 after 22:00 ADT.
 ```
+
+## 2026-08-23 — the last audit's four gaps, and evidence without a device
+
+Done: audit 12 (staleness, reachability, privacy) found no staleness gap and
+six reachability or retention ones; all are fixed here. Deleting a user map
+now deletes the half-finished georeferencing draft that was keyed to it —
+before, a points file naming ground the user had pinned stayed on the device
+under an id nothing referred to any more. The parcel card's source line,
+mapped area, survey caveat, building count and boundary notice moved inside
+its scroll, leaving only the PID and the close button pinned: at an
+accessibility text size that header used to eat the whole 45%-of-screen card.
+Matched civic addresses scroll inside a bounded window with the OGL-NS
+attribution pinned under it, and the right-hand control column scrolls when
+it runs past the bottom — eleven 44-point targets are taller than a phone
+held sideways, and the three that fell off the end were Data Sources, Save
+Area and Layers. Layer names stop truncating at accessibility sizes. The one
+audit finding left alone is raster delete's non-atomic file removal: the
+record is committed first by design, and the sweep on next load collects the
+orphan.
+
+The simulator MCP is unavailable in this session — the desktop build reports
+`iosSimulator: unsupported, disabled by its rollout flag`, and attach, tap
+and screenshot all fail through it. `simctl` still boots, installs, launches
+and screenshots, so the launch state and Dynamic Type were checked that way;
+nothing that needs a touch could be. The interaction checklist is therefore
+being turned into XCUITests, which CI already runs beside the unit tests:
+landscape reachability of the control column, the measuring readout and its
+not-a-survey caveat, the sources sheet scrolling to its licence list, and the
+attribution strip opening onto every source.
+
+Next: read Codex review 7, land the UI tests, then decide with the user
+whether the phone should carry a real OpenStreetMap base map and whether
+audit 10's browser-side wording findings become separate web work.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/scratchpad/review7.out,
+fix what it finds, then watch CI for the two new UI test bundles.
+```
