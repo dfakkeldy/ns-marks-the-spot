@@ -879,6 +879,42 @@ struct UserMapDisplayTests {
         }
     }
 
+    /// A placement in progress is written outside the library, keyed by the
+    /// map's id. Deleting the map used to leave that file behind: points a
+    /// user pinned on ground they care about, under an id no row names any
+    /// more, kept until the app is deleted.
+    @Test("A deleted map takes its half-finished placement with it")
+    func deletingAMapDiscardsItsGeoreferenceDraft() async throws {
+        try await withLibraryDirectory { directory in
+            let draftRoot = directory.appendingPathComponent("drafts", isDirectory: true)
+            let drafts = GeoreferenceDraftStore(directory: draftRoot)
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay(),
+                drafts: drafts
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let id = try #require(viewModel.rows.first?.id)
+
+            drafts.write(
+                identifier: id,
+                name: "Scan",
+                controls: [
+                    SessionControlPoint(
+                        id: "1", pixel: PixelPoint(x: 10, y: 20),
+                        map: GeoPoint(lat: 44.65, lng: -63.6)
+                    )
+                ],
+                checks: [],
+                checkLabels: []
+            )
+            #expect(drafts.draft(identifier: id) != nil)
+
+            await viewModel.delete(id: id)
+            #expect(drafts.draft(identifier: id) == nil)
+        }
+    }
+
     /// The window between an import starting and the seal going up.
     ///
     /// `load` learns of a later version across an await, so an import that

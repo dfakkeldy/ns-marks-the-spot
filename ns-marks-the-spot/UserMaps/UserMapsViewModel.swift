@@ -96,12 +96,20 @@ final class UserMapsViewModel {
 
     private let store: UserMapStore
 
+    /// Half-finished placements, which live outside the library.
+    ///
+    /// Held here only so that deleting a map takes its draft with it. The
+    /// georeferencer owns the writing.
+    private let drafts: GeoreferenceDraftStore
+
     init(
         store: UserMapStore = UserMapStore(),
-        display: UserMapDisplayStore = UserMapDisplayStore()
+        display: UserMapDisplayStore = UserMapDisplayStore(),
+        drafts: GeoreferenceDraftStore = GeoreferenceDraftStore()
     ) {
         self.store = store
         self.display = display
+        self.drafts = drafts
     }
 
     /// Which maps are drawn and how strongly, which is not part of the library.
@@ -612,6 +620,11 @@ final class UserMapsViewModel {
         rows.removeAll { !kept.contains($0.id) }
         saved = remaining
         rememberDisplay()
+        // The placement the user was part way through is theirs too, and it
+        // outlives the library row that named it: a points file keyed by an id
+        // no map has any more is unreachable ground truth about somewhere the
+        // user has been, kept forever. Deleting a map deletes it.
+        drafts.discard(identifier: id)
     }
 
     /// What the map should be drawing, in panel order.
