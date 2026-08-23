@@ -1556,3 +1556,20 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 and triage every bundle.
 ```
+
+## 2026-08-23 — audit-2 findings closed, CI green
+
+Done: review of the four fixes found two more, both real and both fixed.
+Halifax's summary counted 27 advertised for a 29-row Schedule A, because the
+two undrawable rows are held out of `listings`; the counts now follow the web's
+two forms. The exception-to-row match is now one-to-one in both directions and
+excludes by row rather than by PID. Full CI green on 2a471217f, native suite
+included.
+Next: third audit covering print/export, user maps and search is running.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read the audit-3 findings, then from
+22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
