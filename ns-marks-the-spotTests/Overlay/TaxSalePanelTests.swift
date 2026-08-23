@@ -206,6 +206,33 @@ struct TaxSalePanelTests {
 
     private static let noFeatures = StubURLProtocol.Response.success(Data(#"{"features": []}"#.utf8))
 
+    // MARK: - What the counts under a notice say
+
+    /// A row with no parcel is still a row the municipality advertised.
+    ///
+    /// Counting only the drawable rows reports a smaller sale than the notice
+    /// announced, and a reader checking the app against the printed Schedule A
+    /// would find two properties missing with nothing saying where they went.
+    @Test func rowsWithNoParcelAreCountedAsAdvertisedRatherThanDroppedFromTheTotal() throws {
+        let catalog = TaxSaleCatalog.bundled
+        let halifax = try #require(catalog.event(id: "halifax-2026-09-15"))
+        let summary = TaxSaleViewModel(catalog: catalog).summary(for: halifax)
+
+        #expect(summary.advertised == 29)
+        #expect(summary.mapped == 27)
+        #expect(summary.unavailable == 2)
+    }
+
+    /// A notice with nothing missing keeps the plain counts.
+    @Test func aNoticeWithEveryRowMappedReportsNoUnavailableCount() {
+        let taxSale = Self.taxSale()
+        let summary = taxSale.summary(for: Self.event())
+
+        #expect(summary.advertised == 2)
+        #expect(summary.withdrawn == 1)
+        #expect(summary.unavailable == 0)
+    }
+
     // MARK: - The account a notice names
 
     /// The notice's AAN reaches PVSC.

@@ -337,13 +337,17 @@ enum TaxSaleSnapshots {
 
         let snapshot = try JSONDecoder().decode(Snapshot.self, from: bytes)
         let id = "halifax-2026-09-15"
-        let exceptedPIDs = Set(snapshot.geometryExceptions.map(\.pid))
 
+        // One exception, one row, both ways. Two exceptions naming the same row
+        // would count it as unavailable twice; two rows answering one exception
+        // would leave the second silently undrawn with nothing said about it.
+        var exceptedItems: Set<Int> = []
         let exceptions = try snapshot.geometryExceptions.map { exception in
-            guard
-                let listing = snapshot.listings.first(where: {
-                    $0.aan == exception.aan && $0.pids == [exception.pid]
-                })
+            let matches = snapshot.listings.filter {
+                $0.aan == exception.aan && $0.pids == [exception.pid]
+            }
+            guard let listing = matches.first, matches.count == 1,
+                exceptedItems.insert(listing.item).inserted
             else {
                 throw Unreadable(field: "geometryExceptions/\(exception.aan)")
             }
@@ -374,8 +378,10 @@ enum TaxSaleSnapshots {
             sourceLabel: "Official Halifax Schedule A tax-sale notice",
             retrievedOn: snapshot.retrievedDate,
             sourceDatasetSHA256: datasetSHA256,
+            // By row, not by PID. Excluding every row that mentions an excepted
+            // PID would drop a second row the exception never spoke for.
             listings: snapshot.listings
-                .filter { $0.pids.allSatisfy { !exceptedPIDs.contains($0) } }
+                .filter { !exceptedItems.contains($0.item) }
                 .map { listing in
                     TaxSaleListing(
                         eventID: id,

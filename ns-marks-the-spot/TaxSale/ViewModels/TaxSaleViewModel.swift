@@ -130,14 +130,26 @@ final class TaxSaleViewModel {
         let advertised: Int
         let withdrawn: Int
         let activePIDs: Int
+        /// Rows the notice advertised that have no exact NSPRD parcel, so they
+        /// are counted as advertised and are not drawn.
+        let unavailable: Int
+        /// Rows that do have a parcel, which is the number `unavailable` is the
+        /// remainder of.
+        let mapped: Int
     }
 
     func summary(for event: TaxSaleEvent) -> EventSummary {
         let advertised = event.listings.count { $0.listingStatus == .advertised }
+        let unavailable = event.geometryExceptions.count
         return EventSummary(
-            advertised: advertised,
+            // A row the province holds no geometry for is still a row the
+            // municipality advertised. Counting only what can be drawn would
+            // report a smaller sale than the notice announced.
+            advertised: advertised + unavailable,
             withdrawn: event.listings.count - advertised,
-            activePIDs: event.advertisedPIDs.count
+            activePIDs: event.advertisedPIDs.count,
+            unavailable: unavailable,
+            mapped: event.listings.count
         )
     }
 

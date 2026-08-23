@@ -107,13 +107,9 @@ struct TaxSaleNoticesView: View {
                     .foregroundStyle(
                         event.lifecycle(now: now) == .verifyResults ? .orange : .secondary
                     )
-                Text(
-                    "\(summary.advertised) advertised · \(summary.withdrawn) withdrawn · "
-                        + "\(summary.activePIDs) active PIDs"
-                        + unmappedSuffix(event)
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                Text(Self.countsLine(summary))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 Text("Snapshot retrieved \(TaxSaleFormat.day(event.retrievedOn))")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -162,16 +158,20 @@ struct TaxSaleNoticesView: View {
         )
     }
 
-    /// How many of the notice's own rows have no parcel to draw.
+    /// The counts under a notice's name, in the web's two forms.
     ///
-    /// The web puts this in the "Browse properties" summary. Here the section
-    /// has no disclosure to hang it on, so it goes with the other counts: a
-    /// reader comparing the app's parcel count against the printed notice
-    /// should be able to see where the difference went without scrolling.
-    private func unmappedSuffix(_ event: TaxSaleEvent) -> String {
-        let unavailable = event.geometryExceptions.reduce(0) { $0 + $1.pids.count }
-        guard unavailable > 0 else { return "" }
-        return " · \(unavailable) unavailable"
+    /// A notice with rows NSPRD cannot draw says how many it advertised and how
+    /// many of those are on the map, because that difference is the question a
+    /// reader comparing the app against the printed notice is about to ask.
+    /// Every other notice says what it struck out instead, which is the
+    /// difference that matters when there is nothing missing.
+    private static func countsLine(_ summary: TaxSaleViewModel.EventSummary) -> String {
+        guard summary.unavailable > 0 else {
+            return "\(summary.advertised) advertised · \(summary.withdrawn) withdrawn · "
+                + "\(summary.activePIDs) active PIDs"
+        }
+        return "\(summary.advertised) advertised · \(summary.mapped) mapped · "
+            + "\(summary.unavailable) unavailable in NSPRD"
     }
 
     /// The official rows NSPRD would not draw.
