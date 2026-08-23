@@ -149,6 +149,10 @@ public enum VectorEdit {
     /// Addressed by feature, ring and index rather than by proximity: a vertex
     /// dragged onto its neighbour would otherwise become ambiguous exactly when
     /// the user most needs the app to move the one they grabbed.
+    ///
+    /// `ring` counts through the whole feature rather than through one part of
+    /// it, which is what lets a multi-part geometry be reshaped by the same two
+    /// numbers. See `rings(of:)` for the order.
     public static func moving(
         featureID: String,
         ring: Int,
@@ -166,6 +170,28 @@ public enum VectorEdit {
                 return updated
             }
         )
+    }
+
+    /// Every ring of a geometry, laid end to end in document order.
+    ///
+    /// A point is a ring of one, a line is one ring, a polygon is one ring per
+    /// ring it has, and a multi-part geometry is its parts' rings one after
+    /// another. Flattening is what lets a vertex be addressed by two numbers
+    /// instead of three: the ring index counts through the whole feature, so
+    /// the hole in a multi-polygon's second part has an index like any other
+    /// ring, and no part index has to be guessed at. `moved` walks the same
+    /// order, so the handles the user sees and the vertex an edit lands on are
+    /// always the same vertex.
+    public static func rings(of geometry: GeoJsonGeometry) -> [[GeoJsonPosition]] {
+        switch geometry {
+        case .point(let position): return [[position]]
+        case .multiPoint(let positions): return positions.map { [$0] }
+        case .lineString(let line): return [line]
+        case .multiLineString(let lines): return lines
+        case .polygon(let rings): return rings
+        case .multiPolygon(let polygons): return polygons.flatMap { $0 }
+        case .collection(let geometries): return geometries.flatMap { rings(of: $0) }
+        }
     }
 
     private static func moved(
@@ -186,21 +212,35 @@ public enum VectorEdit {
             return moved
         }
 
+        var index = 0
+        return rewritten(geometry) { positions in
+            defer { index += 1 }
+            guard index == ring else { return positions }
+            return replacing(positions)
+        }
+    }
+
+    /// Rebuilds a geometry with each ring passed through `transform`, in the
+    /// order `rings(of:)` reports them.
+    private static func rewritten(
+        _ geometry: GeoJsonGeometry,
+        _ transform: ([GeoJsonPosition]) -> [GeoJsonPosition]
+    ) -> GeoJsonGeometry {
         switch geometry {
-        case .point:
-            return .point(position)
+        case .point(let position):
+            return .point(transform([position]).first ?? position)
+        case .multiPoint(let positions):
+            return .multiPoint(positions.map { transform([$0]).first ?? $0 })
         case .lineString(let line):
-            return .lineString(replacing(line))
+            return .lineString(transform(line))
+        case .multiLineString(let lines):
+            return .multiLineString(lines.map(transform))
         case .polygon(let rings):
-            guard rings.indices.contains(ring) else { return geometry }
-            var updated = rings
-            updated[ring] = replacing(rings[ring])
-            return .polygon(updated)
-        case .multiPoint, .multiLineString, .multiPolygon, .collection:
-            // Multi-part geometry needs a part index this call does not carry.
-            // Left alone rather than guessed at: moving the wrong part is a
-            // silent corruption of the user's own data.
-            return geometry
+            return .polygon(rings.map(transform))
+        case .multiPolygon(let polygons):
+            return .multiPolygon(polygons.map { $0.map(transform) })
+        case .collection(let geometries):
+            return .collection(geometries.map { rewritten($0, transform) })
         }
     }
 
@@ -217,8 +257,8 @@ public enum VectorEdit {
     /// the user sees on a Mercator map — the shape stays under the finger and
     /// stays the size it looked — and it is what the web's drag mode does.
     ///
-    /// Multi-part geometry moves too, unlike a vertex drag: a shift applies to
-    /// every position equally, so no part index is needed to know what to move.
+    /// Multi-part geometry moves as one: a shift applies to every position
+    /// equally, so the parts keep their distances from each other.
     public static func translating(
         featureID: String,
         byLatitude latitudeDelta: Double,

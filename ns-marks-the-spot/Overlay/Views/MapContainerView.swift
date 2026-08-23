@@ -1200,14 +1200,18 @@ struct MapContainerView: View {
             return
         }
         guard let parsed = session.parsed else { return }
-        let tolerance = fingerTolerance
-        session.select(
-            featureID: VectorEdit.feature(
-                at: GeoJsonPosition(lng: longitude, lat: latitude),
-                in: parsed,
-                toleranceDegrees: tolerance
-            )?.id
+        let hit = VectorEdit.feature(
+            at: GeoJsonPosition(lng: longitude, lat: latitude),
+            in: parsed,
+            toleranceDegrees: fingerTolerance
         )
+        if session.tool == .erasing {
+            // A tap on open ground erases nothing. Nearest-feature would put
+            // the eraser on shapes the finger never covered.
+            if let id = hit?.id { session.erase(featureID: id) }
+            return
+        }
+        session.select(featureID: hit?.id)
     }
 
     private func saveVisibleMapArea() {

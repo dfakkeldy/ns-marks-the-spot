@@ -120,6 +120,62 @@ struct UserVectorEditingTests {
         }
     }
 
+    /// Clearing a scratch layer of ten marks should not be ten alerts. The
+    /// browser arms a removal mode and deletes on click; the phone arms the
+    /// same mode and keeps every erase undoable while it is up.
+    @Test("The eraser takes features off one tap at a time, and gives them back")
+    func theEraserTakesFeaturesOffOneTapAtATime() async throws {
+        try await withViewModel { viewModel in
+            await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+            let row = try #require(viewModel.rows.first)
+            let session = VectorEditSession(
+                viewModel: viewModel, persistDelay: .milliseconds(10)
+            )
+            session.begin(row)
+
+            session.startDrawing(.point)
+            session.handleTap(latitude: 44.61, longitude: -63.51)
+            session.handleTap(latitude: 44.62, longitude: -63.52)
+            let drawn = try #require(session.parsed?.features.count)
+            #expect(drawn == 3)
+
+            session.startErasing()
+            #expect(session.tool == .erasing)
+            // The eraser lets go of whatever was selected, so the panel is not
+            // offering a name field for a feature about to be taken off.
+            #expect(session.selectedFeatureID == nil)
+            #expect(session.erasedCount == 0)
+
+            let first = try #require(session.parsed?.features.first?.id)
+            session.erase(featureID: first)
+            #expect(session.parsed?.features.count == drawn - 1)
+            #expect(session.erasedCount == 1)
+
+            // Still armed: the next tap erases without a trip back to the
+            // toolbar.
+            let second = try #require(session.parsed?.features.first?.id)
+            session.erase(featureID: second)
+            #expect(session.parsed?.features.count == drawn - 2)
+            #expect(session.tool == .erasing)
+
+            // Undo puts the feature back where it was, with its own id.
+            session.undoLastErase()
+            #expect(session.parsed?.features.count == drawn - 1)
+            #expect(session.parsed?.features.contains { $0.id == second } == true)
+            #expect(session.erasedCount == 1)
+
+            // Putting the eraser down ends the run. What is gone is gone.
+            session.stopErasing()
+            #expect(session.tool == .selecting)
+            #expect(session.erasedCount == 0)
+            session.undoLastErase()
+            #expect(session.parsed?.features.count == drawn - 1)
+
+            await session.flush()
+            #expect(viewModel.rows.first?.record.featureCount == drawn - 1)
+        }
+    }
+
     // MARK: - Fixtures
 
     private func withViewModel(

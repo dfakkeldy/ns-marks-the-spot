@@ -19,6 +19,8 @@ final class VectorEditSession {
         case drawing(VectorEditShape)
         /// Tapping selects a feature to name, move or delete.
         case selecting
+        /// Tapping takes the feature under the finger off the layer.
+        case erasing
     }
 
     private(set) var editingID: String?
@@ -27,6 +29,15 @@ final class VectorEditSession {
     private(set) var draft: VectorDraft?
     private(set) var selectedFeatureID: String?
     var tool: Tool = .selecting
+
+    /// The layer as it stood before each erase in this run, oldest first.
+    ///
+    /// Empty unless the eraser is up. This is what stands in for the
+    /// per-feature confirmation the eraser replaces: an alert per feature is
+    /// the thing a delete mode exists to avoid, so the safety moves to the
+    /// other side of the action and every erase can be taken back while the
+    /// mode that made it is still on.
+    private(set) var erased: [ParsedVector] = []
 
     /// Why the last write did not land. Held rather than thrown: a failed save
     /// must never interrupt drawing, so the edit stays on screen and the user
@@ -66,6 +77,7 @@ final class VectorEditSession {
         storageError = nil
         selectedFeatureID = nil
         draft = nil
+        erased = []
         tool = .selecting
         editingID = row.id
         record = row.record
@@ -90,6 +102,7 @@ final class VectorEditSession {
         parsed = nil
         draft = nil
         selectedFeatureID = nil
+        erased = []
         tool = .selecting
         return true
     }
@@ -98,6 +111,7 @@ final class VectorEditSession {
 
     func startDrawing(_ shape: VectorEditShape) {
         selectedFeatureID = nil
+        erased = []
         tool = .drawing(shape)
         draft = VectorDraft(shape: shape)
     }
@@ -125,9 +139,44 @@ final class VectorEditSession {
             if shape == .point {
                 finishDrawing()
             }
-        case .selecting:
+        case .selecting, .erasing:
+            // Both are answered by what is under the finger, which only the
+            // map knows: the tolerance for "under" is a distance on screen,
+            // and the session has no zoom to convert it with.
             break
         }
+    }
+
+    // MARK: - Erasing
+
+    /// Arms the eraser. Each tap takes off the feature under the finger.
+    func startErasing() {
+        draft = nil
+        selectedFeatureID = nil
+        erased = []
+        tool = .erasing
+    }
+
+    /// Puts the eraser down. What was erased stays erased.
+    func stopErasing() {
+        erased = []
+        tool = .selecting
+    }
+
+    /// Takes one feature off, keeping the layer as it was in case of undo.
+    func erase(featureID: String) {
+        guard let parsed else { return }
+        erased.append(parsed)
+        if selectedFeatureID == featureID { selectedFeatureID = nil }
+        commit(VectorEdit.removing(featureID: featureID, from: parsed))
+    }
+
+    var erasedCount: Int { erased.count }
+
+    /// Puts the last erased feature back, with its id, its name and its text.
+    func undoLastErase() {
+        guard let previous = erased.popLast() else { return }
+        commit(previous)
     }
 
     func undoLastVertex() {
