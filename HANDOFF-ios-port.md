@@ -1936,3 +1936,24 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 and triage every bundle.
 ```
+
+## 2026-08-23 — review 9 answered: the UI tests now prove something
+
+Done: Codex review 9 found the two new UI bundles asserted things true of a
+broken app, and worse, that `.github/workflows/ci.yml` treated an unresolvable
+simulator as success — the required check could go green having run no tests.
+Missing simulators are now fatal in ci, release-trains and app-store-release.
+The four UI test files were rewritten to run their routes end to end
+(measuring actually measures; the licence lock is accepted and the layer's
+credit is then asserted under the map; the offline draft is estimated), shared
+helpers moved to `UITestSupport.swift`, four scrolling regions were named, and
+`Scripts/typecheck-ios.sh` now type-checks the UI target with its own flags.
+
+Next: CI on this push is the first run where a green `Build gate + tests`
+proves the UI tests executed. Triage it, then take the 22:00 ADT admission.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit; if the
+UI tests fail, read the uploaded native-tests.xcresult before changing them.
+```
