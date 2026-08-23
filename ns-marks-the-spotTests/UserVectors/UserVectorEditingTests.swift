@@ -1,0 +1,108 @@
+import Foundation
+import GeoCore
+import Testing
+
+@testable import ns_marks_the_spot
+
+/// What the panel does with a layer after it has arrived: bringing it into
+/// view, naming it, and saying that it is no longer the file it came from.
+@Suite("Editing a user's vector layer")
+@MainActor
+struct UserVectorEditingTests {
+    /// The phone's layer panel covers the map, so an import that changed
+    /// nothing on screen is indistinguishable from one the app refused.
+    @Test("An import brings the map to what was imported")
+    func anImportBringsTheMapToWhatWasImported() async throws {
+        try await withViewModel { viewModel in
+            await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+            let box = try #require(viewModel.pendingFit)
+            #expect(abs(box.south - 44.6) < 0.0001)
+            #expect(abs(box.west - (-63.5)) < 0.0001)
+
+            // Taken, not read: a layer toggled off and on later must not send
+            // the map back to where the import left it.
+            #expect(viewModel.takePendingFit() != nil)
+            #expect(viewModel.pendingFit == nil)
+            #expect(viewModel.takePendingFit() == nil)
+        }
+    }
+
+    /// A file the app would not read must not move the map either. Framing an
+    /// empty import would be the app claiming something arrived.
+    @Test("A refused file leaves the map where it was")
+    func aRefusedFileLeavesTheMapWhereItWas() async throws {
+        try await withViewModel { viewModel in
+            viewModel.beginImports()
+            await viewModel.importFile(data: Data("<kml></kml>".utf8), filename: "empty.kml")
+            #expect(viewModel.rows.isEmpty)
+            #expect(viewModel.pendingFit == nil)
+        }
+    }
+
+    /// Typing is not submitting. The name has to reach the disk without the
+    /// user pressing Return, because on the description field beside it Return
+    /// types a newline and nothing is ever submitted at all.
+    @Test("A layer name typed and not submitted still lands")
+    func aLayerNameTypedAndNotSubmittedStillLands() async throws {
+        try await withViewModel { viewModel in
+            await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+            let row = try #require(viewModel.rows.first)
+            let session = VectorEditSession(
+                viewModel: viewModel, persistDelay: .milliseconds(10)
+            )
+            session.begin(row)
+
+            // As typed, one keystroke at a time.
+            for name in ["W", "Wo", "Woo", "Woodlot"] {
+                session.setLayerName(name)
+            }
+            await session.flush()
+
+            #expect(viewModel.rows.first?.record.name == "Woodlot")
+        }
+    }
+
+    /// The row and the callout keep saying "From your file parcels.kml" over
+    /// geometry the file never held, unless the edit is stated.
+    @Test("An edited layer stops presenting itself as the file it came from")
+    func anEditedLayerStopsPresentingItselfAsTheFileItCameFrom() throws {
+        let imported = UserVectorLayerRecord(
+            id: "layer-1",
+            name: "Lots",
+            source: .geoJson,
+            origin: .imported(
+                filename: "parcels.kml", importedAt: Date(timeIntervalSince1970: 0)
+            ),
+            createdAt: Date(timeIntervalSince1970: 0),
+            colorHex: "#0072b2",
+            featureCount: 1,
+            bbox: nil
+        )
+        #expect(imported.provenanceText == "From your file parcels.kml")
+
+        var edited = imported
+        edited.modifiedAt = Date(timeIntervalSince1970: 1_700_000_000)
+        #expect(edited.provenanceText.hasPrefix("From your file parcels.kml · edited "))
+    }
+
+    // MARK: - Fixtures
+
+    private func withViewModel(
+        _ body: (UserVectorsViewModel) async throws -> Void
+    ) async throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try await body(UserVectorsViewModel(store: UserVectorStore(directory: root)))
+    }
+
+    private static func geoJson() -> Data {
+        Data(
+            """
+            {"type":"FeatureCollection","features":[{"type":"Feature","properties":{},\
+            "geometry":{"type":"Point","coordinates":[-63.5,44.6]}}]}
+            """.utf8
+        )
+    }
+}

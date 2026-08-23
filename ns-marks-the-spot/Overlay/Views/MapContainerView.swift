@@ -849,6 +849,14 @@ struct MapContainerView: View {
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
             }
+            // An import brings the map to what was imported, the way the
+            // browser does. Taken rather than read, so a later toggle cannot
+            // fire the same journey a second time.
+            .onChange(of: userVectorsVM.pendingFit) { _, _ in
+                if let box = userVectorsVM.takePendingFit() {
+                    controller.frame(box)
+                }
+            }
             // The session's working copy, not the stored one: a shape has to follow
             // the user's finger rather than wait for a write to land.
             .onChange(of: editSession?.parsed) { _, _ in

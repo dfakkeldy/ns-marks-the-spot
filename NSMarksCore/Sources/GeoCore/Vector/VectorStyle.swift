@@ -170,6 +170,6 @@ public struct VectorFeatureCallout: Hashable, Sendable {
         // blank line reads as a feature that failed to load.
         self.title = text("name") ?? record.name
         self.detail = text("description")
-        self.provenance = record.origin.provenanceText
+        self.provenance = record.provenanceText
     }
 }

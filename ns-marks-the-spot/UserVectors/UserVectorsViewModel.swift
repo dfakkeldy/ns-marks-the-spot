@@ -98,6 +98,9 @@ final class UserVectorsViewModel {
                 _ = try await store.add(record, geometry: layer.parsed, original: data)
                 rows.append(Row(record: record, isVisible: true, parsed: layer.parsed))
             }
+            // The first layer only. Walking the map through every layer of an
+            // archive in turn would just be motion.
+            pendingFit = imported.layers.first?.parsed.bbox
         } catch let refusal as UserMapImportRefusal {
             // One file's refusal never stops the next: a user who selected a
             // folder with one broken file in it should get the other nine
@@ -111,9 +114,25 @@ final class UserVectorsViewModel {
         }
     }
 
+    /// A box the map should come to, set by an import and cleared once it has.
+    ///
+    /// The browser flies to imported data on its own. Here the layer panel
+    /// covers the map on a phone, so importing the parcel file for the property
+    /// being researched produced no visible change at all: the user closed the
+    /// panel onto the same view they left, with no way to tell a loaded layer
+    /// from an empty one or from a file the app had quietly refused.
+    private(set) var pendingFit: GeoBoundingBox?
+
+    /// Takes the request, so a later toggle or reload cannot fire it again.
+    func takePendingFit() -> GeoBoundingBox? {
+        defer { pendingFit = nil }
+        return pendingFit
+    }
+
     /// Clears what the panel is saying, ready for a batch of imports.
     func beginImports() {
         importNotices = []
+        pendingFit = nil
     }
 
     func clearNotices() {

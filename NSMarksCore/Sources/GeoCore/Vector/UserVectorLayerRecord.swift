@@ -176,3 +176,18 @@ public struct UserVectorLibrary: Hashable, Sendable, Codable {
         version >= 1 && version <= Self.currentVersion
     }
 }
+
+extension UserVectorLayerRecord {
+    /// Where this layer came from, and whether it still matches.
+    ///
+    /// An edited layer is no longer the file it was imported from: vertices
+    /// have moved, or features the user judged irrelevant are gone. Left as
+    /// the filename alone, the row and the callout keep saying "From your
+    /// file parcels.kml" over data the municipality never published, and
+    /// weeks later there is no way to tell the two apart.
+    public var provenanceText: String {
+        guard let modifiedAt else { return origin.provenanceText }
+        return "\(origin.provenanceText) · edited "
+            + modifiedAt.formatted(date: .abbreviated, time: .omitted)
+    }
+}

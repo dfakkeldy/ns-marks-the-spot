@@ -308,7 +308,7 @@ private struct UserVectorRow: View {
             // The provenance, on the row rather than only in a popup: this is
             // the user's own material, and the panel is where they decide what
             // they are looking at.
-            Text("\(row.record.featureCount) features · \(row.record.origin.provenanceText)")
+            Text("\(row.record.featureCount) features · \(row.record.provenanceText)")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }

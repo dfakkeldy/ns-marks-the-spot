@@ -51,6 +51,10 @@ final class VectorEditSession {
     /// revisions for one edit.
     @ObservationIgnored private var unsaved: ParsedVector?
 
+    /// A layer name typed but not written yet, and the timer that will write it.
+    @ObservationIgnored private var pendingName: String?
+    @ObservationIgnored private var renameTask: Task<Void, Never>?
+
     init(viewModel: UserVectorsViewModel, persistDelay: Duration = VectorEditSession.persistDelay) {
         self.viewModel = viewModel
         self.persistDelay = persistDelay
@@ -192,6 +196,37 @@ final class VectorEditSession {
         )
     }
 
+    /// Takes the layer name as it is typed, and writes it once typing stops.
+    ///
+    /// Debounced like the geometry, and for the same reason the geometry is:
+    /// the browser commits every keystroke into its session and lets one
+    /// delayed write reach storage. Writing per keystroke here would be a
+    /// library document per character, and because each write is its own task
+    /// two of them could land out of order and leave "parce" saved over
+    /// "parcel".
+    ///
+    /// A cleared field schedules nothing and cancels nothing: the layer has to
+    /// be called something, so what gets written is the last name the user
+    /// actually typed.
+    func setLayerName(_ name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, trimmed != record?.name else { return }
+        pendingName = trimmed
+        record?.name = trimmed
+        renameTask?.cancel()
+        renameTask = Task { [weak self] in
+            try? await Task.sleep(for: self?.persistDelay ?? .milliseconds(400))
+            guard !Task.isCancelled else { return }
+            await self?.writePendingName()
+        }
+    }
+
+    private func writePendingName() async {
+        guard let name = pendingName else { return }
+        pendingName = nil
+        await renameLayer(name)
+    }
+
     func renameLayer(_ name: String) async {
         guard let editingID else { return }
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -229,6 +264,9 @@ final class VectorEditSession {
     /// gone.
     @discardableResult
     func flush() async -> Bool {
+        renameTask?.cancel()
+        renameTask = nil
+        await writePendingName()
         persistTask?.cancel()
         persistTask = nil
         return await write()
