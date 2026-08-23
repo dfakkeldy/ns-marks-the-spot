@@ -481,6 +481,27 @@
       "noticeSha256": "8f1070e83955ff48e087b6a18a9f5cbc653de8c684ce392465dcef2af443512d",
       "resultSha256": "669547d1ed5419092940d7d4c998be1f942ed00bcc44c7a0b213fca60c3a22a5",
       "sourceNotes": "The final official notice and result reconcile all 16 exact AAN/PID pairs. Twelve rows publish an unqualified Sold disposition and numeric sale price, one is Unsold, and two publish later redemption dates. One row prints Sold and a numeric sale price but also says the buyer forfeited; it remains outcome-unknown with no winning-bid claim. Assessed-owner fields were omitted before this public dataset was written."
+    },
+    {
+      "id": "middleton-2026-08-20",
+      "municipalityId": "middleton",
+      "municipality": "Town of Middleton",
+      "shortMunicipality": "Middleton",
+      "saleDate": "2026-08-20",
+      "saleMethod": "public-auction",
+      "listingIdentifierLabel": "Result row",
+      "advertisedAmountLabel": "Opening bid",
+      "currency": "CAD",
+      "noticeUrl": "https://www.discovermiddleton.ca/property-tax-sale-information",
+      "landingPageUrl": "https://www.discovermiddleton.ca/property-tax-sale-information",
+      "resultStatus": "verified",
+      "resultUrl": "https://web.archive.org/web/20260820200525id_/https://www.discovermiddleton.ca/property-tax-sale-information",
+      "retrievedOn": "2026-08-20",
+      "noticeSnapshotDate": "2026-08-18",
+      "resultSnapshotDate": "2026-08-20",
+      "noticeSha256": "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13",
+      "resultSha256": "d81652aee056a28dc013741a0b9f6d13e82df0305099a8ba6639240b5655b982",
+      "sourceNotes": "The owner-free notice snapshot retained 2 exact-PID rows on 2026-08-18. Each matches exactly one official result description; 2 print NO BID and 0 print numeric successful bids. The official result also prints 7 REMOVED rows without descriptions or parcel identifiers; those opaque rows remain distinct and outside the mapped records. The result identity column was discarded before the public snapshot was written."
     }
   ],
   "records": [
@@ -919,6 +940,9 @@
     { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-03825973", "listingIdentifier": "03825973", "pids": ["30029995"], "civicDescription": "211 Green Rd, New Tusket - Dwelling", "advertisedAmountCents": 170283, "winningBidCents": 420000, "outcome": "sold", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
     { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-04146751", "listingIdentifier": "04146751", "pids": ["30056162"], "civicDescription": "Saulnierville Rd, Saulnierville - Land", "advertisedAmountCents": 59772, "winningBidCents": null, "outcome": "redeemed", "resultNote": "The official result prints a $15,000.00 sale price and Redeemed May 22; no completed-sale winning bid is claimed.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
     { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-04219929", "listingIdentifier": "04219929", "pids": ["30072839"], "civicDescription": "Comeau Branch Rd, Meteghan River - Land", "advertisedAmountCents": 51662, "winningBidCents": 450000, "outcome": "sold", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
-    { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-06137881", "listingIdentifier": "06137881", "pids": ["30081921"], "civicDescription": "Bonnie Rd, Meteghan - Land", "advertisedAmountCents": 39048, "winningBidCents": 900000, "outcome": "sold", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" }
+    { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-06137881", "listingIdentifier": "06137881", "pids": ["30081921"], "civicDescription": "Bonnie Rd, Meteghan - Land", "advertisedAmountCents": 39048, "winningBidCents": 900000, "outcome": "sold", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
+
+    { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-4", "listingIdentifier": "4", "pids": ["05193040"], "civicDescription": "Land, 50 School Street, Middleton", "advertisedAmountCents": 8461612, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
+    { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-5", "listingIdentifier": "5", "pids": ["05030911"], "civicDescription": "Land, Senator Road, Middleton", "advertisedAmountCents": 1581351, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - No", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" }
   ]
 }

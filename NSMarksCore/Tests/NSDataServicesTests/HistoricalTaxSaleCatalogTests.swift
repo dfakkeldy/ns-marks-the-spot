@@ -30,10 +30,10 @@ struct HistoricalTaxSaleCatalogTests {
         #expect(Self.catalog.records.isEmpty == false)
     }
 
-    /// 23 sales in the dataset plus CBRM's, reconciled at load.
+    /// 24 sales in the dataset plus CBRM's, reconciled at load.
     @Test func cbrmsResultsAreReconciledOntoItsOwnNotice() throws {
-        #expect(Self.catalog.events.count == 24)
-        #expect(Self.catalog.records.count == 481)
+        #expect(Self.catalog.events.count == 25)
+        #expect(Self.catalog.records.count == 483)
 
         let cbrm = try #require(Self.catalog.event(id: "cbrm-2026-07-21"))
         #expect(cbrm.resultStatus == .verified)
@@ -48,6 +48,26 @@ struct HistoricalTaxSaleCatalogTests {
         // result PDF does not carry. Both are unknown, and neither is unsold.
         #expect(records.count { $0.outcome == .unknown } == 46)
         #expect(records.contains { $0.outcome == .unsold } == false)
+    }
+
+    /// Middleton's own sale, whose outcome the app carries now that the
+    /// browser has verified it.
+    ///
+    /// Both parcels went unsold, and the reason is the town's own words rather
+    /// than this app's summary of them.
+    @Test func middletonsResultKeepsTheOfficialWordsForNoBid() throws {
+        let event = try #require(Self.catalog.event(id: "middleton-2026-08-20"))
+        #expect(event.resultStatus == .verified)
+        #expect(event.saleMethod == .publicAuction)
+
+        let records = Self.catalog.records.filter { $0.eventID == event.id }
+        #expect(records.count == 2)
+        #expect(records.flatMap(\.pids) == ["05193040", "05030911"])
+        for record in records {
+            #expect(record.outcome == .unsold)
+            #expect(record.winningBidCents == nil)
+            #expect(record.resultNote == "The official Successful Bid column reads \"NO BID\".")
+        }
     }
 
     /// A notice row the result document never carried says exactly that.

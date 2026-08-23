@@ -145,6 +145,13 @@ jobs:
       - name: Install web dependencies
         run: npm ci
 
+      # The tax-sale snapshots the app bundles are copies of the web's own
+      # files. This compares all three copies, so a refreshed snapshot that
+      # was never re-exported fails here instead of shipping an app that
+      # quotes a withdrawn parcel as a current listing.
+      - name: Shared datasets match the web's own copies
+        run: npm run check:shared-data
+
       - name: Test web app
         run: npm test
 

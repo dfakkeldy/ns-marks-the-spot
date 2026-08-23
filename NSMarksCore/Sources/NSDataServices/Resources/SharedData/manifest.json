@@ -28,13 +28,13 @@
     },
     {
       "path": "historicalSourceLedger.json",
-      "bytes": 61816,
-      "sha256": "aab0f6855e7ce7ad6eb729c52f6e6e82a3af4e566b4292c5ca92c01f00c7b65b"
+      "bytes": 62820,
+      "sha256": "54666898627b483c9a60088fed79956187b2fcc7a96693d3614e999386d35a39"
     },
     {
       "path": "historicalTaxSales.json",
-      "bytes": 231585,
-      "sha256": "f5f000eb06f3dbbe6b2bdc5991792e62f7bfb025aef1da339669c0f5643eba24"
+      "bytes": 233997,
+      "sha256": "5e4be48bf01b2aa3f3f00d648f415d690093c50dd3b9d6b427495e96cbb78032"
     },
     {
       "path": "invernessHydroPotential.json",
@@ -48,8 +48,8 @@
     },
     {
       "path": "middletonTaxSale.snapshot.json",
-      "bytes": 1401,
-      "sha256": "de851169cf38c179ba9fc82012a36907dd99632f74d58f11e01d72d32f09dac6"
+      "bytes": 1147,
+      "sha256": "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13"
     },
     {
       "path": "richmondTaxSale.snapshot.json",

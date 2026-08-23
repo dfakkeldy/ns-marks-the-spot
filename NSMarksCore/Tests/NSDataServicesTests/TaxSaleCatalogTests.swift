@@ -81,14 +81,25 @@ struct TaxSaleCatalogTests {
     @Test func middletonKeepsItsAmountLabelledAsUnconfirmed() throws {
         let event = try #require(TaxSaleCatalog.bundled.event(id: "middleton-2026-08-20"))
 
-        #expect(event.listings.count == 3)
+        #expect(event.listings.count == 2)
         #expect(event.venue == "Town Hall Council Chambers - 131 Commercial Street, Middleton")
         for listing in event.listings {
             #expect(listing.financial.kind == .recoveryAmount)
             #expect(listing.financial.label == "Total due (subject to municipal confirmation)")
         }
-        #expect(event.listings.map(\.financial.amountCents) == [1_183_095, 8_351_154, 1_536_838])
+        #expect(event.listings.map(\.financial.amountCents) == [8_351_154, 1_536_838])
         #expect(event.listings.last?.redemptionCategory == .notRedeemable)
+    }
+
+    @Test func middletonIsCarriedAsHistoryOnceItsSaleHasHappened() throws {
+        let event = try #require(TaxSaleCatalog.bundled.event(id: "middleton-2026-08-20"))
+
+        #expect(event.eventStatus == .historical)
+        // The August 18 snapshot, which dropped the item the town withdrew
+        // between publications. A PID no longer in the notice must not be
+        // answerable from it at all.
+        #expect(event.pids == ["05193040", "05030911"])
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "05078472") == nil)
     }
 
     @Test func cbrmIsCarriedAsHistoryRatherThanAnOffering() throws {
@@ -99,11 +110,13 @@ struct TaxSaleCatalogTests {
         #expect(event.pids.count == 68)
         #expect(event.lifecycle(now: .distantPast) == .historical)
         #expect(event.listings.map(\.financial.amountCents).reduce(0, +) == 65_385_810)
-        #expect(TaxSaleCatalog.bundled.events(status: .upcoming).count == 3)
+        #expect(TaxSaleCatalog.bundled.events(status: .upcoming).count == 2)
     }
 
     @Test func aPassedSaleDateAsksForVerificationRatherThanClaimingAResult() throws {
-        let event = try #require(TaxSaleCatalog.bundled.event(id: "middleton-2026-08-20"))
+        let event = try #require(
+            TaxSaleCatalog.bundled.event(id: "inverness-county-2026-08-11")
+        )
         let saleStart = try #require(event.saleStartsAt)
 
         #expect(event.lifecycle(now: saleStart.addingTimeInterval(-1)) == .upcoming)
@@ -113,16 +126,17 @@ struct TaxSaleCatalogTests {
 
     @Test func onlyCurrentNoticesAnswerForAParcel() throws {
         let catalog = TaxSaleCatalog.bundled
-        let middleton = try #require(catalog.event(id: "middleton-2026-08-20"))
+        let inverness = try #require(catalog.event(id: "inverness-county-2026-08-11"))
         let cbrm = try #require(catalog.event(id: "cbrm-2026-07-21"))
 
-        let context = try #require(catalog.listingContext(forPID: "05078472"))
-        #expect(context.event.id == middleton.id)
-        #expect(context.listing.location == "Dwelling, 12-16 Bridge Street, Middleton")
+        let context = try #require(catalog.listingContext(forPID: "50203256"))
+        #expect(context.event.id == inverness.id)
+        #expect(context.listing.location == "Highway 19, Mabou")
 
-        // In a past notice, so answering with it would read as "for sale".
+        // In past notices, so answering with either would read as "for sale".
         let past = try #require(cbrm.listings.first?.pids.first)
         #expect(catalog.listingContext(forPID: past) == nil)
+        #expect(catalog.listingContext(forPID: "05193040") == nil)
         #expect(catalog.listingContext(forPID: "00000000") == nil)
     }
 

@@ -7,6 +7,7 @@ import {
   MANIFEST_NAME,
   SHARED_DATASETS,
   exportSharedData,
+  verifyBundledCopy,
   verifySharedData,
 } from "./exportSharedData.mjs";
 
@@ -88,7 +89,23 @@ test("verifies a freshly exported directory", async () => {
   const source = await fakeSource();
   const target = await freshTarget();
   await exportSharedData({ source, target });
-  await verifySharedData({ target });
+  await verifySharedData({ source, target });
+});
+
+test("rejects an export left behind by a refreshed source dataset", async () => {
+  const source = await fakeSource();
+  const target = await freshTarget();
+  await exportSharedData({ source, target });
+  // The refresh scripts rewrite these in place. Nothing else about the export
+  // changes, so its own manifest keeps agreeing with itself.
+  await writeFile(
+    join(source, SHARED_DATASETS[0]),
+    JSON.stringify({ refreshed: true }),
+  );
+  await assert.rejects(
+    () => verifySharedData({ source, target }),
+    /has drifted from web\/src\/data/,
+  );
 });
 
 test("rejects a dataset whose bytes changed after export", async () => {
@@ -97,7 +114,7 @@ test("rejects a dataset whose bytes changed after export", async () => {
   await exportSharedData({ source, target });
   await writeFile(join(target, SHARED_DATASETS[0]), JSON.stringify({ tampered: true }));
   await assert.rejects(
-    () => verifySharedData({ target }),
+    () => verifySharedData({ source, target }),
     /does not match its manifest hash/,
   );
 });
@@ -108,7 +125,7 @@ test("rejects an unlisted file dropped into the directory", async () => {
   await exportSharedData({ source, target });
   await writeFile(join(target, "ownerNames.json"), "{}");
   await assert.rejects(
-    () => verifySharedData({ target }),
+    () => verifySharedData({ source, target }),
     /present but not listed in the manifest/,
   );
 });
@@ -126,7 +143,7 @@ test("rejects a manifest that lists a dataset outside the allowlist", async () =
   });
   await writeFile(join(target, MANIFEST_NAME), JSON.stringify(manifest));
   await assert.rejects(
-    () => verifySharedData({ target }),
+    () => verifySharedData({ source, target }),
     /is not an allowed shared dataset/,
   );
 });
@@ -138,7 +155,7 @@ test("rejects a manifest entry that tries to escape the directory", async () => 
   const manifest = JSON.parse(await readFile(join(target, MANIFEST_NAME), "utf8"));
   manifest.files.push({ path: "../escape.json", bytes: 1, sha256: "0".repeat(64) });
   await writeFile(join(target, MANIFEST_NAME), JSON.stringify(manifest));
-  await assert.rejects(() => verifySharedData({ target }), /Unsafe shared dataset name/);
+  await assert.rejects(() => verifySharedData({ source, target }), /Unsafe shared dataset name/);
 });
 
 test("rejects a manifest missing an allowlisted dataset", async () => {
@@ -149,7 +166,7 @@ test("rejects a manifest missing an allowlisted dataset", async () => {
   const dropped = manifest.files.pop();
   await writeFile(join(target, MANIFEST_NAME), JSON.stringify(manifest));
   await assert.rejects(
-    () => verifySharedData({ target }),
+    () => verifySharedData({ source, target }),
     new RegExp(`${dropped.path} is missing from the manifest`),
   );
 });
@@ -159,4 +176,38 @@ test("fails loudly when a source dataset is absent", async () => {
   await mkdir(source, { recursive: true });
   const target = await freshTarget();
   await assert.rejects(() => exportSharedData({ source, target }));
+});
+
+test("accepts a bundle carrying a subset of the export", async () => {
+  const source = await fakeSource();
+  const target = await freshTarget();
+  await exportSharedData({ source, target });
+  const bundle = await freshTarget();
+  await mkdir(bundle, { recursive: true });
+  await writeFile(
+    join(bundle, MANIFEST_NAME),
+    await readFile(join(target, MANIFEST_NAME)),
+  );
+  await writeFile(
+    join(bundle, SHARED_DATASETS[0]),
+    await readFile(join(target, SHARED_DATASETS[0])),
+  );
+  await verifyBundledCopy({ target, bundle });
+});
+
+test("rejects a bundled dataset left behind by a re-export", async () => {
+  const source = await fakeSource();
+  const target = await freshTarget();
+  await exportSharedData({ source, target });
+  const bundle = await freshTarget();
+  await mkdir(bundle, { recursive: true });
+  await writeFile(
+    join(bundle, MANIFEST_NAME),
+    await readFile(join(target, MANIFEST_NAME)),
+  );
+  await writeFile(join(bundle, SHARED_DATASETS[0]), JSON.stringify({ stale: true }));
+  await assert.rejects(
+    () => verifyBundledCopy({ target, bundle }),
+    /has drifted from the export/,
+  );
 });

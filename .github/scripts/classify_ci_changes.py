@@ -30,6 +30,16 @@ DOC_ONLY_FILES = frozenset(
 
 SHARED_CI_PREFIXES = (".github/",)
 
+# The tax-sale snapshots both surfaces read. A refresh lands in web/src/data,
+# is exported to SharedData/, and is copied into the Swift package; the drift
+# check that compares the three lives in the web suite, so any of them moving
+# has to run it. Native runs too, because these bytes are what the app ships.
+SHARED_DATA_PREFIXES = (
+    "SharedData/",
+    "NSMarksCore/Sources/NSDataServices/Resources/SharedData/",
+    "web/src/data/",
+)
+
 
 def classify_paths(paths: Sequence[str]) -> Classification:
     """Return the suites required for a normalized list of changed paths.
@@ -46,7 +56,7 @@ def classify_paths(paths: Sequence[str]) -> Classification:
     native = False
 
     for path in normalized:
-        if path.startswith(SHARED_CI_PREFIXES):
+        if path.startswith(SHARED_CI_PREFIXES) or path.startswith(SHARED_DATA_PREFIXES):
             web = True
             native = True
         elif path in WEB_ONLY_FILES or path.startswith(WEB_ONLY_PREFIXES):

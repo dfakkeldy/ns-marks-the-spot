@@ -114,7 +114,12 @@ enum TaxSaleSnapshots {
             municipality: snapshot.municipality,
             shortMunicipality: "Middleton",
             eventType: .publicAuction,
-            eventStatus: .upcoming,
+            // The sale was held. The web moved this notice to history when the
+            // results were published, and a notice carried as current is a
+            // notice the app is offering: `listingContext` answers a selected
+            // parcel from upcoming events only, so leaving it here would tell
+            // a reader their parcel is for sale months after the auction.
+            eventStatus: .historical,
             saleStartsAt: try instant("\(snapshot.eventDate)T\(snapshot.saleTime):00-03:00"),
             venue: snapshot.venue,
             sourceURL: source,
