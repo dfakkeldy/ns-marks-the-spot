@@ -2045,6 +2045,10 @@ final class OverlayViewModel {
         let notice = showsTaxSale && mapRecordMode == .current
             ? taxSale?.listingContext(forPID: pid)
             : nil
+        // PVSC's own key for this property, as the municipality printed it.
+        // Matching by account is exact where matching by geometry is not, so
+        // when the notice named one it is asked with instead of the rings.
+        let noticeAAN = notice?.listing.aan
         let records = showsTaxSale ? (historical?.contexts(forPID: pid) ?? []) : []
         // Only printed in the historical mode. The current notices are the
         // map's ordinary state, and a marker on every card would stop being
@@ -2070,12 +2074,15 @@ final class OverlayViewModel {
             let reason = ParcelLookupMessage.noParcelRecordToAskWith
             state.civicAddresses = .unavailable(reason)
             state.mappedContext = .unavailable(reason)
-            state.assessments = .unavailable(reason)
-            state.dwellings = .unavailable(reason)
             state.buildings = .unavailable(reason)
             state.resources = .unavailable(reason)
             state.floodHazard = .unavailable(reason)
+            if !askingPVSCByAccount(noticeAAN, of: &state) {
+                state.assessments = .unavailable(reason)
+                state.dwellings = .unavailable(reason)
+            }
             inspection = state
+            askPVSCByAccount(noticeAAN, for: pid)
             return
         }
 
@@ -2101,12 +2108,15 @@ final class OverlayViewModel {
             // was asked.
             state.civicAddresses = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.mappedContext = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.buildings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             state.floodHazard = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            if !askingPVSCByAccount(noticeAAN, of: &state) {
+                state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+                state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
+            }
             inspection = state
+            askPVSCByAccount(noticeAAN, for: pid)
             return
         }
         inspection = state
@@ -2116,7 +2126,8 @@ final class OverlayViewModel {
                 weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
                 buildingFetcher, resourceFetcher, floodFetcher,
                 clearance = clearanceBox.clearance,
-                mappedAreaSquareMetres = state.mappedArea?.squareMetres
+                mappedAreaSquareMetres = state.mappedArea?.squareMetres,
+                noticeAAN
             ] in
             await withTaskGroup(of: Evidence.self) { group in
                 group.addTask {
@@ -2137,7 +2148,13 @@ final class OverlayViewModel {
                 }
                 group.addTask {
                     do throws(PVSCAssessmentFailure) {
-                        return .assessments(.success(try await assessmentFetcher.assessments(for: parts)))
+                        return .assessments(
+                            .success(
+                                try await assessmentFetcher.assessments(
+                                    for: parts, noticeAAN: noticeAAN
+                                )
+                            )
+                        )
                     } catch {
                         return .assessments(.failure(error))
                     }
@@ -2201,6 +2218,62 @@ final class OverlayViewModel {
                     }
                 }
             }
+        }
+    }
+
+    /// Whether PVSC can still be asked about a parcel with no usable geometry.
+    ///
+    /// An account number is not a shape, so the absence of one does not stop
+    /// this lookup the way it stops the others. Sets the two account-fed
+    /// sections back to `looking` when the answer is yes, because the caller
+    /// has already written the refusal that applies to everything else.
+    private func askingPVSCByAccount(
+        _ noticeAAN: String?,
+        of state: inout ParcelInspection
+    ) -> Bool {
+        guard let noticeAAN, PVSCAssessmentQuery.normalizeAAN(noticeAAN) != nil else {
+            return false
+        }
+        state.assessments = .looking
+        state.dwellings = .looking
+        return true
+    }
+
+    /// Asks PVSC for the notice's account, without any parcel geometry.
+    ///
+    /// The web runs this lookup whenever the notice named an AAN, even with no
+    /// parcel feature selected. Without it, a listed property NSPRD holds no
+    /// shape for would show nothing at all, when the assessment record it is
+    /// keyed to is sitting there under a number the municipality printed.
+    private func askPVSCByAccount(_ noticeAAN: String?, for pid: String) {
+        guard let noticeAAN, PVSCAssessmentQuery.normalizeAAN(noticeAAN) != nil else { return }
+
+        inspectionLookup = Task { [weak self, assessmentFetcher, dwellingFetcher] in
+            let assessed: Evidence
+            do throws(PVSCAssessmentFailure) {
+                assessed = .assessments(
+                    .success(try await assessmentFetcher.assessments(for: [], noticeAAN: noticeAAN))
+                )
+            } catch {
+                assessed = .assessments(.failure(error))
+            }
+            guard !Task.isCancelled, let self else { return }
+            self.apply(assessed, to: pid)
+
+            guard case .assessments(.success(let result)) = assessed, !result.accounts.isEmpty,
+                self.inspection?.pid == pid
+            else { return }
+
+            let dwelt: Evidence
+            do throws(PVSCDwellingFailure) {
+                dwelt = .dwellings(
+                    .success(try await dwellingFetcher.dwellings(forAANs: result.accounts.map(\.aan)))
+                )
+            } catch {
+                dwelt = .dwellings(.failure(error))
+            }
+            guard !Task.isCancelled else { return }
+            self.apply(dwelt, to: pid)
         }
     }
 

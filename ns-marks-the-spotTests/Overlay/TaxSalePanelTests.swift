@@ -132,6 +132,147 @@ struct TaxSalePanelTests {
         """.utf8))
     }
 
+    /// The same notice, with the account number the municipality printed.
+    private static func eventNamingAnAccount() -> TaxSaleEvent {
+        let id = "test-2026-09-01"
+        return TaxSaleEvent(
+            id: id,
+            municipalityID: "test",
+            municipality: "Municipality of the Test County",
+            shortMunicipality: "Test County",
+            eventType: .publicAuction,
+            eventStatus: .upcoming,
+            saleStartsAt: Date(timeIntervalSince1970: 4_000_000_000),
+            venue: "Test Hall",
+            sourceURL: URL(string: "https://example.test/notice.pdf")!,
+            sourceLabel: "Test County tax sale notice",
+            retrievedOn: "2026-08-01",
+            listings: [
+                TaxSaleListing(
+                    eventID: id,
+                    recordID: "\(id)-1",
+                    lien: "1",
+                    aan: "00001234",
+                    pids: ["11111111"],
+                    location: "Test Road",
+                    financial: MunicipalFinancialField(
+                        kind: .minimumBid,
+                        label: "Minimum bid",
+                        amountCents: 152_300
+                    ),
+                    redemptionCategory: .sixMonth,
+                    redemptionLabel: "Six-month redemption period",
+                    listingStatus: .advertised
+                )
+            ]
+        )
+    }
+
+    /// A view model whose PVSC lookups are answered too.
+    private static func assessingViewModel(
+        _ channel: String,
+        answering responses: [(String, StubURLProtocol.Response)],
+        taxSale: TaxSaleViewModel
+    ) -> OverlayViewModel {
+        StubURLProtocol.stub(
+            channel: channel,
+            matching: responses + [("thedatazone", Self.oneAccount), ("", Self.noFeatures)]
+        )
+        let session = { StubURLProtocol.session(channel: channel) }
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd],
+            licence: .accepted,
+            zoomLevel: 16,
+            taxSale: taxSale,
+            parcelFetcher: ParcelFetcher(transport: .urlSession(session())),
+            civicFetcher: CivicAddressFetcher(transport: .urlSession(session())),
+            contextFetcher: ParcelContextFetcher(transport: .urlSession(session())),
+            assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session())),
+            dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session()))
+        )
+        if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible == false {
+            viewModel.toggleVisibility(LayerID.nsprd.rawValue)
+        }
+        return viewModel
+    }
+
+    /// One PVSC row, at a point nowhere near the stub parcel. Placed there on
+    /// purpose: a spatial match would drop it, so a result carrying it can only
+    /// have come from the account query.
+    private static let oneAccount = StubURLProtocol.Response.success(Data("""
+    [{"aan":"00001234","tax_year":"2026","assessed_value":"231500",
+      "taxable_assessed_value":"198000","x_coord":"-60.1","y_coord":"46.9"}]
+    """.utf8))
+
+    private static let noFeatures = StubURLProtocol.Response.success(Data(#"{"features": []}"#.utf8))
+
+    // MARK: - The account a notice names
+
+    /// The notice's AAN reaches PVSC.
+    ///
+    /// It is the municipality's own link between the sale and the assessment
+    /// record, and it is exact where a point inside an outline is not. The app
+    /// carried the AAN and never sent it, so every listed parcel matched the
+    /// slower, weaker way and the panel said so.
+    @Test func theAccountNumberOnTheNoticeIsWhatPVSCIsAskedWith() async {
+        let channel = #function
+        let taxSale = Self.taxSale(Self.eventNamingAnAccount())
+        let viewModel = Self.assessingViewModel(
+            channel,
+            answering: [("PID", Self.parcels(["11111111"]))],
+            taxSale: taxSale
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadListedParcels()
+        await viewModel.awaitListedParcels()
+        viewModel.selectListedParcel(eventID: "test-2026-09-01", pid: "11111111")
+        await viewModel.awaitInspection()
+
+        guard case .ready(let result) = viewModel.inspection?.assessments else {
+            Issue.record(
+                "expected assessments, got \(String(describing: viewModel.inspection?.assessments))"
+            )
+            return
+        }
+        #expect(result.matchMethod == .noticeAAN)
+        #expect(result.accounts.map(\.aan) == ["00001234"])
+    }
+
+    /// A listed parcel NSPRD has no record of still gets its assessment.
+    ///
+    /// The account query takes a number, not a shape, so the reason the other
+    /// sections cannot be asked does not apply to it. Marking it unavailable
+    /// would hide an assessment record that is sitting there under the number
+    /// the notice printed.
+    @Test func aParcelWithNoGeometryIsStillLookedUpByItsAccount() async {
+        let channel = #function
+        let taxSale = Self.taxSale(Self.eventNamingAnAccount())
+        let viewModel = Self.assessingViewModel(channel, answering: [], taxSale: taxSale)
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadListedParcels()
+        await viewModel.awaitListedParcels()
+        viewModel.selectListedParcel(eventID: "test-2026-09-01", pid: "11111111")
+        await viewModel.awaitInspection()
+
+        let inspection = viewModel.inspection
+        #expect(inspection?.taxSaleNotice != nil)
+        // Everything that takes the parcel's rings still says nobody was asked.
+        guard case .unavailable = inspection?.civicAddresses else {
+            Issue.record("expected the address lookup to be refused for want of a boundary")
+            return
+        }
+        guard case .ready(let result) = inspection?.assessments else {
+            Issue.record(
+                "expected assessments, got \(String(describing: inspection?.assessments))"
+            )
+            return
+        }
+        #expect(result.matchMethod == .noticeAAN)
+        #expect(result.accounts.map(\.aan) == ["00001234"])
+    }
+
     // MARK: - Loading the parcels a notice names
 
     /// The count is of what NSPRD returned, not of what was asked for.
