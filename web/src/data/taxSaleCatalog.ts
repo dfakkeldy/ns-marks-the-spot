@@ -1,7 +1,9 @@
 import { annapolisTaxSaleEvent } from "./annapolisTaxSale";
 import { cbrmTaxSaleEvent } from "./cbrmTaxSale";
+import { halifaxTaxSaleEvent } from "./halifaxTaxSale";
 import { invernessTaxSaleEvent } from "./invernessTaxSale";
 import { middletonTaxSaleEvent } from "./middletonTaxSale";
+import { victoriaTaxSaleEvent } from "./victoriaTaxSale";
 import type {
   TaxSaleEvent,
   TaxSaleEventStatus,
@@ -19,6 +21,8 @@ export const taxSaleEvents: TaxSaleEvent[] = [
   invernessTaxSaleEvent,
   middletonTaxSaleEvent,
   annapolisTaxSaleEvent,
+  victoriaTaxSaleEvent,
+  halifaxTaxSaleEvent,
 ];
 
 export function eventsForStatus(
@@ -59,6 +63,16 @@ export function advertisedPidsForEvents(events: TaxSaleEvent[]): string[] {
         listings
           .filter(({ listingStatus }) => listingStatus === "advertised")
           .flatMap(({ pids }) => pids),
+      ),
+    ),
+  );
+}
+
+export function geometryExceptionPidsForEvents(events: TaxSaleEvent[]): string[] {
+  return Array.from(
+    new Set(
+      events.flatMap(({ geometryExceptions = [] }) =>
+        geometryExceptions.flatMap(({ pids }) => pids),
       ),
     ),
   );

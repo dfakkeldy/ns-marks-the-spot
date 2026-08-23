@@ -3,10 +3,10 @@
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
 The current-notice catalog covers the August 11, 2026 Inverness County auction,
-the August 20, 2026 Middleton auction, and the August 31, 2026 Annapolis County
-tax sale by tender.
-The completed July 21, 2026 CBRM event is retained in historical-record mode
-with outcomes explicitly pending until the municipality publishes results.
+the August 31, 2026 Annapolis County tax sale by tender, the September 14, 2026
+Victoria County tender, and the September 15, 2026 Halifax tender. Completed
+Middleton and CBRM events remain in historical-record mode with only printed
+official outcomes classified.
 
 ## Run locally
 
@@ -16,6 +16,38 @@ npm run dev
 ```
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
+
+## Map setup, categories, and themes
+
+A first visit uses **Explore Nova Scotia**: the modern map is on, catalogue
+overlays are off, and **Tax Sale** is off. Layer controls are organized into ten
+collapsible categories: **Background Maps**, **Land & Property**,
+**Roads & Places**, **Water & Terrain**, **Environment & Hazards**,
+**Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
+**Tax Sale**, and **My Maps**.
+
+The five built-in map setups are **Explore Nova Scotia**,
+**Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**, and
+**Georeferencing**. Applying a setup replaces the catalogue-layer configuration
+coherently; it does not remove or change imported maps or data.
+
+Custom themes are stored only in this browser's `localStorage`. They can save
+visible catalogue-layer IDs, supported opacity overrides, preferred categories,
+Tax Sale on/off, and current/historical mode. They do not save the selected PID,
+inspector or evidence contents, search text, map position, browser location,
+dated tax-sale event IDs or filters, licence/location permissions, or imported
+map bytes, object references, and file paths. There are no accounts or theme
+synchronization in this release.
+
+New share links write `taxSale=on` or `taxSale=off` explicitly. For backward
+compatibility, a legacy link with `mode` or `event` but no `taxSale` parameter
+still enables Tax Sale; exact shared state takes precedence over local custom
+theme storage.
+
+The generated web-to-native category and built-in-theme contract is
+[`src/themes/fixtures/map-presentation.json`](src/themes/fixtures/map-presentation.json).
+It is intended for later Swift parity work. This first release does not modify
+the iPhone app or transfer custom themes between web and iPhone.
 
 ## Share card
 
@@ -53,7 +85,10 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    PID or by the exact coordinate of a visible-boundary map tap or chosen civic
    point. The selected parcel sheet sums NSPRD's mapped area across every
    polygon returned for that PID and converts it to acres. The municipal notice
-   remains the authority for tax-sale fields.
+   remains the authority for tax-sale fields. An official notice row whose PID
+   returns no exact NSPRD geometry stays in the owner-free source receipt and is
+   disclosed as unavailable rather than silently omitted or assigned substitute
+   geometry.
 5. The public dataset intentionally omits assessed-owner names. The app labels
    records as “listed in official notice,” because a property may be redeemed or
    withdrawn before the sale. Once an advertised start time passes without a
@@ -644,19 +679,22 @@ row or ambiguous landing-page link fails closed instead of deleting evidence.
 ## Middleton August 2026 source receipt
 
 - Official source: [Town of Middleton Property Tax Sale Information](https://www.discovermiddleton.ca/property-tax-sale-information)
-- The page was retrieved August 7, 2026 and advertises a public auction at
-  10:00 a.m. August 20, 2026 in Town Hall Council Chambers, 131 Commercial
-  Street, Middleton.
-- Three non-empty rows each publish one exact eight-digit PID, one exact
-  eight-digit AAN, a total due, and a `Y` or `N` redemption value. All three
-  PIDs matched the live NSPRD parcel service on August 4, 2026. The assessed
-  owner column is discarded before the public snapshot is written.
-- The official HTML varies per request, so unstable raw page bytes are not
-  represented as a document receipt. The refresher instead hashes the
-  normalized owner-free event and listing facts at
-  `087eab9bbd3260c7a2b8e9daedb88c45e8bdcef5f72616f6d934d54b592bf94b`.
-  The byte-for-byte public dataset SHA-256 is
-  `de851169cf38c179ba9fc82012a36907dd99632f74d58f11e01d72d32f09dac6`.
+- The final owner-free notice snapshot retained two exact AAN/PID rows on
+  August 18. Its byte-for-byte SHA-256 is
+  `4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13`.
+- After the August 20 auction, the municipality replaced the notice with a
+  nine-row result table. The two retained descriptions match exactly and both
+  print `NO BID`; seven other rows print `REMOVED` without a description, AAN,
+  or PID and remain opaque outside the mapped dataset.
+- The changed result page was archived before ingestion at the
+  [Wayback Machine](https://web.archive.org/web/20260820200525id_/https://www.discovermiddleton.ca/property-tax-sale-information).
+  The archived bytes have SHA-256
+  `d81652aee056a28dc013741a0b9f6d13e82df0305099a8ba6639240b5655b982`;
+  the owner-free result snapshot has SHA-256
+  `f0d3ffa768cffea0b4bcdfb20ec6fce8c1436c90e0d3372dfbe90c9013516126`.
+- The result identity column is discarded before normalized facts, logs, or
+  public data are written. Only the two exact-PID `NO BID` rows enter the
+  historical map as unsold.
 
 Run `npm run refresh:middleton-tax-sale` to reparse the official table. An
 empty or malformed identifier, duplicate PID or AAN, unfamiliar redemption
@@ -743,10 +781,66 @@ closed on an unrecognized winning-bid value or identifier mismatch.
   `ccfe84b6452c25fce271a8a83ebd9f18fe2055d126d426efac79c415ea84d87b`
   so either repository cannot drift silently.
 
+## Victoria September 2026 source receipt
+
+- Official landing page: [Victoria County Tax Sales](https://victoriacounty.com/residents/property-taxation-services/tax-sales/)
+- Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
+  dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
+  Administration Building in Baddeck.
+- The official table contains nine numbered rows. Rows 1 and 2 now print
+  `REMOVED` in every public field, including AAN and PID, so they remain two
+  opaque removed-row counts without parcel identities. The other seven rows
+  publish exact AAN/PID pairs, descriptions, redeemability, and total owing.
+- The assessed-name column is discarded before normalized facts or the public
+  snapshot are written. Land-registration values are validated for known
+  `YES`/`NO` input but are not added to the public map schema. The normalized
+  owner-free source-facts SHA-256 is
+  `a2f2808c2246a027ffe045f75efdeac2ccb24a55991f93015ecbb2fab89018d0`;
+  the byte-for-byte public dataset SHA-256 is
+  `4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467`.
+- Because the municipality overwrites this HTML notice as properties are
+  removed, the page was archived before ingestion. The raw replay bytes are
+  preserved at the [Wayback Machine](https://web.archive.org/web/20260819200343id_/https://victoriacounty.com/property-tax-sale-notice/)
+  with SHA-256
+  `df7b7fb25d8853863cdcd2923069e714283c30228fda4708e9e095632db3cfdc`.
+
+Run `npm run refresh:victoria-tax-sale` to reparse the official table. A partial
+removal, malformed or duplicate identifier, unfamiliar `YES`/`NO` state, row
+count regression, or changed notice that cannot first be matched to a verified
+archive capture fails closed.
+
+## Halifax September 2026 source receipt
+
+- Official landing page: [Halifax Tax Sale](https://www.halifax.ca/home-property/property-taxes/tax-sale).
+  Tender `HRM-TaxSale23` closes at 10:00 AM September 15, 2026. The official
+  [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
+  have SHA-256
+  `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-13.26.pdf)
+  has SHA-256
+  `346db085fce52ea896294ec2562f1ccd2291a562028c42200a5c18af18871c1d`.
+- Schedule A contains 29 advertised rows and 30 exact PIDs. Twenty-seven rows
+  covering 28 PIDs returned exact NSPRD geometry on August 15, 2026. PIDs
+  `41051889` (AAN `09417036`) and `41051897` (AAN `09417044`) returned valid
+  empty NSPRD collections. Both official parking-space rows remain in the
+  owner-free source snapshot and appear as non-interactive geometry exceptions;
+  no replacement PID or parcel is inferred.
+- Nine source rows print HST `Yes`, and two print redeemable `No`. Those inputs
+  are validated and counted but HST is not added to the public listing schema.
+  The assessed-name column and owner-bearing PDF bytes are not committed. The
+  byte-for-byte owner-free public dataset SHA-256 is
+  `3a188b2fd8b78e2204538b0fe9006cba24337168031e7da47154a51f28e9c84c`.
+
+Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs. The
+refresh fails closed on a changed document link, tender number, fixed-column
+layout, identifier, amount, flag, row/PID count, or geometry-exception pair.
+The live NSPRD test requires every mapped PID to resolve and every declared
+exception PID to remain empty, so either provincial change triggers review.
+
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 24 verified
-events span nine municipalities:
+The historical layer is visually distinct and off by default. Its 25 verified
+events span ten municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -759,7 +853,8 @@ events span nine municipalities:
 | Pictou | 1 | 21 | 21 | 18 | 0 | 3 | 0 | 0 |
 | Queens | 1 | 16 | 16 | 4 | 2 | 10 | 0 | 0 |
 | Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
-| **Total** | **24** | **481** | **459** | **292** | **31** | **57** | **3** | **98** |
+| Middleton | 1 | 2 | 2 | 0 | 2 | 0 | 0 | 0 |
+| **Total** | **25** | **483** | **461** | **292** | **33** | **57** | **3** | **98** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026

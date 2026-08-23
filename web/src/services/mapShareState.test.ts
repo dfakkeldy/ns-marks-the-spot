@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   buildMapShareUrl,
+  DEFAULT_MAP_POSITION,
+  hasRecognizedMapShareState,
+  isShareLayerId,
   parseMapShareState,
   type MapShareState,
 } from "./mapShareState";
@@ -11,6 +14,7 @@ import {
 
 describe("map share state", () => {
   const state: MapShareState = {
+    taxSaleEnabled: true,
     mode: "current",
     pid: "15234636",
     eventIds: ["cbrm-2026-07-21"],
@@ -25,6 +29,70 @@ describe("map share state", () => {
     ],
     position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
   };
+
+  it("recognizes only layer IDs that can appear in shared map state", () => {
+    expect(isShareLayerId("modern")).toBe(true);
+    expect(isShareLayerId("not-a-layer")).toBe(false);
+    expect(isShareLayerId(42)).toBe(false);
+  });
+
+  it("keeps Tax Sale off on a first visit", () => {
+    expect(parseMapShareState("https://example.test/").taxSaleEnabled).toBe(false);
+  });
+
+  it("restores the explicit Tax Sale field", () => {
+    expect(
+      parseMapShareState("https://example.test/?taxSale=on").taxSaleEnabled,
+    ).toBe(true);
+    expect(
+      parseMapShareState("https://example.test/?taxSale=off&mode=historical")
+        .taxSaleEnabled,
+    ).toBe(false);
+  });
+
+  it("enables Tax Sale for legacy mode and event links", () => {
+    expect(
+      parseMapShareState("https://example.test/?mode=current").taxSaleEnabled,
+    ).toBe(true);
+    expect(
+      parseMapShareState("https://example.test/?event=cbrm-2026-07-21")
+        .taxSaleEnabled,
+    ).toBe(true);
+  });
+
+  it("writes the explicit field for every new link", () => {
+    expect(buildMapShareUrl("https://example.test/", {
+      taxSaleEnabled: false,
+      mode: "current",
+      pid: null,
+      eventIds: [],
+      layerIds: ["modern"],
+      position: DEFAULT_MAP_POSITION,
+    })).toContain("taxSale=off");
+  });
+
+  it("omits stale event IDs while Tax Sale is off", () => {
+    const url = new URL(buildMapShareUrl("https://example.test/", {
+      taxSaleEnabled: false,
+      mode: "current",
+      pid: null,
+      eventIds: ["cbrm-2026-07-21"],
+      layerIds: ["modern"],
+      position: DEFAULT_MAP_POSITION,
+    }));
+
+    expect(url.searchParams.has("event")).toBe(false);
+  });
+
+  it("distinguishes a first visit from recognized shared state", () => {
+    expect(hasRecognizedMapShareState("https://example.test/")).toBe(false);
+    expect(
+      hasRecognizedMapShareState("https://example.test/?layers=modern"),
+    ).toBe(true);
+    expect(
+      hasRecognizedMapShareState("https://example.test/?taxSale=off"),
+    ).toBe(true);
+  });
 
   it("puts PID, event, layers, and position into one shareable URL", () => {
     const url = new URL(buildMapShareUrl("https://example.com/map/", state));
@@ -113,6 +181,7 @@ describe("map share state", () => {
 
   it("parses a printable URL with its resolved map state unchanged", () => {
     const snapshot = {
+      taxSaleEnabled: true,
       mode: "historical",
       pid: "01234567",
       eventIds: ["hrm-2022-03-08"],
@@ -126,6 +195,7 @@ describe("map share state", () => {
       position,
       ["modern", "nsprd", "roads"],
     ))).toEqual({
+      taxSaleEnabled: true,
       mode: "historical",
       pid: "01234567",
       eventIds: ["hrm-2022-03-08"],

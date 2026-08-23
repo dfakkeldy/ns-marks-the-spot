@@ -52,7 +52,7 @@ export function PrintFieldDocument({
           <ActiveLayerLegend
             sources={renderedSources}
             showSourceDates={false}
-            mapMode={snapshot.mode}
+            mapMode={snapshot.taxSaleEnabled ? snapshot.mode : undefined}
           />
           <div className="print-field-details">
             <h2>Map notes</h2>

@@ -1,10 +1,18 @@
-import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber } from "pdf-lib";
+import {
+  PDFArray,
+  PDFDict,
+  PDFDocument,
+  PDFName,
+  PDFNumber,
+  PDFString,
+} from "pdf-lib";
 import { describe, expect, it } from "vitest";
 import {
   extractGeoPdfMetadata,
   type PdfViewportGeometry,
 } from "../../userMaps/parsers/geoPdfMetadata";
 import {
+  EARTH_RADIUS_METRES,
   toMercator,
   type MercatorPoint,
 } from "../../userMaps/transform/webMercator";
@@ -117,12 +125,57 @@ describe("attachGeoRegistration declares its CRS as Web Mercator, not degrees", 
     const lgi = page.node
       .lookup(PDFName.of("LGIDict"), PDFArray)
       .lookup(0, PDFDict);
+    // A PDFString lookup, not PDFName: GDAL discards a Projection whose
+    // ProjectionType arrives as the name /MC and then reports page pixels.
     const projectionType = lgi
       .lookup(PDFName.of("Projection"), PDFDict)
-      .lookup(PDFName.of("ProjectionType"), PDFName)
+      .lookup(PDFName.of("ProjectionType"), PDFString)
       .decodeText();
     expect(projectionType).toBe("MC");
     expect(projectionType).not.toBe("GEOGRAPHIC");
+  });
+});
+
+describe("attachGeoRegistration's Projection is one PROJ will accept", () => {
+  async function projection(): Promise<PDFDict> {
+    const document = await PDFDocument.load(await writtenBytes());
+    return document
+      .getPage(0)
+      .node.lookup(PDFName.of("LGIDict"), PDFArray)
+      .lookup(0, PDFDict)
+      .lookup(PDFName.of("Projection"), PDFDict);
+  }
+
+  it("scales by 1, since Web Mercator is true to scale at the equator", async () => {
+    // PROJ rejects a zero outright ("Invalid value for k/k_0: it should be
+    // > 0") and the page loses its georeferencing entirely.
+    const scaleFactor = (await projection())
+      .lookup(PDFName.of("ScaleFactor"), PDFNumber)
+      .asNumber();
+    expect(scaleFactor).toBe(1);
+    expect(scaleFactor).toBeGreaterThan(0);
+  });
+
+  it("spells out a spherical datum rather than naming the WGS 84 ellipsoid", async () => {
+    // "WGE" names the ellipsoid, but the CTM is in spherical Web Mercator
+    // metres; read against the ellipsoid this frame's north edge came back
+    // 46.392°N instead of 46.2°N — roughly 21 km out.
+    const datum = (await projection()).lookup(PDFName.of("Datum"), PDFDict);
+    const ellipsoid = datum.lookup(PDFName.of("Ellipsoid"), PDFDict);
+    expect(
+      ellipsoid.lookup(PDFName.of("SemiMajorAxis"), PDFNumber).asNumber(),
+    ).toBe(EARTH_RADIUS_METRES);
+    expect(
+      ellipsoid.lookup(PDFName.of("InvFlattening"), PDFNumber).asNumber(),
+    ).toBe(0);
+  });
+
+  it("writes Units as a string, so GDAL can read it", async () => {
+    expect(
+      (await projection())
+        .lookup(PDFName.of("Units"), PDFString)
+        .decodeText(),
+    ).toBe("m");
   });
 });
 

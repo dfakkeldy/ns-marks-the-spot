@@ -52,6 +52,35 @@ describe("historical tax-sale records", () => {
     }
   });
 
+  it("keeps Middleton no-bid records separate from opaque removed result rows", () => {
+    const event = historicalTaxSaleEvents.find(
+      ({ id }) => id === "middleton-2026-08-20",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === event?.id,
+    );
+
+    expect(event).toMatchObject({
+      resultStatus: "verified",
+      noticeSha256:
+        "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13",
+      resultSha256:
+        "d81652aee056a28dc013741a0b9f6d13e82df0305099a8ba6639240b5655b982",
+    });
+    expect(records).toHaveLength(2);
+    expect(records.every(({ outcome }) => outcome === "unsold")).toBe(true);
+    expect(records.every(({ winningBidCents }) => winningBidCents === null)).toBe(
+      true,
+    );
+    expect(records.map(({ listingIdentifier }) => listingIdentifier)).toEqual([
+      "4",
+      "5",
+    ]);
+    expect(event?.sourceNotes).toContain(
+      "7 REMOVED rows without descriptions or parcel identifiers",
+    );
+  });
+
   it("keeps assessed owners out of the public historical dataset", () => {
     const publicDataset = JSON.stringify({
       events: historicalTaxSaleEvents,

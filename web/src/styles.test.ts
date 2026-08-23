@@ -3,6 +3,97 @@ import { describe, expect, it } from "vitest";
 
 const styles = readFileSync("./src/styles.css", "utf8");
 
+describe("custom map-theme controls", () => {
+  it("shows keyboard focus on every picker and manager control", () => {
+    const focusRule = styles.match(
+      /\.map-theme-picker :is\(select, button\):focus-visible,\s*\.theme-manager-dialog :is\(input, button\):focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(focusRule).toMatch(
+      /outline:\s*3px solid var\(--survey-blue\)/,
+    );
+    expect(focusRule).not.toMatch(/outline:\s*(?:0|none)/);
+  });
+
+  it("keeps every setup and theme-manager control 44px tall throughout the phone layout", () => {
+    const phoneStart = styles.indexOf("@media (max-width: 860px)");
+    const narrowPhoneStart = styles.indexOf(
+      "@media (max-width: 560px)",
+      phoneStart,
+    );
+    const phoneStyles = styles.slice(phoneStart, narrowPhoneStart);
+    const controls = phoneStyles.match(
+      /\.map-theme-picker select,\s*\.map-theme-actions button,\s*\.theme-manager-dialog input,\s*\.theme-manager-dialog button,\s*\.layer-category-heading,\s*\.layer-category-back\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(phoneStart).toBeGreaterThanOrEqual(0);
+    expect(narrowPhoneStart).toBeGreaterThan(phoneStart);
+    expect(controls).toMatch(/min-height:\s*44px/);
+  });
+});
+
+describe("desktop layer category disclosures", () => {
+  it("keeps category headings scannable and keyboard focus visible", () => {
+    const buttonDeclarations = styles.match(
+      /\.layer-category-heading\s*\{([^}]*)\}/,
+    )?.[1];
+    const focusDeclarations = styles.match(
+      /\.layer-category-heading:focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(buttonDeclarations).toMatch(/min-height:\s*56px/);
+    expect(buttonDeclarations).toMatch(/width:\s*100%/);
+    expect(focusDeclarations).toMatch(
+      /outline:\s*3px solid var\(--survey-blue\)/,
+    );
+    expect(focusDeclarations).not.toMatch(/outline:\s*(?:0|none)/);
+  });
+});
+
+describe("phone-focused layer categories", () => {
+  it("keeps category and Back controls touch-friendly with visible focus", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const touchDeclarations = mobileStyles.match(
+      /\.layer-category-heading,\s*\.layer-category-back\s*\{([^}]*)\}/,
+    )?.[1];
+    const backFocus = styles.match(
+      /\.layer-category-back:focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(touchDeclarations).toMatch(/min-height:\s*44px/);
+    expect(backFocus).toMatch(/outline:\s*3px solid var\(--survey-blue\)/);
+    expect(backFocus).not.toMatch(/outline:\s*(?:0|none)/);
+  });
+
+  it("keeps the focused list in the existing map-overlay sheet", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+
+    expect(mobileStyles).toMatch(/\.layer-category-list--focused\s*\{/);
+    expect(mobileStyles).toMatch(/\.layer-rail\s*\{[^}]*position:\s*absolute/s);
+    expect(mobileStyles).toMatch(/\.layer-rail\s*\{[^}]*max-height:\s*min\(86svh, 760px\)/s);
+  });
+});
+
+describe("tax-sale category master", () => {
+  it("keeps the master touch-friendly with a visible keyboard focus", () => {
+    const masterDeclarations = styles.match(
+      /\.tax-sale-master\s*\{([^}]*)\}/,
+    )?.[1];
+    const focusDeclarations = styles.match(
+      /\.tax-sale-master input:focus-visible\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(masterDeclarations).toMatch(/min-height:\s*44px/);
+    expect(focusDeclarations).toMatch(
+      /outline:\s*3px solid var\(--survey-blue\)/,
+    );
+  });
+});
+
 describe("parcel sheet typographic hierarchy", () => {
   it("left-aligns prose facts and reserves right-aligned mono for figures", () => {
     const ddDeclarations = styles.match(

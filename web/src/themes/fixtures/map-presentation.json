@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "background-maps",
+      "name": "Background Maps",
+      "layerIds": [
+        "modern",
+        "ns-aerial"
+      ]
+    },
+    {
+      "id": "land-property",
+      "name": "Land & Property",
+      "layerIds": [
+        "nsprd",
+        "crown-lands",
+        "buildings",
+        "zoning-inverness",
+        "zoning-victoria",
+        "zoning-richmond",
+        "zoning-cumberland",
+        "zoning-halifax"
+      ]
+    },
+    {
+      "id": "roads-places",
+      "name": "Roads & Places",
+      "layerIds": [
+        "roads",
+        "main-roads",
+        "place-names"
+      ]
+    },
+    {
+      "id": "water-terrain",
+      "name": "Water & Terrain",
+      "layerIds": [
+        "waterfalls",
+        "water-features",
+        "contours",
+        "inverness-hydro-potential"
+      ]
+    },
+    {
+      "id": "environment-hazards",
+      "name": "Environment & Hazards",
+      "layerIds": [
+        "flood-risk",
+        "published-river-flood-zones",
+        "coastal-flood-current",
+        "coastal-flood-2050",
+        "coastal-flood-2100",
+        "arsenic-risk-wells",
+        "uranium-risk-wells",
+        "manganese-risk-wells",
+        "surficial-aquifers",
+        "ns-well-logs"
+      ]
+    },
+    {
+      "id": "forestry-ecology",
+      "name": "Forestry & Ecology",
+      "layerIds": [
+        "old-growth-policy"
+      ]
+    },
+    {
+      "id": "geology-resources",
+      "name": "Geology & Resources",
+      "layerIds": [
+        "mineral-occurrences",
+        "mineral-tenure",
+        "abandoned-mines",
+        "mineral-proximity-parcels"
+      ]
+    },
+    {
+      "id": "historical-maps",
+      "name": "Historical Maps",
+      "layerIds": [
+        "fletcher",
+        "church-inverness",
+        "church-victoria",
+        "church-richmond",
+        "church-cape-breton"
+      ]
+    },
+    {
+      "id": "tax-sale",
+      "name": "Tax Sale",
+      "layerIds": []
+    },
+    {
+      "id": "my-maps",
+      "name": "My Maps",
+      "layerIds": []
+    }
+  ],
+  "builtInThemes": [
+    {
+      "id": "explore-nova-scotia",
+      "name": "Explore Nova Scotia",
+      "layerIds": [
+        "modern"
+      ],
+      "preferredCategoryIds": [
+        "background-maps"
+      ],
+      "taxSaleEnabled": false,
+      "mapMode": "current"
+    },
+    {
+      "id": "tax-sale-research",
+      "name": "Tax Sale Research",
+      "layerIds": [
+        "ns-aerial",
+        "nsprd",
+        "roads",
+        "water-features",
+        "buildings"
+      ],
+      "preferredCategoryIds": [
+        "tax-sale",
+        "land-property"
+      ],
+      "taxSaleEnabled": true,
+      "mapMode": "current"
+    },
+    {
+      "id": "forestry-field-access",
+      "name": "Forestry & Field Access",
+      "layerIds": [
+        "ns-aerial",
+        "nsprd",
+        "crown-lands",
+        "roads",
+        "water-features",
+        "contours",
+        "old-growth-policy"
+      ],
+      "preferredCategoryIds": [
+        "forestry-ecology",
+        "land-property",
+        "roads-places",
+        "water-terrain"
+      ],
+      "taxSaleEnabled": false,
+      "mapMode": "current"
+    },
+    {
+      "id": "historical-maps",
+      "name": "Historical Maps",
+      "layerIds": [
+        "modern",
+        "fletcher",
+        "place-names",
+        "main-roads"
+      ],
+      "preferredCategoryIds": [
+        "historical-maps",
+        "roads-places"
+      ],
+      "taxSaleEnabled": false,
+      "mapMode": "current"
+    },
+    {
+      "id": "georeferencing",
+      "name": "Georeferencing",
+      "layerIds": [
+        "modern",
+        "place-names",
+        "main-roads"
+      ],
+      "preferredCategoryIds": [
+        "my-maps",
+        "background-maps",
+        "roads-places"
+      ],
+      "taxSaleEnabled": false,
+      "mapMode": "current"
+    }
+  ]
+}
