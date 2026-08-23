@@ -97,6 +97,15 @@ nonisolated enum FletcherTilePlanner {
         return count
     }
 
+    /// Whether the survey has any ground inside this rectangle.
+    ///
+    /// Asked separately from the tile count, because zero tiles and no ground
+    /// are different answers and a reader shown only "0" cannot tell which one
+    /// they were given. Everything outside Cape Breton is the second.
+    static func coversAnyGround(in bounds: MapBounds) -> Bool {
+        clippedToCoverage(bounds) != nil
+    }
+
     /// `bounds` narrowed to the ground the survey covers, or `nil` for none.
     ///
     /// The clip is what keeps the loops above bounded by Nova Scotia instead of

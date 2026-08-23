@@ -46,6 +46,28 @@ struct FletcherTilePlannerTests {
         ).tileCount == 0)
     }
 
+    @Test func theOfflineScreensSampleAreaIsInsideTheSurvey() {
+        // The sample was Halifax, which meant the one tap the offline screen
+        // offers led to an estimate of zero and a Save button that would have
+        // downloaded nothing. Pinned here rather than left to a reader,
+        // because the sheet index is what decides it and the sheet index moves
+        // whenever a sheet is re-georeferenced.
+        let sample = OfflineStorageView.sampleAreaBounds
+
+        #expect(FletcherTilePlanner.coversAnyGround(in: sample))
+        #expect(FletcherTilePlanner.estimate(
+            bounds: sample, zoomRange: 10...14, averageTileBytes: 12_000
+        ).tileCount > 0)
+    }
+
+    @Test func groundOutsideTheSurveyIsSaidToBeOutsideIt() {
+        // The distinction the draft screen is built on: no ground here is not
+        // the same answer as no tiles here, and only one of them is worth
+        // telling a reader to widen their zoom range over.
+        #expect(!FletcherTilePlanner.coversAnyGround(in: Self.halifax))
+        #expect(FletcherTilePlanner.coversAnyGround(in: Self.insideSheetOne))
+    }
+
     @Test func plansOnlyTilesASheetActuallyCovers() {
         // The whole province, which the planner clips to the survey before it
         // iterates. Both halves matter: a plan that included an uncovered tile

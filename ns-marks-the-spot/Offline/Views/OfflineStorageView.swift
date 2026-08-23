@@ -8,11 +8,18 @@ struct OfflineStorageView: View {
     @State private var layerPendingDeletion: OfflineLayerStorageSummary?
     @State private var areaPendingDeletion: SavedOfflineArea?
 
-    private let defaultSaveAreaBounds = MapBounds(
-        minLatitude: 44.60,
-        minLongitude: -63.65,
-        maxLatitude: 44.70,
-        maxLongitude: -63.50
+    /// Baddeck, which Fletcher sheet 12 covers.
+    ///
+    /// It used to be Halifax, which reads naturally to anyone in this province
+    /// and is the one place the sample could not work: the survey is a Cape
+    /// Breton one, so the estimate came back at zero tiles and the button under
+    /// it offered to save a download of nothing. `FletcherTilePlannerTests`
+    /// keeps this box inside the survey.
+    static let sampleAreaBounds = MapBounds(
+        minLatitude: 46.05,
+        minLongitude: -60.83,
+        maxLatitude: 46.15,
+        maxLongitude: -60.68
     )
 
     var body: some View {
@@ -80,10 +87,10 @@ struct OfflineStorageView: View {
                     NavigationLink {
                         SaveAreaDraftView(
                             viewModel: viewModel,
-                            bounds: defaultSaveAreaBounds
+                            bounds: Self.sampleAreaBounds
                         )
                     } label: {
-                        Label("Save Sample Halifax Area", systemImage: "square.dashed")
+                        Label("Save Sample Baddeck Area", systemImage: "square.dashed")
                     }
                 }
 

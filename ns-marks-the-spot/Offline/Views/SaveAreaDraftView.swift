@@ -57,6 +57,25 @@ struct SaveAreaDraftView: View {
                             .foregroundStyle(.orange)
                     }
 
+                    // A count of zero is the one number this screen must
+                    // explain rather than print. The reader is owed the
+                    // difference between a survey that has no ground here and
+                    // a pyramid that returned nothing for ground it does have,
+                    // and without the sentence the Save button below reads as
+                    // an offer to download an area that would arrive empty and
+                    // still call itself complete.
+                    if isOutsideSurvey {
+                        Text("The Fletcher survey covers Cape Breton, and this area is outside it. There are no tiles here to download.")
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
+                            .accessibilityIdentifier("draft-outside-survey")
+                    } else if draftArea.estimatedTileCount == 0 {
+                        Text("No Fletcher tiles were planned for this area. Try a wider zoom range or a larger area.")
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
+                            .accessibilityIdentifier("draft-no-tiles")
+                    }
+
                     Button {
                         Task {
                             if await viewModel.saveDraft(draftArea) {
@@ -66,7 +85,12 @@ struct SaveAreaDraftView: View {
                     } label: {
                         Label(didSave ? "Saved" : "Save Area", systemImage: didSave ? "checkmark.circle" : "square.and.arrow.down")
                     }
-                    .disabled(viewModel.isStorageOperationInProgress || didSave || isOverTileBudget(draftArea))
+                    .disabled(
+                        viewModel.isStorageOperationInProgress
+                            || didSave
+                            || isOverTileBudget(draftArea)
+                            || draftArea.estimatedTileCount == 0
+                    )
                 } else {
                     Text("Estimate a draft area to preview the Fletcher download size.")
                         .foregroundStyle(.secondary)
@@ -108,6 +132,10 @@ struct SaveAreaDraftView: View {
     private func invalidateDraft() {
         draftArea = nil
         didSave = false
+    }
+
+    private var isOutsideSurvey: Bool {
+        !FletcherTilePlanner.coversAnyGround(in: bounds)
     }
 
     private func isOverTileBudget(_ area: SavedOfflineArea) -> Bool {
