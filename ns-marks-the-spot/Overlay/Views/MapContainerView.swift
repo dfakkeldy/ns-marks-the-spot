@@ -38,6 +38,10 @@ struct MapContainerView: View {
     /// How tall the right-hand controls are, so the column can be given
     /// exactly that height and no more. Zero until the first layout.
     @State private var controlsHeight: CGFloat = 0
+
+    /// How much of the rail the area-selection controls are holding, so the
+    /// scrolling part below them gives up the same amount.
+    @State private var saveAreaHeight: CGFloat = 0
     /// How tall the measuring card is, so the scale bar and the readout
     /// can sit above it rather than behind it.
     @State private var measurePanelHeight: CGFloat = 0
@@ -499,7 +503,60 @@ struct MapContainerView: View {
         }
     }
 
-    /// The right-hand controls, scrolled when they run past the bottom.
+    /// The way out of area selection, and the shortcut through it.
+    ///
+    /// Held outside the scrolling column below rather than inserted at the top
+    /// of it. A column that was scrolled down when this mode began would put
+    /// Cancel above its own visible top, and the only way out of the mode
+    /// would be off the screen.
+    private var saveAreaControls: some View {
+        VStack(alignment: .trailing, spacing: 8) {
+            Text("Drag to select an area")
+                .font(.subheadline)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(.regularMaterial)
+                .clipShape(.rect(cornerRadius: 16))
+
+            Button("Use Visible Map") {
+                saveVisibleMapArea()
+            }
+            .buttonStyle(.borderedProminent)
+
+            // On a material of its own. A bordered button's fill is
+            // translucent, and red text in a faint red capsule over aerial or
+            // a marker's label is the one control in this mode a reader
+            // cannot find — which is the way out of it.
+            Button("Cancel") {
+                cancelBoundsSelection()
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .background(.regularMaterial, in: Capsule())
+        }
+        .transition(.move(edge: .trailing).combined(with: .opacity))
+        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+            saveAreaHeight = height
+        }
+    }
+
+    /// The right-hand rail.
+    private var controlColumn: some View {
+        VStack(alignment: .trailing, spacing: 12) {
+            if isSelectingSaveArea {
+                saveAreaControls
+            }
+            scrollingControls
+                // Every control below is disabled in this mode, and a scroll
+                // view over them still takes the drag that is meant to be
+                // drawing the area out on the map. Taken out of the gesture
+                // path rather than left as a wall of dimmed buttons that eats
+                // the one gesture the mode is for.
+                .allowsHitTesting(!isSelectingSaveArea)
+        }
+    }
+
+    /// The rest of the rail, scrolled when it runs past the bottom.
     ///
     /// Eleven 44-point targets and the space between them are taller than a
     /// phone held sideways, and the ones that fall off the end are Data
@@ -511,39 +568,9 @@ struct MapContainerView: View {
     /// scroll view that took the whole side of the screen would take the
     /// map's vertical drags with it, in a strip where there is usually
     /// nothing to scroll.
-    private var controlColumn: some View {
+    private var scrollingControls: some View {
         ScrollView(.vertical) {
             VStack(spacing: 12) {
-                if isSelectingSaveArea {
-                    VStack(alignment: .trailing, spacing: 8) {
-                        Text("Drag to select an area")
-                            .font(.subheadline)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(.regularMaterial)
-                            .clipShape(.rect(cornerRadius: 16))
-
-                        Button("Use Visible Map") {
-                            saveVisibleMapArea()
-                        }
-                        .buttonStyle(.borderedProminent)
-
-                        // On a material of its own. A bordered
-                        // button's fill is translucent, and red text
-                        // in a faint red capsule over aerial or a
-                        // marker's label is the one control in this
-                        // mode a reader cannot find — which is the way
-                        // out of it.
-                        Button("Cancel") {
-                            cancelBoundsSelection()
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(.red)
-                        .background(.regularMaterial, in: Capsule())
-                    }
-                    .transition(.move(edge: .trailing).combined(with: .opacity))
-                }
-
                 if mapHeading != 0 {
                     Button {
                         withAnimation(
@@ -752,10 +779,12 @@ struct MapContainerView: View {
                 controlsHeight = height
             }
         }
-        .scrollIndicators(.hidden)
+        // The indicator is left visible. It appears only while the column is
+        // actually scrolling, and that is the one moment a reader needs to be
+        // told there is more of it below the fold.
         .scrollBounceBehavior(.basedOnSize)
         .frame(height: controlsHeight > 0
-            ? min(controlsHeight, max(176, mapHeight - 132)) : nil)
+            ? min(controlsHeight, max(88, mapHeight - 132 - saveAreaHeight)) : nil)
     }
 
     /// The ground the frame covers as the map stands right now.
