@@ -1,4 +1,6 @@
 import Foundation
+import GeoCore
+import MapCatalog
 import Testing
 @testable import ns_marks_the_spot
 
@@ -52,12 +54,34 @@ struct FletcherTilePlannerTests {
         // downloaded nothing. Pinned here rather than left to a reader,
         // because the sheet index is what decides it and the sheet index moves
         // whenever a sheet is re-georeferenced.
+        //
+        // Containment rather than intersection, and one named sheet rather
+        // than any sheet. A box that merely touched a sheet corner would pass
+        // an intersection test while most of what the sample offers to
+        // download is water no survey drew.
         let sample = OfflineStorageView.sampleAreaBounds
+        guard let sheet = FletcherSheets.sheet(12) else {
+            Issue.record("the sheet index no longer has a sheet 12")
+            return
+        }
+
+        #expect(sheet.bounds.south <= sample.minLatitude)
+        #expect(sheet.bounds.north >= sample.maxLatitude)
+        #expect(sheet.bounds.west <= sample.minLongitude)
+        #expect(sheet.bounds.east >= sample.maxLongitude)
+        #expect(FletcherSheets.sheets(intersecting: GeoBoundingBox(
+            south: sample.minLatitude, west: sample.minLongitude,
+            north: sample.maxLatitude, east: sample.maxLongitude
+        )).map(\.sheet) == [12])
 
         #expect(FletcherTilePlanner.coversAnyGround(in: sample))
+        // Exact, so that a change to the sheet index or the tile walk has to
+        // be looked at rather than absorbed. If this number moves, check that
+        // the sample is still Baddeck and still inside sheet 12 before
+        // updating it.
         #expect(FletcherTilePlanner.estimate(
             bounds: sample, zoomRange: 10...14, averageTileBytes: 12_000
-        ).tileCount > 0)
+        ).tileCount == 101)
     }
 
     @Test func groundOutsideTheSurveyIsSaidToBeOutsideIt() {
@@ -66,6 +90,37 @@ struct FletcherTilePlannerTests {
         // telling a reader to widen their zoom range over.
         #expect(!FletcherTilePlanner.coversAnyGround(in: Self.halifax))
         #expect(FletcherTilePlanner.coversAnyGround(in: Self.insideSheetOne))
+    }
+
+    @Test func groundInsideTheCoverageBoxCanStillBeOutsideTheSurvey() {
+        // A gap between sheets, north of Bras d'Or Lake. It is inside
+        // `FletcherSheets.coverage`, the rectangle drawn around the 24 ragged
+        // sheets, and on none of the sheets themselves, so the two ways of
+        // asking whether the survey reaches here disagree about it. This is
+        // the case Halifax cannot test: Halifax is outside even the rectangle,
+        // so an implementation that asked the rectangle passed anyway. The
+        // honest answer is the per-sheet one.
+        let gap = MapBounds(
+            minLatitude: 46.99, minLongitude: -61.01,
+            maxLatitude: 47.01, maxLongitude: -60.99
+        )
+        let coverage = FletcherSheets.coverage
+        #expect(coverage.south <= gap.minLatitude)
+        #expect(coverage.north >= gap.maxLatitude)
+        #expect(coverage.west <= gap.minLongitude)
+        #expect(coverage.east >= gap.maxLongitude)
+
+        #expect(!FletcherTilePlanner.coversAnyGround(in: gap))
+        // And a positive count here is not a contradiction, which is why the
+        // draft screen no longer says "there are no tiles" for ground it calls
+        // outside the survey. A zoom 10 tile is wide enough to cover both this
+        // gap and the sheet beside it; a zoom 12 tile is not.
+        #expect(FletcherTilePlanner.estimate(
+            bounds: gap, zoomRange: 10...14, averageTileBytes: 12_000
+        ).tileCount > 0)
+        #expect(FletcherTilePlanner.estimate(
+            bounds: gap, zoomRange: 12...16, averageTileBytes: 12_000
+        ).tileCount == 0)
     }
 
     @Test func plansOnlyTilesASheetActuallyCovers() {

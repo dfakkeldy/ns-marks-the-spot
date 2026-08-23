@@ -64,13 +64,30 @@ struct SaveAreaDraftView: View {
                     // and without the sentence the Save button below reads as
                     // an offer to download an area that would arrive empty and
                     // still call itself complete.
+                    //
+                    // Neither sentence suggests a remedy any more. Widening
+                    // the zoom range does move the count, by reaching further
+                    // onto whatever sheet is nearest, and that is not the same
+                    // as finding coverage for the area a reader drew.
                     if isOutsideSurvey {
-                        Text("The Fletcher survey covers Cape Breton, and this area is outside it. There are no tiles here to download.")
-                            .font(.footnote)
-                            .foregroundStyle(.orange)
-                            .accessibilityIdentifier("draft-outside-survey")
+                        // A count above zero is possible here and does not
+                        // contradict the sentence. Tiles are squares, the
+                        // survey is not, and at zoom 10 one tile is wide
+                        // enough to cover both a selection off Cape Breton and
+                        // the sheet next to it. Those tiles are worth having
+                        // for the coarse view. They are not this ground, and
+                        // the first draft of this notice claimed there were
+                        // none of them while the number beside it said three.
+                        Text(
+                            draftArea.estimatedTileCount > 0
+                                ? "No Fletcher sheet covers this area. The tiles counted here are coarse ones that overlap a sheet nearby, not this ground."
+                                : "No Fletcher sheet covers this area. The survey is of Cape Breton, so there is nothing here to download."
+                        )
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                        .accessibilityIdentifier("draft-outside-survey")
                     } else if draftArea.estimatedTileCount == 0 {
-                        Text("No Fletcher tiles were planned for this area. Try a wider zoom range or a larger area.")
+                        Text("No Fletcher tiles were planned for this area.")
                             .font(.footnote)
                             .foregroundStyle(.orange)
                             .accessibilityIdentifier("draft-no-tiles")
