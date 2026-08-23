@@ -10,6 +10,26 @@ struct ParcelSearchBar: View {
     @Bindable var viewModel: OverlayViewModel
     @FocusState private var isFocused: Bool
 
+    /// How tall the matched addresses are, so the list can be given its own
+    /// height when it is short and a scrolling window when it is not.
+    @State private var resultsHeight: CGFloat = 0
+
+    /// The tallest that window gets. Scaled with the text size, because a
+    /// fixed 220 points at an accessibility size is one row and a half.
+    @ScaledMetric private var resultsCap: CGFloat = 220
+
+    /// How tall the map is under this column. The scaled cap alone can be
+    /// taller than a phone held sideways, so the list also stops short of the
+    /// bottom of the screen. Unbounded where no height is passed.
+    var availableHeight: CGFloat = .infinity
+
+    /// The cap actually applied: the scaled one, or what is left of the
+    /// screen after the field, its message and the attribution, whichever is
+    /// smaller.
+    private var resultsLimit: CGFloat {
+        min(resultsCap, max(132, availableHeight - 240))
+    }
+
     /// The field's text lives in the view model, which is the only place that
     /// can tell the user typing from the app filling a result in. The binding
     /// routes writes back through `editSearchText`, so a keystroke drops the
@@ -111,22 +131,39 @@ struct ParcelSearchBar: View {
     /// the other until the Province has been asked.
     private var addressResults: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(viewModel.addressResults, id: \.pntid) { address in
-                Button {
-                    isFocused = false
-                    viewModel.selectAddress(address)
-                } label: {
-                    Text(address.label)
-                        .font(.footnote)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                        .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
+            // Twelve results is what the query asks for, and twelve rows at an
+            // accessibility text size are taller than the phone. They scroll,
+            // and the attribution below them does not: a licence that has to
+            // be scrolled past the twelfth address to reach is a licence the
+            // reader never sees. The browser caps and scrolls the same list.
+            //
+            // Given the height of its own rows rather than the height it is
+            // offered, so that one result is one result tall.
+            ScrollView(.vertical) {
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(viewModel.addressResults, id: \.pntid) { address in
+                        Button {
+                            isFocused = false
+                            viewModel.selectAddress(address)
+                        } label: {
+                            Text(address.label)
+                                .font(.footnote)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 10)
+                                .contentShape(.rect)
+                        }
+                        .buttonStyle(.plain)
 
-                Divider().padding(.leading, 12)
+                        Divider().padding(.leading, 12)
+                    }
+                }
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                    resultsHeight = height
+                }
             }
+            .scrollBounceBehavior(.basedOnSize)
+            .frame(height: resultsHeight > 0 ? min(resultsHeight, resultsLimit) : nil)
 
             // Attribution, not decoration: the Civic Address File is published
             // under the Open Government Licence – Nova Scotia, which requires

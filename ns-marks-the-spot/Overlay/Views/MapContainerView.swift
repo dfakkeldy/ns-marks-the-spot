@@ -35,6 +35,9 @@ struct MapContainerView: View {
     /// the screen actually has rather than at a number chosen for a shorter
     /// list. Ten sections do not fit any fixed height worth hard-coding.
     @State private var mapHeight: CGFloat = 0
+    /// How tall the right-hand controls are, so the column can be given
+    /// exactly that height and no more. Zero until the first layout.
+    @State private var controlsHeight: CGFloat = 0
     /// How tall the measuring card is, so the scale bar and the readout
     /// can sit above it rather than behind it.
     @State private var measurePanelHeight: CGFloat = 0
@@ -203,7 +206,7 @@ struct MapContainerView: View {
             VStack {
                 HStack(alignment: .top, spacing: 12) {
                     if !isSelectingSaveArea {
-                        ParcelSearchBar(viewModel: overlayVM)
+                        ParcelSearchBar(viewModel: overlayVM, availableHeight: mapHeight)
                             .frame(maxWidth: 260, alignment: .leading)
                             .padding(.leading, 12)
                             .padding(.top, 60)
@@ -240,243 +243,9 @@ struct MapContainerView: View {
                             .padding(.top, 60)
                     }
 
-                    VStack(spacing: 12) {
-                        if isSelectingSaveArea {
-                            VStack(alignment: .trailing, spacing: 8) {
-                                Text("Drag to select an area")
-                                    .font(.subheadline)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .background(.regularMaterial)
-                                    .clipShape(.rect(cornerRadius: 16))
-
-                                Button("Use Visible Map") {
-                                    saveVisibleMapArea()
-                                }
-                                .buttonStyle(.borderedProminent)
-
-                                // On a material of its own. A bordered
-                                // button's fill is translucent, and red text
-                                // in a faint red capsule over aerial or a
-                                // marker's label is the one control in this
-                                // mode a reader cannot find — which is the way
-                                // out of it.
-                                Button("Cancel") {
-                                    cancelBoundsSelection()
-                                }
-                                .buttonStyle(.bordered)
-                                .tint(.red)
-                                .background(.regularMaterial, in: Capsule())
-                            }
-                            .transition(.move(edge: .trailing).combined(with: .opacity))
-                        }
-
-                        if mapHeading != 0 {
-                            Button {
-                                withAnimation(
-                                    .spring(response: 0.4, dampingFraction: 0.8)
-                                        .unlessReduced(reduceMotion)
-                                ) {
-                                    controller.resetHeading()
-                                }
-                            } label: {
-                                Image(systemName: "compass.fill")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                                    .rotationEffect(.degrees(-mapHeading))
-                            }
-                            .accessibilityLabel("Reset Map Heading")
-                            .transition(.scale.combined(with: .opacity))
-                            .disabled(isSelectingSaveArea)
-                        }
-
-                        Button {
-                            controller.showsUserLocation = true
-                            controller.centerOnUserLocation()
-                        } label: {
-                            Image(systemName: "location.fill")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Current Location")
-                        .disabled(isSelectingSaveArea)
-
-                        // Two buttons rather than one with a mode, as on the
-                        // web: distance and area are different questions, and a
-                        // single toggle would make asking the second one a
-                        // two-step operation.
-                        ForEach(MeasureSession.Mode.allCases, id: \.self) { mode in
-                            Button {
-                                toggleMeasuring(mode)
-                            } label: {
-                                Image(systemName: Self.measureSymbol(mode))
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(measure?.mode == mode ? .white : .blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(
-                                        measure?.mode == mode
-                                            ? Color.blue : Color.primary.opacity(0.001)
-                                    )
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel(
-                                mode == .distance ? "Measure Distance" : "Measure Area"
-                            )
-                            .accessibilityIdentifier("measure-\(mode.rawValue)")
-                            .accessibilityAddTraits(measure?.mode == mode ? .isSelected : [])
-                            // Editing owns the map's taps while it is open, so
-                            // offering to measure would offer something that
-                            // cannot happen.
-                            .disabled(isSelectingSaveArea || editSession != nil)
-                        }
-
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .offlineStorage
-                        } label: {
-                            Image(systemName: "externaldrive")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Offline Maps")
-
-                        // One list at a time, as the web renders one panel at a
-                        // time. Both on screen at once would let a reader pick a
-                        // dated result out of one list while the map beside it is
-                        // answering the other question. Neither, until the reader
-                        // has asked for tax-sale information at all.
-                        if !overlayVM.showsTaxSale {
-                            EmptyView()
-                        } else if overlayVM.mapRecordMode == .current {
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .taxSaleNotices
-                        } label: {
-                            Image(systemName: "banknote")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Tax-sale Notices")
-                        .disabled(isSelectingSaveArea)
-                        } else {
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .historicalTaxSales
-                        } label: {
-                            Image(systemName: "clock.arrow.circlepath")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.purple)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Historical Tax-sale Records")
-                        .disabled(isSelectingSaveArea)
-                        }
-
-                        Button {
-                            share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
-                        } label: {
-                            Image(systemName: "square.and.arrow.up")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Share This Map View")
-                        .accessibilityIdentifier("share-map-view")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            cancelBoundsSelection()
-                            controller.beginPrintFraming()
-                            printFrame = .default
-                        } label: {
-                            Image(systemName: "printer")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Export This Map As A PDF")
-                        .accessibilityIdentifier("export-map-pdf")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .info
-                        } label: {
-                            Image(systemName: "info.circle")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Data Sources and Licenses")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            beginSaveAreaSelection()
-                        } label: {
-                            Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(isSelectingSaveArea ? .white : .blue)
-                                .frame(width: 44, height: 44)
-                                .background(isSelectingSaveArea ? Color.blue : Color.clear)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Save Area")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            withAnimation(
-                                .spring(response: 0.35, dampingFraction: 0.85)
-                                    .unlessReduced(reduceMotion)
-                            ) {
-                                isLayersMenuExpanded.toggle()
-                            }
-                        } label: {
-                            Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
-                                .frame(width: 44, height: 44)
-                                .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Toggle Layers Menu")
-                        .disabled(isSelectingSaveArea)
-                    }
-                    .padding(.trailing, 12)
-                    .padding(.top, 60)
+                    controlColumn
+                        .padding(.trailing, 12)
+                        .padding(.top, 60)
                 }
                 Spacer()
             }
@@ -728,6 +497,265 @@ struct MapContainerView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+    }
+
+    /// The right-hand controls, scrolled when they run past the bottom.
+    ///
+    /// Eleven 44-point targets and the space between them are taller than a
+    /// phone held sideways, and the ones that fall off the end are Data
+    /// Sources, Save Area and Layers: the route to every licence gate, every
+    /// layer that failed, and the panel itself. The browser scrolls its own
+    /// rail for the same reason.
+    ///
+    /// Sized to its content rather than to the height it is offered. A
+    /// scroll view that took the whole side of the screen would take the
+    /// map's vertical drags with it, in a strip where there is usually
+    /// nothing to scroll.
+    private var controlColumn: some View {
+        ScrollView(.vertical) {
+            VStack(spacing: 12) {
+                if isSelectingSaveArea {
+                    VStack(alignment: .trailing, spacing: 8) {
+                        Text("Drag to select an area")
+                            .font(.subheadline)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(.regularMaterial)
+                            .clipShape(.rect(cornerRadius: 16))
+
+                        Button("Use Visible Map") {
+                            saveVisibleMapArea()
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        // On a material of its own. A bordered
+                        // button's fill is translucent, and red text
+                        // in a faint red capsule over aerial or a
+                        // marker's label is the one control in this
+                        // mode a reader cannot find — which is the way
+                        // out of it.
+                        Button("Cancel") {
+                            cancelBoundsSelection()
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.red)
+                        .background(.regularMaterial, in: Capsule())
+                    }
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+                }
+
+                if mapHeading != 0 {
+                    Button {
+                        withAnimation(
+                            .spring(response: 0.4, dampingFraction: 0.8)
+                                .unlessReduced(reduceMotion)
+                        ) {
+                            controller.resetHeading()
+                        }
+                    } label: {
+                        Image(systemName: "compass.fill")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(.blue)
+                            .frame(width: 44, height: 44)
+                            .background(.regularMaterial)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                            .rotationEffect(.degrees(-mapHeading))
+                    }
+                    .accessibilityLabel("Reset Map Heading")
+                    .transition(.scale.combined(with: .opacity))
+                    .disabled(isSelectingSaveArea)
+                }
+
+                Button {
+                    controller.showsUserLocation = true
+                    controller.centerOnUserLocation()
+                } label: {
+                    Image(systemName: "location.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Current Location")
+                .disabled(isSelectingSaveArea)
+
+                // Two buttons rather than one with a mode, as on the
+                // web: distance and area are different questions, and a
+                // single toggle would make asking the second one a
+                // two-step operation.
+                ForEach(MeasureSession.Mode.allCases, id: \.self) { mode in
+                    Button {
+                        toggleMeasuring(mode)
+                    } label: {
+                        Image(systemName: Self.measureSymbol(mode))
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(measure?.mode == mode ? .white : .blue)
+                            .frame(width: 44, height: 44)
+                            .background(
+                                measure?.mode == mode
+                                    ? Color.blue : Color.primary.opacity(0.001)
+                            )
+                            .background(.regularMaterial)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    }
+                    .accessibilityLabel(
+                        mode == .distance ? "Measure Distance" : "Measure Area"
+                    )
+                    .accessibilityIdentifier("measure-\(mode.rawValue)")
+                    .accessibilityAddTraits(measure?.mode == mode ? .isSelected : [])
+                    // Editing owns the map's taps while it is open, so
+                    // offering to measure would offer something that
+                    // cannot happen.
+                    .disabled(isSelectingSaveArea || editSession != nil)
+                }
+
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .offlineStorage
+                } label: {
+                    Image(systemName: "externaldrive")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Offline Maps")
+
+                // One list at a time, as the web renders one panel at a
+                // time. Both on screen at once would let a reader pick a
+                // dated result out of one list while the map beside it is
+                // answering the other question. Neither, until the reader
+                // has asked for tax-sale information at all.
+                if !overlayVM.showsTaxSale {
+                    EmptyView()
+                } else if overlayVM.mapRecordMode == .current {
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .taxSaleNotices
+                } label: {
+                    Image(systemName: "banknote")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Tax-sale Notices")
+                .disabled(isSelectingSaveArea)
+                } else {
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .historicalTaxSales
+                } label: {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.purple)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Historical Tax-sale Records")
+                .disabled(isSelectingSaveArea)
+                }
+
+                Button {
+                    share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Share This Map View")
+                .accessibilityIdentifier("share-map-view")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    cancelBoundsSelection()
+                    controller.beginPrintFraming()
+                    printFrame = .default
+                } label: {
+                    Image(systemName: "printer")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Export This Map As A PDF")
+                .accessibilityIdentifier("export-map-pdf")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .info
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Data Sources and Licenses")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    beginSaveAreaSelection()
+                } label: {
+                    Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(isSelectingSaveArea ? .white : .blue)
+                        .frame(width: 44, height: 44)
+                        .background(isSelectingSaveArea ? Color.blue : Color.clear)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Save Area")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    withAnimation(
+                        .spring(response: 0.35, dampingFraction: 0.85)
+                            .unlessReduced(reduceMotion)
+                    ) {
+                        isLayersMenuExpanded.toggle()
+                    }
+                } label: {
+                    Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
+                        .frame(width: 44, height: 44)
+                        .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Toggle Layers Menu")
+                .disabled(isSelectingSaveArea)
+            }
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                controlsHeight = height
+            }
+        }
+        .scrollIndicators(.hidden)
+        .scrollBounceBehavior(.basedOnSize)
+        .frame(height: controlsHeight > 0
+            ? min(controlsHeight, max(176, mapHeight - 132)) : nil)
     }
 
     /// The ground the frame covers as the map stands right now.
