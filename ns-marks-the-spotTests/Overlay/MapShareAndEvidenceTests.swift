@@ -341,15 +341,36 @@ struct MapShareAndEvidenceTests {
     }
 
     /// A link drawn on the Province's own imagery is drawn on it here as well,
-    /// so there is no substitution to disclose.
+    /// so there is no substitution to disclose. Zoom 14 because the imagery is
+    /// the sender's ground only from the zoom it starts drawing at.
     @Test func aLinkOnProvincialImageryHasNoGroundToDisclose() {
         let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
 
         model.restore(
-            from: URL(string: "https://example.com/map/?mode=current&layers=ns-aerial")!
+            from: URL(
+                string: "https://example.com/map/?mode=current&layers=ns-aerial"
+                    + "&position=46.1,-60.1,14"
+            )!
         )
 
         #expect(model.sharedLinkNotice?.contains("OpenStreetMap") != true)
+    }
+
+    /// Below the zoom the imagery starts at, the sender had no imagery either:
+    /// the browser falls back to its modern map, so the substitution is real
+    /// and is disclosed. The layer being named is not the same as it being the
+    /// ground the sender was looking at.
+    @Test func aLinkTooFarOutForTheImageryDisclosesItsGround() {
+        let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
+
+        model.restore(
+            from: URL(
+                string: "https://example.com/map/?mode=current&layers=ns-aerial"
+                    + "&position=46.1,-60.1,9"
+            )!
+        )
+
+        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") == true)
     }
 
     /// The notice describes the view that arrived. The first switch the reader

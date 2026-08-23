@@ -1645,6 +1645,26 @@ final class OverlayViewModel {
             || state.layerIDs.contains(LayerID.nsAerial.rawValue)
     }
 
+    /// Whether the browser would have had its modern map under this link.
+    ///
+    /// The browser's own rule, kept separate from `namesGround` above: it draws
+    /// the modern map when the link names it, and again when the link names
+    /// layers with no usable ground among them. There its aerial layer counts
+    /// as ground only from the zoom it starts drawing at, because below that
+    /// the browser has nothing underneath. This is only ever asked to work out
+    /// what the sender was looking at, never to decide what this reader gets.
+    ///
+    /// A link naming no layers at all is left out. The browser tells an empty
+    /// `layers=` apart from a link that carries no such parameter, and a
+    /// restored state here cannot.
+    private func browserWouldDrawItsModernMap(_ state: MapShareState) -> Bool {
+        if state.layerIDs.contains(MapShareState.modernBaseLayerID) { return true }
+        guard !state.layerIDs.isEmpty else { return false }
+        guard state.layerIDs.contains(LayerID.nsAerial.rawValue) else { return true }
+        let aerialFrom = LayerCatalog.descriptor(for: .nsAerial)?.minZoom ?? Int.max
+        return state.position.zoom < aerialFrom
+    }
+
     /// Where a restored view came from, which is the only thing that differs
     /// between opening a link and picking up where the reader left off.
     private enum RestoreOrigin {
@@ -1684,17 +1704,19 @@ final class OverlayViewModel {
         // for it, which is a different survey with its own roads, paths and
         // labels, so the substitution is remembered here and said out loud in
         // the link's notice below.
-        let standsInForOpenStreetMap: Bool
-        if origin == .sharedLink, !state.layerIDs.isEmpty, !namesGround(state) {
-            standsInForOpenStreetMap = true
-            setBaseMapType(.standard)
-        } else {
-            standsInForOpenStreetMap =
-                origin == .sharedLink
-                && state.layerIDs.contains(MapShareState.modernBaseLayerID)
-                && restored == .standard
-            setBaseMapType(restored)
-        }
+        let ground: MapBaseType =
+            origin == .sharedLink && !state.layerIDs.isEmpty && !namesGround(state)
+            ? .standard : restored
+        setBaseMapType(ground)
+        // Disclosed on the browser's rule rather than on this app's, because
+        // the question is what the sender was looking at. Only where Apple's
+        // map is what stands in: on the Province's imagery, or on no base map
+        // at all, the reader can see for themselves that this is not streets,
+        // and a notice naming Apple would be describing something else.
+        let standsInForOpenStreetMap =
+            origin == .sharedLink
+            && browserWouldDrawItsModernMap(state)
+            && [.standard, .satellite, .hybrid].contains(ground)
         // A link opens in the browser as a fresh page, so the reader who
         // follows it starts on every notice and no narrowing at all. Here it
         // opens into a map somebody has been using, and leaving their two
