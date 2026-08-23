@@ -38,7 +38,12 @@ final class MapController: NSObject {
     /// Whether the closest-zoom limit has been set. Set once, from the first
     /// laid-out frame, and never again: recalibrating would move the limit
     /// every time the reader rotated the phone.
-    @ObservationIgnored private var hasClampedZoom = false
+    /// The map's width when the closest-zoom limit was last worked out, or
+    /// nil if it has not been. Keyed by width rather than a flag, because the
+    /// distance that means "zoom 23" depends on how wide the map is: on an
+    /// iPad that is split and then made whole again the old figure would be
+    /// off by the ratio of the two widths.
+    @ObservationIgnored private var clampedAtWidth: CGFloat?
 
     @ObservationIgnored private let tileCache: TileCache?
     @ObservationIgnored private let tileFetcher: TileFetcher?
@@ -1020,7 +1025,8 @@ extension MapController: MKMapViewDelegate {
     /// longitude, so porting it would stop the reader zooming out before Nova
     /// Scotia fits on the screen at all.
     private func clampClosestZoom(_ mapView: MKMapView) {
-        guard !hasClampedZoom,
+        let width = mapView.bounds.width
+        guard width > 0, clampedAtWidth != width,
               let zoom = mercatorZoomForClamp(mapView) else { return }
         let distance = mapView.camera.centerCoordinateDistance
         guard distance > 0, distance.isFinite else { return }
@@ -1028,7 +1034,7 @@ extension MapController: MKMapViewDelegate {
         // the pair fixes the scale for this screen. Read rather than derived
         // from a field of view, which is MapKit's to change.
         let atZoomZero = distance * pow(2, zoom)
-        hasClampedZoom = true
+        clampedAtWidth = width
         guard atZoomZero.isFinite,
               let range = MKMapView.CameraZoomRange(
                   minCenterCoordinateDistance: atZoomZero / pow(2, Self.closestZoom)
@@ -1038,10 +1044,12 @@ extension MapController: MKMapViewDelegate {
     }
 
     private func mercatorZoomForClamp(_ mapView: MKMapView) -> Double? {
-        // Only while the camera is looking straight down. A pitched or rotated
-        // view reads a different span for the same distance, and calibrating
-        // off one would set the limit in the wrong place for good.
-        guard mapView.camera.pitch == 0 else { return nil }
+        // Only while the camera is looking straight down at north. A pitched
+        // or turned view reports the region that bounds what is on screen,
+        // which is wider than the same distance looks square-on, and
+        // calibrating off one would put the limit a level out.
+        let camera = mapView.camera
+        guard camera.pitch == 0, camera.heading == 0 else { return nil }
         return Self.mercatorZoom(of: mapView)
     }
 
