@@ -44,6 +44,14 @@ extension XCUIApplication {
             // The same reading twice: the first frame wide enough can be one
             // taken part way through the turn.
             if turned, frame == previous, frame != .zero { return true }
+            if !turned, frame == previous {
+                // A busy runner has been seen to swallow the first set (CI run
+                // 32671472142 sat portrait for the whole wait). While a turn is
+                // in flight the frame is changing, so this only fires when
+                // nothing is moving — a no-op if the device already took the
+                // order, a retry if it dropped it.
+                XCUIDevice.shared.orientation = orientation
+            }
             previous = frame
             RunLoop.current.run(until: Date().addingTimeInterval(0.25))
         }
