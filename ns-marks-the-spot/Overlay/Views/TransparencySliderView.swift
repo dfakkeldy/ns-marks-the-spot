@@ -339,6 +339,10 @@ private struct LayerSectionView<Controls: View>: View {
             .contentShape(Rectangle())
             .accessibilityElement(children: .combine)
             .accessibilityLabel("\(section.title), \(section.summary)")
+            // Identified as well as labelled, so a test can open a section
+            // without matching on the heading's wording, which is the web's
+            // copy and changes with it.
+            .accessibilityIdentifier("layer-section-\(section.category.rawValue)")
         }
         .tint(.secondary)
         .padding(.vertical, 4)
