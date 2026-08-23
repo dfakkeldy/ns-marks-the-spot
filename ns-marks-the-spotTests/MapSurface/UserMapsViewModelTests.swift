@@ -305,10 +305,10 @@ struct UserMapsLibraryTests {
             // of four. If a later runtime schedules these two differently the
             // test stops proving what it says, and the way that shows is this
             // comment no longer matching a rerun of that comparison.
-            async let first: Void = viewModel.place(
+            async let first: Bool = viewModel.place(
                 id: id, controlPoints: points(44.80), method: .affine
             )
-            async let second: Void = viewModel.place(
+            async let second: Bool = viewModel.place(
                 id: id, controlPoints: points(44.90), method: .affine
             )
             _ = await (first, second)
@@ -953,6 +953,46 @@ struct UserMapDisplayTests {
             // map they still have does not.
             #expect(drafts.draft(identifier: "a-map-that-was-deleted") == nil)
             #expect(drafts.draft(identifier: kept) != nil)
+        }
+    }
+
+    /// A library this build must not write to answers "no" rather than
+    /// silently doing nothing. The sheet discards the draft on the strength of
+    /// that answer, so a placement reported as saved and not saved is an hour
+    /// of pinning gone.
+    @Test("A placement the library refuses is reported as refused")
+    func aRefusedPlacementSaysSo() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let id = try #require(viewModel.rows.first?.id)
+
+            #expect(
+                await viewModel.place(
+                    id: id,
+                    controlPoints: [
+                        SessionControlPoint(
+                            id: "1", pixel: PixelPoint(x: 10, y: 20),
+                            map: GeoPoint(lat: 44.65, lng: -63.6)
+                        ),
+                        SessionControlPoint(
+                            id: "2", pixel: PixelPoint(x: 90, y: 80),
+                            map: GeoPoint(lat: 44.7, lng: -63.5)
+                        ),
+                    ],
+                    method: .affine
+                ) == true
+            )
+
+            // The same call against a map that is not in the library.
+            #expect(
+                await viewModel.place(
+                    id: "no-such-map", controlPoints: [], method: .affine
+                ) == false
+            )
         }
     }
 

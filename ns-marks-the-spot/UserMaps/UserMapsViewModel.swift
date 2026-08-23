@@ -484,12 +484,19 @@ final class UserMapsViewModel {
     /// on screen, the editor closes, and the work is gone at the next launch
     /// with nothing having looked wrong. Reverting keeps what is drawn and what
     /// is stored the same thing, and says so.
-    private func save(_ name: String, at id: String) async {
+    /// Whether the library on disk now holds what the panel is showing.
+    ///
+    /// Reported rather than swallowed because a caller can hold the only other
+    /// copy of the user's work: the georeferencer's draft is deleted on a save,
+    /// and deleting it on a write that failed loses the points it was keeping.
+    @discardableResult
+    private func save(_ name: String, at id: String) async -> Bool {
         let document = rows.map(\.record)
         do {
             writes += 1
             try await store.save(document)
             saved = document
+            return true
         } catch {
             // Everything goes back, not only the record this call was told
             // about: a failed write leaves the whole document unwritten, and
@@ -510,6 +517,7 @@ final class UserMapsViewModel {
                     isRefusal: true
                 ),
             ]
+            return false
         }
     }
 
@@ -601,10 +609,15 @@ final class UserMapsViewModel {
         )
     }
 
-    /// Saves a placement the user worked out in the georeferencer.
-    func place(id: String, controlPoints: [SessionControlPoint], method: GeoreferenceMethod) async {
-        guard !isLibrarySealed else { return }
-        guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
+    /// Saves a placement the user worked out in the georeferencer, and says
+    /// whether the device took it. The georeferencer is holding the only other
+    /// copy of those points and deletes it on a `true`.
+    @discardableResult
+    func place(
+        id: String, controlPoints: [SessionControlPoint], method: GeoreferenceMethod
+    ) async -> Bool {
+        guard !isLibrarySealed else { return false }
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return false }
         // Points that actually moved mark the record as the user's work, so
         // switching to another frame later asks before replacing it. Compared
         // rather than assumed: the georeferencer saves on a close as well as on
@@ -615,7 +628,7 @@ final class UserMapsViewModel {
             rows[index].record.pdf = rows[index].record.pdf?.markingAdjusted()
         }
         rows[index].record.placement = .controlPoints(controlPoints, method: method)
-        await save(rows[index].record.name, at: id)
+        return await save(rows[index].record.name, at: id)
     }
 
     func delete(id: String) async {

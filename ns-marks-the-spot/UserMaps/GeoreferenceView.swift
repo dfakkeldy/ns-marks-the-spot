@@ -25,7 +25,10 @@ struct GeoreferenceView: View {
     /// Called with the points and method the user settled on. Not called on
     /// cancel: a session abandoned half-placed must not overwrite a placement
     /// that already worked.
-    let onSave: ([SessionControlPoint], GeoreferenceMethod) -> Void
+    /// Saves the placement and says whether the device kept it. The draft
+    /// below is the only other copy of these points, so it is discarded on
+    /// a `true` and on nothing else.
+    let onSave: ([SessionControlPoint], GeoreferenceMethod) async -> Bool
 
     @Environment(\.dismiss) private var dismiss
     /// The app's tile cache, fetcher and licence clearance, lent so this pane
@@ -73,6 +76,10 @@ struct GeoreferenceView: View {
     /// when something interrupted them, and replacing a saved placement with
     /// it without asking would be the same data loss in the other direction.
     @State private var restorable: GeoreferenceDraftStore.Draft?
+
+    /// The device would not take the placement. Said here rather than only in
+    /// the panel behind this sheet, which the reader cannot see.
+    @State private var couldNotSave = false
 
     private struct ImportMessage: Equatable {
         var succeeded: Bool
@@ -129,7 +136,7 @@ struct GeoreferenceView: View {
         /// built before that runs: seeded late, the first frame is the whole
         /// province and the pane visibly jumps.
         openingRegion: MKCoordinateRegion? = nil,
-        onSave: @escaping ([SessionControlPoint], GeoreferenceMethod) -> Void
+        onSave: @escaping ([SessionControlPoint], GeoreferenceMethod) async -> Bool
     ) {
         self.identifier = identifier
         self.name = name
@@ -166,12 +173,20 @@ struct GeoreferenceView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        onSave(session.controlPoints, session.method)
-                        // The placement is now in the library, so the draft is
-                        // a second copy of it and a restore offer next time
-                        // would be about work that was never lost.
-                        drafts.discard(identifier: identifier)
-                        dismiss()
+                        Task {
+                            // Awaited, then checked. The draft is the only copy
+                            // of these points until the library has them, and
+                            // discarding it on the strength of having asked
+                            // threw away an hour's placement whenever the
+                            // write came back refused.
+                            guard await onSave(session.controlPoints, session.method)
+                            else {
+                                couldNotSave = true
+                                return
+                            }
+                            drafts.discard(identifier: identifier)
+                            dismiss()
+                        }
                     }
                     // Saving fewer points than a solver needs would store a
                     // placement that cannot draw, and the row would come back
@@ -179,6 +194,17 @@ struct GeoreferenceView: View {
                     // it, invisibly.
                     .disabled(session.mesh == nil)
                 }
+            }
+            .alert(
+                "This placement could not be saved.",
+                isPresented: $couldNotSave
+            ) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(
+                    "Your points are still here. Free some space on your device "
+                        + "and save again."
+                )
             }
             .sheet(item: $share) { payload in
                 ShareSheet(items: payload.items)

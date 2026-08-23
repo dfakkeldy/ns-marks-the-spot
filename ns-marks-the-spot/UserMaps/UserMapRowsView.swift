@@ -98,7 +98,7 @@ struct UserMapRowsView: View {
                 method: method(of: row),
                 openingRegion: referenceServices?.mainMapRegion
             ) { points, method in
-                Task { await viewModel.place(id: row.id, controlPoints: points, method: method) }
+                await viewModel.place(id: row.id, controlPoints: points, method: method)
             }
         }
         // `presenting:` rather than the row read out of the state: the actions
