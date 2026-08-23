@@ -1678,9 +1678,21 @@ final class OverlayViewModel {
         //
         // Only for a link. A session says outright which background it was on,
         // and resuming it is not the moment to argue.
+        //
+        // Either way the ground the sender was on is OpenStreetMap, and this
+        // app has no OSM base map to give back. Apple's standard map stands in
+        // for it, which is a different survey with its own roads, paths and
+        // labels, so the substitution is remembered here and said out loud in
+        // the link's notice below.
+        let standsInForOpenStreetMap: Bool
         if origin == .sharedLink, !state.layerIDs.isEmpty, !namesGround(state) {
+            standsInForOpenStreetMap = true
             setBaseMapType(.standard)
         } else {
+            standsInForOpenStreetMap =
+                origin == .sharedLink
+                && state.layerIDs.contains(MapShareState.modernBaseLayerID)
+                && restored == .standard
             setBaseMapType(restored)
         }
         // A link opens in the browser as a fresh page, so the reader who
@@ -1725,7 +1737,11 @@ final class OverlayViewModel {
             }
         }
         if origin == .sharedLink {
-            noteWhatTheLinkCouldNotRestore(refused: refusedByLicence, notCarried: notCarried)
+            noteWhatTheLinkCouldNotRestore(
+                refused: refusedByLicence,
+                notCarried: notCarried,
+                substitutedGround: standsInForOpenStreetMap
+            )
             // After the toggles above, which clear it: this is the state the
             // link asked for, and it is the sender's rather than the reader's
             // until the reader changes it.
@@ -1800,13 +1816,25 @@ final class OverlayViewModel {
     /// why this app now does too. Asking is not accepting on the reader's
     /// behalf; it is putting the same decision in front of them that tapping
     /// the layer's own switch would.
-    private func noteWhatTheLinkCouldNotRestore(refused: [String], notCarried: [String]) {
+    private func noteWhatTheLinkCouldNotRestore(
+        refused: [String], notCarried: [String], substitutedGround: Bool = false
+    ) {
         var notes: [String] = []
         if !refused.isEmpty {
             notes.append("Off until the Province licence is accepted: \(Self.layerNames(refused)).")
         }
         if !notCarried.isEmpty {
             notes.append("Not in this app yet: \(Self.layerNames(notCarried)).")
+        }
+        // A base map is a source like any other. The sender's roads, paths and
+        // place names were drawn by OpenStreetMap contributors and these are
+        // Apple's, so two people comparing the same link are not always looking
+        // at the same road.
+        if substitutedGround {
+            notes.append(
+                "The sender's base map was OpenStreetMap. This app draws Apple's standard "
+                    + "map in its place, so roads and labels can differ."
+            )
         }
         sharedLinkNotice = notes.isEmpty ? nil : notes.joined(separator: " ")
         pendingSharedLayerIDs = []

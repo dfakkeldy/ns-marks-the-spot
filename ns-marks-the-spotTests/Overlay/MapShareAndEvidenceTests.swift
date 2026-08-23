@@ -324,6 +324,34 @@ struct MapShareAndEvidenceTests {
         #expect(model.isShowingLicenceSheet == false)
     }
 
+    /// The base map is a source too. The browser's ground is OpenStreetMap and
+    /// this app has none, so a link opens over Apple's standard map — a
+    /// different survey with its own roads, paths and labels. Said out loud,
+    /// because otherwise two people comparing the same link are looking at two
+    /// different maps with nothing telling either of them.
+    @Test func aLinkSaysWhenItsGroundIsNotTheSendersGround() {
+        let model = OverlayViewModel.forTesting(installing: [], licence: .accepted)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=modern")!
+        )
+
+        #expect(model.baseMapType == .standard)
+        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") == true)
+    }
+
+    /// A link drawn on the Province's own imagery is drawn on it here as well,
+    /// so there is no substitution to disclose.
+    @Test func aLinkOnProvincialImageryHasNoGroundToDisclose() {
+        let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=ns-aerial")!
+        )
+
+        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") != true)
+    }
+
     /// The notice describes the view that arrived. The first switch the reader
     /// touches makes it describe a map that is no longer on screen.
     @Test func touchingASwitchClearsTheLinksNotice() {
