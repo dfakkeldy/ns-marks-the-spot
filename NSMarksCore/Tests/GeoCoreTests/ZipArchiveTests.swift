@@ -46,6 +46,35 @@ struct ZipArchiveTests {
         options: .ignoreUnknownCharacters
     )!
 
+    /// The same zip64 archive with its entry moved onto the second disk of a
+    /// split set: the central entry's own disk field is the marker, and the
+    /// zip64 block carries the real number behind its three eight-byte values.
+    ///
+    /// Both `unzip(1)` and Python's `zipfile` hand back `doc.kml` from this
+    /// anyway, reading disk 1's offset in disk 0's bytes. That is the whole
+    /// reason to check the field: here the offset happens to land on the right
+    /// entry, and in a real split set it lands on whatever else is there.
+    private static let splitZip64Kmz = Data(
+        base64Encoded: """
+            UEsDBBQAAgAIAPJqD10uVs1pvgAAADkBAAAHABwAZG9jLmttbFVUCQADiJKAaoiSgGp1eAsAAQT1\
+            AQAABAAAAACdj8FuwjAMhu99iihniBljCE1uuKCdERrauUqtEtHaVWJWHn9hmgZnjra/3/o/3F6H\
+            3nxTylG4ti9uYQ1xkDZyV9vj58d8Y7e+wnOhCsm5tifV8R1gmiYnI3EXs2NSKAQs3dJ63Em4DMRa\
+            Yvu+CTQ06eyRm4H8l0jbi5ogiSkh/C6xpRxSHLVU8AcaqVFqjdJVTXpuQnh8iXuJpQ0GkVS8CpX9\
+            fP3q3marlVvPFgiPF4Q/HO7lK4R/KbyZ+uoHUEsBAh4DFAACAAgA8moPXS5WzWn//////////wcA\
+            OAAAAP//AQAAAKSB/////2RvYy5rbWwBABwAOQEAAAAAAAC+AAAAAAAAAAAAAAAAAAAAAQAAAFVU\
+            BQADiJKAanV4CwABBPUBAAAEAAAAAFBLBgYsAAAAAAAAAC0ALQAAAAAAAAAAAAEAAAAAAAAAAQAA\
+            AAAAAABtAAAAAAAAAP8AAAAAAAAAUEsGBwAAAABsAQAAAAAAAAEAAABQSwUGAAAAAP//////////\
+            /////wAA
+            """,
+        options: .ignoreUnknownCharacters
+    )!
+
+    /// An archive holding nothing, written by Python's `zipfile`. Twenty-two
+    /// bytes of end-of-central-directory and no entries at all.
+    private static let emptyArchive = Data(
+        base64Encoded: "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==", options: .ignoreUnknownCharacters
+    )!
+
     @Test func aZip64ArchiveIsReadRatherThanRefused() throws {
         let entries = try ZipArchive.entries(in: Self.zip64Kmz)
         #expect(entries.map(\.name) == ["doc.kml"])
@@ -86,6 +115,72 @@ struct ZipArchiveTests {
         for index in (locator + 8)..<(locator + 16) { bytes[index] = 0xFF }
         #expect(throws: UserMapImportRefusal.self) {
             try ZipArchive.entries(in: Data(bytes))
+        }
+    }
+
+    @Test func anEntryOnAnotherDiskOfASplitSetIsRefused() {
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.entries(in: Self.splitZip64Kmz)
+        }
+    }
+
+    /// The same archive with that disk number set to zero. It reads, which is
+    /// what says the number is being read from the right four bytes rather
+    /// than the field simply being refused whenever it is written wide.
+    @Test func theSameEntryOnTheFirstDiskIsRead() throws {
+        var bytes = [UInt8](Self.splitZip64Kmz)
+        // The disk number the zip64 block carries, four bytes after its three
+        // eight-byte values.
+        bytes[336] = 0
+        let entries = try ZipArchive.entries(in: Data(bytes))
+        #expect(entries.map(\.name) == ["doc.kml"])
+        #expect(
+            try ZipArchive.contents(of: entries[0], in: Data(bytes))
+                == ZipArchive.contents(
+                    of: try ZipArchive.entries(in: Self.kmz)[0], in: Self.kmz
+                )
+        )
+    }
+
+    @Test func anOrdinaryEntryNamingASecondDiskIsRefused() {
+        var bytes = [UInt8](Self.kmz)
+        bytes[255 + 34] = 1  // the central entry's own disk-start field
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.entries(in: Data(bytes))
+        }
+    }
+
+    /// The marker without the block behind it does not say which disk, so it
+    /// cannot say this one.
+    @Test func aDiskMarkerWithNoZip64BlockBehindItIsRefused() {
+        var bytes = [UInt8](Self.kmz)
+        bytes[255 + 34] = 0xFF
+        bytes[255 + 35] = 0xFF
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.entries(in: Data(bytes))
+        }
+    }
+
+    /// Empty is not broken. An archive that holds nothing was written that way
+    /// on purpose or by an export that found nothing to write, and telling
+    /// someone their file is corrupt sends them to fix a file that is fine.
+    @Test func anArchiveHoldingNothingIsCalledEmptyRatherThanCorrupt() {
+        #expect {
+            try ZipArchive.entries(in: Self.emptyArchive)
+        } throws: { error in
+            (error as? UserMapImportRefusal)?.code == .emptyFile
+        }
+    }
+
+    /// One that says it holds an entry and then holds none is broken.
+    @Test func anArchiveThatLosesTheEntryItDeclaredIsCalledCorrupt() {
+        var bytes = [UInt8](Self.emptyArchive)
+        bytes[10] = 1  // entries on this disk
+        bytes[12] = 1  // entries in total
+        #expect {
+            try ZipArchive.entries(in: Data(bytes))
+        } throws: { error in
+            (error as? UserMapImportRefusal)?.code == .corruptFile
         }
     }
 
