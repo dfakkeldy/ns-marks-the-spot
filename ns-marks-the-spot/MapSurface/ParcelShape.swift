@@ -42,31 +42,75 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
 
     var id: String { pid }
 
-    /// Whether any of this parcel has ink inside the given ground.
+    /// Whether any of this parcel's boundary crosses the given ground or lies
+    /// inside it.
     ///
-    /// Compared box to box rather than edge to edge: a parcel whose box
-    /// overlaps may or may not put a line inside, and a box is never smaller
-    /// than its shape, so this errs towards saying yes. Used by the printed
-    /// legend, where a wrongly-included key row costs a reader far less than a
-    /// wrongly-omitted one.
-    func reaches(_ bounds: GeoBoundingBox) -> Bool {
-        var south = Double.infinity
-        var north = -Double.infinity
-        var west = Double.infinity
-        var east = -Double.infinity
+    /// Edge by edge rather than box to box. A box test says yes to a parcel
+    /// that merely brackets the frame, and — the case that matters — to one so
+    /// large it holds the whole frame inside a single face, which strokes its
+    /// boundary somewhere off the page entirely.
+    func boundaryReaches(_ bounds: GeoBoundingBox) -> Bool {
         for part in parts {
-            for ring in part {
-                for point in ring {
-                    south = min(south, point.lat)
-                    north = max(north, point.lat)
-                    west = min(west, point.lng)
-                    east = max(east, point.lng)
+            for ring in part where ring.count > 1 {
+                for index in ring.indices {
+                    let start = ring[index]
+                    let end = ring[(index + 1) % ring.count]
+                    if Self.segment(from: start, to: end, meets: bounds) { return true }
                 }
             }
         }
-        guard south <= north, west <= east else { return false }
-        return GeoBoundingBox(south: south, west: west, north: north, east: east)
-            .intersects(bounds)
+        return false
+    }
+
+    /// Whether the given ground lies wholly inside this parcel.
+    ///
+    /// Only meaningful once `boundaryReaches` has said no: a frame no edge
+    /// crosses is entirely in or entirely out, so its centre decides it.
+    func surrounds(_ bounds: GeoBoundingBox) -> Bool {
+        PolygonHitTest.contains(
+            GeoPoint(
+                lat: (bounds.south + bounds.north) / 2,
+                lng: (bounds.west + bounds.east) / 2
+            ),
+            multiPolygon: parts
+        )
+    }
+
+    /// Liang-Barsky: clip the segment against the four edges and see whether any
+    /// of it survives. Loop-free, so no clipping iteration can fail to settle.
+    private static func segment(
+        from start: GeoPoint, to end: GeoPoint, meets bounds: GeoBoundingBox
+    ) -> Bool {
+        let dx = end.lng - start.lng
+        let dy = end.lat - start.lat
+        guard dx.isFinite, dy.isFinite, start.lng.isFinite, start.lat.isFinite else {
+            return false
+        }
+        let edges = [
+            (-dx, start.lng - bounds.west),
+            (dx, bounds.east - start.lng),
+            (-dy, start.lat - bounds.south),
+            (dy, bounds.north - start.lat)
+        ]
+        var enter = 0.0
+        var leave = 1.0
+        for (direction, distance) in edges {
+            if direction == 0 {
+                // Parallel to this edge: either the whole segment is on the
+                // wrong side of it or the edge does not constrain it.
+                if distance < 0 { return false }
+                continue
+            }
+            let crossing = distance / direction
+            if direction < 0 {
+                if crossing > leave { return false }
+                enter = max(enter, crossing)
+            } else {
+                if crossing < enter { return false }
+                leave = min(leave, crossing)
+            }
+        }
+        return true
     }
 
     /// The shapes for a collection, with `pid` selected.

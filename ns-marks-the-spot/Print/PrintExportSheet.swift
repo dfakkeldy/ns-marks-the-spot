@@ -448,6 +448,8 @@ struct PrintExportSheet: View {
         case .outsideCoverage: "Nothing here — this source reaches none of this ground"
         case .licenceBlocked: "Not printed — the licence has not been accepted"
         case .notDrawn(let reason): "Not printed — \(reason)"
+        case .drawnFromEarlierView(let reason): "Printed from an earlier view — \(reason)"
+        case .drawnPartlyUnread(let count): "Printed — \(count) could not be read"
         }
     }
 }

@@ -22,15 +22,16 @@ nonisolated struct PrintExportRequest: Sendable {
     /// half-reloaded viewport.
     var features: [FeatureShape] = []
     var markers: [FeatureMarker] = []
-    /// Layers that were switched on and put no ink on this page, with what each
-    /// was doing when it was made.
+    /// What the layer panel said each viewport layer was doing when this page
+    /// was made, in the panel's own words, so the page and the screen give the
+    /// reader one account.
     ///
-    /// These never reach the compositor: they are client-side query layers, and
-    /// a layer holding no shapes has nothing to hand it. Without this the page
-    /// is blank where they were and says nothing at all — which reads as ground
-    /// the layer was asked about and found empty. The browser names the same
-    /// layers on its own printed sheet.
-    var undrawnFeatureLayers: [UndrawnFeatureLayer] = []
+    /// The page reads this two ways. A layer that put no ink here has to be
+    /// named, or the blank reads as ground the layer was asked about and found
+    /// empty. A layer whose ink is the previous view's has to say so, or a
+    /// leftover reads as this frame's answer. The browser names the same layers
+    /// on its own printed sheet.
+    var featureLayerStatuses: [LayerID: ViewportLayerStatus] = [:]
     var template: PdfTemplate
     var fields: PdfComposer.Fields
     /// Whether the page carries its legend box.
@@ -52,14 +53,6 @@ nonisolated struct PrintExportRequest: Sendable {
     /// either.
     var disclosures: [String] = [PrintExport.screeningCaveat]
     var generatedAt: Date
-
-    /// A layer that was on the screen and contributed nothing to the paper.
-    struct UndrawnFeatureLayer: Sendable, Equatable {
-        var id: LayerID
-        /// What the layer panel said it was doing, in the panel's own words, so
-        /// the page and the screen give the reader one account.
-        var status: ViewportLayerStatus
-    }
 }
 
 nonisolated enum PrintExport {
@@ -98,6 +91,57 @@ nonisolated enum PrintExport {
         status == .licenceBlocked
             ? .licenceBlocked
             : .notDrawn(reason: status.printReason)
+    }
+
+    /// How the page reports a layer that does have ink on it.
+    ///
+    /// The map holds the previous view's features when a refresh fails or has
+    /// not landed yet, on purpose — blanking the layer would state the ground
+    /// went empty — so ink on the page is not proof this frame was answered.
+    /// Features the source sent and this app could not read are the other way a
+    /// drawn layer is short of its own answer.
+    static func pageState(
+        forDrawn status: ViewportLayerStatus?
+    ) -> PrintMapCompositor.LayerState {
+        switch status {
+        case .loading, .failed:
+            .drawnFromEarlierView(reason: status?.printReason ?? "")
+        case .ready(_, let unreadable) where unreadable > 0:
+            .drawnPartlyUnread(count: unreadable)
+        // A settled answer, or ink from somewhere this status map does not
+        // describe, which is not this function's to guess about.
+        default: .drawn
+        }
+    }
+
+    /// A layer that was on the screen and contributed nothing to the paper.
+    struct UndrawnFeatureLayer: Sendable, Equatable {
+        var id: LayerID
+        var status: ViewportLayerStatus
+    }
+
+    /// The switched-on layers that put nothing inside the frame, and why.
+    ///
+    /// A layer with ink on the page is never here, whatever its status says: it
+    /// drew, and the page shows what it drew. `.off` is the reader's own
+    /// decision. `.ready` is an answer — this ground was queried and holds none
+    /// of that thing, which is a finding, not a gap, and saying "not printed"
+    /// over it would turn evidence of absence into an absence of evidence.
+    static func undrawnFeatureLayers(
+        _ statuses: [LayerID: ViewportLayerStatus], drawn: Set<LayerID>
+    ) -> [UndrawnFeatureLayer] {
+        statuses
+            .filter { !drawn.contains($0.key) }
+            .compactMap { id, status -> UndrawnFeatureLayer? in
+                switch status {
+                case .off, .ready: nil
+                case .zoomGated, .loading, .failed, .licenceBlocked:
+                    UndrawnFeatureLayer(id: id, status: status)
+                }
+            }
+            // Dictionaries have no order and a printed page must not change
+            // between two exports of the same view.
+            .sorted { $0.id.rawValue < $1.id.rawValue }
     }
 
     static func build(
@@ -140,9 +184,9 @@ nonisolated enum PrintExport {
         )
 
         // Appended after the tile layers, so the "what printed" list reads in
-        // the order the page was assembled. Each of these is `.drawn` because
-        // its features were already in hand when the page was made: there was
-        // no request to fail and nothing to arrive late.
+        // the order the page was assembled. Their features were already in hand
+        // when the page was made, so nothing here could fail mid-export; what
+        // the panel says about them is about the request that produced them.
         var featureLayers = [LayerID]()
         var seen = Set<LayerID>()
         for layer in request.features.map(\.layer) + request.markers.map(\.layer)
@@ -153,9 +197,9 @@ nonisolated enum PrintExport {
             PrintMapCompositor.LayerOutcome(
                 id: id.rawValue,
                 name: descriptor(id.rawValue)?.name ?? id.rawValue,
-                state: .drawn
+                state: pageState(forDrawn: request.featureLayerStatuses[id])
             )
-        } + request.undrawnFeatureLayers.map { layer in
+        } + undrawnFeatureLayers(request.featureLayerStatuses, drawn: seen).map { layer in
             PrintMapCompositor.LayerOutcome(
                 id: layer.id.rawValue,
                 name: descriptor(layer.id.rawValue)?.name ?? layer.id.rawValue,

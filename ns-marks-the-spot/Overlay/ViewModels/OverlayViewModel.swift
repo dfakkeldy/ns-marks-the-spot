@@ -1101,7 +1101,7 @@ final class OverlayViewModel {
             // ground where they were.
             features: printedFeatures(within: box),
             markers: printedMarkers(within: box),
-            undrawnFeatureLayers: undrawnFeatureLayers(within: box, statuses: featureStatuses),
+            featureLayerStatuses: featureStatuses,
             template: template,
             fields: fields,
             includesLegend: includesLegend,
@@ -1207,33 +1207,11 @@ final class OverlayViewModel {
         }
     }
 
-    /// The switched-on layers that put nothing inside this frame, and why.
-    ///
-    /// A layer with ink on the page is never here, whatever its status says: it
-    /// drew, and the page shows what it drew. What is left is a layer the reader
-    /// turned on and cannot see, and the page has to distinguish the reasons.
-    private func undrawnFeatureLayers(
-        within bounds: GeoBoundingBox, statuses: [LayerID: ViewportLayerStatus]
-    ) -> [PrintExportRequest.UndrawnFeatureLayer] {
+    /// The layers with ink inside this frame, whatever their panel says.
+    private func drawnFeatureLayers(within bounds: GeoBoundingBox) -> Set<LayerID> {
         var drawn = Set(printedFeatures(within: bounds).map(\.layer))
         drawn.formUnion(printedMarkers(within: bounds).map(\.layer))
-        return statuses
-            .filter { !drawn.contains($0.key) }
-            .compactMap { id, status in
-                switch status {
-                // Off is the reader's own decision, and a layer that answered is
-                // answered: `.ready(drawn: 0)` means this ground was queried and
-                // has none of that thing, which is a finding, not a gap. Saying
-                // "not printed" over it would turn evidence of absence into an
-                // absence of evidence.
-                case .off, .ready: nil
-                case .zoomGated, .loading, .failed, .licenceBlocked:
-                    PrintExportRequest.UndrawnFeatureLayer(id: id, status: status)
-                }
-            }
-            // Dictionaries have no order and a printed page must not change
-            // between two exports of the same view.
-            .sorted { $0.id.rawValue < $1.id.rawValue }
+        return drawn
     }
 
     /// The undrawn layers named the way the page will name them, so the sheet
@@ -1241,7 +1219,9 @@ final class OverlayViewModel {
     func undrawnFeatureLayerNotes(
         within bounds: GeoBoundingBox, statuses: [LayerID: ViewportLayerStatus]
     ) -> [String] {
-        undrawnFeatureLayers(within: bounds, statuses: statuses).map { layer in
+        PrintExport.undrawnFeatureLayers(
+            statuses, drawn: drawnFeatureLayers(within: bounds)
+        ).map { layer in
             let name = LayerCatalog.descriptor(for: layer.id)?.name ?? layer.id.rawValue
             return "\(name) (\(layer.status.printReason))"
         }

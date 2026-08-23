@@ -537,14 +537,39 @@ nonisolated struct PrintMapCompositorTests {
         )
 
         #expect(PrintMapCompositor.parcelLegend(for: [elsewhere], within: Self.bounds).isEmpty)
-        // And a parcel that swallows the whole frame without a vertex inside it
-        // is still on the page.
-        let around = ParcelShape(
-            pid: "10",
-            role: .selected,
-            parts: [[Self.ring(west: -62, east: -60, south: 45, north: 47)]]
+    }
+
+    /// The selection is drawn as an outline and nothing else. A parcel big
+    /// enough to hold the whole frame strokes its boundary kilometres off the
+    /// page, so a key row for it points at a colour the reader cannot find —
+    /// and, worse, invites them to read the frame's ground as unselected ink.
+    @Test func aParcelTooLargeToShowItsOutlineIsNotKeyed() {
+        let ring = Self.ring(west: -62, east: -60, south: 45, north: 47)
+        let outlined = ParcelShape(pid: "10", role: .selected, parts: [[ring]])
+
+        #expect(PrintMapCompositor.parcelLegend(for: [outlined], within: Self.bounds).isEmpty)
+
+        // The filled marks are the other way round: a tax-sale parcel that
+        // surrounds the frame tints every inch of it, which is when its key
+        // matters most.
+        let filled = ParcelShape(pid: "11", role: .taxSale, parts: [[ring]])
+        #expect(
+            PrintMapCompositor.parcelLegend(for: [filled], within: Self.bounds).map(\.name)
+                == ["In a current tax-sale notice"]
         )
-        #expect(PrintMapCompositor.parcelLegend(for: [around], within: Self.bounds).count == 1)
+    }
+
+    /// A boundary that crosses the frame without leaving a vertex in it is on
+    /// the page, and a box test and an edge test agree here. The reason to walk
+    /// the edges is the case above, not this one.
+    @Test func anOutlineCrossingTheFrameIsKeyed() {
+        let across = ParcelShape(
+            pid: "12",
+            role: .selected,
+            parts: [[Self.ring(west: -62, east: -60, south: 46.11, north: 47)]]
+        )
+
+        #expect(PrintMapCompositor.parcelLegend(for: [across], within: Self.bounds).count == 1)
     }
 
     private static func parcel(_ pid: String, _ role: ParcelShape.Role) -> ParcelShape {

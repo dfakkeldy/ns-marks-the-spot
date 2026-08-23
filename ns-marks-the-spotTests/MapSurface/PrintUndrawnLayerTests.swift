@@ -54,6 +54,15 @@ struct PrintUndrawnLayerTests {
         )
     }
 
+    /// What the page will name as unprinted, derived from a request exactly as
+    /// `PrintExport.build` derives it: ink on the page beats whatever the panel
+    /// says the layer is doing.
+    private func undrawn(in request: PrintExportRequest) -> [PrintExport.UndrawnFeatureLayer] {
+        var drawn = Set(request.features.map(\.layer))
+        drawn.formUnion(request.markers.map(\.layer))
+        return PrintExport.undrawnFeatureLayers(request.featureLayerStatuses, drawn: drawn)
+    }
+
     /// Three different reasons for the same blank paper, and the reader is
     /// deciding whether to frame tighter, wait, or come back tomorrow.
     @Test("A gated, loading or failed layer is carried to the page with its reason")
@@ -69,11 +78,11 @@ struct PrintUndrawnLayerTests {
         // Fixed order, because a dictionary has none and two exports of one
         // view must not produce two differently worded pages.
         #expect(
-            printed.undrawnFeatureLayers.map(\.id)
+            undrawn(in: printed).map(\.id)
                 == [.abandonedMines, .nsWellLogs, .zoningHalifax]
         )
         let reasons = Dictionary(
-            uniqueKeysWithValues: printed.undrawnFeatureLayers.map { ($0.id, $0.status.printReason) }
+            uniqueKeysWithValues: undrawn(in: printed).map { ($0.id, $0.status.printReason) }
         )
         #expect(reasons[.zoningHalifax] == "zoom to 12+ to load")
         #expect(reasons[.nsWellLogs] == "loading visible area")
@@ -93,7 +102,7 @@ struct PrintUndrawnLayerTests {
             ])
         )
 
-        #expect(printed.undrawnFeatureLayers.isEmpty)
+        #expect(undrawn(in: printed).isEmpty)
     }
 
     /// Ink beats status. A layer whose query is refreshing for the next view
@@ -108,8 +117,71 @@ struct PrintUndrawnLayerTests {
             )
         )
 
-        #expect(printed.undrawnFeatureLayers.isEmpty)
+        #expect(undrawn(in: printed).isEmpty)
         #expect(printed.features.count == 1)
+        // But it does not print as a settled answer either. The map keeps the
+        // previous view's shapes on purpose, and on paper that leftover is
+        // indistinguishable from a fresh one unless the page says so.
+        #expect(
+            PrintExport.pageState(forDrawn: printed.featureLayerStatuses[.zoningHalifax])
+                == .drawnFromEarlierView(reason: "loading visible area")
+        )
+    }
+
+    /// A layer whose source went down keeps drawing what it last had. The page
+    /// carries that ink — blanking it would state the ground went empty — and
+    /// has to say which view the ink answers.
+    @Test("Ink left over from a failed refresh says so on the page")
+    func inkLeftOverFromAFailedRefreshSaysSoOnThePage() {
+        let account = PrintExportPlan.account(
+            for: [
+                PrintMapCompositor.LayerOutcome(
+                    id: "ns-well-logs",
+                    name: "Well logs",
+                    state: .drawnFromEarlierView(reason: "source temporarily unavailable")
+                )
+            ],
+            swatch: { _ in nil }
+        )
+
+        #expect(account.fromEarlierView == ["Well logs (source temporarily unavailable)"])
+        // In the legend, because the reader is looking at the ink, and marked,
+        // because a bare row would call it this frame's answer.
+        #expect(account.legend.map(\.name) == ["Well logs (an earlier view)"])
+        let note = account.notes.first { $0.hasPrefix("Showing an earlier view") }
+        #expect(note?.contains("Well logs (source temporarily unavailable)") == true)
+        #expect(note?.contains("not this frame's answer") == true)
+        // Not a layer that put nothing on the page: this one drew.
+        #expect(account.notDrawn.isEmpty)
+        #expect(account.omitted.isEmpty)
+    }
+
+    /// The panel says "3 unreadable" beside the switch. Paper that drops the
+    /// second half of that sentence shows the reader fewer things than the
+    /// source returned and does not admit it.
+    @Test("Features the source sent and this app could not read are counted on the page")
+    func featuresTheSourceSentAndThisAppCouldNotReadAreCountedOnThePage() {
+        #expect(
+            PrintExport.pageState(forDrawn: .ready(drawn: 41, unreadable: 3))
+                == .drawnPartlyUnread(count: 3)
+        )
+        #expect(PrintExport.pageState(forDrawn: .ready(drawn: 41, unreadable: 0)) == .drawn)
+        // Nothing said about it is nothing this function may invent.
+        #expect(PrintExport.pageState(forDrawn: nil) == .drawn)
+
+        let account = PrintExportPlan.account(
+            for: [
+                PrintMapCompositor.LayerOutcome(
+                    id: "ns-well-logs", name: "Well logs", state: .drawnPartlyUnread(count: 3)
+                )
+            ],
+            swatch: { _ in nil }
+        )
+
+        #expect(account.partlyUnread == ["Well logs (3)"])
+        #expect(account.legend.map(\.name) == ["Well logs (3 unread)"])
+        let note = account.notes.first { $0.hasPrefix("Partly unread") }
+        #expect(note?.contains("less than the source returned") == true)
     }
 
     /// Shapes a hundred kilometres away are not on this page, so as far as this
@@ -125,7 +197,7 @@ struct PrintUndrawnLayerTests {
         )
 
         #expect(printed.features.isEmpty)
-        #expect(printed.undrawnFeatureLayers.map(\.id) == [.zoningHalifax])
+        #expect(undrawn(in: printed).map(\.id) == [.zoningHalifax])
     }
 
     /// The licence has its own sentence on the page, and it is the stronger
@@ -133,7 +205,7 @@ struct PrintUndrawnLayerTests {
     @Test("An unaccepted licence keeps its own words on the page")
     func anUnacceptedLicenceKeepsItsOwnWordsOnThePage() throws {
         let printed = try #require(request(statuses: [.zoningHalifax: .licenceBlocked]))
-        #expect(printed.undrawnFeatureLayers.map(\.id) == [.zoningHalifax])
+        #expect(undrawn(in: printed).map(\.id) == [.zoningHalifax])
         #expect(PrintExport.pageState(for: .licenceBlocked) == .licenceBlocked)
         #expect(
             PrintExport.pageState(for: .zoomGated(minZoom: 12))

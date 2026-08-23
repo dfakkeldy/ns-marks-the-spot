@@ -51,6 +51,21 @@ nonisolated struct PrintMapCompositor {
         /// The reason travels with it because those are three different things
         /// to a reader deciding whether to go back and print the sheet again.
         case notDrawn(reason: String)
+        /// On the page, and showing an earlier view.
+        ///
+        /// The map keeps the previous view's features when a refresh fails or
+        /// has not landed, deliberately: blanking the layer would state the
+        /// ground went empty. On paper that leftover is indistinguishable from
+        /// a fresh answer unless the page says so, and the reader would take
+        /// ink drawn for other ground as this frame's finding.
+        case drawnFromEarlierView(reason: String)
+        /// On the page, and short of what the source sent: this many of the
+        /// features could not be read.
+        ///
+        /// Separate from `.partial`, which counts tiles that never arrived.
+        /// These arrived and were unusable, which is a statement about the data
+        /// rather than about the fetch.
+        case drawnPartlyUnread(count: Int)
     }
 
     struct LayerOutcome: Equatable, Sendable {
@@ -564,7 +579,7 @@ nonisolated struct PrintMapCompositor {
     static func parcelLegend(
         for parcels: [ParcelShape], within bounds: GeoBoundingBox
     ) -> [PdfComposer.LegendEntry] {
-        let drawn = Set(parcels.filter { $0.reaches(bounds) }.map(\.role))
+        let drawn = Set(parcels.filter { marks($0, within: bounds) }.map(\.role))
         let ordered: [ParcelShape.Role] = [
             .selected, .selectedHistorical, .taxSale, .historicalTaxSale, .context
         ]
@@ -578,6 +593,19 @@ nonisolated struct PrintMapCompositor {
     /// The mark's name, said the way the panel that produced it says it. A
     /// current notice and a published past record are different documents, and
     /// the page has to keep a reader from reading one as the other.
+    /// Whether this parcel put ink inside the frame.
+    ///
+    /// An outline-only mark is its boundary and nothing else, so a parcel large
+    /// enough to hold the whole frame strokes off the page and would key a
+    /// colour the reader cannot find anywhere on it. A filled mark tints the
+    /// frame from the inside, so being surrounded by one is exactly when it is
+    /// most visible. The fill comes from the same style table the swatch does,
+    /// so the key cannot disagree with the ink about either.
+    private static func marks(_ parcel: ParcelShape, within bounds: GeoBoundingBox) -> Bool {
+        if parcel.boundaryReaches(bounds) { return true }
+        return style(for: parcel.role).fill != nil && parcel.surrounds(bounds)
+    }
+
     private static func legendName(for role: ParcelShape.Role) -> String {
         switch role {
         case .selected: "Selected parcel"

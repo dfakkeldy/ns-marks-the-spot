@@ -72,6 +72,10 @@ nonisolated enum PrintExportPlan {
         var licenceBlocked: [String] = []
         /// Switched on, and nothing of theirs reached the page, each with why.
         var notDrawn: [String] = []
+        /// Drew the view before this one, each with what the panel said.
+        var fromEarlierView: [String] = []
+        /// Drew, and short of their own answer: name and unread count.
+        var partlyUnread: [String] = []
 
         var notes: [String] {
             var lines = [String]()
@@ -126,6 +130,24 @@ nonisolated enum PrintExportPlan {
                         + incomplete.joined(separator: ", ") + "."
                 )
             }
+            if !fromEarlierView.isEmpty {
+                // The strongest of these sentences, because this is the one
+                // where the page carries ink that answers different ground.
+                lines.append(
+                    "Showing an earlier view — these layers are drawn from the answer to a "
+                        + "previous view, because the request for this frame did not land: "
+                        + fromEarlierView.joined(separator: ", ")
+                        + ". What is drawn is not this frame's answer, and the parts of this "
+                        + "frame they never covered are not evidence of anything."
+                )
+            }
+            if !partlyUnread.isEmpty {
+                lines.append(
+                    "Partly unread — the source answered and some of what it sent could not "
+                        + "be read: " + partlyUnread.joined(separator: ", ")
+                        + ". What is drawn is less than the source returned."
+                )
+            }
             return lines
         }
     }
@@ -141,6 +163,8 @@ nonisolated enum PrintExportPlan {
         var uncovered = [String]()
         var licenceBlocked = [String]()
         var notDrawn = [String]()
+        var fromEarlierView = [String]()
+        var partlyUnread = [String]()
         for outcome in outcomes {
             switch outcome.state {
             case .drawn:
@@ -171,12 +195,33 @@ nonisolated enum PrintExportPlan {
                 // Out of the legend, like every other layer with no ink on the
                 // page: the legend names what the reader is looking at.
                 notDrawn.append("\(outcome.name) (\(reason))")
+            // Both of these are in the legend, because the reader is looking at
+            // their ink. The row carries the short qualifier and the sentence
+            // under the map carries the rest: a legend row wide enough for the
+            // whole reason would push other rows off the box.
+            case .drawnFromEarlierView(let reason):
+                fromEarlierView.append("\(outcome.name) (\(reason))")
+                legend.append(
+                    PdfComposer.LegendEntry(
+                        name: "\(outcome.name) (an earlier view)",
+                        swatchColour: swatch(outcome.id)
+                    )
+                )
+            case .drawnPartlyUnread(let count):
+                partlyUnread.append("\(outcome.name) (\(count))")
+                legend.append(
+                    PdfComposer.LegendEntry(
+                        name: "\(outcome.name) (\(count) unread)",
+                        swatchColour: swatch(outcome.id)
+                    )
+                )
             }
         }
         return LayerAccount(
             legend: legend, omitted: omitted, incomplete: incomplete,
             unsupported: unsupported, uncovered: uncovered,
-            licenceBlocked: licenceBlocked, notDrawn: notDrawn
+            licenceBlocked: licenceBlocked, notDrawn: notDrawn,
+            fromEarlierView: fromEarlierView, partlyUnread: partlyUnread
         )
     }
 
@@ -213,6 +258,7 @@ nonisolated enum PrintExportPlan {
             // this ground — or that was never fetched at all — was not used.
             if case .outsideCoverage = outcome.state { continue }
             if case .licenceBlocked = outcome.state { continue }
+            if case .notDrawn = outcome.state { continue }
             guard let layer = descriptor(outcome.id) else { continue }
             // The app's own credit table, which is where the disclaimer text a
             // licence obliges is kept; the shared catalog carries the licence,
