@@ -31,6 +31,11 @@ import {
   buildPointQueryUrl,
   normalizePid,
 } from "../services/nsprd";
+import {
+  type LayerCategoryId,
+  layerCategories,
+  layerCategoryByLayerId,
+} from "./layerCategories";
 
 /**
  * The parity fixture the native iOS catalog is tested against.
@@ -47,7 +52,7 @@ import {
  * this file its own second source of truth, and a field added on the web would
  * go unnoticed instead of failing the Swift key-set assertion.
  */
-export const LAYER_PARITY_SCHEMA_VERSION = 1;
+export const LAYER_PARITY_SCHEMA_VERSION = 2;
 
 export type LayerParityGroupId =
   | "map-layers"
@@ -66,6 +71,14 @@ export type LayerParityEntry = Record<string, unknown> & {
   id: string;
   group: LayerParityGroupId;
   /**
+   * The panel section this layer is shown under.
+   *
+   * Separate from `group`, which is an artifact of how this codebase splits its
+   * catalogs rather than anything a reader sees. The categories are what the
+   * panel actually renders, so they are what the native panel has to reproduce.
+   */
+  category: LayerCategoryId;
+  /**
    * Position in the single top-to-bottom order the layer panel presents. The
    * groups are collapsible sections, but the reading order across them is
    * flat, and that order is what the native list has to reproduce.
@@ -75,9 +88,25 @@ export type LayerParityEntry = Record<string, unknown> & {
   webDefaultVisible: boolean;
 };
 
+export type LayerParityCategory = {
+  id: LayerCategoryId;
+  name: string;
+  description: string;
+};
+
 export type LayerParityFixture = {
   schemaVersion: number;
   groupOrder: readonly LayerParityGroupId[];
+  /**
+   * The panel's sections, in the order the panel lists them, with the words it
+   * puts under each heading.
+   *
+   * Two of them hold no catalogue layer at all — Tax Sale carries the tax-sale
+   * controls, My Maps the user's own imports — and they are in here for that
+   * reason: a native panel that reproduced only the sections with layers in
+   * them would put those controls somewhere the browser does not.
+   */
+  categories: readonly LayerParityCategory[];
   layers: readonly LayerParityEntry[];
   /**
    * The Fletcher tile build, which the layer entry cannot carry.
@@ -276,6 +305,9 @@ export function buildLayerParityFixture(): LayerParityFixture {
         sortKeys({
           ...layer,
           group: source.group,
+          category: layerCategoryByLayerId[
+            layer.id as keyof typeof layerCategoryByLayerId
+          ],
           uiOrder: uiOrder++,
           webDefaultVisible: source.defaultVisible(layer.id),
         }) as LayerParityEntry,
@@ -286,6 +318,11 @@ export function buildLayerParityFixture(): LayerParityFixture {
   return {
     schemaVersion: LAYER_PARITY_SCHEMA_VERSION,
     groupOrder: GROUP_ORDER,
+    categories: layerCategories.map(({ id, name, description }) => ({
+      id,
+      name,
+      description,
+    })),
     layers,
     fletcher: {
       tileRevision: FLETCHER_TILE_REVISION,

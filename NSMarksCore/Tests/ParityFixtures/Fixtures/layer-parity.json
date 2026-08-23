@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "groupOrder": [
     "map-layers",
     "topography",
@@ -13,8 +13,61 @@
     "church",
     "historical"
   ],
+  "categories": [
+    {
+      "id": "background-maps",
+      "name": "Background Maps",
+      "description": "Choose the map beneath your overlays."
+    },
+    {
+      "id": "land-property",
+      "name": "Land & Property",
+      "description": "Property, Crown land, buildings, and zoning."
+    },
+    {
+      "id": "roads-places",
+      "name": "Roads & Places",
+      "description": "Roads, trails, place names, and reference routes."
+    },
+    {
+      "id": "water-terrain",
+      "name": "Water & Terrain",
+      "description": "Water, watersheds, waterfalls, contours, and terrain projects."
+    },
+    {
+      "id": "environment-hazards",
+      "name": "Environment & Hazards",
+      "description": "Flood, health, aquifer, and well information."
+    },
+    {
+      "id": "forestry-ecology",
+      "name": "Forestry & Ecology",
+      "description": "Forestry policy and ecological information."
+    },
+    {
+      "id": "geology-resources",
+      "name": "Geology & Resources",
+      "description": "Minerals, tenure, mines, and resource context."
+    },
+    {
+      "id": "historical-maps",
+      "name": "Historical Maps",
+      "description": "Fletcher and Church historical map collections."
+    },
+    {
+      "id": "tax-sale",
+      "name": "Tax Sale",
+      "description": "Optional current and historical tax-sale research."
+    },
+    {
+      "id": "my-maps",
+      "name": "My Maps",
+      "description": "Import, register, and control your own maps and data."
+    }
+  ],
   "layers": [
     {
+      "category": "background-maps",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "transparent": false
@@ -36,6 +89,7 @@
       "webDefaultVisible": true
     },
     {
+      "category": "land-property",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dynamicLayers": "[{\"id\":0,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":0},\"drawingInfo\":{\"showLabels\":false}}]",
@@ -58,6 +112,7 @@
       "webDefaultVisible": true
     },
     {
+      "category": "land-property",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dynamicLayers": "[{\"id\":0,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":0},\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSFS\",\"style\":\"esriSFSSolid\",\"color\":[46,180,46,128],\"outline\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[0,100,0,255],\"width\":2}}},\"labelingInfo\":[]}}]",
@@ -80,6 +135,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Nova Scotia primary, secondary, and tertiary watersheds",
       "exportOptions": {
         "layers": "show:24,25,26",
@@ -102,6 +158,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "water-terrain",
       "coverage": "Nova Scotia · 90 mapped falls",
       "exportOptions": {
         "dynamicLayers": "[{\"id\":1,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":1},\"definitionExpression\":\"FEAT_DESC = 'Falls -  On a single line river point'\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSMS\",\"style\":\"esriSMSCircle\",\"color\":[0,120,255,255],\"size\":8,\"outline\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[255,255,255,255],\"width\":1.5}}},\"showLabels\":true,\"labelingInfo\":[{\"labelExpression\":\"[ZVALUE]\",\"labelPlacement\":\"esriServerPointLabelPlacementAboveRight\",\"symbol\":{\"type\":\"esriTS\",\"color\":[0,120,255,255],\"font\":{\"size\":10,\"family\":\"Arial\",\"weight\":\"bold\"}},\"minScale\":50000}]}}]",
@@ -124,6 +181,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "water-terrain",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dpi": 144,
@@ -146,6 +204,7 @@
       "webDefaultVisible": true
     },
     {
+      "category": "roads-places",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dpi": 192,
@@ -173,6 +232,7 @@
       "webDefaultVisible": true
     },
     {
+      "category": "land-property",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dpi": 144,
@@ -195,6 +255,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "roads-places",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dpi": 144,
@@ -218,6 +279,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "roads-places",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dpi": 144,
@@ -241,6 +303,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "water-terrain",
       "coverage": "Nova Scotia",
       "exportOptions": {
         "dpi": 144,
@@ -264,6 +327,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "forestry-ecology",
       "coverage": "Mapped publicly owned land outside protected areas in Nova Scotia",
       "group": "forestry",
       "id": "old-growth-policy",
@@ -287,6 +351,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Antigonish, Bedford–Sackville, Pictou, and Truro",
       "exportOptions": {
         "layers": "show:2,3,4,5,7,8,9,10,12,13,14,16,17,18",
@@ -309,6 +374,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Mapped Nova Scotia coast",
       "exportOptions": {
         "transparent": true
@@ -330,6 +396,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Mapped Nova Scotia coast",
       "exportOptions": {
         "transparent": true
@@ -351,6 +418,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Mapped Nova Scotia coast",
       "exportOptions": {
         "transparent": true
@@ -372,6 +440,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Nova Scotia bedrock aquifers",
       "exportOptions": {
         "transparent": true
@@ -409,6 +478,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Nova Scotia bedrock aquifers",
       "exportOptions": {
         "transparent": true
@@ -446,6 +516,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Nova Scotia bedrock and surficial aquifers",
       "exportOptions": {
         "transparent": true
@@ -483,6 +554,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "environment-hazards",
       "coverage": "Mapped Nova Scotia surficial aquifers",
       "exportOptions": {
         "transparent": true
@@ -510,6 +582,7 @@
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
       "bylawLabel": "Plan Inverness Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
+      "category": "land-property",
       "coverage": "Municipality of the County of Inverness · towns are separate zoning jurisdictions",
       "fillColor": "#2a9d8f",
       "group": "zoning",
@@ -545,6 +618,7 @@
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
       "bylawLabel": "Plan Victoria Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
+      "category": "land-property",
       "coverage": "Municipality of the County of Victoria · the Baddeck plan area is administered separately and is not included",
       "fillColor": "#4361ee",
       "group": "zoning",
@@ -580,6 +654,7 @@
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
       "bylawLabel": "Plan Richmond Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
+      "category": "land-property",
       "coverage": "Municipality of the County of Richmond · towns are separate zoning jurisdictions",
       "fillColor": "#e76f51",
       "group": "zoning",
@@ -615,6 +690,7 @@
       "attribution": "Zoning rendered live from the Municipality of the County of Cumberland's public map service. Not an official copy of the land use by-law.",
       "bylawLabel": "Cumberland Land Use By-law",
       "bylawUrl": "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
+      "category": "land-property",
       "coverage": "Municipality of the County of Cumberland · Amherst, Oxford, and Parrsboro are separate zoning jurisdictions",
       "fillColor": "#588157",
       "group": "zoning",
@@ -649,6 +725,7 @@
       "attribution": "Contains information licenced under the Open Government Licence—Halifax.",
       "bylawLabel": "Halifax land use by-law index",
       "bylawUrl": "https://www.halifax.ca/city-hall/legislation-by-laws/land-use-by-laws",
+      "category": "land-property",
       "coverage": "Halifax Regional Municipality · zoning is set by 22 separate plan-area by-laws, so confirm which by-law governs a parcel",
       "fillColor": "#b5179e",
       "group": "zoning",
@@ -681,6 +758,7 @@
       "zoneNameField": "DESCRIPTION"
     },
     {
+      "category": "environment-hazards",
       "coverage": "Nova Scotia · 125,517 well logs constructed 1940–2021",
       "delivery": "feature-query",
       "group": "groundwater",
@@ -700,6 +778,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "water-terrain",
       "coverage": "13 Inverness-centred watersheds with connected tributary coverage",
       "group": "hydro-pilot",
       "id": "inverness-hydro-potential",
@@ -717,6 +796,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "geology-resources",
       "coverage": "Nova Scotia",
       "delivery": "feature-query",
       "group": "geology-resources",
@@ -744,6 +824,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "geology-resources",
       "coverage": "Nova Scotia",
       "delivery": "map-export",
       "exportOptions": {
@@ -766,6 +847,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "geology-resources",
       "coverage": "Nova Scotia · incomplete inventory",
       "delivery": "feature-query",
       "group": "geology-resources",
@@ -793,6 +875,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "geology-resources",
       "coverage": "Visible Nova Scotia map area",
       "delivery": "derived-parcel-query",
       "group": "geology-resources",
@@ -809,6 +892,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "historical-maps",
       "coverage": "Inverness County, Cape Breton Island",
       "group": "church",
       "id": "church-inverness",
@@ -827,6 +911,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "historical-maps",
       "coverage": "Victoria County, Cape Breton Island",
       "group": "church",
       "id": "church-victoria",
@@ -845,6 +930,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "historical-maps",
       "coverage": "Richmond County, Cape Breton Island",
       "group": "church",
       "id": "church-richmond",
@@ -863,6 +949,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "historical-maps",
       "coverage": "Cape Breton County, Cape Breton Island",
       "group": "church",
       "id": "church-cape-breton",
@@ -881,6 +968,7 @@
       "webDefaultVisible": false
     },
     {
+      "category": "historical-maps",
       "coverage": "Cape Breton Island · 24 individual sheets",
       "group": "historical",
       "id": "fletcher",

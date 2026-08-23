@@ -90,8 +90,18 @@ public struct FixturePIDCase: Sendable {
 }
 
 /// The web's exported catalog, as read from the fixture.
+/// One panel section as the fixture declares it.
+public struct FixtureCategory: Sendable, Equatable {
+    public let id: String
+    public let name: String
+    public let description: String
+}
+
 public struct ParityFixture: Sendable {
     public let groupOrder: [String]
+    /// The panel's sections in panel order, including the two that hold no
+    /// catalogue layer.
+    public let categories: [FixtureCategory]
     public let order: [String]
     public let layers: [String: [String: JSONValue]]
     public let fletcher: [String: JSONValue]?
@@ -174,14 +184,30 @@ public struct ParityFixture: Sendable {
         guard let data = try? Data(contentsOf: url),
               let root = try? JSONDecoder().decode([String: JSONValue].self, from: data),
               let entries = root["layers"]?.array,
-              let groupOrder = root["groupOrder"]?.array
+              let groupOrder = root["groupOrder"]?.array,
+              let categoryEntries = root["categories"]?.array
         else {
             fatalError("layer-parity.json could not be read as the expected shape")
+        }
+
+        let categories = categoryEntries.compactMap { entry -> FixtureCategory? in
+            guard let object = entry.object,
+                  let id = object["id"]?.string,
+                  let name = object["name"]?.string,
+                  let description = object["description"]?.string
+            else { return nil }
+            return FixtureCategory(id: id, name: name, description: description)
+        }
+        // A partial decode would quietly shrink the comparison set, which is
+        // how a parity suite starts passing for the wrong reason.
+        guard categories.count == categoryEntries.count else {
+            fatalError("layer-parity.json carries a category this reader could not read")
         }
 
         let objects = entries.compactMap(\.object)
         return ParityFixture(
             groupOrder: groupOrder.compactMap(\.string),
+            categories: categories,
             order: objects.compactMap { $0["id"]?.string },
             layers: objects.reduce(into: [:]) { result, entry in
                 guard let id = entry["id"]?.string else { return }

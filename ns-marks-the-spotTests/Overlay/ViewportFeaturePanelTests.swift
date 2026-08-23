@@ -24,17 +24,23 @@ struct ViewportFeaturePanelTests {
         #expect(rows.count(where: { $0.isAvailable }) == rows.count)
     }
 
-    @Test func theSectionsThoseLayersLiveInAreNoLongerDropped() {
+    @Test func theSectionsThoseLayersLiveInAreNoLongerEmpty() {
         let (viewModel, _) = panel()
+        let rows = Dictionary(
+            uniqueKeysWithValues: viewModel.sections(addedMapCount: 0).map {
+                ($0.category, $0.rows.map(\.id))
+            }
+        )
 
-        let groups = Set(viewModel.sections.map(\.group))
-
-        // Four sections the catalog has always carried and the panel has never
-        // shown, because every layer in them is queried rather than tiled.
-        #expect(groups.contains(.forestry))
-        #expect(groups.contains(.zoning))
-        #expect(groups.contains(.groundwater))
-        #expect(groups.contains(.hydroPilot))
+        // Four catalog groups the panel has never shown, because every layer in
+        // them is queried rather than tiled. They are spread across three of
+        // the web's categories.
+        #expect(rows[.forestryEcology]?.contains(LayerID.oldGrowthPolicy.rawValue) == true)
+        #expect(rows[.landProperty]?.contains(LayerID.zoningInverness.rawValue) == true)
+        #expect(rows[.environmentHazards]?.contains(LayerID.nsWellLogs.rawValue) == true)
+        #expect(
+            rows[.waterTerrain]?.contains(LayerID.invernessHydroPotential.rawValue) == true
+        )
     }
 
     @Test func withoutTheQueryLayersThePanelStillOnlyOffersWhatItCanDraw() {

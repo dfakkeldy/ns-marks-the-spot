@@ -47,35 +47,6 @@ nonisolated enum NativeLayerTraits {
         for: LayerCatalog.all.map(\.id)
     )
 
-    /// The heading a panel section carries.
-    ///
-    /// Nine of these are the web's `<summary>` text verbatim, so a reader who
-    /// has used both surfaces looks for the same words. `mapLayers` and
-    /// `historical` have no heading there — they are the flat runs of rows above
-    /// and below the collapsible sections — so those two names are this app's,
-    /// which is why the whole table is native presentation rather than shared
-    /// catalog data.
-    ///
-    /// The `<small>` line under each web heading is deliberately not copied
-    /// either: it counts the layers *that* surface shows ("5 optional unofficial
-    /// layers"), and this panel shows a different subset, so repeating it would
-    /// state a count the rows underneath contradict.
-    static func title(for group: LayerGroupID) -> String {
-        switch group {
-        case .mapLayers: return "Map layers"
-        case .topography: return "Topography"
-        case .forestry: return "Forestry"
-        case .floodHazard: return "Flood hazard context"
-        case .environmentalHealth: return "Environmental health screens"
-        case .zoning: return "Municipal zoning"
-        case .groundwater: return "Groundwater"
-        case .hydroPilot: return "Micro-hydro pilot"
-        case .geologyResources: return "Geology & Resources"
-        case .church: return "Church (1860s–80s)"
-        case .historical: return "Historical maps"
-        }
-    }
-
     /// A standing sentence under a section's rows, where the rows on their own
     /// would be read as more than they are.
     ///

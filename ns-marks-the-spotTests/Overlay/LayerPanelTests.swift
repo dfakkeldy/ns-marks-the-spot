@@ -91,20 +91,16 @@ struct LayerRuntimeStatusTests {
 
 @MainActor
 struct LayerPanelSectionTests {
-    @Test func sectionsFollowTheCatalogsGroupOrder() {
+    @Test func sectionsFollowTheWebsCategoryOrder() {
+        // Ten headings in the browser's order. A reader who has used both
+        // surfaces should find the same section in the same place.
         let viewModel = OverlayViewModel.forTesting(
             installing: [.contours, .nsprd, .fletcher, .coastalFlood2050]
         )
 
-        let groups = viewModel.sections.map(\.group)
-        let positions = groups.compactMap { LayerGroupID.allCases.firstIndex(of: $0) }
+        let categories = viewModel.sections(addedMapCount: 0).map(\.category)
 
-        #expect(positions == positions.sorted())
-        #expect(Set(groups).count == groups.count, "a group must not be split across two sections")
-        // The two ends are the ones the web fixes deliberately: the core layers
-        // above every collapsible section, the historical maps below them all.
-        #expect(groups.first == .mapLayers)
-        #expect(groups.last == .historical)
+        #expect(categories == LayerCategory.all.map(\.id))
     }
 
     @Test func everyPresentedLayerLandsInExactlyOneSection() {
@@ -125,45 +121,63 @@ struct LayerPanelSectionTests {
                 .map(\.id.rawValue)
         )
 
-        let sectioned = viewModel.sections.flatMap(\.rows).map(\.id)
+        let sectioned = viewModel.sections(addedMapCount: 0).flatMap(\.rows).map(\.id)
 
         #expect(Set(sectioned) == expected)
         #expect(sectioned.count == expected.count)
     }
 
-    @Test func aGroupWithNothingToShowGetsNoSection() {
-        // `forestry`, `zoning`, `groundwater` and `hydro-pilot` are catalogued
-        // but arrive with the vector layers. A section that opens onto nothing
-        // reads as a broken panel rather than as a phase that has not shipped.
-        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd])
+    @Test func theTwoSectionsHoldingNoCataloguedLayerAreStillShown() {
+        // Tax Sale carries the master switch and the record modes; My Maps
+        // carries the user's own imports. Neither has a catalogued layer, and
+        // dropping a section with no rows would take both controls off the
+        // panel entirely.
+        //
+        // Built the way the app builds it, with the viewport view model the
+        // queried layers answer through: without it a third section — the one
+        // holding the old-growth policy layer — has nothing to show either,
+        // and that is a fact about this test rather than about the panel.
+        let controller = MapController()
+        let viewModel = OverlayViewModel(
+            controller: controller,
+            licenceStore: ProvinceLicenceStore(
+                storage: InMemoryProvinceLicenceStorage(initial: .accepted)
+            ),
+            features: ViewportFeatureViewModel(controller: controller)
+        )
 
-        let groups = Set(viewModel.sections.map(\.group))
+        let empty = viewModel.sections(addedMapCount: 0)
+            .filter { $0.rows.isEmpty }
+            .map(\.category)
 
-        #expect(groups.contains(.mapLayers))
-        #expect(groups.isDisjoint(with: [.forestry, .zoning, .groundwater, .hydroPilot]))
-        #expect(viewModel.sections.allSatisfy { $0.rows.isEmpty == false })
+        #expect(empty == [.taxSale, .myMaps])
     }
 
-    @Test func everySectionCarriesTheGroupsHeading() throws {
+    @Test func everySectionCarriesTheWebsHeadingAndItsSentence() throws {
         let viewModel = OverlayViewModel.forTesting(installing: [.coastalFlood2100])
-        let flood = try #require(viewModel.sections.first { $0.group == .floodHazard })
+        let sections = viewModel.sections(addedMapCount: 0)
+        let hazards = try #require(sections.first { $0.category == .environmentHazards })
 
-        #expect(flood.title == "Flood hazard context")
-        #expect(viewModel.sections.allSatisfy { $0.title.isEmpty == false })
+        #expect(hazards.title == "Environment & Hazards")
+        #expect(hazards.detail == "Flood, health, aquifer, and well information.")
+        #expect(sections.allSatisfy { !$0.title.isEmpty && !$0.detail.isEmpty })
     }
 
-    @Test func theChurchSheetsGetASectionWithoutBeingInstallable() throws {
+    @Test func theChurchSheetsSitWithFletcherWithoutBeingInstallable() throws {
         // They are catalogued with no tiles, and the rows exist so a reader can
-        // see what is coming and who holds the scan. Dropping the section would
-        // make four counties silently absent.
-        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd])
-        let church = try #require(viewModel.sections.first { $0.group == .church })
+        // see what is coming and who holds the scan. Dropping them would make
+        // four counties silently absent.
+        let viewModel = OverlayViewModel.forTesting(installing: [.fletcher])
+        let historical = try #require(
+            viewModel.sections(addedMapCount: 0).first { $0.category == .historicalMaps }
+        )
+        let unavailable = historical.rows.filter { !$0.isAvailable }
 
-        #expect(church.rows.count == 4)
-        #expect(church.rows.allSatisfy { $0.isAvailable == false })
+        #expect(historical.rows.contains { $0.id == LayerID.fletcher.rawValue })
+        #expect(unavailable.count == 4)
         // No chip on a row with nothing behind it: "Off" would read as a switch
         // the user could move.
-        #expect(church.rows.allSatisfy { $0.runtime == nil })
+        #expect(unavailable.allSatisfy { $0.runtime == nil })
     }
 
     @Test func everyRowHasProvenanceToShow() {
@@ -182,39 +196,95 @@ struct LayerPanelSectionTests {
         }
     }
 
-    @Test func theSubtitleCountsTheRowsThisPanelIsShowing() throws {
-        let viewModel = OverlayViewModel.forTesting(installing: [.contours])
-        let topography = try #require(viewModel.sections.first { $0.group == .topography })
+    @Test func theSummaryCountsWhatIsDrawing() throws {
+        let viewModel = OverlayViewModel.forTesting(installing: NativeLayerTraits.installOrder)
+        let water = try #require(
+            viewModel.sections(addedMapCount: 0).first { $0.category == .waterTerrain }
+        )
 
-        #expect(topography.rows.count == 1)
-        #expect(topography.subtitle == "1 layer")
+        #expect(water.summary == "Off")
 
         viewModel.toggleVisibility(LayerID.contours.rawValue)
 
-        let afterToggle = try #require(viewModel.sections.first { $0.group == .topography })
-        #expect(afterToggle.subtitle == "1 layer · 1 on")
+        let afterToggle = try #require(
+            viewModel.sections(addedMapCount: 0).first { $0.category == .waterTerrain }
+        )
+
+        #expect(afterToggle.summary == "1 on")
     }
 
-    @Test func thePanelOpensOnTheSectionsThatAreDrawingSomething() {
-        // Fletcher is the layer the app launches showing, and it sits in its own
-        // section at the bottom: opening only the first section would hide the
-        // one thing already on the map.
-        let viewModel = OverlayViewModel.forTesting(installing: [.fletcher, .contours])
+    @Test func theSummaryCountsWhatIsCataloguedWithNoTiles() throws {
+        // Collapsed, the heading is the only place a reader is told that four
+        // of the maps filed under it cannot be drawn yet.
+        let viewModel = OverlayViewModel.forTesting(installing: NativeLayerTraits.installOrder)
+        let historical = try #require(
+            viewModel.sections(addedMapCount: 0).first { $0.category == .historicalMaps }
+        )
 
-        let expanded = TransparencySliderView.initiallyExpandedGroups(in: viewModel.sections)
-
-        #expect(expanded.contains(.historical))
-        #expect(expanded.contains(.mapLayers))
-        #expect(expanded.contains(.topography) == false)
+        #expect(historical.summary == "1 on · 4 unavailable")
     }
 
-    @Test func theCoreSectionOpensEvenWithEverythingOff() {
-        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd], licence: .declined)
+    @Test func theSummarySaysWhenTheLicenceIsStillInTheWay() throws {
+        // A restricted layer whose switch is on is not drawing while the
+        // licence is unanswered, so it is not counted as on — and the reason
+        // has to be on the heading, or a collapsed section reads as broken.
+        let viewModel = OverlayViewModel.forTesting(
+            installing: NativeLayerTraits.installOrder, licence: .declined
+        )
+        let land = try #require(
+            viewModel.sections(addedMapCount: 0).first { $0.category == .landProperty }
+        )
 
-        let expanded = TransparencySliderView.initiallyExpandedGroups(in: viewModel.sections)
+        #expect(land.summary == "Off · Province licence required")
+    }
 
-        #expect(viewModel.rows.contains { $0.isVisible } == false)
-        #expect(expanded == [.mapLayers])
+    @Test func theTaxSaleSummaryIsTheMasterSwitch() throws {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd])
+
+        func summary() throws -> String {
+            try #require(
+                viewModel.sections(addedMapCount: 0).first { $0.category == .taxSale }
+            ).summary
+        }
+
+        #expect(try summary() == "Off")
+
+        viewModel.setTaxSaleEnabled(true)
+
+        #expect(try summary() == "On")
+    }
+
+    @Test func theMyMapsSummaryCountsWhatTheUserAdded() throws {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd])
+
+        func summary(added: Int) throws -> String {
+            try #require(
+                viewModel.sections(addedMapCount: added).first { $0.category == .myMaps }
+            ).summary
+        }
+
+        #expect(try summary(added: 0) == "Add")
+        #expect(try summary(added: 2) == "2 added")
+    }
+
+    @Test func theZoningNoteStaysWithTheZoningLayers() throws {
+        // The sentence is about the zoning rows, not about everything filed
+        // under Land & Property, and it is the difference between "no zoning
+        // applies here" and "this map has no zoning data for here".
+        let controller = MapController()
+        let viewModel = OverlayViewModel(
+            controller: controller,
+            licenceStore: ProvinceLicenceStore(
+                storage: InMemoryProvinceLicenceStorage(initial: .accepted)
+            ),
+            features: ViewportFeatureViewModel(controller: controller)
+        )
+        let sections = viewModel.sections(addedMapCount: 0)
+        let land = try #require(sections.first { $0.category == .landProperty })
+
+        #expect(land.notes.count == 1)
+        #expect(land.notes[0].contains("publishes no provincial zoning layer"))
+        #expect(sections.filter { $0.category != .landProperty }.allSatisfy { $0.notes.isEmpty })
     }
 }
 

@@ -19,10 +19,13 @@ struct TransparencySliderView: View {
     var onNewDrawingLayer: (() -> Void)?
     @Binding var isExpanded: Bool
 
-    /// Which sections are open. `nil` until the panel is first laid out, so the
-    /// opening set can be chosen from what is actually on the map rather than
-    /// guessed at before the layers are installed.
-    @State private var expandedGroups: Set<LayerGroupID>?
+    /// Which sections are open.
+    ///
+    /// Background Maps alone, as the browser opens: opening every section that
+    /// is drawing something would be a scroll of thirty switches, which is the
+    /// thing the sections exist to avoid. What is on inside a closed section is
+    /// on the heading beside it.
+    @State private var expandedCategories: Set<LayerCategoryID> = [.backgroundMaps]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -53,137 +56,28 @@ struct TransparencySliderView: View {
             Divider()
                 .background(.primary.opacity(0.1))
 
-            // Base Map Selector
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Base Map Style")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-
-                Picker("Base Map Style", selection: Binding(
-                    get: { viewModel.baseMapType },
-                    set: { viewModel.setBaseMapType($0) }
-                )) {
-                    ForEach(MapBaseType.allCases) { type in
-                        Text(type.rawValue).tag(type)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
-
-            // Tax-sale master switch
-            //
-            // Above the record-mode picker because it decides whether that
-            // picker means anything, and in the panel rather than in the
-            // tax-sale sheet because a reader who has never opened that sheet
-            // is exactly the reader this switch is for.
-            Divider()
-                .background(.primary.opacity(0.1))
-
-            VStack(alignment: .leading, spacing: 6) {
-                Toggle(isOn: Binding(
-                    get: { viewModel.showsTaxSale },
-                    set: { viewModel.setTaxSaleEnabled($0) }
-                )) {
-                    Text("Show tax-sale information")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                }
-                .toggleStyle(.switch)
-                .accessibilityIdentifier("tax-sale-enabled")
-
-                Text(
-                    "Off by default. This is a map of Nova Scotia; tax-sale "
-                        + "notices and records are one thing it can show."
-                )
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-            }
-
-            // Map Record Mode
-            //
-            // Kept beside the base map rather than inside the tax-sale sheet,
-            // because it decides what every tax-sale colour on the map means and
-            // a reader has to be able to see which mode they are in without
-            // opening anything.
-            if viewModel.offersRecordModes {
-                Divider()
-                    .background(.primary.opacity(0.1))
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Map Record Mode")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.secondary)
-
-                    Picker("Map Record Mode", selection: Binding(
-                        get: { viewModel.mapRecordMode },
-                        set: { viewModel.setMapRecordMode($0) }
-                    )) {
-                        ForEach(HistoricalTaxSaleViewModel.Mode.allCases) { mode in
-                            Text(mode.label).tag(mode)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .accessibilityIdentifier("map-record-mode")
-
-                    Text(viewModel.recordModeCaption)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
-            Divider()
-                .background(.primary.opacity(0.1))
-
-            // Layers List
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 8) {
-                    ForEach(viewModel.sections) { section in
+                    ForEach(viewModel.sections(addedMapCount: addedMapCount)) { section in
                         LayerSectionView(
                             section: section,
                             viewModel: viewModel,
                             isExpanded: Binding(
-                                get: { expandedGroups?.contains(section.group) ?? false },
+                                get: { expandedCategories.contains(section.category) },
                                 set: { open in
-                                    var groups = expandedGroups ?? []
                                     if open {
-                                        groups.insert(section.group)
+                                        expandedCategories.insert(section.category)
                                     } else {
-                                        groups.remove(section.group)
+                                        expandedCategories.remove(section.category)
                                     }
-                                    expandedGroups = groups
                                 }
-                            )
-                        )
-                    }
-
-                    if let userMaps {
-                        Divider()
-                            .background(.primary.opacity(0.1))
-                        UserMapRowsView(viewModel: userMaps, vectors: userVectors)
-                    }
-
-                    if let userVectors {
-                        Divider()
-                            .background(.primary.opacity(0.1))
-                        UserVectorRowsView(
-                            viewModel: userVectors,
-                            maps: userMaps,
-                            onZoom: onZoomToLayer,
-                            onEdit: onEditLayer,
-                            onNewDrawingLayer: onNewDrawingLayer
+                            ),
+                            controls: { controls(for: section.category) }
                         )
                     }
                 }
             }
             .frame(maxHeight: 350)
-        }
-        .onAppear {
-            guard expandedGroups == nil else { return }
-            expandedGroups = Self.initiallyExpandedGroups(in: viewModel.sections)
         }
         .padding(16)
         .background(
@@ -207,30 +101,152 @@ struct TransparencySliderView: View {
         }
     }
 
-    /// The sections the panel opens on: whichever ones are drawing something,
-    /// plus the core layers.
+    /// How many of the user's own maps and layers the panel is carrying, which
+    /// is the whole of what the My Maps heading has to count.
+    private var addedMapCount: Int {
+        (userMaps?.rows.count ?? 0) + (userVectors?.rows.count ?? 0)
+    }
+
+    /// What a section holds besides its layer rows.
     ///
-    /// Opening everything would be a scroll of twenty-five switches, which is
-    /// the thing the sections exist to avoid. Opening only `mapLayers` would
-    /// hide the fact that Fletcher — the layer the app launches showing — is on,
-    /// because it sits in its own section at the bottom.
-    static func initiallyExpandedGroups(in sections: [LayerSection]) -> Set<LayerGroupID> {
-        var groups = sections
-            .filter { $0.visibleCount > 0 }
-            .reduce(into: Set<LayerGroupID>()) { $0.insert($1.group) }
-        groups.insert(.mapLayers)
-        return groups
+    /// Three of the ten carry a control the catalog knows nothing about: the
+    /// base map beneath the overlays, the tax-sale switch and the record modes
+    /// it governs, and the user's own imports. Each sits in the section named
+    /// for it, which is where the browser puts it and where a reader looks.
+    @ViewBuilder
+    private func controls(for category: LayerCategoryID) -> some View {
+        switch category {
+        case .backgroundMaps:
+            baseMapPicker
+        case .taxSale:
+            taxSaleControls
+        case .myMaps:
+            myMapsControls
+        default:
+            EmptyView()
+        }
+    }
+
+    private var baseMapPicker: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Base Map Style")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+
+            Picker("Base Map Style", selection: Binding(
+                get: { viewModel.baseMapType },
+                set: { viewModel.setBaseMapType($0) }
+            )) {
+                ForEach(MapBaseType.allCases) { type in
+                    Text(type.rawValue).tag(type)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
+    @ViewBuilder
+    private var taxSaleControls: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Toggle(isOn: Binding(
+                get: { viewModel.showsTaxSale },
+                set: { viewModel.setTaxSaleEnabled($0) }
+            )) {
+                Text("Show tax-sale information")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+            }
+            .toggleStyle(.switch)
+            .accessibilityIdentifier("tax-sale-enabled")
+
+            Text(
+                "Off by default. This is a map of Nova Scotia; tax-sale "
+                    + "notices and records are one thing it can show."
+            )
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+
+        // The record modes decide what every tax-sale colour on the map means,
+        // so they belong beside the switch that decides whether those colours
+        // are drawn at all rather than inside a sheet the reader may never open.
+        if viewModel.offersRecordModes {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Map Record Mode")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+
+                Picker("Map Record Mode", selection: Binding(
+                    get: { viewModel.mapRecordMode },
+                    set: { viewModel.setMapRecordMode($0) }
+                )) {
+                    ForEach(HistoricalTaxSaleViewModel.Mode.allCases) { mode in
+                        Text(mode.label).tag(mode)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .accessibilityIdentifier("map-record-mode")
+
+                Text(viewModel.recordModeCaption)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var myMapsControls: some View {
+        if let userMaps {
+            UserMapRowsView(viewModel: userMaps, vectors: userVectors)
+        }
+
+        if let userVectors {
+            UserVectorRowsView(
+                viewModel: userVectors,
+                maps: userMaps,
+                onZoom: onZoomToLayer,
+                onEdit: onEditLayer,
+                onNewDrawingLayer: onNewDrawingLayer
+            )
+        }
     }
 }
 
-private struct LayerSectionView: View {
+private struct LayerSectionView<Controls: View>: View {
     let section: LayerSection
     let viewModel: OverlayViewModel
     @Binding var isExpanded: Bool
+    private let controls: () -> Controls
+
+    init(
+        section: LayerSection,
+        viewModel: OverlayViewModel,
+        isExpanded: Binding<Bool>,
+        @ViewBuilder controls: @escaping () -> Controls
+    ) {
+        self.section = section
+        self.viewModel = viewModel
+        _isExpanded = isExpanded
+        self.controls = controls
+    }
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             VStack(alignment: .leading, spacing: 16) {
+                // The browser shows this line once the section is open, and it
+                // is the only place a reader is told what the heading covers.
+                Text(section.detail)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                controls()
+
                 ForEach(section.rows) { row in
                     LayerRowView(row: row, viewModel: viewModel)
                 }
@@ -238,7 +254,7 @@ private struct LayerSectionView: View {
                 // Under the toggles, where the web puts it: the reader who
                 // needs this sentence is the one who has just switched a layer
                 // on and got a blank map back.
-                if let note = section.note {
+                ForEach(section.notes, id: \.self) { note in
                     Text(note)
                         .font(.caption2)
                         .foregroundStyle(.secondary)
@@ -254,14 +270,14 @@ private struct LayerSectionView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(.primary)
 
-                Text(section.subtitle)
+                Text(section.summary)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("\(section.title), \(section.subtitle)")
+            .accessibilityLabel("\(section.title), \(section.summary)")
         }
         .tint(.secondary)
         .padding(.vertical, 4)

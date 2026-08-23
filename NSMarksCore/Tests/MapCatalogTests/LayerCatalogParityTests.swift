@@ -63,6 +63,51 @@ struct LayerCatalogParityTests {
         #expect(LayerGroupID.allCases.map(\.rawValue) == Self.fixture.groupOrder)
     }
 
+    // MARK: - The panel's sections
+
+    /// The headings, their order, and the words under them.
+    ///
+    /// All three, because all three are what a reader compares when they open
+    /// the same map on a phone and in a browser. A section renamed on one
+    /// surface is the kind of drift that never fails anything else.
+    @Test("Names the panel's sections as the web names them")
+    func matchesCategories() {
+        #expect(
+            LayerCategory.all.map(\.id.rawValue) == Self.fixture.categories.map(\.id)
+        )
+        for category in LayerCategory.all {
+            let expected = Self.fixture.categories.first { $0.id == category.id.rawValue }
+            #expect(category.name == expected?.name, "\(category.id.rawValue) name")
+            #expect(
+                category.description == expected?.description,
+                "\(category.id.rawValue) description"
+            )
+        }
+    }
+
+    /// And every layer sits under the same heading on both surfaces.
+    @Test("Files every layer under the web's category")
+    func matchesLayerCategories() {
+        for layer in LayerCatalog.all {
+            let expected = Self.fixture.layer(layer.id.rawValue)?["category"]?.string
+            #expect(layer.id.category.rawValue == expected, "\(layer.id.rawValue) category")
+        }
+    }
+
+    /// The two sections that hold no catalogue layer are still sections.
+    ///
+    /// The panel puts the tax-sale controls and the reader's own maps in them.
+    /// A native panel built only from the categories layers name would drop
+    /// both headings and move those controls somewhere the browser has nothing.
+    @Test("Keeps the two sections no layer is filed under")
+    func keepsTheEmptyCategories() {
+        let used = Set(LayerID.allCases.map(\.category))
+        #expect(used.contains(.taxSale) == false)
+        #expect(used.contains(.myMaps) == false)
+        #expect(LayerCategoryID.allCases.contains(.taxSale))
+        #expect(LayerCategoryID.allCases.contains(.myMaps))
+    }
+
     // MARK: - Field-by-field
 
     @Test("Matches every scalar field the fixture declares")
@@ -412,6 +457,10 @@ struct LayerCatalogParityTests {
             // The health screens' advice and legend, checked by
             // `matchesGuidanceAndRiskBands`.
             "guidance", "riskBands",
+            // Which panel section the layer sits in. Modelled on `LayerID`
+            // rather than on the descriptor, and checked by
+            // `matchesLayerCategories`.
+            "category",
         ]
         var unknown: Set<String> = []
         for entry in Self.fixture.layers.values {

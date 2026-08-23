@@ -107,25 +107,24 @@ nonisolated struct LayerRow: Identifiable, Equatable, Sendable {
 
 /// One collapsible section of the layer panel.
 nonisolated struct LayerSection: Identifiable, Equatable, Sendable {
-    let group: LayerGroupID
+    let category: LayerCategoryID
     let rows: [LayerRow]
+    /// The line beside the heading, built by the view model because it counts
+    /// state the section itself cannot see — the licence, the tax-sale switch,
+    /// how many maps the user has added.
+    let summary: String
+    /// Standing sentences under the rows, where the rows on their own would be
+    /// read as more than they are.
+    let notes: [String]
 
-    var id: String { group.rawValue }
-    var title: String { NativeLayerTraits.title(for: group) }
+    var id: String { category.rawValue }
+    var title: String { LayerCategory.named(category).name }
+
+    /// The sentence under the heading once the section is open, from the shared
+    /// catalog so both surfaces describe a section the same way.
+    var detail: String { LayerCategory.named(category).description }
+
     var visibleCount: Int { rows.count(where: \.isVisible) }
-
-    /// A standing sentence under the rows, where this section needs one.
-    var note: String? { NativeLayerTraits.sectionNote(for: group) }
-
-    /// The line under the heading.
-    ///
-    /// Counted from the rows this panel is actually showing rather than copied
-    /// from the web's equivalent line, which counts what *that* surface shows —
-    /// the same section holds five zoning layers there and none here.
-    var subtitle: String {
-        let layers = rows.count == 1 ? "1 layer" : "\(rows.count) layers"
-        return visibleCount == 0 ? layers : "\(layers) · \(visibleCount) on"
-    }
 }
 
 /// Layer-menu logic over `MapController`. Carries no observable state of its
@@ -211,20 +210,85 @@ final class OverlayViewModel {
         features?.setWellAccuracyFilter(filter)
     }
 
-    /// The panel's sections, in catalog order, carrying only the groups that
-    /// have a row to show.
+    /// The panel's ten sections, in the web's order.
     ///
-    /// Groups rather than one flat list because the catalog went from ten
-    /// layers to twenty-five: a single scroll of switches is where a user stops
-    /// being able to find the one they came for. Empty groups are dropped
-    /// instead of rendered empty — a section that opens onto nothing reads as a
-    /// bug rather than as a phase that has not shipped.
-    var sections: [LayerSection] {
-        let grouped = Dictionary(grouping: rows) { $0.descriptor.group }
-        return LayerGroupID.allCases.compactMap { group in
-            guard let rows = grouped[group], !rows.isEmpty else { return nil }
-            return LayerSection(group: group, rows: rows)
+    /// Categories rather than the catalog's `LayerGroupID`: that grouping is a
+    /// property of the arrays the web's catalog is assembled from, and it is
+    /// not the panel either surface shows. A reader who has used the browser
+    /// looks for "Environment & Hazards", and finding the same ten headings in
+    /// the same order is most of what makes the two surfaces one map.
+    ///
+    /// Every category is rendered, including the two that hold no catalogued
+    /// layer at all: Tax Sale carries the master switch and the record modes,
+    /// My Maps the user's own imports. A reader looking for either goes to the
+    /// section named for it.
+    ///
+    /// - Parameter addedMapCount: How many maps and vector layers the user has
+    ///   imported. Passed in because those live outside this view model, and a
+    ///   panel shown without them is still the same panel.
+    func sections(addedMapCount: Int) -> [LayerSection] {
+        let grouped = Dictionary(grouping: rows) { $0.descriptor.id.category }
+        return LayerCategory.all.map { category in
+            let rows = grouped[category.id] ?? []
+            return LayerSection(
+                category: category.id,
+                rows: rows,
+                summary: summary(for: category.id, rows: rows, addedMapCount: addedMapCount),
+                notes: Self.notes(for: rows)
+            )
         }
+    }
+
+    /// The web's `categorySummary`, computed from this panel's own rows.
+    ///
+    /// The strings are the browser's, and the counts are this app's: the same
+    /// category holds five zoning layers there and however many this app has
+    /// installed here, so copying the number rather than the format would state
+    /// a count the rows underneath contradict.
+    private func summary(
+        for category: LayerCategoryID,
+        rows: [LayerRow],
+        addedMapCount: Int
+    ) -> String {
+        switch category {
+        case .myMaps:
+            return addedMapCount == 0 ? "Add" : "\(addedMapCount) added"
+        case .taxSale:
+            let state = showsTaxSale ? "On" : "Off"
+            return licenceStore.needsDecision ? "\(state) · Province licence required" : state
+        default:
+            break
+        }
+
+        // A layer the licence still stands in front of is not drawing, whatever
+        // its switch says, so it is not counted as on.
+        let activeCount = rows.count { $0.isVisible && !$0.needsLicence }
+        var parts = [activeCount == 0 ? "Off" : "\(activeCount) on"]
+
+        // Catalogued with nothing behind it: the Church sheets, which have no
+        // tiles yet. Collapsed, the count is the only place that fact appears.
+        let unavailable = rows.count { !$0.isAvailable }
+        if unavailable > 0 {
+            parts.append("\(unavailable) unavailable")
+        }
+
+        if rows.contains(where: \.needsLicence) {
+            parts.append("Province licence required")
+        }
+
+        return parts.joined(separator: " · ")
+    }
+
+    /// The standing sentences a section owes its rows, in catalog order.
+    ///
+    /// Keyed by the catalog group rather than by the category, because what
+    /// needs saying is about the zoning layers rather than about everything
+    /// filed under Land & Property.
+    private static func notes(for rows: [LayerRow]) -> [String] {
+        let groups = Set(rows.map(\.descriptor.group))
+        return LayerGroupID.allCases
+            .filter { groups.contains($0) }
+            .compactMap { NativeLayerTraits.sectionNote(for: $0) }
     }
 
     /// The catalog entries that get a row: everything the app installs as a
