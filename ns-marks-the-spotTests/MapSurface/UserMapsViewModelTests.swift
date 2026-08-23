@@ -592,3 +592,158 @@ struct UserMapOrientationTests {
         #expect(imported.preview.width > imported.preview.height)
     }
 }
+
+/// A defaults suite of its own, so one test's answer is not the next test's
+/// starting point. The app writes to `UserDefaults.standard`.
+@MainActor
+private func throwawayDisplay() -> UserMapDisplayStore {
+    UserMapDisplayStore(
+        defaults: UserDefaults(suiteName: "user-maps-\(UUID().uuidString)") ?? .standard
+    )
+}
+
+@Suite("Which of the user's maps are drawn, and how strongly")
+@MainActor
+struct UserMapDisplayTests {
+    @Test("A map arrives at the strength the browser imports it at")
+    func anImportedMapArrivesTranslucent() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+
+            let row = try #require(viewModel.rows.first)
+            // Drawn straight away, because the user just chose the file and
+            // nothing else would explain the panel. At 70%, because a scan laid
+            // over the map at full strength hides the ground it is there to be
+            // compared against.
+            #expect(row.isVisible)
+            #expect(abs(row.opacity - 0.7) < 0.0001)
+        }
+    }
+
+    @Test("What the reader switched off comes back switched off")
+    func visibilityAndStrengthSurviveARelaunch() async throws {
+        try await withLibraryDirectory { directory in
+            let display = throwawayDisplay()
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: display
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "North")
+            await viewModel.importMap(data: try image(), name: "South")
+            let north = try #require(viewModel.rows.first { $0.record.name == "North" })
+            let south = try #require(viewModel.rows.first { $0.record.name == "South" })
+            viewModel.setVisible(false, id: north.id)
+            viewModel.setOpacity(0.35, id: south.id)
+
+            let relaunched = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: display
+            )
+            await relaunched.load()
+
+            let reopenedNorth = try #require(relaunched.rows.first { $0.id == north.id })
+            let reopenedSouth = try #require(relaunched.rows.first { $0.id == south.id })
+            #expect(!reopenedNorth.isVisible)
+            #expect(reopenedSouth.isVisible)
+            #expect(abs(reopenedSouth.opacity - 0.35) < 0.0001)
+        }
+    }
+
+    @Test("A map nothing is remembered about opens hidden")
+    func aMapWithNothingRememberedOpensHidden() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+
+            // The library survives, the display state does not — a device
+            // restored from a backup that carried the documents, or a build
+            // that stored nothing here. Opening every stored scan over the
+            // province is not a state anybody asked for.
+            let relaunched = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await relaunched.load()
+
+            let row = try #require(relaunched.rows.first)
+            #expect(!row.isVisible)
+            #expect(abs(row.opacity - 0.7) < 0.0001)
+        }
+    }
+
+    @Test("A deleted map takes its remembered state with it")
+    func deletingAMapDropsWhatWasRememberedAboutIt() async throws {
+        try await withLibraryDirectory { directory in
+            let display = throwawayDisplay()
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: display
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let id = try #require(viewModel.rows.first?.id)
+            #expect(display.load()[id] != nil)
+
+            await viewModel.delete(id: id)
+            #expect(display.load()[id] == nil)
+        }
+    }
+
+    /// The window between an import starting and the seal going up.
+    ///
+    /// `load` learns of a later version across an await, so an import that
+    /// started first passes the seal check and reaches the library write. The
+    /// store refuses it. What must not happen is the refused map's entry
+    /// replacing the whole remembered set on its way through — the entries it
+    /// would replace belong to the maps this build cannot read.
+    ///
+    /// Measured, not assumed: with the remembering moved back above the write
+    /// this fails, and the kept entry is gone.
+    @Test("A map the library refused is not remembered as drawn")
+    func aRefusedImportLeavesTheRememberedStateAlone() async throws {
+        try await withLibraryDirectory { directory in
+            let display = throwawayDisplay()
+            let kept = UserMapDisplayStore.Display(isVisible: true, opacity: 0.4)
+            display.save(["kept": kept])
+            try Data(#"{"version":999,"maps":[]}"#.utf8)
+                .write(to: directory.appendingPathComponent("library.json"))
+
+            // No `load` first: this is the import that started before the app
+            // knew, which is the only way to reach the write at all.
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: display
+            )
+            await viewModel.importMap(data: try image(), name: "Racing")
+
+            #expect(viewModel.rows.isEmpty)
+            #expect(display.load() == ["kept": kept])
+        }
+    }
+
+    @Test("A sealed library does not take the display state with it")
+    func aSealedLibraryLeavesTheRememberedStateAlone() async throws {
+        try await withLibraryDirectory { directory in
+            let display = throwawayDisplay()
+            let kept = UserMapDisplayStore.Display(isVisible: true, opacity: 0.4)
+            display.save(["kept": kept])
+
+            // A document from a later build. The rows are empty because this
+            // build cannot read them, and writing the empty set back would
+            // throw away what the later build's maps were showing.
+            try Data(#"{"version":999,"maps":[]}"#.utf8)
+                .write(to: directory.appendingPathComponent("library.json"))
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: display
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+
+            #expect(viewModel.isLibrarySealed)
+            #expect(display.load()["kept"] == kept)
+        }
+    }
+}

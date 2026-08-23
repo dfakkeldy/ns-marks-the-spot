@@ -96,9 +96,16 @@ final class UserMapsViewModel {
 
     private let store: UserMapStore
 
-    init(store: UserMapStore = UserMapStore()) {
+    init(
+        store: UserMapStore = UserMapStore(),
+        display: UserMapDisplayStore = UserMapDisplayStore()
+    ) {
         self.store = store
+        self.display = display
     }
+
+    /// Which maps are drawn and how strongly, which is not part of the library.
+    private let display: UserMapDisplayStore
 
     /// Reads the library, then fills in previews as they load.
     ///
@@ -174,8 +181,19 @@ final class UserMapsViewModel {
         }
         isLibrarySealed = false
         saved = records
-        rows = records.map {
-            Row(record: $0, isVisible: true, opacity: 1, preview: nil)
+        let remembered = display.load()
+        rows = records.map { record in
+            let last = remembered[record.id]
+            // A map nothing is remembered about is not drawn. Opening every
+            // stored scan at full strength over the province is not a state
+            // anybody asked for, and it is not what the browser does with the
+            // same gap.
+            return Row(
+                record: record,
+                isVisible: last?.isVisible ?? false,
+                opacity: CGFloat(last?.opacity ?? UserMapDisplayStore.defaultOpacity),
+                preview: nil
+            )
         }
         // Pixels with no record left to belong to. An import whose library
         // write was refused has already written its preview, and a crash
@@ -239,7 +257,13 @@ final class UserMapsViewModel {
             guard !isLibrarySealed else { return refuseWhileSealed(name: named) }
             rows.append(
                 Row(
-                    record: imported.record, isVisible: true, opacity: 1,
+                    record: imported.record,
+                    isVisible: true,
+                    // The browser imports at 70%. A scan laid over the map at
+                    // full strength hides the ground it is there to be compared
+                    // against, and the reader's first act is to pull the slider
+                    // back down.
+                    opacity: CGFloat(UserMapDisplayStore.defaultOpacity),
                     preview: imported.preview
                 )
             )
@@ -263,6 +287,12 @@ final class UserMapsViewModel {
                 writes += 1
                 try await store.save(document)
                 saved = document
+                // Only now, and never before. The whole set is written each
+                // time, so remembering a map the library then refused would
+                // replace the entries of every map that library does hold —
+                // and a refusal is exactly when those entries belong to maps
+                // this build cannot even see.
+                rememberDisplay()
             } catch {
                 rows.removeAll { $0.id == id }
                 throw error
@@ -432,11 +462,38 @@ final class UserMapsViewModel {
     func setVisible(_ isVisible: Bool, id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible
+        rememberDisplay()
     }
 
     func setOpacity(_ opacity: CGFloat, id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].opacity = opacity
+        rememberDisplay()
+    }
+
+    /// Writes down what every row is showing, so the next launch opens on it.
+    ///
+    /// The whole set each time rather than the one row that changed: a map
+    /// deleted here should lose its entry, and a set rebuilt from the rows does
+    /// that without a second call to remember.
+    ///
+    /// Nothing is written while the library is sealed. `rows` is empty then,
+    /// and saving would take the entries for maps that are still on the device
+    /// with it.
+    private func rememberDisplay() {
+        guard !isLibrarySealed else { return }
+        display.save(
+            Dictionary(
+                uniqueKeysWithValues: rows.map {
+                    (
+                        $0.id,
+                        UserMapDisplayStore.Display(
+                            isVisible: $0.isVisible, opacity: Double($0.opacity)
+                        )
+                    )
+                }
+            )
+        )
     }
 
     /// Saves a placement the user worked out in the georeferencer.
@@ -465,6 +522,7 @@ final class UserMapsViewModel {
         let kept = Set(remaining.map(\.id))
         rows.removeAll { !kept.contains($0.id) }
         saved = remaining
+        rememberDisplay()
     }
 
     /// What the map should be drawing, in panel order.
