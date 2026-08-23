@@ -78,8 +78,12 @@ def eligible_destinations(lines: "list[str]") -> "list[dict[str, str]]":
 def select_destination(lines: "list[str]") -> "str | None":
     """The destination argument for `xcodebuild`, or nothing if none will run.
 
-    Newest OS first, and the preferred device ahead of its siblings on the same
-    OS. Nothing is a legitimate answer and the caller is expected to fail on it,
+    Newest OS first, and only then the preferred device. That order matters:
+    the project's deployment target is the newest iOS, so a preferred device on
+    an older runtime is a simulator the app will not install on, and preferring
+    it by name would pick the one destination that cannot run the tests.
+
+    Nothing is a legitimate answer and the caller is expected to fail on it,
     because a test run with no simulator is not a test run.
     """
     deduplicated: dict[tuple[str, str], dict[str, str]] = {}
@@ -89,8 +93,8 @@ def select_destination(lines: "list[str]") -> "str | None":
     ordered = sorted(
         deduplicated.values(),
         key=lambda destination: (
-            destination["name"] == PREFERRED_DEVICE_NAME,
             os_sort_key(destination["OS"]),
+            destination["name"] == PREFERRED_DEVICE_NAME,
             destination["name"],
         ),
         reverse=True,

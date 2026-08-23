@@ -64,24 +64,47 @@ extension XCUIApplication {
     /// Scrolls `element` into reach inside `container`, and says whether it got
     /// there.
     ///
+    /// Stops when the list stops moving rather than after a fixed number of
+    /// swipes. A swipe count is a constant about somebody else's content: the
+    /// sources sheet is as long as the layer catalogue, which is thirty-six
+    /// entries and grows, and a run at an accessibility text size is longer
+    /// again. Watching the target's own frame asks the question that decides
+    /// the answer, which is whether there is any more list, and costs one extra
+    /// swipe rather than thirty. `limit` is only a backstop against a view that
+    /// scrolls forever.
+    ///
     /// Downwards only on request. Swiping down inside a presented sheet that is
     /// already at its top hands the gesture to interactive dismissal, and a
     /// target that was simply mis-queried then fails as a vanished sheet rather
-    /// than as the reachability question actually being asked. Everything
-    /// reached here starts above its target, so up is the whole of it.
+    /// than as the reachability question actually being asked.
     func scroll(
         _ element: XCUIElement,
         into container: XCUIElement,
-        swipes: Int = 8,
+        limit: Int = 40,
         alsoUpwards: Bool = false
     ) -> Bool {
         if element.exists, element.isHittable { return true }
         var directions: [() -> Void] = [container.swipeUp]
         if alsoUpwards { directions.append(container.swipeDown) }
+
         for swipe in directions {
-            for _ in 0..<swipes {
+            var previous: CGRect?
+            var unmoved = 0
+            for _ in 0..<limit {
                 swipe()
                 if element.exists, element.isHittable { return true }
+                // A target a lazy `List` or `Form` has not built yet has no
+                // frame to compare, and that is the case where giving up early
+                // would be wrong: it is exactly what "keep scrolling" means.
+                guard element.exists else {
+                    previous = nil
+                    unmoved = 0
+                    continue
+                }
+                let frame = element.frame
+                unmoved = frame == previous ? unmoved + 1 : 0
+                if unmoved >= 2 { break }
+                previous = frame
             }
         }
         return false

@@ -31,12 +31,18 @@ SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
 DEV=$(xcode-select -p)
 MODULES=$SCRATCH/packages/arm64-apple-ios-simulator/debug/Modules
 
-# The same six flags the app target uses.
+# The flags the app target builds with. The triple carries the project's
+# `IPHONEOS_DEPLOYMENT_TARGET`, because availability and obsoletion are checked
+# against it and a pre-flight aimed at an older iOS accepts code the gated build
+# rejects. `DEBUG` is defined for the same reason: it is in the Debug
+# configuration's `SWIFT_ACTIVE_COMPILATION_CONDITIONS`, so anything written
+# under `#if DEBUG` is invisible to a check that omits it.
 FLAGS=(
   -sdk "$SDK"
-  -target arm64-apple-ios26.0-simulator
+  -target arm64-apple-ios26.5-simulator
   -swift-version 6
   -default-isolation MainActor
+  -D DEBUG
   -enable-upcoming-feature MemberImportVisibility
   -enable-upcoming-feature InferIsolatedConformances
   -enable-upcoming-feature NonisolatedNonsendingByDefault
@@ -49,7 +55,7 @@ cd "$ROOT"
 # DerivedData. `swift build` here is a package build, not an Apple app build.
 print "building NSMarksCore for the simulator"
 swift build --package-path NSMarksCore \
-  --triple arm64-apple-ios26.0-simulator \
+  --triple arm64-apple-ios26.5-simulator \
   -Xswiftc -sdk -Xswiftc "$SDK" \
   --scratch-path "$SCRATCH/packages" >/dev/null
 
@@ -87,8 +93,10 @@ xcrun swiftc -typecheck \
 # compile fails the whole gated run, and finding that out costs an admission.
 UIFLAGS=(
   -sdk "$SDK"
-  -target arm64-apple-ios26.0-simulator
+  -target arm64-apple-ios26.5-simulator
   -swift-version 6
+  -D DEBUG
+  -enable-testing
   -enable-upcoming-feature MemberImportVisibility
   -enable-upcoming-feature InferIsolatedConformances
   -enable-upcoming-feature NonisolatedNonsendingByDefault

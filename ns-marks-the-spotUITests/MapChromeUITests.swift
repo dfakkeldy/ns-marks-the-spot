@@ -50,16 +50,25 @@ final class MapChromeUITests: XCTestCase {
             label.hasSuffix(" m") || label.hasSuffix(" km"),
             "the readout says \"\(label)\", which is not a distance"
         )
-        // "0 m" carries a unit and means the geometry returned nothing. The two
-        // taps are a fifth of a screen apart on a map of Nova Scotia, which is
-        // kilometres of ground, so any answer at or below zero is wrong.
-        let metres = Double(
-            label.prefix(while: { $0 != " " }).replacingOccurrences(of: ",", with: "")
-        )
+        // "0 m" carries a unit and still means the geometry returned nothing,
+        // and so does any small constant. The app opens on the whole province,
+        // where a quarter of the screen is a hundred kilometres or so of
+        // ground, so a kilometre is a floor no correct answer can be under and
+        // no broken one can reach by accident. Reading in metres, because "900
+        // m" and "9.00 km" both parse to nine hundred otherwise.
+        //
+        // If the launch camera is ever tightened to a town this assertion is
+        // the one to revisit; it is a claim about where the map opens, not
+        // about the arithmetic.
+        let unit = label.hasSuffix(" km") ? 1000.0 : 1.0
+        // en_CA groups thousands, sometimes with a space that is not a space.
+        let digits = label.prefix(while: { $0 != " " })
+            .filter { $0.isNumber || $0 == "." }
+        let metres = Double(digits).map { $0 * unit }
         XCTAssertNotNil(metres, "the readout says \"\(label)\", which has no number in it")
         XCTAssertGreaterThan(
-            metres ?? 0, 0,
-            "two taps a fifth of a screen apart measured \"\(label)\""
+            metres ?? 0, 1000,
+            "two taps a quarter of a screen apart on a map of Nova Scotia measured \"\(label)\""
         )
         // The number never travels without it.
         XCTAssertTrue(
@@ -108,14 +117,14 @@ final class MapChromeUITests: XCTestCase {
         // Fletcher is the Rumsey scan this app opens showing and composites
         // into a printed sheet, so a wrong or missing licence on that row is
         // the one that would put someone in breach.
-        // Thirty swipes rather than the default eight. Fletcher is the last of
-        // thirty-six catalogued layers and each row runs to a disclaimer and a
-        // caveat, so the list below the heading is several thousand points
-        // long. The first run of this test failed here for that reason and not
-        // because the licence was missing.
+        // Fletcher is the last of thirty-six catalogued layers and each row runs
+        // to a disclaimer and a caveat, so the list below the heading is
+        // several thousand points long. The first run of this test failed here
+        // for that reason and not because the licence was missing, which is why
+        // `scroll` now stops on a list that has stopped rather than on a count.
         let fletcherLicence = app.descendants(matching: .any)["source-licence-fletcher"]
         XCTAssertTrue(
-            app.scroll(fletcherLicence, into: sheet, swipes: 30),
+            app.scroll(fletcherLicence, into: sheet),
             "Fletcher's row does not state a licence"
         )
         XCTAssertEqual(
@@ -166,11 +175,14 @@ final class MapChromeUITests: XCTestCase {
         // Accepting is meant to answer the tap that raised the sheet, not just
         // to record a decision. A switch that came back Off means the user said
         // yes and got nothing.
-        let state = (aerial.value as? String) ?? ""
-        XCTAssertTrue(
-            state == "On" || state == "1",
-            "NS Aerial is still off after its licence was accepted"
+        //
+        // Waited for rather than read once: the switch is published before its
+        // value is, so a correct app spends a moment reading Off.
+        let switchedOn = expectation(
+            for: NSPredicate(format: "value == %@ OR value == %@", "1", "On"),
+            evaluatedWith: aerial
         )
+        wait(for: [switchedOn], timeout: 10)
 
         app.buttons["Close layers menu"].tap()
 
@@ -183,8 +195,10 @@ final class MapChromeUITests: XCTestCase {
         // The credit for this layer, not for whichever layer happens to be on.
         // Service Nova Scotia publishes the imagery, and it is the one credit
         // line in the catalogue that names a branch rather than the province.
+        // On screen, not merely in the card. A credit clipped out of the
+        // expanded strip is a credit nobody has been given.
         XCTAssertTrue(
-            app.staticTexts["Service Nova Scotia"].waitForExistence(timeout: 10),
+            app.staticTexts["Service Nova Scotia"].waitForHittable(timeout: 10),
             "the layer that was just turned on is not the one being credited"
         )
 

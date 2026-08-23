@@ -66,11 +66,20 @@ final class ns_marks_the_spotUITests: XCTestCase {
 
     @MainActor
     func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
+        // Launched once and checked before anything is timed. A launch that
+        // crashes before the map appears still returns from `launch()`, so the
+        // metric on its own would happily report how fast the app failed. The
+        // check is kept out of the measured block because waiting for a control
+        // would be counted as launch time.
+        let app = XCUIApplication.launchedForUITests()
+        XCTAssertTrue(
+            app.buttons["Toggle Layers Menu"].waitForHittable(timeout: 30),
+            "the app did not reach its map"
+        )
+        app.terminate()
+
         measure(metrics: [XCTApplicationLaunchMetric()]) {
-            let app = XCUIApplication()
-            app.launchArguments.append("UITestMode")
-            app.launch()
+            _ = XCUIApplication.launchedForUITests()
         }
     }
 }

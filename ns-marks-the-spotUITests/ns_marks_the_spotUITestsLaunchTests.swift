@@ -19,14 +19,15 @@ final class ns_marks_the_spotUITestsLaunchTests: XCTestCase {
 
     @MainActor
     func testLaunch() throws {
-        let app = XCUIApplication()
-        app.launchArguments.append("UITestMode")
-        app.launch()
+        let app = XCUIApplication.launchedForUITests()
 
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
-        // XCUIAutomation Documentation
-        // https://developer.apple.com/documentation/xcuiautomation
+        // The screenshot below is evidence of whatever was on the screen, and
+        // a crashed app photographs as somebody's home screen. Waiting for a
+        // map control first is what makes the attachment a picture of this app.
+        XCTAssertTrue(
+            app.buttons["Toggle Layers Menu"].waitForHittable(timeout: 30),
+            "the app did not reach its map"
+        )
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Launch Screen"
