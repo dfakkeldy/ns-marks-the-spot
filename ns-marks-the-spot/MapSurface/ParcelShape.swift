@@ -50,16 +50,7 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
     /// large it holds the whole frame inside a single face, which strokes its
     /// boundary somewhere off the page entirely.
     func boundaryReaches(_ bounds: GeoBoundingBox) -> Bool {
-        for part in parts {
-            for ring in part where ring.count > 1 {
-                for index in ring.indices {
-                    let start = ring[index]
-                    let end = ring[(index + 1) % ring.count]
-                    if Self.segment(from: start, to: end, meets: bounds) { return true }
-                }
-            }
-        }
-        return false
+        parts.contains { part in part.contains { bounds.meets(ring: $0) } }
     }
 
     /// Whether the given ground lies wholly inside this parcel.
@@ -74,43 +65,6 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
             ),
             multiPolygon: parts
         )
-    }
-
-    /// Liang-Barsky: clip the segment against the four edges and see whether any
-    /// of it survives. Loop-free, so no clipping iteration can fail to settle.
-    private static func segment(
-        from start: GeoPoint, to end: GeoPoint, meets bounds: GeoBoundingBox
-    ) -> Bool {
-        let dx = end.lng - start.lng
-        let dy = end.lat - start.lat
-        guard dx.isFinite, dy.isFinite, start.lng.isFinite, start.lat.isFinite else {
-            return false
-        }
-        let edges = [
-            (-dx, start.lng - bounds.west),
-            (dx, bounds.east - start.lng),
-            (-dy, start.lat - bounds.south),
-            (dy, bounds.north - start.lat)
-        ]
-        var enter = 0.0
-        var leave = 1.0
-        for (direction, distance) in edges {
-            if direction == 0 {
-                // Parallel to this edge: either the whole segment is on the
-                // wrong side of it or the edge does not constrain it.
-                if distance < 0 { return false }
-                continue
-            }
-            let crossing = distance / direction
-            if direction < 0 {
-                if crossing > leave { return false }
-                enter = max(enter, crossing)
-            } else {
-                if crossing < enter { return false }
-                leave = min(leave, crossing)
-            }
-        }
-        return true
     }
 
     /// The shapes for a collection, with `pid` selected.

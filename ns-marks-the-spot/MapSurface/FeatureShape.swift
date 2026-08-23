@@ -137,6 +137,34 @@ nonisolated final class FeaturePolyline: MKPolyline {
 }
 
 extension FeatureShape {
+    /// Whether this feature puts ink inside the given ground.
+    ///
+    /// Asked of a page before it is made, and of the layer list that goes on
+    /// it. A bounding box is not an answer to it: a concave zone, a diagonal
+    /// reach and a river that bends away all have boxes covering ground they
+    /// never touch, so a box test hands the reader a legend entry over blank
+    /// paper and drops the layer from the "switched on, with nothing to print"
+    /// note that would have told them.
+    ///
+    /// The two halves mirror what the compositor draws. Line work crossing the
+    /// frame is ink whatever the style. Ground *inside* the shape is ink only
+    /// when the page fills it, since an unfilled shape large enough to hold the
+    /// whole frame strokes its boundary somewhere off the paper. The style read
+    /// is `printStyle`, because that is the one the page uses.
+    func marks(_ bounds: GeoBoundingBox) -> Bool {
+        switch geometry {
+        case .point, .multiPoint:
+            // A shape layer that answered with a point draws nothing, on screen
+            // or on the page. See `overlays()`.
+            return false
+        default:
+            break
+        }
+        if geometry.lineWorkReaches(bounds) { return true }
+        guard printStyle.fillHex != nil, printStyle.fillOpacity > 0 else { return false }
+        return geometry.surrounds(bounds)
+    }
+
     /// Every MapKit overlay this shape draws as, holes included.
     ///
     /// A feature with no areal or linear geometry produces none, which is how a

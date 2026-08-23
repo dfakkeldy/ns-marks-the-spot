@@ -1532,8 +1532,6 @@ final class OverlayViewModel {
         return [recordModeCaption]
     }
 
-    /// The map's own tile path, so the export honours the cache and the licence
-    /// clearance the screen is already holding rather than asking again.
     /// The features the page carries, in the order the map draws them.
     ///
     /// Read from what is on the map rather than from which rows are switched
@@ -1546,12 +1544,12 @@ final class OverlayViewModel {
         // when the reload fails — so a page made after a long pan would
         // otherwise be composited from wells a hundred kilometres away.
         //
-        // Bounding boxes rather than exact geometry: a shape that overlaps the
-        // frame at all has ink on this page, and a box is never smaller than
-        // its shape, so this errs towards including.
-        controller.state.featureShapes.filter {
-            $0.geometry.boundingBox?.intersects(bounds) == true
-        }
+        // The shape itself rather than the box around it. A box is never
+        // smaller than its shape, so it says yes for ground the shape never
+        // reaches — and this list is what the legend and the "nothing to print"
+        // note are built from, so an over-count keys a colour over blank paper
+        // and drops the layer from the note that would have explained it.
+        controller.state.featureShapes.filter { $0.marks(bounds) }
     }
 
     private func printedMarkers(within bounds: GeoBoundingBox) -> [FeatureMarker] {
@@ -1581,6 +1579,8 @@ final class OverlayViewModel {
         }
     }
 
+    /// The map's own tile path, so the export honours the cache and the licence
+    /// clearance the screen is already holding rather than asking again.
     var printTileProvider: PrintMapCompositor.TileProvider {
         PrintMapCompositor.provider(overlays: controller.installedTileOverlays())
     }

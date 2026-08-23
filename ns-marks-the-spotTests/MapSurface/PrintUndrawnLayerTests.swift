@@ -38,6 +38,28 @@ struct PrintUndrawnLayerTests {
         )
     }
 
+    /// A shape given exactly as written, so a test can hand over geometry that
+    /// is not a rectangle.
+    private static func shape(
+        _ layer: LayerID, drawing geometry: GeoJSONGeometry, filled: Bool = false
+    ) -> FeatureShape {
+        FeatureShape(
+            id: "\(layer.rawValue)-1",
+            layer: layer,
+            geometry: geometry,
+            style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 1.7),
+            printStyle: VectorFeatureStyle(
+                strokeHex: "#333333",
+                fillHex: filled ? "#ededed" : nil,
+                fillOpacity: filled ? 0.35 : 0,
+                lineWidth: 1
+            ),
+            title: "feature",
+            subtitle: nil,
+            callout: nil
+        )
+    }
+
     private func request(
         statuses: [LayerID: ViewportLayerStatus], shapes: [FeatureShape] = []
     ) -> PrintExportRequest? {
@@ -223,6 +245,80 @@ struct PrintUndrawnLayerTests {
         #expect(margin.east < Self.framed.west)
         #expect(printed.features.count == 1)
         #expect(undrawn(in: printed).isEmpty)
+    }
+
+    /// The box around a zone is not the zone. This L wraps the page from the
+    /// west and the south, so its box covers the whole sheet while the polygon
+    /// itself stays off it.
+    ///
+    /// Counted from the box, the page came out blank with "Halifax Regional
+    /// Municipality" keyed in the legend over it, and the note that would have
+    /// said the layer was still loading was suppressed by the same false
+    /// positive. Blank paper the reader was told had been answered for is the
+    /// one claim this document must not make.
+    @Test("A shape whose box covers the page but whose geometry misses it is not drawn")
+    func aShapeWhoseBoxCoversThePageButWhoseGeometryMissesItIsNotDrawn() throws {
+        let ell = GeoJSONGeometry.polygon([
+            [
+                GeoPoint(lat: 45.50, lng: -62.00),
+                GeoPoint(lat: 45.50, lng: -61.00),
+                GeoPoint(lat: 45.55, lng: -61.00),
+                GeoPoint(lat: 45.55, lng: -61.50),
+                GeoPoint(lat: 45.80, lng: -61.50),
+                GeoPoint(lat: 45.80, lng: -62.00),
+                GeoPoint(lat: 45.50, lng: -62.00)
+            ]
+        ])
+        // The premise: the box test this replaced said yes here, on the grown
+        // page as well as on the dragged frame.
+        let page = PrintExportPlan.bounds(
+            covering: Self.framed, mapFrame: PdfTemplate.template(.landscape).mapFrame
+        )
+        #expect(ell.boundingBox?.intersects(page) == true)
+
+        let printed = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, drawing: ell, filled: true)]
+            )
+        )
+
+        #expect(printed.features.isEmpty)
+        #expect(undrawn(in: printed).map(\.id) == [.zoningHalifax])
+    }
+
+    /// The other half of the same question. A shape big enough to hold the
+    /// whole page strokes its boundary off the paper, so whether it is on the
+    /// page is decided by whether the page fills it.
+    @Test("A shape that swallows the page counts only when the page fills it")
+    func aShapeThatSwallowsThePageCountsOnlyWhenThePageFillsIt() throws {
+        let county = GeoJSONGeometry.polygon([
+            [
+                GeoPoint(lat: 45.0, lng: -62.0),
+                GeoPoint(lat: 45.0, lng: -61.0),
+                GeoPoint(lat: 46.0, lng: -61.0),
+                GeoPoint(lat: 46.0, lng: -62.0),
+                GeoPoint(lat: 45.0, lng: -62.0)
+            ]
+        ])
+
+        let outline = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, drawing: county, filled: false)]
+            )
+        )
+        #expect(outline.features.isEmpty)
+        #expect(undrawn(in: outline).map(\.id) == [.zoningHalifax])
+
+        let tinted = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, drawing: county, filled: true)]
+            )
+        )
+        #expect(tinted.features.count == 1)
+        #expect(undrawn(in: tinted).isEmpty)
     }
 
     /// The licence has its own sentence on the page, and it is the stronger
