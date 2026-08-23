@@ -145,6 +145,13 @@ jobs:
       - name: Install web dependencies
         run: npm ci
 
+      # The tax-sale snapshots the app bundles are copies of the web's own
+      # files. This compares all three copies, so a refreshed snapshot that
+      # was never re-exported fails here instead of shipping an app that
+      # quotes a withdrawn parcel as a current listing.
+      - name: Shared datasets match the web's own copies
+        run: npm run check:shared-data
+
       - name: Test web app
         run: npm test
 
@@ -153,6 +160,30 @@ jobs:
 
       - name: Build web app
         run: npm run build
+
+  # NSMarksCore is the shared logic the app is built on: the layer catalog,
+  # the GIS clients, the evidence contracts. It builds and tests without a
+  # simulator, an app bundle, or code signing, so it finishes in seconds and
+  # reports on its own rather than as one line inside a twenty-minute native
+  # run. When both jobs fail, this one says whether the fault is in the shared
+  # logic or only in the app around it.
+  core_package:
+    name: Core package tests
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
+    runs-on: macos-26
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Test core package
+        run: swift test --package-path NSMarksCore
 
   native_app:
     name: Native build + tests
@@ -232,12 +263,28 @@ jobs:
             -only-testing:ns-marks-the-spotTests \
             -only-testing:ns-marks-the-spotUITests \
             -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/native-tests.xcresult" \
             CODE_SIGNING_ALLOWED=NO
+
+      # A test host that exits unexpectedly is reported as whichever test was
+      # in flight, with no message and no crash report. The bundle carries both,
+      # and without it a runner-only failure cannot be told from a real one.
+      - name: Keep the result bundle when the tests failed
+        if: failure() && steps.test-simulator.outputs.has_destination == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-test-results
+          path: |
+            ${{ runner.temp }}/native-tests.xcresult
+            ~/Library/Logs/DiagnosticReports
+          retention-days: 7
+          if-no-files-found: ignore
 
   required_gate:
     name: Build gate + tests
     needs:
       - changes
+      - core_package
       - native_app
       - web_app
     if: always()
@@ -249,6 +296,7 @@ jobs:
           CHANGE_CLASSIFICATION_RESULT: ${{ needs.changes.result }}
           NATIVE_REQUIRED: ${{ needs.changes.outputs.native }}
           NATIVE_RESULT: ${{ needs.native_app.result }}
+          CORE_RESULT: ${{ needs.core_package.result }}
           WEB_REQUIRED: ${{ needs.changes.outputs.web }}
           WEB_RESULT: ${{ needs.web_app.result }}
         run: |
@@ -259,6 +307,11 @@ jobs:
 
           if [ "$WEB_REQUIRED" = "true" ] && [ "$WEB_RESULT" != "success" ]; then
             echo "::error::Required web suite did not pass: $WEB_RESULT"
+            exit 1
+          fi
+
+          if [ "$NATIVE_REQUIRED" = "true" ] && [ "$CORE_RESULT" != "success" ]; then
+            echo "::error::Required core package suite did not pass: $CORE_RESULT"
             exit 1
           fi
 

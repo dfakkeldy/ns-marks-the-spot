@@ -178,7 +178,7 @@ final class OfflineAreasViewModel {
             loader: tileLoader,
             targetCoordinates: targetCoordinates
         ) { [weak self] progress in
-            await self?.applyDownloadProgress(
+            self?.applyDownloadProgress(
                 areaID: area.id,
                 startingDownloadedCount: startingDownloadedCount,
                 progress: progress

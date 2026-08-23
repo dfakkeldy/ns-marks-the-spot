@@ -46,6 +46,20 @@ class ClassifyCIChangesTests(unittest.TestCase):
         self.assertTrue(result.web)
         self.assertTrue(result.native)
 
+    def test_shared_dataset_change_runs_both_suites(self) -> None:
+        """A refreshed snapshot moves through three copies, and the check that
+        compares them lives in the web suite while the bytes ship natively."""
+        for path in (
+            "web/src/data/middletonTaxSale.snapshot.json",
+            "SharedData/middletonTaxSale.snapshot.json",
+            "NSMarksCore/Sources/NSDataServices/Resources/SharedData/manifest.json",
+        ):
+            with self.subTest(path=path):
+                result = MODULE.classify_paths([path])
+
+                self.assertTrue(result.web)
+                self.assertTrue(result.native)
+
     def test_unknown_path_fails_safe_to_native_ci(self) -> None:
         result = MODULE.classify_paths(["NewProductSurface/config.json"])
 

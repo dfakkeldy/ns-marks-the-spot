@@ -17,6 +17,7 @@ export default defineConfig({
     exclude: [
       ...configDefaults.exclude,
       "scripts/checkPdfAssets.test.mjs",
+      "scripts/exportSharedData.test.mjs",
       "scripts/probeGeoPdfFrames.test.mjs",
     ],
     setupFiles: "./src/test/setup.ts",

@@ -1,4 +1,6 @@
 import Foundation
+import GeoCore
+import MapCatalog
 import Testing
 @testable import ns_marks_the_spot
 
@@ -689,12 +691,17 @@ struct OfflineAreasViewModelTests {
         return false
     }
 
+    /// Fletcher sheet 1, because the planner refuses ground the survey does not
+    /// cover and these tests need an area that actually plans tiles. Halifax —
+    /// what this used to be — now plans none, which turns a download test into
+    /// a test that nothing happens.
     private func sampleBounds() -> MapBounds {
-        MapBounds(
-            minLatitude: 44.64,
-            minLongitude: -63.58,
-            maxLatitude: 44.66,
-            maxLongitude: -63.56
+        let sheet = FletcherSheets.sheet(1)!.bounds
+        return MapBounds(
+            minLatitude: sheet.south,
+            minLongitude: sheet.west,
+            maxLatitude: sheet.north,
+            maxLongitude: sheet.east
         )
     }
 }
@@ -747,7 +754,11 @@ private actor PausingAfterFirstTileLoader: TileDataLoading {
 
     func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
         requestCount += 1
-        guard requestCount > 1 else {
+        // The second tile, and only the second: the download walks every
+        // coordinate the area covers, and holding the third as well would hold
+        // it against a continuation nothing ever resumes. That is a test that
+        // hangs until the run is killed rather than one that fails.
+        guard requestCount == 2 else {
             return data
         }
 

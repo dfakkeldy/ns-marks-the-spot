@@ -61,6 +61,92 @@ async function measureWithExtendedLocalPoints(): Promise<Uint8Array> {
   return document.save({ useObjectStreams: false });
 }
 
+/**
+ * The same four ordinary Halifax corners a working sheet would carry, with
+ * `LPTS` written in page units rather than as fractions of the BBox — a
+ * hundred times too large. Every downstream check passes on this file: the
+ * affine is well conditioned and the mesh corners are valid latitudes and
+ * longitudes, because the mesh only asks that much.
+ */
+async function measureWithPageUnitLocalPoints(): Promise<Uint8Array> {
+  const document = await PDFDocument.create();
+  const page = document.addPage([612, 792]);
+  const measure = document.context.obj({
+    Type: "Measure",
+    Subtype: "GEO",
+    Bounds: [0, 0, 0, 1, 1, 1, 1, 0],
+    LPTS: [
+      0, 0,
+      0, 100,
+      100, 100,
+      100, 0,
+    ],
+    GPTS: [
+      44.62, -63.62,
+      44.68, -63.62,
+      44.68, -63.54,
+      44.62, -63.54,
+    ],
+    GCS: {
+      Type: "GEOGCS",
+      EPSG: 4326,
+    },
+  });
+  const registration = document.context.obj({
+    Type: "Viewport",
+    BBox: [0, 0, 612, 792],
+    Name: PDFHexString.fromText("Map Layers"),
+    Measure: measure,
+  });
+  page.node.set(PDFName.of("VP"), document.context.obj([registration]));
+  return document.save({ useObjectStreams: false });
+}
+
+/**
+ * The same scale error again, on a file where it stays on the page.
+ *
+ * A registration is free to cover a corner of the sheet: this one's BBox is a
+ * hundredth of it, which is the ordinary shape of the ISO fixtures in this
+ * directory. `LPTS` a hundred times too large then puts every control point
+ * exactly on the page edges, so a guard measured against the whole raster sees
+ * no excursion at all and lets the file place itself at a hundredth of its
+ * size. Measured against the frame the BBox describes, the same points are 99
+ * frame-widths out.
+ */
+async function measureWhoseScaleErrorStaysOnThePage(): Promise<Uint8Array> {
+  const document = await PDFDocument.create();
+  const page = document.addPage([612, 792]);
+  const measure = document.context.obj({
+    Type: "Measure",
+    Subtype: "GEO",
+    Bounds: [0, 0, 0, 1, 1, 1, 1, 0],
+    LPTS: [
+      0, 0,
+      0, 100,
+      100, 100,
+      100, 0,
+    ],
+    GPTS: [
+      44.62, -63.62,
+      44.68, -63.62,
+      44.68, -63.54,
+      44.62, -63.54,
+    ],
+    GCS: {
+      Type: "GEOGCS",
+      EPSG: 4326,
+    },
+  });
+  const registration = document.context.obj({
+    Type: "Viewport",
+    BBox: [0, 0, 6.12, 7.92],
+    Name: PDFHexString.fromText("Map Layers"),
+    Measure: measure,
+  });
+  page.node.set(PDFName.of("VP"), document.context.obj([registration]));
+  return document.save({ useObjectStreams: false });
+}
+
 async function terraGo23Registrations(
   neatlineOverride?: number[],
 ): Promise<Uint8Array> {
@@ -160,6 +246,50 @@ describe("extractGeoPdfMetadata", () => {
       embeddedLabel: "Map Layers",
     });
     expect(result.candidates[0].gcps).toHaveLength(4);
+    // The point of this fixture: its control points really do leave the frame
+    // it registers, so a guard on where they land has to admit them. Pinned as
+    // a fraction of that frame rather than left implicit, because this number
+    // is what says how much room the scale-error guards below must leave.
+    const rect = result.candidates[0].sourceRect;
+    const excursions = result.candidates[0].gcps.map(({ pixel }) =>
+      Math.max(
+        0,
+        (rect.x - pixel.x) / rect.width,
+        (pixel.x - (rect.x + rect.width)) / rect.width,
+        (rect.y - pixel.y) / rect.height,
+        (pixel.y - (rect.y + rect.height)) / rect.height,
+      ),
+    );
+    expect(Math.max(...excursions)).toBeCloseTo(0.0224, 4);
+  });
+
+  it("rejects a Measure frame whose local points were written in page units", async () => {
+    const result = await extractGeoPdfMetadata(
+      await measureWithPageUnitLocalPoints(),
+      viewport(612, 792),
+    );
+
+    expect(result.candidates).toEqual([]);
+    expect(result.rejected).toEqual([
+      { flavor: "measure", reason: "invalid" },
+    ]);
+  });
+
+  it("rejects a Measure frame whose scale error never leaves the page", async () => {
+    // The page is the wrong yardstick, and this is the file that shows it: the
+    // same hundredfold `LPTS` error as above, on a BBox covering a hundredth
+    // of the sheet, puts every control point exactly on a page edge. Nothing
+    // measured against the raster can tell this apart from a sheet that fills
+    // the page.
+    const result = await extractGeoPdfMetadata(
+      await measureWhoseScaleErrorStaysOnThePage(),
+      viewport(612, 792),
+    );
+
+    expect(result.candidates).toEqual([]);
+    expect(result.rejected).toEqual([
+      { flavor: "measure", reason: "invalid" },
+    ]);
   });
 
   it("returns every valid Measure viewport in stable document order", async () => {

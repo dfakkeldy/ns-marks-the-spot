@@ -1,0 +1,1459 @@
+{
+  "schemaVersion": 2,
+  "groupOrder": [
+    "map-layers",
+    "topography",
+    "forestry",
+    "flood-hazard",
+    "environmental-health",
+    "zoning",
+    "groundwater",
+    "hydro-pilot",
+    "geology-resources",
+    "church",
+    "historical"
+  ],
+  "categories": [
+    {
+      "id": "background-maps",
+      "name": "Background Maps",
+      "description": "Choose the map beneath your overlays."
+    },
+    {
+      "id": "land-property",
+      "name": "Land & Property",
+      "description": "Property, Crown land, buildings, and zoning."
+    },
+    {
+      "id": "roads-places",
+      "name": "Roads & Places",
+      "description": "Roads, trails, place names, and reference routes."
+    },
+    {
+      "id": "water-terrain",
+      "name": "Water & Terrain",
+      "description": "Water, watersheds, waterfalls, contours, and terrain projects."
+    },
+    {
+      "id": "environment-hazards",
+      "name": "Environment & Hazards",
+      "description": "Flood, health, aquifer, and well information."
+    },
+    {
+      "id": "forestry-ecology",
+      "name": "Forestry & Ecology",
+      "description": "Forestry policy and ecological information."
+    },
+    {
+      "id": "geology-resources",
+      "name": "Geology & Resources",
+      "description": "Minerals, tenure, mines, and resource context."
+    },
+    {
+      "id": "historical-maps",
+      "name": "Historical Maps",
+      "description": "Fletcher and Church historical map collections."
+    },
+    {
+      "id": "tax-sale",
+      "name": "Tax Sale",
+      "description": "Optional current and historical tax-sale research."
+    },
+    {
+      "id": "my-maps",
+      "name": "My Maps",
+      "description": "Import, register, and control your own maps and data."
+    }
+  ],
+  "layers": [
+    {
+      "category": "background-maps",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "transparent": false
+      },
+      "group": "map-layers",
+      "id": "ns-aerial",
+      "licence": "province-restricted",
+      "maxZoom": 23,
+      "minZoom": 10,
+      "name": "NS Aerial",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "NSODB 1:10,000 imagery",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer",
+      "sourceDate": "Imagery dates vary · service checked July 20, 2026",
+      "uiOrder": 0,
+      "webAvailability": "available",
+      "webCaveat": "Online imagery · zoom 10+",
+      "webDefaultVisible": true
+    },
+    {
+      "category": "land-property",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dynamicLayers": "[{\"id\":0,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":0},\"drawingInfo\":{\"showLabels\":false}}]",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "nsprd",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 14,
+      "name": "NS Property Boundaries",
+      "nativeDefaultVisibility": false,
+      "opacity": 0.82,
+      "scale": "Display floor 1:36,114",
+      "serviceUrl": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer",
+      "sourceDate": "Live service · checked July 20, 2026",
+      "uiOrder": 1,
+      "webAvailability": "available",
+      "webCaveat": "Zoom 14+ · not a survey",
+      "webDefaultVisible": true
+    },
+    {
+      "category": "land-property",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dynamicLayers": "[{\"id\":0,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":0},\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSFS\",\"style\":\"esriSFSSolid\",\"color\":[46,180,46,128],\"outline\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[0,100,0,255],\"width\":2}}},\"labelingInfo\":[]}}]",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "crown-lands",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 12,
+      "name": "Crown Lands",
+      "nativeDefaultVisibility": false,
+      "opacity": 0.78,
+      "scale": "Detailed view from zoom 12",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/PLAN/PLANCrownLandsWM84V1/MapServer",
+      "sourceDate": "Live service · checked July 20, 2026",
+      "uiOrder": 2,
+      "webAvailability": "available",
+      "webCaveat": "Zoom 12+",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Nova Scotia primary, secondary, and tertiary watersheds",
+      "exportOptions": {
+        "layers": "show:24,25,26",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "flood-risk",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 12,
+      "name": "Watersheds",
+      "nativeDefaultVisibility": false,
+      "opacity": 0.72,
+      "scale": "Watershed detail from zoom 12",
+      "serviceUrl": "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
+      "sourceDate": "Live service · checked July 20, 2026",
+      "uiOrder": 3,
+      "webAvailability": "available",
+      "webCaveat": "Watershed context · not flood-risk mapping · zoom 12+",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "water-terrain",
+      "coverage": "Nova Scotia · 90 mapped falls",
+      "exportOptions": {
+        "dynamicLayers": "[{\"id\":1,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":1},\"definitionExpression\":\"FEAT_DESC = 'Falls -  On a single line river point'\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSMS\",\"style\":\"esriSMSCircle\",\"color\":[0,120,255,255],\"size\":8,\"outline\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[255,255,255,255],\"width\":1.5}}},\"showLabels\":true,\"labelingInfo\":[{\"labelExpression\":\"[ZVALUE]\",\"labelPlacement\":\"esriServerPointLabelPlacementAboveRight\",\"symbol\":{\"type\":\"esriTS\",\"color\":[0,120,255,255],\"font\":{\"size\":10,\"family\":\"Arial\",\"weight\":\"bold\"}},\"minScale\":50000}]}}]",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "waterfalls",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 7,
+      "name": "Waterfalls",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "NSTDB 1:10,000 point inventory",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+      "sourceDate": "Live service · checked July 20, 2026",
+      "uiOrder": 4,
+      "webAvailability": "available",
+      "webCaveat": "90 mapped falls · overview on selection",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "water-terrain",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dpi": 144,
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "water-features",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 10,
+      "name": "Water features",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "NSTDB 1:10,000",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer",
+      "sourceDate": "Live service · checked July 20, 2026",
+      "uiOrder": 5,
+      "webAvailability": "available",
+      "webCaveat": "Rivers, lakes, wetlands & more · zoom 10+",
+      "webDefaultVisible": true
+    },
+    {
+      "category": "roads-places",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dpi": 192,
+        "transparent": true
+      },
+      "exportOverlayOptions": {
+        "dpi": 192,
+        "dynamicLayers": "[{\"id\":81,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":8},\"definitionExpression\":\"FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%'\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSLS\",\"style\":\"esriSLSDash\",\"color\":[43,39,48,255],\"width\":0.8}},\"labelingInfo\":[]}},{\"id\":79,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":8},\"definitionExpression\":\"FEAT_DESC <> 'WATER ACCESS'\"},{\"id\":77,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":8},\"definitionExpression\":\"FEAT_DESC <> 'WATER ACCESS' AND NOT (FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%')\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[255,255,255,220],\"width\":2.6}},\"labelingInfo\":[]}},{\"id\":76,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":8},\"definitionExpression\":\"FEAT_DESC LIKE '%TRACK%' OR FEAT_DESC LIKE 'TRAIL%'\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[255,255,255,200],\"width\":1.6}},\"labelingInfo\":[]}}]",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "roads",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 10,
+      "name": "Roads, trails & culverts",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "NSTDB 1:10,000",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+      "sourceDate": "Live service · checked July 20, 2026",
+      "uiOrder": 6,
+      "webAvailability": "available",
+      "webCaveat": "Highways to trails · culverts close up · zoom 10+",
+      "webDefaultVisible": true
+    },
+    {
+      "category": "land-property",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dpi": 144,
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "buildings",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 13,
+      "name": "Buildings",
+      "nativeDefaultVisibility": false,
+      "opacity": 0.9,
+      "scale": "NSTDB 1:10,000",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Buildings_UT83/MapServer",
+      "sourceDate": "NSTDB updated May 5, 2026 · service checked July 22, 2026",
+      "uiOrder": 7,
+      "webAvailability": "available",
+      "webCaveat": "Mapped points & footprints · zoom 13+",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "roads-places",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dpi": 144,
+        "layers": "show:3,4,6,7,24,27,31,33,37",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "place-names",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 8,
+      "name": "Place names",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "Point gazetteer with labels",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NS_GeoNAMES_pnt_UT83/MapServer",
+      "sourceDate": "CGNDB via NSGI · service checked August 1, 2026",
+      "uiOrder": 8,
+      "webAvailability": "available",
+      "webCaveat": "Official geographic names · settlements, water and coast",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "roads-places",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dpi": 144,
+        "dynamicLayers": "[{\"id\":8,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":8},\"definitionExpression\":\"FEAT_DESC LIKE 'ROAD - Local%'\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[40,40,40,235],\"width\":1.6}}}},{\"id\":7,\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":7},\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"symbol\":{\"type\":\"esriSLS\",\"style\":\"esriSLSSolid\",\"color\":[0,0,0,255],\"width\":2.6}}}}]",
+        "transparent": true
+      },
+      "group": "map-layers",
+      "id": "main-roads",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 9,
+      "name": "Main roads only",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "NSTDB 1:10,000, filtered",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer",
+      "sourceDate": "Live service · checked August 1, 2026",
+      "uiOrder": 9,
+      "webAvailability": "available",
+      "webCaveat": "Local roads and highways only · tracks and driveways hidden",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "water-terrain",
+      "coverage": "Nova Scotia",
+      "exportOptions": {
+        "dpi": 144,
+        "layers": "show:2,4",
+        "transparent": true
+      },
+      "group": "topography",
+      "id": "contours",
+      "licence": "province-restricted",
+      "maxZoom": 24,
+      "minZoom": 13,
+      "name": "Contours",
+      "nativeDefaultVisibility": false,
+      "opacity": 0.88,
+      "scale": "LiDAR-derived 5 m contours · labelled index lines",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Landforms_UT83/MapServer",
+      "sourceDate": "NSTDB updated May 5, 2026 · service checked July 22, 2026",
+      "uiOrder": 10,
+      "webAvailability": "available",
+      "webCaveat": "5 m elevation lines · terrain screening only · zoom 13+",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "forestry-ecology",
+      "coverage": "Mapped publicly owned land outside protected areas in Nova Scotia",
+      "group": "forestry",
+      "id": "old-growth-policy",
+      "licence": "province-open",
+      "licenceUrl": "https://novascotia.ca/opendata/licence.asp",
+      "maxZoom": 23,
+      "minZoom": 9,
+      "name": "Old-growth policy areas",
+      "opacity": 0.72,
+      "scale": "Policy-area polygons with source-reported hectares",
+      "serviceUrl": "https://data.novascotia.ca/resource/wanf-acts.geojson",
+      "sourceDate": "Policy layer as of October 24, 2025 · updated October 27, 2025",
+      "sourceUrl": "https://data.novascotia.ca/Lands-Forests-and-Wildlife/Old-Growth-Forest-Policy-Layer/wanf-acts",
+      "statusColors": {
+        "confirmedOldGrowth": "#166534",
+        "restorationOpportunity": "#d97706",
+        "unknown": "#64748b"
+      },
+      "uiOrder": 11,
+      "webCaveat": "Mapped policy areas on public land · not a complete old-growth inventory",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Antigonish, Bedford–Sackville, Pictou, and Truro",
+      "exportOptions": {
+        "layers": "show:2,3,4,5,7,8,9,10,12,13,14,16,17,18",
+        "transparent": true
+      },
+      "group": "flood-hazard",
+      "id": "published-river-flood-zones",
+      "licence": "province-restricted",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf",
+      "maxZoom": 24,
+      "minZoom": 10,
+      "name": "Published river flood zones",
+      "opacity": 0.72,
+      "scale": "Study-area flood mapping",
+      "serviceUrl": "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
+      "sourceDate": "NSGC 2006-era mapping · service checked July 22, 2026",
+      "sourceUrl": "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer",
+      "uiOrder": 12,
+      "webCaveat": "Published 5% and 1% AEP mapping in four study areas",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Mapped Nova Scotia coast",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "flood-hazard",
+      "id": "coastal-flood-current",
+      "licence": "province-open",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf",
+      "maxZoom": 24,
+      "minZoom": 8,
+      "name": "Coastal flooding — current",
+      "opacity": 0.68,
+      "scale": "Provincial coastal screening",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/OCN/OCN_Projected_Current_Day_Flooding_UT83/MapServer",
+      "sourceDate": "Live Coastal Hazard Map · checked July 22, 2026",
+      "sourceUrl": "https://nsgi.novascotia.ca/chm",
+      "uiOrder": 13,
+      "webCaveat": "Current sea level with a 1% AEP storm surge",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Mapped Nova Scotia coast",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "flood-hazard",
+      "id": "coastal-flood-2050",
+      "licence": "province-open",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf",
+      "maxZoom": 24,
+      "minZoom": 8,
+      "name": "Coastal flooding — 2050",
+      "opacity": 0.68,
+      "scale": "Provincial coastal screening",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/OCN/OCN_Projected_Worst_Case_Flooding_2050_UT83/MapServer",
+      "sourceDate": "Live Coastal Hazard Map · checked July 22, 2026",
+      "sourceUrl": "https://nsgi.novascotia.ca/chm",
+      "uiOrder": 14,
+      "webCaveat": "2050 high sea-level scenario with a 1% AEP storm surge",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Mapped Nova Scotia coast",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "flood-hazard",
+      "id": "coastal-flood-2100",
+      "licence": "province-open",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf",
+      "maxZoom": 24,
+      "minZoom": 8,
+      "name": "Coastal flooding — 2100",
+      "opacity": 0.68,
+      "scale": "Provincial coastal screening",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/OCN/OCN_Projected_Worst_Case_Flooding_2100_UT83/MapServer",
+      "sourceDate": "Live Coastal Hazard Map · checked July 22, 2026",
+      "sourceUrl": "https://nsgi.novascotia.ca/chm",
+      "uiOrder": 15,
+      "webCaveat": "2100 high sea-level scenario with a 1% AEP storm surge",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Nova Scotia bedrock aquifers",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "environmental-health",
+      "guidance": "Testing your well is the only way to find out whether arsenic is a concern in your well, so it is important to test your water no matter where you live.",
+      "id": "arsenic-risk-wells",
+      "licence": "province-restricted",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf",
+      "maxZoom": 24,
+      "minZoom": 7,
+      "name": "Arsenic risk — bedrock wells",
+      "opacity": 0.55,
+      "riskBands": [
+        {
+          "color": "#993d7a",
+          "label": "High Risk"
+        },
+        {
+          "color": "#c363e0",
+          "label": "Medium Risk"
+        },
+        {
+          "color": "#d8b5eb",
+          "label": "Low Risk"
+        }
+      ],
+      "scale": "Bedrock-unit risk bands · high risk is >15% of well samples over the 10 µg/L guideline",
+      "screening": "well-water-risk",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_ArsenicRiskWaterWells_h499ns_UT83/MapServer",
+      "sourceDate": "Live service · checked July 23, 2026",
+      "sourceUrl": "https://novascotia.ca/natr/meb/geoscience-online/arsenicriskwells_about.asp",
+      "uiOrder": 16,
+      "webCaveat": "Relative risk zones by bedrock unit · not a test result for this property",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Nova Scotia bedrock aquifers",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "environmental-health",
+      "guidance": "Risk bands describe bedrock units, not individual wells. Test your well water to find out whether uranium is a concern at this property.",
+      "id": "uranium-risk-wells",
+      "licence": "province-open",
+      "licenceUrl": "https://novascotia.ca/opendata/licence.asp",
+      "maxZoom": 24,
+      "minZoom": 7,
+      "name": "Uranium risk — bedrock wells",
+      "opacity": 0.55,
+      "riskBands": [
+        {
+          "color": "#808000",
+          "label": "High Risk"
+        },
+        {
+          "color": "#ffffbf",
+          "label": "Medium Risk"
+        },
+        {
+          "color": "#b0b0b0",
+          "label": "Low Risk"
+        }
+      ],
+      "scale": "Bedrock-unit risk bands · high risk is >15% of well samples over the 20 µg/L guideline",
+      "screening": "well-water-risk",
+      "serviceUrl": "https://dawson.novascotia.ca/arcgis/rest/services/hg_uranium_risk_h529ns_UT83/MapServer",
+      "sourceDate": "Open File Report ME 2020-001 · service checked July 23, 2026",
+      "sourceUrl": "https://data.novascotia.ca/d/w8ax-dtd5",
+      "uiOrder": 17,
+      "webCaveat": "Relative risk zones by bedrock unit · not a test result for this property",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Nova Scotia bedrock and surficial aquifers",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "environmental-health",
+      "guidance": "Risk bands describe bedrock and surficial aquifers, not individual wells. Test your well water to find out whether manganese is a concern at this property.",
+      "id": "manganese-risk-wells",
+      "licence": "province-restricted",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf",
+      "maxZoom": 24,
+      "minZoom": 7,
+      "name": "Manganese risk — water wells",
+      "opacity": 0.55,
+      "riskBands": [
+        {
+          "color": "#828282",
+          "label": "High Risk"
+        },
+        {
+          "color": "#b2b2b2",
+          "label": "Medium Risk"
+        },
+        {
+          "color": "#e1e1e1",
+          "label": "Low Risk"
+        }
+      ],
+      "scale": "Aquifer risk bands · high risk is >15% of well samples over the 120 µg/L guideline",
+      "screening": "well-water-risk",
+      "serviceUrl": "https://dawson.novascotia.ca/arcgis/rest/services/hg_manganese_risk_h535ns_UT83/MapServer",
+      "sourceDate": "Open File Report ME 2021-002 · service checked July 23, 2026",
+      "sourceUrl": "https://novascotia.ca/natr/meb/data/ofr/ofr_me_2021-002.pdf",
+      "uiOrder": 18,
+      "webCaveat": "Bedrock and surficial aquifer risk zones · not a test result for this property",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Mapped Nova Scotia surficial aquifers",
+      "exportOptions": {
+        "transparent": true
+      },
+      "group": "environmental-health",
+      "guidance": "Mapped aquifer extent only. This layer carries no risk rating and says nothing about water quality at any property.",
+      "id": "surficial-aquifers",
+      "licence": "province-restricted",
+      "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/MapService/Restricted%20Map%20Services%20License%20-%20NSPRD%20v1.pdf",
+      "maxZoom": 24,
+      "minZoom": 7,
+      "name": "Surficial aquifers",
+      "opacity": 0.5,
+      "riskBands": [],
+      "scale": "Provincial surficial aquifer mapping (h490ns)",
+      "screening": "aquifer-context",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_SurficialAquifers_h490ns_UT83/MapServer",
+      "sourceDate": "Live service · checked July 23, 2026",
+      "sourceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/GEOL/GEOL_hg_SurficialAquifers_h490ns_UT83/MapServer",
+      "uiOrder": 19,
+      "webCaveat": "Aquifer extent context · carries no risk rating",
+      "webDefaultVisible": false
+    },
+    {
+      "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "bylawLabel": "Plan Inverness Land Use By-law",
+      "bylawUrl": "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
+      "category": "land-property",
+      "coverage": "Municipality of the County of Inverness · towns are separate zoning jurisdictions",
+      "fillColor": "#2a9d8f",
+      "group": "zoning",
+      "id": "zoning-inverness",
+      "idField": "OBJECTID",
+      "licence": "municipal-no-stated-licence",
+      "licenceUrl": null,
+      "maxZoom": 23,
+      "minZoom": 12,
+      "name": "Inverness County",
+      "opacity": 0.45,
+      "orderByFields": "OBJECTID",
+      "outFields": [
+        "OBJECTID",
+        "Zone",
+        "ZONETYPE",
+        "PLAN_"
+      ],
+      "planAreaField": "PLAN_",
+      "redistribution": "live-query-only",
+      "scale": "1,125 zone polygons",
+      "serviceUrl": "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/IN_Zoning/FeatureServer/708",
+      "sourceDate": "County-wide zoning in effect September 11, 2025 · service checked July 23, 2026",
+      "sourceUrl": "https://edpc.ca/plan-documents-and-maps/",
+      "strokeColor": "#1d6f66",
+      "uiOrder": 20,
+      "webCaveat": "Unofficial · not for legal use · zoom 12+",
+      "webDefaultVisible": false,
+      "zoneCodeField": "Zone",
+      "zoneNameField": "ZONETYPE"
+    },
+    {
+      "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "bylawLabel": "Plan Victoria Land Use By-law",
+      "bylawUrl": "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
+      "category": "land-property",
+      "coverage": "Municipality of the County of Victoria · the Baddeck plan area is administered separately and is not included",
+      "fillColor": "#4361ee",
+      "group": "zoning",
+      "id": "zoning-victoria",
+      "idField": "OBJECTID",
+      "licence": "municipal-no-stated-licence",
+      "licenceUrl": null,
+      "maxZoom": 23,
+      "minZoom": 12,
+      "name": "Victoria County",
+      "opacity": 0.45,
+      "orderByFields": "OBJECTID",
+      "outFields": [
+        "OBJECTID",
+        "Zone",
+        "ZONETYPE",
+        "PLAN_"
+      ],
+      "planAreaField": "PLAN_",
+      "redistribution": "live-query-only",
+      "scale": "901 zone polygons",
+      "serviceUrl": "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/VIZoning_Clipped/FeatureServer/707",
+      "sourceDate": "County-wide zoning in effect October 2, 2025 · service checked July 23, 2026",
+      "sourceUrl": "https://edpc.ca/plan-documents-and-maps/",
+      "strokeColor": "#2f45a8",
+      "uiOrder": 21,
+      "webCaveat": "Unofficial · not for legal use · excludes Baddeck · zoom 12+",
+      "webDefaultVisible": false,
+      "zoneCodeField": "Zone",
+      "zoneNameField": "ZONETYPE"
+    },
+    {
+      "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "bylawLabel": "Plan Richmond Land Use By-law",
+      "bylawUrl": "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
+      "category": "land-property",
+      "coverage": "Municipality of the County of Richmond · towns are separate zoning jurisdictions",
+      "fillColor": "#e76f51",
+      "group": "zoning",
+      "id": "zoning-richmond",
+      "idField": "OBJECTID",
+      "licence": "municipal-no-stated-licence",
+      "licenceUrl": null,
+      "maxZoom": 23,
+      "minZoom": 12,
+      "name": "Richmond County",
+      "opacity": 0.45,
+      "orderByFields": "OBJECTID",
+      "outFields": [
+        "OBJECTID",
+        "Zone",
+        "ZONETYPE",
+        "PLAN_"
+      ],
+      "planAreaField": "PLAN_",
+      "redistribution": "live-query-only",
+      "scale": "1,284 zone polygons",
+      "serviceUrl": "https://services5.arcgis.com/IRdatShZ61GuNjMZ/arcgis/rest/services/RI_Plan_Richmond/FeatureServer/376",
+      "sourceDate": "Plan Richmond adopted February 26, 2024 · service checked July 23, 2026",
+      "sourceUrl": "https://edpc.ca/plan-documents-and-maps/",
+      "strokeColor": "#a94b33",
+      "uiOrder": 22,
+      "webCaveat": "Unofficial · not for legal use · zoom 12+",
+      "webDefaultVisible": false,
+      "zoneCodeField": "Zone",
+      "zoneNameField": "ZONETYPE"
+    },
+    {
+      "attribution": "Zoning rendered live from the Municipality of the County of Cumberland's public map service. Not an official copy of the land use by-law.",
+      "bylawLabel": "Cumberland Land Use By-law",
+      "bylawUrl": "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
+      "category": "land-property",
+      "coverage": "Municipality of the County of Cumberland · Amherst, Oxford, and Parrsboro are separate zoning jurisdictions",
+      "fillColor": "#588157",
+      "group": "zoning",
+      "id": "zoning-cumberland",
+      "idField": "OBJECTID",
+      "licence": "municipal-no-stated-licence",
+      "licenceUrl": null,
+      "maxZoom": 23,
+      "minZoom": 13,
+      "name": "Cumberland County",
+      "opacity": 0.45,
+      "orderByFields": "OBJECTID",
+      "outFields": [
+        "OBJECTID",
+        "ZONE",
+        "ZoneName"
+      ],
+      "planAreaField": null,
+      "redistribution": "live-query-only",
+      "scale": "34,281 zone polygons",
+      "serviceUrl": "https://services6.arcgis.com/9de72LkV8htkdfB9/arcgis/rest/services/Zoning_Cumberland_2018_abbr2/FeatureServer/0",
+      "sourceDate": "2018 by-law consolidated to April 17, 2026 · CU_Zone_2025 geometry · service checked July 23, 2026",
+      "sourceUrl": "https://data-cumberlandns.opendata.arcgis.com/datasets/CumberlandNS::zoning-cumberland-2022",
+      "strokeColor": "#38553a",
+      "uiOrder": 23,
+      "webCaveat": "Unofficial · not for legal use · 2025 geometry · zoom 13+",
+      "webDefaultVisible": false,
+      "zoneCodeField": "ZONE",
+      "zoneNameField": "ZoneName"
+    },
+    {
+      "attribution": "Contains information licenced under the Open Government Licence—Halifax.",
+      "bylawLabel": "Halifax land use by-law index",
+      "bylawUrl": "https://www.halifax.ca/city-hall/legislation-by-laws/land-use-by-laws",
+      "category": "land-property",
+      "coverage": "Halifax Regional Municipality · zoning is set by 22 separate plan-area by-laws, so confirm which by-law governs a parcel",
+      "fillColor": "#b5179e",
+      "group": "zoning",
+      "id": "zoning-halifax",
+      "idField": "OBJECTID",
+      "licence": "municipal-open",
+      "licenceUrl": "https://data-hrm.hub.arcgis.com/pages/open-data-licence",
+      "maxZoom": 23,
+      "minZoom": 13,
+      "name": "Halifax Regional Municipality",
+      "opacity": 0.45,
+      "orderByFields": "OBJECTID",
+      "outFields": [
+        "OBJECTID",
+        "ZONE",
+        "DESCRIPTION",
+        "BYLAW_ID"
+      ],
+      "planAreaField": null,
+      "redistribution": "permitted",
+      "scale": "11,076 zone polygons",
+      "serviceUrl": "https://services2.arcgis.com/11XBiaBYA9Ep0yNJ/arcgis/rest/services/ZoningBoundaries/FeatureServer/0",
+      "sourceDate": "Live service · checked July 23, 2026",
+      "sourceUrl": "https://data-hrm.hub.arcgis.com/",
+      "strokeColor": "#7c1069",
+      "uiOrder": 24,
+      "webCaveat": "Unofficial · not for legal use · 22 plan-area by-laws · zoom 13+",
+      "webDefaultVisible": false,
+      "zoneCodeField": "ZONE",
+      "zoneNameField": "DESCRIPTION"
+    },
+    {
+      "category": "environment-hazards",
+      "coverage": "Nova Scotia · 125,517 well logs constructed 1940–2021",
+      "delivery": "feature-query",
+      "group": "groundwater",
+      "id": "ns-well-logs",
+      "licence": "province-open",
+      "manualUrl": "https://novascotia.ca/nse/groundwater/docs/UsersManual_NSWellLogsDatabase.pdf",
+      "maxZoom": 23,
+      "minZoom": 12,
+      "name": "Water well logs",
+      "opacity": 0.95,
+      "scale": "Point inventory · location accuracy ranges from ±50 m to ±8 km",
+      "serviceUrl": "https://services.arcgis.com/TS1HHBYLM10d1SZH/ArcGIS/rest/services/hg_Water_Well_logs_h430ns_UT83/FeatureServer/0",
+      "sourceDate": "DP ME 430 version 5 · database extracted January 5, 2022",
+      "sourceUrl": "https://novascotia.ca/natr/meb/download/dp430.asp",
+      "uiOrder": 25,
+      "webCaveat": "Surveyed ±50 m wells only by default · coarser records are area reports, not well locations · zoom 12+",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "water-terrain",
+      "coverage": "13 Inverness-centred watersheds with connected tributary coverage",
+      "group": "hydro-pilot",
+      "id": "inverness-hydro-potential",
+      "licence": "province-open",
+      "maxZoom": 23,
+      "minZoom": 8,
+      "name": "Inverness micro-hydro screen",
+      "opacity": 0.92,
+      "scale": "Tertiary/sub-tertiary catchments + connected NSHN tributaries",
+      "serviceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer",
+      "sourceDate": "Watersheds 2021 · NSHN retrieved July 21, 2026",
+      "sourceUrl": "https://data.novascotia.ca/Internal-Government-Services/1-10-000-Nova-Scotia-Watersheds-Map/kzer-4ht8",
+      "uiOrder": 26,
+      "webCaveat": "Modeled upstream area + nominal 1–50 kW scale · not predicted output",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "geology-resources",
+      "coverage": "Nova Scotia",
+      "delivery": "feature-query",
+      "group": "geology-resources",
+      "id": "mineral-occurrences",
+      "licence": "province-open",
+      "markerColor": "#9b5de5",
+      "maxZoom": 23,
+      "minZoom": 8,
+      "name": "Mineral occurrences",
+      "opacity": 0.9,
+      "outFields": [
+        "geo_id",
+        "Name",
+        "Occ_type",
+        "Status",
+        "Comm_prim",
+        "Comm_list"
+      ],
+      "scale": "Point inventory · source displays to 1:500,000",
+      "serviceUrl": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0",
+      "sourceDate": "June 2024 · version 12",
+      "sourceUrl": "https://novascotia.ca/natr/meb/download/dp002.asp",
+      "uiOrder": 27,
+      "webCaveat": "Recorded occurrences, not proof of a viable deposit",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "geology-resources",
+      "coverage": "Nova Scotia",
+      "delivery": "map-export",
+      "exportOptions": {
+        "layers": "show:1,7",
+        "transparent": true
+      },
+      "group": "geology-resources",
+      "id": "mineral-tenure",
+      "licence": "province-open",
+      "maxZoom": 23,
+      "minZoom": 7,
+      "name": "Mineral tenure",
+      "opacity": 0.7,
+      "scale": "Tenure polygons · source displays to 1:3,000,000",
+      "serviceUrl": "https://novarocmaps.novascotia.ca/arcgis/rest/services/NovaRoc/MapServer",
+      "sourceDate": "Live NovaROC · checked July 20, 2026",
+      "sourceUrl": "https://novaroc.novascotia.ca/novaroc/",
+      "uiOrder": 28,
+      "webCaveat": "Exploration licences and mineral leases; not land ownership",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "geology-resources",
+      "coverage": "Nova Scotia · incomplete inventory",
+      "delivery": "feature-query",
+      "group": "geology-resources",
+      "id": "abandoned-mines",
+      "licence": "province-open",
+      "markerColor": "#d1495b",
+      "maxZoom": 23,
+      "minZoom": 11,
+      "name": "Abandoned mine openings",
+      "opacity": 0.92,
+      "outFields": [
+        "geo_id",
+        "ShaftID",
+        "Name",
+        "Opening_ty",
+        "Degree_Haz",
+        "Protection"
+      ],
+      "scale": "Approximate point inventory",
+      "serviceUrl": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
+      "sourceDate": "2024 · version 9",
+      "sourceUrl": "https://novascotia.ca/natr/meb/download/dp010.asp",
+      "uiOrder": 29,
+      "webCaveat": "Provincial hazard inventory; locations and conditions may change",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "geology-resources",
+      "coverage": "Visible Nova Scotia map area",
+      "delivery": "derived-parcel-query",
+      "group": "geology-resources",
+      "id": "mineral-proximity-parcels",
+      "maxZoom": 23,
+      "minZoom": 12,
+      "name": "Properties within 1 km of a mineral occurrence",
+      "requiresProvinceLicence": true,
+      "scale": "Application-derived 1 km parcel proximity",
+      "sourceDate": "Mineral occurrences June 2024 · NSPRD live",
+      "sourceUrl": "https://novascotia.ca/natr/meb/download/dp002.asp",
+      "uiOrder": 30,
+      "webCaveat": "Derived from published occurrences and NSPRD parcels; not proof of mineralization",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "historical-maps",
+      "coverage": "Inverness County, Cape Breton Island",
+      "group": "church",
+      "id": "church-inverness",
+      "licence": "rumsey-reference",
+      "maxZoom": 24,
+      "minZoom": 0,
+      "name": "Church — Inverness County",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "1:63,360 township map sheet",
+      "serviceUrl": "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~353591~90120835",
+      "sourceDate": "A.F. Church · published 1884",
+      "uiOrder": 31,
+      "webAvailability": "rights-pending",
+      "webCaveat": "Published 1884 · web view pending tiles",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "historical-maps",
+      "coverage": "Victoria County, Cape Breton Island",
+      "group": "church",
+      "id": "church-victoria",
+      "licence": "rumsey-reference",
+      "maxZoom": 24,
+      "minZoom": 0,
+      "name": "Church — Victoria County",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "1:63,360 township map sheet",
+      "serviceUrl": "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374820~90141224",
+      "sourceDate": "A.F. Church · published 1884",
+      "uiOrder": 32,
+      "webAvailability": "rights-pending",
+      "webCaveat": "Published 1884 · web view pending tiles",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "historical-maps",
+      "coverage": "Richmond County, Cape Breton Island",
+      "group": "church",
+      "id": "church-richmond",
+      "licence": "rumsey-reference",
+      "maxZoom": 24,
+      "minZoom": 0,
+      "name": "Church — Richmond County",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "1:84,269 township map sheet",
+      "serviceUrl": "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~373669~90140407",
+      "sourceDate": "A.F. Church · published 1885",
+      "uiOrder": 33,
+      "webAvailability": "rights-pending",
+      "webCaveat": "Published 1885 · web view pending tiles",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "historical-maps",
+      "coverage": "Cape Breton County, Cape Breton Island",
+      "group": "church",
+      "id": "church-cape-breton",
+      "licence": "rumsey-reference",
+      "maxZoom": 24,
+      "minZoom": 0,
+      "name": "Church — Cape Breton County",
+      "nativeDefaultVisibility": false,
+      "opacity": 1,
+      "scale": "1:63,360 township map sheet",
+      "serviceUrl": "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~374821~90141223",
+      "sourceDate": "A.F. Church · published 1884",
+      "uiOrder": 34,
+      "webAvailability": "rights-pending",
+      "webCaveat": "Published 1884 · web view pending tiles",
+      "webDefaultVisible": false
+    },
+    {
+      "category": "historical-maps",
+      "coverage": "Cape Breton Island · 24 individual sheets",
+      "group": "historical",
+      "id": "fletcher",
+      "licence": "rumsey-reference",
+      "maxZoom": 16,
+      "minZoom": 8,
+      "name": "Fletcher",
+      "nativeDefaultVisibility": true,
+      "opacity": 0.72,
+      "scale": "Independently georeferenced historical sheets",
+      "serviceUrl": "",
+      "sourceDate": "Hugh Fletcher · 1882–1884 source sheets",
+      "uiOrder": 35,
+      "webAvailability": "available",
+      "webCaveat": "24 direct-Rumsey sheets · zoom 8–16",
+      "webDefaultVisible": false
+    }
+  ],
+  "fletcher": {
+    "tileRevision": "fletcher-direct-rumsey-20260726.1",
+    "sheets": [
+      {
+        "sheet": 1,
+        "bounds": [
+          [
+            46.96525940034928,
+            -60.8203125
+          ],
+          [
+            47.14116119721896,
+            -60.435791015625
+          ]
+        ]
+      },
+      {
+        "sheet": 2,
+        "bounds": [
+          [
+            46.7925382703598,
+            -60.46875
+          ],
+          [
+            46.96525940034928,
+            -60.084228515625
+          ]
+        ]
+      },
+      {
+        "sheet": 3,
+        "bounds": [
+          [
+            46.7925382703598,
+            -60.8477783203125
+          ],
+          [
+            46.969008033119586,
+            -60.46875
+          ]
+        ]
+      },
+      {
+        "sheet": 4,
+        "bounds": [
+          [
+            46.581518465658,
+            -60.523681640625
+          ],
+          [
+            46.82637528602131,
+            -60.029296875
+          ]
+        ]
+      },
+      {
+        "sheet": 5,
+        "bounds": [
+          [
+            46.619261036171515,
+            -60.8477783203125
+          ],
+          [
+            46.7925382703598,
+            -60.46875
+          ]
+        ]
+      },
+      {
+        "sheet": 6,
+        "bounds": [
+          [
+            46.619261036171515,
+            -61.2213134765625
+          ],
+          [
+            46.796298989977444,
+            -60.8367919921875
+          ]
+        ]
+      },
+      {
+        "sheet": 7,
+        "bounds": [
+          [
+            46.403776166694634,
+            -60.53466796875
+          ],
+          [
+            46.653206871226644,
+            -60.029296875
+          ]
+        ]
+      },
+      {
+        "sheet": 8,
+        "bounds": [
+          [
+            46.441642327624976,
+            -60.8477783203125
+          ],
+          [
+            46.61548796222357,
+            -60.46875
+          ]
+        ]
+      },
+      {
+        "sheet": 9,
+        "bounds": [
+          [
+            46.44921240385256,
+            -61.226806640625
+          ],
+          [
+            46.619261036171515,
+            -60.8477783203125
+          ]
+        ]
+      },
+      {
+        "sheet": 10,
+        "bounds": [
+          [
+            46.27103747280261,
+            -60.8477783203125
+          ],
+          [
+            46.44542749723385,
+            -60.46875
+          ]
+        ]
+      },
+      {
+        "sheet": 11,
+        "bounds": [
+          [
+            46.27103747280261,
+            -61.2322998046875
+          ],
+          [
+            46.44542749723385,
+            -60.8477783203125
+          ]
+        ]
+      },
+      {
+        "sheet": 12,
+        "bounds": [
+          [
+            46.046548446306204,
+            -60.919189453125
+          ],
+          [
+            46.297610989881086,
+            -60.413818359375
+          ]
+        ]
+      },
+      {
+        "sheet": 13,
+        "bounds": [
+          [
+            46.09989991062731,
+            -61.2213134765625
+          ],
+          [
+            46.27483447871402,
+            -60.8477783203125
+          ]
+        ]
+      },
+      {
+        "sheet": 14,
+        "bounds": [
+          [
+            46.05798524479302,
+            -61.666259765625
+          ],
+          [
+            46.305201055811956,
+            -61.160888671875
+          ]
+        ]
+      },
+      {
+        "sheet": 15,
+        "bounds": [
+          [
+            45.924408558629,
+            -61.2213134765625
+          ],
+          [
+            46.09609080214316,
+            -60.8477783203125
+          ]
+        ]
+      },
+      {
+        "sheet": 16,
+        "bounds": [
+          [
+            45.920587344733654,
+            -61.5948486328125
+          ],
+          [
+            46.09989991062731,
+            -61.2213134765625
+          ]
+        ]
+      },
+      {
+        "sheet": 17,
+        "bounds": [
+          [
+            45.71001523943371,
+            -60.919189453125
+          ],
+          [
+            45.958787640356405,
+            -60.413818359375
+          ]
+        ]
+      },
+      {
+        "sheet": 18,
+        "bounds": [
+          [
+            45.7138509302922,
+            -61.2872314453125
+          ],
+          [
+            45.95496879511337,
+            -60.787353515625
+          ]
+        ]
+      },
+      {
+        "sheet": 19,
+        "bounds": [
+          [
+            45.71768635790719,
+            -61.6607666015625
+          ],
+          [
+            45.958787640356405,
+            -61.160888671875
+          ]
+        ]
+      },
+      {
+        "sheet": 20,
+        "bounds": [
+          [
+            45.70617928533084,
+            -60.9136962890625
+          ],
+          [
+            45.95496879511337,
+            -60.413818359375
+          ]
+        ]
+      },
+      {
+        "sheet": 21,
+        "bounds": [
+          [
+            45.53713668039858,
+            -61.292724609375
+          ],
+          [
+            45.790509467524714,
+            -60.7928466796875
+          ]
+        ]
+      },
+      {
+        "sheet": 22,
+        "bounds": [
+          [
+            45.47554027158592,
+            -61.6607666015625
+          ],
+          [
+            45.725356423410155,
+            -61.160888671875
+          ]
+        ]
+      },
+      {
+        "sheet": 23,
+        "bounds": [
+          [
+            45.36758436884979,
+            -61.2872314453125
+          ],
+          [
+            45.61403741135092,
+            -60.787353515625
+          ]
+        ]
+      },
+      {
+        "sheet": 24,
+        "bounds": [
+          [
+            45.398449976304086,
+            -61.58935546875
+          ],
+          [
+            45.57560020947801,
+            -61.2158203125
+          ]
+        ]
+      }
+    ]
+  },
+  "parcelQuery": {
+    "layerUrl": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0",
+    "pidBatchSize": 40,
+    "normalization": [
+      {
+        "input": "12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "1234-5678",
+        "pid": "12345678"
+      },
+      {
+        "input": "12-34-56-78",
+        "pid": "12345678"
+      },
+      {
+        "input": "12 34 56 78",
+        "pid": "12345678"
+      },
+      {
+        "input": " 12345678 ",
+        "pid": "12345678"
+      },
+      {
+        "input": "\t12345678\n",
+        "pid": "12345678"
+      },
+      {
+        "input": "\r12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "\u000b12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "\f12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": " 12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": " 123456 78",
+        "pid": "12345678"
+      },
+      {
+        "input": " 12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "  12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": " 12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": " 12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": " 12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "　12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "﻿12345678",
+        "pid": "12345678"
+      },
+      {
+        "input": "​12345678",
+        "pid": null
+      },
+      {
+        "input": "  12345678　",
+        "pid": "12345678"
+      },
+      {
+        "input": "PID 12345678",
+        "pid": null
+      },
+      {
+        "input": "1234_5678",
+        "pid": null
+      },
+      {
+        "input": "1234.5678",
+        "pid": null
+      },
+      {
+        "input": "1234567",
+        "pid": null
+      },
+      {
+        "input": "123456789",
+        "pid": null
+      },
+      {
+        "input": "",
+        "pid": null
+      },
+      {
+        "input": "   ",
+        "pid": null
+      },
+      {
+        "input": "-",
+        "pid": null
+      },
+      {
+        "input": "--------",
+        "pid": null
+      },
+      {
+        "input": "١٢٣٤٥٦٧٨",
+        "pid": null
+      },
+      {
+        "input": "１２３４５６７８",
+        "pid": null
+      }
+    ],
+    "samples": [
+      {
+        "name": "single-pid",
+        "url": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0/query?where=PID+IN+%28%2740203483%27%29&outFields=PID%2CUPDAT_DATE%2CSHAPE.AREA&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "name": "multi-pid-deduplicated",
+        "url": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0/query?where=PID+IN+%28%2740203483%27%2C%2700123456%27%2C%2799887766%27%29&outFields=PID%2CUPDAT_DATE%2CSHAPE.AREA&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "name": "point-fractional",
+        "url": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0/query?where=1%3D1&geometry=-63.582687%2C44.651070408&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=PID%2CUPDAT_DATE%2CSHAPE.AREA&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "name": "point-whole-numbers",
+        "url": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0/query?where=1%3D1&geometry=-63%2C45&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=PID%2CUPDAT_DATE%2CSHAPE.AREA&returnGeometry=true&outSR=4326&f=geojson"
+      },
+      {
+        "name": "point-negative-zero",
+        "url": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0/query?where=1%3D1&geometry=0%2C0&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=PID%2CUPDAT_DATE%2CSHAPE.AREA&returnGeometry=true&outSR=4326&f=geojson"
+      }
+    ]
+  }
+}

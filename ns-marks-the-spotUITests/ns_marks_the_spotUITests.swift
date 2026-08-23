@@ -43,6 +43,23 @@ final class ns_marks_the_spotUITests: XCTestCase {
         app.buttons["Toggle Layers Menu"].tap()
 
         XCTAssertTrue(app.buttons["Close layers menu"].waitForExistence(timeout: 5))
+        // Background Maps is the one section the panel opens expanded, so NS
+        // Aerial is what a reader sees without opening anything. `UITestMode`
+        // launches with the licence unanswered, and a restricted layer in that
+        // state carries a lock rather than a switch: the layer is one decision
+        // away, not unavailable.
+        XCTAssertTrue(app.buttons["NS Aerial licence required"].waitForExistence(timeout: 5))
+
+        // The rest are collapsed, Fletcher among them. Reaching that switch
+        // means opening its section first, which is the panel the browser has
+        // and the reason this assertion used to fail: the old flat list is
+        // gone, and a switch inside a closed section is not on screen at all.
+        let historical = app.descendants(matching: .any)
+            .matching(identifier: "layer-section-historical-maps")
+            .firstMatch
+        XCTAssertTrue(historical.waitForExistence(timeout: 5))
+        historical.tap()
+
         XCTAssertTrue(app.switches["Fletcher visibility"].waitForExistence(timeout: 5))
     }
 

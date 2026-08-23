@@ -180,6 +180,55 @@ function hasThreeDistinctPixels(gcps: Gcp[]): boolean {
   ).size >= 3;
 }
 
+/**
+ * How far outside the frame it registers a control point may sit, as a
+ * fraction of that frame's own width or height.
+ *
+ * A control point names a spot on the page, so the check that it is one is
+ * where it lands, not what the file's numbers looked like on the way there.
+ * `Measure` builds its pixels from `LPTS`, which the spec defines as fractions
+ * of the viewport BBox; a producer that writes page units there instead sends
+ * every corner far off its own frame, and nothing further down notices. The
+ * affine those points solve is well conditioned, and the mesh only asks whether
+ * the extrapolated corners are still valid latitudes and longitudes, which they
+ * are, so the user is told the file placed itself and the sheet is drawn at a
+ * fraction of its size on ground it does not cover.
+ *
+ * The tempting check, requiring `LPTS` inside the unit square, rejects real
+ * files and was written and reverted once on the iOS side for that reason. A
+ * sheet whose map frame is rotated a degree or two inside its viewport has
+ * corners outside the box on every side: the USGS quadrangle in this file's own
+ * regression set runs from -0.02238 to 1.02238.
+ *
+ * So the line is drawn on the frame the registration claims — for `Measure`
+ * the BBox in rendered pixels, which is read from the file independently of
+ * `LPTS` — and not on the whole page. The page is the wrong yardstick because
+ * a registration is free to cover a corner of it: every ISO fixture here
+ * registers a frame between 6 and 504 pixels across on pages of 612 to 2088,
+ * so half a page is up to 125 frame-widths of slack, and a scale error inside
+ * that is silently placed rather than refused.
+ *
+ * Measured across every fixture here, at three page sizes: no real file's
+ * control points leave their own frame at all, and the rotated quadrangle,
+ * which is the only file whose `LPTS` leave the unit square, leaves its frame
+ * by 2.24%. Half a frame is twenty-two times that.
+ */
+const CONTROL_POINT_FRAME_MARGIN = 0.5;
+
+function onRegisteredFrame(
+  { x, y }: { x: number; y: number },
+  rect: { x: number; y: number; width: number; height: number },
+): boolean {
+  const marginX = rect.width * CONTROL_POINT_FRAME_MARGIN;
+  const marginY = rect.height * CONTROL_POINT_FRAME_MARGIN;
+  return (
+    x >= rect.x - marginX &&
+    x <= rect.x + rect.width + marginX &&
+    y >= rect.y - marginY &&
+    y <= rect.y + rect.height + marginY
+  );
+}
+
 function validateCandidate(candidate: PdfRegistrationCandidate): void {
   if (
     candidate.gcps.length < 3 ||
@@ -191,6 +240,13 @@ function validateCandidate(candidate: PdfRegistrationCandidate): void {
     )
   ) {
     throw new Error("invalid control points");
+  }
+  if (
+    candidate.gcps.some(({ pixel }) =>
+      !onRegisteredFrame(pixel, candidate.sourceRect)
+    )
+  ) {
+    throw new Error("control points fall outside the registered frame");
   }
   const params = solveAffineFromGcps(candidate.gcps);
   if (!params) {
@@ -276,6 +332,11 @@ function measureCandidate(
   ) {
     throw new Error("invalid Measure point arrays");
   }
+  // No range check on the local points themselves: they are fractions of the
+  // BBox, and real sheets leave the unit square whenever the map frame is
+  // rotated inside its viewport. What a file that wrote page units here gets
+  // wrong is where the resulting control points land, and that is checked
+  // against the frame this BBox describes in `validateCandidate`.
   const [left, bottom, right, top] = bbox;
   if (left === right || bottom === top) {
     throw new Error("empty Measure bounding box");

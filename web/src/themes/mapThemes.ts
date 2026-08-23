@@ -47,7 +47,9 @@ export interface MapPresentationFixture {
   builtInThemes: Array<{
     id: BuiltInMapThemeId;
     name: string;
+    description: string;
     layerIds: ShareLayerId[];
+    opacityOverrides: Partial<Record<ShareLayerId, number>>;
     preferredCategoryIds: LayerCategoryId[];
     taxSaleEnabled: boolean;
     mapMode: MapMode;
@@ -125,7 +127,9 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
     builtInThemes: builtInMapThemes.map((theme) => ({
       id: theme.id,
       name: theme.name,
+      description: theme.description,
       layerIds: [...theme.layerIds],
+      opacityOverrides: { ...theme.opacityOverrides },
       preferredCategoryIds: [...theme.preferredCategoryIds],
       taxSaleEnabled: theme.taxSaleEnabled,
       mapMode: theme.mapMode,

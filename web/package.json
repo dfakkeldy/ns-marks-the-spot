@@ -9,6 +9,8 @@
     "prebuild": "npm run prepare:pdf-assets",
     "build": "tsc -b && vite build",
     "check:pdf-assets": "node scripts/checkPdfAssets.mjs",
+    "check:shared-data": "node scripts/exportSharedData.mjs --verify",
+    "export:shared-data": "node scripts/exportSharedData.mjs",
     "generate:geopdf-fixtures": "node scripts/generateGeoPdfFixtures.mjs",
     "generate:hydro-pilot": "node scripts/generateInvernessHydroPilot.mjs",
     "probe:geopdf": "node scripts/probeGeoPdf.mjs",
@@ -23,7 +25,7 @@
     "refresh:tax-sales": "npm run refresh:inverness-tax-sale && npm run refresh:middleton-tax-sale && npm run refresh:victoria-tax-sale && npm run refresh:halifax-tax-sale && npm run refresh:cbrm-tax-sale-results && npm run refresh:pictou-tax-sale-results && npm run watch:tax-sales",
     "watch:tax-sales": "node scripts/watchTaxSaleSources.mjs",
     "test": "npm run test:scripts && vitest run",
-    "test:scripts": "node --test scripts/checkPdfAssets.test.mjs scripts/probeGeoPdfFrames.test.mjs",
+    "test:scripts": "node --test scripts/checkPdfAssets.test.mjs scripts/exportSharedData.test.mjs scripts/probeGeoPdfFrames.test.mjs",
     "test:watch": "vitest",
     "lint": "eslint ."
   },

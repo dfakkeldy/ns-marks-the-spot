@@ -1,4 +1,6 @@
 import Foundation
+import GeoCore
+import MapCatalog
 import Testing
 @testable import ns_marks_the_spot
 
@@ -10,7 +12,7 @@ struct TileDownloadManagerTests {
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
         let loader = StubTileLoader()
-        let area = halifaxArea(id: "area-1")
+        let area = capeBretonArea(id: "area-1")
 
         let progress = await manager.download(area: area, loader: loader)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
@@ -30,7 +32,7 @@ struct TileDownloadManagerTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
-        let area = halifaxArea(id: "area-2", maxZoom: 11)
+        let area = capeBretonArea(id: "area-2", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let failingCoordinate = try #require(coordinates.first)
         let successfulCoordinate = try #require(coordinates.dropFirst().first)
@@ -63,7 +65,7 @@ struct TileDownloadManagerTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
-        let area = halifaxArea(id: "area-progress", maxZoom: 11)
+        let area = capeBretonArea(id: "area-progress", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let failingCoordinate = try #require(coordinates.first)
         let loader = StubTileLoader(failingCoordinates: [failingCoordinate])
@@ -83,7 +85,7 @@ struct TileDownloadManagerTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
-        let area = halifaxArea(id: "area-targeted", maxZoom: 11)
+        let area = capeBretonArea(id: "area-targeted", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let failedCoordinate = try #require(coordinates.dropFirst().first)
         let loader = StubTileLoader()
@@ -104,7 +106,7 @@ struct TileDownloadManagerTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
-        let area = halifaxArea(id: "area-cancel", maxZoom: 11)
+        let area = capeBretonArea(id: "area-cancel", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let loader = BlockingStubTileLoader()
 
@@ -128,7 +130,7 @@ struct TileDownloadManagerTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
-        let area = halifaxArea(id: "area-3", maxZoom: 11)
+        let area = capeBretonArea(id: "area-3", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let existingCoordinate = try #require(coordinates.first)
         let existingData = Data([0xBB, 0xBC])
@@ -163,7 +165,7 @@ struct TileDownloadManagerTests {
         defer { try? FileManager.default.removeItem(at: root) }
         let store = TileStore(rootDirectory: root)
         let manager = TileDownloadManager(tileStore: store)
-        let area = halifaxArea(id: "area-existing", maxZoom: 11)
+        let area = capeBretonArea(id: "area-existing", maxZoom: 11)
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let existingCoordinate = try #require(coordinates.first)
         let existingData = Data([0xFE, 0xED])
@@ -196,18 +198,29 @@ struct TileDownloadManagerTests {
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
     }
 
-    private func halifaxArea(
+    /// A saved area over Fletcher sheet 1.
+    ///
+    /// It was Halifax, which is outside the survey. The planner now drops tiles
+    /// no sheet covers, so a Halifax area plans nothing at all: the assertions
+    /// below would have compared empty against empty, and the tests that wait
+    /// for a request would have waited forever.
+    ///
+    /// Taken from the sheet table rather than transcribed, so a re-georeference
+    /// moves the fixture with it. That is not circular — what is under test here
+    /// is the downloader, and the extents have their own parity suite.
+    private func capeBretonArea(
         id: String,
         maxZoom: Int = 10
     ) -> SavedOfflineArea {
-        SavedOfflineArea(
+        let sheet = FletcherSheets.sheet(1)!.bounds
+        return SavedOfflineArea(
             id: id,
-            name: "Halifax",
+            name: "Sheet 1",
             bounds: MapBounds(
-                minLatitude: 44.64,
-                minLongitude: -63.58,
-                maxLatitude: 44.66,
-                maxLongitude: -63.56
+                minLatitude: sheet.south,
+                minLongitude: sheet.west,
+                maxLatitude: sheet.north,
+                maxLongitude: sheet.east
             ),
             minZoom: 10,
             maxZoom: maxZoom

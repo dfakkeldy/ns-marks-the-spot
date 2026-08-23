@@ -1,4 +1,6 @@
 import Foundation
+import GeoCore
+import NSDataServices
 import Testing
 @testable import ns_marks_the_spot
 
@@ -14,10 +16,22 @@ struct MapStateDiffTests {
     @Test func addingLayerEmitsAddTileOverlay() {
         let current = MapViewState()
         var desired = current
-        let layer = makeLayer(id: "fletcher", opacity: 0.7, isVisible: false)
+        let layer = makeLayer(id: "fletcher", opacity: 0.7, isVisible: true)
         desired.layers = [layer]
 
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.addTileOverlay(layer)])
+    }
+
+    /// Installing a layer switched off puts no overlay on the map. MapKit asks
+    /// an installed overlay for every tile the view moves over whatever its
+    /// alpha, so a restricted layer the user has not switched on would be
+    /// requesting the Province's service invisibly.
+    @Test func aLayerInstalledHiddenPutsNoOverlayOnTheMap() {
+        let current = MapViewState()
+        var desired = current
+        desired.layers = [makeLayer(id: "fletcher", opacity: 0.7, isVisible: false)]
+
+        #expect(MapStateDiff.mutations(from: current, to: desired).isEmpty)
     }
 
     @Test func removingLayerEmitsRemoveTileOverlay() {
@@ -29,7 +43,9 @@ struct MapStateDiffTests {
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.removeTileOverlay(id: "fletcher")])
     }
 
-    @Test func hidingLayerEmitsZeroAlpha() {
+    /// Switching a layer off takes its overlay away rather than fading it to
+    /// nothing, so it stops asking its source for tiles.
+    @Test func hidingLayerRemovesTheOverlay() {
         var current = MapViewState()
         current.layers = [makeLayer(id: "fletcher", opacity: 0.8, isVisible: true)]
         var desired = current
@@ -37,12 +53,12 @@ struct MapStateDiffTests {
 
         #expect(
             MapStateDiff.mutations(from: current, to: desired) == [
-                .setTileOverlayAlpha(id: "fletcher", alpha: 0)
+                .removeTileOverlay(id: "fletcher")
             ]
         )
     }
 
-    @Test func showingLayerEmitsItsOpacityAsAlpha() {
+    @Test func showingLayerInstallsItAtItsOpacity() {
         var current = MapViewState()
         current.layers = [makeLayer(id: "fletcher", opacity: 0.8, isVisible: false)]
         var desired = current
@@ -50,7 +66,23 @@ struct MapStateDiffTests {
 
         #expect(
             MapStateDiff.mutations(from: current, to: desired) == [
-                .setTileOverlayAlpha(id: "fletcher", alpha: 0.8)
+                .addTileOverlay(desired.layers[0])
+            ]
+        )
+    }
+
+    /// A layer turned down to nothing is switched off as far as the map is
+    /// concerned: the slider at zero has to stop the requests too, or the
+    /// cheapest way to hide a layer would be the one that keeps fetching it.
+    @Test func anOpacityOfZeroRemovesTheOverlayAsWell() {
+        var current = MapViewState()
+        current.layers = [makeLayer(id: "fletcher", opacity: 0.8, isVisible: true)]
+        var desired = current
+        desired.layers[0].opacity = 0
+
+        #expect(
+            MapStateDiff.mutations(from: current, to: desired) == [
+                .removeTileOverlay(id: "fletcher")
             ]
         )
     }
@@ -122,6 +154,81 @@ struct MapStateDiffTests {
         desired.showsUserLocation = true
 
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.setShowsUserLocation(true)])
+    }
+
+    @Test func featureShapesAreInstalledBeforeParcelOutlines() {
+        let current = MapViewState()
+        var desired = current
+        let shape = makeShape(id: "og-1")
+        let parcel = ParcelShape(pid: "12345678", role: .selected, parts: [[square]])
+        desired.featureShapes = [shape]
+        desired.parcelShapes = [parcel]
+
+        // Install order is z-order: a viewport layer must not be laid over the
+        // parcel the user selected.
+        #expect(
+            MapStateDiff.mutations(from: current, to: desired) == [
+                .setFeatureShapes([shape]),
+                .setParcelShapes([parcel])
+            ]
+        )
+    }
+
+    @Test func changedFeatureMarkersEmitTheWholeSet() {
+        var current = MapViewState()
+        current.featureMarkers = [makeMarker(id: "well-1")]
+        var desired = current
+        let replacement = makeMarker(id: "well-2")
+        desired.featureMarkers = [replacement]
+
+        #expect(
+            MapStateDiff.mutations(from: current, to: desired) == [
+                .setFeatureMarkers([replacement])
+            ]
+        )
+    }
+
+    @Test func unchangedFeaturesEmitNothing() {
+        var state = MapViewState()
+        state.featureShapes = [makeShape(id: "og-1")]
+        state.featureMarkers = [makeMarker(id: "well-1")]
+
+        #expect(MapStateDiff.mutations(from: state, to: state).isEmpty)
+    }
+
+    private var square: [GeoPoint] {
+        [
+            GeoPoint(lat: 45, lng: -63),
+            GeoPoint(lat: 45, lng: -62),
+            GeoPoint(lat: 46, lng: -62),
+            GeoPoint(lat: 46, lng: -63),
+            GeoPoint(lat: 45, lng: -63)
+        ]
+    }
+
+    private func makeShape(id: String) -> FeatureShape {
+        FeatureShape(
+            id: id,
+            layer: .oldGrowthPolicy,
+            geometry: .polygon([square]),
+            style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 1.7),
+            title: id,
+            subtitle: nil,
+            callout: nil
+        )
+    }
+
+    private func makeMarker(id: String) -> FeatureMarker {
+        FeatureMarker(
+            id: id,
+            layer: .nsWellLogs,
+            latitude: 45.5,
+            longitude: -63.5,
+            style: VectorFeatureStyle(strokeHex: "#ffffff", lineWidth: 1.5, markerRadius: 5),
+            title: id,
+            subtitle: nil,
+            callout: nil
+        )
     }
 
     private func makeLayer(id: String, opacity: CGFloat = 1.0, isVisible: Bool = true) -> MapLayerState {
