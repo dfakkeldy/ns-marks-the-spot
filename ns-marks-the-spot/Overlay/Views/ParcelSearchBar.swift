@@ -133,16 +133,31 @@ struct ParcelSearchBar: View {
             // the source to be identified wherever the data is shown. It also
             // tells the user whose record these addresses are, which is the
             // difference between a Province record and a guess by this app.
+            //
+            // Two links because they are two documents. This one is the
+            // dataset; naming the licence in the same tap target and then
+            // opening the dataset is how a reader ends up believing they have
+            // seen terms they have not.
             Link(destination: CivicAddressQuery.datasetURL) {
-                Text("Nova Scotia Civic Address File · Open Government Licence – Nova Scotia")
+                Text("Nova Scotia Civic Address File. \(CivicAddressQuery.attribution)")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                    .padding(.top, 8)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .accessibilityIdentifier("civic-address-attribution")
+
+            Link(destination: CivicAddressQuery.licenceURL) {
+                Text("Open Government Licence – Nova Scotia")
+                    .font(.caption2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .accessibilityIdentifier("civic-address-licence")
         }
         .background(.regularMaterial)
         .clipShape(.rect(cornerRadius: 12))

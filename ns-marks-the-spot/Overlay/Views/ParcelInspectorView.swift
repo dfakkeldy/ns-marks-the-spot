@@ -694,9 +694,14 @@ struct ParcelInspectorView: View {
             }
 
             Link(destination: CivicAddressQuery.datasetURL) {
-                Text("Source: Nova Scotia Civic Address File · Open Government Licence – Nova Scotia")
+                Text("Source: Nova Scotia Civic Address File. \(CivicAddressQuery.attribution)")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Link(destination: CivicAddressQuery.licenceURL) {
+                Text("Open Government Licence – Nova Scotia")
+                    .font(.caption2)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -1140,6 +1145,49 @@ struct ParcelInspectorView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+        }
+
+        buildingSource
+    }
+
+    /// Where the count comes from, how old it is, and under what terms.
+    ///
+    /// The exported note has carried all three since it was written; the panel
+    /// showed a bare number. A figure on screen with no source reads as this
+    /// app's own count of the buildings on a lot.
+    ///
+    /// The licence named here is the restricted one the layer carries, not the
+    /// Open Government Licence. The count is asked of the same NSTDB map
+    /// service the Buildings layer draws, so it arrives under that service's
+    /// terms whatever an open-data copy of the same compilation may say.
+    private static func buildingSourceSentence(_ sourceDate: String?) -> String {
+        var sentence = "Source: Nova Scotia Topographic Database buildings service"
+        if let sourceDate {
+            sentence += " · \(sourceDate)"
+        }
+        sentence += ". Compiled from aerial photography whose capture date varies "
+        sentence += "by area, so recent construction may not appear for years, and "
+        sentence += "the count does not establish occupancy, condition, use, or permits."
+        return sentence
+    }
+
+    @ViewBuilder
+    private var buildingSource: some View {
+        if let descriptor = LayerCatalog.descriptor(for: .buildings),
+            let service = descriptor.sourceURL ?? descriptor.serviceURL {
+            let credit = NativeLayerTraits.attribution(for: descriptor)
+            Link(destination: service) {
+                Text(Self.buildingSourceSentence(descriptor.sourceDate))
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let title = credit.licenseTitle {
+                Text("\(credit.copyright ?? credit.provider) · \(title)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 

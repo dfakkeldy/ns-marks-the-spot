@@ -240,6 +240,23 @@ struct CivicAddressQueryTests {
         }
     }
 
+    // MARK: - Attribution
+
+    /// The licence and the dataset are two documents.
+    ///
+    /// Both surfaces print the licence's name beside the source, and a name
+    /// that opens the dataset instead leaves a reader believing they have read
+    /// terms they were never shown.
+    @Test func theLicenceLinkIsTheLicenceAndNotTheDatasetPage() {
+        #expect(CivicAddressQuery.licenceURL != CivicAddressQuery.datasetURL)
+        #expect(CivicAddressQuery.licenceURL.absoluteString.contains("licence"))
+        // The words the licence itself requires, not a paraphrase.
+        #expect(
+            CivicAddressQuery.attribution
+                == "Contains information licensed under the Open Government Licence – Nova Scotia."
+        )
+    }
+
     // MARK: - Ranking
 
     @Test func punctuationAndAccentsDoNotDecideWhetherARoadIsFound() {

@@ -19,6 +19,19 @@ public enum CivicAddressQuery {
         string: "https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g"
     )!
 
+    /// The licence itself, not the dataset page that names it. Kept separate
+    /// because a line reading "Open Government Licence" that opens a dataset
+    /// has told the reader where the terms are and then not taken them there.
+    public static let licenceURL = URL(
+        string: "https://support.novascotia.ca/services/open-data-portal-licence"
+    )!
+
+    /// The attribution the licence requires, in the licence's own words. Owed
+    /// wherever these addresses are shown, which is the search list as well as
+    /// the parcel panel.
+    public static let attribution =
+        "Contains information licensed under the Open Government Licence – Nova Scotia."
+
     static let geoJSONURL = "https://data.novascotia.ca/resource/tntn-er5g.geojson"
 
     /// The columns asked for, in the web's order — the order is part of the
