@@ -256,7 +256,22 @@ jobs:
             -only-testing:ns-marks-the-spotTests \
             -only-testing:ns-marks-the-spotUITests \
             -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/native-tests.xcresult" \
             CODE_SIGNING_ALLOWED=NO
+
+      # A test host that exits unexpectedly is reported as whichever test was
+      # in flight, with no message and no crash report. The bundle carries both,
+      # and without it a runner-only failure cannot be told from a real one.
+      - name: Keep the result bundle when the tests failed
+        if: failure() && steps.test-simulator.outputs.has_destination == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-test-results
+          path: |
+            ${{ runner.temp }}/native-tests.xcresult
+            ~/Library/Logs/DiagnosticReports
+          retention-days: 7
+          if-no-files-found: ignore
 
   required_gate:
     name: Build gate + tests
