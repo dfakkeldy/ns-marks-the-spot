@@ -340,7 +340,13 @@ nonisolated enum PrintExport {
                     for: PrintExportPlan.sources(
                         baseMap: request.baseMap,
                         outcomes: outcomes,
-                        drewParcels: !request.parcels.isEmpty,
+                        // Held parcels are not printed parcels. A frame dragged
+                        // away from the selection carries none of them, and the
+                        // credit follows the ink, exactly as the legend beside
+                        // it does.
+                        drewParcels: PrintMapCompositor.drawsParcels(
+                            request.parcels, within: bounds
+                        ),
                         descriptor: descriptor
                     )
                 ),

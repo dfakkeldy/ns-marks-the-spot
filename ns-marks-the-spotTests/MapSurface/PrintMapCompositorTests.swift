@@ -572,6 +572,27 @@ nonisolated struct PrintMapCompositorTests {
         #expect(PrintMapCompositor.parcelLegend(for: [across], within: Self.bounds).count == 1)
     }
 
+    /// The attribution asks the same question the legend does, and has to get
+    /// the same answer. A page framed away from the selection carries no
+    /// Province boundary; crediting NSPRD on it names a source the page took
+    /// nothing from, which is the mirror image of the omission the credit
+    /// exists to prevent.
+    @Test func parcelsHeldButNotPrintedAreNotCredited() {
+        let elsewhere = ParcelShape(
+            pid: "13",
+            role: .selected,
+            parts: [[Self.ring(west: -63.5, east: -63.4, south: 44.6, north: 44.7)]]
+        )
+
+        #expect(!PrintMapCompositor.drawsParcels([elsewhere], within: Self.bounds))
+        #expect(
+            PrintMapCompositor.drawsParcels(
+                [elsewhere, Self.parcel("14", .taxSale)], within: Self.bounds
+            )
+        )
+        #expect(!PrintMapCompositor.drawsParcels([], within: Self.bounds))
+    }
+
     private static func parcel(_ pid: String, _ role: ParcelShape.Role) -> ParcelShape {
         ParcelShape(
             pid: pid,

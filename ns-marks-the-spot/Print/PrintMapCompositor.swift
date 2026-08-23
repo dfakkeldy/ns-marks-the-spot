@@ -601,6 +601,15 @@ nonisolated struct PrintMapCompositor {
     /// frame from the inside, so being surrounded by one is exactly when it is
     /// most visible. The fill comes from the same style table the swatch does,
     /// so the key cannot disagree with the ink about either.
+    /// Whether any of these parcels put ink inside the frame.
+    ///
+    /// Asked for the attribution, which follows the ink: a frame drawn well
+    /// away from the selection carries no Province boundary, and crediting
+    /// NSPRD on it names a source the page took nothing from.
+    static func drawsParcels(_ parcels: [ParcelShape], within bounds: GeoBoundingBox) -> Bool {
+        parcels.contains { marks($0, within: bounds) }
+    }
+
     private static func marks(_ parcel: ParcelShape, within bounds: GeoBoundingBox) -> Bool {
         if parcel.boundaryReaches(bounds) { return true }
         return style(for: parcel.role).fill != nil && parcel.surrounds(bounds)
