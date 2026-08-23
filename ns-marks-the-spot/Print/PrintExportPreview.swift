@@ -11,6 +11,20 @@ import SwiftUI
 struct PrintExportFraming: Equatable {
     var bounds: GeoBoundingBox
     var orientation: PdfTemplate.ID
+
+    /// The ground the page will actually carry.
+    ///
+    /// The paper's proportions are not the frame's, and the export grows the
+    /// frame to fit rather than cropping it, so the page covers more ground
+    /// than the user dragged over. Anything asked before the export about what
+    /// will be on the page has to be asked about this rectangle: asked about
+    /// the smaller one, a well or a zone standing in the grown margin is
+    /// reported as absent and then prints anyway.
+    var printedBounds: GeoBoundingBox {
+        PrintExportPlan.bounds(
+            covering: bounds, mapFrame: PdfTemplate.template(orientation).mapFrame
+        )
+    }
 }
 
 /// The finished page, before it goes anywhere.

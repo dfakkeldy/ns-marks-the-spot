@@ -1374,7 +1374,7 @@ final class OverlayViewModel {
         // a reader to notice, because the pages are stapled together and read
         // as one document.
         if includesAppendix, let pid = inspection?.pid,
-           inspectedPID(shownWithin: box) == nil {
+           inspectedPID(shownWithin: printed) == nil {
             disclosures.append(
                 "The evidence appendix is for PID \(pid), whose boundary is not on "
                     + "this map. The map shows other ground."
@@ -1384,7 +1384,7 @@ final class OverlayViewModel {
         // about the whole of it. A frame drawn by hand cuts wherever the user
         // dragged it, so a page can promise PID 15234636 and show its northern
         // third.
-        if let pid = inspectedPID(shownWithin: box), !parcelFits(pid, within: printed) {
+        if let pid = inspectedPID(shownWithin: printed), !parcelFits(pid, within: printed) {
             disclosures.append(
                 "PID \(pid) runs past the edge of this map. The page shows part "
                     + "of the parcel."
@@ -1422,8 +1422,8 @@ final class OverlayViewModel {
             // The client-side layers as the screen has them, so a page shows
             // the zones and reaches the reader was looking at rather than blank
             // ground where they were.
-            features: printedFeatures(within: box),
-            markers: printedMarkers(within: box),
+            features: printedFeatures(within: printed),
+            markers: printedMarkers(within: printed),
             featureLayerStatuses: featureStatuses,
             template: template,
             fields: fields,
@@ -1463,16 +1463,20 @@ final class OverlayViewModel {
     /// tells the reader they are looking at that parcel — the single wrong
     /// conclusion this export could hand somebody. Nil in that case, and the
     /// page carries the generic name instead.
+    ///
+    /// Ask this about the ground that will print, not the frame that was
+    /// dragged: the export grows one into the other, and a parcel that only
+    /// enters the page in the grown margin is on it.
     func inspectedPID(shownWithin bounds: GeoBoundingBox) -> String? {
         guard let pid = inspection?.pid,
-              let shape = controller.state.parcelShapes.first(where: { $0.pid == pid }),
-              let box = Self.boundingBox(of: shape)
+              let shape = controller.state.parcelShapes.first(where: { $0.pid == pid })
         else { return nil }
-        // Boxes rather than rings: the frame grows to the paper's proportions
-        // after this, so an outline that only overlaps the corner still prints.
-        guard box.south <= bounds.north, box.north >= bounds.south,
-              box.west <= bounds.east, box.east >= bounds.west
-        else { return nil }
+        // The same two questions the compositor asks before it draws this
+        // parcel, so the title cannot name a parcel the page has no ink from.
+        // Rings rather than the box around them: a long diagonal lot's box
+        // covers ground the lot never touches, and the title is the one
+        // sentence on the page a reader has no way to check.
+        guard shape.boundaryReaches(bounds) || shape.surrounds(bounds) else { return nil }
         return pid
     }
 

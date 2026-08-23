@@ -200,6 +200,31 @@ struct PrintUndrawnLayerTests {
         #expect(undrawn(in: printed).map(\.id) == [.zoningHalifax])
     }
 
+    /// The frame the reader drags is not the page. The export grows it to the
+    /// paper's proportions, so on this landscape sheet the printed ground runs
+    /// out to -61.4713 where the frame stops at -61.4, and a zone standing in
+    /// that strip is on the paper.
+    ///
+    /// Filtered to the dragged frame instead, the page was composited without
+    /// it and then told the reader the layer had drawn nothing — a blank strip
+    /// with a sentence agreeing it was blank, over ground the source had
+    /// answered for.
+    @Test("A shape in the grown margin is on the page")
+    func aShapeInTheGrownMarginIsOnThePage() throws {
+        let margin = GeoBoundingBox(south: 45.62, west: -61.46, north: 45.66, east: -61.44)
+        let printed = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, at: margin)]
+            )
+        )
+
+        // Outside the frame the reader dragged, and inside the page.
+        #expect(margin.east < Self.framed.west)
+        #expect(printed.features.count == 1)
+        #expect(undrawn(in: printed).isEmpty)
+    }
+
     /// The licence has its own sentence on the page, and it is the stronger
     /// one: nothing was ever fetched, so there is nothing to have missed.
     @Test("An unaccepted licence keeps its own words on the page")

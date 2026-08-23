@@ -79,7 +79,7 @@ struct PrintExportSheet: View {
         // there the research summary has nothing to append: opening on it would
         // show a reader an Export button that does not work and no reason why.
         _kind = State(
-            initialValue: overlayVM.inspectedPID(shownWithin: framing.bounds) != nil
+            initialValue: overlayVM.inspectedPID(shownWithin: framing.printedBounds) != nil
                 ? .researchSummary : .fieldSheet
         )
     }
@@ -100,14 +100,16 @@ struct PrintExportSheet: View {
 
     /// The switched-on feature layers that will put nothing inside this frame.
     private var undrawnNotes: [String] {
-        overlayVM.undrawnFeatureLayerNotes(within: framing.bounds, statuses: featureStatuses)
+        overlayVM.undrawnFeatureLayerNotes(
+            within: framing.printedBounds, statuses: featureStatuses
+        )
     }
 
     /// The open parcel, but only when its boundary is on the ground being
     /// printed. A page named after a parcel it does not show would tell the
     /// reader they are looking at that parcel.
     private var framedPID: String? {
-        overlayVM.inspectedPID(shownWithin: framing.bounds)
+        overlayVM.inspectedPID(shownWithin: framing.printedBounds)
     }
 
     /// Whether there is any aerial photography on the map to print.
