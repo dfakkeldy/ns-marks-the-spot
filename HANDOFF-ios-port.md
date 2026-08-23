@@ -1592,3 +1592,25 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 and triage every bundle.
 ```
+
+## 2026-08-23 — PR #224 merged; TIFF decoder and audit-4 fixes on PR #225
+
+Done: PR #224 merged into nightly. Four commits since, on PR #225: the tiled +
+compressed + predicted TIFF decoder ImageIO refuses (TiffRaster, GDAL fixtures,
+fallback wired into UserMapImporter), two GeoTiffTags parser defects Codex found
+(LONG8 read at four bytes; infinity into an Int), the zip empty/split-set
+refusals, and four of the six audit-4 divergences: link basemap fallback, panel
+opening sections from the matched setup, the contour interpretation note, and
+the scale/position readout staying up during a measurement. Core suite
+1110/1110; typecheck-ios clean. Spike 1's ImageIO table corrected: only
+tiled+compressed+predictor 2 fails.
+Next: Codex review of 075004285 is running; native tests and simulator checks
+wait on the 22:00 gate window.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and triage every bundle, then verify the measuring readout and the panel's
+opening sections in the simulator.
+```
