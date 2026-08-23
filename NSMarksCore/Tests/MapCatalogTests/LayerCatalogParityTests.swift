@@ -286,7 +286,7 @@ struct LayerCatalogParityTests {
         "mineral-proximity-parcels": .derivedParcelQuery,
         // Pre-rendered sheets at a runtime-configured base URL.
         "fletcher": .xyzTemplate,
-        // Rights pending: catalogued, never fetched.
+        // Catalogued for their metadata, never fetched: no tiles exist.
         "church-inverness": .unavailable, "church-victoria": .unavailable,
         "church-richmond": .unavailable, "church-cape-breton": .unavailable,
     ]

@@ -607,7 +607,10 @@ private struct LayerRowView: View {
             case .rightsPending:
                 return "Rights pending · not yet displayed"
             case .hostingPending:
-                return "Not hosted in this build"
+                // Not "in this build": nothing hosts these anywhere. The
+                // Fletcher case below is the one where a build has no address
+                // for tiles that exist.
+                return "No tiles produced yet"
             case .available:
                 // Available in the catalog, absent from the map: an address
                 // this build does not have. Fletcher is the one that reaches

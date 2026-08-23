@@ -823,7 +823,7 @@ describe("A.F. Church county map series", () => {
   it("keeps every Church sheet off the web map until tiles exist", () => {
     for (const layer of churchLayerCatalog) {
       expect(layer.licence).toBe("rumsey-reference");
-      expect(layer.webAvailability).toBe("rights-pending");
+      expect(layer.webAvailability).toBe("hosting-pending");
       expect(layer.webCaveat).toContain("tiles");
       expect(layer.nativeDefaultVisibility).toBe(false);
       expect(

@@ -826,10 +826,18 @@ public enum LayerCatalog {
     /// The four Church county sheets differ only in county, year, scale and the
     /// Rumsey record they point at.
     ///
-    /// `serviceURL` is the collection record, not a tile endpoint — nothing is
-    /// hosting these yet, which is what `availability: .rightsPending` and
-    /// `delivery: .unavailable` say. The rows exist so the app can show what is
-    /// coming and where the scan lives, without implying it can draw it.
+    /// `serviceURL` is the collection record, not a tile endpoint, and
+    /// `delivery: .unavailable` is what says nothing fetches it. The rows exist
+    /// so the app can show what is coming and where the scan lives, without
+    /// implying it can draw it.
+    ///
+    /// `availability: .hostingPending`, not `.rightsPending`. The scans are
+    /// Rumsey's under the CC BY-NC-SA terms this project already meets, and
+    /// `docs/CHURCH_MAPS.md` records no outstanding rights question — the
+    /// blocker is that no tiles exist, because the four-county georeferencing
+    /// run was frozen and rejected on 2026-07-26. The panel turns this field
+    /// into a sentence the reader sees, so the wrong case here tells them a
+    /// permission is in doubt that is not.
     private static func churchCounty(
         id: LayerID,
         uiOrder: Int,
@@ -845,7 +853,7 @@ public enum LayerCatalog {
             uiOrder: uiOrder,
             licence: .rumseyReference,
             delivery: .unavailable,
-            availability: .rightsPending,
+            availability: .hostingPending,
             serviceURL: URL(string: "https://www.davidrumsey.com/luna/servlet/detail/\(detail)"),
             minZoom: 0,
             maxZoom: 24,

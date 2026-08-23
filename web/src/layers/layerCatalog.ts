@@ -600,6 +600,15 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
       dynamicLayers: ROAD_TRAIL_CONTRAST_DYNAMIC_LAYERS,
     },
   },
+  /*
+   * The four Church sheets are "hosting-pending", not "rights-pending". The
+   * scans are Rumsey's under the CC BY-NC-SA terms this project already meets,
+   * and docs/CHURCH_MAPS.md records no outstanding rights question — what is
+   * missing is tiles, because the four-county georeferencing run was frozen and
+   * rejected on 2026-07-26. The distinction is not bookkeeping: the native app
+   * renders this field as a sentence to the reader, and "rights pending" tells
+   * them a permission is in doubt that is not.
+   */
   {
     id: "church-inverness",
     name: "Church — Inverness County",
@@ -610,7 +619,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     maxZoom: 24,
     opacity: 1,
     licence: "rumsey-reference",
-    webAvailability: "rights-pending",
+    webAvailability: "hosting-pending",
     webCaveat: "Published 1884 · web view pending tiles",
     sourceDate: "A.F. Church · published 1884",
     scale: "1:63,360 township map sheet",
@@ -626,7 +635,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     maxZoom: 24,
     opacity: 1,
     licence: "rumsey-reference",
-    webAvailability: "rights-pending",
+    webAvailability: "hosting-pending",
     webCaveat: "Published 1884 · web view pending tiles",
     sourceDate: "A.F. Church · published 1884",
     scale: "1:63,360 township map sheet",
@@ -642,7 +651,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     maxZoom: 24,
     opacity: 1,
     licence: "rumsey-reference",
-    webAvailability: "rights-pending",
+    webAvailability: "hosting-pending",
     webCaveat: "Published 1885 · web view pending tiles",
     sourceDate: "A.F. Church · published 1885",
     scale: "1:84,269 township map sheet",
@@ -658,7 +667,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     maxZoom: 24,
     opacity: 1,
     licence: "rumsey-reference",
-    webAvailability: "rights-pending",
+    webAvailability: "hosting-pending",
     webCaveat: "Published 1884 · web view pending tiles",
     sourceDate: "A.F. Church · published 1884",
     scale: "1:63,360 township map sheet",
