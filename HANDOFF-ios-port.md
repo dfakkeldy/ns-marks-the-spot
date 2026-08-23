@@ -1688,3 +1688,48 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 and verify the measuring readout, the panel's opening sections, and a saved
 area drawing with the network off in the simulator.
 ```
+
+## 2026-08-23 — Codex audit 7 triaged: share links, sessions, setups, licence
+Done: 0a484c8ed (CI green) put one saved tile through download, disk and draw
+end to end, closing the last unaudited part of offline areas. Then a Codex
+review of the share/session/setup/licence paths returned nine findings, five
+of them real divergences from the browser, all now fixed.
+1993666ec: an accepted licence no longer switches on the four `webDefaultVisible`
+Province layers at launch. The justification was a claim about the browser that
+is no longer true — `initialProvinceLayerVisibility` is read by the parity
+export and by nothing that runs, and the browser opens on Explore Nova Scotia
+(modern base map alone, tax sales off). Fletcher stays: that default is a
+current product decision, not an inference.
+d7e748d02: a link applied into a running app now resets the tax-sale selection
+and both filter sets, as a fresh browser page has them; a link naming no ground
+now opens over the standard map instead of the recipient's satellite; a setup
+saved after switching tax sales off from the records keeps the historical mode
+the browser also captures; withdrawing the licence now cancels the historical
+parcel load as well as the current one, drops `restoringPID`, and rewrites the
+stored session from the cleaned map.
+Four recorded rather than changed. An empty event list round-trips as "all"
+and malformed input parses as valid-and-empty on both surfaces, so both are
+inherited browser behaviour rather than a native defect. Opacity is absent
+from links and sessions on both surfaces too. And revocation deliberately does
+not scrub restricted layer IDs out of saved setups: a setup is the reader's own
+document, the apply guard already refuses restricted layers, and rewriting
+someone's saved work on a permission change is a bigger claim than the
+withdrawal made. A share-time warning about a Satellite background was declined
+as new UI the browser has no counterpart for; the existing setup notice now
+names shared links as well.
+CI on d7e748d02 then failed one app-target test. `theNextLaunchOpensOnWhatWasRemembered`
+was written against the old defaults, where an accepted licence opened with
+parcels on, so toggling them switched them off; under the new defaults the same
+toggle switches them on. Restated in the direction the defaults now allow: the
+reader switches parcels on, the next launch opens on parcels and still no
+aerial. The "switched off stays off" half was already covered by
+`aStoredSessionKeepsTheLayersTheReaderSwitchedOff`.
+Next: watch CI, then PR #226 review, then triage the audit-8 feature inventory.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify the measuring readout, the panel's opening sections, and a saved
+area drawing with the network off in the simulator.
+```

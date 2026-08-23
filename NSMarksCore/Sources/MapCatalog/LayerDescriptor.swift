@@ -116,6 +116,16 @@ public struct LayerDescriptor: Identifiable, Hashable, Sendable {
     /// than as a layer with an opacity of its own. Defaulting it to 1 would
     /// have been a number this app invented.
     public let opacity: Double?
+    /// What the web catalogue's `initialProvinceLayerVisibility` record says
+    /// about this layer, carried so the parity fixture can compare the two
+    /// catalogues field by field.
+    ///
+    /// Not what either surface opens on. Nothing on either side reads it to
+    /// decide a launch: the browser opens on the Explore Nova Scotia setup,
+    /// which is the modern base map alone, and this app on
+    /// `LayerCatalog.nativeDefaultVisibleIDs`. Reading it as an opening state
+    /// is what once had an accepted Province licence switch four layers on at
+    /// launch that the browser never switches on.
     public let webDefaultVisible: Bool
     public let nativeDefaultVisible: Bool
     public let caveat: String

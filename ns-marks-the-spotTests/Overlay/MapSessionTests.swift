@@ -370,8 +370,14 @@ struct MapSessionTests {
         #expect(try #require(store.load()).view.mode == .historical)
     }
 
-    /// The point of the whole exercise, stated as one round trip: what the
-    /// reader switched off is still off at the next launch.
+    /// The point of the whole exercise, stated as one round trip: the layers
+    /// the reader chose are the ones the next launch opens on, and nothing
+    /// else is added underneath them.
+    ///
+    /// Parcels open on neither surface, so switching them on is the reader's
+    /// own choice and no default could have made it. Aerial imagery is the
+    /// layer this app used to switch on by itself for anyone who had accepted
+    /// the licence, which is why it is named here rather than left implied.
     @Test func theNextLaunchOpensOnWhatWasRemembered() throws {
         let defaults = Self.defaults()
         let licence = InMemoryProvinceLicenceStorage(initial: .accepted)
@@ -380,6 +386,7 @@ struct MapSessionTests {
             sessionStore: MapSessionStore(defaults: defaults)
         )
         let model = OverlayViewModel(container: first)
+        #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == false)
         model.toggleVisibility(LayerID.nsprd.rawValue)
         model.rememberSession()
 
@@ -390,7 +397,7 @@ struct MapSessionTests {
 
         #expect(next.restoredSession != nil)
         let visible = Set(next.mapController.layers.filter(\.isVisible).map(\.id))
-        #expect(visible.contains(LayerID.nsprd.rawValue) == false)
-        #expect(visible.contains(LayerID.nsAerial.rawValue))
+        #expect(visible.contains(LayerID.nsprd.rawValue))
+        #expect(visible.contains(LayerID.nsAerial.rawValue) == false)
     }
 }

@@ -34,7 +34,12 @@ struct LicenceRevocationTests {
             licenceStore: ProvinceLicenceStore(
                 storage: InMemoryProvinceLicenceStorage(initial: licence)
             ),
-            tileCache: tileCache
+            tileCache: tileCache,
+            // Withdrawing rewrites the stored session, so these need defaults
+            // of their own. The real store is the test host's standard
+            // defaults, and a session written there by one test would decide
+            // what another test's container opens on.
+            sessionStore: .forTesting()
         )
         return (viewModel, controller)
     }
