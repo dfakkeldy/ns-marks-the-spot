@@ -1,4 +1,5 @@
 import GeoCore
+import MapCatalog
 import NSDataServices
 import SwiftUI
 
@@ -25,6 +26,11 @@ struct MapContainerView: View {
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
     @State private var isLayersMenuExpanded = false
+    /// Which layer sections are open, held here rather than in the panel
+    /// because the panel only exists while it is on screen. Nil until the
+    /// reader opens or closes one, which is when the panel stops taking the
+    /// sections the current setup asks for.
+    @State private var openLayerSections: Set<LayerCategoryID>?
     /// How tall the map surface is, so the layer panel can be capped at what
     /// the screen actually has rather than at a number chosen for a shorter
     /// list. Ten sections do not fit any fixed height worth hard-coding.
@@ -32,9 +38,6 @@ struct MapContainerView: View {
     /// How tall the measuring card is, so the scale bar and the readout
     /// can sit above it rather than behind it.
     @State private var measurePanelHeight: CGFloat = 0
-    /// How tall the scale bar, readout and source strip come to, which is
-    /// what MapKit's own logo and Legal link have to clear.
-    @State private var readoutHeight: CGFloat = 0
     @State private var mapHeading: Double = 0
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
@@ -188,7 +191,8 @@ struct MapContainerView: View {
                                     beginEditing(row)
                                 }
                             },
-                            isExpanded: $isLayersMenuExpanded
+                            isExpanded: $isLayersMenuExpanded,
+                            expandedCategories: $openLayerSections
                         )
                             .frame(width: 300)
                             .frame(maxHeight: max(320, mapHeight - 132))
@@ -522,6 +526,10 @@ struct MapContainerView: View {
         // coordinates up throughout a measurement, and closing a measurement to
         // read the scale it should be compared against discards it. So the
         // readout is lifted over the measuring card instead of being dropped.
+        //
+        // Only that card. A parcel opened while a measurement is running still
+        // takes the readout down, because the inspector is a card of its own
+        // and there is nowhere left to lift to.
         .overlay(alignment: .bottomLeading) {
             if overlayVM.inspection == nil, editSession == nil,
                vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea,
@@ -554,15 +562,14 @@ struct MapContainerView: View {
                 .padding(.bottom, 12 + measureLift)
                 // Measured rather than guessed: the stack's height changes
                 // with the source strip, and MapKit's own logo and Legal link
-                // have to stay above it.
+                // have to stay above it. Measured after the padding, so the
+                // lift over the measuring card is already in the number.
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
-                    readoutHeight = $0
+                    controller.setBottomOrnamentInset($0)
                 }
-                .onDisappear { readoutHeight = 0 }
+                .onDisappear { controller.setBottomOrnamentInset(0) }
             }
         }
-        .onChange(of: readoutHeight, initial: true) { _, _ in reportOrnamentInset() }
-        .onChange(of: measureLift) { _, _ in reportOrnamentInset() }
         .overlay(alignment: .bottom) {
             if let measure {
                 MeasurePanelView(
@@ -1026,12 +1033,6 @@ struct MapContainerView: View {
     /// card. Zero when nothing is being measured.
     private var measureLift: CGFloat {
         measure == nil ? 0 : measurePanelHeight
-    }
-
-    /// What MapKit's logo and Legal link have to clear: the readout stack, plus
-    /// whatever the readout stack was lifted over.
-    private func reportOrnamentInset() {
-        controller.setBottomOrnamentInset(readoutHeight == 0 ? 0 : readoutHeight + measureLift)
     }
 
     private func stopMeasuring() {

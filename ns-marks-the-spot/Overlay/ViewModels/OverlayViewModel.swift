@@ -1599,22 +1599,16 @@ final class OverlayViewModel {
         return clearanceBox.clearance.allowsRestrictedLayers ? type : nil
     }
 
-    /// Whether a background actually puts something under the layers at this
-    /// zoom.
+    /// Whether a background puts anything under the layers.
     ///
-    /// NS Aerial is imagery with a floor and a licence: below zoom 10, or with
-    /// the licence unanswered, the picker still says NS Aerial and the map
-    /// still draws nothing.
-    private func drawsGround(_ type: MapBaseType, at zoom: Int) -> Bool {
-        switch type {
-        case .blank:
-            false
-        case .nsAerial:
-            zoom >= (LayerCatalog.descriptor(for: .nsAerial)?.minZoom ?? .max)
-                && clearanceBox.clearance.allowsRestrictedLayers
-        default:
-            true
-        }
+    /// Only None does not, and the browser's other unusable case does not apply
+    /// here: NS Aerial draws as a tile overlay above MapKit's standard map, so
+    /// below the zoom the imagery starts at, or with its licence unanswered,
+    /// the reader is looking at the standard map rather than at nothing. The
+    /// browser has no map under its aerial layer, which is why it has to check
+    /// the zoom and this does not.
+    private func drawsGround(_ type: MapBaseType) -> Bool {
+        type != .blank
     }
 
     /// Where a restored view came from, which is the only thing that differs
@@ -1642,15 +1636,11 @@ final class OverlayViewModel {
                 ? .standard : baseMapType)
         // Unless leaving it where it is would leave the link's layers over
         // nothing. The browser turns its modern map on for a link that names
-        // layers and no ground to draw them on, and this map has two more ways
-        // to have no ground than the browser does: the background switched off,
-        // and imagery below the zoom it starts drawing at.
+        // layers and no ground to draw them on.
         //
         // Only for a link. A reader who left their own map on None meant it,
         // and resuming their session is not the moment to argue.
-        if origin == .sharedLink, !state.layerIDs.isEmpty,
-            !drawsGround(restored, at: state.position.zoom)
-        {
+        if origin == .sharedLink, !state.layerIDs.isEmpty, !drawsGround(restored) {
             setBaseMapType(.standard)
         } else {
             setBaseMapType(restored)

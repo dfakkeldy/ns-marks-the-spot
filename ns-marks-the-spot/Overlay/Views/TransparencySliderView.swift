@@ -26,7 +26,12 @@ struct TransparencySliderView: View {
     /// the sections the map the panel opened over asks for. Opening every
     /// section that is drawing something would be a scroll of thirty switches,
     /// which is the thing the sections exist to avoid.
-    @State private var expandedCategories: Set<LayerCategoryID>?
+    ///
+    /// Owned by the caller rather than held here, because this panel is only
+    /// built while it is on screen. Kept here it would be thrown away every
+    /// time the reader closed the panel, and a section they opened would be
+    /// shut again when they came back to it.
+    @Binding var expandedCategories: Set<LayerCategoryID>?
     @State private var isImportingUserFile = false
 
     /// The open sections, before and after the reader has touched one.

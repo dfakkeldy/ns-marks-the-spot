@@ -162,21 +162,40 @@ struct MapShareAndEvidenceTests {
         #expect(model.baseMapType == .satellite)
     }
 
-    /// NS Aerial below zoom 10 is a background in the picker and nothing on the
-    /// map, which is the browser's own test for whether a link has usable
-    /// ground under it.
-    @Test func aLinkOpenedOverImageryTooFarOutFallsBackToTheModernMap() {
+    /// The browser checks the zoom because its aerial layer has nothing under
+    /// it. This one draws over MapKit's standard map, so imagery too far out to
+    /// draw leaves the reader looking at streets rather than at nothing, and
+    /// there is nothing here to fall back from.
+    @Test func aLinkOpenedOverImageryTooFarOutKeepsIt() {
         let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
         model.setBaseMapType(.nsAerial)
 
         model.restore(
             from: URL(
                 string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
-                    + "?layers=nsprd&position=46.1,-60.1,9"
+                    + "?layers=ns-aerial,nsprd&position=46.1,-60.1,9"
             )!
         )
 
-        #expect(model.baseMapType == .standard)
+        #expect(model.baseMapType == .nsAerial)
+    }
+
+    /// The link's own aerial layer arrives after the background has been
+    /// chosen, and turning it on moves the background with it. A reader who
+    /// opened this link with their map switched off should still be looking at
+    /// something.
+    @Test func aLinkNamingImageryOverNoGroundStillOpensOverAMap() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
+        model.setBaseMapType(.blank)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=ns-aerial,nsprd&position=46.1,-60.1,9"
+            )!
+        )
+
+        #expect(model.baseMapType == .nsAerial)
     }
 
     /// Resuming is not opening a link. Nobody sent this view: the reader turned
