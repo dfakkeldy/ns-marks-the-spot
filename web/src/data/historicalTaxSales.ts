@@ -6,7 +6,7 @@ import cbrmResultSnapshot from "./cbrmTaxSaleResults.snapshot.json";
 // this whenever it ingests a sale; regenerate with:
 //   node -e 'import("node:crypto").then(async ({createHash})=>console.log(createHash("sha256").update(await (await import("node:fs/promises")).readFile("src/data/historicalTaxSales.json")).digest("hex")))'
 export const HISTORICAL_DATASET_SHA256 =
-  "5e4be48bf01b2aa3f3f00d648f415d690093c50dd3b9d6b427495e96cbb78032";
+  "043e678a68232adcd49eb3ae8fed5019178eea2ee895287c31063e47d472b8a2";
 
 export const CBRM_RESULT_DATASET_SHA256 =
   "dc57447252e40e8834fcee39d6ad69b20d24aba6b57b32f02ac52f610b934d64";

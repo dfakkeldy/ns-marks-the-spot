@@ -495,8 +495,11 @@ covers several parcels, so listing-level amounts are never allocated by the UI.
 Filters derive matched PID sets by municipality, year, and outcome without
 altering the upcoming-notice layer.
 
-The supported slice spans ten municipalities and carries 25 events, 483
-owner-free records, and 461 matched PIDs. Halifax Regional Municipality
+The supported slice spans eleven municipalities and carries 26 events, 490
+owner-free records, and 468 matched PIDs. Twenty-five events have verified
+results; Colchester's June 9, 2026 notice-only event awaits official results,
+with seven exact-PID records retained outcome unknown and twelve opaque
+`REMOVED` rows outside the matched layer. Halifax Regional Municipality
 contributes seven tender events
 (March 8, 2022 through September 16, 2025) with 87 records and 93 exact official
 PIDs. Victoria County, Cumberland County, and the two CBRM sales add

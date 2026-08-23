@@ -17,6 +17,8 @@ import {
 // archive replaying that municipality, never from an arbitrary host.
 const verifiedResultHost =
   /^https:\/\/(?:(?:cdn\.)?halifax\.ca|victoriacounty\.com|cbrm\.ns\.ca|munpict\.ca|(?:www\.)?modl\.ca|(?:www\.)?regionofqueens\.com|(?:www\.)?clarenovascotia\.com|web\.archive\.org)\//u;
+const pendingResultHost =
+  /^https:\/\/(?:cbrm\.ns\.ca|(?:www\.)?colchester\.ca)\//u;
 
 describe("historical tax-sale records", () => {
   // Byte-level protection for this dataset lives in taxSaleCatalog.test.ts,
@@ -177,6 +179,92 @@ describe("historical tax-sale records", () => {
     expect(
       historicalTaxSaleEvents.some(
         ({ id }) => id === "shelburne-2026-02-09",
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps Colchester notice-only records outcome-unknown while results are absent", () => {
+    const event = historicalTaxSaleEvents.find(
+      ({ id }) => id === "colchester-2026-06-09",
+    );
+    const records = historicalTaxSaleRecords.filter(
+      ({ eventId }) => eventId === event?.id,
+    );
+
+    expect(event).toMatchObject({
+      municipality: "Municipality of the County of Colchester",
+      resultStatus: "awaiting-official-results",
+      noticeUrl:
+        "https://web.archive.org/web/20260823200947id_/https://www.colchester.ca/tax-sales",
+      noticeSha256:
+        "0076fd4d1b4a25aef2247f4836b14c61de59e8246b2ef6be2303c1f72bce7203",
+      resultCheckedOn: "2026-08-23",
+    });
+    expect(records).toHaveLength(7);
+    expect(
+      records.every(
+        ({ outcome, winningBidCents, nspMatchMethod, reviewState }) =>
+          outcome === "unknown" &&
+          winningBidCents === null &&
+          nspMatchMethod === "exact-official-pid" &&
+          reviewState === "notice-verified",
+      ),
+    ).toBe(true);
+    expect(
+      records.map(
+        ({ listingIdentifier, pids, advertisedAmountCents, redemptionLabel }) =>
+          ({ listingIdentifier, pids, advertisedAmountCents, redemptionLabel }),
+      ),
+    ).toEqual([
+      { listingIdentifier: "00046426", pids: ["20080347"], advertisedAmountCents: 353059, redemptionLabel: "Six-month redemption" },
+      { listingIdentifier: "00378623", pids: ["20207882"], advertisedAmountCents: 370244, redemptionLabel: "Six-month redemption" },
+      { listingIdentifier: "01337246", pids: ["20199873"], advertisedAmountCents: 183759, redemptionLabel: "Six-month redemption" },
+      { listingIdentifier: "02245612", pids: ["20129995"], advertisedAmountCents: 1166375, redemptionLabel: "Six-month redemption" },
+      { listingIdentifier: "02302357", pids: ["20151213"], advertisedAmountCents: 2521113, redemptionLabel: "Six-month redemption" },
+      { listingIdentifier: "02407299", pids: ["20141321"], advertisedAmountCents: 236715, redemptionLabel: "No redemption" },
+      { listingIdentifier: "06250378", pids: ["20231825"], advertisedAmountCents: 3010602, redemptionLabel: "Six-month redemption" },
+    ]);
+    expect(
+      historicalSourceLedger.coverage.find(
+        ({ municipality }) =>
+          municipality === "Municipality of the County of Colchester",
+      ),
+    ).toMatchObject({
+      status: "included",
+      documentSha256: [
+        "0076fd4d1b4a25aef2247f4836b14c61de59e8246b2ef6be2303c1f72bce7203",
+      ],
+      officialWinningBidsFound: false,
+      notes: expect.stringContaining("12 opaque REMOVED rows"),
+    });
+  });
+
+  it("keeps Barrington and Digby identifier ambiguities outside the exact-PID map", () => {
+    const barrington = historicalSourceLedger.coverage.find(
+      ({ municipality }) =>
+        municipality === "Municipality of the District of Barrington",
+    );
+    const digby = historicalSourceLedger.coverage.find(
+      ({ event }) => event === "March 11, 2026 tax sale by tender",
+    );
+
+    expect(barrington).toMatchObject({
+      status: "researched-not-included",
+      documentSha256: [
+        "40571c48fff795e75ec080cbbbf46b0d637d4a57e4d1e8b13ceda12367a9969b",
+        "b9079bb8ec9dd36ba16aecc733c5e006292884a5fbfbf8225ef12ed83321daf9",
+      ],
+      officialWinningBidsFound: true,
+    });
+    expect(digby).toMatchObject({
+      municipality: "Municipality of the District of Digby",
+      status: "researched-not-included",
+      documentSha256: [],
+      officialWinningBidsFound: false,
+    });
+    expect(
+      historicalTaxSaleEvents.some(({ municipalityId }) =>
+        ["barrington", "digby"].includes(municipalityId),
       ),
     ).toBe(false);
   });
@@ -511,7 +599,7 @@ describe("historical tax-sale records", () => {
         expect(event.resultSha256).toMatch(/^[a-f0-9]{64}$/u);
       } else {
         expect(event.resultUrl).toBeUndefined();
-        expect(event.landingPageUrl).toMatch(/^https:\/\/cbrm\.ns\.ca\//u);
+        expect(event.landingPageUrl).toMatch(pendingResultHost);
       }
     }
   });

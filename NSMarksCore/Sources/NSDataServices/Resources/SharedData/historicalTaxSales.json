@@ -502,6 +502,25 @@
       "noticeSha256": "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13",
       "resultSha256": "d81652aee056a28dc013741a0b9f6d13e82df0305099a8ba6639240b5655b982",
       "sourceNotes": "The owner-free notice snapshot retained 2 exact-PID rows on 2026-08-18. Each matches exactly one official result description; 2 print NO BID and 0 print numeric successful bids. The official result also prints 7 REMOVED rows without descriptions or parcel identifiers; those opaque rows remain distinct and outside the mapped records. The result identity column was discarded before the public snapshot was written."
+    },
+    {
+      "id": "colchester-2026-06-09",
+      "municipalityId": "colchester",
+      "municipality": "Municipality of the County of Colchester",
+      "shortMunicipality": "Colchester",
+      "saleDate": "2026-06-09",
+      "saleMethod": "public-auction",
+      "listingIdentifierLabel": "Account #",
+      "advertisedAmountLabel": "Taxes, interest, and expenses",
+      "currency": "CAD",
+      "noticeUrl": "https://web.archive.org/web/20260823200947id_/https://www.colchester.ca/tax-sales",
+      "landingPageUrl": "https://www.colchester.ca/tax-sales",
+      "resultStatus": "awaiting-official-results",
+      "retrievedOn": "2026-08-23",
+      "noticeSnapshotDate": "2026-05-07",
+      "resultCheckedOn": "2026-08-23",
+      "noticeSha256": "0076fd4d1b4a25aef2247f4836b14c61de59e8246b2ef6be2303c1f72bce7203",
+      "sourceNotes": "The dated municipal notice publishes 7 unique account/PID rows and positive totals. Twelve additional rows print REMOVED without identifiers and remain outside the mapped records. The municipality has not published parcel-level results, so every retained outcome stays unknown and no winning bid is claimed. All 7 exact PIDs returned from NSPRD on 2026-08-23. Identity fields were discarded before this public dataset was written."
     }
   ],
   "records": [
@@ -941,6 +960,14 @@
     { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-04146751", "listingIdentifier": "04146751", "pids": ["30056162"], "civicDescription": "Saulnierville Rd, Saulnierville - Land", "advertisedAmountCents": 59772, "winningBidCents": null, "outcome": "redeemed", "resultNote": "The official result prints a $15,000.00 sale price and Redeemed May 22; no completed-sale winning bid is claimed.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
     { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-04219929", "listingIdentifier": "04219929", "pids": ["30072839"], "civicDescription": "Comeau Branch Rd, Meteghan River - Land", "advertisedAmountCents": 51662, "winningBidCents": 450000, "outcome": "sold", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
     { "eventId": "clare-2026-02-28", "recordId": "clare-2026-02-28-aan-06137881", "listingIdentifier": "06137881", "pids": ["30081921"], "civicDescription": "Bonnie Rd, Meteghan - Land", "advertisedAmountCents": 39048, "winningBidCents": 900000, "outcome": "sold", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
+
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-00046426", "listingIdentifier": "00046426", "pids": ["20080347"], "civicDescription": "1686 Wittenburg Road, Wittenburg, Land Building", "advertisedAmountCents": 353059, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-00378623", "listingIdentifier": "00378623", "pids": ["20207882"], "civicDescription": "82 William Russell Road, Hilden, Land Dwelling", "advertisedAmountCents": 370244, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-01337246", "listingIdentifier": "01337246", "pids": ["20199873"], "civicDescription": "102 Edgewood Road, Bass River, Land", "advertisedAmountCents": 183759, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-02245612", "listingIdentifier": "02245612", "pids": ["20129995"], "civicDescription": "3804 Mines Bass River Road, Lornevale, Land Building", "advertisedAmountCents": 1166375, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-02302357", "listingIdentifier": "02302357", "pids": ["20151213"], "civicDescription": "147 Old Greenfield Road, Greenfield, Land", "advertisedAmountCents": 2521113, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-02407299", "listingIdentifier": "02407299", "pids": ["20141321"], "civicDescription": "River Phillip Road, Economy, Land", "advertisedAmountCents": 236715, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "No redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
+    { "eventId": "colchester-2026-06-09", "recordId": "colchester-2026-06-09-account-06250378", "listingIdentifier": "06250378", "pids": ["20231825"], "civicDescription": "9 Park Street, Tatamagouche, Land Building", "advertisedAmountCents": 3010602, "winningBidCents": null, "outcome": "unknown", "resultNote": "No parcel-level result has been published; no outcome or winning bid is inferred.", "redemptionLabel": "Six-month redemption", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "notice-verified" },
 
     { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-4", "listingIdentifier": "4", "pids": ["05193040"], "civicDescription": "Land, 50 School Street, Middleton", "advertisedAmountCents": 8461612, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - Yes", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" },
     { "eventId": "middleton-2026-08-20", "recordId": "middleton-2026-08-20-result-row-5", "listingIdentifier": "5", "pids": ["05030911"], "civicDescription": "Land, Senator Road, Middleton", "advertisedAmountCents": 1581351, "winningBidCents": null, "outcome": "unsold", "resultNote": "The official Successful Bid column reads \"NO BID\".", "redemptionLabel": "Redeemable - No", "nspMatchStatus": "matched", "nspMatchMethod": "exact-official-pid", "reviewState": "visually-verified" }
