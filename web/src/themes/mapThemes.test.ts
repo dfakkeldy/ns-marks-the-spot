@@ -5,6 +5,18 @@ import {
   validateMapTheme,
 } from "./mapThemes";
 
+/**
+ * The fixture lives under the Swift package's test resources, beside
+ * `layer-parity.json` and for the same reason: it is the web's declaration of
+ * the categories and built-in themes, read by `MapThemeTests` so the Swift port
+ * is checked against what the browser actually ships rather than against a
+ * second Swift copy of the same list. It must never be bundled into the app.
+ *
+ * Regenerate with `npx vitest run mapThemes -u` after a theme change.
+ */
+const MAP_PRESENTATION_FIXTURE_PATH =
+  "../../../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json";
+
 describe("built-in map themes", () => {
   it("defines the approved Explore setup", () => {
     expect(builtInMapThemes[0]).toMatchObject({
@@ -122,6 +134,6 @@ describe("built-in map themes", () => {
   it("exports the native portability fixture from the registries", async () => {
     await expect(
       `${JSON.stringify(buildMapPresentationFixture(), null, 2)}\n`,
-    ).toMatchFileSnapshot("./fixtures/map-presentation.json");
+    ).toMatchFileSnapshot(MAP_PRESENTATION_FIXTURE_PATH);
   });
 });

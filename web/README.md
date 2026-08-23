@@ -45,9 +45,11 @@ still enables Tax Sale; exact shared state takes precedence over local custom
 theme storage.
 
 The generated web-to-native category and built-in-theme contract is
-[`src/themes/fixtures/map-presentation.json`](src/themes/fixtures/map-presentation.json).
-It is intended for later Swift parity work. This first release does not modify
-the iPhone app or transfer custom themes between web and iPhone.
+[`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json),
+written by `src/themes/mapThemes.test.ts` and read by the Swift package's
+`MapThemeTests`. Regenerate it with `npx vitest run mapThemes -u` after a theme
+change. Custom themes are not transferred between web and iPhone; each surface
+keeps its own saved setups locally.
 
 ## Share card
 

@@ -98,7 +98,8 @@ extension OverlayViewModel {
         dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
         buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(),
         resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher(),
-        floodFetcher: FloodHazardFetcher = FloodHazardFetcher()
+        floodFetcher: FloodHazardFetcher = FloodHazardFetcher(),
+        themes: MapThemeLibrary = .forTesting()
     ) -> OverlayViewModel {
         for id in ids {
             guard let descriptor = LayerCatalog.descriptor(for: id),
@@ -125,12 +126,28 @@ extension OverlayViewModel {
             dwellingFetcher: dwellingFetcher,
             buildingFetcher: buildingFetcher,
             resourceFetcher: resourceFetcher,
-            floodFetcher: floodFetcher
+            floodFetcher: floodFetcher,
+            themes: themes
         )
         // The map opens without tax-sale information, as the browser does.
         // Handing this helper a record set is a test saying its map is set up
         // for that job, so it switches on unless the test says otherwise.
         viewModel.setTaxSaleEnabled(showsTaxSale ?? (taxSale != nil || historical != nil))
         return viewModel
+    }
+}
+
+extension MapThemeLibrary {
+    /// A library over defaults of its own.
+    ///
+    /// The real one writes to the test host's standard defaults, which would
+    /// leak a saved setup from one test into the next and into whatever else
+    /// runs in that host.
+    static func forTesting(suite: String = UUID().uuidString) -> MapThemeLibrary {
+        MapThemeLibrary(
+            storage: UserDefaultsCustomThemeStorage(
+                defaults: UserDefaults(suiteName: suite) ?? .standard
+            )
+        )
     }
 }

@@ -60,6 +60,19 @@ struct TransparencySliderView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 8) {
+                    // Inside the scroll rather than pinned above it: on a phone
+                    // the picker, its description and its status are most of a
+                    // card's height, and a reader who has chosen a setup wants
+                    // the switches, not the chooser.
+                    MapThemePickerView(
+                        viewModel: viewModel,
+                        expandedCategories: $expandedCategories
+                    )
+
+                    Divider()
+                        .background(.primary.opacity(0.1))
+                        .padding(.vertical, 4)
+
                     ForEach(viewModel.sections(addedMapCount: addedMapCount)) { section in
                         LayerSectionView(
                             section: section,

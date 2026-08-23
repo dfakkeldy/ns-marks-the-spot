@@ -1416,3 +1416,36 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-pa
 git log --oneline -1   # 667831a70
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
 ```
+
+## 2026-08-23 — Phase C: map setups (themes) on the phone
+
+Done: `mapThemes.ts`, `themeState.ts` and `themeStorage.ts` ported into
+`NSMarksCore/Sources/NSDataServices` as `MapTheme` and `CustomThemeStore`, with
+the five built-ins checked against a fixture the browser writes
+(`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`, now carrying
+`description` and `opacityOverrides` too; regenerate with
+`npx vitest run mapThemes -u`). `MapThemeLibrary` holds the reader's own setups
+in UserDefaults and never leaves the device. `OverlayViewModel` gained a Map
+setup block: `themeState`, `apply(_:)`, the exact/modified/partly-applied
+status, and a licence-first path so a setup naming a restricted layer asks
+before it turns anything on. `MapThemePickerView` sits at the top of the layer
+panel; `MapThemeManagerSheet` is the browser's theme manager. Applying a setup
+opens the sections it names.
+
+Green: 1073 package tests / 152 suites, `Scripts/typecheck-ios.sh`, the gated
+`MapThemeApplyTests` (14) plus basemap, licence, panel-section and tax-sale
+suites, `npm run lint`, `npm run build`, and a simulator walkthrough (pick,
+licence prompt, accept, save, duplicate, delete, relaunch).
+
+Next: read the Codex review of this phase (scratchpad `codex-phasec.out`) and
+fix what it finds, then push and open the PR to `nightly` (still no PR; 57 ahead
+of origin). Recorded divergences: a duplicated setup keeps the original's name,
+as it does in the browser; the picker says "Current setup" where the browser
+says "Shared setup"; Satellite and Hybrid base maps have no name in the shared
+vocabulary, so a setup saved over one comes back without it.
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
+```

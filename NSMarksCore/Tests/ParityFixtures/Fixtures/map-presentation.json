@@ -101,9 +101,11 @@
     {
       "id": "explore-nova-scotia",
       "name": "Explore Nova Scotia",
+      "description": "A clean modern map for general exploration.",
       "layerIds": [
         "modern"
       ],
+      "opacityOverrides": {},
       "preferredCategoryIds": [
         "background-maps"
       ],
@@ -113,6 +115,7 @@
     {
       "id": "tax-sale-research",
       "name": "Tax Sale Research",
+      "description": "Current notices with property, road, water, and building context.",
       "layerIds": [
         "ns-aerial",
         "nsprd",
@@ -120,6 +123,7 @@
         "water-features",
         "buildings"
       ],
+      "opacityOverrides": {},
       "preferredCategoryIds": [
         "tax-sale",
         "land-property"
@@ -130,6 +134,7 @@
     {
       "id": "forestry-field-access",
       "name": "Forestry & Field Access",
+      "description": "Aerial, land, access, terrain, and old-growth policy context.",
       "layerIds": [
         "ns-aerial",
         "nsprd",
@@ -139,6 +144,7 @@
         "contours",
         "old-growth-policy"
       ],
+      "opacityOverrides": {},
       "preferredCategoryIds": [
         "forestry-ecology",
         "land-property",
@@ -151,12 +157,14 @@
     {
       "id": "historical-maps",
       "name": "Historical Maps",
+      "description": "Fletcher mapping with modern roads and place references.",
       "layerIds": [
         "modern",
         "fletcher",
         "place-names",
         "main-roads"
       ],
+      "opacityOverrides": {},
       "preferredCategoryIds": [
         "historical-maps",
         "roads-places"
@@ -167,11 +175,13 @@
     {
       "id": "georeferencing",
       "name": "Georeferencing",
+      "description": "A clean reference setup for positioning your own maps.",
       "layerIds": [
         "modern",
         "place-names",
         "main-roads"
       ],
+      "opacityOverrides": {},
       "preferredCategoryIds": [
         "my-maps",
         "background-maps",

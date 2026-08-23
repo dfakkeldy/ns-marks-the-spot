@@ -222,3 +222,106 @@ public struct ParityFixture: Sendable {
         layers[id]
     }
 }
+
+/// One panel section as the presentation fixture declares it: the heading, and
+/// which catalogue layers the browser files under it.
+public struct FixturePresentationCategory: Sendable, Equatable {
+    public let id: String
+    public let name: String
+    public let layerIDs: [String]
+}
+
+/// One built-in theme as the web declares it.
+public struct FixtureTheme: Sendable, Equatable {
+    public let id: String
+    public let name: String
+    public let description: String
+    public let layerIDs: [String]
+    public let opacityOverrides: [String: Double]
+    public let preferredCategoryIDs: [String]
+    public let taxSaleEnabled: Bool
+    public let mode: String
+}
+
+/// The web's exported map-setup contract: the panel's sections and the five
+/// themes it ships.
+///
+/// Read the same loose way as `ParityFixture`, and for the same reason: decoded
+/// into the Swift types it is checked against, a field the port models wrongly
+/// would round-trip and pass.
+public struct MapPresentationFixture: Sendable {
+    public let version: Int
+    public let categories: [FixturePresentationCategory]
+    public let builtInThemes: [FixtureTheme]
+
+    public static let loaded: MapPresentationFixture = {
+        guard let url = Bundle.module.url(
+            forResource: "map-presentation",
+            withExtension: "json",
+            subdirectory: "Fixtures"
+        ) else {
+            fatalError("map-presentation.json is missing from the test bundle")
+        }
+        guard let data = try? Data(contentsOf: url),
+              let root = try? JSONDecoder().decode([String: JSONValue].self, from: data),
+              let version = root["version"]?.int,
+              let categoryEntries = root["categories"]?.array,
+              let themeEntries = root["builtInThemes"]?.array
+        else {
+            fatalError("map-presentation.json could not be read as the expected shape")
+        }
+
+        let categories = categoryEntries.compactMap { entry -> FixturePresentationCategory? in
+            guard let object = entry.object,
+                  let id = object["id"]?.string,
+                  let name = object["name"]?.string,
+                  let layerIDs = object["layerIds"]?.array
+            else { return nil }
+            let ids = layerIDs.compactMap(\.string)
+            guard ids.count == layerIDs.count else { return nil }
+            return FixturePresentationCategory(id: id, name: name, layerIDs: ids)
+        }
+        let themes = themeEntries.compactMap { entry -> FixtureTheme? in
+            guard let object = entry.object,
+                  let id = object["id"]?.string,
+                  let name = object["name"]?.string,
+                  let description = object["description"]?.string,
+                  let layerIDs = object["layerIds"]?.array,
+                  let overrides = object["opacityOverrides"]?.object,
+                  let categoryIDs = object["preferredCategoryIds"]?.array,
+                  let taxSaleEnabled = object["taxSaleEnabled"]?.bool,
+                  let mode = object["mapMode"]?.string
+            else { return nil }
+            let ids = layerIDs.compactMap(\.string)
+            let sections = categoryIDs.compactMap(\.string)
+            let opacities = overrides.compactMapValues(\.double)
+            guard ids.count == layerIDs.count,
+                  sections.count == categoryIDs.count,
+                  opacities.count == overrides.count
+            else { return nil }
+            return FixtureTheme(
+                id: id,
+                name: name,
+                description: description,
+                layerIDs: ids,
+                opacityOverrides: opacities,
+                preferredCategoryIDs: sections,
+                taxSaleEnabled: taxSaleEnabled,
+                mode: mode
+            )
+        }
+        // A partial decode would quietly shrink the comparison set, which is how
+        // a parity suite starts passing for the wrong reason.
+        guard categories.count == categoryEntries.count,
+              themes.count == themeEntries.count
+        else {
+            fatalError("map-presentation.json carries an entry this reader could not read")
+        }
+
+        return MapPresentationFixture(
+            version: version,
+            categories: categories,
+            builtInThemes: themes
+        )
+    }()
+}

@@ -368,6 +368,10 @@ final class OverlayViewModel {
     private let buildingFetcher: BuildingCountFetcher
     private let resourceFetcher: ResourceIntersectionFetcher
     private let floodFetcher: FloodHazardFetcher
+    /// The setups on offer and the reader's saved ones. Its own object because
+    /// it owns storage; which setup the map is in is a question about the map
+    /// and stays here.
+    let themes: MapThemeLibrary
 
     /// `licenceStore` has no default on purpose. A default would have to pick a
     /// state, and both choices are wrong: an accepting default is a way to get
@@ -388,7 +392,8 @@ final class OverlayViewModel {
         dwellingFetcher: PVSCDwellingFetcher = PVSCDwellingFetcher(),
         buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(),
         resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher(),
-        floodFetcher: FloodHazardFetcher = FloodHazardFetcher()
+        floodFetcher: FloodHazardFetcher = FloodHazardFetcher(),
+        themes: MapThemeLibrary = MapThemeLibrary()
     ) {
         self.controller = controller
         self.features = features
@@ -405,6 +410,7 @@ final class OverlayViewModel {
         self.buildingFetcher = buildingFetcher
         self.resourceFetcher = resourceFetcher
         self.floodFetcher = floodFetcher
+        self.themes = themes
         mirrorClearanceIntoBox()
     }
 
@@ -1480,6 +1486,304 @@ final class OverlayViewModel {
         searchParcel(pid)
     }
 
+    // MARK: - Map setup
+
+    /// Which named setup the reader chose, if they chose one. Kept apart from
+    /// what the map matches: a reader who picks Historical Maps and then
+    /// switches one layer off is still working from Historical Maps, and the
+    /// panel says so by naming it and calling it modified.
+    private(set) var selectedThemeID: String?
+
+    /// What the last applied theme could actually deliver here, so the panel
+    /// can say which layers it had to leave out.
+    private(set) var themeResolution: ResolvedTheme?
+
+    /// A theme waiting on the licence answer, set only while the sheet is up.
+    @ObservationIgnored private var pendingThemeID: String?
+
+    /// The setup the map is in, in the vocabulary both surfaces share.
+    ///
+    /// The same layer list a shared link carries, plus any slider the reader
+    /// has moved off the catalog's value. Not the position: a theme is what the
+    /// map shows, not where it is looking, and picking one should leave the
+    /// reader over the same ground.
+    var themeState: MapThemeState {
+        let layerIDs = (baseMapType == .standard ? [MapShareState.modernBaseLayerID] : [])
+            + rows.filter(\.isVisible).map(\.id)
+        return MapThemeState(
+            layerIDs: layerIDs,
+            opacityOverrides: opacityOverrides(among: Set(layerIDs)),
+            taxSaleEnabled: showsTaxSale,
+            mode: mapRecordMode == .historical ? .historical : .current
+        )
+    }
+
+    /// Where each drawn layer's slider sits, when it is not where the catalog
+    /// put it.
+    ///
+    /// Only the differences, and only for layers that are drawn. Writing every
+    /// layer's opacity into a saved setup would freeze today's catalog into it,
+    /// and the catalog is the value both surfaces draw at.
+    private func opacityOverrides(among drawn: Set<String>) -> [String: Double] {
+        var overrides: [String: Double] = [:]
+        for row in rows where row.hasOpacityControl && drawn.contains(row.id) {
+            // A layer the catalog declares no opacity for has no value to have
+            // been moved off, so there is nothing here to record.
+            guard let declared = row.descriptor.opacity else { continue }
+            // Two decimals, which is as fine as the slider goes. Compared at
+            // full precision, a restored 0.69999999 and a chosen 0.7 are
+            // different numbers, and the panel would report an untouched map as
+            // modified.
+            let opacity = (Double(row.opacity) * 100).rounded() / 100
+            if opacity != declared {
+                overrides[row.id] = opacity
+            }
+        }
+        return overrides
+    }
+
+    /// What this build and this reader can draw, which is how much of a theme
+    /// can actually be applied.
+    var themeCapabilities: ThemeCapabilities {
+        ThemeCapabilities(
+            licenceAccepted: !licenceStore.needsDecision,
+            availableLayerIDs: Set(rows.filter(\.isAvailable).map(\.id))
+                .union([MapShareState.modernBaseLayerID]),
+            restrictedLayerIDs: Set(
+                rows.filter(\.descriptor.requiresProvinceClearance).map(\.id)
+            )
+        )
+    }
+
+    /// How the picker reads.
+    enum MapThemeStatus: Equatable {
+        /// The map is exactly the named setup.
+        case exact
+        /// The named setup with changes on top.
+        case modified
+        /// A setup that could be applied only in part, and still is that.
+        case partial
+        /// No named setup describes this map.
+        case unnamed
+    }
+
+    /// The theme this map already is, if any theme describes it.
+    private var matchedTheme: MapTheme? {
+        if let selected = selectedThemeID.flatMap(themes.theme(_:)),
+           themeState.matches(selected.state) {
+            return selected
+        }
+        return MapTheme.match(themeState, in: themes.all)
+    }
+
+    /// The theme the picker shows as chosen: what the reader picked, or failing
+    /// that whatever setup the map turns out to already be.
+    var activeThemeID: String? {
+        selectedThemeID ?? matchedTheme?.id
+    }
+
+    var themeStatus: MapThemeStatus {
+        // A partial resolution stands only while the map is still the thing
+        // that was applied. One more toggle and it is a modified map, not a
+        // theme that could not be applied in full.
+        if themeResolution?.status == .partial,
+           let resolution = themeResolution, themeState.matches(resolution.target) {
+            return .partial
+        }
+        guard let activeThemeID else { return .unnamed }
+        return matchedTheme?.id == activeThemeID ? .exact : .modified
+    }
+
+    /// The name of the setup, and what has happened to it.
+    ///
+    /// "Current setup" rather than the browser's "Shared setup": on the phone
+    /// this is also what a fresh launch reads, before anybody has picked
+    /// anything or opened a link.
+    var themeStatusText: String {
+        let name = activeThemeID.flatMap(themes.theme(_:))?.name ?? "Current setup"
+        return switch themeStatus {
+        case .exact, .unnamed: name
+        case .modified: "\(name) · Modified"
+        case .partial: "\(name) · Partly applied"
+        }
+    }
+
+    var themeDescription: String {
+        activeThemeID.flatMap(themes.theme(_:))?.description
+            ?? "The layers this map currently has on."
+    }
+
+    /// Which layers the last theme could not deliver, and why. `nil` when it
+    /// delivered everything.
+    ///
+    /// The two reasons are kept apart: a layer this build has no source for is
+    /// missing, and a layer behind the Province licence is refused. Only one of
+    /// those the reader can do anything about.
+    var themeResolutionNotice: String? {
+        guard themeStatus == .partial, let resolution = themeResolution else { return nil }
+        var parts: [String] = []
+        if !resolution.unavailableLayerIDs.isEmpty {
+            parts.append("Unavailable: \(Self.layerNames(resolution.unavailableLayerIDs)).")
+        }
+        if !resolution.blockedLayerIDs.isEmpty {
+            parts.append("Licence required: \(Self.layerNames(resolution.blockedLayerIDs)).")
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " ")
+    }
+
+    /// Everything the panel has to say about the setup: what could not be
+    /// applied, and anything the saved library reported.
+    var themeNotice: String? {
+        let parts = [themeResolutionNotice, themes.notice].compactMap(\.self)
+        return parts.isEmpty ? nil : parts.joined(separator: " ")
+    }
+
+    private static func layerNames(_ ids: [String]) -> String {
+        ids.map { id in
+            guard let layerID = LayerID(rawValue: id) else {
+                return id == MapShareState.modernBaseLayerID ? "Standard base map" : id
+            }
+            return LayerCatalog.descriptor(for: layerID)?.name ?? id
+        }
+        .joined(separator: ", ")
+    }
+
+    /// Puts the map into a named setup.
+    ///
+    /// A theme naming a restricted layer this build carries raises the licence
+    /// sheet first rather than quietly applying without it. That is the same
+    /// decision point a tap on the layer's own switch reaches, and reaching it
+    /// from here means a reader who picks Tax Sale Research is asked once
+    /// rather than left looking at a map missing the imagery it named.
+    func selectTheme(_ id: String) {
+        guard let theme = themes.theme(id) else { return }
+        let capabilities = themeCapabilities
+
+        if !capabilities.licenceAccepted,
+           let restricted = theme.state.layerIDs
+               .compactMap(LayerID.init(rawValue:))
+               .first(where: {
+                   capabilities.availableLayerIDs.contains($0.rawValue)
+                       && capabilities.restrictedLayerIDs.contains($0.rawValue)
+               })
+        {
+            pendingThemeID = id
+            licencePromptedLayerID = restricted
+            return
+        }
+
+        applyTheme(theme)
+    }
+
+    /// Puts the map back into the setup it is supposed to be in, undoing
+    /// whatever has been switched since.
+    func resetTheme() {
+        guard let activeThemeID else { return }
+        selectTheme(activeThemeID)
+    }
+
+    private func applyTheme(_ theme: MapTheme) {
+        selectedThemeID = theme.id
+        themeResolution = apply(theme)
+    }
+
+    /// Applies a theme and reports what of it could be delivered here.
+    @discardableResult
+    func apply(_ theme: MapTheme) -> ResolvedTheme {
+        let resolved = theme.resolved(with: themeCapabilities)
+        apply(resolved)
+        return resolved
+    }
+
+    func apply(_ resolved: ResolvedTheme) {
+        let wanted = Set(resolved.target.layerIDs)
+
+        // Before the mode, for the reason `restore(from:)` has it first: the
+        // mode is a choice within tax sales, and setting it on a map that is
+        // not showing them has nothing to move.
+        setTaxSaleEnabled(resolved.target.taxSaleEnabled)
+        setMapRecordMode(resolved.target.mode == .historical ? .historical : .current)
+        if resolved.target.taxSaleEnabled, resolved.target.mode == .current {
+            // Every current notice, as the browser applies a theme. A setup is
+            // not a search: carrying over the two municipalities somebody had
+            // narrowed to would hide notices this theme never excluded.
+            taxSale?.resetSelection()
+            refreshListedParcelStyling()
+        }
+
+        for row in rows where row.isAvailable {
+            let shouldDraw = wanted.contains(row.id)
+            // Never switched *on* through a licence the reader has not
+            // accepted: `toggleVisibility` raises the sheet, which is right for
+            // a tap and wrong for a setup being applied. `resolved` has already
+            // dropped those layers; this keeps that true if it ever stops
+            // being.
+            if shouldDraw != row.isVisible, !(shouldDraw && row.needsLicence) {
+                toggleVisibility(row.id)
+            }
+        }
+
+        // After the rows, because switching NS Aerial off returns the base map
+        // to Standard on its own.
+        //
+        // A setup naming neither background gets none, which is what the
+        // browser draws with its modern map switched off. Satellite and Hybrid
+        // have no name in this vocabulary — a shared link cannot carry them
+        // either — so a setup saved over one of those comes back without it.
+        if wanted.contains(MapShareState.modernBaseLayerID) {
+            setBaseMapType(.standard)
+        } else if !wanted.contains(LayerID.nsAerial.rawValue) {
+            setBaseMapType(.blank)
+        }
+
+        // The sliders last. Turning a layer on can restore an opacity of its
+        // own, and the setup's value is the one that should stand.
+        for row in rows where row.hasOpacityControl {
+            guard let declared = row.descriptor.opacity else { continue }
+            let opacity = resolved.target.opacityOverrides[row.id] ?? declared
+            if Double(row.opacity) != opacity {
+                updateLayerOpacity(for: row.id, to: CGFloat(opacity))
+            }
+        }
+    }
+
+    /// Saves what the map is currently showing under a name of the reader's
+    /// choosing, and selects it.
+    ///
+    /// - Parameter openSections: which panel sections are open, which the saved
+    ///   setup reopens. A setup that switches on seven layers across four
+    ///   sections and reopens only Background Maps has hidden what it just did.
+    func saveCurrentSetup(named name: String, openSections: [LayerCategoryID]) {
+        guard let saved = themes.save(
+            name: name,
+            state: themeState,
+            preferredCategoryIDs: openSections
+        ) else { return }
+        selectedThemeID = saved.id
+        // Nothing was applied: the map is already this. Clearing the resolution
+        // stops a stale "partly applied" from an earlier pick standing over a
+        // setup that was saved whole.
+        themeResolution = nil
+    }
+
+    /// Replaces a saved setup with what the map is showing now.
+    func updateSavedTheme(_ id: String, openSections: [LayerCategoryID]) {
+        guard themes.update(id, to: themeState, preferredCategoryIDs: openSections) else {
+            return
+        }
+        selectedThemeID = id
+        themeResolution = nil
+    }
+
+    func deleteSavedTheme(_ id: String) {
+        guard themes.delete(id) else { return }
+        guard selectedThemeID == id else { return }
+        // The map keeps whatever it was drawing; only the name it was drawing
+        // it under is gone.
+        selectedThemeID = nil
+        themeResolution = nil
+    }
+
     // MARK: - The parcel panel
 
     /// What the panel shows about the selected parcel, `nil` when none is
@@ -1877,6 +2181,13 @@ final class OverlayViewModel {
         loadHistoricalParcels()
         let pending = licencePromptedLayerID
         licencePromptedLayerID = nil
+        // A whole setup was waiting on the answer, not one switch. Applying it
+        // turns on the layer the sheet named along with the rest of it.
+        if let pendingThemeID, let theme = themes.theme(pendingThemeID) {
+            self.pendingThemeID = nil
+            applyTheme(theme)
+            return
+        }
         guard let pending else { return }
         if let features, OverlayZIndex.vectorLayers.contains(pending) {
             features.setVisible(pending, to: true)
@@ -1898,10 +2209,20 @@ final class OverlayViewModel {
         // mirror runs a hop later, and a parcel is Province data that should be
         // gone by the time the sheet has finished dismissing.
         dropRefusedParcelEvidence(licenceStore.clearance)
+        // The setup the reader picked still applies, minus what the licence
+        // covers. Refusing the licence is not refusing the theme, and leaving
+        // the map on the previous setup would read as the pick having failed.
+        if let pendingThemeID, let theme = themes.theme(pendingThemeID) {
+            self.pendingThemeID = nil
+            applyTheme(theme)
+        }
     }
 
     func dismissLicenceSheet() {
         licencePromptedLayerID = nil
+        // Dismissed without an answer, so nothing is applied: the setup was
+        // waiting on a decision that was not made.
+        pendingThemeID = nil
     }
 
     /// Whether the user has restricted Province layers to withdraw.
