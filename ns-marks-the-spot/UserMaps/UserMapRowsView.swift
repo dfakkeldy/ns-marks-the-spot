@@ -18,6 +18,13 @@ struct UserMapRowsView: View {
 
     @State private var georeferencing: UserMapsViewModel.Row?
     @State private var choosingFrame: UserMapsViewModel.Row?
+    /// The map a delete is waiting on an answer about.
+    ///
+    /// Asked because the map cannot be got back. A scan the reader spent an
+    /// evening placing by hand is gone with the points that placed it, and the
+    /// menu item sits directly under "Place on map…" where a slipped thumb
+    /// reaches it. The browser asks the same question.
+    @State private var deleting: UserMapsViewModel.Row?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -39,7 +46,7 @@ struct UserMapRowsView: View {
                     onOpacity: { viewModel.setOpacity($0, id: row.id) },
                     onPlace: { georeferencing = row },
                     onChooseFrame: { choosingFrame = row },
-                    onDelete: { Task { await viewModel.delete(id: row.id) } }
+                    onDelete: { deleting = row }
                 )
             }
 
@@ -93,6 +100,23 @@ struct UserMapRowsView: View {
             ) { points, method in
                 Task { await viewModel.place(id: row.id, controlPoints: points, method: method) }
             }
+        }
+        .confirmationDialog(
+            "Remove \(deleting?.record.name ?? "this map")?",
+            isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }),
+            titleVisibility: .visible
+        ) {
+            Button("Remove", role: .destructive) {
+                guard let row = deleting else { return }
+                deleting = nil
+                Task { await viewModel.delete(id: row.id) }
+            }
+            Button("Keep", role: .cancel) { deleting = nil }
+        } message: {
+            // The same promise the browser makes, in the words iOS makes it
+            // true in: the file the reader imported from stays where it is,
+            // whether that is Files, iCloud Drive or another app.
+            Text("This removes the app's copy. The file you imported is not affected.")
         }
     }
 
