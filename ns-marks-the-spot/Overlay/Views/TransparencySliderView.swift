@@ -20,14 +20,32 @@ struct TransparencySliderView: View {
     var onNewDrawingLayer: (() -> Void)?
     @Binding var isExpanded: Bool
 
-    /// Which sections are open.
+    /// Which sections the reader has opened, once they have opened any.
     ///
-    /// Background Maps alone, as the browser opens: opening every section that
-    /// is drawing something would be a scroll of thirty switches, which is the
-    /// thing the sections exist to avoid. What is on inside a closed section is
-    /// on the heading beside it.
-    @State private var expandedCategories: Set<LayerCategoryID> = [.backgroundMaps]
+    /// Nil until then, and read through `openCategories`, which falls back to
+    /// the sections the map the panel opened over asks for. Opening every
+    /// section that is drawing something would be a scroll of thirty switches,
+    /// which is the thing the sections exist to avoid.
+    ///
+    /// Owned by the caller rather than held here, because this panel is only
+    /// built while it is on screen. Kept here it would be thrown away every
+    /// time the reader closed the panel, and a section they opened would be
+    /// shut again when they came back to it.
+    @Binding var expandedCategories: Set<LayerCategoryID>?
     @State private var isImportingUserFile = false
+
+    /// The open sections, before and after the reader has touched one.
+    ///
+    /// Frozen on the first appearance rather than read live: the fallback
+    /// depends on which setup the map matches, and a reader who switches one
+    /// layer off should not watch four sections shut because the map stopped
+    /// being Forestry.
+    private var openCategories: Binding<Set<LayerCategoryID>> {
+        Binding(
+            get: { expandedCategories ?? viewModel.openingSections },
+            set: { expandedCategories = $0 }
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -66,7 +84,7 @@ struct TransparencySliderView: View {
                     // the switches, not the chooser.
                     MapThemePickerView(
                         viewModel: viewModel,
-                        expandedCategories: $expandedCategories
+                        expandedCategories: openCategories
                     )
 
                     Divider()
@@ -78,13 +96,15 @@ struct TransparencySliderView: View {
                             section: section,
                             viewModel: viewModel,
                             isExpanded: Binding(
-                                get: { expandedCategories.contains(section.category) },
+                                get: { openCategories.wrappedValue.contains(section.category) },
                                 set: { open in
+                                    var categories = openCategories.wrappedValue
                                     if open {
-                                        expandedCategories.insert(section.category)
+                                        categories.insert(section.category)
                                     } else {
-                                        expandedCategories.remove(section.category)
+                                        categories.remove(section.category)
                                     }
+                                    openCategories.wrappedValue = categories
                                 }
                             ),
                             controls: { controls(for: section.category) }
@@ -98,6 +118,9 @@ struct TransparencySliderView: View {
             .frame(maxHeight: .infinity)
         }
         .padding(16)
+        // Held from here on, so the sections the panel opened with stay open
+        // while the reader changes what the map is.
+        .onAppear { expandedCategories = openCategories.wrappedValue }
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(.ultraThinMaterial)
@@ -311,7 +334,11 @@ private struct LayerSectionView<Controls: View>: View {
                 // needs this sentence is the one who has just switched a layer
                 // on and got a blank map back.
                 ForEach(section.notes, id: \.self) { note in
-                    Text(note)
+                    // Markdown, so a note can carry the source link the web
+                    // puts in the same sentence. `Text(_: String)` renders the
+                    // brackets literally; the LocalizedStringKey initialiser is
+                    // what parses them.
+                    Text(.init(note))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)

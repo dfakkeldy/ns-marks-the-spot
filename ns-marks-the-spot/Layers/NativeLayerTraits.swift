@@ -50,7 +50,7 @@ nonisolated enum NativeLayerTraits {
     /// A standing sentence under a section's rows, where the rows on their own
     /// would be read as more than they are.
     ///
-    /// Only zoning has one, and only because zoning is the section where an
+    /// Zoning has one because zoning is the section where an
     /// empty map is genuinely ambiguous. A viewport with no polygon reports
     /// "Ready · 0 loaded", which is the same string a viewport whose
     /// municipality publishes no zoning GIS at all reports — and most of them
@@ -73,6 +73,16 @@ nonisolated enum NativeLayerTraits {
                 + "has no data for. It is not evidence that no zoning applies. Towns inside a "
                 + "county are separate zoning jurisdictions, so a county layer does not cover "
                 + "town parcels."
+        case .topography:
+            // The row's own caveat says what the layer is. This says what a
+            // reader may not conclude from it, which is the sentence the web
+            // puts under the section and the one a contour map invites people
+            // to skip. The link is the web's, and markdown because the note is
+            // rendered as markdown.
+            return "Contours show mapped elevation shape and depressions. They do not "
+                + "establish surveyed grade, drainage, stability, access, flood exposure, "
+                + "or buildability. "
+                + "[Official Landforms source](https://data.novascotia.ca/d/j63u-5nkj)"
         default:
             return nil
         }

@@ -4,6 +4,8 @@ Date: 2026-08-13
 Spike branch: `spike/geotiff-ifd-reader` (`spikes/geotiff-ifd/`)
 Status: **complete — tag reader confirmed; ImageIO has a hole, confirmed on iOS,
 that changes the Phase 8 plan**
+Superseded in part on 2026-08-23: Result 3's table is narrower than it says, and
+both recommendations are now implemented. See "Result 3 remeasured" at the end.
 
 ## The questions
 
@@ -94,6 +96,10 @@ This was not on the risk list and it is the finding that matters.
 | Striped | ok | ok | ok | ok | ok |
 | Tiled | ok | ok | **fails** | **fails** | **fails** |
 
+**This table is wrong as of 2026-08-23.** The tiled failures all carried
+predictor 2, which the row does not name. Remeasured, tiled + LZW and tiled +
+DEFLATE read fine with predictor 1. See "Result 3 remeasured" at the end.
+
 Failure means total: `CGImageSourceCopyPropertiesAtIndex` reports no pixel
 dimensions, and both the thumbnail and full-decode calls return nil. There is
 no partial result and no error to report to the user beyond "ImageIO refused".
@@ -160,3 +166,38 @@ file opens, the raster is usable, and only its georeferencing is unreadable —
 which routes it to the manual georeferencer as a plain scan, the same path the
 web takes for a GeoTIFF with no usable tags. Adding real BigTIFF support to the
 reader later is roughly 40–60 LOC in the same shape.
+
+## Result 3 remeasured — 2026-08-23
+
+The fixtures behind the table above were all written by `gdal_translate` with
+horizontal differencing on, which was not recorded as a variable. Written again
+with each combination separated, on macOS 27 and on an iPhone 17 simulator
+(iOS 26.5):
+
+| Layout | Predictor | LZW | DEFLATE |
+| --- | --- | --- | --- |
+| Striped | 1 | ok | ok |
+| Striped | 2 | ok | ok |
+| Tiled | 1 | ok | ok |
+| Tiled | 2 | **fails** | **fails** |
+
+So the hole is tiled *and* compressed *and* predicted, not tiled and compressed.
+It is still the layout `gdal_translate -co TILED=YES -co COMPRESS=DEFLATE
+-co PREDICTOR=2` writes, which is what most GIS export presets carry, so the
+practical exposure is unchanged. What changed is that a check written from the
+old table would have taken files away from ImageIO that ImageIO can read.
+
+Both recommendations are now shipped, in the order the spike proposed:
+
+- `NSMarksCore/Sources/GeoCore/Georeference/TiffRaster.swift` decodes strips and
+  tiles for DEFLATE, LZW, PackBits and none, with predictor 2 undone per row.
+  `UserMapImporter.decodePreview` reaches for it only after ImageIO has
+  declined, rather than predicting which layouts ImageIO will refuse. Which
+  layouts those are is Apple's to change, and a prediction would start taking
+  files away from a decoder that had learned to read them.
+- Anything outside that set still refuses by name rather than being guessed at.
+
+Result 4's BigTIFF recommendation is also implemented:
+`GeoTiffTags` reads version 43 headers, 8-byte offsets, 20-byte entries and
+LONG8 values, so a BigTIFF's georeferencing is read rather than routed to the
+manual georeferencer as a plain scan.

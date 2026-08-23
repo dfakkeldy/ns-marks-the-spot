@@ -34,10 +34,10 @@ public enum ZipArchive {
     /// The archive's entries, in central-directory order.
     public static func entries(in data: Data) throws(UserMapImportRefusal) -> [Entry] {
         let bytes = [UInt8](data)
-        guard let directoryStart = endOfCentralDirectory(in: bytes) else {
+        guard let directory = endOfCentralDirectory(in: bytes) else {
             throw refusal(unreadable)
         }
-        var offset = directoryStart
+        var offset = directory.start
         var entries: [Entry] = []
         while offset + 46 <= bytes.count, read32(bytes, offset) == 0x0201_4b50 {
             let flags = read16(bytes, offset + 8)
@@ -60,12 +60,35 @@ public enum ZipArchive {
             }
             // 0xffffffff in any of these is the zip64 marker, and the real
             // value is in the extra field that follows the name.
+            let extraAt = offset + 46 + nameLength
+            let declaredCompressed = read32(bytes, offset + 20)
+            let declaredUncompressed = read32(bytes, offset + 24)
+            let declaredOffset = read32(bytes, offset + 42)
             let (compressed, uncompressed, localOffset) = try zip64Substituted(
-                bytes, extraAt: offset + 46 + nameLength, length: extraLength,
-                compressed: read32(bytes, offset + 20),
-                uncompressed: read32(bytes, offset + 24),
-                localOffset: read32(bytes, offset + 42)
+                bytes, extraAt: extraAt, length: extraLength,
+                compressed: declaredCompressed,
+                uncompressed: declaredUncompressed,
+                localOffset: declaredOffset
             )
+            // The disk this entry's bytes are on. Anything but the first means
+            // the entry is in another file of a split set, which this does not
+            // have — and reading the first disk's bytes at that offset would
+            // hand back a different entry's contents rather than fail.
+            let disk = diskNumber(
+                bytes, extraAt: extraAt, length: extraLength,
+                declared: read16(bytes, offset + 34),
+                after: [declaredUncompressed, declaredCompressed, declaredOffset]
+                    .filter { $0 == UInt32.max }.count
+            )
+            guard let disk else { throw refusal(unreadable) }
+            guard disk == 0 else {
+                throw refusal(
+                    """
+                    This archive is one part of a split set, and the rest of it \
+                    is in other files. Export it again as a single zip.
+                    """
+                )
+            }
             let name =
                 String(bytes: bytes[(offset + 46)..<(offset + 46 + nameLength)], encoding: .utf8)
                 ?? String(
@@ -82,8 +105,45 @@ public enum ZipArchive {
             )
             offset += 46 + nameLength + extraLength + commentLength
         }
-        guard !entries.isEmpty else { throw refusal(unreadable) }
+        guard !entries.isEmpty else {
+            // An archive that says it holds nothing is intact and useless,
+            // which is a different thing to say than that it is broken. The
+            // browser opens one and finds no map in it; so does this.
+            guard directory.declared == 0 else { throw refusal(unreadable) }
+            throw UserMapImportRefusal(
+                code: .emptyFile,
+                userMessage: "This archive is empty. There is no map inside it to import."
+            )
+        }
         return entries
+    }
+
+    /// Which disk of a split archive an entry's bytes are on.
+    ///
+    /// Its own field in the central entry, and, when that field is the marker,
+    /// the fourth value in the zip64 block — four bytes, after however many of
+    /// the three eight-byte values were themselves marked.
+    ///
+    /// Nil where the field says the number is in the zip64 block and the block
+    /// does not carry it. Unpacking that archive means reading this file at an
+    /// offset meant for a different one.
+    private static func diskNumber(
+        _ bytes: [UInt8], extraAt start: Int, length: Int, declared: UInt16, after wide: Int
+    ) -> UInt32? {
+        guard declared == UInt16.max else { return UInt32(declared) }
+        var offset = start
+        let end = start + length
+        while offset + 4 <= end {
+            let id = read16(bytes, offset)
+            let size = Int(read16(bytes, offset + 2))
+            guard offset + 4 + size <= end else { break }
+            if id == 1 {
+                guard size >= wide * 8 + 4 else { break }
+                return read32(bytes, offset + 4 + wide * 8)
+            }
+            offset += 4 + size
+        }
+        return nil
     }
 
     /// The three sizes an entry declares, with any that is the zip64 marker
@@ -232,7 +292,9 @@ public enum ZipArchive {
     /// the real ones in a second record, reachable through a locator that sits
     /// immediately before it. Following that is the only way to find the
     /// central directory of an archive written that way.
-    private static func endOfCentralDirectory(in bytes: [UInt8]) -> Int? {
+    private static func endOfCentralDirectory(
+        in bytes: [UInt8]
+    ) -> (start: Int, declared: Int)? {
         guard bytes.count >= 22 else { return nil }
         let earliest = max(0, bytes.count - 22 - 65_535)
         var offset = bytes.count - 22
@@ -240,7 +302,7 @@ public enum ZipArchive {
             if read32(bytes, offset) == 0x0605_4b50 {
                 if let zip64 = zip64Directory(bytes, endingAt: offset) { return zip64 }
                 let start = Int(read32(bytes, offset + 16))
-                return start < bytes.count ? start : nil
+                return start < bytes.count ? (start, Int(read16(bytes, offset + 10))) : nil
             }
             offset -= 1
         }
@@ -249,15 +311,21 @@ public enum ZipArchive {
 
     /// The central directory's start as the zip64 end-of-central-directory
     /// record gives it, when both that record and its locator are there.
-    private static func zip64Directory(_ bytes: [UInt8], endingAt eocd: Int) -> Int? {
+    private static func zip64Directory(
+        _ bytes: [UInt8], endingAt eocd: Int
+    ) -> (start: Int, declared: Int)? {
         guard eocd >= 20, read32(bytes, eocd - 20) == 0x0706_4b50 else { return nil }
+        // Subtracting from the file's length rather than adding to the
+        // offset: the offset is eight bytes out of the file, so adding to it
+        // is what an archive would have to do to make the check overflow.
         let record = read64(bytes, eocd - 12)
-        guard record + 56 <= UInt64(bytes.count) else { return nil }
+        guard bytes.count >= 56, record <= UInt64(bytes.count - 56) else { return nil }
         let at = Int(record)
         guard read32(bytes, at) == 0x0606_4b50 else { return nil }
         let start = read64(bytes, at + 48)
         guard start < UInt64(bytes.count) else { return nil }
-        return Int(start)
+        let declared = read64(bytes, at + 32)
+        return (Int(start), declared <= UInt64(bytes.count) ? Int(declared) : 0)
     }
 
     static func read16(_ bytes: [UInt8], _ offset: Int) -> UInt16 {

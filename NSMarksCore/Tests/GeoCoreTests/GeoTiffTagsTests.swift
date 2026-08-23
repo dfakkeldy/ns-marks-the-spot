@@ -15,6 +15,9 @@ struct TiffBuilder {
     var doubles = [UInt16: [Double]]()
     var shorts = [UInt16: [UInt16]]()
     var longs = [UInt16: [UInt32]]()
+    /// BigTIFF's eight-byte integers (type 16), which is what GDAL writes a
+    /// large sheet's tile offsets as.
+    var long8s = [UInt16: [UInt64]]()
     var strings = [UInt16: String]()
     var version: UInt16 = 42
     var byteOrderMark: [UInt8]?
@@ -48,6 +51,10 @@ struct TiffBuilder {
         for (tag, values) in longs {
             entries.append((tag, 4, UInt32(values.count),
                             values.reduce(into: Data()) { $0.append(integer(UInt64($1), bytes: 4)) }))
+        }
+        for (tag, values) in long8s {
+            entries.append((tag, 16, UInt32(values.count),
+                            values.reduce(into: Data()) { $0.append(integer($1, bytes: 8)) }))
         }
         for (tag, values) in doubles {
             entries.append((tag, 12, UInt32(values.count),
@@ -321,6 +328,49 @@ struct GeoTiffTagsTests {
         #expect(metadata.pixelSize == PixelSize(width: 2, height: 2))
         #expect(metadata.crs == "EPSG:26920")
         #expect(metadata.geotransform == [500_000, 2, 0, 5_000_000, 0, -3])
+    }
+
+    /// GDAL writes a BigTIFF's dimensions and offsets as LONG8. Read at four
+    /// bytes they come back as half the number: the low half little-endian, and
+    /// zero big-endian, which is a sheet that reports no width at all.
+    @Test(arguments: [false, true])
+    func eightByteIntegersAreReadAtEightBytes(bigEndian: Bool) throws {
+        var builder = TiffBuilder.northUpSheet()
+        builder.big = true
+        builder.bigEndian = bigEndian
+        builder.shorts[256] = nil
+        builder.shorts[257] = nil
+        builder.long8s[256] = [5_000]
+        builder.long8s[257] = [4_000]
+        let metadata = try GeoTiffTags.parse(builder.build())
+        #expect(metadata.pixelSize == PixelSize(width: 5_000, height: 4_000))
+    }
+
+    /// Every value arrives as a Double whatever type the file declared, so a
+    /// GeoKey table written as doubles instead of shorts can hold infinity —
+    /// and `Int(infinity)` traps rather than returning anything. A malformed
+    /// tag has to be ignored.
+    @Test func aGeoKeyTableHoldingInfinityIsIgnoredRatherThanFatal() throws {
+        var builder = TiffBuilder.northUpSheet()
+        builder.shorts[34_735] = nil
+        builder.doubles[34_735] = [1, 1, 0, .infinity]
+        #expect(try GeoTiffTags.parse(builder.build()).crs == nil)
+    }
+
+    @Test func aGeoKeyWhoseCodeIsInfiniteIsNotACoordinateSystem() throws {
+        var builder = TiffBuilder.northUpSheet()
+        builder.shorts[34_735] = nil
+        builder.doubles[34_735] = [1, 1, 0, 1, 3_072, 0, 1, .infinity]
+        #expect(try GeoTiffTags.parse(builder.build()).crs == nil)
+    }
+
+    /// A rational with a zero denominator is infinity, and the code that reads
+    /// a key's length and offset used to convert one straight to an Int.
+    @Test func aKeyCountWrittenAsANotANumberIsIgnored() throws {
+        var builder = TiffBuilder.northUpSheet()
+        builder.shorts[34_735] = nil
+        builder.doubles[34_735] = [1, 1, 0, 2, 3_072, 0, .nan, 26_920, 1_024, 0, 1, 1]
+        _ = try GeoTiffTags.parse(builder.build())
     }
 
     @Test func somethingThatIsNotATiffIsRefused() {

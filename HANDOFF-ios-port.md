@@ -1573,3 +1573,44 @@ branch claude/ios-web-map-parity-2de228. Read the audit-3 findings, then from
 22:00 ADT run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-23 — audit-3 closed, both format readers widened
+
+Done: the five audit-3 findings worth changing are fixed and pushed. The
+printed receipt now points at the page it is on, a research summary says what
+it is missing and what it is waiting for, a page that cuts its own parcel says
+so, and the two format readers were widened to what the browser already takes:
+BigTIFF in GeoTiffTags, zip64 in ZipArchive. Both fixtures were read by an
+outside tool first (ImageIO; fflate and unzip(1)) before Swift was asked to
+agree. Core package suite 1091/1091.
+Next: CI on c8ffb31f7, Codex adversarial review of the two parsers, then the
+gated native run from 22:00.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and triage every bundle.
+```
+
+## 2026-08-23 — PR #224 merged; TIFF decoder and audit-4 fixes on PR #225
+
+Done: PR #224 merged into nightly. Four commits since, on PR #225: the tiled +
+compressed + predicted TIFF decoder ImageIO refuses (TiffRaster, GDAL fixtures,
+fallback wired into UserMapImporter), two GeoTiffTags parser defects Codex found
+(LONG8 read at four bytes; infinity into an Int), the zip empty/split-set
+refusals, and four of the six audit-4 divergences: link basemap fallback, panel
+opening sections from the matched setup, the contour interpretation note, and
+the scale/position readout staying up during a measurement. Core suite
+1110/1110; typecheck-ios clean. Spike 1's ImageIO table corrected: only
+tiled+compressed+predictor 2 fails.
+Next: Codex review of 075004285 is running; native tests and simulator checks
+wait on the 22:00 gate window.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and triage every bundle, then verify the measuring readout and the panel's
+opening sections in the simulator.
+```

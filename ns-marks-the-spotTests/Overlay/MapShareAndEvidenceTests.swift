@@ -128,6 +128,96 @@ struct MapShareAndEvidenceTests {
         #expect(model.rows.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false)
     }
 
+    /// The browser turns its modern map on for a link that names layers and no
+    /// ground to draw them over. A reader whose own map was on None would
+    /// otherwise open that link to parcel boundaries on white.
+    @Test func aLinkNamingLayersOverNoGroundOpensOverTheModernMap() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd])
+        model.setBaseMapType(.blank)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=nsprd&position=46.1,-60.1,14"
+            )!
+        )
+
+        #expect(model.baseMapType == .standard)
+    }
+
+    /// Only when there is nothing under them. Satellite is ground the browser
+    /// has no word for, and a link that says nothing about the background is
+    /// not asking for it to change.
+    @Test func aLinkOverABackgroundThatDrawsLeavesItAlone() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd])
+        model.setBaseMapType(.satellite)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=nsprd&position=46.1,-60.1,14"
+            )!
+        )
+
+        #expect(model.baseMapType == .satellite)
+    }
+
+    /// The browser checks the zoom because its aerial layer has nothing under
+    /// it. This one draws over MapKit's standard map, so imagery too far out to
+    /// draw leaves the reader looking at streets rather than at nothing, and
+    /// there is nothing here to fall back from.
+    @Test func aLinkOpenedOverImageryTooFarOutKeepsIt() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
+        model.setBaseMapType(.nsAerial)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=ns-aerial,nsprd&position=46.1,-60.1,9"
+            )!
+        )
+
+        #expect(model.baseMapType == .nsAerial)
+    }
+
+    /// The link's own aerial layer arrives after the background has been
+    /// chosen, and turning it on moves the background with it. A reader who
+    /// opened this link with their map switched off should still be looking at
+    /// something.
+    @Test func aLinkNamingImageryOverNoGroundStillOpensOverAMap() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
+        model.setBaseMapType(.blank)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=ns-aerial,nsprd&position=46.1,-60.1,9"
+            )!
+        )
+
+        #expect(model.baseMapType == .nsAerial)
+    }
+
+    /// Resuming is not opening a link. Nobody sent this view: the reader turned
+    /// their own background off and closed the app, and switching it back on at
+    /// launch is arguing with them.
+    @Test func aResumedSessionKeepsTheBackgroundTheReaderTurnedOff() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd])
+        model.setBaseMapType(.blank)
+
+        model.resume(
+            MapSession(
+                view: MapShareState(
+                    layerIDs: [LayerID.nsprd.rawValue],
+                    position: MapPosition(latitude: 46.1, longitude: -60.1, zoom: 14)
+                ),
+                background: .blank
+            )
+        )
+
+        #expect(model.baseMapType == .blank)
+    }
+
     /// A link cannot accept the Province licence on the reader's behalf, and it
     /// cannot pass over the layer in silence either. The layer stays off, the
     /// map says so, and the sheet puts the decision in front of the reader.
