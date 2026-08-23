@@ -14,6 +14,7 @@ struct MapAttributionStrip: View {
     let onOpenSources: () -> Void
 
     @State private var isExpanded = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var credits: [ActiveAttribution.Credit] {
         ActiveAttribution.credits(for: descriptors)
@@ -22,7 +23,9 @@ struct MapAttributionStrip: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Button {
-                withAnimation(.snappy(duration: 0.2)) { isExpanded.toggle() }
+                withAnimation(.snappy(duration: 0.2).unlessReduced(reduceMotion)) {
+                    isExpanded.toggle()
+                }
             } label: {
                 HStack(spacing: 4) {
                     Text(ActiveAttribution.summary(for: credits))

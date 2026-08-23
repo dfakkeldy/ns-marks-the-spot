@@ -38,6 +38,12 @@ struct MapContainerView: View {
     /// How tall the measuring card is, so the scale bar and the readout
     /// can sit above it rather than behind it.
     @State private var measurePanelHeight: CGFloat = 0
+    /// The measured heights of the two pieces of chrome in the bottom-left
+    /// corner, each including its own padding. The scale bar sits on top of
+    /// the source strip, and every card along the bottom is inset above the
+    /// strip, so both numbers are read off the screen rather than assumed.
+    @State private var attributionHeight: CGFloat = 0
+    @State private var scaleStackHeight: CGFloat = 0
     @State private var mapHeading: Double = 0
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
@@ -78,6 +84,9 @@ struct MapContainerView: View {
     /// zooms under it, which is how a page is aimed at ground that was not on
     /// screen when they reached for the printer.
     @State private var printFrame: PrintFrameGeometry.FrameState?
+    /// Whether the reader has asked the system for less movement. Read once
+    /// here and passed to every animation this view starts.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     init(
         controller: MapController,
@@ -264,7 +273,10 @@ struct MapContainerView: View {
 
                         if mapHeading != 0 {
                             Button {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                withAnimation(
+                                    .spring(response: 0.4, dampingFraction: 0.8)
+                                        .unlessReduced(reduceMotion)
+                                ) {
                                     controller.resetHeading()
                                 }
                             } label: {
@@ -444,7 +456,10 @@ struct MapContainerView: View {
                         .disabled(isSelectingSaveArea)
 
                         Button {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                            withAnimation(
+                                .spring(response: 0.35, dampingFraction: 0.85)
+                                    .unlessReduced(reduceMotion)
+                            ) {
                                 isLayersMenuExpanded.toggle()
                             }
                         } label: {
@@ -519,7 +534,7 @@ struct MapContainerView: View {
                         // taps.
                         .frame(maxHeight: min(360, proxy.size.height * 0.45))
                         .padding(.horizontal, 12)
-                        .padding(.bottom, 12)
+                        .padding(.bottom, 12 + attributionHeight)
                     }
                 }
                 .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -542,7 +557,7 @@ struct MapContainerView: View {
                 }
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -562,41 +577,66 @@ struct MapContainerView: View {
         .overlay(alignment: .bottomLeading) {
             if overlayVM.inspection == nil, editSession == nil,
                vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea,
-               printFrame == nil
+               printFrame == nil, let mapPosition
             {
                 VStack(alignment: .leading, spacing: 6) {
-                    if let mapPosition {
-                        // Hidden from VoiceOver on purpose. A bar is measured
-                        // off the screen, which is not something it can be
-                        // read out; the readout under it says the same scale
-                        // in words and carries the caveat that goes with it.
-                        MapScaleBar(controller: controller)
-                            .accessibilityHidden(true)
+                    // Hidden from VoiceOver on purpose. A bar is measured off
+                    // the screen, which is not something it can be read out;
+                    // the readout under it says the same scale in words and
+                    // carries the caveat that goes with it.
+                    MapScaleBar(controller: controller)
+                        .accessibilityHidden(true)
 
-                        MapPositionReadout(position: mapPosition, screenScale: screenScale)
-                    }
-
-                    // Under the readout rather than beside it, and not gated
-                    // on a position: a reader who has turned a provincial or
-                    // Rumsey layer on should meet its provenance where they
-                    // are reading it, not only in a sheet listing every layer
-                    // the app could show.
-                    MapAttributionStrip(
-                        descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor)
-                    ) {
-                        navigationModel.activeSheet = .info
-                    }
+                    MapPositionReadout(position: mapPosition, screenScale: screenScale)
                 }
                 .padding(.leading, 12)
-                .padding(.bottom, 12 + measureLift)
-                // Measured rather than guessed: the stack's height changes
-                // with the source strip, and MapKit's own logo and Legal link
-                // have to stay above it. Measured after the padding, so the
-                // lift over the measuring card is already in the number.
+                // Above the source strip, or above the measuring card when
+                // there is one — whichever reaches higher. The card's measured
+                // height already includes the strip it was inset above, so the
+                // two are compared rather than added.
+                .padding(.bottom, 12 + max(attributionHeight, measureLift))
+                // Measured rather than guessed: MapKit's own logo and Legal
+                // link have to stay clear of whatever is in this corner.
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
-                    controller.setBottomOrnamentInset($0)
+                    scaleStackHeight = $0
+                    controller.setBottomOrnamentInset(max($0, attributionHeight))
                 }
-                .onDisappear { controller.setBottomOrnamentInset(0) }
+                .onDisappear {
+                    scaleStackHeight = 0
+                    controller.setBottomOrnamentInset(attributionHeight)
+                }
+            }
+        }
+        // The source strip stays up while a card is open, and the cards are
+        // inset above it. That is what the browser does on a phone, where the
+        // parcel panel stops short of the bottom edge rather than covering the
+        // attribution.
+        //
+        // A card is open at exactly the moment provenance matters most: the
+        // reader is deciding what a drawn layer means. Taking the credits away
+        // then leaves them reading an overlay with nothing on screen saying
+        // whose it is.
+        //
+        // Not while a page is being framed. That is this app's print mode, the
+        // framing toolbar owns the bottom of the screen, and the exported page
+        // carries its own attribution block.
+        .overlay(alignment: .bottomLeading) {
+            if printFrame == nil {
+                MapAttributionStrip(
+                    descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor)
+                ) {
+                    navigationModel.activeSheet = .info
+                }
+                .padding(.leading, 12)
+                .padding(.bottom, 12)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                    attributionHeight = $0
+                    controller.setBottomOrnamentInset(max($0, scaleStackHeight))
+                }
+                .onDisappear {
+                    attributionHeight = 0
+                    controller.setBottomOrnamentInset(scaleStackHeight)
+                }
             }
         }
         .overlay(alignment: .bottom) {
@@ -610,7 +650,7 @@ struct MapContainerView: View {
                 )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
                     measurePanelHeight = $0
@@ -628,7 +668,7 @@ struct MapContainerView: View {
                 }
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -684,7 +724,7 @@ struct MapContainerView: View {
                 )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -720,7 +760,10 @@ struct MapContainerView: View {
     /// What the container does as it appears, changes and goes away.
     private func lifecycle(_ content: some View) -> some View {
         content
-            .animation(.spring(response: 0.35, dampingFraction: 0.9), value: overlayVM.inspection)
+            .animation(
+                .spring(response: 0.35, dampingFraction: 0.9).unlessReduced(reduceMotion),
+                value: overlayVM.inspection
+            )
             .onAppear {
                 controller.events = { event in
                     switch event {
@@ -1041,7 +1084,9 @@ struct MapContainerView: View {
     /// user meant to walk.
     private func toggleMeasuring(_ mode: MeasureSession.Mode) {
         cancelBoundsSelection()
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+        withAnimation(
+            .spring(response: 0.35, dampingFraction: 0.85).unlessReduced(reduceMotion)
+        ) {
             if measure?.mode == mode {
                 stopMeasuring()
                 return

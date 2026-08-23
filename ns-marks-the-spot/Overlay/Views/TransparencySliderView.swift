@@ -19,6 +19,7 @@ struct TransparencySliderView: View {
     /// Starts an empty layer to draw into.
     var onNewDrawingLayer: (() -> Void)?
     @Binding var isExpanded: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Which sections the reader has opened, once they have opened any.
     ///
@@ -58,7 +59,10 @@ struct TransparencySliderView: View {
                 Spacer()
 
                 Button {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                    withAnimation(
+                        .spring(response: 0.35, dampingFraction: 0.85)
+                            .unlessReduced(reduceMotion)
+                    ) {
                         isExpanded = false
                     }
                 } label: {
@@ -465,6 +469,7 @@ private struct LayerProvenanceDisclosure: View {
 private struct LayerRowView: View {
     let row: LayerRow
     let viewModel: OverlayViewModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         VStack(spacing: 8) {
@@ -534,7 +539,10 @@ private struct LayerRowView: View {
                     Toggle("", isOn: Binding(
                         get: { row.isVisible },
                         set: { _ in
-                            withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+                            withAnimation(
+                                .spring(response: 0.25, dampingFraction: 0.8)
+                                    .unlessReduced(reduceMotion)
+                            ) {
                                 viewModel.toggleVisibility(row.id)
                             }
                         }

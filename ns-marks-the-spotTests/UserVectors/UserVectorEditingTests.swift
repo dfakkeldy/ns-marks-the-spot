@@ -85,6 +85,41 @@ struct UserVectorEditingTests {
         #expect(edited.provenanceText.hasPrefix("From your file parcels.kml · edited "))
     }
 
+    /// Someone marking culverts along a road marks several. The browser draws
+    /// with `continueDrawing`, so the tool stays down until it is put down.
+    @Test("The drawing tool stays armed after a shape is committed")
+    func theDrawingToolStaysArmedAfterAShapeIsCommitted() async throws {
+        try await withViewModel { viewModel in
+            await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+            let row = try #require(viewModel.rows.first)
+            let session = VectorEditSession(
+                viewModel: viewModel, persistDelay: .milliseconds(10)
+            )
+            session.begin(row)
+            let before = try #require(session.parsed?.features.count)
+
+            session.startDrawing(.point)
+            session.handleTap(latitude: 44.61, longitude: -63.51)
+
+            // A point commits on placement, and the tool is still down.
+            #expect(session.parsed?.features.count == before + 1)
+            #expect(session.tool == .drawing(.point))
+            // Named while the user still knows what it is.
+            #expect(session.selectedFeatureID != nil)
+
+            // The second one needs no trip back to the toolbar, and placing it
+            // lets go of the first so its name field is not left under the new
+            // shape's vertices.
+            session.handleTap(latitude: 44.62, longitude: -63.52)
+            #expect(session.parsed?.features.count == before + 2)
+            #expect(session.tool == .drawing(.point))
+
+            // Tapping the tool again is what puts it down.
+            session.cancelDrawing()
+            #expect(session.tool == .selecting)
+        }
+    }
+
     // MARK: - Fixtures
 
     private func withViewModel(

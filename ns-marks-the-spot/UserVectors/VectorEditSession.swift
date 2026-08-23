@@ -112,6 +112,11 @@ final class VectorEditSession {
         guard isEditing else { return }
         switch tool {
         case .drawing(let shape):
+            // The first tap of a new shape lets go of the last one. The panel
+            // shows the selected feature's name fields, and leaving the
+            // previous feature selected while a new one is being placed puts a
+            // name field for shape A under the vertices of shape B.
+            if draft == nil { selectedFeatureID = nil }
             var current = draft ?? VectorDraft(shape: shape)
             current.append(GeoJsonPosition(lng: longitude, lat: latitude))
             draft = current
@@ -134,9 +139,15 @@ final class VectorEditSession {
         guard let parsed, let geometry = draft?.geometry() else { return }
         let edited = VectorEdit.adding(geometry, to: parsed)
         draft = nil
-        tool = .selecting
-        // Selected on commit, so the panel opens on the feature the user just
-        // drew and they can name it while they still know what it is.
+        // The tool stays armed, as the browser's does: someone marking six
+        // culverts along a road marks them one after another, and reopening
+        // Point between each is five taps that do nothing but restore the
+        // state the app just left. The tool button stays lit, and tapping it
+        // again puts the tool down.
+        //
+        // Selected on commit, so the panel opens on the feature just drawn and
+        // it can be named while the user still knows what it is. The next tap
+        // on the map lets go of it again.
         selectedFeatureID = edited.features.last?.id
         commit(edited)
     }
