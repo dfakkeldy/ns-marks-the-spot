@@ -1907,3 +1907,32 @@ branch claude/ios-web-map-parity-2de228. Read
 /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/scratchpad/review7.out,
 fix what it finds, then watch CI for the two new UI test bundles.
 ```
+
+## 2026-08-23 — reviews 7 and 8 landed, and the PR describes the branch
+
+Done: Codex review 7's five findings are fixed and pushed (4d527de1c through
+fb965b5a6), and CI is green on them including both new UI test bundles —
+run 32660549904, `Build gate + tests: success`. Review 8 then read those five
+fixes back and found five more, all fixed and pushed as 20b328133 through
+1f54d09c5: drafts now travel with a library that is set aside as damaged and
+the orphan sweep leaves an empty library alone, the georeferencer is held
+still while its save is out and no longer blames the disk for every refusal,
+the search card scrolls as one region so none of its three mandatory parts
+can be pushed off screen, and the control rail gets its height back when area
+selection ends. PR #226's title and body now describe all forty-one commits
+rather than the first one.
+
+Two things the user still has to decide, both raised and neither answered:
+whether the phone should carry a real OpenStreetMap base map, which means a
+third-party tile dependency and the OSMF usage policy, and whether audit 10's
+twelve browser-side evidence-wording findings become separate web work.
+
+Next: watch CI on 1f54d09c5, then take one build-gate admission from 22:00 ADT
+for the full focused-test run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and triage every bundle.
+```
