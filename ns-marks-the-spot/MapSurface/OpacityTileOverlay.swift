@@ -54,6 +54,23 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     /// region-isolation checker cannot analyze inside this ObjC override
     /// ("pattern that the region-based isolation checker does not understand").
     override func loadTile(at path: MKTileOverlayPath) async throws -> Data {
+        // Leaflet asks `_isValidTile` before it creates a request, so in the
+        // browser a square no sheet reaches never enters a load cycle and the
+        // row keeps saying "Ready to load". MapKit has no such gate: it asks
+        // for every square in view and expects an answer, and answering
+        // "served" for ground the survey never mapped is what put "Ready"
+        // under a layer that had drawn nothing. Over Halifax, with Fletcher
+        // switched on, the panel was reporting a finished load of nothing.
+        //
+        // The square still has to come back, because MapKit retries a thrown
+        // error. What changes is that no request is counted, which is the
+        // browser's own accounting.
+        if case .fletcherSheets = configuration.source,
+           FletcherSheets.sheets(coveringTileX: path.x, y: path.y, z: path.z).isEmpty
+        {
+            return try Self.fallbackTileData(z: path.z, x: path.x, y: path.y)
+        }
+
         let token = progress?.began(configuration.id)
         do {
             let (data, outcome, _) = try await tile(at: path)

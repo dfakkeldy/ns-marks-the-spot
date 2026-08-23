@@ -168,6 +168,30 @@ struct OpacityTileOverlayProgressTests {
         #expect(progress.phase(for: LayerID.crownLands.rawValue) != .failing)
     }
 
+    @Test func aSquareNoSheetReachesNeverStartsALoadCycle() async throws {
+        // Halifax, where the survey is not. The browser's Leaflet layers
+        // refuse the request outright, so the row there reads "Ready to load";
+        // the phone was answering MapKit with a blank square, counting it as a
+        // served tile, and reporting "Ready" for a layer that had drawn
+        // nothing on a map of the wrong half of the province.
+        let host = "uncovered.tiles.test"
+        StubURLProtocol.stub(host: host, with: .success(TestTileFactory.pngData()))
+        defer { StubURLProtocol.clear(host: host) }
+
+        let halifax = TileMath.tileXY(latitude: 44.65, longitude: -63.57, zoom: 12)
+        let (overlay, progress) = Self.overlay(
+            host: host,
+            source: .fletcherSheets(baseURL: URL(string: "https://\(host)/fletcher")!)
+        )
+
+        _ = try await overlay.loadTile(
+            at: MKTileOverlayPath(x: halifax.x, y: halifax.y, z: 12, contentScaleFactor: 1)
+        )
+
+        #expect(StubURLProtocol.requestCount(host: host) == 0)
+        #expect(progress.phase(for: "test-layer") == .idle)
+    }
+
     /// A tile at least one Fletcher sheet claims, so the 404 path is exercised
     /// rather than the "no sheet covers this" early return.
     private static func aTileSomeSheetCovers() -> (z: Int, x: Int, y: Int)? {
