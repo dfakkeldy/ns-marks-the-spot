@@ -42,6 +42,11 @@ struct MapContainerView: View {
     /// How much of the rail the area-selection controls are holding, so the
     /// scrolling part below them gives up the same amount.
     @State private var saveAreaHeight: CGFloat = 0
+
+    /// The same, and zero when they are not on screen.
+    private var shownSaveAreaHeight: CGFloat {
+        isSelectingSaveArea ? saveAreaHeight : 0
+    }
     /// How tall the measuring card is, so the scale bar and the readout
     /// can sit above it rather than behind it.
     @State private var measurePanelHeight: CGFloat = 0
@@ -783,8 +788,12 @@ struct MapContainerView: View {
         // actually scrolling, and that is the one moment a reader needs to be
         // told there is more of it below the fold.
         .scrollBounceBehavior(.basedOnSize)
+        // The area controls' height counts only while they are up. It is
+        // measured when they appear and never unmeasured, so subtracting it
+        // unconditionally would leave the rail short for the rest of the
+        // session over controls that are no longer there.
         .frame(height: controlsHeight > 0
-            ? min(controlsHeight, max(88, mapHeight - 132 - saveAreaHeight)) : nil)
+            ? min(controlsHeight, max(88, mapHeight - 132 - shownSaveAreaHeight)) : nil)
     }
 
     /// The ground the frame covers as the map stands right now.
