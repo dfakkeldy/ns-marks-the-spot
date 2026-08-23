@@ -1834,3 +1834,36 @@ fix what it finds, then run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 after 22:00 ADT.
 ```
+
+## 2026-08-23 — the completeness audit answered, and CI back to green
+
+Done: the ninth Codex pass (the completeness critic) named three phone
+deficits and closed the rest of the parity question. All three are fixed on
+this branch. A raster or vector import whose library write failed used to be
+taken back off the map and reported as a refusal; both now keep what was
+read, draw it, fly to it, and say it will not survive closing the app —
+which is the browser's own promise. The tax-sale lifecycle labels in the
+notices sheet and the parcel card read their clock once at `onAppear`, so a
+view left open across an advertised sale time went on saying "Upcoming"
+after the sale began; `advancingClock` re-reads it every minute, as the
+browser does. The browser's modern map is OpenStreetMap and this app draws
+Apple's standard map in its place, so a shared link now discloses the
+substitution instead of restoring it in silence. Whether to carry an actual
+OSM base map is left as the user's call: it is a third-party tile
+dependency, and the offline-download feature would bulk-fetch from it.
+CI red on cff35e60a was a real defect — a note made while the geology lookup
+was still out printed one anonymous section line and dropped the three named
+sources under it. Fixed with the section notice demoted to a last resort.
+Gate-free loops green: typecheck, 1124 core tests.
+
+Next: read Codex's adversarial review of the four new commits, then the
+22:00 gated simulator run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/tasks/bea29j5dq.output,
+fix what it finds, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+after 22:00 ADT.
+```
