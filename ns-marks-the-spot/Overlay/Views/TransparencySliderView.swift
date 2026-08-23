@@ -470,6 +470,7 @@ private struct LayerRowView: View {
     let row: LayerRow
     let viewModel: OverlayViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         VStack(spacing: 8) {
@@ -486,7 +487,13 @@ private struct LayerRowView: View {
                         .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundStyle(row.isAvailable ? .primary : .secondary)
-                        .lineLimit(2)
+                        // Two lines keeps twenty rows readable as a list at
+                        // ordinary text sizes. At an accessibility size two
+                        // lines is a few words, and a truncated name is the
+                        // reader losing which source a row belongs to. The
+                        // browser never clamps these, so neither does this
+                        // once the text is that large.
+                        .lineLimit(typeSize.isAccessibilitySize ? nil : 2)
                         .minimumScaleFactor(0.9)
 
                     // Only for a layer that is on. The switch beside it already
