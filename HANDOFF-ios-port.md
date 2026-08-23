@@ -1774,3 +1774,30 @@ and verify in the simulator: the measuring readout, the panel's opening
 sections, the About sheet's new "Who Makes It" section, the delete
 confirmation, the raster fit, and a saved area drawing with the network off.
 ```
+
+## 2026-08-23 — Codex audit 9 fixed, and the GeoTIFF paths tested for real
+Done: Four blocking findings against the fifteen-second commit. The wait now
+keys off an evidence generation counter rather than the open PID, so toggling
+tax sales or re-tapping the same parcel starts the clock over instead of
+letting a finished one carry across a rebuilt panel. A shared link's notice and
+"Shared setup" label survive a switch the licence gate turns away, and are
+dropped only on a change the reader actually made. A PVSC source or a geology
+lookup that had not answered prints as unanswered rather than as one that
+failed, and the geology arm names all three of its sources. A GeoTIFF whose
+projection this app cannot read is kept for hand placement, and that is now
+tested end to end through `UserMapImporter.import` on hand-laid GeoTIFF bytes
+(`ns-marks-the-spotTests/Fixtures/GeoTiffFixture.swift`) — the old assertions
+called the tag parser only, and passed with the importer's recovery deleted.
+Gate-free loops green: typecheck, 1119 core tests, 1515 web tests.
+Next: Codex's interaction inventory found eight DEGRADED parity gaps —
+drawing does not stay armed, no multi-delete mode, multipart geometry has no
+vertex handles, opacity is disabled while a raster is hidden, no camera zoom
+range, the scale bar and attribution strip vanish while a card is open, and
+Reduce Motion is ignored. Then the 22:00 gated run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Fix the eight interaction gaps in
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/scratchpad/codex-audit9-interaction.out,
+starting with the scale bar and attribution strip in MapContainerView.swift:558.
+```

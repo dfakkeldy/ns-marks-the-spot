@@ -118,6 +118,9 @@ public struct EvidenceNoteInput: Sendable {
     public enum AssessmentEvidence: Sendable, Equatable {
         case ready(PVSCAssessmentResponse.Result)
         case error
+        /// Asked, and had not answered by the time the note was written. Not a
+        /// source that failed, and not a parcel with no assessment account.
+        case stillOut
     }
 
     public enum DwellingEvidence: Sendable, Equatable {
@@ -126,6 +129,8 @@ public struct EvidenceNoteInput: Sendable {
         /// Never asked, because no account was resolved to ask about. Not the
         /// same as asked-and-empty.
         case blocked
+        /// Asked, and still out. See `AssessmentEvidence.stillOut`.
+        case stillOut
     }
 
     public var generatedAt: Date
@@ -454,6 +459,9 @@ extension EvidenceNote {
     private static func assessmentLines(
         _ evidence: EvidenceNoteInput.AssessmentEvidence
     ) -> [String] {
+        if case .stillOut = evidence {
+            return [stillOut("PVSC assessment")]
+        }
         guard case .ready(let result) = evidence else {
             return ["PVSC assessment source unavailable at export time."]
         }
@@ -506,6 +514,8 @@ extension EvidenceNote {
         switch evidence {
         case .error:
             return ["PVSC residential dwelling source unavailable at export time."]
+        case .stillOut:
+            return [stillOut("PVSC residential dwelling")]
         case .blocked:
             return [
                 """
@@ -535,6 +545,17 @@ extension EvidenceNote {
                 + (result.unreadableRows > 0
                     ? ["", unreadableRows(result.unreadableRows)] : [])
         }
+    }
+
+    /// What a source that was asked and had not answered is called.
+    ///
+    /// Kept apart from "unavailable at export time" on purpose. A source that
+    /// failed has given its answer, and a reader can weigh a failure. A source
+    /// that never answered has given nothing at all, and the difference decides
+    /// whether asking again is worth anything.
+    private static func stillOut(_ source: String) -> String {
+        "\(source) had not answered when the note was written. "
+            + "Nothing is concluded from its silence."
     }
 
     /// What the reply carried and this build could not read.

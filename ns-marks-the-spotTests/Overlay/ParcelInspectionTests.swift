@@ -940,4 +940,129 @@ struct ParcelInspectionTests {
                 == .ready(PVSCDwellingResponse.Result(accounts: []))
         )
     }
+
+    // MARK: - A source that stops answering
+
+    /// The whole of what the fifteen-second wait buys, arranged rather than
+    /// hoped for: the address lookup is still in flight, and every export path
+    /// is driven while it is.
+    ///
+    /// Without the wait a reader whose fourth source hangs gets no dated
+    /// receipt at all, and nothing on screen says the wait will not end.
+    @Test func aPageMayBeMadeOnceTheSourcesHaveHadTheirTime() async throws {
+        let channel = #function
+        let gate = HeldTransport()
+        await gate.answer("-63.5", with: Self.addresses("Held Road"))
+
+        StubURLProtocol.stub(channel: channel, matching: [
+            ("50334317", Self.parcel(pid: "50334317")),
+            ("thedatazone", Self.noRows),
+            ("Buildings_UT83", Self.zeroCount),
+            ("", Self.noFeatures),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let session = { StubURLProtocol.session(channel: channel) }
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd],
+            licence: .accepted,
+            zoomLevel: 16,
+            parcelFetcher: ParcelFetcher(transport: .urlSession(session())),
+            civicFetcher: CivicAddressFetcher(transport: await gate.transport),
+            contextFetcher: ParcelContextFetcher(transport: .urlSession(session())),
+            assessmentFetcher: PVSCAssessmentFetcher(transport: .urlSession(session())),
+            dwellingFetcher: PVSCDwellingFetcher(transport: .urlSession(session())),
+            buildingFetcher: BuildingCountFetcher(transport: .urlSession(session())),
+            resourceFetcher: ResourceIntersectionFetcher(transport: .urlSession(session())),
+            floodFetcher: FloodHazardFetcher(transport: .urlSession(session()))
+        )
+        if viewModel.layers.first(where: { $0.id == LayerID.nsprd.rawValue })?.isVisible != true {
+            viewModel.toggleVisibility(LayerID.nsprd.rawValue)
+        }
+
+        viewModel.searchParcel("50334317")
+        await viewModel.awaitParcelLookup()
+        // Held at the gate, not merely asked for.
+        await gate.awaitArrivals("-63.5")
+        #expect(viewModel.inspection?.civicAddresses == .looking)
+        #expect(viewModel.canExportEvidenceNote == false)
+
+        // Before the wait is up, nothing comes out. This is the state the phone
+        // used to be stuck in for good.
+        #expect(viewModel.evidenceNote() == nil)
+
+        let note = try #require(viewModel.evidenceNote(includingSourcesStillOut: true))
+        #expect(
+            note.markdown.contains("This source had not answered when the note was written.")
+        )
+        // And not as a source that answered with nothing, which is the reading
+        // the whole panel is built to prevent.
+        #expect(note.markdown.contains("No authoritative civic address point") == false)
+
+        let framed = GeoBoundingBox(south: 44.5, west: -63.6, north: 44.8, east: -63.3)
+        let named = try #require(
+            viewModel.printExportRequest(
+                template: PdfTemplate.template(.portrait),
+                fields: PdfComposer.Fields(title: "Sheet", subtitle: "", notes: ""),
+                includesAppendix: true,
+                appendixNamesSourcesStillOut: true,
+                frame: framed
+            )
+        )
+        #expect(named.appendix.isEmpty == false)
+        #expect(
+            named.disclosures.contains {
+                $0.contains("Authoritative mapped civic points")
+                    && $0.contains("not a finding about this parcel")
+            }
+        )
+
+        // The same page without the flag is the older behaviour: no appendix
+        // and no sentence about it, because the reader has not waited yet.
+        let early = try #require(
+            viewModel.printExportRequest(
+                template: PdfTemplate.template(.portrait),
+                fields: PdfComposer.Fields(title: "Sheet", subtitle: "", notes: ""),
+                includesAppendix: true,
+                frame: framed
+            )
+        )
+        #expect(early.appendix.isEmpty)
+        #expect(
+            early.disclosures.contains {
+                $0.contains("Authoritative mapped civic points")
+            } == false
+        )
+
+        await gate.release("-63.5")
+        await gate.awaitCompletions("-63.5")
+    }
+
+    /// The clock is on the evidence, not on the PID.
+    ///
+    /// Asking the same parcel again replaces every service state with `looking`
+    /// again, and a wait timed off the PID alone would already have expired on
+    /// requests that had just gone out.
+    @Test func askingForTheSameParcelAgainStartsTheWaitOver() async throws {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.parcel(pid: "50334317")),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        _ = await Self.inspect(viewModel)
+        let first = viewModel.evidenceGeneration
+        #expect(viewModel.inspection?.pid == "50334317")
+
+        _ = await Self.inspect(viewModel)
+        #expect(viewModel.inspection?.pid == "50334317")
+        #expect(viewModel.evidenceGeneration != first)
+
+        // And closing the card ends the wait rather than leaving a finished
+        // countdown standing over the next parcel.
+        let second = viewModel.evidenceGeneration
+        viewModel.clearParcelSelection()
+        #expect(viewModel.inspection == nil)
+        #expect(viewModel.evidenceGeneration != second)
+    }
 }

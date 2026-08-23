@@ -556,11 +556,9 @@ struct UserMapOrientationTests {
         // would scale every control point the user places through a size the
         // picture in front of them does not have.
         //
-        // The other half of this rule — that a file carrying its own
-        // georeferencing is decoded in its raster's own rows, because that is
-        // the space its geotransform is written in — has no test here: a TIFF
-        // with real pixels, real geo tags and an orientation tag cannot be
-        // built through Image I/O, which offers no way to write the geo tags.
+        // The other half of this rule — that a georeferenced file is decoded
+        // in its raster's own rows — is the test below, on bytes laid out by
+        // hand: Image I/O writes TIFFs and offers no way to write geo tags.
         let imported = try UserMapImporter.import(
             data: try image(width: 400, height: 200, type: .jpeg, orientation: 6),
             id: "sideways", name: "Photo"
@@ -591,6 +589,163 @@ struct UserMapOrientationTests {
         )
         #expect(imported.record.pixelSize == PixelSize(width: 400, height: 200))
         #expect(imported.preview.width > imported.preview.height)
+    }
+
+    /// The other half of that rule: a file carrying its own georeferencing is
+    /// decoded in its raster's own rows, because that is the space its
+    /// geotransform is written in.
+    @Test("A sheet that placed itself is not turned by an orientation tag")
+    func aPlacedSheetKeepsItsRasterRowsDespiteAnOrientationTag() throws {
+        // Orientation 6 on both files. The georeferenced one must ignore it:
+        // rotate those pixels and the sheet is drawn quarter-turned over
+        // ground it describes perfectly correctly, with every number in the
+        // file still checking out.
+        let placed = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(
+                width: 16, height: 8,
+                doubles: GeoTiffFixture.placement(
+                    eastingMetres: 452_000, northingMetres: 4_944_000
+                ),
+                shorts: GeoTiffFixture.projectedSystem(epsg: 26_920).merging(
+                    [274: [6]], uniquingKeysWith: { first, _ in first }
+                )
+            ),
+            id: "placed", name: "Sheet"
+        )
+        #expect(placed.needsGeoreferencing == false)
+        #expect(placed.record.pixelSize == PixelSize(width: 16, height: 8))
+        #expect(placed.preview.width > placed.preview.height)
+
+        // The same tag on the same builder's output, minus the geo tags. This
+        // is what stops the assertion above from being vacuous: if Image I/O
+        // ignored a TIFF's orientation tag entirely, the check that the placed
+        // sheet was left alone would pass without proving anything.
+        let scan = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(width: 16, height: 8, shorts: [274: [6]]),
+            id: "scan", name: "Photo"
+        )
+        #expect(scan.needsGeoreferencing == true)
+        #expect(scan.record.pixelSize == PixelSize(width: 8, height: 16))
+        #expect(scan.preview.height > scan.preview.width)
+    }
+}
+
+/// Files that say where they belong in terms this app cannot use.
+///
+/// Every test here drives `UserMapImporter.import` over real GeoTIFF bytes
+/// rather than calling the tag parser directly, because what is being tested
+/// is the importer's decision to keep the file: checks that stopped at the
+/// parser went on passing with the importer's recovery deleted.
+@Suite("A placement the file states and this app cannot read")
+@MainActor
+struct UnreadableGeoreferencingTests {
+    /// EPSG:32620 is WGS 84 / UTM zone 20N: the right zone for Nova Scotia in
+    /// the wrong datum, and a plausible export from software set to WGS 84.
+    /// The app reads NAD83 and its CSRS realisations, so this one is refused
+    /// by code rather than by any doubt about the file.
+    private static func inAnUnreadSystem() -> Data {
+        GeoTiffFixture.sheet(
+            doubles: GeoTiffFixture.placement(),
+            shorts: GeoTiffFixture.projectedSystem(epsg: 32_620)
+        )
+    }
+
+    @Test("A system this app cannot read keeps the map and drops the placement")
+    func anUnreadableSystemIsKeptForHandPlacement() throws {
+        let imported = try UserMapImporter.import(
+            data: Self.inAnUnreadSystem(), id: "utm20-wgs84", name: "Ortho"
+        )
+
+        // Kept, and unplaced. An empty control-point list rather than a
+        // placeholder transform is what stops the sheet being drawn anywhere
+        // at all until the reader places it.
+        #expect(imported.needsGeoreferencing == true)
+        guard case .controlPoints(let points, let method) = imported.record.placement else {
+            Issue.record("a map that could not place itself should be waiting for points")
+            return
+        }
+        #expect(points.isEmpty)
+        #expect(method == .affine)
+        #expect(imported.record.pixelSize == PixelSize(width: 8, height: 8))
+
+        let unread = try #require(imported.unreadGeoreferencing)
+        #expect(unread.contains("EPSG:32620"))
+        #expect(unread.contains("ready to place by hand"))
+    }
+
+    @Test("A system named in prose is quoted back rather than guessed at")
+    func aCitedSystemIsQuotedBack() throws {
+        // 32767 is "user-defined": the file says its system is described
+        // elsewhere in its own tags, in words. Nothing here can turn prose
+        // into a projection, so the words are repeated to the reader.
+        let (directory, ascii) = GeoTiffFixture.citedSystem("Lambert Conformal Conic (custom)")
+        let imported = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(
+                doubles: GeoTiffFixture.placement(), shorts: directory, strings: ascii
+            ),
+            id: "cited", name: "Sheet"
+        )
+
+        #expect(imported.needsGeoreferencing == true)
+        let unread = try #require(imported.unreadGeoreferencing)
+        #expect(unread.contains("Lambert Conformal Conic (custom)"))
+        #expect(unread.contains("ready to place by hand"))
+        #expect(unread.contains("EPSG code"))
+    }
+
+    @Test("A system this app does read still places the sheet itself")
+    func aReadableSystemStillPlacesItself() throws {
+        // The control on the two above. Without it, a fixture builder with a
+        // mistake in its tags would make every file look unplaceable and both
+        // refusal tests would pass for the wrong reason.
+        let imported = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(
+                width: 16, height: 8,
+                doubles: GeoTiffFixture.placement(
+                    eastingMetres: 452_000, northingMetres: 4_944_000
+                ),
+                shorts: GeoTiffFixture.projectedSystem(epsg: 26_920)
+            ),
+            id: "utm20-nad83", name: "Ortho"
+        )
+
+        #expect(imported.needsGeoreferencing == false)
+        #expect(imported.unreadGeoreferencing == nil)
+        guard case .embedded(let georeference) = imported.record.placement else {
+            Issue.record("a map in a system this app reads should have placed itself")
+            return
+        }
+        #expect(georeference.crs == "EPSG:26920")
+    }
+
+    @Test("The library keeps the map, and says what went unread")
+    func theLibraryKeepsItAndSaysWhy() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(
+                data: Self.inAnUnreadSystem(), name: "Ortho", filename: "ortho.tif"
+            )
+
+            // The row is there. A refusal would have left the reader with the
+            // advice to place it by hand and no map to place.
+            #expect(viewModel.rows.count == 1)
+            #expect(viewModel.rows.first?.needsGeoreferencing == true)
+
+            let notice = try #require(viewModel.notices.first)
+            // Not a refusal: the picture came in, and only its claim about
+            // where it belongs was dropped. A message flagged as a refusal
+            // reads as "your file was turned away".
+            #expect(notice.isRefusal == false)
+            #expect(notice.name == "ortho.tif")
+            #expect(notice.message.contains("EPSG:32620"))
+
+            // Nowhere to fly to. Sending the map to a placement the app just
+            // declined to trust is the one thing this path must not do.
+            #expect(viewModel.pendingFit == nil)
+        }
     }
 }
 

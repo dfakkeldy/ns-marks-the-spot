@@ -160,9 +160,13 @@ struct MapContainerView: View {
             } message: { reason in
                 Text(reason)
             }
-            // The clock on the open parcel's sources, restarted for each parcel
-            // so a slow answer for one is never counted against the next.
-            .task(id: overlayVM.inspection?.pid) {
+            // The clock on the open parcel's sources, restarted every time that
+            // evidence starts over so a finished wait is never carried onto a
+            // set of requests that have just gone out. Keyed on the generation
+            // rather than the PID because the same PID's evidence restarts:
+            // toggling tax sales rebuilds it, and so does tapping the parcel
+            // that is already open.
+            .task(id: overlayVM.evidenceGeneration) {
                 sourcesHaveHadTheirTime = false
                 guard overlayVM.inspection != nil else { return }
                 try? await Task.sleep(for: Self.evidenceWait)
@@ -948,6 +952,12 @@ struct MapContainerView: View {
     /// How long the sources are given before a report may be written without
     /// them. The browser's fifteen seconds, so the same hung source produces
     /// the same document on either surface.
+    ///
+    /// Wall-clock, and deliberately: the browser's own timer runs while its tab
+    /// is in the background, and a request that was in flight when this app
+    /// went away is usually finished by the time it comes back. Counting only
+    /// foreground seconds would mean a reader who checks their messages mid-wait
+    /// restarts it, and one who does it twice never gets a page at all.
     private static let evidenceWait = Duration.seconds(15)
 
     /// Writes the note and hands it to the share sheet.

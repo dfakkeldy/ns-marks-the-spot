@@ -324,6 +324,46 @@ struct MapThemeApplyTests {
         #expect(viewModel.themeDescription == "The layers this map currently has on.")
     }
 
+    /// A tap the licence gate turns away changes nothing on the map, so the
+    /// sender's view is still exactly what is on screen.
+    ///
+    /// The name and the link's own notice used to go at the tap rather than at
+    /// the change, which told a reader who had declined a licence that the map
+    /// in front of them was now their own work.
+    @Test func aSwitchTheLicenceRefusesLeavesTheSendersViewAlone() {
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd, .roads, .nsAerial], licence: .unknown
+        )
+        viewModel.restore(
+            from: URL(string: "https://example.com/map/?layers=roads&position=45.6,-61.4,15")!
+        )
+        #expect(viewModel.themeStatusText == "Shared setup")
+
+        // Restricted, and the licence has not been answered, so this asks
+        // rather than switches.
+        viewModel.toggleVisibility(LayerID.nsAerial.rawValue)
+        #expect(viewModel.licencePromptedLayerID == LayerID.nsAerial)
+        #expect(
+            viewModel.layers.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false
+        )
+        #expect(viewModel.themeStatusText == "Shared setup")
+        #expect(viewModel.themeDescription == "Map settings restored from a shared link.")
+    }
+
+    /// The background is part of the view a link delivered, even though the
+    /// link cannot name every background this map can draw.
+    @Test func changingTheBackgroundMakesTheSetupTheReadersOwn() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])
+        viewModel.restore(
+            from: URL(string: "https://example.com/map/?layers=nsprd,roads&position=45.6,-61.4,15")!
+        )
+        #expect(viewModel.themeStatusText == "Shared setup")
+
+        viewModel.setBaseMapType(.satellite)
+        #expect(viewModel.themeStatusText == "Current setup")
+        #expect(viewModel.themeDescription == "The layers this map currently has on.")
+    }
+
     /// Nothing arrived from anybody, so there is nobody to attribute the map to.
     @Test func aSetupTheReaderBuiltIsTheirOwn() {
         let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])

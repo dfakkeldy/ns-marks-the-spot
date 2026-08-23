@@ -2233,12 +2233,34 @@ final class OverlayViewModel {
     /// Everything the parcel record itself carries is filled in at once; the
     /// two lookups that go out to services start `looking` and land separately,
     /// so a slow one does not hold up a fast one.
+    /// Bumped every time a parcel's evidence starts over.
+    ///
+    /// The open PID is not enough to tell one wait from the next. Toggling tax
+    /// sales, or tapping the parcel that is already open, rebuilds the same
+    /// PID's inspection with every service back at `looking` — and anything
+    /// timing that wait off the PID alone would carry the finished clock
+    /// straight over the new one, and let a page be written naming sources that
+    /// had been given no time at all.
+    private(set) var evidenceGeneration = 0
+
+    /// Publishes a rebuilt panel, and says that its evidence is new.
+    private func beginInspection(_ state: ParcelInspection) {
+        inspection = state
+        evidenceGeneration &+= 1
+    }
+
+    /// Closes the panel, and says that whatever was being waited on is over.
+    private func endInspection() {
+        inspection = nil
+        evidenceGeneration &+= 1
+    }
+
     private func refreshInspection() {
         inspectionLookup?.cancel()
         inspectionLookup = nil
 
         guard let pid = parcels.selectedPID else {
-            inspection = nil
+            endInspection()
             return
         }
         // Gated on the mode for the same reason the styling is: a PID in both
@@ -2265,7 +2287,7 @@ final class OverlayViewModel {
             // municipality named this PID, and that fact does not depend on
             // NSPRD holding geometry for it.
             guard notice != nil || !records.isEmpty else {
-                inspection = nil
+                endInspection()
                 return
             }
             var state = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
@@ -2283,7 +2305,7 @@ final class OverlayViewModel {
                 state.assessments = .unavailable(reason)
                 state.dwellings = .unavailable(reason)
             }
-            inspection = state
+            beginInspection(state)
             askPVSCByAccount(noticeAAN, for: pid)
             return
         }
@@ -2317,11 +2339,11 @@ final class OverlayViewModel {
                 state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
                 state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             }
-            inspection = state
+            beginInspection(state)
             askPVSCByAccount(noticeAAN, for: pid)
             return
         }
-        inspection = state
+        beginInspection(state)
 
         inspectionLookup = Task {
             [
@@ -2907,6 +2929,11 @@ final class OverlayViewModel {
             return
         }
 
+        // A link cannot name satellite or hybrid, and a reader who picks one has
+        // left the sender's view, so the background counts as a change like any
+        // other. Safe on the restore paths: both set the background before they
+        // name the link, so nothing here can undo what they went on to say.
+        forgetTheLinkThatArrived()
         controller.baseMapType = type
         syncNSAerialLayerVisibility(for: type)
     }
@@ -2955,12 +2982,6 @@ final class OverlayViewModel {
     }
 
     func toggleVisibility(_ id: String) {
-        // The link's notice describes the view that arrived. Once the reader
-        // starts switching layers themselves it describes a map that is no
-        // longer on screen, so it goes with the first switch they touch. The
-        // same is true of calling the setup the sender's.
-        sharedLinkNotice = nil
-        setupCameFromALink = false
         // A vector layer's switch is the same decision point as a raster's:
         // the licence has to be answered before the first query goes out, not
         // after features are already on the map.
@@ -2969,6 +2990,7 @@ final class OverlayViewModel {
                 licencePromptedLayerID = layerID
                 return
             }
+            forgetTheLinkThatArrived()
             features.setVisible(layerID, to: !features.isVisible(layerID))
             return
         }
@@ -2984,7 +3006,20 @@ final class OverlayViewModel {
             return
         }
 
+        forgetTheLinkThatArrived()
         show(layer, visible: !layer.isVisible)
+    }
+
+    /// Drops what a shared link put on screen and what this map called it.
+    ///
+    /// The notice describes the view that arrived, and the setup is the
+    /// sender's until the reader changes it. Both stop being true at the first
+    /// change the reader makes — and only at a change they actually made: a
+    /// switch the licence gate turned away leaves the sender's view exactly as
+    /// it was, notice included.
+    private func forgetTheLinkThatArrived() {
+        sharedLinkNotice = nil
+        setupCameFromALink = false
     }
 
     private func requiresUnansweredLicence(_ id: String) -> Bool {
