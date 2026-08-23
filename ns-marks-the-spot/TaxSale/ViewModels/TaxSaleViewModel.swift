@@ -37,8 +37,18 @@ final class TaxSaleViewModel {
     /// later finds half the notices silently off, which reads as a sale being
     /// over when what happened is that somebody once unticked it.
     func resetSelection() {
-        selectedEventIDs = Set(catalog.events(status: .upcoming).map(\.id))
+        selectAllCurrentEvents()
         filter = .all
+    }
+
+    /// Every current notice on, leaving the redemption filter where the reader
+    /// put it.
+    ///
+    /// What applying a map setup asks for. A setup says which layers to draw;
+    /// it says nothing about which records to read, and the browser leaves the
+    /// filter alone unless the setup switches tax sales off.
+    func selectAllCurrentEvents() {
+        selectedEventIDs = Set(catalog.events(status: .upcoming).map(\.id))
     }
 
     /// The current notices, in catalog order.

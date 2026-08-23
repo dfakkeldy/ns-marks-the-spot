@@ -1498,6 +1498,16 @@ final class OverlayViewModel {
     /// can say which layers it had to leave out.
     private(set) var themeResolution: ResolvedTheme?
 
+    /// How many setups have been applied, counted so the panel can reopen the
+    /// sections each one asks for.
+    ///
+    /// Reset re-applies the setup the map is already named after: the same
+    /// resolution, an equal value, and SwiftUI runs `onChange` only for values
+    /// that differ. Watching the resolution alone would put the layers back
+    /// and leave the panel open on whatever the reader had since gone digging
+    /// through.
+    private(set) var themeApplications = 0
+
     /// A theme waiting on the licence answer, set only while the sheet is up.
     @ObservationIgnored private var pendingThemeID: String?
 
@@ -1567,8 +1577,20 @@ final class OverlayViewModel {
         case unnamed
     }
 
+    /// Whether the background the map is drawing is one a setup can record.
+    ///
+    /// Satellite and Hybrid are MapKit's own, and the vocabulary the two
+    /// surfaces share has no name for either — a shared link cannot carry them
+    /// either. A setup saved while one of them is up comes back without it, so
+    /// no setup describes this map. Saying otherwise would call a map exact and
+    /// then change its background the next time the same setup was picked.
+    private var backgroundIsNamed: Bool {
+        baseMapType != .satellite && baseMapType != .hybrid
+    }
+
     /// The theme this map already is, if any theme describes it.
     private var matchedTheme: MapTheme? {
+        guard backgroundIsNamed else { return nil }
         if let selected = selectedThemeID.flatMap(themes.theme(_:)),
            themeState.matches(selected.state) {
             return selected
@@ -1586,7 +1608,7 @@ final class OverlayViewModel {
         // A partial resolution stands only while the map is still the thing
         // that was applied. One more toggle and it is a modified map, not a
         // theme that could not be applied in full.
-        if themeResolution?.status == .partial,
+        if themeResolution?.status == .partial, backgroundIsNamed,
            let resolution = themeResolution, themeState.matches(resolution.target) {
             return .partial
         }
@@ -1631,10 +1653,19 @@ final class OverlayViewModel {
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
 
+    /// Why a Satellite or Hybrid map reads as modified whatever the reader
+    /// picked, and why saving it will not bring the background back.
+    var themeBackgroundNotice: String? {
+        guard !backgroundIsNamed else { return nil }
+        return "A \(baseMapType.rawValue) background is not part of a saved setup."
+    }
+
     /// Everything the panel has to say about the setup: what could not be
-    /// applied, and anything the saved library reported.
+    /// applied, what the background cannot carry, and anything the saved
+    /// library reported.
     var themeNotice: String? {
-        let parts = [themeResolutionNotice, themes.notice].compactMap(\.self)
+        let parts = [themeResolutionNotice, themeBackgroundNotice, themes.notice]
+            .compactMap(\.self)
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
 
@@ -1696,6 +1727,7 @@ final class OverlayViewModel {
     }
 
     func apply(_ resolved: ResolvedTheme) {
+        themeApplications += 1
         let wanted = Set(resolved.target.layerIDs)
 
         // Before the mode, for the reason `restore(from:)` has it first: the
@@ -1707,7 +1739,12 @@ final class OverlayViewModel {
             // Every current notice, as the browser applies a theme. A setup is
             // not a search: carrying over the two municipalities somebody had
             // narrowed to would hide notices this theme never excluded.
-            taxSale?.resetSelection()
+            //
+            // The redemption filter stays where the reader left it. That is
+            // where the browser leaves it — it clears the filters only when a
+            // setup switches tax sales off — and widening the parcels on show
+            // is not something a setup was asked to do.
+            taxSale?.selectAllCurrentEvents()
             refreshListedParcelStyling()
         }
 
@@ -1753,17 +1790,22 @@ final class OverlayViewModel {
     /// - Parameter openSections: which panel sections are open, which the saved
     ///   setup reopens. A setup that switches on seven layers across four
     ///   sections and reopens only Background Maps has hidden what it just did.
-    func saveCurrentSetup(named name: String, openSections: [LayerCategoryID]) {
+    /// - Returns: whether the setup was saved. The manager keeps the name the
+    ///   reader typed when it was not, so a refused save can be tried again
+    ///   without retyping it.
+    @discardableResult
+    func saveCurrentSetup(named name: String, openSections: [LayerCategoryID]) -> Bool {
         guard let saved = themes.save(
             name: name,
             state: themeState,
             preferredCategoryIDs: openSections
-        ) else { return }
+        ) else { return false }
         selectedThemeID = saved.id
         // Nothing was applied: the map is already this. Clearing the resolution
         // stops a stale "partly applied" from an earlier pick standing over a
         // setup that was saved whole.
         themeResolution = nil
+        return true
     }
 
     /// Replaces a saved setup with what the map is showing now.

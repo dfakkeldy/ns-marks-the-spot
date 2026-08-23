@@ -546,10 +546,14 @@ private struct LayerRowView: View {
                             .foregroundStyle(.secondary)
                     }
 
+                    // From 15%, where the browser's opacity slider starts.
+                    // Below it a layer that is switched on draws nothing while
+                    // the panel, a shared setup and an evidence note all go on
+                    // calling it drawn.
                     Slider(value: Binding(
                         get: { row.opacity },
                         set: { viewModel.updateLayerOpacity(for: row.id, to: $0) }
-                    ), in: 0...1)
+                    ), in: 0.15...1)
                     .tint(.blue)
                     .accessibilityLabel("\(row.name) opacity")
                     .accessibilityValue("\(Int(row.opacity * 100))%")

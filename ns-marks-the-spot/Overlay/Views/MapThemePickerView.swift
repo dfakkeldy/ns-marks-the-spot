@@ -96,8 +96,11 @@ struct MapThemePickerView: View {
         // Reopened when a theme lands rather than when one is picked: a theme
         // naming a restricted layer waits on the licence sheet first, and the
         // sections should open with the layers, not before them.
-        .onChange(of: viewModel.themeResolution) { _, resolution in
-            guard let resolution else { return }
+        // Watched on the count rather than on the resolution itself: Reset
+        // applies the same setup again, which resolves to an equal value, and
+        // SwiftUI would not call this for a value that did not change.
+        .onChange(of: viewModel.themeApplications) { _, _ in
+            guard let resolution = viewModel.themeResolution else { return }
             expandedCategories = Set(resolution.preferredCategoryIDs)
         }
         .alert("Save this setup", isPresented: $isNaming) {

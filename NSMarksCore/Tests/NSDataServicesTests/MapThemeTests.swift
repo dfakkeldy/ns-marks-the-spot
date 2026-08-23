@@ -445,4 +445,49 @@ struct CustomThemeStoreTests {
         #expect(storage.save(themes) == nil)
         #expect(storage.load().themes == themes)
     }
+
+    /// `true` is not version 1. Foundation bridges a JSON boolean to a number
+    /// that answers 1 to an `Int` cast, which would let a document this build
+    /// has no idea how to read pass the version gate.
+    @Test func refusesABooleanWhereTheVersionBelongs() {
+        let data = Data(#"{"version":true,"themes":[]}"#.utf8)
+        #expect(CustomThemeStore.read(data).status == .unreadable)
+    }
+
+    /// The key holding something that is not a document is a library that
+    /// could not be read, not a device that has saved nothing. The difference
+    /// decides whether the reader is warned before the next save writes over
+    /// it.
+    @Test func treatsAKeyHoldingSomethingElseAsUnreadable() throws {
+        #expect(CustomThemeStore.read(object: "an older build's string").status == .unreadable)
+
+        let suite = "ns-marks-the-spot.theme-tests.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        defaults.set("an older build's string", forKey: CustomThemeStore.storageKey)
+
+        let library = UserDefaultsCustomThemeStorage(defaults: defaults).load()
+        #expect(library.status == .unreadable)
+        #expect(library.warning == CustomThemeStore.loadWarning)
+    }
+
+    /// A device that takes the write and keeps none of it is a failed save.
+    /// Reported, because the alternative is a panel that says the setup was
+    /// saved and a next launch that has never heard of it.
+    @Test func reportsASaveTheDeviceDidNotKeep() throws {
+        let suite = "ns-marks-the-spot.theme-tests.\(UUID().uuidString)"
+        let defaults = try #require(RefusingUserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let storage = UserDefaultsCustomThemeStorage(defaults: defaults)
+        #expect(storage.save(try Self.saved()) == .notSaved)
+        #expect(storage.load().themes.isEmpty)
+    }
+}
+
+/// A defaults store that accepts every write and keeps none, standing in for a
+/// domain the device will not let the app write: a managed preference, or a
+/// container it has lost.
+private final class RefusingUserDefaults: UserDefaults {
+    override func set(_ value: Any?, forKey defaultName: String) {}
 }

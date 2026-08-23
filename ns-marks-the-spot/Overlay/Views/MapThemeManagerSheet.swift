@@ -33,11 +33,16 @@ struct MapThemeManagerSheet: View {
                     TextField("Setup name", text: $newThemeName)
                         .accessibilityIdentifier("theme-manager-name")
                     Button("Save current setup") {
-                        viewModel.saveCurrentSetup(
+                        // Cleared only on a save that happened. A refused one
+                        // puts a notice at the top of this sheet, and taking
+                        // the name away with it would make the reader retype
+                        // it to try again.
+                        if viewModel.saveCurrentSetup(
                             named: newThemeName,
                             openSections: openSections
-                        )
-                        newThemeName = ""
+                        ) {
+                            newThemeName = ""
+                        }
                     }
                     .disabled(trimmedName.isEmpty)
                     .accessibilityIdentifier("theme-manager-save")
@@ -136,13 +141,14 @@ private struct MapThemeManagerRow: View {
                 TextField("Name", text: $name)
                     .accessibilityLabel("Rename \(theme.name)")
 
-                Button("Rename") { onRename(name) }
+                Button("Rename") { onRename(trimmedName) }
                     .buttonStyle(.borderless)
                     .font(.caption)
-                    .disabled(
-                        name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                            || name == theme.name
-                    )
+                    // Compared trimmed, because that is what gets stored. A
+                    // field reading " Field day " against a saved "Field day"
+                    // is the same name with spaces on it, and offering Rename
+                    // for it offers a change that would do nothing.
+                    .disabled(trimmedName.isEmpty || trimmedName == theme.name)
             }
 
             HStack(spacing: 12) {
@@ -156,5 +162,12 @@ private struct MapThemeManagerRow: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("\(theme.name) setup")
+        // The field follows what was stored, so a name that was trimmed on the
+        // way in reads back as the name the library now holds.
+        .onChange(of: theme.name) { _, stored in name = stored }
+    }
+
+    private var trimmedName: String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

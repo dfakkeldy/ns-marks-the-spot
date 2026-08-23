@@ -229,12 +229,32 @@ extension CustomThemeStore {
     /// Unknown layer and category IDs are dropped the way a shared link's are:
     /// this build cannot draw them, and keeping them would make a theme that
     /// claims layers it does not show. Each drop is named in the warning.
+    /// Reads whatever the device is holding under the key, whether or not it
+    /// is the document this build writes.
+    ///
+    /// A key holding something that is not `Data` — a string, a dictionary
+    /// some earlier build left — is an unreadable library rather than an empty
+    /// one. `UserDefaults.data(forKey:)` answers `nil` to both, and taking
+    /// that for "nothing saved yet" would write over a library the reader was
+    /// never told had failed to load.
+    public static func read(object: Any?) -> Library {
+        guard let object else { return read(nil) }
+        guard let data = object as? Data else {
+            return Library(themes: [], status: .unreadable, warning: loadWarning)
+        }
+        return read(data)
+    }
+
     public static func read(_ data: Data?) -> Library {
         guard let data else {
             return Library(themes: [], status: .loaded, warning: nil)
         }
+        // `strictNumber` rather than `as? Int`, for the reason it exists: a
+        // JSON `true` bridges to an `NSNumber` that answers 1, so the plain
+        // cast would let `"version": true` through the v1 gate. The web reads
+        // this field as `value.version !== 1`, which a boolean does not pass.
         guard let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              root["version"] as? Int == 1,
+              strictNumber(root["version"]) == 1,
               let entries = root["themes"] as? [Any]
         else {
             return Library(themes: [], status: .unreadable, warning: loadWarning)
@@ -400,14 +420,22 @@ public struct UserDefaultsCustomThemeStorage: @unchecked Sendable {
     }
 
     public func load() -> CustomThemeStore.Library {
-        CustomThemeStore.read(defaults.data(forKey: CustomThemeStore.storageKey))
+        CustomThemeStore.read(object: defaults.object(forKey: CustomThemeStore.storageKey))
     }
 
     /// Writes the library, or says why it could not be written.
+    ///
+    /// Read back rather than assumed. `UserDefaults.set` returns nothing and
+    /// reports nothing when the domain refuses the write — a managed or forced
+    /// preference, a container the app can no longer reach — so without this
+    /// the panel says a setup was saved and the next launch finds it gone.
     public func save(_ themes: [MapTheme]) -> CustomThemeStore.Failure? {
         do {
             let data = try CustomThemeStore.data(for: themes)
             defaults.set(data, forKey: CustomThemeStore.storageKey)
+            guard defaults.data(forKey: CustomThemeStore.storageKey) == data else {
+                return .notSaved
+            }
             return nil
         } catch {
             return error
