@@ -34,10 +34,11 @@ struct ParcelInspectorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            header
+            titleBar
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    provenance
                     taxSaleNotice
                     historicalRecords
                     assessments
@@ -59,31 +60,46 @@ struct ParcelInspectorView: View {
         .advancingClock($now)
     }
 
-    private var header: some View {
+    /// The one part of the card that does not scroll: which parcel this is,
+    /// and the way out of it.
+    ///
+    /// Everything else is inside the scroll, including the source line and the
+    /// mapped-area and building figures that used to sit up here. The card is
+    /// capped at 45% of the screen, and at accessibility text sizes a header
+    /// carrying five wrapping paragraphs ate that whole allowance — leaving
+    /// the results below it with a viewport a few points tall, or none. The
+    /// browser scrolls its entire inspector for the same reason.
+    private var titleBar: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text("PID \(inspection.pid)")
+                .font(.headline)
+                .monospacedDigit()
+
+            Spacer()
+
+            Button(action: onClose) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+            }
+            .accessibilityLabel("Close parcel details")
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 14)
+        .padding(.bottom, 12)
+    }
+
+    /// Whose word this card is on, and the two figures that come off the
+    /// parcel fabric itself rather than from a source that was asked.
+    private var provenance: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("PID \(inspection.pid)")
-                        .font(.headline)
-                        .monospacedDigit()
-                    Text(sourceSubtitle)
-                        .font(.caption)
-                        .foregroundStyle(inspection.taxSaleNotice == nil ? .secondary : .primary)
-                    if let marker = inspection.recordModeMarker {
-                        Text(marker)
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(.purple)
-                    }
-                }
-
-                Spacer()
-
-                Button(action: onClose) {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                }
-                .accessibilityLabel("Close parcel details")
+            Text(sourceSubtitle)
+                .font(.caption)
+                .foregroundStyle(inspection.taxSaleNotice == nil ? .secondary : .primary)
+            if let marker = inspection.recordModeMarker {
+                Text(marker)
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.purple)
             }
 
             if let area = inspection.mappedArea {
@@ -108,9 +124,6 @@ struct ParcelInspectorView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 14)
-        .padding(.bottom, 12)
     }
 
     // MARK: - Tax-sale notice
