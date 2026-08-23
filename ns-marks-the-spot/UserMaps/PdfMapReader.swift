@@ -206,16 +206,22 @@ enum PdfMapReader {
         // The rotation the page asks for is clockwise on the screen, which is
         // negative in this y-up space. Each turn also moves the page's origin
         // to a different corner of the canvas.
+        //
+        // Written as literal matrices rather than as `.rotated(by: .pi / 2)`,
+        // because `cos(.pi / 2)` is 6e-17 rather than zero and the residue
+        // rides through into the viewport transform every control point is
+        // read against. A page may only be turned by a quarter, a half or
+        // three quarters, so all three are exact.
         let placed: CGAffineTransform = switch rotation {
         case 90:
-            CGAffineTransform(translationX: 0, y: box.width * scale)
-                .rotated(by: -.pi / 2)
+            CGAffineTransform(a: 0, b: -1, c: 1, d: 0, tx: 0, ty: box.width * scale)
         case 180:
-            CGAffineTransform(translationX: box.width * scale, y: box.height * scale)
-                .rotated(by: .pi)
+            CGAffineTransform(
+                a: -1, b: 0, c: 0, d: -1,
+                tx: box.width * scale, ty: box.height * scale
+            )
         case 270:
-            CGAffineTransform(translationX: box.height * scale, y: 0)
-                .rotated(by: .pi / 2)
+            CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: box.height * scale, ty: 0)
         default:
             .identity
         }
