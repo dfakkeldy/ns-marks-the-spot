@@ -294,6 +294,16 @@ final class UserMapsViewModel {
                 // and a refusal is exactly when those entries belong to maps
                 // this build cannot even see.
                 rememberDisplay()
+            } catch let refusal as UserMapStore.StoreRefusal {
+                // Not a device that could not write, but a library this build
+                // must not write to: a document from a later build, or one that
+                // is not a library at all. The row goes back. Keeping it would
+                // draw a map over a library this build cannot read, and every
+                // later write would carry it into that library — which is the
+                // one case where the whole-document write really would replace
+                // entries belonging to maps this build cannot see.
+                rows.removeAll { $0.id == id }
+                throw refusal
             } catch {
                 // The browser's promise, kept here: a device that cannot keep a
                 // map never takes it away from the reader who just imported it.
@@ -303,10 +313,12 @@ final class UserMapsViewModel {
                 // when what they need is to free some space before they close
                 // the app.
                 //
-                // `rememberDisplay()` above is deliberately not reached: the
-                // whole display document is rewritten each time, and writing it
-                // for a map the library refused would replace the entries of
-                // every map the library does hold.
+                // A later write that succeeds — another import, or a delete —
+                // carries this map into the library with it, because the whole
+                // document is written each time and the row is in it. That is a
+                // recovery rather than a contradiction: the preview is already
+                // on disk, so what lands is a complete entry, and the notice
+                // asks for the one thing that is certain to work.
                 notices.append(
                     Notice(
                         id: id,
