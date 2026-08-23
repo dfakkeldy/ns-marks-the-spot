@@ -2071,3 +2071,18 @@ branch claude/ios-web-map-parity-2de228. Watch CI on the head commit with
 `gh run watch`, then run the next Codex adversarial review over the print/export
 path.
 ```
+
+## 2026-08-23 — Review 16 landed: ink judged in Mercator, out to the stroke's reach
+Done: GeometryInk now clips and ray-casts in Web Mercator; every print ink
+predicate (features, markers, parcels, legend, credit) pads the page by the
+style's printed reach; invisible strokes no longer count; dash gaps left
+uncounted with reason recorded in cfbd90a7d. Rotate helper re-issues a
+swallowed orientation set (9332b98fc). 1138 package tests + typecheck clean.
+Next: watch CI on 9332b98fc; then Codex review 17 or close the review loop.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on
+9332b98fc (gh run list --branch claude/ios-web-map-parity-2de228); if green,
+run the next Codex adversarial review.
+```
