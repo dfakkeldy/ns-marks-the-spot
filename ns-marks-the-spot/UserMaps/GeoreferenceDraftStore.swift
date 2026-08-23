@@ -104,6 +104,32 @@ struct GeoreferenceDraftStore {
         try? fileManager.removeItem(at: url)
     }
 
+    /// Moves every draft aside, keeping none of them in play.
+    ///
+    /// Called when the library itself is set aside as damaged. The maps those
+    /// drafts belong to went with it, so the next successful load would see a
+    /// fresh library, find every draft an orphan, and sweep the lot. The panel
+    /// tells the user nothing was deleted; this is what makes that true of
+    /// their placements as well as their maps.
+    ///
+    /// Renamed rather than removed, and never over an existing set-aside
+    /// directory. Reports whether the drafts are out of the way, which is
+    /// false only if there is a directory that would not move.
+    func setAside() -> Bool {
+        guard fileManager.fileExists(atPath: directory.path) else { return true }
+        let parent = directory.deletingLastPathComponent()
+        let stem = "\(directory.lastPathComponent)-damaged"
+        var destination = parent.appendingPathComponent(stem, isDirectory: true)
+        var attempt = 2
+        while fileManager.fileExists(atPath: destination.path), attempt < 100 {
+            destination = parent.appendingPathComponent(
+                "\(stem)-\(attempt)", isDirectory: true
+            )
+            attempt += 1
+        }
+        return (try? fileManager.moveItem(at: directory, to: destination)) != nil
+    }
+
     /// Drops the drafts whose map the library no longer lists.
     ///
     /// A draft is named by the row it belongs to and by nothing else. Stop the

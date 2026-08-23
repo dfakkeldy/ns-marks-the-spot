@@ -412,6 +412,74 @@ struct DamagedLibraryTests {
         }
     }
 
+    /// Recovery moves the library aside as a directory, so the maps and their
+    /// previews travel with it. The half-finished placements live somewhere
+    /// else and do not, which left them naming ids no library held any more —
+    /// for the orphan sweep to collect the next time the app opened. The
+    /// notice says nothing was deleted.
+    @Test("Recovering a damaged library does not cost the user their drafts")
+    func aRecoveredLibraryKeepsTheDraftsOnDisk() async throws {
+        try await withLibraryDirectory { directory in
+            defer { removeSetAside(beside: directory) }
+            let draftRoot = directory.deletingLastPathComponent()
+                .appendingPathComponent(UUID().uuidString, isDirectory: true)
+            defer {
+                for name in [
+                    draftRoot.lastPathComponent, "\(draftRoot.lastPathComponent)-damaged",
+                ] {
+                    try? FileManager.default.removeItem(
+                        at: draftRoot.deletingLastPathComponent()
+                            .appendingPathComponent(name, isDirectory: true)
+                    )
+                }
+            }
+            let drafts = GeoreferenceDraftStore(directory: draftRoot)
+            drafts.write(
+                identifier: "a-map-in-the-damaged-library",
+                name: "Scan",
+                controls: [
+                    SessionControlPoint(
+                        id: "1", pixel: PixelPoint(x: 10, y: 20),
+                        map: GeoPoint(lat: 44.65, lng: -63.6)
+                    )
+                ],
+                checks: [],
+                checkLabels: []
+            )
+
+            let damaged = Data(#"{"version":1,"maps":[{"nonsense":true}]}"#.utf8)
+            try damaged.write(to: directory.appendingPathComponent("library.json"))
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay(),
+                drafts: drafts
+            )
+            await viewModel.load()
+            #expect(!viewModel.isLibrarySealed)
+
+            // Out of play, and still on the device: the file is beside the
+            // library it belonged to, under the same name the store uses.
+            #expect(drafts.draft(identifier: "a-map-in-the-damaged-library") == nil)
+            let setAside = draftRoot.deletingLastPathComponent()
+                .appendingPathComponent("\(draftRoot.lastPathComponent)-damaged")
+            #expect(
+                FileManager.default.fileExists(
+                    atPath: setAside
+                        .appendingPathComponent("a-map-in-the-damaged-library.csv").path
+                )
+            )
+
+            // And the sweep on the next load has nothing of theirs to take.
+            await viewModel.importMap(data: try image(), name: "Fresh start")
+            await viewModel.load()
+            #expect(
+                FileManager.default.fileExists(
+                    atPath: setAside
+                        .appendingPathComponent("a-map-in-the-damaged-library.csv").path
+                )
+            )
+        }
+    }
+
     @Test(
         "A version below the first is damage, not a document from the future",
         arguments: [0, -1]

@@ -150,6 +150,12 @@ final class UserMapsViewModel {
             // unreadable file in place and every write still dangerous.
             let recovered = (try? await store.setAsideDamagedLibrary()) ?? false
             isLibrarySealed = !recovered
+            // The library moves as a directory, so the maps and their previews
+            // go with it. The drafts are somewhere else and would be left
+            // pointing at ids no library holds any more, for the sweep below
+            // to collect on the next launch. They are set aside too, so that
+            // "nothing was deleted" covers the placements as well.
+            if recovered { _ = drafts.setAside() }
             notices = [
                 Notice(
                     id: "library",
@@ -208,7 +214,13 @@ final class UserMapsViewModel {
         // the previews below: only against a library that read. The count is
         // checked once more because an import can land between the read and
         // here, and a map that arrived after the read is not in `records`.
-        if mark == writes {
+        // An empty library sweeps nothing, which is the same rule the store
+        // applies to previews and for the same reason: "there are no maps" is
+        // a statement this app can arrive at by being reset, and every draft on
+        // the device is not the price of getting there. The cost is a draft
+        // left behind by an app killed between deleting its last map and
+        // discarding its draft, which fails towards keeping the user's work.
+        if mark == writes, !records.isEmpty {
             drafts.sweepOrphans(keeping: Set(records.map(\.id)))
         }
         // Pixels with no record left to belong to. An import whose library
