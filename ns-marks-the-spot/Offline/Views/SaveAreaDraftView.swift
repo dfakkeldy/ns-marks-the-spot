@@ -80,6 +80,7 @@ struct SaveAreaDraftView: View {
                     .foregroundStyle(.secondary)
             }
         }
+        .accessibilityIdentifier("save-area-draft-form")
         .navigationTitle("Save Area")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {

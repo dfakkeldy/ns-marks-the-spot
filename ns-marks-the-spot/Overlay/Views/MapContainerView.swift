@@ -788,6 +788,9 @@ struct MapContainerView: View {
         // actually scrolling, and that is the one moment a reader needs to be
         // told there is more of it below the fold.
         .scrollBounceBehavior(.basedOnSize)
+        // Named so that a test can swipe this rail rather than the first
+        // scroll view it finds, which on this screen can be the search card.
+        .accessibilityIdentifier("map-control-rail")
         // The area controls' height counts only while they are up. It is
         // measured when they appear and never unmeasured, so subtracting it
         // unconditionally would leave the rail short for the rest of the

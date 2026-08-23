@@ -158,6 +158,7 @@ struct OfflineStorageView: View {
                     }
                 }
             }
+            .accessibilityIdentifier("offline-storage-list")
             .navigationTitle("Offline Maps")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

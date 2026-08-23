@@ -19,7 +19,7 @@
 # not execution: it proves the code means something, not that it does the right
 # thing. Run it before spending an admission, not instead of one.
 #
-#   scripts/typecheck-ios.sh          # app + tests
+#   scripts/typecheck-ios.sh          # app + tests + UI tests
 #   scripts/typecheck-ios.sh app      # app only, the faster loop
 #
 set -eu
@@ -80,6 +80,25 @@ xcrun swiftc -typecheck \
   -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" \
   "${TESTS[@]}"
 
+# The UI tests are their own target and share none of the app's settings: they
+# import XCTest rather than the app module, and they are built without
+# `-default-isolation MainActor`, under which every `override func setUp` in
+# them is an isolation error. Checked here because a UI test that does not
+# compile fails the whole gated run, and finding that out costs an admission.
+UITESTS=("${(@f)$(find ns-marks-the-spotUITests -name '*.swift' | sort)}")
+print "type-checking ${#UITESTS} UI test sources"
+xcrun swiftc -typecheck \
+  -module-name ns_marks_the_spotUITests \
+  -sdk "$SDK" \
+  -target arm64-apple-ios26.0-simulator \
+  -swift-version 6 \
+  -enable-upcoming-feature MemberImportVisibility \
+  -enable-upcoming-feature InferIsolatedConformances \
+  -enable-upcoming-feature NonisolatedNonsendingByDefault \
+  -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" \
+  -I "$DEV/Platforms/iPhoneSimulator.platform/Developer/usr/lib" \
+  "${UITESTS[@]}"
+
 # Type checking proves the code means something; it does not prove the compiler
 # can emit it. A reabstraction thunk that crashes IRGen — the Swift 6.3.3 bug
 # `mainActorSetter` exists to dodge — passes every check above and then aborts
@@ -119,4 +138,4 @@ xcrun swiftc -c -enable-batch-mode \
   -output-file-map "$OBJECTS/tests-map.json" \
   "${TESTS[@]/#/$PWD/}"
 
-print "app and tests type-check clean, and both compile"
+print "app, tests and UI tests type-check clean, and app and tests compile"

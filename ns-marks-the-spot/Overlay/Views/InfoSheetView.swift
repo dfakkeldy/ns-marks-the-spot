@@ -30,6 +30,7 @@ struct InfoSheetView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
             }
+            .accessibilityIdentifier("map-info-scroll")
             .navigationTitle("Map Info")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

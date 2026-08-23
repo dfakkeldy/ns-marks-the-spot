@@ -116,6 +116,9 @@ struct TransparencySliderView: View {
                     }
                 }
             }
+            // Named so that a test swipes the panel rather than the map behind
+            // it.
+            .accessibilityIdentifier("layer-panel-scroll")
             // No cap of its own: the caller sizes the card off the screen, and
             // a second fixed limit here would leave ten sections scrolling
             // inside half a panel on a phone that has room for all of them.
