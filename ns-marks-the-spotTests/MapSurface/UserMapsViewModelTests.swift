@@ -712,11 +712,13 @@ struct UserMapDisplayTests {
             try Data(#"{"version":999,"maps":[]}"#.utf8)
                 .write(to: directory.appendingPathComponent("library.json"))
 
-            // No `load` first: this is the import that started before the app
-            // knew, which is the only way to reach the write at all.
-            let viewModel = UserMapsViewModel(
-                store: UserMapStore(directory: directory), display: display
-            )
+            // The store has read the later version and the panel has not been
+            // told yet, which is the window an import that started first
+            // resumes into. Driven through the store rather than through two
+            // racing tasks so the window is open every run.
+            let store = UserMapStore(directory: directory)
+            _ = try? await store.load()
+            let viewModel = UserMapsViewModel(store: store, display: display)
             await viewModel.importMap(data: try image(), name: "Racing")
 
             #expect(viewModel.rows.isEmpty)
