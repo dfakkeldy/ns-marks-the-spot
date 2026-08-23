@@ -262,7 +262,18 @@ nonisolated struct VectorSelectionHandles: Equatable, Sendable {
         guard let geometry = feature.geometry else { return false }
         let rings = VectorEdit.rings(of: geometry)
         guard !rings.isEmpty else { return false }
-        return rings.reduce(0) { $0 + $1.count } <= maximumHandles
+        return handleCount(rings) <= maximumHandles
+    }
+
+    /// What `handles()` would put on the map. A closed ring's last position
+    /// repeats its first and gets one handle between them, so counting stored
+    /// positions instead would refuse a thousand-corner polygon for having a
+    /// thousand and one.
+    private static func handleCount(_ rings: [[GeoJsonPosition]]) -> Int {
+        rings.reduce(0) { total, positions in
+            let closed = positions.count > 1 && positions.first == positions.last
+            return total + positions.count - (closed ? 1 : 0)
+        }
     }
 
     init?(feature: GeoJsonFeature, colorHex: String) {

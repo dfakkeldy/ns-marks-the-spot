@@ -66,6 +66,10 @@ final class VectorEditSession {
     /// revisions for one edit.
     @ObservationIgnored private var unsaved: ParsedVector?
 
+    /// Counts commits, so a write that lands late can tell whether what it
+    /// wrote is still the newest thing the user has done.
+    @ObservationIgnored private var revision = 0
+
     /// A layer name typed but not written yet, and the timer that will write it.
     @ObservationIgnored private var pendingName: String?
     @ObservationIgnored private var renameTask: Task<Void, Never>?
@@ -308,6 +312,7 @@ final class VectorEditSession {
     private func commit(_ edited: ParsedVector) {
         parsed = edited
         unsaved = edited
+        revision += 1
         record?.featureCount = edited.featureCount
         record?.bbox = edited.bbox
         schedulePersist()
@@ -339,21 +344,36 @@ final class VectorEditSession {
         return await write()
     }
 
+    /// Writes what is pending, and anything committed while that was in
+    /// flight.
+    ///
+    /// The loop is the point. A write suspends on storage, and the main actor
+    /// is free during the suspension, so the user can commit again before it
+    /// returns — an undo landing on top of the erase being written is exactly
+    /// that. Clearing the pending copy unconditionally would drop the newer
+    /// edit on the floor: the timer that would have written it was cancelled
+    /// by the commit that made it, and its replacement finds nothing pending.
+    /// So the pending copy is cleared only if nothing arrived meanwhile, and
+    /// the newer edit is written on the next turn.
     @discardableResult
     private func write() async -> Bool {
         // Nothing pending is a success: there is no edit that failed to save.
-        guard let editingID, let pending = unsaved else { return true }
-        guard await viewModel.replaceGeometry(id: editingID, with: pending) else {
-            // The view model reports its own storage refusals; surfaced here so
-            // the editing panel says it rather than the layer list the user
-            // cannot see while editing. The pending copy is kept, so the next
-            // edit or the next Done tries again.
-            storageError = viewModel.lastRefusal?.userMessage
-            return false
+        guard let editingID else { return true }
+        while let pending = unsaved {
+            let written = revision
+            guard await viewModel.replaceGeometry(id: editingID, with: pending) else {
+                // The view model reports its own storage refusals; surfaced here
+                // so the editing panel says it rather than the layer list the
+                // user cannot see while editing. The pending copy is kept, so
+                // the next edit or the next Done tries again.
+                storageError = viewModel.lastRefusal?.userMessage
+                return false
+            }
+            storageError = nil
+            record = viewModel.rows.first { $0.id == editingID }?.record ?? record
+            guard revision == written else { continue }
+            unsaved = nil
         }
-        unsaved = nil
-        storageError = nil
-        record = viewModel.rows.first { $0.id == editingID }?.record ?? record
         return true
     }
 }

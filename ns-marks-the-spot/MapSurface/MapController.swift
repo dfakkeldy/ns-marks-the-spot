@@ -123,6 +123,12 @@ final class MapController: NSObject {
         didSet {
             syncStateToAttachedMapView()
             mapView?.layoutMargins.bottom = bottomOrnamentInset
+            // The closest-zoom limit was installed on the map view that was
+            // measured for it, and a replacement carries none. Forgetting the
+            // measurement is what makes the next region change take it again;
+            // keeping it would leave a fresh map able to zoom past the floor
+            // for as long as the app runs.
+            clampedAtWidth = nil
         }
     }
 

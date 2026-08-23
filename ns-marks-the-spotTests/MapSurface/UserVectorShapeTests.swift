@@ -307,6 +307,29 @@ struct VectorSelectionHandleTests {
         #expect(VectorSelectionHandles.isReshapable(atCap))
     }
 
+    /// The cap counts handles, not stored positions. A closed ring's last
+    /// position repeats its first and the two share one handle, so counting
+    /// positions would refuse a thousand-corner polygon for having a thousand
+    /// and one.
+    @Test func aClosedRingIsMeasuredByItsCornersNotItsPositions() throws {
+        let corners = (0..<VectorSelectionHandles.maximumHandles).map {
+            position(-63 + Double($0) * 0.0001, 44 + Double($0 % 2) * 0.0001)
+        }
+        let closed = corners + [corners[0]]
+        #expect(closed.count == VectorSelectionHandles.maximumHandles + 1)
+
+        let atCap = feature(.polygon([closed]))
+        #expect(VectorSelectionHandles.isReshapable(atCap))
+        let handles = try #require(
+            VectorSelectionHandles(feature: atCap, colorHex: "#d55e00")
+        )
+        #expect(handles.handles().count == VectorSelectionHandles.maximumHandles)
+
+        // One corner more is one handle more, and that is over.
+        let overCap = corners + [position(-62, 45), corners[0]]
+        #expect(VectorSelectionHandles.isReshapable(feature(.polygon([overCap]))) == false)
+    }
+
     @Test func aFeatureWithNoPlaceHasNothingToPickUp() {
         #expect(
             VectorMoveHandle(

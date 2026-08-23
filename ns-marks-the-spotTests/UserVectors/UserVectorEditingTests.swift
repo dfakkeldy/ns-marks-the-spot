@@ -178,6 +178,46 @@ struct UserVectorEditingTests {
         }
     }
 
+    /// A write suspends on storage, and the main actor is free while it does.
+    /// An undo landing on top of the erase being written must not be cleared
+    /// by that write finishing: the timer that would have saved the undo was
+    /// cancelled by the commit that made it.
+    ///
+    /// The interleave is arranged rather than forced. If the runtime happens
+    /// to order the two differently the test still passes, so it is weak
+    /// rather than flaky.
+    @Test("An undo committed mid-write is not lost when the write returns")
+    func anUndoCommittedMidWriteSurvives() async throws {
+        try await withViewModel { viewModel in
+            await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+            let row = try #require(viewModel.rows.first)
+            let session = VectorEditSession(
+                viewModel: viewModel, persistDelay: .milliseconds(10)
+            )
+            session.begin(row)
+            session.startDrawing(.point)
+            session.handleTap(latitude: 44.61, longitude: -63.51)
+            await session.flush()
+
+            session.startErasing()
+            let doomed = try #require(session.parsed?.features.last?.id)
+            session.erase(featureID: doomed)
+
+            // The flush starts, reaches the store, and suspends there; the
+            // yield hands the actor back to this body while it is in flight.
+            let writing = Task { @MainActor in await session.flush() }
+            await Task.yield()
+            session.undoLastErase()
+            #expect(await writing.value)
+
+            // What the library holds, not what the session is showing.
+            #expect(viewModel.rows.first?.parsed?.features.count == 2)
+            #expect(
+                viewModel.rows.first?.parsed?.features.contains { $0.id == doomed } == true
+            )
+        }
+    }
+
     // MARK: - Fixtures
 
     private func withViewModel(
