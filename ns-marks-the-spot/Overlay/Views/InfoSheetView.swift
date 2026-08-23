@@ -21,6 +21,8 @@ struct InfoSheetView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     aboutSection
+                    methodSection
+                    linksSection
                     licenceSection
                     dataSourcesSection
                 }
@@ -48,10 +50,85 @@ struct InfoSheetView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
-            Text("Not for navigation. Saved-area downloads in v1.0 include Fletcher tiles only. NS Aerial and provincial reference layers stay online and become available from viewed cache after you open them.")
+            // Said once, plainly, at the top. The per-layer caveats each say
+            // what one source cannot answer; none of them says what the map as
+            // a whole is for, and a reader who has just found a parcel drawn
+            // over a 1960s survey sheet is exactly the reader who needs to be
+            // told before they act on it.
+            Text("It is a screening and research tool. Nothing here is a survey, a title search or legal proof, and every parcel boundary is a drawing of a record rather than a line on the ground.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+            // What the app can promise about being offline, and no more. The
+            // tile cache is a cache: it holds what was looked at recently,
+            // within a size limit, and drops the oldest to make room. Saying a
+            // layer "becomes available" once opened reads as a download, and a
+            // reader who drives out of coverage on that sentence finds the
+            // imagery gone.
+            Text("Not for navigation. A saved area holds Fletcher sheets. NS Aerial and the Province reference layers stay online. Tiles you have already looked at redraw without a connection until the cache makes room for newer ones. Parcels, zoning and the other queried layers need a connection every time.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+    }
+
+    /// What the map does with evidence, and what it will not do.
+    ///
+    /// The same four promises the browser's About dialog makes, because they
+    /// are promises about the data both surfaces read rather than about either
+    /// one's interface. A reader deciding whether to act on a parcel is
+    /// deciding how much this map is claiming, and the answer has to be
+    /// somewhere they can find it.
+    ///
+    /// The location sentence is the one that had to be rewritten rather than
+    /// copied. The browser promises location never leaves the browser; here
+    /// the promise is about the device, which is the same promise in the only
+    /// words that are true of an app.
+    private var methodSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("How It Treats Data")
+                .font(.headline)
+
+            ForEach(Self.methodPoints, id: \.self) { point in
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text("•")
+                    Text(point)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private static let methodPoints = [
+        "Every tax-sale notice ships inside the app with the SHA-256 of the file it was built from, so a dataset cannot change without its receipt changing.",
+        "Unknown outcomes stay unknown. A result is never inferred, so a dated record cannot read as a current offering.",
+        "An empty answer and a failed source are reported differently. Absence of evidence is never shown as evidence of absence.",
+        "No assessed-owner name is ingested. Your location, your saved areas and the maps you import stay on this device.",
+    ]
+
+    /// Where to read the code, and how to reach a person.
+    ///
+    /// The browser puts both in its About dialog and its footer, and a reader
+    /// who finds something wrong on the map has nowhere to say so without
+    /// them. The App Store page is not that route: a review is public, it
+    /// cannot carry a screenshot or a PID, and it cannot be replied to.
+    private var linksSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Link(
+                "Source on GitHub",
+                destination: URL(string: "https://github.com/dfakkeldy/ns-marks-the-spot")!
+            )
+            Link(
+                "Email the maker",
+                destination: URL(
+                    string: "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot"
+                )!
+            )
+        }
+        .font(.subheadline)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     /// The way back out of an accepted Province licence.
