@@ -22,8 +22,26 @@ struct SavedAreaRenderingTests {
     /// Covered by the sheet index at zoom 10, which matters for the tests that
     /// assert something about the network: over ground no sheet covers, "no
     /// request was made" is true whether or not the store was ever read.
+    private static let coordinate = TileCoordinate(z: 10, x: 339, y: 359)
     private static let path = MKTileOverlayPath(
-        x: 339, y: 359, z: 10, contentScaleFactor: 1
+        x: coordinate.x, y: coordinate.y, z: coordinate.z, contentScaleFactor: 1
+    )
+
+    /// The area the downloader writes under. Its bounds are not consulted here,
+    /// because every download below names its coordinates outright: what the
+    /// planner picks for a box has its own tests, and this suite is about what
+    /// happens to a tile after it is picked.
+    private static let area = SavedOfflineArea(
+        id: "cape-breton",
+        name: "Cape Breton",
+        bounds: MapBounds(
+            minLatitude: 45.5,
+            minLongitude: -61.5,
+            maxLatitude: 47.1,
+            maxLongitude: -59.7
+        ),
+        minZoom: 10,
+        maxZoom: 10
     )
 
     private static func temporaryStore() throws -> (TileStore, URL) {
@@ -52,6 +70,26 @@ struct SavedAreaRenderingTests {
             ),
             tileStore: store,
             fletcherMigration: migration
+        )
+    }
+
+    /// Runs the real download path: the loader resolves the covering sheets and
+    /// stacks what they answer, and the manager writes the result.
+    private static func download(
+        host: String, store: TileStore
+    ) async -> TileDownloadProgress {
+        let sessionConfiguration = URLSessionConfiguration.ephemeral
+        sessionConfiguration.protocolClasses = [StubURLProtocol.self]
+        let loader = FletcherTileLoader(
+            tileFetcher: TileFetcher(
+                urlSession: URLSession(configuration: sessionConfiguration)
+            ),
+            baseURL: URL(string: "https://\(host)")!
+        )
+        return await TileDownloadManager(tileStore: store).download(
+            area: area,
+            loader: loader,
+            targetCoordinates: [coordinate]
         )
     }
 
@@ -171,5 +209,81 @@ struct SavedAreaRenderingTests {
 
         #expect(drawn != stale)
         #expect(StubURLProtocol.requestCount(host: host) > 0)
+    }
+
+    /// The whole chain in one test: sheets answered, tile stacked, tile stored,
+    /// tile read back.
+    ///
+    /// Each half had tests and the join did not. What this pins is the blank
+    /// tile's identity across it — `FletcherTileLoader` saves
+    /// `TileComposite.transparent` where every covering sheet answered 404, and
+    /// the overlay decides "outside coverage" by comparing against that same
+    /// constant. Two blanks written by two encoders would read as a picture
+    /// drawn, and a printed legend would credit a source for ground it never
+    /// reached.
+    @Test func groundNoSheetInkedIsSavedAndReadBackAsCoverageAnswered() async throws {
+        let downloadHost = "download-blank.tiles.test"
+        let drawHost = "draw-blank.tiles.test"
+        // 404 is a sheet saying it has no ink here. 503 on the drawing host is
+        // the guard: if the map went to the network for this square instead of
+        // to the store, the substance would come back a placeholder.
+        StubURLProtocol.stub(host: downloadHost, with: .status(404))
+        StubURLProtocol.stub(host: drawHost, with: .status(503))
+        defer {
+            StubURLProtocol.clear(host: downloadHost)
+            StubURLProtocol.clear(host: drawHost)
+        }
+
+        let (store, root) = try Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let progress = await Self.download(host: downloadHost, store: store)
+        #expect(progress.succeeded == 1)
+        #expect(progress.failed == 0)
+
+        let (_, outcome, substance) = try await Self.overlay(host: drawHost, store: store)
+            .exportTile(at: Self.path)
+
+        #expect(outcome == .served)
+        #expect(substance == .outsideCoverage)
+        #expect(StubURLProtocol.requestCount(host: drawHost) == 0)
+    }
+
+    /// The same chain where the sheets do have ink: the bytes the map draws are
+    /// the bytes the downloader saved, not a fresh composite it built again.
+    @Test func theBytesTheDownloaderSavedAreTheBytesTheMapDraws() async throws {
+        let downloadHost = "download-ink.tiles.test"
+        let drawHost = "draw-ink.tiles.test"
+        StubURLProtocol.stub(
+            host: downloadHost,
+            with: .success(TestTileFactory.pngData(color: .brown, label: "sheet"))
+        )
+        StubURLProtocol.stub(host: drawHost, with: .status(503))
+        defer {
+            StubURLProtocol.clear(host: downloadHost)
+            StubURLProtocol.clear(host: drawHost)
+        }
+
+        let (store, root) = try Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let progress = await Self.download(host: downloadHost, store: store)
+        #expect(progress.succeeded == 1)
+
+        let stored = try #require(
+            await store.tile(
+                z: Self.coordinate.z,
+                x: Self.coordinate.x,
+                y: Self.coordinate.y,
+                layerID: LayerID.fletcher.rawValue
+            )
+        )
+        let (drawn, outcome, substance) = try await Self.overlay(host: drawHost, store: store)
+            .exportTile(at: Self.path)
+
+        #expect(drawn == stored)
+        #expect(outcome == .served)
+        #expect(substance == .source)
+        #expect(StubURLProtocol.requestCount(host: drawHost) == 0)
     }
 }
