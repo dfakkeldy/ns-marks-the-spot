@@ -2044,3 +2044,30 @@ Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-
 branch claude/ios-web-map-parity-2de228. Watch CI on the head commit, then run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-23 — Reviews 14 and 15 triaged; the page no longer claims ink it does not carry
+
+Done: CI run 32670433212 on `099945912` passed every job, native included, so
+the strict-overlap tile gate (`cac846cbe`), the printed-bounds fix and its
+correction (`c414baa6c`, `099945912`) and the browser's subtitle default are all
+witnessed. Four more landed on top. `e73e459cc` dates the exported file from the
+page's own `generatedAt`, as the browser does, so two summaries of one parcel no
+longer arrive under one name. `70e4f9d99` is review 15's finding 2: the page's
+feature list was filtered by bounding box, which keyed a legend colour over
+blank paper and suppressed the "nothing to print" note that would have explained
+it; `FeatureShape.marks(_:)` now asks the two questions the compositor answers,
+with the clipping moved to `GeoCore/GeometryInk.swift` and `ParcelShape` reading
+it too. `cd17a22f9` makes the NSPRD credit follow the ink rather than the held
+parcel list, and corrects the Fletcher overlap test, which counted edge-adjacent
+sheet 9 as sharing ground. Review 15 finding 1 was rejected with a reason: its
+fix would print "The map shows other ground" on a page lying wholly inside the
+parcel, and the browser titles unconditionally.
+
+Next: watch CI on `cd17a22f9`, then ask Codex for review 16.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit with
+`gh run watch`, then run the next Codex adversarial review over the print/export
+path.
+```
