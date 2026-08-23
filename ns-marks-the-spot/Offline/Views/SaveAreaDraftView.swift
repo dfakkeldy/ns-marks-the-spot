@@ -71,7 +71,11 @@ struct SaveAreaDraftView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Text("v1.0 downloads Fletcher tiles for saved areas. NS Aerial and provincial reference layers are cached when viewed.")
+                // Said where the download is chosen, because this is the
+                // moment a reader decides what they will have out of coverage.
+                // Nothing but Fletcher is downloaded; the rest is whatever the
+                // cache still happens to be holding.
+                Text("A saved area downloads Fletcher tiles. NS Aerial and the Province reference layers are not downloaded. What you have already looked at is kept until the cache makes room for newer tiles.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
