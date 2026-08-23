@@ -1477,3 +1477,34 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
 tail -200 "$SCRATCHPAD/codex-audit2.out"
 ```
+
+## 2026-08-23 — Session restore, and the two CI failures diagnosed
+
+Done: the native map now reopens where it was left — position, layers,
+background, record set, parcel — stored as the share link plus a background
+key, filtered against the licence as it stands now rather than as it stood when
+the session was written. Three ways a session could lose what it held are
+closed: a save before the map is laid out, a save while a restored parcel's
+boundary is still in flight, and the record mode a map keeps while tax sales are
+off. Both CI failures on `ae650ecbb` were read out of the uploaded result
+bundle rather than guessed: `switchingModeClosesTheCardTheOtherModeOpened`
+crashed on a main-actor isolation check because a `@Sendable () async`
+parameter under approachable concurrency emits no hop after the await
+(`@concurrent` on it restores the hop, proven in SIL), and
+`testLayersMenuControlsAreAccessible` failed because `UITestMode` was appended
+to every UI-test launch and read by nothing, so the panel showed whatever
+licence state the simulator held.
+
+Green: `Scripts/typecheck-ios.sh` (90 app / 50 test sources). The gate is on
+HOLD outside its windows, so the app-target suites and the UI tests are
+unverified locally; CI is the run that matters for both fixes anyway.
+
+Next: watch CI on PR #224, then take the remaining parity-audit findings
+(imported rasters at opacity 1 with no persisted visibility, raster delete with
+no confirmation, offline wording, fit-to-content, About).
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+gh pr checks 224 --watch
+```
