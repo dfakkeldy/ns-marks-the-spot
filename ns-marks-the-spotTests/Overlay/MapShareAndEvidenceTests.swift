@@ -169,10 +169,13 @@ struct MapShareAndEvidenceTests {
         #expect(model.baseMapType == .standard)
     }
 
-    /// Only when there is nothing under them. Satellite is ground the browser
-    /// has no word for, and a link that says nothing about the background is
-    /// not asking for it to change.
-    @Test func aLinkOverABackgroundThatDrawsLeavesItAlone() {
+    /// Including over a background that draws. Satellite is ground the shared
+    /// vocabulary has no word for, so the sender could not have asked for it
+    /// and the browser reads the same link as naming no base map at all.
+    /// Leaving this reader's imagery up would put the sender's parcels over a
+    /// different source than the sender was looking at, and a different one
+    /// again on the next phone that opened the link.
+    @Test func aLinkNamingNoGroundOpensOverTheModernMapEvenOverImagery() {
         let model = OverlayViewModel.forTesting(installing: [.nsprd])
         model.setBaseMapType(.satellite)
 
@@ -183,7 +186,7 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.baseMapType == .satellite)
+        #expect(model.baseMapType == .standard)
     }
 
     /// The browser checks the zoom because its aerial layer has nothing under

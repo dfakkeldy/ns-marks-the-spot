@@ -98,6 +98,50 @@ struct LicenceRevocationTests {
         )
     }
 
+    /// Withdrawing takes the restricted setup off the device as well as off the
+    /// screen.
+    ///
+    /// The stored session is the last thing written under the licence: it names
+    /// the layers that were drawn and the parcel that was open, and a reader
+    /// who withdrew permission and then force-quit would otherwise find both
+    /// still there. Rewritten rather than cleared, because where they were
+    /// standing is theirs.
+    @Test func withdrawingRewritesTheSessionItWasWrittenInto() async throws {
+        let store = MapSessionStore.forTesting()
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd, .roads],
+            licence: .accepted,
+            zoomLevel: 16,
+            sessionStore: store
+        )
+
+        viewModel.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?pid=77777777&layers=modern,nsprd,roads&position=46.1,-60.1,14"
+            )!
+        )
+        // The lookup fails with no parcel service stubbed, which is the case
+        // worth storing: the PID a restore is still resolving is written into
+        // the session so a launch inside that window does not lose the card.
+        await viewModel.awaitParcelLookup()
+        viewModel.rememberSession()
+
+        let before = try #require(store.load())
+        #expect(before.view.pid == "77777777")
+        #expect(before.view.layerIDs.contains(LayerID.nsprd.rawValue))
+        #expect(before.view.layerIDs.contains(LayerID.roads.rawValue))
+
+        await viewModel.revokeProvinceLicence()
+
+        let after = try #require(store.load())
+        #expect(after.view.pid == nil)
+        #expect(after.view.layerIDs.contains(LayerID.nsprd.rawValue) == false)
+        #expect(after.view.layerIDs.contains(LayerID.roads.rawValue) == false)
+        // And the position is still the reader's own.
+        #expect(after.view.position.zoom == 14)
+    }
+
     @Test func withdrawingDeletesTheCachedTiles() async throws {
         let directory = URL.temporaryDirectory
             .appendingPathComponent("licence-revocation-\(UUID().uuidString)")

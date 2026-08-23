@@ -375,6 +375,92 @@ struct TaxSaleMasterSwitchTests {
         #expect(viewModel.mapRecordMode == .current)
     }
 
+    /// A link opens in the browser as a fresh page, so the reader who follows
+    /// it starts on every notice with no narrowing at all. Here it opens into a
+    /// map somebody has been using, and their two municipalities standing over
+    /// the sender's view would hide records the link never excluded. The link
+    /// says nothing about filters, so it cannot be read as having asked for
+    /// these.
+    @Test func openingALinkClearsTheFiltersTheReaderHadSetForThemselves() throws {
+        let channel = #function
+        let (viewModel, taxSale, historical) = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["77777777"]))],
+            showsTaxSale: true
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        taxSale.setEventVisibility("delta-2026-09-01", to: false)
+        taxSale.filter = .redemption
+        historical.filter.municipalityID = "nowhere"
+
+        let url = try #require(
+            URL(string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                + "?taxSale=on&mode=current&event=delta-2026-09-01")
+        )
+        viewModel.restore(from: url)
+
+        #expect(taxSale.selectedEventIDs == ["delta-2026-09-01"])
+        #expect(taxSale.filter == .all)
+        #expect(historical.filter == HistoricalTaxSaleCatalog.Filter())
+    }
+
+    /// Resuming is not opening a link. The reader's own filters are already
+    /// where a fresh launch put them, and a session that reset them would be
+    /// answering a question nobody asked.
+    @Test func resumingASessionLeavesTheReadersOwnFiltersAlone() {
+        let channel = #function
+        let (viewModel, taxSale, historical) = Self.viewModel(
+            channel,
+            answering: [],
+            showsTaxSale: true
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        taxSale.filter = .redemption
+        historical.filter.municipalityID = "nowhere"
+
+        viewModel.resume(
+            MapSession(
+                view: MapShareState(
+                    taxSaleEnabled: true,
+                    layerIDs: [MapShareState.modernBaseLayerID],
+                    position: MapPosition(latitude: 46.1, longitude: -60.1, zoom: 14)
+                ),
+                background: .standard
+            )
+        )
+
+        #expect(taxSale.filter == .redemption)
+        #expect(historical.filter.municipalityID == "nowhere")
+    }
+
+    /// A setup saved from the records with tax sales switched off is a setup
+    /// for the records.
+    ///
+    /// `mapRecordMode` reads `.current` while the switch is off, because
+    /// nothing is drawing records. Writing that into the setup would hand the
+    /// reader the notices back the next time they picked it, and the browser
+    /// captures its own raw mode here. It also makes returning to the records
+    /// read as a change the reader made to a setup they had only just applied.
+    @Test func aSetupSavedWithTaxSalesOffKeepsTheModeTheMapWasIn() async {
+        let channel = #function
+        let (viewModel, _, _) = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["88888888"]))],
+            showsTaxSale: true
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.setMapRecordMode(.historical)
+        await viewModel.awaitHistoricalParcels()
+        viewModel.setTaxSaleEnabled(false)
+
+        #expect(viewModel.mapRecordMode == .current)
+        #expect(viewModel.themeState.taxSaleEnabled == false)
+        #expect(viewModel.themeState.mode == .historical)
+    }
+
     /// A link that turns them on brings the named notices with it.
     @Test func openingALinkThatSaysOnTurnsThemOn() throws {
         let channel = #function

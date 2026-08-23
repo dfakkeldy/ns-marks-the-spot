@@ -1599,16 +1599,16 @@ final class OverlayViewModel {
         return clearanceBox.clearance.allowsRestrictedLayers ? type : nil
     }
 
-    /// Whether a background puts anything under the layers.
+    /// Whether a shared link says what its layers are drawn over.
     ///
-    /// Only None does not, and the browser's other unusable case does not apply
-    /// here: NS Aerial draws as a tile overlay above MapKit's standard map, so
-    /// below the zoom the imagery starts at, or with its licence unanswered,
-    /// the reader is looking at the standard map rather than at nothing. The
-    /// browser has no map under its aerial layer, which is why it has to check
-    /// the zoom and this does not.
-    private func drawsGround(_ type: MapBaseType) -> Bool {
-        type != .blank
+    /// The two grounds the vocabulary has a word for. The browser also checks
+    /// the zoom before counting its aerial layer, because it has no map under
+    /// it; this one draws the imagery as a tile overlay above MapKit's standard
+    /// map, so too far out for the imagery leaves the reader on streets rather
+    /// than on nothing, and there is nothing here to fall back from.
+    private func namesGround(_ state: MapShareState) -> Bool {
+        state.layerIDs.contains(MapShareState.modernBaseLayerID)
+            || state.layerIDs.contains(LayerID.nsAerial.rawValue)
     }
 
     /// Where a restored view came from, which is the only thing that differs
@@ -1634,16 +1634,34 @@ final class OverlayViewModel {
             background
             ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
                 ? .standard : baseMapType)
-        // Unless leaving it where it is would leave the link's layers over
-        // nothing. The browser turns its modern map on for a link that names
-        // layers and no ground to draw them on.
+        // Unless the link names layers and no ground to draw them over, which
+        // the browser answers by turning its modern map on. Answering it with
+        // whatever this reader happened to be on would put the sender's
+        // evidence over satellite imagery on one phone and over streets on the
+        // next, from the same link. The link cannot name satellite or hybrid,
+        // so a link that names no ground is not a link that meant this
+        // reader's.
         //
-        // Only for a link. A reader who left their own map on None meant it,
-        // and resuming their session is not the moment to argue.
-        if origin == .sharedLink, !state.layerIDs.isEmpty, !drawsGround(restored) {
+        // Only for a link. A session says outright which background it was on,
+        // and resuming it is not the moment to argue.
+        if origin == .sharedLink, !state.layerIDs.isEmpty, !namesGround(state) {
             setBaseMapType(.standard)
         } else {
             setBaseMapType(restored)
+        }
+        // A link opens in the browser as a fresh page, so the reader who
+        // follows it starts on every notice and no narrowing at all. Here it
+        // opens into a map somebody has been using, and leaving their two
+        // municipalities and their redemption filter standing would hide
+        // records the sender's view was showing — silently, since the link
+        // says nothing about filters and so cannot be read as having asked
+        // for these. Reset first; what the link does carry is applied below.
+        //
+        // Only for a link. A resumed session is this reader's own map, and at
+        // launch there is nothing to put back anyway.
+        if origin == .sharedLink {
+            taxSale?.resetSelection()
+            historical?.resetFilters()
         }
         if let taxSale, state.taxSaleEnabled, state.mode == .current, !state.eventIDs.isEmpty {
             for event in taxSale.upcomingEvents {
@@ -1787,7 +1805,14 @@ final class OverlayViewModel {
             layerIDs: layerIDs,
             opacityOverrides: opacityOverrides(among: Set(layerIDs)),
             taxSaleEnabled: showsTaxSale,
-            mode: mapRecordMode == .historical ? .historical : .current
+            // The mode the map is holding, for the same reason a shared link
+            // carries it: turning tax sales off is not switching back to
+            // notices. A setup saved from the records with the switch off
+            // would otherwise come back as the notices, and re-entering the
+            // records would read as a map the reader had modified. The browser
+            // compares and captures its own `mapMode` here regardless of the
+            // switch.
+            mode: (historical?.mode ?? .current) == .historical ? .historical : .current
         )
     }
 
@@ -1936,10 +1961,14 @@ final class OverlayViewModel {
     }
 
     /// Why a Satellite or Hybrid map reads as modified whatever the reader
-    /// picked, and why saving it will not bring the background back.
+    /// picked, why saving it will not bring the background back, and why a
+    /// link sent from it opens over the standard map at the other end. All
+    /// three are the same limit: the vocabulary the two surfaces share has no
+    /// word for either background.
     var themeBackgroundNotice: String? {
         guard !backgroundIsNamed else { return nil }
-        return "A \(baseMapType.rawValue) background is not part of a saved setup."
+        return "A \(baseMapType.rawValue) background is not part of a saved setup "
+            + "or a shared link."
     }
 
     /// Everything the panel has to say about the setup: what could not be
@@ -2566,6 +2595,22 @@ final class OverlayViewModel {
         hasLoadedListedParcels = false
         listedParcelMessage = nil
 
+        // The historical load is the same request against the same service, and
+        // it captured the clearance it went out under. Left running it merges
+        // its parcels and writes its count after the withdrawal, which is the
+        // failure this whole method exists to prevent.
+        historicalParcelLoad?.cancel()
+        historicalParcelLoad = nil
+        hasLoadedHistoricalParcels = false
+        historicalParcelMessage = nil
+
+        // Also ahead of the guard, because a restore whose lookup is still in
+        // flight has nothing on screen either. This PID is written back into
+        // the stored session by `rememberSession`, so leaving it set would keep
+        // the parcel the reader was researching under the licence on the device
+        // after they withdrew it, and reopen the card at the next launch.
+        restoringPID = nil
+
         guard !parcels.features.isEmpty || parcels.selectedPID != nil
             || !addressResults.isEmpty || parcelMessage != nil else { return }
 
@@ -2703,6 +2748,14 @@ final class OverlayViewModel {
         clearanceBox.update(licenceStore.clearance)
         hideRefusedLayers()
         dropRefusedParcelEvidence(licenceStore.clearance)
+        // The stored session is the last thing written under the licence: it
+        // names the layers that were drawn and the parcel that was open. Both
+        // are gone from the map now, and rewriting it here is what makes them
+        // gone from the device — otherwise a reader who withdrew permission and
+        // then force-quit would find the restricted setup still stored, waiting
+        // for the licence to be accepted again. Rewritten rather than cleared,
+        // because where the reader was standing is theirs.
+        rememberSession()
 
         guard let tileCache else { return }
         var unswept: [String] = []

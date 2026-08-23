@@ -538,6 +538,33 @@ struct HistoricalTaxSalePanelTests {
         #expect(viewModel.historicalParcelMessage == "2 historical PIDs matched in NSPRD.")
     }
 
+    /// And withdrawing it stops a historical load already in the air.
+    ///
+    /// The same request against the same service as the current-notice load,
+    /// captured under the clearance it went out with. It has drawn nothing yet,
+    /// so nothing on screen says it is running: a reply landing afterwards
+    /// merges restricted geometry into a map the user has just withdrawn
+    /// permission for, and writes a count of it underneath.
+    @Test func revokingTheLicenceStopsAHistoricalLoadInFlight() async {
+        let channel = #function
+        let historical = Self.historical()
+        let viewModel = Self.viewModel(
+            channel,
+            answering: [("", Self.parcels(["44444444", "55555555"]))],
+            historical: historical
+        )
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        viewModel.loadHistoricalParcels()
+        await viewModel.revokeProvinceLicence()
+        // Returns when the load is genuinely over, so anything it merged after
+        // the withdrawal is on the map by now.
+        await viewModel.awaitHistoricalParcels()
+
+        #expect(viewModel.parcels.shapes.isEmpty)
+        #expect(viewModel.historicalParcelMessage == nil)
+    }
+
     /// The records survive a parcel service that is down, and the message says
     /// the geometry is what is missing rather than the evidence.
     @Test func anUnavailableParcelServiceLeavesTheRecordsReadable() async {
