@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "retrievedOn": "2026-08-20",
+  "retrievedOn": "2026-08-23",
   "coverage": [
     {
       "municipality": "Halifax Regional Municipality",
@@ -588,6 +588,46 @@
       "fieldsAvailable": ["AAN", "PID", "description", "winning bid", "NO BIDS"],
       "officialWinningBidsFound": true,
       "notes": "The two-page official result PDF identifies 17 owner-free rows: 11 print numeric winning bids and 6 print NO BIDS. The current municipal landing page no longer links the matching pre-sale notice or any advertised amount, so the result cannot be reconciled against notice fields and does not satisfy the public historical model's positive advertised-amount contract. No row is promoted into the map dataset."
+    },
+    {
+      "municipality": "Municipality of the County of Colchester",
+      "event": "June 9, 2026 property tax sale by public auction",
+      "status": "included",
+      "officialUrls": [
+        "https://www.colchester.ca/tax-sales",
+        "https://web.archive.org/web/20260823200947id_/https://www.colchester.ca/tax-sales"
+      ],
+      "documentSha256": ["0076fd4d1b4a25aef2247f4836b14c61de59e8246b2ef6be2303c1f72bce7203"],
+      "fieldsAvailable": ["account #", "PID", "description", "taxes and interest", "expenses", "total", "redemption", "HST"],
+      "officialWinningBidsFound": false,
+      "notes": "The dated official notice has 7 unique account/PID rows with positive totals and 12 opaque REMOVED rows without identifiers. All 7 PIDs returned from NSPRD on 2026-08-23. No parcel-level result is published, so the retained rows are notice-only, every outcome remains unknown, and no winning bid is claimed. Identity fields were discarded before the public dataset was written."
+    },
+    {
+      "municipality": "Municipality of the District of Barrington",
+      "event": "February 11-12, 2026 tax sale by tender",
+      "status": "researched-not-included",
+      "officialUrls": [
+        "https://www.barringtonmunicipality.com/Municipal-Services/tax-sale",
+        "https://www.barringtonmunicipality.com/municipal-documents/6106-2026-tax-sale-notice-02112026",
+        "https://www.barringtonmunicipality.com/municipal-documents/6108-tax-sale-results-2026-website"
+      ],
+      "documentSha256": [
+        "40571c48fff795e75ec080cbbbf46b0d637d4a57e4d1e8b13ceda12367a9969b",
+        "b9079bb8ec9dd36ba16aecc733c5e006292884a5fbfbf8225ef12ed83321daf9"
+      ],
+      "fieldsAvailable": ["assessment number", "Property ID", "description", "minimum bid", "winning bid", "No Bid"],
+      "officialWinningBidsFound": true,
+      "notes": "The notice and result each publish 9 identifier pairs; the result prints 6 numeric winning bids and 3 No Bid rows. The result says the sale was held February 12 while the notice sets a February 11 tender deadline, and 4 result minimum bids differ from the notice. The municipality labels the parcel field Property ID rather than PID. No row is promoted until the date, amount, and identifier evidence are reconciled without inference."
+    },
+    {
+      "municipality": "Municipality of the District of Digby",
+      "event": "March 11, 2026 tax sale by tender",
+      "status": "researched-not-included",
+      "officialUrls": ["https://digbymun.ca/tax-sale-by-tender-2026.html"],
+      "documentSha256": [],
+      "fieldsAvailable": ["assessment number", "Property ID", "description", "taxes, interest, and cost"],
+      "officialWinningBidsFound": false,
+      "notes": "The municipal site still links this dated notice, but the notice URL now returns 404 and no archived replay is available. A transient official response showed 26 unique assessment/Property ID rows with positive amounts and no result table, but there is no reproducible document receipt. The municipality does not label the parcel field PID, so no exact-official-PID match is claimed and no row is promoted without a separately evidenced reconciliation."
     },
     {
       "municipality": "Town of Middleton",

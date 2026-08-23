@@ -846,8 +846,9 @@ exception PID to remain empty, so either provincial change triggers review.
 
 ## Historical record layer receipt
 
-The historical layer is visually distinct and off by default. Its 25 verified
-events span ten municipalities:
+The historical layer is visually distinct and off by default. Its 26 events—25
+with verified results and one notice-only event awaiting official results—span
+eleven municipalities:
 
 | Municipality | Events | Records | Unique PIDs | Sold | Unsold | Withdrawn | Redeemed | Unknown |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -861,7 +862,8 @@ events span ten municipalities:
 | Queens | 1 | 16 | 16 | 4 | 2 | 10 | 0 | 0 |
 | Clare | 1 | 16 | 16 | 12 | 1 | 0 | 2 | 1 |
 | Middleton | 1 | 2 | 2 | 0 | 2 | 0 | 0 | 0 |
-| **Total** | **25** | **483** | **461** | **292** | **33** | **57** | **3** | **98** |
+| Colchester | 1 | 7 | 7 | 0 | 0 | 0 | 0 | 7 |
+| **Total** | **26** | **490** | **468** | **292** | **33** | **57** | **3** | **105** |
 
 The total counts each parcel once; ten parcels appear in both CBRM sales and
 some parcels repeat across Lunenburg events. The Victoria County March 24, 2026
@@ -870,6 +872,11 @@ beside a $17,500.00 successful bid
 for PID `85142388`, so the contradiction is preserved without a winning-bid
 claim. The CBRM July 22, 2025 event carries one `redeemed` record, lien
 `25-143`, printed as `REDEEMED` with no bid.
+
+Colchester's archived June 9, 2026 notice adds seven exact-PID records, all
+retained as outcome unknown while official results are absent. Twelve additional
+rows print only `REMOVED` without a parcel identifier and remain opaque outside
+the mapped records.
 
 Clare's February 28, 2026 notice and result reconcile all 16 exact AAN/PID
 pairs. Twelve unqualified `Sold` rows carry numeric sale prices, one is
