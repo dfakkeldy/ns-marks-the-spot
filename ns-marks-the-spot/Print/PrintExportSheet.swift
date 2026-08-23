@@ -269,11 +269,7 @@ struct PrintExportSheet: View {
                             .foregroundStyle(.secondary)
                         } else {
                             Label(
-                                """
-                                No parcel's sources have answered yet, so this \
-                                page would carry an empty appendix. Open a parcel, \
-                                or export the field sheet instead.
-                                """,
+                                Self.appendixHold(for: overlayVM.inspection),
                                 systemImage: "exclamationmark.triangle"
                             )
                             .font(.footnote)
@@ -363,15 +359,21 @@ struct PrintExportSheet: View {
         defer { isWorking = false }
 
         let name = title.isEmpty ? kind.defaultTitle(pid: framedPID) : title
+        // Asked for and available are two different things: a parcel closed
+        // between picking the research summary and tapping Export would
+        // otherwise print an empty appendix.
+        let carriesAppendix = kind.includesAppendix && includesAppendix
+            && overlayVM.canExportEvidenceNote
         guard let request = overlayVM.printExportRequest(
             template: template,
             fields: PdfComposer.Fields(title: name, subtitle: subtitle, notes: notes),
             includesLegend: includesLegend,
-            // Asked for and available are two different things: a parcel closed
-            // between picking the research summary and tapping Export would
-            // otherwise print an empty appendix.
-            includesAppendix: kind.includesAppendix && includesAppendix
-                && overlayVM.canExportEvidenceNote,
+            includesAppendix: carriesAppendix,
+            // A research summary is its evidence pages. Going out without them
+            // it is a field sheet under another name, and the page has to say
+            // so rather than let the title stand for evidence it is not
+            // carrying.
+            appendixWithheld: kind.includesAppendix && !carriesAppendix,
             includesAerial: includesAerial,
             caveat: kind.caveat,
             frame: framing.bounds,
@@ -409,6 +411,33 @@ struct PrintExportSheet: View {
             guard !Task.isCancelled else { return }
             failure = "The page could not be made: \(error.localizedDescription)"
         }
+    }
+
+    /// Why the appendix cannot be built yet.
+    ///
+    /// One sentence used to cover both a map with no parcel open and a parcel
+    /// whose last source was still arriving. It was wrong about the second:
+    /// most of the evidence was in hand, and the reader was told none of it
+    /// was, with nothing to say what the wait was for.
+    private static func appendixHold(for inspection: ParcelInspection?) -> String {
+        guard let inspection else {
+            return """
+                No parcel is open, so this page would carry an empty appendix. \
+                Tap a parcel, or export the field sheet instead.
+                """
+        }
+        let waiting = ParcelEvidenceExport.pending(inspection)
+        guard !waiting.isEmpty else {
+            return """
+                The appendix for PID \(inspection.pid) is not ready yet. Try \
+                again in a moment, or export the field sheet instead.
+                """
+        }
+        return """
+            PID \(inspection.pid) is still waiting on \
+            \(waiting.formatted(.list(type: .and))). Exporting now would stamp \
+            "unavailable" on a source that is about to answer.
+            """
     }
 
     /// What the reader is choosing between, said before they choose.

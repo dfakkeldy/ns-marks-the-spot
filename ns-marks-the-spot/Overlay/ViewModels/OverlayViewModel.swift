@@ -1306,6 +1306,14 @@ final class OverlayViewModel {
         fields: PdfComposer.Fields,
         includesLegend: Bool = true,
         includesAppendix: Bool = false,
+        /// Whether this page was meant to carry an evidence appendix and is
+        /// going out without one.
+        ///
+        /// The appendix is the whole of what a research summary carries beyond
+        /// a field sheet. Dropped silently, the reader is holding a page named
+        /// for evidence that has none on it, and no way to tell that from a
+        /// parcel nothing was found for.
+        appendixWithheld: Bool = false,
         /// Whether the aerial photography is drawn onto the page.
         ///
         /// Separate from whether it is on the screen. At 300 dpi the imagery is
@@ -1345,6 +1353,13 @@ final class OverlayViewModel {
             disclosures.append(
                 "The evidence appendix is for PID \(pid), whose boundary is not on "
                     + "this map. The map shows other ground."
+            )
+        }
+        if appendixWithheld {
+            disclosures.append(
+                "The evidence appendix was left off this page. What each source "
+                    + "answered, what it returned nothing for, and what was never "
+                    + "asked are not on this document."
             )
         }
         return PrintExportRequest(

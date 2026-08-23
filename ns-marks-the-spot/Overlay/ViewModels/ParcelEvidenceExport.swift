@@ -28,6 +28,26 @@ nonisolated enum ParcelEvidenceExport {
             && hasSettled(inspection.floodHazard)
     }
 
+    /// The sources the note reports on that have not answered yet, under the
+    /// headings the note gives them.
+    ///
+    /// Named rather than counted, because "a source is still looking" leaves
+    /// the reader waiting on something they cannot see, and the wait is worth
+    /// very different amounts depending on which one it is.
+    static func pending(_ inspection: ParcelInspection) -> [String] {
+        [
+            ("Authoritative mapped civic points", hasSettled(inspection.civicAddresses)),
+            ("Mapped buildings", hasSettled(inspection.buildings)),
+            ("Mapped roads and water", hasSettled(inspection.mappedContext)),
+            ("Flood evidence", hasSettled(inspection.floodHazard)),
+            ("PVSC assessment accounts", hasSettled(inspection.assessments)),
+            ("PVSC residential dwelling records", hasSettled(inspection.dwellings)),
+            ("Geology and resource context", hasSettled(inspection.resources)),
+        ]
+        .filter { !$0.1 }
+        .map(\.0)
+    }
+
     private static func hasSettled<Value>(_ evidence: ParcelEvidence<Value>) -> Bool {
         if case .looking = evidence { return false }
         return true
