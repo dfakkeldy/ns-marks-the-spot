@@ -77,6 +77,18 @@ struct ZipArchiveTests {
         }
     }
 
+    /// The locator says where the zip64 record is. Checking that by adding to
+    /// the offset is what an archive would overflow, and an overflowed UInt64
+    /// traps rather than returning a wrong answer.
+    @Test func aZip64LocatorPointingPastTheEndOfEverythingIsRefused() {
+        var bytes = [UInt8](Self.zip64Kmz)
+        let locator = bytes.count - 22 - 20  // the locator sits before the EOCD
+        for index in (locator + 8)..<(locator + 16) { bytes[index] = 0xFF }
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.entries(in: Data(bytes))
+        }
+    }
+
     @Test func theEntriesOfARealArchiveAreListed() throws {
         let entries = try ZipArchive.entries(in: Self.kmz)
         #expect(entries.map(\.name) == ["doc.kml"])

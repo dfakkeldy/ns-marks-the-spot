@@ -251,8 +251,11 @@ public enum ZipArchive {
     /// record gives it, when both that record and its locator are there.
     private static func zip64Directory(_ bytes: [UInt8], endingAt eocd: Int) -> Int? {
         guard eocd >= 20, read32(bytes, eocd - 20) == 0x0706_4b50 else { return nil }
+        // Subtracting from the file's length rather than adding to the
+        // offset: the offset is eight bytes out of the file, so adding to it
+        // is what an archive would have to do to make the check overflow.
         let record = read64(bytes, eocd - 12)
-        guard record + 56 <= UInt64(bytes.count) else { return nil }
+        guard bytes.count >= 56, record <= UInt64(bytes.count - 56) else { return nil }
         let at = Int(record)
         guard read32(bytes, at) == 0x0606_4b50 else { return nil }
         let start = read64(bytes, at + 48)
