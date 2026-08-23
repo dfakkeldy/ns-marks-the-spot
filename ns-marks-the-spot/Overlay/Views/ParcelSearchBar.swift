@@ -31,7 +31,12 @@ struct ParcelSearchBar: View {
                 // A default keyboard rather than a numeric one: the field takes
                 // civic addresses as well as PIDs, and offering digits only
                 // would say otherwise before the user typed anything.
-                TextField("PID or civic address", text: query)
+                //
+                // The link is named in the placeholder because it is the only
+                // advertisement it gets: nothing routes a web link into this
+                // app, so a reader who was sent a view has no way to guess that
+                // pasting it here opens it.
+                TextField("PID, address or shared link", text: query)
                     .textFieldStyle(.plain)
                     .font(.subheadline)
                     .autocorrectionDisabled()
@@ -42,7 +47,7 @@ struct ParcelSearchBar: View {
                         viewModel.submitSearch()
                         isFocused = false
                     }
-                    .accessibilityLabel("PID or civic address")
+                    .accessibilityLabel("PID, address or shared link")
 
                 if !viewModel.searchText.isEmpty {
                     Button {

@@ -23,10 +23,21 @@ public enum ParcelSearchInput: Sendable, Equatable {
     case tooShort
     /// Civic address text, normalised for the query.
     case address(String)
+    /// A shared link that carries a view: somewhere to go, not something to
+    /// look up. Recognised here because the field is where a reader pastes.
+    case mapLink(URL)
 
     public static func classify(_ typed: String) -> ParcelSearchInput {
         if let pid = ParcelQuery.normalizePID(typed) {
             return .pid(pid)
+        }
+        // Ahead of the address rules, which would otherwise take a link apart
+        // as street text. Only a link that carries a view: an ordinary URL
+        // parses into the default position, and acting on that would move the
+        // map and call the result the view somebody sent.
+        let link = typed.trimmingCharacters(in: .whitespacesAndNewlines)
+        if MapShareState.carriesState(link), let url = URL(string: link) {
+            return .mapLink(url)
         }
         let normalized = CivicAddressQuery.normalize(typed)
         if normalized.isEmpty {

@@ -458,6 +458,13 @@ final class OverlayViewModel {
         switch input {
         case .pid(let pid):
             searchPID(pid)
+        case .mapLink(let url):
+            // Nothing routes a web link into this app yet — no scheme, no
+            // associated domain — so pasting one here is the only way a reader
+            // who was sent a view can open it. The restore is the same one
+            // `onOpenURL` calls, so a link opened by hand and a link opened by
+            // the system cannot come to different views.
+            restore(from: url)
         case .empty:
             abandonAddressSearch(saying: nil)
         case .notAPID:
@@ -1293,6 +1300,11 @@ final class OverlayViewModel {
             // previously open parcel selected would attach this reader's card to
             // a map the sender never sent.
             clearParcelSelection()
+            // Said out loud because the field the link was pasted into is now
+            // empty and the map has moved: without a sentence, a reader whose
+            // link carried nothing they can see has no way to tell a restored
+            // view from a search that quietly did nothing.
+            parcelMessage = ParcelLookupMessage.openedSharedView
             return
         }
         // The link said where it was looking. Opening the parcel would otherwise

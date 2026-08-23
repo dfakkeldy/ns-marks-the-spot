@@ -88,6 +88,29 @@ extension MapShareState {
     /// from throwing the map somewhere it has no data and calling that a place.
     static let bounds = (south: 43.0, west: -66.5, north: 47.5, east: -59.0)
 
+    /// The query names the two surfaces write into a shared link.
+    public static let parameterNames = ["position", "pid", "layers", "event", "mode"]
+
+    /// Whether this text is a link that actually carries a view.
+    ///
+    /// `parse` never fails: handed an unrelated URL it returns the default
+    /// view, which is a real place in the middle of the province. Anything that
+    /// acts on a link the reader supplied has to ask this first, or a pasted
+    /// shopping link would move the map and present the result as the view
+    /// somebody sent them.
+    ///
+    /// The host is not checked. The same query works against a local build, a
+    /// preview deployment and the published map, and a reader whose link came
+    /// from one of those is not wrong.
+    public static func carriesState(_ value: String) -> Bool {
+        guard let components = URLComponents(string: value),
+              let scheme = components.scheme?.lowercased(),
+              scheme == "http" || scheme == "https"
+        else { return false }
+        let names = Set((components.queryItems ?? []).map(\.name))
+        return parameterNames.contains { names.contains($0) }
+    }
+
     /// Reads a shared link, dropping anything this build cannot vouch for.
     ///
     /// Unknown event and layer IDs are dropped rather than kept: a link naming

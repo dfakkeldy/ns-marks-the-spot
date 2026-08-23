@@ -72,6 +72,11 @@ nonisolated enum ParcelLookupMessage {
     /// exist.
     static let noAddressMatched = "No mapped civic address matched that search."
 
+    /// A shared link that named no parcel: the map moved, and nothing was
+    /// looked up. A link that does name one says nothing here, because the
+    /// lookup speaks for itself.
+    static let openedSharedView = "Opened the shared view."
+
     // MARK: - The parcel panel
 
     /// The record arrived without a shape, so the lookups that take its rings

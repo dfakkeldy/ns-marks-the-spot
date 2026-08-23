@@ -173,4 +173,23 @@ struct MapPositionReadoutTests {
         #expect(text.filter { $0 == "," }.count == 1)
         #expect(text.contains("."))
     }
+
+    /// The guard in front of `parse`, which cannot fail and so cannot be asked
+    /// this question itself.
+    @Test("A link is only a shared view when it carries one")
+    func aLinkIsOnlyASharedViewWhenItCarriesOne() {
+        for name in MapShareState.parameterNames {
+            #expect(MapShareState.carriesState("https://example.com/map/?\(name)=x"))
+        }
+        #expect(!MapShareState.carriesState("https://example.com/map/"))
+        #expect(!MapShareState.carriesState("https://example.com/map/?ref=news"))
+        // Not a link at all: a PID, an address, and a file the reader dragged
+        // in all reach the same classifier.
+        #expect(!MapShareState.carriesState("15234636"))
+        #expect(!MapShareState.carriesState("12 Main St"))
+        #expect(!MapShareState.carriesState("file:///tmp/x.geojson?pid=15234636"))
+        // The host is deliberately not checked: the same query is written by a
+        // local build and by the published map.
+        #expect(MapShareState.carriesState("http://localhost:5173/?position=46,-61,10"))
+    }
 }

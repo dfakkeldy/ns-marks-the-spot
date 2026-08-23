@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 
 @testable import NSDataServices
@@ -69,5 +70,36 @@ struct ParcelSearchInputTests {
     @Test("A civic number with a road name is an address")
     func aCivicNumberWithARoadNameIsAnAddress() {
         #expect(ParcelSearchInput.classify("12 Main St") == .address("12 Main St"))
+    }
+
+    /// The field is the only way into this app for a link somebody was sent,
+    /// so it has to recognise one rather than search for it as street text.
+    @Test("A shared link is somewhere to go, not something to look up")
+    func aSharedLinkIsSomewhereToGo() throws {
+        let link = "https://kinnokilabs.com/apps/nsmarksthespot/map/?position=46.1,-61.3,12"
+        guard case .mapLink(let url) = ParcelSearchInput.classify(link) else {
+            Issue.record("a link carrying a position was not read as a link")
+            return
+        }
+        #expect(url.absoluteString == link)
+        // Pasted with the whitespace a copy tends to bring with it.
+        #expect(ParcelSearchInput.classify("  \(link)\n") == .mapLink(URL(string: link)!))
+    }
+
+    /// An ordinary URL parses into the default view, which is a real place in
+    /// the middle of the province. Acting on one would move the map and present
+    /// where it landed as the view somebody sent.
+    @Test(
+        "A link carrying no view is not treated as one",
+        arguments: [
+            "https://example.com/",
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/",
+            "https://example.com/?utm_source=mail"
+        ]
+    )
+    func aLinkCarryingNoViewIsNotTreatedAsOne(typed: String) {
+        if case .mapLink = ParcelSearchInput.classify(typed) {
+            Issue.record("a link with no view parameters was read as a shared view")
+        }
     }
 }
