@@ -547,7 +547,6 @@ struct MapContainerView: View {
                         // read out; the readout under it says the same scale
                         // in words and carries the caveat that goes with it.
                         MapScaleBar(controller: controller)
-                            .frame(width: 120, height: 24)
                             .accessibilityHidden(true)
 
                         MapPositionReadout(position: mapPosition, screenScale: screenScale)

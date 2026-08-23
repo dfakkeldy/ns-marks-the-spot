@@ -27,4 +27,24 @@ struct MapScaleBar: UIViewRepresentable {
         // it, so the bar is re-pointed rather than assumed to still be attached.
         uiView.mapView = controller.mapView
     }
+
+    /// The bar asks for the room it needs.
+    ///
+    /// It was given a fixed 120x24 before, and MKScaleView draws its own
+    /// content centred in whatever it is handed rather than shrinking to fit:
+    /// the legend ran off the left edge of the screen and the bar itself came
+    /// down on top of the coordinate readout below it. The width also changes
+    /// with the zoom, since the bar is a round distance measured on screen,
+    /// so there is no honest fixed number to use here.
+    func sizeThatFits(
+        _ proposal: ProposedViewSize,
+        uiView: MKScaleView,
+        context: Context
+    ) -> CGSize? {
+        let size = uiView.intrinsicContentSize
+        // A guard rather than a trusted value: nothing documents these as
+        // always positive, and returning a zero size would hide the bar.
+        guard size.width > 0, size.height > 0 else { return nil }
+        return size
+    }
 }
