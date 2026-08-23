@@ -393,7 +393,8 @@ final class OverlayViewModel {
         buildingFetcher: BuildingCountFetcher = BuildingCountFetcher(),
         resourceFetcher: ResourceIntersectionFetcher = ResourceIntersectionFetcher(),
         floodFetcher: FloodHazardFetcher = FloodHazardFetcher(),
-        themes: MapThemeLibrary = MapThemeLibrary()
+        themes: MapThemeLibrary = MapThemeLibrary(),
+        sessionStore: MapSessionStore = MapSessionStore()
     ) {
         self.controller = controller
         self.features = features
@@ -411,6 +412,7 @@ final class OverlayViewModel {
         self.resourceFetcher = resourceFetcher
         self.floodFetcher = floodFetcher
         self.themes = themes
+        self.sessionStore = sessionStore
         mirrorClearanceIntoBox()
     }
 
@@ -427,8 +429,15 @@ final class OverlayViewModel {
             taxSale: taxSale,
             historical: historical,
             clearanceBox: container.clearanceBox,
-            tileCache: container.tileCache
+            tileCache: container.tileCache,
+            sessionStore: container.sessionStore
         )
+        // The layers are already installed the way the reader left them; this
+        // is the rest of that view — where it was looking, which record set,
+        // and which parcel was open.
+        if let session = container.restoredSession {
+            resume(session)
+        }
     }
 
     // MARK: - Parcels
@@ -548,6 +557,8 @@ final class OverlayViewModel {
     /// Reading the input is the package's job, so the same rules decide it here
     /// and in the tests that run without a simulator.
     func searchParcel(_ query: String) {
+        // Whatever a restore was still resolving, this search replaces it.
+        restoringPID = nil
         let input = ParcelSearchInput.classify(query)
         // Only a PID lookup can be the one a link started, so anything else
         // means the reader is searching and the link's hold on the extent is
@@ -725,6 +736,7 @@ final class OverlayViewModel {
     }
 
     func clearParcelSelection() {
+        restoringPID = nil
         parcelLookup?.cancel()
         cancelAddressLookup()
         addressResults = []
@@ -1000,9 +1012,12 @@ final class OverlayViewModel {
 
     func setMapRecordMode(_ mode: HistoricalTaxSaleViewModel.Mode) {
         guard let historical, historical.mode != mode else { return }
-        // Both record sets are tax-sale record sets. There is no historical
-        // mode to be in on a map that is not showing tax sales at all.
-        guard mode == .current || showsTaxSale else { return }
+        // Settable while tax sales are off, which is what the browser allows.
+        // The gate is at the read: `mapRecordMode` answers `.current` for a map
+        // that is not showing tax sales at all, so nothing acts on a mode set
+        // here. What it buys is that a link or a session can carry the mode the
+        // reader was in, and switching tax sales back on returns them to it.
+        //
         // The open card is dropped, as the web drops it. A parcel card carries
         // the notice or the records of the mode it was opened in, and leaving it
         // up across a switch would leave a dated outcome on screen under a map
@@ -1156,7 +1171,12 @@ final class OverlayViewModel {
 
         return MapShareState(
             taxSaleEnabled: showsTaxSale,
-            mode: mapRecordMode == .historical ? .historical : .current,
+            // The mode the map is holding, not the one it is acting on.
+            // `mapRecordMode` reads `.current` while tax sales are off, and
+            // writing that would tell the other surface the reader had switched
+            // back to notices when they had only switched tax sales off. The
+            // browser writes its own `mapMode` here regardless of the switch.
+            mode: (historical?.mode ?? .current) == .historical ? .historical : .current,
             pid: parcels.selectedPID,
             eventIDs: eventIDs,
             layerIDs: (baseMapType == .standard ? [MapShareState.modernBaseLayerID] : [])
@@ -1166,6 +1186,32 @@ final class OverlayViewModel {
     }
 
     var shareURL: URL? { shareState.url(base: Self.webMapURL) }
+
+    @ObservationIgnored private let sessionStore: MapSessionStore
+
+    /// Writes down the current view so the next launch can open on it.
+    ///
+    /// Called when the map settles and when the app leaves the foreground,
+    /// which between them cover everything a reader can change: panning and
+    /// zooming settle, and a switch thrown without moving the map is caught on
+    /// the way out. The browser writes the same view into its address bar on
+    /// every change, which is the behaviour this is here to match.
+    func rememberSession() {
+        var view = shareState
+        // A restored parcel whose boundary has not arrived yet is still the
+        // parcel this view is about. Without this, a settle or a trip to the
+        // background inside that window wrote the session back without it, and
+        // the reader returned to the right ground with the card gone.
+        if view.pid == nil { view.pid = restoringPID }
+        sessionStore.save(MapSession(view: view, background: baseMapType))
+    }
+
+    /// The parcel a restored view named, until the map is actually showing it.
+    ///
+    /// A fallback rather than a lock: nothing has to remember to clear it for
+    /// sessions to keep being written, and the places where the parcel is
+    /// genuinely gone clear it anyway.
+    @ObservationIgnored private var restoringPID: String?
 
     /// Set while a link's own parcel lookup is in flight, so the parcel does not
     /// reframe a map the link already positioned.
@@ -1177,11 +1223,19 @@ final class OverlayViewModel {
 
     /// Where the map is, as a latitude, a longitude, and a tile zoom.
     ///
-    /// Falls back to the opening view before the map has been laid out, which
-    /// is the only honest answer available: nothing has been looked at yet.
-    /// Read by the share link, the evidence note, and the readout on the map.
+    /// Read by the share link, the evidence note, the readout on the map, and
+    /// the session written on the way out.
+    ///
+    /// Before the map has been laid out there is no view to measure, and the
+    /// answer is whatever it has been told to open on: a link's position, or
+    /// the one the last session left. Only a launch with neither falls back to
+    /// the opening view, and there it is the truth. Reading `.default` in every
+    /// case is what let a scene going inactive between launch and the map
+    /// attaching write the province over the map the reader left.
     var mapPosition: MapPosition {
-        guard let bounds = controller.currentVisibleBounds() else { return .default }
+        guard let bounds = controller.currentVisibleBounds() else {
+            return controller.heldPosition ?? .default
+        }
         return MapPosition(
             latitude: (bounds.minLatitude + bounds.maxLatitude) / 2,
             longitude: (bounds.minLongitude + bounds.maxLongitude) / 2,
@@ -1435,13 +1489,44 @@ final class OverlayViewModel {
             ),
             validLayerIDs: Set(rows.map(\.id)).union([MapShareState.modernBaseLayerID])
         )
+        apply(state, arrivedFrom: .sharedLink)
+    }
 
+    /// Puts the map back where the reader left it at the last launch.
+    ///
+    /// Everything a link restores, said quietly. Nobody sent this view and
+    /// nobody is waiting to hear how it went: there is no sentence about a
+    /// shared link, and a layer the licence now stands in front of is simply
+    /// not drawn rather than being made into a question at launch. The reader
+    /// withdrew that permission themselves, and asking again every time the app
+    /// opens would be arguing with them.
+    func resume(_ session: MapSession) {
+        apply(session.view, background: session.background, arrivedFrom: .lastSession)
+    }
+
+    /// Where a restored view came from, which is the only thing that differs
+    /// between opening a link and picking up where the reader left off.
+    private enum RestoreOrigin {
+        case sharedLink
+        case lastSession
+    }
+
+    private func apply(
+        _ state: MapShareState,
+        background: MapBaseType? = nil,
+        arrivedFrom origin: RestoreOrigin
+    ) {
         // Before the mode, because the mode is a choice within tax sales and
         // setting it on a map that is not showing them has nothing to move.
         setTaxSaleEnabled(state.taxSaleEnabled)
         setMapRecordMode(state.mode == .historical ? .historical : .current)
+        // A session says which background it was on outright. A link only says
+        // whether the modern map was drawn, because that is all the browser has
+        // a word for, so anything else it leaves where it is.
         setBaseMapType(
-            state.layerIDs.contains(MapShareState.modernBaseLayerID) ? .standard : baseMapType
+            background
+                ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
+                    ? .standard : baseMapType)
         )
         if let taxSale, state.taxSaleEnabled, state.mode == .current, !state.eventIDs.isEmpty {
             for event in taxSale.upcomingEvents {
@@ -1449,7 +1534,7 @@ final class OverlayViewModel {
             }
             refreshListedParcelStyling()
         }
-        // What the link asked for and this map cannot simply switch on: the
+        // What the view asked for and this map cannot simply switch on: the
         // layers the Province licence still stands in front of, and the ones
         // this build does not carry. Both were skipped in silence before, which
         // left a link opening a view that looked restored while the imagery,
@@ -1470,15 +1555,17 @@ final class OverlayViewModel {
                 toggleVisibility(row.id)
             }
         }
-        noteWhatTheLinkCouldNotRestore(refused: refusedByLicence, notCarried: notCarried)
+        if origin == .sharedLink {
+            noteWhatTheLinkCouldNotRestore(refused: refusedByLicence, notCarried: notCarried)
+        }
         controller.center(
             on: GeoPoint(lat: state.position.latitude, lng: state.position.longitude),
             zoom: state.position.zoom
         )
-        // The sender chose this extent, so the opening fit to the advertised
-        // parcels is spent: a link that turns tax sales on starts that load,
-        // and letting it land and reframe would take the reader off the place
-        // the link was about.
+        // This extent was chosen, by the sender or by the reader themselves,
+        // so the opening fit to the advertised parcels is spent: turning tax
+        // sales on starts that load, and letting it land and reframe would take
+        // the reader off the place the view was about.
         hasFramedListedParcels = true
         guard let pid = state.pid else {
             // A link that names no parcel is a link to a view, and leaving a
@@ -1488,14 +1575,20 @@ final class OverlayViewModel {
             // Said out loud because the field the link was pasted into is now
             // empty and the map has moved: without a sentence, a reader whose
             // link carried nothing they can see has no way to tell a restored
-            // view from a search that quietly did nothing.
-            parcelMessage = ParcelLookupMessage.openedSharedView
+            // view from a search that quietly did nothing. A resumed session
+            // moved nothing and was pasted nowhere, so it says nothing.
+            if origin == .sharedLink {
+                parcelMessage = ParcelLookupMessage.openedSharedView
+            }
             return
         }
-        // The link said where it was looking. Opening the parcel would otherwise
-        // frame the parcel instead, throwing away the extent the sender chose.
+        // The view said where it was looking. Opening the parcel would otherwise
+        // frame the parcel instead, throwing away the extent that was chosen.
         isHoldingLinkPosition = true
         searchParcel(pid)
+        // After the search, which clears it: this is the parcel a session
+        // written before the Province answers should still name.
+        restoringPID = pid
     }
 
     /// What a shared link asked for and this map is not showing.
@@ -2157,7 +2250,13 @@ final class OverlayViewModel {
             // fetcher: a lookup that has already been replaced must not write
             // its answer, or a fast second tap would be overwritten by a slow
             // first one and the map would select the parcel the user left.
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled else {
+                // A restore whose lookup was replaced is over too. Left
+                // standing, its PID would be written into every session after
+                // it, long after the map stopped showing that parcel.
+                self?.restoringPID = nil
+                return
+            }
             switch outcome {
             case .success(let collection):
                 onSuccess(collection)
@@ -2171,6 +2270,7 @@ final class OverlayViewModel {
             // finished with. Left standing, the hold would swallow the next
             // parcel the user opens themselves.
             self?.isHoldingLinkPosition = false
+            self?.restoringPID = nil
         }
     }
 

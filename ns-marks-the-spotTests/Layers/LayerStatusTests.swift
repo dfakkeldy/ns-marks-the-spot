@@ -100,7 +100,8 @@ extension OverlayViewModel {
         resourceFetcher: ResourceIntersectionFetcher
             = ResourceIntersectionFetcher(transport: .unanswered),
         floodFetcher: FloodHazardFetcher = FloodHazardFetcher(transport: .unanswered),
-        themes: MapThemeLibrary = .forTesting()
+        themes: MapThemeLibrary = .forTesting(),
+        sessionStore: MapSessionStore = .forTesting()
     ) -> OverlayViewModel {
         for id in ids {
             guard let descriptor = LayerCatalog.descriptor(for: id),
@@ -128,7 +129,8 @@ extension OverlayViewModel {
             buildingFetcher: buildingFetcher,
             resourceFetcher: resourceFetcher,
             floodFetcher: floodFetcher,
-            themes: themes
+            themes: themes,
+            sessionStore: sessionStore
         )
         // The map opens without tax-sale information, as the browser does.
         // Handing this helper a record set is a test saying its map is set up
@@ -157,6 +159,15 @@ extension HTTPTransport {
     /// unavailable, which is what the panel shows when a service cannot be
     /// reached.
     static let unanswered = HTTPTransport { _ in throw URLError(.notConnectedToInternet) }
+}
+
+extension MapSessionStore {
+    /// A store over defaults of its own, for the same reason the theme library
+    /// has one: the real one writes to the test host's standard defaults, and a
+    /// map the last test left behind would open the next one somewhere else.
+    static func forTesting(suite: String = UUID().uuidString) -> MapSessionStore {
+        MapSessionStore(defaults: UserDefaults(suiteName: suite) ?? .standard)
+    }
 }
 
 extension MapThemeLibrary {

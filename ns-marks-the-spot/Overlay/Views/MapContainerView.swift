@@ -722,6 +722,10 @@ struct MapContainerView: View {
 
                     case .visibleRegionSettled:
                         mapPosition = overlayVM.mapPosition
+                        // Leaflet rewrites its address bar on every move. This
+                        // is the same act: the view the reader stopped on is
+                        // the one the next launch opens.
+                        overlayVM.rememberSession()
                         screenScale = controller.groundMetresPerPoint()
                             .flatMap { DisplayScale.label(groundMetresPerPoint: $0) }
                         // Leaflet's `moveend`: the viewport layers ask their
@@ -862,6 +866,11 @@ struct MapContainerView: View {
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase != .active {
                     cancelBoundsSelection()
+                    // A switch thrown without moving the map never settles the
+                    // viewport, so this is where that change is written down.
+                    // It is also the last moment before the system may kill the
+                    // app outright.
+                    overlayVM.rememberSession()
                     // The debounce cannot outlive the app. A pending edit that was
                     // still waiting for its timer when the user switched away would
                     // never be written at all.

@@ -8,7 +8,10 @@ import Testing
 @MainActor
 struct LayerInstallationTests {
     @Test func appContainerInstallsEveryRasterLayer() {
-        let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage())
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(),
+            sessionStore: .forTesting()
+        )
         let ids = container.mapController.layers.map(\.id)
 
         // Fletcher is deliberately absent from this expectation: it installs
@@ -28,7 +31,10 @@ struct LayerInstallationTests {
         // `TileRequestFactory` for a cleared request before every tile — but
         // they have a row, which is the only route to the licence sheet.
         // Filtering here would remove the row, leaving nothing to accept for.
-        let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage(initial: .unknown))
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .unknown),
+            sessionStore: .forTesting()
+        )
         let ids = Set(container.mapController.layers.map(\.id))
 
         #expect(container.licenceStore.needsDecision)
@@ -38,7 +44,10 @@ struct LayerInstallationTests {
     }
 
     @Test func restrictedLayersStartHidden() throws {
-        let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage())
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(),
+            sessionStore: .forTesting()
+        )
 
         for layer in container.mapController.layers {
             let id = try #require(LayerID(rawValue: layer.id))
@@ -54,7 +63,8 @@ struct LayerInstallationTests {
     @Test("A returning licensed user opens on the layers the browser opens on")
     func anAcceptedLicenceOpensTheWebDefaults() {
         let container = AppContainer(
-            licenceStorage: InMemoryProvinceLicenceStorage(initial: .accepted)
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .accepted),
+            sessionStore: .forTesting()
         )
         let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
         let installed = Set(container.mapController.layers.map(\.id))
@@ -64,9 +74,9 @@ struct LayerInstallationTests {
 
         #expect(webDefaults.count == 4, "aerial, parcels, water and roads")
         #expect(on == webDefaults)
-        // The app keeps no per-layer memory between launches. Left to the
-        // catalogue's native default this user would switch all four back on
-        // every cold start, which the browser has never asked of them.
+        // A first launch has nothing of this reader's to go on. Left to the
+        // catalogue's native default they would switch all four back on before
+        // they had done anything, which the browser has never asked of them.
         #expect(on.contains(LayerID.nsprd.rawValue))
         #expect(container.mapController.baseMapType == .nsAerial)
     }
@@ -74,7 +84,8 @@ struct LayerInstallationTests {
     @Test("An unanswered licence opens on the native default alone")
     func anUnansweredLicenceOpensOnNothingRestricted() {
         let container = AppContainer(
-            licenceStorage: InMemoryProvinceLicenceStorage(initial: .unknown)
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .unknown),
+            sessionStore: .forTesting()
         )
         let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
 
@@ -97,7 +108,10 @@ struct LayerInstallationTests {
     }
 
     @Test func exportLayersCarryTheirCatalogIdRatherThanAnAddress() throws {
-        let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage())
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(),
+            sessionStore: .forTesting()
+        )
         let nsAerial = try #require(
             container.mapController.layers.first { $0.id == LayerID.nsAerial.rawValue }
         )
@@ -113,7 +127,10 @@ struct LayerInstallationTests {
     }
 
     @Test func layersInstallInAscendingZOrder() {
-        let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage())
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(),
+            sessionStore: .forTesting()
+        )
         let zIndexes = container.mapController.layers
             .compactMap { LayerID(rawValue: $0.id) }
             .compactMap { OverlayZIndex.tileZIndex(for: $0) }
@@ -125,7 +142,10 @@ struct LayerInstallationTests {
     }
 
     @Test func zoomRangeFollowsTheSourceRatherThanAFixedFloor() throws {
-        let container = AppContainer(licenceStorage: InMemoryProvinceLicenceStorage())
+        let container = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(),
+            sessionStore: .forTesting()
+        )
 
         for layer in container.mapController.layers {
             let id = try #require(LayerID(rawValue: layer.id))

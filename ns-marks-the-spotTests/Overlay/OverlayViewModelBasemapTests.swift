@@ -261,7 +261,8 @@ struct OverlayViewModelBasemapTests {
         // permissive, or every tile drawn before the layer panel is first opened
         // is refused.
         let container = AppContainer(
-            licenceStorage: InMemoryProvinceLicenceStorage(initial: .accepted)
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .accepted),
+            sessionStore: .forTesting()
         )
 
         #expect(container.licenceStore.needsDecision == false)

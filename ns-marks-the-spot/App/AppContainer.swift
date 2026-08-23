@@ -12,6 +12,13 @@ final class AppContainer {
     let tileFetcher: TileFetcher
     let offlineAreasViewModel: OfflineAreasViewModel
     let licenceStore: ProvinceLicenceStore
+    let sessionStore: MapSessionStore
+
+    /// What the map was showing when the app last went away, or `nil` on a
+    /// first launch. Read once, here, so the opening layer set, the opening
+    /// background and the opening position come from one answer rather than
+    /// three.
+    let restoredSession: MapSession?
 
     /// The clearance the tile-loading queues read.
     ///
@@ -19,7 +26,11 @@ final class AppContainer {
     /// place acceptance and revocation happen.
     let clearanceBox: LicenceClearanceBox
 
-    init(licenceStorage: (any ProvinceLicenceStorage)? = nil) {
+    init(
+        licenceStorage: (any ProvinceLicenceStorage)? = nil,
+        sessionStore: MapSessionStore = MapSessionStore()
+    ) {
+        self.sessionStore = sessionStore
 
         let store = TileStore()
         self.tileStore = store
@@ -60,7 +71,11 @@ final class AppContainer {
         )
         self.mapController = controller
 
-        let opening = Self.launchVisibleIDs(clearance: licenceStore.clearance)
+        let session = sessionStore.load()
+        self.restoredSession = session
+        let opening = Self.launchVisibleIDs(
+            clearance: licenceStore.clearance, session: session?.view
+        )
         var openedAerial = false
         for var layer in Self.installableLayers(fletcherBaseURL: fletcherBaseURL) {
             if let id = LayerID(rawValue: layer.id) {
@@ -69,10 +84,15 @@ final class AppContainer {
             }
             controller.addLayer(layer)
         }
-        // NS Aerial is a base map as well as an overlay, and the two move
-        // together everywhere else. Setting the layer alone would open with
-        // imagery drawn and the base-map picker reading "Standard".
-        if openedAerial {
+        // Set here rather than left to the restore, so the first frame the map
+        // draws is already the background the reader works in. A satellite user
+        // otherwise sees streets for the moment before the view model runs.
+        if let background = session?.background {
+            controller.baseMapType = background
+        } else if openedAerial {
+            // NS Aerial is a base map as well as an overlay, and the two move
+            // together everywhere else. Setting the layer alone would open with
+            // imagery drawn and the base-map picker reading "Standard".
             controller.baseMapType = .nsAerial
         }
     }
@@ -89,7 +109,28 @@ final class AppContainer {
     /// Clearance is read, never assumed. Before acceptance this is exactly the
     /// catalogue's native default, which is what keeps a first launch off the
     /// Province services and out of the licence dialog.
-    static func launchVisibleIDs(clearance: ProvinceLicenceClearance) -> Set<LayerID> {
+    ///
+    /// A stored session replaces the whole calculation. Defaults answer for a
+    /// reader who has not said anything yet, and one who left the map with four
+    /// layers on and two off has said something.
+    static func launchVisibleIDs(
+        clearance: ProvinceLicenceClearance,
+        session: MapShareState? = nil
+    ) -> Set<LayerID> {
+        if let session {
+            // The reader's own last answer, which outranks every default: the
+            // layers they switched off stay off, and a default does not walk
+            // back on over them.
+            let asked = Set(session.layerIDs.compactMap(LayerID.init(rawValue:)))
+            guard clearance.allowsRestrictedLayers else {
+                // A session records what was on screen. It is not permission,
+                // and the licence may have been withdrawn since it was written.
+                return asked.filter {
+                    LayerCatalog.descriptor(for: $0)?.requiresProvinceClearance != true
+                }
+            }
+            return asked
+        }
         guard clearance.allowsRestrictedLayers else {
             return LayerCatalog.nativeDefaultVisibleIDs
         }

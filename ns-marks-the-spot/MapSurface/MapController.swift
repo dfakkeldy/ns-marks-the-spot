@@ -291,17 +291,33 @@ final class MapController: NSObject {
         for mutation in MapStateDiff.mutations(from: MapViewState(), to: state) {
             perform(mutation, on: mapView)
         }
-        applyPendingCenterIfPossible()
+        applyPendingCenterIfPossible(animated: false)
     }
 
     /// A position a link asked for before the map could be put there.
     @ObservationIgnored private var pendingCenter: (point: GeoPoint, zoom: Int, animated: Bool)?
 
+    /// The position waiting for a laid-out map, if anything is waiting.
+    ///
+    /// Read by the map surface as it is built, so the first frame it draws is
+    /// the one a link or a resumed session asked for rather than the opening
+    /// view of the province followed by a jump.
+    var heldPosition: MapPosition? {
+        pendingCenter.map {
+            MapPosition(latitude: $0.point.lat, longitude: $0.point.lng, zoom: $0.zoom)
+        }
+    }
+
     /// Retried whenever the map view changes, which is how a launch-time link
     /// gets its position once layout has given the view a width.
-    private func applyPendingCenterIfPossible() {
+    ///
+    /// `animated` overrides what the caller asked for, for the one case where
+    /// the map is only now being attached: there is nothing on screen to move
+    /// away from, and animating from the first frame to the same place reads as
+    /// a stumble at launch.
+    private func applyPendingCenterIfPossible(animated: Bool? = nil) {
         guard let pending = pendingCenter, let mapView, mapView.bounds.width > 0 else { return }
-        center(on: pending.point, zoom: pending.zoom, animated: pending.animated)
+        center(on: pending.point, zoom: pending.zoom, animated: animated ?? pending.animated)
     }
 
     private static func mkMapType(for baseType: MapBaseType) -> MKMapType {
