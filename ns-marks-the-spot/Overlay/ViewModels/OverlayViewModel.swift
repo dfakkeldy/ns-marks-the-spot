@@ -1187,6 +1187,21 @@ final class OverlayViewModel {
 
     var shareURL: URL? { shareState.url(base: Self.webMapURL) }
 
+    /// Where a printed page's receipt starts from: the map state a share link
+    /// would carry, less what this page was told not to print.
+    ///
+    /// The imagery is dropped here for the same reason it is dropped from the
+    /// page's layers. A receipt naming a source the paper carries no pixels
+    /// from tells the reader the imagery was consulted for what they are
+    /// looking at.
+    func printedShareState(includesAerial: Bool) -> MapShareState {
+        var state = shareState
+        if !includesAerial {
+            state.layerIDs.removeAll { $0 == LayerID.nsAerial.rawValue }
+        }
+        return state
+    }
+
     @ObservationIgnored private let sessionStore: MapSessionStore
 
     /// Writes down the current view so the next launch can open on it.
@@ -1352,10 +1367,14 @@ final class OverlayViewModel {
             template: template,
             fields: fields,
             includesLegend: includesLegend,
-            // The link this page came from, so paper leads back to the map. Read
-            // here with the rest of the snapshot: the share link encodes the
-            // view, and one read a moment later would point somewhere else.
-            shareURL: shareURL,
+            // Where the page's receipt leads. Read here with the rest of the
+            // snapshot, because a state read a moment later would describe a
+            // map the reader had already moved. What the page was framed on and
+            // which of these layers reached the paper are filled in by the
+            // export, which is the only place either is known.
+            share: PrintShareLink(
+                base: Self.webMapURL, state: printedShareState(includesAerial: includesAerial)
+            ),
             // The appendix is the evidence note, laid out as pages rather than
             // written as a file. Built from the note itself so the document the
             // user prints and the one they email cannot come to say different

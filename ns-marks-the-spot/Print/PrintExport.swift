@@ -40,8 +40,13 @@ nonisolated struct PrintExportRequest: Sendable {
     /// obligations — who is owed a credit, and what the reader must not
     /// conclude — and neither is ever the user's to switch off.
     var includesLegend: Bool = true
-    /// Where the page's QR code should point, or nil for no code at all.
-    var shareURL: URL?
+    /// What the page's QR code should point at, or nil for no code at all.
+    ///
+    /// The map state rather than a finished link. The code is labelled an exact
+    /// receipt, so it has to describe the paper: the ground this page was framed
+    /// on, and the layers that put ink on it. Neither is known until the raster
+    /// is composited, so the link itself is written there.
+    var share: PrintShareLink?
     /// The evidence appendix's pages, or empty for a map on its own.
     var appendix: [PdfAppendix.Block] = []
     /// What this page must not be read as, and what state the map was in when
@@ -53,6 +58,21 @@ nonisolated struct PrintExportRequest: Sendable {
     /// either.
     var disclosures: [String] = [PrintExport.screeningCaveat]
     var generatedAt: Date
+}
+
+/// The map state a printed receipt links back to, before the export fills in
+/// what the page turned out to be.
+nonisolated struct PrintShareLink: Sendable {
+    var base: URL
+    /// The selection, the record mode and the layers the reader asked for.
+    /// The position and the layer list are both replaced by the export with
+    /// what the page came to hold.
+    var state: MapShareState
+
+    init(base: URL, state: MapShareState) {
+        self.base = base
+        self.state = state
+    }
 }
 
 nonisolated enum PrintExport {
@@ -144,6 +164,62 @@ nonisolated enum PrintExport {
             .sorted { $0.id.rawValue < $1.id.rawValue }
     }
 
+    /// The link the printed receipt carries: the ground on this paper, and the
+    /// layers that put ink on it.
+    ///
+    /// The code is labelled exact, so it may not describe the map the reader
+    /// left behind. The frame is drawn by hand and the view moves on after it,
+    /// so the centre and the zoom are read off the printed bounds rather than
+    /// off the screen. A layer that was switched on and reached the paper with
+    /// nothing is dropped, because scanning the code would otherwise turn that
+    /// layer back on and show the reader ground the page never carried.
+    ///
+    /// A layer that answered and had nothing to put here stays on the link.
+    /// That is a finding about this ground, and dropping it would turn "asked,
+    /// and there is none here" into "never asked".
+    static func receipt(
+        for link: PrintShareLink,
+        printed bounds: GeoBoundingBox,
+        mapFrame: PdfRect,
+        outcomes: [PrintMapCompositor.LayerOutcome]
+    ) -> URL? {
+        let inkless = Set(
+            outcomes.compactMap { outcome -> String? in
+                switch outcome.state {
+                case .drawn, .partial, .outsideCoverage, .drawnFromEarlierView,
+                    .drawnPartlyUnread:
+                    return nil
+                case .failed, .licenceBlocked, .unsupported, .notDrawn:
+                    return outcome.id
+                }
+            }
+        )
+        var state = link.state
+        state.layerIDs.removeAll { inkless.contains($0) }
+        if let position = position(of: bounds, mapFrame: mapFrame) {
+            state.position = position
+        }
+        return state.url(base: link.base)
+    }
+
+    /// Where a browser has to stand to see the ground this page prints.
+    ///
+    /// The zoom comes off the map frame the way the app reads it off the
+    /// screen, because the frame is this page's viewport. Nil when the frame
+    /// or the span is degenerate, which leaves the caller's own position in
+    /// place rather than writing a coordinate nothing measured.
+    static func position(of bounds: GeoBoundingBox, mapFrame: PdfRect) -> MapPosition? {
+        let span = bounds.east - bounds.west
+        guard span > 0, mapFrame.width > 0 else { return nil }
+        let zoom = log2(360 * (mapFrame.width / 256) / span)
+        guard zoom.isFinite else { return nil }
+        return MapPosition(
+            latitude: (bounds.south + bounds.north) / 2,
+            longitude: (bounds.west + bounds.east) / 2,
+            zoom: Int(zoom.rounded())
+        )
+    }
+
     static func build(
         _ request: PrintExportRequest,
         physicalMemoryBytes: UInt64,
@@ -205,6 +281,13 @@ nonisolated enum PrintExport {
                 name: descriptor(layer.id.rawValue)?.name ?? layer.id.rawValue,
                 state: pageState(for: layer.status)
             )
+        }
+        // Written here rather than handed in, because what the code claims to
+        // be a receipt for is only settled once the raster is composited: the
+        // bounds are the frame grown to the paper, and the outcomes are which
+        // layers reached it.
+        let receiptURL = request.share.flatMap {
+            receipt(for: $0, printed: bounds, mapFrame: template.mapFrame, outcomes: outcomes)
         }
         let account = PrintExportPlan.account(
             for: outcomes,
@@ -269,8 +352,8 @@ nonisolated enum PrintExport {
                 // A link nobody can encode leaves the square empty rather than
                 // failing the export: the code is a shortcut back to the map,
                 // not part of what the page says.
-                shareURLText: request.shareURL?.absoluteString,
-                qrModules: request.shareURL.flatMap {
+                shareURLText: receiptURL?.absoluteString,
+                qrModules: receiptURL.flatMap {
                     QRCodeModules.modules(for: $0.absoluteString)
                 },
                 appendix: request.appendix,
