@@ -203,6 +203,14 @@ final class UserMapsViewModel {
                 preview: nil
             )
         }
+        // Half-finished placements with no map left to belong to, for the
+        // reason the store gives at `sweepOrphans` and under the same rule as
+        // the previews below: only against a library that read. The count is
+        // checked once more because an import can land between the read and
+        // here, and a map that arrived after the read is not in `records`.
+        if mark == writes {
+            drafts.sweepOrphans(keeping: Set(records.map(\.id)))
+        }
         // Pixels with no record left to belong to. An import whose library
         // write was refused has already written its preview, and a crash
         // between the two writes leaves the same thing; either way it is tens

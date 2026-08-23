@@ -915,6 +915,47 @@ struct UserMapDisplayTests {
         }
     }
 
+    /// The delete above is two steps, and only one of them is the library's.
+    /// Stop the app between them, or have the file refuse to go, and the draft
+    /// outlives every trace of the map it belongs to. Nothing would ever look
+    /// at it again, and nothing would ever remove it.
+    @Test("A draft whose map is gone is swept on the next load")
+    func aDraftWithNoMapIsSweptOnLoad() async throws {
+        try await withLibraryDirectory { directory in
+            let draftRoot = directory.appendingPathComponent("drafts", isDirectory: true)
+            let drafts = GeoreferenceDraftStore(directory: draftRoot)
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay(),
+                drafts: drafts
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let kept = try #require(viewModel.rows.first?.id)
+
+            for identifier in [kept, "a-map-that-was-deleted"] {
+                drafts.write(
+                    identifier: identifier,
+                    name: "Scan",
+                    controls: [
+                        SessionControlPoint(
+                            id: "1", pixel: PixelPoint(x: 10, y: 20),
+                            map: GeoPoint(lat: 44.65, lng: -63.6)
+                        )
+                    ],
+                    checks: [],
+                    checkLabels: []
+                )
+            }
+
+            await viewModel.load()
+
+            // The orphan goes; the placement the user is part way through on a
+            // map they still have does not.
+            #expect(drafts.draft(identifier: "a-map-that-was-deleted") == nil)
+            #expect(drafts.draft(identifier: kept) != nil)
+        }
+    }
+
     /// The window between an import starting and the seal going up.
     ///
     /// `load` learns of a later version across an await, so an import that
