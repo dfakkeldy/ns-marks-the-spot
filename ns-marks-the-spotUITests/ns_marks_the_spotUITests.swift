@@ -43,9 +43,12 @@ final class ns_marks_the_spotUITests: XCTestCase {
         app.buttons["Toggle Layers Menu"].tap()
 
         XCTAssertTrue(app.buttons["Close layers menu"].waitForExistence(timeout: 5))
-        // Background Maps is the one section the panel opens expanded, so its
-        // switch is the one a reader sees without opening anything.
-        XCTAssertTrue(app.switches["NS Aerial visibility"].waitForExistence(timeout: 5))
+        // Background Maps is the one section the panel opens expanded, so NS
+        // Aerial is what a reader sees without opening anything. `UITestMode`
+        // launches with the licence unanswered, and a restricted layer in that
+        // state carries a lock rather than a switch: the layer is one decision
+        // away, not unavailable.
+        XCTAssertTrue(app.buttons["NS Aerial licence required"].waitForExistence(timeout: 5))
 
         // The rest are collapsed, Fletcher among them. Reaching that switch
         // means opening its section first, which is the panel the browser has

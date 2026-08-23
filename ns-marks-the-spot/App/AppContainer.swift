@@ -26,6 +26,27 @@ final class AppContainer {
     /// place acceptance and revocation happen.
     let clearanceBox: LicenceClearanceBox
 
+    /// The container the app launches with.
+    ///
+    /// `UITestMode` on the command line builds one that remembers nothing: an
+    /// in-memory licence and a session store over defaults thrown away with the
+    /// run. A UI test asserting on what the layer panel shows is otherwise
+    /// asserting on whatever the simulator was left holding, and the two states
+    /// do not look alike — a restricted layer with the licence accepted has a
+    /// switch, and the same layer on a fresh install has a lock. That is how a
+    /// test passing on a developer's simulator failed on a clean runner.
+    static func forLaunch() -> AppContainer {
+        guard ProcessInfo.processInfo.arguments.contains("UITestMode") else {
+            return AppContainer()
+        }
+        return AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(),
+            sessionStore: MapSessionStore(
+                defaults: UserDefaults(suiteName: "ui-test-\(UUID().uuidString)") ?? .standard
+            )
+        )
+    }
+
     init(
         licenceStorage: (any ProvinceLicenceStorage)? = nil,
         sessionStore: MapSessionStore = MapSessionStore()

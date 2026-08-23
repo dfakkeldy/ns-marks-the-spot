@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct NSMarksTheSpotApp: App {
-    let container = AppContainer()
+    let container = AppContainer.forLaunch()
 
     var body: some Scene {
         WindowGroup {
