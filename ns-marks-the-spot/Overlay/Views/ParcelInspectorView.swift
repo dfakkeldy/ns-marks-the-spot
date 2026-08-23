@@ -26,8 +26,10 @@ struct ParcelInspectorView: View {
     var onShareMapLink: (() -> Void)?
     var onExportNote: (() -> Void)?
 
-    /// Read once when the card opens, so an event's lifecycle label does not
-    /// change under the reader mid-scroll.
+    /// The clock the tax-sale lifecycle labels are read off. It advances
+    /// while the card is open: a card left open across an advertised sale time
+    /// that goes on saying "Upcoming" is telling the reader something untrue
+    /// about a dated record.
     @State private var now = Date()
 
     var body: some View {
@@ -54,7 +56,7 @@ struct ParcelInspectorView: View {
         .clipShape(.rect(cornerRadius: 16))
         .shadow(color: .black.opacity(0.18), radius: 8, x: 0, y: 2)
         .accessibilityIdentifier("parcel-inspector")
-        .onAppear { now = Date() }
+        .advancingClock($now)
     }
 
     private var header: some View {
