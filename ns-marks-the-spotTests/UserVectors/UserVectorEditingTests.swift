@@ -37,8 +37,10 @@ struct UserVectorEditingTests {
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
-        // A library document that cannot be written: a directory standing where
-        // the file goes.
+        // A store that cannot take the layer: a directory standing where the
+        // library document goes, so the read inside `add` fails before its
+        // write does. Which of the two fails is not the point — what the panel
+        // does with a layer the store would not take is.
         try FileManager.default.createDirectory(
             at: root.appendingPathComponent("library.json"), withIntermediateDirectories: true
         )
@@ -55,6 +57,34 @@ struct UserVectorEditingTests {
         let notice = try #require(viewModel.importNotices.first)
         #expect(notice.isRefusal == false)
         #expect(notice.message.contains("until you close the app"))
+    }
+
+    /// Deleting one layer must not take the others with it. The panel is
+    /// reconciled against the library after a delete, and layers the device
+    /// never took are not in the library — so before this they were swept off
+    /// the map by somebody deleting something else entirely.
+    @Test("Deleting one session-only layer leaves the rest")
+    func deletingOneUnstoredLayerLeavesTheOthers() async throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let refusing = root.appendingPathComponent("library.json")
+        try FileManager.default.createDirectory(at: refusing, withIntermediateDirectories: true)
+        let viewModel = UserVectorsViewModel(store: UserVectorStore(directory: root))
+
+        await viewModel.importFile(data: Self.geoJson(), filename: "a.geojson")
+        await viewModel.importFile(data: Self.geoJson(), filename: "b.geojson")
+        #expect(viewModel.rows.count == 2)
+
+        // The device starts taking writes again, which is what makes the
+        // reconciliation below succeed and have something to say.
+        try FileManager.default.removeItem(at: refusing)
+        let first = try #require(viewModel.rows.first?.id)
+        await viewModel.delete(id: first)
+
+        #expect(viewModel.rows.count == 1)
+        #expect(viewModel.rows.first?.id != first)
     }
 
     /// A file the app would not read must not move the map either. Framing an

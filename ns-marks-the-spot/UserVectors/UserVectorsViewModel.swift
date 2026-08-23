@@ -16,6 +16,13 @@ final class UserVectorsViewModel {
         /// it is the user's layer, and a row that vanished would look like the
         /// app had thrown it away.
         var parsed: ParsedVector?
+        /// Whether the device took this layer, or it lives only in this
+        /// session because the store refused it.
+        ///
+        /// The library is what the panel is reconciled against after a delete,
+        /// and a layer the library never heard of would be swept out of the
+        /// panel by somebody deleting an unrelated one.
+        var isStored: Bool = true
 
         var id: String { record.id }
     }
@@ -95,9 +102,11 @@ final class UserVectorsViewModel {
                     bbox: layer.parsed.bbox,
                     originalFileID: originalFileID
                 )
+                var isStored = true
                 do {
                     _ = try await store.add(record, geometry: layer.parsed, original: data)
                 } catch {
+                    isStored = false
                     // The browser's promise, kept here: a device that cannot
                     // keep a layer never takes it away from the reader who just
                     // imported it. The layer is drawn and usable, it says
@@ -113,7 +122,12 @@ final class UserVectorsViewModel {
                         for: filename
                     )
                 }
-                rows.append(Row(record: record, isVisible: true, parsed: layer.parsed))
+                rows.append(
+                    Row(
+                        record: record, isVisible: true, parsed: layer.parsed,
+                        isStored: isStored
+                    )
+                )
             }
             // The first layer only. Walking the map through every layer of an
             // archive in turn would just be motion.
@@ -278,10 +292,24 @@ final class UserVectorsViewModel {
         return true
     }
 
+    /// Removes a layer, and reconciles the panel with what the library says.
+    ///
+    /// Reconciled rather than trusted, because a delete that reached the disk
+    /// is the moment to find out that something else went with it. Layers the
+    /// device never took are exempt: they are not in the library and never
+    /// were, so checking them against it would take every one of them off the
+    /// map the first time the user deleted anything at all.
     func delete(id: String) async {
-        guard let library = try? await store.delete(id: id) else { return }
+        let sessionOnly = rows.first { $0.id == id }?.isStored == false
+        guard let library = try? await store.delete(id: id) else {
+            // Nothing on disk to refuse it: a layer that is only in memory is
+            // deleted by forgetting it.
+            if sessionOnly { rows.removeAll { $0.id == id } }
+            return
+        }
         let kept = Set(library.layers.map(\.id))
-        rows.removeAll { !kept.contains($0.id) }
+        rows.removeAll { !kept.contains($0.id) && $0.isStored }
+        if sessionOnly { rows.removeAll { $0.id == id } }
     }
 
     /// The feature under a tap, among the layers currently drawn.
