@@ -429,7 +429,9 @@ struct PrintExportSheet: View {
             // app overruling the user.
             guard !Task.isCancelled else { return }
             outcomes = result.outcomes
-            let url = try PrintExport.write(result.pdf, named: name)
+            let url = try PrintExport.write(
+                result.pdf, named: name, on: request.generatedAt
+            )
             // Shown, not sent. The share sheet comes from the preview's own
             // button, so nothing leaves the device before the user has seen
             // what it says.
