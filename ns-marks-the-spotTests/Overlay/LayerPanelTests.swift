@@ -213,15 +213,41 @@ struct LayerPanelSectionTests {
         #expect(afterToggle.summary == "1 on")
     }
 
-    @Test func theSummaryCountsWhatIsCataloguedWithNoTiles() throws {
+    @Test func theSummaryNamesWhichHistoricalMapsCannotBeDrawn() throws {
         // Collapsed, the heading is the only place a reader is told that four
-        // of the maps filed under it cannot be drawn yet.
+        // of the maps filed under it cannot be drawn yet — and Fletcher missing
+        // is a different fact from the Church sheets having no tiles, so one
+        // number covering both would hide which of the two this is.
         let viewModel = OverlayViewModel.forTesting(installing: NativeLayerTraits.installOrder)
         let historical = try #require(
             viewModel.sections(addedMapCount: 0).first { $0.category == .historicalMaps }
         )
 
-        #expect(historical.summary == "1 on · 4 unavailable")
+        #expect(historical.summary == "1 on · 4 Church maps unavailable")
+    }
+
+    @Test func theBackgroundSummaryCountsTheBaseMapUnderneath() throws {
+        // Only NS Aerial has a catalog row, so counting rows alone would read
+        // "Off" over the Apple map the reader can plainly see.
+        let viewModel = OverlayViewModel.forTesting(installing: NativeLayerTraits.installOrder)
+
+        func summary() throws -> String {
+            try #require(
+                viewModel.sections(addedMapCount: 0).first { $0.category == .backgroundMaps }
+            ).summary
+        }
+
+        #expect(try summary() == "1 on")
+
+        viewModel.setBaseMapType(.blank)
+
+        #expect(try summary() == "Off")
+
+        // NS Aerial is the base map and its own row at once. One map on the
+        // screen has to read as one.
+        viewModel.setBaseMapType(.nsAerial)
+
+        #expect(try summary() == "1 on")
     }
 
     @Test func theSummarySaysWhenTheLicenceIsStillInTheWay() throws {

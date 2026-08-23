@@ -1,6 +1,5 @@
 import GeoCore
 import SwiftUI
-import UniformTypeIdentifiers
 
 /// The user's own vector layers, as a section of the layer panel.
 ///
@@ -10,22 +9,12 @@ import UniformTypeIdentifiers
 /// they drew themselves.
 struct UserVectorRowsView: View {
     @Bindable var viewModel: UserVectorsViewModel
-    /// The other pipeline, so a selection holding both kinds of file can be
-    /// made from either section's Import button. Optional because a panel
-    /// without a map section is still a panel.
-    var maps: UserMapsViewModel?
     /// Called with a layer's extent when the user asks to see it. Optional so
     /// the panel can be shown — in a preview, in a test — without a map.
     var onZoom: ((GeoBoundingBox) -> Void)?
     /// Called to open the editor on a layer. Optional for the same reason: the
     /// panel is still the panel without a map behind it.
     var onEdit: ((UserVectorsViewModel.Row) -> Void)?
-    /// Starts an empty layer and opens the editor on it. Without this, drawing
-    /// would only be reachable by first importing a file, which a user who came
-    /// to sketch a boundary does not have.
-    var onNewDrawingLayer: (() -> Void)?
-
-    @State private var isImporting = false
     @State private var sharing: SharePayload?
     @State private var deleting: UserVectorsViewModel.Row?
     @State private var renaming: UserVectorsViewModel.Row?
@@ -33,25 +22,10 @@ struct UserVectorRowsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Your Data")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-                Spacer()
-                if let onNewDrawingLayer {
-                    Button(action: onNewDrawingLayer) {
-                        Label("Draw", systemImage: "pencil.and.outline")
-                            .font(.caption)
-                    }
-                }
-                Button {
-                    isImporting = true
-                } label: {
-                    Label("Import", systemImage: "plus")
-                        .font(.caption)
-                }
-            }
+            Text("Your Data")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
 
             if viewModel.rows.isEmpty {
                 Text("Draw your own, or import GeoJSON, KML, KMZ, GPX or a zipped shapefile.")
@@ -145,14 +119,6 @@ struct UserVectorRowsView: View {
         }
         .sheet(item: $sharing) { payload in
             ShareSheet(items: payload.items)
-        }
-        .fileImporter(
-            isPresented: $isImporting,
-            allowedContentTypes: UserFileImport.contentTypes,
-            allowsMultipleSelection: true
-        ) { result in
-            guard case .success(let urls) = result else { return }
-            Task { await UserFileImport.load(urls, maps: maps, vectors: viewModel) }
         }
         .alert(
             "Rename layer",

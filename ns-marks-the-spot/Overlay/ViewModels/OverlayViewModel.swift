@@ -262,14 +262,43 @@ final class OverlayViewModel {
 
         // A layer the licence still stands in front of is not drawing, whatever
         // its switch says, so it is not counted as on.
-        let activeCount = rows.count { $0.isVisible && !$0.needsLicence }
+        var activeCount = rows.count { $0.isVisible && !$0.needsLicence }
+
+        // The base map counts as one of them. Only NS Aerial has a catalog row,
+        // so counting rows alone reads "Off" over a Standard map that is
+        // plainly drawn; the web counts its own `modern` map here for the same
+        // reason. Counted once when NS Aerial is the base map: the row and the
+        // picker's fifth choice are the same map, not two.
+        if category == .backgroundMaps {
+            activeCount = rows.count { row in
+                row.isVisible && !row.needsLicence
+                    && !NativeLayerTraits.basemapCapable.contains(row.descriptor.id)
+            }
+            if baseMapType != .blank {
+                activeCount += 1
+            }
+        }
+
         var parts = [activeCount == 0 ? "Off" : "\(activeCount) on"]
 
-        // Catalogued with nothing behind it: the Church sheets, which have no
-        // tiles yet. Collapsed, the count is the only place that fact appears.
-        let unavailable = rows.count { !$0.isAvailable }
-        if unavailable > 0 {
-            parts.append("\(unavailable) unavailable")
+        // Catalogued with nothing behind it. Named rather than counted in the
+        // one section where two different things are missing for two different
+        // reasons: Fletcher when the build has no tile host for it, and the
+        // Church sheets, which have no tiles at all yet. A single number there
+        // hides which of the two a reader is looking at.
+        if category == .historicalMaps {
+            if rows.contains(where: { $0.descriptor.id == .fletcher && !$0.isAvailable }) {
+                parts.append("Fletcher unavailable")
+            }
+            let church = rows.count { $0.descriptor.id != .fletcher && !$0.isAvailable }
+            if church > 0 {
+                parts.append("\(church) Church maps unavailable")
+            }
+        } else {
+            let unavailable = rows.count { !$0.isAvailable }
+            if unavailable > 0 {
+                parts.append("\(unavailable) unavailable")
+            }
         }
 
         if rows.contains(where: \.needsLicence) {

@@ -9,9 +9,9 @@
 # `xcrun xcresulttool get test-results tests --path <bundle>`.
 #
 # The suites are read out of the sources rather than listed here. A hand-kept
-# list goes stale silently, and the way that shows up is a name no longer in the
-# target failing the run with "no tests matched" — after the build gate has
-# already spent an admission on it.
+# list goes stale silently, and a stale name does not fail: `-only-testing` on a
+# suite the target no longer has exits 0 having run nothing. The run below reads
+# each log for what actually executed and reports those separately.
 #
 # Built once, then run without building, because a gate admission is scarce and
 # fifty invocations would otherwise each re-check the whole project.
@@ -66,7 +66,7 @@ DEST="platform=iOS Simulator,id=${UDID%% *}"
 #
 # With no arguments, every top-level type in the test target that holds at least
 # one `@Test`. Helper types — builders, fixtures — carry none and are left out,
-# because `-only-testing` on one of them is an error rather than an empty run.
+# because naming one runs nothing and now reports as having matched nothing.
 SUITES=($(awk '
   /^([a-zA-Z@ ]* )?(struct|final class|class) [A-Za-z_]+/ && $0 !~ /^ / {
     if (current != "" && hasTest) print current
@@ -115,6 +115,7 @@ SUITE_TIMEOUT=${SUITE_TIMEOUT:-420}
 
 failed=()
 stuck=()
+empty=()
 for suite in $SUITES; do
   print "=== $suite"
   xcodebuild test-without-building \
@@ -145,6 +146,14 @@ for suite in $SUITES; do
   else
     wait $pid
     (( $? == 0 )) || failed+=$suite
+    # `-only-testing` on a name the target does not have exits 0 having run
+    # nothing, so a suite renamed since the last run would pass in silence.
+    # What actually ran is the count the runner prints: Swift Testing's
+    # "Test run with N tests", or XCTest's "Executed N tests". The XCTest line
+    # is printed as 0 for every Swift Testing suite, so both have to be read.
+    if ! grep -Eq "Test run with [1-9]|Executed [1-9][0-9]* tests" "$OUT/$suite.log"; then
+      empty+=$suite
+    fi
   fi
   tail -25 "$OUT/$suite.log"
 done
@@ -156,7 +165,10 @@ fi
 if (( ${#failed} )); then
   print "FAILED: $failed"
 fi
-if (( ${#stuck} + ${#failed} )); then
+if (( ${#empty} )); then
+  print "MATCHED NO TESTS: $empty"
+fi
+if (( ${#stuck} + ${#failed} + ${#empty} )); then
   exit 1
 fi
 print "all suites passed"

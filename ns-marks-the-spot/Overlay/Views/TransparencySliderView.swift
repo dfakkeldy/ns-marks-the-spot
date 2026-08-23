@@ -2,6 +2,7 @@ import GeoCore
 import MapCatalog
 import NSDataServices
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct TransparencySliderView: View {
     let viewModel: OverlayViewModel
@@ -26,6 +27,7 @@ struct TransparencySliderView: View {
     /// thing the sections exist to avoid. What is on inside a closed section is
     /// on the heading beside it.
     @State private var expandedCategories: Set<LayerCategoryID> = [.backgroundMaps]
+    @State private var isImportingUserFile = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -77,7 +79,10 @@ struct TransparencySliderView: View {
                     }
                 }
             }
-            .frame(maxHeight: 350)
+            // No cap of its own: the caller sizes the card off the screen, and
+            // a second fixed limit here would leave ten sections scrolling
+            // inside half a panel on a phone that has room for all of them.
+            .frame(maxHeight: .infinity)
         }
         .padding(16)
         .background(
@@ -127,12 +132,17 @@ struct TransparencySliderView: View {
         }
     }
 
+    // A menu rather than five segments: in a 300-point panel each segment gets
+    // about 50 points, and "Satellite" and "NS Aerial" both truncate to an
+    // ellipsis. Which map is underneath is the one thing this control is for.
     private var baseMapPicker: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        HStack {
             Text("Base Map Style")
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
+
+            Spacer()
 
             Picker("Base Map Style", selection: Binding(
                 get: { viewModel.baseMapType },
@@ -142,7 +152,9 @@ struct TransparencySliderView: View {
                     Text(type.rawValue).tag(type)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
+            .labelsHidden()
+            .accessibilityIdentifier("base-map-style")
         }
     }
 
@@ -200,17 +212,48 @@ struct TransparencySliderView: View {
 
     @ViewBuilder
     private var myMapsControls: some View {
+        // One Import for the section, the way the browser has it. Each list
+        // used to carry its own, and both opened the same picker with the same
+        // file types and handed the result to the same router: side by side in
+        // one section they read as two operations when there is only one.
+        if userMaps != nil || userVectors != nil {
+            HStack {
+                if let onNewDrawingLayer {
+                    Button(action: onNewDrawingLayer) {
+                        Label("Draw", systemImage: "pencil.and.outline")
+                            .font(.caption)
+                    }
+                }
+
+                Spacer()
+
+                Button {
+                    isImportingUserFile = true
+                } label: {
+                    Label("Import", systemImage: "plus")
+                        .font(.caption)
+                }
+                .accessibilityIdentifier("import-user-file")
+            }
+            .fileImporter(
+                isPresented: $isImportingUserFile,
+                allowedContentTypes: UserFileImport.contentTypes,
+                allowsMultipleSelection: true
+            ) { result in
+                guard case .success(let urls) = result else { return }
+                Task { await UserFileImport.load(urls, maps: userMaps, vectors: userVectors) }
+            }
+        }
+
         if let userMaps {
-            UserMapRowsView(viewModel: userMaps, vectors: userVectors)
+            UserMapRowsView(viewModel: userMaps)
         }
 
         if let userVectors {
             UserVectorRowsView(
                 viewModel: userVectors,
-                maps: userMaps,
                 onZoom: onZoomToLayer,
-                onEdit: onEditLayer,
-                onNewDrawingLayer: onNewDrawingLayer
+                onEdit: onEditLayer
             )
         }
     }
@@ -270,9 +313,14 @@ private struct LayerSectionView<Controls: View>: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(.primary)
 
+                // Two lines when the section has two things to say about
+                // itself, and both of them start at the heading's left edge.
                 Text(section.summary)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())

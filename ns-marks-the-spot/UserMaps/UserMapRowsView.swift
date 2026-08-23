@@ -1,7 +1,6 @@
 import GeoCore
 import MapKit
 import SwiftUI
-import UniformTypeIdentifiers
 
 /// The user's own maps, as a section of the layer panel.
 ///
@@ -12,34 +11,20 @@ import UniformTypeIdentifiers
 /// research, not a record.
 struct UserMapRowsView: View {
     @Bindable var viewModel: UserMapsViewModel
-    /// The other pipeline, so a selection holding both kinds of file can be
-    /// made from either section's Import button. Optional because a panel
-    /// without a data section is still a panel.
-    var vectors: UserVectorsViewModel?
 
     /// Read here rather than inside the sheet: the opening view has to be
     /// known before the georeferencer's map pane is built.
     @Environment(\.georeferenceReferences) private var referenceServices
 
-    @State private var isImporting = false
     @State private var georeferencing: UserMapsViewModel.Row?
     @State private var choosingFrame: UserMapsViewModel.Row?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Your Maps")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-                Spacer()
-                Button {
-                    isImporting = true
-                } label: {
-                    Label("Import", systemImage: "plus")
-                        .font(.caption)
-                }
-            }
+            Text("Your Maps")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
 
             if viewModel.rows.isEmpty {
                 Text("Import a GeoTIFF, PDF, PNG or JPEG to draw it on the map.")
@@ -83,14 +68,6 @@ struct UserMapRowsView: View {
                 .foregroundStyle(notice.isRefusal ? .orange : .secondary)
                 .fixedSize(horizontal: false, vertical: true)
             }
-        }
-        .fileImporter(
-            isPresented: $isImporting,
-            allowedContentTypes: UserFileImport.contentTypes,
-            allowsMultipleSelection: true
-        ) { result in
-            guard case .success(let urls) = result else { return }
-            Task { await UserFileImport.load(urls, maps: viewModel, vectors: vectors) }
         }
         .sheet(item: $choosingFrame) { row in
             PdfFrameChooser(

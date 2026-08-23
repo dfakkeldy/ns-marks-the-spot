@@ -27,6 +27,10 @@ struct MapContainerView: View {
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
     @State private var isLayersMenuExpanded = false
+    /// How tall the map surface is, so the layer panel can be capped at what
+    /// the screen actually has rather than at a number chosen for a shorter
+    /// list. Ten sections do not fit any fixed height worth hard-coding.
+    @State private var mapHeight: CGFloat = 0
     @State private var mapHeading: Double = 0
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
@@ -189,6 +193,7 @@ struct MapContainerView: View {
                             isExpanded: $isLayersMenuExpanded
                         )
                             .frame(width: 300)
+                            .frame(maxHeight: max(320, mapHeight - 132))
                             .transition(.asymmetric(
                                 insertion: .move(edge: .trailing).combined(with: .opacity),
                                 removal: .move(edge: .trailing).combined(with: .opacity)
@@ -422,6 +427,9 @@ struct MapContainerView: View {
                     .padding(.top, 60)
                 }
                 Spacer()
+            }
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                mapHeight = height
             }
 
             if let waterfallFetchErrorMessage = poiVM.waterfallFetchErrorMessage {
