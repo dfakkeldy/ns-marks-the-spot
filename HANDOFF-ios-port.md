@@ -1449,3 +1449,31 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh --status
 ```
+
+## 2026-08-23 — Phase C review fixes
+
+Done: the Codex review of the map-setup port found nine problems; eight are
+fixed in `9152f5a89`. A Satellite or Hybrid map is now no saved setup and says
+why, instead of saving as exact and reopening with no background. Applying a
+setup leaves the redemption filter alone. Reset reopens its sections, by way of
+a `themeApplications` count the panel watches — SwiftUI does not fire
+`onChange` for an equal resolution. The opacity slider starts at 15%, where the
+browser's does. Storage reads a write back, treats a wrongly typed key as
+unreadable rather than empty, and refuses `"version": true`; the manager keeps a
+refused save's name and compares a rename trimmed. The ninth — a zero opacity in
+a hand-edited document — stays as the web validates it.
+
+Green: 1078 package tests / 152 suites, `Scripts/typecheck-ios.sh`, gated
+`MapThemeApplyTests` (19), `TaxSale*`/`Historical*`/basemap/share/layer suites,
+and a simulator walkthrough: the Satellite notice appearing and clearing, the
+slider bottoming out at 15%, and Reset reopening Roads & Places after the
+reader had collapsed it.
+
+Next: read the second parity audit (scratchpad `codex-audit2.out`), then push
+and open the PR to `nightly`.
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+tail -200 "$SCRATCHPAD/codex-audit2.out"
+```
