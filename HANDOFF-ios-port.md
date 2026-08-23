@@ -1957,3 +1957,31 @@ Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-
 branch claude/ios-web-map-parity-2de228. Watch CI on the head commit; if the
 UI tests fail, read the uploaded native-tests.xcresult before changing them.
 ```
+
+## 2026-08-23 — reviews 10 and 11 applied; the UI tests have run once
+
+Done: CI run 32663399283 is the first empirical proof the UI bundles execute —
+14 UI tests ran, 13 passed. The one failure was the Fletcher licence, and the
+cause was the scroll budget, not the app: Fletcher is the last of thirty-six
+catalogued layers, so eight swipes cannot reach it. Codex review 10 then found
+five false greens in those tests and one false failure; all six are fixed, and
+attribution rows now carry `source-licence-<layer>` identifiers so a licence
+assertion is tied to the layer it governs. Review 11 caught the simulator
+resolver reading `Ineligible destinations` as candidates, which would have made
+the newly-fatal missing-simulator step fail on a runner that had a working
+simulator; it now reads only the available section and has unit tests under
+`.github/scripts/tests/`, which `ci.yml` already discovers. Review 11's
+unanswered question is answered: no legitimate run resolves nothing. All three
+workflows use GitHub-hosted `macos-26`, the native job only runs when the
+change classifier says `native == 'true'`, and the release-trains dry run still
+executes the tests.
+
+Next: triage CI on this push, then take the 22:00 ADT gate admission for
+`Scripts/gated-focused-tests.sh`.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit; the
+Fletcher licence assertion should now clear. Then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
