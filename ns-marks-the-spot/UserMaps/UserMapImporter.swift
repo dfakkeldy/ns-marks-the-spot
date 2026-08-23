@@ -243,6 +243,11 @@ enum UserMapImporter {
             )
         }
         guard let base = sizes.first, base.width > 0, base.height > 0 else {
+            // ImageIO reporting no size for a TIFF is not a corrupt file. It
+            // is the tiled-and-predicted layout it will not unpack, which is
+            // what a Cloud-Optimized GeoTIFF is and what the browser reads
+            // without trouble. Decoded from the tags instead.
+            if let bitmap = try tiffFallback(data) { return bitmap }
             throw UserMapImportRefusal(
                 code: .corruptFile, userMessage: "This image does not state its own size."
             )
@@ -267,6 +272,7 @@ enum UserMapImporter {
         guard let image = CGImageSourceCreateThumbnailAtIndex(
             source, chosen, options as CFDictionary
         ) else {
+            if let bitmap = try tiffFallback(data) { return bitmap }
             throw UserMapImport.decodeFailure(ofImageSized: sizes[chosen])
         }
         // `kCGImagePropertyPixelWidth` is the stored raster's width, before any
@@ -294,6 +300,62 @@ enum UserMapImporter {
         let size = quarterTurned
             ? PixelSize(width: base.height, height: base.width) : base
         return (image, size)
+    }
+
+    /// The pixels of a TIFF that Image I/O would not open, read from its own
+    /// tags.
+    ///
+    /// Tried on failure rather than chosen in advance. Which layouts Image I/O
+    /// refuses is Apple's to change, and a check that predicts it would start
+    /// taking files away from a decoder that had learned to read them.
+    ///
+    /// Returns nil when the file is not a TIFF at all, or is one whose tags
+    /// say nothing about where its pixels are, so the caller's own refusal
+    /// stands. A file this decoder understands and rejects throws instead,
+    /// because that refusal names a reason and the caller's does not.
+    ///
+    /// No orientation is applied. A tag saying which way up a picture goes
+    /// belongs to a photograph, and this path exists for GIS output, which
+    /// states its rows and columns in its geotransform.
+    private static func tiffFallback(
+        _ data: Data
+    ) throws(UserMapImportRefusal) -> (CGImage, PixelSize)? {
+        let layout: GeoTiffTags.RasterLayout?
+        do {
+            layout = try GeoTiffTags.layout(data)
+        } catch {
+            return nil
+        }
+        guard let layout else { return nil }
+        let bitmap = try TiffRaster.decode(
+            data, layout: layout, maxDimension: UserMapImport.previewMaxDimension
+        )
+        guard let image = cgImage(from: bitmap) else {
+            throw UserMapImportRefusal(
+                code: .corruptFile,
+                userMessage: "The image in this file could not be decoded."
+            )
+        }
+        return (image, layout.pixelSize)
+    }
+
+    private static func cgImage(from bitmap: TiffRaster.Bitmap) -> CGImage? {
+        guard bitmap.width > 0, bitmap.height > 0,
+              let provider = CGDataProvider(data: Data(bitmap.rgba) as CFData)
+        else { return nil }
+        return CGImage(
+            width: bitmap.width,
+            height: bitmap.height,
+            bitsPerComponent: 8,
+            bitsPerPixel: 32,
+            bytesPerRow: bitmap.width * 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: true,
+            intent: .defaultIntent
+        )
     }
 
     /// Whether decoding exchanged the image's axes.

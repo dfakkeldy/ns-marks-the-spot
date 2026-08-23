@@ -71,6 +71,20 @@ public enum GeoTiffTags {
         static let geoKeyDirectory: UInt16 = 34_735
         static let geoDoubleParams: UInt16 = 34_736
         static let geoAsciiParams: UInt16 = 34_737
+        static let bitsPerSample: UInt16 = 258
+        static let compression: UInt16 = 259
+        static let photometric: UInt16 = 262
+        static let stripOffsets: UInt16 = 273
+        static let samplesPerPixel: UInt16 = 277
+        static let rowsPerStrip: UInt16 = 278
+        static let stripByteCounts: UInt16 = 279
+        static let planarConfiguration: UInt16 = 284
+        static let predictor: UInt16 = 317
+        static let tileWidth: UInt16 = 322
+        static let tileLength: UInt16 = 323
+        static let tileOffsets: UInt16 = 324
+        static let tileByteCounts: UInt16 = 325
+        static let sampleFormat: UInt16 = 339
     }
 
     private enum GeoKey {
@@ -107,6 +121,113 @@ public enum GeoTiffTags {
         )
     }
 
+    /// How a TIFF stores its pixels, which is a separate question from where
+    /// its pixels are on the ground.
+    ///
+    /// Read because ImageIO will not decode every TIFF the browser will. A
+    /// file that is tiled and compressed and uses the horizontal predictor
+    /// gets no dimensions and no image out of it, which is what
+    /// `-co TILED=YES -co COMPRESS=DEFLATE -co PREDICTOR=2` produces and what
+    /// a great many published orthophotos are. The predictor is not optional
+    /// in practice: on the fixture in `Tests/GeoCoreTests/Fixtures` it takes
+    /// the file from 34 KB to 2.3 KB.
+    ///
+    /// Which layouts ImageIO refuses is Apple's to change, so nothing here
+    /// predicts it. These tags are read when ImageIO has already returned
+    /// nothing.
+    public struct RasterLayout: Equatable, Sendable {
+        public enum Compression: Int, Sendable {
+            case none = 1
+            case lzw = 5
+            case deflateAdobe = 8
+            case packBits = 32_773
+            case deflate = 32_946
+            /// Anything else: JPEG-in-TIFF and the rarer schemes. Named rather
+            /// than guessed at, because a wrong guess renders noise.
+            case other = 0
+        }
+
+        public var pixelSize: PixelSize
+        public var compression: Compression
+        /// The raw tag value, kept so a refusal can quote what the file said
+        /// even when this cannot name it.
+        public var compressionCode: Int
+        /// Present when the file is tiled. Strips are the other layout, and a
+        /// strip is a tile the full width of the image.
+        public var tileWidth: Int?
+        public var tileHeight: Int?
+        public var rowsPerStrip: Int
+        public var bitsPerSample: [Int]
+        public var samplesPerPixel: Int
+        public var photometric: Int
+        public var planarConfiguration: Int
+        public var predictor: Int
+        public var offsets: [Int]
+        public var byteCounts: [Int]
+
+        public var isTiled: Bool { tileWidth != nil && tileHeight != nil }
+
+        /// The width and height of one unit of storage, whichever layout the
+        /// file uses.
+        public var blockSize: PixelSize {
+            PixelSize(
+                width: Double(tileWidth ?? Int(pixelSize.width)),
+                height: Double(tileHeight ?? rowsPerStrip)
+            )
+        }
+
+    }
+
+    /// What the tags say about the pixel storage, or nil when the file names
+    /// no storage at all.
+    public static func layout(_ data: Data) throws(Refusal) -> RasterLayout? {
+        var reader = try Reader(data)
+        let entries = try reader.firstDirectory()
+        guard let width = entries[Tag.imageWidth]?.first,
+              let height = entries[Tag.imageLength]?.first,
+              width > 0, height > 0
+        else { return nil }
+
+        func whole(_ tag: UInt16) -> [Int]? {
+            guard let values = entries[tag] else { return nil }
+            // A value that is not a whole number is not an offset or a count,
+            // and rounding one into place would read from the wrong byte.
+            guard values.allSatisfy({ $0 >= 0 && $0 == $0.rounded() && $0 < 9e15 })
+            else { return nil }
+            return values.map { Int($0) }
+        }
+        func first(_ tag: UInt16, or fallback: Int) -> Int {
+            whole(tag)?.first ?? fallback
+        }
+
+        let tileWidth = whole(Tag.tileWidth)?.first
+        let tileHeight = whole(Tag.tileLength)?.first
+        let tiled = tileWidth != nil && tileHeight != nil
+        guard let offsets = whole(tiled ? Tag.tileOffsets : Tag.stripOffsets),
+              let counts = whole(tiled ? Tag.tileByteCounts : Tag.stripByteCounts),
+              offsets.count == counts.count, !offsets.isEmpty
+        else { return nil }
+
+        let code = first(Tag.compression, or: 1)
+        return RasterLayout(
+            pixelSize: PixelSize(width: width, height: height),
+            compression: RasterLayout.Compression(rawValue: code) ?? .other,
+            compressionCode: code,
+            tileWidth: tileWidth,
+            tileHeight: tileHeight,
+            // The default is the whole image in one strip, which is what a file
+            // that omits the tag means.
+            rowsPerStrip: first(Tag.rowsPerStrip, or: Int(height)),
+            bitsPerSample: whole(Tag.bitsPerSample) ?? [1],
+            samplesPerPixel: first(Tag.samplesPerPixel, or: 1),
+            photometric: first(Tag.photometric, or: 1),
+            planarConfiguration: first(Tag.planarConfiguration, or: 1),
+            predictor: first(Tag.predictor, or: 1),
+            offsets: offsets,
+            byteCounts: counts
+        )
+    }
+
     private static func geotransform(
         entries: [UInt16: [Double]], pixelIsPoint: Bool
     ) -> [Double]? {
@@ -139,11 +260,24 @@ public enum GeoTiffTags {
         return [originX, scale[0], 0, originY, 0, -scale[1]]
     }
 
+    /// A tag value as an index or a count, or nil when it is not one.
+    ///
+    /// Every value in a directory arrives as a `Double`, whatever type the file
+    /// declared, so a tag written in the wrong type still parses. A GeoKey
+    /// table written as doubles rather than shorts can therefore hold infinity
+    /// or a number past what an `Int` holds, and `Int(_:)` traps on both. A
+    /// malformed tag has to be ignored, not fatal.
+    private static func whole(_ value: Double) -> Int? {
+        guard value.isFinite, value >= 0, value <= 9e15, value == value.rounded()
+        else { return nil }
+        return Int(value)
+    }
+
     private static func crs(_ keys: (numbers: [UInt16: Double], strings: [UInt16: String])) -> String? {
         let code = keys.numbers[GeoKey.projectedCsType] ?? keys.numbers[GeoKey.geographicType]
-        guard let code, code != GeoKey.userDefined, code > 0, code == code.rounded()
+        guard let code, code != GeoKey.userDefined, code > 0, let whole = whole(code)
         else { return nil }
-        return "EPSG:\(Int(code))"
+        return "EPSG:\(whole)"
     }
 
     /// The GeoKey directory: a tag whose values are themselves a table of
@@ -159,7 +293,7 @@ public enum GeoTiffTags {
 
         let doubles = entries[Tag.geoDoubleParams] ?? []
         let ascii = reader.ascii[Tag.geoAsciiParams] ?? ""
-        let declared = Int(directory[3])
+        guard let declared = whole(directory[3]) else { return (numbers, strings) }
         // Trusted only as far as the tag actually goes: the count is four
         // shorts in, and a file whose header outruns its own table would
         // otherwise read whatever followed.
@@ -169,8 +303,9 @@ public enum GeoTiffTags {
             let base = 4 + index * 4
             let id = UInt16(exactly: directory[base].rounded()) ?? 0
             let location = UInt16(exactly: directory[base + 1].rounded()) ?? 0
-            let length = Int(directory[base + 2])
-            let offset = Int(directory[base + 3])
+            guard let length = whole(directory[base + 2]),
+                  let offset = whole(directory[base + 3])
+            else { continue }
             switch location {
             case 0:
                 numbers[id] = directory[base + 3]
@@ -343,6 +478,11 @@ public enum GeoTiffTags {
                 Double(integer(data, at: offset, bytes: 2, bigEndian: bigEndian))
             case 1, 6, 7:
                 Double(integer(data, at: offset, bytes: 1, bigEndian: bigEndian))
+            case 16, 17:
+                // BigTIFF's eight-byte integers. Read at four bytes they come
+                // back as the low half in one byte order and the high half in
+                // the other, so a big-endian sheet's every offset reads zero.
+                Double(integer(data, at: offset, bytes: 8, bigEndian: bigEndian))
             default:
                 Double(integer(data, at: offset, bytes: 4, bigEndian: bigEndian))
             }

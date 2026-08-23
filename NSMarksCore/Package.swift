@@ -28,6 +28,10 @@ let package = Package(
         .testTarget(
             name: "GeoCoreTests",
             dependencies: ["GeoCore"],
+            // TIFFs written by GDAL, in the layouts ImageIO does and does not
+            // decode. Copied rather than processed: resource processing would
+            // be free to rewrite the bytes, and the bytes are the test.
+            resources: [.copy("Fixtures")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .target(
