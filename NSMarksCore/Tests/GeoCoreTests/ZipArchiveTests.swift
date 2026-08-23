@@ -21,6 +21,62 @@ struct ZipArchiveTests {
         options: .ignoreUnknownCharacters
     )!
 
+    /// The same archive rewritten into zip64 form: the entry's sizes and its
+    /// header offset masked out in the central directory and given again as
+    /// eight-byte values, behind a zip64 end-of-central-directory record and
+    /// its locator.
+    ///
+    /// A writer reaches for this layout when a file passes 4 GB, and some
+    /// reach for it whenever they stream an entry whose size they do not know
+    /// yet. Either way the browser reads one, so these exact bytes were run
+    /// through `fflate` and through `unzip(1)` first, and both give back the
+    /// same `doc.kml` the plain archive holds.
+    private static let zip64Kmz = Data(
+        base64Encoded: """
+            UEsDBBQAAgAIAPJqD10uVs1pvgAAADkBAAAHABwAZG9jLmttbFVUCQADiJKAaoiSgGp1eAsAAQT1\
+            AQAABAAAAACdj8FuwjAMhu99iihniBljCE1uuKCdERrauUqtEtHaVWJWHn9hmgZnjra/3/o/3F6H\
+            3nxTylG4ti9uYQ1xkDZyV9vj58d8Y7e+wnOhCsm5tifV8R1gmiYnI3EXs2NSKAQs3dJ63Em4DMRa\
+            Yvu+CTQ06eyRm4H8l0jbi5ogiSkh/C6xpRxSHLVU8AcaqVFqjdJVTXpuQnh8iXuJpQ0GkVS8CpX9\
+            fP3q3marlVvPFgiPF4Q/HO7lK4R/KbyZ+uoHUEsBAh4DFAACAAgA8moPXS5WzWn//////////wcA\
+            NAAAAAAAAQAAAKSB/////2RvYy5rbWwBABgAOQEAAAAAAAC+AAAAAAAAAAAAAAAAAAAAVVQFAAOI\
+            koBqdXgLAAEE9QEAAAQAAAAAUEsGBiwAAAAAAAAALQAtAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAA\
+            AGkAAAAAAAAA/wAAAAAAAABQSwYHAAAAAGgBAAAAAAAAAQAAAFBLBQYAAAAA////////////////\
+            AAA=
+            """,
+        options: .ignoreUnknownCharacters
+    )!
+
+    @Test func aZip64ArchiveIsReadRatherThanRefused() throws {
+        let entries = try ZipArchive.entries(in: Self.zip64Kmz)
+        #expect(entries.map(\.name) == ["doc.kml"])
+        let plain = try ZipArchive.entries(in: Self.kmz)
+        #expect(entries[0].compressedSize == plain[0].compressedSize)
+        #expect(entries[0].uncompressedSize == plain[0].uncompressedSize)
+        #expect(entries[0].localHeaderOffset == plain[0].localHeaderOffset)
+    }
+
+    @Test func aZip64EntryComesBackAsTheSameBytesTheSmallLayoutHolds() throws {
+        let wide = try ZipArchive.contents(
+            of: try ZipArchive.entries(in: Self.zip64Kmz)[0], in: Self.zip64Kmz
+        )
+        let narrow = try ZipArchive.contents(
+            of: try ZipArchive.entries(in: Self.kmz)[0], in: Self.kmz
+        )
+        #expect(wide == narrow)
+    }
+
+    /// The marker says the real size is in the extra field. An archive that
+    /// writes the marker and leaves the field out is not one whose entries can
+    /// be located, and reading the marker as a size would ask for 4 GB.
+    @Test func aZip64MarkerWithNothingBehindItIsRefused() {
+        var bytes = [UInt8](Self.kmz)
+        let directory = 255  // the central directory of this archive
+        for index in (directory + 20)..<(directory + 28) { bytes[index] = 0xFF }
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.entries(in: Data(bytes))
+        }
+    }
+
     @Test func theEntriesOfARealArchiveAreListed() throws {
         let entries = try ZipArchive.entries(in: Self.kmz)
         #expect(entries.map(\.name) == ["doc.kml"])

@@ -10,10 +10,10 @@ import Foundation
 /// sites.
 ///
 /// Deliberately not a general zip implementation. It reads the central
-/// directory, and it handles stored and deflated entries; encryption, spanned
-/// archives and zip64 are refused rather than half-supported, because a zip
-/// this cannot read must fail loudly instead of yielding a shapefile missing
-/// its attributes.
+/// directory, it handles stored and deflated entries, and it follows the
+/// zip64 fields where an archive uses them. Encryption and spanned archives
+/// are refused rather than half-supported, because a zip this cannot read
+/// must fail loudly instead of yielding a shapefile missing its attributes.
 public enum ZipArchive {
     public struct Entry: Hashable, Sendable {
         public var name: String
@@ -55,22 +55,17 @@ public enum ZipArchive {
             let nameLength = Int(read16(bytes, offset + 28))
             let extraLength = Int(read16(bytes, offset + 30))
             let commentLength = Int(read16(bytes, offset + 32))
-            let compressed = Int(read32(bytes, offset + 20))
-            let uncompressed = Int(read32(bytes, offset + 24))
-            let localOffset = Int(read32(bytes, offset + 42))
-            guard offset + 46 + nameLength <= bytes.count else { throw refusal(unreadable) }
-            // 0xffffffff in any of these is the zip64 marker: the real value
-            // lives in an extra field this reader does not parse.
-            guard compressed != 0xffff_ffff, uncompressed != 0xffff_ffff,
-                  localOffset != 0xffff_ffff
-            else {
-                throw refusal(
-                    """
-                    This archive uses a zip format this app can't read (zip64). \
-                    Export it again as a standard zip.
-                    """
-                )
+            guard offset + 46 + nameLength + extraLength <= bytes.count else {
+                throw refusal(unreadable)
             }
+            // 0xffffffff in any of these is the zip64 marker, and the real
+            // value is in the extra field that follows the name.
+            let (compressed, uncompressed, localOffset) = try zip64Substituted(
+                bytes, extraAt: offset + 46 + nameLength, length: extraLength,
+                compressed: read32(bytes, offset + 20),
+                uncompressed: read32(bytes, offset + 24),
+                localOffset: read32(bytes, offset + 42)
+            )
             let name =
                 String(bytes: bytes[(offset + 46)..<(offset + 46 + nameLength)], encoding: .utf8)
                 ?? String(
@@ -80,15 +75,94 @@ public enum ZipArchive {
                 Entry(
                     name: name,
                     method: read16(bytes, offset + 10),
-                    compressedSize: compressed,
-                    uncompressedSize: uncompressed,
-                    localHeaderOffset: localOffset
+                    compressedSize: Int(compressed),
+                    uncompressedSize: Int(uncompressed),
+                    localHeaderOffset: Int(localOffset)
                 )
             )
             offset += 46 + nameLength + extraLength + commentLength
         }
         guard !entries.isEmpty else { throw refusal(unreadable) }
         return entries
+    }
+
+    /// The three sizes an entry declares, with any that is the zip64 marker
+    /// replaced by the eight-byte value the extra field carries.
+    ///
+    /// The zip64 extended-information field holds the original size, the
+    /// compressed size, and the local-header offset in that order, and holds
+    /// each one only when its 32-bit counterpart is the marker. So which eight
+    /// bytes belong to which value depends on how many markers came before it,
+    /// and reading them in the order the entry lists them is the whole of it.
+    private static func zip64Substituted(
+        _ bytes: [UInt8], extraAt start: Int, length: Int,
+        compressed: UInt32, uncompressed: UInt32, localOffset: UInt32
+    ) throws(UserMapImportRefusal) -> (compressed: UInt64, uncompressed: UInt64,
+        localOffset: UInt64)
+    {
+        let marker = UInt32.max
+        let wanted = [uncompressed, compressed, localOffset].filter { $0 == marker }.count
+        var values = [UInt64]()
+        if wanted > 0 {
+            guard let found = zip64Fields(bytes, at: start, length: length, count: wanted)
+            else {
+                throw refusal(
+                    """
+                    This archive says its entries are zip64 and then does not \
+                    say how big they are. Export it again.
+                    """
+                )
+            }
+            values = found
+        }
+        var next = values.makeIterator()
+        func value(_ declared: UInt32) -> UInt64 {
+            declared == marker ? (next.next() ?? 0) : UInt64(declared)
+        }
+        // The order here is the order the field is written in, not the order
+        // the arguments are named in.
+        let realUncompressed = value(uncompressed)
+        let realCompressed = value(compressed)
+        let realOffset = value(localOffset)
+        // A compressed run and a header offset both have to be inside the file
+        // that holds them. An uncompressed size does not — that is what
+        // compression is — so it is held to the largest map this app will ever
+        // open, which is also what stops a declared size from asking for an
+        // allocation no device has.
+        guard realCompressed <= UInt64(bytes.count), realOffset <= UInt64(bytes.count)
+        else { throw refusal(unreadable) }
+        guard realUncompressed <= UInt64(UserMapImport.hardLimitBytes) else {
+            throw UserMapImportRefusal(
+                code: .tooLarge,
+                userMessage: """
+                    A file inside this archive is over 500 MB once unpacked, \
+                    which is more than this app can open. Export a smaller \
+                    area and import that.
+                    """
+            )
+        }
+        return (realCompressed, realUncompressed, realOffset)
+    }
+
+    /// The first `count` eight-byte values in the zip64 extended-information
+    /// block of an extra field, or nil when the block is absent or shorter
+    /// than the values the entry said were in it.
+    private static func zip64Fields(
+        _ bytes: [UInt8], at start: Int, length: Int, count: Int
+    ) -> [UInt64]? {
+        var offset = start
+        let end = start + length
+        while offset + 4 <= end {
+            let id = read16(bytes, offset)
+            let size = Int(read16(bytes, offset + 2))
+            guard offset + 4 + size <= end else { return nil }
+            if id == 1 {
+                guard size >= count * 8 else { return nil }
+                return (0..<count).map { read64(bytes, offset + 4 + $0 * 8) }
+            }
+            offset += 4 + size
+        }
+        return nil
     }
 
     /// One entry's bytes.
@@ -153,18 +227,37 @@ public enum ZipArchive {
     ///
     /// Searched backwards because the record is last and its size varies with
     /// a trailing comment. 64 KB back is the whole range a comment can occupy.
+    ///
+    /// A zip64 archive writes that record with its fields masked out and puts
+    /// the real ones in a second record, reachable through a locator that sits
+    /// immediately before it. Following that is the only way to find the
+    /// central directory of an archive written that way.
     private static func endOfCentralDirectory(in bytes: [UInt8]) -> Int? {
         guard bytes.count >= 22 else { return nil }
         let earliest = max(0, bytes.count - 22 - 65_535)
         var offset = bytes.count - 22
         while offset >= earliest {
             if read32(bytes, offset) == 0x0605_4b50 {
+                if let zip64 = zip64Directory(bytes, endingAt: offset) { return zip64 }
                 let start = Int(read32(bytes, offset + 16))
                 return start < bytes.count ? start : nil
             }
             offset -= 1
         }
         return nil
+    }
+
+    /// The central directory's start as the zip64 end-of-central-directory
+    /// record gives it, when both that record and its locator are there.
+    private static func zip64Directory(_ bytes: [UInt8], endingAt eocd: Int) -> Int? {
+        guard eocd >= 20, read32(bytes, eocd - 20) == 0x0706_4b50 else { return nil }
+        let record = read64(bytes, eocd - 12)
+        guard record + 56 <= UInt64(bytes.count) else { return nil }
+        let at = Int(record)
+        guard read32(bytes, at) == 0x0606_4b50 else { return nil }
+        let start = read64(bytes, at + 48)
+        guard start < UInt64(bytes.count) else { return nil }
+        return Int(start)
     }
 
     static func read16(_ bytes: [UInt8], _ offset: Int) -> UInt16 {
@@ -176,6 +269,13 @@ public enum ZipArchive {
         guard offset + 4 <= bytes.count else { return 0 }
         return UInt32(bytes[offset]) | UInt32(bytes[offset + 1]) << 8
             | UInt32(bytes[offset + 2]) << 16 | UInt32(bytes[offset + 3]) << 24
+    }
+
+    static func read64(_ bytes: [UInt8], _ offset: Int) -> UInt64 {
+        guard offset + 8 <= bytes.count else { return 0 }
+        return (0..<8).reduce(into: UInt64(0)) { total, index in
+            total |= UInt64(bytes[offset + index]) << (8 * index)
+        }
     }
 }
 
