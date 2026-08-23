@@ -30,14 +30,18 @@ final class VectorEditSession {
     private(set) var selectedFeatureID: String?
     var tool: Tool = .selecting
 
-    /// The layer as it stood before each erase in this run, oldest first.
+    /// What this erase run took off, oldest first, each with the place it
+    /// came from.
     ///
     /// Empty unless the eraser is up. This is what stands in for the
     /// per-feature confirmation the eraser replaces: an alert per feature is
     /// the thing a delete mode exists to avoid, so the safety moves to the
     /// other side of the action and every erase can be taken back while the
     /// mode that made it is still on.
-    private(set) var erased: [ParsedVector] = []
+    ///
+    /// The features rather than snapshots of the whole layer: a run over a
+    /// ten-thousand-feature layer would otherwise hold a copy of it per tap.
+    private(set) var erased: [(index: Int, feature: GeoJsonFeature)] = []
 
     /// Why the last write did not land. Held rather than thrown: a failed save
     /// must never interrupt drawing, so the edit stays on screen and the user
@@ -163,20 +167,23 @@ final class VectorEditSession {
         tool = .selecting
     }
 
-    /// Takes one feature off, keeping the layer as it was in case of undo.
+    /// Takes one feature off, keeping it and its place in case of undo.
     func erase(featureID: String) {
-        guard let parsed else { return }
-        erased.append(parsed)
+        guard let parsed,
+            let index = parsed.features.firstIndex(where: { $0.id == featureID })
+        else { return }
+        erased.append((index, parsed.features[index]))
         if selectedFeatureID == featureID { selectedFeatureID = nil }
         commit(VectorEdit.removing(featureID: featureID, from: parsed))
     }
 
     var erasedCount: Int { erased.count }
 
-    /// Puts the last erased feature back, with its id, its name and its text.
+    /// Puts the last erased feature back, with its id, its text and its place
+    /// in the drawing order.
     func undoLastErase() {
-        guard let previous = erased.popLast() else { return }
-        commit(previous)
+        guard let parsed, let last = erased.popLast() else { return }
+        commit(VectorEdit.inserting(last.feature, at: last.index, in: parsed))
     }
 
     func undoLastVertex() {

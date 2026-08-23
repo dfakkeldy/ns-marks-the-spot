@@ -144,6 +144,23 @@ public enum VectorEdit {
         recomputed(parsed.features.filter { $0.id != featureID })
     }
 
+    /// The layer with a removed feature put back where it was.
+    ///
+    /// At its old index rather than on the end, because position is draw
+    /// order: features paint in array order and a tap answers with the last
+    /// match, so a shape restored on top of its neighbours would come back
+    /// changed in the two ways the user can actually see.
+    ///
+    /// An index past the end lands on the end rather than trapping, which is
+    /// what an undo of the last feature in a layer needs.
+    public static func inserting(
+        _ feature: GeoJsonFeature, at index: Int, in parsed: ParsedVector
+    ) -> ParsedVector {
+        var features = parsed.features
+        features.insert(feature, at: min(max(index, 0), features.count))
+        return recomputed(features)
+    }
+
     /// The layer with one vertex of one feature moved.
     ///
     /// Addressed by feature, ring and index rather than by proximity: a vertex

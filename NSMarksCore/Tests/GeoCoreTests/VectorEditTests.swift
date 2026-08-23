@@ -227,6 +227,43 @@ struct VectorEditTests {
         #expect(parts[1][0].last == position(-61.5, 46.5))
     }
 
+    /// Position is draw order: features paint in array order and a tap
+    /// answers with the last match. A feature put back on the end would come
+    /// back on top of neighbours it used to sit under.
+    @Test func aRestoredFeatureGoesBackWhereItWas() throws {
+        var parsed = try layer(
+            """
+            {"type":"FeatureCollection","features":[
+              {"type":"Feature","properties":{"name":"a"},
+               "geometry":{"type":"Point","coordinates":[-63,44]}},
+              {"type":"Feature","properties":{"name":"b"},
+               "geometry":{"type":"Point","coordinates":[-62,45]}},
+              {"type":"Feature","properties":{"name":"c"},
+               "geometry":{"type":"Point","coordinates":[-61,46]}}]}
+            """
+        )
+        let middle = try #require(parsed.features.dropFirst().first)
+        let id = try #require(middle.id)
+        parsed = VectorEdit.removing(featureID: id, from: parsed)
+        #expect(parsed.featureCount == 2)
+
+        parsed = VectorEdit.inserting(middle, at: 1, in: parsed)
+        #expect(parsed.features.map { $0.properties["name"]?.stringValue }
+            == ["a", "b", "c"])
+        #expect(parsed.features[1].id == id)
+        // The extent is recomputed from what is there now, not carried over.
+        #expect(parsed.bbox?.north == 46)
+    }
+
+    /// Undoing the erase of the last feature in a layer.
+    @Test func anIndexPastTheEndLandsOnTheEnd() throws {
+        let parsed = try square
+        let feature = try #require(parsed.features.first)
+        let restored = VectorEdit.inserting(feature, at: 99, in: parsed)
+        #expect(restored.featureCount == 2)
+        #expect(restored.features.last?.id == feature.id)
+    }
+
     @Test func movingAWholeShapeKeepsItsShape() throws {
         let original = try square
         let id = try #require(original.features.first?.id)

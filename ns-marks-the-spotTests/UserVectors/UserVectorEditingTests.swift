@@ -158,10 +158,12 @@ struct UserVectorEditingTests {
             #expect(session.parsed?.features.count == drawn - 2)
             #expect(session.tool == .erasing)
 
-            // Undo puts the feature back where it was, with its own id.
+            // Undo puts the feature back at the index it came from, not on
+            // the end: position is draw order, and a tap answers with the
+            // feature on top.
             session.undoLastErase()
             #expect(session.parsed?.features.count == drawn - 1)
-            #expect(session.parsed?.features.contains { $0.id == second } == true)
+            #expect(session.parsed?.features.first?.id == second)
             #expect(session.erasedCount == 1)
 
             // Putting the eraser down ends the run. What is gone is gone.
