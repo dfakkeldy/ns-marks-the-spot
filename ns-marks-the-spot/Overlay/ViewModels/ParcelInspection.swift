@@ -32,6 +32,14 @@ struct ParcelInspection: Equatable {
     /// there.
     let boundaryNotice: String?
 
+    /// Whether the map is showing tax-sale information at all.
+    ///
+    /// The card needs it to know the difference between "no notice names this
+    /// parcel" and "nobody asked about notices". Only the first is a finding,
+    /// and printing it on a map that is not doing tax-sale research would
+    /// invent a negative answer to a question the reader never put.
+    var showsTaxSale = false
+
     /// The current municipal notice that named this PID, when one did.
     ///
     /// Not `ParcelEvidence`: the notices ship with the app, so this is known

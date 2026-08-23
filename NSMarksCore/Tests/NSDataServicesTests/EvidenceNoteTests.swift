@@ -16,6 +16,7 @@ struct EvidenceNoteTests {
     private static let shareURL = URL(string: "https://example.com/map/?pid=15234636")!
 
     private static func input(
+        taxSaleEnabled: Bool = true,
         mode: MapShareState.Mode = .current,
         activeLayers: [EvidenceNoteInput.Source] = [],
         events: [EvidenceNoteInput.Event] = [],
@@ -31,6 +32,7 @@ struct EvidenceNoteTests {
         EvidenceNoteInput(
             generatedAt: generatedAt,
             pid: "15234636",
+            taxSaleEnabled: taxSaleEnabled,
             mode: mode,
             shareURL: shareURL,
             position: MapPosition(latitude: 46.18845, longitude: -60.02123, zoom: 15),
@@ -426,6 +428,73 @@ struct EvidenceNoteTests {
         )
 
         #expect(note.markdown.contains("Map position: 46.18845, -60.02123 at zoom 15"))
+    }
+
+    // MARK: - A note taken from a map that was not showing tax sales
+
+    /// No mode line, no event section, and above all no sentence saying no
+    /// event is associated with the parcel.
+    ///
+    /// That sentence is the damaging one. Written on a note from a map that
+    /// never asked, it reads months later as a municipal record having been
+    /// checked and come back clear.
+    @Test func aNoteFromAMapWithoutTaxSalesMakesNoTaxSaleFinding() {
+        let note = EvidenceNote.build(
+            Self.input(taxSaleEnabled: false, assessments: .error, dwellings: .blocked)
+        )
+
+        #expect(note.markdown.contains("Mode:") == false)
+        #expect(note.markdown.contains("## Event") == false)
+        #expect(note.markdown.contains("No included municipal event") == false)
+        #expect(note.markdown.contains("Tax-sale notices and results are dated") == false)
+        // Still a note about a parcel, with everything that was asked.
+        #expect(note.markdown.contains("PID: 15234636"))
+        #expect(
+            note.markdown.contains(
+                "NSPRD geometry and mapped area are approximate and are not a legal survey."
+            )
+        )
+    }
+
+    /// An event handed in anyway is not printed, because the map was not
+    /// showing tax sales when the reader took the note.
+    @Test func anEventDoesNotSurviveTheMasterSwitchBeingOff() {
+        let note = EvidenceNote.build(
+            Self.input(
+                taxSaleEnabled: false,
+                events: [
+                    EvidenceNoteInput.Event(
+                        name: "CBRM — July 21, 2026",
+                        sources: [
+                            EvidenceNoteInput.Link(
+                                label: "Official notice",
+                                sourceURL: URL(string: "https://example.com/notice")!
+                            )
+                        ]
+                    )
+                ],
+                assessments: .error,
+                dwellings: .blocked
+            )
+        )
+
+        #expect(note.markdown.contains("CBRM — July 21, 2026") == false)
+    }
+
+    /// And with the switch on, the tax-sale sentences are all still there.
+    @Test func aNoteFromATaxSaleMapKeepsItsVerificationSentence() {
+        let note = EvidenceNote.build(
+            Self.input(assessments: .error, dwellings: .blocked)
+        )
+
+        #expect(note.markdown.contains("Mode: Current notices"))
+        #expect(note.markdown.contains("## Event"))
+        #expect(
+            note.markdown.contains(
+                "Tax-sale notices and results are dated source records and require current "
+                    + "verification with the municipality."
+            )
+        )
     }
 }
 

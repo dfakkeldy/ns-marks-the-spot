@@ -18,6 +18,11 @@ public struct MapShareState: Sendable, Equatable {
         case historical
     }
 
+    /// Whether the map was showing tax-sale information at all.
+    ///
+    /// Tax-sale research is one optional use of this map rather than what the
+    /// map is. A link that does not say otherwise opens without it.
+    public var taxSaleEnabled: Bool
     public var mode: Mode
     /// The selected parcel, or `nil` when the link is to a place rather than a
     /// property.
@@ -30,12 +35,14 @@ public struct MapShareState: Sendable, Equatable {
     public var position: MapPosition
 
     public init(
+        taxSaleEnabled: Bool = false,
         mode: Mode = .current,
         pid: String? = nil,
         eventIDs: [String] = [],
         layerIDs: [String] = [],
         position: MapPosition = .default
     ) {
+        self.taxSaleEnabled = taxSaleEnabled
         self.mode = mode
         self.pid = pid
         self.eventIDs = eventIDs
@@ -89,7 +96,9 @@ extension MapShareState {
     static let bounds = (south: 43.0, west: -66.5, north: 47.5, east: -59.0)
 
     /// The query names the two surfaces write into a shared link.
-    public static let parameterNames = ["position", "pid", "layers", "event", "mode"]
+    public static let parameterNames = [
+        "taxSale", "mode", "event", "pid", "layers", "position"
+    ]
 
     /// Whether this text is a link that actually carries a view.
     ///
@@ -133,6 +142,15 @@ extension MapShareState {
             query.first { $0.name == name }?.value
         }
 
+        // A link written before the master switch existed says nothing about
+        // it, and every such link that mentions a mode or an event was made by
+        // a map that was showing tax sales. The web reads the older links the
+        // same way, so one link means one thing on both surfaces.
+        let taxSaleEnabled: Bool = switch first("taxSale") {
+        case "on": true
+        case "off": false
+        default: first("mode") != nil || first("event") != nil
+        }
         let mode: Mode = first("mode") == Mode.historical.rawValue ? .historical : .current
         let eventIDs = (first("event") ?? "")
             .split(separator: ",", omittingEmptySubsequences: false)
@@ -144,6 +162,7 @@ extension MapShareState {
             .filter { validLayerIDs.contains($0) }
 
         return MapShareState(
+            taxSaleEnabled: taxSaleEnabled,
             mode: mode,
             pid: ParcelQuery.normalizePID(first("pid") ?? ""),
             eventIDs: eventIDs,
@@ -195,11 +214,17 @@ extension MapShareState {
         components.query = nil
         components.fragment = nil
 
-        var items = [URLQueryItem(name: "mode", value: mode.rawValue)]
+        var items = [
+            URLQueryItem(name: "taxSale", value: taxSaleEnabled ? "on" : "off"),
+            URLQueryItem(name: "mode", value: mode.rawValue),
+        ]
         if let pid, !pid.isEmpty {
             items.append(URLQueryItem(name: "pid", value: pid))
         }
-        if !eventIDs.isEmpty {
+        // Which notices were on is only a fact about a map that was showing
+        // them. Carrying the list out of a map with tax sales switched off
+        // would hand the recipient a selection nobody made.
+        if taxSaleEnabled, !eventIDs.isEmpty {
             items.append(URLQueryItem(name: "event", value: eventIDs.joined(separator: ",")))
         }
         items.append(URLQueryItem(name: "layers", value: layerIDs.joined(separator: ",")))

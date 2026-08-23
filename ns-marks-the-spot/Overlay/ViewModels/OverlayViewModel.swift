@@ -506,7 +506,7 @@ final class OverlayViewModel {
                 // show, and the notice is what the user came for. Selecting it
                 // opens that card; the message says the geometry, not the
                 // listing, is what is missing.
-                if taxSale?.listingContext(forPID: pid) != nil {
+                if showsTaxSale, taxSale?.listingContext(forPID: pid) != nil {
                     parcels.select(pid)
                     publishParcels(focus: false)
                     setSearchText(pid)
@@ -677,6 +677,15 @@ final class OverlayViewModel {
 
     @ObservationIgnored private var hasLoadedListedParcels = false
 
+    /// Every PID either bulk load put into `parcels`.
+    ///
+    /// Kept so that switching tax sales off can take them back out. They are in
+    /// hand for one reason, and once that reason is gone they would otherwise
+    /// stay on the map as ordinary neighbouring boundaries — which is what the
+    /// styling would call them, and would be a map of the province's tax sales
+    /// drawn in grey.
+    @ObservationIgnored private var bulkLoadedPIDs: Set<String> = []
+
     /// Asks NSPRD for every parcel the current notices advertise.
     ///
     /// One request set for all of them, once: this is the map opening, not a
@@ -684,7 +693,7 @@ final class OverlayViewModel {
     /// Province's service on geometry already in hand. What the switches move
     /// is which of these parcels is drawn as listed.
     func loadListedParcels() {
-        guard let taxSale, clearanceBox.clearance.allows(.nsprd) else { return }
+        guard let taxSale, showsTaxSale, clearanceBox.clearance.allows(.nsprd) else { return }
         let pids = taxSale.advertisedPIDs
         // Retried after a failure, and only then: the boundaries do not change
         // while the app is open, so a second success would redraw what is
@@ -704,6 +713,7 @@ final class OverlayViewModel {
             case .success(let collection):
                 hasLoadedListedParcels = true
                 parcels.merge(collection)
+                bulkLoadedPIDs.formUnion(collection.identifiedFeatures.map(\.pid))
                 publishParcels(focus: false)
                 frameListedParcelsOnce()
                 // Counted from what came back rather than from what was asked
@@ -743,7 +753,7 @@ final class OverlayViewModel {
     /// parcel already in hand would spend the Province's service to redraw what
     /// is on screen.
     func loadHistoricalParcels() {
-        guard let historical, historical.isShowingHistorical,
+        guard let historical, mapRecordMode == .historical,
               clearanceBox.clearance.allows(.nsprd) else { return }
         let wanted = historical.matchedPIDs
         guard !wanted.isEmpty, !hasLoadedHistoricalParcels else { return }
@@ -771,6 +781,7 @@ final class OverlayViewModel {
             switch outcome {
             case .success(let collection):
                 parcels.merge(collection)
+                bulkLoadedPIDs.formUnion(collection.identifiedFeatures.map(\.pid))
                 publishParcels(focus: false)
                 // Counted over what the map now holds, so a PID NSPRD has no
                 // record of is visible as a shortfall instead of being folded
@@ -811,10 +822,72 @@ final class OverlayViewModel {
     /// Which record set the map is reading. `current` where this build was
     /// assembled without the historical catalog, which is the honest answer:
     /// there is no other set to be in.
-    var mapRecordMode: HistoricalTaxSaleViewModel.Mode { historical?.mode ?? .current }
+    var mapRecordMode: HistoricalTaxSaleViewModel.Mode {
+        showsTaxSale ? (historical?.mode ?? .current) : .current
+    }
+
+    /// Whether the map is showing tax-sale information at all.
+    ///
+    /// This map is a general-purpose map of Nova Scotia; tax-sale research is
+    /// one job it can be set up for. Everything about it — the notices, the
+    /// records, the parcel colours, the record-mode switch, the opening fit,
+    /// the parcel card's notice section, and what a shared link carries — is
+    /// behind this one answer, and the answer starts as no.
+    ///
+    /// Kept here rather than on either record set's view model because it is a
+    /// fact about the map. The two sets are separate datasets, either of which
+    /// a build may ship without, and neither is in a position to speak for what
+    /// the map as a whole is showing.
+    private(set) var showsTaxSale = false
 
     /// Whether there is a second record set to offer at all.
-    var offersRecordModes: Bool { historical != nil }
+    var offersRecordModes: Bool { showsTaxSale && historical != nil }
+
+    /// Turns tax-sale information on or off across the whole map.
+    ///
+    /// Switching it off takes back everything that was on the map only because
+    /// tax sales were on: the advertised and dated parcels, the notice on the
+    /// open card, the counts under the panel, the record mode, and the
+    /// selections and filters over both record sets. The parcel the reader
+    /// opened stays open. They chose it, and it is an ordinary parcel whether
+    /// or not anybody is auctioning it.
+    ///
+    /// The mode itself is left where it was, as the web leaves it. `mapRecordMode`
+    /// already reads `.current` while this is off, so nothing acts on it, and a
+    /// reader who switches back finds the map where they left it.
+    func setTaxSaleEnabled(_ enabled: Bool) {
+        guard showsTaxSale != enabled else { return }
+        showsTaxSale = enabled
+
+        if enabled {
+            loadListedParcels()
+            loadHistoricalParcels()
+        } else {
+            // Cancelled rather than left to land: a reply that arrives after
+            // the switch would merge a province of advertised geometry into a
+            // map that has stopped asking, and write a count of it underneath.
+            listedParcelLoad?.cancel()
+            listedParcelLoad = nil
+            historicalParcelLoad?.cancel()
+            historicalParcelLoad = nil
+            hasLoadedListedParcels = false
+            hasLoadedHistoricalParcels = false
+            listedParcelMessage = nil
+            historicalParcelMessage = nil
+            // The open parcel is exempt. It is on screen because the reader
+            // asked about it, which is a reason that survives the switch.
+            parcels.remove(pids: bulkLoadedPIDs.subtracting([parcels.selectedPID].compactMap(\.self)))
+            bulkLoadedPIDs = []
+            taxSale?.resetSelection()
+            historical?.resetFilters()
+            // Nothing of theirs is drawn any more, so the fit that framed them
+            // is spent rather than pending: turning tax sales back on later
+            // should not throw the reader's view across the province.
+            hasFramedListedParcels = true
+        }
+        refreshInspection()
+        publishParcels(focus: false)
+    }
 
     /// The line under the switch, saying what the mode the map is in is worth.
     var recordModeCaption: String {
@@ -828,6 +901,9 @@ final class OverlayViewModel {
 
     func setMapRecordMode(_ mode: HistoricalTaxSaleViewModel.Mode) {
         guard let historical, historical.mode != mode else { return }
+        // Both record sets are tax-sale record sets. There is no historical
+        // mode to be in on a map that is not showing tax sales at all.
+        guard mode == .current || showsTaxSale else { return }
         // The open card is dropped, as the web drops it. A parcel card carries
         // the notice or the records of the mode it was opened in, and leaving it
         // up across a switch would leave a dated outcome on screen under a map
@@ -879,7 +955,7 @@ final class OverlayViewModel {
         // notice is what the user tapped and it is already in hand; hanging its
         // card on a successful NSPRD reply would mean a service outage answers
         // the tap by leaving the previous parcel on screen and opening nothing.
-        if taxSale?.listingContext(forPID: pid) != nil, !parcels.holds(pid: pid) {
+        if showsTaxSale, taxSale?.listingContext(forPID: pid) != nil, !parcels.holds(pid: pid) {
             parcels.select(pid)
             publishParcels(focus: false)
         }
@@ -896,7 +972,8 @@ final class OverlayViewModel {
     /// and moving off it would answer a question the sender did not ask. Not in
     /// historical mode either — the fit is to what is advertised now.
     private func frameListedParcelsOnce() {
-        guard !hasFramedListedParcels, !isHoldingLinkPosition, mapRecordMode == .current,
+        guard !hasFramedListedParcels, !isHoldingLinkPosition, showsTaxSale,
+              mapRecordMode == .current,
               let listed = taxSale?.highlightedPIDs, !listed.isEmpty,
               let bounds = parcels.bounds(forPIDs: listed)
         else { return }
@@ -923,10 +1000,12 @@ final class OverlayViewModel {
         // One record set at a time. An advertised parcel left orange under the
         // historical caption would put a live offering on a map whose whole
         // claim is that everything on it is dated.
-        let listed = mapRecordMode == .current ? (taxSale?.highlightedPIDs ?? []) : []
+        let listed = showsTaxSale && mapRecordMode == .current
+            ? (taxSale?.highlightedPIDs ?? [])
+            : []
         let shapes = parcels.shapes(
             taxSalePIDs: listed,
-            historicalPIDs: historical?.highlightedPIDs ?? []
+            historicalPIDs: showsTaxSale ? (historical?.highlightedPIDs ?? []) : []
         )
         controller.setParcelShapes(shapes)
         // A listed parcel is a sub-pixel polygon at an overview zoom: a user
@@ -961,7 +1040,12 @@ final class OverlayViewModel {
         let eventIDs: [String]
         switch mapRecordMode {
         case .current:
-            eventIDs = (taxSale?.selectedEventIDs).map { Array($0).sorted() } ?? []
+            // Which notices were on is a fact about a map that was showing
+            // them. A link out of a map without tax sales carries no selection,
+            // because nobody made one.
+            eventIDs = showsTaxSale
+                ? (taxSale?.selectedEventIDs).map { Array($0).sorted() } ?? []
+                : []
         case .historical:
             // Only the events the open parcel actually appears in. The
             // historical panel filters records rather than selecting events, so
@@ -972,6 +1056,7 @@ final class OverlayViewModel {
         }
 
         return MapShareState(
+            taxSaleEnabled: showsTaxSale,
             mode: mapRecordMode == .historical ? .historical : .current,
             pid: parcels.selectedPID,
             eventIDs: eventIDs,
@@ -1024,6 +1109,7 @@ final class OverlayViewModel {
             ParcelEvidenceExport.input(
                 generatedAt: generatedAt,
                 inspection: inspection,
+                taxSaleEnabled: showsTaxSale,
                 mode: mapRecordMode == .historical ? .historical : .current,
                 shareURL: shareURL,
                 position: mapPosition,
@@ -1251,11 +1337,14 @@ final class OverlayViewModel {
             validLayerIDs: Set(rows.map(\.id)).union([MapShareState.modernBaseLayerID])
         )
 
+        // Before the mode, because the mode is a choice within tax sales and
+        // setting it on a map that is not showing them has nothing to move.
+        setTaxSaleEnabled(state.taxSaleEnabled)
         setMapRecordMode(state.mode == .historical ? .historical : .current)
         setBaseMapType(
             state.layerIDs.contains(MapShareState.modernBaseLayerID) ? .standard : baseMapType
         )
-        if let taxSale, state.mode == .current, !state.eventIDs.isEmpty {
+        if let taxSale, state.taxSaleEnabled, state.mode == .current, !state.eventIDs.isEmpty {
             for event in taxSale.upcomingEvents {
                 taxSale.setEventVisibility(event.id, to: state.eventIDs.contains(event.id))
             }
@@ -1275,6 +1364,11 @@ final class OverlayViewModel {
             on: GeoPoint(lat: state.position.latitude, lng: state.position.longitude),
             zoom: state.position.zoom
         )
+        // The sender chose this extent, so the opening fit to the advertised
+        // parcels is spent: a link that turns tax sales on starts that load,
+        // and letting it land and reframe would take the reader off the place
+        // the link was about.
+        hasFramedListedParcels = true
         guard let pid = state.pid else {
             // A link that names no parcel is a link to a view, and leaving a
             // previously open parcel selected would attach this reader's card to
@@ -1337,12 +1431,14 @@ final class OverlayViewModel {
         // Gated on the mode for the same reason the styling is: a PID in both
         // sets would otherwise open a card headed "Listed in official notice"
         // in the mode that promises everything on it is a dated outcome.
-        let notice = mapRecordMode == .current ? taxSale?.listingContext(forPID: pid) : nil
-        let records = historical?.contexts(forPID: pid) ?? []
+        let notice = showsTaxSale && mapRecordMode == .current
+            ? taxSale?.listingContext(forPID: pid)
+            : nil
+        let records = showsTaxSale ? (historical?.contexts(forPID: pid) ?? []) : []
         // Only printed in the historical mode. The current notices are the
         // map's ordinary state, and a marker on every card would stop being
         // read long before the one card that needs it.
-        let modeMarker = historical?.isShowingHistorical == true
+        let modeMarker = mapRecordMode == .historical
             ? historical?.mode.markerLabel
             : nil
 
@@ -1356,6 +1452,7 @@ final class OverlayViewModel {
                 return
             }
             var state = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
+            state.showsTaxSale = showsTaxSale
             state.taxSaleNotice = notice
             state.historicalRecords = records
             state.recordModeMarker = modeMarker
@@ -1380,6 +1477,7 @@ final class OverlayViewModel {
             ),
             boundaryNotice: parcels.boundaryNotice
         )
+        state.showsTaxSale = showsTaxSale
         state.taxSaleNotice = notice
         state.historicalRecords = records
         state.recordModeMarker = modeMarker

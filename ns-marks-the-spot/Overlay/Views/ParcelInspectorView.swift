@@ -177,10 +177,15 @@ struct ParcelInspectorView: View {
             .font(.subheadline)
             .multilineTextAlignment(.leading)
             .accessibilityIdentifier("parcel-inspector-tax-sale")
-        } else {
+        } else if inspection.showsTaxSale, inspection.historicalRecords.isEmpty {
             // Said out loud rather than left to the absence of a section: a
             // card with no notice on it looks the same as a card whose notice
             // failed to load, and only one of those is a fact.
+            //
+            // Only where the map is asking. On a map without tax-sale
+            // information this sentence would be a finding nobody looked for,
+            // and beside a dated record it would contradict the section under
+            // it, which is why the web prints it in neither case.
             Text("This PID is not listed in any municipal notice included by this map.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)

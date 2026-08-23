@@ -50,12 +50,14 @@ struct MapShareAndEvidenceTests {
 
     private static func note(
         _ inspection: ParcelInspection,
+        taxSaleEnabled: Bool = true,
         mode: MapShareState.Mode = .current
     ) -> EvidenceNote {
         EvidenceNote.build(
             ParcelEvidenceExport.input(
                 generatedAt: Date(timeIntervalSince1970: 1_784_556_306),
                 inspection: inspection,
+                taxSaleEnabled: taxSaleEnabled,
                 mode: mode,
                 shareURL: URL(string: "https://example.com/map/")!,
                 position: MapPosition(latitude: 46.1, longitude: -60.1, zoom: 15),
@@ -78,7 +80,7 @@ struct MapShareAndEvidenceTests {
         #expect(state.layerIDs.contains(LayerID.nsprd.rawValue))
         #expect(state.layerIDs.contains(LayerID.nsAerial.rawValue) == false)
         #expect(model.shareURL?.absoluteString.hasPrefix(
-            "https://kinnokilabs.com/apps/nsmarksthespot/map/?mode=current"
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/?taxSale=off&mode=current"
         ) == true)
     }
 

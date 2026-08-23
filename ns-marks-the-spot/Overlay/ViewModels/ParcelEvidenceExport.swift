@@ -36,6 +36,7 @@ nonisolated enum ParcelEvidenceExport {
     static func input(
         generatedAt: Date,
         inspection: ParcelInspection,
+        taxSaleEnabled: Bool,
         mode: MapShareState.Mode,
         shareURL: URL,
         position: MapPosition,
@@ -46,6 +47,7 @@ nonisolated enum ParcelEvidenceExport {
         EvidenceNoteInput(
             generatedAt: generatedAt,
             pid: inspection.pid,
+            taxSaleEnabled: taxSaleEnabled,
             mode: mode,
             shareURL: shareURL,
             position: position,
@@ -54,7 +56,7 @@ nonisolated enum ParcelEvidenceExport {
                 baseMap: baseMap,
                 fletcherBaseURL: fletcherBaseURL
             ),
-            events: events(inspection, mode: mode),
+            events: taxSaleEnabled ? events(inspection, mode: mode) : [],
             civicAddresses: civicAddresses(inspection),
             civicNotice: notice(inspection.civicAddresses),
             mappedArea: inspection.mappedArea?.label,

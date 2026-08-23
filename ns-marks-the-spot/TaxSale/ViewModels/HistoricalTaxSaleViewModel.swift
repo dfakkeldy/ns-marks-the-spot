@@ -47,6 +47,17 @@ final class HistoricalTaxSaleViewModel {
 
     var isShowingHistorical: Bool { mode == .historical }
 
+    /// Back to the whole published set, as the web resets its three historical
+    /// filters when the map stops showing tax sales.
+    ///
+    /// A filter left set is worse than a filter forgotten: a reader returning
+    /// to the records months later would see a narrowed set with nothing on
+    /// screen saying it was narrowed, and read the missing records as records
+    /// that do not exist.
+    func resetFilters() {
+        filter = HistoricalTaxSaleCatalog.Filter()
+    }
+
     /// Datasets this build ships and could not read, with the reason.
     var unreadable: [HistoricalTaxSaleCatalog.Unreadable] { catalog.unreadable }
 

@@ -19,8 +19,8 @@ final class TaxSaleViewModel {
     let catalog: TaxSaleCatalog
 
     /// The events whose properties are drawn. Every current notice starts on,
-    /// as the web starts them, because a map of tax sales that opens showing no
-    /// tax sales is a map that looks broken.
+    /// as the web starts them, because a map showing tax sales and no tax sales
+    /// is a map that looks broken.
     private(set) var selectedEventIDs: Set<String>
 
     var filter: RedemptionFilter = .all
@@ -28,6 +28,17 @@ final class TaxSaleViewModel {
     init(catalog: TaxSaleCatalog = .bundled) {
         self.catalog = catalog
         selectedEventIDs = Set(catalog.events(status: .upcoming).map(\.id))
+    }
+
+    /// Back to what a fresh map has: every current notice on, no filter.
+    ///
+    /// Called when the map stops showing tax-sale information. Remembering the
+    /// selection instead would mean a reader who comes back to tax sales months
+    /// later finds half the notices silently off, which reads as a sale being
+    /// over when what happened is that somebody once unticked it.
+    func resetSelection() {
+        selectedEventIDs = Set(catalog.events(status: .upcoming).map(\.id))
+        filter = .all
     }
 
     /// The current notices, in catalog order.

@@ -90,6 +90,7 @@ extension OverlayViewModel {
         zoomLevel: Int? = nil,
         taxSale: TaxSaleViewModel? = nil,
         historical: HistoricalTaxSaleViewModel? = nil,
+        showsTaxSale: Bool? = nil,
         parcelFetcher: ParcelFetcher = ParcelFetcher(),
         civicFetcher: CivicAddressFetcher = CivicAddressFetcher(),
         contextFetcher: ParcelContextFetcher = ParcelContextFetcher(),
@@ -110,7 +111,7 @@ extension OverlayViewModel {
         if let zoomLevel {
             controller.recordZoomLevel(zoomLevel)
         }
-        return OverlayViewModel(
+        let viewModel = OverlayViewModel(
             controller: controller,
             licenceStore: ProvinceLicenceStore(
                 storage: InMemoryProvinceLicenceStorage(initial: licence)
@@ -126,5 +127,10 @@ extension OverlayViewModel {
             resourceFetcher: resourceFetcher,
             floodFetcher: floodFetcher
         )
+        // The map opens without tax-sale information, as the browser does.
+        // Handing this helper a record set is a test saying its map is set up
+        // for that job, so it switches on unless the test says otherwise.
+        viewModel.setTaxSaleEnabled(showsTaxSale ?? (taxSale != nil || historical != nil))
+        return viewModel
     }
 }

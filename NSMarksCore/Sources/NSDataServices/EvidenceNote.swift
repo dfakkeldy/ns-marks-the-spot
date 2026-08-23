@@ -126,6 +126,12 @@ public struct EvidenceNoteInput: Sendable {
 
     public var generatedAt: Date
     public var pid: String
+    /// Whether the map this note was taken from was showing tax-sale
+    /// information. When it was not, the note carries no mode line and no event
+    /// section: the map was not asking, and a note that said "no included
+    /// municipal event is associated with this parcel" would be recording an
+    /// answer to a question nobody put.
+    public var taxSaleEnabled: Bool
     public var mode: MapShareState.Mode
     public var shareURL: URL
     public var position: MapPosition
@@ -162,6 +168,7 @@ public struct EvidenceNoteInput: Sendable {
     public init(
         generatedAt: Date,
         pid: String,
+        taxSaleEnabled: Bool,
         mode: MapShareState.Mode,
         shareURL: URL,
         position: MapPosition,
@@ -180,6 +187,7 @@ public struct EvidenceNoteInput: Sendable {
     ) {
         self.generatedAt = generatedAt
         self.pid = pid
+        self.taxSaleEnabled = taxSaleEnabled
         self.mode = mode
         self.shareURL = shareURL
         self.position = position
@@ -221,20 +229,24 @@ extension EvidenceNote {
                     + event.sources.map { "- [\($0.label)](\($0.sourceURL.absoluteString))" }
             }
 
+        let modeLine = input.taxSaleEnabled
+            ? ["Mode: \(input.mode == .current ? "Current notices" : "Historical records")"]
+            : []
+        let eventSection = input.taxSaleEnabled ? ["", "## Event", ""] + events : []
+
         let markdown = ([
             "# NS Marks The Spot parcel evidence note",
             "",
             "Generated: \(generated)",
             "PID: \(input.pid)",
-            "Mode: \(input.mode == .current ? "Current notices" : "Historical records")",
-            "Map position: \(Format.fixed(input.position.latitude)), "
-                + "\(Format.fixed(input.position.longitude)) at zoom \(input.position.zoom)",
-            "[Open this map state](\(input.shareURL.absoluteString))",
-            "",
-            "## Event",
-            "",
         ]
-            + events
+            + modeLine
+            + [
+                "Map position: \(Format.fixed(input.position.latitude)), "
+                    + "\(Format.fixed(input.position.longitude)) at zoom \(input.position.zoom)",
+                "[Open this map state](\(input.shareURL.absoluteString))",
+            ]
+            + eventSection
             + [
                 "",
                 "## Active map sources",
@@ -361,12 +373,17 @@ extension EvidenceNote {
                 "",
                 "## General limitations",
                 "",
-                """
-                NSPRD geometry and mapped area are approximate and are not a legal survey. Road \
-                adjacency and civic addressing do not prove legal access or frontage. Tax-sale \
-                notices and results are dated source records and require current verification \
-                with the municipality.
-                """,
+                input.taxSaleEnabled
+                    ? """
+                    NSPRD geometry and mapped area are approximate and are not a legal survey. \
+                    Road adjacency and civic addressing do not prove legal access or frontage. \
+                    Tax-sale notices and results are dated source records and require current \
+                    verification with the municipality.
+                    """
+                    : """
+                    NSPRD geometry and mapped area are approximate and are not a legal survey. \
+                    Road adjacency and civic addressing do not prove legal access or frontage.
+                    """,
                 "",
             ]).joined(separator: "\n")
 

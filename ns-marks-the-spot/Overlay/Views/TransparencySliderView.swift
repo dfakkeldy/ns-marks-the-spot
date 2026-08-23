@@ -71,6 +71,36 @@ struct TransparencySliderView: View {
                 .pickerStyle(.segmented)
             }
 
+            // Tax-sale master switch
+            //
+            // Above the record-mode picker because it decides whether that
+            // picker means anything, and in the panel rather than in the
+            // tax-sale sheet because a reader who has never opened that sheet
+            // is exactly the reader this switch is for.
+            Divider()
+                .background(.primary.opacity(0.1))
+
+            VStack(alignment: .leading, spacing: 6) {
+                Toggle(isOn: Binding(
+                    get: { viewModel.showsTaxSale },
+                    set: { viewModel.setTaxSaleEnabled($0) }
+                )) {
+                    Text("Show tax-sale information")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                }
+                .toggleStyle(.switch)
+                .accessibilityIdentifier("tax-sale-enabled")
+
+                Text(
+                    "Off by default. This is a map of Nova Scotia; tax-sale "
+                        + "notices and records are one thing it can show."
+                )
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+
             // Map Record Mode
             //
             // Kept beside the base map rather than inside the tax-sale sheet,

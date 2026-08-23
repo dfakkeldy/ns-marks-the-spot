@@ -145,6 +145,17 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
         }
     }
 
+    /// Drops the named parcels.
+    ///
+    /// For the case where the reason a set of parcels was ever loaded has gone
+    /// away — the map has stopped showing tax sales — and leaving them drawn
+    /// would put the outlines of every advertised property on a map that is no
+    /// longer answering that question.
+    mutating func remove(pids: Set<String>) {
+        guard !pids.isEmpty else { return }
+        features.removeAll { pids.contains($0.pid) }
+    }
+
     private struct Key: Hashable {
         let pid: String
         let boundary: ParcelFeature.Boundary

@@ -303,8 +303,11 @@ struct MapContainerView: View {
                         // One list at a time, as the web renders one panel at a
                         // time. Both on screen at once would let a reader pick a
                         // dated result out of one list while the map beside it is
-                        // answering the other question.
-                        if overlayVM.mapRecordMode == .current {
+                        // answering the other question. Neither, until the reader
+                        // has asked for tax-sale information at all.
+                        if !overlayVM.showsTaxSale {
+                            EmptyView()
+                        } else if overlayVM.mapRecordMode == .current {
                         Button {
                             cancelBoundsSelection()
                             navigationModel.activeSheet = .taxSaleNotices
