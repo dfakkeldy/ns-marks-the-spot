@@ -10,10 +10,8 @@ final class AppContainer {
     let tileStore: TileStore
     let tileCache: TileCache
     let tileFetcher: TileFetcher
-    let poiViewModel: POIViewModel
     let offlineAreasViewModel: OfflineAreasViewModel
     let licenceStore: ProvinceLicenceStore
-    let isUITestMode: Bool
 
     /// The clearance the tile-loading queues read.
     ///
@@ -22,7 +20,6 @@ final class AppContainer {
     let clearanceBox: LicenceClearanceBox
 
     init(licenceStorage: (any ProvinceLicenceStorage)? = nil) {
-        self.isUITestMode = ProcessInfo.processInfo.arguments.contains("UITestMode")
 
         let store = TileStore()
         self.tileStore = store
@@ -62,8 +59,6 @@ final class AppContainer {
             clearanceBox: clearanceBox
         )
         self.mapController = controller
-
-        self.poiViewModel = POIViewModel()
 
         let opening = Self.launchVisibleIDs(clearance: licenceStore.clearance)
         var openedAerial = false

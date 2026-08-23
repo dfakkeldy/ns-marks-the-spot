@@ -14,7 +14,8 @@ import UIKit
 /// than asserting on the sheet index it consults: the index has its own parity
 /// tests in the package, and what is worth checking here is which URLs the
 /// loader actually asks for and what it does with the answers.
-/// Serialized for the same reason as `POIFetcherTests`: one global stub.
+/// Serialized because the stub protocol it installs is global: two suites
+/// running at once would answer each other's requests.
 @Suite("Fletcher offline downloads", .serialized)
 struct FletcherTileLoaderTests {
     static let base = URL(string: "https://tiles.example.test/fletcher")!

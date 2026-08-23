@@ -5,7 +5,6 @@ import Observation
 /// single sheet exists at a time and future deep links can drive presentation
 /// directly instead of toggling per-sheet booleans.
 enum SheetRoute: Identifiable, Equatable {
-    case poiDetail(PointOfInterest)
     case offlineStorage
     case info
     case taxSaleNotices
@@ -16,8 +15,6 @@ enum SheetRoute: Identifiable, Equatable {
 
     var id: String {
         switch self {
-        case .poiDetail(let poi):
-            return "poi-\(poi.id)"
         case .offlineStorage:
             return "offline-storage"
         case .info:

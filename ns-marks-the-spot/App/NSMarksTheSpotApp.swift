@@ -27,9 +27,7 @@ struct NSMarksTheSpotApp: App {
                 taxSaleViewModel: taxSale,
                 historicalViewModel: historical,
                 navigationModel: container.navigationModel,
-                poiViewModel: container.poiViewModel,
-                offlineAreasViewModel: container.offlineAreasViewModel,
-                isUITestMode: container.isUITestMode
+                offlineAreasViewModel: container.offlineAreasViewModel
             )
             // Lent down rather than passed through four views that have no use
             // for it. The georeferencer is the only screen that draws official

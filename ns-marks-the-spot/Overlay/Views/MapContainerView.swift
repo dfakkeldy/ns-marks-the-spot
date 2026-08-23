@@ -7,12 +7,10 @@ struct MapContainerView: View {
 
     let controller: MapController
     let navigationModel: NavigationModel
-    let isUITestMode: Bool
     @State private var overlayVM: OverlayViewModel
     @State private var featureVM: ViewportFeatureViewModel
     @State private var taxSaleVM: TaxSaleViewModel
     @State private var historicalVM: HistoricalTaxSaleViewModel
-    private let poiVM: POIViewModel
     private let offlineVM: OfflineAreasViewModel
     /// The user's own maps. Owned here rather than injected: nothing outside
     /// this view needs them, and they never leave the device.
@@ -65,14 +63,10 @@ struct MapContainerView: View {
         taxSaleViewModel: TaxSaleViewModel = TaxSaleViewModel(),
         historicalViewModel: HistoricalTaxSaleViewModel = HistoricalTaxSaleViewModel(),
         navigationModel: NavigationModel,
-        poiViewModel: POIViewModel,
         offlineAreasViewModel: OfflineAreasViewModel,
-        isUITestMode: Bool = false
     ) {
         self.controller = controller
         self.navigationModel = navigationModel
-        self.isUITestMode = isUITestMode
-        self.poiVM = poiViewModel
         self.offlineVM = offlineAreasViewModel
         // Supplied rather than built here: it needs the licence store and the
         // clearance the tile path reads, and a second store built in a view
@@ -89,8 +83,6 @@ struct MapContainerView: View {
         return lifecycle(mapStack)
             .sheet(item: $navigationModel.activeSheet) { route in
                 switch route {
-                case .poiDetail(let poi):
-                    POIDetailView(poi: poi)
                 case .offlineStorage:
                     OfflineStorageView(viewModel: offlineVM)
                 case .info:
@@ -439,31 +431,6 @@ struct MapContainerView: View {
                 mapHeight = height
             }
 
-            if let waterfallFetchErrorMessage = poiVM.waterfallFetchErrorMessage {
-                VStack {
-                    Spacer()
-
-                    HStack(spacing: 12) {
-                        Label(waterfallFetchErrorMessage, systemImage: "exclamationmark.triangle")
-                            .font(.footnote)
-
-                        Button("Retry") {
-                            Task {
-                                await poiVM.fetchRemoteWaterfalls(controller: controller, force: true)
-                            }
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                    .background(.regularMaterial)
-                    .clipShape(.rect(cornerRadius: 8))
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 24)
-                }
-                .accessibilityElement(children: .combine)
-            }
-
             // Top-centre, clear of the search bar. The location button sits on
             // the right with nothing under it, so a refusal reported down at
             // the bottom would land under whichever card happens to be open.
@@ -739,9 +706,6 @@ struct MapContainerView: View {
                             selectFeature(found)
                             break
                         }
-                        if let poi = poiVM.points.first(where: { $0.id == annotationID }) {
-                            navigationModel.activeSheet = .poiDetail(poi)
-                        }
                     case .boundsSelected(let bounds):
                         finishBoundsSelection(with: bounds)
                     case .vertexMoved(let featureID, let ring, let vertex, let latitude, let longitude):
@@ -839,14 +803,6 @@ struct MapContainerView: View {
                 // being opened: the map draws them, and a user who never opens the
                 // panel would otherwise see a map with no tax sales on it.
                 overlayVM.loadListedParcels()
-                if isUITestMode {
-                    poiVM.points = []
-                    poiVM.syncAnnotations(to: controller)
-                } else {
-                    Task {
-                        await poiVM.fetchRemoteWaterfalls(controller: controller)
-                    }
-                }
             }
             .task {
                 await userMapsVM.load()
