@@ -263,6 +263,74 @@ struct HistoricalTaxSaleCatalogTests {
         #expect(comparison?.winningBidMultiple == 6.58)
     }
 
+    /// The catalogue hands the same record to every PID it names, so the
+    /// caveat has to travel with the money or three parcels each read $12,500
+    /// as their own price.
+    @Test func aListingCoveringSeveralParcelsSaysSoWhereTheMoneyIs() {
+        let event = Self.event()
+        let bundled = HistoricalRecordContext(
+            event: event,
+            record: Self.record(
+                eventID: event.id, pids: ["00522755", "40630923", "40630949"]
+            )
+        )
+        let note = bundled.multiPIDNote
+        #expect(note?.contains("covers 3 PIDs") == true)
+        #expect(note?.contains("00522755, 40630923, 40630949") == true)
+        #expect(note?.contains("not divided between parcels") == true)
+
+        let single = HistoricalRecordContext(
+            event: event, record: Self.record(eventID: event.id)
+        )
+        #expect(single.multiPIDNote == nil)
+    }
+
+    /// Ingest date and capture date are different facts, and only one of them
+    /// says how stale the outcome is.
+    @Test func theCardGivesTheCaptureDatesAsWellAsTheIngestDate() {
+        let context = HistoricalRecordContext(
+            event: Self.event(), record: Self.record(eventID: "test-2024-01-01")
+        )
+        let summary = context.sourceSnapshotSummary
+        #expect(summary.hasPrefix("Notice \(TaxSaleFormat.day("2023-12-01"))"))
+        #expect(summary.hasSuffix("result \(TaxSaleFormat.day("2024-01-15"))"))
+        // The point of the row: the day the build ingested this is not the day
+        // anybody captured it, and 2024-02-01 has no business in a capture date.
+        #expect(!summary.contains(TaxSaleFormat.day("2024-02-01")))
+    }
+
+    /// A sale nobody published results for was *looked* at on a day. That is
+    /// not a result captured on it, and the card must not read as though it
+    /// were.
+    @Test func aSaleWithNoResultDocumentSaysWhenItWasChecked() {
+        let pending = HistoricalTaxSaleEvent(
+            id: "test-2024-01-01",
+            municipalityID: "test",
+            municipality: "Municipality of Test",
+            shortMunicipality: "Test",
+            saleDate: "2024-01-01",
+            saleMethod: .publicAuction,
+            listingIdentifierLabel: "Lien",
+            advertisedAmountLabel: "Minimum bid",
+            noticeURL: URL(string: "https://example.test/notice.pdf")!,
+            resultStatus: .awaitingOfficialResults,
+            resultURL: nil,
+            retrievedOn: "2024-02-01",
+            noticeSnapshotDate: "2023-12-01",
+            resultSnapshotDate: nil,
+            resultCheckedOn: "2024-03-04",
+            noticeSHA256: String(repeating: "a", count: 64),
+            resultSHA256: nil,
+            sourceNotes: ""
+        )
+        let context = HistoricalRecordContext(
+            event: pending, record: Self.record(eventID: pending.id, winningBidCents: nil)
+        )
+        let summary = context.sourceSnapshotSummary
+        #expect(summary.contains("results checked \(TaxSaleFormat.day("2024-03-04"))"))
+        #expect(!summary.contains("· result \(TaxSaleFormat.day("2024-03-04"))"))
+    }
+
     // MARK: - Fixtures
 
     private static func event(id: String = "test-2024-01-01") -> HistoricalTaxSaleEvent {

@@ -114,6 +114,9 @@ nonisolated struct LayerSection: Identifiable, Equatable, Sendable {
     var title: String { NativeLayerTraits.title(for: group) }
     var visibleCount: Int { rows.count(where: \.isVisible) }
 
+    /// A standing sentence under the rows, where this section needs one.
+    var note: String? { NativeLayerTraits.sectionNote(for: group) }
+
     /// The line under the heading.
     ///
     /// Counted from the rows this panel is actually showing rather than copied

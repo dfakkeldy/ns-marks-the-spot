@@ -200,9 +200,20 @@ private struct LayerSectionView: View {
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
-            VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 16) {
                 ForEach(section.rows) { row in
                     LayerRowView(row: row, viewModel: viewModel)
+                }
+
+                // Under the toggles, where the web puts it: the reader who
+                // needs this sentence is the one who has just switched a layer
+                // on and got a blank map back.
+                if let note = section.note {
+                    Text(note)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
             .padding(.top, 8)

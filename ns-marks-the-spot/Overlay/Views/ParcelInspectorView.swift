@@ -275,6 +275,16 @@ struct ParcelInspectorView: View {
                 }
             }
 
+            // Under the figures rather than at the foot of the card: a reader
+            // who has already taken the winning bid for this parcel's price has
+            // stopped reading.
+            if let note = context.multiPIDNote {
+                Label(note, systemImage: "square.stack.3d.up")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             LabeledContent("Redemption field") { Text(record.redemptionLabel) }
             if let note = record.resultNote {
                 Text(note)
@@ -283,6 +293,11 @@ struct ParcelInspectorView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             LabeledContent("Parcel match") { Text(record.nsprdMatchMethod.label) }
+            LabeledContent("Source snapshots") {
+                Text(context.sourceSnapshotSummary)
+                    .monospacedDigit()
+                    .multilineTextAlignment(.trailing)
+            }
             LabeledContent("Source retrieved") {
                 Text(TaxSaleFormat.day(event.retrievedOn)).monospacedDigit()
             }
@@ -334,6 +349,18 @@ struct ParcelInspectorView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+
+                // The AAN is the account's, and a notice that bundled several
+                // parcels under one account bought them all with these figures.
+                // Without this the assessed value reads as this parcel's.
+                if let note = Self.accountBundleNote(
+                    for: result, listingPIDs: inspection.taxSaleNotice?.listing.pids ?? []
+                ) {
+                    Text(note)
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
 
                 ForEach(result.accounts, id: \.aan) { account in
                     accountRow(account)
@@ -428,6 +455,20 @@ struct ParcelInspectorView: View {
         }
         return "\(result.accounts.count) PVSC account points were mapped inside this parcel. "
             + "Values are shown separately and are not summed."
+    }
+
+    /// What the account values are attached to, where that is not this parcel.
+    ///
+    /// Only for the notice-AAN match: a point mapped inside the outline is
+    /// about this parcel by construction, while an account reached through the
+    /// notice is about whatever the notice listed, which is sometimes several
+    /// parcels at once.
+    private static func accountBundleNote(
+        for result: PVSCAssessmentResponse.Result, listingPIDs: [String]
+    ) -> String? {
+        guard result.matchMethod == .noticeAAN, listingPIDs.count > 1 else { return nil }
+        return "This notice AAN covers \(listingPIDs.count) PIDs. These account values "
+            + "are not assigned to each PID individually."
     }
 
     private func accountRow(_ account: PVSCAssessmentResponse.Account) -> some View {

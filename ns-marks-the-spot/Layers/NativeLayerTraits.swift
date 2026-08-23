@@ -76,6 +76,37 @@ nonisolated enum NativeLayerTraits {
         }
     }
 
+    /// A standing sentence under a section's rows, where the rows on their own
+    /// would be read as more than they are.
+    ///
+    /// Only zoning has one, and only because zoning is the section where an
+    /// empty map is genuinely ambiguous. A viewport with no polygon reports
+    /// "Ready · 0 loaded", which is the same string a viewport whose
+    /// municipality publishes no zoning GIS at all reports — and most of them
+    /// publish none. Read as "no zoning applies", that is the difference
+    /// between a lot somebody can build on and one they cannot.
+    ///
+    /// The other half of the web's note, that towns inside a county are
+    /// separate zoning jurisdictions, is carried per layer in `coverage`. It is
+    /// repeated here because it is the same mistake: the county layer drawing
+    /// nothing over a town is not the town having no zoning.
+    ///
+    /// The web's "unofficial rendering, not for legal purposes" paragraph is
+    /// not repeated. That one is already on every zoning feature the user taps,
+    /// as `FeatureCallouts.zoningCaveat`.
+    static func sectionNote(for group: LayerGroupID) -> String? {
+        switch group {
+        case .zoning:
+            return "Nova Scotia publishes no provincial zoning layer, and most municipalities "
+                + "publish no zoning GIS at all. An area with no polygon is an area this map "
+                + "has no data for. It is not evidence that no zoning applies. Towns inside a "
+                + "county are separate zoning jurisdictions, so a county layer does not cover "
+                + "town parcels."
+        default:
+            return nil
+        }
+    }
+
     /// The layers the base-map picker can switch to.
     ///
     /// A set rather than a computed property on the descriptor, because being a
@@ -152,13 +183,29 @@ nonisolated enum NativeLayerTraits {
                 licenseURL: descriptor.licenceURL
             )
         case .rumseyReference:
+            // "Stanford University Libraries" in full: this is the credit line
+            // the collection asks for on any reproduction, word for word, and
+            // the web carries it as `RUMSEY_ATTRIBUTION`.
+            //
+            // The licence is named and linked because Fletcher is the layer
+            // this app opens showing and it composites into the printed sheet.
+            // Without it a researcher can put Rumsey imagery into a client
+            // report or a paid due-diligence package having been told only that
+            // it is "for reference", with the app's own MIT licence reading as
+            // though it covered the scans. It does not.
             return LayerAttribution(
-                provider: "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries",
+                provider: "David Rumsey Map Collection, David Rumsey Map Center, "
+                    + "Stanford University Libraries",
                 copyright: nil,
-                disclaimer: "Historical maps are provided for reference and historical interest only.",
-                licenseTitle: nil,
+                disclaimer: "Noncommercial use only. This project's georeferencing, clipping "
+                    + "and tiling are derivatives and stay inside the licence's ShareAlike "
+                    + "terms; the app's MIT software licence does not cover the imagery. "
+                    + "Historical context only: not a survey, and it establishes no current "
+                    + "parcels, title, legal access, roads, shoreline, flood conditions, "
+                    + "value, permissions or services.",
+                licenseTitle: "CC BY-NC-SA 3.0",
                 licenseURL: descriptor.licenceURL
-                    ?? URL(string: "https://www.davidrumsey.com/about/copyright-and-permissions")
+                    ?? URL(string: "https://creativecommons.org/licenses/by-nc-sa/3.0/")
             )
         case nil:
             // Only `mineral-proximity-parcels` reaches this, and it is derived

@@ -76,6 +76,26 @@ struct ActiveAttributionTests {
         #expect(summary.hasSuffix(ActiveAttribution.boundaryCaveat))
     }
 
+    /// Fletcher is the layer this app opens showing, and it composites into
+    /// the printed sheet. A researcher who puts that sheet into a paid report
+    /// has to have been told the imagery is noncommercial-only somewhere they
+    /// would actually read it.
+    @Test("A Rumsey layer names and links its licence")
+    func aRumseyLayerNamesAndLinksItsLicence() throws {
+        let fletcher = try #require(LayerCatalog.all.first { $0.id == .fletcher })
+        let attribution = NativeLayerTraits.attribution(for: fletcher)
+        #expect(attribution.licenseTitle == "CC BY-NC-SA 3.0")
+        #expect(
+            attribution.resolvedLicenseURL?.absoluteString
+                == "https://creativecommons.org/licenses/by-nc-sa/3.0/"
+        )
+        // The collection asks for this credit word for word.
+        #expect(attribution.provider.contains("Stanford University Libraries"))
+        #expect(attribution.disclaimer.contains("Noncommercial use only"))
+        #expect(attribution.disclaimer.contains("ShareAlike"))
+        #expect(attribution.disclaimer.contains("MIT software licence does not cover"))
+    }
+
     /// A source that states no terms must not be folded into the licensed
     /// ones. "No stated licence" is a different fact from "licensed", and the
     /// strip is where a reader meets it.

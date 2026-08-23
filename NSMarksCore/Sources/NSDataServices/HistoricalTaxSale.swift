@@ -330,6 +330,48 @@ extension HistoricalRecordContext {
             : record.outcome.label
     }
 
+    /// Said where the money is, when the listing was never about one parcel.
+    ///
+    /// The catalogue attaches a record to every PID it names, so a listing that
+    /// bundled three parcels puts the same advertised amount and the same
+    /// winning bid on all three cards. Those are the loudest comparables in the
+    /// set — one HRM listing carries $70,000 against three PIDs — and read as
+    /// this parcel's price they are wrong by whatever the other parcels were
+    /// worth. The other PIDs are named so the reader can go and find them.
+    ///
+    /// Nil for the ordinary single-parcel listing, which needs no caveat.
+    public var multiPIDNote: String? {
+        guard record.pids.count > 1 else { return nil }
+        return """
+            This one listing covers \(record.pids.count) PIDs \
+            (\(record.pids.joined(separator: ", "))). The listing-level amounts \
+            are not divided between parcels.
+            """
+    }
+
+    /// When the source documents were captured, which is not when this build
+    /// read them.
+    ///
+    /// `retrievedOn` is the ingest date and reads the same day on every shipped
+    /// record; the snapshot dates are when the notice and the result were
+    /// actually taken, and some are years earlier. A reader judging how stale
+    /// an outcome is needs the capture date, not the day a script ran, so the
+    /// card prints both and the web prints both.
+    ///
+    /// "Results checked" rather than a result date where the sale published no
+    /// result document: somebody looked on that day and there was nothing,
+    /// which is a different fact from a result captured on it.
+    public var sourceSnapshotSummary: String {
+        let notice = "Notice \(TaxSaleFormat.day(event.noticeSnapshotDate))"
+        if let snapshot = event.resultSnapshotDate {
+            return "\(notice) · result \(TaxSaleFormat.day(snapshot))"
+        }
+        if let checked = event.resultCheckedOn {
+            return "\(notice) · results checked \(TaxSaleFormat.day(checked))"
+        }
+        return notice
+    }
+
     /// The limit on what this record proves, in the web's words.
     public var limitNote: String {
         event.resultStatus == .awaitingOfficialResults
