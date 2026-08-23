@@ -34,10 +34,7 @@ struct GeoreferenceView: View {
     @State private var session: GeoreferenceSession
     @State private var share: SharePayload?
     @State private var exportFailure: String?
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 45.0, longitude: -63.0),
-        span: MKCoordinateSpan(latitudeDelta: 4, longitudeDelta: 5)
-    )
+    @State private var region: MKCoordinateRegion
     @State private var showsPoints = false
     /// How much of the ground shows through the sheet being placed.
     ///
@@ -109,6 +106,13 @@ struct GeoreferenceView: View {
     private struct ScanFocus: Equatable {
         var pixel: PixelPoint
         var requestID: Int
+        /// How close the pane must be after the move.
+        ///
+        /// Looking up a placed point is an inspection and goes in close.
+        /// Pointing at where a ground tap probably falls is a hint, and pulling
+        /// the reader in to 4x would take away the surroundings they recognise
+        /// the feature by — so that one recentres at whatever scale they chose.
+        var minimumScale: Double = 4
     }
 
     private static let scanDragThreshold: Double = 3
@@ -120,6 +124,11 @@ struct GeoreferenceView: View {
         pixelSize: PixelSize,
         controlPoints: [SessionControlPoint] = [],
         method: GeoreferenceMethod = .affine,
+        /// The ground the reader was already on. Taken here rather than copied
+        /// in `onAppear` like the reference switches, because the map pane is
+        /// built before that runs: seeded late, the first frame is the whole
+        /// province and the pane visibly jumps.
+        openingRegion: MKCoordinateRegion? = nil,
         onSave: @escaping ([SessionControlPoint], GeoreferenceMethod) -> Void
     ) {
         self.identifier = identifier
@@ -132,7 +141,14 @@ struct GeoreferenceView: View {
                 controlPoints: controlPoints, pixelSize: pixelSize, method: method
             )
         )
+        _region = State(initialValue: openingRegion ?? Self.provinceWide)
     }
+
+    /// The whole province, for a pane with nowhere better to start.
+    private static let provinceWide = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 45.0, longitude: -63.0),
+        span: MKCoordinateSpan(latitudeDelta: 4, longitudeDelta: 5)
+    )
 
     var body: some View {
         NavigationStack {
@@ -168,6 +184,9 @@ struct GeoreferenceView: View {
                 ShareSheet(items: payload.items)
             }
             .sheet(isPresented: $showsPoints) { pointsSheet }
+            .onChange(of: session.pending) { _, _ in
+                focusScanOnPendingGround()
+            }
             .onAppear {
                 seedReferences()
                 guard let draft = drafts.draft(identifier: identifier),
@@ -409,10 +428,10 @@ struct GeoreferenceView: View {
                           // Zoom in only, never back out: a user who has moved
                           // closer to check a point must not be pulled away
                           // from what they are looking at.
-                          scale: max(scanScale, 4)
+                          scale: max(scanScale, focus.minimumScale)
                       )
                 else { return }
-                scanScale = max(scanScale, 4)
+                scanScale = max(scanScale, focus.minimumScale)
                 scanScaleCommitted = scanScale
                 scanOffset = CGSize(width: offset.x, height: offset.y)
                 scanOffsetCommitted = scanOffset
@@ -573,6 +592,20 @@ struct GeoreferenceView: View {
             references.contains($0)
                 && paneZoom < Double(referenceServices.minimumZoom(for: $0) ?? 0)
         }
+    }
+
+    /// Brings the scan to where the ground point just tapped should fall, when
+    /// the points placed so far can say. The browser moves its scan pane on the
+    /// same answer.
+    private func focusScanOnPendingGround() {
+        guard let pixel = session.pendingGroundOnScan else { return }
+        focusRequests += 1
+        scanFocus = ScanFocus(
+            pixel: pixel,
+            requestID: focusRequests,
+            // A hint, not an inspection: recentre, and leave the zoom alone.
+            minimumScale: scanScale
+        )
     }
 
     /// What the layers currently drawn here oblige this panel to say.

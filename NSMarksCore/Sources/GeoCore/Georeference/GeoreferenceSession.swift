@@ -211,6 +211,28 @@ public struct GeoreferenceSession: Sendable {
         refresh()
     }
 
+    /// Where the ground point waiting for its pair probably falls on the scan.
+    ///
+    /// A map-first tap means the user has named a place and now has to find it
+    /// on the engraving, which is the expensive half of placing a point. This
+    /// is what lets the scan pane move there so the hunt becomes a glance.
+    ///
+    /// Nil until three points exist: below that there is no transform, and a
+    /// guess would be invention rather than a shortcut. Nil too while a scan
+    /// point is the one waiting — the reader is already looking at the scan.
+    ///
+    /// Affine even when the sheet is warped by a spline, because this drives a
+    /// recentre rather than a measurement. See `AffineFit.solveInverse`.
+    public var pendingGroundOnScan: PixelPoint? {
+        guard case .map(let ground) = pending,
+              let inverse = AffineFit.solveInverse(controlPoints: controlPoints.map(\.control))
+        else { return nil }
+        let mercator = WebMercator.project(ground)
+        let pixel = inverse.apply(x: mercator.x, y: mercator.y)
+        guard pixel.x.isFinite, pixel.y.isFinite else { return nil }
+        return PixelPoint(x: pixel.x, y: pixel.y)
+    }
+
     public mutating func cancelPending() {
         pending = nil
         refresh()

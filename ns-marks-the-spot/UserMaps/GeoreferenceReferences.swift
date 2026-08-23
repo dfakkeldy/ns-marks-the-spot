@@ -118,6 +118,34 @@ struct GeoreferenceReferenceServices {
         )
     }
 
+    /// Where the main map is looking, so this pane opens on the same ground.
+    ///
+    /// On the browser there is nothing to copy: the georeferencer places points
+    /// on the live map, at whatever view the reader already had. This pane has
+    /// its own map, and opening it on a fixed province-wide box put 400 km of
+    /// coastline between the reader and the ground they were working on before
+    /// the first control point could be placed.
+    ///
+    /// Nil before the map view exists, and the province-wide opening stands.
+    var mainMapRegion: MKCoordinateRegion? {
+        guard let bounds = controller.currentVisibleBounds() else { return nil }
+        let latitudeDelta = bounds.maxLatitude - bounds.minLatitude
+        let longitudeDelta = bounds.maxLongitude - bounds.minLongitude
+        // A map mid-layout can report a degenerate rect, and MapKit reads a
+        // zero span as "keep whatever you have", which would silently be the
+        // province again with no way to tell the two apart.
+        guard latitudeDelta > 0, longitudeDelta > 0 else { return nil }
+        return MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: (bounds.minLatitude + bounds.maxLatitude) / 2,
+                longitude: (bounds.minLongitude + bounds.maxLongitude) / 2
+            ),
+            span: MKCoordinateSpan(
+                latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta
+            )
+        )
+    }
+
     /// What each drawn layer obliges the page to say. Empty for an empty set,
     /// because nothing restricted is on screen to credit.
     func credits(for references: Set<GeoreferenceReference>) -> [ActiveAttribution.Credit] {

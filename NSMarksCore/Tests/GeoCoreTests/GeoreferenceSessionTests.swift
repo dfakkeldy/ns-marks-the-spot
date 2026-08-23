@@ -468,3 +468,66 @@ struct GeoreferenceImportUndoTests {
         #expect(session.heldOut == before)
     }
 }
+
+/// Pointing the scan at the ground point that is waiting for its pair.
+@Suite("Where a waiting ground point falls on the scan")
+struct GeoreferencePendingHintTests {
+    /// Four corners of a sheet placed on ground, so the solve is exact and the
+    /// prediction can be checked against a number rather than a direction.
+    private static func placed() -> GeoreferenceSession {
+        var session = GeoreferenceSession(pixelSize: PixelSize(width: 1000, height: 800))
+        for (pixel, ground) in [
+            (PixelPoint(x: 0, y: 0), GeoPoint(lat: 46.2, lng: -61.4)),
+            (PixelPoint(x: 1000, y: 0), GeoPoint(lat: 46.2, lng: -61.2)),
+            (PixelPoint(x: 1000, y: 800), GeoPoint(lat: 46.1, lng: -61.2)),
+            (PixelPoint(x: 0, y: 800), GeoPoint(lat: 46.1, lng: -61.4))
+        ] {
+            session.pickScanPoint(x: pixel.x, y: pixel.y)
+            session.pickMapPoint(lat: ground.lat, lng: ground.lng)
+        }
+        return session
+    }
+
+    @Test("A waiting ground point is answered in scan pixels")
+    func aWaitingGroundPointIsAnsweredInScanPixels() throws {
+        var session = Self.placed()
+        // The middle of the four corners, so the answer is the middle of the
+        // sheet whichever way the solve leans.
+        session.pickMapPoint(lat: 46.15, lng: -61.3)
+
+        let pixel = try #require(session.pendingGroundOnScan)
+        #expect(abs(pixel.x - 500) < 1)
+        #expect(abs(pixel.y - 400) < 1)
+    }
+
+    /// Below three points there is no transform, and a guess would be invention
+    /// dressed as a shortcut.
+    @Test("Too few points offers nothing rather than a guess")
+    func tooFewPointsOffersNothingRatherThanAGuess() {
+        var session = GeoreferenceSession(pixelSize: PixelSize(width: 1000, height: 800))
+        session.pickScanPoint(x: 0, y: 0)
+        session.pickMapPoint(lat: 46.2, lng: -61.4)
+        session.pickScanPoint(x: 1000, y: 0)
+        session.pickMapPoint(lat: 46.2, lng: -61.2)
+        session.pickMapPoint(lat: 46.15, lng: -61.3)
+
+        #expect(session.status == .awaitingScan)
+        #expect(session.pendingGroundOnScan == nil)
+    }
+
+    /// A scan point waiting for its ground is the other half of the sequence,
+    /// and the reader is already looking at the scan.
+    @Test("A waiting scan point moves nothing")
+    func aWaitingScanPointMovesNothing() {
+        var session = Self.placed()
+        session.pickScanPoint(x: 250, y: 250)
+
+        #expect(session.status == .awaitingMap)
+        #expect(session.pendingGroundOnScan == nil)
+    }
+
+    @Test("Nothing waiting moves nothing")
+    func nothingWaitingMovesNothing() {
+        #expect(Self.placed().pendingGroundOnScan == nil)
+    }
+}

@@ -1,4 +1,5 @@
 import GeoCore
+import MapKit
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -15,6 +16,10 @@ struct UserMapRowsView: View {
     /// made from either section's Import button. Optional because a panel
     /// without a data section is still a panel.
     var vectors: UserVectorsViewModel?
+
+    /// Read here rather than inside the sheet: the opening view has to be
+    /// known before the georeferencer's map pane is built.
+    @Environment(\.georeferenceReferences) private var referenceServices
 
     @State private var isImporting = false
     @State private var georeferencing: UserMapsViewModel.Row?
@@ -106,7 +111,8 @@ struct UserMapRowsView: View {
                 preview: row.preview,
                 pixelSize: row.record.pixelSize,
                 controlPoints: controlPoints(of: row),
-                method: method(of: row)
+                method: method(of: row),
+                openingRegion: referenceServices?.mainMapRegion
             ) { points, method in
                 Task { await viewModel.place(id: row.id, controlPoints: points, method: method) }
             }
