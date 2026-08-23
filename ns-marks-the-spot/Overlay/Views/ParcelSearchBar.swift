@@ -10,42 +10,47 @@ struct ParcelSearchBar: View {
     @Bindable var viewModel: OverlayViewModel
     @FocusState private var isFocused: Bool
 
-    /// How tall the matched addresses are, so the list can be given its own
-    /// height when it is short and a scrolling window when it is not.
-    @State private var resultsHeight: CGFloat = 0
+    /// Everything under the field, measured at the height it wants.
+    ///
+    /// One region, and one number. Nothing under here is optional reading:
+    /// the licence the Civic Address File is published under, the addresses
+    /// themselves, and the sentence separating "the Province has no parcel
+    /// there" from "we could not ask". Sizing them against each other left
+    /// whichever lost the arithmetic below the bottom of the screen, where
+    /// nothing scrolled and nothing could reach it.
+    @State private var cardHeight: CGFloat = 0
 
-    /// The rest of this column, measured rather than allowed for: the field,
-    /// the licence above the list, and whatever the lookup had to say below
-    /// it. A fixed allowance was the field alone at an accessibility text
-    /// size, and everything under it then ran off the bottom of the screen.
+    /// The field above it, and the parts inside it that do not flex. Measured
+    /// rather than allowed for: a flat allowance was the field alone at an
+    /// accessibility text size.
     @State private var fieldHeight: CGFloat = 0
     @State private var attributionHeight: CGFloat = 0
     @State private var footerHeight: CGFloat = 0
 
-    /// The tallest that window gets. Scaled with the text size, because a
-    /// fixed 220 points at an accessibility size is one row and a half.
+    /// How much of the addresses to show before scrolling them, at this text
+    /// size. Scaled, because a fixed 220 points at an accessibility size is
+    /// one row and a half. The browser caps its own list at the same 220.
     @ScaledMetric private var resultsCap: CGFloat = 220
 
-    /// One row, which the list never goes below. A window shorter than a
-    /// single address is a window that shows nothing, and the list is the one
-    /// part of this column that can afford to run past the bottom edge: its
-    /// top stays on screen, so every result is still one scroll away.
+    /// One row, so that a screen with almost nothing left still shows
+    /// something to scroll rather than a sliver of material.
     @ScaledMetric private var rowFloor: CGFloat = 44
 
     /// How tall the map is under this column. The scaled cap alone can be
-    /// taller than a phone held sideways, so the list also stops short of the
+    /// taller than a phone held sideways, so the card also stops short of the
     /// bottom of the screen. Unbounded where no height is passed.
     var availableHeight: CGFloat = .infinity
 
-    /// The cap actually applied: the scaled one, or what the rest of the
-    /// column leaves of the screen, whichever is smaller.
-    private var resultsLimit: CGFloat {
-        guard availableHeight.isFinite else { return resultsCap }
-        // 60 points above this column and 12 of air below it, plus the two
-        // eight point gaps the stack puts around the list.
-        let room = availableHeight - 88
-            - fieldHeight - attributionHeight - footerHeight
-        return max(rowFloor, min(resultsCap, room))
+    /// The tallest the card is allowed to be: enough for the licence, a
+    /// screenful of addresses and the message, or what the screen has left
+    /// under the field, whichever is smaller.
+    private var cardLimit: CGFloat {
+        let preferred = resultsCap + attributionHeight + footerHeight
+        guard availableHeight.isFinite else { return preferred }
+        // 60 points above this column and 12 of air below it, plus the eight
+        // point gap under the field.
+        let room = availableHeight - 80 - fieldHeight
+        return min(preferred, max(rowFloor, room))
     }
 
     /// The field's text lives in the view model, which is the only place that
@@ -107,12 +112,39 @@ struct ParcelSearchBar: View {
                 fieldHeight = height
             }
 
-            if !viewModel.addressResults.isEmpty {
-                addressResults
-            }
+            // One scroll region, rather than a scrolling list with fixed
+            // matter above and below it. Given the height of its own content
+            // so that two results are two results tall, and capped so that
+            // twelve of them at an accessibility text size are still a card
+            // and not the whole screen.
+            //
+            // Rendered only when it holds something. A scroll view takes every
+            // point it is offered until its content has been measured, and an
+            // empty one left standing is an invisible 260 point column down
+            // the map taking drags that belong to MapKit.
+            if hasCardContent {
+                ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        if !viewModel.addressResults.isEmpty {
+                            addressResults
+                        }
 
-            footer
+                        footer
+                    }
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                        cardHeight = height
+                    }
+                }
+                .scrollBounceBehavior(.basedOnSize)
+                .frame(height: cardHeight > 0 ? min(cardHeight, cardLimit) : nil)
+            }
         }
+    }
+
+    /// Whether anything under the field has something to say.
+    private var hasCardContent: Bool {
+        !viewModel.addressResults.isEmpty || viewModel.parcelMessage != nil
+            || viewModel.sharedLinkNotice != nil
     }
 
     /// What the lookup had to say, under the list.
@@ -169,44 +201,27 @@ struct ParcelSearchBar: View {
         VStack(alignment: .leading, spacing: 0) {
             attribution
 
-            // Twelve results is what the query asks for, and twelve rows at an
-            // accessibility text size are taller than the phone. They scroll,
-            // and the licence above them does not: a licence that has to be
-            // scrolled past the twelfth address to reach is a licence the
-            // reader never sees. The browser caps and scrolls the same list.
-            //
-            // Above the rows rather than under them because it is the one part
-            // of this card that must survive a screen too short to hold the
-            // card. What falls off the bottom of a phone held sideways at an
-            // accessibility text size is then a row, and rows scroll.
-            //
-            // Given the height of its own rows rather than the height it is
-            // offered, so that one result is one result tall.
-            ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(viewModel.addressResults, id: \.pntid) { address in
-                        Button {
-                            isFocused = false
-                            viewModel.selectAddress(address)
-                        } label: {
-                            Text(address.label)
-                                .font(.footnote)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 10)
-                                .contentShape(.rect)
-                        }
-                        .buttonStyle(.plain)
+            // The licence sits above the rows rather than under them. Twelve
+            // results is what the query asks for, and twelve rows at an
+            // accessibility text size are taller than the phone: a licence
+            // under them is a licence reached by scrolling past the twelfth
+            // address, which is a licence nobody reads.
+            ForEach(viewModel.addressResults, id: \.pntid) { address in
+                Button {
+                    isFocused = false
+                    viewModel.selectAddress(address)
+                } label: {
+                    Text(address.label)
+                        .font(.footnote)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
 
-                        Divider().padding(.leading, 12)
-                    }
-                }
-                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
-                    resultsHeight = height
-                }
+                Divider().padding(.leading, 12)
             }
-            .scrollBounceBehavior(.basedOnSize)
-            .frame(height: resultsHeight > 0 ? min(resultsHeight, resultsLimit) : nil)
         }
         .background(.regularMaterial)
         .clipShape(.rect(cornerRadius: 12))
