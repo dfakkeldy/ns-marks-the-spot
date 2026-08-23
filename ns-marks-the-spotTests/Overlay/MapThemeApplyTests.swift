@@ -337,7 +337,12 @@ struct MapThemeApplyTests {
         viewModel.restore(
             from: URL(string: "https://example.com/map/?layers=roads&position=45.6,-61.4,15")!
         )
-        #expect(viewModel.themeStatusText == "Shared setup")
+        // The link named a layer the licence still stands in front of, so it
+        // says so. Read here rather than through the setup's name: with
+        // nothing switched on, the name is a saved theme's, and what is being
+        // tested is what the map says about where this view came from.
+        #expect(viewModel.setupCameFromALink)
+        #expect(viewModel.sharedLinkNotice != nil)
 
         // Restricted, and the licence has not been answered, so this asks
         // rather than switches.
@@ -346,8 +351,10 @@ struct MapThemeApplyTests {
         #expect(
             viewModel.layers.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false
         )
-        #expect(viewModel.themeStatusText == "Shared setup")
-        #expect(viewModel.themeDescription == "Map settings restored from a shared link.")
+        // Nothing on the map moved, so the sender's view is still what is on
+        // screen, notice included.
+        #expect(viewModel.setupCameFromALink)
+        #expect(viewModel.sharedLinkNotice != nil)
     }
 
     /// The background is part of the view a link delivered, even though the
