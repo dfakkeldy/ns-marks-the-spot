@@ -203,9 +203,14 @@ contain.
 
 ## Native layer parity
 
-The web catalog mirrors the native source URLs and rendering restrictions while
-remaining online-only. Web-only zoom gates keep Province exports at legible
-scales — the parity list of sources and renderers is unchanged:
+Both surfaces carry the same 36 layers under the same ids. `layerParity.ts`
+projects every field of every web descriptor and the Swift catalog test compares
+against that projection, so a source URL, renderer restriction, zoom gate, panel
+position, or default-visibility change on one side fails the build on the other.
+What still differs is delivery: the browser is online-only, while the app can
+save an area's Fletcher tiles for use without a connection.
+
+The layers a reader is most likely to ask about:
 
 - NS Aerial streams the Province's NSODB 10k imagery from zoom 10 through map
   zoom 23, overzooming its last useful native scale instead of disappearing.
@@ -238,14 +243,14 @@ scales — the parity list of sources and renderers is unchanged:
   bridges, rail, ferry crossings, road polygons, and close-range culvert
   features, from zoom 10 so the service's route shields appear only where
   they are legible. A compact legend explains the principal line classes.
-- [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a web-only,
-  default-off NSTDB context layer from zoom 13. It preserves the Province's
-  point and polygon renderer; it does not change the native-app parity list.
-- [Contours](https://data.novascotia.ca/d/j63u-5nkj) is a web-only,
-  default-off Topography layer from zoom 13. It uses the maintained NSTDB
-  Landforms renderer's labelled 5 m LiDAR-derived contour lines. The layer is
-  visual terrain screening only: it does not establish surveyed grade,
-  drainage, stability, access, flood exposure, or buildability.
+- [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a default-off NSTDB
+  context layer from zoom 13. It preserves the Province's point and polygon
+  renderer.
+- [Contours](https://data.novascotia.ca/d/j63u-5nkj) is a default-off Topography
+  layer from zoom 13. It uses the maintained NSTDB Landforms renderer's
+  labelled 5 m LiDAR-derived contour lines. The layer is visual terrain
+  screening only: it does not establish surveyed grade, drainage, stability,
+  access, flood exposure, or buildability.
 - Fletcher has a real default-off control for the 24 independently accepted
   direct-Rumsey sheets. The browser renders bounded per-sheet XYZ trees from
   the immutable `fletcher-direct-rumsey-20260726.1` revision and supports
@@ -260,8 +265,8 @@ scales — the parity list of sources and renderers is unchanged:
 
 ## Forestry policy
 
-The collapsed **Forestry** group contains one web-only, default-off open-data
-overlay: the Province's
+The collapsed **Forestry** group contains one default-off open-data overlay, the
+Province's
 [Old Growth Forest Policy Layer](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Old-Growth-Forest-Policy-Layer/wanf-acts).
 At zoom 9 or closer it queries only the current viewport from the official
 Socrata GeoJSON endpoint, cancels stale requests, and paginates in stable
@@ -279,9 +284,9 @@ govern Crown-land management and do not establish conditions on private land.
 
 ## Geology and resources
 
-The collapsed **Geology & Resources** group is web-only and starts with every
-switch off. Its three source-backed overlays use Province open data
-independently of the restricted map-services gate:
+The collapsed **Geology & Resources** group starts with every switch off. Its
+three source-backed overlays use Province open data independently of the
+restricted map-services gate:
 
 - [Mineral Occurrences Database](https://novascotia.ca/natr/meb/download/dp002.asp)
   records known occurrences and past producers. A point is not proof of a
@@ -392,9 +397,9 @@ the municipality before relying on it.
 
 ## Water well logs
 
-The collapsed **Groundwater** group is web-only, starts off, and is independent
-of the restricted map-services gate. It renders the Province's water well log
-inventory from
+The collapsed **Groundwater** group starts off and is independent of the
+restricted map-services gate. It renders the Province's water well log inventory
+from
 [DP ME 430 version 5](https://novascotia.ca/natr/meb/download/dp430.asp) —
 125,517 wells constructed between 1940 and 2021, extracted January 5, 2022 —
 through the DNRR ArcGIS feature service published alongside that product. The
@@ -441,9 +446,9 @@ the query rather than filtered out afterwards, so it never reaches the browser.
 
 ## Inverness micro-hydro screening pilot
 
-The collapsed **Micro-hydro pilot** is a web-only, default-off open-data
-micro-hydro screen for 13 Inverness-centred watersheds with adequate routed
-catchment coverage. Turning it on fits the map to the pilot. It retains the
+The collapsed **Micro-hydro pilot** is a default-off open-data micro-hydro
+screen for 13 Inverness-centred watersheds with adequate routed catchment
+coverage. Turning it on fits the map to the pilot. It retains the
 connected tributary paths from modeled catchment outlets instead of publishing
 only the longest river trunk. Line width grows with modeled upstream drainage
 area. Line colour shows a nominal 1–50 kW-scale opportunity band; a grey-blue

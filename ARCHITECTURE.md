@@ -184,28 +184,26 @@ coordinates to Web Mercator bounds and requests direct PNG tiles from each
 MapServer's `export` operation. This matches the native app's service model
 without sharing its offline cache policy.
 
-The catalog also appends a separately identified web-only Province layer for
-NSTDB buildings. It starts off, renders only from zoom 13, and sits above
-property boundaries but below the road overlay. This keeps the native parity
-list honest while reusing the same MapServer export adapter and selected-parcel
-visual authority.
+The catalog also appends a separately identified Province layer for NSTDB
+buildings. It starts off, renders only from zoom 13, and sits above property
+boundaries but below the road overlay, reusing the same MapServer export adapter
+and selected-parcel visual authority. The app carries it under the same id.
 
-The collapsed web-only Topography group uses the same adapter for the NSTDB
-Landforms contour renderer. Labelled 5 m LiDAR-derived contours start off and
-render from zoom 13 beneath NSPRD boundaries. The group describes them as
-terrain screening only; it does not derive parcel slope, grade, drainage,
-stability, access, flood exposure, or buildability.
+The collapsed Topography group uses the same adapter for the NSTDB Landforms
+contour renderer. Labelled 5 m LiDAR-derived contours start off and render from
+zoom 13 beneath NSPRD boundaries. The group describes them as terrain screening
+only; it does not derive parcel slope, grade, drainage, stability, access, flood
+exposure, or buildability.
 
-The same catalog also owns a separate web-only `resourceLayerCatalog`. These
-open-data overlays do not change native-layer parity and do not depend on the
-restricted-services acceptance gate. NovaROC exploration licences and mineral
-leases use the existing MapServer export adapter. Mineral occurrences and
-abandoned mine openings use `services/arcGISFeatureOverlay.ts`, which queries
-only the visible WGS84 envelope, pages full ArcGIS responses, cancels stale
-requests after map movement, and deduplicates returned records. Occurrences
-begin at zoom 8; the denser mine-opening inventory waits until zoom 11. Each
-feature service reports loading, visible-record count, zoom, and failure state
-independently.
+The same catalog also owns a separate `resourceLayerCatalog`. These open-data
+overlays do not depend on the restricted-services acceptance gate. NovaROC
+exploration licences and mineral leases use the existing MapServer export
+adapter. Mineral occurrences and abandoned mine openings use
+`services/arcGISFeatureOverlay.ts`, which queries only the visible WGS84
+envelope, pages full ArcGIS responses, cancels stale requests after map
+movement, and deduplicates returned records. Occurrences begin at zoom 8; the
+denser mine-opening inventory waits until zoom 11. Each feature service reports
+loading, visible-record count, zoom, and failure state independently.
 
 `MineralProximityParcelLayer` is the only derived resource renderer. It asks
 `mineralProximity.ts` for occurrence points around the viewport and submits the
@@ -266,9 +264,9 @@ provincial `geo_id` convention outright. Because zoning attributes come from
 third-party servers, the popup is built from DOM nodes assigned through
 `textContent` rather than an interpolated HTML string, so markup injection is
 impossible by construction. Zoning sits outside the Province licence gate
-entirely and does not change native-layer parity. It does not establish
-development permission, lot-specific rules, variances, or non-conforming rights,
-and it is not the municipality's official copy.
+entirely. It does not establish development permission, lot-specific rules,
+variances, or non-conforming rights, and it is not the municipality's official
+copy.
 
 Zoning layers whose publisher states no licence are marked
 `redistribution: "live-query-only"` and are rendered straight from the
@@ -316,8 +314,7 @@ confirmed old growth, restoration opportunity, and unknown. Its dedicated pane
 sits between contours and NSPRD so policy context cannot cover parcel, water,
 road, or selected-parcel evidence. External attributes enter DOM popups only
 through `textContent`. The layer is Open Government Licence data and therefore
-does not inherit the restricted Province-services acceptance gate; it does not
-change native-layer parity.
+does not inherit the restricted Province-services acceptance gate.
 
 `hydroPilotLayerCatalog` is a third, separately controlled web catalog for the
 default-off Inverness terrain-potential pilot. Its checked-in GeoJSON is
