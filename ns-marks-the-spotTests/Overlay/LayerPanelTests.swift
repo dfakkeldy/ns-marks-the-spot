@@ -310,7 +310,39 @@ struct LayerPanelSectionTests {
 
         #expect(land.notes.count == 1)
         #expect(land.notes[0].contains("publishes no provincial zoning layer"))
-        #expect(sections.filter { $0.category != .landProperty }.allSatisfy { $0.notes.isEmpty })
+        #expect(
+            sections
+                .filter { $0.category != .landProperty && $0.category != .waterTerrain }
+                .allSatisfy { $0.notes.isEmpty }
+        )
+    }
+
+    /// Contours are the one layer here a reader can look at and think they know
+    /// where the water runs, what the ground will hold, and where a house
+    /// could go. The web says in the panel that they do not answer any of
+    /// that, and so does this.
+    @Test func theContourNoteSaysWhatContoursDoNotEstablish() throws {
+        let controller = MapController()
+        let viewModel = OverlayViewModel(
+            controller: controller,
+            licenceStore: ProvinceLicenceStore(
+                storage: InMemoryProvinceLicenceStorage(initial: .accepted)
+            ),
+            features: ViewportFeatureViewModel(controller: controller)
+        )
+        let sections = viewModel.sections(addedMapCount: 0)
+        let terrain = try #require(sections.first { $0.category == .waterTerrain })
+        let note = try #require(terrain.notes.first)
+
+        #expect(terrain.rows.contains { $0.id == LayerID.contours.rawValue })
+        for excluded in [
+            "surveyed grade", "drainage", "stability", "access", "flood exposure", "buildability",
+        ] {
+            #expect(note.contains(excluded), "the note drops \(excluded)")
+        }
+        // The web's own link, so a reader can take the question to the source
+        // rather than to the drawing.
+        #expect(note.contains("https://data.novascotia.ca/d/j63u-5nkj"))
     }
 }
 

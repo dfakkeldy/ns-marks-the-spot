@@ -1599,6 +1599,24 @@ final class OverlayViewModel {
         return clearanceBox.clearance.allowsRestrictedLayers ? type : nil
     }
 
+    /// Whether a background actually puts something under the layers at this
+    /// zoom.
+    ///
+    /// NS Aerial is imagery with a floor and a licence: below zoom 10, or with
+    /// the licence unanswered, the picker still says NS Aerial and the map
+    /// still draws nothing.
+    private func drawsGround(_ type: MapBaseType, at zoom: Int) -> Bool {
+        switch type {
+        case .blank:
+            false
+        case .nsAerial:
+            zoom >= (LayerCatalog.descriptor(for: .nsAerial)?.minZoom ?? .max)
+                && clearanceBox.clearance.allowsRestrictedLayers
+        default:
+            true
+        }
+    }
+
     /// Where a restored view came from, which is the only thing that differs
     /// between opening a link and picking up where the reader left off.
     private enum RestoreOrigin {
@@ -1618,11 +1636,25 @@ final class OverlayViewModel {
         // A session says which background it was on outright. A link only says
         // whether the modern map was drawn, because that is all the browser has
         // a word for, so anything else it leaves where it is.
-        setBaseMapType(
+        let restored =
             background
-                ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
-                    ? .standard : baseMapType)
-        )
+            ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
+                ? .standard : baseMapType)
+        // Unless leaving it where it is would leave the link's layers over
+        // nothing. The browser turns its modern map on for a link that names
+        // layers and no ground to draw them on, and this map has two more ways
+        // to have no ground than the browser does: the background switched off,
+        // and imagery below the zoom it starts drawing at.
+        //
+        // Only for a link. A reader who left their own map on None meant it,
+        // and resuming their session is not the moment to argue.
+        if origin == .sharedLink, !state.layerIDs.isEmpty,
+            !drawsGround(restored, at: state.position.zoom)
+        {
+            setBaseMapType(.standard)
+        } else {
+            setBaseMapType(restored)
+        }
         if let taxSale, state.taxSaleEnabled, state.mode == .current, !state.eventIDs.isEmpty {
             for event in taxSale.upcomingEvents {
                 taxSale.setEventVisibility(event.id, to: state.eventIDs.contains(event.id))
@@ -1837,6 +1869,25 @@ final class OverlayViewModel {
             return selected
         }
         return MapTheme.match(themeState, in: themes.all)
+    }
+
+    /// The sections the layer panel opens with.
+    ///
+    /// The browser reads its own URL at launch and opens the sections the setup
+    /// that URL matches prefers, so a reader who saved a Forestry setup and
+    /// comes back finds Forestry open. There is no URL to read here, and the
+    /// map is restored before the panel is ever built, so the same question is
+    /// asked of the map itself.
+    ///
+    /// Background Maps when no setup matches, which is where the panel opens on
+    /// a first launch. The browser opens nothing at all in that case; on a
+    /// phone, where the panel is something the reader deliberately pulled up,
+    /// that would be a card of ten headings.
+    var openingSections: Set<LayerCategoryID> {
+        guard let matched = matchedTheme, !matched.preferredCategoryIDs.isEmpty else {
+            return [.backgroundMaps]
+        }
+        return Set(matched.preferredCategoryIDs)
     }
 
     /// The theme the picker shows as chosen: what the reader picked, or failing

@@ -29,6 +29,12 @@ struct MapContainerView: View {
     /// the screen actually has rather than at a number chosen for a shorter
     /// list. Ten sections do not fit any fixed height worth hard-coding.
     @State private var mapHeight: CGFloat = 0
+    /// How tall the measuring card is, so the scale bar and the readout
+    /// can sit above it rather than behind it.
+    @State private var measurePanelHeight: CGFloat = 0
+    /// How tall the scale bar, readout and source strip come to, which is
+    /// what MapKit's own logo and Legal link have to clear.
+    @State private var readoutHeight: CGFloat = 0
     @State private var mapHeading: Double = 0
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
@@ -510,8 +516,14 @@ struct MapContainerView: View {
         // Bottom-left, and only when nothing else is down there. The cards run
         // the width of the screen, and a readout under one of them would be a
         // control the user can see and cannot reach.
+        //
+        // Measuring is the exception, because it is the one card whose reader
+        // is asking about distance. The browser keeps its scale bar and its
+        // coordinates up throughout a measurement, and closing a measurement to
+        // read the scale it should be compared against discards it. So the
+        // readout is lifted over the measuring card instead of being dropped.
         .overlay(alignment: .bottomLeading) {
-            if overlayVM.inspection == nil, editSession == nil, measure == nil,
+            if overlayVM.inspection == nil, editSession == nil,
                vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea,
                printFrame == nil
             {
@@ -539,16 +551,18 @@ struct MapContainerView: View {
                     }
                 }
                 .padding(.leading, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + measureLift)
                 // Measured rather than guessed: the stack's height changes
                 // with the source strip, and MapKit's own logo and Legal link
                 // have to stay above it.
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
-                    controller.setBottomOrnamentInset($0)
+                    readoutHeight = $0
                 }
-                .onDisappear { controller.setBottomOrnamentInset(0) }
+                .onDisappear { readoutHeight = 0 }
             }
         }
+        .onChange(of: readoutHeight, initial: true) { _, _ in reportOrnamentInset() }
+        .onChange(of: measureLift) { _, _ in reportOrnamentInset() }
         .overlay(alignment: .bottom) {
             if let measure {
                 MeasurePanelView(
@@ -562,6 +576,10 @@ struct MapContainerView: View {
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                    measurePanelHeight = $0
+                }
+                .onDisappear { measurePanelHeight = 0 }
             }
         }
         .overlay(alignment: .bottom) {
@@ -1002,6 +1020,18 @@ struct MapContainerView: View {
         vectorCallout = nil
         overlayVM.clearParcelSelection()
         featureVM.select(found)
+    }
+
+    /// How far the scale bar and readout are lifted to clear the measuring
+    /// card. Zero when nothing is being measured.
+    private var measureLift: CGFloat {
+        measure == nil ? 0 : measurePanelHeight
+    }
+
+    /// What MapKit's logo and Legal link have to clear: the readout stack, plus
+    /// whatever the readout stack was lifted over.
+    private func reportOrnamentInset() {
+        controller.setBottomOrnamentInset(readoutHeight == 0 ? 0 : readoutHeight + measureLift)
     }
 
     private func stopMeasuring() {

@@ -128,6 +128,77 @@ struct MapShareAndEvidenceTests {
         #expect(model.rows.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false)
     }
 
+    /// The browser turns its modern map on for a link that names layers and no
+    /// ground to draw them over. A reader whose own map was on None would
+    /// otherwise open that link to parcel boundaries on white.
+    @Test func aLinkNamingLayersOverNoGroundOpensOverTheModernMap() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd])
+        model.setBaseMapType(.blank)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=nsprd&position=46.1,-60.1,14"
+            )!
+        )
+
+        #expect(model.baseMapType == .standard)
+    }
+
+    /// Only when there is nothing under them. Satellite is ground the browser
+    /// has no word for, and a link that says nothing about the background is
+    /// not asking for it to change.
+    @Test func aLinkOverABackgroundThatDrawsLeavesItAlone() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd])
+        model.setBaseMapType(.satellite)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=nsprd&position=46.1,-60.1,14"
+            )!
+        )
+
+        #expect(model.baseMapType == .satellite)
+    }
+
+    /// NS Aerial below zoom 10 is a background in the picker and nothing on the
+    /// map, which is the browser's own test for whether a link has usable
+    /// ground under it.
+    @Test func aLinkOpenedOverImageryTooFarOutFallsBackToTheModernMap() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
+        model.setBaseMapType(.nsAerial)
+
+        model.restore(
+            from: URL(
+                string: "https://kinnokilabs.com/apps/nsmarksthespot/map/"
+                    + "?layers=nsprd&position=46.1,-60.1,9"
+            )!
+        )
+
+        #expect(model.baseMapType == .standard)
+    }
+
+    /// Resuming is not opening a link. Nobody sent this view: the reader turned
+    /// their own background off and closed the app, and switching it back on at
+    /// launch is arguing with them.
+    @Test func aResumedSessionKeepsTheBackgroundTheReaderTurnedOff() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd])
+        model.setBaseMapType(.blank)
+
+        model.resume(
+            MapSession(
+                view: MapShareState(
+                    layerIDs: [LayerID.nsprd.rawValue],
+                    position: MapPosition(latitude: 46.1, longitude: -60.1, zoom: 14)
+                ),
+                background: .blank
+            )
+        )
+
+        #expect(model.baseMapType == .blank)
+    }
+
     /// A link cannot accept the Province licence on the reader's behalf, and it
     /// cannot pass over the layer in silence either. The layer stays off, the
     /// map says so, and the sheet puts the decision in front of the reader.

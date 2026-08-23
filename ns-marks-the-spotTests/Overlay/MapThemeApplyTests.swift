@@ -74,6 +74,41 @@ struct MapThemeApplyTests {
         #expect(viewModel.rows.first { $0.id == LayerID.roads.rawValue }?.isVisible == true)
     }
 
+    /// A relaunch restores the map before the panel is ever built, and the
+    /// browser opens the sections the restored setup prefers. Coming back to a
+    /// saved Forestry map and finding Forestry, Land, Roads and Water all shut
+    /// is the layers being there and none of them being findable.
+    @Test func aRestoredSetupOpensTheSectionsItPrefers() throws {
+        let saved = try theme("tax-sale-research")
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsAerial, .nsprd, .roads, .waterFeatures, .buildings],
+            showsTaxSale: false
+        )
+
+        viewModel.resume(
+            MapSession(
+                view: MapShareState(
+                    taxSaleEnabled: true,
+                    layerIDs: saved.state.layerIDs
+                ),
+                background: .nsAerial
+            )
+        )
+
+        #expect(viewModel.activeThemeID == saved.id)
+        #expect(viewModel.openingSections == Set(saved.preferredCategoryIDs))
+    }
+
+    /// A map that is nobody's saved setup opens where a first launch opens.
+    @Test func aMapMatchingNoSetupOpensAtTheBackgroundMaps() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .contours])
+
+        viewModel.toggleVisibility(LayerID.contours.rawValue)
+
+        #expect(viewModel.activeThemeID == nil)
+        #expect(viewModel.openingSections == [.backgroundMaps])
+    }
+
     @Test func aSetupCarriesTheSlidersItWasSavedWith() throws {
         let viewModel = OverlayViewModel.forTesting(installing: [.crownLands])
         let declared = try #require(LayerCatalog.descriptor(for: .crownLands)?.opacity)
