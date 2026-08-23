@@ -81,6 +81,11 @@ struct GeoreferenceView: View {
     /// the panel behind this sheet, which the reader cannot see.
     @State private var couldNotSave = false
 
+    /// A save is in flight. The points it took are a snapshot, and a point
+    /// moved while the write is out would be discarded along with the draft
+    /// the moment the older snapshot lands. The sheet is held still instead.
+    @State private var isSaving = false
+
     private struct ImportMessage: Equatable {
         var succeeded: Bool
         var text: String
@@ -170,17 +175,22 @@ struct GeoreferenceView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
+                        .disabled(isSaving)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
+                        isSaving = true
                         Task {
                             // Awaited, then checked. The draft is the only copy
                             // of these points until the library has them, and
                             // discarding it on the strength of having asked
                             // threw away an hour's placement whenever the
                             // write came back refused.
-                            guard await onSave(session.controlPoints, session.method)
-                            else {
+                            let saved = await onSave(
+                                session.controlPoints, session.method
+                            )
+                            isSaving = false
+                            guard saved else {
                                 couldNotSave = true
                                 return
                             }
@@ -192,7 +202,7 @@ struct GeoreferenceView: View {
                     // placement that cannot draw, and the row would come back
                     // saying it still needs placing — with the user's work in
                     // it, invisibly.
-                    .disabled(session.mesh == nil)
+                    .disabled(session.mesh == nil || isSaving)
                 }
             }
             .alert(
@@ -201,10 +211,12 @@ struct GeoreferenceView: View {
             ) {
                 Button("OK", role: .cancel) {}
             } message: {
-                Text(
-                    "Your points are still here. Free some space on your device "
-                        + "and save again."
-                )
+                // No cause named. The write can be refused for a library this
+                // build must not touch, for a disk with nothing left on it, or
+                // for a container the phone has locked, and this sheet is told
+                // none of them apart. Guessing "free some space" at a user
+                // whose disk is fine sends them off to delete photographs.
+                Text("Your points are still here, so you can try again.")
             }
             .sheet(item: $share) { payload in
                 ShareSheet(items: payload.items)
