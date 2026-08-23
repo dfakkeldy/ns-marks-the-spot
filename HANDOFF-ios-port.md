@@ -2024,3 +2024,23 @@ Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-
 branch claude/ios-web-map-parity-2de228. Watch CI on the head commit, then run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-23 — CI fully green, and review 13 found the coverage question being asked of the wrong rectangle
+
+Done: run 32667244730 on `43271861e` passed every job, including all four
+`testLaunch` configurations, so the landscape false failure is closed and the
+whole UI suite now runs clean on a runner. Codex review 13 then found that
+`coversAnyGround` asked `FletcherSheets.coverage`, the box around the 24 ragged
+sheets, rather than the sheets. 428 half-degree cells of that box touch no
+sheet, so a selection in one was told the survey covered it and quoted zero
+tiles for it. Fixed in `8c9b6d99e`, along with the notice that claimed "no
+tiles" for areas where coarse zoom 10 tiles legitimately do get planned, and
+both offline tests now fail on the implementations they were meant to reject.
+
+Next: watch CI on `8c9b6d99e`, then take the 22:00 ADT gate admission.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
