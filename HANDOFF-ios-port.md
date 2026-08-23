@@ -1801,3 +1801,36 @@ branch claude/ios-web-map-parity-2de228. Fix the eight interaction gaps in
 /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/scratchpad/codex-audit9-interaction.out,
 starting with the scale bar and attribution strip in MapContainerView.swift:558.
 ```
+
+## 2026-08-23 — every interaction gap closed
+
+Done: all eight of Codex's DEGRADED parity findings are fixed or answered.
+The drawing tool stays armed after a commit, the eraser is a mode with an
+undo rather than an alert per feature, opacity works while a raster is
+hidden, the attribution strip stays on screen under an open card (and every
+bottom card is lifted by its measured height), Reduce Motion is honoured,
+and the camera stops at the browser's closest tile level, calibrated live
+rather than hardcoded. Multi-part geometry can now be reshaped: the vertex
+address counts rings through the whole feature, so a MultiPolygon island has
+handles addressed the same way a lone square's are, capped at a thousand
+corners so a traced coastline cannot freeze the map. Finding 6, the scale
+bar under an open card, is written down as not a real gap: at the browser's
+own phone width the inspector covers the mounted scale control and hides the
+position readout outright. `minZoom={7}` is deliberately not ported, because
+on a phone it would show less than the province. Gate-free loops green:
+typecheck, 1120 core tests. CI red on f9301f5a3 was a test premise, not the
+fix; repaired in 84761f6eb.
+Next: read Codex's adversarial review of the three commits, then the 22:00
+gated simulator run — the measuring readout, the panel's opening sections,
+the About sheet, the delete confirmation, the raster fit, an offline saved
+area, plus the new bottom chrome, the zoom clamp, the eraser and multi-part
+handles.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/tasks/bc03hktji.output,
+fix what it finds, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+after 22:00 ADT.
+```
