@@ -288,7 +288,7 @@ extension CustomThemeStore {
         guard let storedLayerIDs = object["layerIds"] as? [Any],
               let storedCategoryIDs = object["preferredCategoryIds"] as? [Any],
               let storedOverrides = object["opacityOverrides"] as? [String: Any],
-              let taxSaleEnabled = object["taxSaleEnabled"] as? Bool,
+              let taxSaleEnabled = strictBool(object["taxSaleEnabled"]),
               let rawMode = object["mapMode"] as? String,
               let mode = MapShareState.Mode(rawValue: rawMode)
         else {
@@ -332,7 +332,7 @@ extension CustomThemeStore {
                 warnings.append("opacity layer ID: \(layerID)")
                 continue
             }
-            guard let opacity = storedOverrides[layerID] as? Double,
+            guard let opacity = strictNumber(storedOverrides[layerID]),
                   opacity.isFinite, opacity >= 0, opacity <= 1
             else {
                 warnings.append("invalid opacity: \(layerID)")
@@ -359,6 +359,29 @@ extension CustomThemeStore {
             warnings.append("theme \(id)")
             return nil
         }
+    }
+
+    /// A JSON `true`, and nothing that merely looks like one.
+    ///
+    /// Foundation's number bridging does not separate the two: a stored `1`
+    /// reads as `true` through `as? Bool`. A library written by hand, or by a
+    /// version of this app that does not exist yet, should be told its value is
+    /// wrong rather than have a setting invented for it. The browser's reader
+    /// checks `typeof` for the same reason.
+    private static func strictBool(_ value: Any?) -> Bool? {
+        guard let value, CFGetTypeID(value as CFTypeRef) == CFBooleanGetTypeID() else {
+            return nil
+        }
+        return value as? Bool
+    }
+
+    /// A JSON number, and not a boolean: `true as? Double` is `1.0`, which
+    /// would turn a nonsense opacity into a fully drawn layer.
+    private static func strictNumber(_ value: Any?) -> Double? {
+        guard let value, CFGetTypeID(value as CFTypeRef) != CFBooleanGetTypeID() else {
+            return nil
+        }
+        return value as? Double
     }
 }
 

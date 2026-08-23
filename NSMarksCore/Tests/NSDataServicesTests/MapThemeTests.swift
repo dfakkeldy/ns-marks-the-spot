@@ -339,6 +339,42 @@ struct CustomThemeStoreTests {
         #expect(library.themes.first?.preferredCategoryIDs == [.backgroundMaps])
     }
 
+    /// JSON has a boolean and JSON has a number, and Foundation's bridging
+    /// treats a stored `1` as `true` and a stored `true` as `1.0`. A library
+    /// that says either should be told it is wrong: a switch nobody set and a
+    /// slider nobody moved are settings this app would have invented.
+    @Test func refusesANumberWhereTheSwitchBelongs() {
+        let data = Data(
+            """
+            {"version":1,"themes":[
+              {"id":"good","name":"Good","layerIds":["modern"],"opacityOverrides":{},
+               "preferredCategoryIds":["background-maps"],"taxSaleEnabled":1,
+               "mapMode":"current"}
+            ]}
+            """.utf8
+        )
+        let library = CustomThemeStore.read(data)
+        #expect(library.status == .partial)
+        #expect(library.themes.isEmpty)
+    }
+
+    @Test func refusesABooleanWhereTheSliderBelongs() throws {
+        let data = Data(
+            """
+            {"version":1,"themes":[
+              {"id":"good","name":"Good","layerIds":["modern","crown-lands"],
+               "opacityOverrides":{"crown-lands":true},
+               "preferredCategoryIds":["background-maps"],"taxSaleEnabled":false,
+               "mapMode":"current"}
+            ]}
+            """.utf8
+        )
+        let library = CustomThemeStore.read(data)
+        #expect(library.status == .partial)
+        #expect(library.themes.first?.state.opacityOverrides.isEmpty == true)
+        #expect(library.warning?.contains("invalid opacity: crown-lands") == true)
+    }
+
     @Test func refusesASetupThatWouldNotDraw() {
         #expect(throws: CustomThemeStore.Failure.invalid("opaque background")) {
             try CustomThemeStore.make(
