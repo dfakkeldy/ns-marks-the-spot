@@ -605,6 +605,45 @@ nonisolated struct PrintMapCompositorTests {
         )
     }
 
+    /// The stroke is centred on the boundary. A selected parcel whose east
+    /// edge stands within two page points of the frame lays part of its
+    /// four-point stroke on the page, and the key and the credit must both
+    /// own that sliver; past the reach there is no sliver to own.
+    @Test("A boundary grazing the frame is keyed and credited for its stroke's reach")
+    func aBoundaryGrazingTheFrameIsKeyedAndCreditedForItsStrokesReach() {
+        // Two points of this 736-point frame is 0.000163 degrees of this
+        // ground; the near edge stands 0.00008 off the frame, the far 0.0004.
+        let grazing = ParcelShape(
+            pid: "15", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.30008, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            PrintMapCompositor.parcelLegend(
+                for: [grazing], within: Self.bounds, mapFrame: Self.mapFrame
+            ).map(\.name) == ["Selected parcel"]
+        )
+        #expect(
+            PrintMapCompositor.drawsParcels(
+                [grazing], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+
+        let clear = ParcelShape(
+            pid: "16", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.3004, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            PrintMapCompositor.parcelLegend(
+                for: [clear], within: Self.bounds, mapFrame: Self.mapFrame
+            ).isEmpty
+        )
+        #expect(
+            !PrintMapCompositor.drawsParcels(
+                [clear], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+    }
+
     private static func parcel(_ pid: String, _ role: ParcelShape.Role) -> ParcelShape {
         ParcelShape(
             pid: pid,

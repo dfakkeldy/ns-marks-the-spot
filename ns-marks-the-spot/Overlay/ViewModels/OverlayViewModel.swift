@@ -1374,7 +1374,7 @@ final class OverlayViewModel {
         // a reader to notice, because the pages are stapled together and read
         // as one document.
         if includesAppendix, let pid = inspection?.pid,
-           inspectedPID(shownWithin: printed) == nil {
+           inspectedPID(shownWithin: printed, mapFrame: template.mapFrame) == nil {
             disclosures.append(
                 "The evidence appendix is for PID \(pid), whose boundary is not on "
                     + "this map. The map shows other ground."
@@ -1384,7 +1384,8 @@ final class OverlayViewModel {
         // about the whole of it. A frame drawn by hand cuts wherever the user
         // dragged it, so a page can promise PID 15234636 and show its northern
         // third.
-        if let pid = inspectedPID(shownWithin: printed), !parcelFits(pid, within: printed) {
+        if let pid = inspectedPID(shownWithin: printed, mapFrame: template.mapFrame),
+           !parcelFits(pid, within: printed) {
             disclosures.append(
                 "PID \(pid) runs past the edge of this map. The page shows part "
                     + "of the parcel."
@@ -1467,16 +1468,22 @@ final class OverlayViewModel {
     /// Ask this about the ground that will print, not the frame that was
     /// dragged: the export grows one into the other, and a parcel that only
     /// enters the page in the grown margin is on it.
-    func inspectedPID(shownWithin bounds: GeoBoundingBox) -> String? {
+    func inspectedPID(shownWithin bounds: GeoBoundingBox, mapFrame: PdfRect) -> String? {
         guard let pid = inspection?.pid,
               let shape = controller.state.parcelShapes.first(where: { $0.pid == pid })
         else { return nil }
         // The same two questions the compositor asks before it draws this
-        // parcel, so the title cannot name a parcel the page has no ink from.
+        // parcel, so the title cannot name a parcel the page has no ink from —
+        // the boundary asked with its stroke's reach, or a grazing boundary
+        // would be keyed and credited under a title that refuses to name it.
         // Rings rather than the box around them: a long diagonal lot's box
         // covers ground the lot never touches, and the title is the one
-        // sentence on the page a reader has no way to check.
-        guard shape.boundaryReaches(bounds) || shape.surrounds(bounds) else { return nil }
+        // sentence on the page a reader has no way to check. Surrounds counts
+        // here though the selection has no fill, because a page wholly inside
+        // the selected parcel is that parcel's ground.
+        guard PrintMapCompositor.marksBoundary(shape, within: bounds, mapFrame: mapFrame)
+            || shape.surrounds(bounds)
+        else { return nil }
         return pid
     }
 

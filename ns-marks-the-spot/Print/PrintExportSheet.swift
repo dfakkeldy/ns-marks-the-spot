@@ -84,7 +84,10 @@ struct PrintExportSheet: View {
         // there the research summary has nothing to append: opening on it would
         // show a reader an Export button that does not work and no reason why.
         _kind = State(
-            initialValue: overlayVM.inspectedPID(shownWithin: framing.printedBounds) != nil
+            initialValue: overlayVM.inspectedPID(
+                shownWithin: framing.printedBounds,
+                mapFrame: PdfTemplate.template(framing.orientation).mapFrame
+            ) != nil
                 ? .researchSummary : .fieldSheet
         )
     }
@@ -116,7 +119,10 @@ struct PrintExportSheet: View {
     /// printed. A page named after a parcel it does not show would tell the
     /// reader they are looking at that parcel.
     private var framedPID: String? {
-        overlayVM.inspectedPID(shownWithin: framing.printedBounds)
+        overlayVM.inspectedPID(
+            shownWithin: framing.printedBounds,
+            mapFrame: PdfTemplate.template(framing.orientation).mapFrame
+        )
     }
 
     /// Whether there is any aerial photography on the map to print.

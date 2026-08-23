@@ -183,6 +183,29 @@ struct GeometryInkTests {
         #expect(sweep.lineWorkReaches(Self.box(45.03, -63.05, 45.045, -62.95)))
     }
 
+    /// Containment is decided in the same plane as crossing. This page sits
+    /// between the degree-space chord and the drawn one, so a degree-space
+    /// centre test calls it surrounded by a wedge whose drawn edge passes
+    /// north of it.
+    @Test("Surrounded is judged against the drawn edge, not the degree edge")
+    func surroundedIsJudgedAgainstTheDrawnEdgeNotTheDegreeEdge() {
+        let wedge = GeoJSONGeometry.polygon([
+            [
+                GeoPoint(lat: 43, lng: -67), GeoPoint(lat: 47, lng: -59),
+                GeoPoint(lat: 47, lng: -67), GeoPoint(lat: 43, lng: -67)
+            ]
+        ])
+        // North of the degree chord at 45.0000, south of the drawn edge at
+        // 45.0349, and crossed by neither.
+        let between = Self.box(45.012, -63.01, 45.022, -62.99)
+        #expect(!wedge.lineWorkReaches(between))
+        #expect(!wedge.surrounds(between))
+        // North of both it is inside the wedge whichever way it is asked.
+        let inside = Self.box(45.06, -63.01, 45.07, -62.99)
+        #expect(!wedge.lineWorkReaches(inside))
+        #expect(wedge.surrounds(inside))
+    }
+
     /// The frame grown by a stroke's reach, in page fractions: half a point of
     /// a 736-point frame on this ground is about 13 m.
     @Test("A grown box reaches the ground the stroke's width reaches")

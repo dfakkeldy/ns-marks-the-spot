@@ -427,15 +427,20 @@ nonisolated struct PrintMapCompositor {
                 )
                 context.fillPath()
             }
-            context.addPath(circle)
-            context.setStrokeColor(
-                UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
-            )
-            context.setLineWidth(style.lineWidth * lineScale)
-            context.setLineDash(
-                phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
-            )
-            context.strokePath()
+            // The same visibility gate the ink predicates use: a width of
+            // zero is outside `setLineWidth`'s contract, and stroking with it
+            // could inherit whatever width the previous shape left behind.
+            if style.strokeOpacity > 0, style.lineWidth > 0 {
+                context.addPath(circle)
+                context.setStrokeColor(
+                    UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
+                )
+                context.setLineWidth(style.lineWidth * lineScale)
+                context.setLineDash(
+                    phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
+                )
+                context.strokePath()
+            }
         }
         context.setLineDash(phase: 0, lengths: [])
         context.setLineCap(.butt)
@@ -468,17 +473,27 @@ nonisolated struct PrintMapCompositor {
                 context.setFillColor(UIColor(featureHex: fillHex, alpha: style.fillOpacity).cgColor)
                 context.fillPath(using: .evenOdd)
             }
-            context.addPath(path)
-            context.setStrokeColor(
-                UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
-            )
-            context.setLineWidth(style.lineWidth * lineScale)
-            context.setLineCap(style.hasRoundedEnds ? .round : .butt)
-            context.setLineJoin(style.hasRoundedEnds ? .round : .miter)
-            context.setLineDash(
-                phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
-            )
-            context.strokePath()
+            // Bevel rather than miter where the ends are square: a miter tip
+            // at an acute corner can spike several line widths past the
+            // vertex, which is ink the half-width reach the ink predicates
+            // pad by could never account for. Bevel and round both keep the
+            // whole stroke within half a width of the centre line, so the
+            // page's ink and the page's list agree at every corner. The same
+            // gate as the predicates, because a zero width is outside
+            // `setLineWidth`'s contract.
+            if style.strokeOpacity > 0, style.lineWidth > 0 {
+                context.addPath(path)
+                context.setStrokeColor(
+                    UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
+                )
+                context.setLineWidth(style.lineWidth * lineScale)
+                context.setLineCap(style.hasRoundedEnds ? .round : .butt)
+                context.setLineJoin(style.hasRoundedEnds ? .round : .bevel)
+                context.setLineDash(
+                    phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
+                )
+                context.strokePath()
+            }
         }
     }
 
@@ -522,6 +537,10 @@ nonisolated struct PrintMapCompositor {
                 context.addPath(path)
                 context.setStrokeColor(style.stroke.cgColor)
                 context.setLineWidth(style.width * lineScale)
+                // Bevel for the same reason the features use it: a miter tip
+                // at an acute lot corner would carry ink past the half-width
+                // reach the legend and the credit are padded by.
+                context.setLineJoin(.bevel)
                 if let dash = style.dash {
                     context.setLineDash(phase: 0, lengths: dash.map { $0 * lineScale })
                 } else {
@@ -621,13 +640,21 @@ nonisolated struct PrintMapCompositor {
     private static func marks(
         _ parcel: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
     ) -> Bool {
-        let drawn = style(for: parcel.role)
-        let reach = drawn.width / 2
+        if marksBoundary(parcel, within: bounds, mapFrame: mapFrame) { return true }
+        return style(for: parcel.role).fill != nil && parcel.surrounds(bounds)
+    }
+
+    /// The padded half of `marks` on its own, shared with the title's
+    /// question, so the page cannot key and credit a grazing boundary the
+    /// title then refuses to name.
+    static func marksBoundary(
+        _ parcel: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        let reach = style(for: parcel.role).width / 2
         let reached = bounds.expanded(
             byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
         )
-        if parcel.boundaryReaches(reached) { return true }
-        return drawn.fill != nil && parcel.surrounds(bounds)
+        return parcel.boundaryReaches(reached)
     }
 
     private static func legendName(for role: ParcelShape.Role) -> String {
