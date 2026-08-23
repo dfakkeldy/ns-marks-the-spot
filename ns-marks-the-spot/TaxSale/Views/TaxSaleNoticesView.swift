@@ -61,6 +61,9 @@ struct TaxSaleNoticesView: View {
                                 propertyRow(event: event, listing: listing, pid: pid)
                             }
                         }
+                        if !event.geometryExceptions.isEmpty {
+                            unavailableRows(event)
+                        }
                         sourceLinks(event)
                     }
                 }
@@ -107,6 +110,7 @@ struct TaxSaleNoticesView: View {
                 Text(
                     "\(summary.advertised) advertised · \(summary.withdrawn) withdrawn · "
                         + "\(summary.activePIDs) active PIDs"
+                        + unmappedSuffix(event)
                 )
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -156,6 +160,52 @@ struct TaxSaleNoticesView: View {
         .accessibilityLabel(
             "\(listing.propertyLabel), lien \(listing.lien ?? "not listed"), PID \(pid)"
         )
+    }
+
+    /// How many of the notice's own rows have no parcel to draw.
+    ///
+    /// The web puts this in the "Browse properties" summary. Here the section
+    /// has no disclosure to hang it on, so it goes with the other counts: a
+    /// reader comparing the app's parcel count against the printed notice
+    /// should be able to see where the difference went without scrolling.
+    private func unmappedSuffix(_ event: TaxSaleEvent) -> String {
+        let unavailable = event.geometryExceptions.reduce(0) { $0 + $1.pids.count }
+        guard unavailable > 0 else { return "" }
+        return " · \(unavailable) unavailable"
+    }
+
+    /// The official rows NSPRD would not draw.
+    ///
+    /// Kept in the list and kept unselectable. A row the province has no exact
+    /// parcel for is still in the municipality's notice, so dropping it would
+    /// under-report the sale, and mapping it to a near match would put a
+    /// reader on someone else's land.
+    @ViewBuilder
+    private func unavailableRows(_ event: TaxSaleEvent) -> some View {
+        Text("Official notice rows unavailable in NSPRD")
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.secondary)
+
+        ForEach(event.geometryExceptions) { exception in
+            VStack(alignment: .leading, spacing: 2) {
+                Text(exception.location)
+                    .font(.subheadline.weight(.semibold))
+                Text(
+                    (exception.aan.map { "AAN \($0) · " } ?? "")
+                        + (exception.pids.count == 1 ? "PID " : "PIDs ")
+                        + exception.pids.joined(separator: ", ")
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                Text(
+                    "No exact NSPRD geometry was returned on "
+                        + "\(TaxSaleFormat.day(exception.checkedOn)). The official "
+                        + "notice row is retained but is not shown as a mapped parcel."
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+        }
     }
 
     @ViewBuilder

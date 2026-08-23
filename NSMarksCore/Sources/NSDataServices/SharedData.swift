@@ -20,6 +20,7 @@ public enum SharedData {
         case annapolisTaxSale = "annapolisTaxSale.snapshot.json"
         case cbrmTaxSale = "cbrmTaxSale.snapshot.json"
         case cbrmTaxSaleResults = "cbrmTaxSaleResults.snapshot.json"
+        case halifaxTaxSale = "halifaxTaxSale.snapshot.json"
         case historicalTaxSales = "historicalTaxSales.json"
         // Not a tax sale: the micro-hydro pilot is a derived dataset the web
         // bundles rather than fetches. It is here so it is hashed against the
@@ -29,6 +30,7 @@ public enum SharedData {
         case invernessHydroPotential = "invernessHydroPotential.json"
         case invernessTaxSale = "invernessTaxSale.snapshot.json"
         case middletonTaxSale = "middletonTaxSale.snapshot.json"
+        case victoriaTaxSale = "victoriaTaxSale.snapshot.json"
     }
 
     /// A bundled file was not where the bundle said it would be.

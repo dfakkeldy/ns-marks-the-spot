@@ -226,6 +226,181 @@ enum TaxSaleSnapshots {
         )
     }
 
+    // MARK: - Victoria County
+
+    static func victoria(_ bytes: Data, datasetSHA256: String?) throws -> TaxSaleEvent {
+        struct Snapshot: Decodable {
+            struct Listing: Decodable {
+                let item: Int
+                let aan: String
+                let pids: [String]
+                let description: String
+                let redeemable: Bool
+                let totalOwingCents: Int
+                let listingStatus: String
+            }
+
+            let municipality: String
+            let source: String
+            let landingPage: String
+            let retrievedDate: String
+            let publishedOn: String
+            let eventDate: String
+            let bidDeadlineTime: String
+            let venue: String
+            let listings: [Listing]
+        }
+
+        let snapshot = try JSONDecoder().decode(Snapshot.self, from: bytes)
+        let id = "victoria-county-2026-09-14"
+
+        return TaxSaleEvent(
+            id: id,
+            municipalityID: "victoria-county",
+            municipality: snapshot.municipality,
+            shortMunicipality: "Victoria County",
+            eventType: .sealedTender,
+            eventStatus: .upcoming,
+            saleStartsAt: try instant(
+                "\(snapshot.eventDate)T\(snapshot.bidDeadlineTime):00-03:00"
+            ),
+            venue: snapshot.venue,
+            sourceURL: try url(snapshot.source),
+            landingPageURL: try url(snapshot.landingPage),
+            sourceLabel: "Official Victoria County tax-sale notice",
+            publishedOn: snapshot.publishedOn,
+            retrievedOn: snapshot.retrievedDate,
+            sourceDatasetSHA256: datasetSHA256,
+            listings: snapshot.listings.map { listing in
+                TaxSaleListing(
+                    eventID: id,
+                    recordID: "\(id)-item-\(listing.item)",
+                    aan: listing.aan,
+                    pids: listing.pids,
+                    location: listing.description,
+                    financial: MunicipalFinancialField(
+                        kind: .recoveryAmount,
+                        label: "Total owing (subject to municipal confirmation)",
+                        amountCents: listing.totalOwingCents
+                    ),
+                    redemptionCategory: listing.redeemable ? .sixMonth : .notRedeemable,
+                    redemptionLabel: listing.redeemable
+                        ? "Redeemable - Yes"
+                        : "Redeemable - No",
+                    listingStatus: listing.listingStatus == "withdrawn"
+                        ? .withdrawn
+                        : .advertised
+                )
+            }
+        )
+    }
+
+    // MARK: - Halifax Regional Municipality
+
+    /// Halifax's Schedule A, with the rows NSPRD will not draw kept apart.
+    ///
+    /// The exceptions are matched the way the web matches them: an exception
+    /// belongs to exactly one source row, by AAN and by a single PID. A row
+    /// that cannot be found that way is a snapshot whose exceptions no longer
+    /// describe its listings, and this build refuses the whole notice rather
+    /// than shipping a listing count nobody can reconcile against the source.
+    static func halifax(_ bytes: Data, datasetSHA256: String?) throws -> TaxSaleEvent {
+        struct Snapshot: Decodable {
+            struct Listing: Decodable {
+                let item: Int
+                let aan: String
+                let pids: [String]
+                let description: String
+                let openingBidCents: Int
+                let redeemable: Bool
+                let listingStatus: String
+            }
+
+            struct Exception: Decodable {
+                let aan: String
+                let pid: String
+                let reason: TaxSaleGeometryException.Reason
+                let checkedOn: String
+            }
+
+            let municipality: String
+            let source: String
+            let landingPage: String
+            let tenderInstructions: String
+            let retrievedDate: String
+            let eventDate: String
+            let bidDeadlineTime: String
+            let venue: String
+            let listings: [Listing]
+            let geometryExceptions: [Exception]
+        }
+
+        let snapshot = try JSONDecoder().decode(Snapshot.self, from: bytes)
+        let id = "halifax-2026-09-15"
+        let exceptedPIDs = Set(snapshot.geometryExceptions.map(\.pid))
+
+        let exceptions = try snapshot.geometryExceptions.map { exception in
+            guard
+                let listing = snapshot.listings.first(where: {
+                    $0.aan == exception.aan && $0.pids == [exception.pid]
+                })
+            else {
+                throw Unreadable(field: "geometryExceptions/\(exception.aan)")
+            }
+            return TaxSaleGeometryException(
+                recordID: "\(id)-item-\(listing.item)",
+                aan: listing.aan,
+                pids: listing.pids,
+                location: listing.description,
+                reason: exception.reason,
+                checkedOn: exception.checkedOn
+            )
+        }
+
+        return TaxSaleEvent(
+            id: id,
+            municipalityID: "halifax-regional-municipality",
+            municipality: snapshot.municipality,
+            shortMunicipality: "Halifax",
+            eventType: .sealedTender,
+            eventStatus: .upcoming,
+            saleStartsAt: try instant(
+                "\(snapshot.eventDate)T\(snapshot.bidDeadlineTime):00-03:00"
+            ),
+            venue: snapshot.venue,
+            sourceURL: try url(snapshot.source),
+            secondarySourceURL: try url(snapshot.tenderInstructions),
+            landingPageURL: try url(snapshot.landingPage),
+            sourceLabel: "Official Halifax Schedule A tax-sale notice",
+            retrievedOn: snapshot.retrievedDate,
+            sourceDatasetSHA256: datasetSHA256,
+            listings: snapshot.listings
+                .filter { $0.pids.allSatisfy { !exceptedPIDs.contains($0) } }
+                .map { listing in
+                    TaxSaleListing(
+                        eventID: id,
+                        recordID: "\(id)-item-\(listing.item)",
+                        aan: listing.aan,
+                        pids: listing.pids,
+                        location: listing.description,
+                        financial: MunicipalFinancialField(
+                            kind: .minimumBid,
+                            label: "Opening bid",
+                            amountCents: listing.openingBidCents
+                        ),
+                        redemptionCategory: listing.redeemable ? .sixMonth : .notRedeemable,
+                        redemptionLabel: listing.redeemable
+                            ? "Redeemable - Yes"
+                            : "Redeemable - No",
+                        listingStatus: listing.listingStatus == "withdrawn"
+                            ? .withdrawn
+                            : .advertised
+                    )
+                },
+            geometryExceptions: exceptions
+        )
+    }
+
     // MARK: - Cape Breton Regional Municipality
 
     static func cbrm(_ bytes: Data, datasetSHA256: String?) throws -> TaxSaleEvent {

@@ -26,6 +26,7 @@ export const SHARED_DATASETS = [
   "cbrmTaxSale.snapshot.json",
   "cbrmTaxSaleResults.snapshot.json",
   "cumberlandTaxSale.snapshot.json",
+  "halifaxTaxSale.snapshot.json",
   "historicalMatchExceptions.json",
   "historicalSourceLedger.json",
   "historicalTaxSales.json",
@@ -33,6 +34,7 @@ export const SHARED_DATASETS = [
   "invernessTaxSale.snapshot.json",
   "middletonTaxSale.snapshot.json",
   "richmondTaxSale.snapshot.json",
+  "victoriaTaxSale.snapshot.json",
 ];
 
 export const MANIFEST_NAME = "manifest.json";

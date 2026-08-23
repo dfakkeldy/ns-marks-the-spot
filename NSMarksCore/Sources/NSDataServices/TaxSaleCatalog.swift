@@ -36,6 +36,8 @@ public struct TaxSaleCatalog: Sendable {
             (.invernessTaxSale, TaxSaleSnapshots.inverness),
             (.middletonTaxSale, TaxSaleSnapshots.middleton),
             (.annapolisTaxSale, TaxSaleSnapshots.annapolis),
+            (.victoriaTaxSale, TaxSaleSnapshots.victoria),
+            (.halifaxTaxSale, TaxSaleSnapshots.halifax),
         ]
 
         for (dataset, build) in builders {

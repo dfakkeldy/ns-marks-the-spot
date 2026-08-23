@@ -131,6 +131,48 @@ public struct TaxSaleListing: Sendable, Hashable, Identifiable {
     }
 }
 
+/// An official notice row the parcel service will not draw.
+///
+/// Halifax's Schedule A prints rows whose PID returns no exact geometry from
+/// NSPRD. Dropping them would lose an official listing; drawing them would
+/// invent a boundary. So the row is kept, off the map, with the date the
+/// lookup was tried: a parcel the map cannot show is not a parcel that is not
+/// in the notice, and a reader searching that PID has to be told which it is.
+public struct TaxSaleGeometryException: Sendable, Hashable, Identifiable {
+    /// Why the parcel is not drawn. One case, because one is all any source
+    /// has given so far, and a second reason would need its own wording.
+    public enum Reason: String, Sendable, Hashable, Decodable {
+        case noNSPRDGeometry = "no-nsprd-geometry"
+    }
+
+    public let recordID: String
+    public let aan: String?
+    public let pids: [String]
+    public let location: String
+    public let reason: Reason
+    /// The day the lookup was tried, `yyyy-MM-dd`, as the notice's own dates
+    /// are kept. A service can start answering tomorrow.
+    public let checkedOn: String
+
+    public var id: String { recordID }
+
+    public init(
+        recordID: String,
+        aan: String? = nil,
+        pids: [String],
+        location: String,
+        reason: Reason = .noNSPRDGeometry,
+        checkedOn: String
+    ) {
+        self.recordID = recordID
+        self.aan = aan
+        self.pids = pids
+        self.location = location
+        self.reason = reason
+        self.checkedOn = checkedOn
+    }
+}
+
 public struct TaxSaleEvent: Sendable, Hashable, Identifiable {
     public let id: String
     public let municipalityID: String
@@ -154,6 +196,9 @@ public struct TaxSaleEvent: Sendable, Hashable, Identifiable {
     public let retrievedOn: String
     public let sourceDatasetSHA256: String?
     public let listings: [TaxSaleListing]
+    /// Official rows this build cannot map. Empty for every notice whose PIDs
+    /// all resolved.
+    public let geometryExceptions: [TaxSaleGeometryException]
 
     public init(
         id: String,
@@ -172,7 +217,8 @@ public struct TaxSaleEvent: Sendable, Hashable, Identifiable {
         publishedOn: String? = nil,
         retrievedOn: String,
         sourceDatasetSHA256: String? = nil,
-        listings: [TaxSaleListing]
+        listings: [TaxSaleListing],
+        geometryExceptions: [TaxSaleGeometryException] = []
     ) {
         self.id = id
         self.municipalityID = municipalityID
@@ -191,6 +237,7 @@ public struct TaxSaleEvent: Sendable, Hashable, Identifiable {
         self.retrievedOn = retrievedOn
         self.sourceDatasetSHA256 = sourceDatasetSHA256
         self.listings = listings
+        self.geometryExceptions = geometryExceptions
     }
 
     /// The PIDs still advertised, which is what the map draws.
