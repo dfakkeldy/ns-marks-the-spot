@@ -68,12 +68,19 @@ private struct GcpDiagnosticsRow: View {
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
-            Text("\(row.number)")
+            Text(verbatim: "\(row.number)")
                 .font(.caption.monospacedDigit().bold())
                 .frame(minWidth: 22, alignment: .trailing)
             VStack(alignment: .leading, spacing: 2) {
+                // Verbatim, or SwiftUI localises the interpolation and groups
+                // the thousands: a point at pixel (1100, 100) printed as
+                // "1,100, 100", which reads as three numbers. The browser
+                // prints the rounded pixels plain, and a pixel index is an
+                // index rather than a quantity.
                 Text(
-                    "\(Int(row.point.pixel.x.rounded())), \(Int(row.point.pixel.y.rounded()))"
+                    verbatim:
+                        "\(Int(row.point.pixel.x.rounded())), "
+                        + "\(Int(row.point.pixel.y.rounded()))"
                 )
                 .font(.caption.monospacedDigit())
                 Text(

@@ -216,11 +216,18 @@ struct MapContainerView: View {
                                 }
                                 .buttonStyle(.borderedProminent)
 
+                                // On a material of its own. A bordered
+                                // button's fill is translucent, and red text
+                                // in a faint red capsule over aerial or a
+                                // marker's label is the one control in this
+                                // mode a reader cannot find — which is the way
+                                // out of it.
                                 Button("Cancel") {
                                     cancelBoundsSelection()
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(.red)
+                                .background(.regularMaterial, in: Capsule())
                             }
                             .transition(.move(edge: .trailing).combined(with: .opacity))
                         }
@@ -538,7 +545,8 @@ struct MapContainerView: View {
         // control the user can see and cannot reach.
         .overlay(alignment: .bottomLeading) {
             if overlayVM.inspection == nil, editSession == nil, measure == nil,
-               vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea
+               vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea,
+               printFrame == nil
             {
                 VStack(alignment: .leading, spacing: 6) {
                     if let mapPosition {

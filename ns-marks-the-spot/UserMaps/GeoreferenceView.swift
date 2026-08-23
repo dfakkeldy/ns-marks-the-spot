@@ -523,11 +523,16 @@ struct GeoreferenceView: View {
     @ViewBuilder
     private var referenceLayerControls: some View {
         VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 8) {
-                Text("Reference layers")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+            // The caption above the buttons rather than beside them, as the
+            // browser's fieldset legend sits above its checkboxes. On one line
+            // a 402-point phone truncated the second button to "Property
+            // bound...", and which boundaries a reader is switching on is the
+            // half that got cut.
+            Text("Reference layers")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
 
+            HStack(spacing: 8) {
                 ForEach(GeoreferenceReference.allCases) { reference in
                     Toggle(reference.title, isOn: binding(for: reference))
                         .toggleStyle(.button)
