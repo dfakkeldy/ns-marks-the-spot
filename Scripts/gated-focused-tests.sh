@@ -58,9 +58,15 @@ fi
 print "=== running on ${UDID#* } (${UDID%% *})"
 DEST="platform=iOS Simulator,id=${UDID%% *}"
 
-# Every top-level type in the test target that holds at least one `@Test`.
-# Helper types — builders, fixtures — carry none and are left out, because
-# `-only-testing` on one of them is an error rather than an empty run.
+# Named suites run just those, which is what a triage loop wants: re-running
+# sixty suites to see whether six fixes took spends a gate admission on
+# fifty-four answers already known.
+#
+#   zsh Scripts/gated-focused-tests.sh LayerCatalogTests ParcelInspectionTests
+#
+# With no arguments, every top-level type in the test target that holds at least
+# one `@Test`. Helper types — builders, fixtures — carry none and are left out,
+# because `-only-testing` on one of them is an error rather than an empty run.
 SUITES=($(awk '
   /^([a-zA-Z@ ]* )?(struct|final class|class) [A-Za-z_]+/ && $0 !~ /^ / {
     if (current != "" && hasTest) print current
@@ -72,9 +78,17 @@ SUITES=($(awk '
   END { if (current != "" && hasTest) print current }
 ' $(find $ROOT/ns-marks-the-spotTests -name '*.swift') | sort -u))
 
+if (( $# > 0 )); then
+  SUITES=($@)
+fi
+
 print "=== ${#SUITES} suites"
 
-rm -rf $OUT && mkdir -p $OUT
+# The logs and result bundles go, so nothing here is left over from an earlier
+# run; the derived data stays, so a re-run after a fix builds what changed
+# rather than the whole project again.
+mkdir -p $OUT
+rm -rf $OUT/*.log $OUT/*.xcresult
 print "=== building once"
 xcodebuild build-for-testing \
   -project "$ROOT/ns-marks-the-spot.xcodeproj" \
@@ -87,11 +101,16 @@ if [[ ${pipestatus[1]} -ne 0 ]]; then
   exit 1
 fi
 
-# Each suite gets a deadline. A run of OfflineAreasViewModelTests sat in
-# `+[XCTWaiter _synchronouslyWaitForTimeInterval:]` for seventy-one minutes and
-# took the whole overnight window with it, and a gate admission spent on one
-# stuck suite is the rest of the target not run at all. Generous enough that a
-# slow suite is not mistaken for a stuck one.
+# Each suite gets a deadline. A run of OfflineAreasViewModelTests sat there for
+# seventy-one minutes and took the whole overnight window with it, and a gate
+# admission spent on one stuck suite is the rest of the target not run at all.
+# Generous enough that a slow suite is not mistaken for a stuck one.
+#
+# What that suite was actually doing: every test passed, then a simulator clone
+# failed to launch with `FBSOpenApplicationServiceErrorDomain Code=1`, and
+# xcodebuild started the whole suite again on a fresh clone, forever. Parallel
+# testing is off below for that reason, so the deadline is a backstop rather
+# than the thing keeping the run finite.
 SUITE_TIMEOUT=${SUITE_TIMEOUT:-420}
 
 failed=()
@@ -104,6 +123,7 @@ for suite in $SUITES; do
     -destination $DEST \
     -derivedDataPath "$DERIVED" \
     -resultBundlePath "$OUT/$suite.xcresult" \
+    -parallel-testing-enabled NO \
     -only-testing:"ns-marks-the-spotTests/$suite" \
     > "$OUT/$suite.log" 2>&1 &
   pid=$!
