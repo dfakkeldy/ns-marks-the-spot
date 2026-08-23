@@ -382,14 +382,17 @@ final class UserMapsViewModel {
                 )
             )
         )
-        await save(rows[index].record.name, at: id)
-        // The chosen frame is a different piece of ground from the one that
-        // was drawn a moment ago, and the reader chose it from a picker rather
-        // than from the map. The browser brings the map to it; so does this.
-        // Read from `rows` rather than from the record built above, because a
-        // refused write has already put the old one back.
-        if let row = rows.first(where: { $0.id == id }) {
-            pendingFit = Self.box(around: row.record)
+        let chosen = rows[index].record
+        await save(chosen.name, at: id)
+        // The chosen frame is a different piece of ground from the one drawn a
+        // moment ago, and the reader chose it from a picker rather than from
+        // the map. The browser brings the map to it; so does this.
+        //
+        // Only if the choice was kept. A refused write has already put the old
+        // frame back, and flying to it would tell the reader their choice
+        // landed.
+        if rows.first(where: { $0.id == id })?.record == chosen {
+            pendingFit = Self.box(around: chosen)
         }
     }
 

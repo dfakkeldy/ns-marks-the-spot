@@ -101,22 +101,27 @@ struct UserMapRowsView: View {
                 Task { await viewModel.place(id: row.id, controlPoints: points, method: method) }
             }
         }
+        // `presenting:` rather than the row read out of the state: the actions
+        // and the message are handed the map the dialog opened on, so clearing
+        // the state on the way out cannot change what the sheet says while it
+        // is still animating away. The name is in the message for the same
+        // reason — a title is read from outside the closure.
         .confirmationDialog(
-            "Remove \(deleting?.record.name ?? "this map")?",
+            "Remove this map?",
             isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }),
-            titleVisibility: .visible
-        ) {
+            titleVisibility: .visible,
+            presenting: deleting
+        ) { row in
             Button("Remove", role: .destructive) {
-                guard let row = deleting else { return }
                 deleting = nil
                 Task { await viewModel.delete(id: row.id) }
             }
             Button("Keep", role: .cancel) { deleting = nil }
-        } message: {
+        } message: { row in
             // The same promise the browser makes, in the words iOS makes it
             // true in: the file the reader imported from stays where it is,
             // whether that is Files, iCloud Drive or another app.
-            Text("This removes the app's copy. The file you imported is not affected.")
+            Text("\(row.record.name) goes from this device. The file you imported is not affected.")
         }
     }
 
