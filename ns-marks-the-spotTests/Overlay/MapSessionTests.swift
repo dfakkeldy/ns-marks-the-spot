@@ -1,4 +1,5 @@
 import Foundation
+import MapKit
 import GeoCore
 import MapCatalog
 import NSDataServices
@@ -43,6 +44,19 @@ struct MapSessionTests {
         // MapKit's satellite map has no name in the vocabulary the two surfaces
         // share, so it travels beside the link rather than inside it.
         #expect(loaded.background == .satellite)
+    }
+
+    /// `carriesState` answers for a link a reader pasted, where one recognised
+    /// parameter is enough to act on. A stored session is held to what `save`
+    /// actually writes.
+    @Test func aStoredLinkWithNoPositionIsNotASession() {
+        let defaults = Self.defaults()
+        defaults.set(
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/?taxSale=on",
+            forKey: MapSessionStore.key
+        )
+
+        #expect(MapSessionStore(defaults: defaults).load() == nil)
     }
 
     @Test func aFirstLaunchHasNoSession() {
@@ -216,6 +230,63 @@ struct MapSessionTests {
         #expect(try #require(store.load()).view.pid == "15234636")
     }
 
+    /// A parcel service that was down for a moment should not cost the reader
+    /// the parcel they were working on. The browser keeps `pid` in its address
+    /// bar whatever the service said about it.
+    @Test func aLookupThatFailsDoesNotTakeTheRestoredParcelWithIt() async throws {
+        let store = MapSessionStore(defaults: Self.defaults())
+        let model = OverlayViewModel.forTesting(installing: [], sessionStore: store)
+
+        model.resume(MapSession(view: MapShareState(pid: "15234636")))
+        // The default transport answers nothing, so this is the lookup failing
+        // rather than the lookup being slow.
+        await model.awaitParcelLookup()
+        model.rememberSession()
+
+        #expect(model.parcels.selectedPID == nil)
+        #expect(try #require(store.load()).view.pid == "15234636")
+    }
+
+    /// Searching for something else is the reader saying the restored parcel is
+    /// not what they are looking at any more.
+    @Test func searchingForSomethingElseDropsTheRestoredParcel() throws {
+        let store = MapSessionStore(defaults: Self.defaults())
+        let model = OverlayViewModel.forTesting(installing: [], sessionStore: store)
+        model.resume(MapSession(view: MapShareState(pid: "15234636")))
+
+        model.searchParcel("00000000")
+        model.rememberSession()
+
+        #expect(try #require(store.load()).view.pid == nil)
+    }
+
+    /// `MKMapView` answers `region` from the moment it exists, while the
+    /// controller's zoom is still the 0 it was born with. Reading the two
+    /// together in that window wrote a zoom of 0 over a saved zoom of 16, and
+    /// the next launch opened on the county.
+    @Test func aMapAttachedButNotYetSettledDoesNotWriteAZoomOfZero() throws {
+        let store = MapSessionStore(defaults: Self.defaults())
+        let controller = MapController()
+        let model = OverlayViewModel.forTesting(
+            controller: controller, installing: [], sessionStore: store
+        )
+        model.resume(
+            MapSession(
+                view: MapShareState(
+                    position: MapPosition(latitude: 45.31, longitude: -61.14, zoom: 16)
+                )
+            )
+        )
+
+        let attached = MKMapView(frame: CGRect(x: 0, y: 0, width: 390, height: 700))
+        controller.mapView = attached
+        model.rememberSession()
+
+        let loaded = try #require(store.load())
+        #expect(loaded.view.position.zoom == 16)
+        #expect(abs(loaded.view.position.latitude - 45.31) < 0.01)
+    }
+
     /// A reader who works in satellite should not be put back on streets at
     /// every cold launch.
     @Test func theBackgroundIsRememberedAndComesBack() throws {
@@ -233,6 +304,43 @@ struct MapSessionTests {
         )
 
         #expect(next.mapController.baseMapType == .satellite)
+    }
+
+    /// NS Aerial is a base map and a licensed layer at once. Restoring it
+    /// against a licence nobody has answered would open the licence sheet at
+    /// launch, which is the argument resuming is written not to have.
+    @Test func aBackgroundTheLicenceStandsInFrontOfIsNotRestored() {
+        let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .unknown)
+
+        model.resume(
+            MapSession(
+                view: MapShareState(layerIDs: [LayerID.nsAerial.rawValue]),
+                background: .nsAerial
+            )
+        )
+
+        #expect(model.isShowingLicenceSheet == false)
+        #expect(model.baseMapType != .nsAerial)
+    }
+
+    /// The same answer at launch, where the container sets the background
+    /// before the view model has run.
+    @Test func aLaunchDoesNotOpenOnABackgroundTheLicenceRefused() {
+        let defaults = Self.defaults()
+        let accepted = InMemoryProvinceLicenceStorage(initial: .accepted)
+        let first = AppContainer(
+            licenceStorage: accepted, sessionStore: MapSessionStore(defaults: defaults)
+        )
+        let model = OverlayViewModel(container: first)
+        model.setBaseMapType(.nsAerial)
+        model.rememberSession()
+
+        let next = AppContainer(
+            licenceStorage: InMemoryProvinceLicenceStorage(initial: .declined),
+            sessionStore: MapSessionStore(defaults: defaults)
+        )
+
+        #expect(next.mapController.baseMapType != .nsAerial)
     }
 
     /// The browser writes its map mode into a link whether or not tax sales are

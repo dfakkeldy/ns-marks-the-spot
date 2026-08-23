@@ -1206,11 +1206,17 @@ final class OverlayViewModel {
         sessionStore.save(MapSession(view: view, background: baseMapType))
     }
 
-    /// The parcel a restored view named, until the map is actually showing it.
+    /// The parcel a restored view named, until the reader names another one.
     ///
     /// A fallback rather than a lock: nothing has to remember to clear it for
-    /// sessions to keep being written, and the places where the parcel is
-    /// genuinely gone clear it anyway.
+    /// sessions to keep being written.
+    ///
+    /// It outlives a lookup that failed, was refused, or found no geometry,
+    /// which is the browser's behaviour — a `pid` stays in its address bar
+    /// whatever the parcel service said about it. Clearing it on failure meant
+    /// a reader who resumed while NSPRD was down lost the parcel they had been
+    /// working on. The two things that do clear it are the reader searching for
+    /// something else and the selection being cleared.
     @ObservationIgnored private var restoringPID: String?
 
     /// Set while a link's own parcel lookup is in flight, so the parcel does not
@@ -1233,7 +1239,9 @@ final class OverlayViewModel {
     /// case is what let a scene going inactive between launch and the map
     /// attaching write the province over the map the reader left.
     var mapPosition: MapPosition {
-        guard let bounds = controller.currentVisibleBounds() else {
+        guard controller.hasReportedItsPosition,
+              let bounds = controller.currentVisibleBounds()
+        else {
             return controller.heldPosition ?? .default
         }
         return MapPosition(
@@ -1501,7 +1509,25 @@ final class OverlayViewModel {
     /// withdrew that permission themselves, and asking again every time the app
     /// opens would be arguing with them.
     func resume(_ session: MapSession) {
-        apply(session.view, background: session.background, arrivedFrom: .lastSession)
+        apply(
+            session.view,
+            background: session.background.flatMap(permittedBackground),
+            arrivedFrom: .lastSession
+        )
+    }
+
+    /// A background as far as the Province licence allows it, or `nil`.
+    ///
+    /// NS Aerial is a base map and a licensed layer at once. Restoring it
+    /// against a licence that has been declined would leave the picker naming
+    /// imagery the map is not drawing, and against one nobody has answered it
+    /// would open the licence sheet at launch — which is the argument this
+    /// resume is written not to have.
+    private func permittedBackground(_ type: MapBaseType) -> MapBaseType? {
+        guard let layerID = Self.basemapLayerID(for: type),
+              LayerCatalog.descriptor(for: layerID)?.requiresProvinceClearance == true
+        else { return type }
+        return clearanceBox.clearance.allowsRestrictedLayers ? type : nil
     }
 
     /// Where a restored view came from, which is the only thing that differs
@@ -2264,13 +2290,7 @@ final class OverlayViewModel {
             // fetcher: a lookup that has already been replaced must not write
             // its answer, or a fast second tap would be overwritten by a slow
             // first one and the map would select the parcel the user left.
-            guard !Task.isCancelled else {
-                // A restore whose lookup was replaced is over too. Left
-                // standing, its PID would be written into every session after
-                // it, long after the map stopped showing that parcel.
-                self?.restoringPID = nil
-                return
-            }
+            guard !Task.isCancelled else { return }
             switch outcome {
             case .success(let collection):
                 onSuccess(collection)
@@ -2284,7 +2304,6 @@ final class OverlayViewModel {
             // finished with. Left standing, the hold would swallow the next
             // parcel the user opens themselves.
             self?.isHoldingLinkPosition = false
-            self?.restoringPID = nil
         }
     }
 
@@ -2583,7 +2602,7 @@ final class OverlayViewModel {
     /// values are; `basemapCapableLayersHaveABaseMapCase` holds the two ends of
     /// that together, so an id declared basemap-capable with no matching case
     /// fails a test rather than silently losing its gate here.
-    private static func basemapLayerID(for type: MapBaseType) -> LayerID? {
+    static func basemapLayerID(for type: MapBaseType) -> LayerID? {
         NativeLayerTraits.basemapCapable.first {
             LayerCatalog.descriptor(for: $0)?.name == type.rawValue
         }

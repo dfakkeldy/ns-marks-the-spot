@@ -108,7 +108,13 @@ final class AppContainer {
         // Set here rather than left to the restore, so the first frame the map
         // draws is already the background the reader works in. A satellite user
         // otherwise sees streets for the moment before the view model runs.
-        if let background = session?.background {
+        //
+        // A background whose layer is licensed is only restored if that layer
+        // survived the filtering above. NS Aerial is a base map and a licensed
+        // layer at once, and setting it here regardless would name imagery the
+        // map has just been told it may not draw.
+        if let background = session?.background,
+           OverlayViewModel.basemapLayerID(for: background).map(opening.contains) ?? true {
             controller.baseMapType = background
         } else if openedAerial {
             // NS Aerial is a base map as well as an overlay, and the two move

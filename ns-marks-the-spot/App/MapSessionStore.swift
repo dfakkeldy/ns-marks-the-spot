@@ -38,7 +38,15 @@ struct MapSessionStore {
               // `parse` never fails, so without this a stored value that had
               // been truncated or overwritten would open the map on the default
               // view and present it as the one the reader left.
-              MapShareState.carriesState(stored)
+              MapShareState.carriesState(stored),
+              // `carriesState` answers for a link a reader pasted, where one
+              // recognised parameter is enough to act on. This is stricter
+              // because it can be: `save` always writes a position, so a stored
+              // value without one was not written by this app and its silence
+              // about where the map was is not an answer.
+              URLComponents(string: stored)?.queryItems?.contains(
+                  where: { $0.name == "position" }
+              ) == true
         else { return nil }
         return MapSession(
             view: MapShareState.parse(stored),

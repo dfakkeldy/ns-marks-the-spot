@@ -52,6 +52,14 @@ final class MapController: NSObject {
     /// reading it sixty times a second to say nothing new.
     private(set) var zoomLevel: Int = 0
 
+    /// Whether the map has said where it is even once.
+    ///
+    /// A freshly attached `MKMapView` answers `region` immediately, while
+    /// `zoomLevel` is still the 0 it was born with — so between attaching and
+    /// the first delegate callback the map reads as a real centre at a zoom it
+    /// is not at. Anything writing that pair down has to ask this first.
+    private(set) var hasReportedItsPosition = false
+
     /// What each installed layer's tiles are doing, keyed by layer id.
     ///
     /// Written from `progress`, which counts on MapKit's queues and reports
@@ -568,6 +576,14 @@ final class MapController: NSObject {
             ),
             animated: animated
         )
+        // The map has been put at this zoom, so it stops reading as being at
+        // whatever it was before — MapKit's own callback arrives a frame or
+        // more later, and until it does anything asking where the map is would
+        // otherwise be told 0. That is what wrote a zoom of 0 into a session
+        // saved by an app backgrounded during its first frame. MapKit may fit
+        // this to the view's aspect and land a fraction off; the callback
+        // corrects it.
+        recordZoomLevel(zoom)
     }
 
     /// Frames a bounding box, with room around it.
@@ -917,6 +933,7 @@ extension MapController: MKMapViewDelegate {
     /// asserting through MapKit's region clamping as well as through the
     /// reading.
     func recordZoomLevel(_ zoom: Int) {
+        hasReportedItsPosition = true
         guard zoom != zoomLevel else { return }
         let wasOverview = zoomLevel <= ParcelMarkers.overviewMaxZoom
         let isOverview = zoom <= ParcelMarkers.overviewMaxZoom
