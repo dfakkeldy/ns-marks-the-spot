@@ -80,6 +80,17 @@ final class OfflineFlowUITests: XCTestCase {
             "the Baddeck sample estimated \"\(announced)\" tiles"
         )
 
+        // And the screen does not say the survey misses this ground, which is
+        // the sentence the sample used to earn. Checked from the UI side as
+        // well as from the planner's, because the two could disagree only by
+        // the view asking about different bounds than the draft was built
+        // from, and that is exactly the kind of mistake a unit test on the
+        // planner cannot see.
+        XCTAssertFalse(
+            app.descendants(matching: .any)["draft-outside-survey"].exists,
+            "the sample area is being reported as outside the Fletcher survey"
+        )
+
         // Said where the download is chosen, because this is where a reader
         // decides what they will still have out of coverage. On screen rather
         // than merely in the hierarchy: a caveat clipped off the bottom of the

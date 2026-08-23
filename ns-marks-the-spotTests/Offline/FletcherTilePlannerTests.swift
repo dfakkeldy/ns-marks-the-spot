@@ -53,7 +53,10 @@ struct FletcherTilePlannerTests {
         // offers led to an estimate of zero and a Save button that would have
         // downloaded nothing. Pinned here rather than left to a reader,
         // because the sheet index is what decides it and the sheet index moves
-        // whenever a sheet is re-georeferenced.
+        // whenever a sheet is re-georeferenced. This test guards the sample,
+        // not the coverage test under it: it passes on both sides of the fix
+        // that made `coversAnyGround` ask the sheets. The two below are the
+        // ones that fail on the wrong implementation.
         //
         // Containment rather than intersection, and one named sheet rather
         // than any sheet. A box that merely touched a sheet corner would pass
@@ -121,6 +124,37 @@ struct FletcherTilePlannerTests {
         #expect(FletcherTilePlanner.estimate(
             bounds: gap, zoomRange: 12...16, averageTileBytes: 12_000
         ).tileCount == 0)
+    }
+
+    @Test func aSelectionLyingAgainstASheetEdgeIsOutsideTheSurvey() {
+        // An edge is not ground. This box starts exactly where sheet 1 ends,
+        // to the last binary digit, because the sheets were cut on tile
+        // boundaries and a selection can land on one.
+        //
+        // The inclusive test called this covered, and then the same
+        // inclusiveness in the tile filter planned four zoom 16 tiles for it,
+        // none of which the tile build ever wrote and none of which the
+        // browser would have requested. Leaflet's own bounds check is the
+        // strict one, and this is the phone matching it.
+        guard let one = FletcherSheets.sheet(1) else {
+            Issue.record("the sheet index no longer has a sheet 1")
+            return
+        }
+        let against = MapBounds(
+            minLatitude: one.bounds.south + 0.01, minLongitude: one.bounds.east,
+            maxLatitude: one.bounds.south + 0.02, maxLongitude: one.bounds.east + 0.01
+        )
+
+        #expect(!FletcherTilePlanner.coversAnyGround(in: against))
+        #expect(FletcherTilePlanner.estimate(
+            bounds: against, zoomRange: 16...16, averageTileBytes: 12_000
+        ).tileCount == 0)
+        // Coarser tiles do reach back over the sheet, which is why the screen
+        // says the tiles counted belong to sheets nearby rather than promising
+        // there are none.
+        #expect(FletcherTilePlanner.estimate(
+            bounds: against, zoomRange: 14...16, averageTileBytes: 12_000
+        ).tileCount > 0)
     }
 
     @Test func plansOnlyTilesASheetActuallyCovers() {

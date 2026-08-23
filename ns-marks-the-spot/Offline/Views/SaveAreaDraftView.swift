@@ -72,25 +72,31 @@ struct SaveAreaDraftView: View {
                     if isOutsideSurvey {
                         // A count above zero is possible here and does not
                         // contradict the sentence. Tiles are squares, the
-                        // survey is not, and at zoom 10 one tile is wide
-                        // enough to cover both a selection off Cape Breton and
-                        // the sheet next to it. Those tiles are worth having
-                        // for the coarse view. They are not this ground, and
-                        // the first draft of this notice claimed there were
-                        // none of them while the number beside it said three.
-                        Text(
-                            draftArea.estimatedTileCount > 0
-                                ? "No Fletcher sheet covers this area. The tiles counted here are coarse ones that overlap a sheet nearby, not this ground."
-                                : "No Fletcher sheet covers this area. The survey is of Cape Breton, so there is nothing here to download."
-                        )
-                        .font(.footnote)
-                        .foregroundStyle(.orange)
-                        .accessibilityIdentifier("draft-outside-survey")
+                        // survey is not, and one zoom 10 tile is wide enough
+                        // to cover both a selection in the gap north of Bras
+                        // d'Or Lake and the sheet next to it. Those tiles
+                        // belong to that sheet. Saving them under this area's
+                        // name would let it report itself complete over ground
+                        // no sheet was ever drawn for, which is the download
+                        // this screen refuses.
+                        Text("No Fletcher sheet covers this area. The survey is of Cape Breton. Any tiles counted here belong to sheets nearby, not to this ground.")
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
+                            .accessibilityIdentifier("draft-outside-survey")
                     } else if draftArea.estimatedTileCount == 0 {
                         Text("No Fletcher tiles were planned for this area.")
                             .font(.footnote)
                             .foregroundStyle(.orange)
                             .accessibilityIdentifier("draft-no-tiles")
+                    }
+
+                    // The one remaining way this button greys out without
+                    // saying why. The others each have their sentence above.
+                    if viewModel.isStorageOperationInProgress {
+                        Text("Another download or deletion is running. Saving will be available when it finishes.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .accessibilityIdentifier("draft-storage-busy")
                     }
 
                     Button {
@@ -102,10 +108,19 @@ struct SaveAreaDraftView: View {
                     } label: {
                         Label(didSave ? "Saved" : "Save Area", systemImage: didSave ? "checkmark.circle" : "square.and.arrow.down")
                     }
+                    // Refused for an area outside the survey even when the
+                    // count is positive. The tiles behind such a count are
+                    // neighbouring sheets caught by a wide low-zoom square,
+                    // and a saved area that downloads them reports "Complete"
+                    // and "2 / 2 tiles" for ground the survey never drew. An
+                    // offline area is evidence of what a reader will have out
+                    // of coverage, so it may not claim ground it does not
+                    // hold.
                     .disabled(
                         viewModel.isStorageOperationInProgress
                             || didSave
                             || isOverTileBudget(draftArea)
+                            || isOutsideSurvey
                             || draftArea.estimatedTileCount == 0
                     )
                 } else {

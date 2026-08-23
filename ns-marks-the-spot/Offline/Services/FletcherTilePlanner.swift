@@ -110,8 +110,12 @@ nonisolated enum FletcherTilePlanner {
     /// all, which is true of the water along its southern edge, and asking the
     /// box would have told someone selecting open Atlantic that the survey
     /// reaches them and then quoted them zero tiles for it.
+    ///
+    /// `overlapping` rather than `intersecting`, so a selection lying against
+    /// a sheet's edge is outside it. Shared ground is what the reader is being
+    /// told about, and an edge is not ground.
     static func coversAnyGround(in bounds: MapBounds) -> Bool {
-        !FletcherSheets.sheets(intersecting: geographicBox(bounds)).isEmpty
+        !FletcherSheets.sheets(overlapping: geographicBox(bounds)).isEmpty
     }
 
     /// `bounds` narrowed to the ground the survey covers, or `nil` for none.

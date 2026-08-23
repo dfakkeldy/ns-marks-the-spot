@@ -54,6 +54,22 @@ public struct GeoBoundingBox: Hashable, Sendable, Codable {
             && west <= other.east && east >= other.west
     }
 
+    /// Whether two boxes share ground, rather than only an edge.
+    ///
+    /// This is Leaflet's `overlaps`, and it is deliberately the browser's own
+    /// comparison: `L.GridLayer` asks it before requesting a tile, so a tile
+    /// lying exactly against a layer's bounds is never fetched there. The
+    /// phone has to answer the same way or it asks for a ring of tiles around
+    /// every Fletcher sheet that the tile build never produced — 118 of them
+    /// per sheet edge at zoom 16, each a 404.
+    ///
+    /// A degenerate box still overlaps a box it sits inside, which is what
+    /// makes a single point a usable query.
+    public func overlaps(_ other: GeoBoundingBox) -> Bool {
+        south < other.north && north > other.south
+            && west < other.east && east > other.west
+    }
+
     /// The ground both boxes share, or `nil` when they share none.
     ///
     /// Boxes that only touch along an edge return the degenerate box rather
