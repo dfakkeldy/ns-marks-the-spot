@@ -2236,7 +2236,18 @@ final class OverlayViewModel {
                 weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
                 buildingFetcher, resourceFetcher, floodFetcher,
                 clearance = clearanceBox.clearance,
-                mappedAreaSquareMetres = state.mappedArea?.squareMetres,
+                // The area the coastal sample is turned into square metres
+                // with, which is the area of the pieces that were sampled and
+                // not the whole PID's. A parcel with a piece that could not be
+                // drawn was never looked at there, and spreading a percentage
+                // measured on the drawn pieces across the undrawn one would
+                // report flooded ground nobody screened.
+                mappedAreaSquareMetres = ParcelResponse.mappedAreaSquareMetres(
+                    forPID: pid,
+                    in: ParcelFeatureCollection(
+                        identifiedFeatures: features.filter { !$0.boundary.parts.isEmpty }
+                    )
+                ),
                 noticeAAN
             ] in
             await withTaskGroup(of: Evidence.self) { group in

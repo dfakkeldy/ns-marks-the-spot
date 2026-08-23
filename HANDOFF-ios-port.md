@@ -1614,3 +1614,37 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 and triage every bundle, then verify the measuring readout and the panel's
 opening sections in the simulator.
 ```
+
+## 2026-08-23 — audit-4 review applied; audit-5 running on the parcel inspector
+
+Done: CI green on 9de4b457a, native app-target tests included. Codex's review of
+075004285 applied in bacb5d169: the bottom-ornament inset counted the measuring
+lift twice (the readout stack is measured after its own padding, which already
+carries the lift), the open layer sections moved from TransparencySliderView up
+to MapContainerView so closing the panel no longer discards them, and the NS
+Aerial parity claim corrected — NS Aerial draws over MapKit's standard map, so
+None is the only background here with nothing under it, and the zoom check the
+browser needs does not apply. Two OverlayViewModel tests replaced to match.
+Typecheck-ios clean.
+Audit-5 (parcel inspection and evidence) came back with eleven findings. Five
+fixed: the exported note now carries the boundary notice, the civic shortfall
+and both PVSC unreadable-row counts, coastal square metres are scaled by the
+area of the pieces that were actually sampled, and a map with no background is
+no longer credited to Apple's tiles. One refuted and pinned: the raster decoder
+is not vertically flipped (CGBitmapContext memory is top-row-first), and
+RasterDecoderTests now fails if anyone flips it. Four are inherited browser
+behaviour and stay on the record-don't-change list (first-PID at a shared
+boundary, the 100-row dwelling ceiling, unnumbered-record dedup, the AAN hidden
+on a single dwelling account); one (merge identity for unreadable pieces) is
+recorded rather than changed, because the fix would open a double-count path.
+Core suite 1118/1118.
+Next: app-target tests for the batch run on CI; historical maps and offline
+saved areas are still unaudited.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify the measuring readout and the panel's opening sections in the
+simulator.
+```

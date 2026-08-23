@@ -21,7 +21,9 @@ struct EvidenceNoteTests {
         activeLayers: [EvidenceNoteInput.Source] = [],
         events: [EvidenceNoteInput.Event] = [],
         civicAddresses: [EvidenceNoteInput.Link] = [],
+        civicShortfall: String? = nil,
         mappedArea: String? = nil,
+        boundaryNotice: String? = nil,
         buildings: [EvidenceNoteInput.Result] = [],
         context: [EvidenceNoteInput.Result] = [],
         flood: [EvidenceNoteInput.Result] = [],
@@ -39,7 +41,9 @@ struct EvidenceNoteTests {
             activeLayers: activeLayers,
             events: events,
             civicAddresses: civicAddresses,
+            civicShortfall: civicShortfall,
             mappedArea: mappedArea,
+            boundaryNotice: boundaryNotice,
             buildingResults: buildings,
             contextResults: context,
             floodResults: flood,
@@ -120,7 +124,7 @@ struct EvidenceNoteTests {
                         unreadableRows: 0
                     )
                 ),
-                dwellings: .ready([
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: [
                     PVSCDwellingResponse.Account(
                         aan: "00603988",
                         dwellings: [
@@ -144,7 +148,7 @@ struct EvidenceNoteTests {
                             ),
                         ]
                     )
-                ]),
+                ])),
                 resources: [Self.minerals]
             )
         )
@@ -199,7 +203,7 @@ struct EvidenceNoteTests {
                         unreadableRows: 0
                     )
                 ),
-                dwellings: .ready([]),
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: [])),
                 resources: [
                     EvidenceNoteInput.Result(
                         name: Self.minerals.name,
@@ -246,7 +250,7 @@ struct EvidenceNoteTests {
                         unreadableRows: 0
                     )
                 ),
-                dwellings: .ready([])
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: []))
             )
         )
 
@@ -495,6 +499,132 @@ struct EvidenceNoteTests {
                     + "verification with the municipality."
             )
         )
+    }
+
+    /// The panel says a piece of the parcel could not be drawn and that every
+    /// lookup ran inside the pieces that could. The note is the copy that
+    /// leaves the app, and without the same sentence it reads as findings for
+    /// the whole property.
+    @Test func aParcelWithAPieceItCouldNotDrawSaysSoInTheNote() {
+        let note = EvidenceNote.build(
+            Self.input(
+                mappedArea: "1.20 acres",
+                boundaryNotice: "PID 15234636 came back as 2 pieces, and 1 of them "
+                    + "carried a boundary this app could not read. Everything below was "
+                    + "looked up inside the pieces that are drawn.",
+                assessments: .ready(PVSCAssessmentResponse.Result(matchMethod: .spatial, accounts: [])),
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: []))
+            )
+        )
+
+        #expect(note.markdown.contains("came back as 2 pieces"))
+        #expect(note.markdown.contains("looked up inside the pieces that are drawn"))
+    }
+
+    /// A list of addresses with rows missing from it is a floor, not a count,
+    /// and the note has to say which it is.
+    @Test func addressesThatCouldNotBePlacedAreCountedInTheNote() {
+        let note = EvidenceNote.build(
+            Self.input(
+                civicAddresses: [
+                    EvidenceNoteInput.Link(
+                        label: "12 Main St", sourceURL: URL(string: "https://example.com/civic")!
+                    )
+                ],
+                civicShortfall: "2 more mapped points here could not be read, so they are "
+                    + "not listed.",
+                assessments: .ready(PVSCAssessmentResponse.Result(matchMethod: .spatial, accounts: [])),
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: []))
+            )
+        )
+
+        #expect(note.markdown.contains("12 Main St"))
+        #expect(note.markdown.contains("2 more mapped points here could not be read"))
+    }
+
+    /// Rows the PVSC reply carried and this build could not parse. The panel
+    /// counts them; a note that dropped the count would present a short list
+    /// as the whole record.
+    @Test func pvscRowsThatCouldNotBeReadAreCountedInTheNote() {
+        let note = EvidenceNote.build(
+            Self.input(
+                assessments: .ready(
+                    PVSCAssessmentResponse.Result(
+                        matchMethod: .spatial,
+                        accounts: [Self.account("00603988", [(2026, 41_000, 39_500)])],
+                        unreadableRows: 2
+                    )
+                ),
+                dwellings: .ready(
+                    PVSCDwellingResponse.Result(
+                        accounts: [
+                            PVSCDwellingResponse.Account(
+                                aan: "00603988",
+                                dwellings: [
+                                    PVSCDwellingResponse.Dwelling(
+                                        yearBuilt: 2018,
+                                        style: "1 Storey",
+                                        squareFeetLivingArea: 900,
+                                        livingUnits: 1,
+                                        bathrooms: 1,
+                                        garage: false,
+                                        underConstruction: false
+                                    )
+                                ]
+                            )
+                        ],
+                        unreadableRows: 1
+                    )
+                )
+            )
+        )
+
+        #expect(note.markdown.contains("2 rows in the PVSC reply could not be read"))
+        #expect(note.markdown.contains("1 row in the PVSC reply could not be read"))
+    }
+
+    /// Nothing readable came back, which is not the same as nothing being
+    /// recorded. Neither section may print its no-record sentence.
+    @Test func aPVSCReplyNothingCouldBeReadInIsNotEvidenceOfNoRecord() {
+        let note = EvidenceNote.build(
+            Self.input(
+                assessments: .ready(
+                    PVSCAssessmentResponse.Result(
+                        matchMethod: .spatial, accounts: [], unreadableRows: 3
+                    )
+                ),
+                dwellings: .ready(
+                    PVSCDwellingResponse.Result(accounts: [], unreadableRows: 4)
+                )
+            )
+        )
+
+        #expect(note.markdown.contains("Whether an assessment account is recorded here is unknown"))
+        #expect(note.markdown.contains("Whether a dwelling record exists here is unknown"))
+        #expect(!note.markdown.contains("No PVSC assessment account point was returned"))
+        #expect(!note.markdown.contains("This does not prove no building exists"))
+    }
+
+    /// A map drawn with its background switched off has no tile provider to
+    /// credit, and Apple's licence under "no base map" would name a source
+    /// that drew nothing.
+    @Test func aMapWithNoBackgroundIsNotCreditedToATileProvider() {
+        let note = EvidenceNote.build(
+            Self.input(
+                activeLayers: [
+                    EvidenceNoteInput.Source(
+                        name: "no base map",
+                        sourceURL: nil,
+                        sourceDate: "no background tiles were drawn"
+                    )
+                ],
+                assessments: .ready(PVSCAssessmentResponse.Result(matchMethod: .spatial, accounts: [])),
+                dwellings: .ready(PVSCDwellingResponse.Result(accounts: []))
+            )
+        )
+
+        #expect(note.markdown.contains("- no base map — no background tiles were drawn"))
+        #expect(!note.markdown.contains("apple.com/legal"))
     }
 }
 

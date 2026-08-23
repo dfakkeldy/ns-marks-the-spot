@@ -93,6 +93,30 @@ struct ParcelInspectionTests {
         """.utf8))
     }
 
+    /// One PID returned as two pieces, only one of which has a shape. The
+    /// areas are deliberately lopsided: the drawn piece is a tenth of what the
+    /// service says the parcel measures.
+    private static func splitParcel(pid: String) -> StubURLProtocol.Response {
+        .success(Data("""
+        {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "properties": {"PID": "\(pid)", "SHAPE.AREA": 10000},
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[-63.5, 44.6], [-63.4, 44.6], [-63.4, 44.7], [-63.5, 44.6]]]
+              }
+            },
+            {
+              "properties": {"PID": "\(pid)", "SHAPE.AREA": 90000},
+              "geometry": null
+            }
+          ]
+        }
+        """.utf8))
+    }
+
     /// One civic point on `road`, standing inside the parcel whose western
     /// edge is `westEdge`.
     private static func addresses(_ road: String, westEdge: Double = -63.5) -> Data {
@@ -445,6 +469,32 @@ struct ParcelInspectionTests {
         #expect(hazard.coastal[1].sample == .failure(.invalidHTTPStatus(503)))
         #expect(hazard.coastal[0].sample.map(\.intersects) == .success(false))
         #expect(hazard.coastal[2].sample.map(\.intersects) == .success(false))
+    }
+
+    /// The sample only ever covered the piece that could be drawn, so the
+    /// square metres it becomes have to cover that piece and no more. Reading
+    /// the whole PID's mapped area here would report flooded ground on a piece
+    /// nobody screened.
+    @Test func coastalSquareMetresCoverOnlyThePiecesThatWereSampled() async {
+        let channel = #function
+        let viewModel = Self.viewModel(channel, answering: [
+            ("NSPRD", Self.splitParcel(pid: "50334317")),
+            ("OCN_Projected_Worst_Case_Flooding_2100", .success(Data("FLOODED".utf8))),
+        ])
+        defer { StubURLProtocol.clear(channel: channel) }
+
+        let inspection = await Self.inspect(viewModel)
+        guard case .ready(let hazard) = inspection?.floodHazard else {
+            Issue.record("expected flood evidence")
+            return
+        }
+        // The panel still reports what the service says the whole parcel
+        // measures. That is the parcel's area; what changes is the ground the
+        // flood figure is allowed to claim.
+        #expect(inspection?.mappedArea?.squareMetres == 100_000)
+        #expect(inspection?.boundaryNotice?.contains("2 pieces") == true)
+        #expect(hazard.coastal[2].sample.map(\.approximateAffectedPercent) == .success(100))
+        #expect(hazard.coastal[2].sample.map(\.approximateAffectedSquareMetres) == .success(10_000))
     }
 
     // MARK: - Civic addresses

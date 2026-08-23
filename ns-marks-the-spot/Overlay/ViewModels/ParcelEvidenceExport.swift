@@ -79,7 +79,9 @@ nonisolated enum ParcelEvidenceExport {
             events: taxSaleEnabled ? events(inspection, mode: mode) : [],
             civicAddresses: civicAddresses(inspection),
             civicNotice: notice(inspection.civicAddresses),
+            civicShortfall: civicShortfall(inspection),
             mappedArea: inspection.mappedArea?.label,
+            boundaryNotice: inspection.boundaryNotice,
             buildingResults: buildingResults(inspection),
             contextResults: contextResults(inspection),
             floodResults: floodResults(inspection),
@@ -117,8 +119,17 @@ nonisolated enum ParcelEvidenceExport {
         [
             EvidenceNoteInput.Source(
                 name: baseMapName(baseMap),
-                sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/")!,
-                sourceDate: "Live Apple Maps tiles"
+                // No link and no tile date for a map drawn with its background
+                // switched off. Apple's licence under "no base map" would
+                // credit tiles that were never fetched, and a reader checking
+                // where the picture came from would be sent to the wrong
+                // place.
+                sourceURL: baseMap == .blank
+                    ? nil
+                    : URL(string: "https://www.apple.com/legal/internet-services/maps/"),
+                sourceDate: baseMap == .blank
+                    ? "no background tiles were drawn"
+                    : "Live Apple Maps tiles"
             )
         ]
             + descriptors.flatMap { descriptor -> [EvidenceNoteInput.Source] in
@@ -247,6 +258,20 @@ nonisolated enum ParcelEvidenceExport {
         }
     }
 
+    /// Points the file sent that could not be placed, in the panel's words.
+    ///
+    /// The panel says this under its own list. Without it the note's list of
+    /// addresses reads as everything the file holds inside this parcel, which
+    /// is the one thing it is not.
+    private static func civicShortfall(_ inspection: ParcelInspection) -> String? {
+        guard case .ready(let reading) = inspection.civicAddresses,
+              reading.unreadableRows > 0
+        else { return nil }
+        return reading.addresses.isEmpty
+            ? ParcelLookupMessage.noReadableAddresses(reading.unreadableRows)
+            : ParcelLookupMessage.addressShortfall(reading.unreadableRows)
+    }
+
     private static func assessments(
         _ inspection: ParcelInspection
     ) -> EvidenceNoteInput.AssessmentEvidence {
@@ -263,7 +288,7 @@ nonisolated enum ParcelEvidenceExport {
     ) -> EvidenceNoteInput.DwellingEvidence {
         switch inspection.dwellings {
         case .ready(let result):
-            return .ready(result.accounts)
+            return .ready(result)
         case .unavailable(let reason)
             where reason == ParcelLookupMessage.noAccountToAskDwellingsWith
                 || reason == ParcelLookupMessage.dwellingsNotLookedUp:
