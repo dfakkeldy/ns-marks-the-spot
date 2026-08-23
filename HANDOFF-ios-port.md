@@ -2086,3 +2086,18 @@ branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on
 9332b98fc (gh run list --branch claude/ios-web-map-parity-2de228); if green,
 run the next Codex adversarial review.
 ```
+
+## 2026-08-23 — Review 17 landed: bevel joins, shared title question, gated strokes
+Done: CI green on 519f24462 (rotate fix held). Review-17 fixes in fe3c147bc:
+bevel joins cap stroke ink at the padded half-width, inspectedPID shares the
+compositor's padded boundary test (marksBoundary), strokePath gated like the
+predicates, wedge-containment and grazing-selected-parcel fixtures added.
+1139 package tests + typecheck clean.
+Next: watch CI on fe3c147bc; if green the review loop is caught up.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on
+fe3c147bc (gh run list --branch claude/ios-web-map-parity-2de228); if green,
+decide with the user whether PR #226 is ready to hand over.
+```
