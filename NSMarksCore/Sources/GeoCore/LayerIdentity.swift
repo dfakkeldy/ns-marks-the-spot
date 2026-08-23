@@ -25,7 +25,7 @@ public enum LayerID: String, CaseIterable, Hashable, Sendable, Codable {
     case placeNames = "place-names"
     case mainRoads = "main-roads"
 
-    // Church county maps (rights pending; catalogued but not rendered)
+    // Church county maps (catalogued; no tiles produced yet, so not rendered)
     case churchInverness = "church-inverness"
     case churchVictoria = "church-victoria"
     case churchRichmond = "church-richmond"
