@@ -1633,26 +1633,18 @@ final class OverlayViewModel {
         return clearanceBox.clearance.allowsRestrictedLayers ? type : nil
     }
 
-    /// Whether a shared link says what its layers are drawn over.
-    ///
-    /// The two grounds the vocabulary has a word for. The browser also checks
-    /// the zoom before counting its aerial layer, because it has no map under
-    /// it; this one draws the imagery as a tile overlay above MapKit's standard
-    /// map, so too far out for the imagery leaves the reader on streets rather
-    /// than on nothing, and there is nothing here to fall back from.
-    private func namesGround(_ state: MapShareState) -> Bool {
-        state.layerIDs.contains(MapShareState.modernBaseLayerID)
-            || state.layerIDs.contains(LayerID.nsAerial.rawValue)
-    }
-
     /// Whether the browser would have had its modern map under this link.
     ///
-    /// The browser's own rule, kept separate from `namesGround` above: it draws
-    /// the modern map when the link names it, and again when the link names
-    /// layers with no usable ground among them. There its aerial layer counts
-    /// as ground only from the zoom it starts drawing at, because below that
-    /// the browser has nothing underneath. This is only ever asked to work out
-    /// what the sender was looking at, never to decide what this reader gets.
+    /// The browser's own rule: it draws the modern map when the link names it,
+    /// and again when the link names layers with no usable ground among them.
+    /// Its aerial layer counts as ground only from the zoom it starts drawing
+    /// at, because below that the browser has nothing underneath.
+    ///
+    /// This decides both what the reader gets and what the notice says, which
+    /// is the point. Asked one way for the ground and another for the notice,
+    /// a link sent from below the imagery's zoom left the reader on their own
+    /// satellite view under a sentence about Apple's standard map — or, from a
+    /// blank background, under no sentence at all.
     ///
     /// A link naming no layers at all is left out. The browser tells an empty
     /// `layers=` apart from a link that carries no such parameter, and a
@@ -1704,19 +1696,10 @@ final class OverlayViewModel {
         // for it, which is a different survey with its own roads, paths and
         // labels, so the substitution is remembered here and said out loud in
         // the link's notice below.
-        let ground: MapBaseType =
-            origin == .sharedLink && !state.layerIDs.isEmpty && !namesGround(state)
-            ? .standard : restored
-        setBaseMapType(ground)
-        // Disclosed on the browser's rule rather than on this app's, because
-        // the question is what the sender was looking at. Only where Apple's
-        // map is what stands in: on the Province's imagery, or on no base map
-        // at all, the reader can see for themselves that this is not streets,
-        // and a notice naming Apple would be describing something else.
         let standsInForOpenStreetMap =
-            origin == .sharedLink
-            && browserWouldDrawItsModernMap(state)
-            && [.standard, .satellite, .hybrid].contains(ground)
+            origin == .sharedLink && browserWouldDrawItsModernMap(state)
+        let ground: MapBaseType = standsInForOpenStreetMap ? .standard : restored
+        setBaseMapType(ground)
         // A link opens in the browser as a fresh page, so the reader who
         // follows it starts on every notice and no narrowing at all. Here it
         // opens into a map somebody has been using, and leaving their two
