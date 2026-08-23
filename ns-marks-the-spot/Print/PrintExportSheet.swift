@@ -106,7 +106,9 @@ struct PrintExportSheet: View {
     /// The switched-on feature layers that will put nothing inside this frame.
     private var undrawnNotes: [String] {
         overlayVM.undrawnFeatureLayerNotes(
-            within: framing.printedBounds, statuses: featureStatuses
+            within: framing.printedBounds,
+            mapFrame: PdfTemplate.template(framing.orientation).mapFrame,
+            statuses: featureStatuses
         )
     }
 

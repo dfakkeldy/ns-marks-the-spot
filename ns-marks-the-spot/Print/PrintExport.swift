@@ -305,7 +305,9 @@ nonisolated enum PrintExport {
             // less detail.
             notes.append("Map raster printed at \(resolution.dpi) dpi.")
         }
-        let legend = PrintMapCompositor.parcelLegend(for: request.parcels, within: bounds)
+        let legend = PrintMapCompositor.parcelLegend(
+            for: request.parcels, within: bounds, mapFrame: template.mapFrame
+        )
             + account.legend
         var fields = request.fields
         fields.notes = ([request.fields.notes] + notes)
@@ -345,7 +347,7 @@ nonisolated enum PrintExport {
                         // credit follows the ink, exactly as the legend beside
                         // it does.
                         drewParcels: PrintMapCompositor.drawsParcels(
-                            request.parcels, within: bounds
+                            request.parcels, within: bounds, mapFrame: template.mapFrame
                         ),
                         descriptor: descriptor
                     )

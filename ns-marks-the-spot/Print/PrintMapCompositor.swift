@@ -577,9 +577,11 @@ nonisolated struct PrintMapCompositor {
     /// hand and can be nowhere near the selection, and a key to a colour that
     /// is not on the page is the page describing ink it does not carry.
     static func parcelLegend(
-        for parcels: [ParcelShape], within bounds: GeoBoundingBox
+        for parcels: [ParcelShape], within bounds: GeoBoundingBox, mapFrame: PdfRect
     ) -> [PdfComposer.LegendEntry] {
-        let drawn = Set(parcels.filter { marks($0, within: bounds) }.map(\.role))
+        let drawn = Set(
+            parcels.filter { marks($0, within: bounds, mapFrame: mapFrame) }.map(\.role)
+        )
         let ordered: [ParcelShape.Role] = [
             .selected, .selectedHistorical, .taxSale, .historicalTaxSale, .context
         ]
@@ -606,13 +608,26 @@ nonisolated struct PrintMapCompositor {
     /// Asked for the attribution, which follows the ink: a frame drawn well
     /// away from the selection carries no Province boundary, and crediting
     /// NSPRD on it names a source the page took nothing from.
-    static func drawsParcels(_ parcels: [ParcelShape], within bounds: GeoBoundingBox) -> Bool {
-        parcels.contains { marks($0, within: bounds) }
+    static func drawsParcels(
+        _ parcels: [ParcelShape], within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        parcels.contains { marks($0, within: bounds, mapFrame: mapFrame) }
     }
 
-    private static func marks(_ parcel: ParcelShape, within bounds: GeoBoundingBox) -> Bool {
-        if parcel.boundaryReaches(bounds) { return true }
-        return style(for: parcel.role).fill != nil && parcel.surrounds(bounds)
+    /// The boundary is asked about the frame grown by half this role's stroke
+    /// width: the stroke is centred on the boundary, so a line passing just
+    /// outside the page still lays a coloured sliver along its edge, and a
+    /// sliver with no key is the very thing the legend exists to prevent.
+    private static func marks(
+        _ parcel: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        let drawn = style(for: parcel.role)
+        let reach = drawn.width / 2
+        let reached = bounds.expanded(
+            byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
+        )
+        if parcel.boundaryReaches(reached) { return true }
+        return drawn.fill != nil && parcel.surrounds(bounds)
     }
 
     private static func legendName(for role: ParcelShape.Role) -> String {

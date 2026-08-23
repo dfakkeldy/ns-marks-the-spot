@@ -56,15 +56,11 @@ nonisolated struct ParcelShape: Identifiable, Equatable, Sendable {
     /// Whether the given ground lies wholly inside this parcel.
     ///
     /// Only meaningful once `boundaryReaches` has said no: a frame no edge
-    /// crosses is entirely in or entirely out, so its centre decides it.
+    /// crosses is entirely in or entirely out, so its centre decides it. The
+    /// centre and the crossings it is counted by live in the projected plane
+    /// the boundary is drawn in.
     func surrounds(_ bounds: GeoBoundingBox) -> Bool {
-        PolygonHitTest.contains(
-            GeoPoint(
-                lat: (bounds.south + bounds.north) / 2,
-                lng: (bounds.west + bounds.east) / 2
-            ),
-            multiPolygon: parts
-        )
+        bounds.liesWithin(parts)
     }
 
     /// The shapes for a collection, with `pid` selected.

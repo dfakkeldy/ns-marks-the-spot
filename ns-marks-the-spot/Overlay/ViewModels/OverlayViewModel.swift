@@ -1422,8 +1422,8 @@ final class OverlayViewModel {
             // The client-side layers as the screen has them, so a page shows
             // the zones and reaches the reader was looking at rather than blank
             // ground where they were.
-            features: printedFeatures(within: printed),
-            markers: printedMarkers(within: printed),
+            features: printedFeatures(within: printed, mapFrame: template.mapFrame),
+            markers: printedMarkers(within: printed, mapFrame: template.mapFrame),
             featureLayerStatuses: featureStatuses,
             template: template,
             fields: fields,
@@ -1537,7 +1537,9 @@ final class OverlayViewModel {
     /// Read from what is on the map rather than from which rows are switched
     /// on: a layer that is on but has nothing in this viewport contributes
     /// nothing to the page, and listing it would claim ink that was never laid.
-    private func printedFeatures(within bounds: GeoBoundingBox) -> [FeatureShape] {
+    private func printedFeatures(
+        within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> [FeatureShape] {
         // Restricted to the frame being printed, not merely to what the view
         // model is holding. The viewport layers keep the previous view's
         // features while their replacement loads, and keep them indefinitely
@@ -1549,30 +1551,48 @@ final class OverlayViewModel {
         // reaches — and this list is what the legend and the "nothing to print"
         // note are built from, so an over-count keys a colour over blank paper
         // and drops the layer from the note that would have explained it.
-        controller.state.featureShapes.filter { $0.marks(bounds) }
+        controller.state.featureShapes.filter { $0.marks(bounds, mapFrame: mapFrame) }
     }
 
-    private func printedMarkers(within bounds: GeoBoundingBox) -> [FeatureMarker] {
-        controller.state.featureMarkers.filter {
-            bounds.south <= $0.latitude && $0.latitude <= bounds.north
-                && bounds.west <= $0.longitude && $0.longitude <= bounds.east
+    private func printedMarkers(
+        within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> [FeatureMarker] {
+        // A marker is a circle of fixed page size, not a coordinate: one whose
+        // centre stands just off the page still lays part of its circle on it,
+        // so each is asked about the frame grown by its own printed reach.
+        controller.state.featureMarkers.filter { marker in
+            let style = marker.printStyle
+            let strokes = style.strokeOpacity > 0 && style.lineWidth > 0
+            let fills = style.fillHex != nil && style.fillOpacity > 0
+            guard strokes || fills else { return false }
+            let reach = (style.markerRadius ?? 5) + (strokes ? style.lineWidth / 2 : 0)
+            let reached = bounds.expanded(
+                byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
+            )
+            return reached.contains(
+                GeoPoint(lat: marker.latitude, lng: marker.longitude)
+            )
         }
     }
 
     /// The layers with ink inside this frame, whatever their panel says.
-    private func drawnFeatureLayers(within bounds: GeoBoundingBox) -> Set<LayerID> {
-        var drawn = Set(printedFeatures(within: bounds).map(\.layer))
-        drawn.formUnion(printedMarkers(within: bounds).map(\.layer))
+    private func drawnFeatureLayers(
+        within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Set<LayerID> {
+        var drawn = Set(printedFeatures(within: bounds, mapFrame: mapFrame).map(\.layer))
+        drawn.formUnion(printedMarkers(within: bounds, mapFrame: mapFrame).map(\.layer))
         return drawn
     }
 
     /// The undrawn layers named the way the page will name them, so the sheet
     /// can admit them before the export runs rather than after.
     func undrawnFeatureLayerNotes(
-        within bounds: GeoBoundingBox, statuses: [LayerID: ViewportLayerStatus]
+        within bounds: GeoBoundingBox,
+        mapFrame: PdfRect,
+        statuses: [LayerID: ViewportLayerStatus]
     ) -> [String] {
         PrintExport.undrawnFeatureLayers(
-            statuses, drawn: drawnFeatureLayers(within: bounds)
+            statuses, drawn: drawnFeatureLayers(within: bounds, mapFrame: mapFrame)
         ).map { layer in
             let name = LayerCatalog.descriptor(for: layer.id)?.name ?? layer.id.rawValue
             return "\(name) (\(layer.status.printReason))"

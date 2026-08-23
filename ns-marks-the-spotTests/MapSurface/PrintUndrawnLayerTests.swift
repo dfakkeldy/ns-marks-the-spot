@@ -61,10 +61,13 @@ struct PrintUndrawnLayerTests {
     }
 
     private func request(
-        statuses: [LayerID: ViewportLayerStatus], shapes: [FeatureShape] = []
+        statuses: [LayerID: ViewportLayerStatus],
+        shapes: [FeatureShape] = [],
+        markers: [FeatureMarker] = []
     ) -> PrintExportRequest? {
         let controller = MapController()
         controller.setFeatureShapes(shapes)
+        controller.setFeatureMarkers(markers)
         let viewModel = OverlayViewModel.forTesting(
             controller: controller, installing: [.nsprd]
         )
@@ -319,6 +322,87 @@ struct PrintUndrawnLayerTests {
         )
         #expect(tinted.features.count == 1)
         #expect(undrawn(in: tinted).isEmpty)
+    }
+
+    /// The stroke is centred on the boundary, so a line whose centre line
+    /// stands half a line width off the page still lays ink along its edge.
+    /// Counted from the centre line alone, that sliver printed with the layer
+    /// named beside it as having drawn nothing.
+    @Test("A boundary just off the page still counts for its stroke's reach")
+    func aBoundaryJustOffThePageStillCountsForItsStrokesReach() throws {
+        let page = PrintExportPlan.bounds(
+            covering: Self.framed, mapFrame: PdfTemplate.template(.landscape).mapFrame
+        )
+        // Half of this style's 1 pt stroke on a 736 pt frame is about 13 m of
+        // this ground; 0.00008 degrees of longitude here is about 6 m.
+        let grazing = GeoJSONGeometry.lineString([
+            GeoPoint(lat: 45.62, lng: page.west - 0.00008),
+            GeoPoint(lat: 45.68, lng: page.west - 0.00008)
+        ])
+        let printed = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, drawing: grazing)]
+            )
+        )
+        #expect(printed.features.count == 1)
+        #expect(undrawn(in: printed).isEmpty)
+
+        // Beyond the stroke's reach there is no sliver to disown.
+        let clear = GeoJSONGeometry.lineString([
+            GeoPoint(lat: 45.62, lng: page.west - 0.0003),
+            GeoPoint(lat: 45.68, lng: page.west - 0.0003)
+        ])
+        let blank = try #require(
+            request(
+                statuses: [.zoningHalifax: .loading],
+                shapes: [Self.shape(.zoningHalifax, drawing: clear)]
+            )
+        )
+        #expect(blank.features.isEmpty)
+        #expect(undrawn(in: blank).map(\.id) == [.zoningHalifax])
+    }
+
+    /// A marker is a circle of fixed page size, not a coordinate. One whose
+    /// centre stands just off the page lays part of its circle on it, and a
+    /// coordinate test dropped that ink and the layer's legend row with it.
+    @Test("A marker just off the page still counts for its printed radius")
+    func aMarkerJustOffThePageStillCountsForItsPrintedRadius() throws {
+        let page = PrintExportPlan.bounds(
+            covering: Self.framed, mapFrame: PdfTemplate.template(.landscape).mapFrame
+        )
+        // This dot reaches 5.625 pt from its centre — radius five plus half
+        // its stroke — which is about 144 m of this ground. The near marker
+        // stands about 78 m off the page, the far one about 311 m.
+        func well(_ offset: Double) -> FeatureMarker {
+            FeatureMarker(
+                id: "well-\(offset)",
+                layer: .nsWellLogs,
+                latitude: 45.65,
+                longitude: page.west - offset,
+                style: VectorFeatureStyle(strokeHex: "#1d4ed8", lineWidth: 1.25),
+                printStyle: VectorFeatureStyle(
+                    strokeHex: "#1d4ed8",
+                    fillHex: "#ffffff",
+                    fillOpacity: 1,
+                    lineWidth: 1.25,
+                    markerRadius: 5
+                ),
+                title: "well",
+                subtitle: nil
+            )
+        }
+        let printed = try #require(
+            request(statuses: [.nsWellLogs: .loading], markers: [well(0.001)])
+        )
+        #expect(printed.markers.count == 1)
+        #expect(undrawn(in: printed).isEmpty)
+
+        let blank = try #require(
+            request(statuses: [.nsWellLogs: .loading], markers: [well(0.004)])
+        )
+        #expect(blank.markers.isEmpty)
+        #expect(undrawn(in: blank).map(\.id) == [.nsWellLogs])
     }
 
     /// The licence has its own sentence on the page, and it is the stronger

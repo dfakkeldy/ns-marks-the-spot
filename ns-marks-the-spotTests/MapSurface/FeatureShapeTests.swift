@@ -116,4 +116,48 @@ struct FeatureShapeTests {
             callout: nil
         )
     }
+
+    @Test func aStrokeNobodyCanSeeDoesNotMarkThePage() {
+        let frame = PdfTemplate.template(.landscape).mapFrame
+        let page = GeoBoundingBox(south: 45.6, west: -61.4, north: 45.7, east: -61.3)
+        let crossing = GeoJSONGeometry.lineString([
+            GeoPoint(lat: 45.65, lng: -61.5), GeoPoint(lat: 45.65, lng: -61.2)
+        ])
+        // The compositor draws nothing for a fully transparent or zero-width
+        // stroke, so neither may count as ink for the legend to key.
+        let transparent = FeatureShape(
+            id: "f-1", layer: .oldGrowthPolicy, geometry: crossing,
+            style: style,
+            printStyle: VectorFeatureStyle(
+                strokeHex: "#333333", strokeOpacity: 0, lineWidth: 1
+            ),
+            title: "f-1", subtitle: nil
+        )
+        #expect(!transparent.marks(page, mapFrame: frame))
+        let hairline = FeatureShape(
+            id: "f-2", layer: .oldGrowthPolicy, geometry: crossing,
+            style: style,
+            printStyle: VectorFeatureStyle(strokeHex: "#333333", lineWidth: 0),
+            title: "f-2", subtitle: nil
+        )
+        #expect(!hairline.marks(page, mapFrame: frame))
+        // But an invisible outline around a visible fill still tints the page.
+        let tinted = FeatureShape(
+            id: "f-3", layer: .oldGrowthPolicy,
+            geometry: .polygon([
+                [
+                    GeoPoint(lat: 45.62, lng: -61.38), GeoPoint(lat: 45.62, lng: -61.32),
+                    GeoPoint(lat: 45.68, lng: -61.32), GeoPoint(lat: 45.68, lng: -61.38),
+                    GeoPoint(lat: 45.62, lng: -61.38)
+                ]
+            ]),
+            style: style,
+            printStyle: VectorFeatureStyle(
+                strokeHex: "#333333", strokeOpacity: 0,
+                fillHex: "#ededed", fillOpacity: 0.35, lineWidth: 0
+            ),
+            title: "f-3", subtitle: nil
+        )
+        #expect(tinted.marks(page, mapFrame: frame))
+    }
 }

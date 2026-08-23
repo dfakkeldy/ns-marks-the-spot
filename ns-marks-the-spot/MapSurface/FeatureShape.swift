@@ -137,7 +137,8 @@ nonisolated final class FeaturePolyline: MKPolyline {
 }
 
 extension FeatureShape {
-    /// Whether this feature puts ink inside the given ground.
+    /// Whether this feature puts ink inside the given ground, printed into the
+    /// given page frame.
     ///
     /// Asked of a page before it is made, and of the layer list that goes on
     /// it. A bounding box is not an answer to it: a concave zone, a diagonal
@@ -146,12 +147,21 @@ extension FeatureShape {
     /// paper and drops the layer from the "switched on, with nothing to print"
     /// note that would have told them.
     ///
-    /// The two halves mirror what the compositor draws. Line work crossing the
-    /// frame is ink whatever the style. Ground *inside* the shape is ink only
-    /// when the page fills it, since an unfilled shape large enough to hold the
-    /// whole frame strokes its boundary somewhere off the paper. The style read
-    /// is `printStyle`, because that is the one the page uses.
-    func marks(_ bounds: GeoBoundingBox) -> Bool {
+    /// The halves mirror what the compositor draws, in `printStyle` because
+    /// that is the style the page uses. A visible stroke is ink wherever its
+    /// width reaches, which extends half a line width past the centre line —
+    /// so the crossing question is asked of the frame grown by that reach, or
+    /// a boundary hugging the page's edge from outside would leave a coloured
+    /// sliver the list disowned. Ground *inside* the shape is ink only when
+    /// the page fills it, since an unfilled shape large enough to hold the
+    /// whole frame strokes its boundary somewhere off the paper.
+    ///
+    /// Deliberately coarser than the raster in one direction: a dashed stroke
+    /// is counted from its centre line, so a crossing that lands entirely in a
+    /// dash gap — a few points of page at most — still counts. The gap's
+    /// position depends on arc length from the path's first vertex, which is
+    /// not knowledge worth modelling to disown a sliver.
+    func marks(_ bounds: GeoBoundingBox, mapFrame: PdfRect) -> Bool {
         switch geometry {
         case .point, .multiPoint:
             // A shape layer that answered with a point draws nothing, on screen
@@ -160,9 +170,17 @@ extension FeatureShape {
         default:
             break
         }
-        if geometry.lineWorkReaches(bounds) { return true }
-        guard printStyle.fillHex != nil, printStyle.fillOpacity > 0 else { return false }
-        return geometry.surrounds(bounds)
+        let strokes = printStyle.strokeOpacity > 0 && printStyle.lineWidth > 0
+        let fills = printStyle.fillHex != nil && printStyle.fillOpacity > 0
+        if strokes {
+            let reach = printStyle.lineWidth / 2
+            let reached = bounds.expanded(
+                byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
+            )
+            if geometry.lineWorkReaches(reached) { return true }
+        }
+        guard fills else { return false }
+        return geometry.lineWorkReaches(bounds) || geometry.surrounds(bounds)
     }
 
     /// Every MapKit overlay this shape draws as, holes included.

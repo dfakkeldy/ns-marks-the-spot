@@ -20,6 +20,8 @@ nonisolated struct PrintMapCompositorTests {
         south: 46.10, west: -61.30, north: 46.14, east: -61.24
     )
 
+    private static let mapFrame = PdfTemplate.template(.landscape).mapFrame
+
     private static func layer(_ id: String, alpha: CGFloat = 1) -> MapLayerState {
         MapLayerState(
             configuration: TileLayerConfiguration(
@@ -508,7 +510,7 @@ nonisolated struct PrintMapCompositorTests {
                 Self.parcel("3", .selected),
                 Self.parcel("4", .taxSale)
             ],
-            within: Self.bounds
+            within: Self.bounds, mapFrame: Self.mapFrame
         )
 
         #expect(
@@ -536,7 +538,7 @@ nonisolated struct PrintMapCompositorTests {
             parts: [[Self.ring(west: -63.5, east: -63.4, south: 44.6, north: 44.7)]]
         )
 
-        #expect(PrintMapCompositor.parcelLegend(for: [elsewhere], within: Self.bounds).isEmpty)
+        #expect(PrintMapCompositor.parcelLegend(for: [elsewhere], within: Self.bounds, mapFrame: Self.mapFrame).isEmpty)
     }
 
     /// The selection is drawn as an outline and nothing else. A parcel big
@@ -547,14 +549,14 @@ nonisolated struct PrintMapCompositorTests {
         let ring = Self.ring(west: -62, east: -60, south: 45, north: 47)
         let outlined = ParcelShape(pid: "10", role: .selected, parts: [[ring]])
 
-        #expect(PrintMapCompositor.parcelLegend(for: [outlined], within: Self.bounds).isEmpty)
+        #expect(PrintMapCompositor.parcelLegend(for: [outlined], within: Self.bounds, mapFrame: Self.mapFrame).isEmpty)
 
         // The filled marks are the other way round: a tax-sale parcel that
         // surrounds the frame tints every inch of it, which is when its key
         // matters most.
         let filled = ParcelShape(pid: "11", role: .taxSale, parts: [[ring]])
         #expect(
-            PrintMapCompositor.parcelLegend(for: [filled], within: Self.bounds).map(\.name)
+            PrintMapCompositor.parcelLegend(for: [filled], within: Self.bounds, mapFrame: Self.mapFrame).map(\.name)
                 == ["In a current tax-sale notice"]
         )
     }
@@ -569,7 +571,7 @@ nonisolated struct PrintMapCompositorTests {
             parts: [[Self.ring(west: -62, east: -60, south: 46.11, north: 47)]]
         )
 
-        #expect(PrintMapCompositor.parcelLegend(for: [across], within: Self.bounds).count == 1)
+        #expect(PrintMapCompositor.parcelLegend(for: [across], within: Self.bounds, mapFrame: Self.mapFrame).count == 1)
     }
 
     /// The attribution asks the same question the legend does, and has to get
@@ -584,13 +586,23 @@ nonisolated struct PrintMapCompositorTests {
             parts: [[Self.ring(west: -63.5, east: -63.4, south: 44.6, north: 44.7)]]
         )
 
-        #expect(!PrintMapCompositor.drawsParcels([elsewhere], within: Self.bounds))
         #expect(
-            PrintMapCompositor.drawsParcels(
-                [elsewhere, Self.parcel("14", .taxSale)], within: Self.bounds
+            !PrintMapCompositor.drawsParcels(
+                [elsewhere], within: Self.bounds, mapFrame: Self.mapFrame
             )
         )
-        #expect(!PrintMapCompositor.drawsParcels([], within: Self.bounds))
+        #expect(
+            PrintMapCompositor.drawsParcels(
+                [elsewhere, Self.parcel("14", .taxSale)],
+                within: Self.bounds,
+                mapFrame: Self.mapFrame
+            )
+        )
+        #expect(
+            !PrintMapCompositor.drawsParcels(
+                [], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
     }
 
     private static func parcel(_ pid: String, _ role: ParcelShape.Role) -> ParcelShape {

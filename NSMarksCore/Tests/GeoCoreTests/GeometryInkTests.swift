@@ -166,6 +166,38 @@ struct GeometryInkTests {
         )
     }
 
+    /// The compositor projects each vertex into Web Mercator and joins the
+    /// projected points with straight lines, so the line between two positions
+    /// on the page is the Mercator chord — 3.9 km north of the degree-space
+    /// chord across this province-length sweep. Ink judged along the line
+    /// nobody draws answers for the wrong page in both directions.
+    @Test("Ink is judged along the line the page draws, not the degree line")
+    func inkIsJudgedAlongTheLineThePageDrawsNotTheDegreeLine() {
+        let sweep = GeoJSONGeometry.lineString([
+            GeoPoint(lat: 43, lng: -67), GeoPoint(lat: 47, lng: -59)
+        ])
+        // At longitude -63 the degree chord sits at 45.0000, the drawn chord
+        // at 45.0349. A page around the former carries no ink from this line.
+        #expect(!sweep.lineWorkReaches(Self.box(44.995, -63.01, 45.005, -62.99)))
+        // And a page around the latter does, though the degree chord misses it.
+        #expect(sweep.lineWorkReaches(Self.box(45.03, -63.05, 45.045, -62.95)))
+    }
+
+    /// The frame grown by a stroke's reach, in page fractions: half a point of
+    /// a 736-point frame on this ground is about 13 m.
+    @Test("A grown box reaches the ground the stroke's width reaches")
+    func aGrownBoxReachesTheGroundTheStrokesWidthReaches() {
+        let page = Self.box(45.6, -61.47129879701177, 45.7, -61.228701202988226)
+        let grown = page.expanded(byFractionX: 0.5 / 736, fractionY: 0.5 / 434)
+        #expect(grown.west < page.west && grown.east > page.east)
+        #expect(grown.south < page.south && grown.north > page.north)
+        #expect(grown.contains(GeoPoint(lat: 45.65, lng: page.west - 0.00008)))
+        #expect(!grown.contains(GeoPoint(lat: 45.65, lng: page.west - 0.0003)))
+        // A margin that is not a number, or runs inward, grows nothing.
+        #expect(page.expanded(byFractionX: .nan, fractionY: 0) == page)
+        #expect(page.expanded(byFractionX: -1, fractionY: 0) == page)
+    }
+
     /// Coordinates that are not numbers reach this from a source, not from a
     /// caller, and the answer has to be no rather than a crash or a yes.
     @Test("A segment with no finite coordinates is not ink")
