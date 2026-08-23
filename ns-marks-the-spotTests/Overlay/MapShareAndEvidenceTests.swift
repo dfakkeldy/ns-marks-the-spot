@@ -128,9 +128,14 @@ struct MapShareAndEvidenceTests {
         #expect(model.rows.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false)
     }
 
-    /// A link cannot accept the Province licence on the reader's behalf. The
-    /// layer stays off and no sheet is raised by a link that opened itself.
-    @Test func aLinkCannotTurnOnALayerTheLicenceStillGuards() {
+    /// A link cannot accept the Province licence on the reader's behalf, and it
+    /// cannot pass over the layer in silence either. The layer stays off, the
+    /// map says so, and the sheet puts the decision in front of the reader.
+    ///
+    /// The browser does exactly this: a shared link naming a restricted layer
+    /// with no acceptance stored opens its licence dialog. Asking is not
+    /// accepting; it is the same question the layer's own switch would raise.
+    @Test func aLinkAsksAboutTheLicenceItsLayersAreBehind() {
         let model = OverlayViewModel.forTesting(installing: [.nsprd], licence: .unknown)
 
         model.restore(
@@ -138,7 +143,83 @@ struct MapShareAndEvidenceTests {
         )
 
         #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == false)
+        #expect(model.isShowingLicenceSheet)
+        #expect(model.sharedLinkNotice?.contains("Province licence") == true)
+    }
+
+    /// Accepting brings back every layer the link asked for, not only the one
+    /// the sheet happened to name.
+    @Test func acceptingRestoresAllOfTheLinksHeldLayers() {
+        let model = OverlayViewModel.forTesting(
+            installing: [.nsprd, .nsAerial],
+            licence: .unknown
+        )
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=nsprd,ns-aerial")!
+        )
+        model.acceptProvinceLicence()
+
+        #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == true)
+        #expect(model.rows.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == true)
+        #expect(model.sharedLinkNotice == nil)
+    }
+
+    /// Declining leaves the layers off and the notice up. It is the only thing
+    /// on screen saying this is not the view that was sent.
+    @Test func decliningKeepsTheLinksLayersOffAndSaysSo() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd], licence: .unknown)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=nsprd")!
+        )
+        model.declineProvinceLicence()
+
+        #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == false)
         #expect(model.isShowingLicenceSheet == false)
+        #expect(model.sharedLinkNotice != nil)
+    }
+
+    /// Dismissing without answering is not accepting. A later acceptance,
+    /// reached some other way, does not switch the link's layers on behind it.
+    @Test func dismissingTheSheetDropsTheLinksClaimOnTheLayers() {
+        let model = OverlayViewModel.forTesting(installing: [.nsprd], licence: .unknown)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=nsprd")!
+        )
+        model.dismissLicenceSheet()
+        model.acceptProvinceLicence()
+
+        #expect(model.rows.first { $0.id == LayerID.nsprd.rawValue }?.isVisible == false)
+    }
+
+    /// A layer this build has no source for is named too. Silence there left a
+    /// link opening a map with the water it advertised simply absent.
+    @Test func aLinkNamingALayerThisBuildLacksSaysWhatIsMissing() {
+        let model = OverlayViewModel.forTesting(installing: [], licence: .accepted)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=church-richmond")!
+        )
+
+        #expect(model.sharedLinkNotice?.contains("Not in this app yet") == true)
+        #expect(model.isShowingLicenceSheet == false)
+    }
+
+    /// The notice describes the view that arrived. The first switch the reader
+    /// touches makes it describe a map that is no longer on screen.
+    @Test func touchingASwitchClearsTheLinksNotice() {
+        let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=church-richmond")!
+        )
+        #expect(model.sharedLinkNotice != nil)
+
+        model.toggleVisibility(LayerID.nsAerial.rawValue)
+
+        #expect(model.sharedLinkNotice == nil)
     }
 
     /// A link that names no parcel is a link to a view. Whatever card was open

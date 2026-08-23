@@ -1449,16 +1449,28 @@ final class OverlayViewModel {
             }
             refreshListedParcelStyling()
         }
-        for row in rows where row.isAvailable {
+        // What the link asked for and this map cannot simply switch on: the
+        // layers the Province licence still stands in front of, and the ones
+        // this build does not carry. Both were skipped in silence before, which
+        // left a link opening a view that looked restored while the imagery,
+        // the parcels or the water it named were missing.
+        var refusedByLicence: [String] = []
+        var notCarried: [String] = []
+        for row in rows {
             let wanted = state.layerIDs.contains(row.id)
-            // Only switched when it differs, and never switched *on* through a
-            // licence the reader has not accepted: `toggleVisibility` raises
-            // the sheet, which is the right outcome for a tap and the wrong one
-            // for a link that opened by itself.
-            if wanted != row.isVisible, !(wanted && row.needsLicence) {
+            guard row.isAvailable else {
+                if wanted { notCarried.append(row.id) }
+                continue
+            }
+            if wanted, row.needsLicence {
+                refusedByLicence.append(row.id)
+                continue
+            }
+            if wanted != row.isVisible {
                 toggleVisibility(row.id)
             }
         }
+        noteWhatTheLinkCouldNotRestore(refused: refusedByLicence, notCarried: notCarried)
         controller.center(
             on: GeoPoint(lat: state.position.latitude, lng: state.position.longitude),
             zoom: state.position.zoom
@@ -1484,6 +1496,47 @@ final class OverlayViewModel {
         // frame the parcel instead, throwing away the extent the sender chose.
         isHoldingLinkPosition = true
         searchParcel(pid)
+    }
+
+    /// What a shared link asked for and this map is not showing.
+    ///
+    /// Held next to the map rather than folded into `parcelMessage`, which the
+    /// parcel the link names overwrites a moment later. A reader who cannot see
+    /// what was left out has no way to tell a restored view from one that
+    /// arrived with its imagery missing.
+    private(set) var sharedLinkNotice: String?
+
+    /// Layers a shared link asked for that the licence stands in front of, kept
+    /// while the sheet is up.
+    ///
+    /// Accepting switches on all of them, not only the one the sheet named: the
+    /// sheet names a layer to say what the permission is for, and restoring
+    /// that one alone would still leave the reader on a view the sender never
+    /// sent.
+    @ObservationIgnored private var pendingSharedLayerIDs: [String] = []
+
+    /// Says what the link could not restore, and asks about the licence where
+    /// that is what stood in the way.
+    ///
+    /// The browser raises its licence dialog for exactly this link, which is
+    /// why this app now does too. Asking is not accepting on the reader's
+    /// behalf; it is putting the same decision in front of them that tapping
+    /// the layer's own switch would.
+    private func noteWhatTheLinkCouldNotRestore(refused: [String], notCarried: [String]) {
+        var notes: [String] = []
+        if !refused.isEmpty {
+            notes.append("Off until the Province licence is accepted: \(Self.layerNames(refused)).")
+        }
+        if !notCarried.isEmpty {
+            notes.append("Not in this app yet: \(Self.layerNames(notCarried)).")
+        }
+        sharedLinkNotice = notes.isEmpty ? nil : notes.joined(separator: " ")
+        pendingSharedLayerIDs = []
+        guard !refused.isEmpty, licenceStore.needsDecision,
+              let first = refused.first.flatMap(LayerID.init(rawValue:))
+        else { return }
+        pendingSharedLayerIDs = refused
+        licencePromptedLayerID = first
     }
 
     // MARK: - Map setup
@@ -2230,6 +2283,19 @@ final class OverlayViewModel {
             applyTheme(theme)
             return
         }
+        // A link asked for more than the one layer the sheet named, and the
+        // reader has just said yes to the licence all of them are behind.
+        if !pendingSharedLayerIDs.isEmpty {
+            let wanted = pendingSharedLayerIDs
+            pendingSharedLayerIDs = []
+            sharedLinkNotice = nil
+            for id in wanted {
+                guard let row = rows.first(where: { $0.id == id }),
+                      row.isAvailable, !row.isVisible else { continue }
+                toggleVisibility(id)
+            }
+            return
+        }
         guard let pending else { return }
         if let features, OverlayZIndex.vectorLayers.contains(pending) {
             features.setVisible(pending, to: true)
@@ -2251,6 +2317,10 @@ final class OverlayViewModel {
         // mirror runs a hop later, and a parcel is Province data that should be
         // gone by the time the sheet has finished dismissing.
         dropRefusedParcelEvidence(licenceStore.clearance)
+        // The link's restricted layers are not coming on, and the notice
+        // saying so stays: it is now the only thing on screen that says the
+        // view is not the one that was sent.
+        pendingSharedLayerIDs = []
         // The setup the reader picked still applies, minus what the licence
         // covers. Refusing the licence is not refusing the theme, and leaving
         // the map on the previous setup would read as the pick having failed.
@@ -2263,8 +2333,10 @@ final class OverlayViewModel {
     func dismissLicenceSheet() {
         licencePromptedLayerID = nil
         // Dismissed without an answer, so nothing is applied: the setup was
-        // waiting on a decision that was not made.
+        // waiting on a decision that was not made, and so were the link's
+        // layers. The link's notice stays, because they are still off.
         pendingThemeID = nil
+        pendingSharedLayerIDs = []
     }
 
     /// Whether the user has restricted Province layers to withdraw.
@@ -2435,6 +2507,10 @@ final class OverlayViewModel {
     }
 
     func toggleVisibility(_ id: String) {
+        // The link's notice describes the view that arrived. Once the reader
+        // starts switching layers themselves it describes a map that is no
+        // longer on screen, so it goes with the first switch they touch.
+        sharedLinkNotice = nil
         // A vector layer's switch is the same decision point as a raster's:
         // the licence has to be answered before the first query goes out, not
         // after features are already on the map.

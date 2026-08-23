@@ -84,6 +84,23 @@ struct ParcelSearchBar: View {
                     // that says which kind of nothing was found.
                     .fixedSize(horizontal: false, vertical: true)
             }
+
+            // Kept separate from the lookup message above rather than merged
+            // into it. A link that names a parcel writes its own result there a
+            // moment later, and folding the two together would take the
+            // sentence about the missing layers with it.
+            if let notice = viewModel.sharedLinkNotice {
+                Text(notice)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: 10))
+                    .shadow(color: .black.opacity(0.12), radius: 3, x: 0, y: 1)
+                    .accessibilityIdentifier("shared-link-notice")
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 
