@@ -87,7 +87,15 @@ if [[ ${pipestatus[1]} -ne 0 ]]; then
   exit 1
 fi
 
+# Each suite gets a deadline. A run of OfflineAreasViewModelTests sat in
+# `+[XCTWaiter _synchronouslyWaitForTimeInterval:]` for seventy-one minutes and
+# took the whole overnight window with it, and a gate admission spent on one
+# stuck suite is the rest of the target not run at all. Generous enough that a
+# slow suite is not mistaken for a stuck one.
+SUITE_TIMEOUT=${SUITE_TIMEOUT:-420}
+
 failed=()
+stuck=()
 for suite in $SUITES; do
   print "=== $suite"
   xcodebuild test-without-building \
@@ -97,13 +105,38 @@ for suite in $SUITES; do
     -derivedDataPath "$DERIVED" \
     -resultBundlePath "$OUT/$suite.xcresult" \
     -only-testing:"ns-marks-the-spotTests/$suite" \
-    2>&1 | tail -25
-  [[ ${pipestatus[1]} -eq 0 ]] || failed+=$suite
+    > "$OUT/$suite.log" 2>&1 &
+  pid=$!
+  waited=0
+  while kill -0 $pid 2>/dev/null && (( waited < SUITE_TIMEOUT )); do
+    sleep 5
+    (( waited += 5 ))
+  done
+  if kill -0 $pid 2>/dev/null; then
+    print "=== $suite is still running after ${SUITE_TIMEOUT}s; giving up on it"
+    # The test runner is a grandchild, so the signal goes to the whole tree.
+    pkill -TERM -P $pid 2>/dev/null
+    kill -TERM $pid 2>/dev/null
+    sleep 5
+    pkill -KILL -P $pid 2>/dev/null
+    kill -KILL $pid 2>/dev/null
+    wait $pid 2>/dev/null
+    stuck+=$suite
+  else
+    wait $pid
+    (( $? == 0 )) || failed+=$suite
+  fi
+  tail -25 "$OUT/$suite.log"
 done
 
 print "=== result bundles in $OUT"
+if (( ${#stuck} )); then
+  print "NEVER FINISHED: $stuck"
+fi
 if (( ${#failed} )); then
   print "FAILED: $failed"
+fi
+if (( ${#stuck} + ${#failed} )); then
   exit 1
 fi
 print "all suites passed"
