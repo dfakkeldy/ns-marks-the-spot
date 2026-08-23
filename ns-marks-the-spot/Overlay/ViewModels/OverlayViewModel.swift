@@ -2237,9 +2237,23 @@ final class OverlayViewModel {
         }
     }
 
+    /// Runs a parcel request and applies its answer on the main actor.
+    ///
+    /// `@concurrent` on the lookup is load-bearing, not decoration. This module
+    /// builds with approachable concurrency, where a bare `() async` closure
+    /// means "runs on the caller's executor and comes back on it" — so the
+    /// compiler emits no hop after the await. Every lookup passed here actually
+    /// leaves the main actor, because the fetchers behind it are ordinary
+    /// `async` functions in a package built without that default, and the URL
+    /// loading system resumes them on whatever thread finished the request.
+    /// Without the attribute the code after `await` ran there too: on CI the
+    /// answer came back on a cooperative thread and the main-actor callback
+    /// tripped the runtime's isolation check, killing the test host with no
+    /// message against the test that was running. Saying the callee is
+    /// concurrent is what makes the hop back to the main actor be emitted.
     private func startLookup(
         forPointTap: Bool,
-        _ lookup: @escaping @Sendable () async
+        _ lookup: @escaping @Sendable @concurrent () async
             -> Result<ParcelFeatureCollection, ParcelLookupFailure>,
         onSuccess: @escaping @MainActor (ParcelFeatureCollection) -> Void
     ) {
