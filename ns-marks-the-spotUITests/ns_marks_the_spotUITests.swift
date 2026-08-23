@@ -73,7 +73,7 @@ final class ns_marks_the_spotUITests: XCTestCase {
         // would be counted as launch time.
         let app = XCUIApplication.launchedForUITests()
         XCTAssertTrue(
-            app.buttons["Toggle Layers Menu"].waitForHittable(timeout: 30),
+            app.buttons["Current Location"].waitForHittable(timeout: 30),
             "the app did not reach its map"
         )
         app.terminate()
