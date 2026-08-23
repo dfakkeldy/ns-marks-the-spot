@@ -1508,3 +1508,34 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
 gh pr checks 224 --watch
 ```
+
+## 2026-08-23 — The user-maps parity findings, and the About sheet
+
+Done: five findings closed. Imported rasters now arrive at the browser's 70%
+and their visibility and opacity survive a launch, in their own defaults key
+rather than in the library document, written only after the library write they
+belong to has succeeded. Deleting a hand-placed scan asks first. A sheet that
+arrived georeferenced brings the map to it, as the vector side already did, and
+so does a changed PDF frame. The offline sentences no longer promise more than
+a 256 MB evicting cache can keep. Map Info now carries the evidence contract,
+the screening caveat, the source link and an address a person answers.
+
+Codex reviewed the display store and the confirmation adversarially: the dialog
+wiring is sound, and its one introduced finding — a refused import replacing the
+whole remembered set on its way through — is fixed and has a test. The first
+version of that test proved nothing, because the store only refuses a write
+once a read has refused first; CI caught it, and it now goes through the store.
+
+Green: `Scripts/typecheck-ios.sh`. CI green through `5ee822b8e` except that one
+test; the gate is still on HOLD (Sunday, next window 22:00), so nothing has been
+run on a simulator locally.
+
+Next: watch CI on PR #224, then the record-don't-change list — associated
+domain (needs the hosting decision), session-only fallback on storage failure,
+and the older flagged divergences.
+
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228
+gh pr checks 224 --watch
+```
