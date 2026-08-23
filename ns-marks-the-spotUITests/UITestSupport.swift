@@ -62,15 +62,25 @@ extension XCUIApplication {
     }
 
     /// Scrolls `element` into reach inside `container`, and says whether it got
-    /// there. Both directions, because the control that needs reaching can be
-    /// above the current offset as easily as below it.
+    /// there.
+    ///
+    /// Downwards only on request. Swiping down inside a presented sheet that is
+    /// already at its top hands the gesture to interactive dismissal, and a
+    /// target that was simply mis-queried then fails as a vanished sheet rather
+    /// than as the reachability question actually being asked. Everything
+    /// reached here starts above its target, so up is the whole of it.
     func scroll(
-        _ element: XCUIElement, into container: XCUIElement, swipes: Int = 8
+        _ element: XCUIElement,
+        into container: XCUIElement,
+        swipes: Int = 8,
+        alsoUpwards: Bool = false
     ) -> Bool {
         if element.exists, element.isHittable { return true }
-        for direction in [true, false] {
+        var directions: [() -> Void] = [container.swipeUp]
+        if alsoUpwards { directions.append(container.swipeDown) }
+        for swipe in directions {
             for _ in 0..<swipes {
-                direction ? container.swipeUp() : container.swipeDown()
+                swipe()
                 if element.exists, element.isHittable { return true }
             }
         }

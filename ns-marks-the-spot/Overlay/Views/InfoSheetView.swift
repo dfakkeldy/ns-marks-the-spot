@@ -1,3 +1,4 @@
+import GeoCore
 import MapCatalog
 import SwiftUI
 
@@ -237,13 +238,18 @@ private struct LayerAttributionRow: View {
             }
 
             if let licenseTitle = attribution.licenseTitle {
+                // Named for the layer it belongs to. A test that only looked
+                // for the licence text would pass while it sat under the wrong
+                // layer, which is the one thing this row exists to get right.
                 if let licenseURL = attribution.resolvedLicenseURL {
                     Link(licenseTitle, destination: licenseURL)
                         .font(.caption)
+                        .accessibilityIdentifier("source-licence-\(layer.id.rawValue)")
                 } else {
                     Text(licenseTitle)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .accessibilityIdentifier("source-licence-\(layer.id.rawValue)")
                 }
             }
 

@@ -50,6 +50,17 @@ final class MapChromeUITests: XCTestCase {
             label.hasSuffix(" m") || label.hasSuffix(" km"),
             "the readout says \"\(label)\", which is not a distance"
         )
+        // "0 m" carries a unit and means the geometry returned nothing. The two
+        // taps are a fifth of a screen apart on a map of Nova Scotia, which is
+        // kilometres of ground, so any answer at or below zero is wrong.
+        let metres = Double(
+            label.prefix(while: { $0 != " " }).replacingOccurrences(of: ",", with: "")
+        )
+        XCTAssertNotNil(metres, "the readout says \"\(label)\", which has no number in it")
+        XCTAssertGreaterThan(
+            metres ?? 0, 0,
+            "two taps a fifth of a screen apart measured \"\(label)\""
+        )
         // The number never travels without it.
         XCTAssertTrue(
             app.staticTexts["Measured on the map, not surveyed."].waitForHittable(timeout: 5),
@@ -93,15 +104,23 @@ final class MapChromeUITests: XCTestCase {
             "the source list cannot be reached by scrolling"
         )
 
-        // And the list carries terms, not just names. Fletcher's Rumsey scans
-        // are the entry whose licence is a link, so reaching it proves both
-        // that the catalogue rendered and that its licence came with it.
-        let rumsey = app.descendants(matching: .any).matching(
-            NSPredicate(format: "label CONTAINS %@", "CC BY-NC-SA 3.0")
-        ).firstMatch
+        // And the list carries terms, attached to the layer they govern.
+        // Fletcher is the Rumsey scan this app opens showing and composites
+        // into a printed sheet, so a wrong or missing licence on that row is
+        // the one that would put someone in breach.
+        // Thirty swipes rather than the default eight. Fletcher is the last of
+        // thirty-six catalogued layers and each row runs to a disclaimer and a
+        // caveat, so the list below the heading is several thousand points
+        // long. The first run of this test failed here for that reason and not
+        // because the licence was missing.
+        let fletcherLicence = app.descendants(matching: .any)["source-licence-fletcher"]
         XCTAssertTrue(
-            app.scroll(rumsey, into: sheet),
-            "no layer in the list states its licence"
+            app.scroll(fletcherLicence, into: sheet, swipes: 30),
+            "Fletcher's row does not state a licence"
+        )
+        XCTAssertEqual(
+            fletcherLicence.label, "CC BY-NC-SA 3.0",
+            "Fletcher is credited under the wrong licence"
         )
     }
 
@@ -135,13 +154,22 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertTrue(accept.isEnabled, "the licence text is missing from the build, so there is nothing to accept")
         accept.tap()
 
+        let aerial = app.switches["NS Aerial visibility"]
         XCTAssertTrue(
-            app.switches["NS Aerial visibility"].waitForExistence(timeout: 10),
+            aerial.waitForExistence(timeout: 10),
             "accepting did not turn the lock into a switch"
         )
         XCTAssertTrue(
             lock.waitForNonExistence(timeout: 10),
             "the layer is still locked after the licence was accepted"
+        )
+        // Accepting is meant to answer the tap that raised the sheet, not just
+        // to record a decision. A switch that came back Off means the user said
+        // yes and got nothing.
+        let state = (aerial.value as? String) ?? ""
+        XCTAssertTrue(
+            state == "On" || state == "1",
+            "NS Aerial is still off after its licence was accepted"
         )
 
         app.buttons["Close layers menu"].tap()
@@ -151,6 +179,14 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertTrue(strip.waitForHittable(timeout: timeout), "the attribution is off the bottom of the screen")
         XCTAssertTrue(strip.isEnabled, "a layer is drawn and its source is not named")
         strip.tap()
+
+        // The credit for this layer, not for whichever layer happens to be on.
+        // Service Nova Scotia publishes the imagery, and it is the one credit
+        // line in the catalogue that names a branch rather than the province.
+        XCTAssertTrue(
+            app.staticTexts["Service Nova Scotia"].waitForExistence(timeout: 10),
+            "the layer that was just turned on is not the one being credited"
+        )
 
         let all = app.descendants(matching: .any)["map-attribution-all-sources"]
         XCTAssertTrue(

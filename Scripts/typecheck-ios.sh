@@ -85,18 +85,21 @@ xcrun swiftc -typecheck \
 # `-default-isolation MainActor`, under which every `override func setUp` in
 # them is an isolation error. Checked here because a UI test that does not
 # compile fails the whole gated run, and finding that out costs an admission.
+UIFLAGS=(
+  -sdk "$SDK"
+  -target arm64-apple-ios26.0-simulator
+  -swift-version 6
+  -enable-upcoming-feature MemberImportVisibility
+  -enable-upcoming-feature InferIsolatedConformances
+  -enable-upcoming-feature NonisolatedNonsendingByDefault
+  -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks"
+  -I "$DEV/Platforms/iPhoneSimulator.platform/Developer/usr/lib"
+)
 UITESTS=("${(@f)$(find ns-marks-the-spotUITests -name '*.swift' | sort)}")
 print "type-checking ${#UITESTS} UI test sources"
 xcrun swiftc -typecheck \
   -module-name ns_marks_the_spotUITests \
-  -sdk "$SDK" \
-  -target arm64-apple-ios26.0-simulator \
-  -swift-version 6 \
-  -enable-upcoming-feature MemberImportVisibility \
-  -enable-upcoming-feature InferIsolatedConformances \
-  -enable-upcoming-feature NonisolatedNonsendingByDefault \
-  -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" \
-  -I "$DEV/Platforms/iPhoneSimulator.platform/Developer/usr/lib" \
+  "${UIFLAGS[@]}" \
   "${UITESTS[@]}"
 
 # Type checking proves the code means something; it does not prove the compiler
@@ -138,4 +141,18 @@ xcrun swiftc -c -enable-batch-mode \
   -output-file-map "$OBJECTS/tests-map.json" \
   "${TESTS[@]/#/$PWD/}"
 
-print "app, tests and UI tests type-check clean, and app and tests compile"
+{
+  print '{'
+  for f in $UITESTS; do print "  \"$PWD/$f\": {\"object\": \"$OBJECTS/uitests-${f:t:r}.o\"},"; done
+  print '  "": {"swift-dependencies": "'"$OBJECTS/uitests.swiftdeps"'"}'
+  print '}'
+} > "$OBJECTS/uitests-map.json"
+
+print "emitting objects for ${#UITESTS} UI test sources"
+xcrun swiftc -c -enable-batch-mode \
+  -module-name ns_marks_the_spotUITests -Onone \
+  "${UIFLAGS[@]}" \
+  -output-file-map "$OBJECTS/uitests-map.json" \
+  "${UITESTS[@]/#/$PWD/}"
+
+print "app, tests and UI tests type-check clean and compile"

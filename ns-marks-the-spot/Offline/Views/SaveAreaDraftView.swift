@@ -42,6 +42,7 @@ struct SaveAreaDraftView: View {
             Section("Estimate") {
                 if let draftArea {
                     LabeledContent("Tiles", value: "\(draftArea.estimatedTileCount)")
+                        .accessibilityIdentifier("draft-estimated-tiles")
                     LabeledContent(
                         "Size",
                         value: ByteCountFormatter.string(

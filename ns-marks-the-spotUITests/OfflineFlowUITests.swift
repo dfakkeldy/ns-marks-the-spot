@@ -39,16 +39,24 @@ final class OfflineFlowUITests: XCTestCase {
             "the sample area does not open a draft"
         )
 
+        let draft = app.scrollRegion("save-area-draft-form")
+
         // Said where the download is chosen, because this is where a reader
-        // decides what they will still have out of coverage.
+        // decides what they will still have out of coverage. On screen rather
+        // than merely in the hierarchy: a caveat clipped off the bottom of the
+        // form informs nobody.
+        let caveat = app.staticTexts.containing(
+            NSPredicate(format: "label CONTAINS[c] %@", "are not downloaded")
+        ).firstMatch
         XCTAssertTrue(
-            app.staticTexts.containing(
-                NSPredicate(format: "label CONTAINS[c] %@", "are not downloaded")
-            ).firstMatch.exists,
+            caveat.waitForExistence(timeout: timeout),
             "the draft does not say which layers a saved area leaves behind"
         )
+        XCTAssertTrue(
+            app.scroll(caveat, into: draft),
+            "the reader cannot get to what a saved area leaves behind"
+        )
 
-        let draft = app.scrollRegion("save-area-draft-form")
         let estimate = app.buttons["Estimate Fletcher Tiles"]
         XCTAssertTrue(app.scroll(estimate, into: draft), "the estimate cannot be reached")
         XCTAssertTrue(estimate.isEnabled, "a named draft cannot be estimated")
@@ -62,9 +70,20 @@ final class OfflineFlowUITests: XCTestCase {
                 .waitForNonExistence(timeout: 10),
             "the draft produced no estimate"
         )
+
+        let tiles = app.descendants(matching: .any)["draft-estimated-tiles"]
         XCTAssertTrue(
-            app.staticTexts["Tiles"].waitForExistence(timeout: 10),
+            tiles.waitForExistence(timeout: 10),
             "the estimate does not report how many tiles it would download"
+        )
+        // Zero tiles over ten kilometres of Halifax is not an estimate, it is
+        // a pyramid walk that found nothing, and a saved area built from it
+        // would download nothing and still call itself complete.
+        let announced = [tiles.label, (tiles.value as? String) ?? ""].joined(separator: " ")
+        let count = Int(announced.filter(\.isNumber)) ?? 0
+        XCTAssertGreaterThan(
+            count, 0,
+            "the Halifax sample estimated \"\(announced)\" tiles"
         )
     }
 }
