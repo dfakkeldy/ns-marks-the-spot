@@ -27,6 +27,36 @@ struct UserVectorEditingTests {
         }
     }
 
+    /// A device that cannot store a layer never takes it off the map. The
+    /// browser keeps each parsed layer for the session and says so, and a
+    /// reader told their import was refused would go looking for a file that
+    /// is already drawn in front of them.
+    @Test("A layer the device will not keep is still drawn")
+    func aRefusedLibraryWriteKeepsTheImportedLayer() async throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        // A library document that cannot be written: a directory standing where
+        // the file goes.
+        try FileManager.default.createDirectory(
+            at: root.appendingPathComponent("library.json"), withIntermediateDirectories: true
+        )
+        let viewModel = UserVectorsViewModel(store: UserVectorStore(directory: root))
+
+        await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+
+        #expect(viewModel.rows.count == 1)
+        #expect(viewModel.rows.first?.parsed?.featureCount == 1)
+        #expect(viewModel.rows.first?.isVisible == true)
+        // And the map still comes to it. A layer that arrived behind a panel
+        // and moved nothing reads as a file the app quietly refused.
+        #expect(viewModel.pendingFit != nil)
+        let notice = try #require(viewModel.importNotices.first)
+        #expect(notice.isRefusal == false)
+        #expect(notice.message.contains("until you close the app"))
+    }
+
     /// A file the app would not read must not move the map either. Framing an
     /// empty import would be the app claiming something arrived.
     @Test("A refused file leaves the map where it was")

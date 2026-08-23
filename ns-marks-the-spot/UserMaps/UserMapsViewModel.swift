@@ -294,21 +294,45 @@ final class UserMapsViewModel {
                 // and a refusal is exactly when those entries belong to maps
                 // this build cannot even see.
                 rememberDisplay()
-                // A file that placed itself is drawn somewhere the reader is
-                // probably not looking. The browser flies to it; here the
-                // panel covers the map on a phone, so without this the import
-                // of a georeferenced sheet produces no visible change at all
-                // and reads as a file the app quietly refused.
-                //
-                // Only the ones that arrived placed. A scan with no
-                // georeferencing has nowhere to fly to, and the reader is
-                // about to place it by hand anyway.
-                if !imported.record.needsGeoreferencing {
-                    pendingFit = Self.box(around: imported.record)
-                }
             } catch {
-                rows.removeAll { $0.id == id }
-                throw error
+                // The browser's promise, kept here: a device that cannot keep a
+                // map never takes it away from the reader who just imported it.
+                // The row stays, drawn and usable, and says plainly that it
+                // will not be here next time. Removing it instead sends
+                // somebody off to re-export a file that was never the problem,
+                // when what they need is to free some space before they close
+                // the app.
+                //
+                // `rememberDisplay()` above is deliberately not reached: the
+                // whole display document is rewritten each time, and writing it
+                // for a map the library refused would replace the entries of
+                // every map the library does hold.
+                notices.append(
+                    Notice(
+                        id: id,
+                        name: named,
+                        message: """
+                            This map could not be saved to your device. It stays on the map \
+                            until you close the app. Free some space and import it again to \
+                            keep it.
+                            """,
+                        isRefusal: false
+                    )
+                )
+            }
+            // A file that placed itself is drawn somewhere the reader is
+            // probably not looking. The browser flies to it; here the panel
+            // covers the map on a phone, so without this the import of a
+            // georeferenced sheet produces no visible change at all and reads
+            // as a file the app quietly refused. Outside the write, because a
+            // map that could not be saved is still on the map and still worth
+            // flying to.
+            //
+            // Only the ones that arrived placed. A scan with no georeferencing
+            // has nowhere to fly to, and the reader is about to place it by
+            // hand anyway.
+            if !imported.record.needsGeoreferencing {
+                pendingFit = Self.box(around: imported.record)
             }
             // A PDF is the one import whose result does not show what the app
             // did: which page came, whether the file placed it, and whether it

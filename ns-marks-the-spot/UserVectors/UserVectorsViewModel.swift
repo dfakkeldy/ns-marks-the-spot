@@ -95,22 +95,38 @@ final class UserVectorsViewModel {
                     bbox: layer.parsed.bbox,
                     originalFileID: originalFileID
                 )
-                _ = try await store.add(record, geometry: layer.parsed, original: data)
+                do {
+                    _ = try await store.add(record, geometry: layer.parsed, original: data)
+                } catch {
+                    // The browser's promise, kept here: a device that cannot
+                    // keep a layer never takes it away from the reader who just
+                    // imported it. The layer is drawn and usable, it says
+                    // plainly that it will not be here next time, and the rest
+                    // of the archive still arrives — one full disk swallowing
+                    // the nine layers after the one it stopped on is a file
+                    // that reads as half-imported with nothing saying so.
+                    note(
+                        """
+                        \(record.name) could not be saved to your device. It stays on the map \
+                        until you close the app. Free some space and import it again to keep it.
+                        """,
+                        for: filename
+                    )
+                }
                 rows.append(Row(record: record, isVisible: true, parsed: layer.parsed))
             }
             // The first layer only. Walking the map through every layer of an
             // archive in turn would just be motion.
             pendingFit = imported.layers.first?.parsed.bbox
-        } catch let refusal as UserMapImportRefusal {
+        } catch {
             // One file's refusal never stops the next: a user who selected a
             // folder with one broken file in it should get the other nine
             // layers and be told which one did not come.
-            report(refusal.userMessage, for: filename)
-        } catch {
-            report(
-                "This layer could not be saved to your device. Free some space and import it again.",
-                for: filename
-            )
+            //
+            // Reading is all that reaches here now. Storing is caught beside
+            // the layer it belongs to, above, because a layer that was read is
+            // kept whether or not the device would take it.
+            report(error.userMessage, for: filename)
         }
     }
 
@@ -163,6 +179,18 @@ final class UserVectorsViewModel {
         importNotices.append(
             UserImportNotice(
                 id: UUID().uuidString, name: filename, message: message, isRefusal: true
+            )
+        )
+    }
+
+    /// Says what happened to a file that did arrive.
+    ///
+    /// Kept apart from a refusal because the row is there: a reader told their
+    /// import was refused goes looking for a file that is already on the map.
+    private func note(_ message: String, for filename: String) {
+        importNotices.append(
+            UserImportNotice(
+                id: UUID().uuidString, name: filename, message: message, isRefusal: false
             )
         )
     }

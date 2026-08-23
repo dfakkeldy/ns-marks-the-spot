@@ -185,6 +185,36 @@ struct UserMapsLibraryTests {
         }
     }
 
+    /// The browser's promise, and now this app's: a save failure never
+    /// discards a map that was read. Taking the row away instead sends the
+    /// reader off to find and re-export a file that was never the problem,
+    /// when what they need is to clear some space before they close the app.
+    @Test("A map the device will not keep is still on the map")
+    func aRefusedLibraryWriteKeepsTheImportedMap() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+
+            // A library document that cannot be written, in a directory that
+            // can: a directory standing where the file goes. Making the whole
+            // directory read-only would stop the preview first, which is a
+            // different failure with a different answer — no pixels, so no row
+            // to keep.
+            try FileManager.default.createDirectory(
+                at: directory.appendingPathComponent("library.json"),
+                withIntermediateDirectories: true
+            )
+            await viewModel.importMap(data: try image(), name: "Scan")
+
+            #expect(viewModel.rows.count == 1)
+            #expect(viewModel.rows.first?.preview != nil)
+            let notice = try #require(viewModel.notices.first)
+            // Not a refusal. The map is on the map.
+            #expect(notice.isRefusal == false)
+            #expect(notice.message.contains("until you close the app"))
+        }
+    }
+
     @Test("Placement the device will not keep is undone rather than shown")
     func aRejectedSaveIsRolledBack() async throws {
         try await withLibraryDirectory { directory in
