@@ -1648,3 +1648,43 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 and verify the measuring readout and the panel's opening sections in the
 simulator.
 ```
+
+## 2026-08-23 — audit-6 applied; saved areas now reach the map
+
+Done: CI green on c30bad622, so PR #226 carries the audit-5 evidence-note work.
+Audit-6 (historical maps and offline areas) came back with seven findings.
+Two fixed. 544a0b9ee: a saved offline area was downloaded into `TileStore` and
+never read back — every map read went to `TileCache` — so an area could report
+itself complete and draw nothing offline. `OpacityTileOverlay` now asks the
+store after the cache and before the network, reports a stored blank as
+coverage answered rather than ink drawn, and waits for the Fletcher source
+sweep first, which closes the launch-window race in both directions (stale
+bytes drawn or reused; fresh bytes swept out from under a completed download).
+0c7a5d00e: the four Church rows said "Rights pending" to the reader when no
+rights question is open — the blocker is the frozen georeferencing run, so
+`hosting-pending` is the accurate state. Changed on both surfaces because the
+parity fixture compares them.
+Three recorded rather than changed. 403/410 read as "no tile exists" alongside
+404: right for an object store that answers that way for a missing key, wrong
+if a bucket is ever closed to us, and undecidable until a host exists — no
+`FletcherTileBaseURL` is configured in this repo, so nothing could be measured.
+The `source.json` receipt is constructed and never fetched or validated, which
+the web does not do either and which would be new machinery. And Fletcher's
+offline download is worth a rights decision: `docs/FLETCHER_GEOREFERENCING.md`
+says the Rumsey permission does not clear "native offline bundling" without
+separate support. Nothing is bundled in the app — the user downloads tiles they
+can already view, which CC BY-NC-SA covers — but that reading is the user's to
+confirm, and it only bites once tiles are hosted.
+Two refuted. The web print carries no layer source URLs either (`PrintLayerSource`
+has the field; no print component renders it) and the web's row disclosure shows
+no source link at all, so the native is not losing anything — it shows more.
+Next: PR #226 review; offline saved-area *download* behaviour is now the only
+part of that feature still unaudited end to end.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify the measuring readout, the panel's opening sections, and a saved
+area drawing with the network off in the simulator.
+```
