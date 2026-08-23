@@ -1985,3 +1985,42 @@ branch claude/ios-web-map-parity-2de228. Watch CI on the head commit; the
 Fletcher licence assertion should now clear. Then run
 /Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
 ```
+
+## 2026-08-23 — review 12 found a real product defect behind a failing test
+
+Done: CI run 32665007568 failed on exactly one assertion, the new one requiring
+the offline sample to estimate more than zero tiles. Codex review 12 named the
+cause before I read the log: the sample was "Save Sample Halifax Area" and the
+Fletcher survey is a Cape Breton one, so the one tap that screen offers led to
+a zero-tile estimate with an enabled Save button under it. `FletcherTilePlanner`
+had been right all along and the unit fixtures had already moved off Halifax.
+The sample is now Baddeck, inside sheet 12, planning 101 tiles across zooms 10
+to 14, with a test pinning it inside the survey; the draft screen explains a
+zero instead of printing it and will not save one, with `coversAnyGround`
+keeping outside-coverage apart from a walk that found nothing.
+
+The rest of review 12 is applied. `scroll` stops when the list stops rather
+than after a fixed count, so the swipe budget is no longer a constant about the
+layer catalogue's length. Four assertions that a broken app would still pass
+are tightened, the offline test no longer scrolls back uphill, and both launch
+tests now prove they launched this app before taking their evidence. The
+destination resolver ranked device name above OS version, which on a 26.5
+deployment target would pick the one simulator the app cannot install on.
+`typecheck-ios.sh` aimed at iOS 26.0 against four 26.5 configurations and
+defined neither DEBUG nor `-enable-testing` for the UI target.
+
+Recorded, not built: Codex wants the resolver to keep each candidate's UDID and
+probe it with `simctl bootstatus`. Xcode's own Available section is what
+`xcodebuild` will use, and a boot probe is more machinery than the job needs
+until a runner actually fails that way.
+
+Gate-free loops green: typecheck (which caught a redeclaration first), 1124
+core tests, 16 resolver tests.
+
+Next: watch CI on this push, then the 22:00 ADT gated run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
