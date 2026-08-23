@@ -116,9 +116,20 @@ struct LayerCatalogTests {
         let descriptor = try #require(LayerCatalog.descriptor(for: .churchRichmond))
         let attribution = NativeLayerTraits.attribution(for: descriptor)
 
-        #expect(attribution.provider == "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries")
+        // The credit line the collection asks for on any reproduction, word for
+        // word, and the licence the imagery is actually under. The web carries
+        // both as `RUMSEY_ATTRIBUTION` and `RUMSEY_LICENCE_URL`.
+        #expect(
+            attribution.provider
+                == "David Rumsey Map Collection, David Rumsey Map Center, "
+                + "Stanford University Libraries"
+        )
         #expect(descriptor.caveat.contains("1885"))
-        #expect(attribution.licenseURL?.absoluteString == "https://www.davidrumsey.com/about/copyright-and-permissions")
+        #expect(attribution.licenseTitle == "CC BY-NC-SA 3.0")
+        #expect(
+            attribution.licenseURL?.absoluteString
+                == "https://creativecommons.org/licenses/by-nc-sa/3.0/"
+        )
     }
 
     @Test func provinceAttributionIsIncluded() throws {

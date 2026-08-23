@@ -151,7 +151,10 @@ struct MapShareAndEvidenceTests {
 
         #expect(model.parcels.selectedPID == nil)
         #expect(model.searchText.isEmpty)
-        #expect(model.parcelMessage == nil)
+        // The search field is empty and the map has moved: without a sentence,
+        // a reader whose link carried nothing they can see cannot tell a
+        // restored view from a search that quietly did nothing.
+        #expect(model.parcelMessage == ParcelLookupMessage.openedSharedView)
     }
 
     // MARK: - The note

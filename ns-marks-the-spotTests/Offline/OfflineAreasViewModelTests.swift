@@ -754,7 +754,11 @@ private actor PausingAfterFirstTileLoader: TileDataLoading {
 
     func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data {
         requestCount += 1
-        guard requestCount > 1 else {
+        // The second tile, and only the second: the download walks every
+        // coordinate the area covers, and holding the third as well would hold
+        // it against a continuation nothing ever resumes. That is a test that
+        // hangs until the run is killed rather than one that fails.
+        guard requestCount == 2 else {
             return data
         }
 

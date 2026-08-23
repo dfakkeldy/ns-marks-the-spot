@@ -93,18 +93,23 @@ struct ParcelInspectionTests {
         """.utf8))
     }
 
-    private static func addresses(_ road: String) -> Data {
-        Data("""
+    /// One civic point on `road`, standing inside the parcel whose western
+    /// edge is `westEdge`.
+    private static func addresses(_ road: String, westEdge: Double = -63.5) -> Data {
+        // Inside the triangle `parcel(pid:westEdge:)` draws, rather than merely
+        // inside the bounding box the file is asked for: the lookup keeps only
+        // the points that fall within the rings.
+        let longitude = String(format: "%.2f", westEdge + 0.06)
+        return Data("""
         {
           "type": "FeatureCollection",
           "features": [
             {
               "properties": {
-                "pntid": "1", "civic_num": "10", "strname": "\(road)",
-                "unit_type": null, "unit": null, "streettype": null, "streetdir": null,
-                "mailing_muni": "Halifax", "county": "Halifax"
+                "pntid": "1", "civicnum": "10", "strname": "\(road)",
+                "comm": "Halifax", "mun": "Halifax", "county": "Halifax"
               },
-              "geometry": {"type": "Point", "coordinates": [-63.5752, 44.6488]}
+              "geometry": {"type": "Point", "coordinates": [\(longitude), 44.62]}
             }
           ]
         }
@@ -163,25 +168,31 @@ struct ParcelInspectionTests {
     {"features": [{"attributes": {"FEAT_DESC": "Lake"}}]}
     """.utf8))
 
+    /// Two civic points standing inside `parcel(pid:)`'s triangle.
+    ///
+    /// The columns are the Civic Address File's own — `civicnum`, `comm`,
+    /// `mun` — because that is what the reader decodes, and the coordinates
+    /// are inside the parcel because the lookup asks the file for a bounding
+    /// box and then keeps only the points that fall within the rings.
     private static let twoAddresses = StubURLProtocol.Response.success(Data("""
     {
       "type": "FeatureCollection",
       "features": [
         {
           "properties": {
-            "pntid": "1", "civic_num": "1234", "strname": "Barrington Street",
-            "unit_type": null, "unit": null, "streettype": null, "streetdir": null,
-            "mailing_muni": "Halifax", "county": "Halifax"
+            "pntid": "1", "civicnum": "1234", "strname": "Barrington",
+            "strsuffix": "Street", "comm": "Halifax", "mun": "Halifax",
+            "county": "Halifax"
           },
-          "geometry": {"type": "Point", "coordinates": [-63.5752, 44.6488]}
+          "geometry": {"type": "Point", "coordinates": [-63.44, 44.62]}
         },
         {
           "properties": {
-            "pntid": "2", "civic_num": "1236", "strname": "Barrington Street",
-            "unit_type": null, "unit": null, "streettype": null, "streetdir": null,
-            "mailing_muni": "Halifax", "county": "Halifax"
+            "pntid": "2", "civicnum": "1236", "strname": "Barrington",
+            "strsuffix": "Street", "comm": "Halifax", "mun": "Halifax",
+            "county": "Halifax"
           },
-          "geometry": {"type": "Point", "coordinates": [-63.5753, 44.6489]}
+          "geometry": {"type": "Point", "coordinates": [-63.43, 44.63]}
         }
       ]
     }
@@ -363,7 +374,13 @@ struct ParcelInspectionTests {
     @Test func aPartialBuildingAnswerIsNotATotal() async {
         let channel = #function
         let viewModel = Self.viewModel(channel, answering: [
-            ("Buildings_UT83/4/query", .success(Data(#"{"error":{"code":500}}"#.utf8))),
+            // The polygon sublayer, by its whole path: the service address ends
+            // at `MapServer`, and a needle that misses it lets every sublayer
+            // answer and quietly makes this a test of the happy path.
+            (
+                "Buildings_UT83/MapServer/4/query",
+                .success(Data(#"{"error":{"code":500}}"#.utf8))
+            ),
             ("NSPRD", Self.parcel(pid: "50334317")),
             ("Buildings_UT83", .success(Data(#"{"count":2}"#.utf8))),
         ])
@@ -528,7 +545,7 @@ struct ParcelInspectionTests {
             Issue.record("expected unavailable, got \(String(describing: inspection?.mappedContext))")
             return
         }
-        #expect(message == "Mapped feature lookup is unavailable right now.")
+        #expect(message == "Mapped road and water intersections are unavailable right now.")
     }
 
     /// The two sections are independent evidence and fail independently.
@@ -638,7 +655,9 @@ struct ParcelInspectionTests {
         let channel = #function
         let gate = HeldTransport()
         await gate.answer("-63.5", with: Self.addresses("First Parcel Road"))
-        await gate.answer("-62.5", with: Self.addresses("Second Parcel Road"))
+        await gate.answer(
+            "-62.5", with: Self.addresses("Second Parcel Road", westEdge: -62.5)
+        )
 
         StubURLProtocol.stub(channel: channel, matching: [
             ("11111111", Self.parcel(pid: "11111111", westEdge: "-63.5")),

@@ -403,7 +403,10 @@ struct ParcelIdentifyTests {
         )
         defer { StubURLProtocol.clear(channel: channel) }
 
-        viewModel.searchParcel("1234 Barrington Street")
+        // The road without a number: a search that names one is ranked down to
+        // the addresses carrying it, and this test is about the licence rather
+        // than about the ranking.
+        viewModel.searchParcel("Barrington Street")
         await viewModel.awaitAddressSearch()
 
         #expect(viewModel.addressResults.count == 2)
@@ -477,12 +480,12 @@ struct ParcelIdentifyTests {
         let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
         defer { StubURLProtocol.clear(channel: channel) }
 
-        viewModel.editSearchText("1234 Barrington Street")
+        viewModel.editSearchText("Barrington Street")
         viewModel.submitSearch()
         await viewModel.awaitAddressSearch()
         #expect(viewModel.addressResults.count == 2)
 
-        viewModel.editSearchText("1234 Barrington Stree")
+        viewModel.editSearchText("Barrington Stree")
 
         #expect(viewModel.addressResults.isEmpty)
         #expect(viewModel.parcelMessage == nil)

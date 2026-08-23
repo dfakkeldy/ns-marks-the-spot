@@ -294,9 +294,13 @@ struct TileStubbedSuites {
 
             // The same overlay instance, unchanged, now reaches the service: the
             // box is read per tile rather than captured at install time.
-            let requested = try #require(TileFetcherURLProtocol.requests.first?.url?.absoluteString)
-            #expect(requested.contains("/export"))
-            #expect(requested.contains("nsgiwa.novascotia.ca"))
+            let requested = try #require(TileFetcherURLProtocol.requests.first?.url)
+            let host = try #require(requested.host())
+            #expect(requested.absoluteString.contains("/export"))
+            // Against the catalog's own set rather than a hostname spelled out
+            // here: the province serves the restricted layers from more than
+            // one host, and which one NSPRD is on is the catalog's to say.
+            #expect(LayerCatalog.restrictedHosts.contains(host))
         }
 
         private static func overlay(
