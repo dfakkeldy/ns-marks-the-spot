@@ -25,6 +25,27 @@ public enum VectorImport {
 
     private static let whitespace: Set<UInt8> = [0x20, 0x09, 0x0a, 0x0d]
 
+    /// The size past which a vector file is refused before anything reads it.
+    ///
+    /// Well below the raster 500 MB cap on purpose, and the same 50 MB the web
+    /// uses: a raster is downsampled into one preview, while every vector
+    /// vertex is drawn and hit-tested as it came. A 50 MB GeoJSON is already
+    /// millions of vertices, which is past what a phone will draw at any frame
+    /// rate the user would call a map.
+    public static let hardLimitBytes = 50 * 1024 * 1024
+
+    /// What a vector file past the limit is told, wherever the size is noticed.
+    public static let tooLargeMessage = """
+        This file is over 50 MB, which is more than can be drawn \
+        interactively. Export a smaller extract and import it again.
+        """
+
+    public static func checkFileSize(_ bytes: Int) throws(UserMapImportRefusal) {
+        guard bytes <= hardLimitBytes else {
+            throw UserMapImportRefusal(code: .tooLarge, userMessage: tooLargeMessage)
+        }
+    }
+
     /// Text formats carry no magic bytes, so this probes the first printable
     /// character instead: `{` can only start a JSON document and `<` an XML
     /// one.
@@ -59,7 +80,7 @@ public enum VectorImport {
     public static func read(
         _ data: Data, filename: String
     ) throws(UserMapImportRefusal) -> Imported {
-        try UserMapImport.checkFileSize(data.count)
+        try Self.checkFileSize(data.count)
         let stem = Self.stem(of: filename)
         switch sniff(data) {
         case .geoJsonCandidate:

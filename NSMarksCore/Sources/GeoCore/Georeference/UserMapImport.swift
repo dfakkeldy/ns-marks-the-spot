@@ -102,15 +102,19 @@ public enum UserMapImport {
     /// that user their file is corrupt would be a lie.
     public static let decodeTooLargePixels = 50_000_000
 
+    /// What a raster past the limit is told, wherever the size is noticed.
+    ///
+    /// One string because the picker now measures the file before it reads it,
+    /// and a reader who met two different sentences for the same refusal would
+    /// reasonably think two different things had gone wrong.
+    public static let tooLargeMessage = """
+        This file is over 500 MB. Export a smaller area or a lower \
+        resolution and import it again.
+        """
+
     public static func checkFileSize(_ bytes: Int) throws(UserMapImportRefusal) {
         guard bytes <= hardLimitBytes else {
-            throw UserMapImportRefusal(
-                code: .tooLarge,
-                userMessage: """
-                    This file is over 500 MB. Export a smaller area or a lower \
-                    resolution and import it again.
-                    """
-            )
+            throw UserMapImportRefusal(code: .tooLarge, userMessage: tooLargeMessage)
         }
     }
 

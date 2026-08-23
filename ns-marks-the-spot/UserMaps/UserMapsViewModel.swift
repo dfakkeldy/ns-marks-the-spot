@@ -59,6 +59,10 @@ final class UserMapsViewModel {
     /// reads as a file that vanished.
     private(set) var notices: [Notice] = []
 
+    /// The files this batch has turned away because the library is sealed,
+    /// kept so the single refusal can name all of them.
+    private var sealedRefusalNames: [String] = []
+
     /// True when there is a library on this device that this build could not
     /// read, so nothing may be written over it.
     ///
@@ -196,6 +200,7 @@ final class UserMapsViewModel {
     /// before the first one has been decoded, and the system stops the app for
     /// it while every individual file was within the size limit.
     func beginImports() {
+        sealedRefusalNames = []
         guard !isLibrarySealed else { return }
         notices = []
     }
@@ -205,8 +210,15 @@ final class UserMapsViewModel {
     /// One file's refusal never stops the next: a user who selected a folder of
     /// scans with one broken file in it should get the other nine maps and be
     /// told which one did not come.
-    func importMap(data: Data, name: String) async {
-        guard !isLibrarySealed else { return refuseWhileSealed() }
+    /// `filename` is the file as the picker showed it; `name` is what the row
+    /// will be called. They differ by the extension, and the messages use the
+    /// former: a refusal names a file that produced no row, so the only thing
+    /// the reader can match it against is their own file list, where
+    /// `lots.json` and `lots.geojson` are two different files and `lots` is
+    /// neither.
+    func importMap(data: Data, name: String, filename: String? = nil) async {
+        let named = filename ?? name
+        guard !isLibrarySealed else { return refuseWhileSealed(name: named) }
         let id = UUID().uuidString
         do {
             let imported = try UserMapImporter.import(data: data, id: id, name: name)
@@ -224,7 +236,7 @@ final class UserMapsViewModel {
             // over a library the app had meanwhile refused to read. The preview
             // just written is left where it is: the next load that succeeds
             // sweeps it, which is what the sweep is for.
-            guard !isLibrarySealed else { return refuseWhileSealed() }
+            guard !isLibrarySealed else { return refuseWhileSealed(name: named) }
             rows.append(
                 Row(
                     record: imported.record, isVisible: true, opacity: 1,
@@ -261,13 +273,13 @@ final class UserMapsViewModel {
             // hand-placeable cover sheet as the whole atlas.
             if let note = imported.record.pdf?.note {
                 notices.append(
-                    Notice(id: id, name: name, message: note, isRefusal: false)
+                    Notice(id: id, name: named, message: note, isRefusal: false)
                 )
             }
         } catch let refusal as UserMapImportRefusal {
             notices.append(
                 Notice(
-                    id: id, name: name, message: refusal.userMessage, isRefusal: true
+                    id: id, name: named, message: refusal.userMessage, isRefusal: true
                 )
             )
         } catch {
@@ -278,7 +290,7 @@ final class UserMapsViewModel {
             notices.append(
                 Notice(
                     id: id,
-                    name: name,
+                    name: named,
                     message: """
                         This map could not be saved to your device. Free some \
                         space and import it again.
@@ -387,14 +399,33 @@ final class UserMapsViewModel {
         )
     }
 
+    /// Says that a file was past the size limit before anything read it.
+    ///
+    /// The message is passed in because the picker measures the file, and the
+    /// limit it measured against depends on which pipeline the file was headed
+    /// for.
+    func reportTooLarge(name: String, message: String) {
+        notices.append(
+            Notice(id: UUID().uuidString, name: name, message: message, isRefusal: true)
+        )
+    }
+
     /// Says why nothing can be written, once, however many files were chosen.
     ///
-    /// Replaces rather than appends: a selection of ten files would otherwise
+    /// One notice rather than one per file: a selection of ten would otherwise
     /// post the same paragraph ten times, and the reason is the library rather
-    /// than any of the files.
-    private func refuseWhileSealed() {
+    /// than any of the files. Every file it covers is still named in it, so a
+    /// user who imported three scans can see that all three were turned away
+    /// and not guess which of them the app kept.
+    private func refuseWhileSealed(name: String) {
+        if !sealedRefusalNames.contains(name) { sealedRefusalNames.append(name) }
         notices = [
-            Notice(id: "library", name: "Your maps", message: sealedMessage, isRefusal: true),
+            Notice(
+                id: "library",
+                name: sealedRefusalNames.joined(separator: ", "),
+                message: sealedMessage,
+                isRefusal: true
+            ),
         ]
     }
 

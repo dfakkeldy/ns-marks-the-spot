@@ -37,12 +37,58 @@ enum UserFileImport {
     /// otherwise be unpickable rather than refused with a reason.
     static let contentTypes: [UTType] = [.tiff, .png, .jpeg, .pdf, .json, .xml, .zip, .data]
 
-    /// Reads each chosen file into memory, under the security scope the picker
-    /// hands over, and imports it before reading the next.
+    /// What reading one chosen file produced.
     ///
-    /// Read rather than referenced: the scope ends when this returns, and a
-    /// record holding a URL into another app's container would be a map that
-    /// worked until the user moved the file.
+    /// `tooLarge` carries the pipeline rather than the bytes: the file was
+    /// measured and never read, and the pipeline is all the panel needs to put
+    /// the refusal in the section the user was looking at.
+    enum ReadOutcome: Sendable {
+        case bytes(Data)
+        case tooLarge(ImportRouting.Pipeline)
+        case unreadable
+    }
+
+    /// Measures a chosen file, then reads it if it is within the limit.
+    ///
+    /// Measured first, because `Data(contentsOf:)` on a 2 GB file allocates 2
+    /// GB before any limit gets a chance to refuse it, and the system ends the
+    /// app for that — taking the rest of the selection with it, unreported.
+    /// The browser has always checked `File.size` before calling
+    /// `arrayBuffer()`; this is the same order.
+    ///
+    /// The first 4 KB routes the refusal. Both sniffers read a prefix and
+    /// nothing else — `UserMapImport.sniff` compares magic bytes and
+    /// `VectorImport.sniff` reads `prefix(4096)` — so a head this size gives
+    /// the same answer the whole file would.
+    ///
+    /// `nonisolated`, and called from a detached task, so a 400 MB scan is read
+    /// off the main thread. Read under the scope rather than referenced: the
+    /// scope ends when this returns, and a record holding a URL into another
+    /// app's container would be a map that worked until the user moved the
+    /// file.
+    nonisolated static func read(_ url: URL) -> ReadOutcome {
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        guard let handle = try? FileHandle(forReadingFrom: url) else { return .unreadable }
+        let head = (try? handle.read(upToCount: 4096)) ?? Data()
+        try? handle.close()
+        let pipeline = ImportRouting.pipeline(for: head)
+        let limit = switch pipeline {
+        case .raster: UserMapImport.hardLimitBytes
+        case .vector: VectorImport.hardLimitBytes
+        }
+        // A size the provider will not state is not a size worth guessing at.
+        // The pipelines measure the bytes they were handed anyway, so an
+        // unmeasurable file is read and refused there rather than here.
+        if let size = try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize, size > limit {
+            return .tooLarge(pipeline)
+        }
+        guard let data = try? Data(contentsOf: url) else { return .unreadable }
+        return .bytes(data)
+    }
+
+    /// Reads each chosen file, under the security scope the picker hands over,
+    /// and imports it before reading the next.
     ///
     /// One at a time, rather than reading the selection and then importing it.
     /// A map file runs to hundreds of megabytes and the picker will hand over
@@ -58,33 +104,52 @@ enum UserFileImport {
         maps?.beginImports()
         vectors?.beginImports()
         for url in urls {
+            let filename = url.lastPathComponent
             let name = url.deletingPathExtension().lastPathComponent
-            let scoped = url.startAccessingSecurityScopedResource()
-            let data = try? Data(contentsOf: url)
-            if scoped { url.stopAccessingSecurityScopedResource() }
-            guard let data else {
+            let data: Data
+            let outcome = await Task.detached(operation: { Self.read(url) }).value
+            switch outcome {
+            case .bytes(let read):
+                data = read
+            case .tooLarge(let pipeline):
+                // Named here rather than left to the pipeline, because the
+                // pipeline never sees this file: it was measured and put down.
+                switch pipeline {
+                case .raster:
+                    maps?.reportTooLarge(name: filename, message: UserMapImport.tooLargeMessage)
+                        ?? vectors?.reportTooLarge(
+                            name: filename, message: UserMapImport.tooLargeMessage
+                        )
+                case .vector:
+                    vectors?.reportTooLarge(name: filename, message: VectorImport.tooLargeMessage)
+                        ?? maps?.reportTooLarge(
+                            name: filename, message: VectorImport.tooLargeMessage
+                        )
+                }
+                continue
+            case .unreadable:
                 // The picker handed this over and the sandbox would not open
                 // it. Rare, and said out loud anyway: a file that silently did
                 // not arrive is a user counting their rows and wondering which
                 // of the ten they lost.
-                maps?.reportUnreadable(name: name) ?? vectors?.reportUnreadable(name: name)
+                maps?.reportUnreadable(name: filename) ?? vectors?.reportUnreadable(name: filename)
                 continue
             }
             switch ImportRouting.pipeline(for: data) {
             case .raster:
                 if let maps {
-                    await maps.importMap(data: data, name: name)
+                    await maps.importMap(data: data, name: name, filename: filename)
                 } else {
                     // No map section on this panel. Sent to the other pipeline
                     // rather than dropped, because a file that refuses a file
                     // out loud is better than one that swallows it.
-                    await vectors?.importFile(data: data, filename: url.lastPathComponent)
+                    await vectors?.importFile(data: data, filename: filename)
                 }
             case .vector:
                 if let vectors {
-                    await vectors.importFile(data: data, filename: url.lastPathComponent)
+                    await vectors.importFile(data: data, filename: filename)
                 } else {
-                    await maps?.importMap(data: data, name: name)
+                    await maps?.importMap(data: data, name: name, filename: filename)
                 }
             }
         }

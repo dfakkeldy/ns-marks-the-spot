@@ -59,7 +59,7 @@ struct UnifiedImportTests {
             #expect(vectors.rows.map(\.record.name) == ["lots"])
             // Unrecognised bytes go to the map pipeline, which is the one whose
             // refusals name the file.
-            #expect(maps.notices.map(\.name) == ["notes"])
+            #expect(maps.notices.map(\.name) == ["notes.csv"])
             #expect(maps.notices.filter(\.isRefusal).count == maps.notices.count)
         }
     }
@@ -78,7 +78,7 @@ struct UnifiedImportTests {
             )
             await UserFileImport.load([vectorBroken], maps: maps, vectors: vectors)
             #expect(maps.notices.isEmpty)
-            #expect(vectors.importNotices.map(\.name) == ["empty"])
+            #expect(vectors.importNotices.map(\.name) == ["empty.kml"])
         }
     }
 
@@ -96,7 +96,79 @@ struct UnifiedImportTests {
             await UserFileImport.load(urls, maps: maps, vectors: vectors)
 
             #expect(vectors.rows.map(\.record.name) == ["three"])
-            #expect(vectors.importNotices.map(\.name) == ["one", "two"])
+            #expect(vectors.importNotices.map(\.name) == ["one.kml", "two.kml"])
+        }
+    }
+
+    /// The file is measured and put down. Asserted on the read itself, because
+    /// the batch-level outcome is the same either way: what this pins is that
+    /// no 500 MB allocation happened to produce it.
+    @Test("An oversized file is measured, not read")
+    func anOversizedFileIsMeasuredNotRead() async throws {
+        try await withDirectories { _, _, files in
+            let huge = try Self.sparse(
+                head: Self.png(), totalBytes: UserMapImport.hardLimitBytes + 1,
+                named: "huge.png", in: files
+            )
+            guard case .tooLarge(let pipeline) = UserFileImport.read(huge) else {
+                Issue.record("Expected the file to be refused on its size.")
+                return
+            }
+            #expect(pipeline == .raster)
+
+            let ordinary = try Self.write(Self.png(), named: "scan.png", in: files)
+            guard case .bytes(let data) = UserFileImport.read(ordinary) else {
+                Issue.record("Expected an ordinary file to be read.")
+                return
+            }
+            #expect(!data.isEmpty)
+        }
+    }
+
+    /// The size limit is the pipeline's, not one number for every file: the
+    /// web refuses vectors at 50 MB because every vertex is drawn as it came,
+    /// while a raster that size is downsampled into one preview.
+    @Test("A data file is refused at the vector limit, well under the raster one")
+    func aDataFileIsRefusedAtTheVectorLimit() async throws {
+        try await withDirectories { maps, vectors, files in
+            let huge = try Self.sparse(
+                head: Self.geoJson(), totalBytes: VectorImport.hardLimitBytes + 1,
+                named: "huge.geojson", in: files
+            )
+            #expect(VectorImport.hardLimitBytes < UserMapImport.hardLimitBytes)
+            guard case .tooLarge(let pipeline) = UserFileImport.read(huge) else {
+                Issue.record("Expected the file to be refused on its size.")
+                return
+            }
+            #expect(pipeline == .vector)
+
+            await UserFileImport.load([huge], maps: maps, vectors: vectors)
+            #expect(vectors.rows.isEmpty)
+            #expect(vectors.importNotices.map(\.name) == ["huge.geojson"])
+            #expect(vectors.importNotices.first?.message == VectorImport.tooLargeMessage)
+            #expect(maps.notices.isEmpty)
+        }
+    }
+
+    /// One file too big never costs the reader the rest of their selection,
+    /// and the one that did not come is named.
+    @Test("An oversized file is named and the rest of the batch still arrives")
+    func anOversizedFileIsNamedAndTheRestOfTheBatchStillArrives() async throws {
+        try await withDirectories { maps, vectors, files in
+            let urls = [
+                try Self.sparse(
+                    head: Self.png(), totalBytes: UserMapImport.hardLimitBytes + 1,
+                    named: "huge.png", in: files
+                ),
+                try Self.write(Self.geoJson(), named: "lots.geojson", in: files),
+                try Self.write(Self.png(), named: "scan.png", in: files),
+            ]
+            await UserFileImport.load(urls, maps: maps, vectors: vectors)
+
+            #expect(maps.rows.map(\.record.name) == ["scan"])
+            #expect(vectors.rows.map(\.record.name) == ["lots"])
+            #expect(maps.notices.map(\.name) == ["huge.png"])
+            #expect(maps.notices.first?.message == UserMapImport.tooLargeMessage)
         }
     }
 
@@ -124,6 +196,23 @@ struct UnifiedImportTests {
     private static func write(_ data: Data, named name: String, in directory: URL) throws -> URL {
         let url = directory.appendingPathComponent(name)
         try data.write(to: url)
+        return url
+    }
+
+    /// A file of `totalBytes` whose first bytes are `head`, written sparsely.
+    ///
+    /// APFS records the length without allocating it, so a 500 MB fixture costs
+    /// a few hundred bytes and no wait. It has to be a real file of a real
+    /// length: what is under test is the size the importer reads off the
+    /// filesystem, not a number handed to a limit check.
+    private static func sparse(
+        head: Data, totalBytes: Int, named name: String, in directory: URL
+    ) throws -> URL {
+        let url = directory.appendingPathComponent(name)
+        try head.write(to: url)
+        let handle = try FileHandle(forWritingTo: url)
+        try handle.truncate(atOffset: UInt64(totalBytes))
+        try handle.close()
         return url
     }
 

@@ -143,6 +143,32 @@ struct UserMapsLibraryTests {
         }
     }
 
+    /// One paragraph, and every file it turned away named in it. A batch of
+    /// three scans that produced one message reading "Your maps" leaves the
+    /// reader to work out whether any of the three landed.
+    @Test("A sealed library names every file it turned away")
+    func aSealedLibraryNamesEveryFileItTurnedAway() async throws {
+        try await withLibraryDirectory { directory in
+            let existing = Data(#"{"version":999,"maps":[]}"#.utf8)
+            try existing.write(to: directory.appendingPathComponent("library.json"))
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+            #expect(viewModel.isLibrarySealed)
+
+            viewModel.beginImports()
+            for name in ["north", "south", "east"] {
+                await viewModel.importMap(
+                    data: try image(), name: name, filename: "\(name).png"
+                )
+            }
+
+            #expect(viewModel.rows.isEmpty)
+            #expect(libraryBytes(in: directory) == existing)
+            #expect(viewModel.notices.count == 1)
+            #expect(viewModel.notices.first?.name == "north.png, south.png, east.png")
+        }
+    }
+
     @Test("An ordinary empty library is not sealed")
     func aFirstRunIsNotAFailure() async throws {
         try await withLibraryDirectory { directory in

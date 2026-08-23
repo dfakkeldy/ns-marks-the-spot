@@ -125,23 +125,27 @@ final class UserVectorsViewModel {
         report("This file could not be opened from where it is stored.", for: name)
     }
 
+    /// Says that a file was past the size limit before anything read it.
+    ///
+    /// The message is passed in because the picker measures the file, and the
+    /// limit it measured against depends on which pipeline the file was headed
+    /// for.
+    func reportTooLarge(name: String, message: String) {
+        report(message, for: name)
+    }
+
+    /// Refusals name the file as the picker showed it, extension included.
+    ///
+    /// The rows are named by the stem, but a refusal produced no row: the only
+    /// thing the reader can match it against is their own file list, where
+    /// `lots.json` and `lots.geojson` are two different files and `lots` is
+    /// neither.
     private func report(_ message: String, for filename: String) {
         importNotices.append(
             UserImportNotice(
-                id: UUID().uuidString,
-                name: Self.stem(of: filename),
-                message: message,
-                isRefusal: true
+                id: UUID().uuidString, name: filename, message: message, isRefusal: true
             )
         )
-    }
-
-    /// The name without its extension, which is what the rows are named by and
-    /// so what the reader is looking at when they try to work out which file a
-    /// message is about.
-    private static func stem(of filename: String) -> String {
-        let stem = (filename as NSString).deletingPathExtension
-        return stem.isEmpty ? filename : stem
     }
 
     /// Starts an empty layer for the user to draw into.

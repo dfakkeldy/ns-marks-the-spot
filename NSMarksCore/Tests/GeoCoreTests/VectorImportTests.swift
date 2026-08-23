@@ -68,13 +68,14 @@ struct VectorImportTests {
         #expect(VectorImport.stem(of: filename) == expected)
     }
 
-    /// The same 500 MB gate the raster path uses, applied before anything
-    /// tries to read the file.
+    /// A tighter gate than the raster path's, applied before anything tries to
+    /// read the file, and the same 50 MB the web refuses at.
     @Test func aFileOverTheSizeLimitIsRefusedBeforeItIsParsed() throws {
+        #expect(VectorImport.hardLimitBytes < UserMapImport.hardLimitBytes)
         var refused: UserMapImportRefusal?
         do {
             _ = try VectorImport.read(
-                Data(count: UserMapImport.hardLimitBytes + 1), filename: "huge.geojson"
+                Data(count: VectorImport.hardLimitBytes + 1), filename: "huge.geojson"
             )
             Issue.record("Expected a refusal.")
         } catch {
