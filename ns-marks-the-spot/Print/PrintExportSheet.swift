@@ -33,7 +33,12 @@ struct PrintExportSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
-    @State private var subtitle = ""
+    /// The browser fills this in and the reader edits it, so a page made on
+    /// the phone carried a blank line where the same page made in a browser
+    /// says what it is. Verbatim from `web/src/print/pdf/ExportDialog.tsx`,
+    /// because the two surfaces are making the same document.
+    static let defaultSubtitle = "NS Marks The Spot — historical map export"
+    @State private var subtitle = PrintExportSheet.defaultSubtitle
     @State private var notes = ""
     @State private var includesLegend = true
     /// Whether the evidence appendix follows the map.

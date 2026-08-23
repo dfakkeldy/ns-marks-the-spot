@@ -14,12 +14,19 @@ struct PrintExportFraming: Equatable {
 
     /// The ground the page will actually carry.
     ///
-    /// The paper's proportions are not the frame's, and the export grows the
-    /// frame to fit rather than cropping it, so the page covers more ground
-    /// than the user dragged over. Anything asked before the export about what
-    /// will be on the page has to be asked about this rectangle: asked about
-    /// the smaller one, a well or a zone standing in the grown margin is
-    /// reported as absent and then prints anyway.
+    /// The export grows the frame to the paper's proportions rather than
+    /// cropping it, and this is the same growth, so anything asked before the
+    /// export about what will be on the page is asked about the rectangle the
+    /// export composites.
+    ///
+    /// Today the two coincide: `PrintExportFrameView` locks the frame to
+    /// `mapFrameAspect` and refuses a rotated or pitched map, so the box the
+    /// user drags is already paper-shaped and the growth changes nothing. That
+    /// is a property of how the frame is drawn, not of the export, and the
+    /// export does not depend on it — a request built from the visible map
+    /// instead of a drawn frame grows on two sides, and then a well or a zone
+    /// standing in the added strip is on the page. Asked about `bounds`, it
+    /// would be reported absent and print anyway.
     var printedBounds: GeoBoundingBox {
         PrintExportPlan.bounds(
             covering: bounds, mapFrame: PdfTemplate.template(orientation).mapFrame
