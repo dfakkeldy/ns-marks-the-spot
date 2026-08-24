@@ -2101,3 +2101,17 @@ branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on
 fe3c147bc (gh run list --branch claude/ios-web-map-parity-2de228); if green,
 decide with the user whether PR #226 is ready to hand over.
 ```
+
+## 2026-08-23 — Review 18 landed: marker cap, miter raster proof, title pinned
+Done: CI green on fe3c147bc and 686d56859. Review-18 fixes committed: marker
+stroke sets its own butt cap, raster fixture proves bevel keeps an off-page
+acute corner blank, titleNamesParcel pins the title to the legend's padded
+question. 1139 package tests + typecheck clean.
+Next: watch CI on this head; if green, ask the user whether PR #226 hands over.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on the
+latest head (gh run list --branch claude/ios-web-map-parity-2de228); if green,
+the review loop is dry at review 18 — confirm handover of PR #226 with the user.
+```
