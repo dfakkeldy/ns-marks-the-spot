@@ -2115,3 +2115,18 @@ branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on the
 latest head (gh run list --branch claude/ios-web-map-parity-2de228); if green,
 the review loop is dry at review 18 — confirm handover of PR #226 with the user.
 ```
+
+## 2026-08-24 — Review loop dry: CI green on 4d674c153
+Done: review-18 raster control fixed (sample the arms, not the anti-aliased
+tip pixel); full CI green on 4d674c153. Reviews 14-18 all triaged and landed;
+findings shrank each round and review 18's were all Low. Rotate fix has four
+consecutive green native runs.
+Next: user decides handover of PR #226 to nightly. Open user questions: real
+OSM base map on the phone; audit-10 browser wording as separate web work.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly), CI green.
+The adversarial review loop is complete. Ask the user whether to hand over
+PR #226, then delete this handoff file in the PR that closes the task.
+```
