@@ -679,16 +679,21 @@ nonisolated struct PrintMapCompositorTests {
         }
 
         // The same corner on the page draws, so the blank above is the join,
-        // not a feature that never rendered.
+        // not a feature that never rendered. Sampled inside the arms rather
+        // than at the vertex: the bevel chord passes within a pixel of the
+        // vertex at this angle, and a sample on that anti-aliased edge reads
+        // as a blend.
         let on = try await Self.compose(
             layers: [], features: [vee(vertexLng: -61.297)]
         ) { _, _ in (Self.pixel, .served, .source) }
-        #expect(
-            Self.isNear(
-                Self.colour(CGPoint(x: 30, y: 200), in: on.jpeg),
-                (0x16 / 255.0, 0x65 / 255.0, 0x34 / 255.0)
+        for x: Double in [15, 24] {
+            #expect(
+                Self.isNear(
+                    Self.colour(CGPoint(x: x, y: 200), in: on.jpeg),
+                    (0x16 / 255.0, 0x65 / 255.0, 0x34 / 255.0)
+                )
             )
-        )
+        }
     }
 
     /// The title asks the compositor's own padded question, held beside the
