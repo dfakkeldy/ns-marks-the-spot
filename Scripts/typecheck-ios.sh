@@ -19,7 +19,7 @@
 # not execution: it proves the code means something, not that it does the right
 # thing. Run it before spending an admission, not instead of one.
 #
-#   scripts/typecheck-ios.sh          # app + tests
+#   scripts/typecheck-ios.sh          # app + tests + UI tests
 #   scripts/typecheck-ios.sh app      # app only, the faster loop
 #
 set -eu
@@ -31,12 +31,18 @@ SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
 DEV=$(xcode-select -p)
 MODULES=$SCRATCH/packages/arm64-apple-ios-simulator/debug/Modules
 
-# The same six flags the app target uses.
+# The flags the app target builds with. The triple carries the project's
+# `IPHONEOS_DEPLOYMENT_TARGET`, because availability and obsoletion are checked
+# against it and a pre-flight aimed at an older iOS accepts code the gated build
+# rejects. `DEBUG` is defined for the same reason: it is in the Debug
+# configuration's `SWIFT_ACTIVE_COMPILATION_CONDITIONS`, so anything written
+# under `#if DEBUG` is invisible to a check that omits it.
 FLAGS=(
   -sdk "$SDK"
-  -target arm64-apple-ios26.0-simulator
+  -target arm64-apple-ios26.5-simulator
   -swift-version 6
   -default-isolation MainActor
+  -D DEBUG
   -enable-upcoming-feature MemberImportVisibility
   -enable-upcoming-feature InferIsolatedConformances
   -enable-upcoming-feature NonisolatedNonsendingByDefault
@@ -49,7 +55,7 @@ cd "$ROOT"
 # DerivedData. `swift build` here is a package build, not an Apple app build.
 print "building NSMarksCore for the simulator"
 swift build --package-path NSMarksCore \
-  --triple arm64-apple-ios26.0-simulator \
+  --triple arm64-apple-ios26.5-simulator \
   -Xswiftc -sdk -Xswiftc "$SDK" \
   --scratch-path "$SCRATCH/packages" >/dev/null
 
@@ -79,6 +85,30 @@ xcrun swiftc -typecheck \
   -plugin-path "$DEV/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing" \
   -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" \
   "${TESTS[@]}"
+
+# The UI tests are their own target and share none of the app's settings: they
+# import XCTest rather than the app module, and they are built without
+# `-default-isolation MainActor`, under which every `override func setUp` in
+# them is an isolation error. Checked here because a UI test that does not
+# compile fails the whole gated run, and finding that out costs an admission.
+UIFLAGS=(
+  -sdk "$SDK"
+  -target arm64-apple-ios26.5-simulator
+  -swift-version 6
+  -D DEBUG
+  -enable-testing
+  -enable-upcoming-feature MemberImportVisibility
+  -enable-upcoming-feature InferIsolatedConformances
+  -enable-upcoming-feature NonisolatedNonsendingByDefault
+  -F "$DEV/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks"
+  -I "$DEV/Platforms/iPhoneSimulator.platform/Developer/usr/lib"
+)
+UITESTS=("${(@f)$(find ns-marks-the-spotUITests -name '*.swift' | sort)}")
+print "type-checking ${#UITESTS} UI test sources"
+xcrun swiftc -typecheck \
+  -module-name ns_marks_the_spotUITests \
+  "${UIFLAGS[@]}" \
+  "${UITESTS[@]}"
 
 # Type checking proves the code means something; it does not prove the compiler
 # can emit it. A reabstraction thunk that crashes IRGen — the Swift 6.3.3 bug
@@ -119,4 +149,18 @@ xcrun swiftc -c -enable-batch-mode \
   -output-file-map "$OBJECTS/tests-map.json" \
   "${TESTS[@]/#/$PWD/}"
 
-print "app and tests type-check clean, and both compile"
+{
+  print '{'
+  for f in $UITESTS; do print "  \"$PWD/$f\": {\"object\": \"$OBJECTS/uitests-${f:t:r}.o\"},"; done
+  print '  "": {"swift-dependencies": "'"$OBJECTS/uitests.swiftdeps"'"}'
+  print '}'
+} > "$OBJECTS/uitests-map.json"
+
+print "emitting objects for ${#UITESTS} UI test sources"
+xcrun swiftc -c -enable-batch-mode \
+  -module-name ns_marks_the_spotUITests -Onone \
+  "${UIFLAGS[@]}" \
+  -output-file-map "$OBJECTS/uitests-map.json" \
+  "${UITESTS[@]/#/$PWD/}"
+
+print "app, tests and UI tests type-check clean and compile"

@@ -105,7 +105,10 @@ struct LayerCatalogTests {
             // Catalogued for attribution and metadata only; no tiles exist yet,
             // so there is deliberately nothing to fetch and nothing to install.
             #expect(descriptor.delivery == .unavailable)
-            #expect(descriptor.availability == .rightsPending)
+            // Hosting, not rights: the Rumsey terms are met and
+            // `docs/CHURCH_MAPS.md` records no open permission question. What
+            // is missing is tiles.
+            #expect(descriptor.availability == .hostingPending)
             #expect(descriptor.nativeDefaultVisible == false)
             #expect(NativeLayerTraits.offlinePolicy(for: descriptor) == .onlineOnly)
             #expect(AppContainer.makeLayer(from: descriptor, fletcherBaseURL: nil) == nil)

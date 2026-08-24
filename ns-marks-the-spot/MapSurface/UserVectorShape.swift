@@ -169,8 +169,8 @@ nonisolated final class VectorDraftPolyline: MKPolyline, WebDrawOrdered {
 /// itself, which is what the browser does. On a phone a drag that starts on a
 /// polygon is already the pan gesture, and stealing it would leave a user
 /// unable to move the map while anything is selected. One handle keeps both
-/// gestures, and — unlike the vertex handles — it works on multi-part geometry,
-/// because the same offset applies to every part and there is nothing to guess.
+/// gestures. It carries multi-part geometry the same way it carries a square,
+/// because the same offset applies to every part.
 nonisolated struct VectorMoveHandle: Equatable, Sendable {
     var featureID: String
     var centre: GeoJsonPosition
@@ -233,24 +233,54 @@ nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
 
 /// The vertices of the feature the user has selected, as handles they can drag.
 ///
-/// Only single-part geometry gets them. `VectorEdit.moving` addresses a vertex
-/// by ring and index and carries no part index, so a multi-polygon would need
-/// this view to guess which part it meant — and moving the wrong part is a
-/// silent corruption of the user's own data. A multi-part feature can still be
-/// named and deleted; it just cannot be reshaped here.
+/// Every part gets them, multi-part geometry included. The rings come from
+/// `VectorEdit.rings(of:)`, which lays a whole feature's rings end to end, and
+/// the edit that a dragged handle sends back is addressed by the same
+/// flattened index — so an island in a multi-polygon is reshaped by the same
+/// two numbers as a lone square, with no part index for this view to guess at.
+/// That matters for imported ground: a coastline lot arriving as a
+/// MultiPolygon is ordinary, and it used to be the one shape the app would not
+/// let its owner correct.
 nonisolated struct VectorSelectionHandles: Equatable, Sendable {
+    /// Past this many corners the handles stop being offered.
+    ///
+    /// A traced coastline can carry tens of thousands of positions, and one
+    /// map pin per position is a frozen map rather than an editable shape.
+    /// Nobody hand-drags a thousand corners on a phone, so the cap costs no
+    /// real editing; what it protects is the ability to look at an imported
+    /// boundary at all. The shape can still be carried whole, renamed and
+    /// deleted, and the panel says so rather than leaving a selection that
+    /// silently grew no handles.
+    static let maximumHandles = 1_000
+
     var featureID: String
     var rings: [[GeoJsonPosition]]
     var colorHex: String
 
-    init?(feature: GeoJsonFeature, colorHex: String) {
-        guard let id = feature.id, let geometry = feature.geometry else { return nil }
-        switch geometry {
-        case .point(let position): rings = [[position]]
-        case .lineString(let line): rings = [line]
-        case .polygon(let polygonRings): rings = polygonRings
-        case .multiPoint, .multiLineString, .multiPolygon, .collection: return nil
+    /// Whether this feature's corners are few enough to drag.
+    static func isReshapable(_ feature: GeoJsonFeature) -> Bool {
+        guard let geometry = feature.geometry else { return false }
+        let rings = VectorEdit.rings(of: geometry)
+        guard !rings.isEmpty else { return false }
+        return handleCount(rings) <= maximumHandles
+    }
+
+    /// What `handles()` would put on the map. A closed ring's last position
+    /// repeats its first and gets one handle between them, so counting stored
+    /// positions instead would refuse a thousand-corner polygon for having a
+    /// thousand and one.
+    private static func handleCount(_ rings: [[GeoJsonPosition]]) -> Int {
+        rings.reduce(0) { total, positions in
+            let closed = positions.count > 1 && positions.first == positions.last
+            return total + positions.count - (closed ? 1 : 0)
         }
+    }
+
+    init?(feature: GeoJsonFeature, colorHex: String) {
+        guard let id = feature.id, Self.isReshapable(feature),
+            let geometry = feature.geometry
+        else { return nil }
+        rings = VectorEdit.rings(of: geometry)
         featureID = id
         self.colorHex = colorHex
     }

@@ -48,6 +48,20 @@ nonisolated enum ParcelEvidenceExport {
         .map(\.0)
     }
 
+    /// What a page says on its front when it was made while a source was still
+    /// out, or `nil` when none was.
+    ///
+    /// The appendix says it source by source, in its own words, and that is not
+    /// enough on its own: a reader acting on a research summary is entitled to
+    /// know before they read it that one of the answers never arrived, because
+    /// the one that never arrived may be the one they came for.
+    static func stillOutDisclosure(_ names: [String]) -> String? {
+        guard !names.isEmpty else { return nil }
+        return "This page was made while \(names.formatted(.list(type: .and))) "
+            + "had not answered. The appendix names each of them as unanswered, "
+            + "which is not a finding about this parcel."
+    }
+
     private static func hasSettled<Value>(_ evidence: ParcelEvidence<Value>) -> Bool {
         if case .looking = evidence { return false }
         return true
@@ -79,7 +93,9 @@ nonisolated enum ParcelEvidenceExport {
             events: taxSaleEnabled ? events(inspection, mode: mode) : [],
             civicAddresses: civicAddresses(inspection),
             civicNotice: notice(inspection.civicAddresses),
+            civicShortfall: civicShortfall(inspection),
             mappedArea: inspection.mappedArea?.label,
+            boundaryNotice: inspection.boundaryNotice,
             buildingResults: buildingResults(inspection),
             contextResults: contextResults(inspection),
             floodResults: floodResults(inspection),
@@ -117,8 +133,17 @@ nonisolated enum ParcelEvidenceExport {
         [
             EvidenceNoteInput.Source(
                 name: baseMapName(baseMap),
-                sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/")!,
-                sourceDate: "Live Apple Maps tiles"
+                // No link and no tile date for a map drawn with its background
+                // switched off. Apple's licence under "no base map" would
+                // credit tiles that were never fetched, and a reader checking
+                // where the picture came from would be sent to the wrong
+                // place.
+                sourceURL: baseMap == .blank
+                    ? nil
+                    : URL(string: "https://www.apple.com/legal/internet-services/maps/"),
+                sourceDate: baseMap == .blank
+                    ? "no background tiles were drawn"
+                    : "Live Apple Maps tiles"
             )
         ]
             + descriptors.flatMap { descriptor -> [EvidenceNoteInput.Source] in
@@ -247,11 +272,32 @@ nonisolated enum ParcelEvidenceExport {
         }
     }
 
+    /// Points the file sent that could not be placed, in the panel's words.
+    ///
+    /// The panel says this under its own list. Without it the note's list of
+    /// addresses reads as everything the file holds inside this parcel, which
+    /// is the one thing it is not.
+    private static func civicShortfall(_ inspection: ParcelInspection) -> String? {
+        guard case .ready(let reading) = inspection.civicAddresses,
+              reading.unreadableRows > 0
+        else { return nil }
+        return reading.addresses.isEmpty
+            ? ParcelLookupMessage.noReadableAddresses(reading.unreadableRows)
+            : ParcelLookupMessage.addressShortfall(reading.unreadableRows)
+    }
+
     private static func assessments(
         _ inspection: ParcelInspection
     ) -> EvidenceNoteInput.AssessmentEvidence {
-        guard case .ready(let result) = inspection.assessments else { return .error }
-        return .ready(result)
+        switch inspection.assessments {
+        case .ready(let result): return .ready(result)
+        // A page may now be made while this one is still out, so "still out"
+        // has to survive the trip into the note. Collapsing it into `.error`
+        // would print a source that failed, which is an answer this one has
+        // not given.
+        case .looking: return .stillOut
+        case .unavailable: return .error
+        }
     }
 
     /// The dwelling dataset has a third answer the others do not: it can be
@@ -263,13 +309,15 @@ nonisolated enum ParcelEvidenceExport {
     ) -> EvidenceNoteInput.DwellingEvidence {
         switch inspection.dwellings {
         case .ready(let result):
-            return .ready(result.accounts)
+            return .ready(result)
         case .unavailable(let reason)
             where reason == ParcelLookupMessage.noAccountToAskDwellingsWith
                 || reason == ParcelLookupMessage.dwellingsNotLookedUp:
             return .blocked
-        case .unavailable, .looking:
+        case .unavailable:
             return .error
+        case .looking:
+            return .stillOut
         }
     }
 
@@ -534,16 +582,42 @@ nonisolated enum ParcelEvidenceExport {
         }
     }
 
-    /// What a source that had not answered yet is called. The export is gated
-    /// on every source having settled, so this should never print — it is here
-    /// so that if the gate is ever bypassed the note says "not answered"
-    /// rather than "nothing found".
+    /// What a source that had not answered yet is called.
+    ///
+    /// This prints. A page may be made once the sources have had the time the
+    /// browser gives them, and a source that spent that time silent is reported
+    /// as silent — never as a source that answered with nothing.
     private static let unsettled =
         "This source had not answered when the note was written."
 
     private static func resourceResults(
         _ inspection: ParcelInspection
     ) -> [EvidenceNoteInput.Result] {
+        // The three geology sources are asked as one request and answer as one,
+        // so a wait that ran out leaves nothing to list them from. Listed from
+        // the query's own roll instead: a reader told only that "geology and
+        // resource context" is missing cannot tell which of the three it was,
+        // and has no link to go and ask it themselves. The flood pair is
+        // reported this way for the same reason.
+        if case .looking = inspection.resources {
+            return ResourceIntersectionQuery.layerIDs.compactMap { layerID in
+                let descriptor = LayerCatalog.descriptor(for: layerID)
+                guard let sourceURL = descriptor?.sourceURL ?? descriptor?.serviceURL else {
+                    return nil
+                }
+                let (credit, licence) = attribution(for: layerID)
+                return EvidenceNoteInput.Result(
+                    name: descriptor?.name ?? layerID.rawValue,
+                    sourceURL: sourceURL,
+                    status: .error,
+                    results: [],
+                    errorMessage: unsettled,
+                    attribution: credit,
+                    licenceURL: licence,
+                    sourceDate: descriptor?.sourceDate
+                )
+            }
+        }
         guard case .ready(let intersections) = inspection.resources else { return [] }
         return intersections.sources.compactMap { source in
             let descriptor = LayerCatalog.descriptor(for: source.layerID)

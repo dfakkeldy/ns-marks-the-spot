@@ -298,6 +298,89 @@ struct MapThemeApplyTests {
         #expect(viewModel.themeStatusText == "Current setup")
     }
 
+    /// A setup that matches nothing saved has no name of its own, and where it
+    /// came from is the only thing left to call it.
+    ///
+    /// The browser has it easier: on the browser an unnamed setup can only have
+    /// come from a link, so it is always "Shared setup". Here it is also what a
+    /// launch nobody has touched reads, which is why the two are told apart
+    /// rather than assumed.
+    @Test func aSetupALinkPutThereIsNamedAsTheSendersUntilTheReaderChangesIt() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])
+        #expect(viewModel.themeStatusText == "Explore Nova Scotia")
+
+        viewModel.restore(
+            from: URL(string: "https://example.com/map/?layers=nsprd,roads&position=45.6,-61.4,15")!
+        )
+
+        #expect(viewModel.activeThemeID == nil)
+        #expect(viewModel.themeStatusText == "Shared setup")
+        #expect(viewModel.themeDescription == "Map settings restored from a shared link.")
+
+        // The first switch the reader touches makes it theirs, which is the
+        // same moment the link's own notice stops describing what is on screen.
+        viewModel.toggleVisibility(LayerID.roads.rawValue)
+        #expect(viewModel.themeStatusText == "Current setup")
+        #expect(viewModel.themeDescription == "The layers this map currently has on.")
+    }
+
+    /// A tap the licence gate turns away changes nothing on the map, so the
+    /// sender's view is still exactly what is on screen.
+    ///
+    /// The name and the link's own notice used to go at the tap rather than at
+    /// the change, which told a reader who had declined a licence that the map
+    /// in front of them was now their own work.
+    @Test func aSwitchTheLicenceRefusesLeavesTheSendersViewAlone() {
+        let viewModel = OverlayViewModel.forTesting(
+            installing: [.nsprd, .roads, .nsAerial], licence: .unknown
+        )
+        viewModel.restore(
+            from: URL(string: "https://example.com/map/?layers=roads&position=45.6,-61.4,15")!
+        )
+        // The link named a layer the licence still stands in front of, so it
+        // says so. Read here rather than through the setup's name: with
+        // nothing switched on, the name is a saved theme's, and what is being
+        // tested is what the map says about where this view came from.
+        #expect(viewModel.setupCameFromALink)
+        #expect(viewModel.sharedLinkNotice != nil)
+
+        // Restricted, and the licence has not been answered, so this asks
+        // rather than switches.
+        viewModel.toggleVisibility(LayerID.nsAerial.rawValue)
+        #expect(viewModel.licencePromptedLayerID == LayerID.nsAerial)
+        #expect(
+            viewModel.layers.first { $0.id == LayerID.nsAerial.rawValue }?.isVisible == false
+        )
+        // Nothing on the map moved, so the sender's view is still what is on
+        // screen, notice included.
+        #expect(viewModel.setupCameFromALink)
+        #expect(viewModel.sharedLinkNotice != nil)
+    }
+
+    /// The background is part of the view a link delivered, even though the
+    /// link cannot name every background this map can draw.
+    @Test func changingTheBackgroundMakesTheSetupTheReadersOwn() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])
+        viewModel.restore(
+            from: URL(string: "https://example.com/map/?layers=nsprd,roads&position=45.6,-61.4,15")!
+        )
+        #expect(viewModel.themeStatusText == "Shared setup")
+
+        viewModel.setBaseMapType(.satellite)
+        #expect(viewModel.themeStatusText == "Current setup")
+        #expect(viewModel.themeDescription == "The layers this map currently has on.")
+    }
+
+    /// Nothing arrived from anybody, so there is nobody to attribute the map to.
+    @Test func aSetupTheReaderBuiltIsTheirOwn() {
+        let viewModel = OverlayViewModel.forTesting(installing: [.nsprd, .roads])
+        viewModel.toggleVisibility(LayerID.nsprd.rawValue)
+        viewModel.toggleVisibility(LayerID.roads.rawValue)
+
+        #expect(viewModel.activeThemeID == nil)
+        #expect(viewModel.themeStatusText == "Current setup")
+    }
+
     /// A refused save keeps nothing and says nothing was kept, so the manager
     /// can leave the reader's typing in the field to try again.
     @Test func aSetupThatCouldNotBeSavedReportsThat() {

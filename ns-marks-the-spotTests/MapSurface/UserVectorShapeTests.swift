@@ -242,16 +242,38 @@ struct VectorSelectionHandleTests {
         #expect(dragged.map(\.vertex) == [0, 1, 2])
     }
 
-    /// `VectorEdit.moving` carries no part index, so a multi-part feature would
-    /// need this view to guess which part a handle meant. It offers none rather
-    /// than moving the wrong one.
-    @Test func aMultiPartFeatureOffersNoHandles() {
+    /// A handle's ring index has to mean the same thing to the map and to the
+    /// edit. This walks a dragged handle all the way through `VectorEdit` and
+    /// checks the vertex that moved is the one the handle sat on.
+    @Test func everyPartOfAMultiPartFeatureIsDraggable() throws {
         let parts = [[position(-63, 44), position(-62, 45)], [position(-61, 46)]]
-        #expect(
+        let handles = try #require(
             VectorSelectionHandles(
                 feature: feature(.multiLineString(parts)), colorHex: "#d55e00"
-            ) == nil
+            )
         )
+        let dragged = handles.handles()
+        #expect(dragged.count == 3)
+        #expect(dragged.map(\.ring) == [0, 0, 1])
+        #expect(dragged.map(\.vertex) == [0, 1, 0])
+
+        let lastHandle = try #require(dragged.last)
+        let parsed = ParsedVector(
+            features: [feature(.multiLineString(parts))], bbox: nil
+        )
+        let edited = VectorEdit.moving(
+            featureID: lastHandle.featureID,
+            ring: lastHandle.ring,
+            vertex: lastHandle.vertex,
+            to: position(-60, 47),
+            in: parsed
+        )
+        guard case .multiLineString(let lines)? = edited.features.first?.geometry else {
+            Issue.record("Expected a multi-line.")
+            return
+        }
+        #expect(lines[0] == parts[0])
+        #expect(lines[1] == [position(-60, 47)])
     }
 
     /// Unlike the vertex handles: a shift applies to every part equally, so
@@ -266,6 +288,46 @@ struct VectorSelectionHandleTests {
         // The mean of the three vertices.
         #expect(abs(handle.centre.lng - (-61.666666666)) < 1e-6)
         #expect(abs(handle.centre.lat - 44.666666666) < 1e-6)
+    }
+
+    /// One pin per position on a traced coastline is a frozen map. The shape
+    /// stays selectable and carryable; only the corner handles stand down.
+    @Test func aShapeWithTooManyCornersOffersNoHandlesAndStillMovesWhole() throws {
+        let ring = (0...VectorSelectionHandles.maximumHandles).map {
+            position(-63 + Double($0) * 0.0001, 44)
+        }
+        let traced = feature(.lineString(ring))
+        #expect(ring.count > VectorSelectionHandles.maximumHandles)
+        #expect(VectorSelectionHandles.isReshapable(traced) == false)
+        #expect(VectorSelectionHandles(feature: traced, colorHex: "#d55e00") == nil)
+        #expect(VectorMoveHandle(feature: traced, colorHex: "#d55e00") != nil)
+
+        // Exactly the cap is still draggable: the refusal starts above it.
+        let atCap = feature(.lineString(Array(ring.dropLast())))
+        #expect(VectorSelectionHandles.isReshapable(atCap))
+    }
+
+    /// The cap counts handles, not stored positions. A closed ring's last
+    /// position repeats its first and the two share one handle, so counting
+    /// positions would refuse a thousand-corner polygon for having a thousand
+    /// and one.
+    @Test func aClosedRingIsMeasuredByItsCornersNotItsPositions() throws {
+        let corners = (0..<VectorSelectionHandles.maximumHandles).map {
+            position(-63 + Double($0) * 0.0001, 44 + Double($0 % 2) * 0.0001)
+        }
+        let closed = corners + [corners[0]]
+        #expect(closed.count == VectorSelectionHandles.maximumHandles + 1)
+
+        let atCap = feature(.polygon([closed]))
+        #expect(VectorSelectionHandles.isReshapable(atCap))
+        let handles = try #require(
+            VectorSelectionHandles(feature: atCap, colorHex: "#d55e00")
+        )
+        #expect(handles.handles().count == VectorSelectionHandles.maximumHandles)
+
+        // One corner more is one handle more, and that is over.
+        let overCap = corners + [position(-62, 45), corners[0]]
+        #expect(VectorSelectionHandles.isReshapable(feature(.polygon([overCap]))) == false)
     }
 
     @Test func aFeatureWithNoPlaceHasNothingToPickUp() {

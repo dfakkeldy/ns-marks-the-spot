@@ -33,9 +33,12 @@ struct MapShareAndEvidenceTests {
         context: ParcelEvidence<ParcelContext> = .ready(ParcelContext()),
         flood: ParcelEvidence<ParcelFloodHazard> = .ready(
             ParcelFloodHazard(river: .outsidePublishedExtents, coastal: [])
-        )
+        ),
+        boundaryNotice: String? = nil
     ) -> ParcelInspection {
-        var inspection = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
+        var inspection = ParcelInspection(
+            pid: pid, mappedArea: nil, boundaryNotice: boundaryNotice
+        )
         inspection.taxSaleNotice = notice
         inspection.historicalRecords = historical
         inspection.civicAddresses = civic
@@ -48,10 +51,31 @@ struct MapShareAndEvidenceTests {
         return inspection
     }
 
+    /// One civic point, decoded from a reply rather than constructed: the
+    /// address type's memberwise init belongs to the package.
+    private static let oneAddress: [CivicAddressResponse.CivicAddress] = {
+        let reply = Data("""
+        {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "properties": {
+                "pntid": "1", "civicnum": "12", "strname": "Main",
+                "strsuffix": "St", "comm": "Sydney"
+              },
+              "geometry": {"type": "Point", "coordinates": [-60.1, 46.1]}
+            }
+          ]
+        }
+        """.utf8)
+        return (try? CivicAddressResponse.page(from: reply).addresses) ?? []
+    }()
+
     private static func note(
         _ inspection: ParcelInspection,
         taxSaleEnabled: Bool = true,
-        mode: MapShareState.Mode = .current
+        mode: MapShareState.Mode = .current,
+        baseMap: MapBaseType = .standard
     ) -> EvidenceNote {
         EvidenceNote.build(
             ParcelEvidenceExport.input(
@@ -62,7 +86,7 @@ struct MapShareAndEvidenceTests {
                 shareURL: URL(string: "https://example.com/map/")!,
                 position: MapPosition(latitude: 46.1, longitude: -60.1, zoom: 15),
                 activeLayers: [],
-                baseMap: .standard,
+                baseMap: baseMap,
                 fletcherBaseURL: nil
             )
         )
@@ -145,10 +169,13 @@ struct MapShareAndEvidenceTests {
         #expect(model.baseMapType == .standard)
     }
 
-    /// Only when there is nothing under them. Satellite is ground the browser
-    /// has no word for, and a link that says nothing about the background is
-    /// not asking for it to change.
-    @Test func aLinkOverABackgroundThatDrawsLeavesItAlone() {
+    /// Including over a background that draws. Satellite is ground the shared
+    /// vocabulary has no word for, so the sender could not have asked for it
+    /// and the browser reads the same link as naming no base map at all.
+    /// Leaving this reader's imagery up would put the sender's parcels over a
+    /// different source than the sender was looking at, and a different one
+    /// again on the next phone that opened the link.
+    @Test func aLinkNamingNoGroundOpensOverTheModernMapEvenOverImagery() {
         let model = OverlayViewModel.forTesting(installing: [.nsprd])
         model.setBaseMapType(.satellite)
 
@@ -159,7 +186,7 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.baseMapType == .satellite)
+        #expect(model.baseMapType == .standard)
     }
 
     /// The browser checks the zoom because its aerial layer has nothing under
@@ -295,6 +322,55 @@ struct MapShareAndEvidenceTests {
 
         #expect(model.sharedLinkNotice?.contains("Not in this app yet") == true)
         #expect(model.isShowingLicenceSheet == false)
+    }
+
+    /// The base map is a source too. The browser's ground is OpenStreetMap and
+    /// this app has none, so a link opens over Apple's standard map — a
+    /// different survey with its own roads, paths and labels. Said out loud,
+    /// because otherwise two people comparing the same link are looking at two
+    /// different maps with nothing telling either of them.
+    @Test func aLinkSaysWhenItsGroundIsNotTheSendersGround() {
+        let model = OverlayViewModel.forTesting(installing: [], licence: .accepted)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=modern")!
+        )
+
+        #expect(model.baseMapType == .standard)
+        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") == true)
+    }
+
+    /// A link drawn on the Province's own imagery is drawn on it here as well,
+    /// so there is no substitution to disclose. Zoom 14 because the imagery is
+    /// the sender's ground only from the zoom it starts drawing at.
+    @Test func aLinkOnProvincialImageryHasNoGroundToDisclose() {
+        let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
+
+        model.restore(
+            from: URL(
+                string: "https://example.com/map/?mode=current&layers=ns-aerial"
+                    + "&position=46.1,-60.1,14"
+            )!
+        )
+
+        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") != true)
+    }
+
+    /// Below the zoom the imagery starts at, the sender had no imagery either:
+    /// the browser falls back to its modern map, so the substitution is real
+    /// and is disclosed. The layer being named is not the same as it being the
+    /// ground the sender was looking at.
+    @Test func aLinkTooFarOutForTheImageryDisclosesItsGround() {
+        let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
+
+        model.restore(
+            from: URL(
+                string: "https://example.com/map/?mode=current&layers=ns-aerial"
+                    + "&position=46.1,-60.1,9"
+            )!
+        )
+
+        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") == true)
     }
 
     /// The notice describes the view that arrived. The first switch the reader
@@ -446,6 +522,75 @@ struct MapShareAndEvidenceTests {
             )
         )
         #expect(!note.markdown.contains("Nothing is mapped inside this outline"))
+    }
+
+    /// The panel warns that part of the parcel could not be drawn and that
+    /// every lookup ran inside the part that could. The note is the copy that
+    /// leaves the app, and it has to carry the same warning.
+    @Test func theNoteSaysWhenPartOfTheParcelCouldNotBeDrawn() {
+        let note = Self.note(
+            Self.inspection(
+                boundaryNotice: "PID 15234636 came back as 2 pieces, and 1 of them "
+                    + "arrived without a mapped boundary. Everything below was looked up "
+                    + "inside the pieces that are drawn."
+            )
+        )
+
+        #expect(note.markdown.contains("came back as 2 pieces"))
+        #expect(note.markdown.contains("looked up inside the pieces that are drawn"))
+    }
+
+    /// A whole parcel drawn is a note with nothing to warn about, and a
+    /// sentence about undrawable pieces on a parcel that had none would be
+    /// noise in a document people carry to an office.
+    @Test func aWhollyDrawnParcelGetsNoBoundaryWarning() {
+        #expect(!Self.note(Self.inspection()).markdown.contains("pieces that are drawn"))
+    }
+
+    /// The file sent points here that this build could not place. Listing what
+    /// was placed and stopping there presents a floor as a count.
+    @Test func theNoteCountsAddressPointsItCouldNotPlace() {
+        let note = Self.note(
+            Self.inspection(
+                civic: .ready(
+                    CivicAddressResponse.Reading(
+                        addresses: Self.oneAddress, unreadableRows: 2
+                    )
+                )
+            )
+        )
+
+        #expect(Self.oneAddress.first?.label == "12 Main St, Sydney")
+        #expect(note.markdown.contains("12 Main St, Sydney"))
+        #expect(note.markdown.contains("2 more mapped points here could not be read"))
+    }
+
+    /// Every row unreadable is not an empty file. The note must not print the
+    /// sentence that says no address is mapped here.
+    @Test func addressRowsThatCouldNotBeReadAreNotAnEmptyParcel() {
+        let note = Self.note(
+            Self.inspection(
+                civic: .ready(CivicAddressResponse.Reading(addresses: [], unreadableRows: 3))
+            )
+        )
+
+        #expect(note.markdown.contains("3 mapped points here could not be read"))
+        #expect(!note.markdown.contains("No mapped civic address point returned inside the parcel."))
+    }
+
+    /// A map drawn with its background switched off has no tile provider
+    /// behind it, and Apple's licence under "no base map" would credit tiles
+    /// nobody fetched.
+    @Test func aNoteFromAMapWithNoBackgroundCreditsNoTileProvider() {
+        let note = Self.note(Self.inspection(), baseMap: .blank)
+
+        #expect(note.markdown.contains("- no base map — no background tiles were drawn"))
+        #expect(!note.markdown.contains("apple.com/legal"))
+    }
+
+    /// And a map that did draw Apple's tiles still says so.
+    @Test func aNoteFromAMapOverAppleTilesStillCreditsThem() {
+        #expect(Self.note(Self.inspection()).markdown.contains("apple.com/legal"))
     }
 
     @Test func theNoteIsHeldBackUntilEverySourceHasAnswered() {

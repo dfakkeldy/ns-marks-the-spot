@@ -14,6 +14,8 @@ struct TaxSaleNoticesView: View {
     /// parcel card it just opened are visible.
     let onSelectProperty: () -> Void
 
+    /// The clock the lifecycle labels are read off, kept current for as long
+    /// as the sheet is open. See `advancingClock`.
     @State private var now = Date()
 
     var body: some View {
@@ -71,7 +73,7 @@ struct TaxSaleNoticesView: View {
             .navigationTitle("Tax-sale notices")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .onAppear { now = Date() }
+        .advancingClock($now)
     }
 
     private var filterBinding: Binding<RedemptionFilter> {

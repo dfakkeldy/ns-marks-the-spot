@@ -60,6 +60,27 @@ struct VectorEditPanel: View {
                         session.tool == .drawing(tool.shape) ? .isSelected : []
                     )
                 }
+
+                // A mode rather than a confirmation per feature, as the
+                // browser's removal tool is. Clearing a session's worth of
+                // marks one alert at a time is what the mode exists to avoid;
+                // arming it deliberately, and being able to put every erase
+                // back while it is up, is the safety instead.
+                Button {
+                    if session.tool == .erasing {
+                        session.stopErasing()
+                    } else {
+                        session.startErasing()
+                    }
+                } label: {
+                    Label("Erase", systemImage: "eraser")
+                        .font(.caption)
+                        .frame(minWidth: 44, minHeight: 44)
+                }
+                .buttonStyle(.bordered)
+                .tint(session.tool == .erasing ? .red : .secondary)
+                .accessibilityLabel("Delete features")
+                .accessibilityAddTraits(session.tool == .erasing ? .isSelected : [])
             }
 
             if let draft = session.draft, draft.shape != .point {
@@ -81,6 +102,20 @@ struct VectorEditPanel: View {
                 Text("Tap the map to place a point.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            } else if session.tool == .erasing {
+                HStack {
+                    Text(
+                        session.erasedCount == 0
+                            ? "Tap a feature to delete it."
+                            : "\(session.erasedCount) deleted."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Undo") { session.undoLastErase() }
+                        .font(.caption)
+                        .disabled(session.erasedCount == 0)
+                }
             }
 
             // Committed as it is typed, not on Return. The description field is
@@ -109,13 +144,25 @@ struct VectorEditPanel: View {
                     Text("Drag the arrows in the middle to move the whole feature.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    if !VectorSelectionHandles.isReshapable(feature) {
+                        // Said out loud, because a selected shape that grew no
+                        // corner handles otherwise reads as the app failing to
+                        // notice the tap.
+                        Text(
+                            "This shape has too many corners to drag on a phone. "
+                                + "It can still be moved, named or deleted."
+                        )
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    }
                     Button("Delete this feature", role: .destructive) {
                         isConfirmingDelete = true
                     }
                     .font(.caption)
                 }
                 .id(feature.id)
-            } else {
+            } else if session.tool != .erasing {
                 Text("Tap a feature to name it, or pick a tool to draw one.")
                     .font(.caption)
                     .foregroundStyle(.secondary)

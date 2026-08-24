@@ -35,9 +35,27 @@ struct MapContainerView: View {
     /// the screen actually has rather than at a number chosen for a shorter
     /// list. Ten sections do not fit any fixed height worth hard-coding.
     @State private var mapHeight: CGFloat = 0
+    /// How tall the right-hand controls are, so the column can be given
+    /// exactly that height and no more. Zero until the first layout.
+    @State private var controlsHeight: CGFloat = 0
+
+    /// How much of the rail the area-selection controls are holding, so the
+    /// scrolling part below them gives up the same amount.
+    @State private var saveAreaHeight: CGFloat = 0
+
+    /// The same, and zero when they are not on screen.
+    private var shownSaveAreaHeight: CGFloat {
+        isSelectingSaveArea ? saveAreaHeight : 0
+    }
     /// How tall the measuring card is, so the scale bar and the readout
     /// can sit above it rather than behind it.
     @State private var measurePanelHeight: CGFloat = 0
+    /// The measured heights of the two pieces of chrome in the bottom-left
+    /// corner, each including its own padding. The scale bar sits on top of
+    /// the source strip, and every card along the bottom is inset above the
+    /// strip, so both numbers are read off the screen rather than assumed.
+    @State private var attributionHeight: CGFloat = 0
+    @State private var scaleStackHeight: CGFloat = 0
     @State private var mapHeading: Double = 0
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
@@ -54,6 +72,20 @@ struct MapContainerView: View {
     /// measured.
     @State private var screenScale: String?
     @State private var isSelectingSaveArea = false
+    /// Whether the open parcel's sources have had the time they are given to
+    /// answer.
+    ///
+    /// The browser waits fifteen seconds for the evidence behind a research
+    /// report and then writes it with whatever arrived. Without the same limit
+    /// here, one source that hangs rather than fails leaves the reader unable
+    /// to take a dated receipt at all, and nothing on screen tells them the
+    /// wait will not end.
+    ///
+    /// Kept beside the map rather than inside the export sheet because the
+    /// clock is about the parcel. The sources have been answering since it was
+    /// tapped, and a reader who spent a minute framing a page has already
+    /// given them that minute.
+    @State private var sourcesHaveHadTheirTime = false
     /// What the system share sheet is currently holding, prepared at the moment
     /// of the tap so an evidence note carries the time it was actually made.
     @State private var share: SharePayload?
@@ -64,6 +96,9 @@ struct MapContainerView: View {
     /// zooms under it, which is how a page is aimed at ground that was not on
     /// screen when they reached for the printer.
     @State private var printFrame: PrintFrameGeometry.FrameState?
+    /// Whether the reader has asked the system for less movement. Read once
+    /// here and passed to every animation this view starts.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     init(
         controller: MapController,
@@ -121,7 +156,8 @@ struct MapContainerView: View {
                         overlayVM: overlayVM,
                         framing: framing,
                         omitted: unprintableLayerNames,
-                        featureStatuses: featureVM.statuses
+                        featureStatuses: featureVM.statuses,
+                        sourcesHaveHadTheirTime: sourcesHaveHadTheirTime
                     ) { url in
                         // The finished page goes straight to the share sheet, and
                         // the export sheet stays up: it is holding the account of
@@ -145,6 +181,19 @@ struct MapContainerView: View {
             } message: { reason in
                 Text(reason)
             }
+            // The clock on the open parcel's sources, restarted every time that
+            // evidence starts over so a finished wait is never carried onto a
+            // set of requests that have just gone out. Keyed on the generation
+            // rather than the PID because the same PID's evidence restarts:
+            // toggling tax sales rebuilds it, and so does tapping the parcel
+            // that is already open.
+            .task(id: overlayVM.evidenceGeneration) {
+                sourcesHaveHadTheirTime = false
+                guard overlayVM.inspection != nil else { return }
+                try? await Task.sleep(for: Self.evidenceWait)
+                guard !Task.isCancelled else { return }
+                sourcesHaveHadTheirTime = true
+            }
             // A shared link opened from elsewhere. Nothing registers a scheme or an
             // associated domain yet, so this fires only once one is configured —
             // wired now so the restore path is the same one the tests exercise.
@@ -166,7 +215,7 @@ struct MapContainerView: View {
             VStack {
                 HStack(alignment: .top, spacing: 12) {
                     if !isSelectingSaveArea {
-                        ParcelSearchBar(viewModel: overlayVM)
+                        ParcelSearchBar(viewModel: overlayVM, availableHeight: mapHeight)
                             .frame(maxWidth: 260, alignment: .leading)
                             .padding(.leading, 12)
                             .padding(.top, 60)
@@ -203,237 +252,9 @@ struct MapContainerView: View {
                             .padding(.top, 60)
                     }
 
-                    VStack(spacing: 12) {
-                        if isSelectingSaveArea {
-                            VStack(alignment: .trailing, spacing: 8) {
-                                Text("Drag to select an area")
-                                    .font(.subheadline)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .background(.regularMaterial)
-                                    .clipShape(.rect(cornerRadius: 16))
-
-                                Button("Use Visible Map") {
-                                    saveVisibleMapArea()
-                                }
-                                .buttonStyle(.borderedProminent)
-
-                                // On a material of its own. A bordered
-                                // button's fill is translucent, and red text
-                                // in a faint red capsule over aerial or a
-                                // marker's label is the one control in this
-                                // mode a reader cannot find — which is the way
-                                // out of it.
-                                Button("Cancel") {
-                                    cancelBoundsSelection()
-                                }
-                                .buttonStyle(.bordered)
-                                .tint(.red)
-                                .background(.regularMaterial, in: Capsule())
-                            }
-                            .transition(.move(edge: .trailing).combined(with: .opacity))
-                        }
-
-                        if mapHeading != 0 {
-                            Button {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    controller.resetHeading()
-                                }
-                            } label: {
-                                Image(systemName: "compass.fill")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                                    .rotationEffect(.degrees(-mapHeading))
-                            }
-                            .accessibilityLabel("Reset Map Heading")
-                            .transition(.scale.combined(with: .opacity))
-                            .disabled(isSelectingSaveArea)
-                        }
-
-                        Button {
-                            controller.showsUserLocation = true
-                            controller.centerOnUserLocation()
-                        } label: {
-                            Image(systemName: "location.fill")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Current Location")
-                        .disabled(isSelectingSaveArea)
-
-                        // Two buttons rather than one with a mode, as on the
-                        // web: distance and area are different questions, and a
-                        // single toggle would make asking the second one a
-                        // two-step operation.
-                        ForEach(MeasureSession.Mode.allCases, id: \.self) { mode in
-                            Button {
-                                toggleMeasuring(mode)
-                            } label: {
-                                Image(systemName: Self.measureSymbol(mode))
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(measure?.mode == mode ? .white : .blue)
-                                    .frame(width: 44, height: 44)
-                                    .background(
-                                        measure?.mode == mode
-                                            ? Color.blue : Color.primary.opacity(0.001)
-                                    )
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            }
-                            .accessibilityLabel(
-                                mode == .distance ? "Measure Distance" : "Measure Area"
-                            )
-                            .accessibilityIdentifier("measure-\(mode.rawValue)")
-                            .accessibilityAddTraits(measure?.mode == mode ? .isSelected : [])
-                            // Editing owns the map's taps while it is open, so
-                            // offering to measure would offer something that
-                            // cannot happen.
-                            .disabled(isSelectingSaveArea || editSession != nil)
-                        }
-
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .offlineStorage
-                        } label: {
-                            Image(systemName: "externaldrive")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Offline Maps")
-
-                        // One list at a time, as the web renders one panel at a
-                        // time. Both on screen at once would let a reader pick a
-                        // dated result out of one list while the map beside it is
-                        // answering the other question. Neither, until the reader
-                        // has asked for tax-sale information at all.
-                        if !overlayVM.showsTaxSale {
-                            EmptyView()
-                        } else if overlayVM.mapRecordMode == .current {
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .taxSaleNotices
-                        } label: {
-                            Image(systemName: "banknote")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Tax-sale Notices")
-                        .disabled(isSelectingSaveArea)
-                        } else {
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .historicalTaxSales
-                        } label: {
-                            Image(systemName: "clock.arrow.circlepath")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.purple)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Historical Tax-sale Records")
-                        .disabled(isSelectingSaveArea)
-                        }
-
-                        Button {
-                            share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
-                        } label: {
-                            Image(systemName: "square.and.arrow.up")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Share This Map View")
-                        .accessibilityIdentifier("share-map-view")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            cancelBoundsSelection()
-                            controller.beginPrintFraming()
-                            printFrame = .default
-                        } label: {
-                            Image(systemName: "printer")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Export This Map As A PDF")
-                        .accessibilityIdentifier("export-map-pdf")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            cancelBoundsSelection()
-                            navigationModel.activeSheet = .info
-                        } label: {
-                            Image(systemName: "info.circle")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(.blue)
-                                .frame(width: 44, height: 44)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Data Sources and Licenses")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            beginSaveAreaSelection()
-                        } label: {
-                            Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(isSelectingSaveArea ? .white : .blue)
-                                .frame(width: 44, height: 44)
-                                .background(isSelectingSaveArea ? Color.blue : Color.clear)
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Save Area")
-                        .disabled(isSelectingSaveArea)
-
-                        Button {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                                isLayersMenuExpanded.toggle()
-                            }
-                        } label: {
-                            Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
-                                .frame(width: 44, height: 44)
-                                .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
-                                .background(.regularMaterial)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                        }
-                        .accessibilityLabel("Toggle Layers Menu")
-                        .disabled(isSelectingSaveArea)
-                    }
-                    .padding(.trailing, 12)
-                    .padding(.top, 60)
+                    controlColumn
+                        .padding(.trailing, 12)
+                        .padding(.top, 60)
                 }
                 Spacer()
             }
@@ -475,7 +296,8 @@ struct MapContainerView: View {
                         ParcelInspectorView(
                             inspection: inspection,
                             onClose: { overlayVM.clearParcelSelection() },
-                            canExportNote: overlayVM.canExportEvidenceNote,
+                            canExportNote: overlayVM.canExportEvidenceNote
+                                || sourcesHaveHadTheirTime,
                             onShareMapLink: {
                                 share = SharePayload(
                                     url: overlayVM.shareURL ?? OverlayViewModel.webMapURL
@@ -490,7 +312,7 @@ struct MapContainerView: View {
                         // taps.
                         .frame(maxHeight: min(360, proxy.size.height * 0.45))
                         .padding(.horizontal, 12)
-                        .padding(.bottom, 12)
+                        .padding(.bottom, 12 + attributionHeight)
                     }
                 }
                 .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -513,7 +335,7 @@ struct MapContainerView: View {
                 }
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -533,41 +355,66 @@ struct MapContainerView: View {
         .overlay(alignment: .bottomLeading) {
             if overlayVM.inspection == nil, editSession == nil,
                vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea,
-               printFrame == nil
+               printFrame == nil, let mapPosition
             {
                 VStack(alignment: .leading, spacing: 6) {
-                    if let mapPosition {
-                        // Hidden from VoiceOver on purpose. A bar is measured
-                        // off the screen, which is not something it can be
-                        // read out; the readout under it says the same scale
-                        // in words and carries the caveat that goes with it.
-                        MapScaleBar(controller: controller)
-                            .accessibilityHidden(true)
+                    // Hidden from VoiceOver on purpose. A bar is measured off
+                    // the screen, which is not something it can be read out;
+                    // the readout under it says the same scale in words and
+                    // carries the caveat that goes with it.
+                    MapScaleBar(controller: controller)
+                        .accessibilityHidden(true)
 
-                        MapPositionReadout(position: mapPosition, screenScale: screenScale)
-                    }
-
-                    // Under the readout rather than beside it, and not gated
-                    // on a position: a reader who has turned a provincial or
-                    // Rumsey layer on should meet its provenance where they
-                    // are reading it, not only in a sheet listing every layer
-                    // the app could show.
-                    MapAttributionStrip(
-                        descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor)
-                    ) {
-                        navigationModel.activeSheet = .info
-                    }
+                    MapPositionReadout(position: mapPosition, screenScale: screenScale)
                 }
                 .padding(.leading, 12)
-                .padding(.bottom, 12 + measureLift)
-                // Measured rather than guessed: the stack's height changes
-                // with the source strip, and MapKit's own logo and Legal link
-                // have to stay above it. Measured after the padding, so the
-                // lift over the measuring card is already in the number.
+                // Above the source strip, or above the measuring card when
+                // there is one — whichever reaches higher. The card's measured
+                // height already includes the strip it was inset above, so the
+                // two are compared rather than added.
+                .padding(.bottom, 12 + max(attributionHeight, measureLift))
+                // Measured rather than guessed: MapKit's own logo and Legal
+                // link have to stay clear of whatever is in this corner.
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
-                    controller.setBottomOrnamentInset($0)
+                    scaleStackHeight = $0
+                    controller.setBottomOrnamentInset(max($0, attributionHeight))
                 }
-                .onDisappear { controller.setBottomOrnamentInset(0) }
+                .onDisappear {
+                    scaleStackHeight = 0
+                    controller.setBottomOrnamentInset(attributionHeight)
+                }
+            }
+        }
+        // The source strip stays up while a card is open, and the cards are
+        // inset above it. That is what the browser does on a phone, where the
+        // parcel panel stops short of the bottom edge rather than covering the
+        // attribution.
+        //
+        // A card is open at exactly the moment provenance matters most: the
+        // reader is deciding what a drawn layer means. Taking the credits away
+        // then leaves them reading an overlay with nothing on screen saying
+        // whose it is.
+        //
+        // Not while a page is being framed. That is this app's print mode, the
+        // framing toolbar owns the bottom of the screen, and the exported page
+        // carries its own attribution block.
+        .overlay(alignment: .bottomLeading) {
+            if printFrame == nil {
+                MapAttributionStrip(
+                    descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor)
+                ) {
+                    navigationModel.activeSheet = .info
+                }
+                .padding(.leading, 12)
+                .padding(.bottom, 12)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                    attributionHeight = $0
+                    controller.setBottomOrnamentInset(max($0, scaleStackHeight))
+                }
+                .onDisappear {
+                    attributionHeight = 0
+                    controller.setBottomOrnamentInset(scaleStackHeight)
+                }
             }
         }
         .overlay(alignment: .bottom) {
@@ -581,7 +428,7 @@ struct MapContainerView: View {
                 )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
                     measurePanelHeight = $0
@@ -599,7 +446,7 @@ struct MapContainerView: View {
                 }
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -655,10 +502,301 @@ struct MapContainerView: View {
                 )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
-                .padding(.bottom, 12)
+                .padding(.bottom, 12 + attributionHeight)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+    }
+
+    /// The way out of area selection, and the shortcut through it.
+    ///
+    /// Held outside the scrolling column below rather than inserted at the top
+    /// of it. A column that was scrolled down when this mode began would put
+    /// Cancel above its own visible top, and the only way out of the mode
+    /// would be off the screen.
+    private var saveAreaControls: some View {
+        VStack(alignment: .trailing, spacing: 8) {
+            Text("Drag to select an area")
+                .font(.subheadline)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(.regularMaterial)
+                .clipShape(.rect(cornerRadius: 16))
+
+            Button("Use Visible Map") {
+                saveVisibleMapArea()
+            }
+            .buttonStyle(.borderedProminent)
+
+            // On a material of its own. A bordered button's fill is
+            // translucent, and red text in a faint red capsule over aerial or
+            // a marker's label is the one control in this mode a reader
+            // cannot find — which is the way out of it.
+            Button("Cancel") {
+                cancelBoundsSelection()
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .background(.regularMaterial, in: Capsule())
+        }
+        .transition(.move(edge: .trailing).combined(with: .opacity))
+        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+            saveAreaHeight = height
+        }
+    }
+
+    /// The right-hand rail.
+    private var controlColumn: some View {
+        VStack(alignment: .trailing, spacing: 12) {
+            if isSelectingSaveArea {
+                saveAreaControls
+            }
+            scrollingControls
+                // Every control below is disabled in this mode, and a scroll
+                // view over them still takes the drag that is meant to be
+                // drawing the area out on the map. Taken out of the gesture
+                // path rather than left as a wall of dimmed buttons that eats
+                // the one gesture the mode is for.
+                .allowsHitTesting(!isSelectingSaveArea)
+        }
+    }
+
+    /// The rest of the rail, scrolled when it runs past the bottom.
+    ///
+    /// Eleven 44-point targets and the space between them are taller than a
+    /// phone held sideways, and the ones that fall off the end are Data
+    /// Sources, Save Area and Layers: the route to every licence gate, every
+    /// layer that failed, and the panel itself. The browser scrolls its own
+    /// rail for the same reason.
+    ///
+    /// Sized to its content rather than to the height it is offered. A
+    /// scroll view that took the whole side of the screen would take the
+    /// map's vertical drags with it, in a strip where there is usually
+    /// nothing to scroll.
+    private var scrollingControls: some View {
+        ScrollView(.vertical) {
+            VStack(spacing: 12) {
+                if mapHeading != 0 {
+                    Button {
+                        withAnimation(
+                            .spring(response: 0.4, dampingFraction: 0.8)
+                                .unlessReduced(reduceMotion)
+                        ) {
+                            controller.resetHeading()
+                        }
+                    } label: {
+                        Image(systemName: "compass.fill")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(.blue)
+                            .frame(width: 44, height: 44)
+                            .background(.regularMaterial)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                            .rotationEffect(.degrees(-mapHeading))
+                    }
+                    .accessibilityLabel("Reset Map Heading")
+                    .transition(.scale.combined(with: .opacity))
+                    .disabled(isSelectingSaveArea)
+                }
+
+                Button {
+                    controller.showsUserLocation = true
+                    controller.centerOnUserLocation()
+                } label: {
+                    Image(systemName: "location.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Current Location")
+                .disabled(isSelectingSaveArea)
+
+                // Two buttons rather than one with a mode, as on the
+                // web: distance and area are different questions, and a
+                // single toggle would make asking the second one a
+                // two-step operation.
+                ForEach(MeasureSession.Mode.allCases, id: \.self) { mode in
+                    Button {
+                        toggleMeasuring(mode)
+                    } label: {
+                        Image(systemName: Self.measureSymbol(mode))
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(measure?.mode == mode ? .white : .blue)
+                            .frame(width: 44, height: 44)
+                            .background(
+                                measure?.mode == mode
+                                    ? Color.blue : Color.primary.opacity(0.001)
+                            )
+                            .background(.regularMaterial)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    }
+                    .accessibilityLabel(
+                        mode == .distance ? "Measure Distance" : "Measure Area"
+                    )
+                    .accessibilityIdentifier("measure-\(mode.rawValue)")
+                    .accessibilityAddTraits(measure?.mode == mode ? .isSelected : [])
+                    // Editing owns the map's taps while it is open, so
+                    // offering to measure would offer something that
+                    // cannot happen.
+                    .disabled(isSelectingSaveArea || editSession != nil)
+                }
+
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .offlineStorage
+                } label: {
+                    Image(systemName: "externaldrive")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Offline Maps")
+
+                // One list at a time, as the web renders one panel at a
+                // time. Both on screen at once would let a reader pick a
+                // dated result out of one list while the map beside it is
+                // answering the other question. Neither, until the reader
+                // has asked for tax-sale information at all.
+                if !overlayVM.showsTaxSale {
+                    EmptyView()
+                } else if overlayVM.mapRecordMode == .current {
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .taxSaleNotices
+                } label: {
+                    Image(systemName: "banknote")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Tax-sale Notices")
+                .disabled(isSelectingSaveArea)
+                } else {
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .historicalTaxSales
+                } label: {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.purple)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Historical Tax-sale Records")
+                .disabled(isSelectingSaveArea)
+                }
+
+                Button {
+                    share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Share This Map View")
+                .accessibilityIdentifier("share-map-view")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    cancelBoundsSelection()
+                    controller.beginPrintFraming()
+                    printFrame = .default
+                } label: {
+                    Image(systemName: "printer")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Export This Map As A PDF")
+                .accessibilityIdentifier("export-map-pdf")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    cancelBoundsSelection()
+                    navigationModel.activeSheet = .info
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.blue)
+                        .frame(width: 44, height: 44)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Data Sources and Licenses")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    beginSaveAreaSelection()
+                } label: {
+                    Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(isSelectingSaveArea ? .white : .blue)
+                        .frame(width: 44, height: 44)
+                        .background(isSelectingSaveArea ? Color.blue : Color.clear)
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Save Area")
+                .disabled(isSelectingSaveArea)
+
+                Button {
+                    withAnimation(
+                        .spring(response: 0.35, dampingFraction: 0.85)
+                            .unlessReduced(reduceMotion)
+                    ) {
+                        isLayersMenuExpanded.toggle()
+                    }
+                } label: {
+                    Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
+                        .frame(width: 44, height: 44)
+                        .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
+                        .background(.regularMaterial)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .accessibilityLabel("Toggle Layers Menu")
+                .disabled(isSelectingSaveArea)
+            }
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                controlsHeight = height
+            }
+        }
+        // The indicator is left visible. It appears only while the column is
+        // actually scrolling, and that is the one moment a reader needs to be
+        // told there is more of it below the fold.
+        .scrollBounceBehavior(.basedOnSize)
+        // Named so that a test can swipe this rail rather than the first
+        // scroll view it finds, which on this screen can be the search card.
+        .accessibilityIdentifier("map-control-rail")
+        // The area controls' height counts only while they are up. It is
+        // measured when they appear and never unmeasured, so subtracting it
+        // unconditionally would leave the rail short for the rest of the
+        // session over controls that are no longer there.
+        .frame(height: controlsHeight > 0
+            ? min(controlsHeight, max(88, mapHeight - 132 - shownSaveAreaHeight)) : nil)
     }
 
     /// The ground the frame covers as the map stands right now.
@@ -691,7 +829,10 @@ struct MapContainerView: View {
     /// What the container does as it appears, changes and goes away.
     private func lifecycle(_ content: some View) -> some View {
         content
-            .animation(.spring(response: 0.35, dampingFraction: 0.9), value: overlayVM.inspection)
+            .animation(
+                .spring(response: 0.35, dampingFraction: 0.9).unlessReduced(reduceMotion),
+                value: overlayVM.inspection
+            )
             .onAppear {
                 controller.events = { event in
                     switch event {
@@ -920,13 +1061,26 @@ struct MapContainerView: View {
     }
 
 
+    /// How long the sources are given before a report may be written without
+    /// them. The browser's fifteen seconds, so the same hung source produces
+    /// the same document on either surface.
+    ///
+    /// Wall-clock, and deliberately: the browser's own timer runs while its tab
+    /// is in the background, and a request that was in flight when this app
+    /// went away is usually finished by the time it comes back. Counting only
+    /// foreground seconds would mean a reader who checks their messages mid-wait
+    /// restarts it, and one who does it twice never gets a page at all.
+    private static let evidenceWait = Duration.seconds(15)
+
     /// Writes the note and hands it to the share sheet.
     ///
     /// Stamped here, at the tap, rather than when the button was drawn: the
     /// note carries a generation time and a reader has no way to tell a stale
     /// stamp from a fresh one.
     private func exportEvidenceNote() {
-        guard let note = overlayVM.evidenceNote() else {
+        guard let note = overlayVM.evidenceNote(
+            includingSourcesStillOut: sourcesHaveHadTheirTime
+        ) else {
             exportFailure = "Not every source has answered yet."
             return
         }
@@ -999,7 +1153,9 @@ struct MapContainerView: View {
     /// user meant to walk.
     private func toggleMeasuring(_ mode: MeasureSession.Mode) {
         cancelBoundsSelection()
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+        withAnimation(
+            .spring(response: 0.35, dampingFraction: 0.85).unlessReduced(reduceMotion)
+        ) {
             if measure?.mode == mode {
                 stopMeasuring()
                 return
@@ -1113,14 +1269,18 @@ struct MapContainerView: View {
             return
         }
         guard let parsed = session.parsed else { return }
-        let tolerance = fingerTolerance
-        session.select(
-            featureID: VectorEdit.feature(
-                at: GeoJsonPosition(lng: longitude, lat: latitude),
-                in: parsed,
-                toleranceDegrees: tolerance
-            )?.id
+        let hit = VectorEdit.feature(
+            at: GeoJsonPosition(lng: longitude, lat: latitude),
+            in: parsed,
+            toleranceDegrees: fingerTolerance
         )
+        if session.tool == .erasing {
+            // A tap on open ground erases nothing. Nearest-feature would put
+            // the eraser on shapes the finger never covered.
+            if let id = hit?.id { session.erase(featureID: id) }
+            return
+        }
+        session.select(featureID: hit?.id)
     }
 
     private func saveVisibleMapArea() {

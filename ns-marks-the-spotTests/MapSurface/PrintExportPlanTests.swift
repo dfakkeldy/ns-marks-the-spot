@@ -373,4 +373,24 @@ struct PrintExportFilenameTests {
         #expect(PrintExport.filename(for: "///") == "NS Marks map")
         #expect(PrintExport.filename(for: "") == "NS Marks map")
     }
+
+    /// The browser dates the file it downloads. Two research summaries for one
+    /// parcel, made a fortnight apart, are two documents about two different
+    /// days' evidence, and whoever they are sent to has only the name to tell
+    /// them apart.
+    ///
+    /// UTC, because the browser slices its ISO string, and a file named for a
+    /// local day while the page inside says a UTC one is a disagreement nobody
+    /// can resolve from the document.
+    @Test func theFileCarriesTheDayThePageWasMade() {
+        // 2026-08-23T23:30:00Z, which is already the 24th in Sydney and still
+        // the 23rd in Halifax. The name follows the page.
+        let generated = Date(timeIntervalSince1970: 1_787_527_800)
+        #expect(
+            PrintExport.filename(for: "Parcel research summary — PID 12345678", on: generated)
+                == "Parcel research summary — PID 12345678 2026-08-23"
+        )
+        // The rules the undated name is under still apply to the title half.
+        #expect(PrintExport.filename(for: "///", on: generated) == "NS Marks map 2026-08-23")
+    }
 }

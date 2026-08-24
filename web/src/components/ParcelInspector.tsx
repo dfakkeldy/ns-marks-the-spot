@@ -10,6 +10,10 @@ import {
 } from "../data/historicalTaxSales";
 import { resourceLayerCatalog } from "../layers/layerCatalog";
 import {
+  PROVINCE_ATTRIBUTION,
+  PROVINCE_LICENSE_URL,
+} from "../licensing/provinceLicense";
+import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
@@ -408,9 +412,10 @@ export function ParcelInspector({
         <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
           Nova Scotia Topographic Database — Buildings
         </a>
-        . {OPEN_GOVERNMENT_ATTRIBUTION}{" "}
-        <a href={OPEN_GOVERNMENT_LICENCE_URL} target="_blank" rel="noreferrer">
-          Open Government Licence – Nova Scotia
+        , counted through the Province&apos;s NSTDB buildings map service.{" "}
+        {PROVINCE_ATTRIBUTION}{" "}
+        <a href={PROVINCE_LICENSE_URL} target="_blank" rel="noreferrer">
+          Read the Province licence
         </a>
         .
       </p>

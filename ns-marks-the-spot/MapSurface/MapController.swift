@@ -35,9 +35,27 @@ enum MapEvent {
 final class MapController: NSObject {
     private(set) var state = MapViewState()
     @ObservationIgnored var events: ((MapEvent) -> Void)?
+    /// Whether the closest-zoom limit has been set. Set once, from the first
+    /// laid-out frame, and never again: recalibrating would move the limit
+    /// every time the reader rotated the phone.
+    /// The map's width when the closest-zoom limit was last worked out, or
+    /// nil if it has not been. Keyed by width rather than a flag, because the
+    /// distance that means "zoom 23" depends on how wide the map is: on an
+    /// iPad that is split and then made whole again the old figure would be
+    /// off by the ratio of the two widths.
+    @ObservationIgnored private var clampedAtWidth: CGFloat?
 
     @ObservationIgnored private let tileCache: TileCache?
     @ObservationIgnored private let tileFetcher: TileFetcher?
+    /// Where a saved offline area keeps its tiles.
+    ///
+    /// Separate from the cache, and read for a different reason: the cache is
+    /// whatever the user happened to pan over and is swept when it grows, while
+    /// this is what they asked the app to keep. The overlay asks it before the
+    /// network, which is what makes a saved area mean anything once the phone
+    /// is off the network.
+    @ObservationIgnored private let tileStore: TileStore?
+    @ObservationIgnored private let fletcherMigration: Task<Void, Never>?
     @ObservationIgnored private let clearanceBox: LicenceClearanceBox
     @ObservationIgnored private let locationManager = CLLocationManager()
     private(set) var isWaitingToCenterOnUserLocation = false
@@ -76,10 +94,14 @@ final class MapController: NSObject {
     init(
         tileCache: TileCache? = nil,
         tileFetcher: TileFetcher? = nil,
+        tileStore: TileStore? = nil,
+        fletcherMigration: Task<Void, Never>? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
     ) {
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
+        self.tileStore = tileStore
+        self.fletcherMigration = fletcherMigration
         self.clearanceBox = clearanceBox
         super.init()
         locationManager.delegate = self
@@ -101,6 +123,12 @@ final class MapController: NSObject {
         didSet {
             syncStateToAttachedMapView()
             mapView?.layoutMargins.bottom = bottomOrnamentInset
+            // The closest-zoom limit was installed on the map view that was
+            // measured for it, and a replacement carries none. Forgetting the
+            // measurement is what makes the next region change take it again;
+            // keeping it would leave a fresh map able to zoom past the floor
+            // for as long as the app runs.
+            clampedAtWidth = nil
         }
     }
 
@@ -147,6 +175,8 @@ final class MapController: NSObject {
                 configuration: layer.configuration,
                 tileCache: tileCache,
                 tileFetcher: tileFetcher,
+                tileStore: tileStore,
+                fletcherMigration: fletcherMigration,
                 clearanceBox: clearanceBox,
                 progress: progress
             )
@@ -920,6 +950,8 @@ extension MapController: MKMapViewDelegate {
         mapHeading = heading
         events?(.headingChanged(heading))
 
+        clampClosestZoom(mapView)
+
         if let zoom = Self.tileZoomLevel(of: mapView) {
             recordZoomLevel(zoom)
         }
@@ -970,12 +1002,61 @@ extension MapController: MKMapViewDelegate {
     /// zero width would otherwise compute a zoom of negative infinity and the
     /// panel would tell the user to zoom in on a map that has not been drawn.
     static func tileZoomLevel(of mapView: MKMapView) -> Int? {
+        guard let zoom = mercatorZoom(of: mapView) else { return nil }
+        return Int(zoom.rounded())
+    }
+
+    /// The same reading, unrounded. Used where the fraction matters, which is
+    /// the arithmetic that turns a zoom into a camera distance.
+    static func mercatorZoom(of mapView: MKMapView) -> Double? {
         let width = Double(mapView.bounds.width)
         let longitudeSpan = mapView.region.span.longitudeDelta
         guard width > 0, longitudeSpan > 0 else { return nil }
         let zoom = log2(360 * (width / 256) / longitudeSpan)
         guard zoom.isFinite else { return nil }
-        return Int(zoom.rounded())
+        return zoom
+    }
+
+    /// The closest the browser lets a reader get, and the closest this map
+    /// does. Past it the tiles are being stretched rather than read.
+    private static let closestZoom = 23.0
+
+    /// Stops the map being pinched in past the point where anything drawn on
+    /// it means anything, once — from the map's own size, because MapKit is
+    /// asked for a camera distance and the browser states a zoom level.
+    ///
+    /// The far end is deliberately not ported. The browser floors zoom at 7,
+    /// which fills a desktop window with the province and a little ocean; the
+    /// same number on a phone's narrower screen shows about four degrees of
+    /// longitude, so porting it would stop the reader zooming out before Nova
+    /// Scotia fits on the screen at all.
+    private func clampClosestZoom(_ mapView: MKMapView) {
+        let width = mapView.bounds.width
+        guard width > 0, clampedAtWidth != width,
+              let zoom = mercatorZoomForClamp(mapView) else { return }
+        let distance = mapView.camera.centerCoordinateDistance
+        guard distance > 0, distance.isFinite else { return }
+        // A camera's distance halves with every zoom level, so one reading of
+        // the pair fixes the scale for this screen. Read rather than derived
+        // from a field of view, which is MapKit's to change.
+        let atZoomZero = distance * pow(2, zoom)
+        clampedAtWidth = width
+        guard atZoomZero.isFinite,
+              let range = MKMapView.CameraZoomRange(
+                  minCenterCoordinateDistance: atZoomZero / pow(2, Self.closestZoom)
+              )
+        else { return }
+        mapView.cameraZoomRange = range
+    }
+
+    private func mercatorZoomForClamp(_ mapView: MKMapView) -> Double? {
+        // Only while the camera is looking straight down at north. A pitched
+        // or turned view reports the region that bounds what is on screen,
+        // which is wider than the same distance looks square-on, and
+        // calibrating off one would put the limit a level out.
+        let camera = mapView.camera
+        guard camera.pitch == 0, camera.heading == 0 else { return nil }
+        return Self.mercatorZoom(of: mapView)
     }
 
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {

@@ -185,6 +185,36 @@ struct UserMapsLibraryTests {
         }
     }
 
+    /// The browser's promise, and now this app's: a save failure never
+    /// discards a map that was read. Taking the row away instead sends the
+    /// reader off to find and re-export a file that was never the problem,
+    /// when what they need is to clear some space before they close the app.
+    @Test("A map the device will not keep is still on the map")
+    func aRefusedLibraryWriteKeepsTheImportedMap() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+
+            // A library document that cannot be written, in a directory that
+            // can: a directory standing where the file goes. Making the whole
+            // directory read-only would stop the preview first, which is a
+            // different failure with a different answer — no pixels, so no row
+            // to keep.
+            try FileManager.default.createDirectory(
+                at: directory.appendingPathComponent("library.json"),
+                withIntermediateDirectories: true
+            )
+            await viewModel.importMap(data: try image(), name: "Scan")
+
+            #expect(viewModel.rows.count == 1)
+            #expect(viewModel.rows.first?.preview != nil)
+            let notice = try #require(viewModel.notices.first)
+            // Not a refusal. The map is on the map.
+            #expect(notice.isRefusal == false)
+            #expect(notice.message.contains("until you close the app"))
+        }
+    }
+
     @Test("Placement the device will not keep is undone rather than shown")
     func aRejectedSaveIsRolledBack() async throws {
         try await withLibraryDirectory { directory in
@@ -275,10 +305,10 @@ struct UserMapsLibraryTests {
             // of four. If a later runtime schedules these two differently the
             // test stops proving what it says, and the way that shows is this
             // comment no longer matching a rerun of that comparison.
-            async let first: Void = viewModel.place(
+            async let first: Bool = viewModel.place(
                 id: id, controlPoints: points(44.80), method: .affine
             )
-            async let second: Void = viewModel.place(
+            async let second: Bool = viewModel.place(
                 id: id, controlPoints: points(44.90), method: .affine
             )
             _ = await (first, second)
@@ -379,6 +409,74 @@ struct DamagedLibraryTests {
             #expect(viewModel.rows.count == 1)
             let written = try #require(libraryBytes(in: directory))
             #expect(String(decoding: written, as: UTF8.self).contains("Fresh start"))
+        }
+    }
+
+    /// Recovery moves the library aside as a directory, so the maps and their
+    /// previews travel with it. The half-finished placements live somewhere
+    /// else and do not, which left them naming ids no library held any more —
+    /// for the orphan sweep to collect the next time the app opened. The
+    /// notice says nothing was deleted.
+    @Test("Recovering a damaged library does not cost the user their drafts")
+    func aRecoveredLibraryKeepsTheDraftsOnDisk() async throws {
+        try await withLibraryDirectory { directory in
+            defer { removeSetAside(beside: directory) }
+            let draftRoot = directory.deletingLastPathComponent()
+                .appendingPathComponent(UUID().uuidString, isDirectory: true)
+            defer {
+                for name in [
+                    draftRoot.lastPathComponent, "\(draftRoot.lastPathComponent)-damaged",
+                ] {
+                    try? FileManager.default.removeItem(
+                        at: draftRoot.deletingLastPathComponent()
+                            .appendingPathComponent(name, isDirectory: true)
+                    )
+                }
+            }
+            let drafts = GeoreferenceDraftStore(directory: draftRoot)
+            drafts.write(
+                identifier: "a-map-in-the-damaged-library",
+                name: "Scan",
+                controls: [
+                    SessionControlPoint(
+                        id: "1", pixel: PixelPoint(x: 10, y: 20),
+                        map: GeoPoint(lat: 44.65, lng: -63.6)
+                    )
+                ],
+                checks: [],
+                checkLabels: []
+            )
+
+            let damaged = Data(#"{"version":1,"maps":[{"nonsense":true}]}"#.utf8)
+            try damaged.write(to: directory.appendingPathComponent("library.json"))
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay(),
+                drafts: drafts
+            )
+            await viewModel.load()
+            #expect(!viewModel.isLibrarySealed)
+
+            // Out of play, and still on the device: the file is beside the
+            // library it belonged to, under the same name the store uses.
+            #expect(drafts.draft(identifier: "a-map-in-the-damaged-library") == nil)
+            let setAside = draftRoot.deletingLastPathComponent()
+                .appendingPathComponent("\(draftRoot.lastPathComponent)-damaged")
+            #expect(
+                FileManager.default.fileExists(
+                    atPath: setAside
+                        .appendingPathComponent("a-map-in-the-damaged-library.csv").path
+                )
+            )
+
+            // And the sweep on the next load has nothing of theirs to take.
+            await viewModel.importMap(data: try image(), name: "Fresh start")
+            await viewModel.load()
+            #expect(
+                FileManager.default.fileExists(
+                    atPath: setAside
+                        .appendingPathComponent("a-map-in-the-damaged-library.csv").path
+                )
+            )
         }
     }
 
@@ -556,11 +654,9 @@ struct UserMapOrientationTests {
         // would scale every control point the user places through a size the
         // picture in front of them does not have.
         //
-        // The other half of this rule — that a file carrying its own
-        // georeferencing is decoded in its raster's own rows, because that is
-        // the space its geotransform is written in — has no test here: a TIFF
-        // with real pixels, real geo tags and an orientation tag cannot be
-        // built through Image I/O, which offers no way to write the geo tags.
+        // The other half of this rule — that a georeferenced file is decoded
+        // in its raster's own rows — is the test below, on bytes laid out by
+        // hand: Image I/O writes TIFFs and offers no way to write geo tags.
         let imported = try UserMapImporter.import(
             data: try image(width: 400, height: 200, type: .jpeg, orientation: 6),
             id: "sideways", name: "Photo"
@@ -591,6 +687,163 @@ struct UserMapOrientationTests {
         )
         #expect(imported.record.pixelSize == PixelSize(width: 400, height: 200))
         #expect(imported.preview.width > imported.preview.height)
+    }
+
+    /// The other half of that rule: a file carrying its own georeferencing is
+    /// decoded in its raster's own rows, because that is the space its
+    /// geotransform is written in.
+    @Test("A sheet that placed itself is not turned by an orientation tag")
+    func aPlacedSheetKeepsItsRasterRowsDespiteAnOrientationTag() throws {
+        // Orientation 6 on both files. The georeferenced one must ignore it:
+        // rotate those pixels and the sheet is drawn quarter-turned over
+        // ground it describes perfectly correctly, with every number in the
+        // file still checking out.
+        let placed = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(
+                width: 16, height: 8,
+                doubles: GeoTiffFixture.placement(
+                    eastingMetres: 452_000, northingMetres: 4_944_000
+                ),
+                shorts: GeoTiffFixture.projectedSystem(epsg: 26_920).merging(
+                    [274: [6]], uniquingKeysWith: { first, _ in first }
+                )
+            ),
+            id: "placed", name: "Sheet"
+        )
+        #expect(placed.needsGeoreferencing == false)
+        #expect(placed.record.pixelSize == PixelSize(width: 16, height: 8))
+        #expect(placed.preview.width > placed.preview.height)
+
+        // The same tag on the same builder's output, minus the geo tags. This
+        // is what stops the assertion above from being vacuous: if Image I/O
+        // ignored a TIFF's orientation tag entirely, the check that the placed
+        // sheet was left alone would pass without proving anything.
+        let scan = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(width: 16, height: 8, shorts: [274: [6]]),
+            id: "scan", name: "Photo"
+        )
+        #expect(scan.needsGeoreferencing == true)
+        #expect(scan.record.pixelSize == PixelSize(width: 8, height: 16))
+        #expect(scan.preview.height > scan.preview.width)
+    }
+}
+
+/// Files that say where they belong in terms this app cannot use.
+///
+/// Every test here drives `UserMapImporter.import` over real GeoTIFF bytes
+/// rather than calling the tag parser directly, because what is being tested
+/// is the importer's decision to keep the file: checks that stopped at the
+/// parser went on passing with the importer's recovery deleted.
+@Suite("A placement the file states and this app cannot read")
+@MainActor
+struct UnreadableGeoreferencingTests {
+    /// EPSG:32620 is WGS 84 / UTM zone 20N: the right zone for Nova Scotia in
+    /// the wrong datum, and a plausible export from software set to WGS 84.
+    /// The app reads NAD83 and its CSRS realisations, so this one is refused
+    /// by code rather than by any doubt about the file.
+    private static func inAnUnreadSystem() -> Data {
+        GeoTiffFixture.sheet(
+            doubles: GeoTiffFixture.placement(),
+            shorts: GeoTiffFixture.projectedSystem(epsg: 32_620)
+        )
+    }
+
+    @Test("A system this app cannot read keeps the map and drops the placement")
+    func anUnreadableSystemIsKeptForHandPlacement() throws {
+        let imported = try UserMapImporter.import(
+            data: Self.inAnUnreadSystem(), id: "utm20-wgs84", name: "Ortho"
+        )
+
+        // Kept, and unplaced. An empty control-point list rather than a
+        // placeholder transform is what stops the sheet being drawn anywhere
+        // at all until the reader places it.
+        #expect(imported.needsGeoreferencing == true)
+        guard case .controlPoints(let points, let method) = imported.record.placement else {
+            Issue.record("a map that could not place itself should be waiting for points")
+            return
+        }
+        #expect(points.isEmpty)
+        #expect(method == .affine)
+        #expect(imported.record.pixelSize == PixelSize(width: 8, height: 8))
+
+        let unread = try #require(imported.unreadGeoreferencing)
+        #expect(unread.contains("EPSG:32620"))
+        #expect(unread.contains("ready to place by hand"))
+    }
+
+    @Test("A system named in prose is quoted back rather than guessed at")
+    func aCitedSystemIsQuotedBack() throws {
+        // 32767 is "user-defined": the file says its system is described
+        // elsewhere in its own tags, in words. Nothing here can turn prose
+        // into a projection, so the words are repeated to the reader.
+        let (directory, ascii) = GeoTiffFixture.citedSystem("Lambert Conformal Conic (custom)")
+        let imported = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(
+                doubles: GeoTiffFixture.placement(), shorts: directory, strings: ascii
+            ),
+            id: "cited", name: "Sheet"
+        )
+
+        #expect(imported.needsGeoreferencing == true)
+        let unread = try #require(imported.unreadGeoreferencing)
+        #expect(unread.contains("Lambert Conformal Conic (custom)"))
+        #expect(unread.contains("ready to place by hand"))
+        #expect(unread.contains("EPSG code"))
+    }
+
+    @Test("A system this app does read still places the sheet itself")
+    func aReadableSystemStillPlacesItself() throws {
+        // The control on the two above. Without it, a fixture builder with a
+        // mistake in its tags would make every file look unplaceable and both
+        // refusal tests would pass for the wrong reason.
+        let imported = try UserMapImporter.import(
+            data: GeoTiffFixture.sheet(
+                width: 16, height: 8,
+                doubles: GeoTiffFixture.placement(
+                    eastingMetres: 452_000, northingMetres: 4_944_000
+                ),
+                shorts: GeoTiffFixture.projectedSystem(epsg: 26_920)
+            ),
+            id: "utm20-nad83", name: "Ortho"
+        )
+
+        #expect(imported.needsGeoreferencing == false)
+        #expect(imported.unreadGeoreferencing == nil)
+        guard case .embedded(let georeference) = imported.record.placement else {
+            Issue.record("a map in a system this app reads should have placed itself")
+            return
+        }
+        #expect(georeference.crs == "EPSG:26920")
+    }
+
+    @Test("The library keeps the map, and says what went unread")
+    func theLibraryKeepsItAndSaysWhy() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(
+                data: Self.inAnUnreadSystem(), name: "Ortho", filename: "ortho.tif"
+            )
+
+            // The row is there. A refusal would have left the reader with the
+            // advice to place it by hand and no map to place.
+            #expect(viewModel.rows.count == 1)
+            #expect(viewModel.rows.first?.needsGeoreferencing == true)
+
+            let notice = try #require(viewModel.notices.first)
+            // Not a refusal: the picture came in, and only its claim about
+            // where it belongs was dropped. A message flagged as a refusal
+            // reads as "your file was turned away".
+            #expect(notice.isRefusal == false)
+            #expect(notice.name == "ortho.tif")
+            #expect(notice.message.contains("EPSG:32620"))
+
+            // Nowhere to fly to. Sending the map to a placement the app just
+            // declined to trust is the one thing this path must not do.
+            #expect(viewModel.pendingFit == nil)
+        }
     }
 }
 
@@ -691,6 +944,123 @@ struct UserMapDisplayTests {
 
             await viewModel.delete(id: id)
             #expect(display.load()[id] == nil)
+        }
+    }
+
+    /// A placement in progress is written outside the library, keyed by the
+    /// map's id. Deleting the map used to leave that file behind: points a
+    /// user pinned on ground they care about, under an id no row names any
+    /// more, kept until the app is deleted.
+    @Test("A deleted map takes its half-finished placement with it")
+    func deletingAMapDiscardsItsGeoreferenceDraft() async throws {
+        try await withLibraryDirectory { directory in
+            let draftRoot = directory.appendingPathComponent("drafts", isDirectory: true)
+            let drafts = GeoreferenceDraftStore(directory: draftRoot)
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay(),
+                drafts: drafts
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let id = try #require(viewModel.rows.first?.id)
+
+            drafts.write(
+                identifier: id,
+                name: "Scan",
+                controls: [
+                    SessionControlPoint(
+                        id: "1", pixel: PixelPoint(x: 10, y: 20),
+                        map: GeoPoint(lat: 44.65, lng: -63.6)
+                    )
+                ],
+                checks: [],
+                checkLabels: []
+            )
+            #expect(drafts.draft(identifier: id) != nil)
+
+            await viewModel.delete(id: id)
+            #expect(drafts.draft(identifier: id) == nil)
+        }
+    }
+
+    /// The delete above is two steps, and only one of them is the library's.
+    /// Stop the app between them, or have the file refuse to go, and the draft
+    /// outlives every trace of the map it belongs to. Nothing would ever look
+    /// at it again, and nothing would ever remove it.
+    @Test("A draft whose map is gone is swept on the next load")
+    func aDraftWithNoMapIsSweptOnLoad() async throws {
+        try await withLibraryDirectory { directory in
+            let draftRoot = directory.appendingPathComponent("drafts", isDirectory: true)
+            let drafts = GeoreferenceDraftStore(directory: draftRoot)
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay(),
+                drafts: drafts
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let kept = try #require(viewModel.rows.first?.id)
+
+            for identifier in [kept, "a-map-that-was-deleted"] {
+                drafts.write(
+                    identifier: identifier,
+                    name: "Scan",
+                    controls: [
+                        SessionControlPoint(
+                            id: "1", pixel: PixelPoint(x: 10, y: 20),
+                            map: GeoPoint(lat: 44.65, lng: -63.6)
+                        )
+                    ],
+                    checks: [],
+                    checkLabels: []
+                )
+            }
+
+            await viewModel.load()
+
+            // The orphan goes; the placement the user is part way through on a
+            // map they still have does not.
+            #expect(drafts.draft(identifier: "a-map-that-was-deleted") == nil)
+            #expect(drafts.draft(identifier: kept) != nil)
+        }
+    }
+
+    /// A library this build must not write to answers "no" rather than
+    /// silently doing nothing. The sheet discards the draft on the strength of
+    /// that answer, so a placement reported as saved and not saved is an hour
+    /// of pinning gone.
+    @Test("A placement the library refuses is reported as refused")
+    func aRefusedPlacementSaysSo() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(
+                store: UserMapStore(directory: directory), display: throwawayDisplay()
+            )
+            await viewModel.load()
+            await viewModel.importMap(data: try image(), name: "Scan")
+            let id = try #require(viewModel.rows.first?.id)
+
+            #expect(
+                await viewModel.place(
+                    id: id,
+                    controlPoints: [
+                        SessionControlPoint(
+                            id: "1", pixel: PixelPoint(x: 10, y: 20),
+                            map: GeoPoint(lat: 44.65, lng: -63.6)
+                        ),
+                        SessionControlPoint(
+                            id: "2", pixel: PixelPoint(x: 90, y: 80),
+                            map: GeoPoint(lat: 44.7, lng: -63.5)
+                        ),
+                    ],
+                    method: .affine
+                ) == true
+            )
+
+            // The same call against a map that is not in the library.
+            #expect(
+                await viewModel.place(
+                    id: "no-such-map", controlPoints: [], method: .affine
+                ) == false
+            )
         }
     }
 

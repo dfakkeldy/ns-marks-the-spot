@@ -305,7 +305,9 @@ nonisolated enum PrintExport {
             // less detail.
             notes.append("Map raster printed at \(resolution.dpi) dpi.")
         }
-        let legend = PrintMapCompositor.parcelLegend(for: request.parcels, within: bounds)
+        let legend = PrintMapCompositor.parcelLegend(
+            for: request.parcels, within: bounds, mapFrame: template.mapFrame
+        )
             + account.legend
         var fields = request.fields
         fields.notes = ([request.fields.notes] + notes)
@@ -340,7 +342,13 @@ nonisolated enum PrintExport {
                     for: PrintExportPlan.sources(
                         baseMap: request.baseMap,
                         outcomes: outcomes,
-                        drewParcels: !request.parcels.isEmpty,
+                        // Held parcels are not printed parcels. A frame dragged
+                        // away from the selection carries none of them, and the
+                        // credit follows the ink, exactly as the legend beside
+                        // it does.
+                        drewParcels: PrintMapCompositor.drawsParcels(
+                            request.parcels, within: bounds, mapFrame: template.mapFrame
+                        ),
                         descriptor: descriptor
                     )
                 ),
@@ -372,9 +380,9 @@ nonisolated enum PrintExport {
     /// A named file rather than raw bytes: what leaves the app is a document
     /// somebody files, and "NS Marks map.pdf" is what it should be called in
     /// the place they file it.
-    static func write(_ pdf: Data, named name: String) throws -> URL {
+    static func write(_ pdf: Data, named name: String, on generatedAt: Date) throws -> URL {
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent(filename(for: name))
+            .appendingPathComponent(filename(for: name, on: generatedAt))
             .appendingPathExtension("pdf")
         do {
             try pdf.write(to: url, options: .atomic)
@@ -406,5 +414,26 @@ nonisolated enum PrintExport {
         cleaned = String(cleaned.prefix(120))
             .trimmingCharacters(in: .whitespacesAndNewlines)
         return cleaned.isEmpty ? "NS Marks map" : cleaned
+    }
+
+    /// The same name, dated, which is what the browser writes.
+    ///
+    /// Two exports of one parcel a fortnight apart are two documents about two
+    /// different days' evidence, and on the phone both arrived called
+    /// "Parcel research summary — PID 12345678.pdf". Whoever was sent them had
+    /// no way to tell which was which, and a file manager offered to replace
+    /// one with the other.
+    ///
+    /// The page's own stamp and in UTC, exactly as
+    /// `web/src/print/pdf/ExportDialog.tsx` slices its ISO string, so the file
+    /// and the page inside it cannot name two different days.
+    static func filename(for title: String, on generatedAt: Date) -> String {
+        // Built per call rather than held, as everywhere else in this project:
+        // `ISO8601DateFormatter` is a class with mutable state and is not
+        // `Sendable`, and one file name per export is not worth a lock.
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate]
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return "\(filename(for: title)) \(formatter.string(from: generatedAt))"
     }
 }

@@ -1614,3 +1614,519 @@ branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
 and triage every bundle, then verify the measuring readout and the panel's
 opening sections in the simulator.
 ```
+
+## 2026-08-23 — audit-4 review applied; audit-5 running on the parcel inspector
+
+Done: CI green on 9de4b457a, native app-target tests included. Codex's review of
+075004285 applied in bacb5d169: the bottom-ornament inset counted the measuring
+lift twice (the readout stack is measured after its own padding, which already
+carries the lift), the open layer sections moved from TransparencySliderView up
+to MapContainerView so closing the panel no longer discards them, and the NS
+Aerial parity claim corrected — NS Aerial draws over MapKit's standard map, so
+None is the only background here with nothing under it, and the zoom check the
+browser needs does not apply. Two OverlayViewModel tests replaced to match.
+Typecheck-ios clean.
+Audit-5 (parcel inspection and evidence) came back with eleven findings. Five
+fixed: the exported note now carries the boundary notice, the civic shortfall
+and both PVSC unreadable-row counts, coastal square metres are scaled by the
+area of the pieces that were actually sampled, and a map with no background is
+no longer credited to Apple's tiles. One refuted and pinned: the raster decoder
+is not vertically flipped (CGBitmapContext memory is top-row-first), and
+RasterDecoderTests now fails if anyone flips it. Four are inherited browser
+behaviour and stay on the record-don't-change list (first-PID at a shared
+boundary, the 100-row dwelling ceiling, unnumbered-record dedup, the AAN hidden
+on a single dwelling account); one (merge identity for unreadable pieces) is
+recorded rather than changed, because the fix would open a double-count path.
+Core suite 1118/1118.
+Next: app-target tests for the batch run on CI; historical maps and offline
+saved areas are still unaudited.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify the measuring readout and the panel's opening sections in the
+simulator.
+```
+
+## 2026-08-23 — audit-6 applied; saved areas now reach the map
+
+Done: CI green on c30bad622, so PR #226 carries the audit-5 evidence-note work.
+Audit-6 (historical maps and offline areas) came back with seven findings.
+Two fixed. 544a0b9ee: a saved offline area was downloaded into `TileStore` and
+never read back — every map read went to `TileCache` — so an area could report
+itself complete and draw nothing offline. `OpacityTileOverlay` now asks the
+store after the cache and before the network, reports a stored blank as
+coverage answered rather than ink drawn, and waits for the Fletcher source
+sweep first, which closes the launch-window race in both directions (stale
+bytes drawn or reused; fresh bytes swept out from under a completed download).
+0c7a5d00e: the four Church rows said "Rights pending" to the reader when no
+rights question is open — the blocker is the frozen georeferencing run, so
+`hosting-pending` is the accurate state. Changed on both surfaces because the
+parity fixture compares them.
+Three recorded rather than changed. 403/410 read as "no tile exists" alongside
+404: right for an object store that answers that way for a missing key, wrong
+if a bucket is ever closed to us, and undecidable until a host exists — no
+`FletcherTileBaseURL` is configured in this repo, so nothing could be measured.
+The `source.json` receipt is constructed and never fetched or validated, which
+the web does not do either and which would be new machinery. And Fletcher's
+offline download is worth a rights decision: `docs/FLETCHER_GEOREFERENCING.md`
+says the Rumsey permission does not clear "native offline bundling" without
+separate support. Nothing is bundled in the app — the user downloads tiles they
+can already view, which CC BY-NC-SA covers — but that reading is the user's to
+confirm, and it only bites once tiles are hosted.
+Two refuted. The web print carries no layer source URLs either (`PrintLayerSource`
+has the field; no print component renders it) and the web's row disclosure shows
+no source link at all, so the native is not losing anything — it shows more.
+Next: PR #226 review; offline saved-area *download* behaviour is now the only
+part of that feature still unaudited end to end.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify the measuring readout, the panel's opening sections, and a saved
+area drawing with the network off in the simulator.
+```
+
+## 2026-08-23 — Codex audit 7 triaged: share links, sessions, setups, licence
+Done: 0a484c8ed (CI green) put one saved tile through download, disk and draw
+end to end, closing the last unaudited part of offline areas. Then a Codex
+review of the share/session/setup/licence paths returned nine findings, five
+of them real divergences from the browser, all now fixed.
+1993666ec: an accepted licence no longer switches on the four `webDefaultVisible`
+Province layers at launch. The justification was a claim about the browser that
+is no longer true — `initialProvinceLayerVisibility` is read by the parity
+export and by nothing that runs, and the browser opens on Explore Nova Scotia
+(modern base map alone, tax sales off). Fletcher stays: that default is a
+current product decision, not an inference.
+d7e748d02: a link applied into a running app now resets the tax-sale selection
+and both filter sets, as a fresh browser page has them; a link naming no ground
+now opens over the standard map instead of the recipient's satellite; a setup
+saved after switching tax sales off from the records keeps the historical mode
+the browser also captures; withdrawing the licence now cancels the historical
+parcel load as well as the current one, drops `restoringPID`, and rewrites the
+stored session from the cleaned map.
+Four recorded rather than changed. An empty event list round-trips as "all"
+and malformed input parses as valid-and-empty on both surfaces, so both are
+inherited browser behaviour rather than a native defect. Opacity is absent
+from links and sessions on both surfaces too. And revocation deliberately does
+not scrub restricted layer IDs out of saved setups: a setup is the reader's own
+document, the apply guard already refuses restricted layers, and rewriting
+someone's saved work on a permission change is a bigger claim than the
+withdrawal made. A share-time warning about a Satellite background was declined
+as new UI the browser has no counterpart for; the existing setup notice now
+names shared links as well.
+CI on d7e748d02 then failed one app-target test. `theNextLaunchOpensOnWhatWasRemembered`
+was written against the old defaults, where an accepted licence opened with
+parcels on, so toggling them switched them off; under the new defaults the same
+toggle switches them on. Restated in the direction the defaults now allow: the
+reader switches parcels on, the next launch opens on parcels and still no
+aerial. The "switched off stays off" half was already covered by
+`aStoredSessionKeepsTheLayersTheReaderSwitchedOff`.
+Next: watch CI, then PR #226 review, then triage the audit-8 feature inventory.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify the measuring readout, the panel's opening sections, and a saved
+area drawing with the network off in the simulator.
+```
+
+## 2026-08-23 — audit 8, the browser's fifteen seconds and the map it kept
+Done: CI green on a51193523. Codex's eighth pass found nine gaps; five are
+fixed and four are recorded.
+The browser gives a research report's sources fifteen seconds and then writes
+the page with whatever arrived, naming the rest. The phone waited forever, so
+one source that hung rather than failed left the reader unable to take a dated
+receipt at all, with nothing on screen saying the wait would not end. The map
+now runs that clock per parcel (`.task(id:)` on the open PID), the note and the
+appendix may be written once it expires, and both the export sheet and the page
+name every source that never answered. `.looking` already renders as "This
+source had not answered when the note was written.", which is truer than the
+browser's own "unavailable at export time", so only the gate needed relaxing.
+A GeoTIFF whose projection this app cannot read used to be refused outright,
+while the same file arriving as a PDF was kept for hand placement. It is now
+kept either way: the importer drops the placement, keeps the map, and the
+message says the file is in the library and what re-export would fix it.
+The building count on the browser's parcel panel carried the open-government
+attribution, but NSTDB is restricted and the browser's own printed report
+already said so. The panel now matches the report.
+A setup restored from a shared link says so instead of calling itself the
+reader's own, until the reader changes a layer. And the About sheet says who
+makes the map, which the browser's does.
+Recorded, not built: a session-only fallback when import storage is full (the
+phone's "free some space and import it again" is accurate and actionable, and
+the browser's temporary layer is an IndexedDB-quota accommodation, not a
+feature); universal links (entitlements, a paid team and an AASA file on the
+KinNoKi domain — a deployment decision, not a code gap); annotations drawing
+above overlays (MapKit's own order, already written down in
+OverlayDrawOrder.swift); and raster tile counts (a custom MKTileOverlay loader
+for little the reader would use).
+Next: PR #226 review, then the 22:00 gated app-target run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and verify in the simulator: the measuring readout, the panel's opening
+sections, the About sheet's new "Who Makes It" section, the delete
+confirmation, the raster fit, and a saved area drawing with the network off.
+```
+
+## 2026-08-23 — Codex audit 9 fixed, and the GeoTIFF paths tested for real
+Done: Four blocking findings against the fifteen-second commit. The wait now
+keys off an evidence generation counter rather than the open PID, so toggling
+tax sales or re-tapping the same parcel starts the clock over instead of
+letting a finished one carry across a rebuilt panel. A shared link's notice and
+"Shared setup" label survive a switch the licence gate turns away, and are
+dropped only on a change the reader actually made. A PVSC source or a geology
+lookup that had not answered prints as unanswered rather than as one that
+failed, and the geology arm names all three of its sources. A GeoTIFF whose
+projection this app cannot read is kept for hand placement, and that is now
+tested end to end through `UserMapImporter.import` on hand-laid GeoTIFF bytes
+(`ns-marks-the-spotTests/Fixtures/GeoTiffFixture.swift`) — the old assertions
+called the tag parser only, and passed with the importer's recovery deleted.
+Gate-free loops green: typecheck, 1119 core tests, 1515 web tests.
+Next: Codex's interaction inventory found eight DEGRADED parity gaps —
+drawing does not stay armed, no multi-delete mode, multipart geometry has no
+vertex handles, opacity is disabled while a raster is hidden, no camera zoom
+range, the scale bar and attribution strip vanish while a card is open, and
+Reduce Motion is ignored. Then the 22:00 gated run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Fix the eight interaction gaps in
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/scratchpad/codex-audit9-interaction.out,
+starting with the scale bar and attribution strip in MapContainerView.swift:558.
+```
+
+## 2026-08-23 — every interaction gap closed
+
+Done: all eight of Codex's DEGRADED parity findings are fixed or answered.
+The drawing tool stays armed after a commit, the eraser is a mode with an
+undo rather than an alert per feature, opacity works while a raster is
+hidden, the attribution strip stays on screen under an open card (and every
+bottom card is lifted by its measured height), Reduce Motion is honoured,
+and the camera stops at the browser's closest tile level, calibrated live
+rather than hardcoded. Multi-part geometry can now be reshaped: the vertex
+address counts rings through the whole feature, so a MultiPolygon island has
+handles addressed the same way a lone square's are, capped at a thousand
+corners so a traced coastline cannot freeze the map. Finding 6, the scale
+bar under an open card, is written down as not a real gap: at the browser's
+own phone width the inspector covers the mounted scale control and hides the
+position readout outright. `minZoom={7}` is deliberately not ported, because
+on a phone it would show less than the province. Gate-free loops green:
+typecheck, 1120 core tests. CI red on f9301f5a3 was a test premise, not the
+fix; repaired in 84761f6eb.
+Next: read Codex's adversarial review of the three commits, then the 22:00
+gated simulator run — the measuring readout, the panel's opening sections,
+the About sheet, the delete confirmation, the raster fit, an offline saved
+area, plus the new bottom chrome, the zoom clamp, the eraser and multi-part
+handles.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/tasks/bc03hktji.output,
+fix what it finds, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+after 22:00 ADT.
+```
+
+## 2026-08-23 — the completeness audit answered, and CI back to green
+
+Done: the ninth Codex pass (the completeness critic) named three phone
+deficits and closed the rest of the parity question. All three are fixed on
+this branch. A raster or vector import whose library write failed used to be
+taken back off the map and reported as a refusal; both now keep what was
+read, draw it, fly to it, and say it will not survive closing the app —
+which is the browser's own promise. The tax-sale lifecycle labels in the
+notices sheet and the parcel card read their clock once at `onAppear`, so a
+view left open across an advertised sale time went on saying "Upcoming"
+after the sale began; `advancingClock` re-reads it every minute, as the
+browser does. The browser's modern map is OpenStreetMap and this app draws
+Apple's standard map in its place, so a shared link now discloses the
+substitution instead of restoring it in silence. Whether to carry an actual
+OSM base map is left as the user's call: it is a third-party tile
+dependency, and the offline-download feature would bulk-fetch from it.
+CI red on cff35e60a was a real defect — a note made while the geology lookup
+was still out printed one anonymous section line and dropped the three named
+sources under it. Fixed with the section notice demoted to a last resort.
+Gate-free loops green: typecheck, 1124 core tests.
+
+Next: read Codex's adversarial review of the four new commits, then the
+22:00 gated simulator run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/tasks/bea29j5dq.output,
+fix what it finds, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+after 22:00 ADT.
+```
+
+## 2026-08-23 — the last audit's four gaps, and evidence without a device
+
+Done: audit 12 (staleness, reachability, privacy) found no staleness gap and
+six reachability or retention ones; all are fixed here. Deleting a user map
+now deletes the half-finished georeferencing draft that was keyed to it —
+before, a points file naming ground the user had pinned stayed on the device
+under an id nothing referred to any more. The parcel card's source line,
+mapped area, survey caveat, building count and boundary notice moved inside
+its scroll, leaving only the PID and the close button pinned: at an
+accessibility text size that header used to eat the whole 45%-of-screen card.
+Matched civic addresses scroll inside a bounded window with the OGL-NS
+attribution pinned under it, and the right-hand control column scrolls when
+it runs past the bottom — eleven 44-point targets are taller than a phone
+held sideways, and the three that fell off the end were Data Sources, Save
+Area and Layers. Layer names stop truncating at accessibility sizes. The one
+audit finding left alone is raster delete's non-atomic file removal: the
+record is committed first by design, and the sweep on next load collects the
+orphan.
+
+The simulator MCP is unavailable in this session — the desktop build reports
+`iosSimulator: unsupported, disabled by its rollout flag`, and attach, tap
+and screenshot all fail through it. `simctl` still boots, installs, launches
+and screenshots, so the launch state and Dynamic Type were checked that way;
+nothing that needs a touch could be. The interaction checklist is therefore
+being turned into XCUITests, which CI already runs beside the unit tests:
+landscape reachability of the control column, the measuring readout and its
+not-a-survey caveat, the sources sheet scrolling to its licence list, and the
+attribution strip opening onto every source.
+
+Next: read Codex review 7, land the UI tests, then decide with the user
+whether the phone should carry a real OpenStreetMap base map and whether
+audit 10's browser-side wording findings become separate web work.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Read
+/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ios-web-map-parity-2de228/d1415abe-14d6-4895-a6b3-794d8563b6a8/scratchpad/review7.out,
+fix what it finds, then watch CI for the two new UI test bundles.
+```
+
+## 2026-08-23 — reviews 7 and 8 landed, and the PR describes the branch
+
+Done: Codex review 7's five findings are fixed and pushed (4d527de1c through
+fb965b5a6), and CI is green on them including both new UI test bundles —
+run 32660549904, `Build gate + tests: success`. Review 8 then read those five
+fixes back and found five more, all fixed and pushed as 20b328133 through
+1f54d09c5: drafts now travel with a library that is set aside as damaged and
+the orphan sweep leaves an empty library alone, the georeferencer is held
+still while its save is out and no longer blames the disk for every refusal,
+the search card scrolls as one region so none of its three mandatory parts
+can be pushed off screen, and the control rail gets its height back when area
+selection ends. PR #226's title and body now describe all forty-one commits
+rather than the first one.
+
+Two things the user still has to decide, both raised and neither answered:
+whether the phone should carry a real OpenStreetMap base map, which means a
+third-party tile dependency and the OSMF usage policy, and whether audit 10's
+twelve browser-side evidence-wording findings become separate web work.
+
+Next: watch CI on 1f54d09c5, then take one build-gate admission from 22:00 ADT
+for the full focused-test run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. From 22:00 ADT run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+and triage every bundle.
+```
+
+## 2026-08-23 — review 9 answered: the UI tests now prove something
+
+Done: Codex review 9 found the two new UI bundles asserted things true of a
+broken app, and worse, that `.github/workflows/ci.yml` treated an unresolvable
+simulator as success — the required check could go green having run no tests.
+Missing simulators are now fatal in ci, release-trains and app-store-release.
+The four UI test files were rewritten to run their routes end to end
+(measuring actually measures; the licence lock is accepted and the layer's
+credit is then asserted under the map; the offline draft is estimated), shared
+helpers moved to `UITestSupport.swift`, four scrolling regions were named, and
+`Scripts/typecheck-ios.sh` now type-checks the UI target with its own flags.
+
+Next: CI on this push is the first run where a green `Build gate + tests`
+proves the UI tests executed. Triage it, then take the 22:00 ADT admission.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit; if the
+UI tests fail, read the uploaded native-tests.xcresult before changing them.
+```
+
+## 2026-08-23 — reviews 10 and 11 applied; the UI tests have run once
+
+Done: CI run 32663399283 is the first empirical proof the UI bundles execute —
+14 UI tests ran, 13 passed. The one failure was the Fletcher licence, and the
+cause was the scroll budget, not the app: Fletcher is the last of thirty-six
+catalogued layers, so eight swipes cannot reach it. Codex review 10 then found
+five false greens in those tests and one false failure; all six are fixed, and
+attribution rows now carry `source-licence-<layer>` identifiers so a licence
+assertion is tied to the layer it governs. Review 11 caught the simulator
+resolver reading `Ineligible destinations` as candidates, which would have made
+the newly-fatal missing-simulator step fail on a runner that had a working
+simulator; it now reads only the available section and has unit tests under
+`.github/scripts/tests/`, which `ci.yml` already discovers. Review 11's
+unanswered question is answered: no legitimate run resolves nothing. All three
+workflows use GitHub-hosted `macos-26`, the native job only runs when the
+change classifier says `native == 'true'`, and the release-trains dry run still
+executes the tests.
+
+Next: triage CI on this push, then take the 22:00 ADT gate admission for
+`Scripts/gated-focused-tests.sh`.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit; the
+Fletcher licence assertion should now clear. Then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
+
+## 2026-08-23 — review 12 found a real product defect behind a failing test
+
+Done: CI run 32665007568 failed on exactly one assertion, the new one requiring
+the offline sample to estimate more than zero tiles. Codex review 12 named the
+cause before I read the log: the sample was "Save Sample Halifax Area" and the
+Fletcher survey is a Cape Breton one, so the one tap that screen offers led to
+a zero-tile estimate with an enabled Save button under it. `FletcherTilePlanner`
+had been right all along and the unit fixtures had already moved off Halifax.
+The sample is now Baddeck, inside sheet 12, planning 101 tiles across zooms 10
+to 14, with a test pinning it inside the survey; the draft screen explains a
+zero instead of printing it and will not save one, with `coversAnyGround`
+keeping outside-coverage apart from a walk that found nothing.
+
+The rest of review 12 is applied. `scroll` stops when the list stops rather
+than after a fixed count, so the swipe budget is no longer a constant about the
+layer catalogue's length. Four assertions that a broken app would still pass
+are tightened, the offline test no longer scrolls back uphill, and both launch
+tests now prove they launched this app before taking their evidence. The
+destination resolver ranked device name above OS version, which on a 26.5
+deployment target would pick the one simulator the app cannot install on.
+`typecheck-ios.sh` aimed at iOS 26.0 against four 26.5 configurations and
+defined neither DEBUG nor `-enable-testing` for the UI target.
+
+Recorded, not built: Codex wants the resolver to keep each candidate's UDID and
+probe it with `simctl bootstatus`. Xcode's own Available section is what
+`xcodebuild` will use, and a boot probe is more machinery than the job needs
+until a runner actually fails that way.
+
+Gate-free loops green: typecheck (which caught a redeclaration first), 1124
+core tests, 16 resolver tests.
+
+Next: watch CI on this push, then the 22:00 ADT gated run.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
+
+## 2026-08-23 — CI fully green, and review 13 found the coverage question being asked of the wrong rectangle
+
+Done: run 32667244730 on `43271861e` passed every job, including all four
+`testLaunch` configurations, so the landscape false failure is closed and the
+whole UI suite now runs clean on a runner. Codex review 13 then found that
+`coversAnyGround` asked `FletcherSheets.coverage`, the box around the 24 ragged
+sheets, rather than the sheets. 428 half-degree cells of that box touch no
+sheet, so a selection in one was told the survey covered it and quoted zero
+tiles for it. Fixed in `8c9b6d99e`, along with the notice that claimed "no
+tiles" for areas where coarse zoom 10 tiles legitimately do get planned, and
+both offline tests now fail on the implementations they were meant to reject.
+
+Next: watch CI on `8c9b6d99e`, then take the 22:00 ADT gate admission.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit, then run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- zsh Scripts/gated-focused-tests.sh
+```
+
+## 2026-08-23 — Reviews 14 and 15 triaged; the page no longer claims ink it does not carry
+
+Done: CI run 32670433212 on `099945912` passed every job, native included, so
+the strict-overlap tile gate (`cac846cbe`), the printed-bounds fix and its
+correction (`c414baa6c`, `099945912`) and the browser's subtitle default are all
+witnessed. Four more landed on top. `e73e459cc` dates the exported file from the
+page's own `generatedAt`, as the browser does, so two summaries of one parcel no
+longer arrive under one name. `70e4f9d99` is review 15's finding 2: the page's
+feature list was filtered by bounding box, which keyed a legend colour over
+blank paper and suppressed the "nothing to print" note that would have explained
+it; `FeatureShape.marks(_:)` now asks the two questions the compositor answers,
+with the clipping moved to `GeoCore/GeometryInk.swift` and `ParcelShape` reading
+it too. `cd17a22f9` makes the NSPRD credit follow the ink rather than the held
+parcel list, and corrects the Fletcher overlap test, which counted edge-adjacent
+sheet 9 as sharing ground. Review 15 finding 1 was rejected with a reason: its
+fix would print "The map shows other ground" on a page lying wholly inside the
+parcel, and the browser titles unconditionally.
+
+Next: watch CI on `cd17a22f9`, then ask Codex for review 16.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228. Watch CI on the head commit with
+`gh run watch`, then run the next Codex adversarial review over the print/export
+path.
+```
+
+## 2026-08-23 — Review 16 landed: ink judged in Mercator, out to the stroke's reach
+Done: GeometryInk now clips and ray-casts in Web Mercator; every print ink
+predicate (features, markers, parcels, legend, credit) pads the page by the
+style's printed reach; invisible strokes no longer count; dash gaps left
+uncounted with reason recorded in cfbd90a7d. Rotate helper re-issues a
+swallowed orientation set (9332b98fc). 1138 package tests + typecheck clean.
+Next: watch CI on 9332b98fc; then Codex review 17 or close the review loop.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on
+9332b98fc (gh run list --branch claude/ios-web-map-parity-2de228); if green,
+run the next Codex adversarial review.
+```
+
+## 2026-08-23 — Review 17 landed: bevel joins, shared title question, gated strokes
+Done: CI green on 519f24462 (rotate fix held). Review-17 fixes in fe3c147bc:
+bevel joins cap stroke ink at the padded half-width, inspectedPID shares the
+compositor's padded boundary test (marksBoundary), strokePath gated like the
+predicates, wedge-containment and grazing-selected-parcel fixtures added.
+1139 package tests + typecheck clean.
+Next: watch CI on fe3c147bc; if green the review loop is caught up.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on
+fe3c147bc (gh run list --branch claude/ios-web-map-parity-2de228); if green,
+decide with the user whether PR #226 is ready to hand over.
+```
+
+## 2026-08-23 — Review 18 landed: marker cap, miter raster proof, title pinned
+Done: CI green on fe3c147bc and 686d56859. Review-18 fixes committed: marker
+stroke sets its own butt cap, raster fixture proves bevel keeps an off-page
+acute corner blank, titleNamesParcel pins the title to the legend's padded
+question. 1139 package tests + typecheck clean.
+Next: watch CI on this head; if green, ask the user whether PR #226 hands over.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly). Check CI on the
+latest head (gh run list --branch claude/ios-web-map-parity-2de228); if green,
+the review loop is dry at review 18 — confirm handover of PR #226 with the user.
+```
+
+## 2026-08-24 — Review loop dry: CI green on 4d674c153
+Done: review-18 raster control fixed (sample the arms, not the anti-aliased
+tip pixel); full CI green on 4d674c153. Reviews 14-18 all triaged and landed;
+findings shrank each round and review 18's were all Low. Rotate fix has four
+consecutive green native runs.
+Next: user decides handover of PR #226 to nightly. Open user questions: real
+OSM base map on the phone; audit-10 browser wording as separate web work.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-parity-2de228,
+branch claude/ios-web-map-parity-2de228 (PR #226 -> nightly), CI green.
+The adversarial review loop is complete. Ask the user whether to hand over
+PR #226, then delete this handoff file in the PR that closes the task.
+```

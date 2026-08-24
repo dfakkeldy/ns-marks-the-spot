@@ -29,7 +29,7 @@ struct PrintFramedParcelTests {
     }
 
     private static func request(
-        _ channel: String, framing frame: GeoBoundingBox
+        _ channel: String, framing frame: GeoBoundingBox, includesAppendix: Bool = false
     ) async -> PrintExportRequest? {
         StubURLProtocol.stub(channel: channel, matching: [("", parcel())])
         let session = StubURLProtocol.session(channel: channel)
@@ -45,6 +45,7 @@ struct PrintFramedParcelTests {
         return viewModel.printExportRequest(
             template: PdfTemplate.template(.portrait),
             fields: PdfComposer.Fields(title: "Sheet", subtitle: "", notes: ""),
+            includesAppendix: includesAppendix,
             frame: frame
         )
     }
@@ -82,6 +83,49 @@ struct PrintFramedParcelTests {
         // The general caveat is always there. A page with no warning at all is
         // the artefact somebody puts in front of a lawyer.
         #expect(printed.disclosures.first == PrintExport.screeningCaveat)
+    }
+
+    private static let elsewhere = "The evidence appendix is for PID 77777777, whose "
+        + "boundary is not on this map. The map shows other ground."
+
+    /// The stub parcel is a triangle, and the box around a triangle is nearly
+    /// twice its area. This frame sits in the corner the triangle does not
+    /// reach: inside the box, on ground the parcel never touches.
+    ///
+    /// A box test titles that page "PID 77777777" and drops the sentence saying
+    /// the appendix is about somewhere else, which is the one thing a reader
+    /// holding an appendix and a map has no other way to find out.
+    @Test("A frame inside the parcel's box and outside the parcel says so")
+    func aFrameInsideTheParcelsBoxAndOutsideTheParcelSaysSo() async throws {
+        let printed = try #require(
+            await Self.request(
+                #function,
+                framing: GeoBoundingBox(south: 44.68, west: -63.50, north: 44.70, east: -63.48),
+                includesAppendix: true
+            )
+        )
+        defer { StubURLProtocol.clear(channel: #function) }
+        #expect(printed.disclosures.contains(Self.elsewhere))
+        // And not the other sentence: a page that never claimed the parcel
+        // cannot go on to say it cut it.
+        #expect(!printed.disclosures.contains(Self.cut))
+    }
+
+    /// The same frame the reader dragged, grown to the paper. A parcel the
+    /// page does show must keep its name, or the fix above would have traded
+    /// one wrong page for another.
+    @Test("A frame the parcel crosses is still titled for it")
+    func aFrameTheParcelCrossesIsStillTitledForIt() async throws {
+        let printed = try #require(
+            await Self.request(
+                #function,
+                framing: GeoBoundingBox(south: 44.6, west: -63.5, north: 44.65, east: -63.45),
+                includesAppendix: true
+            )
+        )
+        defer { StubURLProtocol.clear(channel: #function) }
+        #expect(!printed.disclosures.contains(Self.elsewhere))
+        #expect(printed.disclosures.contains(Self.cut))
     }
 
     /// Framed somewhere else entirely, the page is not titled for the parcel at

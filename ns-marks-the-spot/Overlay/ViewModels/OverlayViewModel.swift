@@ -1278,8 +1278,21 @@ final class OverlayViewModel {
     /// `generatedAt` is a parameter rather than `Date()` read in here: the note
     /// is stamped with it, and a stamp the caller cannot control is a stamp
     /// nothing can check.
-    func evidenceNote(generatedAt: Date = Date()) -> EvidenceNote? {
-        guard let inspection, ParcelEvidenceExport.isReady(inspection),
+    ///
+    /// `includingSourcesStillOut` is the way out of a source that has hung
+    /// rather than merely taken its time. The browser gives the sources fifteen
+    /// seconds and then writes the report anyway, and a reader whose fourth
+    /// source will never answer is otherwise told, for as long as they keep
+    /// looking, that no dated receipt can be made at all. Nothing is invented
+    /// by writing early: a source that has not answered has no value to report,
+    /// and the note already says in its own words that this one had not
+    /// answered when it was written.
+    func evidenceNote(
+        generatedAt: Date = Date(),
+        includingSourcesStillOut: Bool = false
+    ) -> EvidenceNote? {
+        guard let inspection,
+              includingSourcesStillOut || ParcelEvidenceExport.isReady(inspection),
               let shareURL else { return nil }
         return EvidenceNote.build(
             ParcelEvidenceExport.input(
@@ -1314,6 +1327,13 @@ final class OverlayViewModel {
         /// for evidence that has none on it, and no way to tell that from a
         /// parcel nothing was found for.
         appendixWithheld: Bool = false,
+        /// Whether the appendix may be written while a source is still out.
+        ///
+        /// Set once the sources have had the time the browser gives them. The
+        /// appendix then names each one that had not answered, which is what
+        /// the note says about them anyway, and the page carries a line saying
+        /// which ones those were.
+        appendixNamesSourcesStillOut: Bool = false,
         /// Whether the aerial photography is drawn onto the page.
         ///
         /// Separate from whether it is on the screen. At 300 dpi the imagery is
@@ -1354,7 +1374,7 @@ final class OverlayViewModel {
         // a reader to notice, because the pages are stapled together and read
         // as one document.
         if includesAppendix, let pid = inspection?.pid,
-           inspectedPID(shownWithin: box) == nil {
+           inspectedPID(shownWithin: printed, mapFrame: template.mapFrame) == nil {
             disclosures.append(
                 "The evidence appendix is for PID \(pid), whose boundary is not on "
                     + "this map. The map shows other ground."
@@ -1364,7 +1384,8 @@ final class OverlayViewModel {
         // about the whole of it. A frame drawn by hand cuts wherever the user
         // dragged it, so a page can promise PID 15234636 and show its northern
         // third.
-        if let pid = inspectedPID(shownWithin: box), !parcelFits(pid, within: printed) {
+        if let pid = inspectedPID(shownWithin: printed, mapFrame: template.mapFrame),
+           !parcelFits(pid, within: printed) {
             disclosures.append(
                 "PID \(pid) runs past the edge of this map. The page shows part "
                     + "of the parcel."
@@ -1376,6 +1397,17 @@ final class OverlayViewModel {
                     + "answered, what it returned nothing for, and what was never "
                     + "asked are not on this document."
             )
+        }
+        // Said on the front of the document rather than left to the appendix's
+        // own per-source lines. A reader who acts on a research summary is
+        // entitled to know before they read it that it was written while a
+        // source was still out, because the answer that never arrived may be
+        // the one they were looking for.
+        if includesAppendix, appendixNamesSourcesStillOut, let inspection,
+           let stillOut = ParcelEvidenceExport.stillOutDisclosure(
+               ParcelEvidenceExport.pending(inspection)
+           ) {
+            disclosures.append(stillOut)
         }
         return PrintExportRequest(
             visibleBounds: box,
@@ -1391,8 +1423,8 @@ final class OverlayViewModel {
             // The client-side layers as the screen has them, so a page shows
             // the zones and reaches the reader was looking at rather than blank
             // ground where they were.
-            features: printedFeatures(within: box),
-            markers: printedMarkers(within: box),
+            features: printedFeatures(within: printed, mapFrame: template.mapFrame),
+            markers: printedMarkers(within: printed, mapFrame: template.mapFrame),
             featureLayerStatuses: featureStatuses,
             template: template,
             fields: fields,
@@ -1412,7 +1444,10 @@ final class OverlayViewModel {
             // for the same reason the page is.
             appendix: includesAppendix
                 ? PdfAppendix.blocks(
-                    fromMarkdown: evidenceNote(generatedAt: generatedAt)?.markdown ?? ""
+                    fromMarkdown: evidenceNote(
+                        generatedAt: generatedAt,
+                        includingSourcesStillOut: appendixNamesSourcesStillOut
+                    )?.markdown ?? ""
                 )
                 : [],
             disclosures: disclosures,
@@ -1429,17 +1464,39 @@ final class OverlayViewModel {
     /// tells the reader they are looking at that parcel — the single wrong
     /// conclusion this export could hand somebody. Nil in that case, and the
     /// page carries the generic name instead.
-    func inspectedPID(shownWithin bounds: GeoBoundingBox) -> String? {
+    ///
+    /// Ask this about the ground that will print, not the frame that was
+    /// dragged: the export grows one into the other, and a parcel that only
+    /// enters the page in the grown margin is on it.
+    func inspectedPID(shownWithin bounds: GeoBoundingBox, mapFrame: PdfRect) -> String? {
         guard let pid = inspection?.pid,
-              let shape = controller.state.parcelShapes.first(where: { $0.pid == pid }),
-              let box = Self.boundingBox(of: shape)
+              let shape = controller.state.parcelShapes.first(where: { $0.pid == pid })
         else { return nil }
-        // Boxes rather than rings: the frame grows to the paper's proportions
-        // after this, so an outline that only overlaps the corner still prints.
-        guard box.south <= bounds.north, box.north >= bounds.south,
-              box.west <= bounds.east, box.east >= bounds.west
-        else { return nil }
+        // The same two questions the compositor asks before it draws this
+        // parcel, so the title cannot name a parcel the page has no ink from —
+        // the boundary asked with its stroke's reach, or a grazing boundary
+        // would be keyed and credited under a title that refuses to name it.
+        // Rings rather than the box around them: a long diagonal lot's box
+        // covers ground the lot never touches, and the title is the one
+        // sentence on the page a reader has no way to check. Surrounds counts
+        // here though the selection has no fill, because a page wholly inside
+        // the selected parcel is that parcel's ground.
+        guard Self.titleNamesParcel(shape, within: bounds, mapFrame: mapFrame) else {
+            return nil
+        }
         return pid
+    }
+
+    /// The title's ink question on its own, held out where a test can put it
+    /// beside the legend's so the two cannot drift apart again. The boundary
+    /// is padded exactly as the compositor pads it; surrounds stays unpadded
+    /// and fill-blind, because a page wholly inside the selected parcel is
+    /// that parcel's ground even though the selection paints no fill there.
+    nonisolated static func titleNamesParcel(
+        _ shape: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        PrintMapCompositor.marksBoundary(shape, within: bounds, mapFrame: mapFrame)
+            || shape.surrounds(bounds)
     }
 
     /// Whether the named parcel's whole outline is inside the ground that will
@@ -1494,55 +1551,75 @@ final class OverlayViewModel {
         return [recordModeCaption]
     }
 
-    /// The map's own tile path, so the export honours the cache and the licence
-    /// clearance the screen is already holding rather than asking again.
     /// The features the page carries, in the order the map draws them.
     ///
     /// Read from what is on the map rather than from which rows are switched
     /// on: a layer that is on but has nothing in this viewport contributes
     /// nothing to the page, and listing it would claim ink that was never laid.
-    private func printedFeatures(within bounds: GeoBoundingBox) -> [FeatureShape] {
+    private func printedFeatures(
+        within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> [FeatureShape] {
         // Restricted to the frame being printed, not merely to what the view
         // model is holding. The viewport layers keep the previous view's
         // features while their replacement loads, and keep them indefinitely
         // when the reload fails — so a page made after a long pan would
         // otherwise be composited from wells a hundred kilometres away.
         //
-        // Bounding boxes rather than exact geometry: a shape that overlaps the
-        // frame at all has ink on this page, and a box is never smaller than
-        // its shape, so this errs towards including.
-        controller.state.featureShapes.filter {
-            $0.geometry.boundingBox?.intersects(bounds) == true
-        }
+        // The shape itself rather than the box around it. A box is never
+        // smaller than its shape, so it says yes for ground the shape never
+        // reaches — and this list is what the legend and the "nothing to print"
+        // note are built from, so an over-count keys a colour over blank paper
+        // and drops the layer from the note that would have explained it.
+        controller.state.featureShapes.filter { $0.marks(bounds, mapFrame: mapFrame) }
     }
 
-    private func printedMarkers(within bounds: GeoBoundingBox) -> [FeatureMarker] {
-        controller.state.featureMarkers.filter {
-            bounds.south <= $0.latitude && $0.latitude <= bounds.north
-                && bounds.west <= $0.longitude && $0.longitude <= bounds.east
+    private func printedMarkers(
+        within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> [FeatureMarker] {
+        // A marker is a circle of fixed page size, not a coordinate: one whose
+        // centre stands just off the page still lays part of its circle on it,
+        // so each is asked about the frame grown by its own printed reach.
+        controller.state.featureMarkers.filter { marker in
+            let style = marker.printStyle
+            let strokes = style.strokeOpacity > 0 && style.lineWidth > 0
+            let fills = style.fillHex != nil && style.fillOpacity > 0
+            guard strokes || fills else { return false }
+            let reach = (style.markerRadius ?? 5) + (strokes ? style.lineWidth / 2 : 0)
+            let reached = bounds.expanded(
+                byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
+            )
+            return reached.contains(
+                GeoPoint(lat: marker.latitude, lng: marker.longitude)
+            )
         }
     }
 
     /// The layers with ink inside this frame, whatever their panel says.
-    private func drawnFeatureLayers(within bounds: GeoBoundingBox) -> Set<LayerID> {
-        var drawn = Set(printedFeatures(within: bounds).map(\.layer))
-        drawn.formUnion(printedMarkers(within: bounds).map(\.layer))
+    private func drawnFeatureLayers(
+        within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Set<LayerID> {
+        var drawn = Set(printedFeatures(within: bounds, mapFrame: mapFrame).map(\.layer))
+        drawn.formUnion(printedMarkers(within: bounds, mapFrame: mapFrame).map(\.layer))
         return drawn
     }
 
     /// The undrawn layers named the way the page will name them, so the sheet
     /// can admit them before the export runs rather than after.
     func undrawnFeatureLayerNotes(
-        within bounds: GeoBoundingBox, statuses: [LayerID: ViewportLayerStatus]
+        within bounds: GeoBoundingBox,
+        mapFrame: PdfRect,
+        statuses: [LayerID: ViewportLayerStatus]
     ) -> [String] {
         PrintExport.undrawnFeatureLayers(
-            statuses, drawn: drawnFeatureLayers(within: bounds)
+            statuses, drawn: drawnFeatureLayers(within: bounds, mapFrame: mapFrame)
         ).map { layer in
             let name = LayerCatalog.descriptor(for: layer.id)?.name ?? layer.id.rawValue
             return "\(name) (\(layer.status.printReason))"
         }
     }
 
+    /// The map's own tile path, so the export honours the cache and the licence
+    /// clearance the screen is already holding rather than asking again.
     var printTileProvider: PrintMapCompositor.TileProvider {
         PrintMapCompositor.provider(overlays: controller.installedTileOverlays())
     }
@@ -1599,16 +1676,28 @@ final class OverlayViewModel {
         return clearanceBox.clearance.allowsRestrictedLayers ? type : nil
     }
 
-    /// Whether a background puts anything under the layers.
+    /// Whether the browser would have had its modern map under this link.
     ///
-    /// Only None does not, and the browser's other unusable case does not apply
-    /// here: NS Aerial draws as a tile overlay above MapKit's standard map, so
-    /// below the zoom the imagery starts at, or with its licence unanswered,
-    /// the reader is looking at the standard map rather than at nothing. The
-    /// browser has no map under its aerial layer, which is why it has to check
-    /// the zoom and this does not.
-    private func drawsGround(_ type: MapBaseType) -> Bool {
-        type != .blank
+    /// The browser's own rule: it draws the modern map when the link names it,
+    /// and again when the link names layers with no usable ground among them.
+    /// Its aerial layer counts as ground only from the zoom it starts drawing
+    /// at, because below that the browser has nothing underneath.
+    ///
+    /// This decides both what the reader gets and what the notice says, which
+    /// is the point. Asked one way for the ground and another for the notice,
+    /// a link sent from below the imagery's zoom left the reader on their own
+    /// satellite view under a sentence about Apple's standard map — or, from a
+    /// blank background, under no sentence at all.
+    ///
+    /// A link naming no layers at all is left out. The browser tells an empty
+    /// `layers=` apart from a link that carries no such parameter, and a
+    /// restored state here cannot.
+    private func browserWouldDrawItsModernMap(_ state: MapShareState) -> Bool {
+        if state.layerIDs.contains(MapShareState.modernBaseLayerID) { return true }
+        guard !state.layerIDs.isEmpty else { return false }
+        guard state.layerIDs.contains(LayerID.nsAerial.rawValue) else { return true }
+        let aerialFrom = LayerCatalog.descriptor(for: .nsAerial)?.minZoom ?? Int.max
+        return state.position.zoom < aerialFrom
     }
 
     /// Where a restored view came from, which is the only thing that differs
@@ -1634,16 +1723,39 @@ final class OverlayViewModel {
             background
             ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
                 ? .standard : baseMapType)
-        // Unless leaving it where it is would leave the link's layers over
-        // nothing. The browser turns its modern map on for a link that names
-        // layers and no ground to draw them on.
+        // Unless the link names layers and no ground to draw them over, which
+        // the browser answers by turning its modern map on. Answering it with
+        // whatever this reader happened to be on would put the sender's
+        // evidence over satellite imagery on one phone and over streets on the
+        // next, from the same link. The link cannot name satellite or hybrid,
+        // so a link that names no ground is not a link that meant this
+        // reader's.
         //
-        // Only for a link. A reader who left their own map on None meant it,
-        // and resuming their session is not the moment to argue.
-        if origin == .sharedLink, !state.layerIDs.isEmpty, !drawsGround(restored) {
-            setBaseMapType(.standard)
-        } else {
-            setBaseMapType(restored)
+        // Only for a link. A session says outright which background it was on,
+        // and resuming it is not the moment to argue.
+        //
+        // Either way the ground the sender was on is OpenStreetMap, and this
+        // app has no OSM base map to give back. Apple's standard map stands in
+        // for it, which is a different survey with its own roads, paths and
+        // labels, so the substitution is remembered here and said out loud in
+        // the link's notice below.
+        let standsInForOpenStreetMap =
+            origin == .sharedLink && browserWouldDrawItsModernMap(state)
+        let ground: MapBaseType = standsInForOpenStreetMap ? .standard : restored
+        setBaseMapType(ground)
+        // A link opens in the browser as a fresh page, so the reader who
+        // follows it starts on every notice and no narrowing at all. Here it
+        // opens into a map somebody has been using, and leaving their two
+        // municipalities and their redemption filter standing would hide
+        // records the sender's view was showing — silently, since the link
+        // says nothing about filters and so cannot be read as having asked
+        // for these. Reset first; what the link does carry is applied below.
+        //
+        // Only for a link. A resumed session is this reader's own map, and at
+        // launch there is nothing to put back anyway.
+        if origin == .sharedLink {
+            taxSale?.resetSelection()
+            historical?.resetFilters()
         }
         if let taxSale, state.taxSaleEnabled, state.mode == .current, !state.eventIDs.isEmpty {
             for event in taxSale.upcomingEvents {
@@ -1673,7 +1785,15 @@ final class OverlayViewModel {
             }
         }
         if origin == .sharedLink {
-            noteWhatTheLinkCouldNotRestore(refused: refusedByLicence, notCarried: notCarried)
+            noteWhatTheLinkCouldNotRestore(
+                refused: refusedByLicence,
+                notCarried: notCarried,
+                substitutedGround: standsInForOpenStreetMap
+            )
+            // After the toggles above, which clear it: this is the state the
+            // link asked for, and it is the sender's rather than the reader's
+            // until the reader changes it.
+            setupCameFromALink = true
         }
         controller.center(
             on: GeoPoint(lat: state.position.latitude, lng: state.position.longitude),
@@ -1708,6 +1828,18 @@ final class OverlayViewModel {
         restoringPID = pid
     }
 
+    /// Whether the setup on screen is the one a link asked for.
+    ///
+    /// The panel names the setup, and a combination that matches no saved theme
+    /// has no name of its own. The browser calls that one "Shared setup",
+    /// because on the browser an unnamed setup can only have come from a link.
+    /// Here it can also be a launch nobody has touched, so the two are told
+    /// apart by this rather than by assuming.
+    ///
+    /// Cleared by the first switch the reader touches, like the link's notice:
+    /// after that the map is theirs, whatever it opened as.
+    private(set) var setupCameFromALink = false
+
     /// What a shared link asked for and this map is not showing.
     ///
     /// Held next to the map rather than folded into `parcelMessage`, which the
@@ -1732,13 +1864,25 @@ final class OverlayViewModel {
     /// why this app now does too. Asking is not accepting on the reader's
     /// behalf; it is putting the same decision in front of them that tapping
     /// the layer's own switch would.
-    private func noteWhatTheLinkCouldNotRestore(refused: [String], notCarried: [String]) {
+    private func noteWhatTheLinkCouldNotRestore(
+        refused: [String], notCarried: [String], substitutedGround: Bool = false
+    ) {
         var notes: [String] = []
         if !refused.isEmpty {
             notes.append("Off until the Province licence is accepted: \(Self.layerNames(refused)).")
         }
         if !notCarried.isEmpty {
             notes.append("Not in this app yet: \(Self.layerNames(notCarried)).")
+        }
+        // A base map is a source like any other. The sender's roads, paths and
+        // place names were drawn by OpenStreetMap contributors and these are
+        // Apple's, so two people comparing the same link are not always looking
+        // at the same road.
+        if substitutedGround {
+            notes.append(
+                "The sender's base map was OpenStreetMap. This app draws Apple's standard "
+                    + "map in its place, so roads and labels can differ."
+            )
         }
         sharedLinkNotice = notes.isEmpty ? nil : notes.joined(separator: " ")
         pendingSharedLayerIDs = []
@@ -1787,7 +1931,14 @@ final class OverlayViewModel {
             layerIDs: layerIDs,
             opacityOverrides: opacityOverrides(among: Set(layerIDs)),
             taxSaleEnabled: showsTaxSale,
-            mode: mapRecordMode == .historical ? .historical : .current
+            // The mode the map is holding, for the same reason a shared link
+            // carries it: turning tax sales off is not switching back to
+            // notices. A setup saved from the records with the switch off
+            // would otherwise come back as the notices, and re-entering the
+            // records would read as a map the reader had modified. The browser
+            // compares and captures its own `mapMode` here regardless of the
+            // switch.
+            mode: (historical?.mode ?? .current) == .historical ? .historical : .current
         )
     }
 
@@ -1900,11 +2051,12 @@ final class OverlayViewModel {
 
     /// The name of the setup, and what has happened to it.
     ///
-    /// "Current setup" rather than the browser's "Shared setup": on the phone
-    /// this is also what a fresh launch reads, before anybody has picked
-    /// anything or opened a link.
+    /// An unnamed setup is "Current setup" rather than the browser's "Shared
+    /// setup", because on the phone it is also what a fresh launch reads,
+    /// before anybody has picked anything. Where a link did put it there, it
+    /// says so.
     var themeStatusText: String {
-        let name = activeThemeID.flatMap(themes.theme(_:))?.name ?? "Current setup"
+        let name = activeThemeID.flatMap(themes.theme(_:))?.name ?? unnamedSetupName
         return switch themeStatus {
         case .exact, .unnamed: name
         case .modified: "\(name) · Modified"
@@ -1914,7 +2066,19 @@ final class OverlayViewModel {
 
     var themeDescription: String {
         activeThemeID.flatMap(themes.theme(_:))?.description
-            ?? "The layers this map currently has on."
+            ?? (setupCameFromALink
+                ? "Map settings restored from a shared link."
+                : "The layers this map currently has on.")
+    }
+
+    /// What to call a setup that matches nothing saved.
+    ///
+    /// "Current setup" on a map the reader built themselves, which on the phone
+    /// includes a launch nobody has touched. "Shared setup" where a link put it
+    /// there, so a reader who opens somebody else's view and then goes looking
+    /// at the panel is told whose view it is.
+    private var unnamedSetupName: String {
+        setupCameFromALink ? "Shared setup" : "Current setup"
     }
 
     /// Which layers the last theme could not deliver, and why. `nil` when it
@@ -1936,10 +2100,14 @@ final class OverlayViewModel {
     }
 
     /// Why a Satellite or Hybrid map reads as modified whatever the reader
-    /// picked, and why saving it will not bring the background back.
+    /// picked, why saving it will not bring the background back, and why a
+    /// link sent from it opens over the standard map at the other end. All
+    /// three are the same limit: the vocabulary the two surfaces share has no
+    /// word for either background.
     var themeBackgroundNotice: String? {
         guard !backgroundIsNamed else { return nil }
-        return "A \(baseMapType.rawValue) background is not part of a saved setup."
+        return "A \(baseMapType.rawValue) background is not part of a saved setup "
+            + "or a shared link."
     }
 
     /// Everything the panel has to say about the setup: what could not be
@@ -2141,12 +2309,34 @@ final class OverlayViewModel {
     /// Everything the parcel record itself carries is filled in at once; the
     /// two lookups that go out to services start `looking` and land separately,
     /// so a slow one does not hold up a fast one.
+    /// Bumped every time a parcel's evidence starts over.
+    ///
+    /// The open PID is not enough to tell one wait from the next. Toggling tax
+    /// sales, or tapping the parcel that is already open, rebuilds the same
+    /// PID's inspection with every service back at `looking` — and anything
+    /// timing that wait off the PID alone would carry the finished clock
+    /// straight over the new one, and let a page be written naming sources that
+    /// had been given no time at all.
+    private(set) var evidenceGeneration = 0
+
+    /// Publishes a rebuilt panel, and says that its evidence is new.
+    private func beginInspection(_ state: ParcelInspection) {
+        inspection = state
+        evidenceGeneration &+= 1
+    }
+
+    /// Closes the panel, and says that whatever was being waited on is over.
+    private func endInspection() {
+        inspection = nil
+        evidenceGeneration &+= 1
+    }
+
     private func refreshInspection() {
         inspectionLookup?.cancel()
         inspectionLookup = nil
 
         guard let pid = parcels.selectedPID else {
-            inspection = nil
+            endInspection()
             return
         }
         // Gated on the mode for the same reason the styling is: a PID in both
@@ -2173,7 +2363,7 @@ final class OverlayViewModel {
             // municipality named this PID, and that fact does not depend on
             // NSPRD holding geometry for it.
             guard notice != nil || !records.isEmpty else {
-                inspection = nil
+                endInspection()
                 return
             }
             var state = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
@@ -2191,7 +2381,7 @@ final class OverlayViewModel {
                 state.assessments = .unavailable(reason)
                 state.dwellings = .unavailable(reason)
             }
-            inspection = state
+            beginInspection(state)
             askPVSCByAccount(noticeAAN, for: pid)
             return
         }
@@ -2225,18 +2415,29 @@ final class OverlayViewModel {
                 state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
                 state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
             }
-            inspection = state
+            beginInspection(state)
             askPVSCByAccount(noticeAAN, for: pid)
             return
         }
-        inspection = state
+        beginInspection(state)
 
         inspectionLookup = Task {
             [
                 weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
                 buildingFetcher, resourceFetcher, floodFetcher,
                 clearance = clearanceBox.clearance,
-                mappedAreaSquareMetres = state.mappedArea?.squareMetres,
+                // The area the coastal sample is turned into square metres
+                // with, which is the area of the pieces that were sampled and
+                // not the whole PID's. A parcel with a piece that could not be
+                // drawn was never looked at there, and spreading a percentage
+                // measured on the drawn pieces across the undrawn one would
+                // report flooded ground nobody screened.
+                mappedAreaSquareMetres = ParcelResponse.mappedAreaSquareMetres(
+                    forPID: pid,
+                    in: ParcelFeatureCollection(
+                        identifiedFeatures: features.filter { !$0.boundary.parts.isEmpty }
+                    )
+                ),
                 noticeAAN
             ] in
             await withTaskGroup(of: Evidence.self) { group in
@@ -2555,6 +2756,22 @@ final class OverlayViewModel {
         hasLoadedListedParcels = false
         listedParcelMessage = nil
 
+        // The historical load is the same request against the same service, and
+        // it captured the clearance it went out under. Left running it merges
+        // its parcels and writes its count after the withdrawal, which is the
+        // failure this whole method exists to prevent.
+        historicalParcelLoad?.cancel()
+        historicalParcelLoad = nil
+        hasLoadedHistoricalParcels = false
+        historicalParcelMessage = nil
+
+        // Also ahead of the guard, because a restore whose lookup is still in
+        // flight has nothing on screen either. This PID is written back into
+        // the stored session by `rememberSession`, so leaving it set would keep
+        // the parcel the reader was researching under the licence on the device
+        // after they withdrew it, and reopen the card at the next launch.
+        restoringPID = nil
+
         guard !parcels.features.isEmpty || parcels.selectedPID != nil
             || !addressResults.isEmpty || parcelMessage != nil else { return }
 
@@ -2605,11 +2822,16 @@ final class OverlayViewModel {
             let wanted = pendingSharedLayerIDs
             pendingSharedLayerIDs = []
             sharedLinkNotice = nil
+            // Held across the loop below. These switches are the link's own,
+            // finished late because the licence stood in front of them, and
+            // `toggleVisibility` cannot tell them from the reader's.
+            let fromALink = setupCameFromALink
             for id in wanted {
                 guard let row = rows.first(where: { $0.id == id }),
                       row.isAvailable, !row.isVisible else { continue }
                 toggleVisibility(id)
             }
+            setupCameFromALink = fromALink
             return
         }
         guard let pending else { return }
@@ -2692,6 +2914,14 @@ final class OverlayViewModel {
         clearanceBox.update(licenceStore.clearance)
         hideRefusedLayers()
         dropRefusedParcelEvidence(licenceStore.clearance)
+        // The stored session is the last thing written under the licence: it
+        // names the layers that were drawn and the parcel that was open. Both
+        // are gone from the map now, and rewriting it here is what makes them
+        // gone from the device — otherwise a reader who withdrew permission and
+        // then force-quit would find the restricted setup still stored, waiting
+        // for the licence to be accepted again. Rewritten rather than cleared,
+        // because where the reader was standing is theirs.
+        rememberSession()
 
         guard let tileCache else { return }
         var unswept: [String] = []
@@ -2775,6 +3005,11 @@ final class OverlayViewModel {
             return
         }
 
+        // A link cannot name satellite or hybrid, and a reader who picks one has
+        // left the sender's view, so the background counts as a change like any
+        // other. Safe on the restore paths: both set the background before they
+        // name the link, so nothing here can undo what they went on to say.
+        forgetTheLinkThatArrived()
         controller.baseMapType = type
         syncNSAerialLayerVisibility(for: type)
     }
@@ -2823,10 +3058,6 @@ final class OverlayViewModel {
     }
 
     func toggleVisibility(_ id: String) {
-        // The link's notice describes the view that arrived. Once the reader
-        // starts switching layers themselves it describes a map that is no
-        // longer on screen, so it goes with the first switch they touch.
-        sharedLinkNotice = nil
         // A vector layer's switch is the same decision point as a raster's:
         // the licence has to be answered before the first query goes out, not
         // after features are already on the map.
@@ -2835,6 +3066,7 @@ final class OverlayViewModel {
                 licencePromptedLayerID = layerID
                 return
             }
+            forgetTheLinkThatArrived()
             features.setVisible(layerID, to: !features.isVisible(layerID))
             return
         }
@@ -2850,7 +3082,20 @@ final class OverlayViewModel {
             return
         }
 
+        forgetTheLinkThatArrived()
         show(layer, visible: !layer.isVisible)
+    }
+
+    /// Drops what a shared link put on screen and what this map called it.
+    ///
+    /// The notice describes the view that arrived, and the setup is the
+    /// sender's until the reader changes it. Both stop being true at the first
+    /// change the reader makes — and only at a change they actually made: a
+    /// switch the licence gate turned away leaves the sender's view exactly as
+    /// it was, notice included.
+    private func forgetTheLinkThatArrived() {
+        sharedLinkNotice = nil
+        setupCameFromALink = false
     }
 
     private func requiresUnansweredLicence(_ id: String) -> Bool {

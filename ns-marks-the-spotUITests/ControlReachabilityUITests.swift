@@ -1,0 +1,101 @@
+import XCTest
+
+/// Whether the map's own controls can be reached on a phone held sideways.
+///
+/// The right-hand rail runs to eleven 44-point targets. In landscape that is
+/// taller than the screen, and the ones that fall off the end are Data
+/// Sources, Save Area and Layers — the route to every licence gate and every
+/// layer that failed. This is the automated half of that claim; the panel is a
+/// human check.
+final class ControlReachabilityUITests: XCTestCase {
+    private let timeout: TimeInterval = 15
+
+    /// The three at the bottom of the rail, which are the ones that fall off
+    /// the end of a landscape screen.
+    private let endOfRail = ["Data Sources and Licenses", "Save Area", "Toggle Layers Menu"]
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+    }
+
+    override func tearDown() {
+        XCUIDevice.shared.orientation = .portrait
+        super.tearDown()
+    }
+
+    @MainActor
+    func testTheControlsAtTheBottomOfTheColumnAreReachableInLandscape() throws {
+        let app = XCUIApplication.launchedForUITests()
+        XCTAssertTrue(app.buttons["Current Location"].waitForExistence(timeout: timeout))
+        XCTAssertTrue(app.rotate(to: .landscapeLeft), "the app never turned sideways")
+
+        let rail = app.scrollViews["map-control-rail"]
+        XCTAssertTrue(rail.waitForExistence(timeout: timeout), "there is no control rail")
+
+        // Each of the three, one at a time. They cannot all be on screen at
+        // once in landscape, which is the reason the rail scrolls at all, so
+        // what is asserted is that each has a route rather than that they
+        // share a moment.
+        for name in endOfRail {
+            let control = app.buttons[name]
+            XCTAssertTrue(control.exists, "\(name) left the hierarchy in landscape")
+            XCTAssertTrue(
+                app.scroll(control, into: rail),
+                "\(name) cannot be reached in landscape"
+            )
+        }
+
+        // And the route ends somewhere. Opening the panel is the claim the
+        // Layers control makes.
+        XCTAssertTrue(app.scroll(app.buttons["Toggle Layers Menu"], into: rail))
+        app.buttons["Toggle Layers Menu"].tap()
+        XCTAssertTrue(
+            app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
+            "the layers panel did not open from landscape"
+        )
+    }
+
+    /// The top of the rail must not be cut off by the same scrolling that
+    /// makes its bottom reachable.
+    @MainActor
+    func testTheTopOfTheColumnIsOnScreenInPortrait() throws {
+        let app = XCUIApplication.launchedForUITests()
+        XCTAssertTrue(app.buttons["Current Location"].waitForExistence(timeout: timeout))
+        XCTAssertTrue(app.rotate(to: .portrait), "the app never stood up")
+
+        XCTAssertTrue(
+            app.buttons["Current Location"].waitForHittable(timeout: timeout),
+            "the first control is not on screen"
+        )
+        XCTAssertTrue(
+            app.buttons["Toggle Layers Menu"].waitForHittable(timeout: timeout),
+            "the last control is not on screen in portrait"
+        )
+    }
+
+    /// The way out of area selection is outside the scrolling part of the
+    /// rail, so a rail that was scrolled down cannot hide it.
+    @MainActor
+    func testTheWayOutOfAreaSelectionIsOnScreen() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let rail = app.scrollViews["map-control-rail"]
+        XCTAssertTrue(rail.waitForExistence(timeout: timeout))
+
+        let saveArea = app.buttons["Save Area"]
+        XCTAssertTrue(app.scroll(saveArea, into: rail), "Save Area cannot be reached")
+        saveArea.tap()
+
+        for name in ["Use Visible Map", "Cancel"] {
+            XCTAssertTrue(
+                app.buttons[name].waitForHittable(timeout: timeout),
+                "\(name) is not reachable while an area is being chosen"
+            )
+        }
+
+        app.buttons["Cancel"].tap()
+        XCTAssertTrue(
+            app.buttons["Use Visible Map"].waitForNonExistence(timeout: timeout),
+            "area selection did not end"
+        )
+    }
+}

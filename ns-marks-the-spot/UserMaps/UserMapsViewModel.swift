@@ -96,12 +96,20 @@ final class UserMapsViewModel {
 
     private let store: UserMapStore
 
+    /// Half-finished placements, which live outside the library.
+    ///
+    /// Held here only so that deleting a map takes its draft with it. The
+    /// georeferencer owns the writing.
+    private let drafts: GeoreferenceDraftStore
+
     init(
         store: UserMapStore = UserMapStore(),
-        display: UserMapDisplayStore = UserMapDisplayStore()
+        display: UserMapDisplayStore = UserMapDisplayStore(),
+        drafts: GeoreferenceDraftStore = GeoreferenceDraftStore()
     ) {
         self.store = store
         self.display = display
+        self.drafts = drafts
     }
 
     /// Which maps are drawn and how strongly, which is not part of the library.
@@ -142,6 +150,12 @@ final class UserMapsViewModel {
             // unreadable file in place and every write still dangerous.
             let recovered = (try? await store.setAsideDamagedLibrary()) ?? false
             isLibrarySealed = !recovered
+            // The library moves as a directory, so the maps and their previews
+            // go with it. The drafts are somewhere else and would be left
+            // pointing at ids no library holds any more, for the sweep below
+            // to collect on the next launch. They are set aside too, so that
+            // "nothing was deleted" covers the placements as well.
+            if recovered { _ = drafts.setAside() }
             notices = [
                 Notice(
                     id: "library",
@@ -194,6 +208,20 @@ final class UserMapsViewModel {
                 opacity: CGFloat(last?.opacity ?? UserMapDisplayStore.defaultOpacity),
                 preview: nil
             )
+        }
+        // Half-finished placements with no map left to belong to, for the
+        // reason the store gives at `sweepOrphans` and under the same rule as
+        // the previews below: only against a library that read. The count is
+        // checked once more because an import can land between the read and
+        // here, and a map that arrived after the read is not in `records`.
+        // An empty library sweeps nothing, which is the same rule the store
+        // applies to previews and for the same reason: "there are no maps" is
+        // a statement this app can arrive at by being reset, and every draft on
+        // the device is not the price of getting there. The cost is a draft
+        // left behind by an app killed between deleting its last map and
+        // discarding its draft, which fails towards keeping the user's work.
+        if mark == writes, !records.isEmpty {
+            drafts.sweepOrphans(keeping: Set(records.map(\.id)))
         }
         // Pixels with no record left to belong to. An import whose library
         // write was refused has already written its preview, and a crash
@@ -294,21 +322,57 @@ final class UserMapsViewModel {
                 // and a refusal is exactly when those entries belong to maps
                 // this build cannot even see.
                 rememberDisplay()
-                // A file that placed itself is drawn somewhere the reader is
-                // probably not looking. The browser flies to it; here the
-                // panel covers the map on a phone, so without this the import
-                // of a georeferenced sheet produces no visible change at all
-                // and reads as a file the app quietly refused.
-                //
-                // Only the ones that arrived placed. A scan with no
-                // georeferencing has nowhere to fly to, and the reader is
-                // about to place it by hand anyway.
-                if !imported.record.needsGeoreferencing {
-                    pendingFit = Self.box(around: imported.record)
-                }
-            } catch {
+            } catch let refusal as UserMapStore.StoreRefusal {
+                // Not a device that could not write, but a library this build
+                // must not write to: a document from a later build, or one that
+                // is not a library at all. The row goes back. Keeping it would
+                // draw a map over a library this build cannot read, and every
+                // later write would carry it into that library — which is the
+                // one case where the whole-document write really would replace
+                // entries belonging to maps this build cannot see.
                 rows.removeAll { $0.id == id }
-                throw error
+                throw refusal
+            } catch {
+                // The browser's promise, kept here: a device that cannot keep a
+                // map never takes it away from the reader who just imported it.
+                // The row stays, drawn and usable, and says plainly that it
+                // will not be here next time. Removing it instead sends
+                // somebody off to re-export a file that was never the problem,
+                // when what they need is to free some space before they close
+                // the app.
+                //
+                // A later write that succeeds — another import, or a delete —
+                // carries this map into the library with it, because the whole
+                // document is written each time and the row is in it. That is a
+                // recovery rather than a contradiction: the preview is already
+                // on disk, so what lands is a complete entry, and the notice
+                // asks for the one thing that is certain to work.
+                notices.append(
+                    Notice(
+                        id: id,
+                        name: named,
+                        message: """
+                            This map could not be saved to your device. It stays on the map \
+                            until you close the app. Free some space and import it again to \
+                            keep it.
+                            """,
+                        isRefusal: false
+                    )
+                )
+            }
+            // A file that placed itself is drawn somewhere the reader is
+            // probably not looking. The browser flies to it; here the panel
+            // covers the map on a phone, so without this the import of a
+            // georeferenced sheet produces no visible change at all and reads
+            // as a file the app quietly refused. Outside the write, because a
+            // map that could not be saved is still on the map and still worth
+            // flying to.
+            //
+            // Only the ones that arrived placed. A scan with no georeferencing
+            // has nowhere to fly to, and the reader is about to place it by
+            // hand anyway.
+            if !imported.record.needsGeoreferencing {
+                pendingFit = Self.box(around: imported.record)
             }
             // A PDF is the one import whose result does not show what the app
             // did: which page came, whether the file placed it, and whether it
@@ -317,6 +381,16 @@ final class UserMapsViewModel {
             if let note = imported.record.pdf?.note {
                 notices.append(
                     Notice(id: id, name: named, message: note, isRefusal: false)
+                )
+            }
+            // A sheet that carried georeferencing this app could not read. The
+            // map is in the library and the row offers placement, so this is
+            // not a refusal — but without it the reader watches a file they
+            // exported *with* a projection arrive asking to be placed by hand,
+            // with nothing to say why or what would fix it.
+            if let unread = imported.unreadGeoreferencing {
+                notices.append(
+                    Notice(id: id, name: named, message: unread, isRefusal: false)
                 )
             }
         } catch let refusal as UserMapImportRefusal {
@@ -422,12 +496,19 @@ final class UserMapsViewModel {
     /// on screen, the editor closes, and the work is gone at the next launch
     /// with nothing having looked wrong. Reverting keeps what is drawn and what
     /// is stored the same thing, and says so.
-    private func save(_ name: String, at id: String) async {
+    /// Whether the library on disk now holds what the panel is showing.
+    ///
+    /// Reported rather than swallowed because a caller can hold the only other
+    /// copy of the user's work: the georeferencer's draft is deleted on a save,
+    /// and deleting it on a write that failed loses the points it was keeping.
+    @discardableResult
+    private func save(_ name: String, at id: String) async -> Bool {
         let document = rows.map(\.record)
         do {
             writes += 1
             try await store.save(document)
             saved = document
+            return true
         } catch {
             // Everything goes back, not only the record this call was told
             // about: a failed write leaves the whole document unwritten, and
@@ -448,6 +529,7 @@ final class UserMapsViewModel {
                     isRefusal: true
                 ),
             ]
+            return false
         }
     }
 
@@ -539,10 +621,15 @@ final class UserMapsViewModel {
         )
     }
 
-    /// Saves a placement the user worked out in the georeferencer.
-    func place(id: String, controlPoints: [SessionControlPoint], method: GeoreferenceMethod) async {
-        guard !isLibrarySealed else { return }
-        guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
+    /// Saves a placement the user worked out in the georeferencer, and says
+    /// whether the device took it. The georeferencer is holding the only other
+    /// copy of those points and deletes it on a `true`.
+    @discardableResult
+    func place(
+        id: String, controlPoints: [SessionControlPoint], method: GeoreferenceMethod
+    ) async -> Bool {
+        guard !isLibrarySealed else { return false }
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return false }
         // Points that actually moved mark the record as the user's work, so
         // switching to another frame later asks before replacing it. Compared
         // rather than assumed: the georeferencer saves on a close as well as on
@@ -553,7 +640,7 @@ final class UserMapsViewModel {
             rows[index].record.pdf = rows[index].record.pdf?.markingAdjusted()
         }
         rows[index].record.placement = .controlPoints(controlPoints, method: method)
-        await save(rows[index].record.name, at: id)
+        return await save(rows[index].record.name, at: id)
     }
 
     func delete(id: String) async {
@@ -566,6 +653,11 @@ final class UserMapsViewModel {
         rows.removeAll { !kept.contains($0.id) }
         saved = remaining
         rememberDisplay()
+        // The placement the user was part way through is theirs too, and it
+        // outlives the library row that named it: a points file keyed by an id
+        // no map has any more is unreachable ground truth about somewhere the
+        // user has been, kept forever. Deleting a map deletes it.
+        drafts.discard(identifier: id)
     }
 
     /// What the map should be drawing, in panel order.

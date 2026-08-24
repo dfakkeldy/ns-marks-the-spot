@@ -24,6 +24,8 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     @MainActor weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
+    private let tileStore: TileStore?
+    private let fletcherMigration: Task<Void, Never>?
     private let clearanceBox: LicenceClearanceBox
     private let progress: LayerLoadProgressBox?
 
@@ -31,12 +33,16 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         configuration: TileLayerConfiguration,
         tileCache: TileCache? = nil,
         tileFetcher: TileFetcher? = nil,
+        tileStore: TileStore? = nil,
+        fletcherMigration: Task<Void, Never>? = nil,
         clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
         progress: LayerLoadProgressBox? = nil
     ) {
         self.configuration = configuration
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
+        self.tileStore = tileStore
+        self.fletcherMigration = fletcherMigration
         self.clearanceBox = clearanceBox
         self.progress = progress
         super.init(urlTemplate: nil)
@@ -48,6 +54,23 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     /// region-isolation checker cannot analyze inside this ObjC override
     /// ("pattern that the region-based isolation checker does not understand").
     override func loadTile(at path: MKTileOverlayPath) async throws -> Data {
+        // Leaflet asks `_isValidTile` before it creates a request, so in the
+        // browser a square no sheet reaches never enters a load cycle and the
+        // row keeps saying "Ready to load". MapKit has no such gate: it asks
+        // for every square in view and expects an answer, and answering
+        // "served" for ground the survey never mapped is what put "Ready"
+        // under a layer that had drawn nothing. Over Halifax, with Fletcher
+        // switched on, the panel was reporting a finished load of nothing.
+        //
+        // The square still has to come back, because MapKit retries a thrown
+        // error. What changes is that no request is counted, which is the
+        // browser's own accounting.
+        if case .fletcherSheets = configuration.source,
+           FletcherSheets.sheets(coveringTileX: path.x, y: path.y, z: path.z).isEmpty
+        {
+            return try Self.fallbackTileData(z: path.z, x: path.x, y: path.y)
+        }
+
         let token = progress?.began(configuration.id)
         do {
             let (data, outcome, _) = try await tile(at: path)
@@ -125,6 +148,18 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         if let fetcher = tileFetcher,
            case .fletcherSheets(let baseURL) = configuration.source
         {
+            // What the user downloaded, asked before the network. Without this
+            // a saved area is bytes on the disk that nothing ever reads: the
+            // downloader writes to `TileStore` and every other path here reads
+            // the cache, so an area could report "complete" while the map went
+            // on fetching — and drew nothing at all with the phone offline.
+            //
+            // After the cache above rather than before it, because the two hold
+            // the same picture and the cache answers from memory.
+            if let saved = await savedTile(z: z, x: x, y: y) {
+                return (saved, .served, Self.substance(ofSaved: saved))
+            }
+
             let sheet = await Self.fletcherSheetTile(
                 z: z, x: x, y: y,
                 baseURL: baseURL, layerName: cacheKey,
@@ -364,12 +399,45 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         return (composited, outcome)
     }
 
+    /// A tile the user downloaded into a saved area, once the source sweep has
+    /// had its turn.
+    ///
+    /// The wait is the point of taking the migration handle. `TileStore` keys
+    /// Fletcher tiles by layer id alone, so bytes from a superseded tile build
+    /// sit under the same key as the current one until `FletcherSourceMigration`
+    /// removes them — and that runs detached at launch. Reading without waiting
+    /// would let the first tiles of a session come from a source the Rumsey
+    /// permission does not cover. `nil` migration means there is nothing
+    /// pending, which is every launch after the first one on a revision.
+    private func savedTile(z: Int, x: Int, y: Int) async -> Data? {
+        guard let tileStore else { return nil }
+        await fletcherMigration?.value
+        return await tileStore.tile(z: z, x: x, y: y, layerID: configuration.id)
+    }
+
+    /// What a saved tile actually holds.
+    ///
+    /// The downloader writes `TileComposite.transparent` byte for byte where
+    /// every covering sheet answered and none of them had ink, so comparing
+    /// against it tells the printed legend the same thing the live path tells
+    /// it there: ground inside a sheet's bounding box that the scan leaves
+    /// blank is coverage answered, not a picture drawn.
+    ///
+    /// Bytes that do not match are treated as ink. That is the honest fallback
+    /// for the one case this can miss — a tile saved before an OS whose PNG
+    /// encoder writes a different blank — because it credits the sheet the
+    /// coordinate really does sit inside, and a blank square is what gets
+    /// drawn either way.
+    private static func substance(ofSaved data: Data) -> TileSubstance {
+        data == TileComposite.transparent ? .outsideCoverage : .source
+    }
+
     /// The cache layer name for one sheet of a Fletcher layer.
     ///
     /// Not shared with the offline downloader, which writes saved areas to
-    /// `TileStore` under the layer id and never touches this cache — the two
-    /// stores answer different questions, and a saved area outliving a cache
-    /// sweep is the point of having both.
+    /// `TileStore` under the layer id — the two stores answer different
+    /// questions, and a saved area outliving a cache sweep is the point of
+    /// having both. `savedTile` is where a stored tile gets read back.
     private static func sheetCacheIdentifier(_ layerName: String, sheet: Int) -> String {
         "\(layerName)_sheet-\(sheet)"
     }

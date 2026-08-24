@@ -178,18 +178,90 @@ struct VectorEditTests {
         #expect(edited.features == (try square).features)
     }
 
-    /// Multi-part geometry needs a part index this call does not carry. Left
-    /// alone rather than guessed at: moving the wrong part silently corrupts
-    /// the user's own data.
-    @Test func aMultiPartFeatureIsLeftAloneRatherThanGuessedAt() throws {
+    /// A ring index counts through the whole feature, so the second part of a
+    /// multi-part shape is reachable and the first is not disturbed reaching
+    /// it. Coastline lots arrive as multi-polygons; their owner has to be able
+    /// to correct one.
+    @Test func aVertexInASecondPartMovesAndTheFirstPartStays() throws {
         let parsed = try layer(
             #"{"type":"MultiLineString","coordinates":[[[-63,44],[-62,45]],[[-61,46],[-60,47]]]}"#
         )
         let id = try #require(parsed.features.first?.id)
         let edited = VectorEdit.moving(
-            featureID: id, ring: 0, vertex: 0, to: position(0, 0), in: parsed
+            featureID: id, ring: 1, vertex: 0, to: position(-61.5, 46.5), in: parsed
         )
-        #expect(edited.features == parsed.features)
+        guard case .multiLineString(let lines)? = edited.features.first?.geometry else {
+            Issue.record("Expected a multi-line.")
+            return
+        }
+        #expect(lines[0] == [position(-63, 44), position(-62, 45)])
+        #expect(lines[1] == [position(-61.5, 46.5), position(-60, 47)])
+    }
+
+    /// The rings of a multi-polygon's second part follow the first part's,
+    /// hole and all, so a hole in part two has one index like any other ring.
+    @Test func ringsOfEveryPartAreCountedInOrder() throws {
+        let parsed = try layer(
+            """
+            {"type":"MultiPolygon","coordinates":
+              [[[[-63,44],[-62,44],[-62,45],[-63,44]],
+                [[-62.8,44.2],[-62.6,44.2],[-62.6,44.4],[-62.8,44.2]]],
+               [[[-61,46],[-60,46],[-60,47],[-61,46]]]]}
+            """
+        )
+        let geometry = try #require(parsed.features.first?.geometry)
+        #expect(VectorEdit.rings(of: geometry).count == 3)
+
+        let id = try #require(parsed.features.first?.id)
+        let edited = VectorEdit.moving(
+            featureID: id, ring: 2, vertex: 0, to: position(-61.5, 46.5), in: parsed
+        )
+        guard case .multiPolygon(let parts)? = edited.features.first?.geometry else {
+            Issue.record("Expected a multi-polygon.")
+            return
+        }
+        // The hole in part one is untouched, and part two's ring closes on its
+        // moved corner rather than tearing open.
+        #expect(parts[0][1].first == position(-62.8, 44.2))
+        #expect(parts[1][0].first == position(-61.5, 46.5))
+        #expect(parts[1][0].last == position(-61.5, 46.5))
+    }
+
+    /// Position is draw order: features paint in array order and a tap
+    /// answers with the last match. A feature put back on the end would come
+    /// back on top of neighbours it used to sit under.
+    @Test func aRestoredFeatureGoesBackWhereItWas() throws {
+        var parsed = try layer(
+            """
+            {"type":"FeatureCollection","features":[
+              {"type":"Feature","properties":{"name":"a"},
+               "geometry":{"type":"Point","coordinates":[-63,44]}},
+              {"type":"Feature","properties":{"name":"b"},
+               "geometry":{"type":"Point","coordinates":[-62,45]}},
+              {"type":"Feature","properties":{"name":"c"},
+               "geometry":{"type":"Point","coordinates":[-61,46]}}]}
+            """
+        )
+        let middle = try #require(parsed.features.dropFirst().first)
+        let id = try #require(middle.id)
+        parsed = VectorEdit.removing(featureID: id, from: parsed)
+        #expect(parsed.featureCount == 2)
+
+        parsed = VectorEdit.inserting(middle, at: 1, in: parsed)
+        #expect(parsed.features.map { $0.properties["name"]?.stringValue }
+            == ["a", "b", "c"])
+        #expect(parsed.features[1].id == id)
+        // The extent is recomputed from what is there now, not carried over.
+        #expect(parsed.bbox?.north == 46)
+    }
+
+    /// Undoing the erase of the last feature in a layer.
+    @Test func anIndexPastTheEndLandsOnTheEnd() throws {
+        let parsed = try square
+        let feature = try #require(parsed.features.first)
+        let restored = VectorEdit.inserting(feature, at: 99, in: parsed)
+        #expect(restored.featureCount == 2)
+        #expect(restored.features.last?.id == feature.id)
     }
 
     @Test func movingAWholeShapeKeepsItsShape() throws {

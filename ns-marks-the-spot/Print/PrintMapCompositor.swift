@@ -427,15 +427,25 @@ nonisolated struct PrintMapCompositor {
                 )
                 context.fillPath()
             }
-            context.addPath(circle)
-            context.setStrokeColor(
-                UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
-            )
-            context.setLineWidth(style.lineWidth * lineScale)
-            context.setLineDash(
-                phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
-            )
-            context.strokePath()
+            // The same visibility gate the ink predicates use: a width of
+            // zero is outside `setLineWidth`'s contract, and stroking with it
+            // could inherit whatever width the previous shape left behind.
+            if style.strokeOpacity > 0, style.lineWidth > 0 {
+                context.addPath(circle)
+                context.setStrokeColor(
+                    UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
+                )
+                context.setLineWidth(style.lineWidth * lineScale)
+                // Set, not inherited: a rounded feature drawn just before this
+                // marker would otherwise lend its round caps to the marker's
+                // dashes, and the same marker would print differently
+                // depending on an unrelated neighbour.
+                context.setLineCap(.butt)
+                context.setLineDash(
+                    phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
+                )
+                context.strokePath()
+            }
         }
         context.setLineDash(phase: 0, lengths: [])
         context.setLineCap(.butt)
@@ -468,17 +478,27 @@ nonisolated struct PrintMapCompositor {
                 context.setFillColor(UIColor(featureHex: fillHex, alpha: style.fillOpacity).cgColor)
                 context.fillPath(using: .evenOdd)
             }
-            context.addPath(path)
-            context.setStrokeColor(
-                UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
-            )
-            context.setLineWidth(style.lineWidth * lineScale)
-            context.setLineCap(style.hasRoundedEnds ? .round : .butt)
-            context.setLineJoin(style.hasRoundedEnds ? .round : .miter)
-            context.setLineDash(
-                phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
-            )
-            context.strokePath()
+            // Bevel rather than miter where the ends are square: a miter tip
+            // at an acute corner can spike several line widths past the
+            // vertex, which is ink the half-width reach the ink predicates
+            // pad by could never account for. Bevel and round both keep the
+            // whole stroke within half a width of the centre line, so the
+            // page's ink and the page's list agree at every corner. The same
+            // gate as the predicates, because a zero width is outside
+            // `setLineWidth`'s contract.
+            if style.strokeOpacity > 0, style.lineWidth > 0 {
+                context.addPath(path)
+                context.setStrokeColor(
+                    UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
+                )
+                context.setLineWidth(style.lineWidth * lineScale)
+                context.setLineCap(style.hasRoundedEnds ? .round : .butt)
+                context.setLineJoin(style.hasRoundedEnds ? .round : .bevel)
+                context.setLineDash(
+                    phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
+                )
+                context.strokePath()
+            }
         }
     }
 
@@ -522,6 +542,10 @@ nonisolated struct PrintMapCompositor {
                 context.addPath(path)
                 context.setStrokeColor(style.stroke.cgColor)
                 context.setLineWidth(style.width * lineScale)
+                // Bevel for the same reason the features use it: a miter tip
+                // at an acute lot corner would carry ink past the half-width
+                // reach the legend and the credit are padded by.
+                context.setLineJoin(.bevel)
                 if let dash = style.dash {
                     context.setLineDash(phase: 0, lengths: dash.map { $0 * lineScale })
                 } else {
@@ -577,9 +601,11 @@ nonisolated struct PrintMapCompositor {
     /// hand and can be nowhere near the selection, and a key to a colour that
     /// is not on the page is the page describing ink it does not carry.
     static func parcelLegend(
-        for parcels: [ParcelShape], within bounds: GeoBoundingBox
+        for parcels: [ParcelShape], within bounds: GeoBoundingBox, mapFrame: PdfRect
     ) -> [PdfComposer.LegendEntry] {
-        let drawn = Set(parcels.filter { marks($0, within: bounds) }.map(\.role))
+        let drawn = Set(
+            parcels.filter { marks($0, within: bounds, mapFrame: mapFrame) }.map(\.role)
+        )
         let ordered: [ParcelShape.Role] = [
             .selected, .selectedHistorical, .taxSale, .historicalTaxSale, .context
         ]
@@ -601,9 +627,39 @@ nonisolated struct PrintMapCompositor {
     /// frame from the inside, so being surrounded by one is exactly when it is
     /// most visible. The fill comes from the same style table the swatch does,
     /// so the key cannot disagree with the ink about either.
-    private static func marks(_ parcel: ParcelShape, within bounds: GeoBoundingBox) -> Bool {
-        if parcel.boundaryReaches(bounds) { return true }
+    /// Whether any of these parcels put ink inside the frame.
+    ///
+    /// Asked for the attribution, which follows the ink: a frame drawn well
+    /// away from the selection carries no Province boundary, and crediting
+    /// NSPRD on it names a source the page took nothing from.
+    static func drawsParcels(
+        _ parcels: [ParcelShape], within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        parcels.contains { marks($0, within: bounds, mapFrame: mapFrame) }
+    }
+
+    /// The boundary is asked about the frame grown by half this role's stroke
+    /// width: the stroke is centred on the boundary, so a line passing just
+    /// outside the page still lays a coloured sliver along its edge, and a
+    /// sliver with no key is the very thing the legend exists to prevent.
+    private static func marks(
+        _ parcel: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        if marksBoundary(parcel, within: bounds, mapFrame: mapFrame) { return true }
         return style(for: parcel.role).fill != nil && parcel.surrounds(bounds)
+    }
+
+    /// The padded half of `marks` on its own, shared with the title's
+    /// question, so the page cannot key and credit a grazing boundary the
+    /// title then refuses to name.
+    static func marksBoundary(
+        _ parcel: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        let reach = style(for: parcel.role).width / 2
+        let reached = bounds.expanded(
+            byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
+        )
+        return parcel.boundaryReaches(reached)
     }
 
     private static func legendName(for role: ParcelShape.Role) -> String {

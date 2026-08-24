@@ -44,6 +44,8 @@ jobs:
             -derivedDataPath "$DERIVED_DATA_PATH" \
             CODE_SIGNING_ALLOWED=NO
 
+      # A runner with no iPhone simulator used to be treated as success,
+      # which meant this gate could go green having run no tests at all.
       - name: Resolve test simulator
         id: test-simulator
         run: |
@@ -53,18 +55,14 @@ jobs:
           )"
 
           if [ -z "$destination" ]; then
-            echo "::notice::No available iPhone simulator was found; build-for-testing passed, so skipping simulator tests on this runner."
-            echo "has_destination=false" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo "::error::No available iPhone simulator was found, so the unit and UI tests cannot run. A green check here would claim evidence this run does not have."
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations || true
+            exit 1
           fi
 
-          {
-            echo "destination=$destination"
-            echo "has_destination=true"
-          } >> "$GITHUB_OUTPUT"
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
 
       - name: Run release tests
-        if: steps.test-simulator.outputs.has_destination == 'true'
         run: |
           xcodebuild test-without-building \
             -project "$PROJECT" \

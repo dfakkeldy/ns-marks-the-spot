@@ -19,6 +19,7 @@ struct TransparencySliderView: View {
     /// Starts an empty layer to draw into.
     var onNewDrawingLayer: (() -> Void)?
     @Binding var isExpanded: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// Which sections the reader has opened, once they have opened any.
     ///
@@ -58,7 +59,10 @@ struct TransparencySliderView: View {
                 Spacer()
 
                 Button {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                    withAnimation(
+                        .spring(response: 0.35, dampingFraction: 0.85)
+                            .unlessReduced(reduceMotion)
+                    ) {
                         isExpanded = false
                     }
                 } label: {
@@ -112,6 +116,9 @@ struct TransparencySliderView: View {
                     }
                 }
             }
+            // Named so that a test swipes the panel rather than the map behind
+            // it.
+            .accessibilityIdentifier("layer-panel-scroll")
             // No cap of its own: the caller sizes the card off the screen, and
             // a second fixed limit here would leave ten sections scrolling
             // inside half a panel on a phone that has room for all of them.
@@ -465,6 +472,8 @@ private struct LayerProvenanceDisclosure: View {
 private struct LayerRowView: View {
     let row: LayerRow
     let viewModel: OverlayViewModel
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         VStack(spacing: 8) {
@@ -481,7 +490,13 @@ private struct LayerRowView: View {
                         .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundStyle(row.isAvailable ? .primary : .secondary)
-                        .lineLimit(2)
+                        // Two lines keeps twenty rows readable as a list at
+                        // ordinary text sizes. At an accessibility size two
+                        // lines is a few words, and a truncated name is the
+                        // reader losing which source a row belongs to. The
+                        // browser never clamps these, so neither does this
+                        // once the text is that large.
+                        .lineLimit(typeSize.isAccessibilitySize ? nil : 2)
                         .minimumScaleFactor(0.9)
 
                     // Only for a layer that is on. The switch beside it already
@@ -534,7 +549,10 @@ private struct LayerRowView: View {
                     Toggle("", isOn: Binding(
                         get: { row.isVisible },
                         set: { _ in
-                            withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+                            withAnimation(
+                                .spring(response: 0.25, dampingFraction: 0.8)
+                                    .unlessReduced(reduceMotion)
+                            ) {
                                 viewModel.toggleVisibility(row.id)
                             }
                         }
@@ -607,7 +625,10 @@ private struct LayerRowView: View {
             case .rightsPending:
                 return "Rights pending · not yet displayed"
             case .hostingPending:
-                return "Not hosted in this build"
+                // Not "in this build": nothing hosts these anywhere. The
+                // Fletcher case below is the one where a build has no address
+                // for tiles that exist.
+                return "No tiles produced yet"
             case .available:
                 // Available in the catalog, absent from the map: an address
                 // this build does not have. Fletcher is the one that reaches

@@ -13,6 +13,7 @@ import { App } from "./App";
 import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
+  PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
 import { matchedHistoricalPids } from "./data/historicalTaxSales";
 import { eventsForStatus } from "./data/taxSaleCatalog";
@@ -4130,6 +4131,20 @@ describe("NS Marks The Spot Online", () => {
         "Mapped physical-address points are not proof of ownership, mailing address, access, occupancy, or legal parcel status.",
       ),
     ).toBeInTheDocument();
+
+    // The building count sits in the same card and does not come from the
+    // same place. It is asked of the Province's NSTDB map service, so it
+    // arrives under the restricted licence whatever the open-data copy of the
+    // same compilation says. Crediting it to the Open Government Licence told
+    // a reader they could reuse a figure on terms the service never granted.
+    const buildingNote = inspector.querySelector(".building-count-note");
+    expect(buildingNote).not.toBeNull();
+    const building = within(buildingNote as HTMLElement);
+    expect(buildingNote).toHaveTextContent(PROVINCE_ATTRIBUTION);
+    expect(buildingNote).not.toHaveTextContent(OPEN_GOVERNMENT_ATTRIBUTION);
+    expect(
+      building.getByRole("link", { name: "Read the Province licence" }),
+    ).toHaveAttribute("href", PROVINCE_LICENSE_URL);
   });
 
   it("shows explicit official-source resource intersections in the parcel sheet", async () => {

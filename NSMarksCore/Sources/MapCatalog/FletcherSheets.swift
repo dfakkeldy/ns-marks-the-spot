@@ -110,6 +110,16 @@ public enum FletcherSheets {
         all.filter { $0.bounds.intersects(box) }
     }
 
+    /// The sheets that share ground with this box, not merely an edge.
+    ///
+    /// The question to ask about a user's selection. `sheets(intersecting:)`
+    /// is the viewport question and answers yes for a box lying against a
+    /// sheet's edge, which is right for prefetching and wrong for telling
+    /// someone the survey reaches their ground.
+    public static func sheets(overlapping box: GeoBoundingBox) -> [FletcherSheet] {
+        all.filter { $0.bounds.overlaps(box) }
+    }
+
     /// Whether a sheet's pyramid can serve a given tile.
     ///
     /// The web gives each sheet's Leaflet layer a `bounds`, so the browser
@@ -118,13 +128,20 @@ public enum FletcherSheets {
     /// same restraint has to be applied before the request goes out. Without
     /// it, panning across Cape Breton with the layer on would fire 24 requests
     /// per tile, 23 of them guaranteed 404s.
+    ///
+    /// `overlaps` rather than `intersects`, because the sheet extents are cut
+    /// on tile boundaries and Leaflet's own bounds test is the strict one. An
+    /// inclusive test here puts a ring of tiles around every sheet that the
+    /// browser never asks for and the tile build never wrote: 118 of them
+    /// along sheet 1's edges at zoom 16 alone, each answered by a 404 the
+    /// loader then has to turn into a blank square.
     public static func covers(_ sheet: FletcherSheet, x: Int, y: Int, z: Int) -> Bool {
-        sheet.bounds.intersects(TileMath.geographicBounds(x: x, y: y, z: z))
+        sheet.bounds.overlaps(TileMath.geographicBounds(x: x, y: y, z: z))
     }
 
     /// The sheets that can serve a tile, in sheet-number order.
     public static func sheets(coveringTileX x: Int, y: Int, z: Int) -> [FletcherSheet] {
-        sheets(intersecting: TileMath.geographicBounds(x: x, y: y, z: z))
+        sheets(overlapping: TileMath.geographicBounds(x: x, y: y, z: z))
     }
 
     /// One box holding all 24 sheets.

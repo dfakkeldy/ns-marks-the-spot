@@ -15,10 +15,21 @@ enum UserMapImporter {
         var record: UserMapRecord
         var preview: CGImage
         /// True when the file said nothing about where it belongs, so the user
-        /// has to place it. Not an error, and not the same as georeferencing
-        /// that was present and refused — that is a refusal, with its own
-        /// message, because the remedies differ.
+        /// has to place it. Not an error.
         var needsGeoreferencing: Bool
+        /// Why the file's own georeferencing was not used, when it carried some
+        /// this app could not read. Nil when it placed itself, and nil when it
+        /// never claimed to.
+        ///
+        /// The map still comes in. The remedy differs from a plain scan's —
+        /// re-exporting in a system this app reads gets the placement back
+        /// automatically — so the reason is carried out to be said, rather than
+        /// the file being turned away with it.
+        ///
+        /// The PDF path leaves this nil: a page whose registration could not be
+        /// used says so in the record's own note, which the row keeps after a
+        /// relaunch.
+        var unreadGeoreferencing: String? = nil
     }
 
     /// Reads a file into a record. `id` and `name` are the caller's: the store
@@ -34,10 +45,22 @@ enum UserMapImporter {
         // different parser from a GeoTIFF's tags.
         if route == .pdf { return try importPdf(data: data, id: id, name: name) }
 
-        let placement: UserMapRecord.Placement?
+        var placement: UserMapRecord.Placement?
+        var unreadGeoreferencing: String?
         switch route {
         case .geoTiff:
-            placement = try embeddedPlacement(in: data)
+            do {
+                placement = try embeddedPlacement(in: data)
+            } catch let refusal where refusal.code == .unsupportedCrs {
+                // A file that named its system in prose rather than in a code
+                // is read no further, but it is still kept: the tags are what
+                // could not be read, not the picture. Everything else the tag
+                // parser refuses — a truncated file, a BigTIFF with impossible
+                // offsets — is a file whose pixels are in doubt too, and those
+                // still turn the import away.
+                unreadGeoreferencing = refusal.userMessage
+                placement = nil
+            }
         case .image, .pdf:
             placement = nil
         }
@@ -48,8 +71,28 @@ enum UserMapImporter {
         let (preview, pixelSize) = try decodePreview(
             data, honouringOrientation: placement == nil
         )
-        if let placement, case .embedded(let georeference) = placement {
-            try UserMapImport.checkGeoreferencing(georeference, pixelSize: pixelSize)
+        // A georeference this app cannot use is not a reason to refuse the
+        // file, for the same reason the PDF path does not refuse one: the sheet
+        // is a perfectly good map either way, and hand placement is what the
+        // georeferencer is for. Refusing also made the advice these messages
+        // give — place it by hand — impossible to follow.
+        //
+        // What is dropped is the file's claim about where its pixels belong.
+        // Nothing is guessed from a system nobody verified this app against,
+        // and nothing is drawn from numbers that land off the earth.
+        //
+        // The preview keeps the row order the raster was written in rather than
+        // being decoded again the way up an orientation tag asks for. The
+        // reader places these by matching what they can see against the map,
+        // and a second full decode of a large sheet is a real cost on a phone
+        // for a tag a GeoTIFF almost never carries.
+        if let current = placement, case .embedded(let georeference) = current {
+            do {
+                try UserMapImport.checkGeoreferencing(georeference, pixelSize: pixelSize)
+            } catch let refusal {
+                unreadGeoreferencing = refusal.userMessage
+                placement = nil
+            }
         }
 
         return Imported(
@@ -62,7 +105,8 @@ enum UserMapImporter {
                 placement: placement ?? .controlPoints([], method: .affine)
             ),
             preview: preview,
-            needsGeoreferencing: placement == nil
+            needsGeoreferencing: placement == nil,
+            unreadGeoreferencing: unreadGeoreferencing
         )
     }
 
@@ -158,9 +202,10 @@ enum UserMapImporter {
     /// The placement a GeoTIFF carries, or nil when it carries none.
     ///
     /// A TIFF with no geo tags is an ordinary scan and goes to the
-    /// georeferencer. A TIFF this cannot read at all is refused, because its
-    /// pixels may still decode and placing them by hand while the file's own
-    /// answer went unread is worse than saying so.
+    /// georeferencer. A TIFF whose tags name a system this app cannot read
+    /// throws `unsupportedCrs`, which the caller catches: the file is kept and
+    /// placed by hand, and the reader is told what went unread rather than
+    /// having it guessed at.
     private static func embeddedPlacement(
         in data: Data
     ) throws(UserMapImportRefusal) -> UserMapRecord.Placement? {
@@ -196,8 +241,9 @@ enum UserMapImporter {
                     userMessage: """
                         This map describes its coordinate system as \
                         "\(citation)" rather than by an EPSG code, which this \
-                        app cannot look up. Re-export it in NAD83 UTM zone 20 \
-                        or 21, or place it by hand.
+                        app cannot look up. It is in your library, ready to \
+                        place by hand. To have it place itself, re-export it in \
+                        NAD83 UTM zone 20 or 21, or in latitude and longitude.
                         """
                 )
             }

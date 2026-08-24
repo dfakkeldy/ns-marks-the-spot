@@ -20,6 +20,8 @@ nonisolated struct PrintMapCompositorTests {
         south: 46.10, west: -61.30, north: 46.14, east: -61.24
     )
 
+    private static let mapFrame = PdfTemplate.template(.landscape).mapFrame
+
     private static func layer(_ id: String, alpha: CGFloat = 1) -> MapLayerState {
         MapLayerState(
             configuration: TileLayerConfiguration(
@@ -110,6 +112,7 @@ nonisolated struct PrintMapCompositorTests {
     private static func compose(
         layers: [MapLayerState],
         parcels: [ParcelShape] = [],
+        features: [FeatureShape] = [],
         renderProvider: @escaping PrintMapCompositor.RenderProvider = { _, _, _, _ in
             throw URLError(.unsupportedURL)
         },
@@ -122,6 +125,7 @@ nonisolated struct PrintMapCompositorTests {
             baseMap: .standard,
             layers: layers,
             parcels: parcels,
+            features: features,
             lineScale: 2,
             tileProvider: tileProvider,
             renderProvider: renderProvider,
@@ -508,7 +512,7 @@ nonisolated struct PrintMapCompositorTests {
                 Self.parcel("3", .selected),
                 Self.parcel("4", .taxSale)
             ],
-            within: Self.bounds
+            within: Self.bounds, mapFrame: Self.mapFrame
         )
 
         #expect(
@@ -536,7 +540,7 @@ nonisolated struct PrintMapCompositorTests {
             parts: [[Self.ring(west: -63.5, east: -63.4, south: 44.6, north: 44.7)]]
         )
 
-        #expect(PrintMapCompositor.parcelLegend(for: [elsewhere], within: Self.bounds).isEmpty)
+        #expect(PrintMapCompositor.parcelLegend(for: [elsewhere], within: Self.bounds, mapFrame: Self.mapFrame).isEmpty)
     }
 
     /// The selection is drawn as an outline and nothing else. A parcel big
@@ -547,14 +551,14 @@ nonisolated struct PrintMapCompositorTests {
         let ring = Self.ring(west: -62, east: -60, south: 45, north: 47)
         let outlined = ParcelShape(pid: "10", role: .selected, parts: [[ring]])
 
-        #expect(PrintMapCompositor.parcelLegend(for: [outlined], within: Self.bounds).isEmpty)
+        #expect(PrintMapCompositor.parcelLegend(for: [outlined], within: Self.bounds, mapFrame: Self.mapFrame).isEmpty)
 
         // The filled marks are the other way round: a tax-sale parcel that
         // surrounds the frame tints every inch of it, which is when its key
         // matters most.
         let filled = ParcelShape(pid: "11", role: .taxSale, parts: [[ring]])
         #expect(
-            PrintMapCompositor.parcelLegend(for: [filled], within: Self.bounds).map(\.name)
+            PrintMapCompositor.parcelLegend(for: [filled], within: Self.bounds, mapFrame: Self.mapFrame).map(\.name)
                 == ["In a current tax-sale notice"]
         )
     }
@@ -569,7 +573,168 @@ nonisolated struct PrintMapCompositorTests {
             parts: [[Self.ring(west: -62, east: -60, south: 46.11, north: 47)]]
         )
 
-        #expect(PrintMapCompositor.parcelLegend(for: [across], within: Self.bounds).count == 1)
+        #expect(PrintMapCompositor.parcelLegend(for: [across], within: Self.bounds, mapFrame: Self.mapFrame).count == 1)
+    }
+
+    /// The attribution asks the same question the legend does, and has to get
+    /// the same answer. A page framed away from the selection carries no
+    /// Province boundary; crediting NSPRD on it names a source the page took
+    /// nothing from, which is the mirror image of the omission the credit
+    /// exists to prevent.
+    @Test func parcelsHeldButNotPrintedAreNotCredited() {
+        let elsewhere = ParcelShape(
+            pid: "13",
+            role: .selected,
+            parts: [[Self.ring(west: -63.5, east: -63.4, south: 44.6, north: 44.7)]]
+        )
+
+        #expect(
+            !PrintMapCompositor.drawsParcels(
+                [elsewhere], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        #expect(
+            PrintMapCompositor.drawsParcels(
+                [elsewhere, Self.parcel("14", .taxSale)],
+                within: Self.bounds,
+                mapFrame: Self.mapFrame
+            )
+        )
+        #expect(
+            !PrintMapCompositor.drawsParcels(
+                [], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+    }
+
+    /// The stroke is centred on the boundary. A selected parcel whose east
+    /// edge stands within two page points of the frame lays part of its
+    /// four-point stroke on the page, and the key and the credit must both
+    /// own that sliver; past the reach there is no sliver to own.
+    @Test("A boundary grazing the frame is keyed and credited for its stroke's reach")
+    func aBoundaryGrazingTheFrameIsKeyedAndCreditedForItsStrokesReach() {
+        // Two points of this 736-point frame is 0.000163 degrees of this
+        // ground; the near edge stands 0.00008 off the frame, the far 0.0004.
+        let grazing = ParcelShape(
+            pid: "15", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.30008, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            PrintMapCompositor.parcelLegend(
+                for: [grazing], within: Self.bounds, mapFrame: Self.mapFrame
+            ).map(\.name) == ["Selected parcel"]
+        )
+        #expect(
+            PrintMapCompositor.drawsParcels(
+                [grazing], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+
+        let clear = ParcelShape(
+            pid: "16", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.3004, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            PrintMapCompositor.parcelLegend(
+                for: [clear], within: Self.bounds, mapFrame: Self.mapFrame
+            ).isEmpty
+        )
+        #expect(
+            !PrintMapCompositor.drawsParcels(
+                [clear], within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+    }
+
+    /// The join is the reason the ink predicates may pad by half a line
+    /// width. A miter tip at this corner survives the default limit and would
+    /// spike twenty-five raster pixels onto the page; bevel keeps the whole
+    /// stroke within half a width of its centre line, so a vertex off the
+    /// page leaves the page blank.
+    @Test func anAcuteCornerJustOffThePageLeavesNoInkOnIt() async throws {
+        // A vee pointing east at the page, arms open fourteen degrees.
+        func vee(vertexLng: Double) -> FeatureShape {
+            FeatureShape(
+                id: "vee",
+                layer: .zoningHalifax,
+                geometry: .lineString([
+                    GeoPoint(lat: 46.1248, lng: -61.34),
+                    GeoPoint(lat: 46.12, lng: vertexLng),
+                    GeoPoint(lat: 46.1152, lng: -61.34)
+                ]),
+                style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 6),
+                title: "vee",
+                subtitle: nil
+            )
+        }
+
+        // Vertex twelve pixels west of the page's edge: the stroke reaches six
+        // pixels from its centre line, a mitered tip would have reached
+        // thirty-seven.
+        let off = try await Self.compose(
+            layers: [], features: [vee(vertexLng: -61.3012)]
+        ) { _, _ in (Self.pixel, .served, .source) }
+        for x: Double in [2, 15, 30] {
+            #expect(Self.isNear(Self.colour(CGPoint(x: x, y: 200), in: off.jpeg), (1, 1, 1)))
+        }
+
+        // The same corner on the page draws, so the blank above is the join,
+        // not a feature that never rendered. Sampled inside the arms rather
+        // than at the vertex: the bevel chord passes within a pixel of the
+        // vertex at this angle, and a sample on that anti-aliased edge reads
+        // as a blend.
+        let on = try await Self.compose(
+            layers: [], features: [vee(vertexLng: -61.297)]
+        ) { _, _ in (Self.pixel, .served, .source) }
+        for x: Double in [15, 24] {
+            #expect(
+                Self.isNear(
+                    Self.colour(CGPoint(x: x, y: 200), in: on.jpeg),
+                    (0x16 / 255.0, 0x65 / 255.0, 0x34 / 255.0)
+                )
+            )
+        }
+    }
+
+    /// The title asks the compositor's own padded question, held beside the
+    /// legend's here so the two cannot drift apart again: a grazing boundary
+    /// that is keyed and credited is named, one past its reach is neither.
+    /// And the one place they part on purpose: a page wholly inside the
+    /// selected parcel is that parcel's ground, so the title names what the
+    /// unfilled selection leaves unkeyed.
+    @Test func theTitleNamesExactlyWhatTheLegendKeysForAGrazingBoundary() {
+        let grazing = ParcelShape(
+            pid: "15", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.30008, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            OverlayViewModel.titleNamesParcel(
+                grazing, within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        let clear = ParcelShape(
+            pid: "16", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.3004, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            !OverlayViewModel.titleNamesParcel(
+                clear, within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        let county = ParcelShape(
+            pid: "17", role: .selected,
+            parts: [[Self.ring(west: -61.5, east: -61.0, south: 46.0, north: 46.3)]]
+        )
+        #expect(
+            OverlayViewModel.titleNamesParcel(
+                county, within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        #expect(
+            PrintMapCompositor.parcelLegend(
+                for: [county], within: Self.bounds, mapFrame: Self.mapFrame
+            ).isEmpty
+        )
     }
 
     private static func parcel(_ pid: String, _ role: ParcelShape.Role) -> ParcelShape {

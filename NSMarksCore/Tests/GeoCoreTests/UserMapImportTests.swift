@@ -166,7 +166,10 @@ struct UserMapGeoreferencingGateTests {
 
     /// A system nobody verified this app against is a fixable export mistake,
     /// and is reported as one — separately from georeferencing that is simply
-    /// wrong, because the two ask the user to do different things.
+    /// wrong, because the two ask the user to do different things. Either way
+    /// the file is kept: the importer catches this refusal, drops only the
+    /// placement, and the message has to say so, or a reader who has just been
+    /// told "cannot read" will go looking for a map they still have.
     @Test func anUnknownCoordinateSystemNamesItselfAndSaysWhatToDo() {
         do {
             try UserMapImport.checkGeoreferencing(
@@ -179,6 +182,11 @@ struct UserMapGeoreferencingGateTests {
         } catch {
             #expect(error.code == .unsupportedCrs)
             #expect(error.userMessage.contains("EPSG:32620"))
+            #expect(error.userMessage.contains("in your library"))
+            #expect(error.userMessage.contains("by hand"))
+            // The remedy is named, since re-exporting is the one thing that
+            // gets this sheet placing itself.
+            #expect(error.userMessage.contains("NAD83 UTM zone 20 or 21"))
         }
     }
 
@@ -206,9 +214,10 @@ struct UserMapGeoreferencingGateTests {
             Issue.record("expected a refusal")
         } catch {
             #expect(error.code == .invalidGeoreferencing)
-            // And it says the sheet can still be placed by hand, because it
-            // can: the pixels are fine, only the file's claim about them is
-            // not.
+            // And it says the sheet is kept and can still be placed by hand,
+            // because it can: the pixels are fine, only the file's claim about
+            // them is not.
+            #expect(error.userMessage.contains("in your library"))
             #expect(error.userMessage.contains("by hand"))
         }
     }

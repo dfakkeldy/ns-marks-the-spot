@@ -98,7 +98,7 @@ struct UserMapRowsView: View {
                 method: method(of: row),
                 openingRegion: referenceServices?.mainMapRegion
             ) { points, method in
-                Task { await viewModel.place(id: row.id, controlPoints: points, method: method) }
+                await viewModel.place(id: row.id, controlPoints: points, method: method)
             }
         }
         // `presenting:` rather than the row read out of the state: the actions
@@ -211,11 +211,15 @@ private struct UserMapRow: View {
                 Button("Place on map…", action: onPlace)
                     .font(.caption)
             } else {
+                // Live whether or not the sheet is showing, as the browser's
+                // is. Setting a scan to a third before revealing it is how a
+                // comparison gets prepared; a slider that only works once the
+                // sheet is up makes the reader blot out the map they are
+                // comparing against first, then dial back.
                 Slider(
                     value: Binding(get: { row.opacity }, set: mainActorSetter(onOpacity)),
                     in: 0...1
                 )
-                .disabled(!row.isVisible)
                 .accessibilityLabel("Opacity for \(row.record.name)")
             }
         }

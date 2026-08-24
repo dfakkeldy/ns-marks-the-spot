@@ -23,10 +23,14 @@ public struct EvidenceNoteInput: Sendable {
     /// A named source with a date, for the layers that were drawn.
     public struct Source: Sendable, Equatable {
         public let name: String
-        public let sourceURL: URL
+        /// Where to go and check, or `nil` for a source that has no page to
+        /// check. A map drawn with its background switched off is the case:
+        /// it has a name and nothing behind it, and pointing the reader at a
+        /// tile provider's licence would credit a source that drew nothing.
+        public let sourceURL: URL?
         public let sourceDate: String
 
-        public init(name: String, sourceURL: URL, sourceDate: String) {
+        public init(name: String, sourceURL: URL?, sourceDate: String) {
             self.name = name
             self.sourceURL = sourceURL
             self.sourceDate = sourceDate
@@ -114,14 +118,19 @@ public struct EvidenceNoteInput: Sendable {
     public enum AssessmentEvidence: Sendable, Equatable {
         case ready(PVSCAssessmentResponse.Result)
         case error
+        /// Asked, and had not answered by the time the note was written. Not a
+        /// source that failed, and not a parcel with no assessment account.
+        case stillOut
     }
 
     public enum DwellingEvidence: Sendable, Equatable {
-        case ready([PVSCDwellingResponse.Account])
+        case ready(PVSCDwellingResponse.Result)
         case error
         /// Never asked, because no account was resolved to ask about. Not the
         /// same as asked-and-empty.
         case blocked
+        /// Asked, and still out. See `AssessmentEvidence.stillOut`.
+        case stillOut
     }
 
     public var generatedAt: Date
@@ -144,10 +153,24 @@ public struct EvidenceNoteInput: Sendable {
     /// statement that the file has no address point inside this parcel, and a
     /// lookup that never ran must not make that statement.
     public var civicNotice: String?
+    /// Points the address file sent here that this build could not place.
+    ///
+    /// The list above it is real and is not the whole of what the file holds,
+    /// and a reader counting addresses off the note should be told the count
+    /// is a floor.
+    public var civicShortfall: String?
     /// The parcel's mapped area as the panel says it, or nil where the
     /// geometry returned none. Not computed here: an area the note worked out
     /// for itself could disagree with the one on the screen.
     public var mappedArea: String?
+    /// What the panel says about pieces of this parcel that could not be
+    /// drawn, or `nil` when every piece was.
+    ///
+    /// The note carries it for the same reason the panel does: every lookup
+    /// below ran inside the pieces that are drawn, so a parcel with an
+    /// undrawable piece has findings for part of itself, and a note that said
+    /// so nowhere would be read as findings for the whole of it.
+    public var boundaryNotice: String?
     /// Mapped buildings, mapped roads and water, and the flood screens.
     ///
     /// Carried in the same shape as the resource screens, and for the same
@@ -176,7 +199,9 @@ public struct EvidenceNoteInput: Sendable {
         events: [Event] = [],
         civicAddresses: [Link] = [],
         civicNotice: String? = nil,
+        civicShortfall: String? = nil,
         mappedArea: String? = nil,
+        boundaryNotice: String? = nil,
         buildingResults: [Result] = [],
         contextResults: [Result] = [],
         floodResults: [Result] = [],
@@ -195,7 +220,9 @@ public struct EvidenceNoteInput: Sendable {
         self.events = events
         self.civicAddresses = civicAddresses
         self.civicNotice = civicNotice
+        self.civicShortfall = civicShortfall
         self.mappedArea = mappedArea
+        self.boundaryNotice = boundaryNotice
         self.buildingResults = buildingResults
         self.contextResults = contextResults
         self.floodResults = floodResults
@@ -211,16 +238,24 @@ extension EvidenceNote {
         let generated = Format.timestamp(input.generatedAt)
         let layers = input.activeLayers.isEmpty
             ? ["- No optional map layers enabled."]
-            : input.activeLayers.map {
-                "- [\($0.name)](\($0.sourceURL.absoluteString)) — \($0.sourceDate)"
+            : input.activeLayers.map { source in
+                let named = source.sourceURL
+                    .map { "[\(source.name)](\($0.absoluteString))" } ?? source.name
+                return "- \(named) — \(source.sourceDate)"
             }
         let civic: [String]
         if let notice = input.civicNotice {
             civic = ["- \(notice) No absence is inferred."]
         } else if input.civicAddresses.isEmpty {
-            civic = ["- No mapped civic address point returned inside the parcel."]
+            // A shortfall with nothing above it is the case where the file had
+            // rows here and none of them could be read. Printing the absence
+            // sentence there would turn this build's parsing into a finding
+            // about the parcel.
+            civic = ["- " + (input.civicShortfall
+                ?? "No mapped civic address point returned inside the parcel.")]
         } else {
             civic = input.civicAddresses.map { "- [\($0.label)](\($0.sourceURL.absoluteString))" }
+                + (input.civicShortfall.map { ["- \($0)"] } ?? [])
         }
         let events = input.events.isEmpty
             ? ["No included municipal event is associated with this parcel in the selected mode."]
@@ -269,6 +304,9 @@ extension EvidenceNote {
                 "## Mapped parcel area",
                 "",
                 "- " + (input.mappedArea ?? "No mapped parcel area returned."),
+            ]
+            + (input.boundaryNotice.map { ["- \($0)"] } ?? [])
+            + [
                 "",
                 """
                 Mapped area is measured from NSPRD boundary geometry. It is approximate, \
@@ -358,8 +396,13 @@ extension EvidenceNote {
                 "## Geology and resource context",
                 "",
             ]
-            + (input.resourceNotice.map { ["- \($0) No absence is inferred."] }
-                ?? input.resourceResults.flatMap(resultLines)
+            // A whole-section notice is the last resort, not the first. When
+            // the caller knows which sources were asked it lists them, and a
+            // notice printed over that list would take their names and their
+            // links away from a reader who needs both to go and ask again.
+            + (input.resourceResults.isEmpty
+                ? input.resourceNotice.map { ["- \($0) No absence is inferred."] } ?? []
+                : input.resourceResults.flatMap(resultLines)
                     + input.resourceResults.flatMap(sourceLines))
             + [
                 "",
@@ -421,10 +464,22 @@ extension EvidenceNote {
     private static func assessmentLines(
         _ evidence: EvidenceNoteInput.AssessmentEvidence
     ) -> [String] {
+        if case .stillOut = evidence {
+            return [stillOut("PVSC assessment")]
+        }
         guard case .ready(let result) = evidence else {
             return ["PVSC assessment source unavailable at export time."]
         }
         if result.accounts.isEmpty {
+            guard result.unreadableRows == 0 else {
+                return [
+                    """
+                    No PVSC assessment record for this parcel could be read. \
+                    \(unreadableRows(result.unreadableRows)) Whether an assessment account is \
+                    recorded here is unknown.
+                    """
+                ]
+            }
             return [
                 result.matchMethod == .noticeAAN
                     ? "No PVSC assessment history was returned for the municipal notice AAN."
@@ -447,13 +502,15 @@ extension EvidenceNote {
             ? ["", "Multiple assessment accounts were returned. They are kept separate and are not summed."]
             : []
 
+        let shortfall = result.unreadableRows > 0
+            ? ["", unreadableRows(result.unreadableRows)] : []
         return [methodNote] + multipleNote + result.accounts.flatMap { account in
             ["", "### AAN \(account.aan)", ""]
                 + account.records.map {
                     "- \($0.taxYear): assessed \(Format.currency($0.assessedValue)); "
                         + "taxable assessed \(Format.currency($0.taxableAssessedValue))"
                 }
-        }
+        } + shortfall
     }
 
     private static func dwellingLines(
@@ -462,6 +519,8 @@ extension EvidenceNote {
         switch evidence {
         case .error:
             return ["PVSC residential dwelling source unavailable at export time."]
+        case .stillOut:
+            return [stillOut("PVSC residential dwelling")]
         case .blocked:
             return [
                 """
@@ -469,20 +528,49 @@ extension EvidenceNote {
                 resolved.
                 """
             ]
-        case .ready(let accounts) where accounts.isEmpty:
+        case .ready(let result) where result.accounts.isEmpty:
             return [
-                """
-                No residential dwelling record was returned for the matched assessment accounts. \
-                This does not prove no building exists; commercial and other non-residential \
-                structures are not in this dataset.
-                """
+                result.unreadableRows > 0
+                    ? """
+                    No residential dwelling record for the matched assessment accounts could be \
+                    read. \(unreadableRows(result.unreadableRows)) Whether a dwelling record \
+                    exists here is unknown.
+                    """
+                    : """
+                    No residential dwelling record was returned for the matched assessment \
+                    accounts. This does not prove no building exists; commercial and other \
+                    non-residential structures are not in this dataset.
+                    """
             ]
-        case .ready(let accounts):
-            return accounts.flatMap { account in
+        case .ready(let result):
+            return result.accounts.flatMap { account in
                 ["", "### AAN \(account.aan)", ""]
                     + account.dwellings.map { "- \(facts($0))" }
             }
+                + (result.unreadableRows > 0
+                    ? ["", unreadableRows(result.unreadableRows)] : [])
         }
+    }
+
+    /// What a source that was asked and had not answered is called.
+    ///
+    /// Kept apart from "unavailable at export time" on purpose. A source that
+    /// failed has given its answer, and a reader can weigh a failure. A source
+    /// that never answered has given nothing at all, and the difference decides
+    /// whether asking again is worth anything.
+    private static func stillOut(_ source: String) -> String {
+        "\(source) had not answered when the note was written. "
+            + "Nothing is concluded from its silence."
+    }
+
+    /// What the reply carried and this build could not read.
+    ///
+    /// A row that failed to parse and a row that was never sent look the same
+    /// in a list, and only the second one means the parcel has no such record.
+    private static func unreadableRows(_ count: Int) -> String {
+        count == 1
+            ? "1 row in the PVSC reply could not be read and is not listed."
+            : "\(count) rows in the PVSC reply could not be read and are not listed."
     }
 
     private static func facts(_ dwelling: PVSCDwellingResponse.Dwelling) -> String {

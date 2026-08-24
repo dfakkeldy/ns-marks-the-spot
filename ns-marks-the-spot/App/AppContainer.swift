@@ -26,6 +26,14 @@ final class AppContainer {
     /// place acceptance and revocation happen.
     let clearanceBox: LicenceClearanceBox
 
+    /// The one-off sweep of tiles from a superseded Fletcher build, or `nil`
+    /// when this install has already done it.
+    ///
+    /// Held rather than dropped because the map and the offline screen both
+    /// have to wait for it before they trust a stored tile. See
+    /// `FletcherSourceMigration.runIfNeeded`.
+    let fletcherMigration: Task<Void, Never>?
+
     /// The container the app launches with.
     ///
     /// `UITestMode` on the command line builds one that remembers nothing: an
@@ -62,7 +70,8 @@ final class AppContainer {
         let fetcher = TileFetcher(tileCache: cache)
         self.tileFetcher = fetcher
         let tileDownloadManager = TileDownloadManager(tileStore: store)
-        FletcherSourceMigration.runIfNeeded(tileCache: cache, tileStore: store)
+        let migration = FletcherSourceMigration.runIfNeeded(tileCache: cache, tileStore: store)
+        self.fletcherMigration = migration
 
         let licenceStore: ProvinceLicenceStore
         if let licenceStorage {
@@ -82,12 +91,15 @@ final class AppContainer {
             tileStore: store,
             tileCache: cache,
             tileDownloadManager: tileDownloadManager,
-            tileLoader: fletcherTileLoader
+            tileLoader: fletcherTileLoader,
+            fletcherMigration: migration
         )
 
         let controller = MapController(
             tileCache: cache,
             tileFetcher: fetcher,
+            tileStore: store,
+            fletcherMigration: migration,
             clearanceBox: clearanceBox
         )
         self.mapController = controller
@@ -126,16 +138,21 @@ final class AppContainer {
 
     /// The layers the map opens on, given what the user has already agreed to.
     ///
-    /// `nativeDefaultVisible` answers for a fresh install: the licence is
-    /// unanswered, and Fletcher is the one sheet set that needs no permission.
-    /// It is the wrong answer for a returning user who accepted months ago. The
-    /// browser opens that user on aerial imagery, parcels, water and roads, and
-    /// this app remembers no per-layer choice between launches — so without
-    /// this they switch the same four back on at every cold start.
+    /// `nativeDefaultVisible` answers whether or not the licence has been
+    /// accepted: Fletcher is the one sheet set that needs no permission, and it
+    /// is the layer this app opens on by design.
     ///
-    /// Clearance is read, never assumed. Before acceptance this is exactly the
-    /// catalogue's native default, which is what keeps a first launch off the
-    /// Province services and out of the licence dialog.
+    /// It used to add the four layers the catalogue marks `webDefaultVisible`
+    /// once a licence had been accepted, because the browser was said to open a
+    /// returning reader on aerial imagery, parcels, water and roads. It does
+    /// not. `initialProvinceLayerVisibility` is read by the parity export and
+    /// by nothing that runs: the browser opens on the Explore Nova Scotia
+    /// setup, which is the modern base map alone with tax sales off. Accepting
+    /// a licence is permission to ask the Province for something, not a request
+    /// to switch four layers on.
+    ///
+    /// Clearance is still read, never assumed, because a session may name
+    /// layers the licence no longer covers.
     ///
     /// A stored session replaces the whole calculation. Defaults answer for a
     /// reader who has not said anything yet, and one who left the map with four
@@ -158,11 +175,7 @@ final class AppContainer {
             }
             return asked
         }
-        guard clearance.allowsRestrictedLayers else {
-            return LayerCatalog.nativeDefaultVisibleIDs
-        }
         return LayerCatalog.nativeDefaultVisibleIDs
-            .union(LayerCatalog.all.filter(\.webDefaultVisible).map(\.id))
     }
 
     /// Every catalogued raster the app can draw, bottom of the stack first.

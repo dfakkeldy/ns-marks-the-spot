@@ -19,6 +19,8 @@ final class VectorEditSession {
         case drawing(VectorEditShape)
         /// Tapping selects a feature to name, move or delete.
         case selecting
+        /// Tapping takes the feature under the finger off the layer.
+        case erasing
     }
 
     private(set) var editingID: String?
@@ -27,6 +29,19 @@ final class VectorEditSession {
     private(set) var draft: VectorDraft?
     private(set) var selectedFeatureID: String?
     var tool: Tool = .selecting
+
+    /// What this erase run took off, oldest first, each with the place it
+    /// came from.
+    ///
+    /// Empty unless the eraser is up. This is what stands in for the
+    /// per-feature confirmation the eraser replaces: an alert per feature is
+    /// the thing a delete mode exists to avoid, so the safety moves to the
+    /// other side of the action and every erase can be taken back while the
+    /// mode that made it is still on.
+    ///
+    /// The features rather than snapshots of the whole layer: a run over a
+    /// ten-thousand-feature layer would otherwise hold a copy of it per tap.
+    private(set) var erased: [(index: Int, feature: GeoJsonFeature)] = []
 
     /// Why the last write did not land. Held rather than thrown: a failed save
     /// must never interrupt drawing, so the edit stays on screen and the user
@@ -51,6 +66,10 @@ final class VectorEditSession {
     /// revisions for one edit.
     @ObservationIgnored private var unsaved: ParsedVector?
 
+    /// Counts commits, so a write that lands late can tell whether what it
+    /// wrote is still the newest thing the user has done.
+    @ObservationIgnored private var revision = 0
+
     /// A layer name typed but not written yet, and the timer that will write it.
     @ObservationIgnored private var pendingName: String?
     @ObservationIgnored private var renameTask: Task<Void, Never>?
@@ -66,6 +85,7 @@ final class VectorEditSession {
         storageError = nil
         selectedFeatureID = nil
         draft = nil
+        erased = []
         tool = .selecting
         editingID = row.id
         record = row.record
@@ -90,6 +110,7 @@ final class VectorEditSession {
         parsed = nil
         draft = nil
         selectedFeatureID = nil
+        erased = []
         tool = .selecting
         return true
     }
@@ -98,6 +119,7 @@ final class VectorEditSession {
 
     func startDrawing(_ shape: VectorEditShape) {
         selectedFeatureID = nil
+        erased = []
         tool = .drawing(shape)
         draft = VectorDraft(shape: shape)
     }
@@ -112,6 +134,11 @@ final class VectorEditSession {
         guard isEditing else { return }
         switch tool {
         case .drawing(let shape):
+            // The first tap of a new shape lets go of the last one. The panel
+            // shows the selected feature's name fields, and leaving the
+            // previous feature selected while a new one is being placed puts a
+            // name field for shape A under the vertices of shape B.
+            if draft == nil { selectedFeatureID = nil }
             var current = draft ?? VectorDraft(shape: shape)
             current.append(GeoJsonPosition(lng: longitude, lat: latitude))
             draft = current
@@ -120,9 +147,47 @@ final class VectorEditSession {
             if shape == .point {
                 finishDrawing()
             }
-        case .selecting:
+        case .selecting, .erasing:
+            // Both are answered by what is under the finger, which only the
+            // map knows: the tolerance for "under" is a distance on screen,
+            // and the session has no zoom to convert it with.
             break
         }
+    }
+
+    // MARK: - Erasing
+
+    /// Arms the eraser. Each tap takes off the feature under the finger.
+    func startErasing() {
+        draft = nil
+        selectedFeatureID = nil
+        erased = []
+        tool = .erasing
+    }
+
+    /// Puts the eraser down. What was erased stays erased.
+    func stopErasing() {
+        erased = []
+        tool = .selecting
+    }
+
+    /// Takes one feature off, keeping it and its place in case of undo.
+    func erase(featureID: String) {
+        guard let parsed,
+            let index = parsed.features.firstIndex(where: { $0.id == featureID })
+        else { return }
+        erased.append((index, parsed.features[index]))
+        if selectedFeatureID == featureID { selectedFeatureID = nil }
+        commit(VectorEdit.removing(featureID: featureID, from: parsed))
+    }
+
+    var erasedCount: Int { erased.count }
+
+    /// Puts the last erased feature back, with its id, its text and its place
+    /// in the drawing order.
+    func undoLastErase() {
+        guard let parsed, let last = erased.popLast() else { return }
+        commit(VectorEdit.inserting(last.feature, at: last.index, in: parsed))
     }
 
     func undoLastVertex() {
@@ -134,9 +199,15 @@ final class VectorEditSession {
         guard let parsed, let geometry = draft?.geometry() else { return }
         let edited = VectorEdit.adding(geometry, to: parsed)
         draft = nil
-        tool = .selecting
-        // Selected on commit, so the panel opens on the feature the user just
-        // drew and they can name it while they still know what it is.
+        // The tool stays armed, as the browser's does: someone marking six
+        // culverts along a road marks them one after another, and reopening
+        // Point between each is five taps that do nothing but restore the
+        // state the app just left. The tool button stays lit, and tapping it
+        // again puts the tool down.
+        //
+        // Selected on commit, so the panel opens on the feature just drawn and
+        // it can be named while the user still knows what it is. The next tap
+        // on the map lets go of it again.
         selectedFeatureID = edited.features.last?.id
         commit(edited)
     }
@@ -241,6 +312,7 @@ final class VectorEditSession {
     private func commit(_ edited: ParsedVector) {
         parsed = edited
         unsaved = edited
+        revision += 1
         record?.featureCount = edited.featureCount
         record?.bbox = edited.bbox
         schedulePersist()
@@ -272,21 +344,36 @@ final class VectorEditSession {
         return await write()
     }
 
+    /// Writes what is pending, and anything committed while that was in
+    /// flight.
+    ///
+    /// The loop is the point. A write suspends on storage, and the main actor
+    /// is free during the suspension, so the user can commit again before it
+    /// returns — an undo landing on top of the erase being written is exactly
+    /// that. Clearing the pending copy unconditionally would drop the newer
+    /// edit on the floor: the timer that would have written it was cancelled
+    /// by the commit that made it, and its replacement finds nothing pending.
+    /// So the pending copy is cleared only if nothing arrived meanwhile, and
+    /// the newer edit is written on the next turn.
     @discardableResult
     private func write() async -> Bool {
         // Nothing pending is a success: there is no edit that failed to save.
-        guard let editingID, let pending = unsaved else { return true }
-        guard await viewModel.replaceGeometry(id: editingID, with: pending) else {
-            // The view model reports its own storage refusals; surfaced here so
-            // the editing panel says it rather than the layer list the user
-            // cannot see while editing. The pending copy is kept, so the next
-            // edit or the next Done tries again.
-            storageError = viewModel.lastRefusal?.userMessage
-            return false
+        guard let editingID else { return true }
+        while let pending = unsaved {
+            let written = revision
+            guard await viewModel.replaceGeometry(id: editingID, with: pending) else {
+                // The view model reports its own storage refusals; surfaced here
+                // so the editing panel says it rather than the layer list the
+                // user cannot see while editing. The pending copy is kept, so
+                // the next edit or the next Done tries again.
+                storageError = viewModel.lastRefusal?.userMessage
+                return false
+            }
+            storageError = nil
+            record = viewModel.rows.first { $0.id == editingID }?.record ?? record
+            guard revision == written else { continue }
+            unsaved = nil
         }
-        unsaved = nil
-        storageError = nil
-        record = viewModel.rows.first { $0.id == editingID }?.record ?? record
         return true
     }
 }

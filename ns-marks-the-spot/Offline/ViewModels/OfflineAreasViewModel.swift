@@ -27,6 +27,7 @@ final class OfflineAreasViewModel {
     @ObservationIgnored private let savedAreaRepository: SavedOfflineAreaRepository
     @ObservationIgnored private let tileDownloadManager: TileDownloadManager?
     @ObservationIgnored private let tileLoader: (any TileDataLoading)?
+    @ObservationIgnored private let fletcherMigration: Task<Void, Never>?
     @ObservationIgnored private let averageTileBytes = 12_000
     @ObservationIgnored private var hasLoadedSavedAreas = false
     @ObservationIgnored private var activeDownloadTask: Task<Void, Never>?
@@ -63,13 +64,15 @@ final class OfflineAreasViewModel {
         tileCache: TileCache,
         savedAreaRepository: SavedOfflineAreaRepository = SavedOfflineAreaRepository(),
         tileDownloadManager: TileDownloadManager? = nil,
-        tileLoader: (any TileDataLoading)? = nil
+        tileLoader: (any TileDataLoading)? = nil,
+        fletcherMigration: Task<Void, Never>? = nil
     ) {
         self.tileStore = tileStore
         self.tileCache = tileCache
         self.savedAreaRepository = savedAreaRepository
         self.tileDownloadManager = tileDownloadManager
         self.tileLoader = tileLoader
+        self.fletcherMigration = fletcherMigration
     }
 
     func estimateDraft(
@@ -146,6 +149,14 @@ final class OfflineAreasViewModel {
             guard area.failedTileCount > 0 else { return }
         }
 
+        // Before anything is written. The sweep of a superseded tile build
+        // deletes the whole Fletcher layer out of the store, and it runs
+        // detached at launch: starting first means either the downloader reuses
+        // bytes the sweep is about to remove and counts them as this build's,
+        // or the sweep lands mid-download and empties an area that has already
+        // reported itself complete.
+        await fletcherMigration?.value
+
         guard beginStorageOperation() else { return }
         defer { finishStorageOperation() }
 
@@ -206,6 +217,10 @@ final class OfflineAreasViewModel {
     }
 
     func refreshStorageSummary() async {
+        // Same wait as the download path, for the same reason: bytes the sweep
+        // is about to delete would otherwise be counted, and an area whose
+        // tiles are about to go would read as complete.
+        await fletcherMigration?.value
         async let tileStoreSummary = tileStore.summary()
         async let tileCacheSummary = tileCache.diskSummary()
 

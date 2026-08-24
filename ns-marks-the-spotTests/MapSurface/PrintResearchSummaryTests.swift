@@ -32,6 +32,23 @@ struct PrintResearchSummaryTests {
         return inspection
     }
 
+    private static func input(_ inspection: ParcelInspection) throws -> EvidenceNoteInput {
+        ParcelEvidenceExport.input(
+            generatedAt: Date(timeIntervalSince1970: 1_700_000_000),
+            inspection: inspection,
+            taxSaleEnabled: false,
+            mode: .current,
+            shareURL: try #require(URL(string: "https://example.invalid/map")),
+            position: MapPosition(latitude: 45.6, longitude: -61.4, zoom: 15),
+            activeLayers: [],
+            baseMap: .standard,
+            fletcherBaseURL: nil
+        )
+    }
+
+    /// What the note calls a source that was asked and never answered.
+    private static let waiting = "This source had not answered when the note was written."
+
     /// The sheet used to say no source had answered whenever one had not, which
     /// is a different claim and, with six of seven in hand, a false one.
     @Test("Only the sources still looking are named as pending")
@@ -57,6 +74,96 @@ struct PrintResearchSummaryTests {
         inspection.resources = .unavailable("The service did not answer.")
         #expect(ParcelEvidenceExport.pending(inspection).isEmpty)
         #expect(ParcelEvidenceExport.isReady(inspection))
+    }
+
+    /// The wait is not open-ended, and what comes out of it has to be readable
+    /// as a report made early rather than as a parcel with nothing behind it.
+    @Test("A note written while a source was out says so, source by source")
+    func aNoteWrittenEarlySaysWhichSourcesWereStillOut() throws {
+        var inspection = Self.settled()
+        inspection.civicAddresses = .looking
+        inspection.resources = .looking
+
+        let input = try Self.input(inspection)
+
+        // Not "no civic address on this parcel", which is a finding, and not
+        // "the source was unavailable", which is a claim about the service.
+        #expect(input.civicNotice == Self.waiting)
+        #expect(input.resourceNotice == Self.waiting)
+        #expect(input.civicAddresses.isEmpty)
+        #expect(EvidenceNote.build(input).markdown.contains(Self.waiting))
+    }
+
+    /// The two PVSC sources had only two states to arrive in, so a lookup still
+    /// in flight was written down as a source that had failed. A reader can act
+    /// on a failure — ask again later, or go to the counter — and acting on the
+    /// wrong one of those wastes the trip.
+    @Test("A PVSC source still out is not reported as one that failed")
+    func aPvscSourceStillOutIsNotReportedAsOneThatFailed() throws {
+        var inspection = Self.settled()
+        inspection.assessments = .looking
+        inspection.dwellings = .looking
+
+        let input = try Self.input(inspection)
+        #expect(input.assessmentEvidence == .stillOut)
+        #expect(input.dwellingEvidence == .stillOut)
+
+        let markdown = EvidenceNote.build(input).markdown
+        #expect(markdown.contains("PVSC assessment had not answered when the note was written."))
+        #expect(
+            markdown.contains("PVSC residential dwelling had not answered when the note was written.")
+        )
+        #expect(markdown.contains("source unavailable at export time") == false)
+        // And nothing here reads as an answer about the parcel.
+        #expect(markdown.contains("No PVSC assessment account point was returned") == false)
+
+        // A source that did answer, badly, still says so.
+        var failed = Self.settled()
+        failed.assessments = .unavailable("The assessment service did not answer.")
+        failed.dwellings = .unavailable("The dwelling service did not answer.")
+        let unavailable = try Self.input(failed)
+        #expect(unavailable.assessmentEvidence == .error)
+        #expect(unavailable.dwellingEvidence == .error)
+    }
+
+    /// The three geology sources are asked as one request and answer as one, so
+    /// a wait that ran out leaves nothing to list them from. Named from the
+    /// query's own roll instead: "geology and resource context is missing" does
+    /// not tell a reader which of the three it was, or where to go and ask it.
+    @Test("A geology lookup still out still names its three sources")
+    func aGeologyLookupStillOutStillNamesItsThreeSources() throws {
+        var inspection = Self.settled()
+        inspection.resources = .looking
+
+        let input = try Self.input(inspection)
+        #expect(
+            input.resourceResults.map(\.name)
+                == ["Mineral occurrences", "Mineral tenure", "Abandoned mine openings"]
+        )
+        #expect(input.resourceResults.allSatisfy { $0.status == .error })
+        #expect(input.resourceResults.allSatisfy { $0.errorMessage == Self.waiting })
+        #expect(input.resourceResults.allSatisfy { $0.results.isEmpty })
+        // Each one traceable, which is the point of naming them at all.
+        #expect(input.resourceResults.allSatisfy { $0.attribution?.isEmpty == false })
+
+        let markdown = EvidenceNote.build(input).markdown
+        #expect(markdown.contains("Mineral tenure"))
+        #expect(markdown.contains("Abandoned mine openings"))
+    }
+
+    /// Per-source lines in an appendix somebody may never reach are not the
+    /// same as telling them on the front page.
+    @Test("A page made early names the sources that never answered")
+    func aPageMadeEarlyNamesTheSourcesThatNeverAnswered() throws {
+        #expect(ParcelEvidenceExport.stillOutDisclosure([]) == nil)
+
+        let sentence = try #require(
+            ParcelEvidenceExport.stillOutDisclosure(
+                ["Flood evidence", "Geology and resource context"]
+            )
+        )
+        #expect(sentence.contains("Flood evidence and Geology and resource context"))
+        #expect(sentence.contains("not a finding about this parcel"))
     }
 
     @Test("Pending sources are named in the order the note lists them")

@@ -97,6 +97,27 @@ nonisolated enum FletcherTilePlanner {
         return count
     }
 
+    /// Whether any sheet of the survey has ground inside this rectangle.
+    ///
+    /// Asked separately from the tile count, because zero tiles and no ground
+    /// are different answers and a reader shown only "0" cannot tell which one
+    /// they were given. Everything outside Cape Breton is the second.
+    ///
+    /// Tested sheet by sheet rather than against `FletcherSheets.coverage`.
+    /// That box is the rectangle drawn around 24 ragged sheets and exists to
+    /// bound work before the per-sheet test runs; it is not an answer anyone
+    /// should read. A rectangle can sit well inside it and touch no sheet at
+    /// all, which is true of the water along its southern edge, and asking the
+    /// box would have told someone selecting open Atlantic that the survey
+    /// reaches them and then quoted them zero tiles for it.
+    ///
+    /// `overlapping` rather than `intersecting`, so a selection lying against
+    /// a sheet's edge is outside it. Shared ground is what the reader is being
+    /// told about, and an edge is not ground.
+    static func coversAnyGround(in bounds: MapBounds) -> Bool {
+        !FletcherSheets.sheets(overlapping: geographicBox(bounds)).isEmpty
+    }
+
     /// `bounds` narrowed to the ground the survey covers, or `nil` for none.
     ///
     /// The clip is what keeps the loops above bounded by Nova Scotia instead of
@@ -104,14 +125,9 @@ nonisolated enum FletcherTilePlanner {
     /// the whole world would iterate billions of coordinates at zoom 16 to
     /// discard almost all of them.
     private static func clippedToCoverage(_ bounds: MapBounds) -> MapBounds? {
-        let normalized = bounds.normalized
-        let selection = GeoBoundingBox(
-            south: normalized.minLatitude,
-            west: normalized.minLongitude,
-            north: normalized.maxLatitude,
-            east: normalized.maxLongitude
-        )
-        guard let clipped = selection.intersection(with: FletcherSheets.coverage) else {
+        guard let clipped = geographicBox(bounds)
+            .intersection(with: FletcherSheets.coverage)
+        else {
             return nil
         }
         return MapBounds(
@@ -119,6 +135,17 @@ nonisolated enum FletcherTilePlanner {
             minLongitude: clipped.west,
             maxLatitude: clipped.north,
             maxLongitude: clipped.east
+        )
+    }
+
+    /// The same rectangle, said the way the catalogue says it.
+    private static func geographicBox(_ bounds: MapBounds) -> GeoBoundingBox {
+        let normalized = bounds.normalized
+        return GeoBoundingBox(
+            south: normalized.minLatitude,
+            west: normalized.minLongitude,
+            north: normalized.maxLatitude,
+            east: normalized.maxLongitude
         )
     }
 
