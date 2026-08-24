@@ -436,6 +436,11 @@ nonisolated struct PrintMapCompositor {
                     UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).cgColor
                 )
                 context.setLineWidth(style.lineWidth * lineScale)
+                // Set, not inherited: a rounded feature drawn just before this
+                // marker would otherwise lend its round caps to the marker's
+                // dashes, and the same marker would print differently
+                // depending on an unrelated neighbour.
+                context.setLineCap(.butt)
                 context.setLineDash(
                     phase: 0, lengths: (style.dashPattern ?? []).map { $0 * lineScale }
                 )

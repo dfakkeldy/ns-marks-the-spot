@@ -112,6 +112,7 @@ nonisolated struct PrintMapCompositorTests {
     private static func compose(
         layers: [MapLayerState],
         parcels: [ParcelShape] = [],
+        features: [FeatureShape] = [],
         renderProvider: @escaping PrintMapCompositor.RenderProvider = { _, _, _, _ in
             throw URLError(.unsupportedURL)
         },
@@ -124,6 +125,7 @@ nonisolated struct PrintMapCompositorTests {
             baseMap: .standard,
             layers: layers,
             parcels: parcels,
+            features: features,
             lineScale: 2,
             tileProvider: tileProvider,
             renderProvider: renderProvider,
@@ -641,6 +643,92 @@ nonisolated struct PrintMapCompositorTests {
             !PrintMapCompositor.drawsParcels(
                 [clear], within: Self.bounds, mapFrame: Self.mapFrame
             )
+        )
+    }
+
+    /// The join is the reason the ink predicates may pad by half a line
+    /// width. A miter tip at this corner survives the default limit and would
+    /// spike twenty-five raster pixels onto the page; bevel keeps the whole
+    /// stroke within half a width of its centre line, so a vertex off the
+    /// page leaves the page blank.
+    @Test func anAcuteCornerJustOffThePageLeavesNoInkOnIt() async throws {
+        // A vee pointing east at the page, arms open fourteen degrees.
+        func vee(vertexLng: Double) -> FeatureShape {
+            FeatureShape(
+                id: "vee",
+                layer: .zoningHalifax,
+                geometry: .lineString([
+                    GeoPoint(lat: 46.1248, lng: -61.34),
+                    GeoPoint(lat: 46.12, lng: vertexLng),
+                    GeoPoint(lat: 46.1152, lng: -61.34)
+                ]),
+                style: VectorFeatureStyle(strokeHex: "#166534", lineWidth: 6),
+                title: "vee",
+                subtitle: nil
+            )
+        }
+
+        // Vertex twelve pixels west of the page's edge: the stroke reaches six
+        // pixels from its centre line, a mitered tip would have reached
+        // thirty-seven.
+        let off = try await Self.compose(
+            layers: [], features: [vee(vertexLng: -61.3012)]
+        ) { _, _ in (Self.pixel, .served, .source) }
+        for x: Double in [2, 15, 30] {
+            #expect(Self.isNear(Self.colour(CGPoint(x: x, y: 200), in: off.jpeg), (1, 1, 1)))
+        }
+
+        // The same corner on the page draws, so the blank above is the join,
+        // not a feature that never rendered.
+        let on = try await Self.compose(
+            layers: [], features: [vee(vertexLng: -61.297)]
+        ) { _, _ in (Self.pixel, .served, .source) }
+        #expect(
+            Self.isNear(
+                Self.colour(CGPoint(x: 30, y: 200), in: on.jpeg),
+                (0x16 / 255.0, 0x65 / 255.0, 0x34 / 255.0)
+            )
+        )
+    }
+
+    /// The title asks the compositor's own padded question, held beside the
+    /// legend's here so the two cannot drift apart again: a grazing boundary
+    /// that is keyed and credited is named, one past its reach is neither.
+    /// And the one place they part on purpose: a page wholly inside the
+    /// selected parcel is that parcel's ground, so the title names what the
+    /// unfilled selection leaves unkeyed.
+    @Test func theTitleNamesExactlyWhatTheLegendKeysForAGrazingBoundary() {
+        let grazing = ParcelShape(
+            pid: "15", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.30008, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            OverlayViewModel.titleNamesParcel(
+                grazing, within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        let clear = ParcelShape(
+            pid: "16", role: .selected,
+            parts: [[Self.ring(west: -61.35, east: -61.3004, south: 46.11, north: 46.13)]]
+        )
+        #expect(
+            !OverlayViewModel.titleNamesParcel(
+                clear, within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        let county = ParcelShape(
+            pid: "17", role: .selected,
+            parts: [[Self.ring(west: -61.5, east: -61.0, south: 46.0, north: 46.3)]]
+        )
+        #expect(
+            OverlayViewModel.titleNamesParcel(
+                county, within: Self.bounds, mapFrame: Self.mapFrame
+            )
+        )
+        #expect(
+            PrintMapCompositor.parcelLegend(
+                for: [county], within: Self.bounds, mapFrame: Self.mapFrame
+            ).isEmpty
         )
     }
 

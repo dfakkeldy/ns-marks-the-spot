@@ -1481,10 +1481,22 @@ final class OverlayViewModel {
         // sentence on the page a reader has no way to check. Surrounds counts
         // here though the selection has no fill, because a page wholly inside
         // the selected parcel is that parcel's ground.
-        guard PrintMapCompositor.marksBoundary(shape, within: bounds, mapFrame: mapFrame)
-            || shape.surrounds(bounds)
-        else { return nil }
+        guard Self.titleNamesParcel(shape, within: bounds, mapFrame: mapFrame) else {
+            return nil
+        }
         return pid
+    }
+
+    /// The title's ink question on its own, held out where a test can put it
+    /// beside the legend's so the two cannot drift apart again. The boundary
+    /// is padded exactly as the compositor pads it; surrounds stays unpadded
+    /// and fill-blind, because a page wholly inside the selected parcel is
+    /// that parcel's ground even though the selection paints no fill there.
+    nonisolated static func titleNamesParcel(
+        _ shape: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
+    ) -> Bool {
+        PrintMapCompositor.marksBoundary(shape, within: bounds, mapFrame: mapFrame)
+            || shape.surrounds(bounds)
     }
 
     /// Whether the named parcel's whole outline is inside the ground that will
