@@ -85,8 +85,8 @@ struct LayerInstallationTests {
         #expect(on.isSubset(of: Set(LayerCatalog.nativeDefaultVisibleIDs.map(\.rawValue))))
         #expect(!on.contains(LayerID.nsprd.rawValue))
         // Aerial is a base map as well as an overlay. With it off, the picker
-        // reads Standard, which is what the browser's modern base map is.
-        #expect(accepted.mapController.baseMapType == .standard)
+        // reads OpenStreetMap, which is the browser's modern base map.
+        #expect(accepted.mapController.baseMapType == .openStreetMap)
     }
 
     @Test("An unanswered licence opens on the native default alone")
@@ -98,7 +98,7 @@ struct LayerInstallationTests {
         let on = Set(container.mapController.layers.filter(\.isVisible).map(\.id))
 
         #expect(on.isSubset(of: Set(LayerCatalog.nativeDefaultVisibleIDs.map(\.rawValue))))
-        #expect(container.mapController.baseMapType == .standard)
+        #expect(container.mapController.baseMapType == .openStreetMap)
     }
 
     @Test("With nothing stored, clearance does not change what opens")

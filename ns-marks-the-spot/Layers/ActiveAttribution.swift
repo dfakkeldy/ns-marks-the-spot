@@ -31,7 +31,35 @@ nonisolated enum ActiveAttribution {
         var id: String { provider + disclaimer }
     }
 
+    /// The credit the OpenStreetMap tile policy requires wherever its map is
+    /// shown, leading the strip because the base is under everything else.
+    ///
+    /// The provider is the credit line itself, so the collapsed strip reads
+    /// "© OpenStreetMap contributors" verbatim — which is the wording the
+    /// policy asks for, exactly as the browser's corner control carries it.
+    static let openStreetMapCredit = Credit(
+        provider: OpenStreetMapBase.credit,
+        copyright: nil,
+        disclaimer: "The base map is drawn from live OpenStreetMap tiles. "
+            + "Map data is available under the Open Database Licence.",
+        licenseTitle: "openstreetmap.org/copyright",
+        licenseURL: OpenStreetMapBase.copyrightURL
+    )
+
+    /// The credits for what is drawn: the base map's, where the base owes one,
+    /// then one entry per distinct source among the layers.
+    static func credits(
+        for descriptors: [LayerDescriptor], baseMap: MapBaseType
+    ) -> [Credit] {
+        (baseMap == .openStreetMap ? [openStreetMapCredit] : [])
+            + credits(for: descriptors)
+    }
+
     /// One entry per distinct source among the layers currently drawn.
+    ///
+    /// Layers only — a surface whose ground can be the OpenStreetMap base must
+    /// call `credits(for:baseMap:)` above, or its required credit is silently
+    /// dropped.
     ///
     /// Distinct by provider and caveat together, in the order the layers were
     /// given: eleven provincial layers are one credit, and a municipal source

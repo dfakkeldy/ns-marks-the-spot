@@ -130,22 +130,7 @@ nonisolated enum ParcelEvidenceExport {
         baseMap: MapBaseType,
         fletcherBaseURL: URL?
     ) -> [EvidenceNoteInput.Source] {
-        [
-            EvidenceNoteInput.Source(
-                name: baseMapName(baseMap),
-                // No link and no tile date for a map drawn with its background
-                // switched off. Apple's licence under "no base map" would
-                // credit tiles that were never fetched, and a reader checking
-                // where the picture came from would be sent to the wrong
-                // place.
-                sourceURL: baseMap == .blank
-                    ? nil
-                    : URL(string: "https://www.apple.com/legal/internet-services/maps/"),
-                sourceDate: baseMap == .blank
-                    ? "no background tiles were drawn"
-                    : "Live Apple Maps tiles"
-            )
-        ]
+        [baseMapSource(baseMap)]
             + descriptors.flatMap { descriptor -> [EvidenceNoteInput.Source] in
                 var listed = [EvidenceNoteInput.Source]()
                 if let url = url(for: descriptor, fletcherBaseURL: fletcherBaseURL) {
@@ -179,16 +164,37 @@ nonisolated enum ParcelEvidenceExport {
     /// map" against a photograph would misdescribe the page the note is about.
     /// The NS aerial base draws over Apple's standard tiles and is listed as
     /// its own layer besides, so here it is the tiles underneath that get named.
-    private static func baseMapName(_ baseMap: MapBaseType) -> String {
+    ///
+    /// The link and the tile date travel with the name: Apple's licence under
+    /// "no base map" would credit tiles that were never fetched, and Apple's
+    /// under the OpenStreetMap ground would send a reader checking where the
+    /// picture came from to the wrong publisher — the OSM line matches the
+    /// browser's own note for the same tiles.
+    private static func baseMapSource(_ baseMap: MapBaseType) -> EvidenceNoteInput.Source {
         switch baseMap {
-        case .standard, .nsAerial:
-            return "Apple Maps standard base map"
-        case .satellite:
-            return "Apple Maps satellite imagery"
-        case .hybrid:
-            return "Apple Maps satellite imagery with labels"
+        case .openStreetMap:
+            return EvidenceNoteInput.Source(
+                name: OpenStreetMapBase.pageName,
+                sourceURL: OpenStreetMapBase.copyrightURL,
+                sourceDate: "Live OpenStreetMap tiles"
+            )
+        case .standard, .nsAerial, .satellite, .hybrid:
+            let name = switch baseMap {
+            case .satellite: "Apple Maps satellite imagery"
+            case .hybrid: "Apple Maps satellite imagery with labels"
+            default: "Apple Maps standard base map"
+            }
+            return EvidenceNoteInput.Source(
+                name: name,
+                sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/"),
+                sourceDate: "Live Apple Maps tiles"
+            )
         case .blank:
-            return "no base map"
+            return EvidenceNoteInput.Source(
+                name: "no base map",
+                sourceURL: nil,
+                sourceDate: "no background tiles were drawn"
+            )
         }
     }
 

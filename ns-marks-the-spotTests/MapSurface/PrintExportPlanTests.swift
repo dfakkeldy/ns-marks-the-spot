@@ -263,6 +263,67 @@ struct PrintExportPlanTests {
         #expect(sources[1].attribution.contains(credit.disclaimer))
     }
 
+    /// A page on the OpenStreetMap ground credits OpenStreetMap the way the
+    /// browser's export does — the required wording, with the copyright page
+    /// linked — and owes Apple nothing, because no Apple pixel is on it.
+    @Test func aPageOnTheOpenStreetMapGroundCreditsItAndNotApple() throws {
+        let roads = try #require(LayerCatalog.descriptor(for: .roads))
+        let sources = PrintExportPlan.sources(
+            baseMap: .openStreetMap,
+            outcomes: [
+                Self.outcome(
+                    OpenStreetMapBase.layerID, OpenStreetMapBase.pageName, .drawn
+                ),
+                Self.outcome("roads", "Roads", .drawn),
+            ],
+            descriptor: { $0 == "roads" ? roads : nil }
+        )
+
+        #expect(sources.first?.name == "Modern map")
+        #expect(sources.first?.attribution == "© OpenStreetMap contributors")
+        #expect(sources.first?.licenceUrl == "https://www.openstreetmap.org/copyright")
+        #expect(!sources.contains { $0.attribution.contains("Apple") })
+    }
+
+    /// The credit follows the ink for the base exactly as for a layer: a
+    /// ground whose every tile failed put no pixel on the page and is not
+    /// credited for it. Ink in patches is still ink, and is.
+    @Test func anOpenStreetMapGroundThatNeverPrintedIsNotCredited() {
+        let failed = PrintExportPlan.sources(
+            baseMap: .openStreetMap,
+            outcomes: [
+                Self.outcome(
+                    OpenStreetMapBase.layerID, OpenStreetMapBase.pageName,
+                    .failed("offline")
+                )
+            ],
+            descriptor: { _ in nil }
+        )
+        #expect(failed.isEmpty)
+
+        let partial = PrintExportPlan.sources(
+            baseMap: .openStreetMap,
+            outcomes: [
+                Self.outcome(
+                    OpenStreetMapBase.layerID, OpenStreetMapBase.pageName,
+                    .partial(missing: 3, of: 40)
+                )
+            ],
+            descriptor: { _ in nil }
+        )
+        #expect(partial.map(\.name) == ["Modern map"])
+    }
+
+    /// And the other way: an Apple base owes OpenStreetMap nothing.
+    @Test func anAppleBaseCarriesNoOpenStreetMapCredit() {
+        for base in [MapBaseType.standard, .satellite, .hybrid, .nsAerial] {
+            let sources = PrintExportPlan.sources(
+                baseMap: base, outcomes: [], descriptor: { _ in nil }
+            )
+            #expect(sources.map(\.attribution) == ["© Apple Maps"], "\(base)")
+        }
+    }
+
     /// A frame the user drew is already the paper's shape, so the export's own
     /// growth has nothing left to do. If it did, the page would cover ground
     /// outside the rectangle the user was shown — which is the whole point of

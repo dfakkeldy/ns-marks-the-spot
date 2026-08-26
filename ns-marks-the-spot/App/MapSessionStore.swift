@@ -20,11 +20,19 @@ import NSDataServices
 @MainActor
 struct MapSessionStore {
     static let key = "map-session-v1"
-    /// The background is stored beside the link rather than inside it. MapKit's
-    /// satellite and hybrid maps have no name in the vocabulary the two
-    /// surfaces share, and inventing one would put a word in a pasteable link
-    /// that the browser would drop on arrival.
-    static let backgroundKey = "map-session-background-v1"
+    /// The background is stored beside the link rather than inside it. Apple's
+    /// standard, satellite and hybrid maps have no name in the vocabulary the
+    /// two surfaces share, and inventing one would put a word in a pasteable
+    /// link that the browser would drop on arrival.
+    static let backgroundKey = "map-session-background-v2"
+    /// Written by builds that had no OpenStreetMap base. On those, Apple's
+    /// standard map stood in for the web's modern map, so "Standard" under
+    /// this key is a reader who was working on the stand-in — every launch
+    /// wrote it, chosen or not. `load` settles the migration the first time it
+    /// reads this key, writing the v2 value and retiring the old one; a
+    /// Standard stored under v2 is a choice made against the real
+    /// OpenStreetMap base and is restored as itself.
+    static let legacyBackgroundKey = "map-session-background-v1"
 
     private let defaults: UserDefaults
 
@@ -50,13 +58,37 @@ struct MapSessionStore {
         else { return nil }
         return MapSession(
             view: MapShareState.parse(stored),
-            // Absent for a session written before the background was carried,
-            // and absent is not "Standard": the link itself says whether the
-            // modern map was on, and answering for it here would switch a
-            // reader's blank background back to streets.
-            background: defaults.string(forKey: Self.backgroundKey)
-                .flatMap(MapBaseType.init(rawValue:))
+            background: storedBackground()
         )
+    }
+
+    /// The stored background, or `nil` for a session that never carried one.
+    ///
+    /// Absent is not "Standard": the link itself says whether the modern map
+    /// was on, and answering for it here would switch a reader's blank
+    /// background back to streets.
+    private func storedBackground() -> MapBaseType? {
+        if let raw = defaults.string(forKey: Self.backgroundKey) {
+            return MapBaseType(rawValue: raw)
+        }
+        guard let legacy = defaults.string(forKey: Self.legacyBackgroundKey) else {
+            return nil
+        }
+        // A legacy "Standard" was the stand-in for the web's modern map, so it
+        // resumes as the OpenStreetMap base that map actually is. Everything
+        // else under the old key — satellite, hybrid, aerial, none — named an
+        // Apple-side choice and comes back as itself.
+        let migrated = legacy == MapBaseType.standard.rawValue
+            ? .openStreetMap
+            : MapBaseType(rawValue: legacy)
+        // Settled here, at the one read that uses the old value. Left for a
+        // later save to retire, a launch whose save never lands would re-run
+        // the rewrite over a background the reader had since chosen.
+        if let migrated {
+            defaults.set(migrated.rawValue, forKey: Self.backgroundKey)
+        }
+        defaults.removeObject(forKey: Self.legacyBackgroundKey)
+        return migrated
     }
 
     func save(_ session: MapSession) {
@@ -72,6 +104,7 @@ struct MapSessionStore {
     func clear() {
         defaults.removeObject(forKey: Self.key)
         defaults.removeObject(forKey: Self.backgroundKey)
+        defaults.removeObject(forKey: Self.legacyBackgroundKey)
     }
 }
 

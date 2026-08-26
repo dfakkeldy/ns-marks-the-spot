@@ -239,15 +239,30 @@ nonisolated enum PrintExportPlan {
         drewParcels: Bool = false,
         descriptor: (String) -> LayerDescriptor?
     ) -> [PrintLayerSource] {
-        // A page printed with no base map carries no Apple pixels, so it owes
-        // Apple nothing. The obligation follows the ink here as it does below.
-        var sources = baseMap == .blank
-            ? []
-            : [
+        // The obligation follows the ink. A page printed with no base map
+        // carries no Apple pixels, so it owes Apple nothing — and one printed
+        // on the OpenStreetMap ground owes OpenStreetMap, not Apple, which is
+        // credited from its outcome below. The name and the credit travel in
+        // one switch so no base can ever be paired with the wrong publisher.
+        var sources: [PrintLayerSource]
+        switch baseMap {
+        case .blank, .openStreetMap:
+            sources = []
+        // The aerial is a layer of its own and is credited as one; what is
+        // underneath it is still Apple's standard map.
+        case .standard, .nsAerial:
+            sources = [
                 PrintLayerSource(
-                    name: baseMapName(baseMap), attribution: "© Apple Maps", licenceUrl: nil
+                    name: "Apple Maps", attribution: "© Apple Maps", licenceUrl: nil
                 )
             ]
+        case .satellite, .hybrid:
+            sources = [
+                PrintLayerSource(
+                    name: "Apple Maps imagery", attribution: "© Apple Maps", licenceUrl: nil
+                )
+            ]
+        }
         for outcome in outcomes {
             // A layer whose attribution is printed but whose pixels are not
             // would credit a publisher for a picture the page does not carry.
@@ -259,6 +274,21 @@ nonisolated enum PrintExportPlan {
             if case .outsideCoverage = outcome.state { continue }
             if case .licenceBlocked = outcome.state { continue }
             if case .notDrawn = outcome.state { continue }
+            // The OpenStreetMap ground, credited the way the browser's export
+            // credits it: the required wording, and the copyright page as the
+            // licence link. It reaches here only through an outcome with ink,
+            // so a base whose every tile failed is not credited for a page it
+            // is not on.
+            if outcome.id == OpenStreetMapBase.layerID {
+                sources.append(
+                    PrintLayerSource(
+                        name: OpenStreetMapBase.attributionName,
+                        attribution: OpenStreetMapBase.credit,
+                        licenceUrl: OpenStreetMapBase.copyrightURL.absoluteString
+                    )
+                )
+                continue
+            }
             guard let layer = descriptor(outcome.id) else { continue }
             // The app's own credit table, which is where the disclaimer text a
             // licence obliges is kept; the shared catalog carries the licence,
@@ -294,20 +324,5 @@ nonisolated enum PrintExportPlan {
 
     private static var parcelSourceName: String {
         LayerCatalog.descriptor(for: .nsprd)?.name ?? "NSPRD"
-    }
-
-    private static func baseMapName(_ baseMap: MapBaseType) -> String {
-        switch baseMap {
-        case .standard: "Apple Maps"
-        case .satellite: "Apple Maps imagery"
-        case .hybrid: "Apple Maps imagery"
-        // The aerial is a layer of its own and is credited as one; what is
-        // underneath it is still Apple's standard map.
-        case .nsAerial: "Apple Maps"
-        // Never reaches the strip — `sources` drops the base entry entirely —
-        // but the evidence note names what was read over, and "no base map" is
-        // the honest answer there.
-        case .blank: "No base map"
-        }
     }
 }

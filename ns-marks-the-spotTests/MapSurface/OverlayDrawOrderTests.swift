@@ -17,6 +17,9 @@ struct OverlayDrawOrderTests {
         controller.mapView = mapView
 
         var state = MapViewState()
+        // Apple ground, so the base-replacing OpenStreetMap overlay stays out
+        // of the ordering under test.
+        state.baseMapType = .standard
         state.featureShapes = [zoningShape]
         state.parcelShapes = [parcel]
         controller.apply(state)
@@ -37,6 +40,7 @@ struct OverlayDrawOrderTests {
         controller.mapView = mapView
 
         var state = MapViewState()
+        state.baseMapType = .standard
         state.layers = [try #require(nsprdLayer), try #require(contoursLayer)]
         state.featureShapes = [oldGrowthShape, zoningShape]
         controller.apply(state)
@@ -57,6 +61,7 @@ struct OverlayDrawOrderTests {
         controller.mapView = mapView
 
         var state = MapViewState()
+        state.baseMapType = .standard
         state.featureShapes = [zoningShape, oldGrowthShape]
         controller.apply(state)
         #expect(mapView.overlays.count == 2)

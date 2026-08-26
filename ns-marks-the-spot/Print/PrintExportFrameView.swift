@@ -19,6 +19,11 @@ struct PrintExportFrameView: View {
     let centre: GeoPoint
     let zoom: Double
     @Binding var state: PrintFrameGeometry.FrameState
+    /// A credit the ground under the frame requires, or nil for a ground that
+    /// carries its own. The attribution strip is hidden while a page is being
+    /// framed, and on the OpenStreetMap base the tiles still drawing behind
+    /// this frame must not be the one screen with no credit on it.
+    var credit: String?
     let onCancel: () -> Void
     let onContinue: (GeoBoundingBox) -> Void
 
@@ -177,24 +182,36 @@ struct PrintExportFrameView: View {
     }
 
     private var toolbar: some View {
-        HStack(spacing: 12) {
-            Button(state.orientation == .portrait ? "Portrait" : "Landscape") {
-                state.orientation = state.orientation == .portrait ? .landscape : .portrait
+        VStack(alignment: .leading, spacing: 6) {
+            if let credit {
+                Text(credit)
+                    .font(.caption2)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.regularMaterial, in: Capsule())
+                    .padding(.leading, 12)
+                    .accessibilityIdentifier("print-frame-credit")
             }
-            .buttonStyle(.bordered)
-            .accessibilityIdentifier("print-frame-orientation")
 
-            Spacer()
-
-            Button("Cancel", action: onCancel)
+            HStack(spacing: 12) {
+                Button(state.orientation == .portrait ? "Portrait" : "Landscape") {
+                    state.orientation = state.orientation == .portrait ? .landscape : .portrait
+                }
                 .buttonStyle(.bordered)
-            Button("Continue") { onContinue(bounds) }
-                .buttonStyle(.borderedProminent)
-                .accessibilityIdentifier("print-frame-continue")
+                .accessibilityIdentifier("print-frame-orientation")
+
+                Spacer()
+
+                Button("Cancel", action: onCancel)
+                    .buttonStyle(.bordered)
+                Button("Continue") { onContinue(bounds) }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("print-frame-continue")
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(.regularMaterial)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .background(.regularMaterial)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
     }
 }

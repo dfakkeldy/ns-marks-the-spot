@@ -313,6 +313,55 @@ struct MapSessionTests {
         #expect(next.mapController.baseMapType == .satellite)
     }
 
+    /// Sessions from builds with no OpenStreetMap base wrote "Standard" for
+    /// every reader on the default ground, because Apple's standard map was
+    /// standing in for the web's modern map. Now the real thing exists, that
+    /// stored stand-in resumes as the OpenStreetMap base it stood for.
+    @Test func aLegacyStandardBackgroundResumesAsTheOpenStreetMapBase() throws {
+        // What a pre-OSM build actually left behind: the old key, no new one.
+        let defaults = Self.defaults()
+        defaults.set(
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/?position=46.1,-60.2,15",
+            forKey: MapSessionStore.key
+        )
+        defaults.set(
+            MapBaseType.standard.rawValue, forKey: MapSessionStore.legacyBackgroundKey
+        )
+        let store = MapSessionStore(defaults: defaults)
+
+        #expect(try #require(store.load()).background == .openStreetMap)
+
+        // Settled at that read: a Standard chosen afterwards, against the real
+        // OpenStreetMap base, is a choice — the retired v1 value must not
+        // rewrite it on any later launch.
+        store.save(MapSession(view: MapShareState(pid: "15234636"), background: .standard))
+        #expect(try #require(store.load()).background == .standard)
+    }
+
+    /// The other legacy values named an Apple-side choice nothing stood in
+    /// for, and they come back as themselves.
+    @Test func aLegacySatelliteBackgroundResumesAsItself() throws {
+        let defaults = Self.defaults()
+        defaults.set(
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/?position=46.1,-60.2,15",
+            forKey: MapSessionStore.key
+        )
+        defaults.set(
+            MapBaseType.satellite.rawValue, forKey: MapSessionStore.legacyBackgroundKey
+        )
+
+        #expect(try #require(MapSessionStore(defaults: defaults).load()).background == .satellite)
+    }
+
+    /// A Standard saved by this build was chosen against the real
+    /// OpenStreetMap base, and choices are restored, not corrected.
+    @Test func aStandardChosenAgainstTheRealBaseStaysStandard() throws {
+        let store = MapSessionStore(defaults: Self.defaults())
+        store.save(MapSession(view: MapShareState(pid: "15234636"), background: .standard))
+
+        #expect(try #require(store.load()).background == .standard)
+    }
+
     /// NS Aerial is a base map and a licensed layer at once. Restoring it
     /// against a licence nobody has answered would open the licence sheet at
     /// launch, which is the argument resuming is written not to have.

@@ -9,6 +9,9 @@ import SwiftUI
 /// every source drawn, and its licence where there is one to read.
 struct MapAttributionStrip: View {
     let descriptors: [LayerDescriptor]
+    /// Which ground the layers are drawn over, because the OpenStreetMap base
+    /// carries a credit of its own that must show whenever its tiles do.
+    let baseMap: MapBaseType
     /// Somewhere to send a reader who wants the whole catalogue rather than
     /// what happens to be switched on.
     let onOpenSources: () -> Void
@@ -17,7 +20,7 @@ struct MapAttributionStrip: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var credits: [ActiveAttribution.Credit] {
-        ActiveAttribution.credits(for: descriptors)
+        ActiveAttribution.credits(for: descriptors, baseMap: baseMap)
     }
 
     var body: some View {

@@ -166,7 +166,7 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.baseMapType == .standard)
+        #expect(model.baseMapType == .openStreetMap)
     }
 
     /// Including over a background that draws. Satellite is ground the shared
@@ -186,7 +186,7 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.baseMapType == .standard)
+        #expect(model.baseMapType == .openStreetMap)
     }
 
     /// The browser checks the zoom because its aerial layer has nothing under
@@ -324,25 +324,23 @@ struct MapShareAndEvidenceTests {
         #expect(model.isShowingLicenceSheet == false)
     }
 
-    /// The base map is a source too. The browser's ground is OpenStreetMap and
-    /// this app has none, so a link opens over Apple's standard map — a
-    /// different survey with its own roads, paths and labels. Said out loud,
-    /// because otherwise two people comparing the same link are looking at two
-    /// different maps with nothing telling either of them.
-    @Test func aLinkSaysWhenItsGroundIsNotTheSendersGround() {
+    /// The sender's modern map and this app's are the same OpenStreetMap
+    /// tiles now, so a link naming the modern base restores the very ground it
+    /// was sent from — and there is no substitution left to disclose.
+    @Test func aLinkNamingTheModernMapOpensOnTheSendersOwnGround() {
         let model = OverlayViewModel.forTesting(installing: [], licence: .accepted)
 
         model.restore(
             from: URL(string: "https://example.com/map/?mode=current&layers=modern")!
         )
 
-        #expect(model.baseMapType == .standard)
-        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") == true)
+        #expect(model.baseMapType == .openStreetMap)
+        #expect(model.sharedLinkNotice == nil)
     }
 
     /// A link drawn on the Province's own imagery is drawn on it here as well,
-    /// so there is no substitution to disclose. Zoom 14 because the imagery is
-    /// the sender's ground only from the zoom it starts drawing at.
+    /// with nothing to note. Zoom 14 because the imagery is the sender's
+    /// ground only from the zoom it starts drawing at.
     @Test func aLinkOnProvincialImageryHasNoGroundToDisclose() {
         let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
 
@@ -353,14 +351,14 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") != true)
+        #expect(model.sharedLinkNotice == nil)
     }
 
-    /// Below the zoom the imagery starts at, the sender had no imagery either:
-    /// the browser falls back to its modern map, so the substitution is real
-    /// and is disclosed. The layer being named is not the same as it being the
-    /// ground the sender was looking at.
-    @Test func aLinkTooFarOutForTheImageryDisclosesItsGround() {
+    /// Below the zoom the imagery starts at, the sender's ground was the
+    /// browser's modern map — which is now this app's own base, so there is no
+    /// substitution left to say out loud. The aerial layer the link names
+    /// still arrives and moves the picker with it, as it always has.
+    @Test func aLinkTooFarOutForTheImageryHasNothingToDisclose() {
         let model = OverlayViewModel.forTesting(installing: [.nsAerial], licence: .accepted)
 
         model.restore(
@@ -370,7 +368,8 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.sharedLinkNotice?.contains("OpenStreetMap") == true)
+        #expect(model.baseMapType == .nsAerial)
+        #expect(model.sharedLinkNotice == nil)
     }
 
     /// The notice describes the view that arrived. The first switch the reader
@@ -433,6 +432,15 @@ struct MapShareAndEvidenceTests {
     /// map nobody looked at.
     @Test func theNoteNamesTheBaseMapItWasReadOver() {
         #expect(Self.note(Self.inspection()).markdown.contains("Apple Maps standard base map"))
+    }
+
+    /// And on the default ground it names OpenStreetMap, with the copyright
+    /// page as the place to check — not Apple, whose tiles were never drawn.
+    @Test func theNoteNamesTheOpenStreetMapGroundAndNotApple() {
+        let markdown = Self.note(Self.inspection(), baseMap: .openStreetMap).markdown
+        #expect(markdown.contains("OpenStreetMap base map"))
+        #expect(markdown.contains("openstreetmap.org/copyright"))
+        #expect(markdown.contains("Apple Maps") == false)
     }
 
     /// The panel and the note say the same thing about the same finding. They

@@ -168,7 +168,7 @@ final class MapController: NSObject {
         switch mutation {
         case .setMapType(let baseType):
             mapView.mapType = Self.mkMapType(for: baseType)
-            applyBlankBase(baseType == .blank, on: mapView)
+            applyBaseOverlay(for: baseType, on: mapView)
 
         case .addTileOverlay(let layer):
             let overlay = OpacityTileOverlay(
@@ -320,13 +320,20 @@ final class MapController: NSObject {
         }
     }
 
-    /// A freshly attached MKMapView matches an empty `MapViewState`
-    /// (standard map type, no overlays or annotations), so replaying the diff
-    /// from empty brings it up to the applied state — including layers and
-    /// annotations added before the view existed.
+    /// A freshly attached MKMapView shows the standard map type with no
+    /// overlays or annotations, so replaying the diff from that baseline brings
+    /// it up to the applied state — including layers and annotations added
+    /// before the view existed.
+    ///
+    /// The baseline names `.standard` explicitly because `MapViewState()`'s own
+    /// default is the OpenStreetMap base: diffing from the default would find
+    /// nothing to do for a map opening on it, and the fresh view would show
+    /// Apple's map under a picker reading "OpenStreetMap".
     private func syncStateToAttachedMapView() {
         guard let mapView else { return }
-        for mutation in MapStateDiff.mutations(from: MapViewState(), to: state) {
+        var bare = MapViewState()
+        bare.baseMapType = .standard
+        for mutation in MapStateDiff.mutations(from: bare, to: state) {
             perform(mutation, on: mapView)
         }
         applyPendingCenterIfPossible(animated: false)
@@ -369,25 +376,36 @@ final class MapController: NSObject {
         case .nsAerial:
             // NS Aerial renders as a tile overlay above the standard basemap.
             return .standard
-        case .blank:
-            // Whatever is set here is covered by `BlankBaseOverlay`; MapKit
-            // requires a map type and has no case for none.
+        case .openStreetMap, .blank:
+            // Whatever is set here is covered by the base-replacing overlay —
+            // `OSMBaseOverlay` or `BlankBaseOverlay`; MapKit requires a map
+            // type and has no case for "someone else's tiles" or "none".
             return .standard
         }
     }
 
-    /// Puts the blank world in or takes it out.
+    /// Puts in the base-replacing overlay the chosen background draws with,
+    /// and takes the others out.
     ///
     /// Installed through the draw order like any other overlay, so it lands
     /// under the layers that are already on the map rather than over them —
     /// switching the base map must not blank out the sheet being read.
-    private func applyBlankBase(_ wanted: Bool, on mapView: MKMapView) {
-        let installed = mapView.overlays.compactMap { $0 as? BlankBaseOverlay }
-        if wanted {
-            guard installed.isEmpty else { return }
+    private func applyBaseOverlay(for baseType: MapBaseType, on mapView: MKMapView) {
+        let wantsBlank = baseType == .blank
+        let wantsOSM = baseType == .openStreetMap
+        for overlay in mapView.overlays {
+            if overlay is BlankBaseOverlay, !wantsBlank {
+                mapView.removeOverlay(overlay)
+            }
+            if overlay is OSMBaseOverlay, !wantsOSM {
+                mapView.removeOverlay(overlay)
+            }
+        }
+        if wantsBlank, mapView.overlays.compactMap({ $0 as? BlankBaseOverlay }).isEmpty {
             mapView.installInDrawOrder(BlankBaseOverlay())
-        } else {
-            for overlay in installed { mapView.removeOverlay(overlay) }
+        }
+        if wantsOSM, mapView.overlays.compactMap({ $0 as? OSMBaseOverlay }).isEmpty {
+            mapView.installInDrawOrder(OSMBaseOverlay())
         }
     }
 
@@ -1129,11 +1147,15 @@ extension MapController: MKMapViewDelegate {
             return renderer
         }
 
-        // Before the `OpacityTileOverlay` branch: this is a tile overlay too,
-        // and without a renderer of its own it would draw nothing, which on a
-        // base-replacing overlay is a black map.
+        // Before the `OpacityTileOverlay` branch: these are tile overlays too,
+        // and without a renderer of their own they would draw nothing, which
+        // on a base-replacing overlay is a black map.
         if let blank = overlay as? BlankBaseOverlay {
             return MKTileOverlayRenderer(tileOverlay: blank)
+        }
+
+        if let osm = overlay as? OSMBaseOverlay {
+            return MKTileOverlayRenderer(tileOverlay: osm)
         }
 
         guard let tileOverlay = overlay as? OpacityTileOverlay else {

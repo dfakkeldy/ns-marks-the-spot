@@ -207,9 +207,37 @@ struct InfoSheetView: View {
             Text("Data Sources & Licenses")
                 .font(.headline)
 
+            // The ground itself, first: the attribution strip's credit line
+            // sends readers here for the rest, and the OpenStreetMap base is
+            // the one source the catalogue's rows do not answer for.
+            openStreetMapRow
+
             ForEach(layers) { layer in
                 LayerAttributionRow(layer: layer)
             }
+        }
+    }
+
+    private var openStreetMapRow: some View {
+        let credit = ActiveAttribution.openStreetMapCredit
+        return VStack(alignment: .leading, spacing: 6) {
+            Text(OpenStreetMapBase.pageName)
+                .font(.subheadline)
+                .bold()
+
+            Text(credit.provider)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            if let licenseTitle = credit.licenseTitle, let licenseURL = credit.licenseURL {
+                Link(licenseTitle, destination: licenseURL)
+                    .font(.caption)
+                    .accessibilityIdentifier("source-licence-\(OpenStreetMapBase.layerID)")
+            }
+
+            Text(credit.disclaimer)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }
