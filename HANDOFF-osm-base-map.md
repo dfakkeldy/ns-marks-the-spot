@@ -22,3 +22,19 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/elegant-elion-
 # branch claude/ios-openstreetmap-base-450614; implement OSM base per design
 # in this file, then swift test (NSMarksCore) + zsh ./Scripts/typecheck-ios.sh
 ```
+
+## 2026-08-25 — implementation committed, gate-free loop green
+
+Done: 83953f140 implements the whole scope (overlay + default, UA, screen
+strip, print composite via tile machinery with "modern" outcome, attribution
+parity, session v2 migration, link/theme/session "modern" remap, substitution
+notice retired) with focused tests; NSMarksCore swift test 1139 pass;
+typecheck-ios.sh "app, tests and UI tests type-check clean and compile".
+Next: codex exec adversarial review of the diff; fix findings; push branch,
+watch "Build gate + tests"; open PR to nightly.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/elegant-elion-ad23d6
+# review done? then: git push -u origin claude/ios-openstreetmap-base-450614
+# gh pr create --base nightly; watch "Build gate + tests"
+```
