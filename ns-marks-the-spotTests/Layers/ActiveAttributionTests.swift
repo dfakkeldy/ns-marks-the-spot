@@ -135,4 +135,41 @@ struct ActiveAttributionTests {
         #expect(credits[0].copyright == "Service Nova Scotia")
         #expect(credits[0].provider == "Province of Nova Scotia")
     }
+
+    /// The OpenStreetMap tile policy requires its credit wherever the tiles
+    /// show, so the strip leads with it — verbatim, with the copyright page
+    /// linked — whenever the map is drawn on that ground, layers or none.
+    @Test("The OpenStreetMap ground leads the strip with its required credit")
+    func theOpenStreetMapGroundLeadsTheStripWithItsRequiredCredit() {
+        let credits = ActiveAttribution.credits(
+            for: [descriptor(.nsprd)], baseMap: .openStreetMap
+        )
+        #expect(credits.first?.provider == "© OpenStreetMap contributors")
+        #expect(
+            credits.first?.licenseURL?.absoluteString
+                == "https://www.openstreetmap.org/copyright"
+        )
+        #expect(
+            ActiveAttribution.summary(for: credits)
+                .hasPrefix("© OpenStreetMap contributors")
+        )
+
+        let bare = ActiveAttribution.credits(for: [], baseMap: .openStreetMap)
+        #expect(bare.count == 1)
+    }
+
+    /// The credit follows the ink here as everywhere: a map on an Apple base,
+    /// or on none, owes OpenStreetMap nothing.
+    @Test("Other grounds carry no OpenStreetMap credit")
+    func otherGroundsCarryNoOpenStreetMapCredit() {
+        for base in [MapBaseType.standard, .satellite, .hybrid, .nsAerial, .blank] {
+            let credits = ActiveAttribution.credits(
+                for: [descriptor(.nsprd)], baseMap: base
+            )
+            #expect(
+                credits.allSatisfy { !$0.provider.contains("OpenStreetMap") },
+                "\(base)"
+            )
+        }
+    }
 }

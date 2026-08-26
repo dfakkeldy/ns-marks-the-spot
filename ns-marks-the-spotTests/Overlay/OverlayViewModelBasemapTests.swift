@@ -23,13 +23,15 @@ struct OverlayViewModelBasemapTests {
         #expect(viewModel.layers.first?.isVisible == false)
     }
 
-    @Test func hidingNSAerialLayerSwitchesBasemapBackToStandard() throws {
+    @Test func hidingNSAerialLayerSwitchesBasemapBackToTheModernMap() throws {
         let viewModel = OverlayViewModel.forTesting(installing: [.nsAerial])
 
         viewModel.setBaseMapType(.nsAerial)
         viewModel.toggleVisibility(LayerID.nsAerial.rawValue)
 
-        #expect(viewModel.baseMapType == .standard)
+        // The map's default ground, which is the browser's: the imagery going
+        // away leaves the reader on the OpenStreetMap base.
+        #expect(viewModel.baseMapType == .openStreetMap)
         #expect(viewModel.layers.first?.isVisible == false)
     }
 
@@ -125,7 +127,8 @@ struct OverlayViewModelBasemapTests {
         viewModel.setBaseMapType(.nsAerial)
 
         #expect(viewModel.isShowingLicenceSheet)
-        #expect(viewModel.baseMapType == .standard)
+        // Still on the opening ground: the pick must not move until answered.
+        #expect(viewModel.baseMapType == .openStreetMap)
         #expect(viewModel.layers.first?.isVisible == false)
 
         viewModel.acceptProvinceLicence()

@@ -5,6 +5,9 @@ import GeoCore
 import MapCatalog
 
 nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
+    /// The browser's ground, drawn from the same tiles. First in the picker
+    /// and the default, because it is the map the other surface shows.
+    case openStreetMap = "OpenStreetMap"
     case standard = "Standard"
     case satellite = "Satellite"
     case hybrid = "Hybrid"
@@ -173,7 +176,7 @@ nonisolated enum MapInteractionMode: Equatable, Sendable {
 /// The desired state of the map surface. `MapController` owns the applied
 /// copy; transitions are computed by `MapStateDiff` as `[MapMutation]`.
 nonisolated struct MapViewState: Equatable, Sendable {
-    var baseMapType: MapBaseType = .standard
+    var baseMapType: MapBaseType = .openStreetMap
     var layers: [MapLayerState] = []
     var annotations: [MapAnnotation] = []
     var parcelShapes: [ParcelShape] = []

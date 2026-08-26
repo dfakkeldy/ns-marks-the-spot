@@ -1145,11 +1145,11 @@ final class OverlayViewModel {
 
     /// What the map is currently looking at, in the form the two surfaces share.
     ///
-    /// `MapShareState.modernBaseLayerID` stands in for the standard base map,
-    /// which the web models as a layer and this app models as a map type. The
-    /// satellite base has no web equivalent and is simply not carried — a link
-    /// naming a layer that does not exist there would be dropped on arrival
-    /// anyway.
+    /// `MapShareState.modernBaseLayerID` is the OpenStreetMap base, which the
+    /// web models as a layer and this app models as a map type — the same
+    /// tiles on both surfaces. Apple's standard, satellite and hybrid maps
+    /// have no web equivalent and are simply not carried — a link naming a
+    /// layer that does not exist there would be dropped on arrival anyway.
     var shareState: MapShareState {
         let eventIDs: [String]
         switch mapRecordMode {
@@ -1179,7 +1179,7 @@ final class OverlayViewModel {
             mode: (historical?.mode ?? .current) == .historical ? .historical : .current,
             pid: parcels.selectedPID,
             eventIDs: eventIDs,
-            layerIDs: (baseMapType == .standard ? [MapShareState.modernBaseLayerID] : [])
+            layerIDs: (baseMapType == .openStreetMap ? [MapShareState.modernBaseLayerID] : [])
                 + rows.filter(\.isVisible).map(\.id),
             position: mapPosition
         )
@@ -1722,26 +1722,23 @@ final class OverlayViewModel {
         let restored =
             background
             ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
-                ? .standard : baseMapType)
+                ? .openStreetMap : baseMapType)
         // Unless the link names layers and no ground to draw them over, which
         // the browser answers by turning its modern map on. Answering it with
         // whatever this reader happened to be on would put the sender's
         // evidence over satellite imagery on one phone and over streets on the
-        // next, from the same link. The link cannot name satellite or hybrid,
-        // so a link that names no ground is not a link that meant this
-        // reader's.
+        // next, from the same link. The link cannot name Apple's maps, so a
+        // link that names no ground is not a link that meant this reader's.
         //
         // Only for a link. A session says outright which background it was on,
         // and resuming it is not the moment to argue.
         //
-        // Either way the ground the sender was on is OpenStreetMap, and this
-        // app has no OSM base map to give back. Apple's standard map stands in
-        // for it, which is a different survey with its own roads, paths and
-        // labels, so the substitution is remembered here and said out loud in
-        // the link's notice below.
-        let standsInForOpenStreetMap =
+        // Either way the ground is OpenStreetMap — the sender's modern map and
+        // this app's are now the same tiles, so a link restores the very map
+        // it was sent from rather than a stand-in.
+        let ground: MapBaseType =
             origin == .sharedLink && browserWouldDrawItsModernMap(state)
-        let ground: MapBaseType = standsInForOpenStreetMap ? .standard : restored
+            ? .openStreetMap : restored
         setBaseMapType(ground)
         // A link opens in the browser as a fresh page, so the reader who
         // follows it starts on every notice and no narrowing at all. Here it
@@ -1787,8 +1784,7 @@ final class OverlayViewModel {
         if origin == .sharedLink {
             noteWhatTheLinkCouldNotRestore(
                 refused: refusedByLicence,
-                notCarried: notCarried,
-                substitutedGround: standsInForOpenStreetMap
+                notCarried: notCarried
             )
             // After the toggles above, which clear it: this is the state the
             // link asked for, and it is the sender's rather than the reader's
@@ -1865,7 +1861,7 @@ final class OverlayViewModel {
     /// behalf; it is putting the same decision in front of them that tapping
     /// the layer's own switch would.
     private func noteWhatTheLinkCouldNotRestore(
-        refused: [String], notCarried: [String], substitutedGround: Bool = false
+        refused: [String], notCarried: [String]
     ) {
         var notes: [String] = []
         if !refused.isEmpty {
@@ -1873,16 +1869,6 @@ final class OverlayViewModel {
         }
         if !notCarried.isEmpty {
             notes.append("Not in this app yet: \(Self.layerNames(notCarried)).")
-        }
-        // A base map is a source like any other. The sender's roads, paths and
-        // place names were drawn by OpenStreetMap contributors and these are
-        // Apple's, so two people comparing the same link are not always looking
-        // at the same road.
-        if substitutedGround {
-            notes.append(
-                "The sender's base map was OpenStreetMap. This app draws Apple's standard "
-                    + "map in its place, so roads and labels can differ."
-            )
         }
         sharedLinkNotice = notes.isEmpty ? nil : notes.joined(separator: " ")
         pendingSharedLayerIDs = []
@@ -1925,7 +1911,7 @@ final class OverlayViewModel {
     /// map shows, not where it is looking, and picking one should leave the
     /// reader over the same ground.
     var themeState: MapThemeState {
-        let layerIDs = (baseMapType == .standard ? [MapShareState.modernBaseLayerID] : [])
+        let layerIDs = (baseMapType == .openStreetMap ? [MapShareState.modernBaseLayerID] : [])
             + rows.filter(\.isVisible).map(\.id)
         return MapThemeState(
             layerIDs: layerIDs,
@@ -1993,13 +1979,14 @@ final class OverlayViewModel {
 
     /// Whether the background the map is drawing is one a setup can record.
     ///
-    /// Satellite and Hybrid are MapKit's own, and the vocabulary the two
-    /// surfaces share has no name for either — a shared link cannot carry them
-    /// either. A setup saved while one of them is up comes back without it, so
-    /// no setup describes this map. Saying otherwise would call a map exact and
-    /// then change its background the next time the same setup was picked.
+    /// Standard, Satellite and Hybrid are MapKit's own, and the vocabulary the
+    /// two surfaces share has no name for any of them — the "modern" a link or
+    /// a setup carries is the OpenStreetMap base. A setup saved while an Apple
+    /// map is up comes back without it, so no setup describes this map. Saying
+    /// otherwise would call a map exact and then change its background the
+    /// next time the same setup was picked.
     private var backgroundIsNamed: Bool {
-        baseMapType != .satellite && baseMapType != .hybrid
+        baseMapType != .standard && baseMapType != .satellite && baseMapType != .hybrid
     }
 
     /// The theme this map already is, if any theme describes it.
@@ -2122,7 +2109,7 @@ final class OverlayViewModel {
     private static func layerNames(_ ids: [String]) -> String {
         ids.map { id in
             guard let layerID = LayerID(rawValue: id) else {
-                return id == MapShareState.modernBaseLayerID ? "Standard base map" : id
+                return id == MapShareState.modernBaseLayerID ? "OpenStreetMap base map" : id
             }
             return LayerCatalog.descriptor(for: layerID)?.name ?? id
         }
@@ -2211,14 +2198,14 @@ final class OverlayViewModel {
         }
 
         // After the rows, because switching NS Aerial off returns the base map
-        // to Standard on its own.
+        // to its OpenStreetMap default on its own.
         //
         // A setup naming neither background gets none, which is what the
-        // browser draws with its modern map switched off. Satellite and Hybrid
-        // have no name in this vocabulary — a shared link cannot carry them
-        // either — so a setup saved over one of those comes back without it.
+        // browser draws with its modern map switched off. Apple's maps have no
+        // name in this vocabulary — a shared link cannot carry them either —
+        // so a setup saved over one of those comes back without it.
         if wanted.contains(MapShareState.modernBaseLayerID) {
-            setBaseMapType(.standard)
+            setBaseMapType(.openStreetMap)
         } else if !wanted.contains(LayerID.nsAerial.rawValue) {
             setBaseMapType(.blank)
         }
@@ -3139,7 +3126,10 @@ final class OverlayViewModel {
         } else {
             controller.setVisible(for: nsAerialLayerId, to: false)
             if controller.baseMapType == .nsAerial {
-                controller.baseMapType = .standard
+                // Back to the map's default ground, which is the browser's:
+                // the imagery going away should leave the reader on the same
+                // modern map the other surface shows.
+                controller.baseMapType = .openStreetMap
             }
         }
     }

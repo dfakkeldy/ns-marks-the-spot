@@ -143,10 +143,38 @@ nonisolated struct PrintMapCompositor {
         baseMapProvider: @escaping BaseMapProvider = Self.snapshotBaseMap
     ) async throws -> Output {
         let space = PrintOutputSpace(bounds: bounds, widthPx: widthPx, heightPx: heightPx)
-        let base = try await baseMapProvider(bounds, widthPx, heightPx, baseMap)
 
         var drawnLayers = [(layer: MapLayerState, tiles: [(PrintTile, UIImage)], whole: UIImage?)]()
         var outcomes = [LayerOutcome]()
+        let base: UIImage
+        if baseMap == .openStreetMap {
+            // The page's ground is the screen's ground: the same OpenStreetMap
+            // tiles, fetched through the same provider, rather than an
+            // MKMapSnapshotter picture of a different survey. Paper-white goes
+            // underneath, so a square that never arrives prints as paper — and
+            // is *said*, because the base reports an outcome like any layer:
+            // a lost square is a partial or failed row on the page, never
+            // silently blank ground.
+            base = blankBaseMap(widthPx: widthPx, heightPx: heightPx)
+            let osm = OpenStreetMapBase.printLayer
+            let (tiles, state) = await self.tiles(
+                for: osm, bounds: bounds, widthPx: widthPx, provider: tileProvider
+            )
+            // First of the drawn layers, which is the bottom of the stack: the
+            // web's export builds its layer list the same way, modern base
+            // first.
+            drawnLayers.append((osm, tiles, nil))
+            outcomes.append(
+                LayerOutcome(
+                    id: OpenStreetMapBase.layerID,
+                    name: OpenStreetMapBase.pageName,
+                    state: state
+                )
+            )
+        } else {
+            base = try await baseMapProvider(bounds, widthPx, heightPx, baseMap)
+        }
+
         for layer in layers where layer.effectiveAlpha > 0 {
             // Checked between layers as well as inside them: the tile path
             // reports an abandoned request as a layer that failed rather than
@@ -721,6 +749,11 @@ nonisolated struct PrintMapCompositor {
         // anyway would put back exactly the roads and labels the reader turned
         // off to see an historical sheet clean.
         case .blank: return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
+        // `compose` draws the OpenStreetMap ground from tiles and never asks
+        // this snapshotter for it. Paper rather than Apple's map, so a
+        // misrouted call cannot put Apple pixels under an OpenStreetMap
+        // credit.
+        case .openStreetMap: return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
         }
 
         do {
@@ -813,6 +846,15 @@ nonisolated struct PrintMapCompositor {
     /// printed the answer.
     static func provider(overlays: [String: OpacityTileOverlay]) -> TileProvider {
         { configuration, path in
+            // The OpenStreetMap ground is not one of the panel's overlays — it
+            // is the base — but it fetches through the same request the screen
+            // uses, User-Agent and shared URL cache included, so the page and
+            // the screen are the same map from the same session.
+            if configuration.id == OpenStreetMapBase.layerID {
+                return await OpenStreetMapBase.exportTile(
+                    z: path.z, x: path.x, y: path.y
+                )
+            }
             guard let overlay = overlays[configuration.id] else {
                 throw TileProviderFailure.noOverlayForLayer(configuration.id)
             }

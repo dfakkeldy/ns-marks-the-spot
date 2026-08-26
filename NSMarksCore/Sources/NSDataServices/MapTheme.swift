@@ -9,8 +9,8 @@ import MapCatalog
 /// it reads. Not the position — a theme is what the map shows, not where it is
 /// looking, and applying one should leave the reader over the same ground.
 ///
-/// `layerIDs` carries `MapShareState.modernBaseLayerID` for the standard base
-/// map, as the shared link does, so a theme and a link name the same layers.
+/// `layerIDs` carries `MapShareState.modernBaseLayerID` for the OpenStreetMap
+/// base, as the shared link does, so a theme and a link name the same layers.
 public struct MapThemeState: Sendable, Equatable {
     public var layerIDs: [String]
     /// Layers the reader has moved off the opacity the catalog declares.
@@ -85,7 +85,7 @@ public struct MapTheme: Identifiable, Sendable, Equatable {
 
 extension MapTheme {
     /// Every layer ID a theme may name: the catalog, plus the web's name for
-    /// the standard base map.
+    /// the OpenStreetMap base.
     public static let themeableLayerIDs: Set<String> = Set(
         LayerID.allCases.map(\.rawValue)
     ).union([MapShareState.modernBaseLayerID])

@@ -401,7 +401,8 @@ struct MapContainerView: View {
         .overlay(alignment: .bottomLeading) {
             if printFrame == nil {
                 MapAttributionStrip(
-                    descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor)
+                    descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor),
+                    baseMap: overlayVM.baseMapType
                 ) {
                     navigationModel.activeSheet = .info
                 }

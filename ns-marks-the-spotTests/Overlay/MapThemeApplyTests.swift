@@ -50,8 +50,8 @@ struct MapThemeApplyTests {
         viewModel.selectTheme("tax-sale-research")
         viewModel.selectTheme("explore-nova-scotia")
 
-        // "modern" is the standard base map, and nothing else is drawn.
-        #expect(viewModel.baseMapType == .standard)
+        // "modern" is the OpenStreetMap base, and nothing else is drawn.
+        #expect(viewModel.baseMapType == .openStreetMap)
         #expect(viewModel.rows.filter(\.isVisible).isEmpty)
         #expect(viewModel.showsTaxSale == false)
         #expect(viewModel.themeStatusText == "Explore Nova Scotia")
@@ -227,7 +227,7 @@ struct MapThemeApplyTests {
         #expect(viewModel.isShowingLicenceSheet == false)
         #expect(viewModel.rows.first { $0.id == LayerID.fletcher.rawValue }?.isVisible == true)
         #expect(viewModel.rows.first { $0.id == LayerID.placeNames.rawValue }?.isVisible == false)
-        #expect(viewModel.baseMapType == .standard)
+        #expect(viewModel.baseMapType == .openStreetMap)
         #expect(viewModel.themeStatus == .partial)
         let notice = try #require(viewModel.themeNotice)
         #expect(notice.contains("Licence required: Place names, Main roads only"))

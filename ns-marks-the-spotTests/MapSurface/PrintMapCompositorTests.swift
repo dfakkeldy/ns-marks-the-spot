@@ -110,6 +110,7 @@ nonisolated struct PrintMapCompositorTests {
     }
 
     private static func compose(
+        baseMap: MapBaseType = .standard,
         layers: [MapLayerState],
         parcels: [ParcelShape] = [],
         features: [FeatureShape] = [],
@@ -122,7 +123,7 @@ nonisolated struct PrintMapCompositorTests {
             bounds: bounds,
             widthPx: 600,
             heightPx: 400,
-            baseMap: .standard,
+            baseMap: baseMap,
             layers: layers,
             parcels: parcels,
             features: features,
@@ -197,6 +198,72 @@ nonisolated struct PrintMapCompositorTests {
         }
 
         #expect(output.outcomes.map(\.state) == [.outsideCoverage])
+    }
+
+    // MARK: - The OpenStreetMap ground
+
+    /// On the OpenStreetMap base the page's ground comes through the tile
+    /// provider — the same tiles the screen draws — not from MKMapSnapshotter,
+    /// and the base accounts for itself like any layer: first in the outcomes,
+    /// with its pixels actually on the paper.
+    @Test func theOpenStreetMapGroundIsCompositedFromItsOwnTiles() async throws {
+        let output = try await Self.compose(
+            baseMap: .openStreetMap, layers: []
+        ) { configuration, _ in
+            #expect(configuration.id == OpenStreetMapBase.layerID)
+            return (Self.tile(.red), .served, .source)
+        }
+
+        let outcome = try #require(output.outcomes.first)
+        #expect(outcome.id == OpenStreetMapBase.layerID)
+        #expect(outcome.name == OpenStreetMapBase.pageName)
+        #expect(outcome.state == .drawn)
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 0, 0)))
+    }
+
+    /// The base's tiles never ask past OpenStreetMap's deepest level; a print
+    /// frame that would want more is drawn from z19 scaled, exactly as the
+    /// screen and the browser's export handle the same ground.
+    @Test func theOpenStreetMapGroundNeverAsksPastItsNativeZoom() async throws {
+        _ = try await Self.compose(
+            baseMap: .openStreetMap, layers: []
+        ) { _, path in
+            #expect(path.z <= OpenStreetMapBase.maxNativeZoom)
+            return (Self.tile(.red), .served, .source)
+        }
+    }
+
+    /// A ground that could not be fetched is a failed outcome on the page and
+    /// paper-white underneath, never silently blank ground presented as drawn.
+    @Test func anOpenStreetMapGroundThatFailsSaysSoAndPrintsPaper() async throws {
+        let output = try await Self.compose(
+            baseMap: .openStreetMap, layers: []
+        ) { _, _ in
+            throw URLError(.notConnectedToInternet)
+        }
+
+        let outcome = try #require(output.outcomes.first)
+        #expect(outcome.id == OpenStreetMapBase.layerID)
+        guard case .failed = outcome.state else {
+            Issue.record("Expected a failed ground, got \(outcome.state)")
+            return
+        }
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 1, 1)))
+    }
+
+    /// The ground goes down first: a layer drawn over it covers it, not the
+    /// other way around.
+    @Test func theOpenStreetMapGroundGoesUnderTheLayers() async throws {
+        let output = try await Self.compose(
+            baseMap: .openStreetMap, layers: [Self.layer("parcels")]
+        ) { configuration, _ in
+            configuration.id == OpenStreetMapBase.layerID
+                ? (Self.tile(.red), .served, .source)
+                : (Self.tile(.blue), .served, .source)
+        }
+
+        #expect(output.outcomes.map(\.id) == [OpenStreetMapBase.layerID, "parcels"])
+        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (0, 0, 1)))
     }
 
     /// And the other side of it: a sheet edge crossing the frame is ink on the

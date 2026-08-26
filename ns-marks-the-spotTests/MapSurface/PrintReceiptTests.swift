@@ -122,6 +122,25 @@ struct PrintReceiptTests {
         }
     }
 
+    /// The OpenStreetMap ground reports an outcome like any layer, and the
+    /// receipt treats it the same way: a base whose tiles never arrived is off
+    /// the link, so scanning the code does not show the reader ground the
+    /// paper never carried.
+    @Test("An OpenStreetMap ground that never printed is off the receipt")
+    func anOpenStreetMapGroundThatNeverPrintedIsOffTheReceipt() throws {
+        let url = try Self.receipt(
+            printed: GeoBoundingBox(south: 45.6, west: -61.4, north: 45.7, east: -61.3),
+            outcomes: [
+                PrintMapCompositor.LayerOutcome(
+                    id: OpenStreetMapBase.layerID,
+                    name: OpenStreetMapBase.pageName,
+                    state: .failed("timed out")
+                )
+            ]
+        )
+        #expect(Self.query(url, "layers") == LayerID.nsprd.rawValue)
+    }
+
     /// A layer that was asked and holds none of this thing here is a finding
     /// about the ground. Dropping it from the receipt would turn "asked, and
     /// there is none" into "never asked".
