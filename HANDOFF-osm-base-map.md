@@ -38,3 +38,19 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/elegant-elion-
 # review done? then: git push -u origin claude/ios-openstreetmap-base-450614
 # gh pr create --base nightly; watch "Build gate + tests"
 ```
+
+## 2026-08-25 — reviewed, pushed, PR #228 open
+
+Done: 8-angle adversarial review (codex exec unusable — ChatGPT account
+rejects every model on CLI 0.148.0/0.149.1; substituted multi-agent review);
+7 findings fixed in 8cb1464b2 (template source, framing credit, info-sheet
+OSM row, MIME check, migration settle-on-read, dead base-name case, Apple
+literal dedupe); typecheck clean; pushed; PR #228 → nightly.
+Next: watch "Build gate + tests" on PR #228; merge when green; delete this
+handoff in the closing PR. Known accepted tradeoffs (offline blank ground,
+unsized URLCache, no 429 backoff) are in the PR body.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/elegant-elion-ad23d6
+gh pr checks 228 --watch   # then merge when green
+```
