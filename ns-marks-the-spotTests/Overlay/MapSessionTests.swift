@@ -327,11 +327,15 @@ struct MapSessionTests {
         defaults.set(
             MapBaseType.standard.rawValue, forKey: MapSessionStore.legacyBackgroundKey
         )
+        let store = MapSessionStore(defaults: defaults)
 
-        #expect(
-            try #require(MapSessionStore(defaults: defaults).load()).background
-                == .openStreetMap
-        )
+        #expect(try #require(store.load()).background == .openStreetMap)
+
+        // Settled at that read: a Standard chosen afterwards, against the real
+        // OpenStreetMap base, is a choice — the retired v1 value must not
+        // rewrite it on any later launch.
+        store.save(MapSession(view: MapShareState(pid: "15234636"), background: .standard))
+        #expect(try #require(store.load()).background == .standard)
     }
 
     /// The other legacy values named an Apple-side choice nothing stood in

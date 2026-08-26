@@ -397,7 +397,9 @@ struct MapContainerView: View {
         //
         // Not while a page is being framed. That is this app's print mode, the
         // framing toolbar owns the bottom of the screen, and the exported page
-        // carries its own attribution block.
+        // carries its own attribution block. The one credit that cannot wait
+        // for the page — OpenStreetMap's, owed while its tiles are on screen —
+        // is carried by the framing toolbar itself.
         .overlay(alignment: .bottomLeading) {
             if printFrame == nil {
                 MapAttributionStrip(
@@ -461,6 +463,12 @@ struct MapContainerView: View {
                         get: { printFrame ?? .default },
                         set: { printFrame = $0 }
                     ),
+                    // The strip is hidden while framing, so on the
+                    // OpenStreetMap ground the frame carries the credit the
+                    // tiles behind it require. Apple's maps carry their own
+                    // marks and need nothing here.
+                    credit: overlayVM.baseMapType == .openStreetMap
+                        ? OpenStreetMapBase.credit : nil,
                     onCancel: {
                         printFrame = nil
                         controller.endPrintFraming()

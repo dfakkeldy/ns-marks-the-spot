@@ -2086,11 +2086,11 @@ final class OverlayViewModel {
         return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
 
-    /// Why a Satellite or Hybrid map reads as modified whatever the reader
-    /// picked, why saving it will not bring the background back, and why a
-    /// link sent from it opens over the standard map at the other end. All
-    /// three are the same limit: the vocabulary the two surfaces share has no
-    /// word for either background.
+    /// Why an Apple background — Standard, Satellite or Hybrid — reads as
+    /// modified whatever the reader picked, why saving it will not bring the
+    /// background back, and why a link sent from it opens over the modern
+    /// OpenStreetMap map at the other end. All three are the same limit: the
+    /// vocabulary the two surfaces share has no word for any of them.
     var themeBackgroundNotice: String? {
         guard !backgroundIsNamed else { return nil }
         return "A \(baseMapType.rawValue) background is not part of a saved setup "

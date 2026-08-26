@@ -40,8 +40,7 @@ nonisolated enum OpenStreetMapBase {
     static let host = "tile.openstreetmap.org"
 
     static func tileURL(z: Int, x: Int, y: Int) -> URL {
-        URL(string: "https://\(host)/\(z)/\(x)/\(y).png")
-            ?? URL(fileURLWithPath: "/dev/null")
+        URL(string: "https://\(host)/\(z)/\(x)/\(y).png")!
     }
 
     /// Who is asking. The tile policy requires a User-Agent that identifies
@@ -73,10 +72,16 @@ nonisolated enum OpenStreetMapBase {
         let (data, response) = try await URLSession.shared.data(
             for: tileRequest(z: z, x: x, y: y)
         )
-        if let http = response as? HTTPURLResponse,
-           !(200...299).contains(http.statusCode)
-        {
-            throw TileFetcherError.invalidHTTPStatus(http.statusCode)
+        // The same three checks `TileFetcher.validateImageResponse` makes, in
+        // its order, so an OSM error page cannot be handed to the map or the
+        // page as though it were a tile.
+        if let http = response as? HTTPURLResponse {
+            guard (200...299).contains(http.statusCode) else {
+                throw TileFetcherError.invalidHTTPStatus(http.statusCode)
+            }
+            if let mimeType = http.mimeType?.lowercased(), !mimeType.hasPrefix("image/") {
+                throw TileFetcherError.invalidContentType(mimeType)
+            }
         }
         guard UIImage(data: data) != nil else {
             throw TileFetcherError.invalidImageData
@@ -109,12 +114,18 @@ nonisolated enum OpenStreetMapBase {
     /// other raster goes through, so a failed square surfaces as a partial or
     /// failed outcome on the page rather than printing as silently blank
     /// ground.
+    ///
+    /// The source is the real `{z}/{x}/{y}` template, as `.tile` means
+    /// everywhere else, even though `PrintMapCompositor.provider` answers this
+    /// configuration by id before reading it: a provider that honoured the
+    /// source generically must fetch the right squares, not a whole-world tile
+    /// two hundred times over.
     static var printLayer: MapLayerState {
         MapLayerState(
             configuration: TileLayerConfiguration(
                 id: layerID,
                 name: pageName,
-                source: .tile(tileURL(z: 0, x: 0, y: 0)),
+                source: .tile(URL(string: "https://\(host)/{z}/{x}/{y}.png")!),
                 minZoom: 0,
                 maxZoom: maxNativeZoom
             )

@@ -137,6 +137,23 @@ struct OSMBaseMapTests {
         #expect(layer.effectiveAlpha == 1)
     }
 
+    /// The print layer's source is a real template, not a decoration: a
+    /// provider that honours `configuration.source` the way every other
+    /// `.tile` layer is honoured must reach the same square the screen does,
+    /// not a whole-world tile for every square of the frame.
+    @Test("The print layer's source expands to the screen's own tile address")
+    func thePrintLayersSourceExpandsToTheScreensOwnTileAddress() throws {
+        guard case .tile(let template) = OpenStreetMapBase.printLayer.configuration.source
+        else {
+            Issue.record("Expected a .tile source")
+            return
+        }
+        #expect(
+            TileFetcher().tileURL(z: 14, x: 5231, y: 5342, from: template)
+                == OpenStreetMapBase.tileURL(z: 14, x: 5231, y: 5342)
+        )
+    }
+
     /// Switched on: the catalogue's native default is off, and a hidden layer
     /// is never installed as an overlay, so the order under test would be the
     /// order of an empty map.

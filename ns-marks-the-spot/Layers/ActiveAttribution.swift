@@ -57,6 +57,10 @@ nonisolated enum ActiveAttribution {
 
     /// One entry per distinct source among the layers currently drawn.
     ///
+    /// Layers only — a surface whose ground can be the OpenStreetMap base must
+    /// call `credits(for:baseMap:)` above, or its required credit is silently
+    /// dropped.
+    ///
     /// Distinct by provider and caveat together, in the order the layers were
     /// given: eleven provincial layers are one credit, and a municipal source
     /// that states no terms stays its own entry rather than being folded into

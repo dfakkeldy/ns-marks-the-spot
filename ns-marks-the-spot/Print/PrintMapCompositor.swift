@@ -747,13 +747,12 @@ nonisolated struct PrintMapCompositor {
         // Reading with no base map is a choice about what the page shows, and
         // the page has to keep it. Asking MapKit for a snapshot and drawing it
         // anyway would put back exactly the roads and labels the reader turned
-        // off to see an historical sheet clean.
-        case .blank: return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
-        // `compose` draws the OpenStreetMap ground from tiles and never asks
-        // this snapshotter for it. Paper rather than Apple's map, so a
-        // misrouted call cannot put Apple pixels under an OpenStreetMap
-        // credit.
-        case .openStreetMap: return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
+        // off to see an historical sheet clean. The OpenStreetMap ground is
+        // paper here too: `compose` draws it from tiles and never asks this
+        // snapshotter for it, and answering with Apple's map instead would put
+        // Apple pixels under an OpenStreetMap credit.
+        case .blank, .openStreetMap:
+            return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
         }
 
         do {

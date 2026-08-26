@@ -178,21 +178,14 @@ nonisolated enum ParcelEvidenceExport {
                 sourceURL: OpenStreetMapBase.copyrightURL,
                 sourceDate: "Live OpenStreetMap tiles"
             )
-        case .standard, .nsAerial:
+        case .standard, .nsAerial, .satellite, .hybrid:
+            let name = switch baseMap {
+            case .satellite: "Apple Maps satellite imagery"
+            case .hybrid: "Apple Maps satellite imagery with labels"
+            default: "Apple Maps standard base map"
+            }
             return EvidenceNoteInput.Source(
-                name: "Apple Maps standard base map",
-                sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/"),
-                sourceDate: "Live Apple Maps tiles"
-            )
-        case .satellite:
-            return EvidenceNoteInput.Source(
-                name: "Apple Maps satellite imagery",
-                sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/"),
-                sourceDate: "Live Apple Maps tiles"
-            )
-        case .hybrid:
-            return EvidenceNoteInput.Source(
-                name: "Apple Maps satellite imagery with labels",
+                name: name,
                 sourceURL: URL(string: "https://www.apple.com/legal/internet-services/maps/"),
                 sourceDate: "Live Apple Maps tiles"
             )

@@ -28,8 +28,9 @@ struct MapSessionStore {
     /// Written by builds that had no OpenStreetMap base. On those, Apple's
     /// standard map stood in for the web's modern map, so "Standard" under
     /// this key is a reader who was working on the stand-in — every launch
-    /// wrote it, chosen or not. Read once by `load` and rewritten as v2 at the
-    /// next save; a Standard stored under v2 is a choice made against the real
+    /// wrote it, chosen or not. `load` settles the migration the first time it
+    /// reads this key, writing the v2 value and retiring the old one; a
+    /// Standard stored under v2 is a choice made against the real
     /// OpenStreetMap base and is restored as itself.
     static let legacyBackgroundKey = "map-session-background-v1"
 
@@ -77,9 +78,17 @@ struct MapSessionStore {
         // resumes as the OpenStreetMap base that map actually is. Everything
         // else under the old key — satellite, hybrid, aerial, none — named an
         // Apple-side choice and comes back as itself.
-        return legacy == MapBaseType.standard.rawValue
+        let migrated = legacy == MapBaseType.standard.rawValue
             ? .openStreetMap
             : MapBaseType(rawValue: legacy)
+        // Settled here, at the one read that uses the old value. Left for a
+        // later save to retire, a launch whose save never lands would re-run
+        // the rewrite over a background the reader had since chosen.
+        if let migrated {
+            defaults.set(migrated.rawValue, forKey: Self.backgroundKey)
+        }
+        defaults.removeObject(forKey: Self.legacyBackgroundKey)
+        return migrated
     }
 
     func save(_ session: MapSession) {
@@ -90,10 +99,6 @@ struct MapSessionStore {
         } else {
             defaults.removeObject(forKey: Self.backgroundKey)
         }
-        // Spent: the migration above reads it only while no v2 value has been
-        // written, and leaving it behind would resurrect a retired reading
-        // after a clear.
-        defaults.removeObject(forKey: Self.legacyBackgroundKey)
     }
 
     func clear() {
