@@ -204,16 +204,19 @@ struct GeoreferenceReferencesTests {
         }
     }
 
-    /// What the panel has to print beside the imagery. Two restricted layers
-    /// from one publisher are one credit, and no layers are no credit.
+    /// What the panel has to print beside the imagery. The OpenStreetMap
+    /// ground's credit leads and is owed even with every switch off — the
+    /// tiles are on screen regardless — and two restricted layers from one
+    /// publisher are one credit after it.
     @Test("Drawn layers carry the licence's own words")
     func drawnLayersCarryTheLicencesOwnWords() throws {
         let services = services()
-        #expect(services.credits(for: []).isEmpty)
+        #expect(services.credits(for: []) == [ActiveAttribution.openStreetMapCredit])
         let credits = services.credits(for: [.aerial, .parcels])
-        #expect(credits.count == 1)
-        #expect(credits[0].provider == "Province of Nova Scotia")
-        #expect(!credits[0].disclaimer.isEmpty)
+        #expect(credits.count == 2)
+        #expect(credits[0] == ActiveAttribution.openStreetMapCredit)
+        #expect(credits[1].provider == "Province of Nova Scotia")
+        #expect(!credits[1].disclaimer.isEmpty)
     }
 
     /// Property boundaries begin at zoom 14, and the panel warns below it.
@@ -222,6 +225,31 @@ struct GeoreferenceReferencesTests {
         let services = services()
         #expect(services.minimumZoom(for: .parcels) == 14)
         #expect(services.minimumZoom(for: .aerial) == 10)
+    }
+
+    /// The pane's ground is the map the placed scan will be shown over: the
+    /// OpenStreetMap base, under the imagery, the scan and the boundaries —
+    /// even though the references arrive after it, one switch at a time.
+    @Test("The OpenStreetMap ground stays under the imagery and the scan")
+    func theOpenStreetMapGroundStaysUnderTheImageryAndTheScan() throws {
+        let mapView = MKMapView()
+        let coordinator = Self.coordinator(on: mapView)
+        // As `makeUIView` installs it: first, before anything else is drawn.
+        mapView.installInDrawOrder(OSMBaseOverlay())
+        mapView.installInDrawOrder(try #require(Self.placedScan()))
+        coordinator.apply(references: Set(GeoreferenceReference.allCases), services: services())
+        #expect(Self.installedIDs(on: mapView) == ["osm", "ns-aerial", "scan", "nsprd"])
+    }
+
+    /// The base-replacing overlay needs a tile renderer of its own. The
+    /// pane's fallback is a bare `MKOverlayRenderer`, which draws nothing —
+    /// and nothing on the base is a black map.
+    @Test("The pane gives the ground a renderer that draws its tiles")
+    func thePaneGivesTheGroundARendererThatDrawsItsTiles() {
+        let mapView = MKMapView()
+        let coordinator = Self.coordinator(on: mapView)
+        let renderer = coordinator.mapView(mapView, rendererFor: OSMBaseOverlay())
+        #expect(renderer is MKTileOverlayRenderer)
     }
 
     // MARK: - Fixtures
@@ -239,6 +267,7 @@ struct GeoreferenceReferencesTests {
     /// z-order in MapKit, which is the whole question here.
     private static func installedIDs(on mapView: MKMapView) -> [String] {
         mapView.overlays.map { overlay in
+            if overlay is OSMBaseOverlay { return "osm" }
             if let tile = overlay as? OpacityTileOverlay { return tile.configuration.id }
             if overlay is UserMapOverlay { return "scan" }
             return "?"

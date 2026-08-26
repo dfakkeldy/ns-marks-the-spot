@@ -70,6 +70,13 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         mapView.setRegion(region, animated: false)
         mapView.delegate = context.coordinator
         mapView.showsCompass = false
+        // The ground the placed scan will be shown over, not Apple's. Control
+        // points are lined up by eye against roads and shorelines, and Apple's
+        // survey and OpenStreetMap's disagree by metres in rural Nova Scotia —
+        // a placement made on one and displayed on the other carries that gap
+        // into every corner of the sheet. The browser's georeferencer places
+        // points on this ground too.
+        mapView.installInDrawOrder(OSMBaseOverlay())
         let tap = UITapGestureRecognizer(
             target: context.coordinator, action: #selector(Coordinator.handleTap(_:))
         )
@@ -359,6 +366,11 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         ) -> MKOverlayRenderer {
             if let userMap = overlay as? UserMapOverlay {
                 return UserMapOverlayRenderer(userMap: userMap)
+            }
+            // Without a renderer of its own a base-replacing overlay draws
+            // nothing, and nothing on the base is a black map.
+            if let osm = overlay as? OSMBaseOverlay {
+                return MKTileOverlayRenderer(tileOverlay: osm)
             }
             if let tileOverlay = overlay as? OpacityTileOverlay {
                 let renderer = MKTileOverlayRenderer(tileOverlay: tileOverlay)
