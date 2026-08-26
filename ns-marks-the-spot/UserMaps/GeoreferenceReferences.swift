@@ -146,13 +146,15 @@ struct GeoreferenceReferenceServices {
         )
     }
 
-    /// What each drawn layer obliges the page to say. Empty for an empty set,
-    /// because nothing restricted is on screen to credit.
+    /// What the drawn ground and layers oblige the page to say. Never empty:
+    /// the pane's ground is OpenStreetMap whether or not a reference layer is
+    /// on, and its credit is owed wherever the tiles show.
     func credits(for references: Set<GeoreferenceReference>) -> [ActiveAttribution.Credit] {
         ActiveAttribution.credits(
             for: GeoreferenceReference.allCases
                 .filter { references.contains($0) }
-                .compactMap { LayerCatalog.descriptor(for: $0.layerID) }
+                .compactMap { LayerCatalog.descriptor(for: $0.layerID) },
+            baseMap: .openStreetMap
         )
     }
 

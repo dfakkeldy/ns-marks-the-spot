@@ -606,24 +606,26 @@ struct GeoreferenceView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityIdentifier("georeference-reference-too-far-out")
                 }
+            }
 
-                // The licence's own words, beside the imagery it covers. This
-                // pane is a map of its own behind a sheet: the strip under the
-                // main map is not on screen and does not describe what is drawn
-                // here, and an obligation to attribute follows the pixels.
-                ForEach(credits) { credit in
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(credit.copyright ?? credit.provider)
-                        Text(credit.disclaimer)
-                        if let title = credit.licenseTitle, let url = credit.licenseURL {
-                            Link(title, destination: url)
-                        }
+            // The sources' own words, beside the map they cover. This pane is
+            // a map of its own behind a sheet: the strip under the main map is
+            // not on screen and does not describe what is drawn here, and an
+            // obligation to attribute follows the pixels. Outside the licence
+            // branch, because the OpenStreetMap ground draws — and owes its
+            // credit — whether or not the provincial layers are unlocked.
+            ForEach(credits) { credit in
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(credit.copyright ?? credit.provider)
+                    Text(credit.disclaimer)
+                    if let title = credit.licenseTitle, let url = credit.licenseURL {
+                        Link(title, destination: url)
                     }
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .accessibilityIdentifier("georeference-reference-credit")
                 }
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("georeference-reference-credit")
             }
         }
     }
@@ -651,9 +653,12 @@ struct GeoreferenceView: View {
         )
     }
 
-    /// What the layers currently drawn here oblige this panel to say.
+    /// What the ground and the layers currently drawn here oblige this panel
+    /// to say. The pane draws its OpenStreetMap ground with or without an app
+    /// container behind it, so a preview owes the credit as much as the app.
     private var credits: [ActiveAttribution.Credit] {
-        referenceServices?.credits(for: references) ?? []
+        referenceServices?.credits(for: references)
+            ?? ActiveAttribution.credits(for: [], baseMap: .openStreetMap)
     }
 
     /// Copies the main map's reference layers, once, when the sheet opens.
