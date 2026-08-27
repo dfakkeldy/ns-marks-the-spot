@@ -689,7 +689,10 @@ struct MapShareAndEvidenceTests {
             )
         )
 
-        #expect(note.markdown.contains("source unavailable at export time."))
+        // The reason travels with the note now, as every sibling source's
+        // does: an unreachable source and a licence-blocked one are different
+        // findings, and the note keeps them distinct.
+        #expect(note.markdown.contains("This source is unavailable right now. No absence is inferred."))
         #expect(note.markdown.contains("No published mineral occurrence was returned") == false)
     }
 

@@ -245,6 +245,10 @@ struct InfoSheetView: View {
 private struct LayerAttributionRow: View {
     let layer: LayerDescriptor
 
+    /// A bundled licence resolves to a file URL, which `Link` renders as an
+    /// inert control on iOS — presented in-app instead.
+    @State private var presentedBundledLicence: PresentedBundledLicence?
+
     private var attribution: LayerAttribution {
         NativeLayerTraits.attribution(for: layer)
     }
@@ -269,7 +273,18 @@ private struct LayerAttributionRow: View {
                 // Named for the layer it belongs to. A test that only looked
                 // for the licence text would pass while it sat under the wrong
                 // layer, which is the one thing this row exists to get right.
-                if let licenseURL = attribution.resolvedLicenseURL {
+                if let licenseURL = attribution.resolvedLicenseURL, licenseURL.isFileURL {
+                    Button(licenseTitle) {
+                        presentedBundledLicence = PresentedBundledLicence(
+                            title: licenseTitle, url: licenseURL
+                        )
+                    }
+                    .font(.caption)
+                    .accessibilityIdentifier("source-licence-\(layer.id.rawValue)")
+                    .sheet(item: $presentedBundledLicence) { licence in
+                        BundledLicenceReaderView(title: licence.title, fileURL: licence.url)
+                    }
+                } else if let licenseURL = attribution.resolvedLicenseURL {
                     Link(licenseTitle, destination: licenseURL)
                         .font(.caption)
                         .accessibilityIdentifier("source-licence-\(layer.id.rawValue)")

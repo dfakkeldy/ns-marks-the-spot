@@ -17,6 +17,9 @@ struct MapAttributionStrip: View {
     let onOpenSources: () -> Void
 
     @State private var isExpanded = false
+    /// A bundled licence the reader tapped, presented in-app: its URL is a
+    /// file URL, which `Link` renders as a control that does nothing on iOS.
+    @State private var bundledLicence: PresentedBundledLicence?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var credits: [ActiveAttribution.Credit] {
@@ -34,7 +37,11 @@ struct MapAttributionStrip: View {
                     Text(ActiveAttribution.summary(for: credits))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
-                        .lineLimit(isExpanded ? nil : 1)
+                        // Two lines collapsed, not one: the line carries both
+                        // the OpenStreetMap credit its tile policy requires
+                        // and the boundaries caveat, and at one line it never
+                        // rendered whole on any phone width.
+                        .lineLimit(isExpanded ? nil : 2)
                         .multilineTextAlignment(.leading)
 
                     if !credits.isEmpty {
@@ -61,8 +68,15 @@ struct MapAttributionStrip: View {
                             .fixedSize(horizontal: false, vertical: true)
 
                         if let title = credit.licenseTitle, let url = credit.licenseURL {
-                            Link(title, destination: url)
+                            if url.isFileURL {
+                                Button(title) {
+                                    bundledLicence = PresentedBundledLicence(title: title, url: url)
+                                }
                                 .font(.caption2)
+                            } else {
+                                Link(title, destination: url)
+                                    .font(.caption2)
+                            }
                         }
                     }
                 }
@@ -76,5 +90,8 @@ struct MapAttributionStrip: View {
         .padding(.vertical, 6)
         .frame(maxWidth: 320, alignment: .leading)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
+        .sheet(item: $bundledLicence) { licence in
+            BundledLicenceReaderView(title: licence.title, fileURL: licence.url)
+        }
     }
 }

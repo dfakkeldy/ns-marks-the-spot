@@ -86,6 +86,12 @@ nonisolated enum ParcelEvidenceWording {
         return formatter
     }
 
+    // MARK: - Geology and resources
+
+    static func sentence(for failure: ResourceIntersectionFailure) -> String {
+        "\(ParcelLookupMessage.resourceEvidenceFailure(failure)) No absence is inferred."
+    }
+
     // MARK: - Mapped buildings
 
     /// The split matters: NSTDB carries points and footprints, and a building
