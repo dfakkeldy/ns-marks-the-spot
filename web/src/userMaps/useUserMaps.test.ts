@@ -114,11 +114,16 @@ function options(overrides: Record<string, unknown> = {}) {
 
 beforeEach(() => {
   factory = new IDBFactory();
-  vi.stubGlobal("URL", {
-    ...URL,
-    createObjectURL: vi.fn(() => `blob:fake-${Math.random()}`),
-    revokeObjectURL: vi.fn(),
-  });
+  // A CLASS, not a spread: `{ ...URL }` is not constructable, and vitest's
+  // module runner calls `new URL(...)` while resolving dynamic imports — the
+  // lazy parser paths resolve during the test, after this stub applies.
+  vi.stubGlobal(
+    "URL",
+    class extends URL {
+      static createObjectURL = vi.fn(() => `blob:fake-${Math.random()}`);
+      static revokeObjectURL = vi.fn();
+    },
+  );
 });
 
 afterEach(() => {
