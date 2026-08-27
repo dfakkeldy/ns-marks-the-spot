@@ -37,7 +37,9 @@ export type PvscAssessmentRecord = {
   taxYear: number;
   assessedValue: number;
   taxableAssessedValue: number;
-  coordinates: [number, number];
+  // Null when the dataset publishes no location point for the row; an AAN
+  // match is still valid evidence, only the spatial match needs coordinates.
+  coordinates: [number, number] | null;
 };
 
 export type PvscAssessmentAccount = {
@@ -223,23 +225,26 @@ function parseRow(row: PvscRawRow): { aan: string; record: PvscAssessmentRecord 
     taxYear === null ||
     !Number.isInteger(taxYear) ||
     assessedValue === null ||
-    taxableAssessedValue === null ||
-    longitude === null ||
-    latitude === null ||
-    longitude < -180 ||
-    longitude > 180 ||
-    latitude < -90 ||
-    latitude > 90
+    taxableAssessedValue === null
   ) {
     return null;
   }
+  const coordinates: [number, number] | null =
+    longitude !== null &&
+    latitude !== null &&
+    longitude >= -180 &&
+    longitude <= 180 &&
+    latitude >= -90 &&
+    latitude <= 90
+      ? [longitude, latitude]
+      : null;
   return {
     aan,
     record: {
       taxYear,
       assessedValue,
       taxableAssessedValue,
-      coordinates: [longitude, latitude],
+      coordinates,
     },
   };
 }
@@ -319,7 +324,10 @@ export async function fetchParcelAssessments(
     .filter(
       (row): row is NonNullable<ReturnType<typeof parseRow>> =>
         row !== null &&
-        polygonParts.some((part) => pointInPolygonPart(row.record.coordinates, part)),
+        row.record.coordinates !== null &&
+        polygonParts.some((part) =>
+          pointInPolygonPart(row.record.coordinates as [number, number], part),
+        ),
     );
   return { matchMethod: "spatial", accounts: groupAccounts(matches) };
 }

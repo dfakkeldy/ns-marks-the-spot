@@ -33,6 +33,7 @@ describe("PVSC dwelling characteristic queries", () => {
     );
     expect(url.searchParams.get("$order")).toBe("aan,year_built DESC");
     expect(url.searchParams.get("$limit")).toBe("100");
+    expect(url.searchParams.get("$offset")).toBe("0");
     expect(url.toString()).not.toContain("webapi.pvsc.ca");
   });
 
@@ -72,6 +73,37 @@ describe("PVSC dwelling characteristic queries", () => {
       garage: false,
       underConstruction: false,
     });
+  });
+
+  it("pages past a full first page instead of rendering the cut as absence", async () => {
+    // 100 rows exactly fill a page; an account sorted after them must still
+    // surface rather than reading as "no dwelling record returned".
+    const fullPage = Array.from({ length: 100 }, (_, index) =>
+      row({ aan: String(10_000_000 + index) }),
+    );
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(fullPage), { status: 200 }),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify([row({ aan: "99999999", year_built: "1970" })]),
+          { status: 200 },
+        ),
+      );
+
+    const accounts = await fetchDwellingCharacteristics(["4165829"]);
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(
+      new URL(fetchMock.mock.calls[0][0] as string).searchParams.get("$offset"),
+    ).toBe("0");
+    expect(
+      new URL(fetchMock.mock.calls[1][0] as string).searchParams.get("$offset"),
+    ).toBe("100");
+    expect(accounts).toHaveLength(101);
+    expect(accounts.map(({ aan }) => aan)).toContain("99999999");
   });
 
   it("keeps accounts with no rows out and tolerates partial rows", async () => {

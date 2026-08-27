@@ -108,6 +108,63 @@ describe("PVSC assessment account queries", () => {
     ]);
   });
 
+  it("keeps notice-AAN rows whose location point is unpublished", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify([
+          {
+            aan: "00603988",
+            tax_year: "2026",
+            assessed_value: "41000",
+            taxable_assessed_value: "39500",
+          },
+        ]),
+        { status: 200 },
+      ),
+    );
+
+    const result = await fetchParcelAssessments([], "00603988");
+
+    expect(result.matchMethod).toBe("notice-aan");
+    expect(result.accounts).toEqual([
+      {
+        aan: "00603988",
+        records: [
+          {
+            taxYear: 2026,
+            assessedValue: 41_000,
+            taxableAssessedValue: 39_500,
+            coordinates: null,
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("excludes coordinate-free rows from the spatial match without dropping the parse", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify([
+          {
+            aan: "00111111",
+            tax_year: "2026",
+            assessed_value: "10000",
+            taxable_assessed_value: "10000",
+          },
+          row("00222222", 2026, 20_000, 20_000, 0.5, 0.5),
+        ]),
+        { status: 200 },
+      ),
+    );
+
+    const result = await fetchParcelAssessments([
+      polygonParcel([[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]),
+    ]);
+
+    expect(result.matchMethod).toBe("spatial");
+    expect(result.accounts.map(({ aan }) => aan)).toEqual(["00222222"]);
+  });
+
   it("spatially associates account points with multipart parcel geometry and excludes holes", async () => {
     const parcels: NsprdFeatureCollection["features"] = [
       polygonParcel([
