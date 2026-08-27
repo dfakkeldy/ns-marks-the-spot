@@ -8,10 +8,16 @@
   text-rendering: optimizeLegibility;
   --chart-ink: #12343b;
   --deep-water: #0a4f5c;
-  --survey-blue: #2f80ed;
+  /* #1e66cc, not the original #2f80ed: white text on the old blue measured
+     3.87:1 (AA needs 4.5) and the same blue as small link text on the
+     paper/fog tints measured 3.59-3.62:1. This shade holds 5.5:1 under
+     white and >4.5:1 as link text on every tinted ground in this sheet. */
+  --survey-blue: #1e66cc;
   --paper-peach: #e7a86b;
   --survey-red: #be4d3c;
-  --lichen: #718b56;
+  /* Darkened from #718b56 (3.8:1 as 11-12px status text on white) to hold
+     AA at the sizes the layer rail actually uses it. */
+  --lichen: #5a7343;
   --fog: #eef7f5;
   --paper: #fbf6ea;
   --white: #ffffff;
@@ -2633,11 +2639,13 @@ a {
 .map-attribution {
   z-index: 1000;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0;
-  padding: 0 28px;
-  overflow-x: auto;
-  white-space: nowrap;
+  row-gap: 2px;
+  padding: 2px 28px;
+  /* Wrap, never clip: this strip is where the Province attribution — a
+     licence obligation — actually renders, and nowrap+overflow cut it to
+     "…provided witho" on ordinary desktop widths. */
   font-size: 0.72rem;
   background: var(--paper);
   border-top: 1px solid var(--line);
@@ -2782,11 +2790,23 @@ a {
     right: 0;
     bottom: 0;
     left: 0;
-    height: 32px;
+    /* min-height + scroll rather than the old fixed 32px: the strip is
+       where the Province attribution actually renders, and a fixed height
+       clipped it after one line. */
+    min-height: 32px;
+    max-height: 72px;
+    overflow-y: auto;
     padding-inline: 12px;
     background: rgba(251, 246, 234, 0.9);
     box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
     backdrop-filter: blur(14px);
+  }
+
+  /* The strip above overlays the map bottom on small screens; without this
+     the Leaflet scale bar and the coordinate/scale readouts sat underneath
+     it, half-clipped. */
+  .leaflet-bottom.leaflet-left {
+    bottom: 40px;
   }
 
   .map-layout {

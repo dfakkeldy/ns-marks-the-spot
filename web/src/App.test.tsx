@@ -1485,6 +1485,75 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
   });
 
+  it("keeps the user's layer choices when the licence is merely reviewed", async () => {
+    // The footer's "Data & licences" used to open the dialog with the layer
+    // intent, whose Accept ran setProvinceLayers(initial) — silently wiping
+    // every province layer switched on during the session.
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    renderAppWithCategoriesOpen();
+
+    await userEvent.click(screen.getByLabelText("NS Aerial"));
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Data & licences" }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: /province data licence/i,
+    });
+    // A review visit gets a neutral exit; first-run acceptance does not.
+    expect(
+      within(dialog).getByRole("button", { name: "Close" }),
+    ).toBeInTheDocument();
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: "Accept and view map layers" }),
+    );
+
+    expect(
+      screen.queryByRole("dialog", { name: /province data licence/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
+  });
+
+  it("opens the licence from a first search and runs that search on acceptance", async () => {
+    // The search box used to be silently disabled until acceptance — a dead
+    // primary action whose only unlock was a footer link. The search itself
+    // is now the licence trigger.
+    // Self-contained against suite order: a prior test's stored acceptance
+    // or mock traffic must not leak into the first-run flow under test.
+    localStorage.clear();
+    vi.mocked(fetchParcels).mockClear();
+    window.history.replaceState(null, "", "/");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50292390")],
+    });
+    render(<App />);
+
+    const searchBox = screen.getByLabelText("Search by PID or civic address");
+    expect(searchBox).toBeEnabled();
+    await userEvent.type(searchBox, "50292390");
+    await userEvent.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const dialog = await screen.findByRole("dialog", {
+      name: /province data licence/i,
+    });
+    expect(fetchParcels).not.toHaveBeenCalledWith(["50292390"]);
+    // The review-only exit stays absent before first acceptance.
+    expect(
+      within(dialog).queryByRole("button", { name: "Close" }),
+    ).not.toBeInTheDocument();
+
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: "Accept and view map layers" }),
+    );
+    await waitFor(() =>
+      expect(fetchParcels).toHaveBeenCalledWith(["50292390"]),
+    );
+    await screen.findByRole("complementary", { name: "Parcel 50292390 details" });
+  });
+
   it("applies Explore in one committed render", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(
@@ -2852,9 +2921,11 @@ describe("NS Marks The Spot Online", () => {
     await user.click(
       screen.getByRole("button", { name: "Continue export frame" }),
     );
+    // findBy: the export dialog is lazy-loaded, so a run in which no earlier
+    // test warmed its chunk resolves it a tick after the frame step.
     await user.click(
       within(
-        screen.getByRole("dialog", { name: "Export georeferenced PDF" }),
+        await screen.findByRole("dialog", { name: "Export georeferenced PDF" }),
       ).getByRole("button", { name: "Download PDF" }),
     );
 
@@ -2947,7 +3018,7 @@ describe("NS Marks The Spot Online", () => {
     );
     await user.click(
       within(
-        screen.getByRole("dialog", { name: "Export georeferenced PDF" }),
+        await screen.findByRole("dialog", { name: "Export georeferenced PDF" }),
       ).getByRole("button", { name: "Download PDF" }),
     );
 
