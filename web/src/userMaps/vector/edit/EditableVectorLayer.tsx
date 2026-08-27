@@ -72,6 +72,7 @@ export function EditableVectorLayer({
   // session hook advances its draft), and re-seeding from it would fight
   // Geoman for ownership of the geometry mid-gesture.
   const seedRef = useRef(data);
+  const groupRef = useRef<L.GeoJSON | null>(null);
 
   useEffect(() => {
     if (!map.getPane(USER_VECTOR_PANE)) {
@@ -126,12 +127,25 @@ export function EditableVectorLayer({
       };
       target.feature.id ??= generateId();
       target.feature.properties ??= {};
+      // The session's opt-in marker; see setOptIn below. Geoman stamps its
+      // own drawn shapes with pmIgnore: false, this covers the seeded ones.
+      (layer.options as { pmIgnore?: boolean }).pmIgnore = false;
       layer.on("click", () => {
         selectRef.current(String((layer as { feature?: Feature }).feature?.id ?? ""));
       });
     };
 
     group.eachLayer(adopt);
+    groupRef.current = group;
+
+    // Geoman's global edit/drag/removal modes enumerate EVERY qualifying
+    // layer on the map — official evidence markers (well logs, abandoned
+    // mines, tax-sale points) included, so "Delete" could remove a well-log
+    // marker and drag could move official geometry. findLayers re-reads
+    // L.PM.optIn on every call, so flipping it for the session's lifetime
+    // scopes all three modes to layers that opted in (pmIgnore: false): this
+    // group's, plus anything Geoman itself draws.
+    L.PM.setOptIn(true);
 
     const handleCreate = (event: { layer: L.Layer }) => {
       // Geoman adds the drawn shape to the map, not to our group; moving it
@@ -149,9 +163,15 @@ export function EditableVectorLayer({
 
     map.on("pm:create", handleCreate);
     map.on("pm:remove", handleRemove);
-    map.on("pm:edit", publish);
-    map.on("pm:dragend", publish);
-    map.on("pm:markerdragend", publish);
+    // On the GROUP, not the map: Geoman fires pm:edit, pm:dragend, and
+    // pm:markerdragend on the edited layer and propagates them only to its
+    // parent LayerGroups (getAllParentGroups) — the map never hears them.
+    // Listened on the map, reshape and move worked on screen but were never
+    // published, so closing the session silently reverted them. pm:create
+    // (fired with the map) and pm:remove (fired on both) stay on the map.
+    group.on("pm:edit", publish);
+    group.on("pm:dragend", publish);
+    group.on("pm:markerdragend", publish);
 
     // Geoman's own toolbar stays off: the app supplies its own controls so
     // they match the rest of the UI and keep 44px touch targets.
@@ -166,9 +186,11 @@ export function EditableVectorLayer({
     return () => {
       map.off("pm:create", handleCreate);
       map.off("pm:remove", handleRemove);
-      map.off("pm:edit", publish);
-      map.off("pm:dragend", publish);
-      map.off("pm:markerdragend", publish);
+      group.off("pm:edit", publish);
+      group.off("pm:dragend", publish);
+      group.off("pm:markerdragend", publish);
+      groupRef.current = null;
+      L.PM.setOptIn(false);
       map.pm.disableDraw?.();
       map.pm.disableGlobalEditMode?.();
       map.pm.disableGlobalRemovalMode?.();
@@ -181,6 +203,51 @@ export function EditableVectorLayer({
       map.removeLayer(group);
     };
   }, [map]);
+
+  /**
+   * Reconcile the live group with the session's draft — membership and
+   * properties ONLY, never geometry, which stays Geoman-owned (re-seeding
+   * shapes from `data` would fight Geoman mid-gesture; see seedRef above).
+   *
+   * This closes the second writer's path: the details panel deletes features
+   * and edits name/description on `draftData`, but `collect()` rebuilds the
+   * published collection from the group's layers and each layer's own
+   * `feature`. Unreconciled, the next Geoman gesture resurrected every
+   * panel-deleted feature and reverted every panel-edited property.
+   */
+  useEffect(() => {
+    const group = groupRef.current;
+    if (!group) {
+      return;
+    }
+    const draftById = new Map(
+      data.features
+        .filter((feature) => feature.id !== undefined)
+        .map((feature) => [String(feature.id), feature]),
+    );
+    const removed: L.Layer[] = [];
+    group.eachLayer((layer) => {
+      const feature = (layer as L.Layer & { feature?: Feature }).feature;
+      if (!feature || feature.id === undefined) {
+        return;
+      }
+      const draft = draftById.get(String(feature.id));
+      if (!draft) {
+        removed.push(layer);
+        return;
+      }
+      // Copied, not aliased: collect() re-publishes `feature.properties`, and
+      // sharing the draft's object would let a later panel edit mutate a
+      // collection the session already published.
+      if (draft.properties !== feature.properties) {
+        feature.properties = { ...(draft.properties ?? {}) };
+      }
+    });
+    for (const layer of removed) {
+      (layer as L.Layer & { pm?: { disable?: () => void } }).pm?.disable?.();
+      group.removeLayer(layer);
+    }
+  }, [data]);
 
   /**
    * The toolbar's selection drives Geoman's global modes. Separate from the

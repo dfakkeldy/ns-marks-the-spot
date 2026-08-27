@@ -68,18 +68,32 @@ const DATA: FeatureCollection = {
 function mount(onGeometryChange = vi.fn()) {
   const host = document.createElement("div");
   document.body.append(host);
-  render(
+  const view = (data: FeatureCollection) => (
     <MapContainer center={[45.8, -61.4]} zoom={12} zoomControl={false}>
       <EditableVectorLayer
         record={RECORD}
-        data={DATA}
+        data={data}
         onGeometryChange={onGeometryChange}
         onSelectFeature={vi.fn()}
       />
-    </MapContainer>,
-    { container: host },
+    </MapContainer>
   );
-  return { map: createdMaps[0], onGeometryChange };
+  const { rerender } = render(view(DATA), { container: host });
+  return {
+    map: createdMaps[0],
+    onGeometryChange,
+    rerenderWith: (data: FeatureCollection) => rerender(view(data)),
+  };
+}
+
+function findLayerByFeatureId(map: L.Map, id: string): L.Layer | null {
+  let found: L.Layer | null = null;
+  map.eachLayer((layer) => {
+    if ((layer as L.Layer & { feature?: { id?: unknown } }).feature?.id === id) {
+      found = layer;
+    }
+  });
+  return found;
 }
 
 describe("EditableVectorLayer", () => {
@@ -146,20 +160,109 @@ describe("EditableVectorLayer", () => {
     });
   });
 
-  it("reports geometry after a vertex edit", async () => {
+  it("reports geometry after a vertex edit fired the way Geoman fires it", async () => {
     const { map, onGeometryChange } = mount();
     await waitFor(() => expect(map.pm).toBeTruthy());
 
-    let target: L.Layer | null = null;
-    map.eachLayer((layer) => {
-      if ((layer as L.Polygon).feature?.id === "poly") {
-        target = layer;
-      }
-    });
+    const target = findLayerByFeatureId(map, "poly");
     expect(target).toBeTruthy();
-    map.fire("pm:edit", { layer: target! });
+    // Geoman fires pm:edit on the LAYER and propagates it to parent groups
+    // only — never to the map. Firing on the layer with propagation is the
+    // real path; the previous version of this test fired on the map, which
+    // Geoman never does, and so certified wiring that lost every reshape.
+    target!.fire("pm:edit", { layer: target! }, true);
 
     await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+  });
+
+  it("publishes drags and marker drags from the layer, and ignores the map-level path Geoman never uses", async () => {
+    const { map, onGeometryChange } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const target = findLayerByFeatureId(map, "poly");
+
+    map.fire("pm:edit", { layer: target! });
+    map.fire("pm:dragend", { layer: target! });
+    map.fire("pm:markerdragend", { layer: target! });
+    await new Promise((resolve) => setTimeout(resolve, 16));
+    expect(onGeometryChange).not.toHaveBeenCalled();
+
+    target!.fire("pm:dragend", { layer: target! }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalledTimes(1));
+    target!.fire("pm:markerdragend", { layer: target! }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalledTimes(2));
+  });
+
+  it("drops a panel-deleted feature from the live group instead of resurrecting it", async () => {
+    const { map, onGeometryChange, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    expect(findLayerByFeatureId(map, "poly")).toBeTruthy();
+
+    // The details panel deletes by advancing the draft; the group must follow,
+    // because the next publish rebuilds the collection from the group.
+    rerenderWith({ type: "FeatureCollection", features: [] });
+    await waitFor(() => expect(findLayerByFeatureId(map, "poly")).toBeNull());
+
+    const drawn = L.polygon([
+      [45.75, -61.45],
+      [45.75, -61.35],
+      [45.85, -61.35],
+    ]);
+    map.fire("pm:create", { layer: drawn, shape: "Polygon" });
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    expect(collection.features.map(({ id }) => id)).not.toContain("poly");
+  });
+
+  it("publishes panel-edited details on the next gesture instead of reverting them", async () => {
+    const { map, onGeometryChange, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    rerenderWith({
+      type: "FeatureCollection",
+      features: [
+        {
+          ...DATA.features[0],
+          properties: { name: "Front lot", description: "renamed in panel" },
+        },
+      ],
+    });
+
+    const target = findLayerByFeatureId(map, "poly");
+    target!.fire("pm:edit", { layer: target! }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    expect(collection.features[0]?.properties).toMatchObject({
+      name: "Front lot",
+      description: "renamed in panel",
+    });
+  });
+
+  it("scopes Geoman to the session: layers that never opted in stay outside global modes", async () => {
+    const { map } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    // An official evidence marker: present on the map, never opted in.
+    const official = L.circleMarker([45.82, -61.42], { radius: 5 }).addTo(map);
+    // Geoman's typings expose setOptIn but not the flag it sets.
+    const pmGlobals = L.PM as typeof L.PM & { optIn?: boolean };
+    expect(pmGlobals.optIn).toBe(true);
+    // findLayers re-reads L.PM.optIn, so global edit must enumerate only the
+    // session's layers (pmIgnore: false) — official geometry stays untouched.
+    map.pm.enableGlobalEditMode?.();
+    const sessionLayer = findLayerByFeatureId(map, "poly") as L.Layer & {
+      pm?: { enabled?: () => boolean };
+    };
+    const bystander = official as L.Layer & {
+      pm?: { enabled?: () => boolean };
+    };
+    expect(sessionLayer.pm?.enabled?.()).toBe(true);
+    expect(bystander.pm?.enabled?.() ?? false).toBe(false);
+    map.pm.disableGlobalEditMode?.();
+
+    cleanup();
+    // The flag is session-scoped: leaving it set would strip Geoman from every
+    // future layer on the map.
+    expect(pmGlobals.optIn).toBe(false);
   });
 
   it("drops a feature removed through Geoman", async () => {
