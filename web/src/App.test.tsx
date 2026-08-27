@@ -141,6 +141,10 @@ vi.mock("./print/pdf/pdfComposer", async (importOriginal) => {
   return { ...original, composeGeoPdf: composeGeoPdfMock };
 });
 
+/** Drives the "Simulate map drift" button below; hoisted so the factory can
+ *  close over it. */
+let viewportDrift = vi.hoisted(() => 0);
+
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
     parcels,
@@ -353,6 +357,26 @@ vi.mock("./components/MapCanvas", () => ({
             })}
           >
             Simulate map viewport
+          </button>
+          {/* Each click reports a DIFFERENT position, the way a real pan or
+              wheel-zoom burst does, so a test can drive successive share-URL
+              changes. The button above deliberately reports a fixed position
+              and cannot. */}
+          <button
+            type="button"
+            onClick={() => {
+              viewportDrift += 1;
+              onViewportChange?.({
+                position: {
+                  latitude: 45.01 + viewportDrift / 1000,
+                  longitude: -62.01 + viewportDrift / 1000,
+                  zoom: 12,
+                },
+                bounds: { north: 45.2, east: -61.8, south: 44.8, west: -62.2 },
+              });
+            }}
+          >
+            Simulate map drift
           </button>
         </>
       ) : null}
@@ -854,7 +878,9 @@ describe("NS Marks The Spot Online", () => {
     })).not.toBeInTheDocument();
     expect(within(taxSale).queryByLabelText("Redemption category"))
       .not.toBeInTheDocument();
-    expect(new URL(window.location.href).searchParams.get("event")).toBeNull();
+    await waitFor(() =>
+      expect(new URL(window.location.href).searchParams.get("event")).toBeNull(),
+    );
 
     const exportButton = within(inspector).getByRole("button", {
       name: "Export evidence note",
@@ -1148,11 +1174,12 @@ describe("NS Marks The Spot Online", () => {
       within(taxSale).getByLabelText("Show tax-sale information"),
     );
 
-    const eventIds = new URL(window.location.href).searchParams
-      .get("event")
-      ?.split(",");
     const currentEventIds = eventsForStatus("upcoming").map(({ id }) => id);
-    expect(eventIds).toEqual(currentEventIds);
+    await waitFor(() =>
+      expect(
+        new URL(window.location.href).searchParams.get("event")?.split(","),
+      ).toEqual(currentEventIds),
+    );
     for (const eventId of currentEventIds) {
       expect(JSON.stringify(builtInMapThemes)).not.toContain(eventId);
     }
@@ -1178,9 +1205,11 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getAllByRole("group", {
       name: "Current notices or historical records",
     })).toHaveLength(1);
-    const selectedEvents = new URL(window.location.href).searchParams.get("event");
-    expect(selectedEvents).not.toContain("middleton-2026-08-20");
-    expect(selectedEvents).toContain("victoria-county-2026-09-14");
+    await waitFor(() => {
+      const selectedEvents = new URL(window.location.href).searchParams.get("event");
+      expect(selectedEvents).not.toContain("middleton-2026-08-20");
+      expect(selectedEvents).toContain("victoria-county-2026-09-14");
+    });
   });
 
   it("clears current and historical tax-sale filters when an off theme is applied", async () => {
@@ -2730,7 +2759,9 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "Fletcher: on at 72% from https://tiles.example.test/ns-marks",
     );
-    expect(window.location.search).toContain("fletcher");
+    await waitFor(() =>
+      expect(window.location.search).toContain("fletcher"),
+    );
     expect(
       screen.getByRole("link", { name: "CC BY-NC-SA 3.0" }),
     ).toHaveAttribute(
@@ -3109,8 +3140,10 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "mineral proximity parcels: on",
     );
-    expect(new URL(window.location.href).searchParams.get("layers")).toContain(
-      "mineral-proximity-parcels",
+    await waitFor(() =>
+      expect(new URL(window.location.href).searchParams.get("layers")).toContain(
+        "mineral-proximity-parcels",
+      ),
     );
   });
 
@@ -3276,6 +3309,56 @@ describe("NS Marks The Spot Online", () => {
     expect(
       within(inspector).queryByText("View direct official source"),
     ).not.toBeInTheDocument();
+  });
+
+  it("keeps writing the address bar when replaceState is rate-limited", async () => {
+    // Safari refuses more than 100 history.replaceState calls per 30 seconds
+    // and raises SecurityError. Thrown from inside the effect that writes the
+    // share URL, that unmounted the entire app; the map must survive it with
+    // nothing worse than a stale address bar.
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    const replaceState = vi
+      .spyOn(window.history, "replaceState")
+      .mockImplementation(() => {
+        throw new DOMException("rate limited", "SecurityError");
+      });
+
+    try {
+      renderAppWithCategoriesOpen();
+
+      await waitFor(() => expect(replaceState).toHaveBeenCalled());
+      // Still mounted: no error boundary fallback, map still rendered.
+      expect(screen.getByTestId("map-canvas")).toBeInTheDocument();
+      expect(
+        screen.queryByRole("heading", { name: "The map stopped responding" }),
+      ).not.toBeInTheDocument();
+    } finally {
+      replaceState.mockRestore();
+    }
+  });
+
+  it("throttles address-bar writes during a burst of viewport changes", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    renderAppWithCategoriesOpen();
+
+    const replaceState = vi.spyOn(window.history, "replaceState");
+    try {
+      const viewportButton = screen.getByRole("button", {
+        name: "Simulate map drift",
+      });
+      for (let move = 0; move < 12; move += 1) {
+        fireEvent.click(viewportButton);
+      }
+
+      // Leading edge writes once; the rest of the burst collapses into a
+      // single trailing write instead of one call per moveend/zoomend.
+      await waitFor(() => expect(replaceState).toHaveBeenCalled());
+      expect(replaceState.mock.calls.length).toBeLessThan(12);
+    } finally {
+      replaceState.mockRestore();
+    }
   });
 
   it("auto-dismisses the parcel-selected toast", async () => {

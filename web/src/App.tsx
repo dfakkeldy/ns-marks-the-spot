@@ -216,6 +216,13 @@ import type {
 import type { Gcp } from "./userMaps/types";
 
 const TRANSIENT_MESSAGE_DURATION_MS = 6_000;
+/**
+ * Trailing delay before the address bar is rewritten. Safari refuses more
+ * than 100 history.replaceState calls per 30 seconds (~1 per 300 ms
+ * sustained), and the map can emit two share-URL changes per zoom gesture, so
+ * this sits comfortably under that ceiling while still feeling immediate.
+ */
+const SHARE_URL_WRITE_DELAY_MS = 500;
 
 const BETA_SIGNUP_URL =
   "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
@@ -393,10 +400,22 @@ function listingMatchesTaxSaleFilter(
   return true;
 }
 
+/**
+ * Guarded because this runs on the RENDER path (a useRef initializer), and
+ * Safari with "Block all cookies" — plus some in-app WebViews — throws
+ * SecurityError from any `window.localStorage` touch. Unguarded, those users
+ * got a permanent white page instead of a map. Treat an unreadable store as
+ * "not yet accepted": the licence gate then asks again, which is the safe
+ * direction to fail. themeStorage.ts guards its own reads the same way.
+ */
 function isLicenceAccepted(): boolean {
-  return (
-    localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === "accepted"
-  );
+  try {
+    return (
+      localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY) === "accepted"
+    );
+  } catch {
+    return false;
+  }
 }
 
 function mergeFeatureCollections(
@@ -1336,6 +1355,8 @@ export function App() {
   const addressSearchController = useRef<AbortController | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
+  /** Timestamp of the last address-bar write; see the throttle below. */
+  const lastShareUrlWriteRef = useRef(0);
 
   useEffect(
     () => () => {
@@ -1895,7 +1916,13 @@ export function App() {
   };
 
   const acceptLicence = () => {
-    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    try {
+      localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    } catch {
+      // Blocked or full storage must not cost the user the acceptance they
+      // just gave: honour it for this session and let the gate ask again next
+      // visit, rather than throwing out of a click handler.
+    }
     setLicenceAccepted(true);
     if (licenceIntent?.kind === "theme") {
       const theme = mapThemes.find(
@@ -2678,7 +2705,39 @@ export function App() {
   );
 
   useEffect(() => {
-    window.history.replaceState(null, "", shareUrl);
+    // Throttled on BOTH edges, and never allowed to throw.
+    //
+    // shareUrl changes at least once per moveend AND once per zoomend (one
+    // zoom fires both), so writing on every change blew past Safari's hard
+    // limit of 100 history.replaceState calls per 30 seconds during ordinary
+    // wheel-zooming or panning. Safari raises SecurityError at that ceiling,
+    // and thrown from inside an effect it unmounted the whole app.
+    //
+    // Leading edge, not trailing-only: a discrete action (toggling a layer,
+    // switching mode, selecting a parcel) must put its state in the address
+    // bar immediately, because the user may copy the link right away. Only a
+    // burst defers, which keeps successive writes at least
+    // SHARE_URL_WRITE_DELAY_MS apart — 2 per second at worst, well under the
+    // ceiling — and the URL still settles on the final viewport.
+    const write = () => {
+      lastShareUrlWriteRef.current = Date.now();
+      try {
+        window.history.replaceState(null, "", shareUrl);
+      } catch {
+        // Rate-limited or otherwise refused: the map keeps working and the
+        // address bar catches up on the next change.
+      }
+    };
+    const sinceLastWrite = Date.now() - lastShareUrlWriteRef.current;
+    if (sinceLastWrite >= SHARE_URL_WRITE_DELAY_MS) {
+      write();
+      return;
+    }
+    const timer = window.setTimeout(
+      write,
+      SHARE_URL_WRITE_DELAY_MS - sinceLastWrite,
+    );
+    return () => window.clearTimeout(timer);
   }, [shareUrl]);
 
   const copyShareUrl = () => {
@@ -4075,7 +4134,13 @@ export function App() {
           fletcher: {
             visible: fletcherVisible,
             opacity: fletcherOpacity,
-            tileBaseUrl: normalizeFletcherTileBaseUrl(),
+            // The already-resolved value, not a fresh normalize() call: that
+            // function THROWS on invalid VITE_FLETCHER_TILE_BASE_URL, and
+            // here the throw happened during App's render — blanking the app
+            // the moment a user opened the export dialog. The memo above
+            // catches it once and degrades to null, which buildExportLayers
+            // reads as "skip the Fletcher layer".
+            tileBaseUrl: fletcherTileConfiguration.baseUrl,
             maxNativeZoom: fletcherLayerCatalog.maxZoom,
           },
           arcgisLayers: provinceLayerCatalog
