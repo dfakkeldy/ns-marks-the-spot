@@ -79,23 +79,7 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
     /// Every part, so focusing a parcel split by a road frames both sides of
     /// the road rather than whichever piece came back first.
     var selectedBounds: MapBounds? {
-        let points = selectedFeatures.flatMap { $0.boundary.parts.flatMap { $0.flatMap(\.self) } }
-        guard let first = points.first else { return nil }
-        var bounds = MapBounds(
-            minLatitude: first.lat,
-            minLongitude: first.lng,
-            maxLatitude: first.lat,
-            maxLongitude: first.lng
-        )
-        for point in points.dropFirst() {
-            bounds = MapBounds(
-                minLatitude: min(bounds.minLatitude, point.lat),
-                minLongitude: min(bounds.minLongitude, point.lng),
-                maxLatitude: max(bounds.maxLatitude, point.lat),
-                maxLongitude: max(bounds.maxLongitude, point.lng)
-            )
-        }
-        return bounds
+        Self.bounds(around: selectedFeatures)
     }
 
     /// A box around every parcel in a named set, or nil when none of them has
@@ -105,9 +89,13 @@ nonisolated struct ParcelSelection: Equatable, Sendable {
     /// than on the province: a user who launched the app to look at a sale
     /// should not have to find it first.
     func bounds(forPIDs pids: Set<String>) -> MapBounds? {
-        let points = features
-            .filter { pids.contains($0.pid) }
-            .flatMap { $0.boundary.parts.flatMap { $0.flatMap(\.self) } }
+        Self.bounds(around: features.filter { pids.contains($0.pid) })
+    }
+
+    /// One min/max fold for both readers above — the same loop copied twice
+    /// had already begun to drift in a third variant elsewhere.
+    private static func bounds(around features: [ParcelFeature]) -> MapBounds? {
+        let points = features.flatMap { $0.boundary.parts.flatMap { $0.flatMap(\.self) } }
         guard let first = points.first else { return nil }
         var bounds = MapBounds(
             minLatitude: first.lat,
