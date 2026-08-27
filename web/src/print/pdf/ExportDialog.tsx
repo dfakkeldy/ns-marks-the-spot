@@ -18,6 +18,8 @@ import { templateForOrientation } from "./templates/index";
 import type { PdfTemplateId } from "./templates/types";
 
 export type ExportDialogProps = {
+  /** Mode-aware default; the field stays editable. */
+  defaultSubtitle?: string;
   orientation: PdfTemplateId;
   bounds: PrintMapBounds;
   layers: CompositorLayer[];
@@ -102,7 +104,7 @@ export function ExportDialog(props: ExportDialogProps) {
   );
   const [title, setTitle] = useState(props.defaultTitle);
   const [subtitle, setSubtitle] = useState(
-    "NS Marks The Spot — historical map export",
+    props.defaultSubtitle ?? "NS Marks The Spot map export",
   );
   const [notes, setNotes] = useState("");
   const [legendOn, setLegendOn] = useState(true);

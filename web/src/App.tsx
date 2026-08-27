@@ -798,6 +798,12 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           engineering: every layer names its source, scale, and licence, the
           way a printed map sheet carries its legend and survey notes.
         </p>
+        <h3>Keyboard access</h3>
+        <p>
+          The search box is the keyboard route into a parcel: map shapes and
+          markers are pointer targets, so type a PID or civic address and the
+          parcel sheet opens with full keyboard focus.
+        </p>
         <h3>Use it full screen on iPhone</h3>
         <p>
           In Safari, tap Share, then Add to Home Screen. The installed map
@@ -1488,7 +1494,11 @@ export function App() {
       .then((collection) => {
         setParcels((current) => mergeFeatureCollections(current, collection));
         setParcelMessage(
-          `${new Set(collection.features.map(({ properties }) => properties.PID)).size} PIDs matched in NSPRD.`,
+          // "PIDs", explicitly related to listings: a listing can carry
+          // several PIDs (and a PID can sit outside the redemption
+          // categories), so this figure sitting beside the listing-count
+          // chips read as an off-by-one error.
+          `${new Set(collection.features.map(({ properties }) => properties.PID)).size} PIDs matched in NSPRD; a listing can carry several PIDs.`,
         );
       })
       .catch((error: unknown) => {
@@ -3462,20 +3472,22 @@ export function App() {
                   {zoningCategoryLayers.length > 0 ? (
                     <>
                       <p className="resource-source-note">
-                        These are unofficial renderings of municipal map
-                        services, not the municipalities&rsquo; official copies,
-                        and are not to be used for legal purposes. Always
-                        confirm a zone and its rules against the linked land use
-                        by-law and with the municipality.
+                        Unofficial renderings of municipal map services — not
+                        for legal use. Confirm every zone against the linked
+                        land use by-law and with the municipality.
                       </p>
-                      <p className="resource-source-note">
-                        Nova Scotia publishes no provincial zoning layer, and
-                        most municipalities publish no zoning GIS at all. An
-                        area with no polygon is an area this map has no data for
-                        &mdash; it is not evidence that no zoning applies. Towns
-                        inside a county are separate zoning jurisdictions, so a
-                        county layer does not cover town parcels.
-                      </p>
+                      <details className="evidence-caveat">
+                        <summary>Zoning coverage limits</summary>
+                        <p className="resource-source-note">
+                          Nova Scotia publishes no provincial zoning layer, and
+                          most municipalities publish no zoning GIS at all. An
+                          area with no polygon is an area this map has no data
+                          for &mdash; it is not evidence that no zoning
+                          applies. Towns inside a county are separate zoning
+                          jurisdictions, so a county layer does not cover town
+                          parcels.
+                        </p>
+                      </details>
                     </>
                   ) : null}
 
@@ -4051,18 +4063,6 @@ export function App() {
             </div>
           </section>
 
-          <section className="offline-card" aria-labelledby="offline-heading">
-            <img src={appIconUrl} alt="" />
-            <div>
-              <h2 id="offline-heading">The iPhone app is coming</h2>
-              <p>
-                NS Marks The Spot for iPhone is in development, with offline
-                Fletcher sheets as the marquee feature. Join the list to hear
-                when TestFlight opens and help shape what ships.
-              </p>
-              <a href={BETA_SIGNUP_URL}>Get launch updates</a>
-            </div>
-          </section>
         </aside>
 
         <section
@@ -4348,6 +4348,15 @@ export function App() {
           ),
         })}
         defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
+        defaultSubtitle={`NS Marks The Spot — ${
+          taxSaleEnabled
+            ? mapMode === "historical"
+              ? "historical tax-sale research export"
+              : "tax-sale research export"
+            : fletcherVisible
+              ? "historical map export"
+              : "map export"
+        }`}
         attributionLines={exportAttributionLines([
           // Credit exactly what the PDF contains: `captureLayerSources` is
           // every visible source, but the compositor only carries the subset
