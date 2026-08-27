@@ -132,7 +132,7 @@ describe("UserVectorLayers", () => {
     });
   });
 
-  it("binds a text-only popup — HTML in user data never becomes elements", () => {
+  it("binds a text-only popup and tooltip — HTML in user data never becomes elements", () => {
     render(
       <UserVectorLayers
         layers={[layer("a", { name: "Pin", description: '<img src=x onerror="boom()">' })]}
@@ -160,7 +160,34 @@ describe("UserVectorLayers", () => {
     expect(element.textContent).toContain("<img src=x");
     expect(element.textContent).toContain("a.geojson");
 
-    expect(bindTooltip).toHaveBeenCalledWith("Pin", { sticky: true });
+    expect(bindTooltip).toHaveBeenCalledWith(expect.any(HTMLElement), {
+      sticky: true,
+    });
+    const tooltipNode = bindTooltip.mock.calls[0][0] as HTMLElement;
+    expect(tooltipNode.textContent).toBe("Pin");
+  });
+
+  it("keeps a hostile feature name inert in the tooltip", () => {
+    // Leaflet assigns STRING tooltip content with innerHTML, so a name taken
+    // from a third-party file used to become live markup on hover.
+    const hostile = '<img src=x onerror="boom()">';
+    render(<UserVectorLayers layers={[layer("a", { name: hostile })]} />);
+    const onEachFeature = captured.geoJsonProps[0].onEachFeature;
+
+    const bindTooltip = vi.fn();
+    onEachFeature!(
+      {
+        type: "Feature",
+        id: "f1",
+        geometry: { type: "Point", coordinates: [-63, 45] },
+        properties: { name: hostile },
+      },
+      { bindPopup: vi.fn(), bindTooltip, on: vi.fn() },
+    );
+
+    const tooltipNode = bindTooltip.mock.calls[0][0] as HTMLElement;
+    expect(tooltipNode.querySelector("img")).toBeNull();
+    expect(tooltipNode.textContent).toBe(hostile);
   });
 
   it("fits the map to a layer's bbox when a fit is requested", () => {

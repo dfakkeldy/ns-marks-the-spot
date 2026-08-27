@@ -1,5 +1,6 @@
 import { act, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import L from "leaflet";
 import type { NsprdFeatureCollection } from "../services/nsprd";
 import { fetchMineralProximityParcels } from "../services/mineralProximity";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
@@ -146,13 +147,25 @@ describe("MineralProximityParcelLayer", () => {
 
     const fakeLayer = { bindTooltip: vi.fn(), on: vi.fn() };
     geoJsonProps.current?.onEachFeature?.(parcel("90000001"), fakeLayer);
+    // A node rather than a string: Leaflet assigns string tooltip content
+    // with innerHTML, so every tooltip built from data this app did not
+    // author goes through textTooltip.
     expect(fakeLayer.bindTooltip).toHaveBeenCalledWith(
-      "PID 90000001 · within 1 km of a published mineral occurrence",
+      expect.any(HTMLElement),
       { sticky: true },
     );
+    expect(
+      (fakeLayer.bindTooltip.mock.calls[0][0] as HTMLElement).textContent,
+    ).toBe("PID 90000001 · within 1 km of a published mineral occurrence");
     const clickHandler = fakeLayer.on.mock.calls.find(([name]) => name === "click")?.[1];
     expect(clickHandler).toBeTypeOf("function");
-    (clickHandler as (event: { originalEvent: object }) => void)({ originalEvent: {} });
+    const originalEvent = new MouseEvent("click");
+    const leafletEvent = { originalEvent };
+    (clickHandler as (event: { originalEvent: object }) => void)(leafletEvent);
+    // The LEAFLET event, not `event.originalEvent`: only the former makes
+    // Leaflet set the `_stopped` flag its map dispatch loop reads, so passing
+    // the raw DOM event let the map fire a second, unrequested identify.
+    expect(L.DomEvent.stopPropagation).toHaveBeenCalledWith(leafletEvent);
     expect(onSelectPid).toHaveBeenCalledWith("90000001");
   });
 

@@ -5,6 +5,7 @@ import { MINERAL_PROXIMITY_MIN_ZOOM, fetchMineralProximityParcels } from "../ser
 import type { NsprdFeatureCollection } from "../services/nsprd";
 import type { MapLayerStatus } from "./MapCanvas";
 import { MINERAL_PROXIMITY_PANE } from "./mapPanes";
+import { textTooltip } from "./mapTooltip";
 import type { MapRenderMode } from "./parcelStyle";
 
 type MineralProximityParcelLayerProps = {
@@ -136,11 +137,11 @@ export function MineralProximityParcelLayer({
       onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         const pid = feature.properties.PID;
         featureLayer.bindTooltip(
-          `PID ${pid} · within 1 km of a published mineral occurrence`,
+          textTooltip(`PID ${pid} · within 1 km of a published mineral occurrence`),
           { sticky: true },
         );
         featureLayer.on("click", (event) => {
-          L.DomEvent.stopPropagation(event.originalEvent);
+          L.DomEvent.stopPropagation(event);
           onSelectPid(pid);
         });
       }}

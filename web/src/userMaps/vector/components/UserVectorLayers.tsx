@@ -5,6 +5,7 @@ import {
   USER_VECTOR_PANE,
   USER_VECTOR_PANE_Z_INDEX,
 } from "../../../components/mapPanes";
+import { textTooltip } from "../../../components/mapTooltip";
 import { buildFeaturePopup } from "../render/popup";
 import { styleForFeature } from "../render/style";
 import type { UserVectorLayerRecord } from "../types";
@@ -130,6 +131,10 @@ function bindFeatureUi(
       : null,
   );
   if (name) {
-    featureLayer.bindTooltip(name, { sticky: true });
+    // A DOM node, not the raw string: Leaflet assigns string tooltip content
+    // with innerHTML, so a feature name from an imported file was live markup
+    // — the one property-to-DOM path buildFeaturePopup's textContent-only
+    // construction did not cover.
+    featureLayer.bindTooltip(textTooltip(name), { sticky: true });
   }
 }
