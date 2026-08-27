@@ -149,7 +149,12 @@ final class TaxSaleViewModel {
             withdrawn: event.listings.count - advertised,
             activePIDs: event.advertisedPIDs.count,
             unavailable: unavailable,
-            mapped: event.listings.count
+            // Advertised rows only, so the line a reader checks against the
+            // printed notice adds up: advertised == mapped + unavailable.
+            // Counting withdrawn rows here over-reported how many advertised
+            // rows are on the map whenever a notice had both withdrawals and
+            // geometry exceptions.
+            mapped: advertised
         )
     }
 

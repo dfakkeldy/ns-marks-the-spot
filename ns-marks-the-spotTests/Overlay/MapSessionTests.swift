@@ -449,4 +449,45 @@ struct MapSessionTests {
         #expect(visible.contains(LayerID.nsprd.rawValue))
         #expect(visible.contains(LayerID.nsAerial.rawValue) == false)
     }
+
+    /// A restore holds the extent it positioned until its own lookup resolves;
+    /// nothing else may inherit that hold. The regression this pins: a restore
+    /// lookup interrupted by the reader typing left the hold standing, and the
+    /// next parcel they opened themselves was announced as selected while the
+    /// map stayed on the restored extent, kilometres away.
+    @Test func aCancelledRestoreLookupDoesNotLeaveTheExtentHoldStanding() {
+        let model = OverlayViewModel.forTesting(installing: [], sessionStore: .forTesting())
+
+        model.resume(MapSession(view: MapShareState(pid: "15234636")))
+        #expect(model.isHoldingLinkPosition == true)
+
+        // The reader types. This cancels whatever lookup was in flight — the
+        // restore's included — and the restore's hold on the extent must die
+        // with it.
+        model.editSearchText("8")
+        #expect(model.isHoldingLinkPosition == false)
+    }
+
+    /// The reader's own searches state the hold false at the lookup itself, so
+    /// a search that starts after an interrupted restore can focus its parcel.
+    @Test func aReadersOwnSearchNeverCarriesTheRestoredHold() {
+        let model = OverlayViewModel.forTesting(installing: [], sessionStore: .forTesting())
+
+        model.resume(MapSession(view: MapShareState(pid: "15234636")))
+        #expect(model.isHoldingLinkPosition == true)
+
+        model.searchParcel("00000000")
+        #expect(model.isHoldingLinkPosition == false)
+    }
+
+    /// Clearing the selection interrupts any pending restore lookup too, and
+    /// the hold must not survive into the next thing the reader opens.
+    @Test func clearingTheSelectionDropsTheRestoredHold() {
+        let model = OverlayViewModel.forTesting(installing: [], sessionStore: .forTesting())
+
+        model.resume(MapSession(view: MapShareState(pid: "15234636")))
+        model.clearParcelSelection()
+
+        #expect(model.isHoldingLinkPosition == false)
+    }
 }
