@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   eventLifecycleStatus,
   type TaxSaleEvent,
@@ -96,6 +97,22 @@ export type DwellingState =
       status: "ready";
       value: PvscDwellingAccount[];
     };
+
+/**
+ * Explanatory caveat prose behind a disclosure. The DATA above it and the
+ * source/attribution lines stay visible — the licence obligations and the
+ * one-line caveat are never collapsed, only the multi-sentence
+ * interpretation, which had grown to outweigh the facts it protects. Same
+ * pattern as the rail's "Source & scale" rows.
+ */
+function EvidenceCaveat({ children }: { children: ReactNode }) {
+  return (
+    <details className="evidence-caveat">
+      <summary>What this does and doesn&apos;t show</summary>
+      {children}
+    </details>
+  );
+}
 
 function HistoricalOutcomeDetails({
   context,
@@ -405,12 +422,8 @@ export function ParcelInspector({
         </p>
       ) : null}
       <p className="mapped-area-note building-count-note">
-        Count of NSTDB point and polygon building features intersecting the PID.
-        Smaller buildings are mapped as points; larger buildings as polygons.
-        The NSTDB is compiled from aerial photography whose capture date varies
-        by area, so recent construction may not appear for years. An empty
-        result does not prove no building exists, and the count does not
-        establish current structures, occupancy, condition, use, or permits. Source:{" "}
+        Count of NSTDB building features intersecting the PID. An empty result
+        does not prove no building exists. Source:{" "}
         <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
           Nova Scotia Topographic Database — Buildings
         </a>
@@ -421,6 +434,15 @@ export function ParcelInspector({
         </a>
         .
       </p>
+      <EvidenceCaveat>
+        <p className="mapped-area-note">
+          Smaller buildings are mapped as points; larger buildings as
+          polygons. The NSTDB is compiled from aerial photography whose
+          capture date varies by area, so recent construction may not appear
+          for years. The count does not establish current structures,
+          occupancy, condition, use, or permits.
+        </p>
+      </EvidenceCaveat>
       <AssessmentDetails
         state={assessmentState}
         listingPids={listing?.pids ?? []}
@@ -761,14 +783,18 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
       </div>
       <div className="flood-hazard-group">
         <h4>Coastal scenarios</h4>
-        <ul>
+        {/* Compact status rows instead of three near-identical sentences;
+            the distinct states (error vs no-intersection vs intersection)
+            stay distinct, and the shared not-proof caveat renders once
+            below whenever any row needs it. */}
+        <ul className="coastal-scenario-list">
           {coastal.map((result) => {
             const label = result.scenario === "current" ? "Current" : result.scenario;
             if (result.status === "error") {
-              return <li key={result.scenario}>{label} source unavailable; no absence is inferred.</li>;
+              return <li key={result.scenario}>{label}: source unavailable — no absence is inferred.</li>;
             }
             if (result.status === "no-intersection") {
-              return <li key={result.scenario}>No {result.scenario} map pixels intersected this parcel; this is not proof of no coastal hazard.</li>;
+              return <li key={result.scenario}>{label}: no mapped pixels intersected this parcel.</li>;
             }
             const area = result.approximateAffectedSquareMetres === null
               ? ""
@@ -780,6 +806,11 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             );
           })}
         </ul>
+        {coastal.some(({ status }) => status !== "intersects") ? (
+          <p className="mapped-area-note">
+            No intersecting pixels is not proof of no coastal hazard.
+          </p>
+        ) : null}
       </div>
       <p className="flood-hazard-caveat">
         A 1% or 5% annual-exceedance probability describes the mapped flood event,

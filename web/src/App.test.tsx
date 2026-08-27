@@ -2303,8 +2303,16 @@ describe("NS Marks The Spot Online", () => {
     });
     const buildingLabel = await within(inspector).findByText("Mapped buildings");
     expect(buildingLabel.nextElementSibling).toHaveTextContent("2");
+    // The load-bearing caveat and the attribution stay visible…
     expect(
-      within(inspector).getByText(/point and polygon building features/i),
+      within(inspector).getAllByText(/does not prove no building exists/i).length,
+    ).toBeGreaterThan(0);
+    // …while the interpretive prose sits behind the disclosure.
+    await userEvent.click(
+      within(inspector).getAllByText("What this does and doesn't show")[0],
+    );
+    expect(
+      within(inspector).getByText(/mapped as points; larger buildings as/i),
     ).toBeInTheDocument();
   });
 
@@ -2360,7 +2368,9 @@ describe("NS Marks The Spot Online", () => {
       name: "Get launch updates",
     });
 
-    expect(betaLinks).toHaveLength(2);
+    // One invite, in the header banner: the rail's duplicate marketing card
+    // was removed so the layer rail stays an instrument panel.
+    expect(betaLinks).toHaveLength(1);
     betaLinks.forEach((link) => {
       expect(link).toHaveAttribute(
         "href",
@@ -2368,9 +2378,7 @@ describe("NS Marks The Spot Online", () => {
       );
     });
     expect(
-      screen.getByText(
-        /NS Marks The Spot for iPhone is in development/,
-      ),
+      screen.getByText(/iPhone app in development/),
     ).toBeInTheDocument();
     expect(screen.queryByText(/not open yet/)).not.toBeInTheDocument();
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
@@ -4411,8 +4419,18 @@ describe("NS Marks The Spot Online", () => {
     expect(within(evidence).getByText(/5% annual-exceedance flood area intersects/)).toBeInTheDocument();
     expect(within(evidence).getByText(/1% annual-exceedance boundary intersects/)).toBeInTheDocument();
     expect(within(evidence).getByText(/12.5% of mapped parcel area/)).toBeInTheDocument();
-    expect(within(evidence).getByText(/No 2050 map pixels intersected/)).toBeInTheDocument();
-    expect(within(evidence).getByText(/2100 source unavailable; no absence is inferred/)).toBeInTheDocument();
+    expect(
+      within(evidence).getByText(/2050: no mapped pixels intersected/),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).getByText(/2100: source unavailable — no absence is inferred/),
+    ).toBeInTheDocument();
+    // One shared caveat for the non-intersecting rows, not one per sentence.
+    expect(
+      within(evidence).getByText(
+        "No intersecting pixels is not proof of no coastal hazard.",
+      ),
+    ).toBeInTheDocument();
     expect(within(evidence).getByText(/Reproduced and distributed with the permission/)).toBeInTheDocument();
     expect(within(evidence).getByText(/shall not be construed as constituting an endorsement/)).toBeInTheDocument();
     expect(within(evidence).queryByText(/parcel flood probability/i)).not.toBeInTheDocument();
