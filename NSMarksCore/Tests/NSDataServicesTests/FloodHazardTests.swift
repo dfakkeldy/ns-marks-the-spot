@@ -197,7 +197,7 @@ struct FloodHazardResponseTests {
     /// pixel centre falls inside it, so the sample is one pixel wide and the
     /// answer is all-or-nothing.
     @Test("Only the pixels inside the outline are counted")
-    func pixelsOutsideTheParcelAreNotCounted() {
+    func pixelsOutsideTheParcelAreNotCounted() throws {
         let bounds = GeoBoundingBox(south: 0, west: 0, north: 2, east: 2)
         let lowerLeft: [PolygonHitTest.PolygonPart] = [
             [
@@ -214,7 +214,7 @@ struct FloodHazardResponseTests {
         var rgba = [UInt8](repeating: 0, count: 2 * 2 * 4)
         rgba[2 * 4 + 3] = 255
 
-        let summary = FloodHazardResponse.summarizeRasterAlpha(
+        let summary = try FloodHazardResponse.summarizeRasterAlpha(
             rgba: rgba, width: 2, height: 2, bounds: bounds,
             parts: lowerLeft, mappedAreaSquareMetres: 4_000
         )
@@ -227,7 +227,7 @@ struct FloodHazardResponseTests {
     }
 
     @Test("A sample that landed no pixels inside the parcel measured nothing")
-    func anUnsampledParcelIsNotZeroPercent() {
+    func anUnsampledParcelIsNotZeroPercent() throws {
         // A sliver in one corner of the box: no pixel centre lands in it.
         let sliver: [PolygonHitTest.PolygonPart] = [
             [
@@ -239,7 +239,7 @@ struct FloodHazardResponseTests {
                 ]
             ]
         ]
-        let summary = FloodHazardResponse.summarizeRasterAlpha(
+        let summary = try FloodHazardResponse.summarizeRasterAlpha(
             rgba: [UInt8](repeating: 255, count: 2 * 2 * 4), width: 2, height: 2,
             bounds: GeoBoundingBox(south: 0, west: 0, north: 2, east: 2),
             parts: sliver, mappedAreaSquareMetres: 4_000
@@ -253,8 +253,8 @@ struct FloodHazardResponseTests {
     }
 
     @Test("A parcel with no mapped area gets a percentage and no square metres")
-    func noMappedAreaIsNoDerivedArea() {
-        let summary = FloodHazardResponse.summarizeRasterAlpha(
+    func noMappedAreaIsNoDerivedArea() throws {
+        let summary = try FloodHazardResponse.summarizeRasterAlpha(
             rgba: [0, 0, 0, 255, 0, 0, 0, 0], width: 2, height: 1,
             bounds: GeoBoundingBox(south: 0, west: 0, north: 1, east: 2),
             parts: [
@@ -272,6 +272,83 @@ struct FloodHazardResponseTests {
 
         #expect(summary.approximateAffectedPercent == 50)
         #expect(summary.approximateAffectedSquareMetres == nil)
+    }
+
+    @Test("An abandoned parcel stops the pixel count instead of finishing it")
+    func aCancelledSampleReportsNothing() async {
+        // The count is pure CPU with no suspension point, so cancellation has
+        // to be checked inside the loop or the work simply outlives the ask —
+        // which is exactly how abandoned parcel searches once kept the pool
+        // pinned for an hour. Cancelling the task before the call makes the
+        // first row check fire deterministically.
+        let square: [PolygonHitTest.PolygonPart] = [
+            [
+                [
+                    GeoPoint(lat: 0, lng: 0),
+                    GeoPoint(lat: 0, lng: 2),
+                    GeoPoint(lat: 2, lng: 2),
+                    GeoPoint(lat: 2, lng: 0),
+                ]
+            ]
+        ]
+        let threw = await Task {
+            withUnsafeCurrentTask { $0?.cancel() }
+            do throws(CancellationError) {
+                _ = try FloodHazardResponse.summarizeRasterAlpha(
+                    rgba: [UInt8](repeating: 255, count: 4 * 4 * 4),
+                    width: 4, height: 4,
+                    bounds: GeoBoundingBox(south: 0, west: 0, north: 2, east: 2),
+                    parts: square, mappedAreaSquareMetres: nil
+                )
+                return false
+            } catch {
+                return true
+            }
+        }.value
+        #expect(threw)
+    }
+
+    /// A tripwire for the cost, shaped like the failure: a shoreline-sized
+    /// outline under a full-size export. Row-scan sampling finishes this in
+    /// milliseconds; the per-pixel containment it replaced took minutes of
+    /// debug CPU here and would time the suite out, so the test's assertions
+    /// are about the count being right, and its completing at all is the
+    /// performance claim.
+    @Test("A many-vertex shoreline outline samples in row time, not pixel time")
+    func aShorelineSizedOutlineStaysCheap() throws {
+        var seed: UInt64 = 0x0C0A_57A1
+        func jitter() -> Double {
+            seed = seed &* 6_364_136_223_846_793_005 &+ 1_442_695_040_888_963_407
+            return Double(seed >> 11) / Double(1 << 53)
+        }
+        let vertexCount = 4_000
+        let ring = (0..<vertexCount).map { step -> GeoPoint in
+            let angle = 2 * Double.pi * Double(step) / Double(vertexCount)
+            let radius = 0.5 + 0.45 * jitter()
+            return GeoPoint(
+                lat: 44.5 + 0.01 * radius * sin(angle),
+                lng: -63.5 + 0.01 * radius * cos(angle)
+            )
+        }
+        let width = FloodHazardQuery.coastalSampleWidthPx
+        let height = FloodHazardQuery.coastalSampleWidthPx
+
+        let summary = try FloodHazardResponse.summarizeRasterAlpha(
+            rgba: [UInt8](repeating: 255, count: width * height * 4),
+            width: width, height: height,
+            bounds: GeoBoundingBox(
+                south: 44.49, west: -63.51, north: 44.51, east: -63.49
+            ),
+            parts: [[ring]], mappedAreaSquareMetres: nil
+        )
+
+        // Every sampled pixel is flooded — the raster is solid ink — and the
+        // outline covers roughly half its own bounding box, so the sample size
+        // lands in a broad middle band. Exact pixel counts belong to the
+        // equivalence tests in GeoCore, not here.
+        #expect(summary.approximateAffectedPercent == 100)
+        let fraction = Double(summary.sampledParcelPixels) / Double(width * height)
+        #expect(fraction > 0.2 && fraction < 0.8)
     }
 }
 

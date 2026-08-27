@@ -89,11 +89,20 @@ public enum FloodHazardResponse {
     /// here".
     ///
     /// This is the web's `summarizeRasterAlpha`, including sampling at pixel
-    /// centres. It differs in one place: containment uses `PolygonHitTest`,
-    /// which counts a point exactly on a ring as inside, where the web's ray
-    /// cast does not. That decides a pixel whose centre lands precisely on a
-    /// boundary — vanishingly rare in floating point, and settled the same way
-    /// the rest of this app settles it.
+    /// centres and deciding each centre with the same interior ray cast. The
+    /// crossings that cast needs are computed once per row rather than once
+    /// per pixel (`PolygonRasterScan`) — the answers are the same, the
+    /// arithmetic count is not, and the count was the defect: per-pixel
+    /// containment over a many-vertex shoreline parcel held CPU cores for the
+    /// better part of an hour. The boundary indulgence `PolygonHitTest` grants
+    /// a tap is deliberately not extended here; a centre exactly on the ring
+    /// falls to whichever side ray parity says, as it does on the web.
+    ///
+    /// Throws `CancellationError` when the surrounding task is cancelled,
+    /// checked once per row: the loop is pure CPU with no suspension point,
+    /// and without the check a parcel the user has already left keeps its
+    /// cores to the end of the raster. A cancelled sample reports nothing
+    /// rather than a partial count dressed as a finding.
     public static func summarizeRasterAlpha(
         rgba: [UInt8],
         width: Int,
@@ -101,7 +110,7 @@ public enum FloodHazardResponse {
         bounds: GeoBoundingBox,
         parts: [PolygonHitTest.PolygonPart],
         mappedAreaSquareMetres: Double?
-    ) -> RasterSampleSummary {
+    ) throws(CancellationError) -> RasterSampleSummary {
         var sampled = 0
         var flooded = 0
         // Multiplied only once the operands are known not to overflow: a
@@ -115,15 +124,16 @@ public enum FloodHazardResponse {
             )
         }
 
+        var scan = PolygonRasterScan(parts)
         for row in 0..<height {
+            if Task.isCancelled { throw CancellationError() }
             let latitude = bounds.north
                 - ((Double(row) + 0.5) / Double(height)) * (bounds.north - bounds.south)
+            scan.beginRow(latitude: latitude)
             for column in 0..<width {
                 let longitude = bounds.west
                     + ((Double(column) + 0.5) / Double(width)) * (bounds.east - bounds.west)
-                guard PolygonHitTest.contains(
-                    GeoPoint(lat: latitude, lng: longitude), multiPolygon: parts
-                ) else { continue }
+                guard scan.contains(longitude: longitude) else { continue }
                 sampled += 1
                 if rgba[(row * width + column) * 4 + 3] > 0 { flooded += 1 }
             }

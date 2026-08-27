@@ -244,14 +244,18 @@ public nonisolated final class FloodHazardFetcher: Sendable {
         } catch {
             throw .unreadable(.undecodableRaster)
         }
-        return FloodHazardResponse.summarizeRasterAlpha(
-            rgba: raster.rgba,
-            width: raster.width,
-            height: raster.height,
-            bounds: request.bounds,
-            parts: parts,
-            mappedAreaSquareMetres: mappedAreaSquareMetres
-        )
+        do {
+            return try FloodHazardResponse.summarizeRasterAlpha(
+                rgba: raster.rgba,
+                width: raster.width,
+                height: raster.height,
+                bounds: request.bounds,
+                parts: parts,
+                mappedAreaSquareMetres: mappedAreaSquareMetres
+            )
+        } catch {
+            throw .cancelled
+        }
     }
 
     private func data(for request: URLRequest) async throws(FloodHazardFailure) -> Data {
