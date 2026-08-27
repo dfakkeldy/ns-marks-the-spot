@@ -245,6 +245,7 @@ export function ParcelInspector({
   mappedContext,
   civicAddresses,
   historicalContexts,
+  pidInAnyIncludedNotice,
   resourceIntersections,
   floodHazard,
   taxSaleEnabled,
@@ -268,6 +269,7 @@ export function ParcelInspector({
   mappedContext: ParcelContextState;
   civicAddresses: CivicAddressState;
   historicalContexts: HistoricalRecordContext[];
+  pidInAnyIncludedNotice: boolean;
   resourceIntersections: ParcelResourceState;
   floodHazard: FloodHazardState;
   taxSaleEnabled: boolean;
@@ -452,9 +454,17 @@ export function ParcelInspector({
             : `Properties may be paid, removed or deferred. Verify current status with ${event?.shortMunicipality}. This map does not imply access, clear title, possession or buildability.`}
         </p>
       ) : taxSaleEnabled && historicalContexts.length === 0 ? (
-        <p className="sale-warning neutral">
-          This PID is not listed in any municipal notice included by this map.
-        </p>
+        pidInAnyIncludedNotice ? (
+          <p className="sale-warning neutral">
+            This PID appears in a municipal notice included by this map, but
+            that record is hidden by the current mode or filters (or its
+            geometry is unavailable in NSPRD).
+          </p>
+        ) : (
+          <p className="sale-warning neutral">
+            This PID is not listed in any municipal notice included by this map.
+          </p>
+        )
       ) : null}
       {event ? (
         <a

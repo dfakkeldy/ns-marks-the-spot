@@ -50,6 +50,7 @@ import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
   advertisedPidsForEvents,
   eventsForStatus,
+  geometryExceptionPidsForEvents,
   listingContextForPid,
   taxSaleEvents,
   type TaxSaleEvent,
@@ -2257,6 +2258,21 @@ export function App() {
       : [],
     [filteredHistoricalRecords, selectedPid, showHistoricalTaxSales],
   );
+  const selectedPidAllHistoricalContexts = useMemo(
+    () => (selectedPid ? historicalContextsForPid(selectedPid) : []),
+    [selectedPid],
+  );
+  // Membership in ANY included notice, ignoring the active mode and filters —
+  // the inspector must never claim "not listed" for a PID whose record is
+  // merely hidden by the current mode, a filter, or a geometry exception.
+  const selectedPidInAnyIncludedNotice = useMemo(
+    () =>
+      selectedPid !== null &&
+      (listingContextForPid(selectedPid) !== undefined ||
+        geometryExceptionPidsForEvents(taxSaleEvents).includes(selectedPid) ||
+        historicalContextsForPid(selectedPid).length > 0),
+    [selectedPid],
+  );
   const selectedMappedArea = useMemo(
     () => selectedPid ? mappedAreaForPid(parcels, selectedPid) : null,
     [parcels, selectedPid],
@@ -2750,6 +2766,7 @@ export function App() {
     if (
       !selectedPid ||
       resourceIntersections.status !== "ready" ||
+      (civicAddresses.status !== "ready" && civicAddresses.status !== "error") ||
       (assessmentState.status !== "ready" && assessmentState.status !== "error") ||
       (dwellingState.status !== "ready" &&
         dwellingState.status !== "error" &&
@@ -2865,7 +2882,10 @@ export function App() {
               sourceUrl: selectedListingContext.event.sourceUrl,
             }],
           }]
-        : selectedHistoricalContexts.map(({ event }) => ({
+        : (showHistoricalTaxSales
+            ? selectedPidAllHistoricalContexts
+            : []
+          ).map(({ event }) => ({
             name: `${event.shortMunicipality} — ${eventDate.format(new Date(`${event.saleDate}T12:00:00-03:00`))}`,
             sources: [
               { label: "Official notice", sourceUrl: event.noticeUrl },
@@ -2880,11 +2900,14 @@ export function App() {
             ],
           })),
       civicAddresses: civicAddresses.status === "ready"
-        ? civicAddresses.value.map(({ label }) => ({
-            label,
-            sourceUrl: CIVIC_ADDRESS_DATASET_URL,
-          }))
-        : [],
+        ? {
+            status: "ready",
+            points: civicAddresses.value.map(({ label }) => ({
+              label,
+              sourceUrl: CIVIC_ADDRESS_DATASET_URL,
+            })),
+          }
+        : { status: "error" },
       assessmentEvidence: assessmentState.status === "ready"
         ? { status: "ready", result: assessmentState.value }
         : { status: "error" },
@@ -3919,6 +3942,7 @@ export function App() {
               pid={selectedPid}
               context={selectedListingContext}
               historicalContexts={selectedHistoricalContexts}
+              pidInAnyIncludedNotice={selectedPidInAnyIncludedNotice}
               mappedArea={selectedMappedArea}
               buildingCount={buildingCount}
               assessmentState={assessmentState}
@@ -3937,6 +3961,8 @@ export function App() {
               canPrintExport={canPrintExport}
               evidenceReady={
                 resourceIntersections.status === "ready" &&
+                (civicAddresses.status === "ready" ||
+                  civicAddresses.status === "error") &&
                 (assessmentState.status === "ready" || assessmentState.status === "error") &&
                 (dwellingState.status === "ready" ||
                   dwellingState.status === "error" ||

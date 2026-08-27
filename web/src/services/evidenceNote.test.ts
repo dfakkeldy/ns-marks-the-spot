@@ -15,7 +15,7 @@ describe("parcel evidence note", () => {
         name: "CBRM — July 21, 2026",
         sources: [{ label: "Official notice", sourceUrl: "https://example.com/notice" }],
       }],
-      civicAddresses: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }],
+      civicAddresses: { status: "ready", points: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }] },
       assessmentEvidence: {
         status: "ready",
         result: {
@@ -125,7 +125,7 @@ describe("parcel evidence note", () => {
           sourceUrl: "https://example.com/retained-notice",
         }],
       }],
-      civicAddresses: [],
+      civicAddresses: { status: "ready", points: [] },
       assessmentEvidence: {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
@@ -164,7 +164,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: [],
+      civicAddresses: { status: "ready", points: [] },
       assessmentEvidence: {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
@@ -200,7 +200,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: [],
+      civicAddresses: { status: "ready", points: [] },
       assessmentEvidence: {
         status: "ready",
         result: {
@@ -237,7 +237,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: [],
+      civicAddresses: { status: "ready", points: [] },
       assessmentEvidence: { status: "error" },
       dwellingEvidence: { status: "blocked" },
       resourceResults: [],
@@ -259,7 +259,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: [],
+      civicAddresses: { status: "ready", points: [] },
       assessmentEvidence: {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
@@ -270,6 +270,33 @@ describe("parcel evidence note", () => {
 
     expect(note.markdown).toContain(
       "PVSC residential dwelling source unavailable at export time.",
+    );
+  });
+
+  it("records a civic address source failure explicitly instead of claiming absence", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "error" },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "Civic address source unavailable at export time.",
+    );
+    expect(note.markdown).not.toContain(
+      "No mapped civic address point returned inside the parcel.",
     );
   });
 });

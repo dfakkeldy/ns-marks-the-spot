@@ -44,7 +44,10 @@ export type PvscDwellingAccount = {
   dwellings: PvscDwelling[];
 };
 
-export function buildDwellingQueryUrl(aans: readonly string[]): string {
+export function buildDwellingQueryUrl(
+  aans: readonly string[],
+  offset = 0,
+): string {
   const normalized = Array.from(
     new Set(
       aans.map(normalizeAan).filter((aan): aan is string => aan !== null),
@@ -62,6 +65,7 @@ export function buildDwellingQueryUrl(aans: readonly string[]): string {
     "$where": `aan in(${normalized.map((aan) => `'${aan}'`).join(",")})`,
     "$order": "aan,year_built DESC",
     "$limit": String(DWELLING_QUERY_LIMIT),
+    "$offset": String(offset),
   }).toString();
   return url.toString();
 }
@@ -120,19 +124,31 @@ export async function fetchDwellingCharacteristics(
     return [];
   }
 
-  const response = await fetch(buildDwellingQueryUrl(normalized), { signal });
-  if (!response.ok) {
-    throw new Error(
-      `PVSC dwelling request failed with status ${response.status}.`,
-    );
-  }
-  const payload = (await response.json()) as unknown;
-  if (!Array.isArray(payload)) {
-    throw new Error("PVSC dwelling data returned an unexpected response.");
+  // A full page means more rows may follow — condo and apartment parcels can
+  // match hundreds of accounts, and a silent cut would render later accounts
+  // as dataset absence. Page until a short page, like fetchSpatialRows.
+  const rows: PvscDwellingRawRow[] = [];
+  for (let offset = 0; ; offset += DWELLING_QUERY_LIMIT) {
+    const response = await fetch(buildDwellingQueryUrl(normalized, offset), {
+      signal,
+    });
+    if (!response.ok) {
+      throw new Error(
+        `PVSC dwelling request failed with status ${response.status}.`,
+      );
+    }
+    const payload = (await response.json()) as unknown;
+    if (!Array.isArray(payload)) {
+      throw new Error("PVSC dwelling data returned an unexpected response.");
+    }
+    rows.push(...(payload as PvscDwellingRawRow[]));
+    if (payload.length < DWELLING_QUERY_LIMIT) {
+      break;
+    }
   }
 
   const accounts = new Map<string, PvscDwelling[]>();
-  for (const row of payload as PvscDwellingRawRow[]) {
+  for (const row of rows) {
     const parsed = parseRow(row);
     if (!parsed) {
       continue;

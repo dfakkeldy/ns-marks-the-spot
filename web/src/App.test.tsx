@@ -948,6 +948,33 @@ describe("NS Marks The Spot Online", () => {
     expect(new URL(window.location.href).searchParams.get("mode")).toBe("historical");
   });
 
+  it("labels a notice hidden by the active mode instead of claiming the PID is unlisted", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      // 00542589 is matched in the HRM 2022-03-08 historical record, which
+      // current mode hides — the inspector must not call it unlisted.
+      "/?taxSale=on&mode=current&pid=00542589&layers=nsprd",
+    );
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [parcelFeature("00542589")],
+    });
+
+    render(<App />);
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 00542589 details",
+    });
+    expect(await within(inspector).findByText(
+      /hidden by the current mode or filters/,
+    )).toBeInTheDocument();
+    expect(within(inspector).queryByText(
+      "This PID is not listed in any municipal notice included by this map.",
+    )).not.toBeInTheDocument();
+  });
+
   it("ignores a late notice-AAN assessment after Tax Sale is turned off", async () => {
     const noticeAssessment = deferred<Awaited<ReturnType<typeof fetchParcelAssessments>>>();
     const ordinaryAssessment = deferred<Awaited<ReturnType<typeof fetchParcelAssessments>>>();

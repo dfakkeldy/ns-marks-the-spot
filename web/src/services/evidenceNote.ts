@@ -41,6 +41,10 @@ type DwellingEvidence =
   | { status: "error" }
   | { status: "blocked" };
 
+type CivicEvidence =
+  | { status: "ready"; points: Array<{ label: string; sourceUrl: string }> }
+  | { status: "error" };
+
 export type EvidenceNoteInput = {
   generatedAt: Date;
   pid: string;
@@ -50,7 +54,7 @@ export type EvidenceNoteInput = {
   position: MapPosition;
   activeLayers: EvidenceSource[];
   events: EvidenceEvent[];
-  civicAddresses: Array<{ label: string; sourceUrl: string }>;
+  civicAddresses: CivicEvidence;
   assessmentEvidence: AssessmentEvidence;
   dwellingEvidence: DwellingEvidence;
   resourceResults: EvidenceResult[];
@@ -165,11 +169,13 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
           `- [${name}](${sourceUrl}) — ${sourceDate}`,
       )
     : ["- No optional map layers enabled."];
-  const civic = input.civicAddresses.length > 0
-    ? input.civicAddresses.map(
-        ({ label, sourceUrl }) => `- [${label}](${sourceUrl})`,
-      )
-    : ["- No mapped civic address point returned inside the parcel."];
+  const civic = input.civicAddresses.status === "error"
+    ? ["- Civic address source unavailable at export time."]
+    : input.civicAddresses.points.length > 0
+      ? input.civicAddresses.points.map(
+          ({ label, sourceUrl }) => `- [${label}](${sourceUrl})`,
+        )
+      : ["- No mapped civic address point returned inside the parcel."];
   const resources = input.resourceResults.flatMap(resultLines);
   const assessments = assessmentLines(input.assessmentEvidence);
   const dwellings = dwellingLines(input.dwellingEvidence);

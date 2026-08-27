@@ -1089,6 +1089,22 @@ describe("importGcps", () => {
     expect(result.current.pending).toBeNull();
   });
 
+  it("clears held-out checks when the session reseeds for another map", () => {
+    // Checks belong to the file imported for the previous map; surviving a
+    // map switch they would score — and auto-export into — the new session.
+    const { result, rerender } = setup();
+    act(() =>
+      result.current.importGcps(IMPORTED, [
+        { id: "check-1", pixel: { x: 5, y: 6 }, map: { lat: 45.7, lng: -61.3 } },
+      ]),
+    );
+    expect(result.current.checks).toHaveLength(1);
+
+    rerender({ mapId: "map-b", initialGcps: [] });
+    expect(result.current.checks).toEqual([]);
+    expect(result.current.heldOut).toBeNull();
+  });
+
   it("mints the next manual id above any gcp-N in the imported file", () => {
     // A points file whose labels happen to look like the generated ids would
     // otherwise hand the next placed point an id that already exists, and two

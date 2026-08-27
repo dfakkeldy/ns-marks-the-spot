@@ -257,6 +257,10 @@ export function useGeoreferenceSession(options: {
     setGcpsState(options.initialGcps);
     setPendingState(null);
     setHistoryDepth(0);
+    // Held-out checks belong to the file imported for the PREVIOUS map; kept
+    // across a map switch they would silently score — and auto-export into —
+    // the new session.
+    setChecks([]);
     // A drag belongs to the map that owned it. Closing the panel mid-drag
     // unmounts the marker, so no `dragend` ever arrives — and a flag left set
     // would drape the NEXT map at the coarse tier indefinitely.
