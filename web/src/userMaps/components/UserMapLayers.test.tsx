@@ -192,6 +192,27 @@ describe("UserMapLayers", () => {
     expect(built.opacity).toBe(0.2);
   });
 
+  it("applies an opacity-only change without calling setGeometry", async () => {
+    // The opacity slider emits a change per 5-unit step, and sharing one
+    // layout effect with the mesh made every step call setGeometry with an
+    // unchanged mesh — a full synchronous re-warp (thousands of clipped
+    // drawImage calls for a settled TPS drape) plus a discarded pan cache,
+    // for a change that is pure compositing.
+    stubBitmapLoading();
+    const { rerender } = render(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.7 }]} />,
+    );
+    await waitFor(() => expect(layerInstances).toHaveLength(1));
+    const layer = layerInstances[0];
+    const baseline = layer.setGeometry.mock.calls.length;
+
+    rerender(
+      <UserMapLayers maps={[{ record, previewUrl: "blob:fake", opacity: 0.2 }]} />,
+    );
+    await waitFor(() => expect(layer.setOpacity).toHaveBeenCalledWith(0.2));
+    expect(layer.setGeometry.mock.calls.length).toBe(baseline);
+  });
+
   it("closes a late-arriving bitmap and never adds a layer when unmounted mid-load", async () => {
     // Deliberate race: unmount happens BEFORE createImageBitmap resolves.
     // The cancelled flag captured by the effect's closure must still be

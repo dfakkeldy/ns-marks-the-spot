@@ -211,14 +211,24 @@ function WarpedRasterOverlay({
     // Layout effects flush during commit, before any yield to the event loop.
     // (PR 1 hit exactly this bug with opacity; the same ordering applies to
     // the mesh, which changes far more often.)
+    //
+    // Opacity ONLY here. Its previous home shared one effect with the mesh,
+    // so every 5-unit slider tick called setGeometry with an unchanged mesh —
+    // and setGeometry rebuilds the source lattice, throws away the padded pan
+    // cache, and runs a full synchronous re-warp (thousands of clipped
+    // drawImage calls for a settled TPS drape) for a change that is pure
+    // compositing.
     opacityRef.current = opacity;
+    layerRef.current?.setOpacity(opacity);
+  }, [opacity]);
+
+  useLayoutEffect(() => {
     meshRef.current = mesh;
     sourceRectRef.current = sourceRect;
-    layerRef.current?.setOpacity(opacity);
     if (mesh) {
       layerRef.current?.setGeometry(mesh, sourceRect);
     }
-  }, [opacity, mesh, sourceRect]);
+  }, [mesh, sourceRect]);
 
   return null;
 }

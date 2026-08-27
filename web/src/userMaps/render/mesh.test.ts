@@ -4,6 +4,8 @@ import {
   buildSrcMesh,
   drawWarpedImage,
   drawWarpedTriangles,
+  MIP_MIN_SOURCE_DIM,
+  mipScaleFor,
 } from "./mesh";
 
 describe("affineFromTriangles", () => {
@@ -180,5 +182,32 @@ describe("drawWarpedTriangles", () => {
     expect(vi.mocked(chunked.setTransform).mock.calls).toEqual(
       vi.mocked(whole.setTransform).mock.calls,
     );
+  });
+});
+
+describe("mipScaleFor", () => {
+  it("keeps full resolution while the destination needs it", () => {
+    expect(mipScaleFor(1, 4096)).toBe(1);
+    expect(mipScaleFor(0.9, 4096)).toBe(1);
+  });
+
+  it("halves to the smallest level that still covers the destination", () => {
+    // A 4096 source drawn onto ~800 device px: 0.25 * 4096 = 1024 >= 800,
+    // and 0.125 would undershoot.
+    expect(mipScaleFor(800 / 4096, 4096)).toBe(0.25);
+    expect(mipScaleFor(0.5, 4096)).toBe(0.5);
+  });
+
+  it("never shrinks a level below the minimum edge", () => {
+    // 512 px source at a tiny ratio: one halving reaches the 256 floor and
+    // the chain stops there.
+    expect(mipScaleFor(0.01, 512)).toBe(0.5);
+    expect(mipScaleFor(0.01, MIP_MIN_SOURCE_DIM)).toBe(1);
+  });
+
+  it("treats degenerate ratios as full resolution", () => {
+    expect(mipScaleFor(0, 4096)).toBe(1);
+    expect(mipScaleFor(Number.NaN, 4096)).toBe(1);
+    expect(mipScaleFor(Infinity, 4096)).toBe(1);
   });
 });

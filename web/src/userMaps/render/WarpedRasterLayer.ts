@@ -6,6 +6,7 @@ import {
   CLIP_OVERDRAW_DEVICE_PX,
   drawWarpedImage,
   drawWarpedTriangles,
+  mipScaleFor,
   type XY,
 } from "./mesh";
 
@@ -262,10 +263,17 @@ export class WarpedRasterLayer extends L.Layer {
   private drapeRect: WorldRect | null = null;
   // Deferred post-zoom re-warp (id of whichever rAF in the chain is live).
   private pendingWarpRaf: number | null = null;
+  /**
+   * Power-of-two downscales of the source, built lazily and kept for the
+   * layer's lifetime (a geometric series bounded by a third of the original).
+   * Level 0 is the caller's image and is never owned here.
+   */
+  private sourceLevels: { source: CanvasImageSource; scale: number }[];
 
   constructor(options: WarpedRasterLayerOptions) {
     super();
     this.rasterOptions = options;
+    this.sourceLevels = [{ source: options.image, scale: 1 }];
     this.srcMesh = buildSrcMesh(
       options.imageSize.width,
       options.imageSize.height,
@@ -285,18 +293,94 @@ export class WarpedRasterLayer extends L.Layer {
     this.canvas.style.pointerEvents = "none";
     pane.appendChild(this.canvas);
     map.on("moveend zoomend viewreset resize", this.redraw, this);
+    // Leaflet transforms nothing in a custom pane during a zoom: tile layers
+    // and ImageOverlay each follow the gesture themselves via these two
+    // events, and without them the drape froze at its old screen position —
+    // visibly detached from the basemap — for the whole pinch or wheel-zoom
+    // animation, snapping back only at zoomend.
+    map.on("zoom", this.followLiveZoom, this);
+    map.on("zoomanim", this.followZoomAnimation, this);
     this.redraw();
     return this;
   }
 
   onRemove(map: L.Map): this {
     map.off("moveend zoomend viewreset resize", this.redraw, this);
+    map.off("zoom", this.followLiveZoom, this);
+    map.off("zoomanim", this.followZoomAnimation, this);
     this.cancelScheduledWarp();
     this.canvas?.remove();
     this.canvas = null;
     this.map = null;
     this.cachedZoom = null;
+    // The extra mip canvases are owned here; release their backing stores
+    // now rather than at GC. Level 0 is the caller's bitmap and stays.
+    for (const level of this.sourceLevels.splice(1)) {
+      const owned = level.source;
+      if (owned instanceof HTMLCanvasElement) {
+        owned.width = 0;
+        owned.height = 0;
+      }
+    }
     return this;
+  }
+
+  /**
+   * Follow a CSS-animated zoom (wheel, double-click, the end of a pinch,
+   * flyTo's finish). During the animation the map's pixel origin is not yet
+   * updated; the event carries the target zoom and centre, and the same
+   * private helper ImageOverlay._animateZoom uses maps them to the canvas's
+   * new layer position. The cached warp is geometrically exact under a
+   * uniform 2^dz scale (the compositeScaled reasoning), so a CSS transform
+   * is correct, merely resampled; zoomend's redraw replaces it.
+   */
+  private followZoomAnimation(event: L.LeafletEvent): void {
+    const { canvas, map, backingRect } = this;
+    if (!canvas || !map || !backingRect || this.cachedZoom === null) {
+      return;
+    }
+    const anim = event as unknown as
+      | Partial<{ zoom: number; center: L.LatLng }>
+      | undefined;
+    if (!anim || typeof anim.zoom !== "number" || !anim.center) {
+      return;
+    }
+    const scale = map.getZoomScale(anim.zoom, this.cachedZoom);
+    const topLeft = map.unproject(
+      new L.Point(backingRect.min.x, backingRect.min.y),
+      this.cachedZoom,
+    );
+    const offset = (map as unknown as {
+      _latLngToNewLayerPoint(
+        latlng: L.LatLng,
+        zoom: number,
+        center: L.LatLng,
+      ): L.Point;
+    })._latLngToNewLayerPoint(topLeft, anim.zoom, anim.center);
+    L.DomUtil.setTransform(canvas, offset, scale);
+  }
+
+  /**
+   * Follow the continuous 'zoom' stream: a pinch in progress (Map._move
+   * updates zoom AND pixel origin on every touch move — #3530) and each
+   * frame of flyTo. Everything needed is live on the map, so this is plain
+   * world-pixel arithmetic against the cached backing origin.
+   */
+  private followLiveZoom(): void {
+    const { canvas, map, backingRect } = this;
+    if (!canvas || !map || !backingRect || this.cachedZoom === null) {
+      return;
+    }
+    const scale = map.getZoomScale(map.getZoom(), this.cachedZoom);
+    const origin = map.getPixelOrigin();
+    L.DomUtil.setTransform(
+      canvas,
+      new L.Point(
+        backingRect.min.x * scale - origin.x,
+        backingRect.min.y * scale - origin.y,
+      ),
+      scale,
+    );
   }
 
   /**
@@ -497,6 +581,82 @@ export class WarpedRasterLayer extends L.Layer {
   }
 
   /**
+   * Destination device pixels per source pixel across the drape — the input
+   * to mip selection.
+   */
+  private destPerSourceRatio(drape: WorldRect, dpr: number): number {
+    const rect = this.rasterOptions.sourceRect;
+    const srcW = rect?.width ?? this.rasterOptions.imageSize.width;
+    const srcH = rect?.height ?? this.rasterOptions.imageSize.height;
+    const destW = (drape.max.x - drape.min.x) * dpr;
+    const destH = (drape.max.y - drape.min.y) * dpr;
+    return Math.max(destW / srcW, destH / srcH);
+  }
+
+  /**
+   * The cached mip level for `scale`, building intermediate halvings on
+   * first use (each level halves from the previous, so quality degrades the
+   * way a proper mip chain does, not by one giant decimation). Falls back to
+   * the full-resolution source where no 2D context exists (jsdom).
+   */
+  private sourceForScale(scale: number): {
+    source: CanvasImageSource;
+    scale: number;
+  } {
+    const levels = this.sourceLevels;
+    let smallest = levels[levels.length - 1];
+    while (smallest.scale > scale) {
+      const nextScale = smallest.scale / 2;
+      const width = Math.max(
+        1,
+        Math.round(this.rasterOptions.imageSize.width * nextScale),
+      );
+      const height = Math.max(
+        1,
+        Math.round(this.rasterOptions.imageSize.height * nextScale),
+      );
+      const level = document.createElement("canvas");
+      level.width = width;
+      level.height = height;
+      const ctx = level.getContext("2d");
+      if (!ctx) {
+        return levels[0];
+      }
+      ctx.drawImage(smallest.source, 0, 0, width, height);
+      smallest = { source: level, scale: nextScale };
+      levels.push(smallest);
+    }
+    return levels.find((level) => level.scale === scale) ?? levels[0];
+  }
+
+  /**
+   * Source level plus a matching source mesh for one warp. The srcMesh is in
+   * source pixels; a downscaled level just needs the same lattice scaled by
+   * the level's factor.
+   */
+  private warpSource(drape: WorldRect, dpr: number): {
+    source: CanvasImageSource;
+    srcMesh: XY[][];
+  } {
+    const { imageSize } = this.rasterOptions;
+    const level = this.sourceForScale(
+      mipScaleFor(
+        this.destPerSourceRatio(drape, dpr),
+        Math.max(imageSize.width, imageSize.height),
+      ),
+    );
+    if (level.scale === 1) {
+      return { source: level.source, srcMesh: this.srcMesh };
+    }
+    return {
+      source: level.source,
+      srcMesh: this.srcMesh.map((row) =>
+        row.map((p) => ({ x: p.x * level.scale, y: p.y * level.scale })),
+      ),
+    };
+  }
+
+  /**
    * Projects the mesh at `zoom` and derives the margin-padded drape bbox.
    *
    * Deliberately NOT latLngToContainerPoint: it routes through
@@ -602,6 +762,9 @@ export class WarpedRasterLayer extends L.Layer {
         y: (p.y - backingRect.min.y) * dpr,
       })),
     );
+    // One level for the whole chunked sequence — swapping sources mid-walk
+    // would seam adjacent triangles.
+    const warpSource = this.warpSource(drape, dpr);
     const total = (this.srcMesh.length - 1) * (this.srcMesh[0].length - 1) * 2;
     let next = 0;
     let chunk = WARP_CHUNK_SEED_TRIANGLES;
@@ -621,8 +784,8 @@ export class WarpedRasterLayer extends L.Layer {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       next = drawWarpedTriangles(
         ctx,
-        this.rasterOptions.image,
-        this.srcMesh,
+        warpSource.source,
+        warpSource.srcMesh,
         dstMesh,
         next,
         chunk,
@@ -687,6 +850,7 @@ export class WarpedRasterLayer extends L.Layer {
         y: (p.y - backing.min.y) * dpr,
       })),
     );
-    drawWarpedImage(ctx, this.rasterOptions.image, this.srcMesh, dstMesh);
+    const warpSource = this.warpSource(drape, dpr);
+    drawWarpedImage(ctx, warpSource.source, warpSource.srcMesh, dstMesh);
   }
 }
