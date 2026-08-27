@@ -40,6 +40,43 @@ extension MKMapView {
             addOverlay(overlay)
         }
     }
+
+    /// Installs a whole batch in one pass.
+    ///
+    /// The single-overlay path reads `overlays` — which bridges a fresh array
+    /// on every access — and scans it linearly per insert, with a LayerID
+    /// parse and catalog lookup per comparison for tile overlays. Replacing a
+    /// few hundred viewport features one at a time was therefore quadratic on
+    /// the main thread at every settle. Installed overlays are already in
+    /// non-decreasing draw order (this is the invariant the single path
+    /// maintains), so one snapshot of their orders and one walk of the sorted
+    /// batch places everything with the same result in linear time.
+    func installInDrawOrder(_ batch: [any MKOverlay & WebDrawOrdered]) {
+        guard !batch.isEmpty else { return }
+        guard batch.count > 1 else {
+            installInDrawOrder(batch[0])
+            return
+        }
+        let existingOrders = overlays.map { ($0 as? WebDrawOrdered)?.webDrawOrder ?? .max }
+        // Sorted with the original position as tiebreak: `sorted` is not
+        // guaranteed stable, and members of equal order must keep the order
+        // their caller stated.
+        let ordered = batch.enumerated()
+            .sorted { ($0.element.webDrawOrder, $0.offset) < ($1.element.webDrawOrder, $1.offset) }
+            .map(\.element)
+        var existingIndex = 0
+        var inserted = 0
+        for overlay in ordered {
+            // Equal orders go above the equals already installed, exactly as
+            // the single path places them.
+            while existingIndex < existingOrders.count,
+                  existingOrders[existingIndex] <= overlay.webDrawOrder {
+                existingIndex += 1
+            }
+            insertOverlay(overlay, at: existingIndex + inserted)
+            inserted += 1
+        }
+    }
 }
 
 extension OpacityTileOverlay: WebDrawOrdered {

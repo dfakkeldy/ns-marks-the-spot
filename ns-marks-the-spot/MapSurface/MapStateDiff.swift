@@ -1,12 +1,11 @@
 import CoreGraphics
+import GeoCore
 
 nonisolated enum MapMutation: Equatable, Sendable {
     case setMapType(MapBaseType)
     case addTileOverlay(MapLayerState)
     case removeTileOverlay(id: String)
     case setTileOverlayAlpha(id: String, alpha: CGFloat)
-    case addAnnotation(MapAnnotation)
-    case removeAnnotation(id: String)
     /// Replaces every parcel outline at once.
     ///
     /// Wholesale rather than added and removed one at a time, because moving
@@ -19,6 +18,11 @@ nonisolated enum MapMutation: Equatable, Sendable {
     /// is a new set of features rather than an edit to the old one.
     case setFeatureShapes([FeatureShape])
     case setUserMaps([UserMapDrape])
+    /// Pokes one drape's live renderer instead of rebuilding it, mirroring
+    /// `setTileOverlayAlpha`: the opacity slider fires dozens of times per
+    /// gesture, and a rebuild per tick discards MapKit's rendered content and
+    /// re-warps the whole sheet for a change the renderer absorbs in place.
+    case setUserMapAlpha(id: String, alpha: CGFloat)
     /// Replaces every user vector layer at once. An edit rewrites a layer's
     /// features rather than patching one of them, so there is no smaller unit
     /// to diff.
@@ -37,6 +41,26 @@ nonisolated enum MapMutation: Equatable, Sendable {
 /// state, emit the mutations that reconcile them. No MapKit types, no side
 /// effects — tests assert directly on the emitted mutations.
 nonisolated enum MapStateDiff {
+    /// Alpha alone mutates in place; anything structural rebuilds wholesale.
+    ///
+    /// "Same structure" means the same records with the same decoded images in
+    /// the same order — the cases where a drape's mesh cannot have changed and
+    /// the only difference a rebuild could draw is the opacity the renderer
+    /// can be handed directly.
+    static func userMapMutations(
+        from current: [UserMapDrape], to desired: [UserMapDrape]
+    ) -> [MapMutation] {
+        guard current != desired else { return [] }
+        let sameStructure = current.count == desired.count
+            && zip(current, desired).allSatisfy {
+                $0.record == $1.record && $0.image === $1.image
+            }
+        guard sameStructure else { return [.setUserMaps(desired)] }
+        return zip(current, desired)
+            .filter { $0.alpha != $1.alpha }
+            .map { .setUserMapAlpha(id: $1.record.id, alpha: $1.alpha) }
+    }
+
     static func mutations(from current: MapViewState, to desired: MapViewState) -> [MapMutation] {
         var mutations: [MapMutation] = []
 
@@ -45,15 +69,12 @@ nonisolated enum MapStateDiff {
         }
 
         mutations.append(contentsOf: layerMutations(from: current.layers, to: desired.layers))
-        mutations.append(contentsOf: annotationMutations(from: current.annotations, to: desired.annotations))
 
         // The user's scans first: they sit in tile space, under every vector
         // layer, and `installInDrawOrder` places them there whatever order
         // these mutations arrive in — but rebuilding them after the parcels
         // would still churn overlays the map is already holding.
-        if current.userMaps != desired.userMaps {
-            mutations.append(.setUserMaps(desired.userMaps))
-        }
+        mutations.append(contentsOf: userMapMutations(from: current.userMaps, to: desired.userMaps))
 
         // Before the parcel outlines: install order is z-order, and every
         // viewport layer draws below the parcel a user selected, which stays
@@ -155,22 +176,4 @@ nonisolated enum MapStateDiff {
         return mutations
     }
 
-    private static func annotationMutations(
-        from current: [MapAnnotation],
-        to desired: [MapAnnotation]
-    ) -> [MapMutation] {
-        var mutations: [MapMutation] = []
-        let currentIDs = Set(current.map(\.id))
-        let desiredIDs = Set(desired.map(\.id))
-
-        for annotation in current where !desiredIDs.contains(annotation.id) {
-            mutations.append(.removeAnnotation(id: annotation.id))
-        }
-
-        for annotation in desired where !currentIDs.contains(annotation.id) {
-            mutations.append(.addAnnotation(annotation))
-        }
-
-        return mutations
-    }
 }

@@ -333,7 +333,13 @@ nonisolated final class VectorVertexHandleAnnotation: MKPointAnnotation,
 /// The handle a draft vertex is drawn as: small, hollow and unmistakably not a
 /// marker the layer holds.
 nonisolated enum VectorDraftHandleImage {
+    private static let cache = MarkerImageCache()
+
     static func image(colorHex: String) -> UIImage {
+        cache.image(for: colorHex) { render(colorHex: colorHex) }
+    }
+
+    private static func render(colorHex: String) -> UIImage {
         let radius: CGFloat = 5
         let width: CGFloat = 2
         let size = CGSize(width: (radius + width) * 2, height: (radius + width) * 2)
@@ -353,7 +359,13 @@ nonisolated enum VectorDraftHandleImage {
 /// The grab handle that carries a whole feature: filled, larger than a vertex
 /// handle, and marked with the four-way arrow every platform uses for "move".
 nonisolated enum VectorMoveHandleImage {
+    private static let cache = MarkerImageCache()
+
     static func image(colorHex: String) -> UIImage {
+        cache.image(for: colorHex) { render(colorHex: colorHex) }
+    }
+
+    private static func render(colorHex: String) -> UIImage {
         let diameter: CGFloat = 30
         let size = CGSize(width: diameter, height: diameter)
         return UIGraphicsImageRenderer(size: size).image { _ in
@@ -435,7 +447,14 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
 /// waypoint is a position, and a circle that grew with the zoom would read as a
 /// measured radius around it that the file never claimed.
 nonisolated enum UserVectorMarkerImage {
+    private static let cache = MarkerImageCache()
+
     static func image(for style: UserVectorStyle) -> UIImage {
+        let key = "\(style.fillHex)|\(style.fillOpacity)|\(style.strokeHex)|\(style.strokeOpacity)|\(style.weight)"
+        return cache.image(for: key) { render(style) }
+    }
+
+    private static func render(_ style: UserVectorStyle) -> UIImage {
         let radius: CGFloat = 6
         let inset = CGFloat(style.weight)
         let size = CGSize(width: (radius + inset) * 2, height: (radius + inset) * 2)

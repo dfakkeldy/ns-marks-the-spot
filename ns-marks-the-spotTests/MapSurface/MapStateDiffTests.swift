@@ -8,7 +8,6 @@ struct MapStateDiffTests {
     @Test func identicalStatesEmitNoMutations() {
         var state = MapViewState()
         state.layers = [makeLayer(id: "fletcher")]
-        state.annotations = [makeAnnotation(id: "a1")]
 
         #expect(MapStateDiff.mutations(from: state, to: state).isEmpty)
     }
@@ -124,21 +123,6 @@ struct MapStateDiffTests {
         #expect(MapStateDiff.mutations(from: current, to: desired) == [.setMapType(.nsAerial)])
     }
 
-    @Test func annotationDiffEmitsRemovalsBeforeAdditions() {
-        var current = MapViewState()
-        current.annotations = [makeAnnotation(id: "old")]
-        var desired = current
-        let added = makeAnnotation(id: "new")
-        desired.annotations = [added]
-
-        #expect(
-            MapStateDiff.mutations(from: current, to: desired) == [
-                .removeAnnotation(id: "old"),
-                .addAnnotation(added)
-            ]
-        )
-    }
-
     @Test func interactionModeTransitionsEmitSelectionMutations() {
         let idle = MapViewState()
         var selecting = idle
@@ -241,9 +225,5 @@ struct MapStateDiffTests {
             opacity: opacity,
             isVisible: isVisible
         )
-    }
-
-    private func makeAnnotation(id: String) -> MapAnnotation {
-        MapAnnotation(id: id, latitude: 44.5, longitude: -63.5, title: id)
     }
 }

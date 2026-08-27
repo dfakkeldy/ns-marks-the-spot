@@ -144,8 +144,13 @@ nonisolated struct MapLayerState: Identifiable, Equatable, Sendable {
     var id: String { configuration.id }
     var name: String { configuration.name }
 
-    /// The alpha actually rendered: a hidden layer stays installed but draws
-    /// fully transparent, preserving its tile overlay and cache.
+    /// The alpha the layer asks to be rendered at, zero when hidden.
+    ///
+    /// Zero is also the diff's removal signal: `MapStateDiff.layerMutations`
+    /// keys installation on `effectiveAlpha > 0` and emits
+    /// `.removeTileOverlay` for a layer that reaches it, so a hidden layer's
+    /// overlay is torn down rather than kept transparent. Anyone changing the
+    /// layer lifecycle should not rely on an overlay surviving a hide.
     var effectiveAlpha: CGFloat { isVisible ? opacity : 0 }
 
     init(configuration: TileLayerConfiguration, opacity: CGFloat = 1.0, isVisible: Bool = true) {
@@ -178,7 +183,6 @@ nonisolated enum MapInteractionMode: Equatable, Sendable {
 nonisolated struct MapViewState: Equatable, Sendable {
     var baseMapType: MapBaseType = .openStreetMap
     var layers: [MapLayerState] = []
-    var annotations: [MapAnnotation] = []
     var parcelShapes: [ParcelShape] = []
     /// Areal and linear geometry from the viewport feature layers.
     var featureShapes: [FeatureShape] = []

@@ -46,8 +46,15 @@ nonisolated final class UserMapOverlay: NSObject, MKOverlay {
     /// sheet to a corner of where it belongs — a sheet in the right county,
     /// wrong by a factor nobody would guess from looking at it.
     let pixelSize: PixelSize
-    /// What the user set on the layer's slider.
-    let alpha: CGFloat
+    /// What the user set on the layer's slider. A `var` so the alpha-only
+    /// mutation can keep it current alongside the live renderer — a renderer
+    /// MapKit re-creates later must start from the value on screen, not the
+    /// one the overlay was built with.
+    var alpha: CGFloat
+
+    /// The live renderer, set by the map delegate when MapKit asks for one, so
+    /// `setUserMapAlpha` can poke it in place the way tile overlays are poked.
+    weak var renderer: UserMapOverlayRenderer?
 
     let coordinate: CLLocationCoordinate2D
     let boundingMapRect: MKMapRect
@@ -159,10 +166,43 @@ nonisolated extension UserMapOverlay: WebDrawOrdered {
 nonisolated final class UserMapOverlayRenderer: MKOverlayRenderer {
     private let userMap: UserMapOverlay
 
+    /// The triangle list, computed once per overlay lifetime.
+    ///
+    /// The renderer's drawing space is zoom-invariant — `point(for:)` is a
+    /// fixed scale of `MKMapPoint` — so the destination mesh and the triangles
+    /// cut from it are constants. Recomputing the Mercator trig for every
+    /// vertex and re-materialising every triangle used to happen once per
+    /// rendered tile at every zoom, on the exact draw path the project's own
+    /// notes record as its cost cliff. Behind a lock because MapKit calls
+    /// `draw` concurrently from several queues.
+    private let triangleLock = NSLock()
+    private var cachedTriangles: [MeshTriangle]?
+
     init(userMap: UserMapOverlay) {
         self.userMap = userMap
         super.init(overlay: userMap)
         alpha = userMap.alpha
+    }
+
+    private func triangles() -> [MeshTriangle] {
+        triangleLock.lock()
+        defer { triangleLock.unlock() }
+        if let cachedTriangles { return cachedTriangles }
+        let destination = userMap.mesh.map { row in
+            row.map { ground -> CanvasPoint in
+                let screen = point(
+                    for: MKMapPoint(
+                        CLLocationCoordinate2D(latitude: ground.lat, longitude: ground.lng)
+                    )
+                )
+                return CanvasPoint(x: Double(screen.x), y: Double(screen.y))
+            }
+        }
+        let built = WarpMesh.allTriangles(
+            source: userMap.sourceMesh, destination: destination
+        )
+        cachedTriangles = built
+        return built
     }
 
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
@@ -175,16 +215,6 @@ nonisolated final class UserMapOverlayRenderer: MKOverlayRenderer {
             ? WarpMesh.clipOverdrawDevicePixels / Double(zoomScale)
             : WarpMesh.clipOverdrawDevicePixels
 
-        let destination = userMap.mesh.map { row in
-            row.map { ground -> CanvasPoint in
-                let screen = point(
-                    for: MKMapPoint(
-                        CLLocationCoordinate2D(latitude: ground.lat, longitude: ground.lng)
-                    )
-                )
-                return CanvasPoint(x: Double(screen.x), y: Double(screen.y))
-            }
-        }
         let visible = CanvasRect(
             x: Double(clip.minX), y: Double(clip.minY),
             width: Double(clip.width), height: Double(clip.height)
@@ -196,9 +226,7 @@ nonisolated final class UserMapOverlayRenderer: MKOverlayRenderer {
         let height = CGFloat(userMap.pixelSize.height)
         context.interpolationQuality = .high
 
-        for triangle in WarpMesh.allTriangles(
-            source: userMap.sourceMesh, destination: destination
-        ) {
+        for triangle in triangles() {
             guard WarpMesh.intersects(triangle, rect: visible, overdraw: overdraw),
                   let transform = WarpMesh.transform(
                       source: triangle.source, destination: triangle.destination

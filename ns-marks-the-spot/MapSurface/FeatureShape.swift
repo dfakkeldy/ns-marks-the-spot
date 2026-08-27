@@ -264,7 +264,19 @@ nonisolated final class FeatureMarkerAnnotation: MKPointAnnotation, MapKitAnnota
 /// whatever precision its accuracy band allows, and a circle scaled by zoom
 /// would read as a measured radius around it.
 nonisolated enum FeatureMarkerImage {
+    private static let cache = MarkerImageCache()
+
     static func image(for style: VectorFeatureStyle) -> UIImage {
+        let key = [
+            "\(style.markerRadius ?? -1)", "\(style.lineWidth)",
+            style.fillHex ?? "-", "\(style.fillOpacity)",
+            style.strokeHex, "\(style.strokeOpacity)",
+            style.dashPattern.map { "\($0)" } ?? "-",
+        ].joined(separator: "|")
+        return cache.image(for: key) { render(style) }
+    }
+
+    private static func render(_ style: VectorFeatureStyle) -> UIImage {
         let radius = style.markerRadius ?? 5
         let inset = style.lineWidth
         let size = CGSize(
