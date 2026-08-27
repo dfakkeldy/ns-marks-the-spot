@@ -220,13 +220,17 @@ final class UserMapsViewModel {
         // the device is not the price of getting there. The cost is a draft
         // left behind by an app killed between deleting its last map and
         // discarding its draft, which fails towards keeping the user's work.
+        var sweep: Task<Void, Never>?
         if mark == writes, !records.isEmpty {
             // Detached: the sweep is a directory enumeration plus removes on
-            // the launch path, and nothing below reads its result. The store
-            // is nonisolated for exactly this.
+            // the launch path, kept off the main actor and run alongside the
+            // preview reads below. The store is nonisolated for exactly this.
+            // The handle is joined before this method returns: a load that has
+            // returned is a load whose sweep has run, so callers can read the
+            // draft directory without racing it.
             let drafts = drafts
             let kept = Set(records.map(\.id))
-            Task.detached(priority: .utility) {
+            sweep = Task.detached(priority: .utility) {
                 drafts.sweepOrphans(keeping: kept)
             }
         }
@@ -252,6 +256,7 @@ final class UserMapsViewModel {
             guard let index = rows.firstIndex(where: { $0.id == id }) else { continue }
             rows[index].preview = preview
         }
+        await sweep?.value
     }
 
     /// Clears what the panel is saying, ready for a batch of imports.
