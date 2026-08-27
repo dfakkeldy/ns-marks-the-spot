@@ -79,7 +79,10 @@ function environment(
   const loadingTask = {
     promise: Promise.resolve(document),
     onPassword: undefined as
-      | ((callback: () => void, reason: number) => void)
+      | ((
+          updatePassword: (password: string | Error) => void,
+          reason: number,
+        ) => void)
       | undefined,
     destroy: destroyLoading,
   };
@@ -266,5 +269,53 @@ describe("parseGeoPdf", () => {
     expect(seams.destroyDocument).toHaveBeenCalledTimes(1);
     expect(seams.destroyLoading).toHaveBeenCalledTimes(1);
     expect(seams.release).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("password-protected PDFs", () => {
+  /**
+   * pdf.js raises its password request through a capability that ONLY the
+   * handler can settle: it calls `onPassword` inside a try/catch, rejects the
+   * loading promise if the handler throws, and leaves that promise pending
+   * forever if the handler merely returns. This seam reproduces both halves,
+   * so a handler that stops throwing hangs the test exactly as it hung the
+   * import.
+   */
+  function passwordProtectedEnvironment(): GeoPdfParseEnvironment {
+    const loadingTask: {
+      promise: Promise<never>;
+      onPassword?: (
+        updatePassword: (password: string | Error) => void,
+        reason: number,
+      ) => void;
+      destroy?: () => Promise<unknown>;
+    } = {
+      promise: undefined as unknown as Promise<never>,
+      destroy: vi.fn(async () => undefined),
+    };
+    loadingTask.promise = new Promise<never>((_resolve, reject) => {
+      queueMicrotask(() => {
+        try {
+          loadingTask.onPassword?.(() => {}, 1);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+    return {
+      getDocument: vi.fn(() => loadingTask),
+      createCanvas: vi.fn(() => {
+        throw new Error("must not reach canvas creation");
+      }),
+    };
+  }
+
+  it("rejects with the typed error instead of hanging the import", async () => {
+    await expect(
+      parseGeoPdf(new ArrayBuffer(16), passwordProtectedEnvironment()),
+    ).rejects.toMatchObject({
+      name: "UserMapImportError",
+      code: "password-protected",
+    });
   });
 });

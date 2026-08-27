@@ -46,7 +46,16 @@ type PdfJsDocument = {
 
 type PdfJsLoadingTask = {
   promise: Promise<PdfJsDocument>;
-  onPassword?: (callback: () => void, reason: number) => void;
+  /**
+   * pdf.js's real signature: the first argument UPDATES the password, and the
+   * request stays pending until the handler either calls it or throws. A
+   * handler that merely returns leaves `loadingTask.promise` unsettled
+   * forever.
+   */
+  onPassword?: (
+    updatePassword: (password: string | Error) => void,
+    reason: number,
+  ) => void;
   destroy?: () => Promise<unknown>;
 };
 
@@ -151,7 +160,13 @@ export async function parseGeoPdf(
           }),
     });
     loadingTask.onPassword = () => {
+      // THROW, never return: pdf.js waits on a capability that only the
+      // handler can settle, so a handler that returns normally leaves the
+      // import hanging forever with the spinner up and no way back. pdf.js
+      // wraps this call and rejects `loadingTask.promise` with what we throw,
+      // which the catch below converts to the typed error.
       passwordError = passwordProtectedError();
+      throw passwordError;
     };
     try {
       document = await loadingTask.promise;
