@@ -171,3 +171,44 @@ export function drawWarpedImage(
   const total = (srcMesh.length - 1) * (srcMesh[0].length - 1) * 2;
   drawWarpedTriangles(ctx, image, srcMesh, dstMesh, 0, total);
 }
+
+/**
+ * Floor on a mip level's longest edge. Below this the interpolation cost of
+ * another halving outweighs any drawImage saving, and a level this small is
+ * already far under every measured cost cliff.
+ */
+export const MIP_MIN_SOURCE_DIM = 256;
+
+/**
+ * Power-of-two downscale for the warp's SOURCE bitmap.
+ *
+ * Each clipped drawImage samples the whole source, and the per-triangle cost
+ * is dominated by source size, not triangle size — measured ~0.007 ms per
+ * triangle from a 3072x2304 source against ~0.3 ms from a 7200x5400 one
+ * (~45x) once the source stops fitting the GPU image cache around 7-10 Mpx.
+ * At far-out zooms the drape covers a few hundred device pixels while every
+ * triangle still sampled the full preview; drawing from a mip level whose
+ * resolution just covers the destination removes that cliff without visible
+ * quality loss.
+ *
+ * `destPerSourceRatio` is destination device pixels per source pixel across
+ * the drape. The chosen scale is the smallest power of two that still keeps
+ * source resolution at or above destination resolution, floored so a level
+ * never shrinks below MIP_MIN_SOURCE_DIM on its longest edge.
+ */
+export function mipScaleFor(
+  destPerSourceRatio: number,
+  sourceMaxDim: number,
+): number {
+  if (!Number.isFinite(destPerSourceRatio) || destPerSourceRatio <= 0) {
+    return 1;
+  }
+  let scale = 1;
+  while (
+    scale / 2 >= destPerSourceRatio &&
+    sourceMaxDim * (scale / 2) >= MIP_MIN_SOURCE_DIM
+  ) {
+    scale /= 2;
+  }
+  return scale;
+}
