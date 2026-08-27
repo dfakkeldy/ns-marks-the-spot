@@ -6,26 +6,17 @@ struct NSMarksTheSpotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // One instance, handed to both: the layer panel's switches and the
-            // map's features have to be the same "on".
-            let features = ViewportFeatureViewModel(container: container)
-            // Likewise: the notices panel and the parcels the map draws as
-            // listed have to be the same set of switches.
-            let taxSale = TaxSaleViewModel()
-            // And again: the historical panel's mode and filters decide which
-            // parcels the map draws, so the panel and the map read one value.
-            let historical = HistoricalTaxSaleViewModel()
+            // Everything here comes off the container, which owns one set of
+            // view models for the life of the process. This closure is a
+            // description SwiftUI may re-evaluate — a backgrounded scene
+            // reconnects through it — and constructing view models inline
+            // here re-ran session restore against the live map every time.
             MapContainerView(
                 controller: container.mapController,
-                overlayViewModel: OverlayViewModel(
-                    container: container,
-                    features: features,
-                    taxSale: taxSale,
-                    historical: historical
-                ),
-                viewportFeatureViewModel: features,
-                taxSaleViewModel: taxSale,
-                historicalViewModel: historical,
+                overlayViewModel: container.overlayViewModel,
+                viewportFeatureViewModel: container.viewportFeatureViewModel,
+                taxSaleViewModel: container.taxSaleViewModel,
+                historicalViewModel: container.historicalTaxSaleViewModel,
                 navigationModel: container.navigationModel,
                 offlineAreasViewModel: container.offlineAreasViewModel
             )
@@ -33,7 +24,7 @@ struct NSMarksTheSpotApp: App {
             // for it. The georeferencer is the only screen that draws official
             // layers outside the main map, and it must draw them through the
             // app's own cache and clearance.
-            .environment(\.georeferenceReferences, GeoreferenceReferenceServices(container: container))
+            .environment(\.georeferenceReferences, container.georeferenceReferences)
         }
     }
 }

@@ -34,6 +34,28 @@ final class AppContainer {
     /// `FletcherSourceMigration.runIfNeeded`.
     let fletcherMigration: Task<Void, Never>?
 
+    // MARK: - Screen view models
+    //
+    // Owned here, once per process, rather than built inside the WindowGroup
+    // content closure. SwiftUI is free to re-evaluate that closure — a scene
+    // disconnected in the background reconnects through it — and every
+    // evaluation used to construct a fresh set of view models over the shared
+    // live map: `OverlayViewModel`'s resume re-applied the launch-time session,
+    // snapping the map, the tax-sale switch and the open parcel back to where
+    // the app started. `lazy` keeps construction off the container's own init;
+    // the first body evaluation pays it exactly once.
+
+    private(set) lazy var viewportFeatureViewModel = ViewportFeatureViewModel(container: self)
+    private(set) lazy var taxSaleViewModel = TaxSaleViewModel()
+    private(set) lazy var historicalTaxSaleViewModel = HistoricalTaxSaleViewModel()
+    private(set) lazy var overlayViewModel = OverlayViewModel(
+        container: self,
+        features: viewportFeatureViewModel,
+        taxSale: taxSaleViewModel,
+        historical: historicalTaxSaleViewModel
+    )
+    private(set) lazy var georeferenceReferences = GeoreferenceReferenceServices(container: self)
+
     /// The container the app launches with.
     ///
     /// `UITestMode` on the command line builds one that remembers nothing: an
