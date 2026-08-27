@@ -101,6 +101,7 @@ import {
   WELL_LOG_PANE,
   WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
+import { textTooltip } from "./mapTooltip";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -658,9 +659,11 @@ function ArcGISFeatureLayer({
       interactive={renderMode !== "print"}
       onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
         featureLayer.bindTooltip(
-          resourceFeatureLabel(
-            layer.id,
-            (feature.properties ?? {}) as Record<string, unknown>,
+          textTooltip(
+            resourceFeatureLabel(
+              layer.id,
+              (feature.properties ?? {}) as Record<string, unknown>,
+            ),
           ),
           { sticky: true },
         );
@@ -793,7 +796,7 @@ function WellLogLayer({
           : (feature, featureLayer) => {
               const properties = feature.properties;
               featureLayer.on("click", (event) => {
-                L.DomEvent.stopPropagation(event.originalEvent);
+                L.DomEvent.stopPropagation(event);
               });
               featureLayer.bindTooltip(wellLogTooltipHtml(properties), {
                 sticky: true,
@@ -870,10 +873,12 @@ function HydroPilotLayer({
         const properties = feature.properties as InvernessHydroPotentialProperties;
         const potentialLabel = hydroPotentialLabel(properties.potentialClass);
         featureLayer.on("click", (event) => {
-          L.DomEvent.stopPropagation(event.originalEvent);
+          L.DomEvent.stopPropagation(event);
         });
         featureLayer.bindTooltip(
-          `${properties.watershedName} · ${properties.upstreamAreaKm2.toLocaleString("en-CA")} km² modeled upstream`,
+          textTooltip(
+            `${properties.watershedName} · ${properties.upstreamAreaKm2.toLocaleString("en-CA")} km² modeled upstream`,
+          ),
           { sticky: true },
         );
         const dropRows = properties.dropThresholdMetres === null
@@ -1461,7 +1466,7 @@ function TaxSaleOverviewMarkers({
           ? undefined
           : {
               click: (event) => {
-                L.DomEvent.stopPropagation(event.originalEvent);
+                L.DomEvent.stopPropagation(event);
                 onSelectPid(point.pid);
               },
             }
@@ -1519,10 +1524,15 @@ function ParcelGeometryOverlay({
           : (feature, layer) => {
               const pid = (feature.properties as NsprdFeatureProperties).PID;
               layer.on("click", (event) => {
-                L.DomEvent.stopPropagation(event.originalEvent);
+                // The Leaflet event, never `event.originalEvent`: only the
+                // former sets the `_stopped` flag the map's dispatch loop
+                // checks, so passing the raw DOM event left ParcelIdentify-
+                // Controller free to fire a second, unrequested identify
+                // 250 ms after every parcel click. Same form as MeasureTool.
+                L.DomEvent.stopPropagation(event);
                 onSelectPid(pid);
               });
-              layer.bindTooltip(`PID ${pid}`, { sticky: true });
+              layer.bindTooltip(textTooltip(`PID ${pid}`), { sticky: true });
             }
       }
     />

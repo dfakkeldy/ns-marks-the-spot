@@ -776,7 +776,7 @@ describe("MapCanvas parcel discovery", () => {
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
         historicalTaxSalePids={new Set()}
-        selectedPid={null}
+        selectedPid="50292390"
         provinceLayers={{
           "ns-aerial": false,
           nsprd: true,
@@ -825,7 +825,7 @@ describe("MapCanvas parcel discovery", () => {
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
         historicalTaxSalePids={new Set()}
-        selectedPid={null}
+        selectedPid="50292390"
         provinceLayers={{
           "ns-aerial": false,
           nsprd: true,
@@ -868,7 +868,7 @@ describe("MapCanvas parcel discovery", () => {
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
         historicalTaxSalePids={new Set()}
-        selectedPid={null}
+        selectedPid="50292390"
         provinceLayers={{
           "ns-aerial": false,
           nsprd: true,
@@ -912,7 +912,7 @@ describe("MapCanvas parcel discovery", () => {
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
         historicalTaxSalePids={new Set()}
-        selectedPid={null}
+        selectedPid="50292390"
         provinceLayers={{
           "ns-aerial": false,
           nsprd: true,
@@ -1194,7 +1194,7 @@ describe("MapCanvas parcel discovery", () => {
         parcels={{ type: "FeatureCollection", features: [parcel] }}
         taxSalePids={new Set(["50251750"])}
         historicalTaxSalePids={new Set()}
-        selectedPid={null}
+        selectedPid="50292390"
         provinceLayers={{
           "ns-aerial": false,
           nsprd: true,
@@ -1562,7 +1562,7 @@ describe("MapCanvas Province overlays", () => {
         parcels={{ type: "FeatureCollection", features: [] }}
         taxSalePids={new Set()}
         historicalTaxSalePids={new Set()}
-        selectedPid={null}
+        selectedPid="50292390"
         provinceLayers={{
           "ns-aerial": false,
           nsprd: true,
@@ -2706,5 +2706,131 @@ describe("georeference binding", () => {
     );
     act(() => vi.advanceTimersByTime(IDENTIFY_CLICK_DELAY_MS));
     expect(onIdentifyParcel).toHaveBeenCalledWith(46.059488, -61.414138);
+  });
+});
+
+describe("feature click propagation", () => {
+  const parcelCollection = {
+    type: "FeatureCollection" as const,
+    features: [
+      {
+        type: "Feature" as const,
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [
+            [[-61.4, 46.05], [-61.3, 46.05], [-61.3, 46.1], [-61.4, 46.05]],
+          ],
+        },
+        properties: { PID: "50292390" },
+      },
+    ],
+  };
+
+  function parcelOverlayHandlers() {
+    const overlay = geoJsonProps.calls.find(
+      (props) =>
+        typeof props.onEachFeature === "function" &&
+        (props.data as { features?: Array<{ properties?: { PID?: string } }> })
+          ?.features?.some(({ properties }) => properties?.PID === "50292390"),
+    );
+    expect(overlay).toBeDefined();
+    const handlers: Record<string, (event: unknown) => void> = {};
+    const bindTooltip = vi.fn();
+    (overlay!.onEachFeature as (feature: unknown, layer: unknown) => void)(
+      parcelCollection.features[0],
+      {
+        on: (name: string, handler: (event: unknown) => void) => {
+          handlers[name] = handler;
+        },
+        bindTooltip,
+      },
+    );
+    return { handlers, bindTooltip };
+  }
+
+  beforeEach(() => {
+    // The parcel geometry overlay renders only above OVERVIEW_MARKER_MAX_ZOOM.
+    mapMock.getZoom.mockReturnValue(15);
+  });
+
+  it("stops the map's own click dispatch, not merely DOM bubbling", async () => {
+    // Leaflet's Map._fireDOMEvent decides whether to keep delivering a click
+    // to the map itself by reading `originalEvent._stopped`, and
+    // DomEvent.stopPropagation only sets that flag when handed the LEAFLET
+    // event. Handed the raw DOM event it calls native stopPropagation() — a
+    // no-op for that loop — so every parcel click also fired
+    // ParcelIdentifyController's unrequested second identify.
+    const onSelectPid = vi.fn();
+    render(
+      <MapCanvas
+        parcels={parcelCollection}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid="50292390"
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={onSelectPid}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const { handlers } = parcelOverlayHandlers();
+    const originalEvent = new MouseEvent("click", { bubbles: true });
+    handlers.click({ originalEvent, latlng: { lat: 46.06, lng: -61.35 } });
+
+    expect(
+      (originalEvent as MouseEvent & { _stopped?: boolean })._stopped,
+    ).toBe(true);
+    expect(onSelectPid).toHaveBeenCalledWith("50292390");
+  });
+
+  it("binds the parcel tooltip as an inert node rather than a string", () => {
+    render(
+      <MapCanvas
+        parcels={parcelCollection}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid="50292390"
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: true,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const { bindTooltip } = parcelOverlayHandlers();
+    const node = bindTooltip.mock.calls[0][0] as HTMLElement;
+    expect(node).toBeInstanceOf(HTMLElement);
+    expect(node.textContent).toBe("PID 50292390");
   });
 });

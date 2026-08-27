@@ -14,6 +14,7 @@ import {
 } from "../services/zoning";
 import type { MapLayerStatus } from "./MapCanvas";
 import { ZONING_PANE } from "./mapPanes";
+import { textTooltip } from "./mapTooltip";
 import type { MapRenderMode } from "./parcelStyle";
 
 type ZoningLayerProps = {
@@ -193,14 +194,16 @@ export function ZoningLayer({
                 unknown
               >;
               featureLayer.bindTooltip(
-                `${layer.name} · ${zoningFeatureLabel(
-                  describeZoningFeature(properties, layer),
-                )}`,
+                textTooltip(
+                  `${layer.name} · ${zoningFeatureLabel(
+                    describeZoningFeature(properties, layer),
+                  )}`,
+                ),
                 { sticky: true },
               );
               featureLayer.bindPopup(() => buildZoningPopup(properties, layer));
               featureLayer.on("click", (event) => {
-                L.DomEvent.stopPropagation(event.originalEvent);
+                L.DomEvent.stopPropagation(event);
               });
             }
       }
