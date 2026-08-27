@@ -1,6 +1,6 @@
 import { UserMapImportError } from "../errors";
 import type { PixelSize } from "../transform/projection";
-import { PREVIEW_MAX_DIMENSION } from "./geoTiffSource";
+import { PREVIEW_MAX_DIMENSION } from "./previewBudget";
 
 export type DecodedImage = {
   width: number;

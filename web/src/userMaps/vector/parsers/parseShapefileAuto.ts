@@ -1,8 +1,5 @@
 import { UserMapImportError } from "../../errors";
-import {
-  parseShapefileZip,
-  type ParsedShapefileLayer,
-} from "./shapefileZipSource";
+import type { ParsedShapefileLayer } from "./shapefileZipSource";
 import type { ShapefileWorkerReply } from "./shapefileWorker";
 
 /**
@@ -15,7 +12,12 @@ export function parseShapefileAuto(
   buffer: ArrayBuffer,
 ): Promise<ParsedShapefileLayer[]> {
   if (typeof Worker === "undefined") {
-    return parseShapefileZip(buffer);
+    // Dynamic on purpose: no production browser lacks Worker, so a static
+    // import bundled shpjs, proj4, and fflate into the entry chunk solely for
+    // the jsdom test path.
+    return import("./shapefileZipSource").then(({ parseShapefileZip }) =>
+      parseShapefileZip(buffer),
+    );
   }
   return new Promise((resolve, reject) => {
     const worker = new Worker(new URL("./shapefileWorker.ts", import.meta.url), {

@@ -2824,7 +2824,9 @@ describe("NS Marks The Spot Online", () => {
     // zoning (and six other families MapCanvas renders) never reaches the
     // compositor. Exporting used to produce a page with no zoning on it and
     // nothing said about that.
-    const dialog = screen.getByRole("dialog", {
+    // findBy: the export dialog is lazy-loaded, so it resolves a tick after
+    // the frame step continues.
+    const dialog = await screen.findByRole("dialog", {
       name: "Export georeferenced PDF",
     });
     expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
@@ -2917,7 +2919,9 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue export frame" }),
     );
 
-    const dialog = screen.getByRole("dialog", {
+    // findBy: the export dialog is lazy-loaded, so it resolves a tick after
+    // the frame step continues.
+    const dialog = await screen.findByRole("dialog", {
       name: "Export georeferenced PDF",
     });
     expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);

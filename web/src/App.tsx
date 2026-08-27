@@ -1,4 +1,6 @@
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useMemo,
@@ -45,7 +47,15 @@ import {
   type ParcelContextState,
   type ParcelResourceState,
 } from "./components/ParcelInspector";
-import { PrintPreview } from "./components/print/PrintPreview";
+// Print preview and PDF export ride behind React.lazy: qrcode plus the print
+// components on one, pdf-lib (~150 KB gzip, the largest dependency after the
+// map stack) on the other — all export-only features every visitor was
+// downloading before first map paint.
+const PrintPreview = lazy(() =>
+  import("./components/print/PrintPreview").then((module) => ({
+    default: module.PrintPreview,
+  })),
+);
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import {
   advertisedPidsForEvents,
@@ -190,7 +200,11 @@ import {
   type PrintMapBounds,
   type PrintMapViewport,
 } from "./services/printSnapshot";
-import { ExportDialog } from "./print/pdf/ExportDialog";
+const ExportDialog = lazy(() =>
+  import("./print/pdf/ExportDialog").then((module) => ({
+    default: module.ExportDialog,
+  })),
+);
 import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
@@ -4118,13 +4132,16 @@ export function App() {
       ) : null}
     </div>
     {printCapture ? (
-      <PrintPreview
-        capture={printCapture}
-        baseUrl={window.location.href}
-        onClose={() => setPrintCapture(null)}
-      />
+      <Suspense fallback={null}>
+        <PrintPreview
+          capture={printCapture}
+          baseUrl={window.location.href}
+          onClose={() => setPrintCapture(null)}
+        />
+      </Suspense>
     ) : null}
     {exportSession?.stage === "dialog" ? (
+      <Suspense fallback={null}>
       <ExportDialog
         orientation={exportSession.orientation}
         bounds={exportSession.bounds}
@@ -4186,6 +4203,7 @@ export function App() {
         shareUrl={window.location.href}
         onClose={() => setExportSession(null)}
       />
+      </Suspense>
     ) : null}
     {userMapsApi.frameChoosingMap ? (
       <GeoPdfFrameChooser

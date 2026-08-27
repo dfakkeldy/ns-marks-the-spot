@@ -1,5 +1,5 @@
 import { UserMapImportError } from "../errors";
-import { parseGeoTiff, type ParsedGeoTiff } from "./geoTiffSource";
+import type { ParsedGeoTiff } from "./geoTiffSource";
 import type { WorkerReply } from "./geoTiffWorker";
 
 /**
@@ -9,7 +9,12 @@ import type { WorkerReply } from "./geoTiffWorker";
  */
 export function parseGeoTiffAuto(buffer: ArrayBuffer): Promise<ParsedGeoTiff> {
   if (typeof Worker === "undefined" || typeof OffscreenCanvas === "undefined") {
-    return parseGeoTiff(buffer);
+    // Dynamic on purpose: this fallback exists for jsdom and pre-16.4 Safari,
+    // and a static import here was one of the two chains hauling the geotiff
+    // decoder into the entry chunk for every visitor.
+    return import("./geoTiffSource").then(({ parseGeoTiff }) =>
+      parseGeoTiff(buffer),
+    );
   }
   return new Promise((resolve, reject) => {
     const worker = new Worker(new URL("./geoTiffWorker.ts", import.meta.url), {

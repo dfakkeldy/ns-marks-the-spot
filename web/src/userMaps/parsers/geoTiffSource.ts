@@ -8,7 +8,9 @@ import {
   type PixelSize,
 } from "../transform/projection";
 
-export const PREVIEW_MAX_DIMENSION = 4096;
+import { PREVIEW_MAX_DIMENSION } from "./previewBudget";
+
+export { PREVIEW_MAX_DIMENSION };
 
 /**
  * Above this many pixels, a failed decode of the CHOSEN source image (base

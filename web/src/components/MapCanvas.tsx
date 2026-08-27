@@ -1,4 +1,6 @@
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -122,10 +124,16 @@ import {
   type GeoreferenceBinding,
 } from "../userMaps/components/GeoreferenceMapLayer";
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
-import {
-  EditableVectorLayer,
-  type VectorEditBinding,
-} from "../userMaps/vector/edit/EditableVectorLayer";
+import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
+// Geoman (572 KB JS + 26 KB CSS, ~60 KB gzip) patches L at module evaluation
+// and is only needed while a layer is actively being edited — lazy keeps it
+// out of every visitor's first paint. Module-eval side effects run identically
+// under a dynamic import.
+const EditableVectorLayer = lazy(() =>
+  import("../userMaps/vector/edit/EditableVectorLayer").then((module) => ({
+    default: module.EditableVectorLayer,
+  })),
+);
 import type {
   UserVectorFitRequest,
   VisibleUserVectorLayer,
@@ -1749,14 +1757,16 @@ export function MapCanvas({
             capture by construction (documented print/export boundary). */}
         <UserVectorLayers layers={userVectorLayers} fitRequest={userVectorFitRequest} />
         {userVectorEdit ? (
-          <EditableVectorLayer
-            key={userVectorEdit.record.id}
-            record={userVectorEdit.record}
-            data={userVectorEdit.data}
-            mode={userVectorEdit.mode}
-            onGeometryChange={userVectorEdit.onGeometryChange}
-            onSelectFeature={userVectorEdit.onSelectFeature}
-          />
+          <Suspense fallback={null}>
+            <EditableVectorLayer
+              key={userVectorEdit.record.id}
+              record={userVectorEdit.record}
+              data={userVectorEdit.data}
+              mode={userVectorEdit.mode}
+              onGeometryChange={userVectorEdit.onGeometryChange}
+              onSelectFeature={userVectorEdit.onSelectFeature}
+            />
+          </Suspense>
         ) : null}
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
         {exportFrame ? (
