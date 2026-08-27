@@ -269,6 +269,12 @@ struct UserVectorEditingTests {
             await Task.yield()
             session.undoLastErase()
             #expect(await writing.value)
+            // Under parallel test scheduling the undo can land a moment after
+            // the in-flight write returned instead of during it; then it is
+            // pending, not lost, and the durability invariant this test pins
+            // is that a second flush finds it. When the undo did land
+            // mid-flight, this flush has nothing to do.
+            #expect(await session.flush())
 
             // What the library holds, not what the session is showing.
             #expect(viewModel.rows.first?.parsed?.features.count == 2)

@@ -179,11 +179,11 @@ struct GeoreferenceMapPane: UIViewRepresentable {
         /// about tile pyramids, and comparing it against anything else would be
         /// comparing two different scales.
         func reportZoom(of mapView: MKMapView) {
-            let width = mapView.bounds.width
-            let span = mapView.region.span.longitudeDelta
-            guard width > 0, span > 0 else { return }
-            let zoom = log2(360 * width / (256 * span))
-            guard zoom.isFinite else { return }
+            // One reading of the web-mercator zoom, shared with the main map:
+            // the 256-point tile constant is load-bearing parity with the
+            // browser, and a hand copy here is one more place a change to it
+            // could miss.
+            guard let zoom = MapController.mercatorZoom(of: mapView) else { return }
             // A tenth of a level: enough to cross a `minZoom` boundary, not
             // enough to redraw the panel on every pixel of a pinch.
             if let lastZoom, abs(lastZoom - zoom) < 0.1 { return }

@@ -2,6 +2,7 @@ import GeoCore
 import MapCatalog
 import NSDataServices
 import SwiftUI
+import UIKit
 
 struct MapContainerView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -56,7 +57,6 @@ struct MapContainerView: View {
     /// strip, so both numbers are read off the screen rather than assumed.
     @State private var attributionHeight: CGFloat = 0
     @State private var scaleStackHeight: CGFloat = 0
-    @State private var mapHeading: Double = 0
     /// Where the map settled, for the readout. Held rather than read on every
     /// redraw: the map's own bounds are not observable, so the readout would
     /// otherwise show wherever the view happened to be when SwiftUI last ran.
@@ -252,9 +252,15 @@ struct MapContainerView: View {
                             .padding(.top, 60)
                     }
 
-                    controlColumn
-                        .padding(.trailing, 12)
-                        .padding(.top, 60)
+                    // Not while a page is being framed: the framing toolbar
+                    // owns the screen, every one of these controls is inert in
+                    // that mode, and a rail left at full brightness over the
+                    // dimmed map competed with the one task the mode is for.
+                    if printFrame == nil {
+                        controlColumn
+                            .padding(.trailing, 12)
+                            .padding(.top, 60)
+                    }
                 }
                 Spacer()
             }
@@ -353,9 +359,12 @@ struct MapContainerView: View {
         // takes the readout down, because the inspector is a card of its own
         // and there is nowhere left to lift to.
         .overlay(alignment: .bottomLeading) {
+            // Also not under the layers panel: these chips draw above every
+            // sibling overlay, and with the panel open they printed the scale
+            // numerals and coordinates straight through its rows.
             if overlayVM.inspection == nil, editSession == nil,
                vectorCallout == nil, featureVM.selection == nil, !isSelectingSaveArea,
-               printFrame == nil, let mapPosition
+               printFrame == nil, !isLayersMenuExpanded, let mapPosition
             {
                 VStack(alignment: .leading, spacing: 6) {
                     // Hidden from VoiceOver on purpose. A bar is measured off
@@ -367,6 +376,12 @@ struct MapContainerView: View {
 
                     MapPositionReadout(position: mapPosition, screenScale: screenScale)
                 }
+                // Capped, not frozen: these chips are informational overlays,
+                // and at full accessibility sizes the coordinate pair wrapped
+                // to a third of an SE-class screen and collided with the
+                // control rail. VoiceOver reads the same values regardless of
+                // the visual size.
+                .dynamicTypeSize(...DynamicTypeSize.xxLarge)
                 .padding(.leading, 12)
                 // Above the source strip, or above the measuring card when
                 // there is one — whichever reaches higher. The card's measured
@@ -585,40 +600,14 @@ struct MapContainerView: View {
     private var scrollingControls: some View {
         ScrollView(.vertical) {
             VStack(spacing: 12) {
-                if mapHeading != 0 {
-                    Button {
-                        withAnimation(
-                            .spring(response: 0.4, dampingFraction: 0.8)
-                                .unlessReduced(reduceMotion)
-                        ) {
-                            controller.resetHeading()
-                        }
-                    } label: {
-                        Image(systemName: "compass.fill")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(.blue)
-                            .frame(width: 44, height: 44)
-                            .background(.regularMaterial)
-                            .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            .rotationEffect(.degrees(-mapHeading))
-                    }
-                    .accessibilityLabel("Reset Map Heading")
-                    .transition(.scale.combined(with: .opacity))
+                CompassResetButton(controller: controller, reduceMotion: reduceMotion)
                     .disabled(isSelectingSaveArea)
-                }
 
                 Button {
                     controller.showsUserLocation = true
                     controller.centerOnUserLocation()
                 } label: {
-                    Image(systemName: "location.fill")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.blue)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "location.fill")
                 }
                 .accessibilityLabel("Current Location")
                 .disabled(isSelectingSaveArea)
@@ -631,17 +620,10 @@ struct MapContainerView: View {
                     Button {
                         toggleMeasuring(mode)
                     } label: {
-                        Image(systemName: Self.measureSymbol(mode))
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(measure?.mode == mode ? .white : .blue)
-                            .frame(width: 44, height: 44)
-                            .background(
-                                measure?.mode == mode
-                                    ? Color.blue : Color.primary.opacity(0.001)
-                            )
-                            .background(.regularMaterial)
-                            .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        MapControlIcon(
+                            systemName: Self.measureSymbol(mode),
+                            isActive: measure?.mode == mode
+                        )
                     }
                     .accessibilityLabel(
                         mode == .distance ? "Measure Distance" : "Measure Area"
@@ -658,13 +640,7 @@ struct MapContainerView: View {
                     cancelBoundsSelection()
                     navigationModel.activeSheet = .offlineStorage
                 } label: {
-                    Image(systemName: "externaldrive")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.blue)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "externaldrive")
                 }
                 .accessibilityLabel("Offline Maps")
 
@@ -680,13 +656,7 @@ struct MapContainerView: View {
                     cancelBoundsSelection()
                     navigationModel.activeSheet = .taxSaleNotices
                 } label: {
-                    Image(systemName: "banknote")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.blue)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "banknote")
                 }
                 .accessibilityLabel("Tax-sale Notices")
                 .disabled(isSelectingSaveArea)
@@ -695,13 +665,7 @@ struct MapContainerView: View {
                     cancelBoundsSelection()
                     navigationModel.activeSheet = .historicalTaxSales
                 } label: {
-                    Image(systemName: "clock.arrow.circlepath")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.purple)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "clock.arrow.circlepath", tint: .purple)
                 }
                 .accessibilityLabel("Historical Tax-sale Records")
                 .disabled(isSelectingSaveArea)
@@ -710,13 +674,7 @@ struct MapContainerView: View {
                 Button {
                     share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
                 } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.blue)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "square.and.arrow.up")
                 }
                 .accessibilityLabel("Share This Map View")
                 .accessibilityIdentifier("share-map-view")
@@ -727,13 +685,7 @@ struct MapContainerView: View {
                     controller.beginPrintFraming()
                     printFrame = .default
                 } label: {
-                    Image(systemName: "printer")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.blue)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "printer")
                 }
                 .accessibilityLabel("Export This Map As A PDF")
                 .accessibilityIdentifier("export-map-pdf")
@@ -743,13 +695,7 @@ struct MapContainerView: View {
                     cancelBoundsSelection()
                     navigationModel.activeSheet = .info
                 } label: {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.blue)
-                        .frame(width: 44, height: 44)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(systemName: "info.circle")
                 }
                 .accessibilityLabel("Data Sources and Licenses")
                 .disabled(isSelectingSaveArea)
@@ -757,14 +703,11 @@ struct MapContainerView: View {
                 Button {
                     beginSaveAreaSelection()
                 } label: {
-                    Image(systemName: isSelectingSaveArea ? "square.dashed.inset.filled" : "square.dashed")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(isSelectingSaveArea ? .white : .blue)
-                        .frame(width: 44, height: 44)
-                        .background(isSelectingSaveArea ? Color.blue : Color.clear)
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(
+                        systemName: isSelectingSaveArea
+                            ? "square.dashed.inset.filled" : "square.dashed",
+                        isActive: isSelectingSaveArea
+                    )
                 }
                 .accessibilityLabel("Save Area")
                 .disabled(isSelectingSaveArea)
@@ -777,14 +720,11 @@ struct MapContainerView: View {
                         isLayersMenuExpanded.toggle()
                     }
                 } label: {
-                    Image(systemName: isLayersMenuExpanded ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(isLayersMenuExpanded ? .white : .blue)
-                        .frame(width: 44, height: 44)
-                        .background(isLayersMenuExpanded ? Color.blue : Color.primary.opacity(0.001))
-                        .background(.regularMaterial)
-                        .clipShape(Circle())
-                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    MapControlIcon(
+                        systemName: isLayersMenuExpanded
+                            ? "square.3.stack.3d.middle.filled" : "square.3.stack.3d",
+                        isActive: isLayersMenuExpanded
+                    )
                 }
                 .accessibilityLabel("Toggle Layers Menu")
                 .disabled(isSelectingSaveArea)
@@ -845,8 +785,11 @@ struct MapContainerView: View {
             .onAppear {
                 controller.events = { event in
                     switch event {
-                    case .headingChanged(let heading):
-                        mapHeading = heading
+                    case .headingChanged:
+                        // The compass reads `controller.mapHeading` itself;
+                        // holding a copy here re-evaluated this whole body on
+                        // every frame of a rotation gesture.
+                        break
                     case .annotationSelected(let annotationID):
                         if annotationID.hasPrefix(MapController.parcelOverviewPrefix) {
                             // The parcel answers, so nothing else may still be
@@ -984,8 +927,13 @@ struct MapContainerView: View {
                 overlayVM.loadListedParcels()
             }
             .task {
-                await userMapsVM.load()
-                await userVectorsVM.load()
+                // Concurrently: the two libraries touch different actors and
+                // different files, and awaiting the raster previews before the
+                // vector load even started kept the user's drawing layers off
+                // the map until the last preview image had been read.
+                async let maps: Void = userMapsVM.load()
+                async let vectors: Void = userVectorsVM.load()
+                _ = await (maps, vectors)
             }
             // Spoken as well as drawn, which is what the web's polite live
             // region does. A reader using VoiceOver taps a button and needs to
@@ -1019,25 +967,25 @@ struct MapContainerView: View {
                 }
             }
             // The session's working copy, not the stored one: a shape has to follow
-            // the user's finger rather than wait for a write to land.
+            // the user's finger rather than wait for a write to land. One
+            // handler for both responses — pushing the vectors and rebuilding
+            // the handles — because two registrations on the same value paid
+            // the deep comparison of the whole parsed layer twice per update,
+            // and split one event's response across two closures that could
+            // drift out of order. The handles are rebuilt from the new
+            // geometry: MapKit left the dragged one where the finger did, and
+            // every other handle on a closed ring may have moved with it, as
+            // may the move handle drawn at the shape's middle.
             .onChange(of: editSession?.parsed) { _, _ in
                 pushUserVectors()
+                controller.setVectorHandles(selectionHandles())
+                controller.setVectorMoveHandle(moveHandle())
             }
             .onChange(of: editSession?.draft) { _, draft in
                 controller.setVectorDraft(draftPreview(draft))
             }
             .onChange(of: editSession?.selectedFeatureID) { _, _ in
                 controller.setVectorHandles(selectionHandles())
-                controller.setVectorMoveHandle(moveHandle())
-            }
-            // After a vertex moves, the handles are rebuilt from the new geometry:
-            // MapKit left the dragged one where the finger did, and every other
-            // handle on a closed ring may have moved with it.
-            .onChange(of: editSession?.parsed) { _, _ in
-                controller.setVectorHandles(selectionHandles())
-                // Rebuilt after a move as well as a reshape: the handle is drawn
-                // at the middle of the shape, and MapKit left it where the finger
-                // stopped rather than where the moved shape's middle now is.
                 controller.setVectorMoveHandle(moveHandle())
             }
             .onChange(of: navigationModel.activeSheet) { _, newValue in
@@ -1057,16 +1005,41 @@ struct MapContainerView: View {
                     // still waiting for its timer when the user switched away would
                     // never be written at all.
                     if let editSession {
-                        Task { await editSession.flush() }
+                        flushProtectedFromSuspension(editSession)
                     }
                 }
             }
             .onDisappear {
                 cancelBoundsSelection()
                 if let editSession {
-                    Task { await editSession.flush() }
+                    flushProtectedFromSuspension(editSession)
                 }
             }
+    }
+
+    /// Writes the session's pending edit under a background-task assertion.
+    ///
+    /// A bare `Task` scheduled during the background transition is not
+    /// guaranteed to run before the process suspends, and a suspended task
+    /// holding the only copy of the user's shape change is exactly the loss
+    /// the flush exists to prevent. The assertion keeps the process alive
+    /// until the write lands (or the system calls time, which is minutes —
+    /// this write is milliseconds).
+    private func flushProtectedFromSuspension(_ session: VectorEditSession) {
+        let application = UIApplication.shared
+        final class TokenBox: @unchecked Sendable { var value = UIBackgroundTaskIdentifier.invalid }
+        let box = TokenBox()
+        box.value = application.beginBackgroundTask(withName: "vector-edit-flush") {
+            application.endBackgroundTask(box.value)
+            box.value = .invalid
+        }
+        Task {
+            await session.flush()
+            if box.value != .invalid {
+                application.endBackgroundTask(box.value)
+                box.value = .invalid
+            }
+        }
     }
 
 
@@ -1235,6 +1208,24 @@ struct MapContainerView: View {
         // ends the measurement rather than leaving a live readout no tap will
         // ever reach.
         stopMeasuring()
+        // A session already open ends first, exactly as the Done button ends
+        // it. This entry point is reachable mid-edit through the layer panel,
+        // and assigning over the live session dropped its debounced write —
+        // the only copy of the user's shape change — and left the rename
+        // field carrying the previous layer's text. If the write fails, the
+        // old session stays, as it does when Done fails.
+        if let openSession = editSession {
+            Task {
+                guard await openSession.end() else { return }
+                editSession = nil
+                beginFreshEditingSession(row)
+            }
+            return
+        }
+        beginFreshEditingSession(row)
+    }
+
+    private func beginFreshEditingSession(_ row: UserVectorsViewModel.Row) {
         let session = VectorEditSession(viewModel: userVectorsVM)
         session.begin(row)
         editSession = session
@@ -1302,5 +1293,63 @@ struct MapContainerView: View {
 
         controller.endBoundsSelection()
         isSelectingSaveArea = false
+    }
+}
+
+/// The one visual identity for the map control rail.
+///
+/// Extracted because ten hand-copies of the same nine-modifier chain made any
+/// design change a ten-edit hunt — and because the copies froze their glyphs
+/// at 18 pt in fixed 44 pt frames, leaving the primary map controls the only
+/// part of the app that ignored the reader's Dynamic Type setting.
+private struct MapControlIcon: View {
+    let systemName: String
+    var tint: Color = .blue
+    var isActive = false
+
+    /// Scaled with the reader's type size, capped by the metric's own curve:
+    /// the control grows enough to match large text without the rail
+    /// swallowing the map.
+    @ScaledMetric(relativeTo: .title3) private var glyphSize: CGFloat = 18
+    @ScaledMetric(relativeTo: .title3) private var diameter: CGFloat = 44
+
+    var body: some View {
+        Image(systemName: systemName)
+            .font(.system(size: glyphSize, weight: .semibold))
+            .foregroundStyle(isActive ? Color.white : tint)
+            .frame(width: diameter, height: diameter)
+            .background(isActive ? Color.blue : Color.primary.opacity(0.001))
+            .background(.regularMaterial)
+            .clipShape(Circle())
+            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+    }
+}
+
+/// Its own leaf view, so only this button re-evaluates as the map rotates.
+///
+/// The heading changes on every frame of a two-finger rotation; read in the
+/// container it re-ran the whole body per frame on 120 Hz devices. Read here,
+/// Observation scopes the invalidation to this one control — and the
+/// controller only writes `mapHeading` when the value actually changed.
+private struct CompassResetButton: View {
+    let controller: MapController
+    let reduceMotion: Bool
+
+    var body: some View {
+        if controller.mapHeading != 0 {
+            Button {
+                withAnimation(
+                    .spring(response: 0.4, dampingFraction: 0.8)
+                        .unlessReduced(reduceMotion)
+                ) {
+                    controller.resetHeading()
+                }
+            } label: {
+                MapControlIcon(systemName: "compass.fill")
+                    .rotationEffect(.degrees(-controller.mapHeading))
+            }
+            .accessibilityLabel("Reset Map Heading")
+            .transition(.scale.combined(with: .opacity))
+        }
     }
 }

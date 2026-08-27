@@ -102,7 +102,12 @@ nonisolated struct PrintMapCompositor {
     /// Injected rather than defaulted: this path needs the licence clearance
     /// the app is holding, and a compositor that could build its own would be a
     /// way around the gate.
-    typealias RenderProvider = @Sendable (LayerID, WebMercatorBox, Int, Int) async throws -> Data
+    /// A whole-frame render, decoded. `CGImage` rather than raw bytes at this
+    /// seam: the two-pass path used to PNG-encode its composited page only for
+    /// `compose` to decode the identical bytes one call later — a second of
+    /// CPU and a multi-MB transient for nothing. `CGImage` is `Sendable` and
+    /// crosses the same boundary.
+    typealias RenderProvider = @Sendable (LayerID, WebMercatorBox, Int, Int) async throws -> CGImage
 
     /// Renders the base map under everything else.
     typealias BaseMapProvider = @Sendable (GeoBoundingBox, Int, Int, MapBaseType) async throws
@@ -123,6 +128,12 @@ nonisolated struct PrintMapCompositor {
     ///   looking at. Re-deriving it here would let the page and the screen
     ///   disagree about which layer is on top the first time the two orderings
     ///   drifted apart.
+    /// `@concurrent`, not merely nonisolated: under approachable concurrency a
+    /// nonisolated async function runs on its caller's actor, and the caller
+    /// is the export sheet on the main actor. The composite, the decodes and
+    /// the final JPEG encode are seconds of synchronous work that froze the
+    /// sheet's own progress spinner.
+    @concurrent
     static func compose(
         bounds: GeoBoundingBox,
         widthPx: Int,
@@ -143,10 +154,51 @@ nonisolated struct PrintMapCompositor {
         baseMapProvider: @escaping BaseMapProvider = Self.snapshotBaseMap
     ) async throws -> Output {
         let space = PrintOutputSpace(bounds: bounds, widthPx: widthPx, heightPx: heightPx)
-
-        var drawnLayers = [(layer: MapLayerState, tiles: [(PrintTile, UIImage)], whole: UIImage?)]()
         var outcomes = [LayerOutcome]()
-        let base: UIImage
+
+        // One page-sized context, drawn into as each layer's answer arrives.
+        // Accumulating every layer's decoded tiles and whole-frame renders and
+        // drawing them all at the end held several hundred MB at once on a
+        // multi-layer 300 dpi export; here each layer's images are released
+        // before the next layer is fetched. The context is oriented the UIKit
+        // way — origin top-left — which is the space every draw below was
+        // written in when this ran under UIGraphicsImageRenderer.
+        guard let cgContext = CGContext(
+            data: nil, width: widthPx, height: heightPx, bitsPerComponent: 8,
+            bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { throw Failure.rasterNotEncodable }
+        cgContext.translateBy(x: 0, y: CGFloat(heightPx))
+        cgContext.scaleBy(x: 1, y: -1)
+
+        let pageRect = CGRect(x: 0, y: 0, width: widthPx, height: heightPx)
+
+        // UIKit's current-context stack is per thread and this function hops
+        // threads at every await, so the context is pushed only around each
+        // synchronous batch of drawing and never held across a suspension.
+        func drawSynchronously(_ body: () -> Void) {
+            UIGraphicsPushContext(cgContext)
+            defer { UIGraphicsPopContext() }
+            body()
+        }
+
+        // The alpha is passed to each draw rather than set on the context:
+        // `UIImage.draw(in:)` supplies an alpha of 1 of its own, which
+        // overrides `setAlpha` and prints every layer fully opaque however
+        // faint it looked on screen.
+        func drawLayer(tiles: [(PrintTile, UIImage)], whole: UIImage?, alpha: CGFloat) {
+            drawSynchronously {
+                whole?.draw(in: pageRect, blendMode: .normal, alpha: alpha)
+                for (tile, image) in tiles {
+                    let rect = space.rect(for: tile)
+                    image.draw(
+                        in: CGRect(x: rect.x, y: rect.y, width: rect.width, height: rect.height),
+                        blendMode: .normal, alpha: alpha
+                    )
+                }
+            }
+        }
+
         if baseMap == .openStreetMap {
             // The page's ground is the screen's ground: the same OpenStreetMap
             // tiles, fetched through the same provider, rather than an
@@ -155,15 +207,17 @@ nonisolated struct PrintMapCompositor {
             // is *said*, because the base reports an outcome like any layer:
             // a lost square is a partial or failed row on the page, never
             // silently blank ground.
-            base = blankBaseMap(widthPx: widthPx, heightPx: heightPx)
+            let blank = blankBaseMap(widthPx: widthPx, heightPx: heightPx)
+            drawSynchronously { blank.draw(in: pageRect) }
             let osm = OpenStreetMapBase.printLayer
             let (tiles, state) = await self.tiles(
                 for: osm, bounds: bounds, widthPx: widthPx, provider: tileProvider
             )
-            // First of the drawn layers, which is the bottom of the stack: the
-            // web's export builds its layer list the same way, modern base
-            // first.
-            drawnLayers.append((osm, tiles, nil))
+            // First drawn, which is the bottom of the stack: the web's export
+            // builds its layer list the same way, modern base first.
+            autoreleasepool {
+                drawLayer(tiles: tiles, whole: nil, alpha: osm.effectiveAlpha)
+            }
             outcomes.append(
                 LayerOutcome(
                     id: OpenStreetMapBase.layerID,
@@ -172,15 +226,17 @@ nonisolated struct PrintMapCompositor {
                 )
             )
         } else {
-            base = try await baseMapProvider(bounds, widthPx, heightPx, baseMap)
+            let base = try await baseMapProvider(bounds, widthPx, heightPx, baseMap)
+            autoreleasepool {
+                drawSynchronously { base.draw(in: pageRect) }
+            }
         }
 
         for layer in layers where layer.effectiveAlpha > 0 {
             // Checked between layers as well as inside them: the tile path
             // reports an abandoned request as a layer that failed rather than
             // throwing, so without this the compositor works through every
-            // remaining layer and allocates the full-resolution raster after
-            // the user has cancelled.
+            // remaining layer after the user has cancelled.
             try Task.checkCancellation()
             // A catalogued Province layer is a dynamic map service: nothing is
             // cached at the far end, so every tile is a render somebody pays
@@ -190,13 +246,15 @@ nonisolated struct PrintMapCompositor {
             // the same picture for one two-hundredth of the work.
             if case .catalogExport(let layerID) = layer.configuration.source {
                 do {
-                    let data = try await renderProvider(
+                    let rendered = try await renderProvider(
                         layerID, box(for: bounds), widthPx, heightPx
                     )
-                    guard let image = UIImage(data: data) else {
-                        throw Failure.rasterNotEncodable
+                    autoreleasepool {
+                        drawLayer(
+                            tiles: [], whole: UIImage(cgImage: rendered),
+                            alpha: layer.effectiveAlpha
+                        )
                     }
-                    drawnLayers.append((layer, [], image))
                     outcomes.append(
                         LayerOutcome(id: layer.id, name: layer.name, state: .drawn)
                     )
@@ -218,55 +276,34 @@ nonisolated struct PrintMapCompositor {
             let (tiles, state) = await self.tiles(
                 for: layer, bounds: bounds, widthPx: widthPx, provider: tileProvider
             )
-            drawnLayers.append((layer, tiles, nil))
+            autoreleasepool {
+                drawLayer(tiles: tiles, whole: nil, alpha: layer.effectiveAlpha)
+            }
             outcomes.append(LayerOutcome(id: layer.id, name: layer.name, state: state))
         }
 
         // The tile path reports an abandoned request as an outcome rather than
         // throwing, so a cancel during the only layer's tiles reached here with
-        // nothing to stop it — and the compositor went on to allocate and
-        // encode a full 300 dpi raster for a page nobody was waiting for.
+        // nothing to stop it — and the compositor went on to encode a full
+        // 300 dpi raster for a page nobody was waiting for.
         try Task.checkCancellation()
 
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1
-        format.opaque = true
-        let renderer = UIGraphicsImageRenderer(
-            size: CGSize(width: widthPx, height: heightPx), format: format
-        )
-        let raster = renderer.image { context in
-            base.draw(in: CGRect(x: 0, y: 0, width: widthPx, height: heightPx))
-            for entry in drawnLayers {
-                // The alpha is passed to each draw rather than set on the
-                // context: `UIImage.draw(in:)` supplies an alpha of 1 of its
-                // own, which overrides `setAlpha` and prints every layer fully
-                // opaque however faint it looked on screen.
-                let alpha = entry.layer.effectiveAlpha
-                entry.whole?.draw(
-                    in: CGRect(x: 0, y: 0, width: widthPx, height: heightPx),
-                    blendMode: .normal, alpha: alpha
-                )
-                for (tile, image) in entry.tiles {
-                    let rect = space.rect(for: tile)
-                    image.draw(
-                        in: CGRect(x: rect.x, y: rect.y, width: rect.width, height: rect.height),
-                        blendMode: .normal, alpha: alpha
-                    )
-                }
-            }
+        drawSynchronously {
             // Under the parcels, as on screen: a boundary the reader is
             // checking must not be buried by a zone drawn over it.
             draw(
-                features: features, markers: markers, into: context.cgContext,
+                features: features, markers: markers, into: cgContext,
                 space: space, lineScale: lineScale
             )
-            draw(parcels: parcels, into: context.cgContext, space: space, lineScale: lineScale)
+            draw(parcels: parcels, into: cgContext, space: space, lineScale: lineScale)
         }
 
         // 0.92 rather than 1.0: at print dot pitch the difference is invisible
         // and the file is several times smaller, which is what decides whether
         // the page can be mailed.
-        guard let jpeg = raster.jpegData(compressionQuality: 0.92) else {
+        guard let cgImage = cgContext.makeImage(),
+              let jpeg = UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.92)
+        else {
             throw Failure.rasterNotEncodable
         }
         return Output(jpeg: jpeg, widthPx: widthPx, heightPx: heightPx, outcomes: outcomes)
@@ -585,34 +622,10 @@ nonisolated struct PrintMapCompositor {
         context.setLineDash(phase: 0, lengths: [])
     }
 
-    /// The map's own parcel styling, kept beside it in `MapController`.
-    private static func style(
-        for role: ParcelShape.Role
-    ) -> (stroke: UIColor, fill: UIColor?, width: Double, dash: [Double]?) {
-        switch role {
-        case .selected:
-            return (UIColor(red: 0.624, green: 0.184, blue: 0.141, alpha: 1), nil, 4, nil)
-        case .selectedHistorical:
-            return (UIColor(red: 0.286, green: 0.200, blue: 0.435, alpha: 1), nil, 4, nil)
-        case .taxSale:
-            return (
-                UIColor(red: 0.745, green: 0.302, blue: 0.235, alpha: 1),
-                UIColor(red: 0.906, green: 0.659, blue: 0.420, alpha: 0.3),
-                2, nil
-            )
-        case .historicalTaxSale:
-            return (
-                UIColor(red: 0.353, green: 0.263, blue: 0.522, alpha: 1),
-                UIColor(red: 0.643, green: 0.580, blue: 0.800, alpha: 0.34),
-                2.25, [5, 3]
-            )
-        case .context:
-            return (
-                UIColor(red: 0.039, green: 0.443, blue: 0.502, alpha: 1),
-                UIColor(red: 0.933, green: 0.969, blue: 0.961, alpha: 0.08),
-                1.25, nil
-            )
-        }
+    /// The map's own parcel styling — one table with the screen renderer and
+    /// the legend, see `ParcelRoleStyle`.
+    private static func style(for role: ParcelShape.Role) -> ParcelRoleStyle {
+        ParcelRoleStyle.style(for: role)
     }
 
     /// What the parcel marks are called on the page, and the colours they were
@@ -802,7 +815,10 @@ nonisolated struct PrintMapCompositor {
                 for: layerID, box: box, widthPx: widthPx, heightPx: heightPx,
                 overlay: true, clearance: held
             ) else {
-                return base
+                guard let image = UIImage(data: base)?.cgImage else {
+                    throw Failure.rasterNotEncodable
+                }
+                return image
             }
             let casing = try await fetcher.imageData(from: second.url)
             // Fails the layer rather than returning the base pass alone. The
@@ -820,9 +836,12 @@ nonisolated struct PrintMapCompositor {
 
     /// Two passes of one layer as one image, transparency intact — it is drawn
     /// over the base map, so flattening it onto white would black out the map.
+    /// Returned decoded rather than PNG-encoded: `compose` draws it straight
+    /// into the page, and the encode/decode pair this used to pay was exactly
+    /// undone one call later.
     static func flattened(
         base: Data, over casing: Data, widthPx: Int, heightPx: Int
-    ) -> Data? {
+    ) -> CGImage? {
         guard let under = UIImage(data: base), let over = UIImage(data: casing) else {
             return nil
         }
@@ -833,7 +852,7 @@ nonisolated struct PrintMapCompositor {
         return UIGraphicsImageRenderer(size: rect.size, format: format).image { _ in
             under.draw(in: rect)
             over.draw(in: rect)
-        }.pngData()
+        }.cgImage
     }
 
     /// Fetches through the map's own overlays, so the export honours the cache

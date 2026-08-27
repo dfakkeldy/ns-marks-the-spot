@@ -152,11 +152,70 @@ nonisolated final class ParcelOverviewAnnotation: MKPointAnnotation,
 
 /// The circle an overview marker is drawn as.
 ///
+/// The one styling table for parcel roles, read by the screen renderer, the
+/// print compositor and the printed legend alike.
+///
+/// One copy on purpose: this styling is evidence-bearing — the dashed purple
+/// outline is what distinguishes a dated historical record from a current
+/// offering, on screen and on paper. When the screen and the page each held a
+/// hand-copied table, an edit to one silently desynchronised the map from the
+/// printed sheet and from the legend key.
+nonisolated struct ParcelRoleStyle {
+    let stroke: UIColor
+    let fill: UIColor?
+    let width: Double
+    let dash: [Double]?
+
+    static func style(for role: ParcelShape.Role) -> ParcelRoleStyle {
+        switch role {
+        case .selected:
+            return ParcelRoleStyle(
+                stroke: UIColor(red: 0.624, green: 0.184, blue: 0.141, alpha: 1),
+                fill: nil, width: 4, dash: nil
+            )
+        case .selectedHistorical:
+            return ParcelRoleStyle(
+                stroke: UIColor(red: 0.286, green: 0.200, blue: 0.435, alpha: 1),
+                fill: nil, width: 4, dash: nil
+            )
+        case .taxSale:
+            return ParcelRoleStyle(
+                stroke: UIColor(red: 0.745, green: 0.302, blue: 0.235, alpha: 1),
+                fill: UIColor(red: 0.906, green: 0.659, blue: 0.420, alpha: 0.3),
+                width: 2, dash: nil
+            )
+        case .historicalTaxSale:
+            // Dashed on the web, and dashed here: on this map a dashed outline
+            // says the parcel is being drawn for a record rather than for a
+            // current offering, and drawing it solid would upgrade the claim.
+            return ParcelRoleStyle(
+                stroke: UIColor(red: 0.353, green: 0.263, blue: 0.522, alpha: 1),
+                fill: UIColor(red: 0.643, green: 0.580, blue: 0.800, alpha: 0.34),
+                width: 2.25, dash: [5, 3]
+            )
+        case .context:
+            return ParcelRoleStyle(
+                stroke: UIColor(red: 0.039, green: 0.443, blue: 0.502, alpha: 1),
+                fill: UIColor(red: 0.933, green: 0.969, blue: 0.961, alpha: 0.08),
+                width: 1.25, dash: nil
+            )
+        }
+    }
+}
+
 /// The web's interactive styling: a white ring around a filled dot, the current
 /// listings in the tax-sale red and the historical ones in its purple, so a
 /// dated record is never mistaken for something on offer now.
 nonisolated enum ParcelOverviewMarkerImage {
+    private static let cache = MarkerImageCache()
+
     static func image(role: ParcelShape.Role, isSelected: Bool) -> UIImage {
+        cache.image(for: "\(role)|\(isSelected)") {
+            render(role: role, isSelected: isSelected)
+        }
+    }
+
+    private static func render(role: ParcelShape.Role, isSelected: Bool) -> UIImage {
         let radius: CGFloat = isSelected ? 9 : 7
         let width: CGFloat = isSelected ? 3 : 1.5
         let size = CGSize(width: (radius + width) * 2, height: (radius + width) * 2)

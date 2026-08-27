@@ -220,6 +220,10 @@ nonisolated enum PrintExport {
         )
     }
 
+    /// `@concurrent` for the same reason `PrintMapCompositor.compose` is: the
+    /// PDF assembly and encodes in here are synchronous stretches that must
+    /// not run on the export sheet's actor.
+    @concurrent
     static func build(
         _ request: PrintExportRequest,
         physicalMemoryBytes: UInt64,

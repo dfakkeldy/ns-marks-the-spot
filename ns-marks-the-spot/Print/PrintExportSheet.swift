@@ -78,18 +78,26 @@ struct PrintExportSheet: View {
         self.featureStatuses = featureStatuses
         self.sourcesHaveHadTheirTime = sourcesHaveHadTheirTime
         self.onExported = onExported
+        // Computed once per presentation: `framing` and `featureStatuses` are
+        // immutable for the sheet's life, yet as computed properties these
+        // re-ran boundary-ink polygon math and per-layer frame intersection on
+        // every keystroke in the Title and Notes fields.
+        let mapFrame = PdfTemplate.template(framing.orientation).mapFrame
+        let framed = overlayVM.inspectedPID(
+            shownWithin: framing.printedBounds, mapFrame: mapFrame
+        )
+        self.framedPID = framed
+        self.undrawnNotes = overlayVM.undrawnFeatureLayerNotes(
+            within: framing.printedBounds,
+            mapFrame: mapFrame,
+            statuses: featureStatuses
+        )
         // The research summary where there is a parcel to write one about,
         // which is the browser's default and the only case the browser can
         // reach. Framing ground with no parcel open is a native-only case, and
         // there the research summary has nothing to append: opening on it would
         // show a reader an Export button that does not work and no reason why.
-        _kind = State(
-            initialValue: overlayVM.inspectedPID(
-                shownWithin: framing.printedBounds,
-                mapFrame: PdfTemplate.template(framing.orientation).mapFrame
-            ) != nil
-                ? .researchSummary : .fieldSheet
-        )
+        _kind = State(initialValue: framed != nil ? .researchSummary : .fieldSheet)
     }
 
     /// The finished file, made presentable. A bare `URL` cannot identify a
@@ -107,23 +115,14 @@ struct PrintExportSheet: View {
     private var template: PdfTemplate { PdfTemplate.template(framing.orientation) }
 
     /// The switched-on feature layers that will put nothing inside this frame.
-    private var undrawnNotes: [String] {
-        overlayVM.undrawnFeatureLayerNotes(
-            within: framing.printedBounds,
-            mapFrame: PdfTemplate.template(framing.orientation).mapFrame,
-            statuses: featureStatuses
-        )
-    }
+    /// Stored, not computed — see the note in `init`.
+    private let undrawnNotes: [String]
 
     /// The open parcel, but only when its boundary is on the ground being
     /// printed. A page named after a parcel it does not show would tell the
-    /// reader they are looking at that parcel.
-    private var framedPID: String? {
-        overlayVM.inspectedPID(
-            shownWithin: framing.printedBounds,
-            mapFrame: PdfTemplate.template(framing.orientation).mapFrame
-        )
-    }
+    /// reader they are looking at that parcel. Stored, not computed — see the
+    /// note in `init`.
+    private let framedPID: String?
 
     /// Whether there is any aerial photography on the map to print.
     ///
@@ -190,13 +189,15 @@ struct PrintExportSheet: View {
                     // stapled to it would carry "confirm this on site" over
                     // pages that say what was and was not asked, which are two
                     // different instructions to the same reader.
-                    Toggle("Include evidence appendix", isOn: $includesAppendix)
-                        .disabled(isWorking || kind != .researchSummary)
-                        .accessibilityIdentifier("print-include-appendix")
-                    if kind != .researchSummary {
-                        Text("Available for the Research summary only.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                    // Shown only where it applies. With Field sheet selected
+                    // this rendered as a pale half-on toggle over a footnote
+                    // explaining itself — three signals (on, disabled,
+                    // not-applicable) where hiding the row says the same
+                    // thing with none.
+                    if kind == .researchSummary {
+                        Toggle("Include evidence appendix", isOn: $includesAppendix)
+                            .disabled(isWorking)
+                            .accessibilityIdentifier("print-include-appendix")
                     }
                 }
 

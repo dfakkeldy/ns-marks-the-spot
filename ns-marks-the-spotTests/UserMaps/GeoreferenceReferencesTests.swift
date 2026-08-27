@@ -213,10 +213,13 @@ struct GeoreferenceReferencesTests {
         let services = services()
         #expect(services.credits(for: []) == [ActiveAttribution.openStreetMapCredit])
         let credits = services.credits(for: [.aerial, .parcels])
-        #expect(credits.count == 2)
+        // OpenStreetMap's ground, the aerial credit with the Service Nova
+        // Scotia copyright it must carry, and the parcels' Province credit.
+        #expect(credits.count == 3)
         #expect(credits[0] == ActiveAttribution.openStreetMapCredit)
-        #expect(credits[1].provider == "Province of Nova Scotia")
-        #expect(!credits[1].disclaimer.isEmpty)
+        #expect(credits[1].copyright == "Service Nova Scotia")
+        #expect(credits.dropFirst().allSatisfy { $0.provider == "Province of Nova Scotia" })
+        #expect(credits.dropFirst().allSatisfy { !$0.disclaimer.isEmpty })
     }
 
     /// Property boundaries begin at zoom 14, and the panel warns below it.

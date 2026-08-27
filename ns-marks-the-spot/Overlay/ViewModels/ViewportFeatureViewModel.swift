@@ -139,6 +139,9 @@ final class ViewportFeatureViewModel {
 
     @ObservationIgnored private var refreshTasks: [LayerID: Task<Void, Never>] = [:]
 
+    /// The bundled hydro pilot, decoded and shaped once — see `hydroFeatures`.
+    @ObservationIgnored private var cachedHydroFound: Found?
+
     /// Which request each layer is waiting on.
     ///
     /// `Task.isCancelled` is not enough on its own: a cancelled request that
@@ -254,7 +257,7 @@ final class ViewportFeatureViewModel {
             shapesByLayer[id] = nil
             markersByLayer[id] = nil
             statuses[id] = .off
-            publish()
+            schedulePublish()
             return
         }
         refresh(id)
@@ -328,7 +331,7 @@ final class ViewportFeatureViewModel {
         guard shapesByLayer[id] != nil || markersByLayer[id] != nil else { return }
         shapesByLayer[id] = nil
         markersByLayer[id] = nil
-        publish()
+        schedulePublish()
     }
 
     private func load(_ id: LayerID, in box: GeoBoundingBox, request: Int) async {
@@ -344,7 +347,7 @@ final class ViewportFeatureViewModel {
                 drawn: found.reportedCount ?? (found.shapes.count + found.markers.count),
                 unreadable: found.unreadable
             )
-            publish()
+            schedulePublish()
         } catch {
             // The same guard on the failing path: a request the user has
             // already moved past must not report a failure over the answer
@@ -619,6 +622,13 @@ final class ViewportFeatureViewModel {
     /// service, so it is never filtered to the viewport: the whole dataset is
     /// one screening study of one county.
     private func hydroFeatures() throws(FetchFailure) -> Found {
+        // Bundled and immutable, so decoded and shaped exactly once. Without
+        // this, every settled viewport re-ran a strict decode of the ~920 KB
+        // pilot file plus per-reach model building on the main actor, for zero
+        // new information.
+        if let cachedHydroFound {
+            return cachedHydroFound
+        }
         let collection: HydroPotentialPilot.Collection
         do {
             collection = try hydro()
@@ -629,7 +639,7 @@ final class ViewportFeatureViewModel {
             throw .unavailable
         }
 
-        return Found(
+        let found = Found(
             shapes: collection.reaches.enumerated().map { index, reach in
                 FeatureShape(
                     id: "\(LayerID.invernessHydroPotential.rawValue)#\(index)",
@@ -653,6 +663,8 @@ final class ViewportFeatureViewModel {
             },
             reportedCount: collection.metadata.watershedCount
         )
+        cachedHydroFound = found
+        return found
     }
 
     private static func translate(_ failure: FeatureOverlayFailure) -> FetchFailure {
@@ -745,6 +757,33 @@ final class ViewportFeatureViewModel {
 
     /// Hands the map every layer's features at once, in panel order so equal
     /// z-indexes break the way the catalog reads.
+    /// Whether a publish is already queued for the next main-actor turn.
+    @ObservationIgnored private var publishScheduled = false
+
+    /// Coalesces publishes that land close together.
+    ///
+    /// `publish` replaces every layer's shapes and markers wholesale, which is
+    /// the right contract for one settle — but a settle with several visible
+    /// layers completes them at different moments, and publishing per
+    /// completion turned one pan into that many full teardown/rebuild cycles
+    /// of the map's overlays, with markers blinking as each landed. One hop of
+    /// coalescing batches completions from the same turn; answers that land
+    /// seconds apart still draw as they arrive.
+    private func schedulePublish() {
+        // The card's validity is checked at the mutation itself, not a turn
+        // later: a card is a claim about a feature on the map, and when the
+        // map stops drawing the feature the claim dies in the same breath.
+        // Only the wholesale controller pushes are coalesced.
+        invalidateSelectionIfGone()
+        guard !publishScheduled else { return }
+        publishScheduled = true
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            publishScheduled = false
+            publish()
+        }
+    }
+
     private func publish() {
         invalidateSelectionIfGone()
         controller.setFeatureShapes(Self.layers.flatMap { shapesByLayer[$0] ?? [] })

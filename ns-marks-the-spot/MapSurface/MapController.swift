@@ -87,7 +87,7 @@ final class MapController: NSObject {
     @ObservationIgnored let progress = LayerLoadProgressBox()
 
     @ObservationIgnored private var selectionStartCoordinate: CLLocationCoordinate2D?
-    @ObservationIgnored private var selectionOverlay: MKPolygon?
+    @ObservationIgnored private var selectionOverlay: BoundsSelectionOverlay?
     @ObservationIgnored private var wasScrollEnabled = true
     @ObservationIgnored private var wasZoomEnabled = true
 
@@ -206,14 +206,6 @@ final class MapController: NSObject {
                 }
             }
 
-        case .addAnnotation(let annotation):
-            mapView.addAnnotation(MapKitPointAnnotation(annotation: annotation))
-
-        case .removeAnnotation(let id):
-            for annotation in mapView.annotations where annotation.mapAnnotationID == id {
-                mapView.removeAnnotation(annotation)
-            }
-
         case .setFeatureShapes(let shapes):
             mapView.removeOverlays(
                 mapView.overlays.filter { $0 is FeaturePolygon || $0 is FeaturePolyline }
@@ -224,9 +216,7 @@ final class MapController: NSObject {
             // goes under the rasters rather than over them.
             let ordered = shapes.sorted { $0.zIndex < $1.zIndex }
                 .flatMap { $0.overlays() }
-            for overlay in ordered {
-                mapView.installInDrawOrder(overlay)
-            }
+            mapView.installInDrawOrder(ordered)
 
         case .setFeatureMarkers(let markers):
             mapView.removeAnnotations(
@@ -239,11 +229,16 @@ final class MapController: NSObject {
             // rebuilt by any edit to its placement, so "the same overlay with
             // one thing changed" is not a state this has.
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? UserMapOverlay })
-            for drape in drapes {
-                guard let overlay = UserMapOverlay(
-                    record: drape.record, image: drape.image, alpha: drape.alpha
-                ) else { continue }
-                mapView.installInDrawOrder(overlay)
+            mapView.installInDrawOrder(drapes.compactMap { drape in
+                UserMapOverlay(record: drape.record, image: drape.image, alpha: drape.alpha)
+            })
+
+        case .setUserMapAlpha(let id, let alpha):
+            for overlay in mapView.overlays {
+                if let userMap = overlay as? UserMapOverlay, userMap.id == id {
+                    userMap.alpha = alpha
+                    userMap.renderer?.alpha = alpha
+                }
             }
 
         case .setUserVectors(let drawings):
@@ -258,9 +253,7 @@ final class MapController: NSObject {
                 mapView.annotations.compactMap { $0 as? UserVectorAnnotation }
             )
             for drawing in drawings {
-                for overlay in drawing.overlays() {
-                    mapView.installInDrawOrder(overlay)
-                }
+                mapView.installInDrawOrder(drawing.overlays())
                 mapView.addAnnotations(drawing.annotations())
             }
 
@@ -412,7 +405,6 @@ final class MapController: NSObject {
     // MARK: - Convenience state accessors
 
     var layers: [MapLayerState] { state.layers }
-    var annotations: [MapAnnotation] { state.annotations }
     var isSelectingBounds: Bool { state.interactionMode == .selectingBounds }
 
     var baseMapType: MapBaseType {
@@ -435,15 +427,6 @@ final class MapController: NSObject {
     func addLayer(_ layer: MapLayerState) {
         guard !state.layers.contains(where: { $0.id == layer.id }) else { return }
         mutate { $0.layers.append(layer) }
-    }
-
-    func removeLayer(by id: String) {
-        mutate { $0.layers.removeAll { $0.id == id } }
-        // Same reason as hiding: the overlay goes away with tiles still in the
-        // air, and a layer re-added later gets a new overlay whose cycle those
-        // stragglers must not settle.
-        progress.reset(id)
-        layerLoadPhases[id] = nil
     }
 
     /// Ask a failing layer for its tiles again.
@@ -492,11 +475,6 @@ final class MapController: NSObject {
     }
 
     // MARK: - Annotations
-
-    func addAnnotation(_ annotation: MapAnnotation) {
-        guard !state.annotations.contains(where: { $0.id == annotation.id }) else { return }
-        mutate { $0.annotations.append(annotation) }
-    }
 
     /// What an overview marker's annotation id begins with, so a tap can be
     /// routed back to the parcel it stands for.
@@ -659,10 +637,6 @@ final class MapController: NSObject {
             ),
             animated: true
         )
-    }
-
-    func removeAnnotation(by id: String) {
-        mutate { $0.annotations.removeAll { $0.id == id } }
     }
 
     // MARK: - Location
@@ -873,10 +847,8 @@ final class MapController: NSObject {
         guard heading < 0.5 || heading > 359.5, mapView.camera.pitch < 0.5 else { return nil }
         let width = Double(mapView.bounds.width)
         let height = Double(mapView.bounds.height)
-        let longitudeSpan = mapView.region.span.longitudeDelta
-        guard width > 0, height > 0, longitudeSpan > 0 else { return nil }
-        let zoom = log2(360 * (width / 256) / longitudeSpan)
-        guard zoom.isFinite else { return nil }
+        guard width > 0, height > 0,
+              let zoom = Self.mercatorZoom(of: mapView) else { return nil }
         let centre = mapView.region.center
         return (
             GeoPoint(lat: centre.latitude, lng: centre.longitude),
@@ -898,19 +870,19 @@ final class MapController: NSObject {
     private func updateSelectionOverlay(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) {
         guard let mapView else { return }
 
+        // One persistent overlay for the whole drag; each move updates its
+        // corners and asks for a redraw. See `BoundsSelectionOverlay` for the
+        // churn this replaces.
+        let overlay: BoundsSelectionOverlay
         if let selectionOverlay {
-            mapView.removeOverlay(selectionOverlay)
+            overlay = selectionOverlay
+        } else {
+            overlay = BoundsSelectionOverlay()
+            selectionOverlay = overlay
+            mapView.addOverlay(overlay)
         }
-
-        let coordinates = [
-            CLLocationCoordinate2D(latitude: start.latitude, longitude: start.longitude),
-            CLLocationCoordinate2D(latitude: start.latitude, longitude: end.longitude),
-            CLLocationCoordinate2D(latitude: end.latitude, longitude: end.longitude),
-            CLLocationCoordinate2D(latitude: end.latitude, longitude: start.longitude)
-        ]
-        let polygon = MKPolygon(coordinates: coordinates, count: coordinates.count)
-        selectionOverlay = polygon
-        mapView.addOverlay(polygon)
+        overlay.set(start: start, end: end)
+        (mapView.renderer(for: overlay) as? BoundsSelectionRenderer)?.setNeedsDisplay()
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
@@ -964,9 +936,15 @@ extension MapController: MKMapViewDelegate {
 
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         applyPendingCenterIfPossible()
+        // This runs on every frame of a pan or rotation, and @Observable has
+        // no equality gate of its own: an unguarded set notifies observers of
+        // the property even when the value is unchanged. Guarded like every
+        // other per-frame write in this file.
         let heading = mapView.camera.heading
-        mapHeading = heading
-        events?(.headingChanged(heading))
+        if mapHeading != heading {
+            mapHeading = heading
+            events?(.headingChanged(heading))
+        }
 
         clampClosestZoom(mapView)
 
@@ -983,7 +961,12 @@ extension MapController: MKMapViewDelegate {
     /// asserting through MapKit's region clamping as well as through the
     /// reading.
     func recordZoomLevel(_ zoom: Int) {
-        hasReportedItsPosition = true
+        // Set only on the transition: this runs per frame of a pinch, and an
+        // unguarded @Observable write notifies observers even when the value
+        // is already true.
+        if !hasReportedItsPosition {
+            hasReportedItsPosition = true
+        }
         guard zoom != zoomLevel else { return }
         let wasOverview = zoomLevel <= ParcelMarkers.overviewMaxZoom
         let isOverview = zoom <= ParcelMarkers.overviewMaxZoom
@@ -1092,7 +1075,11 @@ extension MapController: MKMapViewDelegate {
         }
 
         if let userMap = overlay as? UserMapOverlay {
-            return UserMapOverlayRenderer(userMap: userMap)
+            let renderer = UserMapOverlayRenderer(userMap: userMap)
+            // Held weakly on the overlay so the alpha-only mutation can poke
+            // the live renderer instead of rebuilding the drape.
+            userMap.renderer = renderer
+            return renderer
         }
 
         if let draft = overlay as? VectorDraftPolyline {
@@ -1139,6 +1126,10 @@ extension MapController: MKMapViewDelegate {
             return renderer
         }
 
+        if let selection = overlay as? BoundsSelectionOverlay {
+            return BoundsSelectionRenderer(selection: selection)
+        }
+
         if let polygon = overlay as? MKPolygon {
             let renderer = MKPolygonRenderer(polygon: polygon)
             renderer.fillColor = UIColor.systemBlue.withAlphaComponent(0.15)
@@ -1175,31 +1166,14 @@ extension MapController: MKMapViewDelegate {
     /// tint over the whole lot is what you would have to see through.
     static func renderer(for parcel: ParcelPolygon) -> MKPolygonRenderer {
         let renderer = MKPolygonRenderer(polygon: parcel)
-        switch parcel.role {
-        case .selected:
-            renderer.strokeColor = UIColor(red: 0.624, green: 0.184, blue: 0.141, alpha: 1)
-            renderer.fillColor = .clear
-            renderer.lineWidth = 4
-        case .selectedHistorical:
-            renderer.strokeColor = UIColor(red: 0.286, green: 0.200, blue: 0.435, alpha: 1)
-            renderer.fillColor = .clear
-            renderer.lineWidth = 4
-        case .taxSale:
-            renderer.strokeColor = UIColor(red: 0.745, green: 0.302, blue: 0.235, alpha: 1)
-            renderer.fillColor = UIColor(red: 0.906, green: 0.659, blue: 0.420, alpha: 0.3)
-            renderer.lineWidth = 2
-        case .historicalTaxSale:
-            renderer.strokeColor = UIColor(red: 0.353, green: 0.263, blue: 0.522, alpha: 1)
-            renderer.fillColor = UIColor(red: 0.643, green: 0.580, blue: 0.800, alpha: 0.34)
-            renderer.lineWidth = 2.25
-            // Dashed on the web, and dashed here: on this map a dashed outline
-            // says the parcel is being drawn for a record rather than for a
-            // current offering, and drawing it solid would upgrade the claim.
-            renderer.lineDashPattern = [5, 3]
-        case .context:
-            renderer.strokeColor = UIColor(red: 0.039, green: 0.443, blue: 0.502, alpha: 1)
-            renderer.fillColor = UIColor(red: 0.933, green: 0.969, blue: 0.961, alpha: 0.08)
-            renderer.lineWidth = 1.25
+        // One table with the print compositor and the legend — see
+        // `ParcelRoleStyle` for why this styling must not be copied.
+        let style = ParcelRoleStyle.style(for: parcel.role)
+        renderer.strokeColor = style.stroke
+        renderer.fillColor = style.fill
+        renderer.lineWidth = style.width
+        if let dash = style.dash {
+            renderer.lineDashPattern = dash.map { NSNumber(value: $0) }
         }
         return renderer
     }
@@ -1333,20 +1307,7 @@ extension MapController: MKMapViewDelegate {
             return view
         }
 
-        guard annotation is MKPointAnnotation else { return nil }
-
-        let identifier = "POIAnnotation"
-        let view: MKMarkerAnnotationView
-        if let dequeued = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
-            dequeued.annotation = annotation
-            view = dequeued
-        } else {
-            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-        }
-        view.canShowCallout = true
-        view.markerTintColor = .systemRed
-        view.glyphImage = UIImage(systemName: "mappin")
-        return view
+        return nil
     }
 
     /// Reports a dragged vertex once, when the finger lifts.
@@ -1456,24 +1417,6 @@ extension MapController: @preconcurrency CLLocationManagerDelegate {
 
 nonisolated protocol MapKitAnnotationIdentifying: MKAnnotation {
     var mapAnnotationID: String { get }
-}
-
-/// `nonisolated`: MKPointAnnotation's designated `init()` is nonisolated, and an
-/// implicitly main-actor subclass may not change the isolation of an inherited
-/// initializer. The stored identifier is immutable, so any isolation may read it.
-nonisolated final class MapKitPointAnnotation: MKPointAnnotation, MapKitAnnotationIdentifying {
-    let mapAnnotationID: String
-
-    init(annotation: MapAnnotation) {
-        self.mapAnnotationID = annotation.id
-        super.init()
-        title = annotation.title
-        subtitle = annotation.subtitle
-        coordinate = CLLocationCoordinate2D(
-            latitude: annotation.latitude,
-            longitude: annotation.longitude
-        )
-    }
 }
 
 nonisolated private extension MKAnnotation {

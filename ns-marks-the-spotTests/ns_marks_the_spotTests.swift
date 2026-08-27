@@ -113,37 +113,6 @@ struct TileCacheTests {
     }
 }
 
-// MARK: - MapAnnotation
-
-struct MapAnnotationTests {
-    @Test func initialization() {
-        let annotation = MapAnnotation(
-            id: "test-1",
-            latitude: 44.6488,
-            longitude: -63.5752,
-            title: "Test POI",
-            subtitle: "waterfall"
-        )
-
-        #expect(annotation.id == "test-1")
-        #expect(annotation.coordinate.latitude == 44.6488)
-        #expect(annotation.coordinate.longitude == -63.5752)
-        #expect(annotation.title == "Test POI")
-        #expect(annotation.subtitle == "waterfall")
-    }
-
-    @Test func subtitleIsOptional() {
-        let annotation = MapAnnotation(
-            id: "no-sub",
-            latitude: 45.0,
-            longitude: -63.0,
-            title: "No Subtitle"
-        )
-
-        #expect(annotation.subtitle == nil)
-    }
-}
-
 // MARK: - TileLayerConfiguration
 
 struct TileLayerConfigurationTests {

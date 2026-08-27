@@ -42,6 +42,9 @@ final class UserVectorsViewModel {
 
     private let store: UserVectorStore
 
+    /// The one trailing visibility write per layer — see `setVisible`.
+    @ObservationIgnored private var visibilityWrites: [String: Task<Void, Never>] = [:]
+
     init(store: UserVectorStore = .shared) {
         self.store = store
     }
@@ -86,7 +89,20 @@ final class UserVectorsViewModel {
     func importFile(data: Data, filename: String, now: Date = Date()) async {
         lastRefusal = nil
         do {
-            let imported = try VectorImport.read(data, filename: filename)
+            // Detached: parsing a large GeoJSON or shapefile archive is CPU
+            // work that has no business on the main actor. Carried across the
+            // hop as a Result so the refusal keeps its type — the catch below
+            // reads `userMessage` off it, which an erased `any Error` loses.
+            let outcome = await Task.detached(
+                priority: .userInitiated
+            ) { () -> Result<VectorImport.Imported, UserMapImportRefusal> in
+                do throws(UserMapImportRefusal) {
+                    return .success(try VectorImport.read(data, filename: filename))
+                } catch {
+                    return .failure(error)
+                }
+            }.value
+            let imported = try outcome.get()
             // One id for the file, shared by every layer it holds: a zipped
             // shapefile archive can carry several, and the archive is one file.
             let originalFileID = UUID().uuidString
@@ -245,7 +261,18 @@ final class UserVectorsViewModel {
         rows[index].isVisible = isVisible
         // Remembered on disk, but not waited for: a switch that stalled on the
         // filesystem would be a switch that did not move.
-        Task { _ = try? await store.setVisible(isVisible, id: id) }
+        //
+        // One trailing write per layer, and the write reads the row's current
+        // value rather than capturing the delta: two unstructured tasks have
+        // no ordering between them, and the older one landing last would
+        // resurrect at next launch a layer the user had switched off.
+        visibilityWrites[id]?.cancel()
+        visibilityWrites[id] = Task { [weak self, store] in
+            guard !Task.isCancelled,
+                  let latest = self?.rows.first(where: { $0.id == id })?.isVisible
+            else { return }
+            _ = try? await store.setVisible(latest, id: id)
+        }
     }
 
     func rename(id: String, to name: String) async {

@@ -639,12 +639,17 @@ nonisolated enum ParcelEvidenceExport {
             let isMineral = source.layerID == .mineralOccurrences
 
             switch source.records {
-            case .failure:
+            case .failure(let failure):
+                // The reason travels into the dated document, as every sibling
+                // source's does: a licence-blocked source and an unreachable
+                // one are different findings, and the generic fallback said
+                // neither.
                 return EvidenceNoteInput.Result(
                     name: name,
                     sourceURL: sourceURL,
                     status: .error,
                     results: [],
+                    errorMessage: ParcelEvidenceWording.sentence(for: failure),
                     attribution: credit,
                     licenceURL: licence,
                     sourceDate: descriptor?.sourceDate

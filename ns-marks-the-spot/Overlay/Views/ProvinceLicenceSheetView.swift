@@ -10,6 +10,52 @@ import SwiftUI
 /// The full text ships in the bundle rather than behind a link, because the one
 /// place a user is most likely to want to read it is standing in a field with
 /// no signal.
+/// A bundled licence, read-only.
+///
+/// The attribution strip and the info sheet link every licence they name; a
+/// licence that ships in the bundle resolves to a file URL, and handing that to
+/// `Link` renders a control that silently does nothing on iOS. This is the
+/// in-app page such a link opens instead — the text a reader is owed, readable
+/// in the same field-with-no-signal case the bundled copy exists for.
+/// A bundled licence a view is presenting, `Identifiable` for `sheet(item:)`.
+struct PresentedBundledLicence: Identifiable {
+    let title: String
+    let url: URL
+    var id: String { url.absoluteString }
+}
+
+struct BundledLicenceReaderView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    let title: String
+    let fileURL: URL
+
+    private var licenceText: String? {
+        try? String(contentsOf: fileURL, encoding: .utf8)
+    }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                Text(licenceText
+                    ?? "The licence text could not be loaded from this build.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(20)
+            }
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+    }
+}
+
 struct ProvinceLicenceSheetView: View {
     @Environment(\.dismiss) private var dismiss
 
@@ -17,12 +63,16 @@ struct ProvinceLicenceSheetView: View {
     let onAccept: () -> Void
     let onDecline: () -> Void
 
-    private var licenceText: String? {
+    /// Loaded once per presentation rather than computed in `body`: under
+    /// main-actor-default isolation a computed property here is synchronous
+    /// disk IO in the render path, and `body` read it twice per evaluation —
+    /// once for the text, once for the Accept button's disabled state.
+    private let licenceText: String? = {
         guard let url = Bundle(for: LayerResourceBundleToken.self)
             .url(forResource: "ProvinceRestrictedGeographicServicesLicense.md", withExtension: nil)
         else { return nil }
         return try? String(contentsOf: url, encoding: .utf8)
-    }
+    }()
 
     var body: some View {
         NavigationStack {

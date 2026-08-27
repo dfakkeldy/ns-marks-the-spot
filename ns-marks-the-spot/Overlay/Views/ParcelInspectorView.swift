@@ -913,8 +913,8 @@ struct ParcelInspectorView: View {
                 .font(.footnote.weight(.semibold))
 
             switch source.records {
-            case .failure:
-                status("Source unavailable; no absence is inferred.")
+            case .failure(let failure):
+                status(ParcelEvidenceWording.sentence(for: failure))
             case .success(let records) where records.isEmpty:
                 status(
                     source.layerID == .mineralOccurrences

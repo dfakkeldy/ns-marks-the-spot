@@ -288,6 +288,25 @@ nonisolated enum ParcelLookupMessage {
     /// Used for the river half and for each coastal scenario, so the wording
     /// names neither: what the reader needs is that this source did not answer,
     /// and the section says which source it was.
+    /// One sentence per way a geology or resource source can fail, so the
+    /// panel and the exported note keep licence-blocked, source-error, and
+    /// unreadable answers distinct instead of collapsing them into one
+    /// "unavailable".
+    static func resourceEvidenceFailure(_ failure: ResourceIntersectionFailure) -> String {
+        switch failure {
+        case .cancelled:
+            return "Resource lookup was replaced."
+        case .refused(.licenceNotAccepted):
+            return "Accept the Province data licence to check this source."
+        case .refused(.noServiceURL), .refused(.malformedURL):
+            return "This source is misconfigured in this build."
+        case .unreadable:
+            return "This source answered in a form this build could not read."
+        case .unreachable, .invalidHTTPStatus:
+            return "This source is unavailable right now."
+        }
+    }
+
     static func floodEvidenceFailure(_ failure: FloodHazardFailure) -> String {
         switch failure {
         case .cancelled:

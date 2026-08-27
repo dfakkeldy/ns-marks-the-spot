@@ -9,7 +9,12 @@ import ImageIO
 /// decoded, how big the preview may be, what the user is told when the answer
 /// is no — are all `UserMapImport` in GeoCore, where they are tested without a
 /// device. What is here is Image I/O: the part that has to touch the file.
-enum UserMapImporter {
+/// `nonisolated`: the decode below can materialise a whole pixel grid for a
+/// raster with no small-enough overview — hundreds of MB and whole seconds for
+/// a provincial sheet — and under MainActor-default isolation an unmarked enum
+/// pinned all of it to the main thread. The importer takes `Data` and returns
+/// values; nothing here touches shared state.
+nonisolated enum UserMapImporter {
     /// A file, read and placed as far as it can be.
     struct Imported {
         var record: UserMapRecord

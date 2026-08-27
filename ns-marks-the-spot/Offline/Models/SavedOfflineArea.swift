@@ -3,12 +3,10 @@ import Foundation
 nonisolated enum SavedOfflineAreaState: String, Codable, Equatable, Sendable {
     case draft
     case estimating
-    case queued
     case downloading
     case complete
     case partial
     case failed
-    case deleted
 }
 
 nonisolated struct SavedOfflineArea: Identifiable, Codable, Equatable, Sendable {

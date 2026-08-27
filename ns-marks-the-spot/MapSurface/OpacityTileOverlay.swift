@@ -335,6 +335,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
 
         var stacked: [Data] = []
         var isWhole = true
+        var sawRefusal = false
         for sheet in covering {
             guard let template = FletcherTileURL.tileTemplate(
                 sheet: sheet.sheet, baseURL: baseURL
@@ -365,14 +366,28 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
                     return (nil, .cancelled)
                 }
                 // A sheet with no ink here answers 404, and that is a complete
-                // answer: the composite is whole without it. Only a sheet we
+                // answer: the composite is whole without it. A 403 is held as
+                // provisional — a missing object-store key answers that way,
+                // but so does a banned or misconfigured host. Only a sheet we
                 // could not reach leaves the tile unfinished, and the
                 // consequence of getting that wrong is a half-drawn seam frozen
                 // into the cache.
-                if !TileFetcherError.meansNoTileExists(error) {
+                if TileFetcherError.meansNoTileExists(error) {
+                    continue
+                } else if TileFetcherError.meansAccessRefused(error) {
+                    sawRefusal = true
+                } else {
                     isWhole = false
                 }
             }
+        }
+
+        // A refusal reads as a missing key only when a sibling sheet in this
+        // same pass answered with bytes; a host refusing everything has told
+        // us nothing about ink, and caching blanks under it would freeze the
+        // episode into the cache.
+        if sawRefusal, stacked.isEmpty {
+            isWhole = false
         }
 
         // `isWhole` is the outcome: a sheet that answered 404 has told us there
@@ -447,16 +462,13 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
             return generatePlaceholderTile(z: z, x: x, y: y)
         }
 
-        return transparentTile()
-    }
-
-    private static func transparentTile() -> Data? {
-        let size = CGSize(width: 256, height: 256)
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1
-
-        let renderer = UIGraphicsImageRenderer(size: size, format: format)
-        return renderer.pngData { _ in }
+        // The one definition of a blank tile, shared with the offline
+        // downloader. Every square outside sheet coverage takes this path on
+        // MapKit's tile queues — rendering and PNG-encoding byte-identical
+        // output there was pure churn, and a second blank encoding would also
+        // break `substance(ofSaved:)`, which recognises blanks by comparing
+        // against this exact constant.
+        return TileComposite.transparent
     }
 
     private static func generatePlaceholderTile(z: Int, x: Int, y: Int) -> Data? {

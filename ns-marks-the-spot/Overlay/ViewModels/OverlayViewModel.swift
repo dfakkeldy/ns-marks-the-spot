@@ -485,6 +485,10 @@ final class OverlayViewModel {
     private func identifyParcel(
         latitude: Double, longitude: Double, at address: String?, focus: Bool
     ) {
+        // A tap on the map or a chosen address is the reader's own deliberate
+        // movement; any held link or session extent is over.
+        isHoldingLinkPosition = false
+        wantsFreshInspection = true
         addressResults = []
         cancelAddressLookup()
         parcelMessage = address.map(ParcelLookupMessage.searching(for:))
@@ -541,6 +545,10 @@ final class OverlayViewModel {
         cancelAddressLookup()
         addressResults = []
         parcelMessage = nil
+        // Typing may have just cancelled a link's or a session's restore
+        // lookup. Its hold on the extent dies with it — left standing, it
+        // would swallow the focus of the next parcel the reader opens.
+        isHoldingLinkPosition = false
     }
 
     func submitSearch() {
@@ -586,7 +594,13 @@ final class OverlayViewModel {
         }
     }
 
-    private func searchPID(_ pid: String) {
+    private func searchPID(_ pid: String, holdingRestoredPosition: Bool = false) {
+        // Stated at every entry rather than inherited: a lookup either carries
+        // a link's or a session's held extent, or it is the reader's own and
+        // must be free to focus. Inheriting whatever a cancelled restore left
+        // behind is what once kept a selection from ever coming on screen.
+        isHoldingLinkPosition = holdingRestoredPosition
+        wantsFreshInspection = true
         addressResults = []
         cancelAddressLookup()
 
@@ -616,7 +630,12 @@ final class OverlayViewModel {
                 // show, and the notice is what the user came for. Selecting it
                 // opens that card; the message says the geometry, not the
                 // listing, is what is missing.
-                if showsTaxSale, taxSale?.listingContext(forPID: pid) != nil {
+                //
+                // Gated on the mode the same way the inspection is: historical
+                // mode promises dated outcomes and never current offerings, so
+                // a sentence about a live notice must not print there.
+                if showsTaxSale, mapRecordMode == .current,
+                   taxSale?.listingContext(forPID: pid) != nil {
                     parcels.select(pid)
                     publishParcels(focus: false)
                     setSearchText(pid)
@@ -742,6 +761,9 @@ final class OverlayViewModel {
         addressResults = []
         setSearchText("")
         parcels.select(nil)
+        // The cancel above may have interrupted a restore lookup; its hold on
+        // the extent must not outlive it.
+        isHoldingLinkPosition = false
         publishParcels(focus: false)
         parcelMessage = nil
     }
@@ -996,7 +1018,8 @@ final class OverlayViewModel {
             // should not throw the reader's view across the province.
             hasFramedListedParcels = true
         }
-        refreshInspection()
+        // publishParcels ends in refreshInspection; calling it here as well
+        // rebuilt the same inspection twice back to back.
         publishParcels(focus: false)
     }
 
@@ -1234,9 +1257,22 @@ final class OverlayViewModel {
     /// something else and the selection being cleared.
     @ObservationIgnored private var restoringPID: String?
 
-    /// Set while a link's own parcel lookup is in flight, so the parcel does not
-    /// reframe a map the link already positioned.
-    private var isHoldingLinkPosition = false
+    /// Set by every explicit selection — a search, a tap, a notice row — so
+    /// the next `refreshInspection` rebuilds the evidence in full even when
+    /// the parcel is the one already open. Asking about the same parcel again
+    /// is the reader asking again: the sources are re-asked and the
+    /// sources-have-had-their-time wait starts over, exactly as the browser
+    /// starts it. Without this, the unchanged-inputs fast path below would
+    /// read a deliberate re-ask as a styling refresh.
+    @ObservationIgnored private var wantsFreshInspection = false
+
+    /// Set while a link's or a restored session's own parcel lookup is in
+    /// flight, so the parcel does not reframe a map the restore already
+    /// positioned. Every other way a lookup starts states it false — a stale
+    /// hold surviving a cancelled restore once swallowed the focus of the next
+    /// parcel the reader opened themselves. Readable (not writable) by tests,
+    /// which pin exactly that invariant.
+    @ObservationIgnored private(set) var isHoldingLinkPosition = false
     /// Whether the opening fit to the advertised parcels has already happened.
     /// Once only: refitting after the user has moved would take the map away
     /// from wherever they went.
@@ -1815,10 +1851,13 @@ final class OverlayViewModel {
             }
             return
         }
-        // The view said where it was looking. Opening the parcel would otherwise
-        // frame the parcel instead, throwing away the extent that was chosen.
-        isHoldingLinkPosition = true
-        searchParcel(pid)
+        // The view said where it was looking. Opening the parcel would
+        // otherwise frame the parcel instead, throwing away the extent that
+        // was chosen. The hold travels with the lookup itself: every other
+        // way a lookup starts states the opposite, so a restore lookup that
+        // is cancelled or replaced cannot leave the hold standing to swallow
+        // the next parcel the reader opens themselves.
+        searchPID(pid, holdingRestoredPosition: true)
         // After the search, which clears it: this is the parcel a session
         // written before the Province answers should still name.
         restoringPID = pid
@@ -2319,10 +2358,10 @@ final class OverlayViewModel {
     }
 
     private func refreshInspection() {
-        inspectionLookup?.cancel()
-        inspectionLookup = nil
-
         guard let pid = parcels.selectedPID else {
+            wantsFreshInspection = false
+            inspectionLookup?.cancel()
+            inspectionLookup = nil
             endInspection()
             return
         }
@@ -2343,6 +2382,35 @@ final class OverlayViewModel {
         let modeMarker = mapRecordMode == .historical
             ? historical?.mode.markerLabel
             : nil
+
+        // A styling refresh for the parcel already open: same PID, same
+        // account, same geometry, and no explicit re-ask pending. Only the
+        // synchronous fields can have changed, and recomputing just those
+        // keeps a notice switch or a redemption filter from cancelling six
+        // in-flight service lookups, resetting the whole card to "looking",
+        // and — because the export clock is keyed on `evidenceGeneration` —
+        // restarting the sources-have-had-their-time wait the reader may be
+        // sitting out.
+        if !wantsFreshInspection,
+           var current = inspection,
+           current.pid == pid,
+           current.taxSaleNotice?.listing.aan == noticeAAN,
+           current.boundaryNotice == parcels.boundaryNotice,
+           current.mappedArea == ParcelResponse.mappedArea(
+               forPID: pid,
+               in: ParcelFeatureCollection(identifiedFeatures: parcels.selectedFeatures)
+           ) {
+            current.showsTaxSale = showsTaxSale
+            current.taxSaleNotice = notice
+            current.historicalRecords = records
+            current.recordModeMarker = modeMarker
+            inspection = current
+            return
+        }
+
+        wantsFreshInspection = false
+        inspectionLookup?.cancel()
+        inspectionLookup = nil
 
         guard !parcels.selectedFeatures.isEmpty else {
             // No parcel record, so every source that takes the parcel's rings
@@ -2909,6 +2977,14 @@ final class OverlayViewModel {
         // for the licence to be accepted again. Rewritten rather than cleared,
         // because where the reader was standing is theirs.
         rememberSession()
+
+        // Restricted tiles were fetched through `URLSession.shared`, whose
+        // default URLCache keeps cacheable HTTP responses on disk outside
+        // TileCache's sweep. The revocation's promise is about bytes already
+        // held, so those copies go too; everything else in that cache is
+        // re-fetchable map data, and a revocation is rare enough that dropping
+        // it wholesale is the honest trade.
+        URLCache.shared.removeAllCachedResponses()
 
         guard let tileCache else { return }
         var unswept: [String] = []

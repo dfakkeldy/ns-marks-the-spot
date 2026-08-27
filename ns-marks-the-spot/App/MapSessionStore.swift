@@ -101,11 +101,6 @@ struct MapSessionStore {
         }
     }
 
-    func clear() {
-        defaults.removeObject(forKey: Self.key)
-        defaults.removeObject(forKey: Self.backgroundKey)
-        defaults.removeObject(forKey: Self.legacyBackgroundKey)
-    }
 }
 
 /// A view worth reopening: everything a shared link carries, and the one thing

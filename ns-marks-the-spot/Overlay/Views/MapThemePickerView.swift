@@ -55,7 +55,11 @@ struct MapThemePickerView: View {
             }
             .pickerStyle(.menu)
             .labelsHidden()
-            .lineLimit(1)
+            // Two lines and room to take them, rather than one line clipped:
+            // at accessibility type sizes the menu's own label wrapped and cut
+            // its descenders off mid-glyph.
+            .lineLimit(2)
+            .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityIdentifier("map-theme-picker")
 

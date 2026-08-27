@@ -558,7 +558,8 @@ private struct LayerRowView: View {
                         }
                     ))
                     .labelsHidden()
-                    .toggleStyle(SwitchToggleStyle(tint: .blue))
+                    .toggleStyle(.switch)
+                    .tint(.blue)
                     .fixedSize()
                     .disabled(!row.isAvailable)
                     .accessibilityLabel("\(row.name) visibility")

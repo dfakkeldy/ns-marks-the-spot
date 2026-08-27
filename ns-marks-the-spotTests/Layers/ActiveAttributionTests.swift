@@ -27,13 +27,18 @@ struct ActiveAttributionTests {
         let provincial = LayerCatalog.all.filter { $0.licence == .provinceRestricted }
         #expect(provincial.count > 1)
         let credits = ActiveAttribution.credits(for: provincial)
-        #expect(credits.count == 1)
-        #expect(credits[0].provider == "Province of Nova Scotia")
-        #expect(
-            credits[0].disclaimer.hasPrefix(
+        // Two, not one: NS Aerial carries the Service Nova Scotia copyright
+        // its imagery requires, and a credit's identity now includes the
+        // copyright and the licence — folding it into the plain Province
+        // credit dropped the line the aerial credit exists to carry.
+        #expect(credits.count == 2)
+        #expect(credits.allSatisfy { $0.provider == "Province of Nova Scotia" })
+        #expect(credits.contains { $0.copyright == "Service Nova Scotia" })
+        #expect(credits.allSatisfy {
+            $0.disclaimer.hasPrefix(
                 "Contains information obtained under license from the Province"
             )
-        )
+        })
     }
 
     /// A layer derived from provincial geometry is not the same source as the
@@ -43,7 +48,9 @@ struct ActiveAttributionTests {
     func aDerivedLayerIsItsOwnCredit() {
         let restricted = LayerCatalog.all.filter(\.requiresProvinceClearance)
         let credits = ActiveAttribution.credits(for: restricted)
-        #expect(credits.count == 2)
+        // Province, the aerial credit with its own copyright line, and the
+        // derived layer: three distinct credits.
+        #expect(credits.count == 3)
         #expect(credits.contains { $0.provider.hasPrefix("Derived from") })
     }
 

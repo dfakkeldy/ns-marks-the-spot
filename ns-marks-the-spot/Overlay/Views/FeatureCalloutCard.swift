@@ -95,8 +95,3 @@ struct FeatureCalloutCard: View {
     }
 }
 
-/// A tapped catalogue feature, identified so an `.overlay` can present it.
-struct FeatureCalloutItem: Identifiable, Equatable {
-    let id: String
-    let callout: FeatureCallout
-}

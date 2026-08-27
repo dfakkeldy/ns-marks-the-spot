@@ -48,6 +48,11 @@ nonisolated struct PrintMapCompositorTests {
 
     private static let pixel: Data = tile(.red)
 
+    /// A whole-frame render in one colour, at the seam's decoded type.
+    private static func renderImage(_ colour: UIColor) -> CGImage {
+        UIImage(data: tile(colour))!.cgImage!
+    }
+
     private static func blankBaseMap(
         _ bounds: GeoBoundingBox, _ widthPx: Int, _ heightPx: Int, _ base: MapBaseType
     ) async throws -> UIImage {
@@ -474,7 +479,7 @@ nonisolated struct PrintMapCompositorTests {
                 _ = renders.take()
                 #expect(widthPx == 600)
                 #expect(heightPx == 400)
-                return Self.tile(.green)
+                return Self.renderImage(.green)
             }
         ) { _, _ in
             _ = tiles.take()

@@ -28,7 +28,19 @@ nonisolated enum ActiveAttribution {
         var licenseTitle: String?
         var licenseURL: URL?
 
-        var id: String { provider + disclaimer }
+        /// Identity is everything the strip *says*: provider, copyright,
+        /// caveat and licence title. The licence must be part of it — the
+        /// Province publishes layers under both a restricted licence and the
+        /// Open Government Licence with the same provider name and disclaimer,
+        /// and folding those into one credit showed whichever licence happened
+        /// to come first for imagery drawn under the other. The URL is
+        /// deliberately not identity: two layers naming the same licence title
+        /// carry the same licence text on different hosts, and splitting the
+        /// strip per host would print the same credit twice.
+        var id: String {
+            [provider, copyright ?? "", disclaimer, licenseTitle ?? ""]
+                .joined(separator: "\u{1F}")
+        }
     }
 
     /// The credit the OpenStreetMap tile policy requires wherever its map is
@@ -61,10 +73,12 @@ nonisolated enum ActiveAttribution {
     /// call `credits(for:baseMap:)` above, or its required credit is silently
     /// dropped.
     ///
-    /// Distinct by provider and caveat together, in the order the layers were
-    /// given: eleven provincial layers are one credit, and a municipal source
-    /// that states no terms stays its own entry rather than being folded into
-    /// the licensed ones.
+    /// Distinct by the whole credit — provider, copyright, caveat and licence
+    /// together, in the order the layers were given: provincial layers under
+    /// one licence are one credit, but restricted and Open Government layers
+    /// stay separate entries even though both say "Province of Nova Scotia",
+    /// because a licence line that names the wrong terms is worse than a
+    /// longer strip.
     static func credits(for descriptors: [LayerDescriptor]) -> [Credit] {
         var seen = Set<String>()
         var credits: [Credit] = []
