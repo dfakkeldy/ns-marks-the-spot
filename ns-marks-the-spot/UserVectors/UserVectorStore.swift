@@ -88,6 +88,19 @@ actor UserVectorStore {
         return library
     }
 
+    /// Just the format number, read on its own before anything else — the
+    /// hardening `UserMapStore` gained, ported so the twin stores agree.
+    ///
+    /// A newer build is free to change what a record looks like, and then this
+    /// build's decode of the whole document fails on the records rather than
+    /// on the version. Read in that order the two cases are indistinguishable,
+    /// and they call for opposite things: a later version's document must be
+    /// left exactly as it is, while a damaged one must not lock the user out
+    /// for good. The version is the one field that is promised never to move.
+    private struct LibraryStamp: Decodable {
+        var version: Int
+    }
+
     /// Reads without sweeping. Every mutation starts here, so what it writes
     /// back is the document as it actually is rather than as its caller last
     /// saw it.
@@ -96,14 +109,21 @@ actor UserVectorStore {
             return UserVectorLibrary(layers: [])
         }
         let data = try Data(contentsOf: libraryURL)
+        guard let stamp = try? decoder.decode(LibraryStamp.self, from: data) else {
+            throw StoreRefusal.unreadable
+        }
+        // Below the first version is not a document from the future, it is a
+        // document with a nonsense version in it. Reading the two the same way
+        // would seal the library for good over what is only damage.
+        guard stamp.version >= 1 else { throw StoreRefusal.unreadable }
+        guard stamp.version <= UserVectorLibrary.currentVersion else {
+            throw StoreRefusal.fromALaterVersion(stamp.version)
+        }
         let library: UserVectorLibrary
         do {
             library = try decoder.decode(UserVectorLibrary.self, from: data)
         } catch {
             throw StoreRefusal.unreadable
-        }
-        guard library.isReadable else {
-            throw StoreRefusal.fromALaterVersion(library.version)
         }
         return library
     }

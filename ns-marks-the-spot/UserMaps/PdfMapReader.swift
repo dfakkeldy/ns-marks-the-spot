@@ -10,7 +10,9 @@ import GeoCore
 /// without a file; what is here is the part that has to touch one — walking
 /// CGPDF's object graph into the value model, and turning a page of vectors
 /// into pixels a control point can be recorded against.
-enum PdfMapReader {
+/// `nonisolated` for the same reason `UserMapImporter` is: rendering a page
+/// into pixels is CPU work that must be free to run off the main actor.
+nonisolated enum PdfMapReader {
     /// A page, drawn, and what it said about where it sits.
     struct Read {
         var image: CGImage

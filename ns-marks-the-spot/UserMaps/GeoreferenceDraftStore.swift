@@ -14,7 +14,13 @@ import GeoCore
 /// The file is the points file, not a private encoding. A draft that outlives
 /// the build that wrote it is still readable by the importer, and by the
 /// browser, and by the Python tooling.
-struct GeoreferenceDraftStore {
+/// `nonisolated` and `@unchecked Sendable` so its file IO can run off the main
+/// actor: under the project's MainActor-default isolation an unmarked struct's
+/// methods are main-actor-isolated, which put a directory create and an atomic
+/// write on the main thread at every control-point placement, drag-end and
+/// undo. The state is two immutable `let`s, and `FileManager` is documented
+/// thread-safe for the operations used here.
+nonisolated struct GeoreferenceDraftStore: @unchecked Sendable {
     /// A draft as found on disk, with the moment it was written.
     struct Draft {
         var controls: [SessionControlPoint]

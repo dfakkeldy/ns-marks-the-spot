@@ -48,6 +48,8 @@ struct GeoreferenceView: View {
     @State private var draftOpacity: Double = 0.7
     @State private var sort = GcpListPresentation.Sort(key: .index)
     @State private var showsPointsImporter = false
+    /// The trailing draft write — see `saveDraft`.
+    @State private var draftWrite: Task<Void, Never>?
     /// Which official layers are drawn under the scan. Off to start, like the
     /// browser: a sheet opened over imagery it was not meant to be compared
     /// against costs a wait for tiles and hides the base map's labels.
@@ -298,15 +300,31 @@ struct GeoreferenceView: View {
     /// Skipped mid-drag because a drag reports every frame, and a file written
     /// sixty times a second buys nothing over the one written when the finger
     /// lifts.
+    ///
+    /// The write itself runs off the main actor: it lands exactly at
+    /// interaction boundaries — a placement, a drag end, an undo — where a
+    /// slow disk would be felt as touch latency. Chained on the previous write
+    /// so snapshots land in the order they were taken; an older snapshot
+    /// landing last would persist a draft missing the newest point.
     private func saveDraft() {
         guard !session.isDragging else { return }
-        drafts.write(
-            identifier: identifier,
-            name: name,
+        let snapshot = (
             controls: session.controlPoints,
             checks: session.checks,
-            checkLabels: checkLabels
+            labels: checkLabels
         )
+        draftWrite = Task.detached(
+            priority: .utility
+        ) { [drafts, identifier, name, previous = draftWrite] in
+            _ = await previous?.value
+            drafts.write(
+                identifier: identifier,
+                name: name,
+                controls: snapshot.controls,
+                checks: snapshot.checks,
+                checkLabels: snapshot.labels
+            )
+        }
     }
 
     /// Puts the draft on the sheet. One undo takes it back off again, because

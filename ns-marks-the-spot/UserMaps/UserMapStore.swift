@@ -16,6 +16,15 @@ import UniformTypeIdentifiers
 /// their research — neither is uploaded, and no part of this store has a
 /// network path.
 actor UserMapStore {
+    /// The one store this process uses.
+    ///
+    /// Shared for the same reason `UserVectorStore.shared` is: the actor's
+    /// serialization is only worth anything if every writer goes through the
+    /// same actor. Two scenes on an iPad, each with its own store, would do
+    /// whole-document read-modify-write over the same `library.json` and drop
+    /// each other's records last-writer-wins.
+    static let shared = UserMapStore()
+
     /// Why the library could not be read or written.
     enum StoreRefusal: Error, Equatable {
         /// A document written by a newer build. Refused rather than read, and

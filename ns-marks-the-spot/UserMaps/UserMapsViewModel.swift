@@ -103,7 +103,7 @@ final class UserMapsViewModel {
     private let drafts: GeoreferenceDraftStore
 
     init(
-        store: UserMapStore = UserMapStore(),
+        store: UserMapStore = .shared,
         display: UserMapDisplayStore = UserMapDisplayStore(),
         drafts: GeoreferenceDraftStore = GeoreferenceDraftStore()
     ) {
@@ -221,7 +221,14 @@ final class UserMapsViewModel {
         // left behind by an app killed between deleting its last map and
         // discarding its draft, which fails towards keeping the user's work.
         if mark == writes, !records.isEmpty {
-            drafts.sweepOrphans(keeping: Set(records.map(\.id)))
+            // Detached: the sweep is a directory enumeration plus removes on
+            // the launch path, and nothing below reads its result. The store
+            // is nonisolated for exactly this.
+            let drafts = drafts
+            let kept = Set(records.map(\.id))
+            Task.detached(priority: .utility) {
+                drafts.sweepOrphans(keeping: kept)
+            }
         }
         // Pixels with no record left to belong to. An import whose library
         // write was refused has already written its preview, and a crash
@@ -231,9 +238,18 @@ final class UserMapsViewModel {
         // sweeping against the empty list a failed load leaves would take every
         // preview on the device with it.
         try? await store.sweepOrphanedPreviews()
+        // Collected first, assigned in one pass with no suspension between
+        // assignments: each preview assignment republishes the drapes, and
+        // interleaving them with the per-record reads made MapKit rebuild and
+        // re-warp every placed scan once per preview that arrived.
+        var previews: [String: CGImage] = [:]
         for record in records {
-            let preview = try? await store.preview(id: record.id)
-            guard let index = rows.firstIndex(where: { $0.id == record.id }) else { continue }
+            if let preview = try? await store.preview(id: record.id) {
+                previews[record.id] = preview
+            }
+        }
+        for (id, preview) in previews {
+            guard let index = rows.firstIndex(where: { $0.id == id }) else { continue }
             rows[index].preview = preview
         }
     }
@@ -268,7 +284,13 @@ final class UserMapsViewModel {
         guard !isLibrarySealed else { return refuseWhileSealed(name: named) }
         let id = UUID().uuidString
         do {
-            let imported = try UserMapImporter.import(data: data, id: id, name: name)
+            // Detached: decoding a 4096 px thumbnail out of a possibly
+            // hundreds-of-MB GeoTIFF, or rendering a PDF page, is seconds of
+            // CPU, and `UserFileImport` already went off-main to read the
+            // bytes — decoding them on the main actor gave that back.
+            let imported = try await Task.detached(priority: .userInitiated) {
+                try UserMapImporter.import(data: data, id: id, name: name)
+            }.value
             // Counted from here, not from the library write below. The preview
             // lands on disk first, and until the record naming it lands too
             // there is a file no document claims — which is exactly what the
@@ -398,6 +420,18 @@ final class UserMapsViewModel {
                 Notice(
                     id: id, name: named, message: refusal.userMessage, isRefusal: true
                 )
+            )
+        } catch is UserMapStore.StoreRefusal {
+            // The library, not the device: a document from a later build, or
+            // one that is not a library at all. "Free some space" would send
+            // the user retrying a write no amount of space will fix — and
+            // every retry re-decodes the file and writes another preview. The
+            // panel seals, exactly as `load()` seals it, and the sealed
+            // message names what actually stands in the way. The row was
+            // already removed where the refusal was first caught.
+            isLibrarySealed = true
+            notices.append(
+                Notice(id: id, name: named, message: sealedMessage, isRefusal: true)
             )
         } catch {
             // Writing failed rather than reading: the file was fine and the
@@ -646,9 +680,36 @@ final class UserMapsViewModel {
     func delete(id: String) async {
         guard !isLibrarySealed else { return }
         writes += 1
-        guard let remaining = try? await store.delete(
-            id: id, from: rows.map(\.record)
-        ) else { return }
+        let named = rows.first(where: { $0.id == id })?.record.name ?? "This map"
+        let remaining: [UserMapRecord]
+        do {
+            remaining = try await store.delete(id: id, from: rows.map(\.record))
+        } catch is UserMapStore.StoreRefusal {
+            // The same sealing every other write path performs: a library this
+            // build must not write to refuses deletes too, and the panel has
+            // to say so rather than leave a Delete button that does nothing.
+            isLibrarySealed = true
+            notices.append(
+                Notice(id: id, name: named, message: sealedMessage, isRefusal: true)
+            )
+            return
+        } catch {
+            // A failed delete looks identical to an unresponsive button
+            // without this. The file's own principle — an import that failed
+            // silently reads as a file that vanished — applies symmetrically.
+            notices.append(
+                Notice(
+                    id: id,
+                    name: named,
+                    message: """
+                        This map could not be deleted from your library. \
+                        Nothing was changed; try again.
+                        """,
+                    isRefusal: true
+                )
+            )
+            return
+        }
         let kept = Set(remaining.map(\.id))
         rows.removeAll { !kept.contains($0.id) }
         saved = remaining
