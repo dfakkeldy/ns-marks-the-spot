@@ -28,6 +28,28 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CC5603112FBB70BC00918D5A"
+               BuildableName = "ns-marks-the-spotTests.xctest"
+               BlueprintName = "ns-marks-the-spotTests"
+               ReferencedContainer = "container:ns-marks-the-spot.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CC56031B2FBB70BC00918D5A"
+               BuildableName = "ns-marks-the-spotUITests.xctest"
+               BlueprintName = "ns-marks-the-spotUITests"
+               ReferencedContainer = "container:ns-marks-the-spot.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
