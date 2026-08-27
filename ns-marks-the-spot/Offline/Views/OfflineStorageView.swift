@@ -56,11 +56,6 @@ struct OfflineStorageView: View {
                                         Text(layer.displayName)
                                             .font(.headline)
 
-                                        if let rawKey = layer.rawKey {
-                                            Text(rawKey)
-                                                .font(.caption)
-                                                .foregroundStyle(.secondary)
-                                        }
                                     }
 
                                     Spacer()
@@ -76,6 +71,10 @@ struct OfflineStorageView: View {
                                     Label("Delete Layer Cache", systemImage: "trash")
                                 }
                                 .buttonStyle(.borderless)
+                                // The borderless style tinted the glyph blue
+                                // beside the destructive red title; one colour
+                                // for one action.
+                                .tint(.red)
                                 .disabled(viewModel.isStorageOperationInProgress)
                             }
                             .padding(.vertical, 4)
@@ -227,8 +226,17 @@ struct OfflineStorageView: View {
         }
     }
 
+    private static let byteFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        // "0 KB", not "Zero KB": the row beside it counts failed areas with a
+        // plain numeral, and two formats for the same idea read as two ideas.
+        formatter.allowsNonnumericFormatting = false
+        return formatter
+    }()
+
     private func formattedBytes(_ bytes: Int) -> String {
-        ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
+        Self.byteFormatter.string(fromByteCount: Int64(bytes))
     }
 
     private func stateLabel(for state: SavedOfflineAreaState) -> String {

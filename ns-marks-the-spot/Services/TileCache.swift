@@ -20,6 +20,12 @@ nonisolated private final class TileCacheKeyIndex: @unchecked Sendable {
         lock.unlock()
     }
 
+    func remove(_ key: String, for layerName: String) {
+        lock.lock()
+        keysByLayer[layerName]?.remove(key)
+        lock.unlock()
+    }
+
     func removeLayer(_ layerName: String) -> [String] {
         lock.lock()
         defer { lock.unlock() }
@@ -64,6 +70,10 @@ nonisolated final class TileCache: @unchecked Sendable {
     }
 
     private static let defaultMaxDiskBytes = 256 * 1024 * 1024
+    /// The in-memory hot set. Without a cost limit NSCache holds every inserted
+    /// tile until system memory pressure, which on a long panning session is an
+    /// unbounded set of NSData.
+    private static let defaultMaxMemoryBytes = 48 * 1024 * 1024
 
     private let memoryCache = NSCache<NSString, NSData>()
     private let diskQueue = DispatchQueue(label: "dev.dfakkeldy.ns-marks-the-spot.tilecache")
@@ -73,12 +83,18 @@ nonisolated final class TileCache: @unchecked Sendable {
     private let stateLock = NSLock()
     private let writeGeneration = TileStoreWriteGeneration()
     private let keyIndex = TileCacheKeyIndex()
+    /// Running total of bytes under `diskRoot`, maintained and read only on
+    /// `diskQueue`. `nil` means unseeded (startup, or after a clear) — the next
+    /// write seeds it with one enumeration, and after that the per-write cost
+    /// is a stat of the replaced file rather than a walk of the whole tree.
+    private var diskBytesTotal: Int?
 
     init(
         diskRoot: URL? = nil,
         maxDiskBytes: Int? = TileCache.defaultMaxDiskBytes
     ) {
         self.maxDiskBytes = maxDiskBytes
+        memoryCache.totalCostLimit = Self.defaultMaxMemoryBytes
         if let diskRoot {
             self.diskRoot = diskRoot
         } else {
@@ -115,7 +131,7 @@ nonisolated final class TileCache: @unchecked Sendable {
         }
 
         keyIndex.insert(key, for: layerName)
-        memoryCache.setObject(diskData as NSData, forKey: key as NSString)
+        memoryCache.setObject(diskData as NSData, forKey: key as NSString, cost: diskData.count)
         return diskData
     }
 
@@ -133,7 +149,7 @@ nonisolated final class TileCache: @unchecked Sendable {
         let generation = currentGeneration(for: layerName)
 
         keyIndex.insert(key, for: layerName)
-        memoryCache.setObject(data as NSData, forKey: key as NSString)
+        memoryCache.setObject(data as NSData, forKey: key as NSString, cost: data.count)
         stateLock.unlock()
 
         guard storagePolicy == .memoryAndDisk else { return }
@@ -149,13 +165,27 @@ nonisolated final class TileCache: @unchecked Sendable {
             }
             let dir = url.deletingLastPathComponent()
             try? self.fileManager.createDirectory(at: dir, withIntermediateDirectories: true)
+            // Stat the file being replaced before the write so the running
+            // total stays exact across overwrites, then account the new bytes.
+            // One stat per write replaces the full-tree walk this used to do.
+            let replacedBytes = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
             try? data.write(to: url, options: .atomic)
-            self.enforceDiskLimit()
+            self.accountWrite(newBytes: data.count, replacedBytes: replacedBytes)
         }
     }
 
-    func clearDiskCache() async {
-        try? await clearDiskStorage(at: diskRoot)
+    /// Runs on `diskQueue`. Seeds the running total on first use, then keeps it
+    /// current per write and walks the tree only when the total actually
+    /// crosses the cap.
+    private func accountWrite(newBytes: Int, replacedBytes: Int) {
+        if diskBytesTotal == nil {
+            diskBytesTotal = diskEntries()?.totalBytes
+        } else {
+            diskBytesTotal = (diskBytesTotal ?? 0) - replacedBytes + newBytes
+        }
+        guard let maxDiskBytes, maxDiskBytes > 0,
+              let total = diskBytesTotal, total > maxDiskBytes else { return }
+        enforceDiskLimit()
     }
 
     func diskSummary() async -> TileCacheDiskSummary {
@@ -264,6 +294,9 @@ nonisolated final class TileCache: @unchecked Sendable {
 
                 do {
                     try fileManager.removeItem(at: url)
+                    // The next write reseeds the running total; a clear may be
+                    // layer-scoped, so the remainder is unknown here.
+                    self.diskBytesTotal = nil
                     continuation.resume()
                 } catch {
                     continuation.resume(throwing: error)
@@ -274,21 +307,28 @@ nonisolated final class TileCache: @unchecked Sendable {
 
     private func enforceDiskLimit() {
         guard let maxDiskBytes, maxDiskBytes > 0 else { return }
-        guard var totalBytesAndEntries = diskEntries(), totalBytesAndEntries.totalBytes > maxDiskBytes else {
-            return
-        }
+        guard var totalBytesAndEntries = diskEntries() else { return }
+        diskBytesTotal = totalBytesAndEntries.totalBytes
+        guard totalBytesAndEntries.totalBytes > maxDiskBytes else { return }
 
         for entry in totalBytesAndEntries.entries.sorted(by: { $0.lastModified < $1.lastModified }) {
             try? fileManager.removeItem(at: entry.url)
             stateLock.lock()
             memoryCache.removeObject(forKey: entry.key as NSString)
             stateLock.unlock()
+            // The key format is "layer/z/x/y"; the first component is the
+            // layer. Pruning here is what stops the index growing past what
+            // the cache actually holds.
+            if let slash = entry.key.firstIndex(of: "/") {
+                keyIndex.remove(entry.key, for: String(entry.key[..<slash]))
+            }
 
             totalBytesAndEntries.totalBytes -= entry.bytes
             if totalBytesAndEntries.totalBytes <= maxDiskBytes {
                 break
             }
         }
+        diskBytesTotal = totalBytesAndEntries.totalBytes
     }
 
     private func diskEntries() -> (totalBytes: Int, entries: [DiskEntry])? {

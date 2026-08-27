@@ -69,15 +69,31 @@ struct TileDownloadManagerTests {
         let coordinates = FletcherTilePlanner.coordinates(for: area.bounds, zoomRange: area.minZoom...area.maxZoom)
         let failingCoordinate = try #require(coordinates.first)
         let loader = StubTileLoader(failingCoordinates: [failingCoordinate])
-        var snapshots: [TileDownloadProgress] = []
+        // A locked box rather than a captured var: the progress closure is
+        // `@Sendable` now that the download runs off the main actor.
+        nonisolated final class ProgressLog: @unchecked Sendable {
+            private let lock = NSLock()
+            private var items: [TileDownloadProgress] = []
+            func append(_ snapshot: TileDownloadProgress) {
+                lock.lock()
+                items.append(snapshot)
+                lock.unlock()
+            }
+            var all: [TileDownloadProgress] {
+                lock.lock()
+                defer { lock.unlock() }
+                return items
+            }
+        }
+        let log = ProgressLog()
 
         let progress = await manager.download(area: area, loader: loader) { snapshot in
-            snapshots.append(snapshot)
+            log.append(snapshot)
         }
 
-        #expect(snapshots.count == coordinates.count)
+        #expect(log.all.count == coordinates.count)
         #expect(progress.failedCoordinates == [failingCoordinate])
-        #expect(snapshots.last == progress)
+        #expect(log.all.last == progress)
     }
 
     @Test func canDownloadOnlyTargetedFailedCoordinates() async throws {

@@ -18,14 +18,31 @@ nonisolated enum TileFetcherError: Error, Equatable {
     /// probably be there on the next try, so a composite missing it must not be
     /// cached or saved as though it were whole.
     ///
-    /// 403 and 410 are here because object stores answer that way for a missing
-    /// key — S3 returns 403 without `ListBucket`, and a pyramid served straight
-    /// out of a bucket is the likely hosting.
+    /// 410 is a definitive answer like 404. 403 is deliberately NOT here: an
+    /// object store answers 403 for a missing key (S3 without `ListBucket`),
+    /// but a host also answers 403 for a rate-limit ban, expired auth, or a
+    /// broken bucket policy — "refused right now", not "does not exist".
+    /// Counting a refusal as absence froze blank tiles into caches and saved
+    /// areas for as long as the episode lasted. Callers that want the S3
+    /// tolerance ask `meansAccessRefused` and grant it only when a sibling
+    /// sheet in the same pass actually answered with bytes.
     static func meansNoTileExists(_ error: any Error) -> Bool {
         guard let error = error as? TileFetcherError else { return false }
         switch error {
         case .invalidHTTPStatus(let code):
-            return code == 404 || code == 403 || code == 410
+            return code == 404 || code == 410
+        case .invalidContentType, .invalidImageData:
+            return false
+        }
+    }
+
+    /// Whether this means "the host refused to answer" — possibly a missing S3
+    /// key, possibly a ban. Only the surrounding pass can tell which.
+    static func meansAccessRefused(_ error: any Error) -> Bool {
+        guard let error = error as? TileFetcherError else { return false }
+        switch error {
+        case .invalidHTTPStatus(let code):
+            return code == 401 || code == 403
         case .invalidContentType, .invalidImageData:
             return false
         }

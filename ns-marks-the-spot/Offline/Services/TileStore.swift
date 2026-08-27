@@ -68,8 +68,34 @@ actor TileStore {
         if let rootDirectory {
             self.rootDirectory = rootDirectory
         } else {
+            // Application Support, not Caches: everything in this store is a
+            // saved offline area — the tiles the user asked the app to keep for
+            // use with no signal. iOS may purge Caches under disk pressure,
+            // which deleted a saved area exactly when it was needed. Excluded
+            // from backup because the bytes are re-downloadable, just not from
+            // a field with no connectivity.
+            let support = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            var root = support.appendingPathComponent("TileStore", isDirectory: true)
+
+            // One-time migration from the old purgeable home. A same-volume
+            // move is a rename, so this is cheap even for a full store; if a
+            // partial new store already exists the old one is left untouched
+            // rather than merged over it.
             let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-            self.rootDirectory = caches.appendingPathComponent("TileStore", isDirectory: true)
+            let legacyRoot = caches.appendingPathComponent("TileStore", isDirectory: true)
+            if fileManager.fileExists(atPath: legacyRoot.path),
+               !fileManager.fileExists(atPath: root.path) {
+                try? fileManager.createDirectory(
+                    at: support, withIntermediateDirectories: true
+                )
+                try? fileManager.moveItem(at: legacyRoot, to: root)
+            }
+
+            try? fileManager.createDirectory(at: root, withIntermediateDirectories: true)
+            var values = URLResourceValues()
+            values.isExcludedFromBackup = true
+            try? root.setResourceValues(values)
+            self.rootDirectory = root
         }
     }
 
@@ -154,7 +180,13 @@ actor TileStore {
         var layerBytes: [String: Int] = [:]
         var savedAreaBytes: [String: Int] = [:]
 
+        // A large area holds up to 100,000 records, and this actor also serves
+        // the live map's tile reads. Yielding periodically lets those reads
+        // interleave instead of queueing behind the whole walk.
+        var visited = 0
         for recordURL in recordFiles() {
+            visited += 1
+            if visited.isMultiple(of: 512) { await Task.yield() }
             guard let record = readRecord(at: recordURL) else { continue }
             let tileURL = tileURL(for: record.coordinate, layerID: record.layerID)
             guard fileManager.fileExists(atPath: tileURL.path) else { continue }
@@ -191,7 +223,11 @@ actor TileStore {
     }
 
     func deleteSavedArea(_ savedAreaID: String) async throws {
+        // Same cooperative walk as `summary()`, for the same reason.
+        var visited = 0
         for recordURL in recordFiles() {
+            visited += 1
+            if visited.isMultiple(of: 512) { await Task.yield() }
             guard var record = readRecord(at: recordURL),
                   record.savedAreaIDs.contains(savedAreaID) else { continue }
 

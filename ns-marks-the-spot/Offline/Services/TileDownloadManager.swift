@@ -1,4 +1,5 @@
 import Foundation
+import GeoCore
 import MapCatalog
 import NSDataServices
 
@@ -10,12 +11,15 @@ nonisolated struct TileDownloadProgress: Equatable, Sendable {
     var wasCancelled = false
 }
 
-nonisolated protocol TileDataLoading {
+nonisolated protocol TileDataLoading: Sendable {
     func data(for coordinate: TileCoordinate, layerID: String) async throws -> Data
 }
 
-nonisolated final class TileDownloadManager {
-    private static let fletcherLayerID = "fletcher"
+nonisolated final class TileDownloadManager: Sendable {
+    /// The catalog's own id, not a string minted here: this key also guards
+    /// the rights-driven Rumsey sweep, and a hand-typed copy is one more place
+    /// a rename could silently miss.
+    private static let fletcherLayerID = LayerID.fletcher.rawValue
 
     private let tileStore: TileStore
 
@@ -23,11 +27,17 @@ nonisolated final class TileDownloadManager {
         self.tileStore = tileStore
     }
 
+    /// `@concurrent`, not merely nonisolated: under approachable concurrency a
+    /// nonisolated async function runs on its caller's actor, and the caller is
+    /// the main-actor view model. A download of up to 100,000 tiles must not
+    /// interleave its per-tile work into main-thread frames; only the progress
+    /// closure hops back.
+    @concurrent
     func download(
         area: SavedOfflineArea,
         loader: TileDataLoading,
         targetCoordinates: [TileCoordinate]? = nil,
-        progressHandler: ((TileDownloadProgress) async -> Void)? = nil
+        progressHandler: (@Sendable (TileDownloadProgress) async -> Void)? = nil
     ) async -> TileDownloadProgress {
         let coordinates = targetCoordinates ?? FletcherTilePlanner.coordinates(
             for: area.bounds,
@@ -131,6 +141,7 @@ nonisolated struct FletcherTileLoader: TileDataLoading {
 
         var stacked: [Data] = []
         var blockingError: (any Error)?
+        var refusalError: (any Error)?
         for sheet in covering {
             guard let template = FletcherTileURL.tileTemplate(
                 sheet: sheet.sheet, baseURL: baseURL
@@ -148,11 +159,18 @@ nonisolated struct FletcherTileLoader: TileDataLoading {
                 )
             } catch {
                 // A 404 means this sheet has no ink here, which is a complete
-                // answer and leaves the stack whole. Anything else is a sheet
-                // we could have had, and saving the tile without it would put a
-                // picture on the disk that the online map never showed —
-                // permanently, since a stored tile is preferred over a fetch.
-                if !TileFetcherError.meansNoTileExists(error) {
+                // answer and leaves the stack whole. A 403 is provisional: an
+                // object store answers it for a missing key, but a host also
+                // answers it for a ban — held until the pass shows which.
+                // Anything else is a sheet we could have had, and saving the
+                // tile without it would put a picture on the disk that the
+                // online map never showed — permanently, since a stored tile
+                // is preferred over a fetch.
+                if TileFetcherError.meansNoTileExists(error) {
+                    continue
+                } else if TileFetcherError.meansAccessRefused(error) {
+                    refusalError = error
+                } else {
                     blockingError = error
                 }
             }
@@ -160,6 +178,14 @@ nonisolated struct FletcherTileLoader: TileDataLoading {
 
         if let blockingError {
             throw SheetsUnavailable(coordinate: coordinate, underlying: blockingError)
+        }
+
+        // A refusal counts as a missing key only when some sibling sheet in
+        // this same pass actually answered — a banned or misconfigured host
+        // refuses everything, and writing blanks under it would freeze the
+        // episode into the saved area forever.
+        if let refusalError, stacked.isEmpty {
+            throw SheetsUnavailable(coordinate: coordinate, underlying: refusalError)
         }
 
         // Every covering sheet answered, and none of them had anything: the
