@@ -273,6 +273,8 @@ describe("MineralProximityParcelLayer", () => {
 
     expect(signal?.aborted).toBe(true);
     expect(mapMock.off).toHaveBeenCalledWith("moveend", expect.any(Function));
-    expect(mapMock.off).toHaveBeenCalledWith("zoomend", expect.any(Function));
+    // moveend only: Leaflet fires moveend after every zoom, so the old
+    // zoomend subscription issued a doomed duplicate request per zoom.
+    expect(mapMock.on).not.toHaveBeenCalledWith("zoomend", expect.any(Function));
   });
 });

@@ -161,14 +161,15 @@ export function ZoningLayer({
     };
 
     loadVisibleZones();
+    // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
+    // same call, so a zoomend subscription made every zoom issue a doomed
+    // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", loadVisibleZones);
-    map.on("zoomend", loadVisibleZones);
 
     return () => {
       requestNumber += 1;
       controller?.abort();
       map.off("moveend", loadVisibleZones);
-      map.off("zoomend", loadVisibleZones);
     };
   }, [layer, map, onStatusChange, visible]);
 

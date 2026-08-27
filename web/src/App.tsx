@@ -432,30 +432,59 @@ function isLicenceAccepted(): boolean {
   }
 }
 
-function mergeFeatureCollections(
+// Exported for its focused test: the identity contract below is what keeps
+// the evidence effects quiet through no-op merges, and only a test that holds
+// both references can pin it.
+// eslint-disable-next-line react-refresh/only-export-components -- test-only export of a pure helper.
+export function mergeFeatureCollections(
   current: NsprdFeatureCollection,
   incoming: NsprdFeatureCollection,
 ): NsprdFeatureCollection {
+  // PID plus a cheap geometry fingerprint, NOT JSON.stringify of the full
+  // geometry: the historical loader merges ~10 batches in quick succession,
+  // and re-stringifying every existing multi-KB geometry each time was
+  // quadratic main-thread work holding several MB of transient key strings.
+  // Vertex count plus the first and last positions distinguishes the real
+  // duplicate case (the same NSPRD feature fetched twice) as reliably.
   const featureKey = (
     feature: NsprdFeatureCollection["features"][number],
-  ) => `${feature.properties.PID}:${JSON.stringify(feature.geometry)}`;
+  ) => {
+    const positions: number[] = [];
+    const visit = (coords: unknown): void => {
+      if (!Array.isArray(coords)) return;
+      if (typeof coords[0] === "number") {
+        positions.push(coords[0] as number, coords[1] as number);
+        return;
+      }
+      for (const inner of coords) visit(inner);
+    };
+    visit((feature.geometry as { coordinates?: unknown }).coordinates);
+    const head = positions.slice(0, 2).join(",");
+    const tail = positions.slice(-2).join(",");
+    return `${feature.properties.PID}:${positions.length}:${head}:${tail}`;
+  };
   const featureKeys = new Set(
     current.features.map(featureKey),
   );
 
+  const added = incoming.features.filter((feature) => {
+    const key = featureKey(feature);
+    if (featureKeys.has(key)) {
+      return false;
+    }
+    featureKeys.add(key);
+    return true;
+  });
+  // Identity-stable when nothing was added: every selected-parcel evidence
+  // effect keys off this collection, and a fresh object for a no-op merge
+  // aborted and re-fired the whole ~30-request evidence fan-out.
+  if (added.length === 0) {
+    return current;
+  }
+
   return {
     type: "FeatureCollection",
-    features: [
-      ...current.features,
-      ...incoming.features.filter((feature) => {
-        const key = featureKey(feature);
-        if (featureKeys.has(key)) {
-          return false;
-        }
-        featureKeys.add(key);
-        return true;
-      }),
-    ],
+    features: [...current.features, ...added],
   };
 }
 
@@ -1518,15 +1547,41 @@ export function App() {
     return () => controller.abort();
   }, [licenceAccepted, showHistoricalTaxSales, taxSaleEnabled]);
 
+  /**
+   * The selected parcel's own features, IDENTITY-STABLE across unrelated
+   * parcel merges. All six selected-parcel evidence effects key off this
+   * instead of the whole `parcels` collection: keyed on `parcels`, every
+   * merge (each 40-PID historical batch, any tax-sale bulk load) aborted the
+   * in-flight evidence fan-out — ~22 road/water queries, flood rasters,
+   * assessments, civic addresses — and re-issued it identically. The merge
+   * itself reuses existing feature objects, so element-wise identity is the
+   * honest "did MY parcel change" test.
+   */
+  const selectedFeaturesRef = useRef<NsprdFeatureCollection["features"]>([]);
+  const selectedParcelFeatures = useMemo(() => {
+    const next = selectedPid
+      ? parcels.features.filter(
+          ({ properties }) => properties.PID === selectedPid,
+        )
+      : [];
+    const previous = selectedFeaturesRef.current;
+    if (
+      next.length === previous.length &&
+      next.every((feature, index) => feature === previous[index])
+    ) {
+      return previous;
+    }
+    selectedFeaturesRef.current = next;
+    return next;
+  }, [parcels, selectedPid]);
+
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
       return;
     }
     const request = selectedEvidenceRequest;
 
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
-    );
+    const selectedFeatures = selectedParcelFeatures;
     if (selectedFeatures.length === 0) {
       return;
     }
@@ -1550,7 +1605,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
+  }, [licenceAccepted, selectedParcelFeatures, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -1558,9 +1613,7 @@ export function App() {
     }
     const request = selectedEvidenceRequest;
 
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
-    );
+    const selectedFeatures = selectedParcelFeatures;
     const noticeAan = taxSaleEnabled && mapMode === "current"
       ? listingContextForPid(selectedPid)?.listing.aan
       : undefined;
@@ -1596,7 +1649,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, mapMode, parcels, selectedEvidenceRequest, selectedPid, taxSaleEnabled]);
+  }, [licenceAccepted, mapMode, selectedParcelFeatures, selectedEvidenceRequest, selectedPid, taxSaleEnabled]);
 
   useEffect(() => {
     if (assessmentState.status !== "ready") {
@@ -1641,13 +1694,16 @@ export function App() {
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) return;
     const request = selectedEvidenceRequest;
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
-    );
+    const selectedFeatures = selectedParcelFeatures;
     if (selectedFeatures.length === 0) return;
 
     const controller = new AbortController();
-    const mappedArea = mappedAreaForPid(parcels, selectedPid);
+    // From the stable selected features, not the whole collection — the whole
+    // collection is exactly the dependency this effect must not have.
+    const mappedArea = mappedAreaForPid(
+      { type: "FeatureCollection", features: selectedFeatures },
+      selectedPid,
+    );
     fetchParcelFloodHazardEvidence(
       selectedFeatures,
       mappedArea?.squareMetres ?? null,
@@ -1674,7 +1730,7 @@ export function App() {
         );
       });
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
+  }, [licenceAccepted, selectedParcelFeatures, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -1682,9 +1738,7 @@ export function App() {
     }
     const request = selectedEvidenceRequest;
 
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
-    );
+    const selectedFeatures = selectedParcelFeatures;
     if (selectedFeatures.length === 0) {
       return;
     }
@@ -1708,7 +1762,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
+  }, [licenceAccepted, selectedParcelFeatures, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -1716,9 +1770,7 @@ export function App() {
     }
     const request = selectedEvidenceRequest;
 
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
-    );
+    const selectedFeatures = selectedParcelFeatures;
     if (selectedFeatures.length === 0) {
       return;
     }
@@ -1742,7 +1794,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
+  }, [licenceAccepted, selectedParcelFeatures, selectedEvidenceRequest, selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -1750,9 +1802,7 @@ export function App() {
     }
     const request = selectedEvidenceRequest;
 
-    const selectedFeatures = parcels.features.filter(
-      ({ properties }) => properties.PID === selectedPid,
-    );
+    const selectedFeatures = selectedParcelFeatures;
     if (selectedFeatures.length === 0) {
       return;
     }
@@ -1776,7 +1826,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels, selectedEvidenceRequest, selectedPid]);
+  }, [licenceAccepted, selectedParcelFeatures, selectedEvidenceRequest, selectedPid]);
 
   const filteredTaxSalePids = useMemo(() => {
     const listings = taxSaleEvents
@@ -2061,7 +2111,23 @@ export function App() {
 
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
-      setLayerStatuses((current) => ({ ...current, [id]: status }));
+      setLayerStatuses((current) => {
+        // Tile layers report loading/load cycles on every pan, and each
+        // report used to build a fresh record — re-rendering the entire App
+        // per tile event even when nothing changed. Bail on equal status.
+        const previous = current[id];
+        if (
+          previous &&
+          previous.status === status.status &&
+          ("minZoom" in previous ? previous.minZoom : undefined) ===
+            ("minZoom" in status ? status.minZoom : undefined) &&
+          ("count" in previous ? previous.count : undefined) ===
+            ("count" in status ? status.count : undefined)
+        ) {
+          return current;
+        }
+        return { ...current, [id]: status };
+      });
     },
     [],
   );
@@ -2320,10 +2386,8 @@ export function App() {
   );
   const selectedParcelGeometry = useMemo<NsprdFeatureCollection>(() => ({
     type: "FeatureCollection",
-    features: selectedPid
-      ? parcels.features.filter(({ properties }) => properties.PID === selectedPid)
-      : [],
-  }), [parcels, selectedPid]);
+    features: selectedParcelFeatures,
+  }), [selectedParcelFeatures]);
   const canPrintExport = Boolean(
     selectedPid && selectedParcelGeometry.features.length > 0 && selectedEvidenceRequest,
   );

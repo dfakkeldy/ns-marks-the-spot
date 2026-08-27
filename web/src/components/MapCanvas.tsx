@@ -1,5 +1,6 @@
 import {
   lazy,
+  memo,
   Suspense,
   useCallback,
   useEffect,
@@ -628,14 +629,15 @@ function ArcGISFeatureLayer({
     };
 
     loadVisibleFeatures();
+    // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
+    // same call, so a zoomend subscription made every zoom issue a doomed
+    // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", loadVisibleFeatures);
-    map.on("zoomend", loadVisibleFeatures);
 
     return () => {
       requestNumber += 1;
       controller?.abort();
       map.off("moveend", loadVisibleFeatures);
-      map.off("zoomend", loadVisibleFeatures);
     };
   }, [layer, map, onStatusChange, visible]);
 
@@ -761,14 +763,15 @@ function WellLogLayer({
     };
 
     loadVisibleWells();
+    // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
+    // same call, so a zoomend subscription made every zoom issue a doomed
+    // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", loadVisibleWells);
-    map.on("zoomend", loadVisibleWells);
 
     return () => {
       requestNumber += 1;
       controller?.abort();
       map.off("moveend", loadVisibleWells);
-      map.off("zoomend", loadVisibleWells);
     };
   }, [accuracyFilter, layer, map, onStatusChange, visible]);
 
@@ -986,11 +989,12 @@ function MapPositionController({
       onViewportChange?.(viewport);
     };
     reportPosition();
+    // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
+    // same call, so a zoomend subscription made every zoom issue a doomed
+    // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", reportPosition);
-    map.on("zoomend", reportPosition);
     return () => {
       map.off("moveend", reportPosition);
-      map.off("zoomend", reportPosition);
     };
   }, [map, onPositionChange, onViewportChange, printableViewportGuard]);
 
@@ -1436,61 +1440,103 @@ function TaxSaleOverviewMarkers({
     return null;
   }
 
-  const markerStyle = (
-    selected: boolean,
-    color: string,
-    keyPrefix: "current" | "historical",
-  ): PathOptions =>
-    renderMode === "print"
-      ? {
-          color: "#111111",
-          weight: selected ? 3 : 1.75,
-          fillColor: keyPrefix === "current" ? "#f3f3f3" : "#777777",
-          fillOpacity: 1,
-          dashArray: keyPrefix === "historical" ? "3 2" : undefined,
-          className: `print-${keyPrefix}-tax-sale-marker`,
-        }
-      : {
-          color: "#ffffff",
-          weight: selected ? 3 : 1.5,
-          fillColor: color,
-          fillOpacity: selected ? 1 : 0.85,
-        };
-
-  const marker = (
-    point: { pid: string; latitude: number; longitude: number },
-    keyPrefix: "current" | "historical",
-    color: string,
-  ) => (
-    <CircleMarker
-      key={`${keyPrefix}-${point.pid}`}
-      center={[point.latitude, point.longitude]}
-      radius={point.pid === selectedPid ? 9 : 7}
-      pane={ESTABLISHED_PARCEL_PANE}
-      pathOptions={markerStyle(point.pid === selectedPid, color, keyPrefix)}
-      interactive={renderMode !== "print"}
-      eventHandlers={
-        renderMode === "print"
-          ? undefined
-          : {
-              click: (event) => {
-                L.DomEvent.stopPropagation(event);
-                onSelectPid(point.pid);
-              },
-            }
-      }
-    />
-  );
-
   return (
     <>
-      {historicalPoints.map((point) =>
-        marker(point, "historical", "#5a4385"),
-      )}
-      {currentPoints.map((point) => marker(point, "current", "#be4d3c"))}
+      {historicalPoints.map((point) => (
+        <OverviewMarker
+          key={`historical-${point.pid}`}
+          point={point}
+          keyPrefix="historical"
+          color="#5a4385"
+          selected={point.pid === selectedPid}
+          renderMode={renderMode}
+          onSelectPid={onSelectPid}
+        />
+      ))}
+      {currentPoints.map((point) => (
+        <OverviewMarker
+          key={`current-${point.pid}`}
+          point={point}
+          keyPrefix="current"
+          color="#be4d3c"
+          selected={point.pid === selectedPid}
+          renderMode={renderMode}
+          onSelectPid={onSelectPid}
+        />
+      ))}
     </>
   );
 }
+
+/**
+ * One memoized marker per point. react-leaflet re-applies center
+ * (setLatLng), pathOptions (setStyle), and eventHandlers (off/on) whenever
+ * their IDENTITY changes, and the previous inline construction handed every
+ * marker fresh objects on every App render — hundreds of markers times three
+ * Leaflet mutations per moveend, keystroke, and tile event. Everything here
+ * is memoized on real inputs, so a re-render with unchanged props is free.
+ */
+const OverviewMarker = memo(function OverviewMarker({
+  point,
+  keyPrefix,
+  color,
+  selected,
+  renderMode,
+  onSelectPid,
+}: {
+  point: { pid: string; latitude: number; longitude: number };
+  keyPrefix: "current" | "historical";
+  color: string;
+  selected: boolean;
+  renderMode: MapRenderMode;
+  onSelectPid: (pid: string) => void;
+}) {
+  const center = useMemo<[number, number]>(
+    () => [point.latitude, point.longitude],
+    [point.latitude, point.longitude],
+  );
+  const pathOptions = useMemo<PathOptions>(
+    () =>
+      renderMode === "print"
+        ? {
+            color: "#111111",
+            weight: selected ? 3 : 1.75,
+            fillColor: keyPrefix === "current" ? "#f3f3f3" : "#777777",
+            fillOpacity: 1,
+            dashArray: keyPrefix === "historical" ? "3 2" : undefined,
+            className: `print-${keyPrefix}-tax-sale-marker`,
+          }
+        : {
+            color: "#ffffff",
+            weight: selected ? 3 : 1.5,
+            fillColor: color,
+            fillOpacity: selected ? 1 : 0.85,
+          },
+    [color, keyPrefix, renderMode, selected],
+  );
+  const eventHandlers = useMemo(
+    () =>
+      renderMode === "print"
+        ? undefined
+        : {
+            click: (event: L.LeafletMouseEvent) => {
+              L.DomEvent.stopPropagation(event);
+              onSelectPid(point.pid);
+            },
+          },
+    [onSelectPid, point.pid, renderMode],
+  );
+  return (
+    <CircleMarker
+      center={center}
+      radius={selected ? 9 : 7}
+      pane={ESTABLISHED_PARCEL_PANE}
+      pathOptions={pathOptions}
+      interactive={renderMode !== "print"}
+      eventHandlers={eventHandlers}
+    />
+  );
+});
 
 function ParcelGeometryOverlay({
   collection,
@@ -1521,7 +1567,16 @@ function ParcelGeometryOverlay({
 
   return (
     <GeoJSON
-      key={`${collection.features.length}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
+      // Keyed by CONTENT (the visible PIDs), not by count: react-leaflet's
+      // GeoJSON never re-reads `data`, so an equal-length parcel-set change —
+      // switching to a different single-parcel event, changing a filter that
+      // swaps N parcels for N others — kept rendering the previous set's
+      // geometry. visibleParcels is the small selected/tax-sale subset, so
+      // the join stays cheap.
+      key={`${collection.features
+        .map(({ properties }) => properties.PID)
+        .sort()
+        .join(",")}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
       data={collection}
       pane={ESTABLISHED_PARCEL_PANE}
       style={style}
@@ -1696,16 +1751,31 @@ export function MapCanvas({
     taxSalePids,
   ]);
 
-  const parcelStyle = (
-    feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
-  ): PathOptions =>
-    parcelStyleForFeature(feature, {
+  // useCallback, not a render-scoped closure: react-leaflet updates GeoJSON
+  // with `if (style !== prevStyle) layer.setStyle(style)`, and setStyle walks
+  // every feature sub-layer rewriting SVG attributes. A fresh closure per
+  // render restyled every visible parcel on every App render — each map move,
+  // keystroke, and tile-status event.
+  const parcelStyle = useCallback(
+    (
+      feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
+    ): PathOptions =>
+      parcelStyleForFeature(feature, {
+        selectedPid,
+        showTaxSale,
+        taxSalePids,
+        showHistoricalTaxSales,
+        historicalTaxSalePids,
+      }, renderMode),
+    [
+      historicalTaxSalePids,
+      renderMode,
       selectedPid,
+      showHistoricalTaxSales,
       showTaxSale,
       taxSalePids,
-      showHistoricalTaxSales,
-      historicalTaxSalePids,
-    }, renderMode);
+    ],
+  );
 
   const requestLocation = () => {
     setLocationMessage("Finding your location…");

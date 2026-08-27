@@ -98,14 +98,15 @@ export function OldGrowthPolicyLayer({
     };
 
     loadVisiblePolicies();
+    // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
+    // same call, so a zoomend subscription made every zoom issue a doomed
+    // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", loadVisiblePolicies);
-    map.on("zoomend", loadVisiblePolicies);
 
     return () => {
       requestNumber += 1;
       controller?.abort();
       map.off("moveend", loadVisiblePolicies);
-      map.off("zoomend", loadVisiblePolicies);
     };
   }, [layer, map, onStatusChange, visible]);
 
