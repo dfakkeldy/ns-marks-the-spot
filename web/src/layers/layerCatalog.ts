@@ -889,8 +889,17 @@ export const initialProvinceLayerVisibility: Record<ProvinceLayerId, boolean> = 
 };
 
 const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";
-const COASTAL_HAZARD_LICENCE_URL =
+export const COASTAL_HAZARD_LICENCE_URL =
   "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
+/**
+ * The Unrestricted Map Services licence's own required statement. NOT the
+ * OGL-NS sentence: the coastal layers are published under this licence, and
+ * anything that infers their attribution from the restricted/open flag
+ * asserts the wrong licence over them (layerParity.test.ts documents exactly
+ * this trap).
+ */
+export const COASTAL_HAZARD_ATTRIBUTION =
+  "Reproduced and distributed with the permission of the Department of Service Nova Scotia.";
 
 export const floodHazardLayerCatalog: readonly FloodHazardLayerDescriptor[] = [
   {

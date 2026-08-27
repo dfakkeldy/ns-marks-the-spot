@@ -86,6 +86,8 @@ import {
   RUMSEY_LICENCE_URL,
 } from "./licensing/rumseyLicense";
 import {
+  COASTAL_HAZARD_ATTRIBUTION,
+  COASTAL_HAZARD_LICENCE_URL,
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -246,6 +248,10 @@ type HistoricalOutcomeFilter = "all" | HistoricalOutcome;
 type LicenceIntent =
   | { kind: "theme"; themeId: string }
   | { kind: "layer" }
+  /** Parcel/civic search asked for licensed data before acceptance. */
+  | { kind: "search"; query: string }
+  /** "Data & licences" review — never a licence-state or layer-state change. */
+  | { kind: "review" }
   | null;
 
 const EMPTY_FEATURES: NsprdFeatureCollection = {
@@ -639,9 +645,14 @@ function printLayerSources(
     name: layer.name,
     sourceUrl: layer.sourceUrl,
     sourceDate: layer.sourceDate,
+    // Three licences, not two: the coastal layers are "province-open" but
+    // published under the Unrestricted Map Services licence, and the binary
+    // restricted/open inference stamped the OGL-NS sentence on them.
     attribution: layer.licence === "province-restricted"
       ? PROVINCE_ATTRIBUTION
-      : OPEN_GOVERNMENT_ATTRIBUTION,
+      : layer.licenceUrl === COASTAL_HAZARD_LICENCE_URL
+        ? COASTAL_HAZARD_ATTRIBUTION
+        : OPEN_GOVERNMENT_ATTRIBUTION,
     licenceUrl: layer.licenceUrl,
   }));
   environmentalHealthLayerCatalog.forEach((layer) => sources.set(layer.id, {
@@ -684,9 +695,16 @@ function printLayerSources(
 function LicenceDialog({
   onAccept,
   onContinueWithout,
+  onClose,
 }: {
   onAccept: () => void;
   onContinueWithout: () => void;
+  /**
+   * Present only when the licence is already accepted (the footer's review
+   * path). Without it the dialog forced a choice between two layer-state
+   * changes on a visit whose only purpose was reading the terms.
+   */
+  onClose?: () => void;
 }) {
   return (
     <div className="dialog-backdrop">
@@ -724,6 +742,11 @@ function LicenceDialog({
           >
             Continue without Province layers
           </button>
+          {onClose ? (
+            <button className="secondary-action" type="button" onClick={onClose}>
+              Close
+            </button>
+          ) : null}
         </div>
       </section>
     </div>
@@ -1385,6 +1408,43 @@ export function App() {
     setHistoricalOutcome("all");
     setHistoricalParcelMessage(null);
   }, []);
+
+  /** Any visible layer whose licence mandates the OGL–NS statement. */
+  const oglLayerVisible = useMemo(
+    () =>
+      Object.values(forestryLayers).some(Boolean) ||
+      Object.values(wellLogLayers).some(Boolean) ||
+      environmentalHealthLayerCatalog.some(
+        (layer) =>
+          layer.licence !== "province-restricted" &&
+          effectiveEnvironmentalHealthLayers[layer.id],
+      ) ||
+      floodHazardLayerCatalog.some(
+        (layer) =>
+          layer.licence !== "province-restricted" &&
+          layer.licenceUrl !== COASTAL_HAZARD_LICENCE_URL &&
+          effectiveFloodHazardLayers[layer.id],
+      ),
+    [
+      effectiveEnvironmentalHealthLayers,
+      effectiveFloodHazardLayers,
+      forestryLayers,
+      wellLogLayers,
+    ],
+  );
+
+  /** The distinct mandated statements of the zoning layers now on screen. */
+  const visibleZoningAttributions = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          zoningLayerCatalog
+            .filter(({ id }) => zoningLayers[id])
+            .map(({ attribution }) => attribution),
+        ),
+      ),
+    [zoningLayers],
+  );
   const enableTaxSale = useCallback(() => {
     setTaxSaleEnabled(true);
     setSelectedEventIds(new Set(upcomingTaxSaleEvents.map(({ id }) => id)));
@@ -1971,8 +2031,14 @@ export function App() {
   }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes]);
 
   const reviewProvinceLicence = () => {
-    setLicenceIntent({ kind: "layer" });
+    setLicenceIntent({ kind: "review" });
     setLicenceDialogOpen(true);
+  };
+
+  const closeLicenceDialog = () => {
+    setLicenceDialogOpen(false);
+    setLicenceIntent(null);
+    restoreMapSetupFocus();
   };
 
   const restoreMapSetupFocus = () => {
@@ -2000,9 +2066,17 @@ export function App() {
           restrictedLayerIds: restrictedThemeLayerIds,
         }));
       }
-    } else {
+    } else if (licenceIntent?.kind === "search") {
+      // The search that opened this dialog runs now, with the gate bypassed:
+      // `licenceAccepted` in this closure is still the pre-accept value.
+      void runSearch(licenceIntent.query, { licenceJustAccepted: true });
+    } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
     }
+    // "review" (and any other intent): accepting again is a pure dismiss.
+    // This used to fall into the layer branch, so a user re-reading the
+    // licence from the footer had every province layer they had switched on
+    // silently reset to the page-load set.
     setLicenceDialogOpen(false);
     setLicenceIntent(null);
     restoreMapSetupFocus();
@@ -2249,19 +2323,30 @@ export function App() {
     }
   };
 
-  const submitPidSearch = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const runSearch = async (
+    rawQuery: string,
+    { licenceJustAccepted = false }: { licenceJustAccepted?: boolean } = {},
+  ) => {
+    if (!licenceAccepted && !licenceJustAccepted) {
+      // Search reads NSPRD and the civic address file — licensed Province
+      // data — so it is itself the licence trigger. The old blanket
+      // `disabled={!licenceAccepted}` gave a first-time visitor a silently
+      // dead primary action, with the only unlock a 14 px footer link.
+      setLicenceIntent({ kind: "search", query: rawQuery });
+      setLicenceDialogOpen(true);
+      return;
+    }
     cancelAddressSearch();
     cancelPointLookup();
     setSearchError(null);
     setAddressSearchResults([]);
-    const pid = normalizePid(query);
+    const pid = normalizePid(rawQuery);
 
     if (!pid) {
-      const normalizedQuery = query.trim().replace(/\s+/gu, " ");
-      if (/^[\d\s-]+$/u.test(query) || normalizedQuery.length < 3) {
+      const normalizedQuery = rawQuery.trim().replace(/\s+/gu, " ");
+      if (/^[\d\s-]+$/u.test(rawQuery) || normalizedQuery.length < 3) {
         setSearchError(
-          /^[\d\s-]+$/u.test(query)
+          /^[\d\s-]+$/u.test(rawQuery)
             ? "Enter an 8-digit Nova Scotia parcel ID."
             : "Enter at least three characters of a civic address.",
         );
@@ -2317,6 +2402,11 @@ export function App() {
     } catch {
       setSearchError("The Province parcel search is unavailable right now.");
     }
+  };
+
+  const submitPidSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void runSearch(query);
   };
 
   const selectListedParcel = async (eventId: string, pid: string) => {
@@ -3153,13 +3243,8 @@ export function App() {
                 placeholder="PID or 11064 Highway 19, Mabou"
                 inputMode="search"
                 autoComplete="off"
-                disabled={!licenceAccepted}
               />
-              <button
-                className="primary-action"
-                type="submit"
-                disabled={!licenceAccepted}
-              >
+              <button className="primary-action" type="submit">
                 Find parcel
               </button>
             </div>
@@ -4161,9 +4246,19 @@ export function App() {
         {Object.values(resourceLayers).some(Boolean) ? (
           <span>Geoscience data © Province of Nova Scotia</span>
         ) : null}
-        {Object.values(forestryLayers).some(Boolean) ? (
+        {/* Licence-mandated statements for what is actually on screen. The
+            catalog carried these strings precisely because the licences
+            require them in products using the data, but nothing rendered
+            them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
+            for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
+            for the Fletcher sheets. */}
+        {oglLayerVisible ? (
           <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
         ) : null}
+        {visibleZoningAttributions.map((attribution) => (
+          <span key={attribution}>{attribution}</span>
+        ))}
+        {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
         <span>Boundaries are not a survey</span>
         <button type="button" onClick={reviewProvinceLicence}>
           Data &amp; licences
@@ -4177,6 +4272,7 @@ export function App() {
         <LicenceDialog
           onAccept={acceptLicence}
           onContinueWithout={continueWithoutProvinceLayers}
+          onClose={licenceAccepted ? closeLicenceDialog : undefined}
         />
       ) : null}
       {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
@@ -4252,7 +4348,7 @@ export function App() {
           ),
         })}
         defaultTitle={selectedPid ? `Parcel ${selectedPid}` : "Nova Scotia map"}
-        attributionLines={exportAttributionLines(
+        attributionLines={exportAttributionLines([
           // Credit exactly what the PDF contains: `captureLayerSources` is
           // every visible source, but the compositor only carries the subset
           // in `exportedLayerIds` (OSM, Fletcher, and Province layers with
@@ -4261,8 +4357,23 @@ export function App() {
           // the page never contained. The omitted layers stay named in
           // `omittedLayerNames` below; they must not also appear credited
           // here.
-          captureLayerSources.filter(({ id }) => exportedLayerIds.has(id)),
-        )}
+          ...captureLayerSources.filter(({ id }) => exportedLayerIds.has(id)),
+          // The selected-parcel ring is NSPRD-derived geometry and exports
+          // whenever a parcel is selected, INDEPENDENT of the NSPRD layer
+          // toggle — so with no Province layer visible the page carried
+          // licensed geometry with no attribution, licence URL, or survey
+          // caveat. Its distinct text keeps it a separate strip line.
+          ...(selectedParcelGeometry.features.length > 0
+            ? [{
+                id: "nsprd" as const,
+                name: "Selected parcel boundary",
+                sourceUrl: NSPRD_LAYER_URL,
+                sourceDate: "NSPRD parcel geometry at export time",
+                attribution: `${PROVINCE_ATTRIBUTION} The selected parcel boundary is approximate and is not a legal survey.`,
+                licenceUrl: PROVINCE_LICENSE_URL,
+              }]
+            : []),
+        ])}
         omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
         onClose={() => setExportSession(null)}
