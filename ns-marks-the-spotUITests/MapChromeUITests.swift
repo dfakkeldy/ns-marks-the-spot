@@ -90,9 +90,14 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testTheSourcesSheetCarriesItsLicencesAndScrolls() throws {
         let app = XCUIApplication.launchedForUITests()
+        // Behind the rail's More menu now: share, print and the sources are
+        // occasional actions, folded so the rail fits an SE-class screen.
+        let more = app.buttons["More Map Actions"]
+        XCTAssertTrue(more.waitForExistence(timeout: timeout))
+        XCTAssertTrue(more.waitForHittable(timeout: timeout), "the More control is off screen")
+        more.tap()
         let sources = app.buttons["Data Sources and Licenses"]
-        XCTAssertTrue(sources.waitForExistence(timeout: timeout))
-        XCTAssertTrue(sources.waitForHittable(timeout: timeout), "the sources control is off screen")
+        XCTAssertTrue(sources.waitForExistence(timeout: timeout), "the sources action is not in the menu")
         sources.tap()
 
         XCTAssertTrue(app.navigationBars["Map Info"].waitForExistence(timeout: 10))

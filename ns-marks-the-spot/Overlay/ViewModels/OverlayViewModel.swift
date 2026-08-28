@@ -343,31 +343,27 @@ final class OverlayViewModel {
             .sorted { $0.uiOrder < $1.uiOrder }
     }
 
-    private let controller: MapController
+    /// Internal, not private: read by the print-query extension file. A `let`
+    /// dependency, so nothing is writable through the widened access.
+    let controller: MapController
     /// The viewport-queried layers, when this build has them. `nil` in the
     /// tests that only exercise the tile panel, which is why the vector rows
     /// are dropped rather than shown disabled: a row whose switch cannot be
     /// wired to anything is worse than no row.
-    private let features: ViewportFeatureViewModel?
+    let features: ViewportFeatureViewModel?
     /// The bundled tax-sale notices, when this build has them. `nil` in the
     /// tests that exercise the parcel path on its own, where no parcel is
     /// listed and nothing would be highlighted.
     private let taxSale: TaxSaleViewModel?
-    private let historical: HistoricalTaxSaleViewModel?
+    let historical: HistoricalTaxSaleViewModel?
     private let licenceStore: ProvinceLicenceStore
-    private let clearanceBox: LicenceClearanceBox
+    let clearanceBox: LicenceClearanceBox
     /// The cache a revocation has to empty. Optional because most tests drive
     /// this model with no cache at all; a revocation without one still stops
     /// every request, and says in the sheet that it swept nothing.
     private let tileCache: TileCache?
     private let parcelFetcher: ParcelFetcher
     private let civicFetcher: CivicAddressFetcher
-    private let contextFetcher: ParcelContextFetcher
-    private let assessmentFetcher: PVSCAssessmentFetcher
-    private let dwellingFetcher: PVSCDwellingFetcher
-    private let buildingFetcher: BuildingCountFetcher
-    private let resourceFetcher: ResourceIntersectionFetcher
-    private let floodFetcher: FloodHazardFetcher
     /// The setups on offer and the reader's saved ones. Its own object because
     /// it owns storage; which setup the map is in is a question about the map
     /// and stays here.
@@ -405,12 +401,16 @@ final class OverlayViewModel {
         self.tileCache = tileCache
         self.parcelFetcher = parcelFetcher
         self.civicFetcher = civicFetcher
-        self.contextFetcher = contextFetcher
-        self.assessmentFetcher = assessmentFetcher
-        self.dwellingFetcher = dwellingFetcher
-        self.buildingFetcher = buildingFetcher
-        self.resourceFetcher = resourceFetcher
-        self.floodFetcher = floodFetcher
+        self.evidencePanel = ParcelEvidencePanel(
+            civicFetcher: civicFetcher,
+            contextFetcher: contextFetcher,
+            assessmentFetcher: assessmentFetcher,
+            dwellingFetcher: dwellingFetcher,
+            buildingFetcher: buildingFetcher,
+            resourceFetcher: resourceFetcher,
+            floodFetcher: floodFetcher,
+            clearanceBox: clearanceBox
+        )
         self.themes = themes
         self.sessionStore = sessionStore
         mirrorClearanceIntoBox()
@@ -488,7 +488,7 @@ final class OverlayViewModel {
         // A tap on the map or a chosen address is the reader's own deliberate
         // movement; any held link or session extent is over.
         isHoldingLinkPosition = false
-        wantsFreshInspection = true
+        evidencePanel.requestFreshRebuild()
         addressResults = []
         cancelAddressLookup()
         parcelMessage = address.map(ParcelLookupMessage.searching(for:))
@@ -600,7 +600,7 @@ final class OverlayViewModel {
         // must be free to focus. Inheriting whatever a cancelled restore left
         // behind is what once kept a selection from ever coming on screen.
         isHoldingLinkPosition = holdingRestoredPosition
-        wantsFreshInspection = true
+        evidencePanel.requestFreshRebuild()
         addressResults = []
         cancelAddressLookup()
 
@@ -1257,15 +1257,6 @@ final class OverlayViewModel {
     /// something else and the selection being cleared.
     @ObservationIgnored private var restoringPID: String?
 
-    /// Set by every explicit selection — a search, a tap, a notice row — so
-    /// the next `refreshInspection` rebuilds the evidence in full even when
-    /// the parcel is the one already open. Asking about the same parcel again
-    /// is the reader asking again: the sources are re-asked and the
-    /// sources-have-had-their-time wait starts over, exactly as the browser
-    /// starts it. Without this, the unchanged-inputs fast path below would
-    /// read a deliberate re-ask as a styling refresh.
-    @ObservationIgnored private var wantsFreshInspection = false
-
     /// Set while a link's or a restored session's own parcel lookup is in
     /// flight, so the parcel does not reframe a map the restore already
     /// positioned. Every other way a lookup starts states it false — a stale
@@ -1277,392 +1268,6 @@ final class OverlayViewModel {
     /// Once only: refitting after the user has moved would take the map away
     /// from wherever they went.
     private var hasFramedListedParcels = false
-
-    /// Where the map is, as a latitude, a longitude, and a tile zoom.
-    ///
-    /// Read by the share link, the evidence note, the readout on the map, and
-    /// the session written on the way out.
-    ///
-    /// Before the map has been laid out there is no view to measure, and the
-    /// answer is whatever it has been told to open on: a link's position, or
-    /// the one the last session left. Only a launch with neither falls back to
-    /// the opening view, and there it is the truth. Reading `.default` in every
-    /// case is what let a scene going inactive between launch and the map
-    /// attaching write the province over the map the reader left.
-    var mapPosition: MapPosition {
-        guard controller.hasReportedItsPosition,
-              let bounds = controller.currentVisibleBounds()
-        else {
-            return controller.heldPosition ?? .default
-        }
-        return MapPosition(
-            latitude: (bounds.minLatitude + bounds.maxLatitude) / 2,
-            longitude: (bounds.minLongitude + bounds.maxLongitude) / 2,
-            zoom: controller.zoomLevel
-        )
-    }
-
-    /// Whether the open parcel has heard back from every source the note
-    /// reports on.
-    var canExportEvidenceNote: Bool {
-        inspection.map(ParcelEvidenceExport.isReady) ?? false
-    }
-
-    /// The note for the open parcel, or `nil` when no parcel is open or a
-    /// source has not answered yet.
-    ///
-    /// `generatedAt` is a parameter rather than `Date()` read in here: the note
-    /// is stamped with it, and a stamp the caller cannot control is a stamp
-    /// nothing can check.
-    ///
-    /// `includingSourcesStillOut` is the way out of a source that has hung
-    /// rather than merely taken its time. The browser gives the sources fifteen
-    /// seconds and then writes the report anyway, and a reader whose fourth
-    /// source will never answer is otherwise told, for as long as they keep
-    /// looking, that no dated receipt can be made at all. Nothing is invented
-    /// by writing early: a source that has not answered has no value to report,
-    /// and the note already says in its own words that this one had not
-    /// answered when it was written.
-    func evidenceNote(
-        generatedAt: Date = Date(),
-        includingSourcesStillOut: Bool = false
-    ) -> EvidenceNote? {
-        guard let inspection,
-              includingSourcesStillOut || ParcelEvidenceExport.isReady(inspection),
-              let shareURL else { return nil }
-        return EvidenceNote.build(
-            ParcelEvidenceExport.input(
-                generatedAt: generatedAt,
-                inspection: inspection,
-                taxSaleEnabled: showsTaxSale,
-                mode: mapRecordMode == .historical ? .historical : .current,
-                shareURL: shareURL,
-                position: mapPosition,
-                activeLayers: rows.filter(\.isVisible).map(\.descriptor),
-                baseMap: baseMapType,
-                fletcherBaseURL: FletcherHost.configuredBaseURL
-            )
-        )
-    }
-
-    /// Everything the printed page needs about the map, read at the tap.
-    ///
-    /// A snapshot rather than a live reference: compositing takes seconds, and
-    /// a page assembled from a map that moved underneath it would carry a
-    /// registration for ground it does not show.
-    func printExportRequest(
-        template: PdfTemplate,
-        fields: PdfComposer.Fields,
-        includesLegend: Bool = true,
-        includesAppendix: Bool = false,
-        /// Whether this page was meant to carry an evidence appendix and is
-        /// going out without one.
-        ///
-        /// The appendix is the whole of what a research summary carries beyond
-        /// a field sheet. Dropped silently, the reader is holding a page named
-        /// for evidence that has none on it, and no way to tell that from a
-        /// parcel nothing was found for.
-        appendixWithheld: Bool = false,
-        /// Whether the appendix may be written while a source is still out.
-        ///
-        /// Set once the sources have had the time the browser gives them. The
-        /// appendix then names each one that had not answered, which is what
-        /// the note says about them anyway, and the page carries a line saying
-        /// which ones those were.
-        appendixNamesSourcesStillOut: Bool = false,
-        /// Whether the aerial photography is drawn onto the page.
-        ///
-        /// Separate from whether it is on the screen. At 300 dpi the imagery is
-        /// the heaviest thing on the sheet and, on paper, a dark wash that
-        /// buries the parcel lines and labels the page exists to show — which
-        /// is why the browser leaves it off until it is asked for.
-        includesAerial: Bool = true,
-        /// What the document being made says it must not be read as.
-        caveat: String = PrintExport.screeningCaveat,
-        /// The ground the user framed. Nil falls back to the whole visible map,
-        /// which the export then grows to the paper's proportions — the older
-        /// behaviour, kept for callers that never showed a frame.
-        frame: GeoBoundingBox? = nil,
-        /// What each feature-query layer was doing when the page was made, as
-        /// the layer panel has it. Empty by default: callers that show no such
-        /// panel print the same page they always did.
-        featureStatuses: [LayerID: ViewportLayerStatus] = [:],
-        generatedAt: Date = Date()
-    ) -> PrintExportRequest? {
-        var framed = frame
-        if framed == nil, let bounds = controller.currentVisibleBounds() {
-            framed = GeoBoundingBox(
-                south: bounds.minLatitude,
-                west: bounds.minLongitude,
-                north: bounds.maxLatitude,
-                east: bounds.maxLongitude
-            )
-        }
-        guard let box = framed else { return nil }
-        // The ground that will actually print, which is the frame grown to the
-        // paper. Read here as well as in the export because the sentences below
-        // are about what the reader will be holding, and the frame on its own
-        // is smaller than that.
-        let printed = PrintExportPlan.bounds(covering: box, mapFrame: template.mapFrame)
-        var disclosures = [caveat] + printCaptureContext
-        // The appendix is about a parcel and the map is about ground, and the
-        // two can be in different places. Said on the page rather than left for
-        // a reader to notice, because the pages are stapled together and read
-        // as one document.
-        if includesAppendix, let pid = inspection?.pid,
-           inspectedPID(shownWithin: printed, mapFrame: template.mapFrame) == nil {
-            disclosures.append(
-                "The evidence appendix is for PID \(pid), whose boundary is not on "
-                    + "this map. The map shows other ground."
-            )
-        }
-        // The page is titled for the parcel it frames, and a title is a claim
-        // about the whole of it. A frame drawn by hand cuts wherever the user
-        // dragged it, so a page can promise PID 15234636 and show its northern
-        // third.
-        if let pid = inspectedPID(shownWithin: printed, mapFrame: template.mapFrame),
-           !parcelFits(pid, within: printed) {
-            disclosures.append(
-                "PID \(pid) runs past the edge of this map. The page shows part "
-                    + "of the parcel."
-            )
-        }
-        if appendixWithheld {
-            disclosures.append(
-                "The evidence appendix was left off this page. What each source "
-                    + "answered, what it returned nothing for, and what was never "
-                    + "asked are not on this document."
-            )
-        }
-        // Said on the front of the document rather than left to the appendix's
-        // own per-source lines. A reader who acts on a research summary is
-        // entitled to know before they read it that it was written while a
-        // source was still out, because the answer that never arrived may be
-        // the one they were looking for.
-        if includesAppendix, appendixNamesSourcesStillOut, let inspection,
-           let stillOut = ParcelEvidenceExport.stillOutDisclosure(
-               ParcelEvidenceExport.pending(inspection)
-           ) {
-            disclosures.append(stillOut)
-        }
-        return PrintExportRequest(
-            visibleBounds: box,
-            baseMap: controller.baseMapType,
-            // Dropped from the list rather than drawn transparent: the legend
-            // and the credits are built from these, and a page that names a
-            // source it carries no ink from tells the reader the imagery was
-            // consulted for what they are looking at.
-            layers: includesAerial
-                ? controller.layers
-                : controller.layers.filter { $0.id != LayerID.nsAerial.rawValue },
-            parcels: controller.state.parcelShapes,
-            // The client-side layers as the screen has them, so a page shows
-            // the zones and reaches the reader was looking at rather than blank
-            // ground where they were.
-            features: printedFeatures(within: printed, mapFrame: template.mapFrame),
-            markers: printedMarkers(within: printed, mapFrame: template.mapFrame),
-            featureLayerStatuses: featureStatuses,
-            template: template,
-            fields: fields,
-            includesLegend: includesLegend,
-            // Where the page's receipt leads. Read here with the rest of the
-            // snapshot, because a state read a moment later would describe a
-            // map the reader had already moved. What the page was framed on and
-            // which of these layers reached the paper are filled in by the
-            // export, which is the only place either is known.
-            share: PrintShareLink(
-                base: Self.webMapURL, state: printedShareState(includesAerial: includesAerial)
-            ),
-            // The appendix is the evidence note, laid out as pages rather than
-            // written as a file. Built from the note itself so the document the
-            // user prints and the one they email cannot come to say different
-            // things about the same parcel. Stamped with the page's own time,
-            // for the same reason the page is.
-            appendix: includesAppendix
-                ? PdfAppendix.blocks(
-                    fromMarkdown: evidenceNote(
-                        generatedAt: generatedAt,
-                        includingSourcesStillOut: appendixNamesSourcesStillOut
-                    )?.markdown ?? ""
-                )
-                : [],
-            disclosures: disclosures,
-            generatedAt: generatedAt
-        )
-    }
-
-    /// The open parcel's PID, when its boundary is inside the ground about to
-    /// be printed.
-    ///
-    /// The frame is drawn by hand and the selection is not cleared by panning,
-    /// so a user can select a parcel, travel kilometres, and frame somewhere
-    /// else entirely. A page named after a PID whose parcel is nowhere on it
-    /// tells the reader they are looking at that parcel — the single wrong
-    /// conclusion this export could hand somebody. Nil in that case, and the
-    /// page carries the generic name instead.
-    ///
-    /// Ask this about the ground that will print, not the frame that was
-    /// dragged: the export grows one into the other, and a parcel that only
-    /// enters the page in the grown margin is on it.
-    func inspectedPID(shownWithin bounds: GeoBoundingBox, mapFrame: PdfRect) -> String? {
-        guard let pid = inspection?.pid,
-              let shape = controller.state.parcelShapes.first(where: { $0.pid == pid })
-        else { return nil }
-        // The same two questions the compositor asks before it draws this
-        // parcel, so the title cannot name a parcel the page has no ink from —
-        // the boundary asked with its stroke's reach, or a grazing boundary
-        // would be keyed and credited under a title that refuses to name it.
-        // Rings rather than the box around them: a long diagonal lot's box
-        // covers ground the lot never touches, and the title is the one
-        // sentence on the page a reader has no way to check. Surrounds counts
-        // here though the selection has no fill, because a page wholly inside
-        // the selected parcel is that parcel's ground.
-        guard Self.titleNamesParcel(shape, within: bounds, mapFrame: mapFrame) else {
-            return nil
-        }
-        return pid
-    }
-
-    /// The title's ink question on its own, held out where a test can put it
-    /// beside the legend's so the two cannot drift apart again. The boundary
-    /// is padded exactly as the compositor pads it; surrounds stays unpadded
-    /// and fill-blind, because a page wholly inside the selected parcel is
-    /// that parcel's ground even though the selection paints no fill there.
-    nonisolated static func titleNamesParcel(
-        _ shape: ParcelShape, within bounds: GeoBoundingBox, mapFrame: PdfRect
-    ) -> Bool {
-        PrintMapCompositor.marksBoundary(shape, within: bounds, mapFrame: mapFrame)
-            || shape.surrounds(bounds)
-    }
-
-    /// Whether the named parcel's whole outline is inside the ground that will
-    /// print.
-    ///
-    /// Boxes rather than rings, and that is the safe direction: a bounding box
-    /// that fits guarantees the outline inside it fits, so this never claims a
-    /// parcel is cut when it is not. It can miss a parcel whose box pokes out
-    /// where the outline does not, which costs a sentence the page did not
-    /// need rather than a promise it cannot keep.
-    ///
-    /// True when there is no geometry to check. A parcel with no outline is
-    /// already the subject of its own notice on the card, and the page has the
-    /// "boundary is not on this map" sentence for the case where it is absent.
-    private func parcelFits(_ pid: String, within bounds: GeoBoundingBox) -> Bool {
-        guard let shape = controller.state.parcelShapes.first(where: { $0.pid == pid }),
-              let box = Self.boundingBox(of: shape)
-        else { return true }
-        return box.south >= bounds.south && box.north <= bounds.north
-            && box.west >= bounds.west && box.east <= bounds.east
-    }
-
-    private static func boundingBox(of shape: ParcelShape) -> GeoBoundingBox? {
-        var box: GeoBoundingBox?
-        for ring in shape.parts.joined() {
-            for point in ring {
-                guard var current = box else {
-                    box = GeoBoundingBox(
-                        south: point.lat, west: point.lng,
-                        north: point.lat, east: point.lng
-                    )
-                    continue
-                }
-                current.south = min(current.south, point.lat)
-                current.west = min(current.west, point.lng)
-                current.north = max(current.north, point.lat)
-                current.east = max(current.east, point.lng)
-                box = current
-            }
-        }
-        return box
-    }
-
-    /// What state the map was in when the page was captured, in the words the
-    /// map itself uses under its record switch.
-    ///
-    /// Printed on every page that has two record sets to choose between, as the
-    /// web prints it. A dated outcome on paper with nothing saying it is
-    /// historical is a dated outcome that reads as a current offering.
-    var printCaptureContext: [String] {
-        guard offersRecordModes else { return [] }
-        return [recordModeCaption]
-    }
-
-    /// The features the page carries, in the order the map draws them.
-    ///
-    /// Read from what is on the map rather than from which rows are switched
-    /// on: a layer that is on but has nothing in this viewport contributes
-    /// nothing to the page, and listing it would claim ink that was never laid.
-    private func printedFeatures(
-        within bounds: GeoBoundingBox, mapFrame: PdfRect
-    ) -> [FeatureShape] {
-        // Restricted to the frame being printed, not merely to what the view
-        // model is holding. The viewport layers keep the previous view's
-        // features while their replacement loads, and keep them indefinitely
-        // when the reload fails — so a page made after a long pan would
-        // otherwise be composited from wells a hundred kilometres away.
-        //
-        // The shape itself rather than the box around it. A box is never
-        // smaller than its shape, so it says yes for ground the shape never
-        // reaches — and this list is what the legend and the "nothing to print"
-        // note are built from, so an over-count keys a colour over blank paper
-        // and drops the layer from the note that would have explained it.
-        controller.state.featureShapes.filter { $0.marks(bounds, mapFrame: mapFrame) }
-    }
-
-    private func printedMarkers(
-        within bounds: GeoBoundingBox, mapFrame: PdfRect
-    ) -> [FeatureMarker] {
-        // A marker is a circle of fixed page size, not a coordinate: one whose
-        // centre stands just off the page still lays part of its circle on it,
-        // so each is asked about the frame grown by its own printed reach.
-        controller.state.featureMarkers.filter { marker in
-            let style = marker.printStyle
-            let strokes = style.strokeOpacity > 0 && style.lineWidth > 0
-            let fills = style.fillHex != nil && style.fillOpacity > 0
-            guard strokes || fills else { return false }
-            let reach = (style.markerRadius ?? 5) + (strokes ? style.lineWidth / 2 : 0)
-            let reached = bounds.expanded(
-                byFractionX: reach / mapFrame.width, fractionY: reach / mapFrame.height
-            )
-            return reached.contains(
-                GeoPoint(lat: marker.latitude, lng: marker.longitude)
-            )
-        }
-    }
-
-    /// The layers with ink inside this frame, whatever their panel says.
-    private func drawnFeatureLayers(
-        within bounds: GeoBoundingBox, mapFrame: PdfRect
-    ) -> Set<LayerID> {
-        var drawn = Set(printedFeatures(within: bounds, mapFrame: mapFrame).map(\.layer))
-        drawn.formUnion(printedMarkers(within: bounds, mapFrame: mapFrame).map(\.layer))
-        return drawn
-    }
-
-    /// The undrawn layers named the way the page will name them, so the sheet
-    /// can admit them before the export runs rather than after.
-    func undrawnFeatureLayerNotes(
-        within bounds: GeoBoundingBox,
-        mapFrame: PdfRect,
-        statuses: [LayerID: ViewportLayerStatus]
-    ) -> [String] {
-        PrintExport.undrawnFeatureLayers(
-            statuses, drawn: drawnFeatureLayers(within: bounds, mapFrame: mapFrame)
-        ).map { layer in
-            let name = LayerCatalog.descriptor(for: layer.id)?.name ?? layer.id.rawValue
-            return "\(name) (\(layer.status.printReason))"
-        }
-    }
-
-    /// The map's own tile path, so the export honours the cache and the licence
-    /// clearance the screen is already holding rather than asking again.
-    var printTileProvider: PrintMapCompositor.TileProvider {
-        PrintMapCompositor.provider(overlays: controller.installedTileOverlays())
-    }
-
-    var printRenderProvider: PrintMapCompositor.RenderProvider {
-        PrintMapCompositor.renderer(clearance: clearanceBox)
-    }
 
     /// Opens a shared link.
     ///
@@ -2327,65 +1932,29 @@ final class OverlayViewModel {
 
     // MARK: - The parcel panel
 
+    /// The seven-source evidence machine, extracted whole into
+    /// `ParcelEvidencePanel`. The coordinator's part is assembling the
+    /// context — the notice, the records and the record mode are its facts —
+    /// and forwarding the panel's state below, so views keep reading
+    /// `overlayVM.inspection` and the observation graph is unchanged.
+    @ObservationIgnored private let evidencePanel: ParcelEvidencePanel
+
     /// What the panel shows about the selected parcel, `nil` when none is
     /// selected.
-    private(set) var inspection: ParcelInspection?
+    var inspection: ParcelInspection? { evidencePanel.inspection }
 
-    @ObservationIgnored private var inspectionLookup: Task<Void, Never>?
+    /// Bumped every time a parcel's evidence starts over — the export clock's
+    /// key. See `ParcelEvidencePanel.evidenceGeneration`.
+    var evidenceGeneration: Int { evidencePanel.evidenceGeneration }
 
-    /// The same seam as `awaitParcelLookup`, for the panel's two lookups.
+    /// The same seam as `awaitParcelLookup`, for the panel's lookups.
     func awaitInspection() async {
-        await inspectionLookup?.value
-    }
-
-    /// One answer from one source, on its way back to the panel.
-    private enum Evidence: Sendable {
-        case addresses(Result<CivicAddressResponse.Reading, CivicAddressFailure>)
-        case context(Result<ParcelContext, ParcelContextFailure>)
-        case assessments(Result<PVSCAssessmentResponse.Result, PVSCAssessmentFailure>)
-        case dwellings(Result<PVSCDwellingResponse.Result, PVSCDwellingFailure>)
-        case buildings(Result<ParcelBuildingCount, BuildingCountFailure>)
-        /// One value carrying three sources, because they are refused together
-        /// — a parcel with no rings — and answer separately.
-        case resources(Result<ParcelResourceIntersections, ResourceIntersectionQuery.Refusal>)
-        /// Likewise: the river study areas and the three coastal scenarios are
-        /// refused together and answer separately.
-        case flood(Result<ParcelFloodHazard, FloodHazardQuery.Refusal>)
-    }
-
-    /// Rebuilds the panel for whatever is selected now.
-    ///
-    /// Everything the parcel record itself carries is filled in at once; the
-    /// two lookups that go out to services start `looking` and land separately,
-    /// so a slow one does not hold up a fast one.
-    /// Bumped every time a parcel's evidence starts over.
-    ///
-    /// The open PID is not enough to tell one wait from the next. Toggling tax
-    /// sales, or tapping the parcel that is already open, rebuilds the same
-    /// PID's inspection with every service back at `looking` — and anything
-    /// timing that wait off the PID alone would carry the finished clock
-    /// straight over the new one, and let a page be written naming sources that
-    /// had been given no time at all.
-    private(set) var evidenceGeneration = 0
-
-    /// Publishes a rebuilt panel, and says that its evidence is new.
-    private func beginInspection(_ state: ParcelInspection) {
-        inspection = state
-        evidenceGeneration &+= 1
-    }
-
-    /// Closes the panel, and says that whatever was being waited on is over.
-    private func endInspection() {
-        inspection = nil
-        evidenceGeneration &+= 1
+        await evidencePanel.awaitInspection()
     }
 
     private func refreshInspection() {
         guard let pid = parcels.selectedPID else {
-            wantsFreshInspection = false
-            inspectionLookup?.cancel()
-            inspectionLookup = nil
-            endInspection()
+            evidencePanel.refresh(nil)
             return
         }
         // Gated on the mode for the same reason the styling is: a PID in both
@@ -2394,10 +1963,6 @@ final class OverlayViewModel {
         let notice = showsTaxSale && mapRecordMode == .current
             ? taxSale?.listingContext(forPID: pid)
             : nil
-        // PVSC's own key for this property, as the municipality printed it.
-        // Matching by account is exact where matching by geometry is not, so
-        // when the notice named one it is asked with instead of the rings.
-        let noticeAAN = notice?.listing.aan
         let records = showsTaxSale ? (historical?.contexts(forPID: pid) ?? []) : []
         // Only printed in the historical mode. The current notices are the
         // map's ordinary state, and a marker on every card would stop being
@@ -2405,324 +1970,17 @@ final class OverlayViewModel {
         let modeMarker = mapRecordMode == .historical
             ? historical?.mode.markerLabel
             : nil
-
-        // A styling refresh for the parcel already open: same PID, same
-        // account, same geometry, and no explicit re-ask pending. Only the
-        // synchronous fields can have changed, and recomputing just those
-        // keeps a notice switch or a redemption filter from cancelling six
-        // in-flight service lookups, resetting the whole card to "looking",
-        // and — because the export clock is keyed on `evidenceGeneration` —
-        // restarting the sources-have-had-their-time wait the reader may be
-        // sitting out.
-        if !wantsFreshInspection,
-           var current = inspection,
-           current.pid == pid,
-           current.taxSaleNotice?.listing.aan == noticeAAN,
-           current.boundaryNotice == parcels.boundaryNotice,
-           current.mappedArea == ParcelResponse.mappedArea(
-               forPID: pid,
-               in: ParcelFeatureCollection(identifiedFeatures: parcels.selectedFeatures)
-           ) {
-            current.showsTaxSale = showsTaxSale
-            current.taxSaleNotice = notice
-            current.historicalRecords = records
-            current.recordModeMarker = modeMarker
-            inspection = current
-            return
-        }
-
-        wantsFreshInspection = false
-        inspectionLookup?.cancel()
-        inspectionLookup = nil
-
-        guard !parcels.selectedFeatures.isEmpty else {
-            // No parcel record, so every source that takes the parcel's rings
-            // is unaskable. A notice is still worth showing on its own: the
-            // municipality named this PID, and that fact does not depend on
-            // NSPRD holding geometry for it.
-            guard notice != nil || !records.isEmpty else {
-                endInspection()
-                return
-            }
-            var state = ParcelInspection(pid: pid, mappedArea: nil, boundaryNotice: nil)
-            state.showsTaxSale = showsTaxSale
-            state.taxSaleNotice = notice
-            state.historicalRecords = records
-            state.recordModeMarker = modeMarker
-            let reason = ParcelLookupMessage.noParcelRecordToAskWith
-            state.civicAddresses = .unavailable(reason)
-            state.mappedContext = .unavailable(reason)
-            state.buildings = .unavailable(reason)
-            state.resources = .unavailable(reason)
-            state.floodHazard = .unavailable(reason)
-            if !askingPVSCByAccount(noticeAAN, of: &state) {
-                state.assessments = .unavailable(reason)
-                state.dwellings = .unavailable(reason)
-            }
-            beginInspection(state)
-            askPVSCByAccount(noticeAAN, for: pid)
-            return
-        }
-
-        let features = parcels.selectedFeatures
-        var state = ParcelInspection(
-            pid: pid,
-            mappedArea: ParcelResponse.mappedArea(
-                forPID: pid,
-                in: ParcelFeatureCollection(identifiedFeatures: features)
-            ),
-            boundaryNotice: parcels.boundaryNotice
+        evidencePanel.refresh(
+            ParcelEvidencePanel.Context(
+                pid: pid,
+                showsTaxSale: showsTaxSale,
+                taxSaleNotice: notice,
+                historicalRecords: records,
+                recordModeMarker: modeMarker,
+                selectedFeatures: parcels.selectedFeatures,
+                boundaryNotice: parcels.boundaryNotice
+            )
         )
-        state.showsTaxSale = showsTaxSale
-        state.taxSaleNotice = notice
-        state.historicalRecords = records
-        state.recordModeMarker = modeMarker
-
-        let parts = features.flatMap(\.boundary.parts)
-        guard !parts.isEmpty else {
-            // The record came back without a shape, so neither lookup can be
-            // made: both take the parcel's rings. Saying so is the point —
-            // "no civic address on this parcel" would be a finding, and nothing
-            // was asked.
-            state.civicAddresses = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            state.mappedContext = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            state.buildings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            state.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            state.floodHazard = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            if !askingPVSCByAccount(noticeAAN, of: &state) {
-                state.assessments = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-                state.dwellings = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-            }
-            beginInspection(state)
-            askPVSCByAccount(noticeAAN, for: pid)
-            return
-        }
-        beginInspection(state)
-
-        inspectionLookup = Task {
-            [
-                weak self, civicFetcher, contextFetcher, assessmentFetcher, dwellingFetcher,
-                buildingFetcher, resourceFetcher, floodFetcher,
-                clearance = clearanceBox.clearance,
-                // The area the coastal sample is turned into square metres
-                // with, which is the area of the pieces that were sampled and
-                // not the whole PID's. A parcel with a piece that could not be
-                // drawn was never looked at there, and spreading a percentage
-                // measured on the drawn pieces across the undrawn one would
-                // report flooded ground nobody screened.
-                mappedAreaSquareMetres = ParcelResponse.mappedAreaSquareMetres(
-                    forPID: pid,
-                    in: ParcelFeatureCollection(
-                        identifiedFeatures: features.filter { !$0.boundary.parts.isEmpty }
-                    )
-                ),
-                noticeAAN
-            ] in
-            await withTaskGroup(of: Evidence.self) { group in
-                group.addTask {
-                    do throws(CivicAddressFailure) {
-                        return .addresses(.success(try await civicFetcher.addresses(inside: parts)))
-                    } catch {
-                        return .addresses(.failure(error))
-                    }
-                }
-                group.addTask {
-                    do throws(ParcelContextFailure) {
-                        return .context(
-                            .success(try await contextFetcher.context(for: parts, clearance: clearance))
-                        )
-                    } catch {
-                        return .context(.failure(error))
-                    }
-                }
-                group.addTask {
-                    do throws(PVSCAssessmentFailure) {
-                        return .assessments(
-                            .success(
-                                try await assessmentFetcher.assessments(
-                                    for: parts, noticeAAN: noticeAAN
-                                )
-                            )
-                        )
-                    } catch {
-                        return .assessments(.failure(error))
-                    }
-                }
-                group.addTask {
-                    do throws(BuildingCountFailure) {
-                        return .buildings(
-                            .success(try await buildingFetcher.count(for: parts, clearance: clearance))
-                        )
-                    } catch {
-                        return .buildings(.failure(error))
-                    }
-                }
-                group.addTask {
-                    do throws(ResourceIntersectionQuery.Refusal) {
-                        return .resources(
-                            .success(
-                                try await resourceFetcher.intersections(
-                                    for: parts, clearance: clearance
-                                )
-                            )
-                        )
-                    } catch {
-                        return .resources(.failure(error))
-                    }
-                }
-                group.addTask {
-                    do throws(FloodHazardQuery.Refusal) {
-                        return .flood(
-                            .success(
-                                try await floodFetcher.hazard(
-                                    for: parts,
-                                    mappedAreaSquareMetres: mappedAreaSquareMetres,
-                                    clearance: clearance
-                                )
-                            )
-                        )
-                    } catch {
-                        return .flood(.failure(error))
-                    }
-                }
-                for await evidence in group {
-                    guard !Task.isCancelled, let self else { return }
-                    self.apply(evidence, to: pid)
-                    // The dwelling dataset is keyed by account number, so it
-                    // joins the group only once the assessment lookup has named
-                    // some — and it joins this group rather than a task of its
-                    // own so that abandoning the parcel cancels it too.
-                    if case .assessments(.success(let result)) = evidence, !result.accounts.isEmpty,
-                        self.inspection?.pid == pid {
-                        let aans = result.accounts.map(\.aan)
-                        group.addTask {
-                            do throws(PVSCDwellingFailure) {
-                                return .dwellings(
-                                    .success(try await dwellingFetcher.dwellings(forAANs: aans))
-                                )
-                            } catch {
-                                return .dwellings(.failure(error))
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /// Whether PVSC can still be asked about a parcel with no usable geometry.
-    ///
-    /// An account number is not a shape, so the absence of one does not stop
-    /// this lookup the way it stops the others. Sets the two account-fed
-    /// sections back to `looking` when the answer is yes, because the caller
-    /// has already written the refusal that applies to everything else.
-    private func askingPVSCByAccount(
-        _ noticeAAN: String?,
-        of state: inout ParcelInspection
-    ) -> Bool {
-        guard let noticeAAN, PVSCAssessmentQuery.normalizeAAN(noticeAAN) != nil else {
-            return false
-        }
-        state.assessments = .looking
-        state.dwellings = .looking
-        return true
-    }
-
-    /// Asks PVSC for the notice's account, without any parcel geometry.
-    ///
-    /// The web runs this lookup whenever the notice named an AAN, even with no
-    /// parcel feature selected. Without it, a listed property NSPRD holds no
-    /// shape for would show nothing at all, when the assessment record it is
-    /// keyed to is sitting there under a number the municipality printed.
-    private func askPVSCByAccount(_ noticeAAN: String?, for pid: String) {
-        guard let noticeAAN, PVSCAssessmentQuery.normalizeAAN(noticeAAN) != nil else { return }
-
-        inspectionLookup = Task { [weak self, assessmentFetcher, dwellingFetcher] in
-            let assessed: Evidence
-            do throws(PVSCAssessmentFailure) {
-                assessed = .assessments(
-                    .success(try await assessmentFetcher.assessments(for: [], noticeAAN: noticeAAN))
-                )
-            } catch {
-                assessed = .assessments(.failure(error))
-            }
-            guard !Task.isCancelled, let self else { return }
-            self.apply(assessed, to: pid)
-
-            guard case .assessments(.success(let result)) = assessed, !result.accounts.isEmpty,
-                self.inspection?.pid == pid
-            else { return }
-
-            let dwelt: Evidence
-            do throws(PVSCDwellingFailure) {
-                dwelt = .dwellings(
-                    .success(try await dwellingFetcher.dwellings(forAANs: result.accounts.map(\.aan)))
-                )
-            } catch {
-                dwelt = .dwellings(.failure(error))
-            }
-            guard !Task.isCancelled else { return }
-            self.apply(dwelt, to: pid)
-        }
-    }
-
-    /// Writes one source's answer into the panel, if the panel is still showing
-    /// the parcel it was asked about.
-    private func apply(_ evidence: Evidence, to pid: String) {
-        guard inspection?.pid == pid else { return }
-        switch evidence {
-        case .addresses(.success(let reading)):
-            inspection?.civicAddresses = .ready(reading)
-        case .addresses(.failure(.cancelled)), .context(.failure(.cancelled)),
-            .assessments(.failure(.cancelled)), .dwellings(.failure(.cancelled)),
-            .buildings(.failure(.cancelled)):
-            // Superseded, not failed. Leaving it `looking` is honest: this
-            // parcel's panel is about to be replaced.
-            break
-        case .addresses(.failure(let failure)):
-            inspection?.civicAddresses = .unavailable(
-                ParcelLookupMessage.addressEvidenceFailure(failure)
-            )
-        case .context(.success(let context)):
-            inspection?.mappedContext = .ready(context)
-        case .context(.failure(let failure)):
-            inspection?.mappedContext = .unavailable(
-                ParcelLookupMessage.contextEvidenceFailure(failure)
-            )
-        case .assessments(.success(let result)):
-            inspection?.assessments = .ready(result)
-            if result.accounts.isEmpty {
-                // No account to ask about, so the dwelling dataset is never
-                // consulted. "No dwelling record" would be a finding drawn from
-                // a question nobody asked.
-                inspection?.dwellings = .unavailable(ParcelLookupMessage.noAccountToAskDwellingsWith)
-            }
-        case .assessments(.failure(let failure)):
-            inspection?.assessments = .unavailable(
-                ParcelLookupMessage.assessmentEvidenceFailure(failure)
-            )
-            inspection?.dwellings = .unavailable(ParcelLookupMessage.dwellingsNotLookedUp)
-        case .dwellings(.success(let result)):
-            inspection?.dwellings = .ready(result)
-        case .dwellings(.failure(let failure)):
-            inspection?.dwellings = .unavailable(
-                ParcelLookupMessage.dwellingEvidenceFailure(failure)
-            )
-        case .buildings(.success(let count)):
-            inspection?.buildings = .ready(count)
-        case .buildings(.failure(let failure)):
-            inspection?.buildings = .unavailable(
-                ParcelLookupMessage.buildingEvidenceFailure(failure)
-            )
-        case .resources(.success(let intersections)):
-            inspection?.resources = .ready(intersections)
-        case .resources(.failure(.noBoundary)):
-            inspection?.resources = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-        case .flood(.success(let hazard)):
-            inspection?.floodHazard = .ready(hazard)
-        case .flood(.failure(.noBoundary)):
-            inspection?.floodHazard = .unavailable(ParcelLookupMessage.noBoundaryToAskWith)
-        }
     }
 
     /// Runs a parcel request and applies its answer on the main actor.
