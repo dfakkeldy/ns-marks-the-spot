@@ -1,1 +1,1 @@
-Explore Fletcher historical maps over modern Nova Scotia with adjustable overlays, reference layers, saved areas, and transparent data-source notes.
+Search Nova Scotia parcels by PID or civic address, read dated tax-sale notices with their sources, measure, export PDF maps, and keep your imported maps on your device.
