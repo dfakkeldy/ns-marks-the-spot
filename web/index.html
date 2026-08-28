@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta
       name="description"
       content="Search Nova Scotia parcels by PID or civic address, map municipal tax-sale notices against live parcel geometry, and export source-linked evidence notes."
@@ -28,7 +31,17 @@
     <title>NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <p style="margin: 24vh auto 0; max-width: 26rem; padding: 0 24px; text-align: center; font-family: Georgia, serif; color: #12343b">
+        Loading map…
+      </p>
+    </div>
+    <noscript>
+      <p style="margin: 16px auto 0; max-width: 26rem; padding: 0 24px; text-align: center; font-family: Georgia, serif; color: #12343b">
+        NS Marks The Spot draws its map with JavaScript. Enable JavaScript and
+        reload to use it.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

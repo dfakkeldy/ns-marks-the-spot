@@ -104,6 +104,24 @@ describe("distance measuring", () => {
     expect(screen.getByTestId("measure-line")).toHaveAttribute("data-count", "2");
   });
 
+  it("surfaces the finish and clear gestures once measuring is underway", () => {
+    render(<Harness initialMode="distance" />);
+    expect(screen.getByRole("status")).not.toHaveTextContent("Esc to clear");
+
+    clickAt(45, -61);
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "double-click or Enter to finish · Esc to clear",
+    );
+
+    clickAt(46, -61);
+    act(() => {
+      fireEvent.keyDown(window, { key: "Enter" });
+    });
+    // A finished measurement reads as a result, not an instruction.
+    expect(screen.getByRole("status")).toHaveTextContent("111.19 km");
+    expect(screen.getByRole("status")).not.toHaveTextContent("Esc to clear");
+  });
+
   it("previews the next leg from the cursor without committing it", () => {
     render(<Harness initialMode="distance" />);
     clickAt(45, -61);

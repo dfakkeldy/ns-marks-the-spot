@@ -2975,16 +2975,19 @@ a {
     line-height: 0;
   }
 
+  /* With viewport-fit=cover these fixed offsets sit relative to the notch,
+     not the visible top — track the mobile chrome, which starts at
+     max(12px, env(safe-area-inset-top)), by carrying the same inset. */
   .location-button {
-    top: 74px;
+    top: max(74px, calc(env(safe-area-inset-top) + 62px));
   }
 
   .location-message {
-    top: 234px;
+    top: max(234px, calc(env(safe-area-inset-top) + 222px));
   }
 
   .measure-control {
-    top: 126px;
+    top: max(126px, calc(env(safe-area-inset-top) + 114px));
   }
 
   .measure-readout {

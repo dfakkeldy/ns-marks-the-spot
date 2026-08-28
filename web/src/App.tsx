@@ -701,6 +701,38 @@ function printLayerSources(
   return sources;
 }
 
+/**
+ * Focus and keyboard chrome shared by the app-level dialogs, matching
+ * ThemeManagerDialog: focus the dialog on mount, dismiss on Escape, and hand
+ * focus back to the opener on unmount. The dismiss handler lives in a ref so
+ * inline-arrow props don't re-run the mount effect (which would bounce focus
+ * on every parent render).
+ */
+function useDialogChrome(onDismiss: () => void) {
+  const dialogRef = useRef<HTMLElement | null>(null);
+  const dismissRef = useRef(onDismiss);
+  dismissRef.current = onDismiss;
+  useEffect(() => {
+    const opener =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    dialogRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        dismissRef.current();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      opener?.focus();
+    };
+  }, []);
+  return dialogRef;
+}
+
 function LicenceDialog({
   onAccept,
   onContinueWithout,
@@ -715,9 +747,14 @@ function LicenceDialog({
    */
   onClose?: () => void;
 }) {
+  // While acceptance is pending there is no close affordance, so Escape maps
+  // to the explicit decline — never to a silent accept.
+  const dialogRef = useDialogChrome(onClose ?? onContinueWithout);
   return (
     <div className="dialog-backdrop">
       <section
+        ref={dialogRef}
+        tabIndex={-1}
         className="licence-dialog"
         role="dialog"
         aria-modal="true"
@@ -763,9 +800,12 @@ function LicenceDialog({
 }
 
 function AboutDialog({ onClose }: { onClose: () => void }) {
+  const dialogRef = useDialogChrome(onClose);
   return (
     <div className="dialog-backdrop">
       <section
+        ref={dialogRef}
+        tabIndex={-1}
         className="licence-dialog about-dialog"
         role="dialog"
         aria-modal="true"
@@ -982,6 +1022,20 @@ export function App() {
     initialNeedsLicence,
   );
   const [aboutOpen, setAboutOpen] = useState(false);
+  // Escape closes the mobile controls sheet, matching the dialogs — but only
+  // while no dialog sits above it, so one keypress never closes two layers.
+  useEffect(() => {
+    if (!mobileControlsOpen || aboutOpen || licenceDialogOpen || themeManagerOpen) {
+      return;
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileControlsOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileControlsOpen, aboutOpen, licenceDialogOpen, themeManagerOpen]);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
   const parcelsRef = useRef(parcels);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
@@ -995,6 +1049,17 @@ export function App() {
     initialShareState.pid,
   );
   const selectionGeneration = useRef(initialShareState.pid ? 1 : 0);
+  // Name the tab after the open parcel: multi-tab research otherwise produces
+  // indistinguishable tabs and identical history entries. The PID is already
+  // in the share URL, so this discloses nothing new.
+  useEffect(() => {
+    if (!selectedPid) return;
+    const previousTitle = document.title;
+    document.title = `PID ${selectedPid} — NS Marks The Spot`;
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [selectedPid]);
   const [selectedEvidenceRequest, setSelectedEvidenceRequest] = useState<
     SelectedEvidenceRequest | null
   >(() => initialShareState.pid
