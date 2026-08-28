@@ -120,6 +120,38 @@ extension MapShareState {
         return parameterNames.contains { names.contains($0) }
     }
 
+    /// Whether the query bears the marks of a link damaged in transit.
+    ///
+    /// Links get typed, re-typed over simulator keyboards, and truncated by
+    /// whatever carried them. Two signatures are unambiguous: a comma-separated
+    /// ID list (`layers`, `event`) holding a token with `=` in it means a lost
+    /// `&` swallowed the next parameter's name and value into the list, and a
+    /// `position` that is present but does not read as three numbers is a tail
+    /// cut short. Anything subtler is left alone — an unknown extra parameter
+    /// is not damage, and a link truncated cleanly between parameters cannot
+    /// be told from a link that never carried more.
+    ///
+    /// Detection only: `parse` still restores what survived, exactly as the
+    /// web restores it. This answers whether the result may be presented as
+    /// the whole view somebody sent.
+    public static func queryLooksDamaged(_ value: String) -> Bool {
+        guard let components = URLComponents(string: value) else { return false }
+        let query = components.queryItems ?? []
+        func first(_ name: String) -> String? {
+            query.first { $0.name == name }?.value
+        }
+        let swallowedParameter = ["layers", "event"].contains { name in
+            (first(name) ?? "").split(separator: ",").contains { $0.contains("=") }
+        }
+        if swallowedParameter { return true }
+        guard let position = first("position") else { return false }
+        let parts = position.split(separator: ",", omittingEmptySubsequences: false)
+        return parts.count < 3
+            || !(Double(parts[0])?.isFinite ?? false)
+            || !(Double(parts[1])?.isFinite ?? false)
+            || !(Double(parts[2])?.isFinite ?? false)
+    }
+
     /// Reads a shared link, dropping anything this build cannot vouch for.
     ///
     /// Unknown event and layer IDs are dropped rather than kept: a link naming

@@ -77,6 +77,13 @@ nonisolated enum ParcelLookupMessage {
     /// lookup speaks for itself.
     static let openedSharedView = "Opened the shared view."
 
+    /// The same restore, but the link itself had lost characters on the way —
+    /// `MapShareState.queryLooksDamaged` read the marks off the query. What
+    /// survived is on the map; the sentence must not claim it is the whole
+    /// view somebody sent.
+    static let openedDamagedSharedView =
+        "The link arrived damaged; opened the part that could be read."
+
     // MARK: - The parcel panel
 
     /// The record arrived without a shape, so the lookups that take its rings

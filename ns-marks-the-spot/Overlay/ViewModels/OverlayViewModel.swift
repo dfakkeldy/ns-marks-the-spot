@@ -1285,6 +1285,29 @@ final class OverlayViewModel {
             validLayerIDs: Set(rows.map(\.id)).union([MapShareState.modernBaseLayerID])
         )
         apply(state, arrivedFrom: .sharedLink)
+        noteDamageIfTheLinkArrivedBroken(url)
+    }
+
+    /// Says so when the link itself, not this build, is why the view is
+    /// incomplete.
+    ///
+    /// A link that lost characters on the way still restores what survived —
+    /// that is `parse`'s promise, and the web keeps it too. But the iOS 18.5
+    /// smoke test showed where that promise misleads: a mangled link printed
+    /// "Opened the shared view." over a map missing the sender's position and
+    /// half their layers, and nothing on screen said anything had been lost.
+    /// The parcel message changes because it is the sentence the reader is
+    /// looking at; the standing notice carries the same fact for links that
+    /// name a parcel, whose lookup overwrites the message a moment later.
+    private func noteDamageIfTheLinkArrivedBroken(_ url: URL) {
+        guard MapShareState.queryLooksDamaged(url.absoluteString) else { return }
+        let warning = "This link arrived damaged — part of it could not be read, "
+            + "so this may not be the whole shared view."
+        sharedLinkNotice = ([warning] + (sharedLinkNotice.map { [$0] } ?? []))
+            .joined(separator: " ")
+        if parcelMessage == ParcelLookupMessage.openedSharedView {
+            parcelMessage = ParcelLookupMessage.openedDamagedSharedView
+        }
     }
 
     /// Puts the map back where the reader left it at the last launch.

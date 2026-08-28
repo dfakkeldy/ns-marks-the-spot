@@ -39,6 +39,25 @@ struct MapShareStateTests {
         )
     }
 
+    /// The two marks of a link damaged in transit — a lost `&` swallowing the
+    /// next parameter into an ID list, and a position cut short — and the
+    /// healthy links that must not be mistaken for them.
+    @Test func damageIsReadOffTheQueryItself() {
+        #expect(MapShareState.queryLooksDamaged(
+            "https://example.com/map?layers=ns-aerial,nsprd7position=46.0995,-60.7539,15"
+        ))
+        #expect(MapShareState.queryLooksDamaged(
+            "https://example.com/map?layers=nsprd&position=46.0995,-60.75"
+        ))
+        #expect(MapShareState.queryLooksDamaged(
+            "https://example.com/map?layers=ns-aerial,nsprd&position=46.0995,-60.7539,15"
+        ) == false)
+        // A link that never carried a position is short, not damaged.
+        #expect(MapShareState.queryLooksDamaged(
+            "https://example.com/map?mode=current"
+        ) == false)
+    }
+
     @Test func theLinkCarriesThePIDEventLayersAndPosition() throws {
         let url = try #require(
             Self.state.url(base: URL(string: "https://example.com/map/")!)

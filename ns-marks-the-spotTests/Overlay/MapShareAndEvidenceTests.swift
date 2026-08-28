@@ -455,12 +455,12 @@ struct MapShareAndEvidenceTests {
     }
 
     /// The smoke test typed the link through HID key events, where `&` is
-    /// shift-7 and a dropped shift chord leaves `7`. The remains still carry a
-    /// `layers` parameter, so the field still says "Opened the shared view." —
-    /// while the position has been swallowed into the layer list and falls
-    /// back to the default view, and only the layer named before the ampersand
-    /// survives. The success message is not evidence the link arrived intact.
-    @Test func aMangledAmpersandKeepsTheSentenceButLosesThePositionAndALayer() throws {
+    /// shift-7 and a dropped shift chord leaves `7`. The remains still restore
+    /// — the position swallowed into the layer list falls back to the default
+    /// view, and only the layer named before the ampersand survives — but the
+    /// damage is now named: the sentence stops claiming the whole view
+    /// arrived, and the standing notice says why.
+    @Test func aMangledAmpersandRestoresTheRemainsAndNamesTheDamage() throws {
         let controller = MapController()
         let model = OverlayViewModel.forTesting(
             controller: controller, installing: [.nsAerial, .nsprd], licence: .accepted
@@ -470,15 +470,33 @@ struct MapShareAndEvidenceTests {
             "https://kinnokilabs.com/map?layers=ns-aerial,nsprd7position=46.0995,-60.7539,15"
         )
 
-        #expect(model.parcelMessage == ParcelLookupMessage.openedSharedView)
+        #expect(model.parcelMessage == ParcelLookupMessage.openedDamagedSharedView)
         #expect(controller.heldPosition == MapPosition.default)
         let visible = Set(model.rows.filter(\.isVisible).map(\.id))
         #expect(visible.contains(LayerID.nsAerial.rawValue))
         #expect(visible.contains(LayerID.nsprd.rawValue) == false)
-        // Dropped in parsing rather than refused in applying, so there is no
-        // notice either: the partial restore is indistinguishable from a full
-        // one everywhere except the map itself.
-        #expect(model.sharedLinkNotice == nil)
+        #expect(model.sharedLinkNotice?.contains("damaged") == true)
+    }
+
+    /// The other common wound: a tail cut short. The layers all land, the
+    /// unreadable position falls back to the default view, and the notice
+    /// says the link — not this build — is why the view is incomplete.
+    @Test func aTruncatedPositionRestoresTheLayersAndNamesTheDamage() throws {
+        let controller = MapController()
+        let model = OverlayViewModel.forTesting(
+            controller: controller, installing: [.nsAerial, .nsprd], licence: .accepted
+        )
+
+        model.searchParcel(
+            "https://kinnokilabs.com/map?layers=ns-aerial,nsprd&position=46.0995,-60.75"
+        )
+
+        let visible = Set(model.rows.filter(\.isVisible).map(\.id))
+        #expect(visible.contains(LayerID.nsAerial.rawValue))
+        #expect(visible.contains(LayerID.nsprd.rawValue))
+        #expect(controller.heldPosition == MapPosition.default)
+        #expect(model.parcelMessage == ParcelLookupMessage.openedDamagedSharedView)
+        #expect(model.sharedLinkNotice?.contains("damaged") == true)
     }
 
     // MARK: - The note
