@@ -27,6 +27,7 @@ struct InfoSheetView: View {
                     linksSection
                     licenceSection
                     dataSourcesSection
+                    versionFooter
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
@@ -144,16 +145,62 @@ struct InfoSheetView: View {
                 "Source on GitHub",
                 destination: URL(string: "https://github.com/dfakkeldy/ns-marks-the-spot")!
             )
-            Link(
-                "Email the maker",
-                destination: URL(
-                    string: "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot"
-                )!
-            )
+            Link("Email the maker", destination: Self.feedbackMailURL)
         }
         .font(.subheadline)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    /// Which build the reader is holding, in the marketing-plus-build form
+    /// beta feedback needs: two TestFlight builds share a marketing version
+    /// and differ only in the bracketed build number.
+    ///
+    /// Rendered from the bundle rather than hard-coded, so it cannot drift
+    /// from what was actually installed. When the bundle carries no version —
+    /// previews, bare test hosts — the row disappears instead of reading
+    /// "Version  ()".
+    @ViewBuilder private var versionFooter: some View {
+        if let version = Self.appVersion {
+            Text("Version \(version)")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    /// "1.0 (7)", or just "1.0" without a build number, or nil when the
+    /// bundle reports no marketing version at all.
+    static func versionDescription(shortVersion: String?, build: String?) -> String? {
+        guard let shortVersion, !shortVersion.isEmpty else { return nil }
+        guard let build, !build.isEmpty else { return shortVersion }
+        return "\(shortVersion) (\(build))"
+    }
+
+    /// The subject line a feedback email arrives under. Carrying the version
+    /// means a beta report identifies its build even when the sender never
+    /// thinks to mention it.
+    static func feedbackSubject(version: String?) -> String {
+        guard let version else { return "NS Marks The Spot" }
+        return "NS Marks The Spot \(version)"
+    }
+
+    private static let appVersion = versionDescription(
+        shortVersion: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
+            as? String,
+        build: Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+    )
+
+    /// Built with `URLComponents` so the subject's spaces and brackets are
+    /// percent-encoded correctly rather than by hand.
+    private static let feedbackMailURL: URL = {
+        var components = URLComponents()
+        components.scheme = "mailto"
+        components.path = "map@kinnokilabs.com"
+        components.queryItems = [
+            URLQueryItem(name: "subject", value: feedbackSubject(version: appVersion))
+        ]
+        return components.url ?? URL(string: "mailto:map@kinnokilabs.com")!
+    }()
 
     /// The way back out of an accepted Province licence.
     ///
