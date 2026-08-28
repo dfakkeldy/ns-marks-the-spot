@@ -2,11 +2,14 @@
 
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
-The current-notice catalog covers the August 11, 2026 Inverness County auction,
-the August 31, 2026 Annapolis County tax sale by tender, the September 14, 2026
-Victoria County tender, and the September 15, 2026 Halifax tender. Completed
-Middleton and CBRM events remain in historical-record mode with only printed
-official outcomes classified.
+The tax-sale catalog is a set of dated snapshots—the August 11, 2026 Inverness
+County auction, the August 31, 2026 Annapolis County tax sale by tender, the
+September 14, 2026 Victoria County tender, and the September 15, 2026 Halifax
+tender—each pinned to its official notice date. Whether a catalogued event is
+presented as current or past is decided at runtime from its advertised start
+time and any verified result dataset, as described under Data flow below.
+Completed Middleton and CBRM events remain in historical-record mode with only
+printed official outcomes classified.
 
 ## Run locally
 
