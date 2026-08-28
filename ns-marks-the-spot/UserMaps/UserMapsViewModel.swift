@@ -221,14 +221,17 @@ final class UserMapsViewModel {
         // left behind by an app killed between deleting its last map and
         // discarding its draft, which fails towards keeping the user's work.
         if mark == writes, !records.isEmpty {
-            // Detached: the sweep is a directory enumeration plus removes on
-            // the launch path, and nothing below reads its result. The store
-            // is nonisolated for exactly this.
+            // Detached so the enumeration and removes run off the main
+            // actor — the store is nonisolated for exactly this — but
+            // awaited, because the sweep is part of what a finished load
+            // means: a load that returns with the sweep still queued leaves
+            // a window where a deleted map's draft still reads back. The
+            // main actor is only suspended here, not blocked.
             let drafts = drafts
             let kept = Set(records.map(\.id))
-            Task.detached(priority: .utility) {
+            await Task.detached(priority: .utility) {
                 drafts.sweepOrphans(keeping: kept)
-            }
+            }.value
         }
         // Pixels with no record left to belong to. An import whose library
         // write was refused has already written its preview, and a crash
