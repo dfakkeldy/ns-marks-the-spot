@@ -403,6 +403,84 @@ struct MapShareAndEvidenceTests {
         #expect(model.parcelMessage == ParcelLookupMessage.openedSharedView)
     }
 
+    /// The link the iOS 18.5 simulator smoke test pasted, exactly as sent: two
+    /// licence-gated layers and a position, no parcel. Everything it names has
+    /// to land together with the sentence — the held position, both switches,
+    /// the picker following NS Aerial — because the sentence is all the smoke
+    /// test saw, over a map that had not moved.
+    @Test func aLayersAndPositionLinkRestoresEverythingItNames() throws {
+        let controller = MapController()
+        let model = OverlayViewModel.forTesting(
+            controller: controller, installing: [.nsAerial, .nsprd], licence: .accepted
+        )
+
+        model.searchParcel(
+            "https://kinnokilabs.com/map?layers=ns-aerial,nsprd&position=46.0995,-60.7539,15"
+        )
+
+        #expect(
+            controller.heldPosition
+                == MapPosition(latitude: 46.0995, longitude: -60.7539, zoom: 15)
+        )
+        let visible = Set(model.rows.filter(\.isVisible).map(\.id))
+        #expect(visible.contains(LayerID.nsAerial.rawValue))
+        #expect(visible.contains(LayerID.nsprd.rawValue))
+        // NS Aerial's switch moves the base-map picker with it.
+        #expect(model.baseMapType == .nsAerial)
+        #expect(model.sharedLinkNotice == nil)
+        #expect(model.parcelMessage == ParcelLookupMessage.openedSharedView)
+    }
+
+    /// A licence nobody has answered cannot eat the link in silence: the
+    /// refusal is named in the notice, the sheet is raised, and the position
+    /// still travels. A restore that changed nothing on screen was therefore
+    /// not this path.
+    @Test func anUnansweredLicenceRefusesTheLayersLoudlyAndStillMoves() throws {
+        let controller = MapController()
+        let model = OverlayViewModel.forTesting(
+            controller: controller, installing: [.nsAerial, .nsprd], licence: .unknown
+        )
+
+        model.searchParcel(
+            "https://kinnokilabs.com/map?layers=ns-aerial,nsprd&position=46.0995,-60.7539,15"
+        )
+
+        #expect(model.rows.filter(\.isVisible).isEmpty)
+        #expect(model.sharedLinkNotice?.contains("Province licence") == true)
+        #expect(model.licencePromptedLayerID == .nsAerial)
+        #expect(
+            controller.heldPosition
+                == MapPosition(latitude: 46.0995, longitude: -60.7539, zoom: 15)
+        )
+    }
+
+    /// The smoke test typed the link through HID key events, where `&` is
+    /// shift-7 and a dropped shift chord leaves `7`. The remains still carry a
+    /// `layers` parameter, so the field still says "Opened the shared view." —
+    /// while the position has been swallowed into the layer list and falls
+    /// back to the default view, and only the layer named before the ampersand
+    /// survives. The success message is not evidence the link arrived intact.
+    @Test func aMangledAmpersandKeepsTheSentenceButLosesThePositionAndALayer() throws {
+        let controller = MapController()
+        let model = OverlayViewModel.forTesting(
+            controller: controller, installing: [.nsAerial, .nsprd], licence: .accepted
+        )
+
+        model.searchParcel(
+            "https://kinnokilabs.com/map?layers=ns-aerial,nsprd7position=46.0995,-60.7539,15"
+        )
+
+        #expect(model.parcelMessage == ParcelLookupMessage.openedSharedView)
+        #expect(controller.heldPosition == MapPosition.default)
+        let visible = Set(model.rows.filter(\.isVisible).map(\.id))
+        #expect(visible.contains(LayerID.nsAerial.rawValue))
+        #expect(visible.contains(LayerID.nsprd.rawValue) == false)
+        // Dropped in parsing rather than refused in applying, so there is no
+        // notice either: the partial restore is indistinguishable from a full
+        // one everywhere except the map itself.
+        #expect(model.sharedLinkNotice == nil)
+    }
+
     // MARK: - The note
 
     /// A whole lookup that could not run is not the same as one that ran and
