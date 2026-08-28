@@ -9,6 +9,7 @@ import {
   type FormEvent,
 } from "react";
 import appIconUrl from "../../docs/assets/app-icon.svg";
+import { useStablePerIdCallback } from "./components/useStablePerIdCallback";
 import {
   MapCanvas,
   type MapLayerId,
@@ -2040,10 +2041,10 @@ export function App() {
     }));
   }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes]);
 
-  const reviewProvinceLicence = () => {
+  const reviewProvinceLicence = useCallback(() => {
     setLicenceIntent({ kind: "review" });
     setLicenceDialogOpen(true);
-  };
+  }, []);
 
   const closeLicenceDialog = () => {
     setLicenceDialogOpen(false);
@@ -2142,56 +2143,68 @@ export function App() {
     });
   };
 
-  const setProvinceLayerVisibility = (
-    id: ProvinceLayerId,
-    visible: boolean,
-  ) => {
+  const setProvinceLayerVisibility = useCallback(
+    (id: ProvinceLayerId, visible: boolean) => {
     setProvinceLayers((current) => ({ ...current, [id]: visible }));
-  };
+    },
+    [],
+  );
 
-  const setResourceLayerVisibility = (
-    id: ResourceLayerId,
-    visible: boolean,
-  ) => {
+  const setResourceLayerVisibility = useCallback(
+    (id: ResourceLayerId, visible: boolean) => {
     setResourceLayers((current) => ({ ...current, [id]: visible }));
-  };
+    },
+    [],
+  );
 
-  const setHydroPilotLayerVisibility = (
-    id: HydroPilotLayerId,
-    visible: boolean,
-  ) => {
+  const setHydroPilotLayerVisibility = useCallback(
+    (id: HydroPilotLayerId, visible: boolean) => {
     setHydroPilotLayers((current) => ({ ...current, [id]: visible }));
-  };
+    },
+    [],
+  );
 
-  const setWellLogLayerVisibility = (
-    id: WellLogLayerId,
-    visible: boolean,
-  ) => {
+  const setWellLogLayerVisibility = useCallback(
+    (id: WellLogLayerId, visible: boolean) => {
     setWellLogLayers((current) => ({ ...current, [id]: visible }));
-  };
+    },
+    [],
+  );
 
-  const setFloodHazardLayerVisibility = (
-    id: FloodHazardLayerId,
-    visible: boolean,
-  ) => {
+  const setFloodHazardLayerVisibility = useCallback(
+    (id: FloodHazardLayerId, visible: boolean) => {
     setFloodHazardLayers((current) => ({ ...current, [id]: visible }));
-  };
-  const setEnvironmentalHealthLayerVisibility = (
-    id: EnvironmentalHealthLayerId,
-    visible: boolean,
-  ) => {
+    },
+    [],
+  );
+  const setEnvironmentalHealthLayerVisibility = useCallback(
+    (id: EnvironmentalHealthLayerId, visible: boolean) => {
     setEnvironmentalHealthLayers((current) => ({ ...current, [id]: visible }));
-  };
-  const setForestryLayerVisibility = (
-    id: ForestryLayerId,
-    visible: boolean,
-  ) => {
+    },
+    [],
+  );
+  const setForestryLayerVisibility = useCallback(
+    (id: ForestryLayerId, visible: boolean) => {
     setForestryLayers((current) => ({ ...current, [id]: visible }));
-  };
+    },
+    [],
+  );
 
-  const setZoningLayerVisibility = (id: ZoningLayerId, visible: boolean) => {
+  const setZoningLayerVisibility = useCallback(
+    (id: ZoningLayerId, visible: boolean) => {
     setZoningLayers((current) => ({ ...current, [id]: visible }));
-  };
+    },
+    [],
+  );
+
+  const provinceToggleFor = useStablePerIdCallback(setProvinceLayerVisibility);
+  const resourceToggleFor = useStablePerIdCallback(setResourceLayerVisibility);
+  const hydroToggleFor = useStablePerIdCallback(setHydroPilotLayerVisibility);
+  const wellLogToggleFor = useStablePerIdCallback(setWellLogLayerVisibility);
+  const floodToggleFor = useStablePerIdCallback(setFloodHazardLayerVisibility);
+  const environmentalToggleFor = useStablePerIdCallback(setEnvironmentalHealthLayerVisibility);
+  const forestryToggleFor = useStablePerIdCallback(setForestryLayerVisibility);
+  const zoningToggleFor = useStablePerIdCallback(setZoningLayerVisibility);
 
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
@@ -3434,8 +3447,7 @@ export function App() {
                         checked={provinceLayers[layer.id]}
                         licenceAccepted={licenceAccepted}
                         status={layerStatuses[layer.id]}
-                        onChange={(checked) =>
-                          setProvinceLayerVisibility(layer.id, checked)}
+                        onChange={provinceToggleFor(layer.id)}
                         onReviewLicence={reviewProvinceLicence}
                       />
                       {layer.id === "roads" && provinceLayers.roads ? (
@@ -3465,8 +3477,7 @@ export function App() {
                       layer={layer}
                       checked={zoningLayers[layer.id]}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setZoningLayerVisibility(layer.id, checked)}
+                      onChange={zoningToggleFor(layer.id)}
                     />
                   ))}
                   {zoningCategoryLayers.length > 0 ? (
@@ -3497,8 +3508,7 @@ export function App() {
                       layer={layer}
                       checked={hydroPilotLayers[layer.id]}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setHydroPilotLayerVisibility(layer.id, checked)}
+                      onChange={hydroToggleFor(layer.id)}
                     />
                   ))}
                   {hydroCategoryLayers.length > 0 ? (
@@ -3556,8 +3566,7 @@ export function App() {
                       checked={floodHazardLayers[layer.id]}
                       licenceAccepted={licenceAccepted}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setFloodHazardLayerVisibility(layer.id, checked)}
+                      onChange={floodToggleFor(layer.id)}
                       onReviewLicence={reviewProvinceLicence}
                     />
                   ))}
@@ -3576,8 +3585,7 @@ export function App() {
                       checked={environmentalHealthLayers[layer.id]}
                       licenceAccepted={licenceAccepted}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setEnvironmentalHealthLayerVisibility(layer.id, checked)}
+                      onChange={environmentalToggleFor(layer.id)}
                       onReviewLicence={reviewProvinceLicence}
                     />
                   ))}
@@ -3597,8 +3605,7 @@ export function App() {
                       layer={layer}
                       checked={wellLogLayers[layer.id]}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setWellLogLayerVisibility(layer.id, checked)}
+                      onChange={wellLogToggleFor(layer.id)}
                     />
                   ))}
                   {wellCategoryLayers.length > 0 ? (
@@ -3648,8 +3655,7 @@ export function App() {
                       layer={layer}
                       checked={forestryLayers[layer.id]}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setForestryLayerVisibility(layer.id, checked)}
+                      onChange={forestryToggleFor(layer.id)}
                     />
                   ))}
                   {forestryCategoryLayers.length > 0 ? (
@@ -3678,8 +3684,7 @@ export function App() {
                       checked={resourceLayers[layer.id]}
                       licenceAccepted={licenceAccepted}
                       status={layerStatuses[layer.id]}
-                      onChange={(checked) =>
-                        setResourceLayerVisibility(layer.id, checked)}
+                      onChange={resourceToggleFor(layer.id)}
                       onReviewLicence={reviewProvinceLicence}
                     />
                   ))}
