@@ -52,7 +52,7 @@ import {
  * this file its own second source of truth, and a field added on the web would
  * go unnoticed instead of failing the Swift key-set assertion.
  */
-export const LAYER_PARITY_SCHEMA_VERSION = 2;
+export const LAYER_PARITY_SCHEMA_VERSION = 3;
 
 export type LayerParityGroupId =
   | "map-layers"

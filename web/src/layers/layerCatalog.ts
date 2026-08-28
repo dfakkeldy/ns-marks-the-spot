@@ -240,6 +240,13 @@ export type WebLayerDescriptor = {
   nativeDefaultVisibility: boolean;
   minZoom: number;
   maxZoom: number;
+  /**
+   * Deepest zoom the source has real tiles for, when it is shallower than
+   * maxZoom. Beyond it the tiles upscale on screen — same pattern the modern
+   * basemap and NS Aerial use — so a layer being traced or measured against
+   * stays visible at max zoom instead of vanishing at its native depth.
+   */
+  maxNativeZoom?: number;
   opacity: number;
   licence: "province-restricted" | "rumsey-reference";
   webAvailability: "available" | "rights-pending" | "hosting-pending";
@@ -458,11 +465,12 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     serviceUrl: "",
     nativeDefaultVisibility: true,
     minZoom: 8,
-    maxZoom: 16,
+    maxZoom: 23,
+    maxNativeZoom: 16,
     opacity: 0.72,
     licence: "rumsey-reference",
     webAvailability: "available",
-    webCaveat: "24 direct-Rumsey sheets · zoom 8–16",
+    webCaveat: "24 direct-Rumsey sheets · native detail to zoom 16",
     sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
     scale: "Independently georeferenced historical sheets",
     coverage: "Cape Breton Island · 24 individual sheets",
@@ -475,6 +483,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     nativeDefaultVisibility: false,
     minZoom: 10,
     maxZoom: 23,
+    // Was hardcoded at the render site; in the catalog it rides the parity
+    // fixture, so the native app inherits the same upscale boundary.
+    maxNativeZoom: 19,
     opacity: 1,
     licence: "province-restricted",
     webAvailability: "available",

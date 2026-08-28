@@ -97,7 +97,11 @@ export function FletcherTileLayer({
           bounds: L.latLngBounds(bounds),
           minZoom: fletcherLayerCatalog.minZoom,
           maxZoom: fletcherLayerCatalog.maxZoom,
-          maxNativeZoom: fletcherLayerCatalog.maxZoom,
+          // Past the sheets' native depth the tiles upscale instead of the
+          // whole layer vanishing — the layer being traced has to survive
+          // tracing zoom.
+          maxNativeZoom:
+            fletcherLayerCatalog.maxNativeZoom ?? fletcherLayerCatalog.maxZoom,
           noWrap: true,
           opacity: opacityRef.current,
           updateWhenZooming: false,

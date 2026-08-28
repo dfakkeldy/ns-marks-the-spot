@@ -4458,7 +4458,11 @@ export function App() {
             // catches it once and degrades to null, which buildExportLayers
             // reads as "skip the Fletcher layer".
             tileBaseUrl: fletcherTileConfiguration.baseUrl,
-            maxNativeZoom: fletcherLayerCatalog.maxZoom,
+            // The EXPORT fetches real tiles, so it clamps at native depth —
+            // upscaling is a screen behavior, not something to bake into a
+            // PDF's raster.
+            maxNativeZoom:
+              fletcherLayerCatalog.maxNativeZoom ?? fletcherLayerCatalog.maxZoom,
           },
           arcgisLayers: provinceLayerCatalog
             .filter((layer) =>

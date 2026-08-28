@@ -32,9 +32,16 @@ struct FletcherSheetParityTests {
         // bounds, so this range is the only thing stopping the app requesting
         // zooms the pyramid was never rendered at. Drifting wider than the web
         // is not a cosmetic difference — it is a guaranteed 404 per tile.
+        //
+        // The pyramid depth is the fixture's `maxNativeZoom`, not `maxZoom`:
+        // the display ceiling now runs past the rendered tiles so a tracer can
+        // keep zooming, and both surfaces upscale the deepest real tile beyond
+        // it (Leaflet past `maxNativeZoom`, MapKit past `maximumZ`).
         let entry = try #require(Self.fixture.layer("fletcher"))
         let minimum = try #require(entry["minZoom"]?.int)
-        let maximum = try #require(entry["maxZoom"]?.int)
+        let maximum = try #require(
+            entry["maxNativeZoom"]?.nonNull?.int ?? entry["maxZoom"]?.int
+        )
         #expect(FletcherSheets.zoomRange.lowerBound == minimum)
         #expect(FletcherSheets.zoomRange.upperBound == maximum)
     }
