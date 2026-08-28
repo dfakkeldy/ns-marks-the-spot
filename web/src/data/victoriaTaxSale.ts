@@ -1,4 +1,5 @@
 import type { TaxSaleEvent } from "./taxSaleTypes";
+import { halifaxTimestamp } from "./halifaxTime";
 import victoriaTaxSaleSnapshot from "./victoriaTaxSale.snapshot.json";
 
 export const VICTORIA_TAX_SALE_DATASET_SHA256 =
@@ -23,7 +24,7 @@ export const victoriaTaxSaleEvent: TaxSaleEvent = {
   shortMunicipality: "Victoria County",
   eventType: "sealed-tender",
   eventStatus: "upcoming",
-  saleStartsAt: `${victoriaTaxSaleSnapshot.eventDate}T${victoriaTaxSaleSnapshot.bidDeadlineTime}:00-03:00`,
+  saleStartsAt: halifaxTimestamp(victoriaTaxSaleSnapshot.eventDate, victoriaTaxSaleSnapshot.bidDeadlineTime),
   venue: victoriaTaxSaleSnapshot.venue,
   sourceUrl: victoriaTaxSaleSnapshot.source,
   landingPageUrl: victoriaTaxSaleSnapshot.landingPage,

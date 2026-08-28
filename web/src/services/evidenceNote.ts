@@ -22,7 +22,7 @@ type EvidenceSource = {
 type EvidenceResult = {
   name: string;
   sourceUrl: string;
-  status: "ready" | "error";
+  status: "ready" | "error" | "geometry-unavailable";
   results: string[];
   emptyMessage?: string;
 };
@@ -34,7 +34,8 @@ type EvidenceEvent = {
 
 type AssessmentEvidence =
   | { status: "ready"; result: ParcelAssessmentResult }
-  | { status: "error" };
+  | { status: "error" }
+  | { status: "geometry-unavailable" };
 
 type DwellingEvidence =
   | { status: "ready"; accounts: PvscDwellingAccount[] }
@@ -43,7 +44,8 @@ type DwellingEvidence =
 
 type CivicEvidence =
   | { status: "ready"; points: Array<{ label: string; sourceUrl: string }> }
-  | { status: "error" };
+  | { status: "error" }
+  | { status: "geometry-unavailable" };
 
 export type EvidenceNoteInput = {
   generatedAt: Date;
@@ -70,6 +72,11 @@ function filenameTimestamp(date: Date): string {
 }
 
 function resultLines(result: EvidenceResult): string[] {
+  if (result.status === "geometry-unavailable") {
+    return [
+      `- ${result.name}: not evaluated — this PID's NSPRD geometry is unavailable.`,
+    ];
+  }
   if (result.status === "error") {
     return [`- ${result.name}: source unavailable at export time.`];
   }
@@ -85,6 +92,11 @@ const currency = new Intl.NumberFormat("en-CA", {
 });
 
 function assessmentLines(evidence: AssessmentEvidence): string[] {
+  if (evidence.status === "geometry-unavailable") {
+    return [
+      "Not evaluated — this PID's NSPRD geometry is unavailable, and no municipal notice supplied an AAN.",
+    ];
+  }
   if (evidence.status === "error") {
     return ["PVSC assessment source unavailable at export time."];
   }
@@ -169,7 +181,9 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
           `- [${name}](${sourceUrl}) — ${sourceDate}`,
       )
     : ["- No optional map layers enabled."];
-  const civic = input.civicAddresses.status === "error"
+  const civic = input.civicAddresses.status === "geometry-unavailable"
+    ? ["- Not evaluated — this PID's NSPRD geometry is unavailable."]
+    : input.civicAddresses.status === "error"
     ? ["- Civic address source unavailable at export time."]
     : input.civicAddresses.points.length > 0
       ? input.civicAddresses.points.map(

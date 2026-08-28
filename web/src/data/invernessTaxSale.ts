@@ -1,4 +1,5 @@
 import type { TaxSaleEvent, TaxSaleListingStatus } from "./taxSaleTypes";
+import { halifaxTimestamp } from "./halifaxTime";
 import invernessTaxSaleSnapshot from "./invernessTaxSale.snapshot.json";
 
 export type TaxSaleListing = {
@@ -18,7 +19,7 @@ export const invernessTaxSaleNotice = {
   municipality: "Municipality of the County of Inverness",
   publishedOn: invernessTaxSaleSnapshot.publishedDate,
   retrievedOn: invernessTaxSaleSnapshot.retrievedDate,
-  saleStartsAt: "2026-08-11T09:30:00-03:00",
+  saleStartsAt: halifaxTimestamp("2026-08-11", "09:30"),
   venue: "St. Peter's Parish Hall, 260 Main Street, Port Hood",
   sourceUrl: invernessTaxSaleSnapshot.source,
 } as const;
