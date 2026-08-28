@@ -3,6 +3,7 @@ import type {
   TaxSaleEvent,
 } from "./taxSaleTypes";
 import cbrmTaxSaleSnapshot from "./cbrmTaxSale.snapshot.json";
+import { halifaxTimestamp } from "./halifaxTime";
 
 type CbrmSourceListing = {
   lien: string;
@@ -29,7 +30,7 @@ export const cbrmTaxSaleEvent: TaxSaleEvent = {
   shortMunicipality: "CBRM",
   eventType: "public-auction",
   eventStatus: "historical",
-  saleStartsAt: `${cbrmTaxSaleSnapshot.saleDate}T${cbrmTaxSaleSnapshot.saleTime}:00-03:00`,
+  saleStartsAt: halifaxTimestamp(cbrmTaxSaleSnapshot.saleDate, cbrmTaxSaleSnapshot.saleTime),
   venue: cbrmTaxSaleSnapshot.venue,
   landingPageUrl: cbrmTaxSaleSnapshot.landingPage,
   sourceUrl: cbrmTaxSaleSnapshot.source,

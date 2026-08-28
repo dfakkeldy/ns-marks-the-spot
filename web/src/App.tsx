@@ -498,11 +498,19 @@ function printState<T>(
   state:
     | { status: "idle" | "loading" }
     | { status: "ready"; value: T }
-    | { status: "error" },
+    | { status: "error" | "geometry-unavailable" },
 ): PrintLoadState<T> {
   if (state.status === "ready") return { status: "ready", value: state.value };
   if (state.status === "error") {
     return { status: "error", message: "Source unavailable at export time." };
+  }
+  if (state.status === "geometry-unavailable") {
+    // Unreachable while canPrintExport requires resolved geometry, but the
+    // honest message costs nothing if that gate ever loosens.
+    return {
+      status: "error",
+      message: "Not evaluated — this PID's NSPRD geometry is unavailable.",
+    };
   }
   return { status: "pending" };
 }
@@ -511,7 +519,7 @@ function printStateForRequest<T>(
   state: { request: SelectedEvidenceRequest | null } & (
     | { status: "idle" | "loading" }
     | { status: "ready"; value: T }
-    | { status: "error" }
+    | { status: "error" | "geometry-unavailable" }
   ),
   request: SelectedEvidenceRequest | null,
 ): PrintLoadState<T> {
@@ -1513,20 +1521,90 @@ export function App() {
     return () => controller.abort();
   }, [licenceAccepted, taxSaleEnabled]);
 
+  /**
+   * Move every geometry-dependent evidence state to a TERMINAL status once
+   * the selected PID's geometry is known not to resolve. selectParcel puts
+   * them all on "loading", and each evidence effect bails while there are no
+   * features — so without this, a PID with no NSPRD geometry (or a failed
+   * geometry fetch, which nothing retries) showed "Checking…" forever: a
+   * known condition presented as indefinite progress. "geometry-unavailable"
+   * and "error" stay distinct — empty is not the same evidence as a fetch
+   * that failed.
+   */
+  const pendingGeometryFetchPidRef = useRef<string | null>(null);
+  const taxSaleEnabledRef = useRef(taxSaleEnabled);
+  const mapModeRef = useRef(mapMode);
+  useEffect(() => {
+    taxSaleEnabledRef.current = taxSaleEnabled;
+    mapModeRef.current = mapMode;
+  }, [mapMode, taxSaleEnabled]);
+
+  const markGeometryEvidenceTerminal = useCallback(
+    (
+      request: SelectedEvidenceRequest,
+      status: "geometry-unavailable" | "error",
+    ) => {
+      setMappedContext((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, value: EMPTY_PARCEL_CONTEXT, request }
+          : current);
+      setBuildingCount((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, request }
+          : current);
+      setFloodHazard((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, request }
+          : current);
+      setCivicAddresses((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, value: EMPTY_CIVIC_ADDRESSES, request }
+          : current);
+      setResourceIntersections((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, value: EMPTY_RESOURCE_INTERSECTIONS, request }
+          : current);
+      // Assessments (and dwellings behind them) resolve WITHOUT geometry
+      // when a municipal notice supplies an AAN — their own effect owns them
+      // in that case. Without one, nothing will ever settle them.
+      const noticeAan = taxSaleEnabledRef.current && mapModeRef.current === "current"
+        ? listingContextForPid(request.pid)?.listing.aan
+        : undefined;
+      if (!noticeAan) {
+        // Dwellings follow automatically: the mirror effect maps a non-ready
+        // assessment into the blocked dwelling state.
+        setAssessmentState((current) =>
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status !== "ready"
+            ? { status: "geometry-unavailable", request }
+            : current);
+      }
+    },
+    [],
+  );
+
   useEffect(() => {
     if (
       !licenceAccepted ||
       !selectedPid ||
+      // A search or listing click fetches this pid itself and owns the
+      // terminal marking; a second identical request here raced it — and in
+      // tests, consumed its mock.
+      pendingGeometryFetchPidRef.current === selectedPid ||
       parcels.features.some(({ properties }) => properties.PID === selectedPid)
     ) {
       return;
     }
+    const request = selectedEvidenceRequest;
 
     const controller = new AbortController();
     fetchParcels([selectedPid], controller.signal)
       .then((collection) => {
         if (collection.features.length === 0) {
           setParcelLookupMessage(`No NSPRD parcel was found for PID ${selectedPid}.`);
+          if (request) {
+            markGeometryEvidenceTerminal(request, "geometry-unavailable");
+          }
           return;
         }
         setParcels((current) => mergeFeatureCollections(current, collection));
@@ -1537,10 +1615,19 @@ export function App() {
           return;
         }
         setParcelLookupMessage("The shared PID could not be loaded right now.");
+        if (request) {
+          markGeometryEvidenceTerminal(request, "error");
+        }
       });
 
     return () => controller.abort();
-  }, [licenceAccepted, parcels.features, selectedPid]);
+  }, [
+    licenceAccepted,
+    markGeometryEvidenceTerminal,
+    parcels.features,
+    selectedEvidenceRequest,
+    selectedPid,
+  ]);
 
   useEffect(() => {
     if (!licenceAccepted || !taxSaleEnabled || !showHistoricalTaxSales) {
@@ -1724,9 +1811,11 @@ export function App() {
   useEffect(() => {
     if (assessmentState.status !== "ready") {
       setDwellingState({
-        status: assessmentState.status === "error"
-          ? "blocked"
-          : assessmentState.status,
+        status:
+          assessmentState.status === "error" ||
+          assessmentState.status === "geometry-unavailable"
+            ? "blocked"
+            : assessmentState.status,
         request: assessmentState.request,
       });
       return;
@@ -2216,7 +2305,7 @@ export function App() {
     [],
   );
 
-  const selectParcel = (pid: string) => {
+  const selectParcel = (pid: string): SelectedEvidenceRequest => {
     setMobileControlsOpen(false);
     const request = { pid, generation: selectionGeneration.current + 1 };
     selectionGeneration.current = request.generation;
@@ -2234,6 +2323,7 @@ export function App() {
       request,
     });
     setShareMessage(null);
+    return request;
   };
 
   const changeMapMode = (mode: MapMode) => {
@@ -2395,22 +2485,29 @@ export function App() {
     }
 
     setQuery(pid);
-    selectParcel(pid);
+    const request = selectParcel(pid);
     requestParcelFocus(pid);
 
     if (parcels.features.some(({ properties }) => properties.PID === pid)) {
       return;
     }
 
+    pendingGeometryFetchPidRef.current = pid;
     try {
       const collection = await fetchParcels([pid]);
       if (collection.features.length === 0) {
         setSearchError("No NSPRD parcel was found for that PID.");
+        markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
     } catch {
       setSearchError("The Province parcel search is unavailable right now.");
+      markGeometryEvidenceTerminal(request, "error");
+    } finally {
+      if (pendingGeometryFetchPidRef.current === pid) {
+        pendingGeometryFetchPidRef.current = null;
+      }
     }
   };
 
@@ -2426,7 +2523,7 @@ export function App() {
     setAddressSearchResults([]);
     setSearchError(null);
     setQuery(pid);
-    selectParcel(pid);
+    const request = selectParcel(pid);
     requestParcelFocus(pid);
 
     if (parcels.features.some(({ properties }) => properties.PID === pid)) {
@@ -2435,12 +2532,14 @@ export function App() {
     }
 
     setParcelLookupMessage(`Loading parcel ${pid}…`);
+    pendingGeometryFetchPidRef.current = pid;
     try {
       const collection = await fetchParcels([pid]);
       if (collection.features.length === 0) {
         setParcelLookupMessage(
           `PID ${pid} details opened, but its map geometry is unavailable.`,
         );
+        markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
@@ -2449,6 +2548,11 @@ export function App() {
       setParcelLookupMessage(
         `PID ${pid} details opened, but the Province parcel service is unavailable.`,
       );
+      markGeometryEvidenceTerminal(request, "error");
+    } finally {
+      if (pendingGeometryFetchPidRef.current === pid) {
+        pendingGeometryFetchPidRef.current = null;
+      }
     }
   };
 
@@ -3000,11 +3104,21 @@ export function App() {
   }, [licenceAccepted, printCapture, selectedEvidenceRequest, selectedPid]);
 
   const exportEvidence = () => {
+    const terminalResource =
+      resourceIntersections.status === "ready" ||
+      resourceIntersections.status === "error" ||
+      resourceIntersections.status === "geometry-unavailable";
+    const terminalCivic =
+      civicAddresses.status === "ready" ||
+      civicAddresses.status === "error" ||
+      civicAddresses.status === "geometry-unavailable";
     if (
       !selectedPid ||
-      resourceIntersections.status !== "ready" ||
-      (civicAddresses.status !== "ready" && civicAddresses.status !== "error") ||
-      (assessmentState.status !== "ready" && assessmentState.status !== "error") ||
+      !terminalResource ||
+      !terminalCivic ||
+      (assessmentState.status !== "ready" &&
+        assessmentState.status !== "error" &&
+        assessmentState.status !== "geometry-unavailable") ||
       (dwellingState.status !== "ready" &&
         dwellingState.status !== "error" &&
         dwellingState.status !== "blocked")
@@ -3144,16 +3258,32 @@ export function App() {
               sourceUrl: CIVIC_ADDRESS_DATASET_URL,
             })),
           }
-        : { status: "error" },
+        : civicAddresses.status === "geometry-unavailable"
+          ? { status: "geometry-unavailable" }
+          : { status: "error" },
       assessmentEvidence: assessmentState.status === "ready"
         ? { status: "ready", result: assessmentState.value }
-        : { status: "error" },
+        : assessmentState.status === "geometry-unavailable"
+          ? { status: "geometry-unavailable" }
+          : { status: "error" },
       dwellingEvidence: dwellingState.status === "ready"
         ? { status: "ready", accounts: dwellingState.value }
         : dwellingState.status === "blocked"
           ? { status: "blocked" }
           : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
+        if (resourceIntersections.status !== "ready") {
+          // Terminal but not evaluated: the note records the condition per
+          // layer rather than silently omitting the section.
+          return {
+            name: layer.name,
+            sourceUrl: layer.sourceUrl,
+            status: resourceIntersections.status === "geometry-unavailable"
+              ? ("geometry-unavailable" as const)
+              : ("error" as const),
+            results: [],
+          };
+        }
         const result = resourceIntersections.value[layer.id];
         return {
           name: layer.name,
@@ -4182,10 +4312,15 @@ export function App() {
               onPrintExport={openPrintExport}
               canPrintExport={canPrintExport}
               evidenceReady={
-                resourceIntersections.status === "ready" &&
+                (resourceIntersections.status === "ready" ||
+                  resourceIntersections.status === "error" ||
+                  resourceIntersections.status === "geometry-unavailable") &&
                 (civicAddresses.status === "ready" ||
-                  civicAddresses.status === "error") &&
-                (assessmentState.status === "ready" || assessmentState.status === "error") &&
+                  civicAddresses.status === "error" ||
+                  civicAddresses.status === "geometry-unavailable") &&
+                (assessmentState.status === "ready" ||
+                  assessmentState.status === "error" ||
+                  assessmentState.status === "geometry-unavailable") &&
                 (dwellingState.status === "ready" ||
                   dwellingState.status === "error" ||
                   dwellingState.status === "blocked")

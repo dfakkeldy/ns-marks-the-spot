@@ -63,28 +63,43 @@ import { viewpointParcelUrl } from "../services/viewpoint";
 
 export type SelectedEvidenceRequest = { pid: string; generation: number };
 
+/**
+ * Rendered wherever evidence depends on parcel geometry that is KNOWN not to
+ * resolve. Distinct from a source error on purpose: nothing was queried, so
+ * nothing "failed" — the parcel simply cannot be evaluated spatially.
+ */
+export const GEOMETRY_UNAVAILABLE_MESSAGE =
+  "Not evaluated — this PID's NSPRD geometry is unavailable in the Province parcel service.";
+
 export type ParcelContextState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error"; value: ParcelContext }
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: ParcelContext }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelContext };
 
 export type CivicAddressState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error"; value: CivicAddress[] }
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: CivicAddress[] }
   | { request: SelectedEvidenceRequest; status: "ready"; value: CivicAddress[] };
 
 export type ParcelResourceState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading"; value: ParcelResourceIntersections }
+  /**
+   * "error" and "geometry-unavailable" are TERMINAL: before they existed, a
+   * selected PID whose NSPRD geometry never resolved (empty result or a
+   * failed fetch with no retry trigger) left every geometry-dependent
+   * section on "Checking…" forever — a known condition presented as
+   * indefinite progress.
+   */
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: ParcelResourceIntersections }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelResourceIntersections };
 
 export type FloodHazardState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" }
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelFloodHazardEvidence };
 
 export type BuildingCountState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" }
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelBuildingCount };
 
 export type AssessmentState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" }
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelAssessmentResult };
 
 export type DwellingState =
@@ -374,7 +389,9 @@ export function ParcelInspector({
               ? buildingCount.value.count.toLocaleString("en-CA")
               : buildingCount.status === "error"
                 ? "Unavailable"
-                : "Checking…"}
+                : buildingCount.status === "geometry-unavailable"
+                  ? "Not evaluated"
+                  : "Checking…"}
           </dd>
         </div>
         {listing ? (
@@ -644,6 +661,11 @@ function AssessmentDetails({
         <p className="assessment-status" role="status">
           Checking PVSC open assessment data…
         </p>
+      ) : state.status === "geometry-unavailable" ? (
+        <p className="assessment-status" role="status">
+          {GEOMETRY_UNAVAILABLE_MESSAGE} No spatial account match was
+          attempted, and no municipal notice supplied an AAN.
+        </p>
       ) : state.status === "error" ? (
         <p className="assessment-status error" role="status">
           PVSC open assessment data is unavailable. No absence is inferred.
@@ -745,9 +767,20 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
     return (
       <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
         <h3>Flood hazard evidence</h3>
-        <p className="mapped-context-status" role="status">
-          Checking published river and coastal hazard mapping…
-        </p>
+        {state.status === "geometry-unavailable" ? (
+          <p className="mapped-context-status" role="status">
+            {GEOMETRY_UNAVAILABLE_MESSAGE}
+          </p>
+        ) : state.status === "error" ? (
+          <p className="mapped-context-status error" role="status">
+            Flood hazard mapping is unavailable right now; absence is not
+            inferred.
+          </p>
+        ) : (
+          <p className="mapped-context-status" role="status">
+            Checking published river and coastal hazard mapping…
+          </p>
+        )}
       </section>
     );
   }
@@ -858,6 +891,10 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
       {state.status === "idle" || state.status === "loading" ? (
         <p className="civic-address-status" role="status">
           Looking up mapped civic addresses…
+        </p>
+      ) : state.status === "geometry-unavailable" ? (
+        <p className="civic-address-status" role="status">
+          {GEOMETRY_UNAVAILABLE_MESSAGE}
         </p>
       ) : state.status === "error" ? (
         <p className="civic-address-status error" role="status">
@@ -972,6 +1009,14 @@ function MappedContextDetails({
     );
   }
 
+  if (state.status === "geometry-unavailable") {
+    return (
+      <p className="mapped-context-status" role="status">
+        {GEOMETRY_UNAVAILABLE_MESSAGE}
+      </p>
+    );
+  }
+
   if (state.status === "error") {
     return (
       <p className="mapped-context-status error" role="status">
@@ -1022,13 +1067,24 @@ function MappedContextDetails({
 }
 
 function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
-  if (state.status === "idle" || state.status === "loading") {
+  if (state.status !== "ready") {
     return (
       <section className="parcel-resources" aria-label="Geology & resource context">
         <h3>Geology &amp; resource context</h3>
-        <p className="mapped-context-status" role="status">
-          Checking official mapped resource sources against this parcel…
-        </p>
+        {state.status === "geometry-unavailable" ? (
+          <p className="mapped-context-status" role="status">
+            {GEOMETRY_UNAVAILABLE_MESSAGE}
+          </p>
+        ) : state.status === "error" ? (
+          <p className="mapped-context-status error" role="status">
+            Resource sources are unavailable right now; absence is not
+            inferred.
+          </p>
+        ) : (
+          <p className="mapped-context-status" role="status">
+            Checking official mapped resource sources against this parcel…
+          </p>
+        )}
       </section>
     );
   }

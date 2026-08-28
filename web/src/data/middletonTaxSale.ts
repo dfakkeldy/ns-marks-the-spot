@@ -1,4 +1,5 @@
 import type { TaxSaleEvent } from "./taxSaleTypes";
+import { halifaxTimestamp } from "./halifaxTime";
 import middletonTaxSaleSnapshot from "./middletonTaxSale.snapshot.json";
 
 export const MIDDLETON_TAX_SALE_DATASET_SHA256 =
@@ -25,7 +26,7 @@ export const middletonTaxSaleEvent: TaxSaleEvent = {
   shortMunicipality: "Middleton",
   eventType: "public-auction",
   eventStatus: "historical",
-  saleStartsAt: `${middletonTaxSaleSnapshot.eventDate}T${middletonTaxSaleSnapshot.saleTime}:00-03:00`,
+  saleStartsAt: halifaxTimestamp(middletonTaxSaleSnapshot.eventDate, middletonTaxSaleSnapshot.saleTime),
   venue: middletonTaxSaleSnapshot.venue,
   sourceUrl: middletonTaxSaleSnapshot.source,
   landingPageUrl: middletonTaxSaleSnapshot.source,

@@ -1,4 +1,5 @@
 import type { TaxSaleEvent } from "./taxSaleTypes";
+import { halifaxTimestamp } from "./halifaxTime";
 import annapolisTaxSaleSnapshot from "./annapolisTaxSale.snapshot.json";
 
 export const ANNAPOLIS_TENDER_DATASET_SHA256 =
@@ -8,7 +9,7 @@ export const annapolisTaxSaleNotice = {
   municipality: "Municipality of the County of Annapolis",
   tenderNumber: annapolisTaxSaleSnapshot.tenderNumber,
   retrievedOn: annapolisTaxSaleSnapshot.retrievedDate,
-  tendersCloseAt: "2026-08-31T13:00:00-03:00",
+  tendersCloseAt: halifaxTimestamp("2026-08-31", "13:00"),
   venue: "752 St George Street, Annapolis Royal",
   sourceUrl: annapolisTaxSaleSnapshot.source,
 } as const;

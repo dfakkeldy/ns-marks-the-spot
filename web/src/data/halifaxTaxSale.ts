@@ -1,4 +1,5 @@
 import type { TaxSaleEvent, TaxSaleGeometryException } from "./taxSaleTypes";
+import { halifaxTimestamp } from "./halifaxTime";
 import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
 
 export const HALIFAX_TAX_SALE_DATASET_SHA256 =
@@ -32,7 +33,7 @@ export const halifaxTaxSaleEvent: HalifaxTaxSaleEvent = {
   shortMunicipality: "Halifax",
   eventType: "sealed-tender",
   eventStatus: "upcoming",
-  saleStartsAt: `${halifaxTaxSaleSnapshot.eventDate}T${halifaxTaxSaleSnapshot.bidDeadlineTime}:00-03:00`,
+  saleStartsAt: halifaxTimestamp(halifaxTaxSaleSnapshot.eventDate, halifaxTaxSaleSnapshot.bidDeadlineTime),
   venue: halifaxTaxSaleSnapshot.venue,
   sourceUrl: halifaxTaxSaleSnapshot.source,
   secondarySourceUrl: halifaxTaxSaleSnapshot.tenderInstructions,

@@ -1485,6 +1485,57 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
   });
 
+  it("resolves a geometry-less PID to distinct not-evaluated evidence instead of eternal spinners", async () => {
+    // A PID search or share link can select a PID NSPRD has no geometry for.
+    // Every geometry-dependent evidence state used to stay on "Checking…"
+    // forever — a known condition presented as indefinite progress — and the
+    // evidence note could never be exported.
+    localStorage.clear();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&mode=current&pid=99999999&layers=nsprd");
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [],
+    });
+
+    render(<App />);
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 99999999 details",
+    });
+
+    // Distinct from a source error AND from returned-empty: the geometry
+    // itself is unavailable, so spatial evidence was never evaluated.
+    const lines = await within(inspector).findAllByText(
+      /NSPRD geometry is unavailable/,
+    );
+    expect(lines.length).toBeGreaterThanOrEqual(3);
+    expect(
+      within(inspector).queryByText(/Checking published river/),
+    ).not.toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(/Looking up mapped civic addresses/),
+    ).not.toBeInTheDocument();
+
+    // The condition is terminal, so the durable note can be exported and
+    // records it rather than claiming absence.
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => {});
+    const exportButton = within(inspector).getByRole("button", {
+      name: "Export evidence note",
+    });
+    await waitFor(() => expect(exportButton).toBeEnabled());
+    await userEvent.click(exportButton);
+    const note = vi.mocked(buildEvidenceNote).mock.results.at(-1)?.value;
+    expect(note?.markdown).toContain(
+      "Not evaluated — this PID's NSPRD geometry is unavailable.",
+    );
+    expect(note?.markdown).not.toContain(
+      "No mapped civic address point returned inside the parcel.",
+    );
+    anchorClick.mockRestore();
+  });
+
   it("keeps the user's layer choices when the licence is merely reviewed", async () => {
     // The footer's "Data & licences" used to open the dialog with the layer
     // intent, whose Accept ran setProvinceLayers(initial) — silently wiping
@@ -3798,7 +3849,9 @@ describe("NS Marks The Spot Online", () => {
       expect(await screen.findByText("Listed in official notice")).toBeInTheDocument();
       expect(
         within(screen.getByRole("complementary", { name: "Parcel 50203256 details" })).queryByText(
-          /available/i,
+          // "available" as an availability claim — never the honest
+          // "unavailable"/"not evaluated" evidence lines.
+          /(?<!un)available/i,
         ),
       ).not.toBeInTheDocument();
       expect(screen.getByText("$15,529.15")).toBeInTheDocument();
@@ -4850,7 +4903,9 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       within(screen.getByRole("complementary", { name: "Parcel 15054588 details" })).queryByText(
-        /available/i,
+        // "available" as an availability claim — never the honest
+        // "unavailable"/"not evaluated" evidence lines.
+        /(?<!un)available/i,
       ),
     ).not.toBeInTheDocument();
   });
