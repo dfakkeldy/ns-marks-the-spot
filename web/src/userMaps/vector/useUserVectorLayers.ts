@@ -362,6 +362,8 @@ export function useUserVectorLayers(
 
   const removeLayer = useCallback(
     async (id: string) => {
+      // A removed layer must not linger in the create-retry set.
+      unsavedDrawnIdsRef.current.delete(id);
       try {
         await (await store()).deleteVectorLayer(id);
       } catch {
@@ -404,9 +406,27 @@ export function useUserVectorLayers(
     [],
   );
 
+  /**
+   * Drawn layers whose INITIAL save failed. The store's putVectorLayer is a
+   * guarded update on purpose — an absent row means another tab deleted the
+   * layer, and blindly upserting would resurrect it — but that guard also
+   * made a never-saved drawing silently no-op on every later edit: the
+   * drawing looked fine all session and vanished with the tab, with the
+   * "reports persistence trouble" promise in createDrawnLayer never coming
+   * true. Ids in this set take the CREATE path on their next write instead,
+   * and leave the set only when that create succeeds.
+   */
+  const unsavedDrawnIdsRef = useRef(new Set<string>());
+
   const putVectorLayer = useCallback(
     async (record: UserVectorLayerRecord, collection: FeatureCollection) => {
-      await (await store()).putVectorLayer(record, collection);
+      const opened = await store();
+      if (unsavedDrawnIdsRef.current.has(record.id)) {
+        await opened.saveVectorLayer(record, collection);
+        unsavedDrawnIdsRef.current.delete(record.id);
+        return;
+      }
+      await opened.putVectorLayer(record, collection);
     },
     [store],
   );
@@ -432,8 +452,10 @@ export function useUserVectorLayers(
     try {
       await (await store()).saveVectorLayer(record, empty);
     } catch {
-      // An unsaved drawing still works for this session; the edit session
-      // reports persistence trouble once the user actually draws.
+      // An unsaved drawing still works for this session. Marking it here is
+      // what makes the promise below true: the next edit write retries the
+      // CREATE, and its failure reaches the edit session's storage error.
+      unsavedDrawnIdsRef.current.add(record.id);
     }
     setRecords((prev) => [...prev, record]);
     setGeometries((prev) => ({ ...prev, [record.id]: empty }));

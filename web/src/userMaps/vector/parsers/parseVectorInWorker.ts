@@ -1,4 +1,5 @@
 import { UserMapImportError } from "../../errors";
+import { raceWithWatchdog } from "../../parsers/workerWatchdog";
 import { parseGeoJson, type ParsedVector } from "./geojsonSource";
 import type { VectorWorkerReply } from "./vectorGeojsonWorker";
 
@@ -12,12 +13,11 @@ export async function parseGeoJsonAuto(buffer: ArrayBuffer): Promise<ParsedVecto
   if (typeof Worker === "undefined") {
     return parseGeoJson(new TextDecoder().decode(buffer));
   }
-  return new Promise((resolve, reject) => {
-    const worker = new Worker(new URL("./vectorGeojsonWorker.ts", import.meta.url), {
-      type: "module",
-    });
+  const worker = new Worker(new URL("./vectorGeojsonWorker.ts", import.meta.url), {
+    type: "module",
+  });
+  const reply = new Promise<ParsedVector>((resolve, reject) => {
     worker.onmessage = (event: MessageEvent<VectorWorkerReply>) => {
-      worker.terminate();
       if (event.data.ok) {
         resolve(event.data.parsed);
       } else {
@@ -25,7 +25,6 @@ export async function parseGeoJsonAuto(buffer: ArrayBuffer): Promise<ParsedVecto
       }
     };
     worker.onerror = () => {
-      worker.terminate();
       reject(
         new UserMapImportError(
           "corrupt-file",
@@ -36,4 +35,5 @@ export async function parseGeoJsonAuto(buffer: ArrayBuffer): Promise<ParsedVecto
     // Transfer, don't copy: the buffer is not reused by the caller.
     worker.postMessage(buffer, [buffer]);
   });
+  return raceWithWatchdog(reply).finally(() => worker.terminate());
 }

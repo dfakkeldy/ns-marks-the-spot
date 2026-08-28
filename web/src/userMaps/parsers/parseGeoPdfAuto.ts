@@ -1,4 +1,5 @@
 import { UserMapImportError, type UserMapImportErrorCode } from "../errors";
+import { raceWithWatchdog } from "./workerWatchdog";
 import {
   parseGeoPdf,
   type GeoPdfCanvas,
@@ -190,7 +191,9 @@ async function parseInFeatureWorker(
 ): Promise<ParsedGeoPdf | { fallbackBuffer: ArrayBuffer }> {
   const worker = createWorker();
   try {
-    return await new Promise((resolve, reject) => {
+    // raceWithWatchdog covers the silent-death case (an OOM-killed worker
+    // fires neither event); the finally below reclaims the wedged worker.
+    return await raceWithWatchdog(new Promise((resolve, reject) => {
       worker.onmessage = ({ data }) => {
         if (data.ok && data.kind === "parsed") {
           resolve(data.parsed);
@@ -208,7 +211,7 @@ async function parseInFeatureWorker(
       } catch {
         reject(corruptWorkerError());
       }
-    });
+    }));
   } finally {
     worker.terminate();
   }
@@ -222,7 +225,7 @@ async function extractMetadataInWorker(
   const worker = createWorker();
   const buffer = bytes.buffer as ArrayBuffer;
   try {
-    return await new Promise((resolve, reject) => {
+    return await raceWithWatchdog(new Promise((resolve, reject) => {
       worker.onmessage = ({ data }) => {
         if (data.ok && data.kind === "metadata") {
           resolve(data.extraction);
@@ -242,7 +245,7 @@ async function extractMetadataInWorker(
       } catch {
         reject(new Error("GeoPDF metadata worker could not start"));
       }
-    });
+    }));
   } finally {
     worker.terminate();
   }

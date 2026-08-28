@@ -135,6 +135,27 @@ describe("meshForRecord", () => {
     expect(fourPoint.length - 1).toBe(TPS_GRID_SIZE);
   });
 
+  it("returns null for a corrupt embedded record instead of throwing in render", () => {
+    // A persisted embedded record with an unusable registration (here: an
+    // unparseable CRS) used to THROW out of buildLatLngMesh — and since
+    // every saved layer renders through this function, one corrupt record in
+    // IndexedDB dropped the whole app to the error boundary on every load.
+    // Null is the documented contract: the record stays listed and draws
+    // nothing.
+    const corrupt = {
+      ...EMBEDDED_RECORD,
+      georef: {
+        kind: "embedded" as const,
+        crs: "not-a-crs",
+        geotransform: [Number.NaN, 0, 0, Number.NaN, 0, 0] as [
+          number, number, number, number, number, number,
+        ],
+      },
+    };
+    expect(() => meshForRecord(corrupt)).not.toThrow();
+    expect(meshForRecord(corrupt)).toBeNull();
+  });
+
   it("still builds an 8x8 mesh for embedded georeferencing", () => {
     // Embedded rasters go pixel -> UTM -> WGS84 -> Mercator, and UTM curves,
     // so they keep the dense lattice. Only the GCP path is exact at 1x1.

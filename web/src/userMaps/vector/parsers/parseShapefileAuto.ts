@@ -1,4 +1,5 @@
 import { UserMapImportError } from "../../errors";
+import { raceWithWatchdog } from "../../parsers/workerWatchdog";
 import type { ParsedShapefileLayer } from "./shapefileZipSource";
 import type { ShapefileWorkerReply } from "./shapefileWorker";
 
@@ -19,12 +20,11 @@ export function parseShapefileAuto(
       parseShapefileZip(buffer),
     );
   }
-  return new Promise((resolve, reject) => {
-    const worker = new Worker(new URL("./shapefileWorker.ts", import.meta.url), {
-      type: "module",
-    });
+  const worker = new Worker(new URL("./shapefileWorker.ts", import.meta.url), {
+    type: "module",
+  });
+  const reply = new Promise<ParsedShapefileLayer[]>((resolve, reject) => {
     worker.onmessage = (event: MessageEvent<ShapefileWorkerReply>) => {
-      worker.terminate();
       if (event.data.ok) {
         resolve(event.data.layers);
       } else {
@@ -32,7 +32,6 @@ export function parseShapefileAuto(
       }
     };
     worker.onerror = () => {
-      worker.terminate();
       reject(
         new UserMapImportError(
           "corrupt-file",
@@ -43,4 +42,5 @@ export function parseShapefileAuto(
     // Transfer, don't copy: the buffer is not reused by the caller.
     worker.postMessage(buffer, [buffer]);
   });
+  return raceWithWatchdog(reply).finally(() => worker.terminate());
 }

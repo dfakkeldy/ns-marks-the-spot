@@ -1,6 +1,7 @@
 import { UserMapImportError } from "../errors";
 import type { ParsedGeoTiff } from "./geoTiffSource";
 import type { WorkerReply } from "./geoTiffWorker";
+import { raceWithWatchdog } from "./workerWatchdog";
 
 /**
  * Decode off the main thread when the browser can (spec requirement: the UI
@@ -16,12 +17,11 @@ export function parseGeoTiffAuto(buffer: ArrayBuffer): Promise<ParsedGeoTiff> {
       parseGeoTiff(buffer),
     );
   }
-  return new Promise((resolve, reject) => {
-    const worker = new Worker(new URL("./geoTiffWorker.ts", import.meta.url), {
-      type: "module",
-    });
+  const worker = new Worker(new URL("./geoTiffWorker.ts", import.meta.url), {
+    type: "module",
+  });
+  const reply = new Promise<ParsedGeoTiff>((resolve, reject) => {
     worker.onmessage = (event: MessageEvent<WorkerReply>) => {
-      worker.terminate();
       if (event.data.ok) {
         resolve(event.data.parsed);
       } else {
@@ -29,7 +29,6 @@ export function parseGeoTiffAuto(buffer: ArrayBuffer): Promise<ParsedGeoTiff> {
       }
     };
     worker.onerror = () => {
-      worker.terminate();
       reject(
         new UserMapImportError(
           "corrupt-file",
@@ -40,4 +39,8 @@ export function parseGeoTiffAuto(buffer: ArrayBuffer): Promise<ParsedGeoTiff> {
     // Transfer, don't copy: the buffer is not reused by the caller.
     worker.postMessage(buffer, [buffer]);
   });
+  // The watchdog covers the third outcome the two events cannot: a worker
+  // the OS killed (decode OOM on a huge raster is expected here) dies
+  // silently, and this promise used to stay pending forever.
+  return raceWithWatchdog(reply).finally(() => worker.terminate());
 }
